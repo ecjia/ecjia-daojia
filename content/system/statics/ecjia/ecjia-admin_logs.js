@@ -11,7 +11,7 @@
 				var thisobj = $(this);
 
 				$("select[name='log_date']").val() == 0 ? 
-					smoke.alert(admin_logs_lang.choose_delet_time) 
+					ecjia.ui.alert(admin_logs_lang.choose_delet_time) 
 				: 
 					smoke.confirm(admin_logs_lang.delet_ok_1 + $("select[name='log_date']").find("option:selected").text() + admin_logs_lang.delet_ok_2,function(e){
 						e && thisobj.ajaxSubmit({

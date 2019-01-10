@@ -48,7 +48,7 @@
 						</span>
 
 					</td>
-					<td>{$plugin.Description|nl2br}<br />{$plugin.Version} {t}| 作者：{/t}<a href="{$plugin.AuthorURI}" target="_blank">{$plugin.Author}</a></td>
+					<td>{$plugin.Description|nl2br}<br />{$plugin.Version} | {t}作者：{/t}<a href="{$plugin.AuthorURI}" target="_blank">{$plugin.Author}</a></td>
 				</tr>
 				<!-- {/foreach} -->
 			</tbody>

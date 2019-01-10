@@ -51,10 +51,10 @@
                         <ul id="tipslis">
                             <li>“<span class="stop_color"><i class="fontello-icon-attention-circled"></i>{t}被修改{/t}</span>”、
                                 “<span class="error_color"><i class="fontello-icon-minus-circled"></i>{t}被删除{/t}</span>”
-                                中的列出的文件，请即刻通过 FTP或其他工具检查其文件的正确性，以确保ECJia网站功能的正常使用。</li>
+                                {t}中的列出的文件，请即刻通过 FTP或其他工具检查其文件的正确性，以确保ECJia网站功能的正常使用。{/t}</li>
                             <li>“<span class="ok_color"><i class="fontello-icon-help-circled"></i>{t}未知{/t}</span>”
-                                中的列出的文件，请检查网站是否被人非法放入了其他文件。</li>
-                            <li style="">“<em class="unknown">一周内被修改</em>” 中列出的文件，请确认最近是否修改过。</li>
+                                {t}中的列出的文件，请检查网站是否被人非法放入了其他文件。{/t}</li>
+                            <li style="">“<em class="unknown">{t}一周内被修改{/t}</em>” {t}中列出的文件，请确认最近是否修改过。{/t}</li>
 
                         </ul>
                     </div>
@@ -69,8 +69,8 @@
                     </div>
                     <!-- {else} -->
                     <h4 class="heading">
-                        检测版本：{config('release.version')} <br />
-                        上次检测时间：{date('Y-m-d H:i:s', $hashstatus->getMTime())}
+                        {t}检测版本：{/t}{config('release.version')} <br />
+                        {t}上次检测时间：{/t}{date('Y-m-d H:i:s', $hashstatus->getMTime())}
                     </h4>
 
                     <table class="table table-striped smpl_tbl stop_color">
@@ -145,7 +145,7 @@
 
                 <div class="span3">
                     <div class="setting-group m_b20">
-                        <span class="setting-group-title"><i class="fontello-icon-cog"></i>文件校验</span>
+                        <span class="setting-group-title"><i class="fontello-icon-cog"></i>{t}文件校验{/t}</span>
                         <ul class="nav nav-list m_t10">
                             <!-- {foreach from=$sidebar_menus item=menu} -->
                             <!-- {if $menu.type == 'nav-header'} -->
@@ -171,9 +171,9 @@
 <div class="modal hide" id="filehash_check_loding" aria-hidden="true" data-backdrop="static">
     <div class="modal-body" style="height: 200px;">
         <div class="check_loding_content" style="width: 300px;margin-top: 9%;margin-left: 24%;text-align: center;line-height: 30px;">
-            <div>正在进行文件校验，请稍候...</div>
+            <div>{t}正在进行文件校验，请稍候...{/t}</div>
             <div><img src="../images/ajax_loader.gif" /></div>
-            <div><a href="javascript:location.reload();">如果您的链接没有自动跳转，请点击这里</a></div>
+            <div><a href="javascript:location.reload();">{t}如果您的链接没有自动跳转，请点击这里{/t}</a></div>
         </div>
     </div>
 </div>

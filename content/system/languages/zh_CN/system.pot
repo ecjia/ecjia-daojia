@@ -1,0 +1,2176 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:882
+msgid ""
+"\n"
+"BETA TESTING?\n"
+"=============\n"
+"    \n"
+"This debugging email is sent when you are using a development version of WordPress.\n"
+"    \n"
+"If you think these failures might be due to a bug in WordPress, could you report it?\n"
+" * Open a thread in the support forums: https://wordpress.org/support/forum/alphabeta\n"
+" * Or, if you're comfortable writing a bug report: http://core.trac.wordpress.org/\n"
+"    \n"
+"Thanks! -- The WordPress Team"
+msgstr ""
+
+#: system/classes/ecjia_page.class.php:206
+msgid " 页"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/BulkUpgraderSkin.php:76
+msgid "%1$s updated successfully."
+msgstr ""
+
+#: system/classes/ecjia_option.class.php:201
+msgid "%s is a protected WP option and may not be modified"
+msgstr ""
+
+#: system/admin_application.php:257
+msgid "%s 应用卸载成功"
+msgstr ""
+
+#: system/admin_application.php:231
+msgid "%s 应用安装成功"
+msgstr ""
+
+#: system/admin_plugin.php:201
+msgid "%s 插件卸载成功！"
+msgstr ""
+
+#: system/admin_plugin.php:174
+msgid "%s 插件安装成功！"
+msgstr ""
+
+#: system/admin_logs.php:172
+msgid "%s 的日志成功删除。"
+msgstr ""
+
+#: system/privilege.php:731
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:个人设置\" target=\"_blank\">关于编辑个人资料帮助文档</a>"
+msgstr ""
+
+#: system/index.php:142 system/index.php:169 system/index.php:194
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:关于\" target=\"_blank\">关于ECJia帮助文档</a>"
+msgstr ""
+
+#: system/classes/Controllers/UpgradeController.php:91
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:可用更新\" target=\"_blank\">关于可用更新帮助文档</a>"
+msgstr ""
+
+#: system/admin_application.php:120
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:应用管理\" target=\"_blank\">关于应用管理帮助文档</a>"
+msgstr ""
+
+#: system/index.php:328
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:授权证书\" target=\"_blank\">关于授权证书管理帮助文档</a>"
+msgstr ""
+
+#: system/admin_plugin.php:108
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:插件管理\" target=\"_blank\">关于插件管理帮助文档</a>"
+msgstr ""
+
+#: system/index.php:272
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:更新缓存\" target=\"_blank\">关于清除缓存帮助文档</a>"
+msgstr ""
+
+#: system/admin_message.php:96
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:管理员留言\" target=\"_blank\">关于管理员留言帮助文档</a>"
+msgstr ""
+
+#: system/privilege.php:111
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1.E7.90.86.E5.91.98.E5.88.97.E8.A1.A8\" target=\"_blank\">关于管理员列表帮助文档</a>"
+msgstr ""
+
+#: system/admin_logs.php:94
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1.E7.90.86.E5.91.98.E6.97.A5.E5.BF.97\" target=\"_blank\">关于管理员日志帮助文档</a>"
+msgstr ""
+
+#: system/admin_role.php:102
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E8.A7.92.E8.89.B2.E7.AE.A1.E7.90.86\" target=\"_blank\">关于角色管理帮助文档</a>"
+msgstr ""
+
+#: system/index.php:106
+msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台操作指南\" target=\"_blank\">关于ECJia智能后台的帮助文档</a>"
+msgstr ""
+
+#: system/index.php:114
+msgid "<a target=\"_blank\" href=\"%s\">点击查看</a>。"
+msgstr ""
+
+#: system/classes/Admins/FileHash/FormatterResult.php:116
+msgid "<span class=\"error_color\"><i class=\"fontello-icon-minus-circled\"></i>被删除</span>"
+msgstr ""
+
+#: system/classes/Admins/FileHash/FormatterResult.php:110 system/classes/Admins/FileHash/FormatterResult.php:120
+msgid "<span class=\"ok_color\"><i class=\"fontello-icon-help-circled\"></i>未知</span>"
+msgstr ""
+
+#: system/classes/Admins/FileHash/FormatterResult.php:122
+msgid "<span class=\"ok_color\"><i class=\"fontello-icon-ok-circled\"></i>正确</span>"
+msgstr ""
+
+#: system/classes/Admins/FileHash/FormatterResult.php:105
+msgid "<span class=\"stop_color\"><i class=\"fontello-icon-attention-circled\"></i>被修改</span>"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:99
+msgid "<strong>The parent theme could not be found.</strong> You will need to install the parent theme, <strong>%s</strong>, before you can use this child theme."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:112 system/classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:108
+msgid "Activate"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:112 system/classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:108
+msgid "Activate &#8220;%s&#8221;"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:94 system/classes/Admins/Upgrade/Skin/PluginUpgraderSkin.php:94
+msgid "Activate Plugin"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:92
+msgid "Activate Plugin &amp; Run Importer"
+msgstr ""
+
+#. ('widget')
+#: system/classes/ecjia_widget.class.php:277
+msgid "Add"
+msgstr ""
+
+#: system/statics/lib/plupload/js/jquery.plupload.queue/jquery.plupload.queue.full.js:56
+msgid "Add files"
+msgstr ""
+
+#: system/statics/lib/plupload/js/jquery.plupload.queue/jquery.plupload.queue.full.js:38
+msgid "Add files to the upload queue and click the start button."
+msgstr ""
+
+#: system/statics/lib/plupload/js/jquery.plupload.queue/jquery.plupload.queue.full.js:175
+msgid "Add files."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/BulkUpgraderSkin.php:77
+msgid "All updates have been completed."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/BulkUpgraderSkin.php:74
+msgid "An error occurred while updating %1$s: <strong>%2$s</strong>"
+msgstr ""
+
+#: system/classes/ecjia_app.class.php:239
+msgid "Application Package info does not exist."
+msgstr ""
+
+#: system/classes/ecjia_app.class.php:235
+msgid "Application file does not exist."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:72
+msgid "Attempting to roll back to previous version."
+msgstr ""
+
+#: system/classes/ecjia_app.class.php:284 system/classes/ecjia_app.class.php:372
+msgid "Class '%s' not found"
+msgstr ""
+
+#: system/classes/ecjia_screen.class.php:1039
+msgid "Comments"
+msgstr ""
+
+#: system/classes/Api/ApiManager.php:219
+msgid "Const [serverHost] url not defined."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:365 system/classes/Admins/Upgrade/Upgrader.php:103
+msgid "Could not access filesystem."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:70
+msgid "Could not copy files."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:71
+msgid "Could not copy files. You may have run out of disk space."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader.php:116
+msgid "Could not create directory."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:71
+msgid "Could not remove the old plugin."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:73
+msgid "Could not remove the old theme."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:104
+msgid "Customize"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:104
+msgid "Customize &#8220;%s&#8221;"
+msgstr ""
+
+#. (t.getDay()
+#: system/statics/lib/jquery-ui/jquery-ui.min.js:6
+msgid "D"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader.php:115
+msgid "Destination folder already exists."
+msgstr ""
+
+#: system/classes/ecjia_screen.class.php:944
+msgid "Disable accessibility mode"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader.php:120
+msgid "Disabling Maintenance mode&#8230;"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader.php:112
+msgid "Download failed."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:79 system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:84
+msgid "Downloading install package from <span class=\"code\">%s</span>&#8230;"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/LanguagePackUpgrader.php:88
+msgid "Downloading translation from <span class=\"code\">%s</span>&#8230;"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:68 system/classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:68 system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:70
+msgid "Downloading update from <span class=\"code\">%s</span>&#8230;"
+msgstr ""
+
+#: system/statics/lib/plupload/js/jquery.plupload.queue/jquery.plupload.queue.full.js:189 system/statics/lib/plupload/js/jquery.plupload.queue/jquery.plupload.queue.full.js:240
+msgid "Drag files here."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:73
+msgid "Due to an error during updating, WordPress has rolled back to your previous version."
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:115
+msgid "ECJIA 管理面板"
+msgstr ""
+
+#: system/index.php:157 system/index.php:158
+msgid "ECJIA团队"
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:721 system/classes/ecjia_admin.class.php:749
+msgid "ECJia是一款基于PHP+MYSQL开发的多语言移动电商管理框架，推出了灵活的应用+插件机制，软件执行效率高；简洁超炫的UI设计，轻松上手；多国语言支持、后台管理功能方便等诸多优秀特点。凭借ECJia团队不断的创新精神和认真的工作态度，相信能够为您带来全新的使用体验！"
+msgstr ""
+
+#. ('widget')
+#: system/classes/ecjia_widget.class.php:276
+msgid "Edit"
+msgstr ""
+
+#: system/classes/ecjia_screen.class.php:944
+msgid "Enable accessibility mode"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader.php:119
+msgid "Enabling Maintenance mode&#8230;"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:772
+msgid "Error code: %s"
+msgstr ""
+
+#: system/statics/lib/plupload/js/jquery.plupload.queue/jquery.plupload.queue.full.js:274
+msgid "Error: File too large: "
+msgstr ""
+
+#: system/statics/lib/plupload/js/jquery.plupload.queue/jquery.plupload.queue.full.js:278
+msgid "Error: Invalid file extension: "
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:926
+msgid "Error: [%1$s] %2$s"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:872
+msgid "FAILED: %s"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:838
+msgid "FAILED: WordPress failed to update to %s"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:154
+msgid "FCK文件"
+msgstr ""
+
+#: system/statics/lib/plupload/js/plupload.full.js:2
+msgid "File extension error."
+msgstr ""
+
+#: system/statics/lib/plupload/js/plupload.full.js:2
+msgid "File size error."
+msgstr ""
+
+#: system/statics/lib/plupload/js/jquery.plupload.queue/jquery.plupload.queue.full.js:44
+msgid "Filename"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader.php:104
+msgid "Filesystem error."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:688
+msgid "For more on version %s, see the About WordPress screen:"
+msgstr ""
+
+#: system/statics/lib/plupload/js/plupload.full.js:2
+msgid "Generic Error."
+msgstr ""
+
+#: system/statics/lib/plupload/js/plupload.full.js:2
+msgid "Generic error."
+msgstr ""
+
+#: system/statics/lib/plupload/js/plupload.full.js:2
+msgid "HTTP Error."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/BulkUpgraderSkin.php:76
+msgid "Hide Details"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:681
+msgid "Howdy! Your site at %1$s has been updated automatically to WordPress %2$s."
+msgstr ""
+
+#: system/statics/lib/plupload/js/plupload.full.js:2
+msgid "IO error."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:733
+msgid "If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:743
+msgid "If you reach out to us, we'll also ensure you'll never have this problem again."
+msgstr ""
+
+#: system/statics/lib/plupload/js/plupload.full.js:2
+msgid "Image error."
+msgstr ""
+
+#: system/statics/lib/plupload/js/plupload.full.js:2
+msgid "Init error."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:78 system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:83
+msgid "Install package not available."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:371
+msgid "Installation Failed"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader.php:113
+msgid "Installing the latest version&#8230;"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:81
+msgid "Installing the plugin&#8230;"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:86
+msgid "Installing the theme&#8230;"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader.php:102
+msgid "Invalid Data provided."
+msgstr ""
+
+#: system/classes/ecjia_app.class.php:231
+msgid "Invalid application path."
+msgstr ""
+
+#: system/classes/ecjia_plugin.class.php:62
+msgid "Invalid plugin path."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:739
+msgid "Keeping your site updated is important for security. It also makes the internet a safer place for you and your readers."
+msgstr ""
+
+#: system/classes/ecjia_screen.class.php:1286
+msgid "Likely direct inclusion of wp-admin/includes/template.php in order to use add_meta_box(). This is very wrong. Hook the add_meta_box() call into the add_meta_boxes action instead."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:111 system/classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:107
+msgid "Live Preview"
+msgstr ""
+
+#. (t.getMonth()
+#: system/statics/lib/jquery-ui/jquery-ui.min.js:6
+msgid "M"
+msgstr ""
+
+#: system/statics/lib/plupload/js/plupload.full.js:2
+msgid "N/A"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:97
+msgid "Network Activate"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:115
+msgid "Network Enable"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:684
+msgid "No further action is needed on your part."
+msgstr ""
+
+#: system/classes/widgets/widget_ad_position.class.php:98 system/classes/widgets/widget_brand_goods.class.php:98 system/classes/widgets/widget_cat_articles.class.php:98 system/classes/widgets/widget_cat_goods.class.php:98 system/classes/widgets/widget_nav_menu.class.php:98
+msgid "No menus have been created yet. <a href=\"%s\">Create some</a>."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:312
+msgid "No valid plugins were found."
+msgstr ""
+
+#: system/statics/styles/ecjia.ui.css:14
+msgid "PT Sans"
+msgstr ""
+
+#: system/statics/styles/ecjia.ui.css:14
+msgid "PTSans-Regular"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:722
+msgid "Please check out your site now. It's possible that everything is working. If it says you need to update, you should do so:"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/FileUploadUpgrader.php:101 system/classes/Admins/Upgrade/FileUploadUpgrader.php:67
+msgid "Please select a file"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:701
+msgid "Please update your site at %1$s to WordPress %2$s."
+msgstr ""
+
+#: system/classes/ecjia_plugin.class.php:64
+msgid "Plugin file does not exist."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:83
+msgid "Plugin install failed."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:84
+msgid "Plugin installed successfully."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:72
+msgid "Plugin update failed."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:73
+msgid "Plugin updated successfully."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:94
+msgid "Preparing to install <strong>%1$s %2$s</strong>&#8230;"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:110 system/classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:106
+msgid "Preview"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:110 system/classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:111 system/classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:106 system/classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:107
+msgid "Preview &#8220;%s&#8221;"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:70
+msgid "Removing the old version of the plugin&#8230;"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:72
+msgid "Removing the old version of the theme&#8230;"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:102
+msgid "Return to Importers"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:104
+msgid "Return to Plugin Installer"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/Bulk/PluginUpgraderSkin.php:82 system/classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:106 system/classes/Admins/Upgrade/Skin/PluginUpgraderSkin.php:95
+msgid "Return to Plugins page"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:118
+msgid "Return to Theme Installer"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/Bulk/ThemeUpgraderSkin.php:82 system/classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:120 system/classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:115
+msgid "Return to Themes page"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/Bulk/PluginUpgraderSkin.php:83 system/classes/Admins/Upgrade/Skin/Bulk/ThemeUpgraderSkin.php:83 system/classes/Admins/Upgrade/Skin/LanguagePackUpgraderSkin.php:100
+msgid "Return to WordPress Updates"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:923
+msgid "Rollback Error: [%1$s] %2$s"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:858
+msgid "SUCCESS: %s"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:836
+msgid "SUCCESS: WordPress was successfully updated to %s"
+msgstr ""
+
+#: system/classes/ecjia_widget.class.php:307
+msgid "Save"
+msgstr ""
+
+#: system/classes/ecjia_form.class.php:110
+msgid "Save Changes"
+msgstr ""
+
+#: system/statics/lib/plupload/js/plupload.full.js:2
+msgid "Security error."
+msgstr ""
+
+#: system/statics/lib/plupload/js/jquery.plupload.queue/jquery.plupload.queue.full.js:37
+msgid "Select files"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/BulkUpgraderSkin.php:76
+msgid "Show Details"
+msgstr ""
+
+#: system/statics/lib/plupload/js/jquery.plupload.queue/jquery.plupload.queue.full.js:47
+msgid "Size"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/LanguagePackUpgrader.php:85
+msgid "Some of your translations need updating. Sit tight for a few more seconds while we update them as well."
+msgstr ""
+
+#: system/statics/lib/plupload/js/jquery.plupload.queue/jquery.plupload.queue.full.js:57
+msgid "Start upload"
+msgstr ""
+
+#: system/statics/lib/plupload/js/jquery.plupload.queue/jquery.plupload.queue.full.js:46
+msgid "Status"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:98
+msgid "Successfully installed the parent theme, <strong>%1$s %2$s</strong>."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:78
+msgid "Successfully installed the plugin <strong>%s %s</strong>."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:91
+msgid "Successfully installed the theme <strong>%1$s %2$s</strong>."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:405
+msgid "The <code>style.css</code> stylesheet doesn't contain a valid theme header."
+msgstr ""
+
+#: system/classes/ecjia_option.class.php:747
+msgid "The Site address you entered did not appear to be a valid URL. Please enter a valid URL."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:752
+msgid "The WordPress Team"
+msgstr ""
+
+#: system/classes/ecjia_option.class.php:734
+msgid "The WordPress address you entered did not appear to be a valid URL. Please enter a valid URL."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:730
+msgid "The WordPress team is willing to help you. Forward this email to %s and the team will work with you to make sure your site is working."
+msgstr ""
+
+#: system/classes/ecjia_option.class.php:631
+msgid "The email address entered did not appear to be a valid email address. Please enter a valid email address."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:864
+msgid "The following plugins failed to update:"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:851
+msgid "The following plugins were successfully updated:"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:865
+msgid "The following themes failed to update:"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:852
+msgid "The following themes were successfully updated:"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:866
+msgid "The following translations failed to update:"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:853
+msgid "The following translations were successfully updated:"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/LanguagePackUpgrader.php:226
+msgid "The language pack is missing either the <code>.po</code> or <code>.mo</code> files."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader.php:114
+msgid "The package contains no files."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader.php:117
+msgid "The package could not be installed."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:96
+msgid "The parent theme, <strong>%1$s %2$s</strong>, is currently installed."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:82
+msgid "The plugin contains no files."
+msgstr ""
+
+#: system/classes/ecjia_plugin.class.php:68
+msgid "The plugin does not have a valid header."
+msgstr ""
+
+#: system/classes/ecjia_app.class.php:335 system/classes/ecjia_plugin.class.php:177
+msgid "The plugin generated unexpected output."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:66
+msgid "The plugin is at the latest version."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:87
+msgid "The theme contains no files."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:68
+msgid "The theme is at the latest version."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:409
+msgid "The theme is missing the <code>index.php</code> file."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:400
+msgid "The theme is missing the <code>style.css</code> stylesheet."
+msgstr ""
+
+#: system/classes/ecjia_option.class.php:802
+msgid "The timezone you have entered is not valid. Please select a valid timezone."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/LanguagePackUpgrader.php:86
+msgid "The translation is up to date."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:143
+msgid "The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/BulkUpgraderSkin.php:75
+msgid "The update of %1$s failed."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/BulkUpgraderSkin.php:73
+msgid "The update process is starting. This process may take a while on some hosts, so please be patient."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:88
+msgid "Theme install failed."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:89
+msgid "Theme installed successfully."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:74
+msgid "Theme update failed."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:75
+msgid "Theme updated successfully."
+msgstr ""
+
+#: system/classes/ecjia_widget.class.php:291
+msgid "There are no options for this widget."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:720
+msgid "This means your site may be offline or broken. Don't panic; this can be fixed."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:92
+msgid "This theme requires a parent theme. Checking if it is installed&#8230;"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/LanguagePackUpgrader.php:90
+msgid "Translation update failed."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/LanguagePackUpgrader.php:91
+msgid "Translation updated successfully."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:351
+msgid "Translations for %s"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:899
+msgid "UPDATE LOG"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader.php:106
+msgid "Unable to locate WordPress Content directory (wp-content)."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader.php:107
+msgid "Unable to locate WordPress Plugin directory."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader.php:105
+msgid "Unable to locate WordPress Root directory."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader.php:108
+msgid "Unable to locate WordPress Theme directory."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader.php:110
+msgid "Unable to locate needed folder (%s)."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:80 system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:85
+msgid "Unpacking the package&#8230;"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:69 system/classes/Admins/Upgrade/Upgrader/LanguagePackUpgrader.php:89 system/classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:69 system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:71
+msgid "Unpacking the update&#8230;"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/PluginUpgraderSkin.php:72
+msgid "Update Plugin"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:70
+msgid "Update Theme"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/LanguagePackUpgraderSkin.php:66
+msgid "Update Translations"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:67 system/classes/Admins/Upgrade/Upgrader/LanguagePackUpgrader.php:87 system/classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:67 system/classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:69
+msgid "Update package not available."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/Bulk/PluginUpgraderSkin.php:63
+msgid "Updating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Skin/Bulk/ThemeUpgraderSkin.php:63
+msgid "Updating Theme %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:693 system/classes/Admins/Upgrade/AutomaticUpdater.php:710
+msgid "Updating is easy and only takes a few moments:"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:347
+msgid "Updating plugin: %s"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:341
+msgid "Updating theme: %s"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:334
+msgid "Updating to WordPress %s"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:352 system/classes/Admins/Upgrade/Skin/LanguagePackUpgraderSkin.php:81
+msgid "Updating translations for %1$s (%2$s)&#8230;"
+msgstr ""
+
+#: system/statics/lib/plupload/js/jquery.plupload.queue/jquery.plupload.queue.full.js:128
+msgid "Uploaded %d/%d files"
+msgstr ""
+
+#: system/classes/ecjia_open.class.php:81
+msgid "Url Scheme不是ecjiaopen。"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:757
+msgid "We have some data that describes the error your site encountered."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:708
+msgid "We tried but were unable to update your site automatically."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:335
+msgid "WordPress %s"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:692
+msgid "WordPress %s is also now available."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:66
+msgid "WordPress is at the latest version."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:830
+msgid "WordPress site: %s"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:373
+msgid "WordPress updated successfully"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:748
+msgid "You also have some plugins or themes with updates available. Update them now:"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:758
+msgid "Your hosting company, support forum volunteers, or a friendly developer may be able to use this information to help you:"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:716
+msgid "Your site at %1$s experienced a critical failure while trying to update WordPress to version %2$s."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:718
+msgid "Your site at %1$s experienced a critical failure while trying to update to the latest version of WordPress, %2$s."
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:756
+msgid "Your site was running version %s."
+msgstr ""
+
+#: system/statics/lib/acejs/mode-handlebars.js:1
+msgid "[#\\\\^/&]?\",push:[{token:\"storage.type.end\",regex:\""
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:666
+msgid "[%1$s] URGENT: Your site may be down due to a failed update"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:661
+msgid "[%1$s] WordPress %2$s is available. Please update!"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:655
+msgid "[%1$s] Your site has updated to WordPress %2$s"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:896
+msgid "[%s] Background updates have finished"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:894
+msgid "[%s] There were failures during background updates"
+msgstr ""
+
+#: system/statics/lib/acejs/mode-jade.js:1 system/statics/lib/acejs/mode-markdown.js:1 system/statics/lib/acejs/mode-mask.js:1
+msgid "]"
+msgstr ""
+
+#: system/classes/ecjia_loader.class.php:188
+msgid "clone-obj方法未设置data-parent参数。"
+msgstr ""
+
+#. ("coffee-")
+#: system/statics/lib/acejs/mode-jade.js:1
+msgid "coffee"
+msgstr ""
+
+#. (D[b],c,!1,a)
+#. (D[b],c,!0,a)
+#. (D[g(a.getDay()
+#: system/statics/lib/fullcalendar/fullcalendar.min.js:1
+msgid "dayClick"
+msgstr ""
+
+#. (a,r(d)
+#: system/statics/lib/fullcalendar/fullcalendar.min.js:1
+msgid "drop"
+msgstr ""
+
+#: system/classes/ecjia_metadata.class.php:87
+msgid "ecjia meta app no exists"
+msgstr ""
+
+#: system/classes/ecjia_metadata.class.php:91
+msgid "ecjia meta group no exists"
+msgstr ""
+
+#: system/classes/Admins/Upgrade/AutomaticUpdater.php:734
+msgid "https://wordpress.org/support/"
+msgstr ""
+
+#: system/statics/lib/fullcalendar/fullcalendar.min.js:1
+msgid "isRTL"
+msgstr ""
+
+#. ("less-")
+#: system/statics/lib/acejs/mode-jade.js:1
+msgid "less"
+msgstr ""
+
+#. ("markdown-")
+#: system/statics/lib/acejs/mode-jade.js:1
+msgid "markdown"
+msgstr ""
+
+#. ("sass-")
+#: system/statics/lib/acejs/mode-jade.js:1
+msgid "sass"
+msgstr ""
+
+#: system/statics/lib/fullcalendar/fullcalendar.min.js:1
+msgid "timeFormat"
+msgstr ""
+
+#. ("FullYear")
+#: system/statics/lib/moment_js/moment.min.js:6
+msgid "year"
+msgstr ""
+
+#: system/admin_logs.php:148
+msgid "一个月前"
+msgstr ""
+
+#: system/admin_logs.php:143
+msgid "一周之前"
+msgstr ""
+
+#: system/admin_logs.php:164
+msgid "一年之前"
+msgstr ""
+
+#: system/admin_logs.php:153
+msgid "三个月前"
+msgstr ""
+
+#: system/admin_application.php:83 system/admin_plugin.php:87
+msgid "上一页"
+msgstr ""
+
+#: system/admin_application.php:84 system/admin_plugin.php:88
+msgid "下一页"
+msgstr ""
+
+#: system/index.php:426
+msgid "下载"
+msgstr ""
+
+#: system/privilege.php:85
+msgid "两次密码不一致！"
+msgstr ""
+
+#: system/privilege.php:575 system/privilege.php:663
+msgid "两次输入的密码不一致！"
+msgstr ""
+
+#: system/privilege.php:687
+msgid "个人资料"
+msgstr ""
+
+#: system/apis/system_system_purview_api.class.php:83
+msgid "主题设置备份"
+msgstr ""
+
+#: system/apis/system_system_purview_api.class.php:80
+msgid "主题选择"
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:722
+msgid "了解更多 »"
+msgstr ""
+
+#: system/classes/hooks/admin_system.class.php:200
+msgid "产品新闻"
+msgstr ""
+
+#: system/classes/hooks/admin_system.class.php:228
+msgid "今日新增用户"
+msgstr ""
+
+#: system/classes/hooks/admin_system.class.php:256
+msgid "今日新增订单"
+msgstr ""
+
+#: system/apis/system_system_menu_api.class.php:57 system/index.php:77 system/index.php:78
+msgid "仪表盘"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:142
+msgid "优惠活动"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:152
+msgid "会员余额"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:159
+msgid "会员注册项"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:153
+msgid "会员留言"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:131
+msgid "会员等级"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:110
+msgid "会员账号"
+msgstr ""
+
+#: system/classes/Controllers/UpgradeController.php:139
+msgid "你当前使用的已经是最新版本了。"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:158
+msgid "供货商管理"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:162
+msgid "信任机构"
+msgstr ""
+
+#: system/privilege.php:698
+msgid "修改个人资料成功！"
+msgstr ""
+
+#: system/get_password.php:252
+msgid "修改密码"
+msgstr ""
+
+#: system/admin_role.php:172 system/admin_role.php:175
+msgid "修改角色"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:85
+msgid "停用"
+msgstr ""
+
+#: system/admin_application.php:87 system/admin_plugin.php:91
+msgid "共0条记录"
+msgstr ""
+
+#: system/admin_application.php:86 system/admin_plugin.php:90
+msgid "共_TOTAL_条记录 第_START_ 到 第_END_条"
+msgstr ""
+
+#: system/apis/system_system_menu_api.class.php:86 system/index.php:129 system/index.php:156 system/index.php:181
+msgid "关于"
+msgstr ""
+
+#: system/index.php:130 system/index.php:131
+msgid "关于 ECJIA"
+msgstr ""
+
+#: system/classes/Controllers/UpgradeController.php:119
+msgid "再次检查"
+msgstr ""
+
+#: system/privilege.php:783
+msgid "分派平台权限 [ %s ] "
+msgstr ""
+
+#: system/apis/system_system_purview_api.class.php:73 system/privilege.php:767
+msgid "分派权限"
+msgstr ""
+
+#: system/classes/widgets/widget_cat_goods.class.php:60
+msgid "分类下的商品"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:86
+msgid "删除"
+msgstr ""
+
+#: system/admin_logs.php:170
+msgid "删除 %s 的日志。"
+msgstr ""
+
+#: system/privilege.php:855
+msgid "删除成功！"
+msgstr ""
+
+#: system/apis/system_system_purview_api.class.php:78
+msgid "删除管理员"
+msgstr ""
+
+#: system/apis/system_system_purview_api.class.php:75
+msgid "删除管理日志"
+msgstr ""
+
+#: system/apis/system_system_cache_api.class.php:70
+msgid "前台模板缓存"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:151
+msgid "前台语言项"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:140
+msgid "办事处"
+msgstr ""
+
+#: system/admin_logs.php:158
+msgid "半年之前"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:88
+msgid "卸载"
+msgstr ""
+
+#: system/apis/system_system_purview_api.class.php:61
+msgid "卸载应用"
+msgstr ""
+
+#: system/apis/system_system_purview_api.class.php:65
+msgid "卸载插件"
+msgstr ""
+
+#: system/classes/ecjia_loader.class.php:182
+msgid "参数错误，无法删除！"
+msgstr ""
+
+#: system/admin_plugin.php:79
+msgid "参数错误，无法卸载！"
+msgstr ""
+
+#: system/admin_plugin.php:78
+msgid "参数错误，无法安装！"
+msgstr ""
+
+#: system/classes/ecjia_loader.class.php:186
+msgid "参数错误，无法选择！"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:136
+msgid "友情链接"
+msgstr ""
+
+#: system/admin_message.php:173
+msgid "发送失败"
+msgstr ""
+
+#: system/admin_message.php:171
+msgid "发送成功"
+msgstr ""
+
+#: system/admin_message.php:170
+msgid "发送留言"
+msgstr ""
+
+#: system/admin_logs.php:71 system/admin_plugin.php:82 system/classes/ecjia_admin.class.php:470 system/classes/ecjia_loader.class.php:180 system/index.php:315
+msgid "取消"
+msgstr ""
+
+#: system/apis/system_system_menu_api.class.php:79 system/classes/Controllers/UpgradeController.php:79 system/classes/Controllers/UpgradeController.php:80
+msgid "可用更新"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:92
+msgid "合并"
+msgstr ""
+
+#: system/apis/system_system_cache_api.class.php:76
+msgid "后台模板缓存"
+msgstr ""
+
+#: system/admin_application.php:80 system/index.php:290
+msgid "后退"
+msgstr ""
+
+#: system/index.php:205 system/index.php:206 system/index.php:207 system/index.php:209
+msgid "否"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:84
+msgid "启用"
+msgstr ""
+
+#: system/classes/widgets/widget_brand_goods.class.php:60
+msgid "品牌的商品"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:116
+msgid "品牌管理"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:115
+msgid "商品"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:117
+msgid "商品分类"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:118
+msgid "商品包装"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:121
+msgid "商品类型"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:119
+msgid "商品贺卡"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:107
+msgid "商店设置"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:90
+msgid "回收"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:148
+msgid "团购商品"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:135
+msgid "在线调查"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:106
+msgid "地区"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_menu.class.php:247
+msgid "外观"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:132
+msgid "夺宝奇兵"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:87
+msgid "安装"
+msgstr ""
+
+#: system/admin_application.php:89
+msgid "安装中..."
+msgstr ""
+
+#: system/apis/system_system_purview_api.class.php:62
+msgid "安装应用"
+msgstr ""
+
+#: system/apis/system_system_purview_api.class.php:66
+msgid "安装插件"
+msgstr ""
+
+#: system/get_password.php:291
+msgid "密码修改失败!"
+msgstr ""
+
+#: system/get_password.php:289
+msgid "密码修改成功!"
+msgstr ""
+
+#: system/privilege.php:84
+msgid "密码长度不能小于6！"
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:399 system/classes/ecjia_admin.class.php:405
+msgid "对不起，您没有执行此项操作的权限！"
+msgstr ""
+
+#: system/index.php:312
+msgid "将证书文件拖动至此处上传"
+msgstr ""
+
+#: system/admin_application.php:82 system/admin_plugin.php:86
+msgid "尾页"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:120
+msgid "属性"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_menu.class.php:246
+msgid "工具"
+msgstr ""
+
+#: system/classes/Controllers/UpgradeController.php:143
+msgid "已经检测到%s个新版本更新。"
+msgstr ""
+
+#: system/apis/system_system_purview_api.class.php:81
+msgid "布局管理"
+msgstr ""
+
+#: system/apis/system_privilege_menu_api.class.php:58
+msgid "平台后台权限"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:147
+msgid "广告"
+msgstr ""
+
+#: system/classes/widgets/widget_ad_position.class.php:60
+msgid "广告位"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:146
+msgid "广告位置"
+msgstr ""
+
+#: system/apis/system_system_purview_api.class.php:82
+msgid "库项目管理"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:163 system/classes/admin/ecjia_admin_menu.class.php:245 system/classes/ecjia_screen.class.php:1128
+msgid "应用"
+msgstr ""
+
+#: system/admin_application.php:191 system/admin_application.php:192
+msgid "应用安装"
+msgstr ""
+
+#: system/classes/ecjia_app.class.php:339
+msgid "应用已经安装，请勿重复安装。"
+msgstr ""
+
+#: system/apis/system_system_menu_api.class.php:73
+msgid "应用市场"
+msgstr ""
+
+#: system/apis/system_system_cache_api.class.php:82
+msgid "应用数据缓存"
+msgstr ""
+
+#: system/apis/system_system_cache_api.class.php:83
+msgid "应用数据缓存是应用处理逻辑后的数据缓存。若要在更新文件及功能后立即看到变化，则需要更新应用数据缓存后才可以查看最新效果。"
+msgstr ""
+
+#: system/classes/ecjia_app.class.php:366
+msgid "应用未安装！"
+msgstr ""
+
+#: system/admin_application.php:108 system/admin_application.php:109 system/admin_application.php:94 system/apis/system_system_menu_api.class.php:70 system/apis/system_system_purview_api.class.php:60
+msgid "应用管理"
+msgstr ""
+
+#: system/admin_application.php:195 system/admin_application.php:196
+msgid "应用详情"
+msgstr ""
+
+#: system/index.php:289
+msgid "开始"
+msgstr ""
+
+#: system/admin_application.php:79 system/admin_application.php:90
+msgid "开始安装"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_menu.class.php:250
+msgid "快捷导航"
+msgstr ""
+
+#: system/classes/ecjia_page.class.php:202
+msgid "总计 "
+msgstr ""
+
+#: system/privilege.php:837
+msgid "您不能删除demo这个管理员！"
+msgstr ""
+
+#: system/privilege.php:847
+msgid "您不能删除自己！"
+msgstr ""
+
+#: system/privilege.php:458 system/privilege.php:712 system/privilege.php:777
+msgid "您不能对此管理员的权限进行任何操作！"
+msgstr ""
+
+#: system/privilege.php:615
+msgid "您已经成功的修改了个人帐号信息！"
+msgstr ""
+
+#: system/privilege.php:696
+msgid "您已经成功的修改了密码，因此您必须重新登录！"
+msgstr ""
+
+#: system/index.php:93
+msgid "您当前已经覆盖了最新版的v%s程序，建议您立即升级数据库结构，升级前做好备份，前往<a href=\"%s\">升级中心</a>。"
+msgstr ""
+
+#: system/classes/ecjia_loader.class.php:190
+msgid "您确定要删除此文件吗？"
+msgstr ""
+
+#: system/admin_plugin.php:83
+msgid "您确定要删除这个插件吗？"
+msgstr ""
+
+#: system/index.php:313
+msgid "您确定要删除这个证书吗？"
+msgstr ""
+
+#: system/classes/ecjia_loader.class.php:181
+msgid "您确定要删除这条记录吗？"
+msgstr ""
+
+#: system/admin_plugin.php:80
+msgid "您确定要卸载这个插件吗？"
+msgstr ""
+
+#: system/classes/ecjia_loader.class.php:183
+msgid "您确定要操作所有选中项吗？"
+msgstr ""
+
+#: system/privilege.php:368
+msgid "您输入的帐号信息不正确。"
+msgstr ""
+
+#: system/index.php:87
+msgid "您还没有删除 installer 文件夹，出于安全的考虑，我们建议您删除 content/apps/installer 文件夹。"
+msgstr ""
+
+#: system/admin_role.php:231
+msgid "成功删除管理员角色 %s"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:143
+msgid "批发活动"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:96
+msgid "批量上传"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:98
+msgid "批量停用"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:93
+msgid "批量删除"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:94
+msgid "批量回收"
+msgstr ""
+
+#: system/classes/ecjia_loader.class.php:185
+msgid "批量操作缺少参数！"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:97
+msgid "批量编辑"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:95
+msgid "批量还原"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:141
+msgid "拍卖活动"
+msgstr ""
+
+#: system/index.php:82
+msgid "授权提示：您的站点还未经过授权许可！请上传您的证书，前往<a href=\"%s\">授权证书管理</a> 。"
+msgstr ""
+
+#: system/apis/system_system_menu_api.class.php:67 system/apis/system_system_purview_api.class.php:57 system/classes/admin/ecjia_admin_log.class.php:161 system/index.php:308 system/index.php:309
+msgid "授权证书"
+msgstr ""
+
+#: system/index.php:401
+msgid "授权证书上传成功。"
+msgstr ""
+
+#: system/index.php:406
+msgid "授权证书连接服务器校验失败，请检查授权证书的合法性。"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_menu.class.php:244
+msgid "控制面板"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:164
+msgid "插件"
+msgstr ""
+
+#: system/admin_plugin.php:96 system/admin_plugin.php:97 system/apis/system_system_menu_api.class.php:71 system/apis/system_system_purview_api.class.php:64
+msgid "插件管理"
+msgstr ""
+
+#: system/apis/system_system_menu_api.class.php:72
+msgid "插件配置"
+msgstr ""
+
+#: system/admin_message.php:138
+msgid "搜索到了"
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:467
+msgid "操作失败"
+msgstr ""
+
+#: system/privilege.php:857
+msgid "操作失败！"
+msgstr ""
+
+#: system/classes/BaseController/EcjiaController.php:381 system/classes/ecjia_admin.class.php:466
+msgid "操作成功"
+msgstr ""
+
+#: system/classes/BaseController/EcjiaController.php:384
+msgid "操作提示"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:104 system/classes/hooks/admin_system.class.php:187
+msgid "操作日志"
+msgstr ""
+
+#: system/classes/BaseController/EcjiaController.php:387
+msgid "操作警告"
+msgstr ""
+
+#: system/classes/BaseController/EcjiaController.php:390
+msgid "操作错误"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:137
+msgid "支付方式"
+msgstr ""
+
+#: system/privilege.php:399
+msgid "数据不完整"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:155
+msgid "数据库备份"
+msgstr ""
+
+#: system/apis/system_system_cache_api.class.php:58
+msgid "数据表结构缓存"
+msgstr ""
+
+#: system/apis/system_system_cache_api.class.php:59
+msgid "数据表结构缓存是数据库表结构的缓存文件。若数据库表结构有变动，则需要更新数据库表结构缓存才可以查看最新数据。"
+msgstr ""
+
+#: system/classes/Controllers/AdminFilePermissionController.php:83 system/classes/Controllers/AdminFilePermissionController.php:84
+msgid "文件权限检测"
+msgstr ""
+
+#: system/apis/system_system_purview_api.class.php:69
+msgid "文件权限检验"
+msgstr ""
+
+#: system/apis/system_system_menu_api.class.php:80 system/apis/system_system_purview_api.class.php:68 system/classes/Controllers/AdminFilehashController.php:120 system/classes/Controllers/AdminFilehashController.php:84
+msgid "文件校验"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:125
+msgid "文章"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:124
+msgid "文章分类"
+msgstr ""
+
+#: system/classes/widgets/widget_cat_articles.class.php:60
+msgid "文章列表"
+msgstr ""
+
+#: system/classes/hooks/admin_system.class.php:242
+msgid "新手机咨询"
+msgstr ""
+
+#: system/index.php:208
+msgid "无需设置"
+msgstr ""
+
+#: system/index.php:205 system/index.php:206 system/index.php:207 system/index.php:209
+msgid "是"
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:468
+msgid "是否确认跳转？"
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:462
+msgid "显示侧边栏"
+msgstr ""
+
+#: system/admin_application.php:119 system/admin_logs.php:93 system/admin_message.php:95 system/admin_plugin.php:107 system/admin_role.php:101 system/classes/Controllers/UpgradeController.php:90 system/index.php:105 system/index.php:141 system/index.php:168 system/index.php:193 system/index.php:271 system/index.php:327 system/privilege.php:110 system/privilege.php:730
+msgid "更多信息："
+msgstr ""
+
+#: system/apis/system_system_menu_api.class.php:68 system/apis/system_system_purview_api.class.php:58 system/index.php:261 system/index.php:286
+msgid "更新缓存"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_menu.class.php:249
+msgid "服务"
+msgstr ""
+
+#: system/classes/ecjia_cloud.class.php:241
+msgid "服务器返回信息错误！"
+msgstr ""
+
+#: system/admin_application.php:78
+msgid "未找到搜索内容!"
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:465
+msgid "未搜索到导航信息"
+msgstr ""
+
+#: system/functions/functions.func.php:255
+msgid "本店盘点中，请您稍后再来..."
+msgstr ""
+
+#: system/apis/system_system_menu_api.class.php:60 system/classes/admin/ecjia_admin_log.class.php:103
+msgid "权限管理"
+msgstr ""
+
+#: system/classes/ecjia_page.class.php:203
+msgid "条记录，分为"
+msgstr ""
+
+#: system/apis/system_system_cache_api.class.php:64
+msgid "查询缓存"
+msgstr ""
+
+#: system/apis/system_system_cache_api.class.php:65
+msgid "查询缓存是数据库查询结构的缓存文件。若数据库内容有变动，则需要更新查询缓存才可以看到最新效果。"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:150
+msgid "标签管理"
+msgstr ""
+
+#: system/admin_application.php:113 system/admin_logs.php:87 system/admin_message.php:89 system/admin_plugin.php:101 system/admin_role.php:95 system/classes/Controllers/UpgradeController.php:84 system/index.php:135 system/index.php:162 system/index.php:187 system/index.php:265 system/index.php:321 system/index.php:99 system/privilege.php:104 system/privilege.php:724
+msgid "概述"
+msgstr ""
+
+#: system/apis/system_system_purview_api.class.php:76
+msgid "模板管理"
+msgstr ""
+
+#: system/apis/system_system_cache_api.class.php:71
+msgid "模板缓存是前台模板文件的缓存文件。若前台模板文件有变动，则需要更新模板缓存后才可以查看最新效果。"
+msgstr ""
+
+#: system/apis/system_system_cache_api.class.php:77
+msgid "模板缓存是后台模板文件的缓存文件。若后台模板文件有变动，则需要更新模板缓存后才可以查看最新效果。"
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:720 system/classes/ecjia_admin.class.php:748
+msgid "欢迎使用ECJia"
+msgstr ""
+
+#: system/index.php:101
+msgid "欢迎访问ECJia智能后台仪表盘！在您每次登录站点后，您都会看到本页面。您可以在这里访问ECJia智能后台的各种管理页面。点击任何页面右上角的“帮助”选项卡可阅读相应帮助信息。"
+msgstr ""
+
+#: system/index.php:137 system/index.php:164 system/index.php:189
+msgid "欢迎访问ECJia智能后台关于页面，可以更加了解ECJia。"
+msgstr ""
+
+#: system/admin_application.php:115
+msgid "欢迎访问ECJia智能后台应用管理页面，系统中所有的应用都会显示在此列表中。"
+msgstr ""
+
+#: system/index.php:323
+msgid "欢迎访问ECJia智能后台授权证书管理页面，可以在此对证书进行授权操作。"
+msgstr ""
+
+#: system/admin_plugin.php:103
+msgid "欢迎访问ECJia智能后台插件管理页面，系统中所有的插件都会显示在此列表中。"
+msgstr ""
+
+#: system/index.php:267
+msgid "欢迎访问ECJia智能后台更新缓存页面，可以在此页面进行清除系统中缓存的操作。"
+msgstr ""
+
+#: system/classes/Controllers/UpgradeController.php:86
+msgid "欢迎访问ECJia智能后台更新页面，在此可以进行对版本的更新。"
+msgstr ""
+
+#: system/privilege.php:106
+msgid "欢迎访问ECJia智能后台管理员列表页面，系统中所有的管理员都会显示在此列表中。"
+msgstr ""
+
+#: system/admin_logs.php:89
+msgid "欢迎访问ECJia智能后台管理员日志页面，可以在此查看管理员操作的一些记录信息。"
+msgstr ""
+
+#: system/admin_message.php:91
+msgid "欢迎访问ECJia智能后台管理员留言页面，所有管理员可以在此进行留言交谈方便管理。"
+msgstr ""
+
+#: system/privilege.php:726
+msgid "欢迎访问ECJia智能后台编辑个人资料页面，用户可在此编辑个人资料。"
+msgstr ""
+
+#: system/admin_role.php:97
+msgid "欢迎访问ECJia智能后台角色管理页面，系统中所有的角色都会显示在此列表中。"
+msgstr ""
+
+#: system/admin_plugin.php:84
+msgid "此插件暂时不能删除。"
+msgstr ""
+
+#: system/privilege.php:78
+msgid "此管理员不可以编辑！"
+msgstr ""
+
+#: system/privilege.php:842
+msgid "此管理员您不能进行删除操作！"
+msgstr ""
+
+#: system/admin_role.php:222
+msgid "此角色有管理员在使用，暂时不能删除！"
+msgstr ""
+
+#: system/get_password.php:245 system/get_password.php:275
+msgid "此链接不合法!"
+msgstr ""
+
+#: system/admin_application.php:85 system/admin_plugin.php:89
+msgid "没有找到任何记录"
+msgstr ""
+
+#: system/model/template_widget_model.class.php:146
+msgid "没有找到该注释的模板备份"
+msgstr ""
+
+#: system/admin_message.php:138
+msgid "没有更多消息了"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:82
+msgid "添加"
+msgstr ""
+
+#: system/admin_role.php:151 system/privilege.php:448
+msgid "添加 %s 操作成功"
+msgstr ""
+
+#: system/classes/widgets/widget_cat_goods.class.php:59
+msgid "添加分类商品"
+msgstr ""
+
+#: system/classes/widgets/widget_cat_articles.class.php:59
+msgid "添加分类文章"
+msgstr ""
+
+#: system/classes/widgets/widget_brand_goods.class.php:59
+msgid "添加品牌商品"
+msgstr ""
+
+#: system/classes/widgets/widget_ad_position.class.php:59
+msgid "添加广告位"
+msgstr ""
+
+#: system/privilege.php:142 system/privilege.php:379 system/privilege.php:382
+msgid "添加管理员"
+msgstr ""
+
+#: system/classes/widgets/widget_nav_menu.class.php:59
+msgid "添加自定义菜单"
+msgstr ""
+
+#: system/admin_role.php:105 system/admin_role.php:118 system/admin_role.php:119
+msgid "添加角色"
+msgstr ""
+
+#: system/index.php:292
+msgid "清除："
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:699
+msgid "版权所有 © 2013-2019 上海商创网络科技有限公司，并保留所有权利。"
+msgstr ""
+
+#: system/classes/ecjia_loader.class.php:187
+msgid "状态修改成功！"
+msgstr ""
+
+#: system/get_password.php:223
+msgid "用户名与Email地址不匹配,请返回！"
+msgstr ""
+
+#: system/privilege.php:80
+msgid "用户名长度不能小于2！"
+msgstr ""
+
+#: system/apis/system_system_cache_api.class.php:88
+msgid "用户数据缓存"
+msgstr ""
+
+#: system/apis/system_system_cache_api.class.php:89
+msgid "用户数据缓存是用户登录后的一些相关数据缓存。若要在更新文件及功能后立即看到变化，则需要更新用户数据缓存后才可以查看最新效果。"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:134
+msgid "用户红包"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:145
+msgid "用户评论"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:144
+msgid "留言反馈"
+msgstr ""
+
+#: system/privilege.php:366
+msgid "登录成功"
+msgstr ""
+
+#: system/admin_logs.php:69
+msgid "的日志吗？"
+msgstr ""
+
+#: system/classes/Controllers/AdminFilePermissionController.php:97
+msgid "目录"
+msgstr ""
+
+#: system/apis/system_system_menu_api.class.php:81
+msgid "目录权限检测"
+msgstr ""
+
+#: system/admin_logs.php:70 system/admin_plugin.php:81 system/classes/ecjia_admin.class.php:469 system/classes/ecjia_loader.class.php:179 system/index.php:314
+msgid "确定"
+msgstr ""
+
+#: system/admin_logs.php:68
+msgid "确定删除"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:157
+msgid "积分可兑换的商品"
+msgstr ""
+
+#: system/apis/system_system_menu_api.class.php:62 system/privilege.php:100 system/privilege.php:141 system/privilege.php:383 system/privilege.php:480 system/privilege.php:742 system/privilege.php:784
+msgid "管理员列表"
+msgstr ""
+
+#: system/admin_logs.php:82 system/admin_logs.php:83 system/apis/system_system_menu_api.class.php:65
+msgid "管理员日志"
+msgstr ""
+
+#: system/apis/system_system_purview_api.class.php:74
+msgid "管理员添加/编辑"
+msgstr ""
+
+#: system/admin_message.php:84 system/admin_message.php:85 system/classes/admin/ecjia_admin_log.class.php:105 system/classes/hooks/admin_system.class.php:169
+msgid "管理员留言"
+msgstr ""
+
+#: system/privilege.php:89
+msgid "管理员管理"
+msgstr ""
+
+#: system/admin_role.php:144 system/admin_role.php:205 system/admin_role.php:228
+msgid "管理员角色"
+msgstr ""
+
+#: system/privilege.php:613 system/privilege.php:853
+msgid "管理员账号"
+msgstr ""
+
+#: system/apis/system_system_purview_api.class.php:77
+msgid "管理日志列表"
+msgstr ""
+
+#: system/classes/ecjia_cache.class.php:102 system/classes/ecjia_purview.class.php:95
+msgid "系统"
+msgstr ""
+
+#: system/index.php:182 system/index.php:183
+msgid "系统信息"
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:404 system/classes/ecjia_admin.class.php:88
+msgid "系统提示"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:133
+msgid "红包类型"
+msgstr ""
+
+#: system/privilege.php:443
+msgid "继续添加管理员"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:83
+msgid "编辑"
+msgstr ""
+
+#: system/admin_role.php:210
+msgid "编辑 %s 操作成功"
+msgstr ""
+
+#: system/privilege.php:822
+msgid "编辑 %s 操作成功！"
+msgstr ""
+
+#: system/privilege.php:618 system/privilege.php:720 system/privilege.php:741
+msgid "编辑个人资料"
+msgstr ""
+
+#: system/privilege.php:467 system/privilege.php:479
+msgid "编辑管理员"
+msgstr ""
+
+#: system/classes/ecjia_loader.class.php:189
+msgid "缺少参数"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:149
+msgid "缺货登记管理"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:128
+msgid "网店信息文章"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:127
+msgid "网店帮助分类"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:126
+msgid "网店帮助文章"
+msgstr ""
+
+#: system/classes/widgets/widget_nav_menu.class.php:60
+msgid "自定义菜单"
+msgstr ""
+
+#: system/apis/system_system_purview_api.class.php:70
+msgid "菜单管理"
+msgstr ""
+
+#: system/admin_role.php:120 system/admin_role.php:148 system/admin_role.php:176
+msgid "角色列表"
+msgstr ""
+
+#: system/admin_role.php:80 system/admin_role.php:90 system/admin_role.php:91 system/apis/system_system_menu_api.class.php:63 system/apis/system_system_purview_api.class.php:72
+msgid "角色管理"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:139
+msgid "订单"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:89 system/classes/admin/ecjia_admin_menu.class.php:248
+msgid "设置"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_menu.class.php:127
+msgid "设置快捷菜单"
+msgstr ""
+
+#: system/privilege.php:441
+msgid "设置管理员权限"
+msgstr ""
+
+#: system/apis/system_system_menu_api.class.php:58
+msgid "访问首页"
+msgstr ""
+
+#: system/index.php:390
+msgid "证书内容不全。请先确定证书是否正确然后重新上传！"
+msgstr ""
+
+#: system/index.php:457
+msgid "证书已删除。"
+msgstr ""
+
+#: system/privilege.php:414 system/privilege.php:542 system/privilege.php:640
+msgid "该Email地址 %s 已经存在！"
+msgstr ""
+
+#: system/privilege.php:406 system/privilege.php:529
+msgid "该管理员 %s 已经存在！"
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:464
+msgid "请先输入搜索信息"
+msgstr ""
+
+#: system/classes/ecjia_loader.class.php:184
+msgid "请先选中操作项！"
+msgstr ""
+
+#: system/admin_logs.php:67
+msgid "请先选择删除日志的时间！"
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:471
+msgid "请求失败，错误编号："
+msgstr ""
+
+#: system/privilege.php:83
+msgid "请输入密码！"
+msgstr ""
+
+#: system/privilege.php:82
+msgid "请输入正确的邮箱格式！"
+msgstr ""
+
+#: system/admin_role.php:76 system/privilege.php:79
+msgid "请输入用户名！"
+msgstr ""
+
+#: system/privilege.php:81
+msgid "请输入邮箱地址！"
+msgstr ""
+
+#: system/index.php:291
+msgid "请选择要清除的缓存类型！"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:156
+msgid "超值礼包"
+msgstr ""
+
+#: system/privilege.php:548
+msgid "超级管理员 %s 不可被修改！"
+msgstr ""
+
+#: system/get_password.php:182
+msgid "输入的信息不正确！"
+msgstr ""
+
+#: system/privilege.php:568 system/privilege.php:658
+msgid "输入的旧密码错误！"
+msgstr ""
+
+#: system/get_password.php:218 system/get_password.php:243 system/get_password.php:273 system/get_password.php:287
+msgid "返回"
+msgstr ""
+
+#: system/privilege.php:567 system/privilege.php:574
+msgid "返回上一页"
+msgstr ""
+
+#: system/admin_application.php:197
+msgid "返回应用列表"
+msgstr ""
+
+#: system/privilege.php:457 system/privilege.php:618 system/privilege.php:711 system/privilege.php:776 system/privilege.php:819
+msgid "返回管理员列表"
+msgstr ""
+
+#: system/admin_role.php:209
+msgid "返回角色列表"
+msgstr ""
+
+#: system/classes/Controllers/AdminFilehashController.php:121
+msgid "返回重新校验"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:91
+msgid "还原"
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:750
+msgid "进入官网 »"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:112
+msgid "配送区域"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:113
+msgid "配送区域中的地区"
+msgstr ""
+
+#: system/classes/admin/ecjia_admin_log.class.php:111
+msgid "配送方式"
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:89
+msgid "重新登录"
+msgstr ""
+
+#: system/get_password.php:212
+msgid "重置密码的邮件已经发到您的邮箱："
+msgstr ""
+
+#: system/get_password.php:215
+msgid "重置密码邮件发送失败!请与管理员联系"
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:463
+msgid "隐藏侧边栏"
+msgstr ""
+
+#: system/classes/ecjia_page.class.php:204
+msgid "页当前第"
+msgstr ""
+
+#: system/classes/ecjia_page.class.php:205
+msgid "页，每页"
+msgstr ""
+
+#: system/admin_application.php:81 system/admin_plugin.php:85
+msgid "首页"
+msgstr ""
+
+#: system/admin_application.php:88 system/admin_plugin.php:92
+msgid "（从_MAX_条数据中检索）"
+msgstr ""
+
+#: system/classes/ecjia_admin.class.php:472
+msgid "，错误信息："
+msgstr ""

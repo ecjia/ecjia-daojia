@@ -41,9 +41,9 @@
 							<!-- {else} -->
 							<i class="fontello-icon-cancel" title="NO"></i>
 							<!-- {if $item.err_msg.w} -->
-							&nbsp;<a href="javascript:;" onclick="$('#r_{$key}').toggle();" title="{lang key='system::check_file_priv.detail'}">{t}[详情]{/t}</a><br />
+							&nbsp;<a href="javascript:;" onclick="$('#r_{$key}').toggle();" title="{t}详情{/t}">{t}[详情]{/t}</a><br />
 							<span class="notice-span" {if $help_open}style="display:block" {else} style="display:none" {/if} id="r_{$key}">
-								<!-- {foreach from=$item.err_msg.r item=msg} -->{$msg}{lang key='system::check_file_priv.unread'}<br /><!-- {/foreach} -->
+								<!-- {foreach from=$item.err_msg.r item=msg} -->{$msg}{t}不可读{/t}<br /><!-- {/foreach} -->
 							</span>
 							<!-- {/if} -->
 							<!-- {/if} -->
@@ -54,9 +54,9 @@
 							<i class="fontello-icon-ok" title="YES"></i>
 							<!-- {else} -->
 							<i class="fontello-icon-cancel" title="NO"></i>
-							<!-- {if $item.err_msg.w} -->&nbsp;<a href="javascript:;" onclick="$('#w_{$key}').toggle();" title="{lang key='system::check_file_priv.detail'}">{t}[详情]{/t}</a><br />
+							<!-- {if $item.err_msg.w} -->&nbsp;<a href="javascript:;" onclick="$('#w_{$key}').toggle();" title="{t}详情{/t}">{t}[详情]{/t}</a><br />
 							<span class="notice-span" {if $help_open}style="display:block" {else} style="display:none" {/if} id="w_{$key}">
-								<!-- {foreach from=$item.err_msg.w item=msg} -->{$msg}{lang key='system::check_file_priv.unwrite'}<br /><!-- {/foreach} -->
+								<!-- {foreach from=$item.err_msg.w item=msg} -->{$msg}{t}不可写{/t}<br /><!-- {/foreach} -->
 							</span>
 							<!-- {/if} -->
 							<!-- {/if} -->
@@ -67,9 +67,9 @@
 							<i class="fontello-icon-ok" title="YES"></i>
 							<!-- {else} -->
 							<i class="fontello-icon-cancel" title="NO"></i>
-							<!-- {if $item.err_msg.m} -->&nbsp;<a href="javascript:;" onclick="$('#m_{$key}').toggle();" title="{lang key='system::check_file_priv.detail'}">{t}[详情]{/t}</a><br />
+							<!-- {if $item.err_msg.m} -->&nbsp;<a href="javascript:;" onclick="$('#m_{$key}').toggle();" title="{t}详情{/t}">{t}[详情]{/t}</a><br />
 							<span class="notice-span" {if $help_open} style="display:block" {else} style="display:none" {/if} id="m_{$key}">
-								<!-- {foreach from=$item.err_msg.m item=msg} -->{$msg}{lang key='system::check_file_priv.unmodify'}<br /><!-- {/foreach} -->
+								<!-- {foreach from=$item.err_msg.m item=msg} -->{$msg}{t}不可修改{/t}<br /><!-- {/foreach} -->
 							</span>
 							<!-- {/if} -->
 							<!-- {/if} -->
@@ -78,7 +78,7 @@
 					<!-- {/foreach} -->
 					<!-- {if $tpl_msg} -->
 					<tr>
-						<td colspan="4"><img src="images/no.gif" width="14" height="14" alt="NO" /><span style="color:red">{$tpl_msg}</span>{lang key='system::check_file_priv.unrename'}</td>
+						<td colspan="4"><img src="images/no.gif" width="14" height="14" alt="NO" /><span style="color:red">{$tpl_msg}</span>{t}目录需要执行rename权限{/t}</td>
 					</tr>
 					<!-- {/if} -->
 				</tbody>

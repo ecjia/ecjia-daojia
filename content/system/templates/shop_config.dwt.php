@@ -39,7 +39,7 @@
 <div class="float_block">
 	<!-- <h4>{t}快速导航{/t}</h4> -->
 	<ul class="unstyled">
-		<!-- <li class="float_block_show active" data-toggle="goarea" data-area=".main_content"><i class="fontello-icon-angle-circled-left"></i>收起</li> -->
+		<!-- <li class="float_block_show active" data-toggle="goarea" data-area=".main_content"><i class="fontello-icon-angle-circled-left"></i>{t}收起{/t}</li> -->
 		<!-- {foreach from=$group_list item=group name="bar_group"} -->
 		<li data-toggle="goarea" data-area="#{$group.code}">
 			<i class="{$group.icon}"></i>

@@ -206,9 +206,9 @@ class admin_plugin extends ecjia_admin {
 	 */
 	public function config() {
 		 
-		$this->assign('ur_here', '插件配置');
+		$this->assign('ur_here', __('插件配置'));
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('插件配置'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('插件配置')));
 		
 		$menus = ConfigMenu::singleton()->authMenus();
 

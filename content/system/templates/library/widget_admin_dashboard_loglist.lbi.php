@@ -8,7 +8,9 @@
 		<tbody>
 			<!-- {foreach from=$log_lists item=log key=key} -->
 			<tr>
-				<td>{RC_Time::local_date('Y-m-d H:i:s', $log.log_time)} {t}管理员{/t} {$log.user_name|escape:html}, {t}在{/t} {RC_Ip::area($log.ip_address)} {t}IP下{/t} {$log.log_info}{t}。{/t}</td>
+				<td>
+				{RC_Time::local_date('Y-m-d H:i:s', $log.log_time)} {t 1={$log.user_name|escape:html} 2={RC_Ip::area($log.ip_address)} 3={$log.log_info}}管理员 %1, 在 %2 IP下 %3。{/t}
+				</td>
 			</tr>
 			<!-- {foreachelse} -->
 			<tr>

@@ -48,7 +48,7 @@
 				<div class="formRow">
 					<div class="input-prepend">
 						<span class="add-on">{t}新密码{/t}</span>
-						<input id="username" type="password" name="password" placeholder="{t}新管理员密码{/t}" value="" autocomplete="off" />
+						<input id="username" type="password" name="password" placeholder="{t}管理员新密码{/t}" value="" autocomplete="off" />
 					</div>
 				</div>
 				<div class="formRow">

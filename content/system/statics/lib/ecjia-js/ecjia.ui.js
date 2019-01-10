@@ -14,7 +14,7 @@
 		},
 		
 		alert : function(msg) {
-			return smoke.alert(msg);
+			return smoke.alert(msg, {ok: admin_lang.ok});
 		},
 		
 		confirm : function(msg, callback) {
@@ -81,7 +81,7 @@
 			// options.url, options.id ,options.msg ,options.obj
 			if(!options.url){
 //				smoke.alert('参数错误，无法删除！');
-				smoke.alert(admin_lang.error);
+				ecjia.ui.alert(admin_lang.error);
 				return false;
 			}
 
@@ -232,7 +232,7 @@
 			}
 			if(!options.url){
 //				smoke.alert('参数错误，无法删除！');
-				smoke.alert(admin_lang.error);
+				ecjia.ui.alert(admin_lang.error);
 				return false;
 			}
 			smoke.confirm(options.msg,function(e){
@@ -318,7 +318,7 @@
 		var msg 		= $this.attr('data-msg') || admin_lang.confirm;
 		var noSelectMsg = $this.attr('data-noSelectMsg') || admin_lang.please_select;
 		var option 		= {id : id, url : url, msg : msg, name : name}
-		id.length == 0 ? smoke.alert(noSelectMsg) : ecjia.ui.batch(option);
+		id.length == 0 ? ecjia.ui.alert(noSelectMsg) : ecjia.ui.batch(option);
 	})
 
 	/**

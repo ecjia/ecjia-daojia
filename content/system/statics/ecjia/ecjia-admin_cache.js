@@ -26,7 +26,7 @@
                             });
                         });
                     }else{
-                        smoke.alert(admin_cache_lang.pls_type_check);
+                        ecjia.ui.alert(admin_cache_lang.pls_type_check);
                         return false;
                     }
                 },

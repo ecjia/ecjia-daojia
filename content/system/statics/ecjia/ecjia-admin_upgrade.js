@@ -8,7 +8,7 @@
 				e.preventDefault();
 				var $this = $(this);
 				if($this.find('i').length >0){
-					smoke.alert(admin_upgrade_lang.checking);
+					ecjia.ui.alert(admin_upgrade_lang.checking);
 				}else{
 					$this.prepend('<i class="animate-spin fontello-icon-spin3"></i>');
 					var url = $('form[name="checkUpdate"]').attr('action');

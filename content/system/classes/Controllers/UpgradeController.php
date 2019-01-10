@@ -97,17 +97,20 @@ class UpgradeController extends ecjia_admin
         if (! is_ecjia_error($result)) {
 
             $formatter = (new \Ecjia\System\Admins\UpgradeCheck\ResultManager($result))->formatter();
-            if (empty($current_version)) {
-                $current_version = head($formatter)->getVersion();
+            if (! empty($formatter)) {
+                if (empty($current_version)) {
+                    $current_version = head($formatter)->getVersion();
+                }
+
+                $version = collect($formatter)->first(function ($value, $key) use ($current_version) {
+                    return $value->getVersion() == $current_version;
+                });
+
+                $this->assign('current_version', $current_version);
+                $this->assign('versions', $formatter);
+                $this->assign('version', $version);
             }
 
-            $version = collect($formatter)->first(function ($value, $key) use ($current_version) {
-                return $value->getVersion() == $current_version;
-            });
-
-            $this->assign('current_version', $current_version);
-            $this->assign('versions', $formatter);
-            $this->assign('version', $version);
         }
 
 		$last_check_upgrade_time = ecjia_config::get('last_check_upgrade_time', RC_Time::gmtime());

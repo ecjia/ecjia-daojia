@@ -130,38 +130,38 @@
 				
 				<li>
 					<ul class="unstyled sepH_b item-list">
-						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2017.07.25{/t}</span>{t}ECJia推出到家门店APP{/t}</li>
-						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2017.07.20{/t}</span>{t}ECJia推出到家门店小程序{/t}</li>
-						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2017.05.24{/t}</span>{t}ECJia推出免费EC+配送员APP支持到家{/t}</li>
-						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2017.05.11{/t}</span>{t}ECJia推出免费EC+掌柜APP支持到家{/t}</li>
-						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2017.05.04{/t}</span>{t}ECJia推出到家PC端{/t}</li>
-						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2017.04.01{/t}</span>{t}ECJia推出免费EC+店铺街APP支持到家{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2017.02.14{/t}</span>{t}ECJia推出免费开源的O2O移动电商系统【ECJia到家】{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2016.12.30{/t}</span>{t}ECJia推出到家H5版微信商城{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2016.11.11{/t}</span>{t}ECJia推出到家商城系统支持商家入驻管理{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2016.07.15{/t}</span>{t}ECJia推出原生开发手机APP到家系统{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2016.06.21{/t}</span>{t}ECJia推出首款大屏电视应用，ECJiaTV{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2016.03.01{/t}</span>{t}ECJia Web上线{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2016.02.06{/t}</span>{t}ECJia 标准版更名为移动商城{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2016.02.05{/t}</span>{t}ECJia 尊享版上线{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2016.01.08{/t}</span>{t}ECJia 微店上线{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2015.11.27{/t}</span>{t}推出ECJia 公众平台{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2015.11.20{/t}</span>{t}推出ECJia收银台产品{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2015.09.18{/t}</span>{t}推出ECJia Touch多商户产品{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2015.09.18{/t}</span>{t}ECJia 多商户上线{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2015.08.26{/t}</span>{t}ECJia 轻装版上线{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2015.07.22{/t}</span>{t}ECJia 掌柜上线{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2015.07.17{/t}</span>{t}ECJia Touch上线{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2015.05.31{/t}</span>{t}适应 Apple Watch{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2015.03.15{/t}</span>{t}ECJia 智能后台上线{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2015.01.13{/t}</span>{t}EC+官网上线{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2015.01.08{/t}</span>{t}ECJia iPhone端APP上线{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2014.11.28{/t}</span>{t}ECJia iPad端APP上线{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2014.10.23{/t}</span>{t}ECJia Android端APP上线{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2014.08.29{/t}</span>{t}ECJia 框架研发完毕{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2013.11.01{/t}</span>{t}ECJia开始研发{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2013.10.13{/t}</span>{t}商讨产品规划{/t}</li>
-						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>{t}2013.05.06{/t}</span>{t}产品提案{/t}</li>
+						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.07.25</span>ECJia推出到家门店APP</li>
+						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.07.20</span>ECJia推出到家门店小程序</li>
+						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.05.24</span>ECJia推出免费EC+配送员APP支持到家</li>
+						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.05.11</span>ECJia推出免费EC+掌柜APP支持到家</li>
+						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.05.04</span>ECJia推出到家PC端</li>
+						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.04.01</span>ECJia推出免费EC+店铺街APP支持到家</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.02.14</span>ECJia推出免费开源的O2O移动电商系统【ECJia到家】</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2016.12.30</span>ECJia推出到家H5版微信商城</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2016.11.11</span>ECJia推出到家商城系统支持商家入驻管理</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2016.07.15</span>ECJia推出原生开发手机APP到家系统</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2016.06.21</span>ECJia推出首款大屏电视应用，ECJiaTV</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2016.03.01</span>ECJia Web上线</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2016.02.06</span>ECJia 标准版更名为移动商城</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2016.02.05</span>ECJia 尊享版上线</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2016.01.08</span>ECJia 微店上线</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2015.11.27</span>推出ECJia 公众平台</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2015.11.20</span>推出ECJia收银台产品</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2015.09.18</span>推出ECJia Touch多商户产品</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2015.09.18</span>ECJia 多商户上线</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2015.08.26</span>ECJia 轻装版上线</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2015.07.22</span>ECJia 掌柜上线</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2015.07.17</span>ECJia Touch上线</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2015.05.31</span>适应 Apple Watch</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2015.03.15</span>ECJia 智能后台上线</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2015.01.13</span>EC+官网上线</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2015.01.08</span>ECJia iPhone端APP上线</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2014.11.28</span>ECJia iPad端APP上线</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2014.10.23</span>ECJia Android端APP上线</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2014.08.29</span>ECJia 框架研发完毕</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2013.11.01</span>ECJia开始研发</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2013.10.13</span>商讨产品规划</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2013.05.06</span>产品提案</li>
 					</ul>
 					<a href="index.php-uid=1&page=user_static.html#" data-items="5" class="item-list-show btn btn-mini">{t}再显示5条{/t}</a>
 				</li>

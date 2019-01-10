@@ -38,7 +38,7 @@
 				var href	= $this.attr('data-href') || $this.attr('href');
 				var id		= parseInt($this.attr('data-id')) || parseInt($this.attr('href'));
 				if (!href) {
-					smoke.alert(admin_plugin_lang.error_intasll);
+					ecjia.ui.alert(admin_plugin_lang.error_intasll);
 					return false;
 				}
 				$.get(href, id, function(data) {
@@ -55,7 +55,7 @@
 				var href	= $this.attr('data-href') || $this.attr('href');
 				var id		= parseInt($this.attr('data-id')) || parseInt($this.attr('href'));
 				if (!href) {
-					smoke.alert(admin_plugin_lang.error_unintasll);
+					ecjia.ui.alert(admin_plugin_lang.error_unintasll);
 					return false;
 				}
 				smoke.confirm(admin_plugin_lang.confirm_unintall,function(e) {
@@ -74,7 +74,7 @@
 				e.preventDefault();
 				smoke.confirm(admin_plugin_lang.delete_unintall,function(e) {
 					if (e) {
-						smoke.alert(admin_plugin_lang.no_delete);
+						ecjia.ui.alert(admin_plugin_lang.no_delete);
 					}
 				}, {ok:admin_plugin_lang.ok, cancel:admin_plugin_lang.cancel});
 			})
