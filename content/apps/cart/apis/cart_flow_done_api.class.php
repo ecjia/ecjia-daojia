@@ -164,9 +164,6 @@ class cart_flow_done_api extends Component_Event_Api {
 
 		/* 扩展信息 */
 		if (isset($flow_type) && intval($flow_type) != CART_GENERAL_GOODS) {
-			//$order['extension_code']	= $_SESSION['extension_code'];
-			//$order['extension_id']		= $_SESSION['extension_id'];
-			
 			if ($flow_type == '1') {
 				$order['extension_code'] = 'group_buy';
 				if (!empty($cart_goods)) {
@@ -242,9 +239,7 @@ class cart_flow_done_api extends Component_Event_Api {
 		}
 	
 		if (isset($is_real_good)) {
-// 			$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
 			$order['shipping_id'] = intval($order['shipping_id']);
-// 			$data = $shipping_method->shipping_info($order['shipping_id']);
 			if (!ecjia_shipping::isEnabled($order['shipping_id'])) {
 				return new ecjia_error('shipping_error', '请选择一个配送方式！');
 			}
@@ -269,7 +264,6 @@ class cart_flow_done_api extends Component_Event_Api {
 		/* 配送方式 */
 		$shipping_code = '';
 		if ($order['shipping_id'] > 0) {
-// 			$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
 			$shipping = ecjia_shipping::pluginData($order['shipping_id']);
 			$order['shipping_name'] = addslashes($shipping['shipping_name']);
 			$shipping_code = $shipping['shipping_code'];
@@ -279,11 +273,13 @@ class cart_flow_done_api extends Component_Event_Api {
 
 		$payment_method = RC_Loader::load_app_class('payment_method','payment');
 		/* 支付方式 */
+		$is_pay_cod = false;
 		if ($order['pay_id'] > 0) {
 			$payment = $payment_method->payment_info_by_id($order['pay_id']);
 			$order['pay_name'] = addslashes($payment['pay_name']);
 			//如果是货到付款，状态设置为已确认。
 			if($payment['pay_code'] == 'pay_cod') {
+				$is_pay_cod = true;
 				$order['order_status'] = 1;
 				$store_info = RC_DB::table('store_franchisee')->where('store_id', $store_group[0])->first();
 				/* 货到付款判断是否是自营*/
@@ -424,7 +420,6 @@ class cart_flow_done_api extends Component_Event_Api {
 
 		/* 修改拍卖活动状态 */
 		if ($order['extension_code'] == 'auction') {
-			//$db_goods_activity->where(array('act_id' => $order['extension_id']))->update(array('is_finished' => 2));
 			$db_goods_activity->where('act_id', $order['extension_id'])->update(array('is_finished' => 2));
 		}
 
@@ -604,7 +599,6 @@ class cart_flow_done_api extends Component_Event_Api {
 		$order['log_id'] = $payment_method->insert_pay_log($new_order_id, $order['order_amount'], PAY_ORDER);
 
 		$payment_info = $payment_method->payment_info_by_id($order['pay_id']);
-// 		RC_Logger::getLogger('info')->info(array('cart_flow_done_api-payment',$payment_info));
 
 		if (!empty($order['shipping_name'])) {
 			$order['shipping_name'] = trim(stripcslashes($order['shipping_name']));
@@ -652,22 +646,21 @@ class cart_flow_done_api extends Component_Event_Api {
 			OrderStatusLog::orderpaid_autoconfirm(array('order_id' => $new_order_id));
 		}
 		
-// 		if ($payment_info['is_cod']) {
-// 			RC_DB::table('order_status_log')->insert(array(
-// 				'order_status'	=> RC_Lang::get('cart::shopping_flow.merchant_process'),
-// 				'order_id'		=> $order['order_id'],
-// 				'message'		=> '订单已通知商家，等待商家处理',
-// 				'add_time'		=> RC_Time::gmtime(),
-// 			));
-// 		}
+		/* 货到付款，默认打印订单 */
+		if($is_pay_cod) {
+			try {
+				$res = with(new Ecjia\App\Orders\OrderPrint($order['order_id'], $order['store_id']))->doPrint(true);
+				if (is_ecjia_error($res)) {
+					RC_Logger::getLogger('error')->error($res->get_error_message());
+				}
+			} catch (PDOException $e) {
+				RC_Logger::getLogger('info')->error($e);
+			}
+		}
 		
 		/* 客户下单通知（默认通知店长）*/
-		/* 获取店长的记录*/
-// 		$devic_info = $staff_user = array();
 		$staff_user = RC_DB::table('staff_user')->where('store_id', $order['store_id'])->where('parent_id', 0)->first();
 		if (!empty($staff_user)) {
-// 			$devic_info = RC_Api::api('mobile', 'device_info', array('user_type' => 'merchant', 'user_id' => $staff_user['user_id']));
-
 		    /* 如果需要，发短信 */
 		    if (!empty($staff_user['mobile'])) {
 		        try {

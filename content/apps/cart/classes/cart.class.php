@@ -708,9 +708,9 @@ class cart {
 					$total['shipping_insure'] = 0;
 				}
 
-				if ($shipping_info['support_cod']) {
-					$shipping_cod_fee = $shipping_info['pay_fee'];
-				}
+// 				if ($shipping_info['support_cod']) {综合配送和支付计算
+// 					$shipping_cod_fee = $shipping_info['pay_fee'];
+// 				}
 			}
 		}
 
@@ -859,7 +859,7 @@ class cart {
 		$payment_method = RC_Loader::load_app_class('payment_method','payment');
 		$pay_fee = 0;
 		$payment = $payment_method->payment_info($payment_id);
-		$rate	= ($payment['is_cod'] && !is_null($cod_fee)) ? $cod_fee : $payment['pay_fee'];
+		$rate	= ($payment['is_cod'] && !empty($cod_fee)) ? $cod_fee : $payment['pay_fee'];
 
 		if (strpos($rate, '%') !== false) {
 			/* 支付费用是一个比例 */

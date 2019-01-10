@@ -371,8 +371,8 @@ class storepickup_flow_done_module extends api_front implements api_interface
         }
         
         $order['from_ad'] = ! empty($_SESSION['from_ad']) ? $_SESSION['from_ad'] : '0';
-//      TODO:订单来源
-        $order['referer'] = 'ecjia-storepickup';
+//      订单来源
+        $order['referer'] = ! empty($device['client']) ? $device['client'] : 'mobile';
         
         $parent_id = 0;
         $order['parent_id'] = $parent_id;

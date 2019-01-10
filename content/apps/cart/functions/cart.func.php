@@ -695,9 +695,9 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
     if ($num > 0) {
         /* 检查该商品是否已经存在在购物车中 */
     	if ($_SESSION['user_id']) {
-    		$row = $db_cart->field('rec_id, goods_number')->find('user_id = "' .$_SESSION['user_id']. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" ');
+    		$row = $db_cart->field('rec_id, goods_number')->find('user_id = "' .$_SESSION['user_id']. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec, 'no').'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" ');
     	} else {
-    		$row = $db_cart->field('rec_id, goods_number')->find('session_id = "' .SESS_ID. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" ');
+    	    $row = $db_cart->field('rec_id, goods_number')->find('session_id = "' .SESS_ID. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec, 'no').'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" ');
     	}
     	
     	/* 限购判断*/
@@ -738,9 +738,9 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
                 		'area_id'	   => $area_id,
                 );
                 if ($_SESSION['user_id']) {
-                	$db_cart->where('user_id = "' .$_SESSION['user_id']. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" ')->update($data);
+                	$db_cart->where('user_id = "' .$_SESSION['user_id']. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec, 'no').'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" ')->update($data);
                 } else {
-                	$db_cart->where('session_id = "' .SESS_ID. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" ')->update($data);
+                    $db_cart->where('session_id = "' .SESS_ID. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec, 'no').'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" ')->update($data);
                 }
             } else {
 				return new ecjia_error('low_stocks', __('库存不足'));

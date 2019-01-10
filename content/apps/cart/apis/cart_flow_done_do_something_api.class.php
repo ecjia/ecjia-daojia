@@ -206,6 +206,18 @@ class cart_flow_done_do_something_api extends Component_Event_Api {
 			OrderStatusLog::orderpaid_autoconfirm(array('order_id' => $new_order_id));
 		}
 		
+		/* 货到付款，默认打印订单 */
+		if($payment_info['pay_code'] == 'pay_cod') {
+		    try {
+		        $res = with(new Ecjia\App\Orders\OrderPrint($order['order_id'], $order['store_id']))->doPrint(true);
+		        if (is_ecjia_error($res)) {
+		            RC_Logger::getLogger('error')->error($res->get_error_message());
+		        }
+		    } catch (PDOException $e) {
+		        RC_Logger::getlogger('error')->error($e);
+		    }
+		}
+		
 		if($order['store_id']) {
 		    /* 如果需要，发短信 */
 		    $staff_user = RC_DB::table('staff_user')->where('store_id', $order['store_id'])->where('parent_id', 0)->first();
