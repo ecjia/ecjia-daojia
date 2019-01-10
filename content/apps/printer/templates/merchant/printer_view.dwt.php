@@ -41,7 +41,7 @@
 						</div>
 						
 						<div class="info_right">
-							<span class="name cursor_pointer merchant_printer" data-trigger="editable" data-url="{RC_Uri::url('printer/mh_print/edit_machine_name')}" data-name="edit_machine_name" data-pk="{$info.id}" data-title="请输入小票机名称">{$info.machine_name}</span>
+							<span class="name cursor_pointer merchant_printer" data-placement="bottom" data-trigger="editable" data-url="{RC_Uri::url('printer/mh_print/edit_machine_name')}" data-name="edit_machine_name" data-pk="{$info.id}" data-title="请输入小票机名称">{$info.machine_name}</span>
 							<div class="right-item">终端编号：{$info.machine_code}</div>
 							<div class="right-item">终端密钥：<span class="machine_key">{$info.machine_key_star}</span><span class="view_key" data-key="{$info.machine_key_star}" data-value="{$info.machine_key}"><i class="fontello-icon-eye"></i></span></div>
 							<div class="right-item">手机卡号：<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('printer/mh_print/edit_machine_mobile')}" data-name="edit_machine_mobile" data-pk="{$info.id}" data-title="请输入手机卡号" data-emptytext="暂无">{$info.machine_mobile}</span></div>
@@ -141,17 +141,17 @@
 					<div class="stats_content">
 						<div class="stats-item">
 							<div class="item-li"><img src="{$statics_url}images/week_print.png" /></div>
-							<div class="item-li count">{$count.week_count}</div>
+							<div class="item-li count">{if $count.week_count}{$count.week_count}{else}0{/if}</div>
 							<div class="item-li name">本周打印量</div>
 						</div>
 						<div class="stats-item">
 							<div class="item-li"><img src="{$statics_url}images/today_print.png" /></div>
-							<div class="item-li count">{$count.today_print_count}</div>
+							<div class="item-li count">{if $count.today_print_count}{$count.today_print_count}{else}0{/if}</div>
 							<div class="item-li name">今日打印量</div>
 						</div>
 						<div class="stats-item">
 							<div class="item-li"><img src="{$statics_url}images/unprint.png" /></div>
-							<div class="item-li count">{$count.today_unprint_count}</div>
+							<div class="item-li count">{if $count.today_unprint_count}{$count.today_unprint_count}{else}0{/if}</div>
 							<div class="item-li name">今日未打印量</div>
 						</div>
 					</div>
