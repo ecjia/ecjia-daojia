@@ -166,10 +166,10 @@ class admin extends ecjia_admin
         $this->assign('ur_here', '添加自营商家');
         $this->assign('action_link', array('href' => RC_Uri::url('store/admin/init'), 'text' => '自营店铺列表'));
 
-        $cat_list = $this->get_cat_select_list();
+        $cat_list  = $this->get_cat_select_list();
         $provinces = ecjia_region::getSubarea(ecjia::config('shop_country'));//获取当前国家的所有省份
         $this->assign('province', $provinces);
-        
+
         $this->assign('form_action', RC_Uri::url('store/admin/insert'));
         $this->assign('cat_list', $cat_list);
 
@@ -196,8 +196,8 @@ class admin extends ecjia_admin
             'province'       => !empty($_POST['province']) ? $_POST['province'] : '',
             'city'           => !empty($_POST['city']) ? $_POST['city'] : '',
             'district'       => !empty($_POST['district']) ? $_POST['district'] : '',
-        	'street'         => !empty($_POST['street']) ? $_POST['street'] : '',
-        	'longitude'      => !empty($_POST['longitude']) ? $_POST['longitude'] : '',
+            'street'         => !empty($_POST['street']) ? $_POST['street'] : '',
+            'longitude'      => !empty($_POST['longitude']) ? $_POST['longitude'] : '',
             'latitude'       => !empty($_POST['latitude']) ? $_POST['latitude'] : '',
             'manage_mode'    => 'self',
             'shop_close'     => isset($_POST['shop_close']) ? $_POST['shop_close'] : 1,
@@ -262,7 +262,7 @@ class admin extends ecjia_admin
         $store_id = RC_DB::table('store_franchisee')->insertGetId($data);
         if ($store_id) {
             //审核通过产生店铺中的code
-            $merchant_config = array(
+            $merchant_config  = array(
                 'shop_logo', // 默认店铺页头部LOGO
                 'shop_nav_background', // 店铺导航背景图
                 'shop_banner_pic', // app banner图
@@ -301,12 +301,12 @@ class admin extends ecjia_admin
                 'avatar'       => '',
                 'introduction' => '',
             );
-            $staff = RC_DB::table('staff_user')->insertGetId($data_staff);
+            $staff      = RC_DB::table('staff_user')->insertGetId($data_staff);
             if (!$staff) {
                 return $this->showmessage('店长账号添加失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             //短信发送通知
-            $options = array(
+            $options  = array(
                 'mobile' => $data['contact_mobile'],
                 'event'  => 'sms_self_merchant',
                 'value'  => array(
@@ -318,7 +318,7 @@ class admin extends ecjia_admin
             );
             $response = RC_Api::api('sms', 'send_event_sms', $options);
             if (is_ecjia_error($response)) {
-                RC_Logger::getlogger('error')->info('添加自营店铺：'.$response->get_error_message());
+                RC_Logger::getlogger('error')->info('添加自营店铺：' . $response->get_error_message());
             }
         } else {
             return $this->showmessage('操作失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -327,6 +327,7 @@ class admin extends ecjia_admin
         return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin/edit', array('store_id' => $store_id, 'step' => 'base'))));
 
     }
+
     /**
      * 编辑入驻商
      */
@@ -367,10 +368,10 @@ class admin extends ecjia_admin
         );
 
         $provinces = ecjia_region::getSubarea(ecjia::config('shop_country'));
-        $cities = ecjia_region::getSubarea($store['province']);
+        $cities    = ecjia_region::getSubarea($store['province']);
         $districts = ecjia_region::getSubarea($store['city']);
-        $streets = ecjia_region::getSubarea($store['district']);
-        
+        $streets   = ecjia_region::getSubarea($store['district']);
+
         $this->assign('province', $provinces);
         $this->assign('city', $cities);
         $this->assign('district', $districts);
@@ -418,8 +419,8 @@ class admin extends ecjia_admin
                 'province'       => !empty($_POST['province']) ? $_POST['province'] : '',
                 'city'           => !empty($_POST['city']) ? $_POST['city'] : '',
                 'district'       => !empty($_POST['district']) ? $_POST['district'] : '',
-            	'street'	     => !empty($_POST['street']) ? $_POST['street'] : '',
-            	'longitude'      => !empty($_POST['longitude']) ? $_POST['longitude'] : '',
+                'street'         => !empty($_POST['street']) ? $_POST['street'] : '',
+                'longitude'      => !empty($_POST['longitude']) ? $_POST['longitude'] : '',
                 'latitude'       => !empty($_POST['latitude']) ? $_POST['latitude'] : '',
                 'manage_mode'    => !empty($_POST['manage_mode']) ? $_POST['manage_mode'] : 'join',
                 'shop_close'     => isset($_POST['shop_close']) ? $_POST['shop_close'] : 1,
@@ -621,10 +622,10 @@ class admin extends ecjia_admin
         $store['confirm_time'] = RC_Time::local_date(ecjia::config('time_format'), $store['confirm_time']);
         $store['expired_time'] = RC_Time::local_date('Y-m-d', $store['expired_time']);
 
-        $store['province']  = ecjia_region::getRegionName($store['province']);
-        $store['city']      = ecjia_region::getRegionName($store['city']);
-        $store['district']  = ecjia_region::getRegionName($store['district']);
-        $store['street']    = ecjia_region::getRegionName($store['street']);
+        $store['province'] = ecjia_region::getRegionName($store['province']);
+        $store['city']     = ecjia_region::getRegionName($store['city']);
+        $store['district'] = ecjia_region::getRegionName($store['district']);
+        $store['street']   = ecjia_region::getRegionName($store['street']);
 
         $this->assign('ur_here', $store['merchants_name']);
         $store['cat_name'] = RC_DB::table('store_category')->where('cat_id', $store['cat_id'])->pluck('cat_name');
@@ -632,6 +633,8 @@ class admin extends ecjia_admin
             $store['percent_value'] = RC_DB::table('store_percent')->where('percent_id', $store['percent_id'])->pluck('percent_value');
         }
         $store['shop_review_goods'] = get_merchant_config($store_id, 'shop_review_goods');
+//        $store['franchisee_amount'] = ecjia_price_format($store['franchisee_amount']);
+
         $this->assign('store', $store);
 
         $this->display('store_preview.dwt');
@@ -649,15 +652,15 @@ class admin extends ecjia_admin
                 'store_id'    => $store_id,
                 'time'        => RC_Time::gmtime(),
             );
-            $authcode_str = http_build_query($authcode_array);
-            $authcode     = RC_Crypt::encrypt($authcode_str);
+            $authcode_str   = http_build_query($authcode_array);
+            $authcode       = RC_Crypt::encrypt($authcode_str);
 
             if (defined('RC_SITE')) {
                 $index = 'sites/' . RC_SITE . '/index.php';
             } else {
                 $index = 'index.php';
             }
-            $url          = str_replace($index, "sites/merchant/index.php", RC_Uri::url('staff/privilege/autologin')) . '&authcode=' . $authcode;
+            $url = str_replace($index, "sites/merchant/index.php", RC_Uri::url('staff/privilege/autologin')) . '&authcode=' . $authcode;
             return $this->redirect($url);
         }
     }
@@ -877,7 +880,7 @@ class admin extends ecjia_admin
      */
     private function get_cat_select_list()
     {
-        $data = RC_DB::table('store_category')
+        $data     = RC_DB::table('store_category')
             ->select('cat_id', 'cat_name')
             ->orderBy('cat_id', 'desc')
             ->get();
@@ -995,7 +998,7 @@ class admin extends ecjia_admin
 
     /**
      *  获取管理员操作记录
-     *  @param array $_GET , $_POST, $_REQUEST 参数
+     * @param array $_GET , $_POST, $_REQUEST 参数
      * @return array 'list', 'page', 'desc'
      */
     private function get_admin_logs($args = array(), $store_id)
@@ -1104,11 +1107,11 @@ class admin extends ecjia_admin
      */
     public function getgeohash()
     {
-        $shop_province = !empty($_REQUEST['province'])  ? trim($_REQUEST['province'])       : '';
-        $shop_city     = !empty($_REQUEST['city'])      ? trim($_REQUEST['city'])           : '';
-        $shop_district = !empty($_REQUEST['district'])  ? trim($_REQUEST['district'])       : '';
-        $shop_street   = !empty($_REQUEST['street'])    ? trim($_REQUEST['street'])         : '';
-        $shop_address  = !empty($_REQUEST['address'])   ? trim($_REQUEST['address'])        : '';
+        $shop_province = !empty($_REQUEST['province']) ? trim($_REQUEST['province']) : '';
+        $shop_city     = !empty($_REQUEST['city']) ? trim($_REQUEST['city']) : '';
+        $shop_district = !empty($_REQUEST['district']) ? trim($_REQUEST['district']) : '';
+        $shop_street   = !empty($_REQUEST['street']) ? trim($_REQUEST['street']) : '';
+        $shop_address  = !empty($_REQUEST['address']) ? trim($_REQUEST['address']) : '';
 
         if (empty($shop_province)) {
             return $this->showmessage('请选择省份', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('element' => 'province'));
@@ -1127,28 +1130,28 @@ class admin extends ecjia_admin
         if (empty($key)) {
             return $this->showmessage('腾讯地图key不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-        $province_name  = ecjia_region::getRegionName($shop_province);
-        $city_name      = ecjia_region::getRegionName($shop_city);
-        $district_name  = ecjia_region::getRegionName($shop_district);
-        $street_name    = ecjia_region::getRegionName($shop_street);
-        
+        $province_name = ecjia_region::getRegionName($shop_province);
+        $city_name     = ecjia_region::getRegionName($shop_city);
+        $district_name = ecjia_region::getRegionName($shop_district);
+        $street_name   = ecjia_region::getRegionName($shop_street);
+
         $address = '';
         if (!empty($province_name)) {
-        	$address .= $province_name;
+            $address .= $province_name;
         }
         if (!empty($city_name)) {
-        	$address .= $city_name;
+            $address .= $city_name;
         }
         if (!empty($district_name)) {
-        	$address .= $district_name;
+            $address .= $district_name;
         }
         if (!empty($street_name)) {
-        	$address .= $street_name;
+            $address .= $street_name;
         }
-        $address 	   .= $shop_address;
-        $address       = urlencode($address);
-        $shop_point    = RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?address=" . $address . "&key=" . $key);
-        $shop_point    = json_decode($shop_point['body'], true);
+        $address    .= $shop_address;
+        $address    = urlencode($address);
+        $shop_point = RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?address=" . $address . "&key=" . $key);
+        $shop_point = json_decode($shop_point['body'], true);
 
         if ($shop_point['status'] != 0) {
             return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, $shop_point);
@@ -1184,7 +1187,7 @@ class admin extends ecjia_admin
         $this->assign('url', $url);
         $this->display('store_progress.dwt');
     }
-    
+
 }
 
 //end

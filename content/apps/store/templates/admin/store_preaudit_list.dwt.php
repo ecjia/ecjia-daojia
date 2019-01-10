@@ -55,6 +55,8 @@
 				    <th class="w100">{lang key='store::store.person'}</th>
 				    <th class="w200">{lang key='store::store.companyname'}</th>
 				    <th class="w150">手机号</th>
+<!--                    <th class="w130">缴纳入驻金</th>-->
+<!--                    <th class="w130">支付方式</th>-->
 				    <th class="w150">{lang key='store::store.apply_time'}</th>
 			  	</tr>
 			</thead>
@@ -73,6 +75,8 @@
 					<td>{$list.responsible_person}</td>
 					<td>{$list.company_name}</td>
 					<td>{$list.contact_mobile}</td>
+<!--                    <td>{$list.franchisee_amount}</td>-->
+<!--                    <td>{$list.pay_name}</td>-->
 					<td>{$list.apply_time}</td>
 				</tr>
 				<!-- {foreachelse} -->

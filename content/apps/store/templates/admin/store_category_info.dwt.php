@@ -36,6 +36,13 @@
 						</select>
 					</div>
 				</div>
+<!--                <div class="control-group formSep">-->
+<!--                    <label class="control-label">缴纳入驻金：</label>-->
+<!--                    <div class="controls">-->
+<!--                        <input class="w350" type="text" name='franchisee_amount' value='{$cat_info.franchisee_amount}' /> 元-->
+<!--                        <span class="help-block">商家申请入驻时需缴纳金额数</span>-->
+<!--                    </div>-->
+<!--                </div>-->
 				<div class="control-group formSep">
 					<label class="control-label">排序：</label>
 					<div class="controls">

@@ -78,6 +78,16 @@
         							<td><div align="right"><strong>{lang key='store::store.email_lable'}</strong></div></td>
         							<td>{$store.email}</td>
         						</tr>
+<!--                                <tr>-->
+<!--                                    <td><div align="right"><strong>缴纳入驻金：</strong></div></td>-->
+<!--                                    <td>-->
+<!--                                        {$store.franchisee_amount}-->
+<!--                                    </td>-->
+<!--                                    <td><div align="right"><strong>支付方式：</strong></div></td>-->
+<!--                                    <td>-->
+<!--                                        {$store.pay_name}-->
+<!--                                    </td>-->
+<!--                                </tr>-->
         						<tr>
         							<td><div align="right"><strong>所在地区：</strong></div></td>
         							<td>{$store.province}&nbsp;{$store.city}&nbsp;{$store.district}&nbsp;{$store.street}</td>

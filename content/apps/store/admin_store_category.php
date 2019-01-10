@@ -119,6 +119,7 @@ class admin_store_category extends ecjia_admin {
 		
 		$cat['cat_name']     = !empty($_POST['cat_name'])     ? trim($_POST['cat_name'])        : '';
 		$cat['parent_id'] 	 = !empty($_POST['store_cat_id']) ? intval($_POST['store_cat_id'])  : 0;
+//        $cat['franchisee_amount'] = !empty($_POST['franchisee_amount']) ? floatval($_POST['franchisee_amount']) : 0; //入驻金
 		$cat['sort_order']   = !empty($_POST['sort_order'])   ? intval($_POST['sort_order'])    : 0;
 		$cat['is_show'] 	 = isset($_POST['is_show'])       ? 1                               : 0;
 		$cat['keywords']     = !empty($_POST['keywords'])     ? trim($_POST['keywords'])        : '';
@@ -191,6 +192,7 @@ class admin_store_category extends ecjia_admin {
 		$cat['is_show'] 	 = isset($_POST['is_show'])       ? 1                               : 0;
 		$cat['keywords']     = !empty($_POST['keywords'])     ? trim($_POST['keywords'])        : '';
 		$cat['cat_desc']     = !empty($_POST['cat_desc'])     ? $_POST['cat_desc']              : '';
+//        $cat['franchisee_amount'] = !empty($_POST['franchisee_amount']) ? floatval($_POST['franchisee_amount']) : 0; //入驻金
 		
 		$old_cat_name     	 = !empty($_POST['old_cat_name '])     ? trim($_POST['old_cat_name '])     : '';
 		
