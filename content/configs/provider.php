@@ -78,6 +78,7 @@ return array(
     'Ecjia\App\Api\ApiServiceProvider',
     'Ecjia\App\Article\ArticleServiceProvider',
     'Ecjia\App\Attach\AttachServiceProvider',
+    'Ecjia\App\Agent\AgentServiceProvider',
     'Ecjia\App\Bonus\BonusServiceProvider',
     'Ecjia\App\Captcha\CaptchaServiceProvider',
     'Ecjia\App\Cart\CartServiceProvider',

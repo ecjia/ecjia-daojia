@@ -42,6 +42,7 @@ return [
         $contentDir . '/apps/api/classes/ApiServiceProvider.php',
         $contentDir . '/apps/article/classes/ArticleServiceProvider.php',
         $contentDir . '/apps/attach/classes/AttachServiceProvider.php',
+        $contentDir . '/apps/agent/classes/AgentServiceProvider.php',
         $contentDir . '/apps/bonus/classes/BonusServiceProvider.php',
         $contentDir . '/apps/captcha/classes/CaptchaServiceProvider.php',
         $contentDir . '/apps/cart/classes/CartServiceProvider.php',

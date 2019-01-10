@@ -60,6 +60,8 @@ return array(
     'api'           => 'api',
     /* 文章 */
     'article'       => 'article',
+    /* 区域代理 */
+    'agent'         => 'agent',
     /* 红包 */
     'bonus'         => 'bonus',
     /* 验证码 */

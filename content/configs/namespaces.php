@@ -58,6 +58,7 @@ return array(
     'Ecjia\App\Api'             => $contentDir . '/apps/api/classes',
     'Ecjia\App\Article'         => $contentDir . '/apps/article/classes',
     'Ecjia\App\Attach'          => $contentDir . '/apps/attach/classes',
+    'Ecjia\App\Agent'           => $contentDir . '/apps/agent/classes',
     'Ecjia\App\Bonus'           => $contentDir . '/apps/bonus/classes',
     'Ecjia\App\Captcha'         => $contentDir . '/apps/captcha/classes',
     'Ecjia\App\Cart'            => $contentDir . '/apps/cart/classes',
