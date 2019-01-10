@@ -301,8 +301,31 @@ return array(
     'AlterOrderSnLengthToStoreBillDetailTable' => $contentDir . '/database/migrations/2018_11_13_145933_alter_order_sn_length_to_store_bill_detail_table.php',
     'AlterAppealSnLengthToCommentAppealTable' => $contentDir . '/database/migrations/2018_11_13_150010_alter_appeal_sn_length_to_comment_appeal_table.php',
     'AlterBillSnLengthToStoreBillTable' => $contentDir . '/database/migrations/2018_11_13_150046_alter_bill_sn_length_to_store_bill_table.php',
+    //1.24
+    'AddGoodsBuyWeightToOrderGoodsTable' => $contentDir . '/database/migrations/2018_11_26_140320_add_goods_buy_weight_to_order_goods_table.php',
+    'AddActionUserTypeToRefundPayrecordTable' => $contentDir . '/database/migrations/2018_12_06_111634_add_action_user_type_to_refund_payrecord_table.php',
+    'AddRefundTimeAndMoreToPaymentRecordTable' => $contentDir . '/database/migrations/2018_12_06_111904_add_refund_time_and_more_to_payment_record_table.php',
+    'AddIndexActivityUserIdToMarketActivityLotteryTable' => $contentDir . '/database/migrations/2018_12_06_112533_add_index_activity_user_id_to_market_activity_lottery_table.php',
+    'AddPayFeeAndMoreToUserAccountTable' => $contentDir . '/database/migrations/2018_12_06_113915_add_pay_fee_and_more_to_user_account_table.php',
+    'CreateTemplateOptionsTable' => $contentDir . '/database/migrations/2018_12_06_114238_create_template_options_table.php',
+    //1.25
+    'CreateSeparateOrderInfoTable' => $contentDir . '/database/migrations/2019_01_05_141235_create_separate_order_info_table.php',
+    'AddSeparateOrderSnToOrderInfoTable' => $contentDir . '/database/migrations/2019_01_05_151105_add_separate_order_sn_to_order_info_table.php',
+    'AddOrderSnToUserBonusTable' => $contentDir . '/database/migrations/2019_01_05_152535_add_order_sn_to_user_bonus_table.php',
+    'AddPayPasswordToUsersTable' => $contentDir . '/database/migrations/2019_01_05_153021_add_pay_password_to_users_table.php',
+    'AlterChannelPaymentListTypeToPaymentRecordTable' => $contentDir . '/database/migrations/2019_01_05_161425_alter_channel_payment_list_type_to_payment_record_table.php',
+    'CreatePaymentRefundTable' => $contentDir . '/database/migrations/2019_01_05_164234_create_payment_refund_table.php',
+    'CreateWithdrawUserBankTable' => $contentDir . '/database/migrations/2019_01_05_171105_create_withdraw_user_bank_table.php',
+    'AddBankNameToUserAccountTable' => $contentDir . '/database/migrations/2019_01_05_172524_add_bank_name_to_user_account_table.php',
+    'CreateWithdrawMethodTable' => $contentDir . '/database/migrations/2019_01_05_173100_create_withdraw_method_table.php',
+    'AddCatLevel1IdToGoodsTable' => $contentDir . '/database/migrations/2019_01_05_173914_add_cat_level1_id_to_goods_table.php',
+    'CreateWithdrawRecordTable' => $contentDir . '/database/migrations/2019_01_05_174508_create_withdraw_record_table.php',
+    //1.26
+    'CreateUcenterApplicationsTable' => $contentDir . '/database/migrations/2019_01_10_162151_create_ucenter_applications_table.php',
+    'CreateUcenterFailedloginsTable' => $contentDir . '/database/migrations/2019_01_10_162209_create_ucenter_failedlogins_table.php',
+    'CreateUcenterOpenidsTable' => $contentDir . '/database/migrations/2019_01_10_162228_create_ucenter_openids_table.php',
+    'CreateUcenterProtectedmembersTable' => $contentDir . '/database/migrations/2019_01_10_162245_create_ucenter_protectedmembers_table.php',
 
-    
     // seeder
     'DatabaseSeeder' => $contentDir . '/database/seeds/DatabaseSeeder.php',
     'InitDatabaseSeeder' => $contentDir . '/database/seeds/InitDatabaseSeeder.php',
