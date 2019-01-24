@@ -59,13 +59,17 @@ class admin_main_hooks {
 	    $app_url       = RC_Uri::home_url().'/sites/app/';
 	    $platform_url  = RC_Uri::home_url().'/sites/platform/';
 	    $merchant_url  = RC_Uri::home_url().'/sites/merchant/'; 
-	    $admin_url     = RC_Uri::home_url().'/sites/admincp/';
+		$admin_url     = RC_Uri::home_url().'/sites/admincp/';
+		$agent_url     = RC_Uri::home_url().'/sites/cityadmin/';
+        $member_url    = RC_Uri::home_url().'/sites/member/';
 	    
 	    $help_urls = array(
 	    	'ECJia到家首页'       => $index_url,
 	        'ECJia到家H5端'       => $h5_url,
 	        'ECJia到家平台后台'    => $admin_url,
-	        'ECJia到家商家后台'    => $merchant_url,
+			'ECJia到家商家后台'    => $merchant_url,
+			'ECJia到家代理商后台'	=> $agent_url,
+            'ECJia到家会员中心'    	=> $member_url,
 	        'ECJia到家API地址'    => $api_url,
 	        'ECJia到家APP下载地址' => $app_url,
 	        'ECJia到家公众平台地址' => $platform_url,
