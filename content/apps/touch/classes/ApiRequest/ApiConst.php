@@ -279,6 +279,7 @@ class ApiConst
 
     const CAPTCHA_IMAGE             = 'captcha/image';
     const AFFILIATE_USER_INVITE     = 'affiliate/user/invite';
+    const AFFILIATE_USER_INVITEE    = 'affiliate/user/invitee';
 
     const GROUPBUY_GOODS_LIST           = 'groupbuy/goods/list';
     const MERCHANT_GROUPBUY_GOODS_LIST  = 'merchant/groupbuy/goods/list';
@@ -292,6 +293,8 @@ class ApiConst
     //注销账号
     const USER_ACCOUNT_DELETE_APPLY   = 'user/account/delete/apply';//申请注销
     const USER_ACCOUNT_ACTIVATE_APPLY = 'user/account/activate/apply';//申请激活
+
+    const GOODS_LIST = 'goods/list';//商品列表
 }
 
 // end
