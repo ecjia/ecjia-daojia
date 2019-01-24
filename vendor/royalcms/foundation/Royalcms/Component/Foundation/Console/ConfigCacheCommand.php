@@ -98,7 +98,7 @@ class ConfigCacheCommand extends Command
     protected function getOptions()
     {
         return [
-            ['exclude', null, InputOption::VALUE_NONE, 'Exclude special configuration files to be compiled.'],
+            ['exclude', 'e', InputOption::VALUE_NONE, 'Exclude special configuration files to be compiled.'],
         ];
     }
 
