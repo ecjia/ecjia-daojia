@@ -58,6 +58,9 @@
                             <!-- {/if} -->
                             <input name="cfg_name[]" type="hidden" value="{$config.name}" />
                             <input name="cfg_type[]" type="hidden" value="{$config.type}" />
+                            {if $config.desc}
+    						<span class="help-block">{$config.desc}</span>
+    						{/if}
 						</div>
 					<!-- {/foreach} -->
 				</div>
