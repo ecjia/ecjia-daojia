@@ -71,7 +71,8 @@ class Fallback
      * @version 1.0.0
      *
      */
-    public static function delete_term_meta( $term_id, $meta_key, $meta_value = '', $delete_all = false ) {
+    public static function delete_term_meta( $term_id, $meta_key, $meta_value = '', $delete_all = false )
+    {
 
         if ( ! empty( $term_id ) || ! empty( $meta_key ) ) {
 

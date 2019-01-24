@@ -44,11 +44,91 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+/**
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/7/23
+ * Time: 11:56 AM
+ */
 
-class ecjia_theme_setting extends Ecjia\App\Theme\Facades\EcjiaThemeSetting
+namespace Ecjia\App\Theme\Components;
+
+
+use Ecjia\App\Theme\ComponentAbstract;
+
+class Toutiao extends ComponentAbstract
 {
-   
 
+    /**
+     * 代号标识
+     * @var string
+     */
+    protected $code = 'toutiao';
+
+    /**
+     * 名称
+     * @var string
+     */
+    protected $name = '首页头条';
+
+    /**
+     * 描述
+     * @var string
+     */
+    protected $description = '首页头条，最多支持10个。';
+
+    /**
+     * 缩略图
+     * @var string
+     */
+    protected $thumb = '/statics/images/thumb/module_toutiao.png'; //图片未添加
+
+
+    /**
+     * 预览显示使用的HTML
+     */
+    public function handlePriviewHtml()
+    {
+        $data = $this->queryData();
+
+        return <<<HTML
+
+
+HTML;
+    }
+
+
+    /**
+     * API使用的数据格式
+     */
+    public function handleData()
+    {
+        $data = $this->queryData();
+
+        return [
+            'module' => $this->code,
+            'title' => '',
+            'data'  => $data,
+        ];
+    }
+
+
+    protected function queryData()
+    {
+    	$request = royalcms('request');
+    	$db_toutiao = \RC_DB::table('merchant_news');
+    	$result = $db_toutiao->where('status', '1')->orderBy('send_time', 'desc')->take(10)->get();
+    	$mobile_toutiao_data = array();
+    	if (!empty($result)) {
+    		foreach ($result as $val) {
+    			$mobile_toutiao_data[] = array(
+    					'id'					=> $val['id'],
+    					'title'					=> $val['title'],
+    					'description'			=> $val['description'],
+    					'formatted_send_time'	=> \RC_Time::local_date('Y-m-d H:i:s', $val['send_time']),
+    			);
+    		}
+    	}
+        return $mobile_toutiao_data;
+    }
 }
-
-// end

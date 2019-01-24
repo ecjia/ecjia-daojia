@@ -18,7 +18,7 @@ class Radio extends Options
 
     protected $default_field = [
         'options' => [], //options of radios
-        'query_args' => [], //query args for wordpress core radios
+        'query_args' => [], //query args for ecjia core radios
         'default' => [], //default value of field
     ];
 

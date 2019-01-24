@@ -19,7 +19,7 @@ class ThemeOption
      */
     protected $repository;
 
-    protected $appcache = 'theme-option';
+    const APPCACHE_KEY = 'theme-option';
 
     public function __construct($repository = null)
     {
@@ -41,7 +41,7 @@ class ThemeOption
      */
     public function load_alloptions()
     {
-        $alloptions = ecjia_cache($this->appcache)->get( 'alloptions' );
+        $alloptions = ecjia_cache(self::APPCACHE_KEY)->get( 'alloptions' );
 
         if ( ! $alloptions ) {
             $alloptions_db = $this->repository->getAllOptions();
@@ -59,7 +59,7 @@ class ThemeOption
              * @param array $alloptions Array with all options.
              */
             $alloptions = RC_Hook::apply_filters( 'ecjia_theme_pre_cache_alloptions', $alloptions );
-            ecjia_cache($this->appcache)->add( 'alloptions', $alloptions );
+            ecjia_cache(self::APPCACHE_KEY)->add( 'alloptions', $alloptions );
         }
 
         /**
@@ -160,7 +160,7 @@ class ThemeOption
         $passed_default = func_num_args() > 1;
 
         // prevent non-existent options from triggering multiple queries
-        $notoptions = ecjia_cache($this->appcache)->get( 'notoptions');
+        $notoptions = ecjia_cache(self::APPCACHE_KEY)->get( 'notoptions');
         if ( isset( $notoptions[ $option ] ) ) {
             /**
              * Filters the default value for an option.
@@ -184,21 +184,21 @@ class ThemeOption
         if ( isset( $alloptions[$option] ) ) {
             $value = $alloptions[$option];
         } else {
-            $value = ecjia_cache($this->appcache)->get( $option );
+            $value = ecjia_cache(self::APPCACHE_KEY)->get( $option );
 
-            if ( false === $value ) {
+            if ( is_null($value) ) {
                 $row = $this->repository->getOption($option);
 
                 // Has to be get_row instead of get_var because of funkiness with 0, false, null values
                 if ( is_object( $row ) ) {
                     $value = $row->option_value;
-                    ecjia_cache('theme-options')->add( $option, $value, 'options' );
+                    ecjia_cache(self::APPCACHE_KEY)->add( $option, $value, 'options' );
                 } else { // option does not exist, so we must cache its non-existence
                     if ( ! is_array( $notoptions ) ) {
                         $notoptions = array();
                     }
                     $notoptions[$option] = true;
-                    ecjia_cache($this->appcache)->set( 'notoptions', $notoptions );
+                    ecjia_cache(self::APPCACHE_KEY)->set( 'notoptions', $notoptions );
 
                     /** This filter is documented in wp-includes/option.php */
                     return RC_Hook::apply_filters( "ecjia_theme_default_option_{$option}", $default, $option, $passed_default );
@@ -350,21 +350,23 @@ class ThemeOption
         RC_Hook::do_action( 'ecjia_theme_update_option', $option, $old_value, $value );
 
         $result = $this->repository->updateOption($option, $serialized_value);
-        if ( ! $result )
-            return false;
 
-        $notoptions = ecjia_cache($this->appcache)->get( 'notoptions' );
+        if ( ! $result ) {
+            return false;
+        }
+
+        $notoptions = ecjia_cache(self::APPCACHE_KEY)->get( 'notoptions' );
         if ( is_array( $notoptions ) && isset( $notoptions[$option] ) ) {
             unset( $notoptions[$option] );
-            ecjia_cache($this->appcache)->set( 'notoptions', $notoptions );
+            ecjia_cache(self::APPCACHE_KEY)->set( 'notoptions', $notoptions );
         }
 
         $alloptions = $this->load_alloptions();
         if ( isset( $alloptions[$option] ) ) {
             $alloptions[ $option ] = $serialized_value;
-            ecjia_cache($this->appcache)->set( 'alloptions', $alloptions );
+            ecjia_cache(self::APPCACHE_KEY)->set( 'alloptions', $alloptions );
         } else {
-            ecjia_cache($this->appcache)->set( $option, $serialized_value );
+            ecjia_cache(self::APPCACHE_KEY)->set( $option, $serialized_value );
         }
 
         /**
@@ -439,11 +441,15 @@ class ThemeOption
         $value = $this->sanitize_option( $option, $value );
 
         // Make sure the option doesn't already exist. We can check the 'notoptions' cache before we ask for a db query
-        $notoptions = ecjia_cache($this->appcache)->get( 'notoptions' );
+        $notoptions = ecjia_cache(self::APPCACHE_KEY)->get( 'notoptions' );
         if ( !is_array( $notoptions ) || !isset( $notoptions[$option] ) )
             /** This filter is documented in wp-includes/option.php */
+        {
             if ( RC_Hook::apply_filters( "ecjia_theme_default_option_{$option}", false, $option, false ) !== $this->get_option( $option ) )
+            {
                 return false;
+            }
+        }
 
         $serialized_value = RC_Format::maybe_serialize( $value );
 
@@ -465,13 +471,13 @@ class ThemeOption
 
         $alloptions = $this->load_alloptions();
         $alloptions[ $option ] = $serialized_value;
-        ecjia_cache($this->appcache)->set( 'alloptions', $alloptions );
+        ecjia_cache(self::APPCACHE_KEY)->set( 'alloptions', $alloptions );
 
         // This option exists now
-        $notoptions = ecjia_cache($this->appcache)->get( 'notoptions' ); // yes, again... we need it to be fresh
+        $notoptions = ecjia_cache(self::APPCACHE_KEY)->get( 'notoptions' ); // yes, again... we need it to be fresh
         if ( is_array( $notoptions ) && isset( $notoptions[$option] ) ) {
             unset( $notoptions[$option] );
-            ecjia_cache($this->appcache)->set( 'notoptions', $notoptions );
+            ecjia_cache(self::APPCACHE_KEY)->set( 'notoptions', $notoptions );
         }
 
         /**
@@ -538,7 +544,7 @@ class ThemeOption
         $alloptions = $this->load_alloptions();
         if ( is_array( $alloptions ) && isset( $alloptions[$option] ) ) {
             unset( $alloptions[$option] );
-            ecjia_cache($this->appcache)->set( 'alloptions', $alloptions );
+            ecjia_cache(self::APPCACHE_KEY)->set( 'alloptions', $alloptions );
         }
         if ( $result ) {
 

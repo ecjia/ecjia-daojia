@@ -17,7 +17,7 @@ class Validate
     public static function cs_validate_email( $value, $field )
     {
 
-        if ( ! sanitize_email( $value ) ) {
+        if ( ! \RC_Format::sanitize_email( $value ) ) {
             return __( 'Please write a valid email address!', 'cs-framework' );
         }
 

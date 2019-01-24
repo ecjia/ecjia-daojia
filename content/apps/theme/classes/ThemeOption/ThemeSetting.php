@@ -537,23 +537,23 @@ class ThemeSetting
         }
 
         // Check global in case errors have been added on this pageload.
-        if ( empty( $wp_settings_errors ) ) {
+        if ( empty( $this->settings_errors ) ) {
             return array();
         }
 
         // Filter the results to those of a specific setting if one was set.
         if ( $setting ) {
             $setting_errors = array();
-            foreach ( (array) $wp_settings_errors as $key => $details ) {
+            foreach ( (array) $this->settings_errors as $key => $details ) {
                 if ( $setting == $details['setting'] )
                 {
-                    $setting_errors[] = $wp_settings_errors[$key];
+                    $setting_errors[] = $this->settings_errors[$key];
                 }
             }
             return $setting_errors;
         }
 
-        return $wp_settings_errors;
+        return $this->settings_errors;
     }
 
     /**

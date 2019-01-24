@@ -3,6 +3,8 @@
 namespace Ecjia\App\Theme\ThemeFramework\Support;
 
 use RC_Hook;
+use RC_Kses;
+use RC_Format;
 
 class Sanitize
 {
@@ -16,7 +18,7 @@ class Sanitize
      */
     public static function cs_sanitize_text( $value, $field )
     {
-        return wp_filter_nohtml_kses( $value );
+        return RC_Kses::filter_nohtml_kses( $value );
     }
 
     /**
@@ -29,10 +31,7 @@ class Sanitize
      */
     public static function cs_sanitize_textarea( $value )
     {
-
-        global $allowedposttags;
-        return wp_kses( $value, $allowedposttags );
-
+        return RC_Kses::kses( $value, RC_Kses::$allowedposttags );
     }
 
     /**
@@ -71,10 +70,9 @@ class Sanitize
      */
     function cs_sanitize_image_select( $value )
     {
-
         if ( isset( $value ) && is_array( $value ) ) {
             if ( count( $value ) ) {
-                $value = $value;
+                //$value = $value;
             } else {
                 $value = $value[0];
             }
@@ -83,7 +81,6 @@ class Sanitize
         }
 
         return $value;
-
     }
 
     /**
@@ -110,7 +107,7 @@ class Sanitize
      */
     public static function cs_sanitize_title( $value )
     {
-        return sanitize_title( $value );
+        return RC_Format::sanitize_title( $value );
     }
 
     /**

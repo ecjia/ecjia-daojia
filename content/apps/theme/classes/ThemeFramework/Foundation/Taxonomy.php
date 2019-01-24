@@ -40,10 +40,15 @@ class Taxonomy extends ThemeFrameworkAbstract
      */
     private static $instance = null;
 
-    // instance
+    /**
+     * instance
+     * @param $framework \Ecjia\App\Theme\ThemeFramework\ThemeFramework
+     * @param array $options
+     * @return class|Taxonomy
+     */
     public static function instance( $framework, $options = array() )
     {
-        if ( is_null( self::$instance ) && CS_ACTIVE_TAXONOMY ) {
+        if ( is_null( self::$instance ) ) {
             self::$instance = new self( $framework, $options );
         }
         return self::$instance;
@@ -52,6 +57,8 @@ class Taxonomy extends ThemeFrameworkAbstract
     // run taxonomy construct
     public function __construct( $framework, $options )
     {
+        parent::__construct();
+
         $this->setFramework($framework);
 
         $this->options = RC_Hook::apply_filters( 'cs_taxonomy_options', $options );

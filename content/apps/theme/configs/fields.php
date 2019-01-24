@@ -23,6 +23,7 @@ return [
     'notice'            => Ecjia\App\Theme\ThemeFramework\Fields\Notice\Notice::class,
     'number'            => Ecjia\App\Theme\ThemeFramework\Fields\Number\Number::class,
     'radio'             => Ecjia\App\Theme\ThemeFramework\Fields\Radio\Radio::class,
+    'radio_image'       => Ecjia\App\Theme\ThemeFramework\Fields\Radio\RadioImage::class,
     'select'            => Ecjia\App\Theme\ThemeFramework\Fields\Select\Select::class,
     'sorter'            => Ecjia\App\Theme\ThemeFramework\Fields\Sorter\Sorter::class,
     'subheading'        => Ecjia\App\Theme\ThemeFramework\Fields\Subheading\Subheading::class,

@@ -26,6 +26,11 @@ abstract class ThemeFrameworkAbstract
      */
     protected $framework;
 
+    public function __construct()
+    {
+        $this->framework = new ThemeFramework();
+    }
+
     /**
      * @param $framework \Ecjia\App\Theme\ThemeFramework\ThemeFramework
      * @return $this

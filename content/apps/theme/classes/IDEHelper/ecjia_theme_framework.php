@@ -45,9 +45,17 @@
 //  ---------------------------------------------------------------------------------
 //
 
-class ecjia_theme_transient extends Ecjia\App\Theme\Facades\EcjiaThemeTransient
+/**
+ * Class ecjia_theme_framework
+ * @see \Ecjia\App\Theme\ThemeFramework\ThemeFramework
+ */
+class ecjia_theme_framework
 {
-   
+
+    public static function createAdminPanelInstance($settings = array(), $options = array()) {}
+
+
+
 
 }
 

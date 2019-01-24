@@ -10,12 +10,9 @@ namespace Ecjia\App\Theme\ThemeFramework;
 
 use Ecjia\App\Theme\ThemeFramework\Foundation\AdminPanel;
 use Ecjia\App\Theme\ThemeFramework\Foundation\Metabox;
-use Ecjia\App\Theme\ThemeFramework\Foundation\Options;
 use Ecjia\App\Theme\ThemeFramework\Foundation\ShortcodeManager;
 use Ecjia\App\Theme\ThemeFramework\Foundation\Taxonomy;
 use RC_Hook;
-use RC_Format;
-use RC_Theme;
 use ecjia_theme_option;
 
 class ThemeFramework
@@ -25,22 +22,31 @@ class ThemeFramework
 
     protected $option_field;
 
+    /**
+     * 当前主题应用根目录
+     * @var string
+     */
     protected $app_dir;
+
+    /**
+     * 当前主题应用的静态资源目录
+     * @var string
+     */
     protected $statics_dir;
+
+    /**
+     * 当前主题框架的根目录
+     * @var
+     */
+    protected $framework_dir;
 
     public function __construct()
     {
-        // active modules
-        defined( 'CS_ACTIVE_FRAMEWORK' )  or  define( 'CS_ACTIVE_FRAMEWORK',  true );
-        defined( 'CS_ACTIVE_METABOX'   )  or  define( 'CS_ACTIVE_METABOX',    true );
-        defined( 'CS_ACTIVE_TAXONOMY'   ) or  define( 'CS_ACTIVE_TAXONOMY',   true );
-        defined( 'CS_ACTIVE_SHORTCODE' )  or  define( 'CS_ACTIVE_SHORTCODE',  true );
-        defined( 'CS_ACTIVE_CUSTOMIZE' )  or  define( 'CS_ACTIVE_CUSTOMIZE',  true );
+        $this->framework_dir = __DIR__;
+        $this->app_dir = dirname(dirname($this->framework_dir));
+        $this->statics_dir = $this->app_dir . '/statics';
 
-        $this->app_dir = dirname(dirname(dirname(__FILE__)));
-        $this->statics_dir = dirname(dirname(dirname(__FILE__))) . '/statics';
-
-        $this->customize_options_key = '_cs_customize_options';
+        $this->customize_options_key = ThemeConstant::CS_CUSTOMIZE;
 
         $this->option_field = new OptionField($this);
 
@@ -51,11 +57,28 @@ class ThemeFramework
         return $this->option_field;
     }
 
+    /**
+     * 当前主题框架的根目录
+     * @return string
+     */
+    public function getFrameworkDir()
+    {
+        return $this->framework_dir;
+    }
+
+    /**
+     * 当前主题应用根目录
+     * @return string
+     */
     public function getAppDir()
     {
         return $this->app_dir;
     }
 
+    /**
+     * 当前主题应用的静态资源目录
+     * @return string
+     */
     public function getStaticsDir()
     {
         return $this->statics_dir;
@@ -64,101 +87,6 @@ class ThemeFramework
     public function getStaticsUrl()
     {
         return \RC_App::apps_url('', $this->statics_dir) . '/statics';
-    }
-
-    /**
-     *
-     * Framework path finder
-     *
-     * @since 1.0.0
-     * @version 1.0.0
-     *
-     */
-    public function get_path_locate()
-    {
-
-        $dirname        = RC_Format::normalize_path( dirname( __FILE__ ) );
-        $plugin_dir     = RC_Format::normalize_path( WP_PLUGIN_DIR );
-        $located_plugin = ( preg_match( '#'. $plugin_dir .'#', $dirname ) ) ? true : false;
-        $directory      = ( $located_plugin ) ? $plugin_dir : RC_Theme::get_template_directory();
-        $directory_uri  = ( $located_plugin ) ? WP_PLUGIN_URL : RC_Theme::get_template_directory_uri();
-        $basename       = str_replace( RC_Format::normalize_path( $directory ), '', $dirname );
-        $dir            = $directory . $basename;
-        $uri            = $directory_uri . $basename;
-
-        return RC_Hook::apply_filters( 'cs_get_path_locate', array(
-            'basename' => RC_Format::normalize_path( $basename ),
-            'dir'      => RC_Format::normalize_path( $dir ),
-            'uri'      => $uri
-        ) );
-
-    }
-
-
-    /**
-     *
-     * Framework locate template and override files
-     *
-     * @since 1.0.0
-     * @version 1.0.0
-     *
-     */
-    public function locate_template( $template_name )
-    {
-
-        $located      = '';
-        $override     = RC_Hook::apply_filters( 'cs_framework_override', 'framework-override' );
-        $dir_plugin   = WP_PLUGIN_DIR;
-        $dir_theme    = RC_Theme::get_template_directory();
-        $dir_child    = RC_Theme::get_stylesheet_directory();
-        $dir_override = '/'. $override .'/'. $template_name;
-        $dir_template = CS_BASENAME .'/'. $template_name;
-
-        // child theme override
-        $child_force_overide    = $dir_child . $dir_override;
-        $child_normal_override  = $dir_child . $dir_template;
-
-        // theme override paths
-        $theme_force_override   = $dir_theme . $dir_override;
-        $theme_normal_override  = $dir_theme . $dir_template;
-
-        // plugin override
-        $plugin_force_override  = $dir_plugin . $dir_override;
-        $plugin_normal_override = $dir_plugin . $dir_template;
-
-        if ( file_exists( $child_force_overide ) ) {
-
-            $located = $child_force_overide;
-
-        } else if ( file_exists( $child_normal_override ) ) {
-
-            $located = $child_normal_override;
-
-        } else if ( file_exists( $theme_force_override ) ) {
-
-            $located = $theme_force_override;
-
-        } else if ( file_exists( $theme_normal_override ) ) {
-
-            $located = $theme_normal_override;
-
-        } else if ( file_exists( $plugin_force_override ) ) {
-
-            $located =  $plugin_force_override;
-
-        } else if ( file_exists( $plugin_normal_override ) ) {
-
-            $located =  $plugin_normal_override;
-        }
-
-        $located = RC_Hook::apply_filters( 'cs_locate_template', $located, $template_name );
-
-        if ( ! empty( $located ) ) {
-            load_template( $located, true );
-        }
-
-        return $located;
-
     }
 
     /**
@@ -199,7 +127,6 @@ class ThemeFramework
     {
         return ecjia_theme_option::load_alloptions();
     }
-
 
     /**
      *
@@ -352,15 +279,18 @@ class ThemeFramework
 
     }
 
-    public function createAdminPanelInstance($options = array())
+    public function createAdminPanelInstance(array $settings = array(), array $options = array())
     {
-        $settings = config('app-theme::settings');
+        if (empty($settings)) {
+            $settings = config('app-theme::settings');
+        }
 
         if (empty($options)) {
             $options = config('app-theme::framework');
         }
 
-        $instance = AdminPanel::instance($this, $settings, $options);
+        $instance = AdminPanel::instance($settings, $options);
+        $instance->setFramework($this);
         return $instance;
     }
 
@@ -371,7 +301,8 @@ class ThemeFramework
             $options = config('app-theme::metabox');
         }
 
-        $instance = Metabox::instance($this, $options);
+        $instance = Metabox::instance($options);
+        $instance->setFramework($this);
         return $instance;
     }
 
@@ -381,7 +312,8 @@ class ThemeFramework
             $options = config('app-theme::shortcode');
         }
 
-        $instance = ShortcodeManager::instance($this, $options);
+        $instance = ShortcodeManager::instance($options);
+        $instance->setFramework($this);
         return $instance;
     }
 
@@ -392,7 +324,8 @@ class ThemeFramework
             $options = config('app-theme::taxonomy');
         }
 
-        $instance = Taxonomy::instance($this, $options);
+        $instance = Taxonomy::instance($options);
+        $instance->setFramework($this);
         return $instance;
     }
 

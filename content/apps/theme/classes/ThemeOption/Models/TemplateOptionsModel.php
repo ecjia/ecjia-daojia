@@ -65,7 +65,6 @@ class TemplateOptionsModel extends Model
         'option_value',
         'site',
         'template',
-        'group',
     ];
     
     /**

@@ -3,6 +3,7 @@
 namespace Ecjia\App\Theme\ThemeFramework\Support;
 
 use RC_Hook;
+use ecjia_theme_option;
 
 class Actions
 {
@@ -51,6 +52,23 @@ class Actions
 
     /**
      *
+     * Set icons for wp dialog
+     *
+     * @since 1.0.0
+     * @version 1.0.0
+     *
+     */
+    public static function cs_set_icons() {
+
+        echo '<div id="cs-icon-dialog" class="cs-dialog" title="'. __( 'Add Icon', 'cs-framework' ) .'">';
+        echo '<div class="cs-dialog-header cs-text-center"><input type="text" placeholder="'. __( 'Search a Icon...', 'cs-framework' ) .'" class="cs-icon-search" /></div>';
+        echo '<div class="cs-dialog-load"><div class="cs-icon-loading">'. __( 'Loading...', 'cs-framework' ) .'</div></div>';
+        echo '</div>';
+
+    }
+
+    /**
+     *
      * Export options
      *
      * @since 1.0.0
@@ -66,31 +84,15 @@ class Actions
         header('Pragma: no-cache');
         header('Expires: 0');
 
-        echo cs_encode_string( get_option( CS_OPTION ) );
+        echo Helpers::cs_encode_string( ecjia_theme_option::get_option( CS_OPTION ) );
 
         die();
     }
 
-    /**
-     *
-     * Set icons for wp dialog
-     *
-     * @since 1.0.0
-     * @version 1.0.0
-     *
-     */
-    public static function cs_set_icons() {
-
-        echo '<div id="cs-icon-dialog" class="cs-dialog" title="'. __( 'Add Icon', 'cs-framework' ) .'">';
-        echo '<div class="cs-dialog-header cs-text-center"><input type="text" placeholder="'. __( 'Search a Icon...', 'cs-framework' ) .'" class="cs-icon-search" /></div>';
-        echo '<div class="cs-dialog-load"><div class="cs-icon-loading">'. __( 'Loading...', 'cs-framework' ) .'</div></div>';
-        echo '</div>';
-
-    }
 }
 
-RC_Hook::add_action( 'wp_ajax_cs-get-icons', 'cs_get_icons' );
-RC_Hook::add_action( 'wp_ajax_cs-export-options', 'cs_export_options' );
+RC_Hook::add_action( 'ecjia_admin_ajax_cs-get-icons', 'cs_get_icons' );
+RC_Hook::add_action( 'ecjia_admin_ajax_cs-export-options', 'cs_export_options' );
 RC_Hook::add_action( 'admin_footer', 'cs_set_icons' );
 RC_Hook::add_action( 'customize_controls_print_footer_scripts', 'cs_set_icons' );
 

@@ -93,7 +93,7 @@ class TemplateOptionsRepository extends AbstractRepository
             'template'      => $this->template,
             'option_name'   => $this->template,
         ];
-        $option = $this->findWhere($where, ['option_name', 'option_value', 'group']);
+        $option = $this->findWhereByFirst($where, ['option_name', 'option_value']);
 
         return $option;
     }

@@ -49,20 +49,24 @@ class Customize extends ThemeFrameworkAbstract
      */
     private static $instance = null;
 
-    // instance
-    public static function instance( $framework, $options = array() )
+    /**
+     * instance
+     * @param array $options
+     * @return class|Customize
+     */
+    public static function instance( $options = array() )
     {
-        if ( is_null( self::$instance ) && CS_ACTIVE_CUSTOMIZE ) {
-            self::$instance = new self( $framework, $options );
+        if ( is_null( self::$instance ) ) {
+            self::$instance = new self( $options );
         }
         return self::$instance;
     }
 
 
     // run custom construct
-    public function __construct( $framework, $options )
+    public function __construct( $options )
     {
-        $this->setFramework($framework);
+        parent::__construct();
 
         $this->options = RC_Hook::apply_filters( 'cs_customize_options', $options );
 
