@@ -87,9 +87,6 @@ class cart {
 			
 			//查询：
 			$cart_w = array('rec_id' => $key, 'user_id' => $_SESSION['user_id']);
-// 			if (defined('SESS_ID')) {
-// 				$cart_w['session_id'] = SESS_ID;
-// 			}
 			$goods = $db_cart->field(array('goods_id', 'goods_attr_id', 'product_id', 'extension_code'))->find($cart_w);
 
 			$row   = $dbview->join('cart')->find(array('c.rec_id' => $key));
@@ -121,10 +118,6 @@ class cart {
 					'b.user_id' => $_SESSION['user_id'],
 			);
 
-// 			if (defined('SESS_ID')) {
-// 				$offer_w['session_id'] = SESS_ID;
-// 			}
-
 			$offers_accessories_res = $db_cart_view->join('cart')->where($offer_w)->select();
 
 
@@ -150,7 +143,6 @@ class cart {
 					/* 处理普通商品或非优惠的配件 */
 					$attr_id    = empty($goods['goods_attr_id']) ? array() : explode(',', $goods['goods_attr_id']);
 					
-					//$goods_price = self::get_final_price($goods['goods_id'], $val, true, $attr_id);
 					RC_Loader::load_app_class('goods_info', 'goods', false);
 					$goods_price = goods_info::get_final_price($goods['goods_id'], $val, true, $attr_id);
 
@@ -470,12 +462,6 @@ class cart {
 		if (!empty($cart_id)) {
 			$cart_where = array_merge($cart_where, array('rec_id' => $cart_id));
 		}
-
-// 		if (defined('SESS_ID')) {
-// 			$cart_where['c.session_id'] = SESS_ID;
-// 		}
-
-// 		$data = $db_view->join('goods')->where($cart_where)->sum('g.integral * c.goods_number');
 
 		$total_goods_integral_money = RC_Model::model('cart/cart_goods_viewmodel')->join('goods')->where($cart_where)->sum('g.integral * c.goods_number');
 		//购物车商品总价
@@ -1712,8 +1698,6 @@ class cart {
 	 * @return  bool			   true，成功；false，失败；
 	 */
 	public static function change_goods_storage($goods_id, $product_id, $number = 0) {
-		$db_goods		= RC_Model::model('goods/goods_model');
-		$db_products	= RC_Model::model('goods/products_model');
 		if ($number == 0) {
 			return true; // 值为0即不做、增减操作，返回true
 		}
@@ -1723,25 +1707,21 @@ class cart {
 		/* 处理货品库存 */
 		$products_query = true;
 		if (!empty($product_id)) {
-			/* by will.chen start*/
-			$product_number = $db_products->where(array('goods_id' => $goods_id, 'product_id' => $product_id))->get_field('product_number');
+			$product_number = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->pluck('product_number');
 			if ($product_number < abs($number)) {
 				return new ecjia_error('low_stocks', __('库存不足'));
 			}
-			/* end*/
-			$products_query = $db_products->inc('product_number', 'goods_id='.$goods_id.' and product_id='.$product_id, $number);
+			$products_query = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->increment('product_number', $number);
+		} else {
+			$goods_number = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_number');
+			if ($goods_number < abs($number) ) {
+				return new ecjia_error('low_stocks', __('库存不足'));
+			}
+			/* 处理商品库存 */
+			$query = RC_DB::table('goods')->where('goods_id',$goods_id)->increment('goods_number', $number);
 		}
 
-		/* by will.chen start*/
-		$goods_number = $db_goods->where(array('goods_id' => $goods_id))->get_field('goods_number');
-		if ($goods_number < abs($number) ) {
-			return new ecjia_error('low_stocks', __('库存不足'));
-		}
-		/* end*/
-		/* 处理商品库存 */
-		$query = $db_goods->inc('goods_number', 'goods_id='.$goods_id, $number);
-		
-		if ($query && $products_query) {
+		if ($query || $products_query) {
 			$goods_info  = RC_DB::table('goods')->where('goods_id', $goods_id)->select('goods_name', 'goods_number', 'warn_number', 'store_id')->first();
 			$mobile      = RC_DB::table('staff_user')->where('store_id', $goods_info['store_id'])->where('parent_id', 0)->pluck('mobile');
 			$store_name  = RC_DB::table('store_franchisee')->where('store_id', $goods_info['store_id'])->pluck('merchants_name');

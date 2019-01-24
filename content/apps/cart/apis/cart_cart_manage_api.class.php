@@ -136,10 +136,10 @@ class cart_cart_manage_api extends Component_Event_Api {
         }
 
         /* 如果商品有规格则取规格商品信息 配件除外 */
-        $prod = RC_DB::table('products')->where('goods_id', $goods_id)->first();
+        $prod = RC_DB::table('products')->where('goods_id', $goods_id)->count();
 
         //商品存在规格 是货品 检查该货品库存
-        if (goods_info::is_spec($spec) && !empty($prod)) {
+        if (goods_info::is_spec($spec) && $prod > 0) {
             $product_info = goods_info::get_products_info($goods_id, $spec);
             $is_spec = true;
         } else {

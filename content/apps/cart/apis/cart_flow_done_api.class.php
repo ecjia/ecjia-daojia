@@ -413,7 +413,7 @@ class cart_flow_done_api extends Component_Event_Api {
 			if (is_ecjia_error($result)) {
 				/* 库存不足删除已生成的订单（并发处理） will.chen*/
 				RC_DB::table('order_info')->where('order_id', $order['order_id'])->delete();
-				$db_order_goods->where('order_id', $order['order_id'])->delete();
+				RC_DB::table('order_goods')->where('order_id', $order['order_id'])->delete();
 				return $result;
 			}
 		}

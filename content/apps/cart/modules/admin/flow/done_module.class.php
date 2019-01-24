@@ -89,7 +89,7 @@ class admin_flow_done_module extends api_admin implements api_interface
 		
         /* 取得购物类型 */
         $flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
-        $codes = array('8001', '8011');
+        $codes = config('app-cashier::cashier_device_code');
         if (!empty($device) && in_array($device['code'], $codes)) {
         	$flow_type = CART_CASHDESK_GOODS;
         }
