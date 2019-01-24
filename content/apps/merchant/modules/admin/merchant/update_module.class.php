@@ -125,7 +125,6 @@ class admin_merchant_update_module extends api_admin implements api_interface {
 			    RC_DB::table('merchants_config')->where(RC_DB::raw('store_id'), $_SESSION['store_id'])->where(RC_DB::raw('code'), 'shop_notice')->update(array('value' => $seller_notice));
 			}
 			
-// 			ecjia_merchant::admin_log('店铺设置>基本信息设置【来源掌柜】', 'edit', 'config');
 			RC_Api::api('merchant', 'admin_log', array('text'=>'店铺设置>基本信息设置【来源掌柜】', 'action'=>'edit', 'object'=>'config'));
 	    	return true;
 	    	

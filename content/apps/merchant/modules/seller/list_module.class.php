@@ -136,6 +136,8 @@ class seller_list_module extends api_front implements api_interface {
 					$shop_trade_time =  RC_DB::table('merchants_config')->where('store_id', $row['id'])->where('code', 'shop_trade_time')->pluck('value');
 					$shop_close		 = RC_DB::table('store_franchisee')->where('store_id', $row['id'])->pluck('shop_close');
 					$shop_closed = get_shop_close($shop_close, $shop_trade_time);
+					//关注店铺人数
+					$follower = RC_DB::table('collect_store')->where('store_id', $row['id'])->count();
 					
 					$row['shop_closed'] = $shop_closed;
 					
@@ -266,7 +268,7 @@ class seller_list_module extends api_front implements api_interface {
 							'manage_mode'				=> $row['manage_mode'],
 							'seller_logo'				=> $row['shop_logo'],
 							'seller_notice'     		=> $row['seller_notice'],
-							'follower'					=> $row['follower'],
+							'follower'					=> $follower,
 							'shop_closed'				=> $row['shop_closed'],
 							'is_follower'				=> in_array($row['id'], $collect_store_id) ? 1 : 0,
 							'goods_count'       		=> !empty($goods_store_data['goods_list']) ? $goods_store_data['count'] : 0,
@@ -323,6 +325,9 @@ class seller_list_module extends api_front implements api_interface {
 					$shop_trade_time = RC_DB::table('merchants_config')->where('store_id', $row['id'])->where('code', 'shop_trade_time')->pluck('value');
 					$shop_close		 = RC_DB::table('store_franchisee')->where('store_id', $row['id'])->pluck('shop_close');
 					$shop_closed 	 = get_shop_close($shop_close, $shop_trade_time);
+					
+					//关注店铺人数
+					$follower = RC_DB::table('collect_store')->where('store_id', $row['id'])->count();
 					
 					$row['shop_closed'] = $shop_closed;
 					
@@ -445,7 +450,7 @@ class seller_list_module extends api_front implements api_interface {
 							'manage_mode'		=> $row['manage_mode'],
 							'seller_logo'		=> $row['shop_logo'],
 							'seller_notice'     => $row['seller_notice'],
-							'follower'			=> $row['follower'],
+							'follower'			=> $follower,
 							'shop_closed'		=> $row['shop_closed'],
 							'is_follower'		=> in_array($row['id'], $collect_store_id) ? 1 : 0,
 							'goods_count'       => $goods_store_data['count'],

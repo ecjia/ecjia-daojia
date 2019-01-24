@@ -630,7 +630,7 @@ class merchant extends ecjia_merchant
         $this->assign('ur_here', 'PC店铺首页模板');
         $this->assign('form_action', RC_Uri::url('merchant/merchant/store_template_update'));
 
-        $preview_url = RC_Uri::url('main/merchants_store/home', array('store_id' => $_SESSION['store_id']));
+        $preview_url = RC_Uri::url('main/merchants_store/home', array('merchant_id' => $_SESSION['store_id']));
         $preview_url = str_replace(RC_Uri::site_url(), RC_Uri::home_url(), $preview_url);
 
         $this->assign('action_link', array('href' => $preview_url, 'text' => '预览效果'));
