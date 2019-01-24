@@ -44,11 +44,13 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+
 namespace Ecjia\App\Mobile\Platform;
 
 use Ecjia\App\Mobile\ApplicationPlatform;
+use Ecjia\App\Mobile\MobileAction;
 
-class EcjiaCityo2oLocal extends ApplicationPlatform
+class EcjiaCashier extends ApplicationPlatform
 {
     
     
@@ -56,25 +58,25 @@ class EcjiaCityo2oLocal extends ApplicationPlatform
      * 代号标识
      * @var string
      */
-    protected $code = 'ecjia-cityo2o-local';
+    protected $code = 'ecjia-cashier';
     
     /**
      * 名称
      * @var string
      */
-    protected $name = 'ECJia到家Local';
+    protected $name = 'ECJia收银通';
     
     /**
      * 描述
      * @var string
      */
-    protected $description = 'ECJia到家是一款用于微信公众号上使用的微商城。';
+    protected $description = 'ECJia收银通App是一款多站点通用的商家收银客户端。';
     
     /**
      * 图标
      * @var string
      */
-    protected $icon = '/statics/images/H5.png';
+    protected $icon = '/statics/images/cashier.png';
     
     /**
      * 支持的客户端类型
@@ -82,10 +84,15 @@ class EcjiaCityo2oLocal extends ApplicationPlatform
      */
     protected $clients = [
         [
-        	'device_client' => 'local',
-            'device_name' => 'Local',
-            'device_code' => '6009',
+        	'device_client' => 'iphone',
+            'device_name' => 'iPhone',
+            'device_code' => '8032',
         ],
+        [
+            'device_client' => 'android',
+            'device_name' => 'Android',
+            'device_code' => '8031',
+        ]
     ];
         
     /**
@@ -94,11 +101,18 @@ class EcjiaCityo2oLocal extends ApplicationPlatform
      */
     protected $payments = [
         'pay_balance',
-        'pay_cod',
-        'pay_alipay',
-        'pay_wxpay',
+        'pay_cash',
+        'pay_shouqianba',
     ];
     
+    
+    /**
+     * 支持的opentype类型
+     * @var array
+     */
+    protected $opentypes = [
+        MobileAction::MAIN,
+    ];
     
     
 }

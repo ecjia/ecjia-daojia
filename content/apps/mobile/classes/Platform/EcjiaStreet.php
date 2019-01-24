@@ -64,13 +64,13 @@ class EcjiaStreet extends ApplicationPlatform
      * 名称
      * @var string
      */
-    protected $name = 'ECJia店铺街';
+    protected $name = 'ECJia云店';
     
     /**
      * 描述
      * @var string
      */
-    protected $description = 'ECJia店铺街App是一款多站点通用的消费者购物客户端。';
+    protected $description = 'ECJia云店App是一款多站点通用的消费者购物客户端。';
     
     /**
      * 图标
