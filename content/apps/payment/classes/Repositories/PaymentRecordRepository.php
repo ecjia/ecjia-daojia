@@ -146,13 +146,13 @@ class PaymentRecordRepository extends AbstractRepository
     
     
     /**
-     * 获取上次未支付的pay_log_id
-     * @param number $orderSn   余额记录的ID
-     * @return int
+     * 获取交易流水记录
+     * @param string $orderSn 订单号
+     * @return \Royalcms\Component\Database\Eloquent\Collection
      */
-    public function getUnPaidRecordId($orderSn)
+    public function getPaymentRecordByOrderSn($orderSn)
     {
-        
+        return $this->findBy('order_sn', $orderSn);
     }
     
     /**
