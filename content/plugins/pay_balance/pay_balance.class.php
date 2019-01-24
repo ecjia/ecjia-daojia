@@ -50,9 +50,11 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 use Ecjia\App\Payment\PaymentAbstract;
+use Ecjia\App\Payment\Contracts\CancelPayment;
+use Ecjia\App\Payment\Contracts\RefundPayment;
 use Ecjia\App\Payment\Contracts\PayPayment;
 
-class pay_balance extends PaymentAbstract implements PayPayment
+class pay_balance extends PaymentAbstract implements CancelPayment, RefundPayment, PayPayment
 {
 
 	
@@ -244,6 +246,18 @@ class pay_balance extends PaymentAbstract implements PayPayment
     }
     
     /**
+     * 确认撤销
+     *
+     * @param string $order_trade_no 交易号
+     * @return array | ecjia_error
+     */
+    public function cancel($order_trade_no)
+    {
+    	
+    }
+    
+    
+    /**
      * 确认退款
      * @param string $order_trade_no 订单交易号
      * @param float $refund_amount 退款金额
@@ -276,23 +290,27 @@ class pay_balance extends PaymentAbstract implements PayPayment
     		//账户余额变动记录
     		$options = array(
     				'user_id'		=> $refund_order['user_id'],
-    				'user_money'	=> $refund_order['back_money_total'],
+    				'user_money'	=> $refund_payrecord['back_money_total'],
     				'change_desc'	=> '由于订单'.$refund_order['order_sn'].'退款，退还下单使用的'.$integral_name.'，退款金额退回余额',
     				'change_type'	=> ACT_SAVING,
     				'from_type'		=> 'refund_back_integral',
     				'from_value'	=> $refund_order['order_sn']
     		);
-    		//TODO 暂时不启用
-    		//RC_Api::api('finance', 'account_balance_change', $options);
     		
-    		/*账户积分变动记录*/ //TODO 迁移至外面处理
-    		//$bak_integral = RC_Api::api('finance', 'refund_back_pay_points', array('refund_id' => $refund_order['refund_id']));
-    		//if (is_ecjia_error($bak_integral)) {
-    		//	return $bak_integral;
-    		//}
+    		RC_Api::api('finance', 'account_balance_change', $options);
     		
-    		//TODO打款表，退款申请单，订单状态，退款申请状态等的更新，退款短信及消息通知
-    		
+    		/* 消费订单退款成功后续处理	
+    		 * 1、更新用户积分
+    		 * 2、更新售后订单表
+    		 * 3、售后订单状态变动日志表
+    		 * 4、更新订单操作表
+    		 * 5、普通订单状态变动日志表
+    		 * 6、记录到结算表
+    		 * 7、更新商家会员
+    		 * 8、短信告知用户退款退货成功
+    		 * 9、消息通知 
+    		 */
+    		(new \Ecjia\App\Refund\RefundProcess\BuyOrderRefundProcess(null, $refund_order['refund_sn']))->run();
     		
     		//处理成功返回
     		$refund_result = array(
@@ -305,6 +323,14 @@ class pay_balance extends PaymentAbstract implements PayPayment
     	}
     }
     
+    /**
+     * 退款流水对账查询
+     * @param string $order_trade_no 交易号
+     */
+    public function refundQuery($order_trade_no)
+    {
+    	return new ecjia_error('refund_query_not_support', '余额支付不支持退款查询对账功能');
+    }
 }
 
 // end
