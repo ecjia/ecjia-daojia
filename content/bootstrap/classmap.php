@@ -325,6 +325,9 @@ return array(
     'CreateUcenterFailedloginsTable' => $contentDir . '/database/migrations/2019_01_10_162209_create_ucenter_failedlogins_table.php',
     'CreateUcenterOpenidsTable' => $contentDir . '/database/migrations/2019_01_10_162228_create_ucenter_openids_table.php',
     'CreateUcenterProtectedmembersTable' => $contentDir . '/database/migrations/2019_01_10_162245_create_ucenter_protectedmembers_table.php',
+    //1.27
+    'CreateAgentUserTable' => $contentDir . '/database/migrations/2019_01_23_152223_create_agent_user_table.php',
+    'AddConnectPlatformAndUnionIdToConnectUserTable' => $contentDir . '/database/migrations/2019_01_23_152712_add_connect_platform_and_union_id_to_connect_user_table.php',
 
     // seeder
     'DatabaseSeeder' => $contentDir . '/database/seeds/DatabaseSeeder.php',
