@@ -408,3 +408,11 @@ textarea.form-control.test_textarea {
 .switch.info-toggle-status .onoffswitch-inner:after, .switch.info-toggle-auto-print .onoffswitch-inner:after {
     content: "关闭";
 }
+.ticket-item .amount{
+	display:inline-block;
+	margin-right:50px;
+}
+.ticket-item .pay-points{
+	display:inline-block;
+	margin-right:70px;
+}

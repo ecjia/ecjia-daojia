@@ -38,6 +38,10 @@
 								<!-- #BeginLibraryItem "/library/print_store_orders.lbi" --><!-- #EndLibraryItem -->
 							<!-- {else if $smarty.get.type eq 'print_quickpay_orders'} -->
 								<!-- #BeginLibraryItem "/library/print_quickpay_orders.lbi" --><!-- #EndLibraryItem -->
+							<!-- {else if $smarty.get.type eq 'print_refund_orders'} -->
+								<!-- #BeginLibraryItem "/library/print_refund_orders.lbi" --><!-- #EndLibraryItem -->
+							<!-- {else if $smarty.get.type eq 'print_surplus_orders'} -->
+								<!-- #BeginLibraryItem "/library/print_surplus_orders.lbi" --><!-- #EndLibraryItem -->
 							<!-- {/if} -->
 						</div>
 						<div class="col-lg-6">

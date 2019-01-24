@@ -9,7 +9,9 @@
 	<div class="ticket_content no_dashed">
 		<div class="ticket-item">订单编号：{$data.order_sn}</div>
 		<div class="ticket-item">流水编号：{$data.order_trade_no}</div>
-		<div class="ticket-item">会员账号：{$data.user_account}</div>
+		{if $data.user_account}
+			<div class="ticket-item">会员账号：{$data.user_account}</div>
+		{/if}
 		<div class="ticket-item">买单时间：{$data.purchase_time}</div>
 		<div class="ticket-item">商家地址：{$data.merchant_address}</div>
 	</div>

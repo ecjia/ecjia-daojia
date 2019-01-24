@@ -44,29 +44,105 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 后台菜单API
- * @author royalwang
- */
-class printer_merchant_printer_menu_api extends Component_Event_Api {
-	
-	public function call(&$options) {	
-	    $menus = array(
-	        ecjia_admin::make_admin_menu('nav-header', '小票打印', '', 0)->add_purview(array('mh_printer_manage')),
-	    	ecjia_admin::make_admin_menu('merchant_printer', '小票机', RC_Uri::url('printer/mh_print/init'), 1)->add_purview('mh_printer_manage'),
-	    	ecjia_admin::make_admin_menu('merchant_printer_record', '打印记录', RC_Uri::url('printer/mh_print/record_list'), 2)->add_purview('mh_printer_recored'),
-	        ecjia_admin::make_admin_menu('nav-header', '小票模板', '', 10)->add_purview(array('mh_printer_template')),
-	        ecjia_admin::make_admin_menu('print_buy_orders', '普通订单小票', RC_Uri::url('printer/mh_print/order_ticket', ['type' => 'print_buy_orders']), 11)->add_purview('mh_printer_template'),
-	        ecjia_admin::make_admin_menu('print_takeaway_orders', '外卖订单小票', RC_Uri::url('printer/mh_print/order_ticket', ['type' => 'print_takeaway_orders']), 12)->add_purview('mh_printer_template'),
-	        ecjia_admin::make_admin_menu('print_store_orders', '到店购物小票', RC_Uri::url('printer/mh_print/order_ticket', ['type' => 'print_store_orders']), 13)->add_purview('mh_printer_template'),
-	        ecjia_admin::make_admin_menu('print_quickpay_orders', '优惠买单小票', RC_Uri::url('printer/mh_print/order_ticket', ['type' => 'print_quickpay_orders']), 14)->add_purview('mh_printer_template'),
-	    	ecjia_admin::make_admin_menu('print_refund_orders', '退款订单小票', RC_Uri::url('printer/mh_print/order_ticket', ['type' => 'print_refund_orders']), 15)->add_purview('mh_printer_template'),
-	    	ecjia_admin::make_admin_menu('print_surplus_orders', '会员充值小票', RC_Uri::url('printer/mh_print/order_ticket', ['type' => 'print_surplus_orders']), 16)->add_purview('mh_printer_template'),
-	    );
-        return $menus;
-	}
+namespace Ecjia\App\Printer\Events;
+
+use Ecjia\App\Printer\EventAbstract;
+
+class PrintRefundOrders extends EventAbstract
+{
+
+    protected $code = 'print_refund_orders';
+
+    protected $name = '订单退款小票';
+
+    protected $description = '买家确认收货时及时通知商家';
+
+    protected $template = '';
+
+    protected $availableValues = [
+        'merchant_name'         => '商家名称',
+        'merchant_mobile'       => '商家电话',
+        'ticket_type'			=> '小票类型',
+        
+    	'order_sn' 	        	=> '订单编号',
+    	'refund_sn'    			=> '退单号',
+    	'trade_type'    		=> '交易类型',
+    	'refund_time'	        => '日期时间',
+    	'cashier'	        	=> '收银员',
+    	
+    	'bonus'					=> '红包抵扣',
+    	'integral_money'		=> '积分抵扣',
+    	'discount_amount'       => '优惠金额',
+    	'receivables'           => '应收金额',
+    	'order_amount'          => '实收金额',
+    	'refund_amount'	        => '退款金额',
+    	
+    	'payment'			    => '支付渠道',
+    	'trade_no'				=> '支付流水号',
+        
+    	'address'				=> '地址',
+    	'tel'					=> '电话',
+        'qrcode'                => '二维码'
+    ];
+    
+    /**
+     * 打印测试数据
+     * @var array
+     */
+    protected $demoValues = [
+    	'ticket_type'			=> '退款小票',						//小票类型
+    	
+    	
+	    'order_sn' 	       => '2017101294860', 					//订单编号
+	    'refund_sn'   	   => '201712187341413756', 			//退单号
+	    
+	    'trade_type'	   => '撤销消费',							//交易类型
+	    'refund_time'	   => '2019-01-11 10:00:00',			//日期时间（退款时间）
+	    'cashier'	   	   => '1号收银员',							//收银员
+	   
+	    'bonus'   			=> '￥0.00',  						//红包抵扣
+	    'integral_money'   	=> '￥0.00',  						//积分抵扣
+	    'discount_amount'   => '￥5.00',  						//优惠金额
+	    'receivables'       => '￥49.00', 							//应收金额
+	    'order_amount'     	=> '￥44.00', 							//实收金额
+	    'refund_amount'     => '￥44.00', 							//退款金额
+
+	    
+	    'payment'        	=> '收钱吧扫码支付', 					//支付渠道（支付方式名称，支付宝）
+	    'trade_no'			=> '4200000016201710188758815709',	//支付流水号
+	    
+	    
+        'qrcode'            => '2017101294860',					//二维码
+    ];
+    
+    
+    public function getTemplate()
+    {
+        if (empty($this->template)) {
+            $this->template = '${print_number}<FS><center>${merchant_name}</center></FS>
+<FS><center>${merchant_mobile}</center></FS>
+<FS><center>${ticket_type}</center></FS>
+订单编号：${order_sn}
+ 退单号：${refund_sn}
+交易类型：${trade_type}
+退款时间：${refund_time}
+收银员：${cashier_name}
+--------------------------------
+优惠金额：-${discount_amount}   
+应收金额：${receivables}
+实收金额：${order_amount}       
+退款金额：${refund_amount}
+--------------------------------
+支付渠道：${payment}
+支付流水号：${trade_no}
+--------------------------------            		            		
+<FS><center>地址：${address}</center></FS>
+<FS><center>电话：${contact_mobile}</center></FS>                           		
+<QR>${qrcode}</QR>
+${tail_content}';
+        }
+        return $this->template;
+    }
+    
 }
-
-// end

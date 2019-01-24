@@ -436,7 +436,7 @@ class mh_print extends ecjia_merchant
         $this->assign('ur_here', '小票打印设置');
 
         $type = trim($_GET['type']);
-        $array = array('print_buy_orders', 'print_takeaway_orders', 'print_store_orders', 'print_quickpay_orders');
+        $array = array('print_buy_orders', 'print_takeaway_orders', 'print_store_orders', 'print_quickpay_orders', 'print_refund_orders', 'print_surplus_orders');
         if (!in_array($type, $array)) {
             return $this->showmessage('该小票类型不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('printer/mh_print/order_ticket', array('type' => 'normal'))));
         }
@@ -449,6 +449,10 @@ class mh_print extends ecjia_merchant
             $template_subject = '到店购物小票';
         } elseif ($type == 'print_quickpay_orders') {
             $template_subject = '优惠买单小票';
+        } elseif ($type == 'print_refund_orders') {
+            $template_subject = '订单退款小票';
+        } elseif ($type == 'print_surplus_orders') {
+            $template_subject = '会员充值小票';
         }
         $this->assign('template_subject', $template_subject);
         $this->assign('type', $type);

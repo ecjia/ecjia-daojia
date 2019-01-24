@@ -44,29 +44,100 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 后台菜单API
- * @author royalwang
- */
-class printer_merchant_printer_menu_api extends Component_Event_Api {
-	
-	public function call(&$options) {	
-	    $menus = array(
-	        ecjia_admin::make_admin_menu('nav-header', '小票打印', '', 0)->add_purview(array('mh_printer_manage')),
-	    	ecjia_admin::make_admin_menu('merchant_printer', '小票机', RC_Uri::url('printer/mh_print/init'), 1)->add_purview('mh_printer_manage'),
-	    	ecjia_admin::make_admin_menu('merchant_printer_record', '打印记录', RC_Uri::url('printer/mh_print/record_list'), 2)->add_purview('mh_printer_recored'),
-	        ecjia_admin::make_admin_menu('nav-header', '小票模板', '', 10)->add_purview(array('mh_printer_template')),
-	        ecjia_admin::make_admin_menu('print_buy_orders', '普通订单小票', RC_Uri::url('printer/mh_print/order_ticket', ['type' => 'print_buy_orders']), 11)->add_purview('mh_printer_template'),
-	        ecjia_admin::make_admin_menu('print_takeaway_orders', '外卖订单小票', RC_Uri::url('printer/mh_print/order_ticket', ['type' => 'print_takeaway_orders']), 12)->add_purview('mh_printer_template'),
-	        ecjia_admin::make_admin_menu('print_store_orders', '到店购物小票', RC_Uri::url('printer/mh_print/order_ticket', ['type' => 'print_store_orders']), 13)->add_purview('mh_printer_template'),
-	        ecjia_admin::make_admin_menu('print_quickpay_orders', '优惠买单小票', RC_Uri::url('printer/mh_print/order_ticket', ['type' => 'print_quickpay_orders']), 14)->add_purview('mh_printer_template'),
-	    	ecjia_admin::make_admin_menu('print_refund_orders', '退款订单小票', RC_Uri::url('printer/mh_print/order_ticket', ['type' => 'print_refund_orders']), 15)->add_purview('mh_printer_template'),
-	    	ecjia_admin::make_admin_menu('print_surplus_orders', '会员充值小票', RC_Uri::url('printer/mh_print/order_ticket', ['type' => 'print_surplus_orders']), 16)->add_purview('mh_printer_template'),
-	    );
-        return $menus;
-	}
+namespace Ecjia\App\Printer\Events;
+
+use Ecjia\App\Printer\EventAbstract;
+
+class PrintSurplusOrders extends EventAbstract
+{
+
+    protected $code = 'print_surplus_orders';
+
+    protected $name = '会员充值小票';
+
+    protected $description = '买家确认收货时及时通知商家';
+
+    protected $template = '';
+
+    protected $availableValues = [
+        'merchant_name'         => '商家名称',
+        'merchant_mobile'       => '商家电话',
+        'ticket_type'			=> '小票类型',
+        
+    	'order_sn' 	        	=> '订单编号',
+    	'order_trade_no'    	=> '交易号', 
+    	'trade_type'			=> '交易类型',
+    	'recharge_time'			=> '日期和时间',
+    	
+    	'discount_amount'	    => '优惠金额',
+    	'order_amount'	    	=> '实收金额',
+    	'user_pay_points'	    => '账户积分',
+    	'user_money'	    	=> '账户余额',
+    	
+    	'user_name'           	=> '会员账号',
+    	'payment'			    => '支付渠道',
+    	'pay_account'			=> '支付账号',
+    	'trade_no'			    => '支付流水号',
+        
+        'qrcode'                => '二维码'
+    ];
+    
+    /**
+     * 打印测试数据
+     * @var array
+     */
+    protected $demoValues = [
+    	'ticket_type' 	   => '充值小票', 						//订单编号
+    
+	    'order_sn' 	       => '2017101294860', 				//订单编号
+	    'order_trade_no'   => '201712187341413756', 		//交易号（支付订单号）
+	    'trade_type'	   => '会员充值',						//交易类型
+	    'recharge_time'	   => '2019-01-11 10:00:00',		//日期和时间
+	    
+	    
+	    'discount_amount'  => '￥0.00',						//优惠金额
+	    'order_amount'     => '￥44.00', 						//充值金额
+	    'user_pay_points'  => '530', 						//账户积分
+	    'user_money'  	   => '￥310.00', 						//账户余额
+	    
+	    
+	    'user_name'		   => '李四',							//会员账号
+	    'payment'          => '支付宝', 						//支付渠道
+	    'pay_account'      => '134*****325', 				//支付账号（对应payment_record表payer_login字段）
+	    'trade_no'     	   => '7895254464741876', 			//支付流水号
+	    
+        'qrcode'           => '2017101294860',
+    ];
+    
+    
+    public function getTemplate()
+    {
+        if (empty($this->template)) {
+            $this->template = '${print_number}<FS><center>${merchant_name}</center></FS>
+<FS><center>${merchant_mobile}</center></FS>
+<FS><center>${ticket_type}</center></FS>           		
+订单编号：${order_sn}
+交易号：${order_trade_no}
+交易类型：${trade_type}
+日期和时间：${recharge_time}
+--------------------------------
+优惠金额：${discount_amount}   
+实收金额：${order_amount}
+账户积分：${user_pay_points}   
+账户余额：${user_money}
+--------------------------------
+会员账号：${user_name}
+支付账号：${pay_account}            		
+支付渠道：${payment}
+支付流水号:${trade_no}
+--------------------------------            		
+<FS><center>地址：${address}</center></FS>
+<FS><center>电话：${contact_mobile}</center></FS>                             		
+<QR>${qrcode}</QR>
+${tail_content}';
+        }
+        return $this->template;
+    }
+    
 }
-
-// end

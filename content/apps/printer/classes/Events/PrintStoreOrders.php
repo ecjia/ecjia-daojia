@@ -77,6 +77,8 @@ class PrintStoreOrders extends EventAbstract
     	],
     	'goods_subtotal' => '总计',
     	 
+    	'integral_money'    => '积分抵扣',
+    	'bonus'    			=> '红包抵扣',
     	'discount_amount'   => '优惠金额',
     	'receivables'       => '应收金额',
     	'payment'		    => '支付宝',
@@ -106,6 +108,8 @@ class PrintStoreOrders extends EventAbstract
 		    
 		'goods_subtotal' => '49.00', //商品总计
 	    
+		'integral_money'	=> '0.00',
+		'bonus'				=> '0.00',
 	    'discount_amount'   => '5.00',
 	    'receivables'       => '44.00',
 	    'payment'		    => '支付宝',
@@ -128,6 +132,8 @@ class PrintStoreOrders extends EventAbstract
 --------------------------------
 ${goods_lists}
 --------------------------------
+红包抵扣：-${bonus}
+积分抵扣：-${integral_money}
 优惠金额：-${discount_amount}
 应收金额：${receivables}
 实收金额：${order_amount}
