@@ -52,7 +52,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 return array(
 	'bill_queue' 		=> '商家结算队列处理',
-	'bill_queue_desc' 	=> '结算完成的订单',
+	'bill_queue_desc' 	=> '结算队列中的订单金额到商家账户',
 );
 
 // end
