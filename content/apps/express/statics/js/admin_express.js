@@ -20,7 +20,7 @@
                 ecjia.pjax(url);
             });
             
-            //列表快速审核触发
+            //地图弹窗
             $("a[data-toggle='modal']").off('click').on('click', function (e) {
                 var $this = $(this);
                 var lng = $this.attr('exlng');

@@ -101,7 +101,7 @@ class admin_shopkeeper_express_staff_add_module extends api_admin implements api
     	$salt = rand(1, 9999);
     	$password_last = md5(md5($password) . $salt);
     	
-    	$group_id = '-1';
+    	$group_id = Ecjia\App\Staff\StaffGroupConstant::GROUP_EXPRESS;
     	
         $data       = array(
             'store_id'     => $_SESSION['store_id'],
@@ -123,7 +123,7 @@ class admin_shopkeeper_express_staff_add_module extends api_admin implements api
         $staff_id = RC_DB::table('staff_user')->insertGetId($data);
     	if ($staff_id) {
     		//插入配送员关联表
-    		if($group_id == '-1') {
+    	    if($group_id == Ecjia\App\Staff\StaffGroupConstant::GROUP_EXPRESS) {
     			$data_express = array(
     					'user_id'				=> $staff_id,
     					'store_id'  			=> $_SESSION['store_id'],

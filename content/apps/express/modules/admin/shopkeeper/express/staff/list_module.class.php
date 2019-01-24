@@ -69,7 +69,7 @@ class admin_shopkeeper_express_staff_list_module extends api_admin implements ap
 		$db = RC_DB::table('staff_user');
 		
 		$db->where('store_id', $_SESSION['store_id']);
-		$db->where('group_id', '=', '-1');
+		$db->where('group_id', '=', Ecjia\App\Staff\StaffGroupConstant::GROUP_EXPRESS);
 		$db->where('parent_id', '>', 0);
 		
 		if (!empty($keywords)) {

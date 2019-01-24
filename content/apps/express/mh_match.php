@@ -165,7 +165,7 @@ class mh_match extends ecjia_merchant {
 		$db_data = RC_DB::table('staff_user');
 		$db_data->where(RC_DB::raw('store_id'), $_SESSION['store_id']);
 		$db_data->where(RC_DB::raw('parent_id'), '<>', 0);
-		$db_data->where(RC_DB::raw('group_id'), '-1');
+		$db_data->where(RC_DB::raw('group_id'), Ecjia\App\Staff\StaffGroupConstant::GROUP_EXPRESS);
 	
 		$filter['keyword']	 = trim($_GET['keyword']);
 		if ($filter['keyword']) {

@@ -73,7 +73,7 @@ class admin_shopkeeper_express_staff_online_module extends api_admin implements 
 		$db = RC_DB::table('staff_user')->leftJoin('express_user', 'staff_user.user_id', '=', 'express_user.user_id');
 		
 		$db->where('staff_user.store_id', $_SESSION['store_id']);
-		$db->where('staff_user.group_id', '=', '-1');
+		$db->where('staff_user.group_id', '=', Ecjia\App\Staff\StaffGroupConstant::GROUP_EXPRESS);
 		$db->where('staff_user.parent_id', '>', 0);
 		$db->where('staff_user.online_status', '=', 1);
 		

@@ -252,7 +252,7 @@ class mh_express extends ecjia_merchant {
 		->leftJoin('express_user as eu', RC_DB::raw('su.user_id'), '=', RC_DB::raw('eu.user_id'));
 		
 		$db_data->where(RC_DB::raw('su.store_id'), $_SESSION['store_id']);
-		$db_data->where(RC_DB::raw('group_id'), '-1');
+		$db_data->where(RC_DB::raw('group_id'), Ecjia\App\Staff\StaffGroupConstant::GROUP_EXPRESS);
 		$db_data->where(RC_DB::raw('parent_id'), '<>', 0);
 		
 		$filter['keyword']	 = trim($_GET['keyword']);

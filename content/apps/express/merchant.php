@@ -761,7 +761,7 @@ class merchant extends ecjia_merchant {
 		$express_user_view =  RC_DB::table('staff_user as su')
 		->leftJoin('express_user as eu', RC_DB::raw('su.user_id'), '=', RC_DB::raw('eu.user_id'));
 		$express_user_view->where(RC_DB::raw('su.store_id'), $_SESSION['store_id']);
-		$express_user_view->where(RC_DB::raw('su.group_id'), -1);
+		$express_user_view->where(RC_DB::raw('su.group_id'), Ecjia\App\Staff\StaffGroupConstant::GROUP_EXPRESS);
 		$keywords = $_GET['keywords'];
 		if (!empty($keywords)) {
 			$express_user_view ->whereRaw('(su.name  like  "%'.mysql_like_quote($keywords).'%")');
@@ -771,7 +771,7 @@ class merchant extends ecjia_merchant {
 		$db = RC_DB::table('staff_user as su')
 		->leftJoin('express_user as eu', RC_DB::raw('su.user_id'), '=', RC_DB::raw('eu.user_id'));
 		$db->where(RC_DB::raw('su.store_id'), $_SESSION['store_id']);
-		$db->where(RC_DB::raw('su.group_id'), -1);
+		$db->where(RC_DB::raw('su.group_id'), Ecjia\App\Staff\StaffGroupConstant::GROUP_EXPRESS);
 		
 		if (!empty($keywords)) {
 			$db ->whereRaw('(su.name  like  "%'.mysql_like_quote($keywords).'%")');
