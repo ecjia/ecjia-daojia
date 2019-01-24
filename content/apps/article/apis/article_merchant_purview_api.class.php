@@ -55,12 +55,12 @@ class article_merchant_purview_api extends Component_Event_Api {
     public function call(&$options) {
         $purviews = array(
         	//文章	
-            array('action_name' => '文章列表', 'action_code' => 'mh_article_manage', 'relevance' => ''),
-            array('action_name' => '添加文章', 'action_code' => 'mh_article_update', 'relevance' => ''),
-        	array('action_name' => '删除文章', 'action_code' => 'mh_article_update', 'relevance' => ''),
+            array('action_name' => __('文章列表', 'article'), 'action_code' => 'mh_article_manage', 'relevance' => ''),
+            array('action_name' => __('添加文章', 'article'), 'action_code' => 'mh_article_update', 'relevance' => ''),
+        	array('action_name' => __('删除文章', 'article'), 'action_code' => 'mh_article_update', 'relevance' => ''),
         		
-        	array('action_name' => '文章评论', 'action_code' => 'mh_article_comment_manage', 'relevance' => ''),
-        	array('action_name' => '删除文章评论', 'action_code' => 'mh_article_comment_update', 'relevance' => ''),
+        	array('action_name' => __('文章评论', 'article'), 'action_code' => 'mh_article_comment_manage', 'relevance' => ''),
+        	array('action_name' => __('删除文章评论', 'article'), 'action_code' => 'mh_article_comment_update', 'relevance' => ''),
         );
         return $purviews;
     }

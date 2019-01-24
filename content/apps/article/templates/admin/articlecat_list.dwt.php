@@ -15,9 +15,9 @@
 		<table class="table table-striped unlimited-category-list" id="list-table">
 			<thead>
 				<tr>
-					<th>{lang key='article::article.cat_name'}</th>
-					<th class="w100">{lang key='system::system.sort_order'}</th>
-					<th class="w100">{lang key='system::system.handler'}</th>
+					<th>{t domain="article"}文章分类名称{/t}</th>
+					<th class="w100">{t domain="article"}排序{/t}</th>
+					<th class="w100">{t domain="article"}操作{/t}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -29,18 +29,18 @@
 					</td>
 			
 					<td>
-						<span class="cursor_pointer" data-trigger="editable" data-url="{url path='article/admin_articlecat/edit_sort_order'}" data-name="sort_order" data-pk="{$cat.cat_id}" data-title="{lang key='article::article.sort_order'}"> 
+						<span class="cursor_pointer" data-trigger="editable" data-url="{url path='article/admin_articlecat/edit_sort_order'}" data-name="sort_order" data-pk="{$cat.cat_id}" data-title="{t domain="article"}请输入排序序号{/t}"> 
 							{$cat.sort_order}
 						</span>
 					</td>
 
 					<td>
-						<a class="data-pjax no-underline" href='{RC_Uri::url("article/admin_articlecat/edit", "id={$cat.cat_id}")}' title="{lang key='system::system.edit'}"><i class="fontello-icon-edit"></i></a>
-						<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{lang key='article::article.drop_cat_confirm'}" href='{RC_Uri::url("article/admin_articlecat/remove","id={$cat.cat_id}")}' title="{lang key='system::system.remove'}"><i class="fontello-icon-trash"></i></a>
+						<a class="data-pjax no-underline" href='{RC_Uri::url("article/admin_articlecat/edit", "id={$cat.cat_id}")}' title="{t domain="article"}编辑{/t}"><i class="fontello-icon-edit"></i></a>
+						<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要删除该文章分类吗？{/t}" href='{RC_Uri::url("article/admin_articlecat/remove","id={$cat.cat_id}")}' title="{t domain="article"}删除{/t}"><i class="fontello-icon-trash"></i></a>
 					</td>
 				</tr>
 				<!-- {foreachelse} -->
-				   <tr><td class="no-records" colspan="3">{lang key='system::system.no_records'}</td></tr>
+				   <tr><td class="no-records" colspan="3">{t domain="article"}没有找到任何记录{/t}</td></tr>
 				<!-- {/foreach} -->
 			</tbody>
 		</table>

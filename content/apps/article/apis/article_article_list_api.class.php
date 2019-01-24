@@ -58,7 +58,7 @@ class article_article_list_api extends Component_Event_Api {
      */
 	public function call(&$options) {
 		if (!is_array($options)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('article::article.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'article'));
 		}
 		return $this->articleslist($options);
 	}

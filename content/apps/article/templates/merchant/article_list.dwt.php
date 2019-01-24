@@ -11,19 +11,19 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button class="close" data-dismiss="modal">×</button>
-				<h3>{lang key='article::article.move_to_category'}</h3>
+				<h3>{t domain="article"}转移文章至分类{/t}</h3>
 			</div>
 			<div class="modal-body h400 form-horizontal">
 				<div class="form-group ecjiaf-tac">
 					<select class="noselect w200 ecjiaf-ib form-control" size="15" name="target_cat">
-						<option value="0" disabled>{lang key='article::article.all_cat'}</option>
+						<option value="0" disabled>{t domain="article"}全部分类{/t}</option>
 						<!-- {foreach from=$cat_select key=key item=val} -->
 						<option value="{$val.cat_id}" {if $val.level}style="padding-left:{$val.level*20}px"{/if}>{$val.cat_name}</option>
 						<!-- {/foreach} -->
 					</select>
 				</div>
 				<div class="form-group t_c">
-					<a class="btn btn-primary btn-gebo m_l5" data-toggle="ecjiabatch" data-name="article_id" data-idclass=".checkbox:checked" data-url="{$form_action}&sel_action=move_to&" data-msg="{lang key='article::article.move_confirm'}" data-noselectmsg="{lang key='article::article.select_move_article'}" href="javascript:;" name="move_cat_ture">{lang key='article::article.begin_move'}</a>
+					<a class="btn btn-primary btn-gebo m_l5" data-toggle="ecjiabatch" data-name="article_id" data-idclass=".checkbox:checked" data-url="{$form_action}&sel_action=move_to&" data-msg="{t domain="article"}是否将选中文章转移至分类？{/t}" data-noselectmsg="{t domain="article"}请先选中要转移的文章{/t}" href="javascript:;" name="move_cat_ture">{t domain="article"}开始转移{/t}</a>
 				</div>
 			</div>
 		</div>
@@ -46,9 +46,9 @@
 		<div class="panel">
 			<div class="panel-body panel-body-small">
 				<ul class="nav nav-pills pull-left">
-					<li class="{if $type eq ''}active{/if}"><a class="data-pjax" href='{url path="article/merchant/init" args="{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}"}'>{lang key='article::article.all'} <span class="badge badge-info">{if $type_count.count}{$type_count.count}{else}0{/if}</span></a></li>
-					<li class="{if $type eq 'has_checked'}active{/if}"><a class="data-pjax" href='{url path="article/merchant/init" args="type=has_checked{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}"}'>{lang key='article::article.has_checked'}<span class="badge badge-info">{if $type_count.has_checked}{$type_count.has_checked}{else}0{/if}</span></a></li>
-					<li class="{if $type eq 'wait_check'}active{/if}"><a class="data-pjax" href='{url path="article/merchant/init" args="type=wait_check{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}"}'>{lang key='article::article.wait_check'}<span class="badge badge-info">{if $type_count.wait_check}{$type_count.wait_check}{else}0{/if}</span></a></li>
+					<li class="{if $type eq ''}active{/if}"><a class="data-pjax" href='{url path="article/merchant/init" args="{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}"}'>{t domain="article"}全部{/t} <span class="badge badge-info">{if $type_count.count}{$type_count.count}{else}0{/if}</span></a></li>
+					<li class="{if $type eq 'has_checked'}active{/if}"><a class="data-pjax" href='{url path="article/merchant/init" args="type=has_checked{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}"}'>{t domain="article"}通过审核{/t}<span class="badge badge-info">{if $type_count.has_checked}{$type_count.has_checked}{else}0{/if}</span></a></li>
+					<li class="{if $type eq 'wait_check'}active{/if}"><a class="data-pjax" href='{url path="article/merchant/init" args="type=wait_check{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $filter.cat_id}&cat_id={$filter.cat_id}{/if}"}'>{t domain="article"}待审核{/t}<span class="badge badge-info">{if $type_count.wait_check}{$type_count.wait_check}{else}0{/if}</span></a></li>
 				</ul>
 				<div class="clearfix"></div>
 			</div>
@@ -57,24 +57,24 @@
 					<div class="btn-group f_l m_r5">
 						<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
 							<i class="fa fa-cogs"></i>
-							<i class="fontello-icon-cog"></i>{lang key='article::article.batch'}
+							<i class="fontello-icon-cog"></i>{t domain="article"}批量操作{/t}
 							<span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu">
-							<li><a class="batch-move-btn" href="javascript:;" data-move="data-operatetype" data-name="move_cat"><i class="fa fa-mail-forward"></i><i class="fontello-icon-exchange"></i> {lang key='article::article.move_category'}</a></li>
-							<li><a class="button_remove" data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{url path='article/merchant/batch' args='sel_action=button_remove'}" data-msg="{lang key='article::article.confirm_drop'}" data-noselectmsg="{lang key='article::article.select_drop_article'}" data-name="article_id" href="javascript:;"><i class="fa fa-trash-o"></i><i class="fontello-icon-trash"></i> {lang key='article::article.drop_article'}</a></li>
+							<li><a class="batch-move-btn" href="javascript:;" data-move="data-operatetype" data-name="move_cat"><i class="fa fa-mail-forward"></i><i class="fontello-icon-exchange"></i> {t domain="article"}转移分类{/t}</a></li>
+							<li><a class="button_remove" data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{url path='article/merchant/batch' args='sel_action=button_remove'}" data-msg="{t domain="article"}您确定要这么做吗？{/t}" data-noselectmsg="{t domain="article"}请先选中要删除的文章{/t}" data-name="article_id" href="javascript:;"><i class="fa fa-trash-o"></i><i class="fontello-icon-trash"></i> {t domain="article"}删除文章{/t}</a></li>
 						</ul>
 					</div>
 					<select class="w250" name="cat_id" id="select-cat">
-						<option value="0">{lang key='article::article.all_cat'}</option>
+						<option value="0">{t domain="article"}全部分类{/t}</option>
 						<!-- {foreach from=$cat_select key=key item=val} -->
 						<option value="{$val.cat_id}" {if $smarty.get.cat_id eq $val.cat_id}selected{/if} {if $val.level}style="padding-left:{$val.level*20}px"{/if}>{$val.cat_name}</option>
 						<!-- {/foreach} -->
 					</select>
-					<a class="btn btn-primary m_l5 screen-btn"><i class="fa fa-search"></i> {lang key='article::article.filter'}</a>
+					<a class="btn btn-primary m_l5 screen-btn"><i class="fa fa-search"></i> {t domain="article"}筛选{/t}</a>
 					<div class="f_r form-group">
-						<input type="text" name="keywords" class="form-control" value="{$smarty.get.keywords}" placeholder="{lang key='article::article.enter_article_title'}"/>
-						<a class="btn btn-primary m_l5 search_articles"><i class="fa fa-search"></i> 筛选</a>
+						<input type="text" name="keywords" class="form-control" value="{$smarty.get.keywords}" placeholder="{t domain="article"}请输入文章名称{/t}"/>
+						<a class="btn btn-primary m_l5 search_articles"><i class="fa fa-search"></i> {t domain="article"}筛选{/t}</a>
 					</div>
 				</form>
 			</div>
@@ -89,19 +89,19 @@
 								</div>
 							</th>
 							<th>
-								{lang key='article::article.title'}
+								{t domain="article"}文章标题{/t}
 							</th>
 							<th class="w200">
-								{lang key='article::article.cat'}
+								{t domain="article"}文章分类{/t}
 							</th>
 							<th class="w130 sorting" data-toggle="sortby" data-sortby="like_count">
-								{lang key='article::article.like_count'}
+								{t domain="article"}点赞数{/t}
 							</th>
 							<th class="w130 sorting" data-toggle="sortby" data-sortby="comment_count">
-								{lang key='article::article.comment_count'}
+								{t domain="article"}评论数{/t}
 							</th>
 							<th class="w180">
-								{lang key='article::article.add_time'}
+								{t domain="article"}添加日期{/t}
 							</th>
 						</tr>
 					</thead>
@@ -115,21 +115,21 @@
 								</div>
 							</td>
 							<td class="hide-edit-area">
-								<span class="cursor_pointer" data-text="textarea" data-trigger="editable" data-url="{RC_Uri::url('article/merchant/edit_title')}" data-name="{$list.cat_id}" data-pk="{$list.article_id}" data-title="{lang key='article::article.edit_article_title'}">{$list.title}</span>
+								<span class="cursor_pointer" data-text="textarea" data-trigger="editable" data-url="{RC_Uri::url('article/merchant/edit_title')}" data-name="{$list.cat_id}" data-pk="{$list.article_id}" data-title="{t domain="article"}编辑文章名称{/t}">{$list.title}</span>
 								<div class="edit-list">
-									<a target="_blank" href='{RC_Uri::url("article/merchant/preview", "id={$list.article_id}")}' title="{lang key='article::article.view'}">{lang key='article::article.view'}</a>&nbsp;|&nbsp;
-									<a class="data-pjax" href='{RC_Uri::url("article/merchant/edit", "id={$list.article_id}")}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp; 
+									<a target="_blank" href='{RC_Uri::url("article/merchant/preview", "id={$list.article_id}")}' title="{t domain="article"}预览{/t}">{t domain="article"}预览{/t}</a>&nbsp;|&nbsp;
+									<a class="data-pjax" href='{RC_Uri::url("article/merchant/edit", "id={$list.article_id}")}' title="{t domain="article"}编辑{/t}">{t domain="article"}编辑{/t}</a>&nbsp;|&nbsp; 
 									{if $has_goods}
-									<a class="data-pjax" href='{url path="article/merchant/link_goods" args="id={$list.article_id}"}' title="{lang key='article::article.tab_goods'}">{lang key='article::article.tab_goods'}</a>&nbsp;|&nbsp; 
+									<a class="data-pjax" href='{url path="article/merchant/link_goods" args="id={$list.article_id}"}' title="{t domain="article"}关联商品{/t}">{t domain="article"}关联商品{/t}</a>&nbsp;|&nbsp; 
 									{/if}
-									<a class="data-pjax" href='{RC_Uri::url("article/merchant/article_comment", "id={$list.article_id}")}' title="{lang key='article::article.view'}">{lang key='article::article.view_comment'}</a>&nbsp;|&nbsp;
+									<a class="data-pjax" href='{RC_Uri::url("article/merchant/article_comment", "id={$list.article_id}")}' title="{t domain="article"}查看评论{/t}">{t domain="article"}查看评论{/t}</a>&nbsp;|&nbsp;
 									{if $list.cat_id gt 0}
-									<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='article::article.drop_confirm'}" href='{RC_Uri::url("article/merchant/remove", "id={$list.article_id}")}' title="{lang key='system::system.remove'}">{lang key='system::system.drop'}</a>
+									<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{t domain="article"}您确认要删除这篇文章吗？{/t}" href='{RC_Uri::url("article/merchant/remove", "id={$list.article_id}")}' title="{t domain="article"}删除{/t}">{t domain="article"}删除{/t}</a>
 									{/if}
 								</div>
 							</td>
 							<td>
-								<span>{if $list.cat_id gt 0}{$list.cat_name|escape:html}{else}{lang key='article::article.reserve'}{/if}</span>
+								<span>{if $list.cat_id gt 0}{$list.cat_name|escape:html}{else}{t domain="article"}保留{/t}{/if}</span>
 							</td>
 							<td>{$list.like_count}</td>
 							<td>{$list.comment_count}</td>
@@ -140,7 +140,7 @@
 						<!-- {foreachelse} -->
 						<tr>
 							<td class="no-records" colspan="6">
-								{lang key='system::system.no_records'}
+								{t domain="article"}没有找到任何记录{/t}
 							</td>
 						</tr>
 					<!-- {/foreach} -->

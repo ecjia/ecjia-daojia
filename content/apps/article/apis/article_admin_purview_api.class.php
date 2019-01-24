@@ -53,25 +53,25 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class article_admin_purview_api extends Component_Event_Api {
     public function call(&$options) {
         $purviews = array(
-        	array('action_name' => RC_Lang::get('article::article.article_manage'), 	'action_code' => 'article_manage', 		'relevance' => ''),
-        	array('action_name' => RC_Lang::get('article::article.article_update'), 	'action_code' => 'article_update', 		'relevance' => ''),
-        	array('action_name' => RC_Lang::get('article::article.article_remove'), 	'action_code' => 'article_delete', 		'relevance' => ''),
-        	array('action_name' => RC_Lang::get('article::article.article_comment_manage'), 	'action_code' => 'article_comment_manage', 		'relevance' => ''),
+        	array('action_name' => __('文章管理', 'article'), 	 'action_code' => 'article_manage', 		'relevance' => ''),
+        	array('action_name' => __('文章更新', 'article'), 	 'action_code' => 'article_update', 		'relevance' => ''),
+        	array('action_name' => __('文章删除', 'article'), 	 'action_code' => 'article_delete', 		'relevance' => ''),
+        	array('action_name' => __('文章评论管理', 'article'), 'action_code' => 'article_comment_manage', 		'relevance' => ''),
         		
-        	array('action_name' => RC_Lang::get('article::article.cat_manage'), 		'action_code' => 'article_cat_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('article::article.cat_update'), 		'action_code' => 'article_cat_update', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('article::article.cat_remove'), 		'action_code' => 'article_cat_delete', 	'relevance' => ''),
+        	array('action_name' => __('文章分类管理', 'article'), 'action_code' => 'article_cat_manage', 	'relevance' => ''),
+        	array('action_name' => __('分类更新', 'article'), 	  'action_code' => 'article_cat_update', 	'relevance' => ''),
+        	array('action_name' => __('分类删除', 'article'), 	  'action_code' => 'article_cat_delete', 	'relevance' => ''),
         		
-            array('action_name' => RC_Lang::get('article::article.shopinfo_manage'), 	'action_code' => 'shopinfo_manage', 	'relevance' => ''),
-            array('action_name' => RC_Lang::get('article::article.shophelp_manage'), 	'action_code' => 'shophelp_manage', 	'relevance' => ''),
+            array('action_name' => __('网店信息管理', 'article'),  'action_code' => 'shopinfo_manage', 	'relevance' => ''),
+            array('action_name' => __('网店帮助管理', 'article'),  'action_code' => 'shophelp_manage', 	'relevance' => ''),
         		
-        	array('action_name' =>__('文章自动发布'), 'action_code' => 'article_auto_manage', 'relevance' => ''),
+        	array('action_name' =>__('文章自动发布', 'article'),   'action_code' => 'article_auto_manage', 'relevance' => ''),
         		
-        	array('action_name' => RC_Lang::get('article::article.article_comment_update'), 	'action_code' => 'article_comment_update', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('article::article.article_comment_delete'), 	'action_code' => 'article_comment_delete', 	'relevance' => ''),
+        	array('action_name' => __('审核文章评论', 'article'), 	'action_code' => 'article_comment_update', 	'relevance' => ''),
+        	array('action_name' => __('删除文章评论', 'article'), 	'action_code' => 'article_comment_delete', 	'relevance' => ''),
 			
         	//商家公告 系统信息
-        	array('action_name' =>__('商家公告管理'), 'action_code' => 'store_notice_manage', 'relevance' => ''),
+        	array('action_name' =>__('商家公告管理', 'article'), 'action_code' => 'store_notice_manage', 'relevance' => ''),
         );
         return $purviews;
     }

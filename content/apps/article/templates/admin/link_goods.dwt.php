@@ -20,9 +20,9 @@
 	<div class="span12">
 		<div class="tabbable">
 			<ul class="nav nav-tabs">
-				<li><a class="data-pjax" href='{url path="article/admin/edit" args="id={$smarty.get.id}{if $publishby}&publishby={$publishby}{/if}"}#tab1'>{lang key='article::article.tab_general'}</a></li>
-<!-- 				<li><a class="data-pjax" href='{url path="article/admin/edit" args="id={$smarty.get.id}"}#tab2'>{lang key='article::article.tab_content'}</a></li> -->
-				<li class="active"><a href="javascript:;">{lang key='article::article.tab_goods'}</a></li>
+				<li><a class="data-pjax" href='{url path="article/admin/edit" args="id={$smarty.get.id}{if $publishby}&publishby={$publishby}{/if}"}#tab1'>{t domain="article"}通用信息{/t}</a></li>
+<!-- 				<li><a class="data-pjax" href='{url path="article/admin/edit" args="id={$smarty.get.id}"}#tab2'>{t domain="article"}文章内容{/t}</a></li> -->
+				<li class="active"><a href="javascript:;">{t domain="article"}关联商品{/t}</a></li>
 			</ul>
 			
 			<form class="form-horizontal" action='{url path="article/admin/insert_link_goods" args="id={$smarty.get.id}{if $publishby}&publishby={$publishby}{/if}"}' method="post" name="theForm">
@@ -31,28 +31,28 @@
 						<div class="control-group choose_list span12" data-url="{url path='article/admin/get_goods_list'}">
 							<!-- <div class="f_l"> -->
 								<select name="cat_id">
-									<option value="0">{lang key='system::system.all_category'}{$cat_list}</option>
+									<option value="0">{t domain="article"}所有分类{/t}{$cat_list}</option>
 								</select>
 								<select name="brand_id">
-									<option value="0">{lang key='system::system.all_brand'}{html_options options=$brand_list}</option>
+									<option value="0">{t domain="article"}所有品牌{/t}{html_options options=$brand_list}</option>
 								</select>
 							<!-- </div> -->
 							<input type="text" name="keyword" />
-							<a class="btn" data-toggle="searchGoods"><!-- {lang key='system::system.button_search'} --></a>
-							<span class="help-inline m_t5">{lang key='article::article.link_goods_tip'}</span>
+							<a class="btn" data-toggle="searchGoods"><!-- {t domain="article"}搜索{/t} --></a>
+							<span class="help-inline m_t5">{t domain="article"}搜索要关联的商品，搜到商品会展示在左侧列表框中。点击左侧列表中选项，关联商品即可进入右侧已关联列表。保存后生效。您还可以在右侧编辑关联模式。{/t}</span>
 						</div>
 						<div class="control-group draggable">
 							<div class="ms-container " id="ms-custom-navigation">
 								<div class="ms-selectable">
 									<div class="search-header">
-										<input class="span12" id="ms-search" type="text" placeholder="{lang key='article::article.screen_search_goods'}" autocomplete="off">
+										<input class="span12" id="ms-search" type="text" placeholder="{t domain="article"}筛选搜索到的商品信息{/t}" autocomplete="off">
 									</div>
 									<ul class="ms-list nav-list-ready">
-										<li class="ms-elem-selectable disabled"><span>{lang key='article::article.no_content'}</span></li>
+										<li class="ms-elem-selectable disabled"><span>{t domain="article"}暂无内容{/t}</span></li>
 									</ul>
 								</div>
 								<div class="ms-selection">
-									<div class="custom-header custom-header-align">{lang key='article::article.tab_goods'}</div>
+									<div class="custom-header custom-header-align">{t domain="article"}关联商品{/t}</div>
 									<ul class="ms-list nav-list-content">
 										<!-- {foreach from=$link_goods_list item=link_goods key=key} -->
 										<li class="ms-elem-selection">
@@ -68,7 +68,7 @@
 					</fieldset>
 				</div>
 				<p class="ecjiaf-tac">
-					<button class="btn btn-gebo" type="submit">{lang key='system::system.button_submit'}</button>
+					<button class="btn btn-gebo" type="submit">{t domain="article"}确定{/t}</button>
 				</p>
 			</form>
 		</div>

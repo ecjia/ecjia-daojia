@@ -55,7 +55,7 @@ class article_comment_comments_module extends api_front implements api_interface
     	
 		$article_id	 = $this->requestData('article_id', 0);
 		if ($article_id <= 0) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'article'));
 		}
 		/* 获取数量 */
 		$size = $this->requestData('pagination.count', 15);

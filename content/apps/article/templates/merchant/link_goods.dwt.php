@@ -26,8 +26,8 @@
 		<div class="panel">
 			<div class="panel-body panel-body-small">
 				<ul class="nav nav-tabs">
-					<li><a class="data-pjax" href='{url path="article/merchant/edit" args="id={$smarty.get.id}"}'>{lang key='article::article.tab_general'}</a></li>
-					<li class="active"><a href="javascript:;">{lang key='article::article.tab_goods'}</a></li>
+					<li><a class="data-pjax" href='{url path="article/merchant/edit" args="id={$smarty.get.id}"}'>{t domain="article"}通用信息{/t}</a></li>
+					<li class="active"><a href="javascript:;">{t domain="article"}关联商品{/t}</a></li>
 				</ul>
 			</div>
 				
@@ -39,7 +39,7 @@
 								<div class="pull-left">
 									<div class="form-group">
 										<select class="w130" name="cat_id">
-											<option value="0">{lang key='system::system.all_category'}</option>
+											<option value="0">{t domain="article"}所有分类{/t}</option>
 											<!-- {foreach from=$cat_list item=cat} -->
 											<option value="{$cat.cat_id}" {if $cat.cat_id == $smarty.get.cat_id}selected{/if} {if $cat.level}style="padding-left:{$cat.level * 20}px"{/if}>{$cat.cat_name}</option>
 											<!-- {/foreach} -->
@@ -47,13 +47,13 @@
 									</div>
 									
 									<div class="form-group">
-										<input class="form-control" type="text" name="keyword" placeholder="{lang key='goods::goods.goods_name'}" />
+										<input class="form-control" type="text" name="keyword" placeholder="{t domain="article"}商品名称{/t}" />
 									</div>
 									
-									<button type="button" class="btn btn-primary" data-toggle="searchGoods"><i class="fa fa-search"></i> {lang key='system::system.button_search'} </button>
+									<button type="button" class="btn btn-primary" data-toggle="searchGoods"><i class="fa fa-search"></i> {t domain="article"}搜索{/t}</button>
 									
 									<div class="form-group">
-										<span class="help-block">{lang key='article::article.link_goods_tip'}</span>
+										<span class="help-block">{t domain="article"}搜索要关联的商品，搜到商品会展示在左侧列表框中。点击左侧列表中选项，关联商品即可进入右侧已关联列表。保存后生效。您还可以在右侧编辑关联模式。{/t}</span>
 									</div>
 								</div>
 							</div>
@@ -62,14 +62,14 @@
 								<div class="ms-container " id="ms-custom-navigation">
 									<div class="ms-selectable">
 										<div class="search-header">
-											<input class="form-control" id="ms-search" type="text" placeholder="{lang key='article::article.screen_search_goods'}" autocomplete="off">
+											<input class="form-control" id="ms-search" type="text" placeholder="{t domain="article"}筛选搜索到的商品信息{/t}" autocomplete="off">
 										</div>
 										<ul class="ms-list nav-list-ready">
-											<li class="ms-elem-selectable disabled"><span>{lang key='article::article.no_content'}</span></li>
+											<li class="ms-elem-selectable disabled"><span>{t domain="article"}暂无内容{/t}</span></li>
 										</ul>
 									</div>
 									<div class="ms-selection">
-										<div class="custom-header custom-header-align">{lang key='article::article.tab_goods'}</div>
+										<div class="custom-header custom-header-align">{t domain="article"}关联商品{/t}</div>
 										<ul class="ms-list nav-list-content">
 											<!-- {foreach from=$link_goods_list item=link_goods key=key} -->
 											<li class="ms-elem-selection">
@@ -85,7 +85,7 @@
 						</fieldset>
 						
 						<fieldset class="t_c row m_t20">
-							<button class="btn btn-info" type="submit">{lang key='system::system.button_submit'}</button>
+							<button class="btn btn-info" type="submit">{t domain="article"}确定{/t}</button>
 						</fieldset>
 					</form>
 				</div>

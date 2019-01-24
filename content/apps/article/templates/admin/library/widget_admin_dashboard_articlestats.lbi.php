@@ -5,7 +5,7 @@
 		<h3 class="pull-left">{$article_title}</h3>
 	</div>
 	<div class="heading clearfix move-mod-head no-border">
-		<h3 class="pull-left">最新发布</h3>
+		<h3 class="pull-left">{t domain="article"}最新发布{/t}</h3>
 	</div>
 	<table class="table table-striped ecjiaf-wwb article_stats_table">
 		<tbody>
@@ -16,24 +16,24 @@
 						<a href="{RC_Uri::url('article/admin/preview')}&id={$val.article_id}" target="_black" title="{$val.title}">{$val.title}</a>
 						<span class="ecjiaf-fr">{RC_Time::local_date('Y-m-d H:i:s', $val.add_time)}</span>
 					</p>
-					<p class="m_b5">文章由【{if $val.merchants_name}{$val.merchants_name}{else}平台{/if}】发布</p>
+					<p class="m_b5">{t 1={$val.merchants_name}}文章由【{if $val.merchants_name}%1{else}平台{/if}】发布{/t}</p>
 				</td>
 			</tr>
 			<!-- {foreachelse} -->
 			<tr>
 				<td class="no-records">
-					暂无文章
+					{t domain="article"}暂无文章{/t}
 				</td>
 			</tr>
 			<!-- {/foreach} -->
 		</tbody>
 	</table>
 	{if $article}
-	<div class="ecjiaf-tar"><a href="{RC_Uri::url('article/admin/init')}" title="查看更多">查看更多</a></div>
+	<div class="ecjiaf-tar"><a href="{RC_Uri::url('article/admin/init')}" title="{t domain="article"}查看更多{/t}">{t domain="article"}查看更多{/t}</a></div>
 	{/if}
 
 	<div class="heading clearfix move-mod-head no-border">
-		<h3 class="pull-left">近期评论</h3>
+		<h3 class="pull-left">{t domain="article"}近期评论{/t}</h3>
 	</div>
 	<table class="table table-striped ecjiaf-wwb article_stats_table">
 		<tbody>
@@ -43,7 +43,7 @@
 					<div class="td-left"><img src="{$val.avatar_img}" /></div>
 					<div class="td-right">
 						<p class="m_b5">{$val.user_name}</p>
-						<p class="m_b5">对文章<a href="{RC_Uri::url('article/admin/preview')}&id={$val.id_value}" target="_black" title="{$val.title}">《{$val.title}》</a>发表评论</p>
+						<p class="m_b5">{t escape=no url="{RC_Uri::url('article/admin/preview')}&id={$val.id_value}" name="{$val.title}"}对文章<a href="%1" target="_black" title="{$val.title}">《%2》</a>发表评论{/t}</p>
 						<p class="m_b5">{$val.content}</p>
 					</div>
 				</td>
@@ -51,14 +51,14 @@
 			<!-- {foreachelse} -->
 			<tr>
 				<td class="no-records">
-					暂无评论
+					{t domain="article"}暂无评论{/t}
 				</td>
 			</tr>
 			<!-- {/foreach} -->
 		</tbody>
 	</table>
 	{if $article_comment}
-	<div class="ecjiaf-tar"><a href="{RC_Uri::url('article/admin/article_comment_list')}&publishby=total_comments" title="查看更多">查看更多</a></div>
+	<div class="ecjiaf-tar"><a href="{RC_Uri::url('article/admin/article_comment_list')}&publishby=total_comments" title="{t domain="article"}查看更多{/t}">{t domain="article"}查看更多{/t}</a></div>
 	{/if}
 </div>
 

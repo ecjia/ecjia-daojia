@@ -66,12 +66,9 @@ class admin_shophelp extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Script::enqueue_script('jquery-chosen');
 		
-		$js_lang = array(
-			'shophelp_title_required' => RC_Lang::get('article::article.shophelp_title_required'),
-		);
-		RC_Script::localize_script('shophelp_list', 'js_lang', $js_lang);
+		RC_Script::localize_script('shophelp_list', 'js_lang', config('app-article::jslang.shophelp_page'));
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('article::shophelp.help_cat'), RC_Uri::url('article/admin_shophelp/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('帮助分类', 'article'), RC_Uri::url('article/admin_shophelp/init')));
 	}
 
 	/**
@@ -81,20 +78,20 @@ class admin_shophelp extends ecjia_admin {
 		$this->admin_priv('shophelp_manage');
 		
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('article::shophelp.help_cat')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('帮助分类', 'article')));
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('article::article.overview'),
-			'content'	=> '<p>' . RC_Lang::get('article::article.shophelp_help') . '</p>'
+			'title'		=> __('概述', 'article'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台网店帮助列表页面，系统中所有的网店帮助都会显示在此列表中。', 'article') . '</p>'
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('article::article.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助" target="_blank">'.RC_Lang::get('article::article.about_shophelp').'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助" target="_blank">关于网店帮助列表帮助文档</a>', 'article') . '</p>'   
 		);
 		
-		$this->assign('action_link', array('text' => RC_Lang::get('article::shophelp.article_add'), 'href' => RC_Uri::url('article/admin_shophelp/add/')));
-		$this->assign('ur_here', RC_Lang::get('article::shophelp.help_cat'));
+		$this->assign('action_link', array('text' => __('添加新帮助文章', 'article'), 'href' => RC_Uri::url('article/admin_shophelp/add/')));
+		$this->assign('ur_here', __('帮助分类', 'article'));
 		
 		$this->assign('list', $this->get_shophelp_list());
 		$this->assign('form_action', RC_Uri::url('article/admin_shophelp/add_catname'));
@@ -110,13 +107,13 @@ class admin_shophelp extends ecjia_admin {
 	
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('article::article.overview'),
-			'content'	=> '<p>' . RC_Lang::get('article::article.shophelp_article_help') . '</p>'
+			'title'		=> __('概述', 'article'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台网店帮助文章列表页面，系统中指定分类下的网店帮助文章都会显示在此列表中。', 'article') . '</p>'
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('article::article.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助#.E6.9F.A5.E7.9C.8B.E5.B8.AE.E5.8A.A9.E6.96.87.E7.AB.A0" target="_blank">'.RC_Lang::get('article::article.about_shophelp_article').'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：', 'article') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助#.E6.9F.A5.E7.9C.8B.E5.B8.AE.E5.8A.A9.E6.96.87.E7.AB.A0" target="_blank">关于网店帮助文章帮助文档</a>', 'article') . '</p>'
 		);
 		
 		$cat_id = intval($_GET['cat_id']);
@@ -124,9 +121,9 @@ class admin_shophelp extends ecjia_admin {
         
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($cat_name));
 		
-		$this->assign('ur_here', $cat_name.RC_Lang::get('article::shophelp.list'));
-		$this->assign('action_linkadd', array('text' => RC_Lang::get('article::shophelp.add_help_article'), 'href' => RC_Uri::url('article/admin_shophelp/add', array('cat_id' => $cat_id))));
-		$this->assign('back_helpcat', array('text' => RC_Lang::get('article::shophelp.help_cat'), 'href' => RC_Uri::url('article/admin_shophelp/init')));
+		$this->assign('ur_here', $cat_name.__(' 列表', 'article'));
+		$this->assign('action_linkadd', array('text' => __('添加帮助文章', 'article'), 'href' => RC_Uri::url('article/admin_shophelp/add', array('cat_id' => $cat_id))));
+		$this->assign('back_helpcat', array('text' => __('帮助分类', 'article'), 'href' => RC_Uri::url('article/admin_shophelp/init')));
 		 
 		$this->assign('list', $this->get_shophelp_article($cat_id));
 		$this->assign('cat_id', $cat_id);
@@ -144,20 +141,20 @@ class admin_shophelp extends ecjia_admin {
 		$cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->pluck('cat_name');
 
 		$this->assign('cat_name', $cat_name);
-		$this->assign('ur_here', RC_Lang::get('article::shophelp.add_help_article'));
-		$this->assign('action_link', array('text' => RC_Lang::get('article::shophelp.article_list'), 'href' => RC_Uri::url('article/admin_shophelp/list_article', array('cat_id' => $cat_id))));
+		$this->assign('ur_here', __('添加帮助文章', 'article'));
+		$this->assign('action_link', array('text' => __('帮助文章列表', 'article'), 'href' => RC_Uri::url('article/admin_shophelp/list_article', array('cat_id' => $cat_id))));
 
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($cat_name, RC_Uri::url('article/admin_shophelp/list_article', array('cat_id' => $cat_id))));
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('article::shophelp.add_help_article')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加帮助文章', 'article')));
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('article::article.overview'),
-			'content'	=> '<p>' . RC_Lang::get('article::article.add_shophelp_help') . '</p>'
+			'title'		=> __('概述', 'article'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台添加帮助文章页面，可以在此页面添加帮助文章信息。', 'article') . '</p>'
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('article::article.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助#.E6.B7.BB.E5.8A.A0.E5.B8.AE.E5.8A.A9.E6.96.87.E7.AB.A0" target="_blank">'.RC_Lang::get('article::article.about_add_shophelp').'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：', 'article') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助#.E6.B7.BB.E5.8A.A0.E5.B8.AE.E5.8A.A9.E6.96.87.E7.AB.A0" target="_blank">关于添加帮助文章帮助文档</a>', 'article') . '</p>'
 		);
 		
 		$this->assign('cat_id', $cat_id);
@@ -174,7 +171,7 @@ class admin_shophelp extends ecjia_admin {
 		$is_only = RC_DB::table('article')->where('title', $title)->where('cat_id', $cat_id)->count();
 		
 		if ($is_only != 0) {
-			return $this->showmessage(sprintf(RC_Lang::get('article::shophelp.title_exist'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(sprintf(__('此文章主题已经存在！', 'article'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		$data = array(
 			'title'		   	=> $title,
@@ -196,11 +193,11 @@ class admin_shophelp extends ecjia_admin {
 		$orm_article_db->delete_cache_item($cache_id_list);
 		
 		$cat_name = RC_DB::table('article_cat')->where('cat_id', $cat_id)->pluck('cat_name');
-		ecjia_admin::admin_log($title.'，'.RC_Lang::get('article::shophelp.help_category_is').$cat_name, 'add', 'shophelp');
+		ecjia_admin::admin_log($title.'，'.__('所属帮助分类是', 'article').$cat_name, 'add', 'shophelp');
 		
-		$links[] = array('text' => RC_Lang::get('article::shophelp.back_article_list'), 'href' => RC_Uri::url('article/admin_shophelp/list_article', array('cat_id' => $cat_id)));
-		$links[] = array('text' => RC_Lang::get('article::shophelp.continue_add_article'), 'href' => RC_Uri::url('article/admin_shophelp/add', array('cat_id' => $cat_id)));
-		return $this->showmessage(RC_Lang::get('article::shophelp.articleadd_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('article/admin_shophelp/edit', array('id' => $id, 'cat_id' => $cat_id))));
+		$links[] = array('text' => __('返回帮助文章列表', 'article'), 'href' => RC_Uri::url('article/admin_shophelp/list_article', array('cat_id' => $cat_id)));
+		$links[] = array('text' => __('继续添加帮助文章', 'article'), 'href' => RC_Uri::url('article/admin_shophelp/add', array('cat_id' => $cat_id)));
+		return $this->showmessage(__('文章添加成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('article/admin_shophelp/edit', array('id' => $id, 'cat_id' => $cat_id))));
 	}
 	
 	/**
@@ -219,21 +216,21 @@ class admin_shophelp extends ecjia_admin {
 		}
 		
 		$this->assign('cat_id', $cat_id);
-		$this->assign('ur_here', RC_Lang::get('article::shophelp.article_edit'));
-		$this->assign('action_link', array('text' => RC_Lang::get('article::shophelp.article_list'), 'href'=> RC_Uri::url('article/admin_shophelp/list_article', array('cat_id' => $cat_id))));
+		$this->assign('ur_here', __('编辑帮助文章', 'article'));
+		$this->assign('action_link', array('text' => __('帮助文章列表', 'article'), 'href'=> RC_Uri::url('article/admin_shophelp/list_article', array('cat_id' => $cat_id))));
 		$this->assign('article', $article);
 	
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($cat_name, RC_Uri::url('article/admin_shophelp/list_article', array('cat_id' => $article['cat_id']))));
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('article::shophelp.article_edit')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑帮助文章', 'article')));
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('article::article.overview'),
-			'content'	=> '<p>' . RC_Lang::get('article::article.edit_shophelp_help') . '</p>'
+			'title'		=> __('概述', 'article'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台编辑帮助文章页面，可以在此页面编辑相应的帮助文章信息。', 'article') . '</p>'
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('article::article.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助#.E7.BC.96.E8.BE.91.E5.B8.AE.E5.8A.A9.E6.96.87.E7.AB.A0" target="_blank">'.RC_Lang::get('article::article.about_edit_shophelp').'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：', 'article') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助#.E7.BC.96.E8.BE.91.E5.B8.AE.E5.8A.A9.E6.96.87.E7.AB.A0" target="_blank">关于编辑帮助文章帮助文档</a>', 'article') . '</p>'   
 		);
 		
 		$this->assign('form_action', RC_Uri::url('article/admin_shophelp/update'));
@@ -249,7 +246,7 @@ class admin_shophelp extends ecjia_admin {
 		
 	    $is_only = RC_DB::table('article')->where('title', $title)->where('cat_id', $cat_id)->where('article_id', '!=', $id)->count();
 		if ($is_only != 0) {
-			return $this->showmessage(sprintf(RC_Lang::get('article::shophelp.title_exist'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(sprintf(__('此文章主题已经存在！', 'article'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$data = array(
@@ -271,8 +268,10 @@ class admin_shophelp extends ecjia_admin {
 	    $cache_id_list = sprintf('%X', crc32($cache_article_list_key));
 	    $orm_article_db->delete_cache_item($cache_id_list);
 	    
-		ecjia_admin::admin_log($title.'，'.RC_Lang::get('article::shophelp.help_category_is').$cat_name, 'edit', 'shophelp');
-		return $this->showmessage(sprintf(RC_Lang::get('article::shophelp.articleedit_succeed'), $title), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('article/admin_shophelp/edit', array('id' => $id, 'cat_id' => $cat_id))));
+// 		ecjia_admin::admin_log($title.'，'.__('所属帮助分类是', 'article').$cat_name, 'edit', 'shophelp');
+	    ecjia_admin::admin_log(sprintf(__('%s 所属帮助分类是: %s', 'article'), $title, $cat_name), 'edit', 'shophelp');
+		
+		return $this->showmessage(sprintf(__('文章 %s 编辑成功', 'article'), $title), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('article/admin_shophelp/edit', array('id' => $id, 'cat_id' => $cat_id))));
 	}
 	
 	/**
@@ -285,11 +284,11 @@ class admin_shophelp extends ecjia_admin {
 		$cat_name = !empty($_POST['value']) ? trim($_POST['value']) : '';
 		
 		if (empty($cat_name)) {
-			return $this->showmessage(RC_Lang::get('article::shophelp.no_catname'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入分类名', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		$count = RC_DB::table('article_cat')->where('cat_name', $cat_name)->where('cat_id', '!=', $id)->count();
 		if ($count) {
-			return $this->showmessage(RC_Lang::get('article::shophelp.catname_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('此分类名已经存在！', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 			RC_DB::table('article_cat')->where('cat_id', $id)->update(array('cat_name' => $cat_name));
 			
@@ -300,7 +299,7 @@ class admin_shophelp extends ecjia_admin {
 	    	$orm_article_db->delete_cache_item($cache_id_list);
 	    	
 	        ecjia_admin::admin_log($cat_name, 'edit', 'shophelpcat');
-			return $this->showmessage(RC_Lang::get('article::shophelp.catedit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => stripslashes($cat_name)));
+			return $this->showmessage(__('编辑成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => stripslashes($cat_name)));
 		}
 	}
 	
@@ -313,10 +312,10 @@ class admin_shophelp extends ecjia_admin {
 		$order 	= !empty($_POST['value']) 	? trim($_POST['value']) : '';
 
 		if (!is_numeric($order)) {
-			return $this->showmessage(RC_Lang::get('article::shophelp.enter_int'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入一个整数', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 			RC_DB::table('article_cat')->where('cat_id', $id)->update(array('sort_order' => $order));
-			return $this->showmessage(RC_Lang::get('article::shophelp.catedit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('article/admin_shophelp/init')) );
+			return $this->showmessage(__('编辑成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('article/admin_shophelp/init')) );
 		}
 	}
 	
@@ -330,7 +329,7 @@ class admin_shophelp extends ecjia_admin {
 
 		$count = RC_DB::table('article')->where('cat_id', $id)->count();
 		if ($count != 0) {
-			return $this->showmessage(RC_Lang::get('article::shophelp.not_emptycat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('编辑成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 		    $cat_name = RC_DB::table('article_cat')->where('cat_id', $id)->pluck('cat_name');
 		    //释放article_list缓存
@@ -341,7 +340,7 @@ class admin_shophelp extends ecjia_admin {
 			ecjia_admin::admin_log($cat_name, 'remove', 'shophelpcat');
 			
 			RC_DB::table('article_cat')->where('cat_id', $id)->delete();
-			return $this->showmessage(RC_Lang::get('article::shophelp.del_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+			return $this->showmessage(__('删除分类成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 		}
 	}
 	
@@ -363,8 +362,9 @@ class admin_shophelp extends ecjia_admin {
 	    $cache_id_list = sprintf('%X', crc32($cache_article_list_key));
 	    $orm_article_db->delete_cache_item($cache_id_list);
 
-	    ecjia_admin::admin_log($info['title'].'，'.RC_Lang::get('article::shophelp.help_category_is').$cat_name, 'remove', 'shophelp');
-		return $this->showmessage(RC_Lang::get('article::shophelp.remove_article_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+// 	    ecjia_admin::admin_log($info['title'].'，'.__('所属帮助分类是', 'article').$cat_name, 'remove', 'shophelp');
+	    ecjia_admin::admin_log(sprintf(__('%s 所属帮助分类是: %s', 'article'), $info['title'], $cat_name), 'remove', 'shophelp');
+		return $this->showmessage(__('删除文章成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
 	/**
@@ -377,7 +377,7 @@ class admin_shophelp extends ecjia_admin {
 		if (!empty($cat_name)) {
 			$count = RC_DB::table('article_cat')->where('cat_name', $cat_name)->count();
 		    if ($count != 0) {
-				return $this->showmessage(RC_Lang::get('article::shophelp.catname_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('此分类名已经存在！', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			} else {
 				$data = array(
 					'cat_name'  => $cat_name,
@@ -391,10 +391,10 @@ class admin_shophelp extends ecjia_admin {
 				$orm_article_db->delete_cache_item($cache_id_list);
 				
 				ecjia_admin::admin_log($cat_name, 'add', 'shophelpcat');				
-				return $this->showmessage(sprintf(RC_Lang::get('article::shophelp.catadd_succeed'), $cat_name), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('article/admin_shophelp/init')));
+				return $this->showmessage(sprintf(__('添加 %s 分类成功', 'article'), $cat_name), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('article/admin_shophelp/init')));
 			}
 		} else {
-			return $this->showmessage(RC_Lang::get('article::shophelp.js_languages.no_catname'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入分类名', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 	

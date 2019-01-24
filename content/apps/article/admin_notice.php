@@ -130,7 +130,7 @@ class admin_notice extends ecjia_admin {
      			->count();
  			
 		if ($is_only != 0) {
-			return $this->showmessage(sprintf(RC_Lang::get('article::article.title_exist'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(sprintf(__('文章 %s 已经存在', 'article'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$file_name = '';
@@ -168,7 +168,7 @@ class admin_notice extends ecjia_admin {
 		}
 		
 		ecjia_admin::admin_log($title, 'add', $object);
-		return $this->showmessage(sprintf(RC_Lang::get('article::shopinfo.articleadd_succeed'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('article/admin_notice/edit', array('id' => $id))));
+		return $this->showmessage(sprintf(__('添加 %s 成功', 'article'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('article/admin_notice/edit', array('id' => $id))));
 	}
 	
 	/**
@@ -224,7 +224,7 @@ class admin_notice extends ecjia_admin {
 			->count();
 		
 		if ($is_only != 0) {
-			return $this->showmessage(sprintf(RC_Lang::get('article::article.title_exist'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(sprintf(__('文章 %s 已经存在', 'article'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$old_file_name = RC_DB::table('article')->where('article_id', $id)->pluck('file_url');
@@ -266,7 +266,7 @@ class admin_notice extends ecjia_admin {
 		}
 		ecjia_admin::admin_log($title, 'edit', $object);
 		
-		return $this->showmessage(sprintf(RC_Lang::get('article::shopinfo.articleedit_succeed'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('article/admin_notice/edit', array('id' => $id))));
+		return $this->showmessage(sprintf(__('更新 %s 成功', 'article'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('article/admin_notice/edit', array('id' => $id))));
 	}
 	
 	/**
@@ -291,7 +291,7 @@ class admin_notice extends ecjia_admin {
 			}
 			ecjia_admin::admin_log(addslashes($info['title']), 'remove', $object);
 		}
-		return $this->showmessage(sprintf(RC_Lang::get('article::shopinfo.remove_success'), $info['title']), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(sprintf(__('删除 %s 成功', 'article'), $info['title']), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
 	/**
@@ -311,7 +311,7 @@ class admin_notice extends ecjia_admin {
 		);
 		RC_DB::table('article')->where('article_id', $id)->update($data);
 	
-		return $this->showmessage(RC_Lang::get('article::article.drop_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('article/admin_notice/edit', array('id' => $id))));
+		return $this->showmessage(__('删除成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('article/admin_notice/edit', array('id' => $id))));
 	}
 	
 	/**

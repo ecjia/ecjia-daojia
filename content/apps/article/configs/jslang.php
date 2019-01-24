@@ -44,62 +44,48 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 某一分类下文章列表
- * @author zrl
+ * js语言包设置
  */
-class article_list_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    	
-    	RC_Loader::load_app_class('article_list', 'article', false);
-		$cat_id	 = $this->requestData('cat_id', 0);
-		if ($cat_id <= 0) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'article'));
-		}
-		/* 获取数量 */
-		$size = $this->requestData('pagination.count', 15);
-		$page = $this->requestData('pagination.page', 1);
+
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+	//平台后台和商家后台文章
+	'article_page' =>array(
+		'select_moved_article'		=> __('请选择需要转移的文章', 'article'),
+		'article_title_required'	=> __('请输入文章标题', 'article'),
+		'back_select_term'			=> __('返回选择栏目', 'article'),
+		'select_goods_empty'		=> __('未搜索到商品信息', 'article'),
+		'ok'						=> __('确定', 'article'),
+		'cancel'					=> __('取消', 'article'),
+		'no_select_cat'				=> __('请选择文章分类', 'article'),
+	),
 		
-		$options = array(
-				'size'			=> $size,
-				'page'			=> $page,
-				'cat_id'		=> $cat_id,
-				'sort_by'		=> 'a.add_time',
-				'sort_order'	=> 'DESC',
-				'article_approved'		=> 1
-		);
+	//文章自动发布
+	'article_auto_page' => array(
+		'editable_miss_parameters'	=> __('editable缺少参数', 'article'),
+		'edit_info'					=> __('编辑信息', 'article'),
+		'operate_selected_confirm'  => __('您确定要操作所有选中项吗？', 'article'),
+		'noSelectMsg'				=> __('请先选中操作项', 'article'),
+		'select_time'   		    => __('请选择时间', 'article'),
+		'batch_miss_parameters'		=> __('批量操作缺少参数', 'article'),
+	),
 		
-		$article_data =article_list::article_lists($options);
-		$platform = RC_Uri::admin_url('statics/images/platform_logo.png');//平台默认logo
+	//文章分类
+	'article_cat_page' => array(
+		'cat_name_required'	        => __('请输入文章分类名称', 'article'),
+	),
 		
-		$arr = array();
-		if(!empty($article_data['list'])) {
-			foreach ($article_data['list'] as $rows) {
-				if ($rows['store_id'] > 0) {
-					$store_logo =  RC_DB::table('merchants_config')->where('store_id', $rows['store_id'])->where('code', 'shop_logo')->pluck('value');
-					$store_name = RC_DB::table('store_franchisee')->where('store_id', $rows['store_id'])->pluck('merchants_name');
-				}
-				$arr[] = array(
-						'article_id' 		=> intval($rows['article_id']),
-						'article_type' 		=> $rows['article_type'],
-						'add_time'			=> RC_Time::local_date(ecjia::config('date_format'), $rows['add_time']),
-						'title'				=> $rows['title'],
-						'description'		=> !empty($rows['description']) ? $rows['description'] : '',
-						'click_count'		=> $rows['click_count'],
-						'cover_image'		=> !empty($rows['cover_image']) ? RC_Upload::upload_url($rows['cover_image']) : '',
-						'file_url'			=> !empty($rows['file_url']) ? RC_Upload::upload_url($rows['file_url']) : '',
-						'link_url'			=> !empty($rows['link']) ? $rows['link'] : '',
-						'store_info'		=> array(
-													'store_id' 		=> $rows['store_id'] > 0 ? $rows['store_id'] : 0,
-													'store_name' 	=> $rows['store_id'] > 0 ? $store_name : '小编推荐',
-													'store_logo'	=> $rows['store_id'] > 0 ? RC_Upload::upload_url($store_logo) :  $platform
-												)
-				);
-			}
-		}
-		return array('data' => $arr, 'pager' => $article_data['page']);
-	}
-}
-// end
+	//网店帮助
+	'shophelp_page' => array(
+		'shophelp_title_required'   => __('请输入帮助文章标题', 'article'),
+	),
+		
+	//网店信息
+	'shopinfo_page' => array(
+		'shopinfo_title_required'   => __('请输入网店标题', 'article'),
+	)
+);
+//end

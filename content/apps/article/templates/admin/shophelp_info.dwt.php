@@ -21,7 +21,7 @@
 			<form class="form-horizontal" action="{$form_action}" method="post" enctype="multipart/form-data" name="theForm">
 				<div class="control-group formSep">
 					<div>
-						<input type="text" name="title" size="40" maxlength="60"  class="span10"  value="{$article.title}" placeholder="{lang key='article::shophelp.enter_help_article_title'}" /> <span class="input-must">{lang key='system::system.require_field'}</span>
+						<input type="text" name="title" size="40" maxlength="60"  class="span10"  value="{$article.title}" placeholder="{t domain="article"}在此输入帮助文章标题{/t}" /> <span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 					</div>
 				</div>
 				<div class="control-group formSep">
@@ -31,21 +31,21 @@
 					<div class="accordion-group">
 						<div class="accordion-heading">
 							<a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#collapse001">
-								<strong>{lang key='article::article.seo_optimization'}</strong>
+								<strong>{t domain="article"}SEO优化{/t}</strong>
 							</a>
 						</div>
 						<div class="accordion-body collapse" id="collapse001">
 							<div class="accordion-inner">
 							<div class="control-group control-group-small" >
-									<label class="control-label">{lang key='article::article.keyword'}：</label>
+									<label class="control-label">{t domain="article"}关键字：{/t}</label>
 									<div class="controls">
 										<input class="span12" type="text" name="keywords" value="{$article.keywords}" size="40" />
 										<br />
-										<p class="help-block w280 m_t5">{lang key='article::article.split'}</p>
+										<p class="help-block w280 m_t5">{t domain="article"}用英文逗号分隔{/t}</p>
 									</div>
 								</div>
 								<div class="control-group control-group-small" >
-									<label class="control-label">{lang key='article::article.simple_description'}</label>
+									<label class="control-label">{t domain="article"}简单描述：{/t}</label>
 									<div class="controls">
 										<textarea class="span12 h100" name="description" cols="40" rows="3">{$article.description}</textarea>
 									</div>
@@ -56,11 +56,11 @@
 				</div>
 				<p class="ecjiaf-tac">
 					<!-- {if $article.article_id} -->
-					<button class="btn btn-gebo" type="submit">{lang key='article::article.update'}</button>
+					<button class="btn btn-gebo" type="submit">{t domain="article"}更新{/t}</button>
 					<input type="hidden" name="old_title" value="{$article.title}" />
 					<input type="hidden" name="id" value="{$article.article_id}" />
 					<!-- {else} -->
-					<button class="btn btn-gebo" type="submit">{lang key='system::system.button_submit'}</button>
+					<button class="btn btn-gebo" type="submit">{t domain="article"}确定{/t}</button>
 					<!-- {/if} -->
 					<input type="hidden" name="cat_id" value="{$cat_id}" />
 				</p>

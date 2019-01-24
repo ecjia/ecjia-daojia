@@ -16,10 +16,10 @@
     	<table class="table table-striped" id="smpl_tbl">
     		<thead>
     			<tr>
-    				<th class="w70">{lang key='article::shopinfo.id'}</th>
-    				<th>{lang key='article::shopinfo.title'}</th>
-    				<th class="w180">{lang key='article::shopinfo.add_time'}</th>
-    				<th class="w70">{lang key='system::system.handler'}</th>
+    				<th class="w70">{t domain="article"}编号{/t}</th>
+    				<th>{t domain="article"}网店标题{/t}</th>
+    				<th class="w180">{t domain="article"}添加时间{/t}</th>
+    				<th class="w70">{t domain="article"}操作{/t}</th>
     			</tr>
     		</thead>
     		<tbody>
@@ -33,13 +33,13 @@
     				<td align="right"><span>{$item.add_time}</span></td>
     				<td align="right">
     					<span>
-    						<a class="data-pjax no-underline" href='{RC_Uri::url("article/admin_shopinfo/edit", "id={$item.article_id}")}' title="{lang key='system::system.edit'}"><i class="fontello-icon-edit"></i></a>
-    						<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{lang key='article::shopinfo.drop_shopinfo_confirm'}" href='{RC_Uri::url("article/admin_shopinfo/remove", "id={$item.article_id}")}' title="{lang key='system::system.remove'}"><i class="fontello-icon-trash"></i></a>
+    						<a class="data-pjax no-underline" href='{RC_Uri::url("article/admin_shopinfo/edit", "id={$item.article_id}")}' title="{t domain="article"}编辑{/t}"><i class="fontello-icon-edit"></i></a>
+    						<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要删除该网店信息吗？{/t}" href='{RC_Uri::url("article/admin_shopinfo/remove", "id={$item.article_id}")}' title="{t domain="article"}删除{/t}"><i class="fontello-icon-trash"></i></a>
     					</span>
     				</td>
     			</tr>
     			<!-- {foreachelse} -->
-    			<tr><td class="no-records" colspan="4">{lang key='system::system.no_records'}</td></tr>
+    			<tr><td class="no-records" colspan="4">{t domain="article"}没有找到任何记录{/t}</td></tr>
     			<!-- {/foreach} -->
     		</tbody>
     	</table>

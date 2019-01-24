@@ -57,7 +57,7 @@ class article_suggestlist_module extends api_front implements api_interface {
 		$type	 = $this->requestData('type', 'stickie');//置顶的
 		$types   = array('stickie');
 		if (!in_array($type, $types)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'article'));
 		}
 		/* 获取数量 */
 		$size = $this->requestData('pagination.count', 15);

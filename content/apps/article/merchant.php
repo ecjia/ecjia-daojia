@@ -74,9 +74,11 @@ class merchant extends ecjia_merchant {
 		RC_Style::enqueue_style('ecjia-mh-editable-css');
 		
 		RC_Script::enqueue_script('merchant_article_list', RC_App::apps_url('statics/js/merchant_article_list.js', __FILE__), array(), false, true);
-		RC_Script::localize_script('merchant_article_list', 'js_lang', RC_Lang::get('article::article.js_lang'));
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('article::article.article_list'), RC_Uri::url('article/merchant/init')));
+		RC_Script::localize_script('article_list', 'js_lang', config('app-article::jslang.article_page'));
+		
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('文章列表', 'article'), RC_Uri::url('article/merchant/init')));
+		
 		ecjia_merchant_screen::get_current_screen()->set_parentage('article', 'article/merhcant.php');
 		
 	}
@@ -88,20 +90,10 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('mh_article_manage');
    
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('article::article.article_list')));
-		ecjia_screen::get_current_screen()->add_help_tab(array(
-			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('article::article.overview'),
-			'content'	=> '<p>' . RC_Lang::get('article::article.article_list_help') . '</p>'
-		));
-
-		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('article::article.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:文章列表" target="_blank">'.RC_Lang::get('article::article.about_article_list').'</a>') . '</p>'
-		);
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('文章列表', 'article')));
 		
-		$this->assign('ur_here', RC_Lang::get('article::article.article_list'));
-		$this->assign('action_link', array('text' => RC_Lang::get('system::system.article_add'), 'href' => RC_Uri::url('article/merchant/add')));
+		$this->assign('ur_here', __('文章列表', 'article'));
+		$this->assign('action_link', array('text' => __('添加新文章', 'article'), 'href' => RC_Uri::url('article/merchant/add')));
 		
 		$result = ecjia_app::validate_application('goods');
 		if (!is_ecjia_error($result)) {
@@ -120,6 +112,7 @@ class merchant extends ecjia_merchant {
 		
 		$this->assign('form_action', RC_Uri::url('article/merchant/batch'));
 		$this->assign('search_action', RC_Uri::url('article/merchant/init'));
+		
 		$this->display('article_list.dwt');
 	}
 
@@ -130,20 +123,10 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('mh_article_update');
 
 		RC_Script::enqueue_script('dropper-jq', RC_Uri::admin_url('statics/lib/dropper-upload/jquery.fs.dropper.js'), array(), false, true);
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('system::system.article_add')));
-		ecjia_screen::get_current_screen()->add_help_tab(array(
-			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('article::article.overview'),
-			'content'	=> '<p>' . RC_Lang::get('article::article.add_article_help') . '</p>'
-		));
-
-		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('article::article.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:添加文章" target="_blank">'.RC_Lang::get('article::article.about_add_article').'</a>') . '</p>'
-		);
 		
-		$this->assign('ur_here', RC_Lang::get('system::system.article_add'));
-		$this->assign('action_link', array('text' => RC_Lang::get('article::article.article_list'), 'href' => RC_Uri::url('article/merchant/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加新文章', 'article')));
+		$this->assign('ur_here', __('添加新文章', 'article'));
+		$this->assign('action_link', array('text' => __('文章列表', 'article'), 'href' => RC_Uri::url('article/merchant/init')));
 		
 		$this->assign('cat_select', article_cat::article_cat_list(0, 0, false, 0, 'article'));
 		$this->assign('form_action', RC_Uri::url('article/merchant/insert'));
@@ -196,30 +179,30 @@ class merchant extends ecjia_merchant {
 		
 
 		if (empty($cat_id)) {
-			return $this->showmessage(RC_Lang::get('article::article.no_select_act'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择文章分类', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		if ($article_type == 'article' || $article_type == 'related') {
 			if (empty($content)) {
-				return $this->showmessage(RC_Lang::get('article::article.content_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('请输入文章内容', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		} 
 		
 		if ($article_type == 'redirect') {
 			if (empty($link) || $link == 'http://' || $link == 'https://') {
-				return $this->showmessage(RC_Lang::get('article::article.link_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('请输入链接', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		} 
 		
 		if ($article_type == 'download' || $article_type == 'related') {
 			if (empty($file_name)) {
-				return $this->showmessage(RC_Lang::get('article::article.file_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('请上传文件', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 		
 		$is_only = article_title_exists($title);
 		if ($is_only) {
-			return $this->showmessage(sprintf(RC_Lang::get('article::article.title_exist'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
+			return $this->showmessage(sprintf(__('文章  %s 已经存在', 'article'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
 		}
 		
 		$cover_image = '';
@@ -268,9 +251,9 @@ class merchant extends ecjia_merchant {
 		
 		ecjia_merchant::admin_log($title, 'add', 'article');
 
-		$links[] = array('text' => RC_Lang::get('article::article.back_article_list'), 'href'=> RC_Uri::url('article/merchant/init'));
-		$links[] = array('text' => RC_Lang::get('article::article.continue_article_add'), 'href'=> RC_Uri::url('article/merchant/add'));
-		return $this->showmessage(RC_Lang::get('article::article.articleadd_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('article/merchant/edit', array('id' => $article_id))));
+		$links[] = array('text' => __('返回文章列表', 'article'), 'href'=> RC_Uri::url('article/merchant/init'));
+		$links[] = array('text' => __('继续添加新文章', 'article'), 'href'=> RC_Uri::url('article/merchant/add'));
+		return $this->showmessage(__('文章已经添加成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('article/merchant/edit', array('id' => $article_id))));
 		
 	}
 
@@ -303,7 +286,7 @@ class merchant extends ecjia_merchant {
 			'value'      => $value,
 			'pjaxurl'    => RC_Uri::url('article/merchant/edit', array('id' => $article_id))
 		);
-		return $this->showmessage(RC_Lang::get('article::article.add_custom_columns_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, $res);
+		return $this->showmessage(__('添加自定义栏目成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, $res);
 	}
 
 	/**
@@ -316,7 +299,7 @@ class merchant extends ecjia_merchant {
 		$meta_id    = !empty($_POST['meta_id'])    ? intval($_POST['meta_id'])    : 0;
 
 		if (empty($meta_id)) {
-			return $this->showmessage(RC_Lang::get('article::article.miss_parameters_faild'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('缺少关键参数，更新失败', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		$key	= !empty($_POST['key'])     ? htmlspecialchars(trim($_POST['key']))     : '';
@@ -341,7 +324,7 @@ class merchant extends ecjia_merchant {
 			'value'		=> $value,
 			'pjaxurl'	=> RC_Uri::url('article/merchant/edit', array('id' => $article_id))
 		);
-		return $this->showmessage(RC_Lang::get('article::article.update_custom_columns_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, $res);
+		return $this->showmessage(__('更新自定义栏目成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, $res);
 	}
 
 	/**
@@ -352,14 +335,16 @@ class merchant extends ecjia_merchant {
 		
 		$meta_id = !empty($_GET['meta_id']) ? intval($_GET['meta_id']) : 0;
 		$article_id = RC_DB::table('term_meta')->where('meta_id', $meta_id)->where('object_type', 'ecjia.article')->where('object_group', 'article')->pluck('object_id');
+		
 		RC_DB::table('term_meta')->where('meta_id', $meta_id)->delete();
+		
 		/*释放文章缓存*/
 		$orm_article_db = RC_Model::model('article/orm_article_model');
 		$cache_article_info_key = 'article_info_'.$article_id;
 		$cache_id_info = sprintf('%X', crc32($cache_article_info_key));
 		$orm_article_db->delete_cache_item($cache_id_info);//释放article_info缓存
 		
-		return $this->showmessage(RC_Lang::get('article::article.drop_custom_columns_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('删除自定义栏目成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 
 	/**
@@ -368,20 +353,10 @@ class merchant extends ecjia_merchant {
 	public function edit() {
 		$this->admin_priv('mh_article_update');
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('article::article.article_edit')));
-		ecjia_screen::get_current_screen()->add_help_tab(array(
-			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('article::article.overview'),
-			'content'	=> '<p>' . RC_Lang::get('article::article.edit_article_help') . '</p>'
-		));
-
-		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('article::article.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:文章列表#.E6.96.87.E7.AB.A0.E7.BC.96.E8.BE.91" target="_blank">'.RC_Lang::get('article::article.about_edit_article').'</a>') . '</p>'
-		);
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑文章内容', 'article')));
 		
-		$this->assign('ur_here', RC_Lang::get('article::article.article_edit'));
-		$this->assign('action_link', array('text' => RC_Lang::get('article::article.article_list'), 'href' => RC_Uri::url('article/merchant/init')));
+		$this->assign('ur_here', __('编辑文章内容', 'article'));
+		$this->assign('action_link', array('text' => __('文章列表', 'article'), 'href' => RC_Uri::url('article/merchant/init')));
 
 		$result = ecjia_app::validate_application('goods');
 		if (!is_ecjia_error($result)) {
@@ -391,8 +366,8 @@ class merchant extends ecjia_merchant {
 		
 		$article = get_merchant_article_info($id);
 		if (empty($article)) {
-			$links = array('links' => array(array('text' => RC_Lang::get('article::article.back_article_list'), 'href' => RC_Uri::url('article/merchant/init'))));
-			return $this->showmessage(RC_Lang::get('article::article.article_required'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, $links);
+			$links = array('links' => array(array('text' => __('返回文章列表', 'article'), 'href' => RC_Uri::url('article/merchant/init'))));
+			return $this->showmessage(__('没有找到该文章', 'article'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, $links);
 		}
 		if (!empty($article['content'])) {
 			$article['content'] = stripslashes($article['content']);
@@ -448,7 +423,7 @@ class merchant extends ecjia_merchant {
 
 		$article = get_merchant_article_info($id);
 		if (empty($article)) {
-			return $this->showmessage(RC_Lang::get('article::article.article_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('没有找到该文章', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$file_name = $article['file_url'];
@@ -477,30 +452,30 @@ class merchant extends ecjia_merchant {
 		}
 
 		if (empty($cat_id)) {
-			return $this->showmessage(RC_Lang::get('article::article.no_select_act'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择文章分类', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		if ($article_type == 'article' || $article_type == 'related') {
 			if (empty($content)) {
-				return $this->showmessage(RC_Lang::get('article::article.content_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('请输入文章内容', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 		
 		if ($article_type == 'redirect') {
 			if (empty($link) || $link == 'http://' || $link == 'https://') {
-				return $this->showmessage(RC_Lang::get('article::article.link_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('请输入链接', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 		
 		if ($article_type == 'download' || $article_type == 'related') {
 			if (empty($file_name)) {
-				return $this->showmessage(RC_Lang::get('article::article.file_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('请上传文件', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 		
 		$is_only = article_title_exists($title, $id);
 		if ($is_only) {
-			return $this->showmessage(sprintf(RC_Lang::get('article::article.title_exist'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
+			return $this->showmessage(sprintf(__('文章  %s 已经存在', 'article'), stripslashes($title)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
 		}
 		
 		$cover_image = $article['cover_image'];
@@ -552,10 +527,10 @@ class merchant extends ecjia_merchant {
 		if ($query) {
 		    ecjia_merchant::admin_log($title, 'edit', 'article');
 		    
-			$note = sprintf(RC_Lang::get('article::article.articleedit_succeed'), stripslashes($title));
+			$note = sprintf(__('文章 %s 成功编辑', 'article'), stripslashes($title));
 			return $this->showmessage($note, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array( 'pjaxurl' => RC_Uri::url('article/merchant/edit', array('id' => $id))));
 		} else {
-			return $this->showmessage(RC_Lang::get('article::article.articleedit_fail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('文章编辑失败', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 	
@@ -565,30 +540,19 @@ class merchant extends ecjia_merchant {
 	public function preview() {
 		$this->admin_priv('mh_article_manage');
 		
-		$id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('文章预览', 'article')));
+		$this->assign('ur_here', __('文章预览', 'article'));
 		
+		$id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
 		RC_Hook::do_action('article_merchant_priview_handler', $id);
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('article::article.preview_article')));
-		ecjia_screen::get_current_screen()->add_help_tab(array(
-			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('article::article.overview'),
-			'content'	=> '<p>' . RC_Lang::get('article::article.preview_article_help') . '</p>'
-		));
-
-		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('article::article.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:文章列表#.E9.A2.84.E8.A7.88.E6.96.87.E7.AB.A0" target="_blank">'.RC_Lang::get('article::article.about_preview_article').'</a>') . '</p>'
-		);
-		
-		$this->assign('ur_here', RC_Lang::get('article::article.preview_article'));
-		$this->assign('action_linkedit', array('text' => RC_Lang::get('article::article.article_editbtn'), 'href' => RC_Uri::url('article/merchant/edit', array('id' => $id))));
-		$this->assign('action_link', array('text' => RC_Lang::get('article::article.article_list'), 'href' => RC_Uri::url('article/merchant/init')));
+		$this->assign('action_linkedit', array('text' => __('编辑文章', 'article'), 'href' => RC_Uri::url('article/merchant/edit', array('id' => $id))));
+		$this->assign('action_link', array('text' => __('文章列表', 'article'), 'href' => RC_Uri::url('article/merchant/init')));
 		
 		$article = get_merchant_article_info($id);
 		if (empty($article)) {
-			$links = array('links' => array(array('text' => RC_Lang::get('article::article.back_article_list'), 'href' => RC_Uri::url('article/merchant/init'))));
-			return $this->showmessage(RC_Lang::get('article::article.article_required'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, $links);
+			$links = array('links' => array(array('text' => __('返回文章列表', 'article'), 'href' => RC_Uri::url('article/merchant/init'))));
+			return $this->showmessage(__('没有找到该文章', 'article'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, $links);
 		}
 		$this->assign('article', $article);
 
@@ -601,27 +565,17 @@ class merchant extends ecjia_merchant {
 	public function link_goods() {
 		$this->admin_priv('mh_article_update');
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('article::article.edit_link_goods')));
-		ecjia_screen::get_current_screen()->add_help_tab(array(
-			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('article::article.overview'),
-			'content'	=> '<p>' . RC_Lang::get('article::article.link_goods_help') . '</p>'
-		));
-
-		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('article::article.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:文章列表#.E5.85.B3.E8.81.94.E5.95.86.E5.93.81" target="_blank">'.RC_Lang::get('article::article.about_link_goods').'</a>') . '</p>'
-		);
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑关联商品', 'article')));
 		
-		$this->assign('action_link', array('href' => RC_Uri::url('article/merchant/init'), 'text' => RC_Lang::get('article::article.article_list')));
-		$this->assign('ur_here', RC_Lang::get('article::article.edit_link_goods'));
+		$this->assign('action_link', array('href' => RC_Uri::url('article/merchant/init'), 'text' => __('文章列表', 'article')));
+		$this->assign('ur_here', __('编辑关联商品', 'article'));
 		
 		$article_id = !empty($_GET['id']) ? $_GET['id'] : '';
 		
 		$article = get_merchant_article_info($article_id);
 		if (empty($article)) {
-			$links = array('links' => array(array('text' => RC_Lang::get('article::article.back_article_list'), 'href' => RC_Uri::url('article/merchant/init'))));
-			return $this->showmessage(RC_Lang::get('article::article.article_required'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, $links);
+			$links = array('links' => array(array('text' => __('返回文章列表', 'article'), 'href' => RC_Uri::url('article/merchant/init'))));
+			return $this->showmessage(__('没有找到该文章', 'article'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, $links);
 		}
 		
 		$linked_goods = RC_DB::table('goods_article')
@@ -667,10 +621,10 @@ class merchant extends ecjia_merchant {
 		$cache_id_info = sprintf('%X', crc32($cache_article_info_key));
 		$orm_article_db->delete_cache_item($cache_id_info);//释放article_info缓存
 		
-		$article = get_merchant_article_info($id);
-		
-		ecjia_merchant::admin_log(RC_Lang::get('article::article.tab_goods').'，'.RC_Lang::get('article::article.article_title_is').$article['title'], 'setup', 'article');
-		return $this->showmessage(RC_Lang::get('article::article.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('article/merchant/link_goods', array('id' => $article_id))));
+		$article = get_merchant_article_info($article_id);
+		//TODO语言包升级
+		ecjia_merchant::admin_log(__('关联商品', 'article').'，'.__('文章标题是', 'article').$article['title'], 'setup', 'article');
+		return $this->showmessage(__('操作成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('article/merchant/link_goods', array('id' => $article_id))));
 	}
 
 	/**
@@ -684,12 +638,12 @@ class merchant extends ecjia_merchant {
 		$cat_id = !empty($_POST['name'])  ? intval($_POST['name'])    : 0;
 
 		if (empty($title)) {
-			return $this->showmessage(RC_Lang::get('article::article.article_title_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('文章标题不能为空', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$title_exist = article_title_exists($title, $id);
 		if ($title_exist) {
-			return $this->showmessage(sprintf(RC_Lang::get('article::article.title_exist'), $title), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(sprintf(__('文章 %s 已经存在', 'article'), $title), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 	    $data = array(
@@ -705,9 +659,9 @@ class merchant extends ecjia_merchant {
 
 		if ($query) {
 			ecjia_merchant::admin_log($title, 'edit', 'article');
-			return $this->showmessage(sprintf(RC_Lang::get('article::article.edit_title_success'), $title), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => stripslashes($title)));
+			return $this->showmessage(__('文章标题编辑成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => stripslashes($title)));
 		} else {
-			return $this->showmessage(RC_Lang::get('article::article.articleedit_fail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('文章标题编辑失败', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 
@@ -721,7 +675,7 @@ class merchant extends ecjia_merchant {
 		
 		$article = get_merchant_article_info($id);
 		if (empty($article)) {
-			return $this->showmessage(RC_Lang::get('article::article.article_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('没有找到该文章', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		$delete = RC_DB::table('article')->where('article_id', $id)->where('store_id', $_SESSION['store_id'])->update(array('article_approved' => 'spam'));
@@ -734,9 +688,9 @@ class merchant extends ecjia_merchant {
 			$orm_article_db->delete_cache_item($cache_id_info);//释放article_info缓存
 			
 			ecjia_merchant::admin_log(addslashes($article['title']), 'remove', 'article');
-			return $this->showmessage(RC_Lang::get('article::article.drop_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+			return $this->showmessage(__('删除成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 		} else {
-			return $this->showmessage(RC_Lang::get('article::article.edit_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('操作失败', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 	
@@ -772,13 +726,13 @@ class merchant extends ecjia_merchant {
 						$article = get_merchant_article_info($comment_info['id_value']);
 						update_article_comment_count($comment_info['id_value']);
 						//记录日志
-						ecjia_merchant::admin_log('评论内容为：'.$comment_info['content'].'，'.RC_Lang::get('article::article.article_title_is'). $article['title'], 'batch_remove', 'article_comment');
+						ecjia_merchant::admin_log('评论内容为：'.$comment_info['content'].'，'.__('文章标题是', 'article'). $article['title'], 'batch_remove', 'article_comment');
 					}
 					$pjaxurl = RC_Uri::url('article/merchant/article_comment');
 					if (!empty($article_id)) {
 						$pjaxurl .= '&id='.$article_id;
 					}
-					return $this->showmessage(RC_Lang::get('article::article.batch_handle_ok_del'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
+					return $this->showmessage(__('批量删除操作成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
 				}
 			}			
 		} else {
@@ -787,12 +741,12 @@ class merchant extends ecjia_merchant {
 	
 			$article = get_merchant_article_info($article_id);
 			if (empty($article)) {
-				return $this->showmessage(RC_Lang::get('article::article.article_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('没有找到该文章', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			
 			$comment_info = RC_DB::table('discuss_comments')->where('id', $id)->where('store_id', $_SESSION['store_id'])->first();
 			if (empty($comment_info)) {
-				return $this->showmessage(RC_Lang::get('article::article.comment_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('没有找到该评论', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			$delete = RC_DB::table('discuss_comments')->where('id', $id)->where('store_id', $_SESSION['store_id'])->update(array('comment_approved' => 'spam'));
 			
@@ -805,11 +759,11 @@ class merchant extends ecjia_merchant {
 				$orm_article_db->delete_cache_item($cache_id_info);//释放article_info缓存
 					
 				//记录日志
-				ecjia_merchant::admin_log(RC_Lang::get('article::article.article_title_is'). $article['title'], 'remove', 'article_comment');
-				return $this->showmessage(RC_Lang::get('article::article.drop_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+				ecjia_merchant::admin_log(__('文章标题是', 'article'). $article['title'], 'remove', 'article_comment');
+				return $this->showmessage(__('删除成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 			}
 		}
-		return $this->showmessage(RC_Lang::get('article::article.edit_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		return $this->showmessage(__('操作失败', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	}
 
 	/**
@@ -835,7 +789,7 @@ class merchant extends ecjia_merchant {
 		$cache_id_info = sprintf('%X', crc32($cache_article_info_key));
 		$orm_article_db->delete_cache_item($cache_id_info);//释放article_info缓存
 		
-		return $this->showmessage(RC_Lang::get('article::article.delete_attachment_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('删除附件成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 
 	/**
@@ -870,14 +824,14 @@ class merchant extends ecjia_merchant {
 						ecjia_merchant::admin_log($v['title'], 'batch_remove', 'article');
 					}
 
-					return $this->showmessage(RC_Lang::get('article::article.batch_handle_ok_del'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('article/merchant/init')));
+					return $this->showmessage(__('批量删除操作成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('article/merchant/init')));
 					break;
 
 				//批量转移分类
 				case 'move_to' :
 					$target_cat = intval($_GET['target_cat']);
 					if ($target_cat <= 0) {
-						return $this->showmessage(RC_Lang::get('article::article.no_select_act'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+						return $this->showmessage(__('请选择文章分类', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 					}
 					
 					$data = array('cat_id' => $target_cat);
@@ -890,9 +844,9 @@ class merchant extends ecjia_merchant {
 						$cache_id_info = sprintf('%X', crc32($cache_article_info_key));
 						$orm_article_db->delete_cache_item($cache_id_info);//释放article_info缓存
 						
-						ecjia_merchant::admin_log(RC_Lang::get('article::article.move_article'). $v['title'] . RC_Lang::get('article::article.to_category') . $cat_name, 'batch_setup', 'article');
+						ecjia_merchant::admin_log(__('转移文章', 'article'). $v['title'] . __('至分类') . $cat_name, 'batch_setup', 'article');
 					}
-					return $this->showmessage(RC_Lang::get('article::article.batch_handle_ok_move'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('article/merchant/init')));
+					return $this->showmessage(__('批量转移操作成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('article/merchant/init')));
 					break;
 				default :
 					break;
@@ -933,8 +887,8 @@ class merchant extends ecjia_merchant {
 		
 		$id = !empty($_GET['id']) ? $_GET['id'] : '';
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('article::article.article_comment_list')));
-		$this->assign('ur_here', RC_Lang::get('article::article.article_comment_list'));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('文章评论列表', 'article')));
+		$this->assign('ur_here', __('文章评论列表', 'article'));
 		$this->assign('id', $id);
 		
 		$article_comment_list = $this->get_article_comment_list($id);
@@ -971,22 +925,21 @@ class merchant extends ecjia_merchant {
 		
 		$article = get_merchant_article_info($article_id);
 		if (empty($article)) {
-			return $this->showmessage(RC_Lang::get('article::article.article_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('没有找到该文章', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$comment_info = get_merchant_comment_info($comment_id);
-
-		//批准
+		
 		if ($status == 1) {
-			$message = '通过文章评论，评论内容为：'.$comment_info['content'].'，文章标题为：'.$article['title'];
+			$message = sprintf(__('通过文章评论，评论内容为：%s，文章标题为：%s', 'article'), $comment_info['content'],$article['title']);
 		}
 		
 		if ($status == 0) {
-			$message = '驳回文章评论，评论内容为：'.$comment_info['content'].'，文章标题为：'.$article['title'];
+			$message = sprintf(__('驳回文章评论，评论内容为：%s，文章标题为：%s', 'article'), $comment_info['content'],$article['title']);
 		}
 		
 		if ($status == 'spam') {
-			$message = '设为垃圾评论，评论内容为：'.$comment_info['content'].'，文章标题为：'.$article['title'];
+			$message = sprintf(__('设为垃圾评论，评论内容为：%s，文章标题为：%s', 'article'), $comment_info['content'],$article['title']);
 		}
 		
 		$update = RC_DB::table('discuss_comments')->where('id', $comment_id)->where('store_id', $_SESSION['store_id'])->update(array('comment_approved' => $status));
@@ -998,11 +951,11 @@ class merchant extends ecjia_merchant {
 			$orm_article_db = RC_Model::model('article/orm_article_model');
 			$cache_article_info_key = 'article_info_'.$article_id;
 			$cache_id_info = sprintf('%X', crc32($cache_article_info_key));
-			$orm_article_db->delete_cache_item($cache_id_info);//释放article_info缓存
+			$orm_article_db->delete_cache_item($cache_id_info);
 				
 			//记录日志
 			ecjia_merchant::admin_log($message, 'setup', 'article_comment');
-			return $this->showmessage(RC_Lang::get('article::article.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjax_url));
+			return $this->showmessage(__('操作成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjax_url));
 		}
 	}
 	
@@ -1044,13 +997,14 @@ class merchant extends ecjia_merchant {
 				$article = get_merchant_article_info($comment_info['id_value']);
 				update_article_comment_count($comment_info['id_value']);
 				//记录日志
-				ecjia_merchant::admin_log('评论内容为：'.$comment_info['content'].'，'.RC_Lang::get('article::article.article_title_is'). $article['title'], 'batch_setup', 'article_comment');
+// 				ecjia_merchant::admin_log('评论内容为：'.$comment_info['content'].'，'.__('文章标题是', 'article'). $article['title'], 'batch_setup', 'article_comment');
+				ecjia_merchant::admin_log(sprintf(__('评论内容为：%s，文章标题为：%s','article'), $comment_info['content'],$article['title']), 'batch_setup', 'article_comment');
 			}
 			$pjaxurl = RC_Uri::url('article/merchant/article_comment');
 			if (!empty($article_id)) {
 				$pjaxurl .= '&id='.$article_id;
 			}
-			return $this->showmessage(RC_Lang::get('article::article.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
+			return $this->showmessage(__('操作成功', 'article'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
 			
 		}			
 	}

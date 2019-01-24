@@ -10,7 +10,7 @@
 
 {if $crons_enable neq 1}
 <div class="alert alert-info">
-	<strong>{lang key='article::article.tips'}</strong>{lang key='article::article.enable_notice'}
+	<strong>{t domain="article"}温馨提示：{/t}</strong>{t domain="article"}您需要到工具->计划任务中开启该功能后才能使用。{/t}
 </div>
 {/if}
 	    
@@ -27,14 +27,14 @@
 	<div class="span12">
 		<div class="row-fluid batch">
 			<div class="f_l form-inline">
-				<input type="text" name="select_time" class="w150 date" placeholder="{lang key='article::article.choose_time'}">
-				<a class="btn btnSubmit" data-idClass=".checkbox:checked" data-url='{url path="article/admin_article_auto/batch" args="type=batch_start{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{lang key='article::article.batch_issue_confirm'}" data-noSelectMsg="{lang key='article::article.select_article_msg'}" data-name="article_id" href="javascript:;" >{lang key='article::article.button_start'}</a>
-				<a class="btn btnSubmit" data-idClass=".checkbox:checked" data-url='{url path="article/admin_article_auto/batch" args="type=batch_end{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{lang key='article::article.batch_cancel_confirm'}" data-noSelectMsg="{lang key='article::article.select_cancel_article'}" data-name="article_id" href="javascript:;" >{lang key='article::article.button_end'}</a>
+				<input type="text" name="select_time" class="w150 date" placeholder="{t domain="article"}请选择时间{/t}">
+				<a class="btn btnSubmit" data-idClass=".checkbox:checked" data-url='{url path="article/admin_article_auto/batch" args="type=batch_start{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{t domain="article"}您确定要批量发布选中的文章吗？{/t}" data-noSelectMsg="{t domain="article"}请先选中要批量发布的文章{/t}" data-name="article_id" href="javascript:;" >{t domain="article"}批量发布{/t}</a>
+				<a class="btn btnSubmit" data-idClass=".checkbox:checked" data-url='{url path="article/admin_article_auto/batch" args="type=batch_end{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{t domain="article"}您确定要批量取消发布选中的文章吗？{/t}" data-noSelectMsg="{t domain="article"}请先选中要批量取消发布的文章{/t}" data-name="article_id" href="javascript:;" >{t domain="article"}批量取消发布{/t}</a>
 			</div>
 			
 			<div class="choose_list f_r" data-url="{$search_action}">
-				<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="{lang key='article::article.article_keywords'}"/>
-				<button class="btn search_article" type="button">{lang key='article::article.search'}</button>
+				<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="{t domain="article"}请输入文章名称关键词{/t}"/>
+				<button class="btn search_article" type="button">{t domain="article"}搜索{/t}</button>
 			</div>
 		</div>
 		<div class="row-fluid">
@@ -42,11 +42,11 @@
 				<thead>
 					<tr>
 					  	<th class="table_checkbox"><input type="checkbox" name="select_rows" data-toggle="selectall" data-children=".checkbox"/></th>
-					  	<th class="w70">{lang key='article::article.id'}</th>
-					  	<th>{lang key='article::article.articleatolist_name'}</th>
-					  	<th class="w180">{lang key='article::article.starttime'}</th>
-					  	<th class="w180">{lang key='article::article.endtime'}</th>
-					  	<th class="w70">{lang key='system::system.handler'}</th>
+					  	<th class="w70">{t domain="article"}编号{/t}</th>
+					  	<th>{t domain="article"}文章名称{/t}</th>
+					  	<th class="w180">{t domain="article"}发布时间{/t}</th>
+					  	<th class="w180">{t domain="article"}取消时间{/t}</th>
+					  	<th class="w70">{t domain="article"}操作{/t}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -56,7 +56,7 @@
 						  	<td>{$val.article_id}</td>
 						  	<td>{$val.title}</td>
 						  	<td>
-						  		<a href="#" data-trigger="datetable" data-url='{RC_Uri::url("article/admin_article_auto/edit_starttime", "{if $smarty.get.page}page={$smarty.get.page}{/if}")}' data-pk="{$val.article_id}" data-title="{lang key='article::article.edit_issue_time'}" data-value="{$val.starttime}" data-type="combodate">
+						  		<a href="#" data-trigger="datetable" data-url='{RC_Uri::url("article/admin_article_auto/edit_starttime", "{if $smarty.get.page}page={$smarty.get.page}{/if}")}' data-pk="{$val.article_id}" data-title="{t domain="article"}编辑发布时间{/t}" data-value="{$val.starttime}" data-type="combodate">
 								<!-- {if $val.starttime} -->
 								{$val.starttime}
 								<!-- {else} -->
@@ -65,7 +65,7 @@
 								</a>
 							</td>
 					  		<td>
-					  			<a href="#" data-trigger="datetable" data-url='{RC_Uri::url("article/admin_article_auto/edit_endtime", "{if $smarty.get.page}page={$smarty.get.page}{/if}")}' data-pk="{$val.article_id}" data-title="{lang key='article::article.edit_cancel_time'}" data-value="{$val.endtime}" data-type="combodate">
+					  			<a href="#" data-trigger="datetable" data-url='{RC_Uri::url("article/admin_article_auto/edit_endtime", "{if $smarty.get.page}page={$smarty.get.page}{/if}")}' data-pk="{$val.article_id}" data-title="{t domain="article"}编辑取消时间{/t}" data-value="{$val.endtime}" data-type="combodate">
 								<!-- {if $val.endtime} -->
 									{$val.endtime}
 									<!-- {else} -->
@@ -76,7 +76,7 @@
 					  		<td>
 						  		<span>
 						  			{if $val.endtime || $val.starttime}
-						    			<a class="ajax-remove" data-toggle="ajaxremove" data-msg="{lang key='article::article.cancel_confirm'}" href='{RC_Uri::url("article/admin_article_auto/del", "id={$val.article_id}")}' title="{lang key='article::article.delete'}"><i class="fontello-icon-export-alt"></i></a>
+						    			<a class="ajax-remove" data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要撤销该文章吗？{/t}" href='{RC_Uri::url("article/admin_article_auto/del", "id={$val.article_id}")}' title="{t domain="article"}撤销{/t}"><i class="fontello-icon-export-alt"></i></a>
 						  			{else}
 							    		-
 							  		{/if}
@@ -84,7 +84,7 @@
 						  	</td>
 						</tr>
 	    			<!-- {foreachelse} -->
-	    				<tr><td class="no-records" colspan="10">{lang key='system::system.no_records'}</td></tr>
+	    				<tr><td class="no-records" colspan="10">{t domain="article"}没有找到任何记录{/t}</td></tr>
 					<!-- {/foreach} -->
 				</tbody>
 			</table>

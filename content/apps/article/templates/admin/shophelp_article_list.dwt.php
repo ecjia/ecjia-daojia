@@ -4,7 +4,7 @@
 <!-- {block name="main_content"} -->
 <div>
 	<h3 class="heading">
-		<!-- {if $ur_here}{$ur_here}{/if} --><small>{t}（{lang key='article::article.total'} {$list.num} {lang key='article::article.piece'}）{/t}</small>
+		<!-- {if $ur_here}{$ur_here}{/if} --><small>{t 1={$list.num}}（共  %1 篇）{/t}</small>
 		{if $action_linkadd}
 		<a class="btn plus_or_reply data-pjax" href="{$action_linkadd.href}" id="sticky_a" ><i class="fontello-icon-plus"></i>{$action_linkadd.text}</a>
 		{/if}
@@ -19,9 +19,9 @@
     	<table class="table table-striped" id="smpl_tbl">
     		<thead>
     			<tr>
-    				<th>{lang key='article::shophelp.title'}</th>
-    				<th class="w180">{lang key='article::shophelp.add_time'}</th>
-    				<th class="w70">{lang key='system::system.handler'}</th>
+    				<th>{t domain="article"}文章名称{/t}</th>
+    				<th class="w180">{t domain="article"}添加时间{/t}</th>
+    				<th class="w70">{t domain="article"}操作{/t}</th>
     			</tr>
     		</thead>
     		<tbody>
@@ -35,13 +35,13 @@
     				<td align="right"><span>{$item.add_time}</span></td>
     				<td align="right">
     					<span>
-    						<a class="data-pjax no-underline" href='{url path="article/admin_shophelp/edit" args="cat_id=$cat_id&id={$item.article_id}"}' title="{lang key='system::system.edit'}"><i class="fontello-icon-edit"></i></a>
-    						<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{lang key='article::article.drop_article_confirm'}" href='{RC_Uri::url("article/admin_shophelp/remove_art","id={$item.article_id}")}' title="{lang key='system::system.remove'}"><i class="fontello-icon-trash"></i></a>
+    						<a class="data-pjax no-underline" href='{url path="article/admin_shophelp/edit" args="cat_id=$cat_id&id={$item.article_id}"}' title="{t domain="article"}编辑{/t}"><i class="fontello-icon-edit"></i></a>
+    						<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要删除该文章吗？{/t}" href='{RC_Uri::url("article/admin_shophelp/remove_art","id={$item.article_id}")}' title="{t domain="article"}删除{/t}"><i class="fontello-icon-trash"></i></a>
     					</span>
     				</td>
     			</tr>
     			<!-- {foreachelse} -->
-    			<tr><td class="no-records" colspan="3">{lang key='system::system.no_records'}</td></tr>
+    			<tr><td class="no-records" colspan="3">{t domain="article"}没有找到任何记录{/t}</td></tr>
     			<!-- {/foreach} -->
     		</tbody>
     	</table>

@@ -50,7 +50,7 @@ class shop_info_detail_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
 		$id = $this->requestData('article_id', 0);
 		if ($id <= 0) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'article'));
 		}
 		
 		//$cache_article_key = 'article_info_'.$id;

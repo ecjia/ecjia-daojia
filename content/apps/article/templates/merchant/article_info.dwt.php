@@ -26,10 +26,10 @@
 			<div class="panel-body panel-body-small">
 				{if $action eq 'edit' && $has_goods}
 				<ul class="nav nav-tabs">
-					<li class="active"><a href="javascript:;" data-toggle="tab">{lang key='article::article.tab_general'}</a></li>
-					<!--<li><a href="#tab2" data-toggle="tab">{lang key='article::article.tab_content'}</a></li>
+					<li class="active"><a href="javascript:;" data-toggle="tab">{t domain="article"}通用信息{/t}</a></li>
+					<!--<li><a href="#tab2" data-toggle="tab">{t domain="article"}文章内容{/t}</a></li>
 					 -->
-					<li><a class="data-pjax" href='{url path="article/merchant/link_goods" args="id={$smarty.get.id}"}'>{lang key='article::article.tab_goods'}</a></li>
+					<li><a class="data-pjax" href='{url path="article/merchant/link_goods" args="id={$smarty.get.id}"}'>{t domain="article"}关联商品{/t}</a></li>
 				</ul>
 				{/if}
 				<form class="form-horizontal" action="{$form_action}" method="post" enctype="multipart/form-data" name="infoForm" data-edit-url="{RC_Uri::url('article/merchant/edit')}">
@@ -41,15 +41,15 @@
 										<!--左边-->
 										<div class="form-group m_t10">
 											<div class="controls col-lg-11">
-												<input type="text" name="title" class="span10 form-control" value="{$article.title|escape}" placeholder="{lang key='article::article.enter_title_article_here'}"/>
+												<input type="text" name="title" class="span10 form-control" value="{$article.title|escape}" placeholder="{t domain="article"}在此输入文章标题{/t}"/>
 											</div>
-											<span class="input-must">{lang key='system::system.require_field'}</span>
+											<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 										</div>
 										<div class="form-group m_b0">
-											<label class="controls col-lg-11">{lang key='article::article.external_links'}</label>
+											<label class="controls col-lg-11">{t domain="article"}外部链接：{/t}</label>
 											<div class="controls col-lg-11">
 												<input type="text" name="link" class="span10 form-control" value="{if $article.link neq ''}{$article.link|escape}{else}http://{/if}"/>
-												<div class="help-block">{lang key='article::article.links_help_block'}</div>
+												<div class="help-block">{t domain="article"}若输入外部链接，则该链接优先{/t}</div>
 											</div>
 										</div>
 										
@@ -59,19 +59,19 @@
 												<div class="panel-heading">
 													<a class="accordion-toggle" data-toggle="collapse" data-target="#goods_info_area_author">
 													<span class="glyphicon"></span>
-													<h4 class="panel-title"><strong>{lang key='article::article.author_info'}</strong></h4>
+													<h4 class="panel-title"><strong>{t domain="article"}作者信息{/t}</strong></h4>
 													</a>
 												</div>
 												<div class="accordion-body in in_visable collapse" id="goods_info_area_author">
 													<div class="panel-body">
 														<div class="form-group">
-															<label class="control-label col-lg-2 p_l0">{lang key='article::article.author_name'}</label>
+															<label class="control-label col-lg-2 p_l0">{t domain="article"}作者名称：{/t}</label>
 															<div class="col-lg-9 p_l0">
 																<input type="text" name="author" class="form-control" value="{$article.author|escape}"/>
 															</div>
 														</div>
 														<div class="form-group m_b0">
-															<label class="control-label col-lg-2 p_l0">{lang key='article::article.author_email'}</label>
+															<label class="control-label col-lg-2 p_l0">{t domain="article"}作者邮箱：{/t}</label>
 															<div class="col-lg-9 p_l0">
 																<input type="text" name="author_email" class="form-control" value="{$article.author_email|escape}"/>
 															</div>
@@ -86,23 +86,23 @@
 												<div class="panel-heading">
 													<a class="accordion-toggle" data-toggle="collapse" data-target="#goods_info_area_seo">
 													<span class="glyphicon"></span>
-													<h4 class="panel-title">{lang key='article::article.seo_optimization'}</h4>
+													<h4 class="panel-title">{t domain="article"}SEO优化{/t}</h4>
 													</a>
 												</div>
 												<div class="accordion-body in collapse" id="goods_info_area_seo">
 													<div class="panel-body">
 														<div class="form-group m_b0">
-															<label class="control-label col-lg-2 p_l0">{lang key='article::article.keywords'}</label>
+															<label class="control-label col-lg-2 p_l0">{t domain="article"}关键字：{/t}</label>
 															<div class="col-lg-9 p_l0">
 																<input class="span10 form-control" type="text" name="keywords" value="{$article.keywords|escape}" size="40"/>
 																<br/>
 																<p class="help-block">
-																	{lang key='article::article.split'}
+																	{t domain="article"}用英文逗号分隔{/t}
 																</p>
 															</div>
 														</div>
 														<div class="form-group m_b0">
-															<label class="control-label col-lg-2 p_l0">{lang key='article::article.simple_description'}</label>
+															<label class="control-label col-lg-2 p_l0">{t domain="article"}简单描述：{/t}</label>
 															<div class="col-lg-9 p_l0">
 																<textarea class="form-control" name="description" cols="40" rows="3">{$article.description}</textarea>
 															</div>
@@ -118,22 +118,22 @@
 												<div class="panel-heading">
 													<a class="accordion-toggle" data-toggle="collapse" data-target="#goods_info_term_meta">
 													<span class="glyphicon"></span>
-													<h4 class="panel-title"><strong>{lang key='article::article.custom_columns_success'}</strong></h4>
+													<h4 class="panel-title"><strong>{t domain="article"}自定义栏目{/t}</strong></h4>
 													</a>
 												</div>
 												<div class="accordion-body in collapse" id="goods_info_term_meta">
 													<div class="panel-body">
 														<!-- 自定义栏目模板区域 START -->
 														<!-- {if $data_term_meta} -->
-														<label><b>{lang key='article::article.label_edit_custom_columns'}</b></label>
+														<label><b>{t domain="article"}编辑自定义栏目：{/t}</b></label>
 														<table class="table smpl_tbl ">
 														<thead>
 														<tr>
 															<td>
-																{lang key='article::article.name'}
+																{t domain="article"}名称{/t}
 															</td>
 															<td>
-																{lang key='article::article.value'}
+																{t domain="article"}值{/t}
 															</td>
 														</tr>
 														</thead>
@@ -146,8 +146,8 @@
 																</div>
 																<input type="hidden" name="term_meta_id" value="{$term_meta.meta_id}">
 																<div class="clear_both m_t5">
-																	<a class="data-pjax btn btn-info m_t5" data-toggle="edit_term_meta" href="javascript:;">{lang key='article::article.update'}</a>
-																	<a class="ajaxremove btn btn-danger m_t5" data-toggle="ajaxremove" data-msg="{lang key='article::article.drop_custom_columns_confirm'}" href='{url path="article/merchant/remove_term_meta" args="meta_id={$term_meta.meta_id}"}'>{lang key='system::system.remove'}</a>
+																	<a class="data-pjax btn btn-info m_t5" data-toggle="edit_term_meta" href="javascript:;">{t domain="article"}更新{/t}</a>
+																	<a class="ajaxremove btn btn-danger m_t5" data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要删除此条自定义栏目吗？{/t}" href='{url path="article/merchant/remove_term_meta" args="meta_id={$term_meta.meta_id}"}'>{t domain="article"}移除{/t}</a>
 																</div>
 															</td>
 															<td>
@@ -159,16 +159,16 @@
 														</table>
 														<!-- {/if} -->
 														<!-- 编辑区域 -->
-														<label class="control-label"><b>{lang key='article::article.label_add_custom_columns'}</b></label>
+														<label class="control-label"><b>{t domain="article"}添加自定义栏目：{/t}</b></label>
 														<div class="term_meta_add" data-id="{$article.article_id}" data-active="{url path='article/merchant/insert_term_meta'}">
 															<table class="table smpl_tbl ">
 															<thead>
 															<tr>
 																<td class="col-lg-6">
-																	{lang key='article::article.name'}
+																	{t domain="article"}名称{/t}
 																</td>
 																<td>
-																	{lang key='article::article.value'}
+																	{t domain="article"}值{/t}
 																</td>
 															</tr>
 															</thead>
@@ -185,12 +185,12 @@
 																		<input class="form-control hide" type="text" name="term_meta_key" value="{$term_meta_key_list.0.meta_key}"/>
 																	</div>
 																	<div class="clear_both">
-																		<a data-toggle="add_new_term_meta" href="javascript:;">{lang key='article::article.add_new_columns'}</a>
+																		<a data-toggle="add_new_term_meta" href="javascript:;">{t domain="article"}添加新栏目{/t}</a>
 																	</div>
 																	<!-- {else} -->
 																	<input class="form-control" type="text" name="term_meta_key" value=""/>
 																	<!-- {/if} -->
-																	<a class="btn btn-primary m_t5" data-toggle="add_term_meta" href="javascript:;">{lang key='article::article.add_custom_columns'}</a>
+																	<a class="btn btn-primary m_t5" data-toggle="add_term_meta" href="javascript:;">{t domain="article"}添加自定义栏目{/t}</a>
 																</td>
 																<td>
 																	<textarea class="span12 form-control" name="term_meta_value"></textarea>
@@ -215,16 +215,16 @@
 												<div class="panel-heading">
 													<a class="accordion-toggle" data-toggle="collapse" data-target="#goods_info_area_cat">
 													<span class="glyphicon"></span>
-													<h4 class="panel-title"><strong>{lang key='article::article.category_info'}</strong></h4>
+													<h4 class="panel-title"><strong>{t domain="article"}分类信息{/t}</strong></h4>
 													</a>
 												</div>
 												<div class="panel-collapse collapse in" id="goods_info_area_cat">
 													<div class="panel-body">
 														<div class="form-group">
-															<label class="control-label col-lg-4">{lang key='article::article.cat_lable'}</label>
+															<label class="control-label col-lg-4">{t domain="article"}文章分类：{/t}</label>
 															<div class="controls col-lg-8 p_l0">
 																<select class="form-control" name="cat_id">
-																	<option value="0">{lang key='article::article.select_plz'}</option>
+																	<option value="0">{t domain="article"}请选择...{/t}</option>
 																	<!-- {foreach from=$cat_select key=key item=val} -->
 																	<option value="{$val.cat_id}" {if $article.cat_id eq $val.cat_id}selected{/if} {if $val.level}style="padding-left:{$val.level*20}px"{/if}>{$val.cat_name}</option>
 																	<!-- {/foreach} -->
@@ -233,7 +233,7 @@
 														</div>
 														
 														<div class="form-group">
-															<label class="control-label col-lg-4">{lang key='article::article.label_cat_type'}</label>
+															<label class="control-label col-lg-4">{t domain="article"}文章类型：{/t}</label>
 															<div class="controls col-lg-8 p_l0">
 																<select class="form-control" name="article_type">
 																	<!-- {foreach from=$article_type key=key item=val} -->
@@ -246,9 +246,9 @@
 														<div class="form-group m_b0">
 															<label class="control-label col-lg-6 m_l10">
 																{if $article.article_id eq ''}
-																<button class="btn btn-info" type="submit">{lang key='article::article.issue'}</button>
+																<button class="btn btn-info" type="submit">{t domain="article"}发布{/t}</button>
 																{else}
-																<button class="btn btn-info" type="submit">{lang key='article::article.update'}</button>
+																<button class="btn btn-info" type="submit">{t domain="article"}更新{/t}</button>
 																{/if}
 															</label>
 														</div>
@@ -263,22 +263,22 @@
 												<div class="panel-heading">
 													<a class="accordion-toggle" data-toggle="collapse" data-target="#goods_info_area_upfile">
 													<span class="glyphicon"></span>
-													<h4 class="panel-title"><strong>{lang key='article::article.upload_file'}</strong></h4>
+													<h4 class="panel-title"><strong>{t domain="article"}上传文件{/t}</strong></h4>
 													</a>
 												</div>
 												<div class="accordion-body in in_visable collapse" id="goods_info_area_upfile">
 													<div class="panel-body">
 														<!-- {if $article.file_url neq ''} -->
-														<span class="ecjiaf-db m_t5 m_b5 ecjiaf-wwb">{lang key='article::article.file_address'}</span>
+														<span class="ecjiaf-db m_t5 m_b5 ecjiaf-wwb">{t domain="article"}文件地址：{/t}</span>
 														<span class="m_b10">{$article.file_url}</span>
-														<a class="ajaxremove ecjiafc-red ecjiaf-db" data-toggle="ajaxremove" data-msg="{lang key='article::article.drop_file_confirm'}" href='{RC_Uri::url("article/merchant/drop_file","id={$article.article_id}&type=file_url")}'>
-															{lang key='article::article.drop_file'}
+														<a class="ajaxremove ecjiafc-red ecjiaf-db" data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要删除该文章附件吗？{/t}" href='{RC_Uri::url("article/merchant/drop_file","id={$article.article_id}&type=file_url")}'>
+															{t domain="article"}删除文件{/t}
 														</a>
 														<!-- {else} -->
 						 								<div class="fileupload fileupload-new m_b0" data-provides="fileupload">
 						                                    <span class="btn btn-primary btn-file btn-sm">
-						                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i>浏览</span>
-						                                        <span class="fileupload-exists"> 修改</span>
+						                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i>{t domain="article"}浏览{/t}</span>
+						                                        <span class="fileupload-exists"> {t domain="article"}修改{/t}</span>
 						                                        <input type="file" class="default" name="file_url" />
 						                                    </span>
 						                                    <span class="fileupload-preview"></span>
@@ -296,7 +296,7 @@
 												<div class="panel-heading">
 													<a class="accordion-toggle" data-toggle="collapse" data-target="#goods_info_area_upfile">
 													<span class="glyphicon"></span>
-													<h4 class="panel-title"><strong>{lang key='article::article.article_cover'}</strong></h4>
+													<h4 class="panel-title"><strong>{t domain="article"}文章封面{/t}</strong></h4>
 													</a>
 												</div>
 												<div class="accordion-body in in_visable collapse" id="goods_info_area_upfile">
@@ -309,11 +309,11 @@
 						                                    {/if}
 						                                    <div class="fileupload-preview fileupload-{if $article.cover_image}new{else}exists{/if} thumbnail" style="max-width: 60px;max-height: 60px;line-height: 10px;"></div>
 						                                    <span class="btn btn-primary btn-file btn-sm">
-						                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i>浏览</span>
-						                                        <span class="fileupload-exists"> 修改</span>
+						                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i>{t domain="article"}浏览{/t}</span>
+						                                        <span class="fileupload-exists"> {t domain="article"}修改{/t}</span>
 						                                        <input type="file" class="default" name="cover_image" />
 						                                    </span>
-						                                    <a class="btn btn-danger btn-sm fileupload-exists" {if $article.cover_image}data-toggle="ajaxremove" data-msg="{lang key='article::article.drop_image_confirm'}" {else}data-dismiss="fileupload"{/if} href='{RC_Uri::url("article/merchant/drop_file","id={$article.article_id}&type=cover_image")}'>删除</a>
+						                                    <a class="btn btn-danger btn-sm fileupload-exists" {if $article.cover_image}data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要删除该图片吗？{/t}" {else}data-dismiss="fileupload"{/if} href='{RC_Uri::url("article/merchant/drop_file","id={$article.article_id}&type=cover_image")}'>{t domain="article"}删除{/t}</a>
 						                                </div>
 													</div>
 												</div>
@@ -327,7 +327,7 @@
 
 					<div class="page-header panel-body m_b0">
 						<div class="pull-left">
-							<h3>{lang key='article::article.tab_content'}</h3>
+							<h3>{t domain="article"}文章内容{/t}</h3>
 						</div>
 						<div class="clearfix">
 						</div>

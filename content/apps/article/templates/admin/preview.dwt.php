@@ -19,14 +19,14 @@
 			<div class="tab-content">
 				<div class="tab-pane active" id="tab1">
 					<h3 class="text-center">{$article.title}</h3>
-					<p  class="text-center">{lang key='article::article.author'}：{$article.author}&nbsp;&nbsp;{lang key='article::article.add_time'}：{$article.add_time}</p>
+					<p  class="text-center">{t domain="article"}文章作者：{/t}{$article.author}&nbsp;&nbsp;{t domain="article"}添加日期：{/t}{$article.add_time}</p>
 					{if $article.article_type == 'related'}
 						<p>
 						{$article.content}
-						<a href="{RC_Upload::upload_url()}/{$article.file_url}">{lang key='article::article.related_download'}</a>
+						<a href="{RC_Upload::upload_url()}/{$article.file_url}">{t domain="article"}相关下载{/t}</a>
 						</p>
 					{elseif $article.article_type == 'download'}
-						<a href="{RC_Upload::upload_url()}/{$article.file_url}">{lang key='article::article.related_download'}</a>
+						<a href="{RC_Upload::upload_url()}/{$article.file_url}">{t domain="article"}相关下载{/t}</a>
 					{else}
 						{if $article.file_url != ''}
 							<img  class="thumbnail" src="{RC_Upload::upload_url()}/{$article.file_url}" style="max-width:800px; margin:0 auto">
