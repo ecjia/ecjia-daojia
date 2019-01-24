@@ -214,7 +214,9 @@ class admin_payment_pay_balance_module extends api_admin implements api_interfac
     				'refund_sn'						=> '',
     				'refund_total_amount'			=> 0,
     				'formatted_refund_total_amount' => '',
-    				'cashier_name'					=> empty($cashier_name) ? '' : $cashier_name
+    				'cashier_name'					=> empty($cashier_name) ? '' : $cashier_name,
+    				'pay_fee'						=> $order_info['pay_fee'],
+    				'formatted_pay_fee'				=> ecjia_price_format($order_info['pay_fee'], false),
     		);
     	}
     	

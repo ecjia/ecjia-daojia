@@ -94,7 +94,7 @@ class admin_payment_notify_pay_module extends api_admin implements api_interface
 
 			$trade_apps = [
 			    'buy'       => 'orders',
-			    'quickbuy'  => 'quickbuy',
+			    'quickpay'  => 'quickpay',
 			    'surplus'   => 'finance',
             ];
 

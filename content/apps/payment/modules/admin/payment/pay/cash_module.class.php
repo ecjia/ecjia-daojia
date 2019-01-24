@@ -243,7 +243,9 @@ class admin_payment_pay_cash_module extends api_admin implements api_interface
     				'refund_sn'						=> '',
     				'refund_total_amount'			=> 0,
     				'formatted_refund_total_amount' => '',
-    				'cashier_name'					=> empty($cashier_name) ? '' : $cashier_name
+    				'cashier_name'					=> empty($cashier_name) ? '' : $cashier_name,
+    				'pay_fee'						=> $order_info['pay_fee'],
+    				'formatted_pay_fee'				=> ecjia_price_format($order_info['pay_fee'], false),
     		);
     	}
     	
@@ -309,7 +311,9 @@ class admin_payment_pay_cash_module extends api_admin implements api_interface
     				'refund_sn'						=> '',
     				'refund_total_amount'			=> 0,
     				'formatted_refund_total_amount' => '',
-    				'cashier_name'					=> empty($cashier_name) ? '' : $cashier_name
+    				'cashier_name'					=> empty($cashier_name) ? '' : $cashier_name,
+    				'pay_fee'						=> '',  //买单订单目前还未做支付手续费
+    				'formatted_pay_fee'				=> '',
     		);
     	}
     	
