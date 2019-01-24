@@ -790,11 +790,7 @@ class mh_bulk_goods extends ecjia_merchant {
 		$db_goods = RC_DB::table('goods');
 		$db_goods->where('store_id', $_SESSION['store_id'])->where('is_delete', 0)->where('extension_code', 'bulk');
 		
-		if ($filter ['type'] == '1') {
-			$db_goods->where('is_alone_sale', 1);
-		} elseif ($filter ['type'] == '2') {
-			$db_goods->where('is_alone_sale', 0);
-		}
+		
 		/* 关键字 */
 		if (!empty ($filter ['keywords'])) {
 			$db_goods->whereRaw("goods_name LIKE '%" . mysql_like_quote($filter ['keywords']) . "%' OR goods_sn LIKE '%" . mysql_like_quote($filter ['keywords']) . "%'");
@@ -810,9 +806,9 @@ class mh_bulk_goods extends ecjia_merchant {
 			->where('is_delete', 0);
 		
 		if ($filter ['type'] == '1') {
-			$dbgoods->where('is_alone_sale', 1);
+			$dbgoods->where('is_on_sale', 1);
 		} elseif ($filter ['type'] == '2') {
-			$dbgoods->where('is_alone_sale', 0);
+			$dbgoods->where('is_on_sale', 0);
 		}
 		
 		/* 关键字 */
