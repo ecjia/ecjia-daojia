@@ -64,7 +64,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	
 	<div class="form-group form-group-text">
 		<label class="input">
-			<input name="address_info" placeholder="{t}楼层，门牌{/t}" type="text" datatype="*" ignore="ignore" value="{if $temp.tem_address_info}{$temp.tem_address_info}{else}{$info.address_info}{/if}" />
+			<input name="address_info" placeholder="{t}楼层，门牌{/t}" type="text" datatype="*" errormsg="请输入正确的楼层，门牌" nullmsg="请输入楼层，门牌" value="{if $temp.tem_address_info}{$temp.tem_address_info}{else}{$info.address_info}{/if}" />
 		</label>
 	</div>
 	

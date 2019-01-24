@@ -238,7 +238,7 @@ class franchisee_controller
                 'value'         => $mobile,
                 'validate_type' => $type, //process, signup
             );
-            
+
             $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_MERCHANT_VALIDATE)->data($params)->run();
             if (is_ecjia_error($rs)) {
                 return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('search_url' => RC_Uri::url('franchisee/index/search')));
@@ -451,6 +451,9 @@ class franchisee_controller
         if (empty($seller_name)) {
             return ecjia_front::$controller->showmessage('请输入商店名称', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+        if (mb_strlen($seller_name) > 17) {
+            return ecjia_front::$controller->showmessage('店铺名称不能超过17个字符', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
         if (empty($seller_category)) {
             return ecjia_front::$controller->showmessage('请选择店铺分类', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -636,7 +639,7 @@ class franchisee_controller
             'mobile'        => $mobile,
             'validate_code' => $code,
         );
-        
+
         $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::ADMIN_MERCHANT_PROCESS)->data($params)->run();
         if (is_ecjia_error($rs)) {
             return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);

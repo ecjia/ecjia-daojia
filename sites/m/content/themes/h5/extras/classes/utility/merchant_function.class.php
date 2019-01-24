@@ -46,41 +46,50 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class merchant_function {
-    
-	/**
-	 * 格式化店铺距离
-	 * @param unknown $data
-	 * @return array
-	 */
-	public static function format_distance($data = array()) {
-		if (!empty($data)) {
-			foreach ($data as $k => $v) {
-				if ($v['distance'] >= 1000) {
-					$data[$k]['distance'] = round($v['distance'] / 1000, 2).'km';
-				} else {
-					$data[$k]['distance'] = $v['distance'].'m';
-				}
-			}
-		}
-		return $data;
-	}
-	
-	/**
-	 * 格式化店铺详情店铺距离
-	 * @param unknown $data
-	 * @return array
-	 */
-	public static function format_info_distance($data = array()) {
-		if ($data['distance'] != null) {
-			if ($data['distance'] >= 1000) {
-				$data['distance'] = round($data['distance'] / 1000, 2).'km';
-			} else {
-				$data['distance'] = $data['distance'].'m';
-			}
-		}
-		return $data;
-	}
+class merchant_function
+{
+
+    /**
+     * 格式化店铺距离
+     * @param unknown $data
+     * @return array
+     */
+    public static function format_distance($data = array())
+    {
+        if (!empty($data)) {
+            foreach ($data as $k => $v) {
+                if ($v['distance'] >= 1000) {
+                    $data[$k]['distance'] = round($v['distance'] / 1000, 2) . 'km';
+                } else {
+                    $data[$k]['distance'] = $v['distance'] . 'm';
+                }
+                if (mb_strlen($v['seller_name']) > 17) {
+                    $data[$k]['seller_name'] = mb_substr($v['seller_name'], 0, 14, 'utf8') . '...';
+                }
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * 格式化店铺详情店铺距离
+     * @param unknown $data
+     * @return array
+     */
+    public static function format_info_distance($data = array())
+    {
+        if ($data['distance'] != null) {
+            if ($data['distance'] >= 1000) {
+                $data['distance'] = round($data['distance'] / 1000, 2) . 'km';
+            } else {
+                $data['distance'] = $data['distance'] . 'm';
+            }
+        }
+        if (!empty($data['seller_name']) && mb_strlen($data['seller_name']) > 17) {
+            $data['seller_name'] = mb_substr($data['seller_name'], 0, 14, 'utf8') . '...';
+        }
+        return $data;
+    }
 }
 
 //end
