@@ -84,9 +84,16 @@ class history_module extends api_admin implements api_interface {
 		
 		$order_list = [];
 		
-		$dbview->where(RC_DB::raw('cr.mobile_device_id'), $_SESSION['device_id'])
-			   ->where(RC_DB::raw('oi.pay_status'), PS_PAYED)
+		$dbview->where(RC_DB::raw('oi.pay_status'), PS_PAYED)
 			   ->whereIn(RC_DB::raw('cr.action'), array('billing', 'receipt'));
+		
+		$device_type  = Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);
+		//收银台和收银POS区分设备，收银通不区分设备；
+		if ($device_code == Ecjia\App\Cashier\CashierDevice::CASHIERCODE) {
+			$dbview->where(RC_DB::raw('cr.device_type'), $device_type);
+		} else {
+			$dbview->where(RC_DB::raw('cr.mobile_device_id'), $_SESSION['device_id']);
+		}
 		
 		if (!empty($pay_id)) {
 			$dbview->where(RC_DB::raw('oi.pay_id'), $pay_id);
@@ -124,7 +131,7 @@ class history_module extends api_admin implements api_interface {
 	 * return array
 	 */
 	private function formated_admin_order_list($data = array(), $device_code = '') {
-		$codes = array('8001', '8011');
+		$codes = config('app-cashier::cashier_device_code');
 		if (!empty($data)) {
 			foreach ($data as $key => $val) {
 				$order_status = ($val['order_status'] != '2' || $val['order_status'] != '3') ? RC_Lang::get('orders::order.os.'.$val['order_status']) : '';

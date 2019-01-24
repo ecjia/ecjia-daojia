@@ -65,7 +65,7 @@ class order_operate {
 		//update_order_amount($order['order_id']);
 		
 		/* 记录日志 */
-		ecjia_admin::admin_log('订单号是 '.$order['order_sn'], 'edit', 'order_status');
+// 		ecjia_admin::admin_log('订单号是 '.$order['order_sn'], 'edit', 'order_status');
 		/* 记录log */
 		$this->order_action($order['order_sn'], OS_CONFIRMED, SS_UNSHIPPED, PS_UNPAYED, $note['action_note']);
 		
@@ -113,7 +113,7 @@ class order_operate {
 		}
 		$this->update_order($order['order_id'], $arr);
 		/* 记录日志 */
-		ecjia_admin::admin_log('已付款，订单号是 '.$order['order_sn'], 'edit', 'order_status');
+// 		ecjia_admin::admin_log('已付款，订单号是 '.$order['order_sn'], 'edit', 'order_status');
 		/* 记录log */
 		$this->order_action($order['order_sn'], OS_CONFIRMED, $order['shipping_status'], PS_PAYED, $note['action_note']);
 		return true;
@@ -130,7 +130,8 @@ class order_operate {
 		$arr['shipping_status']		= SS_PREPARING;
 		$this->update_order($order['order_id'], $arr);
 		/* 记录日志 */
-		ecjia_admin::admin_log('配货中，订单号是 '.$order['order_sn'], 'edit', 'order_status');
+		//ecjia_admin::admin_log('配货中，订单号是 '.$order['order_sn'], 'edit', 'order_status');
+		
 		/* 记录log */
 		$this->order_action($order['order_sn'], OS_CONFIRMED, SS_PREPARING, $order['pay_status'], $note['action_note']);
 		
@@ -336,7 +337,7 @@ class order_operate {
 		$delivery_id = RC_DB::table('delivery_order')->insertGetId($_delivery);
 		
 		/* 记录日志 */
-		ecjia_admin::admin_log('已发货，订单号是 '.$order['order_sn'], 'edit', 'order_status');
+// 		ecjia_admin::admin_log('已发货，订单号是 '.$order['order_sn'], 'edit', 'order_status');
 		if ($delivery_id) {
 			$delivery_goods = array();
 			//发货单商品入库

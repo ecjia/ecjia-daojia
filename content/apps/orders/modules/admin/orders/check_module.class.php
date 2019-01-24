@@ -59,7 +59,7 @@ class admin_orders_check_module extends api_admin implements api_interface
 			return new ecjia_error(100, 'Invalid session');
 		}
 		$device = $this->device;
-		$codes = array('8001', '8011');
+		$codes = config('app-cashier::cashier_device_code');
 		if (!in_array($device['code'], $codes)) {
 			$result = $this->admin_priv('order_view');
 			if (is_ecjia_error($result)) {
@@ -132,6 +132,7 @@ class admin_orders_check_module extends api_admin implements api_interface
 			
 			/*收银员订单操作记录*/
 			$device_info = RC_DB::table('mobile_device')->where('id', $_SESSION['device_id'])->first();
+			$device_type  = Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);
 			$cashier_record = array(
 					'store_id' 			=> $_SESSION['store_id'],
 					'staff_id'			=> $_SESSION['staff_id'],
@@ -139,7 +140,7 @@ class admin_orders_check_module extends api_admin implements api_interface
 					'order_type' 		=> 'ecjia-cashdesk',
 					'mobile_device_id'	=> $_SESSION['device_id'],
 					'device_sn'			=> $device_info['device_udid'],
-					'device_type'		=> 'ecjia-cashdesk',
+					'device_type'		=> $device_type,
 					'action'   	 		=> 'check_order', //验单
 					'create_at'	 		=> RC_Time::gmtime(),
 			);
@@ -150,9 +151,7 @@ class admin_orders_check_module extends api_admin implements api_interface
 			$order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
 			if ($_SESSION['store_id'] > 0) {
 			    RC_Api::api('merchant', 'admin_log', array('text'=>'验单，订单号：'.$order['order_sn'].'【来源掌柜】', 'action'=>'edit', 'object'=>'order'));
-			} else {
-			    ecjia_admin::admin_log('验单，订单号：'.$order['order_sn'].'【来源掌柜】', 'edit', 'order'); // 记录日志
-			}
+			} 
 		}
 		
 		

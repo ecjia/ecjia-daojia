@@ -120,8 +120,6 @@ class admin_orders_operate_consignee_module extends api_admin implements api_int
 		$sn = '订单号是 ' . $order_info['order_sn'];
 		if ($_SESSION['store_id'] > 0) {
 		    RC_Api::api('merchant', 'admin_log', array('text' => $sn.'【来源掌柜】', 'action' => 'edit', 'object' => 'order_consignee'));
-		} else {
-		    ecjia_admin::admin_log($sn.'【来源掌柜】', 'edit', 'order_consignee'); // 记录日志
 		}
 		
 		return array();

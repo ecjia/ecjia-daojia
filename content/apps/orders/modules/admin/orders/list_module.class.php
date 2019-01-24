@@ -62,7 +62,7 @@ class admin_orders_list_module extends api_admin implements api_interface {
         $device_code = isset($device['code']) ? $device['code'] : '';
         $device_udid = isset($device['udid']) ? $device['udid'] : '';
         $device_client = isset($device['client']) ? $device['client'] : '';
-        $codes = array('8001', '8011');
+        $codes = config('app-cashier::cashier_device_code');
         
         if (!in_array($device_code, $codes)) {
         	$result = $this->admin_priv('order_view');

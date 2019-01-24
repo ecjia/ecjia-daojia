@@ -58,7 +58,8 @@ class admin_orders_cancel_module extends api_admin implements api_interface {
 			return new ecjia_error(100, 'Invalid session');
 		}
 		$device		  = $this->device;
-		$codes = array('8001', '8011');
+		
+		$codes = config('app-cashier::cashier_device_code');
 		if (!in_array($device['code'], $codes)) {
 			$result = $this->admin_priv('order_edit');
 			if (is_ecjia_error($result)) {
@@ -101,9 +102,7 @@ class admin_orders_cancel_module extends api_admin implements api_interface {
 		
 		if ($_SESSION['store_id'] > 0) {
 		    RC_Api::api('merchant', 'admin_log', array('text'=>'取消订单，订单号：'.$order['order_sn'].'【来源掌柜】', 'action'=>'edit', 'object'=>'order'));
-		} else {
-		    ecjia_admin::admin_log('取消订单，订单号：'.$order['order_sn'].'【来源掌柜】', 'edit', 'order'); // 记录日志
-		}
+		} 
 		
 		/* 如果使用库存，且下订单时减库存，则增加库存 */
 		if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_PLACE) {

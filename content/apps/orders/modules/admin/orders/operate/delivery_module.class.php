@@ -314,9 +314,7 @@ class admin_orders_operate_delivery_module extends api_admin implements api_inte
 		/* 记录日志 */
 		if ($_SESSION['store_id'] > 0) {
 		    RC_Api::api('merchant', 'admin_log', array('text' => '订单号是 '.$order_info['order_sn'].'【来源掌柜】', 'action' => 'produce', 'object' => 'delivery_order'));
-		} else {
-		    ecjia_admin::admin_log('订单号是 '.$order_info['order_sn'].'【来源掌柜】', 'produce', 'delivery_order'); // 记录日志
-		}
+		} 
 		if ($delivery_id) {
 			$delivery_goods = array();
 			//发货单商品入库
@@ -578,9 +576,7 @@ class admin_orders_operate_delivery_module extends api_admin implements api_inte
         // 记录管理员操作
         if ($_SESSION['store_id'] > 0) {
             RC_Api::api('merchant', 'admin_log', array('text' => '发货，订单号是'.$order['order_sn'].'【来源掌柜】', 'action' => 'setup', 'object' => 'order'));
-        } else {
-            ecjia_admin::admin_log('发货，订单号是'.$order['order_sn'].'【来源掌柜】', 'setup', 'order'); // 记录日志
-        }
+        } 
 
         /* 如果当前订单已经全部发货 */
         if ($order_finish) {

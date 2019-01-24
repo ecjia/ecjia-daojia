@@ -59,8 +59,7 @@ class admin_orders_payConfirm_module extends api_admin implements api_interface
 			return new ecjia_error(100, 'Invalid session');
 		}
 		$device = $this->device;
-		$codes = array('8001', '8011');
-		
+		$codes = config('app-cashier::cashier_device_code');
 		if (!in_array($device['code'], $codes)) {
 			$result = $this->admin_priv('order_stats');
 			if (is_ecjia_error($result)) {
@@ -430,11 +429,7 @@ class admin_orders_payConfirm_module extends api_admin implements api_interface
         // 记录管理员操作
         if ($_SESSION['store_id'] > 0) {
             RC_Api::api('merchant', 'admin_log', array('text' => '发货，订单号是'.$order['order_sn'].'【来源掌柜】', 'action' => 'setup', 'object' => 'order'));
-        } else {
-            ecjia_admin::admin_log('发货，订单号是'.$order['order_sn'].'【来源掌柜】', 'setup', 'order'); // 记录日志
-        }
-
-
+        } 
         RC_Logger::getLogger('error')->info('判断是否全部发货'.$order_finish);
         
         

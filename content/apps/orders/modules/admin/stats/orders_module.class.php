@@ -59,7 +59,7 @@ class admin_stats_orders_module extends api_admin implements api_interface {
 		    return new ecjia_error(100, 'Invalid session');
 		}
 		$device		  = $this->device;
-		$codes = array('8001', '8011');
+		$codes = config('app-cashier::cashier_device_code');
 		if (!in_array($device['code'], $codes)) {
 			$result = $this->admin_priv('sale_order_stats');
 			if (is_ecjia_error($result)) {

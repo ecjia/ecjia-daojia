@@ -218,7 +218,16 @@ class OrderPrint
     	}
     	$address .= $store['address'];
     
-        $money = $order['surplus'] + $order['money_paid'] + $order['integral_money'];
+    	$receivables = $order['goods_amount']
+				    	+ $order['shipping_fee']
+				    	+ $order['insure_fee']
+				    	+ $order['pay_fee']
+				    	+ $order['pack_fee']
+				    	+ $order['card_fee']
+				    	+ $order['inv_tax'] - $order['integral_money'] - $order['bonus'] - $order['discount'];
+    	
+        $money = $order['surplus'] + $order['money_paid'];
+        
     	$data = array(
     		'order_sn'        	=> $order['order_sn'], //订单编号
     		'order_trade_no'   	=> $order_trade_no, //流水编号
@@ -228,7 +237,9 @@ class OrderPrint
     		'goods_lists'       => $goods_list,
             'goods_subtotal'    => $order['goods_amount'], //商品总计
     		'discount_amount'	=> $order['discount'], //优惠金额
-    		'receivables'     	=> $money, //应收金额
+    		'integral_money'	=> $order['integral_money'], //积分抵扣金额
+    		'bonus'				=> $order['bonus'], //红包抵扣金额
+    		'receivables'     	=> $receivables, //应收金额
     		'payment'        	=> $order['pay_name'], //支付方式
     		'order_amount'    	=> $money, //实收金额
     		'qrcode'            => $order['order_sn'],

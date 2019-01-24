@@ -54,6 +54,7 @@ use RefundStatusLog;
 use RC_Time;
 use RC_Logger;
 use RC_Api;
+use Ecjia\App\Refund\RefundBackGoodsStock;
 
 /**
  * 自动拒单
@@ -177,6 +178,10 @@ class OrderAutoRefuse
     			'referer' 			=> 'merchant',
     	);
     	$refund_id = RC_DB::table('refund_order')->insertGetId($refund_data);
+    	
+    	if ($refund_id) {
+    		RefundBackGoodsStock::refund_back_stock($refund_id);
+    	}
     	
     	return $refund_id;
     }

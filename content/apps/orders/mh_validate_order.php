@@ -176,26 +176,6 @@ class mh_validate_order extends ecjia_merchant {
 			return $this->showmessage('订单已发货！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
-		/* 进行确认*/
-		//RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'confirm', 'note' => array('action_note' => '')));
-		/* 进行付款*/
-		//RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'pay', 'note' => array('action_note' => '')));
-		/* 配货*/
-		//RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'prepare', 'note' => array('action_note' => '')));
-		/* 分单（生成发货单）*/
-		//$result = RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'split', 'note' => array('action_note' => '')));
-		//if (is_ecjia_error($result)) {
-		//	return $result;
-		//}
-		/* 发货*/
-		//$db_delivery_order	= RC_Loader::load_app_model('delivery_order_model', 'orders');
-		//$delivery_id = $db_delivery_order->where(array('order_sn' => array('like' => '%'.$order_info['order_sn'].'%')))->order(array('delivery_id' => 'desc'))->get_field('delivery_id');
-		/* 确认收货*/
-		//RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'receive', 'note' => array('action_note' => '')));
-		
-		/* 进行确认*/
-		//$result = $this->confirm($order_info, $action_note='');
-		
 		/*配货*/
 		$result = $this->prepare($order_info, $action_note='');
 		

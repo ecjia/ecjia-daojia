@@ -3818,29 +3818,8 @@ class merchant extends ecjia_merchant
         );
         $refund_id   = RC_DB::table('refund_order')->insertGetId($refund_data);
 
-        /* 仅仅退货需要录入退货商品表 refund_goods*/
-        $delivery_list = $this->db_delivery_order->where(array('order_id' => $order['order_id']))->in(array('status' => array(0, 2)))->select();
-        if ($delivery_list) {
-            foreach ($delivery_list as $list) {
-                $query = RC_DB::table('delivery_goods')->where('delivery_id', $list['delivery_id'])->select('goods_id', 'product_id', 'product_sn', 'goods_name', 'goods_sn', 'is_real', 'send_number', 'goods_attr')->get();
-                if (!empty($query)) {
-                    foreach ($query as $res) {
-                        $source = array(
-                            'refund_id'   => $refund_id,
-                            'goods_id'    => $res['goods_id'],
-                            'product_id'  => $res['product_id'],
-                            'product_sn'  => $res['product_sn'],
-                            'goods_name'  => $res['goods_name'],
-                            'goods_sn'    => $res['goods_sn'],
-                            'is_real'     => $res['is_real'],
-                            'send_number' => $res['send_number'],
-                            'goods_attr'  => $res['goods_attr'],
-                        );
-                        RC_DB::table('refund_goods')->insertGetId($source);
-                    }
-                }
-            }
-        }
+        //退款还原订单商品库存
+        Ecjia\App\Refund\RefundBackGoodsStock::refund_back_stock($refund_id);
 
         /* 订单状态为“退货” */
         RC_DB::table('order_info')->where('order_id', $order_id)->update(array('order_status' => OS_RETURNED));

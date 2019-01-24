@@ -188,31 +188,15 @@ class admin_orders_quickpay_module extends api_admin implements api_interface {
 				'goods_attr' 	=> '',
 				'is_real' 		=> '1',
 			);
-// 			if ($_SESSION['store_id'] > 0) {
-// 				$arr['store_id'] = $_SESSION['store_id'];
-// 			}
 			$order_goods_id = $db_order_goods->insert($arr);
 		}
 		
-		//TODO收银员操作日志
-// 		if ($new_order_id > 0 && $order_goods_id > 0) {
-// 			$adviser_log = array(
-// 				'adviser_id' => $_SESSION['adviser_id'],
-// 				'order_id'	 => $new_order_id,
-// 				'device_id'	 => $_SESSION['device_id'],
-// 				'type'   	 => '2',//收款
-// 				'add_time'	 => RC_Time::gmtime(),
-// 			);
-// 			$adviser_log_id = RC_Model::model('achievement/adviser_log_model')->insert($adviser_log);
-// 		}
-		
-// 		/* 插入支付日志 */
-// 		$order['log_id'] = $payment_method->insert_pay_log($new_order_id, $order['order_amount'], PAY_ORDER);
-// 		$payment_info = $payment_method->payment_info_by_id($pay_id);
 
 		/*收银员操作日志*/
 		if ($new_order_id > 0 && $order_goods_id > 0) {
 			$device_info = RC_DB::table('mobile_device')->where('id', $_SESSION['device_id'])->first();
+			$device 	 = $this->device;
+			$device_type  = Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);
 			$cashier_record = array(
 				'store_id' 			=> $_SESSION['store_id'],
 				'staff_id'			=> $_SESSION['staff_id'],
@@ -220,7 +204,7 @@ class admin_orders_quickpay_module extends api_admin implements api_interface {
 				'order_type' 		=> 'ecjia-cashdesk',
 				'mobile_device_id'	=> empty($_SESSION['device_id']) ? 0 : $_SESSION['device_id'],
 				'device_sn'			=> empty($device_info['device_udid']) ? '' : $device_info['device_udid'],
-				'device_type'		=> 'ecjia-cashdesk',
+				'device_type'		=> $device_type,
 				'action'   	 		=> 'receipt', //收款
 				'create_at'	 		=> RC_Time::gmtime(),
 			);

@@ -186,11 +186,11 @@ class order_ship {
 		/* 发货单发货记录log */
 // 		order_action($order['order_sn'], OS_CONFIRMED, $shipping_status, $order['pay_status'], '收银台发货', null, 1);
 		// 记录管理员操作
-		if ($_SESSION['store_id'] > 0) {
-			RC_Api::api('merchant', 'admin_log', array('text' => '发货，订单号是'.$order['order_sn'].'【来源掌柜】', 'action' => 'setup', 'object' => 'order'));
-		} else {
-			ecjia_admin::admin_log('发货，订单号是'.$order['order_sn'].'【来源掌柜】', 'setup', 'order'); // 记录日志
-		}
+// 		if ($_SESSION['store_id'] > 0) {
+// 			RC_Api::api('merchant', 'admin_log', array('text' => '发货，订单号是'.$order['order_sn'].'【来源掌柜】', 'action' => 'setup', 'object' => 'order'));
+// 		} else {
+// 			ecjia_admin::admin_log('发货，订单号是'.$order['order_sn'].'【来源掌柜】', 'setup', 'order'); // 记录日志
+// 		}
 	
 	
 		RC_Logger::getLogger('error')->info('判断是否全部发货'.$order_finish);

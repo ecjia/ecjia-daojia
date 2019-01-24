@@ -60,7 +60,7 @@ class admin_stats_payment_module extends api_admin implements api_interface
 		}
 		
 		$device		  = $this->device;
-		$codes = array('8001', '8011');
+		$codes = config('app-cashier::cashier_device_code');
 		
 		if (!in_array($device['code'], $codes)) {
 			$result = $this->admin_priv('order_stats');
@@ -113,34 +113,31 @@ class admin_stats_payment_module extends api_admin implements api_interface
      
         /* 定义默认数据*/
         $data = array();
-
+        $device_type  = Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);
+        
         $field = 'count(*) as count, SUM((goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee)) AS total_fee';
         foreach ($cashdesk_payment as $val) {
             if (isset($pay_id_group_new[$val])) {
-// 			$order_stats = RC_Model::model('orders/cashier_record_viewmodel')->join(array('order_info', 'staff_user'))
-// 														->field($field)
-// 														->where(
-// 															array(
-// 																'oi.pay_status' => 2,
-// 																'oi.pay_time >="' .$start_date. '" and oi.pay_time<="' .$end_date. '"',
-// 																'mobile_device_id'		=> $_SESSION['device_id'],
-// 																'staff_id'	=> $_SESSION['staff_id'],
-// 																'pay_id'		=> $pay_id_group[$val]['pay_id']
-// 															)
-// 														)
-// 		    ->find();
-//
-
-                $order_stats = RC_DB::table('cashier_record as cr')
-                    ->leftJoin('order_info as oi', RC_DB::raw('cr.order_id'), '=', RC_DB::raw('oi.order_id'))
-                    ->select(RC_DB::raw('count("DISTINCT cr.order_id") as count'), RC_DB::raw('SUM((goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee)) AS total_fee'))
-                    ->where(RC_DB::raw('oi.pay_status'), 2)
-                    ->where(RC_DB::raw('oi.pay_time'), '>=', $start_date) 
-                    ->where(RC_DB::raw('oi.pay_time'), '<=', $end_date)
-                    ->where(RC_DB::raw('cr.staff_id'), $_SESSION['staff_id'])
-                    ->where(RC_DB::raw('cr.mobile_device_id'), $_SESSION['device_id'])
-                    ->where('pay_id', $pay_id_group_new[$val]['pay_id'])
-                    ->first();
+            	$dbview = RC_DB::table('cashier_record as cr')
+                    ->leftJoin('order_info as oi', RC_DB::raw('cr.order_id'), '=', RC_DB::raw('oi.order_id'));
+                    
+              	$dbview->where(RC_DB::raw('oi.pay_status'), 2)
+	                    ->where(RC_DB::raw('oi.pay_time'), '>=', $start_date) 
+	                    ->where(RC_DB::raw('oi.pay_time'), '<=', $end_date)
+	                    ->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id'])
+	                    ->where('pay_id', $pay_id_group_new[$val]['pay_id']);
+              	
+              	//收银通不区分设备；收银台和POS机区分设备
+              	if ($device['code'] == Ecjia\App\Cashier\CashierDevice::CASHIERCODE) {
+              		$dbview->where(RC_DB::raw('cr.device_type'), $device_type);
+              	} else {
+              		$dbview->where(RC_DB::raw('cr.mobile_device_id'), $_SESSION['device_id']);
+              	}
+	                
+                $order_stats = $dbview
+                				->select(RC_DB::raw('count("DISTINCT cr.order_id") as count'), RC_DB::raw('SUM((goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee)) AS total_fee'))
+                				->first();
+                    
                 $data[] = array(
                     'pay_code'		=> $val,
                     'pay_name'		=> $pay_id_group_new[$val]['pay_name'],

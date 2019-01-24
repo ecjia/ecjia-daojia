@@ -95,17 +95,6 @@ class order_cancel_module extends api_front implements api_interface {
             return new ecjia_error('no_priv', RC_Lang::get('orders::order.no_priv'));
         }
 
-        //TODO:未付款前都可取消，付款后取消暂不考虑
-        // 订单状态只能是“未确认”或“已确认”
-//     if ($order['order_status'] != OS_UNCONFIRMED && $order['order_status'] != OS_CONFIRMED) {
-//         return new ecjia_error('current_os_not_unconfirmed', RC_Lang::get('orders::order.current_os_not_unconfirmed'));
-//     }
-
-        // 订单一旦确认，不允许用户取消
-//     if ($order['order_status'] == OS_CONFIRMED) {
-//         return new ecjia_error('current_os_already_confirmed', RC_Lang::get('orders::order.current_os_already_confirmed'));
-//     }
-
         // 发货状态只能是“未发货”
         if ($order['shipping_status'] != SS_UNSHIPPED) {
             return new ecjia_error('current_ss_not_cancel', RC_Lang::get('orders::order.current_ss_not_cancel'));
@@ -115,11 +104,27 @@ class order_cancel_module extends api_front implements api_interface {
         if ($order['pay_status'] != PS_UNPAYED) {
             return new ecjia_error('current_ps_not_cancel', RC_Lang::get('orders::order.current_ps_not_cancel'));
         }
+        
+        if ($order['order_status'] == OS_CANCELED){
+        	return new ecjia_error('order_has_canceled', '该订单已取消过了！');
+        }
 
         // 将用户订单设置为取消
         $query = $db->where(array('order_id' => $order_id))->update(array('order_status' => OS_CANCELED));
         if ($query) {
             RC_Loader::load_app_func('admin_order', 'orders');
+            //订单取消，如果是下单减库存，还原库存
+            if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_PLACE) {
+            	RC_Loader::load_app_class('cart', 'cart', false);
+            	$result = cart::change_order_goods_storage($order['order_id'], false, SDT_PLACE);
+            	if (is_ecjia_error($result)) {
+            		/* 库存不足删除已生成的订单（并发处理） will.chen*/
+            		RC_DB::table('order_info')->where('order_id', $order['order_id'])->delete();
+            		RC_DB::table('order_goods')->where('order_id', $order['order_id'])->delete();
+            		return $result;
+            	}
+            }
+            
             /* 记录log */
             order_action($order['order_sn'], OS_CANCELED, $order['shipping_status'], PS_UNPAYED, RC_Lang::get('orders::order.buyer_cancel'), 'buyer');
             /* 退货用户余额、积分、红包 */
