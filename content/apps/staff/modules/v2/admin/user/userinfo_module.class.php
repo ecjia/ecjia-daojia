@@ -83,7 +83,8 @@ class v2_admin_user_userinfo_module extends api_admin implements api_interface {
         }
         
         /*返回connect_user表中open_id和token*/
-        $connect_user_info = (new Ecjia\App\Connect\EcjiaSyncAppUser('app', $result['user_id'], 'merchant'))->getEcjiaAppUser();
+        $open_id = RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $result['user_id'])->where('user_type', 'merchant')->pluck('open_id');
+        $connect_appuser = (new Ecjia\App\Connect\Plugins\EcjiaSyncAppUser($open_id, 'merchant'))->getEcjiaAppUser();
         if ($result) {
             $userinfo = array(
                 'id'            => $result['user_id'],
@@ -97,9 +98,9 @@ class v2_admin_user_userinfo_module extends api_admin implements api_interface {
                 'avator_img'    => $result['avatar'] ? RC_Upload::upload_url($result['avatar']) : '',
                 'action_list'   => $result['action_list'],
                 'store_id'      => intval($result['store_id']),
-            	'open_id'       => !empty($connect_user_info['open_id']) ? $connect_user_info['open_id'] : '',
-            	'access_token'  => !empty($connect_user_info['access_token']) ? $connect_user_info['access_token'] : '',
-            	'refresh_token'  => !empty($connect_user_info['refresh_token']) ? $connect_user_info['refresh_token'] : '',
+            	'open_id'       => $connect_appuser->open_id ? $connect_appuser->open_id : '',
+            	'access_token'  => $connect_appuser->access_token ? $connect_appuser->access_token : '',
+            	'refresh_token' => $connect_appuser->refresh_token ? $connect_appuser->refresh_token : '',
             	'user_type'		=> 'merchant'
             );
         } else {

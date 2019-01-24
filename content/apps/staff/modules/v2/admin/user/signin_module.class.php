@@ -269,8 +269,6 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
                 }
             }
             /*返回connect_user表中open_id和access_token*/
-            $connect_user_app = RC_DB::table('connect_user')->where('connect_code', 'app')->where('user_id', $_SESSION['staff_id'])->where('user_type', 'merchant')->first();
-            
             $out['userinfo'] = array(
                 'seller_id'     => $row['store_id'],
                 'id'            => $row['user_id'],
