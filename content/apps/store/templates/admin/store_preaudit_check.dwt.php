@@ -14,6 +14,9 @@
 .h_info { background-color:#fffad7;border-color:#fffad7;}
 
 </style>
+
+<!-- #BeginLibraryItem "/library/map.lbi" --><!-- #EndLibraryItem -->
+
 <div>
 	<h3 class="heading">
 		<!-- {if $ur_here}{$ur_here}{/if} -->
@@ -103,7 +106,7 @@
 					<tr>
 						<td><div align="right"><strong>所在地区：</strong></div></td>
 						<td>
-						{if $log_last.province || $log_last.city || $log_last.district}
+						{if $log_last.province || $log_last.city || $log_last.district || $log_last.street}
     						<div class="high_light h_info">{$log_last.province.original_data}&nbsp;{$log_last.city.original_data}&nbsp;{$log_last.district.original_data}&nbsp;{$log_last.street.original_data}</div><br>
     						<div class="high_light h_success">{$log_last.province.new_data}&nbsp;{$log_last.city.new_data}&nbsp;{$log_last.district.new_data}&nbsp;{$log_last.street.new_data}</div>
 						{else}
@@ -114,11 +117,24 @@
 						<td>
 						{if $log_last.longitude || $log_last.latitude}
     						<div class="high_light h_info">{$log_last.longitude.original_data}&nbsp;{$log_last.latitude.original_data}</div>
-    						{if $log_last.longitude.original_data && $log_last.latitude.original_data}&nbsp;&nbsp;<a href="https://apis.map.qq.com/uri/v1/marker?marker=coord:{$log_last.latitude.original_data},{$log_last.longitude.original_data};title:我的位置;addr:{$store.merchants_name}&referer=ecjiacityo2o" title="查看地图" target="_blank">[查看地图]</a>{/if}<br>
+    						{if $log_last.longitude.original_data && $log_last.latitude.original_data}&nbsp;&nbsp;
+        						{if $log_last.province || $log_last.city || $log_last.district || $log_last.street}
+        						<a href="#mapModal" title="查看地图" data-toggle="modal" exname="{$store.merchants_name}" exlng="{$log_last.longitude.original_data}" exlat="{$log_last.latitude.original_data}" data-address="{$log_last.province.original_data}&nbsp;{$log_last.city.original_data}&nbsp;{$log_last.district.original_data}&nbsp;{$log_last.street.original_data}&nbsp;{$log_last.address.original_data}">[查看地图]</a>
+        						{else}
+        						<a href="#mapModal" title="查看地图" data-toggle="modal" exname="{$store.merchants_name}" exlng="{$store.longitude}" exlat="{$store.latitude}" data-address="{$store.province}&nbsp;{$store.city}&nbsp;{$store.district}&nbsp;{$store.street}&nbsp;{$store.address}">[查看地图]</a>
+        						{/if}
+    						{/if}
     						<div class="high_light h_success">{$log_last.longitude.new_data}&nbsp;{$log_last.latitude.new_data}</div>
-    						{if $log_last.longitude.new_data && $log_last.latitude.new_data}&nbsp;&nbsp;<a href="https://apis.map.qq.com/uri/v1/marker?marker=coord:{$log_last.latitude.new_data},{$log_last.longitude.new_data};title:我的位置;addr:{$store.merchants_name}&referer=ecjiacityo2o" title="查看地图" target="_blank">[查看地图]</a>{/if}
+    						{if $log_last.longitude.new_data && $log_last.latitude.new_data}&nbsp;&nbsp;
+        						{if $log_last.province || $log_last.city || $log_last.district || $log_last.street}
+        						<a href="#mapModal" title="查看地图" data-toggle="modal" exname="{$store.merchants_name}" exlng="{$log_last.longitude.new_data}" exlat="{$log_last.latitude.new_data}" data-address="{$log_last.province.new_data}&nbsp;{$log_last.city.new_data}&nbsp;{$log_last.district.new_data}&nbsp;{$log_last.street.new_data}&nbsp;{$log_last.address.new_data}">[查看地图]</a>
+        						{else}
+        						<a href="#mapModal" title="查看地图" data-toggle="modal" exname="{$store.merchants_name}" exlng="{$store.longitude}" exlat="{$store.latitude}" data-address="{$store.province}&nbsp;{$store.city}&nbsp;{$store.district}&nbsp;{$store.street}&nbsp;{$store.address}">[查看地图]</a>
+        						{/if}
+    						{/if}
 						{else}
-    						{$store.longitude}&nbsp;&nbsp;{$store.latitude}{if $store.longitude && $store.latitude}&nbsp;&nbsp;<a href="https://apis.map.qq.com/uri/v1/marker?marker=coord:{$store.latitude},{$store.longitude};title:我的位置;addr:{$store.merchants_name}&referer=ecjiacityo2o" title="查看地图" target="_blank">[查看地图]</a>{/if}
+    						{$store.longitude}&nbsp;&nbsp;{$store.latitude}{if $store.longitude && $store.latitude}&nbsp;&nbsp;
+    						<a href="#mapModal" title="查看地图" data-toggle="modal" exname="{$store.merchants_name}" exlng="{$store.longitude}" exlat="{$store.latitude}" data-address="{$store.province}&nbsp;{$store.city}&nbsp;{$store.district}&nbsp;{$store.street}&nbsp;{$store.address}">[查看地图]</a>{/if}
 						{/if}
 						</td>
 					</tr>

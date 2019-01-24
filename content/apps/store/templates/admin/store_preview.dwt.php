@@ -7,6 +7,9 @@
 <!-- {/block} -->
 
 <!-- {block name="main_content"} -->
+
+<!-- #BeginLibraryItem "/library/map.lbi" --><!-- #EndLibraryItem -->
+
 <style>
 .heading .btn { margin-top:-3px;}
 </style>
@@ -92,7 +95,8 @@
         							<td><div align="right"><strong>所在地区：</strong></div></td>
         							<td>{$store.province}&nbsp;{$store.city}&nbsp;{$store.district}&nbsp;{$store.street}</td>
         							<td><div align="right"><strong>经纬度：</strong></div></td>
-        							<td>{$store.longitude}&nbsp;&nbsp;{$store.latitude}{if $store.longitude && $store.latitude}&nbsp;&nbsp;<a href="https://apis.map.qq.com/uri/v1/marker?marker=coord:{$store.latitude},{$store.longitude};title:我的位置;addr:{$store.merchants_name}&referer=ecjiacityo2o" title="查看地图" target="_blank">[查看地图]</a>{/if}</td>
+        							<td>{$store.longitude}&nbsp;&nbsp;{$store.latitude}{if $store.longitude && $store.latitude}&nbsp;&nbsp;
+        							<a href="#mapModal" title="查看地图" data-toggle="modal" exname="{$store.merchants_name}" exlng="{$store.longitude}" exlat="{$store.latitude}" data-address="{$store.province}&nbsp;{$store.city}&nbsp;{$store.district}&nbsp;{$store.street}&nbsp;{$store.address}">[查看地图]</a>{/if}</td>
         						</tr>
         						<tr>
         							<td><div align="right"><strong>{lang key='store::store.address_lable'}</strong></div></td>
