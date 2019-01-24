@@ -527,6 +527,7 @@ return array(
 	'store/collect/create'								=> 'user::store/collect/create', 				//用户收藏店铺
 	'store/collect/cancel'								=> 'user::store/collect/cancel', 				//用户取消收藏店铺
 	'user/mobile/toutiao'								=> 'toutiao::user/mobile/toutiao', 				//用户收藏店铺的今日热点列表
+	'mobile/toutiao'									=> 'toutiao::mobile/toutiao', 					//所有店铺今日热点列表
 	'merchant/mobile/toutiao'							=> 'toutiao::merchant/mobile/toutiao', 			//获取某个商家今日热点列表
 	'merchant/menu'										=> 'store::merchant/menu', 						//商家自定义菜单
 	'user/orders/express/message'						=> 'track::user/orders/express/message', 		//用户订单物流消息中心
@@ -562,16 +563,19 @@ return array(
     'shop/captcha/sms/checkcode'                      => 'captcha::shop/captcha/sms/checkcode',             //用户登录后，通用验证关联手机号验证码
     'connect/unbind'					  			  => 'connect::connect/unbind',							//用户解绑关联的第三方账号
 		
-		
-		
 	'admin/payment/notify/cancel'					  => 'payment::admin/payment/notify/cancel',			//收银台撤销支付
 	'admin/payment/notify/pay'					  	  => 'payment::admin/payment/notify/pay',				//收银台支付
 	'admin/payment/notify/refund'					  => 'payment::admin/payment/notify/refund',			//收银台退款
 	'admin/payment/pay/balance'						  => 'payment::admin/payment/pay/balance',				//收银台余额支付
 	'admin/payment/pay/cash'						  => 'payment::admin/payment/pay/cash',					//收银台现金支付
 	
-		
-		
+	//1.26收银通
+	'admin/cashier/notify/printmachine/print'		  => 'cashier::admin/cashier/notify/printmachine/print',//收银通通知小票打印机打印小票
+	
+	//1.27
+	'affiliate/user/invitee'						  => 'affiliate::affiliate/user/invitee',				//团队列表，当前用户推荐的直属用户
+	
+	
     /**
      * 1.0 已经废弃
      *
