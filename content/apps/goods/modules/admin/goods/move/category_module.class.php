@@ -88,9 +88,7 @@ class admin_goods_move_category_module extends api_admin implements api_interfac
     	$action = $old_cat_name.'下商品id为：'.implode(',', $goods_ids).'转移到'.$new_cat_name;
     	if ($_SESSION['store_id'] > 0) {
     	    RC_Api::api('merchant', 'admin_log', array('text' => $action.'【来源掌柜】', 'action' => 'edit', 'object' => 'category'));
-    	} else {
-    	    ecjia_admin::admin_log($action.'【来源掌柜】', 'edit', 'category'); // 记录日志
-    	}
+    	} 
     	
     	return array();
     	

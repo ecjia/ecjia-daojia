@@ -92,9 +92,7 @@ class admin_goods_merchant_category_add_module extends api_admin implements api_
     	
     	if ($_SESSION['store_id'] > 0) {
     	    RC_Api::api('merchant', 'admin_log', array('text' => $category_name.'【来源掌柜】', 'action' => 'add', 'object' => 'category'));
-    	} else {
-    	    ecjia_admin::admin_log($category_name.'【来源掌柜】', 'add', 'category'); // 记录日志
-    	}
+    	} 
     	
     	RC_Cache::app_cache_delete('cat_list', 'goods');
     	

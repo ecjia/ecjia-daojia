@@ -91,9 +91,7 @@ class admin_goods_togglesale_module extends api_admin implements api_interface {
 		
 		if ($_SESSION['store_id'] > 0) {
 		    RC_Api::api('merchant', 'admin_log', array('text'=>$log_text, 'action'=>'setup', 'object'=>'goods'));
-		} else {
-		    ecjia_admin::admin_log($log_text, 'setup', 'goods');
-		}
+		} 
 		$orm_goods_db = RC_Model::model('goods/orm_goods_model');
 		/* 释放app缓存*/
 		$goods_cache_array = $orm_goods_db->get_cache_item('goods_list_cache_key_array');

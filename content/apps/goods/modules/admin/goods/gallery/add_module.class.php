@@ -126,10 +126,7 @@ class admin_goods_gallery_add_module extends api_admin implements api_interface 
 		/* 记录日志 */
 		if ($_SESSION['store_id'] > 0) {
 		    RC_Api::api('merchant', 'admin_log', array('text' => $goods_info['goods_name'].'-添加商品相册图片【来源掌柜】', 'action' => 'edit', 'object' => 'goods'));
-		} else {
-		    //ecjia_admin::admin_log($goods_name.'【来源掌柜】', 'add', 'goods');
-		}
-		
+		} 
     	return array();
     }
     	 

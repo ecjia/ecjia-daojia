@@ -83,9 +83,7 @@ class admin_goods_restore_module extends api_admin implements api_interface {
 			$goods_name = $db_goods->where(array('goods_id' => $val))->get_field('goods_name');
 			if ($_SESSION['store_id'] > 0) {
 			    RC_Api::api('merchant', 'admin_log', array('text' => $goods_name.'【来源掌柜】', 'action' => 'restore', 'object' => 'goods'));
-			} else {
-			    ecjia_admin::admin_log(addslashes($goods_name).'【来源掌柜】', 'restore', 'goods'); // 记录日志
-			}
+			} 
 		}
 		
 		return array();

@@ -91,9 +91,7 @@ class admin_goods_toggle_free_shipping_module extends api_admin implements api_i
 		}
 		if ($_SESSION['store_id'] > 0) {
 		    RC_Api::api('merchant', 'admin_log', array('text' => $action.'【来源掌柜】', 'action' => 'setup', 'object' => 'goods'));
-		} else {
-		    ecjia_admin::admin_log($action.'【来源掌柜】', 'setup', 'goods'); // 记录日志
-		}
+		} 
 		
 		return array();
 	}

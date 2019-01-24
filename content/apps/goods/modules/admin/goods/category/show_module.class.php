@@ -76,9 +76,7 @@ class admin_goods_category_show_module extends api_admin implements api_interfac
     	RC_Model::model('goods/category_model')->where(array('cat_id' => $category_id))->update(array('is_show' => $is_show));
     	if ($_SESSION['store_id'] > 0) {
     	    RC_Api::api('merchant', 'admin_log', array('text' => $name."切换显示状态".'【来源掌柜】', 'action' => 'edit', 'object' => 'category'));
-    	} else {
-    	    ecjia_admin::admin_log($name."切换显示状态".'【来源掌柜】', 'edit', 'category'); // 记录日志
-    	}
+    	} 
     	RC_Cache::app_cache_delete('cat_list', 'goods');
 
     	return array();

@@ -78,9 +78,7 @@ class admin_goods_merchant_category_delete_module extends api_admin implements a
 			$del_result = RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $cat_id, 'store_id' => $_SESSION['store_id']))->delete();
 			if ($_SESSION['store_id'] > 0) {
 			    RC_Api::api('merchant', 'admin_log', array('text' => $category['cat_name'].'【来源掌柜】', 'action' => 'remove', 'object' => 'category'));
-			} else {
-			    ecjia_admin::admin_log($category['cat_name'].'【来源掌柜】', 'remove', 'category'); // 记录日志
-			}
+			} 
 		} else {
 			return new ecjia_error('category_delete_error','该分类下有商品或非末级分类！');
 		}

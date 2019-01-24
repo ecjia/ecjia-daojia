@@ -87,7 +87,7 @@ class admin_goods_product_search_module extends api_admin implements api_interfa
         if(!empty($_SESSION['store_id'])){
             $where['store_id'] = $_SESSION['store_id'];
         }
-        $codes = array('8001', '8011');
+        $codes = config('app-cashier::cashier_device_code');
     	if (in_array($device_code, $codes)) {
     		$where = array_merge($where, array('is_delete' => 0, 'is_on_sale' => 1, 'is_alone_sale' => 1));
     		if (ecjia::config('review_goods')) {

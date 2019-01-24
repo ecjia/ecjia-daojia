@@ -94,9 +94,7 @@ class admin_goods_trash_module extends api_admin implements api_interface {
 		if ($_SESSION['store_id'] > 0) {
 // 		    ecjia_merchant::admin_log(addslashes($goods_name).'【来源掌柜】', 'trash', 'goods'); // 记录日志
 		    RC_Api::api('merchant', 'admin_log', array('text'=>$goods_name.'【来源掌柜】', 'action'=>'trash', 'object'=>'goods'));
-		} else {
-		    ecjia_admin::admin_log(addslashes($goods_name).'【来源掌柜】', 'trash', 'goods'); // 记录日志
-		}
+		} 
 		
 		return array();
 	}

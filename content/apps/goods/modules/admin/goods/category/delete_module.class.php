@@ -82,12 +82,8 @@ class admin_goods_category_delete_module extends api_admin implements api_interf
 			}
 			$query = RC_Model::model('goods/category_model')->where(array('cat_id' => $cat_id))->delete();
 			if ($query) {
-// 				$db_nav = RC_Loader::load_model('nav_model');
-// 				$db_nav->where(array('ctype' => 'c', 'cid' => $cat_id, 'type' => 'middle'))->delete();
 				if ($_SESSION['store_id'] > 0) {
 				    RC_Api::api('merchant', 'admin_log', array('text' => $category['cat_name'].'【来源掌柜】', 'action' => 'remove', 'object' => 'category'));
-				} else {
-				    ecjia_admin::admin_log($category['cat_name'].'【来源掌柜】', 'remove', 'category'); // 记录日志
 				}
 			}
 		} else {

@@ -83,9 +83,7 @@ class admin_goods_promote_delete_module extends api_admin implements api_interfa
     	$action = '删除商品促销价格：'.addslashes($goods_name);
     	if ($_SESSION['store_id'] > 0) {
     	    RC_Api::api('merchant', 'admin_log', array('text' => $action.'【来源掌柜】', 'action' => 'edit', 'object' => 'goods'));
-    	} else {
-    	    ecjia_admin::admin_log($action.'【来源掌柜】', 'edit', 'goods'); // 记录日志
-    	}
+    	} 
     	
     	return array();
     }

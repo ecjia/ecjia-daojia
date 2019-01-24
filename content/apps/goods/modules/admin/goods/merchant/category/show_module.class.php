@@ -77,9 +77,7 @@ class admin_goods_merchant_category_show_module extends api_admin implements api
     	$action = $name."切换商家分类显示状态";
     	if ($_SESSION['store_id'] > 0) {
     	    RC_Api::api('merchant', 'admin_log', array('text' => $action.'【来源掌柜】', 'action' => 'edit', 'object' => 'category'));
-    	} else {
-    	    ecjia_admin::admin_log($action.'【来源掌柜】', 'edit', 'category'); // 记录日志
-    	}
+    	} 
     	RC_Cache::app_cache_delete('cat_list', 'goods');
 
     	return array();
