@@ -60,7 +60,7 @@ class user_user_account_info_api extends Component_Event_Api {
 	 * @return array | ecjia_error
 	 */
 	public function call(&$options) {
-		if (!is_array($options) || empty($options['account_id'])) {
+		if (!is_array($options) || (empty($options['account_id']) && empty($options['order_sn']))) {
 			return new ecjia_error('invalid_parameter', '调用接口user_account_info_api参数无效！');
 		}
 		
@@ -74,7 +74,11 @@ class user_user_account_info_api extends Component_Event_Api {
 	 */
 	private function getUserAccountInfo($options)
 	{
-		$account_info = RC_DB::table('user_account')->where('id', $options['account_id'])->first();
+		if (!empty($options['account_id'])) {
+			$account_info = RC_DB::table('user_account')->where('id', $options['account_id'])->first();
+		} else {
+			$account_info = RC_DB::table('user_account')->where('order_sn', $options['order_sn'])->first();
+		}
 		return $account_info;
 	}
 }

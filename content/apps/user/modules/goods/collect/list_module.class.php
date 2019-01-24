@@ -84,7 +84,7 @@ class goods_collect_list_module extends api_front implements api_interface {
 						'goods_id'						=> intval($val['goods_id']),	
 						'store_id'  					=> intval($val['store_id']),
 						'store_name'					=> empty($val['merchants_name']) ? '' : trim($val['merchants_name']),
-						'goods_name'					=> empty($val['name']) ? '' : trim($val['name']),
+						'goods_name'					=> empty($val['goods_name']) ? '' : trim($val['goods_name']),
 						'market_price'					=> sprintf("%.2f", $val['market_price']),
 						'formatted_market_price'		=> ecjia_price_format($val['market_price'], false),
 						'shop_price'					=> sprintf("%.2f", $val['shop_price']),

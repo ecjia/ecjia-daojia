@@ -116,8 +116,6 @@ HTML;
         if (!empty($order_sn_list)) {
             RC_DB::table('payment_record')->whereIn('order_sn', $order_sn_list)->delete(); //支付方式日志
         }
-        RC_DB::table('service_sms_account_log')->where('user_id', $this->user_id)->delete(); //短信账户日志
-
         $this->handleAdminLog();
 
         return true;

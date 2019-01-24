@@ -675,19 +675,23 @@ class admin extends ecjia_admin
         $this->assign('order_list', $order);
         $this->assign('address_list', $address_list);
 
-        $qq_info = RC_DB::table('connect_user')->where('connect_code', 'sns_qq')->where('user_id', $id)->first();
+        $qq_info = RC_DB::table('connect_user')->where('connect_code', 'sns_qq')->where('user_id', $id)->where('user_type', 'user')->first();
         if (!empty($qq_info)) {
             $this->assign('qq_info', $qq_info);
         }
 
-        $connect_info = RC_DB::table('connect_user')->where('connect_code', 'sns_wechat')->where('user_id', $id)->first();
-        if (!empty($connect_info)) {
-            $ect_uid = RC_DB::table('wechat_user')->where('unionid', $connect_info['open_id'])->pluck('ect_uid');
+        $wechat_info = RC_DB::table('connect_user')->where('connect_platform', 'wechat')->where('user_id', $id)->where('user_type', 'user')->first();
+        if (!empty($wechat_info)) {
+            $ect_uid = RC_DB::table('wechat_user')->where('unionid', $wechat_info['union_id'])->pluck('ect_uid');
             //修正绑定信息
             if (empty($ect_uid)) {
-                RC_DB::table('wechat_user')->where('unionid', $connect_info['open_id'])->update(array('ect_uid' => $connect_info['user_id']));
+                RC_DB::table('wechat_user')->where('unionid', $wechat_info['union_id'])->update(array('ect_uid' => $wechat_info['user_id']));
             }
-            $wechat_info = RC_DB::table('wechat_user')->where('unionid', $connect_info['open_id'])->where('ect_uid', $connect_info['user_id'])->first();
+            
+            if (!empty($wechat_info['profile'])) {
+                $profile = unserialize($wechat_info['profile']);
+                $wechat_info['nickname'] = empty($profile['nickname']) ? '' : $profile['nickname'];
+            }
 
             $this->assign('wechat_info', $wechat_info);
         }

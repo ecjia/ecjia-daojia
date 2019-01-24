@@ -72,9 +72,10 @@
 									</td>
 									<td>{$user.mobile_phone}</td>
 									<td>
-										<div align="right"><strong>微信昵称：</strong></div>
+										<div align="right"><strong>微信：</strong></div>
 									</td>
-									<td>{if $wechat_info}已绑定{else}未绑定{/if}</td>
+									
+									<td>{if $wechat_info}{$wechat_info.nickname}{else}未绑定{/if}</td>
 								</tr>
 
 								<tr>

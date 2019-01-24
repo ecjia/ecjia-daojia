@@ -810,7 +810,9 @@ function EM_user_info($user_id, $mobile = '') {
 	$user_info['address'] = $user_info['address_id'] > 0 ? ecjia_region::getRegionName($address['city']).ecjia_region::getRegionName($address['district']).ecjia_region::getRegionName($address['street']).$address['address'] : '';
 	
 	/*返回connect_user表中open_id和token*/
-	$connect_user_info = (new Ecjia\App\Connect\EcjiaSyncAppUser('app', $user_id, 'user'))->getEcjiaAppUser();
+	$open_id = RC_DB::table('connect_user')->where('user_id', $user_id)->where('user_type', 'user')->where('connect_code', 'app')->pluck('open_id');
+	$connect_appuser = (new Ecjia\App\Connect\Plugins\EcjiaSyncAppUser($open_id, 'user'))->setUserId($user_id)->getEcjiaAppUser();
+	
 	return array(
 		'id'				=> $user_info['user_id'],
 		'name'				=> $user_info['user_name'],
@@ -837,9 +839,9 @@ function EM_user_info($user_id, $mobile = '') {
 		'user_bonus_count' 		=> $bonus_count,
 		'reg_time'				=> empty($user_info['reg_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $user_info['reg_time']),
 		'update_username_time'	=> empty($username_update_time) ? '' : RC_Time::local_date(ecjia::config('time_format'), $username_update_time['meta_value']),
-		'open_id'               => !empty($connect_user_info['open_id']) ? $connect_user_info['open_id'] : '',
-		'access_token'          => !empty($connect_user_info['access_token']) ? $connect_user_info['access_token'] : '',
-		'refresh_token'         => !empty($connect_user_info['refresh_token']) ? $connect_user_info['refresh_token'] : '',
+		'open_id'               => $connect_appuser->open_id ? $connect_appuser->open_id : '',
+		'access_token'          => $connect_appuser->access_token ? $connect_appuser->access_token : '',
+		'refresh_token'         => $connect_appuser->refresh_token ? $connect_appuser->refresh_token : '',
 		'user_type'				=> 'user',
 		'has_paypassword'		=> empty($user_info['pay_password']) ? 0 : 1,
 		'account_status'		=> $user_info['account_status'],
