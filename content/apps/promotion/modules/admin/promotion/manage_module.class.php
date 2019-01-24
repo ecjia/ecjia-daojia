@@ -96,11 +96,8 @@ class admin_promotion_manage_module extends api_admin implements api_interface {
         Ecjia\App\Promotion\Helper::assign_adminlog_content();
 
         if ($_SESSION['store_id'] > 0) {
-//             ecjia_merchant::admin_log($promotion_info['goods_name'].'【来源掌柜】', 'edit', 'promotion');
             RC_Api::api('merchant', 'admin_log', array('text'=>$promotion_info['goods_name'].'【来源掌柜】', 'action'=>'edit', 'object'=>'promotion'));
-        } else {
-            ecjia_admin::admin_log($promotion_info['goods_name'].'【来源掌柜】', 'edit', 'promotion');
-        }
+        } 
         
         $orm_goods_db = RC_Model::model('goods/orm_goods_model');
         /* 释放app缓存*/
