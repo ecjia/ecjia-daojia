@@ -127,9 +127,15 @@ class admin extends ecjia_admin {
 			$result = $maintain->run();
 			if (is_ecjia_error($result)) {
 				return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('maintain/admin/run',array('code' => $code))));
-			} else {
-				return $this->showmessage('运行成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('maintain/admin/run',array('code' => $code))));
 			}
+
+			if ($result instanceof \Ecjia\App\Maintain\CommandOutput) {
+			    $message = $result->getMessage();
+            } else {
+                $message = '运行成功';
+            }
+
+            return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('maintain/admin/run',array('code' => $code))));
 		}
 	}
 	
