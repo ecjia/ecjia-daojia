@@ -85,15 +85,15 @@ class merchant extends ecjia_merchant
         $this->assign('background_url', RC_App::apps_url('statics/images/background.png', __FILE__));
 
         $shortcutDatas = RC_Api::api('adsense', 'shortcut', [
-            'code' => 'merchant_franchisee_case',
-            'client' => Ecjia\App\Adsense\Client::PC,
+            'code'    => 'merchant_franchisee_case',
+            'client'  => Ecjia\App\Adsense\Client::PC,
             'city_id' => 0,
         ]);
         $this->assign('shortcutDatas', $shortcutDatas);
 
         $shop_logo_url = '';
-        $shop_logo = ecjia::config('shop_logo');
-        $disk = RC_Filesystem::disk();
+        $shop_logo     = ecjia::config('shop_logo');
+        $disk          = RC_Filesystem::disk();
         if (!empty($shop_logo) && $disk->exists(RC_Upload::upload_path($shop_logo))) {
             $shop_logo_url = RC_Upload::upload_url($shop_logo);
         }
@@ -108,13 +108,13 @@ class merchant extends ecjia_merchant
         $this->assign('data', $data);
 
         $this->assign('active', true);
-        
+
         $this->display('franchisee_index.dwt');
     }
 
     public function article()
     {
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('商家入驻', RC_Uri::url('franchisee/merchant/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('商家入驻', RC_Uri::url('franchisee/merchant/init')));
 
         $static_url = RC_App::apps_url('statics/images/', __FILE__);
         $this->assign('static_url', $static_url);
@@ -122,8 +122,8 @@ class merchant extends ecjia_merchant
         $this->assign('background_url', RC_App::apps_url('statics/images/background.png', __FILE__));
 
         $shop_logo_url = '';
-        $shop_logo = ecjia::config('shop_logo');
-        $disk = RC_Filesystem::disk();
+        $shop_logo     = ecjia::config('shop_logo');
+        $disk          = RC_Filesystem::disk();
         if (!empty($shop_logo) && $disk->exists(RC_Upload::upload_path($shop_logo))) {
             $shop_logo_url = RC_Upload::upload_url($shop_logo);
         }
@@ -135,17 +135,17 @@ class merchant extends ecjia_merchant
         $article = RC_DB::table('article')
             ->where('article_type', 'system')
             ->get();
-		$this->assign('data', $article);
-		
-		$id = intval($_GET['id']);
-		$article = RC_DB::table('article')
-			->where('article_type', 'system')
-			->where('article_id', $id)
+        $this->assign('data', $article);
+
+        $id                 = intval($_GET['id']);
+        $article            = RC_DB::table('article')
+            ->where('article_type', 'system')
+            ->where('article_id', $id)
             ->first();
         $article['content'] = stripslashes($article['content']);
-		$this->assign('article', $article);	
+        $this->assign('article', $article);
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($article['title']));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($article['title']));
 
         $this->display('franchisee_article.dwt');
     }
@@ -163,8 +163,8 @@ class merchant extends ecjia_merchant
         $this->assign('background_url', RC_App::apps_url('statics/images/background.png', __FILE__));
 
         $shop_logo_url = '';
-        $shop_logo = ecjia::config('shop_logo');
-        $disk = RC_Filesystem::disk();
+        $shop_logo     = ecjia::config('shop_logo');
+        $disk          = RC_Filesystem::disk();
         if (!empty($shop_logo) && $disk->exists(RC_Upload::upload_path($shop_logo))) {
             $shop_logo_url = RC_Upload::upload_url($shop_logo);
         }
@@ -179,8 +179,8 @@ class merchant extends ecjia_merchant
         $this->assign('data', $article);
 
         $this->unset_login_info();
-        $step = isset($_GET['step']) ? $_GET['step'] : 1;
-        $type = !empty($_GET['type']) ? trim($_GET['type']) : '';
+        $step   = isset($_GET['step']) ? $_GET['step'] : 1;
+        $type   = !empty($_GET['type']) ? trim($_GET['type']) : '';
         $mobile = !empty($_GET['mobile']) ? trim($_GET['mobile']) : '';
 
         $data = array();
@@ -197,9 +197,9 @@ class merchant extends ecjia_merchant
         } elseif ($step == 2) {
             //个人信息
             $info = array(
-                'validate_type' => isset($_SESSION['validate_type']) ? intval($_SESSION['validate_type']) : 1,
+                'validate_type'      => isset($_SESSION['validate_type']) ? intval($_SESSION['validate_type']) : 1,
                 'responsible_person' => isset($_SESSION['responsible_person']) ? trim($_SESSION['responsible_person']) : '',
-                'email' => isset($_SESSION['email']) ? trim($_SESSION['email']) : '',
+                'email'              => isset($_SESSION['email']) ? trim($_SESSION['email']) : '',
             );
             $this->assign('info', $info);
 
@@ -207,10 +207,10 @@ class merchant extends ecjia_merchant
                 $data = RC_DB::table('store_preaudit')->where('contact_mobile', $mobile)->first();
             }
 
-            $data['identity_pic_front'] = !empty($data['identity_pic_front']) ? RC_Upload::upload_url($data['identity_pic_front']) : '';
-            $data['identity_pic_back'] = !empty($data['identity_pic_back']) ? RC_Upload::upload_url($data['identity_pic_back']) : '';
+            $data['identity_pic_front']      = !empty($data['identity_pic_front']) ? RC_Upload::upload_url($data['identity_pic_front']) : '';
+            $data['identity_pic_back']       = !empty($data['identity_pic_back']) ? RC_Upload::upload_url($data['identity_pic_back']) : '';
             $data['personhand_identity_pic'] = !empty($data['personhand_identity_pic']) ? RC_Upload::upload_url($data['personhand_identity_pic']) : '';
-            $data['business_licence_pic'] = !empty($data['business_licence_pic']) ? RC_Upload::upload_url($data['business_licence_pic']) : '';
+            $data['business_licence_pic']    = !empty($data['business_licence_pic']) ? RC_Upload::upload_url($data['business_licence_pic']) : '';
             $this->assign('data', $data);
 
             $cat_list = $this->get_cat_select_list();
@@ -240,7 +240,7 @@ class merchant extends ecjia_merchant
                 } elseif ($data['check_status'] == 3) {
                     $message = '<span class="ecjiafc-red">很抱歉，审核未通过，您可以点击右侧按钮修改申请信息</span>';
 
-                    $id = RC_DB::table('store_check_log')->where('store_id', $data['id'])->max('id');
+                    $id          = RC_DB::table('store_check_log')->where('store_id', $data['id'])->max('id');
                     $refuse_info = RC_DB::table('store_check_log')->where('id', $id)->first();
 
                     $this->assign('refuse_info', $refuse_info['info']);
@@ -250,21 +250,21 @@ class merchant extends ecjia_merchant
                 $this->assign('edit_apply', RC_Uri::url('franchisee/merchant/join', array('type' => 'edit_apply', 'step' => 1, 'mobile' => $mobile)));
                 $this->assign('remove_apply', RC_Uri::url('franchisee/merchant/remove_apply', array('mobile' => $mobile)));
             } else {
-                $data = RC_DB::table('store_franchisee')->where('contact_mobile', $mobile)->first();
+                $data    = RC_DB::table('store_franchisee')->where('contact_mobile', $mobile)->first();
                 $message = '<span class="ecjiafc-blue">恭喜您，审核通过</span>';
 
                 $check_log_list = RC_DB::table('store_check_log')->where('store_id', $data['store_id'])->get();
             }
 
-            $data['province'] = !empty($data['province']) ? ecjia_region::getRegionName($data['province']) : '';
-            $data['city'] = !empty($data['city']) ? ecjia_region::getRegionName($data['city']) : '';
-            $data['district'] = !empty($data['district']) ? ecjia_region::getRegionName($data['district']) : '';
-            $data['street'] = !empty($data['street']) ? ecjia_region::getRegionName($data['street']) : '';
-            $data['identity_pic_front'] = !empty($data['identity_pic_front']) ? RC_Upload::upload_url($data['identity_pic_front']) : '';
-            $data['identity_pic_back'] = !empty($data['identity_pic_back']) ? RC_Upload::upload_url($data['identity_pic_back']) : '';
+            $data['province']                = !empty($data['province']) ? ecjia_region::getRegionName($data['province']) : '';
+            $data['city']                    = !empty($data['city']) ? ecjia_region::getRegionName($data['city']) : '';
+            $data['district']                = !empty($data['district']) ? ecjia_region::getRegionName($data['district']) : '';
+            $data['street']                  = !empty($data['street']) ? ecjia_region::getRegionName($data['street']) : '';
+            $data['identity_pic_front']      = !empty($data['identity_pic_front']) ? RC_Upload::upload_url($data['identity_pic_front']) : '';
+            $data['identity_pic_back']       = !empty($data['identity_pic_back']) ? RC_Upload::upload_url($data['identity_pic_back']) : '';
             $data['personhand_identity_pic'] = !empty($data['personhand_identity_pic']) ? RC_Upload::upload_url($data['personhand_identity_pic']) : '';
-            $data['business_licence_pic'] = !empty($data['business_licence_pic']) ? RC_Upload::upload_url($data['business_licence_pic']) : '';
-            $data['cat_name'] = RC_DB::table('store_category')->where('cat_id', $data['cat_id'])->pluck('cat_name');
+            $data['business_licence_pic']    = !empty($data['business_licence_pic']) ? RC_Upload::upload_url($data['business_licence_pic']) : '';
+            $data['cat_name']                = RC_DB::table('store_category')->where('cat_id', $data['cat_id'])->pluck('cat_name');
 
             if (!empty($check_log_list)) {
                 foreach ($check_log_list as $k => $v) {
@@ -318,7 +318,7 @@ class merchant extends ecjia_merchant
         if (!empty($type)) {
             $arr['type'] = $type;
         }
-        $arr['step'] = $step;
+        $arr['step']   = $step;
         $arr['mobile'] = $mobile;
         $this->assign('form_action', RC_Uri::url('franchisee/merchant/insert', $arr));
 
@@ -355,19 +355,19 @@ class merchant extends ecjia_merchant
             return $this->showmessage($validate_error, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $code = rand(100000, 999999);
-        $options = array(
+        $code     = rand(100000, 999999);
+        $options  = array(
             'mobile' => $mobile,
-            'event' => 'sms_get_validate',
-            'value' => array(
-                'code' => $code,
+            'event'  => 'sms_get_validate',
+            'value'  => array(
+                'code'          => $code,
                 'service_phone' => ecjia::config('service_phone'),
             ),
         );
         $response = RC_Api::api('sms', 'send_event_sms', $options);
 
-        $_SESSION['temp_mobile'] = $mobile;
-        $_SESSION['temp_code'] = $code;
+        $_SESSION['temp_mobile']    = $mobile;
+        $_SESSION['temp_code']      = $code;
         $_SESSION['temp_code_time'] = RC_Time::gmtime() + 300; //5分钟有效
 
         if (is_ecjia_error($response)) {
@@ -383,16 +383,16 @@ class merchant extends ecjia_merchant
         $type = !empty($_GET['type']) ? $_GET['type'] : '';
 
         if ($step == 1) {
-            $code = !empty($_POST['code']) ? $_POST['code'] : '';
-            $mobile = !empty($_POST['mobile']) ? trim($_POST['mobile']) : '';
-            $email = !empty($_POST['email']) ? trim($_POST['email']) : '';
+            $code          = !empty($_POST['code']) ? $_POST['code'] : '';
+            $mobile        = !empty($_POST['mobile']) ? trim($_POST['mobile']) : '';
+            $email         = !empty($_POST['email']) ? trim($_POST['email']) : '';
             $validate_type = !empty($_POST['validate_type']) ? intval($_POST['validate_type']) : 1; //个人1  企业2
 
             $responsible_person = !empty($_POST['responsible_person']) ? trim($_POST['responsible_person']) : ''; //负责人
-            $message = '请输入负责人姓名';
+            $message            = '请输入负责人姓名';
             if ($validate_type == 2) {
                 $responsible_person = !empty($_POST['company_responsible_person']) ? trim($_POST['company_responsible_person']) : ''; //法定代表人
-                $message = '请输入法定代表人姓名'; 
+                $message            = '请输入法定代表人姓名';
             }
 
             $time = RC_Time::gmtime();
@@ -464,49 +464,49 @@ class merchant extends ecjia_merchant
                 }
             }
 
-            $_SESSION['validate_type'] = $validate_type;
+            $_SESSION['validate_type']      = $validate_type;
             $_SESSION['responsible_person'] = $responsible_person;
-            $_SESSION['temp_mobile'] = $mobile;
-            $_SESSION['email'] = $email; //电子邮箱
+            $_SESSION['temp_mobile']        = $mobile;
+            $_SESSION['email']              = $email; //电子邮箱
 
-            $arr['step'] = 2;
+            $arr['step']   = 2;
             $arr['mobile'] = $mobile;
             return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('franchisee/merchant/join', $arr)));
 
         } elseif ($step == 2) {
-            $cat_id = !empty($_POST['store_cat']) ? intval($_POST['store_cat']) : 0; //店铺分类
+            $cat_id         = !empty($_POST['store_cat']) ? intval($_POST['store_cat']) : 0; //店铺分类
             $merchants_name = !empty($_POST['merchants_name']) ? trim($_POST['merchants_name']) : ''; //店铺名称
-            $shop_keyword = !empty($_POST['shop_keyword']) ? trim($_POST['shop_keyword']) : ''; //店铺名称
+            $shop_keyword   = !empty($_POST['shop_keyword']) ? trim($_POST['shop_keyword']) : ''; //店铺名称
 
-            $validate_type = !empty($_SESSION['validate_type']) ? intval($_SESSION['validate_type']) : 1; //个人1  企业2
+            $validate_type      = !empty($_SESSION['validate_type']) ? intval($_SESSION['validate_type']) : 1; //个人1  企业2
             $responsible_person = !empty($_SESSION['responsible_person']) ? trim($_SESSION['responsible_person']) : ''; //负责人
-            $email = !empty($_SESSION['email']) ? trim($_SESSION['email']) : ''; //电子邮箱
+            $email              = !empty($_SESSION['email']) ? trim($_SESSION['email']) : ''; //电子邮箱
 
-            $address = !empty($_POST['address']) ? trim($_POST['address']) : ''; //通讯地址
+            $address        = !empty($_POST['address']) ? trim($_POST['address']) : ''; //通讯地址
             $contact_mobile = !empty($_POST['contact_mobile']) ? trim($_POST['contact_mobile']) : ''; //联系方式
 
             $province = !empty($_POST['province']) ? trim($_POST['province']) : ''; //省
-            $city = !empty($_POST['city']) ? trim($_POST['city']) : ''; //城市
+            $city     = !empty($_POST['city']) ? trim($_POST['city']) : ''; //城市
             $district = !empty($_POST['district']) ? trim($_POST['district']) : ''; //地区
-            $street = !empty($_POST['street']) ? trim($_POST['street']) : ''; //街道
+            $street   = !empty($_POST['street']) ? trim($_POST['street']) : ''; //街道
 
-            $identity_type = !empty($_POST['identity_type']) ? intval($_POST['identity_type']) : 1; //证件类型
+            $identity_type   = !empty($_POST['identity_type']) ? intval($_POST['identity_type']) : 1; //证件类型
             $identity_number = !empty($_POST['identity_number']) ? trim($_POST['identity_number']) : ''; //证件号码
 
             //银行账户信息
-            $bank_name = !empty($_POST['bank_name']) ? trim($_POST['bank_name']) : '';
-            $bank_branch_name = !empty($_POST['bank_branch_name']) ? trim($_POST['bank_branch_name']) : '';
+            $bank_name           = !empty($_POST['bank_name']) ? trim($_POST['bank_name']) : '';
+            $bank_branch_name    = !empty($_POST['bank_branch_name']) ? trim($_POST['bank_branch_name']) : '';
             $bank_account_number = !empty($_POST['bank_account_number']) ? trim($_POST['bank_account_number']) : '';
-            $bank_account_name = !empty($_POST['bank_account_name']) ? trim($_POST['bank_account_name']) : '';
-            $bank_address = !empty($_POST['bank_address']) ? trim($_POST['bank_address']) : '';
+            $bank_account_name   = !empty($_POST['bank_account_name']) ? trim($_POST['bank_account_name']) : '';
+            $bank_address        = !empty($_POST['bank_address']) ? trim($_POST['bank_address']) : '';
 
             $longitude = !empty($_POST['longitude']) ? $_POST['longitude'] : '';
-            $latitude = !empty($_POST['latitude']) ? $_POST['latitude'] : '';
+            $latitude  = !empty($_POST['latitude']) ? $_POST['latitude'] : '';
 
             //判断该手机号是否已申请
             $count_franchisee = RC_DB::table('store_franchisee')->where('contact_mobile', $contact_mobile)->count();
-            $count_preaudit = RC_DB::table('store_preaudit')->where('contact_mobile', $contact_mobile)->count();
-            $mobile = !empty($_GET['mobile']) ? trim($_GET['mobile']) : '';
+            $count_preaudit   = RC_DB::table('store_preaudit')->where('contact_mobile', $contact_mobile)->count();
+            $mobile           = !empty($_GET['mobile']) ? trim($_GET['mobile']) : '';
 
             if (empty($mobile) || $mobile != $_SESSION['temp_mobile']) {
                 return $this->showmessage('手机号不正确', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -521,6 +521,9 @@ class merchant extends ecjia_merchant
             if (empty($merchants_name)) {
                 return $this->showmessage('店铺名称不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
+                if (mb_strlen($merchants_name) > 17) {
+                    return $this->showmessage('店铺名称不能超过17个字符', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                }
                 if ($type == 'edit_apply') {
                     $count_merchants_name = RC_DB::table('store_preaudit')->where('merchants_name', $merchants_name)->where('contact_mobile', '!=', $mobile)->count();
                 } else {
@@ -593,7 +596,7 @@ class merchant extends ecjia_merchant
 
             $company_name = $business_licence = '';
             if ($validate_type == 2) {
-                $company_name = !empty($_POST['company_name']) ? trim($_POST['company_name']) : ''; //公司名称
+                $company_name     = !empty($_POST['company_name']) ? trim($_POST['company_name']) : ''; //公司名称
                 $business_licence = !empty($_POST['business_licence']) ? trim($_POST['business_licence']) : ''; //营业执照注册号
 
                 //营业执照电子版
@@ -617,42 +620,42 @@ class merchant extends ecjia_merchant
             }
 
             $data = array(
-                'cat_id' => $cat_id,
-                'validate_type' => $validate_type,
+                'cat_id'         => $cat_id,
+                'validate_type'  => $validate_type,
                 'merchants_name' => $merchants_name,
-                'shop_keyword' => $shop_keyword,
+                'shop_keyword'   => $shop_keyword,
 //                 'identity_status'            => $identity_status,        //证件认证状态，0待审核，1审核中，2审核通过，3拒绝通过
 
                 'responsible_person' => $responsible_person,
-                'company_name' => $company_name,
-                'check_status' => 1, //待审核
-                'email' => $email,
-                'contact_mobile' => $contact_mobile,
-                'apply_time' => RC_Time::gmtime(),
+                'company_name'       => $company_name,
+                'check_status'       => 1, //待审核
+                'email'              => $email,
+                'contact_mobile'     => $contact_mobile,
+                'apply_time'         => RC_Time::gmtime(),
 
                 'province' => $province,
-                'city' => $city,
+                'city'     => $city,
                 'district' => $district,
-                'street' => $street,
-                'address' => $address, //通讯地址
+                'street'   => $street,
+                'address'  => $address, //通讯地址
 
-                'identity_type' => $identity_type,
-                'identity_number' => $identity_number,
-                'identity_pic_front' => $identity_pic_front,
-                'identity_pic_back' => $identity_pic_back,
+                'identity_type'           => $identity_type,
+                'identity_number'         => $identity_number,
+                'identity_pic_front'      => $identity_pic_front,
+                'identity_pic_back'       => $identity_pic_back,
                 'personhand_identity_pic' => $personhand_identity_pic,
 
-                'bank_name' => $bank_name,
-                'bank_branch_name' => $bank_branch_name,
-                'bank_account_name' => $bank_account_name,
+                'bank_name'           => $bank_name,
+                'bank_branch_name'    => $bank_branch_name,
+                'bank_account_name'   => $bank_account_name,
                 'bank_account_number' => $bank_account_number,
-                'bank_address' => $bank_address,
+                'bank_address'        => $bank_address,
 
-                'business_licence' => $business_licence,
+                'business_licence'     => $business_licence,
                 'business_licence_pic' => $business_licence_pic,
 
                 'longitude' => $longitude,
-                'latitude' => $latitude,
+                'latitude'  => $latitude,
             );
 
             $this->unset_session();
@@ -699,8 +702,8 @@ class merchant extends ecjia_merchant
         $this->assign('background_url', RC_App::apps_url('statics/images/background.png', __FILE__));
 
         $shop_logo_url = '';
-        $shop_logo = ecjia::config('shop_logo');
-        $disk = RC_Filesystem::disk();
+        $shop_logo     = ecjia::config('shop_logo');
+        $disk          = RC_Filesystem::disk();
         if (!empty($shop_logo) && $disk->exists(RC_Upload::upload_path($shop_logo))) {
             $shop_logo_url = RC_Upload::upload_url($shop_logo);
         }
@@ -720,7 +723,7 @@ class merchant extends ecjia_merchant
 
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('查询审核进度'));
 
-        $step = isset($_GET['step']) ? $_GET['step'] : 1;
+        $step   = isset($_GET['step']) ? $_GET['step'] : 1;
         $mobile = !empty($_GET['mobile']) ? trim($_GET['mobile']) : '';
 
         if ($step != 1) {
@@ -746,13 +749,13 @@ class merchant extends ecjia_merchant
     {
         $step = !empty($_GET['step']) ? $_GET['step'] : 1;
         if ($step == 1) {
-            $code = !empty($_POST['code']) ? $_POST['code'] : '';
+            $code   = !empty($_POST['code']) ? $_POST['code'] : '';
             $mobile = !empty($_POST['mobile']) ? trim($_POST['mobile']) : '';
 
             $time = RC_Time::gmtime();
             if (!empty($code) && $code == $_SESSION['temp_code'] && $time < $_SESSION['temp_code_time'] && $mobile == $_SESSION['temp_mobile']) {
                 //判断该手机号是否已申请
-                $count_preaudit_info = RC_DB::table('store_preaudit')->where('contact_mobile', $mobile)->first();
+                $count_preaudit_info   = RC_DB::table('store_preaudit')->where('contact_mobile', $mobile)->first();
                 $count_franchisee_info = RC_DB::table('store_franchisee')->where('contact_mobile', $mobile)->first();
 
                 if (empty($count_preaudit_info) && empty($count_franchisee_info)) {
@@ -826,10 +829,10 @@ class merchant extends ecjia_merchant
     public function getgeohash()
     {
         $shop_province = !empty($_REQUEST['province']) ? trim($_REQUEST['province']) : '';
-        $shop_city = !empty($_REQUEST['city']) ? trim($_REQUEST['city']) : '';
+        $shop_city     = !empty($_REQUEST['city']) ? trim($_REQUEST['city']) : '';
         $shop_district = !empty($_REQUEST['district']) ? trim($_REQUEST['district']) : '';
-        $shop_street = !empty($_REQUEST['street']) ? trim($_REQUEST['street']) : '';
-        $shop_address = !empty($_REQUEST['address']) ? htmlspecialchars($_REQUEST['address']) : '';
+        $shop_street   = !empty($_REQUEST['street']) ? trim($_REQUEST['street']) : '';
+        $shop_address  = !empty($_REQUEST['address']) ? htmlspecialchars($_REQUEST['address']) : '';
 
         if (empty($shop_province)) {
             return $this->showmessage('请选择省份', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('element' => 'province'));
@@ -851,9 +854,9 @@ class merchant extends ecjia_merchant
             return $this->showmessage('腾讯地图key不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $province_name = ecjia_region::getRegionName($shop_province);
-        $city_name = ecjia_region::getRegionName($shop_city);
+        $city_name     = ecjia_region::getRegionName($shop_city);
         $district_name = ecjia_region::getRegionName($shop_district);
-        $street_name = ecjia_region::getRegionName($shop_street);
+        $street_name   = ecjia_region::getRegionName($shop_street);
 
         $address = '';
         if (!empty($province_name)) {
@@ -882,10 +885,10 @@ class merchant extends ecjia_merchant
 
     public function get_region()
     {
-        $parent_id = $_GET['parent']; //上级区域编码
+        $parent_id      = $_GET['parent']; //上级区域编码
         $arr['regions'] = with(new Ecjia\App\Setting\Region)->getSubarea($parent_id); //传参请求当前国家下信息
-        $arr['target'] = stripslashes(trim($_GET['target']));
-        $arr['target'] = htmlspecialchars($arr['target']);
+        $arr['target']  = stripslashes(trim($_GET['target']));
+        $arr['target']  = htmlspecialchars($arr['target']);
 
         echo json_encode($arr);
     }
@@ -955,7 +958,7 @@ class merchant extends ecjia_merchant
         if (isset($_SESSION['staff_id']) && intval($_SESSION['staff_id']) > 0) {
             RC_Session::destroy();
         }
-        $staff_id = RC_Cookie::get('ECJAP[staff_id]');
+        $staff_id   = RC_Cookie::get('ECJAP[staff_id]');
         $staff_pass = RC_Cookie::get('ECJAP[staff_pass]');
         if (!empty($staff_id) && !empty($staff_pass)) {
             RC_Cookie::delete('ECJAP.staff_id');
