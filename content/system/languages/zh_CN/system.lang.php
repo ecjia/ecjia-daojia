@@ -53,7 +53,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
 	'app_name' 			=> 'ECJIA',
 	'cp_home' 			=> 'ECJIA 管理面板',
-	'copyright' 		=> '版权所有 &copy, 2013-2014 上海商派网络科技有限公司，并保留所有权利。',
+	'copyright' 		=> '版权所有 ©, 2013-2019 上海商创网络科技有限公司，并保留所有权利。',
 	'query_info' 		=> '共执行 %d 个查询，程序运行用时 %s 秒',
 	'memory_info' 		=> '，内存占用 %0.3f MB',
 	'gzip_enabled' 		=> '，Gzip 已启用',

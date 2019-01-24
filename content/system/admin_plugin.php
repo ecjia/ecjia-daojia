@@ -74,24 +74,8 @@ class admin_plugin extends ecjia_admin {
 		
 		RC_Script::enqueue_script('ecjia-admin_plugin');
 		
-		$admin_plugin_jslang = array(
-				'error_intasll'		=> __('参数错误，无法安装！'),
-				'error_unintasll'	=> __('参数错误，无法卸载！'),
-				'confirm_unintall'	=> __('您确定要卸载这个插件吗？'),
-				'ok'				=> __('确定'),
-				'cancel'			=> __('取消'),
-				'delete_unintall'	=> __('您确定要删除这个插件吗？'),
-				'no_delete'			=> __('此插件暂时不能删除。'),	
-				'home'				=> __('首页'),
-				'last_page'			=> __('尾页'),
-				'previous'			=> __('上一页'),
-				'next_page'			=> __('下一页'),
-				'no_record'			=> __('没有找到任何记录'),	
-				'count_num'			=> __('共_TOTAL_条记录 第_START_ 到 第_END_条'),
-				'total'				=> __('共0条记录'),
-				'retrieval'			=> __('（从_MAX_条数据中检索）')
-		);
-		RC_Script::localize_script('ecjia-admin_plugin', 'admin_plugin_lang', $admin_plugin_jslang );
+		//js语言包调用
+		RC_Script::localize_script('ecjia-admin_plugin', 'admin_plugin_lang', config('system::jslang.plugin_page'));
 		
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('插件管理')));
 		$this->assign('ur_here', __('插件管理'));

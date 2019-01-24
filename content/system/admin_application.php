@@ -74,22 +74,8 @@ class admin_application extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-chosen');
 		RC_Script::enqueue_script('ecjia-admin_application');
 		
-		$admin_application_jslang = array(
-				'no_message'		=> __('未找到搜索内容!'),	
-				'start_installation'=> __('开始安装'),
-				'retreat'			=> __('后退'),
-				'home'				=> __('首页'),
-				'last_page'			=> __('尾页'),
-				'previous'			=> __('上一页'),
-				'next_page'			=> __('下一页'),
-				'no_record'			=> __('没有找到任何记录'),	
-				'count_num'			=> __('共_TOTAL_条记录 第_START_ 到 第_END_条'),
-				'total'				=> __('共0条记录'),
-				'retrieval'			=> __('（从_MAX_条数据中检索）'),
-				'installing'		=> __('安装中...'),
-				'start_install'		=> __('开始安装')
-		);
-		RC_Script::localize_script('ecjia-admin_application', 'admin_application', $admin_application_jslang );
+		//js语言包调用
+		RC_Script::localize_script('ecjia-admin_application', 'admin_application', config('system::jslang.application_page'));
 		
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('应用管理'), RC_Uri::url('@admin_application/init')));
 	}

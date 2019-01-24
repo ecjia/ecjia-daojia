@@ -42,4 +42,20 @@ class CloudCheck
         return $data;
     }
 
+    /**
+     * 检测更新，获取最新版本内容
+     * @return bool|mixed
+     */
+    public function checkUpgrade()
+    {
+        $result = $this->checkCurrentVersion();
+        if (is_ecjia_error($result)) {
+            return false;
+        }
+
+        $new_version = array_last($result);
+
+        return $new_version;
+    }
+
 }

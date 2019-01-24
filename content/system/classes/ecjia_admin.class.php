@@ -86,11 +86,11 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 		    RC_Session::destroy();
 		    if (is_pjax()) {
 		        ecjia_screen::$current_screen->add_nav_here(new admin_nav_here(__('系统提示')));
-		        $response = $this->showmessage(RC_Lang::get('system::system.priv_error'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('重新登录'), 'href' => RC_Uri::url('@privilege/login')))));
+		        $response = $this->showmessage(__('对不起,您没有执行此项操作的权限!'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('重新登录'), 'href' => RC_Uri::url('@privilege/login')))));
 		        royalcms('response')->send();
 		        exit();
 		    } elseif (is_ajax()) {
-		        $this->showmessage(RC_Lang::get('system::system.priv_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		        $this->showmessage(__('对不起,您没有执行此项操作的权限!'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 royalcms('response')->send();
                 exit();
 		    } else {
@@ -458,20 +458,8 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 		RC_Script::enqueue_script('ecjia-ui');
 		RC_Script::enqueue_script('jquery-quicksearch');
 		
-		$admin_jslang = array(
-				'display_sidebar'	=> __('显示侧边栏'),
-				'hide_sidebar'		=> __('隐藏侧边栏'),
-				'search_check'		=> __('请先输入搜索信息'),
-				'search_no_message'	=> __('未搜索到导航信息'),
-				'success'			=> __('操作成功'),
-				'fail'				=> __('操作失败'),
-				'confirm_jump'		=> __('是否确认跳转？'),
-				'ok'				=> __('确定'),
-				'cancel'			=> __('取消'),
-				'request_failed'	=> __('请求失败，错误编号：'),
-				'error_msg'			=> __('，错误信息：')
-		);
-		RC_Script::localize_script('ecjia-admin', 'admin_lang', $admin_jslang );
+		//js语言包调用
+		RC_Script::localize_script('ecjia-admin', 'admin_lang', config('system::jslang.admin_default_page'));
 	}
 	
 	
@@ -696,7 +684,7 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
     
     public static function display_admin_copyright() {
         $ecjia_version = ecjia::version();
-    	$company_msg   = __('版权所有 © 2013-2019 上海商创网络科技有限公司，并保留所有权利。');
+    	$company_msg   = '版权所有 © 2013-2019 上海商创网络科技有限公司，并保留所有权利。';
     	$ecjia_icon    = RC_Uri::admin_url('statics/images/ecjia_icon.png');
     	
         echo "<div class='row-fluid footer'>

@@ -48,35 +48,117 @@ namespace Ecjia\System\Console\Commands;
 
 use Royalcms\Component\Console\Command;
 use Royalcms\Component\Support\Facades\File;
+use Ecjia\System\Admins\Gettext\Smarty\SmartyGettextCompiler;
+use Ecjia\System\Admins\Gettext\Smarty\CompileDirectory;
+use Ecjia\System\Admins\Gettext\Smarty\CompileFile;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 
-class TestLogCommand extends Command
+/**
+ * tsmarty2c.php - rips gettext strings from smarty template
+ *
+ * This commandline script rips gettext strings from smarty file,
+ * and prints them to stdout in already gettext encoded format, which you can
+ * later manipulate with standard gettext tools.
+ *
+ * Usage:
+ * ./tsmarty2c.php -o template.pot <filename or directory> <file2> <..>
+ *
+ * Extract gettext strings of default (empty) domain only:
+ * ./tsmarty2c.php -d -o default.pot <filename or directory> <file2> <..>
+ *
+ * Extract gettext strings of domain "custom" only (e.g {t domain="custom"}...):
+ * ./tsmarty2c.php -d=custom -o custom.pot <filename or directory> <file2> <..>
+ *
+ * If a parameter is a directory, the template files within will be parsed.
+ */
+class TSmartyGettextCommand extends Command
 {
-    // 命令名稱
-    protected $name = 'test:log';
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'ecjia:gettext-smarty';
 
-    // 說明文字
-    protected $description = 'Test Log record.';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = "Scan templates for {t}...{/t} placeholders for translation strings and output a .pot file (.po template).";
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
-    // Console 執行的程式
+    /**
+     * Execute the console command.
+     *
+     * @return void
+     */
     public function fire()
     {
-        // 檔案紀錄在 storage/test.log
-        $log_file_path = storage_path('logs/test.log');
+        $compiler = new SmartyGettextCompiler();
 
-        // 記錄當時的時間
-        $log_info = array(
-            'date' => date('Y-m-d H:i:s')
-        );
+        // remove -o FILENAME from $argv.
+        if ($this->option('outfile')) {
+            $outfile = $this->option('outfile');
+        } else {
+            $outfile = tempnam($compiler->getTempDirectory(), 'tsmarty2c');
+        }
 
-        // 記錄 JSON 字串
-        $log_info_json = json_encode($log_info) . "\r\n";
+        $compiler->setOutFile($outfile);
+        
+        // remove -d DOMAIN from $argv.
+        if ($this->option('domain')) {
+            $domain = $this->option('domain');
+        } else{
+            $domain = null;
+        }
 
-        // 記錄 Log
-        File::append($log_file_path, $log_info_json);
+        // initialize output
+        file_put_contents($outfile, SmartyGettextCompiler::MSGID_HEADER);
+
+        $files = $this->argument('files');
+
+        // process dirs/files
+        foreach ($files as $file) {
+            if (is_dir($file)) {
+                (new CompileDirectory($compiler, $file))->compile();
+            } else {
+                (new CompileFile($compiler, $file))->compile();
+            }
+        }
+
+        // output and cleanup
+        if (! $this->option('outfile')) {
+            echo file_get_contents($outfile);
+            unlink($outfile);
+        }
     }
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return [
+            ['files', InputArgument::IS_ARRAY, 'The name of the command.'],
+        ];
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['outfile', 'o', InputArgument::REQUIRED, 'Outfile FILENAME.'],
+
+            ['domain', 'd', InputOption::VALUE_NONE, 'Outfile DOMAIN.'],
+        ];
+    }
+
 }

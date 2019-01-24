@@ -22,11 +22,11 @@
 					{t}ECJia 版权信息{/t}
 				</li>
 				<li>
-					<span class="item-key">{t}版权所有:{/t}</span>
+					<span class="item-key">{t}版权所有：{/t}</span>
 					<div class="vcard-item"><a href="http://about.ecmoban.com" target="_blank">{t}上海商创网络科技有限公司{/t}</a></div>
 				</li>
 				<li>
-					<span class="item-key">{t}公司网站:{/t}</span>
+					<span class="item-key">{t}公司网站：{/t}</span>
 					<div class="vcard-item"><a href="http://www.ecmoban.com" target="_blank">http://www.ecmoban.com</a></div>
 				</li>
 				
@@ -34,15 +34,15 @@
 					{t}ECJia 官方网站{/t}
 				</li>
 				<li>
-					<span class="item-key">{t}产品网站:{/t}</span>
+					<span class="item-key">{t}产品网站：{/t}</span>
 					<div class="vcard-item"><a href="https://ecjia.com" target="_blank">https://ecjia.com</a></div>
 				</li>
 				<li>
-					<span class="item-key">{t}帮助手册:{/t}</span>
+					<span class="item-key">{t}帮助手册：{/t}</span>
 					<div class="vcard-item"><a href="https://ecjia.com/wiki" target="_blank">https://ecjia.com/wiki</a></div>
 				</li>
 				<li>
-					<span class="item-key">{t}授权中心:{/t}</span>
+					<span class="item-key">{t}授权中心：{/t}</span>
 					<div class="vcard-item"><a href="https://license.ecjia.com" target="_blank">https://license.ecjia.com</a></div>
 				</li>
 				
@@ -50,7 +50,7 @@
 					{t}ECJia 开发团队{/t}
 				</li>
 				<li>
-					<span class="item-key">{t}创始人、项目领导者:{/t}</span>
+					<span class="item-key">{t}创始人、项目领导者：{/t}</span>
 					<div class="vcard-item">
 						<ul class="list_a">
 						    <li>Zhengdong Wang</li>
@@ -59,7 +59,7 @@
 				</li>
 				
 				<li>
-					<span class="item-key">{t}产品团队:{/t}</span>
+					<span class="item-key">{t}产品团队：{/t}</span>
 					<div class="vcard-item">
 						<ul class="list_a">
 						    <li>Zhengdong Wang</li>
@@ -70,7 +70,7 @@
 				</li>
 				
 				<li>
-					<span class="item-key">{t}开发领头人:{/t}</span>
+					<span class="item-key">{t}开发领头人：{/t}</span>
 					<div class="vcard-item">
 						<ul class="list_a">
 							<li>Zhengdong Wang</li>
@@ -83,7 +83,7 @@
 				</li>
 				
 				<li>
-					<span class="item-key">{t}核心开发者:{/t}</span>
+					<span class="item-key">{t}核心开发者：{/t}</span>
 					<div class="vcard-item">
 						<ul class="list_a">
 							<li>Tifang Wu</li>
@@ -94,7 +94,7 @@
 					</div>
 				</li>
 				<li>
-					<span class="item-key">{t}贡献开发者:{/t}</span>
+					<span class="item-key">{t}贡献开发者：{/t}</span>
 					<div class="vcard-item">
 						<ul class="list_a">
 							<li>Yazhou Shi</li>
@@ -114,7 +114,7 @@
 				</li>
 				
 				<li>
-					<span class="item-key">{t}界面设计:{/t}</span>
+					<span class="item-key">{t}界面设计：{/t}</span>
 					<div class="vcard-item">
 						<ul class="list_a">
 							<li>Gaoxuan Xu</li>
@@ -130,12 +130,19 @@
 				
 				<li>
 					<ul class="unstyled sepH_b item-list">
-						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.07.25</span>ECJia推出到家门店APP</li>
-						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.07.20</span>ECJia推出到家门店小程序</li>
-						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.05.24</span>ECJia推出免费EC+配送员APP支持到家</li>
-						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.05.11</span>ECJia推出免费EC+掌柜APP支持到家</li>
-						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.05.04</span>ECJia推出到家PC端</li>
-						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.04.01</span>ECJia推出免费EC+店铺街APP支持到家</li>
+					    <li><i class="fontello-icon-comment-empty sepV_b"></i><span>2019.01.23</span>ECJia推出城市代理招商平台</li>
+						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2019.01.14</span>ECJia推出收银通APP</li>
+						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2019.01.14</span>ECJia推出到家PC电商平台</li>
+						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2018.11.27</span>ECJia推出到家PC会员中心</li>
+						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2018.05.29</span>ECJia推出到家门店H5微商城</li>
+						<li><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.12.19</span>ECJia推出到家小票打印机</li>
+                        <li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.10.31</span>ECJia推出收银POS机</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.07.25</span>ECJia推出到家门店APP</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.07.20</span>ECJia推出到家门店小程序</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.05.24</span>ECJia推出免费EC+配送员APP支持到家</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.05.11</span>ECJia推出免费EC+掌柜APP支持到家</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.05.04</span>ECJia推出到家PC端</li>
+						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.04.01</span>ECJia推出免费EC+店铺街APP支持到家</li>
 						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2017.02.14</span>ECJia推出免费开源的O2O移动电商系统【ECJia到家】</li>
 						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2016.12.30</span>ECJia推出到家H5版微信商城</li>
 						<li class="item-list-more"><i class="fontello-icon-comment-empty sepV_b"></i><span>2016.11.11</span>ECJia推出到家商城系统支持商家入驻管理</li>

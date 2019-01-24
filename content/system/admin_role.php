@@ -71,11 +71,8 @@ class admin_role extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');
 		
-		
-		$admin_role_jslang = array(
-				'pls_name'	=> __('请输入用户名！'),
-		);
-		RC_Script::localize_script('ecjia-admin_role', 'admin_role_lang', $admin_role_jslang );
+		//js语言包调用
+		RC_Script::localize_script('ecjia-admin_role', 'admin_role_lang', config('system::jslang.role_page'));
 		
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('角色管理'), RC_Uri::url('@admin_role/init')));
 	}

@@ -349,7 +349,7 @@ abstract class ecjia_front extends Ecjia\System\BaseController\EcjiaController i
 		$this->assign('msn',           explode(',', ecjia::config('msn')));
 		$this->assign('skype',         explode(',', ecjia::config('skype')));
 		$this->assign('stats_code',    ecjia::config('stats_code'));
-		$this->assign('copyright',     sprintf(RC_Lang::get('system::system.copyright'), date('Y'), ecjia::config('shop_name')));
+		$this->assign('copyright',     '版权所有 © 2013-2019 上海商创网络科技有限公司，并保留所有权利。');
 		$this->assign('shop_name',     ecjia::config('shop_name'));
 		$this->assign('service_email', ecjia::config('service_email'));
 		$this->assign('service_phone', ecjia::config('service_phone'));

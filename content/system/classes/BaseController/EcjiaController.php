@@ -390,7 +390,7 @@ abstract class EcjiaController extends RoyalcmsController
 			         $this->assign('page_state', array('icon' => 'fontello-icon-cancel-circled', 'msg' => __('操作错误'), 'class' => 'alert-danger'));
             }
 
-        	$this->assign('ur_here',     RC_Lang::get('system::system.system_message'));
+        	$this->assign('ur_here',     __('系统信息'));
         	$this->assign('msg_detail',  $message);
         	$this->assign('msg_type',    $state);
 

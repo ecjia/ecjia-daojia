@@ -300,7 +300,7 @@ class ecjia {
 
     	/* 数据库查询情况 */
         $timer = RC_Timer::formatTimer(RC_Timer::getLoadTime());
-    	$query_info = sprintf(RC_Lang::get('system::system.query_info'), RC_Model::sql_count(), $timer);
+    	$query_info = sprintf(__('共执行 %d 个查询，程序运行用时 %s 秒'), RC_Model::sql_count(), $timer);
     
     	/* 内存占用情况 */
     	if (RC_Lang::get('system::system.memory_info') && function_exists('memory_get_usage')) {

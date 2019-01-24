@@ -47,7 +47,7 @@
                     <div class="alert alert-info">
                         <a class="close" data-dismiss="alert">×</a>
                         <div>{t}文件校验是针对 ECJia 官方发布的文件为基础进行核对，点击下面按钮开始进行校验。{/t}</div>
-                        <div><strong>{t}技巧提示:{/t}</strong></div>
+                        <div><strong>{t}技巧提示：{/t}</strong></div>
                         <ul id="tipslis">
                             <li>“<span class="stop_color"><i class="fontello-icon-attention-circled"></i>{t}被修改{/t}</span>”、
                                 “<span class="error_color"><i class="fontello-icon-minus-circled"></i>{t}被删除{/t}</span>”

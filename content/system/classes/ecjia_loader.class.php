@@ -173,24 +173,8 @@ class ecjia_loader {
 		// 添加vendor
 		$scripts->add( 'tinymce',				RC_Uri::vendor_url('tinymce/tinymce') . "$suffix.js", array(), false, 1 );
 
-
-
-		$admin_jslang = array(
-			'ok'				=> __('确定'),
-			'cancel'			=> __('取消'),
-			'confirm_del'		=> __('您确定要删除这条记录吗？'),
-			'error'				=> __('参数错误，无法删除！'),
-			'confirm'			=> __('您确定要操作所有选中项吗？'),
-			'please_select'		=> __('请先选中操作项！'),
-			'batch_error'		=> __('批量操作缺少参数！'),
-			'parameter_error'	=> __('参数错误，无法选择！'),
-			'status_success'	=> __('状态修改成功！'),
-			'clone'				=> __('clone-obj方法未设置data-parent参数。'),
-			'missing_parameters'	=> __('缺少参数'),
-			'confirm_delete_file'	=> __('您确定要删除此文件吗？'),
-
-		);
-		RC_Script::localize_script('ecjia.ui', 'admin_lang', $admin_jslang);
+		//js语言包调用
+		RC_Script::localize_script('ecjia.ui', 'admin_lang', config('system::jslang.loader_page'));
 	}
 
 

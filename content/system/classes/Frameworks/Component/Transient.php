@@ -8,6 +8,7 @@
 
 namespace Ecjia\System\Frameworks\Component;
 
+use RC_Hook;
 
 class Transient
 {
@@ -48,7 +49,7 @@ class Transient
             return $pre;
         }
 
-        $value = ecjia_cache('system')->get( $transient, 'transient' );
+        $value = ecjia_cache('transient')->get( $transient );
 
         /**
          * Filters an existing transient's value.
@@ -112,7 +113,7 @@ class Transient
          */
         $expiration = RC_Hook::apply_filters( "ecjia_expiration_of_transient_{$transient}", $expiration, $value, $transient );
 
-        $result = ecjia_cache('system')->set( $transient, $value, 'transient', $expiration );
+        $result = ecjia_cache('transient')->set( $transient, $value, $expiration );
 
         if ( $result ) {
 
@@ -169,7 +170,7 @@ class Transient
          */
         RC_Hook::do_action( "ecjia_delete_transient_{$transient}", $transient );
 
-        $result = ecjia_cache('system')->delete( $transient, 'transient' );
+        $result = ecjia_cache('transient')->delete( $transient);
 
         if ( $result ) {
 

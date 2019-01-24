@@ -74,17 +74,8 @@ class privilege extends ecjia_admin {
 		
 		RC_Script::enqueue_script('ecjia-admin_privilege');
 		
-		$admin_privilege_jslang = array(
-				'no_edit'				=> __('此管理员不可以编辑！'),
-				'pls_name'				=> __('请输入用户名！'),
-				'name_length_check'		=> __('用户名长度不能小于2！'),
-				'pls_email'				=> __('请输入邮箱地址！'),
-				'email_check'			=> __('请输入正确的邮箱格式！'),
-				'pls_password'			=> __('请输入密码！'),
-				'password_length_check'	=> __('密码长度不能小于6！'),
-				'check_password'		=> __('两次密码不一致！'),
-		);
-		RC_Script::localize_script('ecjia-admin_privilege', 'admin_privilege', $admin_privilege_jslang );
+		//js语言包调用
+		RC_Script::localize_script('ecjia-admin_privilege', 'admin_privilege', config('system::jslang.privilege_page'));
 		
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('管理员管理'), RC_Uri::url('@privilege/init')));
 	}

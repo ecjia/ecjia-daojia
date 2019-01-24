@@ -62,7 +62,11 @@ class Kernel extends ConsoleKernel
     protected $commands = array(
         Commands\FileHashCommand::class,
         Commands\CronTestCommand::class,
-        Commands\TestLogCommand::class,
+        Commands\TSmartyGettextCommand::class,
+        Commands\GettextTextdomainCommand::class,
+        Commands\GettextMakePOTCommand::class,
+        Commands\GettextMetadataCommand::class,
+        Commands\GettextCommentCommand::class,
     );
 
     /**

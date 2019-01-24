@@ -64,23 +64,6 @@ class index extends ecjia_admin {
         
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('仪表盘')));
         $this->assign('ur_here', __('仪表盘'));
-        
-        if (! ecjia_license::instance()->license_check()) {
-            $license_url = RC_Uri::url('@index/license');
-            $empower_info = sprintf(__('授权提示：您的站点还未经过授权许可！请上传您的证书，前往<a href="%s">授权证书管理</a> 。'), $license_url);
-            ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice($empower_info));
-        }
-        
-        if (file_exists(RC_APP_PATH . 'installer')) {
-            $warning = __('您还没有删除 installer 文件夹，出于安全的考虑，我们建议您删除 content/apps/installer 文件夹。');
-            ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice($warning));
-        }
-
-        if (version_compare(ecjia::config('ecjia_version'), RC_Config::get('release.version'), '<')) {
-            $upgrade_url = RC_Uri::url('upgrade/index/init');
-            $warning = sprintf(__('您当前已经覆盖了最新版的v%s程序，建议您立即升级数据库结构，升级前做好备份，前往<a href="%s">升级中心</a>。'), RC_Config::get('release.version'), $upgrade_url);
-            ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice($warning));
-        }
 
         ecjia_screen::get_current_screen()->add_help_tab( array(
         'id'        => 'overview',
@@ -94,7 +77,7 @@ class index extends ecjia_admin {
         '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台操作指南" target="_blank">关于ECJia智能后台的帮助文档</a>') . '</p>'
         );
 
-        ecjia_cloud::instance()->api('product/analysis/record')->data(ecjia_utility::get_site_info())->cacheTime(86400)->run();
+        RC_Hook::do_action('ecjia_admin_dashboard_index');
 
         $admin_notices = ecjia_utility::site_admin_notice();
         if (! empty($admin_notices)) {
@@ -103,6 +86,7 @@ class index extends ecjia_admin {
                 ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice($notice_info));
             }
         }
+
         $this->assign('ecjia_version', VERSION);
 
         $this->display('index.dwt');
@@ -270,17 +254,11 @@ class index extends ecjia_admin {
             RC_Script::enqueue_script('jquery-chosen');
 
             $res = ecjia_cache::make()->load_cache();
-
             $this->assign('ur_here',    __('更新缓存'));
+
+            //js语言包调用
+            RC_Script::localize_script('ecjia-admin_cache', 'admin_cache_lang', config('system::jslang.cache_page'));
             
-            $admin_cache_jslang = array(
-            	'start'				=> __('开始'),
-            	'retreat'			=> __('后退'),
-            	'pls_type_check'	=> __('请选择要清除的缓存类型！'),
-            	'clear'				=> __('清除：'),
-            );
-            RC_Script::localize_script('ecjia-admin_cache', 'admin_cache_lang', $admin_cache_jslang );
-           
             $this->assign('cache_list', $res);
             $this->display('admin_cache.dwt');
         }
@@ -293,17 +271,12 @@ class index extends ecjia_admin {
     public function license() {
         $this->admin_priv('shop_authorized');
         
+        //js语言包调用
+        RC_Script::localize_script('ecjia-admin_license', 'admin_license_lang', config('system::jslang.license_page'));
+        
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('授权证书')));
         $this->assign('ur_here', __('授权证书'));
-        
-        $admin_license_jslang = array(
-        		'upload_msg'		=> __('将证书文件拖动至此处上传'),
-        		'delete_check'		=> __('您确定要删除这个证书吗？'),
-        		'ok'				=> __('确定'),
-        		'cancel'			=> __('取消'),
-        );
-        RC_Script::localize_script('ecjia-admin_license', 'admin_license_lang', $admin_license_jslang );
-        
+
         ecjia_screen::get_current_screen()->add_help_tab( array(
         'id'        => 'overview',
         'title'     => __('概述'),

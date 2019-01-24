@@ -63,14 +63,8 @@ class admin_logs extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-chosen');
 		RC_Script::enqueue_script('ecjia-admin_logs');
 		
-		$admin_logs_jslang = array(
-			'choose_delet_time'	=> __('请先选择删除日志的时间！'),
-			'delet_ok_1'		=> __('确定删除'),
-			'delet_ok_2'		=> __('的日志吗？'),
-			'ok'				=> __('确定'),
-			'cancel'			=> __('取消')
-		);
-		RC_Script::localize_script('ecjia-admin_logs', 'admin_logs_lang', $admin_logs_jslang );
+		//js语言包调用
+		RC_Script::localize_script('ecjia-admin_logs', 'admin_logs_lang', config('system::jslang.logs_page'));
 	}
 	
 	/**

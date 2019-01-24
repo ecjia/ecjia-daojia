@@ -3,2018 +3,4161 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ECJia 1.12\n"
-"POT-Creation-Date: 2015-12-12 15:14+0000\n"
-"PO-Revision-Date: 2016-08-17 11:40+0800\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-01-21 09:10:09+00:00\n"
+"PO-Revision-Date: 2019-01-21 18:44+0800\n"
+"Last-Translator: Royal Wang <hxroyal@gmail.com>\n"
+"Language-Team: ECJia Team <admin@ecjia.com>\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Last-Translator: Royal Wang <hxroyal@gmail.com>\n"
-"Language-Team: ECJia Team <admin@ecjia.com>\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 2.2\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-msgid "仪表盘"
-msgstr "Dashboard"
-
-msgid "帮助"
-msgstr "Help"
-
-msgid "概述"
-msgstr "Overview"
-
-msgid "更多信息："
-msgstr "More information:"
-
-msgid "授权提示：您的站点还未经过授权许可！请上传您的证书，前往<a href=\"%s\">授权证书管理</a> 。"
-msgstr "Authorization: Your site has not yet been licensed! Please upload your certificate, go to <a href=\"%s\">Authorization Certificate Management</a>."
-
-msgid "授权证书管理"
-msgstr "Authorization Certificate Management"
-
-msgid "欢迎访问ECJia智能后台仪表盘！在您每次登录站点后，您都会看到本页面。您可以在这里访问ECJia智能后台的各种管理页面。点击任何页面右上角的“帮助”选项卡可阅读相应帮助信息。"
-msgstr "Welcome back ECJia intelligent dashboard! After each site you sign in, you'll see this page. Here you can access a variety of background ECJia intelligent management page. Click on the top right of any page of the \"Help\" tab to read the appropriate help."
-
-msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台操作指南\" target=\"_blank\">关于ECJia智能后台的帮助文档</a>"
-msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台操作指南\" target=\"_blank\">About ECJia intelligence background help documentation</a>"
-
-msgid "<a target=\"_blank\" href=\"%s\">点击查看</a>。"
-msgstr "<a target=\"_blank\" href=\"%s\">Click to view</a>."
-
-msgid "欢迎使用ECJia"
-msgstr "Welcome ECJia"
-
-msgid "是"
-msgstr "Yes"
-
-msgid "否"
-msgstr "No"
-
-msgid "无需设置"
-msgstr "Without setting"
-
-msgid "关于 ECJIA"
-msgstr "About ECJIA"
-
-msgid "更新缓存"
-msgstr "Update Cache"
-
-msgid "授权证书"
-msgstr "Certificate Authorization"
-
-msgid "下载"
-msgstr "download "
-
-msgid "证书内容不全。请先确定证书是否正确然后重新上传！"
-msgstr "Certificate content incomplete. Please determine whether the certificate is correct and re-upload!"
-
-msgid "证书上传成功。"
-msgstr "Certificate uploaded successfully."
-
-msgid "证书已删除。"
-msgstr "Certificate has been removed."
-
-msgid "ECJia证书"
-msgstr "ECJia certificate"
-
-msgid "应用管理"
-msgstr "Application Management"
-
-msgid "应用安装"
-msgstr "Application Install"
-
-msgid "应用详情"
-msgstr "Application Details"
-
-msgid "返回应用列表"
-msgstr "Back apps list"
-
-msgid "%s 应用安装成功"
-msgstr "Successful installation"
-
-msgid "%s 应用卸载成功"
-msgstr "%sUninstall successful application"
-
-msgid "请先选择删除日志的时间！"
-msgstr "Please choose to delete log time!"
-
-msgid "确定删除"
-msgstr "confirm delete "
-
-msgid "的日志吗？"
-msgstr " log it?"
-
-msgid "确定"
-msgstr "OK"
-
-msgid "取消"
-msgstr "Cancel"
-
-msgid "管理员日志"
-msgstr "Administrator Log"
-
-msgid "一周之前"
-msgstr "A week ago"
-
-msgid "一个月前"
-msgstr "A month ago"
-
-msgid "三个月前"
-msgstr "Three months ago"
-
-msgid "半年之前"
-msgstr "Six months ago"
-
-msgid "一年之前"
-msgstr "A year ago"
-
-msgid "删除 %s 的日志。"
-msgstr "Delete %s log."
-
-msgid "%s 的日志成功删除。"
-msgstr "%s log successfully deleted."
-
-msgid "管理员留言"
-msgstr "Message Administrator"
-
-msgid "没有更多消息了"
-msgstr "No more message"
-
-msgid "搜索到了"
-msgstr "Searched"
-
-msgid "发送成功"
-msgstr "Sent successfully"
-
-msgid "发送失败"
-msgstr "Failed to send"
-
-msgid "发送留言"
-msgstr "Send a message"
-
-msgid "插件管理"
-msgstr "Plugin Management"
-
-msgid "%s 插件安装成功！"
-msgstr "%s installed is successfully!"
-
-msgid "%s 插件卸载成功！"
-msgstr "%s uninstalled is successfully!"
-
-msgid "角色管理"
-msgstr "Role Management"
-
-msgid "添加角色"
-msgstr "Add Role"
-
-msgid "角色列表"
-msgstr "Role list"
-
-msgid "管理员角色"
-msgstr "Administrator role"
-
-msgid "添加 %s 操作成功"
-msgstr "Add %s Successful operation"
-
-msgid "编辑 %s 操作成功"
-msgstr "Edit %s Successful operation"
-
-msgid "修改角色"
-msgstr "Modify Role"
-
-msgid "返回角色列表"
-msgstr "Returns roles list"
-
-msgid "此角色有管理员在使用，暂时不能删除！"
-msgstr "This administrator role in the use of temporarily can not be deleted!"
-
-msgid "成功删除管理员角色 %s"
-msgstr "Successfully deleted dministrator role %s"
-
-msgid "外观"
-msgstr "Themes"
-
-msgid "使用这个模板"
-msgstr "Use this template"
-
-msgid "使用这个模板风格"
-msgstr "Use this template style"
-
-msgid "您确定要放弃本次修改吗？"
-msgstr "Are you sure you want to give up this amended?"
-
-msgid "请先输入内容！"
-msgstr "Please enter content!"
-
-msgid "主题管理"
-msgstr "Theme Management"
-
-msgid "布局管理"
-msgstr "Layout Management"
-
-msgid "备份模板设置"
-msgstr "Backup template settings"
-
-msgid "备份模板文件失败，请检查templates/backup 目录是否可以写入。"
-msgstr "Backup template file failed, check templates / backup directory is writable."
-
-msgid "您确定要保存编辑内容吗？"
-msgstr "Are you sure you want to save your edits right?"
-
-msgid "库项目管理"
-msgstr "Library Project Management"
-
-msgid "库项目内容已经更新成功。"
-msgstr "Content library project has been successfully updated."
-
-msgid "编辑库项目内容失败。请检查 %s 目录是否可以写入。"
-msgstr "Edit content library project failed.Please check %s whether the directory can be written."
-
-msgid "备份注释 %s 已经用过，请换个注释名称。"
-msgstr "Note Backup %s has been used, please name another comment."
-
-msgid "备份设置成功"
-msgstr "Backup Settings Success"
-
-msgid "备份删除成功"
-msgstr "Backup successfully deleted"
-
-msgid "恢复备份成功"
-msgstr "Recovery backup success"
-
-msgid "地区列表"
-msgstr "Area List"
-
-msgid "返回上级"
-msgstr "Return to higher levels"
-
-msgid "区域名称不能为空！"
-msgstr "Area name can not be empty!"
-
-msgid "更新地区名称为 %s"
-msgstr "Renewal area name %s"
-
-msgid "成功删除地区 %s"
-msgstr "Successfully deleted region %s"
-
-msgid "添加新地区成功！"
-msgstr "Add a new area success!"
-
-msgid "添加新地区失败！"
-msgstr "Add a new area failed!"
-
-msgid "修改名称成功！"
-msgstr "upadte the name Success"
-
-msgid "地区"
-msgstr "Area"
-
-msgid "输入的信息不正确！"
-msgstr "Information entered is incorrect!"
-
-msgid "重置密码的邮件已经发到您的邮箱："
-msgstr "To reset your password has been sent to your mailbox:"
-
-msgid "重置密码邮件发送失败!请与管理员联系"
-msgstr "Failed to send email to reset your password! Please contact your administrator"
-
-msgid "用户名与Email地址不匹配,请返回！"
-msgstr "Username and Email addresses do not match, please return!"
-
-msgid "返回"
-msgstr "return"
-
-msgid "修改密码"
-msgstr "change Password"
-
-msgid "此链接不合法!"
-msgstr "This link is not legitimate!"
-
-msgid "密码修改成功!"
-msgstr "Password reset complete!"
-
-msgid "密码修改失败!"
-msgstr "Password modification fails!"
-
-msgid "菜单管理"
-msgstr "Menu management"
-
-msgid "没有这个菜单"
-msgstr "Without this menu"
-
-msgid "菜单名不能为空"
-msgstr "Menu name can not be empty"
-
-msgid "重复了"
-msgstr "repeated"
-
-msgid "失败"
-msgstr "failure"
-
-msgid "查看购物车"
-msgstr "check the shopping cart"
-
-msgid "选购中心"
-msgstr "Shopping Center"
-
-msgid "团购商品"
-msgstr "groupbuy"
-
-msgid "夺宝奇兵"
-msgstr "snatch"
-
-msgid "标签云"
-msgstr "Tag Cloud"
-
-msgid "用户中心"
-msgstr "User Center"
-
-msgid "批发"
-msgstr "wholesale"
-
-msgid "优惠活动"
-msgstr "favourable"
-
-msgid "配送方式"
-msgstr "Shipping"
-
-msgid "留言板"
-msgstr "message board"
-
-msgid "报价单"
-msgstr "Quote"
-
-msgid "管理员管理"
-msgstr "Administrator Management"
-
-msgid "添加管理员"
-msgstr "Add Administrator"
-
-msgid "登录成功"
-msgstr "login successful"
-
-msgid "您输入的帐号信息不正确。"
-msgstr "Account information you entered is incorrect."
-
-msgid "数据不完整"
-msgstr "incomplete data"
-
-msgid "该管理员 %s 已经存在！"
-msgstr "The administrator  %s  already exists!"
-
-msgid "该Email地址 %s 已经存在！"
-msgstr "Email address  %s  already exists!"
-
-msgid "设置管理员权限"
-msgstr "Setting Administrator Permissions"
-
-msgid "继续添加管理员"
-msgstr "Add another administrator"
-
-msgid "返回管理员列表"
-msgstr "Return to the list of administrators"
-
-msgid "您不能对此管理员的权限进行任何操作！"
-msgstr "You can not be this administrator privileges to do anything!"
-
-msgid "编辑管理员"
-msgstr "Edit Administrator"
-
-msgid "管理员列表"
-msgstr "Administrator List"
-
-msgid "管理员账号"
-msgstr "Administrator account"
-
-msgid "超级管理员 %s 不可被修改！"
-msgstr "Super Administrator  %s  can not be changed!"
-
-msgid "返回上一页"
-msgstr "go back to the last page"
-
-msgid "设置模板内容成功。"
-msgstr "Set the template content successfully."
-
-msgid "模板文件 %s 无法修改"
-msgstr "Template file %s can not be modified"
-
-msgid "启用模板成功。"
-msgstr "Templates enable success."
-
-msgid "启用模板时出现异常。"
-msgstr "An exception occurred when enabled template."
-
-msgid "输入的旧密码错误！"
-msgstr "Enter the old password wrong!"
-
-msgid "两次输入的密码不一致！"
-msgstr "The two passwords do not match!"
-
-msgid "您已经成功的修改了个人帐号信息！"
-msgstr "You have successfully modified the personal account information!"
-
-msgid "编辑个人资料"
-msgstr "Edit Profile"
-
-msgid "您已经成功的修改了密码，因此您必须重新登录！"
-msgstr "You have successfully changed the password, you must log in again!"
-
-msgid "修改个人资料成功！"
-msgstr "Edit profile success!"
-
-msgid "分派权限"
-msgstr "assign permissions"
-
-msgid "分派权限 [ %s ] "
-msgstr "assign permissions [ %s ]"
-
-msgid "编辑 %s 操作成功！"
-msgstr "Edit %s successful operation!"
-
-msgid "您不能删除demo这个管理员！"
-msgstr "You can not delete this demo administrator!"
-
-msgid "此管理员您不能进行删除操作！"
-msgstr "This administrator You can not delete!"
-
-msgid "您不能删除自己！"
-msgstr "You can not delete yourself!"
-
-msgid "删除成功！"
-msgstr "successfully deleted!"
-
-msgid "操作失败！"
-msgstr "operation failed!"
-
-msgid "商店设置"
-msgstr "Shop Settings"
-
-msgid "URL Rewrite 功能要求您的 Web Server 必须安装IIS，并且起用了 ISAPI Rewrite 模块。如果您使用的是ISAPI Rewrite商业版，请您确认是否已经将httpd.txt文件重命名为httpd.ini。如果您使用的是ISAPI Rewrite免费版，请您确认是否已经将httpd.txt文件内的内容复制到ISAPI Rewrite安装目录中httpd.ini里。"
-msgstr "URL Rewrite feature requires that you must install the Web Server IIS, and hired a ISAPI Rewrite module. If you are using the commercial version of ISAPI Rewrite, please confirm that you have httpd.txt rename the file httpd.ini. If you are using a free version of ISAPI Rewrite, please confirm that you have copied the contents of the file within httpd.txt to ISAPI Rewrite installation directory httpd.ini years."
-
-msgid "URL Rewrite 功能要求您的 Web Server 必须是 Apache，并且起用了 rewrite 模块。同时请您确认是否已经将htaccess.txt文件重命名为.htaccess。如果服务器上还有其他的重写规则请去掉注释,请将RewriteBase行的注释去掉,并将路径设置为服务器请求的绝对路径。"
-msgstr "URL Rewrite feature requires that your Web Server must be Apache, and hired a rewrite module. Also make sure that you have removed htaccess.txt rename the file to .htaccess. If there are other servers rewrite rules please remove comments, please RewriteBase line uncommented and set the path to an absolute path to the server request."
-
-msgid "邮件服务器设置"
-msgstr "Mail Server Settings"
-
-msgid "邮件服务器设置成功。"
-msgstr "Mail server setup is successful."
-
-msgid "修改邮件服务器设置"
-msgstr "Modify Mail Server Settings"
-
-msgid "保存商店设置成功。"
-msgstr "Save stores successfully set."
-
-msgid "修改商店设置"
-msgstr "Modify shop settings"
-
-msgid "测试邮件"
-msgstr "Test message"
-
-msgid "您好！这是一封检测邮件服务器设置的测试邮件。收到此邮件，意味着您的邮件服务器设置正确！您可以进行其它邮件发送的操作了！"
-msgstr "Hello! This is an e-mail server settings detection test message. Received this message means that your mail server settings are correct! You can operate the other mail sent!"
-
-msgid "测试邮件发送失败！%s"
-msgstr "Failed to send a test message! %s"
-
-msgid "恭喜！测试邮件已成功发送到 %s。"
-msgstr "Congratulations! Test message was successfully sent to %s ."
-
-msgid "可用更新"
-msgstr "Upgrade"
-
-msgid "文件权限检测"
-msgstr "File Permissions Detection"
-
-msgid "暂无可用更新！"
-msgstr "No update available!"
-
-msgid "不存在校验文件，无法进行此操作"
-msgstr "Checksum file does not exist, you can not do this"
-
-msgid "<span class=\"stop_color\"><i class=\"fontello-icon-attention-circled\"></i>被修改</span>"
-msgstr "<span class=\"stop_color\"><i class=\"fontello-icon-attention-circled\"></i>modified</span>"
-
-msgid "<span class=\"error_color\"><i class=\"fontello-icon-minus-circled\"></i>被删除</span>"
-msgstr "<span class=\"error_color\"><i class=\"fontello-icon-minus-circled\"></i>deleted</span>"
-
-msgid "<span class=\"ok_color\"><i class=\"fontello-icon-help-circled\"></i>未知</span>"
-msgstr "<span class=\"ok_color\"><i class=\"fontello-icon-help-circled\"></i>unknown</span>"
-
-msgid "<span class=\"ok_color\"><i class=\"fontello-icon-ok-circled\"></i>正确</span>"
-msgstr "<span class=\"ok_color\"><i class=\"fontello-icon-ok-circled\"></i>correct</span>"
-
-msgid "校验结果"
-msgstr "Check result"
-
-msgid "返回重新校验"
-msgstr "Back recalibration"
-
-msgid "文件校验"
-msgstr "File checksum"
-
-msgid "目录"
-msgstr "Directory"
-
-msgid "访问首页"
-msgstr "Home"
-
-msgid "系统设置"
-msgstr "System Settings"
-
-msgid "关于"
-msgstr "About"
-
-msgid "主题选择"
-msgstr "Theme"
-
-msgid "菜单"
-msgstr "Menu"
-
-msgid "模板设置备份"
-msgstr "Template Settings Backup"
-
-msgid "工具"
-msgstr "Tools"
-
-msgid "控制面板"
-msgstr "Control Panel"
-
-msgid "应用"
-msgstr "Applications"
-
-msgid "快捷导航"
-msgstr "Shortcut Menu"
-
-msgid "设置快捷菜单"
-msgstr "Setting Shortcut Menu"
-
-msgid "欢迎访问ECJia智能后台应用管理页面，系统中所有的应用都会显示在此列表中。"
-msgstr "Welcome back ECJia intelligent application management page, the system will display all applications in this list."
-
-msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:应用管理\" target=\"_blank\">关于应用管理帮助文档</a>"
-msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:应用管理\" target=\"_blank\">About Application Management help documentation</a>"
-
-msgid "欢迎访问ECJia智能后台管理员日志页面，可以在此查看管理员操作的一些记录信息。"
-msgstr "Welcome to ECJia intelligent background administrator log page, you can view some records information managers operating in this."
-
-msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1.E7.90.86.E5.91.98.E6.97.A5.E5.BF.97\" target=\"_blank\">关于管理员日志帮助文档</a>"
-msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1.E7.90.86.E5.91.98.E6.97.A5.E5.BF.97\" target=\"_blank\">About administrator logs help documentation</a>"
-
-msgid "欢迎访问ECJia智能后台管理员留言页面，所有管理员可以在此进行留言交谈方便管理。"
-msgstr "Welcome to ECJia intelligent background administrator message page, administrators can message all the talk in this easy to manage."
-
-msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:管理员留言\" target=\"_blank\">关于管理员留言帮助文档</a>"
-msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:管理员留言\" target=\"_blank\">About administrator Message help documentation</a>"
-
-msgid "欢迎访问ECJia智能后台关于页面，可以更加了解ECJia。"
-msgstr "Welcome to ECJia intelligent background on the page, you can learn more about ECJia."
-
-msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:关于\" target=\"_blank\">关于ECJia帮助文档</a>"
-msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:关于\" target=\"_blank\">About ECJia help documentation</a>"
-
-msgid "欢迎访问ECJia智能后台更新缓存页面，可以在此页面进行清除系统中缓存的操作。"
-msgstr "Welcome to ECJia intelligent background update cached page, you can clear the system cache operation on this page."
-
-msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:更新缓存\" target=\"_blank\">关于清除缓存帮助文档</a>"
-msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:更新缓存\" target=\"_blank\">About Clear Cache help documentation</a>"
-
-msgid "欢迎访问ECJia智能后台授权证书管理页面，可以在此对证书进行授权操作。"
-msgstr "Welcome back ECJia intelligent authorization certificate management page, you can here the certificate authorization."
-
-msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:授权证书\" target=\"_blank\">关于授权证书管理帮助文档</a>"
-msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:授权证书\" target=\"_blank\">About authorization certificate management help documentation</a>"
-
-msgid "欢迎访问ECJia智能后台插件管理页面，系统中所有的插件都会显示在此列表中。"
-msgstr "Welcome back ECJia Smart Plug-in Manager page, the system will display all plug-ins in this list."
-
-msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:插件管理\" target=\"_blank\">关于插件管理帮助文档</a>"
-msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:插件管理\" target=\"_blank\">About Plug-In Manager help documentation</a>"
-
-msgid "欢迎访问ECJia智能后台角色管理页面，系统中所有的角色都会显示在此列表中。"
-msgstr "Welcome back ECJia intelligent role management page, the system will display all the characters in this list."
-
-msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E8.A7.92.E8.89.B2.E7.AE.A1.E7.90.86\" target=\"_blank\">关于角色管理帮助文档</a>"
-msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E8.A7.92.E8.89.B2.E7.AE.A1.E7.90.86\" target=\"_blank\">About roles management help documentation</a>"
-
-msgid "欢迎访问ECJia智能后台地区设置页面，用户可以在此进行设置地区。"
-msgstr "Welcome to the backstage area ECJia Smart settings page, the user can be set in this area."
-
-msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.9C.B0.E5.8C.BA.E5.88.97.E8.A1.A8\" target=\"_blank\">关于地区设置帮助文档</a>"
-msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.9C.B0.E5.8C.BA.E5.88.97.E8.A1.A8\" target=\"_blank\">About locale help documentation</a>"
-
-msgid "欢迎访问ECJia智能后台管理员列表页面，系统中所有的管理员都会显示在此列表中。"
-msgstr "Welcome to ECJia intelligent background administrator list page, the system administrator will all appear in this list."
-
-msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1.E7.90.86.E5.91.98.E5.88.97.E8.A1.A8\" target=\"_blank\">关于管理员列表帮助文档</a>"
-msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1.E7.90.86.E5.91.98.E5.88.97.E8.A1.A8\" target=\"_blank\">Help documentation on administrator list</a>"
-
-msgid "欢迎访问ECJia智能后台编辑个人资料页面，用户可在此编辑个人资料。"
-msgstr "Welcome to ECJia Smart Background Edit profile page, you can edit your profile here."
-
-msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:个人设置\" target=\"_blank\">关于编辑个人资料帮助文档</a>"
-msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:个人设置\" target=\"_blank\">About Edit Profile Help Documentation</a>"
-
-msgid "欢迎访问ECJia智能后台商店设置页面，在此页面可对商店有关信息进行配置，同时可根据右侧栏漂浮的快捷导航，快速的进入相应区域。"
-msgstr "Welcome back ECJia smart store settings page, can be configured to store the information on this page, while according to the right of the navigation bar floating fast, fast into the corresponding area."
-
-msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.95.86.E5.BA.97.E8.AE.BE.E7.BD.AE\" target=\"_blank\">关于商店设置帮助文档</a>"
-msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.95.86.E5.BA.97.E8.AE.BE.E7.BD.AE\" target=\"_blank\">About shop settings help documentation</a>"
-
-msgid "欢迎访问ECJia智能后台邮件服务器设置页面，可通过以下两种方式进行配置。"
-msgstr "Welcome back ECJia Intelligent Mail Server Settings page, can be configured in two ways."
-
-msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E9.82.AE.E4.BB.B6.E6.9C.8D.E5.8A.A1.E5.99.A8.E8.AE.BE.E7.BD.AE\" target=\"_blank\">关于邮件服务器设置帮助文档</a>"
-msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E9.82.AE.E4.BB.B6.E6.9C.8D.E5.8A.A1.E5.99.A8.E8.AE.BE.E7.BD.AE\" target=\"_blank\">Help documentation on the mail server settings</a>"
-
-msgid "欢迎访问ECJia智能后台更新页面，在此可以进行对版本的更新。"
-msgstr "Welcome back ECJia smart update page where you can update to version."
-
-msgid "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:可用更新\" target=\"_blank\">关于可用更新帮助文档</a>"
-msgstr "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:可用更新\" target=\"_blank\">Help documentation about available updates</a>"
-
-msgid "开始"
-msgstr "Start"
-
-msgid "后退"
-msgstr "Retreat"
-
-msgid "请选择要清除的缓存类型！"
-msgstr "Please select the type of cache to be cleared!"
-
-msgid "清除："
-msgstr "Clear:"
-
-msgid "将证书文件拖动至此处上传"
-msgstr "Drag the certificate file to upload here"
-
-msgid "您确定要删除这个证书吗？"
-msgstr "Are you sure you want to delete this certificate?"
-
-msgid "请输入用户名！"
-msgstr "Please enter user name!"
-
-msgid "正在检查，请耐心等待。"
-msgstr "Being checked, please be patient."
-
-msgid "请输入发送邮件服务器地址(SMTP)！"
-msgstr "Please enter the address of the sending mail server (SMTP)!"
-
-msgid "请输入服务器端口！"
-msgstr "Please enter a server port!"
-
-msgid "请输入邮件帐号！"
-msgstr "Please enter the e-mail account!"
-
-msgid "请输入正确格式的邮件帐号！"
-msgstr "Please enter a properly formatted e-mail account!"
-
-msgid "请输入邮件密码！"
-msgstr "Please enter the e-mail password!"
-
-msgid "请输入回复邮件帐号！"
-msgstr "Please enter a reply e-mail account!"
-
-msgid "请输入正确格式的回复邮件帐号！"
-msgstr "Please enter a properly formatted reply mail account!"
-
-msgid "请输入发送邮件帐号！"
-msgstr "Please enter the e-mail account to send!"
-
-msgid "请输入正确格式的发送邮件帐号！"
-msgstr "Please enter a properly formatted e-mail account to send!"
-
-msgid "此管理员不可以编辑！"
-msgstr "This administrator may not edit!"
-
-msgid "用户名长度不能小于2！"
-msgstr "Username length must not be less than 2!"
-
-msgid "请输入邮箱地址！"
-msgstr "Please input the email address!"
-
-msgid "请输入正确的邮箱格式！"
-msgstr "Please enter a valid email format!"
-
-msgid "请输入密码！"
-msgstr "Please enter your password!"
-
-msgid "密码长度不能小于6！"
-msgstr "Password length can not be less than 6!"
-
-msgid "两次密码不一致！"
-msgstr "The two passwords do not match!"
-
-msgid "参数错误，无法安装！"
-msgstr "Parameter error, can not be installed!"
-
-msgid "参数错误，无法卸载！"
-msgstr "Parameter error, can not be uninstalled!"
-
-msgid "您确定要卸载这个插件吗？"
-msgstr "Do you want to uninstall this plugin?"
-
-msgid "您确定要删除这个插件吗？"
-msgstr "Are you sure you want to delete this plugin do?"
-
-msgid "此插件暂时不能删除。"
-msgstr "This plug-in is temporarily not be removed."
-
-msgid "首页"
-msgstr "Home"
-
-msgid "尾页"
-msgstr "Last Page"
-
-msgid "上一页"
-msgstr "Previous"
-
-msgid "下一页"
-msgstr "Next Page"
-
-msgid "没有找到任何记录"
-msgstr "We did not find any record"
-
-msgid "共_TOTAL_条记录 第_START_ 到 第_END_条"
-msgstr "Total _TOTAL_ strip records, the first paragraph _START_ to _END_ strip"
-
-msgid "共0条记录"
-msgstr "A total of 0 records"
-
-msgid "（从_MAX_条数据中检索）"
-msgstr "(retrieval from _MAX_ data)"
-
+#: admin_application.php:78
 msgid "未找到搜索内容!"
 msgstr "Search content not found!"
 
+#: admin_application.php:79 admin_application.php:90
 msgid "开始安装"
 msgstr "Start Install"
 
-msgid "确定要移除这个菜单项吗？"
-msgstr "Do you want to remove this menu items?"
+#: admin_application.php:80 index.php:278
+msgid "后退"
+msgstr "Retreat"
 
-msgid "您的修改内容还没有保存，您确定离开吗？"
-msgstr "Your edits have not saved, you are sure to leave?"
+#: admin_application.php:81 admin_plugin.php:85
+msgid "首页"
+msgstr "Home"
 
-msgid "连接错误，请重新选择!"
-msgstr "Connection error, please re-select!"
+#: admin_application.php:82 admin_plugin.php:86
+msgid "尾页"
+msgstr "Last Page"
 
-msgid "修改库项目是危险的高级操作，修改错误可能会导致前台无法正常显示。您依然确定要修改库项目吗？"
-msgstr "Modify the library project is dangerous Advanced Operations, modify the error could cause the front desk not display properly. You still sure you want to modify the library project?"
+#: admin_application.php:83 admin_plugin.php:87
+msgid "上一页"
+msgstr "Previous"
 
+#: admin_application.php:84 admin_plugin.php:88
+msgid "下一页"
+msgstr "Next Page"
+
+#: admin_application.php:85 admin_plugin.php:89
+msgid "没有找到任何记录"
+msgstr "We did not find any record"
+
+#: admin_application.php:86 admin_plugin.php:90
+msgid "共_TOTAL_条记录 第_START_ 到 第_END_条"
+msgstr ""
+"Total _TOTAL_ strip records, the first paragraph _START_ to _END_ strip"
+
+#: admin_application.php:87 admin_plugin.php:91
+msgid "共0条记录"
+msgstr "A total of 0 records"
+
+#: admin_application.php:88 admin_plugin.php:92
+msgid "（从_MAX_条数据中检索）"
+msgstr "(retrieval from _MAX_ data)"
+
+#: admin_application.php:89
 msgid "安装中..."
 msgstr "Installing..."
 
-msgid "显示侧边栏"
-msgstr "Display Sidebar"
-
-msgid "隐藏侧边栏"
-msgstr "Hide Sidebar"
-
-msgid "请先输入搜索信息"
-msgstr "Please enter search message"
-
-msgid "未搜索到导航信息"
-msgstr "No search navigation message"
-
-msgid "是否确认跳转？"
-msgstr "Are you sure to jump?"
-
-msgid "请求失败，错误编号："
-msgstr "The request failed, Error number:"
-
-msgid "，错误信息："
-msgstr ",Error message:"
-
-msgid "简体中文"
-msgstr "Simplified Chinese"
-
-msgid "个人设置"
-msgstr "Personal Settings"
-
-msgid "退出"
-msgstr "Quit"
-
-msgid "侧边栏开关"
-msgstr "Sidebar switch"
-
-msgid "搜索导航"
-msgstr "Search Guides"
-
-msgid "快速搜索"
-msgstr "Fast Search"
-
-msgid "此功能要求您的php必须支持OpenSSL模块, 如果您要使用此功能，请联系您的空间商确认支持此模块"
-msgstr "This feature requires that your php must support OpenSSL module, if you want to use this feature, please contact your hosting provider to confirm support for this module"
-
-msgid "GZip 功能需要您的服务器支持 zlib 扩展库。如果您发现开启Gzip后页面出现乱码，可能是您的服务器已经开启了Gzip，您不需要在 ECJia 中再次开启。"
-msgstr "GZip features require your server support zlib extension library. If you find after opening Gzip page garbled, it may be that your server has opened Gzip, you do not need to open again in the ECJia."
-
-msgid "如果您不保留商品原图，在“图片批量处理”的时候，\\n将不会重新生成不包含原图的商品图片。请慎重使用该功能！"
-msgstr "If you do not retain the original product, in the \"image batch processing\" when, \\ n will not regenerate the original product images are not included. Please be careful to use this feature!"
-
-msgid "浏览"
-msgstr "Browse"
-
-msgid "修改"
-msgstr "Modify"
-
-msgid "您确定要删除此文件吗？"
-msgstr "Do you want to delete this file?"
-
-msgid "删除"
-msgstr "Delete"
-
-msgid "请选择..."
-msgstr "Please choose..."
-
-msgid "类型"
-msgstr "Types of"
-
-msgid "税率（％）"
-msgstr "tax rate(%)"
-
-msgid "管理员"
-msgstr "administrator"
-
-msgid "在"
-msgstr "in"
-
-msgid "IP下"
-msgstr "IP under"
-
-msgid "暂无操作日志"
-msgstr "No operation log"
-
-msgid "查看更多"
-msgstr "More"
-
-msgid "我要留言"
-msgstr "Make a comment"
-
-msgid "留言内容"
-msgstr "Message content"
-
-msgid "留言者"
-msgstr "Message from"
-
-msgid "发送日期"
-msgstr "Sent date"
-
-msgid "暂无留言信息"
-msgstr "No Message"
-
-msgid "ECJia是一款基于PHP+MYSQL开发的多语言移动电商管理框架，推出了灵活的应用+插件机制，软件执行效率高；简洁超炫的UI设计，轻松上手；多国语言支持、后台管理功能方便等诸多优秀特点。凭借ECJia团队不断的创新精神和认真的工作态度，相信能够为您带来全新的使用体验！"
-msgstr "ECJia is based on a multi-language mobile vendor management framework PHP + MYSQL development, the introduction of flexible application + plug-in mechanism, the software implementation of high efficiency; simple and stunning UI design, easy to use; convenient multi-language support, background management functions and many other outstanding features. With constant innovation ECJia team spirit and serious working attitude, I believe can bring you a new experience!"
-
-msgid "进入官网 »"
-msgstr "Enter the official website >>"
-
-msgid "关于ECJia"
-msgstr "About ECJia"
-
-msgid "ECJia团队"
-msgstr "ECJia Team"
-
-msgid "系统应用"
-msgstr "System Applications"
-
-msgid "系统核心推出了灵活的应用+插件扩展机制，快速提供接口，多种主题，一指布局，满足众多需求只在一瞬间。 "
-msgstr "Core system introduced flexible application + plug-in extension mechanism to quickly provide an interface, a variety of topics, one refers to the layout, to meet the many needs only in the moment."
-
-msgid "应用扩展"
-msgstr "Application Extension"
-
-msgid "提出全新的应用模式进行扩展，完全满足您的个性化需求，商品、订单、购物车、会员、等众多的应用。 "
-msgstr "Put forward a new application model can be extended to fully meet your individual needs, merchandise, order, shopping cart, members, and many other applications."
-
-msgid "插件扩展"
-msgstr "Plugin Extension"
-
-msgid "ECJia推出多种插件，支付、物流为ECJia中的组件赋予了“生命” 。"
-msgstr "ECJia offer a variety of plug-in, payment, logistics ECJia components gives \"life\"."
-
-msgid "多种语言"
-msgstr "Multilingual"
-
-msgid "多国语言支持，可同时建立多种语言站点，系统默认带有中、英文两种最常用的语言包，最多可扩展至同时开通 255 种语言的网站。"
-msgstr "Multi-language support, which can build multilingual sites, the system default with the two most commonly used English language pack, expandable up to 255 kinds of languages simultaneously launched website."
-
-msgid "主题多样"
-msgstr "Diverse Topic"
-
-msgid "打造了多种风格的主题，在线随意切换您喜欢的主题包。"
-msgstr "To create a variety of styles of the theme, online free to switch your favorite theme package."
-
-msgid "超炫UI设计"
-msgstr "Stunning UI Design"
-
-msgid "友好的后台操作界面，点对点的操作帮助，体验愉快、简单的建站过程，请你轻松上手。"
-msgstr "Background operation and friendly interface, point to point operation help, enjoyable, easy siting process, you easily get started."
-
-msgid "订单管理"
-msgstr "Order Management"
-
-msgid "方便快捷订单管理模块，支持财付通、支付宝等多家平台支付接口，购物车、在线充值等方便快捷功能。"
-msgstr "Convenient and efficient order management module, support TenPay Alipay payment interface and a number of platforms, shopping carts, online recharge, and other convenient features."
-
-msgid "交互协作"
-msgstr "Interactive Collaboration"
-
-msgid "管理员支持分类角色，支持自定义权限分配，支持栏目分配。以及通过管理员、客户留言实行更好的交互。"
-msgstr "Admin support role classification, support for custom permissions assigned, assign support columns. And by the administrator, Feedback implement better interaction."
-
-msgid "邮件SMTP"
-msgstr "SMTP Mail"
-
-msgid "支持邮件发送功能，一般用在会员忘记密码或者红包等提醒部分。"
-msgstr "Support sending e-mail, and other generally used in Forgot your password or red reminder section."
-
-msgid "操作日志"
-msgstr "Operation Log"
-
-msgid "日志管理的推出，对各个管理员所进行的操作一目了然。"
-msgstr "Log management introduced for the operation of each administrator performed a glance."
-
-msgid "多文件上传"
-msgstr "Multi-file Upload"
-
-msgid "采用HTML5方式多文件上传、并支持附件管理。"
-msgstr "HTML5 mode uses multiple file uploads, and supports attachment management."
-
-msgid "数据库多源化"
-msgstr "Multi-source Database"
-
-msgid "同时可以连接多个数据库任意操作的强大功能，解决数据量问题的不二选择。"
-msgstr "And you can connect to multiple databases of any action powerful, the amount of data to solve the problem of choice."
-
-msgid "系统信息"
-msgstr "System Message"
-
-msgid "ECJia 版本:"
-msgstr "ECJia Version:"
-
-msgid "安装日期:"
-msgstr "Installation Date:"
-
-msgid "服务器操作系统:"
-msgstr "Server System:"
-
-msgid "Web 服务器:"
-msgstr "Web Server:"
-
-msgid "PHP 版本:"
-msgstr "PHP Version:"
-
-msgid "MySQL 版本:"
-msgstr "MySQL Version:"
-
-msgid "安全模式:"
-msgstr "Safe Mode:"
-
-msgid "安全模式GID:"
-msgstr "Safe Mode GID:"
-
-msgid "Socket 支持:"
-msgstr "Socket Support:"
-
-msgid "时区设置:"
-msgstr "Time Zone Settings:"
-
-msgid "Zlib 支持:"
-msgstr "Zlib Support:"
-
-msgid "GD 版本:"
-msgstr "GD Version:"
-
-msgid "文件上传的最大大小:"
-msgstr "Maximum Upload"
-
-msgid "ROYALCMS 版本："
-msgstr "ROYALCMS Version:"
-
-msgid "ECJia 开发团队"
-msgstr "ECJia Team"
-
-msgid "版权所有:"
-msgstr "All Rights Reserved:"
-
-msgid "项目策划:"
-msgstr "Project Planning:"
-
-msgid "开发团队:"
-msgstr "Development Team:"
-
-msgid "App团队:"
-msgstr "App Team:"
-
-msgid "界面设计:"
-msgstr "Interface Design:"
-
-msgid "公司网站:"
-msgstr "Company Website:"
-
-msgid "产品官方网站:"
-msgstr "Product Official Site:"
-
-msgid "选择清除"
-msgstr "Select Clear"
-
-msgid "全选"
-msgstr "Select all"
-
-msgid "选择要清除的缓存"
-msgstr "Select the cache to be cleared"
-
-msgid "开始清除"
-msgstr "Clear Start"
-
-msgid "开始清除缓存"
-msgstr "Start clearing your cache"
-
-msgid "选择日期"
-msgstr "Select Dates"
-
-msgid "批量删除"
-msgstr "Batch Deletion"
-
-msgid "全部IP"
-msgstr "All IP"
-
-msgid "全部管理员"
-msgstr "All Administrator"
-
-msgid "筛选"
-msgstr "Filter"
-
-msgid "输入关键字"
-msgstr "Enter keywords"
-
-msgid "搜索"
-msgstr "Search"
-
-msgid "编号"
-msgstr "NO."
-
-msgid "操作者"
-msgstr "Operator"
-
-msgid "操作日期"
-msgstr "Operation Date"
-
-msgid "IP地址"
-msgstr "IP Address"
-
-msgid "操作记录"
-msgstr "Operation Record"
-
-msgid "安装完成"
-msgstr "Finish"
-
-msgid "查看应用的详细信息"
-msgstr "View application details"
-
-msgid "应用名称"
-msgstr "Application Name"
-
-msgid "应用包名："
-msgstr "Applications Package name:"
-
-msgid "应用版本："
-msgstr "Application version:"
-
-msgid "应用目录："
-msgstr "Application Directory:"
-
-msgid "应用作者："
-msgstr "Application Author:"
-
-msgid "版权信息："
-msgstr "Copyright Information:"
-
-msgid "应用描述："
-msgstr "Application Description:"
-
-msgid "安装进度及完成结果"
-msgstr "Installation progress and complete results"
-
-msgid "应用安装成功！"
-msgstr "Application installation was successful!"
-
-msgid "应用已经安装到您的系统中！"
-msgstr "Applications already installed on your system!"
-
-msgid "全部"
-msgstr "Complete"
-
-msgid "已安装"
-msgstr "Installed"
-
-msgid "未安装"
-msgstr "Not Installed"
-
-msgid "名称"
-msgstr "Name"
-
-msgid "描述"
-msgstr "Description"
-
-msgid "卸载"
-msgstr "Uninstall"
-
-msgid "| 作者："
-msgstr "| Author:"
-
-msgid "查看详情"
-msgstr "See Details"
-
-msgid "系统应用管理"
-msgstr "System Management"
-
-msgid "刷新列表"
-msgstr "Refresh"
-
-msgid "配置"
-msgstr "Configuration"
-
-msgid "进入"
-msgstr "Enter"
-
-msgid "编辑"
-msgstr "Edit"
-
-msgid "删除一级地区"
-msgstr "Delete a region"
-
-msgid "编辑地区"
-msgstr "Edit Area"
-
-msgid "原地区名："
-msgstr "Original name Area:"
-
-msgid "新地区名："
-msgstr "New Area name:"
-
-msgid "新增地区名："
-msgstr "New Area name:"
-
-msgid "地区名称不能重复"
-msgstr "Area name can not be repeated."
-
-msgid "文件校验是针对 ECJia 官方发布的文件为基础进行核对，点击下面按钮开始进行校验。"
-msgstr "ECJia file checksum for the official release of documents as the basis for verification, click the button below to begin verification."
-
-msgid "开始校验"
-msgstr "Start Checking"
-
-msgid "被修改"
-msgstr "Modified"
-
-msgid "被删除"
-msgstr "Deleted"
-
-msgid "”、“"
-msgstr "\",\""
-
-msgid "” 中的列出的文件，请即刻通过 FTP 或其他工具检查其文件的正确性，以确保ECJia网店功能的正常使用。"
-msgstr "\"The files listed, please do not hesitate to check the correctness of their files through FTP or other tools to ensure proper use ECJia shop functions."
-
-msgid "未知"
-msgstr "Unknown"
-
-msgid "” 中的列出的文件，请检查网店是否被人非法放入了其他文件。"
-msgstr "\"The files listed, please check whether the network cable has been illegally placed in other documents."
-
-msgid "一周内被修改"
-msgstr "Be modified within a week"
-
-msgid "“"
-msgstr "\""
-
-msgid "” 中列出的文件，请确认最近是否修改过。"
-msgstr "\"Listed in the file, make sure that you recently modified."
-
-msgid "文件名"
-msgstr "File Name"
-
-msgid "文件大小"
-msgstr "File size"
-
-msgid "最后修改时间"
-msgstr "Last Modified"
-
-msgid "状态"
-msgstr "Status"
-
-msgid "被修改："
-msgstr "Modified:"
-
-msgid "被删除："
-msgstr "Deleted:"
-
-msgid "未知："
-msgstr "Unknown:"
-
-msgid "项目"
-msgstr "Project"
-
-msgid "可读权限"
-msgstr "Read permission"
-
-msgid "可写权限"
-msgstr "Writable"
-
-msgid "可修改权限"
-msgstr "Modify permissions"
-
-msgid "[详情]"
-msgstr "[Details]"
-
-msgid "选择要编辑的菜单："
-msgstr "Select edit menu:"
-
-msgid "选择"
-msgstr "Select"
-
-msgid "或"
-msgstr "or"
-
-msgid "创建新菜单"
-msgstr "Creating a new menu"
-
-msgid "页面"
-msgstr "Page"
-
-msgid "添加至菜单"
-msgstr "Add to Menu"
-
-msgid "链接"
-msgstr "Link"
-
-msgid "分类目录"
-msgstr "Categories"
-
-msgid "菜单名称："
-msgstr "Menu Name:"
-
-msgid "保存菜单"
-msgstr "Save menu"
-
-msgid "菜单结构"
-msgstr "Menu Structure"
-
-msgid "拖放各个项目到您喜欢的顺序，点击右侧的箭头可进行更详细的设置。"
-msgstr "Drag and drop the items you like to order, click on the arrow to the right can be more detailed settings."
-
-msgid "URL："
-msgstr "URL:"
-
-msgid "导航标签"
-msgstr "Navigation Tabs"
-
-msgid "是否显示"
-msgstr "Whether"
-
-msgid "是否新窗口"
-msgstr "Whether the new window"
-
-msgid "移除"
-msgstr "Remove"
-
-msgid "菜单设置"
-msgstr "Menu Settings"
-
-msgid "主题位置"
-msgstr "Topic Location"
-
-msgid "首页/列表页菜单"
-msgstr "Home / List menu"
-
-msgid "（当前设置：底部）"
-msgstr "(Current setting: bottom)"
-
-msgid "页脚菜单"
-msgstr "Footer menu"
-
-msgid "播放页菜单"
-msgstr "Playback Menu Page"
-
-msgid "新闻页菜单"
-msgstr "News page menu"
-
-msgid "删除菜单"
-msgstr "Delete menu"
-
-msgid "正在加载中……"
-msgstr "Loading in ......"
-
-msgid "管理员密码找回"
-msgstr "Administrator password recovery"
-
-msgid "管理员用户名"
-msgstr "Administrator username"
-
-msgid "管理员邮箱"
-msgstr "Administrator mailbox"
-
-msgid "返回登录"
-msgstr "Back Login"
-
-msgid "新密码"
-msgstr "New password"
-
-msgid "新管理员密码"
-msgstr "The new administrator password"
-
-msgid "重复新密码"
-msgstr "Repeat new password"
-
-msgid "重复管理员密码"
-msgstr "Repeat administrator password"
-
-msgid "是您享受ECJia软件服务的唯一标识，它记录了您的网店的授权信息、购买官方服务记录、短信帐户等重要信息。您需要通过“证书下载备份”功能备份证书，并妥善保管。在您遇到商店系统需要重新安装时，可以在新安装的系统中使用“证书上传恢复”功能将之前备份的证书恢复，这样新系统就可以继续使用证书内的重要信息。"
-msgstr "You enjoy ECJia software and services that uniquely identifies that records your online store authorization information, purchase the official service records, and other important information SMS account. You need to \"Download Certificate Backup\" function to back up the certificate and safekeeping. When you come across store systems need to reinstall, you can use the newly installed system \"Certificate Upload Restore\" function of the certificate will be restored before the backup, so the new system can continue to use the important information in the certificate."
-
-msgid "兹授予："
-msgstr "Hereby granted:"
-
-msgid "为上海商创网络科技有限公司企业解决方案与产品商业伙伴"
-msgstr "Suppliers to Shanghai Network Technology Co., Ltd. Enterprise Solutions and Products business partners"
-
-msgid "授权级别："
-msgstr "Authorization levels:"
-
-msgid "授权域名："
-msgstr "Authorization domain:"
-
-msgid "授权时间："
-msgstr "Grant Time:"
-
-msgid "备份证书"
-msgstr "Backup Certificate"
-
-msgid "删除证书"
-msgstr "Delete Certificate"
-
-msgid "管理员登录"
-msgstr "Administrator Login"
-
-msgid "管理员姓名："
-msgstr "Name:"
-
-msgid "管理员密码："
-msgstr "Password:"
-
-msgid "请保存我这次的登录信息。"
-msgstr "Remember my login information."
-
-msgid "进入管理中心"
-msgstr "Control Center"
-
-msgid "返回首页"
-msgstr "Back Home"
-
-msgid "您忘记了密码吗?"
-msgstr "Forgot your password?"
-
-msgid "交谈管理员: "
-msgstr "Administrator conversation:"
-
-msgid "所有管理员"
-msgstr "All Administrators"
-
-msgid "查看更早的留言信息"
-msgstr "See earlier Message"
-
-msgid "发送"
-msgstr "Send"
-
-msgid "刷新"
-msgstr "Refresh"
-
-msgid "全部标为已读"
-msgstr "Mark all as read"
-
-msgid "当前留言标为已读"
-msgstr "The current message as read"
-
-msgid "管理员群聊"
-msgstr "Administrators group chat"
-
-msgid "--选择--"
-msgstr "--select--"
-
-msgid "文字："
-msgstr "Text:"
-
-msgid "返回自定义导航栏"
-msgstr "Returns custom navigation bar"
-
-msgid "创建菜单"
-msgstr "Create menu"
-
-msgid "在上面给菜单命名，然后点击“创建菜单”。创建菜单"
-msgstr "Named to the top menu, then click on the \"Create menu.\" Create a menu"
-
-msgid "保存"
-msgstr "save"
-
-msgid "用户名："
-msgstr "username:"
-
-msgid "用户名"
-msgstr "Name"
-
-msgid "用户ID"
-msgstr "User id"
-
-msgid "Email地址："
-msgstr "Email Address:"
-
-msgid "用户邮箱"
-msgstr "User Email"
-
-msgid "Email地址"
-msgstr "Email address"
-
-msgid "最后登录时间"
-msgstr "Last login time"
-
-msgid "密  码："
-msgstr "Password:"
-
-msgid "加入时间"
-msgstr "Join time"
-
-msgid "确认密码："
-msgstr "Confirm password:"
-
-msgid "旧密码："
-msgstr "Old password:"
-
-msgid "如果要修改密码,请先填写旧密码,如留空,密码保持不变"
-msgstr "If you want to change the password, please fill in the old password, such as blank, passwords remain unchanged"
-
-msgid "新密码："
-msgstr "New password:"
-
-msgid "确认密码"
-msgstr "Confirm password"
-
-msgid "负责的办事处："
-msgstr "The office is responsible for:"
-
-msgid "角色选择："
-msgstr "Role Selection:"
-
-msgid "设置个人导航"
-msgstr "Setting personal navigation"
-
-msgid "点击左侧导航列表选项，添加个人导航。双击右侧个人导航列表，或点击x号，可从个人导航列表中移除。点击保存后保存更改。"
-msgstr "Click on the left navigation list options, add personal navigation. Double-click on the right personal navigation list, or click the x number that can be removed from the personal navigation list. Click Save to save your changes later."
-
-msgid "搜索的导航名称"
-msgstr "Navigation name for the search"
-
-msgid "暂无内容"
-msgstr "No content yet"
-
-msgid "个人自定义导航"
-msgstr "Personal custom navigation"
-
-msgid "重置"
-msgstr "Reset"
-
-msgid "角色名："
-msgstr "Character name:"
-
-msgid "角色名"
-msgstr "Name"
-
-msgid "角色描述："
-msgstr "Role description:"
-
-msgid "角色描述"
-msgstr "Description"
-
-msgid "角色ID"
-msgstr "Role ID"
-
-msgid "提示："
-msgstr "Prompt:"
-
-msgid "如果您的服务器支持 Mail 函数（具体信息请咨询您的空间提供商）。我们建议您使用系统的 Mail 函数。"
-msgstr "If your server supports Mail function (For details, contact your hosting provider). We recommend that you use the Mail system function."
-
-msgid "当您的服务器不支持 Mail 函数的时候您也可以选用 SMTP 作为邮件服务器。"
-msgstr "When your server does not support Mail function when you can also use SMTP as a mail server."
-
-msgid "邮件地址："
-msgstr "E-mail address:"
-
-msgid "发送测试邮件"
-msgstr "Send a test message"
-
-msgid "快速导航"
-msgstr "Quick navigation"
-
-msgid "收起"
-msgstr "Collapse"
-
-msgid "您可以试试下面的链接："
-msgstr "You can try the following links:"
-
-msgid "备份注释："
-msgstr "Backup Note:"
-
-msgid "没有可备份的模板设置"
-msgstr "No backup template settings"
-
-msgid "可使用的模板设置备份"
-msgstr "Templates can be used to set the backup"
-
-msgid "还原"
-msgstr "reduction"
-
-msgid "没有可用模板备份"
-msgstr "No backup available templates"
-
-msgid "请选择一个模板："
-msgstr "Please choose a template:"
-
-msgid "未找到可用模板"
-msgstr "Not available templates found"
-
-msgid "可用库项目"
-msgstr "Available library project"
-
-msgid "停用"
-msgstr "Disable"
-
-msgid "要激活某一小工具，将它拖动到侧栏或点击它。要禁用某一小工具并删除其设置，将它拖回来。"
-msgstr "To activate a gadget, drag it to the sidebar or click on it. To disable a widget and delete its settings, drag it back."
-
-msgid "标题："
-msgstr "title:"
-
-msgid "动态库项目"
-msgstr "Dynamic library project"
-
-msgid "未使用的小工具"
-msgstr "Unused gadgets"
-
-msgid "将小工具拖至这里，将它们从边栏移除，但同时保留设置。"
-msgstr "Drag gadgets here, remove them from the sidebar, but retention settings."
-
-msgid "首页侧边栏"
-msgstr "Home Sidebar"
-
-msgid "暂无可用区域"
-msgstr "No usable area"
-
-msgid "添加小工具"
-msgstr "Add gadgets"
-
-msgid "已阻挡的垃圾评论"
-msgstr "It has blocked spam"
-
-msgid "暂无库项目"
-msgstr "No library project"
-
-msgid "未选择库项目"
-msgstr "Do not select library items"
-
-msgid "库项目"
-msgstr "Library Project"
-
-msgid "筛选搜索到的商品信息"
-msgstr "Filter to product information"
-
-msgid "当前主题"
-msgstr "Current topic"
-
-msgid "模板来源："
-msgstr "Template Source:"
-
-msgid "模板作者："
-msgstr "Template authors:"
-
-msgid "风格选择："
-msgstr "Choice style:"
-
-msgid "主题描述："
-msgstr "Topic Description:"
-
-msgid "未选择任何主题"
-msgstr "Do not select any topic"
-
-msgid "可用主题"
-msgstr "Available Topic"
-
-msgid "暂无可用主题"
-msgstr "No topics available"
-
-msgid "最后检查于: "
-msgstr "Last checked:"
-
-msgid "再次检查"
-msgstr "Check"
-
-msgid "注意：若您未检测到可用更新，您还可以到"
-msgstr "Note: If you do not detect the available updates, you can go to"
-
-msgid "查看。"
-msgstr "View."
-
-msgid "当前版本"
-msgstr "Current Version"
-
-msgid "更新日期"
-msgstr "Update Date"
-
-msgid "可升级版本"
-msgstr "Scalable version"
-
-msgid "抱歉，已经有相同的地区名存在！"
-msgstr "Sorry,The region name already exists!"
-
-msgid "操作"
-msgstr "Operations"
-
-msgid "请输入关键字"
-msgstr "Please enter key words"
-
-msgid "版权所有 © 2013-2016 上海商创网络科技有限公司，并保留所有权利。"
-msgstr "Copyright © 2013-2015 Shanghai ShangChuang Network Technology Co., Ltd. All Rights Reserved."
-
-msgid "上海商创网络科技有限公司"
-msgstr "Shanghai ShangChuang Network Technology Co., Ltd."
-
-msgid "了解更多 »"
-msgstr "More >>"
-
-msgid "ECJIA 管理面板"
-msgstr "ECJIA Management Panel"
-
-msgid "安装"
-msgstr "Install"
-
-msgid "您确定要删除该角色吗？"
-msgstr "DO you want to delete the role?"
-
-msgid "总计 "
-msgstr "Total "
-
-msgid "条记录，分为"
-msgstr "records, divided into "
-
-msgid "页当前第"
-msgstr "pages,  current No."
-
-msgid "页，每页"
-msgstr "page, per page"
-
-msgid " 页"
-msgstr " page"
-
-msgid "您确定要删除用户该用户吗？"
-msgstr "Do you want to delete this user?"
-
-msgid "新注册用户"
-msgstr "New registered users"
-
-msgid "新手机咨询"
-msgstr "New phone advice"
-
-msgid "新订单"
-msgstr "New order"
-
-msgid "。"
-msgstr "."
-
-msgid "广告"
-msgstr "advertising"
-
-msgid "添加"
-msgstr "add"
-
-msgid "设置"
-msgstr "setup"
-
-msgid "回收"
-msgstr "trash"
-
-msgid "合并"
-msgstr "merge"
-
-msgid "批量回收"
-msgstr "batch trash"
-
-msgid "批量还原"
-msgstr "batch restore"
-
-msgid "批量上传"
-msgstr "batch upload"
-
-msgid "批量编辑"
-msgstr "batch edit"
-
-msgid "批量停用"
-msgstr "batch stop"
-
-msgid "权限管理"
-msgstr "privilege"
-
-msgid "会员账号"
-msgstr "user account"
-
-msgid "配送区域中的地区"
-msgstr "area region"
-
-msgid "商品"
-msgstr "goods"
-
-msgid "品牌管理"
-msgstr "brand"
-
-msgid "商品分类"
-msgstr "category"
-
-msgid "商品包装"
-msgstr "pack"
-
-msgid "商品贺卡"
-msgstr "goods card"
-
-msgid "属性"
-msgstr "attribute"
-
-msgid "商品类型"
-msgstr "goods type"
-
-msgid "文章分类"
-msgstr "article category"
-
-msgid "文章"
-msgstr "article"
-
-msgid "网店帮助文章"
-msgstr "shophelp article"
-
-msgid "网店帮助分类"
-msgstr "shophelp category"
-
-msgid "网店信息文章"
-msgstr "shopinfo"
-
-msgid "会员等级"
-msgstr "user rank"
-
-msgid "红包类型"
-msgstr "bonus type"
-
-msgid "用户红包"
-msgstr "user bonus"
-
-msgid "在线调查"
-msgstr "vote"
-
-msgid "友情链接"
-msgstr "friendlink"
-
-msgid "支付方式"
-msgstr "payment"
-
-msgid "订单"
-msgstr "order"
-
-msgid "办事处"
-msgstr "office"
-
-msgid "拍卖活动"
-msgstr "auction"
-
-msgid "批发活动"
-msgstr "wholesale activity"
-
-msgid "留言反馈"
-msgstr "feedback"
-
-msgid "用户评论"
-msgstr "user comment"
-
-msgid "广告位置"
-msgstr "ad placement"
-
-msgid "缺货登记管理"
-msgstr "booking"
-
-msgid "标签管理"
-msgstr "tagcloud"
-
-msgid "前台语言项"
-msgstr "reception language entry"
-
-msgid "会员余额"
-msgstr "member Balance"
-
-msgid "会员留言"
-msgstr "member comments"
-
-msgid "FCK文件"
-msgstr "FCK file"
-
-msgid "数据库备份"
-msgstr "database backup"
-
-msgid "超值礼包"
-msgstr "value packs"
-
-msgid "积分可兑换的商品"
-msgstr "points can be redeemed for product"
-
-msgid "供货商管理"
-msgstr "supplier Management"
-
-msgid "会员注册项"
-msgstr "registration"
-
-msgid "信任机构"
-msgstr "agencies"
-
-msgid "插件"
-msgstr "plugin"
-
-msgid "应用已经安装，请勿重复安装。"
-msgstr "Application has been installed, do not repeat the installation."
-
-msgid "应用未安装！"
-msgstr "Application not installed!"
-
-msgid "您确定要卸载该应用吗？"
-msgstr "Do you want to uninstall this application?"
-
-msgid "您确定要删除该应用吗？"
-msgstr "Do you want to delete this application?"
-
+#: admin_application.php:94 admin_application.php:108 admin_application.php:109
+#: apis/system_system_menu_api.class.php:70
+#: apis/system_system_purview_api.class.php:60
+msgid "应用管理"
+msgstr "Application Management"
+
+#: admin_application.php:113 admin_logs.php:87 admin_message.php:89
+#: admin_plugin.php:101 admin_role.php:95
+#: classes/Controllers/UpgradeController.php:84 index.php:87 index.php:123
+#: index.php:150 index.php:175 index.php:253 index.php:309 privilege.php:104
+#: privilege.php:724
+msgid "概述"
+msgstr "Overview"
+
+#: admin_application.php:115
+msgid "欢迎访问ECJia智能后台应用管理页面，系统中所有的应用都会显示在此列表中。"
+msgstr ""
+"Welcome back ECJia intelligent application management page, the system will "
+"display all applications in this list."
+
+#: admin_application.php:119 admin_logs.php:93 admin_message.php:95
+#: admin_plugin.php:107 admin_role.php:101
+#: classes/Controllers/UpgradeController.php:90 index.php:93 index.php:129
+#: index.php:156 index.php:181 index.php:259 index.php:315 privilege.php:110
+#: privilege.php:730
+msgid "更多信息："
+msgstr "More information:"
+
+#: admin_application.php:120
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:应用管理\" target="
+"\"_blank\">关于应用管理帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:应用管理\" target="
+"\"_blank\">About Application Management help documentation</a>"
+
+#: admin_application.php:191 admin_application.php:192
+msgid "应用安装"
+msgstr "Application Install"
+
+#: admin_application.php:195 admin_application.php:196
+msgid "应用详情"
+msgstr "Application Details"
+
+#: admin_application.php:197
+msgid "返回应用列表"
+msgstr "Back apps list"
+
+#: admin_application.php:231
+msgid "%s 应用安装成功"
+msgstr "Successful installation"
+
+#: admin_application.php:257
+msgid "%s 应用卸载成功"
+msgstr "%sUninstall successful application"
+
+#: admin_logs.php:67
+msgid "请先选择删除日志的时间！"
+msgstr "Please choose to delete log time!"
+
+#: admin_logs.php:68
+msgid "确定删除"
+msgstr "confirm delete "
+
+#: admin_logs.php:69
+msgid "的日志吗？"
+msgstr " log it?"
+
+#: admin_logs.php:70 admin_plugin.php:81 classes/ecjia_admin.class.php:469
+#: classes/ecjia_loader.class.php:179 index.php:302
+msgid "确定"
+msgstr "OK"
+
+#: admin_logs.php:71 admin_plugin.php:82 classes/ecjia_admin.class.php:470
+#: classes/ecjia_loader.class.php:180 index.php:303
+msgid "取消"
+msgstr "Cancel"
+
+#: admin_logs.php:82 admin_logs.php:83 apis/system_system_menu_api.class.php:65
+msgid "管理员日志"
+msgstr "Administrator Log"
+
+#: admin_logs.php:89
+msgid ""
+"欢迎访问ECJia智能后台管理员日志页面，可以在此查看管理员操作的一些记录信息。"
+msgstr ""
+"Welcome to ECJia intelligent background administrator log page, you can view "
+"some records information managers operating in this."
+
+#: admin_logs.php:94
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1."
+"E7.90.86.E5.91.98.E6.97.A5.E5.BF.97\" target=\"_blank\">关于管理员日志帮助文"
+"档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1."
+"E7.90.86.E5.91.98.E6.97.A5.E5.BF.97\" target=\"_blank\">About administrator "
+"logs help documentation</a>"
+
+#: admin_logs.php:143
+msgid "一周之前"
+msgstr "A week ago"
+
+#: admin_logs.php:148
+msgid "一个月前"
+msgstr "A month ago"
+
+#: admin_logs.php:153
+msgid "三个月前"
+msgstr "Three months ago"
+
+#: admin_logs.php:158
+msgid "半年之前"
+msgstr "Six months ago"
+
+#: admin_logs.php:164
+msgid "一年之前"
+msgstr "A year ago"
+
+#: admin_logs.php:170
+msgid "删除 %s 的日志。"
+msgstr "Delete %s log."
+
+#: admin_logs.php:172
+msgid "%s 的日志成功删除。"
+msgstr "%s log successfully deleted."
+
+#: admin_message.php:84 admin_message.php:85
+#: classes/admin/ecjia_admin_log.class.php:105
+#: classes/hooks/admin_system.class.php:169
+msgid "管理员留言"
+msgstr "Message Administrator"
+
+#: admin_message.php:91
+msgid ""
+"欢迎访问ECJia智能后台管理员留言页面，所有管理员可以在此进行留言交谈方便管理。"
+msgstr ""
+"Welcome to ECJia intelligent background administrator message page, "
+"administrators can message all the talk in this easy to manage."
+
+#: admin_message.php:96
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:管理员留言\" target="
+"\"_blank\">关于管理员留言帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:管理员留言\" target="
+"\"_blank\">About administrator Message help documentation</a>"
+
+#: admin_message.php:138
+msgid "没有更多消息了"
+msgstr "No more message"
+
+#: admin_message.php:138
+msgid "搜索到了"
+msgstr "Searched"
+
+#: admin_message.php:170
+msgid "发送留言"
+msgstr "Send a message"
+
+#: admin_message.php:171
+msgid "发送成功"
+msgstr "Sent successfully"
+
+#: admin_message.php:173
+msgid "发送失败"
+msgstr "Failed to send"
+
+#: admin_plugin.php:78
+msgid "参数错误，无法安装！"
+msgstr "Parameter error, can not be installed!"
+
+#: admin_plugin.php:79
+msgid "参数错误，无法卸载！"
+msgstr "Parameter error, can not be uninstalled!"
+
+#: admin_plugin.php:80
+msgid "您确定要卸载这个插件吗？"
+msgstr "Do you want to uninstall this plugin?"
+
+#: admin_plugin.php:83
+msgid "您确定要删除这个插件吗？"
+msgstr "Are you sure you want to delete this plugin do?"
+
+#: admin_plugin.php:84
+msgid "此插件暂时不能删除。"
+msgstr "This plug-in is temporarily not be removed."
+
+#: admin_plugin.php:96 admin_plugin.php:97
+#: apis/system_system_menu_api.class.php:71
+#: apis/system_system_purview_api.class.php:64
+msgid "插件管理"
+msgstr "Plugin Management"
+
+#: admin_plugin.php:103
+msgid "欢迎访问ECJia智能后台插件管理页面，系统中所有的插件都会显示在此列表中。"
+msgstr ""
+"Welcome back ECJia Smart Plug-in Manager page, the system will display all "
+"plug-ins in this list."
+
+#: admin_plugin.php:108
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:插件管理\" target="
+"\"_blank\">关于插件管理帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:插件管理\" target="
+"\"_blank\">About Plug-In Manager help documentation</a>"
+
+#: admin_plugin.php:174
+msgid "%s 插件安装成功！"
+msgstr "%s installed is successfully!"
+
+#: admin_plugin.php:201
+msgid "%s 插件卸载成功！"
+msgstr "%s uninstalled is successfully!"
+
+#: admin_plugin.php:209 admin_plugin.php:211
+#: apis/system_system_menu_api.class.php:72
+msgid "插件配置"
+msgstr "Plugin configuration"
+
+#: admin_role.php:76 privilege.php:79
+msgid "请输入用户名！"
+msgstr "Please enter user name!"
+
+#: admin_role.php:80 admin_role.php:90 admin_role.php:91
+#: apis/system_system_menu_api.class.php:63
+#: apis/system_system_purview_api.class.php:72
+msgid "角色管理"
+msgstr "Role Management"
+
+#: admin_role.php:97
+msgid "欢迎访问ECJia智能后台角色管理页面，系统中所有的角色都会显示在此列表中。"
+msgstr ""
+"Welcome back ECJia intelligent role management page, the system will display "
+"all the characters in this list."
+
+#: admin_role.php:102
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E8.A7.92.E8.89."
+"B2.E7.AE.A1.E7.90.86\" target=\"_blank\">关于角色管理帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E8.A7.92.E8.89."
+"B2.E7.AE.A1.E7.90.86\" target=\"_blank\">About roles management help "
+"documentation</a>"
+
+#: admin_role.php:105 admin_role.php:118 admin_role.php:119
+msgid "添加角色"
+msgstr "Add Role"
+
+#: admin_role.php:120 admin_role.php:148 admin_role.php:176
+msgid "角色列表"
+msgstr "Role list"
+
+#: admin_role.php:144 admin_role.php:205 admin_role.php:228
+msgid "管理员角色"
+msgstr "Administrator role"
+
+#: admin_role.php:151 privilege.php:448
+msgid "添加 %s 操作成功"
+msgstr "Add %s Successful operation"
+
+#: admin_role.php:172 admin_role.php:175
+msgid "修改角色"
+msgstr "Modify Role"
+
+#: admin_role.php:209
+msgid "返回角色列表"
+msgstr "Returns roles list"
+
+#: admin_role.php:210
+msgid "编辑 %s 操作成功"
+msgstr "Edit %s Successful operation"
+
+#: admin_role.php:222
+msgid "此角色有管理员在使用，暂时不能删除！"
+msgstr "This administrator role in the use of temporarily can not be deleted!"
+
+#: admin_role.php:231
+msgid "成功删除管理员角色 %s"
+msgstr "Successfully deleted dministrator role %s"
+
+#: apis/system_privilege_menu_api.class.php:58
+msgid "平台后台权限"
+msgstr "Platform background permissions"
+
+#: apis/system_system_cache_api.class.php:58
 msgid "数据表结构缓存"
 msgstr "Cache data table structure"
 
-msgid "数据表结构缓存是数据库表结构的缓存文件。若数据库表结构有变动，则需要更新数据库表结构缓存才可以查看最新数据。"
-msgstr "Data cache is a cache file table structure database table structure. If the database table structure changes, you need to update the database schema caching you can view the latest data."
+#: apis/system_system_cache_api.class.php:59
+msgid ""
+"数据表结构缓存是数据库表结构的缓存文件。若数据库表结构有变动，则需要更新数据"
+"库表结构缓存才可以查看最新数据。"
+msgstr ""
+"Data cache is a cache file table structure database table structure. If the "
+"database table structure changes, you need to update the database schema "
+"caching you can view the latest data."
 
+#: apis/system_system_cache_api.class.php:64
 msgid "查询缓存"
 msgstr "Query Cache"
 
-msgid "查询缓存是数据库查询结构的缓存文件。若数据库内容有变动，则需要更新查询缓存才可以看到最新效果。"
-msgstr "The query cache is a cache file database query results. If the database contents are subject to change, we need to update the query cache before they can see the latest results."
+#: apis/system_system_cache_api.class.php:65
+msgid ""
+"查询缓存是数据库查询结构的缓存文件。若数据库内容有变动，则需要更新查询缓存才"
+"可以看到最新效果。"
+msgstr ""
+"The query cache is a cache file database query results. If the database "
+"contents are subject to change, we need to update the query cache before "
+"they can see the latest results."
 
+#: apis/system_system_cache_api.class.php:70
 msgid "前台模板缓存"
 msgstr "Reception template cache"
 
-msgid "模板缓存是前台模板文件的缓存文件。若前台模板文件有变动，则需要更新模板缓存后才可以查看最新效果。"
-msgstr "Template cache is a cache file foreground template file. If the foreground template file has changed, you need to update the template cache before they can view the latest results."
+#: apis/system_system_cache_api.class.php:71
+msgid ""
+"模板缓存是前台模板文件的缓存文件。若前台模板文件有变动，则需要更新模板缓存后"
+"才可以查看最新效果。"
+msgstr ""
+"Template cache is a cache file foreground template file. If the foreground "
+"template file has changed, you need to update the template cache before they "
+"can view the latest results."
 
+#: apis/system_system_cache_api.class.php:76
 msgid "后台模板缓存"
 msgstr "Background template cache"
 
-msgid "模板缓存是后台模板文件的缓存文件。若后台模板文件有变动，则需要更新模板缓存后才可以查看最新效果。"
-msgstr "Template cache is a cache file background template file. If the background template file has changed, you need to update the template cache before they can view the latest results."
+#: apis/system_system_cache_api.class.php:77
+msgid ""
+"模板缓存是后台模板文件的缓存文件。若后台模板文件有变动，则需要更新模板缓存后"
+"才可以查看最新效果。"
+msgstr ""
+"Template cache is a cache file background template file. If the background "
+"template file has changed, you need to update the template cache before they "
+"can view the latest results."
 
+#: apis/system_system_cache_api.class.php:82
 msgid "应用数据缓存"
 msgstr "Application data cache"
 
-msgid "应用数据缓存是应用处理逻辑后的数据缓存。若要在更新文件及功能后立即看到变化，则需要更新应用数据缓存后才可以查看最新效果。"
-msgstr "Application data cache is a data cache after the application processing logic. To see immediately update files and feature changes, you need to update data in the cache before they can view the latest results."
+#: apis/system_system_cache_api.class.php:83
+msgid ""
+"应用数据缓存是应用处理逻辑后的数据缓存。若要在更新文件及功能后立即看到变化，"
+"则需要更新应用数据缓存后才可以查看最新效果。"
+msgstr ""
+"Application data cache is a data cache after the application processing "
+"logic. To see immediately update files and feature changes, you need to "
+"update data in the cache before they can view the latest results."
 
+#: apis/system_system_cache_api.class.php:88
 msgid "用户数据缓存"
 msgstr "User data buffer"
 
-msgid "用户数据缓存是用户登录后的一些相关数据缓存。若要在更新文件及功能后立即看到变化，则需要更新用户数据缓存后才可以查看最新效果。"
-msgstr "Cached user data, some relevant data cache after user login. To see immediately update files and feature changes, you need to update user data in the cache before they can view the latest results."
+#: apis/system_system_cache_api.class.php:89
+msgid ""
+"用户数据缓存是用户登录后的一些相关数据缓存。若要在更新文件及功能后立即看到变"
+"化，则需要更新用户数据缓存后才可以查看最新效果。"
+msgstr ""
+"Cached user data, some relevant data cache after user login. To see "
+"immediately update files and feature changes, you need to update user data "
+"in the cache before they can view the latest results."
 
-msgid "系统"
-msgstr "System"
+#: apis/system_system_menu_api.class.php:57 index.php:65 index.php:66
+msgid "仪表盘"
+msgstr "Dashboard"
 
-msgid "主题设置备份"
-msgstr "Theme settings backup"
+#: apis/system_system_menu_api.class.php:58
+msgid "访问首页"
+msgstr "Home"
 
-msgid "删除管理员"
-msgstr "Remove administrator"
+#: apis/system_system_menu_api.class.php:60
+#: classes/admin/ecjia_admin_log.class.php:103
+msgid "权限管理"
+msgstr "privilege"
 
-msgid "管理员添加/编辑"
-msgstr "Administrators add/edit"
+#: apis/system_system_menu_api.class.php:62 privilege.php:100 privilege.php:141
+#: privilege.php:383 privilege.php:480 privilege.php:742 privilege.php:784
+msgid "管理员列表"
+msgstr "Administrator List"
 
-msgid "文件权限检验"
-msgstr "File permissions test"
+#: apis/system_system_menu_api.class.php:67
+#: apis/system_system_purview_api.class.php:57
+#: classes/admin/ecjia_admin_log.class.php:161 index.php:296 index.php:297
+msgid "授权证书"
+msgstr "Certificate Authorization"
 
-msgid "卸载插件"
-msgstr "Uninstall plug"
+#: apis/system_system_menu_api.class.php:68
+#: apis/system_system_purview_api.class.php:58 index.php:249 index.php:274
+msgid "更新缓存"
+msgstr "Update Cache"
 
-msgid "管理日志列表"
-msgstr "Admin log list"
+#: apis/system_system_menu_api.class.php:79
+#: classes/Controllers/UpgradeController.php:79
+#: classes/Controllers/UpgradeController.php:80
+msgid "可用更新"
+msgstr "Upgrade"
 
-msgid "模板管理"
-msgstr "Template Management"
+#: apis/system_system_menu_api.class.php:80
+#: apis/system_system_purview_api.class.php:68
+#: classes/Controllers/AdminFilehashController.php:84
+#: classes/Controllers/AdminFilehashController.php:120
+msgid "文件校验"
+msgstr "File check"
 
-msgid "地区列表管理"
-msgstr "Area list management"
+#: apis/system_system_menu_api.class.php:81
+msgid "目录权限检测"
+msgstr "Directory permission detection"
 
-msgid "安装应用"
-msgstr "Install application"
+#: apis/system_system_menu_api.class.php:86 index.php:117 index.php:144
+#: index.php:169
+msgid "关于"
+msgstr "About"
 
+#: apis/system_system_purview_api.class.php:61
 msgid "卸载应用"
 msgstr "Uninstall applications"
 
+#: apis/system_system_purview_api.class.php:62
+msgid "安装应用"
+msgstr "Install application"
+
+#: apis/system_system_purview_api.class.php:65
+msgid "卸载插件"
+msgstr "Uninstall plug"
+
+#: apis/system_system_purview_api.class.php:66
 msgid "安装插件"
 msgstr "Install plug"
 
+#: apis/system_system_purview_api.class.php:69
+msgid "文件权限检验"
+msgstr "File permissions test"
+
+#: apis/system_system_purview_api.class.php:70
+msgid "菜单管理"
+msgstr "Menu management"
+
+#: apis/system_system_purview_api.class.php:73 privilege.php:767
+msgid "分派权限"
+msgstr "Assign permissions"
+
+#: apis/system_system_purview_api.class.php:74
+msgid "管理员添加/编辑"
+msgstr "Administrators add/edit"
+
+#: apis/system_system_purview_api.class.php:75
 msgid "删除管理日志"
 msgstr "Remove logs"
 
+#: apis/system_system_purview_api.class.php:76
+msgid "模板管理"
+msgstr "Template Management"
+
+#: apis/system_system_purview_api.class.php:77
+msgid "管理日志列表"
+msgstr "Admin log list"
+
+#: apis/system_system_purview_api.class.php:78
+msgid "删除管理员"
+msgstr "Remove administrator"
+
+#: apis/system_system_purview_api.class.php:80
+msgid "主题选择"
+msgstr "Theme"
+
+#: apis/system_system_purview_api.class.php:81
+msgid "布局管理"
+msgstr "Layout Management"
+
+#: apis/system_system_purview_api.class.php:82
+msgid "库项目管理"
+msgstr "Library Project Management"
+
+#: apis/system_system_purview_api.class.php:83
+msgid "主题设置备份"
+msgstr "Theme settings backup"
+
+#: classes/Admins/FileHash/FormatterResult.php:105
+msgid ""
+"<span class=\"stop_color\"><i class=\"fontello-icon-attention-circled\"></i>"
+"被修改</span>"
+msgstr ""
+"<span class=\"stop_color\"><i class=\"fontello-icon-attention-circled\"></"
+"i>modified</span>"
+
+#: classes/Admins/FileHash/FormatterResult.php:110
+#: classes/Admins/FileHash/FormatterResult.php:120
+msgid ""
+"<span class=\"ok_color\"><i class=\"fontello-icon-help-circled\"></i>未知</"
+"span>"
+msgstr ""
+"<span class=\"ok_color\"><i class=\"fontello-icon-help-circled\"></"
+"i>unknown</span>"
+
+#: classes/Admins/FileHash/FormatterResult.php:116
+msgid ""
+"<span class=\"error_color\"><i class=\"fontello-icon-minus-circled\"></i>被删"
+"除</span>"
+msgstr ""
+"<span class=\"error_color\"><i class=\"fontello-icon-minus-circled\"></"
+"i>deleted</span>"
+
+#: classes/Admins/FileHash/FormatterResult.php:122
+msgid ""
+"<span class=\"ok_color\"><i class=\"fontello-icon-ok-circled\"></i>正确</"
+"span>"
+msgstr ""
+"<span class=\"ok_color\"><i class=\"fontello-icon-ok-circled\"></i>correct</"
+"span>"
+
+#: classes/Admins/Gettext/Console/MakeEcjiaSystemPOT.php:45
+msgid "提取%sPHP中语言包成功"
+msgstr ""
+
+#: classes/Admins/Gettext/Console/MakeEcjiaSystemPOT.php:85
+msgid "提取%s模板语言包成功"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:334
+msgid "Updating to WordPress %s"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:335
+msgid "WordPress %s"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:341
+msgid "Updating theme: %s"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:347
+msgid "Updating plugin: %s"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:351
+msgid "Translations for %s"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:352
+#: classes/Admins/Upgrade/Skin/LanguagePackUpgraderSkin.php:81
+msgid "Updating translations for %1$s (%2$s)&#8230;"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:365
+#: classes/Admins/Upgrade/Upgrader.php:103
+msgid "Could not access filesystem."
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:371
+msgid "Installation Failed"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:373
+msgid "WordPress updated successfully"
+msgstr ""
+
+#. translators: 1: Site name, 2: WordPress version number.
+#: classes/Admins/Upgrade/AutomaticUpdater.php:655
+msgid "[%1$s] Your site has updated to WordPress %2$s"
+msgstr ""
+
+#. translators: 1: Site name, 2: WordPress version number.
+#: classes/Admins/Upgrade/AutomaticUpdater.php:661
+msgid "[%1$s] WordPress %2$s is available. Please update!"
+msgstr ""
+
+#. translators: 1: Site name.
+#: classes/Admins/Upgrade/AutomaticUpdater.php:666
+msgid "[%1$s] URGENT: Your site may be down due to a failed update"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:681
+msgid ""
+"Howdy! Your site at %1$s has been updated automatically to WordPress %2$s."
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:684
+msgid "No further action is needed on your part."
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:688
+msgid "For more on version %s, see the About WordPress screen:"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:692
+msgid "WordPress %s is also now available."
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:693
+#: classes/Admins/Upgrade/AutomaticUpdater.php:710
+msgid "Updating is easy and only takes a few moments:"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:701
+msgid "Please update your site at %1$s to WordPress %2$s."
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:708
+msgid "We tried but were unable to update your site automatically."
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:716
+msgid ""
+"Your site at %1$s experienced a critical failure while trying to update "
+"WordPress to version %2$s."
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:718
+msgid ""
+"Your site at %1$s experienced a critical failure while trying to update to "
+"the latest version of WordPress, %2$s."
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:720
+msgid ""
+"This means your site may be offline or broken. Don't panic; this can be "
+"fixed."
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:722
+msgid ""
+"Please check out your site now. It's possible that everything is working. If "
+"it says you need to update, you should do so:"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:730
+msgid ""
+"The WordPress team is willing to help you. Forward this email to %s and "
+"the team will work with you to make sure your site is working."
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:733
+msgid ""
+"If you experience any issues or need support, the volunteers in the "
+"WordPress.org support forums may be able to help."
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:734
+msgid "https://wordpress.org/support/"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:739
+msgid ""
+"Keeping your site updated is important for security. It also makes the "
+"internet a safer place for you and your readers."
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:743
+msgid ""
+"If you reach out to us, we'll also ensure you'll never have this problem "
+"again."
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:748
+msgid ""
+"You also have some plugins or themes with updates available. Update them now:"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:752
+msgid "The WordPress Team"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:756
+msgid "Your site was running version %s."
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:757
+msgid "We have some data that describes the error your site encountered."
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:758
+msgid ""
+"Your hosting company, support forum volunteers, or a friendly developer may "
+"be able to use this information to help you:"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:772
+msgid "Error code: %s"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:830
+msgid "WordPress site: %s"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:836
+msgid "SUCCESS: WordPress was successfully updated to %s"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:838
+msgid "FAILED: WordPress failed to update to %s"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:851
+msgid "The following plugins were successfully updated:"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:852
+msgid "The following themes were successfully updated:"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:853
+msgid "The following translations were successfully updated:"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:858
+msgid "SUCCESS: %s"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:864
+msgid "The following plugins failed to update:"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:865
+msgid "The following themes failed to update:"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:866
+msgid "The following translations failed to update:"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:872
+msgid "FAILED: %s"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:882
+msgid ""
+"\n"
+"BETA TESTING?\n"
+"=============\n"
+"    \n"
+"This debugging email is sent when you are using a development version of "
+"WordPress.\n"
+"    \n"
+"If you think these failures might be due to a bug in WordPress, could you "
+"report it?\n"
+" * Open a thread in the support forums: https://wordpress.org/support/forum/"
+"alphabeta\n"
+" * Or, if you're comfortable writing a bug report: http://core.trac."
+"wordpress.org/\n"
+"    \n"
+"Thanks! -- The WordPress Team"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:894
+msgid "[%s] There were failures during background updates"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:896
+msgid "[%s] Background updates have finished"
+msgstr ""
+
+#: classes/Admins/Upgrade/AutomaticUpdater.php:899
+msgid "UPDATE LOG"
+msgstr ""
+
+#. translators: 1: Error code, 2: Error message.
+#: classes/Admins/Upgrade/AutomaticUpdater.php:923
+msgid "Rollback Error: [%1$s] %2$s"
+msgstr ""
+
+#. translators: 1: Error code, 2: Error message.
+#: classes/Admins/Upgrade/AutomaticUpdater.php:926
+msgid "Error: [%1$s] %2$s"
+msgstr ""
+
+#: classes/Admins/Upgrade/FileUploadUpgrader.php:67
+#: classes/Admins/Upgrade/FileUploadUpgrader.php:101
+msgid "Please select a file"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/Bulk/PluginUpgraderSkin.php:63
+msgid "Updating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/Bulk/PluginUpgraderSkin.php:82
+#: classes/Admins/Upgrade/Skin/PluginUpgraderSkin.php:95
+msgid "Go to plugins page"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/Bulk/PluginUpgraderSkin.php:82
+#: classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:106
+#: classes/Admins/Upgrade/Skin/PluginUpgraderSkin.php:95
+msgid "Return to Plugins page"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/Bulk/PluginUpgraderSkin.php:83
+#: classes/Admins/Upgrade/Skin/Bulk/ThemeUpgraderSkin.php:83
+#: classes/Admins/Upgrade/Skin/LanguagePackUpgraderSkin.php:100
+msgid "Go to WordPress Updates page"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/Bulk/PluginUpgraderSkin.php:83
+#: classes/Admins/Upgrade/Skin/Bulk/ThemeUpgraderSkin.php:83
+#: classes/Admins/Upgrade/Skin/LanguagePackUpgraderSkin.php:100
+msgid "Return to WordPress Updates"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/Bulk/ThemeUpgraderSkin.php:63
+msgid "Updating Theme %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/Bulk/ThemeUpgraderSkin.php:82
+msgid "Go to themes page"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/Bulk/ThemeUpgraderSkin.php:82
+#: classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:120
+#: classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:115
+msgid "Return to Themes page"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/BulkUpgraderSkin.php:73
+msgid ""
+"The update process is starting. This process may take a while on some hosts, "
+"so please be patient."
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/BulkUpgraderSkin.php:74
+msgid "An error occurred while updating %1$s: <strong>%2$s</strong>"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/BulkUpgraderSkin.php:75
+msgid "The update of %1$s failed."
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/BulkUpgraderSkin.php:76
+msgid "%1$s updated successfully."
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/BulkUpgraderSkin.php:76
+msgid "Show Details"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/BulkUpgraderSkin.php:76
+msgid "Hide Details"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/BulkUpgraderSkin.php:77
+msgid "All updates have been completed."
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/LanguagePackUpgraderSkin.php:66
+msgid "Update Translations"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:78
+msgid "Successfully installed the plugin <strong>%s %s</strong>."
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:92
+#: classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:94
+#: classes/Admins/Upgrade/Skin/PluginUpgraderSkin.php:94
+msgid "Activate this plugin"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:92
+msgid "Activate Plugin &amp; Run Importer"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:94
+#: classes/Admins/Upgrade/Skin/PluginUpgraderSkin.php:94
+msgid "Activate Plugin"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:97
+msgid "Activate this plugin for all sites in this network"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:97
+msgid "Network Activate"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:102
+msgid "Return to Importers"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/PluginInstallerSkin.php:104
+msgid "Return to Plugin Installer"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/PluginUpgraderSkin.php:72
+msgid "Update Plugin"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:110
+#: classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:111
+#: classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:106
+#: classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:107
+msgid "Preview &#8220;%s&#8221;"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:110
+#: classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:106
+msgid "Preview"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:111
+#: classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:107
+msgid "Live Preview"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:112
+#: classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:108
+msgid "Activate &#8220;%s&#8221;"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:112
+#: classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:108
+msgid "Activate"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:115
+msgid "Enable this theme for all sites in this network"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:115
+msgid "Network Enable"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:118
+msgid "Return to Theme Installer"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/ThemeInstallerSkin.php:120
+msgid "Themes page"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:70
+msgid "Update Theme"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:104
+msgid "Customize &#8220;%s&#8221;"
+msgstr ""
+
+#: classes/Admins/Upgrade/Skin/ThemeUpgraderSkin.php:104
+msgid "Customize"
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:66
+msgid "WordPress is at the latest version."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:67
+#: classes/Admins/Upgrade/Upgrader/LanguagePackUpgrader.php:87
+#: classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:67
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:69
+msgid "Update package not available."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:68
+#: classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:68
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:70
+msgid "Downloading update from <span class=\"code\">%s</span>&#8230;"
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:69
+#: classes/Admins/Upgrade/Upgrader/LanguagePackUpgrader.php:89
+#: classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:69
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:71
+msgid "Unpacking the update&#8230;"
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:70
+msgid "Could not copy files."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:71
+msgid "Could not copy files. You may have run out of disk space."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:72
+msgid "Attempting to roll back to previous version."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:73
+msgid ""
+"Due to an error during updating, WordPress has rolled back to your previous "
+"version."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/CoreUpgrader.php:143
+msgid ""
+"The update cannot be installed because we will be unable to copy some files. "
+"This is usually due to inconsistent file permissions."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/LanguagePackUpgrader.php:85
+msgid ""
+"Some of your translations need updating. Sit tight for a few more seconds "
+"while we update them as well."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/LanguagePackUpgrader.php:86
+msgid "The translation is up to date."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/LanguagePackUpgrader.php:88
+msgid "Downloading translation from <span class=\"code\">%s</span>&#8230;"
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/LanguagePackUpgrader.php:90
+msgid "Translation update failed."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/LanguagePackUpgrader.php:91
+msgid "Translation updated successfully."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/LanguagePackUpgrader.php:226
+msgid ""
+"The language pack is missing either the <code>.po</code> or <code>.mo</code> "
+"files."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:66
+msgid "The plugin is at the latest version."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:70
+msgid "Removing the old version of the plugin&#8230;"
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:71
+msgid "Could not remove the old plugin."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:72
+msgid "Plugin update failed."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:73
+msgid "Plugin updated successfully."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:78
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:83
+msgid "Install package not available."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:79
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:84
+msgid "Downloading install package from <span class=\"code\">%s</span>&#8230;"
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:80
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:85
+msgid "Unpacking the package&#8230;"
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:81
+msgid "Installing the plugin&#8230;"
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:82
+msgid "The plugin contains no files."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:83
+msgid "Plugin install failed."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:84
+msgid "Plugin installed successfully."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/PluginUpgrader.php:312
+msgid "No valid plugins were found."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:68
+msgid "The theme is at the latest version."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:72
+msgid "Removing the old version of the theme&#8230;"
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:73
+msgid "Could not remove the old theme."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:74
+msgid "Theme update failed."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:75
+msgid "Theme updated successfully."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:86
+msgid "Installing the theme&#8230;"
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:87
+msgid "The theme contains no files."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:88
+msgid "Theme install failed."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:89
+msgid "Theme installed successfully."
+msgstr ""
+
+#. translators: 1: theme name, 2: version
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:91
+msgid "Successfully installed the theme <strong>%1$s %2$s</strong>."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:92
+msgid "This theme requires a parent theme. Checking if it is installed&#8230;"
+msgstr ""
+
+#. translators: 1: theme name, 2: version
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:94
+msgid "Preparing to install <strong>%1$s %2$s</strong>&#8230;"
+msgstr ""
+
+#. translators: 1: theme name, 2: version
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:96
+msgid "The parent theme, <strong>%1$s %2$s</strong>, is currently installed."
+msgstr ""
+
+#. translators: 1: theme name, 2: version
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:98
+msgid "Successfully installed the parent theme, <strong>%1$s %2$s</strong>."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:99
+msgid ""
+"<strong>The parent theme could not be found.</strong> You will need to "
+"install the parent theme, <strong>%s</strong>, before you can use this child "
+"theme."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:400
+msgid "The theme is missing the <code>style.css</code> stylesheet."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:405
+msgid ""
+"The <code>style.css</code> stylesheet doesn't contain a valid theme header."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader/ThemeUpgrader.php:409
+msgid "The theme is missing the <code>index.php</code> file."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader.php:102
+msgid "Invalid Data provided."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader.php:104
+msgid "Filesystem error."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader.php:105
+msgid "Unable to locate WordPress Root directory."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader.php:106
+msgid "Unable to locate WordPress Content directory (wp-content)."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader.php:107
+msgid "Unable to locate WordPress Plugin directory."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader.php:108
+msgid "Unable to locate WordPress Theme directory."
+msgstr ""
+
+#. translators: %s: directory name
+#: classes/Admins/Upgrade/Upgrader.php:110
+msgid "Unable to locate needed folder (%s)."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader.php:112
+msgid "Download failed."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader.php:113
+msgid "Installing the latest version&#8230;"
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader.php:114
+msgid "The package contains no files."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader.php:115
+msgid "Destination folder already exists."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader.php:116
+msgid "Could not create directory."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader.php:117
+msgid "The package could not be installed."
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader.php:119
+msgid "Enabling Maintenance mode&#8230;"
+msgstr ""
+
+#: classes/Admins/Upgrade/Upgrader.php:120
+msgid "Disabling Maintenance mode&#8230;"
+msgstr ""
+
+#: classes/Api/ApiManager.php:219
+msgid "Const [serverHost] url not defined."
+msgstr ""
+
+#: classes/BaseController/EcjiaController.php:381
+#: classes/ecjia_admin.class.php:466
 msgid "操作成功"
 msgstr "Successful operation"
 
+#: classes/BaseController/EcjiaController.php:384
 msgid "操作提示"
 msgstr "Operation tips"
 
+#: classes/BaseController/EcjiaController.php:387
 msgid "操作警告"
 msgstr "Warning"
 
+#: classes/BaseController/EcjiaController.php:390
 msgid "操作错误"
 msgstr "Operation error"
 
-msgid "添加广告位"
-msgstr "Add advertising"
+#: classes/BaseController/EcjiaController.php:393 index.php:170 index.php:171
+msgid "系统信息"
+msgstr "System Message"
 
-msgid "广告位"
+#: classes/Controllers/AdminFilePermissionController.php:83
+#: classes/Controllers/AdminFilePermissionController.php:84
+msgid "文件权限检测"
+msgstr "File Permissions Detection"
+
+#: classes/Controllers/AdminFilePermissionController.php:97
+msgid "目录"
+msgstr "Directory"
+
+#: classes/Controllers/AdminFilehashController.php:121
+msgid "返回重新校验"
+msgstr "Back recalibration"
+
+#: classes/Controllers/UpgradeController.php:86
+msgid "欢迎访问ECJia智能后台更新页面，在此可以进行对版本的更新。"
+msgstr "Welcome back ECJia smart update page where you can update to version."
+
+#: classes/Controllers/UpgradeController.php:91
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:可用更新\" target="
+"\"_blank\">关于可用更新帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:可用更新\" target="
+"\"_blank\">Help documentation about available updates</a>"
+
+#: classes/Controllers/UpgradeController.php:119
+msgid "再次检查"
+msgstr "Check"
+
+#: classes/Controllers/UpgradeController.php:139
+msgid "你当前使用的已经是最新版本了。"
+msgstr "You are currently using the latest version."
+
+#: classes/Controllers/UpgradeController.php:143
+msgid "已经检测到%s个新版本更新。"
+msgstr "%s new version updates have been detected."
+
+#: classes/admin/ecjia_admin_log.class.php:82
+msgid "添加"
+msgstr "add"
+
+#: classes/admin/ecjia_admin_log.class.php:83
+msgid "编辑"
+msgstr "Edit"
+
+#: classes/admin/ecjia_admin_log.class.php:84
+msgid "启用"
+msgstr "Enable"
+
+#: classes/admin/ecjia_admin_log.class.php:85
+msgid "停用"
+msgstr "Disable"
+
+#: classes/admin/ecjia_admin_log.class.php:86
+msgid "删除"
+msgstr "Delete"
+
+#: classes/admin/ecjia_admin_log.class.php:87
+msgid "安装"
+msgstr "Install"
+
+#: classes/admin/ecjia_admin_log.class.php:88
+msgid "卸载"
+msgstr "Uninstall"
+
+#: classes/admin/ecjia_admin_log.class.php:89
+#: classes/admin/ecjia_admin_menu.class.php:248
+msgid "设置"
+msgstr "setup"
+
+#: classes/admin/ecjia_admin_log.class.php:90
+msgid "回收"
+msgstr "Trash"
+
+#: classes/admin/ecjia_admin_log.class.php:91
+msgid "还原"
+msgstr "reduction"
+
+#: classes/admin/ecjia_admin_log.class.php:92
+msgid "合并"
+msgstr "Merge"
+
+#: classes/admin/ecjia_admin_log.class.php:93
+msgid "批量删除"
+msgstr "Batch Deletion"
+
+#: classes/admin/ecjia_admin_log.class.php:94
+msgid "批量回收"
+msgstr "Batch trash"
+
+#: classes/admin/ecjia_admin_log.class.php:95
+msgid "批量还原"
+msgstr "Batch restore"
+
+#: classes/admin/ecjia_admin_log.class.php:96
+msgid "批量上传"
+msgstr "Batch upload"
+
+#: classes/admin/ecjia_admin_log.class.php:97
+msgid "批量编辑"
+msgstr "Batch edit"
+
+#: classes/admin/ecjia_admin_log.class.php:98
+msgid "批量停用"
+msgstr "Batch stop"
+
+#: classes/admin/ecjia_admin_log.class.php:104
+#: classes/hooks/admin_system.class.php:187
+msgid "操作日志"
+msgstr "Operation Log"
+
+#: classes/admin/ecjia_admin_log.class.php:106
+msgid "地区"
+msgstr "Area"
+
+#: classes/admin/ecjia_admin_log.class.php:107
+msgid "商店设置"
+msgstr "Shop Settings"
+
+#: classes/admin/ecjia_admin_log.class.php:110
+msgid "会员账号"
+msgstr "User account"
+
+#: classes/admin/ecjia_admin_log.class.php:111
+msgid "配送方式"
+msgstr "Shipping"
+
+#: classes/admin/ecjia_admin_log.class.php:112
+msgid "配送区域"
+msgstr "Delivery Area"
+
+#: classes/admin/ecjia_admin_log.class.php:113
+msgid "配送区域中的地区"
+msgstr "area region"
+
+#: classes/admin/ecjia_admin_log.class.php:115
+msgid "商品"
+msgstr "Goods"
+
+#: classes/admin/ecjia_admin_log.class.php:116
+msgid "品牌管理"
+msgstr "Brand"
+
+#: classes/admin/ecjia_admin_log.class.php:117
+msgid "商品分类"
+msgstr "Category"
+
+#: classes/admin/ecjia_admin_log.class.php:118
+msgid "商品包装"
+msgstr "Pack"
+
+#: classes/admin/ecjia_admin_log.class.php:119
+msgid "商品贺卡"
+msgstr "Goods card"
+
+#: classes/admin/ecjia_admin_log.class.php:120
+msgid "属性"
+msgstr "Attribute"
+
+#: classes/admin/ecjia_admin_log.class.php:121
+msgid "商品类型"
+msgstr "Goods type"
+
+#: classes/admin/ecjia_admin_log.class.php:124
+msgid "文章分类"
+msgstr "article category"
+
+#: classes/admin/ecjia_admin_log.class.php:125
+msgid "文章"
+msgstr "article"
+
+#: classes/admin/ecjia_admin_log.class.php:126
+msgid "网店帮助文章"
+msgstr "shophelp article"
+
+#: classes/admin/ecjia_admin_log.class.php:127
+msgid "网店帮助分类"
+msgstr "shophelp category"
+
+#: classes/admin/ecjia_admin_log.class.php:128
+msgid "网店信息文章"
+msgstr "shopinfo"
+
+#: classes/admin/ecjia_admin_log.class.php:131
+msgid "会员等级"
+msgstr "User rank"
+
+#: classes/admin/ecjia_admin_log.class.php:132
+msgid "夺宝奇兵"
+msgstr "snatch"
+
+#: classes/admin/ecjia_admin_log.class.php:133
+msgid "红包类型"
+msgstr "bonus type"
+
+#: classes/admin/ecjia_admin_log.class.php:134
+msgid "用户红包"
+msgstr "user bonus"
+
+#: classes/admin/ecjia_admin_log.class.php:135
+msgid "在线调查"
+msgstr "Vote"
+
+#: classes/admin/ecjia_admin_log.class.php:136
+msgid "友情链接"
+msgstr "Friendlink"
+
+#: classes/admin/ecjia_admin_log.class.php:137
+msgid "支付方式"
+msgstr "Payment"
+
+#: classes/admin/ecjia_admin_log.class.php:139
+msgid "订单"
+msgstr "order"
+
+#: classes/admin/ecjia_admin_log.class.php:140
+msgid "办事处"
+msgstr "office"
+
+#: classes/admin/ecjia_admin_log.class.php:141
+msgid "拍卖活动"
+msgstr "Auction"
+
+#: classes/admin/ecjia_admin_log.class.php:142
+msgid "优惠活动"
+msgstr "Favourable"
+
+#: classes/admin/ecjia_admin_log.class.php:143
+msgid "批发活动"
+msgstr "wholesale activity"
+
+#: classes/admin/ecjia_admin_log.class.php:144
+msgid "留言反馈"
+msgstr "feedback"
+
+#: classes/admin/ecjia_admin_log.class.php:145
+msgid "用户评论"
+msgstr "user comment"
+
+#: classes/admin/ecjia_admin_log.class.php:146
+msgid "广告位置"
+msgstr "Ad placement"
+
+#: classes/admin/ecjia_admin_log.class.php:147
+msgid "广告"
 msgstr "Advertising"
 
-msgid "添加品牌商品"
-msgstr "Adding branded goods"
+#: classes/admin/ecjia_admin_log.class.php:148
+msgid "团购商品"
+msgstr "Groupbuy"
 
-msgid "品牌的商品"
-msgstr "Branded goods"
+#: classes/admin/ecjia_admin_log.class.php:149
+msgid "缺货登记管理"
+msgstr "booking"
 
-msgid "添加分类文章"
-msgstr "Add categories articles"
+#: classes/admin/ecjia_admin_log.class.php:150
+msgid "标签管理"
+msgstr "tagcloud"
 
-msgid "文章列表"
-msgstr "Article list"
+#: classes/admin/ecjia_admin_log.class.php:151
+msgid "前台语言项"
+msgstr "Reception language entry"
 
-msgid "添加分类商品"
-msgstr "Add categories goods"
+#: classes/admin/ecjia_admin_log.class.php:152
+msgid "会员余额"
+msgstr "Member Balance"
 
-msgid "分类下的商品"
-msgstr "categories goods"
+#: classes/admin/ecjia_admin_log.class.php:153
+msgid "会员留言"
+msgstr "Member comments"
 
-msgid "添加自定义菜单"
-msgstr "Add a custom menu"
+#: classes/admin/ecjia_admin_log.class.php:154
+msgid "FCK文件"
+msgstr "FCK file"
 
-msgid "自定义菜单"
-msgstr "Custom Menu"
+#: classes/admin/ecjia_admin_log.class.php:155
+msgid "数据库备份"
+msgstr "Database backup"
 
+#: classes/admin/ecjia_admin_log.class.php:156
+msgid "超值礼包"
+msgstr "value packs"
+
+#: classes/admin/ecjia_admin_log.class.php:157
+msgid "积分可兑换的商品"
+msgstr "points can be redeemed for product"
+
+#: classes/admin/ecjia_admin_log.class.php:158
+msgid "供货商管理"
+msgstr "Supplier Management"
+
+#: classes/admin/ecjia_admin_log.class.php:159
+msgid "会员注册项"
+msgstr "Registration"
+
+#: classes/admin/ecjia_admin_log.class.php:162
+msgid "信任机构"
+msgstr "Agencies"
+
+#: classes/admin/ecjia_admin_log.class.php:163
+#: classes/admin/ecjia_admin_menu.class.php:245
+#: classes/ecjia_screen.class.php:1128
+msgid "应用"
+msgstr "Applications"
+
+#: classes/admin/ecjia_admin_log.class.php:164
+msgid "插件"
+msgstr "Plugin"
+
+#: classes/admin/ecjia_admin_menu.class.php:127
+msgid "设置快捷菜单"
+msgstr "Setting Shortcut Menu"
+
+#: classes/admin/ecjia_admin_menu.class.php:244
+msgid "控制面板"
+msgstr "Control Panel"
+
+#: classes/admin/ecjia_admin_menu.class.php:246
+msgid "工具"
+msgstr "Tools"
+
+#: classes/admin/ecjia_admin_menu.class.php:247
+msgid "外观"
+msgstr "Themes"
+
+#: classes/admin/ecjia_admin_menu.class.php:249
+msgid "服务"
+msgstr "Service"
+
+#: classes/admin/ecjia_admin_menu.class.php:250
+msgid "快捷导航"
+msgstr "Shortcut Menu"
+
+#: classes/ecjia.class.php:303
+msgid "共执行 %d 个查询，程序运行用时 %s 秒"
+msgstr ""
+
+#: classes/ecjia_admin.class.php:88 classes/ecjia_admin.class.php:404
 msgid "系统提示"
 msgstr "System prompt"
 
+#: classes/ecjia_admin.class.php:89 classes/ecjia_admin.class.php:93
+#, fuzzy
+#| msgid "对不起，您没有执行此项操作的权限！"
+msgid "对不起,您没有执行此项操作的权限!"
+msgstr "Sorry, you do not have permission to perform this operation!"
+
+#: classes/ecjia_admin.class.php:89
 msgid "重新登录"
 msgstr "Again login"
 
+#: classes/ecjia_admin.class.php:115
+msgid "ECJIA 管理面板"
+msgstr "ECJIA Management Panel"
+
+#: classes/ecjia_admin.class.php:399 classes/ecjia_admin.class.php:405
 msgid "对不起，您没有执行此项操作的权限！"
 msgstr "Sorry, you do not have permission to perform this operation!"
 
-msgid "本店盘点中，请您稍后再来..."
-msgstr "Our inventory, and please come back later ..."
+#: classes/ecjia_admin.class.php:462
+msgid "显示侧边栏"
+msgstr "Display Sidebar"
 
-msgid "请稍候"
-msgstr "Please wait"
+#: classes/ecjia_admin.class.php:463
+msgid "隐藏侧边栏"
+msgstr "Hide Sidebar"
 
+#: classes/ecjia_admin.class.php:464
+msgid "请先输入搜索信息"
+msgstr "Please enter search message"
+
+#: classes/ecjia_admin.class.php:465
+msgid "未搜索到导航信息"
+msgstr "No search navigation message"
+
+#: classes/ecjia_admin.class.php:467
+msgid "操作失败"
+msgstr "Operation failed"
+
+#: classes/ecjia_admin.class.php:468
+msgid "是否确认跳转？"
+msgstr "Are you sure to jump?"
+
+#: classes/ecjia_admin.class.php:471
+msgid "请求失败，错误编号："
+msgstr "The request failed, Error number:"
+
+#: classes/ecjia_admin.class.php:472
+msgid "，错误信息："
+msgstr ",Error message:"
+
+#: classes/ecjia_admin.class.php:720 classes/ecjia_admin.class.php:748
+msgid "欢迎使用ECJia"
+msgstr "Welcome ECJia"
+
+#: classes/ecjia_admin.class.php:721 classes/ecjia_admin.class.php:749
+msgid ""
+"ECJia是一款基于PHP+MYSQL开发的多语言移动电商管理框架，推出了灵活的应用+插件机"
+"制，软件执行效率高；简洁超炫的UI设计，轻松上手；多国语言支持、后台管理功能方"
+"便等诸多优秀特点。凭借ECJia团队不断的创新精神和认真的工作态度，相信能够为您带"
+"来全新的使用体验！"
+msgstr ""
+"ECJia is based on a multi-language mobile vendor management framework PHP + "
+"MYSQL development, the introduction of flexible application + plug-in "
+"mechanism, the software implementation of high efficiency; simple and "
+"stunning UI design, easy to use; convenient multi-language support, "
+"background management functions and many other outstanding features. With "
+"constant innovation ECJia team spirit and serious working attitude, I "
+"believe can bring you a new experience!"
+
+#: classes/ecjia_admin.class.php:722
+msgid "了解更多 »"
+msgstr "More >>"
+
+#: classes/ecjia_admin.class.php:750
+msgid "进入官网 »"
+msgstr "Enter the official website >>"
+
+#: classes/ecjia_app.class.php:231
+msgid "Invalid application path."
+msgstr ""
+
+#: classes/ecjia_app.class.php:235
+msgid "Application file does not exist."
+msgstr ""
+
+#: classes/ecjia_app.class.php:239
+msgid "Application Package info does not exist."
+msgstr ""
+
+#: classes/ecjia_app.class.php:284 classes/ecjia_app.class.php:372
+msgid "Class '%s' not found"
+msgstr ""
+
+#: classes/ecjia_app.class.php:335 classes/ecjia_plugin.class.php:177
+msgid "The plugin generated unexpected output."
+msgstr ""
+
+#: classes/ecjia_app.class.php:339
+msgid "应用已经安装，请勿重复安装。"
+msgstr "Application has been installed, do not repeat the installation."
+
+#: classes/ecjia_app.class.php:366
+msgid "应用未安装！"
+msgstr "Application not installed!"
+
+#: classes/ecjia_cache.class.php:102 classes/ecjia_purview.class.php:95
+msgid "系统"
+msgstr "System"
+
+#: classes/ecjia_cloud.class.php:241
+msgid "服务器返回信息错误！"
+msgstr "The server returned a message error!"
+
+#: classes/ecjia_form.class.php:110
+msgid "Save Changes"
+msgstr ""
+
+#: classes/ecjia_loader.class.php:181
 msgid "您确定要删除这条记录吗？"
 msgstr "Do you want to delete this record?"
 
+#: classes/ecjia_loader.class.php:182
 msgid "参数错误，无法删除！"
 msgstr "Parameter error, can not be deleted!"
 
+#: classes/ecjia_loader.class.php:183
 msgid "您确定要操作所有选中项吗？"
 msgstr "Do you want to operate all of the selected items?"
 
+#: classes/ecjia_loader.class.php:184
 msgid "请先选中操作项！"
 msgstr "Please select the action items!"
 
+#: classes/ecjia_loader.class.php:185
 msgid "批量操作缺少参数！"
 msgstr "Operations Missing parameters!"
 
+#: classes/ecjia_loader.class.php:186
 msgid "参数错误，无法选择！"
 msgstr "Parameter error, can not choose!"
 
+#: classes/ecjia_loader.class.php:187
 msgid "状态修改成功！"
 msgstr "Status changed successfully!"
 
+#: classes/ecjia_loader.class.php:188
+msgid "clone-obj方法未设置data-parent参数。"
+msgstr "clone-obj method of data-parent parameter is not set."
+
+#: classes/ecjia_loader.class.php:189
 msgid "缺少参数"
 msgstr "Missing parameters"
 
-msgid "clone-obj方法未设置data-parent参数。"
-msgstr "clone-obj method of data-parent parameter is not set."
+#: classes/ecjia_loader.class.php:190
+msgid "您确定要删除此文件吗？"
+msgstr "Do you want to delete this file?"
+
+#: classes/ecjia_metadata.class.php:87
+msgid "ecjia meta app no exists"
+msgstr ""
+
+#: classes/ecjia_metadata.class.php:91
+msgid "ecjia meta group no exists"
+msgstr ""
+
+#: classes/ecjia_open.class.php:81
+msgid "Url Scheme不是ecjiaopen。"
+msgstr "Url Scheme is not ecjiaopen."
+
+#: classes/ecjia_option.class.php:201
+msgid "%s is a protected WP option and may not be modified"
+msgstr ""
+
+#: classes/ecjia_option.class.php:631
+msgid ""
+"The email address entered did not appear to be a valid email address. Please "
+"enter a valid email address."
+msgstr ""
+
+#: classes/ecjia_option.class.php:734
+msgid ""
+"The WordPress address you entered did not appear to be a valid URL. Please "
+"enter a valid URL."
+msgstr ""
+
+#: classes/ecjia_option.class.php:747
+msgid ""
+"The Site address you entered did not appear to be a valid URL. Please enter "
+"a valid URL."
+msgstr ""
+
+#: classes/ecjia_option.class.php:802
+msgid ""
+"The timezone you have entered is not valid. Please select a valid timezone."
+msgstr ""
+
+#: classes/ecjia_page.class.php:202
+msgid "总计 "
+msgstr "Total "
+
+#: classes/ecjia_page.class.php:203
+msgid "条记录，分为"
+msgstr "records, divided into "
+
+#: classes/ecjia_page.class.php:204
+msgid "页当前第"
+msgstr "pages,  current No."
+
+#: classes/ecjia_page.class.php:205
+msgid "页，每页"
+msgstr "page, per page"
+
+#: classes/ecjia_page.class.php:206
+msgid " 页"
+msgstr " page"
+
+#: classes/ecjia_plugin.class.php:62
+msgid "Invalid plugin path."
+msgstr ""
+
+#: classes/ecjia_plugin.class.php:64
+msgid "Plugin file does not exist."
+msgstr ""
+
+#: classes/ecjia_plugin.class.php:68
+msgid "The plugin does not have a valid header."
+msgstr ""
+
+#: classes/ecjia_screen.class.php:771
+msgid "Contextual Help Tab"
+msgstr ""
+
+#: classes/ecjia_screen.class.php:869
+msgid "帮助"
+msgstr "Help"
+
+#: classes/ecjia_screen.class.php:872
+msgid "选项"
+msgstr "Option"
+
+#: classes/ecjia_screen.class.php:944
+msgid "Enable accessibility mode"
+msgstr ""
+
+#: classes/ecjia_screen.class.php:944
+msgid "Disable accessibility mode"
+msgstr ""
+
+#: classes/ecjia_screen.class.php:994
+msgid "Screen Options Tab"
+msgstr ""
+
+#: classes/ecjia_screen.class.php:997
+msgid "显示下列项目"
+msgstr "Show the following items"
+
+#: classes/ecjia_screen.class.php:1017
+msgctxt "Welcome panel"
+msgid "Welcome"
+msgstr ""
+
+#: classes/ecjia_screen.class.php:1039
+msgid "Comments"
+msgstr ""
+
+#: classes/ecjia_screen.class.php:1074
+msgid "Screen Layout"
+msgstr ""
+
+#: classes/ecjia_screen.class.php:1076
+msgid "Number of Columns:"
+msgstr ""
+
+#: classes/ecjia_screen.class.php:1286
+msgid ""
+"Likely direct inclusion of wp-admin/includes/template.php in order to use "
+"add_meta_box(). This is very wrong. Hook the add_meta_box() call into the "
+"add_meta_boxes action instead."
+msgstr ""
+
+#: classes/ecjia_widget.class.php:276
+msgctxt "widget"
+msgid "Edit"
+msgstr ""
+
+#: classes/ecjia_widget.class.php:277
+msgctxt "widget"
+msgid "Add"
+msgstr ""
+
+#: classes/ecjia_widget.class.php:291
+msgid "There are no options for this widget."
+msgstr ""
+
+#: classes/ecjia_widget.class.php:303
+msgid "Delete"
+msgstr ""
+
+#: classes/ecjia_widget.class.php:304
+msgid "Close"
+msgstr ""
+
+#: classes/ecjia_widget.class.php:307
+msgid "Save"
+msgstr ""
+
+#: classes/hooks/admin_system.class.php:200
+msgid "产品新闻"
+msgstr "Product News"
+
+#: classes/hooks/admin_system.class.php:228
+msgid "今日新增用户"
+msgstr "New users today"
+
+#: classes/hooks/admin_system.class.php:242
+msgid "新手机咨询"
+msgstr "New phone advice"
+
+#: classes/hooks/admin_system.class.php:256
+msgid "今日新增订单"
+msgstr "New orders today"
+
+#: classes/widgets/widget_ad_position.class.php:59
+msgid "添加广告位"
+msgstr "Add advertising"
+
+#: classes/widgets/widget_ad_position.class.php:60
+msgid "广告位"
+msgstr "Advertising"
+
+#: classes/widgets/widget_ad_position.class.php:103
+#: classes/widgets/widget_brand_goods.class.php:103
+#: classes/widgets/widget_cat_articles.class.php:103
+#: classes/widgets/widget_cat_goods.class.php:103
+#: classes/widgets/widget_nav_menu.class.php:103
+msgid "Title:"
+msgstr ""
+
+#: classes/widgets/widget_ad_position.class.php:107
+#: classes/widgets/widget_brand_goods.class.php:107
+#: classes/widgets/widget_cat_articles.class.php:107
+#: classes/widgets/widget_cat_goods.class.php:107
+#: classes/widgets/widget_nav_menu.class.php:107
+msgid "Select Menu:"
+msgstr ""
+
+#: classes/widgets/widget_ad_position.class.php:109
+#: classes/widgets/widget_brand_goods.class.php:109
+#: classes/widgets/widget_cat_articles.class.php:109
+#: classes/widgets/widget_cat_goods.class.php:109
+#: classes/widgets/widget_nav_menu.class.php:109
+msgid "&mdash; Select &mdash;"
+msgstr ""
+
+#: classes/widgets/widget_brand_goods.class.php:59
+msgid "添加品牌商品"
+msgstr "Adding branded goods"
+
+#: classes/widgets/widget_brand_goods.class.php:60
+msgid "品牌的商品"
+msgstr "Branded goods"
+
+#: classes/widgets/widget_cat_articles.class.php:59
+msgid "添加分类文章"
+msgstr "Add categories articles"
+
+#: classes/widgets/widget_cat_articles.class.php:60
+msgid "文章列表"
+msgstr "Article list"
+
+#: classes/widgets/widget_cat_goods.class.php:59
+msgid "添加分类商品"
+msgstr "Add categories goods"
+
+#: classes/widgets/widget_cat_goods.class.php:60
+msgid "分类下的商品"
+msgstr "Categories goods"
+
+#: classes/widgets/widget_nav_menu.class.php:59
+msgid "添加自定义菜单"
+msgstr "Add a custom menu"
+
+#: classes/widgets/widget_nav_menu.class.php:60
+msgid "自定义菜单"
+msgstr "Custom Menu"
+
+#: functions/functions.func.php:255
+msgid "本店盘点中，请您稍后再来..."
+msgstr "Our inventory, and please come back later ..."
+
+#: get_password.php:182
+msgid "输入的信息不正确！"
+msgstr "Information entered is incorrect!"
+
+#: get_password.php:212
+msgid "重置密码的邮件已经发到您的邮箱："
+msgstr "To reset your password has been sent to your mailbox:"
+
+#: get_password.php:215
+msgid "重置密码邮件发送失败!请与管理员联系"
+msgstr ""
+"Failed to send email to reset your password! Please contact your "
+"administrator"
+
+#: get_password.php:218 get_password.php:243 get_password.php:273
+#: get_password.php:287
+msgid "返回"
+msgstr "Return"
+
+#: get_password.php:223
+msgid "用户名与Email地址不匹配,请返回！"
+msgstr "Username and Email addresses do not match, please return!"
+
+#: get_password.php:245 get_password.php:275
+msgid "此链接不合法!"
+msgstr "This link is not legitimate!"
+
+#: get_password.php:252
+msgid "修改密码"
+msgstr "Change Password"
+
+#: get_password.php:289
+msgid "密码修改成功!"
+msgstr "Password reset complete!"
+
+#: get_password.php:291
+msgid "密码修改失败!"
+msgstr "Password modification fails!"
+
+#: index.php:70
+msgid ""
+"授权提示：您的站点还未经过授权许可！请上传您的证书，前往<a href=\"%s\">授权证"
+"书管理</a> 。"
+msgstr ""
+"Authorization: Your site has not yet been licensed! Please upload your "
+"certificate, go to <a href=\"%s\">Authorization Certificate Management</a>."
+
+#: index.php:75
+msgid ""
+"您还没有删除 installer 文件夹，出于安全的考虑，我们建议您删除 content/apps/"
+"installer 文件夹。"
+msgstr ""
+"You have not deleted the installer folder. For security reasons, we "
+"recommend that you delete the content/apps/installer folder."
+
+#: index.php:81
+msgid ""
+"您当前已经覆盖了最新版的v%s程序，建议您立即升级数据库结构，升级前做好备份，前"
+"往<a href=\"%s\">升级中心</a>。"
+msgstr ""
+"You are currently covered with the latest version of the v%s program. It is "
+"recommended that you upgrade your database structure immediately, make a "
+"backup before upgrading, and go to the <a href=\"%s\">Upgrade Center</a>."
+
+#: index.php:89
+msgid ""
+"欢迎访问ECJia智能后台仪表盘！在您每次登录站点后，您都会看到本页面。您可以在这"
+"里访问ECJia智能后台的各种管理页面。点击任何页面右上角的“帮助”选项卡可阅读相应"
+"帮助信息。"
+msgstr ""
+"Welcome back ECJia intelligent dashboard! After each site you sign in, "
+"you'll see this page. Here you can access a variety of background ECJia "
+"intelligent management page. Click on the top right of any page of the \"Help"
+"\" tab to read the appropriate help."
+
+#: index.php:94
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台操作指南\" target=\"_blank"
+"\">关于ECJia智能后台的帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台操作指南\" target=\"_blank"
+"\">About ECJia intelligence background help documentation</a>"
+
+#: index.php:102
+msgid "<a target=\"_blank\" href=\"%s\">点击查看</a>。"
+msgstr "<a target=\"_blank\" href=\"%s\">Click to view</a>."
+
+#: index.php:118 index.php:119
+msgid "关于 ECJIA"
+msgstr "About ECJIA"
+
+#: index.php:125 index.php:152 index.php:177
+msgid "欢迎访问ECJia智能后台关于页面，可以更加了解ECJia。"
+msgstr ""
+"Welcome to ECJia intelligent background on the page, you can learn more "
+"about ECJia."
+
+#: index.php:130 index.php:157 index.php:182
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:关于\" target=\"_blank\">"
+"关于ECJia帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:关于\" target=\"_blank"
+"\">About ECJia help documentation</a>"
+
+#: index.php:145 index.php:146
+msgid "ECJIA团队"
+msgstr "ECJIA Team"
+
+#: index.php:193 index.php:194 index.php:195 index.php:197
+msgid "是"
+msgstr "Yes"
+
+#: index.php:193 index.php:194 index.php:195 index.php:197
+msgid "否"
+msgstr "No"
+
+#: index.php:196
+msgid "无需设置"
+msgstr "Without setting"
+
+#: index.php:255
+msgid ""
+"欢迎访问ECJia智能后台更新缓存页面，可以在此页面进行清除系统中缓存的操作。"
+msgstr ""
+"Welcome to ECJia intelligent background update cached page, you can clear "
+"the system cache operation on this page."
+
+#: index.php:260
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:更新缓存\" target="
+"\"_blank\">关于清除缓存帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:更新缓存\" target="
+"\"_blank\">About Clear Cache help documentation</a>"
+
+#: index.php:277
+msgid "开始"
+msgstr "Start"
+
+#: index.php:279
+msgid "请选择要清除的缓存类型！"
+msgstr "Please select the type of cache to be cleared!"
+
+#: index.php:280
+msgid "清除："
+msgstr "Clear:"
+
+#: index.php:300
+msgid "将证书文件拖动至此处上传"
+msgstr "Drag the certificate file to upload here"
+
+#: index.php:301
+msgid "您确定要删除这个证书吗？"
+msgstr "Are you sure you want to delete this certificate?"
+
+#: index.php:311
+msgid "欢迎访问ECJia智能后台授权证书管理页面，可以在此对证书进行授权操作。"
+msgstr ""
+"Welcome back ECJia intelligent authorization certificate management page, "
+"you can here the certificate authorization."
+
+#: index.php:316
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:授权证书\" target="
+"\"_blank\">关于授权证书管理帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:授权证书\" target="
+"\"_blank\">About authorization certificate management help documentation</a>"
+
+#: index.php:378
+msgid "证书内容不全。请先确定证书是否正确然后重新上传！"
+msgstr ""
+"Certificate content incomplete. Please determine whether the certificate is "
+"correct and re-upload!"
+
+#: index.php:389
+msgid "授权证书上传成功。"
+msgstr "The authorization certificate was uploaded successfully."
+
+#: index.php:394
+msgid "授权证书连接服务器校验失败，请检查授权证书的合法性。"
+msgstr ""
+"Authorization certificate connection server verification failed, please "
+"check the validity of the authorization certificate."
+
+#: index.php:414
+msgid "下载"
+msgstr "Download "
+
+#: index.php:445
+msgid "证书已删除。"
+msgstr "Certificate has been removed."
+
+#: model/template_widget_model.class.php:146
+msgid "没有找到该注释的模板备份"
+msgstr "Template backup for this annotation not found"
+
+#: privilege.php:78
+msgid "此管理员不可以编辑！"
+msgstr "This administrator may not edit!"
+
+#: privilege.php:80
+msgid "用户名长度不能小于2！"
+msgstr "Username length must not be less than 2!"
+
+#: privilege.php:81
+msgid "请输入邮箱地址！"
+msgstr "Please input the email address!"
+
+#: privilege.php:82
+msgid "请输入正确的邮箱格式！"
+msgstr "Please enter a valid email format!"
+
+#: privilege.php:83
+msgid "请输入密码！"
+msgstr "Please enter your password!"
+
+#: privilege.php:84
+msgid "密码长度不能小于6！"
+msgstr "Password length can not be less than 6!"
+
+#: privilege.php:85
+msgid "两次密码不一致！"
+msgstr "The two passwords do not match!"
+
+#: privilege.php:89
+msgid "管理员管理"
+msgstr "Administrator Management"
+
+#: privilege.php:106
+msgid ""
+"欢迎访问ECJia智能后台管理员列表页面，系统中所有的管理员都会显示在此列表中。"
+msgstr ""
+"Welcome to ECJia intelligent background administrator list page, the system "
+"administrator will all appear in this list."
+
+#: privilege.php:111
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1."
+"E7.90.86.E5.91.98.E5.88.97.E8.A1.A8\" target=\"_blank\">关于管理员列表帮助文"
+"档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1."
+"E7.90.86.E5.91.98.E5.88.97.E8.A1.A8\" target=\"_blank\">Help documentation "
+"on administrator list</a>"
+
+#: privilege.php:142 privilege.php:379 privilege.php:382
+msgid "添加管理员"
+msgstr "Add Administrator"
+
+#: privilege.php:366
+msgid "登录成功"
+msgstr "Login successful"
+
+#: privilege.php:368
+msgid "您输入的帐号信息不正确。"
+msgstr "Account information you entered is incorrect."
+
+#: privilege.php:399
+msgid "数据不完整"
+msgstr "Incomplete data"
+
+#: privilege.php:406 privilege.php:529
+msgid "该管理员 %s 已经存在！"
+msgstr "The administrator  %s  already exists!"
+
+#: privilege.php:414 privilege.php:542 privilege.php:640
+msgid "该Email地址 %s 已经存在！"
+msgstr "Email address  %s  already exists!"
+
+#: privilege.php:441
+msgid "设置管理员权限"
+msgstr "Setting Administrator Permissions"
+
+#: privilege.php:443
+msgid "继续添加管理员"
+msgstr "Add another administrator"
+
+#: privilege.php:457 privilege.php:618 privilege.php:711 privilege.php:776
+#: privilege.php:819
+msgid "返回管理员列表"
+msgstr "Return to the list of administrators"
+
+#: privilege.php:458 privilege.php:712 privilege.php:777
+msgid "您不能对此管理员的权限进行任何操作！"
+msgstr "You can not be this administrator privileges to do anything!"
+
+#: privilege.php:467 privilege.php:479
+msgid "编辑管理员"
+msgstr "Edit Administrator"
+
+#: privilege.php:548
+msgid "超级管理员 %s 不可被修改！"
+msgstr "Super Administrator  %s  can not be changed!"
+
+#: privilege.php:567 privilege.php:574
+msgid "返回上一页"
+msgstr "Go back to the last page"
+
+#: privilege.php:568 privilege.php:658
+msgid "输入的旧密码错误！"
+msgstr "Enter the old password wrong!"
+
+#: privilege.php:575 privilege.php:663
+msgid "两次输入的密码不一致！"
+msgstr "The two passwords do not match!"
+
+#: privilege.php:613 privilege.php:853
+msgid "管理员账号"
+msgstr "Administrator account"
+
+#: privilege.php:615
+msgid "您已经成功的修改了个人帐号信息！"
+msgstr "You have successfully modified the personal account information!"
+
+#: privilege.php:618 privilege.php:720 privilege.php:741
+msgid "编辑个人资料"
+msgstr "Edit Profile"
+
+#: privilege.php:687
+msgid "个人资料"
+msgstr "Personal information"
+
+#: privilege.php:696
+msgid "您已经成功的修改了密码，因此您必须重新登录！"
+msgstr "You have successfully changed the password, you must log in again!"
+
+#: privilege.php:698
+msgid "修改个人资料成功！"
+msgstr "Edit profile success!"
+
+#: privilege.php:726
+msgid "欢迎访问ECJia智能后台编辑个人资料页面，用户可在此编辑个人资料。"
+msgstr ""
+"Welcome to ECJia Smart Background Edit profile page, you can edit your "
+"profile here."
+
+#: privilege.php:731
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:个人设置\" target="
+"\"_blank\">关于编辑个人资料帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:个人设置\" target="
+"\"_blank\">About Edit Profile Help Documentation</a>"
+
+#: privilege.php:783
+msgid "分派平台权限 [ %s ] "
+msgstr "Dispatch platform permissions [ %s ]"
+
+#: privilege.php:822
+msgid "编辑 %s 操作成功！"
+msgstr "Edit %s successful operation!"
+
+#: privilege.php:837
+msgid "您不能删除demo这个管理员！"
+msgstr "You can not delete this demo administrator!"
+
+#: privilege.php:842
+msgid "此管理员您不能进行删除操作！"
+msgstr "This administrator You can not delete!"
+
+#: privilege.php:847
+msgid "您不能删除自己！"
+msgstr "You can not delete yourself!"
+
+#: privilege.php:855
+msgid "删除成功！"
+msgstr "Successfully deleted!"
+
+#: privilege.php:857
+msgid "操作失败！"
+msgstr "Operation failed!"
+
+#: content/system/templates/privilege_info.dwt.php:27
+msgid "用户名："
+msgstr "Username:"
+
+#: content/system/templates/privilege_info.dwt.php:33
+msgid "Email地址："
+msgstr "Email Address:"
+
+#: content/system/templates/privilege_info.dwt.php:40
+msgid "密  码："
+msgstr "Password:"
+
+#: content/system/templates/privilege_info.dwt.php:46
+msgid "确认密码："
+msgstr "Confirm password:"
+
+#: content/system/templates/privilege_info.dwt.php:54
+msgid "旧密码："
+msgstr "Old password:"
+
+#: content/system/templates/privilege_info.dwt.php:58
+msgid "如果要修改密码,请先填写旧密码,如留空,密码保持不变"
+msgstr ""
+"If you want to change the password, please fill in the old password, such as "
+"blank, passwords remain unchanged"
+
+#: content/system/templates/privilege_info.dwt.php:63
+msgid "新密码："
+msgstr "New password:"
+
+#: content/system/templates/privilege_info.dwt.php:67
+#: content/system/templates/get_pwd.dwt.php:50
+msgid "新密码"
+msgstr "New password"
+
+#: content/system/templates/privilege_info.dwt.php:74
+msgid "确认密码"
+msgstr "Confirm password"
+
+#: content/system/templates/privilege_info.dwt.php:79
+msgid "负责的办事处："
+msgstr "The office is responsible for:"
+
+#: content/system/templates/privilege_info.dwt.php:87
+msgid "角色选择："
+msgstr "Role Selection:"
+
+#: content/system/templates/privilege_info.dwt.php:90
+msgid "请选择..."
+msgstr "Please choose..."
+
+#: content/system/templates/privilege_info.dwt.php:100
+#: content/system/templates/privilege_info.dwt.php:151
+#: content/system/templates/library/template_layout_widget_form.lbi.php:35
+msgid "保存"
+msgstr "Save"
+
+#: content/system/templates/privilege_info.dwt.php:112
+msgid "设置个人导航"
+msgstr "Setting personal navigation"
+
+#: content/system/templates/privilege_info.dwt.php:114
+msgid ""
+"点击左侧导航列表选项，添加个人导航。双击右侧个人导航列表，或点击x号，可从个人"
+"导航列表中移除。点击保存后保存更改。"
+msgstr ""
+"Click on the left navigation list options, add personal navigation. Double-"
+"click on the right personal navigation list, or click the x number that can "
+"be removed from the personal navigation list. Click Save to save your "
+"changes later."
+
+#: content/system/templates/privilege_info.dwt.php:120
+msgid "搜索的导航名称"
+msgstr "Navigation name for the search"
+
+#: content/system/templates/privilege_info.dwt.php:133
+msgid "暂无内容"
+msgstr "No content yet"
+
+#: content/system/templates/privilege_info.dwt.php:138
+msgid "个人自定义导航"
+msgstr "Personal custom navigation"
+
+#: content/system/templates/privilege_info.dwt.php:152
+#: content/system/templates/role_info.dwt.php:63
+#: content/system/templates/admin_shop_config.dwt.php:36
+#: content/system/templates/shop_config.dwt.php:26
+msgid "重置"
+msgstr "Reset"
+
+#: content/system/templates/privilege_allot.dwt.php:28
+#: content/system/templates/privilege_allot.dwt.php:47
+#: content/system/templates/ecjia_navigator.dwt.php:41
+#: content/system/templates/ecjia_navigator.dwt.php:69
+#: content/system/templates/role_info.dwt.php:38
+#: content/system/templates/admin_cache.dwt.php:22
+msgid "全选"
+msgstr "Select all"
+
+#: content/system/templates/privilege_allot.dwt.php:50
+msgid "保存 "
+msgstr "Save"
+
+#: content/system/templates/check_file_hash.dwt.php:49
+msgid ""
+"文件校验是针对 ECJia 官方发布的文件为基础进行核对，点击下面按钮开始进行校验。"
+msgstr ""
+"ECJia file checksum for the official release of documents as the basis for "
+"verification, click the button below to begin verification."
+
+#: content/system/templates/check_file_hash.dwt.php:50
+msgid "技巧提示："
+msgstr "Tips:"
+
+#: content/system/templates/check_file_hash.dwt.php:52
+msgid "被修改"
+msgstr "Modified"
+
+#: content/system/templates/check_file_hash.dwt.php:53
+msgid "被删除"
+msgstr "Deleted"
+
+#: content/system/templates/check_file_hash.dwt.php:54
+msgid ""
+"中的列出的文件，请即刻通过 FTP或其他工具检查其文件的正确性，以确保ECJia网站功"
+"能的正常使用。"
+msgstr ""
+"In the files listed, please check the correctness of the files through FTP "
+"or other tools to ensure the normal use of ECJia website features."
+
+#: content/system/templates/check_file_hash.dwt.php:55
+msgid "未知"
+msgstr "Unknown"
+
+#: content/system/templates/check_file_hash.dwt.php:56
+msgid "中的列出的文件，请检查网站是否被人非法放入了其他文件。"
+msgstr ""
+"In the files listed, please check if the website has been illegally put into "
+"other files."
+
+#: content/system/templates/check_file_hash.dwt.php:57
+msgid "一周内被修改"
+msgstr "Be modified within a week"
+
+#: content/system/templates/check_file_hash.dwt.php:57
+msgid "中列出的文件，请确认最近是否修改过。"
+msgstr ""
+"List the files, please confirm whether they have been modified recently."
+
+#: content/system/templates/check_file_hash.dwt.php:66
+msgid "开始校验"
+msgstr "Start Checking"
+
+#: content/system/templates/check_file_hash.dwt.php:72
+msgid "检测版本："
+msgstr "Detection version:"
+
+#: content/system/templates/check_file_hash.dwt.php:73
+msgid "上次检测时间："
+msgstr "Last detection time:"
+
+#: content/system/templates/check_file_hash.dwt.php:79
+msgid "校验结果"
+msgstr "Check result"
+
+#: content/system/templates/check_file_hash.dwt.php:95
+msgid "文件名"
+msgstr "File Name"
+
+#: content/system/templates/check_file_hash.dwt.php:96
+msgid "文件大小"
+msgstr "File size"
+
+#: content/system/templates/check_file_hash.dwt.php:97
+msgid "最后修改时间"
+msgstr "Last Modified"
+
+#: content/system/templates/check_file_hash.dwt.php:98
+msgid "状态"
+msgstr "Status"
+
+#: content/system/templates/check_file_hash.dwt.php:109
+msgid "被修改："
+msgstr "Modified:"
+
+#: content/system/templates/check_file_hash.dwt.php:112
+msgid "被删除："
+msgstr "Deleted:"
+
+#: content/system/templates/check_file_hash.dwt.php:115
+msgid "未知："
+msgstr "Unknown:"
+
+#: content/system/templates/check_file_hash.dwt.php:174
+msgid "正在进行文件校验，请稍候..."
+msgstr "File verification is in progress, please wait..."
+
+#: content/system/templates/check_file_hash.dwt.php:176
+#: content/system/templates/admin_upgrade.dwt.php:141
+msgid "如果您的链接没有自动跳转，请点击这里"
+msgstr "If your link does not automatically jump, please click here"
+
+#: content/system/templates/admin_upgrade.dwt.php:14
+msgid ""
+"注意：若您未检测到可用更新，您还可以到 <a target=\"_blank\" href="
+"\"%1\"><strong>%2</strong></a> 查看。"
+msgstr ""
+"Note: If you don't detect available updates, you can also check out <a "
+"target=\"_blank\" href=\"%1\"><strong>%2</strong></a>."
+
+#: content/system/templates/admin_upgrade.dwt.php:35
+msgid "最后检查于："
+msgstr "Finally check in:"
+
+#: content/system/templates/admin_upgrade.dwt.php:42
+msgid "有新版本啦！！！"
+msgstr "There is a new version! ! !"
+
+#: content/system/templates/admin_upgrade.dwt.php:51
+msgid "构建日期："
+msgstr "Construction date:"
+
+#: content/system/templates/admin_upgrade.dwt.php:54
+msgid "更新介绍"
+msgstr "Update introduction"
+
+#: content/system/templates/admin_upgrade.dwt.php:62
+msgid "修改文件 （%1个）"
+msgstr "Modify file (%1)"
+
+#: content/system/templates/admin_upgrade.dwt.php:74
+msgid "新增文件 （%1个）"
+msgstr "New file (%1)"
+
+#: content/system/templates/admin_upgrade.dwt.php:86
+msgid "删除文件 （%1个）"
+msgstr "Delete files (%1)"
+
+#: content/system/templates/admin_upgrade.dwt.php:106
+msgid "升级帮助"
+msgstr "Upgrade help"
+
+#: content/system/templates/admin_upgrade.dwt.php:107
+msgid "下载升级补丁"
+msgstr "Download Upgrade Patch"
+
+#: content/system/templates/admin_upgrade.dwt.php:116
+msgid "更新版本"
+msgstr "Updated version"
+
+#: content/system/templates/admin_upgrade.dwt.php:125
+msgid "没有可用更新版本！"
+msgstr "No updated version available!"
+
+#: content/system/templates/admin_upgrade.dwt.php:139
+msgid "正在进行新版本检测，请稍候..."
+msgstr "A new version is being tested, please wait..."
+
+#: content/system/templates/role_list.dwt.php:16
+msgid "角色ID"
+msgstr "Role ID"
+
+#: content/system/templates/role_list.dwt.php:17
+msgid "角色名"
+msgstr "Name"
+
+#: content/system/templates/role_list.dwt.php:18
+msgid "角色描述"
+msgstr "Description"
+
+#: content/system/templates/role_list.dwt.php:19
+#: content/system/templates/library/widget_admin_dashboard_messagelist.lbi.php:14
+#: content/system/templates/privilege_list.dwt.php:40
+msgid "操作"
+msgstr "Operations"
+
+#: content/system/templates/role_list.dwt.php:30
+msgid "您确定要删除该角色吗？"
+msgstr "DO you want to delete the role?"
+
+#: content/system/templates/role_list.dwt.php:30
+#: content/system/templates/ecjia_navigator.dwt.php:106
+#: content/system/templates/privilege_list.dwt.php:55
+msgid "移除"
+msgstr "Remove"
+
+#: content/system/templates/showmessage.dwt.php:15
+msgid "您可以试试下面的链接："
+msgstr "You can try the following links:"
+
+#: content/system/templates/ecjia_navigator.dwt.php:18
+msgid "选择要编辑的菜单："
+msgstr "Select edit menu:"
+
+#: content/system/templates/ecjia_navigator.dwt.php:24
+msgid "选择"
+msgstr "Select"
+
+#: content/system/templates/ecjia_navigator.dwt.php:25
+msgid "或"
+msgstr "or"
+
+#: content/system/templates/ecjia_navigator.dwt.php:26
+msgid "创建新菜单"
+msgstr "Creating a new menu"
+
+#: content/system/templates/ecjia_navigator.dwt.php:33
+msgid "页面"
+msgstr "Page"
+
+#: content/system/templates/ecjia_navigator.dwt.php:42
+#: content/system/templates/ecjia_navigator.dwt.php:55
+#: content/system/templates/ecjia_navigator.dwt.php:70
+msgid "添加至菜单"
+msgstr "Add to Menu"
+
+#: content/system/templates/ecjia_navigator.dwt.php:49
+msgid "链接"
+msgstr "Link"
+
+#: content/system/templates/ecjia_navigator.dwt.php:53
+#: content/system/templates/ecjia_navigator.dwt.php:96
+msgid "URL："
+msgstr "URL:"
+
+#: content/system/templates/ecjia_navigator.dwt.php:54
+msgid "文字："
+msgstr "Text:"
+
+#: content/system/templates/ecjia_navigator.dwt.php:61
+msgid "分类目录"
+msgstr "Categories"
+
+#: content/system/templates/ecjia_navigator.dwt.php:79
+msgid "菜单名称："
+msgstr "Menu Name:"
+
+#: content/system/templates/ecjia_navigator.dwt.php:79
+#: content/system/templates/ecjia_navigator.dwt.php:137
+msgid "保存菜单"
+msgstr "Save menu"
+
+#: content/system/templates/ecjia_navigator.dwt.php:83
+msgid "菜单结构"
+msgstr "Menu Structure"
+
+#: content/system/templates/ecjia_navigator.dwt.php:84
+msgid "拖放各个项目到您喜欢的顺序，点击右侧的箭头可进行更详细的设置。"
+msgstr ""
+"Drag and drop the items you like to order, click on the arrow to the right "
+"can be more detailed settings."
+
+#: content/system/templates/ecjia_navigator.dwt.php:97
+msgid "导航标签"
+msgstr "Navigation Tabs"
+
+#: content/system/templates/ecjia_navigator.dwt.php:100
+msgid "是否显示"
+msgstr "Whether"
+
+#: content/system/templates/ecjia_navigator.dwt.php:103
+msgid "是否新窗口"
+msgstr "Whether the new window"
+
+#: content/system/templates/ecjia_navigator.dwt.php:114
+msgid "菜单设置"
+msgstr "Menu Settings"
+
+#: content/system/templates/ecjia_navigator.dwt.php:115
+msgid "主题位置"
+msgstr "Topic Location"
+
+#: content/system/templates/ecjia_navigator.dwt.php:119
+msgid "首页/列表页菜单"
+msgstr "Home / List menu"
+
+#: content/system/templates/ecjia_navigator.dwt.php:119
+#: content/system/templates/ecjia_navigator.dwt.php:123
+#: content/system/templates/ecjia_navigator.dwt.php:127
+#: content/system/templates/ecjia_navigator.dwt.php:131
+msgid "（当前设置：底部）"
+msgstr "(Current setting: bottom)"
+
+#: content/system/templates/ecjia_navigator.dwt.php:123
+msgid "页脚菜单"
+msgstr "Footer menu"
+
+#: content/system/templates/ecjia_navigator.dwt.php:127
+msgid "播放页菜单"
+msgstr "Playback Menu Page"
+
+#: content/system/templates/ecjia_navigator.dwt.php:131
+msgid "新闻页菜单"
+msgstr "News page menu"
+
+#: content/system/templates/ecjia_navigator.dwt.php:137
+msgid "删除菜单"
+msgstr "Delete menu"
+
+#: content/system/templates/about_team.dwt.php:15
+#: content/system/templates/about_system.dwt.php:8
+#: content/system/templates/about_us.dwt.php:8
+msgid "关于ECJia"
+msgstr "About ECJia"
+
+#: content/system/templates/about_team.dwt.php:16
+#: content/system/templates/about_system.dwt.php:9
+#: content/system/templates/about_us.dwt.php:9
+msgid "ECJia团队"
+msgstr "ECJia Team"
+
+#: content/system/templates/about_team.dwt.php:22
+msgid "ECJia 版权信息"
+msgstr "ECJia copyright information"
+
+#: content/system/templates/about_team.dwt.php:25
+#, fuzzy
+#| msgid "版权所有:"
+msgid "版权所有："
+msgstr "All Rights Reserved:"
+
+#: content/system/templates/about_team.dwt.php:26
+msgid "上海商创网络科技有限公司"
+msgstr "Shanghai ShangChuang Network Technology Co., Ltd."
+
+#: content/system/templates/about_team.dwt.php:29
+#, fuzzy
+#| msgid "公司网站:"
+msgid "公司网站："
+msgstr "Company Website:"
+
+#: content/system/templates/about_team.dwt.php:34
+msgid "ECJia 官方网站"
+msgstr "ECJia Official Website"
+
+#: content/system/templates/about_team.dwt.php:37
+#, fuzzy
+#| msgid "产品网站:"
+msgid "产品网站："
+msgstr "Product website:"
+
+#: content/system/templates/about_team.dwt.php:41
+#, fuzzy
+#| msgid "帮助手册:"
+msgid "帮助手册："
+msgstr "Help manual:"
+
+#: content/system/templates/about_team.dwt.php:45
+#, fuzzy
+#| msgid "授权中心:"
+msgid "授权中心："
+msgstr "Authorization Center:"
+
+#: content/system/templates/about_team.dwt.php:50
+msgid "ECJia 开发团队"
+msgstr "ECJia Team"
+
+#: content/system/templates/about_team.dwt.php:53
+#, fuzzy
+#| msgid "创始人、项目领导者:"
+msgid "创始人、项目领导者："
+msgstr "Founder, project leader:"
+
+#: content/system/templates/about_team.dwt.php:62
+#, fuzzy
+#| msgid "产品团队:"
+msgid "产品团队："
+msgstr "Product team:"
+
+#: content/system/templates/about_team.dwt.php:73
+#, fuzzy
+#| msgid "开发领头人:"
+msgid "开发领头人："
+msgstr "Development leader:"
+
+#: content/system/templates/about_team.dwt.php:86
+#, fuzzy
+#| msgid "核心开发者:"
+msgid "核心开发者："
+msgstr "Core developer:"
+
+#: content/system/templates/about_team.dwt.php:97
+#, fuzzy
+#| msgid "贡献开发者:"
+msgid "贡献开发者："
+msgstr "Contributing developers:"
+
+#: content/system/templates/about_team.dwt.php:117
+#, fuzzy
+#| msgid "界面设计:"
+msgid "界面设计："
+msgstr "Interface Design:"
+
+#: content/system/templates/about_team.dwt.php:128
+msgid "发展历程"
+msgstr "Development history"
+
+#: content/system/templates/about_team.dwt.php:166
+msgid "再显示5条"
+msgstr "Show 5 more"
+
+#: content/system/templates/admin_logs.dwt.php:21
+msgid "选择日期"
+msgstr "Select Dates"
+
+#: content/system/templates/admin_logs.dwt.php:34
+msgid "全部IP"
+msgstr "All IP"
+
+#: content/system/templates/admin_logs.dwt.php:40
+msgid "全部管理员"
+msgstr "All Administrator"
+
+#: content/system/templates/admin_logs.dwt.php:45
+msgid "筛选"
+msgstr "Filter"
+
+#: content/system/templates/admin_logs.dwt.php:49
+msgid "请输入关键字"
+msgstr "Please enter key words"
+
+#: content/system/templates/admin_logs.dwt.php:50
+#: content/system/templates/privilege_list.dwt.php:27
+msgid "搜索"
+msgstr "Search"
+
+#: content/system/templates/admin_logs.dwt.php:56
+#: content/system/templates/privilege_list.dwt.php:35
+msgid "编号"
+msgstr "NO."
+
+#: content/system/templates/admin_logs.dwt.php:57
+msgid "操作者"
+msgstr "Operator"
+
+#: content/system/templates/admin_logs.dwt.php:58
+msgid "操作日期"
+msgstr "Operation Date"
+
+#: content/system/templates/admin_logs.dwt.php:59
+msgid "IP地址"
+msgstr "IP Address"
+
+#: content/system/templates/admin_logs.dwt.php:60
+msgid "操作记录"
+msgstr "Operation Record"
+
+#: content/system/templates/library/shop_config_form.lbi.php:41
+msgid "暂无图片"
+msgstr "No pictures"
+
+#: content/system/templates/library/shop_config_form.lbi.php:45
+msgid "浏览"
+msgstr "Browse"
+
+#: content/system/templates/library/shop_config_form.lbi.php:46
+msgid "修改"
+msgstr "Modify"
+
+#: content/system/templates/library/template_layout_widget_form.lbi.php:19
+msgid "标题："
+msgstr "Title:"
+
+#: content/system/templates/library/template_layout_widget_form.lbi.php:32
+msgid "关闭"
+msgstr "Close"
+
+#: content/system/templates/library/common_header.lbi.php:17
+msgid "简体中文"
+msgstr "Simplified Chinese"
+
+#: content/system/templates/library/common_header.lbi.php:18
+msgid "English"
+msgstr "English"
+
+#: content/system/templates/library/common_header.lbi.php:25
+msgid "个人设置"
+msgstr "Personal Settings"
+
+#: content/system/templates/library/common_header.lbi.php:30
+msgid "退出"
+msgstr "Quit"
+
+#: content/system/templates/library/common_sidebar.lbi.php:2
+msgid "侧边栏开关"
+msgstr "Sidebar switch"
+
+#: content/system/templates/library/common_sidebar.lbi.php:9
+msgid "搜索导航"
+msgstr "Search Guides"
+
+#: content/system/templates/library/common_sidebar.lbi.php:15
+msgid "快速搜索"
+msgstr "Fast Search"
+
+#: content/system/templates/library/widget_admin_dashboard_messagelist.lbi.php:6
+msgid "我要留言"
+msgstr "Make a comment"
+
+#: content/system/templates/library/widget_admin_dashboard_messagelist.lbi.php:11
+msgid "留言内容"
+msgstr "Message content"
+
+#: content/system/templates/library/widget_admin_dashboard_messagelist.lbi.php:12
+msgid "留言者"
+msgstr "Message from"
+
+#: content/system/templates/library/widget_admin_dashboard_messagelist.lbi.php:13
+msgid "发送日期"
+msgstr "Sent date"
+
+#: content/system/templates/library/widget_admin_dashboard_messagelist.lbi.php:29
+msgid "暂无留言信息"
+msgstr "No Message"
+
+#: content/system/templates/library/widget_admin_dashboard_loglist.lbi.php:17
+msgid "暂无操作日志"
+msgstr "No operation log"
+
+#: content/system/templates/library/widget_admin_dashboard_loglist.lbi.php:22
+msgid "查看更多"
+msgstr "More"
+
+#: content/system/templates/application_detail.dwt.php:22
+#: content/system/templates/application_list.dwt.php:49
+#: content/system/templates/application_list.dwt.php:85
+msgid "查看详情"
+msgstr "See Details"
+
+#: content/system/templates/application_detail.dwt.php:23
+msgid "查看应用的详细信息"
+msgstr "View application details"
+
+#: content/system/templates/application_detail.dwt.php:26
+msgid "应用名称"
+msgstr "Application Name"
+
+#: content/system/templates/application_detail.dwt.php:32
+msgid "应用包名："
+msgstr "Applications Package name:"
+
+#: content/system/templates/application_detail.dwt.php:36
+msgid "应用版本："
+msgstr "Application version:"
+
+#: content/system/templates/application_detail.dwt.php:40
+msgid "应用目录："
+msgstr "Application Directory:"
+
+#: content/system/templates/application_detail.dwt.php:49
+msgid "应用作者："
+msgstr "Application Author:"
+
+#: content/system/templates/application_detail.dwt.php:51
+msgid "版权信息："
+msgstr "Copyright Information:"
+
+#: content/system/templates/application_detail.dwt.php:53
+msgid "应用描述："
+msgstr "Application Description:"
+
+#: content/system/templates/application_detail.dwt.php:59
+msgid "安装完成"
+msgstr "Finish"
+
+#: content/system/templates/application_detail.dwt.php:60
+msgid "安装进度及完成结果"
+msgstr "Installation progress and complete results"
+
+#: content/system/templates/application_detail.dwt.php:68
+msgid "应用安装成功！"
+msgstr "Application installation was successful!"
+
+#: content/system/templates/application_detail.dwt.php:69
+msgid "应用已经安装到您的系统中！"
+msgstr "Applications already installed on your system!"
+
+#: content/system/templates/check_file_priv.dwt.php:28
+msgid "项目"
+msgstr "Project"
+
+#: content/system/templates/check_file_priv.dwt.php:29
+msgid "可读权限"
+msgstr "Read permission"
+
+#: content/system/templates/check_file_priv.dwt.php:30
+msgid "可写权限"
+msgstr "Writable"
+
+#: content/system/templates/check_file_priv.dwt.php:31
+msgid "可修改权限"
+msgstr "Modify permissions"
+
+#: content/system/templates/check_file_priv.dwt.php:44
+#: content/system/templates/check_file_priv.dwt.php:57
+#: content/system/templates/check_file_priv.dwt.php:70
+msgid "详情"
+msgstr "Details"
+
+#: content/system/templates/check_file_priv.dwt.php:44
+#: content/system/templates/check_file_priv.dwt.php:57
+#: content/system/templates/check_file_priv.dwt.php:70
+msgid "[详情]"
+msgstr "[Details]"
+
+#: content/system/templates/check_file_priv.dwt.php:46
+msgid "不可读"
+msgstr "Unreadable"
+
+#: content/system/templates/check_file_priv.dwt.php:59
+msgid "不可写"
+msgstr "Not writable"
+
+#: content/system/templates/check_file_priv.dwt.php:72
+msgid "不可修改"
+msgstr "Non modifiable"
+
+#: content/system/templates/check_file_priv.dwt.php:81
+msgid "目录需要执行rename权限"
+msgstr "Directory needs to execute rename permission"
+
+#: content/system/templates/license.dwt.php:14
+msgid "ECJia证书"
+msgstr "ECJia certificate"
+
+#: content/system/templates/license.dwt.php:14
+msgid ""
+"是您享受ECJia软件服务的唯一标识，它记录了您的网店的授权信息、购买官方服务记"
+"录、短信帐户等重要信息。您需要通过“证书下载备份”功能备份证书，并妥善保管。在"
+"您遇到商店系统需要重新安装时，可以在新安装的系统中使用“证书上传恢复”功能将之"
+"前备份的证书恢复，这样新系统就可以继续使用证书内的重要信息。"
+msgstr ""
+"You enjoy ECJia software and services that uniquely identifies that records "
+"your online store authorization information, purchase the official service "
+"records, and other important information SMS account. You need to \"Download "
+"Certificate Backup\" function to back up the certificate and safekeeping. "
+"When you come across store systems need to reinstall, you can use the newly "
+"installed system \"Certificate Upload Restore\" function of the certificate "
+"will be restored before the backup, so the new system can continue to use "
+"the important information in the certificate."
+
+#: content/system/templates/license.dwt.php:27
+msgid "兹授予："
+msgstr "Hereby granted:"
+
+#: content/system/templates/license.dwt.php:29
+msgid "为上海商创网络科技有限公司企业解决方案与产品商业伙伴"
+msgstr ""
+"Suppliers to Shanghai Network Technology Co., Ltd. Enterprise Solutions and "
+"Products business partners"
+
+#: content/system/templates/license.dwt.php:30
+msgid "授权级别："
+msgstr "Authorization levels:"
+
+#: content/system/templates/license.dwt.php:30
+msgid "授权域名："
+msgstr "Authorization domain:"
+
+#: content/system/templates/license.dwt.php:34
+msgid "授权时间："
+msgstr "Grant Time:"
+
+#: content/system/templates/license.dwt.php:38
+msgid "备份证书"
+msgstr "Backup Certificate"
+
+#: content/system/templates/license.dwt.php:39
+msgid "删除证书"
+msgstr "Delete Certificate"
+
+#: content/system/templates/about_system.dwt.php:18
+msgid "ECJia 版本:"
+msgstr "ECJia Version:"
+
+#: content/system/templates/about_system.dwt.php:22
+msgid "安装日期:"
+msgstr "Installation Date:"
+
+#: content/system/templates/about_system.dwt.php:26
+msgid "服务器操作系统:"
+msgstr "Server System:"
+
+#: content/system/templates/about_system.dwt.php:30
+msgid "PHP 版本:"
+msgstr "PHP Version:"
+
+#: content/system/templates/about_system.dwt.php:34
+msgid "MySQL 版本:"
+msgstr "MySQL Version:"
+
+#: content/system/templates/about_system.dwt.php:38
+msgid "安全模式:"
+msgstr "Safe Mode:"
+
+#: content/system/templates/about_system.dwt.php:42
+msgid "Socket 支持:"
+msgstr "Socket Support:"
+
+#: content/system/templates/about_system.dwt.php:46
+msgid "时区设置:"
+msgstr "Time Zone Settings:"
+
+#: content/system/templates/about_system.dwt.php:50
+msgid "Zlib 支持:"
+msgstr "Zlib Support:"
+
+#: content/system/templates/about_system.dwt.php:54
+msgid "文件上传的最大大小:"
+msgstr "Maximum Upload"
+
+#: content/system/templates/about_system.dwt.php:58
+msgid "ROYALCMS 版本："
+msgstr "ROYALCMS Version:"
+
+#: content/system/templates/about_us.dwt.php:18
+msgid "系统应用"
+msgstr "System Applications"
+
+#: content/system/templates/about_us.dwt.php:19
+msgid ""
+"系统核心推出了灵活的应用+插件扩展机制，快速提供接口，多种主题，一指布局，满足"
+"众多需求只在一瞬间。 "
+msgstr ""
+"Core system introduced flexible application + plug-in extension mechanism to "
+"quickly provide an interface, a variety of topics, one refers to the layout, "
+"to meet the many needs only in the moment."
+
+#: content/system/templates/about_us.dwt.php:25
+msgid "应用扩展"
+msgstr "Application Extension"
+
+#: content/system/templates/about_us.dwt.php:26
+msgid ""
+"提出全新的应用模式进行扩展，完全满足您的个性化需求，商品、订单、购物车、会"
+"员、等众多的应用。 "
+msgstr ""
+"Put forward a new application model can be extended to fully meet your "
+"individual needs, merchandise, order, shopping cart, members, and many other "
+"applications."
+
+#: content/system/templates/about_us.dwt.php:32
+msgid "插件扩展"
+msgstr "Plugin Extension"
+
+#: content/system/templates/about_us.dwt.php:33
+msgid "ECJia推出多种插件，支付、物流为ECJia中的组件赋予了“生命” 。"
+msgstr ""
+"ECJia offer a variety of plug-in, payment, logistics ECJia components gives "
+"\"life\"."
+
+#: content/system/templates/about_us.dwt.php:41
+msgid "多种语言"
+msgstr "Multilingual"
+
+#: content/system/templates/about_us.dwt.php:42
+msgid ""
+"多国语言支持，可同时建立多种语言站点，系统默认带有中、英文两种最常用的语言"
+"包，最多可扩展至同时开通 255 种语言的网站。"
+msgstr ""
+"Multi-language support, which can build multilingual sites, the system "
+"default with the two most commonly used English language pack, expandable up "
+"to 255 kinds of languages simultaneously launched website."
+
+#: content/system/templates/about_us.dwt.php:48
+msgid "主题多样"
+msgstr "Diverse Topic"
+
+#: content/system/templates/about_us.dwt.php:49
+msgid "打造了多种风格的主题，在线随意切换您喜欢的主题包。"
+msgstr ""
+"To create a variety of styles of the theme, online free to switch your "
+"favorite theme package."
+
+#: content/system/templates/about_us.dwt.php:55
+msgid "超炫UI设计"
+msgstr "Stunning UI Design"
+
+#: content/system/templates/about_us.dwt.php:56
+msgid ""
+"友好的后台操作界面，点对点的操作帮助，体验愉快、简单的建站过程，请你轻松上"
+"手。"
+msgstr ""
+"Background operation and friendly interface, point to point operation help, "
+"enjoyable, easy siting process, you easily get started."
+
+#: content/system/templates/about_us.dwt.php:64
+msgid "订单管理"
+msgstr "Order Management"
+
+#: content/system/templates/about_us.dwt.php:65
+msgid ""
+"方便快捷订单管理模块，支持财付通、支付宝等多家平台支付接口，购物车、在线充值"
+"等方便快捷功能。"
+msgstr ""
+"Convenient and efficient order management module, support TenPay Alipay "
+"payment interface and a number of platforms, shopping carts, online "
+"recharge, and other convenient features."
+
+#: content/system/templates/about_us.dwt.php:72
+msgid "交互协作"
+msgstr "Interactive Collaboration"
+
+#: content/system/templates/about_us.dwt.php:73
+msgid ""
+"管理员支持分类角色，支持自定义权限分配，支持栏目分配。以及通过管理员、客户留"
+"言实行更好的交互。"
+msgstr ""
+"Admin support role classification, support for custom permissions assigned, "
+"assign support columns. And by the administrator, Feedback implement better "
+"interaction."
+
+#: content/system/templates/about_us.dwt.php:80
+msgid "邮件SMTP"
+msgstr "SMTP Mail"
+
+#: content/system/templates/about_us.dwt.php:81
+msgid "支持邮件发送功能，一般用在会员忘记密码或者红包等提醒部分。"
+msgstr ""
+"Support sending e-mail, and other generally used in Forgot your password or "
+"red reminder section."
+
+#: content/system/templates/about_us.dwt.php:90
+msgid "日志管理的推出，对各个管理员所进行的操作一目了然。"
+msgstr ""
+"Log management introduced for the operation of each administrator performed "
+"a glance."
+
+#: content/system/templates/about_us.dwt.php:96
+msgid "多文件上传"
+msgstr "Multi-file Upload"
+
+#: content/system/templates/about_us.dwt.php:97
+msgid "采用HTML5方式多文件上传、并支持附件管理。"
+msgstr ""
+"HTML5 mode uses multiple file uploads, and supports attachment management."
+
+#: content/system/templates/about_us.dwt.php:103
+msgid "数据库多源化"
+msgstr "Multi-source Database"
+
+#: content/system/templates/about_us.dwt.php:104
+msgid "同时可以连接多个数据库任意操作的强大功能，解决数据量问题的不二选择。"
+msgstr ""
+"And you can connect to multiple databases of any action powerful, the amount "
+"of data to solve the problem of choice."
+
+#: content/system/templates/application_list.dwt.php:17
+#: content/system/templates/plugin_list.dwt.php:19
+msgid "全部"
+msgstr "Complete"
+
+#: content/system/templates/application_list.dwt.php:18
+#: content/system/templates/plugin_list.dwt.php:20
+msgid "已安装"
+msgstr "Installed"
+
+#: content/system/templates/application_list.dwt.php:19
+#: content/system/templates/plugin_list.dwt.php:21
+msgid "未安装"
+msgstr "Not Installed"
+
+#: content/system/templates/application_list.dwt.php:20
+#: content/system/templates/application_list.dwt.php:63
+#: content/system/templates/plugin_list.dwt.php:22
+msgid "刷新列表"
+msgstr "Refresh"
+
+#: content/system/templates/application_list.dwt.php:29
+#: content/system/templates/application_list.dwt.php:71
+#: content/system/templates/plugin_list.dwt.php:30
+#: content/system/templates/plugin_config.dwt.php:22
+msgid "名称"
+msgstr "Name"
+
+#: content/system/templates/application_list.dwt.php:30
+#: content/system/templates/application_list.dwt.php:72
+#: content/system/templates/plugin_list.dwt.php:31
+#: content/system/templates/plugin_config.dwt.php:23
+msgid "描述"
+msgstr "Description"
+
+#: content/system/templates/application_list.dwt.php:41
+msgid "您确定要卸载该应用吗？"
+msgstr "Do you want to uninstall this application?"
+
+#: content/system/templates/application_list.dwt.php:44
+msgid "您确定要删除该应用吗？"
+msgstr "Do you want to delete this application?"
+
+#: content/system/templates/application_list.dwt.php:49
+#: content/system/templates/application_list.dwt.php:85
+msgid "| 作者："
+msgstr "| Author:"
+
+#: content/system/templates/application_list.dwt.php:61
+msgid "系统应用管理"
+msgstr "System Management"
+
+#: content/system/templates/application_list.dwt.php:81
+msgid "配置"
+msgstr "Configuration"
+
+#: content/system/templates/message_list.dwt.php:22
+msgid "交谈管理员: "
+msgstr "Administrator conversation:"
+
+#: content/system/templates/message_list.dwt.php:22
+msgid "所有管理员"
+msgstr "All Administrators"
+
+#: content/system/templates/message_list.dwt.php:27
+msgid "查看更早的留言信息"
+msgstr "See earlier Message"
+
+#: content/system/templates/message_list.dwt.php:45
+msgid "发送"
+msgstr "Send"
+
+#: content/system/templates/message_list.dwt.php:55
+msgid "刷新"
+msgstr "Refresh"
+
+#: content/system/templates/message_list.dwt.php:58
+msgid "全部标为已读"
+msgstr "Mark all as read"
+
+#: content/system/templates/message_list.dwt.php:59
+msgid "当前留言标为已读"
+msgstr "The current message as read"
+
+#: content/system/templates/message_list.dwt.php:68
+msgid "管理员群聊"
+msgstr "Administrators group chat"
+
+#: content/system/templates/plugin_list.dwt.php:51
+msgid "作者："
+msgstr "Author:"
+
+#: content/system/templates/role_info.dwt.php:24
+msgid "角色名："
+msgstr "Character name:"
+
+#: content/system/templates/role_info.dwt.php:30
+msgid "角色描述："
+msgstr "Role description:"
+
+#: content/system/templates/admin_cache.dwt.php:19
+msgid "选择清除"
+msgstr "Select Clear"
+
+#: content/system/templates/admin_cache.dwt.php:39
+msgid "选择要清除的缓存"
+msgstr "Select the cache to be cleared"
+
+#: content/system/templates/admin_cache.dwt.php:41
+msgid "开始清除"
+msgstr "Clear Start"
+
+#: content/system/templates/admin_cache.dwt.php:42
+msgid "开始清除缓存"
+msgstr "Start clearing your cache"
+
+#: content/system/templates/login.dwt.php:16
+msgid "管理员登录"
+msgstr "Administrator Login"
+
+#: content/system/templates/login.dwt.php:21
+msgid "管理员姓名："
+msgstr "Name:"
+
+#: content/system/templates/login.dwt.php:27
+msgid "管理员密码："
+msgstr "Password:"
+
+#: content/system/templates/login.dwt.php:33
+msgid "请保存我这次的登录信息。"
+msgstr "Remember my login information."
+
+#: content/system/templates/login.dwt.php:39
+msgid "进入管理中心"
+msgstr "Control Center"
+
+#: content/system/templates/login.dwt.php:40
+msgid "返回首页"
+msgstr "Back Home"
+
+#: content/system/templates/login.dwt.php:45
+msgid "您忘记了密码吗?"
+msgstr "Forgot your password?"
+
+#: content/system/templates/plugin_config.dwt.php:24
+msgid "排序"
+msgstr "Sort"
+
+#: content/system/templates/plugin_config.dwt.php:25
+msgid "是否开启"
+msgstr "Whether to open"
+
+#: content/system/templates/plugin_config.dwt.php:33
+msgid "编辑名称"
+msgstr "Edit name"
+
+#: content/system/templates/plugin_config.dwt.php:43
+msgid "禁用"
+msgstr "Disable"
+
+#: content/system/templates/plugin_config.dwt.php:54
+msgid "编辑排序"
+msgstr "Edit sort"
+
+#: content/system/templates/privilege_list.dwt.php:22
+#: content/system/templates/privilege_list.dwt.php:36
+msgid "用户名"
+msgstr "Name"
+
+#: content/system/templates/privilege_list.dwt.php:23
+msgid "用户ID"
+msgstr "User id"
+
+#: content/system/templates/privilege_list.dwt.php:24
+msgid "用户邮箱"
+msgstr "User Email"
+
+#: content/system/templates/privilege_list.dwt.php:26
+msgid "请输入相应的关键字"
+msgstr "Please enter the appropriate keyword"
+
+#: content/system/templates/privilege_list.dwt.php:37
+msgid "Email地址"
+msgstr "Email address"
+
+#: content/system/templates/privilege_list.dwt.php:38
+msgid "加入时间"
+msgstr "Join time"
+
+#: content/system/templates/privilege_list.dwt.php:39
+msgid "最后登录时间"
+msgstr "Last login time"
+
+#: content/system/templates/privilege_list.dwt.php:53
+msgid "查看日志"
+msgstr "View log"
+
+#: content/system/templates/privilege_list.dwt.php:55
+msgid "您确定要删除用户该用户吗？"
+msgstr "Do you want to delete this user?"
+
+#: content/system/templates/get_pwd.dwt.php:17
+#: content/system/templates/get_pwd.dwt.php:46
+msgid "管理员密码找回"
+msgstr "Administrator password recovery"
+
+#: content/system/templates/get_pwd.dwt.php:22
+msgid "管理员用户名"
+msgstr "Administrator username"
+
+#: content/system/templates/get_pwd.dwt.php:28
+msgid "管理员邮箱"
+msgstr "Administrator mailbox"
+
+#: content/system/templates/get_pwd.dwt.php:35
+#: content/system/templates/get_pwd.dwt.php:66
+msgid "返回登录"
+msgstr "Back Login"
+
+#: content/system/templates/get_pwd.dwt.php:51
+msgid "管理员新密码"
+msgstr "New password"
+
+#: content/system/templates/get_pwd.dwt.php:56
+msgid "重复新密码"
+msgstr "Repeat new password"
+
+#: content/system/templates/get_pwd.dwt.php:57
+msgid "重复管理员密码"
+msgstr "Repeat administrator password"
+
+#: content/system/templates/shop_config.dwt.php:40
+msgid "快速导航"
+msgstr "Quick navigation"
+
+#: content/system/templates/shop_config.dwt.php:42
+msgid "收起"
+msgstr "Collapse"
+
+#~ msgid "版权所有 © 2013-2019 上海商创网络科技有限公司，并保留所有权利。"
+#~ msgstr ""
+#~ "Copyright © 2013-2019 Shanghai Shangchuang Network Technology Co., Ltd. "
+#~ "All rights reserved."
+
+#~ msgid "应用市场"
+#~ msgstr "Application market"
+
+#~ msgid "授权证书管理"
+#~ msgstr "Authorization Certificate Management"
+
+#~ msgid "证书上传成功。"
+#~ msgstr "Certificate uploaded successfully."
+
+#~ msgid "使用这个模板"
+#~ msgstr "Use this template"
+
+#~ msgid "使用这个模板风格"
+#~ msgstr "Use this template style"
+
+#~ msgid "您确定要放弃本次修改吗？"
+#~ msgstr "Are you sure you want to give up this amended?"
+
+#~ msgid "请先输入内容！"
+#~ msgstr "Please enter content!"
+
+#~ msgid "主题管理"
+#~ msgstr "Theme Management"
+
+#~ msgid "备份模板设置"
+#~ msgstr "Backup template settings"
+
+#~ msgid "备份模板文件失败，请检查templates/backup 目录是否可以写入。"
+#~ msgstr ""
+#~ "Backup template file failed, check templates / backup directory is "
+#~ "writable."
+
+#~ msgid "您确定要保存编辑内容吗？"
+#~ msgstr "Are you sure you want to save your edits right?"
+
+#~ msgid "库项目内容已经更新成功。"
+#~ msgstr "Content library project has been successfully updated."
+
+#~ msgid "编辑库项目内容失败。请检查 %s 目录是否可以写入。"
+#~ msgstr ""
+#~ "Edit content library project failed.Please check %s whether the directory "
+#~ "can be written."
+
+#~ msgid "备份注释 %s 已经用过，请换个注释名称。"
+#~ msgstr "Note Backup %s has been used, please name another comment."
+
+#~ msgid "备份设置成功"
+#~ msgstr "Backup Settings Success"
+
+#~ msgid "备份删除成功"
+#~ msgstr "Backup successfully deleted"
+
+#~ msgid "恢复备份成功"
+#~ msgstr "Recovery backup success"
+
+#~ msgid "地区列表"
+#~ msgstr "Area List"
+
+#~ msgid "返回上级"
+#~ msgstr "Return to higher levels"
+
+#~ msgid "区域名称不能为空！"
+#~ msgstr "Area name can not be empty!"
+
+#~ msgid "更新地区名称为 %s"
+#~ msgstr "Renewal area name %s"
+
+#~ msgid "成功删除地区 %s"
+#~ msgstr "Successfully deleted region %s"
+
+#~ msgid "添加新地区成功！"
+#~ msgstr "Add a new area success!"
+
+#~ msgid "添加新地区失败！"
+#~ msgstr "Add a new area failed!"
+
+#~ msgid "修改名称成功！"
+#~ msgstr "upadte the name Success"
+
+#~ msgid "没有这个菜单"
+#~ msgstr "Without this menu"
+
+#~ msgid "菜单名不能为空"
+#~ msgstr "Menu name can not be empty"
+
+#~ msgid "重复了"
+#~ msgstr "repeated"
+
+#~ msgid "失败"
+#~ msgstr "failure"
+
+#~ msgid "查看购物车"
+#~ msgstr "check the shopping cart"
+
+#~ msgid "选购中心"
+#~ msgstr "Shopping Center"
+
+#~ msgid "标签云"
+#~ msgstr "Tag Cloud"
+
+#~ msgid "用户中心"
+#~ msgstr "User Center"
+
+#~ msgid "批发"
+#~ msgstr "wholesale"
+
+#~ msgid "留言板"
+#~ msgstr "message board"
+
+#~ msgid "报价单"
+#~ msgstr "Quote"
+
+#~ msgid "设置模板内容成功。"
+#~ msgstr "Set the template content successfully."
+
+#~ msgid "模板文件 %s 无法修改"
+#~ msgstr "Template file %s can not be modified"
+
+#~ msgid "启用模板成功。"
+#~ msgstr "Templates enable success."
+
+#~ msgid "启用模板时出现异常。"
+#~ msgstr "An exception occurred when enabled template."
+
+#~ msgid "分派权限 [ %s ] "
+#~ msgstr "assign permissions [ %s ]"
+
+#~ msgid ""
+#~ "URL Rewrite 功能要求您的 Web Server 必须安装IIS，并且起用了 ISAPI Rewrite "
+#~ "模块。如果您使用的是ISAPI Rewrite商业版，请您确认是否已经将httpd.txt文件重"
+#~ "命名为httpd.ini。如果您使用的是ISAPI Rewrite免费版，请您确认是否已经将"
+#~ "httpd.txt文件内的内容复制到ISAPI Rewrite安装目录中httpd.ini里。"
+#~ msgstr ""
+#~ "URL Rewrite feature requires that you must install the Web Server IIS, "
+#~ "and hired a ISAPI Rewrite module. If you are using the commercial version "
+#~ "of ISAPI Rewrite, please confirm that you have httpd.txt rename the file "
+#~ "httpd.ini. If you are using a free version of ISAPI Rewrite, please "
+#~ "confirm that you have copied the contents of the file within httpd.txt to "
+#~ "ISAPI Rewrite installation directory httpd.ini years."
+
+#~ msgid ""
+#~ "URL Rewrite 功能要求您的 Web Server 必须是 Apache，并且起用了 rewrite 模"
+#~ "块。同时请您确认是否已经将htaccess.txt文件重命名为.htaccess。如果服务器上"
+#~ "还有其他的重写规则请去掉注释,请将RewriteBase行的注释去掉,并将路径设置为服"
+#~ "务器请求的绝对路径。"
+#~ msgstr ""
+#~ "URL Rewrite feature requires that your Web Server must be Apache, and "
+#~ "hired a rewrite module. Also make sure that you have removed htaccess.txt "
+#~ "rename the file to .htaccess. If there are other servers rewrite rules "
+#~ "please remove comments, please RewriteBase line uncommented and set the "
+#~ "path to an absolute path to the server request."
+
+#~ msgid "邮件服务器设置"
+#~ msgstr "Mail Server Settings"
+
+#~ msgid "邮件服务器设置成功。"
+#~ msgstr "Mail server setup is successful."
+
+#~ msgid "修改邮件服务器设置"
+#~ msgstr "Modify Mail Server Settings"
+
+#~ msgid "保存商店设置成功。"
+#~ msgstr "Save stores successfully set."
+
+#~ msgid "修改商店设置"
+#~ msgstr "Modify shop settings"
+
+#~ msgid "测试邮件"
+#~ msgstr "Test message"
+
+#~ msgid ""
+#~ "您好！这是一封检测邮件服务器设置的测试邮件。收到此邮件，意味着您的邮件服务"
+#~ "器设置正确！您可以进行其它邮件发送的操作了！"
+#~ msgstr ""
+#~ "Hello! This is an e-mail server settings detection test message. Received "
+#~ "this message means that your mail server settings are correct! You can "
+#~ "operate the other mail sent!"
+
+#~ msgid "测试邮件发送失败！%s"
+#~ msgstr "Failed to send a test message! %s"
+
+#~ msgid "恭喜！测试邮件已成功发送到 %s。"
+#~ msgstr "Congratulations! Test message was successfully sent to %s ."
+
+#~ msgid "暂无可用更新！"
+#~ msgstr "No update available!"
+
+#~ msgid "不存在校验文件，无法进行此操作"
+#~ msgstr "Checksum file does not exist, you can not do this"
+
+#~ msgid "系统设置"
+#~ msgstr "System Settings"
+
+#~ msgid "菜单"
+#~ msgstr "Menu"
+
+#~ msgid "模板设置备份"
+#~ msgstr "Template Settings Backup"
+
+#~ msgid "欢迎访问ECJia智能后台地区设置页面，用户可以在此进行设置地区。"
+#~ msgstr ""
+#~ "Welcome to the backstage area ECJia Smart settings page, the user can be "
+#~ "set in this area."
+
+#~ msgid ""
+#~ "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.9C.B0."
+#~ "E5.8C.BA.E5.88.97.E8.A1.A8\" target=\"_blank\">关于地区设置帮助文档</a>"
+#~ msgstr ""
+#~ "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.9C.B0."
+#~ "E5.8C.BA.E5.88.97.E8.A1.A8\" target=\"_blank\">About locale help "
+#~ "documentation</a>"
+
+#~ msgid ""
+#~ "欢迎访问ECJia智能后台商店设置页面，在此页面可对商店有关信息进行配置，同时"
+#~ "可根据右侧栏漂浮的快捷导航，快速的进入相应区域。"
+#~ msgstr ""
+#~ "Welcome back ECJia smart store settings page, can be configured to store "
+#~ "the information on this page, while according to the right of the "
+#~ "navigation bar floating fast, fast into the corresponding area."
+
+#~ msgid ""
+#~ "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.95.86.E5."
+#~ "BA.97.E8.AE.BE.E7.BD.AE\" target=\"_blank\">关于商店设置帮助文档</a>"
+#~ msgstr ""
+#~ "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.95.86.E5."
+#~ "BA.97.E8.AE.BE.E7.BD.AE\" target=\"_blank\">About shop settings help "
+#~ "documentation</a>"
+
+#~ msgid ""
+#~ "欢迎访问ECJia智能后台邮件服务器设置页面，可通过以下两种方式进行配置。"
+#~ msgstr ""
+#~ "Welcome back ECJia Intelligent Mail Server Settings page, can be "
+#~ "configured in two ways."
+
+#~ msgid ""
+#~ "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E9.82.AE.E4."
+#~ "BB.B6.E6.9C.8D.E5.8A.A1.E5.99.A8.E8.AE.BE.E7.BD.AE\" target=\"_blank\">关"
+#~ "于邮件服务器设置帮助文档</a>"
+#~ msgstr ""
+#~ "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E9.82.AE.E4."
+#~ "BB.B6.E6.9C.8D.E5.8A.A1.E5.99.A8.E8.AE.BE.E7.BD.AE\" target=\"_blank"
+#~ "\">Help documentation on the mail server settings</a>"
+
+#~ msgid "正在检查，请耐心等待。"
+#~ msgstr "Being checked, please be patient."
+
+#~ msgid "请输入发送邮件服务器地址(SMTP)！"
+#~ msgstr "Please enter the address of the sending mail server (SMTP)!"
+
+#~ msgid "请输入服务器端口！"
+#~ msgstr "Please enter a server port!"
+
+#~ msgid "请输入邮件帐号！"
+#~ msgstr "Please enter the e-mail account!"
+
+#~ msgid "请输入正确格式的邮件帐号！"
+#~ msgstr "Please enter a properly formatted e-mail account!"
+
+#~ msgid "请输入邮件密码！"
+#~ msgstr "Please enter the e-mail password!"
+
+#~ msgid "请输入回复邮件帐号！"
+#~ msgstr "Please enter a reply e-mail account!"
+
+#~ msgid "请输入正确格式的回复邮件帐号！"
+#~ msgstr "Please enter a properly formatted reply mail account!"
+
+#~ msgid "请输入发送邮件帐号！"
+#~ msgstr "Please enter the e-mail account to send!"
+
+#~ msgid "请输入正确格式的发送邮件帐号！"
+#~ msgstr "Please enter a properly formatted e-mail account to send!"
+
+#~ msgid "确定要移除这个菜单项吗？"
+#~ msgstr "Do you want to remove this menu items?"
+
+#~ msgid "您的修改内容还没有保存，您确定离开吗？"
+#~ msgstr "Your edits have not saved, you are sure to leave?"
+
+#~ msgid "连接错误，请重新选择!"
+#~ msgstr "Connection error, please re-select!"
+
+#~ msgid ""
+#~ "修改库项目是危险的高级操作，修改错误可能会导致前台无法正常显示。您依然确定"
+#~ "要修改库项目吗？"
+#~ msgstr ""
+#~ "Modify the library project is dangerous Advanced Operations, modify the "
+#~ "error could cause the front desk not display properly. You still sure you "
+#~ "want to modify the library project?"
+
+#~ msgid ""
+#~ "此功能要求您的php必须支持OpenSSL模块, 如果您要使用此功能，请联系您的空间商"
+#~ "确认支持此模块"
+#~ msgstr ""
+#~ "This feature requires that your php must support OpenSSL module, if you "
+#~ "want to use this feature, please contact your hosting provider to confirm "
+#~ "support for this module"
+
+#~ msgid ""
+#~ "GZip 功能需要您的服务器支持 zlib 扩展库。如果您发现开启Gzip后页面出现乱"
+#~ "码，可能是您的服务器已经开启了Gzip，您不需要在 ECJia 中再次开启。"
+#~ msgstr ""
+#~ "GZip features require your server support zlib extension library. If you "
+#~ "find after opening Gzip page garbled, it may be that your server has "
+#~ "opened Gzip, you do not need to open again in the ECJia."
+
+#~ msgid ""
+#~ "如果您不保留商品原图，在“图片批量处理”的时候，\\n将不会重新生成不包含原图"
+#~ "的商品图片。请慎重使用该功能！"
+#~ msgstr ""
+#~ "If you do not retain the original product, in the \"image batch processing"
+#~ "\" when, \\ n will not regenerate the original product images are not "
+#~ "included. Please be careful to use this feature!"
+
+#~ msgid "类型"
+#~ msgstr "Types of"
+
+#~ msgid "税率（％）"
+#~ msgstr "tax rate(%)"
+
+#~ msgid "管理员"
+#~ msgstr "administrator"
+
+#~ msgid "在"
+#~ msgstr "in"
+
+#~ msgid "IP下"
+#~ msgstr "IP under"
+
+#~ msgid "Web 服务器:"
+#~ msgstr "Web Server:"
+
+#~ msgid "安全模式GID:"
+#~ msgstr "Safe Mode GID:"
+
+#~ msgid "GD 版本:"
+#~ msgstr "GD Version:"
+
+#~ msgid "项目策划:"
+#~ msgstr "Project Planning:"
+
+#~ msgid "开发团队:"
+#~ msgstr "Development Team:"
+
+#~ msgid "App团队:"
+#~ msgstr "App Team:"
+
+#~ msgid "产品官方网站:"
+#~ msgstr "Product Official Site:"
+
+#~ msgid "输入关键字"
+#~ msgstr "Enter keywords"
+
+#~ msgid "进入"
+#~ msgstr "Enter"
+
+#~ msgid "删除一级地区"
+#~ msgstr "Delete a region"
+
+#~ msgid "编辑地区"
+#~ msgstr "Edit Area"
+
+#~ msgid "原地区名："
+#~ msgstr "Original name Area:"
+
+#~ msgid "新地区名："
+#~ msgstr "New Area name:"
+
+#~ msgid "新增地区名："
+#~ msgstr "New Area name:"
+
+#~ msgid "地区名称不能重复"
+#~ msgstr "Area name can not be repeated."
+
+#~ msgid "”、“"
+#~ msgstr "\",\""
+
+#~ msgid ""
+#~ "” 中的列出的文件，请即刻通过 FTP 或其他工具检查其文件的正确性，以确保ECJia"
+#~ "网店功能的正常使用。"
+#~ msgstr ""
+#~ "\"The files listed, please do not hesitate to check the correctness of "
+#~ "their files through FTP or other tools to ensure proper use ECJia shop "
+#~ "functions."
+
+#~ msgid "” 中的列出的文件，请检查网店是否被人非法放入了其他文件。"
+#~ msgstr ""
+#~ "\"The files listed, please check whether the network cable has been "
+#~ "illegally placed in other documents."
+
+#~ msgid "“"
+#~ msgstr "\""
+
+#~ msgid "” 中列出的文件，请确认最近是否修改过。"
+#~ msgstr "\"Listed in the file, make sure that you recently modified."
+
+#~ msgid "正在加载中……"
+#~ msgstr "Loading in ......"
+
+#~ msgid "新管理员密码"
+#~ msgstr "The new administrator password"
+
+#~ msgid "--选择--"
+#~ msgstr "--select--"
+
+#~ msgid "返回自定义导航栏"
+#~ msgstr "Returns custom navigation bar"
+
+#~ msgid "创建菜单"
+#~ msgstr "Create menu"
+
+#~ msgid "在上面给菜单命名，然后点击“创建菜单”。创建菜单"
+#~ msgstr ""
+#~ "Named to the top menu, then click on the \"Create menu.\" Create a menu"
+
+#~ msgid "提示："
+#~ msgstr "Prompt:"
+
+#~ msgid ""
+#~ "如果您的服务器支持 Mail 函数（具体信息请咨询您的空间提供商）。我们建议您使"
+#~ "用系统的 Mail 函数。"
+#~ msgstr ""
+#~ "If your server supports Mail function (For details, contact your hosting "
+#~ "provider). We recommend that you use the Mail system function."
+
+#~ msgid "当您的服务器不支持 Mail 函数的时候您也可以选用 SMTP 作为邮件服务器。"
+#~ msgstr ""
+#~ "When your server does not support Mail function when you can also use "
+#~ "SMTP as a mail server."
+
+#~ msgid "邮件地址："
+#~ msgstr "E-mail address:"
+
+#~ msgid "发送测试邮件"
+#~ msgstr "Send a test message"
+
+#~ msgid "备份注释："
+#~ msgstr "Backup Note:"
+
+#~ msgid "没有可备份的模板设置"
+#~ msgstr "No backup template settings"
+
+#~ msgid "可使用的模板设置备份"
+#~ msgstr "Templates can be used to set the backup"
+
+#~ msgid "没有可用模板备份"
+#~ msgstr "No backup available templates"
+
+#~ msgid "请选择一个模板："
+#~ msgstr "Please choose a template:"
+
+#~ msgid "未找到可用模板"
+#~ msgstr "Not available templates found"
+
+#~ msgid "可用库项目"
+#~ msgstr "Available library project"
+
+#~ msgid ""
+#~ "要激活某一小工具，将它拖动到侧栏或点击它。要禁用某一小工具并删除其设置，将"
+#~ "它拖回来。"
+#~ msgstr ""
+#~ "To activate a gadget, drag it to the sidebar or click on it. To disable a "
+#~ "widget and delete its settings, drag it back."
+
+#~ msgid "动态库项目"
+#~ msgstr "Dynamic library project"
+
+#~ msgid "未使用的小工具"
+#~ msgstr "Unused gadgets"
+
+#~ msgid "将小工具拖至这里，将它们从边栏移除，但同时保留设置。"
+#~ msgstr ""
+#~ "Drag gadgets here, remove them from the sidebar, but retention settings."
+
+#~ msgid "首页侧边栏"
+#~ msgstr "Home Sidebar"
+
+#~ msgid "暂无可用区域"
+#~ msgstr "No usable area"
+
+#~ msgid "添加小工具"
+#~ msgstr "Add gadgets"
+
+#~ msgid "已阻挡的垃圾评论"
+#~ msgstr "It has blocked spam"
+
+#~ msgid "暂无库项目"
+#~ msgstr "No library project"
+
+#~ msgid "未选择库项目"
+#~ msgstr "Do not select library items"
+
+#~ msgid "库项目"
+#~ msgstr "Library Project"
+
+#~ msgid "筛选搜索到的商品信息"
+#~ msgstr "Filter to product information"
+
+#~ msgid "当前主题"
+#~ msgstr "Current topic"
+
+#~ msgid "模板来源："
+#~ msgstr "Template Source:"
+
+#~ msgid "模板作者："
+#~ msgstr "Template authors:"
+
+#~ msgid "风格选择："
+#~ msgstr "Choice style:"
+
+#~ msgid "主题描述："
+#~ msgstr "Topic Description:"
+
+#~ msgid "未选择任何主题"
+#~ msgstr "Do not select any topic"
+
+#~ msgid "可用主题"
+#~ msgstr "Available Topic"
+
+#~ msgid "暂无可用主题"
+#~ msgstr "No topics available"
+
+#~ msgid "最后检查于: "
+#~ msgstr "Last checked:"
+
+#~ msgid "注意：若您未检测到可用更新，您还可以到"
+#~ msgstr "Note: If you do not detect the available updates, you can go to"
+
+#~ msgid "查看。"
+#~ msgstr "View."
+
+#~ msgid "当前版本"
+#~ msgstr "Current Version"
+
+#~ msgid "更新日期"
+#~ msgstr "Update Date"
+
+#~ msgid "可升级版本"
+#~ msgstr "Scalable version"
+
+#~ msgid "抱歉，已经有相同的地区名存在！"
+#~ msgstr "Sorry,The region name already exists!"
+
+#~ msgid "版权所有 © 2013-2016 上海商创网络科技有限公司，并保留所有权利。"
+#~ msgstr ""
+#~ "Copyright © 2013-2015 Shanghai ShangChuang Network Technology Co., Ltd. "
+#~ "All Rights Reserved."
+
+#~ msgid "新注册用户"
+#~ msgstr "New registered users"
+
+#~ msgid "新订单"
+#~ msgstr "New order"
+
+#~ msgid "。"
+#~ msgstr "."
+
+#~ msgid "地区列表管理"
+#~ msgstr "Area list management"
+
+#~ msgid "请稍候"
+#~ msgstr "Please wait"

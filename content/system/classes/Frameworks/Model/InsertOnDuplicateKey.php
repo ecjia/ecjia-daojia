@@ -194,7 +194,11 @@ trait InsertOnDuplicateKey
             if (is_numeric($key)) {
                 $out[] = sprintf('`%s` = VALUES(`%s`)', $value, $value);
             } else {
-                $out[] = sprintf('%s = %s', $key, $value);
+                if (is_string($value)) {
+                    $out[] = sprintf("`%s` = '%s'", $key, $value);
+                } else {
+                    $out[] = sprintf("`%s` = %s", $key, $value);
+                }
             }
         }
         return implode(', ', $out);
