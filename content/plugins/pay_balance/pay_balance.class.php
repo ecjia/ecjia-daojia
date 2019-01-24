@@ -268,7 +268,10 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
     {
     	$record_model = $this->paymentRecord->getPaymentRecord($order_trade_no);
     	if (empty($record_model)) {
-    		return new ecjia_error('payment_record_not_found', '此笔交易记录未找到');
+            $record_model = $this->paymentRecord->getPaymentRecordByOrderSn($order_trade_no);
+            if (empty($record_model)) {
+                return new ecjia_error('payment_record_not_found', '此笔交易记录未找到');
+            }
     	}
     	
     	$refund_payrecord = \Ecjia\App\Refund\Models\RefundPayRecordModel::where('order_sn', $record_model->order_sn)->first();
