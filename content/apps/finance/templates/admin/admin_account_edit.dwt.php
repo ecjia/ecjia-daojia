@@ -32,17 +32,16 @@
 					<label class="control-label">{lang key='user::user_account.user_mobile'}：</label>
 					<div class="controls">
 						<input class="w350 user-mobile" name="user_mobile" action='{url path="finance/admin_account/validate_acount"}'
-						 type="text" value="{if $user_mobile}{$user_mobile}{else if $smarty.get.id}匿名会员{else}{/if}" {if
-						 $user_surplus.is_paid} readonly="true" {/if} />
+						 type="text" value="{if $user.mobile_phone}{$user.mobile_phone}{/if}" />
 						<span class="input-must">{lang key='system::system.require_field'}</span>
 						<div class="help-block">输入正确手机号，查询会员基本信息。</div>
 					</div>
 				</div>
 
-				<div class="control-group formSep username user">
+				<div class="control-group formSep {if !$user}username{/if} user">
 					<label class="control-label">会员名称：</label>
 					<div class="controls userinfo">
-						<span></span>
+						<span>{$user.user_name}</span>
 						<div class="help-block">仔细查看会员手机号、名称是否正确，若正确请忽视，若不正确，请主动调整手机号。</div>
 					</div>
 				</div>

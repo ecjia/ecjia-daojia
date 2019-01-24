@@ -52,6 +52,7 @@
     app.account_log_edit = {
         init: function () {
             app.account_log_edit.submit_account_log();
+            app.account_log_edit.select_note();
         },
 
         submit_account_log: function () {
@@ -78,6 +79,19 @@
             }
             var options = $.extend(ecjia.admin.defaultOptions.validate, option);
             $this.validate(options);
+        },
+
+        select_note: function () {
+            $('.select_admin_note').off('change').on('change', function () {
+                var $this = $('.select_admin_note option:selected');
+                var text = $this.text();
+                var val = $this.val();
+                var html = '';
+                if (val != 0) {
+                    html = text;
+                }
+                $('textarea[name="change_desc"]').val(html);
+            });
         }
     };
 

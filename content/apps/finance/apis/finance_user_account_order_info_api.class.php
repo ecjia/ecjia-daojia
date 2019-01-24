@@ -74,15 +74,16 @@ class finance_user_account_order_info_api extends Component_Event_Api {
 	private function order_info($options) {
 		$order_id = intval(array_get($options, 'order_id'));
 		$order_sn = trim(array_get($options, 'order_sn'));
-
+		$info = [];
 		if ($order_sn) {
             $info = RC_DB::table('user_account')->where('order_sn', $order_sn)->first();
         } else {
             $info = RC_DB::table('user_account')->where('id', $order_id)->first();
         }
-
-		$info['formated_add_time']		= RC_Time::local_date(ecjia::config('time_format'), $info['add_time']);
-
+		if (!empty($info)) {
+			$info['formated_add_time']		= RC_Time::local_date(ecjia::config('time_format'), $info['add_time']);
+		}
+		
 		return $info;
 	}
 }

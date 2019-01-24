@@ -139,6 +139,10 @@ class admin_account extends ecjia_admin
         $this->assign('payment', $payment);
         $this->assign('form_action', RC_Uri::url('finance/admin_account/insert'));
 
+        $id   = intval($_GET['user_id']);
+        $user = get_user_info($id);
+        $this->assign('user', $user);
+
         $this->display('admin_account_edit.dwt');
     }
 
@@ -167,7 +171,7 @@ class admin_account extends ecjia_admin
         $admin_note = !empty($_POST['admin_note']) ? trim($_POST['admin_note']) : '';
 
         /* 验证参数有效性  */
-        if (!is_numeric($amount) || empty($amount) || $amount <= 0) {
+        if (!is_numeric($amount) || $amount < 0.01) {
             return $this->showmessage(RC_Lang::get('user::user_account.js_languages.deposit_amount_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
@@ -202,7 +206,7 @@ class admin_account extends ecjia_admin
         RC_Api::api('payment', 'save_payment_record', [
             'order_sn'   => $order_sn,
             'total_fee'  => $amount,
-            'trade_type' => 'recharge',
+            'trade_type' => 'surplus',
             'pay_code'   => $payment,
             'pay_name'   => '现金支付',
         ]);
@@ -212,6 +216,22 @@ class admin_account extends ecjia_admin
         $change_type = $amount > 0 ? ACT_SAVING : ACT_DRAWING;
 
         change_account_log($user_info['user_id'], $amount, 0, 0, 0, $change_desc, $change_type);
+
+        /* 短信告知用户账户变动 */
+        if (!empty($user_info['mobile_phone'])) {
+            $options = array(
+                'mobile' => $user_info['mobile_phone'],
+                'event'  => 'sms_user_account_change',
+                'value'  => array(
+                    'user_name'     => $user_info['user_name'],
+                    'amount'        => $amount,
+                    'user_money'    => $user_info['user_money'] + $amount,
+                    'service_phone' => ecjia::config('service_phone'),
+                ),
+            );
+
+            RC_Api::api('sms', 'send_event_sms', $options);
+        }
 
         $account = RC_Lang::get('user::user_account.deposit');
 

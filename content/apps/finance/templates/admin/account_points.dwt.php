@@ -60,12 +60,37 @@
 				</div>
 				{/if}
 
+                {if $type eq 'add_user_money' || $type eq 'minus_user_money'}
+                <div class="control-group formSep">
+                    <label class="control-label">当前账户余额：</label>
+                    <div class="controls l_h30 ecjiafc-red f_s15">{$user.formated_user_money}</div>
+                </div>
+
+                <div class="control-group formSep">
+                    <label class="control-label">{if $type eq 'add_user_money'}增加金额：{else}减少金额：{/if}</label>
+                    <div class="controls">
+                        <input type="text" class="span6" name="user_money" value="0" />
+                    </div>
+                </div>
+                {/if}
+
 				<div class="control-group formSep">
 					<label class="control-label">变动原因：</label>
 					<div class="controls">
 						<textarea class="span6" name="change_desc" cols="30" rows="10"></textarea>
 						<span class="input-must">*</span>
 					</div>
+                    {if $type eq 'add_user_money' || $type eq 'minus_user_money'}
+                    <div class="controls">
+                        <select class="select_admin_note span5">
+                            <option value="0">请选择管理员备注</option>
+                            <option value="1">线下消费</option>
+                            <option value="2">人工记录资金变动</option>
+                            <option value="3">线下门店已通过现金方式消费/充值</option>
+                            <option value="4">退款资金返还用户账户余额</option>
+                        </select>
+                    </div>
+                    {/if}
 				</div>
 
 				<div class="control-group">

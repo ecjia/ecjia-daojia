@@ -64,6 +64,7 @@ class Helper
         
         ecjia_admin_log::instance()->add_object('pay_points', '会员积分');
         ecjia_admin_log::instance()->add_object('rank_points', '成长值');
+        ecjia_admin_log::instance()->add_object('user_money', '用户余额');
     }
     
 }

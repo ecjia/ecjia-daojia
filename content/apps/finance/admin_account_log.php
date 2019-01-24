@@ -95,11 +95,16 @@ class admin_account_log extends ecjia_admin
         $this->assign('back_link', array('text' => '会员列表', 'href' => RC_Uri::url('user/admin/init')));
 
         $nav_here = '会员账户变动明细';
+        $link1    = $link2 = $link3 = $link4 = $second_heading = '';
+
         if ($account_type == 'user_money') {
             $nav_here = '查看余额变动';
 
             $link1 = array('text' => '充值', 'href' => RC_Uri::url('finance/admin_account/add', array('user_id' => $user_id)), 'i' => 'fontello-icon-dollar');
             $link2 = array('text' => '提现', 'href' => RC_Uri::url('withdraw/admin/add', array('user_id' => $user_id)), 'i' => 'fontello-icon-dollar');
+
+            $link3 = array('text' => '增加余额', 'href' => RC_Uri::url('finance/admin_account_log/add_user_money', array('user_id' => $user_id)), 'i' => 'fontello-icon-plus', 'pjax' => true);
+            $link4 = array('text' => '减少余额', 'href' => RC_Uri::url('finance/admin_account_log/minus_user_money', array('user_id' => $user_id)), 'i' => 'fontello-icon-minus', 'pjax' => true);
 
             $second_heading = '资金明细';
 
@@ -121,8 +126,12 @@ class admin_account_log extends ecjia_admin
         }
 
         $this->assign('ur_here', $nav_here);
+
         $this->assign('link1', $link1);
         $this->assign('link2', $link2);
+        $this->assign('link3', $link3);
+        $this->assign('link4', $link4);
+
         $this->assign('second_heading', $second_heading);
 
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($nav_here));
@@ -287,6 +296,48 @@ class admin_account_log extends ecjia_admin
         $this->display('account_points.dwt');
     }
 
+    public function add_user_money()
+    {
+        $this->admin_priv('account_manage');
+
+        $user_id = intval($_GET['user_id']);
+        $this->assign('user_id', $user_id);
+        $this->assign('type', 'add_user_money');
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('增加余额'));
+
+        $this->assign('ur_here', '增加余额');
+        $this->assign('action_link', array('href' => RC_Uri::url('finance/admin_account_log/init', array('account_type' => 'user_money', 'user_id' => $user_id)), 'text' => '查看余额变动'));
+
+        $this->assign('form_action', RC_Uri::url('finance/admin_account_log/update'));
+
+        $user = get_user_info($user_id);
+        $this->assign('user', $user);
+
+        $this->display('account_points.dwt');
+    }
+
+    public function minus_user_money()
+    {
+        $this->admin_priv('account_manage');
+
+        $user_id = intval($_GET['user_id']);
+        $this->assign('user_id', $user_id);
+        $this->assign('type', 'minus_user_money');
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('减少余额'));
+
+        $this->assign('ur_here', '减少余额');
+        $this->assign('action_link', array('href' => RC_Uri::url('finance/admin_account_log/init', array('account_type' => 'user_money', 'user_id' => $user_id)), 'text' => '查看余额变动'));
+
+        $this->assign('form_action', RC_Uri::url('finance/admin_account_log/update'));
+
+        $user = get_user_info($user_id);
+        $this->assign('user', $user);
+
+        $this->display('account_points.dwt');
+    }
+
     /**
      * 调节会员账户
      */
@@ -305,6 +356,7 @@ class admin_account_log extends ecjia_admin
 
         $pay_points  = 0;
         $rank_points = 0;
+        $user_money  = 0;
         if ($type == 'add_pay_points' || $type == 'minus_pay_points') {
             $pay_points = !empty($_POST['pay_points']) ? $_POST['pay_points'] : 0;
 
@@ -313,13 +365,15 @@ class admin_account_log extends ecjia_admin
             }
             if ($type == 'add_pay_points') {
                 $pay_points = floatval(1) * abs(floatval($pay_points));
+                $message    = $user['user_name'] . '，' . '积分增加：' . $pay_points . '，' . '帐户变动原因是：' . $change_desc;
             } else {
                 if ($pay_points > $user['pay_points']) {
                     return $this->showmessage('减少会员积分数不能大于当前账户积分', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
+                $message    = $user['user_name'] . '，' . '积分减少：' . $pay_points . '，' . '帐户变动原因是：' . $change_desc;
                 $pay_points = floatval(-1) * abs(floatval($pay_points));
             }
-            ecjia_admin::admin_log($user['user_name'] . '，' . '积分' . $pay_points . '，' . '帐户变动原因是：' . $change_desc, 'edit', 'pay_points');
+            ecjia_admin::admin_log($message, 'edit', 'pay_points');
 
             $pjax_url = RC_Uri::url('finance/admin_account_log/init', array('account_type' => 'pay_points', 'user_id' => $user_id));
 
@@ -332,17 +386,38 @@ class admin_account_log extends ecjia_admin
 
             if ($type == 'add_rank_points') {
                 $rank_points = floatval(1) * abs(floatval($rank_points));
+                $message     = $user['user_name'] . '，' . '成长值增加：' . $rank_points . '，' . '帐户变动原因是：' . $change_desc;
             } else {
                 if ($rank_points > $user['rank_points']) {
                     return $this->showmessage('减少会员成长值不能大于当前账户成长值', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
+                $message     = $user['user_name'] . '，' . '成长值减少：' . $rank_points . '，' . '帐户变动原因是：' . $change_desc;
                 $rank_points = floatval(-1) * abs(floatval($rank_points));
             }
-            ecjia_admin::admin_log($user['user_name'] . '，' . '成长值' . $rank_points . '，' . '帐户变动原因是：' . $change_desc, 'edit', 'rank_points');
+            ecjia_admin::admin_log($message, 'edit', 'rank_points');
 
             $pjax_url = RC_Uri::url('finance/admin_account_log/init', array('account_type' => 'rank_points', 'user_id' => $user_id));
+        } elseif ($type == 'add_user_money' || $type == 'minus_user_money') {
+            $user_money = !empty($_POST['user_money']) ? $_POST['user_money'] : 0;
+
+            if ($user_money <= 0 || !is_numeric($user_money) || !isset($user_money)) {
+                return $this->showmessage('金额填写有误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+            if ($type == 'add_user_money') {
+                $user_money = floatval(1) * abs(floatval($user_money));
+                $message    = $user['user_name'] . '，' . '余额增加：' . $user_money . '，' . '帐户变动原因是：' . $change_desc;
+            } else {
+                if ($user_money > $user['user_money']) {
+                    return $this->showmessage('减少余额数不能大于当前账户余额', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                }
+                $message    = $user['user_name'] . '，' . '余额减少：' . $user_money . '，' . '帐户变动原因是：' . $change_desc;
+                $user_money = floatval(-1) * abs(floatval($user_money));
+            }
+            ecjia_admin::admin_log($message, 'edit', 'user_money');
+
+            $pjax_url = RC_Uri::url('finance/admin_account_log/init', array('account_type' => 'user_money', 'user_id' => $user_id));
         }
-        change_account_log($user_id, 0, 0, $rank_points, $pay_points, $change_desc, ACT_ADJUSTING);
+        change_account_log($user_id, $user_money, 0, $rank_points, $pay_points, $change_desc, ACT_ADJUSTING);
 
         return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjax_url));
     }
