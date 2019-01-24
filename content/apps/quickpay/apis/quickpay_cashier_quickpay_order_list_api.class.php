@@ -55,9 +55,13 @@ class quickpay_cashier_quickpay_order_list_api extends Component_Event_Api {
 			$dbview->where(RC_DB::raw('cr.create_at'), '>=', $options['start_date']);
 			$dbview->where(RC_DB::raw('cr.create_at'), '<=', $options['end_date']);
 		}
-		
+		//收银台和pos机区分设备；店铺某个设备的订单
 		if (!empty($options['mobile_device_id'])) {
 			$dbview->where(RC_DB::raw('cr.mobile_device_id'), $options['mobile_device_id']);
+		}
+		//收银通订单不区分设备；店铺所有收银通订单
+		if (!empty($options['device_type'])) {
+			$dbview->where(RC_DB::raw('cr.device_type'), $options['device_type']);
 		}
 		$count = $dbview->count(RC_DB::raw('DISTINCT cr.order_id'));
 		$page_row = new ecjia_page($count, $size, 6, '', $page);

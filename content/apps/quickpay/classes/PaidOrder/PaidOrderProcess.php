@@ -137,7 +137,9 @@ class PaidOrderProcess implements PaidOrderProcessInterface
                 'refund_sn'						=> '',
                 'refund_total_amount'			=> 0,
                 'formatted_refund_total_amount' => '',
-                'cashier_name'					=> empty($cashier_name) ? '' : $cashier_name
+                'cashier_name'					=> empty($cashier_name) ? '' : $cashier_name,
+            	'pay_fee'						=> '', //买单订单增加支付手续费返回
+            	'formatted_pay_fee'				=> '',
             );
         }
 
