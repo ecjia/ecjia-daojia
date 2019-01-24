@@ -226,7 +226,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     </ul>
 </div>
 <div class="ecjia-user-border-b">
-    <ul class="ecjia-user ecjia-list bonus ecjia-nav-child-f ecjia-list-three ecjia-login-nav-bottom">
+    <ul class="ecjia-user ecjia-list bonus ecjia-nav-child-f ecjia-list-four ecjia-login-nav-bottom">
     	<li>
     		<a href="{url path='user/bonus/my_reward'}">
     		    <p><img src="{$theme_url}images/user_center/my_reward.png" /></p>
@@ -245,6 +245,12 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         		<p>赚{$integral_name}</p>
     		</a>
     	</li>
+        <li>
+            <a href="{url path='user/team/list'}">
+                <p><img src="{$theme_url}images/user_center/my_team.png" /></p>
+                <p>我的团队</p>
+            </a>
+        </li>
     </ul>
 </div>
 

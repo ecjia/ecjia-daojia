@@ -221,6 +221,58 @@ class user_controller
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $sayList, 'is_last' => $data['is_last']));
         }
     }
+
+    //我的团队
+    public static function team_list()
+    {
+        $title = '我的团队';
+        ecjia_front::$controller->assign_title($title);
+
+        $token = ecjia_touch_user::singleton()->getToken();
+
+        $param  = array(
+            'token'      => $token,
+            'pagination' => array('count' => 10, 'page' => 1),
+        );
+        $result = ecjia_touch_manager::make()->api(ecjia_touch_api::AFFILIATE_USER_INVITE)->data($param)->hasPage()->run();
+        $result = is_ecjia_error($result) ? [] : $result;
+
+        if (!empty($result)) {
+            list($data, $page) = $result;
+            ecjia_front::$controller->assign('data', $data);
+        }
+
+        ecjia_front::$controller->display('personal_reward_team.dwt');
+    }
+
+    //获取我的团队
+    public static function ajax_team_list()
+    {
+        $limit = intval($_GET['size']) > 0 ? intval($_GET['size']) : 10;
+        $pages = intval($_GET['page']) ? intval($_GET['page']) : 1;
+
+        $token = ecjia_touch_user::singleton()->getToken();
+
+        $param  = array(
+            'token'      => $token,
+            'pagination' => array('count' => $limit, 'page' => $pages),
+        );
+        $result = ecjia_touch_manager::make()->api(ecjia_touch_api::AFFILIATE_USER_INVITEE)->data($param)->hasPage()->run();
+        if (!is_ecjia_error($result)) {
+            list($data, $page) = $result;
+            if (isset($page['more']) && $page['more'] == 0) {
+                $is_last = 1;
+            }
+
+            $say_list = '';
+            if (!empty($data['list'])) {
+                ecjia_front::$controller->assign('list', $data['list']);
+            }
+            $say_list = ecjia_front::$controller->fetch('personal_reward_team.dwt');
+
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
+        }
+    }
 }
 
 // end

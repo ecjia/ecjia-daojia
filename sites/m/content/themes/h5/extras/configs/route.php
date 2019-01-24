@@ -66,6 +66,7 @@ return [
     //商品
     'goods/category/init'                        => 'goods_controller@init',
     'goods/category/store_list'                  => 'goods_controller@store_list', //店铺分类列表
+    'goods/category/ajax_store_goods'            => 'goods_controller@ajax_store_goods',
     'goods/index/show'                           => 'goods_controller@show', //商品详情页
     'goods/index/promotion'                      => 'goods_controller@promotion',
     'goods/index/ajax_goods'                     => 'goods_controller@ajax_goods',
@@ -252,6 +253,10 @@ return [
     'user/order/groupbuy_order'                  => 'user_order_controller@groupbuy_order',
     'user/order/async_groupbuy_order'            => 'user_order_controller@async_groupbuy_order',
     'user/order/groupbuy_detail'                 => 'user_order_controller@groupbuy_detail',
+
+    //我的团队
+    'user/team/list'                             => 'user_controller@team_list', //团队列表
+    'user/personal/ajax_team_list'               => 'user_controller@ajax_team_list',
 
     //用户资料
     'user/profile/init'                          => 'user_profile_controller@init',

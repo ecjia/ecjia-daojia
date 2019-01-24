@@ -60,6 +60,11 @@ ecjia_extra::autoload();
 ecjia_extra::routeDispacth();
 
 /**
+ * 加载主题选项设置面板
+ */
+ecjia_extra::loadThemeFrameworkOptions();
+
+/**
  * step:5
  * 这个方法在前台控制器加载后执行，这个时候环境初始化完毕，这里开始正式进入主题框架的流程
  */
@@ -235,7 +240,7 @@ RC_Hook::add_action('connect_callback_user_bind_complete', function($result) {
  */
 RC_Hook::add_action('connect_code_before_launching', function($connect_code) {
     if ($connect_code == 'sns_wechat' && !ecjia_plugin::is_active('sns_wechat/sns_wechat.php')) {
-        echo '请先购买并安装微信登录插件<br><a href="https://ecjia.com/daojia_authorize.html" target="_blank">购买链接</a>';
+        echo '请先购买并安装微信登录插件<br><a href="https://daojia.ecjia.com/opensource.html" target="_blank">购买链接</a>';
         exit();
     }
 });
@@ -381,3 +386,4 @@ RC_Hook::add_filter('custom_site_api_url', 'custom_site_api_url');
 RC_Hook::add_filter('http_request_timeout', function($time) {
 	return 20;
 });
+

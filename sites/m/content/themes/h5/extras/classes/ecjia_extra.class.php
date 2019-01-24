@@ -79,6 +79,30 @@ class ecjia_extra
             }
         }
     }
-    
-    
+
+    /**
+     * 加载主题选项设置面板
+     */
+    public static function loadThemeFrameworkOptions()
+    {
+        $settings = include_once RC_Theme::get_template_directory() . '/extras/configs/theme-settings.php';
+
+        $frameworks = include_once RC_Theme::get_template_directory() . '/extras/configs/theme-framework.php';
+
+        if (! empty($settings) && ! empty($frameworks)) {
+            ecjia_theme_framework::createAdminPanelInstance($settings, $frameworks);
+        }
+
+
+    }
+
+    /**
+     * 获取图片访问URL
+     * @param $url
+     * @return string
+     */
+    public static function themeUrl($url)
+    {
+        return RC_Theme::get_template_directory_uri() . '/' . $url;
+    }
 }

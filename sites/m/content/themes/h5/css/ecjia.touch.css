@@ -610,6 +610,7 @@ textarea {
 
 .goods-describe.active {
 	display: block;
+	overflow: hidden;
 }
 
 /**
