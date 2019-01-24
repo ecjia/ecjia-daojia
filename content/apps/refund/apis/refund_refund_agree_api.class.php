@@ -70,8 +70,8 @@ class refund_refund_agree_api extends Component_Event_Api {
 			$refund_sn = $refund_info['refund_sn'];
 			
 			//记录商家操作日志
-			\Ecjia\App\Refund\Helper::assign_adminlog_content();
-			RC_Api::api('merchant', 'admin_log', array('text'=> $options['staff_name'].'操作售后订单'.$refund_sn.'为同意'.'【来源掌柜】', 'action'=>'check', 'object'=>'refund_order'));
+// 			\Ecjia\App\Refund\Helper::assign_adminlog_content();
+// 			RC_Api::api('merchant', 'admin_log', array('text'=> $options['staff_name'].'操作售后订单'.$refund_sn.'为同意'.'【来源掌柜】', 'action'=>'check', 'object'=>'refund_order'));
 		}
 		 
 		return true;

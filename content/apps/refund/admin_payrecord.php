@@ -224,62 +224,24 @@ class admin_payrecord extends ecjia_admin
         $refund_type      = trim($_POST['refund_type']);
         $back_type        = $_POST['back_type'];
         $back_money_total = $_POST['back_money_total'];
-        $back_integral    = $_POST['back_integral'];
         $back_content     = trim($_POST['back_content']);
         $back_money_total = sprintf("%.2f", $back_money_total);
         if (empty($back_content)) {
             return $this->showmessage('请输入退款备注', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        if ($refund_type == 'refund') {
-            $return_status = 0;
-        } else {
-            $return_status = 3;
-        }
         //用户表和资金变动表变动
         $refund_order = RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();
         if (empty($refund_order)) {
             return $this->showmessage('退款单信息不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+        
+        if ($back_type == 'surplus') {
 
-        $user_id       = $refund_order['user_id'];
-        $integral_name = ecjia::config('integral_name');
-        if (empty($integral_name)) {
-            $integral_name = '积分';
-        }
-        if ($back_type == 'surplus') {//退回余额  （消费积分和金额）
-            $action_note = '退款金额已退回余额' . $back_money_total . '元，退回' . $integral_name . '为：' . $back_integral;
-            //更新帐户变动记录
-            $account_log = array(
-                'user_id'     => $user_id,
-                'user_money'  => $back_money_total,
-                'pay_points'  => $back_integral,
-                'change_time' => RC_Time::gmtime(),
-                'change_desc' => '由于订单' . $refund_order['order_sn'] . '退款，退还下单使用的' . $integral_name . '，退款金额退回余额',
-                'change_type' => ACT_REFUND,
-                'from_type'   => 'refund_back_integral',
-                'from_value'  => $refund_order['order_sn'],
-            );
-            RC_DB::table('account_log')->insertGetId($account_log);
-
-            //更新用户表
-            RC_DB::table('users')->where('user_id', $user_id)->increment('user_money', $back_money_total);
-            RC_DB::table('users')->where('user_id', $user_id)->increment('pay_points', $back_integral);
-
-            /*所退款订单，下单有没赠送积分；有赠送的话，赠送的积分扣除*/
-            $order_give_integral_info = RC_DB::table('account_log')->where('user_id', $user_id)->where('from_type', 'order_give_integral')->where('from_value', $refund_order['order_sn'])->first();
-            if (!empty($order_give_integral_info)) {
-                $options = array(
-                    'user_id'     => $order_give_integral_info['user_id'],
-                    'rank_points' => intval($order_give_integral_info['rank_points']) * (-1),
-                    'pay_points'  => intval($order_give_integral_info['pay_points']) * (-1),
-                    'change_desc' => '订单退款，扣除订单' . $refund_order['order_sn'] . '下单时赠送的' . $integral_name,
-                    'change_type' => ACT_REFUND,
-                    'from_type'   => 'refund_deduct_integral',
-                    'from_value'  => $refund_order['order_sn']
-                );
-                RC_Api::api('user', 'account_change_log', $options);
-            }
+        	$result = (new Ecjia\App\Payment\Refund\RefundManager($refund_order['order_sn'], null, null))->refund($back_money_total, $_SESSION['admin_name']);
+        	if (is_ecjia_error($result)) {
+        		return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        	}
 
             //更新打款表
             (new \Ecjia\App\Refund\Models\RefundPayRecordModel)->updateRefundPayrecord($id, 'surplus', $back_content, $_SESSION['admin_id'], $_SESSION['admin_name']);
@@ -300,83 +262,8 @@ class admin_payrecord extends ecjia_admin
             return $this->showmessage('退款操作成功，等待微信到款通知即可', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/admin_payrecord/detail', array('refund_id' => $refund_id))));
         }
 
-        if ($back_type == 'surplus') {
-            //更新售后订单表
-            $data = array(
-                'refund_status' => 2,
-                'refund_time'   => RC_Time::gmtime(),
-            );
-            RC_DB::table('refund_order')->where('refund_id', $refund_id)->update($data);
-
-            //更新订单操作表
-            $data = array(
-                'refund_id'        => $refund_id,
-                'action_user_type' => 'admin',
-                'action_user_id'   => $_SESSION['admin_id'],
-                'action_user_name' => $_SESSION['admin_name'],
-                'status'           => 1,
-                'refund_status'    => 2,
-                'return_status'    => $return_status,
-                'action_note'      => $action_note,
-                'log_time'         => RC_Time::gmtime(),
-            );
-            RC_DB::table('refund_order_action')->insertGetId($data);
-
-            //记录到结算表
-            // 		RC_Api::api('commission', 'add_bill_detail', array('order_type' => 'refund', 'order_id' => $refund_order['order_id'], 'store_id' => $refund_order['store_id']));
-            RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'refund', 'order_id' => $refund_order['refund_id']));
-
-            //售后订单状态变动日志表
-            RefundStatusLog::refund_payrecord(array('refund_id' => $refund_id, 'back_money' => $back_money_total));
-
-            //普通订单状态变动日志表
-            $order_id = RC_DB::table('refund_order')->where('refund_id', $refund_id)->pluck('order_id');
-            OrderStatusLog::refund_payrecord(array('order_id' => $order_id, 'back_money' => $back_money_total));
-
-            //更新商家会员
-            if (!empty($user_id) && !empty($refund_order['store_id'])) {
-                RC_Api::api('customer', 'store_user_buy', array('store_id' => $refund_order['store_id'], 'user_id' => $user_id));
-            }
-
-            //短信告知用户退款退货成功
-            $user_info = RC_DB::table('users')->where('user_id', $user_id)->select('user_name', 'pay_points', 'user_money', 'mobile_phone')->first();
-            if (!empty($user_info['mobile_phone'])) {
-                $options = array(
-                    'mobile' => $user_info['mobile_phone'],
-                    'event'  => 'sms_refund_balance_arrived',
-                    'value'  => array(
-                        'user_name'  => $user_info['user_name'],
-                        'amount'     => $back_money_total,
-                        'user_money' => $user_info['user_money'],
-                    ),
-                );
-                RC_Api::api('sms', 'send_event_sms', $options);
-            }
-
-            //消息通知
-            $orm_user_db = RC_Model::model('orders/orm_users_model');
-            $user_ob     = $orm_user_db->find($user_id);
-
-            if ($user_ob) {
-                $user_refund_data = array(
-                    'title' => '退款到余额',
-                    'body'  => '尊敬的' . $user_info['user_name'] . '，退款业务已受理成功，退回余额' . $back_money_total . '元，目前可用余额' . $user_info['user_money'] . '元。',
-                    'data'  => array(
-                        'user_id'              => $user_id,
-                        'user_name'            => $user_info['user_name'],
-                        'amount'               => $back_money_total,
-                        'formatted_amount'     => price_format($back_money_total),
-                        'user_money'           => $user_info['user_money'],
-                        'formatted_user_money' => price_format($user_info['user_money']),
-                        'refund_id'            => $refund_order['refund_id'],
-                        'refund_sn'            => $refund_order['refund_sn'],
-                    ),
-                );
-
-                $push_refund_data = new RefundBalanceArrived($user_refund_data);
-                RC_Notification::send($user_ob, $push_refund_data);
-            }
-        }
+        //更新refund_order_action表打款操作人信息
+        RC_DB::table('refund_order_action')->where('refund_id', $refund_id)->where('refund_status', Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED)->update(array('action_user_type' => 'admin', 'action_user_id' => $_SESSION['admin_id'], 'action_user_name' => $_SESSION['admin_name']));
 
         ecjia_admin::admin_log('[' . $refund_order['refund_sn'] . ']', 'payrecord', 'refund_order');
         return $this->showmessage('退款操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/admin_payrecord/detail', array('refund_id' => $refund_id))));

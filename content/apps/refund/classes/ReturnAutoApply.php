@@ -57,6 +57,8 @@ use order_refund;
 use OrderStatusLog;
 use RefundStatusLog;
 
+use Ecjia\App\Refund\RefundBackGoodsStock;
+
 /**
  * 退款自动申请
  */
@@ -198,13 +200,8 @@ class ReturnAutoApply
         $refund_id = RC_DB::table('refund_order')->insertGetId($refund_data);
 
         if ($refund_id) {
-            if ($refund_type == 'refund') {
-                //仅退款
-                $this->refundProcess($this->order_id);
-            } elseif ($refund_type == 'return') {
-                //退货退款
-                $this->returnProcess($this->order_id, $refund_id);
-            }
+            //退款还原订单商品库存
+            RefundBackGoodsStock::refund_back_stock($refund_id);
         }
 
         //更改订单状态

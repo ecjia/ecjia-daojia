@@ -125,8 +125,8 @@ class refund_merchant_confirm_api extends Component_Event_Api {
 			$refund_sn = $refund_info['refund_sn'];
 			
 			//记录商家操作日志
-			\Ecjia\App\Refund\Helper::assign_adminlog_content();
-			RC_Api::api('merchant', 'admin_log', array('text'=> $options['staff_name'].'操作售后订单'.$refund_sn.'为确认收货'.'【来源掌柜】', 'action'=>'check', 'object'=>'refund_order'));
+// 			\Ecjia\App\Refund\Helper::assign_adminlog_content();
+// 			RC_Api::api('merchant', 'admin_log', array('text'=> $options['staff_name'].'操作售后订单'.$refund_sn.'为确认收货'.'【来源掌柜】', 'action'=>'check', 'object'=>'refund_order'));
 			
 			$refund_payrecord_info = RC_DB::table('refund_payrecord')->where('id', $refund_payrecord_id)->first();
 			

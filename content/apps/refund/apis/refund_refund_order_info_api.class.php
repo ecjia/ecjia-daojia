@@ -58,7 +58,7 @@ class refund_refund_order_info_api extends Component_Event_Api {
      */
 	public function call(&$options) {
 		if (!is_array($options)
-		|| (!isset($options['refund_id']) && !isset($options['refund_sn']))) {
+		|| (empty($options['refund_id']) && empty($options['refund_sn']))) {
 			return new ecjia_error('invalid_parameter', '调取api文件,refund_order_info,参数错误');
 		}
 		
@@ -79,14 +79,17 @@ class refund_refund_order_info_api extends Component_Event_Api {
 		if (!empty($options['store_id'])) {
 			$db->where('store_id', $options['store_id']);
 		}
+		$info = [];
 		if ($refund_sn) {
-            $info = $db->where('refund_sn', $refund_sn)->first();
+            $info = $db->where('refund_sn', $refund_sn)->where('status', '!=', Ecjia\App\Refund\RefundStatus::ORDER_CANCELED)->first();
         } else {
-            $info = $db->where('refund_id', $refund_id)->first();
+            $info = $db->where('refund_id', $refund_id)->where('status', '!=', Ecjia\App\Refund\RefundStatus::ORDER_CANCELED)->first();
         }
-
-		$info['formated_add_time']		= RC_Time::local_date(ecjia::config('time_format'), $info['add_time']);
-
+		
+        if (!empty($info)) {
+        	$info['formated_add_time']		= RC_Time::local_date(ecjia::config('time_format'), $info['add_time']);
+        }
+        
 		return $info;
 	}
 }

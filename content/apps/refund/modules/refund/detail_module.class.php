@@ -278,6 +278,7 @@ class refund_detail_module extends api_front implements api_interface {
 		
 		$arr = array();
 		$arr = array(
+				'order_sn'					=> $refund_order_info['order_sn'],
 				'refund_sn' 				=> $refund_sn,
 				'store_service_phone' 		=> !empty($store_service_phone) ? $store_service_phone : '',
 				'refund_type'				=> $refund_order_info['refund_type'],
