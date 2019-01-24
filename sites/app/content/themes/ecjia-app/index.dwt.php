@@ -5,10 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0, minimal-ui">
     <title>{$page_title}</title>
-    <link rel="stylesheet" href="{$theme_url}/js/swiper/swiper.css">
-    <link rel="stylesheet" href="{$theme_url}/css/style.css?19">
-    <script type="text/javascript" src="{$theme_url}/js/swiper/swiper.js"></script>
-    <script type="text/javascript" src="{$theme_url}/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="{$theme_url}js/swiper/swiper.css">
+    <link rel="stylesheet" href="{$theme_url}css/style.css?19">
+    <script type="text/javascript" src="{$theme_url}js/swiper/swiper.js"></script>
+    <script type="text/javascript" src="{$theme_url}js/jquery.min.js"></script>
 </head>
 
 <body>
@@ -137,6 +137,21 @@
                 </div>
             </div>
 
+            <div class="content-item">
+                <div class="right-side ecjia-fl">
+                    <p class="title">
+                        <span class="num">4</span>收银通</p>
+                    <p class="notice w91">专门为零售商户量身打造的一款高效，便捷的收银工具，您可使用此APP快捷地进行开单、收款、验单、退款、会员、统计、小票打印等操作，同时还可使用微信、支付宝、刷卡等多种主流收款方式，为您提供一站式收银、管理、运营的金融解决方案！</p>
+                    <div class="button-item">
+                        <a class="ecjia-btn icon-btn blue" href="https://shouji.baidu.com/software/25429454.html" target="_blank">
+                            <i class="android icon"></i>Android端下载</a>
+                    </div>
+                </div>
+                <div class="left-side ecjia-fr">
+                    <img class="ecjia-fr" src="{$theme_url}images/syt.png" />
+                </div>
+            </div>
+
             <div class="teach-item">
                 <div class="teach-item-content">
                     <div class="title">三步教你如何使用APP</div>
@@ -188,6 +203,7 @@
                         <div class="tab-li active" data-tab="shopkeeper">到家掌柜</div>
                         <div class="tab-li" data-tab="distributor">到家配送员</div>
                         <div class="tab-li" data-tab="cloudshop">云店</div>
+                        <div class="tab-li" data-tab="syt">收银通</div>
                     </div>
                 </div>
                 <div class="wt-30">
@@ -276,6 +292,37 @@
                         <div class="swiper-button-prev"></div>
                     </div>
 
+                    <div class="swiper-container" id="syt-swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="{$theme_url}images/syt/1.png">
+                                <p>店铺首页</p>
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="{$theme_url}images/syt/2.png">
+                                <p>开单</p>
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="{$theme_url}images/syt/3.png">
+                                <p>会员列表</p>
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="{$theme_url}images/syt/4.png">
+                                <p>会员详情</p>
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="{$theme_url}images/syt/5.png">
+                                <p>收款</p>
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="{$theme_url}images/syt/6.png">
+                                <p>资金流水</p>
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+
                     <script type="text/javascript">
                         var swiper = new Swiper($('#shopkeeper-swiper'), {
                             slidesPerView: 3,
@@ -305,7 +352,7 @@
                                 return false;
                             }
                             $(this).addClass('swipered');
-                            console.log(1);
+
                             var swiper = new Swiper('#' + tab + '-swiper', {
                                 slidesPerView: 3,
                                 paginationClickable: true,
