@@ -113,6 +113,8 @@ class admin_cashier_orders_refund_detail_module extends api_admin implements api
 				'goods_list'					=> $goods_item,
 				'pay_code'						=> !empty($refund_order_info['pay_code']) ? $refund_order_info['pay_code'] : '',
 				'pay_name'						=> !empty($refund_order_info['pay_name']) ? $refund_order_info['pay_name'] : '',
+				'pay_fee'						=> $refund_order_info['pay_fee'],
+				'formatted_pay_fee'				=> ecjia_price_format($refund_order_info['pay_fee'], false),
 				'print_data'					=> $print_data
 		);
 		
@@ -177,7 +179,9 @@ class admin_cashier_orders_refund_detail_module extends api_admin implements api
 					'refund_sn'						=> $refund_order_info['refund_sn'],
 					'refund_total_amount'			=> $refund_total_amount,
 					'formatted_refund_total_amount' => price_format($refund_total_amount, false),
-					'cashier_name'					=> empty($refund_payrecord_info['action_user_name']) ? '' : $refund_payrecord_info['action_user_name']
+					'cashier_name'					=> empty($refund_payrecord_info['action_user_name']) ? '' : $refund_payrecord_info['action_user_name'],
+					'pay_fee'						=> $refund_order_info['pay_fee'],
+					'formatted_pay_fee'				=> ecjia_price_format($refund_order_info['pay_fee'], false),
 			);
 		}
 		 

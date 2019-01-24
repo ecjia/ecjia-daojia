@@ -75,15 +75,22 @@ class list_module extends api_admin implements api_interface {
 			$end_date = RC_Time::local_strtotime($end_date) + 86399;
 		}
 		
+		
+		
 		$options = array(
 			'size'				=> $size,
 			'page'				=> $page,
 			'store_id'			=> $_SESSION['store_id'],
 			'order_type'		=> 'cashdesk',
-			'mobile_device_id'  => $_SESSION['device_id'],
 			'start_date'		=> $start_date,
 			'end_date'			=> $end_date
 		);
+		if ($device['code'] == Ecjia\App\Cashier\CashierDevice::CASHIERCODE) {
+			$device_type 			 	= Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);
+			$options['device_type'] 	= $device_type;
+		} else {
+			$options['mobile_device_id'] = $_SESSION['device_id'];
+		}
 		
 		$quickpay_order_data = RC_Api::api('quickpay', 'cashier_quickpay_order_list', $options);
 		if (is_ecjia_error($quickpay_order_data)) {

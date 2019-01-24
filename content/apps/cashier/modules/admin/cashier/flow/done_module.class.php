@@ -74,9 +74,6 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
     	if ($_SESSION['cashdesk_temp_user_id'] > 0) {
     		$_SESSION['user_id'] = $_SESSION['cashdesk_temp_user_id'];
     	}
-
-        //RC_Loader::load_app_func('cart','cart');
-        //RC_Loader::load_app_func('cashdesk','cart');
         
         RC_Loader::load_app_func('admin_order','orders');
         
@@ -557,12 +554,15 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
                 						'order_id' 		=> $order['order_id'],
                 						'subject' 		=> $subject,
                 						'desc' 			=> $subject,
-                						'order_sn' 		=> $order['order_sn']
+                						'order_sn' 		=> $order['order_sn'],
+            							'pay_fee'		=> $order['pay_fee'],
+            							'formatted_pay_fee'		=> ecjia_price_format($order['pay_fee'], false),
             )
         );
         
 		/*收银员订单操作记录*/
         $order_id = $order['order_id'];
+        $device_type  = Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);
         $device_info = RC_DB::table('mobile_device')->where('id', $_SESSION['device_id'])->first();
         $cashier_record = array(
         		'store_id' 			=> $_SESSION['store_id'],
@@ -571,7 +571,7 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
         		'order_type' 		=> 'ecjia-cashdesk',
         		'mobile_device_id'	=> empty($_SESSION['device_id']) ? 0 : $_SESSION['device_id'],
         		'device_sn'			=> empty($device_info['device_udid']) ? '' : $device_info['device_udid'],
-        		'device_type'		=> 'ecjia-cashdesk',
+        		'device_type'		=> $device_type,
         		'action'   	 		=> 'billing', //开单
         		'create_at'	 		=> RC_Time::gmtime(),
         );

@@ -97,7 +97,7 @@
 				<form class="form-inline f_r" action="{RC_Uri::url('cashier/mh_cashier_goods/init')}" method="post" name="search_form">
 					<div class="screen f_r">
 						<div class="form-group">
-							<input type="text" class="form-control" name="keywords" value="{$smarty.get.keywords}" placeholder="{lang key='goods::goods.enter_goods_keywords'}">
+							<input type="text" class="form-control" style="width:250px;" name="keywords" value="{$smarty.get.keywords}" placeholder="请输入商品名，商品货号等关键字">
 						</div>
 						<button class="btn btn-primary screen-btn" type="submit"><i class="fa fa-search"></i> 搜索 </button>
 					</div>

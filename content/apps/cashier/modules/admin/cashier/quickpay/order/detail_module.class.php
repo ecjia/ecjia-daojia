@@ -141,7 +141,9 @@ class admin_cashier_quickpay_order_detail_module extends api_admin implements ap
 				'refund_sn'						=> '',
 				'refund_total_amount'			=> 0,
 				'formatted_refund_total_amount' => '',
-				'cashier_name'					=> $this->get_cashier_name($order)
+				'cashier_name'					=> $this->get_cashier_name($order),
+				'pay_fee'						=> '',
+				'formatted_pay_fee'				=> '',
 		);
 		
 		return  array('order_data' => $arr, 'print_data' => $quickpay_print_data);

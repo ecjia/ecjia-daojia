@@ -147,13 +147,7 @@ class admin_cashier_flow_checkOrder_module extends api_admin implements api_inte
 			cart_cashdesk::recalculate_price($device);
 		}
 		
-		/* 取得购物类型 */
-		//$flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
 	    /*收银台商品购物车类型*/
-		//$codes = array('8001', '8011');
-	    //if (!empty($device) && in_array($device['code'], $codes)) {
-	    //	$flow_type = CART_CASHDESK_GOODS;
-	    //}	    
 	    $flow_type = CART_CASHDESK_GOODS;
 	    
 		if (!empty($addgoods['goods_sn'])) {

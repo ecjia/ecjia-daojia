@@ -210,6 +210,8 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
     	
     	/*收银员订单操作记录*/
     	$device_info = RC_DB::table('mobile_device')->where('id', $_SESSION['device_id'])->first();
+    	$device		  = $this->device;
+    	$device_type  = Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);
     	$cashier_record = array(
     			'store_id' 			=> $_SESSION['store_id'],
     			'staff_id'			=> $_SESSION['staff_id'],
@@ -217,7 +219,7 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
     			'order_type' 		=> 'ecjia-cashdesk',
     			'mobile_device_id'	=> empty($_SESSION['device_id']) ? 0 : $_SESSION['device_id'],
     			'device_sn'			=> empty($device_info['device_udid']) ? '' : $device_info['device_udid'],
-    			'device_type'		=> 'ecjia-cashdesk',
+    			'device_type'		=> $device_type,
     			'action'   	 		=> 'receipt', //收款
     			'create_at'	 		=> RC_Time::gmtime(),
     	);
@@ -237,7 +239,9 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
     					'order_amount'           => $order['order_amount'],
     					'formatted_order_amount' => price_format($order['order_amount']),
     					'order_id'               => $order['order_id'],
-    					'order_sn'               => $order['order_sn']
+    					'order_sn'               => $order['order_sn'],
+    					'pay_fee'				 => '',
+    					'formatted_pay_fee'		 => '',
     			)
     	);
     	

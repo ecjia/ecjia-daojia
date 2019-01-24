@@ -50,29 +50,40 @@ class admin_cashier_orders_summary_module  extends api_admin implements api_inte
 			$dbview_checkorder->where(RC_DB::raw('cr.create_at'), '>=', $start_time)->where(RC_DB::raw('cr.create_at'), '<=', $end_time);
 			$dbview_receipt->where(RC_DB::raw('cr.create_at'), '>=', $start_time)->where(RC_DB::raw('cr.create_at'), '<=', $end_time);
 		}
+		
+		$device_type  = Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);
+		
 		//开单
-		$result_billing  = $dbview_billing->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id'])
+		$dbview_billing->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id'])
 										 ->where(RC_DB::raw('cr.action'), '=', 'billing')
-										 ->where(RC_DB::raw('oi.pay_status'), PS_PAYED)
-										 ->where(RC_DB::raw('cr.mobile_device_id'), $_SESSION['device_id'])
-										 ->select(RC_DB::raw($field))->first();
+										 ->where(RC_DB::raw('oi.pay_status'), PS_PAYED);
 		//验单
-		$result_checkorder  = $dbview_checkorder->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id'])
+		$dbview_checkorder->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id'])
 												->where(RC_DB::raw('cr.action'), '=', 'check_order')
-												->where(RC_DB::raw('oi.pay_status'), PS_PAYED)
-												->where(RC_DB::raw('cr.mobile_device_id'), $_SESSION['device_id'])
-												->select(RC_DB::raw($field))->first();
+												->where(RC_DB::raw('oi.pay_status'), PS_PAYED);
 		
 		//收款，订单数据来源买单表quickpay_orders；且ordertype为cashdesk-receipt的
 		$field_receipt = 'count(qo.order_id) as count,
 			SUM(qo.goods_amount - qo.discount) AS total_fee';
 		
-		$result_receipt 	= $dbview_receipt->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id'])
+		$dbview_receipt->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id'])
 												->where(RC_DB::raw('cr.action'), '=', 'receipt')
 												->where(RC_DB::raw('qo.order_type'), '=', 'cashdesk-receipt')
-												->where(RC_DB::raw('qo.pay_status'), Ecjia\App\Quickpay\Status::PAID)
-												->where(RC_DB::raw('cr.mobile_device_id'), $_SESSION['device_id'])
-												->select(RC_DB::raw($field_receipt))->first();
+												->where(RC_DB::raw('qo.pay_status'), Ecjia\App\Quickpay\Status::PAID);
+		
+		if ($device['code'] == Ecjia\App\Cashier\CashierDevice::CASHIERCODE) {
+			$dbview_billing->where(RC_DB::raw('cr.device_type'), $device_type);
+			$dbview_checkorder->where(RC_DB::raw('cr.device_type'), $device_type);
+			$dbview_receipt->where(RC_DB::raw('cr.device_type'), $device_type);
+		} else {
+			$dbview_billing->where(RC_DB::raw('cr.mobile_device_id'), $_SESSION['device_id']);
+			$dbview_checkorder->where(RC_DB::raw('cr.mobile_device_id'), $_SESSION['device_id']);
+			$dbview_receipt->where(RC_DB::raw('cr.mobile_device_id'), $_SESSION['device_id']);
+		}
+		
+		$result_billing 	= $dbview_billing->select(RC_DB::raw($field))->first();
+		$result_checkorder	= $dbview_checkorder->select(RC_DB::raw($field))->first();
+		$result_receipt		= $dbview_receipt->select(RC_DB::raw($field_receipt))->first();
 		
 		$stats_result = array(
 				'billing'		=> array(
