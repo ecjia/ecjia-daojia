@@ -51,7 +51,7 @@ Plugin Name: 商家结算帐单按日生成
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cron_bill_day/
 Description: 自动按日生成商家结算帐单
 Author: ECJIA TEAM
-Version: 1.21.0
+Version: 1.27.0
 Author URI: http://www.ecjia.com/
 Plugin App: cron
 */
