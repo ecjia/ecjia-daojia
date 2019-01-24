@@ -21982,6 +21982,20 @@ class AttachServiceProvider extends AppParentServiceProvider
 }
 }
 
+namespace Ecjia\App\Agent {
+use Royalcms\Component\App\AppParentServiceProvider;
+class AgentServiceProvider extends AppParentServiceProvider
+{
+    public function boot()
+    {
+        $this->package('ecjia/app-agent');
+    }
+    public function register()
+    {
+    }
+}
+}
+
 namespace Ecjia\App\Bonus {
 use Royalcms\Component\App\AppParentServiceProvider;
 class BonusServiceProvider extends AppParentServiceProvider
@@ -27456,11 +27470,12 @@ class TextdomainManager
 
 namespace Royalcms\Component\Gettext {
 use RC_Hook;
+use Royalcms\Component\Foundation\Royalcms;
 class Gettext
 {
     protected $royalcms;
     protected $textdomain;
-    public function __construct(\Royalcms\Component\Foundation\Royalcms $royalcms, TextdomainManager $textdomain)
+    public function __construct(Royalcms $royalcms, TextdomainManager $textdomain)
     {
         $this->royalcms = $royalcms;
         $this->textdomain = $textdomain;
@@ -28662,7 +28677,7 @@ class Hook extends Facade
 
 namespace Royalcms\Component\Script {
 use RC_Hook;
-final class Script
+class Script
 {
     private static $instance = null;
     public function __construct()
@@ -29096,7 +29111,7 @@ class Dependencies
 
 namespace Royalcms\Component\Script {
 use RC_Hook;
-final class Style
+class Style
 {
     private static $instance = null;
     public function __construct()
@@ -34537,7 +34552,7 @@ abstract class EcjiaController extends RoyalcmsController
                 default:
                     $this->assign('page_state', array('icon' => 'fontello-icon-cancel-circled', 'msg' => __('操作错误'), 'class' => 'alert-danger'));
             }
-            $this->assign('ur_here', RC_Lang::get('system::system.system_message'));
+            $this->assign('ur_here', __('系统信息'));
             $this->assign('msg_detail', $message);
             $this->assign('msg_type', $state);
             if (!empty($options)) {
@@ -35234,8 +35249,7 @@ class ecjia_loader
         $scripts->add('jquery-stepy', "/lib/stepy/js/jquery.stepy{$suffix}.js", array(), false, 1);
         $scripts->add('jquery-quicksearch', "/lib/multi-select/js/jquery.quicksearch.js", array(), false, 1);
         $scripts->add('tinymce', RC_Uri::vendor_url('tinymce/tinymce') . "{$suffix}.js", array(), false, 1);
-        $admin_jslang = array('ok' => __('确定'), 'cancel' => __('取消'), 'confirm_del' => __('您确定要删除这条记录吗？'), 'error' => __('参数错误，无法删除！'), 'confirm' => __('您确定要操作所有选中项吗？'), 'please_select' => __('请先选中操作项！'), 'batch_error' => __('批量操作缺少参数！'), 'parameter_error' => __('参数错误，无法选择！'), 'status_success' => __('状态修改成功！'), 'clone' => __('clone-obj方法未设置data-parent参数。'), 'missing_parameters' => __('缺少参数'), 'confirm_delete_file' => __('您确定要删除此文件吗？'));
-        RC_Script::localize_script('ecjia.ui', 'admin_lang', $admin_jslang);
+        RC_Script::localize_script('ecjia.ui', 'admin_lang', config('system::jslang.loader_page'));
     }
     public static function default_styles(&$styles)
     {
