@@ -74,10 +74,6 @@
                             $('input[name="payment"]').each(function () {
                                 $(this).prop('checked', false).parent().removeClass('uni-checked');
                             });
-                            // $(".control-group-user").removeClass("hide");
-                            // $(".control-group-user").find('.userinfo').html(data.result.username);
-                            // $(".control-group-user").find('.user_money').html(data.result.user_money);
-                            // $(".control-group-user").find('.wechat_nickname').find('span').html(data.result.wechat_nickname);
                             $('input[name="user_id"]').val(data.result.user_id);
 
                             var content = data.content;

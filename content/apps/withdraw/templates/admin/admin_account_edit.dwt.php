@@ -34,34 +34,11 @@
 					<label class="control-label">{lang key='user::user_account.user_mobile'}：</label>
 					<div class="controls">
 						<input class="w350 user-mobile" name="user_mobile" action='{url path="withdraw/admin/validate_acount"}' type="text"
-						 value="{if $user_mobile}{$user_mobile}{else if $smarty.get.id}匿名会员{else}{/if}" {if $user_surplus.is_paid}
-						 readonly="true" {/if} />
+						 value="{if $user.mobile_phone}{$user.mobile_phone}{/if}" />
 						<span class="input-must">{lang key='system::system.require_field'}</span>
 						<div class="help-block">输入正确手机号，查询会员基本信息。</div>
 					</div>
 				</div>
-
-<!--				<div class="control-group-user hide">-->
-<!--					<div class="control-group formSep">-->
-<!--						<label class="control-label">会员名称：</label>-->
-<!--						<div class="controls userinfo l_h30">-->
-<!--						</div>-->
-<!--					</div>-->
-<!---->
-<!--					<div class="control-group formSep">-->
-<!--						<label class="control-label">可用余额：</label>-->
-<!--						<div class="controls user_money l_h30">-->
-<!--						</div>-->
-<!--					</div>-->
-<!---->
-<!--					<div class="control-group formSep">-->
-<!--						<label class="control-label">微信昵称：</label>-->
-<!--						<div class="controls wechat_nickname">-->
-<!--							<span></span>-->
-<!--							<div class="help-block">仔细查看会员手机号、名称、微信昵称是否正确，若正确请忽视，若不正确，请主动调整手机号。</div>-->
-<!--						</div>-->
-<!--					</div>-->
-<!--				</div>-->
 
 				<div class="control-group formSep">
 					<label class="control-label">提现金额：</label>
@@ -90,9 +67,7 @@
 				</div>
 				{/if}
 
-                <div class="user_bank_card">
-
-                </div>
+                <div class="user_bank_card"></div>
 
 				<div class="control-group formSep">
 					<label class="control-label">{lang key='user::user_account.label_surplus_notic'}</label>
@@ -115,15 +90,13 @@
 
 				<div class="control-group">
 					<div class="controls">
-                        <input type="hidden" name="user_id" />
+                        <input type="hidden" name="user_id" value="{if $user.user_id}{$user.user_id}{/if}"/>
 						<button class="btn btn-gebo" type="submit">{lang key='system::system.button_submit'}</button>
 					</div>
 				</div>
 			</fieldset>
             </div>
-            <div class="span5 withdraw_card_content">
-
-            </div>
+            <div class="span5 withdraw_card_content">{if $content}{$content}{/if}</div>
 		</form>
 	</div>
 </div>

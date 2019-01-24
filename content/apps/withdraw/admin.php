@@ -143,6 +143,20 @@ class admin extends ecjia_admin
         $withdraw_min_amount = !empty($withdraw_min_amount) ? $withdraw_min_amount : 1;
         $this->assign('withdraw_min_amount', $withdraw_min_amount);
 
+        $id = intval($_GET['user_id']);
+
+        if (!empty($id)) {
+            $user_info = get_user_info($id);
+
+            if (!empty($user_info)) {
+                $this->assign('user', $user_info);
+
+                $content = $this->get_card_content($user_info);
+
+                $this->assign('content', $content);
+            }
+        }
+
         $this->display('admin_account_edit.dwt');
     }
 
@@ -305,8 +319,7 @@ class admin extends ecjia_admin
         $this->assign('form_action', RC_Uri::url('withdraw/admin/action'));
 
         if ($account_info['bank_en_short'] !== 'WECHAT') {
-            $bank_card_str                         = substr($account_info['bank_card'], -4);
-            $account_info['formated_payment_name'] = !empty($account_info['bank_name']) ? $account_info['bank_name'] . ' (' . $bank_card_str . ')' : '';
+            $account_info['formated_payment_name'] = !empty($account_info['bank_name']) ? $account_info['bank_name'] . ' (' . $account_info['bank_card'] . ')' : '';
         } else {
             $account_info['formated_payment_name'] = $account_info['bank_name'] . ' (' . $account_info['cardholder'] . ')';
         }
@@ -526,9 +539,8 @@ class admin extends ecjia_admin
      */
     public function validate_acount()
     {
-        $user_mobile     = empty($_POST['user_mobile']) ? 0 : $_POST['user_mobile'];
-        $user_info       = RC_DB::table('users')->where('mobile_phone', $user_mobile)->first();
-        $wechat_nickname = '未绑定';
+        $user_mobile = empty($_POST['user_mobile']) ? 0 : $_POST['user_mobile'];
+        $user_info   = RC_DB::table('users')->where('mobile_phone', $user_mobile)->first();
 
         try {
             if (empty($user_mobile)) {
@@ -538,80 +550,12 @@ class admin extends ecjia_admin
             } else {
                 $user_info['formated_user_money'] = ecjia_price_format($user_info['user_money'], false);
 
-                $connect_info = RC_DB::table('connect_user')->where('connect_code', 'sns_wechat')->where('user_id', $user_info['user_id'])->first();
-                if (!empty($connect_info)) {
-                    $ect_uid = RC_DB::table('wechat_user')->where('unionid', $connect_info['open_id'])->pluck('ect_uid');
-                    //修正绑定信息
-                    if (empty($ect_uid)) {
-                        RC_DB::table('wechat_user')->where('unionid', $connect_info['open_id'])->update(array('ect_uid' => $connect_info['user_id']));
-                    }
-                    $wechat_info = RC_DB::table('wechat_user')->where('unionid', $connect_info['open_id'])->where('ect_uid', $connect_info['user_id'])->first();
-                    if (!empty($wechat_info)) {
-                        $wechat_nickname = $wechat_info['nickname'];
-                    }
-                }
-
                 $result = array(
-                    'status'          => 1,
-                    'username'        => $user_info['user_name'],
-                    'user_money'      => $user_info['formated_user_money'],
-                    'wechat_nickname' => $wechat_nickname,
-                    'user_id'         => $user_info['user_id']
+                    'status'  => 1,
+                    'user_id' => $user_info['user_id']
                 );
 
-                $user_info['avatar_img'] = !empty($user_info['avatar_img']) ? RC_Upload::upload_url($user_info['avatar_img']) : RC_App::apps_url('statics/images/default-avatar-60.png', __FILE__);
-
-                if ($user_info['user_rank'] == 0) {
-                    //重新计算会员等级
-                    $row_rank = RC_Api::api('user', 'update_user_rank', array('user_id' => $user_info['user_id']));
-                } else {
-                    $row_rank = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
-                }
-
-                $user_binded_list = [];
-                $bank_list        = RC_DB::table('withdraw_user_bank')->where('user_id', $user_info['user_id'])->where('user_type', 'user')->get();
-                if ($bank_list) {
-                    foreach ($bank_list as $val) {
-                        $formated_pay_name = $val['bank_name'];
-
-                        if ($val['bank_type'] == 'bank') {
-                            $bank      = Ecjia\App\Setting\BankWithdraw::getBankInfoByEnShort($val['bank_en_short']);
-                            $bank_icon = $bank['bank_icon'];
-
-                            if (!empty($val['bank_name']) && !empty($val['bank_card'])) {
-                                $bank_card_str = substr($val['bank_card'], -4);
-
-                                $formated_pay_name = $val['bank_name'] . ' (' . $bank_card_str . ')';
-                            }
-
-                        } elseif ($val['bank_type'] == 'wechat') {
-                            $bank_icon = RC_App::apps_url('statics/images/wechat.png', __FILE__);
-
-                            if (!empty($val['bank_name']) && !empty($val['cardholder'])) {
-                                $formated_pay_name = $val['bank_name'] . ' (' . $val['cardholder'] . ')';
-                            }
-
-                        }
-
-                        $user_binded_list[] = [
-                            'id'                => intval($val['id']),
-                            'bank_icon'         => $bank_icon,
-                            'formated_pay_name' => $formated_pay_name,
-                        ];
-                    }
-                }
-
-                $data = array(
-                    'user_id'             => $user_info['user_id'],
-                    'avatar_img'          => $user_info['avatar_img'],
-                    'user_name'           => $user_info['user_name'],
-                    'formated_user_money' => $user_info['formated_user_money'],
-                    'rank_name'           => $row_rank['rank_name'],
-                    'user_binded_list'    => $user_binded_list,
-                    'unbind_icon'         => RC_App::apps_url('statics/images/unbind.png', __FILE__)
-                );
-                $this->assign('data', $data);
-                $content = $this->fetch('library/user_card.lbi');
+                $content = $this->get_card_content($user_info);
 
                 return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('result' => $result, 'content' => $content));
             }
@@ -793,6 +737,64 @@ class admin extends ecjia_admin
         return array('list' => $list, 'filter' => $filter, 'page' => $page->show(5), 'desc' => $page->page_desc(), 'type_count' => $type_count);
     }
 
+    private function get_card_content($user_info = [])
+    {
+        $user_info['avatar_img'] = !empty($user_info['avatar_img']) ? RC_Upload::upload_url($user_info['avatar_img']) : RC_App::apps_url('statics/images/default-avatar-60.png', __FILE__);
+
+        if ($user_info['user_rank'] == 0) {
+            //重新计算会员等级
+            $row_rank = RC_Api::api('user', 'update_user_rank', array('user_id' => $user_info['user_id']));
+        } else {
+            $row_rank = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
+        }
+
+        $user_binded_list = [];
+        $bank_list        = RC_DB::table('withdraw_user_bank')->where('user_id', $user_info['user_id'])->where('user_type', 'user')->get();
+        if ($bank_list) {
+            foreach ($bank_list as $val) {
+                $formated_pay_name = $val['bank_name'];
+
+                if ($val['bank_type'] == 'bank') {
+                    $bank      = Ecjia\App\Setting\BankWithdraw::getBankInfoByEnShort($val['bank_en_short']);
+                    $bank_icon = $bank['bank_icon'];
+
+                    if (!empty($val['bank_name']) && !empty($val['bank_card'])) {
+                        $bank_card_str = substr($val['bank_card'], -4);
+
+                        $formated_pay_name = $val['bank_name'] . ' (' . $bank_card_str . ')';
+                    }
+
+                } elseif ($val['bank_type'] == 'wechat') {
+                    $bank_icon = RC_App::apps_url('statics/images/wechat.png', __FILE__);
+
+                    if (!empty($val['bank_name']) && !empty($val['cardholder'])) {
+                        $formated_pay_name = $val['bank_name'] . ' (' . $val['cardholder'] . ')';
+                    }
+
+                }
+
+                $user_binded_list[] = [
+                    'id'                => intval($val['id']),
+                    'bank_icon'         => $bank_icon,
+                    'formated_pay_name' => $formated_pay_name,
+                ];
+            }
+        }
+
+        $data = array(
+            'user_id'             => $user_info['user_id'],
+            'avatar_img'          => $user_info['avatar_img'],
+            'user_name'           => $user_info['user_name'],
+            'formated_user_money' => $user_info['formated_user_money'],
+            'rank_name'           => $row_rank['rank_name'],
+            'user_binded_list'    => $user_binded_list,
+            'unbind_icon'         => RC_App::apps_url('statics/images/unbind.png', __FILE__)
+        );
+        $this->assign('data', $data);
+        $content = $this->fetch('library/user_card.lbi');
+
+        return $content;
+    }
 }
 
 // end
