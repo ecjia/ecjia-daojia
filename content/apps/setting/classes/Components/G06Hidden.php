@@ -153,6 +153,8 @@ class G06Hidden extends ComponentAbstract
             //v1.25.0新增
             ['code' => 'orders_auto_cancel_time', 'value' => '', 'options' => ['type' => 'text']],
             ['code' => 'withdraw_support_banks', 'value' => '', 'options' => ['type' => 'text']],
+            //v1.27.0新增
+            ['code' => 'agent_rank', 'value' => '', 'options' => ['type' => 'text']],
         ];
 
         return $data;
