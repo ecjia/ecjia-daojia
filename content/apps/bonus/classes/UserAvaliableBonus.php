@@ -83,7 +83,7 @@ class UserAvaliableBonus
     						 ->where(RC_DB::raw('ub.user_id'), '!=', 0)
     						 ->where(RC_DB::raw('ub.user_id'), $options['user_id'])
     						 ->where(RC_DB::raw('ub.order_id'), 0)
-    						 ->where(RC_DB::raw('ub.order_sn'), '')
+    						 ->whereRaw('(ub.order_sn is null or ub.order_sn ="" )')
     						 ->where(RC_DB::raw('bt.min_goods_amount'), '<=', $options['min_goods_amount'])
     						 ->selectRaw($field)->get();
     	return $user_bonus;
