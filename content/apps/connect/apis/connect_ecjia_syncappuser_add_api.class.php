@@ -80,9 +80,9 @@ class connect_ecjia_syncappuser_add_api extends Component_Event_Api {
         $open_id        = $options['open_id'];
         $access_token	= $options['access_token'];
         $refresh_token  = $options['refresh_token'];
-        
-        $EcjiaSyncAppUser = new Ecjia\App\Connect\EcjiaSyncAppUser($connect_code, $user_id, $user_type);
-        $EcjiaSyncAppUser->addEcjiaAppUser($open_id, $access_token, $refresh_token);
+
+        $EcjiaSyncAppUser = new Ecjia\App\Connect\Plugins\EcjiaSyncAppUser($open_id, $user_type);
+        $EcjiaSyncAppUser->setUserId($user_id)->addEcjiaAppUser($access_token, $refresh_token);
         
         return true;
     }

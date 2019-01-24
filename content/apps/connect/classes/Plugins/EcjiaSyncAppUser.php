@@ -44,53 +44,35 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Connect;
+namespace Ecjia\App\Connect\Plugins;
 
+use Ecjia\App\Connect\ConnectUser\ConnectUserAbstract;
 use RC_Time;
-use RC_DB;
 
-class EcjiaSyncAppUser 
+class EcjiaSyncAppUser extends ConnectUserAbstract
 {
-    /**
-     * 用户类型定义
-     * @var string
-     */
-    const USER      	= 'user';
-    const MERCHANT  	= 'merchant';
-    const ADMIN     	= 'admin';
-    const ISADMIN		= 0;
-    const CONNECTCODE	= 'app';
 
-    protected $connect_code;
-    protected $user_id;
-    protected $user_type;
-    
-    public function __construct($connect_code, $user_id, $user_type = self::USER) {
-        
-        $this->connect_code     = $connect_code;
-        $this->user_id        	= $user_id;
-        $this->user_type        = $user_type;
-    }
+    protected $connect_code = 'app';
     
     /**
      * 添加ecjia同步登录用户
      */
-    public function addEcjiaAppUser($open_id, $access_token, $refresh_token)
+    public function addEcjiaAppUser($access_token, $refresh_token)
     {
-        if ($this->checkEcjiaAppUser() === false) {
-           $data = [
-	           'connect_code'  => $this->connect_code,
-	           'user_id'       => $this->user_id,
-	           'is_admin'      => $this->user_type == 'user' ? 0 : 1,
-	           'user_type'     => $this->user_type,
-	           'open_id'       => $open_id,
-	           'access_token'  => $access_token,
-	           'refresh_token' => $refresh_token,
-	           'create_at'     => RC_Time::gmtime()
-           ];
-           RC_DB::table('connect_user')->insert($data);
+        $model = $this->getUserModelByUserId();
+        if (empty($model)) {
+            $data = [
+               'connect_code'  => $this->connect_code,
+               'user_id'       => $this->user_id,
+               'user_type'     => $this->user_type,
+               'open_id'       => $this->open_id,
+               'access_token'  => $access_token,
+               'refresh_token' => $refresh_token,
+               'create_at'     => RC_Time::gmtime()
+            ];
+            $this->create($data);
         } else {
-        	$this->updateEcjiaAppUser($open_id, $access_token, $refresh_token);
+            $this->updateEcjiaAppUser($model, $access_token, $refresh_token);
         }
     }
     
@@ -99,7 +81,13 @@ class EcjiaSyncAppUser
      */
     public function deleteEcjiaAppUser()
     {
-    	RC_DB::table('connect_user')->where('user_id', $this->user_id)->where('user_type', $this->user_type)->where('connect_code', $this->connect_code)->delete();
+        $model = $this->getUserModelByUserId();
+
+        if (! empty($model)) {
+            return $model->delete();
+        } else {
+            return false;
+        }
     }
     
     /**
@@ -107,45 +95,24 @@ class EcjiaSyncAppUser
      */
     public function getEcjiaAppUser()
     {
-    	$ecjiaAppUserInfo = RC_DB::table('connect_user')
-    	->where('connect_code', $this->connect_code)
-    	->where('user_id', $this->user_id)
-    	->where('user_type', $this->user_type)
-    	->first();
-    	return $ecjiaAppUserInfo;
+    	return $this->getUserModelByUserId();
     }
-
-    /**
-     * 检查ecjia同步登录用户是否存在
-     */
-    protected function checkEcjiaAppUser()
-    {
-        $ecjiaAppUserInfo = RC_DB::table('connect_user')
-        	->where('connect_code', $this->connect_code)
-        	->where('user_id', $this->user_id)
-        	->where('user_type', $this->user_type)
-        	->first();
-        if (empty($ecjiaAppUserInfo)) {
-        	return false;
-        }
-        return true;
-    } 
     
     /**
      * 更新ecjia同步登录用户信息
      */
-    protected function updateEcjiaAppUser($open_id, $access_token, $refresh_token)
+    protected function updateEcjiaAppUser($model, $access_token, $refresh_token)
     {
-    	$data = [
-	    	'open_id'       => $open_id,
-	    	'access_token'  => $access_token,
-	    	'refresh_token' => $refresh_token,
-    	];
-    	RC_DB::table('connect_user')
-    		->where('connect_code', $this->connect_code)
-        	->where('user_id', $this->user_id)
-        	->where('user_type', $this->user_type)
-        	->update($data);
+        if (empty($model->user_id)) {
+            $model->user_id = $this->user_id;
+        }
+		
+        $model->open_id 		= $this->open_id;
+        $model->access_token 	= $access_token;
+        $model->refresh_token 	= $refresh_token;
+        $model->save();
+
+        return $model;
     }
 }
 

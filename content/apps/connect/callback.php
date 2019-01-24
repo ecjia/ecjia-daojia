@@ -78,7 +78,7 @@ class callback extends ecjia_front {
             $templateStr = RC_Hook::apply_filters(sprintf("connect_callback_%s_template", $user_type), $templateStr, $result);
 
         } else { 
-            RC_Logger::getlogger('wechat')->info('callback connect_user user_id:'.$connect_user->getUserId());
+            RC_Logger::getlogger('wechat')->info('callback.php connect_user user_id:'.$connect_user->getUserId());
             if ($connect_user->checkUser()) {
                 return $this->userBindedProcessHandle($user_type, $connect_user);
             } else {
@@ -89,7 +89,8 @@ class callback extends ecjia_front {
                 
                 $result['connect_user'] = $connect_user;
                 
-                RC_Logger::getlogger('wechat')->error($result);
+                //RC_Logger::getlogger('wechat')->info('callback.php');
+                //RC_Logger::getlogger('wechat')->info($result);
                 
                 $templateStr = RC_Hook::apply_filters(sprintf("connect_callback_%s_template", $connect_user->getUserType()), $templateStr, $result);
 

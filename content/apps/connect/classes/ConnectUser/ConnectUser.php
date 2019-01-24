@@ -44,176 +44,183 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Connect;
+namespace Ecjia\App\Connect\ConnectUser;
 
-use Ecjia\System\Plugin\AbstractPlugin;
-
-/**
- * 短信插件抽象类
- * @author royalwang
- */
-abstract class ConnectAbstract extends AbstractPlugin {
-    
-    protected $profile = [];
-    
-    protected $open_id;
-    protected $union_id;
+class ConnectUser extends ConnectUserAbstract
+{
+    /**
+     * 访问用户信息的token
+     * @var
+     */
     protected $access_token;
+
+    /**
+     * 刷新用户信息授权的token
+     * @var
+     */
     protected $refresh_token;
+
+    /**
+     * 第三方平台的个人资料信息
+     * @var array
+     */
+    protected $profile = array();
+
+    /**
+     * 创建时间
+     * @var
+     */
+    protected $create_at;
+
+    /**
+     * 有效时间
+     * @var
+     */
     protected $expires_in;
 
     /**
-     * 获取登录插件支持的平台
-     * @return string
+     * 到期时间戳
+     * @var
      */
-    public function getConnectPlatform()
+    protected $expires_at;
+
+    /**
+     * 用户操作对象
+     * @var \integrate
+     */
+    protected $integrate;
+
+    protected $user_type = self::USER;
+
+    public function __construct($connect_code, $open_id)
     {
-        return $this->loadConfig('connect_platform');
+        parent::__construct($open_id, $this->user_type);
+
+        $this->connect_code = $connect_code;
+        $this->open_id      = $open_id;
+
+        $this->buildUserInfo();
     }
-    
-    
+
     /**
-     * 生成默认用户名
-     * @return string
+     * 获取绑定的用户信息
      */
-    public function default_generate_username() {
-        /* 不是用户注册，则创建随机用户名*/
-        return 'a' . rc_random(10, 'abcdefghijklmnopqrstuvwxyz0123456789');
-    }
-    
-    /**
-     * 生成默认邮箱
-     * @return string
-     */
-    public function default_generate_email() {
-        /* 不是用户注册，则创建随机用户名*/
-        $string = 'a' . rc_random(10, 'abcdefghijklmnopqrstuvwxyz0123456789');
-        $email = $string.'@163.com';
-        return $email;
-    }
-    
-    /**
-     * 生成默认密码
-     * @return string
-     */
-    public function default_generate_password() {
-        $password = md5(rc_random(9, 'abcdefghijklmnopqrstuvwxyz0123456789'));
-        return $password;
-    }
-    
-    /**
-     * 设置用户信息
-     * @param array $profile
-     * @return \Ecjia\App\Connect\ConnectAbstract
-     */
-    public function setProfile(array $profile)
+    protected function buildUserInfo($model = null)
     {
-        $this->profile = $profile;
-        
-        return $this;
+        if (is_null($model)) {
+            $model = $this->checkOpenId();
+        }
+
+        if ($model) {
+            $this->user_id          = $model->user_id;
+            $this->connect_platform = $model->connect_platform;
+            $this->union_id         = $model->union_id;
+            $this->access_token     = $model->access_token;
+            $this->refresh_token    = $model->refresh_token;
+            $this->profile          = unserialize($model->profile) ? unserialize($model->profile) : array();
+            $this->create_at        = $model->create_at;
+            $this->expires_in       = $model->expires_in;
+            $this->expires_at       = $model->expires_at;
+        }
     }
-    
+
     /**
-     * 获取用户信息
-     * @return array
+     * 检查当前connect_code用户是否绑定
      */
+    public function checkUser()
+    {
+        if (!empty($this->user_id)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 检查openid是否存在于数据库记录中
+     * @return \Royalcms\Component\Database\Eloquent\Model|boolean
+     */
+    public function checkOpenId()
+    {
+        $model = $this->getUserModel();
+
+        if (!empty($model)) {
+            return $model;
+        } else {
+            return false;
+        }
+    }
+
+
+    public function getAccessToken()
+    {
+        return $this->access_token;
+    }
+
+    public function getRefreshToken()
+    {
+        return $this->refresh_token;
+    }
+
+    public function getCreateAtTime()
+    {
+        return $this->create_at;
+    }
+
+    public function getExpiresInTime()
+    {
+        return $this->expires_in;
+    }
+
+    public function getExpiresAtTime()
+    {
+        return $this->expires_at;
+    }
+
     public function getProfile()
     {
         return $this->profile;
     }
-    
-    /**
-     * 获取access token
-     */
-    public function access_token($callback_url, $code) {
-    
+
+    public function createUser($user_id)
+    {
+        $model = parent::createUser($user_id);
+
+        $this->buildUserInfo($model);
+
+        return $model;
     }
-    
-    /**
-     * 使用refresh token 获取新的access token
-     * @param unknown $refresh_token
-     */
-    public function access_token_refresh($refresh_token) {
-    
-    }
-    
-    /**
-     * 获取登录用户信息
-     */
-    public function me() {
-    
-    }
-    
-    /**
-     * 调用接口
-     * 示例：获取登录用户信息
-     * $result = $obj->api('users/me', array(), 'GET');
-     */
-    public function api($url, $params = array(), $method = 'GET') {
-    
-    }
-    
-    /**
-     * 生成授权网址
-     */
-    abstract function authorize_url();
 
     /**
-     * 生成回调地址
-     *
+     * 刷新ConnectUser对象属性
+     */
+    public function refreshConnectUser()
+    {
+        $this->buildUserInfo();
+    }
+
+    /**
+     * 绑定用户
+     * @param integer $user_id
+     * @return boolean
+     */
+    public function bindUser($user_id)
+    {
+        if (parent::bindUser($user_id)) {
+            $this->buildUserInfo();
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 获取用户的profile
      * @return mixed
      */
-    abstract function callback_url();
-
-    /**
-     * 设置回调地址，需要用到，就在子类中实现
-     *
-     * @param $callback_url
-     */
-    public function overwrite_callback_url($callback_url)
+    public function getConnectProfile()
     {
-        //no thing.
+        return $this->profile;
     }
-    
-    /**
-     * 登录成功后回调处理
-     * @param $user_type 用户类型
-     *          ConnectUser::USER,
-     *          ConnectUser::MERCHANT,
-     *          ConnectUser::ADMIN
-     * @see \Ecjia\App\Connect\ConnectAbstract::callback()
-     * @return \Ecjia\App\Connect\ConnectUser
-     */
-    abstract public function callback($user_type = 'user');
-    
-    /**
-     * 获取用户名
-     */
-    public function get_username() {
-        return $this->default_generate_username();
-    }
-    
-    /**
-     * 获取用户头像
-     */
-    public function get_headerimg() {
-        
-    }
-    
-    /**
-     * 获取email
-     */
-    public function get_email() {
-        return $this->default_generate_email();
-    }
-    
-    /**
-     * 获取password
-     */
-    public function get_password() {
-        return $this->default_generate_password();
-    }
-   
+
 }
 
 // end

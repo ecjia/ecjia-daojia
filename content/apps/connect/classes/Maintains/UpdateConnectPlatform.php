@@ -44,28 +44,82 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Connect\Maintains;
 
-class connect_admin_plugin {
-	
-	public static function connect_admin_menu_api($menus) {
-	    $menu = ecjia_admin::make_admin_menu('menu_user_connect', RC_Lang::get('connect::connect.connect'), RC_Uri::url('connect/admin_plugin/init'), 52)->add_purview('connect_users_manage');
-	    $menus->add_submenu($menu);
-	    return $menus;
-	}
-	
-	public static function add_maintain_command($factories)
-	{
-	    $factories['update_connect_platform'] = 'Ecjia\App\Connect\Maintains\UpdateConnectPlatform';
-	    return $factories;
-	}
-	
+use Ecjia\App\Maintain\AbstractCommand;
+use Ecjia\App\Maintain\CommandOutput;
+use RC_DB;
+
+class UpdateConnectPlatform extends AbstractCommand
+{
+    
+    
+    /**
+     * 代号标识
+     * @var string
+     */
+    protected $code = 'update_connect_platform';
+    
+    /**
+     * 名称
+     * @var string
+     */
+    protected $name = '更新第三方登录会员数据';
+    
+    /**
+     * 描述
+     * @var string
+     */
+    protected $description = '多平台使用同一登录插件后，为方便多端同步数据，增加connect_platform对接平台和union_id字段';
+    
+    /**
+     * 图标
+     * @var string
+     */
+    protected $icon = '/statics/images/setting_shop.png';
+    
+    
+    /**
+     * 返回执行结果
+     *
+     * @return bool|CommandOutput
+     */
+    public function run() {
+        
+        RC_DB::table('connect_user')->where('connect_code', 'sns_wechat')->whereNull('connect_platform')->update(['connect_platform' => 'wechat']);
+        
+        $size = 500;
+        
+        $rows = RC_DB::table('connect_user')->where('connect_code', 'sns_wechat')->whereNull('union_id')->whereNotNull('open_id')->where('profile', '<>', 'N;')->take($size)->get();
+        if($rows) {
+            foreach ($rows as $item) {
+                if(!empty($item['profile'])) {
+                    $profile = unserialize($item['profile']);
+                    $data = [];
+                    $open_id = array_get($profile, 'openid');
+                    if(!empty($open_id)) {
+                        $data['open_id'] = $open_id;
+                    }
+                    $union_id = array_get($profile, 'unionid');
+                    if(!empty($union_id)) {
+                        $data['union_id'] = $union_id;
+                    }
+                    empty($data) ? RC_DB::table('connect_user')->where('id', $item['id'])->update(['profile' => 'N;']) : RC_DB::table('connect_user')->where('id', $item['id'])->update($data);
+                } else {
+                    RC_DB::table('connect_user')->where('id', $item['id'])->update(['profile' => 'N;']);
+                }
+            }
+            
+            $count = RC_DB::table('connect_user')->where('connect_code', 'sns_wechat')->whereNull('union_id')->whereNotNull('open_id')->where('profile', '<>', 'N;')->count();
+            if($count) {
+                return new CommandOutput(sprintf('本次任务成功执行%s条数据，还剩下%s条数据未处理，请继续点击运行继续处理，直至完成。', count($rows), $count));
+            }
+            return new CommandOutput(sprintf('本次任务成功执行%s条数据，还剩下%s条数据未处理。', count($rows), $count));
+        }
+        
+        return true;
+    }
+    
 }
-
-RC_Hook::add_filter('user_admin_menu_api', array('connect_admin_plugin', 'connect_admin_menu_api') );
-RC_Hook::add_action('ecjia_maintain_command_filter', array('connect_admin_plugin', 'add_maintain_command'));
-
-ecjia_admin_log::instance()->add_object('connect', '帐号连接');
-
 
 // end

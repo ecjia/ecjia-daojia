@@ -63,9 +63,11 @@ class ConnectUserModel extends Model
 	 */
 	protected $fillable = [
 	    'connect_code',
+	    'connect_platform',
 	    'user_id',
 	    'user_type',
 	    'open_id',
+	    'union_id',
 	    'refresh_token',
 	    'access_token',
 	    'profile',
