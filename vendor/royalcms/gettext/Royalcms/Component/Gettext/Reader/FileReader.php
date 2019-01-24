@@ -5,9 +5,12 @@ namespace Royalcms\Component\Gettext\Reader;
 class FileReader extends Reader
 {
 
+    protected $_f;
+
     public function __construct($filename)
     {
-        parent::__construct($filename);
+        parent::__construct();
+
         $this->_f = fopen($filename, 'rb');
     }
 
@@ -44,7 +47,9 @@ class FileReader extends Reader
     {
         $all = '';
         while (! $this->feof())
+        {
             $all .= $this->read(4096);
+        }
         return $all;
     }
 }

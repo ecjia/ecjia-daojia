@@ -29,7 +29,7 @@ class Locale
     {
         if (isset($this->locale)) {
             /**
-             * Filter WordPress install's locale ID.
+             * Filter Royalcms install's locale ID.
              *
              * @since 3.2.0
              *

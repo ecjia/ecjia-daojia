@@ -14,6 +14,7 @@ class StringReader extends Reader
     public function __construct($str = '')
     {
         parent::__construct();
+
         $this->_str = $str;
         $this->_pos = 0;
     }
@@ -22,16 +23,24 @@ class StringReader extends Reader
     {
         $data = $this->substr($this->_str, $this->_pos, $bytes);
         $this->_pos += $bytes;
+
         if ($this->strlen($this->_str) < $this->_pos)
+        {
             $this->_pos = $this->strlen($this->_str);
+        }
+
         return $data;
     }
 
     public function seekto($pos)
     {
         $this->_pos = $pos;
+
         if ($this->strlen($this->_str) < $this->_pos)
+        {
             $this->_pos = $this->strlen($this->_str);
+        }
+
         return $this->_pos;
     }
 

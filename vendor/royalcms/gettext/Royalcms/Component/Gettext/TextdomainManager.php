@@ -52,8 +52,7 @@ class TextdomainManager
      * Whether there are translations for the text domain.
      *
      * @since 3.0.0
-     * @param string $domain
-     *            Text domain. Unique identifier for retrieving translated strings.
+     * @param string $domain Text domain. Unique identifier for retrieving translated strings.
      * @return bool Whether there are translations.
      */
     public function isTextdomainLoaded($domain)
@@ -67,9 +66,8 @@ class TextdomainManager
      *
      * If there isn't one, returns empty Translations instance.
      *
-     * @param string $domain
-     *            Text domain. Unique identifier for retrieving translated strings.
-     * @return Translations A Translations instance.
+     * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+     * @return \Royalcms\Component\Gettext\Translations\Translations A Translations instance.
      */
     public function getTranslationsForDomain($domain)
     {
@@ -93,10 +91,8 @@ class TextdomainManager
      *
      * @since 3.2.0
      *
-     * @param string $domain
-     *            Text domain. Unique identifier for retrieving translated strings.
-     * @param string $mofile
-     *            Path to the .mo file.
+     * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+     * @param string $mofile Path to the .mo file.
      * @return bool True on success, false on failure.
      */
     public function loadTextdomain($domain, $mofile)
@@ -106,12 +102,9 @@ class TextdomainManager
          *
          * @since 3.2.0
          *
-         * @param bool $override
-         *            Whether to override the text domain. Default false.
-         * @param string $domain
-         *            Text domain. Unique identifier for retrieving translated strings.
-         * @param string $mofile
-         *            Path to the MO file.
+         * @param bool $override Whether to override the text domain. Default false.
+         * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+         * @param string $mofile Path to the MO file.
          */
         $plugin_override = RC_Hook::apply_filters('override_load_textdomain', false, $domain, $mofile);
     
@@ -124,10 +117,8 @@ class TextdomainManager
          *
          * @since 2.9.0
          *
-         * @param string $domain
-         *            Text domain. Unique identifier for retrieving translated strings.
-         * @param string $mofile
-         *            Path to the .mo file.
+         * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+         * @param string $mofile Path to the .mo file.
          */
         RC_Hook::do_action('load_textdomain', $domain, $mofile);
     
@@ -136,10 +127,8 @@ class TextdomainManager
          *
          * @since 3.2.0
          *
-         * @param string $mofile
-         *            Path to the MO file.
-         * @param string $domain
-         *            Text domain. Unique identifier for retrieving translated strings.
+         * @param string $mofile Path to the MO file.
+         * @param string $domain Text domain. Unique identifier for retrieving translated strings.
         */
         $mofile = RC_Hook::apply_filters('load_textdomain_mofile', $mofile, $domain);
     
@@ -166,8 +155,7 @@ class TextdomainManager
      *
      * @since 3.0.0
      *
-     * @param string $domain
-     *            Text domain. Unique identifier for retrieving translated strings.
+     * @param string $domain Text domain. Unique identifier for retrieving translated strings.
      * @return bool Whether textdomain was unloaded.
      */
     public function unloadTextdomain($domain)
@@ -177,10 +165,8 @@ class TextdomainManager
          *
          * @since 3.0.0
          *
-         * @param bool $override
-         *            Whether to override unloading the text domain. Default false.
-         * @param string $domain
-         *            Text domain. Unique identifier for retrieving translated strings.
+         * @param bool $override Whether to override unloading the text domain. Default false.
+         * @param string $domain Text domain. Unique identifier for retrieving translated strings.
          */
         $plugin_override = RC_Hook::apply_filters('override_unload_textdomain', false, $domain);
     
@@ -193,8 +179,7 @@ class TextdomainManager
          *
          * @since 3.0.0
          *
-         * @param string $domain
-         *            Text domain. Unique identifier for retrieving translated strings.
+         * @param string $domain Text domain. Unique identifier for retrieving translated strings.
          */
         RC_Hook::do_action('unload_textdomain', $domain);
     

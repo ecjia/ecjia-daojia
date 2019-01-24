@@ -14,11 +14,9 @@ class NoopTranslations
         return true;
     }
 
-    public function set_header($header, $value)
-    {}
+    public function set_header($header, $value) {}
 
-    public function set_headers($headers)
-    {}
+    public function set_headers($headers) {}
 
     public function get_header($header)
     {
@@ -50,8 +48,7 @@ class NoopTranslations
         return 1 == $count ? $singular : $plural;
     }
 
-    public function merge_with(&$other)
-    {}
+    public function merge_with(&$other) {}
 }
 
 // end

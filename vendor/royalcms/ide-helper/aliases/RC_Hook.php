@@ -201,7 +201,7 @@ class RC_Hook extends Royalcms\Component\Hook\Facades\Hook
      *            Optional additional arguments which are passed on to the functions hooked to the action.
      * @return null Will return null if $tag does not exist in $filter array
      */
-    public static function do_action($tag, $arg = '') {}
+    public static function do_action($tag, $arg = '', $arg2 = null, $arg3 = null) {}
 
 
     /**

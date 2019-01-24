@@ -2,6 +2,9 @@
 
 namespace Royalcms\Component\Gettext\Translations;
 
+use Exception;
+use Royalcms\Component\Gettext\PluralForms;
+
 class GettextTranslations extends Translations
 {
 
@@ -24,39 +27,36 @@ class GettextTranslations extends Translations
     public function nplurals_and_expression_from_header($header)
     {
         if (preg_match('/^\s*nplurals\s*=\s*(\d+)\s*;\s+plural\s*=\s*(.+)$/', $header, $matches)) {
-            $nplurals = (int) $matches[1];
-            $expression = trim($this->parenthesize_plural_exression($matches[2]));
-            return array(
-                $nplurals,
-                $expression
-            );
+            $nplurals = (int)$matches[1];
+            $expression = trim( $matches[2] );
+            return array($nplurals, $expression);
         } else {
-            return array(
-                2,
-                'n != 1'
-            );
+            return array(2, 'n != 1');
         }
     }
 
     /**
      * Makes a function, which will return the right translation index, according to the
      * plural forms header
+     * @param int    $nplurals
+     * @param string $expression
      */
     public function make_plural_form_function($nplurals, $expression)
     {
-        $expression = str_replace('n', '$n', $expression);
-        $func_body = "
-		\$index = (int)($expression);
-		return (\$index < $nplurals)? \$index : $nplurals - 1;";
-        return create_function('$n', $func_body);
+        try {
+            $handler = new PluralForms( rtrim( $expression, ';' ) );
+            return array( $handler, 'get' );
+        } catch ( Exception $e ) {
+            // Fall back to default plural-form function.
+            return $this->make_plural_form_function( 2, 'n != 1' );
+        }
     }
 
     /**
      * Adds parantheses to the inner parts of ternary operators in
      * plural expressions, because PHP evaluates ternary oerators from left to right
      *
-     * @param string $expression
-     *            the expression without parentheses
+     * @param string $expression the expression without parentheses
      * @return string the expression with parentheses added
      */
     public function parenthesize_plural_exression($expression)
@@ -94,7 +94,9 @@ class GettextTranslations extends Translations
         foreach ($lines as $line) {
             $parts = explode(':', $line, 2);
             if (! isset($parts[1]))
+            {
                 continue;
+            }
             $headers[trim($parts[0])] = trim($parts[1]);
         }
         return $headers;

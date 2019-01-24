@@ -2,7 +2,7 @@
 
 namespace Royalcms\Component\Gettext\Reader;
 
-class Reader
+abstract class Reader
 {
 
     protected $endian = 'little';
@@ -14,6 +14,8 @@ class Reader
         $this->is_overloaded = ((ini_get("mbstring.func_overload") & 2) != 0) && function_exists('mb_substr');
         $this->_pos = 0;
     }
+
+    abstract public function read($bytes);
 
     /**
      * Sets the endianness of the file.
@@ -36,7 +38,9 @@ class Reader
     {
         $bytes = $this->read(4);
         if (4 != $this->strlen($bytes))
+        {
             return false;
+        }
         $endian_letter = ('big' == $this->endian) ? 'N' : 'V';
         $int = unpack($endian_letter, $bytes);
         return array_shift($int);
@@ -54,7 +58,9 @@ class Reader
     {
         $bytes = $this->read(4 * $count);
         if (4 * $count != $this->strlen($bytes))
+        {
             return false;
+        }
         $endian_letter = ('big' == $this->endian) ? 'N' : 'V';
         return unpack($endian_letter . $count, $bytes);
     }
@@ -83,7 +89,9 @@ class Reader
             $length = $this->strlen($string);
             $out = array();
             for ($i = 0; $i < $length; $i += $chunk_size)
+            {
                 $out[] = $this->substr($string, $i, $chunk_size);
+            }
             return $out;
         } else {
             return str_split($string, $chunk_size);

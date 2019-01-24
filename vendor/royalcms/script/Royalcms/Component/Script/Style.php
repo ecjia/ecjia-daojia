@@ -2,7 +2,7 @@
 
 use RC_Hook;
 
-final class Style
+class Style
 {
 
     private static $instance = null;

@@ -50,18 +50,31 @@ class Entry
         if (! isset($args['singular'])) {
             return;
         }
+
         // get member variable values from args hash
         foreach ($args as $varname => $value) {
             $this->$varname = $value;
         }
-        if (isset($args['plural']))
+
+        if (isset($args['plural']) && $args['plural'])
+        {
             $this->is_plural = true;
+        }
+
         if (! is_array($this->translations))
+        {
             $this->translations = array();
+        }
+
         if (! is_array($this->references))
+        {
             $this->references = array();
+        }
+
         if (! is_array($this->flags))
+        {
             $this->flags = array();
+        }
     }
 
     /**
@@ -69,15 +82,25 @@ class Entry
      *
      * @return string bool key or false if the entry is empty
      */
-    function key()
+    public function key()
     {
-        if (is_null($this->singular))
+        if (null === $this->singular || '' === $this->singular)
+        {
             return false;
-            // prepend context and EOT, like in MO files
-        return is_null($this->context) ? $this->singular : $this->context . chr(4) . $this->singular;
+        }
+
+        // Prepend context and EOT, like in MO files
+        $key = !$this->context? $this->singular : $this->context.chr(4).$this->singular;
+        // Standardize on \n line endings
+        $key = str_replace( array( "\r\n", "\r" ), "\n", $key );
+
+        return $key;
     }
 
-    function merge_with(&$other)
+    /**
+     * @param \Royalcms\Component\Gettext\Entry $other
+     */
+    public function merge_with(& $other)
     {
         $this->flags = array_unique(array_merge($this->flags, $other->flags));
         $this->references = array_unique(array_merge($this->references, $other->references));

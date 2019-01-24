@@ -3,6 +3,7 @@
 namespace Royalcms\Component\Gettext;
 
 use RC_Hook;
+use Royalcms\Component\Foundation\Royalcms;
 
 class Gettext
 {
@@ -22,7 +23,7 @@ class Gettext
      * @param  \Royalcms\Component\Foundation\Royalcms  $royalcms
      * @return void
      */
-    public function __construct(\Royalcms\Component\Foundation\Royalcms $royalcms, TextdomainManager $textdomain)
+    public function __construct(Royalcms $royalcms, TextdomainManager $textdomain)
     {
         $this->royalcms = $royalcms;
         $this->textdomain = $textdomain;

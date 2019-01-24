@@ -2,7 +2,7 @@
 
 use RC_Hook;
 
-final class Script
+class Script
 {
 
     private static $instance = null;

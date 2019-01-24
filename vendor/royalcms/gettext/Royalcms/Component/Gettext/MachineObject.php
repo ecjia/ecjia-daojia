@@ -21,7 +21,9 @@ class MachineObject extends GettextTranslations
     {
         $reader = new FileReader($filename);
         if (! $reader->is_resource())
+        {
             return false;
+        }
         return $this->import_from_reader($reader);
     }
 
@@ -29,7 +31,9 @@ class MachineObject extends GettextTranslations
     {
         $fh = fopen($filename, 'wb');
         if (! $fh)
+        {
             return false;
+        }
         $res = $this->export_to_file_handle($fh);
         fclose($fh);
         return $res;
@@ -39,7 +43,9 @@ class MachineObject extends GettextTranslations
     {
         $tmp_fh = fopen("php://temp", 'r+');
         if (! $tmp_fh)
+        {
             return false;
+        }
         $this->export_to_file_handle($tmp_fh);
         rewind($tmp_fh);
         return stream_get_contents($tmp_fh);
@@ -110,9 +116,14 @@ class MachineObject extends GettextTranslations
         // TODO: warnings for control characters
         $exported = $entry->singular;
         if ($entry->is_plural)
+        {
             $exported .= chr(0) . $entry->plural;
+        }
+
         if (! is_null($entry->context))
+        {
             $exported = $entry->context . chr(4) . $exported;
+        }
         return $exported;
     }
 
@@ -142,14 +153,21 @@ class MachineObject extends GettextTranslations
         $magic_big = ((int) - 569244523) & 0xFFFFFFFF;
         if ($magic_little == $magic || $magic_little_64 == $magic) {
             return 'little';
-        } else 
+        }
+        else
+        {
             if ($magic_big == $magic) {
                 return 'big';
             } else {
                 return false;
             }
+        }
     }
 
+    /**
+     * @param \Royalcms\Component\Gettext\Reader\StringReader $reader
+     * @return bool
+     */
     public function import_from_reader($reader)
     {
         $endian_string = self::get_byteorder($reader->readint32());
@@ -162,19 +180,25 @@ class MachineObject extends GettextTranslations
         
         $header = $reader->read(24);
         if ($reader->strlen($header) != 24)
+        {
             return false;
+        }
             
             // parse header
         $header = unpack("{$endian}revision/{$endian}total/{$endian}originals_lenghts_addr/{$endian}translations_lenghts_addr/{$endian}hash_length/{$endian}hash_addr", $header);
         if (! is_array($header))
+        {
             return false;
+        }
         
         $revision = $total = $originals_lenghts_addr = $translations_lenghts_addr = $hash_length = $hash_addr = '';
         extract($header);
         
         // support revision 0 of MO format specs, only
         if ($revision != 0)
+        {
             return false;
+        }
             
             // seek to data blocks
         $reader->seekto($originals_lenghts_addr);
@@ -182,20 +206,28 @@ class MachineObject extends GettextTranslations
         // read originals' indices
         $originals_lengths_length = $translations_lenghts_addr - $originals_lenghts_addr;
         if ($originals_lengths_length != $total * 8)
+        {
             return false;
+        }
         
         $originals = $reader->read($originals_lengths_length);
         if ($reader->strlen($originals) != $originals_lengths_length)
+        {
             return false;
+        }
             
             // read translations' indices
         $translations_lenghts_length = $hash_addr - $translations_lenghts_addr;
         if ($translations_lenghts_length != $total * 8)
+        {
             return false;
+        }
         
         $translations = $reader->read($translations_lenghts_length);
         if ($reader->strlen($translations) != $translations_lenghts_length)
+        {
             return false;
+        }
             
             // transform raw data into set of indices
         $originals = $reader->str_split($originals, 8);
@@ -213,7 +245,9 @@ class MachineObject extends GettextTranslations
             $o = unpack("{$endian}length/{$endian}pos", $originals[$i]);
             $t = unpack("{$endian}length/{$endian}pos", $translations[$i]);
             if (! $o || ! $t)
+            {
                 return false;
+            }
                 
                 // adjust offset due to reading strings to separate space before
             $o['pos'] -= $strings_addr;
@@ -229,6 +263,7 @@ class MachineObject extends GettextTranslations
                 $this->entries[$entry->key()] = &$entry;
             }
         }
+
         return true;
     }
 
@@ -239,11 +274,9 @@ class MachineObject extends GettextTranslations
      * @static
      *
      *
-     * @param string $original
-     *            original string to translate from MO file. Might contain
+     * @param string $original original string to translate from MO file. Might contain
      *            0x04 as context separator or 0x00 as singular/plural separator
-     * @param string $translation
-     *            translation string from MO file. Might contain
+     * @param string $translation translation string from MO file. Might contain
      *            0x00 as a plural translations separator
      */
     public function &make_entry($original, $translation)
