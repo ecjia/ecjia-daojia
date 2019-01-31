@@ -17,9 +17,9 @@
 	<table class="table table-striped" id="plugin-table">
 		<thead>
 			<tr>
-				<th>{lang key='mail::mail_template.mail_id'}</th>
-				<th>{lang key='mail::mail_template.template_name'}</th>
-				<th class="w100">{lang key='system::system.handler'}</th>
+				<th>{t domain="mail"}编号{/t}</th>
+				<th>{t domain="mail"}邮件模板{/t}</th>
+				<th class="w100">{t}操作{/t}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -28,7 +28,7 @@
 				<td class="first-cell">{$list.template_code}</td>
 				<td align="left">{$list.template_name}</td>
 				<td align="center">
-					<a class="data-pjax no-underline" href='{url path="mail/admin/edit" args="tpl={$list.template_code}"}' title="{lang key='system::system.edit'}"><i class="fontello-icon-edit"></i></a>
+					<a class="data-pjax no-underline" href='{url path="mail/admin/edit" args="tpl={$list.template_code}"}' title='{t}编辑{/t}'><i class="fontello-icon-edit"></i></a>
 				</td>
 			</tr>
 			<!-- {/foreach} -->

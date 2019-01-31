@@ -68,9 +68,9 @@ class admin extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-dataTables-bootstrap');
 		RC_Script::enqueue_script('mail_template', RC_App::apps_url('statics/js/mail_template.js', __FILE__), array(), false, false);
 		
-		RC_Script::localize_script('mail_template', 'js_lang', RC_Lang::get('mail::mail_template.js_lang'));
+		RC_Script::localize_script('mail_template', 'js_lang', config('app-mail::jslang.mail_template_page'));
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('mail::mail_template.mail_template'), RC_Uri::url('mail/admin/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('邮件模板', 'mail'), RC_Uri::url('mail/admin/init')));
 	}
 	
 	/**
@@ -80,19 +80,19 @@ class admin extends ecjia_admin {
 		$this->admin_priv('mail_template_manage');
 
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('mail::mail_template.mail_template')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('邮件模板', 'mail')));
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('mail::mail_template.overview'),
-			'content'	=> '<p>' . RC_Lang::get('mail::mail_template.template_list_help') . '</p>'
+			'title'		=> __('概述', 'mail'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台邮件模板列表页面，系统中所有的邮件模板都会显示在此列表中。', 'mail') . '</p>'
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('mail::mail_template.overview') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:邮件模板" target="_blank">'. RC_Lang::get('mail::mail_template.about_template_list') .'</a>') . '</p>'
+			'<p><strong>' . __('概述', 'mail') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:邮件模板" target="_blank">'. __('关于邮件模板列表帮助文档', 'mail') .'</a>') . '</p>'
 		);
 		
-		$this->assign('ur_here', RC_Lang::get('mail::mail_template.mail_template'));
+		$this->assign('ur_here', __('邮件模板', 'mail'));
 		
 		$cur = null;
 		//$data = $this->db_mail->mail_templates_select('template', array('template_id', 'template_code'));
@@ -115,20 +115,20 @@ class admin extends ecjia_admin {
 	public function edit() {
 		$this->admin_priv('mail_template_update');
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('mail::mail_template.mail_edit')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑邮件模板', 'mail')));
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('mail::mail_template.overview'),
-			'content'	=> '<p>' . RC_Lang::get('mail::mail_template.edit_template_help') . '</p>'
+			'title'		=> __('概述', 'mail'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台编辑邮件模板页面，可以在此编辑相应的邮件模板信息。', 'mail') . '</p>'
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('mail::mail_template.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:邮件模板" target="_blank">'.RC_Lang::get('mail::mail_template.about_edit_template').'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：', 'mail') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:邮件模板" target="_blank">'.__('关于编辑邮件模板帮助文档', 'mail').'</a>') . '</p>'
 		);
 		
-		$this->assign('ur_here', RC_Lang::get('mail::mail_template.mail_edit'));
-		$this->assign('action_link', array('href'=>RC_Uri::url('mail/admin/init'), 'text' => RC_Lang::get('system::system.mail_template_manage')));
+		$this->assign('ur_here', __('编辑邮件模板', 'mail'));
+		$this->assign('action_link', array('href'=>RC_Uri::url('mail/admin/init'), 'text' => __('邮件模板', 'mail')));
 		
 		$tpl 		= safe_replace($_GET['tpl']);
 		$mail_type 	= isset($_GET['mail_type']) ? $_GET['mail_type'] : -1;
@@ -137,7 +137,7 @@ class admin extends ecjia_admin {
 		$content 	= Ecjia\App\Mail\MailTeplates::LoadTemplate($tpl);
 
 		if ($content === NULL || empty($tpl)) {
-			return $this->showmessage(RC_Lang::get('mail::mail_template.template_not_exist'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => RC_Lang::get('system::system.back'), 'href' => 'javascript:window.history.back(-1);'))));
+			return $this->showmessage(__('邮件模板不存在，请访问正确的邮件模板！', 'mail'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('返回'), 'href' => 'javascript:window.history.back(-1);'))));
 		}
 		//todo 语言包方法待确认
 		$content['template_name'] = RC_Lang::lang($tpl) . " [$tpl]";
@@ -165,13 +165,13 @@ class admin extends ecjia_admin {
 		$this->admin_priv('mail_template_update', ecjia::MSGTYPE_JSON);
 		
 		if (empty($_POST['subject'])) {
-			return $this->showmessage(RC_Lang::get('mail::mail_template.subject_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('对不起，邮件的主题不能为空。', 'mail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 			$subject = trim($_POST['subject']);
 		}
 		
 		if (empty($_POST['content'])) {
-			return $this->showmessage(RC_Lang::get('mail::mail_template.content_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('对不起，邮件的内容不能为空。', 'mail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 			$content = trim($_POST['content']);
 		}
@@ -192,9 +192,9 @@ class admin extends ecjia_admin {
 	    if ($update) {
 			//todo 语言包方法待确认
 			ecjia_admin::admin_log(RC_Lang::lang($tpl_code), 'edit', 'email_template');
-			return $this->showmessage(RC_Lang::get('mail::mail_template.update_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+			return $this->showmessage(__('保存模板内容成功。', 'mail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 		} else {
-			return $this->showmessage(RC_Lang::get('mail::mail_template.update_failed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('保存模板内容失败。', 'mail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 	
@@ -204,7 +204,7 @@ class admin extends ecjia_admin {
 	public function loat_template() {
 		$this->admin_priv('mail_template_update');
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('mail::mail_template.mail_edit')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑邮件模板', 'mail')));
 		
 		$tpl       = safe_replace($_GET['tpl']);
 		$mail_type = isset($_GET['mail_type']) ? $_GET['mail_type'] : -1;
@@ -222,9 +222,9 @@ class admin extends ecjia_admin {
 			$content['is_html'] = 0;
 		}
 		
-		$this->assign('ur_here', RC_Lang::get('system::system.mail_template_manage'));
+		$this->assign('ur_here', __('邮件模板', 'mail'));
 		$this->assign('tpl', $tpl);
-		$this->assign('action_link', array('href'=> RC_Uri::url('mail/admin/init'), 'text' => RC_Lang::get('system::system.mail_template_manage')));
+		$this->assign('action_link', array('href'=> RC_Uri::url('mail/admin/init'), 'text' => __('邮件模板', 'mail')));
 		$this->assign('template', $content);
 
 		$this->assign_lang();

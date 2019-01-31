@@ -76,18 +76,18 @@ class admin_email_list extends ecjia_admin {
 	public function init() {
 		$this->admin_priv('email_list_manage');
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('mail::email_list.email_list')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('邮件订阅管理', 'mail')));
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('mail::email_list.overview'),
-			'content'	=> '<p>' . RC_Lang::get('mail::email_list.email_list_help') . '</p>'
+			'title'		=> __('概述', 'mail'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台邮件订阅管理页面，系统中所有准备发送的邮件都会显示在此队列中。', 'mail') . '</p>'
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('mail::email_list.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:邮件订阅管理" target="_blank">'. RC_Lang::get('mail::email_list.about_email_list') .'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：', 'mail') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:邮件订阅管理" target="_blank">'. __('关于邮件订阅管理帮助文档', 'mail').'</a>') . '</p>'
 		);
-		$this->assign('ur_here', RC_Lang::get('mail::email_list.email_list'));
+		$this->assign('ur_here', __('邮件订阅管理', 'mail'));
 
 		$emaildb = $this->get_email_list();
 		$this->assign('emaildb', $emaildb);
@@ -143,7 +143,7 @@ class admin_email_list extends ecjia_admin {
 		$action = isset($_GET['sel_action']) ? trim($_GET['sel_action']) : ''; 
 		
 		if (empty($action)) {
-			return $this->showmessage(RC_Lang::get('mail::email_list.select_operate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择要进行的操作', 'mail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} elseif ($action == 'remove') {
 			$this->admin_priv('email_list_delete', ecjia::MSGTYPE_JSON);
 		} else {
@@ -162,10 +162,10 @@ class admin_email_list extends ecjia_admin {
 					Ecjia\App\Mail\EmailList::EmailListBatch($ids, 'delete');
 					
 					foreach ($info as $key => $v) {
-						ecjia_admin::admin_log(sprintf(RC_Lang::get('mail::email_list.email_address'), $v['email']).'，'.sprintf(RC_Lang::get('mail::email_list.email_id'), $v['id']), 'batch_remove', 'subscription_email');
+						ecjia_admin::admin_log(sprintf(__('邮件地址是 %s', 'mail'), $v['email']).'，'.sprintf(__('邮件编号是 %s', 'mail'), $v['id']), 'batch_remove', 'subscription_email');
 					}
 					
-					return $this->showmessage(RC_Lang::get('mail::email_list.batch_remove_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('mail/admin_email_list/init')));
+					return $this->showmessage(__('批量删除成功', 'mail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('mail/admin_email_list/init')));
 					break;
 	
 				case 'exit' :
@@ -174,10 +174,10 @@ class admin_email_list extends ecjia_admin {
 					$update = Ecjia\App\Mail\EmailList::EmailListBatch($ids, 'update', $data);
 					
 					foreach ($info as $key => $v) {
-						ecjia_admin::admin_log(sprintf(RC_Lang::get('mail::email_list.email_address'), $v['email']).'，'.sprintf(RC_Lang::get('mail::email_list.email_id'), $v['id']), 'batch_exit', 'subscription_email');
+						ecjia_admin::admin_log(sprintf(__('邮件地址是 %s', 'mail'), $v['email']).'，'.sprintf(__('邮件编号是 %s', 'mail'), $v['id']), 'batch_exit', 'subscription_email');
 					}
 					
-					return $this->showmessage(RC_Lang::get('mail::email_list.batch_exit_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('mail/admin_email_list/init')));
+					return $this->showmessage(__('批量退订成功', 'mail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('mail/admin_email_list/init')));
 					break;
 	
 				case 'ok' :
@@ -186,10 +186,10 @@ class admin_email_list extends ecjia_admin {
 					$update = Ecjia\App\Mail\EmailList::EmailListBatch($ids, 'update', $data);
 					
 					foreach ($info as $key => $v) {
-						ecjia_admin::admin_log(sprintf(RC_Lang::get('mail::email_list.email_address'), $v['email']).'，'.sprintf(RC_Lang::get('mail::email_list.email_id'), $v['id']), 'batch_ok', 'subscription_email');
+						ecjia_admin::admin_log(sprintf(__('邮件地址是 %s', 'mail'), $v['email']).'，'.sprintf(__('邮件编号是 %s', 'mail'), $v['id']), 'batch_ok', 'subscription_email');
 					}
 					
-					return $this->showmessage(RC_Lang::get('mail::email_list.batch_unremove_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('mail/admin_email_list/init')));
+					return $this->showmessage(__('批量确认成功', 'mail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('mail/admin_email_list/init')));
 					break;
 						
 				default :

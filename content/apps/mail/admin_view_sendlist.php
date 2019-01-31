@@ -66,17 +66,17 @@ class admin_view_sendlist extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Script::enqueue_script('jquery-chosen');	
 		
-		RC_Script::localize_script('view_sendlist', 'js_lang', RC_Lang::get('mail::view_sendlist.js_lang'));
+		RC_Script::localize_script('view_sendlist', 'js_lang', config('app-mail::jslang.view_sendlist_page'));
 	}
 	
 	public function init() {
 		$this->admin_priv('email_sendlist_manage');
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('mail::view_sendlist.email_send_list')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('邮件队列管理', 'mail')));
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('mail::view_sendlist.overview'),
-			'content'	=> '<p>' . RC_Lang::get('mail::view_sendlist.send_list_help') . '</p>'
+			'title'		=> __('概述', 'mail'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台邮件队列管理页面，系统中所有准备发送的邮件都会显示在此队列中。', 'mail') . '</p>'
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
@@ -84,7 +84,7 @@ class admin_view_sendlist extends ecjia_admin {
 			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:邮件对列管理" target="_blank">'. RC_Lang::get('mail::view_sendlist.about_send_list') .'</a>') . '</p>'
 		);
 		
-		$this->assign('ur_here', RC_Lang::get('mail::view_sendlist.email_send_list'));
+		$this->assign('ur_here', __('邮件队列管理', 'mail'));
 		$this->assign('pri', RC_Lang::get('mail::view_sendlist.pri'));
 		$this->assign('type', RC_Lang::get('mail::view_sendlist.type'));
 		
@@ -113,8 +113,8 @@ class admin_view_sendlist extends ecjia_admin {
 		
 		Ecjia\App\Mail\EmailSendlist::EmailSendlistDelete($id);
 		
-		ecjia_admin::admin_log(sprintf(RC_Lang::get('mail::view_sendlist.email_title'), $info['template_subject']).'，'.sprintf(RC_Lang::get('mail::view_sendlist.email_address'), $info['email']), 'remove', 'subscription_email');
-		return $this->showmessage(sprintf(RC_Lang::get('mail::view_sendlist.del_ok'), 1), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		ecjia_admin::admin_log(sprintf(__('邮件标题是 %s', 'mail'), $info['template_subject']).'，'.sprintf(__('邮件地址是 %s', 'mail'), $info['email']), 'remove', 'subscription_email');
+		return $this->showmessage(sprintf(__('共删除 %d 条记录，删除成功！', 'mail'), 1), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 	
 	/**
@@ -127,7 +127,7 @@ class admin_view_sendlist extends ecjia_admin {
 		$ids 	= $_POST['checkboxes'];
 		
 		if (empty($action)) {
-			return $this->showmessage(RC_Lang::get('mail::view_sendlist.select_operate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择要进行的操作', 'mail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} elseif ($action == 'batchsend') {
 			$this->admin_priv('email_sendlist_update', ecjia::MSGTYPE_JSON);
 		}
@@ -145,10 +145,10 @@ class admin_view_sendlist extends ecjia_admin {
 					Ecjia\App\Mail\EmailSendlist::EmailSendlistDelete($ids);
 
 					foreach ($info as $key => $v) {
-						ecjia_admin::admin_log(sprintf(RC_Lang::get('mail::view_sendlist.email_title'), $v['template_subject']).'，'.sprintf(RC_Lang::get('mail::view_sendlist.email_address'), $v['email']), 'batch_remove', 'email');
+						ecjia_admin::admin_log(sprintf(__('邮件标题是 %s', 'mail'), $v['template_subject']).'，'.sprintf(__('邮件地址是 %s', 'mail'), $v['email']), 'batch_remove', 'email');
 					}
 					
-					return $this->showmessage(sprintf(RC_Lang::get('mail::view_sendlist.del_ok'), count($ids)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('mail/admin_view_sendlist/init')));
+					return $this->showmessage(sprintf(__('共删除 %d 条记录，删除成功！', 'mail'), count($ids)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('mail/admin_view_sendlist/init')));
 					break;
 				case 'batchsend' :
 					//$data = $this->db_email_sendlist->email_sendlist_select($ids, array('pri' => 'DESC', 'last_send' => 'ASC'));
@@ -181,7 +181,7 @@ class admin_view_sendlist extends ecjia_admin {
 							$row                 = array_merge($row, $arr);
 							if ($rt['template_id'] && $rt['template_content']) {
 								if (RC_Mail::send_mail('', $row['email'], $rt['template_subject'], $rt['template_content'], $rt['is_html'])) {
-									ecjia_admin::admin_log(sprintf(RC_Lang::get('mail::view_sendlist.email_title'), $rt['template_subject']).'，'.sprintf(RC_Lang::get('mail::view_sendlist.email_address'), $row['email']), 'batch_send', 'email');
+									ecjia_admin::admin_log(sprintf(__('邮件标题是 %s', 'mail'), $rt['template_subject']).'，'.sprintf(__('邮件地址是 %s', 'mail'), $row['email']), 'batch_send', 'email');
 									//发送成功,从列表中删除
 									//$this->db_email_sendlist->email_sendlist_delete($row['id']);
 									Ecjia\App\Mail\EmailSendlist::EmailSendlistDelete($row['id']);
@@ -214,14 +214,14 @@ class admin_view_sendlist extends ecjia_admin {
 								$record_count['noeffect'] ++;
 							}
 						}
-						return $this->showmessage(sprintf(RC_Lang::get('mail::view_sendlist.mailsend_finished'), $record_count['send_success']), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('refresh_url' => RC_Uri::url('mail/admin_view_sendlist/init')));
+						return $this->showmessage(sprintf(__('共 %d 条邮件发送完成！', 'mail'), $record_count['send_success']), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('refresh_url' => RC_Uri::url('mail/admin_view_sendlist/init')));
 					}
 					break;
 				default :
 					break;
 			}
 		} else {
-			return $this->showmessage(RC_Lang::get('system::system.no_select_message'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('没有选择消息', 'mail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 
@@ -261,7 +261,7 @@ class admin_view_sendlist extends ecjia_admin {
 				if ($rt['template_id'] && $rt['template_content']) {
 					if (RC_Mail::send_mail('', $row['email'], $rt['template_subject'], $rt['template_content'], $rt['is_html'])) {
 						//发送成功,从列表中删除
-						ecjia_admin::admin_log(sprintf(RC_Lang::get('mail::view_sendlist.email_title'), $rt['template_subject']).'，'.sprintf(RC_Lang::get('mail::view_sendlist.email_address'), $row['email']), 'all_send', 'email');
+						ecjia_admin::admin_log(sprintf(__('邮件标题是 %s', 'mail'), $rt['template_subject']).'，'.sprintf(__('邮件地址是 %s', 'mail'), $row['email']), 'all_send', 'email');
 						//$this->db_email_sendlist->email_sendlist_delete($row['id']);
 						Ecjia\App\Mail\EmailSendlist::EmailSendlistDelete($row['id']);
 						
@@ -296,7 +296,7 @@ class admin_view_sendlist extends ecjia_admin {
 				}
 			}
 		}
-		return $this->showmessage(sprintf(RC_Lang::get('mail::view_sendlist.mailsend_finished'), $record_count['send_success']), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('refresh_url' => RC_Uri::url('mail/admin_view_sendlist/init')));
+		return $this->showmessage(sprintf(__('共 %d 条邮件发送完成！', 'mail'), $record_count['send_success']), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('refresh_url' => RC_Uri::url('mail/admin_view_sendlist/init')));
 	}
 	
 	/**

@@ -54,13 +54,13 @@ class mail_service_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {
 
-		$menus = ecjia_admin::make_admin_menu('14_email_manage', RC_Lang::get('mail::email_list.email_manage'), '', 14);
+		$menus = ecjia_admin::make_admin_menu('14_email_manage', __('邮件管理', 'mail'), '', 14);
 		
 		$submenus = array(
-		    ecjia_admin::make_admin_menu('email_list', RC_Lang::get('mail::email_list.email_list'), RC_Uri::url('mail/admin_email_list/init'), 2)->add_purview('email_list_manage'),
-		    ecjia_admin::make_admin_menu('view_sendlist', RC_Lang::get('mail::email_list.email_send_list'), RC_Uri::url('mail/admin_view_sendlist/init'), 4)->add_purview('email_sendlist_manage'),
+		    ecjia_admin::make_admin_menu('email_list', __('邮件订阅管理', 'mail'), RC_Uri::url('mail/admin_email_list/init'), 2)->add_purview('email_list_manage'),
+		    ecjia_admin::make_admin_menu('view_sendlist', __('邮件队列管理', 'mail'), RC_Uri::url('mail/admin_view_sendlist/init'), 4)->add_purview('email_sendlist_manage'),
 		    ecjia_admin::make_admin_menu('divider', '', '', 7)->add_purview('mail_template_manage', 10),
-		    ecjia_admin::make_admin_menu('mail_template', RC_Lang::get('mail::email_list.mail_template'), RC_Uri::url('mail/admin/init'), 11)->add_purview('mail_template_manage'),
+		    ecjia_admin::make_admin_menu('mail_template', __('邮件模板', 'mail'), RC_Uri::url('mail/admin/init'), 11)->add_purview('mail_template_manage'),
 		);
 		
 		$menus->add_submenu($submenus);

@@ -22,7 +22,7 @@
 	<div class="choose_list">
 		<div class="btn-group f_l m_r5">
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-				<i class="fontello-icon-cog"></i>{lang key='mail::view_sendlist.batch'}
+				<i class="fontello-icon-cog"></i>{t domain="mail"}批量操作{/t}
 				<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
@@ -32,9 +32,9 @@
 		</div>
 		<!-- 全部发送 -->
 		<!-- {if $isSendAll} -->
-		<button class="btn" id="send-all" >{lang key='mail::view_sendlist.all_send'}</button>
+		<button class="btn" id="send-all" >{t domain="mail"}全部发送{/t}</button>
 		<!-- {else} -->
-		<button class="btn" disabled="disabled"  id="send-all" >{lang key='mail::view_sendlist.all_send'}</button>
+		<button class="btn" disabled="disabled"  id="send-all" >{t domain="mail"}全部发送{/t}</button>
 		<!-- {/if} -->
 
 		<!-- 筛选 -->
@@ -52,7 +52,7 @@
 					<option value='0' {if $smarty.get.pri_id eq '0'} selected="selected" {/if}>{lang key='mail::view_sendlist.pri.0'}</option>
 					<option value='1' {if $smarty.get.pri_id eq '1'} selected="selected" {/if}>{lang key='mail::view_sendlist.pri.1'}</option>
 				</select>
-				<button class="btn screen-btn" type="button">{lang key='mail::view_sendlist.filter'}</button>
+				<button class="btn screen-btn" type="button">{t domain="mail"}筛选{/t}</button>
 			</div>
 		</form>
 	</div>
@@ -67,9 +67,9 @@
 						<th class="table_checkbox">
 							<input type="checkbox" name="select_rows" data-toggle="selectall" data-children=".checkbox"/>
 						</th>
-						<th class="w200">{lang key='mail::view_sendlist.email_val'}</th>
-						<th>{lang key='mail::view_sendlist.email_subject'}</th>
-						<th class="w100" >{lang key='mail::view_sendlist.type.name'}</th>
+						<th class="w200">{t domain="mail"}邮件地址{/t}</th>
+						<th>{t domain="mail"}邮件标题{/t}</th>
+						<th class="w100" >{t domain="mail"}邮件类型{/t}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -80,19 +80,19 @@
 						</td>
 						<td>{$val.email}<br>
 							{if $val.error neq 0}
-							<span class="ecjiafc-red">{$val.error}{lang key='mail::view_sendlist.send_errors'}</span>
+							<span class="ecjiafc-red">{$val.error}{t domain="mail"}次发送错误{/t}</span>
 							{/if}</td>
 						<td class="hide-edit-area">
-							{lang key='mail::view_sendlist.pri.name'}：{$pri[$val.pri]}&nbsp;|&nbsp;{lang key='mail::view_sendlist.last_send'}{$val.last_send}<br>
+							{t domain="mail"}优先级{/t}：{$pri[$val.pri]}&nbsp;|&nbsp;{t domain="mail"}上次发送于{/t}{$val.last_send}<br>
 							{$val.template_subject}
 							<div class="edit-list">
-							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='mail::view_sendlist.drop_mail_confirm'}" href='{RC_Uri::url("mail/admin_view_sendlist/remove", "id={$val.id}")}' title="{lang key='system::system.remove'}">{lang key='system::system.drop'}</a>
+							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="mail"}您确定要删除该邮件信息吗？{/t}' href='{RC_Uri::url("mail/admin_view_sendlist/remove", "id={$val.id}")}' title="{t}移除{/t}">{t}删除{/t}</a>
 							</div>
 						</td>
 						<td>{$type[$val.type]}</td>					
 					</tr>
 					<!--  {foreachelse} -->
-					<tr><td class="no-records" colspan="4">{lang key='system::system.no_records'}</td></tr>
+					<tr><td class="no-records" colspan="4">{t}没有找到任何记录{/t}</td></tr>
 					<!-- {/foreach} -->
 				</tbody>
 			</table>

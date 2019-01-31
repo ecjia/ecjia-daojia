@@ -44,32 +44,52 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台权限API
- * @author songqian
+ * js语言包设置
  */
-class mail_admin_purview_api extends Component_Event_Api {
-    
-    public function call(&$options) {
-        $purviews = array(
-            array('action_name' => __('邮件订阅管理', 'mail'), 		'action_code' => 'email_list_manage', 'relevance' => ''),
-        	array('action_name' => __('邮件订阅更新', 'mail'), 	'action_code' => 'email_list_update', 'relevance' => ''),
-        	array('action_name' => __('邮件订阅删除', 'mail'),	'action_code' => 'email_list_delete', 'relevance' => ''),
-        		
-            array('action_name' => __('邮件队列管理', 'mail'), 	'action_code' => 'email_sendlist_manage',	'relevance' => ''),
-        	array('action_name' => __('邮件队列发送', 'mail'), 	'action_code' => 'email_sendlist_send', 	'relevance' => ''),
-        	array('action_name' => __('邮件队列删除', 'mail'), 	'action_code' => 'email_sendlist_delete',	'relevance' => ''),
-        		
-            array('action_name' => __('邮件模板管理', 'mail'), 'action_code' => 'mail_template_manage', 'relevance' => ''),
-        	array('action_name' => __('邮件模板更新', 'mail'), 'action_code' => 'mail_template_update', 'relevance' => ''),
-        		
-        	array('action_name' => __('邮件服务器设置', 'mail'), 'action_code' => 'mail_settings_manage', 'relevance' => ''),
-        );
-        
-        return $purviews;
-    }
-}
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+
+    'mail_template_page' => array(
+        'save_confirm' 		=> __('您已经修改了模板内容，您确定不保存么？', 'mail'),
+        'sFirst'			=> __('首页', 'mail'),
+        'sLast' 			=> __('尾页', 'mail'),
+        'sPrevious'			=> __('上一页', 'mail'),
+        'sNext'				=> __('下一页', 'mail'),
+        'sInfo'				=> __('共_TOTAL_条记录 第_START_条到第_END_条', 'mail'),
+        'sZeroRecords' 		=> __('没有找到任何记录', 'mail'),
+        'sEmptyTable' 		=> __('没有找到任何记录', 'mail'),
+        'sInfoEmpty'		=> __('共0条记录', 'mail'),
+        'sInfoFiltered'		=> __('（从_MAX_条数据中检索）', 'mail'),
+        'subject_required'	=> __('邮件主题不能为空！', 'mail'),
+        'content_required'	=> __('模板内容不能为空！', 'mail'),
+    ),
+
+    'view_sendlist_page' => array(
+        'data_loading'		=> __('数据加载中, 请稍等...', 'mail'),
+        'sending_email'		=> __('正在发送邮件, 请稍等...', 'mail'),
+        'no_match_records'	=> __('没有找到匹配的记录！', 'mail'),
+        'send_confirm'		=> __('您确定要这么做吗？', 'mail'),
+        'ok'				=> __('确定', 'mail'),
+        'cancel'			=> __('取消', 'mail'),
+        'select_send_email'	=> __('请先选中要发送的邮件！', 'mail'),
+        'batch_send_confirm'=> __('您确定要发送选中的邮件吗？', 'mail'),
+    ),
+
+    'mail_settings_page' => array(
+        'pls_select_smtp'		=> __('请输入发送邮件服务器地址(SMTP)！', 'mail'),
+        'required_port'			=> __('请输入服务器端口！', 'mail'),
+        'required_account'		=> __('请输入邮件帐号！', 'mail'),
+        'check_account'			=> __('请输入正确格式的邮件帐号！', 'mail'),
+        'required_password'		=> __('请输入邮件密码！', 'mail'),
+        'required_reply_account'=> __('请输入回复邮件帐号！', 'mail'),
+        'check_reply_account'	=> __('请输入正确格式的回复邮件帐号！', 'mail'),
+        'required_send_account'	=> __('请输入发送邮件帐号！', 'mail'),
+        'check_send_account'	=> __('请输入正确格式的发送邮件帐号！', 'mail')
+    ),
+
+);
+//end

@@ -22,39 +22,39 @@
 		<form id="form-privilege" class="form-horizontal" name="theForm"  method="post" action="{url path='mail/admin/save_template'}">
 			<fieldset>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='mail::mail_template.label_template_name'}</label>
+					<label class="control-label">{t domain="mail"}邮件模板：{/t}</label>
 					<div class="controls users">
 						<p>{$template.template_name}</p>
 					</div>
 				</div>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='mail::mail_template.label_mail_subject'}</label>
+					<label class="control-label">{t domain="mail"}邮件主题：{/t}</label>
 					<div class="controls">
 						<input type="text" name="subject" id="subject" value="{$template.template_subject}" class="span4"/>
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 					</div>
 				</div>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='mail::mail_template.label_mail_type'}</label>
+					<label class="control-label">{t domain="mail"}邮件类型：{/t}</label>
 					<div class="controls chk_radio">
-						<input type="radio" class="uni_style" name="mail_type" value="0" {if $template.is_html eq '0'}checked="true"{/if} data-toggle="change_editor" data-url='{url path="mail/admin/loat_template" args="mail_type=0&tpl={$tpl}"}' />{lang key='mail::mail_template.mail_plain_text'}
-						<input type="radio" class="uni_style" name="mail_type" value="1" {if $template.is_html eq '1'}checked="true"{/if} data-toggle="change_editor" data-url='{url path="mail/admin/loat_template" args="mail_type=1&tpl={$tpl}"}' />{lang key='mail::mail_template.mail_html'}
+						<input type="radio" class="uni_style" name="mail_type" value="0" {if $template.is_html eq '0'}checked="true"{/if} data-toggle="change_editor" data-url='{url path="mail/admin/loat_template" args="mail_type=0&tpl={$tpl}"}' />{t domain="mail"}纯文本邮件{/t}
+						<input type="radio" class="uni_style" name="mail_type" value="1" {if $template.is_html eq '1'}checked="true"{/if} data-toggle="change_editor" data-url='{url path="mail/admin/loat_template" args="mail_type=1&tpl={$tpl}"}' />{t domain="mail"}HTML 邮件{/t}
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label">{lang key='mail::mail_template.label_mail_info'}</label>
+					<label class="control-label">{t domain="mail"}模板内容：{/t}</label>
 					<div class="controls">
 						{if $template.is_html eq '1'}
 							{ecjia:editor content=$template.template_content}
 						{else}
 							<textarea name="content" id="content" rows="16" >{$template.template_content}</textarea>
-							<span class="input-must">{lang key='system::system.require_field'}</span>
+							<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 						{/if}
 					</div>
 				</div>
 				<div class="control-group">
 					<div class="controls">
-						<button class="btn btn-gebo" type="submit">{lang key='mail::mail_template.update'}</button>
+						<button class="btn btn-gebo" type="submit">{t domain="mail"}更新{/t}</button>
 						<input type="hidden" name="tpl" value="{$tpl}" />
 					</div>
 				</div>
