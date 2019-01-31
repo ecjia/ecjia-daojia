@@ -12,7 +12,6 @@ class admin_cashier_pendorder_list_module  extends api_admin implements api_inte
         if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
             return new ecjia_error(100, 'Invalid session');
         }
-        define('SESS_ID', RC_Session::getId());
         $device = $this->device;
         $size 			= $this->requestData('pagination.count', 15);
         $page 			= $this->requestData('pagination.page', 1);
