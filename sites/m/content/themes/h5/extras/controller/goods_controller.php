@@ -711,7 +711,7 @@ class goods_controller
         ecjia_front::$controller->display('store_list.dwt');
     }
 
-    public function ajax_store_goods()
+    public static function ajax_store_goods()
     {
         $cid        = intval($_GET['cid']);
         $keywords   = isset($_REQUEST['keywords']) ? trim($_REQUEST['keywords']) : '';

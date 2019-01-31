@@ -92,7 +92,7 @@ class payment_controller
         if (is_ecjia_error($detail)) {
             return ecjia_front::$controller->showmessage($detail->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
         }
-        if ($detail['pay_status'] == 2) {
+        if ($detail['pay_status'] == PS_PAYED) {
             return ecjia_front::$controller->showmessage('该订单已支付请勿重复支付', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $pjaxurl));
         }
         

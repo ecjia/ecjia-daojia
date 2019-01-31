@@ -76,7 +76,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 						<span class="input-must">*</span>
 						<div class="title question-desc-title">问题描述</div>
 						<div class="text question-desc-content">
-							<textarea class="question_desc" type="text" name="question_desc" placeholder="请填写问题描述">{$refund_info.refund_desc}</textarea>
+							<textarea class="question_desc reset_top_text" type="text" name="question_desc" placeholder="请填写问题描述">{$refund_info.refund_desc}</textarea>
 						</div>
 					</li>
 					

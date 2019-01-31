@@ -769,6 +769,7 @@
 			ecjia.touch.user.form();
 			ecjia.touch.user.shipping_fee_notice();
 			ecjia.touch.user.select_pickup_time();
+			ecjia.touch.user.reset_top(); //解决微信浏览器中点击输入框弹出键盘，键盘收起后页面没有还原的问题
 		},
 
 		//评价晒单上传图片，并且不能超过5张。
@@ -1366,6 +1367,16 @@
                 }
             });
         },
+
+		reset_top: function () {
+			$(".reset_top_text").blur(function(){
+				setTimeout(() => {
+					const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
+					console.log(scrollHeight);
+					window.scrollTo(0, Math.max(scrollHeight - 1, 0));
+				}, 100);
+			})
+		},
 	};
 
 	ecjia.touch.address_form = {
