@@ -145,7 +145,7 @@
 												<div class="accordion-body in in_visable collapse" id="goods_info_area_cat">
 													<div class="accordion-inner">
 														<div class="control-group m_b0">
-															<label><b>{lang key='goods::goods.choose_goods_cat'}</b></label>
+															<label><b>{lang key='goods::goods.choose_goods_cat'}</b><span class="input-must">{lang key='system::system.require_field'}</span></label>
 															<div>
 																<select class="w300" name="cat_id">
 																	<option value="0">{lang key='system::system.select_please'}</option>

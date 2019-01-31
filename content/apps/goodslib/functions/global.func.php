@@ -908,6 +908,64 @@ function array_change_key($arr, $new_key) {
     
     return $formate_arr;
 }
+/**
+ * 为某商品生成唯一的货号
+ *
+ * @param int $goods_id
+ *            商品编号
+ * @return string 唯一的货号
+ */
+function generate_goodslib_goods_sn($goods_id) {
+    $goods_sn = ecjia::config('sn_prefix') . str_repeat('0', 6 - strlen($goods_id)) . $goods_id;
+    $sn_list = RC_DB::table('goodslib')
+        ->where('goods_sn', 'like', '%' . mysql_like_quote($goods_sn) . '%')
+        ->where('goods_id', '!=', $goods_id)->orderBy(RC_DB::raw('LENGTH(goods_sn)'), 'desc')
+        ->get();
+
+    /* 判断数组为空就创建数组类型否则类型为null 报错 */
+    $sn_list = empty($sn_list) ? array() : $sn_list;
+    if (in_array($goods_sn, $sn_list)) {
+        $max = pow(10, strlen($sn_list[0]) - strlen($goods_sn) + 1) - 1;
+        $new_sn = $goods_sn . mt_rand(0, $max);
+        while (in_array($new_sn, $sn_list)) {
+            $new_sn = $goods_sn . mt_rand(0, $max);
+        }
+        $goods_sn = $new_sn;
+    }
+    return $goods_sn;
+}
+
+/**
+ * 商品货号是否重复
+ *
+ * @param string $goods_sn
+ *            商品货号；请在传入本参数前对本参数进行SQl脚本过滤
+ * @param int $goods_id
+ *            商品id；默认值为：0，没有商品id
+ * @return bool true，重复；false，不重复
+ */
+function check_goodslib_goods_sn_exist($goods_sn, $goods_id = 0) {
+    $goods_sn = trim($goods_sn);
+    $goods_id = intval($goods_id);
+
+    if (strlen($goods_sn) == 0) {
+        return true; // 重复
+    }
+    $db_goods = RC_DB::table('goodslib');
+
+    $db_goods->where('goods_sn', $goods_sn)->where('is_delete', 0);
+    if (!empty ($goods_id)) {
+        $db_goods->where('goods_id', '!=', $goods_id);
+    }
+    $res = $db_goods->first();
+
+    if (empty ($res)) {
+        return false; // 不重复
+    } else {
+        return true; // 重复
+    }
+}
+
 
 
 // end

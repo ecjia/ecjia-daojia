@@ -189,8 +189,8 @@ class admin extends ecjia_admin {
         
         /* 检查货号是否重复 */
         if (trim($_POST['goods_sn'])) {
-            $count = RC_DB::table('goodslib')->where('goods_sn', $_POST['goods_sn'])->where('is_delete', 0)->count();
-            if ($count > 0) {
+            $goods_sn = check_goodslib_goods_sn_exist($_POST['goods_sn']);
+            if ($goods_sn) {
                 return $this->showmessage(RC_Lang::lang('goods_sn_exists'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
@@ -238,18 +238,21 @@ class admin extends ecjia_admin {
             
             /* 如果没有输入商品货号则自动生成一个商品货号 */
             if (empty($_POST['goods_sn'])) {
-                $max_id = $this->db_goods->join(null)->field('MAX(goods_id) + 1|max')->find();
+                //$max_id = $this->db_goods->join(null)->field('MAX(goods_id) + 1|max')->find();
+                $max_id = RC_DB::table('goodslib')->select(RC_DB::raw('MAX(goods_id) + 1 as max'))->first();
                 if (empty($max_id['max'])) {
                     $goods_sn_bool = true;
                     $goods_sn = '';
                 } else {
                     $goods_sn_bool = false;
-                    $goods_sn = generate_goods_sn($max_id['max']);
+                    $goods_sn = generate_goodslib_goods_sn($max_id['max']);
                 }
             } else {
                 $goods_sn_bool = false;
                 $goods_sn = $_POST['goods_sn'];
             }
+            //_dump($goods_sn,1);
+
             
             /* 处理商品图片 */
             $goods_img = ''; // 初始化商品图片
@@ -278,7 +281,7 @@ class admin extends ecjia_admin {
             $data = array(
                 'goods_name'            => $goods_name,
                 'goods_name_style'      => $goods_name_style,
-                'goods_sn'              => $goods_sn,
+                'goods_sn'              => empty($goods_sn) ? '' : $goods_sn,
                 'cat_id'                => $catgory_id,
                 'brand_id'              => $brand_id,
                 'shop_price'            => $shop_price,
@@ -293,15 +296,15 @@ class admin extends ecjia_admin {
                 'review_status'			=> 5,
                 'is_display'			=> !empty($_POST['is_display']) ? intval($_POST['is_display']) : 0,
             );
-            
+
             $insert_id = RC_DB::table('goodslib')->insertGetId($data);
             /* 商品编号 */
             $goods_id = $insert_id;
-            
+
             if ($goods_sn_bool){
-                $goods_sn = generate_goods_sn($goods_id);
+                $goods_sn = generate_goodslib_goods_sn($goods_id);
                 $data = array('goods_sn' => $goods_sn);
-                $this->db_goods->where('goods_id='.$goods_id)->update($data);
+                RC_DB::table('goodslib')->where('goods_id', $goods_id)->update($data);
             }
             /* 记录日志 */
             ecjia_admin::admin_log($_POST['goods_name'], 'add', 'goodslib');
@@ -500,7 +503,8 @@ class admin extends ecjia_admin {
                             continue;
                         }
                     } else {
-                        $max_id = $this->db_goods->join(null)->field('MAX(goods_id) + 1|max')->find();
+                        //$max_id = $this->db_goods->join(null)->field('MAX(goods_id) + 1|max')->find();
+                        $max_id = RC_DB::table('goodslib')->select(RC_DB::raw('MAX(goods_id) + 1 as max'))->first();
                         if (empty($max_id['max'])) {
                             $goods_sn_bool = true;
                             $data['goods_sn'] = '';
@@ -726,11 +730,12 @@ class admin extends ecjia_admin {
     public function update() {
         $this->admin_priv('goodslib_update', ecjia::MSGTYPE_JSON);
         $goods_id = $_POST['goods_id'];
+        $_POST['goods_sn'] = trim($_POST['goods_sn']);
         
         /* 检查货号是否重复 */
-        if (trim($_POST['goods_sn'])) {
-            $count = RC_DB::table('goodslib')->where('goods_sn', trim($_POST['goods_sn']))->where('is_delete', 0)->where('goods_id', '!=', $goods_id)->count();
-            if ($count > 0) {
+        if (!empty($_POST['goods_sn'])) {
+            $count = check_goodslib_goods_sn_exist($_POST['goods_sn'], $goods_id);
+            if ($count) {
                 return $this->showmessage(RC_Lang::get('goods::goods.goods_sn_exists'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
@@ -775,7 +780,7 @@ class admin extends ecjia_admin {
         
         /* 如果没有输入商品货号则自动生成一个商品货号 */
         if (empty($_POST['goods_sn'])) {
-            $goods_sn = generate_goods_sn($goods_id);
+            $goods_sn = generate_goodslib_goods_sn($goods_id);
         } else {
             $goods_sn = trim($_POST['goods_sn']);
         }
@@ -786,7 +791,7 @@ class admin extends ecjia_admin {
         
         $goods_weight 	= !empty($_POST['goods_weight']) && is_numeric($_POST['goods_weight']) ? $_POST['goods_weight'] * $_POST['weight_unit'] : 0;
         
-        $suppliers_id 	= isset($_POST['suppliers_id']) 	? intval($_POST['suppliers_id']) 	: '0';
+        //$suppliers_id 	= isset($_POST['suppliers_id']) 	? intval($_POST['suppliers_id']) 	: '0';
         
         $goods_name 		= htmlspecialchars($_POST['goods_name']);
         $goods_name_style 	= htmlspecialchars($_POST['goods_name_color']);
