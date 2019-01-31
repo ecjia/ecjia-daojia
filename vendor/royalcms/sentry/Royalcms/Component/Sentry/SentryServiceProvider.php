@@ -143,12 +143,14 @@ class SentryServiceProvider extends ServiceProvider
         $royalcms = $this->royalcms;
 
         // Add a sentry log channel for Laravel 5.6+
+        /* Temporarily not enabled
         if (version_compare($royalcms::VERSION, '5.6') >= 0) {
             $this->royalcms->make('log')->extend('sentry', function ($royalcms, array $config) {
                 $channel = new SentryLogChannel($royalcms);
                 return $channel($config);
             });
         }
+        */
     }
     
     /**
