@@ -120,6 +120,7 @@ HTML;
         
         $location 	= $request->input('location', array());
         $city_id	= $request->input('city_id', 0);
+        $city_id	= empty($city_id) ? 0 : $city_id;
         
         if (is_array($location) && isset($location['latitude']) && isset($location['longitude'])) {
         	$request                     = array('location' => $location);
