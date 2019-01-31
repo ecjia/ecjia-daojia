@@ -25,7 +25,7 @@
 					<div class="card-body">
 						<div class="highlight_box global icon_wrap group" id="js_apply_btn">
 							{if $info}
-								<a class="ajaxremove f_r btn btn-danger btn-min-width extend_handle" data-toggle="ajaxremove" data-msg='{t domain="market" 1=$activity_detail.name }您确定要关闭营销活动【%1】吗？{/t}' href='{url path="market/platform/close_activity" args="code={$activity_detail.code}"}' title="{t}关闭{/t}">{t}关闭{/t}</a>
+								<a class="ajaxremove f_r btn btn-danger btn-min-width extend_handle" data-toggle="ajaxremove" data-msg='{t domain="market" 1=$activity_detail.name }您确定要关闭营销活动【%1】吗？{/t}' href='{url path="market/platform/close_activity" args="code={$activity_detail.code}"}' title='{t domain="market"}关闭{/t}'>{t domain="market"}关闭{/t}</a>
 							{else}
 								<a class="ajaxremove f_r btn btn-success btn-min-width extend_handle" data-toggle="ajaxremove" data-msg='{t domain="market" 1=$activity_detail.name }您确定要开通营销活动【%1】吗？{/t}' href='{url path="market/platform/open_activity" args="code={$activity_detail.code}"}' title='{t domain="market"}开通{/t}'>{t domain="market"}开通{/t}</a>
 							{/if}

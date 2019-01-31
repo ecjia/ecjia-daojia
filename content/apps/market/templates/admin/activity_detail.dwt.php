@@ -26,7 +26,7 @@
 						<div class="detail">
 							<div class="func-detail-margin">
 								{if $info}
-									<a class="ajaxremove f_r btn btn-danger activity-open-btn" data-toggle="ajaxremove" data-msg='{t domain="market" 1=$activity_detail.name }您确定要关闭营销活动【%1】吗？{/t}' href='{url path="market/admin/close_activity" args="code={$activity_detail.code}"}' title="{t}关闭{/t}">{t}关闭{/t}</a>
+									<a class="ajaxremove f_r btn btn-danger activity-open-btn" data-toggle="ajaxremove" data-msg='{t domain="market" 1=$activity_detail.name }您确定要关闭营销活动【%1】吗？{/t}' href='{url path="market/admin/close_activity" args="code={$activity_detail.code}"}' title='{t domain="market"}关闭{/t}'>{t domain="market"}关闭{/t}</a>
 								{else}
 									<a class="ajaxremove f_r btn btn-gebo activity-open-btn" data-toggle="ajaxremove" data-msg='{t domain="market" 1=$activity_detail.name }您确定要开通营销活动【%1】吗？{/t}' href='{url path="market/admin/open_activity" args="code={$activity_detail.code}"}' title='{t domain="market"}开通{/t}'>{t domain="market"}开通{/t}</a>
 								{/if}
