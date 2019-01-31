@@ -21,15 +21,9 @@ class admin extends ecjia_admin
         RC_Script::enqueue_script('jquery-chosen');
         RC_Script::enqueue_script('friendlink', RC_App::apps_url('statics/js/friendlink.js', __FILE__), array(), false, true);
 
-        $js_lang = array(
-            'link_name_required' => RC_Lang::get('friendlink::friend_link.link_name_required'),
-            'link_url_required' => RC_Lang::get('friendlink::friend_link.link_url_required'),
-            'ok' => RC_Lang::get('friendlink::friend_link.ok'),
-            'cancel' => RC_Lang::get('friendlink::friend_link.cancel'),
-        );
-        RC_Script::localize_script('friendlink', 'js_lang', $js_lang);
+        RC_Script::localize_script('friendlink', 'js_lang', config('app-friendlink::jslang.friendlink_page'));
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('friendlink::friend_link.list_link'), RC_Uri::url('friendlink/admin/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here( __('链接列表', 'friendlink'), RC_Uri::url('friendlink/admin/init')));
     }
 
     /**
@@ -40,10 +34,10 @@ class admin extends ecjia_admin
         $this->admin_priv('friendlink_manage');
 
         ecjia_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('friendlink::friend_link.list_link')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here( __('链接列表', 'friendlink')));
         
-        $this->assign('ur_here', RC_Lang::get('friendlink::friend_link.list_link'));
-        $this->assign('action_link', array('text' => RC_Lang::get('friendlink::friend_link.add_link'), 'href' => RC_Uri::url('friendlink/admin/add')));
+        $this->assign('ur_here',  __('链接列表', 'friendlink'));
+        $this->assign('action_link', array('text' =>  __('添加链接', 'friendlink'), 'href' => RC_Uri::url('friendlink/admin/add')));
 
         $links_list = $this->get_friendlink_list($_GET);
         $this->assign('list', $links_list);
@@ -59,10 +53,10 @@ class admin extends ecjia_admin
     public function add()
     {
         $this->admin_priv('friendlink_update');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('friendlink::friend_link.add_link')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here( __('添加链接', 'friendlink')));
         
-        $this->assign('ur_here', RC_Lang::get('friendlink::friend_link.add_link'));
-        $this->assign('action_link', array('href' => RC_Uri::url('friendlink/admin/init'), 'text' => RC_Lang::get('friendlink::friend_link.list_link')));
+        $this->assign('ur_here',  __('添加链接', 'friendlink'));
+        $this->assign('action_link', array('href' => RC_Uri::url('friendlink/admin/init'), 'text' =>  __('链接列表', 'friendlink')));
         $this->assign('form_action', RC_Uri::url('friendlink/admin/insert'));
 
         $this->display('link_edit.dwt');
@@ -80,7 +74,7 @@ class admin extends ecjia_admin
         $link_url = !empty($_POST['link_url']) ? trim($_POST['link_url']) : '';
 
         if (empty($link_name)) {
-            return $this->showmessage(RC_Lang::get('friendlink::friend_link.link_name_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage( __('友情链接名称不能为空', 'friendlink'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         /* 处理url */
@@ -95,7 +89,7 @@ class admin extends ecjia_admin
         /* 查看名称是否有重复 */
         $query = RC_DB::table('friend_link')->where('link_name', $link_name)->count();
         if ($query != 0) {
-            return $this->showmessage(RC_Lang::get('friendlink::friend_link.link_name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage( __('此链接名称已经存在', 'friendlink'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if ((isset($_FILES['link_img']['error']) && $_FILES['link_img']['error'] == 0) || (!isset($_FILES['link_img']['error']) && isset($_FILES['link_img']['tmp_name']) && $_FILES['link_img']['tmp_name'] != 'none')) {
@@ -119,8 +113,8 @@ class admin extends ecjia_admin
         $id = RC_DB::table('friend_link')->insertGetId($data);
         ecjia_admin::admin_log($link_name, 'add', 'friendlink');
 
-        $links[] = array('text' => RC_Lang::get('friendlink::friend_link.continue_add'), 'href' => RC_Uri::url('friendlink/admin/add'));
-        return $this->showmessage(RC_Lang::get('friendlink::friend_link.add_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('friendlink/admin/edit', array('id' => $id))));
+        $links[] = array('text' =>  __('继续添加链接', 'friendlink'), 'href' => RC_Uri::url('friendlink/admin/add'));
+        return $this->showmessage( __('添加成功', 'friendlink'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('friendlink/admin/edit', array('id' => $id))));
     }
 
     /**
@@ -130,9 +124,9 @@ class admin extends ecjia_admin
     {
         $this->admin_priv('friendlink_update');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('friendlink::friend_link.edit_link')));
-        $this->assign('ur_here', RC_Lang::get('friendlink::friend_link.edit_link'));
-        $this->assign('action_link', array('href' => RC_Uri::url('friendlink/admin/init'), 'text' => RC_Lang::get('friendlink::friend_link.list_link')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here( __('编辑链接名称', 'friendlink')));
+        $this->assign('ur_here',  __('编辑链接名称', 'friendlink'));
+        $this->assign('action_link', array('href' => RC_Uri::url('friendlink/admin/init'), 'text' =>  __('链接列表', 'friendlink')));
 
         $link_arr = RC_DB::table('friend_link')->where('link_id', intval($_GET['id']))->first();
         /* 标记为图片链接还是文字链接 */
@@ -170,7 +164,7 @@ class admin extends ecjia_admin
 
         $count = RC_DB::table('friend_link')->where('link_id', '!=', $id)->where('link_name', $link_name)->count();
         if ($count != 0) {
-            return $this->showmessage(RC_Lang::get('friendlink::friend_link.link_name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage( __('此链接名称已经存在', 'friendlink'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         /* 处理url */
@@ -207,7 +201,7 @@ class admin extends ecjia_admin
         RC_DB::table('friend_link')->where('link_id', $id)->update($data);
 
         ecjia_admin::admin_log($link_name, 'edit', 'friendlink');
-        return $this->showmessage(RC_Lang::get('friendlink::friend_link.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('friendlink/admin/edit', array('id' => $id))));
+        return $this->showmessage( __('编辑成功', 'friendlink'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('friendlink/admin/edit', array('id' => $id))));
     }
     /**
      * 批量操作
@@ -233,10 +227,10 @@ class admin extends ecjia_admin
                     }
                     ecjia_admin::admin_log($v['link_name'], 'batch_remove', 'friendlink');
                 }
-                return $this->showmessage(RC_Lang::get('friendlink::friend_link.drop_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('friendlink/admin/init')));
+                return $this->showmessage( __('删除成功', 'friendlink'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('friendlink/admin/init')));
             }
         } else {
-            return $this->showmessage(RC_Lang::get('friendlink::friendlink.no_select_message'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('您没有选择需要执行的操作！', 'friendlink'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     }
     /**
@@ -258,7 +252,7 @@ class admin extends ecjia_admin
         RC_DB::table('friend_link')->where('link_id', $id)->delete();
 
         ecjia_admin::admin_log($row['link_name'], 'remove', 'friendlink');
-        return $this->showmessage(RC_Lang::get('friendlink::friend_link.drop_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        return $this->showmessage( __('删除成功', 'friendlink'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 
     /**
@@ -280,9 +274,9 @@ class admin extends ecjia_admin
             );
             RC_DB::table('friend_link')->where('link_id', $id)->update($data);
 
-            return $this->showmessage(RC_Lang::get('friendlink::friend_link.drop_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('href' => RC_Uri::url('friendlink/admin/edit', array('id' => $id))));
+            return $this->showmessage( __('删除成功', 'friendlink'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('href' => RC_Uri::url('friendlink/admin/edit', array('id' => $id))));
         } else {
-            return $this->showmessage(RC_Lang::get('friendlink::friend_link.drop_fail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage( __('删除失败', 'friendlink'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     }
 
@@ -297,12 +291,12 @@ class admin extends ecjia_admin
         $link_name = trim($_POST['value']);
 
         if (empty($link_name)) {
-            return $this->showmessage(RC_Lang::get('friendlink::friend_link.link_name_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage( __('友情链接名称不能为空', 'friendlink'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } else {
             /* 检查链接名称是否重复 */
             $count = RC_DB::table('friend_link')->where('link_id', '!=', $id)->where('link_name', $link_name)->count();
             if ($count != 0) {
-                return $this->showmessage(RC_Lang::get('friendlink::friend_link.link_name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage( __('此链接名称已经存在', 'friendlink'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
                 $data = array(
                     'link_name' => $link_name,
@@ -310,7 +304,7 @@ class admin extends ecjia_admin
                 RC_DB::table('friend_link')->where('link_id', $id)->update($data);
 
                 ecjia_admin::admin_log($link_name, 'edit', 'friendlink');
-                return $this->showmessage(RC_Lang::get('friendlink::friend_link.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+                return $this->showmessage( __('编辑成功', 'friendlink'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
             }
         }
     }
@@ -327,15 +321,15 @@ class admin extends ecjia_admin
 
         /* 检查输入的值是否合法 */
         if (empty($order)) {
-            return $this->showmessage(RC_Lang::get('friendlink::friend_link.link_order'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage( __('排序不能为空', 'friendlink'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } elseif (!preg_match("/^[0-9]+$/", $order)) {
-            return $this->showmessage(RC_Lang::get('friendlink::friend_link.enter_int'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage( __('显示顺序的类型必须为数字', 'friendlink'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } else {
             $data = array(
                 'show_order' => $order,
             );
             RC_DB::table('friend_link')->where('link_id', $id)->update($data);
-            return $this->showmessage(RC_Lang::get('friendlink::friend_link.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('friendlink/admin/init')));
+            return $this->showmessage( __('编辑成功', 'friendlink'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('friendlink/admin/init')));
         }
     }
 

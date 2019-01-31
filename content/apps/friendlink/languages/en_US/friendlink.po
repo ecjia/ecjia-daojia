@@ -1,0 +1,178 @@
+# Copyright (C) 2019 Ecjia App friendlink
+# This file is distributed under the same license as the Ecjia App friendlink package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App friendlink 1.21.0\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-01-28 09:16:50+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-01-29 09:46+0800\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2.1\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en\n"
+
+#: admin.php:26 admin.php:37 admin.php:39 admin.php:59 admin.php:129
+msgid "链接列表"
+msgstr "Link list"
+
+#: admin.php:40 admin.php:56 admin.php:58
+msgid "添加链接"
+msgstr "Add a link"
+
+#: admin.php:77 admin.php:294
+msgid "友情链接名称不能为空"
+msgstr "The link name cannot be empty"
+
+#: admin.php:92 admin.php:167 admin.php:299
+msgid "此链接名称已经存在"
+msgstr "This link name already exists"
+
+#: admin.php:116
+msgid "继续添加链接"
+msgstr "Continue adding links"
+
+#: admin.php:117
+msgid "添加成功"
+msgstr "Added successfully"
+
+#: admin.php:127 admin.php:128
+msgid "编辑链接名称"
+msgstr "Edit Link Name"
+
+#: admin.php:204 admin.php:307 admin.php:332
+msgid "编辑成功"
+msgstr "Edit success"
+
+#: admin.php:230 admin.php:255 admin.php:277
+msgid "删除成功"
+msgstr "successfully deleted"
+
+#: admin.php:233
+msgid "您没有选择需要执行的操作！"
+msgstr "You don't have a choice of actions you need to perform!"
+
+#: admin.php:279
+msgid "删除失败"
+msgstr "failed to delete"
+
+#: admin.php:324
+msgid "排序不能为空"
+msgstr "Sort cannot be empty"
+
+#: admin.php:326
+msgid "显示顺序的类型必须为数字"
+msgstr "The type of display order must be a number"
+
+#: configs/jslang.php:57
+msgid "请输入链接名称"
+msgstr "Please enter a link name"
+
+#: configs/jslang.php:58
+msgid "请输入链接地址"
+msgstr "Please enter the link address"
+
+#: configs/jslang.php:59
+msgid "显示的顺序必须是一个数字"
+msgstr "The order of display must be a number"
+
+#: configs/jslang.php:60
+msgid "请输入名称！"
+msgstr "Please enter a name!"
+
+#: configs/jslang.php:61
+msgid "请输入URL！"
+msgstr "Please enter the URL!"
+
+#: configs/jslang.php:62
+msgid "确定"
+msgstr "determine"
+
+#: configs/jslang.php:63
+msgid "取消"
+msgstr "cancel"
+
+#: content/apps/friendlink/templates/admin/link_edit.dwt.php:25
+msgid "链接名称："
+msgstr "Link name:"
+
+#: content/apps/friendlink/templates/admin/link_edit.dwt.php:33
+msgid "链接地址："
+msgstr "link address:"
+
+#: content/apps/friendlink/templates/admin/link_edit.dwt.php:41
+msgid "链接LOGO："
+msgstr "Link LOGO:"
+
+#: content/apps/friendlink/templates/admin/link_edit.dwt.php:50
+msgid "浏览"
+msgstr "Browse"
+
+#: content/apps/friendlink/templates/admin/link_edit.dwt.php:51
+msgid "修改"
+msgstr "modify"
+
+#: content/apps/friendlink/templates/admin/link_edit.dwt.php:54
+msgid "您确定要删除该友情链接LOGO吗？"
+msgstr "Are you sure you want to delete this friendship link LOGO?"
+
+#: content/apps/friendlink/templates/admin/link_edit.dwt.php:54
+#: content/apps/friendlink/templates/admin/link_list.dwt.php:27
+#: content/apps/friendlink/templates/admin/link_list.dwt.php:65
+msgid "删除"
+msgstr "delete"
+
+#: content/apps/friendlink/templates/admin/link_edit.dwt.php:60
+msgid "排序："
+msgstr "Sort:"
+
+#: content/apps/friendlink/templates/admin/link_list.dwt.php:23
+msgid "批量操作"
+msgstr "Batch operation"
+
+#: content/apps/friendlink/templates/admin/link_list.dwt.php:27
+msgid "您确定要删除选中的友情链接吗？"
+msgstr "Are you sure you want to delete the selected friendship link?"
+
+#: content/apps/friendlink/templates/admin/link_list.dwt.php:27
+msgid "请选择要删除的友情链接"
+msgstr "Please select the link to be deleted"
+
+#: content/apps/friendlink/templates/admin/link_list.dwt.php:35
+msgid "搜索"
+msgstr "search for"
+
+#: content/apps/friendlink/templates/admin/link_list.dwt.php:47
+msgid "链接LOGO"
+msgstr "Link LOGO"
+
+#: content/apps/friendlink/templates/admin/link_list.dwt.php:48
+msgid "链接名称"
+msgstr "Link name"
+
+#: content/apps/friendlink/templates/admin/link_list.dwt.php:49
+msgid "链接地址"
+msgstr "link address"
+
+#: content/apps/friendlink/templates/admin/link_list.dwt.php:50
+msgid "排序"
+msgstr "Sort"
+
+#: content/apps/friendlink/templates/admin/link_list.dwt.php:64
+msgid "编辑"
+msgstr "edit"
+
+#: content/apps/friendlink/templates/admin/link_list.dwt.php:65
+msgid "您确定要删除该友情链接吗？"
+msgstr "Are you sure you want to delete this friendship link?"
+
+#: content/apps/friendlink/templates/admin/link_list.dwt.php:70
+msgid "编辑排序"
+msgstr "Edit sort"
+
+#: content/apps/friendlink/templates/admin/link_list.dwt.php:74
+msgid "没有找到任何记录"
+msgstr "No records were found"

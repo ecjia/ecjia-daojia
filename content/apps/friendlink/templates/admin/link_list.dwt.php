@@ -20,11 +20,11 @@
 <div class="row-fluid">
 	<div class="btn-group f_l m_r5">
 		<a class="btn dropdown-toggle" data-toggle="dropdown" href="">
-			<i class="fontello-icon-cog"></i>{lang key='friendlink::friend_link.batch_handle'}
+			<i class="fontello-icon-cog"></i>{t domain="friendlink"}批量操作{/t}
 			<span class="caret"></span>
 		</a>
 		<ul class="dropdown-menu">
-			<li><a data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=remove" data-msg="{lang key='friendlink::friend_link.batch_drop_confirm'}" data-noSelectMsg="{lang key='friendlink::friend_link.select_drop_link'}" href="javascript:;"><i class="fontello-icon-trash"></i>{lang key='system::system.drop'}</a></li>
+			<li><a data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=remove" data-msg='{t domain="friendlink"}您确定要删除选中的友情链接吗？{/t}' data-noSelectMsg='{t domain="friendlink"}请选择要删除的友情链接{/t}' href="javascript:;"><i class="fontello-icon-trash"></i>{t}删除{/t}</a></li>
 		</ul>
 	</div>
 
@@ -32,7 +32,7 @@
 	<form class="f_r form-inline" method="post" action="{$search_action}" name="searchForm">
 		<div class="choose_list f_r" >
 			<input type="text" name="keywords" value="{$list.filter.keywords}" placeholder="{lang key='friendlink::friend_link.link_keywords'}"/>
-			<button class="btn search_friendlink" type="button">{lang key='friendlink::friend_link.search'}</button>
+			<button class="btn search_friendlink" type="button">{t domain="friendlink"}搜索{/t}</button>
 		</div>
 	</form>
 </div>
@@ -44,10 +44,10 @@
                 <thead>
                     <tr>
                     	<th class="table_checkbox"><input type="checkbox" data-toggle="selectall" data-children=".checkbox"/></th>
-                    	<th class="w130">{lang key='friendlink::friend_link.link_logo'}</th>
-                        <th class="w150">{lang key='friendlink::friend_link.link_name'}</th>
-					    <th>{lang key='friendlink::friend_link.link_url'}</th>
-					    <th class="w70">{lang key='friendlink::friend_link.show_order'}</th>
+                    	<th class="w130">{t domain="friendlink"}链接LOGO{/t}</th>
+                        <th class="w150">{t domain="friendlink"}链接名称{/t}</th>
+					    <th>{t domain="friendlink"}链接地址{/t}</th>
+					    <th class="w70">{t domain="friendlink"}排序{/t}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,20 +58,20 @@
 				    	</td>
 				    	<td><span>{$link.link_logo_html}</span></td>
                       	<td class="hide-edit-area hide_edit_area_bottom">
-                      		<span class="cursor_pointer" data-text="text" data-trigger="editable" data-url="{RC_Uri::url('friendlink/admin/edit_link_name')}" data-name="link_name" data-pk="{$link.link_id}" data-title="{lang key='friendlink::friend_link.edit_link_name'}" >{$link.link_name}</span>
+                      		<span class="cursor_pointer" data-text="text" data-trigger="editable" data-url="{RC_Uri::url('friendlink/admin/edit_link_name')}" data-name="link_name" data-pk="{$link.link_id}" data-title='{t domain="friendlink"}编辑链接名称{/t}' >{$link.link_name}</span>
                       		<br>
                       		<div class="edit-list">
-							    <a class="data-pjax" href='{RC_Uri::url("friendlink/admin/edit", "id={$link.link_id}")}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
-						    	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='friendlink::friend_link.drop_confirm'}" href='{RC_Uri::url("friendlink/admin/remove","id={$link.link_id}")}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>
+							    <a class="data-pjax" href='{RC_Uri::url("friendlink/admin/edit", "id={$link.link_id}")}' title="{lang key='system::system.edit'}">{t}编辑{/t}</a>&nbsp;|&nbsp;
+						    	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="friendlink"}您确定要删除该友情链接吗？{/t}' href='{RC_Uri::url("friendlink/admin/remove","id={$link.link_id}")}' title="{lang key='system::system.drop'}">{t}删除{/t}</a>
 							</div>
                       	</td>
 					    <td><span><a href="{$link.link_url}" target="_blank">{$link.link_url}</a></span></td>
 					    <td>
-                        	<span class="cursor_pointer" data-placement="left" data-text="text" data-trigger="editable" data-url="{RC_Uri::url('friendlink/admin/edit_show_order')}" data-name="show_order" data-pk="{$link.link_id}" data-title="{lang key='friendlink::friend_link.edit_order'}" >{$link.show_order}</span>
+                        	<span class="cursor_pointer" data-placement="left" data-text="text" data-trigger="editable" data-url="{RC_Uri::url('friendlink/admin/edit_show_order')}" data-name="show_order" data-pk="{$link.link_id}" data-title='{t domain="friendlink"}编辑排序{/t}' >{$link.show_order}</span>
                   		</td>
                     </tr>
 					<!-- {foreachelse} -->
-				    <tr><td class="no-records" colspan="10">{lang key='system::system.no_records'}</td></tr>
+				    <tr><td class="no-records" colspan="10">{t}没有找到任何记录{/t}</td></tr>
 			    	<!-- {/foreach} -->
 	            </tbody>
 			</table>
