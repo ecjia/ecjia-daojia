@@ -2,6 +2,7 @@
 	admin.upgrade = {
 		init : function(){
 			admin.upgrade.check_upload();
+			admin.upgrade.toggle_display();
 		},
 		check_upload : function(){
 			$('.checkUpdate').on('click', function(e){
@@ -21,10 +22,10 @@
 						// str += d.getHours()+':';
 						// var minutes = d.getMinutes()
 						// str += minutes > 9 ? minutes +'' : '0' + minutes +'';
-						
+
 						// $this.find('i').remove();
 						// $('form[name="checkUpdate"] .oldTime').html('最后检查于: ' + str + '&nbsp;');
-						
+
 						// /* 有更新 */
 						// if(data.state){
 						// 	// $('.newVer , .upgrade_go , .alert').removeClass('hide');
@@ -52,7 +53,24 @@
 					})
                 }, 500);
             });
-		}
+		},
+
+		toggle_display: function(){
+            $('.toggle-display').off('click').on('click', function(e) {
+                var $this = $(this),
+                    tbody = $this.parents('tbody'),
+                    next_tbody = tbody.next('tbody');
+
+                if ($this.find('i').hasClass('fontello-icon-folder-open')) {
+                    tbody.find('.fontello-icon-folder-open').addClass('fontello-icon-folder').removeClass('fontello-icon-folder-open');
+                    tbody.find('.fontello-icon-down-open').addClass('fontello-icon-up-open').removeClass('fontello-icon-down-open');
+                } else {
+                    tbody.find('.fontello-icon-folder').addClass('fontello-icon-folder-open').removeClass('fontello-icon-folder');
+                    tbody.find('.fontello-icon-up-open').addClass('fontello-icon-down-open').removeClass('fontello-icon-up-open');
+                }
+                next_tbody.toggle();
+            });
+        },
 	}
 
 })(ecjia.admin, $);

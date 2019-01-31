@@ -10,18 +10,22 @@ namespace Ecjia\System\Admins\Gettext\Console;
 
 use Ecjia\System\Admins\Gettext\Smarty\SmartyGettextCompiler;
 use Ecjia\System\Admins\Gettext\Smarty\CompileDirectory;
-use Ecjia\System\Admins\Gettext\Smarty\CompileFile;
+use ecjia;
 
 class MakeEcjiaSystemPOT extends MakeEcjiaGenericPOT
 {
 
     protected $meta = array(
-        'description'      => 'Translation of frontend strings in Ecjia {version}',
+        'description'      => 'Translation of frontend strings in Ecjia System {version}',
         'copyright-holder' => 'Ecjia',
         'package-name'     => 'Ecjia System',
         'package-version'  => '{version}',
     );
 
+    protected function getVersion()
+    {
+        return ecjia::VERSION;
+    }
 
     public function make($dir, $output)
     {
@@ -44,12 +48,12 @@ class MakeEcjiaSystemPOT extends MakeEcjiaGenericPOT
 
         $this->console->info(sprintf(__("提取%sPHP中语言包成功"), '系统应用'));
 
-        $template_result = $this->makeTemplate($dir, $output);
+        $template_result = $this->makeTemplate($dir);
 
         return $result && $template_result;
     }
 
-    public function makeTemplate($dir, $output)
+    public function makeTemplate($dir)
     {
         $php_pot = realpath($dir . '/languages/zh_CN/system.pot');
         if (! file_exists($php_pot)) {

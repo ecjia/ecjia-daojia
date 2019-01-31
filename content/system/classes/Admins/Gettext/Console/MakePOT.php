@@ -82,6 +82,8 @@ class MakePOT extends GettextConsoleAbstract
 
     protected $meta = array();
 
+    protected $placeholders = array();
+
     /**
      * @var \Ecjia\System\Admins\Gettext\StringExtractor
      */
@@ -185,7 +187,7 @@ class MakePOT extends GettextConsoleAbstract
         return true;
     }
 
-    protected function ecjia_version()
+    protected function getVersion()
     {
         return config('release.version');
     }

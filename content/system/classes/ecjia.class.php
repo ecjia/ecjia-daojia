@@ -50,10 +50,14 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 define('APPNAME', 'ECJIA');
-define('VERSION', '1.40');
-define('RELEASE', '20190124');
+define('VERSION', ecjia::VERSION);
+define('RELEASE', ecjia::RELEASE);
 
 class ecjia {
+
+    const VERSION = '1.40';
+
+    const RELEASE = '20190124';
 	
 	protected $config;
 	

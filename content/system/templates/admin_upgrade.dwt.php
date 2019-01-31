@@ -43,56 +43,70 @@
                             </tr>
                         </thead>
                         <tbody>
-
                             <tr>
                                 <td><img src="{RC_Uri::admin_url('statics/images/upgrade.png')}" width="25" height="25" /> Ver. <strong>{$version->getVersion()}</strong> </td>
                             </tr>
                             <tr>
                                 <td>{t}构建日期：{/t}{$version->getBuild()} </td>
                             </tr>
-                            <tr>
-                                <td><h4><i class="fontello-icon-folder-open"></i> {t}更新介绍{/t}</h4></td>
+                            <tr class="toggle-display cursor_pointer">
+                                <td><h4><i class="fontello-icon-folder-open"></i> {t}更新介绍{/t}<i class="f_r fontello-icon-down-open"></i></h4></td>
                             </tr>
+                        </tbody>
+                        <tbody>
                             <tr>
-                                <td><pre>{$version->getReadme()}</pre></td>
+                                <tr>
+                                    <td><pre>{$version->getReadme()}</pre></td>
+                                </tr>
                             </tr>
+                        </tbody>
 
-                            <!-- {if !empty($version->getModifyFileList())} -->
-                            <tr>
-                                <td><h4><i class="fontello-icon-folder-open"></i> {t 1={count($version->getModifyFileList())}}修改文件 （%1个）{/t}</h4></td>
+                        <!-- {if !empty($version->getModifyFileList())} -->
+                        <tbody>
+                            <tr class="toggle-display cursor_pointer">
+                                <td><h4><i class="fontello-icon-folder"></i> {t 1={count($version->getModifyFileList())}}修改文件 （%1个）{/t}<i class="f_r fontello-icon-up-open"></i></h4></td>
                             </tr>
+                        </tbody>
+                        <tbody class="ecjiaf-dn">
                             <!-- {foreach $version->getModifyFileList() as $index => $file} -->
                             <tr>
                                 <td>{$index+1}. {$file}</td>
                             </tr>
                             <!-- {/foreach} -->
-                            <!-- {/if} -->
+                        </tbody>
+                        <!-- {/if} -->
 
 
-                            <!-- {if !empty($version->getNewFileList())} -->
-                            <tr>
-                                <td><h4><i class="fontello-icon-folder-open"></i> {t 1={count($version->getNewFileList())}}新增文件 （%1个）{/t}</h4></td>
+                        <!-- {if !empty($version->getNewFileList())} -->
+                        <tbody>
+                            <tr class="toggle-display cursor_pointer">
+                                <td><h4><i class="fontello-icon-folder"></i> {t 1={count($version->getNewFileList())}}新增文件 （%1个）{/t}<i class="f_r fontello-icon-up-open"></i></h4></td>
                             </tr>
+                        </tbody>
+                        <tbody class="ecjiaf-dn">
                             <!-- {foreach $version->getNewFileList() as $index => $file} -->
                             <tr>
                                 <td>{$index+1}. {$file}</td>
                             </tr>
                             <!-- {/foreach} -->
-                            <!-- {/if} -->
+                        </tbody>
+                        <!-- {/if} -->
 
-
-                            <!-- {if !empty($version->getDeleteFileList())} -->
-                            <tr>
-                                <td><h4><i class="fontello-icon-folder-open"></i> {t 1={count($version->getDeleteFileList())}}删除文件 （%1个）{/t}</h4></td>
+                        <!-- {if !empty($version->getDeleteFileList())} -->
+                        <tbody>
+                            <tr class="toggle-display cursor_pointer">
+                                <td><h4><i class="fontello-icon-folder"></i> {t 1={count($version->getDeleteFileList())}}删除文件 （%1个）{/t}<i class="f_r fontello-icon-up-open"></i></h4></td>
                             </tr>
+                        </tbody>
+                        <tbody class="ecjiaf-dn">
                             <!-- {foreach $version->getDeleteFileList() as $index => $file} -->
                             <tr>
                                 <td>{$index+1}. {$file}</td>
                             </tr>
                             <!-- {/foreach} -->
-                            <!-- {/if} -->
-
                         </tbody>
+                        <!-- {/if} -->
+
                     </table>
                     <!-- {else} -->
                     <div class="m_b20">

@@ -38,16 +38,14 @@ class MakeEcjiaGenericPOT extends MakePOT
 
         $args     = array_merge($defaults, $args);
 
-        $placeholders = array();
-
-        if ($ecjia_version = $this->ecjia_version()) {
-            $placeholders['version'] = $ecjia_version;
+        if ($ecjia_version = $this->getVersion()) {
+            $this->placeholders['version'] = $ecjia_version;
         } else {
             return false;
         }
 
         $output = is_null($args['output']) ? $args['default_output'] : $args['output'];
-        $res    = $this->xgettext($args['project'], $dir, $output, $placeholders, $args['excludes'], $args['includes']);
+        $res    = $this->xgettext($args['project'], $dir, $output, $this->placeholders, $args['excludes'], $args['includes']);
         if (! $res) {
             return false;
         }

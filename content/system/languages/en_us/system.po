@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: ECJia 1.12\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
 "POT-Creation-Date: 2019-01-21 09:10:09+00:00\n"
-"PO-Revision-Date: 2019-01-21 18:44+0800\n"
+"PO-Revision-Date: 2019-01-25 14:33+0800\n"
 "Last-Translator: Royal Wang <hxroyal@gmail.com>\n"
 "Language-Team: ECJia Team <admin@ecjia.com>\n"
 "Language: en_US\n"
@@ -284,7 +284,7 @@ msgstr "%s uninstalled is successfully!"
 #: admin_plugin.php:209 admin_plugin.php:211
 #: apis/system_system_menu_api.class.php:72
 msgid "插件配置"
-msgstr "Plugin configuration"
+msgstr "Plugin Configuration"
 
 #: admin_role.php:76 privilege.php:79
 msgid "请输入用户名！"
@@ -440,7 +440,7 @@ msgstr "Home"
 #: apis/system_system_menu_api.class.php:60
 #: classes/admin/ecjia_admin_log.class.php:103
 msgid "权限管理"
-msgstr "privilege"
+msgstr "Privilege"
 
 #: apis/system_system_menu_api.class.php:62 privilege.php:100 privilege.php:141
 #: privilege.php:383 privilege.php:480 privilege.php:742 privilege.php:784
@@ -469,11 +469,11 @@ msgstr "Upgrade"
 #: classes/Controllers/AdminFilehashController.php:84
 #: classes/Controllers/AdminFilehashController.php:120
 msgid "文件校验"
-msgstr "File check"
+msgstr "File Check"
 
 #: apis/system_system_menu_api.class.php:81
 msgid "目录权限检测"
-msgstr "Directory permission detection"
+msgstr "Directory Permission Detection"
 
 #: apis/system_system_menu_api.class.php:86 index.php:117 index.php:144
 #: index.php:169
