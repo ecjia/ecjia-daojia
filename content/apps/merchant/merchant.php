@@ -281,7 +281,7 @@ class merchant extends ecjia_merchant
         } elseif ($code == 'shop_logo') {
             $msg = '店铺LOGO';
         } elseif ($code == 'shop_banner_pic') {
-            $msg = 'APP Banner图';
+            $msg = '店铺顶部Banner图';
 
             $banner = (new \Ecjia\App\Merchant\StoreComponents\Banner\BannerThumb($img));
             $banner->removeBannerThumbFile();

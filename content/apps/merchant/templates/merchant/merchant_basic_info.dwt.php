@@ -85,7 +85,7 @@ label + div.col-lg-6, label + div.col-lg-2 {
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-lg-2">{t}APP Banner图：{/t}</label>
+                            <label class="control-label col-lg-2">{t}店铺顶部Banner图：{/t}</label>
                             <div class="col-lg-6">
                                 <div class="fileupload fileupload-{if $data.shop_banner_pic}exists{else}new{/if}" data-provides="fileupload">
                                     {if $data.shop_banner_pic}

@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <div class="control-group formSep">
-                            <label class="control-label m_t10">APP Banner图：</label>
+                            <label class="control-label m_t10">店铺顶部Banner图：</label>
                             <div class="controls m_t15 m_b20 p_l10">
                                 <div class="fileupload fileupload-new" data-provides="fileupload">
                                     {if $store_info.shop_banner_pic neq ''}

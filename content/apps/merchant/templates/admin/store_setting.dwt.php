@@ -43,7 +43,7 @@
                                             <td colspan="3"><img src="{$store_info.shop_logo}" alt="" style="max-width:120px;"/></td>
                                         </tr>
                                         <tr>
-                                            <td><div align="right"><strong>APP Banner图：</strong></div></td>
+                                            <td><div align="right"><strong>店铺顶部Banner图：</strong></div></td>
                                             <td colspan="3"><img src="{$store_info.shop_banner_pic}" alt="" style="max-width:120px;"/></td>
                                         </tr>
                                         <tr>
