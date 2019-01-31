@@ -4,11 +4,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App main 2.27.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-01-29 06:49:30+00:00\n"
+"POT-Creation-Date: 2019-01-30 02:38:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-01-29 15:34+0800\n"
+"PO-Revision-Date: 2019-01-30 10:48+0800\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "X-Generator: Poedit 2.2.1\n"
 "Last-Translator: \n"
@@ -19,7 +19,7 @@ msgstr ""
 msgid "产品地址"
 msgstr "Product address"
 
-#: classes/hooks/admin_main.class.php:97 classes/hooks/admin_main.class.php:157
+#: classes/hooks/admin_main.class.php:97 classes/hooks/admin_main.class.php:161
 msgid "欢迎使用ECJia到家"
 msgstr "Welcome to ECJia to your home"
 
@@ -51,7 +51,25 @@ msgstr ""
 msgid "了解更多 »"
 msgstr "understand more \""
 
-#: classes/hooks/admin_main.class.php:158
+#: classes/hooks/admin_main.class.php:126
+msgid "终身商业授权"
+msgstr "Lifetime commercial license"
+
+#: classes/hooks/admin_main.class.php:127
+msgid "授权域名："
+msgstr "Authorized domain name:"
+
+#: classes/hooks/admin_main.class.php:128
+msgid "恭喜您，您正在使用商业授权版本，享有该系统进行商业运营的合法权利。"
+msgstr ""
+"Congratulations, you are using a commercial license version and have the "
+"legal right to operate the system for commercial operations."
+
+#: classes/hooks/admin_main.class.php:129
+msgid "查看授权证书 »"
+msgstr "View Authorization Certificate »"
+
+#: classes/hooks/admin_main.class.php:162
 msgid ""
 "EC+（ecjia）到家是由上海商创网路科技有限公司推出的，一款可开展O2O业务的移动电"
 "商系统。\n"
@@ -75,6 +93,6 @@ msgstr ""
 "future developments. It focuses on three new technologies: new models, new "
 "frameworks, and new technologies."
 
-#: classes/hooks/admin_main.class.php:162
+#: classes/hooks/admin_main.class.php:166
 msgid "进入官网 »"
 msgstr "Enter the official website »"

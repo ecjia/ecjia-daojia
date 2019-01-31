@@ -51,7 +51,7 @@ class admin_main_hooks {
     
     public static function admin_dashboard_right_2() 
     {
-	    $title = __('产品地址');
+	    $title = __('产品地址', 'main');
 
 	    $index_url 	   = RC_Uri::home_url();
 	    $h5_url 	   = RC_Uri::home_url().'/sites/m/';
