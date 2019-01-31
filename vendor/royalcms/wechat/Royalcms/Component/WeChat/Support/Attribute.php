@@ -1,13 +1,13 @@
 <?php namespace Royalcms\Component\WeChat\Support;
 
 use Royalcms\Component\WeChat\Core\Exceptions\InvalidArgumentException;
-use Royalcms\Component\Support\Collection;
+use Royalcms\Component\Support\Collection as BaseCollection;
 use Royalcms\Component\Support\Str;
 
 /**
  * Class Attributes.
  */
-abstract class Attribute extends Collection
+abstract class Attribute extends BaseCollection
 {
     /**
      * Attributes alias.
