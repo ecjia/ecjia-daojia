@@ -43,7 +43,7 @@
 					<div class="fileupload {if $link.url && $link.type}fileupload-exists{else}fileupload-new{/if}" data-provides="fileupload">
 						<div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px; line-height: 50px;">
 							{if $link.url && $link.type}
-							<img src="{$link.url}" alt={lang key='friendlink::friend_link.image_preview'} />
+							<img src="{$link.url}" alt='{t domain="friendlink"}图片预览{/t}' />
 							{/if}
 						</div>
 						<span class="btn btn-file">
@@ -51,7 +51,7 @@
 							<span class="fileupload-exists">{t domain="friendlink"}修改{/t}</span>
 							<input type='file' name='link_img' size="35"/>
 						</span>
-						<a class="btn fileupload-exists" {if !$link.url && !$link.type}data-dismiss="fileupload" href="javascript:;"{else}data-toggle="ajaxremove" data-msg='{t domain="friendlink"}您确定要删除该友情链接LOGO吗？{/t}' href='{url path="friendlink/admin/remove_logo" args="id={$link.link_id}"}' title="{t}删除{/t}"{/if}>{t}删除{/t}</a>
+						<a class="btn fileupload-exists" {if !$link.url && !$link.type}data-dismiss="fileupload" href="javascript:;"{else}data-toggle="ajaxremove" data-msg='{t domain="friendlink"}您确定要删除该友情链接LOGO吗？{/t}' href='{url path="friendlink/admin/remove_logo" args="id={$link.link_id}"}' title='{t domain="friendlink"}删除{/t}'{/if}>{t domain="friendlink"}删除{/t}</a>
 					</div>
 				</div>
 			</div>
@@ -71,7 +71,7 @@
 	        	<div class="controls">
 					<input type="hidden" name="id" value="{$link.link_id}" />
 					<input type="hidden" id="type" value="{$link.type}" />
-					<input class="btn btn-gebo" type="submit" value="{t}确定{/t}"/>
+					<input class="btn btn-gebo" type="submit" value='{t domain="friendlink"}确定{/t}'/>
 			    </div>
 			</div>
 		</form>

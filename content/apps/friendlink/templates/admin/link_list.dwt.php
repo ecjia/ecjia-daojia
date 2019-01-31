@@ -24,14 +24,14 @@
 			<span class="caret"></span>
 		</a>
 		<ul class="dropdown-menu">
-			<li><a data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=remove" data-msg='{t domain="friendlink"}您确定要删除选中的友情链接吗？{/t}' data-noSelectMsg='{t domain="friendlink"}请选择要删除的友情链接{/t}' href="javascript:;"><i class="fontello-icon-trash"></i>{t}删除{/t}</a></li>
+			<li><a data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=remove" data-msg='{t domain="friendlink"}您确定要删除选中的友情链接吗？{/t}' data-noSelectMsg='{t domain="friendlink"}请选择要删除的友情链接{/t}' href="javascript:;"><i class="fontello-icon-trash"></i>{t domain="friendlink"}删除{/t}</a></li>
 		</ul>
 	</div>
 
 	<!-- 搜索 -->
 	<form class="f_r form-inline" method="post" action="{$search_action}" name="searchForm">
 		<div class="choose_list f_r" >
-			<input type="text" name="keywords" value="{$list.filter.keywords}" placeholder="{lang key='friendlink::friend_link.link_keywords'}"/>
+			<input type="text" name="keywords" value="{$list.filter.keywords}" placeholder='{t domain="friendlink"}请输入链接名称关键字{/t}'/>
 			<button class="btn search_friendlink" type="button">{t domain="friendlink"}搜索{/t}</button>
 		</div>
 	</form>
@@ -61,8 +61,8 @@
                       		<span class="cursor_pointer" data-text="text" data-trigger="editable" data-url="{RC_Uri::url('friendlink/admin/edit_link_name')}" data-name="link_name" data-pk="{$link.link_id}" data-title='{t domain="friendlink"}编辑链接名称{/t}' >{$link.link_name}</span>
                       		<br>
                       		<div class="edit-list">
-							    <a class="data-pjax" href='{RC_Uri::url("friendlink/admin/edit", "id={$link.link_id}")}' title="{lang key='system::system.edit'}">{t}编辑{/t}</a>&nbsp;|&nbsp;
-						    	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="friendlink"}您确定要删除该友情链接吗？{/t}' href='{RC_Uri::url("friendlink/admin/remove","id={$link.link_id}")}' title="{lang key='system::system.drop'}">{t}删除{/t}</a>
+							    <a class="data-pjax" href='{RC_Uri::url("friendlink/admin/edit", "id={$link.link_id}")}' title='{t domain="friendlink"}编辑{/t}'>{t domain="friendlink"}编辑{/t}</a>&nbsp;|&nbsp;
+						    	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="friendlink"}您确定要删除该友情链接吗？{/t}' href='{RC_Uri::url("friendlink/admin/remove","id={$link.link_id}")}' title='{t domain="friendlink"}删除{/t}'>{t domain="friendlink"}删除{/t}</a>
 							</div>
                       	</td>
 					    <td><span><a href="{$link.link_url}" target="_blank">{$link.link_url}</a></span></td>
@@ -71,7 +71,7 @@
                   		</td>
                     </tr>
 					<!-- {foreachelse} -->
-				    <tr><td class="no-records" colspan="10">{t}没有找到任何记录{/t}</td></tr>
+				    <tr><td class="no-records" colspan="10">{t domain="friendlink"}没有找到任何记录{/t}</td></tr>
 			    	<!-- {/foreach} -->
 	            </tbody>
 			</table>
