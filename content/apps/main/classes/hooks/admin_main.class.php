@@ -94,12 +94,12 @@ class admin_main_hooks {
 	        $ecjia_release = RC_Config::get('release.build');
 	        $ecjia_welcome_logo = RC_Uri::admin_url('statics/images/ecjiawelcom.png');
 	        $ecjia_about_url = RC_Uri::url('@index/about_us');
-	        $welcomeecjia 	= __('欢迎使用ECJia到家');
+	        $welcomeecjia 	= __('欢迎使用ECJia到家', 'main');
 	        $description 	= __("EC+（ecjia）到家是由上海商创网络科技有限公司推出的，一款可开展O2O业务的移动电商系统。
 	            它包含：移动端APP，采用原生模式开发，覆盖使用iOS 及Android系统的移动终端；后台系统，针对平台日常运营维护
 	            的平台后台，针对入驻店铺管理的商家后台，独立并行；移动端H5，能够灵活部署于微信及其他APP、网页等。
-	            ECJia到家是一款符合当下及未来发展的新电商系统，主打三个新：新模式，新框架，新技术。");
-	        $more 			= __('了解更多 »');
+	            ECJia到家是一款符合当下及未来发展的新电商系统，主打三个新：新模式，新框架，新技术。", 'main');
+	        $more 			= __('了解更多 »', 'main');
 	        $welcome = <<<WELCOME
 		  <div>
 			<a class="close m_r10" data-dismiss="alert">×</a>
@@ -123,7 +123,11 @@ WELCOME;
 	        $license_url = RC_Uri::url('admincp/index/license');
 	        $certificate = ecjia_license::instance()->get_certificate();
 	        $license_domain = $certificate['subject']['commonName'];
-	        
+            $license = __('终身商业授权', 'main');
+            $label_license_domain = __('授权域名：', 'main');
+            $license_description =  __('恭喜您，您正在使用商业授权版本，享有该系统进行商业运营的合法权利。', 'main');
+            $look_license = __('查看授权证书 »', 'main');
+
 	        $welcome = <<<WELCOME
         <div class="row-fluid move-mods show">
             <div class="span12 move-mod nomove">
@@ -135,9 +139,9 @@ WELCOME;
         						<img src="{$license_logo}"/>
         					</div>
         					<div class="span10">
-        						<h1>终身商业授权</span></h1>
-        						<p>恭喜您，您正在使用商业授权版本，享有该系统进行商业运营的合法权利。</p>
-        						<p>授权域名：{$license_domain} <a class="f_r" href="{$license_url}" target="_self">查看授权证书 »</a></p>
+        						<h1>{$license}</span></h1>
+        						<p>{$license_description}</p>
+        						<p>{$label_license_domain}{$license_domain} <a class="f_r" href="{$license_url}" target="_self">{$look_license}</a></p>
         					</div>
         				</div>
         			</div>
@@ -154,12 +158,12 @@ WELCOME;
 	    $ecjia_version = RC_Config::get('release.version');
 	    $ecjia_release = RC_Config::get('release.build');
 	    $ecjia_welcome_logo = RC_Uri::admin_url('statics/images/ecjiawelcom.png');
-	    $welcome_ecjia 	= __('欢迎使用ECJia到家');
+	    $welcome_ecjia 	= __('欢迎使用ECJia到家', 'main');
 	    $description = __('EC+（ecjia）到家是由上海商创网路科技有限公司推出的，一款可开展O2O业务的移动电商系统。
 	            它包含：移动端APP，采用原生模式开发，覆盖使用iOS 及Android系统的移动终端；后台系统，针对平台日常运营维护
 	            的平台后台，针对入驻店铺管理的商家后台，独立并行；移动端H5，能够灵活部署于微信及其他APP、网页等。
-	            ECJia到家是一款符合当下及未来发展的新电商系统，主打三个新：新模式，新框架，新技术。');
-	    $more = __('进入官网 »');
+	            ECJia到家是一款符合当下及未来发展的新电商系统，主打三个新：新模式，新框架，新技术。', 'main');
+	    $more = __('进入官网 »', 'main');
 	    $ecjia_url = 'https://ecjia.com/daojia.html';
 	    
 	    $welcome = <<<WELCOME
