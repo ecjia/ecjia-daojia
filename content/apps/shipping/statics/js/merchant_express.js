@@ -255,6 +255,7 @@
         				app.express.datepicker();
         				app.express.tpicker();
         				app.express.shippingForm();
+						$('input[name="fee_compute_mode"]').eq(0).click();
         			});
         		}
         	});
