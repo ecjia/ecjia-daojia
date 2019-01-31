@@ -65,7 +65,7 @@ class WithdrawPlugin extends PluginModel
     protected $table = 'withdraw_method';
 
     protected $addon_plugin_name = 'withdraw_plugins';
-    
+
     /**
      * 当前插件种类的唯一标识字段名
      */
@@ -82,7 +82,7 @@ class WithdrawPlugin extends PluginModel
         $data = $this->enabled()->orderBy('withdraw_code', 'asc')->get()->toArray();
         return $data;
     }
-    
+
     /**
      * 获取数据库中插件数据
      */
@@ -90,12 +90,12 @@ class WithdrawPlugin extends PluginModel
     {
         return $this->where('withdraw_id', $id)->where('enabled', 1)->first();
     }
-    
+
     public function getPluginDataByCode($code)
     {
         return $this->where('withdraw_code', $code)->where('enabled', 1)->first();
     }
-    
+
     public function getPluginDataByName($name)
     {
         return $this->where('withdraw_name', $name)->where('enabled', 1)->first();
@@ -106,20 +106,20 @@ class WithdrawPlugin extends PluginModel
      */
     public function pluginInstall(array $config, $plugin_file)
     {
-        if (! empty($config)) {
+        if (!empty($config)) {
 
             $plugin_data = RC_Plugin::get_plugin_data($plugin_file);
             if (!empty($plugin_data)) {
-                $format_name = $plugin_data['Name'];
+                $format_name        = $plugin_data['Name'];
                 $format_description = $plugin_data['Description'];
             } else {
-                $format_name = '';
+                $format_name        = '';
                 $format_description = '';
             }
 
             /* 检查输入 */
             if (empty($format_name) || empty($config['withdraw_code'])) {
-                return ecjia_plugin::add_error('plugin_install_error', '提现方式名称或withdraw_code不能为空');
+                return ecjia_plugin::add_error('plugin_install_error', __('提现方式名称或withdraw_code不能为空', 'withdraw'));
             }
 
             /* 检测支付名称重复 */
@@ -130,7 +130,7 @@ class WithdrawPlugin extends PluginModel
                 $withdraw_config = serialize($config['forms']);
 
                 /* 取得和验证支付手续费 */
-                $withdraw_fee    = array_get($config, 'withdraw_fee', 0);
+                $withdraw_fee = array_get($config, 'withdraw_fee', 0);
 
                 /* 安装，检查该支付方式是否曾经安装过 */
                 $count = $this->where('withdraw_code', $config['withdraw_code'])->count();
@@ -138,11 +138,11 @@ class WithdrawPlugin extends PluginModel
                 if ($count > 0) {
                     /* 该支付方式已经安装过, 将该支付方式的状态设置为 enable */
                     $data = array(
-                        'withdraw_name' 	=> $format_name,
-                        'withdraw_desc' 	=> $format_description,
-                        'withdraw_config' 	=> $withdraw_config,
-                        'withdraw_fee' 		=> $withdraw_fee,
-                        'enabled' 		    => 1
+                        'withdraw_name'   => $format_name,
+                        'withdraw_desc'   => $format_description,
+                        'withdraw_config' => $withdraw_config,
+                        'withdraw_fee'    => $withdraw_fee,
+                        'enabled'         => 1
                     );
 
                     $this->where('withdraw_code', $config['withdraw_code'])->update($data);
@@ -150,13 +150,13 @@ class WithdrawPlugin extends PluginModel
                 } else {
                     /* 该支付方式没有安装过, 将该支付方式的信息添加到数据库 */
                     $data = array(
-                        'withdraw_code' 	=> $config['withdraw_code'],
-                        'withdraw_name' 	=> $format_name,
-                        'withdraw_desc' 	=> $format_description,
-                        'withdraw_config' 	=> $withdraw_config,
-                        'withdraw_fee' 		=> $withdraw_fee,
-                        'enabled' 		    => 1,
-                        'is_online' 	    => $config['is_online'],
+                        'withdraw_code'   => $config['withdraw_code'],
+                        'withdraw_name'   => $format_name,
+                        'withdraw_desc'   => $format_description,
+                        'withdraw_config' => $withdraw_config,
+                        'withdraw_fee'    => $withdraw_fee,
+                        'enabled'         => 1,
+                        'is_online'       => $config['is_online'],
                     );
                     $this->insert($data);
                 }
@@ -172,7 +172,7 @@ class WithdrawPlugin extends PluginModel
             }
 
         } else {
-            return ecjia_plugin::add_error('plugin_install_error', __('插件配置文件未传入'));
+            return ecjia_plugin::add_error('plugin_install_error', __('插件配置文件未传入', 'withdraw'));
         }
     }
 
@@ -182,20 +182,20 @@ class WithdrawPlugin extends PluginModel
     public function pluginUninstall(array $config, $plugin_file)
     {
 
-        if (! empty($config)) {
+        if (!empty($config)) {
 
             $plugin_data = RC_Plugin::get_plugin_data($plugin_file);
             if (!empty($plugin_data)) {
-                $format_name = $plugin_data['Name'];
+                $format_name        = $plugin_data['Name'];
                 $format_description = $plugin_data['Description'];
             } else {
-                $format_name = '';
+                $format_name        = '';
                 $format_description = '';
             }
 
             /* 检查输入 */
             if (empty($format_name) || empty($config['withdraw_code'])) {
-                return ecjia_plugin::add_error('plugin_uninstall_error', '提现方式名称不能为空');
+                return ecjia_plugin::add_error('plugin_uninstall_error', __('提现方式名称不能为空', 'withdraw'));
             }
 
             /* 从数据库中删除支付方式 */
@@ -207,25 +207,25 @@ class WithdrawPlugin extends PluginModel
             return true;
 
         } else {
-            return ecjia_plugin::add_error('plugin_uninstall_error', __('插件配置文件未传入'));
+            return ecjia_plugin::add_error('plugin_uninstall_error', __('插件配置文件未传入', 'withdraw'));
         }
     }
-    
+
     /**
      * 获取数据中的Config配置数据，并处理
      */
     public function configData($code)
     {
         $pluginData = $this->getPluginDataByCode($code);
-    
+
         $config = $this->unserializeConfig($pluginData['withdraw_config']);
-    
+
         $config['withdraw_code'] = $code;
         $config['withdraw_name'] = $pluginData['withdraw_name'];
-    
+
         return $config;
     }
-    
+
     /**
      * 限制查询只包括启动的支付渠道。
      *
@@ -235,7 +235,7 @@ class WithdrawPlugin extends PluginModel
     {
         return $query->where('enabled', 1);
     }
-    
+
     /**
      * 限制查询只包括在线的支付渠道。
      *
@@ -245,28 +245,28 @@ class WithdrawPlugin extends PluginModel
     {
         return $query->where('is_online', 1);
     }
-    
+
     /**
      * 取得已安装的支付方式(其中不包括线下支付的)
-     * @param   array   $available_plugins  可使用的插件，一维数组 ['withdraw_alipay', 'withdraw_bank']
-     * @param   bool    $include_balance    是否包含余额支付（冲值时不应包括）
+     * @param   array $available_plugins 可使用的插件，一维数组 ['withdraw_alipay', 'withdraw_bank']
+     * @param   bool $include_balance 是否包含余额支付（冲值时不应包括）
      * @return  array   已安装的配送方式列表
      */
     public function getOnlinePlugins(array $available_plugins = array())
     {
         $model = $this->online();
-        
+
         $data = $model->select('withdraw_id', 'withdraw_code', 'withdraw_name', 'withdraw_fee')->get();
-        
+
         $withdraw_list = array();
-        	
+
         if (!empty($data)) {
-            
+
             $withdraw_list = $data->flatMap(function ($item) use ($available_plugins) {
                 if (empty($available_plugins)) {
                     $available_plugins = array_keys($this->getInstalledPlugins());
                 }
-                
+
                 if (in_array($item['withdraw_code'], $available_plugins)) {
                     $item['format_withdraw_fee'] = strpos($item['withdraw_fee'], '%') !== false ? $item['withdraw_fee'] : ecjia_price_format($item['withdraw_fee'], false);
                     return array($item);
@@ -275,37 +275,39 @@ class WithdrawPlugin extends PluginModel
                 }
             });
         }
-        
+
         return $withdraw_list;
     }
-    
+
     /**
      * 取得可用的提现方式列表
-     * @param   int     $is_online          是否支持在线支付
+     * @param   int $is_online 是否支持在线支付
      * @return  array   提现方式数组
      */
     public function getAvailablePlugins(array $available_plugins = array(), $is_online = false)
     {
         $model = $this->enabled();
-        
+
         if ($is_online) {
             $model->online();
         }
 
-        $data = $model->select('withdraw_id', 'withdraw_code', 'withdraw_name', 'withdraw_fee', 'is_online')
-             ->orderby('withdraw_order', 'asc')->get();
+        $data = $model
+            ->select('withdraw_id', 'withdraw_code', 'withdraw_name', 'withdraw_fee', 'is_online')
+            ->orderby('withdraw_order', 'asc')
+            ->get();
 
         $withdraw_list = array();
-         
+
         if (!empty($data)) {
-        
+
             $withdraw_list = $data->flatMap(function ($item) use ($available_plugins) {
                 if (empty($available_plugins)) {
                     $available_plugins = array_keys($this->getInstalledPlugins());
                 }
- 
+
                 if (in_array($item['withdraw_code'], $available_plugins)) {
-                    $item['withdraw_name'] = $this->channel($item['withdraw_code'])->getDisplayName();
+                    $item['withdraw_name']       = $this->channel($item['withdraw_code'])->getDisplayName();
                     $item['format_withdraw_fee'] = strpos($item['withdraw_fee'], '%') !== false ? $item['withdraw_fee'] : ecjia_price_format($item['withdraw_fee'], false);
                     return array($item);
                 } else {
@@ -316,25 +318,25 @@ class WithdrawPlugin extends PluginModel
 
         return $withdraw_list;
     }
-    
+
     /**
      * 获取默认插件实例
      */
     public function defaultChannel()
     {
         $data = $this->enabled()->orderBy('withdraw_order', 'asc')->first();
-        
+
         $config = $this->unserializeConfig($data->withdraw_config);
-     
+
         $handler = $this->pluginInstance($data->withdraw_code, $config);
-        
+
         if (!$handler) {
             return new ecjia_error('code_not_found', $data->withdraw_code . ' plugin not found!');
         }
-        
+
         return $handler;
     }
-    
+
     /**
      * 获取某个插件的实例对象
      * @param string|integer $code 类型为string时是withdraw_code，类型是integer时是withdraw_id
@@ -345,29 +347,29 @@ class WithdrawPlugin extends PluginModel
         if (is_null($code)) {
             return $this->defaultChannel();
         }
-        
+
         if (is_int($code)) {
             $data = $this->getPluginDataById($code);
         } else {
             $data = $this->getPluginDataByCode($code);
         }
-        
+
         if (empty($data)) {
             return new ecjia_error('withdraw_not_found', $code . ' withdraw not found!');
         }
-        
+
         $config = $this->unserializeConfig($data->withdraw_config);
 
         $handler = $this->pluginInstance($data->withdraw_code, $config);
         if (!$handler) {
             return new ecjia_error('plugin_not_found', $data->withdraw_code . ' plugin not found!');
         }
-        
+
         $handler->setPluginModel($data);
-        
+
         return $handler;
     }
-    
+
 }
 
 // end

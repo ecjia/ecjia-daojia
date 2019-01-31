@@ -13,7 +13,7 @@
 		<!-- {if $ur_here}{$ur_here}{/if} -->
 
 		{if !$filter.type}
-		<a class="btn plus_or_reply" href='{RC_Uri::url("withdraw/admin/download")}'><i class="fontello-icon-download"></i>导出Excel</a>
+		<a class="btn plus_or_reply" href='{RC_Uri::url("withdraw/admin/download")}'><i class="fontello-icon-download"></i>{t domain="withdraw"}导出Excel{/t}</a>
 		{/if}
 
 		<!-- {if $action_link} -->
@@ -30,7 +30,7 @@
 				{if $filter.end_date}&end_date={$filter.end_date}{/if}
 				{if $filter.keywords}&keywords={$filter.keywords}{/if}
 				'>
-				待审核<span class="badge badge-info">{if $type_count.wait}{$type_count.wait}{else}0{/if}</span>
+				{t domain="withdraw"}待审核{/t}<span class="badge badge-info">{if $type_count.wait}{$type_count.wait}{else}0{/if}</span>
 			</a>
 		</li>
 
@@ -40,7 +40,7 @@
 				{if $filter.end_date}&end_date={$filter.end_date}{/if}
 				{if $filter.keywords}&keywords={$filter.keywords}{/if}
 				'>
-				已完成<span class="badge badge-info">{if $type_count.finished}{$type_count.finished}{else}0{/if}</span>
+				{t domain="withdraw"}已完成{/t}<span class="badge badge-info">{if $type_count.finished}{$type_count.finished}{else}0{/if}</span>
 			</a>
 		</li>
 
@@ -50,7 +50,7 @@
 				{if $filter.end_date}&end_date={$filter.end_date}{/if}
 				{if $filter.keywords}&keywords={$filter.keywords}{/if}
 				'>
-				已取消<span class="badge badge-info">{if $type_count.canceled}{$type_count.canceled}{else}0{/if}</span>
+				{t domain="withdraw"}已取消{/t}<span class="badge badge-info">{if $type_count.canceled}{$type_count.canceled}{else}0{/if}</span>
 			</a>
 		</li>
 	</ul>
@@ -58,23 +58,21 @@
 	<form action="{$form_action}" name="searchForm" method="post">
 		<div class="btn-group f_l m_t10">
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-				<i class="fontello-icon-cog"></i>{lang key='user::user_account.bulk_operations'}
+				<i class="fontello-icon-cog"></i>{t domain="withdraw"}批量操作{/t}
 				<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
-				<li><a data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$batch_action}" data-msg="{lang key='user::user_account.application_confirm'}"
-					 data-noSelectMsg="{lang key='user::user_account.select_operated_confirm'}" data-name="checkboxes" href="javascript:;"><i
-						 class="fontello-icon-trash"></i>{lang key='user::user_account.batch_deletes'}</a></li>
+				<li>
+					<a data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$batch_action}" data-msg='{t domain="withdraw"}已完成的申请无法被删除，你确定要删除选中的列表吗？{/t}' data-noSelectMsg='{t domain="withdraw"}请选中要操作的项{/t}' data-name="checkboxes" href="javascript:;"><i class="fontello-icon-trash"></i>{t domain="withdraw"}批量删除{/t}</a>
+				</li>
 			</ul>
 		</div>
 
 		<div class="choose_list f_r m_t10">
-			<span class="f_l">申请时间：</span>
-			<input class="date f_l w150" name="start_date" type="text" value="{$smarty.get.start_date}" placeholder="{lang key='user::user_account.start_date'}">
-			<span class="f_l">{lang key='user::user_account.to'}</span>
-			<input class="date f_l w150" name="end_date" type="text" value="{$smarty.get.end_date}" placeholder="{lang key='user::user_account.end_date'}">
-			<input class="w180" type="text" name="keywords" value="{$list.filter.keywords}" placeholder="请输入会员手机号/名称关键字" />
-			<button class="btn select-button" type="button">搜索</button>
+			<span class="f_l">{t domain="withdraw"}申请时间：{/t}</span>
+			<input class="date f_l w150" name="start_date" type="text" value="{$smarty.get.start_date}" placeholder='{t domain="withdraw"}开始日期{/t}'> <span class="f_l">{t domain="withdraw"}至{/t}</span>
+			<input class="date f_l w150" name="end_date" type="text" value="{$smarty.get.end_date}" placeholder='{t domain="withdraw"}结束日期{/t}'> <input class="w180" type="text" name="keywords" value="{$list.filter.keywords}" placeholder='{t domain="withdraw"}请输入会员手机号/名称关键字{/t}' />
+			<button class="btn select-button" type="button">{t domain="withdraw"}搜索{/t}</button>
 		</div>
 	</form>
 </div>
@@ -85,15 +83,15 @@
 			<thead>
 				<tr>
 					<th class="table_checkbox"><input type="checkbox" data-toggle="selectall" data-children=".checkbox" /></th>
-					<th>{lang key='user::user_account.order_sn'}</th>
-					<th>{lang key='user::user_account.user_id'}</th>
-					<th>申请金额</th>
-					<th>提现手续费</th>
-					<th>到账金额</th>
-					<th class="w100">提现方式</th>
-					<th class="w130">申请时间</th>
-					<th class="w70">处理状态</th>
-					<th class="w70">{lang key='system::system.handler'}</th>
+					<th>{t domain="withdraw"}订单编号{/t}</th>
+					<th>{t domain="withdraw"}会员名称{/t}</th>
+					<th>{t domain="withdraw"}申请金额{/t}</th>
+					<th>{t domain="withdraw"}提现手续费{/t}</th>
+					<th>{t domain="withdraw"}到账金额{/t}</th>
+					<th class="w100">{t domain="withdraw"}提现方式{/t}</th>
+					<th class="w130">{t domain="withdraw"}申请时间{/t}</th>
+					<th class="w70">{t domain="withdraw"}处理状态{/t}</th>
+					<th class="w70">{t domain="withdraw"}操作{/t}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -111,23 +109,28 @@
 					<td align="right">{$item.apply_amount}</td>
 					<td align="center">{$item.formated_pay_fee}</td>
 					<td align="center">{$item.formated_amount}</td>
-					<td>{if $item.payment_name}{$item.payment_name}{else}银行转账提现{/if}</td>
+					<td>{if $item.payment_name}{$item.payment_name}{else}{t domain="withdraw"}银行转账提现{/t}{/if}</td>
 					<td align="center">{$item.add_date}</td>
-					<td align="center">{if $item.is_paid eq 1}{lang key='user::user_account.confirm'}{elseif $item.is_paid eq 0}{lang
-						key='user::user_account.wait_check'}{else}{lang key='user::user_account.canceled'}{/if}</td>
 					<td align="center">
-						<a class="data-pjax no-underline" href='{url path="withdraw/admin/check" args="id={$item.id}{if $type}&type={$type}{/if}"}'
-						 title="查看"><i class="fontello-icon-doc-text"></i></a>
+						{if $item.is_paid eq 1}
+						{t domain="withdraw"}已完成{/t}
+						{elseif $item.is_paid eq 0}
+						{t domain="withdraw"}待审核{/t}
+						{else}
+						{t domain="withdraw"}已取消{/t}
+						{/if}
+					</td>
+					<td align="center">
+						<a class="data-pjax no-underline" href='{url path="withdraw/admin/check" args="id={$item.id}{if $type}&type={$type}{/if}"}' title='{t domain="withdraw"}查看{/t}'><i class="fontello-icon-doc-text"></i></a>
 						{if $item.is_paid neq 1}
-						<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{lang key='user::user_account.delete_surplus_confirm'}"
-						 href='{url path="withdraw/admin/remove" args="id={$item.id}{if $type}&type={$type}{/if}"}' title="{lang key='user::user_account.delete'}"><i
-							 class="fontello-icon-trash"></i></a>
+						<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg='{t domain="withdraw"}您确定要删除提现记录吗？{/t}' href='{url path="withdraw/admin/remove" args="id={$item.id}{if $type}&type={$type}{/if}"}' title='{t domain=" withdraw"}删除{/t}'> <i class="fontello-icon-trash"></i>
+						</a>
 						{/if}
 					</td>
 				</tr>
 				<!-- {foreachelse}-->
 				<tr>
-					<td class="no-records" colspan="10">{lang key='system::system.no_records'}</td>
+					<td class="no-records" colspan="10">{t domain="withdraw"}没有找到任何记录{/t}</td>
 				</tr>
 				<!-- {/foreach} -->
 			</tbody>

@@ -56,7 +56,7 @@ use Ecjia\App\Withdraw\Repositories\WithdrawRecordRepository;
  */
 abstract class WithdrawAbstract extends AbstractPlugin
 {
-    
+
     /**
      * 插件信息
      * @var \Ecjia\App\Withdraw\WithdrawPlugin
@@ -109,7 +109,7 @@ abstract class WithdrawAbstract extends AbstractPlugin
     {
         return $this->plugin_model;
     }
-    
+
     /**
      * 获取支付插件的ID
      * @return integer
@@ -118,7 +118,7 @@ abstract class WithdrawAbstract extends AbstractPlugin
     {
         return $this->plugin_model->withdraw_id;
     }
-    
+
     /**
      * 获取支付插件的名称
      * @return string
@@ -127,7 +127,7 @@ abstract class WithdrawAbstract extends AbstractPlugin
     {
         return strip_tags($this->plugin_model->withdraw_name);
     }
-    
+
     /**
      * 获取支付方式显示名称
      * @return string
@@ -137,7 +137,7 @@ abstract class WithdrawAbstract extends AbstractPlugin
         if (array_get($this->config, 'display_name')) {
             return array_get($this->config, 'display_name');
         }
-        
+
         return $this->getName();
     }
 

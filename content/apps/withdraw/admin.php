@@ -82,15 +82,9 @@ class admin extends ecjia_admin
 
         RC_Script::enqueue_script('koala', RC_App::apps_url('statics/js/koala.js', __FILE__));
 
-        $account_jslang = array(
-            'keywords_required' => RC_Lang::get('user::user_account.keywords_required'),
-            'username_required' => RC_Lang::get('user::user_account.username_required'),
-            'amount_required'   => RC_Lang::get('user::user_account.amount_required'),
-            'check_time'        => RC_Lang::get('user::user_account.check_time'),
-        );
-        RC_Script::localize_script('admin', 'account_jslang', $account_jslang);
+        RC_Script::localize_script('admin', 'js_lang', config('app-withdraw::jslang.admin_page'));
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::user_account.withdraw_apply'), RC_Uri::url('withdraw/admin/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('提现申请', 'withdraw'), RC_Uri::url('withdraw/admin/init')));
     }
 
     /**
@@ -101,10 +95,10 @@ class admin extends ecjia_admin
         $this->admin_priv('withdraw_manage');
 
         ecjia_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('user::user_account.withdraw_apply')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('提现申请', 'withdraw')));
 
-        $this->assign('ur_here', RC_Lang::get('user::user_account.withdraw_apply'));
-        $this->assign('action_link', array('text' => '线下提现申请', 'href' => RC_Uri::url('withdraw/admin/add')));
+        $this->assign('ur_here', __('提现申请', 'withdraw'));
+        $this->assign('action_link', array('text' => __('线下提现申请', 'withdraw'), 'href' => RC_Uri::url('withdraw/admin/add')));
 
         $list = $this->get_withdraw_list();
 
@@ -122,18 +116,21 @@ class admin extends ecjia_admin
     {
         $this->admin_priv('withdraw_update');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('线下提现申请'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('线下提现申请', 'withdraw')));
 
-        $this->assign('ur_here', '线下提现申请');
-        $this->assign('action_link', array('href' => RC_Uri::url('withdraw/admin/init'), 'text' => RC_Lang::get('user::user_account.withdraw_apply')));
+        $this->assign('ur_here', __('线下提现申请', 'withdraw'));
+        $this->assign('action_link', array('href' => RC_Uri::url('withdraw/admin/init'), 'text' => __('提现申请', 'withdraw')));
 
         $withdraw_bank = new \Ecjia\App\Withdraw\WithdrawBankType();
         $plugins       = $withdraw_bank->getPlugins();
 
         if (empty($plugins)) {
-            $warning = __('您还没有安装银行转账插件，请去插件中心安装。' . sprintf("<a target='_blank' href='%s'>点击去安装</a>", RC_Uri::url('@admin_plugin/init', array('usepluginsnum' => 2))));
+            $url     = RC_Uri::url('@admin_plugin/init', array('usepluginsnum' => 2));
+            $warning = sprintf(__('您还没有安装银行转账插件，请去插件中心安装。%s点击去安装%s', 'article'), '<a target="_blank" href=' . $url . '>', "</a>");
+
             ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice($warning));
         }
+
         $this->assign('plugins', $plugins->toArray());
 
         $this->assign('form_action', RC_Uri::url('withdraw/admin/insert'));
@@ -179,17 +176,17 @@ class admin extends ecjia_admin
 
         /* 验证参数有效性  */
         if (!is_numeric($apply_amount) || empty($apply_amount) || $apply_amount <= 0) {
-            return $this->showmessage(RC_Lang::get('user::user_account.js_languages.deposit_amount_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请按正确的格式输入充值的金额！', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $user_info = RC_DB::table('users')->where('user_id', $user_id)->first();
         /* 此会员是否存在 */
         if (empty($user_info)) {
-            return $this->showmessage('该会员信息不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该会员信息不存在', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (empty($payment)) {
-            return $this->showmessage('请选择提现方式', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请选择提现方式', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $UserAccountBalance = new \Ecjia\App\Finance\UserAccountBalance($user_info['user_id']);
@@ -197,7 +194,7 @@ class admin extends ecjia_admin
         /* 检查余额是否足够 */
         $user_balance = $UserAccountBalance->getUserMoney();
         if ($apply_amount > $user_balance) {
-            return $this->showmessage('您要申请提现的金额超过了您现有的余额，此操作将不可进行！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('您要申请提现的金额超过了您现有的余额，此操作将不可进行！', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $withdraw_plugin = new \Ecjia\App\Withdraw\WithdrawPlugin();
@@ -226,7 +223,7 @@ class admin extends ecjia_admin
         } else {
             $user_bank_card = $plugin->getUserBankcard($user_id)->where('bank_card', $bank_card)->first();
             if (empty($user_bank_card)) {
-                return $this->showmessage('没有绑定提现账户信息', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('没有绑定提现账户信息', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             $user_bank_card = $user_bank_card->toArray();
@@ -251,28 +248,28 @@ class admin extends ecjia_admin
 
         $model = $UserAccountRepository->insertUserAccount($data, $apply_amount);
 
-        $UserAccountBalance->withdrawApply($apply_amount, '【申请提现】，申请金额为：' . $apply_amount);
+        $UserAccountBalance->withdrawApply($apply_amount, sprintf(__('【申请提现】，申请金额为：%s', 'withdraw'), $apply_amount));
 
         if (empty($model)) {
-            return $this->showmessage('此次操作失败，请返回重试！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('此次操作失败，请返回重试！', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        ecjia_admin::admin_log(RC_Lang::get('user::user_account.log_username') . $user_info['user_name'] . ',' . '提现' . $apply_amount, 'add', 'withdraw_apply');
+        ecjia_admin::admin_log(sprintf(__('会员名称是：%s，提现金额：%s', 'withdraw'), $user_info['user_name'], $apply_amount), 'add', 'withdraw_apply');
 
         $links = [
             [
-                'text' => RC_Lang::get('user::user_account.back_withdraw_list'),
+                'text' => __('返回提现申请', 'withdraw'),
                 'href' => RC_Uri::url('withdraw/admin/init'),
             ],
             [
-                'text' => RC_Lang::get('user::user_account.continue_add'),
+                'text' => __('继续添加申请', 'withdraw'),
                 'href' => RC_Uri::url('withdraw/admin/add')
             ]
         ];
 
         $pjaxurl = RC_Uri::url('withdraw/admin/init');
 
-        return $this->showmessage(RC_Lang::get('user::user_account.add_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => $pjaxurl));
+        return $this->showmessage(__('添加成功！', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => $pjaxurl));
     }
 
     /**
@@ -282,8 +279,8 @@ class admin extends ecjia_admin
     {
         $this->admin_priv('withdraw_manage');
 
-        $text    = '提现申请';
-        $ur_here = '提现详情';
+        $text    = __('提现申请', 'withdraw');
+        $ur_here = __('提现详情', 'withdraw');
 
         $this->assign('ur_here', $ur_here);
         $this->assign('action_link', array('text' => $text, 'href' => RC_Uri::url('withdraw/admin/init')));
@@ -362,7 +359,7 @@ class admin extends ecjia_admin
             $account = (new Ecjia\App\Withdraw\Repositories\UserAccountRepository)->findWithdraw($id);
             //到款状态不能再次修改
             if (!empty($account['is_paid'])) {
-                return $this->showmessage('该订单已审核，请勿重复操作', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('该订单已审核，请勿重复操作', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             /* 同意,更新此条记录,扣除相应的余额 */
@@ -372,7 +369,7 @@ class admin extends ecjia_admin
                 $fmt_amount        = abs($amount);
                 /* 如果扣除的余额多于此会员的总冻结金额，提示 */
                 if ($fmt_amount > $user_frozen_money) {
-                    return $this->showmessage('要提现的金额超过了此会员的帐户余额，此操作将不可进行！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                    return $this->showmessage(__('要提现的金额超过了此会员的帐户余额，此操作将不可进行！', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
 
                 $WithdrawRecordRepository = new \Ecjia\App\Withdraw\Repositories\WithdrawRecordRepository();
@@ -399,18 +396,18 @@ class admin extends ecjia_admin
                 (new \Ecjia\App\Withdraw\Orders\WithdrawOrderFailedProcess($account['order_sn']))->process($_SESSION['admin_name'], $admin_note);
             }
 
-            ecjia_admin::admin_log('(' . addslashes(RC_Lang::get('user::user_account.check')) . ')' . $admin_note, 'check', 'user_surplus');
+            ecjia_admin::admin_log($admin_note, 'check', 'user_surplus');
 
             $links = [
                 [
-                    'text' => RC_Lang::get('user::user_account.back_withdraw_list'),
+                    'text' => __('返回提现申请', 'withdraw'),
                     'href' => RC_Uri::url('withdraw/admin/init'),
                 ]
             ];
 
             $pjaxurl = RC_Uri::url('withdraw/admin/check', array('id' => $id));
 
-            return $this->showmessage(RC_Lang::get('user::user_account.attradd_succed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => $pjaxurl));
+            return $this->showmessage(__('您此次操作已成功！', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => $pjaxurl));
 
         } catch (\Royalcms\Component\Database\QueryException $e) {
             return $this->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -434,7 +431,7 @@ class admin extends ecjia_admin
 
             //到款状态不能再次修改
             if (empty($account)) {
-                return $this->showmessage('该订单不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('该订单不存在', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             $result = (new \Ecjia\App\Withdraw\Transfers\TransferQueryManager($account['order_sn']))->transfer();
@@ -443,7 +440,7 @@ class admin extends ecjia_admin
                 return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
-            return $this->showmessage('与支付机构对账成功，状态正常', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+            return $this->showmessage(__('与支付机构对账成功，状态正常', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 
         } catch (\Royalcms\Component\Database\QueryException $e) {
             return $this->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -463,7 +460,7 @@ class admin extends ecjia_admin
         try {
             $user_account_info = RC_DB::table('user_account')->where('id', $id)->first();
             if (empty($user_account_info)) {
-                return $this->showmessage('该记录不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('该记录不存在', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             $userinfo = RC_DB::table('users')->where('user_id', $user_account_info['user_id'])->first();
@@ -479,12 +476,12 @@ class admin extends ecjia_admin
                     user_account::change_frozen_money($user_account_info['user_id'], $frozen_money); //减掉冻结金额
                 }
             }
-            $user_name = empty($name) ? RC_Lang::get('user::users.no_name') : $name;
+            $user_name = empty($name) ? __('匿名购买', 'withdraw') : $name;
 
             RC_DB::table('user_account')->where('id', $id)->delete();
             ecjia_admin::admin_log(addslashes($user_name), 'remove', 'withdraw_apply');
 
-            return $this->showmessage(RC_Lang::get('user::user_account.drop_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+            return $this->showmessage(__('删除成功', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 
         } catch (\Royalcms\Component\Database\QueryException $e) {
             return $this->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -518,15 +515,15 @@ class admin extends ecjia_admin
                                 user_account::change_user_money($v['user_id'], $user_money); //返还余额
                                 user_account::change_frozen_money($v['user_id'], $frozen_money); //减掉冻结金额
                             }
-                            ecjia_admin::admin_log(sprintf(RC_Lang::get('user::user_account.user_name_is'), $v['user_name']) . sprintf(RC_Lang::get('user::user_account.money_is'), price_format($amount)), 'batch_remove', 'withdraw_apply');
+                            ecjia_admin::admin_log(sprintf(__('会员名称是%s，金额是%s', 'withdraw'), $v['user_name'], ecjia_price_format($amount)), 'batch_remove', 'withdraw_apply');
                         } else {
-                            ecjia_admin::admin_log(sprintf(RC_Lang::get('user::user_account.user_name_is'), $v['user_name']) . sprintf(RC_Lang::get('user::user_account.money_is'), price_format($v['amount'])), 'batch_remove', 'recharge_apply');
+                            ecjia_admin::admin_log(sprintf(__('会员名称是%s，金额是%s', 'withdraw'), $v['user_name'], ecjia_price_format($v['amount'])), 'batch_remove', 'recharge_apply');
                         }
                     }
-                    return $this->showmessage(sprintf(RC_Lang::get('user::user_account.delete_record_count'), $count), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('withdraw/admin/init')));
+                    return $this->showmessage(sprintf(__('本次删除了%s条记录', 'withdraw'), $count), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('withdraw/admin/init')));
                 }
             } else {
-                return $this->showmessage(RC_Lang::get('user::user_account.select_operate_item'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请先选择需要操作的项', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
         } catch (\Royalcms\Component\Database\QueryException $e) {
@@ -544,9 +541,9 @@ class admin extends ecjia_admin
 
         try {
             if (empty($user_mobile)) {
-                return $this->showmessage('会员手机号码不能为空！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('会员手机号码不能为空！', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } elseif (empty($user_info)) {
-                return $this->showmessage('该手机号对应的会员信息不存在！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('该手机号对应的会员信息不存在！', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
                 $user_info['formated_user_money'] = ecjia_price_format($user_info['user_money'], false);
 
@@ -619,7 +616,7 @@ class admin extends ecjia_admin
         if ($code != 'withdraw_cash') {
 
             if (empty($user_bank_card)) {
-                return $this->showmessage('没有绑定提现账户信息', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('没有绑定提现账户信息', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             $user_bank_card = $user_bank_card->toArray();
@@ -686,13 +683,13 @@ class admin extends ecjia_admin
                     $value['formated_amount']  = ecjia_price_format($real_amount);
 
                     $arr[$key]['order_sn']         = $value['order_sn'];
-                    $arr[$key]['user_name']        = !empty($value['user_name']) ? $value['user_name'] : '匿名购买';
+                    $arr[$key]['user_name']        = !empty($value['user_name']) ? $value['user_name'] : __('匿名购买', 'withdraw');
                     $arr[$key]['apply_amount']     = $value['apply_amount'];
                     $arr[$key]['formated_pay_fee'] = $value['formated_pay_fee'];
                     $arr[$key]['formated_amount']  = $value['formated_amount'];
-                    $arr[$key]['payment_name']     = !empty($value['payment_name']) ? $value['payment_name'] : '银行转账提现';
+                    $arr[$key]['payment_name']     = !empty($value['payment_name']) ? $value['payment_name'] : __('银行转账提现', 'withdraw');
                     $arr[$key]['add_date']         = $value['add_date'];
-                    $arr[$key]['status']           = $value['is_paid'] == 1 ? '已完成' : ($value['is_paid'] == 0 ? '待审核' : '已取消');
+                    $arr[$key]['status']           = $value['is_paid'] == 1 ? __('已完成', 'withdraw') : ($value['is_paid'] == 0 ? __('待审核', 'withdraw') : __('已取消', 'withdraw'));
                 }
             }
             return $arr;

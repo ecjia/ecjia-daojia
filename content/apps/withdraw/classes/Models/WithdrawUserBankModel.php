@@ -7,9 +7,9 @@ use Royalcms\Component\Database\Eloquent\Model;
 class WithdrawUserBankModel extends Model
 {
     protected $table = 'withdraw_user_bank';
-    
+
     protected $primaryKey = 'id';
-    
+
     /**
      * 可以被批量赋值的属性。
      *
@@ -27,12 +27,12 @@ class WithdrawUserBankModel extends Model
         'add_time',
         'update_time',
     ];
-    
+
     /**
      * 该模型是否被自动维护时间戳
      *
      * @var bool
      */
     public $timestamps = false;
-    
+
 }

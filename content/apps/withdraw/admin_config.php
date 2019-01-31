@@ -71,9 +71,9 @@ class admin_config extends ecjia_admin
     {
         $this->admin_priv('surplus_manage');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('提现设置'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('提现设置', 'withdraw')));
 
-        $this->assign('ur_here', '提现设置');
+        $this->assign('ur_here', __('提现设置', 'withdraw'));
         $this->assign('form_action', RC_Uri::url('withdraw/admin_config/update'));
 
         $this->assign('withdraw_fee', ecjia::config('withdraw_fee'));
@@ -116,13 +116,13 @@ class admin_config extends ecjia_admin
         $bank_en_short       = !empty($_POST['bank_en_short']) ? $_POST['bank_en_short'] : [];
 
         if ($withdraw_min_amount < 0) {
-            return $this->showmessage('最小提现金额不能小于0', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('最小提现金额不能小于0', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if ($withdraw_fee > 100) {
-            return $this->showmessage('提现手续费不能大于100%', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('提现手续费不能大于100%', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($bank_en_short)) {
-            return $this->showmessage('请至少选择一种提现银行', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请至少选择一种提现银行', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         try {
@@ -146,7 +146,7 @@ class admin_config extends ecjia_admin
             ecjia_config::instance()->write_config('withdraw_min_amount', $withdraw_min_amount);
             ecjia_config::instance()->write_config('withdraw_support_banks', $bank_list);
 
-            return $this->showmessage('保存成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('withdraw/admin_config/init')));
+            return $this->showmessage(__('保存成功', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('withdraw/admin_config/init')));
         } catch (\Royalcms\Component\Database\QueryException $e) {
             return $this->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }

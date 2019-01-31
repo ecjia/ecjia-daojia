@@ -18,7 +18,7 @@
 
                 if (start_date != '' && end_date != '' && start_date >= end_date) {
                     var data = {
-                        message: '开始时间不能大于或等于结束时间',
+                        message: js_lang.time_error,
                         state: "error",
                     };
                     ecjia.admin.showmessage(data);
@@ -115,10 +115,10 @@
                 },
                 messages: {
                     username: {
-                        required: account_jslang.username_required
+                        required: js_lang.username_required
                     },
                     amount: {
-                        required: account_jslang.amount_required
+                        required: js_lang.amount_required
                     }
                 },
                 submitHandler: function () {
@@ -159,7 +159,10 @@
                 }
 
                 $('.user_bank_card').html('');
-                $.post(url, {code: code, user_id: user_id}, function (data) {
+                $.post(url, {
+                    code: code,
+                    user_id: user_id
+                }, function (data) {
                     if (data.state == 'error') {
                         ecjia.admin.showmessage(data);
                         return false;

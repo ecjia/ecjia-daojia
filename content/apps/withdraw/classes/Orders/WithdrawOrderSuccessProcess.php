@@ -68,7 +68,7 @@ class WithdrawOrderSuccessProcess
     {
         $amount = $this->order->amount;
 
-        $this->user_account->withdrawSuccessful($amount, $change_desc);
+        $this->user_account->withdrawSuccessful(abs($amount), $change_desc);
     }
 
     /**

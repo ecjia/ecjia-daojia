@@ -46,33 +46,19 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 提现方式安装API
- * @author royalwang
- */
-class withdraw_plugin_install_api extends Component_Event_Api {
-	
-	public function call(&$options)
-    {
-        try {
+return array(
+    'admin_page'        => array(
+        'time_error'        => __('开始时间不能大于或等于结束时间', 'withdraw'),
+        'username_required' => __('请输入会员名称', 'withdraw'),
+        'amount_required'   => __('请输入金额', 'withdraw'),
+    ),
+    'admin_plugin_page' => array(
+        'withdraw_name_required'  => __('请输入提现名称', 'withdraw'),
+        'withdraw_name_minlength' => __('提现名称长度不能小于3', 'withdraw'),
+        'withdraw_desc_required'  => __('请输入提现描述', 'withdraw'),
+        'withdraw_desc_minlength' => __('提现描述长度不能小于6', 'withdraw'),
+    ),
 
-            if (isset($options['file']) && $options['config']) {
-
-                $WithdrawPlugin = new \Ecjia\App\Withdraw\WithdrawPlugin();
-
-                if ($WithdrawPlugin->pluginInstall($options['config'], $options['file'])) {
-                    $WithdrawPlugin->addInstallPlugin($options['file']);
-                }
-
-                return true;
-            } else {
-                return ecjia_plugin::add_error('plugin_install_error', __('插件参数不全', 'withdraw'));
-            }
-
-        } catch (\Symfony\Component\Debug\Exception\FatalErrorException $e) {
-            return ecjia_plugin::add_error('plugin_install_error', $e->getMessage());
-        }
-	}
-}
+);
 
 // end

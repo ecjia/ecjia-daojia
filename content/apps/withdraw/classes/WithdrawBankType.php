@@ -32,8 +32,8 @@ class WithdrawBankType
     {
         $support_bank = false;
 
-        $plugins = $this->plugins->map(function($model) {
-            $plugin = $model->channel($model->withdraw_code);
+        $plugins = $this->plugins->map(function ($model) {
+            $plugin    = $model->channel($model->withdraw_code);
             $bank_type = $plugin->getBankType();
 
             $data = [
@@ -48,14 +48,14 @@ class WithdrawBankType
                 return false;
             }
             if ($item['bank_type'] == 'cash') {
-            	return false;
+                return false;
             }
             return true;
         });
 
         if ($support_bank) {
             $plugins->push([
-                'bank_name' => '银行转账',
+                'bank_name' => __('银行转账', 'withdraw'),
                 'bank_type' => 'bank',
             ]);
         }

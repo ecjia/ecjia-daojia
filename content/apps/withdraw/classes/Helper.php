@@ -50,19 +50,19 @@ use ecjia_admin_log;
 
 class Helper
 {
-    
+
     /**
      * 添加管理员记录日志操作对象
      */
-    public static function assign_adminlog_content() {
-    	ecjia_admin_log::instance()->add_object('usermoney', '会员账户');
-	
-	    ecjia_admin_log::instance()->add_object('withdraw_apply', '提现申请');
-	    ecjia_admin_log::instance()->add_object('recharge_apply', '充值申请');
-	    
-	    ecjia_admin_log::instance()->add_action('check', '到款审核');
+    public static function assign_adminlog_content()
+    {
+        ecjia_admin_log::instance()->add_object('usermoney', __('会员账户', 'withdraw'));
+        ecjia_admin_log::instance()->add_object('withdraw_apply', __('提现申请', 'withdraw'));
+        ecjia_admin_log::instance()->add_object('recharge_apply', __('充值申请', 'withdraw'));
+
+        ecjia_admin_log::instance()->add_action('check', __('到款审核', 'withdraw'));
     }
-    
+
 }
 
 // end

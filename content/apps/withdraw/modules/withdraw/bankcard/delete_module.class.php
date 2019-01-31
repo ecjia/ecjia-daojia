@@ -51,46 +51,48 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @add 1.25
  * @lastupdate 1.25
  */
-class withdraw_bankcard_delete_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
+class withdraw_bankcard_delete_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
         $user_id = $_SESSION['user_id'];
-    	if ($user_id <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-    	
-    	$id = $this->requestData('id', 0);
-    	$smscode = $this->requestData('smscode', '');
-    	
-    	if (empty($id) || empty($smscode)) {
-    	    return new ecjia_error( 'invalid_parameter', '调用接口withdraw_bankcard_delete_module参数无效！');
-    	}
-    	
-    	//判断校验码是否过期
-    	if ($_SESSION['captcha']['sms']['user_delete_bankcard']['lifetime'] < RC_Time::gmtime()) {
-    		return new ecjia_error('code_timeout', '验证码已过期，请重新获取！');
-    	}
-    	//判断校验码是否正确
-    	if ($smscode != $_SESSION['captcha']['sms']['user_delete_bankcard']['code'] ) {
-    		return new ecjia_error('code_error', '验证码错误，请重新填写！');
-    	}
-    	//接收验证码的手机号是否和用户绑定的一致
-    	$user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
-    	if ($user_info['mobile_phone'] != $_SESSION['captcha']['sms']['user_delete_bankcard']['value'] ) {
-    		return new ecjia_error('code_error', '接收验证码手机号与用户绑定手机号不相同！');
-    	}
-    	
-    	//绑定提现方式信息
-    	$withdraw_user_bank = RC_DB::table('withdraw_user_bank')->where('id', $id)->first();
-    	if (empty($withdraw_user_bank)) {
-    		return new ecjia_error( 'invalid_parameter', '调用接口withdraw_bankcard_delete_module参数无效！');
-    	}
-    	
-    	//删除绑定提现方式
-    	RC_DB::table('withdraw_user_bank')->where('id', $id)->delete();
-    	
-    	return [];
-	}
+        if ($user_id <= 0) {
+            return new ecjia_error(100, 'Invalid session');
+        }
+
+        $id      = $this->requestData('id', 0);
+        $smscode = $this->requestData('smscode', '');
+
+        if (empty($id) || empty($smscode)) {
+            return new ecjia_error('invalid_parameter', __('调用接口withdraw_bankcard_delete_module参数无效！', 'withdraw'));
+        }
+
+        //判断校验码是否过期
+        if ($_SESSION['captcha']['sms']['user_delete_bankcard']['lifetime'] < RC_Time::gmtime()) {
+            return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！', 'withdraw'));
+        }
+        //判断校验码是否正确
+        if ($smscode != $_SESSION['captcha']['sms']['user_delete_bankcard']['code']) {
+            return new ecjia_error('code_error', __('验证码错误，请重新填写！', 'withdraw'));
+        }
+        //接收验证码的手机号是否和用户绑定的一致
+        $user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
+        if ($user_info['mobile_phone'] != $_SESSION['captcha']['sms']['user_delete_bankcard']['value']) {
+            return new ecjia_error('code_error', __('接收验证码手机号与用户绑定手机号不相同！', 'withdraw'));
+        }
+
+        //绑定提现方式信息
+        $withdraw_user_bank = RC_DB::table('withdraw_user_bank')->where('id', $id)->first();
+        if (empty($withdraw_user_bank)) {
+            return new ecjia_error('invalid_parameter', __('调用接口withdraw_bankcard_delete_module参数无效！', 'withdraw'));
+        }
+
+        //删除绑定提现方式
+        RC_DB::table('withdraw_user_bank')->where('id', $id)->delete();
+
+        return [];
+    }
 }
 
 // end

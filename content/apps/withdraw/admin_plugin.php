@@ -70,9 +70,9 @@ class admin_plugin extends ecjia_admin
         RC_Script::enqueue_script('jquery-uniform');
         RC_Style::enqueue_style('chosen');
         RC_Script::enqueue_script('jquery-chosen');
-        RC_Script::localize_script('admin_plugin', 'js_lang', RC_Lang::get('withdraw::withdraw.js_lang'));
+        RC_Script::localize_script('admin_plugin', 'js_lang', config('app-withdraw::jslang.admin_plugin_page'));
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('提现方式'), RC_Uri::url('withdraw/admin_plugin/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('提现方式', 'withdraw')), RC_Uri::url('withdraw/admin_plugin/init'));
         ecjia_screen::get_current_screen()->set_parentage('withdraw', 'withdraw/admin_plugin.php');
     }
 
@@ -84,9 +84,9 @@ class admin_plugin extends ecjia_admin
         $this->admin_priv('withdraw_manage');
 
         ecjia_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('提现方式'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('提现方式', 'withdraw')));
 
-        $this->assign('ur_here', '提现方式');
+        $this->assign('ur_here', __('提现方式', 'withdraw'));
 
         $plugins = ecjia_config::instance()->get_addon_config('withdraw_plugins', true, true);
 
@@ -120,6 +120,7 @@ class admin_plugin extends ecjia_admin
         $this->admin_priv('withdraw_update', ecjia::MSGTYPE_JSON);
 
         $code = trim($_GET['code']);
+        $from = trim($_GET['from']);
         $data = array(
             'enabled' => 0
         );
@@ -132,7 +133,10 @@ class admin_plugin extends ecjia_admin
             ecjia_admin::admin_log($withdraw_name, 'stop', 'withdraw');
 
             $refresh_url = RC_Uri::url('withdraw/admin_plugin/init');
-            return $this->showmessage('插件' . "<strong> " . '已停用' . " </strong>", ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
+            if ($from == 'edit') {
+                $refresh_url = RC_Uri::url('withdraw/admin_plugin/edit', array('code' => $code));
+            }
+            return $this->showmessage(__('插件<strong>已禁用</strong>', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
 
         } catch (\Royalcms\Component\Database\QueryException $e) {
             return $this->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -147,6 +151,7 @@ class admin_plugin extends ecjia_admin
         $this->admin_priv('withdraw_update', ecjia::MSGTYPE_JSON);
 
         $code = trim($_GET['code']);
+        $from = trim($_GET['from']);
         $data = array(
             'enabled' => 1
         );
@@ -159,7 +164,10 @@ class admin_plugin extends ecjia_admin
             ecjia_admin::admin_log($withdraw_name, 'use', 'withdraw');
 
             $refresh_url = RC_Uri::url('withdraw/admin_plugin/init');
-            return $this->showmessage('插件' . "<strong> " . '已启用' . " </strong>", ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
+            if ($from == 'edit') {
+                $refresh_url = RC_Uri::url('withdraw/admin_plugin/edit', array('code' => $code));
+            }
+            return $this->showmessage(__('插件<strong>已启用</strong>', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
 
         } catch (\Royalcms\Component\Database\QueryException $e) {
             return $this->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -173,20 +181,20 @@ class admin_plugin extends ecjia_admin
     {
         $this->admin_priv('withdraw_update');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑提现方式'));
-        $this->assign('action_link', array('text' => '提现方式', 'href' => RC_Uri::url('withdraw/admin_plugin/init')));
-        $this->assign('ur_here', '编辑提现方式');
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑提现方式', 'withdraw')));
+        $this->assign('action_link', array('text' => __('提现方式', 'withdraw'), 'href' => RC_Uri::url('withdraw/admin_plugin/init')));
+        $this->assign('ur_here', __('编辑提现方式', 'withdraw'));
 
         if (isset($_GET['code'])) {
             $withdraw_code = trim($_GET['code']);
         } else {
-            return $this->showmessage('参数错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('参数错误', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         /* 查询该提现方式内容 */
         $withdraw = RC_DB::table('withdraw_method')->where('withdraw_code', $withdraw_code)->where('enabled', 1)->first();
 
         if (empty($withdraw)) {
-            return $this->showmessage('提现方式不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('提现方式不存在', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         /* 取得配置信息 */
@@ -228,12 +236,12 @@ class admin_plugin extends ecjia_admin
         try {
             /* 检查输入 */
             if (empty($name)) {
-                return $this->showmessage('提现方式名称不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('提现方式名称不能为空', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             $data = RC_DB::table('withdraw_method')->where('withdraw_name', $name)->where('withdraw_code', '!=', $code)->count();
             if ($data > 0) {
-                return $this->showmessage('提现方式名称重复', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('提现方式名称重复', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             /* 取得配置信息 */
@@ -289,7 +297,7 @@ class admin_plugin extends ecjia_admin
 
                 /* 记录日志 */
                 ecjia_admin::admin_log($name, 'edit', 'withdraw');
-                return $this->showmessage('编辑成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
+                return $this->showmessage(__('编辑成功', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
             } else {
                 $data_one = RC_DB::table('withdraw_method')->where('withdraw_code', $code)->count();
                 if ($data_one > 0) {
@@ -320,7 +328,7 @@ class admin_plugin extends ecjia_admin
 
                 /* 记录日志 */
                 ecjia_admin::admin_log($name, 'edit', 'withdraw');
-                return $this->showmessage('安装成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
+                return $this->showmessage(__('安装成功', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
             }
 
         } catch (\Royalcms\Component\Database\QueryException $e) {
@@ -340,7 +348,7 @@ class admin_plugin extends ecjia_admin
             $withdraw = RC_DB::table('withdraw_method')->where('withdraw_code', $withdraw_code)->where('enabled', 1)->first();
 
             if (empty($withdraw)) {
-                return $this->showmessage('提现方式不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('提现方式不存在', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             $withdraw_config = [];
@@ -369,7 +377,7 @@ class admin_plugin extends ecjia_admin
 
             $refresh_url = RC_Uri::url('withdraw/admin_plugin/edit', array('code' => $withdraw_code));
 
-            return $this->showmessage('删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
+            return $this->showmessage(__('删除成功', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
 
         } catch (\Royalcms\Component\Database\QueryException $e) {
             return $this->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -390,16 +398,16 @@ class admin_plugin extends ecjia_admin
         try {
             /* 检查名称是否为空 */
             if (empty($withdraw_name) || $withdraw_id == 0) {
-                return $this->showmessage('提现方式名称不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('提现方式名称不能为空', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
                 /* 检查名称是否重复 */
                 if (RC_DB::table('withdraw_method')->where('withdraw_name', $withdraw_name)->where('withdraw_id', '!=', $withdraw_id)->count() > 0) {
-                    return $this->showmessage('提现方式名称重复', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                    return $this->showmessage(__('提现方式名称重复', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 } else {
                     RC_DB::table('withdraw_method')->where('withdraw_id', $withdraw_id)->update(array('withdraw_name' => stripcslashes($withdraw_name)));
 
                     ecjia_admin::admin_log(stripcslashes($withdraw_name), 'edit', 'withdraw');
-                    return $this->showmessage('编辑成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+                    return $this->showmessage(__('编辑成功', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
                 }
             }
 
@@ -418,7 +426,7 @@ class admin_plugin extends ecjia_admin
 
         try {
             if (!is_numeric($_POST['value'])) {
-                return $this->showmessage('请输入合法数字', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请输入合法数字', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
                 /* 取得参数 */
                 $withdraw_id    = intval($_POST['pk']);
@@ -426,7 +434,7 @@ class admin_plugin extends ecjia_admin
 
                 RC_DB::table('withdraw_method')->where('withdraw_id', $withdraw_id)->update(array('withdraw_order' => $withdraw_order));
 
-                return $this->showmessage('编辑成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('withdraw/admin_plugin/init')));
+                return $this->showmessage(__('编辑成功', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('withdraw/admin_plugin/init')));
             }
 
         } catch (\Royalcms\Component\Database\QueryException $e) {
@@ -447,12 +455,12 @@ class admin_plugin extends ecjia_admin
 
         try {
             if (empty($withdraw_fee) && !($withdraw_fee === '0')) {
-                return $this->showmessage('提现费用不是一个合法的价格', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('提现费用不是一个合法的价格', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
                 $withdraw_insure = make_semiangle($withdraw_fee); //全角转半角
                 if (strpos($withdraw_insure, '%') === false) { //不包含百分号
                     if (!is_numeric($withdraw_fee)) {
-                        return $this->showmessage('请输入合法数字或百分比%', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                        return $this->showmessage(__('请输入合法数字或百分比%', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                     } else {
                         $withdraw_fee = floatval($withdraw_insure);
                     }
@@ -462,8 +470,9 @@ class admin_plugin extends ecjia_admin
                 $withdraw_name = RC_DB::table('withdraw_id', $withdraw_id)->pluck('withdraw_name');
                 RC_DB::table('withdraw_method')->where('withdraw_id', $withdraw_id)->update(array('withdraw_fee' => stripcslashes($withdraw_fee)));
 
-                ecjia_admin::admin_log($withdraw_name . '，' . '修改费用为 ' . $withdraw_fee, 'setup', 'withdraw');
-                return $this->showmessage('编辑成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+                ecjia_admin::admin_log(sprintf(__('%s，修改费用为：%s', 'withdraw'), $withdraw_name, $withdraw_fee), 'setup', 'withdraw');
+
+                return $this->showmessage(__('编辑成功', 'withdraw'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
             }
 
         } catch (\Royalcms\Component\Database\QueryException $e) {

@@ -48,82 +48,85 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * 会员绑定/更新微信钱包提现方式
- * 
+ *
  * 1.只能绑定一个
  * 2.sms type = 'user_bind_wewallet'
  * @author hyy
  * @add 1.25
  * @lastupdate 1.25
  */
-class withdraw_wechat_wallet_bind_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-        $user_id = $_SESSION['user_id'] /*  = 1040 */;
-    	if ($user_id <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-    	
-    	$smscode 			= $this->requestData('smscode', '');
-    	$real_name 			= $this->requestData('real_name', '');//真实姓名既持卡人
-    	
-    	if (empty($smscode) || empty($real_name)) {
-    	    return new ecjia_error( 'invalid_parameter', '调用接口withdraw_wechat_wallet_bind_module参数无效！');
-    	}
-    	//判断校验码是否过期
-    	if ($_SESSION['captcha']['sms']['user_bind_wewallet']['lifetime'] < RC_Time::gmtime()) {
-    	    return new ecjia_error('code_timeout', '验证码已过期，请重新获取！');
-    	}
-    	//判断校验码是否正确
-    	if ($smscode != $_SESSION['captcha']['sms']['user_bind_wewallet']['code'] ) {
-    	    return new ecjia_error('code_error', '验证码错误，请重新填写！');
-    	}
-    	
-    	if (empty($real_name)) {
-    	    return new ecjia_error( 'cardholder_can_not_empty', '请填写真实姓名！');
-    	}
-    	
-    	//必须是关注公众号的绑定微信的用户
-    	$wechat_user_info = $this->wechat_user_info($user_id);
-    	if (empty($wechat_user_info)) {
-    		return new ecjia_error('pls_bind_wechat', '请先绑定微信账号！');
-    	}
-    	
-    	//每个人只能绑定一次，后续为更新
-    	$bank_user = RC_DB::table('withdraw_user_bank')->where('user_id', $user_id)->where('user_type', 'user')->where('bank_type', 'wechat')->first();
-    	$data = [
-    	    'bank_name' 		=> '微信钱包',
-    	    'bank_en_short' 	=> 'WECHAT',
-    	    'bank_card' 		=> empty($wechat_user_info['openid']) ? '' : $wechat_user_info['openid'],
-    	    'bank_branch_name' 	=> '',
-    	    'cardholder' 		=> $real_name,
-    	    'bank_type'			=> 'wechat',
-    	];
-    	if($bank_user) {
-    		$data['update_time'] = RC_Time::gmtime();
-    	    RC_DB::table('withdraw_user_bank')->where('user_id', $user_id)->where('user_type', 'user')->where('bank_type', 'wechat')->update($data);
-    	} else {
-    	    $data['user_id'] = $user_id;
-    	    $data['user_type'] = 'user';
-    	    $data['bank_type'] = 'wechat';
-    	    $data['add_time'] = RC_Time::gmtime();
-    	    RC_DB::table('withdraw_user_bank')->insert($data);
-    	}
-    	
-    	return [];
-	}
-	
-	/**
-	 * 是否关注公众号，且绑定微信的用户
-	 */
-	private function wechat_user_info($user_id)
-	{
-		$wechat_user_info = RC_DB::table('wechat_user as wu')->leftJoin('platform_account as pa', RC_DB::raw('pa.id'), '=', RC_DB::raw('wu.wechat_id'))
-								->where(RC_DB::raw('wu.ect_uid'), $user_id)
-								->where(RC_DB::raw('pa.shop_id'), 0)
-								->select(RC_DB::raw('wu.*'))
-								->first();
-		return $wechat_user_info;
-	}
+class withdraw_wechat_wallet_bind_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
+        $user_id = $_SESSION['user_id'];
+        if ($user_id <= 0) {
+            return new ecjia_error(100, 'Invalid session');
+        }
+
+        $smscode   = $this->requestData('smscode', '');
+        $real_name = $this->requestData('real_name', ''); //真实姓名既持卡人
+
+        if (empty($smscode) || empty($real_name)) {
+            return new ecjia_error('invalid_parameter', __('调用接口withdraw_wechat_wallet_bind_module参数无效！', 'withdraw'));
+        }
+        //判断校验码是否过期
+        if ($_SESSION['captcha']['sms']['user_bind_wewallet']['lifetime'] < RC_Time::gmtime()) {
+            return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！', 'withdraw'));
+        }
+        //判断校验码是否正确
+        if ($smscode != $_SESSION['captcha']['sms']['user_bind_wewallet']['code']) {
+            return new ecjia_error('code_error', __('验证码错误，请重新填写！', 'withdraw'));
+        }
+
+        if (empty($real_name)) {
+            return new ecjia_error('cardholder_can_not_empty', __('请填写真实姓名！', 'withdraw'));
+        }
+
+        //必须是关注公众号的绑定微信的用户
+        $wechat_user_info = $this->wechat_user_info($user_id);
+        if (empty($wechat_user_info)) {
+            return new ecjia_error('pls_bind_wechat', __('请先绑定微信账号！', 'withdraw'));
+        }
+
+        //每个人只能绑定一次，后续为更新
+        $bank_user = RC_DB::table('withdraw_user_bank')->where('user_id', $user_id)->where('user_type', 'user')->where('bank_type', 'wechat')->first();
+        $data      = [
+            'bank_name'        => __('微信钱包', 'withdraw'),
+            'bank_en_short'    => 'WECHAT',
+            'bank_card'        => empty($wechat_user_info['openid']) ? '' : $wechat_user_info['openid'],
+            'bank_branch_name' => '',
+            'cardholder'       => $real_name,
+            'bank_type'        => 'wechat',
+        ];
+        if ($bank_user) {
+            $data['update_time'] = RC_Time::gmtime();
+            RC_DB::table('withdraw_user_bank')->where('user_id', $user_id)->where('user_type', 'user')->where('bank_type', 'wechat')->update($data);
+        } else {
+            $data['user_id']   = $user_id;
+            $data['user_type'] = 'user';
+            $data['bank_type'] = 'wechat';
+            $data['add_time']  = RC_Time::gmtime();
+            RC_DB::table('withdraw_user_bank')->insert($data);
+        }
+
+        return [];
+    }
+
+    /**
+     * 是否关注公众号，且绑定微信的用户
+     */
+    private function wechat_user_info($user_id)
+    {
+        $wechat_user_info = RC_DB::table('wechat_user as wu')
+            ->leftJoin('platform_account as pa', RC_DB::raw('pa.id'), '=', RC_DB::raw('wu.wechat_id'))
+            ->where(RC_DB::raw('wu.ect_uid'), $user_id)
+            ->where(RC_DB::raw('pa.shop_id'), 0)
+            ->select(RC_DB::raw('wu.*'))
+            ->first();
+        return $wechat_user_info;
+    }
 }
 
 // end

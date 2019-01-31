@@ -47,19 +47,19 @@
 defined('IN_ROYALCMS') or exit('No permission resources.');
 
 /**
- * 会中中心应用
+ * 提现
  */
 return array(
-	'identifier' 	=> 'ecjia.withdraw',
-	'directory' 	=> 'withdraw',
-	'name'			=> 'withdraw',
-	'description' 	=> 'withdraw_desc',				/* 描述对应的语言项 */
-	'author' 		=> 'ECJIA TEAM',			/* 作者 */
-	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.27.0',					/* 版本号 */
-	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
-    'namespace'     => 'Ecjia\App\Withdraw',
-    'provider'      => 'WithdrawServiceProvider',
+    'identifier'  => 'ecjia.withdraw',
+    'directory'   => 'withdraw',
+    'name'        => 'withdraw',
+    'description' => 'withdraw_desc',               /* 描述对应的语言项 */
+    'author'      => 'ECJIA TEAM',                  /* 作者 */
+    'website'     => 'http://www.ecjia.com',        /* 网址 */
+    'version'     => '1.27.0',                      /* 版本号 */
+    'copyright'   => 'ECJIA Copyright 2014 ~ 2019.',
+    'namespace'   => 'Ecjia\App\Withdraw',
+    'provider'    => 'WithdrawServiceProvider',
 );
 
 // end

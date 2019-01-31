@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 用户绑定银行卡所支持的银行
  * @author hyy
@@ -58,9 +59,9 @@ class withdraw_banks_module extends api_front implements api_interface
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
         $data = Ecjia\App\Setting\BankWithdraw::supportBanks();
-        
+
         return $data;
-        
+
     }
 }
 

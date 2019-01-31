@@ -52,13 +52,13 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class withdraw_plugin_menu_api extends Component_Event_Api
 {
-	
-	public function call(& $options)
+
+    public function call(& $options)
     {
-		$menus = ecjia_admin::make_admin_menu('withdraw_list', '提现方式', RC_Uri::url('withdraw/admin_plugin/init'), 21)->add_purview('withdraw_manage')->add_base('withdraw');
+        $menus = ecjia_admin::make_admin_menu('withdraw_list', __('提现方式', 'withdraw'), RC_Uri::url('withdraw/admin_plugin/init'), 21)->add_purview('withdraw_manage')->add_base('withdraw');
 
         return $menus;
-	}
+    }
 
 }
 

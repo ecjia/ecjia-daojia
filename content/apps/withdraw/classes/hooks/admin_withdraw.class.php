@@ -52,7 +52,7 @@ class withdraw_admin_plugin
     {
         $menus->add_submenu([
             ecjia_admin::make_admin_menu('divider', '', '', 30)->add_purview(array('withdraw_manage', 'surplus_manage')),
-            ecjia_admin::make_admin_menu('refund_list', '提现申请', RC_Uri::url('withdraw/admin/init'), 32)->add_purview('withdraw_manage'),
+            ecjia_admin::make_admin_menu('refund_list', __('提现申请', 'withdraw'), RC_Uri::url('withdraw/admin/init'), 32)->add_purview('withdraw_manage'),
         ]);
 
         return $menus;
@@ -60,8 +60,8 @@ class withdraw_admin_plugin
 
     public static function append_admin_setting_group($menus)
     {
-        $menus[] = ecjia_admin::make_admin_menu('nav-header', '会员提现', '', 48)->add_purview(array('surplus_manage'));
-        $menus[] = ecjia_admin::make_admin_menu('withdraw_setting', '提现设置', RC_Uri::url('withdraw/admin_config/init'), 49)->add_purview('withdraw_manage');
+        $menus[] = ecjia_admin::make_admin_menu('nav-header', __('会员提现', 'withdraw'), '', 48)->add_purview(array('surplus_manage'));
+        $menus[] = ecjia_admin::make_admin_menu('withdraw_setting', __('提现设置', 'withdraw'), RC_Uri::url('withdraw/admin_config/init'), 49)->add_purview('withdraw_manage');
         return $menus;
     }
 }

@@ -55,10 +55,10 @@ class withdraw_admin_purview_api extends Component_Event_Api
     public function call(&$options)
     {
         $purviews = array(
-            array('action_name' => '提现管理', 'action_code' => 'withdraw_manage', 'relevance' => ''),
-            array('action_name' => '提现更新', 'action_code' => 'withdraw_update', 'relevance' => ''),
-            array('action_name' => '提现删除', 'action_code' => 'withdraw_delete', 'relevance' => ''),
-            array('action_name' => '提现审核', 'action_code' => 'withdraw_check', 'relevance' => ''),
+            array('action_name' => __('提现管理', 'withdraw'), 'action_code' => 'withdraw_manage', 'relevance' => ''),
+            array('action_name' => __('提现更新', 'withdraw'), 'action_code' => 'withdraw_update', 'relevance' => ''),
+            array('action_name' => __('提现删除', 'withdraw'), 'action_code' => 'withdraw_delete', 'relevance' => ''),
+            array('action_name' => __('提现审核', 'withdraw'), 'action_code' => 'withdraw_check', 'relevance' => ''),
         );
 
         return $purviews;

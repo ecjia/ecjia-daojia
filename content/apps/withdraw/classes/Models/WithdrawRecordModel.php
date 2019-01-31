@@ -7,9 +7,9 @@ use Royalcms\Component\Database\Eloquent\Model;
 class WithdrawRecordModel extends Model
 {
     protected $table = 'withdraw_record';
-    
+
     protected $primaryKey = 'id';
-    
+
     /**
      * 可以被批量赋值的属性。
      *
@@ -33,7 +33,7 @@ class WithdrawRecordModel extends Model
         'last_error_message',
         'last_error_time',
     ];
-    
+
     /**
      * 该模型是否被自动维护时间戳
      *
@@ -49,5 +49,5 @@ class WithdrawRecordModel extends Model
     {
         return $this->belongsTo('Ecjia\App\Withdraw\Models\UserAccountModel', 'order_sn', 'order_sn');
     }
-    
+
 }

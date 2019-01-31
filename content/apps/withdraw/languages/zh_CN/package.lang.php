@@ -50,8 +50,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * ECJIA 应用语言包
  */
 return array(
-	'withdraw' 		    => '提现',
-	'withdraw_desc' 	=> '提现模块是提现方式的汇总，可以对接多种提现方式。'
+    'withdraw'      => '提现',
+    'withdraw_desc' => '提现模块是提现方式的汇总，可以对接多种提现方式。'
 );
 
 // end

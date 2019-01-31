@@ -38,12 +38,12 @@ abstract class WithdrawManagerAbstract
     public function initWithdrawRecord()
     {
         if (empty($this->withdrawRecord)) {
-            return new ecjia_error('withdraw_record_not_found', __('此笔交易记录未找到', 'app-withdraw'));
+            return new ecjia_error('withdraw_record_not_found', __('此笔交易记录未找到', 'withdraw'));
         }
 
         $this->withdrawCode = $this->withdrawRecord->withdraw_code;
 
-        $withdraw_plugin	= new WithdrawPlugin();
+        $withdraw_plugin     = new WithdrawPlugin();
         $this->pluginHandler = $withdraw_plugin->channel($this->withdrawCode);
         if (is_ecjia_error($this->pluginHandler)) {
             return $this->pluginHandler;

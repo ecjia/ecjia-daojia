@@ -1,5 +1,6 @@
 // JavaScript Document
-;(function (app, $) {
+;
+(function (app, $) {
     app.admin_plugin = {
         init: function () {
             $('.switch').on('click', function (e) {

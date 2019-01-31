@@ -50,9 +50,10 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 提现方式卸载API
  * @author royalwang
  */
-class withdraw_plugin_uninstall_api extends Component_Event_Api {
-	
-	public function call(&$options)
+class withdraw_plugin_uninstall_api extends Component_Event_Api
+{
+
+    public function call(&$options)
     {
 
         try {
@@ -67,7 +68,7 @@ class withdraw_plugin_uninstall_api extends Component_Event_Api {
 
                 return true;
             } else {
-                return ecjia_plugin::add_error('plugin_uninstall_error', __('插件参数不全'));
+                return ecjia_plugin::add_error('plugin_uninstall_error', __('插件参数不全', 'withdraw'));
             }
 
 
@@ -75,7 +76,7 @@ class withdraw_plugin_uninstall_api extends Component_Event_Api {
             return ecjia_plugin::add_error('plugin_uninstall_error', $e->getMessage());
         }
 
-	}
+    }
 }
 
 // end
