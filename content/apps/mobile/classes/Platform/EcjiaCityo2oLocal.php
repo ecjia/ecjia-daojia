@@ -96,7 +96,7 @@ class EcjiaCityo2oLocal extends ApplicationPlatform
         'pay_balance',
         'pay_cod',
         'pay_alipay',
-        'pay_wxpay',
+        'pay_wxpay_pc',
     ];
     
     
