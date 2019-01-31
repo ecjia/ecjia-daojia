@@ -69,6 +69,7 @@ return array(
     'Royalcms\Component\Pay\PayServiceProvider',
     'Royalcms\Component\Shouqianba\ShouqianbaServiceProvider',
 	'Royalcms\Component\Pinyin\PinyinServiceProvider',
+	'Royalcms\Component\Uploader\UploaderServiceProvider',
 
     'Ecjia\System\Providers\SystemServiceProvider',
     'Ecjia\System\Providers\RouteServiceProvider',
