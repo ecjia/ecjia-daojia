@@ -32,4 +32,11 @@ interface Provider
      * @return void
      */
     public function setFile($file);
+
+    /**
+     * Get where the file is located.
+     *
+     * @return string
+     */
+    public function getFile();
 }

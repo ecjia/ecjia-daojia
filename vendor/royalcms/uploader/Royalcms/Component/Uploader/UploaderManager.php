@@ -24,6 +24,7 @@ class UploaderManager implements FactoryContract
     protected $providers = [
         'local' => '\Royalcms\Component\Uploader\Providers\LocalProvider',
         'request' => '\Royalcms\Component\Uploader\Providers\HttpRequestProvider',
+        'upload' => '\Royalcms\Component\Uploader\Providers\UploadFileProvider',
     ];
 
     /**

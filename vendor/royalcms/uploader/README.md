@@ -39,8 +39,8 @@ class UserController extends Controller
     /**
      * Change user's avatar.
      *
-     * @param  \Royalcms\Component\HttKernel\Request  $request
-     * @return \Royalcms\Component\HttpKernel\Response
+     * @param  \Royalcms\Component\Http\Request  $request
+     * @return \Royalcms\Component\Http\Response
      */
     public function changeAvatar(Request $request)
     {

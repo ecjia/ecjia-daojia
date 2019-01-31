@@ -21,4 +21,13 @@ trait FileSetter
     {
         $this->file = $file;
     }
+
+    /**
+     * Get where the file is located.
+     * @return string
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
 }

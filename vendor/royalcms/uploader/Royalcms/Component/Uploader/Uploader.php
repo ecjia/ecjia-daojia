@@ -34,6 +34,13 @@ class Uploader implements UploaderContract
     public $visibility;
 
     /**
+     * The file exists is allow replaced.
+     *
+     * @var bool
+     */
+    public $replace = true;
+
+    /**
      * The folder where the file will be stored.
      *
      * @var string
@@ -60,6 +67,11 @@ class Uploader implements UploaderContract
      * @var \Royalcms\Component\Filesystem\FilesystemManager
      */
     protected $filesystem;
+
+    /**
+     * @var callable
+     */
+    protected $uploadSavingCallback;
 
     /**
      * Create a new Uploader instance.
@@ -111,6 +123,32 @@ class Uploader implements UploaderContract
     public function renameTo($newName)
     {
         $this->filename = $newName;
+
+        return $this;
+    }
+
+    /**
+     * Set the replace of the exists file.
+     *
+     * @param  bool  $replace
+     * @return \Royalcms\Component\Uploader\Contracts\Uploader
+     */
+    public function setReplace($replace)
+    {
+        $this->replace = $replace;
+
+        return $this;
+    }
+
+    /**
+     * Set the replace of the exists file.
+     *
+     * @param  callable  $callback
+     * @return \Royalcms\Component\Uploader\Contracts\Uploader
+     */
+    public function setUploadSavingCallback($callback)
+    {
+        $this->uploadSavingCallback = $callback;
 
         return $this;
     }
@@ -188,11 +226,40 @@ class Uploader implements UploaderContract
 
         $filename = $this->getFullFileName($this->provider);
 
-        if ($this->filesystem->disk($this->disk)->put($filename, $this->provider->getContents(), $this->getVisibility())) {
-            return $filename;
+        if (! $this->replace) {
+            if ($this->filesystem->disk($this->disk)->exists($filename)) {
+                throw new InvalidFileException("Given file [{$filename}] is exists.");
+            }
         }
 
-        return false;
+        /* Saving file */
+        if (is_callable($this->uploadSavingCallback)) {
+
+            $saving_callback = $this->uploadSavingCallback;
+
+            return $saving_callback($this->provider, $filename);
+        }
+        else {
+
+            if ($this->putDiskFile($filename)) {
+                return $filename;
+            }
+
+            return false;
+
+        }
+    }
+
+    /**
+     * Put the filename to disk storage.
+     * @param $filename
+     * @return bool
+     */
+    protected function putDiskFile($filename)
+    {
+        return $this->filesystem
+            ->disk($this->disk)
+            ->put($filename, $this->provider->getContents(), $this->getVisibility());
     }
 
     /**
