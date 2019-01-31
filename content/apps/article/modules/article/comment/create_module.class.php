@@ -64,7 +64,7 @@ class article_comment_create_module extends api_front implements api_interface {
 		$article_id		= $this->requestData('article_id', 0);//30
 		$content 		= $this->requestData('content');
 		if ( $article_id <= 0 || empty($content)) {
-			return new ecjia_error('invalid_parameter', '参数错误！');
+			return new ecjia_error('invalid_parameter', __('参数错误！', 'article'));
 		}
 		$email = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->pluck('email');
 		$store_id = RC_DB::table('article')->where('article_id', $article_id)->pluck('store_id');

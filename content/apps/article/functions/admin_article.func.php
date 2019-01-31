@@ -94,26 +94,26 @@ function get_cat_type_info($article_type = 'merchant_notice', $article_id = 0)
             ->first();
     }
     $article_type = !empty($info['article_type']) ? $info['article_type'] : $article_type; //默认商家公告
-    $text         = '商家公告';
-    $text_add     = '发布商家公告';
-    $text_edit    = '编辑商家公告';
+    $text         = __('商家公告', 'article');
+    $text_add     = __('发布商家公告', 'article');
+    $text_edit    = __('编辑商家公告', 'article');
     $url          = RC_Uri::url('article/admin_notice/init');
     $url_add      = RC_Uri::url('article/admin_notice/add');
     $url_insert   = RC_Uri::url('article/admin_notice/insert');
     $url_update   = RC_Uri::url('article/admin_notice/update');
 
     if ($article_type == 'system') {
-        $text       = '系统信息';
-        $text_add   = '发布系统信息';
-        $text_edit  = '编辑系统信息';
+        $text       = __('系统信息', 'article');
+        $text_add   = __('发布系统信息', 'article');
+        $text_edit  = __('编辑系统信息','article');
         $url        = RC_Uri::url('article/admin_notice/init', array('article_type' => 'system'));
         $url_add    = RC_Uri::url('article/admin_notice/add', array('article_type' => 'system'));
         $url_insert = RC_Uri::url('article/admin_notice/insert', array('article_type' => 'system'));
         $url_update = RC_Uri::url('article/admin_notice/update', array('article_type' => 'system'));
     } elseif ($article_type == 'shop_notice') {
-        $text       = '平台公告';
-        $text_add   = '发布平台公告';
-        $text_edit  = '编辑平台公告';
+        $text       = __('平台公告', 'article');
+        $text_add   = __('发布平台公告','article');
+        $text_edit  = __('编辑平台公告', 'article');
         $url        = RC_Uri::url('article/admin_notice/init', array('article_type' => 'shop_notice'));
         $url_add    = RC_Uri::url('article/admin_notice/add', array('article_type' => 'shop_notice'));
         $url_insert = RC_Uri::url('article/admin_notice/insert', array('article_type' => 'shop_notice'));

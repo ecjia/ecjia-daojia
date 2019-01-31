@@ -64,11 +64,11 @@ class article_like_like_manage_module extends api_front implements api_interface
 		$article_id		= $this->requestData('article_id', 0);//30
 		
 		if ( $article_id <= 0) {
-			return new ecjia_error('invalid_parameter', '参数错误！');
+			return new ecjia_error('invalid_parameter', __('参数错误！','article'));
 		}
 		$article_info = RC_DB::table('article')->where('article_id', $article_id)->first();
 		if (empty($article_info)) {
-			return new ecjia_error('not_exist_info', '不存在的信息！');
+			return new ecjia_error('not_exist_info', __('不存在的信息！', 'article'));
 		}
 		$discuss_likes_info = RC_DB::table('discuss_likes')->where('like_type', 'article')->where('id_value', $article_id)->where('user_id', $user_id)->first();
 		if (empty($discuss_likes_info) && !empty($article_id) ) {

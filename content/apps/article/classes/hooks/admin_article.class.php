@@ -55,7 +55,7 @@ class article_hooks
             return false;
         }
 
-        $article_title = '文章投稿';
+        $article_title = __('文章投稿', 'article');
         $static_url = RC_App::apps_url('article/statics/image/');
 
         //最新发布

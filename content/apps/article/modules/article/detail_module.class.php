@@ -66,7 +66,7 @@ class article_detail_module extends api_front implements api_interface {
 		if (empty($article_detail)) {
 			$article_info = $this->get_article_info($id);
 			if (empty($article_info)) {
-				return new ecjia_error('does not exist', '不存在的信息');
+				return new ecjia_error('does not exist', __('不存在的信息', 'article'));
 			}
 			if ($article_info['store_id'] > 0) {
 				$store_name = RC_DB::table('store_franchisee')->where('store_id', $article_info['store_id'])->pluck('merchants_name');

@@ -1,0 +1,1906 @@
+# Copyright (C) 2019 Ecjia App article
+# This file is distributed under the same license as the Ecjia App article package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App article 1.27.0\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-01-25 02:53:30+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-01-25 16:33+0800\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 1.8.7\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
+
+#: admin.php:78 admin.php:88 admin.php:105 admin.php:165 admin.php:415
+#: admin.php:656 admin.php:1115 apis/article_admin_menu_api.class.php:61
+#: apis/article_merchant_menu_api.class.php:57
+#: apis/article_merchant_purview_api.class.php:58 merchant.php:80
+#: merchant.php:93 merchant.php:95 merchant.php:129 merchant.php:359
+#: merchant.php:550 merchant.php:570
+msgid "文章列表"
+msgstr "文章列表"
+
+#: admin.php:91 admin.php:150 admin.php:398 admin.php:608 admin.php:647
+#: admin_articlecat.php:87 admin_articlecat.php:119 admin_articlecat.php:197
+#: admin_shophelp.php:84 admin_shophelp.php:110 admin_shophelp.php:151
+#: admin_shophelp.php:227 admin_shopinfo.php:85 admin_shopinfo.php:110
+#: admin_shopinfo.php:188
+msgid "概述"
+msgstr "概述"
+
+#: admin.php:92
+msgid ""
+"欢迎访问ECJia智能后台文章列表页面，系统中所有的文章都会显示在此列表中。"
+msgstr ""
+"歡迎訪問ECJia智能後臺文章列表頁面，系統中所有的文章都會顯示在此列表中。"
+
+#: admin.php:96 admin.php:155 admin.php:403 admin.php:613 admin.php:652
+#: admin_articlecat.php:92 admin_articlecat.php:124 admin_articlecat.php:202
+#: admin_shophelp.php:89 admin_shophelp.php:115 admin_shophelp.php:156
+#: admin_shophelp.php:232 admin_shopinfo.php:90 admin_shopinfo.php:115
+#: admin_shopinfo.php:193
+msgid "更多信息："
+msgstr "更多信息："
+
+#: admin.php:97
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:文章列表\" target="
+"\"_blank\">关于文章列表帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:文章列表\" target="
+"\"_blank\">關於文章列表幫助文檔</a>"
+
+#: admin.php:106 admin.php:147 admin.php:159 merchant.php:96 merchant.php:127
+#: merchant.php:128
+msgid "添加新文章"
+msgstr "添加新文章"
+
+#: admin.php:151
+msgid "欢迎访问ECJia智能后台添加文章页面，可以在此页面添加文章信息。"
+msgstr "歡迎訪問ECJia智能後臺添加文章頁面，可以在此頁面添加文章信息。"
+
+#: admin.php:156
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:添加文章\" target="
+"\"_blank\">关于添加文章帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:添加文章\" target="
+"\"_blank\">關於添加文章幫助文檔</a>"
+
+#: admin.php:200 admin.php:485
+msgid "文章描述不能为空"
+msgstr "文章描述不能為空"
+
+#: admin.php:205 admin.php:490
+msgid "文章类型为普通文章时，文章内容不能为空"
+msgstr "文章類型為普通文章時，文章內容不能為空"
+
+#: admin.php:208 admin.php:493
+msgid "文章类型为跳转链接时，外部链接不能为空"
+msgstr "文章類型為跳轉鏈接時，外部鏈接不能為空"
+
+#: admin.php:223 admin.php:509 admin.php:743 admin_notice.php:133
+#: admin_notice.php:227 merchant.php:646
+msgid "文章 %s 已经存在"
+msgstr "文章 %s 已經存在"
+
+#: admin.php:256 admin.php:550
+msgid "文章类型为点击标题直接下载时，上传文件不能为空"
+msgstr "文章類型為點擊標題直接下載時，上傳文件不能為空"
+
+#: admin.php:259 admin.php:553
+msgid "文章类型为内容底部相关下载时，文章内容和上传文件都不能为空！"
+msgstr "文章類型為內容底部相關下載時，文章內容和上傳文件都不能為空！"
+
+#: admin.php:295 admin.php:628 merchant.php:254 merchant.php:369
+#: merchant.php:554 merchant.php:577
+msgid "返回文章列表"
+msgstr "返回文章列表"
+
+#: admin.php:296 merchant.php:255
+msgid "继续添加新文章"
+msgstr "繼續添加新文章"
+
+#: admin.php:297 merchant.php:256
+msgid "文章已经添加成功"
+msgstr "文章已經添加成功"
+
+#: admin.php:330 merchant.php:289
+msgid "添加自定义栏目成功"
+msgstr "添加自定義欄目成功"
+
+#: admin.php:343 merchant.php:302
+msgid "缺少关键参数，更新失败"
+msgstr "缺少關鍵參數，更新失敗"
+
+#: admin.php:368 merchant.php:327
+msgid "更新自定义栏目成功"
+msgstr "更新自定義欄目成功"
+
+#: admin.php:386 merchant.php:347
+msgid "删除自定义栏目成功"
+msgstr "刪除自定義欄目成功"
+
+#: admin.php:395 admin.php:414 merchant.php:356 merchant.php:358
+msgid "编辑文章内容"
+msgstr "編輯文章內容"
+
+#: admin.php:399
+msgid "欢迎访问ECJia智能后台编辑文章页面，可以在此页面编辑相应的文章信息。"
+msgstr "歡迎訪問ECJia智能後臺編輯文章頁面，可以在此頁面編輯相應的文章信息。"
+
+#: admin.php:404
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:文章列表#.E6.96.87.E7."
+"AB.A0.E7.BC.96.E8.BE.91\" target=\"_blank\">关于编辑文章帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:文章列表#.E6.96.87.E7."
+"AB.A0.E7.BC.96.E8.BE.91\" target=\"_blank\">關於編輯文章幫助文檔</a>"
+
+#: admin.php:587 admin_shophelp.php:274
+msgid "文章 %s 编辑成功"
+msgstr "文章 %s 編輯成功"
+
+#: admin.php:590 merchant.php:533
+msgid "文章编辑失败"
+msgstr "文章編輯失敗"
+
+#: admin.php:605 admin.php:626 merchant.php:543 merchant.php:544
+msgid "文章预览"
+msgstr "文章預覽"
+
+#: admin.php:609
+msgid "欢迎访问ECJia智能后台预览文章页面，可以在此预览相应的文章信息。"
+msgstr "歡迎訪問ECJia智能後臺預覽文章頁面，可以在此預覽相應的文章信息。"
+
+#: admin.php:614
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:文章列表#.E9.A2.84.E8."
+"A7.88.E6.96.87.E7.AB.A0\" target=\"_blank\">关于预览文章帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:文章列表#.E9.A2.84.E8."
+"A7.88.E6.96.87.E7.AB.A0\" target=\"_blank\">關於預覽文章幫助文檔</a>"
+
+#: admin.php:627 merchant.php:549
+msgid "编辑文章"
+msgstr "編輯文章"
+
+#: admin.php:644 admin.php:657 merchant.php:568 merchant.php:571
+msgid "编辑关联商品"
+msgstr "編輯關聯商品"
+
+#: admin.php:648
+msgid ""
+"欢迎访问ECJia智能后台关联商品页面，可以在此页面编辑相应的关联商品信息。"
+msgstr ""
+"歡迎訪問ECJia智能後臺關聯商品頁面，可以在此頁面編輯相應的關聯商品信息。"
+
+#: admin.php:653
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:文章列表#.E5.85.B3."
+"E8.81.94.E5.95.86.E5.93.81\" target=\"_blank\">关于关联商品帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:文章列表#.E5.85.B3."
+"E8.81.94.E5.95.86.E5.93.81\" target=\"_blank\">關於關聯商品幫助文檔</a>"
+
+#: admin.php:716
+msgid "关联商品，文章标题是："
+msgstr "關聯商品，文章標題是："
+
+#: admin.php:724 admin_article_auto.php:165 admin_article_auto.php:195
+#: admin_article_auto.php:225 merchant.php:627 merchant.php:958
+#: merchant.php:1007
+msgid "操作成功"
+msgstr "操作成功"
+
+#: admin.php:738 merchant.php:641
+msgid "文章标题不能为空"
+msgstr "文章標題不能為空"
+
+#: admin.php:758 merchant.php:662
+msgid "文章标题编辑成功"
+msgstr "文章標題編輯成功"
+
+#: admin.php:760 merchant.php:664
+msgid "文章标题编辑失败"
+msgstr "文章標題編輯失敗"
+
+#: admin.php:791 admin.php:801
+msgid "成功切换文章状态"
+msgstr "成功切換文章狀態"
+
+#: admin.php:793
+msgid "通过文章，文章标题是：%s"
+msgstr "通過文章，文章標題是：%s"
+
+#: admin.php:804
+msgid "设为待审核文章，文章标题是：%s"
+msgstr "設為待審核文章，文章標題是：%s"
+
+#: admin.php:807
+msgid "还原文章，文章标题是：%s"
+msgstr "還原文章，文章標題是：%s"
+
+#: admin.php:816
+msgid "成功设置文章为垃圾文章"
+msgstr "成功設置文章為垃圾文章"
+
+#: admin.php:818
+msgid "设为垃圾文章，文章标题是：%s"
+msgstr "設為垃圾文章，文章標題是：%s"
+
+#: admin.php:826
+msgid "移除文章至回收站成功"
+msgstr "移除文章至回收站成功"
+
+#: admin.php:828
+msgid "文章移到回收站，文章标题是：%s"
+msgstr "文章移到回收站，文章標題是：%s"
+
+#: admin.php:858 admin.php:868
+msgid "成功切换文章是否置顶"
+msgstr "成功切換文章是否置頂"
+
+#: admin.php:860
+msgid "设为置顶文章，文章标题是：%s"
+msgstr "設為置頂文章，文章標題是：%s"
+
+#: admin.php:871
+msgid "设为默认文章，文章标题是：%s"
+msgstr "設為默認文章，文章標題是：%s"
+
+#: admin.php:917 admin_articlecat.php:370 admin_notice.php:314
+#: admin_shopinfo.php:329 merchant.php:691 merchant.php:763
+msgid "删除成功"
+msgstr "刪除成功"
+
+#: admin.php:919 merchant.php:693 merchant.php:766
+msgid "操作失败"
+msgstr "操作失敗"
+
+#: admin.php:946 merchant.php:792
+msgid "删除附件成功"
+msgstr "刪除附件成功"
+
+#: admin.php:1008 admin.php:1314 merchant.php:735 merchant.php:827
+msgid "批量删除操作成功"
+msgstr "批量刪除操作成功"
+
+#: admin.php:1023
+msgid "批量移除文章到回收站，文章标题是：%s"
+msgstr "批量移除文章到回收站，文章標題是：%s"
+
+#: admin.php:1025
+msgid "批量移除文章到回收站成功"
+msgstr "批量移除文章到回收站成功"
+
+#: admin.php:1041
+msgid "批量审核通过文章，文章标题是：%s"
+msgstr "批量審核通過文章，文章標題是：%ss"
+
+#: admin.php:1043
+msgid "批量审核通过文章成功"
+msgstr "批量審核通過文章成功"
+
+#: admin.php:1058
+msgid "批量设置文章为垃圾文章，文章标题是：%s"
+msgstr "批量設置文章為垃圾文章，文章標題是：%s"
+
+#: admin.php:1060
+msgid "批量设置文章为垃圾文章成功"
+msgstr "批量設置文章為垃圾文章成功"
+
+#: admin.php:1067 configs/jslang.php:63 merchant.php:182 merchant.php:455
+#: merchant.php:834
+msgid "请选择文章分类"
+msgstr "請選擇文章分類"
+
+#: admin.php:1080
+msgid "批量转移文章 %s 至分类 %s "
+msgstr "批量轉移文章 %s 至分類 %s "
+
+#: admin.php:1083 merchant.php:849
+msgid "批量转移操作成功"
+msgstr "批量转移操作成功"
+
+#: admin.php:1100 admin.php:1114 admin.php:1138 merchant.php:890
+#: merchant.php:891
+msgid "文章评论列表"
+msgstr "文章評論列表"
+
+#: admin.php:1139 apis/article_admin_menu_api.class.php:65
+#: apis/article_merchant_menu_api.class.php:59
+#: apis/article_merchant_purview_api.class.php:62 classes/Helper.php:67
+msgid "文章评论"
+msgstr "文章評論"
+
+#: admin.php:1213 admin.php:1226
+msgid "成功切换评论状态"
+msgstr "成功切換評論狀態"
+
+#: admin.php:1215
+msgid "通过评论，评论内容是："
+msgstr "通過評論，評論內容是："
+
+#: admin.php:1229
+msgid "设为待审核评论，评论内容是："
+msgstr "設為待審核評論，評論內容是："
+
+#: admin.php:1232
+msgid "还原评论，评论内容是："
+msgstr "還原評論，評論內容是："
+
+#: admin.php:1243
+msgid "成功设置评论为垃圾评论"
+msgstr "成功設置評論為垃圾評論"
+
+#: admin.php:1245
+msgid "设为垃圾评论，评论内容是："
+msgstr "設為垃圾評論，評論內容是："
+
+#: admin.php:1255
+msgid "移除评论至回收站成功"
+msgstr "移除評論至回收站成功"
+
+#: admin.php:1257
+msgid "评论移到回收站，评论内容是："
+msgstr "評論移到回收站，評論內容是："
+
+#: admin.php:1312
+msgid "评论内容是："
+msgstr "評論內容是："
+
+#: admin.php:1330
+msgid "批量移除文章评论到回收站，评论内容是："
+msgstr "批量移除文章評論到回收站，評論內容是："
+
+#: admin.php:1332
+msgid "批量移除文章评论到回收站成功"
+msgstr "批量移除文章評論到回收站成功"
+
+#: admin.php:1348
+msgid "批量审核通过文章评论，评论内容是："
+msgstr "批量審核通過文章評論，評論內容是："
+
+#: admin.php:1350
+msgid "批量审核通过文章评论成功"
+msgstr "批量審核通過文章評論成功"
+
+#: admin.php:1365
+msgid "批量设置文章评论为垃圾评论，评论内容是："
+msgstr "批量設置文章評論為垃圾評論，評論內容是："
+
+#: admin.php:1367
+msgid "批量设置文章评论为垃圾评论成功"
+msgstr "批量設置文章評論為垃圾評論成功"
+
+#: admin.php:1393
+msgid "删除文章评论成功"
+msgstr "刪除文章評論成功"
+
+#: admin_article_auto.php:85 admin_article_auto.php:87
+#: apis/article_admin_menu_api.class.php:76
+#: apis/article_admin_purview_api.class.php:68 classes/Helper.php:60
+msgid "文章自动发布"
+msgstr "文章自動發布"
+
+#: admin_article_auto.php:107
+msgid "请先选中要批量发布的文章"
+msgstr "請先選中要批量發布的文章"
+
+#: admin_article_auto.php:111 configs/jslang.php:72
+msgid "请选择时间"
+msgstr "請選擇時間"
+
+#: admin_article_auto.php:115
+msgid "批量发布成功"
+msgstr "批量發布成功"
+
+#: admin_article_auto.php:118
+msgid "批量取消成功"
+msgstr "批量取消成功"
+
+#: admin_article_auto.php:147 admin_article_auto.php:179
+#: admin_article_auto.php:209
+msgid "时间格式不正确"
+msgstr "時間格式不正確"
+
+#: admin_article_auto.php:163
+msgid "文章名称是：%s"
+msgstr "文章名稱是：%s"
+
+#: admin_articlecat.php:73 admin_articlecat.php:83 admin_articlecat.php:96
+#: admin_articlecat.php:129 admin_articlecat.php:207
+#: apis/article_admin_menu_api.class.php:64
+msgid "文章分类"
+msgstr "文章分類"
+
+#: admin_articlecat.php:88
+msgid ""
+"欢迎访问ECJia智能后台文章分类页面，系统中所有的文章分类都会显示在此列表中。"
+msgstr ""
+"歡迎訪問ECJia智能後臺文章分類頁面，系統中所有的文章分類都會顯示在此列表中。"
+
+#: admin_articlecat.php:93
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:文章分类\" target="
+"\"_blank\">关于文章分类帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:文章分类\" target="
+"\"_blank\">關於文章分類幫助文檔</a>"
+
+#: admin_articlecat.php:97 admin_articlecat.php:116 admin_articlecat.php:128
+msgid "添加文章分类"
+msgstr "添加文章分類"
+
+#: admin_articlecat.php:120
+msgid "欢迎访问ECJia智能后台添加文章分类页面，可以在此页面添加文章分类信息。"
+msgstr ""
+"歡迎訪問ECJia智能後臺添加文章分類頁面，可以在此頁面添加文章分類信息。"
+
+#: admin_articlecat.php:125
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:文章分类#.E6.B7.BB."
+"E5.8A.A0.E6.96.87.E7.AB.A0.E5.88.86.E7.B1.BB\" target=\"_blank\">关于添加文"
+"章分类帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:文章分类#.E6.B7.BB."
+"E5.8A.A0.E6.96.87.E7.AB.A0.E5.88.86.E7.B1.BB\" target=\"_blank\">關於添加文"
+"章分類幫助文檔</a>"
+
+#: admin_articlecat.php:148 admin_articlecat.php:256
+msgid "分类名已经存在"
+msgstr "分類名已經存在"
+
+#: admin_articlecat.php:183
+msgid "继续添加新分类"
+msgstr "繼續添加新分類"
+
+#: admin_articlecat.php:184 admin_articlecat.php:325
+msgid "返回分类列表"
+msgstr "返回分類列表"
+
+#: admin_articlecat.php:185
+msgid "已成功添加"
+msgstr "已成功添加"
+
+#: admin_articlecat.php:194 admin_articlecat.php:206
+msgid "编辑文章分类"
+msgstr "編輯文章分類"
+
+#: admin_articlecat.php:198
+msgid ""
+"欢迎访问ECJia智能后台编辑文章分类页面，可以在此页面编辑相应的文章分类信息。"
+msgstr ""
+"歡迎訪問ECJia智能後臺編輯文章分類頁面，可以在此頁面編輯相應的文章分類信息。"
+
+#: admin_articlecat.php:203
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:文章分类#.E7.BC.96.E8."
+"BE.91.E6.96.87.E7.AB.A0.E5.88.86.E7.B1.BB\" target=\"_blank\">关于编辑文章"
+"分类帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:文章分类#.E7.BC.96.E8."
+"BE.91.E6.96.87.E7.AB.A0.E5.88.86.E7.B1.BB\" target=\"_blank\">關於編輯文章"
+"分類幫助文檔</a>"
+
+#: admin_articlecat.php:273
+msgid "分类名的父分类不能设置成本身或本身的子分类"
+msgstr "分類名的父分類不能設置成本身或本身的子分類"
+
+#: admin_articlecat.php:327
+msgid "分类 %s 编辑成功"
+msgstr "分類 %s 編輯成功"
+
+#: admin_articlecat.php:339 admin_shophelp.php:315
+msgid "请输入一个整数"
+msgstr "請輸入一個整數"
+
+#: admin_articlecat.php:342 admin_shophelp.php:302 admin_shophelp.php:318
+#: admin_shophelp.php:332
+msgid "编辑成功"
+msgstr "編輯成功"
+
+#: admin_articlecat.php:357
+msgid "该分类下还有子分类，请先删除其子分类"
+msgstr "該分類下還有子分類，請先刪除其子分類"
+
+#: admin_articlecat.php:362
+msgid "分类下还有文章，不允许删除非空分类"
+msgstr "分類下還有文章，不允許刪除非空分類"
+
+#: admin_notice.php:171 admin_shopinfo.php:176
+msgid "添加 %s 成功"
+msgstr "添加 %s 成功"
+
+#: admin_notice.php:269 admin_shopinfo.php:274
+msgid "更新 %s 成功"
+msgstr "更新 %s 成功"
+
+#: admin_notice.php:294 admin_shopinfo.php:302
+msgid "删除 %s 成功"
+msgstr "刪除 %s 成功"
+
+#: admin_shophelp.php:71 admin_shophelp.php:81 admin_shophelp.php:94
+#: admin_shophelp.php:126
+msgid "帮助分类"
+msgstr "幫助分類"
+
+#: admin_shophelp.php:85
+msgid ""
+"欢迎访问ECJia智能后台网店帮助列表页面，系统中所有的网店帮助都会显示在此列表"
+"中。"
+msgstr ""
+"歡迎訪問ECJia智能後臺網店幫助列表頁面，系統中所有的網店幫助都會顯示在此列表"
+"中。"
+
+#: admin_shophelp.php:90
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助\" target="
+"\"_blank\">关于网店帮助列表帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助\" target="
+"\"_blank\">關於網店幫助列表幫助文檔</a>"
+
+#: admin_shophelp.php:93
+msgid "添加新帮助文章"
+msgstr "添加新幫助文章"
+
+#: admin_shophelp.php:111
+msgid ""
+"欢迎访问ECJia智能后台网店帮助文章列表页面，系统中指定分类下的网店帮助文章都"
+"会显示在此列表中。"
+msgstr ""
+"歡迎訪問ECJia智能後臺網店幫助文章列表頁面，系統中指定分類下的網店幫助文章都"
+"會顯示在此列表中。"
+
+#: admin_shophelp.php:116
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助#.E6.9F.A5."
+"E7.9C.8B.E5.B8.AE.E5.8A.A9.E6.96.87.E7.AB.A0\" target=\"_blank\">关于网店帮"
+"助文章帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助#.E6.9F.A5."
+"E7.9C.8B.E5.B8.AE.E5.8A.A9.E6.96.87.E7.AB.A0\" target=\"_blank\">關於網店幫"
+"助文章幫助文檔</a>"
+
+#: admin_shophelp.php:124
+msgid " 列表"
+msgstr " 列表"
+
+#: admin_shophelp.php:125 admin_shophelp.php:144 admin_shophelp.php:148
+msgid "添加帮助文章"
+msgstr "添加幫助文章"
+
+#: admin_shophelp.php:145 admin_shophelp.php:220
+msgid "帮助文章列表"
+msgstr "幫助文章列表"
+
+#: admin_shophelp.php:152
+msgid "欢迎访问ECJia智能后台添加帮助文章页面，可以在此页面添加帮助文章信息。"
+msgstr ""
+"歡迎訪問ECJia智能後臺添加幫助文章頁面，可以在此頁面添加幫助文章信息。"
+
+#: admin_shophelp.php:157
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助#.E6.B7.BB."
+"E5.8A.A0.E5.B8.AE.E5.8A.A9.E6.96.87.E7.AB.A0\" target=\"_blank\">关于添加帮"
+"助文章帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助#.E6.B7.BB."
+"E5.8A.A0.E5.B8.AE.E5.8A.A9.E6.96.87.E7.AB.A0\" target=\"_blank\">關於添加幫"
+"助文章幫助文檔</a>"
+
+#: admin_shophelp.php:174 admin_shophelp.php:249
+msgid "此文章主题已经存在！"
+msgstr "此文章主題已經存在！"
+
+#: admin_shophelp.php:196
+msgid "所属帮助分类是"
+msgstr "所屬幫助分類是"
+
+#: admin_shophelp.php:198
+msgid "返回帮助文章列表"
+msgstr "返回幫助文章列表"
+
+#: admin_shophelp.php:199
+msgid "继续添加帮助文章"
+msgstr "繼續添加幫助文章"
+
+#: admin_shophelp.php:200
+msgid "文章添加成功"
+msgstr "文章添加成功"
+
+#: admin_shophelp.php:219 admin_shophelp.php:224
+msgid "编辑帮助文章"
+msgstr "編輯幫助文章"
+
+#: admin_shophelp.php:228
+msgid ""
+"欢迎访问ECJia智能后台编辑帮助文章页面，可以在此页面编辑相应的帮助文章信息。"
+msgstr ""
+"歡迎訪問ECJia智能後臺編輯幫助文章頁面，可以在此頁面編輯相應的幫助文章信息。"
+
+#: admin_shophelp.php:233
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助#.E7.BC.96.E8."
+"BE.91.E5.B8.AE.E5.8A.A9.E6.96.87.E7.AB.A0\" target=\"_blank\">关于编辑帮助"
+"文章帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助#.E7.BC.96.E8."
+"BE.91.E5.B8.AE.E5.8A.A9.E6.96.87.E7.AB.A0\" target=\"_blank\">關於編輯幫助"
+"文章幫助文檔</a>"
+
+#: admin_shophelp.php:272 admin_shophelp.php:366
+msgid "%s 所属帮助分类是: %s"
+msgstr "%s 所屬幫助分類是: %s"
+
+#: admin_shophelp.php:287 admin_shophelp.php:397
+msgid "请输入分类名"
+msgstr "請輸入分類名"
+
+#: admin_shophelp.php:291 admin_shophelp.php:380
+msgid "此分类名已经存在！"
+msgstr "此分類名已經存在！"
+
+#: admin_shophelp.php:343
+msgid "删除分类成功"
+msgstr "刪除分類成功"
+
+#: admin_shophelp.php:367
+msgid "删除文章成功"
+msgstr "刪除分類成功"
+
+#: admin_shophelp.php:394
+msgid "添加 %s 分类成功"
+msgstr "添加 %s 分類成功"
+
+#: admin_shopinfo.php:72 admin_shopinfo.php:82 admin_shopinfo.php:94
+#: admin_shopinfo.php:120 admin_shopinfo.php:198
+#: apis/article_admin_menu_api.class.php:71
+msgid "网店信息"
+msgstr "網店信息"
+
+#: admin_shopinfo.php:86
+msgid ""
+"欢迎访问ECJia智能后台网店信息页面，系统中所有的网店信息都会显示在此列表中。"
+msgstr ""
+"歡迎訪問ECJia智能後臺網店信息頁面，系統中所有的網店信息都會顯示在此列表中。"
+
+#: admin_shopinfo.php:91
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:网店信息\" target="
+"\"_blank\">关于网店信息帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:网店信息\" target="
+"\"_blank\">關於網店信息幫助文檔</a>"
+
+#: admin_shopinfo.php:95 admin_shopinfo.php:107 admin_shopinfo.php:119
+msgid "添加网店信息"
+msgstr "添加網店信息"
+
+#: admin_shopinfo.php:111
+msgid "欢迎访问ECJia智能后台添加网店信息页面，可以在此页面添加网店信息。"
+msgstr "歡迎訪問ECJia智能後臺添加網店信息頁面，可以在此頁面添加網店信息。"
+
+#: admin_shopinfo.php:116
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:网店信息\" target="
+"\"_blank\">关于添加网店信息帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:网店信息\" target="
+"\"_blank\">關於添加網店信息幫助文檔</a>"
+
+#: admin_shopinfo.php:138 admin_shopinfo.php:232
+msgid "网店标题 %s 已经存在"
+msgstr "網店標題 %s 已經存在"
+
+#: admin_shopinfo.php:185 admin_shopinfo.php:197
+msgid "编辑网店信息"
+msgstr "編輯網店信息"
+
+#: admin_shopinfo.php:189
+msgid ""
+"欢迎访问ECJia智能后台编辑网店信息页面，可以在此页面编辑相应的网店信息。"
+msgstr ""
+"歡迎訪問ECJia智能後臺編輯網店信息頁面，可以在此頁面編輯相應的網店信息。"
+
+#: admin_shopinfo.php:194
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:网店信息\" target="
+"\"_blank\">关于编辑网店信息帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:网店信息\" target="
+"\"_blank\">關於編輯網店信息幫助文檔</a>"
+
+#: admin_shopinfo.php:273
+msgid "返回网店信息列表"
+msgstr "返回網店信息列表"
+
+#: apis/article_admin_menu_api.class.php:58
+#: apis/article_admin_purview_api.class.php:56
+msgid "文章管理"
+msgstr "文章管理"
+
+#: apis/article_admin_menu_api.class.php:62
+msgid "商家投稿"
+msgstr "商家投稿"
+
+#: apis/article_admin_menu_api.class.php:63
+#: apis/article_merchant_purview_api.class.php:59
+msgid "添加文章"
+msgstr "添加文章"
+
+#: apis/article_admin_menu_api.class.php:69
+msgid "平台公告"
+msgstr "平臺公告"
+
+#: apis/article_admin_menu_api.class.php:70
+msgid "网店帮助"
+msgstr "網店幫助"
+
+#: apis/article_admin_menu_api.class.php:72 classes/Helper.php:69
+msgid "商家公告"
+msgstr "商家公告"
+
+#: apis/article_admin_menu_api.class.php:73 classes/Helper.php:70
+msgid "系统信息"
+msgstr "系統信息"
+
+#: apis/article_admin_purview_api.class.php:57
+msgid "文章更新"
+msgstr "系統信息"
+
+#: apis/article_admin_purview_api.class.php:58
+msgid "文章删除"
+msgstr "文章刪除"
+
+#: apis/article_admin_purview_api.class.php:59
+msgid "文章评论管理"
+msgstr "文章評論管理"
+
+#: apis/article_admin_purview_api.class.php:61
+msgid "文章分类管理"
+msgstr "文章分類管理"
+
+#: apis/article_admin_purview_api.class.php:62
+msgid "分类更新"
+msgstr "分類更新"
+
+#: apis/article_admin_purview_api.class.php:63
+msgid "分类删除"
+msgstr "分類刪除"
+
+#: apis/article_admin_purview_api.class.php:65
+msgid "网店信息管理"
+msgstr "網店信息管理"
+
+#: apis/article_admin_purview_api.class.php:66
+msgid "网店帮助管理"
+msgstr "網店幫助管理"
+
+#: apis/article_admin_purview_api.class.php:70
+msgid "审核文章评论"
+msgstr "審核文章評論"
+
+#: apis/article_admin_purview_api.class.php:71
+#: apis/article_merchant_purview_api.class.php:63
+msgid "删除文章评论"
+msgstr "刪除文章評論"
+
+#: apis/article_admin_purview_api.class.php:74
+msgid "商家公告管理"
+msgstr "商家公告管理"
+
+#: apis/article_article_info_api.class.php:62
+#: apis/article_article_list_api.class.php:61
+#: modules/article/comment/comments_module.class.php:58
+#: modules/article/detail_module.class.php:58
+#: modules/article/list_module.class.php:59
+#: modules/article/suggestlist_module.class.php:60
+#: modules/shop/help/detail_module.class.php:53
+#: modules/shop/info/detail_module.class.php:53
+msgid "参数无效"
+msgstr "參數無效"
+
+#: apis/article_merchant_menu_api.class.php:55
+msgid "文章"
+msgstr "文章"
+
+#: apis/article_merchant_menu_api.class.php:58
+msgid "我要投稿"
+msgstr "我要投稿"
+
+#: apis/article_merchant_purview_api.class.php:60
+msgid "删除文章"
+msgstr "刪除文章"
+
+#: classes/Helper.php:62
+msgid "批量设置"
+msgstr "批量設置"
+
+#: classes/Helper.php:63
+msgid "批量发布"
+msgstr "批量發布"
+
+#: classes/Helper.php:64
+msgid "批量取消发布"
+msgstr "批量取消發布"
+
+#: classes/Helper.php:65
+msgid "撤销"
+msgstr "撤銷"
+
+#: classes/Helper.php:66
+msgid "更新文章评论状态"
+msgstr "更新文章評論狀態"
+
+#: configs/jslang.php:57
+msgid "请选择需要转移的文章"
+msgstr "請選擇需要轉移的文章"
+
+#: configs/jslang.php:58
+msgid "请输入文章标题"
+msgstr "請輸入文章標題"
+
+#: configs/jslang.php:59
+msgid "返回选择栏目"
+msgstr "返回選擇欄目"
+
+#: configs/jslang.php:60
+msgid "未搜索到商品信息"
+msgstr "未搜索到商品信息"
+
+#: configs/jslang.php:61
+msgid "确定"
+msgstr "確定"
+
+#: configs/jslang.php:62
+msgid "取消"
+msgstr "取消"
+
+#: configs/jslang.php:68
+msgid "editable缺少参数"
+msgstr "editable缺少參數"
+
+#: configs/jslang.php:69
+msgid "编辑信息"
+msgstr "編輯信息"
+
+#: configs/jslang.php:70
+msgid "您确定要操作所有选中项吗？"
+msgstr "您確定要操作所有選中項嗎？"
+
+#: configs/jslang.php:71
+msgid "请先选中操作项"
+msgstr "請先選中操作項"
+
+#: configs/jslang.php:73
+msgid "批量操作缺少参数"
+msgstr "批量操作缺少參數"
+
+#: configs/jslang.php:78
+msgid "请输入文章分类名称"
+msgstr "請輸入文章分類名稱"
+
+#: configs/jslang.php:83
+msgid "请输入帮助文章标题"
+msgstr "請輸入幫助文章標題"
+
+#: configs/jslang.php:88
+msgid "请输入网店标题"
+msgstr "請輸入網店標題"
+
+#: merchant.php:187 merchant.php:460
+msgid "请输入文章内容"
+msgstr "請輸入文章內容"
+
+#: merchant.php:193 merchant.php:466
+msgid "请输入链接"
+msgstr "請輸入鏈接"
+
+#: merchant.php:199 merchant.php:472
+msgid "请上传文件"
+msgstr "請上傳文件"
+
+#: merchant.php:205 merchant.php:478
+msgid "文章  %s 已经存在"
+msgstr "文章  %s 已經存在"
+
+#: merchant.php:370 merchant.php:426 merchant.php:555 merchant.php:578
+#: merchant.php:678 merchant.php:744 merchant.php:928
+msgid "没有找到该文章"
+msgstr "沒有找到該文章"
+
+#: merchant.php:530
+msgid "文章 %s 成功编辑"
+msgstr "文章 %s 成功編輯"
+
+#: merchant.php:626
+msgid "关联商品"
+msgstr "關聯商品"
+
+#: merchant.php:626 merchant.php:729 merchant.php:762
+msgid "文章标题是"
+msgstr "文章標題是"
+
+#: merchant.php:749
+msgid "没有找到该评论"
+msgstr "沒有找到該評論"
+
+#: merchant.php:847
+msgid "转移文章"
+msgstr "轉移文章"
+
+#: merchant.php:847
+msgid "至分类"
+msgstr "至分類"
+
+#: merchant.php:934
+msgid "通过文章评论，评论内容为：%s，文章标题为：%s"
+msgstr "通過文章評論，評論內容為：%s，文章標題為：%s"
+
+#: merchant.php:938
+msgid "驳回文章评论，评论内容为：%s，文章标题为：%s"
+msgstr "通過文章評論，評論內容為：%s，文章標題為：%s"
+
+#: merchant.php:942
+msgid "设为垃圾评论，评论内容为：%s，文章标题为：%s"
+msgstr "設為垃圾評論，評論內容為：%s，文章標題為：%s"
+
+#: merchant.php:1001
+msgid "评论内容为：%s，文章标题为：%s"
+msgstr "評論內容為：%s，文章標題為：%s"
+
+#: content/apps/article/templates/admin/preview.dwt.php:22
+#: content/apps/article/templates/merchant/preview.dwt.php:26
+msgid "文章作者："
+msgstr "文章作者："
+
+#: content/apps/article/templates/admin/preview.dwt.php:22
+msgid "添加日期："
+msgstr "添加日期："
+
+#: content/apps/article/templates/admin/preview.dwt.php:26
+#: content/apps/article/templates/admin/preview.dwt.php:29
+msgid "相关下载"
+msgstr "相關下載"
+
+#: content/apps/article/templates/admin/shopinfo_info.dwt.php:24
+msgid "在此输入网店标题"
+msgstr "在此輸入網店標題"
+
+#: content/apps/article/templates/admin/shopinfo_info.dwt.php:36
+#: content/apps/article/templates/admin/article_notice_info.dwt.php:36
+msgid "上传缩略图"
+msgstr "上傳縮略圖"
+
+#: content/apps/article/templates/admin/shopinfo_info.dwt.php:43
+#: content/apps/article/templates/admin/article_notice_info.dwt.php:43
+msgid "预览图片："
+msgstr "預覽圖片："
+
+#: content/apps/article/templates/admin/shopinfo_info.dwt.php:48
+#: content/apps/article/templates/admin/article_info.dwt.php:326
+#: content/apps/article/templates/admin/article_notice_info.dwt.php:48
+msgid "图片地址："
+msgstr "圖片地址："
+
+#: content/apps/article/templates/admin/shopinfo_info.dwt.php:49
+#: content/apps/article/templates/admin/article_notice_info.dwt.php:49
+#: content/apps/article/templates/merchant/article_info.dwt.php:316
+msgid "您确定要删除该图片吗？"
+msgstr "您確定要刪除該圖片嗎？"
+
+#: content/apps/article/templates/admin/shopinfo_info.dwt.php:49
+#: content/apps/article/templates/admin/shopinfo_info.dwt.php:50
+#: content/apps/article/templates/admin/article_notice_info.dwt.php:49
+#: content/apps/article/templates/admin/article_notice_info.dwt.php:50
+msgid "删除图片"
+msgstr "刪除圖片"
+
+#: content/apps/article/templates/admin/shopinfo_info.dwt.php:55
+#: content/apps/article/templates/admin/article_notice_info.dwt.php:55
+msgid "上传图片："
+msgstr "上傳圖片："
+
+#: content/apps/article/templates/admin/shopinfo_info.dwt.php:59
+#: content/apps/article/templates/admin/article_notice_info.dwt.php:59
+msgid "选择图片"
+msgstr "選擇圖片"
+
+#: content/apps/article/templates/admin/shopinfo_info.dwt.php:60
+#: content/apps/article/templates/admin/article_notice_info.dwt.php:60
+msgid "修改图片"
+msgstr "修改圖片"
+
+#: content/apps/article/templates/admin/shopinfo_info.dwt.php:78
+#: content/apps/article/templates/admin/article_info.dwt.php:56
+#: content/apps/article/templates/admin/shophelp_info.dwt.php:34
+#: content/apps/article/templates/admin/articlecat_info.dwt.php:49
+#: content/apps/article/templates/admin/article_notice_info.dwt.php:78
+#: content/apps/article/templates/merchant/article_info.dwt.php:89
+msgid "SEO优化"
+msgstr "SEO優化"
+
+#: content/apps/article/templates/admin/shopinfo_info.dwt.php:84
+#: content/apps/article/templates/admin/article_info.dwt.php:62
+#: content/apps/article/templates/admin/shophelp_info.dwt.php:40
+#: content/apps/article/templates/admin/articlecat_info.dwt.php:55
+#: content/apps/article/templates/admin/article_notice_info.dwt.php:84
+#: content/apps/article/templates/merchant/article_info.dwt.php:95
+msgid "关键字："
+msgstr "關鍵字："
+
+#: content/apps/article/templates/admin/shopinfo_info.dwt.php:88
+#: content/apps/article/templates/admin/article_info.dwt.php:65
+#: content/apps/article/templates/admin/shophelp_info.dwt.php:44
+#: content/apps/article/templates/admin/articlecat_info.dwt.php:59
+#: content/apps/article/templates/admin/article_notice_info.dwt.php:88
+#: content/apps/article/templates/merchant/article_info.dwt.php:100
+msgid "用英文逗号分隔"
+msgstr "用英文逗號分隔"
+
+#: content/apps/article/templates/admin/shopinfo_info.dwt.php:92
+#: content/apps/article/templates/admin/article_info.dwt.php:69
+#: content/apps/article/templates/admin/shophelp_info.dwt.php:48
+#: content/apps/article/templates/admin/articlecat_info.dwt.php:63
+#: content/apps/article/templates/admin/article_notice_info.dwt.php:92
+#: content/apps/article/templates/merchant/article_info.dwt.php:105
+msgid "简单描述："
+msgstr "簡單描述："
+
+#: content/apps/article/templates/admin/shopinfo_info.dwt.php:104
+#: content/apps/article/templates/admin/article_info.dwt.php:106
+#: content/apps/article/templates/admin/article_info.dwt.php:252
+#: content/apps/article/templates/admin/shophelp_info.dwt.php:59
+#: content/apps/article/templates/admin/articlecat_info.dwt.php:75
+#: content/apps/article/templates/admin/article_notice_info.dwt.php:104
+#: content/apps/article/templates/merchant/article_info.dwt.php:149
+#: content/apps/article/templates/merchant/article_info.dwt.php:251
+msgid "更新"
+msgstr "更新"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:25
+#: content/apps/article/templates/admin/link_goods.dwt.php:23
+#: content/apps/article/templates/merchant/article_info.dwt.php:29
+#: content/apps/article/templates/merchant/link_goods.dwt.php:29
+msgid "通用信息"
+msgstr "通用信息"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:26
+#: content/apps/article/templates/admin/article_info.dwt.php:349
+#: content/apps/article/templates/admin/link_goods.dwt.php:24
+#: content/apps/article/templates/merchant/article_info.dwt.php:30
+#: content/apps/article/templates/merchant/article_info.dwt.php:330
+msgid "文章内容"
+msgstr "文章內容"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:39
+#: content/apps/article/templates/merchant/article_info.dwt.php:44
+msgid "在此输入文章标题"
+msgstr "在此輸入文章標題"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:45
+#: content/apps/article/templates/merchant/article_info.dwt.php:49
+msgid "外部链接："
+msgstr "外部鏈接："
+
+#: content/apps/article/templates/admin/article_info.dwt.php:48
+#: content/apps/article/templates/merchant/article_info.dwt.php:52
+msgid "若输入外部链接，则该链接优先"
+msgstr "若輸入外部鏈接，則該鏈接優先"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:84
+#: content/apps/article/templates/merchant/article_info.dwt.php:121
+msgid "自定义栏目"
+msgstr "自定義欄目"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:91
+#: content/apps/article/templates/merchant/article_info.dwt.php:128
+msgid "编辑自定义栏目："
+msgstr "編輯自定義欄目："
+
+#: content/apps/article/templates/admin/article_info.dwt.php:95
+#: content/apps/article/templates/admin/article_info.dwt.php:124
+#: content/apps/article/templates/merchant/article_info.dwt.php:133
+#: content/apps/article/templates/merchant/article_info.dwt.php:168
+msgid "名称"
+msgstr "名稱"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:96
+#: content/apps/article/templates/admin/article_info.dwt.php:125
+#: content/apps/article/templates/merchant/article_info.dwt.php:136
+#: content/apps/article/templates/merchant/article_info.dwt.php:171
+msgid "值"
+msgstr "值"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:107
+#: content/apps/article/templates/merchant/article_info.dwt.php:150
+msgid "您确定要删除此条自定义栏目吗？"
+msgstr "您確定要刪除此條自定義欄目嗎？"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:107
+#: content/apps/article/templates/admin/article_info.dwt.php:317
+#: content/apps/article/templates/admin/article_notice_list.dwt.php:36
+#: content/apps/article/templates/admin/shophelp_article_list.dwt.php:39
+#: content/apps/article/templates/admin/articlecat_list.dwt.php:39
+#: content/apps/article/templates/admin/shopinfo_list.dwt.php:37
+#: content/apps/article/templates/admin/shophelp_cat_list.dwt.php:43
+#: content/apps/article/templates/merchant/article_info.dwt.php:316
+#: content/apps/article/templates/merchant/article_list.dwt.php:127
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:121
+msgid "删除"
+msgstr "刪除"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:118
+#: content/apps/article/templates/merchant/article_info.dwt.php:162
+msgid "添加自定义栏目："
+msgstr "添加自定義欄目："
+
+#: content/apps/article/templates/admin/article_info.dwt.php:138
+#: content/apps/article/templates/merchant/article_info.dwt.php:188
+msgid "添加新栏目"
+msgstr "添加新欄目"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:142
+#: content/apps/article/templates/merchant/article_info.dwt.php:193
+msgid "添加自定义栏目"
+msgstr "添加自定義欄目"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:160
+#: content/apps/article/templates/merchant/article_info.dwt.php:62
+msgid "作者信息"
+msgstr "作者信息"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:166
+#: content/apps/article/templates/merchant/article_info.dwt.php:68
+msgid "作者名称："
+msgstr "作者名稱："
+
+#: content/apps/article/templates/admin/article_info.dwt.php:172
+#: content/apps/article/templates/merchant/article_info.dwt.php:74
+msgid "作者邮箱："
+msgstr "作者郵箱："
+
+#: content/apps/article/templates/admin/article_info.dwt.php:190
+#: content/apps/article/templates/merchant/article_info.dwt.php:218
+msgid "分类信息"
+msgstr "分類信息"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:197
+#: content/apps/article/templates/merchant/article_info.dwt.php:224
+msgid "文章分类："
+msgstr "文章分類："
+
+#: content/apps/article/templates/admin/article_info.dwt.php:200
+#: content/apps/article/templates/admin/article_info.dwt.php:216
+#: content/apps/article/templates/merchant/article_info.dwt.php:227
+msgid "请选择..."
+msgstr "請選擇..."
+
+#: content/apps/article/templates/admin/article_info.dwt.php:213
+#: content/apps/article/templates/merchant/article_info.dwt.php:236
+msgid "文章类型："
+msgstr "文章類型："
+
+#: content/apps/article/templates/admin/article_info.dwt.php:224
+msgid "推荐类型："
+msgstr "推薦類型："
+
+#: content/apps/article/templates/admin/article_info.dwt.php:226
+#: content/apps/article/templates/admin/article_list.dwt.php:101
+#: content/apps/article/templates/admin/article_list.dwt.php:165
+msgid "置顶"
+msgstr "置頂"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:227
+#: content/apps/article/templates/admin/article_list.dwt.php:92
+msgid "默认"
+msgstr "默認"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:231
+msgid "状态审核："
+msgstr "狀態審核："
+
+#: content/apps/article/templates/admin/article_info.dwt.php:233
+msgid "通过"
+msgstr "通過"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:234
+#: content/apps/article/templates/admin/article_list.dwt.php:65
+#: content/apps/article/templates/admin/comments.dwt.php:38
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:38
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:126
+#: content/apps/article/templates/merchant/article_list.dwt.php:51
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:30
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:128
+msgid "待审核"
+msgstr "待審核"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:235
+#: content/apps/article/templates/admin/article_list.dwt.php:83
+#: content/apps/article/templates/admin/article_list.dwt.php:116
+#: content/apps/article/templates/admin/comments.dwt.php:52
+#: content/apps/article/templates/admin/comments.dwt.php:67
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:52
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:67
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:128
+msgid "回收站"
+msgstr "回收站"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:236
+#: content/apps/article/templates/admin/article_list.dwt.php:74
+#: content/apps/article/templates/admin/article_list.dwt.php:171
+msgid "垃圾文章"
+msgstr "垃圾文章"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:250
+#: content/apps/article/templates/merchant/article_info.dwt.php:249
+msgid "发布"
+msgstr "發布"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:263
+#: content/apps/article/templates/admin/article_info.dwt.php:288
+#: content/apps/article/templates/merchant/article_info.dwt.php:266
+msgid "上传文件"
+msgstr "上傳文件"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:274
+#: content/apps/article/templates/admin/article_info.dwt.php:279
+#: content/apps/article/templates/merchant/article_info.dwt.php:272
+msgid "文件地址："
+msgstr "文件地址："
+
+#: content/apps/article/templates/admin/article_info.dwt.php:281
+#: content/apps/article/templates/merchant/article_info.dwt.php:274
+msgid "您确定要删除该文章附件吗？"
+msgstr "您確定要刪除該文章附件嗎？"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:281
+#: content/apps/article/templates/admin/article_info.dwt.php:282
+#: content/apps/article/templates/merchant/article_info.dwt.php:275
+msgid "删除文件"
+msgstr "刪除文件"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:288
+msgid "修改文件"
+msgstr "修改文件"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:304
+#: content/apps/article/templates/merchant/article_info.dwt.php:299
+msgid "文章封面"
+msgstr "文章封面"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:313
+#: content/apps/article/templates/merchant/article_info.dwt.php:280
+#: content/apps/article/templates/merchant/article_info.dwt.php:312
+msgid "浏览"
+msgstr "瀏覽"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:314
+#: content/apps/article/templates/admin/article_info.dwt.php:330
+#: content/apps/article/templates/merchant/article_info.dwt.php:281
+#: content/apps/article/templates/merchant/article_info.dwt.php:313
+msgid "修改"
+msgstr "修改"
+
+#: content/apps/article/templates/admin/article_info.dwt.php:329
+msgid "更换图片"
+msgstr "更換圖片"
+
+#: content/apps/article/templates/admin/article_notice_list.dwt.php:18
+#: content/apps/article/templates/admin/shopinfo_list.dwt.php:19
+#: content/apps/article/templates/admin/article_auto.dwt.php:45
+msgid "编号"
+msgstr "編號"
+
+#: content/apps/article/templates/admin/article_notice_list.dwt.php:19
+#: content/apps/article/templates/admin/shopinfo_list.dwt.php:20
+msgid "网店标题"
+msgstr "網店標題"
+
+#: content/apps/article/templates/admin/article_notice_list.dwt.php:20
+#: content/apps/article/templates/admin/shophelp_article_list.dwt.php:23
+#: content/apps/article/templates/admin/shopinfo_list.dwt.php:21
+msgid "添加时间"
+msgstr "添加時間"
+
+#: content/apps/article/templates/admin/article_notice_list.dwt.php:21
+#: content/apps/article/templates/admin/shophelp_article_list.dwt.php:24
+#: content/apps/article/templates/admin/articlecat_list.dwt.php:20
+#: content/apps/article/templates/admin/shopinfo_list.dwt.php:22
+#: content/apps/article/templates/admin/article_auto.dwt.php:49
+msgid "操作"
+msgstr "操作"
+
+#: content/apps/article/templates/admin/article_notice_list.dwt.php:35
+#: content/apps/article/templates/admin/shophelp_article_list.dwt.php:38
+#: content/apps/article/templates/admin/articlecat_list.dwt.php:38
+#: content/apps/article/templates/admin/article_list.dwt.php:173
+#: content/apps/article/templates/admin/shopinfo_list.dwt.php:36
+#: content/apps/article/templates/merchant/article_list.dwt.php:121
+msgid "编辑"
+msgstr "編輯"
+
+#: content/apps/article/templates/admin/article_notice_list.dwt.php:36
+#: content/apps/article/templates/admin/shophelp_article_list.dwt.php:39
+msgid "您确定要删除该文章吗？"
+msgstr "您確定要刪除該文章嗎？"
+
+#: content/apps/article/templates/admin/article_notice_list.dwt.php:41
+#: content/apps/article/templates/admin/shophelp_article_list.dwt.php:44
+#: content/apps/article/templates/admin/articlecat_list.dwt.php:43
+#: content/apps/article/templates/admin/article_list.dwt.php:223
+#: content/apps/article/templates/admin/comments.dwt.php:135
+#: content/apps/article/templates/admin/shopinfo_list.dwt.php:42
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:135
+#: content/apps/article/templates/admin/shophelp_cat_list.dwt.php:49
+#: content/apps/article/templates/admin/article_auto.dwt.php:87
+#: content/apps/article/templates/merchant/article_list.dwt.php:143
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:135
+msgid "没有找到任何记录"
+msgstr "沒有找到任何記錄"
+
+#: content/apps/article/templates/admin/shophelp_article_list.dwt.php:7
+msgid "（共  %1 篇）"
+msgstr "（共  %1 篇）"
+
+#: content/apps/article/templates/admin/shophelp_article_list.dwt.php:22
+#: content/apps/article/templates/admin/article_auto.dwt.php:46
+msgid "文章名称"
+msgstr "文章名稱"
+
+#: content/apps/article/templates/admin/library/widget_admin_dashboard_articlestats.lbi.php:8
+msgid "最新发布"
+msgstr "最新發布"
+
+#: content/apps/article/templates/admin/library/widget_admin_dashboard_articlestats.lbi.php:25
+msgid "暂无文章"
+msgstr "暫無文章"
+
+#: content/apps/article/templates/admin/library/widget_admin_dashboard_articlestats.lbi.php:32
+#: content/apps/article/templates/admin/library/widget_admin_dashboard_articlestats.lbi.php:61
+msgid "查看更多"
+msgstr "查看更多"
+
+#: content/apps/article/templates/admin/library/widget_admin_dashboard_articlestats.lbi.php:36
+msgid "近期评论"
+msgstr "近期評論"
+
+#: content/apps/article/templates/admin/library/widget_admin_dashboard_articlestats.lbi.php:54
+msgid "暂无评论"
+msgstr "暫無評論"
+
+#: content/apps/article/templates/admin/shophelp_info.dwt.php:24
+msgid "在此输入帮助文章标题"
+msgstr "在此輸入幫助文章標題"
+
+#: content/apps/article/templates/admin/articlecat_list.dwt.php:18
+msgid "文章分类名称"
+msgstr "文章分類名稱"
+
+#: content/apps/article/templates/admin/articlecat_list.dwt.php:19
+#: content/apps/article/templates/admin/articlecat_info.dwt.php:40
+#: content/apps/article/templates/admin/shophelp_cat_list.dwt.php:32
+msgid "排序"
+msgstr "排序"
+
+#: content/apps/article/templates/admin/articlecat_list.dwt.php:32
+msgid "请输入排序序号"
+msgstr "請輸入排序序號"
+
+#: content/apps/article/templates/admin/articlecat_list.dwt.php:39
+msgid "您确定要删除该文章分类吗？"
+msgstr "您確定要刪除該文章分類嗎？"
+
+#: content/apps/article/templates/admin/articlecat_info.dwt.php:24
+msgid "文章分类名称："
+msgstr "文章分類名稱："
+
+#: content/apps/article/templates/admin/articlecat_info.dwt.php:31
+msgid "上级分类："
+msgstr "上級分類："
+
+#: content/apps/article/templates/admin/articlecat_info.dwt.php:34
+msgid "顶级分类"
+msgstr "頂級分類"
+
+#: content/apps/article/templates/admin/link_goods.dwt.php:34
+#: content/apps/article/templates/merchant/link_goods.dwt.php:42
+msgid "所有分类"
+msgstr "所有分類"
+
+#: content/apps/article/templates/admin/link_goods.dwt.php:37
+msgid "所有品牌"
+msgstr "所有品牌"
+
+#: content/apps/article/templates/admin/link_goods.dwt.php:41
+#: content/apps/article/templates/admin/article_list.dwt.php:131
+#: content/apps/article/templates/admin/comments.dwt.php:74
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:74
+#: content/apps/article/templates/admin/article_auto.dwt.php:37
+#: content/apps/article/templates/merchant/link_goods.dwt.php:53
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:67
+msgid "搜索"
+msgstr "搜索"
+
+#: content/apps/article/templates/admin/link_goods.dwt.php:42
+#: content/apps/article/templates/merchant/link_goods.dwt.php:56
+msgid ""
+"搜索要关联的商品，搜到商品会展示在左侧列表框中。点击左侧列表中选项，关联商"
+"品即可进入右侧已关联列表。保存后生效。您还可以在右侧编辑关联模式。"
+msgstr ""
+"搜索要關聯的商品，搜到商品會展示在左側列表框中。點擊左側列表中選項，關聯商"
+"品即可進入右側已關聯列表。保存後生效。您還可以在右側編輯關聯模式。"
+
+#: content/apps/article/templates/admin/link_goods.dwt.php:48
+#: content/apps/article/templates/merchant/link_goods.dwt.php:65
+msgid "筛选搜索到的商品信息"
+msgstr "篩選搜索到的商品信息"
+
+#: content/apps/article/templates/admin/link_goods.dwt.php:51
+#: content/apps/article/templates/merchant/link_goods.dwt.php:68
+msgid "暂无内容"
+msgstr "暫無內容"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:14
+#: content/apps/article/templates/merchant/article_list.dwt.php:14
+msgid "转移文章至分类"
+msgstr "轉移文章至分類"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:20
+#: content/apps/article/templates/admin/article_list.dwt.php:123
+#: content/apps/article/templates/merchant/article_list.dwt.php:19
+#: content/apps/article/templates/merchant/article_list.dwt.php:69
+msgid "全部分类"
+msgstr "全部分類"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:27
+#: content/apps/article/templates/merchant/article_list.dwt.php:26
+msgid "是否将选中文章转移至分类？"
+msgstr "是否將選中文章轉移至分類？"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:27
+#: content/apps/article/templates/merchant/article_list.dwt.php:26
+msgid "请先选中要转移的文章"
+msgstr "請先選中要轉移的文章"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:27
+#: content/apps/article/templates/merchant/article_list.dwt.php:26
+msgid "开始转移"
+msgstr "開始轉移"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:47
+#: content/apps/article/templates/admin/comments.dwt.php:24
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:24
+#: content/apps/article/templates/merchant/article_list.dwt.php:49
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:28
+msgid "全部"
+msgstr "全部"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:56
+#: content/apps/article/templates/admin/comments.dwt.php:31
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:31
+#: content/apps/article/templates/merchant/article_list.dwt.php:50
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:29
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:51
+msgid "通过审核"
+msgstr "通過審核"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:111
+#: content/apps/article/templates/admin/comments.dwt.php:62
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:62
+#: content/apps/article/templates/merchant/article_list.dwt.php:60
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:41
+msgid "批量操作"
+msgstr "批量操作"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:115
+#: content/apps/article/templates/admin/article_list.dwt.php:116
+#: content/apps/article/templates/admin/article_list.dwt.php:117
+#: content/apps/article/templates/admin/article_list.dwt.php:118
+#: content/apps/article/templates/admin/comments.dwt.php:66
+#: content/apps/article/templates/admin/comments.dwt.php:67
+#: content/apps/article/templates/admin/comments.dwt.php:68
+#: content/apps/article/templates/admin/comments.dwt.php:69
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:66
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:67
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:68
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:69
+#: content/apps/article/templates/merchant/article_list.dwt.php:65
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:61
+msgid "您确定要这么做吗？"
+msgstr "您確定要這麽做嗎？"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:115
+#: content/apps/article/templates/merchant/article_list.dwt.php:65
+msgid "请先选中要删除的文章"
+msgstr "請先選中要刪除的文章"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:116
+msgid "请选择要移到回收站的文章"
+msgstr "請選擇要移到回收站的文章"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:117
+msgid "请选择要通过的文章"
+msgstr "請選擇要通過的文章"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:117
+#: content/apps/article/templates/admin/comments.dwt.php:68
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:68
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:124
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:126
+msgid "审核通过"
+msgstr "審核通過"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:118
+msgid "请选择要设为垃圾文章的文章"
+msgstr "請選擇要設為垃圾文章的文章"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:118
+msgid "设为垃圾文章"
+msgstr "設為垃圾文章"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:119
+#: content/apps/article/templates/merchant/article_list.dwt.php:64
+msgid "转移分类"
+msgstr "轉移分類"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:128
+#: content/apps/article/templates/merchant/article_list.dwt.php:74
+#: content/apps/article/templates/merchant/article_list.dwt.php:77
+msgid "筛选"
+msgstr "篩選"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:130
+msgid "请输入商家名称或文章标题"
+msgstr "請輸入商家名稱或文章標題"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:130
+#: content/apps/article/templates/merchant/article_list.dwt.php:76
+msgid "请输入文章名称"
+msgstr "請輸入文章名稱"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:142
+#: content/apps/article/templates/merchant/article_list.dwt.php:92
+msgid "文章标题"
+msgstr "文章標題"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:144
+msgid "商家名称"
+msgstr "商家名稱"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:147
+#: content/apps/article/templates/merchant/article_list.dwt.php:104
+msgid "添加日期"
+msgstr "添加日期"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:148
+#: content/apps/article/templates/merchant/article_list.dwt.php:98
+msgid "点赞数"
+msgstr "點贊數"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:149
+#: content/apps/article/templates/admin/comments.dwt.php:87
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:87
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:89
+msgid "审核状态"
+msgstr "審核狀態"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:159
+#: content/apps/article/templates/merchant/article_list.dwt.php:118
+msgid "编辑文章名称"
+msgstr "編輯文章名稱"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:162
+#: content/apps/article/templates/merchant/article_list.dwt.php:120
+msgid "预览"
+msgstr "預覽"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:165
+msgid "取消置顶"
+msgstr "取消置頂"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:169
+#: content/apps/article/templates/admin/comments.dwt.php:104
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:104
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:114
+msgid "批准"
+msgstr "批準"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:169
+#: content/apps/article/templates/admin/comments.dwt.php:104
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:104
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:110
+msgid "驳回"
+msgstr "駁回"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:171
+msgid "您确定要将该文章设为垃圾文章吗？"
+msgstr "您確定要將該文章設為垃圾文章嗎？"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:172
+msgid "您确定要将该文章移至回收站吗？"
+msgstr "您確定要將該文章移至回收站嗎？"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:172
+#: content/apps/article/templates/admin/comments.dwt.php:107
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:107
+msgid "移至回收站"
+msgstr "移至回收站"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:184
+msgid "不是垃圾文章"
+msgstr "不是垃圾文章"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:187
+msgid "还原文章"
+msgstr "還原文章"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:189
+msgid "您确定要删除文章吗？"
+msgstr "您確定要刪除文章嗎？"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:189
+#: content/apps/article/templates/admin/comments.dwt.php:116
+#: content/apps/article/templates/admin/comments.dwt.php:117
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:116
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:117
+msgid "永久删除"
+msgstr "永久刪除"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:195
+#: content/apps/article/templates/merchant/article_list.dwt.php:132
+msgid "保留"
+msgstr "保留"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:197
+msgid "普通"
+msgstr "普通"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:198
+msgid "跳转链接"
+msgstr "跳轉鏈接"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:199
+msgid "点击标题直接下载"
+msgstr "點擊標題直接下載"
+
+#: content/apps/article/templates/admin/article_list.dwt.php:200
+msgid "文章内容底部相关下载"
+msgstr "文章內容底部相關下載"
+
+#: content/apps/article/templates/admin/comments.dwt.php:45
+#: content/apps/article/templates/admin/comments.dwt.php:106
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:45
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:106
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:130
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:31
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:117
+msgid "垃圾评论"
+msgstr "垃圾評論"
+
+#: content/apps/article/templates/admin/comments.dwt.php:66
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:66
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:61
+msgid "请选择要删除的评论"
+msgstr "請選擇要刪除的評論"
+
+#: content/apps/article/templates/admin/comments.dwt.php:66
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:66
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:61
+msgid "删除评论"
+msgstr "刪除評論"
+
+#: content/apps/article/templates/admin/comments.dwt.php:67
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:67
+msgid "请选择要移至回收站的评论"
+msgstr "請選擇要移至回收站的評論"
+
+#: content/apps/article/templates/admin/comments.dwt.php:68
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:68
+msgid "请选择要审核通过的评论"
+msgstr "請選擇要審核通過的評論"
+
+#: content/apps/article/templates/admin/comments.dwt.php:69
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:69
+msgid "请选择要设为垃圾评论的评论"
+msgstr "請選擇要設為垃圾評論的評論"
+
+#: content/apps/article/templates/admin/comments.dwt.php:69
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:69
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:58
+msgid "设为垃圾评论"
+msgstr "設為垃圾評論"
+
+#: content/apps/article/templates/admin/comments.dwt.php:73
+msgid "输入用户名或评论关键字"
+msgstr "輸入用戶名或評論關鍵字"
+
+#: content/apps/article/templates/admin/comments.dwt.php:85
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:85
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:83
+msgid "用户名"
+msgstr "用戶名"
+
+#: content/apps/article/templates/admin/comments.dwt.php:86
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:86
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:86
+msgid "评论详情"
+msgstr "評論詳情"
+
+#: content/apps/article/templates/admin/comments.dwt.php:99
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:99
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:105
+msgid "评论于"
+msgstr "評論於"
+
+#: content/apps/article/templates/admin/comments.dwt.php:106
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:106
+msgid "您确定要将改评论设为垃圾评论吗？"
+msgstr "您確定要將改評論設為垃圾評論嗎？"
+
+#: content/apps/article/templates/admin/comments.dwt.php:107
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:107
+msgid "您确定要将改评论移到回收站吗？"
+msgstr "您確定要將改評論移到回收站嗎？"
+
+#: content/apps/article/templates/admin/comments.dwt.php:111
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:111
+msgid "不是垃圾评论"
+msgstr "不是垃圾評論"
+
+#: content/apps/article/templates/admin/comments.dwt.php:114
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:114
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:46
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:119
+msgid "还原评论"
+msgstr "還原評論"
+
+#: content/apps/article/templates/admin/comments.dwt.php:116
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:116
+msgid "您确定要删除这条评论吗？"
+msgstr "您確定要刪除這條評論嗎？"
+
+#: content/apps/article/templates/admin/shopinfo_list.dwt.php:37
+msgid "您确定要删除该网店信息吗？"
+msgstr "您確定要刪除該網店信息嗎？"
+
+#: content/apps/article/templates/admin/article_comment_list.dwt.php:73
+msgid "输入用户名,文章标题或评论关键字"
+msgstr "輸入用戶名,文章標題或評論關鍵字"
+
+#: content/apps/article/templates/admin/shophelp_cat_list.dwt.php:21
+msgid "添加帮助分类："
+msgstr "添加幫助分類："
+
+#: content/apps/article/templates/admin/shophelp_cat_list.dwt.php:31
+msgid "分类名称"
+msgstr "分類名稱"
+
+#: content/apps/article/templates/admin/shophelp_cat_list.dwt.php:39
+msgid "编辑帮助分类名称"
+msgstr "編輯幫助分類名稱"
+
+#: content/apps/article/templates/admin/shophelp_cat_list.dwt.php:41
+msgid "添加"
+msgstr "添加"
+
+#: content/apps/article/templates/admin/shophelp_cat_list.dwt.php:42
+msgid "查看列表"
+msgstr "查看列表"
+
+#: content/apps/article/templates/admin/shophelp_cat_list.dwt.php:43
+msgid "您确定要删除该帮助分类吗？"
+msgstr "您確定要刪除該幫助分類嗎？"
+
+#: content/apps/article/templates/admin/shophelp_cat_list.dwt.php:46
+msgid "编辑帮助分类排序"
+msgstr "編輯幫助分類排序"
+
+#: content/apps/article/templates/admin/article_auto.dwt.php:13
+msgid "温馨提示："
+msgstr "溫馨提示："
+
+#: content/apps/article/templates/admin/article_auto.dwt.php:13
+msgid "您需要到工具->计划任务中开启该功能后才能使用。"
+msgstr "您需要到工具->計劃任務中開啟該功能後才能使用。"
+
+#: content/apps/article/templates/admin/article_auto.dwt.php:31
+msgid "您确定要批量发布选中的文章吗？"
+msgstr "您確定要批量發布選中的文章嗎？"
+
+#: content/apps/article/templates/admin/article_auto.dwt.php:32
+msgid "您确定要批量取消发布选中的文章吗？"
+msgstr "您確定要批量取消發布選中的文章嗎？"
+
+#: content/apps/article/templates/admin/article_auto.dwt.php:32
+msgid "请先选中要批量取消发布的文章"
+msgstr "請先選中要批量取消發布的文章"
+
+#: content/apps/article/templates/admin/article_auto.dwt.php:36
+msgid "请输入文章名称关键词"
+msgstr "請輸入文章名稱關鍵詞"
+
+#: content/apps/article/templates/admin/article_auto.dwt.php:47
+msgid "发布时间"
+msgstr "發布時間"
+
+#: content/apps/article/templates/admin/article_auto.dwt.php:48
+msgid "取消时间"
+msgstr "取消時間"
+
+#: content/apps/article/templates/admin/article_auto.dwt.php:59
+msgid "编辑发布时间"
+msgstr "編輯發布時間"
+
+#: content/apps/article/templates/admin/article_auto.dwt.php:68
+msgid "编辑取消时间"
+msgstr "編輯取消時間"
+
+#: content/apps/article/templates/admin/article_auto.dwt.php:79
+msgid "您确定要撤销该文章吗？"
+msgstr "您確定要撤銷該文章嗎？"
+
+#: content/apps/article/templates/merchant/preview.dwt.php:30
+msgid "暂无"
+msgstr "暫無"
+
+#: content/apps/article/templates/merchant/preview.dwt.php:33
+msgid "添加时间："
+msgstr "添加時間："
+
+#: content/apps/article/templates/merchant/article_info.dwt.php:150
+msgid "移除"
+msgstr "移除"
+
+#: content/apps/article/templates/merchant/link_goods.dwt.php:50
+msgid "商品名称"
+msgstr "商品名稱"
+
+#: content/apps/article/templates/merchant/article_list.dwt.php:101
+msgid "评论数"
+msgstr "評論數"
+
+#: content/apps/article/templates/merchant/article_list.dwt.php:125
+msgid "查看评论"
+msgstr "查看評論"
+
+#: content/apps/article/templates/merchant/article_list.dwt.php:127
+msgid "您确认要删除这篇文章吗？"
+msgstr "您確認要刪除這篇文章嗎？"
+
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:46
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:51
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:55
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:58
+msgid "您确定要批量执行该操作吗？"
+msgstr "您確定要批量執行該操作嗎？"
+
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:46
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:51
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:55
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:58
+msgid "请选择要操作的评论"
+msgstr "您確定要批量執行該操作嗎？"
+
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:55
+msgid "设为待审核"
+msgstr "設為待審核"
+
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:66
+msgid "请输入用户名或评论关键字"
+msgstr "請輸入用戶名或評論關鍵字"
+
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:117
+msgid "您确定要将该评论设为垃圾评论吗？"
+msgstr "您確定要將該評論設為垃圾評論嗎？"
+
+#: content/apps/article/templates/merchant/article_comment_list.dwt.php:121
+msgid "您确定要删除该文章评论吗？"
+msgstr "您確定要刪除該文章評論嗎？"

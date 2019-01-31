@@ -62,7 +62,7 @@ class shop_info_detail_module extends api_front implements api_interface {
 		if (empty($html)) {
 			$article_info = $this->get_article_info($id);
 			if (empty($article_info)) {
-				return new ecjia_error('does not exist', '不存在的信息');
+				return new ecjia_error('does not exist', __('不存在的信息！', 'article'));
 			}
 			$base = sprintf('<base href="%s/" />', dirname(SITE_URL));
 			$article_info['content'] = stripslashes($article_info['content']);
