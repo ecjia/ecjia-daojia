@@ -57,7 +57,7 @@
 						<td>{$stat[$val.stat]}</td>
 					</tr>
 					<!-- {foreachelse} -->
-					<tr><td class="no-records" colspan="4">{t}没有找到任何记录{/t}</td></tr>
+					<tr><td class="no-records" colspan="4">{t domain="mail"}没有找到任何记录{/t}</td></tr>
 					<!-- {/foreach} -->
 				</tbody>
 			</table>

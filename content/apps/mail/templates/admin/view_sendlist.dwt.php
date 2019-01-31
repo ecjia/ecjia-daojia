@@ -26,8 +26,8 @@
 				<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
-				<li><a class="batchdel" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{url path='mail/admin_view_sendlist/batch' args='sel_action=batchdel'}" data-msg="{lang key='mail::view_sendlist.batch_remove_confirm'}" data-noSelectMsg="{lang key='mail::view_sendlist.select_remove_email'}" data-name="checkboxes" href="javascript:;"><i class="fontello-icon-trash"></i>{lang key='mail::view_sendlist.remove_mail_send'}</a></li>
-				<li><a class="batchsend" data-url="{RC_Uri::url('mail/admin_view_sendlist/batch?sel_action=batchsend')}" data-noSelectMsg="{lang key='mail::view_sendlist.select_send_email'}" data-name="checkboxes" href="javascript:;"><i class="fontello-icon-mail"></i>{lang key='mail::view_sendlist.select_mail_send'}</a></li>
+				<li><a class="batchdel" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{url path='mail/admin_view_sendlist/batch' args='sel_action=batchdel'}" data-msg='{t domain="mail"}您确定要删除选中的邮件吗？{/t}' data-noSelectMsg='{t domain="mail"}请先选中要删除的邮件！{/t}' data-name="checkboxes" href="javascript:;"><i class="fontello-icon-trash"></i>{t domain="mail"}删除邮件发送{/t}</a></li>
+				<li><a class="batchsend" data-url="{RC_Uri::url('mail/admin_view_sendlist/batch?sel_action=batchsend')}" data-noSelectMsg='{t domain="mail"}请先选中要发送的邮件！{/t}' data-name="checkboxes" href="javascript:;"><i class="fontello-icon-mail"></i>{t domain="mail"}选择邮件发送{/t}</a></li>
 			</ul>
 		</div>
 		<!-- 全部发送 -->
@@ -42,15 +42,15 @@
 			<div class="screen f_r">
 				<!-- 邮件类型 -->
 				<select class="no_search w180" name="typemail" id="select-typemail">
-					<option value="0" {if $smarty.get.typemail_id eq '0'} selected="selected" {/if}>{lang key='mail::view_sendlist.all_typemail'}</option>
-					<option value='1' {if $smarty.get.typemail_id eq '1'} selected="selected" {/if}>{lang key='mail::view_sendlist.type.magazine'}</option>
-					<option value='2' {if $smarty.get.typemail_id eq '2'} selected="selected" {/if}>{lang key='mail::view_sendlist.type.template'}</option>
+					<option value="0" {if $smarty.get.typemail_id eq '0'} selected="selected" {/if}>{t domain="mail"}所有邮件类型{/t}</option>
+					<option value='1' {if $smarty.get.typemail_id eq '1'} selected="selected" {/if}>{t domain="mail"}杂志订阅{/t}</option>
+					<option value='2' {if $smarty.get.typemail_id eq '2'} selected="selected" {/if}>{t domain="mail"}关注订阅{/t}</option>
 				</select>
 				<!-- 级别 -->
 				<select name="pri" class="no_search w100"  id="select-pri">
-					<option value=''  {if $smarty.get.pri_id eq ''} selected="selected" {/if}>{lang key='mail::view_sendlist.all_levels'}</option>
-					<option value='0' {if $smarty.get.pri_id eq '0'} selected="selected" {/if}>{lang key='mail::view_sendlist.pri.0'}</option>
-					<option value='1' {if $smarty.get.pri_id eq '1'} selected="selected" {/if}>{lang key='mail::view_sendlist.pri.1'}</option>
+					<option value=''  {if $smarty.get.pri_id eq ''} selected="selected" {/if}>{t domain="mail"}所有级别{/t}</option>
+					<option value='0' {if $smarty.get.pri_id eq '0'} selected="selected" {/if}>{t domain="mail"}普通{/t}</option>
+					<option value='1' {if $smarty.get.pri_id eq '1'} selected="selected" {/if}>{t domain="mail"}高{/t}</option>
 				</select>
 				<button class="btn screen-btn" type="button">{t domain="mail"}筛选{/t}</button>
 			</div>
@@ -86,13 +86,13 @@
 							{t domain="mail"}优先级{/t}：{$pri[$val.pri]}&nbsp;|&nbsp;{t domain="mail"}上次发送于{/t}{$val.last_send}<br>
 							{$val.template_subject}
 							<div class="edit-list">
-							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="mail"}您确定要删除该邮件信息吗？{/t}' href='{RC_Uri::url("mail/admin_view_sendlist/remove", "id={$val.id}")}' title="{t}移除{/t}">{t}删除{/t}</a>
+							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="mail"}您确定要删除该邮件信息吗？{/t}' href='{RC_Uri::url("mail/admin_view_sendlist/remove", "id={$val.id}")}' title="{t domain="mail"}移除{/t}">{t domain="mail"}删除{/t}</a>
 							</div>
 						</td>
 						<td>{$type[$val.type]}</td>					
 					</tr>
 					<!--  {foreachelse} -->
-					<tr><td class="no-records" colspan="4">{t}没有找到任何记录{/t}</td></tr>
+					<tr><td class="no-records" colspan="4">{t domain="mail"}没有找到任何记录{/t}</td></tr>
 					<!-- {/foreach} -->
 				</tbody>
 			</table>
