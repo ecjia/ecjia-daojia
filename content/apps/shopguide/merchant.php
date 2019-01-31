@@ -398,7 +398,7 @@ class merchant extends ecjia_merchant
         } elseif ($code == 'shop_logo') {
             $msg = '店铺LOGO';
         } elseif ($code == 'shop_banner_pic') {
-            $msg = 'APP Banner图';
+            $msg = '店铺顶部Banner图';
         }
         // 记录日志
         ecjia_merchant::admin_log('删除' . $msg, 'edit', 'merchant');

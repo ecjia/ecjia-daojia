@@ -72,7 +72,7 @@
 					</div>
 					
 					<div class="form-group">
-						<label class="control-label col-lg-3">{t}APP Banner图：{/t}<span class="help-block">推荐图片的尺寸为：3:1（600x200px）</span></label>
+						<label class="control-label col-lg-3">{t}店铺顶部Banner图：{/t}<span class="help-block">推荐图片的尺寸为：3:1（600x200px）</span></label>
 						<div class="col-lg-6">
 							<div class="fileupload fileupload-{if $data.shop_banner_pic}exists{else}new{/if}" data-provides="fileupload">
                               	{if $data.shop_banner_pic}
@@ -87,7 +87,7 @@
 								<span class="fileupload-exists"> 修改</span>
 								<input type="file" class="default" name="shop_banner_pic"/>
 								</span>
-								<a class="btn btn-danger btn-sm fileupload-exists" {if $data.shop_banner_pic}data-toggle="ajaxremove"{else}data-dismiss="fileupload"{/if} data-msg="您确定要删除该APP Banner图吗？" href="{url path='shopguide/merchant/drop_file' args="code=shop_banner_pic"}">删除</a>
+								<a class="btn btn-danger btn-sm fileupload-exists" {if $data.shop_banner_pic}data-toggle="ajaxremove"{else}data-dismiss="fileupload"{/if} data-msg="您确定要删除该图吗？" href="{url path='shopguide/merchant/drop_file' args="code=shop_banner_pic"}">删除</a>
 							</div>
 						</div>
 					</div>

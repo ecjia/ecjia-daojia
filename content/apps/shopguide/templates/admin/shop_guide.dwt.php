@@ -113,16 +113,19 @@
             </fieldset>
             <!-- {elseif $smarty.get.step eq '2'} -->
             <fieldset class="step_two step">
-            	<h2>添加分类</h2>
+            	<h3>添加商品分类</h3>
 				<div class="control-group m_t10">
-					<label>{lang key='shopguide::shopguide.label_goods_cat'}</label>
+					<label>{lang key='shopguide::shopguide.label_goods_cat'}
+                        </label>
 					<div class="controls">
 						<input class="w500" type="text" name="cat_name" placeholder="请输入商品分类" value="{$data.cat_name}"/>
 						<input type="hidden" name="cat_id" value="{$cat_id}" />
 						<span class="input-must">{lang key='system::system.require_field'}</span>
 					</div>
+                    <span class="help-block" id="">新网站必须添加至少一个商品分类，方便添加新商品。</span>
 				</div>
-				
+
+                <h3>添加店铺分类</h3>
 				<div class="control-group m_t10">
 					<label>{lang key='shopguide::shopguide.label_store_cat'}</label>
 					<div class="controls">
@@ -130,6 +133,7 @@
 						<input type="hidden" name="store_cat_id" value="{$store_cat_id}" />
 						<span class="input-must">{lang key='system::system.require_field'}</span>
 					</div>
+                    <span class="help-block" id="">新网站必须添加至少一个店铺分类，方便商家入驻。</span>
 				</div>		
 				
 				<div class="control-group">
@@ -179,20 +183,24 @@
 						<img src="{$app_url}/complete.png" />
 						<div class="complete-notice">恭喜您！网店可以使用了！</div>
 						<a class="step-li m_0" href="{RC_Uri::url('@index/init')}">完成向导</a>
-						<div class="complete-title">以下是部分常用功能的链接，您关闭本页面后，依然可以在左侧菜单中找到</div>
+						<div class="complete-title">以下是部分常用功能的链接，您关闭本页面后，依然可以在左侧或顶部菜单中找到</div>
 					</div>
 					<ul class="complete-bottom">
-						<a class="complete-li" href="{RC_Uri::url('@index/init')}"><img src="{$app_url}/store.png">{lang key='shopguide::shopguide.view_shop'}</a>
+						<a class="complete-li" href="{RC_Uri::url('theme/admin_template/init')}"><img src="{$app_url}/theme.png">主题选择</a>
 						<a class="complete-li" href="{RC_Uri::url('setting/shop_config/init')}&code=shop_info"><img src="{$app_url}/store-setting.png">{lang key='shopguide::shopguide.shop_config'}</a>
 						<a class="complete-li" href="{RC_Uri::url('mail/admin_mail_settings/init')}"><img src="{$app_url}/mail-setting.png">邮件设置</a>
 					
-						<a class="complete-li" href="{RC_Uri::url('goods/admin_category/init')}"><img src="{$app_url}/goods-category.png">商品分类</a>
-						<a class="complete-li" href="{RC_Uri::url('goods/admin/init')}"><img src="{$app_url}/goods-list.png">{lang key='shopguide::shopguide.goods_list'}</a>
-						<a class="complete-li" href="{RC_Uri::url('goods/admin_goods_spec/init')}"><img src="{$app_url}/goods-type.png">{lang key='shopguide::shopguide.goods_type'}</a>
+						<a class="complete-li" href="{RC_Uri::url('adsense/admin_cycleimage/init')}"><img src="{$app_url}/cycleimage.png">轮播图</a>
+						<a class="complete-li" href="{RC_Uri::url('adsense/admin_shortcut/init')}"><img src="{$app_url}/goods-type.png">快捷菜单</a>
+						<a class="complete-li" href="{RC_Uri::url('friendlink/admin/init')}"><img src="{$app_url}/friendlink.png">友情链接</a>
 					
-						<a class="complete-li" href="{RC_Uri::url('admincp/privilege/add')}"><img src="{$app_url}/add-admin.png">添加管理员</a>
-						<a class="complete-li" href="{RC_Uri::url('user/admin/add')}"><img src="{$app_url}/add-user.png">{lang key='shopguide::shopguide.add_user'}</a>
-						<a class="complete-li" href="{RC_Uri::url('favourable/admin/add')}"><img src="{$app_url}/add-favourable.png">{lang key='shopguide::shopguide.add_favourable'}</a>
+						<a class="complete-li" href="{RC_Uri::url('platform/admin/init')}"><img src="{$app_url}/wechat-platform.png">公众号管理</a>
+                        <a class="complete-li" href="{RC_Uri::url('weapp/admin/init')}"><img src="{$app_url}/weapp.png">小程序管理</a>
+                        <a class="complete-li" href="{RC_Uri::url('setting/admin_region/init')}"><img src="{$app_url}/weapp.png">地区管理</a>
+
+						<a class="complete-li" href="{RC_Uri::url('withdraw/admin_plugin/init')}"><img src="{$app_url}/withdraw.png">提现方式</a>
+						<a class="complete-li" href="{RC_Uri::url('sms/admin_plugin/init')}"><img src="{$app_url}/sms.png">短信渠道</a>
+                        <a class="complete-li" href="{RC_Uri::url('cron/admin_plugin/init')}"><img src="{$app_url}/cron.png">计划任务</a>
 					</ul>
 				</div>
 			</div>
