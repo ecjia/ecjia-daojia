@@ -59,14 +59,14 @@ class mobile_toutiao_module extends api_front implements api_interface {
 		$size	  = empty($size) ? 15 : $size;
 		$page	  = empty($page) ? 1 : $page;
 		
-		$db = RC_DB::table('merchant_news');
-		$db->where('status', 1);
+		$db = RC_DB::table('merchant_news as mn')->leftJoin('store_franchisee as sf', RC_DB::raw('mn.store_id'), '=', RC_DB::raw('sf.store_id'));
+		$db->where(RC_DB::raw('mn.status'), 1);
 		$count = $db->count();
 		
 		//实例化分页
 		$page_row = new ecjia_page($count, $size, 6, '', $page);
 		
-		$list = $db->orderBy('send_time', 'desc')->take($size)->skip($page_row->start_id - 1)->get();
+		$list = $db->select(RC_DB::raw('mn.*, sf.merchants_name'))->orderBy(RC_DB::raw('send_time'), 'desc')->take($size)->skip($page_row->start_id - 1)->get();
 		$result = [];
 		
 		if (!empty($list)) {
@@ -78,6 +78,8 @@ class mobile_toutiao_module extends api_front implements api_interface {
 						'image' 				=> !empty($row['image']) ? RC_Upload::upload_url($row['image']) : '',
 						'url'					=> RC_Uri::url('toutiao/mobile/preview', array('id' => $row['id'])),
 						'formatted_send_time'	=> RC_Time::local_date('Y-m-d H:i:s', $row['send_time']),
+						'store_id'				=> $row['store_id'],
+						'store_name'			=> $row['merchants_name'],
 				);
 			}
 		}
