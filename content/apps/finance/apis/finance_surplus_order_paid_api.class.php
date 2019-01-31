@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 use Ecjia\System\Notifications\OrderPay;
+
 defined('IN_ECJIA') or exit('No permission resources.');
 
 
@@ -52,52 +53,55 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 消费订单支付后处理订单的接口
  * @author royalwang
  */
-class finance_surplus_order_paid_api extends Component_Event_Api {
-	
+class finance_surplus_order_paid_api extends Component_Event_Api
+{
+
     /**
      * @param  order_sn  订单编号
      * @param  money     支付金额
      *
      * @return array
      */
-	public function call(&$options) {
-	    if (! array_get($options, 'order_sn') || ! array_get($options, 'money') ) {
-	        return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
-	    }
+    public function call(&$options)
+    {
+        if (!array_get($options, 'order_sn') || !array_get($options, 'money')) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'finance'));
+        }
 
-	    /* 改变订单状态 */
-	    return $this->order_paid($options['order_sn'], PS_PAYED);
-	}
-	
-	/**
-	 * 修改订单的支付状态
-	 *
-	 * @access  public
-	 * @param   string  $log_id     支付编号
-	 * @param   integer $pay_status 状态
-	 * @return  void
-	 */
-	private function order_paid($order_sn, $pay_status = PS_PAYED) {
-	    /* 取得添加预付款的用户以及金额 */
-	    $res = RC_DB::table('user_account')->select('id', 'user_id', 'order_sn', 'amount', 'is_paid')->where('order_sn', $order_sn)->first();
-	    
-	    if (empty($res['is_paid'])) {
-	        /* 更新会员预付款的到款状态 */
-	        $data = array(
-	            'paid_time' => RC_Time::gmtime(),
-	            'is_paid'   => 1
-	        );
-	        RC_DB::table('user_account')->where('order_sn', $order_sn)->update($data);
+        /* 改变订单状态 */
+        return $this->order_paid($options['order_sn'], PS_PAYED);
+    }
 
-	        /* 修改会员帐户金额 */
-	        $options = array(
-	            'user_id'		=> $res['user_id'],
-	            'user_money'	=> $res['amount'],
-	            'change_desc'	=> RC_Lang::get('orders::order.surplus_type_0'),
-	            'change_type'	=> ACT_SAVING
-	        );
-	        RC_Api::api('finance', 'account_change_log', $options);
-	    }
+    /**
+     * 修改订单的支付状态
+     *
+     * @access  public
+     * @param   string $log_id 支付编号
+     * @param   integer $pay_status 状态
+     * @return  void
+     */
+    private function order_paid($order_sn, $pay_status = PS_PAYED)
+    {
+        /* 取得添加预付款的用户以及金额 */
+        $res = RC_DB::table('user_account')->select('id', 'user_id', 'order_sn', 'amount', 'is_paid')->where('order_sn', $order_sn)->first();
+
+        if (empty($res['is_paid'])) {
+            /* 更新会员预付款的到款状态 */
+            $data = array(
+                'paid_time' => RC_Time::gmtime(),
+                'is_paid'   => 1
+            );
+            RC_DB::table('user_account')->where('order_sn', $order_sn)->update($data);
+
+            /* 修改会员帐户金额 */
+            $options = array(
+                'user_id'     => $res['user_id'],
+                'user_money'  => $res['amount'],
+                'change_desc' => __('充值', 'finance'),
+                'change_type' => ACT_SAVING
+            );
+            RC_Api::api('finance', 'account_change_log', $options);
+        }
     }
 }
 

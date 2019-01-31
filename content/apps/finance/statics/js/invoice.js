@@ -1,5 +1,6 @@
 // JavaScript Document
-;(function (app, $) {
+;
+(function (app, $) {
     app.invoice_list = {
         init: function () {
             //搜索功能
@@ -15,5 +16,5 @@
         }
     };
 })(ecjia.admin, jQuery);
- 
+
 // end

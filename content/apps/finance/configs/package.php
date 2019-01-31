@@ -53,9 +53,9 @@ return array(
 	'identifier' 	=> 'ecjia.finance',
 	'directory' 	=> 'finance',
 	'name'			=> 'finance',
-	'description' 	=> 'finance_desc',			/* 描述对应的语言项 */
-	'author' 		=> 'ECJIA TEAM',			/* 作者 */
-	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
+	'description' 	=> 'finance_desc',			    /* 描述对应的语言项 */
+	'author' 		=> 'ECJIA TEAM',			    /* 作者 */
+	'website' 		=> 'http://www.ecjia.com',	    /* 网址 */
 	'version' 		=> '1.27.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Finance',

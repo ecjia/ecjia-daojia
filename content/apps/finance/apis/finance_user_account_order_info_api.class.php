@@ -48,44 +48,46 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * 会员充值订单详情
- * @author 
+ * @author
  */
-class finance_user_account_order_info_api extends Component_Event_Api {
-	
+class finance_user_account_order_info_api extends Component_Event_Api
+{
+
     /**
-     * @param  array $options	条件参数
+     * @param  array $options 条件参数
      * @return array
      */
-	public function call(&$options) {
-		if (!is_array($options)
-		|| (!isset($options['order_id']) && !isset($options['order_sn']))) {
-			return new ecjia_error('invalid_parameter', '调取api文件user_account_order_info,参数错误');
-		}
-		
-		return $this->order_info($options);
-	}
-	
-	/**
-	 * 取得买单订单信息
-	 * @param   array $options	条件参数
-	 * @return  array   买单订单信息
-	 */
-	
-	private function order_info($options) {
-		$order_id = intval(array_get($options, 'order_id'));
-		$order_sn = trim(array_get($options, 'order_sn'));
-		$info = [];
-		if ($order_sn) {
+    public function call(&$options)
+    {
+        if (!is_array($options) || (!isset($options['order_id']) && !isset($options['order_sn']))) {
+            return new ecjia_error('invalid_parameter', sprintf(__('调取api文件%s，参数错误', 'finance'), 'user_account_order_info'));
+        }
+
+        return $this->order_info($options);
+    }
+
+    /**
+     * 取得买单订单信息
+     * @param   array $options 条件参数
+     * @return  array   买单订单信息
+     */
+
+    private function order_info($options)
+    {
+        $order_id = intval(array_get($options, 'order_id'));
+        $order_sn = trim(array_get($options, 'order_sn'));
+        $info     = [];
+        if ($order_sn) {
             $info = RC_DB::table('user_account')->where('order_sn', $order_sn)->first();
         } else {
             $info = RC_DB::table('user_account')->where('id', $order_id)->first();
         }
-		if (!empty($info)) {
-			$info['formated_add_time']		= RC_Time::local_date(ecjia::config('time_format'), $info['add_time']);
-		}
-		
-		return $info;
-	}
+        if (!empty($info)) {
+            $info['formated_add_time'] = RC_Time::local_date(ecjia::config('time_format'), $info['add_time']);
+        }
+
+        return $info;
+    }
 }
 
 // end

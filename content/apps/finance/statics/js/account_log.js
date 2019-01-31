@@ -24,7 +24,7 @@
 
                 if (start_date == '' || end_date == '') {
                     var data = {
-                        message: '开始或结束时间不能为空',
+                        message: js_lang.time_required,
                         state: "error",
                     };
                     ecjia.admin.showmessage(data);
@@ -33,7 +33,7 @@
 
                 if (start_date >= end_date) {
                     var data = {
-                        message: '开始时间不能大于或等于结束时间',
+                        message: js_lang.time_error,
                         state: "error",
                     };
                     ecjia.admin.showmessage(data);
@@ -65,7 +65,7 @@
                 },
                 messages: {
                     change_desc: {
-                        required: account_log_jslang.change_desc_required
+                        required: js_lang.no_change_desc
                     }
                 },
                 submitHandler: function () {

@@ -50,15 +50,15 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 后台权限API
  * @author songqianqian
  */
-class finance_admin_purview_api extends Component_Event_Api {
-    
-    public function call(&$options) {
+class finance_admin_purview_api extends Component_Event_Api
+{
+
+    public function call(&$options)
+    {
         $purviews = array(
-        		
-			array('action_name' => RC_Lang::get('user::users.account_manage'), 		'action_code' => 'account_manage', 	'relevance' => ''),
-			array('action_name' => RC_Lang::get('user::users.surplus_manage'), 		'action_code' => 'surplus_manage', 	'relevance' => 'account_manage'),
-        	array('action_name' => '发票管理', 		'action_code' => 'invoice_manage', 	'relevance' => ''),
-			
+            array('action_name' => __('会员账户管理', 'finance'), 'action_code' => 'account_manage', 'relevance' => ''),
+            array('action_name' => __('会员余额管理', 'finance'), 'action_code' => 'surplus_manage', 'relevance' => 'account_manage'),
+            array('action_name' => __('发票管理', 'finance'), 'action_code' => 'invoice_manage', 'relevance' => ''),
         );
         return $purviews;
     }

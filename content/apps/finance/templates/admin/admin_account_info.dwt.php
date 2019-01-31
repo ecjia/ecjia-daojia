@@ -55,29 +55,41 @@
 				<table class="table table-oddtd m_b0">
 					<tbody class="first-td-no-leftbd">
 						<tr>
-							<td><div align="right"><strong>订单编号：</strong></div></td>
+							<td>
+								<div align="right"><strong>订单编号：</strong></div>
+							</td>
 							<td>{$account_info.order_sn}</td>
-							<td><div align="right"><strong>状态：</strong></div></td>
+							<td>
+								<div align="right"><strong>状态：</strong></div>
+							</td>
 							<td>{if $account_info.is_paid eq 0}待审核{else if $account_info.is_paid eq 1}已完成{else}已取消{/if}</td>
 						</tr>
 
 						<tr>
-							<td><div align="right"><strong>{lang key='user::user_account.label_user_id'}</strong></div></td>
+							<td>
+								<div align="right"><strong>{lang key='user::user_account.label_user_id'}</strong></div>
+							</td>
 							<td>
 								{if $account_info.user_name}
-									{$account_info.user_name}
+								{$account_info.user_name}
 								{else}
-									{lang key='user::user_account.anonymous_member'}
+								{lang key='user::user_account.anonymous_member'}
 								{/if}
 							</td>
-							<td><div align="right"><strong>充值金额：</strong></div></td>
-							<td>{$account_info.formated_amount}</td>				
+							<td>
+								<div align="right"><strong>充值金额：</strong></div>
+							</td>
+							<td>{$account_info.formated_amount}</td>
 						</tr>
 
 						<tr>
-							<td><div align="right"><strong>充值方式：</strong></div></td>
+							<td>
+								<div align="right"><strong>充值方式：</strong></div>
+							</td>
 							<td>{if $account_info.pay_name}{$account_info.pay_name}{else}银行转账{/if}</td>
-							<td><div align="right"><strong>申请时间：</strong></div></td>
+							<td>
+								<div align="right"><strong>申请时间：</strong></div>
+							</td>
 							<td>{$account_info.add_time}</td>
 						</tr>
 
@@ -102,28 +114,32 @@
 					<table class="table table-oddtd m_b0">
 						<tbody class="first-td-no-leftbd">
 							<tr>
-								<td><div align="right"><strong>备注信息：</strong></div></td>
+								<td>
+									<div align="right"><strong>备注信息：</strong></div>
+								</td>
 								<td colspan="3">
 									<textarea class="span10" name="admin_note" cols="55" rows="6" placeholder="请输入审核备注信息">{$account_info.admin_note}</textarea>
 								</td>
 							</tr>
-							
+
 							<tr>
-								<td><div align="right"><strong>操作：</strong></div></td>
 								<td>
-								{if $id}
+									<div align="right"><strong>操作：</strong></div>
+								</td>
+								<td>
+									{if $id}
 									<input type="hidden" name="id" value="{$id}" />
 									<input type="hidden" name="user_name" value="{$account_info.user_name}" />
 									<input class="btn btn-gebo" type="submit" name="confirm" value="同意" />
 									<input class="btn" type="submit" value="取消" />
-								{else}
+									{else}
 									<input class="btn btn-gebo" type="submit" value="{lang key='system::system.button_submit'}" />
-								{/if}
+									{/if}
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</form>	
+				</form>
 			</div>
 		</div>
 		{else}
@@ -137,13 +153,19 @@
 				<table class="table table-oddtd m_b0">
 					<tbody class="first-td-no-leftbd">
 						<tr>
-							<td><div align="right"><strong>操作人：</strong></div></td>
+							<td>
+								<div align="right"><strong>操作人：</strong></div>
+							</td>
 							<td>{$account_info.admin_user}</td>
-							<td><div align="right"><strong>审核时间：</strong></div></td>
+							<td>
+								<div align="right"><strong>审核时间：</strong></div>
+							</td>
 							<td>{$account_info.review_time}</td>
 						</tr>
 						<tr>
-							<td><div align="right"><strong>审核备注：</strong></div></td>
+							<td>
+								<div align="right"><strong>审核备注：</strong></div>
+							</td>
 							<td colspan="3">{$account_info.admin_note}</td>
 						</tr>
 					</tbody>

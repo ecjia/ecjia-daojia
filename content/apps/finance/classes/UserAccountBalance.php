@@ -49,16 +49,14 @@ class UserAccountBalance
     public function charge($user_money, $change_desc = '账户充值', $from_type = null, $from_value = null)
     {
         $data = [
-            'user_id' => $this->user_id,
-            'user_money' => $user_money,
-
+            'user_id'      => $this->user_id,
+            'user_money'   => $user_money,
             'frozen_money' => 0,
-
-            'change_desc' => $change_desc,
-            'change_time' => RC_Time::gmtime(),
-            'change_type' => AccountConstant::BALANCE_SAVING, //充值
-            'from_type' => $from_type,
-            'from_value' => $from_value,
+            'change_desc'  => $change_desc,
+            'change_time'  => RC_Time::gmtime(),
+            'change_type'  => AccountConstant::BALANCE_SAVING, //充值
+            'from_type'    => $from_type,
+            'from_value'   => $from_value,
         ];
 
         return $this->transactionChangeAccountBalance($data);
@@ -71,16 +69,14 @@ class UserAccountBalance
     public function withdrawApply($user_money, $change_desc = '提现申请', $from_type = null, $from_value = null)
     {
         $data = [
-            'user_id' => $this->user_id,
-            'user_money' => -$user_money,
-
+            'user_id'      => $this->user_id,
+            'user_money'   => -$user_money,
             'frozen_money' => $user_money,
-
-            'change_desc' => $change_desc,
-            'change_time' => RC_Time::gmtime(),
-            'change_type' => AccountConstant::BALANCE_DRAWING, //提款
-            'from_type' => $from_type,
-            'from_value' => $from_value,
+            'change_desc'  => $change_desc,
+            'change_time'  => RC_Time::gmtime(),
+            'change_type'  => AccountConstant::BALANCE_DRAWING, //提款
+            'from_type'    => $from_type,
+            'from_value'   => $from_value,
         ];
 
         return $this->transactionChangeAccountBalance($data);
@@ -93,16 +89,14 @@ class UserAccountBalance
     public function withdrawSuccessful($user_money, $change_desc = '提现成功', $from_type = null, $from_value = null)
     {
         $data = [
-            'user_id' => $this->user_id,
-            'user_money' => 0,
-
+            'user_id'      => $this->user_id,
+            'user_money'   => 0,
             'frozen_money' => -$user_money,
-
-            'change_desc' => $change_desc,
-            'change_time' => RC_Time::gmtime(),
-            'change_type' => AccountConstant::BALANCE_DRAWING, //提款
-            'from_type' => $from_type,
-            'from_value' => $from_value,
+            'change_desc'  => $change_desc,
+            'change_time'  => RC_Time::gmtime(),
+            'change_type'  => AccountConstant::BALANCE_DRAWING, //提款
+            'from_type'    => $from_type,
+            'from_value'   => $from_value,
         ];
 
         return $this->transactionChangeAccountBalance($data);
@@ -115,16 +109,14 @@ class UserAccountBalance
     public function withdrawCancel($user_money, $change_desc = '提现取消', $from_type = null, $from_value = null)
     {
         $data = [
-            'user_id' => $this->user_id,
-            'user_money' => $user_money,
-
+            'user_id'      => $this->user_id,
+            'user_money'   => $user_money,
             'frozen_money' => -$user_money,
-
-            'change_desc' => $change_desc,
-            'change_time' => RC_Time::gmtime(),
-            'change_type' => AccountConstant::BALANCE_SAVING, //充入
-            'from_type' => $from_type,
-            'from_value' => $from_value,
+            'change_desc'  => $change_desc,
+            'change_time'  => RC_Time::gmtime(),
+            'change_type'  => AccountConstant::BALANCE_SAVING, //充入
+            'from_type'    => $from_type,
+            'from_value'   => $from_value,
         ];
 
         return $this->transactionChangeAccountBalance($data);

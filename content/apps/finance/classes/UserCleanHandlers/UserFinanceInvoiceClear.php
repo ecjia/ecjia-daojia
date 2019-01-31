@@ -74,7 +74,7 @@ HTML;
         if (empty($count)) {
             return true;
         }
-        
+
         $result = RC_DB::table('finance_invoice')->where('user_id', $this->user_id)->delete();
 
         if ($result) {
@@ -95,7 +95,7 @@ HTML;
 
         $user_info = RC_Api::api('user', 'user_info', array('user_id' => $this->user_id));
 
-        $user_name = !empty($user_info) ? '用户名是' . $user_info['user_name'] : '用户ID是' . $this->user_id;
+        $user_name = !empty($user_info) ? sprintf(__('用户名是%s', 'finance'), $user_info['user_name']) : sprintf(__('用户ID是%s', 'finance'), $this->user_id);
 
         ecjia_admin::admin_log($user_name, 'clean', 'user_finance_invoice');
     }

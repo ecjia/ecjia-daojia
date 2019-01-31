@@ -19,7 +19,7 @@
                 if (year == 0 || year == undefined) {
                     ecjia.admin.showmessage({
                         'state': 'error',
-                        'message': '请选择年份'
+                        'message': js_lang.year_required
                     });
                     return false;
                 }
@@ -38,9 +38,11 @@
         left_chart: function () {
             var dataset = [];
             var ticks = [];
-            if ($.find("#left_stats").length == 0) { return false; }
+            if ($.find("#left_stats").length == 0) {
+                return false;
+            }
             if (data == 'null') {
-                var nodata = "<div style='width:100%;height:100%;line-height:300px;text-align:center;overflow: hidden;'>没有统计数据<\/div>";
+                var nodata = "<div style='width:100%;height:100%;line-height:300px;text-align:center;overflow: hidden;'>" + js_lang.empty_stats + "<\/div>";
                 $("#left_stats").append(nodata);
             } else {
                 $.each(JSON.parse(data), function (key, value) {
@@ -51,12 +53,12 @@
                 var option = {
                     title: {
                         left: 'center',
-                        text: '（余额分布图）',
+                        text: js_lang.balance_profile,
                     },
                     color: ['#ABDEE3'],
                     xAxis: {
                         type: 'category',
-                        data: ['消费', '充值', '退款', '提现', '冻结']
+                        data: [js_lang.consume, js_lang.recharge, js_lang.refund, js_lang.withdraw, js_lang.freeze]
                     },
                     yAxis: {
                         type: 'value'
@@ -98,9 +100,11 @@
         right_chart: function () {
             var dataset = [];
             var ticks = [];
-            if ($.find("#right_stats").length == 0) { return false; }
+            if ($.find("#right_stats").length == 0) {
+                return false;
+            }
             if (right_data == 'null') {
-                var nodata = "<div style='width:100%;height:100%;line-height:300px;text-align:center;overflow: hidden;'>没有统计数据<\/div>";
+                var nodata = "<div style='width:100%;height:100%;line-height:300px;text-align:center;overflow: hidden;'>" + js_lang.empty_stats + "<\/div>";
                 $("#right_stats").append(nodata);
             } else {
                 $.each(JSON.parse(right_data), function (key, value) {
@@ -111,12 +115,12 @@
                 var option = {
                     title: {
                         left: 'center',
-                        text: '（积分分布图）',
+                        text: js_lang.points_profile,
                     },
                     color: ['#ABDEE3'],
                     xAxis: {
                         type: 'category',
-                        data: ['下单发放', '积分抵现']
+                        data: [js_lang.order_issuance, js_lang.point_credit]
                     },
                     yAxis: {
                         type: 'value'

@@ -20,8 +20,8 @@
 	<form action="{$form_action}" name="searchForm" method="post">
 		<div class="wspan12">
 			<div class="top_right f_r">
-				<input type="text" name="keywords" value="{$invoice_list.filter.keywords}" placeholder="请输入发票抬头关键字"/>
-				<button class="btn m_l5" type="submit">搜索</button>
+				<input type="text" name="keywords" value="{$invoice_list.filter.keywords}" placeholder="{t domain="finance"}请输入发票抬头关键字{/t}"/>
+				<button class="btn m_l5" type="submit">{t domain="finance"}搜索{/t}</button>
 			</div>
 		</div>
 	</form>
@@ -31,13 +31,13 @@
 		<table class="table table-striped" id="smpl_tbl">
 			<thead>
 				<tr>
-					<th class="w150">会员名称</th>
-					<th>抬头名称</th>
-					<th class="w100">抬头类型</th>
-					<th class="w150">纳税人识别号</th>
-					<th class="w100">电话号码</th>
-					<th class="w150">添加时间</th>
-					<th class="w100">操作</th>
+					<th class="w150">{t domain="finance"}会员名称{/t}</th>
+					<th>{t domain="finance"}抬头名称{/t}</th>
+					<th class="w100">{t domain="finance"}抬头类型{/t}</th>
+					<th class="w150">{t domain="finance"}纳税人识别号{/t}</th>
+					<th class="w100">{t domain="finance"}电话号码{/t}</th>
+					<th class="w150">{t domain="finance"}添加时间{/t}</th>
+					<th class="w100">{t domain="finance"}操作{/t}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -53,12 +53,12 @@
 					<td>{$item.add_time}</td>
 					<td>
 						<a style="cursor:pointer;"  class="data-pjax" 
-							href='{RC_Uri::url("finance/admin_invoice/info", "id={$item.id}")}'>详细信息
+							href='{RC_Uri::url("finance/admin_invoice/info", "id={$item.id}")}'>{t domain="finance"}详细信息{/t}
 						</a>
 					</td>
 				</tr>
 				<!-- {foreachelse}-->
-				<tr><td class="no-records" colspan="7">{lang key='system::system.no_records'}</td></tr>
+				<tr><td class="no-records" colspan="7">{t domain="finance"}没有找到任何记录{/t}</td></tr>
 				<!-- {/foreach} -->
 			</tbody>
 		</table>

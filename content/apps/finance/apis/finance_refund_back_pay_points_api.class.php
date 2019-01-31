@@ -48,9 +48,10 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * 订单退款退还消费积分,及扣除下单赠送积分接口
- * @author 
+ * @author
  */
-class finance_refund_back_pay_points_api extends Component_Event_Api {
+class finance_refund_back_pay_points_api extends Component_Event_Api
+{
 
     /**
      * @param integer refund_id       必填，退款申请id
@@ -59,58 +60,62 @@ class finance_refund_back_pay_points_api extends Component_Event_Api {
     public function call(& $options)
     {
         if (!array_get($options, 'refund_id')) {
-            return new ecjia_error('invalid_parameter', '请求接口refund_back_pay_points_api参数无效');
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'finance'), 'refund_back_pay_points_api'));
         }
-        
-        $refund_id 			= array_get($options, 'refund_id');
-        $refund_info 		= RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();
-        
+
+        $refund_id   = array_get($options, 'refund_id');
+        $refund_info = RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();
+
         $integral_name = ecjia::config('integral_name');
         if (empty($integral_name)) {
-        	$integral_name = '积分';
+            $integral_name = '积分';
         }
-        
+
         if ($refund_info['user_id'] > 0) {
-        	if ($refund_info['integral'] > 0) { //下单有没使用积分
-        		//是否已退过积分
-        		$refund_back_integral_info = RC_DB::table('account_log')->where('user_id', $refund_info['user_id'])->where('from_type', 'refund_back_integral')->where('from_value', $refund_info['order_sn'])->first();
-        		if (empty($refund_back_integral_info)) {
-        			//退还下单使用的积分
-        			$options = array(
-        					'user_id' 		=> $refund_info['user_id'],
-        					'point' 	    => intval($refund_info['integral']),
-        					'change_desc' 	=> '订单退款，退还订单' . $refund_info['order_sn'] . '下单时使用的'.$integral_name,
-        					'change_type' 	=> ACT_REFUND,
-        					'from_type' 	=> 'refund_back_integral',
-        					'from_value' 	=> $refund_info['order_sn']
-        			);
-        			$res = RC_Api::api('finance', 'pay_points_change', $options);
-        			if (is_ecjia_error($res)) {
-        				return $res;
-        			}
-        		}
-        	}
-        	/*所退款订单，有没赠送积分；有赠送的话，赠送的积分扣除*/
-        	$order_give_integral_info = RC_DB::table('account_log')->where('user_id', $refund_info['user_id'])->where('from_type', 'order_give_integral')->where('from_value', $refund_info['order_sn'])->first();
-        	if (!empty($order_give_integral_info)) {
-        		//是否已扣除过积分
-        		$refund_deduct_integral_info = RC_DB::table('account_log')->where('user_id', $refund_info['user_id'])->where('from_type', 'refund_deduct_integral')->where('from_value', $refund_info['order_sn'])->first();
-        		if (empty($refund_deduct_integral_info)) {
-        			$options = array(
-        					'user_id'       => $refund_info['user_id'],
-        					'point'         => intval($order_give_integral_info['pay_points']) * (-1),
-        					'change_desc'   => '订单退款，扣除订单' . $refund_info['order_sn'] . '下单时赠送的'.$integral_name,
-        					'change_type'   => ACT_REFUND,
-        					'from_type'     => 'refund_deduct_integral',
-        					'from_value'    => $refund_info['order_sn']
-        			);
-        			
-        			$res = RC_Api::api('finance', 'pay_points_change', $options);
-        			if (is_ecjia_error($res)) {
-        				return $res;
-        			}
+            if ($refund_info['integral'] > 0) { //下单有没使用积分
+                //是否已退过积分
+                $refund_back_integral_info = RC_DB::table('account_log')
+                    ->where('user_id', $refund_info['user_id'])
+                    ->where('from_type', 'refund_back_integral')
+                    ->where('from_value', $refund_info['order_sn'])
+                    ->first();
+                if (empty($refund_back_integral_info)) {
+                    //退还下单使用的积分
+                    $options = array(
+                        'user_id'     => $refund_info['user_id'],
+                        'point'       => intval($refund_info['integral']),
+                        'change_desc' => sprintf(__('订单退款，退还订单%s，下单时使用的%s', 'finance'), $refund_info['order_sn'], $integral_name),
+                        'change_type' => ACT_REFUND,
+                        'from_type'   => 'refund_back_integral',
+                        'from_value'  => $refund_info['order_sn']
+                    );
+                    $res     = RC_Api::api('finance', 'pay_points_change', $options);
+                    if (is_ecjia_error($res)) {
+                        return $res;
+                    }
                 }
-        	}
+            }
+            /*所退款订单，有没赠送积分；有赠送的话，赠送的积分扣除*/
+            $order_give_integral_info = RC_DB::table('account_log')->where('user_id', $refund_info['user_id'])->where('from_type', 'order_give_integral')->where('from_value', $refund_info['order_sn'])->first();
+            if (!empty($order_give_integral_info)) {
+                //是否已扣除过积分
+                $refund_deduct_integral_info = RC_DB::table('account_log')->where('user_id', $refund_info['user_id'])->where('from_type', 'refund_deduct_integral')->where('from_value', $refund_info['order_sn'])->first();
+                if (empty($refund_deduct_integral_info)) {
+                    $options = array(
+                        'user_id'     => $refund_info['user_id'],
+                        'point'       => intval($order_give_integral_info['pay_points']) * (-1),
+                        'change_desc' => sprintf(__('订单退款，扣除订单%s，下单时赠送的%s', 'finance'), $refund_info['order_sn'], $integral_name),
+                        'change_type' => ACT_REFUND,
+                        'from_type'   => 'refund_deduct_integral',
+                        'from_value'  => $refund_info['order_sn']
+                    );
+
+                    $res = RC_Api::api('finance', 'pay_points_change', $options);
+                    if (is_ecjia_error($res)) {
+                        return $res;
+                    }
+                }
+            }
         }
         return true;
     }

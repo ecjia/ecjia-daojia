@@ -45,127 +45,131 @@
 //  ---------------------------------------------------------------------------------
 //
 use Ecjia\App\Finance\Notifications\UserAccountChange;
+
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * 会员帐号资金变动日志记录接口
  * @author royalwang
  */
-class finance_account_change_log_api extends Component_Event_Api {
-    
-    public function call(&$options) {
+class finance_account_change_log_api extends Component_Event_Api
+{
+
+    public function call(&$options)
+    {
         if (!is_array($options) || !isset($options['user_id'])) {
             return new ecjia_error('invalid_parameter', RC_Lang::get('users.users.invalid_parameter'));
         }
-        
-        $user_id 		= $options['user_id'];
-        $user_money 	= isset($options['user_money']) 	? $options['user_money'] 	: 0;
-        $frozen_money 	= isset($options['frozen_money']) 	? $options['frozen_money'] 	: 0;
-        $rank_points 	= isset($options['rank_points']) 	? $options['rank_points'] 	: 0;
-        $pay_points 	= isset($options['pay_points']) 	? $options['pay_points'] 	: 0;
-        $change_desc 	= isset($options['change_desc']) 	? $options['change_desc'] 	: '';
-        $change_type 	= isset($options['change_type']) 	? $options['change_type'] 	: ACT_OTHER;
-        $from_type		= isset($options['from_type']) 		? $options['from_type'] 		: '';
-        $from_value		= isset($options['from_value'])		? $options['from_value'] 	: '';
-        
-        
+
+        $user_id      = $options['user_id'];
+        $user_money   = isset($options['user_money']) ? $options['user_money'] : 0;
+        $frozen_money = isset($options['frozen_money']) ? $options['frozen_money'] : 0;
+        $rank_points  = isset($options['rank_points']) ? $options['rank_points'] : 0;
+        $pay_points   = isset($options['pay_points']) ? $options['pay_points'] : 0;
+        $change_desc  = isset($options['change_desc']) ? $options['change_desc'] : '';
+        $change_type  = isset($options['change_type']) ? $options['change_type'] : ACT_OTHER;
+        $from_type    = isset($options['from_type']) ? $options['from_type'] : '';
+        $from_value   = isset($options['from_value']) ? $options['from_value'] : '';
+
+
         return $this->log_account_change($user_id, $user_money, $frozen_money, $rank_points, $pay_points, $change_desc, $change_type, $from_type, $from_value);
     }
-    
-    
+
+
     /**
      * 记录帐户变动
      *
      * @param int $user_id
-     *        	用户id
+     *            用户id
      * @param float $user_money
-     *        	可用余额变动
+     *            可用余额变动
      * @param float $frozen_money
-     *        	冻结余额变动
+     *            冻结余额变动
      * @param int $rank_points
-     *        	成长值变动
+     *            成长值变动
      * @param int $pay_points
-     *        	消费积分变动
+     *            消费积分变动
      * @param string $change_desc
-     *        	变动说明
+     *            变动说明
      * @param int $change_type
-     *        	变动类型：参见常量文件
+     *            变动类型：参见常量文件
      * @return void
      */
-    private function log_account_change($user_id, $user_money = 0, $frozen_money = 0, $rank_points = 0, $pay_points = 0, $change_desc = '', $change_type = ACT_OTHER, $from_type = '', $from_value = '') {
+    private function log_account_change($user_id, $user_money = 0, $frozen_money = 0, $rank_points = 0, $pay_points = 0, $change_desc = '', $change_type = ACT_OTHER, $from_type = '', $from_value = '')
+    {
 
         /* 插入帐户变动记录 */
-        $account_log = array (
-            'user_id'		=> $user_id,
-            'user_money'	=> $user_money,
-            'frozen_money'	=> $frozen_money,
-            'rank_points'	=> 0,
-            'pay_points'	=> $pay_points,
-            'change_time'	=> RC_Time::gmtime(),
-            'change_desc'	=> $change_desc,
-            'change_type'	=> $change_type,
-            'from_type'		=> empty($from_type) ? '' : $from_type,
-            'from_value'	=> empty($from_value) ? '' : $from_value
+        $account_log = array(
+            'user_id'      => $user_id,
+            'user_money'   => $user_money,
+            'frozen_money' => $frozen_money,
+            'rank_points'  => 0,
+            'pay_points'   => $pay_points,
+            'change_time'  => RC_Time::gmtime(),
+            'change_desc'  => $change_desc,
+            'change_type'  => $change_type,
+            'from_type'    => empty($from_type) ? '' : $from_type,
+            'from_value'   => empty($from_value) ? '' : $from_value
         );
         RC_DB::table('account_log')->insert($account_log);
-    
+
         /* 更新用户信息 */
-        // 	TODO: 暂时先恢复之前的写法
-    
+        // TODO: 暂时先恢复之前的写法
+
         RC_DB::table('users')->where('user_id', $user_id)->increment('user_money', $user_money);
         RC_DB::table('users')->where('user_id', $user_id)->increment('frozen_money', $frozen_money);
         RC_DB::table('users')->where('user_id', $user_id)->increment('pay_points', $pay_points);
-    
+
         if ($rank_points) {
-            $data = array (
-                'user_id'			=> $user_id,
-                'rank_points'		=> $rank_points,
-                'change_desc'		=> $change_desc,
-                'change_type'		=> $change_type,
-                'from_type'			=> empty($from_type) ? '' : $from_type,
-                'from_value'		=> empty($from_value) ? '' : $from_value
+            $data = array(
+                'user_id'     => $user_id,
+                'rank_points' => $rank_points,
+                'change_desc' => $change_desc,
+                'change_type' => $change_type,
+                'from_type'   => empty($from_type) ? '' : $from_type,
+                'from_value'  => empty($from_value) ? '' : $from_value
             );
             RC_Api::api('user', 'rank_points_change_log', $data);
         }
-        
+
         $user_info = RC_DB::table('users')->where('user_id', $user_id)->select('user_name', 'user_money', 'mobile_phone')->first();
-        
+
         /* 短信告知用户账户变动 */
         if (!empty($user_info['mobile_phone'])) {
-        	$options = array(
-        			'mobile' => $user_info['mobile_phone'],
-        			'event'	 => 'sms_user_account_change',
-        			'value'  =>array(
-        					'user_name' 	=> $user_info['user_name'],
-        					'amount' 		=> $user_money,
-        					'user_money' 	=> $user_info['user_money'],
-        					'service_phone' => ecjia::config('service_phone'),
-        			),
-        	);
-        
-        	RC_Api::api('sms', 'send_event_sms', $options);
+            $options = array(
+                'mobile' => $user_info['mobile_phone'],
+                'event'  => 'sms_user_account_change',
+                'value'  => array(
+                    'user_name'     => $user_info['user_name'],
+                    'amount'        => $user_money,
+                    'user_money'    => $user_info['user_money'],
+                    'service_phone' => ecjia::config('service_phone'),
+                ),
+            );
+
+            RC_Api::api('sms', 'send_event_sms', $options);
         }
-        
+
         //消息通知
         $orm_user_db = RC_Model::model('orders/orm_users_model');
-        $user_ob = $orm_user_db->find($user_id);
-        	
+        $user_ob     = $orm_user_db->find($user_id);
+
         $user_account_data = array(
-        		'title'	=> '充值到账',
-        		'body'	=> '尊敬的'.$user_info['user_name'].'，充值业务已受理成功，充值金额'.$user_money.'元资金已到账，目前可用资金'.$user_info['user_money'].'元。',
-        		'data'	=> array(
-        				'user_id'				=> $user_id,
-        				'user_name'				=> $user_info['user_name'],
-        				'amount'				=> $user_money,
-        				'formatted_amount' 		=> price_format($user_money),
-        				'user_money'			=> $user_info['user_money'],
-        				'formatted_user_money'	=> price_format($user_info['user_money'])
-        		),
+            'title' => '充值到账',
+            'body'  => sprintf(__('尊敬的%s，充值业务已受理成功，充值金额%s元资金已到账，目前可用资金%s元。', 'finance'), $user_info['user_name'], $user_money, $user_info['user_money']),
+            'data'  => array(
+                'user_id'              => $user_id,
+                'user_name'            => $user_info['user_name'],
+                'amount'               => $user_money,
+                'formatted_amount'     => price_format($user_money),
+                'user_money'           => $user_info['user_money'],
+                'formatted_user_money' => price_format($user_info['user_money'])
+            ),
         );
-        	
+
         $push_account_chenged = new UserAccountChange($user_account_data);
         RC_Notification::send($user_ob, $push_account_chenged);
-        
+
     }
 }
 
