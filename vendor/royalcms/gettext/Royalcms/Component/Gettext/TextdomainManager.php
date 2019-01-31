@@ -18,6 +18,11 @@ class TextdomainManager
     
     
     protected $locale;
+
+    /**
+     * @var \Royalcms\Component\Foundation\Royalcms
+     */
+    protected $royalcms;
     
     /**
      * Create a new TextdomainManager instance.
@@ -28,6 +33,8 @@ class TextdomainManager
     public function __construct(Locale $locale)
     {
         $this->locale = $locale;
+
+        $this->royalcms = royalcms();
     }
     
     
@@ -286,11 +293,11 @@ class TextdomainManager
         $locale = RC_Hook::apply_filters('app_locale', $locale, $domain);
     
         if (false !== $app_rel_path) {
-            $path = SITE_APP_PATH . trim($app_rel_path, '/');
+            $path = $this->royalcms->appPath() . trim($app_rel_path, '/');
         } else {
-            $path = trim(SITE_APP_PATH, '/');
+            $path = rtrim($this->royalcms->appPath(), '/');
         }
-        
+
         // Load the textdomain according to the app first
         $mofile = "{$domain}/languages/{$locale}/{$domain}.mo";
         $loaded = $this->loadTextdomain($domain, $path . '/' . $mofile);
@@ -299,7 +306,7 @@ class TextdomainManager
         }
 
         // Otherwise, load from the languages directory
-        $mofile = SITE_LANG_PATH . '/apps/' . $domain . '-' . $locale . '.mo';
+        $mofile = $this->royalcms->langPath() . '/apps/' . $domain . '-' . $locale . '.mo';
         return $this->loadTextdomain($domain, $mofile);
     }
     
