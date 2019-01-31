@@ -383,7 +383,8 @@
                 {/if}
 	        </div>
         </div>
-        
+
+        {if $refund_list}
          <div class="panel panel-body">
             <h4>申请退货商品</h4>
            	<div class="goods-content">
@@ -400,6 +401,7 @@
            		<!-- {/foreach} -->
 	        </div>
         </div>
+        {/if}
 	</div>
 </div>
 <!-- {/block} -->

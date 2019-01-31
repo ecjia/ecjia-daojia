@@ -85,7 +85,7 @@ class refund_payrecord_module extends api_front implements api_interface {
 		if ($refund_order_info['pay_code']) {
 			if ($refund_order_info['pay_code'] == 'pay_balance') {
 				$back_account = '退回余额';
-			} elseif ($refund_order_info['pay_code'] == 'pay_wxpay' || $refund_order_info['pay_code'] == 'pay_wxpay_weapp' || $refund_order_info['pay_code'] == 'pay_wxpay_shop' || $refund_order_info['pay_code'] == 'pay_wxpay_app') {
+			} elseif ($refund_order_info['pay_code'] == 'pay_wxpay' || $refund_order_info['pay_code'] == 'pay_wxpay_weapp' || $refund_order_info['pay_code'] == 'pay_wxpay_shop' || $refund_order_info['pay_code'] == 'pay_wxpay_app' || $refund_order_info['pay_code'] == 'pay_wxpay_pc') {
 				$back_account = '微信支付账户';
 			} elseif ($refund_order_info['pay_code'] == 'pay_alipay') {
 				$back_account = '支付宝账户';
@@ -97,7 +97,7 @@ class refund_payrecord_module extends api_front implements api_interface {
 		if ($refund_payrecord) {
 			if ($refund_payrecord['back_pay_code'] == 'pay_balance') {
 				$back_account = '退回余额';
-			} elseif ($refund_payrecord['back_pay_code'] == 'pay_wxpay' || $refund_payrecord['back_pay_code'] == 'pay_wxpay_weapp' || $refund_payrecord['back_pay_code'] == 'pay_wxpay_shop' || $refund_payrecord['back_pay_code'] == 'pay_wxpay_app') {
+			} elseif ($refund_payrecord['back_pay_code'] == 'pay_wxpay' || $refund_payrecord['back_pay_code'] == 'pay_wxpay_weapp' || $refund_payrecord['back_pay_code'] == 'pay_wxpay_shop' || $refund_payrecord['back_pay_code'] == 'pay_wxpay_app' || $refund_payrecord['back_pay_code'] == 'pay_wxpay_pc') {
 				$back_account = '微信支付账户';
 			} elseif ($refund_payrecord['back_pay_code'] == 'pay_alipay') {
 				$back_account = '支付宝账户';
