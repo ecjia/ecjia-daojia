@@ -66,7 +66,7 @@ class RefundBackGoodsStock
 		//返回库存
 		if (ecjia::config('use_storage') == '1') {//判断是否有开启使用库存
 			//减库存的时机
-			if (ecjia::config('stock_dec_time') == SDT_PLACE){ 
+			if (ecjia::config('stock_dec_time') == SDT_PLACE){
 				//如果是下单时减库存，订单所有商品需返还库存
 				self::_backOrderGoodsStock($refund_id);
 			} else {
@@ -108,24 +108,14 @@ class RefundBackGoodsStock
 		//获取订单的发货单列表
 		RC_Loader::load_app_class('order_refund', 'refund', false);
 		$delivery_list = order_refund::currorder_delivery_list($refund_order['order_id']);
+
 		if (!empty($delivery_list)) {
 			foreach ($delivery_list as $row) {
 				//获取发货单的发货商品列表
 				$delivery_goods_list   = order_refund::delivery_goodsList($row['delivery_id']);
 				if (!empty($delivery_goods_list)) {
 					foreach ($delivery_goods_list as $res) {
-						$refund_goods_data = array(
-								'refund_id'		=> $refund_id,
-								'goods_id'		=> $res['goods_id'],
-								'product_id'	=> $res['product_id'],
-								'goods_name'	=> $res['goods_name'],
-								'goods_sn'		=> $res['goods_sn'],
-								'is_real'		=> $res['is_real'],
-								'send_number'	=> $res['send_number'],
-								'goods_attr'	=> $res['goods_attr'],
-								'brand_name'	=> $res['brand_name']
-						);
-						$refund_goods_id = RC_DB::table('refund_goods')->insertGetId($refund_goods_data);
+
 						if ($res['send_number'] > 0) {
 							//货品库存增加
 							if ($res['product_id'] > 0) {
@@ -138,20 +128,13 @@ class RefundBackGoodsStock
 				}
 			}
 		}
-		
-		
-		/* 修改订单的发货单状态为退货 */
-		$delivery_order_data = array(
-				'status' => 1,
-		);
-		RC_DB::table('delivery_order')->where('order_id', $refund_order['order_id'])->whereIn('status', array(0,2))->update($delivery_order_data);
-			
+
 		/* 将订单的商品发货数量更新为 0 */
-		$order_goods_data = array(
-				'send_number' => 0,
-		);
-			
-		RC_DB::table('order_goods')->where('order_id', $refund_order['order_id'])->update($order_goods_data);
+//		$order_goods_data = array(
+//				'send_number' => 0,
+//		);
+//
+//		RC_DB::table('order_goods')->where('order_id', $refund_order['order_id'])->update($order_goods_data);
 	}
 	
 	/**
