@@ -120,6 +120,17 @@ class FilesystemManager {
 		return $this->adapt(new Direct($config['root']));
 	}
 
+    /**
+     * Create an instance of the local driver.
+     *
+     * @param  array  $config
+     * @return \Royalcms\Component\Storage\Direct
+     */
+    public function createLocalDriver(array $config)
+    {
+        return $this->adapt(new Local($config['root']));
+    }
+
 	/**
 	 * Create an instance of the Aliyun oss driver.
 	 *
