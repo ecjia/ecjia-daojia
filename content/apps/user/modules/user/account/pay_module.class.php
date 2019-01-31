@@ -142,10 +142,6 @@ class user_account_pay_module extends api_front implements api_interface {
      * @return  int
      */
     private function get_surplus_info($account_id, $user_id) {
-        //$db = RC_Model::model('user/user_account_model');
-
-        //return $db->find(array('id' => $account_id, 'user_id' => $user_id));
-
         return RC_DB::table('user_account')->where('id', $account_id)->where('user_id', $user_id)->first();
     }
 }
