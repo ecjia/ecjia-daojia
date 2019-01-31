@@ -184,42 +184,47 @@ class PushManager extends RC_Object
             $devices = $this->user->getDevices();
             $devices->each(function ($item) use ($content, $template, $user, $plugin, $error, $template_var, $extended_field) {
 
-                $client = $item['device_client'];
+                try {
+                    $client = $item['device_client'];
 
-                $push_umeng = $user->getClientOptions($item['device_code'], $plugin);
-                
-                if (empty($push_umeng)) {
-                    $error->add('push_meng_config_not_found', 'APP推送配置信息不存在');
-                    return ;
-                }
-                
-                $debug          = $push_umeng['environment'] == 'develop' ? true : false;
-                $key            = $push_umeng['app_key'];
-                $secret         = $push_umeng['app_secret'];
-                $device_token   = $item['device_token'];
-                
-                $push = new PushSend($key, $secret, $debug);
-                $push->setPushContent($content);
-                $push->setDeviceToken($device_token);
-                $push->setClient($client);
-                $push->setCustomFields($extended_field);
-                $result = $push->send();
+                    $push_umeng = $user->getClientOptions($item['device_code'], $plugin);
 
-                /**
-                 * 重新发送消息后做什么，过滤器
-                 * @param $result   推送结果
-                 * @param $item  推送的消息数据模型对象
-                 * @param $template_var 模板变量
-                 * @param $extended_field   扩展字段
-                 * @return $result
-                 */
-                $result = RC_Hook::apply_filters('push_event_send_after', $result, $item, $template_var, $extended_field);
-                
-                $this->addRecord($item['device_code'], $item['device_client'], $item['device_token'], $template['template_subject'], $template['template_id'], $template_var, $extended_field, $content->getContent(), $plugin, $result);
-                
-                if (is_ecjia_error($result)) {
-                    $error->add($result->get_error_code(), $result->get_error_message(), $result->get_error_data());
+                    if (empty($push_umeng)) {
+                        $error->add('push_meng_config_not_found', 'APP推送配置信息不存在');
+                        return ;
+                    }
+
+                    $debug          = $push_umeng['environment'] == 'develop' ? true : false;
+                    $key            = $push_umeng['app_key'];
+                    $secret         = $push_umeng['app_secret'];
+                    $device_token   = $item['device_token'];
+
+                    $push = new PushSend($key, $secret, $debug);
+                    $push->setPushContent($content);
+                    $push->setDeviceToken($device_token);
+                    $push->setClient($client);
+                    $push->setCustomFields($extended_field);
+                    $result = $push->send();
+
+                    /**
+                     * 重新发送消息后做什么，过滤器
+                     * @param $result   推送结果
+                     * @param $item  推送的消息数据模型对象
+                     * @param $template_var 模板变量
+                     * @param $extended_field   扩展字段
+                     * @return $result
+                     */
+                    $result = RC_Hook::apply_filters('push_event_send_after', $result, $item, $template_var, $extended_field);
+
+                    $this->addRecord($item['device_code'], $item['device_client'], $item['device_token'], $template['template_subject'], $template['template_id'], $template_var, $extended_field, $content->getContent(), $plugin, $result);
+
+                    if (is_ecjia_error($result)) {
+                        $error->add($result->get_error_code(), $result->get_error_message(), $result->get_error_data());
+                    }
+                } catch (\InvalidArgumentException $e) {
+                    $error->add($e->getCode(), $e->getMessage());
                 }
+
             });
             
             if (count($error->get_error_messages()) > 0) 
@@ -254,56 +259,60 @@ class PushManager extends RC_Object
         }
         else
         {
-            $client = $message['device_client'];
-            
-            $client = with(new \Ecjia\App\Mobile\ApplicationFactory)->client($message['device_code']);
-            $push_umeng = $client->getOptions($plugin);
-            
-            if (empty($push_umeng)) {
-                return new ecjia_error('push_meng_config_not_found', 'APP推送配置信息不存在');
-            }
-            
-            $debug          = $push_umeng['environment'] == 'develop' ? true : false;
-            $key            = $push_umeng['app_key'];
-            $secret         = $push_umeng['app_secret'];
-            $device_token   = $message['device_token'];
-            
-            $content = new PushContent();
-            $content->setContent($message['content']);
-            $content->setTemplateVar($template_var);
-            $content->setTemplateId($message['template_id']);
-            $content->setSubject($message['title']);
+            try {
+                $client = $message['device_client'];
 
-            $push = new PushSend($key, $secret, $debug);
-            $push->setPushContent($content);
-            $push->setClient($message['device_client']);
-            $push->setCustomFields($extended_field);
+                $client     = with(new \Ecjia\App\Mobile\ApplicationFactory)->client($message['device_code']);
+                $push_umeng = $client->getOptions($plugin);
 
-            if ($device_token == 'broadcast') {
-                $result = $push->broadcastSend();
-            } else {
-                $push->setDeviceToken($message['device_token']);
-                $result = $push->send();
+                if (empty($push_umeng)) {
+                    return new ecjia_error('push_meng_config_not_found', 'APP推送配置信息不存在');
+                }
+
+                $debug        = $push_umeng['environment'] == 'develop' ? true : false;
+                $key          = $push_umeng['app_key'];
+                $secret       = $push_umeng['app_secret'];
+                $device_token = $message['device_token'];
+
+                $content = new PushContent();
+                $content->setContent($message['content']);
+                $content->setTemplateVar($template_var);
+                $content->setTemplateId($message['template_id']);
+                $content->setSubject($message['title']);
+
+                $push = new PushSend($key, $secret, $debug);
+                $push->setPushContent($content);
+                $push->setClient($message['device_client']);
+                $push->setCustomFields($extended_field);
+
+                if ($device_token == 'broadcast') {
+                    $result = $push->broadcastSend();
+                } else {
+                    $push->setDeviceToken($message['device_token']);
+                    $result = $push->send();
+                }
+
+
+                /**
+                 * 重新发送消息后做什么，过滤器
+                 * @param $result   推送结果
+                 * @param $message  推送的消息数据模型对象
+                 * @param $template_var 模板变量
+                 * @param $extended_field   扩展字段
+                 * @return $result
+                 */
+                $result = RC_Hook::apply_filters('push_resend_send_after', $result, $message, $template_var, $extended_field);
+
+                $this->updateRecord($message, $result);
+
+                if (is_ecjia_error($result)) {
+                    return $result;
+                }
+
+                return true;
+            } catch (\InvalidArgumentException $e) {
+                return new ecjia_error($e->getCode(), $e->getMessage());
             }
-            
-            
-            /**
-             * 重新发送消息后做什么，过滤器
-             * @param $result   推送结果
-             * @param $message  推送的消息数据模型对象
-             * @param $template_var 模板变量
-             * @param $extended_field   扩展字段
-             * @return $result
-             */
-            $result = RC_Hook::apply_filters('push_resend_send_after', $result, $message, $template_var, $extended_field);
-            
-            $this->updateRecord($message, $result);
-            
-            if (is_ecjia_error($result)) {
-                return $result;
-            }
-            
-            return true;
         }
     
     }
@@ -435,35 +444,39 @@ class PushManager extends RC_Object
         }
         else
         {
-            $plugin = 'push_umeng';
-            $client = with(new \Ecjia\App\Mobile\ApplicationFactory)->client($device_code);
-            $push_umeng = $client->getOptions($plugin);
-            
-            if (empty($push_umeng)) {
-                return new ecjia_error('push_meng_config_not_found', 'APP推送配置信息不存在');
-            }
-            
-            $debug          = $push_umeng['environment'] == 'develop' ? true : false;
-            $key            = $push_umeng['app_key'];
-            $secret         = $push_umeng['app_secret'];
-            
-            $device_token   = 'broadcast';
-            
-            $push = new PushSend($key, $secret, $debug);
-            $push->setPushContent($this->content);
-            $push->setClient($client->getDeviceClient());
-            $push->setCustomFields($extended_field);
-            $result = $push->broadcastSend();
+            try {
+                $plugin     = 'push_umeng';
+                $client     = with(new \Ecjia\App\Mobile\ApplicationFactory)->client($device_code);
+                $push_umeng = $client->getOptions($plugin);
 
-            $result = RC_Hook::apply_filters('push_broadcast_send_after', $result, $client, $this->content, $extended_field);
-            
-            $this->addRecord($device_code, $client->getDeviceClient(), $device_token, $this->content->getSubject(), '', [], $extended_field, $this->content->getContent(), $plugin, $result, $priority);
-            
-            if (is_ecjia_error($result)) {
-                return $result;
+                if (empty($push_umeng)) {
+                    return new ecjia_error('push_meng_config_not_found', 'APP推送配置信息不存在');
+                }
+
+                $debug  = $push_umeng['environment'] == 'develop' ? true : false;
+                $key    = $push_umeng['app_key'];
+                $secret = $push_umeng['app_secret'];
+
+                $device_token = 'broadcast';
+
+                $push = new PushSend($key, $secret, $debug);
+                $push->setPushContent($this->content);
+                $push->setClient($client->getDeviceClient());
+                $push->setCustomFields($extended_field);
+                $result = $push->broadcastSend();
+
+                $result = RC_Hook::apply_filters('push_broadcast_send_after', $result, $client, $this->content, $extended_field);
+
+                $this->addRecord($device_code, $client->getDeviceClient(), $device_token, $this->content->getSubject(), '', [], $extended_field, $this->content->getContent(), $plugin, $result, $priority);
+
+                if (is_ecjia_error($result)) {
+                    return $result;
+                }
+
+                return true;
+            } catch (\InvalidArgumentException $e) {
+                return new ecjia_error($e->getCode(), $e->getMessage());
             }
-            
-            return true;
         }
         
     }
@@ -494,34 +507,38 @@ class PushManager extends RC_Object
         }
         else
         {
-            $plugin = 'push_umeng';
-            $client = with(new \Ecjia\App\Mobile\ApplicationFactory)->client($device_code);
-            $push_umeng = $client->getOptions($plugin);
-        
-            if (empty($push_umeng)) {
-                return new ecjia_error('push_meng_config_not_found', 'APP推送配置信息不存在');
+            try {
+                $plugin     = 'push_umeng';
+                $client     = with(new \Ecjia\App\Mobile\ApplicationFactory)->client($device_code);
+                $push_umeng = $client->getOptions($plugin);
+
+                if (empty($push_umeng)) {
+                    return new ecjia_error('push_meng_config_not_found', 'APP推送配置信息不存在');
+                }
+
+                $debug  = $push_umeng['environment'] == 'develop' ? true : false;
+                $key    = $push_umeng['app_key'];
+                $secret = $push_umeng['app_secret'];
+
+                $push = new PushSend($key, $secret, $debug);
+                $push->setPushContent($this->content);
+                $push->setClient($client->getDeviceClient());
+                $push->setCustomFields($extended_field);
+                $push->setDeviceToken($device_token);
+                $result = $push->send();
+
+                $result = RC_Hook::apply_filters('push_unicast_send_after', $result, $client, $this->content, $extended_field);
+
+                $this->addRecord($device_code, $client->getDeviceClient(), $device_token, $this->content->getSubject(), '', [], $extended_field, $this->content->getContent(), $plugin, $result, $priority);
+
+                if (is_ecjia_error($result)) {
+                    return $result;
+                }
+
+                return true;
+            } catch (\InvalidArgumentException $e) {
+                return new ecjia_error($e->getCode(), $e->getMessage());
             }
-        
-            $debug          = $push_umeng['environment'] == 'develop' ? true : false;
-            $key            = $push_umeng['app_key'];
-            $secret         = $push_umeng['app_secret'];
-        
-            $push = new PushSend($key, $secret, $debug);
-            $push->setPushContent($this->content);
-            $push->setClient($client->getDeviceClient());
-            $push->setCustomFields($extended_field);
-            $push->setDeviceToken($device_token);
-            $result = $push->send();
-        
-            $result = RC_Hook::apply_filters('push_unicast_send_after', $result, $client, $this->content, $extended_field);
-        
-            $this->addRecord($device_code, $client->getDeviceClient(), $device_token, $this->content->getSubject(), '', [], $extended_field, $this->content->getContent(), $plugin, $result, $priority);
-        
-            if (is_ecjia_error($result)) {
-                return $result;
-            }
-        
-            return true;
         }
     }
     
@@ -549,42 +566,46 @@ class PushManager extends RC_Object
             $user = $this->user;
             $devices = $this->user->getDevices();
             $devices->each(function ($item) use ($content, $user, $plugin, $error, $extended_field, $priority) {
-            
-                $client = $item['device_client'];
-            
-                $push_umeng = $user->getClientOptions($item['device_code'], $plugin);
-            
-                if (empty($push_umeng)) {
-                    $error->add('push_meng_config_not_found', 'APP推送配置信息不存在');
-                    return ;
-                }
-            
-                $debug          = $push_umeng['environment'] == 'develop' ? true : false;
-                $key            = $push_umeng['app_key'];
-                $secret         = $push_umeng['app_secret'];
-                $device_token   = $item['device_token'];
-            
-                $push = new PushSend($key, $secret, $debug);
-                $push->setPushContent($content);
-                $push->setDeviceToken($device_token);
-                $push->setClient($client);
-                $push->setCustomFields($extended_field);
-                $result = $push->send();
-            
-                /**
-                 * 重新发送消息后做什么，过滤器
-                 * @param $result   推送结果
-                 * @param $item  推送的消息数据模型对象
-                 * @param $template_var 模板变量
-                 * @param $extended_field   扩展字段
-                 * @return $result
-                */
-                $result = RC_Hook::apply_filters('push_unicast_send_after', $result, $item, $extended_field);
-            
-                $this->addRecord($item['device_code'], $client, $device_token, $this->content->getSubject(), '', [], $extended_field, $this->content->getContent(), $plugin, $result, $priority);
-            
-                if (is_ecjia_error($result)) {
-                    $error->add($result->get_error_code(), $result->get_error_message(), $result->get_error_data());
+
+                try {
+                    $client = $item['device_client'];
+
+                    $push_umeng = $user->getClientOptions($item['device_code'], $plugin);
+
+                    if (empty($push_umeng)) {
+                        $error->add('push_meng_config_not_found', 'APP推送配置信息不存在');
+                        return;
+                    }
+
+                    $debug        = $push_umeng['environment'] == 'develop' ? true : false;
+                    $key          = $push_umeng['app_key'];
+                    $secret       = $push_umeng['app_secret'];
+                    $device_token = $item['device_token'];
+
+                    $push = new PushSend($key, $secret, $debug);
+                    $push->setPushContent($content);
+                    $push->setDeviceToken($device_token);
+                    $push->setClient($client);
+                    $push->setCustomFields($extended_field);
+                    $result = $push->send();
+
+                    /**
+                     * 重新发送消息后做什么，过滤器
+                     * @param $result   推送结果
+                     * @param $item  推送的消息数据模型对象
+                     * @param $template_var 模板变量
+                     * @param $extended_field   扩展字段
+                     * @return $result
+                     */
+                    $result = RC_Hook::apply_filters('push_unicast_send_after', $result, $item, $extended_field);
+
+                    $this->addRecord($item['device_code'], $client, $device_token, $this->content->getSubject(), '', [], $extended_field, $this->content->getContent(), $plugin, $result, $priority);
+
+                    if (is_ecjia_error($result)) {
+                        $error->add($result->get_error_code(), $result->get_error_message(), $result->get_error_data());
+                    }
+                } catch (\InvalidArgumentException $e) {
+                    $error->add($e->getCode(), $e->getMessage());
                 }
             });
             
