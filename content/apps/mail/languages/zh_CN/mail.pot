@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App mail package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App mail 1.24.0\n"
+"Project-Id-Version: Ecjia App mail 1.27.1\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-01-30 09:51:11+00:00\n"
+"POT-Creation-Date: 2019-01-31 06:31:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -345,10 +345,12 @@ msgid "批量操作"
 msgstr ""
 
 #: content/apps/mail/templates/admin/email_list.dwt.php:27
+#: content/apps/mail/templates/admin/view_sendlist.dwt.php:29
 msgid "您确定要删除选中的邮件吗？"
 msgstr ""
 
 #: content/apps/mail/templates/admin/email_list.dwt.php:27
+#: content/apps/mail/templates/admin/view_sendlist.dwt.php:29
 msgid "请先选中要删除的邮件！"
 msgstr ""
 
@@ -419,6 +421,38 @@ msgstr ""
 
 #: content/apps/mail/templates/admin/mail_template_info.dwt.php:57
 msgid "更新"
+msgstr ""
+
+#: content/apps/mail/templates/admin/view_sendlist.dwt.php:29
+msgid "删除邮件发送"
+msgstr ""
+
+#: content/apps/mail/templates/admin/view_sendlist.dwt.php:30
+msgid "选择邮件发送"
+msgstr ""
+
+#: content/apps/mail/templates/admin/view_sendlist.dwt.php:45
+msgid "所有邮件类型"
+msgstr ""
+
+#: content/apps/mail/templates/admin/view_sendlist.dwt.php:46
+msgid "杂志订阅"
+msgstr ""
+
+#: content/apps/mail/templates/admin/view_sendlist.dwt.php:47
+msgid "关注订阅"
+msgstr ""
+
+#: content/apps/mail/templates/admin/view_sendlist.dwt.php:51
+msgid "所有级别"
+msgstr ""
+
+#: content/apps/mail/templates/admin/view_sendlist.dwt.php:52
+msgid "普通"
+msgstr ""
+
+#: content/apps/mail/templates/admin/view_sendlist.dwt.php:53
+msgid "高"
 msgstr ""
 
 #: content/apps/mail/templates/admin/view_sendlist.dwt.php:55
