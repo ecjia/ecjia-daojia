@@ -56,98 +56,79 @@ class cart_cashdesk {
 	 * @param   int     $type   类型：默认普通商品
 	 * @return  array   购物车商品数组 ；2018-09-05增加是否散装商品返回值 is_bulk
 	 */
-	public static function cashdesk_cart_goods($type = CART_GENERAL_GOODS, $cart_id = array(), $pendorder_id = 0) {
-	
-		$db = RC_Loader::load_app_model('cart_goods_viewmodel', 'cart');
-	
-		$cart_where = array('rec_type' => $type);
-		if (!empty($cart_id)) {
-			$cart_where = array_merge($cart_where,  array('rec_id' => $cart_id));
+	public static function cashdesk_cart_goods($type = CART_CASHDESK_GOODS, $cart_id = array(), $pendorder_id = 0) {
+		$arr = [];
+		
+		$db	= RC_DB::table('cart as c')->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'));
+		$db->where(RC_DB::raw('c.rec_type'), $type);
+		if (!empty($cart_id) && is_array($cart_id)) {
+			$db->whereIn(RC_DB::raw('c.rec_id'), $cart_id);
 		}
 		if (!empty($pendorder_id)) {
-			$cart_where = array_merge($cart_where,  array('pendorder_id' => $pendorder_id));
-		} else {
-			$cart_where = array_merge($cart_where,  array('pendorder_id' => 0));
+			$db->where(RC_DB::raw('c.pendorder_id'), $pendorder_id);
+		} else{
+			$db->where(RC_DB::raw('c.pendorder_id'), 0);
 		}
 		if (!empty($_SESSION['store_id'])) {
-			$cart_where = array_merge($cart_where, array('c.store_id' => $_SESSION['store_id']));
+			$db->where(RC_DB::raw('c.store_id'), $_SESSION['store_id']);
 		}
-		$field = 'g.store_id, goods_img, original_img, goods_thumb, c.rec_id, c.goods_buy_weight, c.user_id, c.goods_id, c.goods_name, c.goods_sn, c.goods_number, c.market_price, c.goods_price, c.goods_attr, c.is_real, c.extension_code, c.parent_id, c.is_gift, c.is_shipping, c.goods_price * c.goods_number|subtotal, goods_weight as goodsWeight, c.goods_attr_id';
-		if ($_SESSION['user_id']) {
-			$cart_where = array_merge($cart_where, array('c.user_id' => $_SESSION['user_id']));
-			$arr        = $db->field($field)->where($cart_where)->select();
-		} else {
-			$arr        = $db->field($field)->where($cart_where)->select();
+		
+		$db->where(RC_DB::raw('c.user_id'), $_SESSION['user_id']);
+		
+		if ($_SESSION['device_id']) {
+			$db->where(RC_DB::raw('c.session_id'), $_SESSION['device_id']);
 		}
-	
-		$db_goods_attr = RC_Loader::load_app_model('goods_attr_model', 'goods');
-		$db_goods = RC_Loader::load_app_model('goods_model', 'goods');
-		$order_info_viewdb = RC_Loader::load_app_model('order_info_viewmodel', 'orders');
-		$order_info_viewdb->view = array(
-				'order_goods' => array(
-						'type'	  => Component_Model_View::TYPE_LEFT_JOIN,
-						'alias'   => 'g',
-						'on'	  => 'oi.order_id = g.order_id '
-				)
-		);
+		
+		$field = 'g.store_id, goods_img, original_img, goods_thumb, c.rec_id, c.goods_buy_weight, c.user_id, c.goods_id, c.goods_name, c.goods_sn, c.goods_number, c.market_price, c.goods_price, c.goods_attr, c.is_real, c.extension_code, c.parent_id, c.is_gift, c.is_shipping, (c.goods_price * c.goods_number) as subtotal, goods_weight as goodsWeight, c.goods_attr_id';
+		
+		$arr		  = $db->select(RC_DB::raw($field))->get();
+		
 		/* 格式化价格及礼包商品 */
-		foreach ($arr as $key => $value) {
-			$goods = $db_goods->field(array('is_xiangou', 'xiangou_start_date', 'xiangou_end_date', 'xiangou_num'))->find(array('goods_id' => $value['goods_id']));
-			/* 限购判断*/
-			if ($goods['is_xiangou'] > 0) {
-				$xiangou = array(
-						'oi.add_time >=' . $goods['xiangou_start_date'] . ' and oi.add_time <=' .$goods['xiangou_end_date'],
-						'g.goods_id'	=> $value['goods_id'],
-						'oi.user_id'	=> $_SESSION['user_id'],
-				);
-				$xiangou_info = $order_info_viewdb->join(array('order_goods'))->field(array('sum(goods_number) as number'))->where($xiangou)->find();
-	
-				if ($xiangou_info['number'] + $value['goods_number'] > $goods['xiangou_num']) {
-					return new ecjia_error('xiangou_error', __('该商品已限购'));
-				}
-			}
-	
-			$arr[$key]['formated_market_price'] = price_format($value['market_price'], false);
-			$arr[$key]['formated_goods_price']  = $value['goods_price'] > 0 ? price_format($value['goods_price'], false) : __('免费');
-			$arr[$key]['formated_subtotal']     = price_format($value['subtotal'], false);
-	
+		if (!empty($arr)) {
+			foreach ($arr as $key => $value) {
+				$arr[$key]['formated_market_price'] = price_format($value['market_price'], false);
+				$arr[$key]['formated_goods_price']  = $value['goods_price'] > 0 ? price_format($value['goods_price'], false) : __('免费');
+				$arr[$key]['formated_subtotal']     = price_format($value['subtotal'], false);
 			
-			$store_group[] = $value['store_id'];
-			$goods_attr_gourp = array();
-			if (!empty($value['goods_attr'])) {
-				$goods_attr = explode("\n", $value['goods_attr']);
-				$goods_attr = array_filter($goods_attr);
-				foreach ($goods_attr as  $v) {
-					$a = explode(':',$v);
-					if (!empty($a[0]) && !empty($a[1])) {
-						$goods_attr_gourp[] = array('name' => $a[0], 'value' => $a[1]);
+				$store_group[] = $value['store_id'];
+				$goods_attr_gourp = array();
+				if (!empty($value['goods_attr'])) {
+					$goods_attr = explode("\n", $value['goods_attr']);
+					$goods_attr = array_filter($goods_attr);
+					foreach ($goods_attr as  $v) {
+						$a = explode(':',$v);
+						if (!empty($a[0]) && !empty($a[1])) {
+							$goods_attr_gourp[] = array('name' => $a[0], 'value' => $a[1]);
+						}
 					}
 				}
+				$arr[$key]['goods_attr_new'] 	= empty($value['goods_attr']) ? '' : trim($value['goods_attr']);
+				$arr[$key]['attr'] 			 	=  $value['goods_attr'];
+				$arr[$key]['goods_attr'] 		=  $goods_attr_gourp;
+				$arr[$key]['goods_buy_weight'] 	= $value['goods_buy_weight'] > 0 ? $value['goods_buy_weight'] : '';
+			
+				RC_Loader::load_app_func('global', 'goods');
+				$arr[$key]['img'] = array(
+						'thumb'	=> get_image_path($value['goods_id'], $value['goods_img'], true),
+						'url'	=> get_image_path($value['goods_id'], $value['original_img'], true),
+						'small' => get_image_path($value['goods_id'], $value['goods_thumb'], true),
+				);
+				unset($arr[$key]['goods_thumb']);
+				unset($arr[$key]['goods_img']);
+				unset($arr[$key]['original_img']);
+					
+				if ($value['extension_code'] == 'package_buy') {
+					$arr[$key]['package_goods_list'] = get_package_goods($value['goods_id']);
+				}
+				if ($value['extension_code'] == 'bulk') {
+					$arr[$key]['is_bulk'] = 1;
+				} else {
+					$arr[$key]['is_bulk'] = 0;
+				}
+				$arr[$key]['store_name'] = RC_DB::table('store_franchisee')->where('store_id', $value['store_id'])->pluck('merchants_name');
 			}
-			$arr[$key]['goods_attr_new'] 	= empty($value['goods_attr']) ? '' : trim($value['goods_attr']);
-			$arr[$key]['attr'] 			 	=  $value['goods_attr'];
-			$arr[$key]['goods_attr'] 		=  $goods_attr_gourp;
-			$arr[$key]['goods_buy_weight'] 	= $value['goods_buy_weight'] > 0 ? $value['goods_buy_weight'] : '';
-	
-			RC_Loader::load_app_func('global', 'goods');
-			$arr[$key]['img'] = array(
-					'thumb'	=> get_image_path($value['goods_id'], $value['goods_img'], true),
-					'url'	=> get_image_path($value['goods_id'], $value['original_img'], true),
-					'small' => get_image_path($value['goods_id'], $value['goods_thumb'], true),
-			);
-			unset($arr[$key]['goods_thumb']);
-			unset($arr[$key]['goods_img']);
-			unset($arr[$key]['original_img']);
-			if ($value['extension_code'] == 'package_buy') {
-				$arr[$key]['package_goods_list'] = get_package_goods($value['goods_id']);
-			} 
-			if ($value['extension_code'] == 'bulk') {
-				$arr[$key]['is_bulk'] = 1;
-			} else {
-				$arr[$key]['is_bulk'] = 0;
-			}
-			$arr[$key]['store_name'] = RC_DB::table('store_franchisee')->where('store_id', $value['store_id'])->pluck('merchants_name');
 		}
+
 		return $arr;
 	}
 	
@@ -159,10 +140,8 @@ class cart_cashdesk {
 	 * @return void
 	 * @update 180719 选择性更新内容
 	 */
-	public static function recalculate_price($device = array()) {
-		$db_cart = RC_Loader::load_app_model('cart_model', 'cart');
-		$dbview = RC_Loader::load_app_model('cart_good_member_viewmodel', 'cart');
-		$codes = array('8001', '8011');
+	public static function recalculate_price($device = array(), $store_id = 0, $user_id = 0) {
+		$codes = config('app-cashier::cashier_device_code');
 		if (!empty($device)) {
 			if (in_array($device['code'], $codes)) {
 				$rec_type = CART_CASHDESK_GOODS;
@@ -173,29 +152,26 @@ class cart_cashdesk {
 	
 		$discount = $_SESSION['discount'];
 		$user_rank = $_SESSION['user_rank'];
-	
+		$field = "c.rec_id, c.extension_code, c.goods_id, c.goods_attr_id, g.promote_price, g.promote_start_date, c.goods_number,g.promote_end_date, IFNULL(mp.user_price, g.shop_price * $discount) AS member_price";
+		
 		$db = RC_DB::table('cart as c')
 		->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'))
-		->leftJoin('member_price as mp', function($join) {
+		->leftJoin('member_price as mp', function($join)use($user_rank) {
 			$join->where(RC_DB::raw('mp.goods_id'), '=', RC_DB::raw('g.goods_id'))
 			->where(RC_DB::raw('mp.user_rank'), '=', $user_rank);
 		})
-		->select(RC_DB::raw("c.rec_id, c.extension_code, c.goods_id, c.goods_attr_id, g.promote_price, g.promote_start_date, c.goods_number,g.promote_end_date, IFNULL(mp.user_price, g.shop_price * $discount) AS member_price"));
+		->select(RC_DB::raw($field));
+		
+		if (!empty($store_id)) {
+			$db->where(RC_DB::raw('c.store_id'), $store_id);
+		}
 			
 		/* 取得有可能改变价格的商品：除配件和赠品之外的商品 */
 		// @update 180719 选择性更新内容mark_changed=1
-		if ($_SESSION['user_id']) {
-			// 		$res = $dbview->join(array(
-			// 			'goods',
-			// 			'member_price'
-			// 		))
-			// 		->where('c.mark_changed =1 AND c.user_id = "' . $_SESSION['user_id'] . '" AND c.parent_id = 0 AND c.is_gift = 0 AND c.goods_id > 0 AND c.rec_type = "' . $rec_type . '" ')
-			// 		->select();
-	
-	
+		if ($user_id > 0) {
 			$res = $db
 			->where(RC_DB::raw('c.mark_changed'), 1)
-			->where(RC_DB::raw('c.user_id'), $_SESSION['user_id'])
+			->where(RC_DB::raw('c.user_id'), $user_id)
 			->where(RC_DB::raw('c.parent_id'), 0)
 			->where(RC_DB::raw('c.is_gift'), 0)
 			->where(RC_DB::raw('c.goods_id'), '>', 0)
@@ -203,16 +179,9 @@ class cart_cashdesk {
 			->get();
 	
 		} else {
-			// 		$res = $dbview->join(array(
-			// 			'goods',
-			// 			'member_price'
-			// 		))
-			// 		->where('c.mark_changed =1 AND c.session_id = "' . SESS_ID . '" AND c.parent_id = 0 AND c.is_gift = 0 AND c.goods_id > 0 AND c.rec_type = "' . $rec_type . '" ')
-			// 		->select();
-	
 			$res = $db
 			->where(RC_DB::raw('c.mark_changed'), 1)
-			->where(RC_DB::raw('c.session_id'), SESS_ID)
+			->where(RC_DB::raw('c.user_id'), 0)
 			->where(RC_DB::raw('c.parent_id'), 0)
 			->where(RC_DB::raw('c.is_gift'), 0)
 			->where(RC_DB::raw('c.goods_id'), '>', 0)
@@ -232,19 +201,18 @@ class cart_cashdesk {
 							'mark_changed' => 0
 					);
 					if ($_SESSION['user_id']) {
-						$db_cart->where('goods_id = ' . $row['goods_id'] . ' AND user_id = "' . $_SESSION['user_id'] . '" AND rec_id = "' . $row['rec_id'] . '"')->update($data);
+						RC_DB::table('cart')->where('goods_id', $row['goods_id'])->where('user_id', $user_id)->where('rec_id', $row['rec_id'])->update($data);
 					} else {
-						$db_cart->where('goods_id = ' . $row['goods_id'] . ' AND session_id = "' . SESS_ID . '" AND rec_id = "' . $row['rec_id'] . '"')->update($data);
+						RC_DB::table('cart')->where('goods_id', $row['goods_id'])->where('rec_id', $row['rec_id'])->update($data);
 					}
 				}
 			}
 		}
 		/* 删除赠品，重新选择 */
-	
-		if ($_SESSION['user_id']) {
-			$db_cart->where('user_id = "' . $_SESSION['user_id'] . '" AND is_gift > 0')->delete();
+		if ($user_id > 0) {
+			RC_DB::table('cart')->where('store_id', $store_id)->where('user_id', $user_id)->where('is_gift', '>', 0)->delete();
 		} else {
-			$db_cart->where('session_id = "' . SESS_ID . '" AND is_gift > 0')->delete();
+			RC_DB::table('cart')->where('store_id', $store_id)->where('user_id', 0)->where('is_gift', '>', 0)->delete();
 		}
 	}
 	
@@ -260,10 +228,6 @@ class cart_cashdesk {
 	 * @return  boolean
 	 */
 	public static function addto_cart($goods_id, $num =1, $spec = array(), $parent = 0, $price = 0, $weight = 0, $flow_type = CART_GENERAL_GOODS, $pendorder_id = 0) {
-		$dbview 		= RC_Loader::load_app_model('sys_goods_member_viewmodel', 'goods');
-		$db_cart 		= RC_Loader::load_app_model('cart_model', 'cart');
-		$db_products 	= RC_Loader::load_app_model('products_model', 'goods');
-		$db_group 		= RC_Loader::load_app_model('group_goods_model', 'goods');
 		$_parent_id 	= $parent;
 		$num			= empty($num) ? 1 : $num;
 		RC_Loader::load_app_func('admin_order', 'orders');
@@ -279,23 +243,23 @@ class cart_cashdesk {
 		"g.promote_price as promote_price, ".
 		" g.promote_start_date, g.promote_end_date, g.goods_weight, g.integral, g.extension_code, g.goods_number, g.is_alone_sale, g.is_shipping, ".
 		"IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS shop_price ";
+		
 		/* 取得商品信息 */
-		$dbview->view = array(
-				'member_price' => array(
-						'type'     => Component_Model_View::TYPE_LEFT_JOIN,
-						'alias'    => 'mp',
-						'on'   	   => "mp.goods_id = g.goods_id AND mp.user_rank = '$_SESSION[user_rank]'"
-				)
-		);
-	
-		$where = array(
-				'g.goods_id' => $goods_id,
-				'g.is_delete' => 0,
-		);
+		$user_rank = empty($_SESSION['user_rank']) ? 0 : $_SESSION['user_rank'];
+		$dbview = RC_DB::table('goods as g')
+						->leftJoin('member_price as mp', function ($join)use($user_rank) {
+							$join->on(RC_DB::raw('mp.goods_id'), '=', RC_DB::raw('g.goods_id'))
+							->where(RC_DB::raw('mp.user_rank'), '=', $user_rank);
+						});
+						
+		$dbview->where(RC_DB::raw('g.goods_id'), $goods_id)->where(RC_DB::raw('g.is_delete'), 0);
+		
 		if (ecjia::config('review_goods') == 1) {
-			$where['g.review_status'] = array('gt' => 2);
+			$dbview->where(RC_DB::raw('g.review_status'), '>', 2);
 		}
-		$goods = $dbview->field($field)->join(array('member_price'))->find($where);
+		
+		$goods = $dbview->select(RC_DB::raw($field))->first();
+		
 		if (empty($goods)) {
 			return new ecjia_error('no_goods', __('对不起，指定的商品不存在！'));
 		}
@@ -305,11 +269,16 @@ class cart_cashdesk {
 		}
 		/* 如果是作为配件添加到购物车的，需要先检查购物车里面是否已经有基本件 */
 		if ($parent > 0) {
-			if ($_SESSION['user_id']) {
-				$count = $db_cart->where(array('goods_id' => $parent , 'user_id' => $_SESSION['user_id'] , 'extension_code' => array('neq' => 'package_buy')))->count();
+			$dbcart = RC_DB::table('cart');
+			if (!empty($_SESSION['user_id'])) {
+				$dbcart->where('user_id', $_SESSION['user_id']);
 			} else {
-				$count = $db_cart->where(array('goods_id' => $parent , 'session_id' => SESS_ID , 'extension_code' => array('neq' => 'package_buy')))->count();
+				$dbcart->where('user_id', 0);
 			}
+			if (!empty($_SESSION['store_id'])) {
+				$dbcart->where('store_id', $_SESSION['store_id']);
+			}
+			$count = $dbcart->where('goods_id', $parent)->count();
 			 
 			if ($count == 0) {
 				return new ecjia_error('addcart_error', __('对不起，您希望将该商品做为配件购买，可是购物车中还没有该商品的基本件。'));
@@ -321,13 +290,12 @@ class cart_cashdesk {
 			return new ecjia_error('addcart_error', __('购买失败'));
 		}
 		/* 如果商品有规格则取规格商品信息 配件除外 */
-		$prod = $db_products->find(array('goods_id' => $goods_id));
-	
-		if (is_spec($spec) && !empty($prod)) {
+		$prod = RC_DB::table('products')->where('goods_id', $goods_id)->count();
+		if (is_spec($spec) && $prod > 0) {
 			$product_info = get_products_info($goods_id, $spec);
 		}
 		if (empty($product_info)) {
-			$product_info = array('product_number' => '', 'product_id' => 0 , 'goods_attr'=>'');
+			$product_info = array('product_number' => 0, 'product_id' => 0 , 'goods_attr'=>'');
 		}
 	
 		/* 检查：库存 */
@@ -359,7 +327,7 @@ class cart_cashdesk {
 		/* 初始化要插入购物车的基本件数据 */
 		$parent = array(
 				'user_id'       => $_SESSION['user_id'],
-				'session_id'    => SESS_ID,
+				'session_id'	=> $_SESSION['device_id'],  //收银台购物车，此字段存储的值为设备收银设备id
 				'goods_id'      => $goods_id,
 				'goods_sn'      => $product_info['product_id'] > 0 ? addslashes($product_info['product_sn']) : addslashes($goods['goods_sn']),
 				'product_id'    => $product_info['product_id'],
@@ -380,8 +348,7 @@ class cart_cashdesk {
 		/* 如果该配件在添加为基本件的配件时，所设置的“配件价格”比原价低，即此配件在价格上提供了优惠， */
 		/* 则按照该配件的优惠价格卖，但是每一个基本件只能购买一个优惠价格的“该配件”，多买的“该配件”不享受此优惠 */
 		$basic_list = array();
-		$data = $db_group->field('parent_id, goods_price')->where('goods_id = '.$goods_id.' AND goods_price < "'.$goods_price.'" AND parent_id = '.$_parent_id.'')->order('goods_price asc')->select();
-	
+		$data	= RC_DB::table('group_goods')->select('parent_id', 'goods_price')->where('goods_id', $goods_id)->where('goods_price', '<', $goods_price)->where('parent_id', $_parent_id)->orderBy('goods_price', 'asc')->get();
 		if (!empty($data)) {
 			foreach ($data as $row) {
 				$basic_list[$row['parent_id']] = $row['goods_price'];
@@ -390,11 +357,19 @@ class cart_cashdesk {
 		/* 取得购物车中该商品每个基本件的数量 */
 		$basic_count_list = array();
 		if ($basic_list) {
-			if ($_SESSION['user_id']) {
-				$data = $db_cart->field('goods_id, SUM(goods_number)|count')->where(array('user_id'=>$_SESSION['user_id'],'parent_id' => '0' , extension_code =>array('neq'=>"package_buy")))->in(array('goods_id'=>array_keys($basic_list)))->order('goods_id asc')->select();
+			$db_basic_cart = RC_DB::table('cart');
+			if (!empty($_SESSION['user_id'])){
+				$db_basic_cart->where('user_id', $_SESSION['user_id']);
 			} else {
-				$data = $db_cart->field('goods_id, SUM(goods_number)|count')->where(array('session_id'=>SESS_ID,'parent_id' => '0' , extension_code =>array('neq'=>"package_buy")))->in(array('goods_id'=>array_keys($basic_list)))->order('goods_id asc')->select();
+				$db_basic_cart->where('user_id', 0);
 			}
+			if (!empty($_SESSION['store_id'])) {
+				$db_basic_cart->where('store_id', $_SESSION['store_id']);
+			}
+			if (!empty(array_keys($basic_list))){
+				$db_basic_cart->whereIn('goods_id', array_keys($basic_list));
+			}
+			$data = $db_basic_cart->where('parent_id', 0)->select(RC_DB::raw('goods_id, SUM(goods_number) as count'))->orderBy('goods_id', 'asc')->get();
 			if(!empty($data)) {
 				foreach ($data as $row) {
 					$basic_count_list[$row['goods_id']] = $row['count'];
@@ -404,12 +379,19 @@ class cart_cashdesk {
 		/* 取得购物车中该商品每个基本件已有该商品配件数量，计算出每个基本件还能有几个该商品配件 */
 		/* 一个基本件对应一个该商品配件 */
 		if ($basic_count_list) {
-			if ($_SESSION['user_id']) {
-				$data = $db_cart->field('parent_id, SUM(goods_number)|count')->where(array('user_id' => $_SESSION['user_id'],'goods_id'=>$goods_id,extension_code =>array('neq'=>"package_buy")))->in(array('parent_id'=>array_keys($basic_count_list)))->order('parent_id asc')->select();
+			$dbcart_basic_count = RC_DB::table('cart');
+			if (!empty($_SESSION['user_id'])){
+				$dbcart_basic_count->where('user_id', $_SESSION['user_id']);
 			} else {
-				$data = $db_cart->field('parent_id, SUM(goods_number)|count')->where(array('session_id' => SESS_ID,'goods_id'=>$goods_id,extension_code =>array('neq'=>"package_buy")))->in(array('parent_id'=>array_keys($basic_count_list)))->order('parent_id asc')->select();
+				$dbcart_basic_count->where('user_id', 0);
 			}
-			 
+			if (!empty($_SESSION['store_id'])) {
+				$dbcart_basic_count->where('store_id', $_SESSION['store_id']);
+			}
+			if (!empty(array_keys($basic_count_list))) {
+				$dbcart_basic_count->whereIn('goods_id', array_keys($basic_count_list));
+			}
+			$data = $dbcart_basic_count->where('goods_id', $goods_id)->select(RC_DB::raw('parent_id, SUM(goods_number) as count'))->orderBy('parent_id', 'asc')->get();
 			if(!empty($data)) {
 				foreach ($data as $row) {
 					$basic_count_list[$row['parent_id']] -= $row['count'];
@@ -441,7 +423,7 @@ class cart_cashdesk {
 	
 	
 			/* 添加 */
-			$db_cart->insert($parent);
+			RC_DB::table('cart')->insert($parent);
 			/* 改变数量 */
 			$num -= $parent['goods_number'];
 		}
@@ -449,33 +431,22 @@ class cart_cashdesk {
 		/* 如果数量不为0，作为基本件插入 */
 		if ($num > 0) {
 			/* 检查该商品是否已经存在在购物车中 */
-			if ($_SESSION['user_id']) {
-				$row = $db_cart->field('rec_id, goods_number, pendorder_id')->find('user_id = "' .$_SESSION['user_id']. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" AND pendorder_id = "'.$pendorder_id.'" ');
-			} else {
-				$row = $db_cart->field('rec_id, goods_number, pendorder_id')->find('session_id = "' .SESS_ID. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" AND pendorder_id = "'.$pendorder_id.'" ');
-			}
+			$db_cart = RC_DB::table('cart');
+			$db_cart->where('goods_id', $goods_id)
+					->where('parent_id', 0)
+					->where('rec_type', $rec_type)
+					->where('pendorder_id', $pendorder_id);
 			
-			/* 限购判断*/
-// 			if ($goods['is_xiangou'] > 0) {
-// 				$order_info_viewdb = RC_Loader::load_app_model('order_info_viewmodel', 'orders');
-// 				$order_info_viewdb->view = array(
-// 						'order_goods' => array(
-// 								'type'	=> Component_Model_View::TYPE_LEFT_JOIN,
-// 								'alias' => 'g',
-// 								'on'	=> 'oi.order_id = g.order_id '
-// 						)
-// 				);
-// 				$xiangou = array(
-// 						'oi.add_time >=' . $goods['xiangou_start_date'] . ' and oi.add_time <=' .$goods['xiangou_end_date'],
-// 						'g.goods_id'	=> $goods['goods_id'],
-// 						'oi.user_id'	=> $_SESSION['user_id'],
-// 				);
-// 				$xiangou_info = $order_info_viewdb->join(array('order_goods'))->field(array('sum(goods_number) as number'))->where($xiangou)->find();
-	
-// 				if ($xiangou_info['number'] + $row['goods_number'] >= $goods['xiangou_num']) {
-// 					return new ecjia_error('xiangou_error', __('该商品已限购'));
-// 				}
-// 			}
+			if (!empty($goods_attr)) {
+				$db_cart->where('goods_attr', get_goods_attr_info($spec));
+			}
+			if (!empty($_SESSION['user_id'])) {
+				$db_cart->where('user_id', $_SESSION['user_id']);
+			}
+			if (!empty($_SESSION['store_id'])) {
+				$db_cart->where('store_id', $_SESSION['store_id']);
+			}
+			$row = $db_cart->first();
 			
 			if($row) {
 				if (empty($price) && empty($weight)) {
@@ -497,11 +468,19 @@ class cart_cashdesk {
 											'goods_number' => $num,
 											'goods_price'  => $goods_price,
 									);
-									if ($_SESSION['user_id']) {
-										$db_cart->where('user_id = "' .$_SESSION['user_id']. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" AND pendorder_id ="'.$pendorder_id.'" ')->update($data);
-									} else {
-										$db_cart->where('session_id = "' .SESS_ID. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" AND pendorder_id ="'.$pendorder_id.'" ')->update($data);
+									$db_cart_update = RC_DB::table('cart');
+									if (!empty($_SESSION['store_id'])) {
+										$db_cart_update->where('store_id', $_SESSION['store_id']);
 									}
+									if (!empty($_SESSION['user_id'])) {
+										$db_cart_update->where('user_id', $_SESSION['user_id']);
+									} else {
+										$db_cart_update->where('user_id', 0);
+									}
+									if (!empty($goods_attr)) {
+										$db_cart_update->where('goods_attr', get_goods_attr_info($spec));
+									}
+									$db_cart_update->where('goods_id', $goods_id)->where('parent_id', 0)->where('rec_type', $rec_type)->where('pendorder_id', $pendorder_id)->update($data);
 								} else {
 									return new ecjia_error('low_stocks', __('库存不足'));
 								}
@@ -511,7 +490,7 @@ class cart_cashdesk {
 							$parent['goods_price']  = max($goods_price, 0);
 							$parent['goods_number'] = $num;
 							$parent['parent_id']    = 0;
-							$cart_id = $db_cart->insert($parent);
+							$cart_id = RC_DB::table('cart')->insertGetId($parent);
 						}
 					} else { //当前数据为非挂单数据
 						if (!empty($pendorder_id)) { //当前操作为挂单继续添加
@@ -519,7 +498,7 @@ class cart_cashdesk {
 							$parent['goods_price']  = max($goods_price, 0);
 							$parent['goods_number'] = $num;
 							$parent['parent_id']    = 0;
-							$cart_id = $db_cart->insert($parent);
+							$cart_id = RC_DB::table('cart')->insertGetId($parent);
 						} else {  //当前操作为非挂单添加
 							$num += $row['goods_number'];
 							
@@ -530,11 +509,19 @@ class cart_cashdesk {
 											'goods_number' => $num,
 											'goods_price'  => $goods_price,
 									);
-									if ($_SESSION['user_id']) {
-										$db_cart->where('user_id = "' .$_SESSION['user_id']. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" AND pendorder_id ="'.$pendorder_id.'" ')->update($data);
-									} else {
-										$db_cart->where('session_id = "' .SESS_ID. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec).'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" AND pendorder_id ="'.$pendorder_id.'" ')->update($data);
+									$db_update_cart = RC_DB::table('cart');
+									if (!empty($_SESSION['store_id'])) {
+										$db_update_cart->where('store_id', $_SESSION['store_id']);
 									}
+									if (!empty($_SESSION['user_id'])) {
+										$db_update_cart->where('user_id', $_SESSION['user_id']);
+									} else {
+										$db_update_cart->where('user_id', 0);
+									}
+									if (!empty($goods_attr)) {
+										$db_update_cart->where('goods_attr', get_goods_attr_info($spec));
+									}
+									$db_update_cart->where('goods_id', $goods_id)->where('parent_id', 0)->where('rec_type', $rec_type)->where('pendorder_id', $pendorder_id)->update($data);
 								} else {
 									return new ecjia_error('low_stocks', __('库存不足'));
 								}
@@ -546,14 +533,14 @@ class cart_cashdesk {
 					$num = 1;
 					$goods_price = get_final_price($goods_id, $num, true, $spec);
 					$parent['goods_price']  = max($goods_price, 0);
-					//$parent['goods_price']  = formated_price_bulk($parent['goods_price']);
 					$parent['goods_number'] = $num;
 					$parent['parent_id']    = 0;
 					$parent['extension_code']  = !empty($goods['extension_code']) ? $goods['extension_code'] : '';
 					//传的是总重量（克）；cart表goods_buy_weight字段存千克
+					
+					$weight = $weight/1000;//换算成千克
+					
 					if (!empty($weight) && empty($price)) {
-						//换算成千克
-						$weight = $weight/1000;
 						//根据重量获取散装商品总价
 						$total_bulkgoods_price = self::get_total_bulkgoods_price(array('weight' => $weight, 'goods_price' => $parent['goods_price'], 'weight_unit' => $goods['weight_unit'], 'goods_id' => $goods_id));
 						$parent['goods_price'] = self::formated_price_bulk($total_bulkgoods_price);
@@ -564,8 +551,11 @@ class cart_cashdesk {
 						//根据总价获取散装商品总重量
 						$parent['goods_price'] = self::formated_price_bulk($price);
 						//$parent['goods_buy_weight'] = self::formated_weight_bulk($weight_final);
+					} else {
+						$parent['goods_price'] = self::formated_price_bulk($price);
+						$parent['goods_buy_weight'] = self::formated_weight_bulk($weight);
 					}
-					$cart_id = $db_cart->insert($parent);
+					$cart_id = RC_DB::table('cart')->insertGetId($parent);
 				}
 			} else {
 				//购物车没有此物品，则插入
@@ -580,9 +570,10 @@ class cart_cashdesk {
 					$parent['goods_price']  = max($goods_price, 0);
 					$parent['goods_number'] = $num;
 					$parent['extension_code']  = !empty($goods['extension_code']) ? $goods['extension_code'] : '';
+					//换算成千克
+					$weight = $weight/1000;
+					
 					if (!empty($weight) && empty($price)) {
-						//换算成千克
-						$weight = $weight/1000;
 						$total_bulkgoods_price = self::get_total_bulkgoods_price(array('weight' => $weight, 'goods_price' => $parent['goods_price'], 'weight_unit' => $goods['weight_unit'], 'goods_id' => $goods_id));
 						$parent['goods_price'] = self::formated_price_bulk($total_bulkgoods_price);
 						$parent['goods_buy_weight'] = $weight;
@@ -592,18 +583,21 @@ class cart_cashdesk {
 						//根据总价获取散装商品总重量
 						$parent['goods_price'] = self::formated_price_bulk($price);
 						//$parent['goods_buy_weight'] = $weight_final;
+					} else {
+						$parent['goods_price'] = self::formated_price_bulk($price);
+						$parent['goods_buy_weight'] = self::formated_weight_bulk($weight);
 					}
 				}
 				
-				$cart_id = $db_cart->insert($parent);
+				$cart_id = RC_DB::table('cart')->insertGetId($parent);
 			}
 		}
 	
 		/* 把赠品删除 */
 		if ($_SESSION['user_id']) {
-			$db_cart->where(array('user_id' => $_SESSION['user_id'] , 'is_gift' => array('neq' => 0)))->delete();
+			RC_DB::table('cart')->where('store_id', $_SESSION['store_id'])->where('user_id', $_SESSION['user_id'])->where('is_gift', '>', 0)->delete();
 		} else {
-			$db_cart->where(array('session_id' => SESS_ID , 'is_gift' => array('neq' => 0)))->delete();
+			RC_DB::table('cart')->where('store_id', $_SESSION['store_id'])->where('user_id', 0)->where('is_gift', '>', 0)->delete();
 		}
 		return $cart_id;
 	}
@@ -646,7 +640,7 @@ class cart_cashdesk {
 				$goods = RC_DB::table('cart')
 				->select(RC_DB::raw('goods_id, goods_attr_id, product_id, extension_code'))
 				->where('rec_id', $key)
-				->where('session_id', SESS_ID)
+				->where('user_id', 0)
 				->first();
 			}
 			$row = RC_DB::table('goods as g')
@@ -693,8 +687,8 @@ class cart_cashdesk {
 				$offers_accessories_res = RC_DB::table('cart as a')
 				->leftJoin('cart as b', RC_DB::raw('b.parent_id'), '=', RC_DB::raw('a.goods_id'))
 				->where(RC_DB::raw('a.rec_id'), $key)
-				->where(RC_DB::raw('a.session_id'), SESS_ID)
-				->where(RC_DB::raw('b.session_id'), SESS_ID)
+				->where(RC_DB::raw('a.user_id'), 0)
+				->where(RC_DB::raw('b.user_id'), 0)
 				->get();
 			}
 	
@@ -712,7 +706,6 @@ class cart_cashdesk {
 								->delete();
 							} else {
 								RC_DB::table('cart')
-								->where('session_id', SESS_ID)
 								->where('rec_id', $offers_accessories_row['rec_id'])
 								->delete();
 							}
@@ -731,7 +724,6 @@ class cart_cashdesk {
 						->update(array('goods_number' => $val));
 					} else {
 						RC_DB::table('cart')
-						->where('session_id', SESS_ID)
 						->where('rec_id', $key)
 						->update(array('goods_number' => $val));
 					}
@@ -748,7 +740,6 @@ class cart_cashdesk {
 						->update(array('goods_number' => $val , 'goods_price' => $goods_price));
 					} else {
 						RC_DB::table('cart')
-						->where('session_id', SESS_ID)
 						->where('rec_id', $key)
 						->update(array('goods_number' => $val , 'goods_price' => $goods_price));
 					}
@@ -766,7 +757,6 @@ class cart_cashdesk {
 	
 						} else {
 							RC_DB::table('cart')
-							->where('session_id', SESS_ID)
 							->where('rec_id', $offers_accessories_row['rec_id'])
 							->delete();
 						}
@@ -780,7 +770,6 @@ class cart_cashdesk {
 					->delete();
 				} else {
 					RC_DB::table('cart')
-					->where('session_id', SESS_ID)
 					->where('rec_id', $key)
 					->delete();
 				}
@@ -795,7 +784,7 @@ class cart_cashdesk {
 			->delete();
 		} else {
 			RC_DB::table('cart')
-			->where('session_id', SESS_ID)
+			->where('user_id', 0)
 			->where('is_gift', '!=', 0)
 			->delete();
 		}
@@ -805,16 +794,14 @@ class cart_cashdesk {
 	 * 计算折扣：根据购物车和优惠活动
 	 * @return  float   折扣
 	 */
-	public static function compute_discount($type = 0, $newInfo = array(), $cart_id = array(), $user_type = 0, $rec_type = CART_GENERAL_GOODS) {
-		//$db 			= RC_Loader::load_app_model('favourable_activity_model', 'favourable');
-		$db_cartview 	= RC_Loader::load_app_model('cart_good_member_viewmodel', 'cart');
-		
+	public static function compute_discount($type = 0, $newInfo = array(), $cart_id = array(), $user_type = 0, $rec_type = CART_GENERAL_GOODS, $store_id = 0) {
+		$db_cartview	= RC_DB::table('cart as c')->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'));
 		$db				= RC_DB::table('favourable_activity');
+		
 		/* 查询优惠活动 */
 		$now = RC_Time::gmtime();
 		$user_rank = ',' . $_SESSION['user_rank'] . ',';
 	
-		//$favourable_list = $db->where("start_time <= '$now' AND end_time >= '$now' AND CONCAT(',', user_rank, ',') LIKE '%" . $user_rank . "%'")->in(array('act_type'=>array(FAT_DISCOUNT, FAT_PRICE)))->select();
 		$favourable_list   = $db->where('start_time', '<=', $now)->where('end_time', '>=', $now)->whereRaw("CONCAT(',', user_rank, ',') LIKE '%" . $user_rank . "%'")->whereIn('act_type', array(FAT_DISCOUNT, FAT_PRICE))->get();
 		
 		if (!$favourable_list) {
@@ -823,32 +810,30 @@ class cart_cashdesk {
 	
 		if ($type == 0) {
 			/* 查询购物车商品 */
-			$db_cartview->view = array(
-					'goods' => array(
-							'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-							'alias' => 'g',
-							'field' => " c.goods_id, c.store_id, c.goods_price * c.goods_number AS subtotal, g.cat_id, g.brand_id",
-							'on'   	=> 'c.goods_id = g.goods_id'
-					)
-			);
-			$where = empty($cart_id) ? '' : array('rec_id' => $cart_id);
-			if ($_SESSION['user_id']) {
-				$wheres = !empty ($where) ? array_merge($where, array('c.user_id' => $_SESSION['user_id'] , 'c.parent_id' => 0 , 'c.is_gift' => 0 , 'rec_type' => $rec_type)) : array('c.user_id' => $_SESSION['user_id'] , 'c.parent_id' => 0 , 'c.is_gift' => 0 , 'rec_type' => $rec_type);
-				$goods_list = $db_cartview->where($wheres)->select();
-			} else {
-				$wheres = !empty ($where) ? array_merge($where, array('c.session_id' => SESS_ID , 'c.parent_id' => 0 , 'c.is_gift' => 0 , 'rec_type' => $rec_type)) : array('c.session_id' => SESS_ID , 'c.parent_id' => 0 , 'c.is_gift' => 0 , 'rec_type' => $rec_type);
-				$goods_list = $db_cartview->where($wheres)->select();
+			$field = "c.goods_id, c.store_id, (c.goods_price * c.goods_number) AS subtotal, g.cat_id, g.brand_id";
+			if (is_array($cart_id) && !empty($cart_id)) {
+				$db_cartview->whereIn(RC_DB::raw('c.rec_id'), $cart_id);
 			}
+			if ($_SESSION['user_id'] > 0) {
+				$db_cartview->where(RC_DB::raw('c.user_id'), $_SESSION['user_id']);
+			} else {
+				$db_cartview->where(RC_DB::raw('c.user_id'), 0);
+			}
+			if ($store_id > 0) {
+				$db_cartview->where(RC_DB::raw('c.store_id'), $_SESSION['store_id']);
+			}
+			$db_cartview->where(RC_DB::raw('c.parent_id'), 0)->where(RC_DB::raw('c.is_gift'), 0)->where(RC_DB::raw('c.rec_type'), $rec_type);
+			$goods_list = $db_cartview->select(RC_DB::raw($field))->get();
+			
 		} elseif ($type == 2) {
-			$db_goods = RC_Loader::load_app_model('goods_model', 'goods');
 			$goods_list = array();
 			foreach ($newInfo as $key => $row) {
-				$order_goods = $db_goods->field('cat_id, brand_id')->where(array('goods_id' => $row['goods_id']))->find();
-				$goods_list[$key]['goods_id'] = $row['goods_id'];
-				$goods_list[$key]['cat_id'] = $order_goods['cat_id'];
-				$goods_list[$key]['brand_id'] = $order_goods['brand_id'];
-				$goods_list[$key]['ru_id'] = $row['ru_id'];
-				$goods_list[$key]['subtotal'] = $row['goods_price'] * $row['goods_number'];
+				$order_goods = RC_DB::table('goods')->where('goods_id', $row['goods_id'])->first();
+				$goods_list[$key]['goods_id'] 	= $row['goods_id'];
+				$goods_list[$key]['cat_id'] 	= $order_goods['cat_id'];
+				$goods_list[$key]['brand_id'] 	= $order_goods['brand_id'];
+				$goods_list[$key]['store_id'] 	= $row['store_id'];
+				$goods_list[$key]['subtotal'] 	= $row['goods_price'] * $row['goods_number'];
 			}
 		}
 	
@@ -979,12 +964,11 @@ class cart_cashdesk {
 	 * @param   bool    $is_gb_deposit  是否团购保证金（如果是，应付款金额只计算商品总额和支付费用，可以获得的积分取 $gift_integral）
 	 * @return  array
 	 */
-	public static function cashdesk_order_fee($order, $goods, $consignee = array(), $cart_id = array(), $rec_type = CART_GENERAL_GOODS, $pendorder_id = 0) {
+	public static function cashdesk_order_fee($order, $goods, $consignee = array(), $cart_id = array(), $rec_type = CART_CASHDESK_GOODS, $pendorder_id = 0, $store_id = 0) {
 	
 		RC_Loader::load_app_func('global','goods');
-// 		RC_Loader::load_app_func('cart','cart');
-		$db 	= RC_Loader::load_app_model('cart_model', 'cart');
-		$dbview = RC_Loader::load_app_model('cart_exchange_viewmodel', 'cart');
+		$pendorder_id = empty($pendorder_id) ? 0 : $pendorder_id;
+		
 		/* 初始化订单的扩展code */
 		if (!isset($order['extension_code'])) {
 			$order['extension_code'] = '';
@@ -1044,7 +1028,7 @@ class cart_cashdesk {
 		/* 折扣 */
 		
 		if ($order['extension_code'] != 'group_buy') {
-			$discount = self::compute_discount(0, array(), $cart_id, 0, $rec_type);
+			$discount = self::compute_discount(0, array(), $cart_id, 0, $rec_type, $store_id);
 			$total['discount'] = round($discount['discount'], 2);
 			if ($total['discount'] > $total['goods_price']) {
 				$total['discount'] = $total['goods_price'];
@@ -1101,13 +1085,15 @@ class cart_cashdesk {
 			$total['bonus_kill_formated'] = price_format($total['bonus_kill'], false);
 		}
 	
+		$shipping_cod_fee = NULL;
+		
 		$total['shipping_fee']		= 0;
 		$total['shipping_insure']	= 0;
 		$total['shipping_fee_formated']    = price_format($total['shipping_fee'], false);
 		$total['shipping_insure_formated'] = price_format($total['shipping_insure'], false);
 	
 		// 活动优惠总金额
-		$discount_amount = self::compute_discount_amount();
+		$discount_amount = self::compute_discount_amount($cart_id, $rec_type, $store_id);
 		// 红包和积分最多能支付的金额为商品总额
 		//$max_amount 还需支付商品金额=商品金额-红包-优惠-积分
 		$max_amount = $total['goods_price'] == 0 ? $total['goods_price'] : $total['goods_price'] - $discount_amount;
@@ -1181,22 +1167,13 @@ class cart_cashdesk {
 		} elseif ($order['extension_code'] == 'exchange_goods') {
 			$total['will_get_integral'] = 0;
 		} else {
-			$total['will_get_integral'] = self::get_give_integral($goods);
+			$total['will_get_integral'] = self::get_give_integral( $cart_id, $rec_type);
 		}
 	
 		$total['will_get_bonus']        = $order['extension_code'] == 'exchange_goods' ? 0 : price_format(get_total_bonus(), false);
 		$total['formated_goods_price']  = price_format($total['goods_price'], false);
 		$total['formated_market_price'] = price_format($total['market_price'], false);
 		$total['formated_saving']       = price_format($total['saving'], false);
-	
-		if ($order['extension_code'] == 'exchange_goods') {
-			if ($_SESSION['user_id']) {
-				$exchange_integral = $dbview->join('exchange_goods')->where(array('c.user_id' => $_SESSION['user_id'] , 'c.rec_type' => CART_EXCHANGE_GOODS , 'c.is_gift' => 0 ,'c.goods_id' => array('gt' => 0)))->group('eg.goods_id')->sum('eg.exchange_integral');
-			} else {
-				$exchange_integral = $dbview->join('exchange_goods')->where(array('c.session_id' => SESS_ID , 'c.rec_type' => CART_EXCHANGE_GOODS , 'c.is_gift' => 0 ,'c.goods_id' => array('gt' => 0)))->group('eg.goods_id')->sum('eg.exchange_integral');
-			}
-			$total['exchange_integral'] = $exchange_integral;
-		}
 	
 		return $total;
 	}
@@ -1357,41 +1334,36 @@ class cart_cashdesk {
 	 * 计算购物车中的商品能享受红包支付的总额
 	 * @return  float   享受红包支付的总额
 	 */
-	public static function compute_discount_amount($cart_id = array()) {
-		//$db 			= RC_Loader::load_app_model('favourable_activity_model', 'favourable');
-		$db_cartview 	= RC_Loader::load_app_model('cart_good_member_viewmodel', 'cart');
+	public static function compute_discount_amount($cart_id = array(), $rec_type = CART_GENERAL_GOODS, $store_id = 0) {
 		$db				= RC_DB::table('favourable_activity');
 		/* 查询优惠活动 */
 		$now = RC_Time::gmtime();
 		$user_rank = ',' . $_SESSION['user_rank'] . ',';
 	
-		//$favourable_list = $db->where('start_time <= '.$now.' AND end_time >= '.$now.' AND CONCAT(",", user_rank, ",") LIKE "%' . $user_rank . '%" ')->in(array('act_type' => array(FAT_DISCOUNT, FAT_PRICE)))->select();
 		$favourable_list   = $db->where('start_time', '<=', $now)->where('end_time', '>=', $now)->whereRaw('CONCAT(",", user_rank, ",") LIKE "%' . $user_rank . '%"')->whereIn('act_type', array(FAT_DISCOUNT, FAT_PRICE))->get();
 		if (!$favourable_list) {
 			return 0;
 		}
 	
 		/* 查询购物车商品 */
-		$db_cartview->view = array(
-				'goods' => array(
-						'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-						'alias' => 'g',
-						'field' => " c.goods_id, c.goods_price * c.goods_number AS subtotal, g.cat_id, g.brand_id",
-						'on'    => 'c.goods_id = g.goods_id'
-				)
-		);
-		$cart_where = array('c.parent_id' => 0 , 'c.is_gift' => 0 , 'rec_type' => CART_GENERAL_GOODS);
-		if (!empty($cart_id)) {
-			$cart_where = array_merge($cart_where, array('c.rec_id' => $cart_id));
+		$db_cartview = RC_DB::table('cart as c')->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'));
+		$db_cartview->where(RC_DB::raw('c.parent_id'), 0)->where(RC_DB::raw('c.is_gift'), 0)->where(RC_DB::raw('c.rec_type'), $rec_type);
+		
+		if (is_array($cart_id) && !empty($cart_id)) {
+			$db_cartview->whereIn(RC_DB::raw('c.rec_id'), $cart_id);
 		}
-		if ($_SESSION['user_id']) {
-			$cart_where = array_merge($cart_where, array('c.user_id' => $_SESSION['user_id']));
-			$goods_list = $db_cartview->where($cart_where)->select();
+		if (!empty($store_id)) {
+			$db_cartview->where(RC_DB::raw('c.store_id'), $store_id);
+		}
+		if (!empty($_SESSION['user_id'])) {
+			$db_cartview->where(RC_DB::raw('c.user_id'), $_SESSION['user_id']);
 		} else {
-			$cart_where = array_merge($cart_where, array('c.session_id' => SESS_ID));
-			$goods_list = $db_cartview->where($cart_where)->select();
+			$db_cartview->where(RC_DB::raw('c.user_id'), 0);
 		}
-	
+		
+		$filed = "c.goods_id, c.goods_price * c.goods_number AS subtotal, g.cat_id, g.brand_id";
+		
+		$goods_list = $db_cartview->select(RC_DB::raw($filed))->get();
 		if (!$goods_list) {
 			return 0;
 		}
@@ -1461,24 +1433,23 @@ class cart_cashdesk {
 	 * 取得购物车该赠送的积分数
 	 * @return  int	 积分数
 	 */
-	public static function get_give_integral() {
-	
-		$db_cartview = RC_Loader::load_app_model('cart_good_member_viewmodel', 'cart');
-	
-		$db_cartview->view = array(
-				'goods' => array(
-						'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-						'alias' => 'g',
-						'field' => "c.rec_id, c.goods_id, c.goods_attr_id, g.promote_price, g.promote_start_date, c.goods_number,g.promote_end_date, IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS member_price",
-						'on'    => 'g.goods_id = c.goods_id'
-				),
-		);
-		$field = array();
+	public static function get_give_integral( $cart_id = array(), $rec_type = CART_GENERAL_GOODS) {
+		
+		$field = "c.rec_id, c.goods_id, c.goods_attr_id, g.promote_price, g.promote_start_date, c.goods_number,g.promote_end_date, IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS member_price";
+		
+		$db_cartview = RC_DB::table('cart as c')->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('c.goods_id'));
+		
+		$db_cartview->where(RC_DB::raw('c.goods_id'), '>', 0)->where(RC_DB::raw('c.parent_id'), 0)->where(RC_DB::raw('c.is_gift'), 0);
 		if ($_SESSION['user_id']) {
-			return  intval($db_cartview->where(array('c.user_id' => $_SESSION['user_id'] , 'c.goods_id' => array('gt' => 0) ,'c.parent_id' => 0 ,'c.rec_type' => 0 , 'c.is_gift' => 0))->sum('c.goods_number * IF(g.give_integral > -1, g.give_integral, c.goods_price)'));
+			$db_cartview->where(RC_DB::raw('c.user_id'), $_SESSION['user_id']);
 		} else {
-			return  intval($db_cartview->where(array('c.session_id' => SESS_ID , 'c.goods_id' => array('gt' => 0) ,'c.parent_id' => 0 ,'c.rec_type' => 0 , 'c.is_gift' => 0))->sum('c.goods_number * IF(g.give_integral > -1, g.give_integral, c.goods_price)'));
+			$db_cartview->where(RC_DB::raw('c.user_id'), 0);
 		}
+		if (is_array($cart_id) && !empty($cart_id)) {
+			$db_cartview->whereIn(RC_DB::raw('c.rec_id'), $cart_id);
+		}
+		$integral = $db_cartview->pluck(RC_DB::raw('sum(c.goods_number * IF(g.give_integral > -1, g.give_integral, c.goods_price))'));
+		return intval($integral);
 	}
 	
 	

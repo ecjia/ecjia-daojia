@@ -52,95 +52,6 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class cart_goods_stock {
 	
 	/**
-	 * 获得购物车中的商品
-	 * @access  public
-	 * @return  array
-	 */
-	public static function get_cart_goods($cart_id = array(), $flow_type = CART_GENERAL_GOODS) {
-		RC_Loader::load_app_func('global', 'goods');
-		$db_cart 		= RC_Loader::load_app_model('cart_model', 'cart');
-		$db_goods_attr 	= RC_Loader::load_app_model('goods_attr_model','goods');
-		//$db_goods 		= RC_Loader::load_app_model('goods_model','goods');
-	
-		/* 初始化 */
-		$goods_list = array();
-		$total = array(
-				'goods_price'  => 0, // 本店售价合计（有格式）
-				'market_price' => 0, // 市场售价合计（有格式）
-				'saving'       => 0, // 节省金额（有格式）
-				'save_rate'    => 0, // 节省百分比
-				'goods_amount' => 0, // 本店售价合计（无格式）
-		);
-	
-		/* 循环、统计 */
-		$cart_where = array('rec_type' => $flow_type);
-		if (!empty($cart_id)) {
-			$cart_where = array_merge($cart_where, array('rec_id' => $cart_id));
-		}
-		if ($_SESSION['user_id']) {
-			$cart_where = array_merge($cart_where, array('user_id' => $_SESSION['user_id']));
-		} else {
-			$cart_where = array_merge($cart_where, array('session_id' => SESS_ID));
-		}
-		$data = $db_cart->field('*,IF(parent_id, parent_id, goods_id)|pid')->where($cart_where)->order(array('pid'=>'asc', 'parent_id'=>'asc'))->select();
-	
-		/* 用于统计购物车中实体商品和虚拟商品的个数 */
-		$virtual_goods_count = 0;
-		$real_goods_count    = 0;
-	
-		if (!empty($data)) {
-			foreach ($data as $row) {
-				$total['goods_price']  += $row['goods_price'] * $row['goods_number'];
-				$total['market_price'] += $row['market_price'] * $row['goods_number'];
-				$row['subtotal']     	= price_format($row['goods_price'] * $row['goods_number'], false);
-				$row['goods_price']  	= price_format($row['goods_price'], false);
-				$row['market_price'] 	= price_format($row['market_price'], false);
-	
-				/* 统计实体商品和虚拟商品的个数 */
-				if ($row['is_real']) {
-					$real_goods_count++;
-				} else {
-					$virtual_goods_count++;
-				}
-	
-				/* 查询规格 */
-				if (trim($row['goods_attr']) != '') {
-					$row['goods_attr'] = addslashes($row['goods_attr']);
-					$attr_list = $db_goods_attr->field('attr_value')->in(array('goods_attr_id' =>$row['goods_attr_id']))->select();
-					foreach ($attr_list AS $attr) {
-						$row['goods_name'] .= ' [' . $attr[attr_value] . '] ';
-					}
-				}
-				/* 增加是否在购物车里显示商品图 */
-				if ((ecjia::config('show_goods_in_cart') == "2" || ecjia::config('show_goods_in_cart') == "3") &&
-					$row['extension_code'] != 'package_buy') {
-					//$goods_thumb 		= $db_goods->field('goods_thumb')->find(array('goods_id' => '{'.$row['goods_id'].'}'));
-					//$row['goods_thumb'] = get_image_path($row['goods_id'], $goods_thumb, true);
-					$goods_thumb = RC_DB::table('goods')->where('goods_id', $row['goods_id'])->pluck('goods_thumb');
-					$row['goods_thumb'] = empty($goods_thumb) ? RC_Uri::admin_url('statics/images/nopic.png') : RC_Upload::upload_url() . '/' . $goods_thumb;
-				}
-				if ($row['extension_code'] == 'package_buy') {
-					$row['package_goods_list'] = get_package_goods($row['goods_id']);
-				}
-				$goods_list[] = $row;
-			}
-		}
-		$total['goods_amount'] = $total['goods_price'];
-		$total['saving']       = price_format($total['market_price'] - $total['goods_price'], false);
-		if ($total['market_price'] > 0) {
-			$total['save_rate'] = $total['market_price'] ? round(($total['market_price'] - $total['goods_price']) *
-					100 / $total['market_price']).'%' : 0;
-		}
-		$total['goods_price']  			= price_format($total['goods_price'], false);
-		$total['market_price'] 			= price_format($total['market_price'], false);
-		$total['real_goods_count']    	= $real_goods_count;
-		$total['virtual_goods_count'] 	= $virtual_goods_count;
-	
-		return array('goods_list' => $goods_list, 'total' => $total);
-	}
-	
-	
-	/**
 	 * 检查订单中商品库存
 	 *
 	 * @access  public
@@ -155,16 +66,12 @@ class cart_goods_stock {
 				continue;
 			}
 	
-			$db_cart = RC_Loader::load_app_model('cart_model', 'cart');
-			$db_products = RC_Loader::load_app_model('products_model', 'goods');
-			$dbview = RC_Loader::load_app_model('goods_cart_viewmodel', 'goods');
-			if ($_SESSION['user_id']) {
-				$goods = $db_cart->field('goods_id,goods_attr_id,extension_code, product_id')->find(array('rec_id' => $key , 'user_id' => $_SESSION['user_id']));
-			} else {
-				$goods = $db_cart->field('goods_id,goods_attr_id,extension_code, product_id')->find(array('rec_id' => $key , 'session_id' => SESS_ID));
-			}
-	
-			$row   = $dbview->field('c.product_id, c.extension_code, c.goods_buy_weight, g.is_on_sale, g.is_delete')->join('cart')->find(array('c.rec_id' => $key));
+			$db_cart = RC_DB::table('cart');
+			$db_cart->where('user_id', $_SESSION['user_id']);
+			$goods = $db_cart->select(RC_DB::raw('goods_id,goods_attr_id,extension_code, product_id'))->where('rec_id', $key)->first();
+			
+			$row	 = 	RC_DB::table('goods')->leftJoin('cart', 'goods.goods_id', '=', 'cart.goods_id')->where('cart.rec_id', $key)->first();
+			
 			//系统启用了库存，检查输入的商品数量是否有效
 			if (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] != 'package_buy') {
 				if ($row['is_on_sale'] == 0 || $row['is_delete'] == 1) {
@@ -178,7 +85,7 @@ class cart_goods_stock {
 					/* 是货品 */
 					$row['product_id'] = trim($row['product_id']);
 					if (!empty($row['product_id'])) {
-						$product_number = $db_products->where(array('goods_id' => $goods['goods_id'] , 'product_id' => $goods['product_id']))->get_field('product_number');
+						$product_number = RC_DB::table('products')->where('goods_id', $goods['goods_id'])->where('product_id', $goods['product_id'])->pluck('product_number');
 						if ($product_number < $val) {
 							return new ecjia_error('low_stocks', __('库存不足'));
 						}
@@ -199,19 +106,14 @@ class cart_goods_stock {
 	 * @access  private
 	 * @return  integral
 	 */
-	public static function flow_available_points($cart_id = array(), $rec_type = CART_GENERAL_GOODS) {
-		$db_view = RC_Loader::load_app_model('cart_goods_viewmodel', 'cart');
-		$cart_where = array('c.user_id' => $_SESSION['user_id'], 'c.is_gift' => 0 , 'g.integral' => array('gt' => '0') , 'c.rec_type' => $rec_type);
-		if (!empty($cart_id)) {
-			$cart_where = array_merge($cart_where, array('rec_id' => $cart_id));
+	public static function flow_available_points($cart_id = array(), $rec_type = CART_GENERAL_GOODS, $user_id = 0) {
+		
+		$db_view = RC_DB::table('cart as c')->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'));
+		$db_view->where(RC_DB::raw('c.user_id'), $user_id)->where(RC_DB::raw('c.is_gift'), 0)->where(RC_DB::raw('g.integral'), '>', 0)->where(RC_DB::raw('c.rec_type'), $rec_type);
+		if (!empty($cart_id) && is_array($cart_id)) {
+			$db_view->whereIn(RC_DB::raw('c.rec_id'), $cart_id);
 		}
-		if ($_SESSION['user_id']) {
-			$cart_where = array_merge($cart_where, array('c.user_id' => $_SESSION['user_id']));
-			$data = $db_view->join('goods')->where($cart_where)->sum('g.integral * c.goods_number');
-		} else {
-			$cart_where = array_merge($cart_where, array('c.session_id' => SESS_ID));
-			$data = $db_view->join('goods')->where($cart_where)->sum('g.integral * c.goods_number');
-		}
+		$data = $db_view->pluck(RC_DB::raw('sum(g.integral * c.goods_number)'));
 		$val = intval($data);
 		RC_Loader::load_app_func('admin_order','orders');
 		return integral_of_value($val);
@@ -279,8 +181,6 @@ class cart_goods_stock {
 	 * @return  bool			   true，成功；false，失败；
 	 */
 	public static function change_goods_storage($goods_id, $product_id, $number = 0) {
-		$db_goods = RC_Loader::load_app_model('goods_model', 'goods');
-		$db_products = RC_Loader::load_app_model('products_model', 'goods');
 		if ($number == 0) {
 			return true;
 			// 值为0即不做、增减操作，返回true
@@ -323,8 +223,6 @@ class cart_goods_stock {
 	 * @return  bool			   true，成功；false，失败；
 	 */
 	public static function change_bulkgoods_storage($goods_id, $weight = 0) {
-		$db_goods = RC_Loader::load_app_model('goods_model', 'goods');
-		$db_products = RC_Loader::load_app_model('products_model', 'goods');
 		if (abs($weight) == 0.000) {
 			return true;
 			// 值为0即不做、增减操作，返回true
@@ -337,7 +235,6 @@ class cart_goods_stock {
 		//减库存重量，库存不足减时不做处理，返回true
 		if ($weight < 0) {
 			if ($goods_weight_stock < abs($weight)) {
-				//return new ecjia_error('low_stocks', RC_Lang::get('orders::order.goods_num_err'));
 				return true;
 			}
 		}

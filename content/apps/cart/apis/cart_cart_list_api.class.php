@@ -200,9 +200,9 @@ class cart_cart_list_api extends Component_Event_Api {
 		if ($total['market_price'] > 0) {
 			$total['save_rate'] = $total['market_price'] ? round(($total['market_price'] - $total['goods_price']) * 100 / $total['market_price']).'%' : 0;
 		}
-		$total['unformatted_goods_price']  	= $total['goods_price'];
+		$total['unformatted_goods_price']  	= sprintf("%.2f", $total['goods_price']);
 		$total['goods_price']  				= price_format($total['goods_price'], false);
-		$total['unformatted_market_price'] 	= $total['market_price'];
+		$total['unformatted_market_price'] 	= sprintf("%.2f", $total['market_price']);
 		$total['market_price'] 				= price_format($total['market_price'], false);
 		$total['real_goods_count']    		= $real_goods_count;
 		$total['virtual_goods_count'] 		= $virtual_goods_count;

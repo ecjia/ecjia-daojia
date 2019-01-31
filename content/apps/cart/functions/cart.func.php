@@ -1847,9 +1847,9 @@ function formated_cart_list($cart_result, $store_id_group = array()) {
         
         $total['meet_min_amount'] = $meet_min_amount;
         
-        $total['unformatted_goods_price']     = $total['goods_price'];
+        $total['unformatted_goods_price']     = sprintf("%.2f", $total['goods_price']);
         $total['goods_price']  			      = price_format($total['goods_price'], false);
-        $total['unformatted_market_price']    = $total['market_price'];
+        $total['unformatted_market_price']    = sprintf("%.2f", $total['market_price']);
         $total['market_price'] 			= price_format($total['market_price'], false);
         $total['real_goods_count']    	= $real_goods_count;
         $total['virtual_goods_count'] 	= $virtual_goods_count;
