@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class maintain_tool_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {	
-		$menus = ecjia_admin::make_admin_menu('06_maintain_list', '运维工具', RC_Uri::url('maintain/admin/init'), 6)->add_purview('maintain_manage');
+		$menus = ecjia_admin::make_admin_menu('06_maintain_list', __('运维工具', 'maintain'), RC_Uri::url('maintain/admin/init'), 6)->add_purview('maintain_manage');
 		return $menus;
 	}
 }

@@ -50,7 +50,7 @@ class maintain_admin_purview_api extends Component_Event_Api {
     
     public function call(&$options) {
         $purviews = array(
-        	array('action_name' => '运维工具管理', 'action_code' => 'maintain_manage', 'relevance' => ''),
+        	array('action_name' => __('运维工具管理', 'maintain'), 'action_code' => 'maintain_manage', 'relevance' => ''),
         );
         return $purviews;
     }

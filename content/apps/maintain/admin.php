@@ -68,7 +68,7 @@ class admin extends ecjia_admin {
 		RC_Style::enqueue_style('maintain', RC_App::apps_url('statics/css/maintain.css', __FILE__), array(), false, false);
 		RC_Script::enqueue_script('maintain', RC_App::apps_url('statics/js/maintain.js', __FILE__));
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('运维工具', RC_Uri::url('maintain/admin/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('运维工具', 'maintain'), RC_Uri::url('maintain/admin/init')));
 	}
 
 	
@@ -79,8 +79,8 @@ class admin extends ecjia_admin {
 		$this->admin_priv('maintain_manage');
 	
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('运维工具'));
-		$this->assign('ur_here', '运维工具');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('运维工具', 'maintain')));
+		$this->assign('ur_here', __('运维工具', 'maintain'));
 	
 		$data = $this->maintain_list();
 		$this->assign('data', $data);
@@ -94,9 +94,9 @@ class admin extends ecjia_admin {
 	public function run() {
 		$this->admin_priv('maintain_manage');
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('运行'));
-		$this->assign('ur_here', '运行');
-		$this->assign('action_link', array('text' => '运维工具', 'href' => RC_Uri::url('maintain/admin/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('运行', 'maintain')));
+		$this->assign('ur_here', __('运行','maintain'));
+		$this->assign('action_link', array('text' => __('运维工具','maintain'), 'href' => RC_Uri::url('maintain/admin/init')));
 		$code = trim($_GET['code']);
 		if (!empty($code)) {
 			$factory = new Ecjia\App\Maintain\Factory();
@@ -132,7 +132,7 @@ class admin extends ecjia_admin {
 			if ($result instanceof \Ecjia\App\Maintain\CommandOutput) {
 			    $message = $result->getMessage();
             } else {
-                $message = '运行成功';
+                $message = __('运行成功', 'maintain');
             }
 
             return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('maintain/admin/run',array('code' => $code))));

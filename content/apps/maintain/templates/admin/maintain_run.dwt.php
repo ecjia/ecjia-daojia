@@ -21,13 +21,13 @@
 	<div class="span12">
 		<fieldset title="" class="step" id="validate_wizard-step-0">
             <div class="control-group formSep" style="margin-top: 10px;">
-                         工具名称：{$config.name}（{$config.code}）
+                         {t domain="maintain"}工具名称：{/t}{$config.name}（{$config.code}）
             </div>
             <div class="control-group formSep priv_list">
-			 工具描述：{$config.description}
+                {t domain="maintain"}工具描述：{/t}{$config.description}
             </div>
             <input type="hidden" name="code" value="{$config.code}"/>
-	   		<a class="btn btn-inverse button-next"  href='{RC_Uri::url("maintain/admin/command_run")}' id="maintain_run"><span id="start">开始运行</span></a>
+	   		<a class="btn btn-inverse button-next"  href='{RC_Uri::url("maintain/admin/command_run")}' id="maintain_run"><span id="start">{t domain="maintain"}开始运行{/t}</span></a>
 	    </fieldset>         
 	</div>
 </div>
