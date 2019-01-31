@@ -22,12 +22,12 @@
 		<table class="table table-striped smpl_tbl table-hide-edit">
 			<thead>
 				<tr>
-					<th>{lang key='market::market.member_name'}</th>
-					<th>{lang key='market::market.prize_name'}</th>
-					<th>{lang key='market::market.assign_status'}</th>
-					<th>{lang key='market::market.source'}</th>
-					<th>{lang key='market::market.assign_time'}</th>
-					<th>{lang key='market::market.draw_time'}</th>
+					<th>{t domain="market"}会员名称{/t}</th>
+					<th>{t domain="market"}奖品名称{/t}</th>
+					<th>{t domain="market"}发放状态{/t}</th>
+					<th>{t domain="market"}来源{/t}</th>
+					<th>{t domain="market"}发放时间{/t}</th>
+					<th>{t domain="market"}抽奖时间{/t}</th>
 				</tr>    
 			</thead>
 			<tbody>
@@ -36,11 +36,11 @@
 					<td>{if $record.user_name}<a href='{RC_Uri::url("user/admin/info", "id={$record.user_id}")}' target="_blank">{$record.user_name}</a>{else}{$record.user_name}{/if}</td>
 					<td>{$record.prize_name}</td>
 					<td  class="hide-edit-area">
-						{if $record.issue_status eq '0'}{lang key='market::market.unreleased'}{else}{lang key='market::market.issued'}{/if}
+						{if $record.issue_status eq '0'}{t domain="market"}未发放{/t}{else}{t domain="market"}已发放{/t}{/if}
 						{if $record.prize_type eq '2' && $record.issue_status eq '0'}
 							<div class="edit-list">
 								<a class="toggle_view" href='{url path="market/admin/issue_prize" args="id={$record.id}"}' data-val="allow" data-status="1">
-									发放奖品
+									{t domain="market"}发放奖品{/t}
 								</a>
 							</div>
 						{/if}
@@ -50,7 +50,7 @@
 					<td>{$record.add_time}</td>
 				</tr>
 				<!-- {foreachelse} -->
-				<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
+				<tr><td class="no-records" colspan="6">{t domain="market"}没有找到任何记录{/t}</td></tr>
 				<!-- {/foreach} -->
 			</tbody>
 		</table>

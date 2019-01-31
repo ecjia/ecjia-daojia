@@ -11,13 +11,13 @@
 
 <!-- {if $warn && $type neq 2} -->
 <div class="alert alert-danger">
-	<strong>{lang key='wechat::wechat.label_notice'}</strong>{$type_error}
+	<strong>{t domain="wechat"}温馨提示：{/t}</strong>{$type_error}
 </div>
 <!-- {/if} -->		
 		
 <!-- {if $errormsg} -->
 <div class="alert alert-danger">
-	<strong>{lang key='wechat::wechat.label_notice'}</strong>{$errormsg}
+	<strong>{t domain="wechat"}温馨提示：{/t}</strong>{$errormsg}
 </div>
 <!-- {/if} -->
 
@@ -39,21 +39,21 @@
 							
 							<div class="cannotedit-info">
 								<div class="form-group row">
-									<label class="col-lg-2 label-control text-right">{lang key='market::market.label_activity_name'}</label>
+									<label class="col-lg-2 label-control text-right">{t domain="market"}活动名称：{/t}</label>
 									<div class="col-lg-8 controls">
 										{$activity_info.activity_name}
 									</div>
 								</div>
 								
 								<div class="form-group row">
-									<label class="col-lg-2 label-control text-right">{lang key='market::market.label_activity_way'}</label>
+									<label class="col-lg-2 label-control text-right">{t domain="market"}活动方式：{/t}</label>
 									<div class="col-lg-8 controls">
 										{$activity_info.activity_group}
 									</div>
 								</div>
 								
 								<div class="form-group row">
-									<label class="col-lg-2 label-control text-right">{lang key='market::market.join_platform'}</label>
+									<label class="col-lg-2 label-control text-right">{t domain="market"}活动参与平台：{/t}</label>
 									<div class="col-lg-8 controls">
 					                    <span>{$activity_info.activity_object}</span>
 									</div>
@@ -61,47 +61,47 @@
 							</div>
 							
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">{lang key='market::market.label_activity_restrict_num'}</label>
+								<label class="col-lg-2 label-control text-right">{t domain="market"}活动限制次数：{/t}</label>
 								<div class="col-lg-8 controls">
 									<input class="input-xlarge form-control" name="limit_num" type="text" value="{$activity_info.limit_num|default:0}" maxlength="4"/>
-									<span class="help-block">{lang key='market::market.restrict_num_tips'}</span>
+									<span class="help-block">{t domain="market"}每人可参与活动的次数，0表示不限制{/t}</span>
 								</div>
 							</div>
 	
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">活动限制时间：</label>
+								<label class="col-lg-2 label-control text-right">{t domain="market"}活动限制时间：{/t}</label>
 								<div class="col-lg-8 controls">
 									<select name="limit_time" class=" select2 form-control" >
-										<option value="">请选择...</option>
-										<option value="0" {if $activity_info.limit_time eq '0'}selected{/if}>无限制</option>
-										<option value="1" {if $activity_info.limit_time eq 1}selected{/if}>1小时</option>
-										<option value="6" {if $activity_info.limit_time eq 6}selected{/if}>6小时</option>
-										<option value="12" {if $activity_info.limit_time eq 12}selected{/if}>12小时</option>
-										<option value="24" {if $activity_info.limit_time eq 24}selected{/if}>24小时</option>
-										<option value="48" {if $activity_info.limit_time eq 48}selected{/if}>48小时</option>
+										<option value="">{t domain="market"}请选择...{/t}</option>
+										<option value="0" {if $activity_info.limit_time eq '0'}selected{/if}>{t domain="market"}无限制{/t}</option>
+										<option value="1" {if $activity_info.limit_time eq 1}selected{/if}>{t domain="market"}1小时{/t}</option>
+										<option value="6" {if $activity_info.limit_time eq 6}selected{/if}>{t domain="market"}6小时{/t}</option>
+										<option value="12" {if $activity_info.limit_time eq 12}selected{/if}>{t domain="market"}12小时{/t}</option>
+										<option value="24" {if $activity_info.limit_time eq 24}selected{/if}>{t domain="market"}24小时{/t}</option>
+										<option value="48" {if $activity_info.limit_time eq 48}selected{/if}>{t domain="market"}48小时{/t}</option>
 									</select>
-									<span class="help-block">{lang key='market::market.time_restrict_tips'}</span>
+									<span class="help-block">{t domain="market"}规则描述：{/t}</span>
 								</div>
 							</div>
 							
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">{lang key='market::market.label_start_date'}</label>
+								<label class="col-lg-2 label-control text-right">{t domain="market"}开始时间：{/t}</label>
 								<div class="col-lg-8 controls">
 									<input class="time input-xlarge form-control" name="start_time" type="text" value="{$activity_info.start_time}" />
 								</div>
-								<span class="input-must">{lang key='system::system.require_field'}</span>
+								<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 							</div>
 							
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">{lang key='market::market.label_end_date'}</label>
+								<label class="col-lg-2 label-control text-right">{t domain="market"}结束时间：{/t}</label>
 								<div class="col-lg-8 controls">
 									<input class="time input-xlarge form-control" name="end_time" type="text" value="{$activity_info.end_time}"/>
 								</div>
-								<span class="input-must">{lang key='system::system.require_field'}</span>
+								<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 							</div>
 							
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">{lang key='market::market.label_rule_desc'}</label>
+								<label class="col-lg-2 label-control text-right">{t domain="market"}规则描述：{/t}</label>
 								<div class="col-lg-8 controls">
 									<textarea class="m_t10 span12 form-control" name="activity_desc" cols="40" rows="3">{$activity_info.activity_desc}</textarea>
 								</div>
@@ -112,7 +112,7 @@
 					<div class="modal-footer justify-content-center">
 						<input type="hidden" name="id" value="{$activity_info.activity_id}" />
 						<input type="hidden" name="activity_code" value="{$activity_info.activity_group}" />
-						<input type="submit" class="btn btn-outline-primary" value="{lang key='market::market.update'}" />
+						<input type="submit" class="btn btn-outline-primary" value="{t domain="market"}更新{/t}" />
 					</div>
 				</form>	
             </div>

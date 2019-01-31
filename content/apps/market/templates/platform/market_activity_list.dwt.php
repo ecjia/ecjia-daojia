@@ -30,7 +30,7 @@
 									</a>
 								</div>
 							<!-- {foreachelse} -->
-							<div class="no-records">{lang key='system::system.no_records'}</div>
+							<div class="no-records">{t domain="market"}没有找到任何记录{/t}</div>
 							<!-- {/foreach} -->
 						</div>	
 					</div>

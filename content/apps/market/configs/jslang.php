@@ -44,26 +44,26 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台菜单API
- * @author wutifang
+ * js语言包设置
  */
-class market_admin_menu_api extends Component_Event_Api
-{
 
-    public function call(&$options)
-    {
-        $menus = ecjia_admin::make_admin_menu('06_market', __('营销中心', 'market'), '', 6);
+defined('IN_ECJIA') or exit('No permission resources.');
 
-        $submenus = array(
-            ecjia_admin::make_admin_menu('market', __('营销活动', 'market'), RC_Uri::url('market/admin/init'), 1)->add_purview('market_activity_manage'),
-            ecjia_admin::make_admin_menu('market', __('抽奖记录', 'market'), RC_Uri::url('market/admin/activity_record', array('code' => 'mobile_shake')), 2)->add_purview('market_activity_manage'),
-        );
-        $menus->add_submenu($submenus);
-        return $menus;
-    }
-}
+return array(
+    //营销活动
+    'market_page' =>array(
+        'ok'		                => __('未搜索到商品信息', 'market'),
+        'cancel'					=> __('取消', 'market')
+    ),
 
-// end
+    //营销活动
+    'market_platform_page' =>array(
+        'fill_activity_name'		=> __('请输入活动名称', 'market'),
+        'fill_start_time'	        => __('请输入活动开始时间', 'market'),
+        'fill_end_time'			    => __('返回选择栏目', 'market')
+    ),
+
+);
+//end

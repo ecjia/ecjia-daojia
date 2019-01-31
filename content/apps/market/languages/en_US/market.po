@@ -1,0 +1,762 @@
+# Copyright (C) 2019 Ecjia App market
+# This file is distributed under the same license as the Ecjia App market package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App market 1.25.0\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-01-28 09:55:38+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-01-28 18:38+0800\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2.1\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en\n"
+
+#: admin.php:85 admin.php:105 admin.php:107 classes/Helper.php:58
+#: platform.php:77 platform.php:89 platform.php:90
+msgid "营销活动"
+msgstr "Marketing activities"
+
+#: admin.php:89 admin.php:175 admin.php:177 platform.php:159 platform.php:161
+msgid "编辑营销活动"
+msgstr "Edit a marketing Campaign"
+
+#: admin.php:90 admin.php:330 admin.php:352 admin.php:370 admin.php:385
+#: admin.php:387 admin.php:492 admin.php:508 admin.php:511 platform.php:282
+#: platform.php:304 platform.php:325 platform.php:340 platform.php:343
+#: platform.php:444 platform.php:460 platform.php:464
+msgid "活动奖品池"
+msgstr "Event Prizes Pool"
+
+#: admin.php:91 platform.php:585
+msgid "活动记录"
+msgstr "Activity logging"
+
+#: admin.php:125 admin.php:126 platform.php:106 platform.php:108
+msgid "活动详情"
+msgstr "Event details"
+
+#: admin.php:128 admin.php:290 platform.php:110 platform.php:582
+msgid "返回营销活动"
+msgstr "Back to marketing campaigns"
+
+#: admin.php:174 admin.php:296 admin.php:354 platform.php:158 platform.php:308
+#: platform.php:589 platform_prize.php:115
+msgid "返回活动详情"
+msgstr "Back to Event details"
+
+#: admin.php:197 platform.php:183
+msgid "成功关闭营销活动"
+msgstr "Successful shutdown of marketing campaigns"
+
+#: admin.php:199 admin.php:236 admin.php:652 platform.php:185 platform.php:223
+#: platform_prize.php:175
+msgid "错误的参数"
+msgstr "Wrong parameter"
+
+#: admin.php:234 platform.php:221
+msgid "成功开启营销活动"
+msgstr "Successfully open a marketing campaign"
+
+#: admin.php:256 configs/jslang.php:64 platform.php:244
+msgid "请输入活动开始时间"
+msgstr "Please enter the activity start time"
+
+#: admin.php:260 platform.php:248
+msgid "请输入活动结束时间"
+msgstr "Please enter the event end time"
+
+#: admin.php:264 platform.php:252
+msgid "活动开始时间不能大于结束时间"
+msgstr "Activity start time cannot be greater than end time"
+
+#: admin.php:280 platform.php:268
+msgid "编辑活动成功"
+msgstr "Successful editing activity"
+
+#: admin.php:291 platform.php:583
+msgid "查看活动记录"
+msgstr "View activity history"
+
+#: admin.php:293
+msgid "添加活动"
+msgstr "Add event"
+
+#: admin.php:413 admin.php:539 platform.php:369 platform.php:492
+msgid "请选择奖品等级！"
+msgstr "Please select a prize grade!"
+
+#: admin.php:417 admin.php:543 platform.php:373 platform.php:496
+msgid "请填写奖品名称！"
+msgstr "Please fill in the prize name!"
+
+#: admin.php:421 admin.php:547 platform.php:377 platform.php:500
+msgid "请填写奖品类型！"
+msgstr "Please fill in the prize type!"
+
+#: admin.php:432 admin.php:558 platform.php:388 platform.php:511
+msgid "请选择礼券奖品的红包！"
+msgstr "Please choose the red envelope for the gift certificate prize!"
+
+#: admin.php:437 admin.php:563 platform.php:393 platform.php:516
+msgid "请填写奖品内容！"
+msgstr "Please fill in the prize content!"
+
+#: admin.php:443 admin.php:569 platform.php:399 platform.php:522
+msgid "请填写奖品数量！"
+msgstr "Please fill in the number of prizes!"
+
+#: admin.php:446 admin.php:573 platform.php:402 platform.php:526
+msgid "请填写获奖概率！"
+msgstr "Please fill in the winning probability!"
+
+#: admin.php:458 admin.php:585 platform.php:414 platform.php:538
+msgid "活动所有奖品获奖概率总和不可大于100"
+msgstr "The total probability of winning prizes for all prizes in the event cannot be greater than 100"
+
+#: admin.php:475 admin.php:600 platform.php:428 platform.php:554
+msgid "修改活动奖品池成功"
+msgstr "Modify the event prize pool successfully"
+
+#: admin.php:619
+msgid "活动%s的奖品%s"
+msgstr "%s of activity %s"
+
+#: admin.php:620
+msgid "删除成功"
+msgstr "successfully deleted"
+
+#: admin.php:636 mobile_prize.php:242 platform_prize.php:158
+msgid "奖品信息不存在！"
+msgstr "Prize information does not exist!"
+
+#: admin.php:639 platform_prize.php:162
+msgid "奖品数量不足！"
+msgstr "Please fill in the number of prizes!"
+
+#: admin.php:648 platform_prize.php:171
+msgid "发放奖品%s给%s"
+msgstr "Issue prizes %s to %s"
+
+#: admin.php:650 platform_prize.php:173
+msgid "发放奖品成功！"
+msgstr "Successfully awarded prizes!"
+
+#: configs/jslang.php:57
+msgid "未搜索到商品信息"
+msgstr "Product information not found"
+
+#: configs/jslang.php:58
+msgid "取消"
+msgstr "cancel"
+
+#: configs/jslang.php:63
+msgid "请输入活动名称"
+msgstr "Please enter the event end time"
+
+#: configs/jslang.php:65
+msgid "返回选择栏目"
+msgstr "Return to the selected section"
+
+#: mobile_prize.php:196 mobile_prize.php:237
+msgid "抽奖信息不存在！"
+msgstr "The lottery information does not exist!"
+
+#: mobile_prize.php:199
+msgid "奖品已发放！"
+msgstr "Successfully awarded prizes!"
+
+#: mobile_prize.php:202
+msgid "请填写收货人姓名！"
+msgstr "Please fill in the consignee name!"
+
+#: mobile_prize.php:205
+msgid "请填写收货人手机号码！"
+msgstr "Please fill in the consignee's mobile number!"
+
+#: mobile_prize.php:208
+msgid "请填写收货人详细地址！"
+msgstr "Please fill in the consignee's full address!"
+
+#: mobile_prize.php:219
+msgid "资料提交成功，请等待发放奖品！"
+msgstr "The data submission is successful, please wait for the prizes to be awarded!"
+
+#: mobile_prize.php:232
+msgid "活动信息不存在！"
+msgstr "The lottery information does not exist!"
+
+#: mobile_prize.php:250
+msgid "红包发放日期已过，请联系管理员发放！"
+msgstr "The red envelope issuance date has passed, please contact the administrator to issue!"
+
+#: mobile_prize.php:256
+msgid "兑换成功！"
+msgstr "Successful redemption!"
+
+#: mobile_prize.php:258
+msgid "兑换失败！"
+msgstr "Redemption failed!"
+
+#: mobile_reward.php:92 mobile_reward.php:110
+msgid "您还未登录，请先登录！"
+msgstr "You are not logged in, please login first!"
+
+#: mobile_reward.php:97 mobile_reward.php:115
+msgid "活动未开始！"
+msgstr "The event has not started!"
+
+#: mobile_reward.php:101
+msgid "你已领取过！"
+msgstr "You have already received it!"
+
+#: mobile_reward.php:106 mobile_reward.php:130
+msgid "发放成功！"
+msgstr "Successfully issued!"
+
+#: mobile_reward.php:119
+msgid "您已领取过！"
+msgstr "You have already received it!"
+
+#: modules/market/shake_module.class.php:77
+msgid "参数无效"
+msgstr "Invalid argument"
+
+#: platform_prize.php:78 platform_prize.php:92
+msgid "抽奖记录"
+msgstr "View activity history"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:14
+#: content/apps/market/templates/platform/activity_edit.dwt.php:20
+msgid "温馨提示："
+msgstr "Tips:"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:42
+#: content/apps/market/templates/admin/activity_edit.dwt.php:27
+msgid "活动名称："
+msgstr "Event name:"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:49
+#: content/apps/market/templates/admin/activity_edit.dwt.php:33
+msgid "活动方式："
+msgstr "Activity mode:"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:56
+#: content/apps/market/templates/platform/activity_detail.dwt.php:64
+#: content/apps/market/templates/admin/activity_edit.dwt.php:39
+#: content/apps/market/templates/admin/activity_detail.dwt.php:66
+msgid "活动参与平台："
+msgstr "Activity participation platform:"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:64
+#: content/apps/market/templates/admin/activity_edit.dwt.php:47
+msgid "活动限制次数："
+msgstr "Activity limit times:"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:67
+#: content/apps/market/templates/admin/activity_edit.dwt.php:50
+msgid "每人可参与活动的次数，0表示不限制"
+msgstr "The number of times each person can participate in the event, 0 means no limit"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:72
+msgid "活动限制时间："
+msgstr "Activity limit time:"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:75
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:31
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:57
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:66
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:81
+#: content/apps/market/templates/admin/activity_edit.dwt.php:58
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:28
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:52
+msgid "请选择..."
+msgstr "please choose..."
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:76
+msgid "无限制"
+msgstr "Unlimited"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:77
+#: content/apps/market/templates/admin/activity_edit.dwt.php:60
+msgid "1小时"
+msgstr "1 hour"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:78
+#: content/apps/market/templates/admin/activity_edit.dwt.php:61
+msgid "6小时"
+msgstr "6 hours"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:79
+#: content/apps/market/templates/admin/activity_edit.dwt.php:62
+msgid "12小时"
+msgstr "12 hours"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:80
+#: content/apps/market/templates/admin/activity_edit.dwt.php:63
+msgid "24小时"
+msgstr "24 hours"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:81
+#: content/apps/market/templates/admin/activity_edit.dwt.php:64
+msgid "48小时"
+msgstr "48 hours"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:83
+#: content/apps/market/templates/platform/activity_edit.dwt.php:104
+#: content/apps/market/templates/admin/activity_edit.dwt.php:85
+#: content/apps/market/templates/admin/activity_detail.dwt.php:97
+msgid "规则描述："
+msgstr "Rule description:"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:88
+#: content/apps/market/templates/admin/activity_edit.dwt.php:71
+msgid "开始时间："
+msgstr "Starting time:"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:96
+#: content/apps/market/templates/admin/activity_edit.dwt.php:78
+msgid "结束时间："
+msgstr "End Time:"
+
+#: content/apps/market/templates/platform/activity_edit.dwt.php:115
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:130
+#: content/apps/market/templates/admin/activity_edit.dwt.php:95
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:114
+msgid "更新"
+msgstr "Update"
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:28
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:25
+msgid "奖品等级："
+msgstr "Prize level:"
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:32
+#: content/apps/market/templates/platform/prize_list.dwt.php:33
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:29
+msgid "特等奖"
+msgstr "Special prize"
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:33
+#: content/apps/market/templates/platform/prize_list.dwt.php:33
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:30
+msgid "一等奖"
+msgstr "First prize"
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:34
+#: content/apps/market/templates/platform/prize_list.dwt.php:33
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:31
+msgid "二等奖"
+msgstr "second prize"
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:35
+#: content/apps/market/templates/platform/prize_list.dwt.php:34
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:32
+msgid "三等奖"
+msgstr "Third prize"
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:36
+#: content/apps/market/templates/platform/prize_list.dwt.php:34
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:33
+msgid "四等奖"
+msgstr "Fourth prize"
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:37
+#: content/apps/market/templates/platform/prize_list.dwt.php:35
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:34
+msgid "五等奖"
+msgstr "Fifth prize"
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:44
+msgid "奖品名称:"
+msgstr ""
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:53
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:49
+msgid "奖品类型："
+msgstr "Prize type:"
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:78
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:62
+msgid "礼券奖品内容："
+msgstr "Gift certificate prize content:"
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:91
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:75
+msgid "其他奖品内容："
+msgstr "Other prize content:"
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:97
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:82
+msgid "填写中奖的实物奖品，如iPhone X或iPad Pro 2"
+msgstr "Fill in the winning physical prizes, such as iPhone X or iPad Pro 2"
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:99
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:84
+msgid "填写中奖后发放的消费积分数量"
+msgstr "The number of consumption points issued after winning the prize"
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:101
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:86
+msgid "填写中奖后发放的现金红包金额，中奖后直接发放到用户帐户余额"
+msgstr "Fill in the amount of cash red packets issued after winning the prize, and directly distribute the balance to the user account after winning the prize."
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:109
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:93
+msgid "奖品数量："
+msgstr "Number of prizes:"
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:117
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:101
+msgid "获奖概率："
+msgstr "Winning probability:"
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:120
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:105
+msgid "单位%"
+msgstr "unit%"
+
+#: content/apps/market/templates/platform/activity_prize_add.dwt.php:131
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:116
+msgid "确定"
+msgstr "determine"
+
+#: content/apps/market/templates/platform/activity_record.dwt.php:25
+#: content/apps/market/templates/admin/activity_record.dwt.php:25
+msgid "会员名称"
+msgstr "Member name"
+
+#: content/apps/market/templates/platform/activity_record.dwt.php:26
+#: content/apps/market/templates/platform/prize_record.dwt.php:71
+#: content/apps/market/templates/admin/activity_record.dwt.php:26
+msgid "奖品名称"
+msgstr "Prize name"
+
+#: content/apps/market/templates/platform/activity_record.dwt.php:27
+#: content/apps/market/templates/platform/prize_record.dwt.php:72
+#: content/apps/market/templates/admin/activity_record.dwt.php:27
+msgid "发放状态"
+msgstr "Release status"
+
+#: content/apps/market/templates/platform/activity_record.dwt.php:28
+#: content/apps/market/templates/admin/activity_record.dwt.php:28
+msgid "来源"
+msgstr "source"
+
+#: content/apps/market/templates/platform/activity_record.dwt.php:29
+#: content/apps/market/templates/platform/prize_record.dwt.php:73
+#: content/apps/market/templates/admin/activity_record.dwt.php:29
+msgid "发放时间"
+msgstr "Release time"
+
+#: content/apps/market/templates/platform/activity_record.dwt.php:30
+#: content/apps/market/templates/admin/activity_record.dwt.php:30
+msgid "抽奖时间"
+msgstr "Draw time"
+
+#: content/apps/market/templates/platform/activity_record.dwt.php:39
+#: content/apps/market/templates/platform/prize_record.dwt.php:91
+#: content/apps/market/templates/admin/activity_record.dwt.php:39
+msgid "未发放"
+msgstr "Not issued"
+
+#: content/apps/market/templates/platform/activity_record.dwt.php:39
+#: content/apps/market/templates/platform/prize_record.dwt.php:91
+#: content/apps/market/templates/admin/activity_record.dwt.php:39
+#: content/apps/market/templates/front/prize_list.dwt.php:39
+msgid "已发放"
+msgstr "Issued"
+
+#: content/apps/market/templates/platform/activity_record.dwt.php:46
+#: content/apps/market/templates/platform/prize_record.dwt.php:103
+#: content/apps/market/templates/platform/market_activity_list.dwt.php:33
+#: content/apps/market/templates/admin/activity_record.dwt.php:53
+msgid "没有找到任何记录"
+msgstr "No records were found"
+
+#: content/apps/market/templates/platform/prize_record.dwt.php:47
+msgid "全部"
+msgstr "All"
+
+#: content/apps/market/templates/platform/prize_record.dwt.php:50
+msgid "实物"
+msgstr "Real thing"
+
+#: content/apps/market/templates/platform/prize_record.dwt.php:55
+msgid "导出实物中奖用户信息"
+msgstr "Export real prize user information"
+
+#: content/apps/market/templates/platform/prize_record.dwt.php:70
+msgid "微信昵称"
+msgstr "WeChat nickname"
+
+#: content/apps/market/templates/platform/prize_record.dwt.php:84
+msgid "中奖用户信息"
+msgstr "Winning user information"
+
+#: content/apps/market/templates/platform/prize_record.dwt.php:84
+#: content/apps/market/templates/front/fill_user_info.dwt.php:49
+msgid "收货人"
+msgstr "Receiver"
+
+#: content/apps/market/templates/platform/prize_record.dwt.php:84
+msgid "未填写"
+msgstr "unfilled"
+
+#: content/apps/market/templates/platform/prize_record.dwt.php:84
+#: content/apps/market/templates/front/fill_user_info.dwt.php:74
+msgid "手机号："
+msgstr "phone number:"
+
+#: content/apps/market/templates/platform/prize_record.dwt.php:84
+#: content/apps/market/templates/front/fill_user_info.dwt.php:75
+msgid "收货地址："
+msgstr "Shipping address:"
+
+#: content/apps/market/templates/platform/prize_record.dwt.php:85
+msgid "用户信息"
+msgstr "User Info"
+
+#: content/apps/market/templates/platform/prize_record.dwt.php:95
+#: content/apps/market/templates/admin/activity_record.dwt.php:43
+msgid "发放奖品"
+msgstr "Issue prizes"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:28
+#: content/apps/market/templates/admin/activity_detail.dwt.php:29
+msgid "您确定要关闭营销活动【%1】吗？"
+msgstr "Are you sure you want to close the campaign [%1]?"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:28
+#: content/apps/market/templates/admin/activity_detail.dwt.php:29
+msgid "关闭"
+msgstr "shut down"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:30
+#: content/apps/market/templates/admin/activity_detail.dwt.php:31
+msgid "您确定要开通营销活动【%1】吗？"
+msgstr "Are you sure you want to open a marketing campaign [%1]?"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:30
+#: content/apps/market/templates/admin/activity_detail.dwt.php:31
+msgid "开通"
+msgstr "Open"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:39
+#: content/apps/market/templates/admin/activity_detail.dwt.php:40
+msgid "该功能已开通，设置完活动即可正常使用"
+msgstr "This function has been activated and can be used normally after setting the activity."
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:39
+#: content/apps/market/templates/admin/activity_detail.dwt.php:40
+msgid "未开通"
+msgstr "nonactivated"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:44
+#: content/apps/market/templates/admin/activity_detail.dwt.php:48
+msgid "编辑活动"
+msgstr "Editing activity"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:46
+#: content/apps/market/templates/admin/activity_detail.dwt.php:50
+msgid "中奖记录"
+msgstr "Winning record"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:54
+#: content/apps/market/templates/admin/activity_detail.dwt.php:56
+msgid "功能介绍"
+msgstr "Features"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:62
+#: content/apps/market/templates/admin/activity_detail.dwt.php:61
+msgid "活动信息"
+msgstr "Activity information"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:70
+#: content/apps/market/templates/admin/activity_detail.dwt.php:72
+msgid "活动限制："
+msgstr "Activity restrictions:"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:73
+#: content/apps/market/templates/platform/activity_detail.dwt.php:75
+#: content/apps/market/templates/admin/activity_detail.dwt.php:75
+#: content/apps/market/templates/admin/activity_detail.dwt.php:77
+msgid "在整个活动时间段可参与"
+msgstr "Can participate in the entire activity period"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:73
+#: content/apps/market/templates/admin/activity_detail.dwt.php:75
+msgid "无数次"
+msgstr "countless times"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:77
+#: content/apps/market/templates/admin/activity_detail.dwt.php:79
+msgid "在整个活动时间段每隔"
+msgstr "Every entire time period"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:77
+#: content/apps/market/templates/admin/activity_detail.dwt.php:79
+msgid "可参与"
+msgstr "Can participate"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:77
+msgid "次"
+msgstr "Times"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:82
+#: content/apps/market/templates/admin/activity_detail.dwt.php:85
+msgid "活动时间段："
+msgstr "Activity time period:"
+
+#: content/apps/market/templates/platform/activity_detail.dwt.php:87
+#: content/apps/market/templates/admin/activity_detail.dwt.php:90
+msgid "暂未设置"
+msgstr "Not yet set"
+
+#: content/apps/market/templates/platform/prize_list.dwt.php:42
+msgid "未中奖"
+msgstr "Not won"
+
+#: content/apps/market/templates/platform/prize_list.dwt.php:42
+msgid "礼券红包"
+msgstr "Gift certificate red envelope"
+
+#: content/apps/market/templates/platform/prize_list.dwt.php:43
+msgid "实物奖品"
+msgstr "Physical prize"
+
+#: content/apps/market/templates/platform/prize_list.dwt.php:43
+msgid "送积分"
+msgstr "Send points"
+
+#: content/apps/market/templates/platform/prize_list.dwt.php:43
+msgid "推荐商品"
+msgstr "Recommended product"
+
+#: content/apps/market/templates/platform/prize_list.dwt.php:44
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:42
+msgid "推荐店铺"
+msgstr "Recommended shop"
+
+#: content/apps/market/templates/platform/prize_list.dwt.php:44
+msgid "现金红包"
+msgstr "Cash red envelope"
+
+#: content/apps/market/templates/platform/prize_list.dwt.php:50
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:50
+msgid "编辑"
+msgstr "edit"
+
+#: content/apps/market/templates/platform/prize_list.dwt.php:54
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:54
+msgid "您确定要删除该活动奖品池吗？"
+msgstr "Are you sure you want to delete the event prize pool?"
+
+#: content/apps/market/templates/platform/prize_list.dwt.php:54
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:54
+msgid "删除"
+msgstr "delete"
+
+#: content/apps/market/templates/platform/prize_list.dwt.php:58
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:58
+msgid "使用中"
+msgstr "Using"
+
+#: content/apps/market/templates/admin/activity_edit.dwt.php:55
+msgid "活动时间限制："
+msgstr "Activity time limit:"
+
+#: content/apps/market/templates/admin/activity_edit.dwt.php:66
+msgid "单位为小时，参与次数在此时间内将被限制，0代表整个活动时间内"
+msgstr "The unit is hour, the number of participation will be limited during this time, 0 means the whole activity time"
+
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:41
+msgid "奖品名称："
+msgstr "Prize name:"
+
+#: content/apps/market/templates/admin/activity_prize_add.dwt.php:65
+msgid "请选择"
+msgstr "please choose"
+
+#: content/apps/market/templates/admin/activity_detail.dwt.php:25
+msgid "功能详情"
+msgstr "Function details"
+
+#: content/apps/market/templates/admin/activity_detail.dwt.php:79
+msgid "小时"
+msgstr "hour"
+
+#: content/apps/market/templates/front/reward.dwt.php:19
+msgid "我要领取"
+msgstr "I want to collect"
+
+#: content/apps/market/templates/front/reward.dwt.php:23
+msgid "活动规则"
+msgstr "rule of activity"
+
+#: content/apps/market/templates/front/fill_user_info.dwt.php:8
+#: content/apps/market/templates/front/prize_list.dwt.php:41
+msgid "填写地址"
+msgstr "Fill in the address"
+
+#: content/apps/market/templates/front/fill_user_info.dwt.php:27
+#: content/apps/market/templates/front/prize_list.dwt.php:27
+msgid "实物奖励"
+msgstr "Physical reward"
+
+#: content/apps/market/templates/front/fill_user_info.dwt.php:29
+#: content/apps/market/templates/front/prize_list.dwt.php:29
+msgid "积分奖励"
+msgstr "Point reward"
+
+#: content/apps/market/templates/front/fill_user_info.dwt.php:31
+#: content/apps/market/templates/front/prize_list.dwt.php:31
+msgid "红包奖励"
+msgstr "Red envelope reward"
+
+#: content/apps/market/templates/front/fill_user_info.dwt.php:52
+msgid "请输入收货人姓名"
+msgstr "Please enter the consignee name"
+
+#: content/apps/market/templates/front/fill_user_info.dwt.php:55
+msgid "手机号"
+msgstr "phone number"
+
+#: content/apps/market/templates/front/fill_user_info.dwt.php:58
+msgid "请输入收货人手机号"
+msgstr "Please enter the consignee's mobile number"
+
+#: content/apps/market/templates/front/fill_user_info.dwt.php:61
+msgid "收货地址"
+msgstr "Shipping address"
+
+#: content/apps/market/templates/front/fill_user_info.dwt.php:64
+msgid "请输入详细收货地址"
+msgstr "Please enter the detailed shipping address"
+
+#: content/apps/market/templates/front/fill_user_info.dwt.php:69
+msgid "提交"
+msgstr "submit"
+
+#: content/apps/market/templates/front/fill_user_info.dwt.php:73
+msgid "收货人："
+msgstr "Receiver:"
+
+#: content/apps/market/templates/front/prize_list.dwt.php:8
+msgid "我的奖品"
+msgstr "My prize"
+
+#: content/apps/market/templates/front/prize_list.dwt.php:41
+msgid "查看地址"
+msgstr "View address"
+
+#: content/apps/market/templates/front/prize_list.dwt.php:46
+msgid "已兑换"
+msgstr "Redeemed"
+
+#: content/apps/market/templates/front/prize_list.dwt.php:48
+msgid "去兑换"
+msgstr "To redeem"

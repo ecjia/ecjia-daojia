@@ -72,9 +72,9 @@ class platform extends ecjia_platform
         RC_Style::enqueue_style('datetimepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datetimepicker.min.css'));
 
         RC_Script::enqueue_script('platform_activity', RC_App::apps_url('statics/platform-js/platform_activity.js', __FILE__), array(), false, true);
-        RC_Script::localize_script('platform_activity', 'js_lang', RC_Lang::get('market::market.js_lang'));
+        RC_Script::localize_script('platform_activity', 'js_lang', config('app-market::js_lang.market_platform_page'));
 
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('market::market.activity_list'), RC_Uri::url('market/platform/init')));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('营销活动', 'market'), RC_Uri::url('market/platform/init')));
         ecjia_platform_screen::get_current_screen()->set_subject('营销活动');
     }
 
@@ -86,8 +86,8 @@ class platform extends ecjia_platform
         $this->admin_priv('market_activity_manage');
 
         ecjia_platform_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('market::market.activity_list')));
-        $this->assign('ur_here', RC_Lang::get('market::market.activity_list'));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('营销活动', 'market')));
+        $this->assign('ur_here', __('营销活动', 'market'));
 
         $activity_list = $this->get_activity_list();
 
@@ -103,11 +103,11 @@ class platform extends ecjia_platform
     {
         $this->admin_priv('market_activity_update');
         ecjia_platform_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('market::market.activity_detail')));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('活动详情', 'market')));
 
-        $this->assign('ur_here', RC_Lang::get('market::market.activity_detail'));
+        $this->assign('ur_here', __('活动详情', 'market'));
         $this->assign('form_action', RC_Uri::url('market/platform/update'));
-        $this->assign('action_link', array('text' => RC_Lang::get('market::market.back_activity_list'), 'href' => RC_Uri::url('market/platform/init')));
+        $this->assign('action_link', array('text' => __('返回营销活动', 'market'), 'href' => RC_Uri::url('market/platform/init')));
 
         $code = trim($_GET['code']);
         $activity_detail = [];
@@ -155,10 +155,10 @@ class platform extends ecjia_platform
         
         $activity_info['limit_time'] = $activity_info['limit_time']/60;
         
-        $this->assign('action_link', array('text' => RC_Lang::get('market::market.back_activity_info'), 'href' => RC_Uri::url('market/platform/activity_detail', array('code' => $code))));
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('market::market.edit_activity')));
+        $this->assign('action_link', array('text' => __('返回活动详情', 'market'), 'href' => RC_Uri::url('market/platform/activity_detail', array('code' => $code))));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑营销活动', 'market')));
 
-        $this->assign('ur_here', RC_Lang::get('market::market.edit_activity'));
+        $this->assign('ur_here', __('编辑营销活动', 'market'));
         $this->assign('form_action', RC_Uri::url('market/platform/update'));
         $this->assign('store_id', $_SESSION['store_id']);
         
@@ -180,9 +180,9 @@ class platform extends ecjia_platform
             RC_DB::table('market_activity')->where('activity_group', $code)->where('store_id', $_SESSION['store_id'])->where('wechat_id', $wechat_id)->update(array('enabled' => 0));
 
             $this->admin_log($activity_name, 'stop', 'market_activity');
-            return $this->showmessage(RC_Lang::get('market::market.close_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/platform/activity_detail', array('code' => $code))));
+            return $this->showmessage(__('成功关闭营销活动', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/platform/activity_detail', array('code' => $code))));
         } else {
-            return $this->showmessage(RC_Lang::get('market::market.wrong_parameter'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('错误的参数', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     }
 
@@ -218,9 +218,9 @@ class platform extends ecjia_platform
                 RC_DB::table('market_activity')->insertGetId($activity_info);
             }
             $this->admin_log($activity_info['activity_name'], 'use', 'market_activity');
-            return $this->showmessage(RC_Lang::get('market::market.open_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/platform/activity_detail', array('code' => $code))));
+            return $this->showmessage(__('成功开启营销活动', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/platform/activity_detail', array('code' => $code))));
         } else {
-            return $this->showmessage(RC_Lang::get('market::market.wrong_parameter'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('错误的参数', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     }
 
@@ -241,15 +241,15 @@ class platform extends ecjia_platform
         $activity_code = empty($_POST['activity_code']) ? '' : trim($_POST['activity_code']);
 
         if (empty($start_time)) {
-            return $this->showmessage(RC_Lang::get('market::market.start_time_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入活动开始时间', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (empty($end_time)) {
-            return $this->showmessage(RC_Lang::get('market::market.end_time_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入活动结束时间', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if ($start_time >= $end_time) {
-            return $this->showmessage(RC_Lang::get('market::market.time_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('活动开始时间不能大于结束时间', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $activity_name =  RC_DB::table('market_activity')->where('activity_id', $id)->pluck('activity_name');
 
@@ -265,7 +265,7 @@ class platform extends ecjia_platform
         RC_DB::table('market_activity')->where('activity_id', $id)->update($data);
 
         $this->admin_log($activity_name, 'edit', 'market_activity');
-        return $this->showmessage(RC_Lang::get('market::market.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/platform/edit', array('code' => $activity_code))));
+        return $this->showmessage(__('编辑活动成功', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/platform/edit', array('code' => $activity_code))));
     }
 
     /**
@@ -279,7 +279,7 @@ class platform extends ecjia_platform
         $activity_code = trim($_GET['code']);
 
         $id = RC_DB::table('market_activity')->where('activity_group', $activity_code)->where('store_id', $_SESSION['store_id'])->where('wechat_id', $wechat_id)->pluck('activity_id');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('market::market.prize_pool')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('活动奖品池', 'market')));
 
         $count = RC_DB::table('market_activity_prize')->where('activity_id', $id)->count();
         $page = new ecjia_platform_page($count, 15, 5);
@@ -301,11 +301,11 @@ class platform extends ecjia_platform
         $data = array('item' => $prize_list, 'page' => $page->show(), 'desc' => $page->page_desc(), 'current_page' => $page->current_page, 'total_pages' => $page->total_pages);
         $this->assign('data', $data);
 
-        $this->assign('ur_here', RC_Lang::get('market::market.prize_pool'));
+        $this->assign('ur_here', __('活动奖品池', 'market'));
         $this->assign('id', $id);
         $this->assign('code', $activity_code);
         $this->assign('store_id', $_SESSION['store_id']);
-        $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_detail', array('code' => $activity_code)), 'text' => RC_Lang::get('market::market.back_activity_info')));
+        $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_detail', array('code' => $activity_code)), 'text' => __('返回活动详情', 'market')));
         $this->assign('form_action', RC_Uri::url('market/platform/activity_prize_edit', array('code' => $activity_code)));
 
         $this->display('prize_list.dwt');
@@ -322,7 +322,7 @@ class platform extends ecjia_platform
         $activity_code = trim($_GET['code']);
 
         $id = RC_DB::table('market_activity')->where('activity_group', $activity_code)->where('store_id', $_SESSION['store_id'])->where('wechat_id', $wechat_id)->pluck('activity_id');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('market::market.prize_pool')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('活动奖品池', 'market')));
 
         $prize_type = Ecjia\App\Market\Prize\PrizeType::getPrizeTypes($this->platformAccount->getStoreId());
         $this->assign('prize_type', $prize_type);
@@ -337,10 +337,10 @@ class platform extends ecjia_platform
         					->get();
         $this->assign('bonus_list', $bonus_list);
 
-        $this->assign('ur_here', RC_Lang::get('market::market.prize_pool'));
+        $this->assign('ur_here', __('活动奖品池', 'market'));
         $this->assign('code', $activity_code);
         $this->assign('store_id', $_SESSION['store_id']);
-        $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_prize', array('code' => $activity_code)), 'text' => RC_Lang::get('market::market.prize_pool')));
+        $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_prize', array('code' => $activity_code)), 'text' => __('活动奖品池', 'market')));
         $this->assign('form_action', RC_Uri::url('market/platform/activity_prize_insert', array('code' => $activity_code)));
 
         $this->display('activity_prize_add.dwt');
@@ -366,15 +366,15 @@ class platform extends ecjia_platform
         $activity_info = RC_DB::table('market_activity')->where('activity_group', $code)->where('wechat_id', $wechat_id)->where('store_id', $_SESSION['store_id'])->first();
 
         if ($prize_level === '') {
-            return $this->showmessage('请选择奖品等级！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请选择奖品等级！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (empty($prize_name)) {
-            return $this->showmessage('请填写奖品名称！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请填写奖品名称！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if ($prize_type === '') {
-            return $this->showmessage('请填写奖品类型！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请填写奖品类型！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $prize_value_final = '';
@@ -385,21 +385,21 @@ class platform extends ecjia_platform
         );
         if ($prize_type == Ecjia\App\Market\Prize\PrizeType::TYPE_BONUS) {
             if (empty($prize_value)) {
-                return $this->showmessage('请选择礼券奖品的红包！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请选择礼券奖品的红包！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             $prize_value_final = $prize_value;
         } else if (in_array($prize_type, $prize_type_arr)) {
             if (empty($prize_value_other)) {
-                return $this->showmessage('请填写奖品内容！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请填写奖品内容！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             $prize_value_final = $prize_value_other;
         }
 
         if (empty($prize_number)) {
-            return $this->showmessage('请填写奖品数量！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请填写奖品数量！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if ($prize_prob <= 0) {
-            return $this->showmessage('请填写获奖概率！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请填写获奖概率！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         //某个活动的所有奖品中奖概率不能大于100
         $current_all_prize_prob_final = 0;
@@ -411,7 +411,7 @@ class platform extends ecjia_platform
         		}
         	}
         	if ($current_all_prize_prob_final > 100 || ($current_all_prize_prob_final + $prize_prob) > 100) {
-        		return $this->showmessage('活动所有奖品获奖概率总和不可大于100', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        		return $this->showmessage(__('活动所有奖品获奖概率总和不可大于100', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         	}
         }
         $data = array(
@@ -425,7 +425,7 @@ class platform extends ecjia_platform
         );
         $p_id = RC_DB::table('market_activity_prize')->insertGetId($data);
         $this->admin_log('活动'.$activity_info['activity_name'].'的奖品'.$prize_name, 'add', 'market_activity_prize');
-        return $this->showmessage(RC_Lang::get('market::market.edit_prize_pool_succss'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/platform/activity_prize_edit', array('code' => $code, 'p_id' => $p_id))));
+        return $this->showmessage(__('修改活动奖品池成功', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/platform/activity_prize_edit', array('code' => $code, 'p_id' => $p_id))));
     }
 
     /**
@@ -441,7 +441,7 @@ class platform extends ecjia_platform
         $id = RC_DB::table('market_activity')->where('activity_group', $activity_code)->where('store_id', $_SESSION['store_id'])->where('wechat_id', $wechat_id)->pluck('activity_id');
         $activity_prize = RC_DB::table('market_activity_prize')->where('prize_id', $p_id)->first();
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('market::market.prize_pool')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('活动奖品池', 'market')));
 
         $prize_type = Ecjia\App\Market\Prize\PrizeType::getPrizeTypes();
         $this->assign('prize_type', $prize_type);
@@ -457,11 +457,11 @@ class platform extends ecjia_platform
         $this->assign('bonus_list', $bonus_list);
         $this->assign('activity_prize', $activity_prize);
 
-        $this->assign('ur_here', RC_Lang::get('market::market.prize_pool'));
+        $this->assign('ur_here', __('活动奖品池', 'market'));
         $this->assign('code', $activity_code);
         $this->assign('store_id', $_SESSION['store_id']);
         $this->assign('p_id', $p_id);
-        $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_prize', array('code' => $activity_code)), 'text' => RC_Lang::get('market::market.prize_pool')));
+        $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_prize', array('code' => $activity_code)), 'text' => __('活动奖品池', 'market')));
         $this->assign('form_action', RC_Uri::url('market/platform/activity_prize_update', array('code' => $activity_code)));
 
         $this->display('activity_prize_add.dwt');
@@ -489,15 +489,15 @@ class platform extends ecjia_platform
         $activity_info = RC_DB::table('market_activity')->where('activity_group', $code)->where('wechat_id', $wechat_id)->where('store_id', $_SESSION['store_id'])->first();
 
         if ($prize_level === '') {
-            return $this->showmessage('请选择奖品等级！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请选择奖品等级！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (empty($prize_name)) {
-            return $this->showmessage('请填写奖品名称！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请填写奖品名称！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if ($prize_type === '') {
-            return $this->showmessage('请填写奖品类型！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请填写奖品类型！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $prize_value_final = '';
@@ -508,22 +508,22 @@ class platform extends ecjia_platform
         );
         if ($prize_type == Ecjia\App\Market\Prize\PrizeType::TYPE_BONUS) {
             if (empty($prize_value)) {
-                return $this->showmessage('请选择礼券奖品的红包！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请选择礼券奖品的红包！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             $prize_value_final = $prize_value;
         } else if (in_array($prize_type, $prize_type_arr)) {
             if (empty($prize_value_other)) {
-                return $this->showmessage('请填写奖品内容！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请填写奖品内容！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             $prize_value_final = $prize_value_other;
         }
 
         if (!isset($prize_number)) {
-            return $this->showmessage('请填写奖品数量！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请填写奖品数量！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if ($prize_prob <= 0) {
-            return $this->showmessage('请填写获奖概率！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请填写获奖概率！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         //某个活动的所有奖品中奖概率不能大于100
         $current_all_prize_prob_final = 0;
@@ -535,7 +535,7 @@ class platform extends ecjia_platform
         		}
         	}
         	if ($current_all_prize_prob_final > 100 || ($current_all_prize_prob_final + $prize_prob) > 100) {
-        		return $this->showmessage('活动所有奖品获奖概率总和不可大于100', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        		return $this->showmessage(__('活动所有奖品获奖概率总和不可大于100', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         	}
         }
         $data = array(
@@ -551,7 +551,7 @@ class platform extends ecjia_platform
         RC_DB::table('market_activity_prize')->where('prize_id', $p_id)->update($data);
         $this->admin_log('活动'.$activity_info['activity_name'].'的奖品'.$prize_name, 'edit', 'market_activity_prize');
         
-        return $this->showmessage(RC_Lang::get('market::market.edit_prize_pool_succss'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        return $this->showmessage(__('修改活动奖品池成功', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 
     /**
@@ -579,14 +579,14 @@ class platform extends ecjia_platform
     {
         $this->admin_priv('activity_record_manage');
 
-        $this->assign('action_link', array('text' => RC_Lang::get('market::market.back_activity_list'), 'href' => RC_Uri::url('market/platform/init')));
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('market::market.view_activity_record')));
+        $this->assign('action_link', array('text' => __('返回营销活动', 'market'), 'href' => RC_Uri::url('market/platform/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('查看活动记录', 'market')));
 
-        $this->assign('ur_here', RC_Lang::get('market::market.activity_record'));
+        $this->assign('ur_here', __('活动记录', 'market'));
 
         $wechat_id = $this->platformAccount->getAccountID();
         $activity_code = trim($_GET['code']);
-        $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_detail', array('code' => $activity_code)), 'text' => RC_Lang::get('market::market.back_activity_info')));
+        $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_detail', array('code' => $activity_code)), 'text' => __('返回活动详情', 'market')));
         if (!empty($activity_code)) {
             $factory = new Ecjia\App\Market\Factory();
             $activity_info = $factory->driver($activity_code);

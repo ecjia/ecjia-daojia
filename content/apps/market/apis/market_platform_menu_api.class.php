@@ -58,10 +58,10 @@ class market_platform_menu_api extends Component_Event_Api
             return null;
         }
 
-        $menus = ecjia_platform::make_admin_menu('market', '营销中心', RC_Uri::url('market/platform/init'), 30)->add_icon('icon-star')->add_base('market')->add_purview(['market_activity_manage', 'activity_record_manage'])->add_submenu(
+        $menus = ecjia_platform::make_admin_menu('market', __('营销中心', 'market'), RC_Uri::url('market/platform/init'), 30)->add_icon('icon-star')->add_base('market')->add_purview(['market_activity_manage', 'activity_record_manage'])->add_submenu(
             array(
-                ecjia_platform::make_admin_menu('market_activity_manage', '营销活动', RC_Uri::url('market/platform/init'), 301)->add_icon('icon-star')->add_purview('market_activity_manage')->add_base('market'),
-                ecjia_admin::make_admin_menu('activity_record_manage', '抽奖记录', RC_Uri::url('market/platform_prize/init'), 302)->add_icon('icon-list')->add_purview('activity_record_manage')->add_base('market'),
+                ecjia_platform::make_admin_menu('market_activity_manage', __('营销活动', 'market'), RC_Uri::url('market/platform/init'), 301)->add_icon('icon-star')->add_purview('market_activity_manage')->add_base('market'),
+                ecjia_admin::make_admin_menu('activity_record_manage', __('抽奖记录', 'market'), RC_Uri::url('market/platform_prize/init'), 302)->add_icon('icon-list')->add_purview('activity_record_manage')->add_base('market'),
             )
         );
 

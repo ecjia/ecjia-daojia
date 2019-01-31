@@ -22,12 +22,12 @@
 				<table class="table table-hide-edit">
 					<thead>
 						<tr>
-							<th>{lang key='market::market.member_name'}</th>
-							<th>{lang key='market::market.prize_name'}</th>
-							<th>{lang key='market::market.assign_status'}</th>
-							<th>{lang key='market::market.source'}</th>
-							<th>{lang key='market::market.assign_time'}</th>
-							<th>{lang key='market::market.draw_time'}</th>
+							<th>{t domain="market"}会员名称{/t}</th>
+							<th>{t domain="market"}奖品名称{/t}</th>
+							<th>{t domain="market"}发放状态{/t}</th>
+							<th>{t domain="market"}来源{/t}</th>
+							<th>{t domain="market"}发放时间{/t}</th>
+							<th>{t domain="market"}抽奖时间{/t}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -36,14 +36,14 @@
 							<td>{$record.user_name}</td>
 							<td>{$record.prize_name}</td>
 							<td>
-								{if $record.issue_status eq '0'}{lang key='market::market.unreleased'}{else}{lang key='market::market.issued'}{/if}
+								{if $record.issue_status eq '0'}{t domain="market"}未发放{/t}{else}{t domain="market"}已发放{/t}{/if}
 							</td>
 							<td>{$record.source}</td>
 							<td>{$record.issue_time}</td>
 							<td>{$record.add_time}</td>
 						</tr>
 						<!--  {foreachelse} -->
-						<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
+						<tr><td class="no-records" colspan="6">{t domain="market"}没有找到任何记录{/t}</td></tr>
 						<!-- {/foreach} -->
 					</tbody>
 				</table>

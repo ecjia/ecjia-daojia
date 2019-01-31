@@ -55,11 +55,11 @@ class Helper
      * 添加管理员记录日志操作对象
      */
     public static function assign_adminlog_content() {
-    	ecjia_admin_log::instance()->add_object('market_activity', RC_Lang::get('market::market.market_activity'));
-    	ecjia_admin_log::instance()->add_object('prize', '奖品');
-    	ecjia_admin_log::instance()->add_object('market_activity_prize', '活动奖品');
+    	ecjia_admin_log::instance()->add_object('market_activity', __('营销活动', 'market'));
+    	ecjia_admin_log::instance()->add_object('prize', __('奖品', 'market'));
+    	ecjia_admin_log::instance()->add_object('market_activity_prize', __('活动奖品', 'market'));
     	
-    	ecjia_admin_log::instance()->add_action('issue', '发放');
+    	ecjia_admin_log::instance()->add_action('issue', __('发放', 'market'));
     }
     
 }

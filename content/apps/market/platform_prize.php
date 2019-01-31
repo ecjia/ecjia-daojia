@@ -71,10 +71,11 @@ class platform_prize extends ecjia_platform
         RC_Style::enqueue_style('prize', RC_App::apps_url('statics/platform-css/prize.css', __FILE__));
 
         RC_Script::enqueue_script('prize_list', RC_App::apps_url('statics/platform-js/prize_list.js', __FILE__), array(), false, true);
-        RC_Script::localize_script('platform_activity', 'js_lang', RC_Lang::get('market::market.js_lang'));
+        RC_Script::localize_script('platform_activity', 'js_lang', config('app-market::js_lang.market_platform_page'));
+
         RC_Script::enqueue_script('popover', RC_App::apps_url('statics/platform-js/popover.js', __FILE__), array(), false, true);
 
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here('抽奖记录', RC_Uri::url('market/platform_prize/init')));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('抽奖记录', 'market'), RC_Uri::url('market/platform_prize/init')));
         ecjia_platform_screen::get_current_screen()->set_subject('抽奖记录');
     }
 
@@ -88,7 +89,7 @@ class platform_prize extends ecjia_platform
         $wechat_id = $this->platformAccount->getAccountID();
         $store_id = RC_DB::table('platform_account')->where('id', $wechat_id)->pluck('shop_id');
 
-        $this->assign('ur_here', '抽奖记录');
+        $this->assign('ur_here', __('抽奖记录', 'market'));
 
         $list = [];
         $code_list = [];
@@ -109,9 +110,9 @@ class platform_prize extends ecjia_platform
         }
 
         ecjia_platform_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here('抽奖记录'));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('抽奖记录', 'market'));
         ecjia_platform_screen::get_current_screen()->add_option('current_code', $activity_code);
-        $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_detail', array('code' => $activity_code)), 'text' => RC_Lang::get('market::market.back_activity_info')));
+        $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_detail', array('code' => $activity_code)), 'text' => __('返回活动详情', 'market')));
 
         if (!empty($activity_code)) {
             $factory = new Ecjia\App\Market\Factory();
@@ -154,11 +155,11 @@ class platform_prize extends ecjia_platform
     		
     		$prize_info = RC_DB::table('market_activity_prize')->where('prize_id', $info['prize_id'])->first();
     		if (empty($prize_info)) {
-    			return $this->showmessage('奖品信息不存在！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    			return $this->showmessage(__('奖品信息不存在！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}
     		
     		if ($prize_info['prize_number'] == 0) {
-    			return $this->showmessage('奖品数量不足！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    			return $this->showmessage(__('奖品数量不足！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     		}
     		
     		RC_DB::table('market_activity_log')->where('id', $id)->update(array('issue_status' => 1, 'issue_time' => RC_Time::gmtime()));
@@ -166,11 +167,12 @@ class platform_prize extends ecjia_platform
     			/*减奖品数量*/
     			RC_DB::table('market_activity_prize')->where('prize_id', $prize_info['prize_id'])->decrement('prize_number');
     		}
-    		$this->admin_log('发放奖品' . $info['prize_name'] . '给' . $info['user_name'], 'issue', 'prize');
-    		
-    		return $this->showmessage('发放奖品成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/platform_prize/init', array('code' => $code, 'type' => $type))));
+//    		$this->admin_log('发放奖品' . $info['prize_name'] . '给' . $info['user_name'], 'issue', 'prize');
+            $this->admin_log(sprintf(__('发放奖品%s给%s'), $info['prize_name'], $info['user_name']), 'issue', 'prize');
+
+            return $this->showmessage(__('发放奖品成功！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/platform_prize/init', array('code' => $code, 'type' => $type))));
     	} else {
-    		return $this->showmessage(RC_Lang::get('market::market.wrong_parameter'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('错误的参数', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     }
     
