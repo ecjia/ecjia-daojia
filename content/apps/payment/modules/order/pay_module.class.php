@@ -105,17 +105,19 @@ class order_pay_module extends api_front implements api_interface {
     		'pay_name'		 => $handler->getName(),
 		    'trade_type'	 => Ecjia\App\Payment\PayConstant::PAY_ORDER,
 		]);
-		
+
 		$handler->set_orderinfo($order);
 		$handler->set_mobile($is_mobile);
 		$handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
-		
+
 		$result = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);
+
         if (is_ecjia_error($result)) {
             return $result;
         } else {
             $order['payment'] = $result;
         }
+
 
         //增加支付状态
         $order['payment']['order_pay_status'] = $order['pay_status'];//0 未付款，1付款中，2已付款

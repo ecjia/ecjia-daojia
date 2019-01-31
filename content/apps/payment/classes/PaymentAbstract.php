@@ -239,7 +239,7 @@ abstract class PaymentAbstract extends AbstractPlugin
      */
     public function updateOrderPaid($orderTradeNo, $amount, $tradeNo = null)
     {
-        \RC_Logger::getLogger('pay')->info('paymentAbs');
+        \RC_Logger::getLogger('pay')->info('paymentAbs orderType');
         \RC_Logger::getLogger('pay')->info($this->orderType);
         
         /* 检查支付的金额是否相符 */
