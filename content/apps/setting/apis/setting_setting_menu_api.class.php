@@ -53,8 +53,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class setting_setting_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {	
-		$shop_manage 	 = ecjia_admin::make_admin_menu('01_setting_shop_manage', __('商店设置'), RC_Uri::url('setting/shop_config/init',array('code' => 'shop_info')), 1)->add_purview('shop_config');
-		$region_manage = ecjia_admin::make_admin_menu('03_setting_region_manage', __('地区管理'), RC_Uri::url('setting/admin_region/init'), 3)->add_purview('region_manage');
+		$shop_manage 	 = ecjia_admin::make_admin_menu('01_setting_shop_manage', __('商店设置', 'setting'), RC_Uri::url('setting/shop_config/init',array('code' => 'shop_info')), 1)->add_purview('shop_config');
+		$region_manage = ecjia_admin::make_admin_menu('03_setting_region_manage', __('地区管理', 'setting'), RC_Uri::url('setting/admin_region/init'), 3)->add_purview('region_manage');
 		
 		return array($shop_manage, $region_manage);
 	}

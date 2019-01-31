@@ -72,7 +72,7 @@ class shop_config extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-chosen');
 		RC_Script::enqueue_script('ecjia-region');
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商店设置'), RC_Uri::url('setting/shop_config/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商店设置', 'setting'), RC_Uri::url('setting/shop_config/init')));
 	}
 	
 	/**
@@ -82,17 +82,17 @@ class shop_config extends ecjia_admin {
 		$this->admin_priv('shop_config');
 
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商店设置')));
-		$this->assign('ur_here', __('商店设置'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商店设置', 'setting')));
+		$this->assign('ur_here', __('商店设置', 'setting'));
 		
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'        => 'overview',
-			'title'     => __('概述'),
-			'content'   => '<p>' . __('欢迎访问ECJia智能后台商店设置页面，在此页面可对商店有关信息进行配置，同时可根据右侧栏漂浮的快捷导航，快速的进入相应区域。') . '</p>'
+			'title'     => __('概述', 'setting'),
+			'content'   => '<p>' . __('欢迎访问ECJia智能后台商店设置页面，在此页面可对商店有关信息进行配置，同时可根据右侧栏漂浮的快捷导航，快速的进入相应区域。', 'setting') . '</p>'
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . __('更多信息：') . '</strong></p>' .
+			'<p><strong>' . __('更多信息：', 'setting') . '</strong></p>' .
 			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.95.86.E5.BA.97.E8.AE.BE.E7.BD.AE" target="_blank">关于商店设置帮助文档</a>') . '</p>'
 		);
 		
@@ -102,17 +102,17 @@ class shop_config extends ecjia_admin {
 			case 'basic':
 				if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'iis') !== false) {
 			        $shop_config_jslang = array(
-			            'rewrite_confirm' => __("URL Rewrite 功能要求您的 Web Server 必须安装IIS，并且起用了 ISAPI Rewrite 模块。如果您使用的是ISAPI Rewrite商业版，请您确认是否已经将httpd.txt文件重命名为httpd.ini。如果您使用的是ISAPI Rewrite免费版，请您确认是否已经将httpd.txt文件内的内容复制到ISAPI Rewrite安装目录中httpd.ini里。"),
+			            'rewrite_confirm' => __("URL Rewrite 功能要求您的 Web Server 必须安装IIS，并且起用了 ISAPI Rewrite 模块。如果您使用的是ISAPI Rewrite商业版，请您确认是否已经将httpd.txt文件重命名为httpd.ini。如果您使用的是ISAPI Rewrite免费版，请您确认是否已经将httpd.txt文件内的内容复制到ISAPI Rewrite安装目录中httpd.ini里。", 'setting'),
 			        );
 			    } else {
 			        $shop_config_jslang = array(
-			            'rewrite_confirm' => __("URL Rewrite 功能要求您的 Web Server 必须是 Apache，并且起用了 rewrite 模块。同时请您确认是否已经将htaccess.txt文件重命名为.htaccess。如果服务器上还有其他的重写规则请去掉注释,请将RewriteBase行的注释去掉,并将路径设置为服务器请求的绝对路径"),
+			            'rewrite_confirm' => __("URL Rewrite 功能要求您的 Web Server 必须是 Apache，并且起用了 rewrite 模块。同时请您确认是否已经将htaccess.txt文件重命名为.htaccess。如果服务器上还有其他的重写规则请去掉注释,请将RewriteBase行的注释去掉,并将路径设置为服务器请求的绝对路径", 'setting'),
 			        );
 			    }
 			    
-			    $shop_config_jslang['enable_gzip_confirm'] = __('GZip 功能需要您的服务器支持 zlib 扩展库。如果您发现开启Gzip后页面出现乱码，可能是您的服务器已经开启了Gzip，您不需要在 ECJia 中再次开启。');
-			    $shop_config_jslang['retain_original_img_confirm'] = __("如果您不保留商品原图，在“图片批量处理”的时候，\n将不会重新生成不包含原图的商品图片。请慎重使用该功能！");
-			    $shop_config_jslang['smtp_ssl_confirm'] = __('此功能要求您的php必须支持OpenSSL模块, 如果您要使用此功能，请联系您的空间商确认支持此模块');
+			    $shop_config_jslang['enable_gzip_confirm'] = __('GZip 功能需要您的服务器支持 zlib 扩展库。如果您发现开启Gzip后页面出现乱码，可能是您的服务器已经开启了Gzip，您不需要在 ECJia 中再次开启。', 'setting');
+			    $shop_config_jslang['retain_original_img_confirm'] = __("如果您不保留商品原图，在“图片批量处理”的时候，\n将不会重新生成不包含原图的商品图片。请慎重使用该功能！", 'setting');
+			    $shop_config_jslang['smtp_ssl_confirm'] = __('此功能要求您的php必须支持OpenSSL模块, 如果您要使用此功能，请联系您的空间商确认支持此模块', 'setting');
 			    RC_Script::localize_script('admin_shop_config', 'shop_config_lang', $shop_config_jslang );
 			    
 			    break;
@@ -120,6 +120,7 @@ class shop_config extends ecjia_admin {
 			default:
 			    break;
 		}
+
 		$this->assign('cfg_range_lang', RC_Lang::get('setting::shop_config.cfg_range'));
 		
 		$item_list = ecjia_admin_setting::singleton()->load_items($code);
@@ -212,13 +213,13 @@ class shop_config extends ecjia_admin {
 		$type = !empty($_POST['type']) ? $_POST['type'] : '';
 		
 		if ($type == 'mail_setting') {
-			$message_info = __('邮件服务器设置成功。');
+			$message_info = __('邮件服务器设置成功。', 'setting');
             /* 记录日志 */
-            ecjia_admin_log::instance()->add_object('maill', '邮件服务器');
-            ecjia_admin::admin_log(__('修改邮件服务器设置'), 'edit', 'mail');
+            ecjia_admin_log::instance()->add_object('maill', __('邮件服务器', 'setting'));
+            ecjia_admin::admin_log(__('修改邮件服务器设置', 'setting'), 'edit', 'mail');
 		} else {
-			$message_info = __('保存商店设置成功。');
-            ecjia_admin::admin_log(__('修改商店设置'), 'edit', 'shop_config');
+			$message_info = __('保存商店设置成功。', 'setting');
+            ecjia_admin::admin_log(__('修改商店设置', 'setting'), 'edit', 'shop_config');
 		}
 		return $this->showmessage($message_info, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('setting/shop_config/init', array('code' => $_POST['code']))));
 	}
@@ -237,9 +238,9 @@ class shop_config extends ecjia_admin {
 		$disk->delete(RC_Upload::upload_path() . $img_name);
 
 		ecjia_config::instance()->write_config($code, '');
-		ecjia_admin::admin_log('删除上传文件', 'edit', 'shop_config');
+		ecjia_admin::admin_log(__('删除上传文件', 'setting'), 'edit', 'shop_config');
 
-		return $this->showmessage(__('保存商店设置成功。'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('保存商店设置成功。', 'setting'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 
 }

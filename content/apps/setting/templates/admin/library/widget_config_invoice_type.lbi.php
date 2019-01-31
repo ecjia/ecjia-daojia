@@ -4,8 +4,8 @@
 	<div class="controls">
         <table>
 			<tr>
-				<th scope="col">{t}类型{/t}</th>
-				<th scope="col">{t}税率（％）{/t}</th>
+				<th scope="col">{t domain="setting"}类型{/t}</th>
+				<th scope="col">{t domain="setting"}税率（％）{/t}</th>
 			</tr>
 			<tr>
 				<td><input class="w166" name="invoice_type[]" type="text" value="{$ecjia_config.invoice_type.type[0]}" /></td>

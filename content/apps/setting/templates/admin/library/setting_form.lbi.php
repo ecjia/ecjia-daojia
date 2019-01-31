@@ -38,15 +38,15 @@
 				<!-- {if $var.code eq 'icp_file'} -->
 				<a href="{$var.value}">{$var.file_name}</a>
 				<!-- {else} -->
-				<img src="{$var.value}?{time()}" alt="{t}暂无图片{/t}" />
+				<img src="{$var.value}?{time()}" alt='{t domain="setting"}暂无图片{/t}' />
 				<!-- {/if} -->
 			</div>
 			<span class="btn btn-file">
-				<span class="fileupload-new">{t}浏览{/t}</span>
-				<span class="fileupload-exists">{t}修改{/t}</span>
+				<span class="fileupload-new">{t domain="setting"}浏览{/t}</span>
+				<span class="fileupload-exists">{t domain="setting"}修改{/t}</span>
 				<input type="file" name="{$var.code}"/>
 			</span>
-			<a class="btn fileupload-exists" data-toggle="removefile" data-msg="{t}您确定要删除此文件吗？{/t}" data-href="{RC_Uri::url('setting/shop_config/del',"code={$var.code}")}" {if $var.value}data-removefile="true"{/if}>{t}删除{/t}</a>
+			<a class="btn fileupload-exists" data-toggle="removefile" data-msg='{t domain="setting"}您确定要删除此文件吗？{/t}' data-href="{RC_Uri::url('setting/shop_config/del',"code={$var.code}")}" {if $var.value}data-removefile="true"{/if}>{t domain="setting"}删除{/t}</a>
 		</div>
 		<!-- {/if} -->
 		<!-- {if $var.desc} -->

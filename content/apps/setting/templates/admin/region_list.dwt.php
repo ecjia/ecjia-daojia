@@ -17,7 +17,7 @@
 
 <div>
 	<h3 class="heading">
-	{t}地区云同步 {/t}
+        {t domain="setting"}地区云同步 {/t}
 	</h3>
 </div>
 
@@ -25,10 +25,10 @@
 	<div class="span12">
 		<form class="form-horizontal">
 			<div class="control-group">
-				<label class="control-label"><button class="ajaxmenu btn" data-msg="你确定执行此操作吗？" data-url='{RC_Uri::url("setting/admin_region/get_regioninfo")}' data-value="get_regioninfo">{t}同步地区表信息{/t}</button></label>
+				<label class="control-label"><button class="ajaxmenu btn" data-msg="你确定执行此操作吗？" data-url='{RC_Uri::url("setting/admin_region/get_regioninfo")}' data-value="get_regioninfo">{t domain="setting"}同步地区表信息{/t}</button></label>
 				<div class="controls">
-					通过点击该按钮可以获取云平台地区信息到本地。<br/>
-					执行该同步操作，会先<strong>清空本地地区表数据</strong>后再同步，同步时间较久，请确认好之后再操作。
+                    {t domain="setting"}通过点击该按钮可以获取云平台地区信息到本地。<br/>
+					执行该同步操作，会先<strong>清空本地地区表数据</strong>后再同步，同步时间较久，请确认好之后再操作。{/t}
 				</div>
 			</div>
 		</form>
@@ -57,10 +57,10 @@
 
 					<div class="input">
 						{if $region_type lt 5}
-							<a class="data-pjax no-underline" title="{t}进入{/t}" href="{url path='setting/admin_region/init' args="id={$region.region_id}"}"><i class="fontello-icon-login"></i></a>
+							<a class="data-pjax no-underline" title='{t domain="setting"}进入{/t}' href="{url path='setting/admin_region/init' args="id={$region.region_id}"}"><i class="fontello-icon-login"></i></a>
 						{/if}
-						<a class="no-underline" title="{t}编辑{/t}" value="{$region.region_id}" data-toggle="modal" href="#editArea" data-name="{$region.region_name}"  data-index-letter="{$region.index_letter}"><i class="fontello-icon-edit"></i></a>
-						<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{t}您确定要删除此地区[{$region.region_name}]吗？删除此地区将会同时删除此地区下的所有地区！{/t}" href='{url path="setting/admin_region/drop_area" args="id={$region.region_id}"}' title="{t}删除一级地区{/t}"><i class="fontello-icon-trash ecjiafc-red"></i></a>
+						<a class="no-underline" title='{t domain="setting"}编辑{/t}' value="{$region.region_id}" data-toggle="modal" href="#editArea" data-name="{$region.region_name}"  data-index-letter="{$region.index_letter}"><i class="fontello-icon-edit"></i></a>
+						<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg='{t domain="setting"}您确定要删除此地区[{$region.region_name}]吗？删除此地区将会同时删除此地区下的所有地区！{/t}' href='{url path="setting/admin_region/drop_area" args="id={$region.region_id}"}' title='{t domain="setting"}删除一级地区{/t}'><i class="fontello-icon-trash ecjiafc-red"></i></a>
 					</div>
 				</li>
 				<!-- {/foreach} -->
@@ -79,7 +79,7 @@
 	<div class="modal hide fade" id="editArea">
 		<div class="modal-header">
 			<button class="close" data-dismiss="modal">×</button>
-			<h3>{t}编辑地区{/t}</h3>
+			<h3>{t domain="setting"}编辑地区{/t}</h3>
 		</div>
 		<div class="modal-body">
 			<div class="row-fluid">
@@ -87,27 +87,27 @@
 				<form class="form-horizontal" method="post" name="editArea" action="{url path='setting/admin_region/edit_area_name'}">
 					<fieldset>
 						<div class="control-group formSep">
-							<label class="control-label old_warehouse_name">{t}原地区名：{/t}</label>
+							<label class="control-label old_warehouse_name">{t domain="setting"}原地区名：{/t}</label>
 							<div class="controls">
 								<span class="parent_name"></span>
 							</div>
 						</div>
 						<div class="control-group formSep">
-							<label class="control-label new_warehouse_name">{t}新地区名：{/t}</label>
+							<label class="control-label new_warehouse_name">{t domain="setting"}新地区名：{/t}</label>
 							<div class="controls">
 								<input type="text" name="region_name" class="region_input"/>
-								<span class="input-must">{lang key='system::system.require_field'}</span><br>
+								<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span><br>
 							</div>
 						</div>
 						<div class="control-group formSep">
-							<label class="control-label">{t}索引首字母：{/t}</label>
+							<label class="control-label">{t domain="setting"}索引首字母：{/t}</label>
 							<div class="controls">
 								<input type="text" name="index_letter" value="">
-								<span class="help-block">{t}地区名第一个字的首字母{/t}</span>
+								<span class="help-block">{t domain="setting"}地区名第一个字的首字母{/t}</span>
 							</div>
 						</div>
 						<div class="control-group t_c">
-							<button class="btn btn-gebo" type="submit">{t}确定{/t}</button>
+							<button class="btn btn-gebo" type="submit">{t domain="setting"}确定{/t}</button>
 							<input type="hidden" name="region_id" value=""/>
 						</div>
 					</fieldset>
@@ -121,7 +121,7 @@
 	<div class="modal hide fade" id="addArea">
 		<div class="modal-header">
 			<button class="close" data-dismiss="modal">×</button>
-			<h3>{t}新增地区{/t}</h3>
+			<h3>{t domain="setting"}新增地区{/t}</h3>
 		</div>
 		<div class="modal-body h380">
 			<div class="row-fluid">
@@ -129,34 +129,34 @@
 				<form class="form-horizontal" method="post" name="addArea" action="{url path='setting/admin_region/add_area'}">
 					<fieldset>
 						<div class="control-group formSep">
-							<label class="control-label">{t}新增地区名：{/t}</label>
+							<label class="control-label">{t domain="setting"}新增地区名：{/t}</label>
 							<div class="controls">
 								<input type="text" name="region_name" value="">
-								<span class="input-must">{lang key='system::system.require_field'}</span><br>
+								<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span><br>
 							</div>
 						</div>
 						<div class="control-group formSep">
-							<label class="control-label">{t}地区码：{/t}</label>
+							<label class="control-label">{t domain="setting"}地区码：{/t}</label>
 							<div class="controls">
 								{if $region_type gt 1}<span>{$parent_id}</span>&nbsp;&nbsp;{/if}
 								{if $region_type eq 1} CN {/if}<input type="text" style="width:50px;" name="region_id" value="" >
-								<span class="input-must">{lang key='system::system.require_field'}</span><br>
+								<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span><br>
 								{if ($region_type eq 4) || ($region_type eq 5)}
-									<span class="help-block">{t}当前级地区码只能填写3位数字，且不可与同级其他地区码相同{/t}</span>
+									<span class="help-block">{t domain="setting"}当前级地区码只能填写3位数字，且不可与同级其他地区码相同{/t}</span>
 								{else}
-									<span class="help-block">{t}当前级地区码只能填写2位数字，且不可与同级其他地区码相同{/t}</span>
+									<span class="help-block">{t domain="setting"}当前级地区码只能填写2位数字，且不可与同级其他地区码相同{/t}</span>
 								{/if}
 							</div>
 						</div>
 						<div class="control-group formSep">
-							<label class="control-label">{t}索引首字母：{/t}</label>
+							<label class="control-label">{t domain="setting"}索引首字母：{/t}</label>
 							<div class="controls">
 								<input type="text" name="index_letter" value="">
-								<span class="help-block">{t}地区名第一个字的首字母{/t}</span>
+								<span class="help-block">{t domain="setting"}地区名第一个字的首字母{/t}</span>
 							</div>
 						</div>
 						<div class="control-group t_c">
-							<button class="btn btn-gebo" type="submit">{t}确定{/t}</button>
+							<button class="btn btn-gebo" type="submit">{t domain="setting"}确定{/t}</button>
 							<input type="hidden" name="parent_id" value="{$parent_id}" />
 							<input type="hidden" name="region_type" value="{$region_type}" />
 						</div>

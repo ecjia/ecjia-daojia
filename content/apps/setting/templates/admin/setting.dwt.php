@@ -30,8 +30,8 @@
 						<div class="control-group">
 							<div class="controls">
                                 <input name="code" type="hidden" value="{$group.code}"  />
-								<button class="btn btn-gebo" type="submit">{t}确定{/t}</button>&nbsp;&nbsp;&nbsp;
-								<button class="btn" type="reset">{t}重置{/t}</button>
+								<button class="btn btn-gebo" type="submit">{t domain="setting"}确定{/t}</button>&nbsp;&nbsp;&nbsp;
+								<button class="btn" type="reset">{t domain="setting"}重置{/t}</button>
 							</div>
 						</div>
 					</fieldset>

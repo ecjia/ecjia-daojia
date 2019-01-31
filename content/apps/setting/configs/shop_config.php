@@ -1455,6 +1455,71 @@ return array(
         'cfg_range' => '',
     ],
 
+    [
+        'cfg_code' => 'mobile_touch_qrcode',
+        'cfg_name' => __('H5 访问二维码', 'setting'),
+        'cfg_desc' => '',
+        'cfg_range' => '',
+    ],
+
+    [
+        'cfg_code' => 'mobile_touch_url',
+        'cfg_name' => __('H5 商城URL', 'setting'),
+        'cfg_desc' => '',
+        'cfg_range' => '',
+    ],
+
+    [
+        'cfg_code' => 'wap_app_download_show',
+        'cfg_name' => __('是否推广APP下载', 'setting'),
+        'cfg_desc' => __('在H5首页底部推广您的APP，增加下载量。', 'setting'),
+        'cfg_range' => array(
+            '0' => '关闭',
+            '1' => '开启',
+        ),
+    ],
+
+    [
+        'cfg_code' => 'wap_app_download_img',
+        'cfg_name' => __('推广APP下载图片', 'setting'),
+        'cfg_desc' => '',
+        'cfg_range' => '',
+    ],
+
+    [
+        'cfg_code' => 'mobile_iphone_download',
+        'cfg_name' => __('iPhone下载地址', 'setting'),
+        'cfg_desc' => '',
+        'cfg_range' => '',
+    ],
+
+    [
+        'cfg_code' => 'mobile_android_download',
+        'cfg_name' => __('Android下载地址', 'setting'),
+        'cfg_desc' => '',
+        'cfg_range' => '',
+    ],
+
+    [
+        'cfg_code' => 'shop_app_icon',
+        'cfg_name' => __('APP图标', 'setting'),
+        'cfg_desc' => '',
+        'cfg_range' => '',
+    ],
+
+    [
+        'cfg_code' => 'mobile_app_description',
+        'cfg_name' => __('移动应用简介', 'setting'),
+        'cfg_desc' => '',
+        'cfg_range' => '',
+    ],
+
+    [
+        'cfg_code' => 'comment',
+        'cfg_name' => __('评论设置', 'setting'),
+        'cfg_desc' => '',
+        'cfg_range' => '',
+    ],
 
 );
 //end
