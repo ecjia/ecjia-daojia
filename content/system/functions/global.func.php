@@ -1007,4 +1007,16 @@ if (! function_exists('ecjia_location_mapjs'))
     }
 }
 
+if (! function_exists('ecjia_is_super_admin'))
+{
+    function ecjia_is_super_admin()
+    {
+        if (session('session_user_id') && session('session_user_type') == 'admin' && session('action_list') == 'all') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
 // end
