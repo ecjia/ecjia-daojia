@@ -1,11 +1,18 @@
-<?php namespace Royalcms\Component\Upload;
+<?php
 
+namespace Royalcms\Component\Upload;
+
+use RC_Hook;
 use Royalcms\Component\Foundation\Uri;
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\DateTime\Time;
 use Royalcms\Component\Support\Facades\Config;
-use RC_Hook;
 use Royalcms\Component\Support\Facades\File;
+use Royalcms\Component\Upload\Uploader\CustomUploader;
+use Royalcms\Component\Upload\Uploader\ImageUploader;
+use Royalcms\Component\Upload\Uploader\NewImageUploader;
+use Royalcms\Component\Upload\Uploader\NewUploader;
+use Royalcms\Component\Upload\Uploader\Uploader;
 
 /**
  * 上传类静态操作方法
@@ -21,13 +28,30 @@ class Upload
      *
      * @param string $type            
      * @param array $options            
-     * @return upload_file
+     * @return \Royalcms\Component\Upload\Uploader\Uploader
      */
     public static function uploader($type, $options = array())
     {
-        $uploader = new Uploader($options); // 实例化上传类
+        // 实例化上传类
+        if ($type == 'image') {
+            $uploader = new ImageUploader($options);
+        }
+        elseif ($type == 'custom') {
+            $uploader = new CustomUploader($options);
+        }
+        elseif ($type == 'new') {
+            $uploader = new NewUploader($options);
+        }
+        elseif ($type == 'newimage') {
+            $uploader = new NewImageUploader($options);
+        }
+        else {
+            $uploader = new Uploader($options);
+        }
+
         $uploader->add_sub_dirname_callback(array( __CLASS__, 'upload_sub_dir' ));
         $uploader->add_filename_callback(array( __CLASS__, 'random_filename' ));
+
         return $uploader;
     }
 
