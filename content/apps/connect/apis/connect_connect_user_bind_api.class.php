@@ -48,6 +48,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * openid是否存在及是否关联用户
+ * TODO 目前只适合wechat插件使用
  * @author zrl
  */
 class connect_connect_user_bind_api extends Component_Event_Api {
@@ -55,7 +56,9 @@ class connect_connect_user_bind_api extends Component_Event_Api {
     /**
      * 参数说明
      * @param connect_code  插件代号
+     * @param connect_platform 平台
      * @param open_id        第三方帐号绑定唯一值
+     * @param union_id       第三方帐号绑定唯一值
      * @param profile       个人信息
      * @param user_type     用户类型，选填，默认user，user:普通用户，merchant:商家，admin:管理员
      * @see Component_Event_Api::call()
@@ -65,13 +68,20 @@ class connect_connect_user_bind_api extends Component_Event_Api {
             return new ecjia_error('invalid_parameter', '调用connect_user_bind，参数无效');
         }
         
-        $user_type = array_get($options, 'user_type', 'user');
+        $expires_in = array_get($options, 'expires_in', 7200);
         $profile = $options['profile'];
         $connect_code = $options['connect_code'];
+        $connect_platform = $options['connect_platform'];
         $open_id = $options['open_id'];
+        $union_id = $options['union_id'];
         
-        $connect_user  = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id, $user_type);  
-
+        $connect_user  = new \Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);  
+        $connect_user->setConnectPlatform($connect_platform);
+        $connect_user->setUnionId($union_id);
+        
+        //通过union_id同步已绑定的用户信息
+        $connect_user->bindUserByUnionId();
+        
         //判断openid是否存在
         if ($connect_user->checkUser()) {
         	$user_id = $connect_user->getUserId();
@@ -83,13 +93,15 @@ class connect_connect_user_bind_api extends Component_Event_Api {
         		}
         	}
             return $connect_user;
+        } else if($connect_user->checkOpenId() !== false) {
+            $connect_user->saveConnectProfile($connect_user->getUserModel(), null, null, serialize($profile), $expires_in);
+        } else {
+            $user_model = $connect_user->createUser(0);
+            $connect_user->saveConnectProfile($user_model, null, null, serialize($profile), $expires_in);
         }
         
-        /*保存profile*/
-        $connect_user->saveOpenId('', '', serialize($profile), 7200);
-        
         /*创建用户*/
-        $username = $connect_user->getGenerateUserName();
+        $username = with(new \Ecjia\App\Connect\UserGenerate($connect_user))->getUserName();
 
         $userinfo = RC_Api::api('user', 'add_user', array('username' => $username));
         if (is_ecjia_error($userinfo)) {
