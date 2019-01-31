@@ -264,7 +264,7 @@ class admin extends ecjia_admin
             $merchant_config  = array(
                 'shop_logo', // 默认店铺页头部LOGO
                 'shop_nav_background', // 店铺导航背景图
-                'shop_banner_pic', // app banner图
+                'shop_banner_pic', // 店铺顶部Banner图
                 'shop_kf_mobile', // 客服手机号码
                 'shop_trade_time', // 营业时间
                 'shop_description', // 店铺描述
