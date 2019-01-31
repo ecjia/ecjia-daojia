@@ -6584,8 +6584,8 @@ use Royalcms\Component\Contracts\Foundation\Royalcms as RoyalcmsContract;
 use Royalcms\Component\Contracts\Debug\ExceptionHandler;
 class Royalcms extends Container implements RoyalcmsContract, HttpKernelInterface
 {
-    const VERSION = '5.4.0';
-    const RELEASE = '2019-01-07';
+    const VERSION = '5.5.0';
+    const RELEASE = '2019-01-24';
     protected $basePath;
     protected $hasBeenBootstrapped = false;
     protected $booted = false;
@@ -27300,9 +27300,11 @@ class TextdomainManager
 {
     protected $l10n = array();
     protected $locale;
+    protected $royalcms;
     public function __construct(Locale $locale)
     {
         $this->locale = $locale;
+        $this->royalcms = royalcms();
     }
     public function loadDefaultTextdomain()
     {
@@ -27382,16 +27384,16 @@ class TextdomainManager
         $locale = $this->locale->getLocale();
         $locale = RC_Hook::apply_filters('app_locale', $locale, $domain);
         if (false !== $app_rel_path) {
-            $path = SITE_APP_PATH . trim($app_rel_path, '/');
+            $path = $this->royalcms->appPath() . trim($app_rel_path, '/');
         } else {
-            $path = trim(SITE_APP_PATH, '/');
+            $path = rtrim($this->royalcms->appPath(), '/');
         }
         $mofile = "{$domain}/languages/{$locale}/{$domain}.mo";
         $loaded = $this->loadTextdomain($domain, $path . '/' . $mofile);
         if ($loaded) {
             return $loaded;
         }
-        $mofile = SITE_LANG_PATH . '/apps/' . $domain . '-' . $locale . '.mo';
+        $mofile = $this->royalcms->langPath() . '/apps/' . $domain . '-' . $locale . '.mo';
         return $this->loadTextdomain($domain, $mofile);
     }
     public function loadPluginTextdomain($domain, $plugin_rel_path = false)
@@ -33389,6 +33391,10 @@ class FilesystemManager
     public function createDirectDriver(array $config)
     {
         return $this->adapt(new Direct($config['root']));
+    }
+    public function createLocalDriver(array $config)
+    {
+        return $this->adapt(new Local($config['root']));
     }
     public function createAliyunossDriver(array $config)
     {
