@@ -149,7 +149,7 @@ class user_order_controller
 
                 if (!empty($data['order_status_code'])) {
                     $params      = array('token' => $token, 'type' => $data['order_status_code']);
-                    $reason_list = ecjia_touch_manager::make()->api(ecjia_touch_api::REFUND_RESIONS)->data($params)->run();
+                    $reason_list = ecjia_touch_manager::make()->api(ecjia_touch_api::REFUND_REASONS)->data($params)->run();
                     $reason_list = !is_ecjia_error($reason_list) ? $reason_list : array();
 
                     ecjia_front::$controller->assign('reason_list', json_encode($reason_list));
@@ -596,7 +596,7 @@ class user_order_controller
                 }
             }
             $params      = array('token' => $token, 'type' => $data['order_status_code']);
-            $reason_list = ecjia_touch_manager::make()->api(ecjia_touch_api::REFUND_RESIONS)->data($params)->run();
+            $reason_list = ecjia_touch_manager::make()->api(ecjia_touch_api::REFUND_REASONS)->data($params)->run();
             $reason_list = !is_ecjia_error($reason_list) ? $reason_list : array();
         }
         ecjia_front::$controller->assign('reason_list', json_encode($reason_list));
@@ -953,7 +953,7 @@ class user_order_controller
 
                 if (!empty($data['order_status_code'])) {
                     $params      = array('token' => $token, 'type' => $data['order_status_code']);
-                    $reason_list = ecjia_touch_manager::make()->api(ecjia_touch_api::REFUND_RESIONS)->data($params)->run();
+                    $reason_list = ecjia_touch_manager::make()->api(ecjia_touch_api::REFUND_REASONS)->data($params)->run();
                     $reason_list = !is_ecjia_error($reason_list) ? $reason_list : array();
 
                     ecjia_front::$controller->assign('reason_list', json_encode($reason_list));
