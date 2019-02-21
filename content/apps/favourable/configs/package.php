@@ -52,11 +52,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.favourable',
 	'directory' 	=> 'favourable',
-	'name' 			=> 'favourable',
-	'description' 	=> 'favourable_desc',			/* 描述对应的语言项 */
+	'name' 			=> __('优惠活动', 'favourable'),
+	'description' 	=> __('优惠活动，主要回馈网站用户。为确保更多消费者享受到优惠，活动将分期举行。', 'favourable'),
 	'author' 		=> 'ECJIA TEAM',				/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',		/* 网址 */
-	'version' 		=> '1.27.0',						/* 版本号 */
+	'version' 		=> '1.27.4',						/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Favourable',
     'provider'      => 'FavourableServiceProvider',

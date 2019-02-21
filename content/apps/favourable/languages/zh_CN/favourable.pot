@@ -1,0 +1,86 @@
+# Copyright (C) 2019 Ecjia App favourable
+# This file is distributed under the same license as the Ecjia App favourable package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App favourable 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:53:54+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: apis/favourable_merchant_purview_api.class.php:57
+#: classes/hooks/merchant_favourable.class.php:52 configs/package.php:55
+msgid "优惠活动"
+msgstr ""
+
+#: classes/FavourableActivity.php:94
+#: model/favourable_activity_model.class.php:133
+#: modules/admin/favourable/list_module.class.php:89
+msgid "非会员"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"优惠活动，主要回馈网站用户。为确保更多消费者享受到优惠，活动将分期举行。"
+msgstr ""
+
+#: merchant.php:77
+msgid "优惠活动管理"
+msgstr ""
+
+#: modules/admin/favourable/info_module.class.php:82
+msgid "全部商品"
+msgstr ""
+
+#: modules/admin/favourable/info_module.class.php:84
+msgid "指定分类"
+msgstr ""
+
+#: modules/admin/favourable/info_module.class.php:93
+msgid "指定品牌"
+msgstr ""
+
+#: modules/admin/favourable/info_module.class.php:108
+msgid "指定商品"
+msgstr ""
+
+#: modules/admin/favourable/info_module.class.php:124
+msgid "特惠品"
+msgstr ""
+
+#: modules/admin/favourable/info_module.class.php:145
+msgid "现金减免"
+msgstr ""
+
+#: modules/admin/favourable/info_module.class.php:147
+msgid "价格折扣"
+msgstr ""
+
+#: modules/admin/favourable/list_module.class.php:99
+#: modules/favourable/list_module.class.php:104
+msgid "享受赠品（特惠品）"
+msgstr ""
+
+#: modules/admin/favourable/manage_module.class.php:87
+msgid "优惠开始时间不能大于或等于结束时间"
+msgstr ""
+
+#: modules/admin/favourable/manage_module.class.php:92
+msgid "请设置享受优惠的会员等级"
+msgstr ""
+
+#: modules/admin/favourable/manage_module.class.php:96
+msgid "请设置活动类型"
+msgstr ""
+
+#: modules/admin/favourable/manage_module.class.php:100
+msgid "请设置优惠范围"
+msgstr ""
+
+#: modules/admin/favourable/manage_module.class.php:106
+msgid "金额下限不能大于金额上限"
+msgstr ""
