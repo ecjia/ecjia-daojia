@@ -23,63 +23,63 @@
 		<div class="row-fluid edit-page editpage-rightbar">
 			<div class="left-bar">
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='user::users.user_names'}</label>
+					<label class="control-label">{t domain="user"}会员名称：{/t}</label>
 					<div class="controls l_h30">
 						{if $action eq 'edit'}
 						{$user.user_name}
 						<input type="hidden" name="username" value="{$user.user_name}" />
 						{else}
 						<input class="w350" type="text" name="username"  value="{$user.user_name}" />
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 						{/if}
 					</div>
 				</div>
 
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='user::users.label_phone'}</label>
+					<label class="control-label">{t domain="user"}手机号码：{/t}</label>
 					<div class="controls">
 						<input class="w350" type="text" name="mobile_phone" value="{$user.mobile_phone}" />
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 					</div>
 				</div>
 
 				<!-- {if $form_act eq "insert"} -->
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='user::users.label_password'}</label>
+					<label class="control-label">{t domain="user"}登录密码：{/t}</label>
 					<div class="controls">
 						<input class="w350" type="password" name="password" id="password"/>
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 					</div>
 				</div>
 				<!-- {elseif  $form_act eq "update"} -->
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='user::users.label_newpass'}</label>
+					<label class="control-label">{t domain="user"}新密码：{/t}</label>
 					<div class="controls">
 						<input class="w350" name="newpassword" type="password" id="newpassword"/>
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 					</div>
 				</div>
 				<!-- {/if} -->
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='user::users.label_confirm_password'}</label>
+					<label class="control-label">{t domain="user"}确认密码：{/t}</label>
 					<div class="controls">
 						<input class="w350" type="password" name="confirm_password" />
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 					</div>
 				</div>
 
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='user::users.label_email'}</label>
+					<label class="control-label">{t domain="user"}邮件地址：{/t}</label>
 					<div class="controls">
 						<input class="w350" type="text" name="email" value="{$user.email}" />
 					</div>
 				</div>
 
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='user::users.label_user_rank'}</label>
+					<label class="control-label">{t domain="user"}会员等级：{/t}</label>
 					<div class="controls">
 						<select class="w350" name="user_rank">
-							<option value="0">{lang key='user::users.not_special_rank'}</option>
+							<option value="0">{t domain="user"}非特殊等级{/t}</option>
 							<!-- {html_options options=$special_ranks selected=$user.user_rank} -->
 						</select>
 					</div>
@@ -87,7 +87,7 @@
 
 				<div class="control-group">
 					<div class="controls">
-						<button class="btn btn-gebo" type="submit">{lang key='system::system.button_submit'}</button>
+						<button class="btn btn-gebo" type="submit">{t domain="user"}确定{/t}</button>
 						<input type="hidden" name="id" value="{$user.user_id}" />  
 					</div>
 				</div>
@@ -96,12 +96,12 @@
 				<div class="foldable-list move-mod-group">
 					<div class="accordion-group">
 						<div class="accordion-heading">
-							<a class="accordion-toggle acc-in move-mod-head" data-toggle="collapse" data-target="#telescopic1"><strong>{lang key='user::users.member_basic_information'}</strong></a>
+							<a class="accordion-toggle acc-in move-mod-head" data-toggle="collapse" data-target="#telescopic1"><strong>{t domain="user"}会员基础信息{/t}</strong></a>
 						</div>
 						<div class="accordion-body in collapse" id="telescopic1">
 							<div class="accordion-inner">
 								<div class="control-group control-group-small">
-									<label class="control-label">{lang key='user::users.label_gender'}</label>
+									<label class="control-label">{t domain="user"}性别：{/t}</label>
 									<div class="span8 chk_radio">
 										<!-- {foreach from=$lang_sex item=sex key=key} -->
 										<input type="radio" name="sex" value="{$key}" {if $key eq $user.sex}checked="checked"{/if} /><span>{$sex}</span>
@@ -109,13 +109,13 @@
 									</div>
 								</div>
 								<div class="control-group control-group-small">
-									<label class="control-label">{lang key='user::users.label_birthday'}</label>
+									<label class="control-label">{t domain="user"}出生日期：{/t}</label>
 									<div class="span8 chk_radio">
-										<input name="birthday" class="date" type="text" value="{if $user.birthday eq 0 }{else}{$user.birthday}{/if}" placeholder="{lang key='user::users.select_date'}">
+										<input name="birthday" class="date" type="text" value="{if $user.birthday eq 0 }{else}{$user.birthday}{/if}" placeholder='{t domain="user"}选择日期{/t}'>
 									</div>
 								</div>
 								<div class="control-group control-group-small">
-									<label class="control-label">{lang key='user::users.label_credit_line'}</label>
+									<label class="control-label">{t domain="user"}信用额度：{/t}</label>
 									<div class="span8">
 										<input name="credit_line" type="text" value="{$user.credit_line}"  />
 									</div>
@@ -129,7 +129,7 @@
 				<div class="foldable-list move-mod-group">
 					<div class="accordion-group">
 						<div class="accordion-heading">
-							<a class="accordion-toggle acc-in move-mod-head" data-target="#collapseTwo" data-toggle="collapse"><strong>{lang key='user::users.membership_details'}</strong></a>
+							<a class="accordion-toggle acc-in move-mod-head" data-target="#collapseTwo" data-toggle="collapse"><strong>{t domain="user"}会员详细信息{/t}</strong></a>
 						</div>
 						<div class="accordion-body in collapse" id="collapseTwo">
 							<div class="accordion-inner">

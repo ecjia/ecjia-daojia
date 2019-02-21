@@ -62,7 +62,7 @@ return array(
     'add_continue'     => '继续添加会员等级',
     'back_list'        => '返回会员等级列表',
     'show_price_short' => '显示价格',
-    'notice_discount'  => '请填写为0-100的整数,如填入80，表示初始折扣率为8折',
+    'notice_discount'  => '请填写为0-100的整数，如填入80，表示初始折扣率为8折',
 
     /* 提示信息  */
     'delete_success'   => '删除成功',
@@ -97,7 +97,7 @@ return array(
     'edit_integral_max'   => '成长值上限',
     'edit_discount'       => '编辑初始折扣率',
     'click_switch_status' => '点击切换状态',
-    'delete_rank_confirm' => '您确定要删除会员等级吗?',
+    'delete_rank_confirm' => '您确定要删除会员等级吗？',
 
     'label_rank_name'    => '会员等级名称：',
     'label_integral_min' => '成长值下限：',
