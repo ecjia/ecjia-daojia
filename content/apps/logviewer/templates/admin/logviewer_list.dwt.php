@@ -44,7 +44,7 @@
                     <form class="template_form">
                         <div class="chat_heading clearfix">
                             <div class="pull-right"><i class="ecjiaf-csp{if $full} fontello-icon-resize-small{else} fontello-icon-resize-full{/if} enlarge"></i></div>
-                            <span class="title">{if $log_name}{$log_name}{else}{t}未选择日志文件{/t}{/if}</span>
+                            <span class="title">{if $log_name}{$log_name}{else}{t domain="logviewer"}未选择日志文件{/t}{/if}</span>
                         </div>
 
                         <div class="row-fluid">
@@ -52,9 +52,9 @@
 								<table class="table table-striped" id="plugin-table">
 									<thead>
 										<tr>
-											<th class="w150">{lang key='logviewer::logviewer.date'}</th>
-											<th class="w100">{lang key='logviewer::logviewer.level'}</th>
-							                <th>{lang key='logviewer::logviewer.content'}</th>
+											<th class="w150">{t domain="logviewer"}日期{/t}</th>
+											<th class="w100">{t domain="logviewer"}等级{/t}</th>
+							                <th>{t domain="logviewer"}内容{/t}</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -85,11 +85,11 @@
 
                 <div class="span3 chat_sidebar{if $full} hide{/if}">
                     <div class="chat_heading clearfix">
-                        {t}日志文件{/t}
+                        {t domain="logviewer"}日志文件{/t}
                     </div>
                     <div class="ms-selectable">
                         <div class="template_list" id="ms-custom-navigation">
-                            <input class="span12" id="ms-search" type="text" placeholder="{t}筛选搜索到的日志文件{/t}" autocomplete="off">
+                            <input class="span12" id="ms-search" type="text" placeholder='{t domain="logviewer"}筛选搜索到的日志文件{/t}' autocomplete="off">
                             <ul class="unstyled">
                             <!-- {if $groups} -->
 								<!-- {foreach from=$groups key=key item=v} -->
@@ -100,7 +100,7 @@
 									<!-- {/if} -->
 								<!-- {/foreach} -->
 							<!-- {else} -->
-								<li class="ms-elem-selectable">{lang key='logviewer::logviewer.no_log'}</li>
+								<li class="ms-elem-selectable">{t domain="logviewer"}暂无日志{/t}</li>
 							<!-- {/if} -->
                             </ul>
                         </div>

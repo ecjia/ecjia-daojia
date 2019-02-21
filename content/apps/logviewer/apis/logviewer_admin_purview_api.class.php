@@ -52,7 +52,7 @@ class logviewer_admin_purview_api extends Component_Event_Api
     public function call(&$options)
     {
         $purviews = array(
-            array('action_name' => RC_Lang::get('logviewer::logviewer.logviewer_manage'), 'action_code' => 'logviewer_manage', 'relevance' => ''),
+            array('action_name' => __('日志查看管理', 'logviewer'), 'action_code' => 'logviewer_manage', 'relevance' => ''),
         );
         return $purviews;
     }

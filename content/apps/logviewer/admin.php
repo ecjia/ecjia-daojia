@@ -75,7 +75,10 @@ class admin extends ecjia_admin
 
         RC_Script::enqueue_script('template', RC_App::apps_url('statics/js/template.js', __FILE__));
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('logviewer::logviewer.logviewer'), RC_Uri::url('logviewer/admin/init')));
+        RC_Script::localize_script('logviewer', 'js_lang', config('app-logviewer::jslang.logviewer_page'));
+        RC_Script::localize_script('template', 'js_lang', config('app-logviewer::jslang.logviewer_page'));
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('日志查看', 'logviewer'), RC_Uri::url('logviewer/admin/init')));
     }
 
     public function init()
@@ -83,8 +86,8 @@ class admin extends ecjia_admin
         $this->admin_priv('logviewer_manage');
 
         ecjia_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('logviewer::logviewer.logviewer')));
-        $this->assign('ur_here', RC_Lang::get('logviewer::logviewer.logviewer'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('日志查看', 'logviewer')));
+        $this->assign('ur_here', __('日志查看', 'logviewer'));
         $this->assign('search_action', RC_Uri::url('logviewer/admin/init'));
 
         $full = isset($_GET['full']) && !empty($_GET['full']) ? 1 : 0;

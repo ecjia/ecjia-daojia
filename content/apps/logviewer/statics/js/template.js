@@ -71,7 +71,7 @@
                 if (url) {
                     ecjia.pjax($(this).find('option:selected').val());
                 } else {
-                    smoke.alert('url错误');
+                    smoke.alert(js_lang.url_error);
                 }
             })
         },

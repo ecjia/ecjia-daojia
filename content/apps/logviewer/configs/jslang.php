@@ -44,14 +44,27 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 应用语言包
+ * js语言包设置
  */
-return array(
-    'logviewer'      => '日志查看',
-    'logviewer_desc' => '无需在再一级一级找到日志文件打开进行查看了，该应用把所有的日志文件分类详细的排列出来，方便用户查看。',
-);
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+    //logviewer
+    'logviewer_page' =>array(
+        'home_page'		        => __('首页', 'logviewer'),
+        'last_page'			    => __('尾页', 'logviewer'),
+        'previous_page'				=> __('上一页', 'logviewer'),
+        'next_page'            => __('下一页', 'logviewer'),
+        'all_pages'             => __('共_TOTAL_条记录 第_START_条到第_END_条', 'logviewer'),
+        'no_records_were_found'  => __('没有找到任何记录', 'logviewer'),
+        'total_zero_records'     => __('共0条记录', 'logviewer'),
+        'retrieved_max_data'    => __('（从_MAX_条数据中检索）', 'logviewer'),
+        'url_error'                => __('url错误', 'logviewer'),
+
+    ),
+
+);
+//end
