@@ -52,11 +52,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
     'identifier'    => 'ecjia.express',
     'directory'     => 'express',
-    'name'          => 'express',
-    'description'   => 'express_desc',			  /* 描述对应的语言项 */
+    'name'          => __('配送调度', 'express'),
+    'description'   => __('配送调度', 'express'),
 	'author'        => 'ECJIA TEAM',			  /* 作者 */
 	'website'       => 'http://www.ecjia.com',	  /* 网址 */
-	'version'       => '1.27.0',					  /* 版本号 */
+	'version'       => '1.27.4',					  /* 版本号 */
 	'copyright'     => 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Express',
     'provider'      => 'ExpressServiceProvider',
