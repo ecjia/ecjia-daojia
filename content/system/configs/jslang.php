@@ -93,7 +93,7 @@ return array(
 		'last_page'			=> __('尾页'),
 		'previous'			=> __('上一页'),
 		'next_page'			=> __('下一页'),
-		'no_record'			=> __('没有找到任何记录宋倩倩'),
+		'no_record'			=> __('没有找到任何记录'),
 		'count_num'			=> __('共_TOTAL_条记录 第_START_ 到 第_END_条'),
 		'total'				=> __('共0条记录'),
 		'retrieval'			=> __('（从_MAX_条数据中检索）')
