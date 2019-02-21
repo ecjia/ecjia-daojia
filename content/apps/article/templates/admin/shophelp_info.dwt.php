@@ -21,7 +21,7 @@
 			<form class="form-horizontal" action="{$form_action}" method="post" enctype="multipart/form-data" name="theForm">
 				<div class="control-group formSep">
 					<div>
-						<input type="text" name="title" size="40" maxlength="60"  class="span10"  value="{$article.title}" placeholder="{t domain="article"}在此输入帮助文章标题{/t}" /> <span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
+						<input type="text" name="title" size="40" maxlength="60"  class="span10"  value="{$article.title}" placeholder='{t domain="article"}在此输入帮助文章标题{/t}' /> <span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 					</div>
 				</div>
 				<div class="control-group formSep">

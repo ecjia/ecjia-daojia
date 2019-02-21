@@ -27,13 +27,13 @@
 	<div class="span12">
 		<div class="row-fluid batch">
 			<div class="f_l form-inline">
-				<input type="text" name="select_time" class="w150 date" placeholder="{t domain="article"}请选择时间{/t}">
-				<a class="btn btnSubmit" data-idClass=".checkbox:checked" data-url='{url path="article/admin_article_auto/batch" args="type=batch_start{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{t domain="article"}您确定要批量发布选中的文章吗？{/t}" data-noSelectMsg="{t domain="article"}请先选中要批量发布的文章{/t}" data-name="article_id" href="javascript:;" >{t domain="article"}批量发布{/t}</a>
-				<a class="btn btnSubmit" data-idClass=".checkbox:checked" data-url='{url path="article/admin_article_auto/batch" args="type=batch_end{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{t domain="article"}您确定要批量取消发布选中的文章吗？{/t}" data-noSelectMsg="{t domain="article"}请先选中要批量取消发布的文章{/t}" data-name="article_id" href="javascript:;" >{t domain="article"}批量取消发布{/t}</a>
+				<input type="text" name="select_time" class="w150 date" placeholder='{t domain="article"}请选择时间{/t}'>
+				<a class="btn btnSubmit" data-idClass=".checkbox:checked" data-url='{url path="article/admin_article_auto/batch" args="type=batch_start{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg='{t domain="article"}您确定要批量发布选中的文章吗？{/t}' data-noSelectMsg='{t domain="article"}请先选中要批量发布的文章{/t}' data-name="article_id" href="javascript:;" >{t domain="article"}批量发布{/t}</a>
+				<a class="btn btnSubmit" data-idClass=".checkbox:checked" data-url='{url path="article/admin_article_auto/batch" args="type=batch_end{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg='{t domain="article"}您确定要批量取消发布选中的文章吗？{/t}' data-noSelectMsg='{t domain="article"}请先选中要批量取消发布的文章{/t}' data-name="article_id" href="javascript:;" >{t domain="article"}批量取消发布{/t}</a>
 			</div>
 			
 			<div class="choose_list f_r" data-url="{$search_action}">
-				<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="{t domain="article"}请输入文章名称关键词{/t}"/>
+				<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder='{t domain="article"}请输入文章名称关键词{/t}'/>
 				<button class="btn search_article" type="button">{t domain="article"}搜索{/t}</button>
 			</div>
 		</div>
@@ -56,7 +56,7 @@
 						  	<td>{$val.article_id}</td>
 						  	<td>{$val.title}</td>
 						  	<td>
-						  		<a href="#" data-trigger="datetable" data-url='{RC_Uri::url("article/admin_article_auto/edit_starttime", "{if $smarty.get.page}page={$smarty.get.page}{/if}")}' data-pk="{$val.article_id}" data-title="{t domain="article"}编辑发布时间{/t}" data-value="{$val.starttime}" data-type="combodate">
+						  		<a href="#" data-trigger="datetable" data-url='{RC_Uri::url("article/admin_article_auto/edit_starttime", "{if $smarty.get.page}page={$smarty.get.page}{/if}")}' data-pk="{$val.article_id}" data-title='{t domain="article"}编辑发布时间{/t}' data-value="{$val.starttime}" data-type="combodate">
 								<!-- {if $val.starttime} -->
 								{$val.starttime}
 								<!-- {else} -->
@@ -65,7 +65,7 @@
 								</a>
 							</td>
 					  		<td>
-					  			<a href="#" data-trigger="datetable" data-url='{RC_Uri::url("article/admin_article_auto/edit_endtime", "{if $smarty.get.page}page={$smarty.get.page}{/if}")}' data-pk="{$val.article_id}" data-title="{t domain="article"}编辑取消时间{/t}" data-value="{$val.endtime}" data-type="combodate">
+					  			<a href="#" data-trigger="datetable" data-url='{RC_Uri::url("article/admin_article_auto/edit_endtime", "{if $smarty.get.page}page={$smarty.get.page}{/if}")}' data-pk="{$val.article_id}" data-title='{t domain="article"}编辑取消时间{/t}' data-value="{$val.endtime}" data-type="combodate">
 								<!-- {if $val.endtime} -->
 									{$val.endtime}
 									<!-- {else} -->
@@ -76,7 +76,7 @@
 					  		<td>
 						  		<span>
 						  			{if $val.endtime || $val.starttime}
-						    			<a class="ajax-remove" data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要撤销该文章吗？{/t}" href='{RC_Uri::url("article/admin_article_auto/del", "id={$val.article_id}")}' title="{t domain="article"}撤销{/t}"><i class="fontello-icon-export-alt"></i></a>
+						    			<a class="ajax-remove" data-toggle="ajaxremove" data-msg='{t domain="article"}您确定要撤销该文章吗？{/t}' href='{RC_Uri::url("article/admin_article_auto/del", "id={$val.article_id}")}' title='{t domain="article"}撤销{/t}'><i class="fontello-icon-export-alt"></i></a>
 						  			{else}
 							    		-
 							  		{/if}

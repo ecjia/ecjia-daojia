@@ -29,14 +29,14 @@
 					</td>
 			
 					<td>
-						<span class="cursor_pointer" data-trigger="editable" data-url="{url path='article/admin_articlecat/edit_sort_order'}" data-name="sort_order" data-pk="{$cat.cat_id}" data-title="{t domain="article"}请输入排序序号{/t}"> 
+						<span class="cursor_pointer" data-trigger="editable" data-url="{url path='article/admin_articlecat/edit_sort_order'}" data-name="sort_order" data-pk="{$cat.cat_id}" data-title='{t domain="article"}请输入排序序号{/t}'> 
 							{$cat.sort_order}
 						</span>
 					</td>
 
 					<td>
-						<a class="data-pjax no-underline" href='{RC_Uri::url("article/admin_articlecat/edit", "id={$cat.cat_id}")}' title="{t domain="article"}编辑{/t}"><i class="fontello-icon-edit"></i></a>
-						<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要删除该文章分类吗？{/t}" href='{RC_Uri::url("article/admin_articlecat/remove","id={$cat.cat_id}")}' title="{t domain="article"}删除{/t}"><i class="fontello-icon-trash"></i></a>
+						<a class="data-pjax no-underline" href='{RC_Uri::url("article/admin_articlecat/edit", "id={$cat.cat_id}")}' title='{t domain="article"}编辑{/t}'><i class="fontello-icon-edit"></i></a>
+						<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg='{t domain="article"}您确定要删除该文章分类吗？{/t}' href='{RC_Uri::url("article/admin_articlecat/remove","id={$cat.cat_id}")}' title='{t domain="article"}删除{/t}'><i class="fontello-icon-trash"></i></a>
 					</td>
 				</tr>
 				<!-- {foreachelse} -->

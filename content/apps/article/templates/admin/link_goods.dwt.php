@@ -45,7 +45,7 @@
 							<div class="ms-container " id="ms-custom-navigation">
 								<div class="ms-selectable">
 									<div class="search-header">
-										<input class="span12" id="ms-search" type="text" placeholder="{t domain="article"}筛选搜索到的商品信息{/t}" autocomplete="off">
+										<input class="span12" id="ms-search" type="text" placeholder='{t domain="article"}筛选搜索到的商品信息{/t}' autocomplete="off">
 									</div>
 									<ul class="ms-list nav-list-ready">
 										<li class="ms-elem-selectable disabled"><span>{t domain="article"}暂无内容{/t}</span></li>

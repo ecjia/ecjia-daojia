@@ -43,27 +43,27 @@
 						</a>
 						<ul class="dropdown-menu">
 							<!-- {if $filter.type eq 'trash'} -->
-							<li><a class="button_remove" data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{url path='article/merchant/batch_check'}&type=batch_uncheck&article_id={$id}" data-msg="{t domain="article"}您确定要批量执行该操作吗？{/t}" data-noselectmsg="{t domain="article"}请选择要操作的评论{/t}" data-name="id" href="javascript:;"><i class="fa fa-reply"></i> {t domain="article"}还原评论{/t}</a></li>
+							<li><a class="button_remove" data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{url path='article/merchant/batch_check'}&type=batch_uncheck&article_id={$id}" data-msg='{t domain="article"}您确定要批量执行该操作吗？{/t}' data-noselectmsg='{t domain="article"}请选择要操作的评论{/t}' data-name="id" href="javascript:;"><i class="fa fa-reply"></i> {t domain="article"}还原评论{/t}</a></li>
 							<!-- {/if} -->
 							
 							<!-- {if $filter.type neq 'trash'} -->
 							<!-- {if $filter.type neq 'has_checked'} -->
-							<li><a class="button_remove" data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{url path='article/merchant/batch_check'}&type=batch_check&article_id={$id}" data-msg="{t domain="article"}您确定要批量执行该操作吗？{/t}" data-noselectmsg="{t domain="article"}请选择要操作的评论{/t}" data-name="id" href="javascript:;"><i class="fa fa-check"></i> {t domain="article"}通过审核{/t}</a></li>
+							<li><a class="button_remove" data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{url path='article/merchant/batch_check'}&type=batch_check&article_id={$id}" data-msg='{t domain="article"}您确定要批量执行该操作吗？{/t}' data-noselectmsg='{t domain="article"}请选择要操作的评论{/t}' data-name="id" href="javascript:;"><i class="fa fa-check"></i> {t domain="article"}通过审核{/t}</a></li>
 							<!-- {/if} -->
 							
 							<!-- {if $filter.type neq 'wait_check'} -->
-							<li><a class="button_remove" data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{url path='article/merchant/batch_check'}&type=batch_uncheck&article_id={$id}" data-msg="{t domain="article"}您确定要批量执行该操作吗？{/t}" data-noselectmsg="{t domain="article"}请选择要操作的评论{/t}" data-name="id" href="javascript:;"><i class="fa fa-info-circle"></i> {t domain="article"}设为待审核{/t}</a></li>
+							<li><a class="button_remove" data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{url path='article/merchant/batch_check'}&type=batch_uncheck&article_id={$id}" data-msg='{t domain="article"}您确定要批量执行该操作吗？{/t}' data-noselectmsg='{t domain="article"}请选择要操作的评论{/t}' data-name="id" href="javascript:;"><i class="fa fa-info-circle"></i> {t domain="article"}设为待审核{/t}</a></li>
 							<!-- {/if} -->
 						
-							<li><a class="button_remove" data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{url path='article/merchant/batch_check'}&type=batch_trash&article_id={$id}" data-msg="{t domain="article"}您确定要批量执行该操作吗？{/t}" data-noselectmsg="{t domain="article"}请选择要操作的评论{/t}" data-name="id" href="javascript:;"><i class="fa fa-archive"></i> {t domain="article"}设为垃圾评论{/t}</a></li>
+							<li><a class="button_remove" data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{url path='article/merchant/batch_check'}&type=batch_trash&article_id={$id}" data-msg='{t domain="article"}您确定要批量执行该操作吗？{/t}' data-noselectmsg='{t domain="article"}请选择要操作的评论{/t}' data-name="id" href="javascript:;"><i class="fa fa-archive"></i> {t domain="article"}设为垃圾评论{/t}</a></li>
 							<!-- {/if} -->
 							
-							<li><a class="button_remove" data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{url path='article/merchant/remove_comment'}&type=batch&article_id={$id}" data-msg="{t domain="article"}您确定要这么做吗？{/t}" data-noselectmsg="{t domain="article"}请选择要删除的评论{/t}" data-name="id" href="javascript:;"><i class="fa fa-trash-o"></i> {t domain="article"}删除评论{/t}</a></li>
+							<li><a class="button_remove" data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{url path='article/merchant/remove_comment'}&type=batch&article_id={$id}" data-msg='{t domain="article"}您确定要这么做吗？{/t}' data-noselectmsg='{t domain="article"}请选择要删除的评论{/t}' data-name="id" href="javascript:;"><i class="fa fa-trash-o"></i> {t domain="article"}删除评论{/t}</a></li>
 						</ul>
 					</div>
 					
 					<div class="f_r form-group">
-						<input type="text" name="keywords" class="form-control" value="{$smarty.get.keywords}" placeholder="{t domain="article"}请输入用户名或评论关键字{/t}"/>
+						<input type="text" name="keywords" class="form-control" value="{$smarty.get.keywords}" placeholder='{t domain="article"}请输入用户名或评论关键字{/t}'/>
 						<a class="btn btn-primary m_l5 search_articles"><i class="fa fa-search"></i> {t domain="article"}搜索{/t}</a>
 					</div>
 				</form>
@@ -114,11 +114,11 @@
 										<a class="toggle_view" href='{url path="article/merchant/comment_check" args="id={$list.id}{if $filter.type}&type={$filter.type}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}"}' data-id="{$list.id_value}" data-val="allow" data-status=1>{t domain="article"}批准{/t}</a>&nbsp;|&nbsp;
 										<!-- {/if} -->
 										
-										<a class="toggle_view ecjiafc-red" href='{url path="article/merchant/comment_check" args="id={$list.id}{if $filter.type}&type={$filter.type}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}"}' data-id="{$list.id_value}" data-val="forbid" data-status="trash" data-msg="{t domain="article"}您确定要将该评论设为垃圾评论吗？{/t}">{t domain="article"}垃圾评论{/t}</a>&nbsp;|&nbsp;
+										<a class="toggle_view ecjiafc-red" href='{url path="article/merchant/comment_check" args="id={$list.id}{if $filter.type}&type={$filter.type}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}"}' data-id="{$list.id_value}" data-val="forbid" data-status="trash" data-msg='{t domain="article"}您确定要将该评论设为垃圾评论吗？{/t}'>{t domain="article"}垃圾评论{/t}</a>&nbsp;|&nbsp;
 									<!-- {else} -->
 										<a class="toggle_view ecjiafc-blue" href='{url path="article/merchant/comment_check" args="id={$list.id}{if $filter.type}&type={$filter.type}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}"}' data-id="{$list.id_value}" data-val="forbid" data-status=0>{t domain="article"}还原评论{/t}</a>&nbsp;|&nbsp;
 									<!-- {/if} -->
-									<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要删除该文章评论吗？{/t}" href='{RC_Uri::url("article/merchant/remove_comment", "id={$list.id}&article_id={$list.id_value}")}' title="{t domain="article"}删除{/t}">{t domain="article"}删除{/t}</a>
+									<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="article"}您确定要删除该文章评论吗？{/t}' href='{RC_Uri::url("article/merchant/remove_comment", "id={$list.id}&article_id={$list.id_value}")}' title='{t domain="article"}删除{/t}'>{t domain="article"}删除{/t}</a>
 								</div>
 							</td>
 							<td>

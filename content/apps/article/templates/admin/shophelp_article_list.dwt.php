@@ -35,8 +35,8 @@
     				<td align="right"><span>{$item.add_time}</span></td>
     				<td align="right">
     					<span>
-    						<a class="data-pjax no-underline" href='{url path="article/admin_shophelp/edit" args="cat_id=$cat_id&id={$item.article_id}"}' title="{t domain="article"}编辑{/t}"><i class="fontello-icon-edit"></i></a>
-    						<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要删除该文章吗？{/t}" href='{RC_Uri::url("article/admin_shophelp/remove_art","id={$item.article_id}")}' title="{t domain="article"}删除{/t}"><i class="fontello-icon-trash"></i></a>
+    						<a class="data-pjax no-underline" href='{url path="article/admin_shophelp/edit" args="cat_id=$cat_id&id={$item.article_id}"}' title='{t domain="article"}编辑{/t}'><i class="fontello-icon-edit"></i></a>
+    						<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg='{t domain="article"}您确定要删除该文章吗？{/t}' href='{RC_Uri::url("article/admin_shophelp/remove_art","id={$item.article_id}")}' title='{t domain="article"}删除{/t}'><i class="fontello-icon-trash"></i></a>
     					</span>
     				</td>
     			</tr>

@@ -47,7 +47,7 @@
 									</div>
 									
 									<div class="form-group">
-										<input class="form-control" type="text" name="keyword" placeholder="{t domain="article"}商品名称{/t}" />
+										<input class="form-control" type="text" name="keyword" placeholder='{t domain="article"}商品名称{/t}' />
 									</div>
 									
 									<button type="button" class="btn btn-primary" data-toggle="searchGoods"><i class="fa fa-search"></i> {t domain="article"}搜索{/t}</button>
@@ -62,7 +62,7 @@
 								<div class="ms-container " id="ms-custom-navigation">
 									<div class="ms-selectable">
 										<div class="search-header">
-											<input class="form-control" id="ms-search" type="text" placeholder="{t domain="article"}筛选搜索到的商品信息{/t}" autocomplete="off">
+											<input class="form-control" id="ms-search" type="text" placeholder='{t domain="article"}筛选搜索到的商品信息{/t}' autocomplete="off">
 										</div>
 										<ul class="ms-list nav-list-ready">
 											<li class="ms-elem-selectable disabled"><span>{t domain="article"}暂无内容{/t}</span></li>

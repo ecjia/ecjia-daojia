@@ -41,7 +41,7 @@
 										<!--左边-->
 										<div class="form-group m_t10">
 											<div class="controls col-lg-11">
-												<input type="text" name="title" class="span10 form-control" value="{$article.title|escape}" placeholder="{t domain="article"}在此输入文章标题{/t}"/>
+												<input type="text" name="title" class="span10 form-control" value="{$article.title|escape}" placeholder='{t domain="article"}在此输入文章标题{/t}'/>
 											</div>
 											<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 										</div>
@@ -147,7 +147,7 @@
 																<input type="hidden" name="term_meta_id" value="{$term_meta.meta_id}">
 																<div class="clear_both m_t5">
 																	<a class="data-pjax btn btn-info m_t5" data-toggle="edit_term_meta" href="javascript:;">{t domain="article"}更新{/t}</a>
-																	<a class="ajaxremove btn btn-danger m_t5" data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要删除此条自定义栏目吗？{/t}" href='{url path="article/merchant/remove_term_meta" args="meta_id={$term_meta.meta_id}"}'>{t domain="article"}移除{/t}</a>
+																	<a class="ajaxremove btn btn-danger m_t5" data-toggle="ajaxremove" data-msg='{t domain="article"}您确定要删除此条自定义栏目吗？{/t}' href='{url path="article/merchant/remove_term_meta" args="meta_id={$term_meta.meta_id}"}'>{t domain="article"}移除{/t}</a>
 																</div>
 															</td>
 															<td>
@@ -271,7 +271,7 @@
 														<!-- {if $article.file_url neq ''} -->
 														<span class="ecjiaf-db m_t5 m_b5 ecjiaf-wwb">{t domain="article"}文件地址：{/t}</span>
 														<span class="m_b10">{$article.file_url}</span>
-														<a class="ajaxremove ecjiafc-red ecjiaf-db" data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要删除该文章附件吗？{/t}" href='{RC_Uri::url("article/merchant/drop_file","id={$article.article_id}&type=file_url")}'>
+														<a class="ajaxremove ecjiafc-red ecjiaf-db" data-toggle="ajaxremove" data-msg='{t domain="article"}您确定要删除该文章附件吗？{/t}' href='{RC_Uri::url("article/merchant/drop_file","id={$article.article_id}&type=file_url")}'>
 															{t domain="article"}删除文件{/t}
 														</a>
 														<!-- {else} -->
@@ -313,7 +313,7 @@
 						                                        <span class="fileupload-exists"> {t domain="article"}修改{/t}</span>
 						                                        <input type="file" class="default" name="cover_image" />
 						                                    </span>
-						                                    <a class="btn btn-danger btn-sm fileupload-exists" {if $article.cover_image}data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要删除该图片吗？{/t}" {else}data-dismiss="fileupload"{/if} href='{RC_Uri::url("article/merchant/drop_file","id={$article.article_id}&type=cover_image")}'>{t domain="article"}删除{/t}</a>
+						                                    <a class="btn btn-danger btn-sm fileupload-exists" {if $article.cover_image}data-toggle="ajaxremove" data-msg='{t domain="article"}您确定要删除该图片吗？{/t}' {else}data-dismiss="fileupload"{/if} href='{RC_Uri::url("article/merchant/drop_file","id={$article.article_id}&type=cover_image")}'>{t domain="article"}删除{/t}</a>
 						                                </div>
 													</div>
 												</div>

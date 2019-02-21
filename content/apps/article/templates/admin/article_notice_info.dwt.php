@@ -21,7 +21,7 @@
 		<div class="tabbable">
 			<form class="form-horizontal" action="{$form_action}" method="post" enctype="multipart/form-data" name="theForm">
 				<div class="control-group formSep">
-					<input type="text" name="title" size="40" maxlength="60" class="span10" value="{$article.title}" placeholder="{t domain="article"}请输入文章标题{/t}"/> 
+					<input type="text" name="title" size="40" maxlength="60" class="span10" value="{$article.title}" placeholder='{t domain="article"}请输入文章标题{/t}'/> 
 					<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 				</div>
 				
@@ -46,7 +46,7 @@
 											<img class="w150 w150" class="img-polaroid" src="{$article.image_url} " />
 										</div>
 							       		<span class="ecjiaf-db m_t5 m_b5 ecjiaf-wwb">{t domain="article"}图片地址：{/t}{$article.file_url}</span>
-										<a class="ajaxremove ecjiafc-red ecjiaf-db" data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要删除该图片吗？{/t}" href='{RC_Uri::url("article/admin_notice/del_file", "id={$article.article_id}")}' title="{t domain="article"}删除图片{/t}">
+										<a class="ajaxremove ecjiafc-red ecjiaf-db" data-toggle="ajaxremove" data-msg='{t domain="article"}您确定要删除该图片吗？{/t}' href='{RC_Uri::url("article/admin_notice/del_file", "id={$article.article_id}")}' title='{t domain="article"}删除图片{/t}'>
 								        {t domain="article"}删除图片{/t}
 								        </a>
 								        <input name="file" value="{$article.file_url}" class="hide">

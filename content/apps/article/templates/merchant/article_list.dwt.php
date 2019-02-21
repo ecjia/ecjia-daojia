@@ -23,7 +23,7 @@
 					</select>
 				</div>
 				<div class="form-group t_c">
-					<a class="btn btn-primary btn-gebo m_l5" data-toggle="ecjiabatch" data-name="article_id" data-idclass=".checkbox:checked" data-url="{$form_action}&sel_action=move_to&" data-msg="{t domain="article"}是否将选中文章转移至分类？{/t}" data-noselectmsg="{t domain="article"}请先选中要转移的文章{/t}" href="javascript:;" name="move_cat_ture">{t domain="article"}开始转移{/t}</a>
+					<a class="btn btn-primary btn-gebo m_l5" data-toggle="ecjiabatch" data-name="article_id" data-idclass=".checkbox:checked" data-url="{$form_action}&sel_action=move_to&" data-msg='{t domain="article"}是否将选中文章转移至分类？{/t}' data-noselectmsg='{t domain="article"}请先选中要转移的文章{/t}' href="javascript:;" name="move_cat_ture">{t domain="article"}开始转移{/t}</a>
 				</div>
 			</div>
 		</div>
@@ -62,7 +62,7 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li><a class="batch-move-btn" href="javascript:;" data-move="data-operatetype" data-name="move_cat"><i class="fa fa-mail-forward"></i><i class="fontello-icon-exchange"></i> {t domain="article"}转移分类{/t}</a></li>
-							<li><a class="button_remove" data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{url path='article/merchant/batch' args='sel_action=button_remove'}" data-msg="{t domain="article"}您确定要这么做吗？{/t}" data-noselectmsg="{t domain="article"}请先选中要删除的文章{/t}" data-name="article_id" href="javascript:;"><i class="fa fa-trash-o"></i><i class="fontello-icon-trash"></i> {t domain="article"}删除文章{/t}</a></li>
+							<li><a class="button_remove" data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{url path='article/merchant/batch' args='sel_action=button_remove'}" data-msg='{t domain="article"}您确定要这么做吗？{/t}' data-noselectmsg='{t domain="article"}请先选中要删除的文章{/t}' data-name="article_id" href="javascript:;"><i class="fa fa-trash-o"></i><i class="fontello-icon-trash"></i> {t domain="article"}删除文章{/t}</a></li>
 						</ul>
 					</div>
 					<select class="w250" name="cat_id" id="select-cat">
@@ -73,7 +73,7 @@
 					</select>
 					<a class="btn btn-primary m_l5 screen-btn"><i class="fa fa-search"></i> {t domain="article"}筛选{/t}</a>
 					<div class="f_r form-group">
-						<input type="text" name="keywords" class="form-control" value="{$smarty.get.keywords}" placeholder="{t domain="article"}请输入文章名称{/t}"/>
+						<input type="text" name="keywords" class="form-control" value="{$smarty.get.keywords}" placeholder='{t domain="article"}请输入文章名称{/t}'/>
 						<a class="btn btn-primary m_l5 search_articles"><i class="fa fa-search"></i> {t domain="article"}筛选{/t}</a>
 					</div>
 				</form>
@@ -115,16 +115,16 @@
 								</div>
 							</td>
 							<td class="hide-edit-area">
-								<span class="cursor_pointer" data-text="textarea" data-trigger="editable" data-url="{RC_Uri::url('article/merchant/edit_title')}" data-name="{$list.cat_id}" data-pk="{$list.article_id}" data-title="{t domain="article"}编辑文章名称{/t}">{$list.title}</span>
+								<span class="cursor_pointer" data-text="textarea" data-trigger="editable" data-url="{RC_Uri::url('article/merchant/edit_title')}" data-name="{$list.cat_id}" data-pk="{$list.article_id}" data-title='{t domain="article"}编辑文章名称{/t}'>{$list.title}</span>
 								<div class="edit-list">
-									<a target="_blank" href='{RC_Uri::url("article/merchant/preview", "id={$list.article_id}")}' title="{t domain="article"}预览{/t}">{t domain="article"}预览{/t}</a>&nbsp;|&nbsp;
-									<a class="data-pjax" href='{RC_Uri::url("article/merchant/edit", "id={$list.article_id}")}' title="{t domain="article"}编辑{/t}">{t domain="article"}编辑{/t}</a>&nbsp;|&nbsp; 
+									<a target="_blank" href='{RC_Uri::url("article/merchant/preview", "id={$list.article_id}")}' title='{t domain="article"}预览{/t}'>{t domain="article"}预览{/t}</a>&nbsp;|&nbsp;
+									<a class="data-pjax" href='{RC_Uri::url("article/merchant/edit", "id={$list.article_id}")}' title='{t domain="article"}编辑{/t}'>{t domain="article"}编辑{/t}</a>&nbsp;|&nbsp; 
 									{if $has_goods}
-									<a class="data-pjax" href='{url path="article/merchant/link_goods" args="id={$list.article_id}"}' title="{t domain="article"}关联商品{/t}">{t domain="article"}关联商品{/t}</a>&nbsp;|&nbsp; 
+									<a class="data-pjax" href='{url path="article/merchant/link_goods" args="id={$list.article_id}"}' title='{t domain="article"}关联商品{/t}'>{t domain="article"}关联商品{/t}</a>&nbsp;|&nbsp; 
 									{/if}
-									<a class="data-pjax" href='{RC_Uri::url("article/merchant/article_comment", "id={$list.article_id}")}' title="{t domain="article"}查看评论{/t}">{t domain="article"}查看评论{/t}</a>&nbsp;|&nbsp;
+									<a class="data-pjax" href='{RC_Uri::url("article/merchant/article_comment", "id={$list.article_id}")}' title='{t domain="article"}查看评论{/t}'>{t domain="article"}查看评论{/t}</a>&nbsp;|&nbsp;
 									{if $list.cat_id gt 0}
-									<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{t domain="article"}您确认要删除这篇文章吗？{/t}" href='{RC_Uri::url("article/merchant/remove", "id={$list.article_id}")}' title="{t domain="article"}删除{/t}">{t domain="article"}删除{/t}</a>
+									<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="article"}您确认要删除这篇文章吗？{/t}' href='{RC_Uri::url("article/merchant/remove", "id={$list.article_id}")}' title='{t domain="article"}删除{/t}'>{t domain="article"}删除{/t}</a>
 									{/if}
 								</div>
 							</td>

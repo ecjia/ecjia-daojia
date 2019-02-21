@@ -29,7 +29,7 @@
 		</tbody>
 	</table>
 	{if $article}
-	<div class="ecjiaf-tar"><a href="{RC_Uri::url('article/admin/init')}" title="{t domain="article"}查看更多{/t}">{t domain="article"}查看更多{/t}</a></div>
+	<div class="ecjiaf-tar"><a href="{RC_Uri::url('article/admin/init')}" title='{t domain="article"}查看更多{/t}'>{t domain="article"}查看更多{/t}</a></div>
 	{/if}
 
 	<div class="heading clearfix move-mod-head no-border">
@@ -58,7 +58,7 @@
 		</tbody>
 	</table>
 	{if $article_comment}
-	<div class="ecjiaf-tar"><a href="{RC_Uri::url('article/admin/article_comment_list')}&publishby=total_comments" title="{t domain="article"}查看更多{/t}">{t domain="article"}查看更多{/t}</a></div>
+	<div class="ecjiaf-tar"><a href="{RC_Uri::url('article/admin/article_comment_list')}&publishby=total_comments" title='{t domain="article"}查看更多{/t}'>{t domain="article"}查看更多{/t}</a></div>
 	{/if}
 </div>
 

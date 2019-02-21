@@ -36,7 +36,7 @@
 									<!--左边-->
 									<div class="control-group" >
 										<div>
-											<input type="text" name="title" class="span10"  value="{$article.title|escape}" placeholder="{t domain="article"}在此输入文章标题{/t}" />
+											<input type="text" name="title" class="span10"  value="{$article.title|escape}" placeholder='{t domain="article"}在此输入文章标题{/t}' />
 											<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 										</div>
 									</div>
@@ -104,7 +104,7 @@
 
 																	<input type="hidden" name="term_meta_id" value="{$term_meta.meta_id}">
 																	<a class="data-pjax btn m_t5" data-toggle="edit_term_meta" href="javascript:;">{t domain="article"}更新{/t}</a>
-																	<a class="ajaxremove btn btn-danger m_t5" data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要删除此条自定义栏目吗？{/t}" href='{url path="article/admin/remove_term_meta" args="meta_id={$term_meta.meta_id}"}'>{t domain="article"}删除{/t}</a>
+																	<a class="ajaxremove btn btn-danger m_t5" data-toggle="ajaxremove" data-msg='{t domain="article"}您确定要删除此条自定义栏目吗？{/t}' href='{url path="article/admin/remove_term_meta" args="meta_id={$term_meta.meta_id}"}'>{t domain="article"}删除{/t}</a>
 
 																</td>
 																<td><textarea class="span12 h70" name="term_meta_value">{$term_meta.meta_value}</textarea></td>
@@ -278,7 +278,7 @@
 																</div>
 													       		<span class="ecjiaf-db m_t5 m_b5 ecjiaf-wwb">{t domain="article"}文件地址：{/t}{$article.file_url}</span>
 													       	{/if}
-															<a class="ajaxremove ecjiafc-red ecjiaf-db" data-toggle="ajaxremove" data-msg="{t domain="article"}您确定要删除该文章附件吗？{/t}" href='{RC_Uri::url("article/admin/delfile","id={$article.article_id}")}' title="{t domain="article"}删除文件{/t}">
+															<a class="ajaxremove ecjiafc-red ecjiaf-db" data-toggle="ajaxremove" data-msg='{t domain="article"}您确定要删除该文章附件吗？{/t}' href='{RC_Uri::url("article/admin/delfile","id={$article.article_id}")}' title='{t domain="article"}删除文件{/t}'>
 													        {t domain="article"}删除文件{/t}
 													        </a>
 													        <input name="file_name" value="{$article.file_url}" class="hide">
