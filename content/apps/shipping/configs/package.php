@@ -52,11 +52,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.shipping',
 	'directory' 	=> 'shipping',
-	'name'			=> 'shipping',
-	'description' 	=> 'shipping_desc',			/* 描述对应的语言项 */
+	'name'			=> __('配送方式', 'shipping'),
+	'description' 	=> __('商品配送是商家与顾客交付产品的重要物流传输方式，与当今电商时代的现代物流密不可分，ECJIA团队开发配送方式插件实现多元化功能，少步骤操作，为商家带来更便捷操作，商家可直接在配送方式列表对物流公司经行快捷编辑，报价费用，并可一键切换是否启用该物流公司，打印等，且可以对配送区域进行配置和添加。', 'shipping'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.27.1',					/* 版本号 */
+	'version' 		=> '1.27.4',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Shipping',
     'provider'      => 'ShippingServiceProvider',

@@ -1,0 +1,99 @@
+# Copyright (C) 2019 Ecjia App shipping
+# This file is distributed under the same license as the Ecjia App shipping package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App shipping 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:58:20+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin.php:90 admin_plugin.php:90
+msgid "您确定要保存编辑内容吗？"
+msgstr ""
+
+#: admin.php:91 admin_plugin.php:91
+msgid "使用这个模板"
+msgstr ""
+
+#: admin.php:92 admin_plugin.php:92
+msgid "使用这个模板风格"
+msgstr ""
+
+#: admin.php:93 admin_plugin.php:93
+msgid "您确定要放弃本次修改吗？"
+msgstr ""
+
+#: admin.php:94 admin_plugin.php:94
+msgid "请先输入内容！"
+msgstr ""
+
+#: admin.php:95 admin_plugin.php:95
+msgid "确定"
+msgstr ""
+
+#: admin.php:96 admin_plugin.php:96
+msgid "取消"
+msgstr ""
+
+#: admin.php:97 admin_plugin.php:97
+msgid "您的修改内容还没有保存，您确定离开吗？"
+msgstr ""
+
+#: admin.php:98 admin_plugin.php:98
+msgid "连接错误，请重新选择!"
+msgstr ""
+
+#: admin.php:99 admin_plugin.php:99
+msgid ""
+"修改库项目是危险的高级操作，修改错误可能会导致前台无法正常显示。您依然确定要"
+"修改库项目吗？"
+msgstr ""
+
+#: admin_plugin.php:185
+msgid "invalid parameter"
+msgstr ""
+
+#: admin_store_shipping.php:100 admin_store_shipping.php:131
+msgid "请选择您要操作的店铺"
+msgstr ""
+
+#: apis/shipping_merchant_purview_api.class.php:59
+msgid "我的配送"
+msgstr ""
+
+#: apis/shipping_merchant_purview_api.class.php:60
+msgid "配送编辑"
+msgstr ""
+
+#: apis/shipping_merchant_purview_api.class.php:61
+msgid "删除配送"
+msgstr ""
+
+#: apis/shipping_shipping_area_info_api.class.php:74
+msgid "缺少必要参数"
+msgstr ""
+
+#: configs/package.php:55
+msgid "配送方式"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"商品配送是商家与顾客交付产品的重要物流传输方式，与当今电商时代的现代物流密不"
+"可分，ECJIA团队开发配送方式插件实现多元化功能，少步骤操作，为商家带来更便捷操"
+"作，商家可直接在配送方式列表对物流公司经行快捷编辑，报价费用，并可一键切换是"
+"否启用该物流公司，打印等，且可以对配送区域进行配置和添加。"
+msgstr ""
+
+#: content/apps/shipping/templates/admin/shipping_template.dwt.php:489
+msgid "设置打印内容"
+msgstr ""
+
+#: content/apps/shipping/templates/admin/shipping_template.dwt.php:547
+msgid "订单模板变量说明"
+msgstr ""
