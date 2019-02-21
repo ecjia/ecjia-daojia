@@ -105,7 +105,7 @@
 						<!-- {/if} -->
 					</td>
 					<td><a class="data-pjax" href='{url path="withdraw/admin/check" args="order_sn={$item.order_sn}&id={$item.id}{if $type}&type={$type}{/if}"}'>{$item.order_sn}</a></td>
-					<td>{if $item.user_name}{$item.user_name}{else}{lang key='user::user_account.no_user'}{/if}</td>
+					<td>{if $item.user_name}{$item.user_name}{else}{t domain="withdraw"}匿名购买{/t}{/if}</td>
 					<td align="right">{$item.apply_amount}</td>
 					<td align="center">{$item.formated_pay_fee}</td>
 					<td align="center">{$item.formated_amount}</td>

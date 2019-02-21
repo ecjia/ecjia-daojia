@@ -11,10 +11,8 @@
 
 <div class="alert alert-info">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" data-original-title="" title=""></i></button>
-    {t domain="withdraw"}
-	<p><strong>温馨提示：</strong></p>
-	<p>线下提现申请：指用户通过线下人工或其他渠道套现，由管理员提交申请后，自动记录对应账号内提现数据及金额变动。</p>
-    {/t}
+	<p><strong>{t domain="withdraw"}温馨提示：{/t}</strong></p>
+	<p>{t domain="withdraw"}线下提现申请：指用户通过线下人工或其他渠道套现，由管理员提交申请后，自动记录对应账号内提现数据及金额变动。{/t}</p>
 </div>
 
 <div>
