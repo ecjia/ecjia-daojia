@@ -16,7 +16,7 @@
 
 <!-- {block name="home-content"} -->
 <div class="container settled-container" style="">
-	<div class="sett-banner" style="background:url(https://x.dscmall.cn/storage/data/afficheimg/1489978643396742470.jpg) center center no-repeat;">
+	<div class="sett-banner" style="background:url({$static_url}franchisee_index.jpg) center center no-repeat;">
 		<div class="banner-auto" style="width: 1100px;">
 			<div class="s-b-tit">
 				<h3>马上入驻 开向未来</h3>

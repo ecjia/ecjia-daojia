@@ -49,11 +49,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.franchisee',
 	'directory' 	=> 'franchisee',
-	'name'			=> 'franchisee',
-	'description' 	=> 'franchisee_desc',			/* 描述对应的语言项 */
+	'name'			=> __('商家入驻', 'franchisee'),
+	'description' 	=> __('商家入驻', 'franchisee'),
 	'author' 		=> 'ECJIA TEAM',				/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',		/* 网址 */
-	'version' 		=> '1.27.0',						/* 版本号 */
+	'version' 		=> '1.27.4',						/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2016 ~ 2019.',
     'namespace'     => 'Ecjia\App\Franchisee',
     'provider'      => 'FranchiseeServiceProvider',
