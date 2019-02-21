@@ -1,0 +1,33 @@
+# Copyright (C) 2019 Ecjia App sms
+# This file is distributed under the same license as the Ecjia App sms package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App sms 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:58:31+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: apis/sms_send_event_sms_api.class.php:67
+msgid "无效参数"
+msgstr ""
+
+#: classes/SmsManager.php:152
+msgid "短信模板不存在"
+msgstr ""
+
+#: configs/package.php:55
+msgid "短信"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"短信是信息推送最直接却又不会过分影响消费者的优秀途径，在短信记录中，商家可以"
+"查看、管理所有发送成功、不成功的短信；短信模板让推送短信的编辑更加简单便捷，"
+"而短信配置允许商家设置短信平台账号和商家电话已经不同情况是否发送短信，为商家"
+"提供一套完善的短信解决方案，使得短信管理的易用性、可操作性都大大提高。"
+msgstr ""
