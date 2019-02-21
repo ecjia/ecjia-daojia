@@ -14,7 +14,7 @@
                 <!-- end dropdown 3 -->
             </ul>
             <ul class="nav navbar-nav navbar-right top-menu">
-            	<a class="ecjiafc-white l_h30" href='{RC_Uri::home_url()}'><i class="fa fa-reply"></i> 网站首页</a>
+            	<a class="ecjiafc-white l_h30" href='{RC_Uri::home_url()}'><i class="fa fa-reply"></i> {t domain="merchant"}网站首页{/t}</a>
             </ul>
         </div>
     </nav>
@@ -63,7 +63,7 @@
                     <ul class="dropdown-menu extended notification">
                         <div class="notify-arrow notify-arrow-yellow"></div>
                         <li>
-                            <p class="yellow">您有 {$ecjia_merchant_notice_count} 条新通知</p>
+                            <p class="yellow">{t domain="merchant" 1={$ecjia_merchant_notice_count}}您有  条新通知{/t}</p>
                         </li>
                   		<div class="mh300 ecjiaf-oa">
                         <!-- {foreach from=$ecjia_merchant_notice_list item=val} -->
@@ -91,14 +91,14 @@
                                 <span class="label label-info">
                                 	<i class="fa fa-bullhorn"></i>
                                 </span>
-                                <span class="m_l5">暂无新通知</span>
+                                <span class="m_l5">{t domain="merchant"}暂无新通知{/t}</span>
                                 <span class="small italic"></span>
                             </a>
                         </li>
                  		<!-- {/foreach} -->
                         </div>
                         <li {if $ecjia_merchant_notice_count gt 0}class="ecjiaf-bt"{/if}>
-                            <a href="{url path='notification/mh_notification/init'}">查看所有通知</a>
+                            <a href="{url path='notification/mh_notification/init'}">{t domain="merchant"}查看所有通知{/t}</a>
                         </li>
                     </ul>
                 </li>
@@ -106,9 +106,9 @@
             </ul>
             <ul class="nav navbar-nav navbar-right top-menu">
                 <li class="dropdown">
-                    <input type="text" class="form-control input-sm search_query" placeholder="搜索导航" data-toggle="dropdown">
+                    <input type="text" class="form-control input-sm search_query" placeholder='{t domain="merchant"}搜索导航{/t}' data-toggle="dropdown">
                    	<ul class="dropdown-menu search-nav">
-                   		<li class="search_query_none"><a href="javascript:;">{t}请先输入搜索信息{/t}</a></li>
+                   		<li class="search_query_none"><a href="javascript:;">{t domain="merchant"}请先输入搜索信息{/t}</a></li>
 						<!--{ecjia:hook id=merchant_sidebar_collapse_search}-->
                    	</ul>
                 </li>
@@ -125,10 +125,10 @@
                     </a>
                     <ul class="dropdown-menu">
                         <div class="log-arrow-up"></div>
-                        <li><a href="{url path='staff/mh_profile/init'}"><i class="fa fa-cog"></i> 个人设置</a></li>
-                        <li><a href="{url path='notification/mh_notification/init'}"><i class="fa fa-bell-o"></i> 通知</a></li>
+                        <li><a href="{url path='staff/mh_profile/init'}"><i class="fa fa-cog"></i> {t domain="merchant"}个人设置{/t}</a></li>
+                        <li><a href="{url path='notification/mh_notification/init'}"><i class="fa fa-bell-o"></i> {t domain="merchant"}通知{/t}</a></li>
                         <li class="divider"></li>
-                        <li><a href="{url path='staff/privilege/logout'}"><i class="fa fa-key"></i> 退出</a></li>
+                        <li><a href="{url path='staff/privilege/logout'}"><i class="fa fa-key"></i> {t domain="merchant"}退出{/t}</a></li>
                     </ul>
                 </li>
             </ul>
@@ -161,7 +161,7 @@ border-bottom: 15px solid #f2f2f2;"
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                 	<!-- {if $current_order} -->
                 	<ul class="nav navbar-nav current-order-navbar">
-	                	<div class="current-order-header">订单快速处理</div>
+	                	<div class="current-order-header">{t domain="merchant"}订单快速处理{/t}</div>
                 	</ul>
                 	<!-- {else} -->
                     <!-- {ecjia:hook id=merchant_print_header_nav} -->

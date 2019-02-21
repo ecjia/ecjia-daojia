@@ -44,14 +44,26 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 应用语言包
+ * js语言包设置
  */
-return array(
-	'merchant' 		=> '我的店铺',
-	'merchant_desc'	=> '在店铺设置中商家可以进行店铺的基本信息设置、店铺橱窗设置、店铺导航栏设置以及店铺自定义设置，让店铺商家更好的展示自身风采，在橱窗中展现优质产品，以及使用导航让消费者更快找到心仪商品，是集宣传信息、优化体验与一体的强大功能。'
-);
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+    //merchant
+    'merchant_page' =>array(
+        'next_day'		        => __('次日', 'merchant'),
+        'do_this'			    => __('您确定进行该操作吗？', 'merchant'),
+        'parameter_error'				=> __('参数错误！', 'merchant'),
+        'address_source_specified'            => __('必须指定地址源', 'merchant'),
+        'resend' =>  __('重新发送', 'merchant'),
+        'resend_code' =>  __('重新发送验证码', 'merchant'),
+        'ok' =>  __('确定', 'merchant'),
+        'cancel' =>  __('取消', 'merchant'),
+
+    ),
+
+);
+//end

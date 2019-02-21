@@ -57,7 +57,7 @@ class admin_merchant_preaudit_module extends api_admin implements api_interface 
 		$validate_code	= $this->requestData('validate_code');
 
 		if (empty($validate_code) || empty($value)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+			return new ecjia_error( 'invalid_parameter', __('参数无效' ,'merchant'));
 		}
 
         if (!empty($validate_code)) {

@@ -51,7 +51,7 @@
     <div class="col-lg-12">
         <div class="alert alert-info alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" data-original-title="" title=""></i></button>
-            入驻信息已经提交，不可更改，商家正在进行审核，请等待3-5工作日查看审核状态。
+            {t domain="merchant"}入驻信息已经提交，不可更改，商家正在进行审核，请等待3-5工作日查看审核状态。{/t}
         </div>
     </div>
 </div>
@@ -80,15 +80,15 @@
             <ul class="step">
                 <li>
                     <span>1</span>
-                    <p>提交申请</p>
+                    <p>{t domain="merchant"}提交申请{/t}</p>
                 </li>
                 <li>
                     <span>2</span>
-                    <p>等待审核</p>
+                    <p>{t domain="merchant"}等待审核{/t}</p>
                 </li>
                 <li>
                     <span>3</span>
-                    <p>审核状态</p>
+                    <p>{t domain="merchant"}审核状态{/t}</p>
                 </li>
             </ul>
         </div>
@@ -98,7 +98,7 @@
                     <form class="cmxform form-horizontal" name="theForm" action="{$form_action}"  method="post" enctype="multipart/form-data" >
 
                         <div class="form-group">
-                            <label class="control-label col-lg-2">{lang key='merchant::merchant.merchants_name'}：</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}店铺名称：{/t}</label>
                             <div class="col-lg-6">
                                 <input class="form-control required" name="merchants_name" type="text" value="{$data.merchants_name}" />
                             </div>
@@ -108,10 +108,10 @@
                         </div>
 
                         <div class="form-group ">
-                            <label class="control-label col-lg-2">{lang key='merchant::merchant.merchant_cat'}：</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}店铺分类：{/t}</label>
                             <div class="col-lg-2">
                                 <select class="form-control required" name="cat_id">
-                                    <option value="0">请选择...</option>
+                                    <option value="0">{t domain="merchant"}请选择...{/t}</option>
                                     <!-- {foreach from=$cat_info item=cat} -->
                                         <option value="{$cat.cat_id}" {if $data.cat_id eq $cat.cat_id}selected{/if}>{$cat.cat_name}</option>
                                     <!-- {/foreach} -->
@@ -123,10 +123,10 @@
                         </div>
 
                         <div class="form-group ">
-                            <label class="control-label col-lg-2">{lang key='merchant::merchant.shop_keyword'}：</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}店铺关键字：{/t}</label>
                             <div class="col-lg-6">
                                 <textarea class="form-control required" name="shop_keyword" >{$data.shop_keyword}</textarea>
-                                <div class="help-block">精确填写店铺关键字有利于店铺搜索</div>
+                                <div class="help-block">{t domain="merchant"}精确填写店铺关键字有利于店铺搜索{/t}</div>
                             </div>
                             <span class="input-must">
                                 <span class="input-must">*</span>
@@ -134,10 +134,10 @@
                         </div>
 
                         <div class="form-group form-address">
-                            <label class="control-label col-lg-2">{t}省份：{/t}</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}省份：{/t}</label>
                             <div class="w120 f_l m_l15">
                                 <select class="form-control required" name="province" data-toggle="regionSummary" data-type="2" data-target="region-summary-cities" data-url="{url path='merchant/region/init'}">
-                                    <option value='0'>{t}请选择...{/t}</option>
+                                    <option value='0'>{t domain="merchant"}请选择...{/t}</option>
                                     <!-- {foreach from=$province item=region} -->
                                         <option value="{$region.region_id}" {if $region.region_id eq $data.province}selected{/if}>{$region.region_name}</option>
                                     <!-- {/foreach} -->
@@ -146,7 +146,7 @@
 
                             <div class="w120 f_l m_l10">
                                 <select class="form-control required region-summary-cities" data-target="region-summary-distric" name="city" data-type="3" data-toggle="regionSummary">
-                                    <option value='0'>{t}请选择...{/t}</option>
+                                    <option value='0'>{t domain="merchant"}请选择...{/t}</option>
                                     <!-- {foreach from=$city item=region} -->
                                     <option value="{$region.region_id}" {if $region.region_id eq $data.city}selected{/if}>{$region.region_name}</option>
                                     <!-- {/foreach} -->
@@ -155,7 +155,7 @@
 
                             <div class="w120 f_l m_l10">
                                 <select class="form-control required region-summary-distric" data-target="region-summary-street" name="district" data-type="4" data-toggle="regionSummary">
-                                    <option value='0'>{t}请选择...{/t}</option>
+                                    <option value='0'>{t domain="merchant"}请选择...{/t}</option>
                                     <!-- {foreach from=$district item=region} -->
                                     <option value="{$region.region_id}" {if $region.region_id eq $data.district}selected{/if}>{$region.region_name}</option>
                                     <!-- {/foreach} -->
@@ -164,7 +164,7 @@
                             
                             <div class="w120 f_l m_l10 m_r10">
                           		<select class="form-control required region-summary-street" name="street" >
-                                    <option value='0'>{t}请选择...{/t}</option>
+                                    <option value='0'>{t domain="merchant"}请选择...{/t}</option>
                                     <!-- {foreach from=$street item=region} -->
                                     <option value="{$region.region_id}" {if $region.region_id eq $data.street}selected{/if}>{$region.region_name}</option>
                                     <!-- {/foreach} -->
@@ -177,26 +177,26 @@
                         </div>
 
                         <div class="form-group ">
-                            <label class="control-label col-lg-2">{lang key='merchant::merchant.address'}：</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}详细地址：{/t}</label>
                             <div class="col-lg-6">
                                 <input class="form-control required" type="text" name="address" value="{$data.address}">
-                                <div class="help-block">点击获取精确位置显示地图坐标</div>
+                                <div class="help-block">{t domain="merchant"}点击获取精确位置显示地图坐标{/t}</div>
                             </div>
                             <span class="input-must">
                                 <span class="input-must">*</span>
                             </span>
                             <div class="input-must">
-                                <button class="btn btn-info small-btn" data-toggle="get-gohash" data-url="{url path='merchant/mh_franchisee/getgeohash'}">获取精准坐标</button>
+                                <button class="btn btn-info small-btn" data-toggle="get-gohash" data-url="{url path='merchant/mh_franchisee/getgeohash'}">{t domain="merchant"}获取精准坐标{/t}</button>
                             </div>
                         </div>
 
                         <div class="form-group location-address {if !$data.longitude || !$data.latitude}hide{/if}">
-                            <label class="control-label col-lg-2">{lang key='merchant::merchant.merchant_addres'}：</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}店铺精确位置：{/t}</label>
                             <div class="col-lg-6">
                                 <div id="allmap" style="height:320px;"></div>
-                                <div class="help-block">点击选择店铺精确位置，双击放大地图，拖动查看地图其他区域</div>
+                                <div class="help-block">{t domain="merchant"}点击选择店铺精确位置，双击放大地图，拖动查看地图其他区域{/t}</div>
                                 <div class="help-block">
-                                    <label class="control-label f_l">经纬度：</label>
+                                    <label class="control-label f_l">{t domain="merchant"}经纬度：{/t}</label>
                                     <span class="col-lg-4"><input class="form-control required" type="text" readonly="true" name="longitude" value="{$data.longitude}"></span>
                                     <span class="col-lg-4"><input class="form-control required" type="text" readonly="true" name="latitude" value="{$data.latitude}"></span>
                                 </div>
@@ -204,10 +204,10 @@
                         </div>
 
                         <div class="form-group ">
-                            <label class="control-label col-lg-2">{lang key='merchant::merchant.responsible_person'}：</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}负责人：{/t}</label>
                             <div class="col-lg-6">
                                 <input class="form-control required" name="responsible_person" type="text" value="{$data.responsible_person}"/>
-                                <div class="help-block">必须和证件上名称保持一致</div>
+                                <div class="help-block">{t domain="merchant"}必须和证件上名称保持一致{/t}</div>
                             </div>
                             <span class="input-must">
                                 <span class="input-must">*</span>
@@ -215,7 +215,7 @@
                         </div>
 
                         <div class="form-group ">
-                            <label class="control-label col-lg-2">{lang key='merchant::merchant.email'}：</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}联系邮箱：{/t}</label>
                             <div class="col-lg-6">
                                 <input class="form-control required email" name="email" type="text" value="{$data.email}"/>
                             </div>
@@ -225,7 +225,7 @@
                         </div>
 
                         <div class="form-group ">
-                            <label class="control-label col-lg-2">{lang key='merchant::merchant.contact_mobile'}：</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}联系手机：{/t}</label>
                             <div class="col-lg-6">
                                 <input class="form-control required" name="contact_mobile" type="text" value="{$data.contact_mobile}"/>
                             </div>
@@ -235,12 +235,12 @@
                         </div>
 
                         <div class="form-group ">
-                            <label class="control-label col-lg-2">{lang key='merchant::merchant.identity_type'}：</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}证件类型：{/t}</label>
                             <div class="col-lg-2">
                                 <select class="form-control required" name="identity_type">
-                                    <option value="1" {if $data.identity_type eq 1}selected="selected"{/if}>身份证</option>
-                                    <option value="2" {if $data.identity_type eq 2}selected="selected"{/if}>护照</option>
-                                    <option value="3" {if $data.identity_type eq 3}selected="selected"{/if}>港澳身份证</option>
+                                    <option value="1" {if $data.identity_type eq 1}selected="selected"{/if}>{t domain="merchant"}身份证{/t}</option>
+                                    <option value="2" {if $data.identity_type eq 2}selected="selected"{/if}>{t domain="merchant"}护照{/t}</option>
+                                    <option value="3" {if $data.identity_type eq 3}selected="selected"{/if}>{t domain="merchant"}港澳身份证{/t}</option>
                                 </select>
                             </div>
                             <span class="input-must">
@@ -249,7 +249,7 @@
                         </div>
 
                         <div class="form-group ">
-                            <label class="control-label col-lg-2">{lang key='merchant::merchant.identity_number'}：</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}证件号码：{/t}</label>
                             <div class="col-lg-6">
                                 <input class="form-control required" type="type" name="identity_number" value="{$data.identity_number}">
                             </div>
@@ -259,68 +259,68 @@
                         </div>
 
                         <div class="form-group ">
-                            <label class="control-label col-lg-2">{lang key='merchant::merchant.identity_pic_front'}：</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}证件正面：{/t}</label>
                             <div class="col-lg-6">
                                 <div class="fileupload fileupload-{if $data.identity_pic_front}exists{else}new{/if}" data-provides="fileupload">
                                     {if $data.identity_pic_front}
                                     <div class="fileupload-{if $data.identity_pic_front}exists{else}new{/if} thumbnail" style="max-width: 60px;">
-                                        <img src="{$data.identity_pic_front}" alt="证件正面" style="width:50px; height:50px;"/>
+                                        <img src="{$data.identity_pic_front}" alt='{t domain="merchant"}证件正面{/t}' style="width:50px; height:50px;"/>
                                     </div>
                                     {/if}
                                     <div class="fileupload-preview fileupload-{if $data.identity_pic_front}new{else}exists{/if} thumbnail" style="max-width: 60px;max-height: 60px;line-height: 10px;"></div>
                                     <span class="btn btn-primary btn-file btn-sm">
-                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i> 浏览</span>
-                                        <span class="fileupload-exists"> 修改</span>
+                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i> {t domain="merchant"}浏览{/t}</span>
+                                        <span class="fileupload-exists"> {t domain="merchant"}修改{/t}</span>
                                         <input type="file" class="default" name="identity_pic_front" />
                                     </span>
-                                    <a class="btn btn-danger btn-sm fileupload-exists" data-dismiss="fileupload">删除</a>
+                                    <a class="btn btn-danger btn-sm fileupload-exists" data-dismiss="fileupload">{t domain="merchant"}删除{/t}</a>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group ">
-                            <label class="control-label col-lg-2">{lang key='merchant::merchant.identity_pic_back'}：</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}证件反面：{/t}</label>
                             <div class="col-lg-6">
                                 <div class="fileupload fileupload-{if $data.identity_pic_back}exists{else}new{/if}" data-provides="fileupload">
                                     {if $data.identity_pic_back}
                                     <div class="fileupload-{if $data.identity_pic_back}exists{else}new{/if} thumbnail" style="max-width: 60px;">
-                                        <img src="{$data.identity_pic_back}" alt="证件反面" style="width:50px; height:50px;"/>
+                                        <img src="{$data.identity_pic_back}" alt='{t domain="merchant"}证件反面{/t}' style="width:50px; height:50px;"/>
                                     </div>
                                     {/if}
                                     <div class="fileupload-preview fileupload-{if $data.identity_pic_back}new{else}exists{/if} thumbnail" style="max-width: 60px;max-height: 60px;line-height: 10px;"></div>
                                     <span class="btn btn-primary btn-file btn-sm">
-                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i> 浏览</span>
-                                        <span class="fileupload-exists"> 修改</span>
+                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i> {t domain="merchant"}浏览{/t}</span>
+                                        <span class="fileupload-exists"> {t domain="merchant"}修改{/t}</span>
                                         <input type="file" class="default" name="identity_pic_back" />
                                     </span>
-                                    <a class="btn btn-danger btn-sm fileupload-exists" data-dismiss="fileupload">删除</a>
+                                    <a class="btn btn-danger btn-sm fileupload-exists" data-dismiss="fileupload">{t domain="merchant"}删除{/t}</a>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group ">
-                            <label class="control-label col-lg-2">{lang key='merchant::merchant.personhand_identity_pic'}：</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}手持证件拍照：{/t}</label>
                             <div class="col-lg-6">
                                 <div class="fileupload fileupload-{if $data.personhand_identity_pic}exists{else}new{/if}" data-provides="fileupload">
                                     {if $data.personhand_identity_pic}
                                     <div class="fileupload-{if $data.personhand_identity_pic}exists{else}new{/if} thumbnail" style="max-width: 60px;">
-                                        <img src="{$data.personhand_identity_pic}" alt="手持证件拍照" style="width:50px; height:50px;"/>
+                                        <img src="{$data.personhand_identity_pic}" alt='{t domain="merchant"}手持证件拍照{/t}' style="width:50px; height:50px;"/>
                                     </div>
                                     {/if}
                                     <div class="fileupload-preview fileupload-{if $data.personhand_identity_pic}new{else}exists{/if} thumbnail" style="max-width: 60px;max-height: 60px;line-height: 10px;"></div>
                                     <span class="btn btn-primary btn-file btn-sm">
-                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i> 浏览</span>
-                                        <span class="fileupload-exists">修改</span>
+                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i> {t domain="merchant"}浏览{/t}</span>
+                                        <span class="fileupload-exists">{t domain="merchant"}修改{/t}</span>
                                         <input type="file" class="default" name="personhand_identity_pic" />
                                     </span>
-                                    <a class="btn btn-danger btn-sm fileupload-exists" data-dismiss="fileupload">删除</a>
+                                    <a class="btn btn-danger btn-sm fileupload-exists" data-dismiss="fileupload">{t domain="merchant"}删除{/t}</a>
                                 </div>
                             </div>
                         </div>
 
                         <!-- {if $data.validate_type eq 2 || $type eq 'company'} -->
                         <div class="form-group ">
-                            <label class="control-label col-lg-2">{lang key='merchant::merchant.company_name'}：</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}公司名称：{/t}</label>
                             <div class="col-lg-6">
                                 <input class="form-control required" name="company_name" type="text" value="{$data.company_name}" />
                             </div>
@@ -330,7 +330,7 @@
                         </div>
 
                         <div class="form-group identity_type">
-                            <label class="control-label col-lg-2">{lang key='merchant::merchant.business_licence'}：</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}营业执照注册号：{/t}</label>
                             <div class="col-lg-6">
                                 <input class="form-control required" type="text" name="business_licence" value="{$data.business_licence}">
                             </div>
@@ -340,21 +340,21 @@
                         </div>
 
                         <div class="form-group identity_type">
-                            <label class="control-label col-lg-2">{lang key='merchant::merchant.business_licence_pic'}：</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}营业执照电子版：{/t}</label>
                             <div class="col-lg-6">
                                 <div class="fileupload fileupload-{if $data.business_licence_pic}exists{else}new{/if}" data-provides="fileupload">
                                     {if $data.business_licence_pic}
                                     <div class="fileupload-{if $data.business_licence_pic}exists{else}new{/if} thumbnail" style="max-width: 60px;">
-                                        <img src="{$data.business_licence_pic}" alt="营业执照" style="width:50px; height:50px;"/>
+                                        <img src="{$data.business_licence_pic}" alt='{t domain="merchant"}营业执照{/t}' style="width:50px; height:50px;"/>
                                     </div>
                                     {/if}
                                     <div class="fileupload-preview fileupload-{if $data.business_licence_pic}new{else}exists{/if} thumbnail" style="max-width: 60px; max-height: 60px; line-height: 20px;"></div>
                                     <span class="btn btn-primary btn-file btn-sm">
-                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i> 浏览</span>
-                                        <span class="fileupload-exists"> 修改</span>
+                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i> {t domain="merchant"}浏览{/t}</span>
+                                        <span class="fileupload-exists"> {t domain="merchant"}修改{/t}</span>
                                         <input type="file" class="default" name="business_licence_pic" />
                                     </span>
-                                    <a class="btn btn-danger btn-sm fileupload-exists" data-dismiss="fileupload">删除</a>
+                                    <a class="btn btn-danger btn-sm fileupload-exists" data-dismiss="fileupload">{t domain="merchant"}删除{/t}</a>
                                 </div>
                             </div>
                         </div>
@@ -363,8 +363,8 @@
                         <div class="form-group ">
                             <div class="col-lg-6 col-md-offset-2">
                             	<input type="hidden" name="type" value="{$type}">
-                                <!-- {if $step eq 1} --><input class="btn btn-info" type="submit" name="name" value="提交修改"> <!-- {/if} -->
-                                <!-- {if $step eq 2} --><a class="btn btn-primary nodisabled" disabled="false" data-toggle="ajax_remove" href="{url path='merchant/mh_franchisee/delete'}">撤销修改申请</a> <!-- {/if} -->
+                                <!-- {if $step eq 1} --><input class="btn btn-info" type="submit" name="name" value='{t domain="merchant"}提交修改{/t}'> <!-- {/if} -->
+                                <!-- {if $step eq 2} --><a class="btn btn-primary nodisabled" disabled="false" data-toggle="ajax_remove" href="{url path='merchant/mh_franchisee/delete'}">{t domain="merchant"}撤销修改申请{/t}</a> <!-- {/if} -->
                             </div>
                         </div>
                     </form>

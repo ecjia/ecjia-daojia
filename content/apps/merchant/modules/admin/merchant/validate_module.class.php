@@ -61,17 +61,17 @@ class admin_merchant_validate_module extends api_admin implements api_interface 
 		$api_version = $this->request->header('api-version');
 		
 		if (empty($type) || empty($value)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+			return new ecjia_error( 'invalid_parameter', __('参数无效' ,'merchant'));
 		}
-		
+
 		if (version_compare($api_version, '1.14', '>=')) {
 			$captcha_code = $this->requestData('captcha_code');
 			if (empty($captcha_code)) {
-				return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+				return new ecjia_error( 'invalid_parameter', __('参数无效' ,'merchant'));
 			}
 			//判断验证码是否正确
 			if (isset($captcha_code) && $_SESSION['captcha_word'] != strtolower($captcha_code)) {
-				return new ecjia_error( 'captcha_code_error', '验证码错误');
+				return new ecjia_error( 'captcha_code_error', __('验证码错误', 'merchant'));
 			}
 		}
 		
@@ -80,7 +80,7 @@ class admin_merchant_validate_module extends api_admin implements api_interface 
 			$info_store_preaudit	= RC_DB::table('store_preaudit')->where('contact_mobile', $value)->first();
 			$info_store_franchisee	= RC_DB::table('store_franchisee')->where('contact_mobile', $value)->first();
 			if (empty($info_store_preaudit) && empty($info_store_franchisee)) {
-				return new ecjia_error('store_error', '您还未申请入驻！');
+				return new ecjia_error('store_error', __('您还未申请入驻！', 'merchant'));
 			}
 		}
 
@@ -90,27 +90,27 @@ class admin_merchant_validate_module extends api_admin implements api_interface 
             $info_staff_user		= RC_DB::table('staff_user')->where('mobile', $value)->first();
 			
 			if (!empty($info_store_preaudit)){
-                return new ecjia_error('merchant_checking', '手机号'.$value.'已被申请，请确认该账号是否为本人所有');
+                return new ecjia_error('merchant_checking', __('手机号', 'merchant').$value.__('已被申请，请确认该账号是否为本人所有', 'merchant'));
             }elseif(!empty($info_store_franchisee)){
-                return new ecjia_error('merchant_exist', '手机号'.$value.'已被申请，请确认该账号是否为本人所有');
+                return new ecjia_error('merchant_exist', __('手机号', 'merchant').$value.__('已被申请，请确认该账号是否为本人所有', 'merchant'));
             }
             if(!empty($info_staff_user)){
-                return new ecjia_error('already_signup', '手机号'.$value.'已被注册为店铺员工');
+                return new ecjia_error('already_signup', __('手机号', 'merchant').$value.__('已被注册为店铺员工', 'merchant'));
             }
 		}
 
         if (!empty($validate_code)) {
 			/* 判断校验码*/
 			if ($_SESSION['merchant_validate_code'] != $validate_code) {
-				return new ecjia_error('validate_code_error', '校验码错误！');
+				return new ecjia_error('validate_code_error', __('校验码错误！', 'merchant'));
 			} elseif ($_SESSION['merchant_validate_expiry'] < RC_Time::gmtime()) {
-				return new ecjia_error('validate_code_time_out', '校验码已过期！');
+				return new ecjia_error('validate_code_time_out', __('校验码已过期！', 'merchant'));
 			}
-			return array('message' => '校验成功！');
+			return array('message' => __('校验成功！', 'merchant'));
 		}
 
 		if (($_SESSION['merchant_validate_expiry'] - 1740) > $time && empty($validate_code)) {
-		    return new ecjia_error('restrict_times', '您发送验证码的频率过高，请稍等一分钟！');
+		    return new ecjia_error('restrict_times', __('您发送验证码的频率过高，请稍等一分钟！', 'merchant'));
 		}
 		
         // 发送验证码
@@ -133,9 +133,9 @@ class admin_merchant_validate_module extends api_admin implements api_interface 
         
         /* 判断是否发送成功*/
         if (is_ecjia_error($response)) {
-        	return new ecjia_error('send_code_error', '验证码发送失败！');
+        	return new ecjia_error('send_code_error', __('验证码发送失败！', 'merchant'));
         } else {
-        	return array('message' => '验证码发送成功！');
+        	return array('message' => __('验证码发送成功！', 'merchant'));
         }
     }
 

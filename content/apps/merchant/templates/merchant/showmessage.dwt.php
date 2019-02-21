@@ -13,7 +13,7 @@
 				<div class="msg-info">
 					<p class="info">{$msg_detail}</p>
 					<!-- {if $links} -->
-					<p class="m_t20"><strong>{t}您可以试试下面的链接：{/t}</strong></p>
+					<p class="m_t20"><strong>{t domain="merchant"}您可以试试下面的链接：{/t}</strong></p>
 					<!-- {foreach from=$links item=link key=key name=link_list} -->
 						<a class="ecjiaf-ib ecjiaf-fl m_r10" href="{$link.href}"><i class="fontello-icon-link"></i>{$link.text}</a>
 					<!-- {/foreach} -->

@@ -28,9 +28,9 @@
                 <div class="form">
                     <form class="cmxform form-horizontal" name="theForm" action="{$form_action}"  method="post" enctype="multipart/form-data" data-toggle='from'>
                   	    <div class="form-group">
-                            <label class="control-label col-lg-2">{t}选择模板：{/t}</label>
+                            <label class="control-label col-lg-2">{t domain="merchant"}选择模板：{/t}</label>
                             <div class="col-lg-6">
-                                <span class="help-block">此模板只适用于门店小程序（点击图片可查看模板大图）</span>
+                                <span class="help-block">{t domain="merchant"}此模板只适用于门店小程序（点击图片可查看模板大图）{/t}</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -40,17 +40,17 @@
                                 	<div class="template-item">
                                 		<figure>
                                 			<span>
-                                				<a class="nopjax" href="{$app_url}template_1.png" data-size="248x500" data-med-size="200x403" title="点击放大" data-med="{$app_url}template_1.png">
+                                				<a class="nopjax" href="{$app_url}template_1.png" data-size="248x500" data-med-size="200x403" title='{t domain="merchant"}点击放大{/t}' data-med="{$app_url}template_1.png">
                                 					<img href="{$app_url}template_1.png" src="{$app_url}template_1.png" class="w200"/>
                                 				</a>
                                 			</span>
                                 		</figure>
                                 	</div>
                                 	<div class="template-item">
-                                		<figure><span><a class="nopjax" href="{$app_url}template_2.png" data-size="248x500" data-med-size="200x403" title="点击放大" data-med="{$app_url}template_2.png"><img href="{$app_url}template_2.png" src="{$app_url}template_2.png" class="w200"/></a></span></figure>
+                                		<figure><span><a class="nopjax" href="{$app_url}template_2.png" data-size="248x500" data-med-size="200x403" title='{t domain="merchant"}点击放大{/t}' data-med="{$app_url}template_2.png"><img href="{$app_url}template_2.png" src="{$app_url}template_2.png" class="w200"/></a></span></figure>
                                 	</div>
                                 	<div class="template-item">
-                                		<figure><span><a class="nopjax" href="{$app_url}template_3.png" data-size="248x500" data-med-size="200x403" title="点击放大" data-med="{$app_url}template_3.png"><img href="{$app_url}template_3.png" src="{$app_url}template_3.png" class="w200"/></a></span></figure>
+                                		<figure><span><a class="nopjax" href="{$app_url}template_3.png" data-size="248x500" data-med-size="200x403" title='{t domain="merchant"}点击放大{/t}' data-med="{$app_url}template_3.png"><img href="{$app_url}template_3.png" src="{$app_url}template_3.png" class="w200"/></a></span></figure>
                                 	</div>
                                 </div>
                             </div>
@@ -58,15 +58,15 @@
                             <div class="col-lg-10 m_b10">
                             	<div class="f_l">
 	                                <input id="template_1" type="radio" name="shop_template" value="default1" {if $shop_template eq 'default1'} checked{/if}/>
-	                                <label for="template_1">普通商城类模板<span class="help-block">适用于普通电商购物</span></label>
+	                                <label for="template_1">{t domain="merchant"}普通商城类模板{/t}<span class="help-block">{t domain="merchant"}适用于普通电商购物{/t}</span></label>
                                 </div>
                                 <div class="f_l m_l130">
 	                                <input id="template_2" type="radio" name="shop_template" value="default2" {if $shop_template eq 'default2'} checked{/if}/>
-	                                <label for="template_2">外卖类模板<span class="help-block">适用于同城餐饮外卖</span></label>
+	                                <label for="template_2">{t domain="merchant"}外卖类模板{/t}<span class="help-block">{t domain="merchant"}适用于同城餐饮外卖{/t}</span></label>
                                 </div>
                                 <div class="f_l m_l140">
 	                                <input id="template_3" type="radio" name="shop_template" value="default3" {if $shop_template eq 'default3'} checked{/if}/>
-	                                <label for="template_3">自助购物模板<span class="help-block">适用于自助买单、到店消费</span></label>
+	                                <label for="template_3">{t domain="merchant"}自助购物模板{/t}<span class="help-block">{t domain="merchant"}适用于自助买单、到店消费{/t}</span></label>
                                 </div>
                         	</div>
                         </div>
@@ -84,13 +84,13 @@
                             <div class="col-lg-10 m_b10">
                             	<div class="f_l">
 	                                <input id="template_4" type="radio" name="shop_template" value="default4" {if $shop_template eq 'default4'} checked{/if}/>
-	                                <label for="template_4">优惠买单模板<span class="help-block">适用于到店支付、享受店铺优惠</span></label>
+	                                <label for="template_4">{t domain="merchant"}优惠买单模板{/t}<span class="help-block">{t domain="merchant"}适用于到店支付、享受店铺优惠{/t}</span></label>
                                 </div>
                         	</div>
                         </div>
                         <div class="form-group m_t20">
                             <div class="col-lg-6 col-md-offset-2">
-                                <input class="btn btn-info" type="submit" name="name" value="确定">
+                                <input class="btn btn-info" type="submit" name="name" value='{t domain="merchant"}确定{/t}'>
                             </div>
                         </div>
                     </form>

@@ -25,15 +25,15 @@
             <ul class="step">
                 <li>
                     <span>1</span>
-                    <p>提交申请</p>
+                    <p>{t domain="merchant"}提交申请{/t}</p>
                 </li>
                 <li>
                     <span>2</span>
-                    <p>等待审核</p>
+                    <p>{t domain="merchant"}等待审核{/t}</p>
                 </li>
                 <li>
                     <span>3</span>
-                    <p>审核状态</p>
+                    <p>{t domain="merchant"}审核状态{/t}</p>
                 </li>
             </ul>
         </div>
@@ -47,10 +47,10 @@
                     <div class="line"></div>
                 </div>
                 <div class="error-title">
-                    <h3>审核未通过</h3>
+                    <h3>{t domain="merchant"}审核未通过{/t}</h3>
                 </div>
-                <a class="btn btn-info" data-toggle="modal" href="#logs">查看审核日志</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a class="btn btn-info data-pjax" href="{url path='merchant/mh_franchisee/request_edit' args="step=1"}">再次申请修改</a>
+                <a class="btn btn-info" data-toggle="modal" href="#logs">{t domain="merchant"}查看审核日志{/t}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a class="btn btn-info data-pjax" href="{url path='merchant/mh_franchisee/request_edit' args="step=1"}">{t domain="merchant"}再次申请修改{/t}</a>
             </div>
         </div>
     </section>
@@ -60,7 +60,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myModalLabel">审核日志</h4>
+                    <h4 class="modal-title" id="myModalLabel">{t domain="merchant"}审核日志{/t}</h4>
                 </div>
                 <div class="modal-body">
                     <ul class="error-logs">
@@ -70,7 +70,7 @@
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-info" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">{t domain="merchant"}关闭{/t}</button>
                 </div>
             </div>
         </div>

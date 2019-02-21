@@ -35,7 +35,7 @@
                     <table class="table table-th-block">
                         <tbody>
                             <tr>
-                                <td class="active w200">收款银行：</td>
+                                <td class="active w200">{t domain="merchant"}收款银行：{/t}</td>
                                 <td>
                                     <div class="row form-group">
                                         <div class="col-lg-6">
@@ -48,7 +48,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="active">银行账号：</td>
+                                <td class="active">{t domain="merchant"}银行账号：{/t}</td>
                                 <td>
                                     <div class="row form-group">
                                         <div class="col-lg-6">
@@ -61,7 +61,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="active">账户名称：</td>
+                                <td class="active">{t domain="merchant"}账户名称：{/t}</td>
                                 <td>
                                     <div class="row form-group">
                                         <div class="col-lg-6">
@@ -74,7 +74,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="active">开户银行支行名称：</td>
+                                <td class="active">{t domain="merchant"}开户银行支行名称：{/t}</td>
                                 <td>
                                     <div class="row form-group">
                                         <div class="col-lg-6">
@@ -87,7 +87,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="active">开户银行支行地址：</td>
+                                <td class="active">{t domain="merchant"}开户银行支行地址：{/t}</td>
                                 <td>
                                     <div class="row form-group">
                                         <div class="col-lg-6">
@@ -102,7 +102,7 @@
                             <tr>
                                 <td></td>
                                 <td>
-                                    <input class="btn btn-info" type="submit" name="name" value="更新">
+                                    <input class="btn btn-info" type="submit" name="name" value='{t domain="merchant"}更新{/t}'>
                                 </td>
                             </tr>
                         </tbody>

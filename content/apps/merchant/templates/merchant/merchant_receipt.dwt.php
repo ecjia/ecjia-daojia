@@ -28,59 +28,59 @@
                 <table class="table table-th-block">
                     <tbody>
                         <tr>
-                            <td class="active w200">收款银行：</td>
+                            <td class="active w200">{t domain="merchant"}收款银行：{/t}</td>
                             <td>
 								<!-- {if $data.bank_name} -->
 								{$data.bank_name}
 								<!-- {else} -->
-								<i>< 还未填写 ></i>
+								<i>< {t domain="merchant"}还未填写{/t} ></i>
 								<!-- {/if} -->
 							</td>
                         </tr>
                         <tr>
-                            <td class="active">银行账号：</td>
+                            <td class="active">{t domain="merchant"}银行账号：{/t}</td>
                             <td>
 								<!-- {if $data.bank_account_number} -->
 								{$data.bank_account_number}
 								<!-- {else} -->
-								<i>< 还未填写 ></i>
+								<i>< {t domain="merchant"}还未填写{/t} ></i>
 								<!-- {/if} -->
 							</td>
                         </tr>
                         <tr>
-                            <td class="active">账户名称：</td>
+                            <td class="active">{t domain="merchant"}账户名称：{/t}</td>
                             <td>
 								<!-- {if $data.bank_account_name} -->
 								{$data.bank_account_name}
 								<!-- {else} -->
-								<i>< 还未填写 ></i>
+								<i>< {t domain="merchant"}还未填写{/t} ></i>
 								<!-- {/if} -->
 							</td>
                         </tr>
                         <tr>
-                            <td class="active">开户银行支行名称：</td>
+                            <td class="active">{t domain="merchant"}开户银行支行名称：{/t}</td>
                             <td>
 								<!-- {if $data.bank_branch_name} -->
 								{$data.bank_branch_name}
 								<!-- {else} -->
-								<i>< 还未填写 ></i>
+								<i>< {t domain="merchant"}还未填写{/t} ></i>
 								<!-- {/if} -->
 							</td>
                         </tr>
                         <tr>
-                            <td class="active">开户银行支行地址：</td>
+                            <td class="active">{t domain="merchant"}开户银行支行地址：{/t}</td>
                             <td>
 								<!-- {if $data.bank_address} -->
 								{$data.bank_address}
 								<!-- {else} -->
-								<i>< 还未填写 ></i>
+								<i>< {t domain="merchant"}还未填写{/t} ></i>
 								<!-- {/if} -->
 							</td>
                         </tr>
                         <tr>
                             <td></td>
                             <td>
-                                <a class="btn btn-info" href="{url path='merchant/mh_franchisee/receipt_edit'}">编辑</a>
+                                <a class="btn btn-info" href="{url path='merchant/mh_franchisee/receipt_edit'}">{t domain="merchant"}编辑{/t}</a>
                             </td>
                         </tr>
                     </tbody>

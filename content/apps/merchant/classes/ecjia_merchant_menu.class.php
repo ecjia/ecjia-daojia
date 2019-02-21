@@ -83,7 +83,7 @@ class ecjia_merchant_menu extends RC_Object {
             if (!empty($admin_navlist)) {
                 $shortcut[] = ecjia_admin::make_admin_menu('divider', '', '', 99);
             }
-            $shortcut[] = ecjia_admin::make_admin_menu('shortcut_100', __('设置快捷菜单'), RC_Uri::url('@privilege/modif'), 100);
+            $shortcut[] = ecjia_admin::make_admin_menu('shortcut_100', __('设置快捷菜单', 'merchant'), RC_Uri::url('@privilege/modif'), 100);
 
             RC_Cache::userdata_cache_set('admin_navlist', $shortcut, $admin_id, true);
         }

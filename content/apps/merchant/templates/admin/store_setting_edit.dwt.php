@@ -32,7 +32,7 @@
                 <form class="form-horizontal" id="form-privilege" name="theForm" action="{$form_action}" method="post" enctype="multipart/form-data" >
                     <fieldset>
                         <div class="control-group formSep">
-                            <label class="control-label m_t10">店铺LOGO：</label>
+                            <label class="control-label m_t10">{t domain="merchant"}店铺LOGO：{/t}</label>
                             <div class="controls m_t15 m_b20 p_l10">
                                 <div class="fileupload fileupload-new" data-provides="fileupload">
                                     {if $store_info.shop_logo neq ''}
@@ -41,19 +41,19 @@
                                     <div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px; line-height: 50px;"></div>
                                     <span class="btn btn-file">
                                         {if $store_info.shop_logo neq ''}
-                                        <span class="fileupload-new">{lang key='store::store.change_image'}</span>
+                                        <span class="fileupload-new">{t domain="merchant"}更换图片{/t}</span>
                                         {else}
-                                        <span class="fileupload-new">{lang key='store::store.browse'}</span>
+                                        <span class="fileupload-new">{t domain="merchant"}浏览{/t}</span>
                                         {/if}
-                                        <span class="fileupload-exists">{lang key='store::store.modify'}</span>
+                                        <span class="fileupload-exists">{t domain="merchant"}修改{/t}</span>
                                         <input type='file' name='shop_logo' size="35" />
                                     </span>
-                                    <a class="btn fileupload-exists" data-dismiss="fileupload" href="#">{lang key='system::system.drop'}</a>
+                                    <a class="btn fileupload-exists" data-dismiss="fileupload" href="#">{t domain="merchant"}删除{/t}</a>
                                 </div>
                             </div>
                         </div>
                         <div class="control-group formSep">
-                            <label class="control-label m_t10">店铺顶部Banner图：</label>
+                            <label class="control-label m_t10">{t domain="merchant"}店铺顶部Banner图：{/t}</label>
                             <div class="controls m_t15 m_b20 p_l10">
                                 <div class="fileupload fileupload-new" data-provides="fileupload">
                                     {if $store_info.shop_banner_pic neq ''}
@@ -62,19 +62,19 @@
                                     <div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px; line-height: 50px;"></div>
                                     <span class="btn btn-file">
                                         {if $store_info.shop_banner_pic neq ''}
-                                        <span class="fileupload-new">{lang key='store::store.change_image'}</span>
+                                        <span class="fileupload-new">{t domain="merchant"}更换图片{/t}</span>
                                         {else}
-                                        <span class="fileupload-new">{lang key='store::store.browse'}</span>
+                                        <span class="fileupload-new">{t domain="merchant"}浏览{/t}</span>
                                         {/if}
-                                        <span class="fileupload-exists">{lang key='store::store.modify'}</span>
+                                        <span class="fileupload-exists">{t domain="merchant"}修改{/t}</span>
                                         <input type='file' name='shop_banner_pic' size="35" />
                                     </span>
-                                    <a class="btn fileupload-exists" data-dismiss="fileupload" href="#">{lang key='system::system.drop'}</a>
+                                    <a class="btn fileupload-exists" data-dismiss="fileupload" href="#">{t domain="merchant"}删除{/t}</a>
                                 </div>
                             </div>
                         </div>
                         <div class="control-group formSep">
-                            <label class="control-label m_t10">店铺导航背景图：</label>
+                            <label class="control-label m_t10">{t domain="merchant"}店铺导航背景图：{/t}</label>
                             <div class="controls m_t15 m_b20 p_l10">
                                 <div class="fileupload fileupload-new" data-provides="fileupload">
                                     {if $store_info.shop_nav_background neq ''}
@@ -83,42 +83,42 @@
                                     <div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px; line-height: 50px;"></div>
                                     <span class="btn btn-file">
                                         {if $store_info.shop_nav_background neq ''}
-                                        <span class="fileupload-new">{lang key='store::store.change_image'}</span>
+                                        <span class="fileupload-new">{t domain="merchant"}更换图片{/t}</span>
                                         {else}
-                                        <span class="fileupload-new">{lang key='store::store.browse'}</span>
+                                        <span class="fileupload-new">{t domain="merchant"}浏览{/t}</span>
                                         {/if}
-                                        <span class="fileupload-exists">{lang key='store::store.modify'}</span>
+                                        <span class="fileupload-exists">{t domain="merchant"}修改{/t}</span>
                                         <input type='file' name='shop_nav_background' size="35" />
                                     </span>
-                                    <a class="btn fileupload-exists" data-dismiss="fileupload" href="#">{lang key='system::system.drop'}</a>
+                                    <a class="btn fileupload-exists" data-dismiss="fileupload" href="#">{t domain="merchant"}删除{/t}</a>
                                 </div>
                             </div>
                         </div>
 
                         <div class="control-group formSep">
-                            <label class="control-label m_t10">店铺营业时间：</label>
+                            <label class="control-label m_t10">{t domain="merchant"}店铺营业时间：{/t}</label>
                             <div class="controls m_t15 m_b20 p_l10">
                                 <input class="range-slider" name="shop_trade_time" type="hidden" value="{$store_info.shop_time_value}" style="display: none;">
                             </div>
-                            <span class="m_t30 controls help-block" style="margin-top:30px;">拖拽选取营业时间段</span>
+                            <span class="m_t30 controls help-block" style="margin-top:30px;">{t domain="merchant"}拖拽选取营业时间段{/t}</span>
                         </div>
 
                         <div class="control-group formSep">
-                            <label class="control-label">客服电话：</label>
+                            <label class="control-label">{t domain="merchant"}客服电话：{/t}</label>
                             <div class="controls">
                                 <input class="span6" name="shop_kf_mobile" type="text" value="{$store_info.shop_kf_mobile}" />
                             </div>
                         </div>
 
                         <div class="control-group formSep">
-                            <label class="control-label">店铺简介：</label>
+                            <label class="control-label">{t domain="merchant"}店铺简介：{/t}</label>
                             <div class="controls">
                                 <textarea class="span6" name="shop_description" rows="4" cols="20">{$store_info.shop_description}</textarea>
                             </div>
                         </div>
 
                         <div class="control-group formSep">
-                            <label class="control-label">店铺公告：</label>
+                            <label class="control-label">{t domain="merchant"}店铺公告：{/t}</label>
                             <div class="controls">
                                 <textarea class="span6" name="shop_notice" rows="4" cols="20">{$store_info.shop_notice}</textarea>
                             </div>
@@ -128,7 +128,7 @@
                         <div class="control-group">
                             <div class="controls">
                                 <input type="hidden"  name="store_id" value="{$smarty.get.store_id}" />
-                                <button class="btn btn-gebo" type="submit">{lang key='store::store.sub_update'}</button>
+                                <button class="btn btn-gebo" type="submit">{t domain="merchant"}更新{/t}</button>
                             </div>
                         </div>
                     </fieldset>

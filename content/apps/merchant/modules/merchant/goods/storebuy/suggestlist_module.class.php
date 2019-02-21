@@ -63,7 +63,7 @@ class merchant_goods_storebuy_suggestlist_module extends api_front implements ap
 		$action_type = $this->requestData('action_type', '');
 
 		if (!in_array($action_type, $type)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+			return new ecjia_error( 'invalid_parameter', __('参数无效' ,'merchant'));
 		}
 
 		$size = $this->requestData('pagination.count', 15);
@@ -137,7 +137,7 @@ class merchant_goods_storebuy_suggestlist_module extends api_front implements ap
 						'activity_type' => $activity_type,
 						'object_id' => 0,
 						'saving_price' => $saving_price,
-						'formatted_saving_price' => $saving_price > 0 ? '已省' . $saving_price . '元' : ''
+						'formatted_saving_price' => $saving_price > 0 ? __('已省', 'merchant') . $saving_price . __('元', 'merchant') : ''
 				);
 			}
 			$data['pager'] = array(

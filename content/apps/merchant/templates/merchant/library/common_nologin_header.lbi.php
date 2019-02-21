@@ -13,7 +13,7 @@
                 <!-- end dropdown 3 -->
             </ul>
             <ul class="nav navbar-nav navbar-right top-menu">
-            	<a class="ecjiafc-white l_h30" href='{RC_Uri::home_url()}'><i class="fa fa-reply"></i> 网站首页</a>
+            	<a class="ecjiafc-white l_h30" href='{RC_Uri::home_url()}'><i class="fa fa-reply"></i> {t domain="merchant"}网站首页{/t}</a>
             </ul>
         </div>
     </nav>

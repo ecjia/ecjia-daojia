@@ -58,7 +58,7 @@ class merchant_config_module extends api_front implements api_interface {
 		$location = $this->requestData('location', array());
 	
 		if (empty($seller_id)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+			return new ecjia_error( 'invalid_parameter', __('参数无效' ,'merchant'));
 		}
 		RC_Loader::load_app_func('merchant', 'merchant');
 
@@ -139,7 +139,7 @@ class merchant_config_module extends api_front implements api_interface {
 					$favourable_list[] = array(
 							'name' => $val['act_name'],
 							'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-							'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+							'type_label' => $val['act_type'] == '1' ? __('满减', 'merchant') : __('满折', 'merchant'),
 					);
 				} else {
 					$act_range_ext = explode(',', $val['act_range_ext']);
@@ -148,21 +148,21 @@ class merchant_config_module extends api_front implements api_interface {
 							$favourable_list[] = array(
 							'name' => $val['act_name'],
 							'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-							'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+							'type_label' => $val['act_type'] == '1' ? __('满减', 'merchant') : __('满折', 'merchant'),
 							);
 							break;
 						case 2 :
 							$favourable_list[] = array(
 							'name' => $val['act_name'],
 							'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-							'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+							'type_label' => $val['act_type'] == '1' ? __('满减', 'merchant') : __('满折', 'merchant'),
 							);
 							break;
 						case 3 :
 							$favourable_list[] = array(
 							'name' => $val['act_name'],
 							'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-							'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+							'type_label' => $val['act_type'] == '1' ? __('满减', 'merchant') : __('满折', 'merchant'),
 							);
 							break;
 						default:

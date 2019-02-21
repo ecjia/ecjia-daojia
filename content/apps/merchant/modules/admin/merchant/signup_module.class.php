@@ -71,26 +71,26 @@ class admin_merchant_signup_module extends api_admin implements api_interface {
 
 		if (empty($responsible_person) || empty($email) || empty($mobile) || empty($seller_name) || empty($seller_category)
 		     || empty($validate_type) || empty($province) || empty($city)|| empty($district) || empty($street) || empty($address) || empty($longitude) || empty($latitude)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+			return new ecjia_error( 'invalid_parameter', __('参数无效' ,'merchant'));
 		}
 
         $preaudit_count   = RC_DB::table('store_preaudit')->where('email', '=', $email)->count();
         $franchisee_count = RC_DB::table('store_franchisee')->where('email', '=', $email)->count();
         if(!empty($preaudit_count) || !empty($franchisee_count)){
-            return new ecjia_error('validate_email_error', '邮箱地址已经被使用，请填写其他邮箱地址');
+            return new ecjia_error('validate_email_error', __('邮箱地址已经被使用，请填写其他邮箱地址', 'merchant'));
         }
 
 		/* 判断校验码*/
 		if ($_SESSION['merchant_validate_code'] != $validate_code) {
-			return new ecjia_error('validate_code_error', '校验码错误！');
+			return new ecjia_error('validate_code_error', __('校验码错误！', 'merchant'));
 		} elseif ($_SESSION['merchant_validate_expiry'] < RC_Time::gmtime()) {
-			return new ecjia_error('validate_code_time_out', '校验码已过期！');
+			return new ecjia_error('validate_code_time_out', __('校验码已过期！', 'merchant'));
 		} elseif ($_SESSION['merchant_validate_mobile'] != $mobile) {
-			return new ecjia_error('validate_mobile_error', '手机号码已经更改请重新获取验证码');
+			return new ecjia_error('validate_mobile_error', __('手机号码已经更改请重新获取验证码', 'merchant'));
 		}
 		$count = RC_DB::table('store_franchisee')->where(RC_DB::raw('merchants_name'), $seller_name)->count();
 		if ($count > 0) {
-		    return new ecjia_error('seller_name_exist', '店铺名称已存在，请修改');
+		    return new ecjia_error('seller_name_exist', __('店铺名称已存在，请修改', 'merchant'));
 		}
 
         if(empty($longitude) || empty($latitude)){
@@ -107,10 +107,10 @@ class admin_merchant_signup_module extends api_admin implements api_interface {
 		$info_store_franchisee	= RC_DB::table('store_franchisee')->where(RC_DB::raw('contact_mobile'), $mobile)->first();
 		$info_staff_user		= RC_DB::table('staff_user')->where('mobile', $mobile)->first();
 		if (!empty($info_store_preaudit) || !empty($info_store_franchisee)) {
-			return new ecjia_error('already_signup', '您已申请请勿重复申请！');
+			return new ecjia_error('already_signup', __('您已申请请勿重复申请！', 'merchant'));
 		}
         if(!empty($info_staff_user)){
-            return new ecjia_error('already_signup', '该手机号码已被注册为店铺员工');
+            return new ecjia_error('already_signup', __('该手机号码已被注册为店铺员工', 'merchant'));
         }
 
 		$merchant_shop_data = array(

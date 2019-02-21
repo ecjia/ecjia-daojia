@@ -55,7 +55,7 @@ class merchant_store_menu_api extends Component_Event_Api {
 	public function call(&$options) {	
 	    $store_id = royalcms('request')->query('store_id');
 	    
-        return ecjia_admin::make_admin_menu('store_setting', '店铺设置', RC_Uri::url('merchant/admin_store_setting/init', array('store_id' => $store_id)), 2)->add_purview('store_set_manage');
+        return ecjia_admin::make_admin_menu('store_setting', __('店铺设置', 'merchant'), RC_Uri::url('merchant/admin_store_setting/init', array('store_id' => $store_id)), 2)->add_purview('store_set_manage');
 	}
 }
 

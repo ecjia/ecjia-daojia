@@ -53,13 +53,13 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class merchant_merchant_purview_api extends Component_Event_Api {
     public function call(&$options) {
         $purviews = array(
-            array('action_name' => __('店铺设置'), 'action_code' => 'merchant_manage', 'relevance'   => ''),
+            array('action_name' => __('店铺设置', 'merchant'), 'action_code' => 'merchant_manage', 'relevance'   => ''),
         		
-            array('action_name' => __('店铺入驻信息'), 'action_code' => 'franchisee_manage', 'relevance'   => ''),
-        	array('action_name' => __('店铺入驻信息'), 'action_code' => 'franchisee_request', 'relevance'   => ''),
-        	array('action_name' => __('收款账号'), 'action_code' => 'franchisee_bank', 'relevance'   => ''),
-            array('action_name' => __('店铺打烊'), 'action_code' => 'merchant_switch', 'relevance'   => ''),
-        	array('action_name' => __('小程序模板'), 'action_code' => 'merchant_template', 'relevance'   => ''),
+            array('action_name' => __('店铺入驻信息', 'merchant'), 'action_code' => 'franchisee_manage', 'relevance'   => ''),
+        	array('action_name' => __('店铺入驻信息', 'merchant'), 'action_code' => 'franchisee_request', 'relevance'   => ''),
+        	array('action_name' => __('收款账号', 'merchant'), 'action_code' => 'franchisee_bank', 'relevance'   => ''),
+            array('action_name' => __('店铺打烊', 'merchant'), 'action_code' => 'merchant_switch', 'relevance'   => ''),
+        	array('action_name' => __('小程序模板', 'merchant'), 'action_code' => 'merchant_template', 'relevance'   => ''),
         );
         return $purviews;
     }

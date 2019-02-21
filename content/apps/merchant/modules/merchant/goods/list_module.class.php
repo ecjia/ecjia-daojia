@@ -63,7 +63,7 @@ class merchant_goods_list_module extends api_front implements api_interface {
 		$store_id = empty($store_id) ? 0 : $store_id;
 	
 		if (empty($store_id)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+			return new ecjia_error( 'invalid_parameter', __('参数无效' ,'merchant'));
 		}
 		
 		switch ($sort_type) {
@@ -131,7 +131,7 @@ class merchant_goods_list_module extends api_front implements api_interface {
                     'activity_type' => $activity_type,
                     'object_id' => 0,
                     'saving_price' => $saving_price,
-                    'formatted_saving_price' => $saving_price > 0 ? '已省' . $saving_price . '元' : ''
+                    'formatted_saving_price' => $saving_price > 0 ? __('已省', 'merchant') . $saving_price . __('元', 'merchant') : ''
                 );
 		    }
 		    $data['pager'] = array(

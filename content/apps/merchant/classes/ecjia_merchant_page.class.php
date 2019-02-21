@@ -57,11 +57,11 @@ class ecjia_merchant_page extends ecjia_page {
      */
     public function page_desc() {
     	$lang = array(
-    		'total_records' => __('总计 '),
-    		'total_pages' 	=> __('条记录，分为'),
-    		'page_current' 	=> __('页当前第'),
-    		'page_size' 	=> __('页，每页'),
-    		'page'			=> __(' 页'),
+    		'total_records' => __('总计 ', 'merchant'),
+    		'total_pages' 	=> __('条记录，分为', 'merchant'),
+    		'page_current' 	=> __('页当前第', 'merchant'),
+    		'page_size' 	=> __('页，每页', 'merchant'),
+    		'page'			=> __(' 页', 'merchant'),
     	);
     	
     	return <<< EOF

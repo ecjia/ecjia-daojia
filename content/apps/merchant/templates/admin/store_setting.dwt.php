@@ -16,7 +16,7 @@
         <!-- {if $action_link} -->
         <a class="data-pjax btn plus_or_reply" id="sticky_a" href="{$action_link.href}"><i class="fontello-icon-reply"></i>{$action_link.text}</a>
         <!-- {/if} -->
-        <a class="data-pjax btn f_r" href='{RC_Uri::url("merchant/admin_store_setting/edit","store_id={$smarty.get.store_id}")}'><i class="fontello-icon-edit"></i>编辑</a>
+        <a class="data-pjax btn f_r" href='{RC_Uri::url("merchant/admin_store_setting/edit","store_id={$smarty.get.store_id}")}'><i class="fontello-icon-edit"></i>{t domain="merchant"}编辑{/t}</a>
     </h3>
 </div>
 
@@ -32,36 +32,36 @@
                         <div class="accordion-group">
                             <div class="accordion-heading accordion-heading-url">
                                 <div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#info">
-                                    <strong>店铺设置</strong>
+                                    <strong>{t domain="merchant"}店铺设置{/t}</strong>
                                 </div>
                             </div>
                             <div class="accordion-body in collapse" id="info">
                                 <table class="table table-oddtd m_b0">
                                     <tbody class="first-td-no-leftbd">
                                         <tr>
-                                            <td><div align="right"><strong>店铺LOGO：</strong></div></td>
+                                            <td><div align="right"><strong>{t domain="merchant"}店铺LOGO：{/t}</strong></div></td>
                                             <td colspan="3"><img src="{$store_info.shop_logo}" alt="" style="max-width:120px;"/></td>
                                         </tr>
                                         <tr>
-                                            <td><div align="right"><strong>店铺顶部Banner图：</strong></div></td>
+                                            <td><div align="right"><strong>{t domain="merchant"}店铺顶部Banner图：{/t}</strong></div></td>
                                             <td colspan="3"><img src="{$store_info.shop_banner_pic}" alt="" style="max-width:120px;"/></td>
                                         </tr>
                                         <tr>
-                                            <td><div align="right"><strong>店铺导航背景图：</strong></div></td>
+                                            <td><div align="right"><strong>{t domain="merchant"}店铺导航背景图：{/t}</strong></div></td>
                                             <td colspan="3"><img src="{$store_info.shop_nav_background}" alt="" style="max-width:300px;" /></td>
                                         </tr>
                                         <tr>
-                                            <td><div align="right"><strong>营业时间：</strong></div></td>
+                                            <td><div align="right"><strong>{t domain="merchant"}营业时间：{/t}</strong></div></td>
                                             <td>{$store_info.shop_trade_time}</td>
-                                            <td><div align="right"><strong>客服电话：</strong></div></td>
+                                            <td><div align="right"><strong>{t domain="merchant"}客服电话：{/t}</strong></div></td>
                                             <td>{$store_info.shop_kf_mobile}</td>
                                         </tr>
                                         <tr>
-                                            <td><div align="right"><strong>店铺简介：</strong></div></td>
+                                            <td><div align="right"><strong>{t domain="merchant"}店铺简介：{/t}</strong></div></td>
                                             <td colspan="3">{$store_info.shop_description}</td>
                                         </tr>
                                         <tr>
-                                            <td><div align="right"><strong>店铺公告：</strong></div></td>
+                                            <td><div align="right"><strong>{t domain="merchant"}店铺公告：{/t}</strong></div></td>
                                             <td colspan="3">{$store_info.shop_notice}</td>
                                         </tr>
                                     </tbody>

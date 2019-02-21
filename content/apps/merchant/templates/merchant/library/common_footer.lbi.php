@@ -13,15 +13,15 @@
                     <p>
 	                    <span class="sosmed-footer">
 	                    	{if ecjia::config('shop_weibo_url')}
-	                        <a target="__blank" href="{ecjia::config('shop_weibo_url')}"><i class="fa fa-weibo" title="新浪微博"></i></a>
+	                        <a target="__blank" href="{ecjia::config('shop_weibo_url')}"><i class="fa fa-weibo" title='{t domain="merchant"}新浪微博{/t}'></i></a>
 	                        {/if}
 	                        
 	                    	{if ecjia::config('qq')}
-	                    	<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={ecjia::config('qq')}&site={$http_host}&menu=yes"><i class="fa fa-qq" title="腾讯QQ"></i></a>
+	                    	<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={ecjia::config('qq')}&site={$http_host}&menu=yes"><i class="fa fa-qq" title='{t domain="merchant"}腾讯QQ{/t}'></i></a>
 	                        {/if}
 	                        
 	                        {if ecjia::config('shop_wechat_qrcode')}
-	                        <a href="javascript:;" style="color:#333333;"><i class="fa fa-weixin" data-toggle="popover" data-placement="top" data-id="shop_wechat_qrcode" title="打开手机微信扫一扫"></i></a>
+	                        <a href="javascript:;" style="color:#333333;"><i class="fa fa-weixin" data-toggle="popover" data-placement="top" data-id="shop_wechat_qrcode" title='{t domain="merchant"}打开手机微信扫一扫{/t}'></i></a>
 	                        {/if}
 	                        
 	                        {if ecjia::config('skype')}
@@ -29,11 +29,11 @@
 	                        {/if}
 	                        
 	                        {if ecjia::config('mobile_iphone_qrcode')}
-	                        <a href="javascript:;" style="color:#333333;"><i class="fa fa-apple" data-toggle="popover" data-placement="top" data-id="mobile_iphone_qrcode" title="打开手机扫描二维码下载"></i></a>
+	                        <a href="javascript:;" style="color:#333333;"><i class="fa fa-apple" data-toggle="popover" data-placement="top" data-id="mobile_iphone_qrcode" title='{t domain="merchant"}打开手机扫描二维码下载{/t}'></i></a>
 	                        {/if}
 	                        
 	                        {if ecjia::config('mobile_android_qrcode')}
-	                        <a href="javascript:;" style="color:#333333;"><i class="fa fa-android" data-toggle="popover" data-placement="top" data-id="mobile_android_qrcode" title="打开手机扫描二维码下载"></i></a>
+	                        <a href="javascript:;" style="color:#333333;"><i class="fa fa-android" data-toggle="popover" data-placement="top" data-id="mobile_android_qrcode" title='{t domain="merchant"}打开手机扫描二维码下载{/t}'></i></a>
 	                    	{/if}
 	                    </span>
 	                    

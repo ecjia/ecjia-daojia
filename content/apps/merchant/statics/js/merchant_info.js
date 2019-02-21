@@ -40,9 +40,9 @@
                 e.preventDefault();
                 var $this = $(this),
                     url = $this.attr('data-href') || $this.attr('href'),
-                    msg = $this.attr('data-msg') || '您确定进行该操作吗？';
+                    msg = $this.attr('data-msg') || js_lang.do_this;
                 if (!url) {
-                    smoke.alert('参数错误！');
+                    smoke.alert(js_lang.parameter_error);
                     return false;
                 }
                 smoke.confirm(msg, function (e) {
@@ -51,7 +51,7 @@
                         	ecjia.merchant.showmessage(data);
                         }, 'json');
                     }
-                }, { ok: "确定", cancel: "取消" });
+                }, { ok: js_lang.ok, cancel: js_lang.cancel });
             });
         },
 
@@ -84,7 +84,7 @@
 
         regionSummary: function (options) {
             if (!options.url) {
-                console.log('必须指定地址源');
+                console.log(js_lang.address_source_specified);
                 return;
             }
 
@@ -127,7 +127,7 @@
                 hours = hours - 24;
                 hours = (hours < 10 ? "0" + hours : hours);
                 value = hours + ':' + mins;
-                var text = String('次日%s').replace('%s', value);
+                var text = String(js_lang.next_day + '%s').replace('%s', value);
                 return text;
             }
             else {
@@ -138,7 +138,7 @@
         range: function () {
             $('.range-slider').jRange({
                 from: 0, to: 2880, step: 30,
-                scale: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '次日00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'],
+                scale: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', js_lang.next_day + '00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'],
                 format: app.merchant_info.formatTimeLabelFunc,
                 width: 600,
                 showLabels: true,
@@ -235,7 +235,7 @@
                         curCount = count;
                         $("#mobile").attr("readonly", "true");
                         $("#get_code").attr("disabled", "true");
-                        $("#get_code").html("重新发送" + curCount + "(s)");
+                        $("#get_code").html(js_lang.resend + curCount + "(s)");
                         InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
                     }
                     ecjia.merchant.showmessage(data);
@@ -248,11 +248,11 @@
                     window.clearInterval(InterValObj);		//停止计时器
                     $("#mobile").removeAttr("readonly");	//启用按钮
                     $("#get_code").removeAttr("disabled");	//启用按钮
-                    $("#get_code").html("重新发送验证码");
+                    $("#get_code").html(js_lang.resend_code);
                 } else {
                     curCount--;
                     $("#get_code").attr("disabled", "true");
-                    $("#get_code").html("重新发送" + curCount + "(s)");
+                    $("#get_code").html(js_lang.resend + curCount + "(s)");
                 }
             };
             $('.unset_SetRemain').on('click', function () {
@@ -270,10 +270,10 @@
                 e.preventDefault();
                 var $this = $(this),
                     url = $this.attr('data-href') || $this.attr('href'),
-                    msg = $this.attr('data-msg') || '您确定进行该操作吗？',
+                    msg = $this.attr('data-msg') || js_lang.do_this,
                     ajax = $this.attr('data-ajax') || false;
                 if (!url) {
-                    smoke.alert('参数错误！');
+                    smoke.alert(js_lang.parameter_error);
                     return false;
                 }
                 smoke.confirm(msg, function (e) {
@@ -287,7 +287,7 @@
                     	}
                         
                     }
-                }, { ok: "确定", cancel: "取消" });
+                }, { ok: js_lang.ok, cancel: js_lang.cancel });
             });
         },
         

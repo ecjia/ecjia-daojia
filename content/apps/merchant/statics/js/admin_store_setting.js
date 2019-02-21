@@ -127,7 +127,7 @@
         range : function(){
             $('.range-slider').jRange({
                 from: 0, to: 2880, step:30,
-                scale: ['00:00','04:00','08:00','12:00','16:00','20:00','次日00:00','04:00','08:00','12:00','16:00','20:00','24:00'],
+                scale: ['00:00','04:00','08:00','12:00','16:00','20:00',js_lang.next_day+ ':00','04:00','08:00','12:00','16:00','20:00','24:00'],
                 format: app.store_edit.formatTimeLabelFunc,
                 width: 600,
                 showLabels: true,
@@ -143,7 +143,7 @@
         		hours = hours - 24;
         		hours = (hours < 10 ? "0"+hours : hours);
         		value = hours+':'+mins;
-        		var text = String('次日%s').replace('%s', value);
+        		var text = String(js_lang.next_day + '%s').replace('%s', value);
         		return text;
         	}
         	else {

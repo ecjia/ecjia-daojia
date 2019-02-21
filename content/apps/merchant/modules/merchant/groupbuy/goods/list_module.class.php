@@ -14,7 +14,7 @@ class merchant_groupbuy_goods_list_module extends api_front implements api_inter
 		$store_id	 = $this->requestData('store_id', 0);
 		
 		if (empty($store_id)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+			return new ecjia_error( 'invalid_parameter', __('参数无效' ,'merchant'));
 		}
 		
 		$options = array(

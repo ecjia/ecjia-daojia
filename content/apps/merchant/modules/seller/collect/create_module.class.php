@@ -58,17 +58,17 @@ class seller_collect_create_module extends api_front implements api_interface {
 		$seller_id = $this->requestData('seller_id');
 
 		if (empty($seller_id)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+			return new ecjia_error( 'invalid_parameter', __('参数无效' ,'merchant'));
 		}
 		$row	 = RC_DB::table('collect_store')->where('user_id', $user_id)->where('store_id', $seller_id)->first();
 		if (!empty($row)) {
-			$result = new ecjia_error('is_collected', __('该店铺已收藏！'));
+			$result = new ecjia_error('is_collected', __('该店铺已收藏！', 'merchant'));
 			return $result;
 		}
 
 		$count            = RC_DB::table('store_franchisee')->where('status', '1')->where('store_id', $seller_id)->count();
 		if ($count == 0 ) {
-			$result = new ecjia_error('shop_error', __('店铺不存在！'));
+			$result = new ecjia_error('shop_error', __('店铺不存在！', 'merchant'));
 			return $result;
 		}
 		$data = array(

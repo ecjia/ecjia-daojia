@@ -61,7 +61,7 @@ class merchant_home_category_module extends api_front implements api_interface {
 		$location = $this->requestData('location', array());
 	
 		if (empty($store_id)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+			return new ecjia_error( 'invalid_parameter', __('参数无效' ,'merchant'));
 		}
 
 		$options = array('type' => 'seller_goods_cat', 'cat_id' => 0, 'store_id' => $store_id, 'level' => 1);
