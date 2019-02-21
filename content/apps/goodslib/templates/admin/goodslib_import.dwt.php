@@ -10,11 +10,11 @@
 <!-- {block name="main_content"} -->
 <div class="alert alert-info">
 	<a class="close" data-dismiss="alert">×</a>
-	<p><strong>温馨提示：</strong></p>
-	<p>1.您将通过上传的Excel文件，快速导入商品信息至平台商品库中；</p>
-	<p>2.请先添加好商品库分类、品牌、规格；</p>
-	<p>3.在导入商品信息前，请务必先下载商品导入模板，填写完成后再上传表格；</p>
-	<p>4.商品货号和货品号如重复此条信息不导入，或可留空自动生成。</p>
+	<p><strong>{t domain="goodslib"}温馨提示：{/t}</strong></p>
+	<p>1.{t domain="goodslib"}您将通过上传的Excel文件，快速导入商品信息至平台商品库中；{/t}</p>
+	<p>2.{t domain="goodslib"}请先添加好商品库分类、品牌、规格；{/t}</p>
+	<p>3.{t domain="goodslib"}在导入商品信息前，请务必先下载商品导入模板，填写完成后再上传表格；{/t}</p>
+	<p>4.{t domain="goodslib"}商品货号和货品号如重复此条信息不导入，或可留空自动生成。{/t}</p>
 </div>
 <div>
 	<h3 class="heading"> 
@@ -39,32 +39,32 @@
 	<div class="span12">
 	<form class="form-horizontal" enctype="multipart/form-data" action="{$form_action}" method="post" name="">
 		<div class="control-group control-group-small formSep">
-			<label class="control-label">下载模板：</label>
+			<label class="control-label">{t domain="goodslib"}下载模板：{/t}</label>
 			<div class="controls">
-				<a href="{$demo_url}" target="_blank"><i class=" fontello-icon-download"></i>下载商品导入Excel模板</a>
-				<span class="help-block" id="">请先下载商品导入模板，再上传数据</span>
+				<a href="{$demo_url}" target="_blank"><i class=" fontello-icon-download"></i>{t domain="goodslib"}下载商品导入Excel模板{/t}</a>
+				<span class="help-block" id="">{t domain="goodslib"}请先下载商品导入模板，再上传数据{/t}</span>
 			</div>
 		</div>
 		<div class="control-group control-group-small formSep">
-			<label class="control-label">上传文件：</label>
+			<label class="control-label">{t domain="goodslib"}上传文件：{/t}</label>
 			<div class="controls">
     			<div data-provides="fileupload" class="fileupload fileupload-new"><input type="hidden" value="" name="">
     				<span class="btn btn-file">
-        				<span class="fileupload-new">选择文件</span>
-        				<span class="fileupload-exists">更换文件</span>
+        				<span class="fileupload-new">{t domain="goodslib"}选择文件{/t}</span>
+        				<span class="fileupload-exists">{t domain="goodslib"}更换文件{/t}</span>
         				<input type="file" name="goodslib">
     				</span>
     				<span class="fileupload-preview m_l10"></span>
     				<a style="float: none" data-dismiss="fileupload" class="close fileupload-exists" href="javascript:;">×</a>
     			</div>
-				<span class="help-block" id="">目前仅支持（.xls）格式文件，文件大小请控制在20M以内</span>
+				<span class="help-block" id="">{t domain="goodslib"}目前仅支持（.xls）格式文件，文件大小请控制在20M以内{/t}</span>
 			</div>
 		</div>
 		<div class="row-fluid">
         	<label class="control-label"></label>
         	<input type="hidden" name="goods_id" value="{$goods.goods_id}"/>
         	<input type="hidden" name="goods_copyid" value="{$goods.goods_copyid}"/>
-        	<button class="btn btn-gebo" type="submit">{if $goods.goods_id}{lang key='goods::goods.update'}{else}{lang key='goods::goods.next_step'}{/if}</button>
+        	<button class="btn btn-gebo" type="submit">{if $goods.goods_id}{t domain="goodslib"}更新{/t}{else}{t domain="goodslib"}下一步{/t}{/if}</button>
         	<input type="hidden" id="type" value="{$link.type}"/>
         </div>
 	

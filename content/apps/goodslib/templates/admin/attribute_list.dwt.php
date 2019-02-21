@@ -21,17 +21,17 @@
 	<form class="f_l" action="" name="searchForm">
 		<div class="btn-group f_l m_r5">
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-			<i class="fontello-icon-cog"></i>{lang key='goods::attribute.batch_operation'}<span class="caret"></span>
+			<i class="fontello-icon-cog"></i>{t domain="goodslib"}批量操作{/t}<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu batch-move">
-				<li><a class="batch-trash-btn" data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url='{RC_Uri::url("goodslib/admin_attribute/batch", "cat_id={$cat_id}")}' data-msg="{lang key='goods::attribute.drop_select_confirm'}" data-noselectmsg="{lang key='goods::attribute.no_select_arrt'}" href="javascript:;"><i class="fontello-icon-trash"></i>{lang key='goods::attribute.batchdrop'}</a></li>
+				<li><a class="batch-trash-btn" data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url='{RC_Uri::url("goodslib/admin_attribute/batch", "cat_id={$cat_id}")}' data-msg="{t domain="goodslib"}您确定要删除选中的商品属性吗？{/t}" data-noselectmsg="{t domain="goodslib"}您没有选择需要删除的属性{/t}" href="javascript:;"><i class="fontello-icon-trash"></i>{t domain="goodslib"}批量删除{/t}</a></li>
 			</ul>
 		</div>
 	</form>
 	<div class="choose_list f_r">
-		<span>{lang key='goods::attribute.by_goods_type'}</span>
+		<span>{t domain="goodslib"}按商品规格显示：{/t}</span>
 		<select name="goods_type" data-url="{url path='goodslib/admin_attribute/init' args='cat_id='}">
-			<option value="0">{lang key='goods::attribute.all_goods_type'}</option>
+			<option value="0">{t domain="goodslib"}所有商品规格{/t}</option>
 			<!-- {$goods_type_list} -->
 		</select>
 	</div>
@@ -45,22 +45,22 @@
 						<input type="checkbox" data-toggle="selectall" data-children=".checkbox" autocomplete="off"/>
 					</th>
 					<th class="w130">
-						{lang key='goods::attribute.attr_name'}
+						{t domain="goodslib"}属性名称{/t}
 					</th>
 					<th class="w100">
-						{lang key='goods::attribute.cat_id'}
+						{t domain="goodslib"}商品规格{/t}
 					</th>
 					<th class="w150">
-						{lang key='goods::attribute.attr_input_type'}
+						{t domain="goodslib"}属性值的录入方式{/t}
 					</th>
 					<th>
-						{lang key='goods::attribute.attr_values'}
+						{t domain="goodslib"}可选值列表{/t}
 					</th>
 					<th class="w50">
-						{lang key='system::system.sort_order'}
+						{t domain="goodslib"}排序{/t}
 					</th>
 					<th class="w70">
-						{lang key='system::system.handler'}
+						{t domain="goodslib"}操作{/t}
 					</th>
 				</tr>
 			</thead>
@@ -71,7 +71,7 @@
 						<input class="checkbox" value="{$attr.attr_id}" name="checkboxes[]" type="checkbox" autocomplete="off"/>
 					</td>
 					<td class="first-cell" nowrap="true" valign="top">
-						<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goodslib/admin_attribute/edit_attr_name')}" data-name="edit_attr_name" data-pk="{$attr.attr_id}" data-title="{lang key='goods::attribute.name_not_null'}"> 
+						<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goodslib/admin_attribute/edit_attr_name')}" data-name="edit_attr_name" data-pk="{$attr.attr_id}" data-title="{t domain="goodslib"}属性名称不能为空{/t}">
 							{$attr.attr_name}
 						</span>
 					</td>
@@ -85,16 +85,16 @@
 						<span>{$attr.attr_values}</span>
 					</td>
 					<td align="right" nowrap="true" valign="top">
-						<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goodslib/admin_attribute/edit_sort_order')}" data-name="edit_sort_order" data-pjax-url='{url path="goodslib/admin_attribute/init" args="cat_id={$smarty.get.cat_id}"}' data-pk="{$attr.attr_id}" data-title="{lang key='goods::attribute.order_not_null'}">{$attr.sort_order}</span>
+						<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goodslib/admin_attribute/edit_sort_order')}" data-name="edit_sort_order" data-pjax-url='{url path="goodslib/admin_attribute/init" args="cat_id={$smarty.get.cat_id}"}' data-pk="{$attr.attr_id}" data-title="{t domain="goodslib"}请输入排序号{/t}">{$attr.sort_order}</span>
 					</td>
 					<td align="center" nowrap="true" valign="top">
-						<a class="data-pjax" href='{RC_Uri::url("goodslib/admin_attribute/edit", "attr_id={$attr.attr_id}")}' title="{lang key='system::system.edit'}"><i class="fontello-icon-edit"></i></a>
-						<a class="ajaxremove" data-toggle="ajaxremove" data-msg="{lang key='goods::attribute.drop_confirm'}" href='{RC_Uri::url("goodslib/admin_attribute/remove", "id={$attr.attr_id}")}' title="{lang key='system::system.remove'}"><i class="fontello-icon-trash"></i></a>
+						<a class="data-pjax" href='{RC_Uri::url("goodslib/admin_attribute/edit", "attr_id={$attr.attr_id}")}' title="{t domain="goodslib"}编辑{/t}"><i class="fontello-icon-edit"></i></a>
+						<a class="ajaxremove" data-toggle="ajaxremove" data-msg="{t domain="goodslib"}您确实要删除该属性吗？{/t}" href='{RC_Uri::url("goodslib/admin_attribute/remove", "id={$attr.attr_id}")}' title="{t domain="goodslib"}删除{/t}"><i class="fontello-icon-trash"></i></a>
 					</td>
 				</tr>
 				<!-- {foreachelse} -->
 				<tr>
-					<td class="no-records" colspan="7">{lang key='system::system.no_records'}</td>
+					<td class="no-records" colspan="7">{t domain="goodslib"}没有找到任何记录{/t}</td>
 				</tr>
 				<!-- {/foreach} -->
 			</tbody>

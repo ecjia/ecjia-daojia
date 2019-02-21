@@ -48,7 +48,7 @@
 				$("div.form-group").removeClass("f_error");
 				$("label.error").remove();
 				$(".insertSubmit").removeAttr('disabled');
-				$(".insertSubmit").html('开始导入');
+				$(".insertSubmit").html(js_lang.import_goods);
 				
 				var $this = $(this);
 				var goods_id = $this.attr('data-id');
@@ -67,7 +67,7 @@
 			});
 			$(".insertSubmit").on('click', function(e) {
 				$(".insertSubmit").attr('disabled', true);
-				$(".insertSubmit").html('导入中 <i class="fa fa-circle-o-notch fa-spin"></i>');
+				$(".insertSubmit").html(js_lang.importing + ' <i class="fa fa-circle-o-notch fa-spin"></i>');
 				$("form[name='insertForm']").submit();
 				//$('#insertGoods').modal('hide');
 			});	
@@ -92,13 +92,13 @@
 				},
 				messages: {
 					goods_name: {
-						required: '请填写商品名称'
+						required: js_lang.goods_name_required
 					},
 					shop_price: {
-						required: '请填写价格'
+						required: js_lang.shop_price_required
 					},
 					goods_number: {
-						required: '请填写库存'
+						required: js_lang.goods_number_required
 					}
 				},
 				submitHandler: function() {
@@ -108,7 +108,7 @@
 							if (data.state == 'error') {
 								smoke.alert(data.message);
 								$(".insertSubmit").removeAttr('disabled');
-								$(".insertSubmit").html('开始导入');
+								$(".insertSubmit").html(js_lang.import_goods);
 								//ecjia.merchant.showmessage(data);
 								return false;
 							}
@@ -119,13 +119,13 @@
 						},
 						error: function(data) {
 							$(".insertSubmit").removeAttr('disabled');
-							$(".insertSubmit").html('开始导入');
+							$(".insertSubmit").html(js_lang.import_goods);
 						}
 					});
 				},
 				showErrors : function(errorMap, errorList) {
 					$(".insertSubmit").removeAttr('disabled');
-					$(".insertSubmit").html('开始导入');
+					$(".insertSubmit").html(js_lang.import_goods);
 			        
 			        this.defaultShowErrors();
 			    },
@@ -142,11 +142,11 @@
 					ids.push($(this).val());
 				});
 				if (ids == '') {
-					smoke.alert("请选择需要导入的商品");
+					smoke.alert(js_lang.import_goods_required);
 					return false;
 				} else {
 					$(".batchInsert").attr('disabled', true);
-					$(".batchInsert").html('导入中 <i class="fa fa-circle-o-notch fa-spin"></i>');
+					$(".batchInsert").html(js_lang.importing + ' <i class="fa fa-circle-o-notch fa-spin"></i>');
 					$.ajax({
 						type: "POST",
 						url: url,
@@ -158,7 +158,7 @@
 							if (data.state == 'error') {
 								smoke.alert(data.message);
 								$(".batchInsert").removeAttr('disabled');
-								$(".batchInsert").html('开始导入');
+								$(".batchInsert").html(js_lang.import_goods);
 								//ecjia.merchant.showmessage(data);
 								return false;
 							}
@@ -167,7 +167,7 @@
 						},
 						error: function() {
 							$(".batchInsert").removeAttr('disabled');
-							$(".batchInsert").html('开始导入');
+							$(".batchInsert").html(js_lang.import_goods);
 						}
 					});
 
@@ -217,7 +217,7 @@
 				var price = parseInt(options.shop_price * options.discount + 0.5) / 100;
 				$('#nrank_' + options.rank_id).length && $('#nrank_' + options.rank_id).html('(' + price + ')');
 			} else {
-				$('#nrank_' + options.rank_id).length && $('#nrank_' + options.rank_id).html('(未计算)')
+				$('#nrank_' + options.rank_id).length && $('#nrank_' + options.rank_id).html('(' + js_lang.not_compute + ')')
 			}
 		},
 		computePrice: function(options) {
@@ -307,7 +307,7 @@
 				if (cat_id != 0 && cat_id != undefined) {
 					$('button[type="button"]').prop('disabled', false);
 				}
-				var no_content = '<li class="ms-elem-selectable disabled"><span>暂无内容</span></li>';
+				var no_content = '<li class="ms-elem-selectable disabled"><span>'+ js_lang.empty_data +'</span></li>';
 				$.post(url, info, function(data) {
 					if (level == 1) {
 						$('.level_1').html('');

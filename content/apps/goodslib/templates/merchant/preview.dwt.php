@@ -45,14 +45,14 @@
 							 	</div>
 							  	<div class="tm-fcs-panel">
 							    	<dl class="tm-tagPrice-panel">
-							      		<dt class="tb-metatit">市场售价</dt>
+							      		<dt class="tb-metatit">{t domain="goodslib"}市场售价{/t}</dt>
 							      		<dd>
 							     			<em class="tm-yen">¥</em>
 							    			<span class="tm-price">{$goods.market_price}</span>
 							    		</dd>
 							    	</dl>
 							    	<dl class="{if $goods.is_promote_now}tm-tagPrice-panel{else}tm-promo-price{/if}">
-								     	<dt class="tb-metatit">本店售价</dt>
+								     	<dt class="tb-metatit">{t domain="goodslib"}本店售价{/t}</dt>
 								      	<dd>
 								          	<em class="tm-yen">¥</em>
 								          	<span class="tm-price shop_price">{$goods.shop_price}</span>&nbsp;&nbsp;
@@ -65,14 +65,14 @@
 							    	<div class="tb-skin">
 							      		<div class="tb-sku">
 							      			<dl class="tb-amount tm-clear">
-							          			<dt class="tb-metatit">商品货号</dt>
+							          			<dt class="tb-metatit">{t domain="goodslib"}商品货号{/t}</dt>
 							          			<dd id="J_Amount">
 										            <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$goods.goods_sn}</em>
 										            <span id="J_StockTips"></span>
 							          			</dd>
 							        		</dl>
 											<dl class="tb-amount tm-clear">
-											    <dt class="tb-metatit">商品重量</dt>
+											    <dt class="tb-metatit">{t domain="goodslib"}商品重量{/t}</dt>
 											    <dd id="J_Amount">
 											        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$goods.goods_weight_by_unit} {$goods.goods_weight_unit}</em>
 											        <span id="J_StockTips"></span>
@@ -80,7 +80,7 @@
 											</dl>
 											{if $cat_name}
 											<dl class="tb-amount tm-clear">
-											    <dt class="tb-metatit">商品分类</dt>
+											    <dt class="tb-metatit">{t domain="goodslib"}商品分类{/t}</dt>
 											    <dd id="J_Amount">
 											        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$cat_name}</em>
 											        <span id="J_StockTips"></span>
@@ -89,7 +89,7 @@
 											{/if}
 											{if $brand_name}
 											<dl class="tb-amount tm-clear">
-											    <dt class="tb-metatit">商品品牌</dt>
+											    <dt class="tb-metatit">{t domain="goodslib"}商品品牌{/t}</dt>
 											    <dd id="J_Amount">
 											        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$brand_name}</em>
 											        <span id="J_StockTips"></span>
@@ -97,14 +97,14 @@
 											</dl>
 											{/if}
 											<dl class="tb-amount tm-clear">
-											    <dt class="tb-metatit">添加时间</dt>
+											    <dt class="tb-metatit">{t domain="goodslib"}添加时间{/t}</dt>
 											    <dd id="J_Amount">
 											        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$goods.add_time}</em>
 											        <span id="J_StockTips"></span>
 											    </dd>
 											</dl>
 											<dl class="tb-amount tm-clear">
-											    <dt class="tb-metatit">更新时间</dt>
+											    <dt class="tb-metatit">{t domain="goodslib"}更新时间{/t}</dt>
 											    <dd id="J_Amount">
 											        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$goods.last_update}</em>
 											        <span id="J_StockTips"></span>
@@ -125,7 +125,7 @@
 										</div>
 										<div class="panel-body ">
 											<a class="btn btn-info insert-goods-btn" href="javascript:;" data-href='{url path="goodslib/merchant/insert" args="goods_id={$goods.goods_id}"}' 
-										data-id="{$goods.goods_id}" data-name="{$goods.goods_name}" data-sn="{$goods.goods_sn}" data-shopprice="{$goods.shop_price}" data-marketprice="{$goods.market_price}"><i class="fa fa-plus"></i> 立即导入</a>
+										data-id="{$goods.goods_id}" data-name="{$goods.goods_name}" data-sn="{$goods.goods_sn}" data-shopprice="{$goods.shop_price}" data-marketprice="{$goods.market_price}"><i class="fa fa-plus"></i> {t domain="goodslib"}立即导入{/t}</a>
 										</div>
 							    	</div>
 							  	</div>
@@ -161,16 +161,16 @@
 					</div>
 					
 					<ul id="myTab" class="nav nav-tabs m_t20">
-                        <li class="active"><a href='{url path="goodslib/merchant/preview" args="&id={$goods.goods_id}"}#home' data-toggle="tab">商品详情</a></li>
-                        <li class=""><a href='{url path="goodslib/merchant/preview" args="&id={$goods.goods_id}"}#attr' data-toggle="tab">商品参数</a></li>
-                        <li class=""><a href='{url path="goodslib/merchant/preview" args="&id={$goods.goods_id}"}#products' data-toggle="tab">货品列表</a></li>
+                        <li class="active"><a href='{url path="goodslib/merchant/preview" args="&id={$goods.goods_id}"}#home' data-toggle="tab">{t domain="goodslib"}商品详情{/t}</a></li>
+                        <li class=""><a href='{url path="goodslib/merchant/preview" args="&id={$goods.goods_id}"}#attr' data-toggle="tab">{t domain="goodslib"}商品参数{/t}</a></li>
+                        <li class=""><a href='{url path="goodslib/merchant/preview" args="&id={$goods.goods_id}"}#products' data-toggle="tab">{t domain="goodslib"}货品列表{/t}</a></li>
                     </ul>
                     <div id="myTabContent" class="tab-content">
                         <div class="tab-pane fade active in" id="home">  
                             <p></p>
                             <div class="t_c clear">
                             {if $goods.goods_desc}{$goods.goods_desc}
-                            {else}<p class="text-center m_t20">暂无！</p>
+                            {else}<p class="text-center m_t20">{t domain="goodslib"}暂无！{/t}</p>
                             {/if}
                             </div>
                         </div>
@@ -187,7 +187,7 @@
         					</div>
         					{else}
         					<p></p>
-        					<p class="text-center m_t20">暂无参数！</p>
+        					<p class="text-center m_t20">{t domain="goodslib"}暂无参数！{/t}</p>
         					{/if}
                         </div>
                         <div class="tab-pane fade" id="products">
@@ -196,9 +196,9 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>货号</th>
+                                        <th>{t domain="goodslib"}货号{/t}</th>
                                         <th class="text-center">{foreach from=$products.attr_name item=attr key=k}{if $k gt 0}|{/if}{$attr}{/foreach}</th>
-                                        <th class="text-center">属性价</th>
+                                        <th class="text-center">{t domain="goodslib"}属性价{/t}</th>
                                        <!--  <th>规格图片</th> -->
                                     </tr>
                                 </thead>
@@ -214,7 +214,7 @@
                                 </tbody>
                             </table>
                             {else}
-                            <p class="text-center m_t20">暂无货品！</p>
+                            <p class="text-center m_t20">{t domain="goodslib"}暂无货品！{/t}</p>
                             {/if}
                         </div>
                     </div>

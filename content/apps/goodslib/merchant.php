@@ -81,8 +81,8 @@ class merchant extends ecjia_merchant {
 		
 		RC_Style::enqueue_style('goods', RC_App::apps_url('statics/styles/goods.css', __FILE__), array());
 		RC_Script::enqueue_script('goods_list', RC_App::apps_url('statics/js/merchant_goods_list.js', __FILE__), array(), false, true);
-		
-		RC_Script::localize_script('goods_list', 'js_lang', RC_Lang::get('goods::goods.js_lang'));
+
+        RC_Script::localize_script('goods_list', 'js_lang', config('app-goodslib::jslang.merchant_goods_list_page'));
 		
 		RC_Loader::load_app_class('goods', 'goods', false);
 		RC_Loader::load_app_class('goodslib', 'goodslib', false);
@@ -103,7 +103,7 @@ class merchant extends ecjia_merchant {
 		RC_Script::localize_script( 'goods_list', 'admin_goodsList_lang', $goods_list_jslang );
 		
 		ecjia_merchant_screen::get_current_screen()->set_parentage('goods', 'goods/merchant.php');
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods.goods_manage'), RC_Uri::url('goods/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品管理', 'goodslib'), RC_Uri::url('goods/merchant/init')));
 	}
 
 	/**
@@ -113,14 +113,14 @@ class merchant extends ecjia_merchant {
 	    // 检查权限
 	    $this->admin_priv('goodslib_manage');
 	    
-	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('一键导入', RC_Uri::url('goodslib/merchant/init')));
+	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('一键导入', 'goodslib'), RC_Uri::url('goodslib/merchant/init')));
 	    
 	    $cat_id 	= !empty($_GET['cat_id']) 		? intval($_GET['cat_id']) 		: 0;
 // 	    $brand_id  	= !empty($_POST['brand_id']) 	? intval($_POST['brand_id']) 	: 0;
 	    
 	    //所属平台分类
         $cat_list = cat_list(0, 0, false, 1, false);	//平台分类
-        $ur_here = '选择商品分类';
+        $ur_here = __('选择商品分类', 'goodslib');
         $this->assign('step', 1);
         $this->assign('cat_list', $cat_list);
 	    
@@ -137,15 +137,15 @@ class merchant extends ecjia_merchant {
 	    // 检查权限
 	    $this->admin_priv('goodslib_manage');
 	    
-	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('一键导入', RC_Uri::url('goodslib/merchant/init')));
+	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('一键导入', 'goodslib'), RC_Uri::url('goodslib/merchant/init')));
 	    
 	    $cat_id 	= !empty($_GET['cat_id']) 		? intval($_GET['cat_id']) 		: 0;
 	    
 	    if(empty($cat_id)) {
-	        return $this->showmessage('请先选择分类', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('goods/merchant/select_cat')));
+	        return $this->showmessage(__('请先选择分类', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('goods/merchant/select_cat')));
 	    }
 	    
-        $ur_here = '选择商品';
+        $ur_here = __('选择商品', 'goodslib');
         $this->assign('step', 2);
         
         $goods_list = goodslib::goods_list(0, " AND is_display = 1 ");
@@ -173,7 +173,7 @@ class merchant extends ecjia_merchant {
 	    
 	    if(isset($_POST['goods_ids'])) {//批量导入
 	        if (empty($_POST['goods_ids'])) {
-	            return $this->showmessage('请选择导入的商品', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	            return $this->showmessage(__('请选择导入的商品', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	        }
 	        
 	        foreach ($_POST['goods_ids'] as $goods_id) {
@@ -195,16 +195,16 @@ class merchant extends ecjia_merchant {
 	        $goods_number = isset($_POST['goods_number']) 		? intval($_POST['goods_number']) : ecjia::config('default_storage');
 	        $merchant_cat_id = isset($_POST['merchant_cat_id']) 	? intval($_POST['merchant_cat_id']) : 0;
 	        if(empty($id)) {
-	            return $this->showmessage('请选择导入的商品', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	            return $this->showmessage(__('请选择导入的商品', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	        }
 	        if(empty($goods_name)) {
-	            return $this->showmessage('请填写商品名称', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	            return $this->showmessage(__('请填写商品名称', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	        }
 	        if(empty($shop_price)) {
-	            return $this->showmessage('请填写商品价格', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	            return $this->showmessage(__('请填写商品价格', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	        }
 	        if(empty($merchant_cat_id)) {
-	            return $this->showmessage('请选择店铺商品分类', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	            return $this->showmessage(__('请选择店铺商品分类', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	        }
 	        /* 如果没有输入商品货号则自动生成一个商品货号 */
 	        if (empty($goods_sn)) {
@@ -220,7 +220,7 @@ class merchant extends ecjia_merchant {
 	            /* 检查货号是否重复 */
 	            $count = $this->db_goods->is_only(array('goods_sn' => $goods_sn, 'is_delete' => 0, 'store_id' => $_SESSION['store_id']));
 	            if ($count > 0) {
-	                return $this->showmessage(RC_Lang::get('goods::goods.goods_sn_exists'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	                return $this->showmessage(__('您输入的货号已存在，请换一个', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	            }
 	        }
 	        
@@ -233,13 +233,13 @@ class merchant extends ecjia_merchant {
 	        }
 	    }
 	    if($error_message) {
-	        RC_Logger::getlogger('error')->info('商品导入错误信息：');
+	        RC_Logger::getlogger('error')->info(__('商品导入错误信息：', 'goodslib'));
 	        RC_Logger::getlogger('error')->info($error_message);
 	    }
 	    
 	    
 	    $url = RC_Uri::url('goodslib/merchant/success', array());
-	    return $this->showmessage('导入成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url, 'goods_id' => $new_id, 'error_message' =>$error_message));
+	    return $this->showmessage(__('导入成功', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url, 'error_message' =>$error_message));
 	    
 	}
 	
@@ -249,20 +249,20 @@ class merchant extends ecjia_merchant {
 	    /* 商品信息 */
 	    $goods = RC_DB::table('goodslib')->where('goods_id', $id)->where('is_display', 1)->where('is_delete', 0)->first();
 	    if (empty($goods)) {
-	        return new ecjia_error('no_goods', RC_Lang::get('goods::goods.no_goods'));
+	        return new ecjia_error('no_goods', __('未检测到此商品', 'goodslib'));
 	    }
 	    
 	    $is_exist_goodslib = RC_DB::table('goods')->where('goodslib_id', $id)->where('store_id', $_SESSION['store_id'])->where('is_delete', 0)->first();
 	    if($is_exist_goodslib) {
 // 	        return array('state' => 'error', 'message' => '商品【'.$is_exist_goodslib['goods_name'].'】已导入，请勿重复导入。');
-	        return new ecjia_error('goods_exists', '商品【'.$is_exist_goodslib['goods_name'].'】已导入，请勿重复导入');
+	        return new ecjia_error('goods_exists', sprintf(__('商品【%s】已导入，请勿重复导入', 'goodslib'), $is_exist_goodslib['goods_name']));
 	    }
 	    
 	    $count_goods_sn = RC_DB::table('goods')->where('goods_sn', $goods['goods_sn'])->where('store_id', $_SESSION['store_id'])->where('is_delete', 0)->count();
 	    if($count_goods_sn) {
 // 	        return array('state' => 'error', 'message' => '商品【'.$is_exist_goodslib['goods_name'].'】货号【'.$is_exist_goodslib['goods_sn'].'】重复，此条信息未导入。');
 	        $goods['goods_sn'] = '';
-	        //return new ecjia_error('goods_sn_exists', RC_Lang::get('goods::goods.goods_sn_exists'));
+	        //return new ecjia_error('goods_sn_exists', __('您输入的货号已存在，请换一个', 'goodslib'));
 	    }
 	    unset($goods['goods_id']);unset($goods['is_display']);unset($goods['used_count']);unset($goods['is_delete']);unset($goods['goods_rank']);
 	    $goods['store_id'] = $_SESSION['store_id'];
@@ -354,12 +354,12 @@ class merchant extends ecjia_merchant {
 	}
 	
 	public function success() {
-	    $ur_here = '导入成功';
+	    $ur_here = __('导入成功', 'goodslib');
 	    $this->assign('step', 3);
 	    
 	    
 	    $this->assign('ur_here', $ur_here);
-	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('一键导入', RC_Uri::url('goodslib/merchant/init')));
+	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('一键导入', 'goodslib'), RC_Uri::url('goodslib/merchant/init')));
 	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here($ur_here));
 	    
 	    $this->display('success.dwt');
@@ -375,20 +375,20 @@ class merchant extends ecjia_merchant {
 	    
 	    $goods_id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
 	    if (empty($goods_id)) {
-	        return $this->showmessage(RC_Lang::get('goods::goods.no_goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => RC_Lang::get('goods::goods.return_last_page'), 'href' => 'javascript:history.go(-1)'))));
+	        return $this->showmessage(__('未检测到此商品', 'goodslib'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('返回上一页', 'goodslib'), 'href' => 'javascript:history.go(-1)'))));
 	    }
 	    
 	    //RC_Hook::do_action('goods_merchant_priview_handler', $goods_id);
 	    
-	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods.goods_preview')));
+	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品预览', 'goodslib')));
 	    
-	    $this->assign('ur_here', RC_Lang::get('goods::goods.goods_preview'));
+	    $this->assign('ur_here', __('商品预览', 'goodslib'));
 	    $this->assign('action_link', array('text' => '返回', 'href' => RC_Uri::url('goodslib/merchant/add', array('cat_id' => $_GET['cat_id']))));
 	    
 	    $goods = RC_DB::table('goodslib')->where('goods_id', $goods_id)->where('is_display', 1)->where('is_delete', 0)->first();
 	    
 	    if (empty($goods)) {
-	        return $this->showmessage(RC_Lang::get('goods::goods.no_goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text'=> RC_Lang::get('goods::goods.back_goods_list'),'href'=>RC_Uri::url('goods/merchant/init')))));
+	        return $this->showmessage(__('未检测到此商品', 'goodslib'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text'=> __('返回商品列表', 'goodslib'),'href'=>RC_Uri::url('goods/merchant/init')))));
 	    }
 	    
 	    if (!empty($goods['goods_desc'])) {
@@ -463,7 +463,7 @@ class merchant extends ecjia_merchant {
 	    $this->assign('goods', $goods);
 	    $this->assign('cat_name', $cat_name);
 	    $this->assign('brand_name', $brand_name);
-	    $this->assign('form_action', RC_Uri::url('goodslib/merchant/insert', array('cat_id' => $cat_id)));
+	    $this->assign('form_action', RC_Uri::url('goodslib/merchant/insert'));
 	    
 	    $this->display('preview.dwt');
 	}

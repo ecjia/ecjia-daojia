@@ -49,11 +49,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /*返回商品详情页面的导航条数组*/
 function goodslib_get_goods_info_nav($goods_id = 0, $extension_code = '') {
     return array(
-        'edit'                  => array('name' => RC_Lang::get('goods::goods.tab_general'), 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin/edit', "goods_id=$goods_id".$extension_code)),
-        'edit_goods_desc'       => array('name' => RC_Lang::get('goods::goods.tab_detail'), 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin/edit_goods_desc', "goods_id=$goods_id".$extension_code)),
-        'edit_goods_photo'      => array('name' => RC_Lang::get('goods::goods.tab_gallery'), 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin_gallery/init', "goods_id=$goods_id".$extension_code)),
-        'edit_goods_attr'       => array('name' => '规格属性', 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin/edit_goods_attr', "goods_id=$goods_id".$extension_code)),
-        'product_list'          => array('name' => RC_Lang::get('goods::goods.tab_product'), 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin/product_list', "goods_id=$goods_id".$extension_code)),
+        'edit'                  => array('name' => __('通用信息', 'goodslib'), 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin/edit', "goods_id=$goods_id".$extension_code)),
+        'edit_goods_desc'       => array('name' => __('商品描述', 'goodslib'), 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin/edit_goods_desc', "goods_id=$goods_id".$extension_code)),
+        'edit_goods_photo'      => array('name' => __('商品相册', 'goodslib'), 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin_gallery/init', "goods_id=$goods_id".$extension_code)),
+        'edit_goods_attr'       => array('name' => __('规格属性', 'goodslib'), 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin/edit_goods_attr', "goods_id=$goods_id".$extension_code)),
+        'product_list'          => array('name' => __('货品管理', 'goodslib'), 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin/product_list', "goods_id=$goods_id".$extension_code)),
     );
 }
 
@@ -200,7 +200,7 @@ function goodslib_build_attr_html($cat_id, $goods_id = 0) {
                 $html .= '<textarea name="attr_value_list[]" rows="3" cols="40">' . htmlspecialchars($val ['attr_value']) . '</textarea>';
             } else {
                 $html .= '<select name="attr_value_list[]" autocomplete="off">';
-                $html .= '<option value="">' . RC_Lang::get('goods::goods.select_please') . '</option>';
+                $html .= '<option value="">' . __('请选择', 'goodslib') . '</option>';
                 $attr_values = explode("\n", $val ['attr_values']);
                 foreach ($attr_values as $opt) {
                     $opt = trim(htmlspecialchars($opt));
@@ -209,7 +209,7 @@ function goodslib_build_attr_html($cat_id, $goods_id = 0) {
                 }
                 $html .= '</select> ';
             }
-            $html .= ($val ['attr_type'] == 1 || $val ['attr_type'] == 2) ? '<span class="m_l5 m_r5">' . RC_Lang::get('goods::goods.spec_price') . '</span>' . ' <input type="text" name="attr_price_list[]" value="' . $val ['attr_price'] . '" size="5" maxlength="10" />' : ' <input type="hidden" name="attr_price_list[]" value="0" />';
+            $html .= ($val ['attr_type'] == 1 || $val ['attr_type'] == 2) ? '<span class="m_l5 m_r5">' . __('属性价格', 'goodslib') . '</span>' . ' <input type="text" name="attr_price_list[]" value="' . $val ['attr_price'] . '" size="5" maxlength="10" />' : ' <input type="hidden" name="attr_price_list[]" value="0" />';
             if ($val ['attr_type'] == 1 || $val ['attr_type'] == 2) {
                 $html .= ($spec != $val ['attr_id']) ? "<a class='m_l5' href='javascript:;' data-toggle='clone-obj' data-parent='.control-group'><i class='fontello-icon-plus'></i></a>" : "<a class='m_l5' href='javascript:;' data-trigger='toggleSpec'><i class='fontello-icon-minus'></i></a>";
                 $spec = $val ['attr_id'];
@@ -360,7 +360,7 @@ function get_goodslib_properties($goods_id, $warehouse_id = 0, $area_id = 0) {
             $row ['attr_value'] = str_replace ( "\n", '<br />', $row ['attr_value'] );
             
             if ($row ['attr_type'] == 0) {
-                $group = (isset ( $groups [$row ['attr_group']] )) ? $groups [$row ['attr_group']] : RC_Lang::get('goods::goods.goods_attr');
+                $group = (isset ( $groups [$row ['attr_group']] )) ? $groups [$row ['attr_group']] : __('商品属性', 'goodslib');
                 
                 $arr ['pro'] [$group] [$row ['attr_id']] ['name'] = $row ['attr_name'];
                 $arr ['pro'] [$group] [$row ['attr_id']] ['value'] = $row ['attr_value'];

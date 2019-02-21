@@ -28,12 +28,12 @@
 <div class="row-fluid batch">
 	<div class="btn-group f_l m_r5">
 		<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-			<i class="fontello-icon-cog"></i>{lang key='goods::goods.batch_handle'}<span class="caret"></span>
+			<i class="fontello-icon-cog"></i>{t domain="goodslib"}批量操作{/t}<span class="caret"></span>
 		</a>
 		<ul class="dropdown-menu batch-move" data-url="{RC_Uri::url('goodslib/admin/batch')}">
-			<li><a class="batch-trash-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=trash&page={$smarty.get.page}" data-msg="{lang key='goods::goods.batch_trash_confirm'}" data-noSelectMsg="{lang key='goods::goods.select_trash_goods'}" href="javascript:;"> <i class="fontello-icon-box"></i>删除</a></li>
-			<li><a class="batch-sale-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=on_sale&page={$smarty.get.page}" data-msg="{lang key='goods::goods.batch_on_sale_confirm'}" data-noSelectMsg="{lang key='goods::goods.select_sale_goods'}" href="javascript:;"> <i class="fontello-icon-up-circled2"></i>{lang key='goods::goods.on_sale'}</a></li>
-			<li><a class="batch-notsale-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=not_on_sale&page={$smarty.get.page}" data-msg="{lang key='goods::goods.batch_not_on_sale_confirm'}" data-noSelectMsg="{lang key='goods::goods.select_not_sale_goods'}" href="javascript:;"> <i class="fontello-icon-down-circled2"></i>{lang key='goods::goods.not_on_sale'}</a></li>
+			<li><a class="batch-trash-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=trash&page={$smarty.get.page}" data-msg="{t domain="goodslib"}您确定要把选中的商品放入回收站吗？{/t}" data-noSelectMsg="{t domain="goodslib"}请选择要移至回收站的商品{/t}" href="javascript:;"> <i class="fontello-icon-box"></i>删除</a></li>
+			<li><a class="batch-sale-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=on_sale&page={$smarty.get.page}" data-msg="{t domain="goodslib"}您确定要把选中的商品上架吗？{/t}" data-noSelectMsg="{t domain="goodslib"}请选择要上架的商品{/t}" href="javascript:;"> <i class="fontello-icon-up-circled2"></i>{t domain="goodslib"}上架{/t}</a></li>
+			<li><a class="batch-notsale-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=not_on_sale&page={$smarty.get.page}" data-msg="{t domain="goodslib"}您确定要把选中的商品下架吗？{/t}" data-noSelectMsg="{t domain="goodslib"}请选择要下架的商品{/t}" href="javascript:;"> <i class="fontello-icon-down-circled2"></i>{t domain="goodslib"}下架{/t}</a></li>
 		</ul>
 	</div>
 
@@ -43,7 +43,7 @@
 			<!-- 分类 -->
 			<div class="f_l m_r5">
 				<select class="w150" name="cat_id">
-					<option value="0">{lang key='goods::goods.goods_cat'}</option>
+					<option value="0">{t domain="goodslib"}所有分类{/t}</option>
 					<!-- {foreach from=$cat_list item=cat} -->
 					<option value="{$cat.cat_id}" {if $cat.cat_id == $smarty.get.cat_id}selected{/if} {if $cat.level}style="padding-left:{$cat.level * 20}px"{/if}>{$cat.cat_name}</option>
 					<!-- {/foreach} -->
@@ -52,19 +52,19 @@
 			<!-- 品牌 -->
 			<div class="f_l m_r5">
 				<select class="no_search w120" name="brand_id">
-					<option value="0">{lang key='goods::goods.goods_brand'}</option>
+					<option value="0">{t domain="goodslib"}所有品牌{/t}</option>
 					<!-- {foreach from=$brand_list item=list key=key} -->
 					<option value="{$key}" {if $key == $smarty.get.brand_id}selected{/if}>{$list}</option>
 					<!-- {/foreach} -->
 				</select>
 			</div>
-			<button class="btn screen-btn" type="button">{lang key='goods::goods.filter'}</button>
+			<button class="btn screen-btn" type="button">{t domain="goodslib"}筛选{/t}</button>
 		</div>
 	</form>
 	<form class="f_r form-inline" action='{RC_Uri::url("goodslib/admin/init")}{if $smarty.get.type}&type={$smarty.get.type}{/if}' method="post" name="searchForm">
 		<!-- 关键字 -->
-		<input class="w180" type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="{lang key='goods::goods.enter_goods_keywords'}" size="15" />
-		<button class="btn" type="submit">{lang key='system::system.button_search'}</button>
+		<input class="w180" type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="{t domain="goodslib"}请输入商品关键字{/t}" size="15" />
+		<button class="btn" type="submit">{t domain="goodslib"}搜索{/t}</button>
 	</form>
 </div>
 
@@ -76,11 +76,11 @@
 					<th class="table_checkbox">
 						<input type="checkbox" name="select_rows" data-toggle="selectall" data-children=".checkbox"/>
 					</th>
-					<th class="w80">{lang key='goods::goods.thumb'}</th>
-					<th class="w100" data-toggle="sortby" data-sortby="goods_id">{lang key='goods::goods.goods_name'}</th>
-					<th class="w80" data-toggle="sortby" data-sortby="goods_sn">{lang key='goods::goods.goods_sn'}</th>
-					<th class="w70" data-toggle="sortby" data-sortby="shop_price">{lang key='goods::goods.shop_price'}</th>
-					<th class="w35"> {lang key='goods::goods.is_on_sale'} </th>
+					<th class="w80">{t domain="goodslib"}缩略图{/t}</th>
+					<th class="w100" data-toggle="sortby" data-sortby="goods_id">{t domain="goodslib"}商品名称{/t}</th>
+					<th class="w80" data-toggle="sortby" data-sortby="goods_sn">{t domain="goodslib"}货号{/t}</th>
+					<th class="w70" data-toggle="sortby" data-sortby="shop_price">{t domain="goodslib"}价格{/t}</th>
+					<th class="w35"> {t domain="goodslib"}上架{/t} </th>
 					<th class="w35" data-toggle="sortby" data-sortby="sort_order">排序</th>
 				</tr>
 			</thead>
@@ -99,12 +99,12 @@
 						{$goods.goods_name|escape:html}
 						<br/>
 						<div class="edit-list">
-							<a class="data-pjax" href='{url path="goodslib/admin/edit" args="goods_id={$goods.goods_id}"}'>{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
-							<a class="data-pjax" href='{url path="goodslib/admin_gallery/init" args="goods_id={$goods.goods_id}"}'>{lang key='goods::goods.tab_gallery'}</a>&nbsp;|&nbsp;
-							<a class="data-pjax" href='{url path="goodslib/admin/edit_goods_attr" args="goods_id={$goods.goods_id}"}'>{lang key='goods::goods.tab_properties'}</a>&nbsp;|&nbsp;
-							{if $specifications[$goods.goods_type] neq ''}<a target="_blank" href='{url path="goodslib/admin/product_list" args="goods_id={$goods.goods_id}"}'>{lang key='goods::goods.product_list'}</a>&nbsp;|&nbsp;{/if}
+							<a class="data-pjax" href='{url path="goodslib/admin/edit" args="goods_id={$goods.goods_id}"}'>{t domain="goodslib"}编辑{/t}</a>&nbsp;|&nbsp;
+							<a class="data-pjax" href='{url path="goodslib/admin_gallery/init" args="goods_id={$goods.goods_id}"}'>{t domain="goodslib"}商品相册{/t}</a>&nbsp;|&nbsp;
+							<a class="data-pjax" href='{url path="goodslib/admin/edit_goods_attr" args="goods_id={$goods.goods_id}"}'>{t domain="goodslib"}商品属性{/t}</a>&nbsp;|&nbsp;
+							{if $specifications[$goods.goods_type] neq ''}<a target="_blank" href='{url path="goodslib/admin/product_list" args="goods_id={$goods.goods_id}"}'>{t domain="goodslib"}货品列表{/t}</a>&nbsp;|&nbsp;{/if}
 							<a target="_blank" href='{url path="goodslib/admin/preview" args="goods_id={$goods.goods_id}"}'>预览</a>&nbsp;|&nbsp;
-							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='goods::goods.trash_goods_confirm'}" href='{url path="goodslib/admin/remove" args="id={$goods.goods_id}"}'>{lang key='system::system.drop'}</a>
+							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{t domain="goodslib"}您确定要把该商品放入回收站吗？{/t}" href='{url path="goodslib/admin/remove" args="id={$goods.goods_id}"}'>{t domain="goodslib"}删除{/t}</a>
 						</div>
 					</td>	
 					
@@ -135,7 +135,7 @@
 				</tr>
 				<!-- {foreachelse}-->
 				<tr>
-					<td class="no-records" colspan="13">{lang key='system::system.no_records'}</td>
+					<td class="no-records" colspan="13">{t domain="goodslib"}没有找到任何记录{/t}</td>
 				</tr>
 				<!-- {/foreach} -->
 			</tbody>

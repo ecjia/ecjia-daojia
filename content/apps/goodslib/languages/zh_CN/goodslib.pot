@@ -1,0 +1,1340 @@
+# Copyright (C) 2019 Ecjia App goodslib
+# This file is distributed under the same license as the Ecjia App goodslib package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App goodslib 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:54:52+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin.php:111 admin.php:122 admin.php:123 admin.php:154 admin.php:419
+#: admin.php:433 admin.php:636 admin.php:918 admin.php:1127 admin.php:1186
+#: admin.php:1325 admin_gallery.php:98
+#: apis/goodslib_admin_menu_api.class.php:54 configs/package.php:55
+msgid "商品库"
+msgstr ""
+
+#: admin.php:136 admin.php:155 apis/goodslib_admin_menu_api.class.php:56
+msgid "添加商品"
+msgstr ""
+
+#: admin.php:156
+msgid "添加商品库商品"
+msgstr ""
+
+#: admin.php:157 admin.php:344 admin.php:621 admin.php:640 admin.php:861
+#: admin.php:1141 admin.php:1175 admin.php:1209 admin.php:1366 admin.php:1529
+#: admin_gallery.php:153
+msgid "商品列表"
+msgstr ""
+
+#: admin.php:174 functions/global.func.php:52
+msgid "通用信息"
+msgstr ""
+
+#: admin.php:193 admin.php:737 admin.php:879 admin.php:885 merchant.php:223
+msgid "您输入的货号已存在，请换一个"
+msgstr ""
+
+#: admin.php:273
+msgid "商品名称不能为空！"
+msgstr ""
+
+#: admin.php:276 admin.php:801
+msgid "请选择商品分类"
+msgstr ""
+
+#: admin.php:348
+msgid "继续添加"
+msgstr ""
+
+#: admin.php:356 admin.php:1467 configs/jslang.php:68
+msgid "添加商品成功"
+msgstr ""
+
+#: admin.php:420 admin.php:421 admin.php:434 admin.php:435
+msgid "导入商品"
+msgstr ""
+
+#: admin.php:422 admin.php:927 admin.php:1330 admin.php:1352 merchant.php:391
+msgid "返回商品列表"
+msgstr ""
+
+#: admin.php:438
+msgid "请选择导入的文件"
+msgstr ""
+
+#: admin.php:486
+msgid "第%s行，商品名称不能为空。"
+msgstr ""
+
+#: admin.php:491
+msgid "第%s行，商品价格不能为空。"
+msgstr ""
+
+#: admin.php:499
+msgid "第%s行，商品【%s】货号【%s】重复。。"
+msgstr ""
+
+#: admin.php:546
+msgid "第%s行，，商品【%s】属性【%s】不存在。"
+msgstr ""
+
+#: admin.php:551
+msgid "第%s行，，商品【%s】规格【%s】不存在。"
+msgstr ""
+
+#: admin.php:577
+msgid "第%s行，，商品【%s】货品号【%s】不存在。"
+msgstr ""
+
+#: admin.php:593 admin.php:605
+msgid "第%s行，，商品【%s】货品属性【%s】不存在。"
+msgstr ""
+
+#: admin.php:637 admin.php:639
+msgid "编辑商品"
+msgstr ""
+
+#: admin.php:645 admin.php:915 admin.php:927 merchant.php:252 merchant.php:378
+#: merchant.php:391
+msgid "未检测到此商品"
+msgstr ""
+
+#: admin.php:645 admin.php:915 admin.php:1133 merchant.php:378
+msgid "返回上一页"
+msgstr ""
+
+#: admin.php:805
+msgid "请输入商品名称"
+msgstr ""
+
+#: admin.php:864 admin.php:1177
+msgid "编辑商品成功"
+msgstr ""
+
+#: admin.php:904
+msgid "商品删除成功"
+msgstr ""
+
+#: admin.php:919 admin.php:921 merchant.php:383 merchant.php:385
+msgid "商品预览"
+msgstr ""
+
+#: admin.php:922
+msgid "返回"
+msgstr ""
+
+#: admin.php:1010
+msgid "请选择操作"
+msgstr ""
+
+#: admin.php:1060
+msgid "批量操作成功"
+msgstr ""
+
+#: admin.php:1078
+msgid "您输入了一个非法的市场价格。"
+msgstr ""
+
+#: admin.php:1082 admin.php:1118
+msgid "修改成功"
+msgstr ""
+
+#: admin.php:1101
+msgid "已成功切换上架状态"
+msgstr ""
+
+#: admin.php:1128 admin.php:1142
+msgid "编辑商品描述"
+msgstr ""
+
+#: admin.php:1133
+msgid "找不到ID为 %s 的商品！"
+msgstr ""
+
+#: admin.php:1160
+msgid "找不到ID为%s的商品！"
+msgstr ""
+
+#: admin.php:1187 admin.php:1213
+msgid "编辑商品属性"
+msgstr ""
+
+#: admin.php:1315
+msgid "编辑属性成功"
+msgstr ""
+
+#: admin.php:1326 admin.php:1528
+msgid "货品列表"
+msgstr ""
+
+#: admin.php:1331
+msgid "缺少参数，请重试"
+msgstr ""
+
+#: admin.php:1351 admin_attribute.php:82 admin_attribute.php:99
+#: admin_attribute.php:119 admin_attribute.php:139 admin_attribute.php:221
+#: functions/global.func.php:363
+msgid "商品属性"
+msgstr ""
+
+#: admin.php:1353
+msgid "请先添加库存属性，再到货品管理中设置货品库存"
+msgstr ""
+
+#: admin.php:1360 admin.php:1504
+msgid "商品名称：%s"
+msgstr ""
+
+#: admin.php:1361 admin.php:1505
+msgid "货号：%s"
+msgstr ""
+
+#: admin.php:1372
+msgid "添加货品"
+msgstr ""
+
+#: admin.php:1374
+msgid "编辑货品"
+msgstr ""
+
+#: admin.php:1394 admin.php:1406
+msgid "找不到指定的商品"
+msgstr ""
+
+#: admin.php:1479
+msgid "保存货品成功"
+msgstr ""
+
+#: admin.php:1491
+msgid "货品id为空"
+msgstr ""
+
+#: admin.php:1500 admin.php:1510
+msgid "错误"
+msgstr ""
+
+#: admin.php:1502
+msgid "（商品货号：%s）"
+msgstr ""
+
+#: admin.php:1503
+msgid "（商品价格：%d）"
+msgstr ""
+
+#: admin.php:1553
+msgid "删除成功！"
+msgstr ""
+
+#: admin.php:1568
+msgid "货品货号重复"
+msgstr ""
+
+#: admin.php:1576
+msgid "货品修改成功！"
+msgstr ""
+
+#: admin_attribute.php:73 admin_goods_spec.php:73 admin_goods_spec.php:83
+#: apis/goodslib_admin_menu_api.class.php:58
+msgid "商品库规格"
+msgstr ""
+
+#: admin_attribute.php:85 admin_attribute.php:124 admin_attribute.php:226
+#: admin_gallery.php:103 admin_goods_spec.php:86 admin_goods_spec.php:117
+#: admin_goods_spec.php:173
+msgid "概述"
+msgstr ""
+
+#: admin_attribute.php:86
+msgid ""
+"欢迎访问ECJia智能后台商品属性列表页面，系统中所有的商品属性都会显示在此列表"
+"中。"
+msgstr ""
+
+#: admin_attribute.php:90 admin_attribute.php:129 admin_attribute.php:231
+#: admin_gallery.php:109 admin_goods_spec.php:91 admin_goods_spec.php:122
+#: admin_goods_spec.php:178
+msgid "更多信息："
+msgstr ""
+
+#: admin_attribute.php:91
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E5.B1.9E.E6.80."
+"A7.E5.88.97.E8.A1.A8\" target=\"_blank\">关于商品属性列表帮助文档</a>"
+msgstr ""
+
+#: admin_attribute.php:100 admin_attribute.php:120 admin_attribute.php:138
+#: admin_attribute.php:220
+msgid "添加属性"
+msgstr ""
+
+#: admin_attribute.php:101 admin_goods_spec.php:127 admin_goods_spec.php:183
+msgid "商品规格列表"
+msgstr ""
+
+#: admin_attribute.php:125
+msgid "欢迎访问ECJia智能后台添加商品属性页面，可以在此页面添加商品属性信息。"
+msgstr ""
+
+#: admin_attribute.php:130
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB.E5.8A."
+"A0.E5.B1.9E.E6.80.A7\" target=\"_blank\">关于添加商品属性帮助文档</a>"
+msgstr ""
+
+#: admin_attribute.php:155
+msgid "商品类型不能为空"
+msgstr ""
+
+#: admin_attribute.php:159 admin_attribute.php:250 admin_attribute.php:324
+msgid "该属性名称已存在，请您换一个名称。"
+msgstr ""
+
+#: admin_attribute.php:179 admin_attribute.php:270
+msgid "返回属性列表"
+msgstr ""
+
+#: admin_attribute.php:180
+msgid "添加下一个属性"
+msgstr ""
+
+#: admin_attribute.php:182
+msgid "添加属性 [%s] 成功。"
+msgstr ""
+
+#: admin_attribute.php:220
+msgid "编辑属性"
+msgstr ""
+
+#: admin_attribute.php:227
+msgid "欢迎访问ECJia智能后台编辑商品属性页面，可以在此页面编辑商品属性信息。"
+msgstr ""
+
+#: admin_attribute.php:232
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E7.BC.96.E8."
+"BE.91.E5.B1.9E.E6.80.A7\" target=\"_blank\">关于编辑商品属性帮助文档</a>"
+msgstr ""
+
+#: admin_attribute.php:272
+msgid "编辑属性 [%s] 成功。"
+msgstr ""
+
+#: admin_attribute.php:286 admin_gallery.php:229 admin_goods_spec.php:247
+msgid "删除成功"
+msgstr ""
+
+#: admin_attribute.php:306
+msgid "成功删除了 %d 条商品属性"
+msgstr ""
+
+#: admin_attribute.php:331 admin_attribute.php:356 admin_gallery.php:242
+#: admin_goods_spec.php:268
+msgid "编辑成功"
+msgstr ""
+
+#: admin_attribute.php:334 configs/jslang.php:58
+msgid "请输入属性名称"
+msgstr ""
+
+#: admin_attribute.php:349
+msgid "请输入大于0的整数"
+msgstr ""
+
+#: admin_gallery.php:99 admin_gallery.php:100
+msgid "编辑商品相册"
+msgstr ""
+
+#: admin_gallery.php:105
+msgid ""
+"欢迎访问ECJia智能后台商品相册页面，系统中所有的商品图片都会显示在此页面。"
+msgstr ""
+
+#: admin_gallery.php:110
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E5.95.86."
+"E5.93.81.E7.9B.B8.E5.86.8C\" target=\"_blank\">关于商品相册帮助文档</a>"
+msgstr ""
+
+#: admin_gallery.php:174 admin_goods_spec.php:165
+msgid "参数丢失"
+msgstr ""
+
+#: admin_gallery.php:261
+msgid "保存排序成功"
+msgstr ""
+
+#: admin_goods_spec.php:87
+msgid ""
+"欢迎访问ECJia智能后台商品规格列表页面，系统中所有的商品规格都会显示在此列表"
+"中。"
+msgstr ""
+
+#: admin_goods_spec.php:92
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E5.95.86."
+"E5.93.81.E7.B1.BB.E5.9E.8B.E5.88.97.E8.A1.A8\" target=\"_blank\">关于商品规格"
+"列表帮助文档</a>"
+msgstr ""
+
+#: admin_goods_spec.php:101
+msgid "商品库规格列表"
+msgstr ""
+
+#: admin_goods_spec.php:102 admin_goods_spec.php:114 admin_goods_spec.php:126
+msgid "添加商品规格"
+msgstr ""
+
+#: admin_goods_spec.php:118
+msgid "欢迎访问ECJia智能后台添加商品规格页面，可以在此页面添加商品规格信息。"
+msgstr ""
+
+#: admin_goods_spec.php:123
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB.E5.8A."
+"A0.E5.95.86.E5.93.81.E7.B1.BB.E5.9E.8B\" target=\"_blank\">关于添加商品规格帮"
+"助文档</a>"
+msgstr ""
+
+#: admin_goods_spec.php:145 admin_goods_spec.php:222 admin_goods_spec.php:270
+msgid "已经存在一个同名的商品规格。"
+msgstr ""
+
+#: admin_goods_spec.php:149
+msgid "返回商品规格列表"
+msgstr ""
+
+#: admin_goods_spec.php:149
+msgid "继续添加商品规格"
+msgstr ""
+
+#: admin_goods_spec.php:150
+msgid "添加商品规格成功"
+msgstr ""
+
+#: admin_goods_spec.php:152
+msgid "添加商品规格失败"
+msgstr ""
+
+#: admin_goods_spec.php:163 admin_goods_spec.php:182
+msgid "编辑商品规格"
+msgstr ""
+
+#: admin_goods_spec.php:169
+msgid "没有找到指定的商品规格"
+msgstr ""
+
+#: admin_goods_spec.php:174
+msgid "欢迎访问ECJia智能后台编辑商品规格页面，可以在此页面编辑商品规格信息。"
+msgstr ""
+
+#: admin_goods_spec.php:179
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E7.BC.96.E8."
+"BE.91.E5.95.86.E5.93.81.E7.B1.BB.E5.9E.8B\" target=\"_blank\">关于编辑商品规"
+"格帮助文档</a>"
+msgstr ""
+
+#: admin_goods_spec.php:220
+msgid "编辑商品规格成功。"
+msgstr ""
+
+#: admin_goods_spec.php:234
+msgid "请选择要删除的记录"
+msgstr ""
+
+#: admin_goods_spec.php:249
+msgid "删除失败"
+msgstr ""
+
+#: admin_goods_spec.php:273
+msgid "商品规格名称不能为空！"
+msgstr ""
+
+#: apis/goodslib_admin_menu_api.class.php:57
+msgid "商品库商品"
+msgstr ""
+
+#: apis/goodslib_admin_purview_api.class.php:56
+msgid "商品库商品列表"
+msgstr ""
+
+#: apis/goodslib_admin_purview_api.class.php:57
+msgid "商品库商品更新"
+msgstr ""
+
+#: apis/goodslib_admin_purview_api.class.php:58
+msgid "商品库商品删除"
+msgstr ""
+
+#: apis/goodslib_admin_purview_api.class.php:59
+msgid "商品库商品导入"
+msgstr ""
+
+#: apis/goodslib_admin_purview_api.class.php:60
+msgid "商品库商品导出"
+msgstr ""
+
+#: apis/goodslib_admin_purview_api.class.php:62
+msgid "商品属性管理"
+msgstr ""
+
+#: apis/goodslib_admin_purview_api.class.php:63
+msgid "商品属性更新"
+msgstr ""
+
+#: apis/goodslib_admin_purview_api.class.php:64
+msgid "商品属性删除"
+msgstr ""
+
+#: apis/goodslib_admin_purview_api.class.php:66
+msgid "商品类型"
+msgstr ""
+
+#: apis/goodslib_admin_purview_api.class.php:67
+msgid "更新商品类型"
+msgstr ""
+
+#: apis/goodslib_admin_purview_api.class.php:68
+msgid "删除商品类型"
+msgstr ""
+
+#: apis/goodslib_merchant_purview_api.class.php:57
+msgid "商品库导入"
+msgstr ""
+
+#: classes/goods_image_data.class.php:153
+#: classes/goods_image_data.class.php:238
+msgid "商品图片路径无效"
+msgstr ""
+
+#: classes/goods_image_data.class.php:183
+msgid "商品相册复制失败"
+msgstr ""
+
+#: classes/goods_image_data.class.php:209
+msgid "商品缩略图路径无效"
+msgstr ""
+
+#: classes/hooks/merchant_goodslib.class.php:54 merchant.php:116
+#: merchant.php:140 merchant.php:362
+msgid "一键导入"
+msgstr ""
+
+#: configs/jslang.php:57
+msgid "请输入规格名称"
+msgstr ""
+
+#: configs/jslang.php:59
+msgid "请选择所属商品类型"
+msgstr ""
+
+#: configs/jslang.php:62
+msgid "请选择..."
+msgstr ""
+
+#: configs/jslang.php:63
+msgid "品牌名称不能为空"
+msgstr ""
+
+#: configs/jslang.php:64
+msgid "分类名称不能为空"
+msgstr ""
+
+#: configs/jslang.php:69
+msgid "开始导入"
+msgstr ""
+
+#: configs/jslang.php:70
+msgid "导入中"
+msgstr ""
+
+#: configs/jslang.php:71
+msgid "请输入商品名称！"
+msgstr ""
+
+#: configs/jslang.php:72
+msgid "请输入商品价格！"
+msgstr ""
+
+#: configs/jslang.php:73
+msgid "请输入商品库存！"
+msgstr ""
+
+#: configs/jslang.php:74
+msgid "请选择需要导入的商品！"
+msgstr ""
+
+#: configs/jslang.php:75
+msgid "未计算"
+msgstr ""
+
+#: configs/jslang.php:76
+msgid "暂无内容"
+msgstr ""
+
+#: configs/package.php:56
+msgid "方便商家同步商品。"
+msgstr ""
+
+#: functions/global.func.php:53
+msgid "商品描述"
+msgstr ""
+
+#: functions/global.func.php:54
+msgid "商品相册"
+msgstr ""
+
+#: functions/global.func.php:55
+msgid "规格属性"
+msgstr ""
+
+#: functions/global.func.php:56
+msgid "货品管理"
+msgstr ""
+
+#: functions/global.func.php:203
+msgid "请选择"
+msgstr ""
+
+#: functions/global.func.php:212
+msgid "属性价格"
+msgstr ""
+
+#: merchant.php:106
+msgid "商品管理"
+msgstr ""
+
+#: merchant.php:123
+msgid "选择商品分类"
+msgstr ""
+
+#: merchant.php:145
+msgid "请先选择分类"
+msgstr ""
+
+#: merchant.php:148
+msgid "选择商品"
+msgstr ""
+
+#: merchant.php:176 merchant.php:198
+msgid "请选择导入的商品"
+msgstr ""
+
+#: merchant.php:201
+msgid "请填写商品名称"
+msgstr ""
+
+#: merchant.php:204
+msgid "请填写商品价格"
+msgstr ""
+
+#: merchant.php:207
+msgid "请选择店铺商品分类"
+msgstr ""
+
+#: merchant.php:236
+msgid "商品导入错误信息："
+msgstr ""
+
+#: merchant.php:242 merchant.php:357
+msgid "导入成功"
+msgstr ""
+
+#: merchant.php:258
+msgid "商品【%s】已导入，请勿重复导入"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:26
+#: content/apps/goodslib/templates/merchant/goods_cat_select.dwt.php:38
+msgid "是否放弃本页面修改？"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:42
+msgid "商品名称："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:55
+msgid "商品货号："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:59
+msgid "如果您不输入商品货号，系统将自动生成一个唯一的货号。"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:64
+msgid "本店售价："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:67
+#: content/apps/goodslib/templates/merchant/library/goods_insert.lbi.php:31
+msgid "按市场价计算"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:73
+msgid "市场售价："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:76
+#: content/apps/goodslib/templates/merchant/library/goods_insert.lbi.php:42
+msgid "取整数"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:80
+msgid "商品重量："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:90
+msgid "上架："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:93
+msgid ""
+"打勾表示商家可见此商品，并允许商家将此商品导入店铺，否则不显示并不可导入"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:102
+msgid "SEO优化"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:108
+msgid "关键字："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:113
+msgid "用英文逗号分隔"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:118
+msgid "简单描述："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:132
+#: content/apps/goodslib/templates/admin/goodslib_import.dwt.php:67
+msgid "更新"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:132
+#: content/apps/goodslib/templates/admin/goods_desc.dwt.php:38
+#: content/apps/goodslib/templates/admin/goods_attr.dwt.php:49
+#: content/apps/goodslib/templates/admin/goodslib_import.dwt.php:67
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:70
+#: content/apps/goodslib/templates/merchant/goods_cat_select.dwt.php:86
+msgid "下一步"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:142
+#: content/apps/goodslib/templates/admin/preview.dwt.php:69
+#: content/apps/goodslib/templates/merchant/preview.dwt.php:83
+msgid "商品分类"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:157
+msgid "请选择商品分类！"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:169
+#: content/apps/goodslib/templates/admin/preview.dwt.php:78
+#: content/apps/goodslib/templates/merchant/preview.dwt.php:92
+msgid "商品品牌"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:175
+msgid "选择商品品牌"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:188
+msgid "商品图片"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:194
+msgid "上传商品图片："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:203
+msgid "商品缩略图："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:210
+msgid "点击更换商品图片或商品缩略图。"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_info.dwt.php:22
+msgid "规格名称："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_info.dwt.php:29
+msgid "状态："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_info.dwt.php:31
+msgid "禁用"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_info.dwt.php:32
+msgid "启用"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_info.dwt.php:36
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:39
+msgid "属性分组："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_info.dwt.php:39
+msgid "每行一个商品属性。排序也将按照自然顺序排序。"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_info.dwt.php:44
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:89
+msgid "确定"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_desc.dwt.php:41
+#: content/apps/goodslib/templates/admin/goods_attr.dwt.php:52
+#: content/apps/goodslib/templates/admin/product_info.dwt.php:87
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:54
+#: content/apps/goodslib/templates/merchant/goods_cat_select.dwt.php:89
+msgid "保存"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/preview.dwt.php:34
+#: content/apps/goodslib/templates/merchant/preview.dwt.php:48
+#: content/apps/goodslib/templates/merchant/library/goods_insert.lbi.php:37
+msgid "市场售价"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/preview.dwt.php:41
+#: content/apps/goodslib/templates/merchant/preview.dwt.php:55
+#: content/apps/goodslib/templates/merchant/library/goods_insert.lbi.php:26
+msgid "本店售价"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/preview.dwt.php:54
+#: content/apps/goodslib/templates/merchant/preview.dwt.php:68
+#: content/apps/goodslib/templates/merchant/library/goods_insert.lbi.php:20
+msgid "商品货号"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/preview.dwt.php:61
+#: content/apps/goodslib/templates/merchant/preview.dwt.php:75
+msgid "商品重量"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/preview.dwt.php:86
+#: content/apps/goodslib/templates/merchant/preview.dwt.php:100
+msgid "添加时间"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/preview.dwt.php:93
+#: content/apps/goodslib/templates/merchant/preview.dwt.php:107
+msgid "更新时间"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/preview.dwt.php:146
+#: content/apps/goodslib/templates/merchant/preview.dwt.php:164
+msgid "商品详情"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/preview.dwt.php:147
+#: content/apps/goodslib/templates/merchant/preview.dwt.php:165
+msgid "商品参数"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/preview.dwt.php:155
+#: content/apps/goodslib/templates/merchant/preview.dwt.php:173
+msgid "暂无！"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/preview.dwt.php:172
+#: content/apps/goodslib/templates/merchant/preview.dwt.php:190
+msgid "暂无参数！"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/preview.dwt.php:181
+#: content/apps/goodslib/templates/admin/product_info.dwt.php:43
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:81
+#: content/apps/goodslib/templates/merchant/goods_list.dwt.php:68
+#: content/apps/goodslib/templates/merchant/preview.dwt.php:199
+msgid "货号"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/preview.dwt.php:183
+#: content/apps/goodslib/templates/merchant/preview.dwt.php:201
+msgid "属性价"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/preview.dwt.php:199
+#: content/apps/goodslib/templates/merchant/preview.dwt.php:217
+msgid "暂无货品！"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_attr.dwt.php:32
+msgid "商品规格："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_attr.dwt.php:35
+msgid "请选择商品规格"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_attr.dwt.php:40
+msgid "请选择商品的所属规格，进而完善此商品的属性"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:24
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:31
+#: content/apps/goodslib/templates/merchant/goods_list.dwt.php:38
+msgid "批量操作"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:27
+msgid "您确定要删除选中的商品属性吗？"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:27
+msgid "您没有选择需要删除的属性"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:27
+msgid "批量删除"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:32
+msgid "按商品规格显示："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:34
+msgid "所有商品规格"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:48
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:22
+msgid "属性名称"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:51
+msgid "商品规格"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:54
+msgid "属性值的录入方式"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:57
+msgid "可选值列表"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:60
+msgid "排序"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:63
+#: content/apps/goodslib/templates/admin/product_info.dwt.php:44
+msgid "操作"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:74
+msgid "属性名称不能为空"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:88
+msgid "请输入排序号"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:91
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:57
+#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:55
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:102
+msgid "编辑"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:92
+msgid "您确实要删除该属性吗？"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:92
+#: content/apps/goodslib/templates/admin/product_info.dwt.php:59
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:55
+#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:56
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:107
+msgid "删除"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:97
+#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:72
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:138
+#: content/apps/goodslib/templates/merchant/goods_list.dwt.php:103
+msgid "没有找到任何记录"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_import_success.dwt.php:13
+#: content/apps/goodslib/templates/admin/goodslib_import.dwt.php:13
+#: content/apps/goodslib/templates/merchant/goods_cat_select.dwt.php:12
+msgid "温馨提示："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_import_success.dwt.php:14
+#: content/apps/goodslib/templates/admin/goodslib_import.dwt.php:14
+msgid "您将通过上传的Excel文件，快速导入商品信息至平台商品库中；"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_import_success.dwt.php:15
+#: content/apps/goodslib/templates/admin/goodslib_import.dwt.php:15
+msgid "请先添加好商品库分类、品牌、规格；"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_import_success.dwt.php:16
+#: content/apps/goodslib/templates/admin/goodslib_import.dwt.php:16
+msgid "在导入商品信息前，请务必先下载商品导入模板，填写完成后再上传表格；"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_import_success.dwt.php:17
+#: content/apps/goodslib/templates/admin/goodslib_import.dwt.php:17
+msgid "商品货号和货品号如重复此条信息不导入，或可留空自动生成。"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_import_success.dwt.php:31
+msgid "异常数据"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_import_success.dwt.php:41
+msgid "导入成功！"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_import_success.dwt.php:44
+#: content/apps/goodslib/templates/merchant/success.dwt.php:37
+msgid "查看商品列表"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/product_info.dwt.php:80
+msgid "再添加一项"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/product_info.dwt.php:85
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:71
+msgid "完成"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_import.dwt.php:42
+msgid "下载模板："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_import.dwt.php:44
+msgid "下载商品导入Excel模板"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_import.dwt.php:45
+msgid "请先下载商品导入模板，再上传数据"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_import.dwt.php:49
+msgid "上传文件："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_import.dwt.php:53
+msgid "选择文件"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_import.dwt.php:54
+msgid "更换文件"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_import.dwt.php:60
+msgid "目前仅支持（.xls）格式文件，文件大小请控制在20M以内"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:35
+msgid "（编辑、排序、删除）"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:37
+msgid "排序后请点击“保存排序”"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:53
+msgid "取消"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:55
+msgid "您确定要删除这张相册图片吗？"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:56
+msgid "移动"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:58
+msgid "无标题"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:65
+msgid "保存排序"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:29
+msgid "所属商品规格："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:49
+msgid "能否进行检索："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:51
+msgid "不需要检索"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:52
+msgid "关键字检索"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:53
+msgid "范围检索"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:54
+msgid ""
+"不需要该属性成为检索商品条件的情况请选择不需要检索，需要该属性进行关键字检索"
+"商品时选择关键字检索，<br/>如果该属性检索时希望是指定某个范围时，选择范围检"
+"索。"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:58
+msgid "相同属性商品是否关联："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:60
+msgid "否"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:61
+msgid "是"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:65
+msgid "属性是否可选："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:67
+msgid "唯一属性"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:68
+msgid "单选属性"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:69
+msgid "复选属性"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:70
+msgid ""
+"选择\"单选/复选属性\"时，可以对商品该属性设置多个值，同时还能对不同属性值指定"
+"不同的价格加价，用户购买商品时需要选定具体的属性值。<br/>选择\"唯一属性\"时，"
+"商品的该属性值只能设置一个值，用户只能查看该值。"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:74
+msgid "该属性值的录入方式："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:76
+msgid "手工录入"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:77
+msgid "从下面的列表中选择（一行代表一个可选值）"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:78
+msgid "多行文本框"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:82
+msgid "可选值列表："
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:18
+msgid "全部"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:22
+msgid "请输入商品规格关键字"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:23
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:67
+#: content/apps/goodslib/templates/merchant/goods_list.dwt.php:50
+msgid "搜索"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:35
+msgid "商品规格名称"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:38
+msgid "属性分组"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:41
+msgid "属性数"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:44
+msgid "状态"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:54
+msgid "查看规格属性"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:56
+msgid "删除商品规格将会清除该规格下的所有属性。n您确定要删除选定的商品规格吗？"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:66
+msgid "点击修改状态"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:34
+#: content/apps/goodslib/templates/merchant/goods_list.dwt.php:40
+msgid "您确定要把选中的商品放入回收站吗？"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:34
+#: content/apps/goodslib/templates/merchant/goods_list.dwt.php:40
+msgid "请选择要移至回收站的商品"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:35
+#: content/apps/goodslib/templates/merchant/goods_list.dwt.php:41
+msgid "您确定要把选中的商品上架吗？"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:35
+#: content/apps/goodslib/templates/merchant/goods_list.dwt.php:41
+msgid "请选择要上架的商品"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:35
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:83
+#: content/apps/goodslib/templates/merchant/goods_list.dwt.php:41
+#: content/apps/goodslib/templates/merchant/library/goods_insert.lbi.php:88
+msgid "上架"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:36
+msgid "您确定要把选中的商品下架吗？"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:36
+msgid "请选择要下架的商品"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:36
+msgid "下架"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:46
+msgid "所有分类"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:55
+msgid "所有品牌"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:61
+msgid "筛选"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:66
+#: content/apps/goodslib/templates/merchant/goods_list.dwt.php:48
+msgid "请输入商品关键字"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:79
+#: content/apps/goodslib/templates/merchant/goods_list.dwt.php:66
+msgid "缩略图"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:80
+#: content/apps/goodslib/templates/merchant/goods_list.dwt.php:67
+#: content/apps/goodslib/templates/merchant/library/goods_insert.lbi.php:13
+msgid "商品名称"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:82
+#: content/apps/goodslib/templates/merchant/goods_list.dwt.php:69
+msgid "价格"
+msgstr ""
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:107
+msgid "您确定要把该商品放入回收站吗？"
+msgstr ""
+
+#: content/apps/goodslib/templates/merchant/goods_list.dwt.php:70
+msgid "市场价"
+msgstr ""
+
+#: content/apps/goodslib/templates/merchant/preview.dwt.php:128
+msgid "立即导入"
+msgstr ""
+
+#: content/apps/goodslib/templates/merchant/library/goods_step.lbi.php:21
+msgid "导入完成"
+msgstr ""
+
+#: content/apps/goodslib/templates/merchant/library/goods_insert.lbi.php:47
+msgid "库存数量"
+msgstr ""
+
+#: content/apps/goodslib/templates/merchant/library/goods_insert.lbi.php:54
+msgid "店铺分类"
+msgstr ""
+
+#: content/apps/goodslib/templates/merchant/library/goods_insert.lbi.php:64
+msgid "加入推荐"
+msgstr ""
+
+#: content/apps/goodslib/templates/merchant/library/goods_insert.lbi.php:68
+msgid "精品"
+msgstr ""
+
+#: content/apps/goodslib/templates/merchant/library/goods_insert.lbi.php:71
+msgid "新品"
+msgstr ""
+
+#: content/apps/goodslib/templates/merchant/library/goods_insert.lbi.php:74
+msgid "热销"
+msgstr ""
+
+#: content/apps/goodslib/templates/merchant/library/goods_insert.lbi.php:79
+msgid "包邮"
+msgstr ""
+
+#: content/apps/goodslib/templates/merchant/library/goods_insert.lbi.php:83
+msgid "打勾表示此商品不会产生运费花销，否则按照正常运费计算。"
+msgstr ""
+
+#: content/apps/goodslib/templates/merchant/library/goods_insert.lbi.php:92
+msgid "打勾表示允许销售，否则不允许销售。"
+msgstr ""
+
+#: content/apps/goodslib/templates/merchant/success.dwt.php:34
+msgid "恭喜您，导入成功！"
+msgstr ""
+
+#: content/apps/goodslib/templates/merchant/goods_cat_select.dwt.php:12
+msgid ""
+"为减少操作流程，您可选择使用“一键导入”，将平台商品库里的商品导入店铺内。"
+msgstr ""
+
+#: content/apps/goodslib/templates/merchant/goods_cat_select.dwt.php:50
+#: content/apps/goodslib/templates/merchant/goods_cat_select.dwt.php:62
+#: content/apps/goodslib/templates/merchant/goods_cat_select.dwt.php:70
+msgid "请输入商品分类关键字"
+msgstr ""

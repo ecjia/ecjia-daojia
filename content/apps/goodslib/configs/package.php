@@ -52,11 +52,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
     'identifier'    => 'ecjia.goodslib',
     'directory'     => 'goodslib',
-    'name'          => 'goodslib',
-    'description'   => 'goodslib_desc',			  /* 描述对应的语言项 */
+    'name'          => __('商品库', 'goodslib'),
+    'description'   => __('方便商家同步商品。', 'goodslib'),
 	'author'        => 'ECJIA TEAM',			  /* 作者 */
 	'website'       => 'http://www.ecjia.com',	  /* 网址 */
-	'version'       => '1.27.1',					  /* 版本号 */
+	'version'       => '1.27.4',					  /* 版本号 */
 	'copyright'     => 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Goodslib',
     'provider'      => 'GoodslibServiceProvider',

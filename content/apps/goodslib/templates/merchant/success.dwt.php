@@ -31,10 +31,10 @@
 				<span class="glyphicon glyphicon-ok-sign"></span>
 			</div>
 			<div class="panel-body ">
-				<h4>恭喜您，导入成功！</h4>
+				<h4>{t domain="goodslib"}恭喜您，导入成功！{/t}</h4>
 			</div>
 			<div class="panel-body ">
-				<a class="btn btn-info" href="{url path='goods/merchant/init'}">查看商品列表</a>
+				<a class="btn btn-info" href="{url path='goods/merchant/init'}">{t domain="goodslib"}查看商品列表{/t}</a>
 			</div>
 		</div>
 	</div>

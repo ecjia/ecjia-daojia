@@ -40,8 +40,8 @@
                                     <!-- {foreach from=$attribute item=attribute_value} -->
                                     <th class="w150">{$attribute_value.attr_name}</th>
                                     <!--  {/foreach} -->
-                                    <th class="product_sn">{lang key='goods::goods.goods_sn'}</th>
-                                    <th class="w100">{lang key='system::system.handler'}</td>
+                                    <th class="product_sn">{t domain="goodslib"}货号{/t}</th>
+                                    <th class="w100">{t domain="goodslib"}操作{/t}</td>
                                 </tr>
                             </thead>
                             
@@ -56,7 +56,7 @@
 	                                    {$product.product_sn}
 	                                    </span>
                                     </td>
-                                    <td><a class="ecjiafc-red ajax-remove" data-toggle="ajaxremove" data-msg="{lang key='goods::goods.trash_product_confirm'}" href='{url path="goodslib/admin/product_remove" args="id={$product.product_id}"}' title="{lang key='system::system.drop'}"><i class="fontello-icon-trash ecjiafc-red"></i></a></td>
+                                    <td><a class="ecjiafc-red ajax-remove" data-toggle="ajaxremove" data-msg="{lang key='goods::goods.trash_product_confirm'}" href='{url path="goodslib/admin/product_remove" args="id={$product.product_id}"}' title="{t domain="goodslib"}删除{/t}"><i class="fontello-icon-trash ecjiafc-red"></i></a></td>
                                 </tr>
                                 {/foreach}
                                 
@@ -64,7 +64,7 @@
                                     <!-- {foreach from=$attribute item=attribute_value key=attribute_key} -->
                                     <td>
                                         <select name="attr[{$attribute_value.attr_id}][]" class="w150">
-                                            <option value="0" selected>{lang key='system::system.select_please'}</option>
+                                            <option value="0" selected>{t domain="goodslib"}请选择...{/t}</option>
                                             <!-- {foreach from=$attribute_value.attr_values item=value} -->
                                                 <option value="{$value}">{$value}</option>
                                             <!-- {/foreach} -->
@@ -77,14 +77,14 @@
                             </tbody>
                         </table>
                     </div>
-                    <a class="m_l5 l_h30 add_item" href="javascript:;">再添加一项</a>
+                    <a class="m_l5 l_h30 add_item" href="javascript:;">{t domain="goodslib"}再添加一项{/t}</a>
                 </div>
                 <div class="t_c">
                 	{if $step}
                 	<input type="hidden" name="step" value="{$step}" />
-                	<input type="submit" name="submit" value="{lang key='goods::goods.complete'}" class="btn btn-gebo" />
+                	<input type="submit" name="submit" value="{t domain="goodslib"}完成{/t}" class="btn btn-gebo" />
                 	{else}
-                	<input type="submit" name="submit" value="{lang key='goods::goods.save'}" class="btn btn-gebo" />
+                	<input type="submit" name="submit" value="{t domain="goodslib"}保存{/t}" class="btn btn-gebo" />
                 	{/if}
                 	<input type="hidden" name="goods_id" value="{$goods_id}" />
                 	<input type="hidden" name="act" value="product_add_execute" />
@@ -98,7 +98,7 @@
                     <!-- {foreach from=$attribute item=attribute_value key=attribute_key} -->
                     <td>
                         <select name="attr[{$attribute_value.attr_id}][]" class="w150">
-                            <option value="0" selected>{lang key='system::system.select_please'}</option>
+                            <option value="0" selected>{t domain="goodslib"}请选择...{/t}</option>
                             <!-- {foreach from=$attribute_value.attr_values item=value} -->
                                 <option value="{$value}">{$value}</option>
                             <!-- {/foreach} -->

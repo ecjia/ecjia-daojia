@@ -23,7 +23,7 @@
 			{if $action eq 'edit'}
 			<ul class="nav nav-tabs">
 				<!-- {foreach from=$tags item=tag} -->
-				<li{if $tag.active} class="active"{/if}><a class="data-pjax" {if $tag.active} href="javascript:;"{else} data-toggle="alertgo" data-message="{lang key='goods::goods.discard_changes'}" href='{$tag.href}'{/if}><!-- {$tag.name} --></a></li>
+				<li{if $tag.active} class="active"{/if}><a class="data-pjax" {if $tag.active} href="javascript:;"{else} data-toggle="alertgo" data-message="{t domain="goodslib"}是否放弃本页面修改？{/t}" href='{$tag.href}'{/if}><!-- {$tag.name} --></a></li>
 				<!-- {/foreach} -->
 			</ul>
 			{/if}
@@ -39,7 +39,7 @@
 									<div class="left-bar move-mod">
 										<div class="goods_base_info">
 											<div class="control-group control-group-small formSep">
-												<label class="control-label">{lang key='goods::goods.lab_goods_name'}</label>
+												<label class="control-label">{t domain="goodslib"}商品名称：{/t}</label>
 												<div class="controls">
 													<input class="f_l w330" type="text" name="goods_name" value="{$goods.goods_name|escape}" style="color:{$goods_name_color};" size="30"/>
 													<div class="input-append color" data-color="{$goods_name_color}" id="color">
@@ -48,36 +48,36 @@
 														<i class="dft_color"></i>
 														</span>
 													</div>
-													<span class="input-must">{lang key='system::system.require_field'}</span>
+													<span class="input-must">*</span>
 												</div>
 											</div>
 											<div class="control-group control-group-small formSep">
-												<label class="control-label">{lang key='goods::goods.lab_goods_sn'}</label>
+												<label class="control-label">{t domain="goodslib"}商品货号：{/t}</label>
 												<div class="controls">
 													<input class="w330" type="text" name="goods_sn" value="{$goods.goods_sn|escape}" size="20" data-toggle="checkGoodsSn" data-id="{$goods.goods_id}" data-url="{url path='goodslib/admin/check_goods_sn'}"/>
 													<label id="goods_sn_notice" class="error"></label>
-													<span class="help-block" id="noticeGoodsSN">{lang key='goods::goods.notice_goods_sn'}</span>
+													<span class="help-block" id="noticeGoodsSN">{t domain="goodslib"}如果您不输入商品货号，系统将自动生成一个唯一的货号。{/t}</span>
 												</div>
 											</div>
 											<!--本店售价-->
 											<div class="control-group control-group-small formSep">
-												<label class="control-label">{lang key='goods::goods.lab_shop_price'}</label>
+												<label class="control-label">{t domain="goodslib"}本店售价：{/t}</label>
 												<div class="controls">
 													<input class="w330" type="text" name="shop_price" value="{$goods.shop_price}" size="20" data-toggle="priceSetted"/>
-													<a class="btn" data-toggle="marketPriceSetted">{lang key='goods::goods.compute_by_mp'}</a>
-													<span class="input-must">{lang key='system::system.require_field'}</span>
+													<a class="btn" data-toggle="marketPriceSetted">{t domain="goodslib"}按市场价计算{/t}</a>
+													<span class="input-must">*</span>
 												</div>
 											</div>
 											<!--市场售价-->
 											<div class="control-group control-group-small formSep">
-												<label class="control-label">{lang key='goods::goods.lab_market_price'}</label>
+												<label class="control-label">{t domain="goodslib"}市场售价：{/t}</label>
 												<div class="controls">
 													<input class="w330" type="text" name="market_price" value="{$goods.market_price}" size="20"/>
-													<button class="btn" type="button" data-toggle="integral_market_price">{lang key='goods::goods.integral_market_price'}</button>
+													<button class="btn" type="button" data-toggle="integral_market_price">{t domain="goodslib"}取整数{/t}</button>
 												</div>
 											</div>
 											<div class="control-group control-group-small formSep">
-												<label class="control-label">{lang key='goods::goods.lab_goods_weight'}</label>
+												<label class="control-label">{t domain="goodslib"}商品重量：{/t}</label>
 												<div class="controls">
 													<input class="f_l m_r5 input-small w330" type="text" name="goods_weight" value="{$goods.goods_weight_by_unit}" size="20"/>
 													<select name="weight_unit" class="w100">
@@ -87,10 +87,10 @@
 											</div>
 											
 											<div class="control-group control-group-small formSep">
-												<label class="control-label">{lang key='goods::goods.lab_is_on_sale'}</label>
+												<label class="control-label">{t domain="goodslib"}上架：{/t}</label>
 												<div class="controls">
 													<input type="checkbox" name="is_display" value="1" style="opacity: 0;" {if $goods.is_display}checked="checked"{/if}>
-													<span>打勾表示商家可见此商品，并允许商家将此商品导入店铺，否则不显示并不可导入</span>
+													<span>{t domain="goodslib"}打勾表示商家可见此商品，并允许商家将此商品导入店铺，否则不显示并不可导入{/t}</span>
 												</div>
 											</div>
 											
@@ -99,23 +99,23 @@
 											<div class="accordion-group">
 												<div class="accordion-heading">
 													<a class="accordion-toggle collapsed acc-in move-mod-head" data-toggle="collapse" data-target="#goods_info_area_seo">
-													<strong>{lang key='goods::goods.seo'}</strong>
+													<strong>{t domain="goodslib"}SEO优化{/t}</strong>
 													</a>
 												</div>
 												<div class="accordion-body in collapse" id="goods_info_area_seo">
 													<div class="accordion-inner">
 														<div class="control-group control-group-small">
-															<label class="control-label">{lang key='goods::goods.label_keywords'}</label>
+															<label class="control-label">{t domain="goodslib"}关键字：{/t}</label>
 															<div class="controls">
 																<input class="span12" type="text" name="keywords" value="{$goods.keywords|escape}" size="40"/>
 																<br/>
 																<p class="help-block w280 m_t5">
-																	{lang key='goods::goods.notice_keywords'}
+																	{t domain="goodslib"}用英文逗号分隔{/t}
 																</p>
 															</div>
 														</div>
 														<div class="control-group control-group-small">
-															<label class="control-label">{lang key='goods::goods.lab_goods_brief'}</label>
+															<label class="control-label">{t domain="goodslib"}简单描述：{/t}</label>
 															<div class="controls">
 																<textarea class="span12 h100" name="goods_brief" cols="40" rows="3">{$goods.goods_brief|escape}</textarea>
 															</div>
@@ -129,7 +129,7 @@
 											<label class="control-label"></label>
     										<input type="hidden" name="goods_id" value="{$goods.goods_id}"/>
     										<input type="hidden" name="goods_copyid" value="{$goods.goods_copyid}"/>
-    										<button class="btn btn-gebo" type="submit">{if $goods.goods_id}{lang key='goods::goods.update'}{else}{lang key='goods::goods.next_step'}{/if}</button>
+    										<button class="btn btn-gebo" type="submit">{if $goods.goods_id}{t domain="goodslib"}更新{/t}{else}{t domain="goodslib"}下一步{/t}{/if}</button>
     										<input type="hidden" id="type" value="{$link.type}"/>
     									</div>
 									</div>
@@ -139,22 +139,22 @@
 											<div class="accordion-group">
 												<div class="accordion-heading">
 													<a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#goods_info_area_cat">
-													<strong>{lang key='goods::goods.category'}</strong>
+													<strong>{t domain="goodslib"}商品分类{/t}</strong>
 													</a>
 												</div>
 												<div class="accordion-body in in_visable collapse" id="goods_info_area_cat">
 													<div class="accordion-inner">
 														<div class="control-group m_b0">
-															<label><b>{lang key='goods::goods.choose_goods_cat'}</b><span class="input-must">{lang key='system::system.require_field'}</span></label>
+															<label><b>{t domain="goodslib"}选择商品分类{/t}</b><span class="input-must">*</span></label>
 															<div>
 																<select class="w300" name="cat_id">
-																	<option value="0">{lang key='system::system.select_please'}</option>
+																	<option value="0">{t domain="goodslib"}请选择...{/t}</option>
 																	<!-- {foreach from=$cat_list item=cat} -->
 																	<option {if $goods.cat_id eq $cat.cat_id}selected="selected"{/if} value="{$cat.cat_id}" {if $cat.level}style="padding-left:{$cat.level * 20}px"{/if}>{$cat.cat_name}</option>
 																	<!-- {/foreach} -->
 																</select>
 																<div class="f_error">
-																	<label class="cat_id_error ecjiafc-red">{lang key='goods::goods.js_lang.category_id_select'}</label>
+																	<label class="cat_id_error ecjiafc-red">{t domain="goodslib"}请选择商品分类！{/t}</label>
 																</div>
 															</div>
 														</div>
@@ -166,15 +166,15 @@
 											<div class="accordion-group">
 												<div class="accordion-heading">
 													<a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#goods_info_area_brand">
-													<strong>{lang key='goods::goods.brand'}</strong>
+													<strong>{t domain="goodslib"}商品品牌{/t}</strong>
 													</a>
 												</div>
 												<div class="accordion-body in in_visable collapse" id="goods_info_area_brand">
 													<div class="accordion-inner">
 														<div class="control-group m_b0">
-															<label><b>{lang key='goods::goods.select_goods_brand'}</b></label>
+															<label><b>{t domain="goodslib"}选择商品品牌{/t}</b></label>
 															<select class="w300" name="brand_id">
-																<option value="0">{lang key='system::system.select_please'}{html_options options=$brand_list selected=$goods.brand_id}</option>
+																<option value="0">{t domain="goodslib"}请选择...{/t}{html_options options=$brand_list selected=$goods.brand_id}</option>
 															</select>
 														</div>
 													</div>
@@ -185,13 +185,13 @@
 											<div class="accordion-group">
 												<div class="accordion-heading">
 													<a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#goods_info_area_img">
-													<strong>{lang key='goods::goods.goods_image'}</strong>
+													<strong>{t domain="goodslib"}商品图片{/t}</strong>
 													</a>
 												</div>
 												<div class="accordion-body in collapse" id="goods_info_area_img">
 													<div class="accordion-inner">
 														<div class="control-group">
-															<label>{lang key='goods::goods.lab_picture'}</label>
+															<label>{t domain="goodslib"}上传商品图片：{/t}</label>
 															<div class="ecjiaf-db">
 																<div class="goods_img">
 																	<span {if $goods.goods_img}class="btn fileupload-btn preview-img" style="background-image: url({$goods.goods_img});"{else}class="btn fileupload-btn"{/if}>
@@ -200,14 +200,14 @@
 																	<input class="hide" type="file" name="goods_img" onchange="ecjia.admin.goods_info.previewImage(this)"/>
 																</div>
 																<div class="thumb_img{if !$goods.goods_thumb} hide{/if}">
-																	<label>{lang key='goods::goods.goods_thumb'}</label>
+																	<label>{t domain="goodslib"}商品缩略图：{/t}</label>
 																	<span {if $goods.goods_img}class="btn fileupload-btn preview-img" style="background-image: url({$goods.goods_thumb});"{else}class="btn fileupload-btn"{/if}>
 																	<span class="fileupload-exists"><i class="fontello-icon-plus"></i></span>
 																	</span>
 																	<input class="hide" type="file" name="thumb_img" onchange="ecjia.admin.goods_info.previewImage(this)"/>
 																</div>
 																<div>
-																	<span class="help-inline">{lang key='goods::goods.thumb_img_notice'}</span>
+																	<span class="help-inline">{t domain="goodslib"}点击更换商品图片或商品缩略图。{/t}</span>
 																</div>
 															</div>
 														</div>

@@ -87,25 +87,27 @@ class admin_gallery extends ecjia_admin {
         RC_Loader::load_app_func('global', 'goodslib');
         
         RC_Loader::load_app_func('admin_user', 'user');
+
+        RC_Script::localize_script('goods_list', 'js_lang', config('app-goodslib::jslang.goods_list_page'));
         $goods_list_jslang = array(
         	'user_rank_list'	=> get_rank_list(),
         	'marketPriceRate'	=> ecjia::config('market_price_rate'),
         	'integralPercent'	=> ecjia::config('integral_percent'),
         );
         RC_Script::localize_script('goods_list', 'admin_goodsList_lang', $goods_list_jslang );
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('商品库', RC_Uri::url('goodslib/admin/init')));
-		$this->assign('ur_here', RC_Lang::get('goods::goods.edit_goods_photo'));
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods.edit_goods_photo')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品库', 'goodslib'), RC_Uri::url('goodslib/admin/init')));
+		$this->assign('ur_here', __('编辑商品相册', 'goodslib'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑商品相册', 'goodslib')));
         ecjia_screen::get_current_screen()->add_help_tab(array(
 	        'id'		=> 'overview',
-	        'title'		=> RC_Lang::get('goods::goods.overview'),
+	        'title'		=> __('概述', 'goodslib'),
 	        'content'	=>
-	        '<p>' . RC_Lang::get('goods::goods.goods_gallery_help') . '</p>'
+	        '<p>' . __('欢迎访问ECJia智能后台商品相册页面，系统中所有的商品图片都会显示在此页面。', 'goodslib') . '</p>'
         ));
         
         ecjia_screen::get_current_screen()->set_help_sidebar(
-       	 	'<p><strong>' . RC_Lang::get('goods::goods.more_info') . '</strong></p>' .
-        	'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E5.95.86.E5.93.81.E7.9B.B8.E5.86.8C" target="_blank">'. RC_Lang::get('goods::goods.about_goods_gallery') .'</a>') . '</p>'
+       	 	'<p><strong>' . __('更多信息：', 'goodslib') . '</strong></p>' .
+        	'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E5.95.86.E5.93.81.E7.9B.B8.E5.86.8C" target="_blank">关于商品相册帮助文档</a>', 'goodslib') . '</p>'
         );
         
         $goods_id = intval($_GET['goods_id']);
@@ -148,7 +150,7 @@ class admin_gallery extends ecjia_admin {
 		
         //设置选中状态,并分配标签导航
         $this->assign('tags', $this->tags);
-        $this->assign('action_link', array('href' => RC_Uri::url('goodslib/admin/init'), 'text' => RC_Lang::get('goods::goods.goods_list')));
+        $this->assign('action_link', array('href' => RC_Uri::url('goodslib/admin/init'), 'text' => __('商品列表', 'goodslib')));
        
         $this->assign('goods_id', $goods_id);
         $this->assign('img_list', $img_list);
@@ -169,7 +171,7 @@ class admin_gallery extends ecjia_admin {
         $goods_id = intval($_GET['goods_id']);
 
         if (empty($goods_id)) {
-            return $this->showmessage(RC_Lang::get('goods::goods.parameter_missing'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('参数丢失', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $upload = RC_Upload::uploader('image', array('save_path' => './images', 'auto_sub_dirs' => true));
@@ -224,7 +226,7 @@ class admin_gallery extends ecjia_admin {
 		/* 删除数据 */
 		RC_DB::table('goodslib_gallery')->where('img_id', $img_id)->delete();
 				
-		return $this->showmessage(RC_Lang::get('goods::goods.drop_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('删除成功', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 
 	/**
@@ -237,7 +239,7 @@ class admin_gallery extends ecjia_admin {
 		
 		RC_DB::table('goodslib_gallery')->where('img_id', $img_id)->update(array('img_desc' => $val));
 		
-		return $this->showmessage(RC_Lang::get('goods::goods.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('编辑成功', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 
 	/**
@@ -256,7 +258,7 @@ class admin_gallery extends ecjia_admin {
 			$data = array('img_original' => $v['img_original']);
 			RC_DB::table('goodslib_gallery')->where('img_id', $v['img_id'])->update($data);
 		}
-		return $this->showmessage(RC_Lang::get('goods::goods.save_sort_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('保存排序成功', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 }
 

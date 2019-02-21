@@ -54,7 +54,7 @@ class goodslib_merchant_purview_api extends Component_Event_Api {
     
     public function call(&$options) {
         $purviews = array(
-            array('action_name' => '商品库导入', 'action_code' => 'goodslib_manage', 'relevance' => ''),
+            array('action_name' => __('商品库导入', 'goodslib'), 'action_code' => 'goodslib_manage', 'relevance' => ''),
         );
         return $purviews;
     }

@@ -53,19 +53,19 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class goodslib_admin_purview_api extends Component_Event_Api {
     public function call(&$options) {
         $purviews = array(
-            array('action_name' => '商品库商品列表', 'action_code' => 'goodslib_manage', 'relevance' => ''),
-            array('action_name' => '商品库商品更新', 'action_code' => 'goodslib_update', 'relevance' => ''),
-        	array('action_name' => '商品库商品删除', 'action_code' => 'goodslib_delete', 'relevance' => ''),
-            array('action_name' => '商品库商品导入', 'action_code' => 'goodslib_import', 'relevance' => ''),
-            array('action_name' => '商品库商品导出', 'action_code' => 'goodslib_export', 'relevance' => ''),
+            array('action_name' => __('商品库商品列表', 'goodslib'), 'action_code' => 'goodslib_manage', 'relevance' => ''),
+            array('action_name' => __('商品库商品更新', 'goodslib'), 'action_code' => 'goodslib_update', 'relevance' => ''),
+        	array('action_name' => __('商品库商品删除', 'goodslib'), 'action_code' => 'goodslib_delete', 'relevance' => ''),
+            array('action_name' => __('商品库商品导入', 'goodslib'), 'action_code' => 'goodslib_import', 'relevance' => ''),
+            array('action_name' => __('商品库商品导出', 'goodslib'), 'action_code' => 'goodslib_export', 'relevance' => ''),
         	
-            array('action_name' => RC_Lang::get('goods::goods.attr_manage'), 'action_code' => 'attr_manage', 'relevance' => ''),
-            array('action_name' => RC_Lang::get('goods::goods.attr_update'), 'action_code' => 'attr_update', 'relevance' => ''),
-            array('action_name' => RC_Lang::get('goods::goods.attr_delete'), 'action_code' => 'attr_delete', 'relevance' => ''),
+            array('action_name' => __('商品属性管理', 'goodslib'), 'action_code' => 'attr_manage', 'relevance' => ''),
+            array('action_name' => __('商品属性更新', 'goodslib'), 'action_code' => 'attr_update', 'relevance' => ''),
+            array('action_name' => __('商品属性删除', 'goodslib'), 'action_code' => 'attr_delete', 'relevance' => ''),
             
-            array('action_name' => RC_Lang::get('goods::goods.goods_type'), 'action_code' => 'goods_type', 'relevance' => ''),
-            array('action_name' => RC_Lang::get('goods::goods.goods_type_update'), 'action_code' => 'goods_type_update', 'relevance' => ''),
-            array('action_name' => RC_Lang::get('goods::goods.goods_type_delete'), 'action_code' => 'goods_type_delete', 'relevance' => ''),
+            array('action_name' => __('商品类型', 'goodslib'), 'action_code' => 'goods_type', 'relevance' => ''),
+            array('action_name' => __('更新商品类型', 'goodslib'), 'action_code' => 'goods_type_update', 'relevance' => ''),
+            array('action_name' => __('删除商品类型', 'goodslib'), 'action_code' => 'goods_type_delete', 'relevance' => ''),
             
         );
         return $purviews;

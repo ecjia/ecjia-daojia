@@ -49,6 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * ECJIA 属性规格管理
  */
+use Ecjia\App\Goods\GoodsAttr;
 class admin_attribute extends ecjia_admin {
 	public function __construct() {
 		parent::__construct();
@@ -68,9 +69,9 @@ class admin_attribute extends ecjia_admin {
 		RC_Script::enqueue_script('bootstrap-editable-script', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'), array(), false, true);
         RC_Style::enqueue_style('bootstrap-editable-css', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
 		RC_Script::enqueue_script('goods_attribute', RC_App::apps_url('statics/js/goods_attribute.js', __FILE__), array(), false, true);
-		RC_Script::localize_script('goods_attribute', 'js_lang', RC_Lang::get('goods::goods.js_lang'));
+		RC_Script::localize_script('goods_attribute', 'js_lang', config('app-goodslib::jslang.attribute_page'));
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('商品库规格', RC_Uri::url('goodslib/admin_goods_spec/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品库规格', 'goodslib'), RC_Uri::url('goodslib/admin_goods_spec/init')));
 	}
 
 	/**
@@ -79,16 +80,16 @@ class admin_attribute extends ecjia_admin {
 	public function init() {
 		$this->admin_priv('attr_manage');
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::attribute.goods_attribute')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品属性', 'goodslib')));
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('goods::attribute.overview'),
-			'content'	=> '<p>' . RC_Lang::get('goods::attribute.goods_attribute_help') . '</p>'
+			'title'		=> __('概述', 'goodslib'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台商品属性列表页面，系统中所有的商品属性都会显示在此列表中。', 'goodslib'). '</p>'
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('goods::attribute.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E5.B1.9E.E6.80.A7.E5.88.97.E8.A1.A8" target="_blank">'. RC_Lang::get('goods::attribute.about_goods_attribute') .'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：', 'goodslib') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E5.B1.9E.E6.80.A7.E5.88.97.E8.A1.A8" target="_blank">关于商品属性列表帮助文档</a>', 'goodslib') . '</p>'
 		);
 		
 		$goods_type	= isset($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
@@ -96,9 +97,9 @@ class admin_attribute extends ecjia_admin {
 		
 		$attr_list	= get_attr_list();
 		
-		$this->assign('ur_here', RC_Lang::get('goods::attribute.goods_attribute'));
-		$this->assign('action_link', array('href' => RC_Uri::url('goodslib/admin_attribute/add', array('cat_id' => $goods_type)), 'text' => RC_Lang::get('system::system.10_attribute_add')));
-		$this->assign('action_link2', array('text' => RC_Lang::get('goods::goods_spec.goods_spec_list'), 'href' => RC_Uri::url('goodslib/admin_goods_spec/init')));
+		$this->assign('ur_here', __('商品属性', 'goodslib'));
+		$this->assign('action_link', array('href' => RC_Uri::url('goodslib/admin_attribute/add', array('cat_id' => $goods_type)), 'text' => __('添加属性', 'goodslib')));
+		$this->assign('action_link2', array('text' => __('商品规格列表', 'goodslib'), 'href' => RC_Uri::url('goodslib/admin_goods_spec/init')));
 		
 		$this->assign('goods_type_list', goods_type_list($goods_type, false));
 		$this->assign('attr_list', $attr_list);
@@ -116,27 +117,30 @@ class admin_attribute extends ecjia_admin {
 
 		/* 取得属性信息 */
 		$cat_id = isset($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::attribute.goods_attribute'), RC_Uri::url('goodslib/admin_attribute/init', 'cat_id='.$cat_id)));
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::attribute.add_attribute')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品属性', 'goodslib'), RC_Uri::url('goodslib/admin_attribute/init', 'cat_id='.$cat_id)));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加属性', 'goodslib')));
 	
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('goods::attribute.overview'),
-			'content'	=> '<p>' . RC_Lang::get('goods::attribute.add_attribute_help') . '</p>'
+			'title'		=> __('概述', 'goodslib'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台添加商品属性页面，可以在此页面添加商品属性信息。', 'goodslib') . '</p>'
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('goods::attribute.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB.E5.8A.A0.E5.B1.9E.E6.80.A7" target="_blank">'. RC_Lang::get('goods::attribute.about_add_attribute') .'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：', 'goodslib') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB.E5.8A.A0.E5.B1.9E.E6.80.A7" target="_blank">关于添加商品属性帮助文档</a>', 'goodslib') . '</p>'
 		);
 		$info = RC_DB::table('goods_type')->where('cat_id', $cat_id)->first();
 		
 		/* 取得商品分类列表 */
 		$this->assign('goods_type_list', goods_type_list($cat_id, false));
 		$this->assign('attr_groups', get_attr_groups($cat_id));
+        $this->assign('attr_indexs', Ecjia\App\Goods\GoodsAttr::getAttrIndex());
+        $this->assign('attr_types', Ecjia\App\Goods\GoodsAttr::getAttrType());
+        $this->assign('attr_input_types', Ecjia\App\Goods\GoodsAttr::getAttrInputType());
 		
-		$this->assign('ur_here', RC_Lang::get('goods::attribute.add_attribute'));
-		$this->assign('action_link', array('href' => RC_Uri::url('goodslib/admin_attribute/init', 'cat_id='.$cat_id), 'text' => RC_Lang::get('goods::attribute.goods_attribute')));
+		$this->assign('ur_here', __('添加属性', 'goodslib'));
+		$this->assign('action_link', array('href' => RC_Uri::url('goodslib/admin_attribute/init', 'cat_id='.$cat_id), 'text' => __('商品属性', 'goodslib')));
 		$this->assign('form_action', RC_Uri::url('goodslib/admin_attribute/insert'));
 	
 		$this->display('attribute_info.dwt');
@@ -152,11 +156,11 @@ class admin_attribute extends ecjia_admin {
 		$cat_id = isset($_POST['cat_id']) ? intval($_POST['cat_id']) : 0;
 		
 		if (empty($cat_id)) {
-			return $this->showmessage(RC_Lang::get('goods::attribute.cat_not_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('商品类型不能为空', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		$count = RC_DB::table('attribute')->where('attr_name', trim($_POST['attr_name']))->where('cat_id', $cat_id)->count();
 		if ($count) {
-			return $this->showmessage(RC_Lang::get('goods::attribute.name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('该属性名称已存在，请您换一个名称。', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		/* 取得属性信息 */
 		$attr = array(
@@ -176,10 +180,10 @@ class admin_attribute extends ecjia_admin {
 		if ($attr_id) {
 			ecjia_admin::admin_log($_POST['attr_name'], 'add', 'attribute');
 			$links = array(
-				array('text' => RC_Lang::get('goods::attribute.back_list'), 'href' => RC_Uri::url('goodslib/admin_attribute/init', array('cat_id' => $cat_id))),
-				array('text' => RC_Lang::get('goods::attribute.add_next'), 'href' => RC_Uri::url('goodslib/admin_attribute/add', array('cat_id' => $cat_id))),
+				array('text' => __('返回属性列表', 'goodslib'), 'href' => RC_Uri::url('goodslib/admin_attribute/init', array('cat_id' => $cat_id))),
+				array('text' => __('添加下一个属性', 'goodslib'), 'href' => RC_Uri::url('goodslib/admin_attribute/add', array('cat_id' => $cat_id))),
 			);
-			return $this->showmessage(sprintf(RC_Lang::get('goods::attribute.add_ok'), $attr['attr_name']), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goodslib/admin_attribute/edit', array('attr_id' => $attr_id)), 'links' => $links));
+			return $this->showmessage(sprintf(__('添加属性 [%s] 成功。', 'goodslib'), $attr['attr_name']), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goodslib/admin_attribute/edit', array('attr_id' => $attr_id)), 'links' => $links));
 		}
 	}
 
@@ -196,7 +200,7 @@ class admin_attribute extends ecjia_admin {
 		if ($is_add) {
 			$attr = array(
 				'attr_id' 			=> 0,
-				'cat_id' 			=> $goods_type,
+				'cat_id' 			=> 0,
 				'attr_name' 		=> '',
 				'attr_input_type'	=> 0,
 				'attr_index'  		=> 0,
@@ -209,6 +213,9 @@ class admin_attribute extends ecjia_admin {
 		}
 		$this->assign('attr', $attr);
 		$this->assign('attr_groups', get_attr_groups($attr['cat_id']));
+        $this->assign('attr_indexs', Ecjia\App\Goods\GoodsAttr::getAttrIndex());
+        $this->assign('attr_types', Ecjia\App\Goods\GoodsAttr::getAttrType());
+        $this->assign('attr_input_types', Ecjia\App\Goods\GoodsAttr::getAttrInputType());
 		
 		$info = RC_DB::table('goods_type')->where('cat_id', $attr['cat_id'])->first();
 		
@@ -216,20 +223,20 @@ class admin_attribute extends ecjia_admin {
 		$this->assign('goods_type_list', goods_type_list($attr['cat_id'], false));
 	
 		/* 模板赋值 */
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__($is_add ? RC_Lang::get('system::system.10_attribute_add') : RC_Lang::get('system::system.52_attribute_add'))));
-		$this->assign('ur_here', $is_add ? RC_Lang::get('system::system.10_attribute_add') : RC_Lang::get('system::system.52_attribute_add'));
-		$this->assign('action_link', array('href' => RC_Uri::url('goodslib/admin_attribute/init', array('cat_id' => $attr['cat_id'])), 'text' => RC_Lang::get('goods::attribute.goods_attribute')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__($is_add ? __('添加属性', 'goodslib') : __('编辑属性', 'goodslib'))));
+		$this->assign('ur_here', $is_add ? __('添加属性', 'goodslib') : __('编辑属性', 'goodslib'));
+		$this->assign('action_link', array('href' => RC_Uri::url('goodslib/admin_attribute/init', array('cat_id' => $attr['cat_id'])), 'text' => __('商品属性', 'goodslib')));
 		$this->assign('form_action', RC_Uri::url('goodslib/admin_attribute/update'));
 		
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('goods::attribute.overview'),
-			'content'	=> '<p>' . RC_Lang::get('goods::attribute.edit_attribute_help') . '</p>'
+			'title'		=> __('概述', 'goodslib'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台编辑商品属性页面，可以在此页面编辑商品属性信息。', 'goodslib') . '</p>'
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('goods::attribute.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E7.BC.96.E8.BE.91.E5.B1.9E.E6.80.A7" target="_blank">'. RC_Lang::get('goods::attribute.about_edit_attribute') .'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：', 'goodslib') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E7.BC.96.E8.BE.91.E5.B1.9E.E6.80.A7" target="_blank">关于编辑商品属性帮助文档</a>', 'goodslib') . '</p>'
 		);
 		
 		$this->display('attribute_info.dwt');
@@ -247,7 +254,7 @@ class admin_attribute extends ecjia_admin {
 		/* 检查名称是否重复 */
 		$count = RC_DB::table('attribute')->where('cat_id', $cat_id)->where('attr_name', trim($_POST['attr_name']))->where('attr_id', '!=', $_POST['attr_id'])->count();
 		if ($count != 0) {
-			return $this->showmessage(RC_Lang::get('goods::attribute.name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('该属性名称已存在，请您换一个名称。', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 			
 		/* 取得属性信息 */
@@ -267,9 +274,9 @@ class admin_attribute extends ecjia_admin {
 		ecjia_admin::admin_log($_POST['attr_name'], 'edit', 'attribute');
 		
 		$links = array(
-			array('text' => RC_Lang::get('goods::attribute.back_list'), 'href' => RC_Uri::url('goodslib/admin_attribute/init', array('cat_id' => $cat_id))),
+			array('text' => __('返回属性列表', 'goodslib'), 'href' => RC_Uri::url('goodslib/admin_attribute/init', array('cat_id' => $cat_id))),
 		);
-		return $this->showmessage(sprintf(RC_Lang::get('goods::attribute.edit_ok'), $attr['attr_name']), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('goodslib/admin_attribute/edit', array('attr_id' => $attr_id))));
+		return $this->showmessage(sprintf(__('编辑属性 [%s] 成功。', 'goodslib'), $attr['attr_name']), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('goodslib/admin_attribute/edit', array('attr_id' => $attr_id))));
 	}
 	
 	/**
@@ -283,7 +290,7 @@ class admin_attribute extends ecjia_admin {
 		RC_DB::table('attribute')->where('attr_id', $id)->delete();
 		RC_DB::table('goodslib_attr')->where('attr_id', $id)->delete();
 		
-		return $this->showmessage(RC_Lang::get('goods::attribute.drop_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('删除成功', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 
 	/**
@@ -303,7 +310,7 @@ class admin_attribute extends ecjia_admin {
 			
 			/* 记录日志 */
 			ecjia_admin::admin_log('', 'batch_remove', 'attribute');
-			return $this->showmessage(sprintf(RC_Lang::get('goods::attribute.drop_ok'), $count), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goodslib/admin_attribute/init', array('cat_id' => $cat_id))));
+			return $this->showmessage(sprintf(__('成功删除了 %d 条商品属性', 'goodslib'), $count), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goodslib/admin_attribute/init', array('cat_id' => $cat_id))));
 		}
 	}
 	
@@ -321,17 +328,17 @@ class admin_attribute extends ecjia_admin {
 		/* 检查名称是否重复 */
 		if (!empty($val)) {
 			if (RC_DB::table('attribute')->where('attr_name', $val)->where('cat_id', $cat_id)->where('attr_id', '!=', $id)->count() != 0) {	
-				return $this->showmessage(RC_Lang::get('goods::attribute.name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('该属性名称已存在，请您换一个名称。', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			$data = array(
 				'attr_name' => $val
 			);
 			if (RC_DB::table('attribute')->where('attr_id', $id)->update($data)) {
 				ecjia_admin::admin_log($val, 'edit', 'attribute');
-				return $this->showmessage(RC_Lang::get('goods::attribute.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $val));
+				return $this->showmessage(__('编辑成功', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $val));
 			}
 		} else {
-			return $this->showmessage(RC_Lang::get('goods::attribute.name_not_null'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入属性名称', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 	
@@ -346,14 +353,14 @@ class admin_attribute extends ecjia_admin {
 	
 		/* 验证参数有效性 */
 		if (!is_numeric($val) || $val < 0 || strpos($val, '.') > 0) {
-			return $this->showmessage(RC_Lang::get('goods::attribute.format_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入大于0的整数', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	
 		$data = array(
 			'sort_order' 	=> $val
 		);
 		if (RC_DB::table('attribute')->where('attr_id', $id)->update($data)) {
-			return $this->showmessage(RC_Lang::get('goods::attribute.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $val));
+			return $this->showmessage(__('编辑成功', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $val));
 		}
 	}
 	

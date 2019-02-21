@@ -35,19 +35,19 @@
 			
 			<div class="panel-body panel-body-small">
 				<!-- <div class="btn-group f_l">
-					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> {lang key='goods::goods.batch_handle'} <span class="caret"></span></button>
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> {t domain="goodslib"}批量操作{/t} <span class="caret"></span></button>
 					<ul class="dropdown-menu">
-		                <li><a class="batch-trash-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=trash&is_on_sale={$goods_list.filter.is_on_sale}&page={$smarty.get.page}" data-msg="{lang key='goods::goods.batch_trash_confirm'}" data-noSelectMsg="{lang key='goods::goods.select_trash_goods'}" href="javascript:;"><i class="fa fa-archive"></i> {lang key='goods::goods.move_to_trash'}</a></li>
-						<li><a class="batch-sale-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=on_sale&is_on_sale={$goods_list.filter.is_on_sale}&page={$smarty.get.page}" data-msg="{lang key='goods::goods.batch_on_sale_confirm'}" data-noSelectMsg="{lang key='goods::goods.select_sale_goods'}" href="javascript:;"><i class="fa fa-arrow-circle-o-up"></i> {lang key='goods::goods.on_sale'}</a></li>
+		                <li><a class="batch-trash-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=trash&is_on_sale={$goods_list.filter.is_on_sale}&page={$smarty.get.page}" data-msg="{t domain="goodslib"}您确定要把选中的商品放入回收站吗？{/t}" data-noSelectMsg="{t domain="goodslib"}请选择要移至回收站的商品{/t}" href="javascript:;"><i class="fa fa-archive"></i> {lang key='goods::goods.move_to_trash'}</a></li>
+						<li><a class="batch-sale-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=on_sale&is_on_sale={$goods_list.filter.is_on_sale}&page={$smarty.get.page}" data-msg="{t domain="goodslib"}您确定要把选中的商品上架吗？{/t}" data-noSelectMsg="{t domain="goodslib"}请选择要上架的商品{/t}" href="javascript:;"><i class="fa fa-arrow-circle-o-up"></i> {t domain="goodslib"}上架{/t}</a></li>
 		           	</ul>
 				</div> -->
 				
 				<form class="form-inline f_l" action='{RC_Uri::url("goodslib/merchant/add", "cat_id={$smarty.get.cat_id}")}' method="post" name="search_form">
 					<div class="screen f_l">
 						<div class="form-group">
-							<input type="text" class="form-control" name="keywords" value="{$smarty.get.keywords}" placeholder="{lang key='goods::goods.enter_goods_keywords'}">
+							<input type="text" class="form-control" name="keywords" value="{$smarty.get.keywords}" placeholder="{t domain="goodslib"}请输入商品关键字{/t}">
 						</div>
-						<button class="btn btn-primary screen-btn" type="button"><i class="fa fa-search"></i> 搜索 </button>
+						<button class="btn btn-primary screen-btn" type="button"><i class="fa fa-search"></i> {t domain="goodslib"}搜索{/t}</button>
 					</div>
 				</form>
 			</div>
@@ -63,11 +63,11 @@
 										<label for="checkall"></label>
 									</div>
 								</th>
-								<th class="w100 text-center">{lang key='goods::goods.thumb'}</th>
-								<th class="w200" data-toggle="sortby" data-sortby="goods_id">{lang key='goods::goods.goods_name'}</th>
-								<th class="w200 sorting" data-toggle="sortby" data-sortby="goods_sn">{lang key='goods::goods.goods_sn'}</th>
-								<th class="w130 sorting text-center" data-toggle="sortby" data-sortby="shop_price">{lang key='goods::goods.shop_price'}</th>
-								<th class="w130 sorting text-center">市场价</th>
+								<th class="w100 text-center">{t domain="goodslib"}缩略图{/t}</th>
+								<th class="w200" data-toggle="sortby" data-sortby="goods_id">{t domain="goodslib"}商品名称{/t}</th>
+								<th class="w200 sorting" data-toggle="sortby" data-sortby="goods_sn">{t domain="goodslib"}货号{/t}</th>
+								<th class="w130 sorting text-center" data-toggle="sortby" data-sortby="shop_price">{t domain="goodslib"}价格{/t}</th>
+								<th class="w130 sorting text-center">{t domain="goodslib"}市场价{/t}</th>
 								<!-- <th class="w70 sorting text-center" data-toggle="sortby" data-sortby="store_sort_order">排序</th> -->
 							</tr>
 						</thead>
@@ -100,7 +100,7 @@
 							</tr>
 							<!-- {foreachelse}-->
 							<tr>
-								<td class="no-records" colspan="11">{lang key='system::system.no_records'}</td>
+								<td class="no-records" colspan="11">{t domain="goodslib"}没有找到任何记录{/t}</td>
 							</tr>
 							<!-- {/foreach} -->
 						</tbody>
@@ -114,7 +114,7 @@
     					<input type="hidden" name="goods_id" value="{$goods_id}" />
     					<input type="hidden" name="cat_id" />
     					<a class="btn btn-info" href='{url path="goodslib/merchant/init"}'>上一步</a>
-    					<button class="btn btn-info m_l20 batchInsert" type="button" data-url='{url path="goodslib/merchant/add"}'>开始导入</button>
+    					<button class="btn btn-info m_l20 batchInsert" type="button" data-url='{url path="goodslib/merchant/add"}'>{t domain="goodslib"}开始导入{/t}</button>
     				</fieldset>
     			</div>
     		</div>
