@@ -52,11 +52,11 @@ defined('IN_ROYALCMS') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.integrate',
 	'directory' 	=> 'integrate',
-	'name'			=> 'integrate',
-	'description' 	=> 'integrate_desc',				/* 描述对应的语言项 */
+	'name'			=> __('会员整合', 'integrate'),
+	'description' 	=> __('如果需要整合其他的用户系统，请到【插件中心】安装相应插件进行整合。', 'integrate'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.25.0',					/* 版本号 */
+	'version' 		=> '1.27.4',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Integrate',
     'provider'      => 'IntegrateServiceProvider',

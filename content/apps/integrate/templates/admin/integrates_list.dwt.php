@@ -9,7 +9,10 @@
 
 <!-- {block name="admin_plugin_list"} -->
 <div class="form-div">
-	<div class="alert alert-info" >{lang key='integrate::integrate.user_help'}</div>
+	<div class="alert alert-info" >{t domain="integrate" escape=no}使用方法：<br/>
+         1:如果需要整合其他的用户系统，请到 插件中心 安装相应插件进行整合。<br/>
+         2:如果需要更换整合的用户系统，直接启用目标插件即可完成整合，同时将自动停用其他整合插件。<br/>
+         3:如果不需要整合任何用户系统，请选择启用 ECJia 插件，即可停用所有的整合插件。{/t}</div>
 </div>
 
 <div>
@@ -26,8 +29,8 @@
 			<table class="table" id="smpl_tbl">
 				<thead>
 					<tr>
-						<th class="w100">{lang key='integrate::integrate.integrate_name'}</th>
-						<th>{lang key='integrate::integrate.integrate_desc'}</th>
+						<th class="w100">{t domain="integrate"}名称{/t}</th>
+						<th>{t domain="integrate"}描述{/t}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -37,14 +40,14 @@
 						<td class="first-cell">{$integrate.format_description}
 							<br/>
 						<!-- {if $integrate.activate eq 1} -->
-							<a class="cursor_pointer data-pjax" id="setup" href='{url path="integrate/admin_plugin/setup" args="code={$integrate.code}"}'>{lang key='integrate::integrate.set_up'}</a>
+							<a class="cursor_pointer data-pjax" id="setup" href='{url path="integrate/admin_plugin/setup" args="code={$integrate.code}"}'>{t domain="integrate"}设置{/t}</a>
 						<!-- {else} -->
-							<a class="install cursor_pointer" href='{url path="integrate/admin_plugin/activate" args="code={$integrate.code}"}'>{lang key='integrate::integrate.enable'}</a>
+							<a class="install cursor_pointer" href='{url path="integrate/admin_plugin/activate" args="code={$integrate.code}"}'>{t domain="integrate"}启用{/t}</a>
 						<!-- {/if} -->
 						</td>
 					</tr>
 					<!-- {foreachelse} -->
-					<tr><td class="no-records" colspan="2">{lang key='system::system.no_records'}</td></tr>
+					<tr><td class="no-records" colspan="2">{t domain="integrate"}没有找到任何记录{/t}</td></tr>
 					<!-- {/foreach} -->
 				</tbody>
 			</table>

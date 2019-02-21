@@ -52,7 +52,7 @@ class integrate_admin_hooks
     {
         $menus->add_submenu([
             ecjia_admin::make_admin_menu('divider', '', '', 10)->add_purview('integrate_users'),
-            ecjia_admin::make_admin_menu('menu_user_integrate', RC_Lang::get('integrate::integrate.integrate_users'), RC_Uri::url('integrate/admin_plugin/init'), 11)->add_purview('integrate_users'),
+            ecjia_admin::make_admin_menu('menu_user_integrate', __('会员整合', 'integrate'), RC_Uri::url('integrate/admin_plugin/init'), 11)->add_purview('integrate_users'),
         ]);
 
         return $menus;

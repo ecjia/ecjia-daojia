@@ -44,14 +44,33 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 应用语言包
+ * js语言包设置
  */
-return array(
-	'integrate'		    => '会员整合',
-	'integrate_desc'	=> '如果需要整合其他的用户系统，请到【插件中心】安装相应插件进行整合。',
-);
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+    //integrate
+    'integrate_page' =>array(
+        'sFirst'		=> __('首页', 'integrate'),
+        'sLast' 		=> __('尾页', 'integrate'),
+        'sPrevious'		=> __('上一页', 'integrate'),
+        'sNext'			=> __('下一页', 'integrate'),
+        'sInfo'			=> __('共_TOTAL_条记录 第_START_条到第_END_条', 'integrate'),
+        'sZeroRecords' 	=> __('没有找到任何记录', 'integrate'),
+        'sEmptyTable' 	=> __('没有找到任何记录', 'integrate'),
+        'sInfoEmpty'	=> __('共0条记录', 'integrate'),
+        'sInfoFiltered'	=> __('（从_MAX_条数据中检索）', 'integrate'),
+
+        'server_name'	=> __('请输入服务器主机名！', 'integrate'),
+        'data_name'		=> __('请输入数据库帐号！', 'integrate'),
+        'data_password'	=> __('请输入数据库密码！', 'integrate'),
+        'check_url'		=> __('请输入完整URL！', 'integrate'),
+        'check_cookie'	=> __('请输入COOKIE前缀！', 'integrate'),
+
+    ),
+
+);
+//end

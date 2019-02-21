@@ -1,0 +1,219 @@
+# Copyright (C) 2019 Ecjia App integrate
+# This file is distributed under the same license as the Ecjia App integrate package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App integrate 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:55:44+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin_plugin.php:71 admin_plugin.php:86 admin_plugin.php:97
+#: apis/integrate_admin_purview_api.class.php:57
+#: classes/hooks/admin_integrate.class.php:55 configs/package.php:55
+msgid "会员整合"
+msgstr ""
+
+#: admin_plugin.php:89
+msgid "概述"
+msgstr ""
+
+#: admin_plugin.php:90
+msgid ""
+"欢迎访问ECJia智能后台会员整合页面，用户可通过蓝色背景提示信息对会员进行相应的"
+"整合操作。"
+msgstr ""
+
+#: admin_plugin.php:94
+msgid "更多信息："
+msgstr ""
+
+#: admin_plugin.php:95
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:会员整合\" target="
+"\"_blank\">关于会员整合帮助文档</a>"
+msgstr ""
+
+#: admin_plugin.php:122 admin_plugin.php:125
+msgid "设置会员数据整合插件"
+msgstr ""
+
+#: admin_plugin.php:123
+msgid "返回会员整合"
+msgstr ""
+
+#: admin_plugin.php:131
+msgid "当您采用ECJia会员系统时，无须进行设置。"
+msgstr ""
+
+#: admin_plugin.php:184
+msgid "成功启用会员整合插件"
+msgstr ""
+
+#: admin_plugin.php:197
+msgid "目前仅支持UCenter方式的会员整合。"
+msgstr ""
+
+#: admin_plugin.php:208
+msgid "保存成功"
+msgstr ""
+
+#: admin_plugin.php:210
+msgid "保存失败"
+msgstr ""
+
+#: configs/jslang.php:57
+msgid "首页"
+msgstr ""
+
+#: configs/jslang.php:58
+msgid "尾页"
+msgstr ""
+
+#: configs/jslang.php:59
+msgid "上一页"
+msgstr ""
+
+#: configs/jslang.php:60
+msgid "下一页"
+msgstr ""
+
+#: configs/jslang.php:61
+msgid "共_TOTAL_条记录 第_START_条到第_END_条"
+msgstr ""
+
+#: configs/jslang.php:62 configs/jslang.php:63
+msgid "没有找到任何记录"
+msgstr ""
+
+#: configs/jslang.php:64
+msgid "共0条记录"
+msgstr ""
+
+#: configs/jslang.php:65
+msgid "（从_MAX_条数据中检索）"
+msgstr ""
+
+#: configs/jslang.php:67
+msgid "请输入服务器主机名！"
+msgstr ""
+
+#: configs/jslang.php:68
+msgid "请输入数据库帐号！"
+msgstr ""
+
+#: configs/jslang.php:69
+msgid "请输入数据库密码！"
+msgstr ""
+
+#: configs/jslang.php:70
+msgid "请输入完整URL！"
+msgstr ""
+
+#: configs/jslang.php:71
+msgid "请输入COOKIE前缀！"
+msgstr ""
+
+#: configs/package.php:56
+msgid "如果需要整合其他的用户系统，请到【插件中心】安装相应插件进行整合。"
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_list.dwt.php:12
+msgid ""
+"使用方法：<br/>\n"
+"         1:如果需要整合其他的用户系统，请到 插件中心 安装相应插件进行整合。"
+"<br/>\n"
+"         2:如果需要更换整合的用户系统，直接启用目标插件即可完成整合，同时将自"
+"动停用其他整合插件。<br/>\n"
+"         3:如果不需要整合任何用户系统，请选择启用 ECJia 插件，即可停用所有的"
+"整合插件。"
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_list.dwt.php:32
+msgid "名称"
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_list.dwt.php:33
+msgid "描述"
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_list.dwt.php:43
+msgid "设置"
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_list.dwt.php:45
+msgid "启用"
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:17
+msgid "目前仅支持UCenter会员整合"
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:67
+msgid "保存"
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:68
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:155
+msgid "重置"
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:87
+msgid "数据库服务器主机名："
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:93
+msgid "数据库帐号："
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:99
+msgid "数据库密码："
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:105
+msgid "数据库名："
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:111
+msgid "数据库字符集："
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:114
+msgid "该选项填写错误时将可能到导致中文用户名无法使用"
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:118
+msgid "是否为latin1编码："
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:120
+msgid "是"
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:121
+msgid "否"
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:125
+msgid "数据表前缀："
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:131
+msgid "被整合系统的完整 URL："
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:138
+msgid "COOKIE前缀："
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:146
+msgid "COOKIE加密串："
+msgstr ""
+
+#: content/apps/integrate/templates/admin/integrates_setup.dwt.php:154
+msgid "保存配置信息"
+msgstr ""

@@ -54,7 +54,7 @@ class integrate_admin_purview_api extends Component_Event_Api {
     
     public function call(&$options) {
         $purviews = array(
-			array('action_name' => RC_Lang::get('integrate::integrate.integrate_users'), 'action_code' => 'integrate_users', 'relevance' => ''),
+			array('action_name' => __('会员整合', 'integrate'), 'action_code' => 'integrate_users', 'relevance' => ''),
         );
         return $purviews;
     }
