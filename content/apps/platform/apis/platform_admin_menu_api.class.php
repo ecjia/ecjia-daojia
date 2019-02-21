@@ -55,13 +55,13 @@ class platform_admin_menu_api extends Component_Event_Api
 
     public function call(&$options)
     {
-        $menus = ecjia_admin::make_admin_menu('15_content', RC_Lang::get('platform::package.platform'), '', 17);
-        
+        $menus = ecjia_admin::make_admin_menu('15_content', __('公众平台', 'platform'), '', 17);
+
         $submenus = array(
-        	ecjia_admin::make_admin_menu('01_platform', RC_Lang::get('platform::platform.platform_num_manage'), RC_Uri::url('platform/admin/init'), 1)->add_purview('platform_config_manage'),
-        	ecjia_admin::make_admin_menu('02_platform', RC_Lang::get('platform::platform.function_extension'), RC_Uri::url('platform/admin_plugin/init'), 2)->add_purview('platform_extend_manage'),
+            ecjia_admin::make_admin_menu('01_platform', __('公众号管理', 'platform'), RC_Uri::url('platform/admin/init'), 1)->add_purview('platform_config_manage'),
+            ecjia_admin::make_admin_menu('02_platform', __('功能扩展', 'platform'), RC_Uri::url('platform/admin_plugin/init'), 2)->add_purview('platform_extend_manage'),
         );
-        
+
         $menus->add_submenu($submenus);
 
         $menus = RC_Hook::apply_filters('platform_admin_menu_api', $menus);

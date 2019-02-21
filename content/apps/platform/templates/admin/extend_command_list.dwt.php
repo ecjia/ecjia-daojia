@@ -20,13 +20,13 @@
 <div class="row-fluid">
 	<form method="post" action="{$search_action}" name="searchForm">
 		<select class="w150" name="platform" id="select-type">
-			<option value=''  		{if $smarty.get.platform eq '' }		selected="true"{/if}>{lang key='platform::platform.all_platform'}</option>
-			<option value='wechat' 	{if $smarty.get.platform eq 'wechat'}	selected="true"{/if}>{lang key='platform::platform.weixin'}</option>
+			<option value=''  		{if $smarty.get.platform eq '' }		selected="true"{/if}>{t domain="platform"}所有平台{/t}</option>
+			<option value='wechat' 	{if $smarty.get.platform eq 'wechat'}	selected="true"{/if}>{t domain="platform"}微信{/t}</option>
 		</select>
-		<a class="btn m_l5 screen-btn">{lang key='platform::platform.filtrate'}</a>
-		<div class="choose_list f_r" >
-			<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="{lang key='platform::platform.command_key'}"/> 
-			<button class="btn" type="submit">{lang key='platform::platform.search'}</button>
+		<a class="btn m_l5 screen-btn">{t domain="platform"}筛选{/t}</a>
+		<div class="choose_list f_r">
+			<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder='{t domain="platform"}请输入命令关键字{/t}' />
+			<button class="btn" type="submit">{t domain="platform"}搜索{/t}</button>
 		</div>
 	</form>
 </div>
@@ -36,10 +36,10 @@
 		<table class="table table-striped table-hide-edit" data-rowlink="a">
 			<thead>
 				<tr>
-					<th class="w200">{lang key='platform::platform.platform_name'}</th>
-					<th class="w200">{lang key='platform::platform.terrace'}</th>
-					<th class="w200">{lang key='platform::platform.keyword'}</th>
-					<th class="w100">{lang key='platform::platform.subcommand'}</th>
+					<th class="w200">{t domain="platform"}公众号名称{/t}</th>
+					<th class="w200">{t domain="platform"}平台{/t}</th>
+					<th class="w200">{t domain="platform"}关键词{/t}</th>
+					<th class="w100">{t domain="platform"}子命令{/t}</th>
 				</tr>
 			</thead>
 			<tbody id="edit_tbody">
@@ -48,14 +48,14 @@
 					<td>{$module.name}</td>
 					<td>
 						{if $module.platform eq 'wechat'}
-							{lang key='platform::platform.weixin'}
+                            {t domain="platform"}微信{/t}
 						{/if}
 					</td>
 					<td>{$module.cmd_word}</td>
 					<td>{$module.sub_code}</td>
 				</tr>
 				<!-- {foreachelse} -->
-			   	<tr><td class="no-records" colspan="4">{lang key='system::system.no_records'}</td></tr>
+			   	<tr><td class="no-records" colspan="4">{t domain="platform"}没有找到任何记录{/t}</td></tr>
 				<!-- {/foreach} -->
 			</tbody>
 		</table>

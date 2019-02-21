@@ -51,25 +51,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class admin_command extends ecjia_admin
 {
-    //private $command_viewdb;
-    //private $db_platform_account;
-    //private $db_extend;
-    //private $db_platform_config;
-    //private $dbview_platform_config;
-    //private $db_command;
-
     public function __construct()
     {
         parent::__construct();
 
         Ecjia\App\Platform\Helper::assign_adminlog_content();
-
-        //$this->command_viewdb = RC_Loader::load_app_model('platform_command_viewmodel');
-        //$this->db_platform_account = RC_Loader::load_app_model('platform_account_model');
-        //$this->db_platform_config = RC_Loader::load_app_model('platform_config_model');
-        //$this->db_extend = RC_Loader::load_app_model('platform_extend_model');
-        //$this->dbview_platform_config = RC_Loader::load_app_model('platform_config_viewmodel');
-        //$this->db_command = RC_Loader::load_app_model('platform_command_model');
 
         /* 加载全局 js/css */
         RC_Script::enqueue_script('jquery-validate');
@@ -84,7 +70,7 @@ class admin_command extends ecjia_admin
         RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
         RC_Script::enqueue_script('platform', RC_App::apps_url('statics/js/platform.js', __FILE__), array(), false, true);
         RC_Style::enqueue_style('wechat_extend', RC_App::apps_url('statics/css/wechat_extend.css', __FILE__));
-        RC_Script::localize_script('platform', 'js_lang', RC_Lang::get('platform::platform.js_lang'));
+        RC_Script::localize_script('platform', 'js_lang', config('app-platform::jslang.admin_command_page'));
     }
 
     /**
@@ -94,27 +80,26 @@ class admin_command extends ecjia_admin
     {
         $this->admin_priv('platform_command_manage');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('platform::platform.function_extend'), RC_Uri::url('platform/admin_plugin/init')));
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('platform::platform.command_list')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('功能扩展', 'platform'), RC_Uri::url('platform/admin_plugin/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('命令列表', 'platform')));
         ecjia_screen::get_current_screen()->add_help_tab(array(
-            'id' => 'overview',
-            'title' => RC_Lang::get('platform::platform.summarize'),
+            'id'      => 'overview',
+            'title'   => __('概述', 'platform'),
             'content' =>
-            '<p>' . RC_Lang::get('platform::platform.welcome_command') . '</p>',
+                '<p>' . __('欢迎访问ECJia智能后台功能扩展命令页面，有关该扩展的命令都会显示在此列表中。', 'platform') . '</p>',
         ));
         ecjia_screen::get_current_screen()->set_help_sidebar(
-            '<p><strong>' . RC_Lang::get('platform::platform.more_info') . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia公众平台:功能扩展#.E6.9F.A5.E7.9C.8B.E5.91.BD.E4.BB.A4" target="_blank">' . RC_Lang::get('platform::platform.extend_commandlist_help') . '</a>') . '</p>'
+            '<p><strong>' . __('更多信息', 'platform') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia公众平台:功能扩展#.E6.9F.A5.E7.9C.8B.E5.91.BD.E4.BB.A4" target="_blank">' . __('关于功能扩展命令列表帮助文档', 'platform') . '</a>') . '</p>'
         );
 
-        $id = !empty($_GET['id']) ? $_GET['id'] : 0;
+        $id   = !empty($_GET['id']) ? $_GET['id'] : 0;
         $code = !empty($_GET['code']) ? trim($_GET['code']) : '';
 
-        $this->assign('ur_here', RC_Lang::get('platform::platform.command_list'));
-        $this->assign('back_link', array('text' => RC_Lang::get('platform::platform.function_extend'), 'href' => RC_Uri::url('platform/admin_plugin/init')));
+        $this->assign('ur_here', __('命令列表', 'platform'));
+        $this->assign('back_link', array('text' => __('功能扩展', 'platform'), 'href' => RC_Uri::url('platform/admin_plugin/init')));
         $this->assign('search_action', RC_Uri::url('platform/admin_command/extend_command', array('code' => $code)));
 
-        //$ext_name = $this->db_extend->where(array('ext_code' => $code))->get_field('ext_name');
         $ext_name = RC_DB::table('platform_extend')->where('ext_code', $code)->pluck('ext_name');
         $this->assign('code', $code);
         $this->assign('ext_name', $ext_name);
@@ -126,7 +111,6 @@ class admin_command extends ecjia_admin
         $modules = $this->get_command_list();
         $this->assign('modules', $modules);
 
-        $this->assign_lang();
         $this->display('extend_command_list.dwt');
     }
 
@@ -135,40 +119,27 @@ class admin_command extends ecjia_admin
      */
     private function get_command_list()
     {
-        //$db_command_view = RC_Loader::load_app_model('platform_command_viewmodel');
-    	$db_command_view = RC_DB::table('platform_command as pc')
-    							->leftJoin('platform_extend as pe', RC_DB::raw('pc.ext_code'), '=', RC_DB::raw('pe.ext_code'))
-    							->leftJoin('platform_account as pa', RC_DB::raw('pa.id'), '=', RC_DB::raw('pc.account_id'));
-    	
-        $type = !empty($_GET['platform']) ? $_GET['platform'] : '';
+        $db_command_view = RC_DB::table('platform_command as pc')
+            ->leftJoin('platform_extend as pe', RC_DB::raw('pc.ext_code'), '=', RC_DB::raw('pe.ext_code'))
+            ->leftJoin('platform_account as pa', RC_DB::raw('pa.id'), '=', RC_DB::raw('pc.account_id'));
+
+        $type     = !empty($_GET['platform']) ? $_GET['platform'] : '';
         $keywords = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
-		$code = trim($_GET['code']);
-        
-        //$where['c.ext_code'] = $_GET['code'];
-        //if (!empty($type)) {
-        //    $where['c.platform'] = $type;
-        //}
-        //if ($keywords) {
-        //    $where['c.cmd_word'] = array('like' => '%' . $keywords . '%');
-        //}
-        //$where['a.shop_id'] = 0;
-        //$count = $db_command_view->join(array('platform_account', 'platform_command'))->where($where)->count();
-        
-		$db_command_view->where(RC_DB::raw('pc.ext_code'), $code)->where(RC_DB::raw('pa.shop_id'), 0);
-		if (!empty($type)) {
-			$db_command_view->where(RC_DB::raw('pc.platform'), $type);
-		}
-		if (!empty($keywords)) {
-			$db_command_view->where(RC_DB::raw('pc.cmd_word'), 'like',  '%'.mysql_like_quote($keywords).'%');
-		}
-		$count = $db_command_view->count(RC_DB::raw('cmd_id'));
-		
+        $code     = trim($_GET['code']);
+
+        $db_command_view->where(RC_DB::raw('pc.ext_code'), $code)->where(RC_DB::raw('pa.shop_id'), 0);
+        if (!empty($type)) {
+            $db_command_view->where(RC_DB::raw('pc.platform'), $type);
+        }
+        if (!empty($keywords)) {
+            $db_command_view->where(RC_DB::raw('pc.cmd_word'), 'like', '%' . mysql_like_quote($keywords) . '%');
+        }
+        $count = $db_command_view->count(RC_DB::raw('cmd_id'));
+
         $page = new ecjia_page($count, 15, 5);
 
-        $arr = array();
-        //$data = $db_command_view->join(array('platform_account', 'platform_command'))->field('c.*, a.name')->where($where)->order('cmd_id ASC')->limit($page->limit())->select();
-        $data = $db_command_view->select(RC_DB::raw('pc.*, pa.name'))->take(15)->skip($page->start_id-1)->orderBy(RC_DB::raw('pc.cmd_id'), 'asc')->get();
-        
+        $data = $db_command_view->select(RC_DB::raw('pc.*, pa.name'))->take(15)->skip($page->start_id - 1)->orderBy(RC_DB::raw('pc.cmd_id'), 'asc')->get();
+
         return array('module' => $data, 'page' => $page->show(5), 'desc' => $page->page_desc());
     }
 }

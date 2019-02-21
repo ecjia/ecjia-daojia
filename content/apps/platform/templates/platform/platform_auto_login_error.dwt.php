@@ -30,7 +30,7 @@
 	        		<li class="nav-item">
 	        			<a class="navbar-brand" href="{url path='platform/dashboard/init'}">
 	        			<img class="brand-logo" alt="robust admin logo" src="{$ecjia_main_static_url}platform/images/logo/logo-dark-sm.png">
-	            		<h3 class="brand-text">公众平台</h3>
+	            		<h3 class="brand-text">{t domain="platform"}公众平台{/t}</h3>
 	            		</a>
 	        		</li>
 	        		<li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse" data-target="#navbar-mobile"><i class="fa fa-ellipsis-v"></i></a></li>
@@ -55,7 +55,7 @@
 					<div class="card border-grey border-lighten-3 px-2 my-0 row">
 						<div class="card-header no-border pb-1">
 							<div class="card-body">
-								<h2 class="error-code text-center mb-2">错误报告</h2>
+								<h2 class="error-code text-center mb-2">{t domain="platform"}错误报告{/t}</h2>
 								<h3 class="text-uppercase text-center">{$error_message}</h3>
 							</div>
 						</div>

@@ -51,12 +51,11 @@ class dashboard extends ecjia_platform
 
     public function init()
     {
-
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('仪表盘')));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('仪表盘', 'platform')));
         ecjia_platform_screen::get_current_screen()->set_parentage('dashboard', 'platform/dashboard.php');
-        ecjia_platform_screen::get_current_screen()->set_subject('仪表盘');
+        ecjia_platform_screen::get_current_screen()->set_subject(__('仪表盘', 'platform'));
 
-        ecjia_platform::$controller->assign('ur_here', __('仪表盘'));
+        ecjia_platform::$controller->assign('ur_here', __('仪表盘', 'platform'));
         ecjia_platform::$controller->display('index.dwt');
     }
 }

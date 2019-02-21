@@ -22,22 +22,24 @@
 	<form method="post" action="{$search_action}" name="searchForm">
 		<div class="btn-group f_l m_r5">
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-				<i class="fontello-icon-cog"></i>{lang key='platform::platform.bulk_operation'}
+				<i class="fontello-icon-cog"></i>{t domain="platform"}批量操作{/t}
 				<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
-				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="platform/admin/batch_remove"}'  data-msg="{lang key='platform::platform.sure_want_do'}" data-noSelectMsg="{lang key='platform::platform.delete_selected_plat'}" data-name="id" href="javascript:;"><i class="fontello-icon-trash"></i>{lang key='platform::platform.platform_del'}</a></li>
+				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="platform/admin/batch_remove"}' 
+				data-msg='{t domain="platform"}您确定要这么做吗？{/t}' data-noSelectMsg='{t domain="platform"}请先选中要删除的公众号！{/t}' 
+				data-name="id" href="javascript:;"><i class="fontello-icon-trash"></i>{t domain="platform"}删除公众号{/t}</a></li>
 			</ul>
 		</div>
 		
 		<select class="w150" name="platform" id="select_type">
-			<option value=''  		{if $smarty.get.platform eq ''}			selected="true"{/if}>{lang key='platform::platform.all_platform'}</option>
-			<option value='wechat' 	{if $smarty.get.platform eq 'wechat'}	selected="true"{/if}>{lang key='platform::platform.weixin'}</option>
+			<option value=''  		{if $smarty.get.platform eq ''}			selected="true"{/if}>{t domain="platform"}所有平台{/t}</option>
+			<option value='wechat' 	{if $smarty.get.platform eq 'wechat'}	selected="true"{/if}>{t domain="platform"}微信{/t}</option>
 		</select>
-		<a class="btn m_l5 screen-btn">{lang key='platform::platform.filtrate'}</a>
+		<a class="btn m_l5 screen-btn">{t domain="platform"}筛选{/t}</a>
 		<div class="choose_list f_r" >
-			<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="{lang key='platform::platform.input_plat_name_key'}"/>
-			<button class="btn search_wechat" type="submit">{lang key='platform::platform.search'}</button>
+			<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder='{t domain="platform"}请输入公众号名称关键字{/t}' />
+			<button class="btn search_wechat" type="submit">{t domain="platform"}搜索{/t}</button>
 		</div>
 	</form>
 </div>
@@ -48,13 +50,13 @@
 			<thead>
 				<tr>
 					<th class="table_checkbox"><input type="checkbox" name="select_rows" data-toggle="selectall" data-children=".checkbox"/></th>
-					<th class="w150">{lang key='platform::platform.logo'}</th>
-					<th class="w250">{lang key='platform::platform.platform_name'}</th>
-					<th class="w150">{lang key='platform::platform.terrace'}</th>
-					<th class="w150">{lang key='platform::platform.platform_num_type'}</th>
-					<th class="w100">{lang key='platform::platform.status'}</th>
-					<th class="w100">{lang key='platform::platform.sort'}</th>
-					<th class="w200">{lang key='platform::platform.add_time'}</th>
+					<th class="w150">{t domain="platform"}Logo{/t}</th>
+					<th class="w250">{t domain="platform"}公众号名称{/t}</th>
+					<th class="w150">{t domain="platform"}平台{/t}</th>
+					<th class="w150">{t domain="platform"}公众号类型{/t}</th>
+					<th class="w100">{t domain="platform"}状态{/t}</th>
+					<th class="w100">{t domain="platform"}排序{/t}</th>
+					<th class="w200">{t domain="platform"}添加时间{/t}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -68,37 +70,37 @@
 						{$val.name}<br>
 						{$val.uuid}
 						<div class="edit-list">
-							<a target="__blank" href='{RC_Uri::url("platform/admin/autologin","id={$val.id}")}' title="进入管理">进入管理</a> &nbsp;|&nbsp;
-					      	<a class="data-pjax" href='{RC_Uri::url("platform/admin/edit", "id={$val.id}")}' title="{lang key='system::system.edit'}">{lang key='platform::platform.edit'}</a> &nbsp;|&nbsp;
-					     	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{t}您确定要删除公众号[{$val.name}]吗？{/t}" href='{RC_Uri::url("platform/admin/remove","id={$val.id}")}' title="{lang key='platform::platform.delete'}">{lang key='platform::platform.delete'}</a>
+							<a target="__blank" href='{RC_Uri::url("platform/admin/autologin", "id={$val.id}")}' title='{t domain="platform"}进入管理{/t}'>{t domain="platform"}进入管理{/t}</a> &nbsp;|&nbsp;
+					      	<a class="data-pjax" href='{RC_Uri::url("platform/admin/edit", "id={$val.id}")}' title='{t domain="platform"}编辑{/t}'>{t domain="platform"}编辑{/t}</a> &nbsp;|&nbsp;
+					     	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="platform" 1={$val.name}}您确定要删除公众号[%1]吗？{/t}' href='{RC_Uri::url("platform/admin/remove", "id={$val.id}")}' title='{t domain="platform"}删除{/t}'>{t domain="platform"}删除{/t}</a>
 				     	</div>
 					</td>
 					<td>
 						{if $val.platform eq 'wechat'}
-							{lang key='platform::platform.weixin'}
+                        {t domain="platform"}微信{/t}
 						{/if}
 					</td>
 					<td>
 						{if $val.type eq 0}
-							{lang key='platform::platform.un_platform_num'}
+                        {t domain="platform"}未认证的公众号{/t}
 						{elseif $val.type eq 1}
-							{lang key='platform::platform.subscription_num'}
+                        {t domain="platform"}订阅号{/t}
 						{elseif $val.type eq 2}
-							{lang key='platform::platform.server_num'}
+                        {t domain="platform"}服务号{/t}
 						{elseif $val.type eq 3}
-							{lang key='platform::platform.test_account'}
+                        {t domain="platform"}测试账号{/t}
 						{/if}
 					</td>
 					<td>
 				        <i class="{if $val.status eq 1}fontello-icon-ok{else}fontello-icon-cancel{/if} cursor_pointer" data-trigger="toggleState" data-url="{RC_Uri::url('platform/admin/toggle_show')}" data-id="{$val.id}" ></i>
 					</td>
-					<td><span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('platform/admin/edit_sort')}" data-name="sort" data-pk="{$val.id}"  data-title="{lang key='platform::platform.edit_plat_sort'}">{$val.sort}</span></td>
+					<td><span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('platform/admin/edit_sort')}" data-name="sort" data-pk="{$val.id}"  data-title='{t domain="platform"}编辑公众号排序{/t}'>{$val.sort}</span></td>
 					<td>
 						{$val.add_time}
 					</td>
 				</tr>
 				<!--  {foreachelse} -->
-				<tr><td class="no-records" colspan="8">{lang key='system::system.no_records'}</td></tr>
+				<tr><td class="no-records" colspan="8">{t domain="platform"}没有找到任何记录{/t}</td></tr>
 				<!-- {/foreach} -->
 			</tbody>
 		</table>

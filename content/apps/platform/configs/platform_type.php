@@ -50,7 +50,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 公众平台类型
  */
 return array(
-	'wechat'    => RC_Lang::get('platform::platform.platform_weixin'),
+    'wechat' => __('微信公众平台', 'platform'),
 );
 
 // end

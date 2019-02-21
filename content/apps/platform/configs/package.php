@@ -50,16 +50,16 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 公众平台应用
  */
 return array(
-	'identifier' 	=> 'ecjia.platform',
-	'directory' 	=> 'platform',
-	'name'			=> 'platform',
-	'description' 	=> 'platform_desc',				/* 描述对应的语言项 */
-	'author' 		=> 'ECJIA TEAM',			/* 作者 */
-	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.27.1',					/* 版本号 */
-	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
-    'namespace'     => 'Ecjia\App\Platform',
-    'provider'      => 'PlatformServiceProvider',
+    'identifier'  => 'ecjia.platform',
+    'directory'   => 'platform',
+    'name'        => __('公众平台', 'platform'),
+    'description' => __('公众平台', 'platform'),
+    'author'      => 'ECJIA TEAM',                      /* 作者 */
+    'website'     => 'http://www.ecjia.com',            /* 网址 */
+    'version'     => '1.27.4',                          /* 版本号 */
+    'copyright'   => 'ECJIA Copyright 2014 ~ 2019.',
+    'namespace'   => 'Ecjia\App\Platform',
+    'provider'    => 'PlatformServiceProvider',
 );
 
 // end

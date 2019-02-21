@@ -24,8 +24,8 @@
 			<div class="card-body">
 				<form class="form-inline float-right" method="post" action="{$search_action}" name="searchForm">
 					<div class="choose_list f_r" >
-						<input class="form-control" type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="{lang key='platform::platform.command_key'}"/> 
-						<button class="btn btn-outline-primary" type="submit">{lang key='platform::platform.search'}</button>
+						<input class="form-control" type="text" name="keywords" value="{$smarty.get.keywords}" placeholder='{t domain="platform"}请输入命令关键字{/t}'/>
+						<button class="btn btn-outline-primary" type="submit">{t domain="platform"}搜索{/t}</button>
 					</div>
 				</form>
 			</div>
@@ -35,10 +35,10 @@
 					<table class="table table-hide-edit">
 						<thead>
 							<tr>
-								<th class="w200">{lang key='platform::platform.extend_name'}</th>
-								<th class="w200">{lang key='platform::platform.keyword'}</th>
-								<th class="w200">{lang key='platform::platform.subcommand'}</th>
-								<th class="w50">{lang key='platform::platform.operation'}</th>
+								<th class="w200">{t domain="platform"}插件名称{/t}</th>
+								<th class="w200">{t domain="platform"}关键词{/t}</th>
+								<th class="w200">{t domain="platform"}子命令{/t}</th>
+								<th class="w50">{t domain="platform"}操作{/t}</th>
 							</tr>
 						</thead>
 						<tbody id="edit_tbody">
@@ -58,16 +58,16 @@
 									{/if}
 								</td>
 								<td>
-									<a class="data-pjax" href='{RC_Uri::url("platform/platform_command/edit", "ext_code={$module.ext_code}")}' title="{lang key='platform::platform.edit'}"><i class="ft-edit"></i></a>&nbsp;
-									<a class="ajaxremove" data-toggle="ajaxremove" data-msg="{lang key='platform::platform.sure_del_command'}" href='{RC_Uri::url("platform/platform_command/remove", "ext_code={$module.ext_code}")}' title="{lang key='platform::platform.remove'}"><i class="command_icon ft-trash-2"></i></a>
+									<a class="data-pjax" href='{RC_Uri::url("platform/platform_command/edit", "ext_code={$module.ext_code}")}' title='{t domain="platform"}编辑{/t}'><i class="ft-edit"></i></a>&nbsp;
+									<a class="ajaxremove" data-toggle="ajaxremove" data-msg='{t domain="platform"}您确定要该删除命令吗？{/t}' href='{RC_Uri::url("platform/platform_command/remove", "ext_code={$module.ext_code}")}' title='{t domain="platform"}删除{/t}'><i class="command_icon ft-trash-2"></i></a>
 								</td>
 							</tr>
 							<!-- {foreachelse} -->
-						   	<tr><td class="no-records" colspan="4">{lang key='system::system.no_records'}</td></tr>
+						   	<tr><td class="no-records" colspan="4">{t domain="platform"}没有找到任何记录{/t}</td></tr>
 							<!-- {/foreach} -->
 						</tbody>
 					</table>
-					<!-- {$modules.page} -->	
+					<!-- {$modules.page} -->
 				</form>
             </div>
         </div>

@@ -10,13 +10,13 @@
         	<div id="mega-menu-carousel-example" class="mega-menu-carousel-example-content">
               	<div class="mega-menu-carousel-content left">
               		<div class="mega-menu-carousel-row left">
-              			<p>平台</p>
+              			<p>{t domain="platform"}平台{/t}</p>
               			<img src="{$ecjia_main_static_url}image/{$platformAccount->getPlatform()}.png">
               			<p>{$platformAccount->getPlatformName()}</p>
 	              	</div>
 	              	<div class="mega-menu-carousel-row right">
                         {if $platformAccount->getPlatform() eq 'wechat'}
-	              		<p>公众号类型</p>
+	              		<p>{t domain="platform"}公众号类型{/t}</p>
               			<img src="{$ecjia_main_static_url}image/{$platformAccount->getTypeCode()}.png">
               			<p>{$platformAccount->getTypeName()}</p>
                         {/if}
@@ -24,16 +24,16 @@
               	</div>
               	<div class="mega-menu-carousel-content right">
               		<div class="item">
-              			<label>UUID：</label>
+              			<label>{t domain="platform"}UUID：{/t}</label>
               			<label class="item-controls">{$platformAccount->getUUID()}</label>
               		</div>
               		<div class="item">
-              			<label>外部访问地址：</label>
+              			<label>{t domain="platform"}外部访问地址：{/t}</label>
               			<label class="item-controls">{$platformAccount->getApiUrl()}</label>
               		</div>
               		<div class="item">
-              			<a class="btn btn-success" target="__blank" href="{$platformAccount->getPlatformSettingUrl()}">编辑配置</a>
-              			<a class="btn btn-info m_l20" href="{$platformAccount->getPlatformListUrl()}">返回{$platformAccount->getPlatformName()}</a>
+              			<a class="btn btn-success" target="__blank" href="{$platformAccount->getPlatformSettingUrl()}">{t domain="platform"}编辑配置{/t}</a>
+              			<a class="btn btn-info m_l20" href="{$platformAccount->getPlatformListUrl()}">{t domain="platform" 1={$platformAccount->getPlatformName()}}返回%1{/t}</a>
               		</div>
               	</div>
             </div>

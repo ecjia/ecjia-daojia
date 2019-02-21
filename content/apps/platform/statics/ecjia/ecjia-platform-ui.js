@@ -24,7 +24,7 @@
 				// 支持History API
 			} else {
 				// 不支持
-				console.log('您使用的浏览器并不能很好的支持我们的效果，请更换浏览器访问或开启浏览器history.pushState扩展。');
+				console.log(jslang.browsers_do_not_support);
 			}
 		},
 
@@ -67,14 +67,14 @@
 			var defaults = {
 				url: false, //url 删除访问的url地址
 				id: '', //id  删除的数据id
-				msg: admin_lang.confirm_del, //msg 删除时的提示信息
+				msg: jslang.confirm_del, //msg 删除时的提示信息
 				obj: '', //obj 删除后要移除的元素
-				title: '操作提示'
+				title: jslang.operation_hint
 			}
 
 			var options = $.extend({}, defaults, options);
 			if (!options.url) {
-				swal(admin_lang.error);
+				swal(jslang.error);
 				return false;
 			}
 			ecjia.platform_ui.confirm(options.msg, function (isConfirm) {
@@ -86,8 +86,8 @@
 					}, 'json');
 				}
 			}, {
-				ok: admin_lang.ok,
-				cancel: admin_lang.cancel
+				ok: jslang.ok,
+				cancel: jslang.cancel
 			});
 		},
 
@@ -97,14 +97,14 @@
 		batch: function (options) {
 			var defaults = {
 				url: false, //url 			批量操作访问的url地址
-				msg: admin_lang.confirm, //msg 			批量操作的提示信息
-				noSelectMsg: admin_lang.please_select, //noSelectMsg	没有选中项的提示信息
+				msg: jslang.confirm, //msg 			批量操作的提示信息
+				noSelectMsg: jslang.please_select, //noSelectMsg	没有选中项的提示信息
 				name: 'checkboxes', //name 			对应PHP操作中获取的name
 				id: [], //obj 			批量操作的用户id数组
 			};
 
 			var options = $.extend({}, defaults, options);
-			if (!options.url || options.id.length == 0) return console.log(admin_lang.batch_error);
+			if (!options.url || options.id.length == 0) return console.log(jslang.batch_error);
 			var ajaxinfo = "{" + options.name + ":'" + options.id + "'}";
 			ajaxinfo = eval("(" + ajaxinfo + ")");
 
@@ -121,8 +121,8 @@
 					});
 				}
 			}, {
-				ok: admin_lang.ok,
-				cancel: admin_lang.cancel
+				ok: jslang.ok,
+				cancel: jslang.cancel
 			});
 		},
 
@@ -130,7 +130,7 @@
 			var defaults = {
 				url: false, //url 删除访问的url地址
 				id: '', //id  删除的数据id
-				msg: admin_lang.confirm_del, //msg 删除时的提示信息
+				msg: jslang.confirm_del, //msg 删除时的提示信息
 				obj: '', //obj 删除后要移除的元素
 				title: '操作提示'
 			}
@@ -143,7 +143,7 @@
 				text: msg,
 				buttons: {
 					confirm: {
-						text: admin_lang.ok,
+						text: jslang.ok,
 						value: true,
 						visible: true,
 						className: "",
@@ -156,9 +156,9 @@
 			var defaults = {
 				url: false, //url 删除访问的url地址
 				id: '', //id  删除的数据id
-				msg: admin_lang.confirm_del, //msg 删除时的提示信息
+				msg: jslang.confirm_del, //msg 删除时的提示信息
 				obj: '', //obj 删除后要移除的元素
-				title: '操作提示'
+				title: jslang.operation_hint
 			}
 			var options = $.extend({}, defaults, options);
 			if (msg == '' || msg == undefined) {
@@ -199,7 +199,7 @@
 		 * clone_obj 克隆添加一个节点的方法
 		 */
 		clone_obj: function (options) {
-			if (!options.parentobj) return console.log('批量操作缺少参数！');
+			if (!options.parentobj) return console.log(jslang.batch_lack_parameters);
 			var tmpObj = options.parentobj.clone();
 			tmpObj.find('[data-toggle="clone-obj"]')
 				.attr('data-toggle', 'remove-obj').on('click', function () {
@@ -275,7 +275,7 @@
 			var defaults = {
 				url: false, //url 删除访问的url地址
 				id: '', //id  删除的数据id
-				msg: admin_lang.confirm_delete_file, //msg 删除时的提示信息
+				msg: jslang.confirm_delete_file, //msg 删除时的提示信息
 				obj: ''
 			};
 			var options = $.extend({}, defaults, options);
@@ -286,7 +286,7 @@
 				return false;
 			}
 			if (!options.url) {
-				ecjia.platform_ui.alert(admin_lang.error);
+				ecjia.platform_ui.alert(jslang.error);
 				return false;
 			}
 			ecjia.platform_ui.confirm(options.msg, function (e) {
@@ -303,8 +303,8 @@
 					}, 'json');
 				}
 			}, {
-				ok: admin_lang.ok,
-				cancel: admin_lang.cancel
+				ok: jslang.ok,
+				cancel: jslang.cancel
 			});
 		},
 
@@ -321,7 +321,7 @@
 				dataType: "json",
 				success: function (data) {
 					data.content ? option.obj.removeClass('fa-times').addClass('fa-check') : option.obj.removeClass('fa-check').addClass('fa-times');
-					data.pjaxurl ? ecjia.platform.showmessage(data) : ecjia.platform.showmessage(admin_lang.status_success);
+					data.pjaxurl ? ecjia.platform.showmessage(data) : ecjia.platform.showmessage(jslang.status_success);
 				}
 			});
 		}
@@ -371,8 +371,8 @@
 		});
 		var name = $this.attr('data-name') || 'checkboxes';
 		var url = $this.attr('data-url');
-		var msg = $this.attr('data-msg') || admin_lang.confirm;
-		var noSelectMsg = $this.attr('data-noSelectMsg') || admin_lang.please_select;
+		var msg = $this.attr('data-msg') || jslang.confirm;
+		var noSelectMsg = $this.attr('data-noSelectMsg') || jslang.please_select;
 		var option = {
 			id: id,
 			url: url,
@@ -401,7 +401,7 @@
 				thisobj: $this,
 				sortclass: sortclass
 			};
-		(!option.url || !option.sort_by || !option.sort_order) && console.log('缺少参数');
+		(!option.url || !option.sort_by || !option.sort_order) && console.log(jslang.lack_of_parameters);
 
 		ecjia.platform_ui.sort(option);
 	});
@@ -421,7 +421,7 @@
 				before: before
 			};
 		console.log(before);
-		!$parentobj ? console.log('clone-obj方法未设置data-parent参数。') : ecjia.platform_ui.clone_obj(option);
+		!$parentobj ? console.log(jslang.missing_parameters) : ecjia.platform_ui.clone_obj(option);
 	});
 
 	/**

@@ -54,21 +54,20 @@ class Helper
     /**
      * 添加管理员记录日志操作对象
      */
-    public static function assign_adminlog_content() {
-        ecjia_admin_log::instance()->add_object('platform_extend', RC_Lang::get('platform::platform.function_extension'));
-		ecjia_admin_log::instance()->add_object('wechat', RC_Lang::get('platform::platform.platform_num'));
-		ecjia_admin_log::instance()->add_object('platform_logo', RC_Lang::get('platform::platform.platform_num_log'));
-		
-		ecjia_admin_log::instance()->add_object('platform_extend_command', RC_Lang::get('platform::platform.function_extension_command'));
-		ecjia_admin_log::instance()->add_object('wechat_extend', RC_Lang::get('platform::platform.platform_extension'));
-		
-		ecjia_admin_log::instance()->add_action('batch_insert', RC_Lang::get('platform::platform.bulk_add'));
-		
-		ecjia_admin_log::instance()->add_action('keyword', RC_Lang::get('platform::platform.keyword'));
-		
-		ecjia_admin_log::instance()->add_object('platform', RC_Lang::get('platform::platform.platform_plug'));
+    public static function assign_adminlog_content()
+    {
+        ecjia_admin_log::instance()->add_object('platform_extend', __('功能扩展', 'platform'));
+        ecjia_admin_log::instance()->add_object('wechat', __('公众号', 'platform'));
+        ecjia_admin_log::instance()->add_object('platform_logo', __('公众号logo', 'platform'));
+
+        ecjia_admin_log::instance()->add_object('platform_extend_command', __('功能扩展命令', 'platform'));
+        ecjia_admin_log::instance()->add_object('wechat_extend', __('公众号扩展', 'platform'));
+        ecjia_admin_log::instance()->add_object('platform', __('公众平台插件', 'platform'));
+
+        ecjia_admin_log::instance()->add_action('batch_insert', __('批量添加', 'platform'));
+        ecjia_admin_log::instance()->add_action('keyword', __('关键词', 'platform'));
     }
-    
+
 }
 
 // end

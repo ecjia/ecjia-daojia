@@ -139,12 +139,12 @@ abstract class EcjiaPlatform extends ecjia_base implements ecjia_template_filelo
 		if (!$this->_check_login()) {
 		    RC_Session::destroy();
 		    if (is_pjax()) {
-		        Screen::$current_screen->add_nav_here(new admin_nav_here(__('系统提示')));
-		        $this->showmessage(RC_Lang::get('system::system.priv_error'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('重新登录'), 'href' => RC_Uri::url('staff/privilege/login')))));
+		        Screen::$current_screen->add_nav_here(new admin_nav_here(__('系统提示', 'platform')));
+		        $this->showmessage(__('对不起 ,您没有执行此项操作的权限!', 'platform'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('重新登录', 'platform'), 'href' => RC_Uri::url('staff/privilege/login')))));
                 royalcms('response')->send();
 		        exit();
 		    } elseif (is_ajax()) {
-		        $this->showmessage(RC_Lang::get('system::system.priv_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		        $this->showmessage(__('对不起 ,您没有执行此项操作的权限!', 'platform'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 royalcms('response')->send();
 		        exit();
 		    } else {
@@ -325,7 +325,7 @@ abstract class EcjiaPlatform extends ecjia_base implements ecjia_template_filelo
                     return false;
                 }
 			} else {
-				$this->assign('ecjia_platform_cptitle', '公众平台');
+				$this->assign('ecjia_platform_cptitle', __('公众平台', 'platform'));
 			}
 			
 			if (session('session_user_id') && session('session_user_type')) {
@@ -405,7 +405,7 @@ abstract class EcjiaPlatform extends ecjia_base implements ecjia_template_filelo
 // 	    		$this->assign('page_state', array('icon' => 'glyphicon glyphicon-exclamation-sign', 'msg' => __('操作警告'), 'class' => ''));
 // 	    		break;
 // 	    	default:
-	    		$this->assign('page_state', array('icon' => 'ft-x-circle', 'msg' => __('操作错误'), 'class' => 'ecjiafc-red'));
+	    		$this->assign('page_state', array('icon' => 'ft-x-circle', 'msg' => __('操作错误', 'platform'), 'class' => 'ecjiafc-red'));
 // 	    }   
 
         if (file_exists($system_tpl)) {
@@ -460,12 +460,12 @@ abstract class EcjiaPlatform extends ecjia_base implements ecjia_template_filelo
 		} else {
 		    if ($msg_output) {
 		        if ($msg_type == ecjia::MSGTYPE_JSON && is_ajax() && !is_pjax()) {
-		            $this->showmessage(__('对不起，您没有执行此项操作的权限！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		            $this->showmessage(__('对不起，您没有执行此项操作的权限！', 'platform'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                     royalcms('response')->send();
 		            die();
 		        } else {
-		            Screen::$current_screen->add_nav_here(new admin_nav_here(__('系统提示')));
-		            $this->showmessage(__('对不起，您没有执行此项操作的权限！'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+		            Screen::$current_screen->add_nav_here(new admin_nav_here(__('系统提示', 'platform')));
+		            $this->showmessage(__('对不起，您没有执行此项操作的权限！', 'platform'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
                     royalcms('response')->send();
                     die();
 		        }
@@ -536,22 +536,9 @@ abstract class EcjiaPlatform extends ecjia_base implements ecjia_template_filelo
 	    RC_Script::enqueue_script('ecjia-platform');
 	    RC_Script::enqueue_script('ecjia-platform-ui');
 	    
-	    $admin_jslang = array(
-	        'display_sidebar'	=> __('显示侧边栏'),
-	        'hide_sidebar'		=> __('隐藏侧边栏'),
-	        'search_check'		=> __('请先输入搜索信息'),
-	        'search_no_message'	=> __('未搜索到导航信息'),
-	        'success'			=> __('操作成功'),
-	        'fail'				=> __('操作失败'),
-	        'confirm_jump'		=> __('是否确认跳转？'),
-	        'ok'				=> __('确定'),
-	        'cancel'			=> __('取消'),
-	        'request_failed'	=> __('请求失败，错误编号：'),
-	        'error_msg'			=> __('，错误信息：')
-	    );
-	    RC_Script::localize_script('ecjia-platform', 'admin_lang', $admin_jslang );
+		RC_Script::localize_script('ecjia-platform', 'js_lang', config('app-platform::jslang.ecjia_platform_page'));
+		RC_Script::localize_script('ecjia-platform-ui', 'jslang', config('app-platform::jslang.ecjia_platform_ui_page'));
 	}
-
 
 	protected function load_hooks() {
 		RC_Hook::add_action('platform_head', array('ecjia_platform_loader', 'admin_enqueue_scripts'), 1 );
@@ -868,7 +855,7 @@ abstract class EcjiaPlatform extends ecjia_base implements ecjia_template_filelo
     }
 
     public static function display_admin_copyright() {
-    	$company_msg  = __('版权所有 © 2013-2018 上海商创网络科技有限公司，并保留所有权利。');
+    	$company_msg  = __('版权所有 © 2013-2018 上海商创网络科技有限公司，并保留所有权利。', 'platform');
     	$ecjia_icon   = RC_Uri::admin_url('statics/images/ecjia_icon.png');
 
         echo "<div class='row-fluid footer'>

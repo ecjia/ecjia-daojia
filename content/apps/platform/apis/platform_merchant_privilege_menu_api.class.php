@@ -45,20 +45,23 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 后台菜单API
  * @author royalwang
  *
  */
-class platform_merchant_privilege_menu_api extends Component_Event_Api {
-	
-	public function call(&$options) {
-	    $user_id = royalcms('request')->query('user_id');
-	    
-	    $platform_privilege_menu 	 = ecjia_admin::make_admin_menu('platform_privilege_menu', __('公众平台权限'), RC_Uri::url('platform/merchant_privilege/allot', array('user_id' => $user_id)), 2)->add_purview('platform_privilege_menu');
-	    
-	    return $platform_privilege_menu;
-	}
+class platform_merchant_privilege_menu_api extends Component_Event_Api
+{
+
+    public function call(&$options)
+    {
+        $user_id = royalcms('request')->query('user_id');
+
+        $platform_privilege_menu = ecjia_admin::make_admin_menu('platform_privilege_menu', __('公众平台权限', 'platform'), RC_Uri::url('platform/merchant_privilege/allot', array('user_id' => $user_id)), 2)->add_purview('platform_privilege_menu');
+
+        return $platform_privilege_menu;
+    }
 }
 
 // end

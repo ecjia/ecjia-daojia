@@ -59,7 +59,7 @@ class index extends EcjiaBaseApi
     public function init()
     {
         $request = royalcms('request');
-        $uuid = $request->get('uuid');
+        $uuid    = $request->get('uuid');
 
         if (empty($uuid)) {
             return $this->displayContent('NO ACCESS');
@@ -68,8 +68,8 @@ class index extends EcjiaBaseApi
         try {
 
             $platform_account = new Ecjia\App\Platform\Frameworks\Platform\Account($uuid);
-            $platform = $platform_account->getPlatform();
-            $response = RC_Api::api($platform, 'platform_response', $platform_account);
+            $platform         = $platform_account->getPlatform();
+            $response         = RC_Api::api($platform, 'platform_response', $platform_account);
             if ($response instanceof Symfony\Component\HttpFoundation\Response) {
                 return $response;
             } else if (is_ecjia_error($response)) {

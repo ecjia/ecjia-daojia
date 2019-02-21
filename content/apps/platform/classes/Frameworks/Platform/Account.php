@@ -104,16 +104,16 @@ class Account extends AbstractRepository
     public function getPlatformName()
     {
         if ($this->getPlatform() == 'wechat') {
-            return '微信公众平台';
+            return __('微信公众平台', 'platform');
         } 
         else if ($this->getPlatform() == 'alipay') {
-            return '支付宝';
+            return __('支付宝', 'platform');
         } 
         else if ($this->getPlatform() == 'weapp') {
-            return '微信小程序';
+            return __('微信小程序', 'platform');
         }
         else {
-            return '未知';
+            return __('未知', 'platform');
         }
     }
     
@@ -146,16 +146,16 @@ class Account extends AbstractRepository
     public function getTypeName()
     {
         if ($this->getType() === 0) {
-            return '未认证的公众号';
+            return __('未认证的公众号', 'platform');
         }
         elseif ($this->getType() == 1) {
-            return '订阅号';
+            return __('订阅号', 'platform');
         }
         elseif ($this->getType() == 2) {
-            return '服务号';
+            return __('服务号', 'platform');
         }
         elseif ($this->getType() == 3) {
-            return '测试账号';
+            return __('测试账号', 'platform');
         }
     }
     

@@ -25,7 +25,7 @@
 						<div class="form-body">
 						{if $ext_code}
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">已选插件：</label>
+								<label class="col-lg-2 label-control text-right">{t domain="platform"}已选插件：{/t}</label>
 								<div class="col-lg-7 controls">
 									<!-- {foreach from=$extend_list item=list} -->
 									{if $ext_code eq $list.ext_code}
@@ -37,12 +37,12 @@
 							<input type="hidden" name="ext_code" value="{$ext_code}">
 							{else}
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">请选择插件：</label>
+								<label class="col-lg-2 label-control text-right">{t domain="platform"}请选择插件：{/t}</label>
 								<div class="col-lg-7 controls">
 									<div class="row">
 										<div class="col-md-11">
 											<select name="ext_code" class="select2 form-control" data-url="{RC_Uri::Url('platform/platform_command/get_sub_code')}">
-												<option value="">请选择...</option>
+												<option value="">{t domain="platform"}请选择...{/t}</option>
 												<!-- {foreach from=$extend_list item=list} -->
 												<option value="{$list.ext_code}" {if $ext_code eq $list.ext_code}selected{/if}>{$list.ext_name}</option>
 												<!-- {/foreach} -->
@@ -54,7 +54,7 @@
 							{/if}
 
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">关键词：</label>
+								<label class="col-lg-2 label-control text-right">{t domain="platform"}关键词：{/t}</label>
 								<div class="col-lg-7 controls">
 									<!-- {foreach from=$data item=val key=key name=n} -->
 									<div class="clone-input row m_b10">
@@ -62,12 +62,12 @@
 										{if $sub_code}
 										<div class="col-md-4 p_l0 p_r0">
 											<select class="select2 form-control" disabled>
-												<option>{if $val.sub_code}{$val.sub_code}{else}空子命令（默认）{/if}</option>
+												<option>{if $val.sub_code}{$val.sub_code}{else}{t domain="platform"}空子命令（默认）{/t}{/if}</option>
 											</select>
 										</div>
 										{/if}
 										<label class="col-md-1">
-											<a class="no-underline l_h35" data-toggle="ajaxremove" data-msg="您确定要删除该关键词吗？" href='{RC_Uri::url("platform/platform_command/remove", "cmd_id={$val.cmd_id}")}'><i class="fa fa-minus"></i></a>
+											<a class="no-underline l_h35" data-toggle="ajaxremove" data-msg='{t domain="platform"}您确定要删除该关键词吗？{/t}' href='{RC_Uri::url("platform/platform_command/remove", "cmd_id={$val.cmd_id}")}'><i class="fa fa-minus"></i></a>
 										</label>
 									</div>
 									<!-- {/foreach} -->
@@ -76,7 +76,7 @@
 										{if $sub_code}
 										<div class="col-md-4 p_l0 p_r0">
 											<select name="sub_code[]" class="select2 form-control">
-												<option value="">空子命令（默认）</option>
+												<option value="">{t domain="platform"}空子命令（默认）{/t}</option>
 												<!-- {foreach from=$sub_code item=val} -->
 												<option value="{$val}">{$val}</option>
 												<!-- {/foreach} -->
@@ -93,7 +93,7 @@
 					</div>
 	
 					<div class="modal-footer justify-content-center">
-						<input type="submit" value="{lang key='wechat::wechat.ok'}" class="btn btn-outline-primary" />	
+						<input type="submit" value='{t domain="platform"}确定{/t}' class="btn btn-outline-primary" />
 					</div>
 				</form>	
             </div>

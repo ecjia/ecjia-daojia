@@ -52,7 +52,7 @@
 
         set_ajax_submit_option : function() {
             $.ajaxSettings.error = function(data) {
-              var info = admin_lang.request_failed + data.status + admin_lang.error_msg + data.statusText;
+              var info = js_lang.request_failed + data.status + js_lang.error_msg + data.statusText;
                 ecjia.platform.showmessage({state: 'error', message:info});
             };
         },
@@ -74,11 +74,11 @@
 			$('a[data-toggle="alertgo"]').on('click', function(e) {
 				e.preventDefault();
 				var $this = $(this),
-				message = $this.attr('data-message') || admin_lang.confirm_jump,
+				message = $this.attr('data-message') || js_lang.confirm_jump,
 				href 	= $this.attr('href') || '#';
 				ecjia.platform_ui.confirm(message, function(e){
 					e && ecjia.pjax(href);
-				}, {ok:admin_lang.ok, cancel:admin_lang.cancel});
+				}, {ok:js_lang.ok, cancel:js_lang.cancel});
 			});
 		},
 
@@ -100,7 +100,7 @@
 			var tmp = '<p>';
 
 			if (!options.message) {
-				options.message = (options.state == 'error') ? admin_lang.fail : admin_lang.success;
+				options.message = (options.state == 'error') ? js_lang.fail : js_lang.success;
 			}
 			options.state = (options.state == 'error')? 'alert-danger': 'alert-success';
 

@@ -20,7 +20,7 @@ class platform_platform_account_list_api extends Component_Event_Api
      */
     public function call(&$options)
     {
-        $shop_id = array_get($options, 'shop_id', 0);
+        $shop_id  = array_get($options, 'shop_id', 0);
         $platform = array_get($options, 'platform', 'wechat');
 
         $accountlist = with(new Ecjia\App\Platform\Frameworks\Platform\AccountManager($shop_id))->getAccountList($platform);

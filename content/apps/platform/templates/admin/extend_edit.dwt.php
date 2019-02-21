@@ -21,29 +21,28 @@
 		<form id="form-privilege" class="form-horizontal" name="editForm" action="{$form_action}" method="post">
 			<fieldset>
 				<div class="control-group formSep" >
-					<label class="control-label">{lang key='platform::platform.lable_name'}</label>
+					<label class="control-label">{t domain="platform"}名称：{/t}</label>
 					<div class="controls l_h30">
-						<input class="w350" type="text" name="ext_name" value="{$bd.ext_name}"  /> 
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<input class="w350" type="text" name="ext_name" value="{$bd.ext_name}" />
+						<span class="input-must">*</span>
 					</div>
 				</div>
 				
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='platform::platform.lable_describe'}</label>
+					<label class="control-label">{t domain="platform"}描述：{/t}</label>
 					<div class="controls">
-						<textarea class="w350" id="ext_desc" name="ext_desc"  cols="10" rows="6">{$bd.ext_desc}</textarea>
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<textarea class="w350" id="ext_desc" name="ext_desc" cols="10" rows="6">{$bd.ext_desc}</textarea>
+						<span class="input-must">*</span>
 					</div>
 				</div>
 				
 				<div class="control-group">
 					<div class="controls">
-						<button class="btn btn-gebo" type="submit">{lang key='platform::platform.update'}</button>
+						<button class="btn btn-gebo" type="submit">{t domain="platform"}更新{/t}</button>
 						<input type="hidden" name="ext_id" value="{$bd.ext_id}" />
 						<input type="hidden" name="ext_code" value="{$bd.ext_code}" />
 					</div>
 				</div>
-				
 			</fieldset>
 		</form>
 	</div>

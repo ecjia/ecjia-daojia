@@ -63,8 +63,9 @@ class merchant_privilege extends ecjia_merchant
         RC_Script::enqueue_script('smoke');
         RC_Style::enqueue_style('uniform-aristo');
         RC_Script::enqueue_script('platform', RC_App::apps_url('statics/mh-js/platform.js', __FILE__));
+        RC_Script::localize_script('platform', 'js_lang', config('app-platform::jslang.merchant_privilege_page'));
 
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('员工管理'), RC_Uri::url('staff/merchant/init')));
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('员工管理', 'platform'), RC_Uri::url('staff/merchant/init')));
         ecjia_merchant_screen::get_current_screen()->set_parentage('staff', 'staff/merchant.php');
     }
 
@@ -80,31 +81,31 @@ class merchant_privilege extends ecjia_merchant
             $this->admin_priv('all');
         }
 
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('分派权限')));
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('分派权限', 'platform')));
         ecjia_merchant_screen::get_current_screen()->add_option('current_code', 'platform_privilege_menu');
 
         /* 获得该管理员的权限 */
-        $user = new Ecjia\App\Merchant\Frameworks\Users\StaffUser($userid, session('store_id'), '\Ecjia\App\Platform\Frameworks\Users\StaffUserAllotPurview');
+        $user      = new Ecjia\App\Merchant\Frameworks\Users\StaffUser($userid, session('store_id'), '\Ecjia\App\Platform\Frameworks\Users\StaffUserAllotPurview');
         $user_name = $user->getUserName();
-        $priv_str = $user->getActionList();
-        $group_id = $user->getRoleId();
+        $priv_str  = $user->getActionList();
+        $group_id  = $user->getRoleId();
 
         $return_href = RC_Uri::url('staff/merchant/init');
         if (!empty($group_id)) {
             $return_href = RC_Uri::url('staff/merchant/init', array('group_id' => $group_id));
         }
-        $this->assign('action_link', array('href' => $return_href, 'text' => '账户列表'));
+        $this->assign('action_link', array('href' => $return_href, 'text' => __('账户列表', 'platform')));
 
         /* 如果被编辑的管理员拥有了all这个权限，将不能编辑 */
         if ($priv_str == 'all') {
-            $link[] = array('text' => __('返回账户列表'), 'href' => $return_href);
-            return $this->showmessage(__('您不能对此管理员的权限进行任何操作！'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
+            $link[] = array('text' => __('返回账户列表', 'platform'), 'href' => $return_href);
+            return $this->showmessage(__('您不能对此管理员的权限进行任何操作！', 'platform'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
         }
 
         $priv_group = \Ecjia\App\Platform\Frameworks\Component\Purview::load_purview($priv_str);
 
         /* 赋值 */
-        $this->assign('ur_here', sprintf(__('分派公众平台权限 [ %s ] '), $user_name));
+        $this->assign('ur_here', sprintf(__('分派公众平台权限 [ %s ] ', 'platform'), $user_name));
         $this->assign('priv_group', $priv_group);
         $this->assign('user_id', $userid);
 
@@ -125,7 +126,7 @@ class merchant_privilege extends ecjia_merchant
 
         $userid = $this->request->input('user_id');
         /* 取得当前管理员用户名 */
-        $user = new Ecjia\App\Merchant\Frameworks\Users\StaffUser($userid, session('store_id'), '\Ecjia\App\Platform\Frameworks\Users\StaffUserAllotPurview');
+        $user      = new Ecjia\App\Merchant\Frameworks\Users\StaffUser($userid, session('store_id'), '\Ecjia\App\Platform\Frameworks\Users\StaffUserAllotPurview');
         $user_name = $user->getUserName();
 
         /* 更新管理员的权限 */
@@ -135,7 +136,7 @@ class merchant_privilege extends ecjia_merchant
 
         /* 记录管理员操作 */
         ecjia_admin::admin_log(addslashes($user_name), 'edit', 'privilege');
-        return $this->showmessage(sprintf(__('编辑 %s 操作成功！'), $user_name), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        return $this->showmessage(sprintf(__('编辑 %s 操作成功！', 'platform'), $user_name), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 
 }

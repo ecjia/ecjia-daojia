@@ -60,11 +60,11 @@ class Page extends ecjia_page {
      */
     public function page_desc() {
     	$lang = array(
-    		'total_records' => __('总计 '),
-    		'total_pages' 	=> __('条记录，分为'),
-    		'page_current' 	=> __('页当前第'),
-    		'page_size' 	=> __('页，每页'),
-    		'page'			=> __(' 页'),
+    		'total_records' => __('总计 ', 'platform'),
+    		'total_pages' 	=> __('条记录，分为', 'platform'),
+    		'page_current' 	=> __('页当前第', 'platform'),
+    		'page_size' 	=> __('页，每页', 'platform'),
+    		'page'			=> __(' 页', 'platform'),
     	);
     	
     	return <<< EOF
