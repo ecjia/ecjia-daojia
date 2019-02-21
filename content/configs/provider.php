@@ -70,6 +70,7 @@ return array(
     'Royalcms\Component\Shouqianba\ShouqianbaServiceProvider',
 	'Royalcms\Component\Pinyin\PinyinServiceProvider',
 	'Royalcms\Component\Uploader\UploaderServiceProvider',
+	'Royalcms\Component\Metable\MetableServiceProvider',
 
     'Ecjia\System\Providers\SystemServiceProvider',
     'Ecjia\System\Providers\RouteServiceProvider',
