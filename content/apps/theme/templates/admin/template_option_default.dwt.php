@@ -11,11 +11,11 @@
 
     <div class="span12">
         <div class="row-fluid edit-page">
-            <h3 class="heading">主题选项</h3>
+            <h3 class="heading">{t domain="theme"}主题选项{/t}</h3>
             <div class="row-fluid">
 
                 <div class="alert alert-default">
-                    <p>当前使用的主题，未扩展主题选项功能。</p>
+                    <p>{t domain="theme"}当前使用的主题，未扩展主题选项功能。{/t}</p>
                 </div>
 
             </div>

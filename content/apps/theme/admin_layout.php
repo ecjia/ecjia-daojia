@@ -85,7 +85,7 @@ class admin_layout extends ecjia_admin {
 		RC_Script::enqueue_script('smoke');
 		RC_Script::enqueue_script('jquery-uniform');
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('外观'), RC_Uri::url('theme/admin_template/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('外观', 'theme'), RC_Uri::url('theme/admin_template/init')));
 		
 		$this->template_file  = array_get($_GET, 'template_file', array_get($_POST, 'template_file', 'index'));
 		$this->template = new \Ecjia\System\Theme\ThemeTemplate($this->theme, $this->template_file.'.dwt.php');
@@ -102,8 +102,8 @@ class admin_layout extends ecjia_admin {
 	public function init() {
 		$this->admin_priv('template_setup');
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('布局管理')));
-		$this->assign('ur_here', __('布局管理'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('布局管理', 'theme')));
+		$this->assign('ur_here', __('布局管理', 'theme'));
 
 
 		$template_files = $this->theme->getAllowSettingTemplates();
@@ -245,7 +245,7 @@ class admin_layout extends ecjia_admin {
         }
         
         $back_url = RC_Uri::url('theme/admin_layout/init', 'template_file=' . $this->template_file);
-        return $this->showmessage(__('设置小工具内容成功。'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' =>$back_url));
+        return $this->showmessage(__('设置小工具内容成功。', 'theme'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' =>$back_url));
 	}
 	
 	public function remove_widget() {
@@ -261,7 +261,7 @@ class admin_layout extends ecjia_admin {
 	            $widget->deleteWidget($id);
 	            
 	            $back_url = RC_Uri::url('theme/admin_layout/init', 'template_file=' . $this->template_file);
-	            return $this->showmessage(__('移除小工具成功。'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' =>$back_url));
+	            return $this->showmessage(__('移除小工具成功。', 'theme'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' =>$back_url));
 	    }
 	}
 	
@@ -493,10 +493,10 @@ class admin_layout extends ecjia_admin {
 		}
 
 		if (file_put_contents($template_file, $template_content)) {
-			$lnk[] = array('text' => __('返回上一页'), 'href'=>RC_Uri::url('@system_template/setup', 'template_file='.$_POST['template_file']));
-			return $this->showmessage(__('设置模板内容成功。'), 0, $lnk);
+			$lnk[] = array('text' => __('返回上一页', 'theme'), 'href'=>RC_Uri::url('@system_template/setup', 'template_file='.$_POST['template_file']));
+			return $this->showmessage(__('设置模板内容成功。', 'theme'), 0, $lnk);
 		} else {
-			return $this->showmessage(sprintf(__('模板文件 %s 无法修改'), 'themes/' . $curr_template. '/' . $_POST['template_file'] . '.dwt'), 1, null, false);
+			return $this->showmessage(sprintf(__('模板文件 %s 无法修改', 'theme'), 'themes/' . $curr_template. '/' . $_POST['template_file'] . '.dwt'), 1, null, false);
 		}
 	}
 

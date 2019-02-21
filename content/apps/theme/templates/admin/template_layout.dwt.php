@@ -11,7 +11,7 @@
 <!-- {if !$template_files} -->
 <div class="alert alert-info">
 	<a class="close" data-dismiss="alert">×</a>
-	{t}当前选择的主题没有可用布局管理模板。{/t}
+	{t domain="theme"}当前选择的主题没有可用布局管理模板。{/t}
 </div>
 <!-- {/if} -->
 <h3 class="heading">
@@ -33,12 +33,12 @@
 					<div class="sidebar-name">
 						<div class="fontello-icon-up-open sidebar-name-arrow"><br></div>
 						<h3>
-							{t}可用库项目{/t}
-							<span class="id-removing-widget" style="display: none;">{t}停用{/t} <span></span></span>
+							{t domain="theme"}可用库项目{/t}
+							<span class="id-removing-widget" style="display: none;">{t domain="theme"}停用{/t} <span></span></span>
 						</h3>
 					</div>
 					<div class="sidebar-description">
-						<p class="description">{t}要激活某一小工具，将它拖动到侧栏或点击它。要禁用某一小工具并删除其设置，将它拖回来。{/t}</p>
+						<p class="description">{t domain="theme"}要激活某一小工具，将它拖动到侧栏或点击它。要禁用某一小工具并删除其设置，将它拖回来。{/t}</p>
 					</div>
 					<div class="id-widget-list">
 					    <!-- {foreach from=$available_widgets item=widget key=key} -->
@@ -54,12 +54,12 @@
 					<div class="sidebar-name">
 						<div class="fontello-icon-up-open sidebar-name-arrow"><br></div>
 						<h3>
-							{t}动态库项目{/t}
-							<span class="id-removing-widget" style="display: none;">{t}停用{/t} <span></span></span>
+							{t domain="theme"}动态库项目{/t}
+							<span class="id-removing-widget" style="display: none;">{t domain="theme"}停用{/t} <span></span></span>
 						</h3>
 					</div>
 					<div class="sidebar-description">
-						<p class="description">{t}要激活某一小工具，将它拖动到侧栏或点击它。要禁用某一小工具并删除其设置，将它拖回来。{/t}</p>
+						<p class="description">{t domain="theme"}要激活某一小工具，将它拖动到侧栏或点击它。要禁用某一小工具并删除其设置，将它拖回来。{/t}</p>
 					</div>
 					<div class="id-widget-list">
 					    <!-- {foreach from=$temp_dyna_libs item=lib key=key} -->
@@ -75,10 +75,10 @@
 						<div class="widgets-sortables ui-sortable"  data-url="{$sort_action}" data-file="{$template_file}" data-name="inactive" id="ecjia_inactive_widgets">
 							<div class="sidebar-name">
 								<div class="fontello-icon-up-open sidebar-name-arrow"><br></div>
-								<h3>{t}未使用的小工具{/t}<span class="spinner" style="display: none;"></span></h3>
+								<h3>{t domain="theme"}未使用的小工具{/t}<span class="spinner" style="display: none;"></span></h3>
 							</div>
 							<div class="sidebar-description">
-								<p class="description">{t}将小工具拖至这里，将它们从边栏移除，但同时保留设置。{/t}</p>
+								<p class="description">{t domain="theme"}将小工具拖至这里，将它们从边栏移除，但同时保留设置。{/t}</p>
 							</div>
     					    <!-- {foreach from=$inactive_sidebar item=widget key=key} -->
     					    <!-- {assign var=lib value=$widget->process()} -->
@@ -116,9 +116,9 @@
 						<div class="widget-list" id="sidebar-no">
 							<div class="sidebar-name">
 								<div class="fontello-icon-up-open sidebar-name-arrow"><br></div>
-								<h3>{t}暂无可用区域{/t}<span class="spinner" style="display: none;"></span></h3>
+								<h3>{t domain="theme"}暂无可用区域{/t}<span class="spinner" style="display: none;"></span></h3>
 							</div>
-							<div class="sidebar-description"><p class="description">{t}暂无可用区域{/t}</p></div>
+							<div class="sidebar-description"><p class="description">{t domain="theme"}暂无可用区域{/t}</p></div>
 						</div>
 					</div>
 					<!-- {/foreach} -->
@@ -130,11 +130,11 @@
 	
 	<div class="span3 chat_sidebar{if $full} hide{/if}">
         <div class="chat_heading clearfix">
-            {t}模板文件{/t}
+            {t domain="theme"}模板文件{/t}
         </div>
         <div class="ms-selectable">
             <div class="template_list" id="ms-custom-navigation">
-                <input class="span12" id="ms-search" type="text" placeholder="{t}筛选搜索到的商品信息{/t}" autocomplete="off">
+                <input class="span12" id="ms-search" type="text" placeholder="{t domain="theme"}筛选搜索到的商品信息{/t}" autocomplete="off">
                 <ul class="unstyled">
                     <!-- {foreach from=$template_files item=val key=key} -->
                     <!-- {assign var=url_args value="template_file=$key&full=0"} -->
@@ -149,8 +149,8 @@
     	<ul class="widgets-chooser-sidebars">
     	</ul>
     	<div class="widgets-chooser-actions">
-    		<button class="btn btn-secondary">{t}取消{/t}</button>
-    		<button class="btn btn-info">{t}添加小工具{/t}</button>
+    		<button class="btn btn-secondary">{t domain="theme"}取消{/t}</button>
+    		<button class="btn btn-info">{t domain="theme"}添加小工具{/t}</button>
     	</div>
     </div>
 </div>

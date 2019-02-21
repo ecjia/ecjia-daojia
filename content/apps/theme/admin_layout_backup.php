@@ -73,9 +73,9 @@ class admin_layout_backup extends ecjia_admin {
 		RC_Script::enqueue_script('smoke');
 		RC_Script::enqueue_script('jquery-uniform');
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('外观'), RC_Uri::url('theme/admin_template/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('外观', 'theme'), RC_Uri::url('theme/admin_template/init')));
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('布局设置备份'), RC_Uri::url('theme/admin_layout_backup/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('布局设置备份', 'theme'), RC_Uri::url('theme/admin_layout_backup/init')));
 	}
 
 	/**
@@ -84,8 +84,8 @@ class admin_layout_backup extends ecjia_admin {
 	public function init() {
 		$this->admin_priv('backup_setting');
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('备份')));
-		$this->assign('ur_here',      __('模板布局备份'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('备份', 'theme')));
+		$this->assign('ur_here',      __('模板布局备份', 'theme'));
 
 		$template_files = $this->theme->getAllowSettingTemplates();
 
@@ -113,23 +113,23 @@ class admin_layout_backup extends ecjia_admin {
 	public function backup_setting() {
 	    $this->admin_priv('backup_setting');
 	    
-	    $links = array(array('text'=>__('备份布局设置'), 'href' => RC_Uri::url('theme/admin_layout_backup/init')));
+	    $links = array(array('text'=>__('备份布局设置', 'theme'), 'href' => RC_Uri::url('theme/admin_layout_backup/init')));
 	    
 		$remarks = empty($_POST['remarks']) ? RC_Time::local_date(ecjia::config('time_format')) : trim($_POST['remarks']);
 		
 		$files = array_get($_POST, 'files', array());
 		
 		if (empty($files)) {
-		    return $this->showmessage(__('没有选择任何模板文件'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $links));
+		    return $this->showmessage(__('没有选择任何模板文件', 'theme'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $links));
 		}
 		
 		if ($this->db_template->hasTemplateSettingBackup()) {
-		    return $this->showmessage(sprintf(__('备份注释 %s 已经用过，请换个注释名称'), $remarks), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $links));
+		    return $this->showmessage(sprintf(__('备份注释 %s 已经用过，请换个注释名称', 'theme'), $remarks), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $links));
 		}
 		
 		$this->db_template->backupTemplateFiles($this->theme->getThemeCode(), $files, $remarks);
 
-		return $this->showmessage(__('备份设置成功'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_SUCCESS, array('links' => $links));
+		return $this->showmessage(__('备份设置成功', 'theme'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_SUCCESS, array('links' => $links));
 	}
 
     /**
@@ -143,9 +143,9 @@ class admin_layout_backup extends ecjia_admin {
             $this->db_template->where('theme', $this->theme->getThemeCode())->where('remarks', $remarks)->delete();
 		}
 		
-		$links = array(array('text' => __('备份模板设置'), 'href' => RC_Uri::url('theme/admin_layout_backup/restore')));
+		$links = array(array('text' => __('备份模板设置', 'theme'), 'href' => RC_Uri::url('theme/admin_layout_backup/restore')));
 		
-		return $this->showmessage(__('备份删除成功'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_SUCCESS, array('links' => $links));
+		return $this->showmessage(__('备份删除成功', 'theme'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_SUCCESS, array('links' => $links));
     }
 
     
@@ -155,8 +155,8 @@ class admin_layout_backup extends ecjia_admin {
     public function restore() {
         $this->admin_priv('backup_setting');
         
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('还原')));
-        $this->assign('ur_here',      __('模板布局还原'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('还原', 'theme')));
+        $this->assign('ur_here',      __('模板布局还原', 'theme'));
         
         
         $rows = $this->db_template->getBackupRemarks($this->theme->getThemeCode());
@@ -181,19 +181,19 @@ class admin_layout_backup extends ecjia_admin {
 		if ($remarks) {
 		    $result = $this->db_template->restoreTemplateFiles($this->theme->getThemeCode(), $remarks);
 
-		    $links = array(array('text'=>__('备份布局设置'), 'href' => RC_Uri::url('theme/admin_layout_backup/restore')));
+		    $links = array(array('text'=>__('备份布局设置', 'theme'), 'href' => RC_Uri::url('theme/admin_layout_backup/restore')));
 		    
 			if (is_ecjia_error($result)) {
 			    return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $links));
 			} else {
-			    $links = array(array('text'=>__('还原布局设置'), 'href' => RC_Uri::url('theme/admin_layout_backup/restore')));
+			    $links = array(array('text'=>__('还原布局设置', 'theme'), 'href' => RC_Uri::url('theme/admin_layout_backup/restore')));
 			     
-			    return $this->showmessage(__('恢复备份成功'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_SUCCESS, array('links' => $links));
+			    return $this->showmessage(__('恢复备份成功', 'theme'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_SUCCESS, array('links' => $links));
 			}
 			
 		}
 		
-		return $this->showmessage(__('备份数据不存在或参数有误'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $links));
+		return $this->showmessage(__('备份数据不存在或参数有误', 'theme'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $links));
 		
 	}
 

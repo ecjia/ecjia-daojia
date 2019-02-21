@@ -12,13 +12,13 @@
 <!-- {block name="main_content"} -->
 <!-- {if !$libraries} -->
 <div class="staticalert alert alert-error ui_showmessage">
-    {t}暂无库项目{/t}
+    {t domain="theme"}暂无库项目{/t}
 </div>
 <!-- {else} -->
 <!-- {if !$is_writable} -->
 <div class="alert alert-info">
     <a class="close" data-dismiss="alert">×</a>
-   {t}抱歉，您的`{$library_dir}`文件没有写入权限，请开启写入权限。或直接修改库项目文件并上传。{/t}
+   {t domain="theme" 1={$library_dir}}抱歉，您的%1文件没有写入权限，请开启写入权限。或直接修改库项目文件并上传。{/t}
 </div>
 <!-- {/if} -->
 <div>
@@ -44,14 +44,14 @@
                     <form class="template_form" action="{$form_action}" method="post">
                         <div class="chat_heading clearfix">
                             <div class="pull-right"><i class="ecjiaf-csp{if $full} fontello-icon-resize-small{else} fontello-icon-resize-full{/if} enlarge"></i></div>
-                            <span class="title">{if $library_name}{$library_name}{else}{t}未选择库项目{/t}{/if}</span>
+                            <span class="title">{if $library_name}{$library_name}{else}{t domain="theme"}未选择库项目{/t}{/if}</span>
                         </div>
 
                         <div class="row-fluid">
                             <pre class="span12" id="editor"></pre>
                         </div>
                         <div class="submit">
-                            <button class="btn btn-gebo ecjiaf-csp fontello-icon-floppy"{if $libraries} type="submit"{/if}{if !$is_writable} disabled="disabled"{/if}>{t}保存{/t}</button>
+                            <button class="btn btn-gebo ecjiaf-csp fontello-icon-floppy"{if $libraries} type="submit"{/if}{if !$is_writable} disabled="disabled"{/if}>{t domain="theme"}保存{/t}</button>
                             <input type="hidden" name="lib" value="{$lib}">
                             <textarea class="hide" name="html" id="libContent"></textarea>
                         </div>
@@ -59,11 +59,11 @@
                 </div>
                 <div class="span3 chat_sidebar{if $full} hide{/if}">
                     <div class="chat_heading clearfix">
-                        {t}库项目{/t}
+                        {t domain="theme"}库项目{/t}
                     </div>
                     <div class="ms-selectable">
                         <div class="template_list" id="ms-custom-navigation">
-                            <input class="span12" id="ms-search" type="text" placeholder="{t}筛选搜索到的商品信息{/t}" autocomplete="off">
+                            <input class="span12" id="ms-search" type="text" placeholder='{t domain="theme"}筛选搜索到的商品信息{/t}' autocomplete="off">
                             <ul class="unstyled">
                                 <!-- {foreach from=$libraries item=val key=key} -->
                                 <li class="ms-elem-selectable"><a class="data-pjax{if $val.choose} choose{/if}" href="{url path='theme/admin_library/init' args="lib={$val.File}&full=0"}">{$val.File} <br /> {$val.Name}</a></li>

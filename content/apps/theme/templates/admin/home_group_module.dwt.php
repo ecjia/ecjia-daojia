@@ -25,7 +25,7 @@
     <div class="span3">
 
         <div class="setting-group m_b20">
-            <span class="setting-group-title"><i class="fontello-icon-cog"></i>{t}可用产品{/t}</span>
+            <span class="setting-group-title"><i class="fontello-icon-cog"></i>{t domain="theme"}可用产品{/t}</span>
             <ul class="nav nav-list m_t10">
                 <!-- {foreach from=$platform_groups item=platform} -->
                 <li>
@@ -58,8 +58,8 @@
 
 		<section class="demo clearfix">
 			<div id="dragslot">
-				<div class="slot-title avaliable-title">可用模块</div>
-				<div class="slot-title ">已启用模块</div>
+				<div class="slot-title avaliable-title">{t domain="theme"}可用模块{/t}</div>
+				<div class="slot-title ">{t domain="theme"}已启用模块{/t}</div>
 				
 				<div class="slot avaliabled">
 					<ul class="slot-list">
@@ -110,7 +110,7 @@
 					</ul>
 				</div>
 			</div>
-			<a class="btn btn-info save-sort" data-sorturl='{url path="theme/admin_home_module/save_sort" args="platform={$current_platform}&client={$current_client}"}'>保存</a>
+			<a class="btn btn-info save-sort" data-sorturl='{url path="theme/admin_home_module/save_sort" args="platform={$current_platform}&client={$current_client}"}'>{t domain="theme"}保存{/t}</a>
 		</section>
 	</div>
 </div>

@@ -53,16 +53,16 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class theme_admin_purview_api extends Component_Event_Api {
     public function call(&$options) {
         $purviews = array(
-            array('action_name' => '主题选择', 'action_code' => 'template_select', 'relevance' => ''),
-        	array('action_name' => '外观管理', 'action_code' => 'template_setup', 'relevance' => ''),
-        	array('action_name' => '库项目管理', 'action_code' => 'library_manage', 'relevance' => ''),
-        	array('action_name' => '布局设置备份', 'action_code' => 'backup_setting', 'relevance' => ''),
-        	array('action_name' => '菜单', 'action_code' => 'navigator', 'relevance' => ''),
+            array('action_name' => __('主题选择', 'theme'), 'action_code' => 'template_select', 'relevance' => ''),
+        	array('action_name' => __('外观管理', 'theme'), 'action_code' => 'template_setup', 'relevance' => ''),
+        	array('action_name' => __('库项目管理', 'theme'), 'action_code' => 'library_manage', 'relevance' => ''),
+        	array('action_name' => __('布局设置备份', 'theme'), 'action_code' => 'backup_setting', 'relevance' => ''),
+        	array('action_name' => __('菜单', 'theme'), 'action_code' => 'navigator', 'relevance' => ''),
         	
-        	array('action_name' => '首页模块管理', 'action_code' => 'home_group_manage', 'relevance' => ''),
+        	array('action_name' => __('首页模块管理','theme'), 'action_code' => 'home_group_manage', 'relevance' => ''),
 
-            array('action_name' => '主题选项管理', 'action_code' => 'theme_option_manage', 'relevance' => ''),
-            array('action_name' => '主题选项更新', 'action_code' => 'theme_option_update', 'relevance' => ''),
+            array('action_name' => __('主题选项管理', 'theme'), 'action_code' => 'theme_option_manage', 'relevance' => ''),
+            array('action_name' => __('主题选项更新', 'theme'), 'action_code' => 'theme_option_update', 'relevance' => ''),
 
         );
         return $purviews;

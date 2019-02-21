@@ -69,9 +69,9 @@ class navigator extends ecjia_admin {
 		RC_Script::enqueue_script('navigator', RC_App::apps_url('statics/js/navigator.js', __FILE__));
 		
 		$admin_nav_jslang = array(
-				'confirm_delete_menu'	=> __('确定要移除这个菜单项吗？'),
-				'ok'					=> __('确定'),
-				'cancel'				=> __('取消')
+				'confirm_delete_menu'	=> __('确定要移除这个菜单项吗？', 'theme'),
+				'ok'					=> __('确定', 'theme'),
+				'cancel'				=> __('取消', 'theme')
 		);
 		RC_Script::localize_script('navigator', 'admin_nav_lang', $admin_nav_jslang );
 		
@@ -88,8 +88,8 @@ class navigator extends ecjia_admin {
 		$showstate = !empty($_GET['showstate'])?strip_tags(htmlspecialchars($_GET['showstate'])):'';
 
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('菜单管理')));
-		$this->assign('ur_here', __('菜单管理'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('菜单管理', 'theme')));
+		$this->assign('ur_here', __('菜单管理', 'theme'));
 
 
 		$this->assign('full_page',  1);
@@ -117,7 +117,7 @@ class navigator extends ecjia_admin {
 
 		//如果菜单不存在，报错
 		if (empty($nav_name)) {
-		    die(__('没有这个菜单'));
+		    die(__('没有这个菜单', 'theme'));
 		}
 
 		$navdb = $this->get_nav();
@@ -154,8 +154,8 @@ class navigator extends ecjia_admin {
 		// $categorynav = $this->get_categorynav();
 		$this->assign('pagenav',      $pagenav);
 		// $this->assign('categorynav',  $categorynav);
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('菜单管理')));
-		$this->assign('ur_here', __('菜单管理'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('菜单管理', 'theme')));
+		$this->assign('ur_here', __('菜单管理', 'theme'));
 
 		$this->assign('nav_list',     unserialize(ecjia::config('navigator_data')));
 		$this->assign('form_action',     RC_Uri::url('theme/navigator/init'));
@@ -170,11 +170,11 @@ class navigator extends ecjia_admin {
 		$name = strip_tags(htmlspecialchars($_GET['nav_name']));
 		$list = unserialize(ecjia::config('navigator_data'));
 
-		if (empty($name))die(__('菜单名不能为空'));
+		if (empty($name))die(__('菜单名不能为空', 'theme'));
 
 		//判断是否重复
 		foreach ($list as $v) {
-			if ($name == $v['name'])die(__('重复了'));
+			if ($name == $v['name'])die(__('重复了', 'theme'));
 		}
 
 		//插入新菜单
@@ -185,7 +185,7 @@ class navigator extends ecjia_admin {
 			$_GET['type'] = $tmp;
 			$this->init();
 		} else {
-			echo __('失败');
+			echo __('失败', 'theme');
 		}
 
 	}
@@ -220,13 +220,13 @@ class navigator extends ecjia_admin {
 		$list = unserialize(ecjia::config('navigator_data'));
 
 		if (empty($type)) {
-		    die(__('菜单名不能为空'));
+		    die(__('菜单名不能为空', 'theme'));
 		}
 
 		//判断是否重复
 		foreach ($list as $k => $v) {
 			if ($type == $v['type'])$list[$k]['name'] = $navlist_name;
-			if ($type == $v['name'] && $type != $v['type'])die(__('重复了'));
+			if ($type == $v['name'] && $type != $v['type'])die(__('重复了', 'theme'));
 		}
 
 		//插入新菜单
@@ -345,17 +345,17 @@ class navigator extends ecjia_admin {
      */
     private function get_pagenav() {
         return $sysmain = array(
-            array(__('查看购物车'), 'flow.php'),
-            array(__('选购中心'), 'pick_out.php'),
-            array(__('团购商品'), 'group_buy.php'),
-            array(__('夺宝奇兵'), 'snatch.php'),
-            array(__('标签云'), 'tag_cloud.php'),
-            array(__('用户中心'), 'user.php'),
-            array(__('批发'), 'wholesale.php'),
-            array(__('优惠活动'), 'activity.php'),
-            array(__('配送方式'), 'myship.php'),
-            array(__('留言板'), 'message.php'),
-            array(__('报价单'), 'quotation.php'),
+            array(__('查看购物车', 'theme'), 'flow.php'),
+            array(__('选购中心', 'theme'), 'pick_out.php'),
+            array(__('团购商品', 'theme'), 'group_buy.php'),
+            array(__('夺宝奇兵', 'theme'), 'snatch.php'),
+            array(__('标签云', 'theme'), 'tag_cloud.php'),
+            array(__('用户中心', 'theme'), 'user.php'),
+            array(__('批发', 'theme'), 'wholesale.php'),
+            array(__('优惠活动', 'theme'), 'activity.php'),
+            array(__('配送方式', 'theme'), 'myship.php'),
+            array(__('留言板', 'theme'), 'message.php'),
+            array(__('报价单', 'theme'), 'quotation.php'),
         );
     }
 

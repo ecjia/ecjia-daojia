@@ -76,8 +76,8 @@ class admin_home_module extends ecjia_admin {
 	public function init() {
 		$this->admin_priv('home_group_manage');
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('首页模块管理')));
-		$this->assign('ur_here', __('首页模块管理'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('首页模块管理', 'theme')));
+		$this->assign('ur_here', __('首页模块管理', 'theme'));
 
 		$platform = $this->request->input('platform', 'default');
 		$client = $this->request->input('client', 'all');
@@ -116,7 +116,7 @@ class admin_home_module extends ecjia_admin {
             ]);
         }
 
-        ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice(__('<strong>温馨提示：</strong>首页模块化功能目前仅支持APP端和H5端的平台模板模式。'), 'alert-info'));
+        ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice(__('<strong>温馨提示：</strong>首页模块化功能目前仅支持APP端和H5端的平台模板模式。', 'theme'), 'alert-info'));
 
 		if (empty($useing_group)) {
 		    if ($platform != 'default') {
@@ -156,7 +156,7 @@ class admin_home_module extends ecjia_admin {
 		    return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 		
-		return $this->showmessage('保存排序成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,
+		return $this->showmessage(__('保存排序成功！', 'theme'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,
             array('pjaxurl' => RC_Uri::url('theme/admin_home_module/init', ['platform' => $platform, 'client' => $client])));
 	}
 	

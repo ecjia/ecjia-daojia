@@ -29,7 +29,7 @@ class admin_option extends ecjia_admin
     {
         $this->admin_priv('theme_option_manage');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('主题选项')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('主题选项', 'theme')));
 
         if (RC_Hook::has_action('admin_theme_option_nav')) {
 
@@ -100,7 +100,7 @@ class admin_option extends ecjia_admin
 
         RC_Hook::do_action('admin_theme_option_save');
 
-        $this->showmessage('设置保存成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('theme/admin_option/init', array('section' => $section))));
+        $this->showmessage(__('设置保存成功', 'theme'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('theme/admin_option/init', array('section' => $section))));
     }
 
 }

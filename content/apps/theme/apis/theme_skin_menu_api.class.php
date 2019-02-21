@@ -54,13 +54,13 @@ class theme_skin_menu_api extends Component_Event_Api {
 	public function call(&$options) {
 
 		$menus = array(
-			ecjia_admin::make_admin_menu('template_switch', __('主题选择'), RC_Uri::url('theme/admin_template/init'), 0)->add_purview('template_select'),
-			ecjia_admin::make_admin_menu('template_layout', __('布局管理'), RC_Uri::url('theme/admin_layout/init'), 1)->add_purview('template_setup'),
-			ecjia_admin::make_admin_menu('template_library', __('库项目管理'), RC_Uri::url('theme/admin_library/init'), 3)->add_purview('library_manage'),
-			ecjia_admin::make_admin_menu('template_backup_setting', __('布局设置备份'), RC_Uri::url('theme/admin_layout_backup/init'), 4)->add_purview('backup_setting'),
-            ecjia_admin::make_admin_menu('template_option', __('主题选项'), RC_Uri::url('theme/admin_option/init'), 9)->add_purview('template_select'),
+			ecjia_admin::make_admin_menu('template_switch', __('主题选择', 'theme'), RC_Uri::url('theme/admin_template/init'), 0)->add_purview('template_select'),
+			ecjia_admin::make_admin_menu('template_layout', __('布局管理', 'theme'), RC_Uri::url('theme/admin_layout/init'), 1)->add_purview('template_setup'),
+			ecjia_admin::make_admin_menu('template_library', __('库项目管理', 'theme'), RC_Uri::url('theme/admin_library/init'), 3)->add_purview('library_manage'),
+			ecjia_admin::make_admin_menu('template_backup_setting', __('布局设置备份', 'theme'), RC_Uri::url('theme/admin_layout_backup/init'), 4)->add_purview('backup_setting'),
+            ecjia_admin::make_admin_menu('template_option', __('主题选项', 'theme'), RC_Uri::url('theme/admin_option/init'), 9)->add_purview('template_select'),
 			ecjia_admin::make_admin_menu('divider', '', '', 10)->add_purview('navigator'),
-			ecjia_admin::make_admin_menu('navigator', __('菜单'), RC_Uri::url('theme/navigator/init'), 11)->add_purview('navigator'),
+			ecjia_admin::make_admin_menu('navigator', __('菜单', 'theme'), RC_Uri::url('theme/navigator/init'), 11)->add_purview('navigator'),
 		);
 		
 		return $menus;
