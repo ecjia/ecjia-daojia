@@ -44,32 +44,37 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 验证码显示
+ * js语言包设置
  */
 
-class index extends ecjia_front {
-	public function __construct() {
-		parent::__construct();
-	}
+defined('IN_ECJIA') or exit('No permission resources.');
 
-	public function init () {
-		$code = isset($_GET['code']) ? trim($_GET['code']) : '';
+return array(
+    //captcha
+    'captcha_page' =>array(
+        'setupConfirm'		        => __('启用新的验证码样式将覆盖原来的样式。<br />您确定要启用选定的样式吗？', 'captcha'),
+        'width_number'			    => __('图片宽度请输入数字!', 'captcha'),
+        'proper_width'				=> __('图片宽度要在40到145之间!', 'captcha'),
+        'height_number'             => __('图片高度请输入数字!', 'captcha'),
+        'proper_height'             =>  __('图片高度要在15到50之间!', 'captcha'),
 
-		$captcha = RC_Loader::load_app_class('captcha_method');
-		$captcha->captcha_style_image($code);
-	}
+    ),
 
-	public function check_validate() {
-		if (isset($_POST['captcha']) && $_SESSION['captcha_word'] != strtolower($_POST['captcha'])) {
-			return $this->showmessage(__('验证码错误！', 'captcha'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		} else {
-			return $this->showmessage(__('验证码正确！', 'captcha'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
-		}
-	}
+    'admin_captcha_page' =>array(
+        'captcha_width_required'	=> __('请输入验证码图片宽度！', 'captcha'),
+        'captcha_width_min'			=> __('验证码图片宽度不能小于40！', 'captcha'),
+        'captcha_width_max'			=> __('验证码图片宽度不能大于145！', 'captcha'),
+        'captcha_height_required'	=> __('请输入验证码图片高度！', 'captcha'),
+        'captcha_height_min'		=> __('验证码图片高度不能小于15！', 'captcha'),
+        'captcha_height_max'		=> __('验证码图片高度不能大于50！', 'captcha'),
+        'setupConfirm'				=> __('您确定要更换验证码样式吗？', 'captcha'),
+        'is_checked'				=> __('您已选中此验证码样式！', 'captcha'),
+        'ok'						=> __('确定', 'captcha'),
+        'cancel'					=> __('取消', 'captcha')
 
-}
+    ),
 
-// end
+);
+//end

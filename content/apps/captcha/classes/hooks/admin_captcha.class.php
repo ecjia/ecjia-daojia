@@ -58,8 +58,8 @@ class captcha_admin_plugin {
 			if ($captcha->check_activation_captcha()) {
 			    $captcha_url =  $captcha->current_captcha_url(captcha_method::CAPTCHA_ADMIN);
 			    	
-			    $click_for_another = RC_Lang::get('captcha::captcha_manage.click_for_another');
-			    $label_captcha = RC_Lang::get('captcha::captcha_manage.label_captcha');
+			    $click_for_another = __('看不清？点击更换另一个验证码。', 'captcha');
+			    $label_captcha = __('验证码：', 'captcha');
 			    	
 
 			    $validate_length = 4;
@@ -144,7 +144,7 @@ EOF;
 			RC_Loader::load_app_class('captcha_factory', 'captcha', false);
 			$validator = new captcha_factory(ecjia::config('captcha_style'));
 			if (isset($args['captcha']) && !$validator->verify_word($args['captcha'])) {
-				return RC_Lang::get('captcha::captcha_manage.captcha_error');
+				return __('您输入的验证码不正确。', 'captcha');
 			}
 		}
 	}

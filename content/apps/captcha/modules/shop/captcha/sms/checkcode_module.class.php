@@ -62,7 +62,7 @@ class shop_captcha_sms_checkcode_module extends api_front implements api_interfa
 		$smscode = $this->requestData('smscode', '');
 		
 		if (empty($type) || empty($smscode)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+			return new ecjia_error( 'invalid_parameter', __('参数无效', 'captcha'));
 		}
 		
 		//判断校验码是否过期

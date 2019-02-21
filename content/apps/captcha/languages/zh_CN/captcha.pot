@@ -1,0 +1,243 @@
+# Copyright (C) 2019 Ecjia App captcha
+# This file is distributed under the same license as the Ecjia App captcha package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App captcha 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:19:25+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin.php:80 admin.php:81 apis/captcha_setting_menu_api.class.php:56
+msgid "验证码设置"
+msgstr ""
+
+#: admin.php:84 configs/jslang.php:66
+msgid "请输入验证码图片宽度！"
+msgstr ""
+
+#: admin.php:85 configs/jslang.php:67
+msgid "验证码图片宽度不能小于40！"
+msgstr ""
+
+#: admin.php:86 configs/jslang.php:68
+msgid "验证码图片宽度不能大于145！"
+msgstr ""
+
+#: admin.php:87 configs/jslang.php:69
+msgid "请输入验证码图片高度！"
+msgstr ""
+
+#: admin.php:88 configs/jslang.php:70
+msgid "验证码图片高度不能小于15！"
+msgstr ""
+
+#: admin.php:89 configs/jslang.php:71
+msgid "验证码图片高度不能大于50！"
+msgstr ""
+
+#: admin.php:90 configs/jslang.php:72
+msgid "您确定要更换验证码样式吗？"
+msgstr ""
+
+#: admin.php:91 configs/jslang.php:73
+msgid "您已选中此验证码样式！"
+msgstr ""
+
+#: admin.php:92 configs/jslang.php:74
+msgid "确定"
+msgstr ""
+
+#: admin.php:93 configs/jslang.php:75
+msgid "取消"
+msgstr ""
+
+#: admin.php:143
+msgid "开启验证码需要服务GD库支持，而您的服务器不支持GD。"
+msgstr ""
+
+#: admin.php:163 admin.php:180 classes/hooks/merchant_captcha.class.php:62
+#: configs/package.php:55
+msgid "验证码"
+msgstr ""
+
+#: admin.php:164
+msgid "修改验证码参数"
+msgstr ""
+
+#: admin.php:166
+msgid "设置保存成功"
+msgstr ""
+
+#: admin.php:183
+msgid "启用验证码样式成功。"
+msgstr ""
+
+#: admin.php:185
+msgid "启用验证码样式失败。"
+msgstr ""
+
+#: admin_captcha.php:67 index.php:67 merchant_captcha.php:67
+msgid "验证码错误！"
+msgstr ""
+
+#: admin_captcha.php:69 index.php:69 merchant_captcha.php:69
+msgid "验证码正确！"
+msgstr ""
+
+#: classes/hooks/admin_captcha.class.php:61
+#: classes/hooks/merchant_captcha.class.php:61
+#: classes/hooks/merchant_captcha.class.php:160
+msgid "看不清？点击更换另一个验证码。"
+msgstr ""
+
+#: classes/hooks/admin_captcha.class.php:62
+msgid "验证码："
+msgstr ""
+
+#: classes/hooks/admin_captcha.class.php:147
+#: classes/hooks/merchant_captcha.class.php:141
+msgid "您输入的验证码不正确。"
+msgstr ""
+
+#: classes/hooks/merchant_captcha.class.php:161
+msgid "请输入图形验证码"
+msgstr ""
+
+#: configs/jslang.php:57
+msgid "启用新的验证码样式将覆盖原来的样式。<br />您确定要启用选定的样式吗？"
+msgstr ""
+
+#: configs/jslang.php:58
+msgid "图片宽度请输入数字!"
+msgstr ""
+
+#: configs/jslang.php:59
+msgid "图片宽度要在40到145之间!"
+msgstr ""
+
+#: configs/jslang.php:60
+msgid "图片高度请输入数字!"
+msgstr ""
+
+#: configs/jslang.php:61
+msgid "图片高度要在15到50之间!"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"验证码插件核心功能为“防止恶意破解密码、刷票、论坛灌水、刷页”等，为用户账户安"
+"全带来一定防护作用。在插件使用过程中，您可以添加多个不同验证码且可以实时点击"
+"预览效果；并选用您需要使用的验证码；您可以自定义验证码的宽度、高度及验证码使"
+"用范围、机制等。"
+msgstr ""
+
+#: modules/admin/shop/captcha/mail_module.class.php:57
+#: modules/admin/shop/captcha/sms/checkcode_module.class.php:61
+#: modules/admin/shop/captcha/sms_module.class.php:57
+#: modules/shop/captcha/mail_module.class.php:57
+#: modules/shop/captcha/sms/checkcode_module.class.php:65
+#: modules/shop/captcha/sms_module.class.php:57
+msgid "参数无效"
+msgstr ""
+
+#: modules/admin/shop/captcha/mail_module.class.php:86
+msgid "请检查短信模板send_validate"
+msgstr ""
+
+#: modules/admin/shop/captcha/mail_module.class.php:101
+#: modules/shop/captcha/mail_module.class.php:106
+msgid "验证码发送失败！"
+msgstr ""
+
+#: modules/shop/captcha/mail_module.class.php:86
+msgid "请检查邮件模板send_validate"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:18
+msgid "启用验证码"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:19
+msgid ""
+"图片验证码可以避免恶意批量评论或提交信息，推荐打开验证码功能。注意: 启用验证"
+"码会使得部分操作变得繁琐，建议仅在必需时打开"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:21
+msgid "新用户注册"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:22
+msgid "用户登录"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:23
+msgid "发表评论"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:24
+msgid "后台管理员登录"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:25
+msgid "留言板留言"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:30
+msgid "登录失败时显示验证码"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:31
+msgid ""
+"选择“是”将在用户登录失败 3 次后才显示验证码，选择“否”将始终在登录时显示验证"
+"码。注意: 只有在启用了用户登录验证码时本设置才有效"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:33
+msgid "是"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:34
+msgid "否"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:39
+msgid "验证码图片宽度"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:40
+msgid "验证码图片的宽度，范围在 40～145 之间"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:47
+msgid "验证码图片高度"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:48
+msgid "验证码图片的高度，范围在 15～50 之间"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:56
+msgid "保存设置"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:60
+msgid "可用验证码样式"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:66
+msgid "当前样式"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:77
+msgid "启用此验证码"
+msgstr ""
+
+#: content/apps/captcha/templates/admin/captcha_list.dwt.php:84
+msgid "添加验证码"
+msgstr ""

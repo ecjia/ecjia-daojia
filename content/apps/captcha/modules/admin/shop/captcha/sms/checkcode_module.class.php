@@ -58,7 +58,7 @@ class admin_shop_captcha_sms_checkcode_module extends api_admin implements api_i
 		
 		//判断值是否为空，且type是否是在此类型中
 		if (empty($mobile) || empty($captcha_code)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+			return new ecjia_error( 'invalid_parameter', __('参数无效', 'captcha'));
 		}
 		
 		//手机号码格式判断

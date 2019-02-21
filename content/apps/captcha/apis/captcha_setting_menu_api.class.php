@@ -53,7 +53,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class captcha_setting_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {	
-		$menus = ecjia_admin::make_admin_menu('05_captcha_setting', RC_Lang::get('captcha::captcha_manage.captcha_manage'), RC_Uri::url('captcha/admin/init'), 5)->add_purview('shop_config');
+		$menus = ecjia_admin::make_admin_menu('05_captcha_setting', __('验证码设置', 'captcha'), RC_Uri::url('captcha/admin/init'), 5)->add_purview('shop_config');
 		return $menus;
 	}
 }

@@ -77,11 +77,23 @@ class admin extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-form');
 		RC_Script::enqueue_script('captcha', RC_App::apps_url('statics/js/captcha.js', __FILE__), array());
 		
-		ecjia_screen::$current_screen->add_nav_here(new admin_nav_here(RC_Lang::get('captcha::captcha_manage.captcha_setting')));
-		$this->assign('ur_here', RC_Lang::get('captcha::captcha_manage.captcha_setting'));
+		ecjia_screen::$current_screen->add_nav_here(new admin_nav_here(__('验证码设置', 'captcha')));
+		$this->assign('ur_here', __('验证码设置', 'captcha'));
 
-		$admin_captcha_lang = RC_Lang::get('captcha::captcha_manage.admin_captcha_lang');
-		RC_Script::localize_script( 'captcha', 'admin_captcha_lang', $admin_captcha_lang );
+		$admin_captcha_lang = array(
+            'captcha_width_required'	=> __('请输入验证码图片宽度！', 'captcha'),
+            'captcha_width_min'			=> __('验证码图片宽度不能小于40！', 'captcha'),
+            'captcha_width_max'			=> __('验证码图片宽度不能大于145！', 'captcha'),
+            'captcha_height_required'	=> __('请输入验证码图片高度！', 'captcha'),
+            'captcha_height_min'		=> __('验证码图片高度不能小于15！', 'captcha'),
+            'captcha_height_max'		=> __('验证码图片高度不能大于50！', 'captcha'),
+            'setupConfirm'				=> __('您确定要更换验证码样式吗？', 'captcha'),
+            'is_checked'				=> __('您已选中此验证码样式！', 'captcha'),
+            'ok'						=> __('确定', 'captcha'),
+            'cancel'					=> __('取消', 'captcha')
+        );
+
+		RC_Script::localize_script( 'captcha', 'admin_captcha_lang', config('app-captcha::jslang.admin_captcha_page') );
 
 		$captcha = intval(ecjia::config('captcha'));
 		$captcha_check = array();
@@ -128,7 +140,7 @@ class admin extends ecjia_admin {
 	 */
 	public function save_config() {
 		if (RC_ENV::gd_version() == 0) {
-			return $this->showmessage(RC_Lang::get('captcha::captcha_manage.captcha_note'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('开启验证码需要服务GD库支持，而您的服务器不支持GD。', 'captcha'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		$captcha = 0;
@@ -148,10 +160,10 @@ class admin extends ecjia_admin {
 		ecjia_config::instance()->write_config('captcha_height', $captcha_height);
 
         /* 记录日志 */
-        ecjia_admin_log::instance()->add_object('captcha', RC_Lang::get('captcha::captcha_manage.captcha'));
-        ecjia_admin::admin_log(RC_Lang::get('captcha::captcha_manage.modify_code_parameter'), 'edit', 'captcha');
+        ecjia_admin_log::instance()->add_object('captcha', __('验证码', 'captcha'));
+        ecjia_admin::admin_log(__('修改验证码参数', 'captcha'), 'edit', 'captcha');
 
-		return $this->showmessage(RC_Lang::get('captcha::captcha_manage.save_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('设置保存成功', 'captcha'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 
 	/**
@@ -165,12 +177,12 @@ class admin extends ecjia_admin {
 			$result = ecjia_config::instance()->write_config('captcha_style', $captcha_code);
 			if ($result) {
                 /* 记录日志 */
-                ecjia_admin_log::instance()->add_object('captcha', RC_Lang::get('captcha::captcha_manage.captcha'));
+                ecjia_admin_log::instance()->add_object('captcha', __('验证码', 'captcha'));
                 ecjia_admin::admin_log($captcha_code, 'use', 'captcha');
 
-				return $this->showmessage(RC_Lang::get('captcha::captcha_manage.install_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('captcha/admin/init')));
+				return $this->showmessage(__('启用验证码样式成功。', 'captcha'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('captcha/admin/init')));
 			} else {
-				return $this->showmessage(RC_Lang::get('captcha::captcha_manage.install_failed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('启用验证码样式失败。', 'captcha'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 	}
