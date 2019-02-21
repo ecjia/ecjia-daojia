@@ -64,7 +64,7 @@ class admin_shop_config extends ecjia_admin {
 		RC_Style::enqueue_style('uniform-aristo');
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Script::enqueue_script('smoke');
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('微商城设置'), RC_Uri::url('touch/admin_shop_config/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('微商城设置', 'touch'), RC_Uri::url('touch/admin_shop_config/init')));
 	}
 
 
@@ -80,7 +80,7 @@ class admin_shop_config extends ecjia_admin {
 		RC_Script::enqueue_script('ecjia-shop_config', RC_Uri::admin_url() . '/statics/js/ecjia/ecjia-shop_config.js', array('ecjia-admin'), false, true);
 
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('微商城设置')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('微商城设置', 'touch')));
 
 		/* 可选语言 */
 		$dir = opendir(SITE_SYSTEM_PATH. 'languages');
@@ -95,11 +95,11 @@ class admin_shop_config extends ecjia_admin {
 
 		if (strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'iis') !== false) {
 			$shop_config_jslang = array(
-				'rewrite_confirm' => __("URL Rewrite 功能要求您的 Web Server 必须安装IIS，并且起用了 ISAPI Rewrite 模块。如果您使用的是ISAPI Rewrite商业版，请您确认是否已经将httpd.txt文件重命名为httpd.ini。如果您使用的是ISAPI Rewrite免费版，请您确认是否已经将httpd.txt文件内的内容复制到ISAPI Rewrite安装目录中httpd.ini里。"),
+				'rewrite_confirm' => __("URL Rewrite 功能要求您的 Web Server 必须安装IIS，并且起用了 ISAPI Rewrite 模块。如果您使用的是ISAPI Rewrite商业版，请您确认是否已经将httpd.txt文件重命名为httpd.ini。如果您使用的是ISAPI Rewrite免费版，请您确认是否已经将httpd.txt文件内的内容复制到ISAPI Rewrite安装目录中httpd.ini里。", 'touch'),
 			);
 		} else {
 			$shop_config_jslang = array(
-				'rewrite_confirm' => __("URL Rewrite 功能要求您的 Web Server 必须是 Apache，并且起用了 rewrite 模块。同时请您确认是否已经将htaccess.txt文件重命名为.htaccess。如果服务器上还有其他的重写规则请去掉注释,请将RewriteBase行的注释去掉,并将路径设置为服务器请求的绝对路径"),
+				'rewrite_confirm' => __("URL Rewrite 功能要求您的 Web Server 必须是 Apache，并且起用了 rewrite 模块。同时请您确认是否已经将htaccess.txt文件重命名为.htaccess。如果服务器上还有其他的重写规则请去掉注释,请将RewriteBase行的注释去掉,并将路径设置为服务器请求的绝对路径", 'touch'),
 			);
 		}
 		RC_Script::localize_script( 'ecjia-shop_config', 'shop_config_lang', $shop_config_jslang );
@@ -112,7 +112,7 @@ class admin_shop_config extends ecjia_admin {
 			}
 		}
 
-		$this->assign('ur_here',		__('微商城设置'));
+		$this->assign('ur_here',		__('微商城设置', 'touch'));
 		$this->assign('cfg',			ecjia::config());
 		$this->assign('group_list',		$this->get_settings(null, array('1', '2', '3', '4', '5', '6', '7', '8')));
 		$this->assign('form_action',	RC_Uri::url('touch/admin_shop_config/update'));
@@ -210,9 +210,9 @@ class admin_shop_config extends ecjia_admin {
 		$type = !empty($_POST['type']) ? $_POST['type'] : '';
 
 		if ($type == 'mail_setting') {
-			$message_info = __('邮件服务器设置成功。');
+			$message_info = __('邮件服务器设置成功。', 'touch');
 		} else {
-			$message_info = __('保存商店设置成功。');
+			$message_info = __('保存商店设置成功。', 'touch');
 		}
 
 		return $this->showmessage($message_info , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
@@ -233,7 +233,7 @@ class admin_shop_config extends ecjia_admin {
 		$this->update_configure($code, '');
 		ecjia_admin::admin_log('', 'edit', 'shop_config');
 
-		return $this->showmessage(__('保存商店设置成功。') , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('touch/admin_shop_config/init')));
+		return $this->showmessage(__('保存商店设置成功。', 'touch') , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('touch/admin_shop_config/init')));
 	}
 
 	/**

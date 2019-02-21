@@ -22,8 +22,8 @@
 						<!-- {/foreach} -->
 						<div class="control-group">
 							<div class="controls">
-								<button class="btn btn-gebo" type="submit">{t}确定{/t}</button>&nbsp;&nbsp;&nbsp;
-								<button class="btn" type="reset">{t}重置{/t}</button>
+								<button class="btn btn-gebo" type="submit">{t domain="touch"}确定{/t}</button>&nbsp;&nbsp;&nbsp;
+								<button class="btn" type="reset">{t domain="touch"}重置{/t}</button>
 							</div>
 						</div>
 					</fieldset>
