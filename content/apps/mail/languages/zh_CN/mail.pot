@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App mail package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App mail 1.27.1\n"
+"Project-Id-Version: Ecjia App mail 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-01-31 06:31:09+00:00\n"
+"POT-Creation-Date: 2019-02-21 03:56:10+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -337,6 +337,18 @@ msgstr ""
 
 #: configs/jslang.php:91
 msgid "请输入正确格式的发送邮件帐号！"
+msgstr ""
+
+#: configs/package.php:55
+msgid "邮件"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"邮件应用以“电子邮件为主要的网站推广手段”为核心功能打造开发，针对商城用户对商"
+"品订阅、关注来接收最新邮件动态，而商家则可以对促销，打折，红包、杂志等促销信"
+"息对全体、指定（等级）用户进行邮件群发推送，并且可以实时关注邮件发送队列的进"
+"度。"
 msgstr ""
 
 #: content/apps/mail/templates/admin/email_list.dwt.php:23
