@@ -427,6 +427,7 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 		RC_Style::enqueue_style('fontello');
 		
 		// ecjia css
+		RC_Style::enqueue_style('ecjia');
 		RC_Style::enqueue_style('ecjia-ui');
 		// ecjia function
 		RC_Style::enqueue_style('ecjia-function');
@@ -436,6 +437,7 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 
 		
 		// 加载脚本
+        RC_Script::enqueue_script('ecjia');
 		// jquery
 		RC_Script::enqueue_script('jquery-migrate');
 		// touch events for jquery ui

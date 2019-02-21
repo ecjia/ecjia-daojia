@@ -68,6 +68,19 @@ abstract class EcjiaController extends RoyalcmsController
      * @var view
      */
     protected $view;
+
+    protected $view_method = [
+        'display',
+        'fetch',
+        'fetch_string',
+        'is_cached',
+        'clear_cache',
+        'clear_all_cache',
+        'assign',
+        'assign_lang',
+        'clear_compiled_files',
+        'clear_cache_files'
+    ];
     
     /**
      * HTTP请求对象
@@ -120,7 +133,7 @@ abstract class EcjiaController extends RoyalcmsController
     
     public function __call($method, $parameters) 
     {
-        if (in_array($method, array('display', 'fetch', 'fetch_string', 'is_cached', 'clear_cache', 'clear_all_cache', 'assign', 'assign_lang', 'clear_compiled_files', 'clear_cache_files'))) {
+        if (in_array($method, $this->view_method)) {
             return call_user_func_array(array($this->view, $method), $parameters);
         }
         

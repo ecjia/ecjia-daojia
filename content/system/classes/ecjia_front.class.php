@@ -365,12 +365,13 @@ abstract class ecjia_front extends Ecjia\System\BaseController\EcjiaController i
 	}
 	
 
-	protected function load_hooks() {
-		RC_Hook::add_action( 'front_head',	'front_enqueue_scripts',	1 );
-		RC_Hook::add_action( 'front_head',	'front_print_styles',		8 );
-		RC_Hook::add_action( 'front_head',	'front_print_head_scripts',	9 );
-		RC_Hook::add_action( 'front_footer',	'front_print_footer_scripts', 20 );
-		RC_Hook::add_action( 'front_print_footer_scripts', '_front_footer_scripts');
+	protected function load_hooks()
+    {
+		RC_Hook::add_action( 'front_head',	array($this, 'front_enqueue_scripts'),	1 );
+		RC_Hook::add_action( 'front_head',	array($this, 'front_print_styles'),		8 );
+		RC_Hook::add_action( 'front_head',	array($this, 'front_print_head_scripts'),	9 );
+		RC_Hook::add_action( 'front_footer',	array($this, 'front_print_footer_scripts'), 20 );
+		RC_Hook::add_action( 'front_print_footer_scripts', array($this, '_front_footer_scripts'));
 		
 		$apps = ecjia_app::installed_app_floders();
 		if (is_array($apps)) {
@@ -379,6 +380,31 @@ abstract class ecjia_front extends Ecjia\System\BaseController\EcjiaController i
 			}
 		}
 	}
+
+	public function front_enqueue_scripts()
+    {
+
+    }
+
+    public function front_print_styles()
+    {
+
+    }
+
+    public function front_print_head_scripts()
+    {
+
+    }
+
+    public function front_print_footer_scripts()
+    {
+
+    }
+
+    public function _front_footer_scripts()
+    {
+
+    }
 	
 }
 

@@ -83,6 +83,11 @@ class MakeEcjiaAppPOT extends MakeEcjiaGenericPOT
 
     public function makeTemplate($dir)
     {
+        //如果没有模板目录，直接返回成功
+        if (! is_dir($dir . '/templates')) {
+            return true;
+        }
+
         $php_pot = $this->getPHPPotPath($dir, true);
         if (! file_exists($php_pot)) {
             return false;

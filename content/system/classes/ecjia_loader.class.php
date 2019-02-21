@@ -46,6 +46,22 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
+/**
+ * ecjia scripts and styles default loader.
+ *
+ * Several constants are used to manage the loading, concatenating and compression of scripts and CSS:
+ * define('SCRIPT_DEBUG', true); loads the development (non-minified) versions of all scripts and CSS, and disables compression and concatenation,
+ * define('CONCATENATE_SCRIPTS', false); disables compression and concatenation of scripts and CSS,
+ * define('COMPRESS_SCRIPTS', false); disables compression of scripts,
+ * define('COMPRESS_CSS', false); disables compression of CSS,
+ * define('ENFORCE_GZIP', true); forces gzip for compression (default is deflate).
+ *
+ * The globals $concatenate_scripts, $compress_scripts and $compress_css can be set by plugins
+ * to temporarily override the above settings. Also a compression test is run once and the result is saved
+ * as option 'can_compress_scripts' (0/1). The test will run again if that option is deleted.
+ *
+ * @package ecjia
+ */
 class ecjia_loader {
 	/**
 	 * Register all ECJia scripts.
@@ -65,11 +81,10 @@ class ecjia_loader {
 			define( 'SCRIPT_DEBUG', $develop_src );
 		}
 
-
 		$scripts->base_url = RC_Uri::system_static_url();
 		$scripts->content_url = RC_Uri::system_static_url();
 		$scripts->default_version = VERSION;
-		$scripts->default_dirs = array('/content/system/statics/');
+		$scripts->default_dirs = array('/');
 
 		$suffix = SCRIPT_DEBUG ? '' : '.min';
 		$dev_suffix = $develop_src ? '' : '.min';
@@ -81,25 +96,26 @@ class ecjia_loader {
 		$scripts->add( 'ecjia-utils', 			'/lib/ecjia-js/ecjia.utils.js', array('ecjia') );
 
 		// 添加jquery
-		$scripts->add( 'jquery', 				"/js/jquery$suffix.js" );
+		$scripts->add( 'jquery', 				"/js/jquery$suffix.js", array(), '2.1.0' );
 		$scripts->add( 'jquery-pjax', 			"/js/jquery-pjax.js", array('jquery') );
-		$scripts->add( 'jquery-peity', 			"/js/jquery-peity$suffix.js", array('jquery'), false, 1  );
-		$scripts->add( 'jquery-mockjax', 		"/js/jquery-mockjax$suffix.js", array('jquery'), false, 1 );
+		$scripts->add( 'jquery-peity', 			"/js/jquery-peity$suffix.js", array('jquery'), '0.6.0', 1  );
+		$scripts->add( 'jquery-mockjax', 		"/js/jquery-mockjax$suffix.js", array('jquery'), '1.5.1', 1 );
 		$scripts->add( 'jquery-wookmark', 		"/js/jquery-wookmark$suffix.js", array('jquery'), false, 1 );
-		$scripts->add( 'jquery-migrate', 		"/js/jquery-migrate$suffix.js", array('jquery'), false, 1 );
+		$scripts->add( 'jquery-migrate', 		"/js/jquery-migrate$suffix.js", array('jquery'), '1.0.0', 1 );
 		$scripts->add( 'jquery-cookie', 		"/js/jquery-cookie$suffix.js", array('jquery'), true, 1 );
-		$scripts->add( 'jquery-actual', 		"/js/jquery-actual$suffix.js", array('jquery'), false, 1 );
+		$scripts->add( 'jquery-actual', 		"/js/jquery-actual$suffix.js", array('jquery'), '1.0.6', 1 );
 		$scripts->add( 'jquery-debouncedresize',"/js/jquery-debouncedresize$suffix.js", array('jquery'), false, 1 );
-		$scripts->add( 'jquery-easing', 		"/js/jquery-easing$suffix.js", array('jquery'), false, 1 );
+		$scripts->add( 'jquery-easing', 		"/js/jquery-easing$suffix.js", array('jquery'), '1.3', 1 );
 		$scripts->add( 'jquery-mediaTable', 	"/js/jquery-mediaTable$suffix.js", array('jquery'), false, 1 );
-		$scripts->add( 'jquery-imagesloaded', 	"/js/jquery-imagesloaded$suffix.js", array('jquery'), false, 1 );
+		$scripts->add( 'jquery-imagesloaded', 	"/js/jquery-imagesloaded$suffix.js", array('jquery'), '2.0.1', 1 );
 		$scripts->add( 'jquery-gmap3', 			"/js/jquery-gmap3$suffix.js", array('jquery'), false, 1 );
-		$scripts->add( 'jquery-autosize', 		"/js/jquery-autosize$suffix.js", array('jquery'), false, 1 );
-		$scripts->add( 'jquery-counter', 		"/js/jquery-counter$suffix.js", array('jquery'), false, 1 );
+		$scripts->add( 'jquery-autosize', 		"/js/jquery-autosize$suffix.js", array('jquery'), '1.7', 1 );
+		$scripts->add( 'jquery-counter', 		"/js/jquery-counter$suffix.js", array('jquery'), '2.1', 1 );
 		$scripts->add( 'jquery-inputmask', 		"/js/jquery-inputmask$suffix.js", array('jquery'), false, 1 );
 		$scripts->add( 'jquery-progressbar',	"/js/jquery-anim_progressbar$suffix.js", array('jquery'), false, 1 );
 
 		$scripts->add( 'js-json', 				"/js/json2.js", array(), false, 1 );
+		$scripts->add( 'js-sprintf', 			"/lib/sprintf_js/sprintf$suffix.js", array(), '1.1.2', 1 );
 
 		// 添加jquery-ui
 		$scripts->add( 'jquery-ui-touchpunch',	"/js/ui/jquery-ui-touchpunch$suffix.js", array('jquery-ui'), false, 1 );
@@ -108,6 +124,7 @@ class ecjia_loader {
 
 		// 添加ecjia-admin
 		$scripts->add( 'ecjia-admin', 			     '/ecjia/ecjia-admin.js', array('ecjia', 'jquery-pjax', 'jquery-cookie', 'jquery-quicksearch', 'jquery-mousewheel', 'jquery-ui-totop') );// 'nicescroll',
+		$scripts->add( 'ecjia-front', 			     '/ecjia/ecjia-front.js', array('ecjia') );
 
 		// 添加ecjia admin lib
 		$scripts->add( 'ecjia-admin_cache',           '/ecjia/ecjia-admin_cache.js', array('ecjia-admin'), false, 1 );
@@ -204,13 +221,13 @@ class ecjia_loader {
 		$styles->content_url = RC_Uri::system_static_url();
 		$styles->default_version = VERSION;
 		$styles->text_direction = function_exists( 'is_rtl' ) && is_rtl() ? 'rtl' : 'ltr';
-		$styles->default_dirs = array('/content/system/statics/');
+		$styles->default_dirs = array('/');
 
 		$suffix = SCRIPT_DEBUG ? '' : '.min';
 
 		// ECJia CSS
 		$styles->add( 'ecjia',           			"/styles/ecjia.css" );
-		$styles->add( 'ecjia-ui',           		"/styles/ecjia.ui.css", array('ecjia') );
+		$styles->add( 'ecjia-ui',           		"/styles/ecjia.ui.css" ); //array('ecjia')
 		$styles->add( 'ecjia-function',           	"/styles/ecjia.function.css" );
 		$styles->add( 'ecjia-skin-blue',         	"/styles/ecjia.skin.blue.css", array('ecjia') );
 
@@ -218,6 +235,7 @@ class ecjia_loader {
 		// lib css
 		$styles->add( 'bootstrap',         			"/lib/bootstrap/css/bootstrap$suffix.css" );
 		$styles->add( 'bootstrap-responsive',       "/lib/bootstrap/css/bootstrap-responsive$suffix.css", array('bootstrap') );
+		$styles->add( 'bootstrap-responsive-nodeps',       "/lib/bootstrap/css/bootstrap-responsive$suffix.css" );
 
 		$styles->add( 'jquery-ui-aristo', 			"/lib/jquery-ui/css/Aristo/Aristo.css" );
 		$styles->add( 'jquery-qtip', 				"/lib/qtip2/jquery.qtip$suffix.css" );
@@ -271,6 +289,45 @@ class ecjia_loader {
 		RC_Hook::do_action( 'admin_enqueue_scripts' );
 	}
 
+	public static $concatenate_scripts;
+	public static $compress_scripts;
+	public static $compress_css;
+
+	/**
+     * Determine the concatenation and compression settings for scripts and styles.
+     *
+     * @since 2.8.0
+     *
+     * @global bool $concatenate_scripts
+     * @global bool $compress_scripts
+     * @global bool $compress_css
+     */
+    public static function script_concat_settings()
+    {
+
+        $compressed_output = ( ini_get('zlib.output_compression') || 'ob_gzhandler' == ini_get('output_handler') );
+
+        if ( is_null(self::$concatenate_scripts) ) {
+            self::$concatenate_scripts = config('system.concatenate_scripts', true);
+            if (  config('system.script_debug') ) //( ! is_ecjia_admin() ) ||
+                self::$concatenate_scripts = false;
+        }
+
+        if ( is_null(self::$compress_scripts) ) {
+            self::$compress_scripts = config('system.compress_scripts', true);
+            if ( self::$compress_scripts && ( ! config('system.can_compress_scripts') || $compressed_output ) ) {
+                self::$compress_scripts = false;
+            }
+        }
+
+        if ( is_null(self::$compress_css) ) {
+            self::$compress_css = config('system.compress_css', true);
+            if ( self::$compress_css && ( ! config('system.can_compress_scripts') || $compressed_output ) ) {
+                self::$compress_css = false;
+            }
+        }
+
+    }
 
 	/**
 	 * Prints the script queue in the HTML head on admin pages.
@@ -286,6 +343,9 @@ class ecjia_loader {
 		if ( ! RC_Hook::did_action('rc_print_scripts') ) {
 			RC_Hook::do_action( 'rc_print_scripts' );
 		}
+
+        self::script_concat_settings();
+        RC_Script::instance()->do_concat = self::$concatenate_scripts;
 
 		RC_Script::instance()->do_head_items();
 
@@ -311,11 +371,9 @@ class ecjia_loader {
 	 * @since 1.0.0
 	 */
 	public static function print_footer_scripts() {
-// 		if ( !is_a($wp_scripts, 'WP_Scripts') )
-// 			return array(); // No need to run if not instantiated.
 
-// 		script_concat_settings();
-// 		$wp_scripts->do_concat = $concatenate_scripts;
+ 		self::script_concat_settings();
+        RC_Script::instance()->do_concat = self::$concatenate_scripts;
 		RC_Script::instance()->do_footer_items();
 
 		/**
@@ -339,29 +397,34 @@ class ecjia_loader {
 	 */
 	public static function _print_scripts() {
 
-		// 		$zip = $compress_scripts ? 1 : 0;
-		// 		if ( $zip && defined('ENFORCE_GZIP') && ENFORCE_GZIP )
-			// 			$zip = 'gzip';
+        $zip = self::$compress_scripts ? 1 : 0;
+        if ( $zip && config('system.enforce_gzip') )
+        {
+            $zip = 'gzip';
+        }
 
-		// 		if ( $concat = trim( $wp_scripts->concat, ', ' ) ) {
+        if ( $concat = trim( RC_Script::instance()->concat, ', ' ) ) {
 
-		// 			if ( !empty($wp_scripts->print_code) ) {
-		// 				echo "\n<script type='text/javascript'>\n";
-		// 				echo "/* <![CDATA[ */\n"; // not needed in HTML 5
-		// 				echo $wp_scripts->print_code;
-		// 				echo "/* ]]> */\n";
-		// 				echo "</script>\n";
-		// 			}
+            if ( !empty(RC_Script::instance()->print_code) ) {
+                echo "\n<script type='text/javascript'>\n";
+                echo "/* <![CDATA[ */\n"; // not needed in HTML 5
+                echo RC_Script::instance()->print_code;
+                echo "/* ]]> */\n";
+                echo "</script>\n";
+            }
 
-		// 			$concat = str_split( $concat, 128 );
-		// 			$concat = 'load%5B%5D=' . implode( '&load%5B%5D=', $concat );
+            $concat = str_split( $concat, 128 );
+            $concat = 'load%5B%5D=' . implode( '&load%5B%5D=', $concat );
 
-		// 			$src = $wp_scripts->base_url . "/wp-admin/load-scripts.php?c={$zip}&" . $concat . '&ver=' . $wp_scripts->default_version;
-		// 			echo "<script type='text/javascript' src='" . esc_attr($src) . "'></script>\n";
-		// 		}
+            $args = "compress={$zip}&" . $concat . '&ver=' . RC_Script::instance()->default_version;
+            $src = RC_Uri::url('@load_scripts/init', $args);
+            echo "<script type='text/javascript' src='" . RC_Format::esc_attr($src) . "'></script>\n";
+        }
 
 		if ( !empty(RC_Script::instance()->print_html) )
-				echo RC_Script::instance()->print_html;
+        {
+            echo RC_Script::instance()->print_html;
+        }
 	}
 
 
@@ -382,17 +445,9 @@ class ecjia_loader {
 	 * @since 1.0.0
 	 */
 	public static function print_admin_styles() {
-// 		global $wp_styles, $concatenate_scripts, $compress_css;
 
-// 		if ( !is_a($wp_styles, 'WP_Styles') )
-// 			$wp_styles = new WP_Styles();
-
-// 		script_concat_settings();
-// 		RC_Style::instance()->do_concat = $concatenate_scripts;
-// 		$zip = $compress_css ? 1 : 0;
-// 		if ( $zip && defined('ENFORCE_GZIP') && ENFORCE_GZIP )
-// 			$zip = 'gzip';
-
+ 		self::script_concat_settings();
+ 		RC_Style::instance()->do_concat = self::$concatenate_scripts;
 		RC_Style::instance()->do_items(false);
 
 		/**
@@ -417,12 +472,9 @@ class ecjia_loader {
 	 * @since 1.0.0
 	 */
 	public static function print_late_styles() {
-// 		global $wp_styles, $concatenate_scripts;
 
-// 		if ( !is_a($wp_styles, 'WP_Styles') )
-// 			return;
-
-// 		RC_Style::instance()->do_concat = $concatenate_scripts;
+        self::script_concat_settings();
+ 		RC_Style::instance()->do_concat = self::$concatenate_scripts;
 		RC_Style::instance()->do_footer_items();
 
 		/**
@@ -445,17 +497,24 @@ class ecjia_loader {
 	 * @internal use
 	 */
 	public static function _print_styles() {
-// 		global $wp_styles, $compress_css;
 
-// 		$zip = $compress_css ? 1 : 0;
-// 		if ( $zip && defined('ENFORCE_GZIP') && ENFORCE_GZIP )
-// 			$zip = 'gzip';
+ 		$zip = self::$compress_css ? 1 : 0;
+ 		if ( $zip && config('system.enforce_gzip') ) {
+            $zip = 'gzip';
+        }
 
-		if ( !empty(RC_Style::instance()->concat) ) {
-// 			$dir = RC_Style::instance()->text_direction;
-// 			$ver = RC_Style::instance()->default_version;
-// 			$href = RC_Style::instance()->base_url . "/wp-admin/load-styles.php?c={$zip}&dir={$dir}&load=" . trim(RC_Style::instance()->concat, ', ') . '&ver=' . $ver;
-// 			echo "<link rel=\"stylesheet\" href=\"" . RC_Format::esc_attr($href) . "\" type=\"text/css\" media=\"all\" />\n";
+		if ( $concat = trim( RC_Style::instance()->concat, ', ' ) ) {
+
+ 			$dir = RC_Style::instance()->text_direction;
+ 			$ver = RC_Style::instance()->default_version;
+
+            $concat = str_split( $concat, 128 );
+            $concat = 'load%5B%5D=' . implode( '&load%5B%5D=', $concat );
+
+            $args = "compress={$zip}&dir={$dir}&" . $concat . '&ver=' . $ver;
+            $href = RC_Uri::url('@load_styles/init', $args);
+
+ 			echo "<link rel=\"stylesheet\" href=\"" . RC_Format::esc_attr($href) . "\" type=\"text/css\" media=\"all\" />\n";
 
 			if ( !empty(RC_Style::instance()->print_code) ) {
 				echo "<style type='text/css'>\n";
@@ -465,7 +524,9 @@ class ecjia_loader {
 		}
 
 		if ( !empty(RC_Style::instance()->print_html) )
-			echo RC_Style::instance()->print_html;
+        {
+            echo RC_Style::instance()->print_html;
+        }
 	}
 
 }

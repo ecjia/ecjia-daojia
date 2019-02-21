@@ -23,7 +23,7 @@
 				<div class="control-group formSep">
 					<label class="control-label" for="user_name">{t}角色名：{/t}</label>
 					<div class="controls">
-						<input class="input-xlarge span6" type="text" name="user_name" id="user_name" autocomplete="off" maxlength="20" value="{$user.role_name|escape}" size="34"/><span class="input-must">{lang key='system::system.require_field'}</span>
+						<input class="input-xlarge span6" type="text" name="user_name" id="user_name" autocomplete="off" maxlength="20" value="{$user.role_name|escape}" size="34"/><span class="input-must">*</span>
 					</div>
 				</div>
 				<div class="control-group formSep">

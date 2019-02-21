@@ -26,26 +26,26 @@
 				<div class="control-group formSep">
 					<label class="control-label" for="user_name">{t}用户名：{/t}</label>
 					<div class="controls">
-						<input class="input-xlarge" name="user_name" type="text" id="user_name" value="{$user.user_name|escape}" {if $action eq "modif"}disabled="disabled"{/if}  autocomplete="off" /><span class="input-must">{lang key='system::system.require_field'}</span>
+						<input class="input-xlarge" name="user_name" type="text" id="user_name" value="{$user.user_name|escape}" {if $action eq "modif"}disabled="disabled"{/if}  autocomplete="off" /><span class="input-must">*</span>
 					</div>
 				</div>
 				<div class="control-group formSep">
 					<label class="control-label" for="email">{t}Email地址：{/t}</label>
 					<div class="controls">
-						<input class="input-xlarge" name="email" type="text" id="email" value="{$user.email|escape}" autocomplete="off" /><span class="input-must">{lang key='system::system.require_field'}</span>
+						<input class="input-xlarge" name="email" type="text" id="email" value="{$user.email|escape}" autocomplete="off" /><span class="input-must">*</span>
 					</div>
 				</div>
 				<!-- {if $action eq "add"} -->
 				<div class="control-group formSep">
 					<label class="control-label" for="password">{t}密  码：{/t}</label>
 					<div class="controls">
-						<input class="input-xlarge" type="password" name="password" id="password" maxlength="32" size="34" autocomplete="off" /><span class="input-must">{lang key='system::system.require_field'}</span>
+						<input class="input-xlarge" type="password" name="password" id="password" maxlength="32" size="34" autocomplete="off" /><span class="input-must">*</span>
 					</div>
 				</div>
 				<div class="control-group formSep">
 					<label class="control-label" for="pwd_confirm">{t}确认密码：{/t}</label>
 					<div class="controls">
-						<input class="input-xlarge" type="password" name="pwd_confirm" id="pwd_confirm" maxlength="32" size="34" autocomplete="off" /><span class="input-must">{lang key='system::system.require_field'}</span>
+						<input class="input-xlarge" type="password" name="pwd_confirm" id="pwd_confirm" maxlength="32" size="34" autocomplete="off" /><span class="input-must">*</span>
 					</div>
 				</div>
 				<!-- {/if} -->

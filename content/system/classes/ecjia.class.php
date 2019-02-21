@@ -49,15 +49,17 @@
  */
 defined('IN_ECJIA') or exit('No permission resources.');
 
+use Royalcms\Component\Foundation\Royalcms;
+
 define('APPNAME', 'ECJIA');
 define('VERSION', ecjia::VERSION);
 define('RELEASE', ecjia::RELEASE);
 
 class ecjia {
 
-    const VERSION = '1.41';
+    const VERSION = '1.42';
 
-    const RELEASE = '20190131';
+    const RELEASE = '20190221';
 	
 	protected $config;
 	
@@ -228,7 +230,10 @@ class ecjia {
 		ini_set('memory_limit',          '128M');
 		ini_set('display_errors',        1);
 
-		RC_Response::header('X-Powered-By', APPNAME.'/'.VERSION);
+		RC_Response::header('X-Powered-By', 'ROYALCMS/'.Royalcms::VERSION . ' ' . APPNAME.'/'.VERSION);
+		RC_Response::header('X-XSS-Protection', '1; mode=block');
+		RC_Response::header('X-Frame-Options', 'DENY');
+		RC_Response::header('X-Content-Type-Options', 'nosniff');
 
 		/**
 		 * 加载系统配置

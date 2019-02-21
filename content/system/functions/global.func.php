@@ -743,6 +743,34 @@ if ( ! function_exists('is_ecjia_error'))
     }
 }
 
+if ( ! function_exists('is_ecjia_admin'))
+{
+    /**
+     * Determines whether the current request is for an administrative interface page.
+     *
+     * Does not check if the user is an administrator; current_user_can()
+     * for checking roles and capabilities.
+     *
+     * @since 1.5.1
+     *
+     * @global ecjia_screen $current_screen
+     *
+     * @return bool True if inside ecjia administration interface, false otherwise.
+     */
+    function is_ecjia_admin() {
+        if ( ecjia_screen::get_current_screen() )
+        {
+            return ecjia_screen::get_current_screen()->in_admin();
+        }
+        elseif ( defined( 'IN_ADMIN' ) )
+        {
+            return IN_ADMIN;
+        }
+
+        return false;
+    }
+}
+
 if ( ! function_exists('ecjia_log_info'))
 {
     /**
@@ -752,9 +780,13 @@ if ( ! function_exists('ecjia_log_info'))
      * @param  array   $context
      * @return void
      */
-    function ecjia_log_info($message, $context = array())
+    function ecjia_log_info($message, $context = array(), $domain = null)
     {
-        RC_Logger::getLogger('ecjia')->info($message, $context);
+        if (is_null($domain)) {
+            $domain = 'ecjia';
+        }
+
+        RC_Logger::getLogger($domain)->info($message, $context);
     }
 }
 
@@ -767,9 +799,13 @@ if ( ! function_exists('ecjia_log_error'))
      * @param  array   $context
      * @return void
      */
-    function ecjia_log_error($message, $context = array())
+    function ecjia_log_error($message, $context = array(), $domain = null)
     {
-        RC_Logger::getLogger('ecjia')->error($message, $context);
+        if (is_null($domain)) {
+            $domain = 'ecjia';
+        }
+
+        RC_Logger::getLogger($domain)->error($message, $context);
     }
 }
 
@@ -782,9 +818,13 @@ if ( ! function_exists('ecjia_log_debug'))
      * @param  array   $context
      * @return void
      */
-    function ecjia_log_debug($message, $context = array())
+    function ecjia_log_debug($message, $context = array(), $domain = null)
     {
-        RC_Logger::getLogger('ecjia')->debug($message, $context);
+        if (is_null($domain)) {
+            $domain = 'ecjia';
+        }
+
+        RC_Logger::getLogger($domain)->debug($message, $context);
     }
 }
 
@@ -797,9 +837,13 @@ if ( ! function_exists('ecjia_log_warning'))
      * @param  array   $context
      * @return void
      */
-    function ecjia_log_warning($message, $context = array())
+    function ecjia_log_warning($message, $context = array(), $domain = null)
     {
-        RC_Logger::getLogger('ecjia')->warning($message, $context);
+        if (is_null($domain)) {
+            $domain = 'ecjia';
+        }
+
+        RC_Logger::getLogger($domain)->warning($message, $context);
     }
 }
 
@@ -812,9 +856,13 @@ if ( ! function_exists('ecjia_log_notice'))
      * @param  array   $context
      * @return void
      */
-    function ecjia_log_notice($message, $context = array())
+    function ecjia_log_notice($message, $context = array(), $domain = null)
     {
-        RC_Logger::getLogger('ecjia')->notice($message, $context);
+        if (is_null($domain)) {
+            $domain = 'ecjia';
+        }
+
+        RC_Logger::getLogger($domain)->notice($message, $context);
     }
 }
 
