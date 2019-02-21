@@ -18,16 +18,16 @@
 <div class="row-fluid">
 	<form method="post" action="{$search_action}" name="search_from">
 		<select name="status" class="w150">
-			<option value=""	{if $smarty.get.status eq ''}	selected{/if}>{lang key='affiliate::affiliate_ck.sch_stats.all'}</option>
-			<option value="0" 	{if $smarty.get.status eq '0'}	selected{/if}>{lang key='affiliate::affiliate_ck.sch_stats.0'}</option>
-			<option value="1"	{if $smarty.get.status eq '1'}	selected{/if}>{lang key='affiliate::affiliate_ck.sch_stats.1'}</option>
-			<option value="2"	{if $smarty.get.status eq '2'}	selected{/if}>{lang key='affiliate::affiliate_ck.sch_stats.2'}</option>
+			<option value=""	{if $smarty.get.status eq ''}	selected{/if}>{t domain="affiliate"}全部{/t}</option>
+			<option value="0" 	{if $smarty.get.status eq '0'}	selected{/if}>{t domain="affiliate"}等待处理{/t}</option>
+			<option value="1"	{if $smarty.get.status eq '1'}	selected{/if}>{t domain="affiliate"}已分成{/t}</option>
+			<option value="2"	{if $smarty.get.status eq '2'}	selected{/if}>{t domain="affiliate"}取消分成{/t}</option>
 		</select>
-		<a class="btn m_l5 screen-btn">{lang key='affiliate::affiliate_ck.filter'}</a>
+		<a class="btn m_l5 screen-btn">{t domain="affiliate"}筛选{/t}</a>
 		
 		<div class="top_right f_r" >
-			<input type="text" name="order_sn" value="{$smarty.get.order_sn}" placeholder="{lang key='affiliate::affiliate_ck.order_sn_empty'}">
-			<input type="button" value="{lang key='system::system.button_search'}" class="btn search_order">
+			<input type="text" name="order_sn" value="{$smarty.get.order_sn}" placeholder='{t domain="affiliate"}请输入订单号{/t}'>
+			<input type="button" value='{t domain="affiliate"}搜索{/t}' class="btn search_order">
 		</div>
 	</form>
 </div>
@@ -37,12 +37,12 @@
 		<table class="table table-hide-edit" id="list-table">
 			<thead>
 			  	<tr>
-			  		<th class="w120">{lang key='affiliate::affiliate_ck.order_id'}</th>
-				    <th class="w100">{lang key='affiliate::affiliate_ck.order_stats.name'}</th>
-				    <th class="w100">{lang key='affiliate::affiliate_ck.sch_stats.name'}</th>
-				    <th>{lang key='affiliate::affiliate_ck.log_info'}</th>
-				    <th class="w110">{lang key='affiliate::affiliate_ck.separate_type'}</th>
-				    <th class="w100">{lang key='system::system.handler'}</th>	
+			  		<th class="w120">{t domain="affiliate"}订单号{/t}</th>
+				    <th class="w100">{t domain="affiliate"}订单状态{/t}</th>
+				    <th class="w100">{t domain="affiliate"}操作状态{/t}</th>
+				    <th>{t domain="affiliate"}操作信息{/t}</th>
+				    <th class="w110">{t domain="affiliate"}分成类型{/t}</th>
+				    <th class="w100">{t domain="affiliate"}操作{/t}</th>
 			  	</tr>
 		  	</thead>
 		  	<tbody>
@@ -55,17 +55,17 @@
 			  		<td>{$separate_by[$log.separate_type]}</td>
 			  		<td>
 			  			<!-- {if $log.is_separate eq 0 && $log.separate_able eq 1 && $on eq 1} -->
-			  			<a class="toggle_view" href='{url path="affiliate/admin_separate/admin_separate" args="id={$log.order_id}"}'  data-msg="{lang key='affiliate::affiliate_ck.js_languages.separate_confirm'}" data-pjax-url='{url path="affiliate/admin_separate/init" args="page={$logdb.current_page}"}' data-val="separate">{lang key='affiliate::affiliate_ck.affiliate_separate'}</a>&nbsp;|&nbsp;
-			  			<a class="toggle_view" href='{url path="affiliate/admin_separate/cancel" args="id={$log.order_id}"}'  data-msg="{lang key='affiliate::affiliate_ck.js_languages.cancel_confirm'}" data-pjax-url='{url path="affiliate/admin_separate/init" args="page={$logdb.current_page}"}' data-val="cancel">{lang key='affiliate::affiliate_ck.affiliate_cancel'}</a>
+			  			<a class="toggle_view" href='{url path="affiliate/admin_separate/admin_separate" args="id={$log.order_id}"}'  data-msg='{t domain="affiliate"}您确定要分成吗？{/t}' data-pjax-url='{url path="affiliate/admin_separate/init" args="page={$logdb.current_page}"}' data-val="separate">{t domain="affiliate"}分成{/t}</a>&nbsp;|&nbsp;
+			  			<a class="toggle_view" href='{url path="affiliate/admin_separate/cancel" args="id={$log.order_id}"}'  data-msg='{t domain="affiliate"}您确定要取消分成吗？此操作不能撤销。{/t}' data-pjax-url='{url path="affiliate/admin_separate/init" args="page={$logdb.current_page}"}' data-val="cancel">{t domain="affiliate"}取消{/t}</a>
 			  			<!-- {elseif $log.is_separate eq 1} -->
-			  			<a class="toggle_view" href='{url path="affiliate/admin_separate/rollback" args="id={$log.log_id}"}'  data-msg="{lang key='affiliate::affiliate_ck.js_languages.rollback_confirm'}" data-pjax-url='{url path="affiliate/admin_separate/init" args="page={$logdb.current_page}"}' data-val="rollback">{lang key='affiliate::affiliate_ck.affiliate_rollback'}</a>
+			  			<a class="toggle_view" href='{url path="affiliate/admin_separate/rollback" args="id={$log.log_id}"}'  data-msg='{t domain="affiliate"}您确定要撤销此次分成吗？{/t}' data-pjax-url='{url path="affiliate/admin_separate/init" args="page={$logdb.current_page}"}' data-val="rollback">{t domain="affiliate"}撤销{/t}</a>
 			  			<!-- {else} -->
 			  			-
 			  			<!-- {/if} -->
 			  		</td>
 			  	</tr>
 			  	<!-- {foreachelse} -->
-				<tr><td class="dataTables_empty" colspan="6">{lang key='system::system.no_records'}</td></tr>
+				<tr><td class="dataTables_empty" colspan="6">{t domain="affiliate"}没有找到任何记录{/t}</td></tr>
             	<!-- {/foreach} -->
 			</tbody>
 		</table>

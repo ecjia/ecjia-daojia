@@ -22,9 +22,9 @@
 				<div class="affiliate-mobile-no">
 				+86
 				</div>
-				<input class="affiliate-input" type='text' name='mobile_phone' placeholder="{t}请输入您的手机号{/t}"/>
+				<input class="affiliate-input" type='text' name='mobile_phone' placeholder="{t domain="affiliate"}请输入您的手机号{/t}"/>
 			</div>
-			<button class="affilidate-btn"> 下载应用程序 </button>
+			<button class="affilidate-btn"> {t domain="affiliate"}下载应用程序{/t} </button>
 			<input type="hidden" name="invite_code" value="{$invite_code}" />
 		</form>
 	</div>

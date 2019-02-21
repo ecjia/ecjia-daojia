@@ -68,12 +68,8 @@ class admin_config extends ecjia_admin {
 		RC_Script::enqueue_script('bootstrap-editable-script', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
 		RC_Style::enqueue_style('bootstrap-editable-css', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
 		RC_Script::enqueue_script('affiliate', RC_App::apps_url('statics/js/affiliate.js', __FILE__));
-		
-		$js_lang = array(
-			'ok'		=> RC_Lang::get('affiliate::affiliate.ok'),
-			'cancel'	=> RC_Lang::get('affiliate::affiliate.cancel'),
-		);
-		RC_Script::localize_script('affiliate', 'js_lang', $js_lang);
+
+        RC_Script::localize_script('affiliate', 'js_lang', config('app-affiliate::jslang.affiliate_page'));
 	}
 	
 	/**
@@ -83,13 +79,19 @@ class admin_config extends ecjia_admin {
 		$this->admin_priv('affiliate_config');
 		
 		RC_Style::enqueue_style('affiliate-css', RC_App::apps_url('statics/css/affiliate.css', __FILE__));
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('affiliate::affiliate.affiliate_set')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('推荐设置', 'affiliate')));
 		
-		$this->assign('ur_here', RC_Lang::get('affiliate::affiliate.affiliate_set'));
-		$this->assign('separate_config', RC_Lang::get('affiliate::affiliate.affiliate_set'));
-		$this->assign('add_separate', RC_Lang::get('affiliate::affiliate.add_affiliate'));
-		$this->assign('unit', RC_Lang::get('affiliate::affiliate.unit'));
-		
+		$this->assign('ur_here', __('推荐设置', 'affiliate'));
+		$this->assign('separate_config', __('推荐设置', 'affiliate'));
+		$this->assign('add_separate', __('添加分成', 'affiliate'));
+
+        $unit = array(
+            'hour' 	=> __('小时', 'affiliate'),
+            'day' 	=> __('天', 'affiliate'),
+            'week' 	=> __('周', 'affiliate'),
+        );
+        $this->assign('unit', $unit);
+
 		$config = unserialize(ecjia::config('affiliate'));
 
 		$bonus_type_list = RC_Api::api('bonus', 'bonus_type_list', array('type' => 'allow_send'));
@@ -194,9 +196,9 @@ class admin_config extends ecjia_admin {
 		ecjia_config::instance()->write_config('invite_explain', $invite_explain);
 		ecjia_config::instance()->write_config('invitee_rule_explain', $invitee_rule_explain);
 
-		ecjia_admin::admin_log(RC_Lang::get('system::system.affiliate'), 'edit', 'config');
+		ecjia_admin::admin_log(__('推荐设置', 'affiliate'), 'edit', 'config');
 		
-		return $this->showmessage(RC_Lang::get('affiliate::affiliate.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('affiliate/admin_config/init')));
+		return $this->showmessage(__('编辑成功', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('affiliate/admin_config/init')));
 	}
 }
 

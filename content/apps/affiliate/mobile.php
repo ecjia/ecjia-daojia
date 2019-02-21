@@ -53,7 +53,7 @@ class mobile extends ecjia_front {
 		$front_url = str_replace('sites/api/', '', $front_url);
   		/* js与css加载路径*/
   		$this->assign('front_url', $front_url);
-  		$this->assign('title', ecjia::config('shop_name'). '邀请好友注册得奖励');
+  		$this->assign('title', ecjia::config('shop_name'). __('邀请好友注册得奖励', 'affiliate'));
 	}
 	
 	public function init() {
@@ -64,7 +64,7 @@ class mobile extends ecjia_front {
 			header("location: ".$urlscheme."app?open_type=signup&invite_code=".$invite_code);
 			exit();
 		}
-		$affiliate_note = "请输入您的电话并下载移动商城应用程序";
+		$affiliate_note = __("请输入您的电话并下载移动商城应用程序", 'affiliate');
 		
 		
 		/*是否有设置下载地址*/
@@ -76,7 +76,7 @@ class mobile extends ecjia_front {
 		
 		if ($this->is_weixin() == true) {
 			$this->assign('is_h5', 1);
-			$affiliate_note = "请输入您的手机号并下载【".ecjia::config('shop_name')."】";
+			$affiliate_note = sprintf(__("请输入您的手机号并下载【%s】", 'affiliate'), ecjia::config('shop_name'));
 		}
 		
 		/* 推荐处理 */
@@ -85,20 +85,20 @@ class mobile extends ecjia_front {
 			if ($affiliate['intviee_reward']['intivee_reward_type'] == 'bonus') {
 				$reward_value = RC_DB::table('bonus_type')->where('type_id', $affiliate['intviee_reward']['intivee_reward_value'])->pluck('type_money');
 				$reward_value = price_format($reward_value);
-				$reward_type = '红包';
+				$reward_type = __('红包', 'affiliate');
 			} elseif ($affiliate['intviee_reward']['intivee_reward_type'] == 'integral') {
 				$reward_value = $affiliate['intviee_reward']['intivee_reward_value'];
-				$reward_type = '积分';
+				$reward_type = __('积分', 'affiliate');
 			} elseif ($affiliate['intviee_reward']['intivee_reward_type'] == 'balance') {
 				$reward_value = price_format($affiliate['intviee_reward']['intivee_reward_value']);
-				$reward_type = '现金';
+				$reward_type = __('现金', 'affiliate');
 			}
 			
 			if ($affiliate['intviee_reward']['intivee_reward_by'] == 'signup') {
-				$affiliate_note .= "，完成注册后，您将获得".$reward_value.$reward_type."奖励";
+				$affiliate_note .= sprintf(__("，完成注册后，您将获得%s%s奖励", 'affiliate'), $reward_value,$reward_type);
 			} 
 			else {
-				$affiliate_note .= "，完成注册首次下单后，您将获得".$reward_value.$reward_type."奖励";
+				$affiliate_note .= sprintf(__("，完成注册首次下单后，您将获得%s%s奖励", 'affiliate'), $reward_value,$reward_type);
 			}
 			
 		}
@@ -107,9 +107,9 @@ class mobile extends ecjia_front {
 
 		if (!empty($user_id)) {
 			$user_name = RC_DB::table('users')->where('user_id', $user_id)->pluck('user_name');
-			$note = $user_name."为您推荐[".ecjia::config('shop_name')."]移动商城";
+			$note = sprintf(__("%s为您推荐[%s]移动商城", 'affiliate'), $user_name,ecjia::config('shop_name'));
 			if ($this->is_weixin() == true) {
-				$note = $user_name."向您推荐一款购物应用【".ecjia::config('shop_name')."】";
+				$note = sprintf(__("%s向您推荐一款购物应用【%s】", 'affiliate'), $user_name, ecjia::config('shop_name'));
 			}
 			$this->assign('note', $note);
 		}
@@ -185,14 +185,14 @@ class mobile extends ecjia_front {
 		}
 		
 		if ( $count > 0) {
-			return ecjia_front::$controller->showmessage('该手机号已注册！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => $url, 'app' => $app_url));
+			return ecjia_front::$controller->showmessage(__('该手机号已注册！', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => $url, 'app' => $app_url));
 		}
 		
 		if (isset($is_invitee) && !empty($is_invitee)) {
-			return	ecjia_front::$controller->showmessage('您已被邀请过，请勿重复提交！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => $url, 'app' => $app_url));
+			return	ecjia_front::$controller->showmessage(__('您已被邀请过，请勿重复提交！', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => $url, 'app' => $app_url));
 		}
 		
-		return ecjia_front::$controller->showmessage('提交成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url, 'app' => $app_url));
+		return ecjia_front::$controller->showmessage(__('提交成功！', 'affiliate'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $url, 'app' => $app_url));
 	}
 	
 	/**

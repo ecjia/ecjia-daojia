@@ -52,11 +52,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.affiliate',
 	'directory' 	=> 'affiliate',
-	'name'			=> 'affiliate',
-	'description' 	=> 'affiliate_desc',		/* 描述对应的语言项 */
+	'name'			=> __('推荐分成', 'affiliate'),
+	'description' 	=> __('访问者点击某推荐人的网址后，在此时间段内注册、下单，均认为是该推荐人的所介绍的，进行奖励', 'affiliate'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.27.0',					/* 版本号 */
+	'version' 		=> '1.27.4',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2015 ~ 2019.',
     'namespace'     => 'Ecjia\App\Affiliate',
     'provider'      => 'AffiliateServiceProvider',

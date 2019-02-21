@@ -1,0 +1,578 @@
+# Copyright (C) 2019 Ecjia App affiliate
+# This file is distributed under the same license as the Ecjia App affiliate package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App affiliate 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:16:09+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin.php:83 admin.php:85 admin.php:105 admin.php:194
+msgid "分成比例列表"
+msgstr ""
+
+#: admin.php:90 admin.php:102 admin.php:104
+msgid "添加分成比例"
+msgstr ""
+
+#: admin.php:109 admin.php:181
+msgid "最多可以设5个级别！"
+msgstr ""
+
+#: admin.php:127 admin.php:217 admin.php:289
+msgid "请输入积分分成百分比"
+msgstr ""
+
+#: admin.php:132 admin.php:135 admin.php:222 admin.php:225 admin.php:294
+#: admin.php:297
+msgid "积分分成百分比格式不正确，应为数字类型"
+msgstr ""
+
+#: admin.php:140 admin.php:230 admin.php:336
+msgid "请输入现金分成百分比"
+msgstr ""
+
+#: admin.php:145 admin.php:148 admin.php:235 admin.php:238 admin.php:341
+#: admin.php:344
+msgid "现金分成百分比格式不正确，应为数字类型"
+msgstr ""
+
+#: admin.php:176 admin.php:271 admin.php:320 admin.php:394
+msgid "积分百分比为 "
+msgstr ""
+
+#: admin.php:176 admin.php:271 admin.php:366 admin.php:394
+msgid "现金百分比为 "
+msgstr ""
+
+#: admin.php:178
+msgid "添加成功"
+msgstr ""
+
+#: admin.php:191 admin.php:193
+msgid "编辑分成比例"
+msgstr ""
+
+#: admin.php:273 admin.php:321 admin.php:367 admin_config.php:201
+msgid "编辑成功"
+msgstr ""
+
+#: admin.php:397
+msgid "删除成功"
+msgstr ""
+
+#: admin_config.php:82 admin_config.php:84 admin_config.php:85
+#: admin_config.php:199
+msgid "推荐设置"
+msgstr ""
+
+#: admin_config.php:86
+msgid "添加分成"
+msgstr ""
+
+#: admin_config.php:89
+msgid "小时"
+msgstr ""
+
+#: admin_config.php:90
+msgid "天"
+msgstr ""
+
+#: admin_config.php:91
+msgid "周"
+msgstr ""
+
+#: admin_separate.php:80 admin_separate.php:81
+#: apis/affiliate_admin_menu_api.class.php:60
+msgid "分成管理"
+msgstr ""
+
+#: admin_separate.php:92
+msgid "订单状态"
+msgstr ""
+
+#: admin_separate.php:93
+msgid "未确认"
+msgstr ""
+
+#: admin_separate.php:94
+msgid "已确认"
+msgstr ""
+
+#: admin_separate.php:95
+msgid "已取消"
+msgstr ""
+
+#: admin_separate.php:96
+msgid "无效"
+msgstr ""
+
+#: admin_separate.php:97
+msgid "退货"
+msgstr ""
+
+#: admin_separate.php:102
+msgid "操作状态"
+msgstr ""
+
+#: admin_separate.php:103
+msgid "按操作状态查找:"
+msgstr ""
+
+#: admin_separate.php:104
+msgid "全部"
+msgstr ""
+
+#: admin_separate.php:105
+msgid "等待处理"
+msgstr ""
+
+#: admin_separate.php:106
+msgid "已分成"
+msgstr ""
+
+#: admin_separate.php:107
+msgid "取消分成"
+msgstr ""
+
+#: admin_separate.php:108
+msgid "已撤销"
+msgstr ""
+
+#: admin_separate.php:113 admin_separate.php:115
+msgid "推荐注册分成"
+msgstr ""
+
+#: admin_separate.php:114 admin_separate.php:116
+msgid "推荐订单分成"
+msgstr ""
+
+#: admin_separate.php:156 mobile.php:91
+#: modules/invite/record_module.class.php:101
+msgid "积分"
+msgstr ""
+
+#: admin_separate.php:181 admin_separate.php:205
+msgid "订单号"
+msgstr ""
+
+#: admin_separate.php:181 admin_separate.php:205
+msgid "分成:金钱"
+msgstr ""
+
+#: admin_separate.php:218
+msgid "操作失败"
+msgstr ""
+
+#: admin_separate.php:224 admin_separate.php:243 admin_separate.php:278
+msgid "订单号为 "
+msgstr ""
+
+#: admin_separate.php:227
+msgid "操作成功"
+msgstr ""
+
+#: admin_separate.php:246
+msgid "取消成功"
+msgstr ""
+
+#: admin_separate.php:271
+msgid "分成被管理员取消！"
+msgstr ""
+
+#: admin_separate.php:281
+msgid "撤销成功"
+msgstr ""
+
+#: admin_separate.php:352
+msgid "用户ID %s ( %s ), 分成:金钱 %s 积分 %s"
+msgstr ""
+
+#: apis/affiliate_admin_menu_api.class.php:56
+msgid "推荐管理"
+msgstr ""
+
+#: apis/affiliate_admin_menu_api.class.php:59 classes/Helper.php:61
+msgid "分成比例"
+msgstr ""
+
+#: apis/affiliate_admin_purview_api.class.php:57
+msgid "推荐邀请设置"
+msgstr ""
+
+#: apis/affiliate_admin_purview_api.class.php:58
+msgid "分成比例管理"
+msgstr ""
+
+#: apis/affiliate_admin_purview_api.class.php:59
+msgid "分成比例更新"
+msgstr ""
+
+#: apis/affiliate_admin_purview_api.class.php:60
+msgid "分成比例删除"
+msgstr ""
+
+#: apis/affiliate_admin_purview_api.class.php:62
+msgid "推荐分成管理"
+msgstr ""
+
+#: apis/affiliate_admin_purview_api.class.php:63
+msgid "推荐分成更新"
+msgstr ""
+
+#: apis/affiliate_invite_bind_api.class.php:62
+msgid "调用affiliate_invite_bind_api参数无效"
+msgstr ""
+
+#: apis/affiliate_invite_reward_api.class.php:64
+msgid "调用affiliate_invite_reward_api参数无效"
+msgstr ""
+
+#: apis/affiliate_user_invite_code_api.class.php:62
+msgid "调用affiliate_user_invite_code_api参数无效"
+msgstr ""
+
+#: classes/Helper.php:60 configs/package.php:55
+msgid "推荐分成"
+msgstr ""
+
+#: classes/Helper.php:62
+msgid "配置"
+msgstr ""
+
+#: classes/Helper.php:64
+msgid "执行"
+msgstr ""
+
+#: classes/Helper.php:65 configs/jslang.php:58
+msgid "取消"
+msgstr ""
+
+#: classes/Helper.php:66
+msgid "撤销"
+msgstr ""
+
+#: configs/jslang.php:57
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:59
+msgid "填写的手机号码格式不正确"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"访问者点击某推荐人的网址后，在此时间段内注册、下单，均认为是该推荐人的所介绍"
+"的，进行奖励"
+msgstr ""
+
+#: mobile.php:56
+msgid "邀请好友注册得奖励"
+msgstr ""
+
+#: mobile.php:67
+msgid "请输入您的电话并下载移动商城应用程序"
+msgstr ""
+
+#: mobile.php:79
+msgid "请输入您的手机号并下载【%s】"
+msgstr ""
+
+#: mobile.php:88 modules/invite/record_module.class.php:95
+msgid "红包"
+msgstr ""
+
+#: mobile.php:94 modules/invite/record_module.class.php:98
+msgid "现金"
+msgstr ""
+
+#: mobile.php:98
+msgid "，完成注册后，您将获得%s%s奖励"
+msgstr ""
+
+#: mobile.php:101
+msgid "，完成注册首次下单后，您将获得%s%s奖励"
+msgstr ""
+
+#: mobile.php:110
+msgid "%s为您推荐[%s]移动商城"
+msgstr ""
+
+#: mobile.php:112
+msgid "%s向您推荐一款购物应用【%s】"
+msgstr ""
+
+#: mobile.php:188 modules/affiliate/user/invite_module.class.php:97
+msgid "该手机号已注册！"
+msgstr ""
+
+#: mobile.php:192 modules/affiliate/user/invite_module.class.php:125
+msgid "您已被邀请过，请勿重复提交！"
+msgstr ""
+
+#: mobile.php:195
+msgid "提交成功！"
+msgstr ""
+
+#: modules/affiliate/user/invite_module.class.php:63
+#: modules/invite/record_module.class.php:74
+msgid "参数无效"
+msgstr ""
+
+#: modules/affiliate/user/invite_module.class.php:78
+msgid "验证码已过期，请重新获取！"
+msgstr ""
+
+#: modules/affiliate/user/invite_module.class.php:83
+msgid "验证码错误，请重新填写！"
+msgstr ""
+
+#: modules/affiliate/user/invite_module.class.php:89
+msgid "信息错误，请重新获取验证码"
+msgstr ""
+
+#: modules/affiliate/user/invite_module.class.php:145
+msgid "未开启推荐奖励！"
+msgstr ""
+
+#: modules/invite/record_module.class.php:65
+msgid "当前账号已申请注销，不可查看此数据！"
+msgstr ""
+
+#: modules/invite/record_module.class.php:106
+msgid "邀请%s成功，奖励%s"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_list.dwt.php:25
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:13
+msgid "推荐设置已关闭"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_list.dwt.php:34
+msgid "推荐人级别"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_list.dwt.php:35
+msgid "积分分成百分比"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_list.dwt.php:36
+msgid "现金分成百分比"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_list.dwt.php:37
+#: content/apps/affiliate/templates/admin/affiliate_ck_list.dwt.php:45
+msgid "操作"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_list.dwt.php:45
+msgid "编辑积分分成百分比"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_list.dwt.php:48
+msgid "编辑现金分成百分比"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_list.dwt.php:51
+msgid "编辑"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_list.dwt.php:52
+msgid "您确定要删除吗？"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_list.dwt.php:52
+msgid "删除"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_list.dwt.php:57
+#: content/apps/affiliate/templates/admin/affiliate_ck_list.dwt.php:68
+msgid "没有找到任何记录"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:22
+msgid "推荐基本设置"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:24
+msgid "是否开启奖励："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:27
+msgid "开启"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:29
+msgid "关闭"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:31
+msgid "只控制奖励是否发放，关闭奖励时注意修改邀请分享说明。"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:35
+msgid "推荐分成类型："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:45
+msgid "推荐时效："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:53
+msgid ""
+"访问者点击某推荐人的网址后，在此时间段内注册、下单，均认为是该推荐人的所介绍"
+"的。"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:58
+msgid "积分分成总额百分比："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:61
+msgid "订单积分的此百分比部分作为分成用积分。"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:66
+msgid "现金分成总额百分比："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:69
+msgid "订单金额的此百分比部分作为分成用金额。"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:74
+msgid "注册积分分成数："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:77
+msgid "介绍会员注册，介绍人所能获得的成长值。"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:82
+msgid "成长值分成上限："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:85
+msgid "成长值到此上限则不再奖励介绍注册积分。"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:90
+msgid "推荐邀请分享内容："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:97
+msgid "推荐邀请分享说明："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:104
+msgid "被邀请分享说明设置："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:110
+msgid "邀请人奖励设置"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:112
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:158
+msgid "奖励发放时间："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:115
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:161
+msgid "首次下单成交后"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:117
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:163
+msgid "注册时"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:121
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:167
+msgid "奖励方式："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:132
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:178
+msgid "选择奖励的红包："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:135
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:181
+msgid "请选择"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:143
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:189
+msgid "奖励积分数量："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:149
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:195
+msgid "奖励现金数量："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_config.dwt.php:156
+msgid "受邀人奖励设置"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_ck_list.dwt.php:26
+msgid "筛选"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_ck_list.dwt.php:29
+msgid "请输入订单号"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_ck_list.dwt.php:30
+msgid "搜索"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_ck_list.dwt.php:43
+msgid "操作信息"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_ck_list.dwt.php:44
+msgid "分成类型"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_ck_list.dwt.php:58
+msgid "您确定要分成吗？"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_ck_list.dwt.php:58
+msgid "分成"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_ck_list.dwt.php:59
+msgid "您确定要取消分成吗？此操作不能撤销。"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_ck_list.dwt.php:61
+msgid "您确定要撤销此次分成吗？"
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_info.dwt.php:27
+msgid "推荐人级别："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_info.dwt.php:33
+msgid "积分分成百分比："
+msgstr ""
+
+#: content/apps/affiliate/templates/admin/affiliate_info.dwt.php:40
+msgid "现金分成百分比："
+msgstr ""
+
+#: content/apps/affiliate/templates/front/affiliate.dwt.php:25
+msgid "请输入您的手机号"
+msgstr ""
+
+#: content/apps/affiliate/templates/front/affiliate.dwt.php:27
+msgid "下载应用程序"
+msgstr ""

@@ -62,7 +62,7 @@ class invite_record_module extends api_front implements api_interface {
 		if (version_compare($api_version, '1.25', '>=')) {
 			$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
 			if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
-				return new ecjia_error('account_status_error', '当前账号已申请注销，不可查看此数据！');
+				return new ecjia_error('account_status_error', __('当前账号已申请注销，不可查看此数据！', 'affiliate'));
 			}
 		}
 		
@@ -71,7 +71,7 @@ class invite_record_module extends api_front implements api_interface {
  		$page = $this->requestData('pagination.page', 1);
 		
 		if (empty($date)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'affiliate'));
 		}
 		
 		$count = RC_DB::table('invite_reward')
@@ -92,18 +92,18 @@ class invite_record_module extends api_front implements api_interface {
 		$list = array();
 		foreach ($list_result as $val) {
 			if ($val['reward_type'] == 'bonus') {
-				$reward_type = '红包';
+				$reward_type = __('红包', 'affiliate');
 				$val['reward_value'] = RC_DB::table('bonus_type')->where('type_id', $val['reward_value'])->pluck('type_name');
 			} elseif ($val['reward_type'] == 'balance') {
-				$reward_type = '现金';
+				$reward_type = __('现金', 'affiliate');
 				$val['reward_value'] = price_format($val['reward_value']);
 			} else {
-				$reward_type = '积分';
+				$reward_type = __('积分', 'affiliate');
 			}
 			
 			$list[] = array(
 				'invitee_name'		=> $val['invitee_name'],
-				'label_reward_type'	=> '邀请'.$val['invitee_name'].'成功，奖励'.$reward_type,
+				'label_reward_type'	=> sprintf(__("邀请%s成功，奖励%s", 'affiliate'), $val['invitee_name'],$reward_type),
 				'reward_type'		=> $val['reward_type'],
 				'give_reward'		=> $val['reward_value'],
 				'reward_time'		=> RC_Time::local_date(ecjia::config('time_format'), $val['add_time']),

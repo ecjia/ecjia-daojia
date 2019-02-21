@@ -60,7 +60,7 @@ class affiliate_user_invite_module extends api_front implements api_interface
         $sms_code     = $this->requestData('sms_code');
         
         if (empty($mobile) || empty($invite_code) || empty($sms_code)) {
-        	return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+        	return new ecjia_error('invalid_parameter', __('参数无效', 'affiliate'));
         }
         //手机号码格式判断
 //         $str = '/^1[345678]{1}\d{9}$/';
@@ -75,18 +75,18 @@ class affiliate_user_invite_module extends api_front implements api_interface
         //判断校验码是否过期
         if ($_SESSION['bindcode_lifetime'] + 1800 < RC_Time::gmtime()) {
         	//过期
-        	$result = new ecjia_error('code_timeout', __('验证码已过期，请重新获取！'));
+        	$result = new ecjia_error('code_timeout', __('验证码已过期，请重新获取！', 'affiliate'));
         	return $result;
         }
         //判断校验码是否正确
         if ($sms_code != $_SESSION['bind_code'] ) {
-        	$result = new ecjia_error('code_error', __('验证码错误，请重新填写！'));
+        	$result = new ecjia_error('code_error', __('验证码错误，请重新填写！', 'affiliate'));
         	return $result;
         }
         	
         //校验其他信息
         if ($mobile != $_SESSION['bind_value']) {
-        	$result = new ecjia_error('msg_error', __('信息错误，请重新获取验证码'));
+        	$result = new ecjia_error('msg_error', __('信息错误，请重新获取验证码', 'affiliate'));
         	return $result;
         }
         /* 推荐处理 */
@@ -94,7 +94,7 @@ class affiliate_user_invite_module extends api_front implements api_interface
         if (isset($affiliate['on']) && $affiliate['on'] == 1) {
         	$count = RC_DB::table('users')->where('mobile_phone', $mobile)->count();
         	if ($count > 0) {
-        		return new ecjia_error('mobile_registered', '该手机号已注册！');
+        		return new ecjia_error('mobile_registered', __('该手机号已注册！', 'affiliate'));
         	}
         	if (!empty($invite_code) && !empty($mobile) && $count <= 0) {
         		$invite_user_id = Ecjia\App\Affiliate\UserInviteCode::getUserId($invite_code);
@@ -122,7 +122,7 @@ class affiliate_user_invite_module extends api_front implements api_interface
         			->where('expire_time', '>', RC_Time::gmtime())
         			->first();
         			if (!empty($is_invitee)) {
-        				return new ecjia_error('mobile_invited', '您已被邀请过，请勿重复提交！');
+        				return new ecjia_error('mobile_invited', __('您已被邀请过，请勿重复提交！', 'affiliate'));
         			}else {
         				RC_DB::table('invitee_record')->insert(array(
         				'invite_id'		=> $invite_user_id,
@@ -142,7 +142,7 @@ class affiliate_user_invite_module extends api_front implements api_interface
         		}
         	}
         } else {
-        	return new ecjia_error('affiliate_reward_off', '未开启推荐奖励！');
+        	return new ecjia_error('affiliate_reward_off', __('未开启推荐奖励！', 'affiliate'));
         }
     }
 }

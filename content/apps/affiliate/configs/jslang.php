@@ -44,14 +44,21 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 应用语言包
+ * js语言包设置
  */
-return array(
-	'affiliate' 		=> '推荐分成',
-	'affiliate_desc' 	=> '访问者点击某推荐人的网址后，在此时间段内注册、下单，均认为是该推荐人的所介绍的，进行奖励'
-);
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+
+    'affiliate_page' => array(
+        'ok'		=> __('确定', 'affiliate'),
+        'cancel'	=> __('取消', 'affiliate'),
+        'mobile_number_format'	=> __('填写的手机号码格式不正确', 'affiliate'),
+    ),
+
+
+);
+//end

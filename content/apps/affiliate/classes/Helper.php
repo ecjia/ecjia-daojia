@@ -57,13 +57,13 @@ class Helper
      * 添加管理员记录日志操作对象
      */
     public static function assign_adminlog_content() {
-        ecjia_admin_log::instance()->add_object('affiliate', RC_Lang::get('affiliate::affiliate.affiliate'));
-		ecjia_admin_log::instance()->add_object('affiliate_percent', RC_Lang::get('affiliate::affiliate.affiliate_percent'));
-		ecjia_admin_log::instance()->add_object('config', RC_Lang::get('affiliate::affiliate.config'));
+        ecjia_admin_log::instance()->add_object('affiliate', __('推荐分成', 'affiliate'));
+		ecjia_admin_log::instance()->add_object('affiliate_percent', __('分成比例', 'affiliate'));
+		ecjia_admin_log::instance()->add_object('config', __('配置', 'affiliate'));
 	
-		ecjia_admin_log::instance()->add_action('do', RC_Lang::get('affiliate::affiliate.do'));
-		ecjia_admin_log::instance()->add_action('cancel', RC_Lang::get('affiliate::affiliate.cancel'));
-		ecjia_admin_log::instance()->add_action('rollback', RC_Lang::get('affiliate::affiliate.rollback'));
+		ecjia_admin_log::instance()->add_action('do', __('执行', 'affiliate'));
+		ecjia_admin_log::instance()->add_action('cancel', __('取消', 'affiliate'));
+		ecjia_admin_log::instance()->add_action('rollback', __('撤销', 'affiliate'));
     }
     
 }

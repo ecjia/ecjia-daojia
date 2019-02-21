@@ -24,20 +24,20 @@
 		<div class="span12">
 			<fieldset>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='affiliate::affiliate.label_levels'}</label>
+					<label class="control-label">{t domain="affiliate"}推荐人级别：{/t}</label>
 					<div class="controls p_t5">
 		 				<span>{$level}</span>
 					</div>	
 				</div>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='affiliate::affiliate.label_level_point'}</label>
+					<label class="control-label">{t domain="affiliate"}积分分成百分比：{/t}</label>
 					<div class="controls">
 		 				<input type="text" name="level_point" value="{$affiliate_percent.level_point}" />&nbsp;%
 		 				<label class="input-must">*</label>
 					</div>	
 				</div>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='affiliate::affiliate.label_level_money'}</label>
+					<label class="control-label">{t domain="affiliate"}现金分成百分比：{/t}</label>
 					<div class="controls">
 		 				<input type="text" name="level_money" value="{$affiliate_percent.level_money}" />&nbsp;%
 		 				<label class="input-must">*</label>
@@ -45,7 +45,7 @@
 				</div>
 				<div class="control-group">
 					<div class="controls">
-						<input type="submit" value="{t}确定{/t}" class="btn btn-gebo" />
+						<input type="submit" value='{t domain="affiliate"}确定{/t}' class="btn btn-gebo" />
 						<input type="hidden" name="id" value="{$level}" />
 					</div>
 				</div>		
