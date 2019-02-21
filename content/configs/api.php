@@ -575,6 +575,11 @@ return array(
 	//1.27
 	'affiliate/user/invitee'						  => 'affiliate::affiliate/user/invitee',				//团队列表，当前用户推荐的直属用户
 	
+	'bbc/cart/create'						  		  => 'cart::bbc/cart/create',							//添加商品到购物车（到家商城专用）
+	'bbc/cart/list'						  		  	  => 'cart::bbc/cart/list',								//用户购物车列表（到家商城专用）
+	'bbc/flow/checkOrder'							  => 'cart::bbc/flow/checkOrder',						//购物流订单检查（到家商城专用）
+	'bbc/flow/done'							  		  => 'cart::bbc/flow/done',								//购物流订单结算提交（到家商城专用）
+	
 	
     /**
      * 1.0 已经废弃
