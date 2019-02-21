@@ -23,7 +23,7 @@
                 
                 <div class="col-lg-9">
                 	<h3 class="page-header">
-                    	<div class="pull-left">小票机列表</div>
+                    	<div class="pull-left">{t domain="printer"}小票机列表{/t}</div>
 						<div class="clearfix"></div>
   					</h3>
 		  			<div class="printer_list wookmark merchant_printer">
@@ -35,25 +35,25 @@
 		        					<div class="top_right">
 		        						<span class="name">{$val.machine_name}</span>
 		        						{if $val.online_status eq 1}
-		        						<span class="status">在线</span>
+		        						<span class="status">{t domain="printer"}在线{/t}</span>
 		        						{else if $val.online_status eq 2}
-		        						<span class="status error">缺纸</span>
+		        						<span class="status error">{t domain="printer"}缺纸{/t}</span>
 		        						{else if $val.online_status eq 0}
-		        						<span class="status error">离线</span>
+		        						<span class="status error">{t domain="printer"}离线{/t}</span>
 		        						{/if}
 		        					</div>
 		        				</div>
 		        				<div class="bottom">
-		        					<div class="bottom-item">终端编号&nbsp;&nbsp;{$val.machine_code}</div>
-		        					<div class="bottom-item">打印机型&nbsp;&nbsp;{$val.version}</div>
-		        					<div class="bottom-item">添加日期&nbsp;&nbsp;{RC_Time::local_date('Y-m-d H:i:s', $val['add_time'])}</div>
+		        					<div class="bottom-item">{t domain="printer"}终端编号{/t}&nbsp;{$val.machine_code}</div>
+		        					<div class="bottom-item">{t domain="printer"}打印机型{/t}&nbsp;{$val.version}</div>
+		        					<div class="bottom-item">{t domain="printer"}添加日期{/t}&nbsp;{RC_Time::local_date('Y-m-d H:i:s', $val['add_time'])}</div>
 		        				</div>
 		        				<div class="view">
-		        					<a class="btn btn-primary data-pjax" href='{RC_Uri::url("printer/mh_print/view", "id={$val.id}")}'>查看</a>
+		        					<a class="btn btn-primary data-pjax" href='{RC_Uri::url("printer/mh_print/view", "id={$val.id}")}'>{t domain="printer"}查看{/t}</a>
 		        				</div>
 		        			</li>
 		        			<!-- {foreachelse} -->
-		        			<div class="no_printer">没有找到任何记录</div>
+		        			<div class="no_printer">{t domain="printer"}没有找到任何记录{/t}</div>
 		        			<!-- {/foreach} -->
 		        		</ul>
 		        	</div>

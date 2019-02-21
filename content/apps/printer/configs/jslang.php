@@ -46,12 +46,33 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * ECJIA 应用语言包
- */
 return array(
-	'printer'      => '小票机',
-	'printer_desc' => '用来管理商家订单打印使用的小票打印机。',
+    'admin_config_page'        => array(
+        'enabled'               => '开启',
+        'disabled'              => '关闭',
+        'machine_name_required' => '请输入打印机名称',
+        'machine_code_required' => '请输入终端编号',
+        'machine_key_required'  => '请输入终端密钥',
+        'app_key_required'      => '请输入App Key',
+        'app_secret_required'   => '请输入App Secret',
+        'buzzer'                => '蜂鸣器',
+        'horn'                  => '喇叭'
+    ),
+    'admin_store_printer_page' => array(
+        'enabled'               => '开启',
+        'disabled'              => '关闭',
+        'machine_name_required' => '请输入打印机名称',
+        'machine_code_required' => '请输入终端编号',
+        'machine_key_required'  => '请输入终端密钥',
+        'app_key_required'      => '请输入App Key',
+        'app_secret_required'   => '请输入App Secret',
+        'buzzer'                => '蜂鸣器',
+        'horn'                  => '喇叭'
+    ),
+    'mh_print_page'            => array(
+        'machine_code_required' => '请输入终端编号',
+        'machine_key_required'  => '请输入终端密钥',
+    ),
 );
 
 // end

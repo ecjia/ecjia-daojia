@@ -61,21 +61,21 @@ class PrintStoreOrders extends EventAbstract
     protected $template = '';
 
     protected $availableValues = [
-        'merchant_name'         => '商家名称',
-        'merchant_mobile'       => '商家电话',
+        'merchant_name'     => '商家名称',
+        'merchant_mobile'   => '商家电话',
         
-    	'cashier'           	=> '收银员',
-    	'order_sn' 	        	=> '订单编号',
-    	'order_trade_no'    	=> '流水编号',
-    	'purchase_time'	        => '下单时间',
-    	'merchant_address'		=> '商家地址',
+    	'cashier'           => '收银员',
+    	'order_sn' 	        => '订单编号',
+    	'order_trade_no'    => '流水编号',
+    	'purchase_time'	    => '下单时间',
+    	'merchant_address'  => '商家地址',
     	 
     	'goods_lists' => [
-	    	'goods_name'   => '商品',
-	    	'goods_number' => '数量',
-	    	'goods_amount' => '单价',
+	    	'goods_name'    => '商品',
+	    	'goods_number'  => '数量',
+	    	'goods_amount'  => '单价',
     	],
-    	'goods_subtotal' => '总计',
+    	'goods_subtotal'    => '总计',
     	 
     	'integral_money'    => '积分抵扣',
     	'bonus'    			=> '红包抵扣',
@@ -85,7 +85,7 @@ class PrintStoreOrders extends EventAbstract
     	'rounding'          => '分头舍去',
     	'order_amount'      => '实收金额',
     	 
-    	'tail_content'          => '尾部内容',
+    	'tail_content'      => '尾部内容',
     ];
     
     /**

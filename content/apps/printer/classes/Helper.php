@@ -53,13 +53,14 @@ class Helper
     /**
      * 添加管理员记录日志操作对象
      */
-    public static function assign_adminlog_content() {
-        ecjia_admin_log::instance()->add_object('printer', '小票机');
-        ecjia_admin_log::instance()->add_object('machine_name', '小票机名称');
-        ecjia_admin_log::instance()->add_object('machine_logo', '小票机logo');
-        ecjia_admin_log::instance()->add_object('printer_template', '小票模板');
+    public static function assign_adminlog_content()
+    {
+        ecjia_admin_log::instance()->add_object('printer', __('小票机', 'printer'));
+        ecjia_admin_log::instance()->add_object('machine_name', __('小票机名称', 'printer'));
+        ecjia_admin_log::instance()->add_object('machine_logo', __('小票机logo', 'printer'));
+        ecjia_admin_log::instance()->add_object('printer_template', __('小票模板', 'printer'));
     }
-    
+
 }
 
 // end

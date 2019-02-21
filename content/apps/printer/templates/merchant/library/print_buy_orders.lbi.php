@@ -7,16 +7,16 @@
 		{/if}
 	</div>
 	<div class="ticket_content">
-		<div class="ticket-item">订单编号：{$data.order_sn}</div>
-		<div class="ticket-item">流水编号：{$data.order_trade_no}</div>
-		<div class="ticket-item">会员账号：{$data.user_name}</div>
-		<div class="ticket-item">下单时间：{$data.purchase_time}</div>
+		<div class="ticket-item">{t domain="printer"}订单编号：{/t}{$data.order_sn}</div>
+		<div class="ticket-item">{t domain="printer"}流水编号：{/t}{$data.order_trade_no}</div>
+		<div class="ticket-item">{t domain="printer"}会员账号：{/t}{$data.user_name}</div>
+		<div class="ticket-item">{t domain="printer"}下单时间：{/t}{$data.purchase_time}</div>
 	</div>
 	<div class="ticket_content">
 		<ul>
-			<li>商品</li>
-			<li>数量</li>
-			<li>单价</li>
+			<li>{t domain="printer"}商品{/t}</li>
+			<li>{t domain="printer"}数量{/t}</li>
+			<li>{t domain="printer"}单价{/t}</li>
 		</ul>
 		<!-- {foreach from=$data.goods_lists item=list} -->
 		<p>{$list.goods_name}</p>
@@ -26,26 +26,26 @@
 			<li>{$list.goods_amount}</li>
 		</ul>
 		<!-- {/foreach} -->
-		<span class="total">总计：{$data.goods_subtotal}</span>
+		<span class="total">{t domain="printer"}总计：{/t}{$data.goods_subtotal}</span>
 	</div>	
 	<div class="ticket_content">
 		<div class="ticket-item">
-			<div class="left-item">积分抵扣：-{$data.integral_money}</div>
-			<div class="right-item">获得积分：{$data.integral_give}</div>
+			<div class="left-item">{t domain="printer"}积分抵扣：{/t}-{$data.integral_money}</div>
+			<div class="right-item">{t domain="printer"}获得积分：{/t}{$data.integral_give}</div>
 		</div>
-		<div class="ticket-item">积分余额：{$data.integral_balance}</div>
-		<div class="ticket-item">满减满折：-{$data.favourable_discount}</div>
-		<div class="ticket-item">红包折扣：-{$data.bonus_discount}</div>
+		<div class="ticket-item">{t domain="printer"}积分余额：{/t}{$data.integral_balance}</div>
+		<div class="ticket-item">{t domain="printer"}满减满折：{/t}-{$data.favourable_discount}</div>
+		<div class="ticket-item">{t domain="printer"}红包折扣：{/t}-{$data.bonus_discount}</div>
 		
 		
 	</div>	
 	<div class="ticket_content no_dashed">
-		<div class="ticket-item">配送费：{$data.shipping_fee}</div>
-		<div class="ticket-item">应收金额：{$data.receivables}</div>
-		<div class="ticket-item">实收金额：{$data.order_amount}</div>
-		<div class="ticket-item">支付宝：{$data.order_amount}</div>
+		<div class="ticket-item">{t domain="printer"}配送费：{/t}{$data.shipping_fee}</div>
+		<div class="ticket-item">{t domain="printer"}应收金额：{/t}{$data.receivables}</div>
+		<div class="ticket-item">{t domain="printer"}实收金额：{/t}{$data.order_amount}</div>
+		<div class="ticket-item">{t domain="printer"}支付宝：{/t}{$data.order_amount}</div>
 		
-		<div class="ticket-item">备注内容：{$data.order_remarks}</div>
+		<div class="ticket-item">{t domain="printer"}备注内容：{/t}{$data.order_remarks}</div>
 		<div class="ticket-item qrcode"><img src="{$statics_url}images/qrcode.png" /></div>
 	</div>
 	{if $info.tail_content}

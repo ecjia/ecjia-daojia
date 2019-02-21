@@ -63,46 +63,46 @@ class PrintQuickpayOrders extends EventAbstract
     protected $availableValues = [
         'merchant_name'         => '商家名称',
         'merchant_mobile'       => '商家电话',
-        
+
     	'order_sn' 	        	=> '订单编号',
     	'order_trade_no'    	=> '流水编号',
     	'user_name'				=> '会员账号',
-    	
+
     	'purchase_time'	        => '买单时间',
     	'merchant_address'		=> '商家地址',
-    	 
+
     	'favourable_activity'	=> '优惠活动',
-    	
+
     	'receivables'           => '应收金额',
     	'discount_amount'       => '优惠金额',
     	'payment'			    => '支付宝',
     	'order_amount'          => '实收金额',
-        
+
         'qrcode'                => '二维码'
     ];
-    
+
     /**
      * 打印测试数据
      * @var array
      */
     protected $demoValues = [
-	    'order_sn' 	       => '2017101294860', //订单编号
-	    'order_trade_no'   => '201712187341413756', //流水编号
-	    'user_account'	   => 'zhangsan',
-	    'purchase_time'    => '2017-10-12 10:00:00', //买单时间
-	    'merchant_address' => '上海市普陀区中山北路3553号301室',
-	    
-	    'favourable_activity' => '全场满30减5',
-	    
-	    'receivables'       => '49.00', //应收金额
-	    'discount_amount'   => '5.00',  //优惠金额
-	    'payment'        	=> '支付宝', //支付宝
-	    'order_amount'     	=> '44.00', //实收金额
-	    
-        'qrcode'            => '2017101294860',
+	    'order_sn' 	            => '2017101294860', //订单编号
+	    'order_trade_no'        => '201712187341413756', //流水编号
+	    'user_account'	        => 'zhangsan',
+	    'purchase_time'         => '2017-10-12 10:00:00', //买单时间
+	    'merchant_address'      => '上海市普陀区中山北路3553号301室',
+
+	    'favourable_activity'   => '全场满30减5',
+
+	    'receivables'           => '49.00', //应收金额
+	    'discount_amount'       => '5.00', //优惠金额
+	    'payment'        	    => '支付宝', //支付宝
+	    'order_amount'     	    => '44.00', //实收金额
+
+        'qrcode'                => '2017101294860',
     ];
-    
-    
+
+
     public function getTemplate()
     {
         if (empty($this->template)) {
@@ -126,5 +126,5 @@ ${tail_content}';
         }
         return $this->template;
     }
-    
+
 }

@@ -10,7 +10,7 @@
     <h3 class="heading">
         <!-- {if $ur_here}{$ur_here}{/if} -->
         <!-- {if $action_link} -->
-        <a class="data-pjax btn plus_or_reply" id="sticky_a" href="{$action_link.href}"><i class="fontello-icon-reply"></i>{$action_link.text}</a>
+        <a class="btn plus_or_reply" id="sticky_a" href="{$action_link.href}"><i class="fontello-icon-reply"></i>{$action_link.text}</a>
         <!-- {/if} -->
     </h3>
 </div>
@@ -21,7 +21,7 @@
     </div>
     <div class="span9">
         <div class="span12">
-        	<div class="printer_title">小票机列表</div>
+        	<div class="printer_title">{t domain="printer"}小票机列表{/t}</div>
         	<div class="printer_list wookmark">
         		<ul>
         			{if $list}
@@ -32,22 +32,22 @@
         					<div class="top_right">
         						<span class="name">{$val.machine_name}</span>
         						{if $val.online_status eq 1}
-        						<span class="status">在线</span>
+        						<span class="status">{t domain="printer"}在线{/t}</span>
         						{else if $val.online_status eq 2}
-        						<span class="status error">缺纸</span>
+        						<span class="status error">{t domain="printer"}缺纸{/t}</span>
         						{else if $val.online_status eq 0}
-        						<span class="status error">离线</span>
+        						<span class="status error">{t domain="printer"}离线{/t}</span>
         						{/if}
         					</div>
         				</div>
         				<div class="bottom">
-        					<div class="bottom-item">终端编号&nbsp;&nbsp;{$val.machine_code}</div>
-        					<div class="bottom-item">打印机型&nbsp;&nbsp;{$val.version}</div>
-        					<div class="bottom-item">添加日期&nbsp;&nbsp;{RC_Time::local_date('Y-m-d H:i:s', $val['add_time'])}</div>
+        					<div class="bottom-item">{t domain="printer"}终端编号{/t}&nbsp;{$val.machine_code}</div>
+        					<div class="bottom-item">{t domain="printer"}打印机型{/t}&nbsp;{$val.version}</div>
+        					<div class="bottom-item">{t domain="printer"}添加日期{/t}&nbsp;{RC_Time::local_date('Y-m-d H:i:s', $val['add_time'])}</div>
         				</div>
         				<div class="view">
-        					<a class="btn btn-gebo data-pjax" href='{RC_Uri::url("printer/admin_store_printer/view", "id={$val.id}&store_id={$val.store_id}")}'>查看</a>&nbsp;&nbsp;
-        					<a class="btn ajaxremove" data-toggle="ajaxremove" data-msg="您确定要删除该小票机吗？" href='{RC_Uri::url("printer/admin_store_printer/delete", "id={$val.id}&store_id={$val.store_id}")}'>删除</a>
+        					<a class="btn btn-gebo data-pjax" href='{RC_Uri::url("printer/admin_store_printer/view", "id={$val.id}&store_id={$val.store_id}")}'>{t domain="printer"}查看{/t}</a>&nbsp;&nbsp;
+        					<a class="btn ajaxremove" data-toggle="ajaxremove" data-msg='{t domain="printer"}您确定要删除该小票机吗？{/t}' href='{RC_Uri::url("printer/admin_store_printer/delete", "id={$val.id}&store_id={$val.store_id}")}'>{t domain="printer"}删除{/t}</a>
         				</div>
         			</li>
         			<!-- {/foreach} -->

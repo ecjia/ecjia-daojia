@@ -1,0 +1,983 @@
+# Copyright (C) 2019 Ecjia App printer
+# This file is distributed under the same license as the Ecjia App printer package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App printer 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:57:42+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin_config.php:86 admin_config.php:88
+#: classes/hooks/admin_printer.class.php:57
+msgid "打印机设置"
+msgstr ""
+
+#: admin_config.php:111
+msgid "App Key不能为空"
+msgstr ""
+
+#: admin_config.php:115
+msgid "App Secret不能为空"
+msgstr ""
+
+#: admin_config.php:138 mh_print.php:552
+msgid "保存成功"
+msgstr ""
+
+#: admin_store_printer.php:83
+msgid "入驻商家"
+msgstr ""
+
+#: admin_store_printer.php:86
+msgid "自营店铺"
+msgstr ""
+
+#: admin_store_printer.php:101 admin_store_printer.php:169
+#: admin_store_printer.php:595
+msgid "请选择您要操作的店铺"
+msgstr ""
+
+#: admin_store_printer.php:106 admin_store_printer.php:146
+#: admin_store_printer.php:263
+#: apis/printer_merchant_printer_menu_api.class.php:60
+#: apis/printer_store_menu_api.class.php:61 classes/Helper.php:58
+#: classes/hooks/merchant_printer.class.php:87 configs/package.php:55
+msgid "小票机"
+msgstr ""
+
+#: admin_store_printer.php:113 admin_store_printer.php:607
+msgid "自营店铺列表"
+msgstr ""
+
+#: admin_store_printer.php:115 admin_store_printer.php:609
+msgid "入驻商家列表"
+msgstr ""
+
+#: admin_store_printer.php:117 admin_store_printer.php:150
+msgid "%s - 小票机"
+msgstr ""
+
+#: admin_store_printer.php:140
+msgid "添加小票机"
+msgstr ""
+
+#: admin_store_printer.php:147
+msgid "%s - 添加小票机"
+msgstr ""
+
+#: admin_store_printer.php:173 admin_store_printer.php:478 mh_print.php:297
+msgid "请输入小票机名称"
+msgstr ""
+
+#: admin_store_printer.php:177
+msgid "请输入终端编号"
+msgstr ""
+
+#: admin_store_printer.php:180
+msgid "请输入终端密钥"
+msgstr ""
+
+#: admin_store_printer.php:185
+msgid "该终端编号已存在"
+msgstr ""
+
+#: admin_store_printer.php:218
+msgid "添加成功"
+msgstr ""
+
+#: admin_store_printer.php:239 admin_store_printer.php:585 mh_print.php:404
+msgid "删除成功"
+msgstr ""
+
+#: admin_store_printer.php:257 mh_print.php:120 mh_print.php:123
+msgid "查看小票机"
+msgstr ""
+
+#: admin_store_printer.php:264
+msgid "%s - 查看小票机"
+msgstr ""
+
+#: admin_store_printer.php:300 admin_store_printer.php:657 mh_print.php:156
+#: mh_print.php:610
+msgid "取消成功"
+msgstr ""
+
+#: admin_store_printer.php:319 mh_print.php:174
+msgid "关闭成功"
+msgstr ""
+
+#: admin_store_printer.php:338 mh_print.php:190
+msgid "重启成功"
+msgstr ""
+
+#: admin_store_printer.php:358 mh_print.php:208
+msgid "刷新成功"
+msgstr ""
+
+#: admin_store_printer.php:388 mh_print.php:236
+msgid "响铃类型修改成功"
+msgstr ""
+
+#: admin_store_printer.php:391 mh_print.php:239
+msgid "音量修改成功"
+msgstr ""
+
+#: admin_store_printer.php:416 mh_print.php:263
+msgid "按键打印修改成功"
+msgstr ""
+
+#: admin_store_printer.php:440 mh_print.php:286
+msgid "订单确认修改成功"
+msgstr ""
+
+#: admin_store_printer.php:453 mh_print.php:416
+msgid "请输入要打印的内容"
+msgstr ""
+
+#: admin_store_printer.php:467 mh_print.php:430
+msgid "测试打印成功"
+msgstr ""
+
+#: admin_store_printer.php:483 mh_print.php:302
+msgid "小票机名称修改成功"
+msgstr ""
+
+#: admin_store_printer.php:494 mh_print.php:313
+msgid "请输入手机卡号"
+msgstr ""
+
+#: admin_store_printer.php:497 mh_print.php:316
+msgid "手机卡号修改成功"
+msgstr ""
+
+#: admin_store_printer.php:512 mh_print.php:331
+msgid "图片大小不能超过40kb"
+msgstr ""
+
+#: admin_store_printer.php:531 mh_print.php:350
+msgid "图片宽高不能超过350px"
+msgstr ""
+
+#: admin_store_printer.php:554 mh_print.php:375
+msgid "上传成功"
+msgstr ""
+
+#: admin_store_printer.php:600
+#: apis/printer_merchant_printer_menu_api.class.php:61
+#: apis/printer_store_menu_api.class.php:62
+msgid "打印记录"
+msgstr ""
+
+#: admin_store_printer.php:611
+msgid "%s - 打印记录"
+msgstr ""
+
+#: admin_store_printer.php:625 admin_store_printer.php:642 mh_print.php:578
+#: mh_print.php:595
+msgid "请选择您要操作的记录"
+msgstr ""
+
+#: admin_store_printer.php:631 mh_print.php:584
+msgid "打印已发送"
+msgstr ""
+
+#: apis/printer_admin_purview_api.class.php:57
+#: apis/printer_merchant_purview_api.class.php:57 mh_print.php:122
+msgid "小票机管理"
+msgstr ""
+
+#: apis/printer_admin_purview_api.class.php:58
+#: apis/printer_merchant_purview_api.class.php:58
+msgid "小票机更新"
+msgstr ""
+
+#: apis/printer_admin_purview_api.class.php:59
+msgid "小票机删除"
+msgstr ""
+
+#: apis/printer_admin_purview_api.class.php:61
+#: apis/printer_merchant_purview_api.class.php:63
+msgid "打印记录管理"
+msgstr ""
+
+#: apis/printer_admin_purview_api.class.php:62
+#: apis/printer_merchant_purview_api.class.php:64
+msgid "打印记录更新"
+msgstr ""
+
+#: apis/printer_merchant_printer_menu_api.class.php:59
+#: classes/hooks/admin_printer.class.php:56
+msgid "小票打印"
+msgstr ""
+
+#: apis/printer_merchant_printer_menu_api.class.php:62 classes/Helper.php:61
+msgid "小票模板"
+msgstr ""
+
+#: apis/printer_merchant_printer_menu_api.class.php:63 mh_print.php:448
+msgid "普通订单小票"
+msgstr ""
+
+#: apis/printer_merchant_printer_menu_api.class.php:64 mh_print.php:450
+msgid "外卖订单小票"
+msgstr ""
+
+#: apis/printer_merchant_printer_menu_api.class.php:65 mh_print.php:452
+msgid "到店购物小票"
+msgstr ""
+
+#: apis/printer_merchant_printer_menu_api.class.php:66 mh_print.php:454
+msgid "优惠买单小票"
+msgstr ""
+
+#: apis/printer_merchant_printer_menu_api.class.php:67
+msgid "退款订单小票"
+msgstr ""
+
+#: apis/printer_merchant_printer_menu_api.class.php:68 mh_print.php:458
+msgid "会员充值小票"
+msgstr ""
+
+#: apis/printer_merchant_purview_api.class.php:60
+msgid "小票模板管理"
+msgstr ""
+
+#: apis/printer_merchant_purview_api.class.php:61
+msgid "小票模板更新"
+msgstr ""
+
+#: apis/printer_send_event_print_api.class.php:71
+msgid "调用%s，无效参数"
+msgstr ""
+
+#: apis/printer_send_event_print_api.class.php:84
+msgid "打印设备 %s 处于离线状态。"
+msgstr ""
+
+#: apis/printer_send_event_print_api.class.php:93
+msgid "请先开启打印 %s 模板"
+msgstr ""
+
+#: apis/printer_send_event_print_api.class.php:97
+msgid "请先开启自动打印 %s 事件"
+msgstr ""
+
+#: classes/EventPrint.php:96
+msgid "请先使用%s或%s方法设置参数"
+msgstr ""
+
+#: classes/EventPrint.php:124
+msgid "没有找到此打印记录"
+msgstr ""
+
+#: classes/EventPrint.php:127
+msgid "提示：此单为重新打印订单"
+msgstr ""
+
+#: classes/Helper.php:59
+msgid "小票机名称"
+msgstr ""
+
+#: classes/Helper.php:60
+msgid "小票机logo"
+msgstr ""
+
+#: configs/package.php:56
+msgid "用来管理商家订单打印使用的小票打印机。"
+msgstr ""
+
+#: mh_print.php:90 mh_print.php:92 mh_print.php:438 mh_print.php:439
+#: mh_print.php:560 mh_print.php:561
+msgid "小票打印设置"
+msgstr ""
+
+#: mh_print.php:114
+msgid "该小票机不存在"
+msgstr ""
+
+#: mh_print.php:444 mh_print.php:497
+msgid "该小票类型不存在"
+msgstr ""
+
+#: mh_print.php:456
+msgid "订单退款小票"
+msgstr ""
+
+#: mh_print.php:517
+msgid "测试打印已发送"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:28
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:33
+msgid "打印机名称"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:29
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:34
+msgid "订单编号"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:30
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:35
+msgid "打印编号"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:31
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:36
+msgid "订单类型"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:32
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:37
+msgid "打印时间"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:33
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:38
+msgid "打印状态"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:42
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:47
+msgid "查看打印内容"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:44
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:49
+msgid "重新打印"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:46
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:73
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:51
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:77
+msgid "取消打印"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:55
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:59
+msgid "测试订单"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:57
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:61
+msgid "普通订单"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:59
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:63
+msgid "到店购物订单"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:61
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:65
+msgid "优惠买单订单"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:67
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:71
+msgid "待打印"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:69
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:73
+msgid "打印完成"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:71
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:75
+msgid "打印异常"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:78
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:82
+#: content/apps/printer/templates/merchant/printer_list.dwt.php:56
+msgid "没有找到任何记录"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_record_list.dwt.php:91
+#: content/apps/printer/templates/merchant/printer_record_list.dwt.php:99
+msgid "打印内容"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_list.dwt.php:24
+#: content/apps/printer/templates/merchant/printer_list.dwt.php:26
+msgid "小票机列表"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_list.dwt.php:35
+#: content/apps/printer/templates/admin/printer_view.dwt.php:47
+#: content/apps/printer/templates/admin/printer_view.dwt.php:62
+#: content/apps/printer/templates/merchant/printer_list.dwt.php:38
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:54
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:69
+msgid "在线"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_list.dwt.php:37
+#: content/apps/printer/templates/admin/printer_view.dwt.php:49
+#: content/apps/printer/templates/admin/printer_view.dwt.php:78
+#: content/apps/printer/templates/merchant/printer_list.dwt.php:40
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:56
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:85
+msgid "缺纸"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_list.dwt.php:39
+#: content/apps/printer/templates/admin/printer_view.dwt.php:51
+#: content/apps/printer/templates/admin/printer_view.dwt.php:70
+#: content/apps/printer/templates/merchant/printer_list.dwt.php:42
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:58
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:77
+msgid "离线"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_list.dwt.php:44
+#: content/apps/printer/templates/merchant/printer_list.dwt.php:47
+msgid "终端编号"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_list.dwt.php:45
+#: content/apps/printer/templates/merchant/printer_list.dwt.php:48
+msgid "打印机型"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_list.dwt.php:46
+#: content/apps/printer/templates/merchant/printer_list.dwt.php:49
+msgid "添加日期"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_list.dwt.php:49
+#: content/apps/printer/templates/merchant/printer_list.dwt.php:52
+msgid "查看"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_list.dwt.php:50
+msgid "您确定要删除该小票机吗？"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_list.dwt.php:50
+#: content/apps/printer/templates/admin/printer_view.dwt.php:167
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:188
+msgid "删除"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:15
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:14
+msgid "刷新小票机状态"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:22
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:29
+msgid "基本信息"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:27
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:34
+msgid "您确定要关闭该小票机吗？"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:27
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:34
+msgid "关闭"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:30
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:37
+msgid "您确定要重启该小票机吗？"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:30
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:37
+msgid "重启"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:38
+#: content/apps/printer/templates/admin/printer_edit.dwt.php:35
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:45
+msgid "终端编号："
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:39
+#: content/apps/printer/templates/admin/printer_edit.dwt.php:44
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:46
+msgid "终端密钥："
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:40
+#: content/apps/printer/templates/admin/printer_edit.dwt.php:53
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:47
+msgid "手机卡号："
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:40
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:47
+msgid "暂无"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:41
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:48
+msgid "打印机型："
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:42
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:49
+msgid "添加时间："
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:84
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:91
+msgid "声音调节"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:87
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:94
+msgid "响铃类型"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:92
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:103
+msgid "音量调节"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:98
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:109
+msgid "打印控制"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:100
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:111
+msgid "您确定要取消所有未打印吗？"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:100
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:111
+msgid "取消所有未打印"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:101
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:112
+msgid "取消后，此台小票机设备将不再打印剩下的所有订单"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:102
+#: content/apps/printer/templates/admin/printer_view.dwt.php:187
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:113
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:208
+#: content/apps/printer/templates/merchant/printer_order_ticket.dwt.php:103
+msgid "打印测试"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:103
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:114
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:223
+msgid "点击打印后可测试此台小票机是否可用"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:106
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:117
+msgid "按键打印"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:112
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:127
+msgid "订单确认"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:121
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:140
+msgid "打印统计"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:126
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:145
+msgid "本周打印量"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:131
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:150
+msgid "今日打印量"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:136
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:155
+msgid "今日未打印量"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:146
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:169
+msgid "上传LOGO"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:154
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:174
+msgid "上传LOGO："
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:163
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:184
+msgid "浏览"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:164
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:185
+msgid "修改"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:167
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:188
+msgid "您确定要删除该小票机logo吗？"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:169
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:190
+msgid "推荐图片宽高200px，不超过350px，文件大小不超过40kb"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:173
+#: content/apps/printer/templates/admin/printer_view.dwt.php:205
+#: content/apps/printer/templates/admin/printer_edit.dwt.php:62
+#: content/apps/printer/templates/admin/printer_setting.dwt.php:71
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:194
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:226
+msgid "确定"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:195
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:214
+msgid "打印份数："
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:197
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:216
+msgid "请输入打印份数"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_view.dwt.php:198
+#: content/apps/printer/templates/merchant/printer_view.dwt.php:217
+msgid "请输入1-9的整数，其他内容无效"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_edit.dwt.php:26
+msgid "打印机名称："
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_edit.dwt.php:28
+msgid "请输入打印机名称"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_edit.dwt.php:30
+msgid "该名称只在打印机列表显示，便于管理员查找打印机"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_edit.dwt.php:39
+msgid "请输入打印机设备上的终端编号"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_edit.dwt.php:48
+msgid "请输入打印机设备上的终端密钥"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_edit.dwt.php:56
+msgid "如果打印机设备上有放手机卡，请输入放在设备内的手机卡号"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_setting.dwt.php:21
+msgid "App Key："
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_setting.dwt.php:29
+msgid "App Secret："
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_setting.dwt.php:37
+msgid "是否打印平台名称："
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_setting.dwt.php:42
+msgid "此按钮开启之后，在小票打印时，尾部会打印出平台的名称。"
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_setting.dwt.php:48
+msgid "打印完成状态推送地址："
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_setting.dwt.php:55
+msgid "终端状态推送地址："
+msgstr ""
+
+#: content/apps/printer/templates/admin/printer_setting.dwt.php:62
+msgid "接单拒单推送地址："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_refund_orders.lbi.php:11
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:10
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:11
+#: content/apps/printer/templates/merchant/library/print_quickpay_orders.lbi.php:10
+#: content/apps/printer/templates/merchant/library/print_surplus_orders.lbi.php:11
+#: content/apps/printer/templates/merchant/library/print_store_orders.lbi.php:10
+msgid "订单编号："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_refund_orders.lbi.php:12
+msgid "退单号："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_refund_orders.lbi.php:13
+#: content/apps/printer/templates/merchant/library/print_surplus_orders.lbi.php:13
+msgid "交易类型："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_refund_orders.lbi.php:14
+#: content/apps/printer/templates/merchant/library/print_surplus_orders.lbi.php:14
+msgid "日期和时间："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_refund_orders.lbi.php:15
+msgid "收银员："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_refund_orders.lbi.php:18
+#: content/apps/printer/templates/merchant/library/print_store_orders.lbi.php:32
+msgid "红包抵扣："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_refund_orders.lbi.php:19
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:33
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:44
+#: content/apps/printer/templates/merchant/library/print_store_orders.lbi.php:33
+msgid "积分抵扣："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_refund_orders.lbi.php:20
+#: content/apps/printer/templates/merchant/library/print_quickpay_orders.lbi.php:27
+#: content/apps/printer/templates/merchant/library/print_surplus_orders.lbi.php:17
+#: content/apps/printer/templates/merchant/library/print_store_orders.lbi.php:34
+msgid "优惠金额："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_refund_orders.lbi.php:21
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:44
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:53
+#: content/apps/printer/templates/merchant/library/print_quickpay_orders.lbi.php:28
+#: content/apps/printer/templates/merchant/library/print_store_orders.lbi.php:35
+msgid "应收金额："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_refund_orders.lbi.php:22
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:45
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:54
+#: content/apps/printer/templates/merchant/library/print_quickpay_orders.lbi.php:29
+#: content/apps/printer/templates/merchant/library/print_surplus_orders.lbi.php:18
+#: content/apps/printer/templates/merchant/library/print_store_orders.lbi.php:36
+msgid "实收金额："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_refund_orders.lbi.php:23
+msgid "退款金额："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_refund_orders.lbi.php:26
+#: content/apps/printer/templates/merchant/library/print_surplus_orders.lbi.php:24
+msgid "支付渠道："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_refund_orders.lbi.php:27
+#: content/apps/printer/templates/merchant/library/print_surplus_orders.lbi.php:28
+msgid "支付流水号："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_refund_orders.lbi.php:30
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:59
+#: content/apps/printer/templates/merchant/library/print_surplus_orders.lbi.php:31
+msgid "地址："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_refund_orders.lbi.php:31
+#: content/apps/printer/templates/merchant/library/print_surplus_orders.lbi.php:32
+msgid "电话："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:11
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:12
+#: content/apps/printer/templates/merchant/library/print_quickpay_orders.lbi.php:11
+#: content/apps/printer/templates/merchant/library/print_store_orders.lbi.php:11
+msgid "流水编号："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:12
+#: content/apps/printer/templates/merchant/library/print_quickpay_orders.lbi.php:13
+#: content/apps/printer/templates/merchant/library/print_surplus_orders.lbi.php:23
+msgid "会员账号："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:13
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:13
+#: content/apps/printer/templates/merchant/library/print_store_orders.lbi.php:12
+msgid "下单时间："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:17
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:23
+#: content/apps/printer/templates/merchant/library/print_store_orders.lbi.php:17
+msgid "商品"
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:18
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:24
+#: content/apps/printer/templates/merchant/library/print_store_orders.lbi.php:18
+msgid "数量"
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:19
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:25
+#: content/apps/printer/templates/merchant/library/print_store_orders.lbi.php:19
+msgid "单价"
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:29
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:35
+#: content/apps/printer/templates/merchant/library/print_store_orders.lbi.php:29
+msgid "总计："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:34
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:45
+msgid "获得积分："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:36
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:47
+msgid "积分余额："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:37
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:48
+msgid "满减满折："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:38
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:49
+msgid "红包折扣："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:43
+msgid "配送费："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:46
+#: content/apps/printer/templates/merchant/library/print_quickpay_orders.lbi.php:30
+#: content/apps/printer/templates/merchant/library/print_store_orders.lbi.php:37
+msgid "支付宝："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_buy_orders.lbi.php:48
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:58
+msgid "备注内容："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:14
+msgid "期望送达时间："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:19
+msgid "商品名"
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:40
+msgid "其他"
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:52
+msgid "配送费用："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:55
+msgid "微信支付："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:60
+msgid "姓名："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_takeaway_orders.lbi.php:61
+msgid "手机号："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_quickpay_orders.lbi.php:15
+msgid "买单时间："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_quickpay_orders.lbi.php:16
+#: content/apps/printer/templates/merchant/library/print_store_orders.lbi.php:13
+msgid "商家地址："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_quickpay_orders.lbi.php:21
+msgid "在线买单"
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_quickpay_orders.lbi.php:24
+msgid "优惠活动："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_surplus_orders.lbi.php:12
+msgid "交易号："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_surplus_orders.lbi.php:19
+msgid "账户积分："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_surplus_orders.lbi.php:20
+msgid "账户余额："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/library/print_surplus_orders.lbi.php:26
+msgid "支付账号："
+msgstr ""
+
+#: content/apps/printer/templates/merchant/printer_order_ticket.dwt.php:28
+msgid "打印机自定义设置"
+msgstr ""
+
+#: content/apps/printer/templates/merchant/printer_order_ticket.dwt.php:51
+msgid "模板名称"
+msgstr ""
+
+#: content/apps/printer/templates/merchant/printer_order_ticket.dwt.php:56
+msgid "模板代号"
+msgstr ""
+
+#: content/apps/printer/templates/merchant/printer_order_ticket.dwt.php:61
+msgid "打印数量"
+msgstr ""
+
+#: content/apps/printer/templates/merchant/printer_order_ticket.dwt.php:64
+msgid "默认设置为1份，最多可设置9份"
+msgstr ""
+
+#: content/apps/printer/templates/merchant/printer_order_ticket.dwt.php:68
+msgid "是否启用此模板"
+msgstr ""
+
+#: content/apps/printer/templates/merchant/printer_order_ticket.dwt.php:80
+msgid "是否开启自动打印"
+msgstr ""
+
+#: content/apps/printer/templates/merchant/printer_order_ticket.dwt.php:93
+msgid "自定义尾部信息"
+msgstr ""
+
+#: content/apps/printer/templates/merchant/printer_order_ticket.dwt.php:96
+msgid "如需换行，可在输入框中使用%1字符"
+msgstr ""
+
+#: content/apps/printer/templates/merchant/printer_order_ticket.dwt.php:102
+msgid "保存打印模板"
+msgstr ""

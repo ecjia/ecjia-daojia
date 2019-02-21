@@ -70,9 +70,10 @@ class admin_config extends ecjia_admin
         RC_Script::enqueue_script('bootstrap-placeholder', RC_Uri::admin_url('statics/lib/dropper-upload/bootstrap-placeholder.js'), array(), false, true);
 
         RC_Script::enqueue_script('jquery.toggle.buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/jquery.toggle.buttons.js'));
-		RC_Style::enqueue_style('bootstrap-toggle-buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/bootstrap-toggle-buttons.css'));
+        RC_Style::enqueue_style('bootstrap-toggle-buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/bootstrap-toggle-buttons.css'));
 
         RC_Script::enqueue_script('printer', RC_App::apps_url('statics/js/printer.js', __FILE__), array(), false, false);
+        RC_Script::localize_script('printer', 'js_lang', config('app-printer::jslang.admin_config_page'));
     }
 
     /**
@@ -81,59 +82,60 @@ class admin_config extends ecjia_admin
     public function init()
     {
         $this->admin_priv('printer_manage');
-        
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('打印机设置'));
-        
-        $this->assign('ur_here', '打印机设置');
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('打印机设置', 'printer')));
+
+        $this->assign('ur_here', __('打印机设置', 'printer'));
         $this->assign('form_action', RC_Uri::url('printer/admin_config/update'));
-        
+
         $this->assign('printer_key', ecjia::config('printer_key'));
         $this->assign('printer_secret', ecjia::config('printer_secret'));
-        
+
         $this->assign('printer_display_platform', ecjia::config('printer_display_platform'));
         $this->assign('printer_print_push', ecjia::config('printer_print_push'));
         $this->assign('printer_status_push', ecjia::config('printer_status_push'));
         $this->assign('printer_order_push', ecjia::config('printer_order_push'));
-        
+
         $this->assign('current_code', 'printer_setting');
         $this->display('printer_setting.dwt');
     }
-    
-    public function update() {
-    	$this->admin_priv('printer_manage', ecjia::MSGTYPE_JSON);
-    	
-    	$app_key 	= !empty($_POST['app_key']) 	? trim($_POST['app_key'])		: '';
-    	$app_secret = !empty($_POST['app_secret']) 	? trim($_POST['app_secret'])	: '';
-    	
-    	if (empty($app_key)) {
-    		return $this->showmessage('App Key不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    	}
-    	
-    	if (empty($app_secret)) {
-    		return $this->showmessage('App Secret不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    	}
-    	
-    	ecjia_config::instance()->write_config('printer_key', $app_key);
-    	ecjia_config::instance()->write_config('printer_secret', $app_secret);
-    	
-    	$printer_display_platform = !empty($_POST['printer_display_platform']) ? intval($_POST['printer_display_platform']) : 0;
-    	
-    	$printer_print_push 	= !empty($_POST['printer_print_push']) 		? trim($_POST['printer_print_push']) 	: Ecjia\App\Printer\PrinterCallback::getPrintPush();
-    	$printer_status_push 	= !empty($_POST['printer_status_push']) 	? trim($_POST['printer_status_push']) 	: Ecjia\App\Printer\PrinterCallback::getStatusPush();
-    	$printer_order_push 	= !empty($_POST['printer_order_push']) 		? trim($_POST['printer_order_push']) 	: Ecjia\App\Printer\PrinterCallback::getOrderPush();
-    	
-    	$rs = ecjia_printer::setNotify($printer_print_push, $printer_order_push, $printer_status_push);
-    	if (is_ecjia_error($rs)) {
-    		return $this->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-    	}
 
-    	ecjia_config::instance()->write_config('printer_display_platform', $printer_display_platform);
+    public function update()
+    {
+        $this->admin_priv('printer_manage', ecjia::MSGTYPE_JSON);
 
-    	ecjia_config::instance()->write_config('printer_print_push', $printer_print_push);
-    	ecjia_config::instance()->write_config('printer_status_push', $printer_status_push);
-    	ecjia_config::instance()->write_config('printer_order_push', $printer_order_push);
-    	
-    	return $this->showmessage('保存成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('printer/admin_config/init')));
+        $app_key    = !empty($_POST['app_key']) ? trim($_POST['app_key']) : '';
+        $app_secret = !empty($_POST['app_secret']) ? trim($_POST['app_secret']) : '';
+
+        if (empty($app_key)) {
+            return $this->showmessage(__('App Key不能为空', 'printer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        if (empty($app_secret)) {
+            return $this->showmessage(__('App Secret不能为空', 'printer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        ecjia_config::instance()->write_config('printer_key', $app_key);
+        ecjia_config::instance()->write_config('printer_secret', $app_secret);
+
+        $printer_display_platform = !empty($_POST['printer_display_platform']) ? intval($_POST['printer_display_platform']) : 0;
+
+        $printer_print_push  = !empty($_POST['printer_print_push']) ? trim($_POST['printer_print_push']) : Ecjia\App\Printer\PrinterCallback::getPrintPush();
+        $printer_status_push = !empty($_POST['printer_status_push']) ? trim($_POST['printer_status_push']) : Ecjia\App\Printer\PrinterCallback::getStatusPush();
+        $printer_order_push  = !empty($_POST['printer_order_push']) ? trim($_POST['printer_order_push']) : Ecjia\App\Printer\PrinterCallback::getOrderPush();
+
+        $rs = ecjia_printer::setNotify($printer_print_push, $printer_order_push, $printer_status_push);
+        if (is_ecjia_error($rs)) {
+            return $this->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        ecjia_config::instance()->write_config('printer_display_platform', $printer_display_platform);
+
+        ecjia_config::instance()->write_config('printer_print_push', $printer_print_push);
+        ecjia_config::instance()->write_config('printer_status_push', $printer_status_push);
+        ecjia_config::instance()->write_config('printer_order_push', $printer_order_push);
+
+        return $this->showmessage(__('保存成功', 'printer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('printer/admin_config/init')));
     }
 
 }

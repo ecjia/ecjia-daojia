@@ -52,11 +52,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.printer',
 	'directory' 	=> 'printer',
-	'name'			=> 'printer',
-	'description' 	=> 'printer_desc',			/* 描述对应的语言项 */
-	'author' 		=> 'ECJIA TEAM',			/* 作者 */
-	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.27.0',					/* 版本号 */
+	'name'			=> __('小票机', 'printer'),
+	'description' 	=> __('用来管理商家订单打印使用的小票打印机。', 'printer'),
+	'author' 		=> 'ECJIA TEAM',			    /* 作者 */
+	'website' 		=> 'http://www.ecjia.com',	    /* 网址 */
+	'version' 		=> '1.27.4',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2013 ~ 2019.',
     'namespace'     => 'Ecjia\App\Printer',
     'provider'      => 'PrinterServiceProvider',

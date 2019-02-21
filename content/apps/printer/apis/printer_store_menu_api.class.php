@@ -50,17 +50,19 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 后台菜单API
  * @author royalwang
  */
-class printer_store_menu_api extends Component_Event_Api {
-	
-	public function call(&$options) {	
-	    $store_id = royalcms('request')->query('store_id');
-	    
-	    $menus = array(
-	    	ecjia_admin::make_admin_menu('store_printer', '小票机', RC_Uri::url('printer/admin_store_printer/init', array('store_id' => $store_id)), 11)->add_purview('printer_manage'),
-	    	ecjia_admin::make_admin_menu('store_printer_record', '打印记录', RC_Uri::url('printer/admin_store_printer/record_list', array('store_id' => $store_id)), 12)->add_purview('printer_record_manage')
-	    );
+class printer_store_menu_api extends Component_Event_Api
+{
+
+    public function call(&$options)
+    {
+        $store_id = royalcms('request')->query('store_id');
+
+        $menus = array(
+            ecjia_admin::make_admin_menu('store_printer', __('小票机', 'printer'), RC_Uri::url('printer/admin_store_printer/init', array('store_id' => $store_id)), 11)->add_purview('printer_manage'),
+            ecjia_admin::make_admin_menu('store_printer_record', __('打印记录', 'printer'), RC_Uri::url('printer/admin_store_printer/record_list', array('store_id' => $store_id)), 12)->add_purview('printer_record_manage')
+        );
         return $menus;
-	}
+    }
 }
 
 // end

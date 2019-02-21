@@ -64,59 +64,59 @@ class PrintRefundOrders extends EventAbstract
         'merchant_name'         => '商家名称',
         'merchant_mobile'       => '商家电话',
         'ticket_type'			=> '小票类型',
-        
+
     	'order_sn' 	        	=> '订单编号',
     	'refund_sn'    			=> '退单号',
     	'trade_type'    		=> '交易类型',
     	'refund_time'	        => '日期时间',
     	'cashier'	        	=> '收银员',
-    	
+
     	'bonus'					=> '红包抵扣',
     	'integral_money'		=> '积分抵扣',
     	'discount_amount'       => '优惠金额',
     	'receivables'           => '应收金额',
     	'order_amount'          => '实收金额',
     	'refund_amount'	        => '退款金额',
-    	
+
     	'payment'			    => '支付渠道',
     	'trade_no'				=> '支付流水号',
-        
+
     	'address'				=> '地址',
     	'tel'					=> '电话',
         'qrcode'                => '二维码'
     ];
-    
+
     /**
      * 打印测试数据
      * @var array
      */
     protected $demoValues = [
-    	'ticket_type'			=> '退款小票',						//小票类型
-    	
-    	
-	    'order_sn' 	       => '2017101294860', 					//订单编号
-	    'refund_sn'   	   => '201712187341413756', 			//退单号
-	    
-	    'trade_type'	   => '撤销消费',							//交易类型
-	    'refund_time'	   => '2019-01-11 10:00:00',			//日期时间（退款时间）
-	    'cashier'	   	   => '1号收银员',							//收银员
-	   
-	    'bonus'   			=> '￥0.00',  						//红包抵扣
-	    'integral_money'   	=> '￥0.00',  						//积分抵扣
-	    'discount_amount'   => '￥5.00',  						//优惠金额
-	    'receivables'       => '￥49.00', 							//应收金额
-	    'order_amount'     	=> '￥44.00', 							//实收金额
-	    'refund_amount'     => '￥44.00', 							//退款金额
+    	'ticket_type'	    => '退款小票', //小票类型
 
-	    
-	    'payment'        	=> '收钱吧扫码支付', 					//支付渠道（支付方式名称，支付宝）
-	    'trade_no'			=> '4200000016201710188758815709',	//支付流水号
-	    
-	    
-        'qrcode'            => '2017101294860',					//二维码
+
+	    'order_sn' 	        => '2017101294860', //订单编号
+	    'refund_sn'   	    => '201712187341413756', //退单号
+
+	    'trade_type'	    => '撤销消费', //交易类型
+	    'refund_time'	    => '2019-01-11 10:00:00', //日期时间（退款时间）
+	    'cashier'	   	    => '1号收银员', //收银员
+
+	    'bonus'   			=> '￥0.00', //红包抵扣
+	    'integral_money'   	=> '￥0.00', //积分抵扣
+	    'discount_amount'   => '￥5.00', //优惠金额
+	    'receivables'       => '￥49.00', //应收金额
+	    'order_amount'     	=> '￥44.00', //实收金额
+	    'refund_amount'     => '￥44.00', //退款金额
+
+
+	    'payment'        	=> '收钱吧扫码支付', //支付渠道（支付方式名称，支付宝）
+	    'trade_no'			=> '4200000016201710188758815709', //支付流水号
+
+
+        'qrcode'            => '2017101294860', //二维码
     ];
-    
-    
+
+
     public function getTemplate()
     {
         if (empty($this->template)) {
@@ -144,5 +144,5 @@ ${tail_content}';
         }
         return $this->template;
     }
-    
+
 }

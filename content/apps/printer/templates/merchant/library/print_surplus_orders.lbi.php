@@ -8,28 +8,28 @@
 		<div>（{$data.ticket_type}）</div>
 	</div>
 	<div class="ticket_content">
-		<div class="ticket-item">订单编号：{$data.order_sn}</div>
-		<div class="ticket-item">交易号：{$data.order_trade_no}</div>
-		<div class="ticket-item">交易类型：{$data.trade_type}</div>
-		<div class="ticket-item">日期和时间：{$data.recharge_time}</div>
+		<div class="ticket-item">{t domain="printer"}订单编号：{/t}{$data.order_sn}</div>
+		<div class="ticket-item">{t domain="printer"}交易号：{/t}{$data.order_trade_no}</div>
+		<div class="ticket-item">{t domain="printer"}交易类型：{/t}{$data.trade_type}</div>
+		<div class="ticket-item">{t domain="printer"}日期和时间：{/t}{$data.recharge_time}</div>
 	</div>
 	<div class="ticket_content">
-		<div class="ticket-item">优惠金额：{$data.discount_amount}</div>
-		<div class="ticket-item">实收金额：{$data.order_amount}</div>
-		<div class="ticket-item">账户积分：{$data.user_pay_points}</div>
-		<div class="ticket-item">账户余额：{$data.user_money}</div>
+		<div class="ticket-item">{t domain="printer"}优惠金额：{/t}{$data.discount_amount}</div>
+		<div class="ticket-item">{t domain="printer"}实收金额：{/t}{$data.order_amount}</div>
+		<div class="ticket-item">{t domain="printer"}账户积分：{/t}{$data.user_pay_points}</div>
+		<div class="ticket-item">{t domain="printer"}账户余额：{/t}{$data.user_money}</div>
 	</div>
 	<div class="ticket_content">
-		<div class="ticket-item">会员账号：{$data.user_name}</div>
-		<div class="ticket-item">支付渠道：{$data.payment}</div>
+		<div class="ticket-item">{t domain="printer"}会员账号：{/t}{$data.user_name}</div>
+		<div class="ticket-item">{t domain="printer"}支付渠道：{/t}{$data.payment}</div>
 		{if $data.pay_account}
-		<div class="ticket-item">支付账号：{$data.pay_account}</div>
+		<div class="ticket-item">{t domain="printer"}支付账号：{/t}{$data.pay_account}</div>
 		{/if}
-		<div class="ticket-item">支付流水号：{$data.trade_no}</div>
+		<div class="ticket-item">{t domain="printer"}支付流水号：{/t}{$data.trade_no}</div>
 	</div>
 	<div class="ticket_content no_dashed">
-		<center>地址：{$store.address}</center>
-		<center>电话：{$contact_mobile}</center>
+		<center>{t domain="printer"}地址：{/t}{$store.address}</center>
+		<center>{t domain="printer"}电话：{/t}{$contact_mobile}</center>
 		<div class="ticket-item qrcode"><img src="{$statics_url}images/qrcode.png" /></div>
 	</div>
 	{if $info.tail_content}

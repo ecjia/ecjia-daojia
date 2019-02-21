@@ -46,19 +46,21 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class printer_admin_hooks {
-	
-   public static function append_admin_setting_group($menus) {
-       $setting = ecjia_admin_setting::singleton();
-       
-       $menus[] = ecjia_admin::make_admin_menu('nav-header', '小票打印', '', 50)->add_purview(array('printer_manage'));
-       $menus[] = ecjia_admin::make_admin_menu('printer_setting', '打印机设置', RC_Uri::url('printer/admin_config/init'), 51)->add_purview('printer_manage')->add_icon('fontello-icon-chat-empty');
-       
-       return $menus;
-   }
-    
+class printer_admin_hooks
+{
+
+    public static function append_admin_setting_group($menus)
+    {
+        $setting = ecjia_admin_setting::singleton();
+
+        $menus[] = ecjia_admin::make_admin_menu('nav-header', __('小票打印', 'printer'), '', 50)->add_purview(array('printer_manage'));
+        $menus[] = ecjia_admin::make_admin_menu('printer_setting', __('打印机设置', 'printer'), RC_Uri::url('printer/admin_config/init'), 51)->add_purview('printer_manage')->add_icon('fontello-icon-chat-empty');
+
+        return $menus;
+    }
+
 }
 
-RC_Hook::add_action( 'append_admin_setting_group', array('printer_admin_hooks', 'append_admin_setting_group') );
+RC_Hook::add_action('append_admin_setting_group', array('printer_admin_hooks', 'append_admin_setting_group'));
 
 // end

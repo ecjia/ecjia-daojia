@@ -95,19 +95,19 @@ class PrintTakeawayOrders extends EventAbstract
      * @var array
      */
     protected $demoValues = [
-	    'order_sn' 	       => '2017101294860', //订单编号
-	    'order_trade_no'   => '201712187341413756', //流水编号
-	    'payment'          => '微信支付', //支付方式
-	    'pay_status'	   => '已支付',	//支付状态
+	    'order_sn' 	            => '2017101294860', //订单编号
+	    'order_trade_no'        => '201712187341413756', //流水编号
+	    'payment'               => '微信支付', //支付方式
+	    'pay_status'	        => '已支付',	//支付状态
 	    
-	    'purchase_time'    => '2017-10-12 10:00:00', //下单时间
-	    'expect_shipping_time' => '2017-10-12 08:00-10:00', //期望送达时间
+	    'purchase_time'         => '2017-10-12 10:00:00', //下单时间
+	    'expect_shipping_time'  => '2017-10-12 08:00-10:00', //期望送达时间
 	    
-	    'integral_money'    => '5.00', //积分抵扣
-	    'integral_balance'  => '20', //积分余额
-	    'receivables'       => '49.00', //应收金额
-	    'integral_give'     => '49', //获得积分
-        'shipping_fee'      => '5.00', //配送费
+	    'integral_money'        => '5.00', //积分抵扣
+	    'integral_balance'      => '20', //积分余额
+	    'receivables'           => '49.00', //应收金额
+	    'integral_give'         => '49', //获得积分
+        'shipping_fee'          => '5.00', //配送费
 	    
 	    'favourable_discount'   => '0.00', //满减满折
 	    'bonus_discount'        => '0.00', //红包折扣

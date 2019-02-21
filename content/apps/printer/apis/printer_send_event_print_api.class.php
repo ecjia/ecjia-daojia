@@ -50,8 +50,9 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 发送打印消息的接口
  * @author royalwang
  */
-class printer_send_event_print_api extends Component_Event_Api {
-	
+class printer_send_event_print_api extends Component_Event_Api
+{
+
     /**
      * @param $store_id integer 商家ID
      * @param $machine  string  终端号
@@ -60,47 +61,48 @@ class printer_send_event_print_api extends Component_Event_Api {
      * @param $auto_print    boolean   是否允许自动打印
      * @return boolean | ecjia_error
      */
-	public function call(&$options) {	
-	    
-	    // $store_id, $machine, $event, $value
-	    // $auto_print 可选
-	    
-	    if (!array_key_exists('store_id', $options) || !array_key_exists('event', $options) || !array_key_exists('value', $options)) {
-	        return new ecjia_error('invalid_argument', __('调用send_event_print，无效参数'));
-	    }
-	    $store_id = $options['store_id'];
-	    $event = $options['event'];
-	    $value = $options['value'];
-	    $auto_print = array_get($options, 'auto_print', false);
-	    
+    public function call(&$options)
+    {
+
+        // $store_id, $machine, $event, $value
+        // $auto_print 可选
+
+        if (!array_key_exists('store_id', $options) || !array_key_exists('event', $options) || !array_key_exists('value', $options)) {
+            return new ecjia_error('invalid_argument', sprintf(__('调用%s，无效参数', 'printer'), 'send_event_print'));
+        }
+        $store_id   = $options['store_id'];
+        $event      = $options['event'];
+        $value      = $options['value'];
+        $auto_print = array_get($options, 'auto_print', false);
+
         if (array_key_exists('machine', $options)) {
             $machine = $options['machine'];
         } else {
             //没有找到可用打印设备，或未添加任何打印设备，或打印设备处于离线状态。
             $machineModel = with(new \Ecjia\App\Printer\Models\PrinterMachineModel())->getMachine($store_id);
-            if ($machineModel->online_status != 1 && ! ecjia::config('printer_offline_send')) {
-                return new ecjia_error('not_found_available_machine', "打印设备{$machineModel->machine_name}处于离线状态。");
+            if ($machineModel->online_status != 1 && !ecjia::config('printer_offline_send')) {
+                return new ecjia_error('not_found_available_machine', sprintf(__('打印设备 %s 处于离线状态。', 'printer'), $machineModel->machine_name));
             }
             $machine = $machineModel->machine_code;
         }
-	    
-	    $eventHandler = with(new Ecjia\App\Printer\EventFactory())->event($event);
 
-	    $model = with(new \Ecjia\App\Printer\Models\PrinterTemplateModel())->getTemplateByCode($event, $store_id);
+        $eventHandler = with(new Ecjia\App\Printer\EventFactory())->event($event);
+
+        $model = with(new \Ecjia\App\Printer\Models\PrinterTemplateModel())->getTemplateByCode($event, $store_id);
         if (intval($model->status) !== 1) {
-            return new ecjia_error('event_not_open', "请先开启打印".$eventHandler->getName()."模板");
+            return new ecjia_error('event_not_open', sprintf(__('请先开启打印 %s 模板', 'printer'), $eventHandler->getName()));
         }
 
-	    if ($auto_print && intval($model->auto_print) !== 1) {
-	        return new ecjia_error('event_not_open_auto_print', "请先开启自动打印".$eventHandler->getName()."事件");
-	    }
+        if ($auto_print && intval($model->auto_print) !== 1) {
+            return new ecjia_error('event_not_open_auto_print', sprintf(__('请先开启自动打印 %s 事件', 'printer'), $eventHandler->getName()));
+        }
 
-	    $result = \Ecjia\App\Printer\EventPrint::make()
-        	    ->setTemplateModel($model)
-        	    ->setEvent($eventHandler)
-        	    ->send($machine, $value);
-	    return $result;
-	}
+        $result = \Ecjia\App\Printer\EventPrint::make()
+            ->setTemplateModel($model)
+            ->setEvent($eventHandler)
+            ->send($machine, $value);
+        return $result;
+    }
 }
 
 // end

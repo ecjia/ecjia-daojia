@@ -1,289 +1,289 @@
 .printer_title {
-	height: 35px;
-	line-height: 35px;
-	background-color: #F6F8F8;
-	border: 1px solid #eee;
-	border-radius: 4px;
-	padding-left: 15px;
-	color: #555;
-	font-weight: 400;
-	font-size: 14px;
-	margin-bottom: 20px
+    height: 35px;
+    line-height: 35px;
+    background-color: #F6F8F8;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding-left: 15px;
+    color: #555;
+    font-weight: 400;
+    font-size: 14px;
+    margin-bottom: 20px
 }
 
 .printer_list {
-	display: block;
-	overflow: hidden
+    display: block;
+    overflow: hidden
 }
 
 .printer_list.wookmark .thumbnail {
-	width: 32%;
-	margin-right: 2%;
-	margin-bottom: 2%;
-	height: 290px;
-	background-color: #F9FBFC;
-	padding: 10px 5px;
+    width: 32%;
+    margin-right: 2%;
+    margin-bottom: 2%;
+    height: 290px;
+    background-color: #F9FBFC;
+    padding: 10px 5px;
 }
 
 .printer_list.wookmark .thumbnail.add {
-	padding: 0
+    padding: 0
 }
 
 .printer_list.wookmark .thumbnail:nth-child(3n) {
-	margin-right: 0
+    margin-right: 0
 }
 
 .printer_list.wookmark .thumbnail .more {
-	height: 100%;
-	background-color: #F9FBFC
+    height: 100%;
+    background-color: #F9FBFC
 }
 
 .printer_list.wookmark .thumbnail .more i {
-	font: 900 60px/85px dashicons;
-	top: 105px
+    font: 900 60px/85px dashicons;
+    top: 105px
 }
 
 .printer_list.wookmark .thumbnail .more:hover {
-	color: #eee;
-	border-color: #48a6d2;
-	background: #48a6d2
+    color: #eee;
+    border-color: #48a6d2;
+    background: #48a6d2
 }
 
 .thumbnail .top {
-	overflow: hidden;
-	border-bottom: 1px solid #eee
+    overflow: hidden;
+    border-bottom: 1px solid #eee
 }
 
 .thumbnail .top img {
-	margin: 10px;
-	float: left;
-	width: 80px;
+    margin: 10px;
+    float: left;
+    width: 80px;
     height: 80px;
-	border-radius: 50%;
+    border-radius: 50%;
 }
 
 .thumbnail .top.printer_logo img {
-	width: 80px;
-	height: 80px;
+    width: 80px;
+    height: 80px;
 }
 
 .thumbnail .top_right {
-	float: left;
-	max-width: 50%;
-	padding-top: 20px;
-	font-size: 18px
+    float: left;
+    max-width: 50%;
+    padding-top: 20px;
+    font-size: 18px
 }
 
 .merchant_printer .thumbnail .top_right {
-	max-width: 55%;
+    max-width: 55%;
 }
 
 .thumbnail .top_right .name {
-	display: block;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	text-align: left;
-	font-weight: 700;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    font-weight: 700;
 }
 
-.info_status .status,.thumbnail .top_right .status {
-	display: block;
-	background-color: #F28467;
-	color: #fff;
-	border-radius: 4px;
-	font-size: 14px;
-	margin-top: 15px;
-	width: 50px
+.info_status .status, .thumbnail .top_right .status {
+    display: block;
+    background-color: #F28467;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 15px;
+    width: 50px
 }
 
-.info_status .status.error,.thumbnail .top_right .status.error {
-	background-color: #aaa
+.info_status .status.error, .thumbnail .top_right .status.error {
+    background-color: #aaa
 }
 
 .bottom {
-	font-size: 15px;
-	line-height: 30px;
-	text-align: left;
-	padding: 15px 5px
+    font-size: 15px;
+    line-height: 30px;
+    text-align: left;
+    padding: 15px 5px
 }
 
 .bottom .bottom-item {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
 }
 
 .printer_list .view .btn.btn-primary {
-	width: 50%;
+    width: 50%;
 }
 
 .printer_box {
-	float: left;
-	height: 340px;
-	border-radius: 4px;
-	border: 1px solid #dedede;
-	box-shadow: 0 1px 1px -1px rgba(0,0,0,.1);
-	box-sizing: border-box;
-	margin-right: 1%;
-	background-color: #fff
+    float: left;
+    height: 340px;
+    border-radius: 4px;
+    border: 1px solid #dedede;
+    box-shadow: 0 1px 1px -1px rgba(0, 0, 0, .1);
+    box-sizing: border-box;
+    margin-right: 1%;
+    background-color: #fff
 }
 
 .printer_box .title {
-	height: 35px;
-	line-height: 35px;
-	background-color: #F6F8F8;
-	padding-left: 15px;
-	color: #555;
-	font-weight: 400;
-	font-size: 14px;
-	overflow: hidden;
-	border-radius: 4px 4px 0 0
+    height: 35px;
+    line-height: 35px;
+    background-color: #F6F8F8;
+    padding-left: 15px;
+    color: #555;
+    font-weight: 400;
+    font-size: 14px;
+    overflow: hidden;
+    border-radius: 4px 4px 0 0
 }
 
 .printer_box.basic_info {
-	width: 46%
+    width: 46%
 }
 
 .printer_box.print_stats {
-	width: 100%;
-	margin-right: 0;
-	margin-top: 20px;
-	height: 250px;
+    width: 100%;
+    margin-right: 0;
+    margin-top: 20px;
+    height: 250px;
 }
 
-.printer_box.printer_control,.printer_box.voice_handle {
-	width: 26%
+.printer_box.printer_control, .printer_box.voice_handle {
+    width: 26%
 }
 
 .printer_box.printer_control {
-	margin-right: 0
+    margin-right: 0
 }
 
 .printer_box .info_content {
-	padding: 15px;
-	position: relative;
-	overflow: hidden;
+    padding: 15px;
+    position: relative;
+    overflow: hidden;
 }
 
 .printer_box .info_left {
-	width: 120px;
-	text-align: center;
-	height: 173px;
-	float: left
+    width: 120px;
+    text-align: center;
+    height: 173px;
+    float: left
 }
 
 .printer_box .info_left .machine_logo {
-	border-radius: 50%;
-	width: 100px;
-	height: 100px
+    border-radius: 50%;
+    width: 100px;
+    height: 100px
 }
 
 .info_left .left_bottom {
-	padding-top: 20px;
-	overflow: hidden
+    padding-top: 20px;
+    overflow: hidden
 }
 
 .left_bottom .close_img {
-	width: 35px;
-	height: 35px;
-	float: left;
-	margin-left: 10px
+    width: 35px;
+    height: 35px;
+    float: left;
+    margin-left: 10px
 }
 
 .left_bottom .refresh_img {
-	width: 35px;
-	height: 35px;
-	float: right;
-	margin-right: 10px
+    width: 35px;
+    height: 35px;
+    float: right;
+    margin-right: 10px
 }
 
 .printer_box .info_right {
-	position: absolute;
-	left: 150px;
-	max-width: 50%
+    position: absolute;
+    left: 150px;
+    max-width: 50%
 }
 
 .info_right .name {
-	font-size: 18px;
-	display: inline-block;
-	text-align: left;
-	font-weight: 700;
-	padding: 5px 0 10px 0;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	max-width: 80%
+    font-size: 18px;
+    display: inline-block;
+    text-align: left;
+    font-weight: 700;
+    padding: 5px 0 10px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 80%
 }
 
 .info_right .name.merchant_printer {
-	padding: 0
+    padding: 0
 }
 
 .info_right .right-item {
-	font-size: 15px;
-	line-height: 30px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis
+    font-size: 15px;
+    line-height: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
 }
 
 .info_right .right-item .view_key {
-	cursor: pointer;
-	padding-left: 5px;
+    cursor: pointer;
+    padding-left: 5px;
 }
 
 .info_right .right-item .view_key img {
     width: 20px;
     height: 20px;
     margin-left: 10px;
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .info_status {
-	position: absolute;
-	right: 20px;
-	top: 0;
-	text-align: center;
-	line-height: 22px
+    position: absolute;
+    right: 20px;
+    top: 0;
+    text-align: center;
+    line-height: 22px
 }
 
 .voice-item {
-	font-size: 15px;
-	line-height: 50px
+    font-size: 15px;
+    line-height: 50px
 }
 
 .voice-item span {
-	padding-left: 10px
+    padding-left: 10px
 }
 
 .voice_type, .content-item {
-	position: relative;
-	padding: 15px 0
+    position: relative;
+    padding: 15px 0
 }
 
 .admin_printer .voice_type, .admin_printer .content-item {
-	padding: 7px 0
+    padding: 7px 0
 }
 
-.voice_type .toggle-button label,.voice_type .toggle-button span, .content-item .toggle-button label, .content-item .toggle-button span {
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	box-sizing: content-box;
-	padding-left: 0;
+.voice_type .toggle-button label, .voice_type .toggle-button span, .content-item .toggle-button label, .content-item .toggle-button span {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    padding-left: 0;
     padding-right: 2px;
 }
 
 .voice_type .label_type, .content-item .label_type {
-	position: absolute;
-	left: 0;
-	top: 16px;
-	font-size: 15px
+    position: absolute;
+    left: 0;
+    top: 16px;
+    font-size: 15px
 }
 
 .voice_type .toggle-button, .content-item .toggle-button {
-	margin-left: 72px;
-	margin-top: 3px;
+    margin-left: 72px;
+    margin-top: 3px;
 }
 
 #voice-slider {
@@ -294,91 +294,91 @@
     margin-left: 15px;
 }
 
-.noUi-handle:after,.noUi-handle:before {
-	display: none
+.noUi-handle:after, .noUi-handle:before {
+    display: none
 }
 
 .noUi-horizontal .noUi-handle {
-	border-radius: 50%;
-	width: 20px;
-	height: 20px;
-	box-shadow: inset 0 0 1px #fff,inset 0 1px 7px #fff,0 3px 6px -3px #fff;
-	cursor: pointer
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    box-shadow: inset 0 0 1px #fff, inset 0 1px 7px #fff, 0 3px 6px -3px #fff;
+    cursor: pointer
 }
 
 .noUi-base {
-	background: none repeat scroll 0 0 #3EB7D5;
-	box-shadow: none
+    background: none repeat scroll 0 0 #3EB7D5;
+    box-shadow: none
 }
 
 .noUi-origin {
-	background: none repeat scroll 0 0 #fff;
-	box-shadow: none
+    background: none repeat scroll 0 0 #fff;
+    box-shadow: none
 }
 
 .info_content .help-block {
-	margin-top: 5px
+    margin-top: 5px
 }
 
 .stats_content {
-	width: 100%;
-	height: 213px
+    width: 100%;
+    height: 213px
 }
 
 .stats_content .stats-item {
-	width: 33.333333%;
-	height: 100%;
-	float: left;
-	position: relative;
-	text-align: center;
-	line-height: 30px
+    width: 33.333333%;
+    height: 100%;
+    float: left;
+    position: relative;
+    text-align: center;
+    line-height: 30px
 }
 
 .stats_content .stats-item::after {
-	content: '';
-	position: absolute;
-	display: block;
-	top: 76px;
-	right: 0;
-	height: 60px;
-	border-right: 1px solid #ddd
+    content: '';
+    position: absolute;
+    display: block;
+    top: 76px;
+    right: 0;
+    height: 60px;
+    border-right: 1px solid #ddd
 }
 
 .stats_content .stats-item:nth-child(3):after {
-	border: none
+    border: none
 }
 
 .stats_content .stats-item .item-li.count {
-	font-size: 25px;
-	line-height: 40px
+    font-size: 25px;
+    line-height: 40px
 }
 
 .stats_content .stats-item .item-li.name {
-	font-size: 16px
+    font-size: 16px
 }
 
 .stats_content .stats-item .item-li:nth-child(1) {
-	margin-top: 52px
+    margin-top: 52px
 }
 
 .info-content.status {
-	overflow: hidden;
+    overflow: hidden;
     height: 100px;
     line-height: 100px;
 }
 
 .info-content.status .status-item {
-	width: 33.3%;
+    width: 33.3%;
     float: left;
-	text-align: center;
+    text-align: center;
 }
 
 .info-content.status .status-item img {
-	padding-right: 5px;
-	width: 55px;
+    padding-right: 5px;
+    width: 55px;
     height: 55px;
 }
 
 .info-content.status.merchant_printer .status-item img {
-	width: 60px;
+    width: 60px;
 }

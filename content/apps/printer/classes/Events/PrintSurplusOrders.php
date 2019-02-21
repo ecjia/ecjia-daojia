@@ -88,24 +88,24 @@ class PrintSurplusOrders extends EventAbstract
      * @var array
      */
     protected $demoValues = [
-    	'ticket_type' 	   => '充值小票', 						//订单编号
+    	'ticket_type' 	   => '充值小票', //订单编号
     
-	    'order_sn' 	       => '2017101294860', 				//订单编号
-	    'order_trade_no'   => '201712187341413756', 		//交易号（支付订单号）
-	    'trade_type'	   => '会员充值',						//交易类型
-	    'recharge_time'	   => '2019-01-11 10:00:00',		//日期和时间
+	    'order_sn' 	       => '2017101294860', //订单编号
+	    'order_trade_no'   => '201712187341413756', //交易号（支付订单号）
+	    'trade_type'	   => '会员充值', //交易类型
+	    'recharge_time'	   => '2019-01-11 10:00:00', //日期和时间
 	    
 	    
-	    'discount_amount'  => '￥0.00',						//优惠金额
-	    'order_amount'     => '￥44.00', 						//充值金额
-	    'user_pay_points'  => '530', 						//账户积分
-	    'user_money'  	   => '￥310.00', 						//账户余额
+	    'discount_amount'  => '￥0.00', //优惠金额
+	    'order_amount'     => '￥44.00', //充值金额
+	    'user_pay_points'  => '530', //账户积分
+	    'user_money'  	   => '￥310.00', //账户余额
 	    
 	    
-	    'user_name'		   => '李四',							//会员账号
-	    'payment'          => '支付宝', 						//支付渠道
-	    'pay_account'      => '134*****325', 				//支付账号（对应payment_record表payer_login字段）
-	    'trade_no'     	   => '7895254464741876', 			//支付流水号
+	    'user_name'		   => '李四', //会员账号
+	    'payment'          => '支付宝', //支付渠道
+	    'pay_account'      => '134*****325', //支付账号（对应payment_record表payer_login字段）
+	    'trade_no'     	   => '7895254464741876', //支付流水号
 	    
         'qrcode'           => '2017101294860',
     ];

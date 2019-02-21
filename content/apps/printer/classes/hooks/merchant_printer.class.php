@@ -48,17 +48,19 @@ use Ecjia\App\Printer\Merchant\ConfigMenu;
 
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class printer_merchant_hooks {
+class printer_merchant_hooks
+{
 
-    public static function display_merchant_printer_menus() {
+    public static function display_merchant_printer_menus()
+    {
         $screen = ecjia_screen::get_current_screen();
-        $code = $screen->get_option('current_code');
-        
+        $code   = $screen->get_option('current_code');
+
         $menus = with(new ConfigMenu($_SESSION['store_name'], $_SESSION['staff_id']))->authMenus();
 
-        echo '<div class="setting-group">'.PHP_EOL;
-        echo '<span class="setting-group-title"><i class="fontello-icon-cog"></i>小票机</span>'.PHP_EOL;
-        echo '<ul class="nav nav-list m_t10">'.PHP_EOL; //
+        echo '<div class="setting-group">' . PHP_EOL;
+        echo '<span class="setting-group-title"><i class="fontello-icon-cog"></i>小票机</span>' . PHP_EOL;
+        echo '<ul class="nav nav-list m_t10">' . PHP_EOL;
 
         foreach ($menus as $key => $group) {
             if ($group->action == 'divider') {
@@ -72,25 +74,26 @@ class printer_merchant_hooks {
                     echo ' llv-active';
                 }
 
-                echo '" href="' . $group->link . '">' . $group->name . '</a></li>'.PHP_EOL;
+                echo '" href="' . $group->link . '">' . $group->name . '</a></li>' . PHP_EOL;
             }
         }
 
-        echo '</ul>'.PHP_EOL;
-        echo '</div>'.PHP_EOL;
+        echo '</ul>' . PHP_EOL;
+        echo '</div>' . PHP_EOL;
     }
-    
-    public static function printer_merchant_menu_api($menus) {
-    	$menu = ecjia_merchant::make_admin_menu('07_merchant_printer', __('小票机'), RC_Uri::url('printer/mh_print/init'), 7)->add_purview('mh_printer_manage')->add_icon('fa-print');
-    	
-    	$menus->add_submenu($menu);
-    	return $menus;
+
+    public static function printer_merchant_menu_api($menus)
+    {
+        $menu = ecjia_merchant::make_admin_menu('07_merchant_printer', __('小票机', 'printer'), RC_Uri::url('printer/mh_print/init'), 7)->add_purview('mh_printer_manage')->add_icon('fa-print');
+
+        $menus->add_submenu($menu);
+        return $menus;
     }
-	
+
 }
 
-RC_Hook::add_action( 'display_merchant_printer_menus', array('printer_merchant_hooks', 'display_merchant_printer_menus') );
+RC_Hook::add_action('display_merchant_printer_menus', array('printer_merchant_hooks', 'display_merchant_printer_menus'));
 
-RC_Hook::add_filter( 'merchant_merchant_menu_api', array('printer_merchant_hooks', 'printer_merchant_menu_api') );
+RC_Hook::add_filter('merchant_merchant_menu_api', array('printer_merchant_hooks', 'printer_merchant_menu_api'));
 
 // end
