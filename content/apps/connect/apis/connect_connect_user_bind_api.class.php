@@ -51,77 +51,104 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * TODO 目前只适合wechat插件使用
  * @author zrl
  */
-class connect_connect_user_bind_api extends Component_Event_Api {
-    
+class connect_connect_user_bind_api extends Component_Event_Api
+{
+
     /**
      * 参数说明
-     * @param connect_code  插件代号
-     * @param connect_platform 平台
-     * @param open_id        第三方帐号绑定唯一值
-     * @param union_id       第三方帐号绑定唯一值
-     * @param profile       个人信息
-     * @param user_type     用户类型，选填，默认user，user:普通用户，merchant:商家，admin:管理员
+     * @param string $connect_code 插件代号
+     * @param string $connect_platform 平台
+     * @param string $open_id 第三方帐号绑定唯一值
+     * @param string $union_id 第三方帐号绑定唯一值
+     * @param string $profile 个人信息
+     * @param string $user_type 用户类型，选填，默认user，user:普通用户，merchant:商家，admin:管理员
      * @see Component_Event_Api::call()
      */
-    public function call(&$options) {
+    public function call(&$options)
+    {
         if (!array_get($options, 'connect_code') || !array_get($options, 'open_id') || !array_get($options, 'profile')) {
-            return new ecjia_error('invalid_parameter', '调用connect_user_bind，参数无效');
+            return new ecjia_error('invalid_parameter', __('参数无效', 'connect'). ' connect_connect_user_bind_api');
         }
-        
-        $expires_in = array_get($options, 'expires_in', 7200);
-        $profile = $options['profile'];
-        $connect_code = $options['connect_code'];
+
+        $expires_in       = array_get($options, 'expires_in', 7200);
+        $profile          = $options['profile'];
+        $connect_code     = $options['connect_code'];
         $connect_platform = $options['connect_platform'];
-        $open_id = $options['open_id'];
-        $union_id = $options['union_id'];
-        
-        $connect_user  = new \Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);  
+        $open_id          = $options['open_id'];
+        $union_id         = $options['union_id'];
+
+        $connect_user = new \Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
         $connect_user->setConnectPlatform($connect_platform);
         $connect_user->setUnionId($union_id);
-        
+
         //通过union_id同步已绑定的用户信息
-        $connect_user->bindUserByUnionId();
-        
+        if($union_id) {
+            $connect_user->bindUserByUnionId();
+        }
+
         //判断openid是否存在
         if ($connect_user->checkUser()) {
-        	$user_id = $connect_user->getUserId();
-        	//获取远程头像，更新用户头像
-        	if (!empty($profile['headimgurl']) && !empty($user_id)) {
-        		$update_avatar_img = RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['headimgurl'], 'user_id' => $user_id));
-        		if (is_ecjia_error($update_avatar_img)) {
-        			return $update_avatar_img;
-        		}
-        	}
+            $user_id = $connect_user->getUserId();
+            //获取远程头像，更新用户头像
+            if (!empty($profile['headimgurl']) && !empty($user_id)) {
+                $update_avatar_img = RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['headimgurl'], 'user_id' => $user_id));
+                if (is_ecjia_error($update_avatar_img)) {
+                    return $update_avatar_img;
+                }
+            }
             return $connect_user;
-        } else if($connect_user->checkOpenId() !== false) {
-            $connect_user->saveConnectProfile($connect_user->getUserModel(), null, null, serialize($profile), $expires_in);
         } else {
-            $user_model = $connect_user->createUser(0);
-            $connect_user->saveConnectProfile($user_model, null, null, serialize($profile), $expires_in);
+            $user_model = $connect_user->checkOpenId();
+            if ( $user_model) {
+                $connect_user->saveConnectProfile($user_model, null, null, serialize($profile), $expires_in);
+            } else {
+                $user_model = $connect_user->createUser(0);
+                $connect_user->saveConnectProfile($user_model, null, null, serialize($profile), $expires_in);
+            }
         }
-        
-        /*创建用户*/
-        $username = with(new \Ecjia\App\Connect\UserGenerate($connect_user))->getUserName();
 
-        $userinfo = RC_Api::api('user', 'add_user', array('username' => $username));
+        $connect_user->refreshConnectUser();
+
+        /**
+         * @debug royalwang
+         */
+//        ecjia_log_debug('connect_user', (array)$connect_user);
+
+        /*创建用户*/
+        $username = with(new \Ecjia\App\Connect\UserGenerate($connect_user))->getGenerateUserName();
+        $email = with(new \Ecjia\App\Connect\UserGenerate($connect_user))->getGenerateEmail();
+        /**
+         * @debug royalwang
+         */
+//        ecjia_log_debug('生成用户名', (array)$username);
+
+        $userinfo = RC_Api::api('user', 'add_user', array('username' => $username, 'email' => $email));
+
+//        ecjia_log_debug('创建用户', (array)$userinfo);
+
         if (is_ecjia_error($userinfo)) {
-        	return $userinfo;
+            return $userinfo;
         }
-		
+
         //获取远程头像，更新用户头像
         if (!empty($profile['headimgurl']) && !empty($userinfo['user_id'])) {
-        	$update_avatar_img = RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['headimgurl'], 'user_id' => $userinfo['user_id']));
-        	if (is_ecjia_error($update_avatar_img)) {
-        		return $update_avatar_img;
-        	}
+            $update_avatar_img = RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['headimgurl'], 'user_id' => $userinfo['user_id']));
+            if (is_ecjia_error($update_avatar_img)) {
+                return $update_avatar_img;
+            }
         }
-       
+
+        /**
+         * @debug royalwang
+         */
+//        ecjia_log_debug('connect_connect_user_bind_api获取会员信息', $userinfo);
+
         /*绑定*/
-        $result  = $connect_user->bindUser($userinfo['user_id']);
+        $result = $connect_user->bindUser($userinfo['user_id']);
         if ($result) {
-        	return $connect_user;
+            return $connect_user;
         } else {
-        	return new ecjia_error('bind_user_error', '绑定用户失败');
+            return new ecjia_error('bind_user_error', __('绑定用户失败', 'connect'));
         }
     }
 }

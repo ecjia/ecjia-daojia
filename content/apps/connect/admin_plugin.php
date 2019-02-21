@@ -69,17 +69,13 @@ class admin_plugin extends ecjia_admin {
 		RC_Style::enqueue_style('chosen');
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Style::enqueue_style('uniform-aristo');
-		RC_Script::enqueue_script('connect', RC_App::apps_url('statics/js/connect.js', __FILE__), array(), false, true);
 		RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
 		RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('connect::connect.connect'), RC_Uri::url('connect/admin_plugin/init')));
-		
-		$js_lang = array(
-			'name_required'	=> RC_Lang::get('connect::connect.pls_name'),
-			'desc_required'	=> RC_Lang::get('connect::connect.pls_desc'),
-		);
-		RC_Script::localize_script('connect', 'js_lang', $js_lang);
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('账号连接', 'connect'), RC_Uri::url('connect/admin_plugin/init')));
+
+        RC_Script::enqueue_script('connect', RC_App::apps_url('statics/js/connect.js', __FILE__), array(), false, true);
+        RC_Script::localize_script('connect', 'jslang', config('app-connect::jslang'));
 		ecjia_screen::get_current_screen()->set_parentage('connect', 'connect/admin_plugin.php');
 	}
 	
@@ -90,8 +86,8 @@ class admin_plugin extends ecjia_admin {
 	    $this->admin_priv('connect_users_manage');
 	    
 	    ecjia_screen::get_current_screen()->remove_last_nav_here();
-	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('connect::connect.connect')));
-		$this->assign('ur_here', RC_Lang::get('connect::connect.connect_list'));
+	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('账号连接', 'connect')));
+		$this->assign('ur_here', __('账号连接列表', 'connect'));
 		
 		$listdb = $this->connect_list();
 		$this->assign('listdb', $listdb);
@@ -105,20 +101,20 @@ class admin_plugin extends ecjia_admin {
 	public function edit() {
 		$this->admin_priv('connect_users_update');
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('connect::connect.edit')));
-		$this->assign('ur_here', RC_Lang::get('connect::connect.edit'));
-		$this->assign('action_link', array('text' => RC_Lang::get('connect::connect.connect_list'), 'href' => RC_Uri::url('connect/admin_plugin/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑账号连接', 'connect')));
+		$this->assign('ur_here', __('编辑账号连接', 'connect'));
+		$this->assign('action_link', array('text' => __('账号连接列表', 'connect'), 'href' => RC_Uri::url('connect/admin_plugin/init')));
 		
 		if (isset($_GET['code'])) {
 		    $connect_code = trim($_GET['code']);
 		} else {
-		    return $this->showmessage(RC_Lang::get('connect::connect.invalid_parameter'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		    return $this->showmessage(__('参数错误', 'connect'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		/* 查询该连接方式内容 */
 		$connect = RC_DB::table('connect')->where('connect_code', $connect_code)->where('enabled', 1)->first();
 		if (empty($connect)) {
-		    return $this->showmessage(RC_Lang::get('connect::connect.connect_type'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+		    return $this->showmessage(__('连接方式不存在', 'connect'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
 		}
 
 		/* 取得配置信息 */
@@ -159,7 +155,7 @@ class admin_plugin extends ecjia_admin {
 		if ($connect_name != $oldname) {
 			$query = RC_DB::table('connect')->where('connect_name', $connect_name)->count();
 			if ($query > 0) {
-				return $this->showmessage(RC_Lang::get('connect::connect.confirm_name'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('该名称已存在！', 'connect'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 		
@@ -186,7 +182,7 @@ class admin_plugin extends ecjia_admin {
 		        'connect_config' => $connect_config,
 		    );
 		    RC_DB::table('connect')->where('connect_code', $code)->update($data);		
-		    return $this->showmessage(RC_Lang::get('system::navigator.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		    return $this->showmessage(__('编辑成功！', 'connect'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 		} else {
 		    $data_one = RC_DB::table('connect')->where('connect_code', $code)->count();	
 		    if ($data_one > 0) {
@@ -211,8 +207,8 @@ class admin_plugin extends ecjia_admin {
 		    }
 		}
 	
-		$links[] = array('text' =>RC_Lang::get('system::system.go_back'), 'href'=>RC_Uri::url('connect/admin_plugin/init'));
-		return $this->showmessage(RC_Lang::get('connect::connect.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('connect/admin_plugin/edit', array('id' => $_POST['id']))));
+		$links[] = array('text' => __('返回上一页', 'connect'), 'href'=>RC_Uri::url('connect/admin_plugin/init'));
+		return $this->showmessage(！__('编辑主题成功', 'connect'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('connect/admin_plugin/edit', array('id' => $_POST['id']))));
 	}
 	
 	/**
@@ -226,14 +222,14 @@ class admin_plugin extends ecjia_admin {
 	
 		/* 检查名称是否为空 */
 		if (empty($connect_name)) {
-			return $this->showmessage(RC_Lang::get('connect::connect.empty_name'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
+			return $this->showmessage(__('名称不能为空', 'connect'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
 		} else {
 			$counts = RC_DB::table('connect')->where('connect_name', $connect_name)->where('connect_id', '!=', $connect_id)->count();
 			if($counts > 0) {
-				return $this->showmessage(RC_Lang::get('connect::connect.confirm_name'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
+				return $this->showmessage(__('该名称已存在！', 'connect'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
 			} else {
 				RC_DB::table('connect')->where('connect_id', $connect_id)->update(array('connect_name' => $connect_name));
-				return $this->showmessage(RC_Lang::get('connect::connect.edit_name_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+				return $this->showmessage(__('编辑名称成功！', 'connect'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 			}
 		}
 	}
@@ -245,12 +241,12 @@ class admin_plugin extends ecjia_admin {
 		$this->admin_priv('connect_users_update', ecjia::MSGTYPE_JSON);
 	
 		if (!is_numeric($_POST['value']) ) {
-			return $this->showmessage(RC_Lang::get('connect::connect.confirm_number'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入合法数字！', 'connect'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 			$connect_id    = intval($_POST['pk']);
 			$connect_order = intval($_POST['value']);
 			RC_DB::table('connect')->where('connect_id', $connect_id)->update(array('connect_order' => $connect_order));
-			return $this->showmessage(RC_Lang::get('connect::connect.sort_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('connect/admin_plugin/init')));
+			return $this->showmessage(__('快速编辑排序操作成功！', 'connect'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('connect/admin_plugin/init')));
 		}
 	}
 	
@@ -266,7 +262,7 @@ class admin_plugin extends ecjia_admin {
 		);
 		RC_DB::table('connect')->where('connect_id', $id)->update($data);
 // 		ecjia_admin::admin_log($id, 'disable', 'payment');
-		return $this->showmessage(RC_Lang::get('connect::connect.disable_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('connect/admin_plugin/init')));
+		return $this->showmessage(__('禁用操作成功', 'connect'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('connect/admin_plugin/init')));
 	}
 	
 	/**
@@ -282,7 +278,7 @@ class admin_plugin extends ecjia_admin {
 		RC_DB::table('connect')->where('connect_id', $id)->update($data);
 
 // 		ecjia_admin::admin_log($id, 'enable', 'payment');
-		return $this->showmessage(RC_Lang::get('connect::connect.enable_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('connect/admin_plugin/init')));
+		return $this->showmessage(__('启用操作成功', 'connect'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('connect/admin_plugin/init')));
 	}
 	
 	private function connect_list() {

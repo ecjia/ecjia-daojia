@@ -61,7 +61,7 @@ class connect_connect_user_remove_api extends Component_Event_Api {
      */
     public function call(&$options) {
         if (!array_get($options, 'user_id')) {
-            return new ecjia_error('invalid_parameter', '调用connect_user_remove，参数无效');
+            return new ecjia_error('invalid_parameter', __('参数无效', 'connect').' connect_connect_user_remove_api');
         }
         
         $user_ids = is_array($options['user_id']) ? $options['user_id'] : array($options['user_id']);

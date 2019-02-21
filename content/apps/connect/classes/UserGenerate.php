@@ -101,6 +101,9 @@ class UserGenerate
             $username = $this->getConnectPlugin()->get_username();
         }
 
+        //ecjia_log_debug('ConnectPlugin getConnectProfile', $this->connect_user->getConnectProfile());
+        //ecjia_log_debug('ConnectPlugin getUserName', (array)$username);
+
         return $this->filterUserName($username);
     }
 

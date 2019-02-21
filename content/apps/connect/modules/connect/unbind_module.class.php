@@ -62,7 +62,7 @@ class connect_unbind_module extends api_front implements api_interface {
 		}
 		
 		if (empty($connect_code) || empty($smscode) || !in_array($connect_code, $type_arr)) {
-			return new ecjia_error('invalid_parameter', '调用接口connect_unbind_module参数无效！');
+			return new ecjia_error('invalid_parameter', __('参数无效', 'connect').' connect_unbind_module');
 		}
 		
 		//用户信息
@@ -87,7 +87,7 @@ class connect_unbind_module extends api_front implements api_interface {
 			RC_DB::table('connect_user')->where('id', $connect_user_info['id'])->delete();
 			return array();
 		} else {
-			return new ecjia_error('unbind_fail', '关联账号解绑失败！');
+			return new ecjia_error('unbind_fail', __('关联账号解绑失败！', 'connect'));
 		}
 		
 	}
@@ -101,16 +101,16 @@ class connect_unbind_module extends api_front implements api_interface {
 		//判断校验码是否过期
 		if ($_SESSION['captcha']['sms']['user_unbind_connect']['sendtime'] + 1800 < RC_Time::gmtime()) {
 			//过期
-			return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！'));
+			return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！', 'connect'));
 		}
 		//判断校验码是否正确
 		if ($smscode != $_SESSION['captcha']['sms']['user_unbind_connect']['code'] ) {
-			return new ecjia_error('code_error', __('验证码错误，请重新填写！'));
+			return new ecjia_error('code_error', __('验证码错误，请重新填写！', 'connect'));
 		}
 			
 		//校验其他信息
 		if ($user_info['mobile_phone'] != $_SESSION['captcha']['sms']['user_unbind_connect']['value']) {
-			return new ecjia_error('msg_error', __('接受验证码手机号与用户绑定手机号不同！'));
+			return new ecjia_error('msg_error', __('接受验证码手机号与用户绑定手机号不同！', 'connect'));
 		}
 		return true;
 	}

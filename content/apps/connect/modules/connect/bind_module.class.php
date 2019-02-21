@@ -62,21 +62,21 @@ class connect_bind_module extends api_front implements api_interface {
 			//判断校验码是否过期
 			if (!empty($username) && (!isset($_SESSION['bindcode_lifetime']) || $_SESSION['bindcode_lifetime'] + 180 < RC_Time::gmtime())) {
 				//过期
-				return new ecjia_error('code_timeout', '验证码已过期，请重新获取！');
+				return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！', 'connect'));
 			}
 			//判断校验码是否正确
 			if (!empty($username) && (!isset($_SESSION['bindcode_lifetime']) || $password != $_SESSION['bind_code'] )) {
-				return new ecjia_error('code_error', '验证码错误，请重新填写！');
+				return new ecjia_error('code_error', __('验证码错误，请重新填写！', 'connect'));
 			}
 		}
 		
 		if (empty($open_id) || empty($connect_code) || empty($username) || empty($password)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数错误', 'connect'));
 		}
 		
 		$connect_user = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id, 'user');
 		if ($connect_user->checkUser()) {
-			return new ecjia_error('connect_userbind', '您已绑定过会员用户！');
+			return new ecjia_error('connect_userbind', __('您已绑定过会员用户！', 'connect'));
 		}
 		/**
 		 * $code
@@ -100,7 +100,7 @@ class connect_bind_module extends api_front implements api_interface {
 				$db_user     = RC_Model::model('user/users_model');
 				$user_count  = $db_user->where(array('mobile_phone' => $username))->count();
 				if ($user_count > 1) {
-					return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
+					return new ecjia_error('user_repeat', __('用户重复，请与管理员联系！', 'connect'));
 				}
 				$check_user = $db_user->where(array('mobile_phone' => $username))->get_field('user_name');
 				/* 获取用户名进行判断验证*/
@@ -114,7 +114,7 @@ class connect_bind_module extends api_front implements api_interface {
 			/* 如果不是手机号码*/
 			if (!$is_mobile) {
 				if (! $ecjia_integrate->login($username, $password)) {
-					return new ecjia_error('password_error', '密码错误！');
+					return new ecjia_error('password_error', __('密码错误！', 'connect'));
 				}
 			}
 		} else {
@@ -124,7 +124,7 @@ class connect_bind_module extends api_front implements api_interface {
 				$db_user     = RC_Model::model('user/users_model');
 				$user_count  = $db_user->where(array('mobile_phone' => $username))->count();
 				if ($user_count > 1) {
-					return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
+					return new ecjia_error('user_repeat', __('用户重复，请与管理员联系！', 'connect'));
 				}
 				$check_user = $db_user->where(array('mobile_phone' => $username))->get_field('user_name');
 				/* 获取用户名进行判断验证*/
@@ -143,7 +143,7 @@ class connect_bind_module extends api_front implements api_interface {
 			/* 如果不是手机号码*/
 			if (!$is_mobile) {
 				if (!$ecjia_integrate->login($username, $password)) {
-					return new ecjia_error('password_error', '密码错误！');
+					return new ecjia_error('password_error', __('密码错误！', 'connect'));
 				}
 			}
 		}
@@ -151,7 +151,7 @@ class connect_bind_module extends api_front implements api_interface {
 		/* 用户帐号是否已被关联使用过*/
 		$connect_user_exit = RC_DB::table('connect_user')->where('connect_code', $connect_code)->where('user_type', 'user')->where('user_id', $_SESSION['user_id'])->first();
 		if (!empty($connect_user_exit)) {
-			return new ecjia_error('connect_userbind', '您已绑定过会员用户！');
+			return new ecjia_error('connect_userbind', __('您已绑定过会员用户！', 'connect'));
 		}
 		$curr_time = RC_Time::gmtime();
 		$data = array(

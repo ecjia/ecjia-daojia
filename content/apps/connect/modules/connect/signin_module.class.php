@@ -57,7 +57,7 @@ class connect_signin_module extends api_front implements api_interface
         $profile      = $this->requestData('profile');
 
         if (empty($open_id) || empty($connect_code)) {
-            return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+            return new ecjia_error('invalid_parameter', __('参数错误', 'connect'));
         }
 
         /**
@@ -97,7 +97,7 @@ class connect_signin_module extends api_front implements api_interface
             }
 
         } else {
-            return new ecjia_error('connect_no_userbind', '请关联或注册一个会员用户！');
+            return new ecjia_error('connect_no_userbind', __('请关联或注册一个会员用户！', 'connect'));
         }
 
         //ecjia账号同步登录用户信息更新

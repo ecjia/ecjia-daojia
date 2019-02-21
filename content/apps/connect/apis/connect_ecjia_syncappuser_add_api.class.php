@@ -70,7 +70,7 @@ class connect_ecjia_syncappuser_add_api extends Component_Event_Api {
         	|| !array_get($options, 'access_token')
         	|| !array_get($options, 'refresh_token')
         ) {
-            return new ecjia_error('invalid_parameter', '调用api文件，ecjia_syncappuser_add，参数无效');
+            return new ecjia_error('invalid_parameter', __('参数无效', 'connect') . ' connect_ecjia_syncappuser_add_api');
         }
         
         $connect_code   = $options['connect_code'];

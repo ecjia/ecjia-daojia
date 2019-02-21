@@ -23,17 +23,19 @@ class UserConnectClear extends UserCleanAbstract
      */
     protected $code = 'user_connect_clear';
 
-    /**
-     * 名称
-     * @var string
-     */
-    protected $name = '第三方账号关联';
 
     /**
      * 排序
      * @var int
      */
     protected $sort = 31;
+
+    public function __construct($user_id)
+    {
+        parent::__construct($user_id);
+
+        $this->name = __('第三方账号关联', 'connect');
+    }
 
     /**
      * 数据描述及输出显示内容
@@ -43,22 +45,22 @@ class UserConnectClear extends UserCleanAbstract
         $count['qq'] = RC_DB::table('connect_user')->where('user_id', $this->user_id)->where('connect_code', 'sns_qq')->count();
         $count['wx'] = RC_DB::table('connect_user')->where('user_id', $this->user_id)->where('connect_platform', 'wechat')->count();
 
-        $html = '暂无绑定';
+        $html = __('暂无绑定', 'connect');
         $span = '';
         if (!empty($count['qq']) && !empty($count['wx'])) {
-            $span = '已关联';
-            $html = 'QQ、微信';
+            $span = __('已关联', 'connect');
+            $html = __('QQ、微信', 'connect');
         } elseif (!empty($count['qq'])) {
-            $span = '已关联';
-            $html = 'QQ';
+            $span = __('已关联', 'connect');
+            $html = __('QQ', 'connect');
         } elseif (!empty($count['wx'])) {
-            $span = '已关联';
-            $html = '微信';
+            $span = __('已关联', 'connect');
+            $html = __('微信', 'connect');
         }
 
         return <<<HTML
 
-<span class="controls-info w200">{$span}<span class="ecjiafc-red ecjiaf-fs3">{$html}</span></span>
+<span class="controls-info w300">{$span}<span class="ecjiafc-red ecjiaf-fs3">{$html}</span></span>
 
 HTML;
 
@@ -115,7 +117,7 @@ HTML;
 
         $user_info = RC_Api::api('user', 'user_info', array('user_id' => $this->user_id));
 
-        $user_name = !empty($user_info) ? '用户名是' . $user_info['user_name'] : '用户ID是' . $this->user_id;
+        $user_name = !empty($user_info) ? __('用户名是', 'connect') . $user_info['user_name'] : __('用户ID是', 'connect') . $this->user_id;
 
         ecjia_admin::admin_log($user_name, 'clean', 'user_connect');
     }

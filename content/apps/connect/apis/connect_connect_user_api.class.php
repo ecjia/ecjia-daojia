@@ -62,7 +62,7 @@ class connect_connect_user_api extends Component_Event_Api {
      */
     public function call(&$options) {
         if (!array_get($options, 'connect_code') || !array_get($options, 'open_id')) {
-            return new ecjia_error('invalid_parameter', '调用connect_user，参数无效');
+            return new ecjia_error('invalid_parameter', __('参数无效', 'connect_connect_user_api'));
         }
         
         $user_type = array_get($options, 'user_type', 'user');

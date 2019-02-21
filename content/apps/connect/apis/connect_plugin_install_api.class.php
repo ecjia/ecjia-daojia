@@ -72,13 +72,13 @@ class connect_plugin_install_api extends Component_Event_Api {
 	        
 	        /* 检查输入 */
 	        if (empty($format_name) || empty($options['config']['connect_code'])) {
-	            return ecjia_plugin::add_error('plugin_install_error', __('帐号登录平台名称或connect_code不能为空'));
+	            return ecjia_plugin::add_error('plugin_install_error', __('帐号登录平台名称或connect_code不能为空', 'connect'));
 	        }
 	         
 	        /* 检测支付名称重复 */
 	        $data = RC_DB::table('connect')->where('connect_name', $format_name)->where('connect_code', $options['config']['connect_code'])->count();
 	        if ($data > 0) {
-	            return ecjia_plugin::add_error('plugin_install_error', __('帐号登录平台已存在'));
+	            return ecjia_plugin::add_error('plugin_install_error', __('帐号登录平台已存在', 'connect'));
 	        }
 	         
 	        /* 取得配置信息 */

@@ -58,10 +58,10 @@ class index extends ecjia_front {
         $connect_code = $this->request->query('connect_code');
         if (empty($connect_code)) {
             $link[] = array(
-                'text' => RC_Lang::get('system::system.go_back'), 
+                'text' => __('返回上一页', 'connect'),
                 'href' => 'javascript:history.back(-1)'
             );
-            return $this->showmessage(RC_Lang::get('connect::connect.not_found'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
+            return $this->showmessage(__('未找到第三方登录插件', 'connect'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
         }
         
         /**

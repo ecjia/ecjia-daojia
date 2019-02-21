@@ -71,7 +71,7 @@ class connect_plugin_uninstall_api extends Component_Event_Api {
 	         
 	        /* 检查输入 */
 	        if (empty($format_name) || empty($options['config']['connect_code'])) {
-	            return ecjia_plugin::add_error('plugin_uninstall_error', __('帐号登录平台名称不能为空'));
+	            return ecjia_plugin::add_error('plugin_uninstall_error', __('帐号登录平台名称不能为空', 'connect'));
 	        }
 	         
 	        /* 从数据库中删除支付方式 */

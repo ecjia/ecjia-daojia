@@ -322,7 +322,9 @@ abstract class ConnectUserAbstract extends AbstractRepository
     {
         $profile = optional($this->getUserModel())->profile;
 
-        return unserialize($profile) ? unserialize($profile) : array();
+        $profile = unserialize($profile);
+
+        return  $profile ?: array();
     }
 
 }

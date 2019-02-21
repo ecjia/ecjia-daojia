@@ -25,10 +25,10 @@
                 },
                 messages: {
                     connect_name: {
-                        required: js_lang.name_required
+                        required: jslang.name_required
                     },
                     connect_desc: {
-                        required: js_lang.desc_required
+                        required: jslang.desc_required
                     },
                 },
                 submitHandler: function () {

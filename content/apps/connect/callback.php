@@ -62,8 +62,8 @@ class callback extends ecjia_front {
     public function init() {
         $connect_code = $this->request->query('connect_code');
         if (empty($connect_code)) {
-            $link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
-            return $this->showmessage(RC_Lang::get('connect::connect.not_found'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
+            $link[] = array('text' => __('返回上一页', 'connect'), 'href' => 'javascript:history.back(-1)');
+            return $this->showmessage(__('未找到第三方登录插件', 'connect'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
         }
         
         $user_type = $this->request->query('user_type', 'user');
@@ -102,8 +102,8 @@ class callback extends ecjia_front {
         }
 
         if (empty($templateStr)) {
-            $link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
-            return $this->showmessage(sprintf("模板文件%s未找到", sprintf("connect_callback_%s_template", $user_type)), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
+            $link[] = array('text' => __('返回上一页', 'connect'), 'href' => 'javascript:history.back(-1)');
+            return $this->showmessage(sprintf(__("模板文件%s未找到", 'connect'), sprintf("connect_callback_%s_template", $user_type)), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
         }
 
         //echo 内容

@@ -53,7 +53,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class connect_plugin_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {	
-		$menus = ecjia_admin::make_admin_menu('connect_list', '账号连接', RC_Uri::url('connect/admin_plugin/init'), 1)->add_purview('connect_users_manage')->add_base('connect');
+		$menus = ecjia_admin::make_admin_menu('connect_list', __('账号连接', 'connect'), RC_Uri::url('connect/admin_plugin/init'), 1)->add_purview('connect_users_manage')->add_base('connect');
 
 		return $menus;
 	}

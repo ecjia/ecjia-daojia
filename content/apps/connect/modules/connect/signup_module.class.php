@@ -63,27 +63,27 @@ class connect_signup_module extends api_front implements api_interface {
 		/*兼容1.17版本*/
 		if (version_compare($api_version, '1.17', '>=')) {
 			if (empty($open_id) || empty($connect_code) || (empty($username) && empty($mobile))) {
-				return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+				return new ecjia_error('invalid_parameter', __('参数错误', 'connect'));
 			}
 		} else {
 			if (empty($open_id) || empty($password) || empty($connect_code)) {
-				return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+				return new ecjia_error('invalid_parameter', __('参数错误', 'connect'));
 			}
 		}
 		
 		$connect_user = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id, 'user');
 		if ($connect_user->checkUser()) {
-			return new ecjia_error('connect_userbind', '您已绑定过会员用户！');
+			return new ecjia_error('connect_userbind', __('您已绑定过会员用户！', 'connect'));
 		}
 		
 		//判断校验码是否过期
 		if (!empty($mobile) && (!isset($_SESSION['bindcode_lifetime']) || $_SESSION['bindcode_lifetime'] + 180 < RC_Time::gmtime())) {
 			//过期
-			return new ecjia_error('code_timeout', '验证码已过期，请重新获取！');
+			return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！', 'connect'));
 		}
 		//判断校验码是否正确
 		if (!empty($mobile) && (!isset($_SESSION['bindcode_lifetime']) || $code != $_SESSION['bind_code'] )) {
-			return new ecjia_error('code_error', '验证码错误，请重新填写！');
+			return new ecjia_error('code_error', __('验证码错误，请重新填写！', 'connect'));
 		}
 
 		/**
@@ -101,7 +101,7 @@ class connect_signup_module extends api_front implements api_interface {
 		if (!empty($mobile)) {
 			$mobile_count = RC_Model::model('user/users_model')->where(array('mobile_phone' => $mobile))->count();
 			if ($mobile_count > 0 ) {
-				return new ecjia_error('mobile_exists', '您的手机号已使用');
+				return new ecjia_error('mobile_exists', __('您的手机号已使用', 'connect'));
 			}
 		}
 		
@@ -147,7 +147,7 @@ class connect_signup_module extends api_front implements api_interface {
 					'user_id'		=> $_SESSION['user_id'],
 					'rank_points'	=> ecjia::config('register_points'),
 					'pay_points'	=> ecjia::config('register_points'),
-					'change_desc'	=> RC_Lang::get('connect::connect.register_points')
+					'change_desc'	=> __('注册送积分', 'connect')
 				);
 				$result = RC_Api::api('user', 'account_change_log',$options);
 			}

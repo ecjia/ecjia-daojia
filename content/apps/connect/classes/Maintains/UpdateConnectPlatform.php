@@ -61,23 +61,16 @@ class UpdateConnectPlatform extends AbstractCommand
     protected $code = 'update_connect_platform';
     
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '更新第三方登录会员数据';
-    
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = '多平台使用同一登录插件后，为方便多端同步数据，增加connect_platform对接平台和union_id字段';
-    
-    /**
      * 图标
      * @var string
      */
     protected $icon = '/statics/images/setting_shop.png';
-    
+
+    public function __construct()
+    {
+        $this->name = __('更新第三方登录会员数据', 'connect');
+        $this->description = __('多平台使用同一登录插件后，为方便多端同步数据，增加connect_platform对接平台和union_id字段', 'connect');
+    }
     
     /**
      * 返回执行结果
@@ -87,6 +80,7 @@ class UpdateConnectPlatform extends AbstractCommand
     public function run() {
         
         RC_DB::table('connect_user')->where('connect_code', 'sns_wechat')->whereNull('connect_platform')->update(['connect_platform' => 'wechat']);
+        RC_DB::table('connect_user')->where('connect_code', 'sns_qq')->whereNull('connect_platform')->update(['connect_platform' => 'qq']);
         
         $size = 500;
         
@@ -112,9 +106,9 @@ class UpdateConnectPlatform extends AbstractCommand
             
             $count = RC_DB::table('connect_user')->where('connect_code', 'sns_wechat')->whereNull('union_id')->whereNotNull('open_id')->where('profile', '<>', 'N;')->count();
             if($count) {
-                return new CommandOutput(sprintf('本次任务成功执行%s条数据，还剩下%s条数据未处理，请继续点击运行继续处理，直至完成。', count($rows), $count));
+                return new CommandOutput(sprintf(__('本次任务成功执行%s条数据，还剩下%s条数据未处理，请继续点击运行继续处理，直至完成。', 'connect'), count($rows), $count));
             }
-            return new CommandOutput(sprintf('本次任务成功执行%s条数据，还剩下%s条数据未处理。', count($rows), $count));
+            return new CommandOutput(sprintf(__('本次任务成功执行%s条数据，还剩下%s条数据未处理。', 'connect'), count($rows), $count));
         }
         
         return true;

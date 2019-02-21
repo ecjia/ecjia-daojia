@@ -22,18 +22,18 @@
 		<form id="form-privilege" class="form-horizontal" name="theForm"  method="post" action="{$form_action}">
 			<fieldset>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='connect::connect.lable_name'}</label>
+					<label class="control-label">{t domain="connect"}名称：{/t}</label>
 					<div class="controls">
 						<input type="text" name="connect_name" id="connect_name" value="{$connect.connect_name}" class="span4"/>
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 					</div>
 				</div>
 		
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='connect::connect.lable_desc'}</label>
+					<label class="control-label">{t domain="connect"}描述：{/t}</label>
 					<div class="controls">
 					<textarea class="span11 h200" name="connect_desc" id="connect_desc" rows="16" >{$connect.connect_desc}</textarea>
-					<span class="input-must">{lang key='system::system.require_field'}</span>
+					<span class="input-must">*</span>
 					</div>
 				</div>
 				<!-- {foreach from=$connect.connect_config item=config key=key} -->
@@ -63,7 +63,7 @@
 					<input type="hidden" value="{$connect.connect_id}" name="id"/>
 					<input type="hidden" value="{$connect.connect_name}" name="oldname"/>
 					<input type="hidden" value="{$connect.connect_code}" name="connect_code"/>
-					<button class="btn btn-gebo" type="submit">{lang key='system::system.button_submit'}</button>
+					<button class="btn btn-gebo" type="submit">{t domain="connect"}确定{/t}</button>
 					</div>
 				</div>
 			</fieldset>

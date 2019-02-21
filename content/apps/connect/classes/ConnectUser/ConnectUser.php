@@ -46,6 +46,8 @@
 //
 namespace Ecjia\App\Connect\ConnectUser;
 
+use Ecjia\App\Connect\UserGenerate;
+
 class ConnectUser extends ConnectUserAbstract
 {
     /**
@@ -121,6 +123,10 @@ class ConnectUser extends ConnectUserAbstract
             $this->create_at        = $model->create_at;
             $this->expires_in       = $model->expires_in;
             $this->expires_at       = $model->expires_at;
+
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -137,7 +143,7 @@ class ConnectUser extends ConnectUserAbstract
 
     /**
      * 检查openid是否存在于数据库记录中
-     * @return \Royalcms\Component\Database\Eloquent\Model|boolean
+     * @return \Ecjia\App\Connect\Models\ConnectUserModel|boolean
      */
     public function checkOpenId()
     {
@@ -195,7 +201,7 @@ class ConnectUser extends ConnectUserAbstract
      */
     public function refreshConnectUser()
     {
-        $this->buildUserInfo();
+        return $this->buildUserInfo();
     }
 
     /**
@@ -206,7 +212,7 @@ class ConnectUser extends ConnectUserAbstract
     public function bindUser($user_id)
     {
         if (parent::bindUser($user_id)) {
-            $this->buildUserInfo();
+            return $this->buildUserInfo();
         } else {
             return false;
         }
@@ -219,6 +225,44 @@ class ConnectUser extends ConnectUserAbstract
     public function getConnectProfile()
     {
         return $this->profile;
+    }
+
+
+    protected static $userGenerateInstance;
+
+    /**
+     * Handle dynamic static method calls into the method.
+     *
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        $user_generate_method = [
+            'getGenerateEmail',
+            'getGeneratePassword',
+            'getGenerateUserName',
+            'getUserHeaderImg',
+            'getUserName',
+            'setUserName',
+            'getIntegrateUser',
+            'getConnectPlugin',
+            'getPluginProfile',
+        ];
+
+        // Check for scope method and call
+        if (in_array($method, $user_generate_method)) {
+
+            if (is_null(self::$userGenerateInstance)) {
+                self::$userGenerateInstance = new UserGenerate($this);
+            }
+
+            return call_user_func_array([self::$userGenerateInstance, $method], $parameters);
+        }
+
+        return parent::__call($method, $parameters);
     }
 
 }

@@ -61,9 +61,9 @@ return array(
 	'connect_type'	=>	'连接方式不存在',
 	'confirm_name'	=>	'该名称已存在！',	
 	'edit_success'	=>	'编辑主题成功！',
-	'empty_name'	=>	'链接账号名称不能为空！',	
+	'empty_name'	=>	'连接账号名称不能为空！',
 		
-	'edit_name_success'	=>	'编辑链接名称成功！',
+	'edit_name_success'	=>	'编辑连接名称成功！',
 	'confirm_number'	=>	'请输入合法数字',
 	'sort_success'		=>	'快速编辑排序操作成功！',
 	'disable_success'	=>	'禁用操作成功！',

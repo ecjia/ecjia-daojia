@@ -54,10 +54,10 @@ class connect_admin_purview_api extends Component_Event_Api {
     
     public function call(&$options) {
         $purviews = array(
-            array('action_name' => RC_Lang::get('connect::connect.connect'), 'action_code' => 'connect_users_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('connect::connect.edit'), 	 'action_code' => 'connect_users_update', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('connect::connect.enable'),  'action_code' => 'connect_users_enable', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('connect::connect.disable'), 'action_code' => 'connect_users_disable', 'relevance' => ''),
+            array('action_name' => __('账号连接', 'connect'), 'action_code' => 'connect_users_manage', 'relevance' => ''),
+        	array('action_name' => __('编辑账号连接', 'connect'), 	 'action_code' => 'connect_users_update', 'relevance' => ''),
+        	array('action_name' => __('启用账号连接', 'connect'),  'action_code' => 'connect_users_enable', 'relevance' => ''),
+        	array('action_name' => __('禁用账号连接', 'connect'), 'action_code' => 'connect_users_disable', 'relevance' => ''),
         );
         
         return $purviews;

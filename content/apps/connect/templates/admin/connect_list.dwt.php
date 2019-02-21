@@ -18,9 +18,9 @@
 <table class="table table-striped table-hide-edit" data-rowlink="a">
 	<thead>
 		<tr>
-			<th class="w120">{lang key='connect::connect.name'}</th>
-			<th>{lang key='connect::connect.desc'}</th>
-			<th class="w100">{lang key='connect::connect.sort'}</th>
+			<th class="w120">{t domain="connect"}名称{/t}</th>
+			<th>{t domain="connect"}描述{/t}</th>
+			<th class="w100">{t domain="connect"}排序{/t}</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -28,7 +28,7 @@
 		<tr>
 			<td>
 				<!-- {if $module.enabled == 1} -->
-					<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('connect/admin_plugin/edit_name')}" data-name="title" data-pk="{$module.connect_id}"  data-title="{lang key='connect::connect.edit_name'}">{$module.connect_name}</span>
+					<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('connect/admin_plugin/edit_name')}" data-name="title" data-pk="{$module.connect_id}"  data-title="{t domain="connect"}编辑名称{/t}">{$module.connect_name}</span>
 				<!-- {else} -->
 					{$module.connect_name}
 				<!-- {/if} -->
@@ -39,28 +39,28 @@
 				{$module.connect_desc|nl2br}
 				<div class="edit-list">
 					{assign var=connect_edit value=RC_Uri::url('connect/admin_plugin/edit',"code={$module.connect_code}")}
-					<a class="data-pjax" href="{$connect_edit}" title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
+					<a class="data-pjax" href="{$connect_edit}" title="{t domain="connect"}编辑{/t}">{t domain="connect"}编辑{/t}</a>&nbsp;|&nbsp;
 					{assign var=connect_disable value=RC_Uri::url('connect/admin_plugin/disable',"id={$module.connect_id}")}
-					<a class="ecjiafc-red ajaxall"  href="{$connect_disable}" data-url="{$connect_disable}" title="{lang key='connect::connect.disable'}">{lang key='connect::connect.disable'}</a>
+					<a class="ecjiafc-red ajaxall"  href="{$connect_disable}" data-url="{$connect_disable}" title="{t domain="connect"}禁用{/t}">{t domain="connect"}禁用{/t}</a>
 				</div>
 				<!-- {else} -->
 				{$module.connect_desc|nl2br}
 				<div class="edit-list">
 					{assign var=connect_enable value=RC_Uri::url('connect/admin_plugin/enable',"id={$module.connect_id}")}
-					<a class="ajaxall" href="{$connect_enable}" data-url="{$connect_enable}" title="{lang key='connect::connect.enable'}">{lang key='connect::connect.enable'}</a>
+					<a class="ajaxall" href="{$connect_enable}" data-url="{$connect_enable}" title="{t domain="connect"}启用{/t}">{t domain="connect"}启用{/t}</a>
 				</div>
 				<!-- {/if} -->
 			</td>
 			<td>
 				<!-- {if $module.enabled == 1} -->
-				<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('connect/admin_plugin/edit_order')}" data-name="title" data-pk="{$module.connect_id}" data-title="{lang key='connect::connect.edit_sort'}">{$module.connect_order}</span>
+				<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('connect/admin_plugin/edit_order')}" data-name="title" data-pk="{$module.connect_id}" data-title="{t domain="connect"}编辑排序{/t}">{$module.connect_order}</span>
 				<!-- {else} -->
 				{$module.connect_order}
 				<!-- {/if} -->
 			</td>
 		</tr>
 		<!-- {foreachelse} -->
-		<tr><td class="no-records" colspan="3">{lang key='system::system.no_records'}</td></tr>
+		<tr><td class="no-records" colspan="3">{t domain="connect"}没有找到任何记录{/t}</td></tr>
 		<!-- {/foreach} -->
 	</tbody>
 </table>	
