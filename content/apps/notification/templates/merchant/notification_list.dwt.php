@@ -31,11 +31,11 @@
 								<span class="m_r5">{$val.created_time}</span>
 								<!-- {if !$val.read_at} -->
 								<a class="toggle_view" href="{RC_Uri::url('notification/mh_notification/mark_read')}{if $smarty.get.status}&status={$smarty.get.status}{/if}"
-								    data-id="{$val.id}" title="标记为已读">
+								    data-id="{$val.id}" title='{t domain="notification"}标记为已读{/t}'>
 									<i class="fa fa-check"></i>
 								</a>
 								<!-- {else} -->
-								<a href="javascript:;" title="已读">
+								<a href="javascript:;" title='{t domain="notification"}已读{/t}'>
 									<i class="fa fa-check stop_color"></i>
 								</a>
 								<!-- {/if} -->
@@ -51,7 +51,7 @@
 									<i class="fa fa-bell"></i>
 								</div>
 								<div class="item">
-									<h3 class="ui header">没有相关未读消息</h3>
+									<h3 class="ui header">{t domain="notification"}没有相关未读消息{/t}</h3>
 								</div>
 							</div>
 						</div>
@@ -62,15 +62,15 @@
 
 				<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 pull-right">
 					<a class="btn btn-success btn-block m_b10 toggle_view" href="{RC_Uri::url('notification/mh_notification/mark_read')}{if $smarty.get.status}&status={$smarty.get.status}{/if}{if $smarty.get.page}&page={$smarty.get.page}{/if}"
-					    data-type="mark_all" title="标记为已读">标记所有为已读</a>
+					    data-type="mark_all" title='{t domain="notification"}标记为已读{/t}'>{t domain="notification"}标记所有为已读{/t}</a>
 					<ul class="list-group">
 						<li class="list-group-item {if $smarty.get.status eq 'not_read' || !$smarty.get.status}list-group-item-info{/if}">
-							<a class="data-pjax" href="{RC_Uri::url('notification/mh_notification/init')}&status=not_read" title="未读通知">未读通知</a>
+							<a class="data-pjax" href="{RC_Uri::url('notification/mh_notification/init')}&status=not_read" title='{t domain="notification"}未读通知{/t}'>{t domain="notification"}未读通知{/t}</a>
 							<span class="badge badge-danger">{$list.type_count.not_read}</span>
 						</li>
 
 						<li class="list-group-item {if $smarty.get.status eq 'all'}list-group-item-info{/if}">
-							<a class="data-pjax" href="{RC_Uri::url('notification/mh_notification/init')}&status=all" title="所有通知">所有通知</a>
+							<a class="data-pjax" href="{RC_Uri::url('notification/mh_notification/init')}&status=all" title='{t domain="notification"}所有通知{/t}'>{t domain="notification"}所有通知{/t}</a>
 							<span class="badge badge-primary">{$list.type_count.count}</span>
 						</li>
 					</ul>

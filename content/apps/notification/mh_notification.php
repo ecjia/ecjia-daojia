@@ -62,6 +62,8 @@ class mh_notification extends ecjia_merchant
         RC_Script::enqueue_script('mh-notification', RC_App::apps_url('statics/js/mh-notification.js', __FILE__));
         RC_Style::enqueue_style('mh-notification', RC_App::apps_url('statics/css/mh-notification.css', __FILE__), array());
 
+        RC_Script::localize_script('mh-notification', 'js_lang', config('app-notification::jslang.notification_page'));
+
     }
 
     /**
@@ -71,8 +73,8 @@ class mh_notification extends ecjia_merchant
     {
         $this->admin_priv('notification_manage');
 
-        $this->assign('ur_here', '通知列表');
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('通知列表'));
+        $this->assign('ur_here', __('通知列表', 'notification'));
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('通知列表', 'notification')));
 
         $list = $this->get_notification_list();
         $this->assign('list', $list);
@@ -152,9 +154,9 @@ class mh_notification extends ecjia_merchant
             }
         }
         if ($update) {
-            return $this->showmessage('标记成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('notification/mh_notification/init', array('status' => $pjax_status, 'page' => $page))));
+            return $this->showmessage(__('标记成功', 'notification'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('notification/mh_notification/init', array('status' => $pjax_status, 'page' => $page))));
         } else {
-            return $this->showmessage('没有未读通知', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('没有未读通知', 'notification'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     }
 
@@ -218,17 +220,17 @@ class mh_notification extends ecjia_merchant
         $time     = RC_Time::local_strtotime($time) + (($timezone - 8) * 3600);
         $t        = RC_Time::gmtime() - $time;
         $f        = array(
-            '31536000' => '年',
-            '2592000'  => '月',
-            '604800'   => '周',
-            '86400'    => '天',
-            '3600'     => '小时',
-            '60'       => '分钟',
-            '1'        => '秒',
+            '31536000' => __('年', 'notification'),
+            '2592000'  => __('月', 'notification'),
+            '604800'   => __('周', 'notification'),
+            '86400'    => __('天', 'notification'),
+            '3600'     => __('小时', 'notification'),
+            '60'       => __('分钟', 'notification'),
+            '1'        => __('秒', 'notification'),
         );
         foreach ($f as $k => $v) {
             if (0 != $c = floor($t / (int) $k)) {
-                return $c . $v . '前';
+                return $c . $v . __('前', 'notification');
             }
         }
     }

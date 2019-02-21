@@ -60,7 +60,7 @@ class user_notification_read_module extends api_front implements api_interface {
 		
     	$message_id = $this->requestData('message_id');
     	if (empty($message_id)) {
-    		return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+    		return new ecjia_error('invalid_parameter', __('参数无效', 'notification'));
     	}
     	
     	$db = RC_DB::table('notifications');

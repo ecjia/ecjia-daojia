@@ -56,8 +56,8 @@ class notification_merchant_purview_api extends Component_Event_Api
     public function call(&$options)
     {
         $purviews = array(
-            array('action_name' => '通知管理', 'action_code' => 'notification_manage', 'relevance' => ''),
-            array('action_name' => '通知更新', 'action_code' => 'notification_update', 'relevance' => ''),
+            array('action_name' => __('通知管理', 'notification'), 'action_code' => 'notification_manage', 'relevance' => ''),
+            array('action_name' => __('通知更新', 'notification'), 'action_code' => 'notification_update', 'relevance' => ''),
         );
         return $purviews;
     }

@@ -1,0 +1,128 @@
+# Copyright (C) 2019 Ecjia App notification
+# This file is distributed under the same license as the Ecjia App notification package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App notification 1.25.0\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:57:06+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin.php:76 admin.php:77 apis/notification_tool_menu_api.class.php:60
+#: mh_notification.php:76 mh_notification.php:77
+msgid "通知列表"
+msgstr ""
+
+#: admin.php:175 mh_notification.php:157
+msgid "标记成功"
+msgstr ""
+
+#: admin.php:177 mh_notification.php:159
+msgid "没有未读通知"
+msgstr ""
+
+#: admin.php:282 mh_notification.php:223
+msgid "年"
+msgstr ""
+
+#: admin.php:283 mh_notification.php:224
+msgid "月"
+msgstr ""
+
+#: admin.php:284 mh_notification.php:225
+msgid "周"
+msgstr ""
+
+#: admin.php:285 mh_notification.php:226
+msgid "天"
+msgstr ""
+
+#: admin.php:286 mh_notification.php:227
+msgid "小时"
+msgstr ""
+
+#: admin.php:287 mh_notification.php:228
+msgid "分钟"
+msgstr ""
+
+#: admin.php:288 mh_notification.php:229
+msgid "秒"
+msgstr ""
+
+#: admin.php:292 mh_notification.php:233
+msgid "前"
+msgstr ""
+
+#: apis/notification_merchant_purview_api.class.php:59
+msgid "通知管理"
+msgstr ""
+
+#: apis/notification_merchant_purview_api.class.php:60
+msgid "通知更新"
+msgstr ""
+
+#: apis/notification_notification_list_api.class.php:19
+msgid "调用api文件,notification_list,参数无效"
+msgstr ""
+
+#: apis/notification_tool_menu_api.class.php:58 configs/package.php:55
+#: configs/package.php:56
+msgid "通知"
+msgstr ""
+
+#: configs/jslang.php:57
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:58
+msgid "取消"
+msgstr ""
+
+#: modules/admin/merchant/notification/read_module.class.php:63
+#: modules/user/notification/read_module.class.php:63
+msgid "参数无效"
+msgstr ""
+
+#: modules/user/notifications_module.class.php:67
+msgid "当前账号已申请注销，不可查看此数据！"
+msgstr ""
+
+#: content/apps/notification/templates/admin/notification_list.dwt.php:31
+#: content/apps/notification/templates/admin/notification_list.dwt.php:70
+#: content/apps/notification/templates/merchant/notification_list.dwt.php:34
+#: content/apps/notification/templates/merchant/notification_list.dwt.php:65
+msgid "标记为已读"
+msgstr ""
+
+#: content/apps/notification/templates/admin/notification_list.dwt.php:35
+#: content/apps/notification/templates/merchant/notification_list.dwt.php:38
+msgid "已读"
+msgstr ""
+
+#: content/apps/notification/templates/admin/notification_list.dwt.php:52
+#: content/apps/notification/templates/merchant/notification_list.dwt.php:54
+msgid "没有相关未读消息"
+msgstr ""
+
+#: content/apps/notification/templates/admin/notification_list.dwt.php:64
+msgid "刷新"
+msgstr ""
+
+#: content/apps/notification/templates/admin/notification_list.dwt.php:70
+#: content/apps/notification/templates/merchant/notification_list.dwt.php:65
+msgid "标记所有为已读"
+msgstr ""
+
+#: content/apps/notification/templates/admin/notification_list.dwt.php:76
+#: content/apps/notification/templates/merchant/notification_list.dwt.php:68
+msgid "未读通知"
+msgstr ""
+
+#: content/apps/notification/templates/admin/notification_list.dwt.php:81
+#: content/apps/notification/templates/merchant/notification_list.dwt.php:73
+msgid "所有通知"
+msgstr ""

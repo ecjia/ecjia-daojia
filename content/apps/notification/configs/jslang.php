@@ -44,14 +44,20 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 应用语言包
+ * js语言包设置
  */
-return array(
-    'notification' => '通知',
-    'notification_desc' => '通知描述',
-);
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+    //notification
+    'notification_page' =>array(
+        'ok' =>  __('确定', 'notification'),
+        'cancel' =>  __('取消', 'notification'),
+
+    ),
+
+);
+//end
