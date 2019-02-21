@@ -6584,8 +6584,8 @@ use Royalcms\Component\Contracts\Foundation\Royalcms as RoyalcmsContract;
 use Royalcms\Component\Contracts\Debug\ExceptionHandler;
 class Royalcms extends Container implements RoyalcmsContract, HttpKernelInterface
 {
-    const VERSION = '5.6.0';
-    const RELEASE = '2019-01-31';
+    const VERSION = '5.7.0';
+    const RELEASE = '2019-02-21';
     protected $basePath;
     protected $hasBeenBootstrapped = false;
     protected $booted = false;
