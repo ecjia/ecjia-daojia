@@ -65,7 +65,7 @@ class index extends SimpleController {
         
         $this->assign('version', RC_Config::get('release.version'));
         $this->assign('build', RC_Config::get('release.build'));
-        $this->assign('page_title', RC_Lang::get('upgrade::upgrade.page_title'));
+        $this->assign('page_title', __('ECJIA到家升级程序', 'upgrade'));
     }
     
     
@@ -92,7 +92,7 @@ class index extends SimpleController {
             $v = Ecjia_VersionManager::version('v'.$version_last);
             $readme = $v->getReadme();
         } else {
-            $readme = '没有找到可用的升级程序。';
+            $readme = __('没有找到可用的升级程序。', 'upgrade');
             $this->assign('disable', 1);
         }
 
@@ -124,7 +124,7 @@ class index extends SimpleController {
         
         // 获取变动文件
         $readme = $v->getReadme();
-        $readme = empty($readme) ? '无' : $readme;
+        $readme = empty($readme) ? __('无', 'upgrade') : $readme;
         
         return $this->showmessage('ok', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('readme' => $readme));
     }
@@ -133,7 +133,7 @@ class index extends SimpleController {
     {
         $version = $_POST['v'];
         if (empty($version)) {
-            return $this->showmessage( RC_Lang::get('upgrade::upgrade.error_version'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage( __('版本号错误', 'upgrade'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         
         RC_Event::listen('upgrade.after', function ($ver, $result) use ($version) {
@@ -174,8 +174,8 @@ class index extends SimpleController {
             //写入升级锁定
             upgrade_utility::saveUpgradeLock();
             
-            $finish_message = RC_Lang::get('upgrade::upgrade.finish_success');
-            $this->assign('finish_message', $finish_message . '当前版本已是最新版本。');
+            $finish_message = __('恭喜您，升级成功！', 'upgrade');
+            $this->assign('finish_message', $finish_message . __('当前版本已是最新版本。', 'upgrade'));
             
             $index_url 		= RC_Uri::home_url();
             $h5_url 		= RC_Uri::home_url().'/sites/m/';
@@ -209,7 +209,7 @@ class index extends SimpleController {
             return $this->redirect(RC_Uri::url('upgrade/index/init'));
         }
         
-        $this->assign('finish_message', '请先删除升级锁定文件 /content/storages/data/upgrade.lock，方可继续升级。');
+        $this->assign('finish_message', sprintf(__('请先删除升级锁定文件 %s，方可继续升级。', 'upgrade'), '/content/storages/data/upgrade.lock'));
         
         $index_url 		= RC_Uri::home_url();
         $h5_url 		= RC_Uri::home_url().'/sites/m/';

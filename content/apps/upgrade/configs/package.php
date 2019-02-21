@@ -49,11 +49,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.upgrade',
 	'directory' 	=> 'upgrade',
-	'name'			=> 'upgrade',
-	'description' 	=> 'upgrade_desc',		/* 描述对应的语言项 */
+	'name'			=> __('升级器', 'upgrade'),
+	'description' 	=> __('用来升级ECJIA项目的升级器', 'upgrade'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.27.0',					/* 版本号 */
+	'version' 		=> '1.27.4',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2017 ~ 2019.',
     'namespace'     => 'Ecjia\App\Upgrade',
     'provider'      => 'UpgradeServiceProvider',
