@@ -1,0 +1,548 @@
+# Copyright (C) 2019 Ecjia App orders
+# This file is distributed under the same license as the Ecjia App orders package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App orders 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:57:12+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin.php:944 merchant.php:1170
+msgid "编辑订单其他信息"
+msgstr ""
+
+#: admin.php:2220 admin.php:2229 admin.php:2540 admin.php:2978 admin.php:3029
+#: admin.php:3135 admin_order_delivery.php:262 admin_order_delivery.php:506
+#: merchant.php:2500 merchant.php:2509 merchant.php:3293 merchant.php:3345
+#: merchant.php:3451 mh_delivery.php:293 mh_delivery.php:737
+msgid "请填写备注信息！"
+msgstr ""
+
+#: admin.php:2572 admin.php:3062 merchant.php:3380
+msgid "请填写操作备注！"
+msgstr ""
+
+#: admin_order_back.php:74 mh_back.php:72
+msgid ""
+"温馨提示：当前退货单功能已废弃，退货单列表以及详情页仅支持历史数据查看。从 "
+"v1.14.0 版本起请进入售后列表体验新的退货退款功能。<br><br><a href=\"%s\">进入"
+"售后列表 >></a>"
+msgstr ""
+
+#: apis/orders_admin_menu_api.class.php:66
+#: apis/orders_merchant_purview_api.class.php:68
+#: classes/hooks/merchant_orders.class.php:253 mh_order_stats.php:95
+msgid "订单统计"
+msgstr ""
+
+#: apis/orders_merchant_menu_api.class.php:58 configs/package.php:55
+msgid "订单"
+msgstr ""
+
+#: apis/orders_merchant_menu_api.class.php:60
+msgid "当天订单"
+msgstr ""
+
+#: apis/orders_merchant_menu_api.class.php:61
+msgid "催单提醒"
+msgstr ""
+
+#: apis/orders_merchant_menu_api.class.php:62
+msgid "验单查询"
+msgstr ""
+
+#: apis/orders_merchant_menu_api.class.php:65
+msgid "配送订单"
+msgstr ""
+
+#: apis/orders_merchant_menu_api.class.php:66
+msgid "到店订单"
+msgstr ""
+
+#: apis/orders_merchant_menu_api.class.php:67
+msgid "自提订单"
+msgstr ""
+
+#: apis/orders_merchant_menu_api.class.php:68
+msgid "团购订单"
+msgstr ""
+
+#: apis/orders_merchant_menu_api.class.php:69
+msgid "收银台订单"
+msgstr ""
+
+#: apis/orders_merchant_menu_api.class.php:72
+msgid "发货单列表"
+msgstr ""
+
+#: apis/orders_merchant_menu_api.class.php:76
+msgid "评论列表"
+msgstr ""
+
+#: apis/orders_merchant_menu_api.class.php:77
+msgid "申诉列表"
+msgstr ""
+
+#: apis/orders_merchant_purview_api.class.php:69
+#: classes/hooks/admin_orders.class.php:277
+#: classes/hooks/merchant_orders.class.php:254 mh_sale_general.php:88
+#: mh_sale_general.php:113
+msgid "销售概况"
+msgstr ""
+
+#: apis/orders_merchant_purview_api.class.php:70
+#: classes/hooks/admin_orders.class.php:279
+#: classes/hooks/merchant_orders.class.php:255
+msgid "销售明细"
+msgstr ""
+
+#: apis/orders_merchant_purview_api.class.php:71
+#: classes/hooks/admin_orders.class.php:280
+#: classes/hooks/merchant_orders.class.php:256 mh_sale_order.php:83
+msgid "销售排行"
+msgstr ""
+
+#: apis/orders_merchant_purview_api.class.php:73
+msgid "订单打印"
+msgstr ""
+
+#: classes/hooks/admin_orders.class.php:64
+msgid "最新订单"
+msgstr ""
+
+#: classes/hooks/admin_orders.class.php:276
+msgid "客户统计"
+msgstr ""
+
+#: classes/order_ship.class.php:80 mh_delivery.php:139 mh_delivery.php:142
+#: mh_delivery.php:299 mh_delivery.php:302 mh_delivery.php:743
+#: mh_delivery.php:746 mh_validate_order.php:216 mh_validate_order.php:219
+#: modules/admin/orders/check_module.class.php:183
+#: modules/admin/orders/check_module.class.php:187
+#: modules/admin/orders/payConfirm_module.class.php:288
+msgid "无法找到对应发货单！"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"订单管理应用是ECJIA团队倾力打造的核心应用，是对用户订单下达的各种指令进行管"
+"理、查询、修改、打印等功能，同时将业务部门处理信息反馈至用户。订单管理应用包"
+"括：订单处理，订单确认，订单添加，订单状态管理（包括取消、付款、合并、发货等"
+"多种状态，以及订单出库和订单查询）等；应用可实现单次及批量订单，对订单缺货、"
+"发货、退货进行登记管理，订单管理与库存管理相连接，并且在下订单时有库存预警及"
+"提示功能，订单管理同时与会员管理相连接，可查询历史订单情况以及订单的执行情"
+"况。该应用是商城系统必不可少的应用。"
+msgstr ""
+
+#: merchant.php:123 mh_back.php:68 mh_delivery.php:94 mh_reminder.php:66
+#: mh_validate_order.php:79
+msgid "订单管理"
+msgstr ""
+
+#: merchant.php:366 merchant.php:876 merchant.php:1013 merchant.php:2041
+#: merchant.php:2146 merchant.php:2284 merchant.php:2287 merchant.php:4135
+#: merchant.php:5045 mh_back.php:182 mh_delivery.php:146
+msgid "无法找到对应的订单！"
+msgstr ""
+
+#: merchant.php:894
+msgid "订单查询"
+msgstr ""
+
+#: merchant.php:930
+msgid "合并订单"
+msgstr ""
+
+#: merchant.php:1006 merchant.php:5038
+msgid "订单信息"
+msgstr ""
+
+#: merchant.php:1007 merchant.php:5039
+msgid "编辑订单"
+msgstr ""
+
+#: merchant.php:1017 merchant.php:5049
+msgid "该订单已失效无法操作！"
+msgstr ""
+
+#: merchant.php:1038
+msgid "订单已发货！无法修改订单了（配送方式和发货单号除外）！"
+msgstr ""
+
+#: merchant.php:1053
+msgid "编辑订单商品信息"
+msgstr ""
+
+#: merchant.php:1073
+msgid "编辑订单收货人信息"
+msgstr ""
+
+#: merchant.php:1118 merchant.php:5063
+msgid "编辑订单配送方式"
+msgstr ""
+
+#: merchant.php:1142
+msgid "编辑订单支付方式"
+msgstr ""
+
+#: merchant.php:1176
+msgid "编辑订单费用信息"
+msgstr ""
+
+#: merchant.php:1199
+msgid "编辑订单发货单号"
+msgstr ""
+
+#: merchant.php:1267
+msgid "订单生成失败！请重新尝试！"
+msgstr ""
+
+#: merchant.php:3658 merchant.php:3689
+msgid "更新失败！"
+msgstr ""
+
+#: merchant.php:3707
+msgid "非特殊等级"
+msgstr ""
+
+#: merchant.php:3715
+msgid "暂无手机号"
+msgstr ""
+
+#: merchant.php:3716
+msgid "未验证"
+msgstr ""
+
+#: merchant.php:3716
+msgid "已验证"
+msgstr ""
+
+#: merchant.php:3722
+msgid "未找到相关会员信息"
+msgstr ""
+
+#: mh_delivery.php:148
+msgid "查看发货单"
+msgstr ""
+
+#: modules/admin/orders/check_module.class.php:104
+msgid "验证码所对应的订单不属于当前店铺！"
+msgstr ""
+
+#: modules/admin/orders/check_module.class.php:108
+msgid "该订单已发货！无法进行此操作"
+msgstr ""
+
+#: modules/admin/orders/detail_module.class.php:142
+msgid "匿名用户"
+msgstr ""
+
+#: modules/admin/orders/list_module.class.php:270
+#: modules/admin/orders/payment/history_module.class.php:138
+#: modules/admin/orders/today_module.class.php:228
+msgid "已取消"
+msgstr ""
+
+#: modules/admin/orders/list_module.class.php:271
+#: modules/admin/orders/payment/history_module.class.php:139
+#: modules/admin/orders/today_module.class.php:229
+msgid "无效"
+msgstr ""
+
+#: modules/order/detail_module.class.php:299
+msgid "免费"
+msgstr ""
+
+#: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopchart.lbi.php:28
+msgid "查看更多"
+msgstr ""
+
+#: content/apps/orders/templates/admin/sale_list.dwt.php:21
+#: content/apps/orders/templates/admin/sale_order.dwt.php:24
+msgid "返回全部"
+msgstr ""
+
+#: content/apps/orders/templates/admin/order_list.dwt.php:65
+msgid "筛选"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/mh_groupbuy_order_list.dwt.php:166
+#: content/apps/orders/templates/merchant/mh_order_list.dwt.php:194
+#: content/apps/orders/templates/merchant/today_order_list.dwt.php:135
+msgid "查看详情"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/mh_groupbuy_order_list.dwt.php:168
+#: content/apps/orders/templates/merchant/mh_order_list.dwt.php:196
+#: content/apps/orders/templates/merchant/today_order_list.dwt.php:138
+msgid "\"}您确定要删除订单[ %1 ]吗？"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/mh_groupbuy_order_list.dwt.php:169
+#: content/apps/orders/templates/merchant/mh_order_list.dwt.php:197
+#: content/apps/orders/templates/merchant/order_step.dwt.php:78
+#: content/apps/orders/templates/merchant/today_order_list.dwt.php:138
+#: content/apps/orders/templates/merchant/remind_list.dwt.php:66
+#: content/apps/orders/templates/merchant/back_list.dwt.php:70
+#: content/apps/orders/templates/merchant/delivery_list.dwt.php:87
+msgid "移除"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/library/order_refund.lbi.php:7
+msgid "订单操作：退款"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/library/order_refund.lbi.php:42
+#: content/apps/orders/templates/merchant/library/order_operate.lbi.php:55
+#: content/apps/orders/templates/merchant/order_info.dwt.php:108
+#: content/apps/orders/templates/merchant/order_info.dwt.php:144
+#: content/apps/orders/templates/merchant/order_info.dwt.php:190
+msgid "确定"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_edit_shipping.dwt.php:13
+#: content/apps/orders/templates/merchant/order_step.dwt.php:13
+msgid "您可能没有添加配送插件或填写收货人地址信息！暂无对应的配送方式！"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/sale_list.dwt.php:13
+msgid "没有完成的订单不计入销售明细"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/sale_list.dwt.php:47
+#: content/apps/orders/templates/merchant/sale_order.dwt.php:50
+msgid "商品名称"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/sale_list.dwt.php:50
+msgid "订单号"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/sale_list.dwt.php:53
+msgid "数量"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/sale_list.dwt.php:56
+msgid "售价"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/sale_list.dwt.php:59
+msgid "售出日期"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_step.dwt.php:78
+msgid "\"}您确定要删除订单商品[ %1 ]吗？"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_step.dwt.php:118
+msgid "筛选搜索到的商品信息"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_step.dwt.php:138
+msgid "货号："
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_step.dwt.php:141
+msgid "商品库存："
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_step.dwt.php:166
+msgid "商品属性"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_step.dwt.php:188
+msgid "收货人"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_step.dwt.php:189
+msgid "所在地区"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_step.dwt.php:190
+msgid "详细地址"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_step.dwt.php:191
+msgid "邮编"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_step.dwt.php:192
+msgid "电话/手机"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_step.dwt.php:224
+msgid "填写收货地址"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_step.dwt.php:246
+msgid "详细地址 ："
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_step.dwt.php:253
+msgid "省份："
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_step.dwt.php:256
+#: content/apps/orders/templates/merchant/order_step.dwt.php:265
+#: content/apps/orders/templates/merchant/order_step.dwt.php:274
+#: content/apps/orders/templates/merchant/order_step.dwt.php:283
+msgid "请选择..."
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_step.dwt.php:421
+msgid "发票相关"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_step.dwt.php:453
+msgid "留言/备注"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_query.dwt.php:39
+msgid "开始时间"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_query.dwt.php:43
+msgid "结束时间"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_query.dwt.php:138
+msgid "省："
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_query.dwt.php:149
+msgid "市："
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_query.dwt.php:157
+msgid "区/县："
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_query.dwt.php:165
+msgid "街道/镇："
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_info.dwt.php:206
+msgid "购货人信息"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_info.dwt.php:284
+msgid "搜索"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_info.dwt.php:443
+msgid "发货单信息"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_info.dwt.php:464
+#: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:164
+msgid "发票信息"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_info.dwt.php:563
+#: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:140
+#: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:226
+msgid "商品缩略图"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_info.dwt.php:601
+#: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:169
+#: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:255
+msgid "该订单暂无商品"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_info.dwt.php:678
+#: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:219
+#: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:305
+msgid "操作记录"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_info.dwt.php:702
+#: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:243
+#: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:329
+msgid "该订单暂无操作记录"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_info.dwt.php:715
+#: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:256
+#: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:342
+#: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:377
+msgid "订单操作"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/remind_list.dwt.php:66
+#: content/apps/orders/templates/merchant/back_list.dwt.php:70
+msgid "\"}您确定要删除退货单[ %1 ]吗？"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/sale_general.dwt.php:18
+msgid "没有完成的订单不计入销售概况，默认为月走势"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/delivery_list.dwt.php:87
+msgid "\"}您确定要删除发货单[ %1 ]吗？"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/delivery_list.dwt.php:90
+msgid "查看订单"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/delivery_list.dwt.php:92
+msgid "显示收货人信息"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:226
+msgid "当前可执行操作："
+msgstr ""
+
+#: content/apps/orders/templates/merchant/sale_order.dwt.php:13
+msgid "没有完成的订单不计入销售排行"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/sale_order.dwt.php:47
+msgid "排行"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/sale_order.dwt.php:53
+msgid "货号"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/sale_order.dwt.php:56
+msgid "销售量"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/sale_order.dwt.php:59
+msgid "销售额"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/sale_order.dwt.php:62
+msgid "均价"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/adsense.dwt.php:21
+msgid "投放的名称"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/adsense.dwt.php:22
+msgid "点击来源"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/adsense.dwt.php:23
+msgid "点击次数"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/adsense.dwt.php:24
+msgid "有效订单数"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/adsense.dwt.php:25
+msgid "产生订单总数"
+msgstr ""
+
+#: content/apps/orders/templates/merchant/adsense.dwt.php:53
+msgid "没有统计数据"
+msgstr ""
