@@ -49,47 +49,46 @@
 //待发货、已完成、待收货,商家售后原因
 return array(
     'await_ship' => array(
-    				array('reason_id' => 1,'reason_name' => '暂时不想购买了'),
-    				array('reason_id' => 2,'reason_name' => '忘记使用优惠券'),
-    				array('reason_id' => 3,'reason_name' => '商家缺货，不想买了'),
-    				array('reason_id' => 4,'reason_name' => '商家服务态度有问题'),
-    				array('reason_id' => 5,'reason_name' => '商家长时间未发货'),
-    				array('reason_id' => 6,'reason_name' => '信息填写有误，重新购买')
-    	
+	    array('reason_id' => 1,'reason_name' => __('暂时不想购买了', 'refund')),
+	    array('reason_id' => 2,'reason_name' => __('忘记使用优惠券', 'refund')),
+	    array('reason_id' => 3,'reason_name' => __('商家缺货，不想买了', 'refund')),
+	    array('reason_id' => 4,'reason_name' => __('商家服务态度有问题', 'refund')),
+	    array('reason_id' => 5,'reason_name' => __('商家长时间未发货', 'refund')),
+	    array('reason_id' => 6,'reason_name' => __('信息填写有误，重新购买', 'refund'))
 	),
 	'finished'	=> array(
-					array('reason_id' => 11,'reason_name' => '商品质量问题'),
-					array('reason_id' => 12,'reason_name' => '发错货'),
-					array('reason_id' => 13,'reason_name' => '缺斤少两'),
-					array('reason_id' => 14,'reason_name' => '外表损伤（包装，商品等）'),
-					array('reason_id' => 15,'reason_name' => '未在时效内送达'),
-					array('reason_id' => 16,'reason_name' => '误购')
+		array('reason_id' => 11,'reason_name' => __('商品质量问题', 'refund')),
+		array('reason_id' => 12,'reason_name' => __('发错货', 'refund')),
+		array('reason_id' => 13,'reason_name' => __('缺斤少两', 'refund')),
+		array('reason_id' => 14,'reason_name' => __('外表损伤（包装，商品等）', 'refund')),
+		array('reason_id' => 15,'reason_name' => __('未在时效内送达', 'refund')),
+		array('reason_id' => 16,'reason_name' => __('误购', 'refund'))
 	),
 	'shipped'	=> array(
-					array('reason_id' => 21,'reason_name' => '暂时不想购买了'),
-					array('reason_id' => 22,'reason_name' => '忘记使用优惠券'),
-					array('reason_id' => 23,'reason_name' => '商家服务态度有问题'),
-					array('reason_id' => 24,'reason_name' => '快递太慢了'),
-					array('reason_id' => 25,'reason_name' => '信息填写有误，重新购买')
+		array('reason_id' => 21,'reason_name' => __('暂时不想购买了', 'refund')),
+		array('reason_id' => 22,'reason_name' => __('忘记使用优惠券', 'refund')),
+		array('reason_id' => 23,'reason_name' => __('商家服务态度有问题', 'refund')),
+		array('reason_id' => 24,'reason_name' => __('快递太慢了', 'refund')),
+		array('reason_id' => 25,'reason_name' => __('信息填写有误，重新购买', 'refund'))
 	),
 	'merchant'	=> array(
-					array('reason_id' => 91,'reason_name' => '暂时不想购买了'),
-					array('reason_id' => 92,'reason_name' => '信息填写有误，重新购买'),
-					array('reason_id' => 93,'reason_name' => '外表损伤（包装，商品等）'),
-					array('reason_id' => 94,'reason_name' => '商品质量问题'),
-					array('reason_id' => 95,'reason_name' => '发错货'),
-					array('reason_id' => 96,'reason_name' => '未在时效内送达'),
-					array('reason_id' => 97,'reason_name' => '服务态度问题')
+		array('reason_id' => 91,'reason_name' => __('暂时不想购买了', 'refund')),
+		array('reason_id' => 92,'reason_name' => __('信息填写有误，重新购买', 'refund')),
+		array('reason_id' => 93,'reason_name' => __('外表损伤（包装，商品等）', 'refund')),
+		array('reason_id' => 94,'reason_name' => __('商品质量问题', 'refund')),
+		array('reason_id' => 95,'reason_name' => __('发错货', 'refund')),
+		array('reason_id' => 96,'reason_name' => __('未在时效内送达', 'refund')),
+		array('reason_id' => 97,'reason_name' => __('服务态度问题', 'refund'))
 	),
 	'merchant_refuse'	=> array(
-			array('reason_id' => 31,'reason_name' => '该订单商品已售完'),
-			array('reason_id' => 32,'reason_name' => '由于天气原因，本店铺暂不接单'),
-			array('reason_id' => 33,'reason_name' => '商家忙碌，暂时无法接单'),
+		array('reason_id' => 31,'reason_name' => __('该订单商品已售完', 'refund')),
+		array('reason_id' => 32,'reason_name' => __('由于天气原因，本店铺暂不接单', 'refund')),
+		array('reason_id' => 33,'reason_name' => __('商家忙碌，暂时无法接单', 'refund'))
 	),
 	'auto_refuse'	=> array(
-			array('reason_id' => 34,'reason_name' => '由于特殊情况，商家暂时无法接单，系统已自动申请退款'),
+		array('reason_id' => 34,'reason_name' => __('由于特殊情况，商家暂时无法接单，系统已自动申请退款', 'refund')),
 	),
 	'cashier_refund' => array(
-			array('reason_id' => 35,'reason_name' => '收银台申请退款'),
+	    array('reason_id' => 35,'reason_name' => __('收银台申请退款', 'refund')),
 	),
 );

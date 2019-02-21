@@ -92,7 +92,7 @@ class ReturnAutoApply
         if (in_array($this->order_info['pay_status'], array(PS_UNPAYED))
             || in_array($this->order_info['order_status'], array(OS_CANCELED, OS_INVALID))
             || ($this->order_info['is_delete'] == 1)) {
-            return new ecjia_error('error_apply', '当前订单不可申请售后！');
+            return new ecjia_error('error_apply', __('当前订单不可申请售后！', 'refund'));
         }
 
         //获取订单退款信息
@@ -251,7 +251,7 @@ class ReturnAutoApply
             if (($order_refund_info['status'] == \Ecjia\App\Refund\RefundStatus::ORDER_REFUSED)
                 || (($order_refund_info['status'] == \Ecjia\App\Refund\RefundStatus::ORDER_AGREE) && ($order_refund_info['refund_status'] == \Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED))
             ) {
-                return new ecjia_error('error_apply', '当前订单已申请了售后！');
+                return new ecjia_error('error_apply', __('当前订单已申请了售后！', 'refund'));
             } else {
                 return $order_refund_info;
             }
@@ -262,7 +262,7 @@ class ReturnAutoApply
                 || ($order_refund_info['status'] == \Ecjia\App\Refund\RefundStatus::ORDER_AGREE && $order_refund_info['refund_status'] == \Ecjia\App\Refund\RefundStatus::PAY_UNTRANSFER)
                 || ($order_refund_info['status'] == \Ecjia\App\Refund\RefundStatus::ORDER_AGREE && $order_refund_info['refund_status'] == \Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED)
             ) {
-                return new ecjia_error('error_apply', '当前订单已申请了售后！');
+                return new ecjia_error('error_apply', __('当前订单已申请了售后！', 'refund'));
             } else {
                 return $order_refund_info;
             }

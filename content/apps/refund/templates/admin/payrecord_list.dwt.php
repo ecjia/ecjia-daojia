@@ -93,7 +93,7 @@
 				</td>
 		    </tr>
 		    <!-- {foreachelse} -->
-	        <tr><td class="no-records" {if $smarty.get.back_type eq 'have'}colspan="8"{else}colspan="7"{/if}>{lang key='system::system.no_records'}</td></tr>
+	        <tr><td class="no-records" {if $smarty.get.back_type eq 'have'}colspan="8"{else}colspan="7"{/if}>{t domain="refund"}没有找到任何记录{/t}</td></tr>
 			<!-- {/foreach} -->
             </tbody>
          </table>

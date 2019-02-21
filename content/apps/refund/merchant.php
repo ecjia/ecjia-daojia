@@ -85,7 +85,7 @@ class merchant extends ecjia_merchant {
 		RC_Script::enqueue_script('mh_refund', RC_App::apps_url('statics/js/mh_refund.js', __FILE__));
 		RC_Style::enqueue_style('mh_refund', RC_App::apps_url('statics/css/mh_refund.css', __FILE__), array(), false, false);
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('订单管理', RC_Uri::url('orders/merchant/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单管理', 'refund'), RC_Uri::url('orders/merchant/init')));
 		ecjia_merchant_screen::get_current_screen()->set_parentage('order', 'order/merchant.php');
 	}
 	
@@ -95,8 +95,8 @@ class merchant extends ecjia_merchant {
 	public function init() {
 		$this->admin_priv('refund_manage');
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('售后列表'));
-		$this->assign('ur_here', '售后列表');
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('售后列表', 'refund')));
+		$this->assign('ur_here', __('售后列表', 'refund'));
 
 		$refund_list = $this->refund_list();
 		$this->assign('refund_list', $refund_list);
@@ -112,10 +112,10 @@ class merchant extends ecjia_merchant {
 	 */
 	public function refund_detail() {
 		$this->admin_priv('refund_manage');
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('退款服务'));
-		$this->assign('ur_here', '退款服务');
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('退款服务', 'refund')));
+		$this->assign('ur_here', __('退款服务', 'refund'));
 		
-		$this->assign('action_link',array('href' => RC_Uri::url('refund/merchant/init'),'text' => '售后列表'));
+		$this->assign('action_link',array('href' => RC_Uri::url('refund/merchant/init'),'text' => __('售后列表', 'refund')));
 		
 		$refund_id = intval($_GET['refund_id']);
 		$this->assign('refund_id', $refund_id);
@@ -195,7 +195,7 @@ class merchant extends ecjia_merchant {
 		$refund_id	= $_POST['refund_id'];
 		$action_note= trim($_POST['action_note']);
 		if (empty($action_note)) {
-			return $this->showmessage('请输入操作备注', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入操作备注', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		$refund_info = RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();
 		
@@ -295,10 +295,10 @@ class merchant extends ecjia_merchant {
 	public function return_detail() {
 		$this->admin_priv('refund_manage');
 	
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('退货退款服务'));
-		$this->assign('ur_here', '退货退款服务');
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('退货退款服务', 'refund')));
+		$this->assign('ur_here', __('退货退款服务', 'refund'));
 		
-		$this->assign('action_link',array('href' => RC_Uri::url('refund/merchant/init'),'text' => '售后列表'));
+		$this->assign('action_link',array('href' => RC_Uri::url('refund/merchant/init'),'text' => __('售后列表', 'refund')));
 				
 		$refund_id = intval($_GET['refund_id']);
 		$this->assign('refund_id', $refund_id);
@@ -309,11 +309,11 @@ class merchant extends ecjia_merchant {
 			$return_shipping_range = explode(",",$refund_info['return_shipping_range']);
 			foreach($return_shipping_range as $key=>$val){
 				if($val == 'home'){
-					$return_shipping_range[$key] ='上门取件';
+					$return_shipping_range[$key] =__('上门取件', 'refund');
 				} elseif($val == 'express'){
-					$return_shipping_range[$key] ='自选快递';
+					$return_shipping_range[$key] =__('自选快递', 'refund');
 				} elseif($val == 'shop'){
-					$return_shipping_range[$key] ='到店退货';
+					$return_shipping_range[$key] =__('到店退货', 'refund');
 				}
 			}
 			$range = implode(" ",$return_shipping_range);
@@ -429,13 +429,13 @@ class merchant extends ecjia_merchant {
 		$order_id = RC_DB::table('refund_order')->where('refund_id', $refund_id)->pluck('order_id');
 		$action_note= trim($_POST['action_note']);
 		if (empty($action_note)) {
-			return $this->showmessage('请输入操作备注', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入操作备注', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if ($type == 'agree') {
 			$status = 1; 
 			$return_shipping_range= $_POST['return_shipping_range'];
 			if (empty($return_shipping_range)) {
-				return $this->showmessage('请选择返还方式', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('请选择返还方式', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			} else {
 				$return_shipping_range = implode(",", $return_shipping_range);
 			}
@@ -480,7 +480,7 @@ class merchant extends ecjia_merchant {
 		$refund_sn = RC_DB::table('refund_order')->where('refund_id', $refund_id)->pluck('refund_sn');
 		ecjia_merchant::admin_log('['.$refund_sn.'] 结果为'.$log_msg, 'check', 'refund_order');
 		
-		return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/merchant/return_detail', array('refund_id' => $refund_id))));
+		return $this->showmessage(__('操作成功','refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/merchant/return_detail', array('refund_id' => $refund_id))));
 	}
 	
 	
@@ -577,7 +577,7 @@ class merchant extends ecjia_merchant {
 		$refund_sn = RC_DB::table('refund_order')->where('refund_id', $refund_id)->pluck('refund_sn');
 		ecjia_merchant::admin_log('['.$refund_sn.'] 结果为'.$log_msg, 'check', 'refund_order');
 		
-		return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/merchant/return_detail', array('refund_id' => $refund_id))));
+		return $this->showmessage(__('操作成功', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/merchant/return_detail', array('refund_id' => $refund_id))));
 	}
 	
 	/**

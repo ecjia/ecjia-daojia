@@ -96,7 +96,7 @@ class admin_payrecord extends ecjia_admin
         RC_Script::enqueue_script('admin_payrecord', RC_App::apps_url('statics/js/admin_payrecord.js', __FILE__));
         RC_Style::enqueue_style('admin_payrecord', RC_App::apps_url('statics/css/admin_payrecord.css', __FILE__));
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('交易退款', RC_Uri::url('refund/admin_payrecord/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('交易退款', 'refund'), RC_Uri::url('refund/admin_payrecord/init')));
     }
 
     /**
@@ -107,8 +107,8 @@ class admin_payrecord extends ecjia_admin
         $this->admin_priv('payrecord_manage');
 
         ecjia_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('交易退款'));
-        $this->assign('ur_here', '交易退款');
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('交易退款', 'refund')));
+        $this->assign('ur_here', __('交易退款', 'refund'));
 
         $data = $this->payrecord_list();
         if (empty($data['filter']['back_type'])) {
@@ -130,10 +130,10 @@ class admin_payrecord extends ecjia_admin
         $this->admin_priv('payrecord_manage');
 
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('退款详情'));
-        $this->assign('ur_here', '退款详情');
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('退款详情', 'refund')));
+        $this->assign('ur_here', __('退款详情', 'refund'));
 
-        $this->assign('action_link', array('text' => '交易退款', 'href' => RC_Uri::url('refund/admin_payrecord/init')));
+        $this->assign('action_link', array('text' => __('交易退款', 'refund'), 'href' => RC_Uri::url('refund/admin_payrecord/init')));
 
         $refund_id = intval($_GET['refund_id']);
         $this->assign('refund_id', $refund_id);
@@ -227,13 +227,13 @@ class admin_payrecord extends ecjia_admin
         $back_content     = trim($_POST['back_content']);
         $back_money_total = sprintf("%.2f", $back_money_total);
         if (empty($back_content)) {
-            return $this->showmessage('请输入退款备注', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入退款备注', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         //用户表和资金变动表变动
         $refund_order = RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();
         if (empty($refund_order)) {
-            return $this->showmessage('退款单信息不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('退款单信息不存在', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         
         if ($back_type == 'surplus') {
@@ -250,7 +250,7 @@ class admin_payrecord extends ecjia_admin
             RC_DB::table('refund_order_action')->where('refund_id', $refund_id)->where('refund_status', Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED)->update(array('action_user_type' => 'admin', 'action_user_id' => $_SESSION['admin_id'], 'action_user_name' => $_SESSION['admin_name']));
 
             ecjia_admin::admin_log('[' . $refund_order['refund_sn'] . ']', 'payrecord', 'refund_order');
-            return $this->showmessage('退款操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/admin_payrecord/detail', array('refund_id' => $refund_id))));
+            return $this->showmessage(__('退款操作成功', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/admin_payrecord/detail', array('refund_id' => $refund_id))));
 
         } elseif ($back_type == 'original') {
             //打款表信息
@@ -266,7 +266,7 @@ class admin_payrecord extends ecjia_admin
             (new \Ecjia\App\Refund\Models\RefundPayRecordModel)->updateRefundPayrecord($id, 'original', $back_content, $_SESSION['admin_id'], $_SESSION['admin_name']);
 
             ecjia_admin::admin_log('[' . $refund_order['refund_sn'] . ']', 'payrecord', 'refund_order');
-            return $this->showmessage('退款操作成功，等待微信到款通知即可', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/admin_payrecord/detail', array('refund_id' => $refund_id))));
+            return $this->showmessage(__('退款操作成功，等待微信到款通知即可', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/admin_payrecord/detail', array('refund_id' => $refund_id))));
         }
 
     }
@@ -283,7 +283,7 @@ class admin_payrecord extends ecjia_admin
             return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        return $this->showmessage('与支付机构对账成功，状态正常', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        return $this->showmessage(__('与支付机构对账成功，状态正常', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 
     /**
@@ -354,15 +354,15 @@ class admin_payrecord extends ecjia_admin
     {
         $label_refund_status = '';
         if ($refund_status == '0') {
-            $label_refund_status = '待处理';
+            $label_refund_status = __('待处理', 'refund');
         } elseif ($refund_status == '1') {
-            $label_refund_status = '已退款';
+            $label_refund_status = __('已退款', 'refund');
         } elseif ($refund_status == '2') {
-            $label_refund_status = '退款处理中';
+            $label_refund_status = __('退款处理中', 'refund');
         } elseif ($refund_status == '11') {
-            $label_refund_status == '退款失败';
+            $label_refund_status == __('退款失败', 'refund');
         } elseif ($refund_status == '12') {
-            $label_refund_status = '退款关闭';
+            $label_refund_status = __('退款关闭', 'refund');
         }
         return $label_refund_status;
     }

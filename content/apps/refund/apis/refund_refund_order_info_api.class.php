@@ -59,7 +59,7 @@ class refund_refund_order_info_api extends Component_Event_Api {
 	public function call(&$options) {
 		if (!is_array($options)
 		|| (empty($options['refund_id']) && empty($options['refund_sn']))) {
-			return new ecjia_error('invalid_parameter', '调取api文件,refund_order_info,参数错误');
+			return new ecjia_error('invalid_parameter', __('调取api文件，refund_order_info，参数错误。', 'refund'));
 		}
 		
 		return $this->refund_order_info($options);
@@ -87,7 +87,7 @@ class refund_refund_order_info_api extends Component_Event_Api {
         }
 		
         if (!empty($info)) {
-        	$info['formated_add_time']		= RC_Time::local_date(ecjia::config('time_format'), $info['add_time']);
+        	$info['formated_add_time']	= RC_Time::local_date(ecjia::config('time_format'), $info['add_time']);
         }
         
 		return $info;

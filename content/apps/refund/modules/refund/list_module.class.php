@@ -121,6 +121,7 @@ class refund_list_module extends api_front implements api_interface {
 				$arr[] = array(
 					'store_id' 					=> intval($rows['store_id']),
 					'store_name' 				=> $rows['store_name'],
+					'store_service_phone'		=> $rows['shop_kf_mobile'],
 					'order_id' 					=> $rows['order_id'],
 					'order_sn' 					=> $rows['order_sn'],
 					'refund_sn'					=> $rows['refund_sn'],

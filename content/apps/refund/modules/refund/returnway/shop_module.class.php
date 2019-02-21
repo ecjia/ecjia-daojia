@@ -65,19 +65,19 @@ class refund_returnway_shop_module extends api_front implements api_interface {
 		$store_address		= trim($this->requestData('store_address', ''));
 		
 		if (empty($refund_sn)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'refund'));
 		}
 		
 		RC_Loader::load_app_class('order_refund', 'refund', false);
 		$refund_info = order_refund::get_refundorder_detail(array('refund_sn' => $refund_sn));
 		if (empty($refund_info)) {
-			return new ecjia_error('not_exists_info', '不存在的信息！');
+			return new ecjia_error('not_exists_info', __('不存在的信息！', 'refund'));
 		}
 		
 		//当前申请是否支持到店退货返回方式
 		$return_shipping_range = $return_shipping_range = explode(',', $refund_info['return_shipping_range']);
 		if (!in_array('shop', $return_shipping_range)) {
-			return new ecjia_error('return_shipping_range_error', '当前申请不支持到店退货返还方式！');
+			return new ecjia_error('return_shipping_range_error', __('当前申请不支持到店退货返还方式！', 'refund'));
 		}
 		
 		

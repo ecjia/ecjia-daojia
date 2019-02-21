@@ -49,15 +49,15 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class refund_admin_plugin {
 	
 	public static function refund_admin_menu_api($menus) {
-	    $menu = ecjia_admin::make_admin_menu('11_refund_list', '售后列表', RC_Uri::url('refund/admin/init'), 11)->add_purview('refund_manage');
+	    $menu = ecjia_admin::make_admin_menu('11_refund_list', __('售后列表', 'refund'), RC_Uri::url('refund/admin/init'), 11)->add_purview('refund_manage');
 	    $menus->add_submenu($menu);
 	    return $menus;
 	}
 	
 	public static function payrecord_admin_menu_api($menus) {
 		$menu = array(
-				ecjia_admin::make_admin_menu('21_payrecord_list', '交易退款', RC_Uri::url('refund/admin_payrecord/init'), 21)->add_purview('payrecord_manage'),
-				ecjia_admin::make_admin_menu('22_payment_refund', '退款流水', RC_Uri::url('payment/admin_payment_refund/init'), 22)->add_purview('payment_refund_manage'),
+			ecjia_admin::make_admin_menu('21_payrecord_list', __('交易退款', 'refund'), RC_Uri::url('refund/admin_payrecord/init'), 21)->add_purview('payrecord_manage'),
+			ecjia_admin::make_admin_menu('22_payment_refund', __('退款流水', 'refund'), RC_Uri::url('payment/admin_payment_refund/init'), 22)->add_purview('payment_refund_manage'),
 		);
 		$menus->add_submenu($menu);
 		return $menus;

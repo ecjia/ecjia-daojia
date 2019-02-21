@@ -12,7 +12,7 @@ class refund_merchant_confirm_api extends Component_Event_Api {
      */
 	public function call(&$options) {
 		if (!is_array($options)) {
-			return new ecjia_error('invalid_parameter', '调用api文件,returnway_shop,参数无效');
+			return new ecjia_error('invalid_parameter', __('调用api文件，returnway_shop，参数无效', 'refund'));
 		}
 		return $this->merchant_confirm($options);
 	}
@@ -29,13 +29,12 @@ class refund_merchant_confirm_api extends Component_Event_Api {
 		RC_Loader::load_app_class('OrderStatusLog', 'orders', false);
 		RC_Loader::load_app_class('RefundStatusLog', 'refund', false);
 		
-		
 		$refund_id 		= $options['refund_id'];
 		$action_note 	= $options['action_note'];
 		
 		$refund_info = RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();
 		if (empty($refund_info)) {
-			return new ecjia_error('not_exists_info', '不存在的信息！');
+			return new ecjia_error('not_exists_info', __('不存在的信息！', 'refund'));
 		}
 		
 		$return_status = Ecjia\App\Refund\RefundStatus::SHIP_CONFIRM_RECV;

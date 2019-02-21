@@ -62,7 +62,7 @@ class refund_payrecord_module extends api_front implements api_interface {
 		$refund_sn = $this->requestData('refund_sn', '');
 		
 		if (empty($refund_sn)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'refund'));
 		}
 		
 		$options = array('refund_sn' => $refund_sn);
@@ -71,11 +71,11 @@ class refund_payrecord_module extends api_front implements api_interface {
 		$refund_order_info = order_refund::get_refundorder_detail($options);
 		
 		if (empty($refund_order_info)) {
-			return new ecjia_error('not_exsist', '售后申请信息不存在');
+			return new ecjia_error('not_exsist', __('售后申请信息不存在', 'refund'));
 		}
 		// 检查退款申请是否属于该用户
 		if ($user_id > 0 && $user_id != $refund_order_info['user_id']) {
-			return new ecjia_error('refund_order_error', '未找到相应的售后申请单！');
+			return new ecjia_error('refund_order_error', __('未找到相应的售后申请单！','refund'));
 		}
 		
 		$back_integral = $refund_order_info['integral'];
@@ -84,11 +84,11 @@ class refund_payrecord_module extends api_front implements api_interface {
 		$back_account= '';
 		if ($refund_order_info['pay_code']) {
 			if ($refund_order_info['pay_code'] == 'pay_balance') {
-				$back_account = '退回余额';
+				$back_account = __('退回余额', 'refund');
 			} elseif ($refund_order_info['pay_code'] == 'pay_wxpay' || $refund_order_info['pay_code'] == 'pay_wxpay_weapp' || $refund_order_info['pay_code'] == 'pay_wxpay_shop' || $refund_order_info['pay_code'] == 'pay_wxpay_app' || $refund_order_info['pay_code'] == 'pay_wxpay_pc') {
-				$back_account = '微信支付账户';
+				$back_account = __('微信支付账户', 'refund');
 			} elseif ($refund_order_info['pay_code'] == 'pay_alipay') {
-				$back_account = '支付宝账户';
+				$back_account = __('支付宝账户', 'refund');
 			}
 		}
 		
@@ -96,11 +96,11 @@ class refund_payrecord_module extends api_front implements api_interface {
 		$refund_payrecord = order_refund::get_refund_payrecord($refund_order_info['refund_id']);
 		if ($refund_payrecord) {
 			if ($refund_payrecord['back_pay_code'] == 'pay_balance') {
-				$back_account = '退回余额';
+				$back_account = __('退回余额', 'refund');
 			} elseif ($refund_payrecord['back_pay_code'] == 'pay_wxpay' || $refund_payrecord['back_pay_code'] == 'pay_wxpay_weapp' || $refund_payrecord['back_pay_code'] == 'pay_wxpay_shop' || $refund_payrecord['back_pay_code'] == 'pay_wxpay_app' || $refund_payrecord['back_pay_code'] == 'pay_wxpay_pc') {
-				$back_account = '微信支付账户';
+				$back_account = __('微信支付账户', 'refund');
 			} elseif ($refund_payrecord['back_pay_code'] == 'pay_alipay') {
-				$back_account = '支付宝账户';
+				$back_account = __('支付宝账户', 'refund');
 			} 
 		}
 		
@@ -111,13 +111,13 @@ class refund_payrecord_module extends api_front implements api_interface {
 		/*退款状态处理*/
 		if ($refund_order_info['refund_status'] == '1') {
 			$refund_status 		= 'checked';
-			$label_refund_status= '已审核';
+			$label_refund_status= __('已审核', 'refund');
 		} elseif ($refund_order_info['refund_status'] == '2') {
 			$refund_status 		= 'refunded';
-			$label_refund_status= '已退款';
+			$label_refund_status= __('已退款', 'refund');
 		} else {
 			$refund_status 		= 'await_check';
-			$label_refund_status= '待审核';
+			$label_refund_status= __('待审核', 'refund');
 		}
 		
 		//退款进度日志

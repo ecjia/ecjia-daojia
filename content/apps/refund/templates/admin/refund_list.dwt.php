@@ -110,7 +110,7 @@
 				</td>
 		    </tr>
 		    <!-- {foreachelse} -->
-	        <tr><td class="no-records" colspan="8">{lang key='system::system.no_records'}</td></tr>
+	        <tr><td class="no-records" colspan="8">{t domain="refund"}没有找到任何记录{/t}</td></tr>
 			<!-- {/foreach} -->
             </tbody>
          </table>

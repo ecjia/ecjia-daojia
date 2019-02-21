@@ -56,11 +56,11 @@ class Helper
      */
     public static function assign_adminlog_content()
     {
-        ecjia_admin_log::instance()->add_object('refund_order', '售后订单');
+        ecjia_admin_log::instance()->add_object('refund_order', __('售后订单', 'refund'));
         
         
-        ecjia_admin_log::instance()->add_action('check', '审核');
-        ecjia_admin_log::instance()->add_action('payrecord', '已进行打款');
+        ecjia_admin_log::instance()->add_action('check', __('审核', 'refund'));
+        ecjia_admin_log::instance()->add_action('payrecord', __('已进行打款', 'refund'));
         
     }
 }

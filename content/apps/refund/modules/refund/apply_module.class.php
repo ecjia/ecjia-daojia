@@ -65,7 +65,7 @@ class refund_apply_module extends api_front implements api_interface {
 		$device 			=  $this->device;
 		
 		if (empty($order_id) || empty($refund_type) || empty($reason_id)) {
-			return new ecjia_error('invalid_parameter', '参数错误');
+			return new ecjia_error('invalid_parameter', _('参数错误', 'refund'));
 		}
 		
 		$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
@@ -75,7 +75,7 @@ class refund_apply_module extends api_front implements api_interface {
 		}
 		
 		if (empty($order_info)) {
-			return new ecjia_error('not_exists_info', '订单信息不存在！');
+			return new ecjia_error('not_exists_info', __('订单信息不存在！', 'refund'));
 		}
 		
 		//当前订单是否可申请售后
@@ -83,7 +83,7 @@ class refund_apply_module extends api_front implements api_interface {
 			|| in_array($order_info['order_status'], array(OS_CANCELED, OS_INVALID))
 			|| ($order_info['is_delete'] == '1')
 		) {
-			return new ecjia_error('error_apply', '当前订单不可申请售后！');
+			return new ecjia_error('error_apply', __('当前订单不可申请售后！', 'refund'));
 		}
 		
 		//查询当前订单有没申请过售后
@@ -97,12 +97,12 @@ class refund_apply_module extends api_front implements api_interface {
 			   || (($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_AGREE) && ($order_refund_info['refund_staus'] == Ecjia\App\Refund\RefundStatus::PAY_UNTRANSFER))
 			   || (($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_AGREE) && ($order_refund_info['refund_staus'] == Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED))
 			) {
-				return new ecjia_error('error_apply', '当前订单已申请了售后！');
+				return new ecjia_error('error_apply', __('当前订单已申请了售后！', 'refund'));
 			} elseif ($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_REFUSED) {
 				//申请被拒，重新申请
 				$refund_sn = $this->requestData('refund_sn', '');
 				if (empty($refund_sn)) {
-					return new ecjia_error('invalid_parameter', '参数无效！');
+					return new ecjia_error('invalid_parameter',__('参数无效！', 'refund'));
 				}
 				$update_data = array(
 					'refund_reason' 	=> !empty($reason_id) ? $reason_id : $order_refund_info['reason_id'],
@@ -135,7 +135,7 @@ class refund_apply_module extends api_front implements api_interface {
 					$count = count($_FILES['refund_images']['name']);
 					//最多可传5张图片
 					if ($count > 5) {
-						return new ecjia_error('refund_img_error', '申请图片最多可传5张哦！');
+						return new ecjia_error('refund_img_error', __('申请图片最多可传5张哦！', 'refund'));
 					}
 					for ($i = 0; $i < $count; $i++) {
 						$refund_images = array(
@@ -269,7 +269,7 @@ class refund_apply_module extends api_front implements api_interface {
 					$count = count($_FILES['refund_images']['name']);
 					//最多可传5张图片
 					if ($count > 5) {
-						return new ecjia_error('refund_img_error', '申请图片最多可传5张哦！');
+						return new ecjia_error('refund_img_error', __('申请图片最多可传5张哦！', 'refund'));
 					}
 					for ($i = 0; $i < $count; $i++) {
 						$refund_images = array(
@@ -374,7 +374,30 @@ class refund_apply_module extends api_front implements api_interface {
 		$opt = array('status' => '申请退款', 'refund_id' => $refund_id, 'message' => '您的退款申请已提交，等待商家处理！');
 		order_refund::refund_status_log($opt);
 		
-		return array();
+		$refund_order = order_refund::currorder_refund_info($order_id);
+		
+		$refund_info = $this->get_format_refund($refund_order);
+		
+		return $refund_info;
 	}
+	
+	/**
+	 * 返回退款单简单信息
+	 */
+	private function get_format_refund($refund_order) 
+	{
+		$refund_info = [];
+		if (!empty($refund_order)) {
+			$refund_info = array(
+					'refund_id' => intval($refund_order['refund_id']),
+					'refund_sn' => trim($refund_order['refund_sn']),
+					'refund_type'				=> $refund_order['refund_type'],
+					'label_refund_type'			=> $refund_order['refund_type'] == 'refund' ? __('仅退款', 'refund') : __('退货退款', 'refund'),
+					'apply_time'				=> empty($refund_order['add_time']) ? '' : RC_Time::local_date('Y-m-d H:i:s', $refund_order['add_time'])
+			);
+		}
+		return $refund_info;
+	}
+	
 }
 // end

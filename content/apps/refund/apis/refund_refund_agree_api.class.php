@@ -12,7 +12,7 @@ class refund_refund_agree_api extends Component_Event_Api {
      */
 	public function call(&$options) {
 		if (!is_array($options)) {
-			return new ecjia_error('invalid_parameter', '调用api文件,refund_agree,参数无效');
+			return new ecjia_error('invalid_parameter', __('调用api文件，refund_agree，参数无效', 'refund'));
 		}
 		return $this->agree_refund_apply($options);
 	}

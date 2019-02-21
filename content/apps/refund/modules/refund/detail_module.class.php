@@ -61,7 +61,7 @@ class refund_detail_module extends api_front implements api_interface {
     	RC_Loader::load_app_class('order_refund', 'refund', false);
 		$refund_sn = $this->requestData('refund_sn', '');
 		if (empty($refund_sn)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'refund'));
 		}
 		
 		$options = array('refund_sn' => $refund_sn);
@@ -70,11 +70,11 @@ class refund_detail_module extends api_front implements api_interface {
 		$refund_order_info = order_refund::get_refundorder_detail($options);
 		
 		if (empty($refund_order_info)) {
-			return new ecjia_error('not_exsist', '售后申请信息不存在');
+			return new ecjia_error('not_exsist', __('售后申请信息不存在', 'refund'));
 		}
 		// 检查退款申请是否属于该用户
 		if ($user_id > 0 && $user_id != $refund_order_info['user_id']) {
-			return new ecjia_error('refund_order_error', '未找到相应的售后申请单！');
+			return new ecjia_error('refund_order_error', __('未找到相应的售后申请单！', 'refund'));
 		}
 		
 		/*商家电话*/
@@ -89,27 +89,27 @@ class refund_detail_module extends api_front implements api_interface {
 		/*售后申请状态处理*/
 		if ($refund_order_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_UNCHECK) {
 			$status 		= 'uncheck';
-			$label_status	= '待审核';
+			$label_status	= __('待审核', 'refund');
 		} elseif ($refund_order_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_AGREE) {
 			$status			= 'agree';
-			$label_status	= '同意';
+			$label_status	= __('同意', 'refund');
 		} elseif ($refund_order_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_CANCELED) {
 			$status			= 'canceled';
-			$label_status	= '已取消';
+			$label_status	= __('已取消', 'refund');
 		} elseif ($refund_order_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_REFUSED) {
 			$status			= 'refused';
-			$label_status	= '拒绝';
+			$label_status	= __('拒绝', 'refund');
 		}
 		/*退款状态处理*/
 		if ($refund_order_info['refund_status'] == Ecjia\App\Refund\RefundStatus::PAY_UNTRANSFER) {
 			$refund_status 		= 'checked';
-			$label_refund_status= '已审核';
+			$label_refund_status= __('已审核', 'refund');
 		} elseif ($refund_order_info['refund_status'] == Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED) {
 			$refund_status 		= 'refunded';
-			$label_refund_status= '已退款';
+			$label_refund_status= __('已退款', 'refund');
 		} else {
 			$refund_status 		= 'await_check';
-			$label_refund_status= '待审核';
+			$label_refund_status= __('待审核', 'refund');
 		}
 		
 		//用户地址
@@ -136,7 +136,7 @@ class refund_detail_module extends api_front implements api_interface {
 				
 				$home_data = array(
 						'return_way_code' => 'home',
-						'return_way_name' => '上门取件',
+						'return_way_name' => __('上门取件', 'refund'),
 						'pickup_address'  => $user_address,
 						'contact_name'	  => $order_info['consignee'],
 						'contact_phone'   => $order_info['mobile'],
@@ -148,7 +148,7 @@ class refund_detail_module extends api_front implements api_interface {
 			if (in_array('express', $return_shipping_range)) {
 				$express_data = array(
 						'return_way_code' 	=> 'express',
-						'return_way_name' 	=> '自选快递',
+						'return_way_name' 	=> __('自选快递', 'refund'),
 						'recipients'	  	=> $store_recipients,
 						'contact_phone'	  	=> $store_service_phone,
 						'recipient_address'	=> $store_address
@@ -159,7 +159,7 @@ class refund_detail_module extends api_front implements api_interface {
 			if (in_array('shop', $return_shipping_range)) {
 				$shop_data = array(
 						'return_way_code' 		=> 'shop',
-						'return_way_name' 		=> '到店退货',
+						'return_way_name' 		=> __('到店退货', 'refund'),
 						'store_name'	  		=> $store_name,
 						'store_service_phone'	=> $store_service_phone,
 						'store_address'			=> $store_address
@@ -282,7 +282,7 @@ class refund_detail_module extends api_front implements api_interface {
 				'refund_sn' 				=> $refund_sn,
 				'store_service_phone' 		=> !empty($store_service_phone) ? $store_service_phone : '',
 				'refund_type'				=> $refund_order_info['refund_type'],
-				'label_refund_type'			=> $refund_order_info['refund_type'] == 'refund' ? '仅退款' : '退货退款',
+				'label_refund_type'			=> $refund_order_info['refund_type'] == 'refund' ? __('仅退款', 'refund') : _('退货退款', 'refund'),
 				'status'					=> $status,
 				'label_status'				=> $label_status,
 				'refund_status'				=> $refund_status,
@@ -306,6 +306,8 @@ class refund_detail_module extends api_front implements api_interface {
 				'refund_pay_fee'			=> $refund_order_info['pay_fee'],
 				'pay_code'					=> $refund_order_info['pay_code'],
 				'pay_name'					=> $refund_order_info['pay_name'],
+				'store_id'					=> intval($refund_order_info['store_id']),
+				'store_name'				=> $store_name
 		);
 		return  $arr;
 	}

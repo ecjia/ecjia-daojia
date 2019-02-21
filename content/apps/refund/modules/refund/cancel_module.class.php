@@ -63,18 +63,18 @@ class refund_cancel_module extends api_front implements api_interface {
 		
 		
 		if (empty($refund_sn)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'refund'));
 		}
 		
 		RC_Loader::load_app_class('order_refund', 'refund', false);
 		$refund_info = order_refund::get_refundorder_detail(array('refund_sn' => $refund_sn));
 		if (empty($refund_info)) {
-			return new ecjia_error('not_exists_info', '不存在的信息！');
+			return new ecjia_error('not_exists_info', __('不存在的信息！', 'refund'));
 		}
 		
 		
 		if (($refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_REFUSED) || (($refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_AGREE) && Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED)) {
-			return new ecjia_error('cannot_cancel', '当前售后申请不可撤销！');
+			return new ecjia_error('cannot_cancel', __('当前售后申请不可撤销！', 'refund'));
 		}
 		
 		$cancel_status = Ecjia\App\Refund\RefundStatus::ORDER_CANCELED;

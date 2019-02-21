@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class refund_merchant_hook {
 	
 	public static function refund_merchant_menu_api($menus) {
-	    $menu = ecjia_merchant::make_admin_menu('1_refund_list', '售后列表', RC_Uri::url('refund/merchant/init'), 10)->add_purview('refund_manage')->add_icon('fa-institution');
+	    $menu = ecjia_merchant::make_admin_menu('1_refund_list', __('售后列表', 'refund'), RC_Uri::url('refund/merchant/init'), 10)->add_purview('refund_manage')->add_icon('fa-institution');
 	    $menus->add_submenu($menu);
 	    return $menus;
 	}

@@ -32,7 +32,7 @@ class refund_refund_returnway_shop_api extends Component_Event_Api {
 
 		$refund_info = RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();
 		if (empty($refund_info)) {
-			return new ecjia_error('not_exists_info', '不存在的信息！');
+			return new ecjia_error('not_exists_info', __('不存在的信息！', 'refund'));
 		}
 		
 		//收件地址默认为店铺地址

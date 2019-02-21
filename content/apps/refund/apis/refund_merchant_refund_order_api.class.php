@@ -12,7 +12,7 @@ class refund_merchant_refund_order_api extends Component_Event_Api {
      */
 	public function call(&$options) {
 		if (!is_array($options)) {
-			return new ecjia_error('invalid_parameter', '调用api文件,merchant_refund_order,参数无效');
+			return new ecjia_error('invalid_parameter', __('调用api文件，merchant_refund_order，参数无效', 'refund'));
 		}
 		return $this->store_refund_order_list($options);
 	}
@@ -63,21 +63,21 @@ class refund_merchant_refund_order_api extends Component_Event_Api {
 		if (!empty($list)) {
 			foreach ($list as $row) {
 				$row['store_name'] 				= $row['store_id'] > 0 ? RC_DB::table('store_franchisee')->where('store_id', $row['store_id'])->pluck('merchants_name') : '';
-				$row['label_refund_type']		= $row['refund_type'] == 'refund' ? '仅退款' : '退货退款';
+				$row['label_refund_type']		= $row['refund_type'] == 'refund' ? __('仅退款', 'refund') : __('退货退款', 'refund');
 				$row['formated_add_time']		= RC_Time::local_date(ecjia::config('time_format'), $row['add_time']);
 				$row['formated_refund_time']	= !empty($row['refund_time']) ? RC_Time::local_date(ecjia::config('time_format'), $row['add_time']) : '';
 				if ($row['status'] == Ecjia\App\Refund\RefundStatus::ORDER_CANCELED) {
 					$row['service_status_code'] = 'canceled';
-					$row['label_service_status']= '已取消';
+					$row['label_service_status']= __('已取消', 'refund');
 				} elseif (($row['status'] == Ecjia\App\Refund\RefundStatus::ORDER_AGREE && $row['refund_status'] == Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED)) {
 					$row['service_status_code'] = 'refunded';
-					$row['label_service_status']= '已退款';
+					$row['label_service_status']= __('已退款', 'refund');
 				}elseif ($row['status'] == Ecjia\App\Refund\RefundStatus::ORDER_REFUSED) {
 					$row['service_status_code'] = 'refused';
-					$row['label_service_status']= '已拒绝';
+					$row['label_service_status']= __('已拒绝', 'refund');
 				} else{
 					$row['service_status_code'] = 'going';
-					$row['label_service_status']= '进行中';
+					$row['label_service_status']= __('进行中', 'refund');
 				}
 				//售后申请退货商品信息
 				$goods_list = order_refund::get_order_goods_list($row['order_id']);
