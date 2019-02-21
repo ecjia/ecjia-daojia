@@ -54,13 +54,13 @@ class commission_merchant_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {
 	
-		$menus = ecjia_merchant::make_admin_menu('07_commission', __('结算'), '', 7)->add_icon('fa-money')->add_purview(array('commission_manage', 'commission_month','commission_day','commission_order','commission_count'))->add_base('commission');
+		$menus = ecjia_merchant::make_admin_menu('07_commission', __('结算', 'commission'), '', 7)->add_icon('fa-money')->add_purview(array('commission_manage', 'commission_month','commission_day','commission_order','commission_count'))->add_base('commission');
 		
 		$submenus = array(
-			ecjia_merchant::make_admin_menu('01_commission_list', __('资金管理'), RC_Uri::url('commission/merchant/init'), 1)->add_purview('commission_manage')->add_icon('fa-money'),
-			ecjia_merchant::make_admin_menu('02_commission_list', __('月账单'), RC_Uri::url('commission/merchant/month'), 2)->add_purview('commission_month')->add_icon('fa-money'), //order_view
-		    ecjia_merchant::make_admin_menu('03_commission_list_day', __('日账单'), RC_Uri::url('commission/merchant/day'), 3)->add_purview('commission_day')->add_icon('fa-money'),
-			ecjia_merchant::make_admin_menu('04_commission_detail', __('订单分成'), RC_Uri::url('commission/merchant/record'), 4)->add_purview('commission_order')->add_icon('fa-list-alt'), // order_view
+			ecjia_merchant::make_admin_menu('01_commission_list', __('资金管理', 'commission'), RC_Uri::url('commission/merchant/init'), 1)->add_purview('commission_manage')->add_icon('fa-money'),
+			ecjia_merchant::make_admin_menu('02_commission_list', __('月账单', 'commission'), RC_Uri::url('commission/merchant/month'), 2)->add_purview('commission_month')->add_icon('fa-money'), //order_view
+		    ecjia_merchant::make_admin_menu('03_commission_list_day', __('日账单', 'commission'), RC_Uri::url('commission/merchant/day'), 3)->add_purview('commission_day')->add_icon('fa-money'),
+			ecjia_merchant::make_admin_menu('04_commission_detail', __('订单分成', 'commission'), RC_Uri::url('commission/merchant/record'), 4)->add_purview('commission_order')->add_icon('fa-list-alt'), // order_view
 		);
 		$menus->add_submenu($submenus);
 		return $menus;

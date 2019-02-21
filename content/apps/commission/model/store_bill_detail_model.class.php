@@ -362,14 +362,14 @@ class store_bill_detail_model extends Component_Model_Model {
 	        	$row[$key]['bill_time'] = RC_Time::local_date('Y-m-d H:i:s', $row[$key]['bill_time']);
 
 	        	if($val['order_type'] == 'buy') {
-	        		$row[$key]['order_type_name'] = '购物订单';
+	        		$row[$key]['order_type_name'] = __('购物订单', 'commission');
 	        	} elseif ($val['order_type'] == 'refund') {
-	        		$row[$key]['order_type_name'] = '退款';
+	        		$row[$key]['order_type_name'] = __('退款', 'commission');
 // 	        		$row[$key]['order_type_name_style'] = '<span class="ecjiafc-red">退款</span>';
 	        	} elseif ($val['order_type'] == 'quickpay'){
-	        		$row[$key]['order_type_name'] = '优惠买单';
+	        		$row[$key]['order_type_name'] = __('优惠买单', 'commission');
 	        	} else {
-	        	    $row[$key]['order_type_name'] = '未知';
+	        	    $row[$key]['order_type_name'] = __('未知', 'commission');
 	        	}
 	        }
 	    }

@@ -26,18 +26,18 @@
                 },
                 messages: {
                 	pay_amount: {
-                        required: '不能为空',
-                        min: '请输入大于0.01的数字',
-                        max: '打款金额超出未付金额'
+                        required: jslang.canot_empty,
+                        min: jslang.input_more_than_001,
+                        max: jslang.pay_more_than_unpay_money
                     },
                     payee: {
-                        required: '不能为空'
+                        required: jslang.canot_empty
                     },
                     bank_account_number: {
-                        required: '不能为空'
+                        required: jslang.canot_empty
                     },
                     bank_name: {
-                        required: '不能为空'
+                        required: jslang.canot_empty
                     }
                 },
                 submitHandler: function () {

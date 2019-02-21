@@ -1,0 +1,1062 @@
+# Copyright (C) 2019 Ecjia App commission
+# This file is distributed under the same license as the Ecjia App commission package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App commission 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:53:24+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin.php:105 admin.php:127 admin.php:133 admin.php:139 admin.php:336
+#: admin.php:343 merchant.php:152
+msgid "账单列表"
+msgstr ""
+
+#: admin.php:106 admin.php:173 admin.php:236 admin.php:284
+msgid "账单生成"
+msgstr ""
+
+#: admin.php:122
+msgid "自营店铺"
+msgstr ""
+
+#: admin.php:124
+msgid "入驻商家"
+msgstr ""
+
+#: admin.php:169 apis/commission_admin_purview_api.class.php:60
+msgid "月账单生成"
+msgstr ""
+
+#: admin.php:170 admin.php:172
+msgid "每月账单"
+msgstr ""
+
+#: admin.php:188 admin.php:300
+msgid "请选择时间"
+msgstr ""
+
+#: admin.php:192 admin.php:216
+msgid "当月交易未完成，账单暂不能生成"
+msgstr ""
+
+#: admin.php:200 admin.php:325
+msgid "更新成功"
+msgstr ""
+
+#: admin.php:209
+msgid "参数错误"
+msgstr ""
+
+#: admin.php:213
+msgid "账单信息不存在"
+msgstr ""
+
+#: admin.php:226
+msgid "账单生成成功"
+msgstr ""
+
+#: admin.php:235 admin.php:253 admin.php:259 admin.php:265 admin.php:281
+#: admin.php:283 merchant.php:123 merchant.php:125
+msgid "每日账单"
+msgstr ""
+
+#: admin.php:249
+msgid "入驻商"
+msgstr ""
+
+#: admin.php:268 admin.php:314 merchant.php:138
+msgid "开始时间不能大于结束时间"
+msgstr ""
+
+#: admin.php:280
+msgid "每日账单生成"
+msgstr ""
+
+#: admin.php:303
+msgid "不能选择未来时间"
+msgstr ""
+
+#: admin.php:306
+msgid "今日交易未完成，账单暂不能生成"
+msgstr ""
+
+#: admin.php:335 admin.php:434 admin.php:466
+#: apis/commission_admin_menu_api.class.php:57 configs/package.php:55
+#: merchant.php:96 merchant.php:122 merchant.php:150 merchant.php:190
+#: merchant.php:212 merchant.php:232 merchant.php:329 merchant.php:348
+msgid "商家结算"
+msgstr ""
+
+#: admin.php:337 admin.php:357
+#: apis/commission_merchant_purview_api.class.php:58 merchant.php:151
+#: merchant.php:165
+msgid "账单详情"
+msgstr ""
+
+#: admin.php:347 admin.php:463 admin.php:489 merchant.php:156
+msgid "参数异常"
+msgstr ""
+
+#: admin.php:352 admin.php:706 merchant.php:161
+msgid "没有数据"
+msgstr ""
+
+#: admin.php:435 admin.php:467 admin.php:469
+#: apis/commission_admin_menu_api.class.php:63
+#: apis/commission_admin_purview_api.class.php:65
+#: apis/commission_merchant_menu_api.class.php:63
+#: apis/commission_merchant_purview_api.class.php:60 merchant.php:191
+#: merchant.php:193
+msgid "订单分成"
+msgstr ""
+
+#: admin.php:436
+msgid "订单分成列表"
+msgstr ""
+
+#: admin.php:468 admin.php:470
+msgid "订单结算"
+msgstr ""
+
+#: admin.php:475 admin.php:493
+msgid "信息不存在"
+msgstr ""
+
+#: admin.php:496
+msgid "已结算，不可操作"
+msgstr ""
+
+#: admin.php:513 admin.php:522 admin.php:632
+msgid "操作成功"
+msgstr ""
+
+#: admin.php:515
+msgid "操作失败"
+msgstr ""
+
+#: admin.php:531 admin.php:533 admin.php:564 admin.php:568
+#: apis/commission_admin_menu_api.class.php:60
+msgid "商家提现"
+msgstr ""
+
+#: admin.php:565 admin.php:567 merchant.php:351 merchant.php:353
+msgid "提现详情"
+msgstr ""
+
+#: admin.php:591
+msgid "备注信息不能为空"
+msgstr ""
+
+#: admin.php:621
+msgid "同意，提现金额为："
+msgstr ""
+
+#: admin.php:629
+msgid "拒绝，提现金额为："
+msgstr ""
+
+#: admin.php:677
+msgid "银行卡"
+msgstr ""
+
+#: admin.php:677
+msgid "支付宝"
+msgstr ""
+
+#: admin.php:682
+msgid "待审核"
+msgstr ""
+
+#: admin.php:685
+msgid "已通过"
+msgstr ""
+
+#: admin.php:688
+msgid "已拒绝"
+msgstr ""
+
+#: apis/commission_add_bill_detail_api.class.php:66
+#: apis/commission_add_bill_queue_api.class.php:63
+#: classes/store_account.class.php:95 classes/store_account.class.php:185
+msgid "参数无效"
+msgstr ""
+
+#: apis/commission_admin_menu_api.class.php:61
+#: apis/commission_admin_purview_api.class.php:59
+#: apis/commission_merchant_menu_api.class.php:61
+#: apis/commission_merchant_purview_api.class.php:57 merchant.php:97
+#: merchant.php:99
+msgid "月账单"
+msgstr ""
+
+#: apis/commission_admin_menu_api.class.php:62
+#: apis/commission_admin_purview_api.class.php:63
+#: apis/commission_merchant_menu_api.class.php:62
+#: apis/commission_merchant_purview_api.class.php:59
+msgid "日账单"
+msgstr ""
+
+#: apis/commission_admin_purview_api.class.php:61
+msgid "月账单重新生成"
+msgstr ""
+
+#: apis/commission_admin_purview_api.class.php:62
+msgid "月账单详情"
+msgstr ""
+
+#: apis/commission_admin_purview_api.class.php:64
+msgid "日账单生成"
+msgstr ""
+
+#: apis/commission_admin_purview_api.class.php:66
+msgid "订单重新结算"
+msgstr ""
+
+#: apis/commission_admin_purview_api.class.php:68
+#: apis/commission_merchant_menu_api.class.php:60
+#: apis/commission_merchant_purview_api.class.php:62 merchant.php:213
+#: merchant.php:216 merchant.php:233 merchant.php:237 merchant.php:330
+#: merchant.php:334 merchant.php:349
+msgid "资金管理"
+msgstr ""
+
+#: apis/commission_admin_purview_api.class.php:69
+msgid "申请提现管理"
+msgstr ""
+
+#: apis/commission_merchant_menu_api.class.php:57
+msgid "结算"
+msgstr ""
+
+#: apis/commission_merchant_purview_api.class.php:63 merchant.php:234
+#: merchant.php:236
+msgid "申请提现"
+msgstr ""
+
+#: apis/commission_store_menu_api.class.php:58
+msgid "结算账单"
+msgstr ""
+
+#: classes/Helper.php:58
+msgid "申请"
+msgstr ""
+
+#: classes/Helper.php:59
+msgid "审核"
+msgstr ""
+
+#: classes/Helper.php:61
+msgid "提现"
+msgstr ""
+
+#: classes/store_account.class.php:107
+msgid "订单"
+msgstr ""
+
+#: classes/store_account.class.php:109
+#: model/store_bill_detail_model.class.php:370
+msgid "优惠买单"
+msgstr ""
+
+#: classes/store_account.class.php:111
+#: model/store_bill_detail_model.class.php:367
+msgid "退款"
+msgstr ""
+
+#: classes/store_account.class.php:153
+msgid "提现金额过大，余额需不低于保证金"
+msgstr ""
+
+#: configs/jslang.php:55
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:56
+msgid "取消"
+msgstr ""
+
+#: configs/jslang.php:57
+msgid "不能为空"
+msgstr ""
+
+#: configs/jslang.php:58
+msgid "开始时间不能为空！"
+msgstr ""
+
+#: configs/jslang.php:59
+msgid "结束时间不能为空！"
+msgstr ""
+
+#: configs/jslang.php:60
+msgid "开始时间不能大于结束时间！"
+msgstr ""
+
+#: configs/jslang.php:61
+msgid "请输入大于0.01的数字"
+msgstr ""
+
+#: configs/jslang.php:62
+msgid "打款金额超出未付金额"
+msgstr ""
+
+#: configs/jslang.php:63
+msgid "提现金额不能为空"
+msgstr ""
+
+#: configs/jslang.php:64
+msgid "备注内容不能为空"
+msgstr ""
+
+#: configs/package.php:56
+msgid "商家查询结算账单和结算明细"
+msgstr ""
+
+#: merchant.php:215
+msgid "资金明细"
+msgstr ""
+
+#: merchant.php:217 merchant.php:331 merchant.php:333 merchant.php:350
+#: merchant.php:354
+msgid "提现记录"
+msgstr ""
+
+#: merchant.php:268
+msgid ""
+"提现订单还未审核的情况下，不能再申请提现，只有审核通过，才可以进行第二次提"
+"现。"
+msgstr ""
+
+#: merchant.php:275
+msgid "请在提现金额栏输入大于0的数字"
+msgstr ""
+
+#: merchant.php:278
+msgid "请输入备注内容"
+msgstr ""
+
+#: merchant.php:287
+msgid "请先添加提现银行卡"
+msgstr ""
+
+#: merchant.php:308
+msgid "您暂时没有可用余额，无法提现"
+msgstr ""
+
+#: merchant.php:311
+msgid "您要申请提现的金额超过了您的可用金额，此操作将不可进行"
+msgstr ""
+
+#: merchant.php:316
+msgid "提现金额为："
+msgstr ""
+
+#: merchant.php:319
+msgid "申请成功"
+msgstr ""
+
+#: merchant.php:321
+msgid "申请失败"
+msgstr ""
+
+#: model/store_bill_detail_model.class.php:365
+msgid "购物订单"
+msgstr ""
+
+#: model/store_bill_detail_model.class.php:372
+msgid "未知"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:13
+#: content/apps/commission/templates/admin/bill_list_month_update.dwt.php:13
+#: content/apps/commission/templates/admin/order_commission.dwt.php:13
+#: content/apps/commission/templates/merchant/bill_list.dwt.php:12
+msgid "温馨提示："
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:13
+msgid "每月1日生成上月账单，当月账单未出请查看每日账单和订单分成"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:19
+#: content/apps/commission/templates/admin/order_list.dwt.php:14
+#: content/apps/commission/templates/admin/bill_list_day_update.dwt.php:18
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:14
+#: content/apps/commission/templates/admin/bill_list_month_update.dwt.php:19
+msgid "返回全部"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:24
+msgid "导出结果"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:39
+#: content/apps/commission/templates/admin/bill_list_day_update.dwt.php:34
+#: content/apps/commission/templates/admin/withdraw_list.dwt.php:39
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:33
+#: content/apps/commission/templates/merchant/bill_list.dwt.php:33
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:29
+#: content/apps/commission/templates/merchant/bill_list_day.dwt.php:29
+msgid "开始时间"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:40
+#: content/apps/commission/templates/admin/bill_list_day_update.dwt.php:36
+#: content/apps/commission/templates/admin/withdraw_list.dwt.php:40
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:34
+#: content/apps/commission/templates/merchant/bill_list.dwt.php:35
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:31
+#: content/apps/commission/templates/merchant/bill_list_day.dwt.php:31
+msgid "结束时间"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:41
+#: content/apps/commission/templates/admin/order_list.dwt.php:21
+#: content/apps/commission/templates/admin/withdraw_list.dwt.php:41
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:35
+msgid "请输入商家关键字"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:42
+#: content/apps/commission/templates/admin/bill_list.dwt.php:54
+msgid "账单编号"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:43
+#: content/apps/commission/templates/admin/order_list.dwt.php:23
+#: content/apps/commission/templates/admin/withdraw_list.dwt.php:43
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:36
+#: content/apps/commission/templates/merchant/bill_list.dwt.php:36
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:32
+#: content/apps/commission/templates/merchant/bill_list_day.dwt.php:32
+#: content/apps/commission/templates/merchant/fund_record_list.dwt.php:59
+msgid "搜索"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:55
+#: content/apps/commission/templates/admin/order_list.dwt.php:38
+#: content/apps/commission/templates/admin/withdraw_list.dwt.php:52
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:71
+msgid "商家名称"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:58
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:72
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:74
+#: content/apps/commission/templates/merchant/bill_list.dwt.php:49
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:80
+#: content/apps/commission/templates/merchant/bill_list_day.dwt.php:45
+msgid "入账金额"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:59
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:73
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:75
+#: content/apps/commission/templates/merchant/bill_list.dwt.php:50
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:81
+#: content/apps/commission/templates/merchant/bill_list_day.dwt.php:46
+msgid "退款金额"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:60
+#: content/apps/commission/templates/admin/order_list.dwt.php:41
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:74
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:106
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:76
+#: content/apps/commission/templates/merchant/bill_list.dwt.php:51
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:82
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:116
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:46
+#: content/apps/commission/templates/merchant/bill_list_day.dwt.php:47
+msgid "佣金比例"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:61
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:75
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:77
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:83
+msgid "商家有效佣金"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:73
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:86
+msgid "订单列表"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:74
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:87
+msgid "编辑"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:75
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:88
+msgid "您确定要删除吗？"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:75
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:88
+msgid "删除"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:80
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:93
+msgid "查看此商家账单"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:81
+#: content/apps/commission/templates/admin/order_list.dwt.php:62
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:94
+msgid "查看商家资料"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:91
+msgid "0"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list.dwt.php:96
+#: content/apps/commission/templates/admin/order_list.dwt.php:78
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:94
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:132
+#: content/apps/commission/templates/admin/withdraw_list.dwt.php:94
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:109
+#: content/apps/commission/templates/merchant/bill_list.dwt.php:70
+#: content/apps/commission/templates/merchant/fund_list.dwt.php:65
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:104
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:139
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:81
+#: content/apps/commission/templates/merchant/bill_list_day.dwt.php:69
+#: content/apps/commission/templates/merchant/fund_record_list.dwt.php:109
+msgid "没有找到任何记录"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:26
+#: content/apps/commission/templates/merchant/fund_detail.dwt.php:31
+msgid "提交申请"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:35
+msgid "等待审核"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:37
+msgid "已审核，打款完成"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:56
+#: content/apps/commission/templates/admin/order_commission.dwt.php:32
+#: content/apps/commission/templates/merchant/fund_detail.dwt.php:61
+msgid "基本信息"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:63
+#: content/apps/commission/templates/merchant/fund_detail.dwt.php:68
+msgid "流水号："
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:65
+#: content/apps/commission/templates/admin/order_commission.dwt.php:47
+#: content/apps/commission/templates/merchant/fund_detail.dwt.php:70
+msgid "状态："
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:66
+#: content/apps/commission/templates/merchant/fund_detail.dwt.php:71
+msgid "已审核"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:69
+#: content/apps/commission/templates/merchant/reply_fund.dwt.php:43
+#: content/apps/commission/templates/merchant/fund_detail.dwt.php:74
+msgid "提现金额："
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:71
+#: content/apps/commission/templates/merchant/fund_detail.dwt.php:76
+msgid "提现方式："
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:75
+#: content/apps/commission/templates/merchant/fund_detail.dwt.php:80
+msgid "收款账号："
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:77
+#: content/apps/commission/templates/merchant/fund_detail.dwt.php:82
+#: content/apps/commission/templates/merchant/fund_record_list.dwt.php:53
+msgid "申请时间："
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:81
+#: content/apps/commission/templates/merchant/fund_detail.dwt.php:86
+msgid "申请内容："
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:96
+msgid "可执行操作"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:105
+msgid "备注信息："
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:115
+msgid "同意"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:116
+msgid "拒绝"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:123
+#: content/apps/commission/templates/merchant/fund_detail.dwt.php:104
+msgid "操作人："
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:125
+#: content/apps/commission/templates/merchant/fund_detail.dwt.php:106
+msgid "审核时间："
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_detail.dwt.php:129
+#: content/apps/commission/templates/merchant/fund_detail.dwt.php:110
+msgid "审核备注："
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_list.dwt.php:22
+msgid "请输入订单号"
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_list.dwt.php:36
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:103
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:113
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:42
+msgid "类型"
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_list.dwt.php:37
+msgid "订单号"
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_list.dwt.php:39
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:44
+msgid "订单金额"
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_list.dwt.php:40
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:45
+msgid "分佣金额"
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_list.dwt.php:42
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:107
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:117
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:47
+#: content/apps/commission/templates/merchant/bill_list_day.dwt.php:48
+msgid "佣金金额"
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_list.dwt.php:43
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:108
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:118
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:48
+msgid "入账时间"
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_list.dwt.php:44
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:109
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:119
+msgid "结算状态"
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_list.dwt.php:61
+msgid "查看此商家订单分成"
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_list.dwt.php:72
+msgid "点击进行结算"
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_list.dwt.php:72
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:129
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:49
+#: content/apps/commission/templates/admin/order_commission.dwt.php:48
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:136
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:74
+msgid "未结算"
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_list.dwt.php:74
+#: content/apps/commission/templates/merchant/fund_list.dwt.php:40
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:49
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:76
+msgid "结算时间"
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_list.dwt.php:74
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:129
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:59
+#: content/apps/commission/templates/admin/order_commission.dwt.php:48
+#: content/apps/commission/templates/admin/order_commission.dwt.php:75
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:136
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:76
+msgid "已结算"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:23
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:25
+msgid "本月账单概况"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:29
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:32
+msgid "账单编号："
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:31
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:34
+msgid "月份："
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:35
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:38
+msgid "入账订单数："
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:37
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:40
+msgid "入账总金额："
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:41
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:44
+msgid "退款订单数："
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:43
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:46
+msgid "退款总金额："
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:47
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:52
+msgid "本月账单金额："
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:48
+msgid "，以订单入账比例为准"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:52
+msgid "操作："
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:53
+msgid "账单不对？"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:53
+msgid "您确定要重新生成账单吗？"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:53
+msgid "点击重新生成账单"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:53
+msgid "重新生成"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:64
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:69
+msgid "账单明细"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:71
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:70
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:77
+#: content/apps/commission/templates/merchant/bill_list_day.dwt.php:42
+msgid "账单日期"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:104
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:114
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:43
+msgid "订单编号"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_detail.dwt.php:105
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:115
+msgid "金额"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list_day_update.dwt.php:13
+msgid "温馨提示"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list_day_update.dwt.php:13
+msgid "数据量较大情况会比较慢，请耐心等耐。"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list_day_update.dwt.php:32
+#: content/apps/commission/templates/admin/bill_list_month_update.dwt.php:34
+msgid "选择时间："
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list_day_update.dwt.php:42
+#: content/apps/commission/templates/admin/bill_list_month_update.dwt.php:41
+msgid "商家："
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list_day_update.dwt.php:45
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:44
+#: content/apps/commission/templates/admin/bill_list_month_update.dwt.php:44
+#: content/apps/commission/templates/merchant/fund_record_list.dwt.php:27
+msgid "全部"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_list.dwt.php:14
+msgid "导出"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_list.dwt.php:42
+#: content/apps/commission/templates/merchant/fund_record_list.dwt.php:57
+msgid "请输入提现流水号"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_list.dwt.php:51
+#: content/apps/commission/templates/merchant/fund_record_list.dwt.php:68
+msgid "流水号"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_list.dwt.php:53
+#: content/apps/commission/templates/merchant/fund_record_list.dwt.php:69
+msgid "提现金额"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_list.dwt.php:54
+#: content/apps/commission/templates/merchant/fund_record_list.dwt.php:70
+msgid "提现方式"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_list.dwt.php:55
+#: content/apps/commission/templates/merchant/fund_record_list.dwt.php:71
+msgid "收款账号"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_list.dwt.php:56
+#: content/apps/commission/templates/merchant/fund_record_list.dwt.php:72
+msgid "申请时间"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_list.dwt.php:57
+msgid "处理状态"
+msgstr ""
+
+#: content/apps/commission/templates/admin/withdraw_list.dwt.php:66
+#: content/apps/commission/templates/merchant/fund_record_list.dwt.php:82
+msgid "查看详情"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:54
+msgid "部分结算"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list_day.dwt.php:104
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:99
+msgid "100%"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list_month_update.dwt.php:13
+msgid ""
+"找回某月账单数据前，请先找回每日账单数据。数据量较大情况会比较慢，请耐心等"
+"耐。"
+msgstr ""
+
+#: content/apps/commission/templates/admin/bill_list_month_update.dwt.php:36
+msgid "选择时间"
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_commission.dwt.php:14
+msgid "请谨慎使用，防止重复结算；"
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_commission.dwt.php:15
+msgid "“结算”：未结算订单使用，进行结算并更新账户金额和结算状态；"
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_commission.dwt.php:16
+msgid "“已结算”：已结算过订单更新状态。"
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_commission.dwt.php:39
+msgid "订单号："
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_commission.dwt.php:51
+msgid "商家名称："
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_commission.dwt.php:53
+msgid "佣金比例："
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_commission.dwt.php:57
+msgid "订单金额："
+msgstr ""
+
+#: content/apps/commission/templates/admin/order_commission.dwt.php:59
+msgid "佣金金额："
+msgstr ""
+
+#: content/apps/commission/templates/merchant/bill_list.dwt.php:12
+msgid "当月账单未出请查看日账单和订单分成"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/bill_list.dwt.php:32
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:28
+#: content/apps/commission/templates/merchant/bill_list_day.dwt.php:28
+msgid "按时间段查询："
+msgstr ""
+
+#: content/apps/commission/templates/merchant/bill_list.dwt.php:46
+msgid "账单周期"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/bill_list.dwt.php:47
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:78
+#: content/apps/commission/templates/merchant/bill_list_day.dwt.php:43
+msgid "订单数量"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/bill_list.dwt.php:48
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:79
+#: content/apps/commission/templates/merchant/bill_list_day.dwt.php:44
+msgid "退款数量"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/bill_list.dwt.php:52
+msgid "账单金额"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/reply_fund.dwt.php:13
+msgid "注："
+msgstr ""
+
+#: content/apps/commission/templates/merchant/reply_fund.dwt.php:36
+msgid "可用金额："
+msgstr ""
+
+#: content/apps/commission/templates/merchant/reply_fund.dwt.php:46
+msgid "提现金额必须大于0，但是不得大于您的【可用金额】"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/reply_fund.dwt.php:49
+msgid "全部提现"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/reply_fund.dwt.php:53
+msgid "提现银行卡："
+msgstr ""
+
+#: content/apps/commission/templates/merchant/reply_fund.dwt.php:58
+msgid "更改"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/reply_fund.dwt.php:61
+msgid "添加银行卡"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/reply_fund.dwt.php:66
+msgid "备注："
+msgstr ""
+
+#: content/apps/commission/templates/merchant/reply_fund.dwt.php:69
+msgid "输入提现内容，此项为必填项"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/reply_fund.dwt.php:76
+msgid "提交"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/fund_list.dwt.php:26
+msgid "账户余额："
+msgstr ""
+
+#: content/apps/commission/templates/merchant/fund_list.dwt.php:28
+msgid "冻结资金："
+msgstr ""
+
+#: content/apps/commission/templates/merchant/fund_list.dwt.php:30
+msgid "保证金："
+msgstr ""
+
+#: content/apps/commission/templates/merchant/fund_list.dwt.php:31
+msgid "可用余额："
+msgstr ""
+
+#: content/apps/commission/templates/merchant/fund_list.dwt.php:41
+msgid "类型/单号"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/fund_list.dwt.php:42
+msgid "收支金额（元）"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/fund_list.dwt.php:43
+msgid "账户余额（元）"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/fund_list.dwt.php:52
+msgid "充值"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:50
+msgid "佣金百分比："
+msgstr ""
+
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:51
+msgid "以订单入账比例为准"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:126
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:56
+msgid "收入"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/bill_detail.dwt.php:126
+#: content/apps/commission/templates/merchant/bill_record.dwt.php:56
+msgid "支出"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/fund_detail.dwt.php:40
+msgid "等待平台审核"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/fund_detail.dwt.php:42
+msgid "平台审核，打款完成"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/fund_detail.dwt.php:97
+msgid "平台审核操作"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/fund_record_list.dwt.php:54
+msgid "请选择开始时间"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/fund_record_list.dwt.php:55
+msgid "至"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/fund_record_list.dwt.php:56
+msgid "请选择结束时间"
+msgstr ""
+
+#: content/apps/commission/templates/merchant/fund_record_list.dwt.php:73
+msgid "审核状态"
+msgstr ""

@@ -13,7 +13,7 @@
   	</div>
 	<!-- {if $action_link} -->
 	<div class="pull-right">
-	  <a class="btn btn-primary data-pjax" href="{$action_link.href}">{t}{$action_link.text}{/t}</a>
+	  <a class="btn btn-primary data-pjax" href="{$action_link.href}">{t domain="commission"}{$action_link.text}{/t}</a>
 	</div>
 	<!-- {/if} -->
 	<div class="clearfix"></div>
@@ -23,13 +23,13 @@
 	<div class="col-lg-12">
       	<section class="panel">
       		<div class="panel-body fund-title">
-      			<span class="panel-item">账户余额：<span class="price">{$account.formated_money}</span></span>
+      			<span class="panel-item">{t domain="commission"}账户余额：{/t}<span class="price">{$account.formated_money}</span></span>
       			{if $account.frozen_money neq 0}
-      			<span class="panel-item">冻结资金：<span class="price">{$account.formated_frozen_money}</span></span>
+      			<span class="panel-item">{t domain="commission"}冻结资金：{/t}<span class="price">{$account.formated_frozen_money}</span></span>
       			{/if}
-      			<span class="panel-item">保证金：<span class="price">{$account.formated_deposit}</span></span>
-      			<span class="panel-item">可用余额：<span class="price">{$account.formated_amount_available}</span></span>
-      			<span class="panel-item"><a class="btn btn-info data-pjax" href='{url path="commission/merchant/reply_fund"}'>申请提现</a></span>
+      			<span class="panel-item">{t domain="commission"}保证金：{/t}<span class="price">{$account.formated_deposit}</span></span>
+      			<span class="panel-item">{t domain="commission"}可用余额：{/t}<span class="price">{$account.formated_amount_available}</span></span>
+      			<span class="panel-item"><a class="btn btn-info data-pjax" href='{url path="commission/merchant/reply_fund"}'>{t domain="commission"}申请提现{/t}</a></span>
       		</div>
       		<div class="fund-list-header">{$title}</div>
 			<div class="panel-body">
@@ -37,10 +37,10 @@
 					<table class="table table-striped table-advance table-hover">
 	        			<thead>
 	        				<tr class="th-striped">
-	        					<th>结算时间</th>
-	        					<th>类型/单号</th>
-	        					<th>收支金额（元）</th>
-	        					<th>账户余额（元）</th>
+	        					<th>{t domain="commission"}结算时间{/t}</th>
+	        					<th>{t domain="commission"}类型/单号{/t}</th>
+	        					<th>{t domain="commission"}收支金额（元）{/t}</th>
+	        					<th>{t domain="commission"}账户余额（元）{/t}</th>
 	        				</tr>
 	        			</thead>
 	        			<tbody>
@@ -49,11 +49,11 @@
 								<td>{$list.change_time}</td>
 								<td>
 									{if $list.change_type eq 'charge'}
-									充值
+                                    {t domain="commission"}充值{/t}
 									{else if $list.change_type eq 'withdraw'}
-									提现
+                                    {t domain="commission"}提现{/t}
 									{else if $list.change_type eq 'bill'}
-									结算
+                                    {t domain="commission"}结算{/t}
 									{/if}
 									&nbsp;
 									{$list.change_desc}									
@@ -62,7 +62,7 @@
 								<td>{$list.store_money}</td>
 	        				</tr>
 	        				<!-- {foreachelse} -->
-	        		    	<tr><td class="dataTables_empty" colspan="5">没有找到任何记录</td></tr>
+	        		    	<tr><td class="dataTables_empty" colspan="5">{t domain="commission"}没有找到任何记录{/t}</td></tr>
 	        		  		<!-- {/foreach} -->
 	        			</tbody>
 	        		</table>

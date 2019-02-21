@@ -63,7 +63,7 @@ class commission_add_bill_detail_api extends Component_Event_Api {
     public function call(&$options) {
         if (!is_array($options) || !isset($options['order_type']) || !in_array($options['order_type'], array('buy','quickpay','refund'))
             || !isset($options['order_id']) ) {
-            return new ecjia_error('invalid_parameter', '参数无效');
+            return new ecjia_error('invalid_parameter', __('参数无效', 'commission'));
         }
         
         return RC_Model::model('commission/store_bill_detail_model')->add_bill_detail($options);

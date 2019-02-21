@@ -52,11 +52,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.commission',
 	'directory' 	=> 'commission',
-	'name'			=> 'commission',
-	'description' 	=> 'commission_desc',		/* 描述对应的语言项 */
+	'name'			=> __('商家结算', 'commission'),
+	'description' 	=> __('商家查询结算账单和结算明细', 'commission'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.25.0',					/* 版本号 */
+	'version' 		=> '1.27.4',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2016 ~ 2019.',
     'namespace'     => 'Ecjia\App\Commission',
     'provider'      => 'CommissionServiceProvider',

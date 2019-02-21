@@ -55,10 +55,10 @@ class Helper
      */
     public static function assign_adminlog_content()
     {
-        ecjia_admin_log::instance()->add_action('apply', '申请');
-        ecjia_admin_log::instance()->add_action('audit', '审核');
+        ecjia_admin_log::instance()->add_action('apply', __('申请', 'commission'));
+        ecjia_admin_log::instance()->add_action('audit', __('审核', 'commission'));
         
-        ecjia_admin_log::instance()->add_object('withdraw', '提现');
+        ecjia_admin_log::instance()->add_object('withdraw', __('提现', 'commission'));
     }
 
 }

@@ -11,16 +11,16 @@
 <div>
 	<h3 class="heading">
 		<!-- {if $ur_here}{$ur_here}{/if} -->
-		<!-- {if $smarty.get.store_id && $smarty.get.refer neq 'store'} --><a class="btn plus_or_reply" href='{RC_Uri::url("commission/admin/init", "{$url_args}")}'><i class="fontello-icon-reply"></i>{t}返回全部{/t}</a><!-- {/if} -->
+		<!-- {if $smarty.get.store_id && $smarty.get.refer neq 'store'} --><a class="btn plus_or_reply" href='{RC_Uri::url("commission/admin/init", "{$url_args}")}'><i class="fontello-icon-reply"></i>{t domain="commission"}返回全部{/t}</a><!-- {/if} -->
 	</h3>
 </div>
 
 <div class="row-fluid batch">
 	<form method="post" action="{$search_action}" name="searchForm">
 		<div class="choose_list f_r">
-		    <input type="text" name="merchant_keywords" value="{$smarty.get.merchant_keywords}" placeholder="{lang key='goods::goods.enter_merchant_keywords'}" size="15" />
-			<input type="text" name="order_sn" value="{$smarty.get.order_sn}" placeholder="请输入订单号">
-			<button class="btn screen-btn" type="button">搜索</button>
+		    <input type="text" name="merchant_keywords" value="{$smarty.get.merchant_keywords}" placeholder="{t domain="commission"}请输入商家关键字{/t}" size="15" />
+			<input type="text" name="order_sn" value="{$smarty.get.order_sn}" placeholder="{t domain="commission"}请输入订单号{/t}">
+			<button class="btn screen-btn" type="button">{t domain="commission"}搜索{/t}</button>
 		</div>
 	</form>
 </div>
@@ -33,15 +33,15 @@
 				<table class="table table-striped smpl_tbl dataTable table-hide-edit">
 					<thead>
 						<tr>
-						    <th>{t}类型{/t}</th>
-						    <th>{t}订单号{/t}</th>
-						    <th>{t}商家名称{/t}</th>
-						    <th>{t}订单金额{/t}</th>
-						    <th>{t}分佣金额{/t}</th>
-						    <th>{t}佣金比例{/t}</th>
-						    <th>{t}佣金金额{/t}</th>
-						    <th>{t}入账时间{/t}</th>
-						    <th>{t}结算状态{/t}</th>
+						    <th>{t domain="commission"}类型{/t}</th>
+						    <th>{t domain="commission"}订单号{/t}</th>
+						    <th>{t domain="commission"}商家名称{/t}</th>
+						    <th>{t domain="commission"}订单金额{/t}</th>
+						    <th>{t domain="commission"}分佣金额{/t}</th>
+						    <th>{t domain="commission"}佣金比例{/t}</th>
+						    <th>{t domain="commission"}佣金金额{/t}</th>
+						    <th>{t domain="commission"}入账时间{/t}</th>
+						    <th>{t domain="commission"}结算状态{/t}</th>
 						 </tr>
 					</thead>
 
@@ -58,8 +58,8 @@
 						</td>
 					    <td>
 					  		{assign var=store_url value=RC_Uri::url('store/admin/preview',"store_id={$list.store_id}")}
-					     	<a href='{RC_Uri::url("commission/admin/order","store_id={$list.store_id}")}' title="查看此商家订单分成">{$list.merchants_name}</a>
-					     	<a href='{$store_url}' title="查看商家资料" target="_blank"><i class="fontello-icon-info-circled"></i></a>
+					     	<a href='{RC_Uri::url("commission/admin/order","store_id={$list.store_id}")}' title="{t domain="commission"}查看此商家订单分成{/t}">{$list.merchants_name}</a>
+					     	<a href='{$store_url}' title="{t domain="commission"}查看商家资料{/t}" target="_blank"><i class="fontello-icon-info-circled"></i></a>
 					    </td>
 					    <td>￥{$list.total_fee}</td>
 					    <td>￥{$list.commission_fee}</td>
@@ -69,13 +69,13 @@
 						</td>
 						<td>{$list.add_time}</td>
 						<!-- {if $list.bill_status eq '0'} -->
-						<td><a class="label btn-warning" href='{RC_Uri::url("commission/admin/order_commission","detail_id={$list.detail_id}")}' title="点击进行结算" target="_blank">未结算</a></td>
+						<td><a class="label btn-warning" href='{RC_Uri::url("commission/admin/order_commission","detail_id={$list.detail_id}")}' title="{t domain="commission"}点击进行结算{/t}" target="_blank">{t domain="commission"}未结算{/t}</a></td>
 						<!-- {else} -->
-						<td class="ok_color"><a class="label btn-success hint--left" data-hint="结算时间 {$list.bill_time}" title="" data-content="{$list.bill_time}">已结算</a></td>
+						<td class="ok_color"><a class="label btn-success hint--left" data-hint="{t domain="commission"}结算时间{/t} {$list.bill_time}" title="" data-content="{$list.bill_time}">{t domain="commission"}已结算{/t}</a></td>
 					    <!-- {/if} -->
 					</tr>
 					<!-- {foreachelse} -->
-				   	<tr><td class="no-records" colspan="8">{t}没有找到任何记录{/t}</td></tr>
+				   	<tr><td class="no-records" colspan="8">{t domain="commission"}没有找到任何记录{/t}</td></tr>
 					<!-- {/foreach} -->
 				</table>
 				<!-- {$record_list.page} -->

@@ -79,7 +79,9 @@ class merchant extends ecjia_merchant {
 		
         /*自定义js/css*/
         RC_Script::enqueue_script('bill-init', RC_App::apps_url('statics/js/bill.js',__FILE__), array('ecjia-merchant'), false, 1);
+        RC_Script::localize_script('bill-init', 'jslang', config('app-commission::jslang'));
         RC_Script::enqueue_script('mh_fund', RC_App::apps_url('statics/js/mh_fund.js',__FILE__), array('ecjia-merchant'), false, 1);
+        RC_Script::localize_script('mh_fund', 'jslang', config('app-commission::jslang'));
         RC_Style::enqueue_style('mh_fund', RC_App::apps_url('statics/css/mh_fund.css',__FILE__));
         
         ecjia_merchant_screen::get_current_screen()->set_parentage('commission', 'commission/merchant.php');
@@ -91,10 +93,10 @@ class merchant extends ecjia_merchant {
 	public function month() {
 		/* 检查权限 */
 		$this->admin_priv('commission_month');
-	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算'), RC_Uri::url('commission/merchant/init')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('月账单')));
+	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算', 'commission'), RC_Uri::url('commission/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('月账单', 'commission')));
 		
-		$this->assign('ur_here', '月账单');
+		$this->assign('ur_here', __('月账单', 'commission'));
 		$this->assign('search_action', RC_Uri::url('commission/merchant/init'));
 		
 		/* 时间参数 */
@@ -117,10 +119,10 @@ class merchant extends ecjia_merchant {
 	public function day() {
 	    /* 检查权限 */
 	    $this->admin_priv('commission_day');
-	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算'), RC_Uri::url('commission/merchant/init')));
-	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('每日账单')));
+	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算', 'commission'), RC_Uri::url('commission/merchant/init')));
+	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('每日账单', 'commission')));
 	    
-	    $this->assign('ur_here', '每日账单');
+	    $this->assign('ur_here', __('每日账单', 'commission'));
 	    $this->assign('search_action', RC_Uri::url('commission/merchant/day'));
 	    
 	    // 		/* 时间参数 */
@@ -133,7 +135,7 @@ class merchant extends ecjia_merchant {
 	    $store_id = $_SESSION['store_id'];
 	    
 	    if ($filter['start_date'] >  $filter['end_date']) {
-	        return $this->showmessage('开始时间不能大于结束时间', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+	        return $this->showmessage(__('开始时间不能大于结束时间', 'commission'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
 	    }
 	    
 	    $bill_list = $this->db_store_bill_day->get_billday_list($store_id, $_GET['page'], 20, $filter);
@@ -145,22 +147,22 @@ class merchant extends ecjia_merchant {
 	public function detail() {
 	    /* 检查权限 */
         $this->admin_priv('commission_detail');
-	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算'), RC_Uri::url('commission/merchant/init')));
-	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('账单详情')));
-	    $this->assign('action_link', array('href' => RC_Uri::url('commission/merchant/init'), 'text' => '账单列表'));
+	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算', 'commission'), RC_Uri::url('commission/merchant/init')));
+	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('账单详情', 'commission')));
+	    $this->assign('action_link', array('href' => RC_Uri::url('commission/merchant/init'), 'text' => __('账单列表', 'commission')));
 	    
 	    $bill_id = empty($_GET['id']) ? null : intval($_GET['id']);
 	    if (empty($bill_id)) {
-	        return $this->showmessage('参数异常', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	        return $this->showmessage(__('参数异常', 'commission'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	    }
 	    
 	    $bill_info = $this->db_store_bill->get_bill($bill_id, $_SESSION['store_id']);
 	    if (empty($bill_info)) {
-	        return $this->showmessage('没有数据', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	        return $this->showmessage(__('没有数据', 'commission'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	    }
 	    $bill_info['pay_count'] = $this->db_store_bill_paylog->get_paylog_count($bill_info['bill_id']);
 	    
-	    $this->assign('ur_here', $bill_info['bill_month'].'账单详情');
+	    $this->assign('ur_here', $bill_info['bill_month'].__('账单详情', 'commission'));
 	    $this->assign('bill_info', $bill_info);
 	    
 	    //每日
@@ -185,10 +187,10 @@ class merchant extends ecjia_merchant {
 	    /* 检查权限 */
 	    $this->admin_priv('commission_order');
 	    
-	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算'), RC_Uri::url('commission/merchant/init')));
-	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单分成')));
+	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算', 'commission'), RC_Uri::url('commission/merchant/init')));
+	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单分成', 'commission')));
 	    
-	    $this->assign('ur_here', '订单分成');
+	    $this->assign('ur_here', __('订单分成', 'commission'));
 	    $this->assign('search_action', RC_Uri::url('commission/merchant/record'));
 	    
 	    /* 时间参数 */
@@ -207,12 +209,12 @@ class merchant extends ecjia_merchant {
 		/* 检查权限 */
 		$this->admin_priv('commission_manage');
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算'), RC_Uri::url('commission/merchant/init')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('资金管理')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算', 'commission'), RC_Uri::url('commission/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('资金管理', 'commission')));
 		
-		$this->assign('title', '资金明细');
-		$this->assign('ur_here', '资金管理');
-		$this->assign('action_link', array('href' => RC_Uri::url('commission/merchant/fund_record'), 'text' => '提现记录'));
+		$this->assign('title', __('资金明细', 'commission'));
+		$this->assign('ur_here', __('资金管理', 'commission'));
+		$this->assign('action_link', array('href' => RC_Uri::url('commission/merchant/fund_record'), 'text' => __('提现记录', 'commission')));
 		
 		$account = $this->get_store_account();
 		$this->assign('account', $account);
@@ -227,12 +229,12 @@ class merchant extends ecjia_merchant {
 	public function reply_fund() {
 		$this->admin_priv('commission_fund_update');
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算'), RC_Uri::url('commission/merchant/init')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('资金管理'), RC_Uri::url('commission/merchant/init')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('申请提现')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算', 'commission'), RC_Uri::url('commission/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('资金管理', 'commission'), RC_Uri::url('commission/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('申请提现', 'commission')));
 		
-		$this->assign('ur_here', '申请提现');
-		$this->assign('action_link', array('href' => RC_Uri::url('commission/merchant/init'), 'text' => '资金管理'));
+		$this->assign('ur_here', __('申请提现', 'commission'));
+		$this->assign('action_link', array('href' => RC_Uri::url('commission/merchant/init'), 'text' => __('资金管理', 'commission')));
 		
 		$reply = RC_DB::table('store_account_order')->where('status', 1)->where('store_id', $_SESSION['store_id'])->max('id');
 		if ($reply > 0) {
@@ -263,17 +265,17 @@ class merchant extends ecjia_merchant {
 		
 		$reply = RC_DB::table('store_account_order')->where('status', 1)->where('store_id', $_SESSION['store_id'])->max('id');
 		if ($reply > 0) {
-			return $this->showmessage('提现订单还未审核的情况下，不能再申请提现，只有审核通过，才可以进行第二次提现。', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('提现订单还未审核的情况下，不能再申请提现，只有审核通过，才可以进行第二次提现。', 'commission'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$amount = floatval($_POST['money']);
 		$staff_note = trim($_POST['desc']);
 		
 		if ($amount <= 0) {
-			return $this->showmessage('请在提现金额栏输入大于0的数字', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请在提现金额栏输入大于0的数字', 'commission'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if (empty($staff_note)) {
-			return $this->showmessage('请输入备注内容', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入备注内容', 'commission'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$bank_info = RC_DB::table('store_franchisee')
@@ -282,7 +284,7 @@ class merchant extends ecjia_merchant {
 			->first();
 
 		if (empty($bank_info['bank_account_number']) || empty($bank_info['bank_name'])) {
-			return $this->showmessage('请先添加提现银行卡', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请先添加提现银行卡', 'commission'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		/* 变量初始化 */
@@ -303,20 +305,20 @@ class merchant extends ecjia_merchant {
 		/* 判断是否有足够的可用金额 */
 		$store_account = $this->get_store_account();
 		if (empty($store_account['amount_available'])) {
-			return $this->showmessage('您暂时没有可用余额，无法提现', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('您暂时没有可用余额，无法提现', 'commission'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if ($amount > $store_account['amount_available']) {
-			return $this->showmessage('您要申请提现的金额超过了您的可用金额，此操作将不可进行', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('您要申请提现的金额超过了您的可用金额，此操作将不可进行', 'commission'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$id = RC_DB::table('store_account_order')->insertGetId($data);
 		if ($id > 0) {
-			ecjia_merchant::admin_log('提现金额为：'.$amount, 'apply', 'withdraw');
+			ecjia_merchant::admin_log(__('提现金额为：', 'commission').$amount, 'apply', 'withdraw');
 			//修改用户余额
 			$this->update_store_money($amount);
-			return $this->showmessage('申请成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('commission/merchant/fund_detail', array('id' => $id))));
+			return $this->showmessage(__('申请成功', 'commission'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('commission/merchant/fund_detail', array('id' => $id))));
 		}
-		return $this->showmessage('申请失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('申请失败', 'commission'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
 	//提现记录
@@ -324,12 +326,12 @@ class merchant extends ecjia_merchant {
 		/* 检查权限 */
 		$this->admin_priv('commission_manage');
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算'), RC_Uri::url('commission/merchant/init')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('资金管理'), RC_Uri::url('commission/merchant/init')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('提现记录')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算', 'commission'), RC_Uri::url('commission/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('资金管理', 'commission'), RC_Uri::url('commission/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('提现记录', 'commission')));
 		
-		$this->assign('ur_here', '提现记录');
-		$this->assign('action_link', array('href' => RC_Uri::url('commission/merchant/init'), 'text' => '资金管理'));
+		$this->assign('ur_here', __('提现记录', 'commission'));
+		$this->assign('action_link', array('href' => RC_Uri::url('commission/merchant/init'), 'text' => __('资金管理', 'commission')));
 		
 		$data = $this->get_account_order();
 		$this->assign('data', $data);
@@ -343,13 +345,13 @@ class merchant extends ecjia_merchant {
 		/* 检查权限 */
 		$this->admin_priv('commission_manage');
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算'), RC_Uri::url('commission/merchant/init')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('资金管理'), RC_Uri::url('commission/merchant/init')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('提现记录'), RC_Uri::url('commission/merchant/fund_record')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('提现详情')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家结算', 'commission'), RC_Uri::url('commission/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('资金管理', 'commission'), RC_Uri::url('commission/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('提现记录', 'commission'), RC_Uri::url('commission/merchant/fund_record')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('提现详情', 'commission')));
 		
-		$this->assign('ur_here', '提现详情');
-		$this->assign('action_link', array('href' => RC_Uri::url('commission/merchant/fund_record'), 'text' => '提现记录'));
+		$this->assign('ur_here', __('提现详情', 'commission'));
+		$this->assign('action_link', array('href' => RC_Uri::url('commission/merchant/fund_record'), 'text' => __('提现记录', 'commission')));
 		
 		
 		$id = intval($_GET['id']);

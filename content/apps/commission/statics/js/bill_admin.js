@@ -64,8 +64,8 @@
                             }, 'json');
                         }
                     }, {
-                        ok: '确定',
-                        cancel: '取消'
+                        ok: jslang.ok,
+                        cancel: jslang.cancel
                     });
                 } else {
                     $.post(url, id, function (data) {

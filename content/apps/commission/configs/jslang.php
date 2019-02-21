@@ -44,14 +44,23 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 应用语言包
+ * js语言包设置
  */
-return array(
-	'commission'		=> '商家结算',
-	'commission_desc' 	=> '商家查询结算账单和结算明细'
-);
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+    'ok'						=> __('确定', 'commission'),
+    'cancel'					=> __('取消', 'commission'),
+    'canot_empty'               => __('不能为空', 'commission'),
+    'start_time_canot_empty'    => __('开始时间不能为空！', 'commission'),
+    'end_time_canot_empty'      => __('结束时间不能为空！', 'commission'),
+    'start_time_canot_earlier_than_end_time'      => __('开始时间不能大于结束时间！', 'commission'),
+    'input_more_than_001'       => __('请输入大于0.01的数字', 'commission'),
+    'pay_more_than_unpay_money' => __('打款金额超出未付金额', 'commission'),
+    'withdraw_amount_canot_empty' => __('提现金额不能为空', 'commission'),
+    'desc_canot_empty'          => __('备注内容不能为空', 'commission'),
+);
+//end

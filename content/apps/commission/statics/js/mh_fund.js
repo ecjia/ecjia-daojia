@@ -30,10 +30,10 @@
                 },
                 messages: {
                 	money: {
-                        required: '提现金额不能为空'
+                        required: jslang.withdraw_amount_canot_empty
                     },
                     desc: {
-                        required: '备注内容不能为空'
+                        required: jslang.desc_canot_empty
                     }
                 },
 				submitHandler : function() {
@@ -71,7 +71,7 @@
 				if (start_time != '' && end_time != '') {
 					if (start_time >= end_time) {
 						var mesObj = {
-							message : "开始时间不能超于或等于结束时间",
+							message : jslang.start_time_canot_earlier_than_end_time,
 							state : "error",
 						};
 						ecjia.merchant.showmessage(mesObj);

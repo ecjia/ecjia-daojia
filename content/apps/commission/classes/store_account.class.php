@@ -92,7 +92,7 @@ class store_account {
     //结算
     public function bill($data) {
         if(empty($data['store_id']) || empty($data['amount']) || empty($data['bill_order_type']) || empty($data['bill_order_id']) || empty($data['bill_order_sn']) ) {
-            return new ecjia_error('invalid_parameter', '参数无效');
+            return new ecjia_error('invalid_parameter', __('参数无效', 'commission'));
         }
         $data['process_type'] = 'bill';
         $data['pay_time'] = $data['add_time'] = RC_Time::gmtime();
@@ -104,11 +104,11 @@ class store_account {
         if(self::insert_store_account_order($data)) {
             //改动账户
             if($data['bill_order_type'] == 'buy') {
-                $change_desc = '订单';
+                $change_desc = __('订单', 'commission');
             } else if ($data['bill_order_type'] == 'quickpay') {
-                $change_desc = '优惠买单';
+                $change_desc = __('优惠买单', 'commission');
             } else if ($data['bill_order_type'] == 'refund') {
-                $change_desc = '退款';
+                $change_desc = __('退款', 'commission');
             }
             $change_desc .= ' ' . $data['bill_order_sn']; 
             
@@ -150,7 +150,7 @@ class store_account {
         }
         
         if ($change_type == 'withdraw' && $info['money'] - abs($money) < $info['deposit']) {
-            return new ecjia_error('withdraw_error', '提现金额过大，余额需不低于保证金');
+            return new ecjia_error('withdraw_error', __('提现金额过大，余额需不低于保证金', 'commission'));
         }
         
         $info['money'] = $info['money'] ? $info['money'] : 0;
@@ -182,7 +182,7 @@ class store_account {
     public function insert_store_account_log($data) {
 
         if(empty($data['store_id']) || empty($data['change_type'])) {
-            return new ecjia_error('invalid_parameter', '参数无效');
+            return new ecjia_error('invalid_parameter', __('参数无效', 'commission'));
         }
         $data['change_time'] = RC_Time::gmtime();
         return RC_DB::table('store_account_log')->insert($data);

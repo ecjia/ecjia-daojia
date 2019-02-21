@@ -17,7 +17,7 @@
 						end_date = $('.end_date').val();
 						if (start_date.length < 3) {
 							var mesObj = {
-									message : "开始时间不能为空！",
+									message : jslang.start_time_canot_empty,
 									state : "error",
 								};
 						    ecjia.admin.showmessage(mesObj);
@@ -25,7 +25,7 @@
 						}
 						if (end_date.length < 3) {
 							var mesObj = {
-									message : "结束时间不能为空！",
+									message : jslang.end_time_canot_empty,
 									state : "error",
 								};
 						    ecjia.admin.showmessage(mesObj);
@@ -55,7 +55,7 @@
 						end_date = $('.end_date').val();
 						if (start_date.length < 3) {
 							var mesObj = {
-									message : "时间不能为空！",
+									message : jslang.start_time_canot_empty,
 									state : "error",
 								};
 						    ecjia.admin.showmessage(mesObj);

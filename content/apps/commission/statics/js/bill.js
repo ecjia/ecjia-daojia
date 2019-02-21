@@ -27,14 +27,14 @@
 
 				if (start_date == '') {
 					var data = {
-						message : "查询的开始时间不能为空！",
+						message : jslang.start_time_canot_empty,
 						state : "error",
 					};
 					ecjia.merchant.showmessage(data);
 					return false;
 				} else if(end_date == '') {
 					var data = {
-						message : "查询的结束时间不能为空！",
+						message : jslang.end_time_canot_empty,
 						state : "error",
 					};
 					ecjia.merchant.showmessage(data);
@@ -43,7 +43,7 @@
 				
 				if (start_date >= end_date && (start_date != '' && end_date !='')) {
 					var data = {
-						message : "查询的开始时间不能大于结束时间！",
+						message : jslang.start_time_canot_earlier_than_end_time,
 						state : "error",
 					};
 					ecjia.merchant.showmessage(data);
@@ -70,14 +70,14 @@
 
 				if (start_date == '') {
 					var data = {
-						message : "查询的开始时间不能为空！",
+						message : jslang.start_time_canot_empty,
 						state : "error",
 					};
 					ecjia.merchant.showmessage(data);
 					return false;
 				} else if(end_date == '') {
 					var data = {
-						message : "查询的结束时间不能为空！",
+						message : jslang.end_time_canot_empty,
 						state : "error",
 					};
 					ecjia.merchant.showmessage(data);
@@ -86,7 +86,7 @@
 				
 				if (start_date >= end_date && (start_date != '' && end_date !='')) {
 					var data = {
-						message : "查询的开始时间不能大于结束时间！",
+						message : jslang.start_time_canot_earlier_than_end_time,
 						state : "error",
 					};
 					ecjia.merchant.showmessage(data);
