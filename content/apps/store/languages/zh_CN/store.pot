@@ -1,0 +1,482 @@
+# Copyright (C) 2019 Ecjia App store
+# This file is distributed under the same license as the Ecjia App store package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App store 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:58:44+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin.php:617 admin.php:676 admin.php:904
+msgid "请选择您要操作的店铺"
+msgstr ""
+
+#: admin.php:908
+msgid "请先选择删除日志的时间！"
+msgstr ""
+
+#: admin.php:909
+msgid "确定删除"
+msgstr ""
+
+#: admin.php:910
+msgid "的日志吗？"
+msgstr ""
+
+#: admin.php:911
+msgid "确定"
+msgstr ""
+
+#: admin.php:912
+msgid "取消"
+msgstr ""
+
+#: admin.php:1070
+msgid "一周之前"
+msgstr ""
+
+#: admin.php:1075
+msgid "一个月前"
+msgstr ""
+
+#: admin.php:1080
+msgid "三个月前"
+msgstr ""
+
+#: admin.php:1085
+msgid "半年之前"
+msgstr ""
+
+#: admin.php:1091
+msgid "一年之前"
+msgstr ""
+
+#: admin.php:1097
+msgid "%s 的日志成功删除。"
+msgstr ""
+
+#: admin.php:1100
+msgid "请选择日期"
+msgstr ""
+
+#: admin_commission.php:104 admin_commission.php:106
+msgid "设置商家佣金"
+msgstr ""
+
+#: admin_commission.php:107 admin_commission.php:327
+msgid "佣金结算"
+msgstr ""
+
+#: admin_commission.php:173 admin_commission.php:406
+msgid "自营店铺"
+msgstr ""
+
+#: admin_commission.php:176 admin_commission.php:409
+msgid "入驻商家"
+msgstr ""
+
+#: admin_commission.php:187
+msgid "佣金设置"
+msgstr ""
+
+#: admin_commission.php:313 admin_commission.php:326
+msgid "商家订单列表"
+msgstr ""
+
+#: admin_commission.php:420
+msgid "资金管理"
+msgstr ""
+
+#: admin_config.php:85
+msgid "后台配置"
+msgstr ""
+
+#: admin_config.php:240
+msgid "更新商店设置成功！"
+msgstr ""
+
+#: admin_config.php:258
+msgid "删除图片成功！"
+msgstr ""
+
+#: admin_mobileconfig.php:78
+msgid "店铺街移动应用设置"
+msgstr ""
+
+#: admin_mobileconfig.php:98
+msgid "更新店铺街首页配置设置成功！"
+msgstr ""
+
+#: admin_percent.php:73 admin_percent.php:85 admin_percent.php:87
+#: admin_percent.php:107 admin_percent.php:164
+msgid "佣金比例"
+msgstr ""
+
+#: admin_percent.php:88 admin_percent.php:104 admin_percent.php:106
+msgid "添加佣金比例"
+msgstr ""
+
+#: admin_percent.php:146
+msgid "返回佣金比例列表"
+msgstr ""
+
+#: admin_percent.php:147
+msgid "继续添加佣金比例"
+msgstr ""
+
+#: admin_percent.php:161 admin_percent.php:163
+msgid "编辑佣金比例"
+msgstr ""
+
+#: admin_store_business_city.php:76
+msgid "商家经营城市"
+msgstr ""
+
+#: admin_store_business_city.php:86 admin_store_business_city.php:103
+msgid "经营城市列表"
+msgstr ""
+
+#: admin_store_business_city.php:104
+msgid "添加经营城市"
+msgstr ""
+
+#: admin_store_business_city.php:136 admin_store_business_city.php:251
+msgid "请选择地区！"
+msgstr ""
+
+#: admin_store_category.php:80 admin_store_category.php:90
+#: admin_store_category.php:94 admin_store_category.php:106
+msgid "商家分类"
+msgstr ""
+
+#: admin_store_category.php:95 admin_store_category.php:105
+msgid "添加分类"
+msgstr ""
+
+#: admin_store_category.php:104
+msgid "添加商家分类"
+msgstr ""
+
+#: admin_store_category.php:170 admin_store_category.php:171
+#: admin_store_category.php:172
+msgid "编辑商家分类"
+msgstr ""
+
+#: admin_store_category.php:209
+msgid "所选择的上级分类不能是当前分类或者当前分类的下级分类!"
+msgstr ""
+
+#: admin_store_category.php:227
+msgid "返回商家分类列表"
+msgstr ""
+
+#: admin_store_category.php:254
+msgid "删除商家分类成功！"
+msgstr ""
+
+#: apis/store_admin_purview_api.class.php:84
+msgid "店铺分类管理"
+msgstr ""
+
+#: apis/store_admin_purview_api.class.php:85
+msgid "店铺分类删除"
+msgstr ""
+
+#: apis/store_admin_purview_api.class.php:88
+msgid "经营城市管理"
+msgstr ""
+
+#: apis/store_admin_purview_api.class.php:89
+msgid "经营城市删除"
+msgstr ""
+
+#: apis/store_admin_purview_api.class.php:92
+msgid "佣金比例管理"
+msgstr ""
+
+#: apis/store_admin_purview_api.class.php:93
+msgid "佣金比例添加"
+msgstr ""
+
+#: apis/store_admin_purview_api.class.php:94
+msgid "佣金比例更新"
+msgstr ""
+
+#: apis/store_admin_purview_api.class.php:95
+msgid "佣金比例删除"
+msgstr ""
+
+#: apis/store_admin_purview_api.class.php:97
+msgid "后台设置"
+msgstr ""
+
+#: apis/store_store_collect_list_api.class.php:73
+#: apis/store_store_collect_list_api.class.php:82
+#: apis/store_store_collect_list_api.class.php:89
+#: apis/store_store_collect_list_api.class.php:96
+msgid "满减"
+msgstr ""
+
+#: apis/store_store_collect_list_api.class.php:73
+#: apis/store_store_collect_list_api.class.php:82
+#: apis/store_store_collect_list_api.class.php:89
+#: apis/store_store_collect_list_api.class.php:96
+msgid "满折"
+msgstr ""
+
+#: apis/store_store_info_api.class.php:61
+msgid "调用store_info，无效参数"
+msgstr ""
+
+#: configs/package.php:56
+msgid "商家管理"
+msgstr ""
+
+#: configs/package.php:57
+msgid "管理多个商家。"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_commission_info.dwt.php:28
+msgid "佣金比例："
+msgstr ""
+
+#: content/apps/store/templates/admin/store_commission_info.dwt.php:31
+msgid "请选择"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_commission_info.dwt.php:42
+msgid "保证金："
+msgstr ""
+
+#: content/apps/store/templates/admin/store_business_district_add.dwt.php:30
+msgid "全选"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_category_info.dwt.php:53
+msgid "是否显示："
+msgstr ""
+
+#: content/apps/store/templates/admin/store_category_info.dwt.php:61
+msgid "分类图片："
+msgstr ""
+
+#: content/apps/store/templates/admin/store_category_info.dwt.php:65
+msgid "暂无图片"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_category_info.dwt.php:68
+#: content/apps/store/templates/admin/store_config_info.dwt.php:38
+msgid "浏览"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_category_info.dwt.php:69
+#: content/apps/store/templates/admin/store_config_info.dwt.php:39
+msgid "修改"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_category_info.dwt.php:72
+msgid "您确定要删除此文件吗？"
+msgstr ""
+
+#: content/apps/store/templates/admin/staff_log.dwt.php:36
+msgid "选择日期"
+msgstr ""
+
+#: content/apps/store/templates/admin/staff_log.dwt.php:44
+msgid "批量删除"
+msgstr ""
+
+#: content/apps/store/templates/admin/staff_log.dwt.php:49
+msgid "全部IP"
+msgstr ""
+
+#: content/apps/store/templates/admin/staff_log.dwt.php:55
+msgid "全部管理员"
+msgstr ""
+
+#: content/apps/store/templates/admin/staff_log.dwt.php:60
+msgid "筛选"
+msgstr ""
+
+#: content/apps/store/templates/admin/staff_log.dwt.php:64
+msgid "请输入关键字"
+msgstr ""
+
+#: content/apps/store/templates/admin/staff_log.dwt.php:65
+msgid "搜索"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_percent_list.dwt.php:23
+#: content/apps/store/templates/admin/store_commission_list.dwt.php:20
+msgid "批量操作"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_percent_list.dwt.php:27
+msgid "删除佣金比例"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_percent_list.dwt.php:43
+msgid "奖励额度"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_percent_list.dwt.php:44
+msgid "添加时间"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_percent_list.dwt.php:45
+msgid "排序"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_percent_list.dwt.php:46
+msgid "操作"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_percent_list.dwt.php:62
+#: content/apps/store/templates/admin/store_commission_list.dwt.php:55
+msgid "您确定要删除吗？"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_config_info.dwt.php:13
+msgid "这里的后台设置仅限改善商家后台的显示效果。"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_config_info.dwt.php:28
+msgid "登录Logo："
+msgstr ""
+
+#: content/apps/store/templates/admin/store_config_info.dwt.php:33
+msgid "预览图片"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_config_info.dwt.php:42
+msgid "您确定要删除该图片吗？"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_config_info.dwt.php:42
+#: content/apps/store/templates/admin/store_commission_list.dwt.php:55
+msgid "删除"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_config_info.dwt.php:49
+msgid "是否关闭入驻商加盟："
+msgstr ""
+
+#: content/apps/store/templates/admin/store_config_info.dwt.php:60
+msgid "默认保证金："
+msgstr ""
+
+#: content/apps/store/templates/admin/store_config_info.dwt.php:71
+msgid "默认员工数："
+msgstr ""
+
+#: content/apps/store/templates/admin/store_config_info.dwt.php:82
+msgid "定位范围："
+msgstr ""
+
+#: content/apps/store/templates/admin/store_config_info.dwt.php:101
+msgid "门店切换模式："
+msgstr ""
+
+#: content/apps/store/templates/admin/store_order_list.dwt.php:40
+msgid "订单编号"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_order_list.dwt.php:41
+msgid "下单时间"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_order_list.dwt.php:42
+msgid "收货人"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_order_list.dwt.php:43
+msgid "总金额"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_order_list.dwt.php:44
+msgid "应付金额"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_order_list.dwt.php:45
+msgid "佣金金额"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_order_list.dwt.php:46
+msgid "订单状态"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_order_list.dwt.php:47
+msgid "结算状态"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_order_list.dwt.php:62
+#: content/apps/store/templates/admin/store_commission_list.dwt.php:68
+#: content/apps/store/templates/admin/store_fund_list.dwt.php:59
+msgid "没有找到任何记录"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_percent_info.dwt.php:25
+msgid "奖励额度："
+msgstr ""
+
+#: content/apps/store/templates/admin/store_percent_info.dwt.php:32
+msgid "排序："
+msgstr ""
+
+#: content/apps/store/templates/admin/store_business_city_add.dwt.php:35
+#: content/apps/store/templates/admin/store_business_city_edit.dwt.php:24
+msgid "城市名第一个字的拼音首字母"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_commission_list.dwt.php:24
+msgid "删除佣金结算"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_commission_list.dwt.php:39
+msgid "商家名称"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_commission_list.dwt.php:40
+msgid "联系方式"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_commission_list.dwt.php:41
+msgid "订单有效总金额"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_commission_list.dwt.php:42
+msgid "订单退款总金额"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_commission_list.dwt.php:53
+msgid "订单列表"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_commission_list.dwt.php:54
+msgid "编辑"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_commission_list.dwt.php:64
+msgid "0"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_mobileconfig.dwt.php:25
+msgid "店铺街首页头部广告："
+msgstr ""
+
+#: content/apps/store/templates/admin/store_mobileconfig.dwt.php:28
+msgid "请选择..."
+msgstr ""
+
+#: content/apps/store/templates/admin/store_mobileconfig.dwt.php:33
+msgid "请选择所需展示的广告位。"
+msgstr ""
+
+#: content/apps/store/templates/admin/store_edit_bak.dwt.php:356
+msgid "点击获取经纬度"
+msgstr ""
