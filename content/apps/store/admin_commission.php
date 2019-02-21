@@ -307,47 +307,6 @@ class admin_commission extends ecjia_admin {
 		}
 	}
 
-	public function order_list() {
-		$this->admin_priv('store_order_manage');
-
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家订单列表')));
-// 		ecjia_screen::get_current_screen()->add_help_tab(array(
-// 			'id'		=> 'overview',
-// 			'title'		=> __('概述'),
-// 			'content'	=>
-// 			'<p>' . __('欢迎访问ECJia智能后台商家订单列表页面，可以在此页面查看相信商家的所有佣金结算订单。') . '</p>'
-// 		));
-
-// 		ecjia_screen::get_current_screen()->set_help_sidebar(
-// 			'<p><strong>' . __('更多信息:') . '</strong></p>' .
-// 			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:佣金结算#.E8.AE.A2.E5.8D.95.E5.88.97.E8.A1.A8" target="_blank">关于商家订单列表帮助文档</a>') . '</p>'
-// 		);
-
-		$this->assign('ur_here', __('商家订单列表'));
-		$this->assign('action_link',array('href' => RC_Uri::url('store/admin_commission/init'), 'text' =>  __('佣金结算')));
-		$this->assign('search_action',RC_Uri::url('store/admin_commission/order_list',array('store_id' => $_GET['store_id'])));
-
-		$store_id = isset($_GET['store_id']) ? intval($_GET['store_id']) : 0;
-		//$_SESSION['order_userId'] = $user_id;
-		//$date = array('percent_id');
-		//$percent_id = get_table_date('store_commission', "store_id = '$store_id' ", $date, $sqlType = 2);
-		//$date = array('percent_value');
-		//$percent_value = get_table_date('store_commission', "percent_id = '$percent_id'", $date, $sqlType = 2) . '%';
-		$percent_id    = RC_DB::table('store_commission')
-    					   ->where(RC_DB::raw('store_id'), $store_id)
-    					   ->pluck(RC_DB::raw('percent_id'));
-		$percent_value = RC_DB::table('store_percent')
-						   ->where(RC_DB::raw('percent_id'), $percent_id)
-						   ->pluck(RC_DB::raw('percent_value'));
-		$percent_value = $percent_value.'%';
-		$this->assign('percent_value',$percent_value);
-
-		$order_list = $this->store_order_list($store_id);
-		$this->assign('order_list',$order_list);
-
-		$this->display('store_order_list.dwt');
-	}
-
 	/**
 	 * 修改结算状态
 	 */
