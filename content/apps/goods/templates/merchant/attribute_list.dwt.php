@@ -31,17 +31,17 @@
 		<div class="panel">
 			<div class="panel-body panel-body-small">
 				<div class="btn-group">
-					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> {lang key='goods::goods.batch_handle'} <span class="caret"></span></button>
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> {t domain="goods"}批量操作{/t} <span class="caret"></span></button>
 					<ul class="dropdown-menu">
-		                <li><a class="batch-trash-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{RC_Uri::url("goods/mh_attribute/batch", "cat_id={$cat_id}")}' data-msg="{lang key='goods::attribute.drop_select_confirm'}" data-noSelectMsg="{lang key='goods::attribute.no_select_arrt'}" href="javascript:;"> <i class="glyphicon glyphicon-trash"></i> {lang key='goods::attribute.batchdrop'}</a></li>
+		                <li><a class="batch-trash-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{RC_Uri::url("goods/mh_attribute/batch", "cat_id={$cat_id}")}' data-msg="{t domain="goods"}您确定要删除选中的商品属性吗？{/t}" data-noSelectMsg="{t domain="goods"}您没有选择需要删除的属性{/t}" href="javascript:;"> <i class="glyphicon glyphicon-trash"></i> {t domain="goods"}批量删除{/t}</a></li>
 		           	</ul>
 				</div>
 				
 				<div class="choose_list f_r">
-					<span class="l_h30">{lang key='goods::attribute.by_goods_type'}</span>
+					<span class="l_h30">{t domain="goods"}按商品规格显示：{/t}</span>
 					<div class="pull-right">
 						<select class="w130" name="goods_type" data-url="{url path='goods/mh_attribute/init' args='cat_id='}">
-							<option value="0">所有商品规格</option>
+							<option value="0">{t domain="goods"}所有商品规格{/t}</option>
 							<!-- {$goods_type_list} -->
 						</select>
 					</div>
@@ -59,12 +59,12 @@
 		                            	<label for="checkall"></label>
 		                            </div>
 								</th>
-								<th class="w130">{lang key='goods::attribute.attr_name'}</th>
-								<th class="w130">{lang key='goods::attribute.cat_id'}</th>
-								<th class="w150">{lang key='goods::attribute.attr_input_type'}</th>
-								<th>{lang key='goods::attribute.attr_values'}</th>
-								<th class="w100">{lang key='system::system.sort_order'}</th>
-								<th class="w100">{lang key='system::system.handler'}</th>
+								<th class="w130">{t domain="goods"}属性名称{/t}</th>
+								<th class="w130">{t domain="goods"}商品规格{/t}</th>
+								<th class="w150">{t domain="goods"}属性值的录入方式{/t}</th>
+								<th>{t domain="goods"}可选值列表{/t}</th>
+								<th class="w100">{t domain="goods"}排序{/t}</th>
+								<th class="w100">{t domain="goods"}操作{/t}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -77,21 +77,21 @@
 								</div>
 							</td>
 							<td class="first-cell">
-								<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/mh_attribute/edit_attr_name')}" data-name="edit_attr_name" data-pk="{$attr.attr_id}" data-title="{lang key='goods::attribute.name_not_null'}"> 
+								<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/mh_attribute/edit_attr_name')}" data-name="edit_attr_name" data-pk="{$attr.attr_id}" data-title="{t domain="goods"}属性名称不能为空{/t}">
 									{$attr.attr_name}
 								</span>
 							</td>
 							<td><span>{$attr.cat_name}</span></td>
 							<td><span>{$attr.attr_input_type_desc}</span></td>
 							<td><span>{$attr.attr_values}</span></td>
-							<td><span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/mh_attribute/edit_sort_order')}" data-name="edit_sort_order" data-pjax-url='{url path="goods/mh_attribute/init" args="cat_id={$smarty.get.cat_id}"}' data-pk="{$attr.attr_id}" data-title="{lang key='goods::attribute.order_not_null'}">{$attr.sort_order}</span></td>
+							<td><span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/mh_attribute/edit_sort_order')}" data-name="edit_sort_order" data-pjax-url='{url path="goods/mh_attribute/init" args="cat_id={$smarty.get.cat_id}"}' data-pk="{$attr.attr_id}" data-title="{t domain="goods"}请输入排序号{/t}">{$attr.sort_order}</span></td>
 							<td>
-								<a class="data-pjax no-underline" href='{RC_Uri::url("goods/mh_attribute/edit", "attr_id={$attr.attr_id}")}' title="{lang key='system::system.edit'}"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a>
-								<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{lang key='goods::attribute.drop_confirm'}" href='{RC_Uri::url("goods/mh_attribute/remove", "id={$attr.attr_id}")}' title="{lang key='system::system.remove'}"><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></button></a>
+								<a class="data-pjax no-underline" href='{RC_Uri::url("goods/mh_attribute/edit", "attr_id={$attr.attr_id}")}' title="{t domain="goods"}编辑{/t}"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a>
+								<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{t domain="goods"}您确实要删除该属性吗？{/t}" href='{RC_Uri::url("goods/mh_attribute/remove", "id={$attr.attr_id}")}' title="{t domain="goods"}删除{/t}"><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></button></a>
 							</td>
 						</tr>
 						<!-- {foreachelse} -->
-						<tr><td class="no-records" colspan="7">{lang key='system::system.no_records'}</td></tr>
+						<tr><td class="no-records" colspan="7">{t domain="goods"}没有找到任何记录{/t}</td></tr>
 						<!-- {/foreach} -->
 					</tbody>
 				</table>

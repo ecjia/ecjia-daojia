@@ -54,11 +54,11 @@ class goods {
      */
     public static function intro_list() {
         $arr = array(
-            'is_best'		=> RC_Lang::get('goods::goods.is_best'),
-            'is_new'		=> RC_Lang::get('goods::goods.is_new'),
-            'is_hot'		=> RC_Lang::get('goods::goods.is_hot'),
-            'is_promote'	=> RC_Lang::get('goods::goods.is_promote'),
-            'all_type'		=> RC_Lang::get('goods::goods.all_type')
+            'is_best'		=> __('精品', 'goods'),
+            'is_new'		=> __('新品', 'goods'),
+            'is_hot'		=> __('热销', 'goods'),
+            'is_promote'	=> __('特价', 'goods'),
+            'all_type'		=> __('全部推荐', 'goods')
         );
         
         return $arr;
@@ -71,8 +71,8 @@ class goods {
      */
     public static function unit_list() {
         $arr = array(
-            '1' =>		RC_Lang::get('goods::goods.unit_kg'),
-            '0.001' =>	RC_Lang::get('goods::goods.unit_g')
+            '1' =>		__('千克', 'goods'),
+            '0.001' =>	__('克', 'goods')
         );
         
         return $arr;

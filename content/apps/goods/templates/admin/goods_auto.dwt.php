@@ -8,7 +8,7 @@
 <!-- {block name="main_content"} -->
 {if $crons_enable neq 1}
 <div class="alert alert-info">
-	<strong>{lang key='goods::goods_auto.label_notice'}</strong>{lang key='goods::goods_auto.enable_notice'}
+	<strong>{t domain="goods"}温馨提示：{/t}</strong>{t domain="goods"}您需要到工具->计划任务中开启该功能后才能使用。{/t}
 </div>
 {/if}
 <div>
@@ -23,13 +23,13 @@
 	<div class="span12">
 		<div class="row-fluid batch">
 			<div class="f_l form-inline">
-				<input type="text" name="select_time" class="w150 date" placeholder="{lang key='goods::goods_auto.select_time'}">
-				<a class="btn btnSubmit" data-idclass=".checkbox:checked" data-url='{url path="goods/admin_goods_auto/batch_start"}' data-msg="{lang key='goods::goods_auto.batch_start_confirm'}" data-noselectmsg="{lang key='goods::goods_auto.select_start_goods'}" data-name="goods_id" href="javascript:;">{lang key='goods::goods_auto.button_start'}</a>
-				<a class="btn btnSubmit" data-idclass=".checkbox:checked" data-url='{url path="goods/admin_goods_auto/batch_end"}' data-msg="{lang key='goods::goods_auto.batch_end_confirm'}" data-noselectmsg="{lang key='goods::goods_auto.select_end_goods'}" data-name="goods_id" href="javascript:;">{lang key='goods::goods_auto.button_end'}</a>
+				<input type="text" name="select_time" class="w150 date" placeholder="{t domain="goods"}请选择时间{/t}">
+				<a class="btn btnSubmit" data-idclass=".checkbox:checked" data-url='{url path="goods/admin_goods_auto/batch_start"}' data-msg="{t domain="goods"}你确定要批量上架选中的商品吗？{/t}" data-noselectmsg="{t domain="goods"}请选择自动上架的商品{/t}" data-name="goods_id" href="javascript:;">{t domain="goods"}批量上架{/t}</a>
+				<a class="btn btnSubmit" data-idclass=".checkbox:checked" data-url='{url path="goods/admin_goods_auto/batch_end"}' data-msg="{t domain="goods"}你确定要批量下架选中的商品吗？{/t}" data-noselectmsg="{t domain="goods"}请选择自动下架的商品{/t}" data-name="goods_id" href="javascript:;">{t domain="goods"}批量下架{/t}</a>
 			</div>
 			<div class="choose_list f_r" data-url="{$search_action}">
-				<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="{lang key='goods::goods_auto.goods_name_keywords'}"/>
-				<button class="btn search_goods" type="button">{lang key='goods::goods_auto.search'}</button>
+				<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="{t domain="goods"}请输入商品名称关键字{/t}"/>
+				<button class="btn search_goods" type="button">{t domain="goods"}搜索{/t}</button>
 			</div>
 		</div>
 		<div class="row-fluid">
@@ -40,19 +40,19 @@
 					<input type="checkbox" name="select_rows" data-toggle="selectall" data-children=".checkbox"/>
 				</th>
 				<th class="w70">
-					{lang key='goods::goods_auto.id'}
+                    {t domain="goods"}编号{/t}
 				</th>
 				<th>
-					{lang key='goods::goods_auto.goods_name'}
+                    {t domain="goods"}商品名称{/t}
 				</th>
 				<th class="w180">
-					{lang key='goods::goods_auto.starttime'}
+                    {t domain="goods"}上架时间{/t}
 				</th>
 				<th class="w180">
-					{lang key='goods::goods_auto.endtime'}
+                    {t domain="goods"}下架时间{/t}
 				</th>
 				<th class="w70">
-					{lang key='system::system.handler'}
+					{t domain="goods"}操作{/t}
 				</th>
 			</tr>
 			</thead>
@@ -70,7 +70,7 @@
 				</td>
 				<td>
 					<!-- {if $val.starttime} -->
-					<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/admin_goods_auto/edit_starttime')}" data-name="goods_start_time" data-pk="{$val.starttime}" data-title="{lang key='goods::goods_auto.select_start_time'}"> 
+					<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/admin_goods_auto/edit_starttime')}" data-name="goods_start_time" data-pk="{$val.starttime}" data-title="{t domain="goods"}请选择商品自动上架时间{/t}">
 						{$val.starttime}
 					</span>
 					<!-- {else} -->
@@ -79,7 +79,7 @@
 				</td>
 				<td>
 					<!-- {if $val.endtime} -->
-					<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/admin_goods_auto/edit_endtime')}" data-name="goods_end_time" data-pk="{$val.endtime}" data-title="{lang key='goods::goods_auto.select_end_time'}"> 
+					<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/admin_goods_auto/edit_endtime')}" data-name="goods_end_time" data-pk="{$val.endtime}" data-title="{t domain="goods"}请选择商品自动下架时间{/t}">
 						{$val.endtime}
 					</span>
 					<!-- {else} -->
@@ -89,7 +89,7 @@
 				<td>
 					<span>
 					{if $val.endtime || $val.starttime}
-					<a class="ajax-remove" data-toggle="ajaxremove" data-msg="{lang key='goods::goods_auto.delete_confirm'}" href='{RC_Uri::url("goods/admin_goods_auto/del", "id={$val.goods_id}")}' title="{t}撤销{/t}"><i class="fontello-icon-export-alt"></i></a>
+					<a class="ajax-remove" data-toggle="ajaxremove" data-msg="{t domain="goods"}您确定要撤销自动上下架该商品吗？{/t}" href='{RC_Uri::url("goods/admin_goods_auto/del", "id={$val.goods_id}")}' title="{t domain="goods"}撤销{/t}"><i class="fontello-icon-export-alt"></i></a>
 					{else}
 						-
 					{/if}
@@ -99,7 +99,7 @@
 			<!-- {foreachelse} -->
 			<tr>
 				<td class="no-records" colspan="10">
-					{lang key='system::system.no_records'}
+					{t domain="goods"}没有找到任何记录{/t}
 				</td>
 			</tr>
 			<!-- {/foreach} -->

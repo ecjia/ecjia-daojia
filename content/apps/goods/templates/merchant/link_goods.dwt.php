@@ -46,7 +46,7 @@
 								<div class="pull-left">
 									<div class="form-group">
 										<select class="w130" name="cat_id">
-											<option value="0">{lang key='system::system.all_category'}</option>
+											<option value="0">{t domain="goods"}所有分类{/t}</option>
 											<!-- {foreach from=$cat_list item=cat} -->
 											<option value="{$cat.cat_id}" {if $cat.cat_id == $smarty.get.cat_id}selected{/if} {if $cat.level}style="padding-left:{$cat.level * 20}px"{/if}>{$cat.cat_name}</option>
 											<!-- {/foreach} -->
@@ -54,12 +54,12 @@
 									</div>
 									
 									<div class="form-group">
-										<input class="form-control" type="text" name="keyword" placeholder="{lang key='goods::goods.goods_name'}" />
+										<input class="form-control" type="text" name="keyword" placeholder="{t domain="goods"}商品名称{/t}" />
 									</div>
-									<button type="button" class="btn btn-primary" data-toggle="searchGoods"><i class="fa fa-search"></i> {lang key='system::system.button_search'} </button>
+									<button type="button" class="btn btn-primary" data-toggle="searchGoods"><i class="fa fa-search"></i> {t domain="goods"}搜索{/t} </button>
 									
 									<div class="form-group">
-										<span class="help-block">{lang key='goods::goods.link_goods_notice'}</span>
+										<span class="help-block">{t domain="goods"}搜索要关联的商品，搜到商品会展示在左侧列表框中。点击左侧列表中选项，关联商品即可进入右侧已关联列表。保存后生效。您还可以在右侧编辑关联模式。{/t}</span>
 									</div>
 								</div>
 							</div>
@@ -68,22 +68,22 @@
 								<div class="ms-container" id="ms-custom-navigation">
 									<div class="ms-selectable">
 										<div class="search-header">
-											<input class="form-control" id="ms-search" type="text" placeholder="{lang key='goods::goods.filter_goods_info'}" autocomplete="off">
+											<input class="form-control" id="ms-search" type="text" placeholder="{t domain="goods"}筛选搜索到的商品信息{/t}" autocomplete="off">
 										</div>
 										<ul class="ms-list nav-list-ready">
 											<li class="ms-elem-selectable disabled">
-												<span>{lang key='goods::goods.no_content'}</span>
+												<span>{t domain="goods"}暂无内容{/t}</span>
 											</li>
 										</ul>
 									</div>
 									<div class="ms-selection">
-										<div class="custom-header custom-header-align">{lang key='goods::goods.tab_linkgoods'}</div>
+										<div class="custom-header custom-header-align">{t domain="goods"}关联商品{/t}</div>
 										<ul class="ms-list nav-list-content">
 											<!-- {foreach from=$link_goods_list item=link_good key=key} -->
 											<li class="ms-elem-selection">
 												<input type="hidden" value="{$link_good.goods_id}" name="goods_id[]" data-double="{if $link_good.is_double}1{else}0{/if}" />
-												<span class="link_static m_r5">{if $link_good.is_double}[{lang key='goods::goods.double'}]{else}[{lang key='goods::goods.single'}]{/if}</span><!-- {$link_good.goods_name} -->
-												<span class="edit-list"><a class="change_links_mod" href="javascript:;">{lang key='goods::goods.switch_relation'}</a> <i class="fa fa-minus-circle del"></i></span>
+												<span class="link_static m_r5">{if $link_good.is_double}[{t domain="goods"}双向关联{/t}]{else}[{t domain="goods"}单向关联{/t}]{/if}</span><!-- {$link_good.goods_name} -->
+												<span class="edit-list"><a class="change_links_mod" href="javascript:;">{t domain="goods"}切换关联{/t}</a> <i class="fa fa-minus-circle del"></i></span>
 											</li>
 											<!-- {/foreach} -->
 										</ul>
@@ -95,11 +95,11 @@
 						<fieldset class="t_c row m_t20">
 							<input type="hidden" name="goods_id" value={$goods_id}>
 							{if $step}
-							<button class="btn btn-info" type="submit">{lang key='goods::goods.next_step'}</button>
-							<button class="btn btn-info complete m_l5" type="submit" data-url='{if $code}{url path="goods/merchant/init" args="extension_code={$code}"}{else}{url path="goods/merchant/init"}{/if}'>{lang key='goods::goods.complete'}</button>
+							<button class="btn btn-info" type="submit">{t domain="goods"}下一步{/t}</button>
+							<button class="btn btn-info complete m_l5" type="submit" data-url='{if $code}{url path="goods/merchant/init" args="extension_code={$code}"}{else}{url path="goods/merchant/init"}{/if}'>{t domain="goods"}完成{/t}</button>
 							<input type="hidden" name="step" value="{$step}" />
 							{else}
-							<button class="btn btn-info" type="submit">{lang key='goods::goods.save'}</button>
+							<button class="btn btn-info" type="submit">{t domain="goods"}保存{/t}</button>
 							{/if}
 						</fieldset>
 					</form>

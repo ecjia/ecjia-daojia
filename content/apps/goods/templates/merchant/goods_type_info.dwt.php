@@ -30,26 +30,26 @@
             	<div class="form edit-page">
               		<form class="form-horizontal tasi-form" method="post" action="{$form_action}" name="theForm">
               			<div class="form-group">
-              				<label class="control-label col-lg-2">{lang key='goods::goods_spec.label_goods_type_name'}</label>
+              				<label class="control-label col-lg-2">{t domain="goods"}规格名称：{/t}</label>
               				<div class="controls col-lg-6">
                             	<input class="form-control" name="cat_name" type="text" value="{$goods_type.cat_name|escape}" />
                           	</div>
-                          	<span class="input-must">{lang key='system::system.require_field'}</span>
+                          	<span class="input-must">*</span>
               			</div>
                                     
               			<div class="form-group">
-              				<label class="control-label col-lg-2">{lang key='goods::goods_spec.label_goods_type_status'}</label>
+              				<label class="control-label col-lg-2">{t domain="goods"}状态：{/t}</label>
                      		<div class="col-lg-6">
                      			<input type="radio" id="enabled_2" name="enabled" value="1" {if $goods_type.enabled eq 1} checked {/if}>
-                      			<label for="enabled_2">{lang key='goods::goods_spec.arr_goods_status.1'}</label>
+                      			<label for="enabled_2">{t domain="goods"}启用{/t}</label>
                       			
                   				<input type="radio" id="enabled_1" name="enabled" value="0" {if $goods_type.enabled eq 0} checked {/if}>
-                      			<label for="enabled_1">{lang key='goods::goods_spec.arr_goods_status.0'}</label>
+                      			<label for="enabled_1">{t domain="goods"}禁用{/t}</label>
         					</div> 
               			</div>
               			
               			<div class="form-group">
-              				<label class="control-label col-lg-2">{lang key='goods::goods_spec.label_attr_groups'}</label>
+              				<label class="control-label col-lg-2">{t domain="goods"}属性分组：{/t}</label>
               				<div class="col-lg-6">
                             	<textarea class="form-control" name="attr_group" rows="5">{$goods_type.attr_group|escape}</textarea>
                           	</div>
@@ -57,7 +57,7 @@
               			
               			<div class="form-group">
               				<div class="col-lg-offset-2 col-lg-6">
-                      			<button class="btn btn-info" type="submit">{lang key='system::system.button_submit'}</button>
+                      			<button class="btn btn-info" type="submit">{t domain="goods"}确定{/t}</button>
                              	<input type="hidden" name="cat_id" value="{$goods_type.cat_id}" />
                          	</div>
               			</div>

@@ -58,12 +58,12 @@ class admin_goods_trash_module extends api_admin implements api_interface {
 			return new ecjia_error(100, 'Invalid session');
 		}
 		if (!$this->admin_priv('goods_update')) {
-			return new ecjia_error('privilege_error', '对不起，您没有执行此项操作的权限！');
+			return new ecjia_error('privilege_error', __('对不起，您没有执行此项操作的权限！', 'goods'));
 		}
 
 		$id = $this->requestData('id');
 		if (empty($id)) {
-			return new ecjia_error('not_exists_info', '不存在的信息');
+			return new ecjia_error('not_exists_info', __('不存在的信息', 'goods'));
 		}
 		$data = array(
 				'is_delete' => 1,
@@ -92,8 +92,7 @@ class admin_goods_trash_module extends api_admin implements api_interface {
 		$orm_goods_db->delete_cache_item($cache_basic_info_id);
 		$goods_name = $db_goods->where(array('goods_id' => $id))->get_field('goods_name');
 		if ($_SESSION['store_id'] > 0) {
-// 		    ecjia_merchant::admin_log(addslashes($goods_name).'【来源掌柜】', 'trash', 'goods'); // 记录日志
-		    RC_Api::api('merchant', 'admin_log', array('text'=>$goods_name.'【来源掌柜】', 'action'=>'trash', 'object'=>'goods'));
+		    RC_Api::api('merchant', 'admin_log', array('text'=>$goods_name.__('【来源掌柜】', 'goods'), 'action'=>'trash', 'object'=>'goods'));
 		} 
 		
 		return array();

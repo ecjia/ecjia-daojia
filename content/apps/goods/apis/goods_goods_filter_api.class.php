@@ -160,7 +160,7 @@ class goods_goods_filter_api extends Component_Event_Api {
 					$temp_arrt_url = implode('.', $temp_arrt_url_arr);
 					array_unshift($all_attr_list[$key]['attr_list'], array(
 						'goods_attr_id' => 0,
-						'attr_value' => __('全部'),
+						'attr_value' => __('全部', 'goods'),
 						'url'		 => build_uri('category', array('cid' => $options['cat_id'], 'bid' => $options['brand_id'], 'price_min'=> $options['price_min'], 'price_max' => $options['price_max'], 'filter_attr' => $temp_arrt_url), $this->cat['cat_name']),
 						'selected'	 => empty($filter_attr[$key]) ? 1 : 0,
 					));
@@ -203,7 +203,7 @@ class goods_goods_filter_api extends Component_Event_Api {
 			//“全部”的信息生成
 			array_unshift($brands_filter, array(
 				'brand_id'	 => 0,
-				'brand_name' => __('全部'),
+				'brand_name' => __('全部', 'goods'),
 				'url'		 => build_uri('category', array('cid' => $options['cat_id'], 'bid' => 0, 'price_min'=> $options['price_min'], 'price_max'=> $options['price_max'], 'filter_attr'=> $options['filter_attr_str']), $this->cat['cat_name']),
 				'selected'	 => empty($options['brand']) ? 1 : 0,
 			));
@@ -310,7 +310,7 @@ class goods_goods_filter_api extends Component_Event_Api {
         	array_unshift($price_grade, array(
 	        	'start'	 => 0,
 	        	'end'	 => 0,
-	        	'price_range' => __('全部'),
+	        	'price_range' => __('全部', 'goods'),
 	        	'url'		 => build_uri('category', array('cid'=>$options['cat_id'], 'bid'=> $options['brand_id'], 'price_min'=>0, 'price_max'=> 0, 'filter_attr' => $options['filter_attr_str']), $this->cat['cat_name']),
 	        	'selected'	 => empty($price_max) ? 1 : 0,
         	));

@@ -186,7 +186,7 @@ class goods_list_module extends api_front implements api_interface {
                         'activity_type'             => $activity_type,
                         'object_id'                 => 0,//$object_id,
                         'saving_price'              => $saving_price,
-                        'formatted_saving_price'    => $saving_price > 0 ? '已省'.$saving_price.'元' : '',
+                        'formatted_saving_price'    => $saving_price > 0 ? sprintf(__('已省%s元', 'goods'), $saving_price) : '',
                         'seller_id'                 => $val['store_id'],
                         'seller_name'               => $val['store_name'],
                         'store_logo'                => $val['store_logo'],

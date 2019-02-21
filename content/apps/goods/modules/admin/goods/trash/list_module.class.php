@@ -111,8 +111,8 @@ class admin_goods_trash_list_module extends api_admin implements api_interface {
 						'clicks'		=> intval($val['click_count']),
 						'stock'			=> (ecjia::config('use_storage') == 1) ? $val['goods_number'] : '',
 						'goods_weight'	=> $val['goods_weight']  = (intval($val['goods_weight']) > 0) ?
-											$val['goods_weight'] . __('千克') :
-											($val['goods_weight'] * 1000) . __('克'),
+											$val['goods_weight'] . __('千克', 'goods') :
+											($val['goods_weight'] * 1000) . __('克', 'goods'),
 						'is_best'		=> $val['is_best'],
 						'is_new'		=> $val['is_new'],
 						'is_hot'		=> $val['is_hot'],

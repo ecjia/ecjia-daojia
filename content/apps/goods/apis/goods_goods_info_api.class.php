@@ -156,7 +156,7 @@ class goods_goods_info_api extends Component_Event_Api {
 			$row['promote_price'] = price_format ( $promote_price );
 			
 			/* 修正重量显示 */
-			$row['goods_weight'] = (intval ( $row['goods_weight'] ) > 0) ? $row['goods_weight'] . RC_Lang::get('system::system.kilogram') : ($row['goods_weight'] * 1000) . RC_Lang::get('system::system.gram');
+			$row['goods_weight'] = (intval ( $row['goods_weight'] ) > 0) ? $row['goods_weight'] . __('千克', 'goods') : ($row['goods_weight'] * 1000) . __('克', 'goods');
 			
 			/* 修正上架时间显示 */
 			$row['add_time'] = RC_Time::local_date(ecjia::config('date_format'), $row['add_time'] );
@@ -242,7 +242,7 @@ class goods_goods_info_api extends Component_Event_Api {
 				$row ['attr_value'] = str_replace ( "\n", '<br />', $row ['attr_value'] );
 				
 				if ($row ['attr_type'] == 0) {
-					$group = (isset ( $groups [$row ['attr_group']] )) ? $groups [$row ['attr_group']] : RC_Lang::get('goods::goods.goods_attr');
+					$group = (isset ( $groups [$row ['attr_group']] )) ? $groups [$row ['attr_group']] : __('商品属性', 'goods');
 					
 					$arr ['pro'] [$group] [$row ['attr_id']] ['name'] = $row ['attr_name'];
 					$arr ['pro'] [$group] [$row ['attr_id']] ['value'] = $row ['attr_value'];

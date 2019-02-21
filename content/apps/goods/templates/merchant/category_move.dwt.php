@@ -13,7 +13,7 @@
 	<div class="col-lg-12">
 		<div class="alert alert-info alert-dismissable">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" data-original-title="" title=""></i></button>
-			<strong>{lang key='goods::category.notice'}</strong>{lang key='goods::category.cat_move_desc'}<br/>{lang key='goods::category.cat_move_notic'}
+			<strong>{t domain="goods"}提示：{/t}</strong>{t domain="goods"}什么是转移商品分类？{/t}<br/>{t domain="goods"}在添加商品或者在商品管理中，如果需要对商品的分类进行变更，那么你可以通过此功能，正确管理你的商品分类。{/t}
 		</div>
 	</div>
 </div>
@@ -39,10 +39,10 @@
             	<div class="form">
               		<form class="form-horizontal tasi-form" method="post" action="{$form_action}" name="theForm">
               			<div class="form-group">
-              				<label class="control-label col-lg-2">{lang key='goods::category.label_source_cat'}</label>
+              				<label class="control-label col-lg-2">{t domain="goods"}从此分类：{/t}</label>
               				<div class="col-lg-6">
                             	<select class="form-control m-bot15" name="cat_id">
-                            		<option value="0">{lang key='system::system.select_please'}</option>
+                            		<option value="0">{t domain="goods"}请选择...{/t}</option>
 									<!-- {foreach from=$cat_select item=cat} -->
 									<option value="{$cat.cat_id}" {if $cat.cat_id == $smarty.get.cat_id}selected{/if} {if $cat.level}style="padding-left:{$cat.level * 20}px"{/if}>{$cat.cat_name}</option>
 									<!-- {/foreach} -->
@@ -51,10 +51,10 @@
               			</div>
               			
               			<div class="form-group">
-              				<label class="control-label col-lg-2">{lang key='goods::category.label_target_cat'}</label>
+              				<label class="control-label col-lg-2">{t domain="goods"}转移到：{/t}</label>
               				<div class="col-lg-6">
                       			<select class="form-control m-bot15" name="target_cat_id">
-                      				<option value="0">{lang key='system::system.select_please'}</option>
+                      				<option value="0">{t domain="goods"}请选择...{/t}</option>
 									<!-- {foreach from=$cat_select item=cat} -->
 									<option value="{$cat.cat_id}" {if $cat.cat_id == $smarty.get.target_cat_id}selected{/if} {if $cat.level}style="padding-left:{$cat.level * 20}px"{/if}>{$cat.cat_name}</option>
 									<!-- {/foreach} -->
@@ -64,7 +64,7 @@
               			
               			<div class="form-group">
               				<div class="col-lg-offset-2 col-lg-6">
-              					<button class="btn btn-info" type="submit">{lang key='system::system.button_submit'}</button>
+              					<button class="btn btn-info" type="submit">{t domain="goods"}确定{/t}</button>
               				</div>
               			</div>
                     </form>

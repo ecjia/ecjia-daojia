@@ -64,7 +64,7 @@ class admin_goods_promote_delete_module extends api_admin implements api_interfa
     	
     	$goods_id		= $this->requestData('id');
     	if (empty($goods_id)) {
-    		return new ecjia_error('invalid_parameter', '参数错误');
+    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	
     	$where = array('goods_id' => $goods_id);
@@ -80,9 +80,9 @@ class admin_goods_promote_delete_module extends api_admin implements api_interfa
     	));
     	
     	$goods_name = RC_Model::model('goods/goods_model')->where($where)->get_field('goods_name');
-    	$action = '删除商品促销价格：'.addslashes($goods_name);
+    	$action = __('删除商品促销价格：', 'goods').addslashes($goods_name);
     	if ($_SESSION['store_id'] > 0) {
-    	    RC_Api::api('merchant', 'admin_log', array('text' => $action.'【来源掌柜】', 'action' => 'edit', 'object' => 'goods'));
+    	    RC_Api::api('merchant', 'admin_log', array('text' => $action.__('【来源掌柜】', 'goods'), 'action' => 'edit', 'object' => 'goods'));
     	} 
     	
     	return array();

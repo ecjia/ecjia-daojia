@@ -65,7 +65,7 @@ class admin_goods_toggle_free_shipping_module extends api_admin implements api_i
 		$goods_id	= $this->requestData('id');
 		$is_shipping	= $this->requestData('is_free', 0);
 		if (empty($goods_id)) {
-			return new ecjia_error('invalid_parameter', '参数错误');
+			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}
 		
 		$data = array(
@@ -85,12 +85,12 @@ class admin_goods_toggle_free_shipping_module extends api_admin implements api_i
 		$goods_name = $db_goods->where(array('goods_id' => $goods_id))->get_field('goods_name');
 		
 		if ($is_shipping == '1') {
-		    $action = '设为包邮，'.$goods_name;
+		    $action = __('设为包邮，', 'goods').$goods_name;
 		} else {
-		    $action = '取消包邮，'.$goods_name;
+		    $action = __('取消包邮，', 'goods').$goods_name;
 		}
 		if ($_SESSION['store_id'] > 0) {
-		    RC_Api::api('merchant', 'admin_log', array('text' => $action.'【来源掌柜】', 'action' => 'setup', 'object' => 'goods'));
+		    RC_Api::api('merchant', 'admin_log', array('text' => $action.__('【来源掌柜】', 'goods'), 'action' => 'setup', 'object' => 'goods'));
 		} 
 		
 		return array();

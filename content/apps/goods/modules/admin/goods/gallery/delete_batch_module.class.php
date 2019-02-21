@@ -65,7 +65,7 @@ class admin_goods_gallery_delete_batch_module extends api_admin implements api_i
     	$goods_id		= $this->requestData('goods_id');
     	$img_ids		= $this->requestData('img_id', array());
     	if (empty($goods_id) || empty($img_ids)) {
-    		return new ecjia_error('invalid_parameter', '参数错误');
+    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	
     	RC_Logger::getLogger('info')->info('delete_batch');
@@ -80,7 +80,7 @@ class admin_goods_gallery_delete_batch_module extends api_admin implements api_i
 		$goods_info = RC_Model::model('goods/goods_model')->where($where)->select();
 		RC_Logger::getLogger('info')->info(array('goods_info', $goods_info));
 		if (empty($goods_info)) {
-			return new ecjia_error('goods_empty', '未找到对应商品');
+			return new ecjia_error('goods_empty', __('未找到对应商品', 'goods'));
 		}
 		
 		foreach ($img_ids as $img_id) {

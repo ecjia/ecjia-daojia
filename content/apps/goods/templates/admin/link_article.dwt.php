@@ -31,24 +31,24 @@
 					<fieldset>
 						<div class="control-group choose_list span12" data-url="{url path='goods/admin/get_article_list'}">
 							<div class="ecjiaf-cb">
-								<input id="article_title" name="article_title" type="text" placeholder="{lang key='goods::goods.article_title'}"/>
-								<a class="btn" href="javascript:;" data-toggle="searchArticle"><!-- {lang key='system::system.button_search'} --></a>
+								<input id="article_title" name="article_title" type="text" placeholder="{t domain="goods"}文章标题{/t}"/>
+								<a class="btn" href="javascript:;" data-toggle="searchArticle"><!-- {t domain="goods"}搜索{/t} --></a>
 							</div>
-							<span class="help-inline m_t5">{lang key='goods::goods.link_article_notice'}</span>
+							<span class="help-inline m_t5">{t domain="goods"}搜索要关联的文章，搜到的文章会展示在左侧列表框中。点击左侧列表中选项，关联文章即可进入右侧已关联列表。保存后生效。{/t}</span>
 						</div>
 						<div class="control-group draggable">
 							<div class="ms-container" id="ms-custom-navigation">
 								<div class="ms-selectable">
 									<div class="search-header">
-										<input class="span12" id="ms-search" type="text" placeholder="{lang key='goods::goods.filter_article_info'}" autocomplete="off">
+										<input class="span12" id="ms-search" type="text" placeholder="{t domain="goods"}筛选搜索到的文章信息{/t}" autocomplete="off">
 									</div>
 									<ul class="ms-list nav-list-ready">
-										<li class="ms-elem-selectable disabled"><span>{lang key='goods::goods.no_content'}</span></li>
+										<li class="ms-elem-selectable disabled"><span>{t domain="goods"}暂无内容{/t}</span></li>
 									</ul>
 								</div>
 								<div class="ms-selection">
 									<div class="custom-header custom-header-align">
-										{lang key='goods::goods.tab_article'}
+										{t domain="goods"}关联文章{/t}
 									</div>
 									<ul class="ms-list nav-list-content">
 										<!-- {foreach from=$goods_article_list item=link_article key=key} -->
@@ -67,11 +67,11 @@
 				<fieldset class="t_c">
 					<input type="hidden" name="goods_id" value="{$goods_id}">
 					{if $step}
-					<button class="btn btn-gebo" type="submit">{lang key='goods::goods.next_step'}</button>
-					<button class="btn btn-gebo complete" type="submit" data-url='{if $code}{url path="goods/admin/init" args="extension_code={$code}"}{else}{url path="goods/admin/init"}{/if}'>{lang key='goods::goods.complete'}</button>
+					<button class="btn btn-gebo" type="submit">{t domain="goods"}下一步{/t}</button>
+					<button class="btn btn-gebo complete" type="submit" data-url='{if $code}{url path="goods/admin/init" args="extension_code={$code}"}{else}{url path="goods/admin/init"}{/if}'>{t domain="goods"}完成{/t}</button>
 					<input type="hidden" name="step" value="{$step}"/>
 					{else}
-					<button class="btn btn-gebo" type="submit">{lang key='goods::goods.save'}</button>
+					<button class="btn btn-gebo" type="submit">{t domain="goods"}保存{/t}</button>
 					{/if}
 				</fieldset>
 			</form>

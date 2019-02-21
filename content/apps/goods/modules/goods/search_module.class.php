@@ -114,7 +114,7 @@ class goods_search_module extends api_front implements api_interface {
                             $favourable_list[] = array(
                                     'name' => $val['act_name'],
                                     'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-                                    'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+                                    'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
                             );
                         } else {
                             $act_range_ext = explode(',', $val['act_range_ext']);
@@ -124,7 +124,7 @@ class goods_search_module extends api_front implements api_interface {
                                         $favourable_list[] = array(
                                                 'name' => $val['act_name'],
                                                 'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-                                                'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+                                                'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
                                         );
                                     }
                                     break;
@@ -133,7 +133,7 @@ class goods_search_module extends api_front implements api_interface {
                                         $favourable_list[] = array(
                                                 'name' => $val['act_name'],
                                                 'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-                                                'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+                                                'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
                                         );
                                     }
                                     break;
@@ -142,7 +142,7 @@ class goods_search_module extends api_front implements api_interface {
                                         $favourable_list[] = array(
                                                 'name' => $val['act_name'],
                                                 'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-                                                'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+                                                'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
                                         );
                                     }
                                     break;
@@ -184,7 +184,7 @@ class goods_search_module extends api_front implements api_interface {
                                 'activity_type'             => $activity_type,
                                 'object_id'                 => $object_id,
                                 'saving_price'              => $saving_price,
-                                'formatted_saving_price'    => $saving_price > 0 ? '已省'.$saving_price.'元' : '',
+                                'formatted_saving_price'    => $saving_price > 0 ? sprintf(__('已省%s元', 'goods'), $saving_price) : '',
                         );
                     }
                 }
@@ -287,7 +287,7 @@ class goods_search_module extends api_front implements api_interface {
                             'activity_type'             => $activity_type,
                             'object_id'                 => $object_id,
                             'saving_price'              => $saving_price,
-                            'formatted_saving_price'    => $saving_price > 0 ? '已省'.$saving_price.'元' : '',
+                            'formatted_saving_price'    => $saving_price > 0 ? sprintf(__('已省%s元', 'goods'), $saving_price) : '',
                             'seller_id'                  => $val['store_id'],
                             'seller_name'                => $val['store_name'],
                     );

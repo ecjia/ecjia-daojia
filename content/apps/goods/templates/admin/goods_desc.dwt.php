@@ -35,10 +35,10 @@
 				</div>
 				<fieldset class="t_c">
 					{if $step}
-					<button class="btn btn-gebo" type="submit">{lang key='goods::goods.next_step'}</button>
+					<button class="btn btn-gebo" type="submit">{t domain="goods"}下一步{/t}</button>
 					<input type="hidden" name="step" value="{$step}"/>
 					{else}
-					<button class="btn btn-gebo" type="submit">{lang key='goods::goods.save'}</button>
+					<button class="btn btn-gebo" type="submit">{t domain="goods"}保存{/t}</button>
 					{/if}
 					<input type="hidden" name="goods_id" value="{$goods_id}"/>
 					{if $code neq ''}

@@ -63,7 +63,7 @@ class admin_goods_merchant_category_add_module extends api_admin implements api_
 		}
     	
     	if (empty($_SESSION['store_id'])) {
-    		return new ecjia_error('priv_error', '您无权对此分类进行操作！');
+    		return new ecjia_error('priv_error', __('您无权对此分类进行操作！', 'goods'));
     	}
     	$parent_id		= $this->requestData('parent_id', 0);
     	$category_name	= $this->requestData('category_name');
@@ -77,7 +77,7 @@ class admin_goods_merchant_category_add_module extends api_admin implements api_
     	);
     	$count = RC_Model::model('goods/merchants_category_model')->where(array('cat_name' => $category_name, 'store_id' => $_SESSION['store_id']))->count();
     	if ($count) {
-    	    return new ecjia_error('already exists', '此分类名称已存在，请修改！');
+    	    return new ecjia_error('already exists', __('此分类名称已存在，请修改！', 'goods'));
     	}
     	/* 上传分类图片 */
     	$upload = RC_Upload::uploader('image', array('save_path' => 'data/category', 'auto_sub_dirs' => true));
@@ -91,7 +91,7 @@ class admin_goods_merchant_category_add_module extends api_admin implements api_
     	$cat_id = RC_Model::model('goods/merchants_category_model')->insert($cat);
     	
     	if ($_SESSION['store_id'] > 0) {
-    	    RC_Api::api('merchant', 'admin_log', array('text' => $category_name.'【来源掌柜】', 'action' => 'add', 'object' => 'category'));
+    	    RC_Api::api('merchant', 'admin_log', array('text' => $category_name.__('【来源掌柜】', 'goods'), 'action' => 'add', 'object' => 'category'));
     	} 
     	
     	RC_Cache::app_cache_delete('cat_list', 'goods');
@@ -99,7 +99,7 @@ class admin_goods_merchant_category_add_module extends api_admin implements api_
     	$category_info = RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $cat_id))->find();
     	
     	if (empty($category_info)) {
-    		return new ecjia_error('category_empty', '未找到对应分类！');
+    		return new ecjia_error('category_empty', __('未找到对应分类！', 'goods'));
     	}
     	
     	RC_Loader::load_app_func('admin_category', 'goods');

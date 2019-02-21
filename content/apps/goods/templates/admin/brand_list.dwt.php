@@ -18,8 +18,8 @@
 <div class="row-fluid">
 	<div class="choose_list f_r">
 		<form class="f_r" action="{url path='goods/admin_brand/init'}" method="post" name="searchForm">
-			<input type="text" name="keywords" value="{$smarty.get.keywords}" size="15" placeholder="{lang key='goods::brand.brand_keywords'}"/>
-			<button class="btn" type="submit">{lang key='system::system.button_search'}</button>
+			<input type="text" name="keywords" value="{$smarty.get.keywords}" size="15" placeholder="{t domain="goods"}请输入品牌关键字{/t}"/>
+			<button class="btn" type="submit">{t domain="goods"}搜索{/t}</button>
 		</form>
 	</div>
 </div>
@@ -29,25 +29,25 @@
 			<thead>
 				<tr>
 					<th class="w120">
-						{lang key='goods::brand.brand_logo'}
+						{t domain="goods"}品牌LOGO{/t}
 					</th>
 					<th>
-						{lang key='goods::brand.brand_name'}
+                        {t domain="goods"}品牌名称{/t}
 					</th>
 					<th>
-						{lang key='goods::brand.site_url'}
+                        {t domain="goods"}品牌网址{/t}
 					</th>
 					<th>
-						{lang key='goods::brand.brand_desc'}
+                        {t domain="goods"}品牌描述{/t}
 					</th>
 					<th class="w50">
-						{lang key='goods::brand.sort_order'}
+                        {t domain="goods"}排序{/t}
 					</th>
 					<th class="w100">
-						{lang key='goods::brand.is_show'}
+                        {t domain="goods"}是否显示{/t}
 					</th>
 					<th class="w70">
-						{lang key='system::system.handler'}
+						{t domain="goods"}操作{/t}
 					</th>
 				</tr>
 			</thead>
@@ -56,7 +56,7 @@
 			<tr>
 				<td>{$brand.brand_logo_html}</td>
 				<td class="first-cell">
-					<span class="cursor_pointer" data-trigger="editable" data-url="{url path='goods/admin_brand/edit_brand_name'}" data-name="edit_brand_name" data-pk="{$brand.brand_id}" data-title="{lang key='goods::brand.no_brand_name'}">
+					<span class="cursor_pointer" data-trigger="editable" data-url="{url path='goods/admin_brand/edit_brand_name'}" data-name="edit_brand_name" data-pk="{$brand.brand_id}" data-title="{t domain="goods"}请输入品牌名称{/t}">
 						{$brand.brand_name|escape:html}
 					</span>
 				</td>
@@ -67,7 +67,7 @@
 					{$brand.brand_desc|truncate:36}
 				</td>
 				<td align="right">
-					<span class="cursor_pointer" data-trigger="editable" data-url="{url path='goods/admin_brand/edit_sort_order'}" data-name="edit_sort_order" data-pk="{$brand.brand_id}" data-title="{lang key='goods::brand.no_sort_order'}">
+					<span class="cursor_pointer" data-trigger="editable" data-url="{url path='goods/admin_brand/edit_sort_order'}" data-name="edit_sort_order" data-pk="{$brand.brand_id}" data-title="{t domain="goods"}请输入排序序号{/t}">
 						{$brand.sort_order}
 					</span>
 				</td>
@@ -75,13 +75,13 @@
 					<i class="{if $brand.is_show}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" data-trigger="toggleState" data-url="{url path='goods/admin_brand/toggle_show'}" data-id="{$brand.brand_id}"></i>
 				</td>
 				<td align="center">
-					<a class="data-pjax no-underline" href='{url path="goods/admin_brand/edit" args="id={$brand.brand_id}"}' title="{lang key='system::system.edit'}"><i class="fontello-icon-edit"></i></a>
-					<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{lang key='goods::brand.drop_confirm'}" href='{url path="goods/admin_brand/remove" args="id={$brand.brand_id}"}' title="{lang key='system::system.drop'}"><i class="fontello-icon-trash"></i></a>
+					<a class="data-pjax no-underline" href='{url path="goods/admin_brand/edit" args="id={$brand.brand_id}"}' title="{t domain="goods"}编辑{/t}"><i class="fontello-icon-edit"></i></a>
+					<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{t domain="goods"}你确认要删除选定的商品品牌吗？{/t}" href='{url path="goods/admin_brand/remove" args="id={$brand.brand_id}"}' title="{t domain="goods"}删除{/t}"><i class="fontello-icon-trash"></i></a>
 				</td>
 			</tr>
 			<!-- {foreachelse} -->
 			<tr>
-				<td class="no-records" colspan="7">{lang key='system::system.no_records'}</td>
+				<td class="no-records" colspan="7">{t domain="goods"}没有找到任何记录{/t}</td>
 			</tr>
 			<!-- {/foreach} -->
 			</tbody>

@@ -79,13 +79,14 @@ class admin_goods_auto extends ecjia_admin {
 		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 		
 		RC_Script::enqueue_script('goods_auto', RC_App::apps_url('statics/js/goods_auto.js', __FILE__));
+        RC_Script::localize_script('goods_auto', 'js_lang', config('app-goods::jslang.auto_page'));
 	}
 
 	public function init() {
 		$this->admin_priv('goods_auto_manage');
 		
-		$this->assign('ur_here', RC_Lang::get('system::system.goods_auto'));
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods_auto.goods_auto')));
+		$this->assign('ur_here', __('商品自动上下架', 'goods'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品自动发布', 'goods')));
 		$this->assign('search_action', RC_Uri::url('goods/admin_goods_auto/init'));
 		
 		$goodsdb = $this->get_auto_goods();
@@ -107,11 +108,11 @@ class admin_goods_auto extends ecjia_admin {
 		$time = !empty($_POST['select_time']) ? RC_Time::local_strtotime($_POST['select_time']) : '';
 		
 		if (empty($goods_id)) {
-			return $this->showmessage(RC_Lang::get('goods::goods_auto.select_start_goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择自动上架的商品', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		 
 		if (empty($time)) {
-			return $this->showmessage(RC_Lang::get('goods::goods_auto.select_time'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择时间', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$goods_list = $this->db_auto_manage->where(array('type' => 'goods'))->get_field('item_id', true);
@@ -138,10 +139,10 @@ class admin_goods_auto extends ecjia_admin {
 		
 		if (!empty($goods_name_list)) {
 			foreach ($goods_name_list as $v) {
-				ecjia_admin::admin_log(RC_Lang::get('goods::goods_auto.goods_name_is').$v, 'batch_start', 'goods');
+				ecjia_admin::admin_log(__('商品名称是 ', 'goods').$v, 'batch_start', 'goods');
 			} 
 		}
-		return $this->showmessage(RC_Lang::get('goods::goods_auto.batch_start_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/admin_goods_auto/init')));
+		return $this->showmessage(__('批量上架成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/admin_goods_auto/init')));
 	}
 	
 	/**
@@ -154,11 +155,11 @@ class admin_goods_auto extends ecjia_admin {
 		$time = RC_Time::local_strtotime($_POST['select_time']);
 		
 		if (empty($goods_id)) {
-			return $this->showmessage(RC_Lang::get('goods::goods_auto.select_end_goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择自动下架的商品', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		 
 		if (empty($time)) {
-			return $this->showmessage(RC_Lang::get('goods::goods_auto.select_time'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择时间', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		$goods_list = $this->db_auto_manage->where(array('type' => 'goods'))->get_field('item_id', true);
 		 
@@ -184,10 +185,10 @@ class admin_goods_auto extends ecjia_admin {
 
 		if (!empty($goods_name_list)) {
 			foreach ($goods_name_list as $v) {
-				ecjia_admin::admin_log(RC_Lang::get('goods::goods_auto.goods_name_is').$v, 'batch_end', 'goods');
+				ecjia_admin::admin_log(__('商品名称是 ', 'goods').$v, 'batch_end', 'goods');
 			}
 		}
-		return $this->showmessage(RC_Lang::get('goods::goods_auto.batch_end_succeed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/admin_goods_auto/init')));
+		return $this->showmessage(__('批量下架成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/admin_goods_auto/init')));
 	}
 	
 	//撤销
@@ -198,8 +199,8 @@ class admin_goods_auto extends ecjia_admin {
 		$goods_name = $this->db_goods->where(array('goods_id' => $goods_id))->get_field('goods_name');
 		$this->db_auto_manage->where(array('item_id' => $goods_id, 'type' => 'goods'))->delete();
 		
-		ecjia_admin::admin_log(RC_Lang::get('goods::goods_auto.goods_name_is').$goods_name, 'cancel', 'goods_auto');
-		return $this->showmessage(RC_Lang::get('goods::goods_auto.delete_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		ecjia_admin::admin_log(__('商品名称是 ', 'goods').$goods_name, 'cancel', 'goods_auto');
+		return $this->showmessage(__('删除成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
 	public function edit_starttime() {
@@ -213,7 +214,7 @@ class admin_goods_auto extends ecjia_admin {
 			$val = RC_Time::local_strtotime($value);
 		}
 		if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) || $value == '0000-00-00' || $val <= 0) {
-			return $this->showmessage(RC_Lang::get('goods::goods_auto.time_format_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('时间格式错误', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$data = array(
@@ -234,7 +235,7 @@ class admin_goods_auto extends ecjia_admin {
 			$val = RC_Time::local_strtotime($value);
 		}
 		if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) || $value == '0000-00-00' || $val <= 0) {
-			return $this->showmessage(RC_Lang::get('goods::goods_auto.time_format_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('时间格式错误', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$data = array(

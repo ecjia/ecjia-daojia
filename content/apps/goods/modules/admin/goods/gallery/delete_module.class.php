@@ -65,7 +65,7 @@ class admin_goods_gallery_delete_module extends api_admin implements api_interfa
     	$goods_id		= $this->requestData('goods_id');
     	$img_id			= $this->requestData('img_id');
     	if (empty($goods_id) || empty($img_id)) {
-    		return new ecjia_error('invalid_parameter', '参数错误');
+    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	
     	$where = array('goods_id' => $goods_id);
@@ -76,7 +76,7 @@ class admin_goods_gallery_delete_module extends api_admin implements api_interfa
 		$goods_info = RC_Model::model('goods/goods_model')->where($where)->find();
 		
 		if (empty($goods_info)) {
-			return new ecjia_error('goods_empty', '未找到对应商品');
+			return new ecjia_error('goods_empty', __('未找到对应商品', 'goods'));
 		}
 		
 		/* 删除图片文件 */

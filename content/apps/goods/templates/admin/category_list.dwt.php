@@ -21,25 +21,25 @@
 		<thead>
 			<tr>
 				<th>
-					{lang key='goods::category.cat_name'}
+					{t domain="goods"}分类名称{/t}
 				</th>
 				<th class="w100">
-					{lang key='goods::category.goods_number'}
+					{t domain="goods"}商品数量{/t}
 				</th>
 				<th class="w100">
-					{lang key='goods::category.measure_unit'}
+					{t domain="goods"}数量单位{/t}
 				</th>
 				<th class="w100">
-					{lang key='goods::category.short_grade'}
+					{t domain="goods"}价格分级{/t}
 				</th>
 				<th class="w50">
-					{lang key='goods::category.sort_order'}
+					{t domain="goods"}排序{/t}
 				</th>
 				<th class="w100">
-					{lang key='goods::category.is_show'}
+					{t domain="goods"}是否显示{/t}
 				</th>
 				<th class="w80">
-					{lang key='system::system.handler'}
+					{t domain="goods"}操作{/t}
 				</th>
 			</tr>
 		</thead>
@@ -61,17 +61,17 @@
 				{$cat.goods_num}
 			</td>
 			<td>
-				<span {if $cat.measure_unit}class="cursor_pointer" data-trigger="editable" data-url="{url path='goods/admin_category/edit_measure_unit'}" data-name="edit_grade" data-pk="{$cat.cat_id}" data-title="{lang key='goods::category.enter_number'}"{/if}>
+				<span {if $cat.measure_unit}class="cursor_pointer" data-trigger="editable" data-url="{url path='goods/admin_category/edit_measure_unit'}" data-name="edit_grade" data-pk="{$cat.cat_id}" data-title="{t domain="goods"}请输入数量单位{/t}"{/if}>
 				<!-- {if $cat.measure_unit}{$cat.measure_unit}{else}&nbsp;&nbsp;&nbsp;&nbsp;{/if} -->
 				</span>
 			</td>
 			<td>
-				<span class="cursor_pointer" data-trigger="editable" data-url="{url path='goods/admin_category/edit_grade'}" data-name="edit_grade" data-pk="{$cat.cat_id}" data-title="{lang key='goods::category.enter_grade'}">
+				<span class="cursor_pointer" data-trigger="editable" data-url="{url path='goods/admin_category/edit_grade'}" data-name="edit_grade" data-pk="{$cat.cat_id}" data-title="{t domain="goods"}请输入价格分级{/t}">
 				<!-- {$cat.grade} -->
 				</span>
 			</td>
 			<td>
-				<span class="cursor_pointer" data-trigger="editable" data-url="{url path='goods/admin_category/edit_sort_order'}" data-name="sort_order" data-pk="{$cat.cat_id}" data-title="{lang key='goods::category.enter_order'}">
+				<span class="cursor_pointer" data-trigger="editable" data-url="{url path='goods/admin_category/edit_sort_order'}" data-name="sort_order" data-pk="{$cat.cat_id}" data-title="{t domain="goods"}请输入排序序号{/t}">
 				<!-- {$cat.sort_order} -->
 				</span>
 			</td>
@@ -79,15 +79,15 @@
 				<i class="{if $cat.is_show eq '1'}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" data-trigger="toggleState" data-url="{url path='goods/admin_category/toggle_is_show'}" data-id="{$cat.cat_id}"></i>
 			</td>
 			<td>
-				<a class="data-pjax no-underline" title="{t}进入{/t}" href="{url path='goods/admin_category/init' args="cat_id={$cat.cat_id}"}"><i class="fontello-icon-login"></i></a>
-				<a class="data-pjax no-underline" href='{url path="goods/admin_category/edit" args="cat_id={$cat.cat_id}"}' title="{lang key='system::system.edit'}"><i class="fontello-icon-edit"></i></a>
-				<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{lang key='goods::category.drop_cat_confirm'}" href='{url path="goods/admin_category/remove" args="id={$cat.cat_id}"}' {lang key='system::system.remove'}><i class="fontello-icon-trash"></i></a>
+				<a class="data-pjax no-underline" title="{t domain="goods"}进入{/t}" href="{url path='goods/admin_category/init' args="cat_id={$cat.cat_id}"}"><i class="fontello-icon-login"></i></a>
+				<a class="data-pjax no-underline" href='{url path="goods/admin_category/edit" args="cat_id={$cat.cat_id}"}' title="{t domain="goods"}编辑{/t}"><i class="fontello-icon-edit"></i></a>
+				<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{t domain="goods"}您确定要删除该分类吗？{/t}" href='{url path="goods/admin_category/remove" args="id={$cat.cat_id}"}' {t domain="goods"}删除{/t}><i class="fontello-icon-trash"></i></a>
 			</td>
 			{/if}
 		</tr>
 		<!-- {foreachelse}-->
 		<tr>
-			<td class="no-records" colspan="7">{lang key='system::system.no_records'}</td>
+			<td class="no-records" colspan="7">{t domain="goods"}没有找到任何记录{/t}</td>
 		</tr>
 		<!-- {/foreach} -->
 	</table>

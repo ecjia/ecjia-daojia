@@ -60,7 +60,7 @@ class goods_detail_module extends api_front implements api_interface {
         $goods_id = intval($goods_id);
         
         if ($goods_id <= 0) {
-        	return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+        	return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
         }
 
         RC_Loader::load_app_class('groupbuy_activity', 'groupbuy', false);
@@ -92,6 +92,7 @@ class goods_detail_module extends api_front implements api_interface {
         
         $groupbuy_activity_desc = '';
         $groupbuy_price_ladder_str = '';
+        $price_ladder_str = '';
         $price_ladder = [];
         if (!empty($object_id)) {
         	$group_buy = groupbuy_activity::group_buy_info($object_id);
@@ -101,7 +102,7 @@ class goods_detail_module extends api_front implements api_interface {
         		$price_ladder = $group_buy['price_ladder'];
         		if (!empty($price_ladder)) {
         			foreach ($price_ladder as $rows) {
-        				$price_ladder_str .= '满'.$rows['amount'].'份'.$rows['price'].'元'.',';
+                        $price_ladder_str .= sprintf(__('满%d份%s元，', 'goods'), $rows['amount'], $rows['price']);
         			}
         			$groupbuy_price_ladder_str = substr($price_ladder_str, 0, -1);
         		}
@@ -125,7 +126,7 @@ class goods_detail_module extends api_front implements api_interface {
         }
         
         if ($goods === false) {
-           return new ecjia_error('does_not_exist', '不存在的信息');
+           return new ecjia_error('does_not_exist', __('不存在的信息', 'goods'));
         } 
         //判断促销是否过期
         if($goods['is_promote'] && $goods['promote_end_date'] > RC_Time::gmtime()) {
@@ -209,7 +210,7 @@ class goods_detail_module extends api_front implements api_interface {
         				$favourable_list[] = array(
         						'name' => $val['act_name'],
         						'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-        						'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+        						'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
         				);
         			} else {
         				$act_range_ext = explode(',', $val['act_range_ext']);
@@ -219,7 +220,7 @@ class goods_detail_module extends api_front implements api_interface {
         							$favourable_list[] = array(
         								'name' => $val['act_name'],
         								'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-        								'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+        								'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
         							);
         						}
         						break;
@@ -228,7 +229,7 @@ class goods_detail_module extends api_front implements api_interface {
         							$favourable_list[] = array(
         								'name' => $val['act_name'],
         								'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-        								'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+        								'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
         							);
         						}
         						break;
@@ -237,7 +238,7 @@ class goods_detail_module extends api_front implements api_interface {
         							$favourable_list[] = array(
         								'name' => $val['act_name'],
         								'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-        								'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+        								'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
         							);
         						}
         						break;
@@ -343,7 +344,7 @@ class goods_detail_module extends api_front implements api_interface {
         $data['activity_type']	= $activity_type;
         $data['goods_activity_id'] = empty($object_id) ? 0 : intval($object_id);
         $data['saving_price']	= $saving_price;
-        $data['formatted_saving_price'] = '已省'.$saving_price.'元';
+        $data['formatted_saving_price'] = sprintf(__('已省%s元', 'goods'), $saving_price);
         if ($price < $data['unformatted_shop_price'] && isset($price)) {
         	$data['promote_price'] = $price;
         	$data['formated_promote_price'] = price_format($price);
@@ -408,7 +409,7 @@ class goods_detail_module extends api_front implements api_interface {
 					'activity_type' 	=> $activity_type,
 					'object_id'			=> 0,
 					'saving_price'		=>	$saving_price,
-					'formatted_saving_price' => $saving_price > 0 ? '已省'.$saving_price.'元' : '',
+					'formatted_saving_price' => $saving_price > 0 ? sprintf(__('已省%s元', 'goods'), $saving_price) : '',
 				);
 			}
 		}
@@ -447,11 +448,11 @@ class goods_detail_module extends api_front implements api_interface {
 
         	$follower_count = RC_DB::table('collect_store')->where('store_id', $data['seller_id'])->count();
 
-
         	$data['merchant_info'] = array(
         		'seller_id'			=> $info['store_id'],
         		'seller_name'		=> $info['merchants_name'],
         		'shop_logo'		    => !empty($info['shop_logo']) ? RC_Upload::upload_url().'/'.$info['shop_logo'] : '',
+        		'store_service_phone'=> !empty($info['shop_kf_mobile']) ? $info['shop_kf_mobile'] : '',
         		'goods_count'		=> $goods_count,
         	   	'manage_mode'       => $info['manage_mode'],
         		'label_trade_time'	=> $info['trade_time'],
@@ -469,7 +470,7 @@ class goods_detail_module extends api_front implements api_interface {
         // $data['is_warehouse'] = null;
         $data['seller_name'] = $info['merchants_name'];
         $shop_name = empty($info['merchants_name']) ? ecjia::config('shop_name') : $info['merchants_name'];
-        $data['server_desc'] = '由'.$shop_name.'发货并提供售后服务';
+        $data['server_desc'] = sprintf(__('由%s发货并提供售后服务', 'goods'), $shop_name);;
 
         /* 分享链接*/
         $data['share_link'] = '';
@@ -488,12 +489,12 @@ class goods_detail_module extends api_front implements api_interface {
 		}
 		//商品货号是否显示
 		if (ecjia::config('show_goodssn') == '1') {
-			$arr_goods_sn = array('name' => '商品货号', 'value' => $data['goods_sn']);
+			$arr_goods_sn = array('name' => __('商品货号', 'goods'), 'value' => $data['goods_sn']);
 			array_push($data['properties'], $arr_goods_sn); 
 		} 
 		//商品重量是否显示
 		if (ecjia::config('show_goodsweight') == '1') {
-			$arr_goods_weight = array('name' => '商品重量', 'value' => $data['goods_weight']);
+			$arr_goods_weight = array('name' => __('商品重量', 'goods'), 'value' => $data['goods_weight']);
 			array_push($data['properties'], $arr_goods_weight);
 			$data['goods_weight'] = '';
 		} else {
@@ -501,12 +502,12 @@ class goods_detail_module extends api_front implements api_interface {
 		}
 		//商品库存是否显示
 		if (ecjia::config('show_goodsnumber') == '1') {
-			$arr_goods_number = array('name' => '商品库存', 'value' => $data['goods_number']);
+			$arr_goods_number = array('name' => __('商品库存', 'goods'), 'value' => $data['goods_number']);
 			array_push($data['properties'], $arr_goods_number);
 		} 
 		//商品上架时间是否显示
 		if (ecjia::config('show_addtime') == '1') {
-			$arr_goods_addtime = array('name' => '商品上架时间', 'value' => $data['add_time']);
+			$arr_goods_addtime = array('name' => __('商品上架时间', 'goods'), 'value' => $data['add_time']);
 			array_push($data['properties'], $arr_goods_addtime);
 			$data['add_time'] = '';
 		} else {

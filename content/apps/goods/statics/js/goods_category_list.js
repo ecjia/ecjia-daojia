@@ -49,7 +49,7 @@
 					val = $this.val(),
 					url = $this.attr('data-url');
 				// console.log(url);
-				val === 0 ? $this.parents('.goods_type').find('.show_goods_type').html('<option>请选择筛选属性</option>').trigger("liszt:updated") : $.get(url, {
+				val === 0 ? $this.parents('.goods_type').find('.show_goods_type').html('<option>'+ js_lang.sel_filter_attr +'</option>').trigger("liszt:updated") : $.get(url, {
 					'cat_id': val
 				}, function(data) {
 					var opt = '';
@@ -58,7 +58,7 @@
 							opt += '<option value="' + item[i].attr_id + '">' + item[i].attr_name + '</option>';
 						}
 					}
-					opt = opt ? opt : '<option>请选择筛选属性</option>';
+					opt = opt ? opt : '<option>'+ js_lang.sel_filter_attr +'</option>';
 					$this.parents('.goods_type').find('.show_goods_type').html(opt).trigger("liszt:updated");
 				});
 			})
@@ -73,7 +73,7 @@
 				},
 				messages: {
 					cat_name: {
-						required: "请输入分类名称"
+						required: js_lang.cat_name_required
 					}
 				},
 				submitHandler: function() {
@@ -115,7 +115,7 @@
                     $('.ad_list').append(opt);
                 };
             } else {
-                $('.ad_list').append('<option value="-1">' + no_select_goods + '</option>');
+                $('.ad_list').append('<option value="-1">' + js_lang.no_select_ad + '</option>');
             }
             $('.ad_list').trigger("liszt:updated").trigger("change");
         }
@@ -130,7 +130,7 @@
 			var $this = $('form[name="theForm"]');
 			$this.on('submit', function(e) {
 				e.preventDefault();
-				smoke.confirm('您确定转移分类下的商品吗？', function(e) {
+				smoke.confirm(js_lang.move_cat_confirm, function(e) {
 					if (e) {
 						$this.ajaxSubmit({
 							dataType: "json",
@@ -140,8 +140,8 @@
 						});
 					}
 				}, {
-					ok: "确定",
-					cancel: "取消"
+					ok: js_lang.ok,
+					cancel: js_lang.cancel
 				});
 			});
 		}

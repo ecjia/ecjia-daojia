@@ -52,12 +52,12 @@
 					
 					<div class="t_c m_t10">
 						{if $step}
-						<button class="btn btn-info" type="submit">{lang key='goods::goods.next_step'}</button>
+						<button class="btn btn-info" type="submit">{t domain="goods"}下一步{/t}</button>
 						
-						<button class="btn btn-info complete m_l5" type="submit" data-url='{url path="goods/merchant/edit"}'>直接完成</button>
+						<button class="btn btn-info complete m_l5" type="submit" data-url='{url path="goods/merchant/edit"}'>{t domain="goods"}直接完成{/t}</button>
 						<input type="hidden" name="step" value="{$step}" />
 						{else}
-						<button class="btn btn-info" type="submit">{lang key='goods::goods.save'}</button>
+						<button class="btn btn-info" type="submit">{t domain="goods"}保存{/t}</button>
 						{/if}
 						
 						<input type="hidden" name="goods_id" value="{$goods_id}" />

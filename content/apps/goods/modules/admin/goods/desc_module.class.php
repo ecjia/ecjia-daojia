@@ -65,10 +65,10 @@ class admin_goods_desc_module extends api_admin implements api_interface {
         $goods = $this->get_goods_info($goods_id);
         if ($goods === false) {
             /* 如果没有找到任何记录则跳回到首页 */
-           	return new ecjia_error('not_exists_info', '不存在的信息');
+           	return new ecjia_error('not_exists_info', __('不存在的信息', 'goods'));
         } else {
         	if ($_SESSION['store_id'] > 0 && $_SESSION['store_id'] != $goods['store_id']) {
-        		return new ecjia_error('not_exists_info', '不存在的信息');
+        		return new ecjia_error('not_exists_info', __('不存在的信息', 'goods'));
         	}
         	$goods = str_replace('\\"', '"', $goods);
         	$data = $goods;
@@ -177,7 +177,7 @@ class admin_goods_desc_module extends api_admin implements api_interface {
 			$row ['promote_price'] = price_format ( $promote_price );
 	
 			/* 修正重量显示 */
-			$row ['goods_weight'] = (intval ( $row ['goods_weight'] ) > 0) ? $row ['goods_weight'] . RC_Lang::get('goods::goods.kilogram') : ($row ['goods_weight'] * 1000) . RC_Lang::get('goods::goods.gram');
+			$row ['goods_weight'] = (intval ( $row ['goods_weight'] ) > 0) ? $row ['goods_weight'] . __('千克', 'goods') : ($row ['goods_weight'] * 1000) . __('克', 'goods');
 	
 			/* 修正上架时间显示 */
 			$row ['add_time'] = RC_Time::local_date ( ecjia::config ( 'date_format' ), $row ['add_time'] );

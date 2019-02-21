@@ -63,12 +63,12 @@ class admin_goods_category_delete_module extends api_admin implements api_interf
 		}
     	
     	if (!empty($_SESSION['staff_id'])) {
-    		return new ecjia_error('priv_error', '您无权对此分类进行操作！');
+    		return new ecjia_error('priv_error', __('您无权对此分类进行操作！', 'goods'));
     	}
     	
     	$cat_id = $this->requestData('category_id');
     	if (empty($cat_id)) {
-    	    return new ecjia_error('invalid_parameter', '参数错误');
+    	    return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	
 		$category	= RC_Model::model('goods/category_model')->where(array('cat_id' => $cat_id))->find();
@@ -83,11 +83,11 @@ class admin_goods_category_delete_module extends api_admin implements api_interf
 			$query = RC_Model::model('goods/category_model')->where(array('cat_id' => $cat_id))->delete();
 			if ($query) {
 				if ($_SESSION['store_id'] > 0) {
-				    RC_Api::api('merchant', 'admin_log', array('text' => $category['cat_name'].'【来源掌柜】', 'action' => 'remove', 'object' => 'category'));
+				    RC_Api::api('merchant', 'admin_log', array('text' => $category['cat_name'].__('【来源掌柜】', 'goods'), 'action' => 'remove', 'object' => 'category'));
 				}
 			}
 		} else {
-			return new ecjia_error('category_delete_error', '该分类下有商品或非末级分类！');
+			return new ecjia_error('category_delete_error', __('该分类下有商品或非末级分类！', 'goods'));
 		}
     	
     	

@@ -399,7 +399,7 @@ function warehouse_get_goods_properties($goods_id) {
 			$row ['attr_value'] = str_replace ( "\n", '<br />', $row ['attr_value'] );
 
 			if ($row ['attr_type'] == 0) {
-				$group = (isset ( $groups [$row ['attr_group']] )) ? $groups [$row ['attr_group']] : RC_Lang::get('goods::goods.goods_attr');
+				$group = (isset ( $groups [$row ['attr_group']] )) ? $groups [$row ['attr_group']] : __('商品属性', 'goods');
 
 				$arr ['pro'] [$group] [$row ['attr_id']] ['name'] = $row ['attr_name'];
 				$arr ['pro'] [$group] [$row ['attr_id']] ['value'] = $row ['attr_value'];

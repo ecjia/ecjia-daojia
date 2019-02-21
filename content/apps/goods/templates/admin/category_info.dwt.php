@@ -21,49 +21,49 @@
 	<div class="row-fluid editpage-rightbar">
 		<div class="left-bar move-mod">
 			<div class="control-group formSep">
-				<label class="control-label">{lang key='goods::category.label_cat_name'}</label>
+				<label class="control-label">{t domain="goods"}分类名称：{/t}</label>
 				<div class="controls">
 					<input class="w350" type='text' name='cat_name' maxlength="20" value='{$cat_info.cat_name|escape:html}' size='27'/>
-					<span class="input-must">{lang key='system::system.require_field'}</span>
+					<span class="input-must">*</span>
 				</div>
 			</div>
 
 			<div class="control-group formSep">
-				<label class="control-label">{lang key='goods::category.label_parent_cat'}</label>
+				<label class="control-label">{t domain="goods"}上级分类：{/t}</label>
 				<div class="controls">
 					<select class="w350" name="parent_id">
-						<option value="0">{lang key='goods::category.cat_top'}</option>
+						<option value="0">{t domain="goods"}顶级分类{/t}</option>
 						<!-- {$cat_select} -->
 					</select>
 				</div>
 			</div>
 
 			<div class="control-group formSep">
-				<label class="control-label">{lang key='goods::category.label_measure_unit'}</label>
+				<label class="control-label">{t domain="goods"}数量单位：{/t}</label>
 				<div class="controls">
 					<input class="w350" type="text" name='measure_unit' value='{$cat_info.measure_unit}' size="12" />
 				</div>
 			</div>
 
 			<div class="control-group formSep">
-				<label class="control-label">{lang key='goods::category.label_grade'}</label>
+				<label class="control-label">{t domain="goods"}价格区间个数：{/t}</label>
 				<div class="controls">
 					<input class="w350" type="text" name="grade" value="{$cat_info.grade|default:0}" size="40" />
-					<span class="help-block" {if $help_open}style="display:block" {else} style="display:none" {/if} id="noticeGrade">{lang key='goods::category.notice_grade'}</span>
+					<span class="help-block" {if $help_open}style="display:block" {else} style="display:none" {/if} id="noticeGrade">{t domain="goods"}该选项表示该分类下商品最低价与最高价之间的划分的等级个数，填0表示不做分级，最多不能超过10个。{/t}</span>
 				</div>
 			</div>
 
 			<div class="control-group formSep">
-				<label class="control-label">{lang key='goods::category.label_filter_attr'}</label>
+				<label class="control-label">{t domain="goods"}筛选属性：{/t}</label>
 				<div class="controls">
 					<!-- {if $attr_cat_id eq 0} -->
 					<div class="goods_type">
 						<select class="w150 choose_goods_type" data-url="{url path='goods/admin_category/choose_goods_type'}" autocomplete="off">
-							<option value="0">{lang key='goods::category.sel_goods_type'}</option>
+							<option value="0">{t domain="goods"}请选择商品类型{/t}</option>
 							<!-- {$goods_type_list} -->
 						</select>&nbsp;&nbsp;
 						<select class="w150 show_goods_type" name="filter_attr[]" autocomplete="off">
-							<option value="0">{lang key='goods::category.sel_filter_attr'}</option>
+							<option value="0">{t domain="goods"}请选择筛选属性{/t}</option>
 						</select>
 						<a class="no-underline" data-toggle="clone-obj" data-parent=".goods_type" href="javascript:;"><i class="fontello-icon-plus"></i></a>
 					</div>
@@ -72,11 +72,11 @@
 					<!-- {foreach from=$filter_attr_list item=filter_attr name="filter_attr_tab"}-->
 					<div class="goods_type">
 						<select class="w150 choose_goods_type" data-url="{url path='goods/admin_category/choose_goods_type'}" autocomplete="off">
-							<option value="0">{lang key='goods::category.sel_goods_type'}</option>
+							<option value="0">{t domain="goods"}请选择商品类型{/t}</option>
 							<!-- {$filter_attr.goods_type_list} -->
 						</select>&nbsp;&nbsp;
 						<select class="w150 show_goods_type" name="filter_attr[]" autocomplete="off">
-							<option value="0">{lang key='goods::category.sel_filter_attr'}</option>
+							<option value="0">{t domain="goods"}请选择筛选属性{/t}</option>
 							<!-- {html_options options=$filter_attr.option selected=$filter_attr.filter_attr} -->
 						</select>
 						<!-- {if $smarty.foreach.filter_attr_tab.index eq 0} -->
@@ -85,11 +85,11 @@
 						<a class="no-underline" data-toggle="remove-obj" data-parent=".goods_type" href="javascript:;"><i class="fontello-icon-cancel ecjiafc-red"></i></a>
 						<!-- {/if} -->
 
-						<!-- <select onChange="changeCat(this)"><option value="0">{lang key='goods::category.sel_goods_type'}</option>{$filter_attr.goods_type_list}</select>&nbsp;&nbsp;
-						<select name="filter_attr[]"><option value="0">{lang key='goods::category.sel_filter_attr'}</option>{html_options options=$filter_attr.option selected=$filter_attr.filter_attr}</select> -->
+						<!-- <select onChange="changeCat(this)"><option value="0">{t domain="goods"}请选择商品类型{/t}</option>{$filter_attr.goods_type_list}</select>&nbsp;&nbsp;
+						<select name="filter_attr[]"><option value="0">{t domain="goods"}请选择筛选属性{/t}</option>{html_options options=$filter_attr.option selected=$filter_attr.filter_attr}</select> -->
 					</div>
 					<!-- {/foreach}-->
-					<span class="help-block" style="display:block" id="noticeFilterAttr">{lang key='goods::category.filter_attr_notic'}</span>
+					<span class="help-block" style="display:block" id="noticeFilterAttr">{t domain="goods"}筛选属性可在前分类页面筛选商品{/t}</span>
 				</div>
 			</div>
 
@@ -97,21 +97,21 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#goods_info_area_seo">
-							<strong>{lang key='goods::category.seo'}</strong>
+							<strong>{t domain="goods"}SEO优化{/t}</strong>
 						</a>
 					</div>
 					<div class="accordion-body in collapse" id="goods_info_area_seo">
 						<div class="accordion-inner">
 							<div class="control-group control-group-small" >
-								<label class="control-label">{lang key='goods::category.label_keywords'}</label>
+								<label class="control-label">{t domain="goods"}关键字：{/t}</label>
 								<div class="controls">
 									<input class="span12" type="text" name="keywords" value="{$cat_info.keywords|escape}" size="40" />
 									<br />
-									<p class="help-block w280 m_t5">{lang key='goods::category.use_commas_separate'}</p>
+									<p class="help-block w280 m_t5">{t domain="goods"}用英文逗号分隔{/t}</p>
 								</div>
 							</div>
 							<div class="control-group control-group-small" >
-								<label class="control-label">{lang key='goods::category.label_cat_desc'}</label>
+								<label class="control-label">{t domain="goods"}分类描述：{/t}</label>
 								<div class="controls">
 									<textarea class="span12" name='cat_desc' rows="6" cols="48">{$cat_info.cat_desc}</textarea>
 								</div>
@@ -126,19 +126,19 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle collapsed acc-in move-mod-head" data-toggle="collapse" data-target="#goods_info_term_meta">
-							<strong>{lang key='goods::category.term_meta'}</strong>
+							<strong>{t domain="goods"}自定义栏目{/t}</strong>
 						</a>
 					</div>
 					<div class="accordion-body in" id="goods_info_term_meta">
 						<div class="accordion-inner">
 								<!-- 自定义栏目模板区域 START -->
 								<!-- {if $data_term_meta} -->
-								<label><b>{lang key='goods::category.label_edit_term_mate'}</b></label>
+								<label><b>{t domain="goods"}编辑自定义栏目：{/t}</b></label>
 							<table class="table smpl_tbl ">
 								<thead>
 									<tr>
-										<td class="span4">{lang key='goods::category.name'}</td>
-										<td>{lang key='goods::category.value'}</td>
+										<td class="span4">{t domain="goods"}名称{/t}</td>
+										<td>{t domain="goods"}值{/t}</td>
 									</tr>
 								</thead>
 								<tbody class="term_meta_edit" data-id="{$cat_info.cat_id}" data-active="{url path='goods/admin_category/update_term_meta'}">
@@ -148,8 +148,8 @@
 											<input class="span12" type="text" name="term_meta_key" value="{$term_meta.meta_key}" />
 
 											<input type="hidden" name="term_meta_id" value="{$term_meta.meta_id}">
-											<a class="data-pjax btn m_t5" data-toggle="edit_term_meta" href="javascript:;">{lang key='goods::category.update'}</a>
-											<a class="ajaxremove btn btn-danger m_t5" data-toggle="ajaxremove" data-msg="{lang key='goods::category.remove_custom_confirm'}" href='{url path="goods/admin_category/remove_term_meta" args="meta_id={$term_meta.meta_id}"}'>{lang key='system::system.drop'}</a>
+											<a class="data-pjax btn m_t5" data-toggle="edit_term_meta" href="javascript:;">{t domain="goods"}更新{/t}</a>
+											<a class="ajaxremove btn btn-danger m_t5" data-toggle="ajaxremove" data-msg="{t domain="goods"}您确定要删除该自定义栏目吗？{/t}" href='{url path="goods/admin_category/remove_term_meta" args="meta_id={$term_meta.meta_id}"}'>{t domain="goods"}删除{/t}</a>
 
 										</td>
 										<td><textarea class="span12 h70" name="term_meta_value">{$term_meta.meta_value}</textarea></td>
@@ -160,14 +160,14 @@
 							<!-- {/if} -->
 
 								<!-- 编辑区域 -->
-								<label><b>{lang key='goods::category.label_add_term_mate'}</b></label>
+								<label><b>{t domain="goods"}添加自定义栏目：{/t}</b></label>
 
 								<div class="term_meta_add" data-id="{$cat_info.cat_id}" data-active="{url path='goods/admin_category/insert_term_meta'}">
 								<table class="table smpl_tbl ">
 									<thead>
 										<tr>
-											<td class="span4">{lang key='goods::category.name'}</td>
-											<td>{lang key='goods::category.value'}</td>
+											<td class="span4">{t domain="goods"}名称{/t}</td>
+											<td>{t domain="goods"}值{/t}</td>
 										</tr>
 									</thead>
 									<tbody class="term_meta_edit" data-id="{$cat_info.cat_id}" data-active="{url path='goods/admin_category/update_term_meta'}">
@@ -180,11 +180,11 @@
 													<!-- {/foreach} -->
 												</select>
 												<input class="span12 hide" type="text" name="term_meta_key" value="{$term_meta_key_list.0.meta_key}" />
-												<div><a data-toggle="add_new_term_meta" href="javascript:;">{lang key='goods::category.add_new_mate'}</a></div>
+												<div><a data-toggle="add_new_term_meta" href="javascript:;">{t domain="goods"}添加新栏目{/t}</a></div>
 												<!-- {else} -->
 												<input class="span12" type="text" name="term_meta_key" value="" />
 												<!-- {/if} -->
-												<a class="btn m_t5" data-toggle="add_term_meta" href="javascript:;">{lang key='goods::category.add_term_mate'}</a>
+												<a class="btn m_t5" data-toggle="add_term_meta" href="javascript:;">{t domain="goods"}添加自定义栏目{/t}</a>
 											</td>
 											<td><textarea class="span12" name="term_meta_value"></textarea></td>
 										</tr>
@@ -204,39 +204,39 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#goods_info_area_brand">
-							<strong>{lang key='goods::category.promotion_info'}</strong>
+							<strong>{t domain="goods"}促销信息{/t}</strong>
 						</a>
 					</div>
 					<div class="accordion-body in in_visable collapse" id="goods_info_area_brand">
 						<div class="accordion-inner">
 							<div class="control-group control-group-small">
-								<label class="control-label">{lang key='goods::category.label_sort_order'}</label>
+								<label class="control-label">{t domain="goods"}排序：{/t}</label>
 								<div class="controls">
 									<input class="w200" type="text" name='sort_order' {if $cat_info.sort_order}value='{$cat_info.sort_order}'{else} value="50"{/if} size="15" />
 								</div>
 							</div>
 							<div class="control-group control-group-small">
-								<label class="control-label">{lang key='goods::category.label_is_show'}</label>
+								<label class="control-label">{t domain="goods"}是否显示：{/t}</label>
 								<div class="controls chk_radio">
-									<input type="radio" name="is_show" id="" value="1" {if $cat_info.is_show neq 0}checked="checked"{/if}  /><span>{lang key='system::system.yes'}</span>
-									<input type="radio" name="is_show" id="" value="0" {if $cat_info.is_show eq 0}checked="checked"{/if}  /><span>{lang key='system::system.no'}</span>
+									<input type="radio" name="is_show" id="" value="1" {if $cat_info.is_show neq 0}checked="checked"{/if}  /><span>{t domain="goods"}是{/t}</span>
+									<input type="radio" name="is_show" id="" value="0" {if $cat_info.is_show eq 0}checked="checked"{/if}  /><span>{t domain="goods"}否{/t}</span>
 								</div>
 							</div>
 							<div class="control-group control-group-small">
-								<label class="control-label">{lang key='goods::category.label_recommend_index'}</label>
+								<label class="control-label">{t domain="goods"}首页推荐：{/t}</label>
 								<div class="controls chk_radio">
-									<input type="checkbox" name="cat_recommend[]" value="1"  {if $cat_recommend[1] eq 1}checked="checked"{/if}  /><span>{lang key='goods::category.index_best'}</span>
-									<input type="checkbox" name="cat_recommend[]" value="2"  {if $cat_recommend[2] eq 1}checked="checked"{/if}  /><span>{lang key='goods::category.index_new'}</span>
-									<input type="checkbox" name="cat_recommend[]" value="3"  {if $cat_recommend[3] eq 1}checked="checked"{/if}  /><span>{lang key='goods::category.index_hot'}</span>
-									<span class="help-block">{lang key='goods::category.show_in_index'}</span>
+									<input type="checkbox" name="cat_recommend[]" value="1"  {if $cat_recommend[1] eq 1}checked="checked"{/if}  /><span>{t domain="goods"}精品{/t}</span>
+									<input type="checkbox" name="cat_recommend[]" value="2"  {if $cat_recommend[2] eq 1}checked="checked"{/if}  /><span>{t domain="goods"}最新{/t}</span>
+									<input type="checkbox" name="cat_recommend[]" value="3"  {if $cat_recommend[3] eq 1}checked="checked"{/if}  /><span>{t domain="goods"}热门{/t}</span>
+									<span class="help-block">{t domain="goods"}设置为首页推荐{/t}</span>
 								</div>
 							</div>
 							<!-- {if $cat_info.cat_id} -->
 							<input type="hidden" name="old_cat_name" value="{$cat_info.cat_name}" />
 							<input type="hidden" name="cat_id" value="{$cat_info.cat_id}" />
-							<button class="btn btn-gebo" type="submit">{lang key='goods::category.update'}</button>
+							<button class="btn btn-gebo" type="submit">{t domain="goods"}更新{/t}</button>
 							<!-- {else} -->
-							<button class="btn btn-gebo" type="submit">{lang key='system::system.button_submit'}</button>
+							<button class="btn btn-gebo" type="submit">{t domain="goods"}确定{/t}</button>
 							<!-- {/if} -->
 						</div>
 					</div>
@@ -247,22 +247,22 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#goods_info_area_img">
-							<strong>{lang key='goods::category.cat_img'}</strong>
+							<strong>{t domain="goods"}分类图片{/t}</strong>
 						</a>
 					</div>
 					<div class="accordion-body in collapse" id="goods_info_area_img">
 						<div class="accordion-inner">
-							<label>{lang key='goods::category.lab_upload_picture'}</label>
+							<label>{t domain="goods"}上传分类图片：{/t}</label>
 							<div class="ecjiaf-db">
 								<div class="fileupload {if $cat_info.category_img}fileupload-exists{else}fileupload-new{/if} m_t10" data-provides="fileupload">
 									<div class="fileupload-preview fileupload-exists thumbnail"><input type="hidden" name="old_img" value="1" />{if $cat_info.category_img}<img src="{$cat_info.category_img}" >{/if}</div>
 									<div>
 										<span class="btn btn-file">
-											<span class="fileupload-new">{lang key='goods::category.select_cat_img'}</span>
-											<span class="fileupload-exists">{lang key='goods::category.edit_cat_img'}</span>
+											<span class="fileupload-new">{t domain="goods"}选择分类图片{/t}</span>
+											<span class="fileupload-exists">{t domain="goods"}修改分类图片{/t}</span>
 											<input type="file" name="cat_img" />
 										</span>
-										<a class="btn fileupload-exists" {if $cat_info.category_img eq ''} data-dismiss="fileupload" href="javascript:;"  {else} data-toggle="removefile" data-msg="{lang key='goods::category.drop_cat_img_confirm'}" data-href='{url path="goods/admin_category/remove_logo" args="cat_id={$cat_info.cat_id}"}' data-removefile="true"{/if}>{lang key='system::system.drop'}</a>
+										<a class="btn fileupload-exists" {if $cat_info.category_img eq ''} data-dismiss="fileupload" href="javascript:;"  {else} data-toggle="removefile" data-msg="{t domain="goods"}您确定要删除该分类图片吗？{/t}" data-href='{url path="goods/admin_category/remove_logo" args="cat_id={$cat_info.cat_id}"}' data-removefile="true"{/if}>{t domain="goods"}删除{/t}</a>
 									</div>
 								</div>
 							</div>
@@ -275,31 +275,31 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#goods_info_area_tvimg">
-							<strong>分类广告</strong>
+							<strong>{t domain="goods"}分类广告{/t}</strong>
 						</a>
 					</div>
 					<div class="accordion-body in in_visable collapse" id="goods_info_area_tvimg">
 						<div class="accordion-inner">
-						    <div class="control-group">当前广告位：<br/>
+						    <div class="control-group">{t domain="goods"}当前广告位：{/t}<br/>
 						    <span class="m_t5 ecjiaf-ib">
 						    <!-- {if $category_ad.position_id} -->
 						    {$category_ad.position_name}
-						    <a class="ajaxremove ecjiafc-red m_l10" data-toggle="ajaxremove" data-msg="您确定要移除此分类广告么？" href='{url path="goods/admin_category/remove_ad" args="cat_id={$cat_info.cat_id}"}'>移除</a>
-						    {else}未设置{/if}
+						    <a class="ajaxremove ecjiafc-red m_l10" data-toggle="ajaxremove" data-msg="{t domain="goods"}您确定要移除此分类广告么？{/t}" href='{url path="goods/admin_category/remove_ad" args="cat_id={$cat_info.cat_id}"}'>{t domain="goods"}移除{/t}</a>
+						    {else}{t domain="goods"}未设置{/t}{/if}
 						    </span>
 						    </div>
 							<!-- <label>请选择一个广告位，作为您的分类广告</label> -->
 							<div class="control-group">
 							    <input type='text' name='ad_search' class='keywords'/>
-    							<input type='button' class='btn ad_search' value="{lang key='mobile::mobile.search'}" data-url="{url path='goods/admin_category/search_ad'}"/>
-    							<span class="help-block" style="margin-top: 5px;">请先搜索并选择一个广告位作为此分类广告</span>
+    							<input type='button' class='btn ad_search' value="{t domain="goods"}搜索{/t}" data-url="{url path='goods/admin_category/search_ad'}"/>
+    							<span class="help-block" style="margin-top: 5px;">{t domain="goods"}请先搜索并选择一个广告位作为此分类广告{/t}</span>
 							</div>
 							<div class="control-group ">
     							<select name='category_ad' class="ad_list">
     								<!-- {if $category_ad.position_id} -->
     									<option value="{$category_ad.position_id}">{$category_ad.position_name}</option>
     								<!-- {else} -->
-    									<option value='-1'>请先搜索再选择</option>
+    									<option value='-1'>{t domain="goods"}请先搜索再选择{/t}</option>
     								<!-- {/if} -->
     							</select>
     						</div>

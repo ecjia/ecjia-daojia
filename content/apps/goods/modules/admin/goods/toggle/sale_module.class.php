@@ -67,7 +67,7 @@ class admin_goods_toggle_sale_module extends api_admin implements api_interface 
 		$id 	= explode(',', $id);
 		$type	= $this->requestData('type');//online 上架;offline下架
 		if (empty($id) || empty($type)) {
-			return new ecjia_error('invalid_parameter', '参数错误');
+			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}
 		$on_sale = $type == 'online' ? 1 : 0;
 		
@@ -86,12 +86,12 @@ class admin_goods_toggle_sale_module extends api_admin implements api_interface 
 		foreach ($id as $val) {
 			$goods_name = $db_goods->where(array('goods_id' => $val))->get_field('goods_name');
 			if ($on_sale == '1') {
-			    $action = '上架商品，'.$goods_name;
+			    $action =__( '上架商品，', 'goods').$goods_name;
 			} else {
-			    $action = '下架商品，'.$goods_name;
+			    $action = __('下架商品，', 'goods').$goods_name;
 			}
 			if ($_SESSION['store_id'] > 0) {
-			    RC_Api::api('merchant', 'admin_log', array('text' => $action.'【来源掌柜】', 'action' => 'setup', 'object' => 'goods'));
+			    RC_Api::api('merchant', 'admin_log', array('text' => $action.__('【来源掌柜】', 'goods'), 'action' => 'setup', 'object' => 'goods'));
 			} 
 		}
 		

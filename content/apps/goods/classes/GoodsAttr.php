@@ -1,4 +1,5 @@
 <?php
+
 //
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
@@ -44,14 +45,96 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
-
 /**
- * ECJIA 应用语言包
+ * Created by PhpStorm.
+ * User: Administrator
+ * Date: 19/2/21 021
+ * Time: 9:54
  */
-return array(
-	'goods' 		=> '商品',
-	'goods_desc'	=> '更好地实现商家的经营目标必少不了管理，商品管理应用坚持了以个零售商从分析用户的需求入手，以明亮简洁、大气的视觉界面及效果让商家对商品管理应用及功能一目了然；应用对商品添加、商品管理、商品组合、商品关联、商品类型、商品分类、虚拟商品，以及商品相关评论、库存商品和其他给管理带来便捷操作的功能作出全面的整理和计划，并整合了与会员应用、订单应用实现连接，达成了强强联合的管理连贯。通过高效的管理应用，保证在最佳的时间、将最合适的数量、价格、活动等按正确的价格向顾客提供商品，同时达到既定的经济效益指标。'
-);
+namespace Ecjia\App\Goods;
 
-// end
+class GoodsAttr {
+
+
+    public function __construct()
+    {}
+
+
+    //能否进行检索 数组
+    public static function getAttrIndex() {
+        $indexArr = [
+            0 => __('不需要检索', 'goods'),
+            1 => __('关键字检索', 'goods'),
+            2 => __('范围检索', 'goods'),
+        ];
+
+        return $indexArr;
+
+    }
+
+    //能否进行检索 名称
+    public static function getAttrIndexLabel($indexValue) {
+        $indexArr = self::getAttrIndex();
+
+        if(! array_key_exists($indexValue, $indexArr)) {
+            return __('未知', 'goods');
+        }
+
+        return array_get($indexArr, $indexValue);
+
+    }
+
+
+
+    //属性是否可选 数组
+    public static function getAttrType() {
+        $typeArr = [
+            0 => __('唯一属性', 'goods'),
+            1 => __('单选属性', 'goods'),
+            2 => __('复选属性', 'goods'),
+        ];
+
+        return $typeArr;
+
+    }
+
+    //属性是否可选 名称
+    public static function getAttrTypeLabel($typeValue) {
+        $typeArr = self::getAttrType();
+
+        if(! array_key_exists($typeValue, $typeArr)) {
+            return __('未知', 'goods');
+        }
+
+        return array_get($typeArr, $typeValue);
+
+    }
+
+    //属性值的录入方式 数组
+    public static function getAttrInputType() {
+        $typeArr = [
+            ATTR_TEXT     => __('手工录入', 'goods'),
+            ATTR_OPTIONAL => __('从下面的列表中选择（一行代表一个可选值）', 'goods'),
+            ATTR_TEXTAREA => __('多行文本框', 'goods'),
+        ];
+
+        return $typeArr;
+
+    }
+
+    //属性值的录入方式 名称
+    public static function getAttrInputTypeLabel($inputTypeValue) {
+        $typeArr = self::getAttrInputType();
+        $typeArr[ATTR_OPTIONAL] = '从列表中选择';
+
+        if(! array_key_exists($inputTypeValue, $typeArr)) {
+            return __('未知', 'goods');
+        }
+
+        return array_get($typeArr, $inputTypeValue);
+
+    }
+
+
+}
+

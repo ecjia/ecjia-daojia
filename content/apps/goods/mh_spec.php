@@ -65,10 +65,10 @@ class mh_spec extends ecjia_merchant {
 		RC_Style::enqueue_style('bootstrap-editable-css', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/x-editable/bootstrap-editable/css/bootstrap-editable.css', array(), false, false);
 		
 		RC_Script::enqueue_script('goods_attribute', RC_App::apps_url('statics/js/merchant_goods_attribute.js', __FILE__) , array() , false, true);
-		RC_Script::localize_script('goods_attribute', 'js_lang', RC_Lang::get('goods::goods.js_lang'));
+        RC_Script::localize_script('goods_attribute', 'js_lang', config('app-goods::jslang.attribute_page'));
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('商品管理', RC_Uri::url('goods/merchant/init')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods_spec.goods_spec_list'), RC_Uri::url('goods/mh_spec/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品管理', 'goods'), RC_Uri::url('goods/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品规格列表', 'goods'), RC_Uri::url('goods/mh_spec/init')));
 		ecjia_merchant_screen::get_current_screen()->set_parentage('goods', 'goods/mh_spec.php');
 	}
 	
@@ -79,16 +79,16 @@ class mh_spec extends ecjia_merchant {
 		$this->admin_priv('goods_type');
 
 		ecjia_merchant_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods_spec.goods_spec_list')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品规格列表', 'goods')));
 		ecjia_merchant_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('goods::goods_spec.overview'),
-			'content'	=> '<p>' . RC_Lang::get('goods::goods_spec.goods_type_help') . '</p>'
+			'title'		=> __('概述', 'goods'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台商品规格列表页面，系统中所有的商品规格都会显示在此列表中。', 'goods') . '</p>'
 		));
 		
 		ecjia_merchant_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('goods::goods_spec.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E5.95.86.E5.93.81.E7.B1.BB.E5.9E.8B.E5.88.97.E8.A1.A8" target="_blank">'. RC_Lang::get('goods::goods_spec.about_goods_type') .'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：', 'goods') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E5.95.86.E5.93.81.E7.B1.BB.E5.9E.8B.E5.88.97.E8.A1.A8" target="_blank">关于商品规格列表帮助文档</a>', 'goods') . '</p>'
 		);
 		
 		$type = !empty($_GET['type']) ? $_GET['type'] : '';
@@ -97,8 +97,8 @@ class mh_spec extends ecjia_merchant {
 		$this->assign('goods_type_list',	$goods_type_list);
 		$this->assign('filter',				$goods_type_list['filter']);
 
-		$this->assign('ur_here',          	RC_Lang::get('goods::goods_spec.goods_spec_list'));
-		$this->assign('action_link',      	array('text' => RC_Lang::get('goods::goods_spec.add_goods_spec'), 'href' => RC_Uri::url('goods/mh_spec/add')));
+		$this->assign('ur_here',          	__('商品规格列表', 'goods'));
+		$this->assign('action_link',      	array('text' => __('添加商品规格', 'goods'), 'href' => RC_Uri::url('goods/mh_spec/add')));
 		$this->assign('form_search',  		RC_Uri::url('goods/mh_spec/init'));
 		
 		$this->display('goods_type_list.dwt');
@@ -110,20 +110,20 @@ class mh_spec extends ecjia_merchant {
 	public function add() {
 		$this->admin_priv('goods_type_update');
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods_spec.add_goods_spec')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加商品规格', 'goods')));
 		ecjia_merchant_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('goods::goods_spec.overview'),
-			'content'	=> '<p>' . RC_Lang::get('goods::goods_spec.add_type_help') . '</p>'
+			'title'		=> __('概述', 'goods'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台添加商品规格页面，可以在此页面添加商品规格信息。', 'goods') . '</p>'
 		));
 		
 		ecjia_merchant_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('goods::goods_spec.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB.E5.8A.A0.E5.95.86.E5.93.81.E7.B1.BB.E5.9E.8B" target="_blank">'. RC_Lang::get('goods::goods_spec.about_add_type') .'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：', 'goods') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB.E5.8A.A0.E5.95.86.E5.93.81.E7.B1.BB.E5.9E.8B" target="_blank">关于添加商品规格帮助文档</a>') . '</p>'
 		);
 		
-		$this->assign('ur_here', RC_Lang::get('goods::goods_spec.add_goods_spec'));
-		$this->assign('action_link', array('href'=>	RC_Uri::url('goods/mh_spec/init'), 'text' => RC_Lang::get('goods::goods_spec.goods_spec_list')));
+		$this->assign('ur_here', __('添加商品规格', 'goods'));
+		$this->assign('action_link', array('href'=>	RC_Uri::url('goods/mh_spec/init'), 'text' => __('商品规格列表', 'goods')));
 		
 		$this->assign('action', 'add');
 		$this->assign('goods_type', array('enabled' => 1));
@@ -142,18 +142,18 @@ class mh_spec extends ecjia_merchant {
 		
 		$count = RC_DB::table('goods_type')->where('cat_name', $goods_type['cat_name'])->where('store_id', $goods_type['store_id'])->count();
 		if ($count > 0 ){
-			return $this->showmessage(RC_Lang::get('goods::goods_spec.repeat_type_name'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('已经存在一个同名的商品规格。', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 			$cat_id = RC_DB::table('goods_type')->insertGetId($goods_type);
 			
 			if ($cat_id) {
 				$links = array(
-					array('href' => RC_Uri::url('goods/mh_spec/init'), 'text' => RC_Lang::get('goods::goods_spec.back_list')), 
-					array('href' => RC_Uri::url('goods/mh_spec/add'), 'text' => RC_Lang::get('goods::goods_spec.continue_add'))
+					array('href' => RC_Uri::url('goods/mh_spec/init'), 'text' => __('返回商品规格列表', 'goods')),
+					array('href' => RC_Uri::url('goods/mh_spec/add'), 'text' => __('继续添加商品规格', 'goods'))
 				);
-				return $this->showmessage(RC_Lang::get('goods::goods_spec.add_goodstype_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/mh_spec/edit', array('cat_id' => $cat_id)), 'links' => $links));
+				return $this->showmessage(__('添加商品规格成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/mh_spec/edit', array('cat_id' => $cat_id)), 'links' => $links));
 			} else {
-				return $this->showmessage(RC_Lang::get('goods::goods_spec.add_goodstype_failed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('添加商品规格失败', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 	}
@@ -164,25 +164,25 @@ class mh_spec extends ecjia_merchant {
 	public function edit() {
 		$this->admin_priv('goods_type_update');
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::goods_spec.edit_goods_spec')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑商品规格', 'goods')));
 		
 		$goods_type = get_merchant_goods_type_info(intval($_GET['cat_id']));
 		if (empty($goods_type)) {
-			return $this->showmessage('没有找到指定的商品类型', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('没有找到指定的商品类型', 'goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
 		}
 		ecjia_merchant_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('goods::goods_spec.overview'),
-			'content'	=> '<p>' . RC_Lang::get('goods::goods_spec.edit_type_help') . '</p>'
+			'title'		=> __('概述', 'goods'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台编辑商品规格页面，可以在此页面编辑商品规格信息。', 'goods') . '</p>'
 		));
 		
 		ecjia_merchant_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('goods::goods_spec.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E7.BC.96.E8.BE.91.E5.95.86.E5.93.81.E7.B1.BB.E5.9E.8B" target="_blank">'. RC_Lang::get('goods::goods_spec.about_edit_type') .'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：', 'goods') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E7.BC.96.E8.BE.91.E5.95.86.E5.93.81.E7.B1.BB.E5.9E.8B" target="_blank">关于编辑商品规格帮助文档</a>', 'goods') . '</p>'
 		);
 	
-		$this->assign('ur_here', RC_Lang::get('goods::goods_spec.edit_goods_spec'));
-		$this->assign('action_link', array('href'=>RC_Uri::url('goods/mh_spec/init'), 'text' => RC_Lang::get('goods::goods_spec.goods_spec_list')));
+		$this->assign('ur_here', __('编辑商品规格', 'goods'));
+		$this->assign('action_link', array('href'=>RC_Uri::url('goods/mh_spec/init'), 'text' => __('商品规格列表', 'goods')));
 		$this->assign('goods_type', $goods_type);
 		$this->assign('form_action', RC_Uri::url('goods/mh_spec/update'));
 		
@@ -223,9 +223,9 @@ class mh_spec extends ecjia_merchant {
 					}
 				}
 			}
-			return $this->showmessage(RC_Lang::get('goods::goods_spec.edit_goodstype_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/mh_spec/edit', array('cat_id' => $cat_id))));
+			return $this->showmessage(__('编辑商品规格成功。', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/mh_spec/edit', array('cat_id' => $cat_id))));
 		} else {
-			return $this->showmessage(RC_Lang::get('goods::goods_spec.repeat_type_name'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('已经存在一个同名的商品规格。', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 	
@@ -246,9 +246,9 @@ class mh_spec extends ecjia_merchant {
 				RC_DB::table('attribute')->whereIn('attr_id', $arr)->delete();
 				RC_DB::table('goods_attr')->whereIn('attr_id', $arr)->delete();
 			}
-			return $this->showmessage(RC_Lang::get('goods::goods_spec.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+			return $this->showmessage(__('删除成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 		} else {
-			return $this->showmessage(RC_Lang::get('goods::goods_spec.remove_failed'),  ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => RC_Lang::get('goods::goods_spec.remove_failed')));
+			return $this->showmessage(__('删除失败', 'goods'),  ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => __('删除失败', 'goods')));
 		}
 	}
 
@@ -268,12 +268,12 @@ class mh_spec extends ecjia_merchant {
 				RC_DB::table('goods_type')->where('cat_id', $type_id)->where('store_id', $_SESSION['store_id'])->update(array('cat_name' => $type_name));
 				
 				ecjia_merchant::admin_log($type_name, 'edit', 'goods_type');
-				return $this->showmessage(RC_Lang::get('goods::goods_spec.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => stripslashes($type_name)));
+				return $this->showmessage(__('编辑成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => stripslashes($type_name)));
 			} else {
-				return $this->showmessage(RC_Lang::get('goods::goods_spec.repeat_type_name'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('已经存在一个同名的商品规格。', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		} else {
-			return $this->showmessage(RC_Lang::get('goods::goods_spec.type_name_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('商品规格名称不能为空！', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 	

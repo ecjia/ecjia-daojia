@@ -58,7 +58,7 @@ class admin_goods_list_module extends api_admin implements api_interface {
 			return new ecjia_error(100, 'Invalid session');
 		}
 		if (!$this->admin_priv('goods_manage')) {
-			return new ecjia_error('privilege_error', '对不起，您没有执行此项操作的权限！');
+			return new ecjia_error('privilege_error', __('对不起，您没有执行此项操作的权限！', 'goods'));
 		}
 
 		$on_sale	= $this->requestData('on_sale');//true.在售, false.下架

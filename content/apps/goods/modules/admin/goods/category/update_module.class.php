@@ -63,7 +63,7 @@ class admin_goods_category_update_module extends api_admin implements api_interf
 		}
     	
     	if (!empty($_SESSION['staff_id'])) {
-    		return new ecjia_error('priv_error', '您无权对此分类进行操作！');
+    		return new ecjia_error('priv_error', __('您无权对此分类进行操作！', 'goods'));
     	}
     	
     	$cat_id			= $this->requestData('category_id');
@@ -72,7 +72,7 @@ class admin_goods_category_update_module extends api_admin implements api_interf
     	$is_show		= $this->requestData('is_show', 1);
     	
     	if (empty($cat_id)) {
-    	    return new ecjia_error('invalid_parameter', '参数错误');
+    	    return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	
     	$cat = array(
@@ -84,7 +84,7 @@ class admin_goods_category_update_module extends api_admin implements api_interf
     	if ($parent_id) {
     	    $children = RC_Model::model('goods/category_model')->where(array('parent_id' => $cat_id))->get_field('cat_id', true);
     	    if (is_array($children) && in_array($parent_id, $children)) {
-    	        return new ecjia_error('category_error', '上级分类不能为自己的子类');
+    	        return new ecjia_error('category_error', __('上级分类不能为自己的子类', 'goods'));
     	    }
     	}
     	
@@ -103,14 +103,14 @@ class admin_goods_category_update_module extends api_admin implements api_interf
     	 
     	// 记录管理员操作
     	if ($_SESSION['store_id'] > 0) {
-    	    RC_Api::api('merchant', 'admin_log', array('text' => $category_name.'【来源掌柜】', 'action' => 'edit', 'object' => 'category'));
+    	    RC_Api::api('merchant', 'admin_log', array('text' => $category_name.__('【来源掌柜】', 'goods'), 'action' => 'edit', 'object' => 'category'));
     	} 
     	RC_Cache::app_cache_delete('cat_list', 'goods');
     	 
     	$category_info = RC_Model::model('goods/category_model')->where(array('cat_id' => $cat_id))->find();
     	 
     	if (empty($category_info)) {
-    		return new ecjia_error('category_empty', '未找到对应分类！');
+    		return new ecjia_error('category_empty', __('未找到对应分类！', 'goods'));
     	}
     	 
     	$category_detail = array(

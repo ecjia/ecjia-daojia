@@ -59,7 +59,7 @@ class goods_filter_module extends api_front implements api_interface {
 		$cat_id = $this->requestData('category_id', 0);
 		
 		if ($cat_id <= 0 ) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}
 		$cache_key = 'api_goods_filter_'.$cat_id.'_'.ecjia::config('lang');
 		$filter_array = RC_Cache::app_cache_get($cache_key, 'goods');

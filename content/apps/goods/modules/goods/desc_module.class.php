@@ -59,12 +59,12 @@ class goods_desc_module extends api_front implements api_interface {
     	
 		RC_Loader::load_app_func('admin_goods', 'goods');
 		if ($goods_id < 1) {
-		    return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+		    return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}
         $goods = get_goods_info($goods_id);
         if ($goods === false) {
         	/* 如果没有找到任何记录则跳回到首页 */
-        	return new ecjia_error('does not exist', '不存在的信息');
+        	return new ecjia_error('does not exist', __('不存在的信息', 'goods'));
         } else {
         	$goods = str_replace('\\"', '"', $goods);
         	$data = $goods;

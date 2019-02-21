@@ -40,7 +40,7 @@
 			
 			{if $step && !$img_list}
 				<div class="t_c m_t10 m_b10">
-					<button class="btn btn-info complete m_l5" data-url='{if $code}{url path="goods/merchant/init" args="extension_code={$code}"}{else}{url path="goods/merchant/init"}{/if}'>{lang key='goods::goods.complete'}</button>
+					<button class="btn btn-info complete m_l5" data-url='{if $code}{url path="goods/merchant/init" args="extension_code={$code}"}{else}{url path="goods/merchant/init"}{/if}'>{t domain="goods"}完成{/t}</button>
 					<input type="hidden" name="step" value="{$step}" />
 				</div>
 			{/if}
@@ -51,7 +51,7 @@
 {if $img_list}
 <div class="page-header">
 	<div class="pull-left">
-		<h2>{lang key='goods::goods.tab_gallery'}<small>{lang key='goods::goods.goods_photo_notice'}</small></h2>
+		<h2>{t domain="goods"}商品相册{/t}<small>{t domain="goods"}（编辑、排序、删除）{/t}</small></h2>
 	</div>
 	<div class="clearfix"></div>
 </div>
@@ -63,7 +63,7 @@
 			<div class="panel-body">
 				<div class="{if !$img_list} hide{/if}">
 					<div class="goods-photo-list">
-						<div class="m_b20"><span class="help-inline">{lang key='goods::goods.goods_photo_help'}</span></div>
+						<div class="m_b20"><span class="help-inline">{t domain="goods"}排序后请点击“保存排序”{/t}</span></div>
 						<div class="wmk_grid ecj-wookmark wookmark_list">
 							<ul class="wookmark-goods-photo move-mod nomove p_l5">
 								<!-- {foreach from=$img_list item=img} -->
@@ -78,12 +78,12 @@
 										</div>
 									</div>
 									<p>
-										<a href="javascript:;" title="{lang key='goods::goods.cancel'}" data-toggle="sort-cancel" style="display:none;"><i class="glyphicon glyphicon-remove"></i></a>
-										<a href="javascript:;" title="{lang key='goods::goods.save'}" data-toggle="sort-ok" data-imgid="{$img.img_id}" data-saveurl="{url path='goods/mh_gallery/update_image_desc'}" style="display:none;"><i class="glyphicon glyphicon-ok"></i></a>
-										<a class="ajaxremove" data-imgid="{$img.img_id}" data-toggle="ajaxremove" data-msg="{lang key='goods::goods.drop_photo_confirm'}" href='{url path="goods/mh_gallery/drop_image" args="img_id={$img.img_id}&goods_id={$smarty.get.goods_id}"}' title="{lang key='system::system.remove'}"><i class="glyphicon glyphicon-trash"></i></a>
-										<a class="move-mod-head" href="javascript:void(0)" title="{lang key='goods::goods.move'}"><i class="glyphicon glyphicon-move"></i></a>
-										<a href="javascript:;" title="{lang key='system::system.edit'}" data-toggle="edit"><i class="glyphicon glyphicon-pencil"></i></a>
-										<span class="edit_title">{if $img.img_desc}{$img.img_desc}{else}{lang key='goods::goods.no_title'}{/if}</span>
+										<a href="javascript:;" title="{t domain="goods"}取消{/t}" data-toggle="sort-cancel" style="display:none;"><i class="glyphicon glyphicon-remove"></i></a>
+										<a href="javascript:;" title="{t domain="goods"}保存{/t}" data-toggle="sort-ok" data-imgid="{$img.img_id}" data-saveurl="{url path='goods/mh_gallery/update_image_desc'}" style="display:none;"><i class="glyphicon glyphicon-ok"></i></a>
+										<a class="ajaxremove" data-imgid="{$img.img_id}" data-toggle="ajaxremove" data-msg="{t domain="goods"}您确定要删除这张相册图片吗？{/t}" href='{url path="goods/mh_gallery/drop_image" args="img_id={$img.img_id}&goods_id={$smarty.get.goods_id}"}' title="{t domain="goods"}删除{/t}"><i class="glyphicon glyphicon-trash"></i></a>
+										<a class="move-mod-head" href="javascript:void(0)" title="{t domain="goods"}移动{/t}"><i class="glyphicon glyphicon-move"></i></a>
+										<a href="javascript:;" title="{t domain="goods"}编辑{/t}" data-toggle="edit"><i class="glyphicon glyphicon-pencil"></i></a>
+										<span class="edit_title">{if $img.img_desc}{$img.img_desc}{else}{t domain="goods"}无标题{/t}{/if}</span>
 									</p>
 								</li>
 								<!-- {/foreach} -->
@@ -94,14 +94,14 @@
 					
 					<div class="t_l m_t10">
 						{if $img_list}
-						<a class="btn btn-info save-sort" data-sorturl="{url path='goods/mh_gallery/sort_image'}">{lang key='goods::goods.save_sort'}</a>
+						<a class="btn btn-info save-sort" data-sorturl="{url path='goods/mh_gallery/sort_image'}">{t domain="goods"}保存排序{/t}</a>
 						{/if}
 					</div>
 				</div>
 			
 				{if $step}
 				<div class="t_c m_t10">
-					<button class="btn btn-info complete m_l5" data-url='{url path="goods/merchant/edit" args="goods_id={$goods_id}"}'>{lang key='goods::goods.complete'}</button>
+					<button class="btn btn-info complete m_l5" data-url='{url path="goods/merchant/edit" args="goods_id={$goods_id}"}'>{t domain="goods"}完成{/t}</button>
 					<input type="hidden" name="step" value="{$step}" />
 				</div>
 				{/if}

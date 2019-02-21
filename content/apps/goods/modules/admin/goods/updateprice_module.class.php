@@ -61,7 +61,7 @@ class admin_goods_updateprice_module extends api_admin implements api_interface 
 		//请求参数：
        	$goods_id				= $this->requestData('goods_id', 0);
     	if (empty($goods_id)) {
-    		return new ecjia_error('invalid_parameter', '参数错误');
+    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	//市场价格
     	$shop_price				= $this->requestData('shop_price', 0);
@@ -146,7 +146,7 @@ class admin_goods_updateprice_module extends api_admin implements api_interface 
     		
     		$goods_name = $db_goods->where(array('goods_id' => $goods_id))->get_field('goods_name');
     		if ($_SESSION['store_id'] > 0) {
-    		    RC_Api::api('merchant', 'admin_log', array('text'=>$goods_name.'【来源掌柜】', 'action'=>'edit', 'object'=>'goods'));
+    		    RC_Api::api('merchant', 'admin_log', array('text'=>$goods_name.__('【来源掌柜】', 'goods'), 'action'=>'edit', 'object'=>'goods'));
     		} 
     		
     		//为更新用户购物车数据加标记

@@ -32,7 +32,7 @@
 					{if $action eq 'edit'}
 					<ul class="nav nav-tabs">
 						<!-- {foreach from=$tags item=tag} -->
-						<li {if $tag.active} class="active"{/if}><a class="data-pjax" {if $tag.active} href="javascript:;"{else} data-toggle="alertgo" data-message="{lang key='goods::goods.discard_changes'}" href='{$tag.href}'{/if}><!-- {$tag.name} --></a></li>
+						<li {if $tag.active} class="active"{/if}><a class="data-pjax" {if $tag.active} href="javascript:;"{else} data-toggle="alertgo" data-message="{t domain="goods"}是否放弃本页面修改？{/t}" href='{$tag.href}'{/if}><!-- {$tag.name} --></a></li>
 						<!-- {/foreach} -->
 					</ul>
 					{/if}
@@ -44,30 +44,30 @@
 										<div class="ms-container goods_cat_container" id="ms-custom-navigation" data-url='{url path="goods/merchant/get_cat_list"}'>
 											<div class="ms-selectable">
 												<div class="search-header">
-													<input class="form-control" id="ms-search_zero" type="text" placeholder="请输入商品分类关键字" autocomplete="off">
+													<input class="form-control" id="ms-search_zero" type="text" placeholder="{t domain="goods"}请输入商品分类关键字{/t}" autocomplete="off">
 												</div>
 												<ul class="ms-list nav-list-ready level_0">
 													<!-- {foreach from=$cat_list item=item} -->
 													<li class="ms-elem-selectable" data-id="{$item.cat_id}" data-level="{$item.level}"><span>{$item.cat_name}</span></li>
 													<!-- {foreachelse} -->
-													<li class="ms-elem-selectable disabled"><span>暂无内容</span></li>
+													<li class="ms-elem-selectable disabled"><span>{t domain="goods"}暂无内容{/t}</span></li>
 													<!-- {/foreach} -->
 												</ul>
 											</div>
 											<div class="ms-selectable">
 												<div class="search-header">
-													<input class="form-control" id="ms-search_one" type="text" placeholder="请输入商品分类关键字" autocomplete="off">
+													<input class="form-control" id="ms-search_one" type="text" placeholder="{t domain="goods"}请输入商品分类关键字{/t}" autocomplete="off">
 												</div>
 												<ul class="ms-list nav-list-ready level_1">
-													<li class="ms-elem-selectable disabled"><span>暂无内容</span></li>
+													<li class="ms-elem-selectable disabled"><span>{t domain="goods"}暂无内容{/t}</span></li>
 												</ul>
 											</div>
 											<div class="ms-selectable">
 												<div class="search-header">
-													<input class="form-control" id="ms-search_two" type="text" placeholder="请输入商品分类关键字" autocomplete="off">
+													<input class="form-control" id="ms-search_two" type="text" placeholder="{t domain="goods"}请输入商品分类关键字{/t}" autocomplete="off">
 												</div>
 												<ul class="ms-list nav-list-ready level_2">
-													<li class="ms-elem-selectable disabled"><span>暂无内容</span></li>
+													<li class="ms-elem-selectable disabled"><span>{t domain="goods"}暂无内容{/t}</span></li>
 												</ul>
 											</div>
 										</div>
@@ -80,10 +80,10 @@
 								<input type="hidden" name="goods_id" value="{$goods_id}" />
 								<input type="hidden" name="cat_id" />
 								{if $step}
-								<button class="btn btn-info next_step" disabled type="button" data-url='{url path="goods/merchant/add"}'>{lang key='goods::goods.next_step'}</button>
+								<button class="btn btn-info next_step" disabled type="button" data-url='{url path="goods/merchant/add"}'>{t domain="goods"}下一步{/t}</button>
 								<input type="hidden" name="step" value="{$step}" />
 								{else}
-								<button class="btn btn-info" type="submit">{lang key='goods::goods.save'}</button>
+								<button class="btn btn-info" type="submit">{t domain="goods"}保存{/t}</button>
 								{/if}
 							</fieldset>
 						</div>

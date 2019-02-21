@@ -256,9 +256,9 @@ function add_merchant_link($extension_code = '') {
 		$args['extension_code'] = $extension_code;
 	}
 	if ($extension_code == 'virtual_card') {
-		$text = RC_Lang::get('system::system.51_virtual_card_add');
+		$text = __('添加虚拟商品', 'goods');
 	} else {
-		$text = RC_Lang::get('system::system.02_goods_add');
+		$text = __('添加商品', 'goods');
 	}
 	return array(
 			'href' => RC_Uri::url($pathinfo, $args),
@@ -290,9 +290,9 @@ function list_merchant_link($extension_code = '') {
 		$args['extension_code'] = $extension_code;
 	}
 	if ($extension_code == 'virtual_card') {
-		$text = RC_Lang::get('system::system.50_virtual_card_list');
+		$text = __('虚拟商品列表', 'goods');
 	} else {
-		$text = RC_Lang::get('system::system.01_goods_list');
+		$text = __('商品列表', 'goods');
 	}
 
 	return array(

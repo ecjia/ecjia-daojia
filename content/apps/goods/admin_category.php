@@ -73,10 +73,10 @@ class admin_category extends ecjia_admin {
 		// RC_Script::enqueue_script('ecjia-common');
 		
 		RC_Script::enqueue_script('goods_category_list', RC_App::apps_url('statics/js/goods_category_list.js',__FILE__), array());
-		RC_Script::localize_script('goods_category_list', 'js_lang', RC_Lang::get('goods::goods.js_lang'));
+		RC_Script::localize_script('goods_category_list', 'js_lang', config('app-goods::jslang.category_page'));
 		RC_Style::enqueue_style('goods_category', RC_App::apps_url('statics/styles/goods_category.css', __FILE__), array());
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::category.goods_category'), RC_Uri::url('goods/admin_category/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品分类', 'goods'), RC_Uri::url('goods/admin_category/init')));
 	}
 
 	/**
@@ -85,19 +85,19 @@ class admin_category extends ecjia_admin {
 	public function init() {
 		$this->admin_priv('category_manage');
 		
-		$this->assign('ur_here', RC_Lang::get('goods::category.goods_category'));
+		$this->assign('ur_here', __('商品分类', 'goods'));
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__(RC_Lang::get('goods::category.goods_category'))));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品分类', 'goods')));
 
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('goods::category.overview'),
-			'content'	=> '<p>' . RC_Lang::get('goods::category.goods_category_help') . '</p>'
+			'title'		=> __('概述', 'goods'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台商品分类列表页面，系统中所有的商品分类都会显示在此列表中，列表中切换分类是否显示可切换前台商品分类的显示与隐藏。', 'goods') . '</p>'
 		));
-		
+
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('goods::category.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品分类#.E5.95.86.E5.93.81.E5.88.86.E7.B1.BB.E5.88.97.E8.A1.A8" target="_blank">'. RC_Lang::get('goods::category.about_goods_category') .'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：', 'goods') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品分类#.E5.95.86.E5.93.81.E5.88.86.E7.B1.BB.E5.88.97.E8.A1.A8" target="_blank">关于商品分类列表帮助文档</a>', 'goods') . '</p>'
 		);
 		
 		$cat_id = !empty($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
@@ -110,7 +110,7 @@ class admin_category extends ecjia_admin {
 		$cat_info = get_cat_info($cat_id);
 		if (!empty($cat_info)) {
 			ecjia_screen::get_current_screen()->remove_last_nav_here();
-			ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::category.goods_category'), RC_Uri::url('goods/admin_category/init')));
+			ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品分类', 'goods'), RC_Uri::url('goods/admin_category/init')));
 			
 			$cat_html = $this->get_cat_html($cat_id);
 			ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($cat_html));
@@ -121,14 +121,14 @@ class admin_category extends ecjia_admin {
 			}
 			$this->assign('back_link', array('href' => RC_Uri::url('goods/admin_category/init', $arr), 'text' => '上级分类'));
 		} else {
-			$this->assign('exchange_link', array('href' => RC_Uri::url('goods/admin_category/move'), 'text' => RC_Lang::get('goods::category.move_goods')));
+			$this->assign('exchange_link', array('href' => RC_Uri::url('goods/admin_category/move'), 'text' => __('转移商品', 'goods')));
 		}
 
 		$add_arr = array();
 		if (!empty($cat_id)) {
 			$add_arr = array('parent_id' => $cat_id);
 		}
-		$this->assign('action_link', array('href' => RC_Uri::url('goods/admin_category/add', $add_arr), 'text' => RC_Lang::get('goods::category.add_goods_cat')));
+		$this->assign('action_link', array('href' => RC_Uri::url('goods/admin_category/add', $add_arr), 'text' => __('添加商品分类', 'goods')));
 		
 		$this->display('category_list.dwt');
 	}
@@ -142,20 +142,20 @@ class admin_category extends ecjia_admin {
 	    $parent_id = !empty($_GET['parent_id']) ? intval($_GET['parent_id']) : 0;
 		RC_Script::enqueue_script('goods_category_list', RC_App::apps_url('statics/js/goods_category_info.js',__FILE__), array(), false, false);
 
-		$this->assign('ur_here', RC_Lang::get('goods::category.add_goods_cat'));
+		$this->assign('ur_here', __('添加商品分类', 'goods'));
 		$action_link_arr = array();
 		if (!empty($parent_id)) {
 			$action_link_arr = array('cat_id' => $parent_id);
 			
 			ecjia_screen::get_current_screen()->remove_last_nav_here();
-			ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::category.goods_category'), RC_Uri::url('goods/admin_category/init')));
+			ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品分类', 'goods'), RC_Uri::url('goods/admin_category/init')));
 			
 			$cat_html = $this->get_cat_html($parent_id, '', 'add');
 			ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($cat_html));	
 		} else {
-			ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::category.add_goods_cat')));
+			ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加商品分类', 'goods')));
 		}
-		$this->assign('action_link', array('href' => RC_Uri::url('goods/admin_category/init', $action_link_arr), 'text' => RC_Lang::get('goods::category.goods_category')));
+		$this->assign('action_link', array('href' => RC_Uri::url('goods/admin_category/init', $action_link_arr), 'text' => __('商品分类', 'goods')));
 		
 		$this->assign('goods_type_list', goods_type_list(0)); // 取得商品类型
 		$this->assign('attr_list', get_category_attr_list()); // 取得商品属性
@@ -187,11 +187,11 @@ class admin_category extends ecjia_admin {
 		$cat['filter_attr']  = !empty($_POST['filter_attr'])  ? implode(',', array_unique(array_diff($_POST['filter_attr'], array(0)))) : 0;
 
 		if (cat_exists($cat['cat_name'], $cat['parent_id'])) {
-		    return $this->showmessage(RC_Lang::get('goods::category.catname_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		    return $this->showmessage(__('已存在相同的分类名称！', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		if ($cat['grade'] > 10 || $cat['grade'] < 0) {
-			return $this->showmessage(RC_Lang::get('goods::category.grade_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('价格分级数量只能是0-10之内的整数', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		/* 上传分类图片 */
@@ -249,10 +249,10 @@ class admin_category extends ecjia_admin {
             	$url_back = array('cat_id' => $cat['parent_id']);
             }
 			/*添加链接*/
-            $link[0]['text'] = RC_Lang::get('goods::category.back_list');
+            $link[0]['text'] = __('返回分类列表', 'goods');
             $link[0]['href'] = RC_Uri::url('goods/admin_category/init', $url_back);
             
-			$link[1]['text'] = RC_Lang::get('goods::category.continue_add');
+			$link[1]['text'] = __('继续添加分类', 'goods');
 			$link[1]['href'] = RC_Uri::url('goods/admin_category/add', $url_add);
 			RC_Cache::app_cache_delete('admin_category_list', 'goods');
 			
@@ -264,7 +264,7 @@ class admin_category extends ecjia_admin {
 			$category_db->delete_cache_item($cache_key);
 			
 			$pjaxurl = RC_Uri::url('goods/admin_category/edit', array('cat_id' => $cat_id));
-			return $this->showmessage(RC_Lang::get('goods::category.catadd_succed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $link, 'pjaxurl' => $pjaxurl));
+			return $this->showmessage(__('新商品分类添加成功！', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $link, 'pjaxurl' => $pjaxurl));
 		}
 	}
 
@@ -307,25 +307,25 @@ class admin_category extends ecjia_admin {
 		$this->assign('attr_list', $attr_list); // 取得商品属性
 		$this->assign('attr_cat_id', $attr_cat_id);
 
-		$this->assign('ur_here', RC_Lang::get('goods::category.category_edit'));
+		$this->assign('ur_here', __('编辑商品分类', 'goods'));
 		
 		if (!empty($cat_id)) {
 			$action_link_arr = array('cat_id' => $cat_id);
 				
 			ecjia_screen::get_current_screen()->remove_last_nav_here();
-			ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::category.goods_category'), RC_Uri::url('goods/admin_category/init')));
+			ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品分类', 'goods'), RC_Uri::url('goods/admin_category/init')));
 				
 			$cat_html = $this->get_cat_html($cat_id, '');
 			ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($cat_html));
 		} else {
-			ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::category.category_edit')));
+			ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑商品分类', 'goods')));
 		}
 		
 		$arr = array();
 		if (!empty($cat_info['parent_id'])) {
 			$arr['cat_id'] = $cat_info['parent_id'];
 		}
-		$this->assign('action_link', array('text' => RC_Lang::get('goods::category.goods_category'), 'href' => RC_Uri::url('goods/admin_category/init', $arr)));
+		$this->assign('action_link', array('text' => __('商品分类', 'goods'), 'href' => RC_Uri::url('goods/admin_category/init', $arr)));
 
 		$res = RC_DB::table('cat_recommend')->select('recommend_type')->where('cat_id', $cat_id)->get();
 		if (!empty($res)) {
@@ -359,7 +359,7 @@ class admin_category extends ecjia_admin {
 		$category 	= empty($_REQUEST['cat']) 		? '' 	: trim($_REQUEST['cat']);
 		
 		if (cat_exists($category, $parent_id)) {
-			return $this->showmessage(RC_Lang::get('goods::category.catname_exist'));
+			return $this->showmessage(__('已存在相同的分类名称！', 'goods'));
 		} else {
 			$data = array(
 				'cat_name' 	=> $category,
@@ -396,8 +396,8 @@ class admin_category extends ecjia_admin {
 		/* 判断分类名是否重复 */
 		if ($cat['cat_name'] != $old_cat_name) {
 			if (cat_exists($cat['cat_name'], $cat['parent_id'], $cat_id)) {
-				$link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
-				return $this->showmessage(RC_Lang::get('goods::category.catname_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('links' => $link));
+				$link[] = array('text' => __('返回上一页', 'goods'), 'href' => 'javascript:history.back(-1)');
+				return $this->showmessage(__('已存在相同的分类名称！', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('links' => $link));
 			}
 		}
 
@@ -405,14 +405,14 @@ class admin_category extends ecjia_admin {
 		$children = array_keys(cat_list($cat_id, 0, false));     // 获得当前分类的所有下级分类
 		if (in_array($cat['parent_id'], $children)) {
 			/* 选定的父类是当前分类或当前分类的下级分类 */
-			$link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
-			return $this->showmessage(RC_Lang::get('goods::category.is_leaf_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('links' => $link));
+			$link[] = array('text' => __('返回上一页', 'goods'), 'href' => 'javascript:history.back(-1)');
+			return $this->showmessage(__('所选择的上级分类不能是当前分类或者当前分类的下级分类！', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('links' => $link));
 		}
 
 		if ($cat['grade'] > 10 || $cat['grade'] < 0) {
 			/* 价格区间数超过范围 */
-			$link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
-			return $this->showmessage(RC_Lang::get('goods::category.grade_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('links' => $link));
+			$link[] = array('text' => __('返回上一页', 'goods'), 'href' => 'javascript:history.back(-1)');
+			return $this->showmessage(__('价格分级数量只能是0-10之内的整数', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('links' => $link));
 		}
 		
 		/* 更新分类图片 */
@@ -510,7 +510,7 @@ class admin_category extends ecjia_admin {
 			$cache_key = sprintf('%X', crc32('category-children-'.$info['parent_id']));
 			$category_db->delete_cache_item($cache_key);
 		}
-		return $this->showmessage(RC_Lang::get('goods::category.catedit_succed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/admin_category/edit', array('cat_id' => $cat_id))));
+		return $this->showmessage(__('商品分类编辑成功！', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/admin_category/edit', array('cat_id' => $cat_id))));
 	}
 
 	/**
@@ -520,20 +520,20 @@ class admin_category extends ecjia_admin {
 		$this->admin_priv('category_move');
 
 		$cat_id = !empty($_REQUEST['cat_id']) ? intval($_REQUEST['cat_id']) : 0;
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('goods::category.move_goods')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('转移商品', 'goods')));
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('goods::category.overview'),
-			'content'	=> '<p>' . RC_Lang::get('goods::category.move_category_help') . '</p>'
+			'title'		=> __('概述', 'goods'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台转移商品分类页面，可以在此页面进行转移商品分类操作。', 'goods') . '</p>'
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('goods::category.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品分类#.E8.BD.AC.E7.A7.BB.E5.95.86.E5.93.81" target="_blank">'. RC_Lang::get('goods::category.about_move_category') .'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：', 'goods') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品分类#.E8.BD.AC.E7.A7.BB.E5.95.86.E5.93.81" target="_blank">关于转移商品分类帮助文档</a>', 'goods') . '</p>'
 		);
 		
-		$this->assign('ur_here', RC_Lang::get('goods::category.move_goods'));
-		$this->assign('action_link', array('href' => RC_Uri::url('goods/admin_category/init'), 'text' => RC_Lang::get('goods::category.goods_category')));
+		$this->assign('ur_here', __('转移商品', 'goods'));
+		$this->assign('action_link', array('href' => RC_Uri::url('goods/admin_category/init'), 'text' => __('商品分类', 'goods')));
 
 		$this->assign('cat_select', cat_list(0, $cat_id, true));
 		$this->assign('form_action', RC_Uri::url('goods/admin_category/move_cat'));
@@ -552,7 +552,7 @@ class admin_category extends ecjia_admin {
 
 		/* 商品分类不允许为空 */
 		if ($cat_id == 0 || $target_cat_id == 0) {
-			return $this->showmessage(RC_Lang::get('goods::category.cat_move_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('你没有正确选择商品分类！', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		/* 更新商品分类 */
 		$data = array('cat_id' => $target_cat_id);
@@ -563,7 +563,7 @@ class admin_category extends ecjia_admin {
 		RC_DB::table('goods')->where('cat_id', $cat_id)->update($data);
 		
 		RC_Cache::app_cache_delete('admin_category_list', 'goods');
-		return $this->showmessage(RC_Lang::get('goods::category.move_cat_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('转移商品分类已成功完成！', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 
 	/**
@@ -586,9 +586,9 @@ class admin_category extends ecjia_admin {
 			if (!empty($info['parent_id'])) {
 				$pjaxurl = RC_Uri::url('goods/admin_category/init', array('cat_id' => $info['parent_id']));
 			}
-			return $this->showmessage(RC_Lang::get('goods::category.sort_edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
+			return $this->showmessage(__('排序序号编辑成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
 		} else {
-			return $this->showmessage(RC_Lang::get('goods::category.sort_edit_fail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('排序序号编辑失败', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 
@@ -602,9 +602,9 @@ class admin_category extends ecjia_admin {
 		$val = $_POST['value'];
 		
 		if (cat_update($id, array('measure_unit' => $val))) {
-			return $this->showmessage(RC_Lang::get('goods::category.number_edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $val));
+			return $this->showmessage(__('数量单位编辑成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $val));
 		} else {
-			return $this->showmessage(RC_Lang::get('goods::category.number_edit_fail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('数量单位编辑失败', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 
@@ -619,12 +619,12 @@ class admin_category extends ecjia_admin {
 
 		if ($val > 10 || $val < 0) {
 			/* 价格区间数超过范围 */
-			return $this->showmessage(RC_Lang::get('goods::category.grade_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('价格分级数量只能是0-10之内的整数', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if (cat_update($id, array('grade' => $val))) {
-			return $this->showmessage(RC_Lang::get('goods::category.grade_edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $val));
+			return $this->showmessage(__('价格分级编辑成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $val));
 		} else {
-			return $this->showmessage(RC_Lang::get('goods::category.grade_edit_fail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('价格分级编辑失败', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 
@@ -687,9 +687,9 @@ class admin_category extends ecjia_admin {
 			$cache_key = sprintf('%X', crc32('category-children-'.$info['parent_id']));
 			$category_db->delete_cache_item($cache_key);
 			
-			return $this->showmessage(RC_Lang::get('goods::category.catdrop_succed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+			return $this->showmessage(__('商品分类删除成功！', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 		} else {
-			return $this->showmessage($cat_name .' '. RC_Lang::get('goods::category.cat_isleaf'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage($cat_name .' '. __('不是末级分类或者此分类/回收站下还存在商品，无法删除！', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 
@@ -715,7 +715,7 @@ class admin_category extends ecjia_admin {
 		$cache_key = sprintf('%X', crc32('category-'. $info['parent_id']));
 		$category_db->delete_cache_item($cache_key);
 		
-		return $this->showmessage(RC_Lang::get('goods::category.drop_cat_img_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/admin_category/edit', array('cat_id' => $cat_id))));
+		return $this->showmessage(__('删除分类图片成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/admin_category/edit', array('cat_id' => $cat_id))));
 	}
 	
 	/**
@@ -726,7 +726,7 @@ class admin_category extends ecjia_admin {
 	
 	    $cat_id = isset($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
 	    if (empty($cat_id)) {
-	        return $this->showmessage('参数错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	        return $this->showmessage(__('参数错误', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	    }
 	
 	    $info = RC_DB::table('category')->where('cat_id', $cat_id)->first();
@@ -737,7 +737,7 @@ class admin_category extends ecjia_admin {
 	    $cache_key = sprintf('%X', crc32('category-'. $info['parent_id']));
 	    $category_db->delete_cache_item($cache_key);
 	
-	    return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/admin_category/edit', array('cat_id' => $cat_id))));
+	    return $this->showmessage(__('操作成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/admin_category/edit', array('cat_id' => $cat_id))));
 	}
 	
 	public function search_ad() {
@@ -833,7 +833,7 @@ class admin_category extends ecjia_admin {
 			$i++;
 		}
 		if ($type == 'add') {
-			$html .= '<li class="last">添加商品分类</li>';
+			$html .= '<li class="last">'. __('添加商品分类', 'goods') .'</li>';
 		}
 		return $html;
 	}

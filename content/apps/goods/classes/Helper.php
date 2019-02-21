@@ -58,11 +58,11 @@ class Helper
      */
     public static function assign_adminlog_content()
     {
-        ecjia_admin_log::instance()->add_object('category_goods', '分类商品');
+        ecjia_admin_log::instance()->add_object('category_goods', __('分类商品', 'goods'));
         
-	    ecjia_admin_log::instance()->add_action('move', '转移');
-	    ecjia_admin_log::instance()->add_action('batch_start', '批量上架');
-	    ecjia_admin_log::instance()->add_action('batch_end', '批量下架');
+	    ecjia_admin_log::instance()->add_action('move', __('转移', 'goods'));
+	    ecjia_admin_log::instance()->add_action('batch_start', __('批量上架', 'goods'));
+	    ecjia_admin_log::instance()->add_action('batch_end', __('批量下架', 'goods'));
     }
 
 
@@ -74,11 +74,11 @@ class Helper
     public static function getRecommendedTypes()
     {
         $arr = array(
-            'is_best'		=> RC_Lang::get('goods::goods.is_best'),
-            'is_new'		=> RC_Lang::get('goods::goods.is_new'),
-            'is_hot'		=> RC_Lang::get('goods::goods.is_hot'),
-            'is_promote'	=> RC_Lang::get('goods::goods.is_promote'),
-            'all_type'		=> RC_Lang::get('goods::goods.all_type')
+            'is_best'		=> __('精品', 'goods'),
+            'is_new'		=> __('新品', 'goods'),
+            'is_hot'		=> __('热销', 'goods'),
+            'is_promote'	=> __('特价', 'goods'),
+            'all_type'		=> __('全部推荐', 'goods')
         );
 
         return $arr;
@@ -92,8 +92,8 @@ class Helper
     public static function getGoodsUnits()
     {
         $arr = array(
-            '1' =>		RC_Lang::get('goods::goods.unit_kg'),
-            '0.001' =>	RC_Lang::get('goods::goods.unit_g')
+            '1' =>		__('千克', 'goods'),
+            '0.001' =>	__('克', 'goods')
         );
 
         return $arr;

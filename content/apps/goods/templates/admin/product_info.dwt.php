@@ -40,9 +40,9 @@
                                     <!-- {foreach from=$attribute item=attribute_value} -->
                                     <th class="w110">{$attribute_value.attr_name}</th>
                                     <!--  {/foreach} -->
-                                    <th class="product_sn">{lang key='goods::goods.goods_sn'}</th>
-                                    <th class="w120">{lang key='goods::goods.goods_number'}</th>
-                                    <th class="w100">{lang key='system::system.handler'}</td>
+                                    <th class="product_sn">{t domain="goods"}货号{/t}</th>
+                                    <th class="w120">{t domain="goods"}库存{/t}</th>
+                                    <th class="w100">{t domain="goods"}操作{/t}</td>
                                 </tr>
                             </thead>
                             
@@ -53,16 +53,16 @@
                                     <td>{$goods_attr}</td>
                                     {/foreach}
                                     <td class="product_sn">
-	                                    <span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/admin/edit_product_sn')}" data-name="edit_product_sn" data-pk="{$product.product_id}" data-title="{lang key='goods::goods.edit_product_sn'}">
+	                                    <span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/admin/edit_product_sn')}" data-name="edit_product_sn" data-pk="{$product.product_id}" data-title="{t domain="goods"}编辑货品货号{/t}">
 	                                    {$product.product_sn}
 	                                    </span>
                                     </td>
                                     <td>
-                                    	<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/admin/edit_product_number')}" data-name="edit_product_number" data-pk="{$product.product_id}" data-title="{lang key='goods::goods.edit_product_number'}">
+                                    	<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/admin/edit_product_number')}" data-name="edit_product_number" data-pk="{$product.product_id}" data-title="{t domain="goods"}编辑货品库存{/t}">
                                     	{$product.product_number}
                                     	</span>
                                     </td>
-                                    <td><a class="ecjiafc-red ajax-remove" data-toggle="ajaxremove" data-msg="{lang key='goods::goods.trash_product_confirm'}" href='{url path="goods/admin/product_remove" args="id={$product.product_id}"}' title="{lang key='system::system.drop'}"><i class="fontello-icon-trash ecjiafc-red"></i></a></td>
+                                    <td><a class="ecjiafc-red ajax-remove" data-toggle="ajaxremove" data-msg="{t domain="goods"}您确定要把该货品删除吗？{/t}" href='{url path="goods/admin/product_remove" args="id={$product.product_id}"}' title="{t domain="goods"}删除{/t}"><i class="fontello-icon-trash ecjiafc-red"></i></a></td>
                                 </tr>
                                 {/foreach}
                                 
@@ -70,7 +70,7 @@
                                     <!-- {foreach from=$attribute item=attribute_value key=attribute_key} -->
                                     <td>
                                         <select name="attr[{$attribute_value.attr_id}][]" class="w100">
-                                            <option value="0" selected>{lang key='system::system.select_please'}</option>
+                                            <option value="0" selected>{t domain="goods"}请选择...{/t}</option>
                                             <!-- {foreach from=$attribute_value.attr_values item=value} -->
                                                 <option value="{$value}">{$value}</option>
                                             <!-- {/foreach} -->
@@ -89,9 +89,9 @@
                 <div class="t_c">
                 	{if $step}
                 	<input type="hidden" name="step" value="{$step}" />
-                	<input type="submit" name="submit" value="{lang key='goods::goods.complete'}" class="btn btn-gebo" />
+                	<input type="submit" name="submit" value="{t domain="goods"}完成{/t}" class="btn btn-gebo" />
                 	{else}
-                	<input type="submit" name="submit" value="{lang key='goods::goods.save'}" class="btn btn-gebo" />
+                	<input type="submit" name="submit" value="{t domain="goods"}保存{/t}" class="btn btn-gebo" />
                 	{/if}
                 	<input type="hidden" name="goods_id" value="{$goods_id}" />
                 	<input type="hidden" name="act" value="product_add_execute" />
@@ -105,7 +105,7 @@
                     <!-- {foreach from=$attribute item=attribute_value key=attribute_key} -->
                     <td>
                         <select name="attr[{$attribute_value.attr_id}][]" class="w100">
-                            <option value="0" selected>{lang key='system::system.select_please'}</option>
+                            <option value="0" selected>{t domain="goods"}请选择...{/t}</option>
                             <!-- {foreach from=$attribute_value.attr_values item=value} -->
                                 <option value="{$value}">{$value}</option>
                             <!-- {/foreach} -->

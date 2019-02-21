@@ -29,10 +29,10 @@
 					<table class="table table-striped table-advance table-hover" id="list-table">
 						<thead>
 							<tr>
-								<th>{lang key='goods::category.cat_name'}</th>
-								<th class="w200">{lang key='goods::category.sort_order'}</th>
-								<th class="w200">{lang key='goods::category.is_show'}</th>
-								<th class="w100">{lang key='system::system.handler'}</th>
+								<th>{t domain="goods"}分类名称{/t}</th>
+								<th class="w200">{t domain="goods"}排序{/t}</th>
+								<th class="w200">{t domain="goods"}是否显示{/t}</th>
+								<th class="w100">{t domain="goods"}操作{/t}</th>
 							</tr>
 						</thead>
 						<!-- {foreach from=$cat_info item=cat} -->
@@ -49,7 +49,7 @@
 								<!-- {/if} -->
 							</td>
 							<td>
-								<span class="cursor_pointer" data-trigger="editable" data-placement="top" data-url="{url path='goods/mh_category/edit_sort_order'}" data-name="sort_order" data-pk="{$cat.cat_id}" data-title="{lang key='goods::category.enter_order'}"> 
+								<span class="cursor_pointer" data-trigger="editable" data-placement="top" data-url="{url path='goods/mh_category/edit_sort_order'}" data-name="sort_order" data-pk="{$cat.cat_id}" data-title="{t domain="goods"}请输入排序序号{/t}">
 									{$cat.sort_order}
 								</span>
 							</td>
@@ -57,13 +57,13 @@
 								<i class="cursor_pointer fa {if $cat.is_show eq '1'}fa-check {else}fa-times {/if}" data-trigger="toggleState" data-url="{url path='goods/mh_category/toggle_is_show'}" data-id="{$cat.cat_id}"></i>
 							</td>
 							<td>
-								<a class="data-pjax no-underline" href='{url path="goods/mh_category/edit" args="cat_id={$cat.cat_id}"}' title="{lang key='system::system.edit'}"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a>
-								<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{lang key='goods::category.drop_cat_confirm'}" href='{url path="goods/mh_category/remove" args="id={$cat.cat_id}"}'><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></button></a>
+								<a class="data-pjax no-underline" href='{url path="goods/mh_category/edit" args="cat_id={$cat.cat_id}"}' title="{t domain="goods"}编辑{/t}"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a>
+								<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{t domain="goods"}您确定要删除该分类吗？{/t}" href='{url path="goods/mh_category/remove" args="id={$cat.cat_id}"}'><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></button></a>
 							</td>
 						</tr>
 						<!-- {foreachelse}-->
 						<tr>
-							<td class="no-records" colspan="4">{lang key='system::system.no_records'}</td>
+							<td class="no-records" colspan="4">{t domain="goods"}没有找到任何记录{/t}</td>
 						</tr>	
 						<!-- {/foreach} -->
 					</table>

@@ -63,13 +63,13 @@ class admin_goods_category_add_module extends api_admin implements api_interface
 		}
     	
     	if (!empty($_SESSION['staff_id'])) {
-    		return new ecjia_error('priv_error', '您无权对此分类进行操作！');
+    		return new ecjia_error('priv_error', __('您无权对此分类进行操作！', 'goods'));
     	}
     	$parent_id		= $this->requestData('parent_id', 0);
     	$category_name	= $this->requestData('category_name');
     	$is_show		= $this->requestData('is_show', 1);
     	if (empty($category_name)) {
-    	    return new ecjia_error('category_name_empty', '分类名称不能为空');
+    	    return new ecjia_error('category_name_empty', __('分类名称不能为空', 'goods'));
     	}
     	
     	$cat = array(
@@ -90,14 +90,14 @@ class admin_goods_category_add_module extends api_admin implements api_interface
     	
     	// 记录管理员操作
     	if ($_SESSION['store_id'] > 0) {
-    	    RC_Api::api('merchant', 'admin_log', array('text' => $category_name.'【来源掌柜】', 'action' => 'add', 'object' => 'category'));
+    	    RC_Api::api('merchant', 'admin_log', array('text' => $category_name.__('【来源掌柜】', 'goods'), 'action' => 'add', 'object' => 'category'));
     	} 
     	RC_Cache::app_cache_delete('cat_list', 'goods');
     	
     	$category_info = RC_Model::model('goods/category_model')->where(array('cat_id' => $cat_id))->find();
     	
     	if (empty($category_info)) {
-    		return new ecjia_error('category_empty', '未找到对应分类！');
+    		return new ecjia_error('category_empty', __('未找到对应分类！', 'goods'));
     	}
     	
     	RC_Loader::load_app_func('admin_category', 'goods');

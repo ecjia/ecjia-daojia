@@ -45,7 +45,8 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
-
+use Ecjia\App\Groupbuy\GroupbuyStatus;
+use Ecjia\App\Goods\GoodsAttr;
 /**
  * 商品相关函数库
  */
@@ -639,7 +640,7 @@ function get_goods_info($goods_id, $warehouse_id = 0, $area_id = 0) {
 		$row ['promote_price'] = price_format ( $promote_price );
 
 		/* 修正重量显示 */
-		$row ['goods_weight'] = (intval ( $row ['goods_weight'] ) > 0) ? $row ['goods_weight'] . RC_Lang::get('goods::goods.kilogram') : ($row ['goods_weight'] * 1000) . RC_Lang::get('goods::goods.gram');
+		$row ['goods_weight'] = (intval ( $row ['goods_weight'] ) > 0) ? $row ['goods_weight'] . __('千克', 'goods') : ($row ['goods_weight'] * 1000) . __('克', 'goods');
 
 		/* 修正上架时间显示 */
 		$row ['add_time'] = RC_Time::local_date ( ecjia::config ( 'date_format' ), $row ['add_time'] );
@@ -726,7 +727,7 @@ function get_goods_properties($goods_id, $warehouse_id = 0, $area_id = 0) {
 			$row ['attr_value'] = str_replace ( "\n", '<br />', $row ['attr_value'] );
 
 			if ($row ['attr_type'] == 0) {
-				$group = (isset ( $groups [$row ['attr_group']] )) ? $groups [$row ['attr_group']] : RC_Lang::get('goods::goods.goods_attr');
+				$group = (isset ( $groups [$row ['attr_group']] )) ? $groups [$row ['attr_group']] : __('商品属性', 'goods');
 
 				$arr ['pro'] [$group] [$row ['attr_id']] ['name'] = $row ['attr_name'];
 				$arr ['pro'] [$group] [$row ['attr_id']] ['value'] = $row ['attr_value'];
@@ -766,7 +767,7 @@ function get_same_attribute_goods($attr) {
 	$lnk = array ();
 	if (!empty($attr)) {
 		foreach($attr['lnk'] as $key => $val) {
-			$lnk[$key]['title'] = sprintf(RC_Lang::get('goods::goods.same_attrbiute_goods'),$val['name'],$val['value']);
+			$lnk[$key]['title'] = sprintf(__('相同%s的商品', 'goods'),$val['name'],$val['value']);
 
 			/* 查找符合条件的商品 */
 			$db->view = array (
@@ -1123,9 +1124,10 @@ function group_buy_info($group_buy_id, $current_num = 0) {
 	/* 状态 */
 	$group_buy ['status'] = group_buy_status ( $group_buy );
 
-	if (RC_Lang::get('goods::goods.gbs.' . $group_buy ['status'])) {
-		$group_buy ['status_desc'] = RC_Lang::get('goods::goods.gbs.' . $group_buy ['status']);
-	}
+//	if (RC_Lang::get('goods::goods.gbs.' . $group_buy ['status'])) {
+//		$group_buy ['status_desc'] = RC_Lang::get('goods::goods.gbs.' . $group_buy ['status']);
+//	}
+    $group_buy ['status_desc'] = Ecjia\App\Groupbuy\GroupbuyStatus::getStatusLabel($group_buy ['status']);
 
 	$group_buy ['start_time'] = $group_buy ['formated_start_date'];
 	$group_buy ['end_time'] = $group_buy ['formated_end_date'];
@@ -1339,7 +1341,7 @@ function goods_info($goods_id) {
 	if (! empty ( $row )) {
 		RC_Loader::load_app_func('global', 'goods');
 		/* 修正重量显示 */
-		$row ['goods_weight'] = (intval ( $row ['goods_weight'] ) > 0) ? $row ['goods_weight'] . RC_Lang::get('goods::goods.kilogram') : ($row ['goods_weight'] * 1000) . RC_Lang::get('goods::goods.gram');
+		$row ['goods_weight'] = (intval ( $row ['goods_weight'] ) > 0) ? $row ['goods_weight'] . __('千克', 'goods') : ($row ['goods_weight'] * 1000) . __('克', 'goods');
 		/* 修正图片 */
 		$row ['goods_img'] = get_image_path ( $goods_id, $row ['goods_img'] );
 	}
@@ -1420,7 +1422,7 @@ function get_goods_attr($goods_id) {
 	if (! empty ( $data )) {
 		foreach ( $data as $attr ) {
 			if (defined ( 'IN_ADMIN' )) {
-				$attr ['goods_attr_list'] = array (0 => RC_Lang::get('goods::goods.select_please'));
+				$attr ['goods_attr_list'] = array (0 => __('请选择...', 'goods'));
 			} else {
 				$attr ['goods_attr_list'] = array ();
 			}
@@ -1543,8 +1545,9 @@ function get_attr_list() {
 
 	if (!empty($row)) {
 		foreach ($row AS $key => $val) {
-			$row[$key]['attr_input_type_desc'] = RC_Lang::get('goods::attribute.value_attr_input_type.'.$val['attr_input_type']);
-			$row[$key]['attr_values'] = str_replace("\n", ", ", $val['attr_values']);
+			//$row[$key]['attr_input_type_desc'] = RC_Lang::get('goods::attribute.value_attr_input_type.'.$val['attr_input_type']);
+            $row[$key]['attr_input_type_desc'] = Ecjia\App\Goods\GoodsAttr::getAttrInputTypeLabel($val['attr_input_type']);
+            $row[$key]['attr_values'] = str_replace("\n", ", ", $val['attr_values']);
 		}
 	}
 	return array('item' => $row, 'page' => $page->show(5), 'desc' => $page->page_desc());
@@ -1648,7 +1651,8 @@ function get_merchant_attr_list() {
 
 	if (!empty($row)) {
 		foreach ($row AS $key => $val) {
-			$row[$key]['attr_input_type_desc'] = RC_Lang::get('goods::attribute.value_attr_input_type.'.$val['attr_input_type']);
+//			$row[$key]['attr_input_type_desc'] = RC_Lang::get('goods::attribute.value_attr_input_type.'.$val['attr_input_type']);
+            $row[$key]['attr_input_type_desc'] = Ecjia\App\Goods\GoodsAttr::getAttrInputTypeLabel($val['attr_input_type']);
 			$row[$key]['attr_values'] = str_replace("\n", ", ", $val['attr_values']);
 		}
 	}
@@ -1667,9 +1671,9 @@ function add_link($extension_code = '') {
 		$args['extension_code'] = $extension_code;
 	}
 	if ($extension_code == 'virtual_card') {
-		$text = RC_Lang::get('system::system.51_virtual_card_add');
+		$text = __('添加虚拟商品', 'goods');
 	} else {
-		$text = RC_Lang::get('system::system.02_goods_add');
+		$text = __('添加商品', 'goods');
 	}
 	return array(
 		'href' => RC_Uri::url($pathinfo, $args),

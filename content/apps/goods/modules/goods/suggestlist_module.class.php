@@ -63,7 +63,7 @@ class goods_suggestlist_module extends api_front implements api_interface {
     	$type = array('new', 'best', 'hot', 'promotion');//推荐类型
     	
     	if (!in_array($action_type, $type)) {
-    		return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	
 		switch ($sort_type) {
@@ -151,7 +151,7 @@ class goods_suggestlist_module extends api_front implements api_interface {
 					'activity_type' => $activity_type,
 					'object_id'		=> $object_id,
 					'saving_price'	=>	$saving_price,
-					'formatted_saving_price' => $saving_price > 0 ? '已省'.$saving_price.'元' : '',
+					'formatted_saving_price' => $saving_price > 0 ? sprintf(__('已省%s元', 'goods'), $saving_price) : '',
 					'seller_id'		=> $val['store_id'],
 					'seller_name'	=> $val['store_name'],
 					'store_logo'	=> $val['store_logo']

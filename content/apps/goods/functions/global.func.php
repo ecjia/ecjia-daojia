@@ -460,8 +460,8 @@ function brand_related_cat($brand) {
 	// $db = RC_Model::model('goods/category_viewmodel');
 	// $arr[] = array(
 	// 	'cat_id' 	=> 0,
-	// 	'cat_name'	=> RC_Lang::get('goods::goods.all_category'),
-	// 	'url'		=> build_uri('brand', array('bid' => $brand), RC_Lang::get('goods::goods.all_category'))
+	// 	'cat_name'	=> __('所有分类', 'goods'),
+	// 	'url'		=> build_uri('brand', array('bid' => $brand), __('所有分类', 'goods'))
 	// );
 	// $data = $db->join('goods')->where(array('g.brand_id' => $brand))->group('g.cat_id')->select();
 	// if(!empty($data)) {
@@ -473,8 +473,8 @@ function brand_related_cat($brand) {
 
 	$arr[] = array(
 		'cat_id' 	=> 0,
-		'cat_name'	=> RC_Lang::get('goods::goods.all_category'),
-		'url'		=> build_uri('brand', array('bid' => $brand), RC_Lang::get('goods::goods.all_category'))
+		'cat_name'	=> __('所有分类', 'goods'),
+		'url'		=> build_uri('brand', array('bid' => $brand), __('所有分类', 'goods'))
 	);
 	
 	//商品信息
@@ -800,9 +800,9 @@ function list_link($extension_code = '') {
 		$args['extension_code'] = $extension_code;
 	}
 	if ($extension_code == 'virtual_card') {
-		$text = RC_Lang::get('system::system.50_virtual_card_list');
+		$text = __('虚拟商品列表', 'goods');
 	} else {
-		$text = RC_Lang::get('system::system.01_goods_list');
+		$text = __('商品列表', 'goods');
 	}
 	return array(
 		'href' => RC_Uri::url($pathinfo, $args),
@@ -883,28 +883,28 @@ function get_brand_list() {
 /*返回商品详情页面的导航条数组*/
 function get_goods_info_nav($goods_id = 0, $extension_code = '') {
 	return array(
-		'edit'                  => array('name' => RC_Lang::get('goods::goods.tab_general'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit', "goods_id=$goods_id".$extension_code)),
-		'edit_goods_desc'       => array('name' => RC_Lang::get('goods::goods.tab_detail'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_goods_desc', "goods_id=$goods_id".$extension_code)),
-		'edit_goods_attr'       => array('name' => RC_Lang::get('goods::goods.tab_properties'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_goods_attr', "goods_id=$goods_id".$extension_code)),
-		'edit_goods_photo'      => array('name' => RC_Lang::get('goods::goods.tab_gallery'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin_gallery/init', "goods_id=$goods_id".$extension_code)),
-		'edit_link_goods'       => array('name' => RC_Lang::get('goods::goods.tab_linkgoods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_link_goods', "goods_id=$goods_id".$extension_code)),
-// 		'edit_link_parts'       => array('name' => RC_Lang::get('goods::goods.tab_groupgoods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_link_parts', "goods_id=$goods_id".$extension_code)),
-		'edit_link_article'     => array('name' => RC_Lang::get('goods::goods.tab_article'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_link_article', "goods_id=$goods_id".$extension_code)),
-		'product_list'          => array('name' => RC_Lang::get('goods::goods.tab_product'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/product_list', "goods_id=$goods_id".$extension_code)),
+		'edit'                  => array('name' => __('通用信息', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit', "goods_id=$goods_id".$extension_code)),
+		'edit_goods_desc'       => array('name' => __('商品描述', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_goods_desc', "goods_id=$goods_id".$extension_code)),
+		'edit_goods_attr'       => array('name' => __('商品属性', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_goods_attr', "goods_id=$goods_id".$extension_code)),
+		'edit_goods_photo'      => array('name' => __('商品相册', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin_gallery/init', "goods_id=$goods_id".$extension_code)),
+		'edit_link_goods'       => array('name' => __('关联商品', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_link_goods', "goods_id=$goods_id".$extension_code)),
+// 		'edit_link_parts'       => array('name' => __('关联配件', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_link_parts', "goods_id=$goods_id".$extension_code)),
+		'edit_link_article'     => array('name' => __('关联文章', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_link_article', "goods_id=$goods_id".$extension_code)),
+		'product_list'          => array('name' => __('货品管理', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/product_list', "goods_id=$goods_id".$extension_code)),
 	);
 }
 
 /*返回商家商品详情页面的导航条数组*/
 function get_merchant_goods_info_nav($goods_id  =0, $extension_code = '') {
 	return array(
-		'edit'                  => array('name' => RC_Lang::get('goods::goods.tab_general'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit', "goods_id=$goods_id".$extension_code)),
-		'edit_goods_desc'       => array('name' => RC_Lang::get('goods::goods.tab_detail'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_goods_desc', "goods_id=$goods_id".$extension_code)),
-		'edit_goods_attr'       => array('name' => RC_Lang::get('goods::goods.tab_properties'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_goods_attr', "goods_id=$goods_id".$extension_code)),
-		'edit_goods_photo'      => array('name' => RC_Lang::get('goods::goods.tab_gallery'), 'pjax' => 1, 'href' => RC_Uri::url('goods/mh_gallery/init', "goods_id=$goods_id".$extension_code)),
-		'edit_link_goods'       => array('name' => RC_Lang::get('goods::goods.tab_linkgoods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_link_goods', "goods_id=$goods_id".$extension_code)),
-// 		'edit_link_parts'       => array('name' => RC_Lang::get('goods::goods.tab_groupgoods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_link_parts', "goods_id=$goods_id".$extension_code)),
-		'edit_link_article'     => array('name' => RC_Lang::get('goods::goods.tab_article'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_link_article', "goods_id=$goods_id".$extension_code)),
-		'product_list'          => array('name' => RC_Lang::get('goods::goods.tab_product'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/product_list', "goods_id=$goods_id".$extension_code)),
+		'edit'                  => array('name' => __('通用信息', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit', "goods_id=$goods_id".$extension_code)),
+		'edit_goods_desc'       => array('name' => __('商品描述', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_goods_desc', "goods_id=$goods_id".$extension_code)),
+		'edit_goods_attr'       => array('name' => __('商品属性', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_goods_attr', "goods_id=$goods_id".$extension_code)),
+		'edit_goods_photo'      => array('name' => __('商品相册', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/mh_gallery/init', "goods_id=$goods_id".$extension_code)),
+		'edit_link_goods'       => array('name' => __('关联商品', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_link_goods', "goods_id=$goods_id".$extension_code)),
+// 		'edit_link_parts'       => array('name' => __('关联配件', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_link_parts', "goods_id=$goods_id".$extension_code)),
+		'edit_link_article'     => array('name' => __('关联文章', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_link_article', "goods_id=$goods_id".$extension_code)),
+		'product_list'          => array('name' => __('货品管理', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/product_list', "goods_id=$goods_id".$extension_code)),
 	);
 }
 
@@ -1233,7 +1233,7 @@ function build_attr_html($cat_id, $goods_id = 0) {
 				$html .= '<textarea name="attr_value_list[]" rows="3" cols="40">' . htmlspecialchars($val ['attr_value']) . '</textarea>';
 			} else {
 				$html .= '<select name="attr_value_list[]" autocomplete="off">';
-				$html .= '<option value="">' . RC_Lang::get('goods::goods.select_please') . '</option>';
+				$html .= '<option value="">' . __('请选择...', 'goods') . '</option>';
 				$attr_values = explode("\n", $val ['attr_values']);
 				foreach ($attr_values as $opt) {
 					$opt = trim(htmlspecialchars($opt));
@@ -1242,7 +1242,7 @@ function build_attr_html($cat_id, $goods_id = 0) {
 				}
 				$html .= '</select> ';
 			}
-			$html .= ($val ['attr_type'] == 1 || $val ['attr_type'] == 2) ? '<span class="m_l5 m_r5">' . RC_Lang::get('goods::goods.spec_price') . '</span>' . ' <input type="text" name="attr_price_list[]" value="' . $val ['attr_price'] . '" size="5" maxlength="10" />' : ' <input type="hidden" name="attr_price_list[]" value="0" />';
+			$html .= ($val ['attr_type'] == 1 || $val ['attr_type'] == 2) ? '<span class="m_l5 m_r5">' . __('属性价格', 'goods') . '</span>' . ' <input type="text" name="attr_price_list[]" value="' . $val ['attr_price'] . '" size="5" maxlength="10" />' : ' <input type="hidden" name="attr_price_list[]" value="0" />';
 			if ($val ['attr_type'] == 1 || $val ['attr_type'] == 2) {
 				$html .= ($spec != $val ['attr_id']) ? "<a class='m_l5' href='javascript:;' data-toggle='clone-obj' data-parent='.control-group'><i class='fontello-icon-plus'></i></a>" : "<a class='m_l5' href='javascript:;' data-trigger='toggleSpec'><i class='fontello-icon-minus'></i></a>";
 				$spec = $val ['attr_id'];
@@ -1279,7 +1279,7 @@ function build_merchant_attr_html($cat_id, $goods_id = 0) {
 				$html .= '<div class="col-lg-5 p_l0"><textarea class="form-control" name="attr_value_list[]" rows="3" cols="40">' . htmlspecialchars($val ['attr_value']) . '</textarea></div>';
 			} else {
 				$html .= '<div class="col-lg-5 p_l0"><select class="form-control" name="attr_value_list[]" autocomplete="off">';
-				$html .= '<option value="">' . RC_Lang::get('goods::goods_batch.select_please') . '</option>';
+				$html .= '<option value="">' . __('请选择...', 'goods') . '</option>';
 				$attr_values = explode("\n", $val ['attr_values']);
 				foreach ($attr_values as $opt) {
 					$opt = trim(htmlspecialchars($opt));
@@ -1288,7 +1288,7 @@ function build_merchant_attr_html($cat_id, $goods_id = 0) {
 				}
 				$html .= '</select></div>';
 			}
-			$html .= ($val ['attr_type'] == 1 || $val ['attr_type'] == 2) ? '<span class="m_l5 m_r5 f_l l_h30">' . RC_Lang::get('goods::goods.spec_price') . '</span>' . ' <div class="col-lg-5 p_l0"><input class="form-control" type="text" name="attr_price_list[]" value="' . $val ['attr_price'] . '" size="5" maxlength="10" /></div>' : ' <input type="hidden" name="attr_price_list[]" value="0" />';
+			$html .= ($val ['attr_type'] == 1 || $val ['attr_type'] == 2) ? '<span class="m_l5 m_r5 f_l l_h30">' . __('属性价格', 'goods') . '</span>' . ' <div class="col-lg-5 p_l0"><input class="form-control" type="text" name="attr_price_list[]" value="' . $val ['attr_price'] . '" size="5" maxlength="10" /></div>' : ' <input type="hidden" name="attr_price_list[]" value="0" />';
 			if ($val ['attr_type'] == 1 || $val ['attr_type'] == 2) {
 				$html .= ($spec != $val ['attr_id']) ? "<a class='m_l5 l_h30' href='javascript:;' data-toggle='clone-obj' data-parent='.form-group'><i class='fa fa-plus'></i></a>" : "<a class='m_l5 l_h30' href='javascript:;' data-trigger='toggleSpec'><i class='fa fa-times'></i></a>";
 				$spec = $val ['attr_id'];
@@ -1503,9 +1503,9 @@ function get_product_info($product_id, $field = '') {
 	if (empty ($product_id)) {
 		return $return_array;
 	}
-	$filed = trim($filed);
-	if (empty ($filed)) {
-		$filed = '*';
+    $field = trim($field);
+	if (empty ($field)) {
+        $field = '*';
 	}
 	return RC_DB::table('products')->select(RC_DB::raw($field))->where('product_id', $product_id)->first();
 }
@@ -1882,10 +1882,10 @@ function formated_weight($weight) {
 	if ($weight > 0) {
 		if ($weight < 1) {
 			/* 小于1千克，用克表示 */
-			return intval($weight * 1000) . RC_Lang::get('goods::goods.gram');
+			return intval($weight * 1000) . __('克', 'goods');
 		} else {
 			/* 大于1千克，用千克表示 */
-			return $weight . RC_Lang::get('goods::goods.kilogram');
+			return $weight . __('千克', 'goods');
 		}
 	} else {
 		return 0;

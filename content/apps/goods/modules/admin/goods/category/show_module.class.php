@@ -63,19 +63,19 @@ class admin_goods_category_show_module extends api_admin implements api_interfac
 		}
     	
     	if (!empty($_SESSION['staff_id'])) {
-    		return new ecjia_error('priv_error', '您无权对此分类进行操作！');
+    		return new ecjia_error('priv_error', __('您无权对此分类进行操作！', 'goods'));
     	}
     	
     	$category_id = $this->requestData('category_id');
     	$is_show	 = $this->requestData('is_show', 1);
     	if (empty($category_id)) {
-    		return new ecjia_error('invalid_parameter', '参数错误');
+    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	
     	$name = RC_Model::model('goods/category_model')->where(array('cat_id' => $category_id))->get_field('cat_name');
     	RC_Model::model('goods/category_model')->where(array('cat_id' => $category_id))->update(array('is_show' => $is_show));
     	if ($_SESSION['store_id'] > 0) {
-    	    RC_Api::api('merchant', 'admin_log', array('text' => $name."切换显示状态".'【来源掌柜】', 'action' => 'edit', 'object' => 'category'));
+    	    RC_Api::api('merchant', 'admin_log', array('text' => $name.__("切换显示状态", 'goods').__('【来源掌柜】', 'goods'), 'action' => 'edit', 'object' => 'category'));
     	} 
     	RC_Cache::app_cache_delete('cat_list', 'goods');
 

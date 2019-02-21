@@ -68,33 +68,33 @@ class admin_goods_merchant_category_update_module extends api_admin implements a
     	$is_show		= $this->requestData('is_show', 1);
     	
     	if (empty($cat_id)) {
-    		return new ecjia_error('invalid_parameter', '参数错误');
+    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	
     	$category	= RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $cat_id, 'store_id' => $_SESSION['store_id']))->find();
     	if (empty($category)) {
-    	    return new ecjia_error('priv_error', '您无权对此分类进行操作！');
+    	    return new ecjia_error('priv_error', __('您无权对此分类进行操作！', 'goods'));
     	}
-    	
+
     	$cat = array(
     			'cat_name'	=> $category_name,
     			'parent_id'	=> $parent_id,
-    			'is_show'	=> $is_show,
+    			'is_show'	=> $is_show,priv_error
     	);
     	$count = RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => array('neq' => $cat_id), 'cat_name' => $category_name, 'store_id' => $_SESSION['store_id']))->count();
     	if ($count) {
-    	    return new ecjia_error('already exists', '此分类名称已存在，请修改！');
+    	    return new ecjia_error('already exists', __('此分类名称已存在，请修改！', 'goods'));
     	}
     	//判断上级分类是否正确
     	if ($parent_id) {
     	    if ($parent_id == $cat_id) {
-    	        return new ecjia_error('category_error', '上级分类不能为自己');
+    	        return new ecjia_error('category_error', __('上级分类不能为自己', 'goods'));
     	    }
     	    $data = RC_Api::api('goods', 'seller_goods_category', array('cat_id' => $cat_id, 'type' => 'seller_goods_cat', 'store_id' => $_SESSION['store_id']));
     	    if ($data) {
     	        $children = array_keys($data);
     	        if (in_array($parent_id, $children)) {
-    	            return new ecjia_error('category_error', '上级分类不能为自己的子类');
+    	            return new ecjia_error('category_error', __('上级分类不能为自己的子类', 'goods'));
     	        }
     	    }
     	}
@@ -111,19 +111,19 @@ class admin_goods_merchant_category_update_module extends api_admin implements a
     	}
     	 
     	if (!RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $cat_id))->update($cat)) {
-    	    return new ecjia_error('category_error', '更新失败！');
+    	    return new ecjia_error('category_error', __('更新失败！', 'goods'));
     	}
     	 
     	if ($_SESSION['store_id'] > 0) {
-    	    RC_Api::api('merchant', 'admin_log', array('text' => $category_name.'【来源掌柜】', 'action' => 'edit', 'object' => 'category'));
+    	    RC_Api::api('merchant', 'admin_log', array('text' => $category_name.__('【来源掌柜】', 'goods'), 'action' => 'edit', 'object' => 'category'));
     	} 
     	RC_Cache::app_cache_delete('cat_list', 'goods');
     	 
     	$category_info = RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $cat_id))->find();
 
     	if (empty($category_info)) {
-    		return new ecjia_error('category_empty', '未找到对应分类！');
-    	}
+    		return new ecjia_error('category_empty', __('未找到对应分类！', 'goods'));
+        }
     	
     	$where_goods_count = array(
     	    'merchant_cat_id' => $cat_id,

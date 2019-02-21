@@ -117,7 +117,7 @@ class seller_list_module extends api_front implements api_interface {
 							$favourable_list[] = array(
 								'name' => $val['act_name'],
 								'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-								'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+								'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
 							);
 						} else {
 							$act_range_ext = explode(',', $val['act_range_ext']);
@@ -126,21 +126,21 @@ class seller_list_module extends api_front implements api_interface {
 									$favourable_list[] = array(
 									'name' => $val['act_name'],
 									'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-									'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+									'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
 									);
 									break;
 								case 2 :
 									$favourable_list[] = array(
 									'name' => $val['act_name'],
 									'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-									'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+									'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
 									);
 									break;
 								case 3 :
 									$favourable_list[] = array(
 									'name' => $val['act_name'],
 									'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-									'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+									'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
 									);
 									break;
 								default:
@@ -205,7 +205,7 @@ class seller_list_module extends api_front implements api_interface {
 							'activity_type' => $activity_type,
 							'object_id'		=> 0,
 							'saving_price'	=>	$saving_price,
-							'formatted_saving_price' => $saving_price > 0 ? '已省'.$saving_price.'元' : '',
+							'formatted_saving_price' => $saving_price > 0 ? sprintf(__('已省%s元', 'goods'), $saving_price) : '',
 						);
 					}
 				}

@@ -64,20 +64,20 @@ class admin_goods_updatedesc_module extends api_admin implements api_interface {
        	$goods_id			= $this->requestData('goods_id', 0);
        	$goods_desc			= $this->requestData('goods_desc', '');
     	if (empty($goods_id) || empty($goods_desc)) {
-    		return new ecjia_error('invalid_parameter', '参数错误');
+    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	
     	$this->db_goods = RC_Loader::load_app_model('goods_model','goods');
     	$goods_info = $this->db_goods->where(array('goods_id' => $goods_id))->find();
     	if (empty($goods_info)) {
-    	    return new ecjia_error('goods_not_exists', '商品不存在');
+    	    return new ecjia_error('goods_not_exists', __('商品不存在', 'goods'));
     	}
     	/*当前登录账号是平台还是商家*/
     	if ($_SESSION['store_id'] > 0) {
     		/*获取商家积分等级限制处理*/
     		$store_id = $this->db_goods->where(array('goods_id' => $goods_id))->get_field('store_id');
     		if ($_SESSION['store_id'] != $store_id) {
-    			return new ecjia_error('no_purview', '您没权限修改此商品信息');
+    			return new ecjia_error('no_purview', __('您没权限修改此商品信息', 'goods'));
     		}
     	}
     	
@@ -97,11 +97,11 @@ class admin_goods_updatedesc_module extends api_admin implements api_interface {
     	if ($rs) {
     		$goods_name = $this->db_goods->where(array('goods_id' => $goods_id))->get_field('goods_name');
     		if ($_SESSION['store_id'] > 0) {
-    		    RC_Api::api('merchant', 'admin_log', array('text' => $goods_name.'【来源掌柜】', 'action' => 'edit', 'object' => 'goods'));
+    		    RC_Api::api('merchant', 'admin_log', array('text' => $goods_name.__('【来源掌柜】', 'goods'), 'action' => 'edit', 'object' => 'goods'));
     		} 
     		return array();
     	} else {
-    	    return new ecjia_error('error', '操作失败');
+    	    return new ecjia_error('error', __('操作失败', 'goods'));
     	}
     }
 }

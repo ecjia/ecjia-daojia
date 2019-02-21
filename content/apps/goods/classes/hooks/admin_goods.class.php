@@ -56,7 +56,7 @@ class goods_hooks
             return false;
         }
 
-        $title = RC_Lang::get('goods::goods.goods_count_info');
+        $title = __('商品统计信息', 'goods');
 
         $goods = RC_Cache::app_cache_get('admin_dashboard_goods', 'goods');
         if (!$goods) {

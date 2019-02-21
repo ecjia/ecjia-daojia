@@ -60,7 +60,7 @@ class admin_goods_product_search_module extends api_admin implements api_interfa
 
     	$goods_sn	= trim($this->requestData('goods_sn',''));
     	if (empty($goods_sn)) {
-    		return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	$size = $this->requestData('pagination.count', 15);
     	$page = $this->requestData('pagination.page', 1);

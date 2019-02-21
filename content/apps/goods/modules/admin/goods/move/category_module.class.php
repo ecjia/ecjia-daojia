@@ -68,7 +68,7 @@ class admin_goods_move_category_module extends api_admin implements api_interfac
     	
     	/* 商品分类不允许为空 */
     	if (empty($category_id) || empty($target_category_id) || empty($goods_id)) {
-    		return new ecjia_error('invalid_parameter', '参数错误');
+    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	
     	/* 获取商品*/
@@ -85,9 +85,9 @@ class admin_goods_move_category_module extends api_admin implements api_interfac
     	$old_cat_name = RC_DB::table('merchants_category')->where('cat_id', $category_id)->pluck('cat_name');
     	$query = RC_Model::model('goods/goods_model')->where(array('goods_id' => $goods_id))->update($data);
     	
-    	$action = $old_cat_name.'下商品id为：'.implode(',', $goods_ids).'转移到'.$new_cat_name;
+        $action = sprintf(__('%s下商品id为：%s转移到%s', 'goods'), $old_cat_name, implode(',', $goods_ids), $new_cat_name);
     	if ($_SESSION['store_id'] > 0) {
-    	    RC_Api::api('merchant', 'admin_log', array('text' => $action.'【来源掌柜】', 'action' => 'edit', 'object' => 'category'));
+    	    RC_Api::api('merchant', 'admin_log', array('text' => $action.__('【来源掌柜】', 'goods'), 'action' => 'edit', 'object' => 'category'));
     	} 
     	
     	return array();

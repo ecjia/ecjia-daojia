@@ -66,7 +66,7 @@ class admin_goods_toggle_suggest_module extends api_admin implements api_interfa
 		$type		= $this->requestData('type');//best 精品，new 新品，hot 热销
 		$is_suggest	= $this->requestData('is_suggest', 0);
 		if (empty($goods_id) || empty($type)) {
-			return new ecjia_error('invalid_parameter', '参数错误');
+			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}
 		
 		$data = array(
@@ -75,13 +75,13 @@ class admin_goods_toggle_suggest_module extends api_admin implements api_interfa
 		
 		if ($type == 'best') {
 			$data['is_best'] = $is_suggest;
-			$log_label = '精品';
+			$log_label = __('精品', 'goods');
 		} elseif ($type == 'new') {
 			$data['is_new'] = $is_suggest;
-			$log_label = '新品';
+			$log_label = __('新品', 'goods');
 		} elseif ($type == 'hot') {
 			$data['is_hot'] = $is_suggest;
-			$log_label = '热销';
+			$log_label = __('热销', 'goods');
 		}
 		
 		$db_goods = RC_Loader::load_app_model('goods_model', 'goods');
@@ -96,13 +96,13 @@ class admin_goods_toggle_suggest_module extends api_admin implements api_interfa
 		$goods_name = $db_goods->where(array('goods_id' => $goods_id))->get_field('goods_name');
 		
 		if ($is_suggest == '1') {
-		    $action = '设为' . $log_label . '，'.$goods_name;
+		    $action = __('设为', 'goods') . $log_label . '，'.$goods_name;
 		} else {
-		    $action = '取消' . $log_label . '，'.$goods_name;
+		    $action = __('取消', 'goods') . $log_label . '，'.$goods_name;
 		}
 		
 		if ($_SESSION['store_id'] > 0) {
-		    RC_Api::api('merchant', 'admin_log', array('text' => $action.'【来源掌柜】', 'action' => 'setup', 'object' => 'goods'));
+		    RC_Api::api('merchant', 'admin_log', array('text' => $action.__('【来源掌柜】', 'goods'), 'action' => 'setup', 'object' => 'goods'));
 		} 
 		
 		return array('data' => array('type' => $type, 'is_suggest' => $is_suggest));

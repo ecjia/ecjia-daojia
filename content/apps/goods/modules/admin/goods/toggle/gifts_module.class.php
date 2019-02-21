@@ -65,7 +65,7 @@ class admin_goods_toggle_gifts_module extends api_admin implements api_interface
 		$goods_id	= $this->requestData('id');
 		$is_alone	= $this->requestData('is_gift', 0);
 		if (empty($goods_id)) {
-			return new ecjia_error('invalid_parameter', '参数错误');
+			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}
 		
 		$is_alone = $is_alone == 1 ? 0 : 1;
@@ -87,13 +87,13 @@ class admin_goods_toggle_gifts_module extends api_admin implements api_interface
 		$goods_name = $db_goods->where(array('goods_id' => $goods_id))->get_field('goods_name');
 		
 		if ($is_alone == '1') {
-		    $action = '设为普通商品销售，'.$goods_name;
+		    $action = __('设为普通商品销售，', 'goods').$goods_name;
 		} else {
-		    $action = '设为配件或赠品销售，'.$goods_name;
+		    $action = __('设为配件或赠品销售，', 'goods').$goods_name;
 		}
 		
 		if ($_SESSION['store_id'] > 0) {
-		    RC_Api::api('merchant', 'admin_log', array('text' => $action.'【来源掌柜】', 'action' => 'setup', 'object' => 'goods'));
+		    RC_Api::api('merchant', 'admin_log', array('text' => $action.__('【来源掌柜】', 'goods'), 'action' => 'setup', 'object' => 'goods'));
 		} 
 		
 		return array();

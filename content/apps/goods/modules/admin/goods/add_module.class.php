@@ -64,7 +64,7 @@ class admin_goods_add_module extends api_admin implements api_interface {
     	
     	$goods_name		= $this->requestData('goods_name');
     	if (empty($goods_name)) {
-    	    return new ecjia_error('goods_name_empty', '请输入商品名称');
+    	    return new ecjia_error('goods_name_empty', __('请输入商品名称', 'goods'));
     	}
     	$category_id	= $this->requestData('category_id', 0);
     	$merchant_category_id = $this->requestData('merchant_category', 0);
@@ -72,10 +72,10 @@ class admin_goods_add_module extends api_admin implements api_interface {
     	$stock			= $this->requestData('stock', 0);
     	
     	if (empty($category_id)) {
-    	    return new ecjia_error('category_id_empty', '请选择商品分类');
+    	    return new ecjia_error('category_id_empty', __('请选择商品分类', 'goods'));
     	}
     	if (empty($merchant_category_id)) {
-    	    return new ecjia_error('merchant_category_id_empty', '请选择店铺分类');
+    	    return new ecjia_error('merchant_category_id_empty', __('请选择店铺分类', 'goods'));
     	}
     	
     	RC_Loader::load_app_func('global', 'goods');
@@ -158,7 +158,7 @@ class admin_goods_add_module extends api_admin implements api_interface {
     	
     	/* 记录日志 */
     	if ($_SESSION['store_id'] > 0) {
-    	    RC_Api::api('merchant', 'admin_log', array('text' => $goods_name.'【来源掌柜】', 'action' => 'add', 'object' => 'goods'));
+    	    RC_Api::api('merchant', 'admin_log', array('text' => $goods_name.__('【来源掌柜】', 'goods'), 'action' => 'add', 'object' => 'goods'));
     	} 
 		
     	$today = RC_Time::gmtime();
@@ -174,7 +174,7 @@ class admin_goods_add_module extends api_admin implements api_interface {
     	$merchant_category = RC_Model::model('goods/merchants_category_model')->where(array('cat_id' => $row['merchant_cat_id']))->get_field('cat_name');
     		
     	if (ecjia::config('shop_touch_url', ecjia::CONFIG_EXISTS)) {
-    		$goods_desc_url = ecjia::config('shop_touch_url').'index.php?m=goods&c=index&a=init&id='.$id.'&hidenav=1&hidetab=1';
+    		$goods_desc_url = ecjia::config('shop_touch_url').'index.php?m=goods&c=index&a=init&id='.$goods_id.'&hidenav=1&hidetab=1';
     	} else {
     		$goods_desc_url = null;
     	}
@@ -199,8 +199,8 @@ class admin_goods_add_module extends api_admin implements api_interface {
     			'clicks'		=> intval($row['click_count']),
     			'stock'			=> (ecjia::config('use_storage') == 1) ? $row['goods_number'] : '',
     			'goods_weight'	=> $row['goods_weight']  = (intval($row['goods_weight']) > 0) ?
-    			$row['goods_weight'] . __('千克') :
-    			($row['goods_weight'] * 1000) . __('克'),
+    			$row['goods_weight'] . __('千克', 'goods') :
+    			($row['goods_weight'] * 1000) . __('克', 'goods'),
     			'is_promote'	=> $row['is_promote'],
     			'is_best'		=> $row['is_best'],
     			'is_new'		=> $row['is_new'],

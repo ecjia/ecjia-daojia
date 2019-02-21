@@ -65,13 +65,13 @@ class admin_goods_gallery_sort_module extends api_admin implements api_interface
     	$goods_id		= $this->requestData('goods_id');
     	$gallery_sort	= $this->requestData('gallery_sort', array());
     	if (empty($goods_id)) {
-    		return new ecjia_error('invalid_parameter', '参数错误');
+    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	if (empty($gallery_sort)) {
     	    return array();
     	}
     	if (!is_array($gallery_sort)) {
-    	    return new ecjia_error('invalid_parameter', '参数错误');
+    	    return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	
     	$where = array('goods_id' => $goods_id);
@@ -82,7 +82,7 @@ class admin_goods_gallery_sort_module extends api_admin implements api_interface
 		$goods_info = RC_Model::model('goods/goods_model')->where($where)->find();
 		
 		if (empty($goods_info)) {
-			return new ecjia_error('goods_empty', '未找到对应商品');
+			return new ecjia_error('goods_empty', __('未找到对应商品', 'goods'));
 		}
 		
 		$i = 1;
@@ -94,7 +94,7 @@ class admin_goods_gallery_sort_module extends api_admin implements api_interface
 		}
 		
 		if ($_SESSION['store_id'] > 0) {
-		    RC_Api::api('merchant', 'admin_log', array('text' => $goods_info['goods_name'].'-更新商品相册排序【来源掌柜】', 'action' => 'edit', 'object' => 'goods'));
+		    RC_Api::api('merchant', 'admin_log', array('text' => $goods_info['goods_name'].'-'.__('更新商品相册排序', 'goods').__('【来源掌柜】', 'goods'), 'action' => 'edit', 'object' => 'goods'));
 		}
 		
     	return array();

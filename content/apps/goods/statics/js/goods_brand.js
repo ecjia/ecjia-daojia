@@ -51,17 +51,11 @@
 				rules: {
 					brand_name: {
 						required: true
-					},
-					url: {
-						required: true
 					}
 				},
 				messages: {
 					brand_name: {
-						required: "请输入品牌名称"
-					},
-					url: {
-						required: "请输正确的网址"
+						required: js_lang.brand_name_required
 					}
 				},
 				submitHandler: function() {

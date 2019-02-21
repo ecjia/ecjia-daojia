@@ -58,14 +58,14 @@ class admin_goods_detail_module extends api_admin implements api_interface {
 			return new ecjia_error(100, 'Invalid session');
 		}
 		if (!$this->admin_priv('goods_manage')) {
-			return new ecjia_error('privilege_error', '对不起，您没有执行此项操作的权限！');
+			return new ecjia_error('privilege_error', __('对不起，您没有执行此项操作的权限！', 'goods'));
 		}
 
 		$id = $this->requestData('goods_id',0);
 		$goods_sn = $this->requestData('goods_sn');
 		
     	if (empty($id) && empty($goods_sn)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}
 		if (!empty($id)) {
 			$where['goods_id'] = $id;
@@ -81,7 +81,7 @@ class admin_goods_detail_module extends api_admin implements api_interface {
 		}
 		$row = $db_goods->find($where);
 		if (empty($row)) {
-			return new ecjia_error('not_exists_info', '不存在的信息');
+			return new ecjia_error('not_exists_info', __('不存在的信息', 'goods'));
 		} else {
 		    RC_Loader::load_app_func('admin_category', 'goods');
 			$brand_db		= RC_Model::model('goods/brand_model');

@@ -132,7 +132,7 @@ class goods_mobilebuygoods_module extends api_front implements api_interface {
     					),
     					'activity_type' => 'MOBILEBUY_GOODS',
     					'saving_price'	=> $saving_price,
-    					'formatted_saving_price' => '已省'.$saving_price.'元',
+    					'formatted_saving_price' => sprintf(__('已省%s元', 'goods'), $saving_price),
     					'object_id'	=> $val['act_id'],
     			);
     		}

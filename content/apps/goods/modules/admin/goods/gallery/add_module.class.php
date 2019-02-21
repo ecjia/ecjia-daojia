@@ -64,7 +64,7 @@ class admin_goods_gallery_add_module extends api_admin implements api_interface 
     	
     	$goods_id		= $this->requestData('goods_id');
     	if (empty($goods_id)) {
-    		return new ecjia_error('invalid_parameter', '参数错误');
+    		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	
     	$where = array('goods_id' => $goods_id);
@@ -75,10 +75,10 @@ class admin_goods_gallery_add_module extends api_admin implements api_interface 
 		$goods_info = RC_Model::model('goods/goods_model')->where($where)->find();
 		
 		if (empty($goods_info)) {
-			return new ecjia_error('goods_empty', '未找到对应商品');
+			return new ecjia_error('goods_empty', __('未找到对应商品', 'goods'));
 		}
 		if (empty($_FILES)) {
-		    return new ecjia_error('upload_empty', '请选择您要上传的图片');
+		    return new ecjia_error('upload_empty', __('请选择您要上传的图片', 'goods'));
 		}
 		
 		RC_Loader::load_app_class('goods_image_data', 'goods', false);
@@ -90,7 +90,7 @@ class admin_goods_gallery_add_module extends api_admin implements api_interface 
 		    $count = $db_goods_gallery->where(array('goods_id' => $goods_id))->count();
 		    
 		    if ($count_new > $goods_gallery_number - $count) {
-		        return new ecjia_error('upload_counts_error', '商品相册图片不能超过'.$goods_gallery_number.'张');
+		        return new ecjia_error('upload_counts_error', sprintf(__('商品相册图片不能超过%d张', 'goods'), $goods_gallery_number));
 		    }
 		}
 		$upload = RC_Upload::uploader('image', array('save_path' => 'images', 'auto_sub_dirs' => true));
@@ -125,7 +125,7 @@ class admin_goods_gallery_add_module extends api_admin implements api_interface 
 		
 		/* 记录日志 */
 		if ($_SESSION['store_id'] > 0) {
-		    RC_Api::api('merchant', 'admin_log', array('text' => $goods_info['goods_name'].'-添加商品相册图片【来源掌柜】', 'action' => 'edit', 'object' => 'goods'));
+		    RC_Api::api('merchant', 'admin_log', array('text' => $goods_info['goods_name'].'-'.__('添加商品相册图片', 'goods').__('【来源掌柜】', 'goods'), 'action' => 'edit', 'object' => 'goods'));
 		} 
     	return array();
     }

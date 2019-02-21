@@ -144,7 +144,7 @@ class home_category_module extends api_front implements api_interface {
                         	'activity_type' => $activity_type,
                         	'object_id'		=> $object_id,
                         	'saving_price'	=> $saving_price,
-                        	'formatted_saving_price' => '已省'.$saving_price.'元'
+                        	'formatted_saving_price' => sprintf(__('已省%s元', 'goods'), $saving_price)
                         );
                     }
 

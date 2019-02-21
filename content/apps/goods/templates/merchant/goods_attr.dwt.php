@@ -47,13 +47,13 @@
 						<form class="form-horizontal" action="{$form_action}" method="post" name="theForm">
 							<fieldset>
 								<div class="form-group">
-									<label class="control-label col-lg-2">{lang key='goods::goods.label_goods_spec'}</label>
+									<label class="control-label col-lg-2">{t domain="goods"}商品规格：{/t}</label>
 									<div class="col-lg-4">
 										<select class="form-control m-bot15" name="goods_type" autocomplete="off" data-toggle="get_attr_list" data-url='{url path="goods/merchant/get_attr" args="goods_id={$goods_id}"}'>
-											<option value="0">{lang key='goods::goods.sel_goods_spec'}</option>
+											<option value="0">{t domain="goods"}请选择商品规格{/t}</option>
 											<!-- {$goods_type_list} -->
 										</select>
-										<span class="help-block">{lang key='goods::goods.notice_goods_spec'}</span> 
+										<span class="help-block">{t domain="goods"}请选择商品的所属规格，进而完善此商品的属性{/t}</span>
 									</div>
 								</div>
 								<div id="tbody-goodsAttr"> 
@@ -63,10 +63,10 @@
 								<div class="form-group">
 									<div class="col-lg-offset-2 col-lg-6">
 									{if $step}
-									<button class="btn btn-info" type="submit">{lang key='goods::goods.next_step'}</button>
+									<button class="btn btn-info" type="submit">{t domain="goods"}下一步{/t}</button>
 									<input type="hidden" name="step" value="{$step}" />
 									{else}
-									<button class="btn btn-info" type="submit">{lang key='goods::goods.save'}</button>
+									<button class="btn btn-info" type="submit">{t domain="goods"}保存{/t}</button>
 									{/if}
 									
 									<input type="hidden" name="goods_id" value="{$goods_id}" />

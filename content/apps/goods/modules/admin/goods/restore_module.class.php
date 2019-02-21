@@ -65,7 +65,7 @@ class admin_goods_restore_module extends api_admin implements api_interface {
 		$id		= $this->requestData('id');
 		$id 	= explode(',', $id);
 		if (empty($id)) {
-			return new ecjia_error('invalid_parameter', '参数错误');
+			return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
 		}
 		$data = array(
 				'is_delete' => 0,
@@ -82,7 +82,7 @@ class admin_goods_restore_module extends api_admin implements api_interface {
 		foreach ($id as $val) {
 			$goods_name = $db_goods->where(array('goods_id' => $val))->get_field('goods_name');
 			if ($_SESSION['store_id'] > 0) {
-			    RC_Api::api('merchant', 'admin_log', array('text' => $goods_name.'【来源掌柜】', 'action' => 'restore', 'object' => 'goods'));
+			    RC_Api::api('merchant', 'admin_log', array('text' => $goods_name.__('【来源掌柜】', 'goods'), 'action' => 'restore', 'object' => 'goods'));
 			} 
 		}
 		

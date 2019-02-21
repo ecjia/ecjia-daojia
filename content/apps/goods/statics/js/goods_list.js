@@ -26,29 +26,29 @@
 				var title = $this.attr('data-title');
 				var type = $this.attr('data-text') || 'text';
 				if (!name || !pk || !url) {
-					console.log('editable缺少参数');
+					console.log(js_lang.editable_miss_parameters);
 					return;
 				}
-				if (!title) title = '编辑信息!';
+				if (!title) title = js_lang.edit_info;
 				var pjaxurl = $this.attr('data-pjax-url') || '';
 				$this.editable({
 					source: [{
 						value: 1,
-						text: '未审核'
+						text: js_lang.wait_check
 					}, {
 						value: 2,
-						text: '审核未通过'
+						text: js_lang.check_no_access
 					}, {
 						value: 3,
-						text: '审核已通过'
+						text: js_lang.check_access
 					}, {
 						value: 5,
-						text: '无需审核'
+						text: js_lang.check_no_need
 					}],
 					url: url,
 					name: name,
 					pk: pk,
-					title: '请输入商品货号',
+					title: js_lang.enter_goods_sn,
 					type: type,
 					dataType: 'json',
 					success: function(data) {
@@ -66,7 +66,7 @@
 				if ($(".editable-container select option").length) {
 					$(".editable-container select").chosen({
 						add_class: "down-menu-language",
-						no_results_text: "未找到搜索内容!",
+						no_results_text: js_lang.search_empty,
 						allow_single_deselect: true,
 						disable_search_threshold: 8
 					});
@@ -167,7 +167,7 @@
 					checkboxes.push($(this).val());
 				});
 				if (checkboxes == '') {
-					smoke.alert("请选择需要转移的商品");
+					smoke.alert(js_lang.choose_select_goods);
 					return false;
 				} else {
 					$('#movetype').modal('show');
@@ -223,7 +223,7 @@
 				$("div.form-group").removeClass("f_error");
 				$("label.error").remove();
 				$(".insertSubmit").removeAttr('disabled');
-				$(".insertSubmit").html('开始导入');
+				$(".insertSubmit").html(js_lang.import_goods);
 				
 				var $this = $(this);
 				var goods_id = $this.attr('data-id');
@@ -242,7 +242,7 @@
 			});
 			$(".insertSubmit").on('click', function(e) {
 				$(".insertSubmit").attr('disabled', true);
-				$(".insertSubmit").html('导入中 <i class="fontello-icon-spin6 animate-spin"></i>');
+				$(".insertSubmit").html(js_lang.importing + ' <i class="fontello-icon-spin6 animate-spin"></i>');
 				$("form[name='insertForm']").submit();
 				//$('#insertGoods').modal('hide');
 			});	
@@ -267,13 +267,13 @@
 				},
 				messages: {
 					goods_name: {
-						required: '请填写商品名称'
+						required: js_lang.goods_name_required
 					},
 					shop_price: {
-						required: '请填写价格'
+						required: js_lang.shop_price_required
 					},
 					goods_number: {
-						required: '请填写库存'
+						required: js_lang.goods_number_required
 					}
 				},
 				submitHandler: function() {
@@ -283,7 +283,7 @@
 							if (data.state == 'error') {
 								smoke.alert(data.message);
 								$(".insertSubmit").removeAttr('disabled');
-								$(".insertSubmit").html('开始导入');
+								$(".insertSubmit").html(js_lang.import_goods);
 								//ecjia.merchant.showmessage(data);
 								return false;
 							}
@@ -296,13 +296,13 @@
 						},
 						error: function(data) {
 							$(".insertSubmit").removeAttr('disabled');
-							$(".insertSubmit").html('开始导入');
+							$(".insertSubmit").html(js_lang.import_goods);
 						}
 					});
 				},
 				showErrors : function(errorMap, errorList) {
 					$(".insertSubmit").removeAttr('disabled');
-					$(".insertSubmit").html('开始导入');
+					$(".insertSubmit").html(js_lang.import_goods);
 			        
 			        this.defaultShowErrors();
 			    }
@@ -364,13 +364,13 @@
 			$('[data-toggle="goto_newpage"]').on('click', function(e) {
 				e.preventDefault();
 				var url = $(this).attr('data-href') || $(this).attr('href');
-				smoke.confirm('您确定放弃当前页面编辑的内容吗？', function(e) {
+				smoke.confirm(js_lang.give_up_confirm, function(e) {
 					if (e) {
 						window.location.href = url;
 					}
 				}, {
-					ok: "确定",
-					cancel: "取消"
+					ok: js_lang.ok,
+					cancel: js_lang.cancel
 				});
 			});
 		},
@@ -473,7 +473,7 @@
 				var price = parseInt(options.shop_price * options.discount + 0.5) / 100;
 				$('#nrank_' + options.rank_id).length && $('#nrank_' + options.rank_id).html('(' + price + ')');
 			} else {
-				$('#nrank_' + options.rank_id).length && $('#nrank_' + options.rank_id).html('(未计算)')
+				$('#nrank_' + options.rank_id).length && $('#nrank_' + options.rank_id).html('('+ js_lang.not_calculate +')')
 			}
 		},
 		computePrice: function(options) {
@@ -536,18 +536,18 @@
 				},
 				messages: {
 					goods_name: {
-						required: "请输入商品名称！"
+						required: js_lang.goods_name_required
 					},
 					shop_price: {
-						required: "请输入商品价格！",
-						min: "请输入正确价格格式！"
+						required: js_lang.shop_price_required,
+						min: js_lang.shop_price_limit
 					},
 					goods_number: {
-						required: "请输入商品库存！",
-						min: "商品库存最小只能为0！"
+						required: js_lang.goods_number_required,
+						min: js_lang.goods_number_limit
 					},
 					cat_id: {
-						min: "请选择商品分类！"
+						min: js_lang.category_id_select
 					}
 				},
 				submitHandler: function() {
@@ -617,12 +617,12 @@
 					$input = $form.find('input[name="term_meta_key"]');
 
 				if ($this.hasClass('new')) {
-					$this.removeClass('new').text('添加新栏目');
+					$this.removeClass('new').text(js_lang.add_new_mate);
 					// $this.parent().removeClass('p_t5');
 					$input.addClass('hide').val(value);
 					$select.next('.chzn-container').removeClass('hide');
 				} else {
-					$this.addClass('new').text('返回选择栏目');
+					$this.addClass('new').text(js_lang.back_select_mate);
 					// $this.parent().addClass('p_t5');
 					$input.removeClass('hide').val('');
 					$select.next('.chzn-container').addClass('hide');
@@ -833,10 +833,10 @@
 				},
 				messages: {
 					product_sn: {
-						required: "请输入货号"
+						required: js_lang.product_sn_required
 					},
 					product_number: {
-						required: "请输入库存"
+						required: js_lang.product_number_required
 					}
 				},
 				submitHandler: function() {
@@ -979,7 +979,7 @@
 					$('.nav-list-ready').append(opt);
 				};
 			} else {
-				$('.nav-list-ready').html('<li class="ms-elem-selectable disabled"><span>未搜索到商品信息</span></li>');
+				$('.nav-list-ready').html('<li class="ms-elem-selectable disabled"><span>'+ js_lang.select_goods_empty +'</span></li>');
 			}
 			app.link_goods.search_link_goods_opt();
 			app.link_goods.add_link_goods();
@@ -1007,7 +1007,9 @@
 		add_link_goods: function() {
 			$('.nav-list-ready li').on('click', function() {
 				var $this = $(this),
-					tmpobj = $('<li class="ms-elem-selection"><input type="hidden" name="goods_id[]" data-double="0" data-price="' + $this.attr('data-price') + '" value="' + $this.attr('data-id') + '" /><span class="link_static m_r5">[单向关联]</span>' + $this.text() + '<span class="edit-list"><a class="change_links_mod" href="javascript:;">切换关联</a><i class="fontello-icon-minus-circled ecjiafc-red del"></i></span></li>');
+					tmpobj = $('<li class="ms-elem-selection"><input type="hidden" name="goods_id[]" data-double="0" data-price="'
+						+ $this.attr('data-price') + '" value="' + $this.attr('data-id') + '" /><span class="link_static m_r5">['+js_lang.single+']</span>'
+						+ $this.text() + '<span class="edit-list"><a class="change_links_mod" href="javascript:;">'+js_lang.change_connect+'</a><i class="fontello-icon-minus-circled ecjiafc-red del"></i></span></li>');
 				if (!$this.hasClass('disabled')) {
 					tmpobj.appendTo($(".ms-selection .nav-list-content"));
 					$this.addClass('disabled');
@@ -1039,7 +1041,8 @@
 			//切换关联模式
 			$(document).off('click.changelinksmod').on('click.changelinksmod', '.change_links_mod', function() {
 				var $info = $(this).parents('.ms-elem-selection').find('input[name="goods_id[]"]');
-				$info.attr('data-double') == 1 ? $info.attr('data-double', '0').parents('.ms-elem-selection').find('.link_static').text('[单向关联]') : $info.attr('data-double', '1').parents('.ms-elem-selection').find('.link_static').text('[双向关联]');
+				$info.attr('data-double') == 1 ? $info.attr('data-double', '0').parents('.ms-elem-selection').find('.link_static').text('['+js_lang.single+']')
+					: $info.attr('data-double', '1').parents('.ms-elem-selection').find('.link_static').text('['+js_lang.double+']');
 			});
 		},
 		submit_link_goods: function() {
@@ -1065,112 +1068,6 @@
 		}
 	};
 
-	/* 关联地区 */
-	app.link_area = {
-		init: function() {
-			$(".nav-list-ready ,.ms-selection .nav-list-content").disableSelection();
-			app.link_area.search_link_area();
-			app.link_area.del_link_area();
-			app.link_area.submit_link_goods();
-		},
-
-		search_link_area: function() { /* 查找商品 */
-			$('[data-toggle="searcharea"]').on('click', function() {
-				var $choose_list = $('.choose_list'),
-					searchURL = $choose_list.attr('data-url'),
-					ra_id = $('.link_area').val();
-				$.post(searchURL, {
-					'ra_id': ra_id
-				}, function(data) {
-					app.link_area.load_link_area_opt(data);
-				}, "JSON");
-			})
-		},
-		load_link_area_opt: function(data) {
-			$('.nav-list-ready').html('');
-			if (data.content.length > 0) {
-				for (var i = 0; i < data.content.length; i++) {
-					var disable = $('.nav-list-content .ms-elem-selection').find('input[value="' + data.content[i].regionId + '"]').length ? 'disabled' : '';
-					var opt = '<li class="ms-elem-selectable ' + disable + '" id="ra_id' + data.content[i].regionId + '" data-id="' + data.content[i].regionId + '"><span>' + data.content[i].region_name + '</span></li>'
-					$('.nav-list-ready').append(opt);
-				};
-			} else {
-				$('.nav-list-ready').html('<li class="ms-elem-selectable disabled"><span>未搜索到地区信息</span></li>');
-			}
-			app.link_area.search_link_area_opt();
-			app.link_area.add_link_area();
-		},
-		search_link_area_opt: function() {
-			//li搜索筛选功能
-			$('#ms-search').quicksearch(
-			$('.ms-elem-selectable', '#ms-custom-navigation'), {
-				onAfter: function() {
-					$('.ms-group').each(function(index) {
-						$(this).find('.isShow').length ? $(this).css('display', 'block') : $(this).css('display', 'none');
-					});
-					return;
-				},
-				show: function() {
-					this.style.display = "";
-					$(this).addClass('isShow');
-				},
-				hide: function() {
-					this.style.display = "none";
-					$(this).removeClass('isShow');
-				},
-			});
-		},
-		add_link_area: function() {
-			$('.nav-list-ready li').on('click', function() {
-				var $this = $(this),
-					tmpobj = $('<li class="ms-elem-selection"><input type="hidden" name="region[]" value="' + $this.attr('data-id') + '" />' + $this.text() + '<span class="edit-list"><i class="fontello-icon-minus-circled ecjiafc-red del"></i></span></li>');
-				if (!$this.hasClass('disabled')) {
-					tmpobj.appendTo($(".ms-selection .nav-list-content"));
-					$this.addClass('disabled');
-				}
-				//给新元素添加点击事件
-				tmpobj.on('dblclick', function() {
-					$this.removeClass('disabled');
-					tmpobj.remove();
-				}).find('i.del').on('click', function() {
-					tmpobj.trigger('dblclick');
-				});
-			});
-		},
-		del_link_area: function() {
-			//给右侧元素添加点击事件
-			$('.nav-list-content .ms-elem-selection').on('dblclick', function() {
-				var $this = $(this);
-				$(".nav-list-ready li").each(function(index) {
-					if ($(".nav-list-ready li").eq(index).attr('id') == 'ra_id' + $this.find('input').val()) {
-						$(".nav-list-ready li").eq(index).removeClass('disabled');
-					}
-				});
-				$this.remove();
-			}).find('i.del').on('click', function() {
-				$(this).parents('li').trigger('dblclick');
-			});
-		},
-		submit_link_goods: function() {
-			//表单提交
-			$('form[name="theForm"]').on('submit', function(e) {
-				e.preventDefault();
-				var url = $(this).attr('action');
-				var info = {
-					'linked_array': []
-				};
-				$('.nav-list-content li').each(function(index) {
-					var id = $('.nav-list-content li').eq(index).find('input').val();
-					info.linked_array.push({
-						'id': id,
-					});
-				});
-				$.post(url, info, function(data) {
-					ecjia.admin.showmessage(data);
-				});
-			})
-		}
-	}
 
 	/* 关联配件 */
 	app.link_parts = {
@@ -1207,7 +1104,7 @@
 					$('.nav-list-ready').append(opt);
 				};
 			} else {
-				$('.nav-list-ready').html('<li class="ms-elem-selectable disabled"><span>未搜索到商品信息</span></li>');
+				$('.nav-list-ready').html('<li class="ms-elem-selectable disabled"><span>'+ js_lang.select_goods_empty +'</span></li>');
 			}
 			app.link_parts.search_link_goods_opt();
 			app.link_parts.add_link_goods();
@@ -1235,7 +1132,7 @@
 		add_link_goods: function() {
 			$('.nav-list-ready li').on('click', function() {
 				var $this = $(this),
-					tmpobj = $('<li class="ms-elem-selection"><input type="hidden" name="goods_id[]" data-double="0" data-price="' + $this.attr('data-price') + '" value="' + $this.attr('data-id') + '" />' + $this.text() + '<span class="link_price m_l5">[价格:' + $this.attr('data-price') + ']</span><span class="edit-list"><a class="change_link_price" href="javascript:;">修改价格</a><i class="fontello-icon-minus-circled ecjiafc-red del"></i></span></li>');
+					tmpobj = $('<li class="ms-elem-selection"><input type="hidden" name="goods_id[]" data-double="0" data-price="' + $this.attr('data-price') + '" value="' + $this.attr('data-id') + '" />' + $this.text() + '<span class="link_price m_l5">['+js_lang.price+':' + $this.attr('data-price') + ']</span><span class="edit-list"><a class="change_link_price" href="javascript:;">'+js_lang.modify_price+'</a><i class="fontello-icon-minus-circled ecjiafc-red del"></i></span></li>');
 				if (!$this.hasClass('disabled')) {
 					tmpobj.appendTo($(".ms-selection .nav-list-content"));
 					$this.addClass('disabled');
@@ -1271,14 +1168,14 @@
 					$price = $this.parents('li').find('[data-price]'),
 					$link_price = $this.parents('li').find('.link_price');
 
-				if ($this.text() == '修改价格') {
-					$this.text('保存');
+				if ($this.text() == js_lang.modify_price) {
+					$this.text(js_lang.save);
 					$link_price.addClass('hide').after('<input class="link_price_input" type="text" name="link_price_input" />');
 				} else {
 					var price = parseInt($this.parents('li').find('.link_price_input').val());
 					$this.parents('li').find('.link_price_input').remove();
-					$this.text('修改价格');
-					$link_price.text('[价格:' + price + ']').removeClass('hide');
+					$this.text(js_lang.modify_price);
+					$link_price.text('['+ js_lang.price +':' + price + ']').removeClass('hide');
 					$price.attr('data-price', price);
 				}
 
@@ -1338,7 +1235,7 @@
 					$('.nav-list-ready').append(opt);
 				};
 			} else {
-				$('.nav-list-ready').html('<li class="ms-elem-selectable disabled"><span>未搜索到文章信息</span></li>');
+				$('.nav-list-ready').html('<li class="ms-elem-selectable disabled"><span>'+ js_lang.select_article_empty +'</span></li>');
 			}
 			app.link_article.search_link_article_opt();
 			app.link_article.add_link_article();
@@ -1440,7 +1337,7 @@
 			var action = $(".fileupload").attr('data-action');
 			$(".fileupload").dropper({
 				action: action,
-				label: '将图片拖动至此处上传',
+				label: js_lang.drag_here_upload,
 				maxQueue: 2,
 				maxSize: 5242880,
 				// 5 mb
@@ -1542,7 +1439,6 @@
 			app.goods_mode.change_model();
 			app.goods_mode._change_model();
 			app.goods_mode.mode_submit();
-			app.goods_mode.click_edit();
 			app.goods_mode.click_model();
 		},
 
@@ -1593,40 +1489,6 @@
 			});
 		},
 
-		click_edit: function() {
-			$('.goods_model [data-toggle="modal"]').on('click', function(e) {
-				e.preventDefault();
-				var $this = $(this),
-					id = $this.attr('data-id'),
-					warehouse = $this.attr('data-warehouse'),
-					promote = $this.attr('data-promote'),
-					price = $this.attr('data-price'),
-					number = $this.attr('data-number'),
-					region = $this.attr('data-region'),
-					$modal = $($this.attr('href')),
-					$form = $modal.find('form');
-
-				$form.attr('action', $form.attr('data-editurl'));
-
-				if (region) {
-					$modal.find(".modal-header h3 ").text('编辑地区模式');
-					$form.find('input[name="region_number"]').val(number);
-					$form.find('input[name="region_price"]').val(price);
-					$form.find('input[name="region_promote_price"]').val(promote);
-					$form.find('input[name="a_id"]').val(id);
-					$form.find("select[name='warehouse_area_name'] option[value=" + warehouse + "]").prop("selected", true);
-					$form.find("select[name='warehouse_area_name']").trigger("liszt:updated").trigger("change");
-				} else {
-					$modal.find(".modal-header h3 ").text('编辑仓库模式');
-					$form.find('input[name="warehouse_number"]').val(number);
-					$form.find('input[name="warehouse_price"]').val(price);
-					$form.find('input[name="warehouse_promote_price"]').val(promote);
-					$form.find('input[name="w_id"]').val(id);
-					$form.find("select[name='warehouse_name'] option[value=" + warehouse + "]").prop("selected", true);
-					$form.find("select[name='warehouse_name']").trigger("liszt:updated");
-				}
-			});
-		},
 
 		click_model: function() {
 			$('[data-toggle="modal"][data-type="add"]').on('click', function(e) {

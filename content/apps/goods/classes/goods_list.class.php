@@ -423,7 +423,7 @@ class goods_list {
 					/* 增加商品样式*/
 					$arr[$key]['goods_style_name'] = add_style($row['goods_name'], $row['goods_name_style']);
 					$arr[$key]['market_price']	= $row['market_price'] > 0 ? price_format($row['market_price']) : 0;
-					$arr[$key]['shop_price']	= $row['shop_price'] > 0 ? price_format($row['shop_price']) : RC_Lang::get('goods::goods.free');
+					$arr[$key]['shop_price']	= $row['shop_price'] > 0 ? price_format($row['shop_price']) : __('免费', 'goods');
 					$arr[$key]['type']			= $row['goods_type'];
 					$arr[$key]['promote_price']	= ($promote_price > 0) ? price_format($promote_price) : '';
 					//增加促销时间
@@ -729,7 +729,7 @@ class goods_list {
 	                /* 增加商品样式*/
 	                $arr[$key]['goods_style_name'] = add_style($row['goods_name'], $row['goods_name_style']);
 	                $arr[$key]['market_price']	= $row['market_price'] > 0 ? price_format($row['market_price']) : 0;
-	                $arr[$key]['shop_price']	= $row['shop_price'] > 0 ? price_format($row['shop_price']) : RC_Lang::get('goods::goods.free');
+	                $arr[$key]['shop_price']	= $row['shop_price'] > 0 ? price_format($row['shop_price']) : __('免费', 'goods');
 	                $arr[$key]['type']			= $row['goods_type'];
 	                $arr[$key]['promote_price']	= ($promote_price > 0) ? price_format($promote_price) : '';
 	                //增加促销时间

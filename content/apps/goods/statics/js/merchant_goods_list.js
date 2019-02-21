@@ -555,7 +555,7 @@
 				if (cat_id != 0 && cat_id != undefined) {
 					$('button[type="button"]').prop('disabled', false);
 				}
-				var no_content = '<li class="ms-elem-selectable disabled"><span>暂无内容</span></li>';
+				var no_content = '<li class="ms-elem-selectable disabled"><span>'+js_lang.empty_data+'</span></li>';
 				$.post(url, info, function(data) {
 					if (level == 1) {
 						$('.level_1').html('');
