@@ -12,7 +12,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-reward-team">
 	<div class="reward-team-top">
 		<p class="total-num">团队总人数（人）</p>
-		<p class="number">{if $data.total_count}{$data.total_count}{else}0{/if}</p>
+		<p class="number">{if $total_count}{$total_count}{else}0{/if}</p>
 	</div>
 
 	<div class="reward-team-bottom">
@@ -28,7 +28,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {foreach from=$list item=val} 循环商品 -->
 <li class="team-item-li">
 	<div class="team-img">
-		<img class="ecjiaf-fl" src="{$val.avatar_img}" />
+		<img class="ecjiaf-fl" src="{if $val.avatar_img}{$val.avatar_img}{else}{$theme_url}images/default_user.png{/if}" />
 	</div>
 	<div class="team-right">
 		<div class="name">{$val.user_name}</div>

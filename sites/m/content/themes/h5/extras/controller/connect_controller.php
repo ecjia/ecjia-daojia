@@ -77,12 +77,7 @@ class connect_controller
 
             $connect_code = $connect_user->getConnectCode();
             $open_id      = $connect_user->getOpenId();
-            if($connect_code == 'sns_wechat') {
-                $user_name = with(new \Ecjia\App\Connect\UserGenerate($connect_user))->getUserName();
-            } else {
-                $user_name    = $connect_user->getUserName();
-            }
-            
+            $user_name = with(new \Ecjia\App\Connect\UserGenerate($connect_user))->getUserName();
 
             //绑定第三方
             $token = ecjia_touch_user::singleton()->getToken();
@@ -115,11 +110,7 @@ class connect_controller
 
         $connect_code = $connect_user->getConnectCode();
         $open_id      = $connect_user->getOpenId();
-        if($connect_code == 'sns_wechat') {
-            $user_name = with(new \Ecjia\App\Connect\UserGenerate($connect_user))->getUserName();
-        } else {
-            $user_name    = $connect_user->getUserName();
-        }
+        $user_name = with(new \Ecjia\App\Connect\UserGenerate($connect_user))->getUserName();
 
         $_SESSION['user_temp']['connect_code'] = $connect_code;
         $_SESSION['user_temp']['open_id']      = $open_id;

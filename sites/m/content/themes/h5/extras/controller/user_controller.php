@@ -234,12 +234,12 @@ class user_controller
             'token'      => $token,
             'pagination' => array('count' => 10, 'page' => 1),
         );
-        $result = ecjia_touch_manager::make()->api(ecjia_touch_api::AFFILIATE_USER_INVITE)->data($param)->hasPage()->run();
+        $result = ecjia_touch_manager::make()->api(ecjia_touch_api::AFFILIATE_USER_INVITEE)->data($param)->hasPage()->run();
         $result = is_ecjia_error($result) ? [] : $result;
 
         if (!empty($result)) {
             list($data, $page) = $result;
-            ecjia_front::$controller->assign('data', $data);
+            ecjia_front::$controller->assign('total_count', $page['total']);
         }
 
         ecjia_front::$controller->display('personal_reward_team.dwt');
@@ -265,8 +265,8 @@ class user_controller
             }
 
             $say_list = '';
-            if (!empty($data['list'])) {
-                ecjia_front::$controller->assign('list', $data['list']);
+            if (!empty($data)) {
+                ecjia_front::$controller->assign('list', $data);
             }
             $say_list = ecjia_front::$controller->fetch('personal_reward_team.dwt');
 

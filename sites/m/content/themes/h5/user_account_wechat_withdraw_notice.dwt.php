@@ -20,7 +20,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<p class="green">申请提交成功</p>
 	<p>我们将3-5工作日审核，请您耐心等待</p>
 	<p>如有疑问，请联系客服</p>
-	<p>400-021-0000</p>
+	<p>{ecjia::config('service_phone')}</p>
 </div>
 
 <div class="text-center">

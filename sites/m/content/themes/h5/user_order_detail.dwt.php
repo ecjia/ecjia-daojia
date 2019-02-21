@@ -232,16 +232,16 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 						<a class="btn btn-small btn-hollow" href='{url path="user/order/return_order" args="order_id={$order.order_id}"}'>申请退款</a>
 					{/if}
 				{/if}
-
-				{if ($order.order_status_code eq 'payed' || $order.refund_info) && $order.extension_code neq 'group_buy'}
+				
+				{if $order.order_status_code eq 'payed' && $order.extension_code neq 'group_buy'}
 					<a class="btn btn-small btn-hollow" href='{url path="user/order/buy_again" args="order_id={$order.order_id}"}'>再次购买</a>
 				{/if}
-
+				
 				{if ($order.refund_type eq 'refund' || $order.refund_type eq 'return') && $order.refund_status eq 'going'}
 				<a class="btn btn-small btn-hollow undo_reply" href='{url path="user/order/undo_reply" args="order_id={$order.order_id}&refund_sn={$order.refund_info.refund_sn}"}'>撤销申请</a>
 				{/if}
 				
-				{if !$order.refund_info eq 2 && $order.order_status_code eq 'finished'}
+				{if !$order.refund_info && $order.order_status_code eq 'finished'}
 				<a class="btn btn-small btn-hollow" href='{url path="user/order/comment_list" args="order_id={$order.order_id}"}'>评价晒单</a>
 				{/if}
 				
