@@ -1,0 +1,37 @@
+# Copyright (C) 2019 Ecjia App toutiao
+# This file is distributed under the same license as the Ecjia App toutiao package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App toutiao 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:59:17+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: apis/toutiao_merchant_purview_api.class.php:55
+msgid "头条管理"
+msgstr ""
+
+#: apis/toutiao_merchant_purview_api.class.php:56
+msgid "头条更新"
+msgstr ""
+
+#: apis/toutiao_merchant_purview_api.class.php:57
+msgid "头条删除"
+msgstr ""
+
+#: configs/package.php:55
+msgid "头条"
+msgstr ""
+
+#: configs/package.php:56
+msgid "头条是商家的服务器的简称，商家可以针对自己的关注粉丝每日推送动态。"
+msgstr ""
+
+#: content/apps/toutiao/templates/merchant/toutiao_add.dwt.php:74
+msgid "http://"
+msgstr ""

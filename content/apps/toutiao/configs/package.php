@@ -52,11 +52,11 @@ defined('IN_ROYALCMS') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.toutiao',
 	'directory' 	=> 'toutiao',
-	'name'			=> 'toutiao',
-	'description' 	=> 'toutiao_desc',				/* 描述对应的语言项 */
+	'name'			=> __('头条', 'toutiao'),
+	'description' 	=> __('头条是商家的服务器的简称，商家可以针对自己的关注粉丝每日推送动态。', 'toutiao'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.27.1',					/* 版本号 */
+	'version' 		=> '1.27.4',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Toutiao',
     'provider'      => 'ToutiaoServiceProvider',
