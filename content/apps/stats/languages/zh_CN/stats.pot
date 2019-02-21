@@ -1,0 +1,33 @@
+# Copyright (C) 2019 Ecjia App stats
+# This file is distributed under the same license as the Ecjia App stats package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App stats 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:58:41+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: apis/stats_merchant_menu_api.class.php:57
+msgid "报表"
+msgstr ""
+
+#: apis/stats_merchant_menu_api.class.php:60
+#: apis/stats_merchant_purview_api.class.php:57
+msgid "搜索关键字"
+msgstr ""
+
+#: configs/package.php:55
+msgid "报表统计"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"报表统计是商城的管理、发展分析中重要的功能，不仅可以进行流量分析，客户、订单"
+"统计，还可以进行销售概况、会员排行、销售明细、销售排行、访问购买率、广告转化"
+"率的查看，为商城的规划、建设提供数据依据。"
+msgstr ""

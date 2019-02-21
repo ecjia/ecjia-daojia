@@ -52,11 +52,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.stats',
 	'directory' 	=> 'stats',
-	'name'			=> 'stats',
-	'description' 	=> 'stats_desc',			/* 描述对应的语言项 */
+	'name'			=> __('报表统计', 'stats'),
+	'description' 	=> __('报表统计是商城的管理、发展分析中重要的功能，不仅可以进行流量分析，客户、订单统计，还可以进行销售概况、会员排行、销售明细、销售排行、访问购买率、广告转化率的查看，为商城的规划、建设提供数据依据。', 'stats'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.21.0',					/* 版本号 */
+	'version' 		=> '1.27.4',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2015 ~ 2019.',
     'namespace'     => 'Ecjia\App\Stats',
     'provider'      => 'StatsServiceProvider',

@@ -54,9 +54,9 @@ class stats_admin_purview_api extends Component_Event_Api {
     
     public function call(&$options) {
         $purviews = array(
-            array('action_name' => RC_Lang::get('stats::flow_stats.traffic_analysis'),	'action_code' => 'flow_stats',			'relevance' => ''),
-        	array('action_name' => RC_Lang::get('stats::statistic.searchengine'),		'action_code' => 'searchengine_stats',	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('stats::statistic.search_keywords'),	'action_code' => 'keywords_stats',		'relevance' => '')
+            array('action_name' => __('流量分析', 'stats'),	'action_code' => 'flow_stats',			'relevance' => ''),
+        	array('action_name' => __('搜索引擎', 'stats'),		'action_code' => 'searchengine_stats',	'relevance' => ''),
+        	array('action_name' => __('搜索关键字', 'stats'),	'action_code' => 'keywords_stats',		'relevance' => '')
         );
         
         return $purviews;

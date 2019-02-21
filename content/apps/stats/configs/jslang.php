@@ -44,14 +44,58 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 应用语言包
+ * js语言包设置
  */
-return array(
-	'stats'			=> '报表统计',
-	'stats_desc' 	=> '报表统计是商城的管理、发展分析中重要的功能，不仅可以进行流量分析，客户、订单统计，还可以进行销售概况、会员排行、销售明细、销售排行、访问购买率、广告转化率的查看，为商城的规划、建设提供数据依据。'
-);
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+    //stats
+    'flow_stats_page' =>array(
+        'start_date_required'	=> __('查询的开始时间不能为空！', 'stats'),
+        'end_date_required'		=> __('查询的结束时间不能为空！', 'stats'),
+        'start_lt_end_date'		=> __('查询的开始时间不能超于结束时间！', 'stats'),
+        'range_error'			=> __('非常抱歉，时间查询范围不能超出90天！', 'stats'),
+        'no_records'			=> __('没有找到任何记录', 'stats'),
+        'month_list' 			=> array(
+            __('一月', 'stats'),
+            __('二月', 'stats'),
+            __('三月', 'stats'),
+            __('四月', 'stats'),
+            __('五月', 'stats'),
+            __('六月', 'stats'),
+            __('七月', 'stats'),
+            __('八月', 'stats'),
+            __('九月', 'stats'),
+            __('十月', 'stats'),
+            __('十一月', 'stats'),
+            __('十二月', 'stats')
+        ),
+        'times'					=> __('次', 'stats'),
+        'area_percent'			=> __('地区分布百分比', 'stats'),
+        'from_percent'			=> __('来源网站百分比', 'stats'),
+        'from_type_required'	=> __('请选择来源类型！', 'stats'),
+        'time_required'			=> __('查询的时间不能为空！', 'stats'),
+    ),
+
+    'statistic_page' =>array(
+        'start_date_required'	=> __('查询的开始时间不能为空！', 'stats'),
+        'end_date_required'		=> __('查询的结束时间不能为空！', 'stats'),
+        'start_lt_end_date'		=> __('查询的开始时间不能超于结束时间！', 'stats'),
+        'no_records'			=> __('没有找到任何记录', 'stats'),
+        'day_list'				=> array(
+            __('星期一', 'stats'),
+            __('星期二', 'stats'),
+            __('星期三', 'stats'),
+            __('星期四', 'stats'),
+            __('星期五', 'stats'),
+            __('星期六', 'stats'),
+            __('星期日', 'stats')
+        ),
+        'times'					=> __('次', 'stats'),
+    ),
+
+);
+//end

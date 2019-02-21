@@ -72,27 +72,27 @@ class mh_keywords_stats extends ecjia_merchant {
 		/*自定义JS*/
 		RC_Style::enqueue_style('stats-css', RC_App::apps_url('statics/css/stats.css', __FILE__), array());
 		RC_Script::enqueue_script('keywords', RC_App::apps_url('statics/js/merchant_keywords.js', __FILE__), array());
-		RC_Script::localize_script('keywords_lang', 'js_lang', RC_Lang::get('stats::statistic.js_lang'));
-		
-		ecjia_merchant_screen::get_current_screen()->set_parentage('stats', 'stats/mh_keywords_stats.php');
+        RC_Script::localize_script('keywords_lang', 'js_lang', config('app-stats::jslang.statistic_page'));
+
+        ecjia_merchant_screen::get_current_screen()->set_parentage('stats', 'stats/mh_keywords_stats.php');
 	}
 	
 	public function init() {
 		$this->admin_priv('stats_search_keywords');
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('报表统计', RC_Uri::url('stats/mh_keywords_stats/init')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('stats::statistic.search_keywords')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('报表统计', 'stats'), RC_Uri::url('stats/mh_keywords_stats/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('搜索关键字', 'stats')));
 		ecjia_merchant_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('stats::statistic.overview'),
-			'content'	=> '<p>' . RC_Lang::get('stats::statistic.keywords_stats_help') . '</p>'
+			'title'		=> __('概述', 'stats'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台搜索引擎页面，系统上所有的搜索引擎信息都会显示在此页面上。', 'stats') . '</p>'
 		));
 		ecjia_merchant_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('stats::statistic.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:搜索引擎" target="_blank">'. RC_Lang::get('stats::statistic.about_keywords_help') .'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：', 'stats') . '</strong></p>' .
+			'<p><a href="https://ecjia.com/wiki/帮助:ECJia智能后台:搜索引擎" target="_blank">'. __('关于搜索关键字帮助文档', 'stats') .'</a></p>'
 		);
-		$this->assign('ur_here', RC_Lang::get('stats::statistic.search_keywords'));
-		$this->assign('action_link', array('text' => RC_Lang::get('stats::statistic.down_search_stats'), 'href' => RC_Uri::url('stats/mh_keywords_stats/download')));
+		$this->assign('ur_here', __('搜索关键字', 'stats'));
+		$this->assign('action_link', array('text' => __('下载搜索关键字报表', 'stats'), 'href' => RC_Uri::url('stats/mh_keywords_stats/download')));
 		
 		$start_date = !empty($_GET['start_date']) ? $_GET['start_date'] : RC_Time::local_date(ecjia::config('date_format'), strtotime('-7 days')-8*3600);
 		$end_date   = !empty($_GET['end_date']) ? $_GET['end_date'] : RC_Time::local_date(ecjia::config('date_format'));
@@ -111,12 +111,12 @@ class mh_keywords_stats extends ecjia_merchant {
 		$this->admin_priv('stats_search_keywords', ecjia::MSGTYPE_JSON);
 		
 		$keywords_list = $this->get_keywords_list(false);
-		$filename = RC_Lang::get('stats::statistic.tab_keywords').'_'.$keywords_list['date'];
+		$filename = __('关键字统计', 'stats').'_'.$keywords_list['date'];
 		
 		header("Content-type: application/vnd.ms-excel; charset=utf-8");
 		header("Content-Disposition: attachment; filename=$filename.xls");
 		
-		$data = RC_Lang::get('stats::statistic.keywords')."\t".RC_Lang::get('stats::statistic.searchengine')."\t".RC_Lang::get('stats::statistic.hits')."\t".RC_Lang::get('stats::statistic.date')."\t\n";
+		$data = __('关键词', 'stats')."\t".__('搜索引擎', 'stats')."\t".__('搜索次数', 'stats')."\t".__('日期', 'stats')."\t\n";
 		
 		if (!empty($keywords_list['item'])) {
 			foreach ($keywords_list['item'] as $v) {

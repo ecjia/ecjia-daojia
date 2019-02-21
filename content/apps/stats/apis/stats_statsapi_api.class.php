@@ -54,7 +54,7 @@ class stats_statsapi_api extends Component_Event_Api {
 	
 	public function call(&$options) {
 		if (!is_array($options) || !isset($options['device']) || empty($options['device'])) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'stats'));
 		}
 		
 		

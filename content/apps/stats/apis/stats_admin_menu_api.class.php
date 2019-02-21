@@ -53,10 +53,10 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class stats_admin_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {
-		$menus = ecjia_admin::make_admin_menu('13_stats', RC_Lang::get('stats::flow_stats.report_statistics'), '', 13);
+		$menus = ecjia_admin::make_admin_menu('13_stats', __('报表统计', 'stats'), '', 13);
 		
 		$submenus = array(
-			ecjia_admin::make_admin_menu('01_keywords_stats', RC_Lang::get('stats::statistic.search_keywords'), RC_Uri::url('stats/admin_keywords_stats/init'), 1)->add_purview('keywords_stats'),
+			ecjia_admin::make_admin_menu('01_keywords_stats', __('搜索关键字', 'stats'), RC_Uri::url('stats/admin_keywords_stats/init'), 1)->add_purview('keywords_stats'),
 		);
         $menus->add_submenu($submenus);
 		
