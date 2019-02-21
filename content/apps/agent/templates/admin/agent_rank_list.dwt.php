@@ -22,10 +22,10 @@
 		<table class="table table-striped table-hide-edit">
 			<thead>
 				<tr>
-                    <th>等级名称</th>
-                    <th>等级别名</th>
-                    <th>分红比例</th>
-                    <th class="w70">操作</th>
+                    <th>{t domain="agent"}等级名称{/t}</th>
+                    <th>{t domain="agent"}等级别名{/t}</th>
+                    <th>{t domain="agent"}分红比例{/t}</th>
+                    <th class="w70">{t domain="agent"}操作{/t}</th>
                 </tr>
 			</thead>
 			<tbody>
@@ -39,7 +39,7 @@
                     </td>
                 </tr>
                 <!-- {foreachelse} -->
-                <tr><td class="no-records" colspan="7">{lang key='system::system.no_records'}</td></tr>
+                <tr><td class="no-records" colspan="7">{t domain="agent"}没有找到任何记录{/t}</td></tr>
                 <!-- {/foreach} -->
             </tbody>
      	</table>

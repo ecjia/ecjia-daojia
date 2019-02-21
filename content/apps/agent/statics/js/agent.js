@@ -46,11 +46,11 @@
                     affiliate_percent: {required: true}
                 },
                 messages: {
-                    agent_name: {required: "请输入代理商名称！"},
-                    mobile_phone: {required: "请输入手机号码！"},
-                    login_password: {required: "请输入登录密码！"},
-                    email: {required: "请输入邮箱账号！"},
-                    affiliate_percent: {required: "请输入分红比例！"}
+                    agent_name: {required: js_lang.enter_agent_name},
+                    mobile_phone: {required: js_lang.enter_mobile_number},
+                    login_password: {required: js_lang.enter_login_password},
+                    email: {required: js_lang.enter_email_account},
+                    affiliate_percent: {required: js_lang.enter_dividend_ratio}
                 },
                 submitHandler: function () {
                     $form.ajaxSubmit({

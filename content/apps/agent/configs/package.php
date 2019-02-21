@@ -52,11 +52,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
     'identifier'  => 'ecjia.agent',
     'directory'   => 'agent',
-    'name'        => 'agent',
-    'description' => 'agent_desc',                /* 描述对应的语言项 */
+    'name'        => __('区域代理', 'agent'),
+    'description' => __('区域代理商就是取得《代理产品》所有权，然后在不同的地区予以而代理商是代理厂家进行销售，本身并不购买厂家的产品，也不享有该产品的所有权，所有的货都是厂家的，产品所有权仍然属于厂家所有，其关系是 厂家——（代理商）——消费者，当然这种代理商所谓的促成交易，也包括的代理商对产品进行销售，但代理商的地位是代理厂家进行销售，并通过销售提取佣金。', 'agent'),
     'author'      => 'ECJIA TEAM',                  /* 作者 */
     'website'     => 'http://www.ecjia.com',        /* 网址 */
-    'version'     => '1.27.0',                       /* 版本号 */
+    'version'     => '1.27.4',                       /* 版本号 */
     'copyright'   => 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'   => 'Ecjia\App\Agent',
     'provider'    => 'AgentServiceProvider',

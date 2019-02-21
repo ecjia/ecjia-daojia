@@ -44,14 +44,23 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 应用语言包
+ * js语言包设置
  */
-return array(
-    'agent'      => '区域代理',
-    'agent_desc' => '区域代理商就是取得《代理产品》所有权，然后在不同的地区予以而代理商是代理厂家进行销售，本身并不购买厂家的产品，也不享有该产品的所有权，所有的货都是厂家的，产品所有权仍然属于厂家所有，其关系是 厂家——（代理商）——消费者，当然这种代理商所谓的促成交易，也包括的代理商对产品进行销售，但代理商的地位是代理厂家进行销售，并通过销售提取佣金。'
-);
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+    //区域代理
+    'agent_page' =>array(
+        'enter_agent_name'		            => __('请输入代理商名称！', 'agent'),
+        'enter_mobile_number'			    => __('请输入手机号码！', 'agent'),
+        'enter_login_password'				=> __('请输入登录密码！', 'agent'),
+        'enter_email_account'               => __('请输入邮箱账号！', 'agent'),
+        'enter_dividend_ratio'              => __('请输入分红比例！', 'agent'),
+
+    ),
+
+);
+//end

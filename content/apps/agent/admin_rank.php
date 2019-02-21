@@ -81,6 +81,7 @@ class admin_rank extends ecjia_admin
         RC_Script::enqueue_script('agent', RC_App::apps_url('statics/js/agent.js', __FILE__));
         RC_Style::enqueue_style('agent', RC_App::apps_url('statics/css/agent.css', __FILE__));
 
+        RC_Script::localize_script('agent', 'js_lang', config('app-agent::jslang.agent_page'));
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('代理等级', RC_Uri::url('agent/admin_rank/init')));
     }
 
@@ -89,9 +90,9 @@ class admin_rank extends ecjia_admin
         $this->admin_priv('agent_rank_manage');
 
         ecjia_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('代理等级'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('代理等级', 'agent')));
 
-        $this->assign('ur_here', '代理等级');
+        $this->assign('ur_here', __('代理等级', 'agent'));
 
         $agent_rank = ecjia::config('agent_rank');
 
@@ -112,7 +113,7 @@ class admin_rank extends ecjia_admin
     {
         $this->admin_priv('agent_rank_update');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑代理等级'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑代理等级', 'agent')));
 
         $id = intval($_GET['id']);
 
@@ -126,14 +127,14 @@ class admin_rank extends ecjia_admin
         }
 
         if (empty($data)) {
-            return $this->showmessage('该代理等级不存在', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该代理等级不存在', 'agent'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }
 
         $this->assign('data', $data);
         $this->assign('id', $id);
 
-        $this->assign('ur_here', '编辑代理等级');
-        $this->assign('action_link', array('href' => RC_Uri::url('agent/admin_rank/init'), 'text' => '代理商列表'));
+        $this->assign('ur_here', __('编辑代理等级', 'agent'));
+        $this->assign('action_link', array('href' => RC_Uri::url('agent/admin_rank/init'), 'text' => __('代理商列表', 'agent')));
         $this->assign('form_action', RC_Uri::url('agent/admin_rank/update'));
 
         $this->display('agent_rank_edit.dwt');
@@ -148,7 +149,7 @@ class admin_rank extends ecjia_admin
         $agent_rank = ecjia::config('agent_rank');
 
         if ($affiliate_percent >= 100) {
-            return $this->showmessage('分成比例不能大于或等于100%', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('分成比例不能大于或等于100%', 'agent'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $rank_name = '';
@@ -173,7 +174,7 @@ class admin_rank extends ecjia_admin
 
         ecjia_admin::admin_log($rank_name, 'edit', 'agent_rank');
 
-        return $this->showmessage('编辑成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('agent/admin_rank/edit', array('id' => $id))));
+        return $this->showmessage(__('编辑成功', 'agent'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('agent/admin_rank/edit', array('id' => $id))));
     }
 }
 

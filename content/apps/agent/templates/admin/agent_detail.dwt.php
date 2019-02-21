@@ -22,7 +22,7 @@
         <div class="accordion-group">
             <div class="accordion-heading">
                 <div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#detail_info_one">
-                    <strong>基本信息</strong>
+                    <strong>{t domain="agent"}基本信息{/t}</strong>
                     <a class="m_l5 stop_propagation" target="_blank" href='{url path="agent/admin/edit" args="id={$data.user_id}"}'>编辑</a>
                 </div>
             </div>
@@ -31,37 +31,37 @@
                     <tbody class="first-td-no-leftbd">
                         <tr>
                             <td>
-                                <div align="right"><strong>代理商名称：</strong></div>
+                                <div align="right"><strong>{t domain="agent"}代理商名称：{/t}</strong></div>
                             </td>
                             <td>{$data.name}</td>
                             <td>
-                                <div align="right"><strong>手机号码：</strong></div>
+                                <div align="right"><strong>{t domain="agent"}手机号码：{/t}</strong></div>
                             </td>
                             <td>{$data.mobile}</td>
                         </tr>
                         <tr>
                             <td>
-                                <div align="right"><strong>邮箱账号：</strong></div>
+                                <div align="right"><strong>{t domain="agent"}邮箱账号：{/t}</strong></div>
                             </td>
                             <td>{$data.email}</td>
                             <td>
-                                <div align="right"><strong>代理等级：</strong></div>
+                                <div align="right"><strong>{t domain="agent"}代理等级：{/t}</strong></div>
                             </td>
                             <td>{$data.rank_name}{if $data.rank_alias}<span class="ecjiafc-999">（别名：{$data.rank_alias}）</span>{/if}</td>
                         </tr>
                         <tr>
                             <td>
-                                <div align="right"><strong>管辖区域：</strong></div>
+                                <div align="right"><strong>{t domain="agent"}管辖区域：{/t}</strong></div>
                             </td>
                             <td>{$data.area_region}</td>
                             <td>
-                                <div align="right"><strong>添加时间：</strong></div>
+                                <div align="right"><strong>{t domain="agent"}添加时间：{/t}</strong></div>
                             </td>
                             <td>{$data.formated_add_time}</td>
                         </tr>
                         <tr>
                             <td>
-                                <div align="right"><strong>最后登录：</strong></div>
+                                <div align="right"><strong>{t domain="agent"}最后登录：{/t}</strong></div>
                             </td>
                             <td colspan="3">{$data.formated_last_login}</td>
                         </tr>
@@ -73,14 +73,14 @@
         <div class="accordion-group">
             <div class="accordion-heading">
                 <div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#detail_info_two">
-                    <strong>管辖情况</strong>
+                    <strong>{t domain="agent"}管辖情况{/t}</strong>
                 </div>
             </div>
             <div class="accordion-body in collapse" id="detail_info_two">
                 <div class="item-content">
-                    <div class="item">今日新增店铺：<span class="ecjiafc-FF0000">{$count.new_store}</span></div>
-                    <div class="item">等待审核店铺：<span class="ecjiafc-FF0000">{$count.uncheck_store}</span></div>
-                    <div class="item">累计推广店铺：<span class="ecjiafc-FF0000">{$count.spread_store}</span></div>
+                    <div class="item">{t domain="agent"}今日新增店铺：{/t}<span class="ecjiafc-FF0000">{$count.new_store}</span></div>
+                    <div class="item">{t domain="agent"}等待审核店铺：{/t}<span class="ecjiafc-FF0000">{$count.uncheck_store}</span></div>
+                    <div class="item">{t domain="agent"}累计推广店铺：{/t}<span class="ecjiafc-FF0000">{$count.spread_store}</span></div>
                 </div>
             </div>
         </div>
@@ -88,18 +88,18 @@
         <div class="accordion-group">
             <div class="accordion-heading">
                 <div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#detail_info_three">
-                    <strong>管辖店铺</strong>
+                    <strong>{t domain="agent"}管辖店铺{/t}</strong>
                 </div>
             </div>
             <div class="accordion-body in collapse" id="detail_info_three">
                 <table class="table table-striped m_b0">
                     <thead class="ecjiaf-bt">
                         <tr>
-                            <th>店铺名称</th>
-                            <th>商家分类</th>
-                            <th>负责人</th>
-                            <th>手机号码</th>
-                            <th class="w130">申请时间</th>
+                            <th>{t domain="agent"}店铺名称{/t}</th>
+                            <th>{t domain="agent"}商家分类{/t}</th>
+                            <th>{t domain="agent"}负责人{/t}</th>
+                            <th>{t domain="agent"}手机号码{/t}</th>
+                            <th class="w130">{t domain="agent"}申请时间{/t}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -113,7 +113,7 @@
                         </tr>
                         <!-- {foreachelse} -->
                         <tr>
-                            <td class="no-records" colspan="6">{lang key='system::system.no_records'}</td>
+                            <td class="no-records" colspan="6">{t domain="agent"}没有找到任何记录{/t}</td>
                         </tr>
                         <!-- {/foreach} -->
                     </tbody>
