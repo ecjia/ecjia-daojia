@@ -1,0 +1,75 @@
+# Copyright (C) 2019 Ecjia App adsense
+# This file is distributed under the same license as the Ecjia App adsense package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App adsense 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:16:02+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin_cycleimage.php:91
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:轮播图管理\" target="
+"\"_blank\">关于轮播图列表帮助文档</a>"
+msgstr ""
+
+#: admin_cycleimage.php:159
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:轮播图管理\" target="
+"\"_blank\">关于添加轮播组帮助文档</a>"
+msgstr ""
+
+#: admin_cycleimage.php:223
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:轮播图管理\" target="
+"\"_blank\">关于编辑轮播组帮助文档</a>"
+msgstr ""
+
+#: admin_cycleimage.php:406
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:轮播图管理\" target="
+"\"_blank\">关于添加轮播图帮助文档</a>"
+msgstr ""
+
+#: admin_cycleimage.php:489
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:轮播图管理\" target="
+"\"_blank\">关于编辑轮播图帮助文档</a>"
+msgstr ""
+
+#: apis/adsense_merchant_menu_api.class.php:55 configs/package.php:55
+msgid "广告"
+msgstr ""
+
+#: apis/adsense_merchant_menu_api.class.php:57
+msgid "轮播图"
+msgstr ""
+
+#: apis/adsense_merchant_menu_api.class.php:58
+msgid "快捷菜单"
+msgstr ""
+
+#: apis/adsense_merchant_menu_api.class.php:59
+msgid "广告组编排"
+msgstr ""
+
+#: apis/adsense_merchant_menu_api.class.php:60
+msgid "广告位管理"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"广告是随着人类经济活动的发展而产生并不断更新；广告提高企业竞争实力促进企业经"
+"济效益的作用；广告对于消费者消费观念，消费心理和消费行为的趋向具有导引作用。"
+msgstr ""
+
+#: content/apps/adsense/templates/merchant/mh_adsense_info.dwt.php:73
+#: content/apps/adsense/templates/merchant/mh_cycleimage_info.dwt.php:31
+#: content/apps/adsense/templates/merchant/mh_shortcut_info.dwt.php:31
+msgid "上传图片："
+msgstr ""
