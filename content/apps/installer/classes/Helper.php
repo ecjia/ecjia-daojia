@@ -110,7 +110,7 @@ class Helper
     {
         $conn = self::createDatabaseConnection($host, $port, $user, $pass);
         if (is_ecjia_error($conn)) {
-        	return new ecjia_error('connect_failed', RC_Lang::get('installer::installer.connect_failed'));
+        	return new ecjia_error('connect_failed', __('连接数据库失败，请检查您输入的数据库帐号是否正确。','installer'));
         }
         $r = $conn->select("SHOW DATABASES");
         return collect($r)->lists('Database');
@@ -137,7 +137,7 @@ class Helper
             $mark = RC_File::file_mode_info(SITE_ROOT . $val);
 
             $list[] = array(
-                'item'  => $key . __('目录'),
+                'item'  => $key . __('目录', 'installer'),
                 'mark'  => $mark,
                 'r'     => $mark & 1,
                 'w'     => $mark & 2,
@@ -176,7 +176,7 @@ class Helper
             return $connection;
         } catch (PDOException $e) {
             
-            return new ecjia_error('connect_failed', RC_Lang::get('installer::installer.connect_failed'));
+            return new ecjia_error('connect_failed', __('连接数据库失败，请检查您输入的数据库帐号是否正确。', 'installer'));
         }
     }
     
@@ -197,13 +197,13 @@ class Helper
             
             $conn = self::createDatabaseConnection($host, $port, $user, $pass);
             if (is_ecjia_error($conn)) {
-            	return new ecjia_error('connect_failed', RC_Lang::get('installer::installer.connect_failed'));
+            	return new ecjia_error('connect_failed', __('连接数据库失败，请检查您输入的数据库帐号是否正确。', 'installer'));
             }
             $result = $conn->unprepared("CREATE DATABASE `$database`");
             return true;
             
         } catch (QueryException $e) {
-            return new ecjia_error('cannt_create_database', RC_Lang::get('installer::installer.cannt_create_database'));
+            return new ecjia_error('cannt_create_database', __('连接数据库失败，无法创建数据库', 'installer'));
         }      
         
     }
@@ -262,7 +262,7 @@ class Helper
             return RC_DB::table('admin_user')->insert($data);
             
         } catch (QueryException $e) {
-            return new ecjia_error('create_passport_failed', RC_Lang::get('installer::installer.create_passport_failed').'【'.$e->getMessage().'】');
+            return new ecjia_error('create_passport_failed', __('创建管理员帐号失败', 'installer').'【'.$e->getMessage().'】');
         }
     }
     
@@ -301,7 +301,7 @@ class Helper
             return RC_File::put($envPath, $content);
             
         } catch (Exception $e) {
-            return new ecjia_error('write_config_file_failed', RC_Lang::get('installer::installer.write_config_file_failed'));
+            return new ecjia_error('write_config_file_failed', __('写入配置文件出错', 'installer'));
         }
         
     }
@@ -544,7 +544,7 @@ class Helper
     {
     	$conn = self::createDatabaseConnection($host, $port, $user, $pass);
     	if (is_ecjia_error($conn)) {
-    		return new ecjia_error('connect_failed', RC_Lang::get('installer::installer.connect_failed'));
+    		return new ecjia_error('connect_failed', __('连接数据库失败，请检查您输入的数据库帐号是否正确。', 'installer'));
     	}
     	$r = $conn->select("SHOW variables like 'have_%';");
     	return collect($r);
@@ -557,7 +557,7 @@ class Helper
     {
     	$conn = self::createDatabaseConnection($host, $port, $user, $pass);
     	if (is_ecjia_error($conn)) {
-    		return new ecjia_error('connect_failed', RC_Lang::get('installer::installer.connect_failed'));
+    		return new ecjia_error('connect_failed', __('连接数据库失败，请检查您输入的数据库帐号是否正确。', 'installer'));
     	}
     	$r = $conn->select("select version() as version;");
     	$version = collect(collect($r)->lists('version'))->first();

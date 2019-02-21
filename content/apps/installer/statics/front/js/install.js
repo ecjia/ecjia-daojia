@@ -4,22 +4,22 @@
 	app.install = {
 		init: function() {
 			//判断用户是否同意协议
-            $("#agree").change(function() {   
-                if ($("#agree").prop("checked")) {
-                	$.cookie('agree', 1);
-                    $("#ecjia_install").attr('disabled',false);//按钮可用  
-                } else {  
-                	$.cookie('agree', null);
-                    $("#ecjia_install").attr('disabled',true);//按钮不可用  
-                }   
-            }); 
+			$("#agree").change(function() {
+				if ($("#agree").prop("checked")) {
+					$.cookie('agree', 1);
+					$("#ecjia_install").attr('disabled',false);//按钮可用
+				} else {
+					$.cookie('agree', null);
+					$("#ecjia_install").attr('disabled',true);//按钮不可用
+				}
+			});
 
 			//检查数据库账号密码是否正确，数据库版本是否小于5.5
 			$('#dbpassword').blur(function() {
-				var params = "db_host=" + $("#dbhost").val() + "&" 
-					+ "db_port=" + $("#dbport").val() + "&" 
-					+ "db_user=" + $("#dbuser").val() + "&" 
-					+ "db_pass=" + $("#dbpassword").val() + "&" 
+				var params = "db_host=" + $("#dbhost").val() + "&"
+					+ "db_port=" + $("#dbport").val() + "&"
+					+ "db_user=" + $("#dbuser").val() + "&"
+					+ "db_pass=" + $("#dbpassword").val() + "&"
 					+ "dbdatabase=" + $('#dbdatabase').val();
 				var url = $('.check_db_correct').attr('data-url');
 				$.ajax({
@@ -42,10 +42,10 @@
 			//检查数据库是否存在
 			$('#dbdatabase').blur(function() {
 				var dbdatabase = $('#dbdatabase').val();
-				var params = "db_host=" + $("#dbhost").val() + "&" 
-					+ "db_port=" + $("#dbport").val() + "&" 
-					+ "db_user=" + $("#dbuser").val() + "&" 
-					+ "db_pass=" + $("#dbpassword").val() + "&" 
+				var params = "db_host=" + $("#dbhost").val() + "&"
+					+ "db_port=" + $("#dbport").val() + "&"
+					+ "db_user=" + $("#dbuser").val() + "&"
+					+ "db_pass=" + $("#dbpassword").val() + "&"
 					+ "dbdatabase=" + $('#dbdatabase').val();
 				var url = $('.check_db_exists').attr('data-url');
 				$.ajax({
@@ -137,7 +137,7 @@
 			var confirmpassword = $('#confirmpassword').val();
 			var usermail = $('#usermail').val();
 			var is_create = $('input[name="is_create"]').val();
-			
+
 			if ($.trim(dbhost) == '') {
 				showmessage('dbhost', '请输入数据库主机名称');
 				return false;
@@ -178,15 +178,15 @@
 				showmessage('usermail', '请输入正确的email格式');
 				return false;
 			}
-			
+
 			//验证数据库密码是否正确
-			var params = "db_host=" + dbhost + "&" 
-				+ "db_port=" + dbport + "&" 
-				+ "db_user=" + dbuser + "&" 
-				+ "db_pass=" + dbpassword + "&" 
+			var params = "db_host=" + dbhost + "&"
+				+ "db_port=" + dbport + "&"
+				+ "db_user=" + dbuser + "&"
+				+ "db_pass=" + dbpassword + "&"
 				+ "dbdatabase=" + dbdatabase;
 			var url = $('.check_db_correct').attr('data-url');
-			
+
 			var status = true;
 			$.ajax({
 				type: 'post',
@@ -203,7 +203,7 @@
 			if (status == false) {
 				return false;
 			}
-			
+
 			//验证是否确认覆盖数据库
 			if (is_create == 1) {
 				var check_result;
@@ -287,11 +287,11 @@
 	function createConfigFile() {
 		var tzs = $("#js-timezones");
 		var tz = tzs ? "timezone=" + tzs.val() : "";
-		var params = "db_host=" + $("#dbhost").val() + "&" 
-			+ "db_port=" + $("#dbport").val() + "&" 
-			+ "db_user=" + $("#dbuser").val() + "&" 
-			+ "db_pass=" + $("#dbpassword").val() + "&" 
-			+ "db_name=" + $("#dbdatabase").val() + "&" 
+		var params = "db_host=" + $("#dbhost").val() + "&"
+			+ "db_port=" + $("#dbport").val() + "&"
+			+ "db_user=" + $("#dbuser").val() + "&"
+			+ "db_pass=" + $("#dbpassword").val() + "&"
+			+ "db_name=" + $("#dbdatabase").val() + "&"
 			+ "db_prefix=" + $("#dbprefix").val() + "&" + tz;
 
 		notice_html = '<div class="install_notice">创建配置文件</div>';
@@ -313,13 +313,13 @@
 			}
 		});
 	}
-	
+
 	// 初始化数据库
 	function createDatabase() {
-		var params = "db_host=" + $("#dbhost").val() + "&" 
-			+ "db_port=" + $("#dbport").val() + "&" 
-			+ "db_user=" + $("#dbuser").val() + "&" 
-			+ "db_pass=" + $("#dbpassword").val() + "&" 
+		var params = "db_host=" + $("#dbhost").val() + "&"
+			+ "db_port=" + $("#dbport").val() + "&"
+			+ "db_user=" + $("#dbuser").val() + "&"
+			+ "db_pass=" + $("#dbpassword").val() + "&"
 			+ "db_name=" + $("#dbdatabase").val();
 
 		notice_html += '<div class="install_notice">创建数据库</div>', $('#js-notice').html(notice_html);
@@ -380,7 +380,7 @@
 			}
 		});
 	}
-	
+
 	function installStructureMore() {
 		var url = $('input[name="install_structure"]').val();
 		$.post(url, '', function(result) {
@@ -445,9 +445,9 @@
 		notice_html += '<div class="install_notice">创建管理员帐号</div>';
 		$('#js-notice').html(notice_html);
 
-		var params = "admin_name=" + $("#username").val() + "&" 
-			+ "admin_password=" + $("#userpassword").val() + "&" 
-			+ "admin_password2=" + $("#confirmpassword").val() + "&" 
+		var params = "admin_name=" + $("#username").val() + "&"
+			+ "admin_password=" + $("#userpassword").val() + "&"
+			+ "admin_password2=" + $("#confirmpassword").val() + "&"
 			+ "admin_email=" + $("#usermail").val();
 
 		var url = $('input[name="create_admin_passport"]').val();
@@ -485,7 +485,7 @@
 			html.remove()
 		}, 3000);
 	}
-	
+
 	function start_install() {
 		$('.ui_showmessage').find('.close').parent().remove();
 		$('.control-group').removeClass("error f_error");

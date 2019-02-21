@@ -44,14 +44,53 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 应用语言包
+ * js语言包设置
  */
-return array(
-	'installer' 		=> '安装器',
-	'installer_desc'	=> '用来安装ECJIA项目的安装器'
-);
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+    //安装
+    'installer_page' =>array(
+        'database_host_name' =>  __('请输入数据库主机名称', 'installer'),
+        'database_port_number' =>  __('请输入数据库端口号', 'installer'),
+        'database_username' =>  __('请输入数据库用户名', 'installer'),
+        'database_name' =>  __('请输入数据库名称', 'installer'),
+        'database_prefix' =>  __('请输入数据库前缀', 'installer'),
+        'administrator_name' =>  __('请输入管理员名称', 'installer'),
+        'administrator_login_password' =>  __('请输入管理员登录密码', 'installer'),
+        'administrator_login_confirmation_password' =>  __('请输入管理员登录确认密码', 'installer'),
+        'administrator_email' =>  __('请输入管理员电子邮箱', 'installer'),
+        'email_format' =>  __('请输入正确的email格式', 'installer'),
+        'password_length' =>  __('密码长度不能小于8', 'installer'),
+        'password_letters_numbers' =>  __('密码必须同时包含字母及数字', 'installer'),
+        'passwords_different' =>  __('密码不相同', 'installer'),
+
+        'create_configuration'		    => __('创建配置文件', 'installer'),
+        'create_database'		    => __('创建数据库', 'installer'),
+        'installation_abort'		    => __('安装进程已中止', 'installer'),
+
+        'unable_install'			    => __('当前配置不满足ECJIA到家安装需求，无法继续安装！', 'installer'),
+        'database_name_already_exists'	=> __('该数据库名称已存在，确定要覆盖该数据库信息吗？', 'installer'),
+        'link_name_required'            => __('请输入名称！', 'installer'),
+        'installation_complete'            => __('安装完成', 'installer'),
+
+        'install_basic_data'            => __('安装基础数据', 'installer'),
+        'install_demo_data'            => __('安装演示数据', 'installer'),
+        'create_administrator_account'            => __('创建管理员帐号', 'installer'),
+
+
+        'success' =>  __('成功', 'installer'),
+        'failure' =>  __('失败', 'installer'),
+        'prompt' =>  __('提示：', 'installer'),
+        'install_database_structure' =>  __('安装数据库结构', 'installer'),
+
+        'ok' =>  __('确定', 'installer'),
+        'cancel' =>  __('取消', 'installer'),
+
+    ),
+
+);
+//end

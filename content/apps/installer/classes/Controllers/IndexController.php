@@ -51,11 +51,12 @@ use Ecjia\System\BaseController\SimpleController;
 use RC_App;
 use RC_Uri;
 use RC_Config;
-use RC_Lang;
 use RC_Cache;
 use Ecjia\App\Installer\Helper;
 use ecjia;
-use RC_Logger;
+use RC_Script;
+use RC_Style;
+use ecjia_loader;
 
 class IndexController extends SimpleController
 {
@@ -79,6 +80,58 @@ class IndexController extends SimpleController
 
         $this->assign('version', RC_Config::get('release.version'));
         $this->assign('build', RC_Config::get('release.build'));
+
+        $this->load_default_script_style();
+    }
+
+    protected function load_default_script_style()
+    {
+    	//自定义加载
+    	RC_Style::enqueue_style('installer-normalize', RC_App::apps_url('statics/front/css/normalize.css', $this->__FILE__));
+    	RC_Style::enqueue_style('installer-grid', RC_App::apps_url('statics/front/css/grid.css', $this->__FILE__));
+    	RC_Style::enqueue_style('installer-style', RC_App::apps_url('statics/front/css/style.css', $this->__FILE__));
+    	 
+        //系统加载样式
+    	RC_Style::enqueue_style('ecjia-ui');
+    	RC_Style::enqueue_style('install-bootstrap', RC_App::apps_url('statics/front/css/bootstrap.min.css', $this->__FILE__));
+    	RC_Style::enqueue_style('bootstrap-responsive-nodeps');
+        RC_Style::enqueue_style('chosen');
+        RC_Style::enqueue_style('uniform-aristo');
+        RC_Style::enqueue_style('fontello');
+        
+        //系统加载脚本
+        RC_Script::enqueue_script('ecjia-jquery-chosen');
+        RC_Script::enqueue_script('jquery-migrate');
+        RC_Script::enqueue_script('jquery-uniform');
+        RC_Script::enqueue_script('smoke');
+        RC_Script::enqueue_script('jquery-cookie');
+       
+        RC_Script::enqueue_script('ecjia-installer', RC_App::apps_url('statics/front/js/install.js', $this->__FILE__), array('ecjia-front'), false, true);
+    }
+
+    public function front_enqueue_scripts()
+    {
+
+    }
+
+    public function front_print_styles()
+    {
+        ecjia_loader::print_admin_styles();
+    }
+
+    public function front_print_head_scripts()
+    {
+        ecjia_loader::print_head_scripts();
+    }
+
+    public function front_print_footer_scripts()
+    {
+        ecjia_loader::_admin_footer_scripts();
+    }
+
+    public function _front_footer_scripts()
+    {
+        ecjia_loader::_admin_footer_scripts();
     }
 
     /**
@@ -109,7 +162,7 @@ class IndexController extends SimpleController
         $php_path = '1';
         if ($name != '/index.php') {
             $path_name = substr($name, 0, -9);
-            $this->assign('path_error', sprintf(RC_Lang::get('installer::installer.path_error'), $path_name));
+            $this->assign('path_error', sprintf(__('抱歉，当前程序运行在 %s 目录下，ECJia到家程序必须运行在网站根目录下/，请您更换目录后再重新运行安装程序。','installer'), $path_name));
             $php_path = '0';
         }
 
@@ -147,9 +200,9 @@ class IndexController extends SimpleController
         $sys_info['php_dns'] 			= preg_match("/^[0-9.]{7,15}$/", @gethostbyname($domain)) ? $ok : $cancel;
         $sys_info['php_ver']            = PHP_VERSION;
 
-        $sys_info['safe_mode']          = (boolean) ini_get('safe_mode') ? __('是') : __('否');
+        $sys_info['safe_mode']          = (boolean) ini_get('safe_mode') ? __('是', 'installer') : __('否', 'installer');
         $sys_info['safe_mode_gid']      = (boolean) ini_get('safe_mode_gid') ? $ok : $cancel;
-        $sys_info['timezone']           = function_exists("date_default_timezone_get") ? date_default_timezone_get() : __('无需设置');
+        $sys_info['timezone']           = function_exists("date_default_timezone_get") ? date_default_timezone_get() : __('无需设置', 'installer');
 
         //MySQLi
         $php_mysqli = '0';
@@ -176,11 +229,11 @@ class IndexController extends SimpleController
         $gd_info = $cancel;
         if (extension_loaded('gd')) {
             $gd_info = $ok;
-            $gd_info .= '支持（';
-            if (function_exists('imagepng')) $gd_info .= 'png';
-            if (function_exists('imagejpeg')) $gd_info .= ' / jpg';
-            if (function_exists('imagegif')) $gd_info .= ' / gif';
-            $gd_info .= '）';
+            $gd_info_file = '';
+            if (function_exists('imagepng')) $gd_info_file .= 'png';
+            if (function_exists('imagejpeg')) $gd_info_file .= ' / jpg';
+            if (function_exists('imagegif')) $gd_info_file .= ' / gif';
+            $gd_info .= sprintf(__("支持（%s）", 'installer'), $gd_info_file);
 
             $php_gd = '1';
         }
@@ -328,7 +381,7 @@ class IndexController extends SimpleController
             $this->assign('admin_name', $admin_name);
             $this->assign('admin_password', $admin_password);
 
-            $finish_message = RC_Lang::get('installer::installer.finish_success');
+            $finish_message = __('恭喜您，安装成功!', 'installer');
             $this->assign('finish_message', $finish_message);
 
             $this->assign('ecjia_step', 5);
@@ -346,8 +399,8 @@ class IndexController extends SimpleController
     {
         $this->unset_cookie();
 
-        $finish_message = RC_Lang::get('installer::installer.has_locked_installer_title');
-        $locked_message = RC_Lang::get('installer::installer.locked_message');
+        $finish_message = __('安装程序已经被锁定。', 'installer');
+        $locked_message = sprintf(__('如果您确定要重新安装ECJia到家，请删除%s目录下的%s。', 'installer'), 'content/storages/data', 'install.lock');
         $this->assign('finish_message', $finish_message);
         $this->assign('locked_message', $locked_message);
 
@@ -384,25 +437,25 @@ class IndexController extends SimpleController
 
         $databases  = Helper::getDataBases($db_host, $db_port, $db_user, $db_pass);
         if (is_ecjia_error($databases)) {
-            return $this->showmessage(RC_Lang::get('installer::installer.connect_failed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('连接数据库失败，请检查您输入的数据库帐号是否正确。', 'installer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $check_version = Helper::getMysqlVersion($db_host, $db_port, $db_user, $db_pass);
         if (is_ecjia_error($check_version)) {
-            return $this->showmessage(RC_Lang::get('installer::installer.connect_failed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('连接数据库失败，请检查您输入的数据库帐号是否正确。', 'installer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (version_compare($check_version, '5.5', '<')) {
-            return $this->showmessage(RC_Lang::get('installer::installer.mysql_version_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('MySQL数据库版本过低，请使用5.5以上版本。', 'installer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $check_result = Helper::checkMysqlSupport($db_host, $db_port, $db_user, $db_pass);
         if (is_ecjia_error($check_result)) {
-            return $this->showmessage(RC_Lang::get('installer::installer.connect_failed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('连接数据库失败，请检查您输入的数据库帐号是否正确。', 'installer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         foreach ($check_result as $k => $v) {
             if ($v['Variable_name'] == 'have_innodb' && $v['Value'] != 'YES') {
-                return $this->showmessage(RC_Lang::get('installer::installer.innodb_not_support'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('当前MySQL数据库不支持InnoDB引擎，请检查后再进行安装。', 'installer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
         return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
@@ -421,7 +474,7 @@ class IndexController extends SimpleController
 
         $databases  = Helper::getDataBases($db_host, $db_port, $db_user, $db_pass);
         if (is_ecjia_error($databases)) {
-            return $this->showmessage(RC_Lang::get('installer::installer.connect_failed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('连接数据库失败，请检查您输入的数据库帐号是否正确。', 'installer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } else {
             if ($databases->contains($db_database)) {
                 return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('is_exist' => true));
@@ -559,23 +612,23 @@ class IndexController extends SimpleController
         RC_Cache::app_cache_set('admin_password', $admin_password, 'install');
 
         if (! $admin_name) {
-            return $this->showmessage(RC_Lang::get('installer::installer.username_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('管理员名称不能为空', 'installer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (! $admin_password) {
-            return $this->showmessage(RC_Lang::get('installer::installer.password_empty_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('密码不能为空', 'installer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (!(strlen($admin_password) >= 8 && preg_match("/\d+/",$admin_password) && preg_match("/[a-zA-Z]+/",$admin_password))) {
-            return $this->showmessage(RC_Lang::get('installer::installer.password_invaild'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('密码必须同时包含字母及数字', 'installer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (!(strlen($admin_password2) >= 8 && preg_match("/\d+/",$admin_password2) && preg_match("/[a-zA-Z]+/",$admin_password2))) {
-            return $this->showmessage(RC_Lang::get('installer::installer.password_invaild'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('密码必须同时包含字母及数字', 'installer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if ($admin_password != $admin_password2) {
-            return $this->showmessage(RC_Lang::get('installer::installer.password_not_eq'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('密码不相同', 'installer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $result = Helper::createAdminPassport($admin_name, $admin_password, $admin_email);

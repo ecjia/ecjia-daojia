@@ -54,7 +54,7 @@ class admin_installer_hooks {
 	public static function display_installer_exists_app()
     {
         if (file_exists(RC_APP_PATH . 'installer') && ecjia_is_super_admin()) {
-            $warning = __('您还没有删除 installer 文件夹，出于安全的考虑，我们建议您删除 content/apps/installer 文件夹。');
+            $warning = sprintf(__('您还没有删除 %s 文件夹，出于安全的考虑，我们建议您删除 %s 文件夹。', 'installer'), 'installer', 'content/apps/installer');
             ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice($warning));
         }
     }
