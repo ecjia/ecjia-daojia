@@ -11,8 +11,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
-var bonus_sn_error = '{$lang.bonus_sn_error}';
-var bonus_sn_empty = '{$lang.bonus_sn_empty}';
+var bonus_sn_error = '该红包序列号不正确';
+var bonus_sn_empty = '请输入您要添加的红包号码！';
 </script>
 <!-- {/block} -->
 

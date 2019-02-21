@@ -171,7 +171,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<section class="checklist">
 			{if $data.bonus|count gt 0}
 			    <a class="check_address" href='{url path="cart/flow/bonus" args="address_id={$address_id}&rec_id={$rec_id}"}'>
-				<span>{$lang.use_bonus}</span>
+				<span>使用红包</span>
 				<span class="ecjia-tag">{count($data.bonus)}个可用</span>
 				<i class="iconfont icon-jiantou-right"></i>
 				<span class="ecjiaf-fr select_nav_short ecjia-truncate">{$data.bonus[$temp.bonus].bonus_name}</span>
@@ -179,7 +179,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			</a>
 			{else}
 			<a href='javascript:;' title="不可用">
-			    <span class="ecjia-color-999">{$lang.use_bonus}</span>
+			    <span class="ecjia-color-999">使用红包</span>
 			    <span class="ecjia-tag ecjia-tag-disable">不可用</span>
 			</a>
 			{/if}

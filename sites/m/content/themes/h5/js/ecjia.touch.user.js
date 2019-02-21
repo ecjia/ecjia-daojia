@@ -45,7 +45,7 @@
 								obj.parent().siblings("ul").remove();
 							} else {
 								if (obj.closest("li").siblings("li").length == 0) {
-									obj.closest("ul").html("<p class='text-center  ect-margin-tb ect-padding-tb'>{$lang.no_data}</p>");
+									obj.closest("ul").html("<p class='text-center  ect-margin-tb ect-padding-tb'>暂无数据</p>");
 								}
 								obj.closest("li").remove();
 							}

@@ -20,18 +20,18 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <div class="ecjia-form">
         <div class="form-group margin-right-left">
     		<label class="input-1">
-    			<input name="mobile" type="text" placeholder="{$lang.name_or_mobile}">
+    			<input name="mobile" type="text" placeholder="请输入用户名或手机号">
     		</label>
     	</div>
         <p class="text-st">请输入收到的短信验证码</p>
     	<div class="form-group small-text">
     		<label class="input-1">
-    			<input name="code" type="text" id="code" placeholder="{$lang.input_verification}" />
+    			<input name="code" type="text" id="code" placeholder="输入验证码" />
     		</label>
     	</div>
     	<div class="small-submit">
     	    <input name="mobile1" type="hidden" value={$mobile} />
-            <input type="button" class="btn login-btn" value="{$lang.return_verification}" name="get_code" data-url="{url path='user/get_password/mobile_register_account'}" id="get_code" />
+            <input type="button" class="btn login-btn" value="获取验证码" name="get_code" data-url="{url path='user/get_password/mobile_register_account'}" id="get_code" />
         </div>
     	 <div class="around">
 	       <input class="btn btn-info login-btn ecjia-login-margin-top" id="mobile_register" name="mobile_register" type="submit" data-url="{RC_Uri::url('user/get_password/mobile_register')}" value="下一步" />

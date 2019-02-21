@@ -30,12 +30,12 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			</div>
 			<div class="form-group small-text ecjia-margin-t">
 				<label class="input-1">
-					<input name="code" type="text" datatype="n6-6" errormsg="请输入正确格式的验证码" placeholder="{$lang.input_verification}" />
+					<input name="code" type="text" datatype="n6-6" errormsg="请输入正确格式的验证码" placeholder="输入验证码" />
 				</label>
 			</div>
 			<div class="small-submit ecjia-margin-t">
                     <input type="hidden" name="referer" value="{$smarty.get.referer}" />
-                    <span><input type="button" class="btn btn-info login-btn" value="{$lang.return_verification}"  data-url="{url path='user/privilege/signup'}" id="get_code"  /></span>
+                    <span><input type="button" class="btn btn-info login-btn" value="获取验证码" data-url="{url path='user/privilege/signup'}" id="get_code"  /></span>
         	</div>
 			<div class="form-group bf margin-right-left five-margin-top">
 				<label class="input">

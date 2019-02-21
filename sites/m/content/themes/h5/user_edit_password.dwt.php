@@ -8,14 +8,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
 <!-- {extends file="ecjia-touch.dwt.php"} -->
 
-<!-- {block name="footer"} -->
-<script type="text/javascript">
-{foreach from=$lang.profile_js item=item key=key}
-	var {$key} = "{$item}";
-{/foreach}
-</script>
-<!-- {/block} -->
-
 <!-- {block name="main-content"} -->
 <form class="ecjia-form ecjia-login-edit-password-form ecjia-login-padding-top ecjia-user-no-border-b" name="formPassword" action="{url path='user/profile/edit_password'}&type=ajax" method="post" >
 	<div class="ecjia-user ecjia-account ecjia-form border-t">

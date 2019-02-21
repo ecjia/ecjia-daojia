@@ -24,7 +24,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	</div>
     <div class="around">
         <input type="hidden" name="referer_url" value="{$smarty.get.referer_url}" />
-        <input type="button" class="btn btn-info login-btn" name="ecjia-mobile-login" value="{$lang.login}" data-url="{url path='user/privilege/mobile_login'}"/>
+        <input type="button" class="btn btn-info login-btn" name="ecjia-mobile-login" value="登录" data-url="{url path='user/privilege/mobile_login'}"/>
     </div>
     <p class="ecjiaf-tac">未注册手机验证后自动注册登录，享新人好礼</p>
     

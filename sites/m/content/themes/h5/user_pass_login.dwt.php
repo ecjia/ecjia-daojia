@@ -28,11 +28,11 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		</label>
 	</div>
 	<div class="ecjia-login-login-foot ecjia-margin-b">
-		<a class="ecjiaf-fr ecjia-margin-t" href="{url path='user/get_password/init'}">{$lang.forgot_password}？</a>
+		<a class="ecjiaf-fr ecjia-margin-t" href="{url path='user/get_password/init'}">忘记密码？</a>
 	</div>
     <div class="around">
         <input type="hidden" name="referer_url" value="{$smarty.get.referer_url}" />
-        <input type="button" class="btn btn-info login-btn" name="ecjia-login" value="{$lang.login}" data-url="{url path='user/privilege/signin'}"/>
+        <input type="button" class="btn btn-info login-btn" name="ecjia-login" value="登录" data-url="{url path='user/privilege/signin'}"/>
     </div>
     {if $sns_qq eq 1 || $sns_wechat eq 1}
     <p class="ecjiaf-tac other-account">其他帐号登录</p>
