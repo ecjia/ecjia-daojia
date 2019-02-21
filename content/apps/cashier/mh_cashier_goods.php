@@ -758,28 +758,31 @@ class mh_cashier_goods extends ecjia_merchant {
 		
 		/* 关键字 */
 		if (!empty ($filter ['keywords'])) {
-			$db_goods->whereRaw("goods_name LIKE '%" . mysql_like_quote($filter ['keywords']) . "%' OR goods_sn LIKE '%" . mysql_like_quote($filter ['keywords']) . "%'");
+			$db_goods->whereRaw("(goods_name LIKE '%" . mysql_like_quote($filter ['keywords']) . "%' OR goods_sn LIKE '%" . mysql_like_quote($filter ['keywords']) . "%')");
 		}
 	
 		//筛选全部 已上架 未上架 商家
 		$filter_count = $db_goods
-		->select(RC_DB::raw('count(*) as count_goods_num, SUM(IF(is_on_sale = 1, 1, 0)) as count_on_sale, SUM(IF(is_on_sale = 0, 1, 0)) as count_not_sale'))->first();
-		
+		->select(RC_DB::raw('count(goods_id) as count_goods_num, SUM(IF(is_on_sale = 1, 1, 0)) as count_on_sale, SUM(IF(is_on_sale = 0, 1, 0)) as count_not_sale'))->first();
+
+        $filter_count['count_goods_num'] = isset($filter_count['count_goods_num']) ? $filter_count['count_goods_num'] : 0;
+        $filter_count['count_on_sale'] = isset($filter_count['count_on_sale']) ? $filter_count['count_on_sale'] : 0;
+        $filter_count['count_not_sale'] = isset($filter_count['count_not_sale']) ? $filter_count['count_not_sale'] : 0;
 		$dbgoods = RC_DB::table('goods')
-			->where('extension_code', 'cashier')
 			->where('store_id', $_SESSION['store_id'])
-			->where('is_delete', 0);
-		
-		if ($filter ['type'] == '1') {
-			$dbgoods->where('is_on_sale', 1);
-		} elseif ($filter ['type'] == '2') {
-			$dbgoods->where('is_on_sale', 0);
-		}
-		
+			->where('is_delete', 0)
+            ->where('extension_code', 'cashier');
+
 		/* 关键字 */
 		if (!empty ($filter ['keywords'])) {
-			$dbgoods->whereRaw("goods_name LIKE '%" . mysql_like_quote($filter ['keywords']) . "%' OR goods_sn LIKE '%" . mysql_like_quote($filter ['keywords']) . "%'");
-		}
+            $dbgoods->whereRaw("(goods_name LIKE '%" . mysql_like_quote($filter ['keywords']) . "%' OR goods_sn LIKE '%" . mysql_like_quote($filter ['keywords']) . "%')");
+        }
+        if ($filter ['type'] == '1') {
+            $dbgoods->where('is_on_sale', 1);
+        } elseif ($filter ['type'] == '2') {
+            $dbgoods->where('is_on_sale', 0);
+        }
+
 		/* 记录总数 */
 		$count = $dbgoods->count('goods_id');
 		$page = new ecjia_merchant_page ($count, 10, 3);

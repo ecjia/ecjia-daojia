@@ -1,0 +1,98 @@
+# Copyright (C) 2019 Ecjia App cashier
+# This file is distributed under the same license as the Ecjia App cashier package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App cashier 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:19:37+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: classes/hooks/merchant_cashier.class.php:53
+msgid "散装商品"
+msgstr ""
+
+#: classes/hooks/merchant_cashier.class.php:54
+msgid "收银台商品"
+msgstr ""
+
+#: classes/hooks/merchant_cashier.class.php:66
+msgid "条码秤"
+msgstr ""
+
+#: classes/hooks/merchant_cashier.class.php:67
+msgid "收银设备"
+msgstr ""
+
+#: configs/package.php:9
+msgid "收银"
+msgstr ""
+
+#: configs/package.php:10
+msgid "线下收银设备管理，收银记录管理。"
+msgstr ""
+
+#: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:37
+msgid "设备名称："
+msgstr ""
+
+#: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:45
+msgid "设备MAC地址："
+msgstr ""
+
+#: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:53
+msgid "产品序列号："
+msgstr ""
+
+#: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:61
+msgid "收银设备类型："
+msgstr ""
+
+#: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:78
+#: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:88
+msgid "机型："
+msgstr ""
+
+#: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:98
+msgid "设备号："
+msgstr ""
+
+#: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:106
+msgid "密码键盘序列号："
+msgstr ""
+
+#: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:113
+msgid "状态："
+msgstr ""
+
+#: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:38
+msgid "条码秤模式："
+msgstr ""
+
+#: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:49
+msgid "条码秤码："
+msgstr ""
+
+#: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:58
+msgid "日期设置："
+msgstr ""
+
+#: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:68
+msgid "净重单位："
+msgstr ""
+
+#: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:78
+msgid "单价单位："
+msgstr ""
+
+#: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:88
+msgid "抹零设置："
+msgstr ""
+
+#: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:97
+msgid "分位保留："
+msgstr ""
