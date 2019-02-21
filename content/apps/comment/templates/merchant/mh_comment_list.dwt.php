@@ -33,8 +33,8 @@
 	        	  </div>
 	        	  <div class="goods-info-comment">
 		        	   <p>{$goods_info.goods_name}</p>     
-		        	   <p>价格：¥&nbsp;{$goods_info.shop_price}</p>     
-		        	   <p>好评率：<font color="#FF0000"><strong>{$goods_info.goods_rank}%</strong></font></p>
+		        	   <p>{t domain="comment"}价格：{/t}¥&nbsp;{$goods_info.shop_price}</p>
+		        	   <p>{t domain="comment"}好评率：{/t}<font color="#FF0000"><strong>{$goods_info.goods_rank}%</strong></font></p>
 	        	  </div>
 	    		</div>
 			</div>
@@ -49,20 +49,20 @@
 			<div class="panel-body">
 				<div class="nav-heading filter">
 				    <ul class="nav-status">
-                		<li><span>全部</span></li>
+                		<li><span>{t domain="comment"}全部{/t}</span></li>
                 		<!-- {if $select_rank} -->
                 		<li class="hide-rank"><span>></span></li>
                 		<li class="hide-rank">
                 		<a class="data-pjax btn btn-primary no-show-rank" 
                 			href='{url path="comment/mh_comment/init" args="{if $smarty.get.has_img neq null}&has_img={$smarty.get.has_img}{/if}{if $select_img}&select_img={$select_img}{/if}{if $goods_id}&goods_id={$goods_id}{/if}"}' 
                 			style="padding:3px 5px;">
-                			{if $smarty.get.rank eq 1} 好评 {elseif $smarty.get.rank eq 2} 中评 {elseif $smarty.get.rank eq 3}差评{/if}
+                			{if $smarty.get.rank eq 1} {t domain="comment"}好评{/t} {elseif $smarty.get.rank eq 2} {t domain="comment"}中评{/t} {elseif $smarty.get.rank eq 3}{t domain="comment"}差评{/t}{/if}
                 		<i class=" close-status fontello-icon-cancel fa fa-times"></i></a>
                 		</li>
                 		<!-- {/if} -->
                 		<!-- {if $select_img} -->
                 		<li class="hide-img"><span>></span></li>
-                		<li class="hide-img"><a class="data-pjax btn btn-primary no-show-img" href='{url path="comment/mh_comment/init" args="{if $smarty.get.status neq null}&status={$smarty.get.status}{/if}{if $smarty.get.rank neq null}&rank={$smarty.get.rank}{/if}{if $select_rank}&select_rank={$select_rank}{/if}{if $select_status}&select_status={$select_status}{/if}{if $goods_id}&goods_id={$goods_id}{/if}"}' style="padding:3px 5px;">{if $smarty.get.has_img eq 1}有图 {else}无图{/if}
+                		<li class="hide-img"><a class="data-pjax btn btn-primary no-show-img" href='{url path="comment/mh_comment/init" args="{if $smarty.get.status neq null}&status={$smarty.get.status}{/if}{if $smarty.get.rank neq null}&rank={$smarty.get.rank}{/if}{if $select_rank}&select_rank={$select_rank}{/if}{if $select_status}&select_status={$select_status}{/if}{if $goods_id}&goods_id={$goods_id}{/if}"}' style="padding:3px 5px;">{if $smarty.get.has_img eq 1}{t domain="comment"}有图{/t} {else}{t domain="comment"}无图{/t}{/if}
                 			<i class=" close-status fontello-icon-cancel fa fa-times"></i></a>
                 		</li>
                 		<!-- {/if} -->
@@ -71,18 +71,18 @@
                 <table class="table table-th-block">
                     <tbody>
                         <tr>
-                            <td class="active w150">评分级别：</td>
+                            <td class="active w150">{t domain="comment"}评分级别：{/t}</td>
                             <td>
-								<div class="status-distance"><a class="data-pjax" href='{url path="comment/mh_comment/init" args="rank=1&select_rank=2{if $smarty.get.select_img}&select_img={$smarty.get.select_img}{/if}{if $smarty.get.has_img neq null}&has_img={$smarty.get.has_img}{/if}{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $goods_id}&goods_id={$goods_id}{/if}"}'>好评</a></div>
-                				<div class="status-distance"><a class="data-pjax" href='{url path="comment/mh_comment/init" args="rank=2&select_rank=2{if $smarty.get.select_img}&select_img={$smarty.get.select_img}{/if}{if $smarty.get.has_img neq null}&has_img={$smarty.get.has_img}{/if}{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $goods_id}&goods_id={$goods_id}{/if}"}'>中评</a></div>
-                				<div class="status-distance"><a class="data-pjax" href='{url path="comment/mh_comment/init" args="rank=3&select_rank=2{if $smarty.get.select_img}&select_img={$smarty.get.select_img}{/if}{if $smarty.get.has_img neq null}&has_img={$smarty.get.has_img}{/if}{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $goods_id}&goods_id={$goods_id}{/if}"}'>差评</a></div>
+								<div class="status-distance"><a class="data-pjax" href='{url path="comment/mh_comment/init" args="rank=1&select_rank=2{if $smarty.get.select_img}&select_img={$smarty.get.select_img}{/if}{if $smarty.get.has_img neq null}&has_img={$smarty.get.has_img}{/if}{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $goods_id}&goods_id={$goods_id}{/if}"}'>{t domain="comment"}好评{/t}</a></div>
+                				<div class="status-distance"><a class="data-pjax" href='{url path="comment/mh_comment/init" args="rank=2&select_rank=2{if $smarty.get.select_img}&select_img={$smarty.get.select_img}{/if}{if $smarty.get.has_img neq null}&has_img={$smarty.get.has_img}{/if}{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $goods_id}&goods_id={$goods_id}{/if}"}'>{t domain="comment"}中评{/t}</a></div>
+                				<div class="status-distance"><a class="data-pjax" href='{url path="comment/mh_comment/init" args="rank=3&select_rank=2{if $smarty.get.select_img}&select_img={$smarty.get.select_img}{/if}{if $smarty.get.has_img neq null}&has_img={$smarty.get.has_img}{/if}{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $goods_id}&goods_id={$goods_id}{/if}"}'>{t domain="comment"}差评{/t}</a></div>
 							</td>
                         </tr>
                         <tr>
-                            <td class="active">有无晒图：</td>
+                            <td class="active">{t domain="comment"}有无晒图：{/t}</td>
                             <td>
-								<div class="status-distance"><a class="data-pjax" href='{url path="comment/mh_comment/init" args="has_img=1&select_img=3{if $smarty.get.select_rank}&select_rank={$smarty.get.select_rank}{/if}{if $smarty.get.rank neq null}&rank={$smarty.get.rank}{/if}{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $goods_id}&goods_id={$goods_id}{/if}"}'>有</a></div>
-				                <div class="status-distance"><a class="data-pjax" href='{url path="comment/mh_comment/init" args="has_img=0&select_img=3{if $smarty.get.select_rank}&select_rank={$smarty.get.select_rank}{/if}{if $smarty.get.rank neq null}&rank={$smarty.get.rank}{/if}{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $goods_id}&goods_id={$goods_id}{/if}"}'>无</a></div>
+								<div class="status-distance"><a class="data-pjax" href='{url path="comment/mh_comment/init" args="has_img=1&select_img=3{if $smarty.get.select_rank}&select_rank={$smarty.get.select_rank}{/if}{if $smarty.get.rank neq null}&rank={$smarty.get.rank}{/if}{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $goods_id}&goods_id={$goods_id}{/if}"}'>{t domain="comment"}有{/t}</a></div>
+				                <div class="status-distance"><a class="data-pjax" href='{url path="comment/mh_comment/init" args="has_img=0&select_img=3{if $smarty.get.select_rank}&select_rank={$smarty.get.select_rank}{/if}{if $smarty.get.rank neq null}&rank={$smarty.get.rank}{/if}{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}{if $goods_id}&goods_id={$goods_id}{/if}"}'>{t domain="comment"}无{/t}</a></div>
 							</td>
                         </tr>
                     </tbody>
@@ -103,9 +103,9 @@
 					<table class="table table-striped table-hover table-hide-edit">
 						<thead>
 							<tr>
-								<th class="w200">用户名</th>
-								<th>评论详情</th>
-								<th class="w150">星级</th>
+								<th class="w200">{t domain="comment"}用户名{/t}</th>
+								<th>{t domain="comment"}评论详情{/t}</th>
+								<th class="w150">{t domain="comment"}星级{/t}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -115,7 +115,7 @@
 								<td class="hide-edit-area">
 									<span>
 										<a href='{url path="goods/merchant/edit" args="goods_id={$list.id_value}"}'>{$list.goods_name}</a><br>
-										评论于 {$list.add_time}<br>
+										{t domain="comment"}评论于{/t} {$list.add_time}<br>
 										{$list.content}
 									</span>
 									<br>
@@ -123,8 +123,8 @@
 										<img src="{RC_Upload::upload_url()}/{$list_pic.file_path}" width="50" height="50" style="margin-top: 10px;">
 									<!-- {/foreach} -->
 									<div class="edit-list">
-										<a class="data-pjax" href='{url path="comment/mh_comment/comment_detail" args="comment_id={$list.comment_id}"}' title="查看详情">查看详情</a>&nbsp;|&nbsp;
-										<a class="data-pjax" href='{url path="comment/mh_comment/comment_detail" args="comment_id={$list.comment_id}"}' title="回复">回复</a>
+										<a class="data-pjax" href='{url path="comment/mh_comment/comment_detail" args="comment_id={$list.comment_id}"}' title='{t domain="comment"}查看详情{/t}'>{t domain="comment"}查看详情{/t}</a>&nbsp;|&nbsp;
+										<a class="data-pjax" href='{url path="comment/mh_comment/comment_detail" args="comment_id={$list.comment_id}"}' title='{t domain="comment"}回复{/t}'>{t domain="comment"}回复{/t}</a>
 								    </div>
 								</td>
 								<td>
@@ -137,11 +137,11 @@
 								</td>
 							</tr>
 							<tr>
-								<td colspan="2"><input class="form-control small" value="" name="reply_content" type="text" placeholder="感谢您对本店的支持！我们会更加的努力，为您提供更优质的服务。（可在此输入回复内容，也可选择系统自动回复）"></td>
-								<td><input class="comment_reply btn btn-primary" type="button" data-id="{$list.comment_id}" data-url="{url path='comment/mh_comment/comment_reply'}" value="快捷回复" /></td>
+								<td colspan="2"><input class="form-control small" value="" name="reply_content" type="text" placeholder='{t domain="comment"}感谢您对本店的支持！我们会更加的努力，为您提供更优质的服务。（可在此输入回复内容，也可选择系统自动回复）{/t}'></td>
+								<td><input class="comment_reply btn btn-primary" type="button" data-id="{$list.comment_id}" data-url="{url path='comment/mh_comment/comment_reply'}" value='{t domain="comment"}快捷回复{/t}' /></td>
 							</tr>
 							<!-- {foreachelse} -->
-							   <tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
+							   <tr><td class="no-records" colspan="6">{t domain="comment"}没有找到任何记录{/t}</td></tr>
 							<!-- {/foreach} -->
 						</tbody>
 					</table>

@@ -44,76 +44,30 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+
+/**
+ * js语言包设置
+ */
+
 defined('IN_ECJIA') or exit('No permission resources.');
 
-//更新商品评分 goods_rank
-class comment_update_goods_comment_api extends Component_Event_Api {
-    /**
-     * @param
-     *
-     * @return array
-     */
-	public function call(&$options) {
-// 	    $options['goods_id'] $options['rank']
-		
-	    if (empty($options['goods_id'])) {
-	        return new ecjia_error('invalid_parameter', __('参数无效', 'comment'));
-	    }
-	    $goods_id = $options['goods_id'];
-	    $goods = RC_DB::table('goods')->where('goods_id', $goods_id)->first();
-	    if (empty($goods)) {
-	        return new ecjia_error('goods_no_exist', __('商品信息不存在', 'comment'));
-	    }
-// 	    $rank_arr = array(1,2,3,4,5);
-// 	    if (!in_array($options['rank'], $rank_arr)) {
-// 	        return new ecjia_error('invalid_parameter', '评分参数无效');
-// 	    }
-	    
-// 	    $rank = $options['rank'];
-	    
-	    $comment_number = RC_DB::table('comment')
-	    ->select(RC_DB::raw('count(*) as "all"'),
-	        RC_DB::raw('SUM(IF(comment_rank > 3, 1, 0)) as "good"'),
-	        RC_DB::raw('SUM(IF(comment_rank > 1 && comment_rank < 4, 1, 0)) as "general"'),
-	        RC_DB::raw('SUM(IF(comment_rank = 1, 1, 0)) as "low"'),
-	        RC_DB::raw('SUM(IF(has_image = 1, 1, 0)) as "picture"'))
-	        ->where('status', 1)
-	        ->where('parent_id', 0)
-	        ->where('comment_type', 0)
-	        ->where('id_value', $goods_id)
-	        ->first();
-	    $comment_number['good'] = empty($comment_number['good']) ? 0 : intval($comment_number['good']);
-	    $comment_number['general'] = empty($comment_number['general']) ? 0 : intval($comment_number['general']);
-	    $comment_number['low'] = empty($comment_number['low']) ? 0 : intval($comment_number['low']);
-	    $comment_number['picture'] = empty($comment_number['picture']) ? 0 : intval($comment_number['picture']);
-	    
-	    if ($comment_number['all'] != 0) {
-	        $comment_percent = round(($comment_number['good'] / $comment_number['all']) * 10000);
-	    } else {
-	        $comment_percent = '10000';
-	    }
-	    
-// 	    $update = RC_DB::table('goods_rank')->where('goods_id', $goods_id)->update(array('goods_rank' => $comment_percent));
-	    $goods_data = RC_DB::table('goods_data')->where('goods_id', $goods_id)->first();
-	    
-	    $data = array(
-	        'goods_id' => $goods_id,
-	        'store_id' => $goods['store_id'],
-	        'comment_good' => $comment_number['good'],
-	        'comment_general' => $comment_number['general'],
-	        'comment_low' => $comment_number['low'],
-	        'comment_picture' => $comment_number['picture'],
-	        'goods_rank' => $comment_percent,
-	    );
-	    if (empty($goods_data)) {
-	        RC_DB::table('goods_data')->insert($data);
-	    } else {
-	        RC_DB::table('goods_data')->where('goods_id', $goods_id)->update($data);
-	    }
-	    
-	    return true;
-	}
+return array(
+    //comment
+    'comment_page' =>array(
+        'ok'		 		=> __('确定', 'comment'),
+        'cancel'	 		=> __('取消', 'comment'),
+        'content_required'	=> __('请填写回复内容！', 'comment'),
+        'one_level'			=> __('1级-严重不合格', 'comment'),
+        'two_level'			=> __('2级-不合格', 'comment'),
+        'three_level'		=> __('3级-合格', 'comment'),
+        'four_level'		=> __('4级-优秀', 'comment'),
+        'five_level'		=> __('5级-完美', 'comment'),
+        'select_goods_empty'=> __('未搜索到商品信息', 'comment'),
+        'select_user_empty'	=> __('未搜索到会员信息', 'comment'),
+        'request_failed'	=> __('请求失败', 'comment'),
+        'not_greater_end_time'	=> __('开始时间不得大于结束时间！', 'comment'),
 
-}
+    ),
 
-// end
+);
+//end

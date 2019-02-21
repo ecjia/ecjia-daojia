@@ -67,7 +67,7 @@ class admin_config extends ecjia_admin {
 		RC_Script::enqueue_script('comment_manage', RC_App::apps_url('statics/js/comment_manage.js', __FILE__), array(), false, false);
 		RC_Style::enqueue_style('comment', RC_App::apps_url('statics/css/comment.css', __FILE__));
 		
-		RC_Script::localize_script('comment_manage', 'js_lang', RC_Lang::get('comment::comment_manage.js_lang'));
+		RC_Script::localize_script('comment_manage', 'js_lang', config('app-comment::jslang.comment_page'));
 	}
 
 	public function init() {
@@ -75,8 +75,8 @@ class admin_config extends ecjia_admin {
 	    $this->admin_priv('comment_config');
 	    
 	    ecjia_screen::get_current_screen()->remove_last_nav_here();
-	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('评论设置'));
-	    $this->assign('ur_here', '评论设置');
+	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('评论设置', 'comment')));
+	    $this->assign('ur_here', __('评论设置', 'comment'));
 	    
 	    $this->assign('comment_check', ecjia::config('comment_check'));
 	    $this->assign('comment_award_open', ecjia::config('comment_award_open'));
@@ -136,9 +136,9 @@ class admin_config extends ecjia_admin {
 	            $comment_award_rules = serialize($comment_award_rules);
 	        }
 	    }
-	    ecjia_admin::admin_log(__('修改评论设置'), 'edit', 'shop_config');
+	    ecjia_admin::admin_log(__('修改评论设置', 'comment'), 'edit', 'shop_config');
 	    ecjia_config::instance()->write_config('comment_award_rules', $comment_award_rules);
-	    return $this->showmessage('评论设置更新成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('comment/admin_config/init')));
+	    return $this->showmessage(__('评论设置更新成功', 'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('comment/admin_config/init')));
 	    
 	}
 	

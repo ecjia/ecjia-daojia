@@ -40,7 +40,7 @@
 							<p>{$comment_info.add_time}<span>IP：{$comment_info.ip_address}</span></p><br>
 						</div>
 						<div class="comment-goods">
-						  	<p>商品评分：
+						  	<p>{t domain="comment"}商品评分：{/t}
 							{section name=loop loop=$comment_info.comment_rank}   
 								<i class="fa fa-star" style="color:#FF9933;"></i>
 							{/section}
@@ -61,9 +61,9 @@
 			       			</div>
 						</div>
 						{if $go_on_appeal}
-							<button class="btn btn-info" type="button" style="margin-top: 10px;" disabled="disabled">申诉中</button>
+							<button class="btn btn-info" type="button" style="margin-top: 10px;" disabled="disabled">{t domain="comment"}申诉中{/t}</button>
 						{else}
-							<a href='{url path="comment/mh_appeal/add_appeal" args="comment_id={$comment_info.comment_id}"}'><button class="btn btn-info" type="button" style="margin-top: 10px;">申诉</button></a>
+							<a href='{url path="comment/mh_appeal/add_appeal" args="comment_id={$comment_info.comment_id}"}'><button class="btn btn-info" type="button" style="margin-top: 10px;">{t domain="comment"}申诉{/t}</button></a>
 						{/if}
 						
 		            </div>    
@@ -74,7 +74,7 @@
 		                <div class="panel-heading">
 		                    <a data-toggle="collapse" data-parent="#accordionOne" href="#collapseOne" class="accordion-toggle">
 		                        <span class="glyphicon"></span>
-		                        <h4 class="panel-title">管理员回复内容</h4>
+		                        <h4 class="panel-title">{t domain="comment"}管理员回复内容{/t}</h4>
 		                    </a>
 		                </div>
 		                <div id="collapseOne" class="panel-collapse collapse in">
@@ -90,9 +90,9 @@
 										 </div>
 							  			  <div class="comment-thumb-details">
 							  			 	{if $list.user_type eq 'admin'}
-							  			 	<h1><span><small class="label label-warning-admin">平台管理员</small></span>&nbsp;{$list.admin_user_name}</h1>
+							  			 	<h1><span><small class="label label-warning-admin">{t domain="comment"}平台管理员{/t}</small></span>&nbsp;{$list.admin_user_name}</h1>
 							  			 	{else}
-							  			 	<h1><span><small class="label label-warning-admin">商家管理员</small></span>&nbsp;{$list.staff_name}</h1>
+							  			 	<h1><span><small class="label label-warning-admin">{t domain="comment"}商家管理员{/t}</small></span>&nbsp;{$list.staff_name}</h1>
 							  			 	{/if}
 											<p>{$list.add_time_new}</p><br>
 										 </div>
@@ -100,7 +100,7 @@
 		                              </div>
 		                          <!-- {foreachelse} -->
 		                           <div class="text-center">
-		                             	管理员暂时还未回复任何消息
+                                       {t domain="comment"}管理员暂时还未回复任何消息{/t}
 		                           	</div>
 	                              <!-- {/foreach} -->
 	                          </div>
@@ -110,24 +110,24 @@
 		        
 		       	<div class="comment-reply">
 					<div class="panel-body">
-						<h4>回复评论</h4>
+						<h4>{t domain="comment"}回复评论{/t}</h4>
 						<form class="form-horizontal" action="{$from_action}" method="post" name="theForm">
 							 <div class="reply-content">
-                                 <h5 class="reply-title">回复内容：</h5>
+                                 <h5 class="reply-title">{t domain="comment"}回复内容：{/t}</h5>
                                  <div class="reply-content-textarea">
-                                      <textarea class="form-control" id="reply_content" name="reply_content" placeholder="请输入回复内容" ></textarea>
+                                      <textarea class="form-control" id="reply_content" name="reply_content" placeholder='{t domain="comment"}请输入回复内容{/t}' ></textarea>
                                  </div>
                              </div>
                              <div class="text-right">
 								<input type="checkbox" id="is_ok" name="is_ok" value="1">
-								<label for="is_ok" style="margin-top:18px;">邮件通知</label>
+								<label for="is_ok" style="margin-top:18px;">{t domain="comment"}邮件通知{/t}</label>
 								<div class="reply-email">
-									<input class="form-control" placeholder="请输入电子邮箱" type="text" name="reply_email" value="{$comment_info.email}">
+									<input class="form-control" placeholder='{t domain="comment"}请输入电子邮箱{/t}' type="text" name="reply_email" value="{$comment_info.email}">
 								</div>
 							 </div>
                              <input type="hidden" name="comment_id" value="{$comment_info.comment_id}" />
 							 <div class="reply-btn">
-						   		<input class="btn btn-info" type="submit" value="回复"/>
+						   		<input class="btn btn-info" type="submit" value='{t domain="comment"}回复{/t}'/>
 						     </div>
 						</form>
 		            </div>    

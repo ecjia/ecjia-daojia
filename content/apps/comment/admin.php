@@ -75,9 +75,11 @@ class admin extends ecjia_admin {
 		RC_Script::enqueue_script('photoswipe-ui', RC_App::apps_url('statics/lib/photoswipe/js/photoswipe-ui-default.min.js', __FILE__) , array() , false, true);
 		RC_Style::enqueue_style('photoswipe', RC_App::apps_url('statics/lib/photoswipe/css/photoswipe.css', __FILE__), array());
 		RC_Style::enqueue_style('default-skin', RC_App::apps_url('statics/lib/photoswipe/css/default-skin/default-skin.css', __FILE__), array());
-		
-		RC_Script::localize_script('comment_manage', 'js_lang', RC_Lang::get('comment::comment_manage.js_lang'));
-	}
+
+        RC_Script::localize_script('appeal', 'js_lang', config('app-comment::jslang.comment_page'));
+        RC_Script::localize_script('comment_manage', 'js_lang', config('app-comment::jslang.comment_page'));
+
+    }
 	
 	/**
 	 * 获取商品评论列表
@@ -87,20 +89,20 @@ class admin extends ecjia_admin {
 		
 		$_GET['list'] = !empty($_GET['list']) ?  $_GET['list'] : 1;
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('comment::comment_manage.goods_comment_list')));
-		$this->assign('ur_here', RC_Lang::get('comment::comment_manage.goods_comment'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品评论列表' ,'comment')));
+		$this->assign('ur_here', __('商品评价' ,'comment'));
 		
-		$this->assign('action_link', array('text' => RC_Lang::get('comment::comment_manage.check_trash_comment'), 'href'=> RC_Uri::url('comment/admin/trash', array('list' => 2))));
+		$this->assign('action_link', array('text' => __('查看回收站' ,'comment'), 'href'=> RC_Uri::url('comment/admin/trash', array('list' => 2))));
 		
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('comment::comment_manage.overview'),
-			'content'	=> '<p>' . RC_Lang::get('comment::comment_manage.goods_comment_list_help') . '</p>'
+			'title'		=> __('概述' ,'comment'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台商品评论列表页面，系统中有关商品的评论都会显示在此列表中。' ,'comment') . '</p>'
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('comment::comment_manage.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品评论" target="_blank">'.RC_Lang::get('comment::comment_manage.about_goods_comment_list').'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：' ,'comment') . '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品评论" target="_blank">'.__('关于商品评论列表帮助文档' ,'comment').'</a>') . '</p>'
 		);
 		
 		$list = $this->get_comment_list();
@@ -128,7 +130,7 @@ class admin extends ecjia_admin {
 		$status			  = $_GET['status'];
 		$db_comment_reply = RC_DB::table('comment_reply');
 		if(empty($reply_content)){
-			$reply_content='感谢您对本店的支持！我们会更加的努力，为您提供更优质的服务。';
+			$reply_content=__('感谢您对本店的支持！我们会更加的努力，为您提供更优质的服务。', 'comment');
 		}
 		$data = array(
 				'comment_id' 	=> $comment_id,
@@ -139,7 +141,7 @@ class admin extends ecjia_admin {
 		);
 		$db_comment_reply->insertGetId($data);
 		
-		ecjia_admin::admin_log('评论ID：'.$comment_id, 'reply', 'users_comment');
+		ecjia_admin::admin_log(__('评论ID：', 'comment').$comment_id, 'reply', 'users_comment');
 		if (isset($_GET['status']) && (!empty($_GET['status']) || $_GET['status'] == '0')) {
 			if ($list == 3) {
 				$pjaxurl = RC_Uri::url('comment/admin/store_goods_comment_list', array('status' => $_GET['status']));
@@ -153,7 +155,7 @@ class admin extends ecjia_admin {
 				$pjaxurl = RC_Uri::url('comment/admin/init');
 			}
 		}
-		return $this->showmessage('回复成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, $pjaxurl);
+		return $this->showmessage(__('回复成功', 'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, $pjaxurl);
 	}
 	
 	/**
@@ -166,7 +168,7 @@ class admin extends ecjia_admin {
 		$comment_info = RC_DB::table('comment')->where('comment_id', $comment_id)->first();
 
 		if (empty($comment_info)) {
-			return $this->showmessage(RC_Lang::get('comment::comment_manage.no_comment_info'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR );
+			return $this->showmessage(__('没有找到相应的评论信息' ,'comment'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR );
 		}
 
 		/*获取用户头像*/
@@ -260,7 +262,7 @@ class admin extends ecjia_admin {
 		} else {
 		    $shop_info['composite'] = 3;
 		}
-		$here = RC_Lang::get('comment::comment_manage.comment_list');
+		$here = __('评论列表' ,'comment');
 		$url = RC_Uri::url('comment/admin/init', array('list' => 1));
 		/* 模板赋值 */
 		$this->assign('comment_info', $comment_info); 		//评论信息
@@ -273,9 +275,9 @@ class admin extends ecjia_admin {
 		$this->assign('other_comment', $other_comment);
 		
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($here, $url));
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('comment::comment_manage.comment_info')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('评论详情' ,'comment')));
 		
-		$this->assign('ur_here', '评论详情');
+		$this->assign('ur_here', __('评论详情', 'comment'));
 		$this->assign('action_link', array('text' => $here, 'href' => $url));
 		$this->assign('form_action', RC_Uri::url('comment/admin/action'));
 		$this->assign('store_url', RC_Uri::url('comment/admin/store_goods_comment_list', array('store_id' => $comment_info['store_id'], 'list' => 3)));
@@ -294,7 +296,7 @@ class admin extends ecjia_admin {
 		$reply_content  = $_POST['reply_content'];
 
 		if(empty($reply_content)){
-			 return $this->showmessage('请输入回复内容', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			 return $this->showmessage(__('请输入回复内容', 'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		$data = array(
@@ -315,7 +317,7 @@ class admin extends ecjia_admin {
 			if(!empty($reply_email)){
 				RC_DB::table('comment_reply')->insertGetId($data);
 				
-				ecjia_admin::admin_log('评论ID：'.$comment_id, 'reply', 'users_comment');
+				ecjia_admin::admin_log(__('评论ID：', 'comment').$comment_id, 'reply', 'users_comment');
 				$tpl_name = 'user_message';
 				$template   = RC_Api::api('mail', 'mail_template', $tpl_name);
 				if (!empty($template)) {
@@ -327,13 +329,13 @@ class admin extends ecjia_admin {
 					RC_Mail::send_mail('', $reply_email, $template['template_subject'], $this->fetch_string($template['template_content']), $template['is_html']);
 				}
 			}else{
-				return $this->showmessage('请输入邮件地址', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('请输入邮件地址', 'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}else{
 			RC_DB::table('comment_reply')->insertGetId($data);
-			ecjia_admin::admin_log('评论ID：'.$comment_id, 'reply', 'users_comment');
+			ecjia_admin::admin_log(__('评论ID：', 'comment').$comment_id, 'reply', 'users_comment');
 		}
-	    return $this->showmessage('回复成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('comment/admin/reply', array('comment_id' => $comment_id))));
+	    return $this->showmessage(__('回复成功', 'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('comment/admin/reply', array('comment_id' => $comment_id))));
 	}
 	
 	/**
@@ -388,7 +390,7 @@ class admin extends ecjia_admin {
 			/*审核通过后送积分*/
 			RC_Api::api('comment', 'comment_award', array('comment_id' => $id));
 			
-			$message = RC_Lang::get('comment::comment_manage.show_success');
+			$message = __('批准成功' ,'comment');
 		} elseif ($allow == 'forbid') {
 			/*禁止评论显示 */
 			$data = array(
@@ -407,13 +409,13 @@ class admin extends ecjia_admin {
 			);
 			
 			$db_comment->where('comment_id', $id)->update($data);
-			$message = RC_Lang::get('comment::comment_manage.trashed_success');
+			$message = __('已成功将评论移至回收站' ,'comment');
 		} 
         
 		if ($data['status'] == '3') {
-		    ecjia_admin::admin_log('评论ID：'.$id, 'to_trash', 'users_comment');
+		    ecjia_admin::admin_log(__('评论ID：', 'comment').$id, 'to_trash', 'users_comment');
 		} elseif($data['status'] == '0' || $data['status'] == '1') {
-		    ecjia_admin::admin_log('评论ID：'.$id, 'comment_status', 'users_comment');
+		    ecjia_admin::admin_log(__('评论ID：', 'comment').$id, 'comment_status', 'users_comment');
 		}
 		return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
 	}
@@ -427,7 +429,7 @@ class admin extends ecjia_admin {
 		$res = RC_DB::table('comment')->where('comment_id', $id)->orWhere('parent_id', $id)->delete();
 		
 		ecjia_admin::admin_log('', 'remove', 'users_comment');
-		return $this->showmessage(RC_Lang::get('comment::comment_manage.drop_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('删除成功' ,'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
 	/**
@@ -519,10 +521,10 @@ class admin extends ecjia_admin {
 					$pjaxurl = RC_Uri::url('comment/admin/init', array('status' => $status, 'page' => $page, 'list' => 1));
 				}
 			}
-			return $this->showmessage(sprintf(RC_Lang::get('comment::comment_manage.operation_success'), count($comment_ids)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
+			return $this->showmessage(sprintf(__('操作成功' ,'comment'), count($comment_ids)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
 		} else {
 			/* 错误信息  */
-			return $this->showmessage(RC_Lang::get('system::system.no_select_message'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('没有选择消息' ,'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 
@@ -535,8 +537,8 @@ class admin extends ecjia_admin {
 	    
 	    $this->assign('action_link', array('href'=> RC_Uri::url('comment/admin/init',  array('list' => 1))));
 	    ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('评论回收站'));
-	    $this->assign('ur_here', '评论回收站');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('评论回收站', 'comment')));
+	    $this->assign('ur_here', __('评论回收站', 'comment'));
 	     
 	    $list = $this->get_comment_list();
 	    
@@ -551,19 +553,19 @@ class admin extends ecjia_admin {
 		$this->admin_priv('comment_manage');
 	
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('comment::comment_manage.store_goods_comment_list')));
-		$this->assign('ur_here', RC_Lang::get('comment::comment_manage.store_goods_comment'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('店铺商品评论列表' ,'comment')));
+		$this->assign('ur_here', __('店铺商品评论' ,'comment'));
 	
-		$this->assign('action_link', array('text' => RC_Lang::get('comment::comment_manage.comment_list'), 'href'=> RC_Uri::url('comment/admin/init', array('list' => 1))));
+		$this->assign('action_link', array('text' => __('评论列表' ,'comment'), 'href'=> RC_Uri::url('comment/admin/init', array('list' => 1))));
 	
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 		'id'		=> 'overview',
-		'title'		=> RC_Lang::get('comment::comment_manage.overview'),
-		'content'	=> '<p>' . RC_Lang::get('comment::comment_manage.goods_comment_list_help') . '</p>'
+		'title'		=> __('概述' ,'comment'),
+		'content'	=> '<p>' . __('欢迎访问ECJia智能后台商品评论列表页面，系统中有关商品的评论都会显示在此列表中。' ,'comment') . '</p>'
 				));
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-		'<p><strong>' . RC_Lang::get('comment::comment_manage.more_info') . '</strong></p>' .
-		'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品评论" target="_blank">'.RC_Lang::get('comment::comment_manage.about_goods_comment_list').'</a>') . '</p>'
+		'<p><strong>' . __('更多信息：' ,'comment') . '</strong></p>' .
+		'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品评论" target="_blank">'.__('关于商品评论列表帮助文档' ,'comment').'</a>') . '</p>'
 				);
 		$_GET['list'] = !empty($_GET['list']) ? $_GET['list'] : 3;		
 		$store_id = isset($_GET['store_id']) ? $_GET['store_id'] : 0;	
@@ -687,6 +689,7 @@ class admin extends ecjia_admin {
 		if (!empty($data)) {
 			foreach ($data as $row) {
 				$row['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $row['add_time']);
+                $row['user_name'] =  $row['user_name'] ?  $row['user_name'] : __('匿名用户', 'comment');
 				if ($row['has_image'] == '1') {
 					$row['imgs'] = RC_DB::table('term_attachment')
 					->where(RC_DB::raw('object_id'), '=', $row['comment_id'])

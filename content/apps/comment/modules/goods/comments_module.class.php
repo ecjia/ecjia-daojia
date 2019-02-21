@@ -59,7 +59,7 @@ class goods_comments_module extends api_front implements api_interface
 		$comment_type = $this->requestData('comment_type', 'all');
 		
 		if (!$goods_id || !$comment_type) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效' ,'comment'));
 		}
 		
 		$page_size	= $this->requestData('pagination.count', 15);

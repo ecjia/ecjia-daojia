@@ -57,19 +57,19 @@ class comment_comment_award_api extends Component_Event_Api {
 // 	    $options['comment_id'] 
 		
 	    if (empty($options['comment_id'])) {
-	        return new ecjia_error('invalid_parameter', '参数无效');
+	        return new ecjia_error('invalid_parameter', __('参数无效', 'comment'));
 	    }
 	    $comment_id = $options['comment_id'];
 	    if (!ecjia::config('comment_award_open')) {
-	        return new ecjia_error('comment_award_close', '评论送积分未开启');
+	        return new ecjia_error('comment_award_close', __('评论送积分未开启', 'comment'));
 	    }
 	    
 	    $comment = RC_DB::table('comment')->where('comment_id', $comment_id)->first();
 	    if (empty($comment)) {
-	        return new ecjia_error('comment_no_exist', '评论信息不存在');
+	        return new ecjia_error('comment_no_exist', __('评论信息不存在', 'comment'));
 	    }
 	    if ($comment['status'] != 1) {
-	        return new ecjia_error('status_error', '状态错误');
+	        return new ecjia_error('status_error', __('状态错误', 'comment'));
 	    }
 	    
 	    $user_id = $comment['user_id'];
@@ -82,7 +82,7 @@ class comment_comment_award_api extends Component_Event_Api {
         $comment_award_rules = unserialize($comment_award_rules);
         $comment_award = isset($comment_award_rules[$user_rank]) ? $comment_award_rules[$user_rank] : ecjia::config('comment_award');
          
-        RC_Api::api('user', 'account_change_log', array('user_id' => $user_id, 'pay_points' => $comment_award, 'change_desc' => '评论送积分'));
+        RC_Api::api('user', 'account_change_log', array('user_id' => $user_id, 'pay_points' => $comment_award, 'change_desc' => __('评论送积分', 'comment')));
 	    
 	    return true;
 	}

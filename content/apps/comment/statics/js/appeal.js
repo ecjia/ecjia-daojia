@@ -16,7 +16,7 @@
     			var end_date = $("input[name='end_date']").val();
     			if (start_date > end_date && (start_date != '' && end_date !='')) {
     				var data = {
-    						message : "开始时间不得大于结束时间！",
+    						message : js_lang.not_greater_end_time,
     						state : "error",
     				};
     				ecjia.admin.showmessage(data);

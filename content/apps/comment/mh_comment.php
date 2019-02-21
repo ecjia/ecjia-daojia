@@ -84,8 +84,8 @@ class mh_comment extends ecjia_merchant {
 	public function init() {
 	    $this->admin_priv('mh_comment_manage');
 	    
-	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('评论列表'));
-	    $this->assign('ur_here', '评论列表');
+	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('评论列表', 'comment')));
+	    $this->assign('ur_here', __('评论列表', 'comment'));
 	    $goods_id = $_GET['goods_id'];
 	    $data = $this->comment_list($goods_id);
 	    $this->assign('data', $data);
@@ -116,7 +116,7 @@ class mh_comment extends ecjia_merchant {
 	    $comment_id 	= $_GET['comment_id'];
 	    $reply_content  = $_GET['reply_content'];
 	    if(empty($reply_content)){
-	    	$reply_content='感谢您对本店的支持！我们会更加的努力，为您提供更优质的服务。';
+	    	$reply_content=__('感谢您对本店的支持！我们会更加的努力，为您提供更优质的服务。', 'comment');
 	    }
 	    $data = array(
 	    	'comment_id' 	=> $comment_id,
@@ -137,8 +137,8 @@ class mh_comment extends ecjia_merchant {
 			RC_Api::api('comment', 'comment_award', array('comment_id' => $comment_id));
 		}
 
-	    ecjia_merchant::admin_log('评论ID:'.$comment_id, 'reply', 'users_comment');
-	   	return $this->showmessage('回复成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('comment/mh_comment/init')));
+	    ecjia_merchant::admin_log(__('评论ID:', 'comment').$comment_id, 'reply', 'users_comment');
+	   	return $this->showmessage(__('回复成功', 'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('comment/mh_comment/init')));
 	}
 	
 	/**
@@ -147,10 +147,10 @@ class mh_comment extends ecjia_merchant {
 	public function comment_detail() {
 	    $this->admin_priv('mh_comment_manage');
 	    
-	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('评论详情'));
-	    $this->assign('ur_here', '评论详情');
+	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('评论详情', 'comment')));
+	    $this->assign('ur_here', __('评论详情', 'comment'));
 	    
-	    $this->assign('action_link', array('text' => '评论列表', 'href'=> RC_Uri::url('comment/mh_comment/init')));
+	    $this->assign('action_link', array('text' => __('评论列表', 'comment'), 'href'=> RC_Uri::url('comment/mh_comment/init')));
 	    
 		$comment_id = $_GET['comment_id'];
 		$comment_info = RC_DB::table('comment')->where('comment_id', $comment_id)->first();
@@ -202,7 +202,7 @@ class mh_comment extends ecjia_merchant {
 		$comment_id 	= $_POST['comment_id'];
 		$reply_content  = $_POST['reply_content'];
 		if(empty($reply_content)){
-			 return $this->showmessage('请输入回复内容', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			 return $this->showmessage(__('请输入回复内容', 'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		$data = array(
 			'comment_id' 	=> $comment_id,
@@ -222,7 +222,7 @@ class mh_comment extends ecjia_merchant {
 			if(!empty($reply_email)){
 				RC_DB::table('comment_reply')->insertGetId($data);
 				
-				ecjia_merchant::admin_log('评论ID:'.$comment_id, 'reply', 'users_comment');
+				ecjia_merchant::admin_log(__('评论ID:', 'comment').$comment_id, 'reply', 'users_comment');
 				$tpl_name = 'user_message';
 				$template   = RC_Api::api('mail', 'mail_template', $tpl_name);
 				if (!empty($template)) {
@@ -234,11 +234,11 @@ class mh_comment extends ecjia_merchant {
 					RC_Mail::send_mail('', $reply_email, $template['template_subject'], $this->fetch_string($template['template_content']), $template['is_html']);
 				}
 			}else{
-				return $this->showmessage('请输入邮件地址', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('请输入邮件地址', 'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}else{
 			RC_DB::table('comment_reply')->insertGetId($data);
-			ecjia_merchant::admin_log('评论ID:'.$comment_id, 'reply', 'users_comment');
+			ecjia_merchant::admin_log(__('评论ID:', 'comment').$comment_id, 'reply', 'users_comment');
 		}
 		$id_value = RC_DB::table('comment')->where('comment_id', $comment_id)->where('status', 0)->pluck('id_value');
 		if(!empty($id_value)){
@@ -250,7 +250,7 @@ class mh_comment extends ecjia_merchant {
 			RC_Api::api('comment', 'comment_award', array('comment_id' => $comment_id));
 		}
 		
-	    return $this->showmessage('回复成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('comment/mh_comment/comment_detail',array('comment_id' => $comment_id))));
+	    return $this->showmessage(__('回复成功', 'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('comment/mh_comment/comment_detail',array('comment_id' => $comment_id))));
 	}
 
 	/**

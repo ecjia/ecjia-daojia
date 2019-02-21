@@ -30,11 +30,11 @@
     		                {/if}
     					</div>
     					<div class="comment-thumb-details">
-    						<h1>{if $comment_info.is_anonymous eq 1 }匿名发表{else}{$comment_info.user_name}{/if}</h1>
+    						<h1>{if $comment_info.is_anonymous eq 1 }{t domain="comment"}匿名发表{/t}{else}{$comment_info.user_name}{/if}</h1>
     						<p>{$comment_info.add_time}<span>IP: {$comment_info.ip_address}</span></p><br>
     					</div>
     					<div class="comment-goods">
-    					  	<p>商品评分：{section name=loop loop=$comment_info.comment_rank}<i class="fontello-icon-star" style="color:#FF9933;"></i>{/section}{section name=loop loop=5-$comment_info.comment_rank}<i class="fontello-icon-star" style="color:#bbb;"></i>{/section}</p>
+    					  	<p>{t domain="comment"}商品评分：{/t}{section name=loop loop=$comment_info.comment_rank}<i class="fontello-icon-star" style="color:#FF9933;"></i>{/section}{section name=loop loop=5-$comment_info.comment_rank}<i class="fontello-icon-star" style="color:#bbb;"></i>{/section}</p>
     		                <p>{$comment_info.content}</p>
                             <div class="img-pwsp-list">
     		                      <!-- {foreach from=$comment_pic_list item=list} -->
@@ -51,15 +51,15 @@
     					{if $comment_info.status neq 3}
     					<div class="edit-list">
     					   {if $comment_info.status eq 0}
-    							<a class="approve" href='{url path="comment/admin/check" args="list=5&comment_id={$comment_info.comment_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{t}您确定要更改此评论的状态吗？{/t}" data-status="{$smarty.get.status}" data-val="allow" >
-    								{t}批准{/t}
+    							<a class="approve" href='{url path="comment/admin/check" args="list=5&comment_id={$comment_info.comment_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg='{t domain="comment"}您确定要更改此评论的状态吗？{/t}' data-status="{$smarty.get.status}" data-val="allow" >
+    								{t domain="comment"}批准{/t}
     							</a>&nbsp;|&nbsp;
     						{elseif $comment_info.status eq 1}
-    							<a class="approve ecjiafc-red" href='{url path="comment/admin/check" args="list=5&comment_id={$comment_info.comment_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{t}您确定要更改此评论的状态吗？{/t}" data-status="{$smarty.get.status}" data-val="forbid" >
-    								{t}驳回{/t}
+    							<a class="approve ecjiafc-red" href='{url path="comment/admin/check" args="list=5&comment_id={$comment_info.comment_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg='{t domain="comment"}您确定要更改此评论的状态吗？{/t}' data-status="{$smarty.get.status}" data-val="forbid" >
+    								{t domain="comment"}驳回{/t}
     							</a>&nbsp;|&nbsp;
     						{/if}
-							<a class="ecjiafc-red toggle_view" href='{url path="comment/admin/check" args="list=5&comment_id={$comment_info.comment_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg="{t}您确定要将该用户[{$comment_info.user_name|default:{lang key='comment::comment_manage.anonymous'}}]的评论移至回收站吗？{/t}" data-status="{$smarty.get.status}" data-val="trashed_comment" >{t}移至回收站{/t}</a>
+							<a class="ecjiafc-red toggle_view" href='{url path="comment/admin/check" args="list=5&comment_id={$comment_info.comment_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg='{t domain="comment" 1="{$comment_info.user_name}"}您确定要将该用户[%1]的评论移至回收站吗？{/t}' data-status="{$smarty.get.status}" data-val="trashed_comment" >{t domain="comment"}移至回收站{/t}</a>
 						</div>
 						{/if}
     	            </div>    

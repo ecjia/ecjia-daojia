@@ -74,7 +74,9 @@ class appeal extends ecjia_admin {
 		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 		RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
 		//RC_Style::enqueue_style('start', RC_App::apps_url('statics/css/start.css', __FILE__));
-		RC_Script::localize_script('comment_manage', 'js_lang', RC_Lang::get('comment::comment_manage.js_lang'));
+
+        RC_Script::localize_script('appeal', 'js_lang', config('app-comment::jslang.comment_page'));
+        RC_Script::localize_script('comment_manage', 'js_lang', config('app-comment::jslang.comment_page'));
 	}
 	
 	/**
@@ -84,8 +86,8 @@ class appeal extends ecjia_admin {
 		$this->admin_priv('appeal_manage');
 		
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('申诉列表'));
-		$this->assign('ur_here', '申诉列表');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('申诉列表', 'comment')));
+		$this->assign('ur_here', __('申诉列表', 'comment'));
 		
 		$appeal_list = $this->get_appeal_list();
 		$this->assign('appeal_list', $appeal_list);
@@ -103,7 +105,7 @@ class appeal extends ecjia_admin {
 		$id =  $_GET['id'];
 		$appeal_info = RC_DB::table('comment_appeal')->where('id', $id)->first();
 		if (empty($appeal_info)) {
-			return $this->showmessage('不存在的信息', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('comment/appeal/init')));
+			return $this->showmessage(__('不存在的信息', 'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('comment/appeal/init')));
 		}
 
 		$appeal_info['appeal_time'] = RC_Time::local_date(ecjia::config('time_format'), $appeal_info['appeal_time']);
@@ -141,13 +143,13 @@ class appeal extends ecjia_admin {
 			}
 		}
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('申诉详情'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('申诉详情', 'comment')));
 		if ($appeal_info['check_status'] <= '1') {
-			$this->assign('ur_here', '申诉详情（审核中）');
+			$this->assign('ur_here', __('申诉详情（审核中）', 'comment'));
 		} elseif ($appeal_info['check_status'] == '2') {
-			$this->assign('ur_here', '申诉详情（申诉成功）');
+			$this->assign('ur_here', __('申诉详情（申诉成功）', 'comment'));
 		} elseif ($appeal_info['check_status'] == '3') {
-			$this->assign('ur_here', '申诉详情（申诉失败）');
+			$this->assign('ur_here', __('申诉详情（申诉失败）', 'comment'));
 		}
 		
 		$this->assign('appeal_info', $appeal_info);
@@ -155,7 +157,7 @@ class appeal extends ecjia_admin {
 		$this->assign('avatar_img', $avatar_img);
 		$this->assign('comment_imgs_list', $comment_imgs_list);
 		$this->assign('appeal_imgs_list', $appeal_imgs_list);
-		$this->assign('action_link', array('text' => '申诉列表', 'href'=> RC_Uri::url('comment/appeal/init')));
+		$this->assign('action_link', array('text' => __('申诉列表', 'comment'), 'href'=> RC_Uri::url('comment/appeal/init')));
 		$this->assign('check_comment', $this->admin_priv('appeal_update', '', false));
 		$this->display('appeal_detail.dwt');
 	}
@@ -184,11 +186,11 @@ class appeal extends ecjia_admin {
 				'process_time'	=> RC_Time::gmtime(),
 		);
 		$update = $db_comment_appeal->where(RC_DB::raw('id'), $appeal_id)->update($data);
-		ecjia_admin::admin_log('申诉ID：'.$appeal_id, 'appeal_status', 'merchant_appeal');
+		ecjia_admin::admin_log(__('申诉ID：', 'comment').$appeal_id, 'appeal_status', 'merchant_appeal');
 		
 		$pjaxurl = RC_Uri::url('comment/appeal/detail', array('id' => $appeal_id, 'comment_id' => $comment_id));
 		if ($update) {
-			return $this->showmessage('审核申诉成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
+			return $this->showmessage(__('审核申诉成功', 'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
 		}
 	}
 
@@ -248,11 +250,11 @@ class appeal extends ecjia_admin {
 			foreach ($data as $row) {
 				$row['appeal_time'] = RC_Time::local_date(ecjia::config('time_format'), $row['appeal_time']);
 				if($row['check_status'] == 1){
-					$row['label_check_status'] = '待处理';
+					$row['label_check_status'] = __('待处理', 'comment');
 				}elseif ($row['check_status'] == 2){
-					$row['label_check_status'] = '通过';
+					$row['label_check_status'] = __('通过', 'comment');
 				}elseif ($row['check_status'] == 3){
-					$row['label_check_status'] = '驳回';
+					$row['label_check_status'] = __('驳回', 'comment');
 				}
 				$row['imgs'] = RC_DB::table('term_attachment')
 				->where(RC_DB::raw('object_id'), '=', $row['id'])

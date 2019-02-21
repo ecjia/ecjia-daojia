@@ -40,7 +40,7 @@
 							<p>{$comment_info.add_time}<span>IP：{$comment_info.ip_address}</span></p><br>
 						</div>
 						<div class="appeal-goods">
-						  	<p>商品评分：
+						  	<p>{t domain="comment"}商品评分：{/t}
 						  	{section name=loop loop=$comment_info.comment_rank}   
 								<i class="fa fa-star" style="color:#FF9933;"></i>
 							{/section}
@@ -54,7 +54,7 @@
 						</div>
 		            </div>    
 				</div> 
-				<h4>申诉内容</h4>        
+				<h4>{t domain="comment"}申诉内容{/t}</h4>
 				<div class="appeal_top">
 					<div class="panel-body">
 						<div class="appeal-content">
@@ -67,7 +67,7 @@
 		            </div>    
 				</div> 
 				{if $appeal.check_remark}
-				<h4>平台回复</h4>        
+				<h4>{t domain="comment"}平台回复{/t}</h4>
 				<div class="appeal_top">
 					<div class="panel-body">
 						<div class="appeal-content">

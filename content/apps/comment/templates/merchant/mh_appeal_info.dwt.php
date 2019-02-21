@@ -112,7 +112,7 @@
 							<p>{$comment_info.add_time}<span>IP：{$comment_info.ip_address}</span></p><br>
 						</div>
 						<div class="appeal-goods">
-						  	<p>商品评分：
+						  	<p>{t domain="comment"}商品评分：{/t}
 						  	{section name=loop loop=$comment_info.comment_rank}   
 								<i class="fa fa-star" style="color:#FF9933;"></i>
 							{/section}
@@ -128,9 +128,9 @@
 		            </div>    
 				</div> 
 				<div class="appeal_bottom"> 
-					<h4>申诉内容</h4>        
+					<h4>{t domain="comment"}申诉内容{/t}</h4>
 					<form class="form-horizontal" action='{$form_action}' method="post" name="theForm"  enctype="multipart/form-data">
-						<textarea class="form-control" id="appeal_content" name="appeal_content" placeholder="请输入申诉理由" ></textarea>
+						<textarea class="form-control" id="appeal_content" name="appeal_content" placeholder='{t domain="comment"}请输入申诉理由{/t}' ></textarea>
 						<br>
 						<div class="imgbox">
 							<div class="imgnum">
@@ -142,7 +142,7 @@
 						</div>
 						<br><br><br>
 						<input type="hidden" name="comment_id" value="{$comment_info.comment_id}" />
-						<button class="btn btn-info" id="appeal_btn" type="submit">提交申诉</button>
+						<button class="btn btn-info" id="appeal_btn" type="submit">{t domain="comment"}提交申诉{/t}</button>
 					</form>
 				</div>
 			</div>

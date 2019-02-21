@@ -19,7 +19,7 @@ ecjia.admin.comment_manage.init();
 		<form class="form-horizontal" id="form-privilege" name="theForm" action="{$form_action}" method="post" enctype="multipart/form-data" >
 			<fieldset class="comment-config">
 				<div class="control-group formSep">
-					<label class="control-label">{t}用户评论是否需要审核：{/t}</label>
+					<label class="control-label">{t domain="comment"}用户评论是否需要审核：{/t}</label>
 					<div class="controls">
 			            <div class="info-toggle-button">
 			                <input class="nouniform" name="comment_check" type="checkbox"  {if $comment_check eq 1}checked="checked"{/if}  value="1"/>
@@ -27,7 +27,7 @@ ecjia.admin.comment_manage.init();
 					</div>
 				</div>
 				<div class="control-group formSep">
-					<label class="control-label">{t}评论送积分是否开启：{/t}</label>
+					<label class="control-label">{t domain="comment"}评论送积分是否开启：{/t}</label>
 					<div class="controls">
 			            <div class="info-toggle-button">
 			                <input class="nouniform" name="comment_award_open" type="checkbox"  {if $comment_award_open eq 1}checked="checked"{/if}  value="1"/>
@@ -35,24 +35,24 @@ ecjia.admin.comment_manage.init();
 					</div>
 				</div>
 				<div class="control-group formSep">
-					<label class="control-label">{t}评论一次获得积分奖励：{/t}</label>
+					<label class="control-label">{t domain="comment"}评论一次获得积分奖励：{/t}</label>
 					<div class="controls">
 					    <div class="goods_type">
 						      <input class="w200" name="comment_award" type="text" value="{$comment_award}" />
-					          <span class="help-block">{t}按照会员等级可设置评论后获得的积分数量{/t}</span>
+					          <span class="help-block">{t domain="comment"}按照会员等级可设置评论后获得的积分数量{/t}</span>
 						</div>
 						<!-- {foreach from=$user_rank_list item=item} -->
 							<div class="goods_type">
-								<label class="control-label membership">{t}{$item.rank_name}：{/t}</label>
+								<label class="control-label membership">{t domain="comment"}{$item.rank_name}：{/t}</label>
 								<input class="w200" name="comment_award_rules[{$item.rank_id}]" type="text" value="{$item.comment_award}" />
 							</div>
 						<!-- {/foreach} -->
-						<span class="help-block">{t}不用此规则，则设置为0或不填，否则以规则为准。{/t}</span>
+						<span class="help-block">{t domain="comment"}不用此规则，则设置为0或不填，否则以规则为准。{/t}</span>
 					</div>
 				</div>
 				<div class="control-group">
 					<div class="controls">
-						<button class="btn btn-gebo" type="submit">{t}确定{/t}</button>
+						<button class="btn btn-gebo" type="submit">{t domain="comment"}确定{/t}</button>
 					</div>
 				</div>
 			</fieldset>

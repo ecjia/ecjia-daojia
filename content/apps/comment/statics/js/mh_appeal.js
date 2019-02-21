@@ -25,7 +25,7 @@
 								ecjia.merchant.showmessage(data);
 							})
 						}
-					}, {ok:"确定", cancel:"取消"});
+					}, {ok:js_lang.ok, cancel:js_lang.cancel});
 				} 
 			});
         }

@@ -55,12 +55,12 @@ class comment_merchant_purview_api extends Component_Event_Api {
     public function call(&$options) {
         $purviews = array(
         	//评论	
-            array('action_name' => '评论列表', 'action_code' => 'mh_comment_manage', 'relevance' => ''),
+            array('action_name' => __('评论列表', 'comment'), 'action_code' => 'mh_comment_manage', 'relevance' => ''),
 
         	//申诉	
-            array('action_name' => '申诉列表', 'action_code' => 'mh_appeal_manage', 'relevance' => ''),
-        	array('action_name' => '发起申诉', 'action_code' => 'mh_appeal_update', 'relevance' => ''),
-        	array('action_name' => '撤销申诉', 'action_code' => 'mh_appeal_remove', 'relevance' => ''),
+            array('action_name' => __('申诉列表', 'comment'), 'action_code' => 'mh_appeal_manage', 'relevance' => ''),
+        	array('action_name' => __('发起申诉', 'comment'), 'action_code' => 'mh_appeal_update', 'relevance' => ''),
+        	array('action_name' => __('撤销申诉', 'comment'), 'action_code' => 'mh_appeal_remove', 'relevance' => ''),
         );
         return $purviews;
     }
