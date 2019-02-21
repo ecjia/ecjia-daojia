@@ -50,7 +50,7 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 use Ecjia\App\Connect\ConnectAbstract;
-use Ecjia\App\Connect\ConnectUser;
+use Ecjia\App\Connect\ConnectUser\ConnectUser;
 
 class sns_qq extends ConnectAbstract
 {
@@ -173,15 +173,45 @@ class sns_qq extends ConnectAbstract
             return $userinfo;
         }
         
-        $connect_user = new ConnectUser($this->getCode(), $this->open_id, $user_type);
-        $connect_user->saveOpenId($this->access_token, $this->refresh_token, serialize($userinfo), $this->expires_in);
-        $connect_user->setUserName($userinfo['nickname']);
-        
+//        $connect_user = new ConnectUser($this->getCode(), $this->open_id, $user_type);
+//        $connect_user->saveOpenId($this->access_token, $this->refresh_token, serialize($userinfo), $this->expires_in);
+//        $connect_user->setUserName($userinfo['nickname']);
+//
+//        if (intval($userinfo['ret']) === 0) {
+//            return $connect_user;
+//        } else {
+//            return new ecjia_error('sns_qq_authorize_failure', '登录授权失败，请换其他方式登录');
+//        }
+
+        $connect_user = new ConnectUser($this->getCode(), $this->open_id);
+        $connect_user->setConnectPlatform($this->loadConfig('connect_platform'));
+        //$connect_user->setUnionId($this->union_id);
+
+        //通过union_id同步已绑定的用户信息
+//        if($this->union_id) {
+//            $connect_user->bindUserByUnionId();
+//        }
+        /*
+         * 可以通过判断open_id是否，决定使用哪一种绑定方法
+         * 如果记录不存在，则需创建记录 createUser()
+         * 如果记录已经存在，则直接绑定用户
+         */
+        if($connect_user->checkUser()) {
+            $connect_user->saveConnectProfile($connect_user->getUserModel(), $this->access_token, $this->refresh_token, serialize($userinfo), $this->expires_in);
+        } else if($connect_user->checkOpenId() !== false) {
+            $connect_user->saveConnectProfile($connect_user->getUserModel(), $this->access_token, $this->refresh_token, serialize($userinfo), $this->expires_in);
+        } else {
+            $user_model = $connect_user->createUser(0);
+            $connect_user->saveConnectProfile($user_model, $this->access_token, $this->refresh_token, serialize($userinfo), $this->expires_in);
+        }
+
+        $connect_user->refreshConnectUser();
+
         if (intval($userinfo['ret']) === 0) {
             return $connect_user;
         } else {
             return new ecjia_error('sns_qq_authorize_failure', '登录授权失败，请换其他方式登录');
-        }        
+        }
     }
     
     /**

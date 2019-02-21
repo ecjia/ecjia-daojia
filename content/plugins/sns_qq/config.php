@@ -47,6 +47,7 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 return array(
     'connect_code'      => 'sns_qq',
+    'connect_platform'  => 'qq', //第三方平台
 			
 	'forms' => array(
 	    array('name' => 'sns_qq_appid',       'type' => 'text',       'value' => ''),
