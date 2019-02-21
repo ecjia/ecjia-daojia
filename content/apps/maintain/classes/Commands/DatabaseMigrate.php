@@ -59,22 +59,16 @@ class DatabaseMigrate extends AbstractCommand
     protected $code = 'database_migrate';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '更新数据库结构';
-
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = '完成数据库升级未完成的迁移脚本执行';
-
-    /**
      * 图标
      * @var string
      */
     protected $icon = '/statics/images/setting_shop.png';
+
+    public function __construct()
+    {
+        $this->name = __('更新数据库结构', 'maintain');
+        $this->description = __('完成数据库升级未完成的迁移脚本执行', 'maintain');
+    }
 
 
     public function run() {

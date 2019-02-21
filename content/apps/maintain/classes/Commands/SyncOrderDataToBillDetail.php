@@ -17,23 +17,17 @@ class SyncOrderDataToBillDetail extends AbstractCommand
     protected $code = 'sync_order_data_to_bill_detail';
     
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '同步订单数据到账单详情';
-    
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = 'v1.15结算升级同步数据';
-    
-    /**
      * 图标
      * @var string
      */
     protected $icon = '/statics/images/setting_shop.png';
-    
+
+    public function __construct()
+    {
+        $this->name = __('同步订单数据到账单详情', 'maintain');
+        $this->description = __('v1.15结算升级同步数据', 'maintain');
+    }
+
     // 更新shop_config数据表主键ID顺序
     public function run() {
         //更新类型
