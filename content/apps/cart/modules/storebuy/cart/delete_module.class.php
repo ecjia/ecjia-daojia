@@ -65,7 +65,7 @@ class storebuy_cart_delete_module extends api_front implements api_interface {
 		
 	    $rec_id = $this->requestData('rec_id');
 	    if (empty($rec_id)) {
-            return new ecjia_error(101, '参数错误');
+            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
 	    }
 	    $rec_id = explode(',', $rec_id);
 	    

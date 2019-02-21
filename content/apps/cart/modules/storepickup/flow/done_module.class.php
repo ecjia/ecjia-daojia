@@ -97,7 +97,7 @@ class storepickup_flow_done_module extends api_front implements api_interface
 		$count = $db_cart->where($cart_where)->count();
         
         if ($count == 0) {
-        	return new ecjia_error('no_goods_in_cart', '购物车中没有商品');
+        	return new ecjia_error('no_goods_in_cart', __('购物车中没有商品', 'cart'));
         }
         /* 检查商品库存 */
         /* 如果使用库存，且下订单时减库存，则减少库存 */
@@ -109,7 +109,7 @@ class storepickup_flow_done_module extends api_front implements api_interface
             }
             $result = flow_cart_stock($_cart_goods_stock);
             if (is_ecjia_error($result)) {            	
-            	return new ecjia_error('Inventory shortage', '库存不足');
+            	return new ecjia_error('Inventory shortage', __('库存不足', 'cart'));
             }
             unset($cart_goods_stock, $_cart_goods_stock);
         }
@@ -120,12 +120,12 @@ class storepickup_flow_done_module extends api_front implements api_interface
         $inv_payee			 	= $this->requestData('inv_payee', '');
         $inv_content 			= $this->requestData('inv_content', '');
         $postscript			 	= $this->requestData('postscript', '');
-        $how_oosLang 			= RC_Lang::lang("oos/$how_oos");
+//        $how_oosLang 			= RC_Lang::lang("oos/$how_oos");
         
         /* 订单中的商品 */
         $cart_goods = cart_goods($flow_type, $cart_id);
         if (empty($cart_goods)) {
-            return new ecjia_error('no_goods_in_cart', '购物车中没有商品');
+            return new ecjia_error('no_goods_in_cart', __('购物车中没有商品', 'cart'));
         }
         
         if (!empty($cart_goods)) {
@@ -136,7 +136,7 @@ class storepickup_flow_done_module extends api_front implements api_interface
         }
         
         if (count($store_group) > 1) {
-        	return new ecjia_error('pls_single_shop_for_settlement', '请单个店铺进行结算!');
+        	return new ecjia_error('pls_single_shop_for_settlement', __('请单个店铺进行结算!', 'cart'));
         } else {
         	$store_id = $store_group['0'];
         }
@@ -156,7 +156,7 @@ class storepickup_flow_done_module extends api_front implements api_interface
         	);
         } else {//匿名用户
         	$consignee = array(
-        			'consignee'	=> '匿名用户',
+        			'consignee'	=> __('匿名用户', 'cart'),
         			'mobile'	=> '',
         			'tel'		=> '',
         			'email'		=> '',
@@ -199,7 +199,7 @@ class storepickup_flow_done_module extends api_front implements api_interface
 					$inv_tax_no = trim($this->requestData('inv_tax_no', ''));
 					$inv_payee = trim($this->requestData('inv_payee', ''));
 					if (empty($inv_tax_no) || empty($inv_payee)) {
-						return new ecjia_error('invoice_error', '发票抬头和识别码都不能为空！');
+						return new ecjia_error('invoice_error', __('发票抬头和识别码都不能为空！', 'cart'));
 					}
 					//如果有传发票识别码，发票识别码存储在inv_payee（发票抬头）字段中；格式为发票抬头 + ,发票纳税人识别码；如：（企业,789654321456987124）。
 					$inv_payee_last = $inv_payee.','.$inv_tax_no;
@@ -277,7 +277,7 @@ class storepickup_flow_done_module extends api_front implements api_interface
         
         /* 检查商品总额是否达到最低限购金额 */
         if ($flow_type == CART_GENERAL_GOODS && cart_amount(true, CART_GENERAL_GOODS, $cart_id) < ecjia::config('min_goods_amount')) {
-        	return new ecjia_error('insufficient_balance', '您的余额不足以支付整个订单，请选择其他支付方式。');
+        	return new ecjia_error('insufficient_balance', __('您的余额不足以支付整个订单，请选择其他支付方式。', 'cart'));
         }
         
         /* 收货人信息 */
@@ -334,7 +334,7 @@ class storepickup_flow_done_module extends api_front implements api_interface
             //默认指定微信小程序支付
             $payinfo = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataByCode('pay_wxpay_weapp');
             if (empty($payinfo)) {
-                return new ecjia_error('no_pay_wxpay_weapp', '请先安装微信小程序支付方式');
+                return new ecjia_error('no_pay_wxpay_weapp', __('请先安装微信小程序支付方式', 'cart'));
             }
             $order['pay_id'] = $payinfo['pay_id'];
             $order['pay_name'] = addslashes($payinfo['pay_name']);
@@ -469,13 +469,13 @@ class storepickup_flow_done_module extends api_front implements api_interface
         	$options = array(
         			'user_id'		=> $order['user_id'],
         			'pay_points'	=> $order['integral'] * (- 1),
-        			'change_desc'	=> sprintf(RC_Lang::get('cart::shopping_flow.pay_order'), $order['order_sn']),
+        			'change_desc'	=> sprintf(__('支付订单 %s', 'cart'), $order['order_sn']),
         			'from_type'		=> 'order_use_integral',
         			'from_value'	=> $order['order_sn']
         	);
         	$result = RC_Api::api('user', 'account_change_log', $options);
         	if (is_ecjia_error($result)) {
-        		return new ecjia_error('fail_error', '处理失败');
+        		return new ecjia_error('fail_error', __('处理失败', 'cart'));
         	}
         }
         if ($order['bonus_id'] > 0 && $temp_amout > 0) {
@@ -521,11 +521,11 @@ class storepickup_flow_done_module extends api_front implements api_interface
                             		'user_id' =>$order['user_id'],
                             		'rank_points' => intval($integral['rank_points']),
                             		'pay_points' => intval($integral['custom_points']),
-                            		'change_desc' =>sprintf(RC_Lang::lang('order_gift_integral'), $order['order_sn'])
+                            		'change_desc' =>sprintf(__('订单 %s 赠送的积分', 'cart'), $order['order_sn'])
                             );
                             $result = RC_Api::api('user', 'account_change_log',$options);
                             if (is_ecjia_error($result)) {
-                            	return new ecjia_error('fail_error', '处理失败');
+                            	return new ecjia_error('fail_error', __('处理失败', 'cart'));
                             }
                             /* 发放红包 */
                             send_order_bonus($order['order_id']);
@@ -554,7 +554,7 @@ class storepickup_flow_done_module extends api_front implements api_interface
         }
         
         
-        $subject = $cart_goods[0]['goods_name'] . '等' . count($cart_goods) . '种商品';
+        $subject = sprintf(__( '%s等%d种商品', 'cart'), $cart_goods[0]['goods_name'], count($cart_goods));
         $out = array(
             'order_sn' => $order['order_sn'],
             'order_id' => $order['order_id'],

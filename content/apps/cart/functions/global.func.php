@@ -69,59 +69,59 @@ function cmp_favourable($a, $b) {
  * @param   int     $user_rank      用户等级id，0表示非会员
  * @return  array
  */
-function em_favourable_list($user_rank) {
-	RC_Loader::load_app_func('global', 'goods');
-	//$db_favourable_activity = RC_Loader::load_app_model('favourable_activity_model','favourable');
-	$db_goods = RC_Loader::load_app_model('goods_model','goods');
-    /* 购物车中已有的优惠活动及数量 */
-    $used_list = cart_favourable();
-
-    /* 当前用户可享受的优惠活动 */
-    $favourable_list = array();
-    $user_rank = ',' . $user_rank . ',';
-    $now = RC_Time::gmtime();
-	
-    //$where = array(
-    //	"CONCAT(',', user_rank, ',') LIKE '%" . $user_rank . "%'",
-    //	'start_time' => array('elt' => $now),
-    //	'end_time' => array('egt' => $now),
-    //	'act_type' => FAT_GOODS
-    //);
-    
-	//$data = $db_favourable_activity->where($where)->order('sort_order asc')->select();
-	
-    $data = RC_DB::table('favourable_activity')->where('start_time', '<=', $now)->where('end_time', '>=', $now)->where('act_type', FAT_GOODS)->whereRaw("CONCAT(',', user_rank, ',') LIKE '%" . $user_rank . "%'")->orderBy('sort_order', 'asc')->get();
-    foreach ($data as $favourable) {
-        $favourable['formated_start_time'] = RC_Time::local_date(ecjia::config('time_format'), $favourable['start_time']);
-        $favourable['formated_end_time']   = RC_Time::local_date(ecjia::config('time_format'), $favourable['end_time']);
-        $favourable['formated_min_amount'] = price_format($favourable['min_amount'], false);
-        $favourable['formated_max_amount'] = price_format($favourable['max_amount'], false);
-        $favourable['gift']       = unserialize($favourable['gift']);
-
-        foreach ($favourable['gift'] as $key => $value) {
-            $favourable['gift'][$key]['formated_price'] = price_format($value['price'], false);
-
-            $is_sale = $db_goods->where('is_on_sale = 1 AND goods_id = '.$value['id'].'')->count();            
-            if(!$is_sale) {
-                unset($favourable['gift'][$key]);
-            }
-        }
-		
-        $favourable['act_range_desc'] = act_range_desc($favourable);
-        $favourable['act_type_desc'] = sprintf(RC_Lang::get('cart::shopping_flow.fat_ext.'.$favourable['act_type']), $favourable['act_type_ext']);
-
-        /* 是否能享受 */
-        $favourable['available'] = favourable_available($favourable);
-        if ($favourable['available']) {
-            /* 是否尚未享受 */
-            $favourable['available'] = !favourable_used($favourable, $used_list);
-        }
-
-        $favourable_list[] = $favourable;
-    }
-
-    return $favourable_list;
-}
+//function em_favourable_list($user_rank) {
+//	RC_Loader::load_app_func('global', 'goods');
+//	//$db_favourable_activity = RC_Loader::load_app_model('favourable_activity_model','favourable');
+//	$db_goods = RC_Loader::load_app_model('goods_model','goods');
+//    /* 购物车中已有的优惠活动及数量 */
+//    $used_list = cart_favourable();
+//
+//    /* 当前用户可享受的优惠活动 */
+//    $favourable_list = array();
+//    $user_rank = ',' . $user_rank . ',';
+//    $now = RC_Time::gmtime();
+//
+//    //$where = array(
+//    //	"CONCAT(',', user_rank, ',') LIKE '%" . $user_rank . "%'",
+//    //	'start_time' => array('elt' => $now),
+//    //	'end_time' => array('egt' => $now),
+//    //	'act_type' => FAT_GOODS
+//    //);
+//
+//	//$data = $db_favourable_activity->where($where)->order('sort_order asc')->select();
+//
+//    $data = RC_DB::table('favourable_activity')->where('start_time', '<=', $now)->where('end_time', '>=', $now)->where('act_type', FAT_GOODS)->whereRaw("CONCAT(',', user_rank, ',') LIKE '%" . $user_rank . "%'")->orderBy('sort_order', 'asc')->get();
+//    foreach ($data as $favourable) {
+//        $favourable['formated_start_time'] = RC_Time::local_date(ecjia::config('time_format'), $favourable['start_time']);
+//        $favourable['formated_end_time']   = RC_Time::local_date(ecjia::config('time_format'), $favourable['end_time']);
+//        $favourable['formated_min_amount'] = price_format($favourable['min_amount'], false);
+//        $favourable['formated_max_amount'] = price_format($favourable['max_amount'], false);
+//        $favourable['gift']       = unserialize($favourable['gift']);
+//
+//        foreach ($favourable['gift'] as $key => $value) {
+//            $favourable['gift'][$key]['formated_price'] = price_format($value['price'], false);
+//
+//            $is_sale = $db_goods->where('is_on_sale = 1 AND goods_id = '.$value['id'].'')->count();
+//            if(!$is_sale) {
+//                unset($favourable['gift'][$key]);
+//            }
+//        }
+//
+//        $favourable['act_range_desc'] = act_range_desc($favourable);
+//        $favourable['act_type_desc'] = sprintf(RC_Lang::get('cart::shopping_flow.fat_ext.'.$favourable['act_type']), $favourable['act_type_ext']);
+//
+//        /* 是否能享受 */
+//        $favourable['available'] = favourable_available($favourable);
+//        if ($favourable['available']) {
+//            /* 是否尚未享受 */
+//            $favourable['available'] = !favourable_used($favourable, $used_list);
+//        }
+//
+//        $favourable_list[] = $favourable;
+//    }
+//
+//    return $favourable_list;
+//}
 
 /**
  * 根据购物车判断是否可以享受某优惠活动

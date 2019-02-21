@@ -46,7 +46,7 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class flow_done_module extends api_front implements api_interface {
+class bbc_flow_done_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 		/**
          * bonus 0 //红包
@@ -64,6 +64,13 @@ class flow_done_module extends api_front implements api_interface {
          */
     	
     	$this->authSession();
+    	if ($_SESSION['user_id'] <= 0) {
+    		return new ecjia_error(100, 'Invalid session');
+    	}
+    	
+    	RC_Loader::load_app_class('cart', 'cart', false);
+    	RC_Loader::load_app_class('cart_bbc', 'cart', false);
+    	
     	$rec_id = $this->requestData('rec_id');
     	if (isset($_SESSION['cart_id'])) {
     		$rec_id = empty($rec_id) ? $_SESSION['cart_id'] : $rec_id;
@@ -75,16 +82,10 @@ class flow_done_module extends api_front implements api_interface {
     	if (empty($cart_id)) {
             return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
     	}
-    	$location		= $this->requestData('location',array());
-    	//TODO:目前强制坐标
-//     	$location = array(
-//     	    'latitude'	=> '31.235450744628906',
-//     	    'longitude' => '121.41641998291016',
-//     	);
     	/* 取得购物类型 */
-    	//$flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
     	$rec_type = RC_DB::table('cart')->whereIn('rec_id', $cart_id)->lists('rec_type');
     	$rec_type = array_unique($rec_type);
+    	
     	if (count($rec_type) > 1) {
     		return new ecjia_error( 'error_rec_type', __('购物车类型不一致！', 'cart'));
     	} else {
@@ -95,6 +96,15 @@ class flow_done_module extends api_front implements api_interface {
     			$flow_type = CART_GENERAL_GOODS;
     		}
     	}
+    	
+    	//多店铺还是单店结算
+    	$store_ids = RC_DB::table('cart')->whereIn('rec_id', $cart_id)->lists('store_id');
+    	$store_ids = array_unique($store_ids);
+    	$is_separate_order = 0;
+    	if (count($store_ids) > 1) {
+    		$is_separate_order = 1;
+    	}
+    	
     	/* 获取收货信息*/
     	$address_id = $this->requestData('address_id', 0);
     	if (empty($address_id)) {
@@ -120,7 +130,7 @@ class flow_done_module extends api_front implements api_interface {
     	}
     	
     	$order = array(
-    		'shipping_id'   => $this->requestData('shipping_id' ,0),
+    		'shipping_id'   => $this->requestData('shipping_id' ,array()),
     		'pay_id'        => $this->requestData('pay_id' ,0),
     		'pack_id'     	=> $this->requestData('pack', 0),
     		'card_id'    	=> $this->requestData('card', 0),
@@ -141,39 +151,40 @@ class flow_done_module extends api_front implements api_interface {
     		'order_status'  	=> OS_UNCONFIRMED,
     		'shipping_status' 	=> SS_UNSHIPPED,
     		'pay_status'    	=> PS_UNPAYED,	
-//     		'agency_id' => get_agency_by_regions(array(
-//     			$consignee['country'],
-//     			$consignee['province'],
-//     			$consignee['city'],
-//     			$consignee['district']
-//     		))
     		'agency_id'		=> 0,
-    		'expect_shipping_time' =>  $this->requestData('expect_shipping_time', ''),
+    		'expect_shipping_time' =>  $this->requestData('expect_shipping_time', array()),
     	);
+    	
+    	$order['shipping_id'] = ['63-19', '62-16'];
+    	
 		//期望送达时间过滤
     	$order['expect_shipping_time'] = empty($order['expect_shipping_time']) ? '' : $order['expect_shipping_time'];
     	
     	if (empty($order['pay_id'])) {
     	    return new ecjia_error('empty_payment', __('请选择支付方式', 'cart'));
     	}
-    	if (empty($order['shipping_id'])) {
-    	    return new ecjia_error('empty_shipping', __('当前收货地址暂无可用配送方式，请重新更换其他的收货地址！', 'cart'));
-    	}
+    	
     	//选择货到付款支付方式后，不可选择上门取货配送方式
         if ($order['pay_id'] > 0) {
         	$pay_code = RC_DB::table('payment')->where('pay_id', $order['pay_id'])->pluck('pay_code');
         	if ($pay_code == 'pay_cod') {
-        		if ($order['shipping_id'] > 0) {
-        			$ship_code = RC_DB::table('shipping')->where('shipping_id', $order['shipping_id'])->pluck('shipping_code');
-        			if ($ship_code == 'ship_cac') {
+        		if (!empty($order['shipping_id']) && is_array($order['shipping_id'])) {
+        			foreach ($order['shipping_id'] as $ship) {
+        				$shipping_ids[] = $ship;
+        			}
+        			$ship_codes = RC_DB::table('shipping')->whereIn('shipping_id', $shipping_ids)->lists('shipping_code');
+        			$ship_codes = array_unique($ship_codes);
+        			if (in_array('ship_cac', $ship_codes)) {
         				return new ecjia_error('not_surport_shipping', __('货到付款支付不支持上门取货配送！', 'cart'));
         			}
         		}
         	}
         }
         
-    	$result = RC_Api::api('cart', 'flow_done', array('cart_id' => $cart_id, 'order' => $order, 'address_id' => $address_id, 'flow_type' => $flow_type, 'bonus_sn' => $this->requestData('bonus_sn'), 'location' => $location, 'device' => $this->device));
-    	
+    	$result = RC_Api::api('cart', 'bbc_flow_done', array('cart_id' => $cart_id, 'order' => $order, 'address_id' => $address_id, 'flow_type' => $flow_type, 'store_ids' => $store_ids, 'is_separate_order' => $is_separate_order, 'device' => $this->device));
+    	if (is_ecjia_error($result)) {
+    		return $result;
+    	}
     	return $result;
     }
 }

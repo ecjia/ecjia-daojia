@@ -52,11 +52,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
 	'identifier'    => 'ecjia.cart',
 	'directory'     => 'cart',
-	'name'          => 'cart',
-	'description'   => 'cart_desc',				/* 描述对应的语言项 */
+	'name'          => __('购物车', 'cart'),
+	'description'   => __('在种类繁多的商城中，顾客用于暂时或长期存放所选商品，可以在商品浏览、收藏、订阅等多种方式添加，顾客可以随心所欲对购物车内商品进行、增、删、改、查操作，并集成购物流程和订单结算（可选自定义支付方式、收货地址、配送方式等）。', 'cart'),
 	'author'        => 'ECJIA TEAM',				/* 作者 */
 	'website'       => 'http://www.ecjia.com',	/* 网址 */
-	'version'       => '1.27.1',					/* 版本号 */
+	'version'       => '1.27.4',					/* 版本号 */
 	'copyright'     => 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Cart',
     'provider'      => 'CartServiceProvider',

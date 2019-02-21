@@ -75,25 +75,25 @@ class cart_goods_stock {
 			//系统启用了库存，检查输入的商品数量是否有效
 			if (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] != 'package_buy') {
 				if ($row['is_on_sale'] == 0 || $row['is_delete'] == 1) {
-					return new ecjia_error('put_on_sale', '商品['.$row['goods_name'].']下架');
+					return new ecjia_error('put_on_sale', sprintf(__('商品[%s]下架', 'cart'), $row['goods_name']));
 				}
 				//非散装商品判断库存
 				if ($row['extension_code'] !='bulk') {
 					if ($row['goods_number'] < $val) {
-						return new ecjia_error('low_stocks', __('库存不足'));
+						return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 					}
 					/* 是货品 */
 					$row['product_id'] = trim($row['product_id']);
 					if (!empty($row['product_id'])) {
 						$product_number = RC_DB::table('products')->where('goods_id', $goods['goods_id'])->where('product_id', $goods['product_id'])->pluck('product_number');
 						if ($product_number < $val) {
-							return new ecjia_error('low_stocks', __('库存不足'));
+							return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 						}
 					}
 				}	
 			} elseif (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] == 'package_buy') {
 				if (judge_package_stock($goods['goods_id'], $val)) {
-					return new ecjia_error('low_stocks', __('库存不足'));
+					return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 				}
 			}
 		}
@@ -194,7 +194,7 @@ class cart_goods_stock {
 			/* by will.chen start*/
 			$product_number = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->pluck('product_number');
 			if ($product_number < abs($number)) {
-				return new ecjia_error('low_stocks', RC_Lang::get('orders::order.goods_num_err'));
+				return new ecjia_error('low_stocks', __('库存不足，请重新选择！', 'cart'));
 			}
 			/* end*/
 			$products_query = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->increment('product_number', $number);
@@ -202,7 +202,7 @@ class cart_goods_stock {
 		/* by will.chen start*/
 		$goods_number = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_number');
 		if ($goods_number < abs($number)) {
-			return new ecjia_error('low_stocks', RC_Lang::get('orders::order.goods_num_err'));
+			return new ecjia_error('low_stocks', __('库存不足，请重新选择！', 'cart'));
 		}
 		/* end*/
 		/* 处理商品库存 */

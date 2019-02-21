@@ -62,7 +62,7 @@ class storebuy_flow_checkOrder_module extends api_front implements api_interface
 		$rec_id		= $this->requestData('rec_id');
 		
 		if (empty($rec_id)) {
-		    return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter'));
+            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
 		}
 		$cart_id = array();
 		if (!empty($rec_id)) {
@@ -137,7 +137,7 @@ class storebuy_flow_checkOrder_module extends api_front implements api_interface
 		if (!empty($store_id)) {
 			$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($store_id);
 			if ($store_status == Ecjia\App\Cart\StoreStatus::LOCKED) {
-				return new ecjia_error('store_locked', '对不起，商品所属的店铺已锁定！');
+				return new ecjia_error('store_locked', __('对不起，商品所属的店铺已锁定！', 'cart'));
 			}
 		}
 		
@@ -170,7 +170,7 @@ class storebuy_flow_checkOrder_module extends api_front implements api_interface
 					$user_bonus[$key]['use_start_date_formated'] = RC_Time::local_date(ecjia::config('date_format'), $val['use_start_date']);
 					$user_bonus[$key]['use_end_date_formated'] = RC_Time::local_date(ecjia::config('date_format'), $val['use_end_date']);
 					$user_bonus[$key]['min_amount'] = $val['min_goods_amount'];
-					$user_bonus[$key]['label_min_amount'] = '满'.$val['min_goods_amount'].'可使用';
+					$user_bonus[$key]['label_min_amount'] = sprintf(__('满%s可使用', 'cart', $val['min_goods_amount']));
 				}
 				$bonus_list = $user_bonus;
 			}

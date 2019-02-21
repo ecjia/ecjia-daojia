@@ -70,7 +70,7 @@ class storebuy_cart_checked_module extends api_front implements api_interface {
 		$is_checked   = $this->requestData('is_checked', 1);
 		
 		if (!in_array($is_checked, array(0,1)) || empty($rec_id)) {
-			return new ecjia_error(101, '参数错误');
+            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
 		}
 		
 		$result = cart::flow_check_cart_goods(array('id' => $rec_id, 'is_checked' => $is_checked));

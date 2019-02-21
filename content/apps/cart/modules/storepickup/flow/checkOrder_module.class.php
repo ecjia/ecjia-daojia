@@ -62,7 +62,7 @@ class storepickup_flow_checkOrder_module extends api_front implements api_interf
 		$rec_id		= $this->requestData('rec_id');
 		
 		if (empty($rec_id)) {
-		    return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter'));
+            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
 		}
 		$cart_id = array();
 		if (!empty($rec_id)) {
@@ -83,7 +83,7 @@ class storepickup_flow_checkOrder_module extends api_front implements api_interf
 		$cart_goods = cart_goods($flow_type, $cart_id); // 取得商品列表，计算合计
 		
 		if (empty($cart_goods)) {
-			return new ecjia_error('not_found_cart_goods', '购物车中还没有商品');
+			return new ecjia_error('not_found_cart_goods', __('购物车中还没有商品', 'cart'));
 		}
 		
 		/* 取得订单信息*/
@@ -135,7 +135,7 @@ class storepickup_flow_checkOrder_module extends api_front implements api_interf
 		}
 		
 		if (count($store_group) > 1) {
-			return new ecjia_error('pls_single_shop_for_settlement', '请单个店铺进行结算!');
+			return new ecjia_error('pls_single_shop_for_settlement', __('请单个店铺进行结算!', 'cart'));
 		} else {
 			$store_id = $store_group[0];
 		}
@@ -144,7 +144,7 @@ class storepickup_flow_checkOrder_module extends api_front implements api_interf
 		if (!empty($store_id)) {
 			$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($store_id);
 			if ($store_status == Ecjia\App\Cart\StoreStatus::LOCKED) {
-				return new ecjia_error('store_locked', '对不起，商品所属的店铺已锁定！');
+				return new ecjia_error('store_locked', __('对不起，商品所属的店铺已锁定！', 'cart'));
 			}
 		}
 		
@@ -194,7 +194,7 @@ class storepickup_flow_checkOrder_module extends api_front implements api_interf
 							'formatted_end_date' 		=> RC_Time::local_date(ecjia::config('date_format'), $val['use_end_date']),
 							'request_amount' 			=> $val['min_goods_amount'],
 							'formatted_request_amount' 	=> $val['min_goods_amount'],
-							'label_min_amount' 			=> '满'.$val['min_goods_amount'].'可使用',
+							'label_min_amount' 			=> printf(__('满%s可使用', 'cart', $val['min_goods_amount']))
 					);
 				}
 			}

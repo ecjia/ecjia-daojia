@@ -64,7 +64,7 @@ class storebuy_cart_create_module extends api_front implements api_interface {
     	if (version_compare($api_version, '1.25', '>=')) {
     		$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
     		if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
-    			return new ecjia_error('account_status_error', '当前账号已申请注销，不可执行此操作！');
+    			return new ecjia_error('account_status_error', __('当前账号已申请注销，不可执行此操作！', 'cart'));
     		}
     	}
     	
@@ -72,7 +72,7 @@ class storebuy_cart_create_module extends api_front implements api_interface {
 	    $goods_number	= $this->requestData('number', 1);
 	    $store_id		= $this->requestData('store_id', 0);
 	    if (!$goods_sn) {
-	        return new ecjia_error(101, '参数错误');
+            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
 	    }
 	    
 	    $rec_type		= $this->requestData('rec_type', CART_STOREBUY_GOODS); //暂没用到
@@ -82,7 +82,7 @@ class storebuy_cart_create_module extends api_front implements api_interface {
 
 	    unset($_SESSION['flow_type']);
     	if (!$goods_sn) {
-    		return new ecjia_error('not_found_goods', '请选择您所需要购买的商品！');
+    		return new ecjia_error('not_found_goods', __('请选择您所需要购买的商品！', 'cart'));
     	}
 
         $products_db = RC_Loader::load_app_model('products_model', 'goods');
@@ -104,13 +104,13 @@ class storebuy_cart_create_module extends api_front implements api_interface {
 		}
 		$goods = $goods_db->where($where)->find();
 		if (empty($goods)) {
-			return new ecjia_error('addgoods_error', '该商品不存在或已下架');
+			return new ecjia_error('addgoods_error', __('该商品不存在或已下架', 'cart'));
 		}
 		//商品对应的店铺是否被锁定
 		if (!empty($goods['store_id'])) {
 			$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($goods['store_id']);
 			if ($store_status == Ecjia\App\Cart\StoreStatus::LOCKED) {
-				return new ecjia_error('store_locked', '对不起，该商品所属的店铺已锁定！');
+				return new ecjia_error('store_locked', __('对不起，该商品所属的店铺已锁定！', 'cart'));
 			}
 		}
 		

@@ -155,12 +155,12 @@ class cart_flow_done_do_something_api extends Component_Event_Api {
 		            RC_Api::api('sms', 'send_event_sms', $options);
 		            //消息通知
 		            $order_pickup_data = array(
-		                'title'	=> '订单收货验证码',
-		                'body'	=> '尊敬的'.$userinfo['user_name'].'，您在我们网站已成功下单。订单号：'.$order['order_sn'].'，收货验证码为：'.$code.'。请保管好您的验证码，以便收货验证',
+		                'title'	=> __('订单收货验证码', 'cart'),
+		                'body'	=> sprintf(__('尊敬的%s，您在我们网站已成功下单。订单号：%s，收货验证码为：%s。请保管好您的验证码，以便收货验证', 'cart'), $userinfo['user_name'], $order['order_sn'], $code ),
 		                'data'	=> array(
 		                    'user_id'				=> $order['user_id'],
 		                    'user_name'				=> $userinfo['user_name'],
-		                    'order_id'				=> $new_order_id,
+		                    'order_id'				=> $order['order_id'],
 		                    'order_sn'				=> $order['order_sn'],
 		                    'code'					=> $code,
 		                ),
@@ -175,7 +175,7 @@ class cart_flow_done_do_something_api extends Component_Event_Api {
 		        $meta_data = array(
 		            'object_type'	=> 'ecjia.order',
 		            'object_group'	=> 'order',
-		            'object_id'		=> $new_order_id,
+		            'object_id'		=> $order['order_id'],
 		            'meta_key'		=> 'receipt_verification',
 		            'meta_value'	=> $code,
 		        );
@@ -185,17 +185,17 @@ class cart_flow_done_do_something_api extends Component_Event_Api {
 		
 		//订单log
 		RC_DB::table('order_status_log')->insert(array(
-			'order_status'	=> RC_Lang::get('cart::shopping_flow.label_place_order'),
+			'order_status'	=> __('订单提交成功', 'cart'),
 			'order_id'		=> $order['order_id'],
-			'message'		=> '下单成功，订单号：'.$order['order_sn'],
+			'message'		=> __('下单成功，订单号：', 'cart').$order['order_sn'],
 			'add_time'		=> RC_Time::gmtime(),
 		));
 
 		if (!$payment_info['is_cod'] && $order['order_amount'] > 0) {
 			RC_DB::table('order_status_log')->insert(array(
-				'order_status'	=> RC_Lang::get('cart::shopping_flow.unpay'),
+				'order_status'	=> __('待付款', 'cart'),
 				'order_id'		=> $order['order_id'],
-				'message'		=> '请尽快支付该订单，超时将会自动取消订单',
+				'message'		=> __('请尽快支付该订单，超时将会自动取消订单', 'cart'),
 				'add_time'		=> RC_Time::gmtime(),
 			));
 		}
@@ -203,7 +203,7 @@ class cart_flow_done_do_something_api extends Component_Event_Api {
 		//自动接单
 		if($payment_info['is_cod'] && $order['order_status'] == '1') {
 			RC_Loader::load_app_class('OrderStatusLog', 'orders', false);
-			OrderStatusLog::orderpaid_autoconfirm(array('order_id' => $new_order_id));
+			OrderStatusLog::orderpaid_autoconfirm(array('order_id' => $order['order_id']));
 		}
 		
 		/* 货到付款，默认打印订单 */
@@ -250,8 +250,8 @@ class cart_flow_done_do_something_api extends Component_Event_Api {
 		        $staff_user_ob = $orm_staff_user_db->find($staff_user['user_id']);
 		        try {
 		            $order_data = array(
-		                'title'	=> '客户下单',
-		                'body'	=> '您有一笔新订单，订单号为：'.$order['order_sn'],
+                        'title'	=> __('客户下单', 'cart'),
+                        'body'	=> __('您有一笔新订单，订单号为：', 'cart').$order['order_sn'],
 		                'data'	=> array(
 		                    'order_id'		         => $order['order_id'],
 		                    'order_sn'		         => $order['order_sn'],

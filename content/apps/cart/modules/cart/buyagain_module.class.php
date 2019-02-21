@@ -60,7 +60,7 @@ class cart_buyagain_module extends api_front implements api_interface {
 
     	$order_id = $this->requestData('order_id', 0);
     	if ($order_id <= 0 ) {
-    	    return new ecjia_error('invalid_parameter', '参数错误');
+    	    return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
     	}
 	    $location		= $this->requestData('location', array());
 	    $city_id		= $this->requestData('city_id', '');
@@ -74,14 +74,14 @@ class cart_buyagain_module extends api_front implements api_interface {
     		$geohash_code    = $geohash->encode($location['latitude'] , $location['longitude']);
     		$store_id_group  = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
     	} else {
-    		return new ecjia_error('location_error', '请定位您当前所在地址！');
+    		return new ecjia_error('location_error', __('请定位您当前所在地址！', 'cart'));
     	}
     	
     	RC_Loader::load_app_func('cart', 'cart');
     	RC_Loader::load_app_func('admin_order', 'orders');
     	$order = order_info($order_id, '', 'front');
     	if (empty($order)) {
-    	    return new ecjia_error('error_order', '订单信息异常');
+    	    return new ecjia_error('error_order', __('订单信息异常', 'cart'));
     	}
     	$seller_id = $order['store_id'];
     	if (!empty($seller_id) && !in_array($seller_id, $store_id_group)) {

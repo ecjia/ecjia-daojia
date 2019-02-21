@@ -44,14 +44,79 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Cart\Models;
 
-/**
- * ECJIA 应用语言包
- */
-return array(
-	'cart' 		=> '购物车',
-	'cart_desc' => '在种类繁多的商城中，顾客用于暂时或长期存放所选商品，可以在商品浏览、收藏、订阅等多种方式添加，顾客可以随心所欲对购物车内商品进行、增、删、改、查操作，并集成购物流程和订单结算（可选自定义支付方式、收货地址、配送方式等）。'
-);
+use Royalcms\Component\Database\Eloquent\Model;
+
+class CartModel extends Model
+{
+	protected $table = 'cart';
+	
+	protected $primaryKey = 'rec_id';
+	
+	/**
+	 * 可以被批量赋值的属性。
+	 *
+	 * @var array
+	 */
+	protected $fillable = [
+	    'user_id',
+	    'store_id',
+	    'session_id',
+	    'goods_id',
+	    'goods_sn',
+	    'product_id',
+	    'group_id',
+	    'goods_name',
+	    'market_price',
+	    'goods_price',
+	    'goods_number',
+	    'goods_buy_weight',
+	    'goods_attr',
+	    'is_real',
+	    'extension_code',
+	    'parent_id',
+	    'rec_type',
+	    'is_gift',
+	    'is_shipping',
+	    'can_handsel',
+	    'mark_changed',
+	    'goods_attr_id',
+	    'shopping_fee',
+	    'is_checked',
+	    'pendorder_id',
+	    'add_time'
+    ];
+	
+	/**
+	 * 该模型是否被自动维护时间戳
+	 *
+	 * @var bool
+	 */
+	public $timestamps = false;
+
+
+    public function goods()
+    {
+        return $this->belongsTo('Ecjia\App\Cart\Models\GoodsModel', 'goods_id', 'goods_id');
+    }
+	
+    /**
+     * 获取购物车店铺信息
+     */
+    public function store_franchisee()
+    {
+    	return $this->belongsTo('Ecjia\App\Merchant\Models\StoreFranchiseeModel', 'store_id', 'store_id');
+    }
+    
+    /**
+     * 获取购物车对应货品信息
+     */
+    public function products()
+    {
+    	return $this->belongsTo('Ecjia\App\Cart\Models\ProductsModel', 'product_id', 'product_id');
+    }
+
+}
 
 // end

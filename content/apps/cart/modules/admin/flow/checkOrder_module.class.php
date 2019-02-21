@@ -165,7 +165,7 @@ class admin_flow_checkOrder_module extends api_admin implements api_interface {
 				$goods = $goods_db->where($where)->find();
 			}
 			if (empty($goods)) {
-				return new ecjia_error('addgoods_error', '该商品不存在或已下架');
+				return new ecjia_error('addgoods_error', __('该商品不存在或已下架', 'cart'));
 			}
 			$result = addto_cart($goods['goods_id'], $addgoods['number'], $goods_spec, 0, 0, 0, strlen($addgoods['goods_sn']) == 7 ? $addgoods['price'] : 0, strlen($addgoods['goods_sn']) == 7 ? $addgoods['weight'] : 0, $flow_type);
 			

@@ -1,0 +1,509 @@
+# Copyright (C) 2019 Ecjia App cart
+# This file is distributed under the same license as the Ecjia App cart package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App cart 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:19:31+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: apis/cart_bbc_flow_done_api.class.php:82
+#: apis/cart_bbc_flow_done_api.class.php:121
+#: apis/cart_flow_done_api.class.php:100 apis/cart_flow_done_api.class.php:107
+#: apis/cart_flow_done_api.class.php:145
+msgid "请完善收货人信息！"
+msgstr ""
+
+#: apis/cart_bbc_flow_done_api.class.php:92
+#: apis/cart_flow_done_api.class.php:122
+msgid "购物车中没有您选择的商品"
+msgstr ""
+
+#: apis/cart_bbc_flow_done_api.class.php:107
+#: apis/cart_bbc_flow_done_api.class.php:112
+msgid "请选择配送方式！"
+msgstr ""
+
+#: apis/cart_bbc_flow_done_api.class.php:238
+#: apis/cart_flow_done_api.class.php:287
+msgid "货到付款不支持非自营商家！"
+msgstr ""
+
+#: apis/cart_bbc_flow_done_api.class.php:381
+#: apis/cart_flow_done_api.class.php:430
+msgid "积分"
+msgstr ""
+
+#: apis/cart_bbc_flow_done_api.class.php:386
+#: apis/cart_flow_done_api.class.php:435
+#: modules/admin/flow/done_module.class.php:430
+#: modules/storebuy/flow/done_module.class.php:420
+#: modules/storepickup/flow/done_module.class.php:472
+msgid "支付订单 %s"
+msgstr ""
+
+#: apis/cart_bbc_flow_done_api.class.php:392
+#: apis/cart_flow_done_api.class.php:441
+msgid "使用失败！"
+msgstr ""
+
+#: apis/cart_bbc_flow_done_api.class.php:449
+#: apis/cart_flow_done_api.class.php:498
+#: apis/cart_flow_done_do_something_api.class.php:158
+msgid "订单收货验证码"
+msgstr ""
+
+#: apis/cart_bbc_flow_done_api.class.php:450
+#: apis/cart_flow_done_api.class.php:499
+#: apis/cart_flow_done_do_something_api.class.php:159
+msgid "尊敬的%s，您在我们网站已成功下单。订单号：%s，收货验证码为：%s。请保管好您的验证码，以便收货验证"
+msgstr ""
+
+#: apis/cart_bbc_flow_done_api.class.php:532
+#: apis/cart_flow_done_api.class.php:581
+#: modules/storebuy/flow/done_module.class.php:480
+#: modules/storepickup/flow/done_module.class.php:524
+msgid "订单 %s 赠送的积分"
+msgstr ""
+
+#: apis/cart_bbc_flow_done_api.class.php:580
+#: apis/cart_flow_done_api.class.php:629
+#: apis/cart_flow_done_do_something_api.class.php:188
+msgid "订单提交成功"
+msgstr ""
+
+#: apis/cart_bbc_flow_done_api.class.php:582
+#: apis/cart_flow_done_api.class.php:631
+#: apis/cart_flow_done_do_something_api.class.php:190
+msgid "下单成功，订单号："
+msgstr ""
+
+#: apis/cart_bbc_flow_done_api.class.php:588
+#: apis/cart_flow_done_api.class.php:637
+#: apis/cart_flow_done_do_something_api.class.php:196
+msgid "待付款"
+msgstr ""
+
+#: apis/cart_bbc_flow_done_api.class.php:590
+#: apis/cart_flow_done_api.class.php:639
+#: apis/cart_flow_done_do_something_api.class.php:198
+msgid "请尽快支付该订单，超时将会自动取消订单"
+msgstr ""
+
+#: apis/cart_bbc_flow_done_api.class.php:640
+#: apis/cart_flow_done_api.class.php:689
+#: apis/cart_flow_done_do_something_api.class.php:253
+msgid "客户下单"
+msgstr ""
+
+#: apis/cart_bbc_flow_done_api.class.php:641
+#: apis/cart_flow_done_api.class.php:690
+#: apis/cart_flow_done_do_something_api.class.php:254
+msgid "您有一笔新订单，订单号为："
+msgstr ""
+
+#: apis/cart_cart_groupbuy_manage_api.class.php:63
+#: apis/cart_cart_manage_api.class.php:63
+msgid "当前定位地址超出服务范围！"
+msgstr ""
+
+#: apis/cart_cart_groupbuy_manage_api.class.php:67
+#: apis/cart_cart_manage_api.class.php:67
+msgid "请选择您所需要的商品！"
+msgstr ""
+
+#: apis/cart_cart_groupbuy_manage_api.class.php:95 functions/cart.func.php:1661
+msgid "对不起，该团购活动不存在！"
+msgstr ""
+
+#: apis/cart_cart_groupbuy_manage_api.class.php:101
+#: functions/cart.func.php:1667
+msgid "对不起，该团购活动已经结束或尚未开始，现在不能参加！"
+msgstr ""
+
+#: apis/cart_cart_groupbuy_manage_api.class.php:113
+#: functions/cart.func.php:1673
+msgid "对不起，团购商品不存在！"
+msgstr ""
+
+#: apis/cart_cart_groupbuy_manage_api.class.php:118
+#: apis/cart_cart_manage_api.class.php:110
+msgid "对不起，该商品所属的店铺已经下线！"
+msgstr ""
+
+#: apis/cart_cart_groupbuy_manage_api.class.php:139
+#: apis/cart_cart_groupbuy_manage_api.class.php:146
+#: apis/cart_cart_list_api.class.php:120
+#: apis/cart_cart_manage_api.class.php:156
+#: apis/cart_cart_manage_api.class.php:351 classes/CartFlow/CartGoods.php:102
+#: classes/cart.class.php:96 classes/cart.class.php:103
+#: classes/cart.class.php:108 classes/cart.class.php:436
+#: classes/cart.class.php:443 classes/cart.class.php:448
+#: classes/cart.class.php:1712 classes/cart.class.php:1718
+#: classes/cart_cashdesk.class.php:305 classes/cart_cashdesk.class.php:312
+#: classes/cart_cashdesk.class.php:485 classes/cart_cashdesk.class.php:526
+#: classes/cart_cashdesk.class.php:655 classes/cart_cashdesk.class.php:667
+#: classes/cart_cashdesk.class.php:673 classes/cart_goods_stock.class.php:83
+#: classes/cart_goods_stock.class.php:90 classes/cart_goods_stock.class.php:96
+#: functions/cart.func.php:190 functions/cart.func.php:202
+#: functions/cart.func.php:208 functions/cart.func.php:572
+#: functions/cart.func.php:746 functions/cart.func.php:824
+#: functions/cart.func.php:831 functions/cart.func.php:836
+#: modules/admin/flow/done_module.class.php:125
+#: modules/cart/update_module.class.php:77
+#: modules/storebuy/cart/update_module.class.php:76
+#: modules/storebuy/flow/done_module.class.php:111
+#: modules/storepickup/flow/done_module.class.php:112
+msgid "库存不足"
+msgstr ""
+
+#: apis/cart_cart_groupbuy_manage_api.class.php:156
+msgid "对不起，超出团购商品限购数量，请您修改数量！"
+msgstr ""
+
+#: apis/cart_cart_list_api.class.php:125 classes/CartFlow/CartGoods.php:112
+msgid "商品已下架"
+msgstr ""
+
+#: apis/cart_cart_manage_api.class.php:100
+msgid "对不起，该商品不存在！"
+msgstr ""
+
+#: apis/cart_cart_manage_api.class.php:105 functions/cart.func.php:533
+msgid "对不起，该商品已下架！"
+msgstr ""
+
+#: apis/cart_cart_manage_api.class.php:125 classes/cart_cashdesk.class.php:284
+#: functions/cart.func.php:544
+msgid "对不起，您希望将该商品做为配件购买，可是购物车中还没有该商品的基本件。"
+msgstr ""
+
+#: apis/cart_cart_manage_api.class.php:131 functions/cart.func.php:550
+msgid "对不起，该商品不能单独购买！"
+msgstr ""
+
+#: apis/cart_cart_manage_api.class.php:164 functions/cart.func.php:577
+#: functions/cart.func.php:582
+msgid "货品库存不足"
+msgstr ""
+
+#: apis/cart_exchange_buy_api.class.php:58
+msgid "参数无效"
+msgstr ""
+
+#: apis/cart_exchange_buy_api.class.php:76
+msgid "商品不存在"
+msgstr ""
+
+#: apis/cart_exchange_buy_api.class.php:81
+#: apis/cart_exchange_buy_api.class.php:121
+msgid "商品库存不足！"
+msgstr ""
+
+#: apis/cart_exchange_buy_api.class.php:86
+msgid "积分商品已下架！"
+msgstr ""
+
+#: apis/cart_exchange_buy_api.class.php:93
+msgid "用户积分不足！"
+msgstr ""
+
+#: apis/cart_flow_done_api.class.php:138
+#: modules/flow/checkOrder_module.class.php:216
+#: modules/storepickup/flow/checkOrder_module.class.php:138
+#: modules/storepickup/flow/done_module.class.php:139
+msgid "请单个店铺进行结算!"
+msgstr ""
+
+#: apis/cart_flow_done_api.class.php:230
+msgid "您的商品金额未达到最低限购金额，还差"
+msgstr ""
+
+#: apis/cart_flow_done_api.class.php:244
+msgid "请选择一个配送方式！"
+msgstr ""
+
+#: classes/cart.class.php:84 classes/cart_cashdesk.class.php:627
+#: modules/cart/create_module.class.php:98
+#: modules/storebuy/cart/create_module.class.php:113
+msgid "对不起，该商品所属的店铺已锁定！"
+msgstr ""
+
+#: classes/cart.class.php:995
+msgid "克"
+msgstr ""
+
+#: classes/cart.class.php:998
+msgid "千克"
+msgstr ""
+
+#: classes/cart_bbc.class.php:243 functions/cart.func.php:1876
+#: functions/cart.func.php:1888 functions/cart.func.php:1898
+#: functions/cart.func.php:1908 functions/cart.func.php:2235
+#: functions/cart.func.php:2342 functions/cart.func.php:2417
+#: functions/cart.func.php:2490
+msgid "满减"
+msgstr ""
+
+#: classes/cart_bbc.class.php:243 functions/cart.func.php:1876
+#: functions/cart.func.php:1888 functions/cart.func.php:1898
+#: functions/cart.func.php:1908 functions/cart.func.php:2239
+#: functions/cart.func.php:2346 functions/cart.func.php:2421
+#: functions/cart.func.php:2494
+msgid "满折"
+msgstr ""
+
+#: classes/cart_cashdesk.class.php:90 functions/cart.func.php:98
+#: functions/cart.func.php:1078
+msgid "免费"
+msgstr ""
+
+#: classes/cart_cashdesk.class.php:264 functions/cart.func.php:529
+msgid "对不起，指定的商品不存在！"
+msgstr ""
+
+#: classes/cart_cashdesk.class.php:268 classes/cart_cashdesk.class.php:290
+msgid "购买失败"
+msgstr ""
+
+#: classes/cart_goods_stock.class.php:78 functions/cart.func.php:820
+msgid "商品[%s]下架"
+msgstr ""
+
+#: classes/cart_goods_stock.class.php:197
+#: classes/cart_goods_stock.class.php:205
+msgid "库存不足，请重新选择！"
+msgstr ""
+
+#: configs/package.php:55
+msgid "购物车"
+msgstr ""
+
+#: configs/package.php:56
+msgid "在种类繁多的商城中，顾客用于暂时或长期存放所选商品，可以在商品浏览、收藏、订阅等多种方式添加，顾客可以随心所欲对购物车内商品进行、增、删、改、查操作，并集成购物流程和订单结算（可选自定义支付方式、收货地址、配送方式等）。"
+msgstr ""
+
+#: functions/cart.func.php:721
+msgid "该商品已限购"
+msgstr ""
+
+#: functions/cart.func.php:1678 functions/cart.func.php:1689
+msgid "对不起，商品库存不足，请您修改数量！"
+msgstr ""
+
+#: functions/cart.func.php:1942
+msgid "普通"
+msgstr ""
+
+#: functions/cart.func.php:1943
+msgid "团购"
+msgstr ""
+
+#: functions/cart.func.php:1944
+msgid "拍卖"
+msgstr ""
+
+#: functions/cart.func.php:1945
+msgid "夺宝奇兵"
+msgstr ""
+
+#: functions/cart.func.php:1946
+msgid "积分商城"
+msgstr ""
+
+#: functions/cart.func.php:1947
+msgid "预售"
+msgstr ""
+
+#: functions/cart.func.php:1948
+msgid "秒杀"
+msgstr ""
+
+#: functions/cart.func.php:2231 functions/cart.func.php:2338
+#: functions/cart.func.php:2413 functions/cart.func.php:2486
+msgid "满赠"
+msgstr ""
+
+#: modules/admin/bonus/validate_module.class.php:64
+#: modules/bbc/flow/done_module.class.php:83
+#: modules/cart/buyagain_module.class.php:63
+#: modules/cart/checked_module.class.php:74
+#: modules/cart/create_module.class.php:77
+#: modules/cart/update_module.class.php:71
+#: modules/flow/checkOrder_module.class.php:67
+#: modules/flow/checkOrder_module.class.php:359
+#: modules/flow/done_module.class.php:76
+#: modules/storebuy/cart/checked_module.class.php:73
+#: modules/storebuy/cart/create_module.class.php:75
+#: modules/storebuy/cart/delete_module.class.php:68
+#: modules/storebuy/cart/list_module.class.php:78
+#: modules/storebuy/cart/update_module.class.php:70
+#: modules/storebuy/flow/checkOrder_module.class.php:65
+#: modules/storebuy/flow/done_module.class.php:81
+#: modules/storebuy/flow/done_module.class.php:204
+#: modules/storepickup/flow/checkOrder_module.class.php:65
+msgid "参数错误"
+msgstr ""
+
+#: modules/admin/bonus/validate_module.class.php:75
+#: modules/admin/bonus/validate_module.class.php:88
+msgid "红包信息有误！"
+msgstr ""
+
+#: modules/admin/bonus/validate_module.class.php:78
+msgid "红包已使用！"
+msgstr ""
+
+#: modules/admin/bonus/validate_module.class.php:84
+msgid "红包不在有效期！"
+msgstr ""
+
+#: modules/admin/flow/checkOrder_module.class.php:168
+#: modules/storebuy/cart/create_module.class.php:107
+msgid "该商品不存在或已下架"
+msgstr ""
+
+#: modules/admin/flow/done_module.class.php:113
+#: modules/admin/flow/done_module.class.php:263
+#: modules/storebuy/flow/done_module.class.php:99
+#: modules/storebuy/flow/done_module.class.php:127
+#: modules/storepickup/flow/done_module.class.php:100
+#: modules/storepickup/flow/done_module.class.php:128
+msgid "购物车中没有商品"
+msgstr ""
+
+#: modules/admin/flow/done_module.class.php:147
+#: modules/storebuy/flow/done_module.class.php:147
+#: modules/storepickup/flow/done_module.class.php:159
+msgid "匿名用户"
+msgstr ""
+
+#: modules/admin/flow/done_module.class.php:268
+#: modules/storebuy/flow/done_module.class.php:256
+#: modules/storepickup/flow/done_module.class.php:280
+msgid "您的余额不足以支付整个订单，请选择其他支付方式。"
+msgstr ""
+
+#: modules/admin/flow/done_module.class.php:434
+#: modules/storebuy/flow/done_module.class.php:426
+#: modules/storebuy/flow/done_module.class.php:484
+#: modules/storepickup/flow/done_module.class.php:478
+#: modules/storepickup/flow/done_module.class.php:528
+msgid "处理失败"
+msgstr ""
+
+#: modules/admin/flow/done_module.class.php:535
+#: modules/storebuy/flow/done_module.class.php:511
+#: modules/storepickup/flow/done_module.class.php:557
+msgid "%s等%d种商品"
+msgstr ""
+
+#: modules/bbc/flow/done_module.class.php:90
+#: modules/flow/checkOrder_module.class.php:80
+#: modules/flow/done_module.class.php:89
+msgid "购物车类型不一致！"
+msgstr ""
+
+#: modules/bbc/flow/done_module.class.php:111
+#: modules/flow/done_module.class.php:101
+msgid "请选择收货地址"
+msgstr ""
+
+#: modules/bbc/flow/done_module.class.php:119
+#: modules/flow/done_module.class.php:109
+msgid "个人"
+msgstr ""
+
+#: modules/bbc/flow/done_module.class.php:125
+#: modules/flow/done_module.class.php:115
+#: modules/storepickup/flow/done_module.class.php:202
+msgid "发票抬头和识别码都不能为空！"
+msgstr ""
+
+#: modules/bbc/flow/done_module.class.php:164
+#: modules/flow/done_module.class.php:157
+msgid "请选择支付方式"
+msgstr ""
+
+#: modules/bbc/flow/done_module.class.php:178
+#: modules/flow/done_module.class.php:169
+msgid "货到付款支付不支持上门取货配送！"
+msgstr ""
+
+#: modules/cart/buyagain_module.class.php:77
+#: modules/cart/checked_module.class.php:97
+#: modules/cart/create_module.class.php:108
+#: modules/cart/create_module.class.php:137
+#: modules/cart/delete_module.class.php:97
+#: modules/cart/list_module.class.php:90
+msgid "请定位您当前所在地址！"
+msgstr ""
+
+#: modules/cart/buyagain_module.class.php:84
+msgid "订单信息异常"
+msgstr ""
+
+#: modules/cart/create_module.class.php:67
+#: modules/storebuy/cart/create_module.class.php:67
+msgid "当前账号已申请注销，不可执行此操作！"
+msgstr ""
+
+#: modules/cart/create_module.class.php:91
+#: modules/storebuy/cart/create_module.class.php:85
+msgid "请选择您所需要购买的商品！"
+msgstr ""
+
+#: modules/cart/list_module.class.php:68
+#: modules/storebuy/cart/list_module.class.php:68
+msgid "当前账号已申请注销，不可查看此数据！"
+msgstr ""
+
+#: modules/cart/update_module.class.php:101
+msgid "当前的定位地址超出店铺配送范围，请重新定位"
+msgstr ""
+
+#: modules/flow/checkOrder_module.class.php:110
+#: modules/storepickup/flow/checkOrder_module.class.php:86
+msgid "购物车中还没有商品"
+msgstr ""
+
+#: modules/flow/checkOrder_module.class.php:114
+msgid "有部分商品不在送货范围内！"
+msgstr ""
+
+#: modules/flow/checkOrder_module.class.php:354
+msgid "如果是团购，且保证金大于0，不能使用货到付款"
+msgstr ""
+
+#: modules/flow/checkOrder_module.class.php:490
+msgid "未使用"
+msgstr ""
+
+#: modules/flow/checkOrder_module.class.php:648
+#: modules/storebuy/flow/checkOrder_module.class.php:173
+#: modules/storepickup/flow/checkOrder_module.class.php:197
+msgid "满%s可使用"
+msgstr ""
+
+#: modules/flow/done_module.class.php:160
+msgid "当前收货地址暂无可用配送方式，请重新更换其他的收货地址！"
+msgstr ""
+
+#: modules/storebuy/flow/checkOrder_module.class.php:140
+#: modules/storepickup/flow/checkOrder_module.class.php:147
+msgid "对不起，商品所属的店铺已锁定！"
+msgstr ""
+
+#: modules/storebuy/flow/done_module.class.php:298
+msgid "无需物流"
+msgstr ""
+
+#: modules/storebuy/flow/done_module.class.php:314
+#: modules/storepickup/flow/done_module.class.php:337
+msgid "请先安装微信小程序支付方式"
+msgstr ""

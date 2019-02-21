@@ -110,7 +110,7 @@ class admin_flow_done_module extends api_admin implements api_interface
 		}
         
         if ($count == 0) {
-        	return new ecjia_error('no_goods_in_cart', '购物车中没有商品');
+        	return new ecjia_error('no_goods_in_cart', __('购物车中没有商品', 'cart'));
         }
         /* 检查商品库存 */
         /* 如果使用库存，且下订单时减库存，则减少库存 */
@@ -122,7 +122,7 @@ class admin_flow_done_module extends api_admin implements api_interface
             }
             $result = flow_cart_stock($_cart_goods_stock);
             if (is_ecjia_error($result)) {            	
-            	return new ecjia_error('Inventory shortage', '库存不足');
+            	return new ecjia_error('Inventory shortage', __('库存不足', 'cart'));
             }
             unset($cart_goods_stock, $_cart_goods_stock);
         }        
@@ -144,7 +144,7 @@ class admin_flow_done_module extends api_admin implements api_interface
         	);
         } else {//匿名用户
         	$consignee = array(
-        			'consignee'	=> '匿名用户',
+        			'consignee'	=> __('匿名用户', 'cart'),
         			'mobile'	=> '',
         			'tel'		=> '',
         			'email'		=> '',
@@ -184,7 +184,7 @@ class admin_flow_done_module extends api_admin implements api_interface
         $inv_payee			 	= $this->requestData('inv_payee', '');
         $inv_content 			= $this->requestData('inv_content', '');
         $postscript			 	= $this->requestData('postscript', '');
-        $how_oosLang 			= RC_Lang::lang("oos/$how_oos");
+        //$how_oosLang 			= RC_Lang::lang("oos/$how_oos");
         
         $order = array(
         	'shipping_id' 		=> $this->requestData('shipping_id', 0),
@@ -260,12 +260,12 @@ class admin_flow_done_module extends api_admin implements api_interface
         /* 订单中的商品 */
         $cart_goods = cart_goods($flow_type, $cart_id);
         if (empty($cart_goods)) {
-        	return new ecjia_error('no_goods_in_cart', '购物车中没有商品');
+        	return new ecjia_error('no_goods_in_cart', __('购物车中没有商品', 'cart'));
         }
         
         /* 检查商品总额是否达到最低限购金额 */
         if ($flow_type == CART_GENERAL_GOODS && cart_amount(true, CART_GENERAL_GOODS, $cart_id) < ecjia::config('min_goods_amount')) {
-        	return new ecjia_error('insufficient_balance', '您的余额不足以支付整个订单，请选择其他支付方式。');
+        	return new ecjia_error('insufficient_balance', __('您的余额不足以支付整个订单，请选择其他支付方式。', 'cart'));
         }
         
         /* 收货人信息 */
@@ -427,11 +427,11 @@ class admin_flow_done_module extends api_admin implements api_interface
         	$options = array(
         			'user_id'=>$order['user_id'],
         			'pay_points'=> $order['integral'] * (- 1),
-        			'change_desc'=>sprintf(RC_Lang::get('cart::shopping_flow.pay_order'), $order['order_sn'])
+        			'change_desc'=>sprintf( __('支付订单 %s', 'cart'), $order['order_sn'])
         	);
         	$result = RC_Api::api('user', 'account_change_log', $options);
         	if (is_ecjia_error($result)) {
-        		return new ecjia_error('fail_error', '处理失败');
+        		return new ecjia_error('fail_error', __('处理失败', 'cart'));
         	}
         }
         if ($order['bonus_id'] > 0 && $temp_amout > 0) {
@@ -468,40 +468,40 @@ class admin_flow_done_module extends api_admin implements api_interface
                 );
             }
             
-            if ($virtual_goods and $flow_type != CART_GROUP_BUY_GOODS) {
-                /* 虚拟卡发货 */
-                if (virtual_goods_ship($virtual_goods, $msg, $order['order_sn'], true)) {
-                    /* 如果没有实体商品，修改发货状态，送积分和红包 */
-                    $count = $db_order_goods->where(array('order_id' => $order['order_id'] , 'is_real' => 1))->count();
-               		if ($count <= 0) {
-                    /* 修改订单状态 */
-                        update_order($order['order_id'], array(
-                            'shipping_status' => SS_SHIPPED,
-                            'shipping_time' => RC_Time::gmtime()
-                        ));
-                        
-                        /* 如果订单用户不为空，计算积分，并发给用户；发红包 */
-                        if ($order['user_id'] > 0) {
-                            /* 取得用户信息 */
-                            $user = user_info($order['user_id']);
-                            /* 计算并发放积分 */
-                            $integral = integral_to_give($order);
-                            $options = array(
-                            		'user_id' =>$order['user_id'],
-                            		'rank_points' => intval($integral['rank_points']),
-                            		'pay_points' => intval($integral['custom_points']),
-                            		'change_desc' =>sprintf(RC_Lang::lang('order_gift_integral'), $order['order_sn'])
-                            );
-                            $result = RC_Api::api('user', 'account_change_log',$options);
-                            if (is_ecjia_error($result)) {
-                            	return new ecjia_error('fail_error', '处理失败');
-                            }
-                            /* 发放红包 */
-                            send_order_bonus($order['order_id']);
-                        }
-                    }
-                }
-            }
+//            if ($virtual_goods and $flow_type != CART_GROUP_BUY_GOODS) {
+//                /* 虚拟卡发货 */
+//                if (virtual_goods_ship($virtual_goods, $msg, $order['order_sn'], true)) {
+//                    /* 如果没有实体商品，修改发货状态，送积分和红包 */
+//                    $count = $db_order_goods->where(array('order_id' => $order['order_id'] , 'is_real' => 1))->count();
+//               		if ($count <= 0) {
+//                    /* 修改订单状态 */
+//                        update_order($order['order_id'], array(
+//                            'shipping_status' => SS_SHIPPED,
+//                            'shipping_time' => RC_Time::gmtime()
+//                        ));
+//
+//                        /* 如果订单用户不为空，计算积分，并发给用户；发红包 */
+//                        if ($order['user_id'] > 0) {
+//                            /* 取得用户信息 */
+//                            $user = user_info($order['user_id']);
+//                            /* 计算并发放积分 */
+//                            $integral = integral_to_give($order);
+//                            $options = array(
+//                            		'user_id' =>$order['user_id'],
+//                            		'rank_points' => intval($integral['rank_points']),
+//                            		'pay_points' => intval($integral['custom_points']),
+//                            		'change_desc' =>sprintf(RC_Lang::lang('order_gift_integral'), $order['order_sn'])
+//                            );
+//                            $result = RC_Api::api('user', 'account_change_log',$options);
+//                            if (is_ecjia_error($result)) {
+//                            	return new ecjia_error('fail_error', '处理失败');
+//                            }
+//                            /* 发放红包 */
+//                            send_order_bonus($order['order_id']);
+//                        }
+//                    }
+//                }
+//            }
         }
         
         /*记录订单状态日志*/
@@ -532,7 +532,7 @@ class admin_flow_done_module extends api_admin implements api_interface
         unset($_SESSION['discount']);
         
         
-        $subject = $cart_goods[0]['goods_name'] . '等' . count($cart_goods) . '种商品';
+        $subject = sprintf(__( '%s等%d种商品', 'cart'), $cart_goods[0]['goods_name'], count($cart_goods));
         $out = array(
             'order_sn' => $order['order_sn'],
             'order_id' => $order['order_id'],

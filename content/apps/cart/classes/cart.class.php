@@ -81,7 +81,7 @@ class cart {
 				$store_id 		= Ecjia\App\Cart\StoreStatus::GetStoreId($goods_id);
 				$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($store_id);
 				if ($store_status == Ecjia\App\Cart\StoreStatus::LOCKED) {
-					return new ecjia_error('store_locked', '对不起，该商品所属的店铺已锁定！');
+					return new ecjia_error('store_locked', __('对不起，该商品所属的店铺已锁定！', 'cart'));
 				}
 			}
 			
@@ -93,19 +93,19 @@ class cart {
 			//查询：系统启用了库存，检查输入的商品数量是否有效
 			if (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] != 'package_buy') {
 				if ($row['goods_number'] < $val) {
-					return new ecjia_error('low_stocks', __('库存不足'));
+					return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 				}
 				/* 是货品 */
 				$goods['product_id'] = trim($goods['product_id']);
 				if (!empty($goods['product_id'])) {
 					$product_number = $db_products->where(array('goods_id' => $goods['goods_id'] , 'product_id' => $goods['product_id']))->get_field('product_number');
 					if ($product_number < $val) {
-						return new ecjia_error('low_stocks', __('库存不足'));
+						return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 					}
 				}
 			}  elseif (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] == 'package_buy') {
 				if (self::judge_package_stock($goods['goods_id'], $val)) {
-					return new ecjia_error('low_stocks', __('库存不足'));
+					return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 				}
 			}
 
@@ -433,19 +433,19 @@ class cart {
 			//系统启用了库存，检查输入的商品数量是否有效
 			if (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] != 'package_buy') {
 				if ($row['goods_number'] < $val) {
-					return new ecjia_error('low_stocks', __('库存不足'));
+					return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 				}
 				/* 是货品 */
 				$row['product_id'] = trim($row['product_id']);
 				if (!empty($row['product_id'])) {
 					$product_number = RC_Model::model('goods/products_model')->where(array('goods_id' => $goods['goods_id'] , 'product_id' => $goods['product_id']))->get_field('product_number');
 					if ($product_number < $val) {
-						return new ecjia_error('low_stocks', __('库存不足'));
+						return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 					}
 				}
 			} elseif (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] == 'package_buy') {
 				if (self::judge_package_stock($goods['goods_id'], $val)) {
-					return new ecjia_error('low_stocks', __('库存不足'));
+					return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 				}
 			}
 		}
@@ -992,10 +992,10 @@ class cart {
 		if ($weight > 0) {
 			if ($weight < 1) {
 				/* 小于1千克，用克表示 */
-				return intval($weight * 1000) . RC_Lang::get('cart::shopping_flow.gram');
+				return intval($weight * 1000) . __('克', 'cart');
 			} else {
 				/* 大于1千克，用千克表示 */
-				return $weight . RC_Lang::get('cart::shopping_flow.kilogram');
+				return $weight . __('千克', 'cart');
 			}
 		} else {
 			return 0;
@@ -1709,13 +1709,13 @@ class cart {
 		if (!empty($product_id)) {
 			$product_number = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->pluck('product_number');
 			if ($product_number < abs($number)) {
-				return new ecjia_error('low_stocks', __('库存不足'));
+				return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 			}
 			$products_query = RC_DB::table('products')->where('goods_id', $goods_id)->where('product_id', $product_id)->increment('product_number', $number);
 		} else {
 			$goods_number = RC_DB::table('goods')->where('goods_id', $goods_id)->pluck('goods_number');
 			if ($goods_number < abs($number) ) {
-				return new ecjia_error('low_stocks', __('库存不足'));
+				return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 			}
 			/* 处理商品库存 */
 			$query = RC_DB::table('goods')->where('goods_id',$goods_id)->increment('goods_number', $number);

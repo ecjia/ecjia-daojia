@@ -55,7 +55,7 @@ class cart_exchange_buy_api extends Component_Event_Api {
     
     public function call(&$options) {
     	if (!is_array($options)) {
-    		return new ecjia_error('invalid_parameter', '参数无效');
+    		return new ecjia_error('invalid_parameter', __('参数无效', 'cart'));
     	}
         return $this->exchange_buy($options);
     }
@@ -73,24 +73,24 @@ class cart_exchange_buy_api extends Component_Event_Api {
     	$goods = RC_Model::model('exchange/exchange_goods_viewmodel')->exchange_goods_find(array('eg.goods_id' => $goods_id), $field);
         
     	if (empty($goods)) {
-    		return new ecjia_error('goods_not_exist', RC_Lang::get('goods::goods.goods_not_exist'));
+    		return new ecjia_error('goods_not_exist', __('商品不存在', 'cart'));
     	}
     	
 	    /* 查询：检查兑换商品是否有库存 */
 	    if($goods['goods_number'] == 0 && ecjia::config('use_storage') == 1) {
-	    	return new ecjia_error('eg_error_number', '商品库存不足！');
+	    	return new ecjia_error('eg_error_number', __('商品库存不足！', 'cart'));
 	    }
 	    
 	    /* 查询：检查兑换商品是否是取消 */
 	    if ($goods['is_exchange'] == 0) {
-	    	return new ecjia_error('eg_error_status', ' 积分商品已下架！');
+	    	return new ecjia_error('eg_error_status', __('积分商品已下架！', 'cart'));
 	    }
 	
 	    $user_info = RC_Api::api('user', 'user_info', array('user_id' => $_SESSION['user_id']));
 	    $user_points = $user_info['pay_points']; // 用户的积分总数
 	    
 	    if ($goods['exchange_integral'] > $user_points) {
-	    	return new ecjia_error('eg_error_integral', '用户积分不足！');
+	    	return new ecjia_error('eg_error_integral', __('用户积分不足！', 'cart'));
 	    }
 	
 	    /* 查询：取得规格 */
@@ -118,7 +118,7 @@ class cart_exchange_buy_api extends Component_Event_Api {
 	
 	    //查询：商品存在规格 是货品 检查该货品库存
 	    if ((!empty($specs)) && ($product_info['product_number'] == 0) && (ecjia::config('use_storage') == 1)) {
-	    	return new ecjia_error('eg_error_number', '商品库存不足！');
+	    	return new ecjia_error('eg_error_number', __('商品库存不足！', 'cart'));
 	    }
 	
 	    /* 查询：查询规格名称和值，不考虑价格 */

@@ -48,9 +48,9 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * 添加到购物车
- * @author royalwang
+ * @author zrl
  */
-class cart_create_module extends api_front implements api_interface {
+class bbc_cart_create_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
     	$this->authSession();
@@ -64,19 +64,18 @@ class cart_create_module extends api_front implements api_interface {
     	if (version_compare($api_version, '1.25', '>=')) {
     		$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
     		if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
-    			return new ecjia_error('account_status_error', __('当前账号已申请注销，不可执行此操作！', 'cart'));
+    			return new ecjia_error('account_status_error', '当前账号已申请注销，不可执行此操作！');
     		}
     	}
     	
 	    $goods_id		= $this->requestData('goods_id', 0);
 	    $goods_number	= $this->requestData('number', 1);
 	    $location		= $this->requestData('location', array());
-	    $seller_id		= $this->requestData('seller_id', 0);
-	    $city_id		= $this->requestData('city_id', '');
-	    if (!$goods_id) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
+	    if (empty($goods_id) || !is_numeric($goods_id)) {
+	        return new ecjia_error('invalid_parameter', '请求接口bbc_cart_create_module参数错误');
 	    }
 	    $goods_spec		= $this->requestData('spec', array());
+	    $goods_spec 	= array(4127,4129,4131);
 	    
 	    $rec_type		= trim($this->requestData('rec_type', 'GENERAL_GOODS')); 
 	    $object_id 		= $this->requestData('goods_activity_id', 0);
@@ -87,31 +86,15 @@ class cart_create_module extends api_front implements api_interface {
 	    unset($_SESSION['extension_code']);
 	    unset($_SESSION['extension_id']);
 	    
-    	if (!$goods_id) {
-    		return new ecjia_error('not_found_goods', __('请选择您所需要购买的商品！', 'cart'));
-    	}
-    	
     	//该商品对应店铺是否被锁定
 		$store_id 		= Ecjia\App\Cart\StoreStatus::GetStoreId($goods_id);
 		$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($store_id);
 		if ($store_status == Ecjia\App\Cart\StoreStatus::LOCKED) {
-			return new ecjia_error('store_locked', __('对不起，该商品所属的店铺已锁定！', 'cart'));
+			return new ecjia_error('store_locked', '对不起，该商品所属的店铺已锁定！');
 		}
     	
-    	$store_id_group = array();
-    	/* 根据经纬度查询附近店铺id*/
-    	if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude'])) {
-    		$geohash         = RC_Loader::load_app_class('geohash', 'store');
-    		$geohash_code    = $geohash->encode($location['latitude'] , $location['longitude']);
-    		$store_id_group  = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
-    	} else {
-    		return new ecjia_error('location_error', __('请定位您当前所在地址！', 'cart'));
-    	}
+    	$store_id_group = array($store_id);
     	
-    	if (empty($store_id_group)) {
-    		$store_id_group = array(0);
-    	}
-
     	if ($rec_type == 'GROUPBUY_GOODS') {
     		$flow_type = CART_GROUP_BUY_GOODS;
     		$result = RC_Api::api('cart', 'cart_groupbuy_manage', array('goods_id' => $goods_id, 'goods_number' => $goods_number, 'goods_spec' => $goods_spec, 'rec_type' => $rec_type, 'store_group' => $store_id_group, 'goods_activity_id' => $object_id));
@@ -119,27 +102,52 @@ class cart_create_module extends api_front implements api_interface {
     		$flow_type = CART_GENERAL_GOODS;
     		$result = RC_Api::api('cart', 'cart_manage', array('goods_id' => $goods_id, 'goods_number' => $goods_number, 'goods_spec' => $goods_spec, 'rec_type' => $rec_type, 'store_group' => $store_id_group));
     	}
-    	
-	    // 更新：添加到购物车
-	    if (is_ecjia_error($result)){
-	        return $result;
-	    } 
-	    if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude'])) {
-	        $geohash        = RC_Loader::load_app_class('geohash', 'store');
-	        $geohash_code   = $geohash->encode($location['latitude'] , $location['longitude']);
-	        $store_id_group = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
-	        if (!empty($seller_id) && !in_array($seller_id, $store_id_group)) {
-	            // return new ecjia_error('location_beyond', '店铺距离过远！');
-	        } elseif (!empty($seller_id)) {
-	            $store_id_group = array($seller_id);
-	        }
-	    } else {
-	        return new ecjia_error('location_error', __('请定位您当前所在地址！', 'cart'));
+
+	    if (is_ecjia_error($result)) {
+	    	return $result;
 	    }
 
-	    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => $flow_type));
-	    
-	    return formated_cart_list($cart_result, $store_id_group);
+	    $dbview = RC_DB::table('cart as c')->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'))->leftJoin('store_franchisee as sf', RC_DB::raw('sf.store_id'), '=', RC_DB::raw('c.store_id'));
+	    $field  ="c.*, c.goods_price*c.goods_number as subtotal, g. goods_thumb, g.goods_img, g.original_img, sf.merchants_name as store_name";
+	    $data 	= $dbview->select(RC_DB::raw($field))->where(RC_DB::raw('c.user_id'), $user_id)->where(RC_DB::raw('c.rec_id'), $result)->where(RC_DB::raw('c.rec_type'), $flow_type)->first();
+	    if (!empty($data)) {
+	    	$goods_attrs = array();
+	    	/* 查询规格 */
+	    	if (trim($data['goods_attr']) != '') {
+	    		$goods_attr = explode("\n", $data['goods_attr']);
+	    		$goods_attr = array_filter($goods_attr);
+	    		foreach ($goods_attr as $v) {
+	    			$a = explode(':', $v);
+	    			if (!empty($a[0]) && !empty($a[1])) {
+	    				$goods_attrs[] = array('name' => $a[0], 'value' => $a[1]);
+	    			}
+	    		}
+	    	}
+	    	$cartGoods = array(
+	    			'rec_id'				=> intval($data['rec_id']),
+	    			'store_id'				=> intval($data['store_id']),
+	    			'store_name'			=> trim($data['store_name']),
+	    			'goods_id'				=> intval($data['goods_id']),
+	    			'goods_sn'				=> trim($data['goods_sn']),
+	    			'goods_name'			=> trim($data['goods_name']),
+	    			'goods_price'			=> $data['goods_price'],
+	    			'market_price'			=> $data['market_price'],
+	    			'formated_goods_price'	=> ecjia_price_format($data['goods_price'], false),
+	    			'formated_market_price'	=> ecjia_price_format($data['market_price'], false),
+	    			'goods_number'			=> intval($data['goods_number']),
+	    			'attr'					=> empty($data['goods_attr']) ? '' : $data['goods_attr'],
+	    			'goods_attr'			=> $goods_attrs,
+	    			'goods_attr_id'			=> intval($data['goods_attr_id']),
+	    			'subtotal'				=> $data['subtotal'],
+	    			'formated_subtotal'		=> ecjia_price_format($data['subtotal'], false),
+	    			'img'					=> array(
+	    											'thumb' 	=> empty($data['goods_img']) ? '' : RC_Upload::upload_url($data['goods_img']),
+	    											'url' 		=> empty($data['original_img']) ? '' : RC_Upload::upload_url($data['original_img']),
+	    											'small'		=> empty($data['goods_thumb']) ? '' : RC_Upload::upload_url($data['goods_thumb']),
+	    										),
+	    		);
+	    	return $cartGoods;
+	    }
 	}
 }
 

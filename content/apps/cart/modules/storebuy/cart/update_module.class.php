@@ -67,13 +67,13 @@ class storebuy_cart_update_module extends api_front implements api_interface {
 		$new_number = $this->requestData('new_number', 0);
 		
 		if ($new_number < 1 || $rec_id < 1) {
-			return new ecjia_error(101, '参数错误');
+            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
 		}
 		$goods_number = array($rec_id => $new_number);
 
 		$result = cart::flow_update_cart($goods_number);
 		if (is_ecjia_error($result)) {
-			return new ecjia_error(10008, '库存不足');
+			return new ecjia_error(10008, __('库存不足', 'cart'));
 		}
 		//更新数量选中此商品
 		cart::flow_check_cart_goods(array('id' => $rec_id, 'is_checked' => 1));

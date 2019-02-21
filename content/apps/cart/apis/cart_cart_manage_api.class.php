@@ -60,11 +60,11 @@ class cart_cart_manage_api extends Component_Event_Api {
     public function call(&$options) {
 
         if (!isset($options['store_group']) || empty($options['store_group'])) {
-            return new ecjia_error('location_error', '当前定位地址超出服务范围！');
+            return new ecjia_error('location_error', __('当前定位地址超出服务范围！', 'cart'));
         }
 
         if (!isset($options['goods_id']) || empty($options['goods_id'])) {
-            return new ecjia_error('not_found_goods', '请选择您所需要的商品！');
+            return new ecjia_error('not_found_goods', __('请选择您所需要的商品！', 'cart'));
         }
 
         return $this->addto_cart($options['goods_id'], $options['goods_number'], $options['goods_spec'], $options['parent_id'], $options['store_group']);
@@ -97,17 +97,17 @@ class cart_cart_manage_api extends Component_Event_Api {
             ->where(RC_DB::raw('g.is_delete'), 0)->first();
 
         if (empty($goods)) {
-            return new ecjia_error('no_goods', __('对不起，该商品不存在！'));
+            return new ecjia_error('no_goods', __('对不起，该商品不存在！', 'cart'));
         }
 
         /* 是否正在销售 */
         if ($goods['is_on_sale'] == 0) {
-            return new ecjia_error('goods_out_of_stock', __('对不起，该商品已下架！'));
+            return new ecjia_error('goods_out_of_stock', __('对不起，该商品已下架！', 'cart'));
         }
 
 		$count = RC_DB::table('store_franchisee')->where('shop_close', '0')->where('store_id', $goods['store_id'])->count();
 		if(empty($count)){
-			return new ecjia_error('no_goods', __('对不起，该商品所属的店铺已经下线！'));
+			return new ecjia_error('no_goods', __('对不起，该商品所属的店铺已经下线！', 'cart'));
 		}
 
 		$db_cart = RC_DB::table('cart');
@@ -122,13 +122,13 @@ class cart_cart_manage_api extends Component_Event_Api {
             $count = $db_cart->count();
 
             if ($count == 0) {
-                return new ecjia_error('addcart_error', __('对不起，您希望将该商品做为配件购买，可是购物车中还没有该商品的基本件。'));
+                return new ecjia_error('addcart_error', __('对不起，您希望将该商品做为配件购买，可是购物车中还没有该商品的基本件。', 'cart'));
             }
         }
 
         /* 不是配件时检查是否允许单独销售 */
         if (empty($parent) && $goods['is_alone_sale'] == 0) {
-            return new ecjia_error('not_alone_sale', __('对不起，该商品不能单独购买！'));
+            return new ecjia_error('not_alone_sale', __('对不起，该商品不能单独购买！', 'cart'));
         }
 
         if (!in_array($goods['store_id'], $store_group)) {
@@ -153,7 +153,7 @@ class cart_cart_manage_api extends Component_Event_Api {
         if (ecjia::config('use_storage') == 1) {
             //检查：商品购买数量是否大于总库存
             if ($num > $goods['goods_number']) {
-                return new ecjia_error('low_stocks', __('库存不足'));
+                return new ecjia_error('low_stocks', __('库存不足', 'cart'));
             }
             //商品存在规格 是货品 检查该货品库存
 //             if (goods_info::is_spec($spec) && !empty($prod)) {
@@ -161,7 +161,7 @@ class cart_cart_manage_api extends Component_Event_Api {
                 if (!empty($spec)) {
                     /* 取规格的货品库存 */
                     if ($num > $product_info['product_number']) {
-                        return new ecjia_error('low_stocks', __('货品库存不足'));
+                        return new ecjia_error('low_stocks', __('货品库存不足', 'cart'));
                     }
                 }
             }
@@ -348,7 +348,7 @@ class cart_cart_manage_api extends Component_Event_Api {
                     				->update($data);
 
                 } else {
-                    return new ecjia_error('low_stocks', __('库存不足'));
+                    return new ecjia_error('low_stocks', __('库存不足', 'cart'));
                 }
                 $cart_id = $row['rec_id'];
             } else {

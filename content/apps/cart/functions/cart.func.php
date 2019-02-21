@@ -95,7 +95,7 @@ function EM_get_cart_goods() {
         
         $row['subtotal']              = $row['goods_price'] * $row['goods_number'];
         $row['formated_subtotal']     = price_format($row['goods_price'] * $row['goods_number'], false);
-        $row['goods_price']           = $total['goods_price'] > 0 ? price_format($row['goods_price'], false) : __('免费');
+        $row['goods_price']           = $total['goods_price'] > 0 ? price_format($row['goods_price'], false) : __('免费', 'cart');
         $row['market_price']          = price_format($row['market_price'], false);
 
         /* 统计实体商品和虚拟商品的个数 */
@@ -187,7 +187,7 @@ function flow_update_cart($arr) {
         //查询：系统启用了库存，检查输入的商品数量是否有效
         if (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] != 'package_buy') {
             if ($row['g_number'] < $val) {
-                return new ecjia_error('low_stocks', __('库存不足'));
+                return new ecjia_error('low_stocks', __('库存不足', 'cart'));
             }
             /* 是货品 */
             if (!empty($goods['product_id'])) {
@@ -199,13 +199,13 @@ function flow_update_cart($arr) {
             		->pluck('product_number');
             	
             		if ($product_number < $val) {
-            			return new ecjia_error('low_stocks', __('库存不足'));
+            			return new ecjia_error('low_stocks', __('库存不足', 'cart'));
             		}
             	}
             }
         }  elseif (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] == 'package_buy') {
         	if (judge_package_stock($goods['goods_id'], $val)) {
-                return new ecjia_error('low_stocks', __('库存不足'));
+                return new ecjia_error('low_stocks', __('库存不足', 'cart'));
             }
         }
 
@@ -526,11 +526,11 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
    	}
     $goods = $dbview->field($field)->join(array(/* 'warehouse_goods', 'warehouse_area_goods', */ 'member_price'))->find($where);
     if (empty($goods)) {
-    	return new ecjia_error('no_goods', __('对不起，指定的商品不存在！'));
+    	return new ecjia_error('no_goods', __('对不起，指定的商品不存在！', 'cart'));
     }
     /* 是否正在销售 */
     if ($goods['is_on_sale'] == 0) {
-    	return new ecjia_error('addcart_error', __('对不起，该商品已下架！'));
+    	return new ecjia_error('addcart_error', __('对不起，该商品已下架！', 'cart'));
     }
     /* 如果是作为配件添加到购物车的，需要先检查购物车里面是否已经有基本件 */
     if ($parent > 0) {
@@ -541,13 +541,13 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
     	}
     	
         if ($count == 0) {
-			return new ecjia_error('addcart_error', __('对不起，您希望将该商品做为配件购买，可是购物车中还没有该商品的基本件。'));
+			return new ecjia_error('addcart_error', __('对不起，您希望将该商品做为配件购买，可是购物车中还没有该商品的基本件。', 'cart'));
         }
     }
 
     /* 不是配件时检查是否允许单独销售 */
     if (empty($parent) && $goods['is_alone_sale'] == 0) {
-		return new ecjia_error('addcart_error', __('对不起，该商品不能单独购买！'));
+		return new ecjia_error('addcart_error', __('对不起，该商品不能单独购买！', 'cart'));
     }
     /* 如果商品有规格则取规格商品信息 配件除外 */
     $prod = $db_products->find(array('goods_id' => $goods_id));
@@ -569,17 +569,17 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
     if (ecjia::config('use_storage') == 1) {
 		//检查：商品购买数量是否大于总库存
 		if ($num > $goods['goods_number']) {
-			return new ecjia_error('low_stocks', __('库存不足'));
+			return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 		}
 		//商品存在规格 是货品 检查该货品库存
     	if (is_spec($spec)) {
     	    if(empty($prod)) {
-    	        return new ecjia_error('low_stocks', __('货品库存不足'));
+    	        return new ecjia_error('low_stocks', __('货品库存不足', 'cart'));
     	    }
     		if (!empty($spec)) {
 				/* 取规格的货品库存 */
     			if ($num > $product_info['product_number']) {
-    				return new ecjia_error('low_stocks', __('货品库存不足'));
+    				return new ecjia_error('low_stocks', __('货品库存不足', 'cart'));
     			}
     		}
     	}
@@ -718,7 +718,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
     		$xiangou_info = $order_info_viewdb->join(array('order_goods'))->field(array('sum(goods_number) as number'))->where($xiangou)->find();
     		
     		if ($xiangou_info['number'] + $row['goods_number'] >= $goods['xiangou_num']) {
-    			return new ecjia_error('xiangou_error', __('该商品已限购'));
+    			return new ecjia_error('xiangou_error', __('该商品已限购', 'cart'));
     		}
     	}
     	
@@ -743,7 +743,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
                     $db_cart->where('session_id = "' .SESS_ID. '" AND goods_id = '.$goods_id.' AND parent_id = 0 AND goods_attr = "' .get_goods_attr_info($spec, 'no').'" AND extension_code <> "package_buy" AND rec_type = "'.$rec_type.'" ')->update($data);
                 }
             } else {
-				return new ecjia_error('low_stocks', __('库存不足'));
+				return new ecjia_error('low_stocks', __('库存不足', 'cart'));
             }
             $cart_id = $row['rec_id'];
         } else {
@@ -817,23 +817,23 @@ function flow_cart_stock($arr) {
 		//系统启用了库存，检查输入的商品数量是否有效
 		if (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] != 'package_buy') {
 			if ($row['is_on_sale'] == 0 || $row['is_delete'] == 1) {
-				return new ecjia_error('put_on_sale', '商品['.$row['goods_name'].']下架');
+				return new ecjia_error('put_on_sale', sprintf(__('商品[%s]下架', 'cart'), $row['goods_name']));
 			}
 			
 			if ($row['goods_number'] < $val) {
-				return new ecjia_error('low_stocks', __('库存不足'));
+				return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 			}
 			/* 是货品 */
 			$row['product_id'] = trim($row['product_id']);
 			if (!empty($row['product_id'])) {
 				$product_number = $db_products->where(array('goods_id' => $goods['goods_id'] , 'product_id' => $goods['product_id']))->get_field('product_number');
 				if ($product_number < $val) {
-					return new ecjia_error('low_stocks', __('库存不足'));
+					return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 				}
 			}
 		} elseif (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] == 'package_buy') {
 			if (judge_package_stock($goods['goods_id'], $val)) {
-				return new ecjia_error('low_stocks', __('库存不足'));
+				return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 			}
 		}
 	}
@@ -1075,7 +1075,7 @@ function cart_goods($type = CART_GENERAL_GOODS, $cart_id = array()) {
 // 		}
 		
 		$arr[$key]['formated_market_price'] = price_format($value['market_price'], false);
-		$arr[$key]['formated_goods_price']  = $value['goods_price'] > 0 ? price_format($value['goods_price'], false) : __('免费');
+		$arr[$key]['formated_goods_price']  = $value['goods_price'] > 0 ? price_format($value['goods_price'], false) : __('免费', 'cart');
 		$arr[$key]['formated_subtotal']     = price_format($value['subtotal'], false);
 		
 		/* 查询规格 */
@@ -1658,24 +1658,24 @@ function addto_cart_groupbuy($act_id, $number = 1, $spec = array(), $parent = 0,
 	RC_Loader::load_app_func('admin_order', 'orders');
 	$group_buy = group_buy_info($act_id, $number);
 	if (empty($group_buy)) {
-		return new ecjia_error('gb_error', __('对不起，该团购活动不存在！'));
+		return new ecjia_error('gb_error', __('对不起，该团购活动不存在！', 'cart'));
 		
 	}
 	
 	/* 查询：检查团购活动是否是进行中 */
 	if ($group_buy['status'] != GBS_UNDER_WAY) {
-		return new ecjia_error('gb_error_status', __('对不起，该团购活动已经结束或尚未开始，现在不能参加！'));
+		return new ecjia_error('gb_error_status', __('对不起，该团购活动已经结束或尚未开始，现在不能参加！', 'cart'));
 	}
 	
 	/* 查询：取得团购商品信息 */
 	$goods = get_goods_info($group_buy['goods_id'], $warehouse_id, $area_id);
 	if (empty($goods)) {
-		return new ecjia_error('goods_error', __('对不起，团购商品不存在！'));
+		return new ecjia_error('goods_error', __('对不起，团购商品不存在！', 'cart'));
 	}
 	
 	/* 查询：判断数量是否足够 */
 	if (($group_buy['restrict_amount'] > 0 && $number > ($group_buy['restrict_amount'] - $group_buy['valid_goods'])) || $number > $goods['goods_number']) {
-		return new ecjia_error('gb_error_goods_lacking', __('对不起，商品库存不足，请您修改数量！'));
+		return new ecjia_error('gb_error_goods_lacking', __('对不起，商品库存不足，请您修改数量！', 'cart'));
 	}
 
 	if (!empty($spec)) {
@@ -1686,7 +1686,7 @@ function addto_cart_groupbuy($act_id, $number = 1, $spec = array(), $parent = 0,
 	
 	/* 查询：判断指定规格的货品数量是否足够 */
 	if (!empty($spec) && $number > $product_info['product_number']) {
-		return new ecjia_error('gb_error_goods_lacking', __('对不起，商品库存不足，请您修改数量！'));
+		return new ecjia_error('gb_error_goods_lacking', __('对不起，商品库存不足，请您修改数量！', 'cart'));
 	}
 	$goods_attr = get_goods_attr_info($spec, 'pice', $warehouse_id, $area_id);
 	$goods_attr_id          = join(',', $spec);
@@ -1873,7 +1873,7 @@ function formated_favourable($favourable_result, $goods_list) {
                 'id'    => $val['act_id'],
                 'title' => $val['act_name'],
                 'type'  => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-                'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+                'type_label' => $val['act_type'] == '1' ? __('满减', 'cart') : __('满折', 'cart'),
             );
         } else {
             $act_range_ext = explode(',', $val['act_range_ext']);
@@ -1885,7 +1885,7 @@ function formated_favourable($favourable_result, $goods_list) {
                                 'id'    => $val['act_id'],
                                 'title' => $val['act_name'],
                                 'type'  => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-                                'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+                                'type_label' => $val['act_type'] == '1' ? __('满减', 'cart') : __('满折', 'cart'),
                             );
                         }
                         break;
@@ -1895,7 +1895,7 @@ function formated_favourable($favourable_result, $goods_list) {
                                 'id'    => $val['act_id'],
                                 'title' => $val['act_name'],
                                 'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-                                'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+                                'type_label' => $val['act_type'] == '1' ? __('满减', 'cart') : __('满折', 'cart'),
                             );
                         }
                         break;
@@ -1905,7 +1905,7 @@ function formated_favourable($favourable_result, $goods_list) {
                                 'id'    => $val['act_id'],
                                 'title' => $val['act_name'],
                                 'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-                                'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+                                'type_label' => $val['act_type'] == '1' ? __('满减', 'cart') : __('满折', 'cart'),
                             );
                         }
                         break;
@@ -1938,7 +1938,15 @@ function formated_favourable($favourable_result, $goods_list) {
  */
 function cart_goods_dsc($type = CART_GENERAL_GOODS, $cart_value = '', $ru_type = 0, $warehouse_id = 0, $area_id = 0, $area_city = 0, $consignee = array(), $store_id = 0)
 {
-    $rec_txt = array('普通', '团购','拍卖','夺宝奇兵','积分商城','预售','秒杀');
+    $rec_txt = array(
+        __('普通', 'cart'),
+        __('团购', 'cart'),
+        __('拍卖', 'cart'),
+        __('夺宝奇兵', 'cart'),
+        __('积分商城', 'cart'),
+        __('预售', 'cart'),
+        __('秒杀', 'cart')
+    );
     
     
     if($cart_value && !is_array($cart_value)) {
@@ -2220,15 +2228,15 @@ function cart_by_favourable($merchant_goods) {
                                     // 活动类型
                                     switch ($row2['act_type']) {
                                         case 0:
-                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['With_a_gift'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = __('满赠', 'cart');
                                             $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = intval($row2['act_type_ext']); // 可领取总件数
                                             break;
                                         case 1:
-                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['Full_reduction'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = __('满减', 'cart');
                                             $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = number_format($row2['act_type_ext'], 2); // 满减金额
                                             break;
                                         case 2:
-                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['discount'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = __('满折', 'cart');
                                             $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = floatval($row2['act_type_ext'] / 10); // 折扣百分比
                                             break;
                                             
@@ -2327,15 +2335,15 @@ function cart_by_favourable($merchant_goods) {
                                     // 活动类型
                                     switch ($row2['act_type']) {
                                         case 0:
-                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['With_a_gift'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = __('满赠', 'cart');
                                             $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = intval($row2['act_type_ext']); // 可领取总件数
                                             break;
                                         case 1:
-                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['Full_reduction'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = __('满减', 'cart');
                                             $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = number_format($row2['act_type_ext'], 2); // 满减金额
                                             break;
                                         case 2:
-                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['discount'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = __('满折', 'cart');
                                             $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = floatval($row2['act_type_ext'] / 10); // 折扣百分比
                                             break;
                                             
@@ -2402,15 +2410,15 @@ function cart_by_favourable($merchant_goods) {
                                     // 活动类型
                                     switch ($row2['act_type']) {
                                         case 0:
-                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['With_a_gift'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = __('满赠', 'cart');
                                             $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = intval($row2['act_type_ext']); // 可领取总件数
                                             break;
                                         case 1:
-                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['Full_reduction'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = __('满减', 'cart');
                                             $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = number_format($row2['act_type_ext'], 2); // 满减金额
                                             break;
                                         case 2:
-                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['discount'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = __('满折', 'cart');
                                             $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = floatval($row2['act_type_ext'] / 10); // 折扣百分比
                                             break;
                                             
@@ -2475,15 +2483,15 @@ function cart_by_favourable($merchant_goods) {
                                     // 活动类型
                                     switch ($row2['act_type']) {
                                         case 0:
-                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['With_a_gift'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = __('满赠', 'cart');
                                             $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = intval($row2['act_type_ext']); // 可领取总件数
                                             break;
                                         case 1:
-                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['Full_reduction'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = __('满减', 'cart');
                                             $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = number_format($row2['act_type_ext'], 2); // 满减金额
                                             break;
                                         case 2:
-                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = $GLOBALS['_LANG']['discount'];
+                                            $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_txt'] = __('满折', 'cart');
                                             $merchant_goods[$key]['new_list'][$row2['act_id']]['act_type_ext_format'] = floatval($row2['act_type_ext'] / 10); // 折扣百分比
                                             break;
                                             
@@ -2596,7 +2604,7 @@ function favourable_list($user_rank, $user_id = -1, $fav_id = 0, $act_sel_id = a
         }
         
         $favourable['act_range_desc'] = act_range_desc($favourable);
-        $favourable['act_type_desc'] = sprintf($GLOBALS['_LANG']['fat_ext'][$favourable['act_type']], $favourable['act_type_ext']);
+        //$favourable['act_type_desc'] = sprintf($GLOBALS['_LANG']['fat_ext'][$favourable['act_type']], $favourable['act_type_ext']);
         
         /* 是否能享受 */
         $favourable['available'] = favourable_available($favourable, $act_sel_id);

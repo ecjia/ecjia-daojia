@@ -64,7 +64,7 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		
 // 		if (empty($address_id) || empty($rec_id)) {
 		if (empty($rec_id)) {
-		    return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter'));
+            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
 		}
 		$cart_id = array();
 		if (!empty($rec_id)) {
@@ -77,7 +77,7 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		$rec_type = RC_DB::table('cart')->whereIn('rec_id', $cart_id)->lists('rec_type');
 		$rec_type = array_unique($rec_type);
 		if (count($rec_type) > 1) {
-			return new ecjia_error( 'error_rec_type', '购物车类型不一致！');
+			return new ecjia_error( 'error_rec_type', __('购物车类型不一致！', cart));
 		} else {
 			$rec_type = $rec_type['0'];
 			if ($rec_type == 1) {
@@ -107,11 +107,11 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		    return $get_cart_goods;
 		}
 		if (count($get_cart_goods['goods_list']) == 0) {
-		    return new ecjia_error('not_found_cart_goods', '购物车中还没有商品');
+		    return new ecjia_error('not_found_cart_goods', __('购物车中还没有商品', 'cart'));
 		}
 		
 		if (count($get_cart_goods['goods_list']) != count($cart_id)) {
-		    return new ecjia_error('delivery_beyond_error', '有部分商品不在送货范围内！');
+		    return new ecjia_error('delivery_beyond_error', __('有部分商品不在送货范围内！', 'cart'));
 		}
 		
 		/* 对是否允许修改购物车赋值 */
@@ -213,7 +213,7 @@ class flow_checkOrder_module extends api_front implements api_interface {
 
 		$store_group = array_unique($store_group);
 		if (count($store_group) > 1) {
-			return new ecjia_error('pls_single_shop_for_settlement', '请单个店铺进行结算!');
+			return new ecjia_error('pls_single_shop_for_settlement', __('请单个店铺进行结算!', 'cart'));
 		} else {
 			$order['store_id'] = $store_group[0];
 			$store_id =  $store_group[0];
@@ -351,12 +351,12 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		            if ($flow_type == CART_GROUP_BUY_GOODS) {
 		                $group_buy_id = $_SESSION['extension_id'];
 		                if ($group_buy_id <= 0) {
-		                    return new ecjia_error('groupbuy_not_support_cod', '如果是团购，且保证金大于0，不能使用货到付款');
+		                    return new ecjia_error('groupbuy_not_support_cod', __('如果是团购，且保证金大于0，不能使用货到付款', 'cart'));
 		                }
 		                RC_Loader::load_app_func('admin_goods', 'goods');
 		                $group_buy = group_buy_info($group_buy_id);
 		                if (empty($group_buy)) {
-		                    return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+                            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
 		                }
 		                if ($group_buy['deposit'] > 0) {
 		                    $cod = false;
@@ -487,7 +487,7 @@ class flow_checkOrder_module extends api_front implements api_interface {
 					$user_bonus_list[$key]['request_amount']           = $val['min_goods_amount'];
 					$user_bonus_list[$key]['formatted_request_amount'] = price_format($val['min_goods_amount']);
 					$user_bonus_list[$key]['bonus_status']             = 0;
-					$user_bonus_list[$key]['formatted_bonus_status']   = __('未使用');
+					$user_bonus_list[$key]['formatted_bonus_status']   = __('未使用', 'cart');
 					$user_bonus_list[$key]['start_date']               = $val['use_start_date'];
 					$user_bonus_list[$key]['end_date']                 = $val['use_end_date'];
 					$user_bonus_list[$key]['formatted_start_date']     = RC_Time::local_date(ecjia::config('date_format'), $val['use_start_date']);
@@ -645,7 +645,7 @@ class flow_checkOrder_module extends api_front implements api_interface {
 							'formatted_end_date' 		=> $res['formatted_end_date'],
 							'request_amount' 			=> $res['request_amount'],
 							'formatted_request_amount' 	=> $res['formatted_request_amount'],
-							'label_min_amount' 			=> '满'.$res['request_amount'].'可使用',
+							'label_min_amount' 			=> sprintf(__('满%s可使用', 'cart'), $res['request_amount']),
 					);
 				}
 			}

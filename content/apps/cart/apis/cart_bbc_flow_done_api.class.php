@@ -50,9 +50,9 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 
 /**
- * @author will.chen
+ * @author zrl 到家商城购物流订单结算提交
  */
-class cart_flow_done_api extends Component_Event_Api {
+class cart_bbc_flow_done_api extends Component_Event_Api {
 
     /**
      * @param
@@ -77,44 +77,14 @@ class cart_flow_done_api extends Component_Event_Api {
 			->where('user_id', $_SESSION['user_id'])
 			->first();
 		}
-		$mobile_location_range = ecjia::config('mobile_location_range');
-		//if (isset($consignee['latitude']) && isset($consignee['longitude']) && $mobile_location_range > 0) {
-		//	$geohash = RC_Loader::load_app_class('geohash', 'store');
-		//	$geohash_code = $geohash->encode($consignee['latitude'] , $consignee['longitude']);
-		//	$store_id_group = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => ''));
-		//} elseif (isset($consignee['city']) && $consignee['city'] > 0) {
-		//	$store_id_group = RC_Api::api('store', 'neighbors_store_id', array('city_id' => $consignee['city']));
-		//} else {
-		//	return new ecjia_error('pls_fill_in_consinee_info', '请完善收货人信息！');
-		//}
-		
-		if ($mobile_location_range > 0) {
-			if (isset($consignee['latitude']) && isset($consignee['longitude'])) {
-				$geohash = RC_Loader::load_app_class('geohash', 'store');
-				$geohash_code = $geohash->encode($consignee['latitude'] , $consignee['longitude']);
-				$store_id_group = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => ''));
-			} elseif (empty($consignee['latitude']) && empty($consignee['longitude']) && !empty($consignee['city'])) {
-				$store_id_group = RC_Api::api('store', 'neighbors_store_id', array('city_id' => $consignee['city']));
-			} else {
-				if (empty($consignee['city'])) {
-					return new ecjia_error('pls_fill_in_consinee_info', __('请完善收货人信息！', 'cart'));
-				}
-			} 
-		} else {
-			if (!empty($consignee['city'])) {
-				$store_id_group = RC_Api::api('store', 'neighbors_store_id', array('city_id' => $consignee['city']));
-			} else {
-				return new ecjia_error('pls_fill_in_consinee_info', __('请完善收货人信息！', 'cart'));
-			}
-		}
-		
-		if (empty($store_id_group)) {
-			$store_id_group = array();
+		if (!cart::check_consignee_info($consignee, $flow_type)) {
+			/* 如果不完整则转向到收货人信息填写界面 */
+			return new ecjia_error('pls_fill_in_consinee_info', __('请完善收货人信息！', 'cart'));
 		}
 
 		/* 检查购物车中是否有商品 */
-		$get_cart_goods = RC_Api::api('cart', 'cart_list', array('cart_id' => $options['cart_id'], 'flow_type' => $options['flow_type'], 'store_group' => $store_id_group));
-
+		$get_cart_goods = RC_Api::api('cart', 'cart_list', array('cart_id' => $options['cart_id'], 'flow_type' => $options['flow_type'], 'store_group' => ''));
+		
 		if (is_ecjia_error($get_cart_goods)) {
 		    return $get_cart_goods;
 		}
@@ -124,29 +94,34 @@ class cart_flow_done_api extends Component_Event_Api {
 
 		$cart_goods = $get_cart_goods['goods_list'];
 		
-		/* 判断是不是实体商品  及店铺数量如有多家店铺返回错误*/
-		$store_group = array();
+		/* 判断是不是实体商品*/
 		foreach ($cart_goods as $val) {
-			$store_group[] = $val['store_id'];
 			/* 统计实体商品的个数 */
 			if ($val['is_real']) {
 				$is_real_good = 1;
 			}
 		}
-		$store_group = array_unique($store_group);
-		if (count($store_group) > 1) {
-			return new ecjia_error('pls_single_shop_for_settlement', __('请单个店铺进行结算!', 'cart'));
+		if ($is_real_good) {
+			//配送方式不可为空判断
+			if (empty($order['shipping_id'])) {
+				return new ecjia_error('pls_choose_ship_way', __('请选择配送方式！', 'cart'));
+			} else {
+				if (is_array($order['shipping_id'])) {
+					foreach ($order['shipping_id'] as $ship_val) {
+						if (empty($ship_val)) {
+							return new ecjia_error('pls_choose_ship_way', __('请选择配送方式！', 'cart'));
+						}
+					}
+				}
+			}
 		}
-		$order['store_id'] = $store_group[0];
-
 		/* 检查收货人信息是否完整 */
 		if (!cart::check_consignee_info($consignee, $options['flow_type'])) {
 			/* 如果不完整则转向到收货人信息填写界面 */
 			return new ecjia_error('pls_fill_in_consinee_info', __('请完善收货人信息！', 'cart'));
 		}
 
-		/* 检查商品库存 */
-		/* 如果使用库存，且下订单时减库存，则减少库存 */
+		/* 如果使用库存,检查商品库存是否足够 */
 		if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_PLACE) {
 			$cart_goods_stock = $get_cart_goods['goods_list'];
 			$_cart_goods_stock = array();
@@ -171,7 +146,6 @@ class cart_flow_done_api extends Component_Event_Api {
 				}
 				$extension_id = RC_DB::table('goods_activity')->where('store_id', $cart_goods['0']['store_id'])->where('goods_id', $goods_id)->where('act_type', GAT_GROUP_BUY)->orderBy('act_id', 'desc')->pluck('act_id');
 				$order['extension_id'] = empty($extension_id) ? 0 : intval($extension_id);
-				
 			} else {
 				$order['extension_code'] = '';
 				$order['extension_id']   = 0;
@@ -190,7 +164,7 @@ class cart_flow_done_api extends Component_Event_Api {
 			$flow_points = cart::flow_available_points($options['cart_id']); // 该订单允许使用的积分
 			$user_points = $user_info['pay_points']; // 用户的积分总数
 
-			$order['integral'] = min($order['integral'], $user_points, $flow_points);
+			$order['integral'] = min($order['integral'], $user_points, $flow_points); //使用积分数不可超过订单可用积分数
 			if ($order['integral'] < 0) {
 				$order['integral'] = 0;
 			}
@@ -205,29 +179,6 @@ class cart_flow_done_api extends Component_Event_Api {
 			if (empty($bonus) || ($bonus['store_id'] != 0 && $bonus['store_id'] != $order['store_id']) || $bonus['user_id'] != $user_id || $bonus['order_id'] > 0 || $bonus['min_goods_amount'] > cart::cart_amount(true, $options['flow_type'])) {
 				$order['bonus_id'] = 0;
 			}
-		} elseif (isset($options['bonus_sn'])) {
-			$bonus_sn = trim($options['bonus_sn']);
-			$bonus = RC_Api::api('bonus', 'bonus_info', array('bonus_id' => 0, 'bonus_sn' => $bonus_sn));
-			$now = RC_Time::gmtime();
-			if (empty($bonus) || $bonus['store_id'] != $order['store_id'] || $bonus['user_id'] > 0 || $bonus['order_id'] > 0 || $bonus['min_goods_amount'] > cart::cart_amount(true, $options['flow_type']) || $now > $bonus['use_end_date']) {} else {
-				if ($user_id > 0) {
-					$db_user_bonus = RC_DB::table('user_bonus');
-					$db_user_bonus->where('bonus_id', $bonus['bonus_id'])->update(array('user_id' => $user_id));
-				}
-				$order['bonus_id'] = $bonus['bonus_id'];
-				$order['bonus_sn'] = $bonus_sn;
-			}
-		}
-
-		/* 检查商品总额是否达到最低限购金额 */
-		//获取店铺最小购物金额设置
-		$min_goods_amount = RC_DB::table('merchants_config')->where('store_id', $order['store_id'])->where('code', 'min_goods_amount')->pluck('value');
-		$cart_amount = cart::cart_amount(true, CART_GENERAL_GOODS, $options['cart_id']);
-		$be_short_amount = $cart_amount - $min_goods_amount;
-		$be_short_amount = price_format($be_short_amount);
-		
-		if ($options['flow_type'] == CART_GENERAL_GOODS && $cart_amount < $min_goods_amount) {
-			return new ecjia_error('bug_error', __('您的商品金额未达到最低限购金额，还差', 'cart').'【'.$be_short_amount.'】');
 		}
 
 		/* 收货人信息 */
@@ -237,16 +188,16 @@ class cart_flow_done_api extends Component_Event_Api {
 				$order['address'] = $order['address'].$order[$key];
 			}
 		}
-	
-		if (isset($is_real_good)) {
-			$order['shipping_id'] = intval($order['shipping_id']);
-			if (!ecjia_shipping::isEnabled($order['shipping_id'])) {
-				return new ecjia_error('shipping_error', __('请选择一个配送方式！', 'cart'));
-			}
-		}
 
 		/* 订单中的总额 */
-		$total = cart::order_fee($order, $cart_goods, $consignee, $options['cart_id']);
+		//$total = cart_function::order_fee_multiple_store($order, $cart_goods, $consignee, $done_cart_value, $cart_goods_list['goods_list'], $_POST['shipping']);
+		//购物车处理，获取各店铺优惠活动
+		$format_cart_list = cart_bbc::formated_bbc_cart_list($get_cart_goods, $_SESSION['user_rank'], $_SESSION['user_id']);
+		//多店铺商品列表划分,含配送方式
+		$cart_goods_list = cart_bbc::store_cart_goods($format_cart_list, $consignee); // 取得商品列表，计算合计
+		
+		$total = cart_bbc::order_fee_multiple_store($order, $cart_goods, $consignee, $options['cart_id'], $format_cart_list, $options['store_ids']);
+		
 		$order['bonus']			= $total['bonus']; 
 		$order['goods_amount']	= $total['goods_price'];
 		$order['discount']		= empty($total['discount']) ? 0.00 : $total['discount'];

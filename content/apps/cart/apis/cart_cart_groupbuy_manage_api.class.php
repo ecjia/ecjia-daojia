@@ -60,11 +60,11 @@ class cart_cart_groupbuy_manage_api extends Component_Event_Api {
     public function call(&$options) {
 
         if (!isset($options['store_group']) || empty($options['store_group'])) {
-            return new ecjia_error('location_error', '当前定位地址超出服务范围！');
+            return new ecjia_error('location_error', __('当前定位地址超出服务范围！', 'cart'));
         }
 
         if (!isset($options['goods_id']) || empty($options['goods_id'])) {
-            return new ecjia_error('not_found_goods', '请选择您所需要的商品！');
+            return new ecjia_error('not_found_goods', __('请选择您所需要的商品！', 'cart'));
         }
 
         return $this->addto_cart_groupbuy($options['goods_activity_id'], $options['goods_number'], $options['goods_spec'], $options['parent_id'], $options['store_group']);
@@ -92,13 +92,13 @@ class cart_cart_groupbuy_manage_api extends Component_Event_Api {
     	RC_Loader::load_app_func('admin_goods', 'goods');
     	$group_buy = group_buy_info($act_id, $number);
     	if (empty($group_buy)) {
-    		return new ecjia_error('gb_error', __('对不起，该团购活动不存在！'));
+    		return new ecjia_error('gb_error', __('对不起，该团购活动不存在！', 'cart'));
     	}
     
     	/* 查询：检查团购活动是否是进行中 */
     	$now = RC_Time::gmtime();
     	if ($now < $group_buy['start_date'] || $now > $group_buy['end_date']) {
-    		return new ecjia_error('gb_error_status', __('对不起，该团购活动已经结束或尚未开始，现在不能参加！'));
+    		return new ecjia_error('gb_error_status', __('对不起，该团购活动已经结束或尚未开始，现在不能参加！', 'cart'));
     	}
     
     	/* 查询：取得团购商品信息 */
@@ -110,12 +110,12 @@ class cart_cart_groupbuy_manage_api extends Component_Event_Api {
     				->where('is_delete', 0)->first();
     	
     	if (empty($goods)) {
-    		return new ecjia_error('goods_error', __('对不起，团购商品不存在！'));
+    		return new ecjia_error('goods_error', __('对不起，团购商品不存在！', 'cart'));
     	}
     	
     	$count = RC_DB::table('store_franchisee')->where('shop_close', '0')->where('store_id', $goods['store_id'])->count();
     	if(empty($count)){
-    		return new ecjia_error('no_goods', __('对不起，该商品所属的店铺已经下线！'));
+    		return new ecjia_error('no_goods', __('对不起，该商品所属的店铺已经下线！', 'cart'));
     	}
 		
 		/* 如果商品有规格则取规格商品信息 配件除外 */
@@ -136,14 +136,14 @@ class cart_cart_groupbuy_manage_api extends Component_Event_Api {
 		if (ecjia::config('use_storage') == 1) {
 			//检查：商品购买数量是否大于总库存
 			if ($number > $goods['goods_number']) {
-				return new ecjia_error('low_stocks', __('库存不足'));
+				return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 			}
 			//商品存在规格 是货品 检查该货品库存
 			if ($is_spec) {
 				if (!empty($spec)) {
 					/* 取规格的货品库存 */
 					if ($number > $product_info['product_number']) {
-						return new ecjia_error('low_stocks', __('库存不足'));
+						return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 					}
 				}
 			}
@@ -153,7 +153,7 @@ class cart_cart_groupbuy_manage_api extends Component_Event_Api {
     	if ($group_buy['restrict_amount'] > 0) {
     		//限购判断
     		if ($number > $group_buy['left_num']) {
-    			return new ecjia_error('error_groupbuygoods_restricted', __('对不起，超出团购商品限购数量，请您修改数量！'));
+    			return new ecjia_error('error_groupbuygoods_restricted', __('对不起，超出团购商品限购数量，请您修改数量！', 'cart'));
     		}
     	}
     		

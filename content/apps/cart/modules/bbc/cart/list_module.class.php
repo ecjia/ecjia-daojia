@@ -47,59 +47,48 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 购物车更新选中状态
- * @author royalwang
- * $is_checked 0未选中，1选中
- * http://wiki.shangchina.com/index.php?title=Cart/checked(o2o)
+ * 购物车列表
+ * @author zrl
  */
-class cart_checked_module extends api_front implements api_interface {
+class bbc_cart_list_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    		
+
     	$this->authSession();
+    	
     	if ($_SESSION['user_id'] <= 0) {
     		return new ecjia_error(100, 'Invalid session');
     	}
-		$location       = $this->requestData('location',array());
-		$seller_id		= $this->requestData('seller_id', 0);
-		$city_id		= $this->requestData('city_id', '');
-
-		RC_Loader::load_app_class('cart', 'cart', false);
-		RC_Loader::load_app_func('cart', 'cart');
-		
-		$rec_id       = $this->requestData('rec_id', 0);
-		$rec_id       = explode(',', $rec_id);
-		$is_checked   = $this->requestData('is_checked', 1);
-		
-		if (!in_array($is_checked, array(0,1)) || empty($rec_id)) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
-		}
-		
-		$result = cart::flow_check_cart_goods(array('id' => $rec_id, 'is_checked' => $is_checked));
-		
-		$mobile_location_range = ecjia::config('mobile_location_range');
-		if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude']) && $mobile_location_range > 0) {
-			$geohash = RC_Loader::load_app_class('geohash', 'store');
-			$geohash_code = $geohash->encode($location['latitude'] , $location['longitude']);
-			$store_id_group = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code));
-			if (!empty($seller_id) && !in_array($seller_id, $store_id_group)) {
-				// return new ecjia_error('location_beyond', '店铺距离过远！');
-			} elseif (!empty($seller_id)) {
-				$store_id_group = array($seller_id);
-			}
-		} elseif ($city_id > 0) {
-			$store_id_group = RC_Api::api('store', 'neighbors_store_id', array('city_id' => $city_id));
-			if (!empty($seller_id) && !in_array($seller_id, $store_id_group)) {
-				// return new ecjia_error('location_beyond', '店铺距离过远！');
-			} elseif (!empty($seller_id)) {
-				$store_id_group = array($seller_id);
-			}
-		} else {
-			return new ecjia_error('location_error', __('请定位您当前所在地址！', 'cart'));
-		}
-
-		$cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => CART_GENERAL_GOODS));
-		
-		return formated_cart_list($cart_result, $store_id_group);
+    	
+    	$user_id = $_SESSION['user_id'];
+    	$api_version = $this->request->header('api-version');
+    	//判断用户有没申请注销
+    	if (version_compare($api_version, '1.25', '>=')) {
+    		$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
+    		if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
+    			return new ecjia_error('account_status_error', '当前账号已申请注销，不可查看此数据！');
+    		}
+    	}
+    	
+    	$is_checked		= $this->requestData('is_checked', '0');
+    	$rec_id			= $this->requestData('rec_id', '0');
+    	
+    	if (!empty($rec_id)) {
+    		$rec_id = explode(',', $rec_id);
+    	}
+    	/* 更新选中状态*/
+    	if (!empty($rec_id)) {
+    		RC_DB::table('cart')->whereIn('rec_id', $rec_id)->where('user_id', $user_id)->update(array('is_checked' => $is_checked));
+    	}
+    	$cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => CART_GENERAL_GOODS));
+    	if (is_ecjia_error($cart_result)) {
+    		return $cart_result;
+    	}
+    	
+    	//增加店铺优惠活动返回，数据格式化处理
+    	RC_Loader::load_app_class('cart_bbc', 'cart');
+    	$final_cart_list = cart_bbc::formated_bbc_cart_list($cart_result, $_SESSION['user_rank'], $_SESSION['user_id']);
+    	
+		return $final_cart_list;
 	}
 }
 

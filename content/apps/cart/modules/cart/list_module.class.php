@@ -65,7 +65,7 @@ class cart_list_module extends api_front implements api_interface {
     	if (version_compare($api_version, '1.25', '>=')) {
     		$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
     		if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
-    			return new ecjia_error('account_status_error', '当前账号已申请注销，不可查看此数据！');
+    			return new ecjia_error('account_status_error', __('当前账号已申请注销，不可查看此数据！', 'cart'));
     		}
     	}
     	
@@ -87,7 +87,7 @@ class cart_list_module extends api_front implements api_interface {
 // 				$store_id_group = array($seller_id);
 // 			}
 		} else {
-			return new ecjia_error('location_error', '请定位您当前所在地址！');
+			return new ecjia_error('location_error', __('请定位您当前所在地址！', 'cart'));
 		}
 
 		if ($seller_id) {
