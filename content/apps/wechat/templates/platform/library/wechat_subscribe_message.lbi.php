@@ -1,18 +1,18 @@
 {if $type eq 'image'}
 <div class="img_preview">
-	<img class="preview_img margin_10" src="{$media_content.img_url}" alt="点击查看" data-type="image">
+	<img class="preview_img margin_10" src="{$media_content.img_url}" alt='{t domain="wechat"}点击查看{/t}' data-type="image">
 </div>
 {/if}
 
 {if $type eq 'voice'}
 <div class="img_preview">
-	<img class="preview_img margin_10" src="{$media_content.img_url}" title="点击播放" data-src="{$media_content.voice_url}" data-type="voice"></img>
+	<img class="preview_img margin_10" src="{$media_content.img_url}" title='{t domain="wechat"}点击播放{/t}' data-src="{$media_content.voice_url}" data-type="voice"></img>
 </div>
 {/if}
 
 {if $type eq 'video'}
 <div class="img_preview">
-	<img class="preview_img margin_10" src="{$media_content.img_url}" title="点击播放" data-src="{$media_content.video_url}" data-type="video"></img>
+	<img class="preview_img margin_10" src="{$media_content.img_url}" title='{t domain="wechat"}点击播放{/t}' data-src="{$media_content.video_url}" data-type="video"></img>
 </div>
 {/if}
 

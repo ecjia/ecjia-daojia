@@ -57,28 +57,30 @@ class mobile_profile extends EcjiaWechatUserController
 
         $this->assign('front_url', RC_App::apps_url('statics/front', __FILE__));
         $this->assign('system_statics_url', RC_Uri::admin_url('statics'));
+
+        $this->load_default_script_style();
     }
 
     public function init()
     {
         $openid = trim($_GET['openid']);
-        $uuid = trim($_GET['uuid']);
+        $uuid   = trim($_GET['uuid']);
 
-        $wechat_id = with(new Ecjia\App\Wechat\WechatUUID())->getWechatID();
+        $wechat_id   = with(new Ecjia\App\Wechat\WechatUUID())->getWechatID();
         $wechat_user = new Ecjia\App\Wechat\WechatUser($wechat_id, $openid);
-        $user_id = $wechat_user->getEcjiaUserId();
+        $user_id     = $wechat_user->getEcjiaUserId();
 
         $_SESSION['wechat_user_id'] = $user_id;
         $_SESSION['wechat_open_id'] = $openid;
-        $_SESSION['wechat_uuid'] = $uuid;
-        
+        $_SESSION['wechat_uuid']    = $uuid;
+
         $user_info = RC_DB::table('users')->where('user_id', $user_id)->select('user_name', 'email', 'mobile_phone', 'user_rank')->first();
 
         $row_rank = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
-        
+
         $user_info['user_rank_name'] = $row_rank['rank_name'];
-        $user_info['user_rank_id'] = $row_rank['rank_id'];
-        $user_info['wechat_image'] = $wechat_user->getImage();
+        $user_info['user_rank_id']   = $row_rank['rank_id'];
+        $user_info['wechat_image']   = $wechat_user->getImage();
         $this->assign('user_info', $user_info);
 
         $this->assign('icon_wechat_user', RC_App::apps_url('statics/front/images/icon_wechat_user.png', __FILE__));
@@ -101,22 +103,22 @@ class mobile_profile extends EcjiaWechatUserController
     //获取验证码请求处理
     public function get_code()
     {
-        $mobile = $_POST['mobile'];
-        $code = rand(100000, 999999);
-        $options = array(
+        $mobile   = $_POST['mobile'];
+        $code     = rand(100000, 999999);
+        $options  = array(
             'mobile' => $mobile,
-            'event' => 'sms_get_validate',
-            'value' => array(
-                'code' => $code,
+            'event'  => 'sms_get_validate',
+            'value'  => array(
+                'code'          => $code,
                 'service_phone' => ecjia::config('service_phone'),
             ),
         );
         $response = RC_Api::api('sms', 'send_event_sms', $options);
 
-        $_SESSION['temp_code'] = $code;
+        $_SESSION['temp_code']      = $code;
         $_SESSION['temp_code_time'] = RC_Time::gmtime();
         if (!is_ecjia_error($response)) {
-            return ecjia_front::$controller->showmessage("短信已发送到手机" . $mobile . "，请注意查看", ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+            return ecjia_front::$controller->showmessage(sprintf(__('短信已发送到手机%s，请注意查看', 'wechat'), $mobile), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
         } else {
             return ecjia_front::$controller->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -130,7 +132,7 @@ class mobile_profile extends EcjiaWechatUserController
         if (!empty($code) && $code == $_SESSION['temp_code'] && $time < $_SESSION['temp_code_time']) {
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('wechat/mobile_profile/reset_pwd')));
         } else {
-            return ecjia_front::$controller->showmessage('请输入正确的手机校验码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请输入正确的手机校验码', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     }
 
@@ -145,23 +147,23 @@ class mobile_profile extends EcjiaWechatUserController
     //处理重置密码逻辑
     public function reset_pwd_update()
     {
-        $password = trim($_POST['password']);
+        $password         = trim($_POST['password']);
         $confirm_password = trim($_POST['confirm_password']);
 
         if ($password == '' || $confirm_password == '') {
-            return ecjia_front::$controller->showmessage('密码不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('密码不能为空', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if ($password != $confirm_password) {
-            return ecjia_front::$controller->showmessage('新密码和确认密码须保持一致', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('新密码和确认密码须保持一致', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $result = RC_Api::api('user', 'edit_user', array('new_password' => $password, 'user_id' => $_SESSION['wechat_user_id']));
         if ($result) {
             RC_DB::table('users')->where('user_id', $_SESSION['wechat_user_id'])->update(array('ec_salt' => 0));
-            return ecjia_front::$controller->showmessage('密码重设成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('wechat/mobile_profile/init', array('openid' => $_SESSION['wechat_open_id'], 'uuid' => $_SESSION['wechat_uuid']))));
+            return ecjia_front::$controller->showmessage(__('密码重设成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('wechat/mobile_profile/init', array('openid' => $_SESSION['wechat_open_id'], 'uuid' => $_SESSION['wechat_uuid']))));
         } else {
-            return ecjia_front::$controller->showmessage('密码重设失败!', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('密码重设失败!', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     }
 
@@ -176,19 +178,57 @@ class mobile_profile extends EcjiaWechatUserController
     //绑定手机号逻辑处理
     public function bind_mobile_update()
     {
-        $code = $_POST['code'];
-        $time = RC_Time::gmtime() - 6000 * 3;
+        $code   = $_POST['code'];
+        $time   = RC_Time::gmtime() - 6000 * 3;
         $mobile = $_POST['mobile'];
         if (!empty($code) && $code == $_SESSION['temp_code'] && $time < $_SESSION['temp_code_time']) {
             $mobile_phone = RC_DB::table('users')->where('mobile_phone', $mobile)->where('user_id', '!=', $_SESSION['wechat_user_id'])->pluck('mobile_phone');
             if (!empty($mobile_phone)) {
-                return ecjia_front::$controller->showmessage('该手机号已被注册', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage(__('该手机号已被注册', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
                 RC_DB::table('users')->where('user_id', $_SESSION['wechat_user_id'])->update(array('mobile_phone' => $mobile));
-                return ecjia_front::$controller->showmessage('绑定手机号成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('wechat/mobile_profile/init', array('openid' => $_SESSION['wechat_open_id'], 'uuid' => $_SESSION['wechat_uuid']))));
+                return ecjia_front::$controller->showmessage(__('绑定手机号成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('wechat/mobile_profile/init', array('openid' => $_SESSION['wechat_open_id'], 'uuid' => $_SESSION['wechat_uuid']))));
             }
         } else {
-            return ecjia_front::$controller->showmessage('请输入正确的手机校验码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请输入正确的手机校验码', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+    }
+
+    public function front_print_styles()
+    {
+        ecjia_loader::print_admin_styles();
+    }
+
+    public function front_print_head_scripts()
+    {
+        ecjia_loader::print_head_scripts();
+    }
+
+    public function front_print_footer_scripts()
+    {
+        ecjia_loader::_admin_footer_scripts();
+    }
+
+    public function _front_footer_scripts()
+    {
+        ecjia_loader::_admin_footer_scripts();
+    }
+
+    protected function load_default_script_style()
+    {
+        //自定义加载
+        RC_Style::enqueue_style('touch', RC_App::apps_url('statics/front/css/touch.css', __FILE__));
+        RC_Style::enqueue_style('style', RC_App::apps_url('statics/front/css/style.css', __FILE__));
+
+        RC_Script::enqueue_script('jquery-chosen');
+        RC_Script::enqueue_script('jquery-migrate');
+        RC_Script::enqueue_script('jquery-uniform');
+        RC_Script::enqueue_script('smoke');
+        RC_Script::enqueue_script('jquery-cookie');
+
+        RC_Script::enqueue_script('bind', RC_App::apps_url('statics/front/js/bind.js', __FILE__), array('ecjia-front'), false, true);
+
+        RC_Script::enqueue_script('js-sprintf');
+        RC_Script::localize_script('bind', 'js_lang', config('app-wechat::jslang.mobile_profile_page'));
     }
 }

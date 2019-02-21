@@ -254,53 +254,53 @@ class WechatMessageHandler
         $content = WechatRecord::Voice_reply($message, $message->get('MediaId'));
         return $content;
     }
-    
+
     /**
      * 视频请求
      * @param \Royalcms\Component\Support\Collection $message
      * @return \Royalcms\Component\WeChat\Message\AbstractMessage
      */
-    public static function Video_action($message) 
+    public static function Video_action($message)
     {
-        return WechatRecord::Text_reply($message, '视频消息已经收到');
+        return WechatRecord::Text_reply($message, __('视频消息已经收到', 'wechat'));
     }
-    
+
     /**
      * 音乐请求
      * @param \Royalcms\Component\Support\Collection $message
      * @return \Royalcms\Component\WeChat\Message\AbstractMessage
      */
-    public static function Music_action($message) 
+    public static function Music_action($message)
     {
         $content = WechatRecord::Music_reply($message, 'test', 'testcontent', '', '', '');
         return $content;
     }
-    
+
     /**
      * 普通消息-小视频
      * @param \Royalcms\Component\Support\Collection $message
      */
     public static function Shortvideo_action($message)
     {
-        return WechatRecord::Text_reply($message, '小视频消息已经收到');
+        return WechatRecord::Text_reply($message, __('小视频消息已经收到', 'wechat'));
     }
-    
+
     /**
      * 普通消息-地理位置
      * @param \Royalcms\Component\Support\Collection $message
      */
     public static function Location_action($message)
     {
-        return WechatRecord::Text_reply($message, '地理位置已经收到');
+        return WechatRecord::Text_reply($message, __('地理位置已经收到', 'wechat'));
     }
-    
+
     /**
      * 普通消息-链接
      * @param \Royalcms\Component\Support\Collection $message
      */
     public static function Link_action($message)
     {
-        return WechatRecord::Text_reply($message, '链接消息已经收到');
+        return WechatRecord::Text_reply($message, __('链接消息已经收到', 'wechat'));
     }
     
     

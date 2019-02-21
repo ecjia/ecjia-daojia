@@ -10,19 +10,19 @@
 
 <!-- {if $errormsg} -->
 <div class="alert alert-danger">
-	<strong>{lang key='wechat::wechat.label_notice'}</strong>{$errormsg}
+	<strong>{t domain="wechat"}温馨提示：{/t}</strong>{$errormsg}
 </div>
 <!-- {/if} -->
 
 {if $warn && $wechat_type eq 0}
 <div class="alert alert-danger">
-	<strong>{lang key='wechat::wechat.label_notice'}</strong>{lang key='wechat::wechat.notice_public_not_certified'}
+	<strong>{t domain="wechat"}温馨提示：{/t}</strong>{t domain="wechat"}抱歉！您当前公众号属于“未认证的公众号”，该模块目前还不支持“未认证的公众号”。{/t}
 </div>
 {/if}
 
 {if $media_data.wait_upload_article eq 1}
 <div class="alert alert-info">
-	<strong>{lang key='wechat::wechat.label_notice'}</strong>该素材已修改，请点击 “发布素材” 按钮上传到微信公众平台。
+	<strong>{t domain="wechat"}温馨提示：{/t}</strong>{t domain="wechat"}该素材已修改，请点击 “发布素材” 按钮上传到微信公众平台。{/t}
 </div>
 {/if}
 
@@ -31,7 +31,7 @@
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 		<span aria-hidden="true">×</span>
 	</button>
-	<h4 class="alert-heading mb-2">操作提示</h4>
+	<h4 class="alert-heading mb-2">{t domain="wechat"}操作提示{/t}</h4>
     <!-- {ecjia_screen::get_current_screen()->get_help_sidebar()} -->
 </div>
 <!-- {/if} -->
@@ -63,7 +63,7 @@
 									<div class="select_mobile_area mobile_news_main {if $id eq $list.id}active{/if}">
 										<div class="show_image"><img src='{$list.file}'></div>
 										<div class="item">
-											<div class="default">{lang key='wechat::wechat.cover_images'}</div>
+											<div class="default">{t domain="wechat"}封面图片{/t}</div>
 											<h4 class='news_main_title title_show'>{$list.title}</h4>
 										</div>
 										<div class="edit_mask">
@@ -73,7 +73,7 @@
 									<!-- {else} -->
 									<div class="select_mobile_area mobile_news_auxiliary {if $id eq $list.id}active{/if}">
 										<div class="span7 news_auxiliary_title title_show">{$list.title}</div>
-										<div class="span4 thumb_image"><div>{lang key='wechat::wechat.thumbnail'}</div><div class="show_image"><img src='{$list.file}'></div></div>
+										<div class="span4 thumb_image"><div>{t domain="wechat"}缩略图{/t}</div><div class="show_image"><img src='{$list.file}'></div></div>
 										<div class="edit_mask">
 											<a href="javascript:;" class="data-pjax" data-id="{$list.id}" data-href='{url path="wechat/platform_material/get_material_info" args="id={$list.id}&material=1"}'><i class="ft-edit-2"></i></a>&nbsp;&nbsp;&nbsp;
 											<a href="javascript:;" data-toggle="remove_child_material" data-url='{url path="wechat/platform_material/remove_child_article" args="id={$list.id}"}'><i class="ft-trash-2"></i></a>
@@ -89,24 +89,24 @@
 							<!-- {foreach from=$article.articles key=key item=list}-->
 								<!-- {if $list.id eq $id} -->
 								<div class="mobile_news_edit_area">
-									<h4 class="heading">{lang key='wechat::wechat.graphic'}{$key+1}</h4>
+									<h4 class="heading">{t domain="wechat"}图文{/t}{$key+1}</h4>
 									<fieldset>
 										<div class="form-group row">
-											<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.label_title'}</label>
+											<label class="col-lg-2 label-control text-right">{t domain="wechat"}标题：{/t}</label>
 											<div class="col-lg-9 controls">
 												<input class='span8 form-control' type='text' name='title' value='{$list.title}'/>
 											</div>
 											<span class="input-must">*</span>
 										</div>
 										<div class="form-group row">
-											<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.author'}</label>
+											<label class="col-lg-2 label-control text-right">{t domain="wechat"}作者：{/t}</label>
 											<div class="col-lg-9 controls">
 												<input class='span8 form-control' type='text' name='author' value='{$list.author}'/>
 											</div>
 										</div>
 										
 										<div class="form-group row">
-											<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.cover'}</label>
+											<label class="col-lg-2 label-control text-right">{t domain="wechat"}封面：{/t}</label>
 											<div class="col-lg-9 controls">
 												<div class="fileupload fileupload-exists" data-provides="fileupload">
 													{if $list.file}
@@ -115,40 +115,40 @@
 													</div>
 													{/if}
 													<a class="btn btn-outline-primary choose_material" href="javascript:;" data-url="{RC_Uri::url('wechat/platform_material/choose_material')}&material=1" 
-													data-type="thumb">从素材库选择</a>
+													data-type="thumb">{t domain="wechat"}从素材库选择{/t}</a>
 													<span class="m_l5 input-must">*</span>
 													<input type="hidden" name="thumb_media_id" size="35" value="{$list.thumb}"/>
 												</div>
-												<input type="checkbox" name="is_show" value="1" id="is_show_1" {if $list.is_show}checked{/if}/><label for="is_show_1"></label>{lang key='wechat::wechat.cover_img_centent'}
-												<span class="help-block">{lang key='wechat::wechat.img_size900x500'}</span>
+												<input type="checkbox" name="is_show" value="1" id="is_show_1" {if $list.is_show}checked{/if}/><label for="is_show_1"></label>{t domain="wechat"}封面图片显示在正文中{/t}
+												<span class="help-block">{t domain="wechat"}（大图片建议尺寸：900像素 * 500像素）{/t}</span>
 											</div>
 										</div>
 									
 										<div class="form-group row">
-											<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.summary'}</label>
+											<label class="col-lg-2 label-control text-right">{t domain="wechat"}摘要：{/t}</label>
 											<div class="col-lg-9 controls">
 												<textarea name="digest" cols="55" rows="6" class="span8 form-control">{$list.digest}</textarea>
 											</div>
 										</div>
 										
 										<div class="form-group row">
-											<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.text_link'}</label>
+											<label class="col-lg-2 label-control text-right">{t domain="wechat"}原文链接：{/t}</label>
 											<div class="col-lg-9 controls">
 												<input name='link' class='span8 form-control' type='text' value='{$list.link}'/>
 											</div>
 										</div>
 										
 										<div class="form-group row sort_form">
-											<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.label_sort'}</label>
+											<label class="col-lg-2 label-control text-right">{t domain="wechat"}排序：{/t}</label>
 											<div class="col-lg-9 controls">
 												<input name='sort' class='span8 form-control' type='text' value='{$list.sort}'/>
-												<span class="help-block">排序从小到大</span>
+												<span class="help-block">{t domain="wechat"}排序从小到大{/t}</span>
 											</div>
 										</div>
 		
 										<div class="form-group row">
 											<h3 class="heading card-title col-lg-12">
-											{lang key='wechat::wechat.main_body'}
+                                                {t domain="wechat"}正文{/t}
 											</h3>
 											<div class="col-lg-11">
 												{ecjia:editor content=$list.content textarea_name='content' is_teeny=0}
@@ -159,7 +159,7 @@
 											<label class="col-lg-2 label-control text-right"></label>
 											<div class="col-lg-9 controls">
 												<input type="hidden" name="index" />
-												<input type="submit" value="{lang key='wechat::wechat.update'}" class="btn btn-outline-primary"/>
+												<input type="submit" value='{t domain="wechat"}更新{/t}' class="btn btn-outline-primary"/>
 											</div>
 										</div>
 									</fieldset>
@@ -177,8 +177,8 @@
 <input type="hidden" name="add_url" value="{RC_Uri::url('wechat/platform_material/add_child_article')}&parent_id={$parent_id}" />
 
 <div class="select_mobile_area mobile_news_auxiliary mobile_news_auxiliary_clone hide material_info_select">
-	<div class="span7 news_auxiliary_title title_show">{lang key='wechat::wechat.title'}</div>
-	<div class="span4 thumb_image"><div>{lang key='wechat::wechat.thumbnail'}</div><div class="show_image"></div></div>
+	<div class="span7 news_auxiliary_title title_show">{t domain="wechat"}标题{/t}</div>
+	<div class="span4 thumb_image"><div>{t domain="wechat"}缩略图{/t}</div><div class="show_image"></div></div>
 	<div class="edit_mask">
 		<a href="javascript:;"><i class="ft-edit-2"></i></a>&nbsp;&nbsp;&nbsp;<a href="javascript:;" data-toggle="remove_edit_mask" data-parent=".mobile_news_auxiliary"><i class="ft-trash-2"></i></a>
 	</div>

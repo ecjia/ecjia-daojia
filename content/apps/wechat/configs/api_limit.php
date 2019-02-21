@@ -52,666 +52,666 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
 	/*获取接口调用凭据*/
 	'token' => array(
-		'title' => RC_Lang::get('wechat::wechat.get_access_token'),
+		'title' => __('获取access_token', 'wechat'),
 	    'times' => '2000',
 	    'api'   => 'https://api.weixin.qq.com/cgi-bin/token'
 	),
 	'getcallbackip' => array(
-		'title' => RC_Lang::get('wechat::wechat.get_server_ip'),
+		'title' => __('获取微信服务器IP地址', 'wechat'),
 		'times' => null,
 		'api'   => 'https://api.weixin.qq.com/cgi-bin/getcallbackip'
 	),
-		
+
 	/*自定义菜单*/
     'menu/create' => array(
-    	'title' => RC_Lang::get('wechat::wechat.custom_menu_create'),
+    	'title' => __('自定义菜单创建', 'wechat'),
         'times' => '1000',
         'api'   => 'https://api.weixin.qq.com/cgi-bin/menu/create'
     ),
     'menu/get' => array(
-    	'title' => RC_Lang::get('wechat::wechat.custom_menu_demadn'),
+    	'title' => __('自定义菜单查询', 'wechat'),
         'times' => '10000',
         'api'   => 'https://api.weixin.qq.com/cgi-bin/menu/get'
     ),
     'menu/delete' => array(
-    	'title' => RC_Lang::get('wechat::wechat.custom_menu_del'),
+    	'title' => __('自定义菜单删除', 'wechat'),
         'times' => '1000',
         'api'   => 'https://api.weixin.qq.com/cgi-bin/menu/delete'
     ),
 	'menu/addconditional' => array(
-		'title' => RC_Lang::get('wechat::wechat.custom_menu_add'),
+		'title' => __('创建个性化菜单', 'wechat'),
 		'times' => '2000',
 		'api'   => 'https://api.weixin.qq.com/cgi-bin/menu/addconditional'
 	),
 	'menu/delconditional' => array(
-		'title' => RC_Lang::get('wechat::wechat.del_individuation_menu'),
+		'title' => __('删除个性化菜单', 'wechat'),
 		'times' => '2000',
 		'api'   => 'https://api.weixin.qq.com/cgi-bin/menu/delconditional'
 	),
 	'menu/trymatch' => array(
-		'title' => RC_Lang::get('wechat::wechat.test_individuation_menu'),
+		'title' => __('测试个性化菜单匹配结果', 'wechat'),
 		'times' => '20000',
 		'api'   => 'https://api.weixin.qq.com/cgi-bin/menu/trymatch'
 	),
 	'get_current_selfmenu_info' => array(
-		'title' => RC_Lang::get('wechat::wechat.get_individuation_menu'),
+		'title' => __('获取自定义菜单配置', 'wechat'),
 		'times' => null,
 		'api'   => 'https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info'
 	),
-		
+
 	/*粉丝管理*/
     'groups/create' => array(
-    	'title' => RC_Lang::get('wechat::wechat.add_user_group'),
+    	'title' => __('创建用户分组', 'wechat'),
         'times' => '1000',
         'api'   => 'https://api.weixin.qq.com/cgi-bin/groups/create'
     ),
     'groups/get' => array(
-        'title' => RC_Lang::get('wechat::wechat.get_user_group'),
+        'title' => __('获取用户分组', 'wechat'),
         'times' => '1000',
         'api'   => 'https://api.weixin.qq.com/cgi-bin/groups/get'
     ),
 	'groups/getid' => array(
-		'title' => RC_Lang::get('wechat::wechat.demand_user_group'),
+		'title' => __('查询用户所在分组', 'wechat'),
 		'times' => null,
 		'api'   => 'https://api.weixin.qq.com/cgi-bin/groups/getid'
 	),
     'groups/update' => array(
-        'title' => RC_Lang::get('wechat::wechat.edit_user_group'),
+        'title' => __('修改用户分组名', 'wechat'),
         'times' => '1000',
         'api'   => 'https://api.weixin.qq.com/cgi-bin/groups/update'
     ),
     'groups/members/update' => array(
-        'title' => RC_Lang::get('wechat::wechat.move_user_group'),
+        'title' => __('移动用户分组', 'wechat'),
         'times' => '100000',
         'api'   => 'https://api.weixin.qq.com/cgi-bin/groups/members/update'
     ),
     'groups/members/batchupdate' => array(
-    	'title' => RC_Lang::get('wechat::wechat.batch_move_user_group'),
+    	'title' => __('批量移动用户分组', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/groups/members/batchupdate'
     ),
     'groups/delete' => array(
-    	'title' => RC_Lang::get('wechat::wechat.del_user_group'),
+    	'title' => __('删除用户分组', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/groups/delete'
     ),
     'user/info/updateremark' => array(
-    	'title' => RC_Lang::get('wechat::wechat.set_user_comment'),
+    	'title' => __('设置用户备注名', 'wechat'),
     	'times' => '10000',
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark'
     ),
     'user/info' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_user_info'),
+    	'title' => __('获取用户信息', 'wechat'),
     	'times' => '5000000',
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/user/info'
     ),
     'user/info/batchget' => array(
-    	'title' => RC_Lang::get('wechat::wechat.batch_get_user_info'),
+    	'title' => __('批量获取用户基本信息', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/user/info/batchget'
     ),
     'user/get' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_attention_list'),
+    	'title' => __('获取关注者列表', 'wechat'),
     	'times' => '500',
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/user/get'
     ),
     'tags/create' => array(
-    	'title' => RC_Lang::get('wechat::wechat.add_label'),
+    	'title' => __('创建标签', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/tags/create'
     ),
     'tags/get' => array(
-	    'title' => RC_Lang::get('wechat::wechat.get_num_lable'),
+	    'title' => __('获取公众号已创建的标签', 'wechat'),
 	    'times' => null,
 	    'api'   => 'https://api.weixin.qq.com/cgi-bin/tags/get'
     ),
     'tags/update' => array(
-    	'title' => RC_Lang::get('wechat::wechat.edit_lable'),
+    	'title' => __('编辑标签', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/tags/update'
     ),
     'tags/delete' => array(
-    	'title' => RC_Lang::get('wechat::wechat.del_lable'),
+    	'title' => __('删除标签', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/tags/delete'
     ),
     'tags/getidlist' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_user_lable_list'),
+    	'title' => __('获取用户身上的标签列表', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/tags/getidlist'
     ),
     'tags/members/batchtagging' => array(
-    	'title' => RC_Lang::get('wechat::wechat.batch_user_lable'),
+    	'title' => __('批量为用户打标签', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging'
     ),
     'tags/members/batchuntagging' => array(
-    	'title' => RC_Lang::get('wechat::wechat.batch_user_close_lable'),
+    	'title' => __('批量为用户取消标签', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging'
     ),
-    
+
     /*发送消息*/
     'customservice/kfaccount/add' => array(
-    	'title' => RC_Lang::get('wechat::wechat.add_server_account'),
+    	'title' => __('添加客服帐号', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/customservice/kfaccount/add'
     ),
     'customservice/kfaccount/update' => array(
-    	'title' => RC_Lang::get('wechat::wechat.edit_server_account'),
+    	'title' => __('修改客服帐号', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/customservice/kfaccount/update'
     ),
     'customservice/kfaccount/del' => array(
-    	'title' => RC_Lang::get('wechat::wechat.del_server_account'),
+    	'title' => __('删除客服帐号', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/customservice/kfaccount/del'
     ),
     'customservice/kfaccount/uploadheadimg' => array(
-    	'title' => RC_Lang::get('wechat::wechat.set_server_head'),
+    	'title' => __('设置客服帐号的头像', 'wechat'),
     	'times' => null,
     	'api'   => 'http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg'
     ),
     'customservice/getkflist' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_all_server_account'),
+    	'title' => __('获取所有客服账号', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist'
     ),
     'customservice/getonlinekflist' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_server_online_message'),
+    	'title' => __('获取在线客服接待信息', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist'
     ),
     'customservice/kfaccount/inviteworker' => array(
-    	'title' => RC_Lang::get('wechat::wechat.invite_bind_server_account'),
+    	'title' => __('邀请绑定客服帐号', 'wechat'),
     	'times' => null,
     	'api' 	=> 'https://api.weixin.qq.com/cgi-bin/customservice/kfaccount/inviteworker'
     ),
     'message/custom/send' => array(
-        'title' => RC_Lang::get('wechat::wechat.send_server_message'),
+        'title' => __('发送客服消息', 'wechat'),
         'times' => '500000',
         'api'   => 'https://api.weixin.qq.com/cgi-bin/message/custom/send'
     ),
     'message/mass/sendall' => array(
-    	'title' => RC_Lang::get('wechat::wechat.group_mass_texting'),
+    	'title' => __('根据分组进行群发', 'wechat'),
     	'times' => '100',
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/message/mass/sendall'
     ),
     'message/mass/send' => array(
-    	'title' => RC_Lang::get('wechat::wechat.openid_list_mass_texting'),
+    	'title' => __('根据OpenID列表群发', 'wechat'),
     	'times' => '100',
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/message/mass/send'
     ),
     'message/mass/delete' => array(
-    	'title' => RC_Lang::get('wechat::wechat.del_mass_texting'),
+    	'title' => __('删除群发', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/message/mass/delete'
     ),
     'message/mass/preview' => array(
-    	'title' => RC_Lang::get('wechat::wechat.browse_mes_type'),
+    	'title' => __('预览消息样式和排版', 'wechat'),
     	'times' => '100',
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/message/mass/preview'
     ),
     'message/mass/get' => array(
-    	'title' => RC_Lang::get('wechat::wechat.demand_mass_mes_status'),
+    	'title' => __('查询群发消息发送状态', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/message/mass/get'
     ),
     'template/api_set_industry' => array(
-    	'title' => RC_Lang::get('wechat::wechat.set_industry'),
+    	'title' => __('设置所属行业', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/template/api_set_industry'
     ),
     'template/api_add_template' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_template_id'),
+    	'title' => __('获得模板ID', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/template/api_add_template'
     ),
     'message/template/send' => array(
-    	'title' => RC_Lang::get('wechat::wechat.send_template_message'),
+    	'title' => __('发送模板消息', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/message/template/send'
     ),
     'get_current_autoreply_info' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_auto_rule'),
+    	'title' => __('获取自动回复规则', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/get_current_autoreply_info'
     ),
-    
+
     /*素材管理*/
     'material/add_news' => array(
-    	'title' => RC_Lang::get('wechat::wechat.new_graphic_material'),
+    	'title' => __('新增永久图文素材', 'wechat'),
     	'times' => '5000',
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/material/add_news'
     ),
     'material/add_material' => array(
-    	'title' => RC_Lang::get('wechat::wechat.new_graphic_material'),
+    	'title' => __('新增其他类型永久素材', 'wechat'),
     	'times' => '1000',
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/material/add_material'
     ),
     'material/get_material' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_permanent_material'),
+    	'title' => __('获取永久素材', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/material/get_material'
     ),
     'material/del_material' => array(
-    	'title' => RC_Lang::get('wechat::wechat.del_permanent_material'),
+    	'title' => __('删除永久素材', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/material/del_material'
     ),
     'material/update_news' => array(
-    	'title' => RC_Lang::get('wechat::wechat.edit_permanent_material'),
+    	'title' => __('修改永久图文素材', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/material/update_news'
     ),
     'material/get_materialcount' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_material_sum'),
+    	'title' => __('获取素材总数', 'wechat'),
     	'times' => null, //图片和图文消息素材（包括单图文和多图文）的总数上限为5000，其他素材的总数上限为1000
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/material/get_materialcount'
     ),
     'material/batchget_material' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_material_list'),
+    	'title' => __('获取素材列表', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/material/batchget_material'
     ),
-    
+
     /*账号管理*/
     'qrcode/create' => array(
-        'title' => RC_Lang::get('wechat::wechat.add_code_ticket'),
+        'title' => __('创建二维码ticket', 'wechat'),
         'times' => '100000',
         'api'   => 'https://api.weixin.qq.com/cgi-bin/qrcode/create'
     ),
     'showqrcode' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_code_ticket'),
+    	'title' => __('通过ticket换取二维码', 'wechat'),
     	'times' => null,
     	'api'   => 'https://mp.weixin.qq.com/cgi-bin/showqrcode'
     ),
     'shorturl' => array(
-    	'title' => RC_Lang::get('wechat::wechat.long_turn_short'),
+    	'title' => __('长链接转短链接', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/shorturl'
     ),
-    
+
     /*数据统计*/
     'datacube/getusersummary' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_add_user_data'),
+    	'title' => __('获取用户增减数据', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/datacube/getusersummary'
     ),
     'datacube/getusercumulate' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_accumulative_user_data'),
+    	'title' => __('获取累计用户数据', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/datacube/getusercumulate'
     ),
     'datacube/getarticlesummary' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_image_mass_data'),
+    	'title' => __('获取图文群发每日数据', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/datacube/getarticlesummary'
     ),
     'datacube/getarticletotal' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_image_mass_all_data'),
+    	'title' => __('获取图文群发总数据', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/datacube/getarticletotal'
     ),
     'datacube/getuserread' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_image_statistics_data'),
+    	'title' => __('获取图文统计数据', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/datacube/getuserread'
     ),
     'datacube/getuserreadhour' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_image_statistics_time'),
+    	'title' => __('获取图文统计分时数据', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/datacube/getuserreadhour'
     ),
     'datacube/getusershare' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_image_statistics_share'),
+    	'title' => __('获取图文分享转发数据', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/datacube/getusershare'
     ),
     'datacube/getusersharehour' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_image_statistics_share_time'),
+    	'title' => __('获取图文分享转发分时数据', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/datacube/getusersharehour'
     ),
-    
+
     /*微信JS-SDK*/
     'ticket/getticket' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_api_ticket'),
+    	'title' => __('获取api_ticket', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket'
     ),
-    
+
     /*微信门店*/
     'media/uploadimg' => array(
-    	'title' => RC_Lang::get('wechat::wechat.put_store_image'),
+    	'title' => __('上传门店图片', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/media/uploadimg'
     ),
     'poi/addpoi' => array(
-    	'title' => RC_Lang::get('wechat::wechat.found_store'),
+    	'title' => __('创建门店', 'wechat'),
     	'times' => null,
     	'api'   => 'http://api.weixin.qq.com/cgi-bin/poi/addpoi'
     ),
     'poi/getpoi' => array(
-    	'title' => RC_Lang::get('wechat::wechat.demand_store_info'),
+    	'title' => __('查询门店信息', 'wechat'),
     	'times' => null,
     	'api'   => 'http://api.weixin.qq.com/cgi-bin/poi/getpoi'
     ),
     'poi/getpoilist' => array(
-   		'title' => RC_Lang::get('wechat::wechat.demand_store_list'),
+   		'title' => __('查询门店列表', 'wechat'),
    		'times' => null,
    		'api'   => 'https://api.weixin.qq.com/cgi-bin/poi/getpoilist'
     ),
     'poi/updatepoi' => array(
-   		'title' => RC_Lang::get('wechat::wechat.edit_store_service_info'),
+   		'title' => __('修改门店服务信息', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/poi/updatepoi'
     ),
     'poi/delpoi' => array(
-   		'title' => RC_Lang::get('wechat::wechat.del_store'),
+   		'title' => __('删除门店', 'wechat'),
    		'times' => null,
     	'api'   => 'https://api.weixin.qq.com/cgi-bin/poi/delpoi'
     ),
     'poi/getwxcategory' => array(
-    	'title' => RC_Lang::get('wechat::wechat.store_class_list'),
+    	'title' => __('门店类目表', 'wechat'),
     	'times' => null,
     	'api'   => 'http://api.weixin.qq.com/cgi-bin/poi/getwxcategory'
     ),
-    
+
     /*微信智能接口*/
     'semantic/semproxy/search' => array(
-    	'title' => RC_Lang::get('wechat::wechat.send_semantic_request'),
+    	'title' => __('发送语义理解请求', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/semantic/semproxy/search'
     ),
-    
+
   	/*微信摇一摇周边*/
     'account/register' => array(
-    	'title' => RC_Lang::get('wechat::wechat.apply_yiy_rim'),
+    	'title' => __('申请开通摇一摇周边', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/account/register'
     ),
     'device/applyid' => array(
-    	'title' => RC_Lang::get('wechat::wechat.apply_facility_id'),
+    	'title' => __('申请设备ID', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/device/applyid'
     ),
     'device/applystatus' => array(
-    	'title' => RC_Lang::get('wechat::wechat.demand_facility_status'),
+    	'title' => __('查询设备ID申请审核状态', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/device/applystatus'
     ),
     'device/update' => array(
-    	'title' => RC_Lang::get('wechat::wechat.edit_facility_info'),
+    	'title' => __('编辑设备信息', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/device/update'
     ),
     'device/bindlocation' => array(
-    	'title' => RC_Lang::get('wechat::wechat.facility_sotre_user'),
+    	'title' => __('配置设备与门店的关联关系', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/device/bindlocation'
     ),
     'device/search' => array(
-    	'title' => RC_Lang::get('wechat::wechat.deman_facility_list'),
+    	'title' => __('查询设备列表', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/device/search'
     ),
     'page/add' => array(
-    	'title' => RC_Lang::get('wechat::wechat.add_page'),
+    	'title' => __('新增页面', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/page/add'
     ),
     'page/update' => array(
-    	'title' => RC_Lang::get('wechat::wechat.edit_page_message'),
+    	'title' => __('编辑页面信息', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/page/update'
     ),
     'page/search' => array(
-    	'title' => RC_Lang::get('wechat::wechat.demand_page_list'),
+    	'title' => __('查询页面列表', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/page/search'
     ),
     'page/delete' => array(
-    	'title' => RC_Lang::get('wechat::wechat.del_page'),
+    	'title' => __('删除页面', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/page/delete'
     ),
     'material/add' => array(
-    	'title' => RC_Lang::get('wechat::wechat.upload_image_material'),
+    	'title' => __('上传图片素材', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/material/add'
     ),
     'device/bindpage' => array(
-    	'title' => RC_Lang::get('wechat::wechat.facility_store_relation'),
+    	'title' => __('配置设备与页面的关联关系', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/device/bindpage'
     ),
     'relation/search' => array(
-    	'title' => RC_Lang::get('wechat::wechat.demand_facility_store_relation'),
+    	'title' => __('查询设备与页面的关联关系', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/relation/search'
     ),
     'user/getshakeinfo' => array(
-    	'title' => RC_Lang::get('wechat::wechat.demand_yiy_facility_user_info'),
+    	'title' => __('获取摇周边的设备及用户信息', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/user/getshakeinfo'
     ),
     'statistics/device' => array(
-    	'title' => RC_Lang::get('wechat::wechat.facility_user_data_statistics'),
+    	'title' => __('以设备为维度的数据统计', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/statistics/device'
     ),
     'statistics/devicelist' => array(
-    	'title' => RC_Lang::get('wechat::wechat.batch_demand_fac_mes'),
+    	'title' => __('批量查询设备统计数据', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/statistics/devicelist'
     ),
     'statistics/page' => array(
-    	'title' => RC_Lang::get('wechat::wechat.page_data_statistics'),
+    	'title' => __('以页面为维度的数据统计', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/statistics/page'
     ),
     'statistics/pagelist' => array(
-    	'title' => RC_Lang::get('wechat::wechat.batch_demand_page_data'),
+    	'title' => __('批量查询页面统计数据', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/statistics/pagelist'
     ),
     'lottery/addlotteryinfo' => array(
-    	'title' => RC_Lang::get('wechat::wechat.add_packet_activity'),
+    	'title' => __('创建红包活动', 'wechat'),
     	'times' => null,
     	'api'   => ' https://api.weixin.qq.com/shakearound/lottery/addlotteryinfo'
     ),
     'lottery/setprizebucket' => array(
-    	'title' => RC_Lang::get('wechat::wechat.record_packet_info'),
+    	'title' => __('录入红包信息', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/lottery/setprizebucket'
     ),
     'lottery/setlotteryswitch' => array(
-    	'title' => RC_Lang::get('wechat::wechat.set_packet_open_close'),
+    	'title' => __('设置红包活动抽奖开关', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/lottery/setlotteryswitch'
     ),
     'lottery/querylottery' => array(
-    	'title' => RC_Lang::get('wechat::wechat.demand_packet'),
+    	'title' => __('红包查询', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/lottery/querylottery'
     ),
     'device/group/add' => array(
-    	'title' => RC_Lang::get('wechat::wechat.add_facility_group'),
+    	'title' => __('新增设备分组', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/device/group/add'
     ),
     'device/group/update' => array(
-    	'title' => RC_Lang::get('wechat::wechat.edit_facility_group'),
+    	'title' => __('编辑设备分组信息', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/device/group/update'
     ),
     'device/group/delete' => array(
-    	'title' => RC_Lang::get('wechat::wechat.del_facility_group'),
+    	'title' => __('删除设备分组', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/device/group/delete'
     ),
     'device/group/getlist' => array(
-    	'title' => RC_Lang::get('wechat::wechat.demand_facility_group_list'),
+    	'title' => __('查询设备分组列表', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/device/group/getlist'
     ),
     'device/group/getdetail' => array(
-    	'title' => RC_Lang::get('wechat::wechat.demand_facility_info'),
+    	'title' => __('查询设备分组详情', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/device/group/getdetail'
     ),
     'device/group/adddevice' => array(
-    	'title' => RC_Lang::get('wechat::wechat.add_facility_fgroup'),
+    	'title' => __('添加设备到设备分组', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/device/group/adddevice'
     ),
     'device/group/deletedevice' => array(
-    	'title' => RC_Lang::get('wechat::wechat.del_facility_fgroup'),
+    	'title' => __('从设备分组中移除设备', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/shakearound/device/group/deletedevice'
     ),
     'openplugin/token' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_wifi_token'),
+    	'title' => __('第三方平台获取开插件wifi_token', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/bizwifi/openplugin/token'
     ),
-    
+
     /*微信连Wi-Fi*/
     'shop/list' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_wifi_store_list'),
+    	'title' => __('获取WiFi门店列表', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/bizwifi/shop/list'
     ),
     'shop/get' => array(
-    	'title' => RC_Lang::get('wechat::wechat.demand_wifi_info'),
+    	'title' => __('查询门店的WiFi信息', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/bizwifi/shop/get'
     ),
     'shop/update' => array(
-    	'title' => RC_Lang::get('wechat::wechat.edit_store_int_info'),
+    	'title' => __('修改门店网络信息', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/bizwifi/shop/update'
     ),
     'shop/clean' => array(
-    	'title' => RC_Lang::get('wechat::wechat.empty_store_int_facility'),
+    	'title' => __('清空门店网络及设备', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/bizwifi/shop/clean'
     ),
     'device/add' => array(
-    	'title' => RC_Lang::get('wechat::wechat.add_pass_wifi'),
+    	'title' => __('添加密码型Wi-Fi设备', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/bizwifi/device/add'
     ),
     'device/list' => array(
-    	'title' => RC_Lang::get('wechat::wechat.demand_wifi_fac'),
+    	'title' => __('查询Wi-Fi设备', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/bizwifi/device/list'
     ),
     'device/delete' => array(
-    	'title' => RC_Lang::get('wechat::wechat.del_wifi_fac'),
+    	'title' => __('删除Wi-Fi设备', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/bizwifi/device/delete'
     ),
     'qrcode/get' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_material_code'),
+    	'title' => __('获取物料二维码', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/bizwifi/qrcode/get'
     ),
     'account/get_connecturl' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_num_int_url'),
+    	'title' => __('获取公众号连网URL', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/bizwifi/account/get_connecturl'
     ),
     'homepage/set' => array(
-    	'title' => RC_Lang::get('wechat::wechat.set_store_page'),
+    	'title' => __('设置商家主页', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/bizwifi/homepage/set'
     ),
     'homepage/get' => array(
-    	'title' => RC_Lang::get('wechat::wechat.demand_store_page'),
+    	'title' => __('查询商家主页', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/bizwifi/homepage/get'
     ),
     'bar/set' => array(
-    	'title' => RC_Lang::get('wechat::wechat.set_top_entrance'),
+    	'title' => __('设置顶部常驻入口文案', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/bizwifi/bar/set'
     ),
     'statistics/list' => array(
-    	'title' => RC_Lang::get('wechat::wechat.wifi_data'),
+    	'title' => __('Wi-Fi数据统计', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/bizwifi/statistics/list'
     ),
-    
+
     /*微信扫一扫*/
     'merchantinfo/get' => array(
-    	'title' => RC_Lang::get('wechat::wechat.get_sotre_infom'),
+    	'title' => __('获取商户信息', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/scan/merchantinfo/get'
     ),
     'product/create' => array(
-    	'title' => RC_Lang::get('wechat::wechat.create_goods'),
+    	'title' => __('创建商品', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/scan/product/create'
     ),
     'product/modstatus' => array(
-    	'title' => RC_Lang::get('wechat::wechat.check_close_goods'),
+    	'title' => __('提交审核/取消发布商品', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/scan/product/modstatus'
     ),
     'testwhitelist/set' => array(
-    	'title' => RC_Lang::get('wechat::wechat.test_write_list'),
+    	'title' => __('设置测试人员白名单', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/scan/testwhitelist/set'
     ),
     'product/getqrcode' => array(
-    	'title' => RC_Lang::get('wechat::wechat.demand_goods_code'),
+    	'title' => __('获取商品二维码', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/scan/product/getqrcode'
     ),
     'product/get' => array(
-    	'title' => RC_Lang::get('wechat::wechat.demand_goods_info'),
+    	'title' => __('查询商品信息', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/scan/product/get'
     ),
     'product/getlist' => array(
-    	'title' => RC_Lang::get('wechat::wechat.batch_demand_goods_info'),
+    	'title' => __('批量查询商品信息', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/scan/product/getlist'
     ),
     'product/update' => array(
-    	'title' => RC_Lang::get('wechat::wechat.updata_goods_info'),
+    	'title' => __('更新商品信息', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/scan/product/update'
     ),
     'product/clear' => array(
-    	'title' => RC_Lang::get('wechat::wechat.clean_goods_info'),
+    	'title' => __('清除商品信息', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/scan/product/clear'
     ),
     'scanticket/check' => array(
-    	'title' => RC_Lang::get('wechat::wechat.wxticket_parameter'),
+    	'title' => __('检查wxticket参数', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/scan/scanticket/check'
     ),
     'sns/oauth2/access_token' => array(
-        'title' => RC_Lang::get('wechat::wechat.get_page_access_token'),
+        'title' => __('获取网页授权access_token', 'wechat'),
         'times' => null,
         'api'   => 'https://api.weixin.qq.com/sns/oauth2/access_token'
     ),
     'sns/oauth2/refresh_token' => array(
-        'title' => RC_Lang::get('wechat::wechat.refresh_page_access_token'),
+        'title' => __('刷新网页授权access_token', 'wechat'),
         'times' => null,
         'api'   => 'https://api.weixin.qq.com/sns/oauth2/refresh_token'
     ),
     'sns/userinfo' => array(
-        'title' => RC_Lang::get('wechat::wechat.page_access_user_info'),
+        'title' => __('网页授权获取用户信息', 'wechat'),
         'times' => null,
         'api'   => 'https://api.weixin.qq.com/sns/userinfo'
     ),
     'sns/auth' => array(
-    	'title' => RC_Lang::get('wechat::wechat.check_access_token'),
+    	'title' => __('检验授权凭证（access_token）是否有效', 'wechat'),
     	'times' => null,
     	'api'   => 'https://api.weixin.qq.com/sns/auth'
     ),

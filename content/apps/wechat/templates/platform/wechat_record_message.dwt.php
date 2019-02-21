@@ -11,13 +11,13 @@
 
 <!-- {if $errormsg} -->
 <div class="alert alert-danger">
-	<strong>{lang key='wechat::wechat.label_notice'}</strong>{$errormsg}
+	<strong>{t domain="wechat"}温馨提示：{/t}</strong>{$errormsg}
 </div>
 <!-- {/if} -->
 
 <!-- {if $warn && $type eq 0} -->
 <div class="alert alert-danger">
-	<strong>{lang key='wechat::wechat.label_notice'}</strong>{$type_error}
+	<strong>{t domain="wechat"}温馨提示：{/t}</strong>{$type_error}
 </div>
 <!-- {/if} -->
 
@@ -37,11 +37,11 @@
 					<div class="col-xl-8 col-lg-12 chat_content h550">
 						<div class="card">
 							<div class="card-header popover-header">
-								<h4 class="card-title">{lang key='wechat::wechat.label_chat_user'}<span class="act_users">{$info.nickname}</span></h4>
+								<h4 class="card-title">{t domain="wechat"}交谈用户：{/t}<span class="act_users">{$info.nickname}</span></h4>
 							</div>
 							<div class="card-content collapse show popover-body">
 								<div class="chat_msg clearfix">
-									<div class="chat_msg_heading t_c"><a class="readed_message" href="javascript:;" data-chatid="{$info.openid}" data-lastid="{$message.last_id}" data-href="{$last_action}">{lang key='wechat::wechat.view_earlier_message'}</a></div>
+									<div class="chat_msg_heading t_c"><a class="readed_message" href="javascript:;" data-chatid="{$info.openid}" data-lastid="{$message.last_id}" data-href="{$last_action}">{t domain="wechat"}查看更早的消息记录{/t}</a></div>
 								</div>
 								<div class="card-body">
 									<div class="chat_msg media-list">
@@ -69,12 +69,12 @@
 					<div class="col-xl-4 col-lg-12">
 						<div class="card info_content h550">
 							<div class="card-header popover-header">
-								<h4 class="card-title">{lang key='wechat::wechat.user_info'}</h4>
+								<h4 class="card-title">{t domain="wechat"}用户信息{/t}</h4>
 							</div>
 							<div class="card-body popover-body">
 								<div class="form-body">
 									<div class="form-group row p_t20">
-										<label class="col-md-5 label-control text-right">{lang key='wechat::wechat.label_user_headimgurl'}</label>
+										<label class="col-md-5 label-control text-right">{t domain="wechat"}用户头像：{/t}</label>
 										<div class="col-md-7 controls">
 											{if $info['headimgurl']}
 												<img class="thumbnail" src="{$info['headimgurl']}" alt="{$info['nickname']}"/>
@@ -85,14 +85,14 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-md-5 label-control text-right">{lang key='wechat::wechat.label_nickname'}</label>
+										<label class="col-md-5 label-control text-right">{t domain="wechat"}昵称：{/t}</label>
 										<div class="col-md-7 controls">
 											<span class="p_l10">{$info.nickname}</span>
 										</div>
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-md-5 label-control text-right">{lang key='wechat::wechat.label_remark'}</label>
+										<label class="col-md-5 label-control text-right">{t domain="wechat"}备注名：{/t}</label>
 										<div class="col-md-7 controls">
 											<span class="p_l10">
 												<span class="remark_info p_r5">{$info.remark}</span>
@@ -101,21 +101,21 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-md-5 label-control text-right">{lang key='wechat::wechat.lable_sex'}</label>
+										<label class="col-md-5 label-control text-right">{t domain="wechat"}性别：{/t}</label>
 										<div class="col-md-7 controls">
-											<span class="p_l10">{if $info['sex'] == 1}{lang key='wechat::wechat.male'}{else if $info.sex == 2}{lang key='wechat::wechat.female'}{/if}</span>
+											<span class="p_l10">{if $info['sex'] == 1}{t domain="wechat"}男{/t}{else if $info.sex == 2}{t domain="wechat"}女{/t}{/if}</span>
 										</div>
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-md-5 label-control text-right">{lang key='wechat::wechat.label_province'}</label>
+										<label class="col-md-5 label-control text-right">{t domain="wechat"}省-市：{/t}</label>
 										<div class="col-md-7 controls">
 											<span class="p_l10">{$info['province']} - {$info['city']}</span>
 										</div>
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-md-5 label-control text-right">{lang key='wechat::wechat.lable_user_group'}</label>
+										<label class="col-md-5 label-control text-right">{t domain="wechat"}用户组：{/t}</label>
 										<div class="col-md-7 controls">
 											<span class="p_l10">
 												<!-- {foreach from=$group_list item=val} -->
@@ -128,7 +128,7 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-md-5 label-control text-right">{lang key='wechat::wechat.label_subscribe_time'}</label>
+										<label class="col-md-5 label-control text-right">{t domain="wechat"}关注时间：{/t}</label>
 										<div class="col-md-7 controls">
 											<span class="p_l10">{$info['subscribe_time']}</span>
 										</div>

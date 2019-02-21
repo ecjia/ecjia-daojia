@@ -57,7 +57,6 @@ class platform_material extends ecjia_platform
     {
         parent::__construct();
 
-
         RC_Loader::load_app_func('global');
         Ecjia\App\Wechat\Helper::assign_adminlog_content();
 
@@ -72,9 +71,10 @@ class platform_material extends ecjia_platform
 
         RC_Script::enqueue_script('admin_material', RC_App::apps_url('statics/platform-js/admin_material.js', __FILE__), array(), false, true);
         RC_Style::enqueue_style('admin_material', RC_App::apps_url('statics/platform-css/admin_material.css', __FILE__));
-        RC_Script::localize_script('admin_material', 'js_lang', RC_Lang::get('wechat::wechat.js_lang'));
 
-        ecjia_platform_screen::get_current_screen()->set_subject('素材管理');
+        RC_Script::localize_script('admin_material', 'js_lang', config('app-wechat::jslang.platform_material_page'));
+
+        ecjia_platform_screen::get_current_screen()->set_subject(__('素材管理', 'wechat'));
     }
 
     /**
@@ -85,73 +85,74 @@ class platform_material extends ecjia_platform
         $this->admin_priv('wechat_material_manage');
 
         ecjia_platform_screen::get_current_screen()->remove_last_nav_here();
-        $nav_here = RC_Lang::get('wechat::wechat.forever_material');
+        $nav_here = __('永久素材', 'wechat');
 
         $material = $this->request->input('material') ? 1 : 0;
         if ($material != 1) {
-            $nav_here = RC_Lang::get('wechat::wechat.provisional_material');
+            $nav_here = __('临时素材', 'wechat');
         }
         ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here($nav_here));
 
-        $type = isset($_GET['type']) ? $_GET['type'] : '';
+        $type        = isset($_GET['type']) ? $_GET['type'] : '';
         $form_action = '';
         $action_link = '';
 
         if ($type == 'news') {
-            $action_link = array('text' => RC_Lang::get('wechat::wechat.add_images'), 'href' => RC_Uri::url('wechat/platform_material/add'));
-            $get_material_link = array('text' => '获取图文素材', 'href' => RC_Uri::url("wechat/platform_material/get_material", ['type' => 'news']));
+            $action_link       = array('text' => __('图文添加', 'wechat'), 'href' => RC_Uri::url('wechat/platform_material/add'));
+            $get_material_link = array('text' => __('获取图文素材', 'wechat'), 'href' => RC_Uri::url("wechat/platform_material/get_material", ['type' => 'news']));
 
             ecjia_platform_screen::get_current_screen()->set_help_sidebar(
-                '<p>图文素材：分为单图文、多图文素材。支持图片，语音，视频，缩略图素材。</p>' .
-                '<p>单图文素材添加好之后，即可将多条单图文素材组合成为一条多图文素材。</p>' .
-                '<p>★ 注意事项：单图文素材如果经过修改，则原先添加好的多图文素材需要重新组合。</p>'
+                sprintf('<p>%s</p><p>%s</p><p>%s</p>',
+                    __('图文素材：分为单图文、多图文素材。支持图片，语音，视频，缩略图素材。', 'wechat'),
+                    __('单图文素材添加好之后，即可将多条单图文素材组合成为一条多图文素材。', 'wechat'),
+                    __('★ 注意事项：单图文素材如果经过修改，则原先添加好的多图文素材需要重新组合。', 'wechat'))
             );
         } elseif ($type == 'image') {
-            $form_action = RC_Uri::url('wechat/platform_material/picture_insert');
-            $get_material_link = array('text' => '获取图片素材', 'href' => RC_Uri::url("wechat/platform_material/get_material", ['type' => 'image']));
+            $form_action       = RC_Uri::url('wechat/platform_material/picture_insert');
+            $get_material_link = array('text' => __('获取图片素材', 'wechat'), 'href' => RC_Uri::url("wechat/platform_material/get_material", ['type' => 'image']));
 
             if ($material) {
                 ecjia_platform_screen::get_current_screen()->set_help_sidebar(
-                    '<p>图片（image）素材大小: 2M，支持BMP/PNG/JPEG/JPG/GIF格式。</p>'
+                    sprintf('<p>%s</p>', __('图片（image）素材大小: 2M，支持BMP/PNG/JPEG/JPG/GIF格式。', 'wechat'))
                 );
             } else {
                 ecjia_platform_screen::get_current_screen()->set_help_sidebar(
-                    '<p>图片（image）素材大小: 2M，支持PNG/JPEG/JPG/GIF格式。</p>'
+                    sprintf('<p>%s</p>', __('图片（image）素材大小: 2M，支持PNG/JPEG/JPG/GIF格式。', 'wechat'))
                 );
             }
         } elseif ($type == 'voice') {
-            $form_action = RC_Uri::url('wechat/platform_material/voice_insert');
-            $get_material_link = array('text' => '获取语音素材', 'href' => RC_Uri::url("wechat/platform_material/get_material", ['type' => 'voice']));
+            $form_action       = RC_Uri::url('wechat/platform_material/voice_insert');
+            $get_material_link = array('text' => __('获取语音素材', 'wechat'), 'href' => RC_Uri::url("wechat/platform_material/get_material", ['type' => 'voice']));
 
             if ($material) {
                 ecjia_platform_screen::get_current_screen()->set_help_sidebar(
-                    '<p>语音（voice）素材大小：2M，播放长度不超过60s，mp3/wma/wav/amr格式。</p>'
+                    sprintf('<p>%s</p>', __('语音（voice）素材大小：2M，播放长度不超过60s，mp3/wma/wav/amr格式。', 'wechat'))
                 );
             } else {
                 ecjia_platform_screen::get_current_screen()->set_help_sidebar(
-                    '<p>语音（voice）素材大小：2M，播放长度不超过60s，支持AMR/MP3格式。</p>'
+                    sprintf('<p>%s</p>', __('语音（voice）素材大小：2M，播放长度不超过60s，支持AMR/MP3格式。', 'wechat'))
                 );
             }
         } elseif ($type == 'video') {
-            $action_link = array('text' => RC_Lang::get('wechat::wechat.add_video'), 'href' => RC_Uri::url('wechat/platform_material/video_add'));
-            $get_material_link = array('text' => '获取视频素材', 'href' => RC_Uri::url("wechat/platform_material/get_material", ['type' => 'video']));
+            $action_link       = array('text' => __('视频添加', 'wechat'), 'href' => RC_Uri::url('wechat/platform_material/video_add'));
+            $get_material_link = array('text' => __('获取视频素材', 'wechat'), 'href' => RC_Uri::url("wechat/platform_material/get_material", ['type' => 'video']));
 
             ecjia_platform_screen::get_current_screen()->set_help_sidebar(
-                '<p>视频（video）素材大小：10MB，支持MP4格式。</p>' .
-                '<p>建议直接使用优酷等第三方视频网站的视频地址。优点:不占用服务器资源，支持更大、更多格式的视频素材。</p>'
+                sprintf('<p>%s</p><p>%s</p>',
+                    __('视频（video）素材大小：10MB，支持MP4格式。', '建议直接使用优酷等第三方视频网站的视频地址。优点:不占用服务器资源，支持更大、更多格式的视频素材。', 'wechat'))
             );
         } elseif ($type == 'thumb') {
             $form_action = RC_Uri::url('wechat/platform_material/thumb_insert');
 
             ecjia_screen::get_current_screen()->set_help_sidebar(
-                '<p>缩略图（thumb）素材大小：64KB，支持JPG格式。</p>'
+                sprintf('<p>%s</p>', __('缩略图（thumb）素材大小：64KB，支持JPG格式。', 'wechat'))
             );
         }
 
         if ($material) {
-            $ur_here = '永久素材管理';
+            $ur_here = __('永久素材管理', 'wechat');
         } else {
-            $ur_here = '临时素材管理';
+            $ur_here = __('临时素材管理', 'wechat');
         }
 
         $this->assign('ur_here', $ur_here);
@@ -181,13 +182,12 @@ class platform_material extends ecjia_platform
 
         $material = 1;
 
-        $nav_here = RC_Lang::get('wechat::wechat.forever_material');
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here($nav_here, RC_Uri::url('wechat/platform_material/init', array('type' => 'news', 'material' => 1))));
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('wechat::wechat.add_images')));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('永久素材', 'wechat'), RC_Uri::url('wechat/platform_material/init', array('type' => 'news', 'material' => 1))));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('图文添加', 'wechat')));
         ecjia_platform_screen::get_current_screen()->set_sidebar_display(false);
 
-        $this->assign('ur_here', RC_Lang::get('wechat::wechat.add_images'));
-        $this->assign('action_link', array('text' => RC_Lang::get('wechat::wechat.material_manage'), 'href' => RC_Uri::url('wechat/platform_material/init', array('type' => 'news', 'material' => 1))));
+        $this->assign('ur_here', __('图文添加', 'wechat'));
+        $this->assign('action_link', array('text' => __('素材管理', 'wechat'), 'href' => RC_Uri::url('wechat/platform_material/init', array('type' => 'news', 'material' => 1))));
         $this->assign('form_action', RC_Uri::url('wechat/platform_material/insert'));
         $this->assign('action', 'article_add');
 
@@ -209,56 +209,56 @@ class platform_material extends ecjia_platform
 
         $id = intval($this->request->query('id', 0));
 
-        $title = !empty($_POST['title']) ? trim($_POST['title']) : '';
-        $author = !empty($_POST['author']) ? trim($_POST['author']) : '';
+        $title   = !empty($_POST['title']) ? trim($_POST['title']) : '';
+        $author  = !empty($_POST['author']) ? trim($_POST['author']) : '';
         $is_show = !empty($_POST['is_show']) ? intval($_POST['is_show']) : 0;
-        $digest = !empty($_POST['digest']) ? $_POST['digest'] : '';
-        $link = !empty($_POST['link']) ? trim($_POST['link']) : '';
+        $digest  = !empty($_POST['digest']) ? $_POST['digest'] : '';
+        $link    = !empty($_POST['link']) ? trim($_POST['link']) : '';
         $content = !empty($_POST['content']) ? stripslashes($_POST['content']) : '';
-        $sort = !empty($_POST['sort']) ? intval($_POST['sort']) : 0;
+        $sort    = !empty($_POST['sort']) ? intval($_POST['sort']) : 0;
 
         $thumb_media_id = $this->request->input('thumb_media_id');
 
         if (empty($title)) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.enter_images_title'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入图文标题', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (empty($content)) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.enter_main_body'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入正文', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (empty($thumb_media_id)) {
-            return $this->showmessage('图文素材的封面图片必须选择一个', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('图文素材的封面图片必须选择一个', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         try {
             $wechat_id = $this->platformAccount->getAccountID();
 
             $model = WechatMediaModel::where('wechat_id', $wechat_id)->thumbMediaId($thumb_media_id)->first();
             if (empty($model)) {
-                return $this->showmessage('图文素材的封面图片不是一个有效的素材，请更换一个封面素材。', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('图文素材的封面图片不是一个有效的素材，请更换一个封面素材。', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
-            $uuid = $this->platformAccount->getUUID();
+            $uuid   = $this->platformAccount->getUUID();
             $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
             //conent中图片下载并上传至微信素材中
             $content = $this->uploadMassMessageContentImages($wechat, $content);
 
             $data = array(
-                'wechat_id' => $wechat_id,
-                'title' => $title,
-                'author' => $author,
-                'is_show' => $is_show,
-                'digest' => $digest,
-                'link' => $link,
-                'content' => $content,
-                'sort' => $sort,
-                'thumb' => $thumb_media_id,
-                'file' => $model->file,
-                'size' => $model->size,
-                'file_name' => $model->file_name,
-                'add_time' => RC_Time::gmtime(),
-                'type' => 'news',
+                'wechat_id'   => $wechat_id,
+                'title'       => $title,
+                'author'      => $author,
+                'is_show'     => $is_show,
+                'digest'      => $digest,
+                'link'        => $link,
+                'content'     => $content,
+                'sort'        => $sort,
+                'thumb'       => $thumb_media_id,
+                'file'        => $model->file,
+                'size'        => $model->size,
+                'file_name'   => $model->file_name,
+                'add_time'    => RC_Time::gmtime(),
+                'type'        => 'news',
                 'is_material' => 'material',
             );
             if ($id) {
@@ -268,12 +268,12 @@ class platform_material extends ecjia_platform
             }
             // 上传单篇图文
             $article = new Royalcms\Component\WeChat\Message\Article([
-                'title' => $title,
-                'thumb_media_id' => $thumb_media_id,
-                'author' => $author,
-                'digest' => $digest,
-                'show_cover_pic' => $is_show,
-                'content' => $content,
+                'title'              => $title,
+                'thumb_media_id'     => $thumb_media_id,
+                'author'             => $author,
+                'digest'             => $digest,
+                'show_cover_pic'     => $is_show,
+                'content'            => $content,
                 'content_source_url' => $link,
             ]);
 
@@ -285,9 +285,9 @@ class platform_material extends ecjia_platform
             $id = RC_DB::table('wechat_media')->insertGetId($data);
             $this->admin_log($title, 'add', 'article_material');
 
-            $links[] = array('text' => RC_Lang::get('wechat::wechat.return_material_manage'), 'href' => RC_Uri::url('wechat/platform_material/init', array('type' => 'news', 'material' => 1)));
-            $links[] = array('text' => RC_Lang::get('wechat::wechat.continue_material_manage'), 'href' => RC_Uri::url('wechat/platform_material/add', array('material' => 1)));
-            return $this->showmessage(RC_Lang::get('wechat::wechat.add_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('wechat/platform_material/edit', array('id' => $id, 'material' => 1))));
+            $links[] = array('text' => __('返回素材管理', 'wechat'), 'href' => RC_Uri::url('wechat/platform_material/init', array('type' => 'news', 'material' => 1)));
+            $links[] = array('text' => __('继续添加素材', 'wechat'), 'href' => RC_Uri::url('wechat/platform_material/add', array('material' => 1)));
+            return $this->showmessage(__('添加成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('wechat/platform_material/edit', array('id' => $id, 'material' => 1))));
 
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
             return $this->showmessage(\Ecjia\App\Wechat\WechatErrorCodes::getError($e->getCode(), $e->getMessage()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -303,18 +303,18 @@ class platform_material extends ecjia_platform
     {
         $this->admin_priv('wechat_material_update');
 
-        $id = intval($_GET['id']);
+        $id        = intval($_GET['id']);
         $wechat_id = $this->platformAccount->getAccountID();
 
         $article = RC_DB::table('wechat_media')->where('wechat_id', $wechat_id)->where('id', $id)->where('type', 'news')->first();
         if (empty($article)) {
-            return $this->showmessage('该素材不存在', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该素材不存在', 'wechat'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }
 
         if ($article['parent_id'] > 0) {
             $parent_model = WechatMediaModel::where('wechat_id', $wechat_id)->find($article['parent_id']);
             if (empty($parent_model)) {
-                return $this->showmessage('父图文素材ID不存在。', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('父图文素材ID不存在。', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             $parent_id = $article['parent_id'];
         } else {
@@ -324,21 +324,21 @@ class platform_material extends ecjia_platform
             $article['file'] = RC_Upload::upload_url($article['file']);
         }
 
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('wechat::wechat.material_manage'), RC_Uri::url('wechat/platform_material/init', array('type' => 'news', 'material' => 1))));
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here('图文编辑'));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('素材管理', 'wechat'), RC_Uri::url('wechat/platform_material/init', array('type' => 'news', 'material' => 1))));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('图文编辑', 'wechat')));
         ecjia_platform_screen::get_current_screen()->set_sidebar_display(false);
 
-        $this->assign('ur_here', '图文编辑');
+        $this->assign('ur_here', __('图文编辑', 'wechat'));
         $this->assign('form_action', RC_Uri::url('wechat/platform_material/update', array('id' => $id)));
-        $this->assign('action_link', array('text' => RC_Lang::get('wechat::wechat.material_manage'), 'href' => RC_Uri::url('wechat/platform_material/init', array('type' => 'news', 'material' => 1))));
+        $this->assign('action_link', array('text' => __('素材管理', 'wechat'), 'href' => RC_Uri::url('wechat/platform_material/init', array('type' => 'news', 'material' => 1))));
         $this->assign('action', 'article_add');
         $this->assign('warn', 'warn');
 
         $wechat_type = $this->platformAccount->getType();
         $this->assign('wechat_type', $wechat_type);
 
-        $media_data = RC_DB::table('wechat_media')->where('wechat_id', $wechat_id)->where('id', $parent_id)->first();
-        $media_data['file'] = !empty($media_data['file']) ? RC_Upload::upload_url($media_data['file']) : RC_Uri::admin_url('statics/images/nopic.png');
+        $media_data             = RC_DB::table('wechat_media')->where('wechat_id', $wechat_id)->where('id', $parent_id)->first();
+        $media_data['file']     = !empty($media_data['file']) ? RC_Upload::upload_url($media_data['file']) : RC_Uri::admin_url('statics/images/nopic.png');
         $article['articles'][0] = $media_data;
 
         $db_wechat_media = RC_DB::table('wechat_media')->where('wechat_id', $wechat_id);
@@ -369,20 +369,20 @@ class platform_material extends ecjia_platform
     {
         $this->admin_priv('wechat_material_update', ecjia::MSGTYPE_JSON);
 
-        $id = !empty($_GET['id']) ? $_GET['id'] : 0;
-        $title = !empty($_POST['title']) ? trim($_POST['title']) : '';
-        $author = !empty($_POST['author']) ? trim($_POST['author']) : '';
+        $id      = !empty($_GET['id']) ? $_GET['id'] : 0;
+        $title   = !empty($_POST['title']) ? trim($_POST['title']) : '';
+        $author  = !empty($_POST['author']) ? trim($_POST['author']) : '';
         $is_show = !empty($_POST['is_show']) ? intval($_POST['is_show']) : 0;
-        $digest = !empty($_POST['digest']) ? $_POST['digest'] : '';
-        $link = !empty($_POST['link']) ? trim($_POST['link']) : '';
+        $digest  = !empty($_POST['digest']) ? $_POST['digest'] : '';
+        $link    = !empty($_POST['link']) ? trim($_POST['link']) : '';
         $content = !empty($_POST['content']) ? stripslashes($_POST['content']) : '';
-        $sort = !empty($_POST['sort']) ? intval($_POST['sort']) : 0;
-        $index = !empty($_POST['index']) ? intval($_POST['index']) : 0;
+        $sort    = !empty($_POST['sort']) ? intval($_POST['sort']) : 0;
+        $index   = !empty($_POST['index']) ? intval($_POST['index']) : 0;
 
         $thumb_media_id = $this->request->input('thumb_media_id');
 
         if (empty($id)) {
-            return $this->showmessage('图文素材ID不存在。', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('图文素材ID不存在。', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $wechat_id = $this->platformAccount->getAccountID();
@@ -390,54 +390,54 @@ class platform_material extends ecjia_platform
         //更新永久图文素材
         $model = WechatMediaModel::where('wechat_id', $wechat_id)->where('type', 'news')->find($id);
         if (empty($model)) {
-            return $this->showmessage('图文素材ID不存在。', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('图文素材ID不存在。', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (empty($title)) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.enter_images_title'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入图文标题', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (empty($thumb_media_id)) {
-            return $this->showmessage('图文素材的封面图片必须选择一个', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('图文素材的封面图片必须选择一个', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (empty($content)) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.enter_main_body'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入正文', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $thumb_model = WechatMediaModel::where('wechat_id', $wechat_id)->thumbMediaId($thumb_media_id)->first();
         if (empty($thumb_model)) {
-            return $this->showmessage('图文素材的封面图片不是一个有效的素材，请更换一个封面素材。', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('图文素材的封面图片不是一个有效的素材，请更换一个封面素材。', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         try {
-            $uuid = $this->platformAccount->getUUID();
+            $uuid   = $this->platformAccount->getUUID();
             $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
             if ($model->parent_id > 0 && $model->sort != $sort) {
                 $parent_model = WechatMediaModel::where('wechat_id', $wechat_id)->find($model->parent_id);
                 if (empty($parent_model)) {
-                    return $this->showmessage('父图文素材ID不存在。', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                    return $this->showmessage(__('父图文素材ID不存在。', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
                 $parent_model->wait_upload_article = 1;
                 $parent_model->save();
             }
 
             $content = $this->uploadMassMessageContentImages($wechat, $content);
-            $data = array(
-                'title' => $title,
-                'author' => $author,
+            $data    = array(
+                'title'   => $title,
+                'author'  => $author,
                 'is_show' => $is_show,
-                'digest' => $digest,
+                'digest'  => $digest,
                 'content' => $content,
-                'link' => $link == 'http://' ? '' : $link,
-                'sort' => $sort,
+                'link'    => $link == 'http://' ? '' : $link,
+                'sort'    => $sort,
             );
 
             if ($thumb_model->thumb != $thumb_media_id) {
-                $data['thumb'] = $thumb_media_id;
-                $data['file'] = $thumb_model->file;
-                $data['size'] = $thumb_model->size;
+                $data['thumb']     = $thumb_media_id;
+                $data['file']      = $thumb_model->file;
+                $data['size']      = $thumb_model->size;
                 $data['file_name'] = $thumb_model->file_name;
             }
 
@@ -445,15 +445,15 @@ class platform_material extends ecjia_platform
 
                 // 更新单篇图文
                 $article = new Royalcms\Component\WeChat\Message\Article([
-                    'title' => $title,
-                    'thumb_media_id' => $thumb_media_id,
-                    'author' => $author,
-                    'digest' => $digest,
-                    'show_cover_pic' => $is_show,
-                    'content' => $content,
+                    'title'              => $title,
+                    'thumb_media_id'     => $thumb_media_id,
+                    'author'             => $author,
+                    'digest'             => $digest,
+                    'show_cover_pic'     => $is_show,
+                    'content'            => $content,
                     'content_source_url' => $link == 'http://' ? '' : $link,
                 ]);
-                $msg = $wechat->material->updateArticle($model->parentNews->media_id, $article, $index);
+                $msg     = $wechat->material->updateArticle($model->parentNews->media_id, $article, $index);
             }
 
             //更新数据库
@@ -463,7 +463,7 @@ class platform_material extends ecjia_platform
             $title = RC_DB::table('wechat_media')->where('wechat_id', $wechat_id)->where('id', $id)->pluck('title');
             $this->admin_log($title, 'edit', 'article_material');
 
-            return $this->showmessage(RC_Lang::get('wechat::wechat.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/edit', array('id' => $id))));
+            return $this->showmessage(__('编辑成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/edit', array('id' => $id))));
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
             return $this->showmessage(\Ecjia\App\Wechat\WechatErrorCodes::getError($e->getCode(), $e->getMessage()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } catch (\BadMethodCallException $e) {
@@ -483,62 +483,62 @@ class platform_material extends ecjia_platform
         $this->admin_priv('wechat_material_update', ecjia::MSGTYPE_JSON);
 
         $parent_id = !empty($_GET['parent_id']) ? $_GET['parent_id'] : 0;
-        $title = !empty($_POST['title']) ? trim($_POST['title']) : '';
-        $author = !empty($_POST['author']) ? trim($_POST['author']) : '';
-        $is_show = !empty($_POST['is_show']) ? intval($_POST['is_show']) : 0;
-        $digest = !empty($_POST['digest']) ? $_POST['digest'] : '';
-        $link = !empty($_POST['link']) ? trim($_POST['link']) : '';
-        $content = !empty($_POST['content']) ? stripslashes($_POST['content']) : '';
-        $index = !empty($_POST['index']) ? intval($_POST['index']) : 0;
-        $sort = $index;
+        $title     = !empty($_POST['title']) ? trim($_POST['title']) : '';
+        $author    = !empty($_POST['author']) ? trim($_POST['author']) : '';
+        $is_show   = !empty($_POST['is_show']) ? intval($_POST['is_show']) : 0;
+        $digest    = !empty($_POST['digest']) ? $_POST['digest'] : '';
+        $link      = !empty($_POST['link']) ? trim($_POST['link']) : '';
+        $content   = !empty($_POST['content']) ? stripslashes($_POST['content']) : '';
+        $index     = !empty($_POST['index']) ? intval($_POST['index']) : 0;
+        $sort      = $index;
 
         $thumb_media_id = $this->request->input('thumb_media_id');
 
         if (empty($parent_id)) {
-            return $this->showmessage('父级图文素材ID不存在。', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('父级图文素材ID不存在。', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (empty($title)) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.enter_images_title'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入图文标题', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (empty($thumb_media_id)) {
-            return $this->showmessage('图文素材的封面图片必须选择一个', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('图文素材的封面图片必须选择一个', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (empty($content)) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.enter_main_body'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入正文', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $wechat_id = $this->platformAccount->getAccountID();
 
         $parent_model = WechatMediaModel::where('wechat_id', $wechat_id)->find($parent_id);
         if (empty($parent_model)) {
-            return $this->showmessage('父图文素材ID不存在。', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('父图文素材ID不存在。', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $thumb_model = WechatMediaModel::where('wechat_id', $wechat_id)->thumbMediaId($thumb_media_id)->first();
         if (empty($thumb_model)) {
-            return $this->showmessage('图文素材的封面图片不是一个有效的素材，请更换一个封面素材。', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('图文素材的封面图片不是一个有效的素材，请更换一个封面素材。', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $data = array(
-            'wechat_id' => $wechat_id,
-            'title' => $title,
-            'author' => $author,
-            'is_show' => $is_show,
-            'digest' => $digest,
-            'link' => $link == 'http://' ? '' : $link,
-            'content' => $content,
-            'sort' => $sort,
-            'thumb' => $thumb_media_id,
-            'file' => $thumb_model->file,
-            'size' => $thumb_model->size,
-            'file_name' => $thumb_model->file_name,
-            'add_time' => RC_Time::gmtime(),
-            'type' => 'news',
+            'wechat_id'   => $wechat_id,
+            'title'       => $title,
+            'author'      => $author,
+            'is_show'     => $is_show,
+            'digest'      => $digest,
+            'link'        => $link == 'http://' ? '' : $link,
+            'content'     => $content,
+            'sort'        => $sort,
+            'thumb'       => $thumb_media_id,
+            'file'        => $thumb_model->file,
+            'size'        => $thumb_model->size,
+            'file_name'   => $thumb_model->file_name,
+            'add_time'    => RC_Time::gmtime(),
+            'type'        => 'news',
             'is_material' => 'material',
-            'parent_id' => $parent_id,
+            'parent_id'   => $parent_id,
         );
 
         //标记父图文素材等待上传中
@@ -551,7 +551,7 @@ class platform_material extends ecjia_platform
         $id = RC_DB::table('wechat_media')->insertGetId($data);
         $this->admin_log($title, 'add', 'article_material');
 
-        return $this->showmessage(RC_Lang::get('wechat::wechat.add_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/edit', array('id' => $id, 'material' => 1))));
+        return $this->showmessage(__('添加成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/edit', array('id' => $id, 'material' => 1))));
     }
 
     /**
@@ -564,7 +564,7 @@ class platform_material extends ecjia_platform
         $id = !empty($_GET['id']) ? $_GET['id'] : 0;
 
         if (empty($id)) {
-            return $this->showmessage('图文素材ID不存在。', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('图文素材ID不存在。', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $wechat_id = $this->platformAccount->getAccountID();
@@ -572,12 +572,12 @@ class platform_material extends ecjia_platform
         //查找多图文素材
         $model = WechatMediaModel::where('wechat_id', $wechat_id)->where('type', 'news')->find($id);
         if (empty($model)) {
-            return $this->showmessage('图文素材ID不存在。', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('图文素材ID不存在。', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $parent_model = WechatMediaModel::where('wechat_id', $wechat_id)->where('type', 'news')->find($model->parent_id);
         if (empty($parent_model)) {
-            return $this->showmessage('父图文素材ID不存在。', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('父图文素材ID不存在。', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         //标记父图文素材等待上传中
@@ -588,7 +588,7 @@ class platform_material extends ecjia_platform
 
         $model->delete();
 
-        return $this->showmessage(sprintf("移除%s图文素材成功", $model->title), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/edit', array('id' => $model->parent_id, 'material' => 1))));
+        return $this->showmessage(sprintf(__("移除%s图文素材成功", 'wechat'), $model->title), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/edit', array('id' => $model->parent_id, 'material' => 1))));
     }
 
     /**
@@ -605,11 +605,11 @@ class platform_material extends ecjia_platform
         //查找多图文素材
         $model = WechatMediaModel::where('wechat_id', $wechat_id)->where('parent_id', 0)->find($id);
         if (empty($model)) {
-            return $this->showmessage('多图文素材ID不存在。', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('多图文素材ID不存在。', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         try {
-            $uuid = $this->platformAccount->getUUID();
+            $uuid   = $this->platformAccount->getUUID();
             $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
             $data = WechatMediaModel::where('parent_id', $id)->where('type', 'news')->orderBy('sort', 'asc')->orderBy('id', 'asc')->get();
@@ -619,12 +619,12 @@ class platform_material extends ecjia_platform
                 $articles = $data->map(function ($item) {
                     // 更新单篇图文
                     $article = new Royalcms\Component\WeChat\Message\Article([
-                        'title' => $item->title,
-                        'thumb_media_id' => $item->thumb,
-                        'author' => $item->author,
-                        'digest' => $item->digest,
-                        'show_cover_pic' => $item->is_show,
-                        'content' => $item->content,
+                        'title'              => $item->title,
+                        'thumb_media_id'     => $item->thumb,
+                        'author'             => $item->author,
+                        'digest'             => $item->digest,
+                        'show_cover_pic'     => $item->is_show,
+                        'content'            => $item->content,
                         'content_source_url' => $item->link == 'http://' ? '' : $item->link,
                     ]);
 
@@ -643,7 +643,7 @@ class platform_material extends ecjia_platform
                 }
                 $model->save();
 
-                return $this->showmessage('多图文素材发布成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/edit', array('id' => $id))));
+                return $this->showmessage(__('多图文素材发布成功！', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/edit', array('id' => $id))));
             }
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
             return $this->showmessage(\Ecjia\App\Wechat\WechatErrorCodes::getError($e->getCode(), $e->getMessage()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -657,36 +657,36 @@ class platform_material extends ecjia_platform
     {
         $this->admin_priv('wechat_material_update', ecjia::MSGTYPE_JSON);
 
-        $id = !empty($_GET['id']) ? $_GET['id'] : 0;
+        $id        = !empty($_GET['id']) ? $_GET['id'] : 0;
         $wechat_id = $this->platformAccount->getAccountID();
 
         //查找多图文素材
         $model = WechatMediaModel::where('wechat_id', $wechat_id)->where('type', 'news')->find($id);
         if (empty($model)) {
-            return $this->showmessage('图文素材ID不存在。', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('图文素材ID不存在。', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         try {
-            $uuid = $this->platformAccount->getUUID();
+            $uuid   = $this->platformAccount->getUUID();
             $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
             $rs = $wechat->material->get($model->media_id);
 
             $data = [
-                'item' => [
+                'item'        => [
                     [
-                        'media_id' => $model->media_id,
-                        'content' => $rs,
+                        'media_id'    => $model->media_id,
+                        'content'     => $rs,
                         'update_time' => SYS_TIME,
                     ],
                 ],
                 'total_count' => 1,
-                'item_count' => 1,
+                'item_count'  => 1,
             ];
 
             with(new \Ecjia\App\Wechat\Synchronizes\NewsMaterialStorage($wechat_id, 'news', collect($data), $wechat))->save();
 
-            return $this->showmessage('获取素材成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/edit', array('id' => $id))));
+            return $this->showmessage(__('获取素材成功！', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/edit', array('id' => $id))));
 
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
             return $this->showmessage(\Ecjia\App\Wechat\WechatErrorCodes::getError($e->getCode(), $e->getMessage()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -706,7 +706,7 @@ class platform_material extends ecjia_platform
         $id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
 
         if (empty($id)) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.select_material'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请选择素材', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $wechat_id = $this->platformAccount->getAccountID();
@@ -714,14 +714,14 @@ class platform_material extends ecjia_platform
         //判断素材是否正在被使用
         $count = Ecjia\App\Wechat\Models\WechatReplyModel::where('wechat_id', $wechat_id)->where('type', 'news')->where('media_id', $id)->count();
         if ($count != 0) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.news_used'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该图文正在被使用，不能删除', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $model = Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->where('type', 'news')->where('parent_id', 0)->first();
         try {
             if ($model->media_id) {
 
-                $uuid = $this->platformAccount->getUUID();
+                $uuid   = $this->platformAccount->getUUID();
                 $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
                 //删除永久素材
@@ -740,7 +740,7 @@ class platform_material extends ecjia_platform
 
             $this->admin_log($model['title'], 'remove', 'article_material');
 
-            return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+            return $this->showmessage(__('删除成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
             return $this->showmessage(\Ecjia\App\Wechat\WechatErrorCodes::getError($e->getCode(), $e->getMessage()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -775,38 +775,37 @@ class platform_material extends ecjia_platform
 
         try {
             $wechat_id = $this->platformAccount->getAccountID();
-            $uuid = $this->platformAccount->getUUID();
-            $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
+            $uuid      = $this->platformAccount->getUUID();
+            $wechat    = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
             //永久素材
             if ($material === 1) {
                 $rs = $wechat->material->uploadImage(RC_Upload::upload_path($file_path));
-            }
-            //临时素材
+            } //临时素材
             else {
                 $rs = $wechat->material_temporary->uploadImage(RC_Upload::upload_path($file_path));
             }
 
             $data = array(
-                'title' => '',
-                'author' => '',
-                'is_show' => 0,
-                'link' => '',
-                'sort' => 0,
-                'digest' => '',
-                'content' => '',
-                'file' => $file_path,
-                'type' => 'image',
+                'title'     => '',
+                'author'    => '',
+                'is_show'   => 0,
+                'link'      => '',
+                'sort'      => 0,
+                'digest'    => '',
+                'content'   => '',
+                'file'      => $file_path,
+                'type'      => 'image',
                 'file_name' => $_FILES['img_url']['name'],
-                'add_time' => RC_Time::gmtime(),
-                'size' => $_FILES['img_url']['size'],
+                'add_time'  => RC_Time::gmtime(),
+                'size'      => $_FILES['img_url']['size'],
                 'wechat_id' => $wechat_id,
             );
 
             //永久素材有media_url
             if ($material) {
                 $data['is_material'] = 'material';
-                $data['media_url'] = $rs['url'];
+                $data['media_url']   = $rs['url'];
             }
 
             $data['media_id'] = $rs['media_id'];
@@ -815,7 +814,7 @@ class platform_material extends ecjia_platform
 
             $this->admin_log($_FILES['img_url']['name'], 'add', 'picture_material');
 
-            return $this->showmessage(RC_Lang::get('wechat::wechat.upload_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/init', array('type' => 'image', 'material' => $material))));
+            return $this->showmessage(__('上传成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/init', array('type' => 'image', 'material' => $material))));
 
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
             return $this->showmessage(\Ecjia\App\Wechat\WechatErrorCodes::getError($e->getCode(), $e->getMessage()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -831,7 +830,7 @@ class platform_material extends ecjia_platform
 
         $id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
         if (empty($id)) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.select_material'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请选择素材', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $wechat_id = $this->platformAccount->getAccountID();
@@ -839,7 +838,7 @@ class platform_material extends ecjia_platform
         //判断素材是否正在被使用
         $count = Ecjia\App\Wechat\Models\WechatReplyModel::where('wechat_id', $wechat_id)->where('media_id', $id)->count();
         if ($count != 0) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.images_beused'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该图片正在被使用，不能删除', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $model = Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->where('type', 'image')->first();
@@ -848,9 +847,9 @@ class platform_material extends ecjia_platform
             if (!empty($model)) {
                 if ($model->is_material == 'material' && ($model->media_id || $model->thumb)) {
 
-                    $uuid = $this->platformAccount->getUUID();
+                    $uuid   = $this->platformAccount->getUUID();
                     $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
-                    
+
                     //删除永久素材
                     $rs = $wechat->material->delete($model->media_id);
                 }
@@ -862,11 +861,11 @@ class platform_material extends ecjia_platform
                 Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->delete();
 
                 $this->admin_log($model['file_name'], 'remove', 'picture_material');
-                return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+                return $this->showmessage(__('删除成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 
             }
 
-            return $this->showmessage('素材ID未找到', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('素材ID未找到', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
             return $this->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -901,41 +900,39 @@ class platform_material extends ecjia_platform
 
         try {
             $wechat_id = $this->platformAccount->getAccountID();
-            $uuid = $this->platformAccount->getUUID();
-            $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
+            $uuid      = $this->platformAccount->getUUID();
+            $wechat    = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
             //永久素材
             if ($material) {
                 $rs = $wechat->material->uploadThumb(RC_Upload::upload_path($file_path));
-            }
-            //临时素材
+            } //临时素材
             else {
                 $rs = $wechat->material_temporary->uploadThumb(RC_Upload::upload_path($file_path));
             }
 
             $data = array(
-                'title' => '',
-                'author' => '',
-                'is_show' => 0,
-                'link' => '',
-                'sort' => 0,
-                'digest' => '',
-                'content' => '',
-                'file' => $file_path,
-                'type' => 'thumb',
+                'title'     => '',
+                'author'    => '',
+                'is_show'   => 0,
+                'link'      => '',
+                'sort'      => 0,
+                'digest'    => '',
+                'content'   => '',
+                'file'      => $file_path,
+                'type'      => 'thumb',
                 'file_name' => $_FILES['img_url']['name'],
-                'add_time' => RC_Time::gmtime(),
-                'size' => $_FILES['img_url']['size'],
+                'add_time'  => RC_Time::gmtime(),
+                'size'      => $_FILES['img_url']['size'],
                 'wechat_id' => $wechat_id,
             );
 
             //永久素材处理
             if ($material) {
                 $data['is_material'] = 'material';
-                $data['media_id'] = $rs['media_id'];
-                $data['media_url'] = $rs['url'];
-            }
-            //临时素材上传获取的是thumb_media_id，特别注意
+                $data['media_id']    = $rs['media_id'];
+                $data['media_url']   = $rs['url'];
+            } //临时素材上传获取的是thumb_media_id，特别注意
             else {
                 $data['media_id'] = $rs['thumb_media_id'];
             }
@@ -944,7 +941,7 @@ class platform_material extends ecjia_platform
 
             $this->admin_log($_FILES['img_url']['name'], 'add', 'thumb_material');
 
-            return $this->showmessage(RC_Lang::get('wechat::wechat.upload_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/init', array('type' => 'thumb', 'material' => $material))));
+            return $this->showmessage(__('上传成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/init', array('type' => 'thumb', 'material' => $material))));
 
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
             return $this->showmessage(\Ecjia\App\Wechat\WechatErrorCodes::getError($e->getCode(), $e->getMessage()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -962,7 +959,7 @@ class platform_material extends ecjia_platform
 
         $id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
         if (empty($id)) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.select_material'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请选择素材', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $wechat_id = $this->platformAccount->getAccountID();
@@ -970,7 +967,7 @@ class platform_material extends ecjia_platform
         //判断素材是否正在被使用
         $count = Ecjia\App\Wechat\Models\WechatReplyModel::where('wechat_id', $wechat_id)->where('media_id', $id)->count();
         if ($count != 0) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.thumb_used'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该缩略图正在被使用，不能删除', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $model = Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->where('type', 'thumb')->first();
@@ -979,7 +976,7 @@ class platform_material extends ecjia_platform
             if (!empty($model)) {
 
                 if ($model->is_material == 'material' && $model->media_id) {
-                    $uuid = $this->platformAccount->getUUID();
+                    $uuid   = $this->platformAccount->getUUID();
                     $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
                     //删除永久素材
@@ -993,7 +990,7 @@ class platform_material extends ecjia_platform
                 Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->delete();
 
                 $this->admin_log($model['file_name'], 'remove', 'thumb_material');
-                return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+                return $this->showmessage(__('删除成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
             }
 
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
@@ -1029,31 +1026,30 @@ class platform_material extends ecjia_platform
 
         try {
             $wechat_id = $this->platformAccount->getAccountID();
-            $uuid = $this->platformAccount->getUUID();
-            $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
+            $uuid      = $this->platformAccount->getUUID();
+            $wechat    = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
             //永久素材
             if ($material === 1) {
                 $rs = $wechat->material->uploadVoice(RC_Upload::upload_path($file_path));
-            }
-            //临时素材
+            } //临时素材
             else {
                 $rs = $wechat->material_temporary->uploadVoice(RC_Upload::upload_path($file_path));
             }
 
             $data = array(
-                'title' => '',
-                'author' => '',
-                'is_show' => 0,
-                'link' => '',
-                'sort' => 0,
-                'digest' => '',
-                'content' => '',
-                'file' => $file_path,
-                'type' => 'voice',
+                'title'     => '',
+                'author'    => '',
+                'is_show'   => 0,
+                'link'      => '',
+                'sort'      => 0,
+                'digest'    => '',
+                'content'   => '',
+                'file'      => $file_path,
+                'type'      => 'voice',
                 'file_name' => $_FILES['img_url']['name'],
-                'add_time' => RC_Time::gmtime(),
-                'size' => $_FILES['img_url']['size'],
+                'add_time'  => RC_Time::gmtime(),
+                'size'      => $_FILES['img_url']['size'],
                 'wechat_id' => $wechat_id,
             );
 
@@ -1068,7 +1064,7 @@ class platform_material extends ecjia_platform
 
             $this->admin_log($_FILES['img_url']['name'], 'add', 'voice_material');
 
-            return $this->showmessage(RC_Lang::get('wechat::wechat.upload_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/init', array('type' => 'voice', 'material' => $material))));
+            return $this->showmessage(__('上传成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/init', array('type' => 'voice', 'material' => $material))));
 
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
             return $this->showmessage(\Ecjia\App\Wechat\WechatErrorCodes::getError($e->getCode(), $e->getMessage()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -1084,7 +1080,7 @@ class platform_material extends ecjia_platform
 
         $id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
         if (empty($id)) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.select_material'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请选择素材', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $wechat_id = $this->platformAccount->getAccountID();
@@ -1092,7 +1088,7 @@ class platform_material extends ecjia_platform
         //判断素材是否正在被使用
         $count = Ecjia\App\Wechat\Models\WechatReplyModel::where('wechat_id', $wechat_id)->where('media_id', $id)->count();
         if ($count != 0) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.voice_used'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该语音正在被使用，不能删除', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $model = Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->where('type', 'voice')->first();
@@ -1101,7 +1097,7 @@ class platform_material extends ecjia_platform
             if (!empty($model)) {
 
                 if ($model->is_material == 'material' && $model->media_id) {
-                    $uuid = $this->platformAccount->getUUID();
+                    $uuid   = $this->platformAccount->getUUID();
                     $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
                     //删除永久素材
@@ -1116,7 +1112,7 @@ class platform_material extends ecjia_platform
                 Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->delete();
 
                 $this->admin_log($model['file_name'], 'remove', 'voice_material');
-                return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+                return $this->showmessage(__('删除成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 
             }
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
@@ -1135,21 +1131,21 @@ class platform_material extends ecjia_platform
 
         $material = $this->request->input('material') ? 1 : 0;
 
-        $nav_here = RC_Lang::get('wechat::wechat.forever_material');
+        $nav_here = __('永久素材', 'wechat');
         if ($material != 1) {
-            $nav_here = RC_Lang::get('wechat::wechat.provisional_material');
+            $nav_here = __('临时素材', 'wechat');
         }
 
         ecjia_platform_screen::get_current_screen()->remove_last_nav_here();
         ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here($nav_here, RC_Uri::url('wechat/platform_material/init', array('type' => 'video', 'material' => $material))));
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('wechat::wechat.add_video')));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('视频添加', 'wechat')));
+
         ecjia_platform_screen::get_current_screen()->set_help_sidebar(
-            '<p>视频（video）素材大小：10MB，支持MP4格式。</p>' .
-            '<p>建议直接使用优酷等第三方视频网站的视频地址。优点:不占用服务器资源，支持更大、更多格式的视频素材。</p>'
+            sprintf('<p>%s</p><p>%s</p>', __('视频（video）素材大小：10MB，支持MP4格式。', 'wechat'), __('建议直接使用优酷等第三方视频网站的视频地址。优点:不占用服务器资源，支持更大、更多格式的视频素材。', 'wechat'))
         );
 
-        $this->assign('ur_here', RC_Lang::get('wechat::wechat.add_video'));
-        $this->assign('action_link', array('text' => RC_Lang::get('wechat::wechat.material_manage'), 'href' => RC_Uri::url('wechat/platform_material/init', array('type' => 'video', 'material' => $material))));
+        $this->assign('ur_here', __('视频添加', 'wechat'));
+        $this->assign('action_link', array('text' => __('素材管理', 'wechat'), 'href' => RC_Uri::url('wechat/platform_material/init', array('type' => 'video', 'material' => $material))));
         $this->assign('form_action', RC_Uri::url('wechat/platform_material/video_insert', array('material' => $material)));
         $this->assign('action', 'video_add');
         $this->assign('button_type', 'add');
@@ -1174,19 +1170,19 @@ class platform_material extends ecjia_platform
         $wechat_id = $this->platformAccount->getAccountID();
 
         $material = $this->request->input('material') ? 1 : 0;
-        $title = $this->request->input('video_title');
-        $digest = $this->request->input('video_digest');
+        $title    = $this->request->input('video_title');
+        $digest   = $this->request->input('video_digest');
 
         if (empty($title)) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.enter_title'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入标题！', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if ($material == 1) {
             if (empty($digest)) {
-                return $this->showmessage(RC_Lang::get('wechat::wechat.video_intro'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请输入视频简介！', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
         if (empty($_FILES['video'])) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.upload_viedo'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请上传视频！', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $upload = RC_Upload::uploader('file', array('save_path' => 'data/material/video', 'auto_sub_dirs' => false));
@@ -1207,27 +1203,26 @@ class platform_material extends ecjia_platform
 
         try {
 
-            $uuid = $this->platformAccount->getUUID();
+            $uuid   = $this->platformAccount->getUUID();
             $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
             //永久素材
             if ($material === 1) {
                 $rs = $wechat->material->uploadVideo(RC_Upload::upload_path($file_path), $title, $digest);
-            }
-            //临时素材
+            } //临时素材
             else {
                 $rs = $wechat->material_temporary->uploadVideo(RC_Upload::upload_path($file_path));
             }
 
             $data = array(
-                'title' => $title,
-                'digest' => $digest,
-                'is_show' => 0,
-                'file' => $file_path,
+                'title'     => $title,
+                'digest'    => $digest,
+                'is_show'   => 0,
+                'file'      => $file_path,
                 'file_name' => $_FILES['video']['name'],
-                'add_time' => RC_Time::gmtime(),
-                'type' => 'video',
-                'size' => $_FILES['video']['size'],
+                'add_time'  => RC_Time::gmtime(),
+                'type'      => 'video',
+                'size'      => $_FILES['video']['size'],
                 'wechat_id' => $wechat_id,
             );
 
@@ -1243,11 +1238,11 @@ class platform_material extends ecjia_platform
             $this->admin_log($title, 'add', 'video_material');
 
             if ($id) {
-                $links[] = array('text' => RC_Lang::get('wechat::wechat.return_material_manage'), 'href' => RC_Uri::url('wechat/platform_material/init', array('type' => 'video', 'material' => $material)));
-                $links[] = array('text' => RC_Lang::get('wechat::wechat.continue_add_video'), 'href' => RC_Uri::url('wechat/platform_material/video_add', array('material' => $material)));
-                return $this->showmessage(RC_Lang::get('wechat::wechat.add_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('wechat/platform_material/init', array('type' => 'video', 'material' => $material))));
+                $links[] = array('text' => __('返回素材管理', 'wechat'), 'href' => RC_Uri::url('wechat/platform_material/init', array('type' => 'video', 'material' => $material)));
+                $links[] = array('text' => __('继续添加视频', 'wechat'), 'href' => RC_Uri::url('wechat/platform_material/video_add', array('material' => $material)));
+                return $this->showmessage(__('添加成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('wechat/platform_material/init', array('type' => 'video', 'material' => $material))));
             } else {
-                return $this->showmessage(RC_Lang::get('wechat::wechat.add_failed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('添加失败', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
@@ -1266,10 +1261,10 @@ class platform_material extends ecjia_platform
 
         $id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
         if (empty($id)) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.select_material'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请选择素材', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        $uuid = $this->platformAccount->getUUID();
+        $uuid   = $this->platformAccount->getUUID();
         $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
         $wechat_id = $this->platformAccount->getAccountID();
@@ -1277,7 +1272,7 @@ class platform_material extends ecjia_platform
         //判断素材是否正在被使用
         $count = Ecjia\App\Wechat\Models\WechatReplyModel::where('wechat_id', $wechat_id)->where('media_id', $id)->count();
         if ($count != 0) {
-            return $this->showmessage(RC_Lang::get('wechat::wechat.video_used'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该视频正在被使用，不能删除', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $model = Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->where('type', 'video')->first();
@@ -1297,7 +1292,7 @@ class platform_material extends ecjia_platform
                 Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('id', $id)->delete();
 
                 $this->admin_log($model['title'], 'remove', 'video_material');
-                return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+                return $this->showmessage(__('删除成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 
             }
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
@@ -1320,7 +1315,7 @@ class platform_material extends ecjia_platform
         $wechat_id = $this->platformAccount->getAccountID();
 
         try {
-            $uuid = $this->platformAccount->getUUID();
+            $uuid   = $this->platformAccount->getUUID();
             $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
             //图文素材数据量比较大，容易超时，每次同步10条
@@ -1330,15 +1325,15 @@ class platform_material extends ecjia_platform
                 $pagesize = 20;
             }
 
-            $start = $pagesize * ($page - 1);
+            $start     = $pagesize * ($page - 1);
             $get_count = $pagesize * $page;
 
-            $rs = $wechat->material->lists($type, $start, $pagesize);
+            $rs    = $wechat->material->lists($type, $start, $pagesize);
             $count = $rs['item_count'];
 
             //最后一页，直接返回结束
             if ($count == 0) {
-                return $this->showmessage('获取完成', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/init', array('type' => $type, 'material' => 1))));
+                return $this->showmessage(__('获取完成', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_material/init', array('type' => $type, 'material' => 1))));
             } else {
                 //还有下一页
                 $page++;
@@ -1347,7 +1342,7 @@ class platform_material extends ecjia_platform
             with(new \Ecjia\App\Wechat\Synchronizes\MaterialStorage($wechat_id, $type, $rs, $wechat))->save();
 
             //返回成功提示，继续请求下一条
-            return $this->showmessage('已获取' . $get_count . '条素材', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('wechat/platform_material/get_material', array('type' => $type)), 'page' => $page));
+            return $this->showmessage(sprintf(__('已获取 %s 条素材', 'wechat'), $get_count), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('wechat/platform_material/get_material', array('type' => $type)), 'page' => $page));
 
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
             return $this->showmessage(\Ecjia\App\Wechat\WechatErrorCodes::getError($e->getCode(), $e->getMessage()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -1368,12 +1363,12 @@ class platform_material extends ecjia_platform
 
         $wechat_id = $this->platformAccount->getAccountID();
 
-        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-        $val = isset($_GET['val']) ? $_GET['val'] : '';
+        $id   = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        $val  = isset($_GET['val']) ? $_GET['val'] : '';
         $type = isset($_GET['type']) ? $_GET['type'] : '';
         if ($type == 'voice' || $type == 'picture') {
             if (empty($val)) {
-                return $this->showmessage(RC_Lang::get('wechat::wechat.enter_filename'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请输入文件名称！', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             RC_DB::table('wechat_media')->where('wechat_id', $wechat_id)->where('id', $id)->update(array('file_name' => $val));
             if ($type == 'voice') {
@@ -1383,13 +1378,13 @@ class platform_material extends ecjia_platform
             }
         } else {
             if (empty($val)) {
-                return $this->showmessage(RC_Lang::get('wechat::wechat.enter_title'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请输入标题！', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             RC_DB::table('wechat_media')->where('wechat_id', $wechat_id)->where('id', $id)->update(array('title' => $val));
 
             $this->admin_log($val, 'edit', 'article_material');
         }
-        return $this->showmessage(RC_Lang::get('wechat::wechat.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        return $this->showmessage(__('编辑成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 
     public function search()
@@ -1398,7 +1393,7 @@ class platform_material extends ecjia_platform
         $wechat_id = $this->platformAccount->getAccountID();
 
         $keyword = !empty($_POST['keyword']) ? trim($_POST['keyword']) : '';
-        $arr = RC_DB::table('wechat_media')
+        $arr     = RC_DB::table('wechat_media')
             ->select('id', 'file')
             ->where('wechat_id', $wechat_id)
             ->where('type', 'news')
@@ -1407,8 +1402,8 @@ class platform_material extends ecjia_platform
 
         if (empty($arr)) {
             $arr = array(0 => array(
-                'id' => 0,
-                'file' => RC_Lang::get('wechat::wechat.nosearch_record'),
+                'id'   => 0,
+                'file' => __('没有找到相应记录,请重新搜索', 'wechat'),
             ));
         } else {
             foreach ($arr as $key => $item) {
@@ -1425,10 +1420,10 @@ class platform_material extends ecjia_platform
         $wechat_id = $this->platformAccount->getAccountID();
 
         $material = !empty($_GET['material']) ? 'material' : null;
-        $type = !empty($_POST['type']) ? trim($_POST['type']) : '';
+        $type     = !empty($_POST['type']) ? trim($_POST['type']) : '';
 
         $wechat_media_model = Ecjia\App\Wechat\Models\WechatMediaModel::where('wechat_id', $wechat_id)->where('type', $type);
-        $size = 18;
+        $size               = 18;
         if ($type == 'news') {
             $size = 8;
             $wechat_media_model->where('parent_id', 0)->where('wait_upload_article', 0);
@@ -1436,20 +1431,20 @@ class platform_material extends ecjia_platform
         $wechat_media_model->where('is_material', $material);
 
         $count = $wechat_media_model->count();
-        $page = new ecjia_platform_page($count, $size, 5);
-        $data = $wechat_media_model->select('*')->take($size)->skip($page->start_id - 1)->orderBy('edit_time', 'desc')->orderBy('add_time', 'desc')->orderBy('id', 'desc')->get();
+        $page  = new ecjia_platform_page($count, $size, 5);
+        $data  = $wechat_media_model->select('*')->take($size)->skip($page->start_id - 1)->orderBy('edit_time', 'desc')->orderBy('add_time', 'desc')->orderBy('id', 'desc')->get();
 
         $newData = $data->map(function ($item) {
-            $item->add_time = RC_Time::local_date(RC_Lang::get('wechat::wechat.date_nj'), $item->add_time);
+            $item->add_time = RC_Time::local_date(__('n月j日', 'wechat'), $item->add_time);
             if (empty($item->file)) {
                 $item->file = RC_Uri::admin_url('statics/images/nopic.png');
             } else {
                 if ($item->type == 'voice') {
                     $item->thumb = RC_App::apps_url('statics/images/voice.png', __FILE__);
-                    $item->file = RC_Upload::upload_url($item->file);
+                    $item->file  = RC_Upload::upload_url($item->file);
                 } elseif ($item->type == 'video') {
                     $item->thumb = RC_App::apps_url('statics/images/video.png', __FILE__);
-                    $item->file = RC_Upload::upload_url($item->file);
+                    $item->file  = RC_Upload::upload_url($item->file);
                 } else {
                     $item->file = RC_Upload::upload_url($item->file);
                 }
@@ -1464,16 +1459,16 @@ class platform_material extends ecjia_platform
             if ($item->type == 'news') {
                 $subNews = $item->subNews;
                 if (!$subNews->isEmpty()) {
-                    $newSubNews = $subNews->map(function ($item) {
+                    $newSubNews          = $subNews->map(function ($item) {
                         if (empty($item->file)) {
                             $item->file = RC_Uri::admin_url('statics/images/nopic.png');
                         } else {
                             $item->file = RC_Upload::upload_url($item->file);
                         }
                         return [
-                            'id' => $item->id,
-                            'title' => $item->title,
-                            'file' => $item->file,
+                            'id'        => $item->id,
+                            'title'     => $item->title,
+                            'file'      => $item->file,
                             'file_name' => $item->file_name,
                         ];
                     });
@@ -1484,27 +1479,27 @@ class platform_material extends ecjia_platform
         });
 
         if (is_ecjia_error($wechat_id)) {
-            $this->assign('errormsg', RC_Lang::get('wechat::wechat.operate_before_pub'));
+            $this->assign('errormsg', __('请先添加公众号，再进行后续操作', 'wechat'));
         }
-        $wechat_type = $this->platformAccount->getType();
+        $wechat_type      = $this->platformAccount->getType();
+        $wechat_type_list = array(__('未认证的公众号', 'wechat'), __('订阅号', 'wechat'), __('服务号', 'wechat'), __('测试账号', 'wechat'), __('企业号', 'wechat'));
+
         $this->assign('wechat_type', $wechat_type);
-        $this->assign('type_error', sprintf(RC_Lang::get('wechat::wechat.notice_service_info'), RC_Lang::get('wechat::wechat.wechat_type.' . $wechat_type)));
+        $this->assign('type_error', sprintf(__('抱歉！您的公众号属于%s类型，该模块目前只支持“认证服务号”类型的公众号。', 'wechat'), $wechat_type_list[$wechat_type]));
 
         $list = $newData->all();
         $this->assign('list', $list);
         $this->assign('type', $type);
 
-        $title = sprintf(RC_Lang::get('wechat::wechat.material_type_title'), RC_Lang::get('wechat::wechat.' . $type));
         $data = $this->fetch('library/wechat_choose_material_list.lbi');
-
-        return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $data, 'title' => $title, 'page' => $page->show(5)));
+        return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $data, 'page' => $page->show(5)));
     }
 
     public function get_material_info()
     {
         $wechat_id = $this->platformAccount->getAccountID();
 
-        $id = intval($_GET['id']);
+        $id   = intval($_GET['id']);
         $info = RC_DB::table('wechat_media')->where('wechat_id', $wechat_id)->where('id', $id)->first();
 
         $info['type'] = isset($info['type']) ? $info['type'] : '';
@@ -1567,11 +1562,11 @@ class platform_material extends ecjia_platform
         }
 
         $count = $sumdata->$type;
-        $page = new ecjia_platform_page($count, $pageSize, 5);
-        $data = $wechat_media_model->orderBy('sort', 'asc')->orderBy('edit_time', 'desc')->orderBy('add_time', 'desc')->orderBy('id', 'desc')->take($pageSize)->skip($page->start_id - 1)->get();
+        $page  = new ecjia_platform_page($count, $pageSize, 5);
+        $data  = $wechat_media_model->orderBy('sort', 'asc')->orderBy('edit_time', 'desc')->orderBy('add_time', 'desc')->orderBy('id', 'desc')->take($pageSize)->skip($page->start_id - 1)->get();
 
         $newData = $data->map(function ($item) {
-            $item->add_time = RC_Time::local_date(RC_Lang::get('wechat::wechat.date_nj'), $item->add_time);
+            $item->add_time = RC_Time::local_date(__('n月j日', 'wechat'), $item->add_time);
 
             if (empty($item->file)) {
 
@@ -1582,12 +1577,12 @@ class platform_material extends ecjia_platform
                 if ($item->type == 'voice') {
 
                     $item->thumb = RC_App::apps_url('statics/images/voice.png', __FILE__);
-                    $item->file = RC_Upload::upload_url($item->file);
+                    $item->file  = RC_Upload::upload_url($item->file);
 
                 } elseif ($item->type == 'video') {
 
                     $item->thumb = RC_App::apps_url('statics/images/video.png', __FILE__);
-                    $item->file = RC_Upload::upload_url($item->file);
+                    $item->file  = RC_Upload::upload_url($item->file);
 
                 } else {
 
@@ -1609,16 +1604,16 @@ class platform_material extends ecjia_platform
             if ($item->type == 'news') {
                 $subNews = $item->subNews;
                 if (!$subNews->isEmpty()) {
-                    $newSubNews = $subNews->map(function ($item) {
+                    $newSubNews          = $subNews->map(function ($item) {
                         if (empty($item->file)) {
                             $item->file = RC_Uri::admin_url('statics/images/nopic.png');
                         } else {
                             $item->file = RC_Upload::upload_url($item->file);
                         }
                         return [
-                            'id' => $item->id,
-                            'title' => $item->title,
-                            'file' => $item->file,
+                            'id'        => $item->id,
+                            'title'     => $item->title,
+                            'file'      => $item->file,
                             'file_name' => $item->file_name,
                         ];
                     });
@@ -1664,7 +1659,7 @@ class platform_material extends ecjia_platform
                 if (strpos($img, RC_Upload::upload_url()) !== false) {
 
                     $filename = str_replace(RC_Upload::upload_url(), rtrim(RC_Upload::upload_path(), '/'), $img);
-                    $rs = $wechat->material->uploadArticleImage($filename);
+                    $rs       = $wechat->material->uploadArticleImage($filename);
 
                     $replace = $rs['url']; // http://mmbiz.qpic.cn/mmbiz/gLO17UPS6FS2xsypf378iaNhWacZ1G1UplZYWEYfwvuU6Ont96b1roYs CNFwaRrSaKTPCUdBK9DgEHicsKwWCBRQ/0
                     $content = str_replace($img, $replace, $content);

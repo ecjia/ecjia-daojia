@@ -1,7 +1,7 @@
 <?php defined('IN_ECJIA') or exit('No permission resources.');?>
 <div class="card weui-desktop-panel weui-desktop-panel_overview">
  	<div class="card-header">
-        <h4 class="card-title">用户发送消息</h4>
+        <h4 class="card-title">{t domain="wechat"}用户发送消息{/t}</h4>
     </div>
     <div class="cart-body weui-desktop-panel__bd">
 		<ul id="list" class="weui-desktop-mass">
@@ -24,7 +24,6 @@
 							<div class="weui-desktop-mass-media__data-list"><span class="weui-desktop-mass-appmsg__title">{$v.send_time_detail}</span></div>
 						</div>
 					</a>
-					</span>
 				</div>
 				<!-- {/foreach} -->
 			</li>

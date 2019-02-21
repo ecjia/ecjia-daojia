@@ -19,8 +19,8 @@
 			<div class="card-body">
 				<div class="form-inline float-right">
 					<form class="form-inline" method="post" action="{$form_action}{if $smarty.get.type}&type={$smarty.get.type}{/if}" name="search_from">
-		          		<input type="text" name="keywords" value="{$smarty.get.keywords}" class="form-control m_r5" placeholder="{lang key='wechat::wechat.search_user_placeholder'}">
-		            	<button type="submit" class="btn btn-outline-primary search-btn">{lang key='wechat::wechat.search'}</button>
+		          		<input type="text" name="keywords" value="{$smarty.get.keywords}" class="form-control m_r5" placeholder='{t domain="wechat"}请输入昵称/省/市搜索{/t}' />
+		            	<button type="submit" class="btn btn-outline-primary search-btn">{t domain="wechat"}搜索{/t}</button>
 		        	</form>
 				</div>
 			</div>
@@ -28,11 +28,11 @@
 				<table class="table table-hide-edit">
 					<thead>
 						<tr>
-							<th class="w100">{lang key='wechat::wechat.headimg_url'}</th>
-							<th class="w150">{lang key='wechat::wechat.nickname'}</th>
-							<th class="w100">{lang key='wechat::wechat.province'}</th>
-							<th class="w100">{lang key='wechat::wechat.bind_user'}</th>
-							<th class="w180">{lang key='wechat::wechat.subscribe_time'}</th>
+							<th class="w100">{t domain="wechat"}头像{/t}</th>
+							<th class="w150">{t domain="wechat"}昵称{/t}</th>
+							<th class="w100">{t domain="wechat"}省（直辖市）{/t}</th>
+							<th class="w100">{t domain="wechat"}绑定用户{/t}</th>
+							<th class="w180">{t domain="wechat"}关注时间{/t}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -47,16 +47,27 @@
 							</td>
 							<td class="hide-edit-area">
 								<span class="ecjaf-pre">
-									{$val['nickname']}{if $val['sex'] == 1}{lang key='wechat::wechat.male_sign'}{else if $val.sex == 2}{lang key='wechat::wechat.female_sign'}{/if}<br/>{if $val.group_id eq 1 || $val.subscribe eq 0}{else}{if $val.tag_name eq ''}{lang key='wechat::wechat.no_tag'}{else}{$val.tag_name}{/if}{/if}<br>
+									{$val['nickname']}
+                                    {if $val['sex'] == 1}{t domain="wechat"}（男）{/t}{else if $val.sex == 2}{t domain="wechat"}（女）{/t}{/if}
+                                    <br>
+                                    {if $val.group_id eq 1 || $val.subscribe eq 0}
+                                    {else}
+                                        {if $val.tag_name eq ''}
+                                            {t domain="wechat"}无标签{/t}
+                                        {else}
+                                            {$val.tag_name}
+                                        {/if}
+                                    {/if}
+                                    <br>
 									{$val.remark}
 								</span>
 							</td>
 							<td>{$val['province']} - {$val['city']}</td>
-							<td>{if $val['user_name']}{$val.user_name}{else}未绑定{/if}</td>
+							<td>{if $val['user_name']}{$val.user_name}{else}{t domain="wechat"}未绑定{/t}{/if}</td>
 							<td>{RC_Time::local_date('Y-m-d H:i:s', ($val['subscribe_time']-8*3600))}</td>
 						</tr>
 						<!--  {foreachelse} -->
-						<tr><td class="no-records" colspan="5">{lang key='system::system.no_records'}</td></tr>
+						<tr><td class="no-records" colspan="5">{t domain="wechat"}没有找到任何记录{/t}</td></tr>
 						<!-- {/foreach} -->
 					</tbody>
 				</table>						

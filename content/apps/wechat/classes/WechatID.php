@@ -60,5 +60,5 @@ class WechatID extends WechatUUID
 
         parent::__construct($uuid, $account);
     }
-    
+
 }

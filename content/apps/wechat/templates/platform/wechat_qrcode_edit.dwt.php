@@ -10,13 +10,13 @@
 
 <!-- {if $warn && $type neq 2} -->
 <div class="alert alert-dismissible mb-2 alert-danger">
-	<strong>{lang key='wechat::wechat.label_notice'}</strong>{$type_error}
+	<strong>{t domain="wechat"}温馨提示：{/t}</strong>{$type_error}
 </div>
 <!-- {/if} -->	
 
 <!-- {if $errormsg} -->
 <div class="alert alert-danger">
-	<strong>{lang key='wechat::wechat.label_notice'}</strong>{$errormsg}
+	<strong>{t domain="wechat"}温馨提示：{/t}</strong>{$errormsg}
 </div>
 <!-- {/if} -->
 
@@ -36,37 +36,37 @@
 					<div class="card-body">
 						<div class="form-body">
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.label_qrcode_type'}</label>
+								<label class="col-lg-2 label-control text-right">{t domain="wechat"}二维码类型：{/t}</label>
 								<div class="col-lg-8 controls">
 									<select name="type" class="select2 form-control">
-										<option value="0">{lang key='wechat::wechat.qrcode_short'}</option>
-										<option value="1">{lang key='wechat::wechat.qrcode_forever'}</option>
+										<option value="0">{t domain="wechat"}临时二维码{/t}</option>
+										<option value="1">{t domain="wechat"}永久二维码{/t}</option>
 									</select>
 								</div>
 							</div>
 						
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.label_scene_id'}</label>
+								<label class="col-lg-2 label-control text-right">{t domain="wechat"}应用场景值：{/t}</label>
 								<div class="col-lg-8 controls">
 									<input type="text" name="scene_id" id="scene_id" class="form-control"/>
-									<div class="help-block">{lang key='wechat::wechat.scene_id_help'}</div>
+									<div class="help-block">{t domain="wechat"}整型：临时二维码时为32位非0整型（100001-4294967295），永久二维码时最大值为100000（目前参数只支持1--100000）。<br>字符串类型：场景值ID（字符串形式的ID），长度限制为1到64{/t}</div>
 								</div>
-								<span class="input-must">{lang key='system::system.require_field'}</span>
+								<span class="input-must">*</span>
 							</div>
 							
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.label_expire_seconds'}</label>
+								<label class="col-lg-2 label-control text-right">{t domain="wechat"}有效时间：{/t}</label>
 								<div class="col-lg-8 controls">
 									<input type="text" name="expire_seconds" id="expire_seconds" class="form-control"/>
-									<div class="help-block">该二维码有效时间，以天为单位。 最大不超过30天，此字段如果不填，则默认有效期为30秒。</div>
+									<div class="help-block">{t domain="wechat"}该二维码有效时间，以天为单位。 最大不超过30天，此字段如果不填，则默认有效期为30秒。{/t}</div>
 								</div>
 							</div>
 							
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">功能关键词：</label>
+								<label class="col-lg-2 label-control text-right">{t domain="wechat"}功能关键词：{/t}</label>
 								<div class="col-lg-8 controls">
-									<input type="radio" id="keywords_0" name="keywords" checked value="0" /><label for="keywords_0">选择关键词</label>
-									<input type="radio" id="keywords_1" name="keywords" value="1" /><label for="keywords_1">自定义关键词</label>
+									<input type="radio" id="keywords_0" name="keywords" checked value="0" /><label for="keywords_0">{t domain="wechat"}选择关键词{/t}</label>
+									<input type="radio" id="keywords_1" name="keywords" value="1" /><label for="keywords_1">{t domain="wechat"}自定义关键词{/t}</label>
 								</div>
 							</div>
 							
@@ -74,7 +74,7 @@
 								<label class="col-lg-2 label-control text-right"></label>
 								<div class="col-lg-8 controls">
 									<select class="select2 form-control" id="functions" name="functions">
-										<option value="">请选择关键词...</option>
+										<option value="">{t domain="wechat"}请选择关键词...{/t}</option>
 								   		<!-- {foreach from=$key_list key=key item=val} -->
 										<optgroup label="{$key}">
 											<!-- {foreach from=$val item=v} -->
@@ -83,32 +83,32 @@
 										</optgroup>
 										<!-- {/foreach} -->
 									</select>
-									<div class="help-block">该二维码的功能关键词</div>
+									<div class="help-block">{t domain="wechat"}该二维码的功能关键词{/t}</div>
 								</div>
-								<span class="input-must">{lang key='system::system.require_field'}</span>
+								<span class="input-must">*</span>
 							</div>
 							
 							<div class="form-group row d-none" id="input_function">
 								<label class="col-lg-2 label-control text-right"></label>
 								<div class="col-lg-8 controls">
 									<input type="text" name="" id="function" class="form-control"/>
-									<div class="help-block">该二维码的功能关键词</div>
+									<div class="help-block">{t domain="wechat"}该二维码的功能关键词{/t}</div>
 								</div>
-								<span class="input-must">{lang key='system::system.require_field'}</span>
+								<span class="input-must">*</span>
 							</div>
 							
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.label_sort'}</label>
+								<label class="col-lg-2 label-control text-right">{t domain="wechat"}排序：{/t}</label>
 								<div class="col-lg-8 controls">
 									<input type="text" name="sort" id="sort" class="form-control"/>
 								</div>
 							</div>
 							
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.label_status'}</label>
+								<label class="col-lg-2 label-control text-right">{t domain="wechat"}状态：{/t}</label>
 								<div class="col-lg-8 controls">
-									<input type="radio" id="status_0" name="status" value="1" checked><label for="status_0">{lang key='wechat::wechat.enable'}</label>
-									<input type="radio" id="status_1" name="status" value="0" ><label for="status_1">{lang key='wechat::wechat.disable'}</label>
+									<input type="radio" id="status_0" name="status" value="1" checked><label for="status_0">{t domain="wechat"}启用{/t}</label>
+									<input type="radio" id="status_1" name="status" value="0" ><label for="status_1">{t domain="wechat"}禁用{/t}</label>
 								</div>
 							</div>
 							
@@ -118,9 +118,9 @@
 					<div class="modal-footer justify-content-center">
 						<input type="hidden" name="default_type" value="{$default_type}" />
 						{if $errormsg || ($type_error && $type neq 2)}
-						<input type="submit" name="submit" value="{lang key='wechat::wechat.ok'}" class="btn btn-outline-primary" disabled="disabled" />	
+						<input type="submit" name="submit" value='{t domain="wechat"}确定{/t}' class="btn btn-outline-primary" disabled="disabled" />
 						{else}
-						<input type="submit" name="submit" value="{lang key='wechat::wechat.ok'}" class="btn btn-outline-primary" />	
+						<input type="submit" name="submit" value='{t domain="wechat"}确定{/t}' class="btn btn-outline-primary" />
 						{/if}
 					</div>
 				</form>	

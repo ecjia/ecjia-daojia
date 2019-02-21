@@ -149,8 +149,8 @@ class WechatSubscribeHandler
                 }
             }
 
-            
-            $defaultReply = '感谢您的关注';
+
+            $defaultReply = __('感谢您的关注', 'wechat');
             
             //给关注用户进行问候
             $data = WechatReplyModel::select('reply_type', 'content', 'media_id')

@@ -55,25 +55,25 @@ class wechat_platform_response_api extends Component_Event_Api
 
     public function call(&$options)
     {
-        if (! ($options instanceof Ecjia\App\Platform\Frameworks\Platform\Account)) {
-            return new ecjia_error('ecjia_platform_account_object_not_match', '参数不是Ecjia\App\Platform\Frameworks\Platform\Account对象');
+        if (!($options instanceof Ecjia\App\Platform\Frameworks\Platform\Account)) {
+            return new ecjia_error('ecjia_platform_account_object_not_match', __('参数不是Ecjia\App\Platform\Frameworks\Platform\Account对象', 'wechat'));
         }
-        
+
         try {
-            
-            $uuid = $options->getUUID();
+
+            $uuid   = $options->getUUID();
             $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
-            
+
             $server = $wechat->server;
             $server->setMessageHandler(['\Ecjia\App\Wechat\Handlers\WechatMessageHandler', 'getMessageHandler']);
-                
+
             return $server->serve();
-            
+
         } catch (Royalcms\Component\WeChat\Server\BadRequestException $e) {
             return new ecjia_error('ecjia_platform_bad_request_exception', $e->getMessage());
         }
     }
-    
+
 }
 
 // end

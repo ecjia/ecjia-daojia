@@ -64,7 +64,7 @@
 				if ($this.hasClass('disabled')) {
 					return false;
 				}
-				$this.html('正在获取中...').addClass('disabled');
+				$this.html(js_lang.getting).addClass('disabled');
 				var url = $(this).attr('data-url');
 				app.admin_record.get_record(url);
 			});
@@ -89,7 +89,7 @@
 
 		get_record: function (url) {
 			$.get(url, function(data) {
-				$(".ajaxmenu").html('获取客服聊天记录').removeClass('disabled');
+				$(".ajaxmenu").html(js_lang.get_customer_record).removeClass('disabled');
 				ecjia.platform.showmessage(data);
 			});
 		},

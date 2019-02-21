@@ -64,31 +64,33 @@ class platform_mass_message extends ecjia_platform
 
         RC_Script::enqueue_script('admin_mass_message', RC_App::apps_url('statics/platform-js/admin_mass_message.js', __FILE__), array(), false, true);
         RC_Script::enqueue_script('choose_material', RC_App::apps_url('statics/platform-js/choose_material.js', __FILE__), array(), false, true);
-
         RC_Style::enqueue_style('admin_material', RC_App::apps_url('statics/platform-css/admin_material.css', __FILE__));
 
-        RC_Script::localize_script('admin_mass_message', 'js_lang', RC_Lang::get('wechat::wechat.js_lang'));
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('wechat::wechat.mass_message')));
+        RC_Script::localize_script('admin_mass_message', 'js_lang', config('app-wechat::jslang.platform_mass_message_page'));
+        RC_Script::localize_script('choose_material', 'jslang', config('app-wechat::jslang.choose_material_page'));
 
-        ecjia_platform_screen::get_current_screen()->set_subject('群发消息');
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('群发消息', 'wechat')));
+        ecjia_platform_screen::get_current_screen()->set_subject(__('群发消息', 'wechat'));
     }
 
     public function init()
     {
         $this->admin_priv('wechat_message_manage');
 
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('wechat::wechat.send_message')));
-        $this->assign('ur_here', RC_Lang::get('wechat::wechat.send_message'));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('发送消息', 'wechat')));
+        $this->assign('ur_here', __('发送消息', 'wechat'));
 
         $wechat_id = $this->platformAccount->getAccountID();
 
         if (is_ecjia_error($wechat_id)) {
-            $this->assign('errormsg', RC_Lang::get('wechat::wechat.add_platform_first'));
+            $this->assign('errormsg', __('请先添加公众号，再进行后续操作', 'wechat'));
         } else {
             $this->assign('warn', 'warn');
             $type = $this->platformAccount->getType();
+            $wechat_type = array(__('未认证的公众号', 'wechat'), __('订阅号', 'wechat'), __('服务号', 'wechat'), __('测试账号', 'wechat'), __('企业号', 'wechat'));
+
             $this->assign('type', $type);
-            $this->assign('type_error', sprintf(RC_Lang::get('wechat::wechat.notice_certification_info'), RC_Lang::get('wechat::wechat.wechat_type.' . $type)));
+            $this->assign('type_error', sprintf(__('抱歉！您的公众号属于%s类型，该模块目前只支持“认证”和“测试”类型的公众号。', 'wechat'), $wechat_type[$type]));
 
             //查找所有标签 不包括黑名单
             $list = RC_DB::table('wechat_tag')->where('wechat_id', $wechat_id)->where('tag_id', '!=', 1)->orderBy('tag_id', 'asc')->get();
@@ -106,33 +108,33 @@ class platform_mass_message extends ecjia_platform
     {
         $this->admin_priv('wechat_message_manage');
 
-        $tag_id = $this->request->input('tag_id', null);
-        $mass_type = $this->request->input('mass_type');
-        $media_id = $this->request->input('media_id', 0);
+        $tag_id       = $this->request->input('tag_id', null);
+        $mass_type    = $this->request->input('mass_type');
+        $media_id     = $this->request->input('media_id', 0);
         $content_type = $this->request->input('content_type');
-        $content = $this->request->input('content');
+        $content      = $this->request->input('content');
 
         //发送文本
         if ($content_type == 'text') {
             if (empty($content)) {
-                return $this->showmessage(RC_Lang::get('wechat::wechat.text_must_info'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('文字必须为1到600个字', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         } else {
             if (empty($media_id)) {
-                return $this->showmessage(RC_Lang::get('wechat::wechat.pls_select_material'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请先选择素材', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
 
         if ($mass_type == 'by_group') {
             if (empty($tag_id)) {
-                return $this->showmessage('按群组发送，必须选择标签', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('按群组发送，必须选择标签', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
 
         try {
             $wechat_id = $this->platformAccount->getAccountID();
-            $uuid = $this->platformAccount->getUUID();
-            $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
+            $uuid      = $this->platformAccount->getUUID();
+            $wechat    = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
             if ($media_id) {
                 with(new Ecjia\App\Wechat\Sends\BroadcastSendMessage($wechat, $wechat_id))->sendMediaMessage($media_id, $tag_id);
@@ -140,7 +142,7 @@ class platform_mass_message extends ecjia_platform
                 with(new Ecjia\App\Wechat\Sends\BroadcastSendMessage($wechat, $wechat_id))->sendTextMessage($content, $tag_id);
             }
 
-            return $this->showmessage(RC_Lang::get('wechat::wechat.mass_task_info'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,
+            return $this->showmessage(__('群发任务已启动，不过一般需要较长的时间才能全部发送完毕，请耐心等待', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,
                 array('pjaxurl' => RC_Uri::url('wechat/platform_mass_message/init')));
 
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
@@ -155,18 +157,20 @@ class platform_mass_message extends ecjia_platform
     {
         $this->admin_priv('wechat_message_manage');
 
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('wechat::wechat.send_record')));
-        $this->assign('ur_here', RC_Lang::get('wechat::wechat.send_record'));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('发送记录', 'wechat')));
+        $this->assign('ur_here', __('发送记录', 'wechat'));
 
         $wechat_id = $this->platformAccount->getAccountID();
 
         if (is_ecjia_error($wechat_id)) {
-            $this->assign('errormsg', RC_Lang::get('wechat::wechat.add_platform_first'));
+            $this->assign('errormsg', __('请先添加公众号，再进行后续操作', 'wechat'));
         } else {
             $this->assign('warn', 'warn');
             $type = $this->platformAccount->getType();
+            $wechat_type = array(__('未认证的公众号', 'wechat'), __('订阅号', 'wechat'), __('服务号', 'wechat'), __('测试账号', 'wechat'), __('企业号', 'wechat'));
+            
             $this->assign('type', $type);
-            $this->assign('type_error', sprintf(RC_Lang::get('wechat::wechat.notice_certification_info'), RC_Lang::get('wechat::wechat.wechat_type.' . $type)));
+            $this->assign('type_error', sprintf(__('抱歉！您的公众号属于%s类型，该模块目前只支持“认证”和“测试”类型的公众号。', 'wechat'), $wechat_type[$type]));
 
             $list = $this->get_mass_history_list();
             $this->assign('list', $list);
@@ -184,17 +188,17 @@ class platform_mass_message extends ecjia_platform
         $id = intval($this->request->input('id'));
 
         if (empty($id)) {
-            return $this->showmessage('ID参数缺少', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('ID参数缺少', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $wechat_id = $this->platformAccount->getAccountID();
-        $model = \Ecjia\App\Wechat\Models\WechatMassHistoryModel::where('wechat_id', $wechat_id)->where('id', $id)->first();
+        $model     = \Ecjia\App\Wechat\Models\WechatMassHistoryModel::where('wechat_id', $wechat_id)->where('id', $id)->first();
 
         if (!empty($model)) {
             try {
 
                 if ($model->msg_id) {
-                    $uuid = $this->platformAccount->getUUID();
+                    $uuid   = $this->platformAccount->getUUID();
                     $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
                     $wechat->broadcast->delete($model->msg_id);
@@ -202,14 +206,14 @@ class platform_mass_message extends ecjia_platform
 
             } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
                 //微信服务器上删除失败不报错
-                RC_Logger::getLogger('wechat')->error('微信服务器上删除失败:' . $e->getMessage());
+                RC_Logger::getLogger('wechat')->error(sprintf(__('微信服务器上删除失败：%s', 'wechat'), $e->getMessage()));
                 //return $this->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             $model->delete();
         }
 
-        return $this->showmessage(RC_Lang::get('wechat::wechat.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        return $this->showmessage(__('删除成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 
     /**
@@ -217,20 +221,20 @@ class platform_mass_message extends ecjia_platform
      */
     public function preview_msg()
     {
-        $type = trim($this->request->input('type')); //素材类型 text image voice video news
-        $media_id = intval($this->request->input('media_id')); //素材id  1/2/3
-        $content = trim($this->request->input('content')); //为text类型是 文本消息
+        $type           = trim($this->request->input('type')); //素材类型 text image voice video news
+        $media_id       = intval($this->request->input('media_id')); //素材id  1/2/3
+        $content        = trim($this->request->input('content')); //为text类型是 文本消息
         $wechat_account = trim($this->request->input('wechat_account')); //微信号
 
         if (empty($wechat_account)) {
-            return $this->showmessage('请输入要预览的微信帐号', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入要预览的微信帐号', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         try {
 
             $wechat_id = $this->platformAccount->getAccountID();
-            $uuid = $this->platformAccount->getUUID();
-            $wechat = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
+            $uuid      = $this->platformAccount->getUUID();
+            $wechat    = with(new Ecjia\App\Wechat\WechatUUID($uuid))->getWechatInstance();
 
             if ($media_id) {
                 with(new Ecjia\App\Wechat\Sends\BroadcastSendMessage($wechat, $wechat_id))->previewMediaMessage($media_id, $wechat_account);
@@ -238,7 +242,7 @@ class platform_mass_message extends ecjia_platform
                 with(new Ecjia\App\Wechat\Sends\BroadcastSendMessage($wechat, $wechat_id))->prviewTextMessage($content, $wechat_account);
             }
 
-            return $this->showmessage('发送预览成功，请留意你的手机微信', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+            return $this->showmessage(__('发送预览成功，请留意你的手机微信', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
             return $this->showmessage(\Ecjia\App\Wechat\WechatErrorCodes::getError($e->getCode(), $e->getMessage()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -250,30 +254,30 @@ class platform_mass_message extends ecjia_platform
         $wechat_id = $this->platformAccount->getAccountID();
 
         $db_mass_history = RC_DB::table('wechat_mass_history')->where('wechat_id', $wechat_id);
-        $count = $db_mass_history->count();
-        $page = new ecjia_platform_page($count, 10, 5);
-        $list = $db_mass_history->select('*')->orderBy('send_time', 'desc')->take(10)->skip($page->start_id - 1)->get();
+        $count           = $db_mass_history->count();
+        $page            = new ecjia_platform_page($count, 10, 5);
+        $list            = $db_mass_history->select('*')->orderBy('send_time', 'desc')->take(10)->skip($page->start_id - 1)->get();
 
         $status_list = array(
-            'send success' => '发送成功',
-            'send fail' => '发送失败',
-            'err(10001)' => '涉嫌广告',
-            'err(20001)' => '涉嫌政治',
-            'err(20004)' => '涉嫌社会',
-            'err(20002)' => '涉嫌色情',
-            'err(20006)' => '涉嫌违法犯罪',
-            'err(20008)' => '涉嫌欺诈',
-            'err(20013)' => '涉嫌版权',
-            'err(22000)' => '涉嫌互推(互相宣传)',
-            'err(21000)' => '涉嫌其他',
-            'err(30001)' => '原创校验出现系统错误且用户选择了被判为转载就不群发',
-            'err(30002)' => '原创校验被判定为不能群发',
-            'err(30003)' => '原创校验被判定为转载文且用户选择了被判为转载就不群发',
+            'send success' => __('发送成功', 'wechat'),
+            'send fail'    => __('发送失败', 'wechat'),
+            'err(10001)'   => __('涉嫌广告', 'wechat'),
+            'err(20001)'   => __('涉嫌政治', 'wechat'),
+            'err(20004)'   => __('涉嫌社会', 'wechat'),
+            'err(20002)'   => __('涉嫌色情', 'wechat'),
+            'err(20006)'   => __('涉嫌违法犯罪', 'wechat'),
+            'err(20008)'   => __('涉嫌欺诈', 'wechat'),
+            'err(20013)'   => __('涉嫌版权', 'wechat'),
+            'err(22000)'   => __('涉嫌互推(互相宣传)', 'wechat'),
+            'err(21000)'   => __('涉嫌其他', 'wechat'),
+            'err(30001)'   => __('原创校验出现系统错误且用户选择了被判为转载就不群发', 'wechat'),
+            'err(30002)'   => __('原创校验被判定为不能群发', 'wechat'),
+            'err(30003)'   => __('原创校验被判定为转载文且用户选择了被判为转载就不群发', 'wechat'),
         );
 
         if (!empty($list)) {
             foreach ($list as $key => $val) {
-                $list[$key]['send_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['send_time']);
+                $list[$key]['send_time']     = RC_Time::local_date(ecjia::config('time_format'), $val['send_time']);
                 $list[$key]['media_content'] = unserialize($val['content'])['media_content'];
                 if ($val['type'] == 'voice') {
                     $list[$key]['media_content']['img_url'] = RC_App::apps_url('statics/images/voice.png', __FILE__);

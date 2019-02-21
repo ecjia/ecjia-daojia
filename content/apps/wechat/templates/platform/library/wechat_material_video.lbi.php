@@ -15,10 +15,10 @@
                         </div>
                     </div>
                     <p>
-                        <a href="javascript:;" title="{lang key='wechat::wechat.cancel'}" data-toggle="sort-cancel" style="display:none;"><i class="fa fa-times"></i></a>
-                        <a href="javascript:;" title="{lang key='wechat::wechat.save'}" data-toggle="sort-ok" data-imgid="{$val.id}" data-saveurl="{url path='wechat/platform_material/edit_title'}" style="display:none;"><i class="fa fa-check"></i></a>
-                        <a class="ajaxremove" data-imgid="{$val.id}" data-toggle="ajaxremove" data-msg="{lang key='wechat::wechat.remove_video_material'}" href='{url path="wechat/platform_material/video_remove" args="id={$val.id}"}' title="{lang key='wechat::wechat.delete'}"><i class="ft-trash-2"></i></a>
-                        <span class="edit_title f_l f_s15">{if $val.title}{$val.title}{else}{lang key='wechat::wechat.no_title'}{/if}</span>
+                        <a href="javascript:;" title='{t domain="wechat"}取消{/t}' data-toggle="sort-cancel" style="display:none;"><i class="fa fa-times"></i></a>
+                        <a href="javascript:;" title='{t domain="wechat"}保存{/t}' data-toggle="sort-ok" data-imgid="{$val.id}" data-saveurl="{url path='wechat/platform_material/edit_title'}" style="display:none;"><i class="fa fa-check"></i></a>
+                        <a class="ajaxremove" data-imgid="{$val.id}" data-toggle="ajaxremove" data-msg='{t domain="wechat"}您确定要删除该视频素材吗？{/t}' href='{url path="wechat/platform_material/video_remove" args="id={$val.id}"}' title='{t domain="wechat"}删除{/t}'><i class="ft-trash-2"></i></a>
+                        <span class="edit_title f_l f_s15">{if $val.title}{$val.title}{else}{t domain="wechat"}无标题{/t}{/if}</span>
                     </p>
                 </li>
                 <!-- {/foreach} -->
@@ -29,7 +29,7 @@
     <!-- {else} -->
     <table class="table table-striped m_b0">
         <tr>
-            <td class="no-records" colspan="10" style="border-top:0px;line-height:100px;">{lang key='wechat::wechat.unfind_any_recode'}</td>
+            <td class="no-records" colspan="10" style="border-top:0px;line-height:100px;">{t domain="wechat"}没有找到任何记录{/t}</td>
         </tr>
     </table>
     <!-- {/if} -->

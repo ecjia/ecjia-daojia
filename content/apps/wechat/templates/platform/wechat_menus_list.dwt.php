@@ -10,13 +10,13 @@
 
 {if $warn && $type eq 0}
 <div class="alert alert-danger">
-	<strong>{lang key='wechat::wechat.label_notice'}</strong>{$type_error}
+	<strong>{t domain="wechat"}温馨提示：{/t}</strong>{$type_error}
 </div>
 {/if}
 
 {if $errormsg}
 <div class="alert alert-danger">
-	<strong>{lang key='wechat::wechat.label_notice'}</strong>{$errormsg}
+	<strong>{t domain="wechat"}温馨提示：{/t}</strong>{$errormsg}
 </div>
 {/if}
 
@@ -24,10 +24,10 @@
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 		<span aria-hidden="true">×</span>
 	</button>
-	<h4 class="alert-heading mb-2">操作提示</h4>
-	<p>微信自定义菜单最多可添加3个一级菜单、5个二级菜单。</p>
-	<p>微信自定义菜单分为发送消息，跳转网页，跳转小程序三种类型。发送消息是响应关键词指令，跳转网页则是直接跳转URL地址（填写绝对路径）。</p>
-	<p>每次修改自定义菜单后，由于微信客户端缓存，需要24小时左右微信客户端才会显示生效。测试时可以尝试重新关注微信公众号，或者清除微信缓存。</p>
+	<h4 class="alert-heading mb-2">{t domain="wechat"}操作提示{/t}</h4>
+	<p>{t domain="wechat"}微信自定义菜单最多可添加3个一级菜单、5个二级菜单。{/t}</p>
+	<p>{t domain="wechat"}微信自定义菜单分为发送消息，跳转网页，跳转小程序三种类型。发送消息是响应关键词指令，跳转网页则是直接跳转URL地址（填写绝对路径）。{/t}</p>
+	<p>{t domain="wechat"}每次修改自定义菜单后，由于微信客户端缓存，需要24小时左右微信客户端才会显示生效。测试时可以尝试重新关注微信公众号，或者清除微信缓存。{/t}</p>
 </div>
 
 <div class="row">
@@ -35,12 +35,12 @@
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">
-                	{lang key='wechat::wechat.wechat_menu'}
+                    {t domain="wechat"}微信菜单{/t}
                 </h4>
             </div>
             <div class="card-body">
-				<div><button type="button" class="ajaxmenu btn btn-outline-primary" data-url='{RC_Uri::url("wechat/platform_menus/get_menu")}'>{lang key='wechat::wechat.get_menu'}</button><span style="margin-left: 20px;">{lang key='wechat::wechat.get_menu_notice'}</span></div><br/>
-				<div><button type="button" class="ajaxmenu btn btn-outline-primary" data-url='{RC_Uri::url("wechat/platform_menus/delete_menu")}' data-msg="{lang key='wechat::wechat.clear_menu_confirm'}">{lang key='wechat::wechat.clear_menu'}</button><span style="margin-left: 20px;">{lang key='wechat::wechat.clear_menu_notice'}</span></div><br/>
+				<div><button type="button" class="ajaxmenu btn btn-outline-primary" data-url='{RC_Uri::url("wechat/platform_menus/get_menu")}'>{t domain="wechat"}获取菜单{/t}</button><span style="margin-left: 20px;">{t domain="wechat"}通过点击该按钮可以获取微信端原有的菜单到本地。{/t}</span></div><br/>
+				<div><button type="button" class="ajaxmenu btn btn-outline-primary" data-url='{RC_Uri::url("wechat/platform_menus/delete_menu")}' data-msg='{t domain="wechat"}您确定要清除菜单吗？{/t}'>{t domain="wechat"}清除菜单{/t}</button><span style="margin-left: 20px;">{t domain="wechat"}通过点击该按钮可以清除微信端所有菜单，则本地菜单状态更新为关闭状态。{/t}</span></div><br/>
             </div>
 		</div>
 	</div>
@@ -60,7 +60,7 @@
 		                <div class="weixin-menu-right">
 		                	<form class="form" name="the_form" method="post" action="{RC_Uri::url('wechat/platform_menus/update')}">
 			                	<div class="weixin-menu-right-content">
-			                		<div class="menu_initial_tips">点击左侧菜单进行编辑操作</div>
+			                		<div class="menu_initial_tips">{t domain="wechat"}点击左侧菜单进行编辑操作{/t}</div>
 								</div>
 							</form>
 		                </div>
@@ -92,7 +92,7 @@
 			                                	{if $list.count lt 5}
 			                                    <li class="menu-sub-item" data-toggle="add-menu" data-pid="{$list.id}" data-count="{$list.count}">
 			                                        <div class="menu-item-title">
-			                                            <a class="pre_menu_link" href="javascript:void(0);" title="最多添加5个子菜单"><i class="icon14_menu_add"></i></a>
+			                                            <a class="pre_menu_link" href="javascript:void(0);" title='{t domain="wechat"}最多添加5个子菜单{/t}'><i class="icon14_menu_add"></i></a>
 			                                        </div>
 			                                    </li>
 			                                    {/if}
@@ -103,7 +103,7 @@
 			                            <!-- {/foreach} -->
 			                            
 			                            {if $count lt 3}
-			                            <li class="menu-item size_{$count}" data-toggle="add-menu" data-pid="0"><a class="pre_menu_link" href="javascript:void(0);" title="最多添加3个一级菜单"> <i class="icon14_menu_add"></i> {if $count eq 0}<span>添加菜单</span>{/if}</a></li>
+			                            <li class="menu-item size_{$count}" data-toggle="add-menu" data-pid="0"><a class="pre_menu_link" href="javascript:void(0);" title='{t domain="wechat"}最多添加3个一级菜单{/t}'> <i class="icon14_menu_add"></i> {if $count eq 0}<span>{t domain="wechat"}添加菜单{/t}</span>{/if}</a></li>
 			                            {/if}
 			                        </ul>
 			                    </div>
@@ -114,7 +114,7 @@
 		            
 		            {if $menu_list}
 		            <div class="weixin-btn-group">
-		                <div data-toggle="btn-create" class="btn btn-outline-primary m_l20" data-url='{RC_Uri::url("wechat/platform_menus/sys_menu")}' data-msg="发布成功后会覆盖原版本，且将在24小时内对所有用户生效，确认发布？">发布</div>
+		                <div data-toggle="btn-create" class="btn btn-outline-primary m_l20" data-url='{RC_Uri::url("wechat/platform_menus/sys_menu")}' data-msg='{t domain="wechat"}发布成功后会覆盖原版本，且将在24小时内对所有用户生效，确认发布？{/t}'>{t domain="wechat"}发布{/t}</div>
 		            </div>
 		            {/if}
 		            

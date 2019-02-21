@@ -66,15 +66,15 @@ class WechatRequestTimes
         if (empty($row)) {
             $data = array(
                 'wechat_id' => $this->wechat_id,
-                'day' => $day,
-                'api_name' => $api_name,
-                'times' => 1,
+                'day'       => $day,
+                'api_name'  => $api_name,
+                'times'     => 1,
                 'last_time' => RC_Time::gmtime(),
             );
             RC_DB::table('wechat_request_times')->insert($data);
         } else {
             $data = array(
-                'times' => $row['times'] + 1,
+                'times'     => $row['times'] + 1,
                 'last_time' => RC_Time::gmtime(),
             );
             RC_DB::table('wechat_request_times')->where('wechat_id', $this->wechat_id)->where('day', $day)->where('api_name', $api_name)->update($data);

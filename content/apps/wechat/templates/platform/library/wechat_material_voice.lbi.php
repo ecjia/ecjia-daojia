@@ -19,11 +19,11 @@
                         </div>
                     </div>
                     <p>
-                        <a href="javascript:;" title="{lang key='wechat::wechat.cancel'}" data-toggle="sort-cancel" style="display:none;"><i class="fa fa-times"></i></a>
-                        <a href="javascript:;" title="{lang key='wechat::wechat.save'}" data-toggle="sort-ok" data-imgid="{$val.id}" data-saveurl="{url path='wechat/platform_material/edit_file_name' args='type=voice'}" style="display:none;"><i class="fa fa-check"></i></a>
-                        <a class="ajaxremove" data-imgid="{$val.id}" data-toggle="ajaxremove" data-msg="{lang key='wechat::wechat.remove_voice_material'}" href='{url path="wechat/platform_material/voice_remove" args="id={$val.id}"}' title="{lang key='wechat::wechat.delete'}"><i class="ft-trash-2"></i></a>
-                        <a href="javascript:;" title="{lang key='wechat::wechat.edit'}" data-toggle="edit"><i class="ft-edit-2"></i></a>
-                        <span class="edit_title">{if $val.file_name}{$val.file_name}{else}{lang key='wechat::wechat.no_title'}{/if}</span>
+                        <a href="javascript:;" title='{t domain="wechat"}取消{/t}' data-toggle="sort-cancel" style="display:none;"><i class="fa fa-times"></i></a>
+                        <a href="javascript:;" title='{t domain="wechat"}保存{/t}' data-toggle="sort-ok" data-imgid="{$val.id}" data-saveurl="{url path='wechat/platform_material/edit_file_name' args='type=voice'}" style="display:none;"><i class="fa fa-check"></i></a>
+                        <a class="ajaxremove" data-imgid="{$val.id}" data-toggle="ajaxremove" data-msg='{t domain="wechat"}您确定要删除该语音素材吗？{/t}' href='{url path="wechat/platform_material/voice_remove" args="id={$val.id}"}' title='{t domain="wechat"}删除{/t}'><i class="ft-trash-2"></i></a>
+                        <a href="javascript:;" title='{t domain="wechat"}编辑{/t}' data-toggle="edit"><i class="ft-edit-2"></i></a>
+                        <span class="edit_title">{if $val.file_name}{$val.file_name}{else}{t domain="wechat"}无标题{/t}{/if}</span>
                     </p>
                 </li>
                 <!-- {/foreach} -->

@@ -10,13 +10,13 @@
 
 <!-- {if $warn && $type neq 2} -->
 <div class="alert alert-danger">
-	<strong>{lang key='wechat::wechat.label_notice'}</strong>{$type_error}
+	<strong>{t domain="wechat"}温馨提示：{/t}</strong>{$type_error}
 </div>
 <!-- {/if} -->
 
 <!-- {if $errormsg} -->
 <div class="alert alert-danger">
-	<strong>{lang key='wechat::wechat.label_notice'}</strong>{$errormsg}
+	<strong>{t domain="wechat"}温馨提示：{/t}</strong>{$errormsg}
 </div>
 <!-- {/if} -->
 
@@ -25,10 +25,10 @@
 		<span aria-hidden="true">×</span>
 	</button>
 	<h4 class="alert-heading mb-2">操作提示</h4>
-	<p>渠道二维码。可生成临时二维码或永久二维码 用于线下某些场景展示，让用户扫描关注，效果类似关注微信公众号。</p>
-	<p>临时二维码，是有过期时间的，最长可以设置为在二维码生成后的30天（即2592000秒）后过期，但能够生成较多数量。临时二维码主要用于帐号绑定等不要求二维码永久保存的业务场景。</p>
-	<p>永久二维码，是无过期时间的，但数量较少（目前为最多10万个）。永久二维码主要用于适用于帐号绑定、用户来源统计等场景。</p>
-	<p>应用场景值ID，为整型时：临时二维码时为32位非0整型（100001-4294967295），永久二维码时最大值为100000（目前参数只支持1--100000），为字符串类型时：长度限制为1到64。</p>
+	<p>{t domain="wechat"}渠道二维码。可生成临时二维码或永久二维码 用于线下某些场景展示，让用户扫描关注，效果类似关注微信公众号。{/t}</p>
+	<p>{t domain="wechat"}临时二维码，是有过期时间的，最长可以设置为在二维码生成后的30天（即2592000秒）后过期，但能够生成较多数量。临时二维码主要用于帐号绑定等不要求二维码永久保存的业务场景。{/t}</p>
+	<p>{t domain="wechat"}永久二维码，是无过期时间的，但数量较少（目前为最多10万个）。永久二维码主要用于适用于帐号绑定、用户来源统计等场景。{/t}</p>
+	<p>{t domain="wechat"}应用场景值ID，为整型时：临时二维码时为32位非0整型（100001-4294967295），永久二维码时最大值为100000（目前参数只支持1--100000），为字符串类型时：长度限制为1到64。{/t}</p>
 </div>
 
 <div class="row">
@@ -47,26 +47,26 @@
 	            <ul class="nav nav-pills float-left">
 					<li class="nav-item">
 						<a class="nav-link data-pjax {if $smarty.get.type eq '' || $smarty.get.type eq '1'}active{/if}" href='{url path="wechat/platform_qrcode/init"}&type=1{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}'>
-						永久二维码<span class="badge badge-pill badge-glow badge-default badge-primary ml-1">{$listdb.count.forever}</span></a>
+                            {t domain="wechat"}永久二维码{/t}<span class="badge badge-pill badge-glow badge-default badge-primary ml-1">{$listdb.count.forever}</span></a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link data-pjax {if $smarty.get.type eq '0'}active{/if}" href='{url path="wechat/platform_qrcode/init" args="type=0{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>
-						临时二维码<span class="badge badge-pill badge-glow badge-default badge-primary ml-1">{$listdb.count.temporary}</span></a>
+                            {t domain="wechat"}临时二维码{/t}<span class="badge badge-pill badge-glow badge-default badge-primary ml-1">{$listdb.count.temporary}</span></a>
 					</li>
 				</ul>
 			</div>
 					
             <div class="card-body">
 	            <div class="heading-elements float-left">
-					<button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown"><i class="ft-settings"></i> {lang key='wechat::wechat.batch_operate'}</button>
+					<button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown"><i class="ft-settings"></i> {t domain="wechat"}批量操作{/t}</button>
 					<div class="dropdown-menu">
-						<a class="dropdown-item button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="wechat/platform_qrcode/batch"}{if isset($smarty.get.type)}&type={$smarty.get.type}{/if}'  data-msg="{lang key='wechat::wechat.remove_qrcode_confirm'}" data-noSelectMsg="{lang key='wechat::wechat.select_operate_qrcode'}" data-name="id" href="javascript:;"><i class="ft-trash-2"></i> {lang key='wechat::wechat.remove_qrcode'}</a>
+						<a class="dropdown-item button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="wechat/platform_qrcode/batch"}{if isset($smarty.get.type)}&type={$smarty.get.type}{/if}' data-msg='{t domain="wechat"}您确定要删除该二维码吗？{/t}' data-noSelectMsg='{t domain="wechat"}请先选中要删除的二维码{/t}' data-name="id" href="javascript:;"><i class="ft-trash-2"></i> {t domain="wechat"}删除二维码{/t}</a>
 					</div>
 				</div>
 				<div class="form-inline float-right">
 					<form class="form-inline" method="post" action="{$search_action}" name="searchForm">
-		          		<input type="text" name="keywords" value="{$listdb.filter.keywords}" class="form-control m_r5" placeholder="{lang key='wechat::wechat.qrcode_search_placeholder'}">
-		            	<button type="button" class="btn btn-outline-primary search_qrcode">{lang key='wechat::wechat.search'}</button>
+		          		<input type="text" name="keywords" value="{$listdb.filter.keywords}" class="form-control m_r5" placeholder='{t domain="wechat"}请输入功能关键字{/t}'>
+		            	<button type="button" class="btn btn-outline-primary search_qrcode">{t domain="wechat"}搜索{/t}</button>
 		        	</form>
 				</div>
 			</div>
@@ -79,12 +79,12 @@
 								<input type="checkbox" data-toggle="selectall" data-children=".checkbox" id="customCheck"/>
 								<label for="customCheck"></label>
 							</th>
-							<th class="w200">{lang key='wechat::wechat.application_adsense'}</th>
-							<th class="w150">{lang key='wechat::wechat.function'}</th>
-							<th class="w200">过期时间</th>
-							<th class="w100">扫码次数</th>
-							<th class="w150">{lang key='wechat::wechat.status'}</th>
-							<th class="w100">{lang key='wechat::wechat.sort'}</th>
+							<th class="w200">{t domain="wechat"}应用场景{/t}</th>
+							<th class="w150">{t domain="wechat"}功能{/t}</th>
+							<th class="w200">{t domain="wechat"}过期时间{/t}</th>
+							<th class="w100">{t domain="wechat"}扫码次数{/t}</th>
+							<th class="w150">{t domain="wechat"}状态{/t}</th>
+							<th class="w100">{t domain="wechat"}排序{/t}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -98,8 +98,8 @@
 								{$val.scene_id}
 					    		<div class="edit-list">
 							     	{assign var=view_url value=RC_Uri::url('wechat/platform_qrcode/qrcode_get',"id={$val.id}")}
-						      		<a class="ajaxwechat" href="{$view_url}">{lang key='wechat::wechat.get_qrcode'}</a>&nbsp;|&nbsp;
-						      		<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='wechat::wechat.remove_qrcode_confirm'}" href='{RC_Uri::url("wechat/platform_qrcode/remove","id={$val.id}")}'>{lang key='system::system.drop'}</a>
+						      		<a class="ajaxwechat" href="{$view_url}">{t domain="wechat"}获取二维码{/t}</a>&nbsp;|&nbsp;
+						      		<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="wechat"}您确定要删除该二维码吗？{/t}' href='{RC_Uri::url("wechat/platform_qrcode/remove", "id={$val.id}")}'>{t domain="wechat"}删除{/t}</a>
 							    </div>
 							</td>
 							<td>
@@ -112,10 +112,10 @@
 							<td>
                                 <i class="{if $val.status eq 1}fa fa-check{else}fa fa-times{/if} cursor_pointer" data-trigger="toggleState" data-url="{RC_Uri::url('wechat/platform_qrcode/toggle_show')}" data-id="{$val.id}" ></i>
 							</td>
-							<td><span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('wechat/platform_qrcode/edit_sort')}" data-name="sort" data-pk="{$val.id}"  data-title="{lang key='wechat::wechat.edit_qrcode_sort'}">{$val.sort}</span></td>
+							<td><span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('wechat/platform_qrcode/edit_sort')}" data-name="sort" data-pk="{$val.id}" data-title='{t domain="wechat"}编辑二维码排序{/t}'>{$val.sort}</span></td>
 						</tr>
 						<!--  {foreachelse} -->
-						<tr><td class="no-records" colspan="7">{lang key='system::system.no_records'}</td></tr>
+						<tr><td class="no-records" colspan="7">{t domain="wechat"}没有找到任何记录{/t}</td></tr>
 						<!-- {/foreach} -->
 					</tbody>
 				</table>						
@@ -129,7 +129,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h3 class="modal-title">渠道二维码</h3>
+				<h3 class="modal-title">{t domain="wechat"}渠道二维码{/t}</h3>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">×</span>
 				</button>

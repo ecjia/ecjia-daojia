@@ -11,7 +11,7 @@
 
 <!-- {if $errormsg} -->
 <div class="alert alert-danger">
-	<strong>{lang key='wechat::wechat.label_notice'}</strong>{$errormsg}
+	<strong>{t domain="wechat"}温馨提示：{/t}</strong>{$errormsg}
 </div>
 <!-- {/if} -->
 	
@@ -24,12 +24,12 @@
      		<div class="card-body">
 	   			<form class="form-inline" method="post" action="{$form_action}" name="form">
 					<select name="activity_type" class="select2 form-control">
-						<option value="">{lang key='wechat::wechat.select_activity_type'}</option>
-						<option value="mp_zjd" {if $smarty.get.type eq 'mp_zjd'}selected="selected"{/if}>{lang key='wechat::wechat.smash_egg'}</option>
-						<option value="mp_dzp" {if $smarty.get.type eq 'mp_dzp'}selected="selected"{/if}>{lang key='wechat::wechat.big_dial'}</option>
-						<option value="mp_ggl" {if $smarty.get.type eq 'mp_ggl'}selected="selected"{/if}>{lang key='wechat::wechat.scratch_off'}</option>
+						<option value="">{t domain="wechat"}请选择活动类型{/t}</option>
+						<option value="mp_zjd" {if $smarty.get.type eq 'mp_zjd'}selected="selected"{/if}>{t domain="wechat"}砸金蛋{/t}</option>
+						<option value="mp_dzp" {if $smarty.get.type eq 'mp_dzp'}selected="selected"{/if}>{t domain="wechat"}大转盘{/t}</option>
+						<option value="mp_ggl" {if $smarty.get.type eq 'mp_ggl'}selected="selected"{/if}>{t domain="wechat"}刮刮乐{/t}</option>
 					</select>
-					<input type="button" value="{lang key='wechat::wechat.filtrate'}" class="btn btn-outline-primary m_l5 screen-btn">
+					<input type="button" value='筛选' class="btn btn-outline-primary m_l5 screen-btn">
 				</form>
 			</div>
 			
@@ -37,11 +37,11 @@
 				<table class="table table-hide-edit">
 					<thead>
 						<tr>
-							<th class="w150">{lang key='wechat::wechat.weixin_alias'}</th>
-							<th class="w150">{lang key='wechat::wechat.prize'}</th>
-							<th class="w150">{lang key='wechat::wechat.prize_user_info'}</th>
-							<th class="w100">{lang key='wechat::wechat.sure_grant'}</th>
-							<th class="w100">{lang key='wechat::wechat.prize_time'}</th>
+							<th class="w150">{t domain="wechat"}微信昵称{/t}</th>
+							<th class="w150">{t domain="wechat"}奖品{/t}</th>
+							<th class="w150">{t domain="wechat"}中奖用户信息{/t}</th>
+							<th class="w100">{t domain="wechat"}是否发放{/t}</th>
+							<th class="w100">{t domain="wechat"}中奖时间{/t}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -50,12 +50,18 @@
 							<td class="hide-edit-area hide_edit_area_bottom"> 
 						    	<span>{$val.nickname}</span>
 						    	<div class="edit-list">
-						    		<a class="send_message" href="javascript:;" data-nickname="{$val.nickname}" data-uid="{$val.uid}" data-openid="{$val.openid}" title="{lang key='wechat::wechat.inform_user'}">{lang key='wechat::wechat.inform_user'}</a>&nbsp;|&nbsp;
-						        	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{t}您确定要删除该获奖名单[{$val.nickname}]吗？{/t}" href='{RC_Uri::url("wechat/platform_prize/remove","id={$val.id}")}' title="{lang key='wechat::wechat.delete'}">{lang key='wechat::wechat.delete'}</a>
+						    		<a class="send_message" href="javascript:;" data-nickname="{$val.nickname}" data-uid="{$val.uid}" data-openid="{$val.openid}" title='{t domain="wechat"}通知用户{/t}'>{t domain="wechat"}通知用户{/t}</a>&nbsp;|&nbsp;
+						        	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="wechat" 1={$val.nickname}}您确定要删除该获奖名单[%1]吗？{/t}' href='{RC_Uri::url("wechat/platform_prize/remove", "id={$val.id}")}' title='{t domain="wechat"}删除{/t}'>删除</a>
 								</div>
 						    </td>
 							<td>{$val.prize_name}</td>
-							<td>{if is_array($val['winner'])}{lang key='wechat::wechat.lable_name'}{$val['winner']['name']}<br />{lang key='wechat::wechat.lable_mobile'}{$val['winner']['phone']}<br />{lang key='wechat::wechat.lable_address'}{$val['winner']['address']}{/if}</td>
+							<td>
+                                {if is_array($val['winner'])}
+                                {t domain="wechat"}姓名：{/t}{$val['winner']['name']}<br />
+                                {t domain="wechat"}电话：{/t}{$val['winner']['phone']}<br />
+                                {t domain="wechat"}地址：{/t}{$val['winner']['address']}
+                                {/if}
+                            </td>
 							<td>
 								{if $val['issue_status'] eq 1}
 						    	<a class="ajaxissue" href='{RC_Uri::url("wechat/platform_prize/winner_issue","id={$val.id}&cancel=1{if $smarty.get.type}&type={$smarty.get.type}{/if}")}'><i class="fontello-icon-ok"></i></a>
@@ -66,7 +72,7 @@
 							<td>{$val.dateline}</td>
 						</tr>
 						<!--  {foreachelse} -->
-						<tr><td class="no-records" colspan="5">{lang key='system::system.no_records'}</td></tr>
+						<tr><td class="no-records" colspan="5">{t domain="wechat"}没有找到任何记录{/t}</td></tr>
 						<!-- {/foreach} -->
 					</tbody>
 				</table>
@@ -80,7 +86,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h3 class="modal-title">{lang key='wechat::wechat.inform_user'}</h3>
+				<h3 class="modal-title">{t domain="wechat"}通知用户{/t}</h3>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				  <span aria-hidden="true">×</span>
 				</button>
@@ -88,13 +94,13 @@
 
 			<!-- {if $errormsg} -->
 			    <div class="alert alert-danger">
-		            <strong>{lang key='wechat::wechat.label_notice'}</strong>{$errormsg}
+		            <strong>{t domain="wechat"}温馨提示：{/t}</strong>{$errormsg}
 		        </div>
 			<!-- {/if} -->
 			
 			<!-- {if $warn && $type eq 0} -->
 				<div class="alert alert-danger">
-					<strong>{lang key='wechat::wechat.label_notice'}</strong>{$type_error}
+					<strong>{t domain="wechat"}温馨提示：{/t}</strong>{$type_error}
 				</div>
 			<!-- {/if} -->
 
@@ -102,28 +108,28 @@
 				<div class="card-body">
 					<div class="form-body">
 						<div class="form-group row">
-							<label class="col-md-4 label-control text-right">{lang key='wechat::wechat.label_message_content'}</label>
+							<label class="col-md-4 label-control text-right">{t domain="wechat"}消息内容：{/t}</label>
 							<div class="col-md-8 controls">
 								<textarea name="message_content" class="form-control"></textarea>
-								<div class="help-block">{lang key='wechat::wechat.tip_info'}</div>
+								<div class="help-block">{t domain="wechat"}（只有48小时内给公众号发送过信息的粉丝才能接收到信息）{/t}</div>
 							</div>
 							<label class="input-must">*</label>
 						</div>
 						<div class="form-group row">
-							<label class="col-md-4 label-control text-right">{lang key='wechat::wechat.label_nickname'}</label>
+							<label class="col-md-4 label-control text-right">{t domain="wechat"}昵称：{/t}</label>
 							<div class="col-md-8 nickname"></div>
 						</div>
 						
 						
 						<div class="form-group row">
-							<label class="col-md-4 label-control text-right">{lang key='wechat::wechat.weixin_only_identification'}</label>
+							<label class="col-md-4 label-control text-right">{t domain="wechat"}微信用户唯一标识(openid)：{/t}</label>
 							<div class="col-md-8 openid"></div>
 						</div>
 					</div>
 				</div>
 
 				<div class="modal-footer justify-content-center">
-					<input class="btn btn-outline-primary" type="submit" {if $errormsg}disabled{/if} value="{lang key='wechat::wechat.ok'}" />
+					<input class="btn btn-outline-primary" type="submit" {if $errormsg}disabled{/if} value='{t domain="wechat"}确定{/t}' />
                     <input type="hidden" name="wechat_type" value="{$type}">
                 	<input type="hidden" name="uid"/>
            		 	<input type="hidden" name="openid"/>

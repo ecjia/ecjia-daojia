@@ -1,5 +1,5 @@
 <!-- {if !$list} -->
-	<div class="empty_material">暂无素材</div>
+	<div class="empty_material">{t domain="wechat"}暂无素材{/t}</div>
 <!-- {else} -->
 	<!-- {if $type eq 'news'} -->
 	<div class="row-fluid goods-photo-list">

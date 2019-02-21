@@ -65,10 +65,10 @@ class platform_request extends ecjia_platform
         RC_Script::enqueue_script('jquery-form');
 
         RC_Script::enqueue_script('admin_request', RC_App::apps_url('statics/platform-js/admin_request.js', __FILE__), array(), false, true);
-        RC_Script::localize_script('admin_request', 'js_lang', RC_Lang::get('wechat::wechat.js_lang'));
+        RC_Script::localize_script('admin_request', 'js_lang', config('app-wechat::jslang.platform_request_page'));
 
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('wechat::wechat.api_request_list'), RC_Uri::url('wechat/admin_request/init')));
-        ecjia_platform_screen::get_current_screen()->set_subject('Api请求统计');
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('Api请求统计列表', 'wechat'), RC_Uri::url('wechat/admin_request/init')));
+        ecjia_platform_screen::get_current_screen()->set_subject(__('Api请求统计', 'wechat'));
     }
 
     /**
@@ -79,28 +79,16 @@ class platform_request extends ecjia_platform
         $this->admin_priv('wechat_request_manage');
 
         ecjia_platform_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('wechat::wechat.api_request')));
-        $this->assign('ur_list', RC_Lang::get('wechat::wechat.api_request_list'));
-
-        ecjia_platform_screen::get_current_screen()->add_help_tab(array(
-            'id' => 'overview',
-            'title' => RC_Lang::get('wechat::wechat.overview'),
-            'content' =>
-            '<p>' . RC_Lang::get('wechat::wechat.api_request_statistics') . '</p>',
-        ));
-
-        ecjia_platform_screen::get_current_screen()->set_help_sidebar(
-            '<p><strong>' . RC_Lang::get('wechat::wechat.lable_more_info') . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia公众平台:API请求统计" target="_blank">' . RC_Lang::get('wechat::wechat.api_statistics_document') . '</a>') . '</p>'
-        );
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('Api请求统计', 'wechat')));
+        $this->assign('ur_list', __('Api请求统计列表', 'wechat'));
 
         $wechat_id = $this->platformAccount->getAccountID();
 
         if (is_ecjia_error($wechat_id)) {
-            $this->assign('errormsg', RC_Lang::get('wechat::wechat.add_accounts_operation'));
+            $this->assign('errormsg', __('请先添加公众号，再进行后续操作', 'wechat'));
         } else {
             $limits['item'] = RC_Loader::load_app_config('api_limit', 'wechat');
-            $type = !empty($_GET['type']) ? intval($_GET['type']) : 1; //1今天 2昨天
+            $type           = !empty($_GET['type']) ? intval($_GET['type']) : 1; //1今天 2昨天
 
             $list = $this->get_list();
             if (!empty($limits['item'])) {
@@ -118,7 +106,7 @@ class platform_request extends ecjia_platform
                     }
                 }
             }
-            $limits['date']['today'] = RC_Time::local_date(ecjia::config('date_format'), RC_Time::gmtime());
+            $limits['date']['today']     = RC_Time::local_date(ecjia::config('date_format'), RC_Time::gmtime());
             $limits['date']['yesterday'] = RC_Time::local_date(ecjia::config('date_format'), RC_Time::gmtime() - 86400);
 
             $this->assign('type', $type);
@@ -133,7 +121,7 @@ class platform_request extends ecjia_platform
         $wechat_id = $this->platformAccount->getAccountID();
 
         $where = "wechat_id = '$wechat_id'";
-        $type = !empty($_GET['type']) ? intval($_GET['type']) : 1;
+        $type  = !empty($_GET['type']) ? intval($_GET['type']) : 1;
 
         $m = RC_Time::local_date('m');
         $d = RC_Time::local_date('d');
@@ -142,13 +130,13 @@ class platform_request extends ecjia_platform
         //今天
         if ($type == 1) {
             $start_date = RC_Time::local_date(ecjia::config('date_format'), RC_Time::local_mktime(0, 0, 0, $m, $d - 1, $y));
-            $end_date = RC_Time::local_date(ecjia::config('date_format'), RC_Time::local_mktime(0, 0, 0, $m, $d + 1, $y));
+            $end_date   = RC_Time::local_date(ecjia::config('date_format'), RC_Time::local_mktime(0, 0, 0, $m, $d + 1, $y));
 
             $where .= " AND day > '$start_date' AND day < '$end_date' ";
             //昨天
         } elseif ($type == 2) {
             $start_date = RC_Time::local_date(ecjia::config('date_format'), RC_Time::local_mktime(0, 0, 0, $m, $d - 2, $y));
-            $end_date = RC_Time::local_date(ecjia::config('date_format'), RC_Time::local_mktime(0, 0, 0, $m, $d, $y));
+            $end_date   = RC_Time::local_date(ecjia::config('date_format'), RC_Time::local_mktime(0, 0, 0, $m, $d, $y));
 
             $where .= " AND day > '$start_date' AND day < '$end_date' ";
         }

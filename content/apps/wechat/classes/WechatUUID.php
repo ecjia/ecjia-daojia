@@ -49,24 +49,25 @@ namespace Ecjia\App\Wechat;
 
 use Ecjia\App\Platform\Frameworks\Platform\Account;
 
-class WechatUUID {
-    
+class WechatUUID
+{
+
     protected $uuid;
-    
+
     protected $account;
-    
+
     public function __construct($uuid = null, $account = null)
     {
         if (is_null($uuid)) {
-            
+
             if (royalcms('request')->input('uuid')) {
                 $this->uuid = royalcms('request')->input('uuid');
             } else if (session('uuid')) {
                 $this->uuid = session('uuid');
             }
-            
+
         } else {
-            $this->uuid = trim($uuid);   
+            $this->uuid = trim($uuid);
         }
 
         if (is_null($account)) {
@@ -75,33 +76,33 @@ class WechatUUID {
             $this->account = $account;
         }
     }
-    
-    
-    public function getWechatInstance() 
+
+
+    public function getWechatInstance()
     {
-        
-        $platform         = $this->account->getPlatform();
-        
+
+        $platform = $this->account->getPlatform();
+
         if ($platform == 'wechat') {
-            
+
             $config = array(
                 'app_id'     => $this->account->getAppId(),
                 'app_secret' => $this->account->getAppSecret(),
                 'aes_key'    => $this->account->getAESKey(),
             );
             royalcms('wechat')->init($config);
-            
+
             return royalcms('wechat');
         }
-        
+
         return null;
     }
-    
+
     public function getAccount()
     {
         return $this->account;
     }
-    
+
     /**
      * 获取公众号添加后的wechat_Id
      * @return integer
@@ -110,7 +111,7 @@ class WechatUUID {
     {
         return $this->account->getAccountID();
     }
-    
+
     /**
      * 获取公众号添加后台UUID
      * @return string
@@ -119,6 +120,6 @@ class WechatUUID {
     {
         return $this->uuid;
     }
-    
-    
+
+
 }

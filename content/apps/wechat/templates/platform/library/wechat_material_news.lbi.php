@@ -41,7 +41,7 @@
     <!-- {else} -->
     <table class="table table-striped">
         <tr>
-            <td class="no-records" colspan="10" style="border-top:0px;line-height:100px;">{lang key='wechat::wechat.unfind_any_recode'}</td>
+            <td class="no-records" colspan="10" style="border-top:0px;line-height:100px;">{t domain="wechat"}没有找到任何记录{/t}</td>
         </tr>
     </table>
     <!-- {/if} -->

@@ -10,13 +10,13 @@
 <!-- {block name="home-content"} -->
 {if $warn && $type eq 0}
 <div class="alert alert-danger">
-	<strong>{lang key='wechat::wechat.label_notice'}</strong>{$type_error}
+	<strong>{t domain="wechat"}温馨提示：{/t}</strong>{$type_error}
 </div>
 {/if}
 
 {if $errormsg}
 <div class="alert alert-danger">
-	<strong>{lang key='wechat::wechat.label_notice'}</strong>{$errormsg}
+	<strong>{t domain="wechat"}温馨提示：{/t}</strong>{$errormsg}
 </div>
 {/if}
 
@@ -36,10 +36,10 @@
 					<div class="card-body">
 						<div class="form-body">
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.label_parent_menu'}</label>
+								<label class="col-lg-2 label-control text-right">{t domain="wechat"}父级菜单：{/t}</label>
 								<div class="col-lg-8 controls">
 									<select name="pid" class="select2 form-control">
-										<option value="">{lang key='wechat::wechat.pls_select_menu'}</option>
+										<option value="">{t domain="wechat"}请选择菜单{/t}</option>
 										<!-- {foreach from=$pmenu item=val} -->
 										<option value="{$val.id}" {if $val.id eq $child}selected{/if}>{$val.name}</option>
 										<!-- {/foreach} -->
@@ -48,38 +48,38 @@
 							</div>
 							
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.label_menu_name'}</label>
+								<label class="col-lg-2 label-control text-right">{t domain="wechat"}菜单名称：{/t}</label>
 								<div class="col-lg-8 controls">
 									<input class="form-control" type="text" name="name" id="name" value="{$wechatmenus.name}" />
 								</div>
-								<span class="input-must">{lang key='system::system.require_field'}</span>
+								<span class="input-must">*</span>
 							</div>
 							
 							<div class="form-group row">
-								<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.label_menu_type'}</label>
+								<label class="col-lg-2 label-control text-right">{t domain="wechat"}菜单类型：{/t}</label>
 								<div class="col-lg-8 controls">
-									<input id="type_click" type="radio" name="type" value="click" {if $wechatmenus.type eq 'click'}checked{/if}><label for="type_click"><span>发送消息</span></label>
-									<input id="type_view" type="radio" name="type" value="view"  {if $wechatmenus.type eq 'view'}checked{/if}><label for="type_view"><span>跳转网页</span></label>
-									<input id="type_miniprogram" type="radio" name="type" value="miniprogram"  {if $wechatmenus.type eq 'miniprogram'}checked{/if}><label for="type_miniprogram"><span>跳转小程序</span></label>
+									<input id="type_click" type="radio" name="type" value="click" {if $wechatmenus.type eq 'click'}checked{/if}><label for="type_click"><span>{t domain="wechat"}发送消息{/t}</span></label>
+									<input id="type_view" type="radio" name="type" value="view" {if $wechatmenus.type eq 'view'}checked{/if}><label for="type_view"><span>{t domain="wechat"}跳转网页{/t}</span></label>
+									<input id="type_miniprogram" type="radio" name="type" value="miniprogram" {if $wechatmenus.type eq 'miniprogram'}checked{/if}><label for="type_miniprogram"><span>{t domain="wechat"}跳转小程序{/t}</span></label>
 								</div>
 							</div>
 							
 							<div  id="keydiv" class="form-group row">
-								<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.label_menu_keywords'}</label>
+								<label class="col-lg-2 label-control text-right">{t domain="wechat"}菜单关键词：{/t}</label>
 								<div class="col-lg-8 controls">
 									<input class="form-control" type="text" name="key" id="key" value="{$wechatmenus.key}" />
 								</div>
 							</div>
 							
 							<div id="urldiv" class="form-group row">
-								<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.label_menu_url'}</label>
+								<label class="col-lg-2 label-control text-right">{t domain="wechat"}外链url：{/t}</label>
 								<div class="col-lg-8 controls">
 									<input class="form-control" type="text" name="url" id="url" value="{$wechatmenus.url}" />
 								</div>
 							</div>
 							
 							<div id="weappdiv" class="form-group row" >
-								<label class="col-lg-2 label-control text-right">选择小程序：</label>
+								<label class="col-lg-2 label-control text-right">{t domain="wechat"}选择小程序：{/t}</label>
 								<div class="col-lg-8 controls">
 									<select class="select2 form-control"  id="weapp_appid" name="weapp_appid">
 				                        <option value='0'>请选择</option>
@@ -91,15 +91,15 @@
 							</div>
 							
 							<div class="form-group row" >
-								<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.label_menu_status'}</label>
+								<label class="col-lg-2 label-control text-right">{t domain="wechat"}是否开启：{/t}</label>
 								<div class="col-lg-8 controls">
-									<input id="status_1" type="radio" class="uni_style" name="status" value="1" {if $wechatmenus.status eq 1}checked{/if}><label for="status_1">{lang key='system::system.yes'}</label>
-									<input id="status_0" type="radio" class="uni_style" name="status" value="0" {if $wechatmenus.status eq 0}checked{/if}><label for="status_0">{lang key='system::system.no'}</label>
+									<input id="status_1" type="radio" class="uni_style" name="status" value="1" {if $wechatmenus.status eq 1}checked{/if}><label for="status_1">{t domain="wechat"}是{/t}</label>
+									<input id="status_0" type="radio" class="uni_style" name="status" value="0" {if $wechatmenus.status eq 0}checked{/if}><label for="status_0">{t domain="wechat"}否{/t}</label>
 								</div>
 							</div>
 							
 							<div class="form-group row" >
-								<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.label_sort'}</label>
+								<label class="col-lg-2 label-control text-right">{t domain="wechat"}排序：{/t}</label>
 								<div class="col-lg-8 controls">
 									<input class="form-control" type="text" name="sort" id="sort" value="{$wechatmenus.sort}" />
 								</div>
@@ -110,9 +110,9 @@
 					<div class="modal-footer justify-content-center">
 						<input name="menu_id" type="hidden"value="{$wechatmenus.id}">
 						{if $errormsg}
-						<input type="submit" name="submit" value="{lang key='wechat::wechat.ok'}" disabled="disabled" class="btn btn-outline-primary" />	
+						<input type="submit" name="submit" value='{t domain="wechat"}确定{/t}' disabled="disabled" class="btn btn-outline-primary" />
 						{else}
-						<input type="submit" name="submit" value="{lang key='wechat::wechat.ok'}" class="btn btn-outline-primary" />	
+						<input type="submit" name="submit" value='{t domain="wechat"}确定{/t}' class="btn btn-outline-primary" />
 						{/if}
 					</div>
 				</form>	

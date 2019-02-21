@@ -60,7 +60,7 @@ class wechat_user_remove_cleardata_api extends Component_Event_Api
         $user_id = array_get($options, 'user_id');
 
         if (empty($user_id)) {
-            return new ecjia_error('invalid_parameter', '请求接口wechat_user_remove_cleardata_api参数无效');
+            return new ecjia_error('invalid_parameter', __('请求接口wechat_user_remove_cleardata_api参数无效', 'wechat'));
         }
 
         return [

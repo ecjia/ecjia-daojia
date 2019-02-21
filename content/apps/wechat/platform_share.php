@@ -59,16 +59,15 @@ class platform_share extends ecjia_platform
         RC_Loader::load_app_func('global');
         Ecjia\App\Wechat\Helper::assign_adminlog_content();
 
-
         /* 加载全局 js/css */
         RC_Script::enqueue_script('jquery-validate');
         RC_Script::enqueue_script('jquery-form');
 
         RC_Script::enqueue_script('wechat_qrcodeshare', RC_App::apps_url('statics/platform-js/wechat_qrcodeshare.js', __FILE__), array(), false, true);
-        RC_Script::localize_script('wechat_qrcodeshare', 'js_lang', RC_Lang::get('wechat::wechat.js_lang'));
+        RC_Script::localize_script('wechat_qrcodeshare', 'js_lang', config('app-wechat::jslang.platform_share_page'));
 
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('wechat::wechat.scan_code'), RC_Uri::url('wechat/platform_share/init')));
-        ecjia_platform_screen::get_current_screen()->set_subject('推荐二维码');
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('推荐二维码', 'wechat'), RC_Uri::url('wechat/platform_share/init')));
+        ecjia_platform_screen::get_current_screen()->set_subject(__('推荐二维码', 'wechat'));
     }
 
     /**
@@ -79,20 +78,21 @@ class platform_share extends ecjia_platform
         $this->admin_priv('wechat_share_manage');
 
         ecjia_platform_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('wechat::wechat.scan_code')));
-        $this->assign('action_link', array('text' => RC_Lang::get('wechat::wechat.add_qr_code'), 'href' => RC_Uri::url('wechat/platform_share/add')));
-        $this->assign('ur_here', RC_Lang::get('wechat::wechat.scan_code_list'));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('推荐二维码', 'wechat')));
+        $this->assign('action_link', array('text' => __('添加二维码', 'wechat'), 'href' => RC_Uri::url('wechat/platform_share/add')));
+        $this->assign('ur_here', __('推荐二维码列表', 'wechat'));
 
         $wechat_id = $this->platformAccount->getAccountID();
 
         if (is_ecjia_error($wechat_id)) {
-            $this->assign('errormsg', RC_Lang::get('wechat::wechat.add_platform_first'));
+            $this->assign('errormsg', __('请先添加公众号，再进行后续操作', 'wechat'));
         } else {
             $this->assign('warn', 'warn');
             $type = $this->platformAccount->getType();
-
+            $wechat_type = array(__('未认证的公众号', 'wechat'), __('订阅号', 'wechat'), __('服务号', 'wechat'), __('测试账号', 'wechat'), __('企业号', 'wechat'));
+            
             $this->assign('type', $type);
-            $this->assign('type_error', sprintf(RC_Lang::get('wechat::wechat.notice_service_info'), RC_Lang::get('wechat::wechat.wechat_type.' . $type)));
+            $this->assign('type_error', sprintf(__('抱歉！您的公众号属于%s类型，该模块目前只支持“认证服务号”类型的公众号。', 'wechat'), $wechat_type[$type]));
 
             $listdb = $this->get_sharelist();
             $this->assign('listdb', $listdb);
@@ -109,13 +109,13 @@ class platform_share extends ecjia_platform
         $this->admin_priv('wechat_share_delete', ecjia::MSGTYPE_JSON);
 
         $wechat_id = $this->platformAccount->getAccountID();
-        $id = intval($_GET['id']);
-        $username = RC_DB::table('wechat_qrcode')->where('wechat_id', $wechat_id)->where('id', $id)->pluck('username');
+        $id        = intval($_GET['id']);
+        $username  = RC_DB::table('wechat_qrcode')->where('wechat_id', $wechat_id)->where('id', $id)->pluck('username');
 
         RC_DB::table('wechat_qrcode')->where('wechat_id', $wechat_id)->where('id', $id)->delete();
-        $this->admin_log(sprintf(RC_Lang::get('wechat::wechat.recommended_person'), $username), 'remove', 'share');
+        $this->admin_log(sprintf(__('推荐人是%s', 'wechat'), $username), 'remove', 'share');
 
-        return $this->showmessage(RC_Lang::get('wechat::wechat.remove_scan_code_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_share/init')));
+        return $this->showmessage(__('删除推荐二维码成功', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('wechat/platform_share/init')));
     }
 
     /**
@@ -126,10 +126,10 @@ class platform_share extends ecjia_platform
         $wechat_id = $this->platformAccount->getAccountID();
 
         $db_qrcode = RC_DB::table('wechat_qrcode')->where('wechat_id', $wechat_id)->where('username', '!=', '');
-        $count = $db_qrcode->count();
-        $page = new ecjia_platform_page($count, 10, 5);
+        $count     = $db_qrcode->count();
+        $page      = new ecjia_platform_page($count, 10, 5);
 
-        $arr = array();
+        $arr  = array();
         $data = $db_qrcode->select('*')->orderBy('sort', 'asc')->take(10)->skip($page->start_id - 1)->get();
         if (isset($data)) {
             foreach ($data as $rows) {

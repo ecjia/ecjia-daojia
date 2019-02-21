@@ -1,0 +1,3727 @@
+# Copyright (C) 2019 Ecjia App wechat
+# This file is distributed under the same license as the Ecjia App wechat package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App wechat 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:59:54+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: apis/wechat_admin_purview_api.class.php:59
+#: apis/wechat_platform_purview_api.class.php:59
+msgid "授权登录"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:60
+#: apis/wechat_platform_purview_api.class.php:60
+msgid "编辑授权登录"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:62
+#: apis/wechat_platform_purview_api.class.php:62
+msgid "自动回复管理"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:63
+#: apis/wechat_platform_purview_api.class.php:63
+msgid "自动回复添加"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:64
+#: apis/wechat_platform_purview_api.class.php:64
+msgid "自动回复编辑"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:65
+#: apis/wechat_platform_purview_api.class.php:65
+msgid "自动回复添删除"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:67
+#: apis/wechat_platform_menu_api.class.php:67
+#: apis/wechat_platform_purview_api.class.php:67
+msgid "自定义菜单"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:68
+#: apis/wechat_platform_purview_api.class.php:68
+msgid "添加菜单"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:69
+#: apis/wechat_platform_purview_api.class.php:69
+msgid "编辑菜单"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:70
+#: apis/wechat_platform_purview_api.class.php:70
+msgid "删除菜单"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:72
+#: apis/wechat_platform_purview_api.class.php:72 classes/Helper.php:61
+msgid "消息模板"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:73
+#: apis/wechat_platform_purview_api.class.php:73
+msgid "添加消息模板"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:74
+#: apis/wechat_platform_purview_api.class.php:74
+msgid "编辑消息模板"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:75
+#: apis/wechat_platform_purview_api.class.php:75
+msgid "删除消息模板"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:77
+#: apis/wechat_platform_menu_api.class.php:110
+#: apis/wechat_platform_purview_api.class.php:77 classes/Helper.php:62
+#: platform_qrcode.php:69 platform_qrcode.php:70 platform_qrcode.php:81
+msgid "渠道二维码"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:78
+#: apis/wechat_platform_purview_api.class.php:78
+msgid "添加渠道二维码"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:79
+#: apis/wechat_platform_purview_api.class.php:79
+msgid "编辑渠道二维码"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:80
+#: apis/wechat_platform_purview_api.class.php:80
+msgid "删除渠道二维码"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:82
+#: apis/wechat_platform_menu_api.class.php:111
+#: apis/wechat_platform_purview_api.class.php:82 classes/Helper.php:63
+#: platform_share.php:69 platform_share.php:70 platform_share.php:81
+msgid "推荐二维码"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:83
+#: apis/wechat_platform_purview_api.class.php:83
+msgid "添加推荐二维码"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:84
+#: apis/wechat_platform_purview_api.class.php:84
+msgid "编辑推荐二维码"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:85
+#: apis/wechat_platform_purview_api.class.php:85
+msgid "删除推荐二维码"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:87
+#: apis/wechat_platform_menu_api.class.php:93
+#: apis/wechat_platform_purview_api.class.php:87 platform_material.php:77
+#: platform_material.php:190 platform_material.php:327
+#: platform_material.php:333 platform_material.php:1148
+msgid "素材管理"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:88
+#: apis/wechat_platform_purview_api.class.php:88
+msgid "素材添加"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:89
+#: apis/wechat_platform_purview_api.class.php:89
+msgid "素材编辑"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:90
+#: apis/wechat_platform_purview_api.class.php:90
+msgid "素材删除"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:92
+#: apis/wechat_platform_menu_api.class.php:72
+#: apis/wechat_platform_purview_api.class.php:92 platform_mass_message.php:72
+#: platform_mass_message.php:73
+msgid "群发消息"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:94
+#: apis/wechat_platform_menu_api.class.php:76
+#: apis/wechat_platform_menu_api.class.php:78
+#: apis/wechat_platform_purview_api.class.php:94 platform_subscribe.php:75
+#: platform_subscribe.php:76 platform_subscribe.php:84
+#: platform_subscribe.php:88 platform_subscribe.php:572
+msgid "粉丝管理"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:95
+#: apis/wechat_platform_purview_api.class.php:95
+msgid "粉丝添加"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:96
+#: apis/wechat_platform_purview_api.class.php:96
+msgid "粉丝编辑"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:97
+#: apis/wechat_platform_purview_api.class.php:97
+msgid "粉丝删除"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:99
+#: apis/wechat_platform_purview_api.class.php:99
+msgid "用户消息管理"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:100
+#: apis/wechat_platform_purview_api.class.php:100
+msgid "用户消息发送"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:102
+#: apis/wechat_platform_menu_api.class.php:100
+#: apis/wechat_platform_purview_api.class.php:102 platform_customer.php:75
+#: platform_customer.php:76
+msgid "客服管理"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:103
+#: apis/wechat_platform_purview_api.class.php:103
+msgid "客服添加"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:104
+#: apis/wechat_platform_purview_api.class.php:104
+msgid "客服编辑"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:105
+#: apis/wechat_platform_purview_api.class.php:105
+msgid "客服删除"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:106
+#: apis/wechat_platform_purview_api.class.php:106
+msgid "客服聊天记录管理"
+msgstr ""
+
+#: apis/wechat_admin_purview_api.class.php:108
+#: apis/wechat_platform_purview_api.class.php:108 platform_prize.php:69
+#: platform_prize.php:80
+msgid "抽奖记录"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:61
+msgid "插件管理"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:63
+msgid "关键词命令"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:65 configs/package.php:55
+#: configs/package.php:56
+msgid "微信公众平台"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:69
+#: apis/wechat_platform_menu_api.class.php:71 platform_message.php:70
+#: platform_message.php:71 platform_message.php:79 platform_message.php:80
+msgid "消息管理"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:79 platform_subscribe.php:1010
+#: platform_subscribe.php:1021
+msgid "标签管理"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:80 platform_subscribe.php:1046
+#: platform_subscribe.php:1048
+msgid "取消关注"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:81 platform_subscribe.php:1103
+#: platform_subscribe.php:1105
+msgid "黑名单"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:85 platform_response.php:73
+#: platform_response.php:84 platform_response.php:212
+msgid "自动回复"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:87 platform_response.php:342
+#: platform_response.php:346 platform_response.php:347
+#: platform_response.php:367 platform_response.php:368
+msgid "关键词回复"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:88
+msgid "收到消息回复"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:89
+msgid "被关注回复"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:95 platform_material.php:88
+#: platform_material.php:185 platform_material.php:1134
+msgid "永久素材"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:96 platform_material.php:92
+#: platform_material.php:1136
+msgid "临时素材"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:102 platform_customer.php:87
+msgid "客服账号"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:103 platform_customer.php:541
+#: platform_customer.php:542
+msgid "客服会话"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:104 platform_record.php:73
+#: platform_record.php:74 platform_record.php:83 platform_record.php:84
+#: platform_record.php:143
+msgid "客服聊天记录"
+msgstr ""
+
+#: apis/wechat_platform_menu_api.class.php:108
+msgid "二维码管理"
+msgstr ""
+
+#: apis/wechat_platform_purview_api.class.php:110
+msgid "客服会话管理"
+msgstr ""
+
+#: apis/wechat_platform_purview_api.class.php:111
+msgid "客服会话更新"
+msgstr ""
+
+#: apis/wechat_platform_purview_api.class.php:112
+msgid "客服会话删除"
+msgstr ""
+
+#: apis/wechat_platform_response_api.class.php:59
+msgid "参数不是Ecjia\\App\\Platform\\Frameworks\\Platform\\Account对象"
+msgstr ""
+
+#: apis/wechat_user_remove_cleardata_api.class.php:63
+msgid "请求接口wechat_user_remove_cleardata_api参数无效"
+msgstr ""
+
+#: classes/Handlers/WechatMessageHandler.php:265
+msgid "视频消息已经收到"
+msgstr ""
+
+#: classes/Handlers/WechatMessageHandler.php:285
+msgid "小视频消息已经收到"
+msgstr ""
+
+#: classes/Handlers/WechatMessageHandler.php:294
+msgid "地理位置已经收到"
+msgstr ""
+
+#: classes/Handlers/WechatMessageHandler.php:303
+msgid "链接消息已经收到"
+msgstr ""
+
+#: classes/Handlers/WechatSubscribeHandler.php:153
+msgid "感谢您的关注"
+msgstr ""
+
+#: classes/Helper.php:59
+msgid "公众号"
+msgstr ""
+
+#: classes/Helper.php:60 platform_menus.php:69 platform_menus.php:70
+#: platform_menus.php:78
+msgid "微信菜单"
+msgstr ""
+
+#: classes/Helper.php:64
+msgid "客服"
+msgstr ""
+
+#: classes/Helper.php:66
+msgid "图文素材"
+msgstr ""
+
+#: classes/Helper.php:67
+msgid "多图文素材"
+msgstr ""
+
+#: classes/Helper.php:69
+msgid "图片素材"
+msgstr ""
+
+#: classes/Helper.php:70
+msgid "语音素材"
+msgstr ""
+
+#: classes/Helper.php:71
+msgid "视频素材"
+msgstr ""
+
+#: classes/Helper.php:72
+msgid "缩略图素材"
+msgstr ""
+
+#: classes/Helper.php:74 platform_response.php:83
+msgid "关注自动回复"
+msgstr ""
+
+#: classes/Helper.php:75 platform_response.php:211
+msgid "消息自动回复"
+msgstr ""
+
+#: classes/Helper.php:76
+msgid "关键词自动回复规则"
+msgstr ""
+
+#: classes/Helper.php:78
+msgid "批量转移"
+msgstr ""
+
+#: classes/Helper.php:79
+msgid "发送"
+msgstr ""
+
+#: classes/Helper.php:81
+msgid "用户标签"
+msgstr ""
+
+#: classes/Helper.php:82
+msgid "用户信息"
+msgstr ""
+
+#: classes/Helper.php:83
+msgid "用户消息"
+msgstr ""
+
+#: classes/Helper.php:84
+msgid "配置"
+msgstr ""
+
+#: classes/UserCleanHandlers/UserWechatAccountClear.php:96
+#: classes/UserCleanHandlers/UserWechatCustomMessageClear.php:106
+#: classes/UserCleanHandlers/UserWechatCustomerRecordClear.php:109
+#: classes/UserCleanHandlers/UserWechatPrizeClear.php:111
+msgid "用户名是%s"
+msgstr ""
+
+#: classes/UserCleanHandlers/UserWechatAccountClear.php:96
+#: classes/UserCleanHandlers/UserWechatCustomMessageClear.php:106
+#: classes/UserCleanHandlers/UserWechatCustomerRecordClear.php:109
+#: classes/UserCleanHandlers/UserWechatPrizeClear.php:111
+msgid "用户ID是%s"
+msgstr ""
+
+#: classes/WechatRecord.php:25
+msgid "抱歉，暂未找到与您关键词所匹配的信息，可以进入客服系统进行相关咨询"
+msgstr ""
+
+#: classes/WechatRecord.php:60
+msgid "回复图片消息"
+msgstr ""
+
+#: classes/WechatRecord.php:78
+msgid "回复语音消息"
+msgstr ""
+
+#: classes/WechatRecord.php:98
+msgid "回复视频消息"
+msgstr ""
+
+#: classes/WechatRecord.php:119
+msgid "回复图文消息"
+msgstr ""
+
+#: classes/WechatRecord.php:165
+msgid "回复多图文消息"
+msgstr ""
+
+#: classes/WechatRecord.php:190
+msgid "回复音乐消息"
+msgstr ""
+
+#: classes/WechatUser.php:49
+msgid "获取微信用户信息失败，微信用户尚未关注或已取消关注！"
+msgstr ""
+
+#: configs/api_limit.php:55
+msgid "获取access_token"
+msgstr ""
+
+#: configs/api_limit.php:60
+msgid "获取微信服务器IP地址"
+msgstr ""
+
+#: configs/api_limit.php:67
+msgid "自定义菜单创建"
+msgstr ""
+
+#: configs/api_limit.php:72
+msgid "自定义菜单查询"
+msgstr ""
+
+#: configs/api_limit.php:77
+msgid "自定义菜单删除"
+msgstr ""
+
+#: configs/api_limit.php:82
+msgid "创建个性化菜单"
+msgstr ""
+
+#: configs/api_limit.php:87
+msgid "删除个性化菜单"
+msgstr ""
+
+#: configs/api_limit.php:92
+msgid "测试个性化菜单匹配结果"
+msgstr ""
+
+#: configs/api_limit.php:97
+msgid "获取自定义菜单配置"
+msgstr ""
+
+#: configs/api_limit.php:104
+msgid "创建用户分组"
+msgstr ""
+
+#: configs/api_limit.php:109
+msgid "获取用户分组"
+msgstr ""
+
+#: configs/api_limit.php:114
+msgid "查询用户所在分组"
+msgstr ""
+
+#: configs/api_limit.php:119
+msgid "修改用户分组名"
+msgstr ""
+
+#: configs/api_limit.php:124
+msgid "移动用户分组"
+msgstr ""
+
+#: configs/api_limit.php:129
+msgid "批量移动用户分组"
+msgstr ""
+
+#: configs/api_limit.php:134
+msgid "删除用户分组"
+msgstr ""
+
+#: configs/api_limit.php:139
+msgid "设置用户备注名"
+msgstr ""
+
+#: configs/api_limit.php:144 platform_subscribe.php:475
+#: platform_subscribe.php:554
+msgid "获取用户信息"
+msgstr ""
+
+#: configs/api_limit.php:149
+msgid "批量获取用户基本信息"
+msgstr ""
+
+#: configs/api_limit.php:154
+msgid "获取关注者列表"
+msgstr ""
+
+#: configs/api_limit.php:159
+msgid "创建标签"
+msgstr ""
+
+#: configs/api_limit.php:164
+msgid "获取公众号已创建的标签"
+msgstr ""
+
+#: configs/api_limit.php:169
+msgid "编辑标签"
+msgstr ""
+
+#: configs/api_limit.php:174
+msgid "删除标签"
+msgstr ""
+
+#: configs/api_limit.php:179
+msgid "获取用户身上的标签列表"
+msgstr ""
+
+#: configs/api_limit.php:184
+msgid "批量为用户打标签"
+msgstr ""
+
+#: configs/api_limit.php:189
+msgid "批量为用户取消标签"
+msgstr ""
+
+#: configs/api_limit.php:196
+msgid "添加客服帐号"
+msgstr ""
+
+#: configs/api_limit.php:201
+msgid "修改客服帐号"
+msgstr ""
+
+#: configs/api_limit.php:206
+msgid "删除客服帐号"
+msgstr ""
+
+#: configs/api_limit.php:211
+msgid "设置客服帐号的头像"
+msgstr ""
+
+#: configs/api_limit.php:216
+msgid "获取所有客服账号"
+msgstr ""
+
+#: configs/api_limit.php:221
+msgid "获取在线客服接待信息"
+msgstr ""
+
+#: configs/api_limit.php:226
+msgid "邀请绑定客服帐号"
+msgstr ""
+
+#: configs/api_limit.php:231
+msgid "发送客服消息"
+msgstr ""
+
+#: configs/api_limit.php:236
+msgid "根据分组进行群发"
+msgstr ""
+
+#: configs/api_limit.php:241
+msgid "根据OpenID列表群发"
+msgstr ""
+
+#: configs/api_limit.php:246
+msgid "删除群发"
+msgstr ""
+
+#: configs/api_limit.php:251
+msgid "预览消息样式和排版"
+msgstr ""
+
+#: configs/api_limit.php:256
+msgid "查询群发消息发送状态"
+msgstr ""
+
+#: configs/api_limit.php:261
+msgid "设置所属行业"
+msgstr ""
+
+#: configs/api_limit.php:266
+msgid "获得模板ID"
+msgstr ""
+
+#: configs/api_limit.php:271
+msgid "发送模板消息"
+msgstr ""
+
+#: configs/api_limit.php:276
+msgid "获取自动回复规则"
+msgstr ""
+
+#: configs/api_limit.php:283
+msgid "新增永久图文素材"
+msgstr ""
+
+#: configs/api_limit.php:288
+msgid "新增其他类型永久素材"
+msgstr ""
+
+#: configs/api_limit.php:293
+msgid "获取永久素材"
+msgstr ""
+
+#: configs/api_limit.php:298
+msgid "删除永久素材"
+msgstr ""
+
+#: configs/api_limit.php:303
+msgid "修改永久图文素材"
+msgstr ""
+
+#: configs/api_limit.php:308
+msgid "获取素材总数"
+msgstr ""
+
+#: configs/api_limit.php:313
+msgid "获取素材列表"
+msgstr ""
+
+#: configs/api_limit.php:320
+msgid "创建二维码ticket"
+msgstr ""
+
+#: configs/api_limit.php:325
+msgid "通过ticket换取二维码"
+msgstr ""
+
+#: configs/api_limit.php:330
+msgid "长链接转短链接"
+msgstr ""
+
+#: configs/api_limit.php:337
+msgid "获取用户增减数据"
+msgstr ""
+
+#: configs/api_limit.php:342
+msgid "获取累计用户数据"
+msgstr ""
+
+#: configs/api_limit.php:347
+msgid "获取图文群发每日数据"
+msgstr ""
+
+#: configs/api_limit.php:352
+msgid "获取图文群发总数据"
+msgstr ""
+
+#: configs/api_limit.php:357
+msgid "获取图文统计数据"
+msgstr ""
+
+#: configs/api_limit.php:362
+msgid "获取图文统计分时数据"
+msgstr ""
+
+#: configs/api_limit.php:367
+msgid "获取图文分享转发数据"
+msgstr ""
+
+#: configs/api_limit.php:372
+msgid "获取图文分享转发分时数据"
+msgstr ""
+
+#: configs/api_limit.php:379
+msgid "获取api_ticket"
+msgstr ""
+
+#: configs/api_limit.php:386
+msgid "上传门店图片"
+msgstr ""
+
+#: configs/api_limit.php:391
+msgid "创建门店"
+msgstr ""
+
+#: configs/api_limit.php:396
+msgid "查询门店信息"
+msgstr ""
+
+#: configs/api_limit.php:401
+msgid "查询门店列表"
+msgstr ""
+
+#: configs/api_limit.php:406
+msgid "修改门店服务信息"
+msgstr ""
+
+#: configs/api_limit.php:411
+msgid "删除门店"
+msgstr ""
+
+#: configs/api_limit.php:416
+msgid "门店类目表"
+msgstr ""
+
+#: configs/api_limit.php:423
+msgid "发送语义理解请求"
+msgstr ""
+
+#: configs/api_limit.php:430
+msgid "申请开通摇一摇周边"
+msgstr ""
+
+#: configs/api_limit.php:435
+msgid "申请设备ID"
+msgstr ""
+
+#: configs/api_limit.php:440
+msgid "查询设备ID申请审核状态"
+msgstr ""
+
+#: configs/api_limit.php:445
+msgid "编辑设备信息"
+msgstr ""
+
+#: configs/api_limit.php:450
+msgid "配置设备与门店的关联关系"
+msgstr ""
+
+#: configs/api_limit.php:455
+msgid "查询设备列表"
+msgstr ""
+
+#: configs/api_limit.php:460
+msgid "新增页面"
+msgstr ""
+
+#: configs/api_limit.php:465
+msgid "编辑页面信息"
+msgstr ""
+
+#: configs/api_limit.php:470
+msgid "查询页面列表"
+msgstr ""
+
+#: configs/api_limit.php:475
+msgid "删除页面"
+msgstr ""
+
+#: configs/api_limit.php:480
+msgid "上传图片素材"
+msgstr ""
+
+#: configs/api_limit.php:485
+msgid "配置设备与页面的关联关系"
+msgstr ""
+
+#: configs/api_limit.php:490
+msgid "查询设备与页面的关联关系"
+msgstr ""
+
+#: configs/api_limit.php:495
+msgid "获取摇周边的设备及用户信息"
+msgstr ""
+
+#: configs/api_limit.php:500
+msgid "以设备为维度的数据统计"
+msgstr ""
+
+#: configs/api_limit.php:505
+msgid "批量查询设备统计数据"
+msgstr ""
+
+#: configs/api_limit.php:510
+msgid "以页面为维度的数据统计"
+msgstr ""
+
+#: configs/api_limit.php:515
+msgid "批量查询页面统计数据"
+msgstr ""
+
+#: configs/api_limit.php:520
+msgid "创建红包活动"
+msgstr ""
+
+#: configs/api_limit.php:525
+msgid "录入红包信息"
+msgstr ""
+
+#: configs/api_limit.php:530
+msgid "设置红包活动抽奖开关"
+msgstr ""
+
+#: configs/api_limit.php:535
+msgid "红包查询"
+msgstr ""
+
+#: configs/api_limit.php:540
+msgid "新增设备分组"
+msgstr ""
+
+#: configs/api_limit.php:545
+msgid "编辑设备分组信息"
+msgstr ""
+
+#: configs/api_limit.php:550
+msgid "删除设备分组"
+msgstr ""
+
+#: configs/api_limit.php:555
+msgid "查询设备分组列表"
+msgstr ""
+
+#: configs/api_limit.php:560
+msgid "查询设备分组详情"
+msgstr ""
+
+#: configs/api_limit.php:565
+msgid "添加设备到设备分组"
+msgstr ""
+
+#: configs/api_limit.php:570
+msgid "从设备分组中移除设备"
+msgstr ""
+
+#: configs/api_limit.php:575
+msgid "第三方平台获取开插件wifi_token"
+msgstr ""
+
+#: configs/api_limit.php:582
+msgid "获取WiFi门店列表"
+msgstr ""
+
+#: configs/api_limit.php:587
+msgid "查询门店的WiFi信息"
+msgstr ""
+
+#: configs/api_limit.php:592
+msgid "修改门店网络信息"
+msgstr ""
+
+#: configs/api_limit.php:597
+msgid "清空门店网络及设备"
+msgstr ""
+
+#: configs/api_limit.php:602
+msgid "添加密码型Wi-Fi设备"
+msgstr ""
+
+#: configs/api_limit.php:607
+msgid "查询Wi-Fi设备"
+msgstr ""
+
+#: configs/api_limit.php:612
+msgid "删除Wi-Fi设备"
+msgstr ""
+
+#: configs/api_limit.php:617
+msgid "获取物料二维码"
+msgstr ""
+
+#: configs/api_limit.php:622
+msgid "获取公众号连网URL"
+msgstr ""
+
+#: configs/api_limit.php:627
+msgid "设置商家主页"
+msgstr ""
+
+#: configs/api_limit.php:632
+msgid "查询商家主页"
+msgstr ""
+
+#: configs/api_limit.php:637
+msgid "设置顶部常驻入口文案"
+msgstr ""
+
+#: configs/api_limit.php:642
+msgid "Wi-Fi数据统计"
+msgstr ""
+
+#: configs/api_limit.php:649
+msgid "获取商户信息"
+msgstr ""
+
+#: configs/api_limit.php:654
+msgid "创建商品"
+msgstr ""
+
+#: configs/api_limit.php:659
+msgid "提交审核/取消发布商品"
+msgstr ""
+
+#: configs/api_limit.php:664
+msgid "设置测试人员白名单"
+msgstr ""
+
+#: configs/api_limit.php:669
+msgid "获取商品二维码"
+msgstr ""
+
+#: configs/api_limit.php:674
+msgid "查询商品信息"
+msgstr ""
+
+#: configs/api_limit.php:679
+msgid "批量查询商品信息"
+msgstr ""
+
+#: configs/api_limit.php:684
+msgid "更新商品信息"
+msgstr ""
+
+#: configs/api_limit.php:689
+msgid "清除商品信息"
+msgstr ""
+
+#: configs/api_limit.php:694
+msgid "检查wxticket参数"
+msgstr ""
+
+#: configs/api_limit.php:699
+msgid "获取网页授权access_token"
+msgstr ""
+
+#: configs/api_limit.php:704
+msgid "刷新网页授权access_token"
+msgstr ""
+
+#: configs/api_limit.php:709
+msgid "网页授权获取用户信息"
+msgstr ""
+
+#: configs/api_limit.php:714
+msgid "检验授权凭证（access_token）是否有效"
+msgstr ""
+
+#: configs/jslang.php:51
+msgid "请先输入要预览的内容"
+msgstr ""
+
+#: configs/jslang.php:52
+msgid "请先选择要预览的素材"
+msgstr ""
+
+#: configs/jslang.php:53
+msgid "请输入预览的账号"
+msgstr ""
+
+#: configs/jslang.php:54
+msgid "确定"
+msgstr ""
+
+#: mobile_profile.php:121 mobile_userbind.php:127
+msgid "短信已发送到手机%s，请注意查看"
+msgstr ""
+
+#: mobile_profile.php:135 mobile_profile.php:193
+msgid "请输入正确的手机校验码"
+msgstr ""
+
+#: mobile_profile.php:154
+msgid "密码不能为空"
+msgstr ""
+
+#: mobile_profile.php:158
+msgid "新密码和确认密码须保持一致"
+msgstr ""
+
+#: mobile_profile.php:164
+msgid "密码重设成功"
+msgstr ""
+
+#: mobile_profile.php:166
+msgid "密码重设失败!"
+msgstr ""
+
+#: mobile_profile.php:187
+msgid "该手机号已被注册"
+msgstr ""
+
+#: mobile_profile.php:190
+msgid "绑定手机号成功"
+msgstr ""
+
+#: mobile_qrcode.php:71
+msgid "openid或uuid参数不能为空"
+msgstr ""
+
+#: mobile_qrcode.php:83
+msgid "推广二维码仅支持服务号类型的公众号"
+msgstr ""
+
+#: mobile_userbind.php:96
+msgid "规定时间1分钟以外，可重新发送验证码"
+msgstr ""
+
+#: mobile_userbind.php:105
+msgid "手机号不能为空！"
+msgstr ""
+
+#: mobile_userbind.php:157
+msgid "请输入短信验证码"
+msgstr ""
+
+#: mobile_userbind.php:160
+msgid "验证码已过期，请重新获取"
+msgstr ""
+
+#: mobile_userbind.php:163
+msgid "验证码输入有误，请重新输入"
+msgstr ""
+
+#: mobile_userbind.php:203
+msgid "恭喜您，关联成功"
+msgstr ""
+
+#: platform_customer.php:88 platform_customer.php:116 platform_customer.php:197
+#: platform_customer.php:488
+msgid "客服账号列表"
+msgstr ""
+
+#: platform_customer.php:89 platform_customer.php:114 platform_customer.php:115
+msgid "添加客服账号"
+msgstr ""
+
+#: platform_customer.php:94 platform_customer.php:121 platform_customer.php:202
+#: platform_customer.php:361 platform_customer.php:547
+#: platform_customer.php:716 platform_mass_message.php:86
+#: platform_mass_message.php:166 platform_material.php:1482
+#: platform_menus.php:85 platform_menus.php:123 platform_menus.php:398
+#: platform_menus.php:480 platform_menus.php:563 platform_message.php:85
+#: platform_prize.php:85 platform_qrcode.php:88 platform_qrcode.php:121
+#: platform_record.php:89 platform_record.php:125 platform_request.php:88
+#: platform_response.php:92 platform_response.php:221 platform_response.php:354
+#: platform_response.php:375 platform_share.php:88 platform_subscribe.php:95
+#: platform_subscribe.php:195 platform_subscribe.php:271
+#: platform_subscribe.php:318 platform_subscribe.php:492
+#: platform_subscribe.php:575 platform_subscribe.php:726
+#: platform_subscribe.php:762 platform_subscribe.php:810
+#: platform_subscribe.php:889 platform_subscribe.php:1025
+#: platform_subscribe.php:1162
+msgid "请先添加公众号，再进行后续操作"
+msgstr ""
+
+#: platform_customer.php:98 platform_customer.php:125 platform_customer.php:207
+#: platform_customer.php:491 platform_customer.php:552
+#: platform_mass_message.php:90 platform_mass_message.php:170
+#: platform_material.php:1485 platform_menus.php:90 platform_menus.php:128
+#: platform_menus.php:252 platform_message.php:93 platform_prize.php:97
+#: platform_qrcode.php:93 platform_qrcode.php:126 platform_record.php:100
+#: platform_record.php:130 platform_share.php:92 platform_subscribe.php:174
+#: platform_subscribe.php:581 platform_subscribe.php:1031
+msgid "未认证的公众号"
+msgstr ""
+
+#: platform_customer.php:98 platform_customer.php:125 platform_customer.php:207
+#: platform_customer.php:491 platform_customer.php:552
+#: platform_mass_message.php:90 platform_mass_message.php:170
+#: platform_material.php:1485 platform_menus.php:90 platform_menus.php:128
+#: platform_menus.php:252 platform_message.php:93 platform_prize.php:97
+#: platform_qrcode.php:93 platform_qrcode.php:126 platform_record.php:100
+#: platform_record.php:130 platform_share.php:92 platform_subscribe.php:174
+#: platform_subscribe.php:581 platform_subscribe.php:1031
+msgid "订阅号"
+msgstr ""
+
+#: platform_customer.php:98 platform_customer.php:125 platform_customer.php:207
+#: platform_customer.php:491 platform_customer.php:552
+#: platform_mass_message.php:90 platform_mass_message.php:170
+#: platform_material.php:1485 platform_menus.php:90 platform_menus.php:128
+#: platform_menus.php:252 platform_message.php:93 platform_prize.php:97
+#: platform_qrcode.php:93 platform_qrcode.php:126 platform_record.php:100
+#: platform_record.php:130 platform_share.php:92 platform_subscribe.php:174
+#: platform_subscribe.php:581 platform_subscribe.php:1031
+msgid "服务号"
+msgstr ""
+
+#: platform_customer.php:98 platform_customer.php:125 platform_customer.php:207
+#: platform_customer.php:491 platform_customer.php:552
+#: platform_mass_message.php:90 platform_mass_message.php:170
+#: platform_material.php:1485 platform_menus.php:90 platform_menus.php:128
+#: platform_menus.php:252 platform_message.php:93 platform_prize.php:97
+#: platform_qrcode.php:93 platform_qrcode.php:126 platform_record.php:100
+#: platform_record.php:130 platform_share.php:92 platform_subscribe.php:174
+#: platform_subscribe.php:581 platform_subscribe.php:1031
+msgid "测试账号"
+msgstr ""
+
+#: platform_customer.php:98 platform_customer.php:125 platform_customer.php:207
+#: platform_customer.php:491 platform_customer.php:552
+#: platform_mass_message.php:90 platform_mass_message.php:170
+#: platform_material.php:1485 platform_menus.php:90 platform_menus.php:128
+#: platform_menus.php:252 platform_message.php:93 platform_prize.php:97
+#: platform_qrcode.php:93 platform_qrcode.php:126 platform_record.php:100
+#: platform_record.php:130 platform_share.php:92 platform_subscribe.php:174
+#: platform_subscribe.php:581 platform_subscribe.php:1031
+msgid "企业号"
+msgstr ""
+
+#: platform_customer.php:101 platform_customer.php:129
+#: platform_customer.php:210 platform_customer.php:494
+#: platform_customer.php:555 platform_material.php:1488 platform_qrcode.php:96
+#: platform_qrcode.php:130 platform_record.php:103 platform_share.php:95
+#: platform_subscribe.php:178
+msgid "抱歉！您的公众号属于%s类型，该模块目前只支持“认证服务号”类型的公众号。"
+msgstr ""
+
+#: platform_customer.php:154
+msgid "最多添加10个客服账号"
+msgstr ""
+
+#: platform_customer.php:160 platform_customer.php:252
+msgid "客服账号已存在"
+msgstr ""
+
+#: platform_customer.php:182
+msgid "返回客服账号列表"
+msgstr ""
+
+#: platform_customer.php:183
+msgid "继续添加客服账号"
+msgstr ""
+
+#: platform_customer.php:185
+msgid "添加客服账号成功"
+msgstr ""
+
+#: platform_customer.php:195 platform_customer.php:196
+msgid "编辑客服账号"
+msgstr ""
+
+#: platform_customer.php:315
+msgid "编辑客服账号成功"
+msgstr ""
+
+#: platform_customer.php:343
+msgid "删除客服账号成功"
+msgstr ""
+
+#: platform_customer.php:351
+msgid "获取客服信息成功"
+msgstr ""
+
+#: platform_customer.php:410
+msgid "获取在线客服成功"
+msgstr ""
+
+#: platform_customer.php:448 platform_menus.php:641
+msgid "切换成功"
+msgstr ""
+
+#: platform_customer.php:463
+msgid "客服昵称不能为空"
+msgstr ""
+
+#: platform_customer.php:476
+msgid "编辑昵称成功"
+msgstr ""
+
+#: platform_customer.php:486 platform_customer.php:487 platform_record.php:135
+#: platform_record.php:142
+msgid "客服消息记录"
+msgstr ""
+
+#: platform_customer.php:508
+msgid "绑定的客服人员微信号不能为空"
+msgstr ""
+
+#: platform_customer.php:532
+msgid "邀请成功"
+msgstr ""
+
+#: platform_customer.php:580 platform_customer.php:606
+msgid "获取成功"
+msgstr ""
+
+#: platform_customer.php:598 platform_customer.php:628
+msgid "请选择客服账号"
+msgstr ""
+
+#: platform_customer.php:624
+msgid "请选择用户"
+msgstr ""
+
+#: platform_customer.php:645
+msgid "创建成功"
+msgstr ""
+
+#: platform_customer.php:658
+msgid "请选择要关闭的会话"
+msgstr ""
+
+#: platform_customer.php:670
+msgid "关闭成功"
+msgstr ""
+
+#: platform_mass_message.php:80 platform_mass_message.php:81
+msgid "发送消息"
+msgstr ""
+
+#: platform_mass_message.php:93 platform_mass_message.php:173
+#: platform_message.php:96 platform_subscribe.php:177
+#: platform_subscribe.php:584 platform_subscribe.php:1034
+msgid ""
+"抱歉！您的公众号属于%s类型，该模块目前只支持“认证”和“测试”类型的公众号。"
+msgstr ""
+
+#: platform_mass_message.php:120
+msgid "文字必须为1到600个字"
+msgstr ""
+
+#: platform_mass_message.php:124
+msgid "请先选择素材"
+msgstr ""
+
+#: platform_mass_message.php:130
+msgid "按群组发送，必须选择标签"
+msgstr ""
+
+#: platform_mass_message.php:145
+msgid "群发任务已启动，不过一般需要较长的时间才能全部发送完毕，请耐心等待"
+msgstr ""
+
+#: platform_mass_message.php:160 platform_mass_message.php:161
+msgid "发送记录"
+msgstr ""
+
+#: platform_mass_message.php:191
+msgid "ID参数缺少"
+msgstr ""
+
+#: platform_mass_message.php:209
+msgid "微信服务器上删除失败：%s"
+msgstr ""
+
+#: platform_mass_message.php:216 platform_material.php:743
+#: platform_material.php:864 platform_material.php:993
+#: platform_material.php:1115 platform_material.php:1295 platform_prize.php:142
+#: platform_response.php:533 platform_subscribe.php:288
+msgid "删除成功"
+msgstr ""
+
+#: platform_mass_message.php:230
+msgid "请输入要预览的微信帐号"
+msgstr ""
+
+#: platform_mass_message.php:245
+msgid "发送预览成功，请留意你的手机微信"
+msgstr ""
+
+#: platform_mass_message.php:262 platform_prize.php:195
+#: platform_subscribe.php:709
+msgid "发送成功"
+msgstr ""
+
+#: platform_mass_message.php:263 platform_prize.php:197
+msgid "发送失败"
+msgstr ""
+
+#: platform_mass_message.php:264
+msgid "涉嫌广告"
+msgstr ""
+
+#: platform_mass_message.php:265
+msgid "涉嫌政治"
+msgstr ""
+
+#: platform_mass_message.php:266
+msgid "涉嫌社会"
+msgstr ""
+
+#: platform_mass_message.php:267
+msgid "涉嫌色情"
+msgstr ""
+
+#: platform_mass_message.php:268
+msgid "涉嫌违法犯罪"
+msgstr ""
+
+#: platform_mass_message.php:269
+msgid "涉嫌欺诈"
+msgstr ""
+
+#: platform_mass_message.php:270
+msgid "涉嫌版权"
+msgstr ""
+
+#: platform_mass_message.php:271
+msgid "涉嫌互推(互相宣传)"
+msgstr ""
+
+#: platform_mass_message.php:272
+msgid "涉嫌其他"
+msgstr ""
+
+#: platform_mass_message.php:273
+msgid "原创校验出现系统错误且用户选择了被判为转载就不群发"
+msgstr ""
+
+#: platform_mass_message.php:274
+msgid "原创校验被判定为不能群发"
+msgstr ""
+
+#: platform_mass_message.php:275
+msgid "原创校验被判定为转载文且用户选择了被判为转载就不群发"
+msgstr ""
+
+#: platform_material.php:101 platform_material.php:186
+#: platform_material.php:189
+msgid "图文添加"
+msgstr ""
+
+#: platform_material.php:102
+msgid "获取图文素材"
+msgstr ""
+
+#: platform_material.php:106
+msgid "图文素材：分为单图文、多图文素材。支持图片，语音，视频，缩略图素材。"
+msgstr ""
+
+#: platform_material.php:107
+msgid "单图文素材添加好之后，即可将多条单图文素材组合成为一条多图文素材。"
+msgstr ""
+
+#: platform_material.php:108
+msgid ""
+"★ 注意事项：单图文素材如果经过修改，则原先添加好的多图文素材需要重新组合。"
+msgstr ""
+
+#: platform_material.php:112
+msgid "获取图片素材"
+msgstr ""
+
+#: platform_material.php:116
+msgid "图片（image）素材大小: 2M，支持BMP/PNG/JPEG/JPG/GIF格式。"
+msgstr ""
+
+#: platform_material.php:120
+msgid "图片（image）素材大小: 2M，支持PNG/JPEG/JPG/GIF格式。"
+msgstr ""
+
+#: platform_material.php:125
+msgid "获取语音素材"
+msgstr ""
+
+#: platform_material.php:129
+msgid "语音（voice）素材大小：2M，播放长度不超过60s，mp3/wma/wav/amr格式。"
+msgstr ""
+
+#: platform_material.php:133
+msgid "语音（voice）素材大小：2M，播放长度不超过60s，支持AMR/MP3格式。"
+msgstr ""
+
+#: platform_material.php:137 platform_material.php:1141
+#: platform_material.php:1147
+msgid "视频添加"
+msgstr ""
+
+#: platform_material.php:138
+msgid "获取视频素材"
+msgstr ""
+
+#: platform_material.php:142 platform_material.php:1144
+msgid "视频（video）素材大小：10MB，支持MP4格式。"
+msgstr ""
+
+#: platform_material.php:148
+msgid "缩略图（thumb）素材大小：64KB，支持JPG格式。"
+msgstr ""
+
+#: platform_material.php:153
+msgid "永久素材管理"
+msgstr ""
+
+#: platform_material.php:155
+msgid "临时素材管理"
+msgstr ""
+
+#: platform_material.php:223 platform_material.php:397
+#: platform_material.php:502
+msgid "请输入图文标题"
+msgstr ""
+
+#: platform_material.php:227 platform_material.php:405
+#: platform_material.php:510
+msgid "请输入正文"
+msgstr ""
+
+#: platform_material.php:231 platform_material.php:401
+#: platform_material.php:506
+msgid "图文素材的封面图片必须选择一个"
+msgstr ""
+
+#: platform_material.php:238 platform_material.php:410
+#: platform_material.php:522
+msgid "图文素材的封面图片不是一个有效的素材，请更换一个封面素材。"
+msgstr ""
+
+#: platform_material.php:288 platform_material.php:1241
+msgid "返回素材管理"
+msgstr ""
+
+#: platform_material.php:289
+msgid "继续添加素材"
+msgstr ""
+
+#: platform_material.php:290 platform_material.php:554
+#: platform_material.php:1243 platform_response.php:174
+#: platform_response.php:305 platform_response.php:496
+#: platform_subscribe.php:246
+msgid "添加成功"
+msgstr ""
+
+#: platform_material.php:311
+msgid "该素材不存在"
+msgstr ""
+
+#: platform_material.php:317 platform_material.php:420
+#: platform_material.php:517 platform_material.php:580
+msgid "父图文素材ID不存在。"
+msgstr ""
+
+#: platform_material.php:328 platform_material.php:331
+msgid "图文编辑"
+msgstr ""
+
+#: platform_material.php:385 platform_material.php:393
+#: platform_material.php:567 platform_material.php:575
+#: platform_material.php:666
+msgid "图文素材ID不存在。"
+msgstr ""
+
+#: platform_material.php:466 platform_material.php:1387
+#: platform_response.php:197 platform_response.php:330
+#: platform_response.php:492 platform_subscribe.php:222
+#: platform_subscribe.php:750 platform_subscribe.php:970
+msgid "编辑成功"
+msgstr ""
+
+#: platform_material.php:498
+msgid "父级图文素材ID不存在。"
+msgstr ""
+
+#: platform_material.php:591
+msgid "移除%s图文素材成功"
+msgstr ""
+
+#: platform_material.php:608
+msgid "多图文素材ID不存在。"
+msgstr ""
+
+#: platform_material.php:646
+msgid "多图文素材发布成功！"
+msgstr ""
+
+#: platform_material.php:689
+msgid "获取素材成功！"
+msgstr ""
+
+#: platform_material.php:709 platform_material.php:833
+#: platform_material.php:962 platform_material.php:1083
+#: platform_material.php:1264
+msgid "请选择素材"
+msgstr ""
+
+#: platform_material.php:717
+msgid "该图文正在被使用，不能删除"
+msgstr ""
+
+#: platform_material.php:817 platform_material.php:944
+#: platform_material.php:1067
+msgid "上传成功"
+msgstr ""
+
+#: platform_material.php:841
+msgid "该图片正在被使用，不能删除"
+msgstr ""
+
+#: platform_material.php:868
+msgid "素材ID未找到"
+msgstr ""
+
+#: platform_material.php:970
+msgid "该缩略图正在被使用，不能删除"
+msgstr ""
+
+#: platform_material.php:1091
+msgid "该语音正在被使用，不能删除"
+msgstr ""
+
+#: platform_material.php:1144
+msgid ""
+"建议直接使用优酷等第三方视频网站的视频地址。优点:不占用服务器资源，支持更大、"
+"更多格式的视频素材。"
+msgstr ""
+
+#: platform_material.php:1177 platform_material.php:1381
+msgid "请输入标题！"
+msgstr ""
+
+#: platform_material.php:1181
+msgid "请输入视频简介！"
+msgstr ""
+
+#: platform_material.php:1185
+msgid "请上传视频！"
+msgstr ""
+
+#: platform_material.php:1242
+msgid "继续添加视频"
+msgstr ""
+
+#: platform_material.php:1245 platform_response.php:176
+#: platform_response.php:199 platform_response.php:307
+#: platform_subscribe.php:248
+msgid "添加失败"
+msgstr ""
+
+#: platform_material.php:1275
+msgid "该视频正在被使用，不能删除"
+msgstr ""
+
+#: platform_material.php:1336 platform_record.php:455
+msgid "获取完成"
+msgstr ""
+
+#: platform_material.php:1345
+msgid "已获取 %s 条素材"
+msgstr ""
+
+#: platform_material.php:1371
+msgid "请输入文件名称！"
+msgstr ""
+
+#: platform_material.php:1406
+msgid "没有找到相应记录,请重新搜索"
+msgstr ""
+
+#: platform_material.php:1438 platform_material.php:1569
+#: platform_response.php:562 platform_response.php:636
+msgid "n月j日"
+msgstr ""
+
+#: platform_menus.php:79 platform_menus.php:118 platform_menus.php:248
+msgid "微信菜单列表"
+msgstr ""
+
+#: platform_menus.php:80 platform_menus.php:116 platform_menus.php:117
+msgid "添加微信菜单"
+msgstr ""
+
+#: platform_menus.php:93 platform_menus.php:131 platform_menus.php:255
+msgid ""
+"抱歉！您当前公众号属于“未认证的公众号”，该模块目前还不支持“未认证的订阅号”。"
+msgstr ""
+
+#: platform_menus.php:159
+msgid "子菜单名称"
+msgstr ""
+
+#: platform_menus.php:159
+msgid "菜单名称"
+msgstr ""
+
+#: platform_menus.php:230 platform_menus.php:378 platform_menus.php:676
+#: platform_menus.php:765 platform_qrcode.php:144
+msgid "插件关键词"
+msgstr ""
+
+#: platform_menus.php:231 platform_menus.php:379 platform_menus.php:677
+#: platform_menus.php:766 platform_qrcode.php:145
+msgid "回复关键词"
+msgstr ""
+
+#: platform_menus.php:246 platform_menus.php:247
+msgid "编辑微信菜单"
+msgstr ""
+
+#: platform_menus.php:298
+msgid "菜单名称不能为空"
+msgstr ""
+
+#: platform_menus.php:306
+msgid "外链url不能为空"
+msgstr ""
+
+#: platform_menus.php:309
+msgid "外链url格式错误"
+msgstr ""
+
+#: platform_menus.php:318
+msgid "请选择小程序"
+msgstr ""
+
+#: platform_menus.php:402
+msgid "请添加自定义菜单或者检查菜单是否是开启状态"
+msgstr ""
+
+#: platform_menus.php:460
+msgid "生成菜单"
+msgstr ""
+
+#: platform_menus.php:461
+msgid "生成菜单成功"
+msgstr ""
+
+#: platform_menus.php:544
+msgid "获取菜单"
+msgstr ""
+
+#: platform_menus.php:545
+msgid "已成功获取微信端原有菜单！"
+msgstr ""
+
+#: platform_menus.php:570
+msgid "清除菜单"
+msgstr ""
+
+#: platform_menus.php:573
+msgid "已成功清除微信端所有菜单"
+msgstr ""
+
+#: platform_menus.php:600
+msgid "删除菜单成功"
+msgstr ""
+
+#: platform_menus.php:617 platform_qrcode.php:345
+msgid "请输入排序数值"
+msgstr ""
+
+#: platform_menus.php:621 platform_qrcode.php:349
+msgid "编辑排序成功"
+msgstr ""
+
+#: platform_menus.php:624
+msgid "菜单排序不能为空"
+msgstr ""
+
+#: platform_message.php:244 platform_record.php:416
+msgid "无标签"
+msgstr ""
+
+#: platform_prize.php:79
+msgid "抽奖记录列表"
+msgstr ""
+
+#: platform_prize.php:99
+msgid ""
+"抱歉！您当前公众号属于%s类型，该模块目前只支持“认证订阅号”和“认证服务号”类型"
+"的公众号。"
+msgstr ""
+
+#: platform_prize.php:121
+msgid "取消成功"
+msgstr ""
+
+#: platform_prize.php:124
+msgid "发放成功"
+msgstr ""
+
+#: platform_prize.php:155
+msgid "发送失败，请先添加公众号,再进行后续操作"
+msgstr ""
+
+#: platform_prize.php:163 platform_record.php:148 platform_subscribe.php:602
+#: platform_subscribe.php:685
+msgid "请选择微信用户"
+msgstr ""
+
+#: platform_prize.php:167 platform_subscribe.php:689
+msgid "消息内容不能为空"
+msgstr ""
+
+#: platform_qrcode.php:82 platform_qrcode.php:113 platform_qrcode.php:115
+#: platform_share.php:82
+msgid "添加二维码"
+msgstr ""
+
+#: platform_qrcode.php:83 platform_qrcode.php:116
+msgid "渠道二维码列表"
+msgstr ""
+
+#: platform_qrcode.php:177
+msgid "临时二维码为整型类型时场景值不能小于100001"
+msgstr ""
+
+#: platform_qrcode.php:180
+msgid "临时二维码为整型类型时场景值不能大于4294967295"
+msgstr ""
+
+#: platform_qrcode.php:187
+msgid "永久二维码为整型类型时场景值不能小于1"
+msgstr ""
+
+#: platform_qrcode.php:190
+msgid "永久二维码为整型类型时场景值不能大于100000"
+msgstr ""
+
+#: platform_qrcode.php:197
+msgid "临时二维码为字符串类型时长度不能小于1"
+msgstr ""
+
+#: platform_qrcode.php:200
+msgid "临时二维码为字符串类型时长度不能大于64"
+msgstr ""
+
+#: platform_qrcode.php:215 platform_qrcode.php:232 platform_qrcode.php:252
+#: platform_qrcode.php:305 platform_qrcode.php:348
+msgid "功能是%s"
+msgstr ""
+
+#: platform_qrcode.php:216
+msgid "添加二维码成功"
+msgstr ""
+
+#: platform_qrcode.php:233
+msgid "删除二维码成功"
+msgstr ""
+
+#: platform_qrcode.php:254
+msgid "批量操作成功"
+msgstr ""
+
+#: platform_qrcode.php:276
+msgid "二维码已禁用，请重新启用"
+msgstr ""
+
+#: platform_qrcode.php:324
+msgid "开启状态，功能是%s"
+msgstr ""
+
+#: platform_qrcode.php:326
+msgid "关闭状态，功能是%s"
+msgstr ""
+
+#: platform_qrcode.php:328
+msgid "编辑状态成功"
+msgstr ""
+
+#: platform_qrcode.php:352
+msgid "二维码排序不能为空"
+msgstr ""
+
+#: platform_record.php:133
+msgid ""
+"抱歉！您的公众号属于%s类型，该模块目前只支持“认证订阅号”和“认证服务号”类型的"
+"公众号。"
+msgstr ""
+
+#: platform_record.php:324 platform_subscribe.php:653
+msgid "没有更多消息了"
+msgstr ""
+
+#: platform_record.php:324 platform_subscribe.php:653
+msgid "搜索到了"
+msgstr ""
+
+#: platform_record.php:445
+msgid "当前没有更多数据"
+msgstr ""
+
+#: platform_request.php:70 platform_request.php:83
+msgid "Api请求统计列表"
+msgstr ""
+
+#: platform_request.php:71 platform_request.php:82
+msgid "Api请求统计"
+msgstr ""
+
+#: platform_response.php:105 platform_response.php:234
+#: platform_response.php:584 platform_response.php:655
+#: platform_response.php:703
+msgid "Y年m月d日"
+msgstr ""
+
+#: platform_response.php:165 platform_response.php:187
+#: platform_response.php:294 platform_response.php:319
+msgid "%s，回复类型是 文字"
+msgstr ""
+
+#: platform_response.php:167 platform_response.php:189
+#: platform_response.php:297 platform_response.php:322
+msgid "%s，回复类型是 图片"
+msgstr ""
+
+#: platform_response.php:169 platform_response.php:191
+#: platform_response.php:299 platform_response.php:324
+msgid "%s，回复类型是 语音"
+msgstr ""
+
+#: platform_response.php:171 platform_response.php:193
+#: platform_response.php:301 platform_response.php:326
+msgid "%s，回复类型是 视频"
+msgstr ""
+
+#: platform_response.php:332
+msgid "编辑失败"
+msgstr ""
+
+#: platform_response.php:351 platform_response.php:387
+#: platform_response.php:388
+msgid "添加规则"
+msgstr ""
+
+#: platform_response.php:380 platform_response.php:381
+msgid "编辑规则"
+msgstr ""
+
+#: platform_response.php:402
+msgid "添加失败，请先添加公众号，再进行后续操作"
+msgstr ""
+
+#: platform_response.php:421
+msgid "请填写规则名称"
+msgstr ""
+
+#: platform_response.php:425
+msgid "请至少填写1个关键词"
+msgstr ""
+
+#: platform_response.php:429
+msgid "请填写或选择回复内容！"
+msgstr ""
+
+#: platform_response.php:436 platform_response.php:441
+msgid "规则名称 %s 已存在"
+msgstr ""
+
+#: platform_response.php:456
+msgid "关键词 %s 已存在"
+msgstr ""
+
+#: platform_response.php:464
+msgid "关键词 %s 重复"
+msgstr ""
+
+#: platform_response.php:494
+msgid "返回关键词回复"
+msgstr ""
+
+#: platform_response.php:495
+msgid "继续添加规则"
+msgstr ""
+
+#: platform_response.php:510
+msgid "删除失败，请先添加公众号，再进行后续操作"
+msgstr ""
+
+#: platform_share.php:83
+msgid "推荐二维码列表"
+msgstr ""
+
+#: platform_share.php:116
+msgid "推荐人是%s"
+msgstr ""
+
+#: platform_share.php:118
+msgid "删除推荐二维码成功"
+msgstr ""
+
+#: platform_subscribe.php:201
+msgid "请输入标签名称"
+msgstr ""
+
+#: platform_subscribe.php:210 platform_subscribe.php:233
+msgid "该标签名字已存在，请重新输入"
+msgstr ""
+
+#: platform_subscribe.php:228
+msgid "最多只能创建100个标签"
+msgstr ""
+
+#: platform_subscribe.php:301
+msgid "获取用户标签"
+msgstr ""
+
+#: platform_subscribe.php:302
+msgid "获取用户标签成功"
+msgstr ""
+
+#: platform_subscribe.php:470 platform_subscribe.php:549
+msgid "已经获取 %s 条用户数据，因数量较多，请耐心等待..."
+msgstr ""
+
+#: platform_subscribe.php:476 platform_subscribe.php:555
+msgid "获取用户信息成功"
+msgstr ""
+
+#: platform_subscribe.php:569 platform_subscribe.php:571
+msgid "用户消息记录"
+msgstr ""
+
+#: platform_subscribe.php:694
+msgid ""
+"由于该用户48小时未与你互动，你不能再主动发消息给他。直到用户下次主动发消息给"
+"你才可以对其进行回复。"
+msgstr ""
+
+#: platform_subscribe.php:735
+msgid "备注名不能超过30个字符"
+msgstr ""
+
+#: platform_subscribe.php:749
+msgid "%s，修改备注为 %s"
+msgstr ""
+
+#: platform_subscribe.php:774 platform_subscribe.php:817
+msgid "移出黑名单"
+msgstr ""
+
+#: platform_subscribe.php:775 platform_subscribe.php:818
+msgid "移出黑名单成功"
+msgstr ""
+
+#: platform_subscribe.php:776 platform_subscribe.php:819
+msgid "移出黑名单失败"
+msgstr ""
+
+#: platform_subscribe.php:779
+msgid "加入黑名单"
+msgstr ""
+
+#: platform_subscribe.php:780
+msgid "加入黑名单成功"
+msgstr ""
+
+#: platform_subscribe.php:781
+msgid "加入黑名单失败"
+msgstr ""
+
+#: platform_subscribe.php:899
+msgid "最多只能选择3个标签"
+msgstr ""
+
+#: platform_subscribe.php:1022
+msgid "添加标签"
+msgstr ""
+
+#: platform_subscribe.php:1174
+msgid "星标组"
+msgstr ""
+
+#: platform_subscribe.php:1174
+msgid "星标用户"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_record_message.dwt.php:14
+#: content/apps/wechat/templates/platform/wechat_record_message.dwt.php:20
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:14
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:20
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:55
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:13
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:19
+#: content/apps/wechat/templates/platform/wechat_reply_subscribe.dwt.php:14
+#: content/apps/wechat/templates/platform/wechat_menus_list.dwt.php:13
+#: content/apps/wechat/templates/platform/wechat_menus_list.dwt.php:19
+#: content/apps/wechat/templates/platform/wechat_share_list.dwt.php:13
+#: content/apps/wechat/templates/platform/wechat_share_list.dwt.php:19
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:15
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:21
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:270
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:277
+#: content/apps/wechat/templates/platform/wechat_request_list.dwt.php:14
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:13
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:15
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:21
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:27
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:149
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:156
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:191
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:197
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:14
+#: content/apps/wechat/templates/platform/wechat_material.dwt.php:13
+#: content/apps/wechat/templates/platform/wechat_material.dwt.php:19
+#: content/apps/wechat/templates/platform/wechat_menus_edit.dwt.php:13
+#: content/apps/wechat/templates/platform/wechat_menus_edit.dwt.php:19
+#: content/apps/wechat/templates/platform/library/wechat_choose_material.lbi.php:15
+#: content/apps/wechat/templates/platform/library/wechat_choose_material.lbi.php:20
+#: content/apps/wechat/templates/platform/library/wechat_preview_msg.lbi.php:15
+#: content/apps/wechat/templates/platform/library/wechat_preview_msg.lbi.php:20
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:13
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:19
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:14
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:97
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:103
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:13
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:19
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:105
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:112
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:152
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:159
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:14
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:20
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:156
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:161
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:13
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:19
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:54
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:14
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:20
+#: content/apps/wechat/templates/platform/wechat_message_list.dwt.php:13
+#: content/apps/wechat/templates/platform/wechat_message_list.dwt.php:19
+#: content/apps/wechat/templates/platform/wechat_reply_msg.dwt.php:14
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:13
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:19
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:25
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:13
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:19
+#: content/apps/wechat/templates/platform/wechat_record_list.dwt.php:14
+#: content/apps/wechat/templates/platform/wechat_record_list.dwt.php:20
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:13
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:19
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:171
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:176
+msgid "温馨提示："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_record_message.dwt.php:40
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:41
+msgid "交谈用户："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_record_message.dwt.php:44
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:45
+msgid "查看更早的消息记录"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_record_message.dwt.php:77
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:123
+msgid "用户头像："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_record_message.dwt.php:88
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:134
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:119
+msgid "昵称："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_record_message.dwt.php:95
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:141
+msgid "备注名："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_record_message.dwt.php:104
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:164
+msgid "性别："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_record_message.dwt.php:106
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:166
+msgid "男"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_record_message.dwt.php:106
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:166
+msgid "女"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_record_message.dwt.php:111
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:171
+msgid "省-市："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_record_message.dwt.php:118
+msgid "用户组："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_record_message.dwt.php:131
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:188
+msgid "关注时间："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:28
+#: content/apps/wechat/templates/platform/wechat_menus_list.dwt.php:27
+#: content/apps/wechat/templates/platform/wechat_share_list.dwt.php:27
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:21
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:35
+#: content/apps/wechat/templates/platform/wechat_material.dwt.php:28
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:27
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:27
+#: content/apps/wechat/templates/platform/wechat_reply_msg.dwt.php:22
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:34
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:28
+msgid "操作提示"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:29
+msgid "该接口暂时仅提供给已微信认证的服务号。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:30
+msgid "用户每月只能接收4条群发消息，多于4条的群发将对该用户发送失败。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:31
+msgid ""
+"群发图文消息的标题上限为64个字节,群发内容字数上限为1200个字符、或600个汉字。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:32
+msgid ""
+"在返回成功时，意味着群发任务提交成功，并不意味着此时群发已经结束，所以，仍有"
+"可能在后续的发送过程中出现异常情况导致用户未收到消息，如消息有时会进行审核、"
+"服务器不稳定等。此外，群发任务一般需要较长的时间才能全部发送完毕，请耐心等"
+"待。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:55
+msgid ""
+"为保障用户体验，微信公众平台严禁恶意营销以及诱导分享朋友圈，严禁发布色情低"
+"俗、暴力血腥、政治谣言等各类违反法律法规及相关政策规定的信息。一旦发现，我们"
+"将严厉打击和处理。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:64
+msgid "群发对象："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:68
+msgid "全部用户"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:69
+msgid "按标签选择"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:90
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:71
+#: content/apps/wechat/templates/platform/wechat_material.dwt.php:51
+msgid "图文消息"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:90
+#: content/apps/wechat/templates/platform/wechat_reply_subscribe.dwt.php:63
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:228
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:71
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:77
+#: content/apps/wechat/templates/platform/wechat_reply_msg.dwt.php:63
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:92
+msgid "图文"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:93
+#: content/apps/wechat/templates/platform/wechat_reply_subscribe.dwt.php:51
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:59
+#: content/apps/wechat/templates/platform/wechat_reply_msg.dwt.php:51
+msgid "文本"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:93
+#: content/apps/wechat/templates/platform/wechat_reply_subscribe.dwt.php:51
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:216
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:59
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:76
+#: content/apps/wechat/templates/platform/wechat_reply_msg.dwt.php:51
+msgid "文字"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:96
+#: content/apps/wechat/templates/platform/wechat_reply_subscribe.dwt.php:54
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:219
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:62
+#: content/apps/wechat/templates/platform/wechat_material.dwt.php:57
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:78
+#: content/apps/wechat/templates/platform/wechat_reply_msg.dwt.php:54
+msgid "图片"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:99
+#: content/apps/wechat/templates/platform/wechat_reply_subscribe.dwt.php:57
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:222
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:65
+#: content/apps/wechat/templates/platform/wechat_material.dwt.php:61
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:79
+#: content/apps/wechat/templates/platform/wechat_reply_msg.dwt.php:57
+msgid "语音"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:102
+#: content/apps/wechat/templates/platform/wechat_reply_subscribe.dwt.php:60
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:225
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:68
+#: content/apps/wechat/templates/platform/wechat_material.dwt.php:65
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:80
+#: content/apps/wechat/templates/platform/wechat_reply_msg.dwt.php:60
+msgid "视频"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:112
+#: content/apps/wechat/templates/platform/wechat_reply_subscribe.dwt.php:73
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:238
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:81
+#: content/apps/wechat/templates/platform/wechat_reply_msg.dwt.php:73
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:118
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:83
+msgid "从素材库选择"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_message.dwt.php:127
+#: content/apps/wechat/templates/platform/library/wechat_show_message.lbi.php:5
+msgid "预览"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:39
+msgid "二维码类型："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:42
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:54
+msgid "临时二维码"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:43
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:50
+msgid "永久二维码"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:49
+msgid "应用场景值："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:52
+msgid ""
+"整型：临时二维码时为32位非0整型（100001-4294967295），永久二维码时最大值为"
+"100000（目前参数只支持1--100000）。<br>字符串类型：场景值ID（字符串形式的"
+"ID），长度限制为1到64"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:58
+msgid "有效时间："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:61
+msgid ""
+"该二维码有效时间，以天为单位。 最大不超过30天，此字段如果不填，则默认有效期为"
+"30秒。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:66
+msgid "功能关键词："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:68
+msgid "选择关键词"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:69
+msgid "自定义关键词"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:77
+msgid "请选择关键词..."
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:86
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:95
+msgid "该二维码的功能关键词"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:101
+#: content/apps/wechat/templates/platform/wechat_menus_edit.dwt.php:102
+#: content/apps/wechat/templates/platform/library/wechat_menu_second.lbi.php:30
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:79
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:142
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:106
+msgid "排序："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:108
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:83
+msgid "状态："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:110
+msgid "启用"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_edit.dwt.php:111
+msgid "禁用"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_subscribe.dwt.php:23
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:22
+#: content/apps/wechat/templates/platform/wechat_reply_msg.dwt.php:23
+msgid ""
+"自动回复的类型 共分三种：关注自动回复、消息自动回复、关键词自动回复。回复内容"
+"可以设置为文字，图片，语音，视频。文本消息回复内容可以直接填写，长度限制1024"
+"字节（大约200字，含标点以及其他特殊字符），其他素材需要先在素材管理中添加。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_subscribe.dwt.php:24
+msgid ""
+"三、关注自动回复：即用户关注微信公众号自动回复的消息（包含重新关注）。例如："
+"欢迎关注微信公众号！"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_subscribe.dwt.php:25
+msgid "★ 关注自动回复，不支持图文消息素材。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_subscribe.dwt.php:83
+#: content/apps/wechat/templates/platform/wechat_reply_subscribe.dwt.php:112
+#: content/apps/wechat/templates/platform/wechat_share_list.dwt.php:58
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:132
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:91
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:120
+#: content/apps/wechat/templates/platform/library/wechat_material_voice.lbi.php:24
+#: content/apps/wechat/templates/platform/library/wechat_material_image.lbi.php:24
+#: content/apps/wechat/templates/platform/library/wechat_material_thumb.lbi.php:24
+#: content/apps/wechat/templates/platform/library/wechat_material_news_child.lbi.php:21
+#: content/apps/wechat/templates/platform/library/wechat_material_news_child.lbi.php:35
+#: content/apps/wechat/templates/platform/library/wechat_material_video.lbi.php:20
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:102
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:54
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:76
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:134
+#: content/apps/wechat/templates/platform/wechat_reply_msg.dwt.php:83
+#: content/apps/wechat/templates/platform/wechat_reply_msg.dwt.php:112
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:94
+msgid "删除"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_subscribe.dwt.php:97
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:105
+#: content/apps/wechat/templates/platform/library/wechat_choose_material_newchild_list.lbi.php:12
+#: content/apps/wechat/templates/platform/library/wechat_choose_material_newchild_list.lbi.php:33
+#: content/apps/wechat/templates/platform/wechat_reply_msg.dwt.php:97
+msgid "已选择"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_subscribe.dwt.php:102
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:83
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:89
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:110
+#: content/apps/wechat/templates/platform/library/wechat_material_voice.lbi.php:26
+#: content/apps/wechat/templates/platform/library/wechat_material_image.lbi.php:26
+#: content/apps/wechat/templates/platform/library/wechat_material_image.lbi.php:45
+#: content/apps/wechat/templates/platform/library/wechat_material_thumb.lbi.php:26
+#: content/apps/wechat/templates/platform/library/wechat_material_news_child.lbi.php:14
+#: content/apps/wechat/templates/platform/library/wechat_material_news_child.lbi.php:28
+#: content/apps/wechat/templates/platform/library/wechat_choose_material_newchild_list.lbi.php:16
+#: content/apps/wechat/templates/platform/library/wechat_choose_material_newchild_list.lbi.php:26
+#: content/apps/wechat/templates/platform/library/wechat_material_video.lbi.php:21
+#: content/apps/wechat/templates/platform/wechat_reply_msg.dwt.php:102
+msgid "无标题"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_list.dwt.php:28
+msgid "微信自定义菜单最多可添加3个一级菜单、5个二级菜单。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_list.dwt.php:29
+msgid ""
+"微信自定义菜单分为发送消息，跳转网页，跳转小程序三种类型。发送消息是响应关键"
+"词指令，跳转网页则是直接跳转URL地址（填写绝对路径）。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_list.dwt.php:30
+msgid ""
+"每次修改自定义菜单后，由于微信客户端缓存，需要24小时左右微信客户端才会显示生"
+"效。测试时可以尝试重新关注微信公众号，或者清除微信缓存。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_list.dwt.php:42
+msgid "通过点击该按钮可以获取微信端原有的菜单到本地。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_list.dwt.php:43
+msgid "您确定要清除菜单吗？"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_list.dwt.php:43
+msgid "通过点击该按钮可以清除微信端所有菜单，则本地菜单状态更新为关闭状态。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_list.dwt.php:63
+msgid "点击左侧菜单进行编辑操作"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_list.dwt.php:95
+#: content/apps/wechat/templates/platform/library/wechat_menu_menu.lbi.php:21
+msgid "最多添加5个子菜单"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_list.dwt.php:106
+#: content/apps/wechat/templates/platform/library/wechat_menu_menu.lbi.php:32
+msgid "最多添加3个一级菜单"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_list.dwt.php:117
+msgid "发布成功后会覆盖原版本，且将在24小时内对所有用户生效，确认发布？"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_list.dwt.php:117
+msgid "发布"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_share_list.dwt.php:28
+msgid ""
+"推荐二维码：即管理员可以使用网站已有会员生成带推荐功能的二维码（默认永久二维"
+"码），让新用户扫码关注，即与推荐人形成上下级关系。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_share_list.dwt.php:29
+msgid ""
+"添加用户推荐二维码，需要开通插件\"mp_qrcode\"后，通过公众号里菜单或输入命令"
+"\"qrcode\"获取每个用户的推荐码。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_share_list.dwt.php:44
+msgid "推荐人"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_share_list.dwt.php:45
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:83
+msgid "功能"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_share_list.dwt.php:46
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:85
+msgid "扫码次数"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_share_list.dwt.php:47
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:69
+msgid "创建时间"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_share_list.dwt.php:57
+#: content/apps/wechat/templates/platform/wechat_record_list.dwt.php:103
+msgid "查看"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_share_list.dwt.php:57
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:101
+msgid "获取二维码"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_share_list.dwt.php:58
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:63
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:102
+msgid "您确定要删除该二维码吗？"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_share_list.dwt.php:72
+#: content/apps/wechat/templates/platform/wechat_unsubscribe_list.dwt.php:70
+#: content/apps/wechat/templates/platform/wechat_request_list.dwt.php:55
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:136
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:127
+#: content/apps/wechat/templates/platform/wechat_black_list.dwt.php:78
+#: content/apps/wechat/templates/platform/library/wechat_material_news.lbi.php:44
+#: content/apps/wechat/templates/platform/library/wechat_material_video.lbi.php:32
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:118
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:75
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:83
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:139
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:106
+#: content/apps/wechat/templates/platform/wechat_message_list.dwt.php:78
+#: content/apps/wechat/templates/platform/wechat_record_list.dwt.php:109
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:148
+msgid "没有找到任何记录"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:58
+#: content/apps/wechat/templates/platform/library/wechat_subscribe_message.lbi.php:3
+msgid "点击查看"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:64
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:70
+#: content/apps/wechat/templates/platform/library/wechat_subscribe_message.lbi.php:9
+#: content/apps/wechat/templates/platform/library/wechat_subscribe_message.lbi.php:15
+msgid "点击播放"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:178
+msgid "用户标签："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:198
+#: content/apps/wechat/templates/platform/wechat_black_list.dwt.php:69
+msgid "您确定要将该用户移出黑名单吗？"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:203
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:119
+msgid "您确定要将该用户加入黑名单吗？"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:245
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:114
+msgid "（只有48小时内给公众号发送过信息的粉丝才能接收到信息）"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:246
+msgid "（最多输入600字）"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_message.dwt.php:263
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:65
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:112
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:142
+msgid "打标签"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_unsubscribe_list.dwt.php:22
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:69
+#: content/apps/wechat/templates/platform/wechat_black_list.dwt.php:37
+msgid "请输入昵称/省/市搜索"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_unsubscribe_list.dwt.php:23
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:44
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:70
+#: content/apps/wechat/templates/platform/wechat_black_list.dwt.php:38
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:69
+msgid "搜索"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_unsubscribe_list.dwt.php:31
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:84
+#: content/apps/wechat/templates/platform/wechat_black_list.dwt.php:46
+msgid "头像"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_unsubscribe_list.dwt.php:32
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:85
+#: content/apps/wechat/templates/platform/wechat_black_list.dwt.php:47
+msgid "昵称"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_unsubscribe_list.dwt.php:33
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:86
+#: content/apps/wechat/templates/platform/wechat_black_list.dwt.php:48
+msgid "省（直辖市）"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_unsubscribe_list.dwt.php:34
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:87
+#: content/apps/wechat/templates/platform/wechat_black_list.dwt.php:49
+msgid "绑定用户"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_unsubscribe_list.dwt.php:35
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:88
+#: content/apps/wechat/templates/platform/wechat_black_list.dwt.php:50
+msgid "关注时间"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_unsubscribe_list.dwt.php:51
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:107
+#: content/apps/wechat/templates/platform/wechat_black_list.dwt.php:65
+msgid "（男）"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_unsubscribe_list.dwt.php:51
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:107
+#: content/apps/wechat/templates/platform/wechat_black_list.dwt.php:65
+msgid "（女）"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_unsubscribe_list.dwt.php:66
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:123
+#: content/apps/wechat/templates/platform/wechat_black_list.dwt.php:74
+#: content/apps/wechat/templates/front/bind_user_profile.dwt.php:33
+#: content/apps/wechat/templates/front/bind_user_profile.dwt.php:51
+msgid "未绑定"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_request_list.dwt.php:28
+#: content/apps/wechat/templates/platform/wechat_message_list.dwt.php:36
+#: content/apps/wechat/templates/platform/wechat_record_list.dwt.php:58
+msgid "今天"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_request_list.dwt.php:31
+#: content/apps/wechat/templates/platform/wechat_message_list.dwt.php:39
+#: content/apps/wechat/templates/platform/wechat_record_list.dwt.php:61
+msgid "昨天"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_request_list.dwt.php:40
+msgid "API名称"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_request_list.dwt.php:41
+msgid "每日调用上限"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_request_list.dwt.php:42
+msgid "每日实时调用量"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_request_list.dwt.php:43
+msgid "最后请求时间"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_request_list.dwt.php:50
+msgid "无"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:23
+msgid "一、关键词自动回复：即自己添加的规则关键词自动回复。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:24
+msgid ""
+"★ 字数限制：微信公众平台认证与非认证用户的关键字自动回复设置规则上限为200条规"
+"则（每条规则名，最多可设置60个汉字），每条规则内最多设置10条关键字（每条关键"
+"字，最多可设置30个汉字）。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:25
+msgid ""
+"★ 规则设置：一个规则您可设置多个关键字，建议使用常用关键字，如关键词：help,帮"
+"助。采取中英文结合的方式最佳。如果用户发送的信息中含有您设置的其中一个关键"
+"字，则系统会匹配自动回复。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:26
+msgid ""
+"★ 注意事项：关键词 不能设置系统已经存在的关键词，如功能扩展当中的hot、best、"
+"news等。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:43
+msgid "请输入关键字"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:53
+msgid "规则名称"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:54
+msgid "关键字"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:55
+msgid "回复内容"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:56
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:66
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:67
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:71
+msgid "操作"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:120
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:126
+msgid "该素材已删除"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:131
+#: content/apps/wechat/templates/platform/library/wechat_material_voice.lbi.php:25
+#: content/apps/wechat/templates/platform/library/wechat_material_image.lbi.php:25
+#: content/apps/wechat/templates/platform/library/wechat_material_image.lbi.php:44
+#: content/apps/wechat/templates/platform/library/wechat_material_thumb.lbi.php:25
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:92
+msgid "编辑"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords.dwt.php:132
+msgid "您确定要删除规则[%1]吗？"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:15
+msgid "无法获取unionid字段，若需获取该字段，请将公众号绑定到微信开放平台帐号。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:36
+msgid "粉丝管理：显示已经关注微信公众号的用户信息，未关注的不显示。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:37
+msgid "1.搜索功能支持通过用户昵称、省、市搜索。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:38
+msgid ""
+"2.发送客服消息，可以单独发送微信消息给微信用户（只有48小时内和公众号有过互动"
+"的粉丝才能接收到信息，否则会发送失败）应用场景 例如，通知用户中奖领取奖品等事"
+"宜。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:39
+msgid ""
+"★ 注意事项：在对用户进行发送消息，打标签等操作之前，请及时点击获取用户信息按"
+"钮，以便同步微信公众号平台的用户分组（标签）与数量。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:47
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:36
+msgid "粉丝管理同步操作"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:51
+#: content/apps/wechat/templates/platform/wechat_black_list.dwt.php:20
+msgid "通过点击该按钮可以获取微信端用户信息到本地。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:115
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:184
+msgid "创建会话"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:118
+msgid "消息记录"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:205
+msgid "选择客服："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_list.dwt.php:208
+msgid "请选择客服..."
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:35
+msgid "规则名称："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:38
+msgid "规则名最多60个字"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:44
+msgid "关键字："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:47
+msgid ""
+"添加多个关键字，用\",\"隔开（建议在一个规则里设置一个关键字，以便粉丝获得想要"
+"的答案）。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:54
+msgid "回复："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_keywords_edit.dwt.php:133
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:130
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:162
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:164
+msgid "更新"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_black_list.dwt.php:16
+msgid "黑名单同步操作"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_black_list.dwt.php:69
+msgid "取消黑名单"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material.dwt.php:19
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:19
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:19
+msgid ""
+"抱歉！您当前公众号属于“未认证的公众号”，该模块目前还不支持“未认证的公众号”。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material.dwt.php:42
+msgid "通过点击该按钮可以获取微信公众平台素材到本地。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material.dwt.php:69
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:76
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:181
+msgid "缩略图"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_edit.dwt.php:39
+msgid "父级菜单："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_edit.dwt.php:42
+msgid "请选择菜单"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_edit.dwt.php:51
+#: content/apps/wechat/templates/platform/library/wechat_menu_second.lbi.php:8
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:8
+msgid "菜单名称："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_edit.dwt.php:59
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:22
+msgid "菜单类型："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_edit.dwt.php:62
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:25
+msgid "跳转网页"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_edit.dwt.php:63
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:26
+msgid "跳转小程序"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_edit.dwt.php:68
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:31
+msgid "菜单关键词："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_edit.dwt.php:75
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:50
+msgid "外链url："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_edit.dwt.php:82
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:58
+msgid "选择小程序："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_edit.dwt.php:94
+#: content/apps/wechat/templates/platform/library/wechat_menu_second.lbi.php:22
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:71
+msgid "是否开启："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_edit.dwt.php:96
+#: content/apps/wechat/templates/platform/library/wechat_menu_second.lbi.php:24
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:73
+msgid "是"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_menus_edit.dwt.php:97
+#: content/apps/wechat/templates/platform/library/wechat_menu_second.lbi.php:25
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:74
+msgid "否"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_choose_material_list.lbi.php:2
+msgid "暂无素材"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_show_message.lbi.php:15
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:86
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:100
+msgid "关闭"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_material_voice.lbi.php:22
+#: content/apps/wechat/templates/platform/library/wechat_material_image.lbi.php:22
+#: content/apps/wechat/templates/platform/library/wechat_material_image.lbi.php:41
+#: content/apps/wechat/templates/platform/library/wechat_material_image.lbi.php:43
+#: content/apps/wechat/templates/platform/library/wechat_choose_material.lbi.php:31
+#: content/apps/wechat/templates/platform/library/wechat_material_thumb.lbi.php:22
+#: content/apps/wechat/templates/platform/library/wechat_preview_msg.lbi.php:47
+#: content/apps/wechat/templates/platform/library/wechat_material_video.lbi.php:18
+msgid "取消"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_material_voice.lbi.php:23
+#: content/apps/wechat/templates/platform/library/wechat_menu_second.lbi.php:41
+#: content/apps/wechat/templates/platform/library/wechat_material_image.lbi.php:23
+#: content/apps/wechat/templates/platform/library/wechat_material_image.lbi.php:42
+#: content/apps/wechat/templates/platform/library/wechat_material_thumb.lbi.php:23
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:88
+#: content/apps/wechat/templates/platform/library/wechat_material_video.lbi.php:19
+msgid "保存"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_material_voice.lbi.php:24
+msgid "您确定要删除该语音素材吗？"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_menu_second.lbi.php:10
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:10
+msgid "请输入菜单名称"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_menu_second.lbi.php:12
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:12
+msgid "字数超过上限"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_menu_second.lbi.php:15
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:15
+msgid "字数不超过6个汉字或16个字母"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_material_image.lbi.php:24
+#: content/apps/wechat/templates/platform/library/wechat_material_image.lbi.php:43
+#: content/apps/wechat/templates/platform/library/wechat_material_thumb.lbi.php:24
+msgid "您确定要删除该图片素材吗？"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_choose_material.lbi.php:5
+msgid "选择素材"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/widget_platform_dashboard_msg_stats.lbi.php:4
+msgid "用户发送消息"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_material_news_child.lbi.php:21
+#: content/apps/wechat/templates/platform/library/wechat_material_news_child.lbi.php:35
+msgid "您确定要删除该图文素材吗？"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_preview_msg.lbi.php:5
+msgid "发送预览"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_preview_msg.lbi.php:32
+msgid "关注公众号后，才能接收图文消息预览"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_preview_msg.lbi.php:34
+msgid "请输入微信号"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_preview_msg.lbi.php:36
+msgid ""
+"预览功能仅用于公众号查看文章效果，不适用于公众传播，预览链接会在短期内失效"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:5
+msgid "删除子菜单"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:44
+msgid "请设置菜单关键词"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:53
+msgid "请设置外联url"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_menu_sub.lbi.php:61
+msgid "请选择"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/wechat_material_video.lbi.php:20
+msgid "您确定要删除该视频素材吗？"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/widget_platform_dashboard_stats.lbi.php:4
+msgid "账号整体情况"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/widget_platform_dashboard_stats.lbi.php:13
+msgid "新消息"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/widget_platform_dashboard_stats.lbi.php:24
+msgid "新增人数"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/library/widget_platform_dashboard_stats.lbi.php:35
+msgid "总用户数"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:28
+msgid ""
+"渠道二维码。可生成临时二维码或永久二维码 用于线下某些场景展示，让用户扫描关"
+"注，效果类似关注微信公众号。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:29
+msgid ""
+"临时二维码，是有过期时间的，最长可以设置为在二维码生成后的30天（即2592000秒）"
+"后过期，但能够生成较多数量。临时二维码主要用于帐号绑定等不要求二维码永久保存"
+"的业务场景。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:30
+msgid ""
+"永久二维码，是无过期时间的，但数量较少（目前为最多10万个）。永久二维码主要用"
+"于适用于帐号绑定、用户来源统计等场景。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:31
+msgid ""
+"应用场景值ID，为整型时：临时二维码时为32位非0整型（100001-4294967295），永久"
+"二维码时最大值为100000（目前参数只支持1--100000），为字符串类型时：长度限制为"
+"1到64。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:61
+msgid "批量操作"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:63
+msgid "请先选中要删除的二维码"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:63
+msgid "删除二维码"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:68
+msgid "请输入功能关键字"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:82
+msgid "应用场景"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:84
+msgid "过期时间"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:86
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:65
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:68
+msgid "状态"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:87
+msgid "排序"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_qrcode_list.dwt.php:115
+msgid "编辑二维码排序"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:27
+msgid "请选择活动类型"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:28
+msgid "砸金蛋"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:29
+msgid "大转盘"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:30
+msgid "刮刮乐"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:40
+msgid "微信昵称"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:41
+msgid "奖品"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:42
+msgid "中奖用户信息"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:43
+msgid "是否发放"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:44
+msgid "中奖时间"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:53
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:89
+msgid "通知用户"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:54
+msgid "您确定要删除该获奖名单[%1]吗？"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:60
+msgid "姓名："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:61
+msgid "电话："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:62
+msgid "地址："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:111
+msgid "消息内容："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_prize_list.dwt.php:125
+msgid "微信用户唯一标识(openid)："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:28
+msgid ""
+"标签管理，一个公众号，最多可以创建100个标签。每个公众号可以为用户打上最多20个"
+"标签。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:42
+msgid "通过点击该按钮可以获取微信端用户标签到本地。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:64
+msgid "标签名称"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:65
+msgid "用户数"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:77
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:144
+msgid "编辑用户标签"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:78
+msgid "您确定要删除该标签吗？"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:78
+msgid "删除用户标签"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:97
+msgid "添加用户标签"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:121
+msgid "标签名称："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:169
+msgid "原标签名："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_subscribe_tag.dwt.php:176
+msgid "新标签名："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:40
+msgid "客服账号："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:47
+msgid "账号格式：账号前缀@公众号微信号"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:54
+msgid "客服昵称："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:63
+msgid "客服头像："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:68
+msgid "图片预览"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:72
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:140
+msgid "浏览"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:73
+msgid "修改"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:85
+msgid "开启"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:87
+msgid "如果状态为关闭，则微信端不添加该客服"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:93
+msgid "绑定微信号："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:102
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:106
+msgid "邀请绑定待确认"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:102
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:106
+msgid "绑定邀请已发送至 %1 的微信，请去微信客户端确认后即可绑定"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:106
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:110
+msgid "邀请绑定被拒绝"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:106
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:110
+msgid "由于对方已拒绝绑定，可重新进行绑定。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:108
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:113
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:116
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:120
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:146
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:75
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:112
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:117
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:120
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:125
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:161
+msgid "绑定微信号"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:108
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:113
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:120
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:112
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:117
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:125
+msgid "重新绑定"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:111
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:115
+msgid "邀请绑定过期"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:111
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:115
+msgid "由于邀请绑定已过期，可重新进行绑定。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:119
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:123
+msgid "该客服账号已停用"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:171
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:186
+msgid "微信号："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:173
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:188
+msgid "请输入需要绑定的客服人员微信号"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_edit.dwt.php:182
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:197
+msgid "邀请绑定"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:28
+msgid "1、只有已经发送成功的消息才能删除。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:29
+msgid ""
+"2、删除消息是将消息的图文详情页失效，已经收到的用户，还是能在其本地看到消息卡"
+"片。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:30
+msgid ""
+"3、如果多次群发发送的是一个图文消息，那么删除其中一次群发，就会删除掉这个图文"
+"消息也，导致所有群发都失效。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:31
+msgid "★ 发送人数，即排除发送时过滤、用户拒收、接收已达到4条的用户数。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:55
+msgid ""
+"只有已经发送成功的消息才能删除，删除消息只是将消息的图文详情页失效，已经收到"
+"的用户，还是能在其本地看到消息卡片。 另外，删除群发消息只能删除图文消息和视频"
+"消息，其他类型的消息一经发送，无法删除。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:63
+msgid "ID"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:64
+#: content/apps/wechat/templates/platform/wechat_message_list.dwt.php:55
+#: content/apps/wechat/templates/platform/wechat_record_list.dwt.php:86
+msgid "消息内容"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:66
+msgid "时间"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:128
+msgid "成功：%1人"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:129
+msgid "失败：%1人"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_mass_list.dwt.php:134
+msgid "您确定要删除该记录吗？"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:29
+msgid "客服会话同步操作"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:33
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:89
+msgid "获取客服会话"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:33
+msgid "通过点击该按钮可以获取未接入会话列表。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:48
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:83
+msgid "待接入"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:52
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:81
+msgid "会话中"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:56
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:85
+msgid "已关闭"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:67
+msgid "用户昵称"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:70
+msgid "最后一条消息的时间"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:77
+msgid "暂无"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:100
+msgid "您确定要关闭该会话吗？"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_session.dwt.php:100
+msgid "关闭会话"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_message_list.dwt.php:33
+#: content/apps/wechat/templates/platform/wechat_record_list.dwt.php:54
+msgid "最近五天"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_message_list.dwt.php:42
+#: content/apps/wechat/templates/platform/wechat_record_list.dwt.php:64
+msgid "前天"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_message_list.dwt.php:45
+#: content/apps/wechat/templates/platform/wechat_record_list.dwt.php:67
+msgid "更早"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_message_list.dwt.php:62
+#: content/apps/wechat/templates/platform/wechat_record_list.dwt.php:93
+msgid "详细资料"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_message_list.dwt.php:69
+#: content/apps/wechat/templates/platform/wechat_record_list.dwt.php:100
+msgid "发送于："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_message_list.dwt.php:72
+msgid "回复"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_msg.dwt.php:24
+msgid ""
+"二、消息自动回复：当用户输入任意消息，匹配不到系统已有关键词时或者没有在关键"
+"词自动回复里添加关键词，默认回复一条消息提示。例如：对不起！你输入的关键词不"
+"存在，建议你咨询相关客服。你也可以输入help，查看使用帮助。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_reply_msg.dwt.php:25
+msgid ""
+"★ 消息自动回复，可以配合关键词自动回复灵活使用。回复提示用户输入系统已有关键"
+"词。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:25
+msgid "该素材已修改，请点击 “发布素材” 按钮上传到微信公众平台。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:66
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:52
+msgid "封面图片"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:95
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:66
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:128
+msgid "标题："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:102
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:73
+msgid "作者："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:109
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:80
+msgid "封面："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:122
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:87
+msgid "封面图片显示在正文中"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:123
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:88
+msgid "（大图片建议尺寸：900像素 * 500像素）"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:128
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:93
+msgid "摘要："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:135
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:100
+msgid "原文链接："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:145
+msgid "排序从小到大"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:151
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:112
+msgid "正文"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_edit.dwt.php:180
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:53
+msgid "标题"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:63
+msgid "图文1"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:96
+msgid "选填，如果不填写会默认抓取正文前54个字"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:137
+msgid "视频："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:141
+msgid "修改视频"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:146
+msgid "上传视频格式为mp4，大小不得超过10MB"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_material_add.dwt.php:153
+msgid "视频简介："
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_record_list.dwt.php:29
+msgid "客服聊天记录同步操作"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_record_list.dwt.php:35
+msgid "获取客服聊天记录"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_record_list.dwt.php:73
+msgid "所有客服"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:24
+msgid ""
+"\n"
+"\t<strong>温馨提示：</strong>绑定后的客服帐号，可以登录<a style=\"text-"
+"decoration:none;\" target=\"_blank\" href=\"https://mpkf.weixin.qq.com/"
+"\">【在线客服功能】</a>，进行客服沟通。\n"
+"    "
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:34
+msgid "多客服同步操作"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:38
+msgid "获取全部客服"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:38
+msgid "通过点击该按钮可以获取微信端原有的客服到本地。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:39
+msgid "获取在线客服"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:39
+msgid "通过点击该按钮可以获取微信端在线的客服到本地。"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:54
+msgid "去微信客服中心"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:60
+msgid "全部客服"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:64
+msgid "在线客服"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:73
+msgid "客服头像"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:76
+msgid "客服昵称"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:77
+msgid "在线状态"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:78
+msgid "是否启用"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:94
+msgid "您确定要删除该客服吗？"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:129
+msgid "编辑客服昵称"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:133
+msgid "web在线"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:135
+msgid "不在线"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:141
+msgid "关闭客服[%1]将在微信端删除该客服，您确定要这么做吗？"
+msgstr ""
+
+#: content/apps/wechat/templates/platform/wechat_customer_list.dwt.php:143
+msgid "开启客服[%1]将在微信端添加该客服，您确定要这么做吗？"
+msgstr ""
+
+#: content/apps/wechat/templates/front/reset_get_code.dwt.php:8
+#: content/apps/wechat/templates/front/bind_user_profile.dwt.php:60
+#: content/apps/wechat/templates/front/reset_pwd.dwt.php:8
+msgid "重设密码"
+msgstr ""
+
+#: content/apps/wechat/templates/front/reset_get_code.dwt.php:15
+#: content/apps/wechat/templates/front/reset_pwd.dwt.php:15
+msgid "设置新密码"
+msgstr ""
+
+#: content/apps/wechat/templates/front/reset_get_code.dwt.php:20
+msgid "绑定手机号："
+msgstr ""
+
+#: content/apps/wechat/templates/front/reset_get_code.dwt.php:21
+#: content/apps/wechat/templates/front/bind_mobile.dwt.php:25
+msgid "请输入收到的短信验证码"
+msgstr ""
+
+#: content/apps/wechat/templates/front/reset_get_code.dwt.php:24
+#: content/apps/wechat/templates/front/bind_enter_code.dwt.php:8
+#: content/apps/wechat/templates/front/bind_enter_code.dwt.php:15
+msgid "输入验证码"
+msgstr ""
+
+#: content/apps/wechat/templates/front/reset_get_code.dwt.php:28
+#: content/apps/wechat/templates/front/bind_mobile.dwt.php:32
+msgid "获取验证码"
+msgstr ""
+
+#: content/apps/wechat/templates/front/reset_get_code.dwt.php:31
+msgid "下一步"
+msgstr ""
+
+#: content/apps/wechat/templates/front/bind_user_profile.dwt.php:8
+#: content/apps/wechat/templates/front/bind_mobile.dwt.php:8
+msgid "用户中心"
+msgstr ""
+
+#: content/apps/wechat/templates/front/bind_user_profile.dwt.php:24
+msgid "用户名"
+msgstr ""
+
+#: content/apps/wechat/templates/front/bind_user_profile.dwt.php:28
+msgid "用户等级"
+msgstr ""
+
+#: content/apps/wechat/templates/front/bind_user_profile.dwt.php:32
+msgid "绑定邮箱"
+msgstr ""
+
+#: content/apps/wechat/templates/front/bind_user_profile.dwt.php:43
+#: content/apps/wechat/templates/front/bind_user_profile.dwt.php:50
+msgid "绑定手机"
+msgstr ""
+
+#: content/apps/wechat/templates/front/bind_mobile_register.dwt.php:8
+#: content/apps/wechat/templates/front/bind_mobile_register.dwt.php:15
+#: content/apps/wechat/templates/front/bind_mobile.dwt.php:15
+msgid "绑定手机号"
+msgstr ""
+
+#: content/apps/wechat/templates/front/bind_mobile_register.dwt.php:22
+msgid "手机号"
+msgstr ""
+
+#: content/apps/wechat/templates/front/qrcode.dwt.php:8
+msgid "公众号扫码关注"
+msgstr ""
+
+#: content/apps/wechat/templates/front/qrcode.dwt.php:24
+msgid "扫描二维码"
+msgstr ""
+
+#: content/apps/wechat/templates/front/qrcode.dwt.php:25
+msgid "关注公众号"
+msgstr ""
+
+#: content/apps/wechat/templates/front/qrcode.dwt.php:30
+msgid "我邀请的人数："
+msgstr ""
+
+#: content/apps/wechat/templates/front/qrcode.dwt.php:39
+msgid "暂无邀请"
+msgstr ""
+
+#: content/apps/wechat/templates/front/reset_pwd.dwt.php:22
+msgid "请输入新密码"
+msgstr ""
+
+#: content/apps/wechat/templates/front/reset_pwd.dwt.php:28
+msgid "请再次输入新密码"
+msgstr ""
+
+#: content/apps/wechat/templates/front/reset_pwd.dwt.php:33
+msgid "完成"
+msgstr ""
+
+#: content/apps/wechat/templates/front/bind_mobile.dwt.php:22
+msgid "请输入要绑定的手机号"
+msgstr ""
+
+#: content/apps/wechat/templates/front/bind_mobile.dwt.php:28
+msgid "短信验证码"
+msgstr ""
+
+#: content/apps/wechat/templates/front/bind_mobile.dwt.php:35
+msgid "立即绑定"
+msgstr ""
+
+#: content/apps/wechat/templates/front/bind_enter_code.dwt.php:19
+msgid "验证码已发送至"
+msgstr ""
+
+#: content/apps/wechat/templates/front/bind_enter_code.dwt.php:32
+msgid "重新发送验证码"
+msgstr ""
