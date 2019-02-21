@@ -63,7 +63,7 @@ class mh_qrcode extends ecjia_merchant {
         RC_Loader::load_app_func('quickpay');
         Ecjia\App\Quickpay\Helper::assign_adminlog_content();
 
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('我的店铺', RC_Uri::url('merchant/merchant/init')));
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('我的店铺', 'quickpay'), RC_Uri::url('merchant/merchant/init')));
         ecjia_merchant_screen::get_current_screen()->set_parentage('store', 'store/merchant.php');
 	}
 
@@ -73,10 +73,10 @@ class mh_qrcode extends ecjia_merchant {
 	public function init() {
 		$this->admin_priv('quickpay_collectmoney_qrcode');
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('收款二维码'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('收款二维码', 'quickpay')));
 		$this->assign('app_url', RC_App::apps_url('statics', __FILE__));
 
-		$this->assign('ur_here', '收款二维码');
+		$this->assign('ur_here', __('收款二维码', 'quickpay'));
 
 		$merchant_info = RC_Api::api('store', 'store_info', ['store_id' => $_SESSION['store_id']]);
         $merchant_info['merchants_name'] = $_SESSION['store_name'];
@@ -103,9 +103,9 @@ class mh_qrcode extends ecjia_merchant {
 		//删除生成的收款二维码
 		with(new Ecjia\App\Mobile\Qrcode\GenerateCollectMoney($_SESSION['store_id']))->removeQrcode();
 		
-		ecjia_merchant::admin_log('刷新收款二维码', 'edit', 'collectmoney_qrcode');
+		ecjia_merchant::admin_log(__('刷新收款二维码', 'quickpay'), 'edit', 'collectmoney_qrcode');
 		
-		return $this->showmessage('刷新成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/mh_qrcode/init')));
+		return $this->showmessage(__('刷新成功', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/mh_qrcode/init')));
 	}
 	
 	/**

@@ -63,14 +63,18 @@ class mh_sale_general extends ecjia_merchant {
 		RC_Loader::load_app_func('global', 'quickpay');
         
         RC_Script::enqueue_script('acharts-min', RC_App::apps_url('statics/js/acharts-min.js', __FILE__), array('ecjia-merchant'), false, 1);
+        
         RC_Script::enqueue_script('mh_sale_general', RC_App::apps_url('statics/js/mh_sale_general.js', __FILE__), array('ecjia-merchant'), false, 1);
+        RC_Script::localize_script('mh_sale_general', 'js_lang', config('app-quickpay::jslang.sale_general_page'));
+        
         RC_Script::enqueue_script('mh_sale_general_chart', RC_App::apps_url('statics/js/mh_sale_general_chart.js', __FILE__), array('ecjia-merchant'), false, 1);
+        RC_Script::localize_script('mh_sale_general_chart', 'js_lang', config('app-quickpay::jslang.sale_general_page'));
         
         RC_Style::enqueue_style('mh_stats', RC_App::apps_url('statics/css/mh_stats.css', __FILE__));
         
         ecjia_merchant_screen::get_current_screen()->set_parentage('quickpay', 'quickpay/mh_sale_general.php');
         
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('买单管理', RC_Uri::url('quickpay/mh_order/init')));
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('买单管理', 'quickpay'), RC_Uri::url('quickpay/mh_order/init')));
        
         $data_count = RC_DB::table('quickpay_orders')
         	->select(RC_DB::raw('COUNT(DISTINCT order_sn) AS order_count'),
@@ -90,10 +94,10 @@ class mh_sale_general extends ecjia_merchant {
 	public function init() {
 		$this->admin_priv('mh_quickpay_sale_general_stats');
 
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('买单订单统计'));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('买单订单统计', 'quickpay')));
 		
-		$this->assign('ur_here', '订单统计');
-		$this->assign('action_link', array('text' => '买单订单统计报表下载', 'href' => RC_Uri::url('quickpay/mh_sale_general/download')));
+		$this->assign('ur_here', __('订单统计', 'quickpay'));
+		$this->assign('action_link', array('text' => __('买单订单统计报表下载', 'quickpay'), 'href' => RC_Uri::url('quickpay/mh_sale_general/download')));
 
         $this->assign('page', 'init');
         $this->assign('form_action', RC_Uri::url('quickpay/mh_sale_general/init'));
@@ -113,10 +117,10 @@ class mh_sale_general extends ecjia_merchant {
 	public function sales_trends() {
 		$this->admin_priv('mh_quickpay_sale_general_stats');
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('销售概况'));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('销售概况', 'quickpay')));
 	
-		$this->assign('ur_here', '销售概况');
-		$this->assign('action_link',array('text' => '销售概况报表下载','href' => RC_Uri::url('quickpay/mh_sale_general/download')));
+		$this->assign('ur_here', __('销售概况', 'quickpay'));
+		$this->assign('action_link',array('text' => __('销售概况报表下载', 'quickpay'),'href' => RC_Uri::url('quickpay/mh_sale_general/download')));
 		
 		$this->assign('page', 'sales_trends');
 		$this->assign('form_action', RC_Uri::url('quickpay/mh_sale_general/sales_trends'));
@@ -164,7 +168,7 @@ class mh_sale_general extends ecjia_merchant {
 		
 		$format = ($query_type == 'year') ? '%Y' : '%Y-%m';
 		if ($start_time < 0 || $end_time < 0) {
-			return $this->showmessage('参数错误', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('参数错误', 'quickpay'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$db_quickpay_order->where('store_id', $_SESSION['store_id']);
@@ -175,17 +179,22 @@ class mh_sale_general extends ecjia_merchant {
     		->groupby('period')
     		->get();
 		
+		$filetitle = __('商家买单订单统计概况报表', 'quickpay');
+		$totext = __('至', 'quickpay');
 		$start_time = RC_Time::local_date('Y-m-d', $start_time);
 		$end_time = RC_Time::local_date('Y-m-d', $end_time);
-		$filename = mb_convert_encoding('商家买单订单统计概况报表' . '_' . $start_time . '至' . $end_time, "GBK", "UTF-8");
+		$filename = mb_convert_encoding($filetitle . '_' . $start_time . $totext . $end_time, "GBK", "UTF-8");
 	
 		header("Content-type: application/vnd.ms-excel; charset=utf-8");
 		header("Content-Disposition: attachment; filename=$filename.xls");
-	
-		echo mb_convert_encoding('商家买单订单统计','UTF-8', 'UTF-8') . "\t\n";
-		echo mb_convert_encoding('时间段','UTF-8', 'UTF-8') . "\t";
-		echo mb_convert_encoding('订单数(单位:个)','UTF-8', 'UTF-8') . "\t";
-		echo mb_convert_encoding('营业额(单位:元)','UTF-8', 'UTF-8') . "\t\n";
+		$title1 = __('商家买单订单统计', 'quickpay');
+		$title2 = __('时间段', 'quickpay');
+		$title3 = __('订单数（单位:个）', 'quickpay');
+		$title4 = __('营业额（单位:元）', 'quickpay');
+		echo mb_convert_encoding($title1,'UTF-8', 'UTF-8') . "\t\n";
+		echo mb_convert_encoding($title2,'UTF-8', 'UTF-8') . "\t";
+		echo mb_convert_encoding($title3,'UTF-8', 'UTF-8') . "\t";
+		echo mb_convert_encoding($title4,'UTF-8', 'UTF-8') . "\t\n";
 		foreach ($data_list AS $data) {
 			echo mb_convert_encoding($data['period'],'UTF-8', 'UTF-8') . "\t";
 			echo mb_convert_encoding($data['order_count'],'UTF-8', 'UTF-8') . "\t";

@@ -62,7 +62,7 @@ class quickpay_quickpay_order_paid_api extends Component_Event_Api {
      */
 	public function call(&$options) {
 	    if (! array_get($options, 'order_sn') || ! array_get($options, 'money') ) {
-	        return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+	        return new ecjia_error('invalid_parameter', __('参数无效', 'quickpay'));
 	    }
 
 	    /* 改变订单状态 */
@@ -107,7 +107,7 @@ class quickpay_quickpay_order_paid_api extends Component_Event_Api {
 	    $options = array(
 	    		'order_id' 			=> $order_id,
 	    		'action_user_id' 	=> $_SESSION['user_id'],
-	    		'action_user_name'	=> RC_Lang::get('orders::order.buyers'),
+	    		'action_user_name'	=> __('买家', 'quickpay'),
 	    		'action_user_type'	=> 'user',
 	    		'order_status'		=> Ecjia\App\Quickpay\Status::CONFIRMED,
 	    		'pay_status'		=> Ecjia\App\Quickpay\Status::PAID,
@@ -115,20 +115,7 @@ class quickpay_quickpay_order_paid_api extends Component_Event_Api {
 	    		
 	    );
 	    quickpay_activity::quickpay_order_action($options);
-	    
-// 	    RC_DB::table('order_status_log')->insert(array(
-//     	    'order_status'	=> RC_Lang::get('orders::order.ps.'.PS_PAYED),
-//     	    'order_id'		=> $order_id,
-//     	    'message'		=> RC_Lang::get('orders::order.notice_merchant_message'),
-//     	    'add_time'		=> RC_Time::gmtime(),
-// 	    ));
-// 	    RC_DB::table('order_status_log')->insert(array(
-//     	    'order_status'	=> RC_Lang::get('cart::shopping_flow.merchant_process'),
-//     	    'order_id'		=> $order_id,
-//     	    'message'		=> '订单已通知商家，等待商家处理',
-//     	    'add_time'		=> RC_Time::gmtime(),
-// 	    ));
-	    
+	    	    
 	    /*门店自提，无需物流（收银台）时发送提货验证码；*/
 	    if ($order['shipping_id'] > 0) {
 	    	$order['consignee'] = $order['user_name'];

@@ -53,7 +53,7 @@ class quickpay_merchant_shop_payment_module extends api_front implements api_int
     	$this->authSession();
     	$store_id		= $this->requestData('store_id', 0);
     	if (empty($store_id)) {
-    		return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter'));
+    		return new ecjia_error( 'invalid_parameter', __('参数无效', 'quickpay'));
     	}
     	$payment_list = RC_Api::api('payment', 'available_payments', array('store_id' => $store_id));
     	

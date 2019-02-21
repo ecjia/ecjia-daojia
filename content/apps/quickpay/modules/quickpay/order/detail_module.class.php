@@ -61,7 +61,7 @@ class quickpay_order_detail_module extends api_front implements api_interface {
     	RC_Loader::load_app_class('quickpay_activity', 'quickpay', false);
 		$order_id = $this->requestData('order_id', 0);
 		if (empty($order_id)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'quickpay'));
 		}
 		
 		$options = array('order_id' => $order_id, 'user_id' => $user_id);

@@ -12,7 +12,7 @@ class quickpay_quickpay_activity_list_api extends Component_Event_Api {
      */
 	public function call(&$options) {
 		if (!is_array($options)) {
-			return new ecjia_error('invalid_parameter', '调用api文件,quickpay_activity_list,参数无效');
+			return new ecjia_error('invalid_parameter', __('调用api文件,quickpay_activity_list,参数无效', 'quickpay'));
 		}
 		return $this->quickpay_activity_list($options);
 	}
@@ -64,11 +64,11 @@ class quickpay_quickpay_activity_list_api extends Component_Event_Api {
 				
 				/*活动类型处理*/
 				if ($val['activity_type'] == 'discount') {
-					$list[$key]['label_activity_type'] = '价格折扣';
+					$list[$key]['label_activity_type'] = __('价格折扣', 'quickpay');
 				} elseif ($val['activity_type'] == 'everyreduced') {
-					$list[$key]['label_activity_type'] = '每满多少减多少,最高减多少';
+					$list[$key]['label_activity_type'] = __('每满多少减多少,最高减多少', 'quickpay');
 				} elseif ($val['activity_type'] == 'reduced') {
-					$list[$key]['label_activity_type'] = '满多少减多少';
+					$list[$key]['label_activity_type'] = __('满多少减多少', 'quickpay');
 				}
 				
 				/*每周可用星期处理*/

@@ -92,7 +92,7 @@ class quickpay_flow_done_module extends api_front implements api_interface {
     	}
     	
 		if (empty($goods_amount) || empty($store_id)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter'));
+			return new ecjia_error( 'invalid_parameter', __('参数无效', 'quickpay'));
 		}
 		$goods_amount = sprintf("%.2f", $goods_amount);
     	/*商家买单功能是否开启*/
@@ -278,7 +278,7 @@ class quickpay_flow_done_module extends api_front implements api_interface {
     		);
     		$result = RC_Api::api('user', 'account_change_log', $params);
     		if (is_ecjia_error($result)) {
-    			return new ecjia_error('integral_error', '积分使用失败！');
+    			return new ecjia_error('integral_error', __('积分使用失败！', 'quickpay'));
     		}
     	}
     	
@@ -328,19 +328,19 @@ class quickpay_flow_done_module extends api_front implements api_interface {
     			)
     	);
     	
-    	
+    	$message = sprintf(__('下单成功，订单号：%s', 'quickpay'), $order['order_sn']);
     	RC_DB::table('order_status_log')->insert(array(
-    	'order_status'	=> RC_Lang::get('cart::shopping_flow.label_place_order'),
+    	'order_status'	=> __('订单提交成功', 'quickpay'),
     	'order_id'		=> $order['order_id'],
-    	'message'		=> '下单成功，订单号：'.$order['order_sn'],
+    	'message'		=> $message,
     	'add_time'		=> RC_Time::gmtime(),
     	));
     	
     	if (!$payment_info['is_cod'] && $order['order_amount'] > 0) {
     		RC_DB::table('order_status_log')->insert(array(
-    		'order_status'	=> RC_Lang::get('cart::shopping_flow.unpay'),
+    		'order_status'	=> __('待付款', 'quickpay'),
     		'order_id'		=> $order['order_id'],
-    		'message'		=> '请尽快支付该订单，超时将会自动取消订单',
+    		'message'		=> __('请尽快支付该订单，超时将会自动取消订单', 'quickpay'),
     		'add_time'		=> RC_Time::gmtime(),
     		));
     	}

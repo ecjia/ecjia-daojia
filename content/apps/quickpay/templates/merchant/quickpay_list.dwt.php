@@ -13,7 +13,7 @@
 {if $quickpay_enabled}
 <div class="alert alert-info">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" ></i></button>
-	<strong>温馨提示：</strong>您已开启了买单活动，目前正在使用中。
+	<strong>{t domain="quickpay"}温馨提示：{/t}</strong>{t domain="quickpay"}您已开启了买单活动，目前正在使用中。{/t}
 </div>
 {/if}
 
@@ -23,9 +23,9 @@
 		<!-- {if $ur_here}{$ur_here}{/if} -->
 		<div class="pull-right">
 			{if $quickpay_enabled}
-				<a id="ajaxclose" data-msg ="你确定关闭买单吗？" data-href='{RC_Uri::url("quickpay/merchant/close")}'  class="btn btn-primary" title="关闭买单"><i class="fa fa-minus-square"></i> 关闭买单</a>
+				<a id="ajaxclose" data-msg ='{t domain="quickpay"}你确定关闭买单吗？{/t}'data-href='{RC_Uri::url("quickpay/merchant/close")}'  class="btn btn-primary" title='{t domain="quickpay"}关闭买单{/t}'><i class="fa fa-minus-square"></i> {t domain="quickpay"}关闭买单{/t}</a>
 			{else}
-				<a id="ajaxopen" href='{RC_Uri::url("quickpay/merchant/open")}'  class="btn btn-primary" title="开启买单"><i class="fa fa-check-square-o"></i> 开启买单</a>
+				<a id="ajaxopen" href='{RC_Uri::url("quickpay/merchant/open")}'  class="btn btn-primary" title='{t domain="quickpay"}开启买单{/t}'><i class="fa fa-check-square-o"></i> {t domain="quickpay"}开启买单{/t}</a>
 			{/if}	
 		</div>
 		</h2>
@@ -40,21 +40,21 @@
 					<div class="screen f_l">
 						<div class="form-group">
 							<select class="w200" name='activity_type'>
-								<option value="0">{t}买单优惠类型{/t}</option>
+								<option value="0">{t domain="quickpay"}买单优惠类型{/t}</option>
 								<!-- {foreach from=$type_list item=list key=key} -->
 								<option value="{$key}" {if $key eq $smarty.get.activity_type}selected="selected"{/if}>{$list}</option>
 								<!-- {/foreach} -->
 							</select>
 						</div>
-						<button class="btn btn-primary screen-btn" type="submit"><i class="fa fa-search"></i> 筛选</button>
+						<button class="btn btn-primary screen-btn" type="submit"><i class="fa fa-search"></i> {t domain="quickpay"}筛选{/t}</button>
 					</div>
 				</form>
 				
 				<form class="form-inline pull-right" name="searchForm" method="post" action="{$search_action}">
 					<div class="form-group">
 						<!-- 关键字 -->
-						<input type="text" class="form-control" name="keywords" value="{$smarty.get.keywords}" placeholder="请输入买单名称"/> 
-						<button class="btn btn-primary" type="submit">搜索</button>
+						<input type="text" class="form-control" name="keywords" value="{$smarty.get.keywords}" placeholder='{t domain="quickpay"}请输入买单名称{/t}'/> 
+						<button class="btn btn-primary" type="submit">{t domain="quickpay"}搜索{/t}</button>
 					</div>
 				</form>
 			</div>
@@ -63,11 +63,11 @@
 					<table class="table table-striped table-hover table-hide-edit">
 						<thead>
 							<tr>
-								<th class="w200">买单标题</th>
-								<th class="w200">买单优惠类型</th>
-								<th class="w150">开始时间</th>
-								<th class="w150">结束时间</th>
-								<th class="w50">状态</th>
+								<th class="w200">{t domain="quickpay"}买单标题{/t}</th>
+								<th class="w200">{t domain="quickpay"}买单优惠类型{/t}</th>
+								<th class="w150">{t domain="quickpay"}开始时间{/t}</th>
+								<th class="w150">{t domain="quickpay"}结束时间{/t}</th>
+								<th class="w50">{t domain="quickpay"}状态{/t}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -76,18 +76,18 @@
 								<td class="hide-edit-area">
 		                           {$list.title}
 		                           <div class="edit-list">
-		                               <a class="data-pjax" href='{url path="quickpay/merchant/edit" args="id={$list.id}"}' title="编辑">编辑</a>&nbsp;|&nbsp;
-		                               <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="你确定要删除该优惠买单规则吗？" href='{url path="quickpay/merchant/remove" args="id={$list.id}"}' title="删除">删除</a>&nbsp;|&nbsp;
-		                               <a target="_blank" href='{url path="quickpay/mh_order/init" args="act_id={$list.id}"}' title="查看订单">查看订单</a>
+		                               <a class="data-pjax" href='{url path="quickpay/merchant/edit" args="id={$list.id}"}' title='{t domain="quickpay"}编辑{/t}'>{t domain="quickpay"}编辑{/t}</a>&nbsp;|&nbsp;
+		                               <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="你确定要删除该优惠买单规则吗？" href='{url path="quickpay/merchant/remove" args="id={$list.id}"}' title='{t domain="quickpay"}删除{/t}'>{t domain="quickpay"}删除{/t}</a>&nbsp;|&nbsp;
+		                               <a target="_blank" href='{url path="quickpay/mh_order/init" args="act_id={$list.id}"}' title='{t domain="quickpay"}查看订单{/t}'>{t domain="quickpay"}查看订单{/t}</a>
 		                           </div>
 		                        </td>
-								<td>{if $list.activity_type eq 'discount'}价格折扣{elseif $list.activity_type eq 'everyreduced'}每满多少减多少，最高减多少{else $list.activity_type eq 'reduced'}满多少减多少{/if}</td>
+								<td>{if $list.activity_type eq 'discount'}{t domain="quickpay"}价格折扣{/t}{elseif $list.activity_type eq 'everyreduced'}{t domain="quickpay"}每满多少减多少，最高减多少{/t}{else $list.activity_type eq 'reduced'}{t domain="quickpay"}满多少减多少{/t}{/if}</td>
 								<td>{$list.start_time}</td>
 								<td>{$list.end_time}</td>
-								<td>{if $now lt $list.start_time}未开始{elseif $now gt $list.end_time}已结束{else}进行中{/if}</td>
+								<td>{if $now lt $list.start_time}未开始{elseif $now gt $list.end_time}{t domain="quickpay"}已结束{/t}{else}{t domain="quickpay"}进行中{/t}{/if}</td>
 							</tr>
 							<!-- {foreachelse} -->
-							   <tr><td class="no-records" colspan="5">{lang key='system::system.no_records'}</td></tr>
+							   <tr><td class="no-records" colspan="5">{t domain="quickpay"}没有找到任何记录{/t}</td></tr>
 							<!-- {/foreach} -->
 						</tbody>
 					</table>

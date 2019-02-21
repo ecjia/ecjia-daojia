@@ -12,7 +12,7 @@ class quickpay_quickpay_order_list_api extends Component_Event_Api {
      */
 	public function call(&$options) {
 		if (!is_array($options)) {
-			return new ecjia_error('invalid_parameter', '调用api文件,quickpay_order_list,参数无效');
+			return new ecjia_error('invalid_parameter', __('调用api文件，quickpay_order_list，参数无效', 'quickpay'));
 		}
 		return $this->quickpay_order_list($options);
 	}

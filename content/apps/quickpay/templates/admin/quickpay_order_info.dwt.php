@@ -24,41 +24,41 @@
 			<div id="accordion2" class="foldable-list form-inline">
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseOne"><strong>{lang key='orders::order.base_info'}</strong></a>
+						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseOne"><strong>{t domain="quickpay"}基本信息{/t}</strong></a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseOne">
 						<table class="table table-oddtd m_b0">
 							<tbody class="first-td-no-leftbd">
 								<tr>
-									<td><div align="right"><strong>订单编号：</strong></div></td>
+									<td><div align="right"><strong>{t domain="quickpay"}订单编号：{/t}</strong></div></td>
 									<td>
 										{$order_info.order_sn}
 									</td>
-									<td><div align="right"><strong>订单状态：</strong></div></td>
+									<td><div align="right"><strong>{t domain="quickpay"}订单状态：{/t}</strong></div></td>
 									<td>{$order_info.status}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>购买人姓名：</strong></div></td>
+									<td><div align="right"><strong>{t domain="quickpay"}购买人姓名：{/t}</strong></div></td>
 									<td>
 										{$order_info.user_name}
 									</td>
-									<td><div align="right"><strong>购买人手机号：</strong></div></td>
+									<td><div align="right"><strong>{t domain="quickpay"}购买人手机号：{/t}</strong></div></td>
 									<td>{$order_info.user_mobile}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>支付方式：</strong></div></td>
+									<td><div align="right"><strong>{t domain="quickpay"}支付方式：{/t}</strong></div></td>
 									<td>
 										{$order_info.pay_name}
 									</td>
-									<td><div align="right"><strong>支付时间：</strong></div></td>
+									<td><div align="right"><strong>{t domain="quickpay"}支付时间：{/t}</strong></div></td>
 									<td>{$order_info.pay_time}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>优惠类型：</strong></div></td>
+									<td><div align="right"><strong>{t domain="quickpay"}优惠类型：{/t}</strong></div></td>
 									<td>
 										{$order_info.activity_name}
 									</td>
-									<td><div align="right"><strong>买单来源：</strong></div></td>
+									<td><div align="right"><strong>{t domain="quickpay"}买单来源：{/t}</strong></div></td>
 									<td>{$order_info.referer}</td>
 								</tr>
 							</tbody>
@@ -69,7 +69,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading accordion-heading-url">
 						<div class="accordion-toggle acc-in" data-toggle="collapse"  data-target="#collapseFive">
-							<strong>费用信息</strong>
+							<strong>{t domain="quickpay"}费用信息{/t}</strong>
 						</div>
 					</div>
 					<div class="accordion-body in collapse" id="collapseFive">
@@ -77,17 +77,17 @@
 							<tr>
 								<td>
 									<div align="right">
-										<strong>买单消费总金额：</strong>¥{if $order_info.goods_amount}{$order_info.goods_amount}{else}0{/if}
-										- <strong>买单：</strong>¥{if $order_info.discount}{$order_info.discount}{else}0{/if}
-										- <strong>使用积分抵扣：</strong>¥{if $order_info.integral_money}{$order_info.integral_money}{else}0{/if}
-										- <strong>使用红包抵扣：</strong>¥{if $order_info.bonus}{$order_info.bonus}{else}0{/if}
+										<strong>{t domain="quickpay"}买单消费总金额：{/t}</strong>¥{if $order_info.goods_amount}{$order_info.goods_amount}{else}0{/if}
+										- <strong>{t domain="quickpay"}买单：{/t}</strong>¥{if $order_info.discount}{$order_info.discount}{else}0{/if}
+										- <strong>{t domain="quickpay"}使用积分抵扣：{/t}</strong>¥{if $order_info.integral_money}{$order_info.integral_money}{else}0{/if}
+										- <strong>{t domain="quickpay"}使用红包抵扣：{/t}</strong>¥{if $order_info.bonus}{$order_info.bonus}{else}0{/if}
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td>
 									<div align="right">
-										= 买单实付金额：<strong>{$order_info.order_amount}</strong>
+										= {t domain="quickpay"}买单实付金额：{/t}<strong>{$order_info.order_amount}</strong>
 									</div>
 								</td>
 							</tr>
@@ -96,16 +96,16 @@
 				</div>
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseSix"><strong>{lang key='orders::order.operation_record'}</strong></a>
+						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseSix"><strong>{t domain="quickpay"}操作记录{/t}</strong></a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseSix">
 						<table class="table table-striped m_b0">
 							<thead>
 								<tr>
-									<td class="w150">操作者</td>
-									<td class="w150">操作时间</td>
-									<td class="w180">订单状态</td>
-									<td>操作备注</td>
+									<td class="w150">{t domain="quickpay"}操作者{/t}</td>
+									<td class="w150">{t domain="quickpay"}操作时间{/t}</td>
+									<td class="w180">{t domain="quickpay"}订单状态{/t}</td>
+									<td>{t domain="quickpay"}操作备注{/t}</td>
 								</tr>
 							</thead>
 							<tbody>
@@ -118,7 +118,7 @@
 								</tr>
 								<!-- {foreachelse} -->
 								<tr>
-									<td class="no-records" colspan="4">{lang key='orders::order.no_order_operation_record'}</td>
+									<td class="no-records" colspan="4">{t domain="quickpay"}该订单暂无操作记录{/t}</td>
 								</tr>
 								<!-- {/foreach} -->
 							</tbody>

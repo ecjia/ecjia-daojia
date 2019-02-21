@@ -65,11 +65,11 @@ class quickpay_order_pay_module extends api_front implements api_interface {
 		$pay_code = $this->requestData('pay_code', '');
 		
 		if (empty($pay_code)) {
-			return new ecjia_error( 'payment_error', '请选择支付方式');
+			return new ecjia_error( 'payment_error', __('请选择支付方式', 'quickpay'));
 		}
 		
 		if (!$order_id) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'quickpay'));
 		}
 		
 		/* 订单详情 */
@@ -80,7 +80,7 @@ class quickpay_order_pay_module extends api_front implements api_interface {
 		}
 		
 		if ($_SESSION['user_id'] != $order['user_id']) {
-			return new ecjia_error('error_order_detail', RC_Lang::get('orders::order.error_order_detail'));
+			return new ecjia_error('error_order_detail', __('订单不属于该用户', 'quickpay'));
 		}
 		
 		//判断是否是管理员登录

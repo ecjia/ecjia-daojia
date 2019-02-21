@@ -65,11 +65,12 @@ class admin_sale_general extends ecjia_admin {
         RC_Style::enqueue_style('uniform-aristo');
         
         RC_Script::enqueue_script('acharts-min', RC_App::apps_url('statics/js/acharts-min.js', __FILE__));
-        RC_Script::enqueue_script('admin_sale_general', RC_App::apps_url('statics/js/admin_sale_general.js', __FILE__));
-        RC_Script::enqueue_script('sale_general_chart', RC_App::apps_url('statics/js/admin_sale_general_chart.js', __FILE__));
-        RC_Script::localize_script('admin_sale_general_chart', 'js_lang', RC_Lang::get('orders::statistic.js_lang'));
         
-        RC_Script::localize_script('sale_general_chart', 'js_lang', RC_Lang::get('orders::statistic.js_lang'));
+        RC_Script::enqueue_script('admin_sale_general', RC_App::apps_url('statics/js/admin_sale_general.js', __FILE__));
+        RC_Script::localize_script('admin_sale_general', 'js_lang',  config('app-quickpay::jslang.sale_general_page'));
+        
+        RC_Script::enqueue_script('admin_sale_general_chart', RC_App::apps_url('statics/js/admin_sale_general_chart.js', __FILE__));
+        RC_Script::localize_script('admin_sale_general_chart', 'js_lang', config('app-quickpay::jslang.sale_general_page'));
         
         RC_Style::enqueue_style('admin_order', RC_App::apps_url('statics/css/admin_order.css', __FILE__));
 
@@ -81,7 +82,7 @@ class admin_sale_general extends ecjia_admin {
         		->where('pay_status',1)
         		->first();
         $this->assign('data_count', $data_count);
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('买单管理', RC_Uri::url('quickpay/admin_order/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('买单管理', 'quickpay'), RC_Uri::url('quickpay/admin_order/init')));
     }
     
     /**
@@ -90,10 +91,10 @@ class admin_sale_general extends ecjia_admin {
     public function init() {
         $this->admin_priv('quickpay_sale_general_stats');
         
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('买单订单统计'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('买单订单统计', 'quickpay')));
         
-        $this->assign('ur_here', '买单订单统计');
-        $this->assign('action_link', array('text' => '买单订单统计报表下载', 'href' => RC_Uri::url('quickpay/admin_sale_general/download')));
+        $this->assign('ur_here', __('买单订单统计', 'quickpay'));
+        $this->assign('action_link', array('text' => __('买单订单统计报表下载', 'quickpay'), 'href' => RC_Uri::url('quickpay/admin_sale_general/download')));
         
         $this->assign('page', 'init');
         $this->assign('form_action', RC_Uri::url('quickpay/admin_sale_general/init'));
@@ -114,9 +115,9 @@ class admin_sale_general extends ecjia_admin {
     public function sales_trends() {
         $this->admin_priv('quickpay_sale_general_stats');
         
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('销售概况'));
-        $this->assign('ur_here', '销售概况');
-        $this->assign('action_link', array('text' => '销售概况报表下载', 'href' => RC_Uri::url('quickpay/admin_sale_general/download')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('销售概况', 'quickpay')));
+        $this->assign('ur_here', __('销售概况', 'quickpay'));
+        $this->assign('action_link', array('text' => __('销售概况报表下载', 'quickpay'), 'href' => RC_Uri::url('quickpay/admin_sale_general/download')));
         
         $this->assign('page', 'sales_trends');
         $this->assign('form_action', RC_Uri::url('quickpay/admin_sale_general/sales_trends'));
@@ -152,17 +153,22 @@ class admin_sale_general extends ecjia_admin {
             ->groupby('period')
             ->get();
         
+        $filetitle = __('平台买单订单统计概况报表', 'quickpay');
+        $totext = __('至', 'quickpay');
         $start_time = RC_Time::local_date('Y-m-d', $start_time);
         $end_time = RC_Time::local_date('Y-m-d', $end_time);
-        $filename = mb_convert_encoding('平台买单订单统计概况报表' . '_' . $start_time . '至' . $end_time, "GBK", "UTF-8");
-        
+        $filename = mb_convert_encoding($filetitle . '_' . $start_time . $totext . $end_time, "GBK", "UTF-8");
         header("Content-type: application/vnd.ms-excel; charset=utf-8");
         header("Content-Disposition: attachment; filename={$filename}.xls");
         
-        echo mb_convert_encoding('平台买单订单统计', "GBK", "UTF-8") . "\t\n";
-        echo mb_convert_encoding('时间段', "GBK", "UTF-8") . "\t";
-        echo mb_convert_encoding('订单数(单位:个)', "GBK", "UTF-8") . "\t";
-        echo mb_convert_encoding('营业额(单位:元)', "GBK", "UTF-8") . "\t\n";
+        $title1 = __('平台买单订单统计', 'quickpay');
+        $title2 = __('时间段', 'quickpay');
+        $title3 = __('订单数（单位:个）', 'quickpay');
+        $title4 = __('营业额（单位:元）', 'quickpay');
+        echo mb_convert_encoding($title1, "GBK", "UTF-8") . "\t\n";
+        echo mb_convert_encoding($title2, "GBK", "UTF-8") . "\t";
+        echo mb_convert_encoding($title3, "GBK", "UTF-8") . "\t";
+        echo mb_convert_encoding($title4, "GBK", "UTF-8") . "\t\n";
         if (!empty($data_list)) {
             foreach ($data_list as $data) {
                 echo mb_convert_encoding($data['period'], "GBK", "UTF-8") . "\t";

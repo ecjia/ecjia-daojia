@@ -69,9 +69,11 @@ class merchant extends ecjia_merchant {
 		RC_Script::enqueue_script('bootstrap-datetimepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datetimepicker.js'));
 		
 		RC_Script::enqueue_script('mh_quickpay', RC_App::apps_url('statics/js/mh_quickpay.js', __FILE__));
+		RC_Script::localize_script('mh_quickpay', 'js_lang', config('app-quickpay::jslang.quickpay_page'));
+	
 		RC_Style::enqueue_style('mh_quickpay', RC_App::apps_url('statics/css/mh_quickpay.css', __FILE__), array(), false, false);
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('买单', RC_Uri::url('quickpay/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('买单','quickpay'), RC_Uri::url('quickpay/merchant/init')));
 		ecjia_merchant_screen::get_current_screen()->set_parentage('quickpay', 'quickpay/merchant.php');
 	}
 
@@ -82,10 +84,9 @@ class merchant extends ecjia_merchant {
 	public function init() {
 	    $this->admin_priv('mh_quickpay_manage');
 	    
-	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('优惠买单规则'));
-	    $this->assign('ur_here', '优惠买单规则列表');
-	    
-	    $this->assign('action_link', array('text' => '添加优惠买单规则', 'href' => RC_Uri::url('quickpay/merchant/add')));
+	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('优惠买单规则', 'quickpay')));
+	    $this->assign('ur_here', __('优惠买单规则列表', 'quickpay'));
+	    $this->assign('action_link', array('text' => __('添加优惠买单规则', 'quickpay'), 'href' => RC_Uri::url('quickpay/merchant/add')));
 	    
 	    $quickpay_enabled = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'quickpay_enabled')->pluck('value');
 	    $this->assign('quickpay_enabled', $quickpay_enabled);
@@ -115,9 +116,9 @@ class merchant extends ecjia_merchant {
 			RC_DB::table('merchants_config')->insert(array('store_id' => $_SESSION['store_id'], 'code' => 'quickpay_enabled', 'value' => '1'));
 		}
 		
-		ecjia_merchant::admin_log('成功', 'open', 'quickpay');
+		ecjia_merchant::admin_log(__('成功', 'quickpay'), 'open', 'quickpay');
 		
-		return $this->showmessage('开启买单成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/merchant/init')));
+		return $this->showmessage(__('开启买单成功', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/merchant/init')));
 	}
 	
 	/**
@@ -128,9 +129,9 @@ class merchant extends ecjia_merchant {
 		
 		RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'quickpay_enabled')->update(array('value' => 0));
 		
-		ecjia_merchant::admin_log('成功', 'close', 'quickpay');
+		ecjia_merchant::admin_log(__('成功', 'quickpay'), 'close', 'quickpay');
 		
-		return $this->showmessage('关闭买单成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/merchant/init')));
+		return $this->showmessage(__('关闭买单成功', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/merchant/init')));
 	}
 	
 	/**
@@ -139,9 +140,9 @@ class merchant extends ecjia_merchant {
 	public function add() {
 		$this->admin_priv('mh_quickpay_update');
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('优惠买单规则'));
-		$this->assign('ur_here', '添加优惠买单规则');
-		$this->assign('action_link',array('href' => RC_Uri::url('quickpay/merchant/init'),'text' => '优惠买单规则列表'));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('优惠买单规则', 'quickpay')));
+		$this->assign('ur_here', __('添加优惠买单规则', 'quickpay'));
+		$this->assign('action_link',array('href' => RC_Uri::url('quickpay/merchant/init'),'text' => __('优惠买单规则列表', 'quickpay')));
 		
 		$type_list = $this->get_quickpay_type();
 		$this->assign('type_list', $type_list);
@@ -175,14 +176,14 @@ class merchant extends ecjia_merchant {
 		$description = trim($_POST['description']);
 
 		if (RC_DB::table('quickpay_activity')->where('title', $title)->where('store_id', $store_id)->count() > 0) {
-			return $this->showmessage('当前店铺下已存在该买单标题', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('当前店铺下已存在该买单标题', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		$start_time = RC_Time::local_strtotime($_POST['start_time']);
 		$end_time   = RC_Time::local_strtotime($_POST['end_time']);
 		
 		if ($start_time >= $end_time) {
-			return $this->showmessage('开始时间不能大于或等于结束时间', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('开始时间不能大于或等于结束时间', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		//相对应的买单优惠类型活动参数处理
@@ -193,7 +194,7 @@ class merchant extends ecjia_merchant {
 			if (is_array($_POST['activity_value'])) {
 				foreach($_POST['activity_value'] as $row){
 					if (empty($row)){
-						return $this->showmessage('活动参数不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+						return $this->showmessage(__('活动参数不能为空', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 					}
 				}
 				$activity_value = implode(",", $_POST['activity_value']);
@@ -235,7 +236,7 @@ class merchant extends ecjia_merchant {
 				if (!empty($_POST['act_range_ext'])) {
 					$use_bonus = implode(",", $_POST['act_range_ext']);
 				}else{
-					return $this->showmessage('请选择您要指定的红包项', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+					return $this->showmessage(__('请选择您要指定的红包项', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
 			}
 		}
@@ -252,7 +253,7 @@ class merchant extends ecjia_merchant {
 				if (!empty($_POST['integral_keyword'])) {
 					$use_integral = $_POST['integral_keyword'];
 				}else{
-					return $this->showmessage('设置最大可用积分数', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+					return $this->showmessage(__('设置最大可用积分数', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
 			}
 		}
@@ -280,7 +281,7 @@ class merchant extends ecjia_merchant {
 		ecjia_merchant::admin_log($title, 'add', 'quickpay');
 		
 		$id = RC_DB::table('quickpay_activity')->insertGetId($data);
-		return $this->showmessage('添加优惠买单规则成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/merchant/edit', array('id' => $id))));
+		return $this->showmessage(__('添加优惠买单规则成功', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/merchant/edit', array('id' => $id))));
 	}
 	
 	/**
@@ -289,8 +290,8 @@ class merchant extends ecjia_merchant {
 	public function edit() {
 		$this->admin_priv('quickpay_update');
 
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑优惠买单规则'));
-		$this->assign('ur_here', '编辑优惠买单规则');
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑优惠买单规则', 'quickpay')));
+		$this->assign('ur_here', __('编辑优惠买单规则', 'quickpay'));
 		$this->assign('action_link', array('text' => '优惠买单规则列表', 'href' => RC_Uri::url('quickpay/merchant/init')));
 		
 		$type_list = $this->get_quickpay_type();
@@ -343,14 +344,14 @@ class merchant extends ecjia_merchant {
 		$description = trim($_POST['description']);
 
 		if (RC_DB::table('quickpay_activity')->where('title', $title)->where('store_id', $store_id)->where('id', '!=', $id)->count() > 0) {
-			return $this->showmessage('当前店铺下已存在该买单标题', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('当前店铺下已存在该买单标题', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		$start_time = RC_Time::local_strtotime($_POST['start_time']);
 		$end_time   = RC_Time::local_strtotime($_POST['end_time']);
 		
 		if ($start_time >= $end_time) {
-			return $this->showmessage('开始时间不能大于或等于结束时间', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('开始时间不能大于或等于结束时间', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		//相对应的买单优惠类型活动参数处理
@@ -361,7 +362,7 @@ class merchant extends ecjia_merchant {
 			if (is_array($_POST['activity_value'])) {
 				foreach($_POST['activity_value'] as $row){
 					if (empty($row)){
-						return $this->showmessage('活动参数不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+						return $this->showmessage(_('活动参数不能为空', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 					}
 				}
 				$activity_value = implode(",", $_POST['activity_value']);
@@ -402,7 +403,7 @@ class merchant extends ecjia_merchant {
 				if (!empty($_POST['act_range_ext'])) {
 					$use_bonus = implode(",", $_POST['act_range_ext']);
 				}else{
-					return $this->showmessage('请选择您要指定的红包项', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+					return $this->showmessage(__('请选择您要指定的红包项', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
 			}
 		}
@@ -420,7 +421,7 @@ class merchant extends ecjia_merchant {
 				if (!empty($_POST['integral_keyword'])) {
 					$use_integral = $_POST['integral_keyword'];
 				}else{
-					return $this->showmessage('设置最大可用积分数', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+					return $this->showmessage(__('设置最大可用积分数', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
 			}
 		}
@@ -447,7 +448,7 @@ class merchant extends ecjia_merchant {
 		ecjia_merchant::admin_log($title, 'edit', 'quickpay');
 		
 		RC_DB::table('quickpay_activity')->where('id', $id)->update($data);
-		return $this->showmessage('编辑优惠买单规则成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/merchant/edit', array('id' => $id))));
+		return $this->showmessage(__('编辑优惠买单规则成功', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/merchant/edit', array('id' => $id))));
 	}
 	
 	/**
@@ -463,7 +464,7 @@ class merchant extends ecjia_merchant {
     	
     	ecjia_merchant::admin_log($title, 'remove', 'quickpay');
     	 
-    	return $this->showmessage('成功删除该优惠买单规则', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+    	return $this->showmessage(__('成功删除该优惠买单规则', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
     
     /**
@@ -482,7 +483,7 @@ class merchant extends ecjia_merchant {
     		$arr = array(
     			0 => array(
 		    		'type_id'   => 0,
-		    		'type_name' => '没有找到相应的红包记录，请重新搜索'
+		    		'type_name' => __('没有找到相应的红包记录，请重新搜索', 'quickpay')
     			)
     		);
     	}
@@ -532,9 +533,9 @@ class merchant extends ecjia_merchant {
 	 */
 	private function get_quickpay_type(){
 		$type_list = array(
-			'discount'	=> '价格折扣',
-			'reduced'   => '满多少减多少',
-			'everyreduced' 	 => '每满多少减多少,最高减多少'
+			'discount'	=> __('价格折扣', 'quickpay'),
+			'reduced'   => __('满多少减多少', 'quickpay'),
+			'everyreduced' 	 => __('每满多少减多少,最高减多少', 'quickpay'),
 		);
 		return $type_list;
 	}
@@ -542,7 +543,7 @@ class merchant extends ecjia_merchant {
 	/**
 	 * 获取周
 	 */
-	private function get_week_list(){
+	private function get_week_list(){//TODO语言包翻译
 		$week_list = array(
 			'星期一'	=> Ecjia\App\Quickpay\Weekly::Monday,
 			'星期二'	=> Ecjia\App\Quickpay\Weekly::Tuesday,

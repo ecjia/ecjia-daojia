@@ -21,14 +21,14 @@
 				
 				if (year_beginYear == '') {
 					var data = {
-						message : "查询的开始年份不能为空！",
+						message: js_lang.start_year_required,
 						state : "error",
 					};
 					ecjia.merchant.showmessage(data);
 					return false;
 				} else if (year_endYear == '') {
 					var data = {
-						message : "查询的结束年份不能为空！",
+						message: js_lang.end_year_required,
 						state : "error",
 					};
 					ecjia.merchant.showmessage(data);
@@ -37,7 +37,7 @@
 				
 				if (year_beginYear > year_endYear && (year_beginYear != '' && year_endYear !='')) {
 					var data = {
-						message : "查询的开始时间不能超于结束时间！",
+						message: js_lang.time_exceed,
 						state : "error",
 					};
 					ecjia.merchant.showmessage(data);
@@ -61,7 +61,7 @@
 				if(url        		== 'undefind')url='';
 				if (month_beginYear+month_beginMonth >= month_endYear+month_endMonth) {
 					var data = {
-						message : "查询的开始时间不能超于结束时间！",
+						message: js_lang.time_exceed,
 						state : "error",
 					};
 					ecjia.merchant.showmessage(data);

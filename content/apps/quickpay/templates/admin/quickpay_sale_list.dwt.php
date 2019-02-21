@@ -26,7 +26,7 @@
 
 <div class="alert alert-info">
 	<a class="close" data-dismiss="alert">×</a>
-	<strong>温馨提示：</strong>只有已付款的订单才计入销售明细。
+	<strong>{t domain="quickpay"}温馨提示：{/t}</strong>{t domain="quickpay"}只有已付款的订单才计入销售明细。{/t}
 </div>
 
 <div>
@@ -42,19 +42,19 @@
 	<div class="span12">
 		<div class="form-group choose_list">
 			<form class="form-inline" action="{$search_action}" method="post" name="searchForm">
-				<span>按照年份查：</span>
+				<span>{t domain="quickpay"}按照年份查：{/t}</span>
 		        {html_select_date prefix="year_begin" class="no_search w110" time=$filter.start_date start_year="-10" reverse_years=true display_months=false display_days=false }
-		        <span style="margin-left: 15px;">按月份查：</span>
+		        <span style="margin-left: 15px;">{t domain="quickpay"}按月份查：{/t}</span>
 		        {html_select_date prefix="month_begin" class="no_search w110" time=$filter.end_date display_years=false display_days=false field_order="YMD" month_format="%m" month_empty="全年"}
-				<input type="submit" name="search_sale_data" value="查询" class="btn screen-btn"/>
+				<input type="submit" name="search_sale_data" value='{t domain="quickpay"}查询{/t}' class="btn screen-btn"/>
 			</form>
 		</div>
 	</div>
 </div>
 
 <div class="sale_desc">
-	订单共计：<span>{if $order_count}{$order_count}{else}0{/if}</span>&nbsp;单&nbsp;&nbsp;&nbsp;
-	实际总金额共计：<span>¥{if $order_amount}{$order_amount}{else}0{/if}</span>&nbsp;元
+	{t domain="quickpay"}订单共计：{/t}<span>{if $order_count}{$order_count}{else}0{/if}</span>&nbsp;{t domain="quickpay"}单{/t}&nbsp;&nbsp;&nbsp;
+	{t domain="quickpay"}实际总金额共计：{/t}<span>¥{if $order_amount}{$order_amount}{else}0{/if}</span>&nbsp;{t domain="quickpay"}元{/t}
 </div>
 	
 <div class="row-fluid">

@@ -23,7 +23,10 @@
                                         ecjia.merchant.showmessage(data);
                                   })
                             }
-                      }, {ok:"确定", cancel:"取消"});
+                      }, {
+                          ok: js_lang.ok,
+                          cancel: js_lang.cancel
+                      });
                 }
             });
 
@@ -196,7 +199,7 @@
                 var selRange = document.forms['theForm'].elements['use_bonus_select'];
                 if (selRange.value == 0) {
                     var data = {
-                        message: "优惠范围是全部红包，不需要此操作",
+                    	message: js_lang.bouns_range_no,
                         state: "error",
                     }
                     ecjia.merchant.showmessage(data);
@@ -205,7 +208,7 @@
                 var selResult = document.getElementById('result');
                 if (selResult.value == 0) {
                     var data = {
-                        message: "请先搜索相应的数据",
+                    	message: js_lang.please_search,
                         state: "error",
                     }
                     ecjia.merchant.showmessage(data);
@@ -220,7 +223,7 @@
                         if (eles[i].value == id) {
                             exists = true;
                             var data = {
-                                message: "该选项已存在",
+                                message: js_lang.option_exists,
                                 state: "error",
                             }
                             ecjia.merchant.showmessage(data);
@@ -275,10 +278,10 @@
 	            },
 	            messages: {
 	                title: {
-	                	required: "请输入买单名称"
+	                	required: js_lang.please_enter_name
 	                },
 	                activity_discount_value: {
-	                    required: "请输入折扣价格"
+	                	required: js_lang.please_enter_price
 	                }
 	            },
 	            submitHandler: function () {

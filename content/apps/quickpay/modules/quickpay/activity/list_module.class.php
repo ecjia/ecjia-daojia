@@ -55,7 +55,7 @@ class quickpay_activity_list_module extends api_front implements api_interface {
     
 		$store_id	 = $this->requestData('store_id', 0);
 		if ($store_id <= 0) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'quickpay'));
 		}
 		/* 获取数量 */
 		$size = $this->requestData('pagination.count', 15);

@@ -17,7 +17,7 @@ ecjia.merchant.order_info.init();
   	</div>
   	<div class="pull-right">
   		{if $order_info.order_status eq 9}
-  		 <a class="ajaxremove" data-toggle="ajaxremove" data-msg="删除订单将清楚该订单的所有信息。您确定要这么做吗？" href='{url path="quickpay/mh_order/remove" args="order_id={$order_info.order_id}"}' title="删除订单"><button type="button" class="btn btn-primary">删除订单</button></a>
+  		 <a class="ajaxremove" data-toggle="ajaxremove" data-msg='{t domain="quickpay"}删除订单将清楚该订单的所有信息。您确定要这么做吗？{/t}' href='{url path="quickpay/mh_order/remove" args="order_id={$order_info.order_id}"}' title='{t domain="quickpay"}删除订单{/t}'><button type="button" class="btn btn-primary">{t domain="quickpay"}删除订单{/t}</button></a>
   		{/if}
   		
   		{if $action_link}
@@ -33,9 +33,9 @@ ecjia.merchant.order_info.init();
 {if $has_payed eq 1}
 <div class="row">
 	<div class="col-lg-12 panel-heading form-inline">
-		<div class="form-group"><h3>订单号：{$order_info.order_sn}</h3></div>
+		<div class="form-group"><h3>{t domain="quickpay"}订单号：{/t}{$order_info.order_sn}</h3></div>
 		<div class="form-group pull-right">
-     		<button type="button" class="btn btn-primary toggle_view" data-href='{url path="quickpay/mh_print/init" args="order_id={$order_info.order_id}"}'>小票打印</button>
+     		<button type="button" class="btn btn-primary toggle_view" data-href='{url path="quickpay/mh_print/init" args="order_id={$order_info.order_id}"}'>{t domain="quickpay"}小票打印{/t}</button>
 		</div>
 	</div>
 </div>
@@ -46,48 +46,48 @@ ecjia.merchant.order_info.init();
 		<div id="accordion2" class="panel panel-default">
 			<div class="panel-heading">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                    <h4 class="panel-title"><strong>基本信息</strong></h4>
+                    <h4 class="panel-title"><strong>{t domain="quickpay"}基本信息{/t}</strong></h4>
                 </a>
             </div>
 			<div class="accordion-body in collapse" id="collapseOne">
 				<table class="table table-oddtd m_b0">
 					<tbody class="first-td-no-leftbd">
 						<tr>
-							<td><div align="right"><strong>订单编号：</strong></div></td>
+							<td><div align="right"><strong>{t domain="quickpay"}订单编号：{/t}</strong></div></td>
 							<td>
 								{$order_info.order_sn}
 							</td>
-							<td><div align="right"><strong>订单状态：</strong></div></td>
+							<td><div align="right"><strong>{t domain="quickpay"}订单状态：{/t}</strong></div></td>
 							<td>{$order_info.status}</td>
 						</tr>
 						<tr>
-							<td><div align="right"><strong>购买人姓名：</strong></div></td>
+							<td><div align="right"><strong>{t domain="quickpay"}购买人姓名：{/t}</strong></div></td>
 							<td>
 								{$order_info.user_name}
 							</td>
-							<td><div align="right"><strong>购买人手机号：</strong></div></td>
+							<td><div align="right"><strong>{t domain="quickpay"}购买人手机号：{/t}</strong></div></td>
 							<td>{$order_info.user_mobile}</td>
 						</tr>
 						<tr>
-							<td><div align="right"><strong>支付方式：</strong></div></td>
+							<td><div align="right"><strong>{t domain="quickpay"}支付方式：{/t}</strong></div></td>
 							<td>
 								{$order_info.pay_name}
 							</td>
-							<td><div align="right"><strong>支付时间：</strong></div></td>
+							<td><div align="right"><strong>{t domain="quickpay"}支付时间：{/t}</strong></div></td>
 							<td>{$order_info.pay_time}</td>
 						</tr>
 						
 						<tr>
-							<td><div align="right"><strong>买单优惠类型：</strong></div></td>
+							<td><div align="right"><strong>{t domain="quickpay"}买单优惠类型：{/t}</strong></div></td>
 							<td>
 								{$order_info.activity_name}
 							</td>
-							<td><div align="right"><strong>买单来源：</strong></div></td>
+							<td><div align="right"><strong>{t domain="quickpay"}买单来源：{/t}</strong></div></td>
 							<td>{$order_info.referer}</td>
 						</tr>
 						
 						<tr>
-							<td><div align="right"><strong>下单时间：</strong></div></td>
+							<td><div align="right"><strong>{t domain="quickpay"}下单时间：{/t}</strong></div></td>
 							<td colspan="3">{$order_info.add_time}</td>
 						</tr>
 					</tbody>
@@ -99,7 +99,7 @@ ecjia.merchant.order_info.init();
 			<div class="panel-heading accordion-group-heading-relative">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix">
                     <h4 class="panel-title">
-                        <strong>费用信息</strong>
+                        <strong>{t domain="quickpay"}费用信息{/t}</strong>
                     </h4>
                 </a>
             </div>
@@ -108,15 +108,15 @@ ecjia.merchant.order_info.init();
 					<tr>
 						<td>
 							<div align="right">
-								<strong>买单消费总金额：</strong>¥{if $order_info.goods_amount}{$order_info.goods_amount}{else}0{/if}
-								- <strong>买单：</strong>¥{if $order_info.discount}{$order_info.discount}{else}0{/if}
-								- <strong>使用积分抵扣：</strong>¥{if $order_info.integral_money}{$order_info.integral_money}{else}0{/if}
-								- <strong>使用红包抵扣：</strong>¥{if $order_info.bonus}{$order_info.bonus}{else}0{/if}
+								<strong>{t domain="quickpay"}买单消费总金额：{/t}</strong>¥{if $order_info.goods_amount}{$order_info.goods_amount}{else}0{/if}
+								- <strong>{t domain="quickpay"}买单：{/t}</strong>¥{if $order_info.discount}{$order_info.discount}{else}0{/if}
+								- <strong>{t domain="quickpay"}使用积分抵扣：{/t}</strong>¥{if $order_info.integral_money}{$order_info.integral_money}{else}0{/if}
+								- <strong>{t domain="quickpay"}使用红包抵扣：{/t}</strong>¥{if $order_info.bonus}{$order_info.bonus}{else}0{/if}
 							</div>
 						</td>
 					</tr>
 					<tr>
-						<td><div align="right"> = <strong>买单实付金额：</strong>{$order_info.order_amount}</div></td>
+						<td><div align="right"> = <strong>{t domain="quickpay"}买单实付金额：{/t}</strong>{$order_info.order_amount}</div></td>
 					</tr>
 				</table>
             </div>
@@ -125,7 +125,7 @@ ecjia.merchant.order_info.init();
 			<div class="panel-heading">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">
                     <h4 class="panel-title">
-                        <strong>操作记录</strong>
+                        <strong>{t domain="quickpay"}操作记录{/t}</strong>
                     </h4>
                 </a>
             </div>
@@ -133,10 +133,10 @@ ecjia.merchant.order_info.init();
             	<table class="table table-striped m_b0">
 					<thead>
 						<tr>
-							<th class="w150"><strong>操作者</strong></th>
-							<th class="w180"><strong>操作时间</strong></th>
-							<th class="w180"><strong>订单状态</strong></th>
-							<th class="ecjiafc-pre t_c"><strong>操作备注</strong></th>
+							<th class="w150"><strong>{t domain="quickpay"}操作者{/t}</strong></th>
+							<th class="w180"><strong>{t domain="quickpay"}操作时间{/t}</strong></th>
+							<th class="w180"><strong>{t domain="quickpay"}订单状态{/t}</strong></th>
+							<th class="ecjiafc-pre t_c"><strong>{t domain="quickpay"}操作备注{/t}</strong></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -149,7 +149,7 @@ ecjia.merchant.order_info.init();
 						</tr>
 						<!-- {foreachelse} -->
 						<tr>
-							<td class="no-records w200" colspan="4">{t}该订单暂无操作记录{/t}</td>
+							<td class="no-records w200" colspan="4">{t domain="quickpay"}该订单暂无操作记录{/t}</td>
 						</tr>
 						<!-- {/foreach} -->
 					</tbody>
@@ -163,7 +163,7 @@ ecjia.merchant.order_info.init();
 			<div class="panel-heading">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseEight">
                     <h4 class="panel-title">
-                        <strong>{t}订单操作{/t}</strong>
+                        <strong>{t domain="quickpay"}订单操作{/t}</strong>
                     </h4>
                 </a>
             </div>
@@ -171,14 +171,14 @@ ecjia.merchant.order_info.init();
             	<table class="table table-oddtd m_b0">
 					<tbody class="first-td-no-leftbd">
 						<tr>
-							<td width="15%"><div align="right"><span class="input-must">*</span> <strong>{lang key='orders::order.label_action_note'}</strong></div></td>
+							<td width="15%"><div align="right"><span class="input-must">*</span> <strong>{t domain="quickpay"}操作备注：{/t}</strong></div></td>
 							<td colspan="3"><textarea name="action_note" class="span12 action_note form-control" cols="60" rows="3"></textarea></td>
 						</tr>
 						<tr>
-							<td><div align="right"><strong>当前可执行操作：</strong></div></td>
+							<td><div align="right"><strong>{t domain="quickpay"}当前可执行操作：{/t}</strong></div></td>
 							<td colspan="3">
 								<a class="change_status" data-href='{url path="quickpay/mh_order/order_action"}'>
-									<button class="btn operatesubmit btn-info" type="button">确认核销</button>
+									<button class="btn operatesubmit btn-info" type="button">{t domain="quickpay"}确认核销{/t}</button>
 								</a>
 								<input type="hidden" value="{$order_info.order_id}" name="order_id">
 								<input type="hidden" value="type_info" name="type_info">
@@ -196,7 +196,7 @@ ecjia.merchant.order_info.init();
 			<div class="panel-heading">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseEight">
                     <h4 class="panel-title">
-                        <strong>{t}订单操作{/t}</strong>
+                        <strong>{t domain="quickpay"}订单操作{/t}</strong>
                     </h4>
                 </a>
             </div>
@@ -204,14 +204,14 @@ ecjia.merchant.order_info.init();
             	<table class="table table-oddtd m_b0">
 					<tbody class="first-td-no-leftbd">
 						<tr>
-							<td width="15%"><div align="right"><span class="input-must">*</span> <strong>{lang key='orders::order.label_action_note'}</strong></div></td>
+							<td width="15%"><div align="right"><span class="input-must">*</span> <strong>{t domain="quickpay"}操作备注：{/t}</strong></div></td>
 							<td colspan="3"><textarea name="action_note" class="span12 action_note form-control" cols="60" rows="3"></textarea></td>
 						</tr>
 						<tr>
-							<td><div align="right"><strong>当前可执行操作：</strong></div></td>
+							<td><div align="right"><strong>{t domain="quickpay"}当前可执行操作：{/t}</strong></div></td>
 							<td colspan="3">
 								<a class="change_status" data-href='{url path="quickpay/mh_order/order_action_cancel"}'>
-									<button class="btn operatesubmit btn-info" type="button">取消</button>
+									<button class="btn operatesubmit btn-info" type="button">{t domain="quickpay"}取消{/t}</button>
 								</a>
 								<input type="hidden" value="{$order_info.order_id}" name="order_id">
 								<input type="hidden" value="type_info" name="type_info">

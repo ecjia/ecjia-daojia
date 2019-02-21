@@ -1,0 +1,1223 @@
+# Copyright (C) 2019 Ecjia App quickpay
+# This file is distributed under the same license as the Ecjia App quickpay package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App quickpay 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:58:03+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin.php:86 admin_order.php:73 admin_sale_general.php:85
+#: admin_sale_list.php:69 apis/quickpay_admin_menu_api.class.php:58
+#: mh_order.php:74 mh_sale_general.php:77 mh_sale_list.php:69
+msgid "买单管理"
+msgstr ""
+
+#: admin.php:96 admin.php:118 apis/quickpay_admin_menu_api.class.php:61
+#: apis/quickpay_merchant_menu_api.class.php:58 merchant.php:87
+#: merchant.php:143
+msgid "优惠买单规则"
+msgstr ""
+
+#: admin.php:97 admin.php:119 admin.php:120 admin.php:291 merchant.php:88
+#: merchant.php:145
+msgid "优惠买单规则列表"
+msgstr ""
+
+#: admin.php:175 merchant.php:179 merchant.php:347
+msgid "当前店铺下已存在该买单标题"
+msgstr ""
+
+#: admin.php:182 merchant.php:186 merchant.php:354
+msgid "开始时间不能大于或等于结束时间"
+msgstr ""
+
+#: admin.php:193 merchant.php:197 merchant.php:365
+msgid "活动参数不能为空"
+msgstr ""
+
+#: admin.php:232 merchant.php:239 merchant.php:406
+msgid "请选择您要指定的红包项"
+msgstr ""
+
+#: admin.php:250 merchant.php:256 merchant.php:424
+msgid "设置最大可用积分数"
+msgstr ""
+
+#: admin.php:280 merchant.php:451
+msgid "编辑优惠买单规则成功"
+msgstr ""
+
+#: admin.php:290 admin.php:292
+msgid "查看优惠买单规则"
+msgstr ""
+
+#: admin.php:342 merchant.php:467
+msgid "成功删除该优惠买单规则"
+msgstr ""
+
+#: admin.php:362 merchant.php:486
+msgid "没有找到相应的红包记录，请重新搜索"
+msgstr ""
+
+#: admin.php:382
+msgid "批量删除成功"
+msgstr ""
+
+#: admin.php:439 admin_order.php:121 admin_order.php:296
+#: apis/quickpay_quickpay_activity_list_api.class.php:67 merchant.php:536
+#: mh_order.php:121 mh_order.php:467
+msgid "价格折扣"
+msgstr ""
+
+#: admin.php:440 admin_order.php:125 admin_order.php:297
+#: apis/quickpay_quickpay_activity_list_api.class.php:71 merchant.php:537
+#: mh_order.php:125 mh_order.php:468
+msgid "满多少减多少"
+msgstr ""
+
+#: admin.php:441 admin_order.php:123 admin_order.php:298
+#: apis/quickpay_quickpay_activity_list_api.class.php:69 merchant.php:538
+#: mh_order.php:123 mh_order.php:469
+msgid "每满多少减多少,最高减多少"
+msgstr ""
+
+#: admin_config.php:77 admin_config.php:78
+#: classes/hooks/admin_quickpay.class.php:55
+msgid "买单设置"
+msgstr ""
+
+#: admin_config.php:99
+msgid "买单活动规则配置成功"
+msgstr ""
+
+#: admin_order.php:82 mh_order.php:84
+msgid "买单订单"
+msgstr ""
+
+#: admin_order.php:83 admin_order.php:111 admin_order.php:182 mh_order.php:85
+#: mh_order.php:112 mh_order.php:348
+msgid "买单订单列表"
+msgstr ""
+
+#: admin_order.php:84 mh_order.php:87
+msgid "订单查询"
+msgstr ""
+
+#: admin_order.php:108 admin_order.php:109 mh_order.php:109 mh_order.php:110
+msgid "买单订单信息"
+msgstr ""
+
+#: admin_order.php:127 admin_order.php:295 mh_order.php:127 mh_order.php:466
+msgid "无优惠"
+msgstr ""
+
+#: admin_order.php:131 admin_order.php:308 mh_order.php:131 mh_order.php:479
+msgid "未确认"
+msgstr ""
+
+#: admin_order.php:132 admin_order.php:309 mh_order.php:132 mh_order.php:480
+msgid "已确认"
+msgstr ""
+
+#: admin_order.php:133 admin_order.php:310 mh_order.php:133 mh_order.php:481
+msgid "已取消"
+msgstr ""
+
+#: admin_order.php:134 admin_order.php:311 mh_order.php:134 mh_order.php:482
+msgid "已删除"
+msgstr ""
+
+#: admin_order.php:138 admin_order.php:312 mh_order.php:138 mh_order.php:483
+msgid "未付款"
+msgstr ""
+
+#: admin_order.php:139 admin_order.php:313 mh_order.php:139 mh_order.php:484
+msgid "已付款"
+msgstr ""
+
+#: admin_order.php:143 admin_order.php:314 mh_order.php:143 mh_order.php:485
+msgid "未核销"
+msgstr ""
+
+#: admin_order.php:144 admin_order.php:315 mh_order.php:144 mh_order.php:486
+msgid "已核销"
+msgstr ""
+
+#: admin_order.php:180 admin_order.php:181
+#: apis/quickpay_admin_menu_api.class.php:63
+#: apis/quickpay_admin_purview_api.class.php:67
+#: apis/quickpay_merchant_menu_api.class.php:60
+#: apis/quickpay_merchant_purview_api.class.php:65 mh_order.php:345
+#: mh_order.php:346
+msgid "买单订单查询"
+msgstr ""
+
+#: admin_sale_general.php:94 admin_sale_general.php:96
+#: apis/quickpay_admin_menu_api.class.php:64
+#: apis/quickpay_admin_purview_api.class.php:69
+#: apis/quickpay_merchant_menu_api.class.php:61
+#: apis/quickpay_merchant_purview_api.class.php:67 mh_sale_general.php:97
+msgid "买单订单统计"
+msgstr ""
+
+#: admin_sale_general.php:97 mh_sale_general.php:100
+msgid "买单订单统计报表下载"
+msgstr ""
+
+#: admin_sale_general.php:118 admin_sale_general.php:119
+#: mh_sale_general.php:120 mh_sale_general.php:122
+msgid "销售概况"
+msgstr ""
+
+#: admin_sale_general.php:120 mh_sale_general.php:123
+msgid "销售概况报表下载"
+msgstr ""
+
+#: admin_sale_general.php:156
+msgid "平台买单订单统计概况报表"
+msgstr ""
+
+#: admin_sale_general.php:157 admin_sale_list.php:119 mh_sale_general.php:183
+#: mh_sale_list.php:120
+msgid "至"
+msgstr ""
+
+#: admin_sale_general.php:164
+msgid "平台买单订单统计"
+msgstr ""
+
+#: admin_sale_general.php:165 mh_sale_general.php:191
+msgid "时间段"
+msgstr ""
+
+#: admin_sale_general.php:166 mh_sale_general.php:192
+msgid "订单数（单位:个）"
+msgstr ""
+
+#: admin_sale_general.php:167 mh_sale_general.php:193
+msgid "营业额（单位:元）"
+msgstr ""
+
+#: admin_sale_list.php:78 admin_sale_list.php:79
+#: apis/quickpay_admin_menu_api.class.php:65
+#: apis/quickpay_admin_purview_api.class.php:71
+#: apis/quickpay_merchant_menu_api.class.php:62
+#: apis/quickpay_merchant_purview_api.class.php:69 mh_sale_list.php:78
+#: mh_sale_list.php:80
+msgid "买单销售明细"
+msgstr ""
+
+#: admin_sale_list.php:80 mh_sale_list.php:81
+msgid "销售明细报表下载"
+msgstr ""
+
+#: admin_sale_list.php:118
+msgid "平台买单销售明细报表"
+msgstr ""
+
+#: admin_sale_list.php:124
+msgid "平台买单销售明细"
+msgstr ""
+
+#: admin_sale_list.php:125 mh_sale_list.php:125
+msgid "日期"
+msgstr ""
+
+#: admin_sale_list.php:126 mh_sale_list.php:126
+msgid "订单数量（单）"
+msgstr ""
+
+#: admin_sale_list.php:127 mh_sale_list.php:127
+msgid "消费总金额（元）"
+msgstr ""
+
+#: admin_sale_list.php:128 mh_sale_list.php:128
+msgid "优惠总金额（元）"
+msgstr ""
+
+#: admin_sale_list.php:129 mh_sale_list.php:129
+msgid "实付总金额（元）"
+msgstr ""
+
+#: apis/quickpay_admin_menu_api.class.php:62
+#: apis/quickpay_merchant_menu_api.class.php:59
+msgid "订单列表"
+msgstr ""
+
+#: apis/quickpay_admin_purview_api.class.php:57
+msgid "买单活动设置"
+msgstr ""
+
+#: apis/quickpay_admin_purview_api.class.php:59
+msgid "买单活动管理"
+msgstr ""
+
+#: apis/quickpay_admin_purview_api.class.php:60
+msgid "买单活动编辑"
+msgstr ""
+
+#: apis/quickpay_admin_purview_api.class.php:61
+msgid "买单活动删除"
+msgstr ""
+
+#: apis/quickpay_admin_purview_api.class.php:63
+#: apis/quickpay_merchant_purview_api.class.php:61
+msgid "买单订单管理"
+msgstr ""
+
+#: apis/quickpay_admin_purview_api.class.php:64
+#: apis/quickpay_merchant_purview_api.class.php:62
+msgid "买单订单核实"
+msgstr ""
+
+#: apis/quickpay_admin_purview_api.class.php:65
+#: apis/quickpay_merchant_purview_api.class.php:63
+msgid "买单订单删除"
+msgstr ""
+
+#: apis/quickpay_admin_purview_api.class.php:74
+#: classes/hooks/merchant_quickpay.class.php:52 mh_qrcode.php:76
+#: mh_qrcode.php:79
+msgid "收款二维码"
+msgstr ""
+
+#: apis/quickpay_cashier_quickpay_order_list_api.class.php:15
+msgid "调用api文件,cashier_quickpay_order_list,参数无效"
+msgstr ""
+
+#: apis/quickpay_merchant_menu_api.class.php:56
+#: classes/hooks/admin_quickpay.class.php:54 configs/package.php:55
+#: merchant.php:76
+msgid "买单"
+msgstr ""
+
+#: apis/quickpay_merchant_purview_api.class.php:57
+msgid "买单规则管理"
+msgstr ""
+
+#: apis/quickpay_merchant_purview_api.class.php:58
+msgid "买单规则更新"
+msgstr ""
+
+#: apis/quickpay_merchant_purview_api.class.php:59
+msgid "买单规则删除"
+msgstr ""
+
+#: apis/quickpay_merchant_purview_api.class.php:71
+msgid "买单打印"
+msgstr ""
+
+#: apis/quickpay_quickpay_activity_list_api.class.php:15
+msgid "调用api文件,quickpay_activity_list,参数无效"
+msgstr ""
+
+#: apis/quickpay_quickpay_order_info_api.class.php:62
+msgid "调取api文件，quickpay_order_info，参数错误"
+msgstr ""
+
+#: apis/quickpay_quickpay_order_list_api.class.php:15
+msgid "调用api文件，quickpay_order_list，参数无效"
+msgstr ""
+
+#: apis/quickpay_quickpay_order_paid_api.class.php:65
+#: apis/quickpay_quickpay_user_account_paid_api.class.php:66
+#: modules/admin/merchant/quickpay/activity/list_module.class.php:63
+#: modules/quickpay/activity/list_module.class.php:58
+#: modules/quickpay/flow/checkOrder_module.class.php:80
+#: modules/quickpay/flow/done_module.class.php:95
+#: modules/quickpay/merchant/shop/payment_module.class.php:56
+#: modules/quickpay/order/detail_module.class.php:64
+#: modules/quickpay/order/pay_module.class.php:72
+msgid "参数无效"
+msgstr ""
+
+#: apis/quickpay_quickpay_order_paid_api.class.php:110
+#: apis/quickpay_quickpay_user_account_paid_api.class.php:150
+msgid "买家"
+msgstr ""
+
+#: apis/quickpay_quickpay_user_account_paid_api.class.php:95
+#: modules/quickpay/order/pay_module.class.php:83
+msgid "订单不属于该用户"
+msgstr ""
+
+#: apis/quickpay_quickpay_user_account_paid_api.class.php:102
+msgid "该订单已经支付，请勿重复支付。"
+msgstr ""
+
+#: apis/quickpay_quickpay_user_account_paid_api.class.php:107
+msgid "您的余额不足以支付整个订单，请选择其他支付方式。"
+msgstr ""
+
+#: configs/jslang.php:57
+msgid "规则描述不能为空"
+msgstr ""
+
+#: configs/jslang.php:58
+msgid "收款手续费不能为空"
+msgstr ""
+
+#: configs/jslang.php:63
+msgid "开启"
+msgstr ""
+
+#: configs/jslang.php:64
+msgid "关闭"
+msgstr ""
+
+#: configs/jslang.php:65
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:66
+msgid "取消"
+msgstr ""
+
+#: configs/jslang.php:67
+msgid "该选项已存在"
+msgstr ""
+
+#: configs/jslang.php:68
+msgid "请先搜索相应的数据"
+msgstr ""
+
+#: configs/jslang.php:69
+msgid "优惠范围是全部红包，不需要此操作"
+msgstr ""
+
+#: configs/jslang.php:70
+msgid "请输入买单名称"
+msgstr ""
+
+#: configs/jslang.php:71
+msgid "请输入折扣价格"
+msgstr ""
+
+#: configs/jslang.php:76
+msgid "元"
+msgstr ""
+
+#: configs/jslang.php:77
+msgid "单"
+msgstr ""
+
+#: configs/jslang.php:78
+msgid "查询的开始年份不能为空！"
+msgstr ""
+
+#: configs/jslang.php:79
+msgid "查询的结束年份不能为空！"
+msgstr ""
+
+#: configs/jslang.php:80
+msgid "查询的开始时间不能超于结束时间！"
+msgstr ""
+
+#: configs/jslang.php:81
+msgid "没有统计数据"
+msgstr ""
+
+#: configs/jslang.php:82
+msgid "订单数量"
+msgstr ""
+
+#: configs/jslang.php:83
+msgid "销售额"
+msgstr ""
+
+#: configs/package.php:56
+msgid "新一款闪付优惠活动"
+msgstr ""
+
+#: merchant.php:89 merchant.php:144
+msgid "添加优惠买单规则"
+msgstr ""
+
+#: merchant.php:119 merchant.php:132
+msgid "成功"
+msgstr ""
+
+#: merchant.php:121
+msgid "开启买单成功"
+msgstr ""
+
+#: merchant.php:134
+msgid "关闭买单成功"
+msgstr ""
+
+#: merchant.php:284
+msgid "添加优惠买单规则成功"
+msgstr ""
+
+#: merchant.php:293 merchant.php:294
+msgid "编辑优惠买单规则"
+msgstr ""
+
+#: mh_order.php:191 mh_order.php:248
+msgid "操作备注不能为空"
+msgstr ""
+
+#: mh_order.php:233 mh_order.php:235 mh_order.php:273 mh_order.php:275
+msgid "核销操作成功"
+msgstr ""
+
+#: mh_order.php:295
+msgid "成功删除该优惠买单订单"
+msgstr ""
+
+#: mh_order.php:335
+msgid "批量操作成功"
+msgstr ""
+
+#: mh_print.php:64
+msgid "打印已发送"
+msgstr ""
+
+#: mh_qrcode.php:66
+msgid "我的店铺"
+msgstr ""
+
+#: mh_qrcode.php:106
+msgid "刷新收款二维码"
+msgstr ""
+
+#: mh_qrcode.php:108
+msgid "刷新成功"
+msgstr ""
+
+#: mh_sale_general.php:99
+msgid "订单统计"
+msgstr ""
+
+#: mh_sale_general.php:171
+msgid "参数错误"
+msgstr ""
+
+#: mh_sale_general.php:182
+msgid "商家买单订单统计概况报表"
+msgstr ""
+
+#: mh_sale_general.php:190
+msgid "商家买单订单统计"
+msgstr ""
+
+#: mh_sale_list.php:119
+msgid "商家买单销售明细报表"
+msgstr ""
+
+#: mh_sale_list.php:124
+msgid "商家买单销售明细"
+msgstr ""
+
+#: modules/quickpay/flow/done_module.class.php:281
+msgid "积分使用失败！"
+msgstr ""
+
+#: modules/quickpay/flow/done_module.class.php:331
+msgid "下单成功，订单号：%s"
+msgstr ""
+
+#: modules/quickpay/flow/done_module.class.php:333
+msgid "订单提交成功"
+msgstr ""
+
+#: modules/quickpay/flow/done_module.class.php:341
+msgid "待付款"
+msgstr ""
+
+#: modules/quickpay/flow/done_module.class.php:343
+msgid "请尽快支付该订单，超时将会自动取消订单"
+msgstr ""
+
+#: modules/quickpay/order/pay_module.class.php:68
+msgid "请选择支付方式"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:28
+msgid "批量操作"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:32
+msgid "您确实要删除选中的买单规则吗？"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:32
+msgid "请先选中要删除的买单规则！"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:32
+msgid "删除买单规则"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:36
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:49
+msgid "请输入商家名称"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:37
+msgid "请输入买单规则名称"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:38
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:51
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:227
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:193
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:57
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:270
+msgid "搜索"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:49
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:66
+msgid "买单标题"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:50
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:63
+msgid "商家名称"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:51
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:40
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:65
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:43
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:67
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:55
+msgid "买单优惠类型"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:52
+#: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:61
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:137
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:123
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:68
+#: content/apps/quickpay/templates/merchant/quickpay_order_search.dwt.php:64
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:163
+msgid "开始时间"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:53
+#: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:65
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:138
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:124
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:69
+#: content/apps/quickpay/templates/merchant/quickpay_order_search.dwt.php:68
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:164
+msgid "结束时间"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:72
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:79
+msgid "编辑"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:73
+msgid "你确定要删除该买单规则吗？"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:73
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:80
+msgid "删除"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:75
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:76
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:161
+msgid "查看详情"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:80
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:85
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:84
+msgid "每满多少减多少，最高减多少"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:86
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:117
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:90
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:190
+msgid "没有找到任何记录"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_sale_general.dwt.php:19
+#: content/apps/quickpay/templates/admin/quickpay_sale_list.dwt.php:29
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:16
+msgid "温馨提示："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_sale_general.dwt.php:19
+msgid "只有已付款的订单才计入订单统计。"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_sale_general.dwt.php:68
+msgid "年走势："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_sale_general.dwt.php:72
+#: content/apps/quickpay/templates/admin/quickpay_sale_general.dwt.php:82
+#: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:87
+#: content/apps/quickpay/templates/admin/quickpay_sale_list.dwt.php:49
+msgid "查询"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_sale_general.dwt.php:78
+msgid "月走势："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_sale_general.dwt.php:92
+#: content/apps/quickpay/templates/merchant/quickpay_sale_general.dwt.php:98
+#: content/apps/quickpay/templates/merchant/quickpay_sale_general.dwt.php:100
+#: content/apps/quickpay/templates/merchant/quickpay_sale_general.dwt.php:102
+msgid "订单走势"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_sale_general.dwt.php:93
+#: content/apps/quickpay/templates/merchant/quickpay_sale_general.dwt.php:106
+#: content/apps/quickpay/templates/merchant/quickpay_sale_general.dwt.php:108
+#: content/apps/quickpay/templates/merchant/quickpay_sale_general.dwt.php:110
+msgid "销售额走势"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:26
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:36
+msgid "订单号："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:45
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:38
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:37
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:81
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:57
+msgid "买单优惠类型："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:48
+msgid "请选择……"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:57
+msgid "买单时间："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:72
+msgid "购买者姓名："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:79
+msgid "购买者手机号："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:88
+msgid "重置"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:21
+msgid "全部"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:22
+msgid "待核销"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:31
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:68
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:107
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:46
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:138
+msgid "订单状态"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:46
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:49
+msgid "筛选"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:50
+msgid "请输入订单号或者购买者姓名"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:62
+msgid "订单号"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:64
+msgid "购买者信息"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:66
+msgid "下单时间"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:67
+msgid "实付金额"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_config.dwt.php:21
+msgid "规则描述："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_config.dwt.php:29
+msgid "收款手续费："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/library/quickpay_order_step.lbi.php:8
+#: content/apps/quickpay/templates/merchant/library/quickpay_order_step.lbi.php:9
+msgid "提交订单"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_sale_list.dwt.php:29
+msgid "只有已付款的订单才计入销售明细。"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_sale_list.dwt.php:45
+msgid "按照年份查："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_sale_list.dwt.php:47
+msgid "按月份查："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_sale_list.dwt.php:56
+msgid "订单共计："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_sale_list.dwt.php:57
+msgid "实际总金额共计："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:23
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:23
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:42
+msgid "买单名称："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:31
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:30
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:50
+msgid "买单描述："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:50
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:49
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:69
+msgid "折扣价："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:54
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:52
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:72
+msgid "如：打9折，请输入90"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:61
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:59
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:80
+msgid "满金额："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:65
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:82
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:63
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:80
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:84
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:104
+msgid "消费达到的金额"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:67
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:84
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:65
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:82
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:87
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:107
+msgid "减"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:69
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:86
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:92
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:67
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:84
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:90
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:90
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:110
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:116
+msgid "优惠金额"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:78
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:76
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:100
+msgid "每满金额："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:89
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:87
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:113
+msgid "最高减："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:100
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:98
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:125
+msgid "具体时间："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:103
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:101
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:128
+msgid "不限制时间"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:104
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:102
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:129
+msgid "自定义时间"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:111
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:136
+msgid "每周限天："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:116
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:114
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:141
+msgid "勾选星期一，则表示一周中只有星期一可以使用，可多选。"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:121
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:119
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:147
+msgid "每天限时："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:126
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:137
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:123
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:152
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:163
+msgid "从"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:142
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:127
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:168
+msgid ""
+"例如，如果开始时间设9点，结束时间设12点，则表示每天9点到12点时段才可使用此优"
+"惠"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:147
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:132
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:173
+msgid "限制日期："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:152
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:162
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:136
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:178
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:188
+msgid "请选择日期"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:166
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:139
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:192
+msgid "选择某天时间内不可使用买单功能，可增加多个日期"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:172
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:145
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:199
+msgid "有效时间："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:176
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:149
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:203
+msgid "请输入开始时间"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:180
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:153
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:207
+msgid "请输入结束时间"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:187
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:160
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:215
+msgid "是否开启："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:197
+msgid "更新"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:209
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:175
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:241
+msgid "红包优惠"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:215
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:181
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:248
+msgid "是否允许同时使用红包抵现："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:221
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:187
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:260
+msgid "全部红包"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:222
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:188
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:261
+msgid "指定红包"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:226
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:192
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:268
+msgid "请输入关键词进行搜索"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:230
+msgid ""
+"当红包优惠设为“指定红包”时，需要输入关键词搜索并且设置指定红包， 如果优惠设"
+"为“不指定红包”则不需要设置。 "
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:255
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:218
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:304
+msgid "积分优惠"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:261
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:224
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:310
+msgid "是否允许同时使用积分抵现："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:267
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:230
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:322
+msgid "不限制积分"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:268
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:231
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:323
+msgid "限制积分"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:275
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:238
+msgid ""
+"当积分优惠设为“限制积分”时，可设置最大可用积分数与优惠同时使用， 数量为0时则"
+"是不限制，如果选择“不限制积分”则不需要设置。"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:109
+msgid "每天限天："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:196
+msgid ""
+"当红包优惠设为“指定红包”时，需要输入关键词搜索并且设置指定红包， 如果优惠设"
+"为“不指定红包”则不需要设置。"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:27
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:49
+msgid "基本信息"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:33
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:56
+msgid "订单编号："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:37
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:60
+msgid "订单状态："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:41
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:64
+msgid "购买人姓名："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:45
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:68
+msgid "购买人手机号："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:49
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:72
+msgid "支付方式："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:53
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:76
+msgid "支付时间："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:57
+msgid "优惠类型："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:61
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:85
+msgid "买单来源："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:72
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:102
+msgid "费用信息"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:80
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:111
+msgid "买单消费总金额："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:81
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:112
+msgid "买单："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:82
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:113
+msgid "使用积分抵扣："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:83
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:114
+msgid "使用红包抵扣："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:90
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:119
+msgid "买单实付金额："
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:99
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:128
+msgid "操作记录"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:105
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:136
+msgid "操作者"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:106
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:137
+msgid "操作时间"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:108
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:139
+msgid "操作备注"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:121
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:152
+msgid "该订单暂无操作记录"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:16
+msgid "您已开启了买单活动，目前正在使用中。"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:26
+msgid "你确定关闭买单吗？"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:26
+msgid "关闭买单"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:28
+msgid "开启买单"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:70
+msgid "状态"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:81
+msgid "查看订单"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:87
+msgid "已结束"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:87
+msgid "进行中"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/library/quickpay_order_step.lbi.php:9
+msgid "取消订单"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:20
+msgid "删除订单将清楚该订单的所有信息。您确定要这么做吗？"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:20
+msgid "删除订单"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:38
+msgid "小票打印"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:90
+msgid "下单时间："
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:166
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:199
+msgid "订单操作"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:174
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:207
+msgid "操作备注："
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:178
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:211
+msgid "当前可执行操作："
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:181
+msgid "确认核销"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:274
+msgid ""
+"当红包优惠设为“指定红包”时，需要输入关键词搜索并且设置指定红包，\n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\t如果优惠设为“不指定红包”则不需要设置。"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:335
+msgid ""
+"当积分优惠设为“限制积分”时，可设置最大可用积分数与优惠同时使用，\n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\t数量为0时则是不限制，如果选择“不限制积分”则不需要设"
+"置。"
+msgstr ""

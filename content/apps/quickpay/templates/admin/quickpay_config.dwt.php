@@ -18,7 +18,7 @@
 			</div>
 			
 			<div class="control-group formSep">
-				<label class="control-label">规则描述：</label>
+				<label class="control-label">{t domain="quickpay"}规则描述：{/t}</label>
 				<div class="controls">
 					<textarea class="span7" name="quickpay_rule" >{$quickpay_rule}</textarea>
 					<span class="input-must"><span class="require-field">*</span></span>
@@ -26,7 +26,7 @@
 			</div>
 			
 			<div class="control-group formSep">
-				<label class="control-label">收款手续费：</label>
+				<label class="control-label">{t domain="quickpay"}收款手续费：{/t}</label>
 				<div class="controls">
 					<input type="text" class="span7" name="quickpay_fee" value="{$quickpay_fee}"/>
 					<span class="input-must"><span class="require-field">*</span></span>
@@ -35,7 +35,7 @@
 			
 			<div class="control-group">
 				<div class="controls">
-					<input type="submit" value="确定" class="btn btn-gebo" />
+					<input type="submit" value='{t domain="quickpay"}确定{/t}' class="btn btn-gebo" />
 				</div>
 			</div>
 		</fieldset>

@@ -66,7 +66,7 @@ class admin_sale_list extends ecjia_admin {
         RC_Script::enqueue_script('admin_sale_list', RC_App::apps_url('statics/js/admin_sale_list.js', __FILE__));
         RC_Style::enqueue_style('admin_order', RC_App::apps_url('statics/css/admin_order.css', __FILE__));
         
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('买单管理', RC_Uri::url('quickpay/admin_order/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('买单管理', 'quickpay'), RC_Uri::url('quickpay/admin_order/init')));
 	}
 	
 	/**
@@ -75,10 +75,9 @@ class admin_sale_list extends ecjia_admin {
 	public function init() {
 		$this->admin_priv('mh_sale_list_stats');
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('买单销售明细'));
-		
-		$this->assign('ur_here', '买单销售明细');
-		$this->assign('action_link', array('text' => '销售明细报表下载', 'href' => RC_Uri::url('quickpay/admin_sale_list/download')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('买单销售明细', 'quickpay')));
+		$this->assign('ur_here', __('买单销售明细', 'quickpay'));
+		$this->assign('action_link', array('text' => __('销售明细报表下载', 'quickpay'), 'href' => RC_Uri::url('quickpay/admin_sale_list/download')));
 		
 		$sale_list_data = $this->get_sale_list();
         $this->assign('sale_list_data', $sale_list_data);
@@ -116,16 +115,24 @@ class admin_sale_list extends ecjia_admin {
 		->orderby('period', 'desc')
 		->get();
 
-		$filename = mb_convert_encoding('平台买单销售明细报表' . '_' . $_GET['start_date'] . '至' . $_GET['end_date'], "GBK", "UTF-8");
+		$filetitle = __('平台买单销售明细报表', 'quickpay');
+        $totext = __('至', 'quickpay');
+		$filename = mb_convert_encoding($filetitle . '_' . $_GET['start_date'] . $totext . $_GET['end_date'], "GBK", "UTF-8");
 		header("Content-type: application/vnd.ms-excel; charset=utf-8");
 		header("Content-Disposition: attachment; filename={$filename}.xls");
 
-		echo mb_convert_encoding('平台买单销售明细','UTF-8', 'UTF-8') . "\t\n";
-		echo mb_convert_encoding('日期','UTF-8', 'UTF-8') . "\t";
-		echo mb_convert_encoding('订单数量（单）','UTF-8', 'UTF-8') . "\t";
-		echo mb_convert_encoding('消费总金额（元）','UTF-8', 'UTF-8') . "\t";
-		echo mb_convert_encoding('优惠总金额（元）','UTF-8', 'UTF-8') . "\t";
-		echo mb_convert_encoding('实付总金额（元）','UTF-8', 'UTF-8') . "\t\n";
+		$title1 = __('平台买单销售明细', 'quickpay');
+		$title2 = __('日期', 'quickpay');
+		$title3 = __('订单数量（单）', 'quickpay');
+		$title4 = __('消费总金额（元）', 'quickpay');
+		$title5 = __('优惠总金额（元）', 'quickpay');
+		$title6 = __('实付总金额（元）', 'quickpay');
+		echo mb_convert_encoding($title1,'UTF-8', 'UTF-8') . "\t\n";
+		echo mb_convert_encoding($title2,'UTF-8', 'UTF-8') . "\t";
+		echo mb_convert_encoding($title3,'UTF-8', 'UTF-8') . "\t";
+		echo mb_convert_encoding($title4,'UTF-8', 'UTF-8') . "\t";
+		echo mb_convert_encoding($title5,'UTF-8', 'UTF-8') . "\t";
+		echo mb_convert_encoding($title6,'UTF-8', 'UTF-8') . "\t\n";
 		foreach ($sale_list_data AS $data) {
 			echo mb_convert_encoding($data['period'],'UTF-8', 'UTF-8') . "\t";
 			echo mb_convert_encoding($data['order_count'],'UTF-8', 'UTF-8') . "\t";

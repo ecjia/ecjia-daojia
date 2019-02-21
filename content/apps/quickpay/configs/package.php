@@ -52,11 +52,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.quickpay',
 	'directory' 	=> 'quickpay',
-	'name'			=> 'quickpay',
-	'description' 	=> 'quickpay_desc',			/* 描述对应的语言项 */
+	'name'			=> __('买单', 'quickpay'),
+	'description' 	=> __('新一款闪付优惠活动', 'quickpay'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.27.0',					/* 版本号 */
+	'version' 		=> '1.27.4',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2015 ~ 2019.',
     'namespace'     => 'Ecjia\App\Quickpay',
     'provider'      => 'QuickpayServiceProvider',

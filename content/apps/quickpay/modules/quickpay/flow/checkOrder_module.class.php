@@ -77,7 +77,7 @@ class quickpay_flow_checkOrder_module extends api_front implements api_interface
 		}
 		
 		if (empty($store_id) || empty($goods_amount)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'quickpay'));
 		}
 		
 		//店铺有没锁定

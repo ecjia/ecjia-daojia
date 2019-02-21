@@ -64,6 +64,8 @@ class admin_config extends ecjia_admin {
 		
 		RC_Script::enqueue_script('quickpay_config', RC_App::apps_url('statics/js/quickpay_config.js', __FILE__), array(), false, true);
 		
+		RC_Script::localize_script('quickpay_config', 'js_lang', config('app-quickpay::jslang.quickpay_config_page'));
+		
 	}
 
 	/**
@@ -72,15 +74,14 @@ class admin_config extends ecjia_admin {
 	public function init() {
 	    $this->admin_priv('quickpay_config_manage');
 	    
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('买单设置'));
-		$this->assign('ur_here', '买单设置');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('买单设置', 'quickpay')));
+		$this->assign('ur_here', __('买单设置', 'quickpay'));
 		
 	    $this->assign('quickpay_rule', ecjia::config('quickpay_rule'));
 	    $this->assign('quickpay_fee', ecjia::config('quickpay_fee'));
-	    
 		$this->assign('form_action', RC_Uri::url('quickpay/admin_config/update'));
-		
 		$this->assign('current_code', 'quickpay');
+		
 		$this->display('quickpay_config.dwt');
 	}
 		
@@ -95,7 +96,7 @@ class admin_config extends ecjia_admin {
 		$quickpay_fee = $_POST['quickpay_fee'];
 		ecjia_config::instance()->write_config('quickpay_fee', $quickpay_fee);
 		
-		return $this->showmessage('买单活动规则配置成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/admin_config/init')));
+		return $this->showmessage(__('买单活动规则配置成功', 'quickpay'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('quickpay/admin_config/init')));
 	}
 }
 

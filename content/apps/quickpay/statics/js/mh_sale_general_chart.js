@@ -12,7 +12,7 @@
 			var wrapId = 'order_count';
 			var elem = $('#' + wrapId);
 			if (templateCounts == 'null') {
-				var nodata = "<div style='width:100%;height:100%;line-height:500px;text-align:center;overflow: hidden;'>没有找到任何记录<\/div>";
+				var nodata = "<div style='width:100%;height:100%;line-height:500px;text-align:center;overflow: hidden;'>" + js_lang.no_stats_data + "<\/div>";
 				elem.find(".ajax_loading").hide();
 				elem.append(nodata);
 			} else {
@@ -40,14 +40,14 @@
 					},
 					legend: null,
 					tooltip: {
-						valueSuffix: '单',
+						valueSuffix: js_lang.dan,
 						shared: true,
 						//是否多个数据序列共同显示信息
 						crosshairs: false //是否出现基准线
 
 					},
 					series: [{
-						name: '订单数量',
+						name: js_lang.order_number,
 						data: dataset
 					}]
 				});
@@ -61,7 +61,7 @@
 			var wrapId = 'order_amount';
 			var elem = $('#' + wrapId);
 			if (templateCounts == 'null') {
-				var nodata = "<div style='width:100%;height:100%;line-height:500px;text-align:center;overflow: hidden;'>没有找到任何记录<\/div>";
+				var nodata = "<div style='width:100%;height:100%;line-height:500px;text-align:center;overflow: hidden;'>" + js_lang.no_stats_data + "<\/div>";
 				elem.find(".ajax_loading").hide();
 				elem.append(nodata);
 			} else {
@@ -89,13 +89,13 @@
 					},
 					legend: null,
 					tooltip: {
-						valueSuffix: '元',
+						valueSuffix: js_lang.yuan,
 						shared: true,
 						//是否多个数据序列共同显示信息
 						crosshairs: false //是否出现基准线
 					},
 					series: [{
-						name: '销售额',
+						name: js_lang.sales_volume,
 						data: dataset
 					}]
 				});

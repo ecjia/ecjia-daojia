@@ -55,14 +55,14 @@ class quickpay_admin_menu_api extends Component_Event_Api
 
     public function call(&$options)
     {
-        $menus = ecjia_admin::make_admin_menu('15_content', '买单管理', '', 3);
+        $menus = ecjia_admin::make_admin_menu('15_content', __('买单管理', 'quickpay'), '', 3);
         
         $submenus = array(
-        	ecjia_admin::make_admin_menu('01_quickpay', '优惠买单规则', RC_Uri::url('quickpay/admin/init'), 1)->add_purview('quickpay_manage'),
-        	ecjia_admin::make_admin_menu('02_quickpay', '订单列表', RC_Uri::url('quickpay/admin_order/init'), 2)->add_purview('quickpay_order_manage'),
-        	ecjia_admin::make_admin_menu('03_quickpay', '买单订单查询', RC_Uri::url('quickpay/admin_order/search_order'), 3)->add_purview('quickpay_order_search'),
-        	ecjia_admin::make_admin_menu('04_quickpay', '买单订单统计', RC_Uri::url('quickpay/admin_sale_general/init'), 4)->add_purview('quickpay_sale_general_stats'),
-        	ecjia_admin::make_admin_menu('05_quickpay', '买单销售明细', RC_Uri::url('quickpay/admin_sale_list/init'), 5)->add_purview('quickpay_sale_list'),
+        	ecjia_admin::make_admin_menu('01_quickpay', __('优惠买单规则', 'quickpay'), RC_Uri::url('quickpay/admin/init'), 1)->add_purview('quickpay_manage'),
+        	ecjia_admin::make_admin_menu('02_quickpay', __('订单列表', 'quickpay'), RC_Uri::url('quickpay/admin_order/init'), 2)->add_purview('quickpay_order_manage'),
+        	ecjia_admin::make_admin_menu('03_quickpay', __('买单订单查询', 'quickpay'), RC_Uri::url('quickpay/admin_order/search_order'), 3)->add_purview('quickpay_order_search'),
+        	ecjia_admin::make_admin_menu('04_quickpay', __('买单订单统计', 'quickpay'), RC_Uri::url('quickpay/admin_sale_general/init'), 4)->add_purview('quickpay_sale_general_stats'),
+        	ecjia_admin::make_admin_menu('05_quickpay', __('买单销售明细','quickpay'), RC_Uri::url('quickpay/admin_sale_list/init'), 5)->add_purview('quickpay_sale_list'),
         );
         
         $menus->add_submenu($submenus);

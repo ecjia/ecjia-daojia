@@ -44,14 +44,43 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 应用语言包
+ * js语言包设置
  */
-return array(
-	'quickpay'      => '买单',
-	'quickpay_desc' => '新一款闪付优惠活动',
-);
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+	//平台后台买单设置
+	'quickpay_config_page' => array(
+		'quickpay_rule_required' => __('规则描述不能为空', 'quickpay'),
+		'quickpay_fee_required'  => __('收款手续费不能为空', 'quickpay')
+	),
+		
+	//商家后台和平台后台 优惠买单规则相关页面
+	'quickpay_page' => array(
+		'btn_open'  => __('开启', 'quickpay'),
+		'btn_close' => __('关闭', 'quickpay'),
+		'ok'	    => __('确定', 'quickpay'),
+		'cancel'	=> __('取消', 'quickpay'),
+		'option_exists'  => __('该选项已存在', 'quickpay'),
+		'please_search'  => __('请先搜索相应的数据', 'quickpay'),
+		'bouns_range_no' => __('优惠范围是全部红包，不需要此操作', 'quickpay'),
+		'please_enter_name'  => __('请输入买单名称', 'quickpay'),
+		'please_enter_price' => __('请输入折扣价格', 'quickpay'),
+	),
+
+	//平台和商家后台 买单订单统计相关页面	
+	'sale_general_page' => array(
+		'yuan'                  => __('元', 'quickpay'),
+		'dan'                   => __('单', 'quickpay'),
+		'start_year_required'	=> __('查询的开始年份不能为空！', 'quickpay'),
+		'end_year_required'		=> __('查询的结束年份不能为空！', 'quickpay'),
+		'time_exceed'			=> __('查询的开始时间不能超于结束时间！', 'quickpay'),
+		'no_stats_data' 		=> __('没有统计数据', 'quickpay'),
+		'order_number'			=> __('订单数量', 'quickpay'),
+		'sales_volume'			=> __('销售额', 'quickpay'),	
+	)	
+);
+//end

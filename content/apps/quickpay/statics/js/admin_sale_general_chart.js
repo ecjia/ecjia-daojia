@@ -38,7 +38,7 @@
 					},
 					legend: null,
 					tooltip: {
-						valueSuffix: '单',
+						valueSuffix: js_lang.dan,
 						shared: true,
 						//是否多个数据序列共同显示信息
 						crosshairs: false //是否出现基准线
@@ -83,7 +83,7 @@
 					},
 					legend: null,
 					tooltip: {
-						valueSuffix: '元',
+						valueSuffix: js_lang.yuan,
 						shared: true,
 						//是否多个数据序列共同显示信息
 						crosshairs: false //是否出现基准线

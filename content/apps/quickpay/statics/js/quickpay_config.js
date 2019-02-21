@@ -15,10 +15,10 @@
                 },
                 messages: {
                 	quickpay_rule: {
-                        required: '规则描述不能为空',
+                        required: js_lang.quickpay_rule_required,
                     },
                     quickpay_fee: {
-                        required: '收款手续费不能为空',
+                        required: js_lang.quickpay_fee_required,
                     }
                 },
                 submitHandler: function () {

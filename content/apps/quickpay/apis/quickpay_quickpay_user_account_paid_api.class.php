@@ -63,7 +63,7 @@ class quickpay_quickpay_user_account_paid_api extends Component_Event_Api {
 	    if (!is_array($options) 
 	        || !isset($options['user_id']) 
 	        || !isset($options['order_id'])) {
-	        return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+	        return new ecjia_error('invalid_parameter', __('参数无效', 'quickpay'));
 	    }
 	    
 	    $result = $this->user_account_paid($options['user_id'], $options['order_id']);
@@ -92,19 +92,19 @@ class quickpay_quickpay_user_account_paid_api extends Component_Event_Api {
 		//$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
 		$order_info = RC_Api::api('quickpay', 'quickpay_order_info', array('order_id' => $order_id));
 		if ($user_id != $order_info['user_id']) {
-			return new ecjia_error('error_order_detail', RC_Lang::get('orders::order.error_order_detail'));
+			return new ecjia_error('error_order_detail', __('订单不属于该用户', 'quickpay'));
 		}
 		/* 会员详情*/
 		$user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
 		
 		/* 检查订单是否已经付款 */
 		if ($order_info['pay_status'] == Ecjia\App\Quickpay\Status::PAID && $order_info['pay_time']) {
-			return new ecjia_error('order_paid', RC_Lang::get('orders::order.pay_repeat_message'));
+			return new ecjia_error('order_paid', __('该订单已经支付，请勿重复支付。', 'quickpay'));
 		}
 		
 		/* 检查订单金额是否大于余额 */
 		if ($order_info['order_amount'] > ($user_info['user_money'] + $user_info['credit_line'])) {
-			return new ecjia_error('balance_less', RC_Lang::get('orders::order.not_enough_balance'));
+			return new ecjia_error('balance_less', __('您的余额不足以支付整个订单，请选择其他支付方式。', 'quickpay'));
 		}
 		
 		/* 更新订单表支付后信息 */
@@ -147,7 +147,7 @@ class quickpay_quickpay_user_account_paid_api extends Component_Event_Api {
 		$options = array(
 				'order_id' 			=> $order_id,
 				'action_user_id' 	=> $_SESSION['user_id'],
-				'action_user_name'	=> RC_Lang::get('orders::order.buyers'),
+				'action_user_name'	=> __('买家', 'quickpay'),
 				'action_user_type'	=> 'user',
 				'order_status'		=> Ecjia\App\Quickpay\Status::CONFIRMED,
 				'pay_status'		=> Ecjia\App\Quickpay\Status::PAID,
