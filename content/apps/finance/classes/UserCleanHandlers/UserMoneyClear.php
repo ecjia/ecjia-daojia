@@ -48,7 +48,7 @@ class UserMoneyClear extends UserCleanAbstract
 
         return <<<HTML
 
-<span class="controls-info w200">账户内可用余额<span class="ecjiafc-red ecjiaf-fs3">{$user_money}</span></span>
+<span class="controls-info w300">账户内可用余额<span class="ecjiafc-red ecjiaf-fs3">{$user_money}</span></span>
 
 <span class="controls-info"><a href="{$url}" target="__blank">查看全部>>></a></span>
 

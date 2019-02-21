@@ -58,7 +58,7 @@ class finance_account_change_log_api extends Component_Event_Api
     public function call(&$options)
     {
         if (!is_array($options) || !isset($options['user_id'])) {
-            return new ecjia_error('invalid_parameter', RC_Lang::get('users.users.invalid_parameter'));
+            return new ecjia_error('invalid_parameter', __('参数无效', 'finance'));
         }
 
         $user_id      = $options['user_id'];

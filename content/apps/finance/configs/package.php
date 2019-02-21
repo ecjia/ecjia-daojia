@@ -52,11 +52,11 @@ defined('IN_ROYALCMS') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.finance',
 	'directory' 	=> 'finance',
-	'name'			=> 'finance',
-	'description' 	=> 'finance_desc',			    /* 描述对应的语言项 */
+	'name'			=> __('财务', 'finance'),
+	'description' 	=> __('财务管理模块，主要负责管理用户帐户资金、支付交易流水对帐等。', 'finance'),
 	'author' 		=> 'ECJIA TEAM',			    /* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	    /* 网址 */
-	'version' 		=> '1.27.1',					/* 版本号 */
+	'version' 		=> '1.27.4',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Finance',
     'provider'      => 'FinanceServiceProvider',

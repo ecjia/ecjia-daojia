@@ -60,19 +60,19 @@ return array(
         'no_change_desc' => __('请输入帐户变动原因', 'finance'),
     ),
     'admin_account_manage_page' => array(
-        'year_required'     => '请选择年份',
-        'keywords_required' => RC_Lang::get('user::user_account_manage.keywords_required'),
-        'check_time'        => RC_Lang::get('user::user_account_manage.check_time'),
-        'balance_profile'   => '（余额分布图）',
-        'consume'           => '消费',
-        'recharge'          => '充值',
-        'refund'            => '退款',
-        'withdraw'          => '提现',
-        'freeze'            => '冻结',
-        'points_profile'    => '（积分分布图）',
-        'order_issuance'    => '下单发放',
-        'point_credit'      => '积分抵现',
-        'empty_stats'       => '没有统计数据'
+        'year_required'     => __('请选择年份', 'finance'),
+        'keywords_required' => __('请输入关键字', 'finance'),
+        'check_time'        => __('开始时间不得大于结束时间', 'finance'),
+        'balance_profile'   => __('（余额分布图）', 'finance'),
+        'consume'           => __('消费', 'finance'),
+        'recharge'          => __('充值', 'finance'),
+        'refund'            => __('退款', 'finance'),
+        'withdraw'          => __('提现', 'finance'),
+        'freeze'            => __('冻结', 'finance'),
+        'points_profile'    => __('（积分分布图）', 'finance'),
+        'order_issuance'    => __('下单发放', 'finance'),
+        'point_credit'      => __('积分抵现', 'finance'),
+        'empty_stats'       => __('没有统计数据', 'finance')
     )
 
 );

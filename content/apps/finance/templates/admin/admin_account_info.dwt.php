@@ -22,21 +22,41 @@
 		<li class="step-first">
 			<div class="{if $is_paid neq 1}step-cur{else}step-done{/if}">
 				<div class="step-no">{if $account_info.is_paid neq 1}1{/if}</div>
-				<div class="m_t5">{if $account_info.is_paid eq 0}未确认{else if $account_info.is_paid eq 1}已确认{else if $account_info.is_paid eq 2}<span class="ecjiafc-red">已取消</span>{/if}</div>
+				<div class="m_t5">
+				{if $account_info.is_paid eq 0}
+				{t domain="finance"}未确认{/t}
+				{else if $account_info.is_paid eq 1}
+				{t domain="finance"}已确认{/t}
+				{else if $account_info.is_paid eq 2}
+				<span class="ecjiafc-red">{t domain="finance"}已取消{/t}</span>
+				{/if}
+				</div>
 				<div class="m_t5 ecjiafc-blue">{if $account_info.is_paid neq 2}{$account_info.add_time}{else}{$account_info.review_time}{/if}</div>
 			</div>
 		</li>
 		<li>
 			<div class="{if $is_paid eq 1}step-done{/if}">
 				<div class="step-no">2</div>
-				<div class="m_t5">{if $account_info.is_paid eq 1}已付款{else}未付款{/if}</div>
+				<div class="m_t5">
+				{if $account_info.is_paid eq 1}
+				{t domain="finance"}已付款{/t}
+				{else}
+				{t domain="finance"}未付款{/t}
+				{/if}
+				</div>
 				<div class="m_t5 ecjiafc-blue">{$account_info.pay_time}</div>
 			</div>
 		</li>
 		<li class="step-last">
 			<div class="{if $is_paid eq 1}step-cur{else}step-done{/if}">
 				<div class="step-no">3</div>
-				<div class="m_t5">{if $account_info.is_paid eq 1}已完成{else}未完成{/if}</div>
+				<div class="m_t5">
+				{if $account_info.is_paid eq 1}
+				{t domain="finance"}已完成{/t}
+				{else}
+				{t domain="finance"}未完成{/t}
+				{/if}
+				</div>
 				<div class="m_t5 ecjiafc-blue">{$account_info.review_time}</div>
 			</div>
 		</li>
@@ -48,7 +68,7 @@
 		<div class="accordion-group">
 			<div class="accordion-heading">
 				<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#telescopic1">
-					<strong>订单信息</strong>
+					<strong>{t domain="finance"}订单信息{/t}</strong>
 				</div>
 			</div>
 			<div class="accordion-body in collapse" id="telescopic1">
@@ -56,39 +76,47 @@
 					<tbody class="first-td-no-leftbd">
 						<tr>
 							<td>
-								<div align="right"><strong>订单编号：</strong></div>
+								<div align="right"><strong>{t domain="finance"}订单编号：{/t}</strong></div>
 							</td>
 							<td>{$account_info.order_sn}</td>
 							<td>
-								<div align="right"><strong>状态：</strong></div>
+								<div align="right"><strong>{t domain="finance"}状态：{/t}</strong></div>
 							</td>
-							<td>{if $account_info.is_paid eq 0}待审核{else if $account_info.is_paid eq 1}已完成{else}已取消{/if}</td>
+							<td>
+							{if $account_info.is_paid eq 0}
+							{t domain="finance"}待审核{/t}
+							{else if $account_info.is_paid eq 1}
+							{t domain="finance"}已完成{/t}
+							{else}
+							{t domain="finance"}已取消{/t}
+							{/if}
+							</td>
 						</tr>
 
 						<tr>
 							<td>
-								<div align="right"><strong>{lang key='user::user_account.label_user_id'}</strong></div>
+								<div align="right"><strong>{t domain="finance"}会员名称：{/t}</strong></div>
 							</td>
 							<td>
 								{if $account_info.user_name}
 								{$account_info.user_name}
 								{else}
-								{lang key='user::user_account.anonymous_member'}
+								{t domain="finance"}匿名会员{/t}
 								{/if}
 							</td>
 							<td>
-								<div align="right"><strong>充值金额：</strong></div>
+								<div align="right"><strong>{t domain="finance"}充值金额：{/t}</strong></div>
 							</td>
 							<td>{$account_info.formated_amount}</td>
 						</tr>
 
 						<tr>
 							<td>
-								<div align="right"><strong>充值方式：</strong></div>
+								<div align="right"><strong>{t domain="finance"}充值方式：{/t}</strong></div>
 							</td>
-							<td>{if $account_info.pay_name}{$account_info.pay_name}{else}银行转账{/if}</td>
+							<td>{if $account_info.pay_name}{$account_info.pay_name}{else}{t domain="finance"}银行转账{/t}{/if}</td>
 							<td>
-								<div align="right"><strong>申请时间：</strong></div>
+								<div align="right"><strong>{t domain="finance"}申请时间：{/t}</strong></div>
 							</td>
 							<td>{$account_info.add_time}</td>
 						</tr>
@@ -106,7 +134,7 @@
 		<div class="accordion-group">
 			<div class="accordion-heading">
 				<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#telescopic2">
-					<strong>订单操作</strong>
+					<strong>{t domain="finance"}订单操作{/t}</strong>
 				</div>
 			</div>
 			<div class="accordion-body in collapse" id="telescopic2">
@@ -115,25 +143,25 @@
 						<tbody class="first-td-no-leftbd">
 							<tr>
 								<td>
-									<div align="right"><strong>备注信息：</strong></div>
+									<div align="right"><strong>{t domain="finance"}备注信息：{/t}</strong></div>
 								</td>
 								<td colspan="3">
-									<textarea class="span10" name="admin_note" cols="55" rows="6" placeholder="请输入审核备注信息">{$account_info.admin_note}</textarea>
+									<textarea class="span10" name="admin_note" cols="55" rows="6" placeholder='{t domain="finance"}请输入审核备注信息{/t}'>{$account_info.admin_note}</textarea>
 								</td>
 							</tr>
 
 							<tr>
 								<td>
-									<div align="right"><strong>操作：</strong></div>
+									<div align="right"><strong>{t domain="finance"}操作：{/t}</strong></div>
 								</td>
 								<td>
 									{if $id}
 									<input type="hidden" name="id" value="{$id}" />
 									<input type="hidden" name="user_name" value="{$account_info.user_name}" />
-									<input class="btn btn-gebo" type="submit" name="confirm" value="同意" />
-									<input class="btn" type="submit" value="取消" />
+									<input class="btn btn-gebo" type="submit" name="confirm" value='{t domain="finance"}同意{/t}' />
+									<input class="btn" type="submit" value='{t domain="finance"}取消{/t}' />
 									{else}
-									<input class="btn btn-gebo" type="submit" value="{lang key='system::system.button_submit'}" />
+									<input class="btn btn-gebo" type="submit" value='{t domain="finance"}确定{/t}' />
 									{/if}
 								</td>
 							</tr>
@@ -146,7 +174,7 @@
 		<div class="accordion-group">
 			<div class="accordion-heading">
 				<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#telescopic2">
-					<strong>平台审核操作</strong>
+					<strong>{t domain="finance"}平台审核操作{/t}</strong>
 				</div>
 			</div>
 			<div class="accordion-body in collapse" id="telescopic2">
@@ -154,17 +182,17 @@
 					<tbody class="first-td-no-leftbd">
 						<tr>
 							<td>
-								<div align="right"><strong>操作人：</strong></div>
+								<div align="right"><strong>{t domain="finance"}操作人：{/t}</strong></div>
 							</td>
 							<td>{$account_info.admin_user}</td>
 							<td>
-								<div align="right"><strong>审核时间：</strong></div>
+								<div align="right"><strong>{t domain="finance"}审核时间：{/t}</strong></div>
 							</td>
 							<td>{$account_info.review_time}</td>
 						</tr>
 						<tr>
 							<td>
-								<div align="right"><strong>审核备注：</strong></div>
+								<div align="right"><strong>{t domain="finance"}审核备注：{/t}</strong></div>
 							</td>
 							<td colspan="3">{$account_info.admin_note}</td>
 						</tr>
