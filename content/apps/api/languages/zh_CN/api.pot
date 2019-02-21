@@ -1,0 +1,29 @@
+# Copyright (C) 2019 Ecjia App api
+# This file is distributed under the same license as the Ecjia App api package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App api 2.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:18:25+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: classes/Requests/Actions/RemoteAction.php:93
+msgid "Const [serverHost] url not defined."
+msgstr ""
+
+#: classes/Transformers/GoodsTransformer.php:76
+msgid "免费"
+msgstr ""
+
+#: configs/package.php:55
+msgid "API接口"
+msgstr ""
+
+#: configs/package.php:56
+msgid "具备分享、标准、去中心化、开放、模块化、并集成ECJIA、耦合移动应用、第三方应用的ECJIA API；在ECJIA API的设计模式上，使用具有极强灵活性的ECJIA框架打造指松耦合或紧耦合应用程序间的小型格式化信息，是ECJIA整个产品中系统、应用整合不可缺少的一部分，同时也为更多开发者提供接口标准供其使用开发；通过程序间的直接通信实现数据共享在为系统自身、第三方使用者带来价值的同时，更希望通过开放的API来让ECJIA提供的服务拥有更大的用户群和服务访问数量。"
+msgstr ""
