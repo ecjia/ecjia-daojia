@@ -51,47 +51,49 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author royalwang
  * 16-12-09 增加支付状态
  */
-class weapp_wxpay_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-    	$user_id = $_SESSION['user_id'];
-    	if ($user_id < 1 ) {
-    	    return new ecjia_error(100, 'Invalid session');
-    	}
-    	
-		$order_id	= $this->requestData('order_id', 0);
-		$is_mobile	= $this->requestData('is_mobile', true);
-		$uuid	    = $this->requestData('uuid', '');
-		
-		if (!$order_id) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
-		}
-		
-		/* 订单详情 */
-		$order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
-		if (is_ecjia_error($order)) {
-			return $order;
-		}
-		
-		if ($_SESSION['user_id'] != $order['user_id']) {
-			return new ecjia_error('error_order_detail', RC_Lang::get('orders::order.error_order_detail'));
-		}
-		
-		//判断是否是管理员登录
-		if ($_SESSION['admin_id'] > 0) {
-			$_SESSION['user_id'] = $order['user_id'];
-		}
-		
-		//支付方式信息
-		$handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel(intval($order['pay_id']));
-		if (is_ecjia_error($handler)) {
-		    return $handler;
-		}
-		
-		$handler->set_orderinfo($order);
-		$handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
-	
-		$result = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);
+class weapp_wxpay_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
+        $user_id = $_SESSION['user_id'];
+        if ($user_id < 1) {
+            return new ecjia_error(100, 'Invalid session');
+        }
+
+        $order_id  = $this->requestData('order_id', 0);
+        $is_mobile = $this->requestData('is_mobile', true);
+        $uuid      = $this->requestData('uuid', '');
+
+        if (!$order_id) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'weapp'));
+        }
+
+        /* 订单详情 */
+        $order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
+        if (is_ecjia_error($order)) {
+            return $order;
+        }
+
+        if ($_SESSION['user_id'] != $order['user_id']) {
+            return new ecjia_error('error_order_detail', __('订单不属于该用户', 'weapp'));
+        }
+
+        //判断是否是管理员登录
+        if ($_SESSION['admin_id'] > 0) {
+            $_SESSION['user_id'] = $order['user_id'];
+        }
+
+        //支付方式信息
+        $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel(intval($order['pay_id']));
+        if (is_ecjia_error($handler)) {
+            return $handler;
+        }
+
+        $handler->set_orderinfo($order);
+        $handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
+
+        $result = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);
         if (is_ecjia_error($result)) {
             return $result;
         } else {
@@ -100,9 +102,9 @@ class weapp_wxpay_module extends api_front implements api_interface {
 
         //增加支付状态
         $order['payment']['order_pay_status'] = $order['pay_status'];//0 未付款，1付款中，2已付款
-        
+
         return array('payment' => $order['payment']);
-	}
+    }
 }
 
 // end

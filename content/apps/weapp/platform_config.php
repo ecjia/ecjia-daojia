@@ -57,16 +57,17 @@ class platform_config extends ecjia_platform
         parent::__construct();
 
         RC_Loader::load_app_func('global');
-        
+
         RC_Script::enqueue_script('jquery-validate');
         RC_Script::enqueue_script('jquery-form');
         RC_Style::enqueue_style('bootstrap-responsive');
-        
+
         RC_Script::enqueue_script('clipboard', RC_App::apps_url('statics/platform-js/clipboard.min.js', __FILE__));
         RC_Script::enqueue_script('platform_config', RC_App::apps_url('statics/platform-js/platform_config.js', __FILE__), array(), false, true);
+        RC_Script::localize_script('platform_config', 'js_lang', config('app-weapp::jslang.platform_config_page'));
 
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here('消息推送配置', RC_Uri::url('weapp/platform_config/init')));
-        ecjia_platform_screen::get_current_screen()->set_subject('消息推送配置');
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('消息推送配置', 'weapp'), RC_Uri::url('weapp/platform_config/init')));
+        ecjia_platform_screen::get_current_screen()->set_subject(__('消息推送配置', 'weapp'));
     }
 
     public function init()
@@ -74,14 +75,14 @@ class platform_config extends ecjia_platform
         $this->admin_priv('weapp_config_manage');
 
         ecjia_platform_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here('消息推送配置'));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('消息推送配置', 'weapp')));
 
-        $data = $this->platformAccount->getAccount(true);
+        $data        = $this->platformAccount->getAccount(true);
         $data['url'] = RC_Uri::home_url() . '/sites/platform/?uuid=' . $this->platformAccount->getUUID();
 
         $this->assign('data', $data);
 
-        $this->assign('ur_here', '消息推送配置');
+        $this->assign('ur_here', __('消息推送配置', 'weapp'));
         $this->assign('form_action', RC_Uri::url('weapp/platform_config/update'));
 
         $this->display('weapp_config.dwt');
@@ -91,26 +92,26 @@ class platform_config extends ecjia_platform
     {
         $this->admin_priv('weapp_config_update', ecjia::MSGTYPE_JSON);
 
-        $token = trim($_POST['token']);
+        $token  = trim($_POST['token']);
         $aeskey = trim($_POST['aeskey']);
-        
+
         $pattern = "/[^a-zA-Z0-9]/";
         if (preg_match($pattern, $token) || strlen($token) > 32 || strlen($token) < 3) {
-            return $this->showmessage('Token(令牌)必须为英文或数字，长度为3-32字符', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('Token(令牌)必须为英文或数字，长度为3-32字符', 'weapp'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (preg_match($pattern, $aeskey) || strlen($aeskey) != 43) {
-            return $this->showmessage('消息加密密钥由43位字符组成，字符范围为A-Z,a-z,0-9', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('消息加密密钥由43位字符组成，字符范围为A-Z,a-z,0-9', 'weapp'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $wechat_id = $this->platformAccount->getAccountID();
 
         $data = array(
-            'token' => $token,
+            'token'  => $token,
             'aeskey' => $aeskey
         );
         RC_DB::table('platform_account')->where('id', $wechat_id)->update($data);
 
-        return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        return $this->showmessage(__('操作成功', 'weapp'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 
     /**

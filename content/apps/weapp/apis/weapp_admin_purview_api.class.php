@@ -50,13 +50,15 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 后台权限API
  * @author zrl
  */
-class weapp_admin_purview_api extends Component_Event_Api {
-    
-    public function call(&$options) {
+class weapp_admin_purview_api extends Component_Event_Api
+{
+
+    public function call(&$options)
+    {
         $purviews = array(
-        	array('action_name' => RC_Lang::get('weapp::weapp.weapp_list'), 'action_code' => 'weapp_manage', 	'relevance'   => ''),
-        	array('action_name' => RC_Lang::get('weapp::weapp.weapp_update'), 'action_code' => 'weapp_update', 	'relevance'   => ''),
-        	array('action_name' => RC_Lang::get('weapp::weapp.weapp_delete'), 'action_code' => 'weapp_delete', 	'relevance'   => ''),
+            array('action_name' => __('小程序列表', 'weapp'), 'action_code' => 'weapp_manage', 'relevance' => ''),
+            array('action_name' => __('更新小程序', 'weapp'), 'action_code' => 'weapp_update', 'relevance' => ''),
+            array('action_name' => __('删除小程序', 'weapp'), 'action_code' => 'weapp_delete', 'relevance' => ''),
         );
         return $purviews;
     }

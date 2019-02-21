@@ -46,17 +46,19 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class weapp_merchant_hooks {
-    public static function weapp_merchant_menu_api($menus) {
+class weapp_merchant_hooks
+{
+    public static function weapp_merchant_menu_api($menus)
+    {
         //在父级菜单里添加权限值
         $menus->add_purview('weapp_manage');
-    	$menu = ecjia_merchant::make_admin_menu('09_merchant_weapp', __('微信小程序'), RC_Uri::url('weapp/merchant/init'), 9)->add_purview('weapp_manage')->add_icon('fa-navicon');
-    	 
-    	$menus->add_submenu($menu);
-    	return $menus;
+        $menu = ecjia_merchant::make_admin_menu('09_merchant_weapp', __('微信小程序', 'weapp'), RC_Uri::url('weapp/merchant/init'), 9)->add_purview('weapp_manage')->add_icon('fa-navicon');
+
+        $menus->add_submenu($menu);
+        return $menus;
     }
 }
 
-RC_Hook::add_filter( 'merchant_merchant_menu_api', array('weapp_merchant_hooks', 'weapp_merchant_menu_api') );
+RC_Hook::add_filter('merchant_merchant_menu_api', array('weapp_merchant_hooks', 'weapp_merchant_menu_api'));
 
 // end

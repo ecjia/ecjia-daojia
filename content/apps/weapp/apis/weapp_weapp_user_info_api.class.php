@@ -50,29 +50,30 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 获取连接用户信息
  * @author royalwang
  */
-class weapp_weapp_user_info_api extends Component_Event_Api {
-    
+class weapp_weapp_user_info_api extends Component_Event_Api
+{
+
     /**
      * user_id 用户ID
      * uuid 微信小程序员标识
      */
-    public function call(&$options) {
-        if (! array_get($options, 'user_id') || ! array_get($options, 'uuid')) {
-            return new ecjia_error('invalid_parameter', '接口weapp_weapp_user_info_api参数无效');
+    public function call(&$options)
+    {
+        if (!array_get($options, 'user_id') || !array_get($options, 'uuid')) {
+            return new ecjia_error('invalid_parameter', sprintf(__('接口%s参数无效', 'weapp'), 'weapp_weapp_user_info_api'));
         }
-        
+
         $user_id = $options['user_id'];
-        $uuid = $options['uuid'];
-        
+        $uuid    = $options['uuid'];
+
         $result = RC_Api::api('connect', 'connect_user_info', array('user_id' => $user_id));
-        if (is_ecjia_error($result)) 
-        {
+        if (is_ecjia_error($result)) {
             return $result;
         }
-        
+
         $WeappUUID = new Ecjia\App\Weapp\WeappUUID($uuid);
         $wechat_id = $WeappUUID->getWeappID();
-        
+
         $user = RC_DB::table('wechat_user')->where('unionid', $result['open_id'])->where('wechat_id', $wechat_id)->first();
         return $user;
     }

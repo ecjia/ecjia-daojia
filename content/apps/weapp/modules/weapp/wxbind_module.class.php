@@ -46,106 +46,119 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class weapp_wxbind_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	$this->authSession();
-    	$device       = $this->device;
-		$iv      	  = trim($this->requestData('iv'));
-		$encrypteddata= trim($this->requestData('encrypteddata'));
-		$uuid	  	  = trim($this->requestData('uuid'));
-		$token        = $this->token;
-		
-		if (empty($iv) || empty($encrypteddata) || empty($uuid) ) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
-		}
+class weapp_wxbind_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+        $this->authSession();
+        $device        = $this->device;
+        $iv            = trim($this->requestData('iv'));
+        $encrypteddata = trim($this->requestData('encrypteddata'));
+        $uuid          = trim($this->requestData('uuid'));
+        $token         = $this->token;
 
-		$openid = session('openid');
-		$session_key = session('session_key');
+        if (empty($iv) || empty($encrypteddata) || empty($uuid)) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'weapp'));
+        }
+
+        $openid      = session('openid');
+        $session_key = session('session_key');
 
 
-		//获取小程序的weappid,即小程序自增id
-		$WeappUUID =  new Ecjia\App\Weapp\WeappUUID($uuid);
-		$weappId   = $WeappUUID->getWeappID();
-		
-		//获取用户解密数据
-		$WeappUser = new Ecjia\App\Weapp\WeappUser($WeappUUID);
-		$data = $WeappUser->decryptedData($session_key, $encrypteddata, $iv);
+        //获取小程序的weappid,即小程序自增id
+        $WeappUUID = new Ecjia\App\Weapp\WeappUUID($uuid);
+        $weappId   = $WeappUUID->getWeappID();
 
-		if (is_ecjia_error($data)) {
-			return $data;
-		}
+        //获取用户解密数据
+        $WeappUser = new Ecjia\App\Weapp\WeappUser($WeappUUID);
+        $data      = $WeappUser->decryptedData($session_key, $encrypteddata, $iv);
 
-		/*更新用户数据*/
-		if (!empty($data)) {
-			$WechatUserRepository = new Ecjia\App\Weapp\Repositories\WechatUserRepository($weappId);
-			$update = $WechatUserRepository->updateUser($data);
-			
-			if (!$update) {
-				return new ecjia_error('update_userinfo_fail', '更新用户数据失败');
-			}
-		}
-		
-		//转换数据格式
-		$data = array(
-			'openid' 	=> $data['openId'],
-			'nickname' 	=> $data['nickName'],
-			'sex' 		=> $data['gender'],
-			'language' 	=> $data['language'],
-			'city' 		=> $data['city'],
-			'province' 	=> $data['province'],
-			'country' 	=> $data['country'],
-			'headimgurl'=> $data['avatarUrl'],
-			'privilege' => '',
-			'unionid' 	=> $data['unionId'],
-		);
-		
-		//绑定会员
-		$connect_user = RC_Api::api('connect', 'connect_user_bind', 
-		    array('connect_code' => 'sns_wechat_weapp', 'connect_platform' => 'wechat', 'open_id' => $data['openid'], 'union_id' => $data['unionid'], 'profile' => $data));
-		if (is_ecjia_error($connect_user)) {
-			return $connect_user;
-		} 
-		
-		//获取会员信息
-		$user_info = RC_Api::api('user', 'user_info', array('user_id' => $connect_user->getUserId()));
-		if (is_ecjia_error($user_info)) {
-			return $user_info;
-		}
-		
-		//设置session,设置cookie
+        if (is_ecjia_error($data)) {
+            return $data;
+        }
+
+        /*更新用户数据*/
+        if (!empty($data)) {
+            $WechatUserRepository = new Ecjia\App\Weapp\Repositories\WechatUserRepository($weappId);
+            $update               = $WechatUserRepository->updateUser($data);
+
+            if (!$update) {
+                return new ecjia_error('update_userinfo_fail', __('更新用户数据失败', 'weapp'));
+            }
+        }
+
+        //转换数据格式
+        $data = array(
+            'openid'     => $data['openId'],
+            'nickname'   => $data['nickName'],
+            'sex'        => $data['gender'],
+            'language'   => $data['language'],
+            'city'       => $data['city'],
+            'province'   => $data['province'],
+            'country'    => $data['country'],
+            'headimgurl' => $data['avatarUrl'],
+            'privilege'  => '',
+            'unionid'    => $data['unionId'],
+        );
+
+        //绑定会员
+        $connect_user = RC_Api::api('connect', 'connect_user_bind',
+            array(
+                'connect_code'     => 'sns_wechat_weapp',
+                'connect_platform' => 'wechat',
+                'open_id'          => $data['openid'],
+                'union_id'         => $data['unionid'],
+                'profile'          => $data
+            )
+        );
+        if (is_ecjia_error($connect_user)) {
+            return $connect_user;
+        }
+
+        /**
+         * @debug royalwang
+         */
+//        ecjia_log_debug('wxbind_module get connect_user', (array)$connect_user);
+
+        //获取会员信息
+        $user_info = RC_Api::api('user', 'user_info', array('user_id' => $connect_user->getUserId()));
+        if (is_ecjia_error($user_info)) {
+            return $user_info;
+        }
+
+        /**
+         * @debug royalwang
+         */
+//        ecjia_log_debug('wxbind_module获取会员信息', $user_info);
+
+        //设置session,设置cookie
         ecjia_integrate::setSession($user_info['user_name']);
         ecjia_integrate::setCookie($user_info['user_name']);
-		
-		//同步会员信息
-		RC_Loader::load_app_func('admin_user', 'user');
-		$user_info = EM_user_info($_SESSION['user_id']);
-		
-		update_user_info(); // 更新用户信息
-		RC_Loader::load_app_func('cart','cart');
-		recalculate_price(); // 重新计算购物车中的商品价格
-		
-		//修正关联设备号
-		$result = ecjia_app::validate_application('mobile');
-		if (!is_ecjia_error($result)) {
-			if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
-				$db_mobile_device = RC_Model::model('mobile/mobile_device_model');
-				$device_data = array(
-						'device_udid'	=> $device['udid'],
-						'device_client'	=> $device['client'],
-						'device_code'	=> $device['code'],
-						'user_type'		=> 'user',
-				);
-				$db_mobile_device->where($device_data)->update(array('user_id' => $_SESSION['user_id'], 'update_time' => RC_Time::gmtime()));
-			}
-		}
-		
-		//返回token及会员信息
-		$out = array(
-				'token' => RC_Session::session_id(),
-				'user'	=> $user_info
-		);
-		return $out;
-	}
+
+        //同步会员信息
+        RC_Loader::load_app_func('admin_user', 'user');
+        $user_info = EM_user_info($user_info['user_id']);
+
+        update_user_info(); // 更新用户信息
+        RC_Loader::load_app_func('cart', 'cart');
+        recalculate_price(); // 重新计算购物车中的商品价格
+
+        //修正关联设备号
+        RC_Api::api('mobile', 'bind_device_user', array(
+            'device_udid'   => $device['udid'],
+            'device_client' => $device['client'],
+            'device_code'   => $device['code'],
+            'user_type'     => 'user',
+            'user_id'       => $user_info['user_id'],
+        ));
+
+        //返回token及会员信息
+        $out = array(
+            'token' => RC_Session::session_id(),
+            'user'  => $user_info
+        );
+        return $out;
+    }
 
 }
 

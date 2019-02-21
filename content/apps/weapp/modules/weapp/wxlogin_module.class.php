@@ -46,43 +46,45 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class weapp_wxlogin_module extends api_front implements api_interface {
-	public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {		
-		$this->authSession();
-		$uuid	      = $this->requestData('uuid');
-		$code 		  = $this->requestData('code');
-		
-		if (empty($uuid) || empty($code)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
-		}
-       
-		/*获取weappid*/
-		$WeappUUID =  new Ecjia\App\Weapp\WeappUUID($uuid);
-		$weappId   = $WeappUUID->getWeappID();
-		
-		/*登录*/
-		$WeappUser = new Ecjia\App\Weapp\WeappUser($WeappUUID);
-		$data = $WeappUser->login($code);
-	
-		/*创建用户*/
-		$WechatUserRepository = new Ecjia\App\Weapp\Repositories\WechatUserRepository($weappId);
-		$wechat_user = $WechatUserRepository->createUser($weappId, array(
-		    'openid' => $data['openid'],
+class weapp_wxlogin_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+        $this->authSession();
+        $uuid = $this->requestData('uuid');
+        $code = $this->requestData('code');
+
+        if (empty($uuid) || empty($code)) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'weapp'));
+        }
+
+        /*获取weappid*/
+        $WeappUUID = new Ecjia\App\Weapp\WeappUUID($uuid);
+        $weappId   = $WeappUUID->getWeappID();
+
+        /*登录*/
+        $WeappUser = new Ecjia\App\Weapp\WeappUser($WeappUUID);
+        $data      = $WeappUser->login($code);
+
+        /*创建用户*/
+        $WechatUserRepository = new Ecjia\App\Weapp\Repositories\WechatUserRepository($weappId);
+        $wechat_user          = $WechatUserRepository->createUser($weappId, array(
+            'openid'      => $data['openid'],
             'session_key' => $data['session_key']
         ));
-		
-		$out = array();
-		if ($wechat_user) {
-		    session([
-		        'openid' => $data['openid'],
-		        'session_key' => $data['session_key'],
+
+        $out = array();
+        if ($wechat_user) {
+            session([
+                'openid'      => $data['openid'],
+                'session_key' => $data['session_key'],
             ]);
 
-			$out = array(
-				'token' => RC_Session::getId()
-			);
-		}
-		return $out;
-	}
+            $out = array(
+                'token' => RC_Session::getId()
+            );
+        }
+        return $out;
+    }
 }
 // end

@@ -53,13 +53,13 @@ class weapp_platform_hooks
     public static function platform_dashboard_header_messages()
     {
         $platformAccount = new Account(session('uuid'));
-        $wechat_id = $platformAccount->getAccountID();
+        $wechat_id       = $platformAccount->getAccountID();
 
-        $m = RC_Time::local_date('m');
-        $d = RC_Time::local_date('d');
-        $y = RC_Time::local_date('y');
+        $m     = RC_Time::local_date('m');
+        $d     = RC_Time::local_date('d');
+        $y     = RC_Time::local_date('y');
         $start = RC_Time::local_mktime(0, 0, 0, $m, $d, $y);
-        $end = RC_Time::local_mktime(0, 0, 0, $m, $d + 1, $y);
+        $end   = RC_Time::local_mktime(0, 0, 0, $m, $d + 1, $y);
 
         $list = RC_DB::table('wechat_custom_message as m')
             ->leftJoin('wechat_user as wu', RC_DB::raw('wu.uid'), '=', RC_DB::raw('m.uid'))
@@ -76,10 +76,10 @@ class weapp_platform_hooks
 
         if (!empty($list)) {
             foreach ($list as $key => $val) {
-                $info = RC_DB::table('wechat_custom_message')->where('id', $val['id'])->first();
+                $info                    = RC_DB::table('wechat_custom_message')->where('id', $val['id'])->first();
                 $list[$key]['send_time'] = RC_Time::local_date(ecjia::config('time_format'), $info['send_time']);
-                $list[$key]['msg'] = $info['msg'];
-                $list[$key]['uid'] = $info['uid'];
+                $list[$key]['msg']       = $info['msg'];
+                $list[$key]['uid']       = $info['uid'];
             }
         }
         ecjia_platform::$controller->assign('list', $list);
@@ -95,7 +95,7 @@ class weapp_platform_hooks
     public static function ecjia_platform_dashboard_stats()
     {
         $platformAccount = new Account(session('uuid'));
-        $wechat_id = $platformAccount->getAccountID();
+        $wechat_id       = $platformAccount->getAccountID();
 
         $start_time = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
         //新访客用户
@@ -117,8 +117,8 @@ class weapp_platform_hooks
 
         $count = array(
             'new_cancel_user' => $new_cancel_user,
-            'new_user' => $new_user,
-            'user_count' => $user_count,
+            'new_user'        => $new_user,
+            'user_count'      => $user_count,
         );
         ecjia_platform::$controller->assign('count', $count);
 
@@ -130,13 +130,13 @@ class weapp_platform_hooks
     public static function ecjia_platform_dashboard_msg_stats()
     {
         $platformAccount = new Account(session('uuid'));
-        $wechat_id = $platformAccount->getAccountID();
+        $wechat_id       = $platformAccount->getAccountID();
 
-        $m = RC_Time::local_date('m');
-        $d = RC_Time::local_date('d');
-        $y = RC_Time::local_date('y');
+        $m     = RC_Time::local_date('m');
+        $d     = RC_Time::local_date('d');
+        $y     = RC_Time::local_date('y');
         $start = RC_Time::local_mktime(0, 0, 0, $m, $d - 4, $y);
-        $end = RC_Time::local_mktime(0, 0, 0, $m, $d + 1, $y);
+        $end   = RC_Time::local_mktime(0, 0, 0, $m, $d + 1, $y);
 
         $list = RC_DB::table('wechat_custom_message as m')
             ->leftJoin('wechat_user as wu', RC_DB::raw('wu.uid'), '=', RC_DB::raw('m.uid'))
@@ -153,12 +153,12 @@ class weapp_platform_hooks
         $arr = [];
         if (!empty($list)) {
             foreach ($list as $key => $val) {
-                $info = RC_DB::table('wechat_custom_message')->where('id', $val['id'])->first();
-                $list[$key]['msg'] = $info['msg'];
-                $list[$key]['uid'] = $info['uid'];
-                $list[$key]['send_time'] = RC_Time::local_date('Y-m-d', $info['send_time']);
-                $list[$key]['send_time_detail'] = RC_Time::local_date('H:i:s', $info['send_time']);
-                $list[$key]['send_time_formated'] = RC_Time::local_date('Y年m月d日', $info['send_time']);
+                $info                             = RC_DB::table('wechat_custom_message')->where('id', $val['id'])->first();
+                $list[$key]['msg']                = $info['msg'];
+                $list[$key]['uid']                = $info['uid'];
+                $list[$key]['send_time']          = RC_Time::local_date('Y-m-d', $info['send_time']);
+                $list[$key]['send_time_detail']   = RC_Time::local_date('H:i:s', $info['send_time']);
+                $list[$key]['send_time_formated'] = RC_Time::local_date(__('Y年m月d日', 'weapp'), $info['send_time']);
             }
             foreach ($list as $k => $v) {
                 $arr[$v['send_time']][] = $v;

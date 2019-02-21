@@ -56,32 +56,33 @@ class weapp_platform_purview_api extends Component_Event_Api
     public function call(&$options)
     {
         $purviews = array(
-            array('action_name' => '用户管理', 'action_code' => 'weapp_user_manage', 'relevance' => ''),
-            array('action_name' => '标签管理', 'action_code' => 'weapp_tag_manage', 'relevance' => ''),
-            array('action_name' => '标签更新', 'action_code' => 'weapp_tag_update', 'relevance' => ''),
-            array('action_name' => '标签删除', 'action_code' => 'weapp_tag_delete', 'relevance' => ''),
+            array('action_name' => __('用户管理', 'weapp'), 'action_code' => 'weapp_user_manage', 'relevance' => ''),
+            array('action_name' => __('标签管理', 'weapp'), 'action_code' => 'weapp_tag_manage', 'relevance' => ''),
+            array('action_name' => __('标签更新', 'weapp'), 'action_code' => 'weapp_tag_update', 'relevance' => ''),
+            array('action_name' => __('标签删除', 'weapp'), 'action_code' => 'weapp_tag_delete', 'relevance' => ''),
 
-            array('action_name' => '小程序管理', 'action_code' => 'weapp_config_manage', 'relevance' => ''),
-            array('action_name' => '小程序更新', 'action_code' => 'weapp_config_update', 'relevance' => ''),
+            array('action_name' => __('小程序管理', 'weapp'), 'action_code' => 'weapp_config_manage', 'relevance' => ''),
+            array('action_name' => __('小程序更新', 'weapp'), 'action_code' => 'weapp_config_update', 'relevance' => ''),
 
-            array('action_name' => '客服会话管理', 'action_code' => 'weapp_customer_session_manage', 'relevance' => ''),
-            array('action_name' => '客服会话更新', 'action_code' => 'weapp_customer_session_update', 'relevance' => ''),
-            array('action_name' => '客服会话删除', 'action_code' => 'weapp_customer_session_delete', 'relevance' => ''),
+            array('action_name' => __('客服会话管理', 'weapp'), 'action_code' => 'weapp_customer_session_manage', 'relevance' => ''),
+            array('action_name' => __('客服会话更新', 'weapp'), 'action_code' => 'weapp_customer_session_update', 'relevance' => ''),
+            array('action_name' => __('客服会话删除', 'weapp'), 'action_code' => 'weapp_customer_session_delete', 'relevance' => ''),
 
-            array('action_name' => RC_Lang::get('wechat::wechat.material_manage'), 'action_code' => 'weapp_material_manage', 'relevance' => ''),
-            array('action_name' => RC_Lang::get('wechat::wechat.material_add'), 'action_code' => 'weapp_material_add', 'relevance' => ''),
-            array('action_name' => RC_Lang::get('wechat::wechat.material_edit'), 'action_code' => 'weapp_material_update', 'relevance' => ''),
-            array('action_name' => RC_Lang::get('wechat::wechat.material_del'), 'action_code' => 'weapp_material_delete', 'relevance' => ''),
+            array('action_name' => __('素材管理', 'weapp'), 'action_code' => 'weapp_material_manage', 'relevance' => ''),
+            array('action_name' => __('素材添加', 'weapp'), 'action_code' => 'weapp_material_add', 'relevance' => ''),
+            array('action_name' => __('素材编辑', 'weapp'), 'action_code' => 'weapp_material_update', 'relevance' => ''),
+            array('action_name' => __('素材删除', 'weapp'), 'action_code' => 'weapp_material_delete', 'relevance' => ''),
 
-            array('action_name' => RC_Lang::get('wechat::wechat.auto_reply_manage'), 'action_code' => 'weapp_response_manage', 'relevance' => ''),
-            array('action_name' => RC_Lang::get('wechat::wechat.auto_reply_add'), 'action_code' => 'weapp_response_add', 'relevance' => ''),
-            array('action_name' => RC_Lang::get('wechat::wechat.auto_reply_edit'), 'action_code' => 'weapp_response_update', 'relevance' => ''),
-            array('action_name' => RC_Lang::get('wechat::wechat.auto_reply_del'), 'action_code' => 'weapp_response_delete', 'relevance' => ''),
+            array('action_name' => __('自动回复管理', 'weapp'), 'action_code' => 'weapp_response_manage', 'relevance' => ''),
+            array('action_name' => __('自动回复添加', 'weapp'), 'action_code' => 'weapp_response_add', 'relevance' => ''),
+            array('action_name' => __('自动回复编辑', 'weapp'), 'action_code' => 'weapp_response_update', 'relevance' => ''),
+            array('action_name' => __('自动回复删除', 'weapp'), 'action_code' => 'weapp_response_delete', 'relevance' => ''),
 
-            array('action_name' => RC_Lang::get('wechat::wechat.user_message_manage'), 'action_code' => 'weapp_subscribe_message_manage', 'relevance' => ''),
+            array('action_name' => __('用户消息管理', 'weapp'), 'action_code' => 'weapp_subscribe_message_manage', 'relevance' => ''),
         );
         return $purviews;
     }
 }
+
 
 // end

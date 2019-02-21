@@ -79,12 +79,12 @@ class privilege extends ecjia_platform
                 array_key_exists('user_type', $authcode_array) &&
                 array_key_exists('time', $authcode_array)
             ) {
-                $uuid = $authcode_array['uuid'];
-                $user_id = $authcode_array['user_id'];
-                $user_type = $authcode_array['user_type'];
+                $uuid       = $authcode_array['uuid'];
+                $user_id    = $authcode_array['user_id'];
+                $user_type  = $authcode_array['user_type'];
                 $start_time = $authcode_array['time'];
 
-                $time = RC_Time::gmtime();
+                $time     = RC_Time::gmtime();
                 $time_gap = $time - $start_time;
 
                 if (intval($time_gap) < 30) {
@@ -96,23 +96,21 @@ class privilege extends ecjia_platform
 
                             $_SESSION = array();
                             //平台登录
-                            $store_id = 0;
-                            $user_name = $user->getUserName();
+                            $store_id    = 0;
+                            $user_name   = $user->getUserName();
                             $action_list = $user->getActionList();
-                            $last_time = $user->getLastLogin();
-                            $email = $user->getEmail();
+                            $last_time   = $user->getLastLogin();
+                            $email       = $user->getEmail();
 
                             $this->admin_session($uuid, $store_id, $user_id, $user_type, $user_name, $action_list, $last_time, $email);
 
                             return $this->redirect(RC_Uri::url('platform/dashboard/init'));
-                        }
-                        //没有权限判断提示
+                        } //没有权限判断提示
                         else {
-                            $this->assign('error_message', '抱歉！该用户没有分配公众平台登录权限。');
+                            $this->assign('error_message', __('抱歉！该用户没有分配公众平台登录权限。', 'weapp'));
                         }
 
-                    }
-                    //商家登录
+                    } //商家登录
                     else if ($user_type == 'merchant') {
                         $platformAccount = new Ecjia\App\Platform\Frameworks\Platform\Account($uuid);
                         // @todo
@@ -122,41 +120,37 @@ class privilege extends ecjia_platform
 
                             $_SESSION = array();
                             //平台登录
-                            $store_id = $platformAccount->getStoreId();
-                            $user_name = $user->getUserName();
+                            $store_id    = $platformAccount->getStoreId();
+                            $user_name   = $user->getUserName();
                             $action_list = $user->getActionList();
-                            $last_time = $user->getLastLogin();
-                            $email = $user->getEmail();
+                            $last_time   = $user->getLastLogin();
+                            $email       = $user->getEmail();
 
                             $this->admin_session($uuid, $store_id, $user_id, $user_type, $user_name, $action_list, $last_time, $email);
 
                             return $this->redirect(RC_Uri::url('platform/dashboard/init'));
-                        }
-                        //没有权限判断提示
+                        } //没有权限判断提示
                         else {
-                            $this->assign('error_message', '抱歉！该用户没有分配公众平台登录权限。');
+                            $this->assign('error_message', __('抱歉！该用户没有分配公众平台登录权限。', 'weapp'));
                         }
 
                     }
 
-                }
-                //请求超时，错误提示
+                } //请求超时，错误提示
                 else {
-                    $this->assign('error_message', '抱歉！请求超时。');
+                    $this->assign('error_message', __('抱歉！请求超时。', 'weapp'));
                 }
 
-            }
-            //参数不全，错误提示
+            } //参数不全，错误提示
             else {
-                $this->assign('error_message', '传参出错。');
+                $this->assign('error_message', __('传参出错。', 'weapp'));
             }
-        }
-        //参数authcode接收失败，错误提示
+        } //参数authcode接收失败，错误提示
         else {
-            $this->assign('error_message', '抱歉！数据丢失，登录失败。');
+            $this->assign('error_message', __('抱歉！数据丢失，登录失败。', 'weapp'));
         }
 
-        $this->assign('shop_title', '公众平台登录');
+        $this->assign('shop_title', __('公众平台登录', 'weapp'));
 //         $this->assign('shop_title_link', RC_Uri::url('staff/privilege/login'));
 
         RC_Session::destroy();

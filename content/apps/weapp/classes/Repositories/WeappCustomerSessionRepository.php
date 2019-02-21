@@ -36,22 +36,22 @@ class WeappCustomerSessionRepository extends AbstractRepository
     public function createSession($openid, $kf_account, $create_time)
     {
         $model = $this->findBy('openid', $openid);
-        if (! empty($model)) {
+        if (!empty($model)) {
             $data = [
-                'kf_account' => $kf_account,
+                'kf_account'  => $kf_account,
                 'create_time' => $create_time,
-                'status' => 1, //会话中
+                'status'      => 1, //会话中
             ];
 
             $this->update($model, $data);
 
         } else {
             $data = [
-                'wechat_id' => $this->weappId,
-                'openid' => $openid,
-                'kf_account' => $kf_account,
+                'wechat_id'   => $this->weappId,
+                'openid'      => $openid,
+                'kf_account'  => $kf_account,
                 'create_time' => $create_time,
-                'status' => 1, //待接入
+                'status'      => 1, //待接入
             ];
 
             $this->create($data);
@@ -64,7 +64,7 @@ class WeappCustomerSessionRepository extends AbstractRepository
     public function createWaitSession($openid)
     {
         $model = $this->findBy('openid', $openid);
-        if (! empty($model)) {
+        if (!empty($model)) {
             $data = [
                 'latest_time' => SYS_TIME,
             ];
@@ -73,10 +73,10 @@ class WeappCustomerSessionRepository extends AbstractRepository
 
         } else {
             $data = [
-                'wechat_id' => $this->weappId,
-                'openid' => $openid,
+                'wechat_id'   => $this->weappId,
+                'openid'      => $openid,
                 'latest_time' => SYS_TIME,
-                'status' => 2, //待接入
+                'status'      => 2, //待接入
             ];
 
             $this->create($data);
@@ -89,22 +89,22 @@ class WeappCustomerSessionRepository extends AbstractRepository
     public function closeSession($openid, $kf_account, $create_time)
     {
         $model = $this->findBy('openid', $openid);
-        if (! empty($model)) {
+        if (!empty($model)) {
             $data = [
-                'kf_account' => $kf_account,
+                'kf_account'  => $kf_account,
                 'latest_time' => $create_time,
-                'status' => 3, //已关闭
+                'status'      => 3, //已关闭
             ];
 
             $this->update($model, $data);
 
         } else {
             $data = [
-                'wechat_id' => $this->weappId,
-                'openid' => $openid,
-                'kf_account' => $kf_account,
+                'wechat_id'   => $this->weappId,
+                'openid'      => $openid,
+                'kf_account'  => $kf_account,
                 'latest_time' => $create_time,
-                'status' => 3, //已关闭
+                'status'      => 3, //已关闭
             ];
 
             $this->create($data);

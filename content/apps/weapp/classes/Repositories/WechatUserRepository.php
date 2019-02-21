@@ -52,61 +52,61 @@ use Royalcms\Component\Repository\Repositories\AbstractRepository;
 class WechatUserRepository extends AbstractRepository
 {
     protected $model = 'Ecjia\App\Weapp\Models\WechatUserModel';
-    
+
     protected $orderBy = ['subscribe_time' => 'desc'];
-    
+
     protected $weappId;
-    
+
     public function __construct($weappId)
     {
         parent::__construct();
-        
+
         $this->weappId = $weappId;
-        
+
         $this->addScopeQuery(function ($query) use ($weappId) {
             return $query->where('wechat_id', $weappId);
         });
     }
-    
+
     /**
      * 创建微信小程序用户
      * @param array $data ['openid', 'session_key']
      */
     public function createUser($weapp_id, array $data)
     {
-        $openid = array_get($data, 'openid');
+        $openid      = array_get($data, 'openid');
         $session_key = array_get($data, 'session_key');
-        
-        if (! ($user = $this->findBy('openid', $openid))) {
+
+        if (!($user = $this->findBy('openid', $openid))) {
             $attributes = [
-                'wechat_id'  => $weapp_id,
-            	'openid' => $openid,
+                'wechat_id' => $weapp_id,
+                'openid'    => $openid,
                 'privilege' => $session_key
             ];
-            $user = $this->create($attributes);
+            $user       = $this->create($attributes);
         }
-        
+
         return $user;
-    } 
-    
-    
+    }
+
+
     public function updateUser(array $data)
     {
         $openid = array_get($data, 'openId');
 
         if (boolval($user = $this->findBy('openid', $openid))) {
             $attributes = [
-                'nickname' => array_get($data, 'nickName'),
-                'sex' => array_get($data, 'gender'),
-                'city' => array_get($data, 'city'),
-                'province' => array_get($data, 'province'),
-                'country' => array_get($data, 'country'),
-                'language' => array_get($data, 'language'),
-                'headimgurl' => array_get($data, 'avatarUrl'),
-                'unionid' => array_get($data, 'unionId'),
-                'subscribe' => 1,
+                'nickname'       => array_get($data, 'nickName'),
+                'sex'            => array_get($data, 'gender'),
+                'city'           => array_get($data, 'city'),
+                'province'       => array_get($data, 'province'),
+                'country'        => array_get($data, 'country'),
+                'language'       => array_get($data, 'language'),
+                'headimgurl'     => array_get($data, 'avatarUrl'),
+                'unionid'        => array_get($data, 'unionId'),
+                'subscribe'      => 1,
                 'subscribe_time' => \RC_Time::gmtime()
-                
+
             ];
             return $this->update($user, $attributes);
         }
@@ -119,26 +119,25 @@ class WechatUserRepository extends AbstractRepository
         return $this->findWhere(['openid' => $openid, 'wechat_id' => $this->weappId]);
     }
 
-   
+
     public function findWhereLimit(array $where, $columns = ['*'], $limit = null)
     {
         $this->newQuery();
-    
+
         foreach ($where as $field => $value) {
             if (is_array($value)) {
                 list($field, $condition, $val) = $value;
                 $this->query->where($field, $condition, $val);
-            }
-            else {
+            } else {
                 $this->query->where($field, '=', $value);
             }
         }
-        
+
         if ($limit) {
             $this->query->take($limit);
         }
-        
+
         return $this->query->get($columns);
     }
-    
+
 }

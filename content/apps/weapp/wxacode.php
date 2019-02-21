@@ -46,26 +46,25 @@
 //
 class wxacode extends ecjia_front
 {
-    
+
     public function __construct()
     {
         parent::__construct();
     }
-    
-    
+
     public function init()
     {
-        $uuid = trim($this->request->query('uuid'));
+        $uuid    = trim($this->request->query('uuid'));
         $storeid = trim($this->request->query('storeid'));
-        
-		$qrimg = with(new Ecjia\App\Weapp\WxaCode())->getStoreWxaCode($storeid);
-		if (is_ecjia_error($qrimg)) {
-			ecjia_log_error($qrimg->get_error_message());
-			$qrimg = '';
-		}
-		$this->displayContent($qrimg, 'image/png');
+
+        $qrimg = with(new Ecjia\App\Weapp\WxaCode())->getStoreWxaCode($storeid);
+        if (is_ecjia_error($qrimg)) {
+            ecjia_log_error($qrimg->get_error_message());
+            $qrimg = '';
+        }
+        $this->displayContent($qrimg, 'image/png');
     }
-    
+
 }
 
 // end

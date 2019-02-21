@@ -50,50 +50,50 @@ use Royalcms\Component\Database\Eloquent\Model;
 
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class WechatUserModel extends Model 
+class WechatUserModel extends Model
 {
-	protected $table = 'wechat_user';
-	
-	protected $primaryKey = 'uid';
-	
-	/**
-	 * 可以被批量赋值的属性。
-	 *
-	 * @var array
-	 */
-	protected $fillable = [
-	    'wechat_id',
-	    'openid',
-	    'nickname',
-	    'sex',
-	    'city',
-	    'country',
-	    'province',
-	    'language',
-	    'headimgurl',
-	    'subscribe_time',
-	    'unionid',
-	    'subscribe',
-	    'privilege',
-	];
-	
-	/**
-	 * 该模型是否被自动维护时间戳
-	 *
-	 * @var bool
-	 */
-	public $timestamps = false;
-	
-	/**
-	 * 限制查询只包括某一微信帐号的用户。
-	 *
-	 * @return \Royalcms\Component\Database\Eloquent\Builder
-	 */
-	public function scopeWechat($query, $wechatId)
-	{
-	    return $query->where('wechat_id', $wechatId);
-	}
-	
+    protected $table = 'wechat_user';
+
+    protected $primaryKey = 'uid';
+
+    /**
+     * 可以被批量赋值的属性。
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'wechat_id',
+        'openid',
+        'nickname',
+        'sex',
+        'city',
+        'country',
+        'province',
+        'language',
+        'headimgurl',
+        'subscribe_time',
+        'unionid',
+        'subscribe',
+        'privilege',
+    ];
+
+    /**
+     * 该模型是否被自动维护时间戳
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * 限制查询只包括某一微信帐号的用户。
+     *
+     * @return \Royalcms\Component\Database\Eloquent\Builder
+     */
+    public function scopeWechat($query, $wechatId)
+    {
+        return $query->where('wechat_id', $wechatId);
+    }
+
 }
 
 // end

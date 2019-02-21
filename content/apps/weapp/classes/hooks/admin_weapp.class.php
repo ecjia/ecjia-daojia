@@ -46,14 +46,12 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class admin_weapp_hooks {
+class admin_weapp_hooks
+{
 
-    public static function platform_admin_menu_api($menus) {
-        //在父级菜单里添加权限值
-//        $menus->add_purview('platform_config_manage');
-//        $menu = ecjia_merchant::make_admin_menu('08_merchant_platform', __('公众平台'), RC_Uri::url('platform/merchant/init'), 8)->add_purview('platform_config_manage')->add_icon('fa-navicon');
-
-        $menu = ecjia_admin::make_admin_menu('01_weapp_manage', RC_Lang::get('weapp::weapp.weapp_manage'), RC_Uri::url('weapp/admin/init'), 1)->add_purview('weapp_manage');
+    public static function platform_admin_menu_api($menus)
+    {
+        $menu = ecjia_admin::make_admin_menu('01_weapp_manage', __('小程序管理', 'weapp'), RC_Uri::url('weapp/admin/init'), 1)->add_purview('weapp_manage');
 
         $menus->add_submenu($menu);
         return $menus;
@@ -61,6 +59,6 @@ class admin_weapp_hooks {
 
 }
 
-RC_Hook::add_filter( 'platform_admin_menu_api', array('admin_weapp_hooks', 'platform_admin_menu_api') );
+RC_Hook::add_filter('platform_admin_menu_api', array('admin_weapp_hooks', 'platform_admin_menu_api'));
 
 // end

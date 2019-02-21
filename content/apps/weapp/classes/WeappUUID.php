@@ -51,11 +51,11 @@ use Ecjia\App\Platform\Frameworks\Platform\Account;
 
 class WeappUUID
 {
-    
+
     protected $uuid;
 
     protected $account;
-    
+
     public function __construct($uuid = null, $account = null)
     {
 
@@ -80,7 +80,7 @@ class WeappUUID
 
     public function getWechatInstance()
     {
-        $platform         = $this->account->getPlatform();
+        $platform = $this->account->getPlatform();
 
         if ($platform == 'weapp') {
             $config = array(
@@ -103,7 +103,7 @@ class WeappUUID
     {
         return $this->account;
     }
-    
+
     /**
      * 获取公众号添加后的Weapp_Id
      * @return integer
@@ -112,7 +112,7 @@ class WeappUUID
     {
         return $this->account->getAccountID();
     }
-    
+
     /**
      * 获取公众号添加后台UUID
      * @return string
@@ -140,7 +140,8 @@ class WeappUUID
      * 获取微信小程序用户对象
      * @return \Royalcms\Component\WeChat\User\MiniAppUser;
      */
-    public function getWeappUser() {
+    public function getWeappUser()
+    {
         $wechat = $this->getWechatInstance();
 
         return $wechat->make('mini_app_user');
@@ -150,10 +151,11 @@ class WeappUUID
      * 获取微信小程序用户对象
      * @return \Royalcms\Component\Wechat\MiniProgram\MiniProgram;
      */
-    public function getWeapp() {
+    public function getWeapp()
+    {
         $wechat = $this->getWechatInstance();
 
         return $wechat->make('weapp');
     }
-    
+
 }

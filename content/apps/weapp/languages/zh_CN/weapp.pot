@@ -1,0 +1,2003 @@
+# Copyright (C) 2019 Ecjia App weapp
+# This file is distributed under the same license as the Ecjia App weapp package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App weapp 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:59:49+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin.php:78 admin.php:89 admin.php:91 admin.php:111 admin.php:165
+#: apis/weapp_admin_purview_api.class.php:59 merchant.php:76 merchant.php:88
+#: merchant.php:90 merchant.php:110 merchant.php:113 merchant.php:187
+msgid "小程序列表"
+msgstr ""
+
+#: admin.php:92 admin.php:108 admin.php:110 merchant.php:97 merchant.php:112
+msgid "添加小程序"
+msgstr ""
+
+#: admin.php:154
+msgid "添加小程序成功！"
+msgstr ""
+
+#: admin.php:164 admin.php:166
+msgid "编辑小程序"
+msgstr ""
+
+#: admin.php:217
+msgid "编辑小程序成功！"
+msgstr ""
+
+#: admin.php:239
+msgid "删除小程序成功！"
+msgstr ""
+
+#: admin.php:241
+msgid "删除小程序失败！"
+msgstr ""
+
+#: admin.php:264
+msgid "小程序名称为%s"
+msgstr ""
+
+#: admin.php:267 merchant.php:324 platform_material.php:742
+#: platform_material.php:864 platform_material.php:993
+#: platform_material.php:1114 platform_material.php:1292
+#: platform_response.php:541 platform_user.php:268
+msgid "删除成功"
+msgstr ""
+
+#: admin.php:269
+msgid "删除失败"
+msgstr ""
+
+#: admin.php:290 merchant.php:344
+msgid "切换状态成功！"
+msgstr ""
+
+#: admin.php:303 merchant.php:359
+msgid "请输入数值！"
+msgstr ""
+
+#: admin.php:307 merchant.php:363
+msgid "编辑排序成功！"
+msgstr ""
+
+#: admin.php:309
+msgid "编辑排序失败！"
+msgstr ""
+
+#: admin.php:313
+msgid "小程序排序不能为空！"
+msgstr ""
+
+#: admin.php:335
+msgid "本次删除了[%s]条记录！"
+msgstr ""
+
+#: admin.php:344 merchant.php:376
+msgid "该小程序不存在"
+msgstr ""
+
+#: apis/weapp_admin_purview_api.class.php:60
+#: apis/weapp_merchant_purview_api.class.php:56
+msgid "更新小程序"
+msgstr ""
+
+#: apis/weapp_admin_purview_api.class.php:61
+#: apis/weapp_merchant_purview_api.class.php:57
+msgid "删除小程序"
+msgstr ""
+
+#: apis/weapp_merchant_purview_api.class.php:55
+#: apis/weapp_platform_purview_api.class.php:64
+#: classes/hooks/admin_weapp.class.php:54
+msgid "小程序管理"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:62
+msgid "插件管理"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:64
+msgid "关键词命令"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:66 platform_config.php:69
+#: platform_config.php:70 platform_config.php:78 platform_config.php:85
+msgid "消息推送配置"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:69
+#: classes/hooks/merchant_weapp.class.php:55 configs/package.php:55
+#: configs/package.php:56
+msgid "微信小程序"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:71
+#: apis/weapp_platform_menu_api.class.php:73 platform_message.php:68
+#: platform_message.php:70 platform_message.php:78 platform_message.php:79
+msgid "消息管理"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:78
+#: apis/weapp_platform_menu_api.class.php:80
+#: apis/weapp_platform_purview_api.class.php:59 platform_user.php:74
+#: platform_user.php:75 platform_user.php:83 platform_user.php:87
+#: platform_user.php:284
+msgid "用户管理"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:81
+#: apis/weapp_platform_purview_api.class.php:60 platform_user.php:685
+#: platform_user.php:696
+msgid "标签管理"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:82 platform_user.php:718
+#: platform_user.php:720
+msgid "未授权用户"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:83 platform_user.php:775
+#: platform_user.php:777
+msgid "黑名单"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:87 platform_response.php:74
+#: platform_response.php:85 platform_response.php:146
+msgid "自动回复"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:89 platform_response.php:350
+#: platform_response.php:354 platform_response.php:355
+#: platform_response.php:375 platform_response.php:376
+msgid "关键词回复"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:90
+msgid "收到消息回复"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:91
+msgid "打开客服回复 "
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:95
+#: apis/weapp_platform_purview_api.class.php:71 platform_material.php:75
+#: platform_material.php:189 platform_material.php:326
+#: platform_material.php:332 platform_material.php:1146
+msgid "素材管理"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:97 platform_material.php:90
+#: platform_material.php:1135
+msgid "临时素材"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:101
+msgid "客服管理"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:103
+msgid "客服账号"
+msgstr ""
+
+#: apis/weapp_platform_menu_api.class.php:104
+msgid "客服会话"
+msgstr ""
+
+#: apis/weapp_platform_purview_api.class.php:61
+msgid "标签更新"
+msgstr ""
+
+#: apis/weapp_platform_purview_api.class.php:62
+msgid "标签删除"
+msgstr ""
+
+#: apis/weapp_platform_purview_api.class.php:65
+msgid "小程序更新"
+msgstr ""
+
+#: apis/weapp_platform_purview_api.class.php:67
+msgid "客服会话管理"
+msgstr ""
+
+#: apis/weapp_platform_purview_api.class.php:68
+msgid "客服会话更新"
+msgstr ""
+
+#: apis/weapp_platform_purview_api.class.php:69
+msgid "客服会话删除"
+msgstr ""
+
+#: apis/weapp_platform_purview_api.class.php:72
+msgid "素材添加"
+msgstr ""
+
+#: apis/weapp_platform_purview_api.class.php:73
+msgid "素材编辑"
+msgstr ""
+
+#: apis/weapp_platform_purview_api.class.php:74
+msgid "素材删除"
+msgstr ""
+
+#: apis/weapp_platform_purview_api.class.php:76
+msgid "自动回复管理"
+msgstr ""
+
+#: apis/weapp_platform_purview_api.class.php:77
+msgid "自动回复添加"
+msgstr ""
+
+#: apis/weapp_platform_purview_api.class.php:78
+msgid "自动回复编辑"
+msgstr ""
+
+#: apis/weapp_platform_purview_api.class.php:79
+msgid "自动回复删除"
+msgstr ""
+
+#: apis/weapp_platform_purview_api.class.php:81
+msgid "用户消息管理"
+msgstr ""
+
+#: apis/weapp_platform_response_api.class.php:59
+msgid "参数不是%s对象"
+msgstr ""
+
+#: apis/weapp_weapp_user_info_api.class.php:63
+msgid "接口%s参数无效"
+msgstr ""
+
+#: classes/Helper.php:59
+msgid "小程序logo"
+msgstr ""
+
+#: classes/Helper.php:60
+msgid "小程序"
+msgstr ""
+
+#: classes/Helper.php:62
+msgid "用户标签"
+msgstr ""
+
+#: classes/Helper.php:63
+msgid "用户信息"
+msgstr ""
+
+#: classes/Helper.php:65
+msgid "公众号"
+msgstr ""
+
+#: classes/Helper.php:66
+msgid "微信菜单"
+msgstr ""
+
+#: classes/Helper.php:67
+msgid "消息模板"
+msgstr ""
+
+#: classes/Helper.php:68
+msgid "渠道二维码"
+msgstr ""
+
+#: classes/Helper.php:69
+msgid "推荐二维码"
+msgstr ""
+
+#: classes/Helper.php:70
+msgid "客服"
+msgstr ""
+
+#: classes/Helper.php:72
+msgid "图文素材"
+msgstr ""
+
+#: classes/Helper.php:73
+msgid "多图文素材"
+msgstr ""
+
+#: classes/Helper.php:75
+msgid "图片素材"
+msgstr ""
+
+#: classes/Helper.php:76
+msgid "语音素材"
+msgstr ""
+
+#: classes/Helper.php:77
+msgid "视频素材"
+msgstr ""
+
+#: classes/Helper.php:78
+msgid "缩略图素材"
+msgstr ""
+
+#: classes/Helper.php:80
+msgid "关注自动回复"
+msgstr ""
+
+#: classes/Helper.php:81 platform_response.php:84
+msgid "消息自动回复"
+msgstr ""
+
+#: classes/Helper.php:82
+msgid "关键词自动回复规则"
+msgstr ""
+
+#: classes/Helper.php:84
+msgid "用户消息"
+msgstr ""
+
+#: classes/Helper.php:85
+msgid "配置"
+msgstr ""
+
+#: classes/Helper.php:87
+msgid "批量转移"
+msgstr ""
+
+#: classes/Helper.php:88
+msgid "发送"
+msgstr ""
+
+#: classes/Sends/SendCustomMessage.php:135
+msgid "发送图片消息"
+msgstr ""
+
+#: classes/Sends/SendCustomMessage.php:165
+msgid "发送图文消息（点击跳转到外链）"
+msgstr ""
+
+#: classes/Sends/SendCustomMessage.php:223
+msgid "发送图文消息（点击跳转到图文消息页面）"
+msgstr ""
+
+#: classes/WeappRecord.php:25
+msgid "抱歉，暂未找到与您关键词所匹配的信息，可以进入客服系统进行相关咨询"
+msgstr ""
+
+#: classes/WeappRecord.php:60
+msgid "回复图片消息"
+msgstr ""
+
+#: classes/WeappRecord.php:82
+msgid "回复图文消息"
+msgstr ""
+
+#: classes/WxaCode.php:33
+msgid "没有可用的小程序的UUID参数"
+msgstr ""
+
+#: classes/hooks/platform_weapp.class.php:161 platform_response.php:107
+#: platform_response.php:168 platform_response.php:592
+#: platform_response.php:663 platform_response.php:711
+msgid "Y年m月d日"
+msgstr ""
+
+#: configs/jslang.php:52 configs/jslang.php:57 merchant.php:137
+#: merchant.php:219
+msgid "请输入小程序名称"
+msgstr ""
+
+#: configs/jslang.php:53 configs/jslang.php:58
+msgid "请输入appid"
+msgstr ""
+
+#: configs/jslang.php:54 configs/jslang.php:59
+msgid "请输入appsecret"
+msgstr ""
+
+#: merchant.php:133
+msgid "每个商家只能添加一个小程序"
+msgstr ""
+
+#: merchant.php:140 merchant.php:222
+msgid "请输入AppID"
+msgstr ""
+
+#: merchant.php:143 merchant.php:225
+msgid "请输入AppSecret"
+msgstr ""
+
+#: merchant.php:176
+msgid "添加公众号成功！"
+msgstr ""
+
+#: merchant.php:186 merchant.php:188
+msgid "编辑公众号"
+msgstr ""
+
+#: merchant.php:258
+msgid "编辑公众号成功！"
+msgstr ""
+
+#: merchant.php:283
+msgid "删除公众号成功！"
+msgstr ""
+
+#: merchant.php:285
+msgid "删除公众号失败！"
+msgstr ""
+
+#: merchant.php:303
+msgid "批量删除成功"
+msgstr ""
+
+#: merchant.php:323
+msgid "公众号名称为%s"
+msgstr ""
+
+#: merchant.php:366
+msgid "公众号排序不能为空！"
+msgstr ""
+
+#: modules/weapp/wxbind_module.class.php:61
+#: modules/weapp/wxlogin_module.class.php:58
+#: modules/weapp/wxpay_module.class.php:69
+msgid "参数无效"
+msgstr ""
+
+#: modules/weapp/wxbind_module.class.php:86
+msgid "更新用户数据失败"
+msgstr ""
+
+#: modules/weapp/wxpay_module.class.php:79
+msgid "订单不属于该用户"
+msgstr ""
+
+#: platform_config.php:100
+msgid "Token(令牌)必须为英文或数字，长度为3-32字符"
+msgstr ""
+
+#: platform_config.php:104
+msgid "消息加密密钥由43位字符组成，字符范围为A-Z,a-z,0-9"
+msgstr ""
+
+#: platform_config.php:114
+msgid "操作成功"
+msgstr ""
+
+#: platform_customer.php:116
+msgid ""
+"欢迎访问ECJia智能后台编辑客服帐号页面，在此页面可以进行编辑客服帐号操作。"
+msgstr ""
+
+#: platform_material.php:86 platform_material.php:183
+#: platform_material.php:1133
+msgid "永久素材"
+msgstr ""
+
+#: platform_material.php:99 platform_material.php:185 platform_material.php:188
+msgid "图文添加"
+msgstr ""
+
+#: platform_material.php:100
+msgid "获取图文素材"
+msgstr ""
+
+#: platform_material.php:104
+msgid "图文素材：分为单图文、多图文素材。支持图片，语音，视频，缩略图素材。"
+msgstr ""
+
+#: platform_material.php:105
+msgid "单图文素材添加好之后，即可将多条单图文素材组合成为一条多图文素材。"
+msgstr ""
+
+#: platform_material.php:106
+msgid ""
+"★ 注意事项：单图文素材如果经过修改，则原先添加好的多图文素材需要重新组合。"
+msgstr ""
+
+#: platform_material.php:110
+msgid "获取图片素材"
+msgstr ""
+
+#: platform_material.php:114
+msgid "图片（image）素材大小: 2M，支持BMP/PNG/JPEG/JPG/GIF格式。"
+msgstr ""
+
+#: platform_material.php:118
+msgid "图片（image）素材大小: 2M，支持PNG/JPEG/JPG/GIF格式。"
+msgstr ""
+
+#: platform_material.php:123
+msgid "获取语音素材"
+msgstr ""
+
+#: platform_material.php:127
+msgid "语音（voice）素材大小：2M，播放长度不超过60s，mp3/wma/wav/amr格式。"
+msgstr ""
+
+#: platform_material.php:131
+msgid "语音（voice）素材大小：2M，播放长度不超过60s，支持AMR/MP3格式。"
+msgstr ""
+
+#: platform_material.php:135 platform_material.php:1140
+#: platform_material.php:1145
+msgid "视频添加"
+msgstr ""
+
+#: platform_material.php:136
+msgid "获取视频素材"
+msgstr ""
+
+#: platform_material.php:140 platform_material.php:1143
+msgid "视频（video）素材大小：10MB，支持MP4格式。"
+msgstr ""
+
+#: platform_material.php:146
+msgid "缩略图（thumb）素材大小：64KB，支持JPG格式。"
+msgstr ""
+
+#: platform_material.php:151
+msgid "永久素材管理"
+msgstr ""
+
+#: platform_material.php:153
+msgid "临时素材管理"
+msgstr ""
+
+#: platform_material.php:222 platform_material.php:396
+#: platform_material.php:501
+msgid "请输入图文标题"
+msgstr ""
+
+#: platform_material.php:226 platform_material.php:404
+#: platform_material.php:509
+msgid "请输入正文"
+msgstr ""
+
+#: platform_material.php:230 platform_material.php:400
+#: platform_material.php:505
+msgid "图文素材的封面图片必须选择一个"
+msgstr ""
+
+#: platform_material.php:237 platform_material.php:409
+#: platform_material.php:521
+msgid "图文素材的封面图片不是一个有效的素材，请更换一个封面素材。"
+msgstr ""
+
+#: platform_material.php:287 platform_material.php:1239
+msgid "返回素材管理"
+msgstr ""
+
+#: platform_material.php:288
+msgid "继续添加素材"
+msgstr ""
+
+#: platform_material.php:289 platform_material.php:553
+#: platform_material.php:1241 platform_response.php:239
+#: platform_response.php:313 platform_response.php:504 platform_user.php:235
+msgid "添加成功"
+msgstr ""
+
+#: platform_material.php:310
+msgid "该素材不存在"
+msgstr ""
+
+#: platform_material.php:316 platform_material.php:419
+#: platform_material.php:516 platform_material.php:579
+msgid "父图文素材ID不存在。"
+msgstr ""
+
+#: platform_material.php:327 platform_material.php:330
+msgid "图文编辑"
+msgstr ""
+
+#: platform_material.php:384 platform_material.php:392
+#: platform_material.php:566 platform_material.php:574
+#: platform_material.php:665
+msgid "图文素材ID不存在。"
+msgstr ""
+
+#: platform_material.php:465 platform_material.php:1384
+#: platform_response.php:264 platform_response.php:266
+#: platform_response.php:338 platform_response.php:500 platform_user.php:212
+#: platform_user.php:450 platform_user.php:643
+msgid "编辑成功"
+msgstr ""
+
+#: platform_material.php:497
+msgid "父级图文素材ID不存在。"
+msgstr ""
+
+#: platform_material.php:590
+msgid "移除%s图文素材成功"
+msgstr ""
+
+#: platform_material.php:607
+msgid "多图文素材ID不存在。"
+msgstr ""
+
+#: platform_material.php:645
+msgid "多图文素材发布成功！"
+msgstr ""
+
+#: platform_material.php:688
+msgid "获取素材成功！"
+msgstr ""
+
+#: platform_material.php:708
+msgid "选择素材"
+msgstr ""
+
+#: platform_material.php:716
+msgid "该图文正在被使用，不能删除"
+msgstr ""
+
+#: platform_material.php:816 platform_material.php:943
+#: platform_material.php:1066
+msgid "上传成功"
+msgstr ""
+
+#: platform_material.php:832 platform_material.php:961
+#: platform_material.php:1082 platform_material.php:1262
+msgid "请选择素材"
+msgstr ""
+
+#: platform_material.php:840
+msgid "该图片正在被使用，不能删除"
+msgstr ""
+
+#: platform_material.php:867
+msgid "素材ID未找到"
+msgstr ""
+
+#: platform_material.php:969
+msgid "该缩略图正在被使用，不能删除"
+msgstr ""
+
+#: platform_material.php:1090
+msgid "该语音正在被使用，不能删除"
+msgstr ""
+
+#: platform_material.php:1143
+msgid ""
+"建议直接使用优酷等第三方视频网站的视频地址。优点:不占用服务器资源，支持更大、"
+"更多格式的视频素材。"
+msgstr ""
+
+#: platform_material.php:1175 platform_material.php:1378
+msgid "请输入标题！"
+msgstr ""
+
+#: platform_material.php:1179
+msgid "请输入视频简介！"
+msgstr ""
+
+#: platform_material.php:1183
+msgid "请上传视频！"
+msgstr ""
+
+#: platform_material.php:1240
+msgid "继续添加视频"
+msgstr ""
+
+#: platform_material.php:1243 platform_response.php:241
+#: platform_response.php:315 platform_user.php:237
+msgid "添加失败"
+msgstr ""
+
+#: platform_material.php:1273
+msgid "该视频正在被使用，不能删除"
+msgstr ""
+
+#: platform_material.php:1333
+msgid "获取完成"
+msgstr ""
+
+#: platform_material.php:1342
+msgid "已获取 %s 条素材"
+msgstr ""
+
+#: platform_material.php:1368
+msgid "请输入文件名称！"
+msgstr ""
+
+#: platform_material.php:1403
+msgid "没有找到相应记录，请重新搜索"
+msgstr ""
+
+#: platform_material.php:1435 platform_material.php:1567
+#: platform_response.php:570 platform_response.php:644
+msgid "n月j日"
+msgstr ""
+
+#: platform_material.php:1479 platform_message.php:84 platform_response.php:94
+#: platform_response.php:155 platform_response.php:362
+#: platform_response.php:383 platform_user.php:94 platform_user.php:189
+#: platform_user.php:260 platform_user.php:287 platform_user.php:434
+#: platform_user.php:462 platform_user.php:501 platform_user.php:574
+#: platform_user.php:700
+msgid "请先添加公众号，再进行后续操作"
+msgstr ""
+
+#: platform_material.php:1488
+msgid "未认证的公众号"
+msgstr ""
+
+#: platform_material.php:1488
+msgid "订阅号"
+msgstr ""
+
+#: platform_material.php:1488
+msgid "服务号"
+msgstr ""
+
+#: platform_material.php:1488
+msgid "测试账号"
+msgstr ""
+
+#: platform_material.php:1488
+msgid "企业号"
+msgstr ""
+
+#: platform_material.php:1489
+msgid "选择%s素材"
+msgstr ""
+
+#: platform_message.php:240
+msgid "无标签"
+msgstr ""
+
+#: platform_response.php:143 platform_response.php:145
+msgid "打开客服回复"
+msgstr ""
+
+#: platform_response.php:228 platform_response.php:253
+#: platform_response.php:302 platform_response.php:327
+msgid "%s，回复类型是 文字"
+msgstr ""
+
+#: platform_response.php:231 platform_response.php:256
+#: platform_response.php:305 platform_response.php:330
+msgid "%s，回复类型是 图片"
+msgstr ""
+
+#: platform_response.php:233 platform_response.php:258
+#: platform_response.php:307 platform_response.php:332
+msgid "%s，回复类型是 语音"
+msgstr ""
+
+#: platform_response.php:235 platform_response.php:260
+#: platform_response.php:309 platform_response.php:334
+msgid "%s，回复类型是 视频"
+msgstr ""
+
+#: platform_response.php:340
+msgid "编辑失败"
+msgstr ""
+
+#: platform_response.php:359 platform_response.php:395
+#: platform_response.php:396
+msgid "添加规则"
+msgstr ""
+
+#: platform_response.php:388 platform_response.php:389
+msgid "编辑规则"
+msgstr ""
+
+#: platform_response.php:410
+msgid "添加失败，请先添加公众号，再进行后续操作"
+msgstr ""
+
+#: platform_response.php:429
+msgid "请填写规则名称"
+msgstr ""
+
+#: platform_response.php:433
+msgid "请至少填写1个关键词"
+msgstr ""
+
+#: platform_response.php:437
+msgid "请填写或选择回复内容！"
+msgstr ""
+
+#: platform_response.php:444 platform_response.php:449
+msgid "规则名称 %s 已存在"
+msgstr ""
+
+#: platform_response.php:464
+msgid "关键词 %s 已存在"
+msgstr ""
+
+#: platform_response.php:472
+msgid "关键词 %s 重复"
+msgstr ""
+
+#: platform_response.php:502
+msgid "返回关键词回复"
+msgstr ""
+
+#: platform_response.php:503
+msgid "继续添加规则"
+msgstr ""
+
+#: platform_response.php:518
+msgid "删除失败，请先添加公众号，再进行后续操作"
+msgstr ""
+
+#: platform_user.php:195
+msgid "请输入标签名称"
+msgstr ""
+
+#: platform_user.php:204 platform_user.php:223
+msgid "该标签名字已存在，请重新输入"
+msgstr ""
+
+#: platform_user.php:218
+msgid "最多只能创建100个标签"
+msgstr ""
+
+#: platform_user.php:281
+msgid "消息记录"
+msgstr ""
+
+#: platform_user.php:283
+msgid "用户消息记录"
+msgstr ""
+
+#: platform_user.php:311
+msgid "请先选择用户"
+msgstr ""
+
+#: platform_user.php:362
+msgid "没有更多消息了"
+msgstr ""
+
+#: platform_user.php:362
+msgid "搜索到了"
+msgstr ""
+
+#: platform_user.php:394
+msgid "请选择微信用户"
+msgstr ""
+
+#: platform_user.php:398
+msgid "消息内容不能为空"
+msgstr ""
+
+#: platform_user.php:403
+msgid ""
+"由于该用户48小时未与你互动，你不能再主动发消息给他。直到用户下次主动发消息给"
+"你才可以对其进行回复。"
+msgstr ""
+
+#: platform_user.php:417
+msgid "发送成功"
+msgstr ""
+
+#: platform_user.php:443
+msgid "备注名不能超过30个字符"
+msgstr ""
+
+#: platform_user.php:474 platform_user.php:508
+msgid "移出黑名单"
+msgstr ""
+
+#: platform_user.php:475 platform_user.php:509
+msgid "移出黑名单成功"
+msgstr ""
+
+#: platform_user.php:476 platform_user.php:510
+msgid "移出黑名单失败"
+msgstr ""
+
+#: platform_user.php:479
+msgid "加入黑名单"
+msgstr ""
+
+#: platform_user.php:480
+msgid "加入黑名单成功"
+msgstr ""
+
+#: platform_user.php:481
+msgid "加入黑名单失败"
+msgstr ""
+
+#: platform_user.php:584
+msgid "最多只能选择3个标签"
+msgstr ""
+
+#: platform_user.php:697
+msgid "添加标签"
+msgstr ""
+
+#: privilege.php:110 privilege.php:134
+msgid "抱歉！该用户没有分配公众平台登录权限。"
+msgstr ""
+
+#: privilege.php:141
+msgid "抱歉！请求超时。"
+msgstr ""
+
+#: privilege.php:146
+msgid "传参出错。"
+msgstr ""
+
+#: privilege.php:150
+msgid "抱歉！数据丢失，登录失败。"
+msgstr ""
+
+#: privilege.php:153
+msgid "公众平台登录"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:14
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:149
+#: content/apps/weapp/templates/platform/weapp_reply_keywords_edit.dwt.php:14
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:15
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:262
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:13
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:19
+#: content/apps/weapp/templates/platform/library/weapp_choose_material.lbi.php:14
+#: content/apps/weapp/templates/platform/weapp_customer_session.dwt.php:14
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:13
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:18
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:149
+#: content/apps/weapp/templates/platform/weapp_material.dwt.php:13
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:16
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:124
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:159
+#: content/apps/weapp/templates/platform/weapp_message_list.dwt.php:13
+#: content/apps/weapp/templates/platform/weapp_open_reply.dwt.php:14
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:13
+#: content/apps/weapp/templates/platform/weapp_reply_msg.dwt.php:14
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:13
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:77
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:116
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:13
+msgid "温馨提示："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:34
+msgid "客服账号："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:41
+msgid "账号格式：账号前缀@公众号微信号"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:48
+msgid "客服昵称："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:57
+msgid "客服头像："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:62
+#: content/apps/weapp/templates/admin/weapp_edit.dwt.php:48
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:71
+msgid "图片预览"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:66
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:134
+#: content/apps/weapp/templates/admin/weapp_edit.dwt.php:52
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:76
+msgid "浏览"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:67
+#: content/apps/weapp/templates/admin/weapp_edit.dwt.php:53
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:77
+msgid "修改"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:70
+#: content/apps/weapp/templates/platform/weapp_reply_keywords_edit.dwt.php:82
+#: content/apps/weapp/templates/platform/weapp_reply_keywords_edit.dwt.php:111
+#: content/apps/weapp/templates/platform/library/weapp_material_image.lbi.php:24
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:98
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:99
+#: content/apps/weapp/templates/platform/weapp_open_reply.dwt.php:70
+#: content/apps/weapp/templates/platform/weapp_open_reply.dwt.php:99
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:132
+#: content/apps/weapp/templates/platform/weapp_reply_msg.dwt.php:70
+#: content/apps/weapp/templates/platform/weapp_reply_msg.dwt.php:99
+#: content/apps/weapp/templates/admin/weapp_edit.dwt.php:56
+#: content/apps/weapp/templates/admin/weapp_list.dwt.php:69
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:80
+#: content/apps/weapp/templates/merchant/weapp_list.dwt.php:82
+msgid "删除"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:77
+#: content/apps/weapp/templates/admin/weapp_edit.dwt.php:77
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:102
+msgid "状态："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:79
+#: content/apps/weapp/templates/admin/weapp_edit.dwt.php:79
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:104
+msgid "开启"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:80
+#: content/apps/weapp/templates/platform/library/weapp_show_message.lbi.php:15
+#: content/apps/weapp/templates/admin/weapp_edit.dwt.php:80
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:105
+msgid "关闭"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:81
+msgid "如果状态为关闭，则微信端不添加该客服"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:87
+msgid "绑定微信号："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:96
+msgid "邀请绑定待确认"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:96
+msgid "绑定邀请已发送至 %1 的微信，请去微信客户端确认后即可绑定"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:100
+msgid "邀请绑定被拒绝"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:100
+msgid "由于对方已拒绝绑定，可重新进行绑定。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:102
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:107
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:110
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:114
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:140
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:140
+msgid "绑定微信号"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:102
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:107
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:114
+msgid "重新绑定"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:105
+msgid "邀请绑定过期"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:105
+msgid "由于邀请绑定已过期，可重新进行绑定。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:113
+msgid "该客服账号已停用"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:124
+#: content/apps/weapp/templates/platform/weapp_reply_keywords_edit.dwt.php:124
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:159
+#: content/apps/weapp/templates/platform/weapp_config.dwt.php:80
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:158
+#: content/apps/weapp/templates/admin/weapp_edit.dwt.php:96
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:121
+msgid "更新"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:126
+#: content/apps/weapp/templates/platform/weapp_reply_keywords_edit.dwt.php:124
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:289
+#: content/apps/weapp/templates/platform/library/weapp_choose_material.lbi.php:23
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:141
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:182
+#: content/apps/weapp/templates/platform/weapp_open_reply.dwt.php:112
+#: content/apps/weapp/templates/platform/weapp_open_reply.dwt.php:114
+#: content/apps/weapp/templates/platform/weapp_config.dwt.php:82
+#: content/apps/weapp/templates/platform/weapp_reply_msg.dwt.php:112
+#: content/apps/weapp/templates/platform/weapp_reply_msg.dwt.php:114
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:96
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:144
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:114
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:156
+#: content/apps/weapp/templates/admin/weapp_edit.dwt.php:94
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:119
+msgid "确定"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:158
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:158
+msgid "微信号："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:160
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:160
+msgid "请输入需要绑定的客服人员微信号"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_edit.dwt.php:169
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:169
+msgid "邀请绑定"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords_edit.dwt.php:35
+msgid "规则名称："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords_edit.dwt.php:38
+msgid "规则名最多60个字"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords_edit.dwt.php:44
+msgid "关键字："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords_edit.dwt.php:47
+msgid ""
+"添加多个关键字，用\",\"隔开（建议在一个规则里设置一个关键字，以便粉丝获得想要"
+"的答案）。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords_edit.dwt.php:54
+msgid "回复："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords_edit.dwt.php:59
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:217
+#: content/apps/weapp/templates/platform/weapp_open_reply.dwt.php:47
+#: content/apps/weapp/templates/platform/weapp_reply_msg.dwt.php:47
+msgid "文本"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords_edit.dwt.php:59
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:217
+#: content/apps/weapp/templates/platform/weapp_open_reply.dwt.php:47
+#: content/apps/weapp/templates/platform/weapp_reply_msg.dwt.php:47
+msgid "文字"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords_edit.dwt.php:62
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:220
+#: content/apps/weapp/templates/platform/weapp_open_reply.dwt.php:50
+#: content/apps/weapp/templates/platform/weapp_reply_msg.dwt.php:50
+msgid "图片"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords_edit.dwt.php:72
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:230
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:115
+#: content/apps/weapp/templates/platform/weapp_open_reply.dwt.php:60
+#: content/apps/weapp/templates/platform/weapp_reply_msg.dwt.php:60
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:77
+msgid "从素材库选择"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords_edit.dwt.php:96
+#: content/apps/weapp/templates/platform/library/weapp_choose_material_newchild_list.lbi.php:12
+#: content/apps/weapp/templates/platform/library/weapp_choose_material_newchild_list.lbi.php:33
+#: content/apps/weapp/templates/platform/weapp_open_reply.dwt.php:84
+#: content/apps/weapp/templates/platform/weapp_reply_msg.dwt.php:84
+msgid "已选择"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords_edit.dwt.php:101
+#: content/apps/weapp/templates/platform/library/weapp_choose_material_newchild_list.lbi.php:16
+#: content/apps/weapp/templates/platform/library/weapp_choose_material_newchild_list.lbi.php:26
+#: content/apps/weapp/templates/platform/library/weapp_material_image.lbi.php:26
+#: content/apps/weapp/templates/platform/library/weapp_material_image.lbi.php:45
+#: content/apps/weapp/templates/platform/weapp_open_reply.dwt.php:89
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:83
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:89
+#: content/apps/weapp/templates/platform/weapp_reply_msg.dwt.php:89
+msgid "无标题"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:35
+msgid "交谈用户："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:41
+msgid "查看更早的消息记录"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:57
+msgid "点击查看"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:63
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:69
+msgid "点击播放"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:124
+msgid "用户头像："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:135
+msgid "昵称："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:142
+msgid "备注名："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:165
+msgid "性别："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:167
+msgid "男"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:167
+msgid "女"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:172
+msgid "省-市："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:179
+msgid "用户标签："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:189
+msgid "关注时间："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:199
+#: content/apps/weapp/templates/platform/weapp_black_list.dwt.php:54
+msgid "您确定要将该用户移出黑名单吗？"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:204
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:91
+msgid "您确定要将该用户加入黑名单吗？"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:237
+msgid "（只有48小时内给公众号发送过信息的粉丝才能接收到信息）"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:238
+msgid "（最多输入600字）"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_message.dwt.php:255
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:38
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:86
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:117
+msgid "打标签"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:19
+msgid "该素材已修改，请点击 “发布素材” 按钮上传到微信公众平台。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:28
+#: content/apps/weapp/templates/platform/weapp_material.dwt.php:22
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:24
+#: content/apps/weapp/templates/platform/weapp_open_reply.dwt.php:22
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:21
+#: content/apps/weapp/templates/platform/weapp_reply_msg.dwt.php:22
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:22
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:13
+msgid "操作提示"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:44
+msgid "发布素材"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:47
+msgid "获取最新素材"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:60
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:46
+msgid "封面图片"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:71
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:179
+msgid "缩略图"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:89
+msgid "图文"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:92
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:60
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:122
+msgid "标题："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:99
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:67
+msgid "作者："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:106
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:74
+msgid "封面："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:119
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:81
+msgid "封面图片显示在正文中"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:120
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:82
+msgid "（大图片建议尺寸：900像素 * 500像素）"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:125
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:87
+msgid "摘要："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:132
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:94
+msgid "原文链接："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:139
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:100
+#: content/apps/weapp/templates/admin/weapp_edit.dwt.php:85
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:110
+msgid "排序："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:142
+msgid "排序从小到大"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:148
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:106
+msgid "正文"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_edit.dwt.php:177
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:47
+msgid "标题"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/library/weapp_choose_material.lbi.php:24
+#: content/apps/weapp/templates/platform/library/weapp_material_image.lbi.php:22
+#: content/apps/weapp/templates/platform/library/weapp_material_image.lbi.php:41
+#: content/apps/weapp/templates/platform/library/weapp_material_image.lbi.php:43
+msgid "取消"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/library/common_header_messages.lbi.php:11
+msgid "消息列表"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/library/common_header_messages.lbi.php:33
+msgid "全部消息"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/library/weapp_show_message.lbi.php:5
+msgid "预览"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/library/widget_platform_dashboard_msg_stats.lbi.php:4
+msgid "用户发送消息"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/library/weapp_material_image.lbi.php:23
+#: content/apps/weapp/templates/platform/library/weapp_material_image.lbi.php:42
+msgid "保存"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/library/weapp_material_image.lbi.php:24
+#: content/apps/weapp/templates/platform/library/weapp_material_image.lbi.php:43
+msgid "您确定要删除该图片素材吗？"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/library/weapp_material_image.lbi.php:25
+#: content/apps/weapp/templates/platform/library/weapp_material_image.lbi.php:44
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:131
+#: content/apps/weapp/templates/admin/weapp_list.dwt.php:68
+#: content/apps/weapp/templates/merchant/weapp_list.dwt.php:81
+msgid "编辑"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/library/weapp_choose_material_list.lbi.php:2
+msgid "暂无素材"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/library/widget_platform_dashboard_stats.lbi.php:4
+msgid "账号整体情况"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/library/widget_platform_dashboard_stats.lbi.php:13
+msgid "新访客用户"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/library/widget_platform_dashboard_stats.lbi.php:24
+msgid "新增人数"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/library/widget_platform_dashboard_stats.lbi.php:35
+msgid "总用户数"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_session.dwt.php:27
+#: content/apps/weapp/templates/platform/weapp_customer_session.dwt.php:63
+msgid "待接入"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_session.dwt.php:31
+#: content/apps/weapp/templates/platform/weapp_customer_session.dwt.php:61
+msgid "会话中"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_session.dwt.php:35
+#: content/apps/weapp/templates/platform/weapp_customer_session.dwt.php:65
+msgid "已关闭"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_session.dwt.php:46
+msgid "用户昵称"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_session.dwt.php:47
+#: content/apps/weapp/templates/admin/weapp_list.dwt.php:52
+#: content/apps/weapp/templates/merchant/weapp_list.dwt.php:63
+msgid "状态"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_session.dwt.php:48
+msgid "创建时间"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_session.dwt.php:49
+msgid "会话结束时间"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_session.dwt.php:55
+msgid "暂无"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_session.dwt.php:81
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:126
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:101
+#: content/apps/weapp/templates/platform/weapp_message_list.dwt.php:72
+#: content/apps/weapp/templates/platform/weapp_black_list.dwt.php:64
+#: content/apps/weapp/templates/platform/weapp_unsubscribe_list.dwt.php:60
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:137
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:54
+#: content/apps/weapp/templates/admin/weapp_list.dwt.php:82
+#: content/apps/weapp/templates/merchant/weapp_list.dwt.php:97
+msgid "没有找到任何记录"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:19
+msgid ""
+"\n"
+"    绑定后的客服帐号，可以登录<a style=\"text-decoration:none;\" target="
+"\"_blank\" href=\"%1\">【在线客服功能】</a>，进行客服沟通。\n"
+"    "
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:34
+msgid "获取全部客服"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:35
+msgid "通过点击该按钮可以获取微信端原有的客服到本地。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:39
+msgid "获取在线客服"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:40
+msgid "通过点击该按钮可以获取微信端在线的客服到本地。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:53
+msgid "去微信客服中心"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:59
+msgid "全部客服"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:63
+msgid "在线客服"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:67
+msgid "已删客服"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:76
+msgid "客服头像"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:78
+msgid "客服昵称"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:79
+msgid "在线状态"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:90
+msgid "获取客服会话"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:96
+msgid "解绑该客服后将无法还原，您确定要解绑该客服吗？'"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:104
+msgid "您确定要删除该客服吗？'"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:106
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:107
+msgid "解绑"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:114
+msgid "编辑客服昵称"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:118
+msgid "web在线"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_customer_list.dwt.php:120
+msgid "不在线"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material.dwt.php:38
+msgid "通过点击该按钮可以获取微信公众平台素材到本地。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material.dwt.php:48
+msgid "图片内容"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:16
+msgid "无法获取unionid字段，若需获取该字段，请将公众号绑定到微信开放平台帐号。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:25
+msgid "用户管理：显示已经关注微信公众号的用户信息，未关注的不显示。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:26
+msgid "1.搜索功能支持通过用户昵称、省、市搜索。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:43
+#: content/apps/weapp/templates/platform/weapp_black_list.dwt.php:22
+#: content/apps/weapp/templates/platform/weapp_unsubscribe_list.dwt.php:22
+msgid "请输入昵称/省/市搜索"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:44
+#: content/apps/weapp/templates/platform/weapp_black_list.dwt.php:23
+#: content/apps/weapp/templates/platform/weapp_unsubscribe_list.dwt.php:23
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:44
+#: content/apps/weapp/templates/admin/weapp_list.dwt.php:37
+#: content/apps/weapp/templates/merchant/weapp_list.dwt.php:45
+msgid "搜索"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:58
+#: content/apps/weapp/templates/platform/weapp_black_list.dwt.php:31
+#: content/apps/weapp/templates/platform/weapp_unsubscribe_list.dwt.php:31
+msgid "头像"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:59
+#: content/apps/weapp/templates/platform/weapp_black_list.dwt.php:32
+#: content/apps/weapp/templates/platform/weapp_unsubscribe_list.dwt.php:32
+msgid "昵称"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:60
+#: content/apps/weapp/templates/platform/weapp_black_list.dwt.php:33
+#: content/apps/weapp/templates/platform/weapp_unsubscribe_list.dwt.php:33
+msgid "省（直辖市）"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:61
+#: content/apps/weapp/templates/platform/weapp_black_list.dwt.php:34
+#: content/apps/weapp/templates/platform/weapp_unsubscribe_list.dwt.php:34
+msgid "绑定用户"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:62
+#: content/apps/weapp/templates/platform/weapp_black_list.dwt.php:35
+#: content/apps/weapp/templates/platform/weapp_unsubscribe_list.dwt.php:35
+msgid "关注时间"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:81
+#: content/apps/weapp/templates/platform/weapp_black_list.dwt.php:50
+#: content/apps/weapp/templates/platform/weapp_unsubscribe_list.dwt.php:50
+msgid "（男）"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:81
+#: content/apps/weapp/templates/platform/weapp_black_list.dwt.php:50
+#: content/apps/weapp/templates/platform/weapp_unsubscribe_list.dwt.php:50
+msgid "（女）"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:95
+#: content/apps/weapp/templates/platform/weapp_black_list.dwt.php:59
+#: content/apps/weapp/templates/platform/weapp_unsubscribe_list.dwt.php:55
+msgid "未绑定"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:152
+msgid "创建会话"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:167
+msgid "选择客服："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_list.dwt.php:170
+msgid "请选择客服..."
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_message_list.dwt.php:27
+msgid "最近五天"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_message_list.dwt.php:30
+msgid "今天"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_message_list.dwt.php:33
+msgid "昨天"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_message_list.dwt.php:36
+msgid "前天"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_message_list.dwt.php:39
+msgid "更早"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_message_list.dwt.php:56
+msgid "详细资料"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_message_list.dwt.php:63
+msgid "发送于："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_message_list.dwt.php:66
+msgid "回复"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_open_reply.dwt.php:23
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:22
+#: content/apps/weapp/templates/platform/weapp_reply_msg.dwt.php:23
+msgid ""
+"自动回复的类型 共分三种：消息自动回复、关键词自动回复、打开客服回复。回复内容"
+"可以设置为文字，图片。文本消息回复内容可以直接填写，长度限制1024字节（大约200"
+"字，含标点以及其他特殊字符），其他素材需要先在素材管理中添加。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_open_reply.dwt.php:24
+msgid "三、打开客服回复：即打开客服时自动回复一条设置好的文字或图片。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_config.dwt.php:28
+msgid "URL(服务器地址)："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_config.dwt.php:31
+msgid "必须以http://或https://开头，分别支持80端口和443端口"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_config.dwt.php:33
+msgid "复制URL"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_config.dwt.php:37
+msgid "Token(令牌)："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_config.dwt.php:40
+msgid "必须为英文或数字，长度为3-32字符"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_config.dwt.php:42
+msgid "生成Token"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_config.dwt.php:43
+msgid "复制Token"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_config.dwt.php:48
+msgid "(消息加密密钥)："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_config.dwt.php:57
+msgid "消息加密方式："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_config.dwt.php:60
+msgid "明文模式"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_config.dwt.php:60
+msgid "(不使用消息体加解密功能，安全系数较低)"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_config.dwt.php:68
+msgid "数据格式："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_config.dwt.php:71
+msgid "请选择微信与开发者服务器间传输的数据格式"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:23
+msgid "一、关键词自动回复：即自己添加的规则关键词自动回复。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:24
+msgid ""
+"★ 字数限制：微信公众平台认证与非认证用户的关键字自动回复设置规则上限为200条规"
+"则（每条规则名，最多可设置60个汉字），每条规则内最多设置10条关键字（每条关键"
+"字，最多可设置30个汉字）。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:25
+msgid ""
+"★ 规则设置：一个规则您可设置多个关键字，建议使用常用关键字，如关键词：help,帮"
+"助。采取中英文结合的方式最佳。如果用户发送的信息中含有您设置的其中一个关键"
+"字，则系统会匹配自动回复。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:26
+msgid ""
+"★ 注意事项：关键词 不能设置系统已经存在的关键词，如功能扩展当中的hot、best、"
+"news等。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:43
+msgid "请输入关键字"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:53
+msgid "规则名称"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:54
+msgid "关键字"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:55
+msgid "回复内容"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:56
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:34
+msgid "操作"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:120
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:126
+msgid "该素材已删除"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_keywords.dwt.php:132
+msgid "您确定要删除规则[%1]吗？"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_reply_msg.dwt.php:24
+msgid ""
+"二、消息自动回复：当用户输入任意消息，匹配不到系统已有关键词时或者没有在关键"
+"词自动回复里添加关键词，默认回复一条消息提示。例如：对不起！你输入的关键词不"
+"存在，建议你咨询相关客服。你也可以输入help，查看使用帮助。"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:32
+msgid "标签名称"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:33
+msgid "用户数"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:47
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:108
+msgid "编辑用户标签"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:48
+msgid "您确定要删除该标签吗？"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:48
+msgid "删除用户标签"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:69
+msgid "添加用户标签"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:85
+msgid "标签名称："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:125
+msgid "原标签名："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_subscribe_tag.dwt.php:132
+msgid "新标签名："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:57
+msgid "图文1"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:90
+msgid "选填，如果不填写会默认抓取正文前54个字"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:131
+msgid "视频："
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:135
+msgid "修改视频"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:140
+msgid "上传视频格式为mp4，大小不得超过10MB"
+msgstr ""
+
+#: content/apps/weapp/templates/platform/weapp_material_add.dwt.php:147
+msgid "视频简介："
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_edit.dwt.php:29
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:49
+msgid "UUID："
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_edit.dwt.php:36
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:58
+msgid "小程序名称："
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_edit.dwt.php:43
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:66
+msgid "Logo："
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_edit.dwt.php:56
+msgid "您确定要删除吗？"
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_edit.dwt.php:61
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:86
+msgid "AppID："
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_edit.dwt.php:69
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:94
+msgid "AppSecret："
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_list.dwt.php:25
+#: content/apps/weapp/templates/merchant/weapp_list.dwt.php:31
+msgid "批量操作"
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_list.dwt.php:30
+#: content/apps/weapp/templates/merchant/weapp_list.dwt.php:35
+msgid "您确定要这么做吗？"
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_list.dwt.php:30
+msgid "请先选中要删除的公众号！"
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_list.dwt.php:36
+msgid "请输入小程序名称关键字"
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_list.dwt.php:50
+#: content/apps/weapp/templates/merchant/weapp_list.dwt.php:61
+msgid "Logo"
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_list.dwt.php:51
+msgid "小程序名称"
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_list.dwt.php:53
+#: content/apps/weapp/templates/merchant/weapp_list.dwt.php:64
+msgid "排序"
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_list.dwt.php:54
+#: content/apps/weapp/templates/merchant/weapp_list.dwt.php:65
+msgid "添加时间"
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_list.dwt.php:67
+#: content/apps/weapp/templates/merchant/weapp_list.dwt.php:80
+msgid "进入管理"
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_list.dwt.php:69
+#: content/apps/weapp/templates/merchant/weapp_list.dwt.php:82
+msgid "您确定要删除小程序[%1]吗？"
+msgstr ""
+
+#: content/apps/weapp/templates/admin/weapp_list.dwt.php:76
+msgid "编辑小程序排序"
+msgstr ""
+
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:14
+msgid ""
+"\n"
+"    <p>一、配置前先<a href=\"%1\" target=\"__blank\"> 注册小程序 </a>，进行微"
+"信认证, 已有微信小程序<a href=\"%2\" target=\"__blank\"> 立即登录 </a>。\n"
+"    </p>\n"
+"    "
+msgstr ""
+
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:18
+msgid ""
+"\n"
+"    <p>二、登录<a href=\"%1\" target=\"__blank\"> 微信公众号平台 </a>后，在 "
+"设置 - 开发者设置 中，查看到微信小程序的 AppID、Appsecret，并配置填写好域名。"
+"（注意不可直接使用微信服务号或订阅号的 AppID、AppSecret）\n"
+"    </p>\n"
+"    "
+msgstr ""
+
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:22
+msgid ""
+"三、微信认证后，开通小程序微信支付。开通后，配置小程序微信支付的商户号和密"
+"钥。"
+msgstr ""
+
+#: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:80
+msgid "您确定要删除该logo吗？"
+msgstr ""
+
+#: content/apps/weapp/templates/merchant/weapp_list.dwt.php:35
+msgid "请先选择要删除的小程序！"
+msgstr ""
+
+#: content/apps/weapp/templates/merchant/weapp_list.dwt.php:43
+msgid "请输入小程序名称关键词"
+msgstr ""
+
+#: content/apps/weapp/templates/merchant/weapp_list.dwt.php:62
+msgid "公众号名称"
+msgstr ""
+
+#: content/apps/weapp/templates/merchant/weapp_list.dwt.php:89
+msgid "编辑排序"
+msgstr ""
