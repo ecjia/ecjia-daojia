@@ -8417,7 +8417,11 @@ class Uri extends RoyalcmsObject
             case 'normal':
                 foreach ($gets as $k => $value) {
                     if ($k % 2) {
-                        $url .= '=' . $value;
+                        if (is_array($value)) {
+                            $url .= '=' . implode('', $value);
+                        } else {
+                            $url .= '=' . $value;
+                        }
                     } else {
                         $url .= '&' . $value;
                     }
@@ -8482,6 +8486,7 @@ class Uri extends RoyalcmsObject
     private static function build_gets($pathinfo, $args = array())
     {
         if (is_string($args)) {
+            $args = urldecode($args);
             parse_str($args, $args);
         }
         $parseUrl = parse_url(trim($pathinfo, '/'));
@@ -11532,21 +11537,58 @@ class Format
         if ('' == $url) {
             return $url;
         }
-        $url = preg_replace('|[^a-z0-9-~+_.?#=!&;,/:%@$\\|*\'()\\x80-\\xff]|i', '', $url);
-        $strip = array('%0d', '%0a', '%0D', '%0A');
-        $url = self::_deep_replace($strip, $url);
+        $url = str_replace(' ', '%20', $url);
+        $url = preg_replace('|[^a-z0-9-~+_.?#=!&;,/:%@$\\|*\'()\\[\\]\\x80-\\xff]|i', '', $url);
+        if (0 !== stripos($url, 'mailto:')) {
+            $strip = array('%0d', '%0a', '%0D', '%0A');
+            $url = self::_deep_replace($strip, $url);
+        }
         $url = str_replace(';//', '://', $url);
         if (strpos($url, ':') === false && !in_array($url[0], array('/', '#', '?')) && !preg_match('/^[a-z0-9-]+?\\.php/i', $url)) {
             $url = 'http://' . $url;
         }
         if ('display' == $_context) {
+            $url = \RC_Kses::normalize_entities($url);
             $url = str_replace('&amp;', '&#038;', $url);
             $url = str_replace("'", '&#039;', $url);
+        }
+        if (false !== strpos($url, '[') || false !== strpos($url, ']')) {
+            $parsed = rc_parse_url($url);
+            $front = '';
+            if (isset($parsed['scheme'])) {
+                $front .= $parsed['scheme'] . '://';
+            } elseif ('/' === $url[0]) {
+                $front .= '//';
+            }
+            if (isset($parsed['user'])) {
+                $front .= $parsed['user'];
+            }
+            if (isset($parsed['pass'])) {
+                $front .= ':' . $parsed['pass'];
+            }
+            if (isset($parsed['user']) || isset($parsed['pass'])) {
+                $front .= '@';
+            }
+            if (isset($parsed['host'])) {
+                $front .= $parsed['host'];
+            }
+            if (isset($parsed['port'])) {
+                $front .= ':' . $parsed['port'];
+            }
+            $end_dirty = str_replace($front, '', $url);
+            $end_clean = str_replace(array('[', ']'), array('%5B', '%5D'), $end_dirty);
+            $url = str_replace($end_dirty, $end_clean, $url);
         }
         if ('/' === $url[0]) {
             $good_protocol_url = $url;
         } else {
-            return '';
+            if (!is_array($protocols)) {
+                $protocols = rc_allowed_protocols();
+            }
+            $good_protocol_url = \RC_Kses::bad_protocol($url, $protocols);
+            if (strtolower($good_protocol_url) != strtolower($url)) {
+                return '';
+            }
         }
         return RC_Hook::apply_filters('clean_url', $good_protocol_url, $original_url, $_context);
     }
@@ -22885,15 +22927,11 @@ class App extends Facade
     {
         $package = self::get_package_data($app_dir);
         if ($package && $translate) {
-            $lang_namespace = $package['directory'] . '::package.';
-            $package['format_name'] = Lang::get($lang_namespace . $package['name']);
-            $package['format_description'] = Lang::get($lang_namespace . $package['description']);
-            if (empty($package['format_name'])) {
-                $package['format_name'] = $package['name'];
-            }
-            if (empty($package['format_description'])) {
-                $package['format_description'] = $package['description'];
-            }
+            $package['format_name'] = __($package['name'], $package['directory']);
+            $package['format_description'] = __($package['description'], $package['directory']);
+        } else {
+            $package['format_name'] = $package['name'];
+            $package['format_description'] = $package['description'];
         }
         return $package;
     }
@@ -23199,15 +23237,11 @@ abstract class BundleAbstract
     {
         $package = $this->getPackageData();
         if ($package && $translate) {
-            $lang_namespace = $this->getNamespace() . '::package.';
-            $package['format_name'] = RC_Lang::get($lang_namespace . $package['name']);
-            $package['format_description'] = RC_Lang::get($lang_namespace . $package['description']);
-            if (empty($package['format_name'])) {
-                $package['format_name'] = $package['name'];
-            }
-            if (empty($package['format_description'])) {
-                $package['format_description'] = $package['description'];
-            }
+            $package['format_name'] = __($package['name'], $this->getNamespace());
+            $package['format_description'] = __($package['description'], $this->getNamespace());
+        } else {
+            $package['format_name'] = $package['name'];
+            $package['format_description'] = $package['description'];
         }
         return $package;
     }
@@ -28743,41 +28777,44 @@ class Script
 }
 
 namespace Royalcms\Component\Script {
+use RC_Hook;
+use RC_Format;
 class HandleScripts extends Dependencies
 {
-    var $base_url;
-    var $content_url;
-    var $default_version;
-    var $in_footer = array();
-    var $concat = '';
-    var $concat_version = '';
-    var $do_concat = false;
-    var $print_html = '';
-    var $print_code = '';
-    var $ext_handles = '';
-    var $ext_version = '';
-    var $default_dirs;
-    function __construct()
+    public $base_url;
+    public $content_url;
+    public $default_version;
+    public $in_footer = array();
+    public $concat = '';
+    public $concat_version = '';
+    public $do_concat = false;
+    public $print_html = '';
+    public $print_code = '';
+    public $ext_handles = '';
+    public $ext_version = '';
+    public $default_dirs;
+    public function __construct()
     {
         $this->init();
-        \RC_Hook::add_action('init', array($this, 'init'), 0);
+        RC_Hook::add_action('init', array($this, 'init'), 0);
     }
-    function init()
+    public function init()
     {
-        \RC_Hook::do_action_ref_array('rc_default_scripts', array(&$this));
+        RC_Hook::do_action_ref_array('rc_default_scripts', array(&$this));
     }
-    function print_scripts($handles = false, $group = false)
+    public function print_scripts($handles = false, $group = false)
     {
         return $this->do_items($handles, $group);
     }
-    function print_scripts_l10n($handle, $echo = true)
+    public function print_scripts_l10n($handle, $echo = true)
     {
+        _deprecated_function(__FUNCTION__, '3.3.0', 'HandleScripts::print_extra_script()');
         return $this->print_extra_script($handle, $echo);
     }
-    function print_extra_script($handle, $echo = true)
+    public function print_extra_script($handle, $echo = true)
     {
         if (!($output = $this->get_data($handle, 'data'))) {
-            return;
+            return null;
         }
         if (!$echo) {
             return $output;
@@ -28789,7 +28826,7 @@ class HandleScripts extends Dependencies
         echo "</script>\n";
         return true;
     }
-    function do_item($handle, $group = false)
+    public function do_item($handle, $group = false)
     {
         if (!parent::do_item($handle)) {
             return false;
@@ -28801,18 +28838,42 @@ class HandleScripts extends Dependencies
         if (false === $group && in_array($handle, $this->in_footer, true)) {
             $this->in_footer = array_diff($this->in_footer, (array) $handle);
         }
-        if (null === $this->registered[$handle]->ver) {
+        $obj = $this->registered[$handle];
+        if (null === $obj->ver) {
             $ver = '';
         } else {
-            $ver = $this->registered[$handle]->ver ? $this->registered[$handle]->ver : $this->default_version;
+            $ver = $obj->ver ? $obj->ver : $this->default_version;
         }
         if (isset($this->args[$handle])) {
             $ver = $ver ? $ver . '&amp;' . $this->args[$handle] : $this->args[$handle];
         }
-        $src = $this->registered[$handle]->src;
+        $src = $obj->src;
+        $cond_before = $cond_after = '';
+        $conditional = isset($obj->extra['conditional']) ? $obj->extra['conditional'] : '';
+        if ($conditional) {
+            $cond_before = "<!--[if {$conditional}]>\n";
+            $cond_after = "<![endif]-->\n";
+        }
+        $before_handle = $this->print_inline_script($handle, 'before', false);
+        $after_handle = $this->print_inline_script($handle, 'after', false);
+        if ($before_handle) {
+            $before_handle = sprintf("<script type='text/javascript'>\n%s\n</script>\n", $before_handle);
+        }
+        if ($after_handle) {
+            $after_handle = sprintf("<script type='text/javascript'>\n%s\n</script>\n", $after_handle);
+        }
+        if ($before_handle || $after_handle) {
+            $inline_script_tag = "{$cond_before}{$before_handle}{$after_handle}{$cond_after}";
+        } else {
+            $inline_script_tag = '';
+        }
         if ($this->do_concat) {
-            $srce = \RC_Hook::apply_filters('script_loader_src', $src, $handle);
-            if ($this->in_default_dir($srce)) {
+            $srce = RC_Hook::apply_filters('script_loader_src', $src, $handle);
+            if ($this->in_default_dir($srce) && ($before_handle || $after_handle)) {
+                $this->do_concat = false;
+                _print_scripts();
+                $this->reset();
+            } elseif ($this->in_default_dir($srce) && !$conditional) {
                 $this->print_code .= $this->print_extra_script($handle, false);
                 $this->concat .= "{$handle},";
                 $this->concat_version .= "{$handle}{$ver}";
@@ -28822,24 +28883,73 @@ class HandleScripts extends Dependencies
                 $this->ext_version .= "{$handle}{$ver}";
             }
         }
+        $has_conditional_data = $conditional && $this->get_data($handle, 'data');
+        if ($has_conditional_data) {
+            echo $cond_before;
+        }
         $this->print_extra_script($handle);
+        if ($has_conditional_data) {
+            echo $cond_after;
+        }
+        if (!$src) {
+            if ($inline_script_tag) {
+                if ($this->do_concat) {
+                    $this->print_html .= $inline_script_tag;
+                } else {
+                    echo $inline_script_tag;
+                }
+            }
+            return true;
+        }
+        $translations = $this->print_translations($handle, false);
+        if ($translations) {
+            $translations = sprintf("<script type='text/javascript'>\n%s\n</script>\n", $translations);
+        }
         if (!preg_match('|^(https?:)?//|', $src) && !($this->content_url && 0 === strpos($src, $this->content_url))) {
             $src = $this->base_url . $src;
         }
         if (!empty($ver)) {
             $src = \RC_Uri::add_query_arg('ver', $ver, $src);
         }
+        $src = RC_Hook::apply_filters('script_loader_src', $src, $handle);
+        $src = RC_Format::esc_url($src);
         if (!$src) {
             return true;
         }
+        $tag = "{$translations}{$cond_before}{$before_handle}<script type='text/javascript' src='{$src}'></script>\n{$after_handle}{$cond_after}";
+        $tag = RC_Hook::apply_filters('script_loader_tag', $tag, $handle, $src);
         if ($this->do_concat) {
-            $this->print_html .= "<script type=\"text/javascript\" src=\"{$src}\"></script>\n";
+            $this->print_html .= $tag;
         } else {
-            echo "<script type=\"text/javascript\" src=\"{$src}\"></script>\n";
+            echo $tag;
         }
         return true;
     }
-    function localize($handle, $object_name, $l10n)
+    public function add_inline_script($handle, $data, $position = 'after')
+    {
+        if (!$data) {
+            return false;
+        }
+        if ('after' !== $position) {
+            $position = 'before';
+        }
+        $script = (array) $this->get_data($handle, $position);
+        $script[] = $data;
+        return $this->add_data($handle, $position, $script);
+    }
+    public function print_inline_script($handle, $position = 'after', $echo = true)
+    {
+        $output = $this->get_data($handle, $position);
+        if (empty($output)) {
+            return false;
+        }
+        $output = trim(implode("\n", $output), "\n");
+        if ($echo) {
+            printf("<script type='text/javascript'>\n%s\n</script>\n", $output);
+        }
+        return $output;
+    }
+    public function localize($handle, $object_name, $l10n)
     {
         if (is_array($l10n) && isset($l10n['l10n_print_after'])) {
             $after = $l10n['l10n_print_after'];
@@ -28861,9 +28971,9 @@ class HandleScripts extends Dependencies
         }
         return $this->add_data($handle, 'data', $script);
     }
-    function set_group($handle, $recursion, $group = false)
+    public function set_group($handle, $recursion, $group = false)
     {
-        if ($this->registered[$handle]->args === 1) {
+        if (isset($this->registered[$handle]->args) && $this->registered[$handle]->args === 1) {
             $grp = 1;
         } else {
             $grp = (int) $this->get_data($handle, 'group');
@@ -28873,25 +28983,59 @@ class HandleScripts extends Dependencies
         }
         return parent::set_group($handle, $recursion, $grp);
     }
-    function all_deps($handles, $recursion = false, $group = false)
+    public function set_translations($handle, $domain, $path = null)
+    {
+        if (!isset($this->registered[$handle])) {
+            return false;
+        }
+        $obj = $this->registered[$handle];
+        if (!in_array('wp-i18n', $obj->deps, true)) {
+            $obj->deps[] = 'wp-i18n';
+        }
+        return $obj->set_translations($domain, $path);
+    }
+    public function print_translations($handle, $echo = true)
+    {
+        if (!isset($this->registered[$handle]) || empty($this->registered[$handle]->textdomain)) {
+            return false;
+        }
+        $domain = $this->registered[$handle]->textdomain;
+        $path = $this->registered[$handle]->translations_path;
+        $json_translations = load_script_textdomain($handle, $domain, $path);
+        if (!$json_translations) {
+            $json_translations = '{ "locale_data": { "messages": { "": {} } } }';
+        }
+        $output = <<<JS
+( function( domain, translations ) {
+\tvar localeData = translations.locale_data[ domain ] || translations.locale_data.messages;
+\tlocaleData[""].domain = domain;
+\twp.i18n.setLocaleData( localeData, domain );
+} )( "{$domain}", {$json_translations} );
+JS;
+        if ($echo) {
+            printf("<script type='text/javascript'>\n%s\n</script>\n", $output);
+        }
+        return $output;
+    }
+    public function all_deps($handles, $recursion = false, $group = false)
     {
         $r = parent::all_deps($handles, $recursion);
         if (!$recursion) {
-            $this->to_do = \RC_Hook::apply_filters('print_scripts_array', $this->to_do);
+            $this->to_do = RC_Hook::apply_filters('print_scripts_array', $this->to_do);
         }
         return $r;
     }
-    function do_head_items()
+    public function do_head_items()
     {
         $this->do_items(false, 0);
         return $this->done;
     }
-    function do_footer_items()
+    public function do_footer_items()
     {
         $this->do_items(false, 1);
         return $this->done;
     }
-    function in_default_dir($src)
+    public function in_default_dir($src)
     {
         if (!$this->default_dirs) {
             return true;
@@ -28906,7 +29050,7 @@ class HandleScripts extends Dependencies
         }
         return false;
     }
-    function reset()
+    public function reset()
     {
         $this->do_concat = false;
         $this->print_code = '';
@@ -28922,25 +29066,36 @@ class HandleScripts extends Dependencies
 namespace Royalcms\Component\Script {
 class Dependency
 {
-    var $handle;
-    var $src;
-    var $deps = array();
-    var $ver = false;
-    var $args = null;
-    var $extra = array();
-    function __construct()
+    public $handle;
+    public $src;
+    public $deps = array();
+    public $ver = false;
+    public $args = null;
+    public $extra = array();
+    public $textdomain;
+    public $translations_path;
+    public function __construct()
     {
-        @(list($this->handle, $this->src, $this->deps, $this->ver, $this->args) = func_get_args());
+        list($this->handle, $this->src, $this->deps, $this->ver, $this->args) = func_get_args();
         if (!is_array($this->deps)) {
             $this->deps = array();
         }
     }
-    function add_data($name, $data)
+    public function add_data($name, $data)
     {
         if (!is_scalar($name)) {
             return false;
         }
         $this->extra[$name] = $data;
+        return true;
+    }
+    public function set_translations($domain, $path = null)
+    {
+        if (!is_string($domain)) {
+            return false;
+        }
+        $this->textdomain = $domain;
+        $this->translations_path = $path;
         return true;
     }
 }
@@ -28949,13 +29104,13 @@ class Dependency
 namespace Royalcms\Component\Script {
 class Dependencies
 {
-    var $registered = array();
-    var $queue = array();
-    var $to_do = array();
-    var $done = array();
-    var $args = array();
-    var $groups = array();
-    var $group = 0;
+    public $registered = array();
+    public $queue = array();
+    public $to_do = array();
+    public $done = array();
+    public $args = array();
+    public $groups = array();
+    public $group = 0;
     public function do_items($handles = false, $group = false)
     {
         $handles = false === $handles ? $this->queue : (array) $handles;
@@ -28974,7 +29129,7 @@ class Dependencies
         }
         return $this->done;
     }
-    public function do_item($handle)
+    public function do_item($handle, $group = false)
     {
         return isset($this->registered[$handle]);
     }
@@ -28991,6 +29146,7 @@ class Dependencies
                 continue;
             }
             $moved = $this->set_group($handle, $recursion, $group);
+            $new_group = $this->groups[$handle];
             if ($queued && !$moved) {
                 continue;
             }
@@ -28999,7 +29155,7 @@ class Dependencies
                 $keep_going = false;
             } elseif ($this->registered[$handle]->deps && array_diff($this->registered[$handle]->deps, array_keys($this->registered))) {
                 $keep_going = false;
-            } elseif ($this->registered[$handle]->deps && !$this->all_deps($this->registered[$handle]->deps, true, $group)) {
+            } elseif ($this->registered[$handle]->deps && !$this->all_deps($this->registered[$handle]->deps, true, $new_group)) {
                 $keep_going = false;
             }
             if (!$keep_going) {
@@ -29073,6 +29229,20 @@ class Dependencies
             }
         }
     }
+    protected function recurse_deps($queue, $handle)
+    {
+        foreach ($queue as $queued) {
+            if (!isset($this->registered[$queued])) {
+                continue;
+            }
+            if (in_array($handle, $this->registered[$queued]->deps)) {
+                return true;
+            } elseif ($this->recurse_deps($this->registered[$queued]->deps, $handle)) {
+                return true;
+            }
+        }
+        return false;
+    }
     public function query($handle, $list = 'registered')
     {
         switch ($list) {
@@ -29084,7 +29254,10 @@ class Dependencies
                 return false;
             case 'enqueued':
             case 'queue':
-                return in_array($handle, $this->queue);
+                if (in_array($handle, $this->queue)) {
+                    return true;
+                }
+                return $this->recurse_deps($this->queue, $handle);
             case 'to_do':
             case 'to_print':
                 return in_array($handle, $this->to_do);
@@ -29180,23 +29353,26 @@ class Style
 }
 
 namespace Royalcms\Component\Script {
+use RC_Hook;
+use RC_Format;
+use RC_Uri;
 class HandleStyles extends Dependencies
 {
-    var $base_url;
-    var $content_url;
-    var $default_version;
-    var $text_direction = 'ltr';
-    var $concat = '';
-    var $concat_version = '';
-    var $do_concat = false;
-    var $print_html = '';
-    var $print_code = '';
-    var $default_dirs;
-    function __construct()
+    public $base_url;
+    public $content_url;
+    public $default_version;
+    public $text_direction = 'ltr';
+    public $concat = '';
+    public $concat_version = '';
+    public $do_concat = false;
+    public $print_html = '';
+    public $print_code = '';
+    public $default_dirs;
+    public function __construct()
     {
-        \RC_Hook::do_action_ref_array('rc_default_styles', array(&$this));
+        RC_Hook::do_action_ref_array('rc_default_styles', array(&$this));
     }
-    function do_item($handle)
+    public function do_item($handle, $group = false)
     {
         if (!parent::do_item($handle)) {
             return false;
@@ -29219,17 +29395,28 @@ class HandleStyles extends Dependencies
             }
         }
         if (isset($obj->args)) {
-            $media = \RC_Format::esc_attr($obj->args);
+            $media = RC_Format::esc_attr($obj->args);
         } else {
             $media = 'all';
+        }
+        if (!$obj->src) {
+            if ($inline_style = $this->print_inline_style($handle, false)) {
+                $inline_style = sprintf("<style id='%s-inline-css' type='text/css'>\n%s\n</style>\n", RC_Format::esc_attr($handle), $inline_style);
+                if ($this->do_concat) {
+                    $this->print_html .= $inline_style;
+                } else {
+                    echo $inline_style;
+                }
+            }
+            return true;
         }
         $href = $this->_css_href($obj->src, $ver, $handle);
         if (empty($href)) {
             return true;
         }
         $rel = isset($obj->extra['alt']) && $obj->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
-        $title = isset($obj->extra['title']) ? "title='" . \RC_Format::esc_attr($obj->extra['title']) . "'" : '';
-        $tag = \RC_Hook::apply_filters('style_loader_tag', "<link rel=\"{$rel}\" id=\"{$handle}-css\" {$title} href=\"{$href}\" type=\"text/css\" media=\"{$media}\" />\n", $handle);
+        $title = isset($obj->extra['title']) ? "title='" . RC_Format::esc_attr($obj->extra['title']) . "'" : '';
+        $tag = RC_Hook::apply_filters('style_loader_tag', "<link rel='{$rel}' id='{$handle}-css' {$title} href='{$href}' type='text/css' media='{$media}' />\n", $handle, $href, $media);
         if ('rtl' === $this->text_direction && isset($obj->extra['rtl']) && $obj->extra['rtl']) {
             if (is_bool($obj->extra['rtl']) || 'replace' === $obj->extra['rtl']) {
                 $suffix = isset($obj->extra['suffix']) ? $obj->extra['suffix'] : '';
@@ -29237,29 +29424,35 @@ class HandleStyles extends Dependencies
             } else {
                 $rtl_href = $this->_css_href($obj->extra['rtl'], $ver, "{$handle}-rtl");
             }
-            $rtl_tag = \RC_Hook::apply_filters('style_loader_tag', "<link rel=\"{$rel}\" id=\"{$handle}-rtl-css\" {$title} href=\"{$rtl_href}\" type=\"text/css\" media=\"{$media}\" />\n", $handle);
+            $rtl_tag = RC_Hook::apply_filters('style_loader_tag', "<link rel='{$rel}' id='{$handle}-rtl-css' {$title} href='{$rtl_href}' type='text/css' media='{$media}' />\n", $handle, $rtl_href, $media);
             if ($obj->extra['rtl'] === 'replace') {
                 $tag = $rtl_tag;
             } else {
                 $tag .= $rtl_tag;
             }
         }
+        $conditional_pre = $conditional_post = '';
         if (isset($obj->extra['conditional']) && $obj->extra['conditional']) {
-            $tag = "<!--[if {$obj->extra['conditional']}]>\n" . $tag . "<![endif]-->\n";
+            $conditional_pre = "<!--[if {$obj->extra['conditional']}]>\n";
+            $conditional_post = "<![endif]-->\n";
         }
         if ($this->do_concat) {
+            $this->print_html .= $conditional_pre;
             $this->print_html .= $tag;
             $inline_style = $this->print_inline_style($handle, false);
             if ($inline_style) {
-                $this->print_html .= sprintf("<style type='text/css'>\n%s\n</style>\n", $inline_style);
+                $this->print_html .= sprintf("<style id='%s-inline-css' type='text/css'>\n%s\n</style>\n", RC_Format::esc_attr($handle), $inline_style);
             }
+            $this->print_html .= $conditional_post;
         } else {
+            echo $conditional_pre;
             echo $tag;
             $this->print_inline_style($handle);
+            echo $conditional_post;
         }
         return true;
     }
-    function add_inline_style($handle, $code)
+    public function add_inline_style($handle, $code)
     {
         if (!$code) {
             return false;
@@ -29271,7 +29464,7 @@ class HandleStyles extends Dependencies
         $after[] = $code;
         return $this->add_data($handle, 'after', $after);
     }
-    function print_inline_style($handle, $echo = true)
+    public function print_inline_style($handle, $echo = true)
     {
         $output = $this->get_data($handle, 'after');
         if (empty($output)) {
@@ -29281,31 +29474,30 @@ class HandleStyles extends Dependencies
         if (!$echo) {
             return $output;
         }
-        echo "<style type='text/css'>\n";
-        echo "{$output}\n";
-        echo "</style>\n";
+        echo sprintf("<style id='%s-inline-css' type='text/css'>\n%s\n</style>\n", RC_Format::esc_attr($handle), $output);
         return true;
     }
-    function all_deps($handles, $recursion = false, $group = false)
+    public function all_deps($handles, $recursion = false, $group = false)
     {
         $r = parent::all_deps($handles, $recursion);
         if (!$recursion) {
-            $this->to_do = \RC_Hook::apply_filters('print_styles_array', $this->to_do);
+            $this->to_do = RC_Hook::apply_filters('print_styles_array', $this->to_do);
         }
         return $r;
     }
-    function _css_href($src, $ver, $handle)
+    public function _css_href($src, $ver, $handle)
     {
         if (!is_bool($src) && !preg_match('|^(https?:)?//|', $src) && !($this->content_url && 0 === strpos($src, $this->content_url))) {
             $src = $this->base_url . $src;
         }
         if (!empty($ver)) {
-            $src = \RC_Uri::add_query_arg('ver', $ver, $src);
+            $src = RC_Uri::add_query_arg('ver', $ver, $src);
         }
-        $src = \RC_Hook::apply_filters('style_loader_src', $src, $handle);
+        $src = RC_Hook::apply_filters('style_loader_src', $src, $handle);
+        $src = RC_Format::esc_url($src);
         return $src;
     }
-    function in_default_dir($src)
+    public function in_default_dir($src)
     {
         if (!$this->default_dirs) {
             return true;
@@ -29317,12 +29509,12 @@ class HandleStyles extends Dependencies
         }
         return false;
     }
-    function do_footer_items()
+    public function do_footer_items()
     {
         $this->do_items(false, 1);
         return $this->done;
     }
-    function reset()
+    public function reset()
     {
         $this->do_concat = false;
         $this->concat = '';
@@ -30853,6 +31045,13 @@ class HttpQueryRoute
                 $this->action = $this->matchDefaultRoute($actionName);
             }
         }
+        $this->module = $this->ksesString($this->module);
+        $this->controller = $this->ksesString($this->controller);
+        $this->action = $this->ksesString($this->action);
+    }
+    protected function ksesString($route)
+    {
+        return safe_remove($route);
     }
     public function matchDefaultRoute($key)
     {
@@ -34398,6 +34597,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 abstract class EcjiaController extends RoyalcmsController
 {
     protected $view;
+    protected $view_method = ['display', 'fetch', 'fetch_string', 'is_cached', 'clear_cache', 'clear_all_cache', 'assign', 'assign_lang', 'clear_compiled_files', 'clear_cache_files'];
     protected $request;
     public static $view_object;
     public static $controller;
@@ -34413,7 +34613,7 @@ abstract class EcjiaController extends RoyalcmsController
     }
     public function __call($method, $parameters)
     {
-        if (in_array($method, array('display', 'fetch', 'fetch_string', 'is_cached', 'clear_cache', 'clear_all_cache', 'assign', 'assign_lang', 'clear_compiled_files', 'clear_cache_files'))) {
+        if (in_array($method, $this->view_method)) {
             return call_user_func_array(array($this->view, $method), $parameters);
         }
         return parent::__call($method, $parameters);
@@ -35182,34 +35382,36 @@ class ecjia_loader
         $scripts->base_url = RC_Uri::system_static_url();
         $scripts->content_url = RC_Uri::system_static_url();
         $scripts->default_version = VERSION;
-        $scripts->default_dirs = array('/content/system/statics/');
+        $scripts->default_dirs = array('/');
         $suffix = SCRIPT_DEBUG ? '' : '.min';
         $dev_suffix = $develop_src ? '' : '.min';
         $scripts->add('ecjia', '/lib/ecjia-js/ecjia.js', array('jquery'));
         $scripts->add('ecjia-region', '/lib/ecjia-js/ecjia.region.js', array('ecjia'));
         $scripts->add('ecjia-ui', '/lib/ecjia-js/ecjia.ui.js', array('ecjia'));
         $scripts->add('ecjia-utils', '/lib/ecjia-js/ecjia.utils.js', array('ecjia'));
-        $scripts->add('jquery', "/js/jquery{$suffix}.js");
+        $scripts->add('jquery', "/js/jquery{$suffix}.js", array(), '2.1.0');
         $scripts->add('jquery-pjax', "/js/jquery-pjax.js", array('jquery'));
-        $scripts->add('jquery-peity', "/js/jquery-peity{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-mockjax', "/js/jquery-mockjax{$suffix}.js", array('jquery'), false, 1);
+        $scripts->add('jquery-peity', "/js/jquery-peity{$suffix}.js", array('jquery'), '0.6.0', 1);
+        $scripts->add('jquery-mockjax', "/js/jquery-mockjax{$suffix}.js", array('jquery'), '1.5.1', 1);
         $scripts->add('jquery-wookmark', "/js/jquery-wookmark{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-migrate', "/js/jquery-migrate{$suffix}.js", array('jquery'), false, 1);
+        $scripts->add('jquery-migrate', "/js/jquery-migrate{$suffix}.js", array('jquery'), '1.0.0', 1);
         $scripts->add('jquery-cookie', "/js/jquery-cookie{$suffix}.js", array('jquery'), true, 1);
-        $scripts->add('jquery-actual', "/js/jquery-actual{$suffix}.js", array('jquery'), false, 1);
+        $scripts->add('jquery-actual', "/js/jquery-actual{$suffix}.js", array('jquery'), '1.0.6', 1);
         $scripts->add('jquery-debouncedresize', "/js/jquery-debouncedresize{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-easing', "/js/jquery-easing{$suffix}.js", array('jquery'), false, 1);
+        $scripts->add('jquery-easing', "/js/jquery-easing{$suffix}.js", array('jquery'), '1.3', 1);
         $scripts->add('jquery-mediaTable', "/js/jquery-mediaTable{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-imagesloaded', "/js/jquery-imagesloaded{$suffix}.js", array('jquery'), false, 1);
+        $scripts->add('jquery-imagesloaded', "/js/jquery-imagesloaded{$suffix}.js", array('jquery'), '2.0.1', 1);
         $scripts->add('jquery-gmap3', "/js/jquery-gmap3{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-autosize', "/js/jquery-autosize{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-counter', "/js/jquery-counter{$suffix}.js", array('jquery'), false, 1);
+        $scripts->add('jquery-autosize', "/js/jquery-autosize{$suffix}.js", array('jquery'), '1.7', 1);
+        $scripts->add('jquery-counter', "/js/jquery-counter{$suffix}.js", array('jquery'), '2.1', 1);
         $scripts->add('jquery-inputmask', "/js/jquery-inputmask{$suffix}.js", array('jquery'), false, 1);
         $scripts->add('jquery-progressbar', "/js/jquery-anim_progressbar{$suffix}.js", array('jquery'), false, 1);
         $scripts->add('js-json', "/js/json2.js", array(), false, 1);
+        $scripts->add('js-sprintf', "/lib/sprintf_js/sprintf{$suffix}.js", array(), '1.1.2', 1);
         $scripts->add('jquery-ui-touchpunch', "/js/ui/jquery-ui-touchpunch{$suffix}.js", array('jquery-ui'), false, 1);
         $scripts->add('jquery-ui-totop', "/js/ui/jquery-ui-totop{$suffix}.js", array('jquery'), false, 1);
         $scripts->add('ecjia-admin', '/ecjia/ecjia-admin.js', array('ecjia', 'jquery-pjax', 'jquery-cookie', 'jquery-quicksearch', 'jquery-mousewheel', 'jquery-ui-totop'));
+        $scripts->add('ecjia-front', '/ecjia/ecjia-front.js', array('ecjia'));
         $scripts->add('ecjia-admin_cache', '/ecjia/ecjia-admin_cache.js', array('ecjia-admin'), false, 1);
         $scripts->add('ecjia-admin_logs', '/ecjia/ecjia-admin_logs.js', array('ecjia-admin'), false, 1);
         $scripts->add('ecjia-admin_message_list', '/ecjia/ecjia-admin_message_list.js', array('ecjia-admin'), false, 1);
@@ -35267,14 +35469,15 @@ class ecjia_loader
         $styles->content_url = RC_Uri::system_static_url();
         $styles->default_version = VERSION;
         $styles->text_direction = function_exists('is_rtl') && is_rtl() ? 'rtl' : 'ltr';
-        $styles->default_dirs = array('/content/system/statics/');
+        $styles->default_dirs = array('/');
         $suffix = SCRIPT_DEBUG ? '' : '.min';
         $styles->add('ecjia', "/styles/ecjia.css");
-        $styles->add('ecjia-ui', "/styles/ecjia.ui.css", array('ecjia'));
+        $styles->add('ecjia-ui', "/styles/ecjia.ui.css");
         $styles->add('ecjia-function', "/styles/ecjia.function.css");
         $styles->add('ecjia-skin-blue', "/styles/ecjia.skin.blue.css", array('ecjia'));
         $styles->add('bootstrap', "/lib/bootstrap/css/bootstrap{$suffix}.css");
         $styles->add('bootstrap-responsive', "/lib/bootstrap/css/bootstrap-responsive{$suffix}.css", array('bootstrap'));
+        $styles->add('bootstrap-responsive-nodeps', "/lib/bootstrap/css/bootstrap-responsive{$suffix}.css");
         $styles->add('jquery-ui-aristo', "/lib/jquery-ui/css/Aristo/Aristo.css");
         $styles->add('jquery-qtip', "/lib/qtip2/jquery.qtip{$suffix}.css");
         $styles->add('jquery-jBreadCrumb', "/lib/jBreadcrumbs/css/BreadCrumb.css");
@@ -35297,11 +35500,38 @@ class ecjia_loader
     {
         RC_Hook::do_action('admin_enqueue_scripts');
     }
+    public static $concatenate_scripts;
+    public static $compress_scripts;
+    public static $compress_css;
+    public static function script_concat_settings()
+    {
+        $compressed_output = ini_get('zlib.output_compression') || 'ob_gzhandler' == ini_get('output_handler');
+        if (is_null(self::$concatenate_scripts)) {
+            self::$concatenate_scripts = config('system.concatenate_scripts', true);
+            if (config('system.script_debug')) {
+                self::$concatenate_scripts = false;
+            }
+        }
+        if (is_null(self::$compress_scripts)) {
+            self::$compress_scripts = config('system.compress_scripts', true);
+            if (self::$compress_scripts && (!config('system.can_compress_scripts') || $compressed_output)) {
+                self::$compress_scripts = false;
+            }
+        }
+        if (is_null(self::$compress_css)) {
+            self::$compress_css = config('system.compress_css', true);
+            if (self::$compress_css && (!config('system.can_compress_scripts') || $compressed_output)) {
+                self::$compress_css = false;
+            }
+        }
+    }
     public static function print_head_scripts()
     {
         if (!RC_Hook::did_action('rc_print_scripts')) {
             RC_Hook::do_action('rc_print_scripts');
         }
+        self::script_concat_settings();
+        RC_Script::instance()->do_concat = self::$concatenate_scripts;
         RC_Script::instance()->do_head_items();
         if (RC_Hook::apply_filters('print_head_scripts', true)) {
             self::_print_scripts();
@@ -35311,6 +35541,8 @@ class ecjia_loader
     }
     public static function print_footer_scripts()
     {
+        self::script_concat_settings();
+        RC_Script::instance()->do_concat = self::$concatenate_scripts;
         RC_Script::instance()->do_footer_items();
         if (RC_Hook::apply_filters('print_footer_scripts', true)) {
             self::_print_scripts();
@@ -35320,6 +35552,24 @@ class ecjia_loader
     }
     public static function _print_scripts()
     {
+        $zip = self::$compress_scripts ? 1 : 0;
+        if ($zip && config('system.enforce_gzip')) {
+            $zip = 'gzip';
+        }
+        if ($concat = trim(RC_Script::instance()->concat, ', ')) {
+            if (!empty(RC_Script::instance()->print_code)) {
+                echo "\n<script type='text/javascript'>\n";
+                echo "/* <![CDATA[ */\n";
+                echo RC_Script::instance()->print_code;
+                echo "/* ]]> */\n";
+                echo "</script>\n";
+            }
+            $concat = str_split($concat, 128);
+            $concat = 'load%5B%5D=' . implode('&load%5B%5D=', $concat);
+            $args = "compress={$zip}&" . $concat . '&ver=' . RC_Script::instance()->default_version;
+            $src = RC_Uri::url('@load_scripts/init', $args);
+            echo "<script type='text/javascript' src='" . RC_Format::esc_attr($src) . "'></script>\n";
+        }
         if (!empty(RC_Script::instance()->print_html)) {
             echo RC_Script::instance()->print_html;
         }
@@ -35331,6 +35581,8 @@ class ecjia_loader
     }
     public static function print_admin_styles()
     {
+        self::script_concat_settings();
+        RC_Style::instance()->do_concat = self::$concatenate_scripts;
         RC_Style::instance()->do_items(false);
         if (RC_Hook::apply_filters('print_admin_styles', true)) {
             self::_print_styles();
@@ -35340,6 +35592,8 @@ class ecjia_loader
     }
     public static function print_late_styles()
     {
+        self::script_concat_settings();
+        RC_Style::instance()->do_concat = self::$concatenate_scripts;
         RC_Style::instance()->do_footer_items();
         if (RC_Hook::apply_filters('print_late_styles', true)) {
             self::_print_styles();
@@ -35349,7 +35603,18 @@ class ecjia_loader
     }
     public static function _print_styles()
     {
-        if (!empty(RC_Style::instance()->concat)) {
+        $zip = self::$compress_css ? 1 : 0;
+        if ($zip && config('system.enforce_gzip')) {
+            $zip = 'gzip';
+        }
+        if ($concat = trim(RC_Style::instance()->concat, ', ')) {
+            $dir = RC_Style::instance()->text_direction;
+            $ver = RC_Style::instance()->default_version;
+            $concat = str_split($concat, 128);
+            $concat = 'load%5B%5D=' . implode('&load%5B%5D=', $concat);
+            $args = "compress={$zip}&dir={$dir}&" . $concat . '&ver=' . $ver;
+            $href = RC_Uri::url('@load_styles/init', $args);
+            echo "<link rel=\"stylesheet\" href=\"" . RC_Format::esc_attr($href) . "\" type=\"text/css\" media=\"all\" />\n";
             if (!empty(RC_Style::instance()->print_code)) {
                 echo "<style type='text/css'>\n";
                 echo RC_Style::instance()->print_code;
