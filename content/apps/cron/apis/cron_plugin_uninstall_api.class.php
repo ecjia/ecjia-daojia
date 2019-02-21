@@ -73,7 +73,7 @@ class cron_plugin_uninstall_api extends Component_Event_Api {
 			 
 			/* 检查输入 */
 			if (empty($format_name) || empty($options['config']['cron_code'])) {
-				return ecjia_plugin::add_error('plugin_uninstall_error', RC_Lang::get('cron::cron.plugin_name_empty'));
+				return ecjia_plugin::add_error('plugin_uninstall_error', __('计划任务插件名称不能为空', 'cron'));
 			}
 			 
 			/* 从数据库中删除计划任务 */

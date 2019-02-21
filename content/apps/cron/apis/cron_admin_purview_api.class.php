@@ -54,10 +54,10 @@ class cron_admin_purview_api extends Component_Event_Api {
     
     public function call(&$options) {
         $purviews = array(
-        	array('action_name' => RC_Lang::get('cron::cron.cron_manage'), 'action_code' => 'cron_manage', 'relevance' => ''),
-        	array('action_name' => RC_Lang::get('cron::cron.cron_update'), 'action_code' => 'cron_update', 'relevance' => ''),
-        	array('action_name' => __('执行'), 'action_code' => 'cron_run', 'relevance' => ''),
-        	array('action_name' => __('后台设置'), 'action_code' => 'cron_config_manage', 'relevance'   => ''),
+        	array('action_name' => __('计划任务管理', 'cron'), 'action_code' => 'cron_manage', 'relevance' => ''),
+        	array('action_name' => __('计划任务更新', 'cron'), 'action_code' => 'cron_update', 'relevance' => ''),
+        	array('action_name' => __('执行', 'cron'), 'action_code' => 'cron_run', 'relevance' => ''),
+        	array('action_name' => __('后台设置', 'cron'), 'action_code' => 'cron_config_manage', 'relevance'   => ''),
         );
         return $purviews;
     }

@@ -64,7 +64,11 @@ class admin_config extends ecjia_admin {
 		
 		RC_Style::enqueue_style('cron', RC_App::apps_url('statics/css/cron.css', __FILE__));
 		RC_Script::enqueue_script('cron_config', RC_App::apps_url('statics/js/cron_config.js', __FILE__), array(), false, true);
-	}
+
+        RC_Script::localize_script('cron', 'js_lang', config('app-cron::jslang.cron_page'));
+        RC_Script::localize_script('cron_config', 'js_lang', config('app-cron::jslang.cron_page'));
+
+    }
 
 	/**
 	 * 计划任务配置
@@ -72,10 +76,10 @@ class admin_config extends ecjia_admin {
 	public function init() {
 	    $this->admin_priv('cron_config_manage');
 	    
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('计划任务设置'));
-		$this->assign('ur_here', '计划任务设置');
-		$this->assign('ur_here_key', '计划任务秘钥');
-		$this->assign('ur_here_deploy', '计划任务部署');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('计划任务设置', 'cron')));
+		$this->assign('ur_here', __('计划任务设置', 'cron'));
+		$this->assign('ur_here_key', __('计划任务秘钥', 'cron'));
+		$this->assign('ur_here_deploy', __('计划任务部署', 'cron'));
 		
 	    $this->assign('cron_method', ecjia::config('cron_method'));
 	    $this->assign('cron_secret_key', ecjia::config('cron_secret_key'));
@@ -96,7 +100,7 @@ class admin_config extends ecjia_admin {
 		$cron_method = $_POST['cron_method'];
 		ecjia_config::instance()->write_config('cron_method', $cron_method);
 		
-		return $this->showmessage('计划任务配置成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_config/init')));
+		return $this->showmessage(__('计划任务配置成功', 'cron'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_config/init')));
 	}
 	
 
@@ -109,7 +113,7 @@ class admin_config extends ecjia_admin {
 		$cron_secret_key = with(new Ecjia\App\Cron\CronRun)->keygen();
 		ecjia_config::instance()->write_config('cron_secret_key', $cron_secret_key);
 	
-		return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_config/init')));
+		return $this->showmessage(__('操作成功', 'cron'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_config/init')));
 	}
 }
 

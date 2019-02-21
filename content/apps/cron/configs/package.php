@@ -52,11 +52,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.cron',
 	'directory' 	=> 'cron',
-	'name'			=> 'cron',
-	'description' 	=> 'cron_desc',				/* 描述对应的语言项 */
+	'name'			=> __('计划任务', 'cron'),
+	'description' 	=> __('是ECJIA管理系统提供的一项使系统在您设定的时刻,自动执行某项任务的功能。', 'cron'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.27.0',					/* 版本号 */
+	'version' 		=> '1.27.4',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2015 ~ 2019.',
     'namespace'     => 'Ecjia\App\Cron',
     'provider'      => 'CronServiceProvider',

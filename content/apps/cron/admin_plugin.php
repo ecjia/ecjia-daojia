@@ -77,8 +77,12 @@ class admin_plugin extends ecjia_admin {
 		RC_Script::enqueue_script('cron', RC_App::apps_url('statics/js/cron.js', __FILE__));
 		RC_Script::enqueue_script('cronGen', RC_App::apps_url('statics/js/cronGen.js', __FILE__));
 		RC_Script::enqueue_script('cron_config', RC_App::apps_url('statics/js/cron_config.js', __FILE__), array(), false, true);
-		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('cron::cron.cron'), RC_Uri::url('cron/admin_plugin/init')));
+
+        RC_Script::localize_script('cron', 'js_lang', config('app-cron::jslang.cron_page'));
+        RC_Script::localize_script('cronGen', 'js_lang', config('app-cron::jslang.cron_page'));
+        RC_Script::localize_script('cron_config', 'js_lang', config('app-cron::jslang.cron_page'));
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('计划任务', 'cron'), RC_Uri::url('cron/admin_plugin/init')));
 		
 		ecjia_screen::get_current_screen()->set_parentage('cron', 'cron/admin_plugin.php');
 	}
@@ -88,10 +92,10 @@ class admin_plugin extends ecjia_admin {
 		$this->admin_priv('cron_manage');
 		
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('cron::cron.cron')));
-		$this->assign('ur_here', RC_Lang::get('cron::cron.cron'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('计划任务', 'cron')));
+		$this->assign('ur_here', __('计划任务', 'cron'));
 		
-		$this->assign('action_link', array('text' => '计划任务配置', 'href' => RC_Uri::url('cron/admin_config/init')));
+		$this->assign('action_link', array('text' => __('计划任务配置', 'cron'), 'href' => RC_Uri::url('cron/admin_config/init')));
 		
 		$db_cron = RC_DB::table('crons');
 		$count['type'] = isset($_GET['type']) ? $_GET['type'] : '';
@@ -131,10 +135,10 @@ class admin_plugin extends ecjia_admin {
 	public function edit() {
 		$this->admin_priv('cron_update');
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑计划任务'));
-		$this->assign('ur_here', '编辑计划任务');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑计划任务', 'cron')));
+		$this->assign('ur_here', __('编辑计划任务', 'cron'));
 		
-		$this->assign('action_link', array('text' => '计划任务', 'href' => RC_Uri::url('cron/admin_plugin/init')));
+		$this->assign('action_link', array('text' => __('计划任务', 'cron'), 'href' => RC_Uri::url('cron/admin_plugin/init')));
 	
 		//获取插件信息
 		$code = trim($_GET['code']);
@@ -190,7 +194,7 @@ class admin_plugin extends ecjia_admin {
 			$dates = $this->five_list($cron_expression);
 			return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $dates));
 		} else {
-			return $this->showmessage('请配置执行时间', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请配置执行时间', 'cron'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 	}
@@ -223,7 +227,7 @@ class admin_plugin extends ecjia_admin {
 		}
 	
 		if (empty($select_cron_config)) {
-			return $this->showmessage('请选择计划任务的执行时间', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择计划任务的执行时间', 'cron'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} 
 		
 		if ($select_cron_config == 'cron'){
@@ -242,7 +246,7 @@ class admin_plugin extends ecjia_admin {
 			}
 			$nexttime = Ecjia\App\Cron\Helper::getNextRunTime($cron_expression);
 		} else {
-			return $this->showmessage('请配置执行时间', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请配置执行时间', 'cron'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		if ($code == 'cron_bill_day' || $code == 'cron_bill_month') {
@@ -269,7 +273,7 @@ class admin_plugin extends ecjia_admin {
 		RC_DB::table('crons')->where('cron_id', $_POST['cron_id'])->update($data);
 	
 		ecjia_admin::admin_log($cron_name, 'edit', 'cron');
-		return $this->showmessage('编辑计划任务成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_plugin/edit', array('code' => $code))));
+		return $this->showmessage(__('编辑计划任务成功', 'cron'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_plugin/edit', array('code' => $code))));
 	}
 
 	/**
@@ -287,7 +291,7 @@ class admin_plugin extends ecjia_admin {
 		$cron_name = RC_DB::table('crons')->where('cron_code', $code)->pluck('cron_name');
 	
 		ecjia_admin::admin_log($cron_name, 'disable', 'cron');
-		return $this->showmessage(RC_Lang::get('cron::cron.cron_disabled'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_plugin/init')));
+		return $this->showmessage(__('计划任务已禁用', 'cron'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_plugin/init')));
 	}
 	
 	/**
@@ -306,7 +310,7 @@ class admin_plugin extends ecjia_admin {
 
 		ecjia_admin::admin_log($cron_name, 'enabled', 'cron');
 	
-		return $this->showmessage(RC_Lang::get('cron::cron.cron_enable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_plugin/init')));
+		return $this->showmessage(__('计划任务已启用', 'cron'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_plugin/init')));
 	}
 	
 	/**
@@ -331,7 +335,7 @@ class admin_plugin extends ecjia_admin {
 		
 		ecjia_admin::admin_log($cron['cron_name'], 'run', 'cron');
 		
-		return $this->showmessage(RC_Lang::get('cron::cron.do_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_plugin/init')));
+		return $this->showmessage(__('执行成功', 'cron'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cron/admin_plugin/init')));
 	}
 	
 	/**

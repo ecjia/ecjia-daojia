@@ -12,12 +12,12 @@
             var cronContainer = $("<div/>", { id: "CronContainer", style: "display:none;width:300px;height:300px;" });
             var mainDiv = $("<div/>", { id: "CronGenMainDiv", style: "width:480px;height:270px;" });
             var topMenu = $("<ul/>", { "class": "nav nav-tabs", id: "CronGenTabs" });
-            $('<li/>', { 'class': 'active' }).html($('<a id="MinutesTab" href="#Minutes">分钟</a>')).appendTo(topMenu);
-            $('<li/>').html($('<a id="HourlyTab" href="#Hourly">小时</a>')).appendTo(topMenu);
-            $('<li/>').html($('<a id="DailyTab" href="#Daily">日</a>')).appendTo(topMenu);
-            $('<li/>').html($('<a id="WeeklyTab" href="#Weekly">周</a>')).appendTo(topMenu);
-            $('<li/>').html($('<a id="MonthlyTab" href="#Monthly">月</a>')).appendTo(topMenu);
-            $('<li/>').html($('<a id="YearlyTab" href="#Yearly">年</a>')).appendTo(topMenu);
+            $('<li/>', { 'class': 'active' }).html($('<a id="MinutesTab" href="#Minutes">'+ js_lang.minute +'</a>')).appendTo(topMenu);
+            $('<li/>').html($('<a id="HourlyTab" href="#Hourly">'+ js_lang.hour +'</a>')).appendTo(topMenu);
+            $('<li/>').html($('<a id="DailyTab" href="#Daily">'+ js_lang.day +'</a>')).appendTo(topMenu);
+            $('<li/>').html($('<a id="WeeklyTab" href="#Weekly">'+ js_lang.week +'</a>')).appendTo(topMenu);
+            $('<li/>').html($('<a id="MonthlyTab" href="#Monthly">'+ js_lang.month +'</a>')).appendTo(topMenu);
+            $('<li/>').html($('<a id="YearlyTab" href="#Yearly">'+ js_lang.year +'</a>')).appendTo(topMenu);
             $(topMenu).appendTo(mainDiv);
 
             //create what's inside the tabs
@@ -28,9 +28,9 @@
 
             //creating the minutesTab 分钟
             var minutesTab = $("<div/>", { "class": "tab-pane active", id: "Minutes" });
-            $(minutesTab).append("每&nbsp;");
+            $(minutesTab).append(js_lang.each + "&nbsp;");
             $("<input/>", { id: "MinutesInput", type: "text", value: "1", style: "width: 40px" }).appendTo(minutesTab);
-            $(minutesTab).append("&nbsp;分钟");
+            $(minutesTab).append("&nbsp;" + js_lang.minute );
             $(minutesTab).appendTo(tabContent);
 
             //creating the hourlyTab 时
@@ -38,14 +38,14 @@
 
             var hourlyOption1 = $("<div/>", { "class": "well well-small" });
             $("<input/>", { type: "radio", value: "1", name: "HourlyRadio", checked: "checked" }).appendTo(hourlyOption1);
-            $(hourlyOption1).append("&nbsp;每&nbsp;");
+            $(hourlyOption1).append("&nbsp;"+ js_lang.each +"&nbsp;");
             $("<input/>", { id: "HoursInput", type: "text", value: "1", style: "width: 40px" }).appendTo(hourlyOption1);
-            $(hourlyOption1).append("&nbsp;时");
+            $(hourlyOption1).append("&nbsp;" + js_lang.time);
             $(hourlyOption1).appendTo(hourlyTab);
 
             var hourlyOption2 = $("<div/>", { "class": "well well-small" });
             $("<input/>", { type: "radio", value: "2", name: "HourlyRadio" }).appendTo(hourlyOption2);
-            $(hourlyOption2).append("&nbsp;每日在：&nbsp;");
+            $(hourlyOption2).append("&nbsp;"+ js_lang.daily_in +"&nbsp;");
             $(hourlyOption2).append('<select id="AtHours" class="hours" style="width: 60px"></select>');
             $(hourlyOption2).append('<select id="AtMinutes" class="minutes" style="width: 60px"></select>');
             $(hourlyOption2).appendTo(hourlyTab);
@@ -57,17 +57,17 @@
 
             var dailyOption1 = $("<div/>", { "class": "well well-small" });
             $("<input/>", { type: "radio", value: "1", name: "DailyRadio", checked: "checked" }).appendTo(dailyOption1);
-            $(dailyOption1).append("&nbsp;每&nbsp;");
+            $(dailyOption1).append("&nbsp;"+ js_lang.daily_in +"&nbsp;");
             $("<input/>", { id: "DaysInput", type: "text", value: "1", style: "width: 40px" }).appendTo(dailyOption1);
-            $(dailyOption1).append("&nbsp;日");
+            $(dailyOption1).append("&nbsp;" + js_lang.day);
             $(dailyOption1).appendTo(dailyTab);
 
             var dailyOption2 = $("<div/>", { "class": "well well-small" });
             $("<input/>", { type: "radio", value: "2", name: "DailyRadio" }).appendTo(dailyOption2);
-            $(dailyOption2).append("&nbsp;每工作日&nbsp;");
+            $(dailyOption2).append("&nbsp;"+ js_lang.every_working_day +"&nbsp;");
             $(dailyOption2).appendTo(dailyTab);
 
-            $(dailyTab).append("开始时间：");
+            $(dailyTab).append(js_lang.starting_time);
             $(dailyTab).append('<select id="DailyHours" class="hours" style="width: 60px"></select>');
             $(dailyTab).append('<select id="DailyMinutes" class="minutes" style="width: 60px"></select>');
 
@@ -79,21 +79,21 @@
 
             var span31 = $("<div/>", { "class": "span6 col-sm-6" });
             $("<input/>", { type: "checkbox", value: "MON" }).appendTo(span31);
-            $(span31).append("&nbsp;星期一<br />");
+            $(span31).append("&nbsp;"+ js_lang.monday +"<br />");
             $("<input/>", { type: "checkbox", value: "WED" }).appendTo(span31);
-            $(span31).append("&nbsp;星期三<br />");
+            $(span31).append("&nbsp;"+ js_lang.wednesday +"<br />");
             $("<input/>", { type: "checkbox", value: "FRI" }).appendTo(span31);
-            $(span31).append("&nbsp;星期五<br />");
+            $(span31).append("&nbsp;"+ js_lang.friday + "<br />");
             $("<input/>", { type: "checkbox", value: "SUN" }).appendTo(span31);
-            $(span31).append("&nbsp;星期日");
+            $(span31).append("&nbsp;" + js_lang.sunday);
 
             var span32 = $("<div/>", { "class": "span6 col-sm-6" });
             $("<input/>", { type: "checkbox", value: "TUE" }).appendTo(span32);
-            $(span32).append("&nbsp;星期二<br />");
+            $(span32).append("&nbsp;"+ js_lang.tuesday +"<br />");
             $("<input/>", { type: "checkbox", value: "THU" }).appendTo(span32);
-            $(span32).append("&nbsp;星期四<br />");
+            $(span32).append("&nbsp;"+ js_lang.thursday +"<br />");
             $("<input/>", { type: "checkbox", value: "SAT" }).appendTo(span32);
-            $(span32).append("&nbsp;星期六");
+            $(span32).append("&nbsp;" + js_lang.saturday);
 
             $(span31).appendTo(weeklyWell);
             $(span32).appendTo(weeklyWell);
@@ -102,7 +102,7 @@
 
             $(weeklyWell).appendTo(weeklyTab);
 
-            $(weeklyTab).append("开始时间：");
+            $(weeklyTab).append(js_lang.starting_time);
             $(weeklyTab).append('<select id="WeeklyHours" class="hours" style="width: 60px"></select>');
             $(weeklyTab).append('<select id="WeeklyMinutes" class="minutes" style="width: 60px"></select>');
 
@@ -113,11 +113,11 @@
 
             var monthlyOption1 = $("<div/>", { "class": "well well-small" });
             $("<input/>", { type: "radio", value: "1", name: "MonthlyRadio", checked: "checked" }).appendTo(monthlyOption1);
-            $(monthlyOption1).append("&nbsp;第&nbsp");
+            $(monthlyOption1).append("&nbsp;"+ js_lang.di +"&nbsp");
             $("<input/>", { id: "DayOfMOnthInput", type: "text", value: "1", style: "width: 40px" }).appendTo(monthlyOption1);
-            $(monthlyOption1).append("&nbsp;日，每&nbsp;");
+            $(monthlyOption1).append("&nbsp;"+ js_lang.day_each +"&nbsp;");
             $("<input/>", { id: "MonthInput", type: "text", value: "1", style: "width: 40px" }).appendTo(monthlyOption1);
-            $(monthlyOption1).append("&nbsp;月");
+            $(monthlyOption1).append("&nbsp;"+ js_lang.month);
             $(monthlyOption1).appendTo(monthlyTab);
 
             var monthlyOption2 = $("<div/>", { "class": "well well-small" });
@@ -125,12 +125,12 @@
             $(monthlyOption2).append("&nbsp;");
             $(monthlyOption2).append('<select id="WeekDay" class="day-order-in-month" style="width: 80px"></select>');
             $(monthlyOption2).append('<select id="DayInWeekOrder" class="week-days" style="width: 100px"></select>');
-            $(monthlyOption2).append("&nbsp;每&nbsp;");
+            $(monthlyOption2).append("&nbsp;"+ js_lang.each +"&nbsp;");
             $("<input/>", { id: "EveryMonthInput", type: "text", value: "1", style: "width: 40px" }).appendTo(monthlyOption2);
-            $(monthlyOption2).append("&nbsp;月");
+            $(monthlyOption2).append("&nbsp;"+ js_lang.month);
             $(monthlyOption2).appendTo(monthlyTab);
 
-            $(monthlyTab).append("开始时间：&nbsp;");
+            $(monthlyTab).append(js_lang.starting_time + "&nbsp;");
             $(monthlyTab).append('<select id="MonthlyHours" class="hours" style="width: 60px"></select>');
             $(monthlyTab).append('<select id="MonthlyMinutes" class="minutes" style="width: 60px"></select>');
 
@@ -141,23 +141,23 @@
 
             var yearlyOption1 = $("<div/>", { "class": "well well-small" });
             $("<input/>", { type: "radio", value: "1", name: "YearlyRadio", checked: "checked" }).appendTo(yearlyOption1);
-            $(yearlyOption1).append("&nbsp;每&nbsp");
+            $(yearlyOption1).append("&nbsp;"+ js_lang.each +"&nbsp");
             $(yearlyOption1).append('<select id="MonthsOfYear" class="months" style="width: 100px"></select>');
-            $(yearlyOption1).append("&nbsp;第&nbsp;");
+            $(yearlyOption1).append("&nbsp;"+ js_lang.di +"&nbsp;");
             $("<input/>", { id: "YearInput", type: "text", value: "1", style: "width: 40px" }).appendTo(yearlyOption1);
-            $(yearlyOption1).append("&nbsp;日&nbsp;");
+            $(yearlyOption1).append("&nbsp;"+ js_lang.day +"&nbsp;");
             $(yearlyOption1).appendTo(yearlyTab);
 
             var yearlyOption2 = $("<div/>", { "class": "well well-small" });
             $("<input/>", { type: "radio", value: "2", name: "YearlyRadio" }).appendTo(yearlyOption2);
-            $(yearlyOption2).append("&nbsp;每&nbsp");
+            $(yearlyOption2).append("&nbsp;"+ js_lang.each +"&nbsp");
             $(yearlyOption2).append('<select id="DayOrderInYear" class="day-order-in-month" style="width: 80px"></select>');
             $(yearlyOption2).append('<select id="DayWeekForYear" class="week-days" style="width: 100px"></select>');
-            $(yearlyOption2).append("&nbsp;在&nbsp;");
+            $(yearlyOption2).append("&nbsp;"+ js_lang.stay +"&nbsp;");
             $(yearlyOption2).append('<select id="MonthsOfYear2" class="months" style="width: 100px"></select>');
             $(yearlyOption2).appendTo(yearlyTab);
 
-            $(yearlyTab).append("开始时间：&nbsp;");
+            $(yearlyTab).append(js_lang.starting_time + "&nbsp;");
             $(yearlyTab).append('<select id="YearlyHours" class="hours" style="width: 60px"></select>');
             $(yearlyTab).append('<select id="YearlyMinutes" class="minutes" style="width: 60px"></select>');
 
@@ -226,18 +226,18 @@
 
     var fillInMonths = function () {
         var days = [
-            { text: "一月", val: "1" },
-            { text: "二月", val: "2" },
-            { text: "三月", val: "3" },
-            { text: "四月", val: "4" },
-            { text: "五月", val: "5" },
-            { text: "六月", val: "6" },
-            { text: "七月", val: "7" },
-            { text: "八月", val: "8" },
-            { text: "九月", val: "9" },
-            { text: "十月", val: "10" },
-            { text: "十一月", val: "11" },
-            { text: "十二月", val: "12" }
+            { text: js_lang.january, val: "1" },
+            { text: js_lang.february, val: "2" },
+            { text: js_lang.march, val: "3" },
+            { text: js_lang.april, val: "4" },
+            { text: js_lang.may, val: "5" },
+            { text: js_lang.june, val: "6" },
+            { text: js_lang.july, val: "7" },
+            { text: js_lang.august, val: "8" },
+            { text: js_lang.september, val: "9" },
+            { text: js_lang.october, val: "10" },
+            { text: js_lang.november, val: "11" },
+            { text: js_lang.december, val: "12" }
         ];
         $(".months").each(function () {
             fillOptions(this, days);
@@ -258,13 +258,13 @@
     };
     var fillInWeekDays = function () {
         var days = [
-            { text: "星期一", val: "MON" },
-            { text: "星期二", val: "TUE" },
-            { text: "星期三", val: "WED" },
-            { text: "星期四", val: "THU" },
-            { text: "星期五", val: "FRI" },
-            { text: "星期六", val: "SAT" },
-            { text: "星期日", val: "SUN" }
+            { text: js_lang.monday, val: "MON" },
+            { text: js_lang.tuesday, val: "TUE" },
+            { text: js_lang.wednesday, val: "WED" },
+            { text: js_lang.thursday, val: "THU" },
+            { text: js_lang.friday, val: "FRI" },
+            { text: js_lang.saturday, val: "SAT" },
+            { text: js_lang.sunday, val: "SUN" }
         ];
         $(".week-days").each(function () {
             fillOptions(this, days);
@@ -273,10 +273,10 @@
     };
     var fillDayWeekInMonth = function () {
         var days = [
-            { text: "第一周", val: "1" },
-            { text: "第二周", val: "2" },
-            { text: "第三周", val: "3" },
-            { text: "第四周", val: "4" }
+            { text: js_lang.first_week, val: "1" },
+            { text: js_lang.second_week, val: "2" },
+            { text: js_lang.third_week, val: "3" },
+            { text: js_lang.fourth_week, val: "4" }
         ];
         $(".day-order-in-month").each(function () {
             fillOptions(this, days);

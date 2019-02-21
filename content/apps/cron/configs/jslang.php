@@ -44,14 +44,55 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 应用语言包
+ * js语言包设置
  */
-return array(
-	'cron' 		=> '计划任务',
-	'cron_desc' => '是ECJIA管理系统提供的一项使系统在您设定的时刻,自动执行某项任务的功能。'
-);
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+    //cron
+    'cron_page' =>array(
+        'hour' =>  __('小时', 'cron'),
+        'day' =>  __('日', 'cron'),
+        'week' =>  __('周', 'cron'),
+        'month' =>  __('月', 'cron'),
+        'each' =>  __('每', 'cron'),
+        'di' =>  __('第', 'cron'),
+        'stay' =>  __('在', 'cron'),
+        'minute' =>  __('分钟', 'cron'),
+        'time' =>  __('时', 'cron'),
+        'daily_in' =>  __('每日在：', 'cron'),
+        'every_working_day' =>  __('每工作日', 'cron'),
+        'starting_time' =>  __('开始时间：', 'cron'),
+        'monday' =>  __('星期一', 'cron'),
+        'tuesday' =>  __('星期二', 'cron'),
+        'wednesday' =>  __('星期三', 'cron'),
+        'thursday' =>  __('星期四', 'cron'),
+        'friday' =>  __('星期五', 'cron'),
+        'saturday' =>  __('星期六', 'cron'),
+        'sunday' =>  __('星期日', 'cron'),
+        'january' =>  __('一月', 'cron'),
+        'february' =>  __('二月', 'cron'),
+        'march' =>  __('三月', 'cron'),
+        'april' =>  __('四月', 'cron'),
+        'may' =>  __('五月', 'cron'),
+        'june' =>  __('六月', 'cron'),
+        'july' =>  __('七月', 'cron'),
+        'august' =>  __('八月', 'cron'),
+        'september' =>  __('九月', 'cron'),
+        'october' =>  __('十月', 'cron'),
+        'november' =>  __('十一月', 'cron'),
+        'december' =>  __('十二月', 'cron'),
+        'first_week' =>  __('第一周', 'cron'),
+        'second_week' =>  __('第二周', 'cron'),
+        'third_week' =>  __('第三周', 'cron'),
+        'fourth_week' =>  __('第四周', 'cron'),
+        'day_each' =>  __('日，每', 'cron'),
+
+        'ok' =>  __('确定', 'cron'),
+        'cancel' =>  __('取消', 'cron'),
+    ),
+);
+//end

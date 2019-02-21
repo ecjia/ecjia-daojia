@@ -52,10 +52,10 @@ use RC_Lang;
 class Helper {
     
     public static function assign_adminlog_content() {
-        ecjia_admin_log::instance()->add_action('enabled', RC_Lang::get('cron::cron.enable'));
-        ecjia_admin_log::instance()->add_action('disable', RC_Lang::get('cron::cron.disable'));
-        ecjia_admin_log::instance()->add_action('run', RC_Lang::get('cron::cron.cron_do'));
-        ecjia_admin_log::instance()->add_object('cron', RC_Lang::get('cron::cron.cron'));
+        ecjia_admin_log::instance()->add_action('enabled', __('启用', 'cron'));
+        ecjia_admin_log::instance()->add_action('disable', __('禁用', 'cron'));
+        ecjia_admin_log::instance()->add_action('run', __('执行', 'cron'));
+        ecjia_admin_log::instance()->add_object('cron', __('计划任务', 'cron'));
     }
     
     public static function get_minute($cron_minute) {
@@ -76,15 +76,15 @@ class Helper {
     public static function get_dwh() {
         $days = $week = $hours = array();
         for ($i = 1 ; $i<=31 ; $i++) {
-            $days[$i] = $i.RC_Lang::get('cron::cron.cron_day');
+            $days[$i] = $i.__('日', 'cron');
         }
     
         for ($i = 1 ; $i<8 ; $i++) {
-            $week[$i] = RC_Lang::get('cron::cron.week.'.$i);
+            $week[$i] = sprintf(__('每周%s', 'cron'), $i);
         }
     
         for ($i = 0 ; $i<24 ; $i++) {
-            $hours[$i] = $i.RC_Lang::get('cron::cron.cron_hour');
+            $hours[$i] = $i.__('时', 'cron');
         }
         return array($days,$week,$hours);
     }

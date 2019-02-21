@@ -75,13 +75,13 @@ class cron_plugin_install_api extends Component_Event_Api {
 			
 			/* 检查输入 */
 			if (empty($format_name) || empty($options['config']['cron_code'])) {
-				return ecjia_plugin::add_error('plugin_install_error', RC_Lang::get('cron::cron.plugin_name_empty'));
+				return ecjia_plugin::add_error('plugin_install_error', __('计划任务插件名称不能为空', 'cron'));
 			}
 
 			/* 检测名称重复 */
 			$name_count = RC_DB::table('crons')->where('cron_name', $format_name)->where('cron_code', $options['config']['cron_code'])->count();
 			if ($name_count > 0) {
-				return ecjia_plugin::add_error('plugin_install_error', RC_Lang::get('cron::cron.plugin_exist'));
+				return ecjia_plugin::add_error('plugin_install_error', __('安装的插件已存在', 'cron'));
 			}
 			
 			/* 取得配置信息 */
