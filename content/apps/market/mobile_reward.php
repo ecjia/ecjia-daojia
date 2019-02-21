@@ -52,7 +52,7 @@ class mobile_reward extends ecjia_front {
 		
   		/* js与css加载路径*/
   		$this->assign('front_url', RC_App::apps_url('statics/front', __FILE__));
-  		$this->assign('title', '新人有礼');
+  		$this->assign('title', __('新人有礼', 'market'));
 	}
 	
 	public function init() {

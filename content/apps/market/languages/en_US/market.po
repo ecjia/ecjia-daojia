@@ -2,20 +2,22 @@
 # This file is distributed under the same license as the Ecjia App market package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App market 1.25.0\n"
+"Project-Id-Version: Ecjia App market 1.27.1\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-01-28 09:55:38+00:00\n"
+"POT-Creation-Date: 2019-01-31 06:31:21+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-01-28 18:38+0800\n"
+"PO-Revision-Date: 2019-01-31 15:16+0800\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "X-Generator: Poedit 2.2.1\n"
 "Last-Translator: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: en\n"
 
-#: admin.php:85 admin.php:105 admin.php:107 classes/Helper.php:58
+#: admin.php:85 admin.php:105 admin.php:107
+#: apis/market_admin_menu_api.class.php:61
+#: apis/market_platform_menu_api.class.php:63 classes/Helper.php:58
 #: platform.php:77 platform.php:89 platform.php:90
 msgid "营销活动"
 msgstr "Marketing activities"
@@ -145,6 +147,52 @@ msgstr "Issue prizes %s to %s"
 msgid "发放奖品成功！"
 msgstr "Successfully awarded prizes!"
 
+#: apis/market_admin_menu_api.class.php:58
+#: apis/market_platform_menu_api.class.php:61
+msgid "营销中心"
+msgstr "Marketing Center"
+
+#: apis/market_admin_menu_api.class.php:62
+#: apis/market_platform_menu_api.class.php:64 platform_prize.php:78
+#: platform_prize.php:92 platform_prize.php:113
+msgid "抽奖记录"
+msgstr "View activity history"
+
+#: apis/market_admin_purview_api.class.php:58
+#: apis/market_platform_purview_api.class.php:59
+msgid "营销活动管理"
+msgstr "Marketing campaign management"
+
+#: apis/market_admin_purview_api.class.php:59
+#: apis/market_platform_purview_api.class.php:60
+msgid "营销活动更新"
+msgstr "Campaign update"
+
+#: apis/market_admin_purview_api.class.php:60
+#: apis/market_platform_purview_api.class.php:61
+msgid "营销活动删除"
+msgstr "Marketing campaign deleted"
+
+#: apis/market_admin_purview_api.class.php:61
+msgid "活动记录管理"
+msgstr "Activity record management"
+
+#: apis/market_platform_purview_api.class.php:62
+msgid "中奖记录管理"
+msgstr "Winning record management"
+
+#: classes/Helper.php:59
+msgid "奖品"
+msgstr "prize"
+
+#: classes/Helper.php:60
+msgid "活动奖品"
+msgstr "Event prize"
+
+#: classes/Helper.php:62
+msgid "发放"
+msgstr "Issue"
+
 #: configs/jslang.php:57
 msgid "未搜索到商品信息"
 msgstr "Product information not found"
@@ -224,10 +272,6 @@ msgstr "You have already received it!"
 #: modules/market/shake_module.class.php:77
 msgid "参数无效"
 msgstr "Invalid argument"
-
-#: platform_prize.php:78 platform_prize.php:92
-msgid "抽奖记录"
-msgstr "View activity history"
 
 #: content/apps/market/templates/platform/activity_edit.dwt.php:14
 #: content/apps/market/templates/platform/activity_edit.dwt.php:20
@@ -372,7 +416,7 @@ msgstr "Fifth prize"
 
 #: content/apps/market/templates/platform/activity_prize_add.dwt.php:44
 msgid "奖品名称:"
-msgstr ""
+msgstr "Prize name:"
 
 #: content/apps/market/templates/platform/activity_prize_add.dwt.php:53
 #: content/apps/market/templates/admin/activity_prize_add.dwt.php:49
@@ -498,9 +542,9 @@ msgid "中奖用户信息"
 msgstr "Winning user information"
 
 #: content/apps/market/templates/platform/prize_record.dwt.php:84
-#: content/apps/market/templates/front/fill_user_info.dwt.php:49
-msgid "收货人"
-msgstr "Receiver"
+#: content/apps/market/templates/front/fill_user_info.dwt.php:73
+msgid "收货人："
+msgstr "Receiver:"
 
 #: content/apps/market/templates/platform/prize_record.dwt.php:84
 msgid "未填写"
@@ -717,6 +761,10 @@ msgstr "Point reward"
 msgid "红包奖励"
 msgstr "Red envelope reward"
 
+#: content/apps/market/templates/front/fill_user_info.dwt.php:49
+msgid "收货人"
+msgstr "Receiver"
+
 #: content/apps/market/templates/front/fill_user_info.dwt.php:52
 msgid "请输入收货人姓名"
 msgstr "Please enter the consignee name"
@@ -740,10 +788,6 @@ msgstr "Please enter the detailed shipping address"
 #: content/apps/market/templates/front/fill_user_info.dwt.php:69
 msgid "提交"
 msgstr "submit"
-
-#: content/apps/market/templates/front/fill_user_info.dwt.php:73
-msgid "收货人："
-msgstr "Receiver:"
 
 #: content/apps/market/templates/front/prize_list.dwt.php:8
 msgid "我的奖品"

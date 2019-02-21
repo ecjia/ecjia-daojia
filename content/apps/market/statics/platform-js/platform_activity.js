@@ -66,13 +66,13 @@
 				},
 				messages: {
 					'activity_name': {
-						required: js_lang.fill_activity_name
+						required: '请输入活动名称'
 					},
 					'start_time': {
-						required: js_lang.fill_start_time
+						required: '请输入活动开始时间'
 					},
 					'end_time': {
-						required: js_lang.fill_end_time
+						required: '返回选择栏目'
 					},
 
 					'prize_level': {

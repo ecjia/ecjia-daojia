@@ -72,10 +72,9 @@ class platform extends ecjia_platform
         RC_Style::enqueue_style('datetimepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datetimepicker.min.css'));
 
         RC_Script::enqueue_script('platform_activity', RC_App::apps_url('statics/platform-js/platform_activity.js', __FILE__), array(), false, true);
-        RC_Script::localize_script('platform_activity', 'js_lang', config('app-market::js_lang.market_platform_page'));
 
         ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('营销活动', 'market'), RC_Uri::url('market/platform/init')));
-        ecjia_platform_screen::get_current_screen()->set_subject('营销活动');
+        ecjia_platform_screen::get_current_screen()->set_subject(__('营销活动', 'market'));
     }
 
     /**
