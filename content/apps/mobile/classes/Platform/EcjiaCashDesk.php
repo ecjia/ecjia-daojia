@@ -52,25 +52,17 @@ use Ecjia\App\Mobile\MobileAction;
 
 class EcjiaCashDesk extends ApplicationPlatform
 {
-    
+    /**
+     * 分组
+     * @var string
+     */
+    protected $group = 'cashier';
     
     /**
      * 代号标识
      * @var string
      */
     protected $code = 'ecjia-cashdesk';
-    
-    /**
-     * 名称
-     * @var string
-     */
-    protected $name = 'ECJia收银台';
-    
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = 'ECJia收银台App是一款多站点通用的商家桌面收银客户端。';
     
     /**
      * 图标
@@ -112,6 +104,12 @@ class EcjiaCashDesk extends ApplicationPlatform
         MobileAction::MAIN,
         MobileAction::WEBVIEW,
     ];
-    
-    
+
+
+    public function __construct()
+    {
+        $this->name = __('ECJia收银台', 'mobile');
+        $this->description = __('ECJia收银台App是一款多站点通用的商家桌面收银客户端。', 'mobile');
+    }
+
 }

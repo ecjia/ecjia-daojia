@@ -52,26 +52,19 @@ use Ecjia\App\Mobile\MobileAction;
 
 class EcjiaExpress extends ApplicationPlatform
 {
-    
+
+    /**
+     * 分组
+     * @var string
+     */
+    protected $group = 'cloud';
     
     /**
      * 代号标识
      * @var string
      */
     protected $code = 'ecjia-express';
-    
-    /**
-     * 名称
-     * @var string
-     */
-    protected $name = 'ECJia配送员';
-    
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = 'ECJia配送员App是一款多站点通用的配送员骑手客户端。';
-    
+
     /**
      * 图标
      * @var string
@@ -110,6 +103,11 @@ class EcjiaExpress extends ApplicationPlatform
         MobileAction::MAIN,
         MobileAction::WEBVIEW,
     ];
-    
-    
+
+    public function __construct()
+    {
+        $this->name = __('ECJia配送员', 'mobile');
+        $this->description = __('ECJia配送员App是一款多站点通用的配送员骑手客户端。', 'mobile');
+    }
+
 }

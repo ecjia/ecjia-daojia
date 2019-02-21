@@ -52,11 +52,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
     'identifier'    => 'ecjia.mobile',
     'directory'     => 'mobile',
-    'name'          => 'mobile',
-    'description'   => 'mobile_desc',			/* 描述对应的语言项 */
+    'name'          => __('移动应用', 'mobile'),
+    'description'   => __('移动应用已经不仅仅只是移动设备上的一个客户端那么简单，无线设备、又如iphone、ipad、以Android为核心系统的多种跨系统跨平台的移动应用更是层出不穷；如今，推出一款针对移动应用对其基本参数、规则进行快捷设置，便捷商家操作流程的无线管理的应用，常规整合整合、告别繁琐。', 'mobile'),
 	'author'        => 'ECJIA TEAM',			/* 作者 */
 	'website'       => 'http://www.ecjia.com',	/* 网址 */
-	'version'       => '1.27.1',					/* 版本号 */
+	'version'       => '1.27.4',					/* 版本号 */
 	'copyright'     => 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Mobile',
     'provider'      => 'MobileServiceProvider',

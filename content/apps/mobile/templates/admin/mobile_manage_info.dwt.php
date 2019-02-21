@@ -32,7 +32,7 @@
 					<div class="control-group formSep">
 						<label class="control-label">应用包名：</label>
 						<div class="controls l_h30">
-						<span class="cursor_pointer ecjiaf-pre ecjiaf-wsn" data-trigger="editable" data-url='{url path="mobile/admin_mobile_manage/edit_bag_name" args="code={$manage_data.platform}"}' data-name="bag_name" data-pk="{$manage_data.app_id}" data-title="应用包名">{$manage_data.bundle_id}</span>
+						<span class="cursor_pointer ecjiaf-pre ecjiaf-wsn" data-trigger="editable" data-url='{url path="mobile/admin_mobile_manage/edit_bag_name" args="code={$manage_data.platform}"}' data-name="bag_name" data-pk="{$manage_data.app_id}" data-title="应用包名">{if $manage_data.bundle_id}{$manage_data.bundle_id}{else}{t domain="refund"}未设置{/t}{/if}</span>
 						</div>
 					</div>
 					
@@ -89,7 +89,6 @@
 						<label class="control-label">应用包名：</label>
 						<div class="controls">
 							<input class="span4" name="bundleid" type="text" value="" />
-							<span class="input-must">{lang key='system::system.require_field'}</span> 
 						</div>
 					</div>
 				{/if}

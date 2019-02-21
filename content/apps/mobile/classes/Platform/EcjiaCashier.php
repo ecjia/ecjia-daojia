@@ -52,25 +52,18 @@ use Ecjia\App\Mobile\MobileAction;
 
 class EcjiaCashier extends ApplicationPlatform
 {
-    
+
+    /**
+     * 分组
+     * @var string
+     */
+    protected $group = 'cloud';
     
     /**
      * 代号标识
      * @var string
      */
     protected $code = 'ecjia-cashier';
-    
-    /**
-     * 名称
-     * @var string
-     */
-    protected $name = 'ECJia收银通';
-    
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = 'ECJia收银通App是一款多站点通用的商家收银客户端。';
     
     /**
      * 图标
@@ -113,6 +106,10 @@ class EcjiaCashier extends ApplicationPlatform
     protected $opentypes = [
         MobileAction::MAIN,
     ];
-    
-    
+
+    public function __construct()
+    {
+        $this->name = __('ECJia收银通', 'mobile');
+        $this->description = __('ECJia收银通App是一款多站点通用的商家收银客户端。', 'mobile');
+    }
 }

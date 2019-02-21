@@ -44,14 +44,72 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * ECJIA 应用语言包
- */
-return array(
-	'mobile' 		=> '移动应用',
-	'mobile_desc'	=> '移动应用已经不仅仅只是移动设备上的一个客户端那么简单，无线设备、又如iphone、ipad、以Android为核心系统的多种跨系统跨平台的移动应用更是层出不穷；如今，推出一款针对移动应用对其基本参数、规则进行快捷设置，便捷商家操作流程的无线管理的应用，常规整合整合、告别繁琐。'
-);
+namespace Ecjia\App\Mobile\Platform;
 
-// end
+use Ecjia\App\Mobile\ApplicationPlatform;
+use Ecjia\App\Mobile\MobileAction;
+
+class EcjiaPOS extends ApplicationPlatform
+{
+    /**
+     * 分组
+     * @var string
+     */
+    protected $group = 'cashier';
+    
+    /**
+     * 代号标识
+     * @var string
+     */
+    protected $code = 'ecjia-pos';
+    
+    /**
+     * 图标
+     * @var string
+     */
+    protected $icon = '/statics/images/pos.png';
+    
+    /**
+     * 支持的客户端类型
+     * @var array
+     */
+    protected $clients = [
+        [
+            'device_client' => 'android',
+            'device_name' => 'Android',
+            'device_code' => '8011',
+        ]
+    ];
+        
+    /**
+     * 支持的支付方式
+     * @var array
+     */
+    protected $payments = [
+    	'pay_cash',
+    	'pay_balance',
+    	'pay_shouqianba',
+    	'pay_koolyun_alipay',
+    	'pay_koolyun_unionpay',
+    	'pay_koolyun_wxpay',
+    ];
+    
+    
+    /**
+     * 支持的opentype类型
+     * @var array
+     */
+    protected $opentypes = [
+        MobileAction::MAIN,
+        MobileAction::WEBVIEW,
+    ];
+
+
+    public function __construct()
+    {
+        $this->name = __('ECJia收银POS', 'mobile');
+        $this->description = __('ECJia收银POS App是一款多站点通用的商家POS机收银终端。', 'mobile');
+    }
+
+}

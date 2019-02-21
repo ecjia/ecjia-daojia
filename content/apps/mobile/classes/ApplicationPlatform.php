@@ -46,11 +46,17 @@
 //
 namespace Ecjia\App\Mobile;
 
-use Ecjia\App\Mobile\Models\MobileOptionModel;
+use Ecjia\App\Mobile\Models\MobileManageModel;
 use Royalcms\Component\Database\Eloquent\Collection;
 
 class ApplicationPlatform
 {
+    /**
+     * 分组
+     * @var string
+     */
+    protected $group;
+
     /**
      * 代号标识
      * @var string
@@ -92,7 +98,14 @@ class ApplicationPlatform
      * @var array
      */
     protected $opentypes = [];
-    
+
+    /**
+     * @return string
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
     
     public function getCode()
     {
@@ -147,35 +160,15 @@ class ApplicationPlatform
      */
     public function getOptions()
     {
-        $model = new MobileOptionModel();
-        
-        $data = $model->platform($this->code)->appid(0)->get();
-
-        if ($data) {
-            $data = $this->processOptionValue($data);
-        }
-
-        return $data;
+        return $this->getApplicationPlatformOption()->getOptions();
     }
-    
+
     /**
-     *
-     * @return array
+     * @return ApplicationPlatformOption
      */
-    public function processOptionValue(Collection $data)
+    public function getApplicationPlatformOption()
     {
-        $result = $data->mapWithKeys(function ($item) {
-             
-            if ($item->option_type == 'serialize') {
-                $values = unserialize($item->option_value);
-            } else {
-                $values = $item->option_value;
-            }
-        
-            return array($item->option_name => $values);
-        })->all();
-        
-        return $result;
+        return new ApplicationPlatformOption($this);
     }
     
     /**
@@ -201,6 +194,30 @@ class ApplicationPlatform
 
         return $result->get($name);
     }
-    
-    
+
+    /**
+     * 获取启用所有的设备信息，device_code作索引
+     * @return array | null
+     */
+    public function getMobileDevices()
+    {
+        $data = MobileManageModel::where('platform', $this->getCode())->enabled()->groupBy('device_code')->get();
+
+        $result = [];
+        if ($data) {
+            $data->map(function($item) use (& $result) {
+                $data = array(
+                    'app_id'          => $item->app_id,
+                    'app_name'        => $item->app_name,
+                    'bundle_id'       => $item->bundle_id,
+                    'device_code'     => $item->device_code,
+                    'device_client'   => $item->device_client,
+                    'platform'        => $item->platform
+                );
+
+                $result[$item->device_code] = $data;
+            });
+        }
+        return $result;
+    }
 }

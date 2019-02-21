@@ -2,7 +2,6 @@
 
 namespace Ecjia\App\Mobile;
 
-use Ecjia\App\Mobile\Models\MobileOptionModel;
 use Ecjia\App\Mobile\Models\MobileManageModel;
 
 class ApplicationClient
@@ -113,36 +112,70 @@ class ApplicationClient
     {
         return $this->platform;
     }
+
+    /**
+     * @return ApplicationClientOption
+     */
+    public function getApplicationClientOption()
+    {
+        return new ApplicationClientOption($this);
+    }
+
+    /**
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->getApplicationClientOption()->getOptions();
+    }
     
     /**
      * 获取当前客户端选项，没有就获取平台的选项
      * @param string $name
      * @return array
      */
-    public function getOptions($name = null)
+    public function getOption($name, $default = null)
     {
-        $model = new MobileManageModel();
-        
-        $data = $model->platform($this->platform_code)->app($this->device_code)->enabled()->first();
-        if ($data) {
-            $data = $data->options;
-            $data = $this->getPlatform()->processOptionValue($data);
+        $options = $this->getOptions();
+
+        if (empty($options)) {
+            $options = $this->getPlatform()->getOptions();
         }
 
-        if (is_null($name))
-        {
-            return $data;
-        }
-        
-        if (array_get($data, $name)) 
-        {
-            return array_get($data, $name);
+        $value = array_get($options, $name);
+
+        if (empty($value)) {
+            $value = array_get($this->getPlatform()->getOptions(), $name, $default);
         }
 
-        $data = $this->getPlatform()->getOptions();
-        if (array_get($data, $name)) {
-            return array_get($data, $name);
+        return $value;
+    }
+
+    /**
+     * 获取所有的设备信息，device_code作索引
+     * @return array | null
+     */
+    public function getMobileDevice()
+    {
+        $model = MobileManageModel::where('platform', $this->getPlatform()->getCode())
+            ->where('device_code', $this->device_code)
+            ->enabled()
+            ->first();
+
+        $result = [];
+        if ($model) {
+            $result = array(
+                'app_id'          => $model->app_id,
+                'app_name'        => $model->app_name,
+                'bundle_id'       => $model->bundle_id,
+                'device_code'     => $model->device_code,
+                'device_client'   => $model->device_client,
+                'platform'        => $model->platform
+            );
         }
+
+        return $result;
     }
     
 }

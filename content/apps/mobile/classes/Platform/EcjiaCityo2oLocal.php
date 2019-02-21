@@ -47,28 +47,22 @@
 namespace Ecjia\App\Mobile\Platform;
 
 use Ecjia\App\Mobile\ApplicationPlatform;
+use Ecjia\App\Mobile\Contracts\HomeComponentInterface;
 
-class EcjiaCityo2oLocal extends ApplicationPlatform
+class EcjiaCityo2oLocal extends ApplicationPlatform implements HomeComponentInterface
 {
-    
+
+    /**
+     * 分组
+     * @var string
+     */
+    protected $group = 'local';
     
     /**
      * 代号标识
      * @var string
      */
     protected $code = 'ecjia-cityo2o-local';
-    
-    /**
-     * 名称
-     * @var string
-     */
-    protected $name = 'ECJia到家Local';
-    
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = 'ECJia到家是一款用于微信公众号上使用的微商城。';
     
     /**
      * 图标
@@ -98,7 +92,48 @@ class EcjiaCityo2oLocal extends ApplicationPlatform
         'pay_alipay',
         'pay_wxpay_pc',
     ];
-    
-    
+
+    public function __construct()
+    {
+        $this->name = __('ECJia到家Local', 'mobile');
+        $this->description = __('ECJia到家Local是为了方便在同一进程中快速调用API数据的模拟客户端。', 'mobile');
+    }
+
+    /**
+     * 获取首页默认模块组件
+     * @return mixed
+     */
+    public function getHomeComponent()
+    {
+        return [
+            'home_cycleimage',
+            'home_shortcut',
+            'scanqrcode_and_membercode',
+            'promote_goods',
+            'new_goods',
+            'best_goods',
+            'home_complex_adsense_one',
+            'home_complex_adsense_two',
+            'groupbuy_goods',
+        ];
+    }
+
+    /**
+     * 获取首页定义允许使用的模块组件
+     * @return mixed
+     */
+    public function getDefinedHomeComponent()
+    {
+        return [
+            'home_cycleimage', //轮播图
+            'home_shortcut', //快捷菜单
+            'home_complex_adsense_one', //广告组一
+            'home_complex_adsense_two', //广告组二
+            'promote_goods', //促销商品
+            'new_goods', //新品推荐
+            'best_goods', //店长推荐
+            'groupbuy_goods', //团购商品
+        ];
+    }
     
 }

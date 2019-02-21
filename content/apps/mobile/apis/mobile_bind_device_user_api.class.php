@@ -46,12 +46,46 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class mobile_activity_prize_model extends Component_Model_Model {
-	public $table_name = '';
-	public function __construct() {
-		$this->table_name = 'mobile_activity_prize';
-		parent::__construct();
-	}
-}
+class mobile_bind_device_user_api extends Component_Event_Api
+{
 
-// end
+
+    /**
+     * @param $options[udid]
+     * @param $options[client]
+     * @param $options[code]
+     * @param $options[user_type]
+     * @param $options[user_id]
+     *
+     * @return bool
+     */
+    public function call(&$options)
+    {
+
+        //修正关联设备号
+        $result = ecjia_app::validate_application('mobile');
+        if (!is_ecjia_error($result)) {
+            if (!empty($options['udid']) && !empty($options['client']) && !empty($options['code'])) {
+                $user_type = array_get($options, 'user_type', 'user');
+                $user_id = array_get($options, 'user_id', 0);
+                if (empty($user_id)) {
+                    return false;
+                }
+
+                RC_DB::table('mobile_device')->where('device_udid', $options['udid'])
+                    ->where('device_client', $options['client'])
+                    ->where('device_code', $options['code'])
+                    ->where('user_type', $user_type)
+                    ->update(
+                        array('user_id' => $user_id, 'update_time' => RC_Time::gmtime())
+                    );
+
+                return true;
+            }
+        }
+
+
+
+    }
+
+}

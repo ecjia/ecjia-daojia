@@ -51,7 +51,12 @@ use Ecjia\App\Mobile\ApplicationPlatform;
 
 class EcjiaWeapp extends ApplicationPlatform
 {
-    
+
+    /**
+     * 分组
+     * @var string
+     */
+    protected $group = 'wechat';
     
     /**
      * 代号标识
@@ -60,35 +65,11 @@ class EcjiaWeapp extends ApplicationPlatform
     protected $code = 'ecjia-shop-weapp';
     
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = 'ECJia到家门店小程序';
-    
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = 'ECJia到家门店小程序是一款以附近门店为中心的消费者购物微信小程序。';
-    
-    /**
      * 图标
      * @var string
      */
     protected $icon = '/statics/images/wechat.png';
     
-    /**
-     * 支持的客户端类型
-     * @var array
-     */
-    protected $clients = [
-        [
-            'device_client' => 'weapp',
-            'device_name' => '微信小程序',
-            'device_code' => '6015',
-        ],
-    ];
-        
     /**
      * 支持的支付方式
      * @var array
@@ -96,8 +77,20 @@ class EcjiaWeapp extends ApplicationPlatform
     protected $payments = [
         'pay_wxpay_weapp',
     ];
-       
-    
+
+    public function __construct()
+    {
+        $this->name = __('ECJia到家门店小程序', 'mobile');
+        $this->description = __('ECJia到家门店小程序是一款以附近门店为中心的消费者购物微信小程序。', 'mobile');
+        $this->clients = [
+            [
+                'device_client' => 'weapp',
+                'device_name' => __('微信小程序'),
+                'device_code' => '6015',
+            ],
+        ];
+
+    }
     
     
 }

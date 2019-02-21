@@ -62,7 +62,6 @@ class mobile_tool_menu_api extends Component_Event_Api {
         	//ecjia_admin::make_admin_menu('04_mobile_news', RC_Lang::get('mobile::mobile.mobile_news'), RC_Uri::url('mobile/admin_mobile_news/init'), 4)->add_purview('mobile_news_manage'),
 //         	ecjia_admin::make_admin_menu('divider', '', '', 8)->add_purview(array('mobile_manage'), 8),
         	ecjia_admin::make_admin_menu('09_mobile_manage', RC_Lang::get('mobile::mobile.mobile_manage'), RC_Uri::url('mobile/admin_mobile_manage/init'), 9)->add_purview('mobile_manage'),
-        	//ecjia_admin::make_admin_menu('10_home_group_manage', '首页模块设置', RC_Uri::url('theme/admin_home_group_sort/init'), 10)->add_purview('home_group_manage')
         );
         
         $menus->add_submenu($submenus);

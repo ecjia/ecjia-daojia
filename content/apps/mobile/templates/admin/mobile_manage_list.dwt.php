@@ -15,9 +15,10 @@ a:hover {
 <!-- {/block} -->
 
 <!-- {block name="main_content"} -->
+<!-- {foreach $pruduct_data as $key => $group} -->
 <div>
 	<h3 class="heading">
-		<!-- {if $ur_here}{$ur_here}{/if} -->
+		<!-- {$group.label} -->
 	</h3>
 </div>
 
@@ -26,13 +27,13 @@ a:hover {
 		<div class="tab-content">
 			<div class="active">
 				<div class="row-fluid">
-					<!-- {foreach from=$data item=list} -->
-						<div class="outline">
-							<a class="data-pjax"  href='{RC_Uri::url("mobile/admin_mobile_manage/client_list", "code={$list.code}")}' >
-								<div class="outline-left"><img src="{$list.icon}" /></div>
+                    <!-- {foreach from=$group.data item=list} -->
+						<div class="outline {if in_array($list->getCode(), $activation_list)}outline-background{/if}">
+							<a class="data-pjax"  href='{RC_Uri::url("mobile/admin_mobile_manage/client_list", "code={$list->getCode()}")}' >
+								<div class="outline-left"><img src="{$list->getIcon()}" /></div>
 								<div class="outline-right">
-									<h3>{$list.name}</h3>
-									<span>{$list.description}</span>
+									<h3>{$list->getName()}</h3>
+									<span>{$list->getDescription()}</span>
 								</div>
 							</a>
 						</div>
@@ -43,4 +44,5 @@ a:hover {
 		
 	</div>
 </div>
+<!-- {/foreach} -->
 <!-- {/block} -->

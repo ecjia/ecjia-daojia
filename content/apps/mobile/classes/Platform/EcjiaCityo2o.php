@@ -48,29 +48,22 @@
 namespace Ecjia\App\Mobile\Platform;
 
 use Ecjia\App\Mobile\ApplicationPlatform;
+use Ecjia\App\Mobile\Contracts\HomeComponentInterface;
 use Ecjia\App\Mobile\MobileAction;
 
-class EcjiaCityo2o extends ApplicationPlatform
+class EcjiaCityo2o extends ApplicationPlatform implements HomeComponentInterface
 {
-    
+    /**
+     * 分组
+     * @var string
+     */
+    protected $group = 'app';
     
     /**
      * 代号标识
      * @var string
      */
     protected $code = 'ecjia-cityo2o';
-    
-    /**
-     * 名称
-     * @var string
-     */
-    protected $name = 'ECJia到家';
-    
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = 'ECJia到家App是一款集消费者、商家、配送员于一体的客户端。';
     
     /**
      * 图标
@@ -142,8 +135,48 @@ class EcjiaCityo2o extends ApplicationPlatform
     	MobileAction::MERCHANT_SUGGEST_LIST,
     	MobileAction::MERCHANT_DETAIL,
     ];
-    
-    
-    
+
+
+    public function __construct()
+    {
+        $this->name = __('ECJia到家', 'mobile');
+        $this->description = __('ECJia到家App是一款集消费者、商家、配送员于一体的客户端。', 'mobile');
+    }
+
+    /**
+     * 获取首页默认模块组件
+     * @return mixed
+     */
+    public function getHomeComponent()
+    {
+        return [
+            'home_cycleimage',
+            'home_shortcut',
+            'scanqrcode_and_membercode',
+            'promote_goods',
+            'new_goods',
+            'best_goods',
+            'home_complex_adsense_one',
+            'home_complex_adsense_two',
+        ];
+    }
+
+    /**
+     * 获取首页定义允许使用的模块组件
+     * @return mixed
+     */
+    public function getDefinedHomeComponent()
+    {
+        return [
+            'home_cycleimage', //轮播图
+            'home_shortcut', //快捷菜单
+            'scanqrcode_and_membercode', //扫码购
+            'home_complex_adsense_one', //广告组一
+            'home_complex_adsense_two', //广告组二
+            'promote_goods', //促销商品
+            'new_goods', //新品推荐
+            'best_goods', //店长推荐
+        ];
+    }
     
 }

@@ -1,0 +1,211 @@
+# Copyright (C) 2019 Ecjia App mobile
+# This file is distributed under the same license as the Ecjia App mobile package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App mobile 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:56:58+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin_street.php:66 apis/mobile_service_menu_api.class.php:56
+msgid "云店铺"
+msgstr ""
+
+#: apis/mobile_device_client_api.class.php:63
+msgid "缺少必要参数"
+msgstr ""
+
+#: apis/mobile_merchant_privilege_menu_api.class.php:58
+msgid "掌柜权限"
+msgstr ""
+
+#: classes/Platform/EcjiaCashDesk.php:111
+msgid "ECJia收银台"
+msgstr ""
+
+#: classes/Platform/EcjiaCashDesk.php:112
+msgid "ECJia收银台App是一款多站点通用的商家桌面收银客户端。"
+msgstr ""
+
+#: classes/Platform/EcjiaCashier.php:112
+msgid "ECJia收银通"
+msgstr ""
+
+#: classes/Platform/EcjiaCashier.php:113
+msgid "ECJia收银通App是一款多站点通用的商家收银客户端。"
+msgstr ""
+
+#: classes/Platform/EcjiaCityo2o.php:142
+msgid "ECJia到家"
+msgstr ""
+
+#: classes/Platform/EcjiaCityo2o.php:143
+msgid "ECJia到家App是一款集消费者、商家、配送员于一体的客户端。"
+msgstr ""
+
+#: classes/Platform/EcjiaCityo2oB2b2c.php:143
+msgid "ECJia到家商城"
+msgstr ""
+
+#: classes/Platform/EcjiaCityo2oB2b2c.php:144
+msgid ""
+"ECJia到家商城是一款全新的电商业务APP，去除了O2O定位的限制，适合跨区域的购物与"
+"配送。"
+msgstr ""
+
+#: classes/Platform/EcjiaCityo2oH5.php:99
+msgid "ECJia到家H5"
+msgstr ""
+
+#: classes/Platform/EcjiaCityo2oH5.php:100
+msgid "ECJia到家H5是一款用于微信公众号上使用的微商城。"
+msgstr ""
+
+#: classes/Platform/EcjiaCityo2oLocal.php:98
+msgid "ECJia到家Local"
+msgstr ""
+
+#: classes/Platform/EcjiaCityo2oLocal.php:99
+msgid "ECJia到家是一款用于微信公众号上使用的微商城。"
+msgstr ""
+
+#: classes/Platform/EcjiaExpress.php:109
+msgid "ECJia配送员"
+msgstr ""
+
+#: classes/Platform/EcjiaExpress.php:110
+msgid "ECJia配送员App是一款多站点通用的配送员骑手客户端。"
+msgstr ""
+
+#: classes/Platform/EcjiaPOS.php:111
+msgid "ECJia收银POS"
+msgstr ""
+
+#: classes/Platform/EcjiaPOS.php:112
+msgid "ECJia收银POS App是一款多站点通用的商家POS机收银终端。"
+msgstr ""
+
+#: classes/Platform/EcjiaShop.php:123
+msgid "ECJia到家门店"
+msgstr ""
+
+#: classes/Platform/EcjiaShop.php:124
+msgid "ECJia到家门店App是一款以附近门店为中心的消费者购物客户端。"
+msgstr ""
+
+#: classes/Platform/EcjiaShopKeeper.php:108
+msgid "ECJia掌柜"
+msgstr ""
+
+#: classes/Platform/EcjiaShopKeeper.php:109
+msgid "ECJia掌柜App是一款多站点通用的商家管理客户端。"
+msgstr ""
+
+#: classes/Platform/EcjiaStreet.php:139
+msgid "ECJia云店"
+msgstr ""
+
+#: classes/Platform/EcjiaStreet.php:140
+msgid "ECJia云店App是一款多站点通用的消费者购物客户端。"
+msgstr ""
+
+#: classes/Platform/EcjiaWeapp.php:83
+msgid "ECJia到家门店小程序"
+msgstr ""
+
+#: classes/Platform/EcjiaWeapp.php:84
+msgid "ECJia到家门店小程序是一款以附近门店为中心的消费者购物微信小程序。"
+msgstr ""
+
+#: classes/Platform/EcjiaWeapp.php:88
+msgid "微信小程序"
+msgstr ""
+
+#: configs/package.php:55
+msgid "移动应用"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"移动应用已经不仅仅只是移动设备上的一个客户端那么简单，无线设备、又如iphone、"
+"ipad、以Android为核心系统的多种跨系统跨平台的移动应用更是层出不穷；如今，推出"
+"一款针对移动应用对其基本参数、规则进行快捷设置，便捷商家操作流程的无线管理的"
+"应用，常规整合整合、告别繁琐。"
+msgstr ""
+
+#: configs/platform_group.php:11
+msgid "微信产品"
+msgstr ""
+
+#: configs/platform_group.php:12
+msgid "APP产品"
+msgstr ""
+
+#: configs/platform_group.php:13
+msgid "收银台产品"
+msgstr ""
+
+#: configs/platform_group.php:14
+msgid "内部调用"
+msgstr ""
+
+#: configs/platform_group.php:15
+msgid "未分组"
+msgstr ""
+
+#: configs/platform_group.php:16
+msgid "云店产品"
+msgstr ""
+
+#: merchant_privilege.php:67
+msgid "员工管理"
+msgstr ""
+
+#: merchant_privilege.php:83
+msgid "分派权限"
+msgstr ""
+
+#: merchant_privilege.php:100
+msgid "返回账户列表"
+msgstr ""
+
+#: merchant_privilege.php:101
+msgid "您不能对此管理员的权限进行任何操作！"
+msgstr ""
+
+#: merchant_privilege.php:107
+msgid "分派掌柜权限 [ %s ] "
+msgstr ""
+
+#: merchant_privilege.php:138
+msgid "编辑 %s 操作成功！"
+msgstr ""
+
+#: modules/admin/home/data_module.class.php:171
+msgid "今日收益"
+msgstr ""
+
+#: modules/admin/home/data_module.class.php:176
+msgid "今日订单"
+msgstr ""
+
+#: modules/admin/home/data_module.class.php:181
+msgid "今日访客"
+msgstr ""
+
+#: modules/admin/home/data_module.class.php:186
+msgid "昨日收益"
+msgstr ""
+
+#: modules/admin/home/data_module.class.php:191
+msgid "昨日订单"
+msgstr ""
+
+#: modules/admin/home/data_module.class.php:196
+msgid "昨日访客"
+msgstr ""

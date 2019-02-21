@@ -54,6 +54,31 @@ class MobileManageModel extends Model
     protected $table = 'mobile_manage';
     
     protected $primaryKey = 'app_id';
+
+    /**
+     * 可以被批量赋值的属性。
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'app_name',
+        'bundle_id',
+        'app_key',
+        'app_secret',
+        'device_code',
+        'device_client',
+        'platform',
+        'add_time',
+        'status',
+        'sort',
+    ];
+
+    /**
+     * 该模型是否被自动维护时间戳
+     *
+     * @var bool
+     */
+    public $timestamps = false;
     
     /**
      * 限制查询只包括指定平台。

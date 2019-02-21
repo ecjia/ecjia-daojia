@@ -52,9 +52,6 @@
                     code: {
                         required: true
                     },
-                    bundleid: {
-                        required: true
-                    },
                     appkey: {
                         required: true
                     },
@@ -74,9 +71,6 @@
                     },
                     code: {
                         required: js_lang.app_code_required
-                    },
-                    bundleid: {
-                        required: js_lang.bundleid_required
                     },
                     appkey: {
                         required: js_lang.appkey_required

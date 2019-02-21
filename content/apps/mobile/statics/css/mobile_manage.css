@@ -1,17 +1,19 @@
 .outline{
-    background-color: #efefef;
+	background-color: #efefef;
     border-radius: 5px;
     color: #000000;
-	width:30%;
+	width: 47%;
 	margin-bottom: 10px;
+	margin-right: 10px;
 	display: inline-block;
 	vertical-align: top;
 }
 .outline-right{
     margin-top: 6px;
 }
-
-
+.outline-background{
+   background-color: #d1eae2;
+}
 .container_list ul {
 	margin: 0;
 	padding: 0;

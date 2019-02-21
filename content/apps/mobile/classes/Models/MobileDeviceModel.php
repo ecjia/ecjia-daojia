@@ -54,6 +54,38 @@ class MobileDeviceModel extends Model
     protected $table = 'mobile_device';
     
     protected $primaryKey = 'id';
+
+    /**
+     * 可以被批量赋值的属性。
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'device_udid',
+        'device_client',
+        'device_code',
+        'device_name',
+        'device_alias',
+        'device_token',
+        'device_os',
+        'device_type',
+        'user_id',
+        'user_type',
+        'location_province',
+        'location_city',
+        'location_city',
+        'visit_times',
+        'in_status',
+        'add_time',
+        'update_time',
+    ];
+
+    /**
+     * 该模型是否被自动维护时间戳
+     *
+     * @var bool
+     */
+    public $timestamps = false;
     
     
     /**

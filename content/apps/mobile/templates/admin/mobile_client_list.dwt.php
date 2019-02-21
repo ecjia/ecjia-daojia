@@ -19,7 +19,7 @@
 				<!-- 默认 -->
 				<li>
 					<p style="text-align: right;">
-						<img src="{$ok_img}" />
+						{if $default_select}<img src="{$ok_img}" />{else}<img src="{$error_img}" />{/if}
 					</p>
 					<h2>默认</h2>
 					<h3></h3>

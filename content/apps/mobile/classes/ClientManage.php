@@ -46,8 +46,6 @@
 //
 namespace Ecjia\App\Mobile;
 
-use RC_Hashids;
-
 class ClientManage
 {
     
@@ -70,5 +68,8 @@ class ClientManage
         $key = rc_random(16, 'abcdefghijklmnopqrstuvwxyz0123456789');
         return sha1($key);
     }
-    
+
+
+
+
 }
