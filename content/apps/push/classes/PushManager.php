@@ -263,7 +263,7 @@ class PushManager extends RC_Object
                 $client = $message['device_client'];
 
                 $client     = with(new \Ecjia\App\Mobile\ApplicationFactory)->client($message['device_code']);
-                $push_umeng = $client->getOptions($plugin);
+                $push_umeng = $client->getOption($plugin);
 
                 if (empty($push_umeng)) {
                     return new ecjia_error('push_meng_config_not_found', 'APP推送配置信息不存在');
@@ -447,7 +447,7 @@ class PushManager extends RC_Object
             try {
                 $plugin     = 'push_umeng';
                 $client     = with(new \Ecjia\App\Mobile\ApplicationFactory)->client($device_code);
-                $push_umeng = $client->getOptions($plugin);
+                $push_umeng = $client->getOption($plugin);
 
                 if (empty($push_umeng)) {
                     return new ecjia_error('push_meng_config_not_found', 'APP推送配置信息不存在');
@@ -510,7 +510,7 @@ class PushManager extends RC_Object
             try {
                 $plugin     = 'push_umeng';
                 $client     = with(new \Ecjia\App\Mobile\ApplicationFactory)->client($device_code);
-                $push_umeng = $client->getOptions($plugin);
+                $push_umeng = $client->getOption($plugin);
 
                 if (empty($push_umeng)) {
                     return new ecjia_error('push_meng_config_not_found', 'APP推送配置信息不存在');

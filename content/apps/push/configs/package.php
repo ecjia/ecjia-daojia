@@ -53,11 +53,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.push',
 	'directory' 	=> 'push',
-	'name'			=> 'push',
-	'description' 	=> 'push_desc',				/* 描述对应的语言项 */
+	'name'			=> __('消息推送', 'push'),
+	'description' 	=> __('消息推送应用是手机端应用的消息推送在后台的管理与发送。在互联网上通过定期传送用户需要的信息来减少信息过载的一项新技术。推送技术通过自动传送信息给用户，来减少用于网络上搜索的时间。', 'push'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.27.1',					/* 版本号 */
+	'version' 		=> '1.27.4',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Push',
     'provider'      => 'PushServiceProvider',

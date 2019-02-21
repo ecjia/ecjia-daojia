@@ -1,0 +1,95 @@
+# Copyright (C) 2019 Ecjia App push
+# This file is distributed under the same license as the Ecjia App push package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App push 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:57:58+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: apis/push_push_event_send_api.class.php:67
+#: apis/push_push_event_send_api.class.php:71
+#: apis/push_push_send_api.class.php:71 apis/push_push_send_api.class.php:75
+#: apis/push_push_send_api.class.php:79 classes/PushManager.php:419
+msgid "无效参数"
+msgstr ""
+
+#: classes/Clients/AndroidNotification.php:74
+msgid "推送消息的内容不能为空"
+msgstr ""
+
+#: classes/PushManager.php:169
+msgid "消息模板不存在"
+msgstr ""
+
+#: configs/package.php:56
+msgid "消息推送"
+msgstr ""
+
+#: configs/package.php:57
+msgid ""
+"消息推送应用是手机端应用的消息推送在后台的管理与发送。在互联网上通过定期传送"
+"用户需要的信息来减少信息过载的一项新技术。推送技术通过自动传送信息给用户，来"
+"减少用于网络上搜索的时间。"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_event_info.dwt.php:25
+msgid "消息事件名称："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_event_info.dwt.php:32
+msgid "消息事件Code："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_event_info.dwt.php:47
+#: content/apps/push/templates/admin/push_event_info.dwt.php:134
+#: content/apps/push/templates/admin/push_event_info.dwt.php:190
+msgid "确定"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_event_info.dwt.php:75
+msgid "编辑"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_event_info.dwt.php:76
+msgid "您确定要删除该消息事件吗？"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_event_info.dwt.php:76
+msgid "移除"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_event_info.dwt.php:94
+msgid "编辑客户端应用"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_event_info.dwt.php:102
+#: content/apps/push/templates/admin/push_event_info.dwt.php:158
+msgid "客户端应用："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_event_info.dwt.php:105
+#: content/apps/push/templates/admin/push_event_info.dwt.php:117
+#: content/apps/push/templates/admin/push_event_info.dwt.php:161
+#: content/apps/push/templates/admin/push_event_info.dwt.php:173
+msgid "请选择"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_event_info.dwt.php:114
+#: content/apps/push/templates/admin/push_event_info.dwt.php:170
+msgid "消息模板："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_event_info.dwt.php:126
+#: content/apps/push/templates/admin/push_event_info.dwt.php:182
+msgid "是否启用："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_event_info.dwt.php:150
+msgid "绑定客户端应用"
+msgstr ""
