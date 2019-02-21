@@ -58,46 +58,51 @@ class Helper
      */
     public static function assign_adminlog_content()
     {
-        ecjia_admin_log::instance()->add_object('usermoney', RC_Lang::get('user::users.usermoney'));
-        ecjia_admin_log::instance()->add_object('user_account', RC_Lang::get('user::users.user_account'));
+        ecjia_admin_log::instance()->add_object('usermoney', __('会员账户', 'user'));
 
-        ecjia_admin_log::instance()->add_object('withdraw_apply', RC_Lang::get('user::user_account.withdraw_apply'));
-        ecjia_admin_log::instance()->add_object('pay_apply', RC_Lang::get('user::user_account.pay_apply'));
-        ecjia_admin_log::instance()->add_object('config', '配置');
+        ecjia_admin_log::instance()->add_object('user_account', __('充值提现', 'user'));
 
-        ecjia_admin_log::instance()->add_action('check', RC_Lang::get('user::users.check'));
+        ecjia_admin_log::instance()->add_object('withdraw_apply', __('提现申请', 'user'));
 
-        ecjia_admin_log::instance()->add_object('user_bonus', '用户红包');
-        ecjia_admin_log::instance()->add_object('user_address', '用户收货地址');
-        ecjia_admin_log::instance()->add_object('user_money', '用户账户余额');
+        ecjia_admin_log::instance()->add_object('pay_apply', __('充值申请', 'user'));
 
-        ecjia_admin_log::instance()->add_object('user_collect_goods', '用户收藏商品');
+        ecjia_admin_log::instance()->add_object('config', __('配置', 'user'));
 
-        ecjia_admin_log::instance()->add_object('user_connect', '用户第三方关联');
+        ecjia_admin_log::instance()->add_action('check', __('到款审核', 'user'));
 
-        ecjia_admin_log::instance()->add_object('user_log', '账户日志');
+        ecjia_admin_log::instance()->add_object('user_bonus', __('用户红包', 'user'));
 
-        ecjia_admin_log::instance()->add_object('user_wechat_account', '账户微信粉丝账号');
+        ecjia_admin_log::instance()->add_object('user_address', __('用户收货地址', 'user'));
 
-        ecjia_admin_log::instance()->add_object('user_wechat_custom_message', '账户发送消息记录');
+        ecjia_admin_log::instance()->add_object('user_money', __('用户账户余额', 'user'));
 
-        ecjia_admin_log::instance()->add_object('user_wechat_prize', '账户抽奖记录');
+        ecjia_admin_log::instance()->add_object('user_collect_goods', __('用户收藏商品', 'user'));
 
-        ecjia_admin_log::instance()->add_object('user_wechat_customer_record', '微信客服消息记录');
+        ecjia_admin_log::instance()->add_object('user_connect', __('用户第三方关联', 'user'));
 
-        ecjia_admin_log::instance()->add_object('user_trading_record', '用户充值/提现记录');
+        ecjia_admin_log::instance()->add_object('user_log', __('账户日志', 'user'));
 
-        ecjia_admin_log::instance()->add_object('user_collect_store', '用户收藏店铺');
+        ecjia_admin_log::instance()->add_object('user_wechat_account', __('账户微信粉丝账号', 'user'));
 
-        ecjia_admin_log::instance()->add_object('user_finance_invoice', '账户发票信息');
+        ecjia_admin_log::instance()->add_object('user_wechat_custom_message', __('账户发送消息记录', 'user'));
 
-        ecjia_admin_log::instance()->add_object('user_account_log', '用户积分记录');
+        ecjia_admin_log::instance()->add_object('user_wechat_prize', __('账户抽奖记录', 'user'));
 
-        ecjia_admin_log::instance()->add_object('user_parent_id', '会员父级ID');
+        ecjia_admin_log::instance()->add_object('user_wechat_customer_record', __('微信客服消息记录', 'user'));
 
-        ecjia_admin_log::instance()->add_object('user_invitee_record', '用户邀请记录');
+        ecjia_admin_log::instance()->add_object('user_trading_record', __('用户充值/提现记录', 'user'));
 
-        ecjia_admin_log::instance()->add_action('clean', '清空');
+        ecjia_admin_log::instance()->add_object('user_collect_store', __('用户收藏店铺', 'user'));
+
+        ecjia_admin_log::instance()->add_object('user_finance_invoice', __('账户发票信息', 'user'));
+
+        ecjia_admin_log::instance()->add_object('user_account_log', __('用户积分记录', 'user'));
+
+        ecjia_admin_log::instance()->add_object('user_parent_id', __('会员父级ID', 'user'));
+
+        ecjia_admin_log::instance()->add_object('user_invitee_record', __('用户邀请记录', 'user'));
+
+        ecjia_admin_log::instance()->add_action('clean', __('清空', 'user'));
     }
 
 }

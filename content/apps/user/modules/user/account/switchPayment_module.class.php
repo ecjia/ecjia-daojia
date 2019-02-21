@@ -50,49 +50,52 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 更新用户充值订单支付方式
  * @author zrl
  */
-class user_account_switchPayment_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
- 		$user_id	= $_SESSION['user_id'];
- 		if ($user_id < 1 ) {
- 		    return new ecjia_error(100, 'Invalid session');
- 		}
- 		$order_sn	= $this->requestData('order_sn', '');
- 		$order_sn	= trim($order_sn);
-		$pay_code	= $this->requestData('pay_code','');
-		
-		if (empty($order_sn) || empty($pay_code)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
-		}
-		
-		$payment_info = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataByCode($pay_code);
-		
-		$user_account_info = $this->get_account_detail($order_sn);
-		if (empty($user_account_info)) {
-			return new ecjia_error('not_exists_info', '不存在的信息！');
-		}
+class user_account_switchPayment_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
 
-		$data = array(
-			'payment'		=> $payment_info['pay_code']
-		);
+        $user_id = $_SESSION['user_id'];
+        if ($user_id < 1) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+        $order_sn = $this->requestData('order_sn', '');
+        $order_sn = trim($order_sn);
+        $pay_code = $this->requestData('pay_code', '');
 
-		$result = RC_DB::table('user_account')->where('order_sn', $order_sn)->update($data);
-		
-		if ($result) {
-			return array();
-		} else {
-			return new ecjia_error('fail_error', '处理失败！');
-		}
-	}
+        if (empty($order_sn) || empty($pay_code)) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+        }
+
+        $payment_info = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataByCode($pay_code);
+
+        $user_account_info = $this->get_account_detail($order_sn);
+        if (empty($user_account_info)) {
+            return new ecjia_error('not_exists_info', __('不存在的信息！', 'user'));
+        }
+
+        $data = array(
+            'payment' => $payment_info['pay_code']
+        );
+
+        $result = RC_DB::table('user_account')->where('order_sn', $order_sn)->update($data);
+
+        if ($result) {
+            return array();
+        } else {
+            return new ecjia_error('fail_error', __('处理失败！', 'user'));
+        }
+    }
 
     /**
      * 获取会员充值账目信息
      *
      * @return  array
      */
-    private function get_account_detail($order_sn) {
+    private function get_account_detail($order_sn)
+    {
         $account_info = array();
-        $order_sn = trim($order_sn);
+        $order_sn     = trim($order_sn);
         if (!empty($order_sn)) {
             $account_info = RC_DB::table('user_account')->where('order_sn', $order_sn)->first();
         }

@@ -50,62 +50,64 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 用户收藏商品列表
  * @author zrl
  */
-class goods_collect_list_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
+class goods_collect_list_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
         $this->authSession();
         $user_id = $_SESSION['user_id'];
-    	if ($user_id <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-		
-		$size     = $this->requestData('pagination.count', 15);
-		$page     = $this->requestData('pagination.page', 1);
-		
-		$options = array(
-			'size' 		=> $size,
-			'page' 		=> $page,
-			'user_id'	=> $user_id,
-		);
-		
-		$data = array();
-		$goods_list = RC_Api::api('user', 'user_collect_goods_list', $options);
-		
-		if (!empty($goods_list['list'])) {
-			foreach ($goods_list['list'] as $val) {
-				/* 促销价格 */
-				if ($val ['promote_price'] > 0) {
-					$promote_price = Ecjia\App\Goods\BargainPrice::bargain_price ($val['promote_price'], $val['promote_start_date'], $val['promote_end_date']);
-				} else {
-					$promote_price = 0;
-				}
-				$data[] = array(
-						'rec_id' 						=> intval($val['rec_id']),
-						'goods_id'						=> intval($val['goods_id']),	
-						'store_id'  					=> intval($val['store_id']),
-						'store_name'					=> empty($val['merchants_name']) ? '' : trim($val['merchants_name']),
-						'goods_name'					=> empty($val['goods_name']) ? '' : trim($val['goods_name']),
-						'market_price'					=> sprintf("%.2f", $val['market_price']),
-						'formatted_market_price'		=> ecjia_price_format($val['market_price'], false),
-						'shop_price'					=> sprintf("%.2f", $val['shop_price']),
-						'formatted_shop_price'			=> ecjia_price_format($val['shop_price'], false),
-						'promote_price'					=> $promote_price,
-						'formatted_promote_price'		=> $promote_price > 0 ? ecjia_price_format(promote_price, false) : '',
-						'promote_start_date'			=> $val['promote_start_date'],
-						'promote_end_date'				=> $val['promote_end_date'],
-						'formatted_promote_start_date'	=> $val['promote_start_date'] > 0 ? RC_Time::local_date('Y/m/d H:i:s O', $val['promote_start_date']) : '',
-						'formatted_promote_end_date'	=> $val['promote_end_date'] > 0 ? RC_Time::local_date('Y/m/d H:i:s O', $val['promote_start_date']) : '',
-						'img'							=> array(
-																'thumb'	 => empty($val['goods_thumb']) ? '' : RC_Upload::upload_url($val['goods_thumb']),
-																'url'	 => empty($val['original_img']) ? '' : RC_Upload::upload_url($val['original_img']),
-																'small'	 => empty($val['goods_img']) ? '' : RC_Upload::upload_url($val['goods_img']),
-															),
-				);
-			}
-		}
-		
-		return array('data' => $data, 'pager' => $goods_list['page']);
-	}
+        if ($user_id <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+
+        $size = $this->requestData('pagination.count', 15);
+        $page = $this->requestData('pagination.page', 1);
+
+        $options = array(
+            'size'    => $size,
+            'page'    => $page,
+            'user_id' => $user_id,
+        );
+
+        $data       = array();
+        $goods_list = RC_Api::api('user', 'user_collect_goods_list', $options);
+
+        if (!empty($goods_list['list'])) {
+            foreach ($goods_list['list'] as $val) {
+                /* 促销价格 */
+                if ($val ['promote_price'] > 0) {
+                    $promote_price = Ecjia\App\Goods\BargainPrice::bargain_price($val['promote_price'], $val['promote_start_date'], $val['promote_end_date']);
+                } else {
+                    $promote_price = 0;
+                }
+                $data[] = array(
+                    'rec_id'                       => intval($val['rec_id']),
+                    'goods_id'                     => intval($val['goods_id']),
+                    'store_id'                     => intval($val['store_id']),
+                    'store_name'                   => empty($val['merchants_name']) ? '' : trim($val['merchants_name']),
+                    'goods_name'                   => empty($val['goods_name']) ? '' : trim($val['goods_name']),
+                    'market_price'                 => sprintf("%.2f", $val['market_price']),
+                    'formatted_market_price'       => ecjia_price_format($val['market_price'], false),
+                    'shop_price'                   => sprintf("%.2f", $val['shop_price']),
+                    'formatted_shop_price'         => ecjia_price_format($val['shop_price'], false),
+                    'promote_price'                => $promote_price,
+                    'formatted_promote_price'      => $promote_price > 0 ? ecjia_price_format(promote_price, false) : '',
+                    'promote_start_date'           => $val['promote_start_date'],
+                    'promote_end_date'             => $val['promote_end_date'],
+                    'formatted_promote_start_date' => $val['promote_start_date'] > 0 ? RC_Time::local_date('Y/m/d H:i:s O', $val['promote_start_date']) : '',
+                    'formatted_promote_end_date'   => $val['promote_end_date'] > 0 ? RC_Time::local_date('Y/m/d H:i:s O', $val['promote_start_date']) : '',
+                    'img'                          => array(
+                        'thumb' => empty($val['goods_thumb']) ? '' : RC_Upload::upload_url($val['goods_thumb']),
+                        'url'   => empty($val['original_img']) ? '' : RC_Upload::upload_url($val['original_img']),
+                        'small' => empty($val['goods_img']) ? '' : RC_Upload::upload_url($val['goods_img']),
+                    ),
+                );
+            }
+        }
+
+        return array('data' => $data, 'pager' => $goods_list['page']);
+    }
 }
 
 // end

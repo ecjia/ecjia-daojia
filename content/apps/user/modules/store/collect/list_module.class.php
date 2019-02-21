@@ -50,129 +50,131 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 用户收藏的店铺列表
  * @author zrl
  */
-class store_collect_list_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    
-    	$this->authSession();
-    	$user_id = $_SESSION['user_id'];
-    	if ($user_id <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-    	
-    	$api_version = $this->request->header('api-version');
-    	//判断用户有没申请注销
-    	if (version_compare($api_version, '1.25', '>=')) {
-    		$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
-    		if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
-    			return new ecjia_error('account_status_error', '当前账号已申请注销，不可查看此数据！');
-    		}
-    	}
-    	
-    	$location = $this->requestData('location', array());
-    	
-		/* 获取数量 */
-		$size = $this->requestData('pagination.count', 15);
-		$page = $this->requestData('pagination.page', 1);
-		
-		if (!is_array($location) || empty($location['longitude']) || empty($location['latitude'])) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
-		}
-		
-		$options = array(
-				'size'			=> $size,
-				'page'			=> $page,
-				'user_id'		=> $user_id,
-				'location'		=> $location,
-		);
-		
-		$collect_store_list = RC_Api::api('store', 'store_collect_list', $options);
-		
-		if (is_ecjia_error($collect_store_list)) {
-			return $collect_store_list;
-		}
-		$arr = array();
-		if(!empty($collect_store_list['list'])) {
-			foreach ($collect_store_list['list'] as $rows) {
-				$arr[] = array(
-						'store_id' 				=> intval($rows['store_id']),
-						'store_name'			=> $rows['merchants_name'],
-						'manage_mode'			=> $rows['manage_mode'],
-						'store_logo'			=> $rows['store_logo'],
-						'store_notice'			=> $rows['store_notice'],
-						'distance'				=> $rows['distance'],
-						'label_trade_time'		=> $rows['label_trade_time'],
-						'favourable_list'		=> $rows['favourable_list'],
-						'allow_use_quickpay'	=> $rows['allow_use_quickpay'],
-						'quickpay_activity_list'=> $rows['quickpay_activity_list'],
-						'best_goods_count'		=> $this->storeBestGoodsCount($rows['store_id']),
-						'store_best_goods'		=> $this->storeBestGoods($rows['store_id']),
-				);
-			}
-		}
-		return array('data' => $arr, 'pager' => $collect_store_list['page']);
-	}
-	
-	
-	/**
-	 * 店铺推荐新品总数
-	 */
-	private function storeBestGoodsCount($store_id)
-	{		
-		$db_goods = RC_DB::table('goods')
-						->where('review_status', '>', 3)
-						->where('is_delete', 0)
-						->where('is_on_sale', 1)
-						->where('is_alone_sale', 1);
-		
-		$count = $db_goods->where('store_id', $store_id)->where('store_new', 1)->count();
-		return $count;
-	}
-	
-	/**
-	 * 店铺推荐商品
-	 */
-	private function storeBestGoods($store_id)
-	{
-		$goods_list = [];
-		$db_goods = RC_DB::table('goods')
-		->where('review_status', '>', 3)
-		->where('is_delete', 0)
-		->where('is_on_sale', 1)
-		->where('is_alone_sale', 1);
-		
-		$list = $db_goods->where('store_id', $store_id)->where('store_new', 1)->take(4)->get();
-		
-		if (!empty($list)) {
-			foreach ($list as $val) {
-				if ($val['promote_price'] > 0) {
-					$promote_price = Ecjia\App\Goods\BargainPrice::bargain_price($val['promote_price'], $val['promote_start_date'], $val['promote_end_date']);
-				} else {
-					$promote_price = 0;
-				}
-				
-				$goods_list[] = array(
-						'goods_id' 						=> intval($val['goods_id']),
-						'goods_name'					=> trim($val['goods_name']),
-						'market_price'					=> sprintf("%.2f",$val['market_price']),
-						'formatted_market_price'		=> ecjia_price_format($val['market_price'], false),
-						'shop_price'					=> sprintf("%.2f",$val['shop_price']),
-						'formatted_shop_price'			=> ecjia_price_format($val['shop_price'], false),
-						'promote_price'					=> ($promote_price > 0) ? $promote_price : '',
-						'formatted_promote_price'		=> ($promote_price > 0) ? price_format($promote_price) : '',
-						'promote_start_date'			=> $val['promote_start_date'],
-						'promote_end_date'				=> $val['promote_end_date'],
-						'formatted_promote_start_date'	=> $val['promote_start_date'] > 0 ? RC_Time::local_date('Y/m/d H:i:s O', $val['promote_start_date']) : '',
-						'formatted_promote_end_date'	=> $val['promote_end_date'] > 0 ? RC_Time::local_date('Y/m/d H:i:s O', $val['promote_start_date']) : '',
-						'img'							=> array(
-																'thumb'	 => empty($val['goods_thumb']) ? '' : RC_Upload::upload_url($val['goods_thumb']),
-																'url'	 => empty($val['original_img']) ? '' : RC_Upload::upload_url($val['original_img']),
-																'small'	 => empty($val['goods_img']) ? '' : RC_Upload::upload_url($val['goods_img']),
-															),
-				);
-			}
-		}
-		
-		return $goods_list;
-	}
+class store_collect_list_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
+        $this->authSession();
+        $user_id = $_SESSION['user_id'];
+        if ($user_id <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+
+        $api_version = $this->request->header('api-version');
+        //判断用户有没申请注销
+        if (version_compare($api_version, '1.25', '>=')) {
+            $account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
+            if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
+                return new ecjia_error('account_status_error', __('当前账号已申请注销，不可查看此数据！', 'user'));
+            }
+        }
+
+        $location = $this->requestData('location', array());
+
+        /* 获取数量 */
+        $size = $this->requestData('pagination.count', 15);
+        $page = $this->requestData('pagination.page', 1);
+
+        if (!is_array($location) || empty($location['longitude']) || empty($location['latitude'])) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+        }
+
+        $options = array(
+            'size'     => $size,
+            'page'     => $page,
+            'user_id'  => $user_id,
+            'location' => $location,
+        );
+
+        $collect_store_list = RC_Api::api('store', 'store_collect_list', $options);
+
+        if (is_ecjia_error($collect_store_list)) {
+            return $collect_store_list;
+        }
+        $arr = array();
+        if (!empty($collect_store_list['list'])) {
+            foreach ($collect_store_list['list'] as $rows) {
+                $arr[] = array(
+                    'store_id'               => intval($rows['store_id']),
+                    'store_name'             => $rows['merchants_name'],
+                    'manage_mode'            => $rows['manage_mode'],
+                    'store_logo'             => $rows['store_logo'],
+                    'store_notice'           => $rows['store_notice'],
+                    'distance'               => $rows['distance'],
+                    'label_trade_time'       => $rows['label_trade_time'],
+                    'favourable_list'        => $rows['favourable_list'],
+                    'allow_use_quickpay'     => $rows['allow_use_quickpay'],
+                    'quickpay_activity_list' => $rows['quickpay_activity_list'],
+                    'best_goods_count'       => $this->storeBestGoodsCount($rows['store_id']),
+                    'store_best_goods'       => $this->storeBestGoods($rows['store_id']),
+                );
+            }
+        }
+        return array('data' => $arr, 'pager' => $collect_store_list['page']);
+    }
+
+
+    /**
+     * 店铺推荐新品总数
+     */
+    private function storeBestGoodsCount($store_id)
+    {
+        $db_goods = RC_DB::table('goods')
+            ->where('review_status', '>', 3)
+            ->where('is_delete', 0)
+            ->where('is_on_sale', 1)
+            ->where('is_alone_sale', 1);
+
+        $count = $db_goods->where('store_id', $store_id)->where('store_new', 1)->count();
+        return $count;
+    }
+
+    /**
+     * 店铺推荐商品
+     */
+    private function storeBestGoods($store_id)
+    {
+        $goods_list = [];
+        $db_goods   = RC_DB::table('goods')
+            ->where('review_status', '>', 3)
+            ->where('is_delete', 0)
+            ->where('is_on_sale', 1)
+            ->where('is_alone_sale', 1);
+
+        $list = $db_goods->where('store_id', $store_id)->where('store_new', 1)->take(4)->get();
+
+        if (!empty($list)) {
+            foreach ($list as $val) {
+                if ($val['promote_price'] > 0) {
+                    $promote_price = Ecjia\App\Goods\BargainPrice::bargain_price($val['promote_price'], $val['promote_start_date'], $val['promote_end_date']);
+                } else {
+                    $promote_price = 0;
+                }
+
+                $goods_list[] = array(
+                    'goods_id'                     => intval($val['goods_id']),
+                    'goods_name'                   => trim($val['goods_name']),
+                    'market_price'                 => sprintf("%.2f", $val['market_price']),
+                    'formatted_market_price'       => ecjia_price_format($val['market_price'], false),
+                    'shop_price'                   => sprintf("%.2f", $val['shop_price']),
+                    'formatted_shop_price'         => ecjia_price_format($val['shop_price'], false),
+                    'promote_price'                => ($promote_price > 0) ? $promote_price : '',
+                    'formatted_promote_price'      => ($promote_price > 0) ? price_format($promote_price) : '',
+                    'promote_start_date'           => $val['promote_start_date'],
+                    'promote_end_date'             => $val['promote_end_date'],
+                    'formatted_promote_start_date' => $val['promote_start_date'] > 0 ? RC_Time::local_date('Y/m/d H:i:s O', $val['promote_start_date']) : '',
+                    'formatted_promote_end_date'   => $val['promote_end_date'] > 0 ? RC_Time::local_date('Y/m/d H:i:s O', $val['promote_start_date']) : '',
+                    'img'                          => array(
+                        'thumb' => empty($val['goods_thumb']) ? '' : RC_Upload::upload_url($val['goods_thumb']),
+                        'url'   => empty($val['original_img']) ? '' : RC_Upload::upload_url($val['original_img']),
+                        'small' => empty($val['goods_img']) ? '' : RC_Upload::upload_url($val['goods_img']),
+                    ),
+                );
+            }
+        }
+
+        return $goods_list;
+    }
 }
 // end

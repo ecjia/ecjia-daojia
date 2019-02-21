@@ -48,40 +48,42 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * 更新用户等级
- * @author 
- * @param $options['user_id']
+ * @author
+ * @param $options ['user_id']
  */
-class user_update_user_rank_api extends Component_Event_Api {
-    
-    public function call(&$options) {
+class user_update_user_rank_api extends Component_Event_Api
+{
+
+    public function call(&$options)
+    {
         if (!is_array($options) || empty($options['user_id'])) {
-            return new ecjia_error('invalid_parameter', '参数无效');
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
         }
-        
+
         $user_id = intval($options['user_id']);
-        
+
         $user_info = RC_DB::table('users')->where('user_id', $user_id)->first();
-        if(empty($user_info)) {
-            return new ecjia_error('user_not_exist', '会员信息不存在');
+        if (empty($user_info)) {
+            return new ecjia_error('user_not_exist', __('会员信息不存在', 'user'));
         }
         if ($user_info['user_rank'] > 0) {
             $rank_info = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
             if ($rank_info['special_rank']) {
                 return $rank_info;
             } else {
-                if($user_info['rank_points'] >= $rank_info['min_points'] && $user_info['rank_points'] < $rank_info['max_points']) {
+                if ($user_info['rank_points'] >= $rank_info['min_points'] && $user_info['rank_points'] < $rank_info['max_points']) {
                     return $rank_info;
                 }
             }
         }
-        
+
         $row = RC_DB::table('user_rank')->where('special_rank', 0)->where('min_points', '<=', $user_info['rank_points'])->where('max_points', '>', $user_info['rank_points'])->first();
         RC_DB::table('users')->where('user_id', $user_id)->update(array('user_rank' => $row['rank_id']));
-        if($user_info['user_rank'] != $row['rank_id']) {
+        if ($user_info['user_rank'] != $row['rank_id']) {
             //为更新用户购物车数据加标记
             RC_Api::api('cart', 'mark_cart_goods', array('user_id' => $user_id));
         }
-        
+
         return $row;
     }
 }

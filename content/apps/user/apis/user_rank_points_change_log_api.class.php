@@ -49,74 +49,77 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 会员 成长值 变动日志记录接口
  * 同时更新用户等级
- * @author 
+ * @author
  */
-class user_rank_points_change_log_api extends Component_Event_Api {
-    
-    public function call(&$options) {
+class user_rank_points_change_log_api extends Component_Event_Api
+{
+
+    public function call(&$options)
+    {
         if (!is_array($options) || !isset($options['user_id'])) {
-            return new ecjia_error('invalid_parameter', RC_Lang::get('users.users.invalid_parameter'));
+            return new ecjia_error('invalid_parameter', '参数无效');
         }
-        
-        $user_id 			= $options['user_id'];
-        $rank_points 		= isset($options['rank_points']) 	? $options['rank_points'] 		: 0;
-        $change_desc 		= isset($options['change_desc']) 	? $options['change_desc'] 		: '';
-        $change_type 		= isset($options['change_type']) 	? $options['change_type'] 		: ACT_OTHER;
-        $from_type			= isset($options['from_type']) 		? $options['from_type'] 		: '';
-        $from_value			= isset($options['from_value'])		? $options['from_value'] 	: '';
-        
+
+        $user_id     = $options['user_id'];
+        $rank_points = isset($options['rank_points']) ? $options['rank_points'] : 0;
+        $change_desc = isset($options['change_desc']) ? $options['change_desc'] : '';
+        $change_type = isset($options['change_type']) ? $options['change_type'] : ACT_OTHER;
+        $from_type   = isset($options['from_type']) ? $options['from_type'] : '';
+        $from_value  = isset($options['from_value']) ? $options['from_value'] : '';
+
         return $this->log_account_change($user_id, $rank_points, $change_desc, $change_type, $from_type, $from_value);
     }
-    
-    
+
+
     /**
      * 记录帐户变动
      *
      * @param int $user_id
-     *        	用户id
+     *            用户id
      * @param float $user_money
-     *        	可用余额变动
+     *            可用余额变动
      * @param float $frozen_money
-     *        	冻结余额变动
+     *            冻结余额变动
      * @param int $rank_points
-     *        	成长值变动
+     *            成长值变动
      * @param int $pay_points
-     *        	消费积分变动
+     *            消费积分变动
      * @param string $change_desc
-     *        	变动说明
+     *            变动说明
      * @param int $change_type
-     *        	变动类型：参见常量文件
+     *            变动类型：参见常量文件
      * @return void
      */
-    private function log_account_change($user_id, $rank_points = 0, $change_desc = '', $change_type = ACT_OTHER, $from_type='', $from_value='') {
-    	/* 插入帐户变动记录 */
-        $account_log = array (
-            'user_id'			=> $user_id,
-            'user_money'		=> 0,
-            'frozen_money'		=> 0,
-            'rank_points'		=> $rank_points,
-            'pay_points'		=> 0,
-            'change_time'		=> RC_Time::gmtime(),
-            'change_desc'		=> $change_desc,
-            'change_type'		=> $change_type,
-        	'from_type'			=> empty($from_type) ? '' : $from_type,
-        	'from_value'		=> empty($from_value) ? '' : $from_value
+    private function log_account_change($user_id, $rank_points = 0, $change_desc = '', $change_type = ACT_OTHER, $from_type = '', $from_value = '')
+    {
+        /* 插入帐户变动记录 */
+        $account_log = array(
+            'user_id'      => $user_id,
+            'user_money'   => 0,
+            'frozen_money' => 0,
+            'rank_points'  => $rank_points,
+            'pay_points'   => 0,
+            'change_time'  => RC_Time::gmtime(),
+            'change_desc'  => $change_desc,
+            'change_type'  => $change_type,
+            'from_type'    => empty($from_type) ? '' : $from_type,
+            'from_value'   => empty($from_value) ? '' : $from_value
         );
-        $log_id = RC_DB::table('account_log')->insertGetId($account_log);
-    
+        $log_id      = RC_DB::table('account_log')->insertGetId($account_log);
+
         /* 更新用户信息 */
-        // 	TODO: 暂时先恢复之前的写法
-    
+        // TODO: 暂时先恢复之前的写法
+
         $step = $rank_points;
-    
+
         RC_DB::table('users')->where('user_id', $user_id)->increment('rank_points', $step);
-        
+
         //重新计算会员等级
         RC_Api::api('user', 'update_user_rank', array('user_id' => $user_id));
-        
+
         return $log_id;
     }
-    
+
 }
 
 // end

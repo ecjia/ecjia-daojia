@@ -48,74 +48,76 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * 收货地址管理接口
- * @author 
+ * @author
  */
-class user_address_manage_api extends Component_Event_Api {
-    
-    public function call(&$address) {
-        if (!is_array($address) 
-	        || !isset($address['user_id'])
-	        || !isset($address['address'])
-	        || !isset($address['consignee'])
-	        || (!isset($address['mobile']) && !isset($address['tel']))
+class user_address_manage_api extends Component_Event_Api
+{
+
+    public function call(&$address)
+    {
+        if (!is_array($address)
+            || !isset($address['user_id'])
+            || !isset($address['address'])
+            || !isset($address['consignee'])
+            || (!isset($address['mobile']) && !isset($address['tel']))
         ) {
-            return new ecjia_error('invalid_parameter', '参数无效');
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
         }
-        
+
         /* 验证参数的合法性*/
         /* 邮箱*/
         if (!empty($address['email'])) {
-        	if (!$this->is_email($address['email'])) {
-        		return new ecjia_error('invalid_email', 'email地址格式错误');
-        	}
+            if (!$this->is_email($address['email'])) {
+                return new ecjia_error('invalid_email', __('email地址格式错误', 'user'));
+            }
         }
-        
+
         if (!empty($address['province']) && !empty($address['city']) && !empty($address['address']) && empty($address['location'])) {
             $province_name = ecjia_region::getRegionName($address['province']);
-            $city_name = ecjia_region::getRegionName($address['city']);
+            $city_name     = ecjia_region::getRegionName($address['city']);
             $district_name = ecjia_region::getRegionName($address['district']);
-            $street_name = ecjia_region::getRegionName($address['street']);
-        	
-        	$consignee_address = '';
-        	if (!empty($province_name)) {
-        		$consignee_address .= $province_name;
-        	}
-        	if (!empty($city_name)) {
-        		$consignee_address .= $city_name;
-        	}
+            $street_name   = ecjia_region::getRegionName($address['street']);
+
+            $consignee_address = '';
+            if (!empty($province_name)) {
+                $consignee_address .= $province_name;
+            }
+            if (!empty($city_name)) {
+                $consignee_address .= $city_name;
+            }
             if (!empty($district_name)) {
                 $consignee_address .= $district_name;
             }
             if (!empty($street_name)) {
                 $consignee_address .= $street_name;
             }
-        	$consignee_address .= $address['address'];
+            $consignee_address .= $address['address'];
 
             //腾讯地图api 地址解析（地址转坐标）
             $consignee_address = urlencode($consignee_address);
-            $key = ecjia::config('map_qq_key');
-            $shop_point = RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?address=".$consignee_address."&key=".$key);
-            $shop_point = json_decode($shop_point['body'], true);
+            $key               = ecjia::config('map_qq_key');
+            $shop_point        = RC_Http::remote_get("https://apis.map.qq.com/ws/geocoder/v1/?address=" . $consignee_address . "&key=" . $key);
+            $shop_point        = json_decode($shop_point['body'], true);
             if (isset($shop_point['result']) && !empty($shop_point['result']['location'])) {
-            	$address['longitude'] = $shop_point['result']['location']['lng'];
-            	$address['latitude'] = $shop_point['result']['location']['lat'];
+                $address['longitude'] = $shop_point['result']['location']['lng'];
+                $address['latitude']  = $shop_point['result']['location']['lat'];
             }
             unset($address['location']);
         } else {
-        	$address['longitude']	= $address['location']['longitude'];
-        	$address['latitude']	= $address['location']['latitude'];
+            $address['longitude'] = $address['location']['longitude'];
+            $address['latitude']  = $address['location']['latitude'];
         }
-     
+
         /* 获取用户地址 */
-        $user_address	= RC_DB::table('user_address')->where('address_id', $address['address_id'])->where('user_id', $_SESSION['user_id'])->pluck('address_id');
+        $user_address = RC_DB::table('user_address')->where('address_id', $address['address_id'])->where('user_id', $_SESSION['user_id'])->pluck('address_id');
         if ($address['address_id'] != $user_address) {
-        	return new ecjia_error('not_exists_info', '不存在的信息');
+            return new ecjia_error('not_exists_info', __('不存在的信息', 'user'));
         }
-        
+
         $address_id = $this->update_address($address);
         return $address_id;
     }
-       
+
     /**
      * 验证输入的邮件地址是否合法
      *
@@ -126,76 +128,76 @@ class user_address_manage_api extends Component_Event_Api {
      */
     private function is_email($email)
     {
-    	$chars = "/^([a-z0-9+_]|\\-|\\.)+@(([a-z0-9_]|\\-)+\\.)+[a-z]{2,6}\$/i";
-    	if (strpos($email, '@') !== false && strpos($email, '.') !== false) {
-    		if (preg_match($chars, $email))
-    			return true;
-    	}
-    	return false;
+        $chars = "/^([a-z0-9+_]|\\-|\\.)+@(([a-z0-9_]|\\-)+\\.)+[a-z]{2,6}\$/i";
+        if (strpos($email, '@') !== false && strpos($email, '.') !== false) {
+            if (preg_match($chars, $email))
+                return true;
+        }
+        return false;
     }
-    
+
     /**
      *  添加或更新指定用户收货地址
      *
      * @access  public
-     * @param   array       $address
+     * @param   array $address
      * @return  bool
      */
     private function update_address($address)
     {
-    
-    	$address_id = 0;
-    	if (isset($address['address_id'])) {
-    		$address_id = intval($address['address_id']);
-    		unset($address['address_id']);
-    	}
-    	
-    	//验证是否重复
-    	$count = RC_DB::table('user_address')->where('address_id', '!=', $address_id)
-    				->where('user_id', $address['user_id'])
-    				->where('consignee', $address['consignee'])
-    				->where('email', $address['email'])
-    				->where('country', $address['country'])
-    				->where('province', $address['province'])
-    				->where('city', $address['city'])
-    				->where('district', $address['district'])
-    				->where('street', $address['street'])
-    				->where('address', $address['address'])
-    				->where('address_info', $address['address_info'])
-    				->where('zipcode', $address['zipcode'])
-    				->where('tel', $address['tel'])
-    				->where('mobile', $address['mobile'])
-    				->count();
-    	
-    	if ($count) {
-    	    return new ecjia_error('address_repeat', '收货地址信息重复，请修改！');
-    	}
-    	//字段过滤
-    	$defaul = $address['default'];
-    	if (array_key_exists('default', $address)) {
-    		 unset($address['default']);
-    	}
-    	
-    	if ($address_id > 0) {
-    		$address['district'] = empty($address['district']) ? '' : $address['district'];
-    		
-    		/* 更新指定记录 */
-    		RC_DB::table('user_address')->where('address_id', $address_id)->where('user_id', $address['user_id'])->update($address);
-    	} else {
-    	    //上限20条
-    	    $count = RC_DB::table('user_address')->where('user_id', $address['user_id'])->count();
-    	    if ($count >= 20) {
-    	        return new ecjia_error('overflow_number', '收货地址最多只能添加20个！');
-    	    }
-    		/* 插入一条新记录 */
-    		$address_id = RC_DB::table('user_address')->insertGetId($address);
-    	}
-    
-    	if (isset($defaul) && $defaul > 0 && isset($address['user_id'])) {
-    		RC_DB::table('users')->where('user_id', $address['user_id'])->update(array('address_id' => $address_id));
-    	}
-    
-    	return $address_id;
+
+        $address_id = 0;
+        if (isset($address['address_id'])) {
+            $address_id = intval($address['address_id']);
+            unset($address['address_id']);
+        }
+
+        //验证是否重复
+        $count = RC_DB::table('user_address')->where('address_id', '!=', $address_id)
+            ->where('user_id', $address['user_id'])
+            ->where('consignee', $address['consignee'])
+            ->where('email', $address['email'])
+            ->where('country', $address['country'])
+            ->where('province', $address['province'])
+            ->where('city', $address['city'])
+            ->where('district', $address['district'])
+            ->where('street', $address['street'])
+            ->where('address', $address['address'])
+            ->where('address_info', $address['address_info'])
+            ->where('zipcode', $address['zipcode'])
+            ->where('tel', $address['tel'])
+            ->where('mobile', $address['mobile'])
+            ->count();
+
+        if ($count) {
+            return new ecjia_error('address_repeat', __('收货地址信息重复，请修改！', 'user'));
+        }
+        //字段过滤
+        $defaul = $address['default'];
+        if (array_key_exists('default', $address)) {
+            unset($address['default']);
+        }
+
+        if ($address_id > 0) {
+            $address['district'] = empty($address['district']) ? '' : $address['district'];
+
+            /* 更新指定记录 */
+            RC_DB::table('user_address')->where('address_id', $address_id)->where('user_id', $address['user_id'])->update($address);
+        } else {
+            //上限20条
+            $count = RC_DB::table('user_address')->where('user_id', $address['user_id'])->count();
+            if ($count >= 20) {
+                return new ecjia_error('overflow_number', __('收货地址最多只能添加20个！', 'user'));
+            }
+            /* 插入一条新记录 */
+            $address_id = RC_DB::table('user_address')->insertGetId($address);
+        }
+
+        if (isset($defaul) && $defaul > 0 && isset($address['user_id'])) {
+            RC_DB::table('users')->where('user_id', $address['user_id'])->update(array('address_id' => $address_id));
+        }
+
+        return $address_id;
     }
 }
 

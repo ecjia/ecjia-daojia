@@ -1,0 +1,439 @@
+# Copyright (C) 2019 Ecjia App user
+# This file is distributed under the same license as the Ecjia App user package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App user 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:59:44+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin_rank.php:206
+msgid "编辑会员等级"
+msgstr ""
+
+#: apis/user_account_change_log_api.class.php:59
+#: apis/user_address_manage_api.class.php:64
+#: apis/user_edit_user_api.class.php:59
+#: apis/user_get_user_list_api.class.php:64
+#: apis/user_neighbors_address_api.class.php:63
+#: apis/user_neighbors_address_store_api.class.php:63
+#: apis/user_update_user_rank_api.class.php:60
+#: apis/user_user_info_api.class.php:59
+msgid "参数无效"
+msgstr ""
+
+#: apis/user_add_local_user_api.class.php:82
+msgid "调用接口user_add_local_user_api参数无效"
+msgstr ""
+
+#: apis/user_add_local_user_api.class.php:95
+msgid "创建用户失败"
+msgstr ""
+
+#: apis/user_add_user_api.class.php:86
+msgid "调用接口user_add_user_api参数无效"
+msgstr ""
+
+#: apis/user_add_user_api.class.php:94
+msgid "创建用户失败%s"
+msgstr ""
+
+#: apis/user_address_manage_api.class.php:71
+msgid "email地址格式错误"
+msgstr ""
+
+#: apis/user_address_manage_api.class.php:114
+msgid "不存在的信息"
+msgstr ""
+
+#: apis/user_address_manage_api.class.php:173
+msgid "收货地址信息重复，请修改！"
+msgstr ""
+
+#: apis/user_address_manage_api.class.php:190
+msgid "收货地址最多只能添加20个！"
+msgstr ""
+
+#: apis/user_admin_menu_api.class.php:57
+#: apis/user_admin_purview_api.class.php:59
+msgid "会员管理"
+msgstr ""
+
+#: apis/user_admin_menu_api.class.php:59
+msgid "会员列表"
+msgstr ""
+
+#: apis/user_admin_menu_api.class.php:60
+msgid "添加会员"
+msgstr ""
+
+#: apis/user_admin_menu_api.class.php:61
+msgid "会员等级"
+msgstr ""
+
+#: apis/user_admin_menu_api.class.php:62
+msgid "会员排行"
+msgstr ""
+
+#: apis/user_admin_menu_api.class.php:63
+#: apis/user_admin_purview_api.class.php:64
+msgid "会员注册项设置"
+msgstr ""
+
+#: apis/user_admin_purview_api.class.php:60
+msgid "更新会员"
+msgstr ""
+
+#: apis/user_admin_purview_api.class.php:61
+msgid "删除会员"
+msgstr ""
+
+#: apis/user_admin_purview_api.class.php:63
+msgid "会员等级管理"
+msgstr ""
+
+#: apis/user_admin_purview_api.class.php:66
+msgid "会员设置"
+msgstr ""
+
+#: apis/user_edit_user_api.class.php:71
+msgid "设置密码失败"
+msgstr ""
+
+#: apis/user_store_user_list_api.class.php:19
+msgid "调用api文件store_user_list参数无效"
+msgstr ""
+
+#: apis/user_store_user_list_api.class.php:62
+#: apis/user_store_user_list_api.class.php:64
+msgid "非特殊等级"
+msgstr ""
+
+#: apis/user_update_user_avatar_api.class.php:59
+msgid "调用update_user_avatar参数无效"
+msgstr ""
+
+#: apis/user_update_user_rank_api.class.php:67
+msgid "会员信息不存在"
+msgstr ""
+
+#: apis/user_user_account_info_api.class.php:66
+msgid "调用接口user_account_info_api参数无效！"
+msgstr ""
+
+#: apis/user_user_bonus_list_api.class.php:114
+msgid "未开始"
+msgstr ""
+
+#: apis/user_user_bonus_list_api.class.php:118
+msgid "已过期"
+msgstr ""
+
+#: apis/user_user_bonus_list_api.class.php:121
+msgid "可使用"
+msgstr ""
+
+#: apis/user_user_bonus_list_api.class.php:125
+msgid "已使用"
+msgstr ""
+
+#: apis/user_user_collect_goods_list_api.class.php:19
+msgid "调用api文件,user_collect_goods_list参数无效"
+msgstr ""
+
+#: apis/user_user_remove_cleardata_api.class.php:63
+msgid "请求接口user_user_remove_cleardata_api参数无效"
+msgstr ""
+
+#: configs/package.php:55
+msgid "会员"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"都说“顾客是上帝”，那么我们对上帝的信息储存岂能怠慢？会员应用不仅为“上帝”打造"
+"更好的信息管理储存，同时也为商家对会员信息、会员订单、消费明细、充值、提现、"
+"收货地址、详细信息、注册项等应有尽有的功能全方面进行管理，同时可对用户收支、"
+"消费等习惯统计整合，分析出用户消费习惯喜好，迎合现如今的大数据时代。"
+msgstr ""
+
+#: functions/admin_user.func.php:347
+msgid "充值"
+msgstr ""
+
+#: functions/admin_user.func.php:349
+msgid "提现"
+msgstr ""
+
+#: functions/admin_user.func.php:916
+msgid "免费"
+msgstr ""
+
+#: get_password.php:104 modules/validate/forget_password_module.class.php:83
+msgid "验证码错误！"
+msgstr ""
+
+#: get_password.php:104
+msgid "请填全用户信息！"
+msgstr ""
+
+#: get_password.php:124
+msgid "手机号绑定多个用户，请联系管理员！"
+msgstr ""
+
+#: get_password.php:139
+msgid "用户信息不正确！"
+msgstr ""
+
+#: get_password.php:179
+msgid "短信发送失败！"
+msgstr ""
+
+#: get_password.php:242 modules/admin/user/forget_validate_module.class.php:75
+msgid "校验码错误！"
+msgstr ""
+
+#: get_password.php:336
+msgid "问题答案错误！"
+msgstr ""
+
+#: get_password.php:359
+msgid "密码长度最少6位！"
+msgstr ""
+
+#: get_password.php:364
+msgid "两次密码不一致！"
+msgstr ""
+
+#: get_password.php:387 get_password.php:392
+msgid "处理失败！请重新操作！"
+msgstr ""
+
+#: modules/admin/user/account/deposit_module.class.php:29
+#: modules/user/account/deposit_module.class.php:77
+#: modules/user/account/raply_module.class.php:74
+#: modules/user/account/withdraw_module.class.php:87
+msgid "请在“金额”栏输入大于0的数字！"
+msgstr ""
+
+#: modules/admin/user/account/deposit_module.class.php:55
+#: modules/user/account/deposit_module.class.php:107
+msgid "请选择支付方式！"
+msgstr ""
+
+#: modules/admin/user/account/deposit_module.class.php:60
+#: modules/admin/user/account/pay_module.class.php:87
+#: modules/user/account/deposit_module.class.php:114
+#: modules/user/account/pay_module.class.php:132
+msgid "支付方式无效，请重新选择支付方式！"
+msgstr ""
+
+#: modules/admin/user/forget_request_module.class.php:62
+msgid "请填写用户相关信息！"
+msgstr ""
+
+#: modules/admin/user/forget_request_module.class.php:68
+msgid "邮箱格式不正确！"
+msgstr ""
+
+#: modules/admin/user/forget_request_module.class.php:93
+msgid "邮件发送失败！"
+msgstr ""
+
+#: modules/admin/user/forget_request_module.class.php:99
+msgid "用户名与其信息不匹配！"
+msgstr ""
+
+#: modules/admin/user/forget_validate_module.class.php:63
+msgid "请填写校验码！"
+msgstr ""
+
+#: modules/admin/user/forget_validate_module.class.php:67
+msgid "校验码已过期！"
+msgstr ""
+
+#: modules/admin/user/signin_module.class.php:62
+#: modules/admin/user/signin_module.class.php:187
+msgid "您输入的帐号信息不正确。"
+msgstr ""
+
+#: modules/admin/validate/get_module.class.php:119
+#: modules/validate/get_module.class.php:121
+msgid "请检查短信模板send_validate"
+msgstr ""
+
+#: modules/admin/validate/get_module.class.php:133
+#: modules/user/forget_password_module.class.php:143
+#: modules/validate/get_module.class.php:135
+msgid "验证码发送失败！"
+msgstr ""
+
+#: modules/user/account/activate/apply_module.class.php:103
+#: modules/user/account/delete/apply_module.class.php:114
+#: modules/user/paypassword/modify_module.class.php:106
+#: modules/user/signin_module.class.php:97
+#: modules/validate/bind_module.class.php:69
+msgid "验证码已过期，请重新获取！"
+msgstr ""
+
+#: modules/user/account/activate/apply_module.class.php:107
+#: modules/user/account/delete/apply_module.class.php:118
+#: modules/user/paypassword/modify_module.class.php:110
+#: modules/user/signin_module.class.php:101
+#: modules/validate/bind_module.class.php:74
+msgid "验证码错误，请重新填写！"
+msgstr ""
+
+#: modules/user/account/activate/apply_module.class.php:112
+#: modules/user/account/delete/apply_module.class.php:123
+#: modules/user/paypassword/modify_module.class.php:115
+msgid "接受验证码手机号与用户绑定手机号不同！"
+msgstr ""
+
+#: modules/user/account/raply_module.class.php:125
+msgid "您要申请提现的金额超过了您现有的余额，此操作将不可进行！"
+msgstr ""
+
+#: modules/user/account/raply_module.class.php:159
+msgid "此次操作失败，请返回重试！"
+msgstr ""
+
+#: modules/user/forget_password_module.class.php:94
+#: modules/user/reset_password_module.class.php:69
+#: modules/validate/forget_password_module.class.php:69
+msgid "手机号重复，请与管理员联系！"
+msgstr ""
+
+#: modules/user/forget_password_module.class.php:103
+#: modules/user/reset_password_module.class.php:78
+#: modules/validate/forget_password_module.class.php:78
+msgid "用户信息错误！"
+msgstr ""
+
+#: modules/user/forget_password_module.class.php:131
+msgid "通过短信找回密码"
+msgstr ""
+
+#: modules/user/password_module.class.php:80
+#: modules/user/reset_password_module.class.php:93
+msgid "- 登录密码不能少于 6 个字符。"
+msgstr ""
+
+#: modules/user/password_module.class.php:107
+#: modules/user/password_module.class.php:110
+#: modules/user/password_module.class.php:172
+#: modules/user/password_module.class.php:175
+msgid "您输入的旧密码不正确！"
+msgstr ""
+
+#: modules/user/reset_password_module.class.php:84
+#: modules/validate/forget_password_module.class.php:89
+msgid "验证码过期，请重新获取验证码！"
+msgstr ""
+
+#: modules/user/reset_password_module.class.php:88
+msgid "验证码验证失败！"
+msgstr ""
+
+#: modules/user/signin_module.class.php:105
+#: modules/validate/bind_module.class.php:80
+msgid "信息错误，请重新获取验证码"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:95
+msgid "1970-01-01 00:00:00"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:26
+msgid "请输入您注册时的手机号"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:26
+msgid "请输入您注册时的用户名"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:31
+msgid "请输入您注册时的邮件地址"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:37
+msgid "验证码"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:44
+#: content/apps/user/templates/front/forget_password.dwt.php:98
+#: content/apps/user/templates/front/forget_password.dwt.php:124
+#: content/apps/user/templates/front/forget_password.dwt.php:150
+#: content/apps/user/templates/front/forget_password.dwt.php:184
+msgid "下一步"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:55
+msgid "基于对您当前的操作环境的检测，请选择以下任一种方式进行校验"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:60
+msgid "验证电子邮箱"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:66
+msgid "回答安全保护问题"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:80
+msgid "验证码已发送到您的手机"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:82
+msgid "验证码已发送到您的邮箱"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:91
+msgid "校验码"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:103
+#: content/apps/user/templates/front/forget_password.dwt.php:154
+msgid "选择其它校验方式"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:114
+msgid "请输入您注册的用户名以取得您的密码提示问题。"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:119
+msgid "用户名"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:139
+msgid "填入答案"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:162
+msgid "新登录密码仅用于本店账户登录"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:167
+msgid "新密码"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:171
+msgid "确认密码"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:176
+msgid "密码由6-20位英文字母、数字或者符号组成"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:179
+msgid "显示密码"
+msgstr ""
+
+#: content/apps/user/templates/front/forget_password.dwt.php:195
+msgid "密码修改成功，请返回重新登录！"
+msgstr ""

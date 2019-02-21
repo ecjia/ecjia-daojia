@@ -85,56 +85,56 @@ class UserManager
     {
         /* 检查注册是否关闭 */
         if (ecjia_config::has('shop_reg_closed')) {
-            return new ecjia_error('99999', '该网店暂停注册');
+            return new ecjia_error('99999', __('该网店暂停注册', 'user'));
         }
 
         /* 检查username */
         if (empty($username)) {
-            return new ecjia_error('200', '用户名不能为空');
+            return new ecjia_error('200', __('用户名不能为空', 'user'));
         }
 
         if (preg_match('/\'\/^\\s*$|^c:\\\\con\\\\con$|[%,\\*\\"\\s\\t\\<\\>\\&\'\\\\]/', $username)) {
-            return new ecjia_error('201', '用户名含有敏感字符');
+            return new ecjia_error('201', __('用户名含有敏感字符', 'user'));
         }
 
         /* 检查email */
         if (empty($email)) {
-            return new ecjia_error('203', 'email不能为空');
+            return new ecjia_error('203', __('email不能为空', 'user'));
         }
 
         if (!is_email($email)) {
-            return new ecjia_error('204', '不是合法的email地址');
+            return new ecjia_error('204', __('不是合法的email地址', 'user'));
         }
 
 
-        if (! self::$instance->addUser($username, $password, $email)) {
+        if (!self::$instance->addUser($username, $password, $email)) {
             if (self::$instance->getError() == (self::$instance)::ERR_INVALID_USERNAME) {
 
-                return new ecjia_error('username_invalid', sprintf("用户名 %s 含有敏感字符", $username));
+                return new ecjia_error('username_invalid', sprintf(__("用户名 %s 含有敏感字符", 'user'), $username));
 
             } elseif (self::$instance->getError() == (self::$instance)::ERR_USERNAME_NOT_ALLOW) {
 
-                return new ecjia_error('username_not_allow', sprintf("用户名 %s 不允许注册", $username));
+                return new ecjia_error('username_not_allow', sprintf(__("用户名 %s 不允许注册", 'user'), $username));
 
             } elseif (self::$instance->getError() == (self::$instance)::ERR_USERNAME_EXISTS) {
 
-                return new ecjia_error('username_exist', sprintf("用户名 %s 已经存在", $username));
+                return new ecjia_error('username_exist', sprintf(__("用户名 %s 已经存在", 'user'), $username));
 
             } elseif (self::$instance->getError() == (self::$instance)::ERR_INVALID_EMAIL) {
 
-                return new ecjia_error('email_invalid', sprintf("%s 不是合法的email地址", $email));
+                return new ecjia_error('email_invalid', sprintf(__("%s 不是合法的email地址", 'user'), $email));
 
             } elseif (self::$instance->getError() == (self::$instance)::ERR_EMAIL_NOT_ALLOW) {
 
-                return new ecjia_error('email_not_allow', sprintf("Email %s 不允许注册", $email));
+                return new ecjia_error('email_not_allow', sprintf(__("Email %s 不允许注册", 'user'), $email));
 
             } elseif (self::$instance->getError() == (self::$instance)::ERR_EMAIL_EXISTS) {
 
-                return new ecjia_error('email_exist', sprintf("%s 已经存在", $email));
+                return new ecjia_error('email_exist', sprintf(__("%s 已经存在", 'user'), $email));
 
             } else {
 
-                return new ecjia_error('unknown_error', '未知错误！');
+                return new ecjia_error('unknown_error', __('未知错误！', 'user'));
 
             }
 
@@ -171,15 +171,15 @@ class UserManager
     {
         /* 检查username */
         if (empty($username)) {
-            return new ecjia_error('200', '用户名不能为空');
+            return new ecjia_error('200', __('用户名不能为空', 'user'));
         }
 
         if (preg_match('/\'\/^\\s*$|^c:\\\\con\\\\con$|[%,\\*\\"\\s\\t\\<\\>\\&\'\\\\]/', $username)) {
-            return new ecjia_error('201', '用户名含有敏感字符');
+            return new ecjia_error('201', __('用户名含有敏感字符', 'user'));
         }
 
-        if (! self::$instance->login($username, $password)) {
-            return new ecjia_error('login_failure', '登录失败');
+        if (!self::$instance->login($username, $password)) {
+            return new ecjia_error('login_failure', __('登录失败', 'user'));
         }
 
         /**

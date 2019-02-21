@@ -67,18 +67,19 @@ class user_add_local_user_api extends Component_Event_Api
      * @param array $options
      * @return array | ecjia_error
      */
-    public function call(& $options) {
+    public function call(& $options)
+    {
 
         $username = array_get($options, 'username');
-        $mobile = array_get($options, 'mobile');
+        $mobile   = array_get($options, 'mobile');
         $password = array_get($options, 'password');
-        $email = array_get($options, 'email');
-        $gender = array_get($options, 'gender');
+        $email    = array_get($options, 'email');
+        $gender   = array_get($options, 'gender');
         $birthday = array_get($options, 'birthday');
         $reg_date = array_get($options, 'reg_date');
 
         if (empty($username)) {
-            return new ecjia_error('invalid_parameter', '调用接口user_add_local_user_api参数无效');
+            return new ecjia_error('invalid_parameter', __('调用接口user_add_local_user_api参数无效', 'user'));
         }
 
         if (!empty($mobile)) {
@@ -86,12 +87,12 @@ class user_add_local_user_api extends Component_Event_Api
         }
 
         $localUser = new \Ecjia\App\User\LocalUser();
-        $model = $localUser->create($username);
+        $model     = $localUser->create($username);
         if ($model) {
             $profile = $localUser->getProfileByModel($model);
             return $profile;
         } else {
-            return new ecjia_error('create_user_failed', '创建用户失败');
+            return new ecjia_error('create_user_failed', __('创建用户失败', 'user'));
         }
 
     }

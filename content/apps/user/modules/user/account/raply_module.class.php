@@ -50,116 +50,118 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 用户提现申请
  * @author royalwang
  */
-class user_account_raply_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-    	if ($_SESSION['user_id'] <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-    	
-    	$user_id    = $_SESSION['user_id'];
-    	$api_version = $this->request->header('api-version');
-    	//判断用户有没申请注销
-    	if (version_compare($api_version, '1.25', '>=')) {
-    		$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
-    		if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
-    			return new ecjia_error('account_status_error', '当前账号已申请注销，不可执行此操作！');
-    		}
-    	}
-    	
- 		$amount = $this->requestData('amount');
- 		$user_note = $this->requestData('note', '');
- 		$amount = floatval($amount);
-		if ($amount <= 0) {
- 			return new ecjia_error('amount_gt_zero', __('请在“金额”栏输入大于0的数字！'));
- 		}
- 		
- 		$pay_fee = '0.00';
- 		$real_amount = $amount;
- 		
- 		$api_version = $this->request->header('api-version'); 
- 		if (version_compare($api_version, '1.24', '>=')) {
- 			/* 最小提现金额 */
- 			$withdraw_min_amount = ecjia::config('withdraw_min_amount');
- 			if ($withdraw_min_amount > 0) {
- 				if ($amount < $withdraw_min_amount) {
- 					return new ecjia_error('withdraw_min_amount_error', '提现金额不可小于最小提现金额：'.$withdraw_min_amount.'元');
- 				}
- 			}
- 			/* 提现手续费 */
- 			$withdraw_fee = ecjia::config('withdraw_fee');
- 			if ($withdraw_fee > 0) {
- 				$pay_fee = $amount*($withdraw_fee/100);
- 				if ($pay_fee > $amount) {
- 					$pay_fee = $amount;
- 				}
- 				$real_amount = $amount - $pay_fee;
- 			}
- 		}
- 		
- 		$user_id = $_SESSION['user_id'];
- 		
- 		RC_Loader::load_app_func('admin_order', 'orders');
- 		/* 变量初始化 */
- 		$surplus = array(
-			'user_id'      => $user_id,
-			'order_sn'	   => ecjia_order_deposit_sn(),
-			'account_id'   => 0,
-			'process_type' => 1,
-			'payment_id'   => 0,
-			'user_note'    => $user_note,
-			'amount'       => $amount,
- 			'from_type'	   => 'user',
- 			'from_value'   => $user_id,
- 			'pay_fee'	   => $pay_fee,
- 			'real_amount'  => $real_amount
- 		);
- 		
- 		RC_Loader::load_app_func('admin_user', 'user');
- 		/* 判断是否有足够的余额的进行退款的操作 */
- 		//$sur_amount = get_user_surplus($user_id);
- 		//会员可用余额 ，既 用户现有余额;
- 		RC_Loader::load_app_class('user_account', 'user', false);
- 		$user_current_money = user_account::get_user_money($user_id);
- 		if ($amount > $user_current_money) {
- 			return new ecjia_error('surplus_amount_error', __('您要申请提现的金额超过了您现有的余额，此操作将不可进行！'));
- 		}
- 		
- 		//插入会员账目明细
- 		$insert_amount = '-'.$amount;
- 		$surplus['payment'] = '';
- 		$surplus['account_id']  = insert_user_account($surplus, $insert_amount);
- 		
- 		/* 如果成功提交 */
- 		if ($surplus['account_id'] > 0) {
- 			
- 			/* 插入支付流水记录*/
- 		    RC_Api::api('payment', 'save_payment_record', [
-     		    'order_sn' 		 => $surplus['order_sn'],
-     		    'total_fee'      => $amount,
-     		    'trade_type'	 => 'withdraw',
- 		    ]);
- 		    
-			//提现申请成功，记录account_log；从余额中冻结提现金额
- 		    $frozen_money = $amount;
- 		    $user_money = '-'.$amount;
- 		    
- 		    $options = array(
- 		    		'user_id'		=> $_SESSION['user_id'],
- 		    		'frozen_money'	=> $frozen_money,
- 		    		'user_money'	=> $user_money,
- 		    		'change_type'	=> ACT_DRAWING,
- 		    		'change_desc'	=> '【申请提现】'
- 		    );
- 		    
- 		    RC_Api::api('user', 'account_change_log',$options);
- 		    
- 			return array('data' => "您的提现申请已成功提交，请等待管理员的审核！");
- 		} else {
- 			$result = new ecjia_error('process_false', __('此次操作失败，请返回重试！'));
- 			return $result;
- 		}
-	}
+class user_account_raply_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
+        if ($_SESSION['user_id'] <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+
+        $user_id     = $_SESSION['user_id'];
+        $api_version = $this->request->header('api-version');
+        //判断用户有没申请注销
+        if (version_compare($api_version, '1.25', '>=')) {
+            $account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
+            if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
+                return new ecjia_error('account_status_error', __('当前账号已申请注销，不可执行此操作！', 'user'));
+            }
+        }
+
+        $amount    = $this->requestData('amount');
+        $user_note = $this->requestData('note', '');
+        $amount    = floatval($amount);
+        if ($amount <= 0) {
+            return new ecjia_error('amount_gt_zero', __('请在“金额”栏输入大于0的数字！', 'user'));
+        }
+
+        $pay_fee     = '0.00';
+        $real_amount = $amount;
+
+        $api_version = $this->request->header('api-version');
+        if (version_compare($api_version, '1.24', '>=')) {
+            /* 最小提现金额 */
+            $withdraw_min_amount = ecjia::config('withdraw_min_amount');
+            if ($withdraw_min_amount > 0) {
+                if ($amount < $withdraw_min_amount) {
+                    return new ecjia_error('withdraw_min_amount_error', sprintf(__('提现金额不可小于最小提现金额：%s元', 'user')), $withdraw_min_amount);
+                }
+            }
+            /* 提现手续费 */
+            $withdraw_fee = ecjia::config('withdraw_fee');
+            if ($withdraw_fee > 0) {
+                $pay_fee = $amount * ($withdraw_fee / 100);
+                if ($pay_fee > $amount) {
+                    $pay_fee = $amount;
+                }
+                $real_amount = $amount - $pay_fee;
+            }
+        }
+
+        $user_id = $_SESSION['user_id'];
+
+        RC_Loader::load_app_func('admin_order', 'orders');
+        /* 变量初始化 */
+        $surplus = array(
+            'user_id'      => $user_id,
+            'order_sn'     => ecjia_order_deposit_sn(),
+            'account_id'   => 0,
+            'process_type' => 1,
+            'payment_id'   => 0,
+            'user_note'    => $user_note,
+            'amount'       => $amount,
+            'from_type'    => 'user',
+            'from_value'   => $user_id,
+            'pay_fee'      => $pay_fee,
+            'real_amount'  => $real_amount
+        );
+
+        RC_Loader::load_app_func('admin_user', 'user');
+        /* 判断是否有足够的余额的进行退款的操作 */
+        //$sur_amount = get_user_surplus($user_id);
+        //会员可用余额 ，既 用户现有余额;
+        RC_Loader::load_app_class('user_account', 'user', false);
+        $user_current_money = user_account::get_user_money($user_id);
+        if ($amount > $user_current_money) {
+            return new ecjia_error('surplus_amount_error', __('您要申请提现的金额超过了您现有的余额，此操作将不可进行！', 'user'));
+        }
+
+        //插入会员账目明细
+        $insert_amount         = '-' . $amount;
+        $surplus['payment']    = '';
+        $surplus['account_id'] = insert_user_account($surplus, $insert_amount);
+
+        /* 如果成功提交 */
+        if ($surplus['account_id'] > 0) {
+
+            /* 插入支付流水记录*/
+            RC_Api::api('payment', 'save_payment_record', [
+                'order_sn'   => $surplus['order_sn'],
+                'total_fee'  => $amount,
+                'trade_type' => 'withdraw',
+            ]);
+
+            //提现申请成功，记录account_log；从余额中冻结提现金额
+            $frozen_money = $amount;
+            $user_money   = '-' . $amount;
+
+            $options = array(
+                'user_id'      => $_SESSION['user_id'],
+                'frozen_money' => $frozen_money,
+                'user_money'   => $user_money,
+                'change_type'  => ACT_DRAWING,
+                'change_desc'  => __('【申请提现】', 'user')
+            );
+
+            RC_Api::api('user', 'account_change_log', $options);
+
+            return array('data' => __("您的提现申请已成功提交，请等待管理员的审核！", 'user'));
+        } else {
+            $result = new ecjia_error('process_false', __('此次操作失败，请返回重试！', 'user'));
+            return $result;
+        }
+    }
 }
 
 // end

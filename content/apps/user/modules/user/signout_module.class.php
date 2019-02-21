@@ -46,33 +46,35 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class user_signout_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-		$device		= $this->device;
+class user_signout_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
 
-		$user_id = $_SESSION['user_id'];
-		//用户退出，删除ecjia同步登录用户信息
-		$open_id = RC_DB::table('connect_user')->where('user_id', $user_id)->where('user_type', 'user')->where('connect_code', 'app')->pluck('open_id');
-		(new Ecjia\App\Connect\Plugins\EcjiaSyncAppUser($open_id, 'user'))->setUserId($user_id)->deleteEcjiaAppUser();
-		
+        $device = $this->device;
+
+        $user_id = $_SESSION['user_id'];
+        //用户退出，删除ecjia同步登录用户信息
+        $open_id = RC_DB::table('connect_user')->where('user_id', $user_id)->where('user_type', 'user')->where('connect_code', 'app')->pluck('open_id');
+        (new Ecjia\App\Connect\Plugins\EcjiaSyncAppUser($open_id, 'user'))->setUserId($user_id)->deleteEcjiaAppUser();
+
         ecjia_integrate::logout();
-		RC_Session::destroy();
-		
-		//修改关联设备号用户id为0
-		$result = ecjia_app::validate_application('mobile');
-		if (!is_ecjia_error($result)) {
-			if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
-				RC_DB::table('mobile_device')
-						->where('device_udid', $device['udid'])
-						->where('device_client', $device['client'])
-						->where('device_code', $device['code'])
-						->where('user_type', 'user')->update(array('user_id' => 0));
-			}
-		}
-		
-		return array();
-	}
+        RC_Session::destroy();
+
+        //修改关联设备号用户id为0
+        $result = ecjia_app::validate_application('mobile');
+        if (!is_ecjia_error($result)) {
+            if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
+                RC_DB::table('mobile_device')
+                    ->where('device_udid', $device['udid'])
+                    ->where('device_client', $device['client'])
+                    ->where('device_code', $device['code'])
+                    ->where('user_type', 'user')->update(array('user_id' => 0));
+            }
+        }
+
+        return array();
+    }
 }
 
 // end

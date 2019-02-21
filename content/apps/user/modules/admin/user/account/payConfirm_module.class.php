@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 商家给用户充值，充值订单支付确认
  * @author zrl
@@ -53,143 +54,144 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class payConfirm_module extends api_admin implements api_interface
 {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
-    {	
-		$this->authadminSession();
-		if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-		$device = $this->device;
-		
-    	/* 获取请求当前数据的device信息*/
+    {
+        $this->authadminSession();
+        if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+        $device = $this->device;
+
+        /* 获取请求当前数据的device信息*/
         $codes = RC_Loader::load_app_config('cashier_device_code', 'cashier');
         if (!is_array($device) || !isset($device['code']) || !in_array($device['code'], $codes)) {
-            return new ecjia_error('caskdesk_error', '非收银台请求！');
+            return new ecjia_error('caskdesk_error', __('非收银台请求！', 'user'));
         }
-		
-		$account_id = $this->requestData('account_id');
-		
-		if (empty($account_id)) {
-			return new ecjia_error('invalid_parameter', '参数错误');
-		}
-		
-		/* 查询充值订单信息 */
-		$user_account_info = RC_DB::table('user_account')->where('id', $account_id)->first();
-		
-		if (empty($user_account_info)) {
-			return new ecjia_error('deposit_log_not_exist', '充值记录不存在');
-		}
-		$payment_method	= new Ecjia\App\Payment\PaymentPlugin();
-		$pay_info = $payment_method->getPluginDataByCode($user_account_info['payment']);
-		
-		$payment_handler = $payment_method->channel($user_account_info['payment']);
-		
-		/* 判断是否有支付方式有没*/
-		if (is_ecjia_error($payment_handler)) {
-			return $payment_handler;
-		}
-		
-		if (in_array($pay_info['pay_code'], array('pay_koolyun_alipay', 'pay_koolyun_unionpay', 'pay_koolyun_wxpay', 'pay_shouqianba'))) {
-			$result = RC_Api::api('finance', 'surplus_order_paid', array('order_sn' => $user_account_info['order_sn'], 'money' => $user_account_info['amount']));
-			if (is_ecjia_error($result)) {
-				return $result;
-			} else {
-				$data = array(
-						'account_id' 		=> $user_account_info['id'],
-						'amount'			=> $user_account_info['amount'],
-						'formatted_amount' 	=> price_format($user_account_info['amount'], false),
-						'pay_code'			=> $pay_info['pay_code'],
-						'pay_name'			=> $pay_info['pay_name'],
-						'pay_status'		=> 'success',
-						'desc'				=> '订单支付成功！'
-				);
-				$print_data = $this->_get_print_data($user_account_info);
-				return array('payment' => $data, 'print_data' => $print_data);
-			}
-		} else {
-			return new ecjia_error('not_support_payment', '此充值记录对应的支付方式不支持收银台充值支付！');
-		}
-	}
-	
-	/**
-	 * 获取小票打印数据
-	 */
-	private function _get_print_data($user_account_info = array())
-	{
-		$surplus_print_data = [];
-		if (!empty($user_account_info)) {
-			$payment_record_info 	= $this->_paymentRecord_info($user_account_info['order_sn'], 'surplus');
-			$pay_name				= RC_DB::table('payment')->where('pay_code', $user_account_info['payment'])->pluck('pay_name');
-		
-			$user_info = [];
-			//有没用户
-			if ($user_account_info['user_id'] > 0) {
-				$userinfo = $this->getuserinfo($user_account_info['user_id']);
-				if (!empty($userinfo)) {
-					$user_info = array(
-							'user_name' 			=> empty($userinfo['user_name']) ? '' : trim($userinfo['user_name']),
-							'mobile'				=> empty($userinfo['mobile_phone']) ? '' : trim($userinfo['mobile_phone']),
-							'user_points'			=> $userinfo['pay_points'],
-							'user_money'			=> $userinfo['user_money'],
-							'formatted_user_money'	=> price_format($userinfo['user_money'], false),
-					);
-				}
-			}
-		
-			//充值操作收银员
-			$cashier_name = empty($user_account_info['admin_user']) ? '' : $user_account_info['admin_user'];
-		
-			$surplus_print_data = array(
-					'order_sn' 						=> trim($user_account_info['order_sn']),
-					'trade_no'						=> empty($payment_record_info['trade_no']) ? '' : $payment_record_info['trade_no'],
-					'order_trade_no'				=> empty($payment_record_info['order_trade_no']) ? '' : $payment_record_info['order_trade_no'],
-					'trade_type'					=> 'surplus',
-					'pay_time'						=> empty($user_account_info['paid_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $user_account_info['paid_time']),
-					'goods_list'					=> [],
-					'total_goods_number' 			=> 0,
-					'total_goods_amount'			=> $user_account_info['amount'],
-					'formatted_total_goods_amount'	=> price_format($user_account_info['amount'], false),
-					'total_discount'				=> 0,
-					'formatted_total_discount'		=> '',
-					'money_paid'					=> $user_account_info['amount'],
-					'formatted_money_paid'			=> price_format($user_account_info['amount'], false),
-					'integral'						=> 0,
-					'integral_money'				=> '',
-					'formatted_integral_money'		=> '',
-					'pay_name'						=> empty($pay_name) ? '' : $pay_name,
-					'payment_account'				=> '',
-					'user_info'						=> $user_info,
-					'refund_sn'						=> '',
-					'refund_total_amount'			=> 0,
-					'formatted_refund_total_amount' => '',
-					'cashier_name'					=> $cashier_name
-			);
-		}
-		 
-		return $surplus_print_data;
-	}
-	
-	/**
-	 * 用户信息
-	 */
-	private function getuserinfo ($user_id = 0) {
-		$user_info = RC_DB::table('users')->where('user_id', $user_id)->first();
-		return $user_info;
-	}
-	
-	/**
-	 * 支付交易记录信息
-	 * @param string $order_sn
-	 * @param string $trade_type
-	 * @return array
-	 */
-	private function _paymentRecord_info($order_sn = '', $trade_type = '')
-	{
-		$payment_revord_info = [];
-		if (!empty($order_sn) && !empty($trade_type)) {
-			$payment_revord_info = RC_DB::table('payment_record')->where('order_sn', $order_sn)->where('trade_type', $trade_type)->first();
-		}
-		return $payment_revord_info;
-	}
+
+        $account_id = $this->requestData('account_id');
+
+        if (empty($account_id)) {
+            return new ecjia_error('invalid_parameter', __('参数错误', 'user'));
+        }
+
+        /* 查询充值订单信息 */
+        $user_account_info = RC_DB::table('user_account')->where('id', $account_id)->first();
+
+        if (empty($user_account_info)) {
+            return new ecjia_error('deposit_log_not_exist', __('充值记录不存在', 'user'));
+        }
+        $payment_method = new Ecjia\App\Payment\PaymentPlugin();
+        $pay_info       = $payment_method->getPluginDataByCode($user_account_info['payment']);
+
+        $payment_handler = $payment_method->channel($user_account_info['payment']);
+
+        /* 判断是否有支付方式有没*/
+        if (is_ecjia_error($payment_handler)) {
+            return $payment_handler;
+        }
+
+        if (in_array($pay_info['pay_code'], array('pay_koolyun_alipay', 'pay_koolyun_unionpay', 'pay_koolyun_wxpay', 'pay_shouqianba'))) {
+            $result = RC_Api::api('finance', 'surplus_order_paid', array('order_sn' => $user_account_info['order_sn'], 'money' => $user_account_info['amount']));
+            if (is_ecjia_error($result)) {
+                return $result;
+            } else {
+                $data       = array(
+                    'account_id'       => $user_account_info['id'],
+                    'amount'           => $user_account_info['amount'],
+                    'formatted_amount' => price_format($user_account_info['amount'], false),
+                    'pay_code'         => $pay_info['pay_code'],
+                    'pay_name'         => $pay_info['pay_name'],
+                    'pay_status'       => 'success',
+                    'desc'             => __('订单支付成功！', 'user')
+                );
+                $print_data = $this->_get_print_data($user_account_info);
+                return array('payment' => $data, 'print_data' => $print_data);
+            }
+        } else {
+            return new ecjia_error('not_support_payment', __('此充值记录对应的支付方式不支持收银台充值支付！', 'user'));
+        }
+    }
+
+    /**
+     * 获取小票打印数据
+     */
+    private function _get_print_data($user_account_info = array())
+    {
+        $surplus_print_data = [];
+        if (!empty($user_account_info)) {
+            $payment_record_info = $this->_paymentRecord_info($user_account_info['order_sn'], 'surplus');
+            $pay_name            = RC_DB::table('payment')->where('pay_code', $user_account_info['payment'])->pluck('pay_name');
+
+            $user_info = [];
+            //有没用户
+            if ($user_account_info['user_id'] > 0) {
+                $userinfo = $this->getuserinfo($user_account_info['user_id']);
+                if (!empty($userinfo)) {
+                    $user_info = array(
+                        'user_name'            => empty($userinfo['user_name']) ? '' : trim($userinfo['user_name']),
+                        'mobile'               => empty($userinfo['mobile_phone']) ? '' : trim($userinfo['mobile_phone']),
+                        'user_points'          => $userinfo['pay_points'],
+                        'user_money'           => $userinfo['user_money'],
+                        'formatted_user_money' => price_format($userinfo['user_money'], false),
+                    );
+                }
+            }
+
+            //充值操作收银员
+            $cashier_name = empty($user_account_info['admin_user']) ? '' : $user_account_info['admin_user'];
+
+            $surplus_print_data = array(
+                'order_sn'                      => trim($user_account_info['order_sn']),
+                'trade_no'                      => empty($payment_record_info['trade_no']) ? '' : $payment_record_info['trade_no'],
+                'order_trade_no'                => empty($payment_record_info['order_trade_no']) ? '' : $payment_record_info['order_trade_no'],
+                'trade_type'                    => 'surplus',
+                'pay_time'                      => empty($user_account_info['paid_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $user_account_info['paid_time']),
+                'goods_list'                    => [],
+                'total_goods_number'            => 0,
+                'total_goods_amount'            => $user_account_info['amount'],
+                'formatted_total_goods_amount'  => price_format($user_account_info['amount'], false),
+                'total_discount'                => 0,
+                'formatted_total_discount'      => '',
+                'money_paid'                    => $user_account_info['amount'],
+                'formatted_money_paid'          => price_format($user_account_info['amount'], false),
+                'integral'                      => 0,
+                'integral_money'                => '',
+                'formatted_integral_money'      => '',
+                'pay_name'                      => empty($pay_name) ? '' : $pay_name,
+                'payment_account'               => '',
+                'user_info'                     => $user_info,
+                'refund_sn'                     => '',
+                'refund_total_amount'           => 0,
+                'formatted_refund_total_amount' => '',
+                'cashier_name'                  => $cashier_name
+            );
+        }
+
+        return $surplus_print_data;
+    }
+
+    /**
+     * 用户信息
+     */
+    private function getuserinfo($user_id = 0)
+    {
+        $user_info = RC_DB::table('users')->where('user_id', $user_id)->first();
+        return $user_info;
+    }
+
+    /**
+     * 支付交易记录信息
+     * @param string $order_sn
+     * @param string $trade_type
+     * @return array
+     */
+    private function _paymentRecord_info($order_sn = '', $trade_type = '')
+    {
+        $payment_revord_info = [];
+        if (!empty($order_sn) && !empty($trade_type)) {
+            $payment_revord_info = RC_DB::table('payment_record')->where('order_sn', $order_sn)->where('trade_type', $trade_type)->first();
+        }
+        return $payment_revord_info;
+    }
 }
 
 // end

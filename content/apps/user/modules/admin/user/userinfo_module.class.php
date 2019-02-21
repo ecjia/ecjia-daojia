@@ -50,41 +50,45 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 管理员信息（区分管理员和员工）
  * @author will
  */
-class admin_user_userinfo_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    		
-        $this->authadminSession();
-		if ($_SESSION['admin_id' ] <= 0 && $_SESSION['staff_id'] <= 0) {
-		    return new ecjia_error(100, 'Invalid session');
-		}
-		
-		if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
-		    /*入驻商*/
-		    return $this->get_staff_info($_SESSION['staff_id'], $_SESSION['store_id']);
-		}
-		return $this->get_admin_info($_SESSION['admin_id']);
-		
-	}
+class admin_user_userinfo_module extends api_admin implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
 
-    private function get_admin_info($admin_user_id) {
+        $this->authadminSession();
+        if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+
+        if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
+            /*入驻商*/
+            return $this->get_staff_info($_SESSION['staff_id'], $_SESSION['store_id']);
+        }
+        return $this->get_admin_info($_SESSION['admin_id']);
+
+    }
+
+    private function get_admin_info($admin_user_id)
+    {
         $result = RC_DB::table('admin_user')->where('user_id', $admin_user_id)->first();
 
         $userinfo = array(
-            'id' 		    => $result['user_id'],
-            'username'	    => $result['user_name'],
-            'email'		    => $result['email'],
-            'last_login' 	=> RC_Time::local_date(ecjia::config('time_format'), $result['last_login']),
-            'last_ip'		=> RC_Ip::area($result['last_ip']),
-            'role_name'		=> RC_DB::table('role')->where('role_id', $result['role_id'])->pluck('role_name'),
-            'avator_img'	=> RC_Uri::admin_url('statics/images/admin_avatar.png'),//错误后期废弃
-            'avatar_img'	=> RC_Uri::admin_url('statics/images/admin_avatar.png'),
-            'action_list'   => $_SESSION['action_list']
+            'id'          => $result['user_id'],
+            'username'    => $result['user_name'],
+            'email'       => $result['email'],
+            'last_login'  => RC_Time::local_date(ecjia::config('time_format'), $result['last_login']),
+            'last_ip'     => RC_Ip::area($result['last_ip']),
+            'role_name'   => RC_DB::table('role')->where('role_id', $result['role_id'])->pluck('role_name'),
+            'avator_img'  => RC_Uri::admin_url('statics/images/admin_avatar.png'), //错误后期废弃
+            'avatar_img'  => RC_Uri::admin_url('statics/images/admin_avatar.png'),
+            'action_list' => $_SESSION['action_list']
         );
 
         return $userinfo;
     }
 
-    private function get_staff_info($staff_user_id, $store_id) {
+    private function get_staff_info($staff_user_id, $store_id)
+    {
 
         RC_Loader::load_app_func('global', 'staff');
         $result = get_staff_info($staff_user_id, $store_id);
@@ -93,17 +97,17 @@ class admin_user_userinfo_module extends api_admin implements api_interface {
         }
 
         $userinfo = array(
-            'id' 		    => $result['user_id'],
-            'username'	    => $result['name'],
-            'nick_name'	    => $result['nick_name'],
-            'email'		    => $result['email'],
-            'mobile'		=> $result['mobile'],
-            'last_login' 	=> RC_Time::local_date(ecjia::config('time_format'), $result['last_login']),
-            'last_ip'		=> RC_Ip::area($result['last_ip']),
-            'role_name'		=> $result['group_name'],
-            'avator_img'	=> $result['avatar_img'],//错误后期废弃
-            'avatar_img'	=> $result['avatar_img'],
-            'action_list'   => $_SESSION['action_list']
+            'id'          => $result['user_id'],
+            'username'    => $result['name'],
+            'nick_name'   => $result['nick_name'],
+            'email'       => $result['email'],
+            'mobile'      => $result['mobile'],
+            'last_login'  => RC_Time::local_date(ecjia::config('time_format'), $result['last_login']),
+            'last_ip'     => RC_Ip::area($result['last_ip']),
+            'role_name'   => $result['group_name'],
+            'avator_img'  => $result['avatar_img'], //错误后期废弃
+            'avatar_img'  => $result['avatar_img'],
+            'action_list' => $_SESSION['action_list']
         );
 
         return $userinfo;

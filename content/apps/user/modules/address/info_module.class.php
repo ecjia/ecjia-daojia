@@ -50,80 +50,82 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 单条收货地址信息
  * @author royalwang
  */
-class address_info_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
+class address_info_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
         //如果用户登录获取其session
         $this->authSession();
         $user_id = $_SESSION['user_id'];
-    	if ($user_id <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-		$id = $this->requestData('address_id', 0);
-		if(intval($id) < 1 || empty($user_id)){
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
-		}
-		$location = $this->requestData('location', array());
-		$seller_id = $this->requestData('seller_id');
-		
-		RC_Loader::load_app_func('admin_order', 'orders');
+        if ($user_id <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+        $id = $this->requestData('address_id', 0);
+        if (intval($id) < 1 || empty($user_id)) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+        }
+        $location  = $this->requestData('location', array());
+        $seller_id = $this->requestData('seller_id');
 
-		$info = RC_DB::table('user_address')->where('address_id', $id)->where('user_id', $user_id)->first();
-		/* 验证地址id */
-		if (empty($info)) {
-		    return new ecjia_error(13, '不存在的信息');
-		}
-		$consignee = get_consignee($user_id); // 取得默认地址
-		
-		$ids = array($info['country'], $info['province'], $info['city'], $info['district'], $info['street']);
-		$data = ecjia_region::getRegions($ids);
-		
-		$out = array();
-		foreach ($data as $key => $val) {
-			$out[$val['region_id']] = $val['region_name'];
-		}
-		
-		$local = true;
-		if ($seller_id) {
+        RC_Loader::load_app_func('admin_order', 'orders');
+
+        $info = RC_DB::table('user_address')->where('address_id', $id)->where('user_id', $user_id)->first();
+        /* 验证地址id */
+        if (empty($info)) {
+            return new ecjia_error(13, __('不存在的信息', 'user'));
+        }
+        $consignee = get_consignee($user_id); // 取得默认地址
+
+        $ids  = array($info['country'], $info['province'], $info['city'], $info['district'], $info['street']);
+        $data = ecjia_region::getRegions($ids);
+
+        $out = array();
+        foreach ($data as $key => $val) {
+            $out[$val['region_id']] = $val['region_name'];
+        }
+
+        $local = true;
+        if ($seller_id) {
             $local = RC_Api::api('user', 'neighbors_address_store', array('address' => $info, 'store_id' => $seller_id));
-		}
-		
-		$result = array(
-		    'id'         => $info['address_id'],
-		    'consignee'  => $info['consignee'],
-		    'email'      => $info['email'],
-		    
-		    'country'    => $info['country'],
-		    'province'   => $info['province'],
-		    'city'       => $info['city'],
-		    'district'   => $info['district'],
-			'street'   => $info['street'],
-		    'location'	 => array(
-		        'longitude' => $info['longitude'],
-		        'latitude'	=> $info['latitude'],
-		    ),
-		    
-		    'country_name'   => isset($out[$info['country']]) ? $out[$info['country']] : '',
-		    'province_name'  => isset($out[$info['province']]) ? $out[$info['province']] : '',
-		    'city_name'      => isset($out[$info['city']]) ? $out[$info['city']] : '',
-		    'district_name'  => isset($out[$info['district']]) ? $out[$info['district']] : '',
-			'street_name' 	 => isset($out[$info['street']]) ? $out[$info['street']] : '',
-		    
-		    'address'        => empty($info['address']) ? '' : $info['address'],
-		    'address_info'   => empty($info['address_info']) ? '' : $info['address_info'],
-		    'zipcode'        => empty($info['zipcode']) ? '' : $info['zipcode'],
-		    'mobile'         => $info['mobile'],
-		    'sign_building'  => empty($info['sign_building']) ? '' : $info['sign_building'],
-		    'best_time'      => empty($info['best_time']) ? '' : $info['best_time'],
-		    'default_address'=> $info['default_address'],
-		    'tel'            => empty($info['tel']) ? '' : $info['tel'],
-			'local'			 => $local ? 1 : 0,
-		    
-		    'default_address'=> $info['address_id'] == $consignee['address_id'] ? 1 :0,
-		);
-		
-		return $result;		
-	}
+        }
+
+        $result = array(
+            'id'        => $info['address_id'],
+            'consignee' => $info['consignee'],
+            'email'     => $info['email'],
+
+            'country'  => $info['country'],
+            'province' => $info['province'],
+            'city'     => $info['city'],
+            'district' => $info['district'],
+            'street'   => $info['street'],
+            'location' => array(
+                'longitude' => $info['longitude'],
+                'latitude'  => $info['latitude'],
+            ),
+
+            'country_name'  => isset($out[$info['country']]) ? $out[$info['country']] : '',
+            'province_name' => isset($out[$info['province']]) ? $out[$info['province']] : '',
+            'city_name'     => isset($out[$info['city']]) ? $out[$info['city']] : '',
+            'district_name' => isset($out[$info['district']]) ? $out[$info['district']] : '',
+            'street_name'   => isset($out[$info['street']]) ? $out[$info['street']] : '',
+
+            'address'         => empty($info['address']) ? '' : $info['address'],
+            'address_info'    => empty($info['address_info']) ? '' : $info['address_info'],
+            'zipcode'         => empty($info['zipcode']) ? '' : $info['zipcode'],
+            'mobile'          => $info['mobile'],
+            'sign_building'   => empty($info['sign_building']) ? '' : $info['sign_building'],
+            'best_time'       => empty($info['best_time']) ? '' : $info['best_time'],
+            'default_address' => $info['default_address'],
+            'tel'             => empty($info['tel']) ? '' : $info['tel'],
+            'local'           => $local ? 1 : 0,
+
+            'default_address' => $info['address_id'] == $consignee['address_id'] ? 1 : 0,
+        );
+
+        return $result;
+    }
 }
 
 // end

@@ -188,7 +188,7 @@ function get_account_list($args = array())
             foreach ($list AS $key => $value) {
                 $list[$key]['surplus_amount']    = price_format(abs($value['amount']), false);
                 $list[$key]['add_date']          = RC_Time::local_date(ecjia::config('time_format'), $value['add_time']);
-                $list[$key]['process_type_name'] = RC_Lang::get('user::user_account.surplus_type.' . $value['process_type']);
+                $list[$key]['process_type_name'] = $value['process_type'] == 1 ? __('提现', 'user') : __('充值', 'user');
                 /* php 过滤html标签 */
                 $list[$key]['payment'] = empty($pay_name[$value['payment']]) ? strip_tags($value['payment']) : strip_tags($pay_name[$value['payment']]);
             }
@@ -322,17 +322,17 @@ function get_account_log($user_id, $num = 15, $start, $process_type = '', $is_pa
         foreach ($res as $key => $rows) {
             $db_payment = RC_DB::table('payment');
             if ($rows['is_paid'] == '1') {
-                $pay_status = '已完成';
+                $pay_status = __('已完成', 'user');
             } elseif ($rows['is_paid'] == '2') {
-                $pay_status = '已取消';
+                $pay_status = __('已取消', 'user');
             } else {
-                $pay_status = '未确认';
+                $pay_status = __('未确认', 'user');
             }
             $rows['add_time']         = RC_Time::local_date(ecjia::config('time_format'), $rows['add_time']);
             $rows['admin_note']       = nl2br(htmlspecialchars($rows['admin_note']));
-            $rows['short_admin_note'] = ($rows['admin_note'] > '') ? RC_String::sub_str($rows['admin_note'], 30) : '暂无';
+            $rows['short_admin_note'] = ($rows['admin_note'] > '') ? RC_String::sub_str($rows['admin_note'], 30) : __('暂无', 'user');
             $rows['user_note']        = nl2br(htmlspecialchars($rows['user_note']));
-            $rows['short_user_note']  = ($rows['user_note'] > '') ? RC_String::sub_str($rows['user_note'], 30) : '暂无';
+            $rows['short_user_note']  = ($rows['user_note'] > '') ? RC_String::sub_str($rows['user_note'], 30) : __('暂无', 'user');
             //$rows['pay_status']       = ($rows['is_paid'] == 0) ? __('未确认') : __('已完成');
             $rows['pay_status']            = $pay_status;
             $rows['format_amount']         = price_format(abs($rows['amount']), false);
@@ -344,9 +344,9 @@ function get_account_log($user_id, $num = 15, $start, $process_type = '', $is_pa
 
             /* 会员的操作类型： 冲值，提现 */
             if ($rows['process_type'] == 0) {
-                $rows['type'] = __('充值');
+                $rows['type'] = __('充值', 'user');
             } else {
-                $rows['type'] = __('提现');
+                $rows['type'] = __('提现', 'user');
             }
 
             /* 支付方式的ID */
@@ -364,7 +364,7 @@ function get_account_log($user_id, $num = 15, $start, $process_type = '', $is_pa
             $rows['pid']     = $pid = $payment['pay_id'];
             /* 如果是预付款而且还没有付款, 允许付款 */
             if (($rows['is_paid'] == 0) && ($rows['process_type'] == 0)) {
-                $rows['handle'] = '<a href="user.php?act=pay&id=' . $rows['id'] . '&pid=' . $pid . '">' . RC_Lang::get('user.user.pay') . '</a>';
+                $rows['handle'] = '<a href="user.php?act=pay&id=' . $rows['id'] . '&pid=' . $pid . '">' . __('付款', 'user') . '</a>';
             }
             $account_log[] = $rows;
         }

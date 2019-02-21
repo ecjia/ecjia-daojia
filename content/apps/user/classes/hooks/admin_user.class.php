@@ -50,8 +50,8 @@ class user_admin_hooks
 {
     public static function append_admin_setting_group($menus)
     {
-        $menus[] = ecjia_admin::make_admin_menu('nav-header', '会员', '', 42)->add_purview(array('user_manage'));
-        $menus[] = ecjia_admin::make_admin_menu('user_center', '会员中心', RC_Uri::url('user/admin_config/init'), 43)->add_purview('user_manage');
+        $menus[] = ecjia_admin::make_admin_menu('nav-header', __('会员', 'user'), '', 42)->add_purview(array('user_manage'));
+        $menus[] = ecjia_admin::make_admin_menu('user_center', __('会员中心', 'user'), RC_Uri::url('user/admin_config/init'), 43)->add_purview('user_manage');
         return $menus;
     }
 }
@@ -60,13 +60,13 @@ RC_Hook::add_action('append_admin_setting_group', array('user_admin_hooks', 'app
 
 class user_admin_plugin
 {
-    
+
     public static function add_maintain_command($factories)
     {
         $factories['refresh_user_rank'] = 'Ecjia\App\User\Maintains\RefreshUserRank';
         return $factories;
     }
-    
+
 }
 
 RC_Hook::add_action('ecjia_maintain_command_filter', array('user_admin_plugin', 'add_maintain_command'));

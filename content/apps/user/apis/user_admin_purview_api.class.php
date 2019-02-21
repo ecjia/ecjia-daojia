@@ -56,15 +56,14 @@ class user_admin_purview_api extends Component_Event_Api
     public function call(&$options)
     {
         $purviews = array(
-            array('action_name' => RC_Lang::get('user::users.user_manage'), 'action_code' => 'user_manage', 'relevance' => ''),
+            array('action_name' => __('会员管理', 'user'), 'action_code' => 'user_manage', 'relevance' => ''),
+            array('action_name' => __('更新会员', 'user'), 'action_code' => 'user_update', 'relevance' => ''),
+            array('action_name' => __('删除会员', 'user'), 'action_code' => 'user_delete', 'relevance' => ''),
 
-            array('action_name' => RC_Lang::get('user::users.user_update'), 'action_code' => 'user_update', 'relevance' => ''),
-            array('action_name' => RC_Lang::get('user::users.user_delete'), 'action_code' => 'user_delete', 'relevance' => ''),
+            array('action_name' => __('会员等级管理', 'user'), 'action_code' => 'user_rank', 'relevance' => ''),
+            array('action_name' => __('会员注册项设置', 'user'), 'action_code' => 'reg_fields', 'relevance' => ''),
 
-            array('action_name' => RC_Lang::get('user::users.user_rank_manage'), 'action_code' => 'user_rank', 'relevance' => ''),
-            array('action_name' => RC_Lang::get('user::users.reg_fields'), 'action_code' => 'reg_fields', 'relevance' => ''),
-
-            array('action_name' => RC_Lang::get('user::users.user_setting'), 'action_code' => 'user_setting', 'relevance' => ''),
+            array('action_name' => __('会员设置', 'user'), 'action_code' => 'user_setting', 'relevance' => ''),
         );
         return $purviews;
     }

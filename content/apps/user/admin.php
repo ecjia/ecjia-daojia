@@ -687,9 +687,9 @@ class admin extends ecjia_admin
             if (empty($ect_uid)) {
                 RC_DB::table('wechat_user')->where('unionid', $wechat_info['union_id'])->update(array('ect_uid' => $wechat_info['user_id']));
             }
-            
+
             if (!empty($wechat_info['profile'])) {
-                $profile = unserialize($wechat_info['profile']);
+                $profile                 = unserialize($wechat_info['profile']);
                 $wechat_info['nickname'] = empty($profile['nickname']) ? '' : $profile['nickname'];
             }
 

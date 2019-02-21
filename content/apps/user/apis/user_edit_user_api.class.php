@@ -50,15 +50,17 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 会员帐号信息编辑包括修改密码
  * @author royalwang
  */
-class user_edit_user_api extends Component_Event_Api {
-    
-    public function call(&$options) {
+class user_edit_user_api extends Component_Event_Api
+{
+
+    public function call(&$options)
+    {
         if (!is_array($options) || !isset($options['new_password']) || !isset($options['user_id'])) {
-            return new ecjia_error('invalid_parameter', '参数无效');
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
         }
 
         $user_info = ecjia_integrate::getProfileById($options['user_id']);
-        $result = ecjia_integrate::editUser([
+        $result    = ecjia_integrate::editUser([
             'username' => $user_info['user_name'],
             'password' => $options['new_password'],
         ]);
@@ -66,7 +68,7 @@ class user_edit_user_api extends Component_Event_Api {
         if ($result) {
             return true;
         } else {
-            return new ecjia_error('edit_user_failed', '设置密码失败');
+            return new ecjia_error('edit_user_failed', __('设置密码失败', 'user'));
         }
     }
 }

@@ -54,13 +54,13 @@ class user_admin_menu_api extends Component_Event_Api
 {
     public function call(&$options)
     {
-        $menus    = ecjia_admin::make_admin_menu('06_members', RC_Lang::get('user::users.user_manage'), '', 6);
+        $menus    = ecjia_admin::make_admin_menu('06_members', __('会员管理', 'user'), '', 6);
         $submenus = array(
-            ecjia_admin::make_admin_menu('01_users_list', RC_Lang::get('user::users.user_list'), RC_Uri::url('user/admin/init'), 1)->add_purview('user_manage'),
-            ecjia_admin::make_admin_menu('02_users_add', RC_Lang::get('user::users.user_add'), RC_Uri::url('user/admin/add'), 2)->add_purview('user_update'),
-            ecjia_admin::make_admin_menu('03_user_rank_list', RC_Lang::get('user::users.user_rank'), RC_Uri::url('user/admin_rank/init'), 3)->add_purview('user_rank'),
-            ecjia_admin::make_admin_menu('04_users_level', '会员排行', RC_Uri::url('user/admin_level/init'), 4)->add_purview('user_manage'),
-            ecjia_admin::make_admin_menu('05_reg_fields', RC_Lang::get('user::users.reg_fields'), RC_Uri::url('user/admin_reg_fields/init'), 5)->add_purview('reg_fields'),
+            ecjia_admin::make_admin_menu('01_users_list', __('会员列表', 'user'), RC_Uri::url('user/admin/init'), 1)->add_purview('user_manage'),
+            ecjia_admin::make_admin_menu('02_users_add', __('添加会员', 'user'), RC_Uri::url('user/admin/add'), 2)->add_purview('user_update'),
+            ecjia_admin::make_admin_menu('03_user_rank_list', __('会员等级', 'user'), RC_Uri::url('user/admin_rank/init'), 3)->add_purview('user_rank'),
+            ecjia_admin::make_admin_menu('04_users_level', __('会员排行', 'user'), RC_Uri::url('user/admin_level/init'), 4)->add_purview('user_manage'),
+            ecjia_admin::make_admin_menu('05_reg_fields', __('会员注册项设置', 'user'), RC_Uri::url('user/admin_reg_fields/init'), 5)->add_purview('reg_fields'),
         );
 
         $menus->add_submenu($submenus);

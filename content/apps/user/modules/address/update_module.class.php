@@ -50,88 +50,90 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 更新单条收货地址信息
  * @author royalwang
  */
-class address_update_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
+class address_update_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
         //如果用户登录获取其session
         $this->authSession();
         $user_id = $_SESSION['user_id'];
-    	if ($user_id <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
- 		
-		$address = $this->requestData('address', array());
-		$address['user_id'] = $user_id;
-		$address['address_id']     = $this->requestData('address_id', 0);
-		if (empty($address['address_id']) || empty($address['user_id'])) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
-		}
-		
-		$address_update_data = array();
-		$address_update_data['user_id'] 		= $address['user_id'];
-		$address_update_data['address_id']		= $address['address_id'];
-		if (!empty($address['consignee'])) {
-			$address_update_data['consignee'] 	= $address['consignee'];
-		}
-		if (!empty($address['province'])) {
-			$address_update_data['province'] = $address['province'];
-		}
-		if (!empty($address['city'])) {
-			$address_update_data['city'] = trim($address['city']);
-		}
-		if (!empty($address['district'])) {
-			$address_update_data['district'] = trim($address['district']);
-		} 
-		if (!empty($address['street'])) {
-			$address_update_data['street'] = trim($address['street']);
-		}
-		if (!empty($address['email'])) {
-			$address_update_data['email'] = trim($address['email']);
-		}
-		if (!empty($address['mobile'])) {
-			$address_update_data['mobile'] = trim($address['mobile']);
-		}
-		if (!empty($address['address'])) {
-			$address_update_data['address'] = trim($address['address']);
-		}
-		if (!empty($address['address_info'])) {
-			$address_update_data['address_info'] = trim($address['address_info']);
-		}
-		if (!empty($address['best_time'])) {
-			$address_update_data['best_time'] = trim($address['best_time']);
-		}
-		if (isset($address['set_default']) && $address['set_default'] == 'true') {
-			$address_update_data['default'] = 1;
-		} else {
-			$address_update_data['default'] = 0;
-		}
-		if (!empty($address['sign_building'])) {
-			$address_update_data['sign_building'] = trim($address['sign_building']);
-		}
-		if (!empty($address['tel'])) {
-			$address_update_data['tel'] = trim($address['tel']);
-		}
-	
-		//兼容小程序传参
-		if (!empty($address['wx_address'])) {
-			$address_update_data['address'] = trim($address['wx_address']);
-		}
-		
-		if (!empty($address['street'])) {
-			$data = ecjia_region::getSplitRegionWithKey($address['street']);
-			$address_update_data['country']		= $data['country'];
-			$address_update_data['province']	= $data['province'];
-			$address_update_data['city']		= $data['city'];
-			$address_update_data['district']	= $data['district'];
-			$address_update_data['street']		= $data['street'];
-		}
+        if ($user_id <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
 
-		$result = RC_Api::api('user', 'address_manage', $address_update_data);
-		if(is_ecjia_error($result)){
-			return $result;
-		}
-		return array();
-	}
+        $address               = $this->requestData('address', array());
+        $address['user_id']    = $user_id;
+        $address['address_id'] = $this->requestData('address_id', 0);
+        if (empty($address['address_id']) || empty($address['user_id'])) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+        }
+
+        $address_update_data               = array();
+        $address_update_data['user_id']    = $address['user_id'];
+        $address_update_data['address_id'] = $address['address_id'];
+        if (!empty($address['consignee'])) {
+            $address_update_data['consignee'] = $address['consignee'];
+        }
+        if (!empty($address['province'])) {
+            $address_update_data['province'] = $address['province'];
+        }
+        if (!empty($address['city'])) {
+            $address_update_data['city'] = trim($address['city']);
+        }
+        if (!empty($address['district'])) {
+            $address_update_data['district'] = trim($address['district']);
+        }
+        if (!empty($address['street'])) {
+            $address_update_data['street'] = trim($address['street']);
+        }
+        if (!empty($address['email'])) {
+            $address_update_data['email'] = trim($address['email']);
+        }
+        if (!empty($address['mobile'])) {
+            $address_update_data['mobile'] = trim($address['mobile']);
+        }
+        if (!empty($address['address'])) {
+            $address_update_data['address'] = trim($address['address']);
+        }
+        if (!empty($address['address_info'])) {
+            $address_update_data['address_info'] = trim($address['address_info']);
+        }
+        if (!empty($address['best_time'])) {
+            $address_update_data['best_time'] = trim($address['best_time']);
+        }
+        if (isset($address['set_default']) && $address['set_default'] == 'true') {
+            $address_update_data['default'] = 1;
+        } else {
+            $address_update_data['default'] = 0;
+        }
+        if (!empty($address['sign_building'])) {
+            $address_update_data['sign_building'] = trim($address['sign_building']);
+        }
+        if (!empty($address['tel'])) {
+            $address_update_data['tel'] = trim($address['tel']);
+        }
+
+        //兼容小程序传参
+        if (!empty($address['wx_address'])) {
+            $address_update_data['address'] = trim($address['wx_address']);
+        }
+
+        if (!empty($address['street'])) {
+            $data                            = ecjia_region::getSplitRegionWithKey($address['street']);
+            $address_update_data['country']  = $data['country'];
+            $address_update_data['province'] = $data['province'];
+            $address_update_data['city']     = $data['city'];
+            $address_update_data['district'] = $data['district'];
+            $address_update_data['street']   = $data['street'];
+        }
+
+        $result = RC_Api::api('user', 'address_manage', $address_update_data);
+        if (is_ecjia_error($result)) {
+            return $result;
+        }
+        return array();
+    }
 }
 
 // end

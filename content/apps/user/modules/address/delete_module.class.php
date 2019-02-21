@@ -50,25 +50,27 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 删除收货地址
  * @author royalwang
  */
-class address_delete_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    	
-    //如果用户登录获取其session
+class address_delete_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
+        //如果用户登录获取其session
         $this->authSession();
         $user_id = $_SESSION['user_id'];
-    	if ($user_id <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-		$address_id = $this->requestData('address_id', 0);
-		if (empty($address_id) || empty($user_id)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
-		}
-		
-		if (! $this->drop_consignee($address_id, $user_id)) {
-			return new ecjia_error('delete_fail', '删除失败！');
-		}
-		return array();
-	}
+        if ($user_id <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+        $address_id = $this->requestData('address_id', 0);
+        if (empty($address_id) || empty($user_id)) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+        }
+
+        if (!$this->drop_consignee($address_id, $user_id)) {
+            return new ecjia_error('delete_fail', __('删除失败！', 'user'));
+        }
+        return array();
+    }
 
     /**
      * 删除一个收货地址
@@ -77,7 +79,8 @@ class address_delete_module extends api_front implements api_interface {
      * @param integer $id
      * @return boolean
      */
-    private function drop_consignee($id, $user_id) {
+    private function drop_consignee($id, $user_id)
+    {
         return RC_DB::table('user_address')->where('address_id', $id)->where('user_id', $user_id)->delete();
     }
 

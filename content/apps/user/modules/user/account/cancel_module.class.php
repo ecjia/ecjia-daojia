@@ -50,41 +50,43 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 取消申请
  * @author royalwang
  */
-class user_account_cancel_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    		
-    	if ($_SESSION['user_id'] <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
- 		$id = $this->requestData('account_id' , 0);
- 		$user_id = $_SESSION['user_id'];
- 		if ($id <= 0 || $user_id == 0) {
- 			return new ecjia_error( 'invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
- 		}
- 		
- 		RC_Loader::load_app_func('admin_user', 'user');
- 		RC_Loader::load_app_class('user_account', 'user', false);
- 		
- 		$account_info = RC_DB::table('user_account')->where('is_paid', 0)
- 		->where('id', $id)
- 		->where('user_id', $user_id)->first();
- 		
- 		//$result = del_user_account($id, $user_id);
- 		$result = RC_DB::table('user_account')
- 			->where('id', $id)
- 			->where('user_id', $user_id)
- 			->update(array('is_paid' => Ecjia\App\Withdraw\WithdrawConstant::ORDER_PAY_STATUS_CANCEL));
- 		
- 		if ($result) {
- 			if ($account_info['process_type'] == '1') {
- 				$user_money			= abs($account_info['amount']);
- 				(new Ecjia\App\Finance\UserAccountBalance($user_id))->withdrawCancel($user_money, '提现取消', '', '');
- 			}
- 			return array();
- 		} else {
- 			return new ecjia_error('cancel_fail', '取消失败');
- 		}
-	}
+class user_account_cancel_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
+        if ($_SESSION['user_id'] <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+        $id      = $this->requestData('account_id', 0);
+        $user_id = $_SESSION['user_id'];
+        if ($id <= 0 || $user_id == 0) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+        }
+
+        RC_Loader::load_app_func('admin_user', 'user');
+        RC_Loader::load_app_class('user_account', 'user', false);
+
+        $account_info = RC_DB::table('user_account')->where('is_paid', 0)
+            ->where('id', $id)
+            ->where('user_id', $user_id)->first();
+
+        //$result = del_user_account($id, $user_id);
+        $result = RC_DB::table('user_account')
+            ->where('id', $id)
+            ->where('user_id', $user_id)
+            ->update(array('is_paid' => Ecjia\App\Withdraw\WithdrawConstant::ORDER_PAY_STATUS_CANCEL));
+
+        if ($result) {
+            if ($account_info['process_type'] == '1') {
+                $user_money = abs($account_info['amount']);
+                (new Ecjia\App\Finance\UserAccountBalance($user_id))->withdrawCancel($user_money, __('提现取消', 'user'), '', '');
+            }
+            return array();
+        } else {
+            return new ecjia_error('cancel_fail', __('取消失败', 'user'));
+        }
+    }
 }
 
 // end

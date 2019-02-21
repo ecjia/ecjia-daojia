@@ -50,37 +50,39 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 会员充值，提现记录详情
  * @author zrl
  */
-class user_user_account_info_api extends Component_Event_Api {
-	
-	/**
-	 * 会员充值，提现记录详情
-	 * 
-	 * account_id 充值/提现记录id（必填）
-	 * @param array $options
-	 * @return array | ecjia_error
-	 */
-	public function call(&$options) {
-		if (!is_array($options) || (empty($options['account_id']) && empty($options['order_sn']))) {
-			return new ecjia_error('invalid_parameter', '调用接口user_account_info_api参数无效！');
-		}
-		
-		$user_account_info = $this->getUserAccountInfo($options);
+class user_user_account_info_api extends Component_Event_Api
+{
 
-		return $user_account_info;
-	}
-	
-	/**
-	 * 用户充值/提现详情
-	 */
-	private function getUserAccountInfo($options)
-	{
-		if (!empty($options['account_id'])) {
-			$account_info = RC_DB::table('user_account')->where('id', $options['account_id'])->first();
-		} else {
-			$account_info = RC_DB::table('user_account')->where('order_sn', $options['order_sn'])->first();
-		}
-		return $account_info;
-	}
+    /**
+     * 会员充值，提现记录详情
+     *
+     * account_id 充值/提现记录id（必填）
+     * @param array $options
+     * @return array | ecjia_error
+     */
+    public function call(&$options)
+    {
+        if (!is_array($options) || (empty($options['account_id']) && empty($options['order_sn']))) {
+            return new ecjia_error('invalid_parameter', __('调用接口user_account_info_api参数无效！', 'user'));
+        }
+
+        $user_account_info = $this->getUserAccountInfo($options);
+
+        return $user_account_info;
+    }
+
+    /**
+     * 用户充值/提现详情
+     */
+    private function getUserAccountInfo($options)
+    {
+        if (!empty($options['account_id'])) {
+            $account_info = RC_DB::table('user_account')->where('id', $options['account_id'])->first();
+        } else {
+            $account_info = RC_DB::table('user_account')->where('order_sn', $options['order_sn'])->first();
+        }
+        return $account_info;
+    }
 }
 
 // end

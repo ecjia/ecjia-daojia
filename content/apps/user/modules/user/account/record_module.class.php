@@ -50,98 +50,100 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 用户充值提现记录
  * @author royalwang
  */
-class user_account_record_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-    	if ($_SESSION['user_id'] <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-    	
-    	$user_id      = $_SESSION['user_id'];
-    	$api_version = $this->request->header('api-version');
-    	//判断用户有没申请注销
-    	if (version_compare($api_version, '1.25', '>=')) {
-    		$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
-    		if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
-    			return new ecjia_error('account_status_error', '当前账号已申请注销，不可查看此数据！');
-    		}
-    	}
-    	
-    	$size         = $this->requestData('pagination.count', 15);
-    	$page         = $this->requestData('pagination.page', 1);
- 		$process_type = $this->requestData('type');
- 		$type         = array('', 'deposit', 'raply');
-		if (!in_array($process_type, $type)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
-		}
-		if (!$user_id) {
-		    return new ecjia_error(100, 'Invalid session' );
-		}
-		
-		$db = RC_DB::table('user_account')->where('user_id', $user_id);
-		if (!empty($process_type)) {
-			if ($process_type == 'deposit') {
-				$db->where('process_type', SURPLUS_SAVE);
-			} else {
-				$db->where('process_type', SURPLUS_RETURN);
-			}
-		} else {
-			$db->whereIn('process_type', array(SURPLUS_SAVE, SURPLUS_RETURN));
-		}
-		
- 		/* 获取记录条数 */
-		$record_count = $db->count();
-		$db->where('is_paid', '!=', Ecjia\App\Withdraw\WithdrawConstant::ORDER_PAY_STATUS_CANCEL);
-		
- 		//加载分页类
-		RC_Loader::load_sys_class('ecjia_page', false);
-		//实例化分页
-		$page_row = new ecjia_page($record_count, $size, 6, '', $page);
- 		
- 		RC_Loader::load_app_func('admin_user' ,'user');
+class user_account_record_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
 
- 		//获取余额记录
- 		$is_paid_arr = array(Ecjia\App\Withdraw\WithdrawConstant::ORDER_PAY_STATUS_UNPAY, Ecjia\App\Withdraw\WithdrawConstant::ORDER_PAY_STATUS_PAYED, Ecjia\App\Withdraw\WithdrawConstant::ORDER_PAY_STATUS_FAILED);
- 		$account_log = get_account_log($user_id, $size, $page_row, $process_type, $is_paid_arr);
- 		
- 		if (!empty($account_log) && is_array($account_log)) {
- 			$account_list = array();
- 			foreach ($account_log as $key => $value) {
-				$account_list[$key]['account_id']	 = $value['id'];
-				$account_list[$key]['order_sn']	 	 = $value['order_sn'];
-				$account_list[$key]['user_id']		 = $value['user_id'];
-				$account_list[$key]['admin_user']	 = $value['admin_user'];
-				$account_list[$key]['amount']		 = $value['amount'];
-				$account_list[$key]['format_amount'] = $value['format_amount'];
-				$account_list[$key]['user_note']	 = $value['user_note'];
-				$account_list[$key]['type']			 = $value['process_type'] == '0' ? 'deposit' : 'raply';
-				$account_list[$key]['type_lable']	 = $value['type'];
-				$account_list[$key]['payment_name']	 = (empty($value['payment']) && $value['process_type'] == '0') ? '管理员操作' : strip_tags($value['payment']);
-				$account_list[$key]['payment_id']	 = $value['pid'];
-				$account_list[$key]['is_paid']		 = $value['is_paid'];
-				$account_list[$key]['pay_status']	 = $value['pay_status'];
-				$account_list[$key]['add_time']		 = $value['add_time'];
-				$account_list[$key]['real_amount']	 = $value['real_amount'];
-				$account_list[$key]['formatted_real_amount'] = $value['formatted_real_amount'];
-				$account_list[$key]['pay_fee']	 = $value['pay_fee'];
-				$account_list[$key]['formatted_pay_fee'] = $value['formatted_pay_fee'];
- 			}
- 			
- 			$pager = array(
- 					"total" => $page_row->total_records,
- 					"count" => $page_row->total_records,
- 					"more"	=> $page_row->total_pages <= $page ? 0 : 1,
- 			);
- 			return array('data' => $account_list, 'pager' => $pager);
- 		} else {
- 			$pager = array(
- 					"total" => $page_row->total_records,
- 					"count" => $page_row->total_records,
- 					"more"	=> $page_row->total_pages <= $page ? 0 : 1,
- 			);
- 			return array('data' => array(), 'pager' => $pager);
- 		}
-	}
+        if ($_SESSION['user_id'] <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+
+        $user_id     = $_SESSION['user_id'];
+        $api_version = $this->request->header('api-version');
+        //判断用户有没申请注销
+        if (version_compare($api_version, '1.25', '>=')) {
+            $account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
+            if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
+                return new ecjia_error('account_status_error', __('当前账号已申请注销，不可查看此数据！', 'user'));
+            }
+        }
+
+        $size         = $this->requestData('pagination.count', 15);
+        $page         = $this->requestData('pagination.page', 1);
+        $process_type = $this->requestData('type');
+        $type         = array('', 'deposit', 'raply');
+        if (!in_array($process_type, $type)) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+        }
+        if (!$user_id) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+
+        $db = RC_DB::table('user_account')->where('user_id', $user_id);
+        if (!empty($process_type)) {
+            if ($process_type == 'deposit') {
+                $db->where('process_type', SURPLUS_SAVE);
+            } else {
+                $db->where('process_type', SURPLUS_RETURN);
+            }
+        } else {
+            $db->whereIn('process_type', array(SURPLUS_SAVE, SURPLUS_RETURN));
+        }
+
+        /* 获取记录条数 */
+        $record_count = $db->count();
+        $db->where('is_paid', '!=', Ecjia\App\Withdraw\WithdrawConstant::ORDER_PAY_STATUS_CANCEL);
+
+        //加载分页类
+        RC_Loader::load_sys_class('ecjia_page', false);
+        //实例化分页
+        $page_row = new ecjia_page($record_count, $size, 6, '', $page);
+
+        RC_Loader::load_app_func('admin_user', 'user');
+
+        //获取余额记录
+        $is_paid_arr = array(Ecjia\App\Withdraw\WithdrawConstant::ORDER_PAY_STATUS_UNPAY, Ecjia\App\Withdraw\WithdrawConstant::ORDER_PAY_STATUS_PAYED, Ecjia\App\Withdraw\WithdrawConstant::ORDER_PAY_STATUS_FAILED);
+        $account_log = get_account_log($user_id, $size, $page_row, $process_type, $is_paid_arr);
+
+        if (!empty($account_log) && is_array($account_log)) {
+            $account_list = array();
+            foreach ($account_log as $key => $value) {
+                $account_list[$key]['account_id']            = $value['id'];
+                $account_list[$key]['order_sn']              = $value['order_sn'];
+                $account_list[$key]['user_id']               = $value['user_id'];
+                $account_list[$key]['admin_user']            = $value['admin_user'];
+                $account_list[$key]['amount']                = $value['amount'];
+                $account_list[$key]['format_amount']         = $value['format_amount'];
+                $account_list[$key]['user_note']             = $value['user_note'];
+                $account_list[$key]['type']                  = $value['process_type'] == '0' ? 'deposit' : 'raply';
+                $account_list[$key]['type_lable']            = $value['type'];
+                $account_list[$key]['payment_name']          = (empty($value['payment']) && $value['process_type'] == '0') ? __('管理员操作', 'user') : strip_tags($value['payment']);
+                $account_list[$key]['payment_id']            = $value['pid'];
+                $account_list[$key]['is_paid']               = $value['is_paid'];
+                $account_list[$key]['pay_status']            = $value['pay_status'];
+                $account_list[$key]['add_time']              = $value['add_time'];
+                $account_list[$key]['real_amount']           = $value['real_amount'];
+                $account_list[$key]['formatted_real_amount'] = $value['formatted_real_amount'];
+                $account_list[$key]['pay_fee']               = $value['pay_fee'];
+                $account_list[$key]['formatted_pay_fee']     = $value['formatted_pay_fee'];
+            }
+
+            $pager = array(
+                "total" => $page_row->total_records,
+                "count" => $page_row->total_records,
+                "more"  => $page_row->total_pages <= $page ? 0 : 1,
+            );
+            return array('data' => $account_list, 'pager' => $pager);
+        } else {
+            $pager = array(
+                "total" => $page_row->total_records,
+                "count" => $page_row->total_records,
+                "more"  => $page_row->total_pages <= $page ? 0 : 1,
+            );
+            return array('data' => array(), 'pager' => $pager);
+        }
+    }
 }
 
 // end

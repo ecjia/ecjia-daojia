@@ -49,77 +49,80 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 手机/邮箱绑定解绑
  */
-class user_bind_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-        $user_id = $_SESSION['user_id']/*  = 1024 */;
-    	if ($user_id <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-    	
-    	//判断用户有没申请注销
-    	$api_version = $this->request->header('api-version');
-    	if (version_compare($api_version, '1.25', '>=')) {
-    		$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
-    		if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
-    			return new ecjia_error('account_status_error', '当前账号已申请注销，不可执行此操作！');
-    		}
-    	}
-    	
-		$type = $this->requestData('type');
-		$value = $this->requestData('value');
-		$code  = $this->requestData('code');
-		
-		$type_array = array('mobile', 'email');
-		//判断值是否为空，且type是否是在此类型中
-		if ( empty($type) || empty($value) || !in_array($type, $type_array)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
-		}
-		if (empty($code)) {
-		    return new ecjia_error( 'invalid_parameter', '请填写验证码');
-		}
-		
-		$db_user = RC_Model::model('user/users_model');
+class user_bind_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
 
-		if ($type == 'mobile') {
-		    
-		    $mobile_phone = $db_user->find(array('mobile_phone' => $value, 'user_id' => array('neq' => $user_id)));
-		    if (!empty($mobile_phone)) {
-		        return new ecjia_error('registered', '该手机号已被注册');
-		    }
-		    if (RC_Time::gmtime() > $_SESSION['captcha']['sms']['user_modify_mobile']['lifetime']) {
-		        return new ecjia_error('code pasted', '验证码已过期');
-		    }
-		    if ($code != $_SESSION['captcha']['sms']['user_modify_mobile']['code']) {
-		        return new ecjia_error('code error', '验证码错误');
-		    }
-		    if ($value != $_SESSION['captcha']['sms']['user_modify_mobile']['value']) {
-		        return new ecjia_error('mobile error', '接收和验证的手机号不同');
-		    }
-		    //替换手机号
-		    $db_user->where(array('user_id' => $user_id))->update(array('mobile_phone' => $value));
-		    $_SESSION['captcha']['sms']['user_modify_mobile'] = array();
-		} else if ($type == 'email') {
-		    $email = $db_user->find(array('email' => $value, 'user_id' => array('neq' => $user_id)));
-		    if (!empty($email)) {
-		        return new ecjia_error('registered', '该邮箱已被注册');
-		    }
-		    if (RC_Time::gmtime() > $_SESSION['captcha']['mail']['user_modify_mail']['lifetime']) {
-		        return new ecjia_error('code pasted', '验证码已过期');
-		    }
-		    if ($code != $_SESSION['captcha']['mail']['user_modify_mail']['code']) {
-		        return new ecjia_error('code error', '验证码错误');
-		    }
-		    if ($value != $_SESSION['captcha']['mail']['user_modify_mail']['value']) {
-		        return new ecjia_error('email error', '接收和验证的邮箱不同');
-		    }
-		    //替换邮箱
-		    $db_user->where(array('user_id' => $user_id))->update(array('email' => $value));
-		    $_SESSION['captcha']['mail']['user_modify_mail'] = array();
-		}
-		
-		return array();
-	}
+        $user_id = $_SESSION['user_id']/*  = 1024 */
+        ;
+        if ($user_id <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+
+        //判断用户有没申请注销
+        $api_version = $this->request->header('api-version');
+        if (version_compare($api_version, '1.25', '>=')) {
+            $account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
+            if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
+                return new ecjia_error('account_status_error', __('当前账号已申请注销，不可执行此操作！', 'user'));
+            }
+        }
+
+        $type  = $this->requestData('type');
+        $value = $this->requestData('value');
+        $code  = $this->requestData('code');
+
+        $type_array = array('mobile', 'email');
+        //判断值是否为空，且type是否是在此类型中
+        if (empty($type) || empty($value) || !in_array($type, $type_array)) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+        }
+        if (empty($code)) {
+            return new ecjia_error('invalid_parameter', __('请填写验证码', 'user'));
+        }
+
+        $db_user = RC_Model::model('user/users_model');
+
+        if ($type == 'mobile') {
+
+            $mobile_phone = $db_user->find(array('mobile_phone' => $value, 'user_id' => array('neq' => $user_id)));
+            if (!empty($mobile_phone)) {
+                return new ecjia_error('registered', __('该手机号已被注册', 'user'));
+            }
+            if (RC_Time::gmtime() > $_SESSION['captcha']['sms']['user_modify_mobile']['lifetime']) {
+                return new ecjia_error('code pasted', __('验证码已过期', 'user'));
+            }
+            if ($code != $_SESSION['captcha']['sms']['user_modify_mobile']['code']) {
+                return new ecjia_error('code error', __('验证码错误', 'user'));
+            }
+            if ($value != $_SESSION['captcha']['sms']['user_modify_mobile']['value']) {
+                return new ecjia_error('mobile error', __('接收和验证的手机号不同', 'user'));
+            }
+            //替换手机号
+            $db_user->where(array('user_id' => $user_id))->update(array('mobile_phone' => $value));
+            $_SESSION['captcha']['sms']['user_modify_mobile'] = array();
+        } else if ($type == 'email') {
+            $email = $db_user->find(array('email' => $value, 'user_id' => array('neq' => $user_id)));
+            if (!empty($email)) {
+                return new ecjia_error('registered', __('该邮箱已被注册', 'user'));
+            }
+            if (RC_Time::gmtime() > $_SESSION['captcha']['mail']['user_modify_mail']['lifetime']) {
+                return new ecjia_error('code pasted', __('验证码已过期', 'user'));
+            }
+            if ($code != $_SESSION['captcha']['mail']['user_modify_mail']['code']) {
+                return new ecjia_error('code error', __('验证码错误', 'user'));
+            }
+            if ($value != $_SESSION['captcha']['mail']['user_modify_mail']['value']) {
+                return new ecjia_error('email error', __('接收和验证的邮箱不同', 'user'));
+            }
+            //替换邮箱
+            $db_user->where(array('user_id' => $user_id))->update(array('email' => $value));
+            $_SESSION['captcha']['mail']['user_modify_mail'] = array();
+        }
+
+        return array();
+    }
 }
 
 // end

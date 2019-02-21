@@ -55,7 +55,7 @@ use ecjia;
  */
 class Location
 {
-    
+
     /**
      * 用于单起点到多终点，或多起点到单终点的路线距离（非直线距离）计算：
      * @param Y array $from $from['latitude']，$from['longitude'] 起点坐标
@@ -69,15 +69,15 @@ class Location
         if (!empty($from) && !empty($to)) {
             $requestUrl = "https://apis.map.qq.com/ws/distance/v1/?mode=%s&from=%s,%s&to=%s,%s&key=%s";
             $requestUrl = sprintf($requestUrl, $mode, $from['latitude'], $from['longitude'], $to['latitude'], $to['longitude'], ecjia::config('map_qq_key'));
-            $response = RC_Http::remote_get($requestUrl);
+            $response   = RC_Http::remote_get($requestUrl);
             if (is_ecjia_error($response)) return $response;
-            
-            $body  = json_decode($response['body'], true);
+
+            $body     = json_decode($response['body'], true);
             $distance = isset($body['result']['elements'][0]['distance']) ? $body['result']['elements'][0]['distance'] : 0;
         }
-        
+
         return $distance;
     }
-    
-    
+
+
 }

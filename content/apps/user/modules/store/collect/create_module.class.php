@@ -50,32 +50,34 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 用户收藏店铺
  * @author zrl
  */
-class store_collect_create_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    
-    	$this->authSession();
-    	$user_id = $_SESSION['user_id'];
-    	if ($user_id <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-    	$store_id = $this->requestData('store_id', '0');
-    	if (empty($store_id)) {
-    		return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
-    	}
-    	
-    	$info = RC_DB::table('collect_store')->where('store_id', $store_id)->where('user_id', $user_id)->first();
-    	if (!empty($info)) {
-    		return array();
-    	}
-    	$data = array('store_id' => $store_id, 'user_id' => $user_id, 'add_time' => RC_Time::gmtime(), 'is_attention' => 1);
-    	//更新商家会员粉丝关联信息
-    	if(RC_DB::table('store_users')->where('store_id', $store_id)->where('user_id', $user_id)->count()) {
-    	    $data['is_store_user'] = 1;
-    	}
-    	
-    	RC_DB::table('collect_store')->insert($data);
-    	
-    	return array();
-	}
+class store_collect_create_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
+        $this->authSession();
+        $user_id = $_SESSION['user_id'];
+        if ($user_id <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+        $store_id = $this->requestData('store_id', '0');
+        if (empty($store_id)) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+        }
+
+        $info = RC_DB::table('collect_store')->where('store_id', $store_id)->where('user_id', $user_id)->first();
+        if (!empty($info)) {
+            return array();
+        }
+        $data = array('store_id' => $store_id, 'user_id' => $user_id, 'add_time' => RC_Time::gmtime(), 'is_attention' => 1);
+        //更新商家会员粉丝关联信息
+        if (RC_DB::table('store_users')->where('store_id', $store_id)->where('user_id', $user_id)->count()) {
+            $data['is_store_user'] = 1;
+        }
+
+        RC_DB::table('collect_store')->insert($data);
+
+        return array();
+    }
 }
 // end

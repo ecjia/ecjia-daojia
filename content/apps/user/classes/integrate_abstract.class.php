@@ -57,57 +57,57 @@ abstract class integrate_abstract
     /*------------------------------------------------------ */
 
     /* 整合对象使用的数据库主机 */
-    public $db_host                 = '';
+    public $db_host = '';
 
     /* 整合对象使用的数据库名 */
-    public $db_name                 = '';
+    public $db_name = '';
 
     /* 整合对象使用的数据库用户名 */
-    public $db_user                 = '';
+    public $db_user = '';
 
     /* 整合对象使用的数据库密码 */
-    public $db_pass                 = '';
+    public $db_pass = '';
 
     /* 整合对象数据表前缀 */
-    public $prefix                  = '';
+    public $prefix = '';
 
     /* 数据库所使用编码 */
-    public $charset                 = '';
+    public $charset = '';
 
     /* 整合对象使用的cookie的domain */
-    public $cookie_domain           = '';
+    public $cookie_domain = '';
 
     /* 整合对象使用的cookie的path */
-    public $cookie_path             = '/';
+    public $cookie_path = '/';
 
     /* 整合对象会员表名 */
-    public $user_table              = '';
+    public $user_table = '';
 
     /* 会员ID的字段名 */
-    public $field_id                = '';
+    public $field_id = '';
 
     /* 会员名称的字段名 */
-    public $field_name              = '';
+    public $field_name = '';
 
     /* 会员密码的字段名 */
-    public $field_pass              = '';
+    public $field_pass = '';
 
     /* 会员邮箱的字段名 */
-    public $field_email             = '';
+    public $field_email = '';
 
     /* 会员性别 */
-    public $field_gender            = '';
+    public $field_gender = '';
 
     /* 会员生日 */
-    public $field_bday              = '';
+    public $field_bday = '';
 
     /* 注册日期的字段名 */
-    public $field_reg_date          = '';
+    public $field_reg_date = '';
 
     /* 是否需要同步数据到商城 */
-    public $need_sync               = true;
+    public $need_sync = true;
 
-    public $error                   = 0;
+    public $error = 0;
 
     /*------------------------------------------------------ */
     //-- PRIVATE ATTRIBUTEs
@@ -118,42 +118,42 @@ abstract class integrate_abstract
     /*------------------------------------------------------ */
     //-- PUBLIC METHODs
     /*------------------------------------------------------ */
-    
+
     /**
      * 会员数据整合插件类的构造函数
      *
      * @access      public
-     * @param       string  $db_host    数据库主机
-     * @param       string  $db_name    数据库名
-     * @param       string  $db_user    数据库用户名
-     * @param       string  $db_pass    数据库密码
+     * @param       string $db_host 数据库主机
+     * @param       string $db_name 数据库名
+     * @param       string $db_user 数据库用户名
+     * @param       string $db_pass 数据库密码
      * @return      void
      */
     public function __construct($cfg)
     {
         RC_Loader::load_app_config('constant', 'user', false);
-        
-        $this->charset 			= isset($cfg['db_charset'])    ? $cfg['db_charset']       : 'UTF8';
-        $this->prefix 			= isset($cfg['prefix'])        ? $cfg['prefix']           : '';
-        $this->db_name 			= isset($cfg['db_name'])       ? $cfg['db_name']          : '';
-        $this->cookie_domain 	= isset($cfg['cookie_domain']) ? $cfg['cookie_domain']    : '';
-        $this->cookie_path 		= isset($cfg['cookie_path'])   ? $cfg['cookie_path']      : '/';
-        $this->need_sync 		= true;
-        $this->user_table       = 'users';
+
+        $this->charset       = isset($cfg['db_charset']) ? $cfg['db_charset'] : 'UTF8';
+        $this->prefix        = isset($cfg['prefix']) ? $cfg['prefix'] : '';
+        $this->db_name       = isset($cfg['db_name']) ? $cfg['db_name'] : '';
+        $this->cookie_domain = isset($cfg['cookie_domain']) ? $cfg['cookie_domain'] : '';
+        $this->cookie_path   = isset($cfg['cookie_path']) ? $cfg['cookie_path'] : '/';
+        $this->need_sync     = true;
+        $this->user_table    = 'users';
 
         $quiet = empty($cfg['quiet']) ? 0 : 1;
 
         /* 初始化数据库 */
-        $this->db = RC_Model::model('user/'.$this->user_table . '_model');
-        
+        $this->db = RC_Model::model('user/' . $this->user_table . '_model');
+
     }
 
     /**
      *  用户登录函数
      *
      * @access  public
-     * @param   string  $username
-     * @param   string  $password
+     * @param   string $username
+     * @param   string $password
      *
      * @return void
      */
@@ -161,7 +161,7 @@ abstract class integrate_abstract
     {
         if ($this->check_user($username, $password) > 0) {
             if ($this->need_sync) {
-                $this->sync($username,$password);
+                $this->sync($username, $password);
             }
             $this->set_session($username);
             $this->set_cookie($username, $remember);
@@ -196,12 +196,12 @@ abstract class integrate_abstract
      */
     public function add_user($username, $password = null, $email, $gender = -1, $bday = 0, $reg_date = 0, $md5password = '')
     {
-    	/* 将用户添加到整合方 */
+        /* 将用户添加到整合方 */
         if ($this->check_user($username) > 0) {
             $this->error = new ecjia_error('ERR_USERNAME_EXISTS', RC_Lang::get('user::users.username_exists'));
             return false;
         }
-        
+
         /* 检查email是否重复 */
         $query = $this->db->field($this->field_id)->find(array($this->field_email => $email));
         if ($query[$this->field_id] > 0) {
@@ -224,12 +224,12 @@ abstract class integrate_abstract
             $fields[] = $this->field_gender;
             $values[] = $gender;
         }
-        
+
         if ($bday) {
             $fields[] = $this->field_bday;
             $values[] = $bday;
         }
-        
+
         if ($reg_date) {
             $fields[] = $this->field_reg_date;
             $values[] = $reg_date;
@@ -271,7 +271,7 @@ abstract class integrate_abstract
 
         if ((!empty($cfg['email'])) && $this->field_email != 'NULL') {
             /* 检查email是否重复 */
-        	$query = $this->db->field($this->field_id)->find(array($this->field_email => $cfg['email'], $this->field_name => array('neq' => $cfg['post_username'])));
+            $query = $this->db->field($this->field_id)->find(array($this->field_email => $cfg['email'], $this->field_name => array('neq' => $cfg['post_username'])));
             if ($query[$this->field_id] > 0) {
                 $this->error = ERR_EMAIL_EXISTS;
                 return false;
@@ -280,7 +280,7 @@ abstract class integrate_abstract
             $count = $this->db->where(array($this->field_email => $cfg['email']))->count();
             if ($count == 0) {
                 // 新的E-mail
-            	$this->db->where(array('user_name' => $cfg['post_username']))->update(array('is_validated' => 0));
+                $this->db->where(array('user_name' => $cfg['post_username']))->update(array('is_validated' => 0));
             }
             $values[$this->field_email] = $cfg['email'];
         }
@@ -294,7 +294,7 @@ abstract class integrate_abstract
         }
 
         if ($values) {
-        	$this->db->where(array($this->field_name => $cfg['post_username']))->update($values);
+            $this->db->where(array($this->field_name => $cfg['post_username']))->update($values);
 
             if ($this->need_sync) {
                 if (empty($cfg['md5password'])) {
@@ -319,30 +319,30 @@ abstract class integrate_abstract
     public function remove_user($id)
     {
         $post_id = $id;
-        
-        $db_order_info      = RC_Model::model('orders/order_info_model');
-        $db_order_goods     = RC_Model::model('orders/order_goods_model');
-        $db_collect_goods   = RC_Model::model('goods/collect_goods_model');
+
+        $db_order_info    = RC_Model::model('orders/order_info_model');
+        $db_order_goods   = RC_Model::model('orders/order_goods_model');
+        $db_collect_goods = RC_Model::model('goods/collect_goods_model');
 
         /* 如果需要同步或是ecjia插件执行这部分代码 */
         if ($this->need_sync || (isset($this->is_ecjia) && $this->is_ecjia)) {
             if (is_array($post_id)) {
-            	$col = $this->db->in(array('user_id' => $post_id))->get_field('user_id', true);
+                $col = $this->db->in(array('user_id' => $post_id))->get_field('user_id', true);
             } else {
                 $col = $this->db->field('user_id')->where(array('user_name' => $post_id))->find();
             }
 
             if ($col) {
-            	
+
                 //将删除用户的下级的parent_id 改为0
-            	$this->db->in(array('parent_id' => $col))->update(array('parent_id' => 0));
-            	//删除用户
-            	$this->db->in(array('user_id' => $col))->delete();
+                $this->db->in(array('parent_id' => $col))->update(array('parent_id' => 0));
+                //删除用户
+                $this->db->in(array('user_id' => $col))->delete();
                 /* 删除用户订单 */
-            	$col_order_id = $db_order_info->in(array('user_id' => $col))->get_field('order_id', true);
+                $col_order_id = $db_order_info->in(array('user_id' => $col))->get_field('order_id', true);
                 if ($col_order_id) {
-                	$db_order_info->in(array('order_id' => $col_order_id))->delete();
-                	$db_order_goods->in(array('order_id' => $col_order_id))->delete();
+                    $db_order_info->in(array('order_id' => $col_order_id))->delete();
+                    $db_order_goods->in(array('order_id' => $col_order_id))->delete();
                 }
 
                 //删除会员收藏商品
@@ -359,11 +359,11 @@ abstract class integrate_abstract
 //                 $db_tag->in(array('user_id' => $col))->delete();
                 //删除用户日志
                 RC_DB::table('account_log')->whereIn('user_id', $col)->delete();
-                
+
                 RC_Api::api('connect', 'connect_user_remove', array('user_id' => $col));
             }
         }
-        
+
         /* 如果是ecjia插件直接退出 */
         if (isset($this->ecjia) && $this->ecjia) {
             return;
@@ -372,7 +372,7 @@ abstract class integrate_abstract
         if (is_array($post_id)) {
             $this->db->in(array($this->field_id => $post_id))->delete();
         } else {
-        	$this->db->where(array($this->field_name => $post_id))->delete();
+            $this->db->where(array($this->field_name => $post_id))->delete();
         }
     }
 
@@ -400,7 +400,7 @@ abstract class integrate_abstract
      */
     public function get_profile_by_id($id)
     {
-    	$row = $this->db->field("$this->field_id AS `user_id`, $this->field_name AS `user_name`, $this->field_email AS `email`, $this->field_gender AS `sex`, $this->field_bday AS `birthday`, $this->field_reg_date AS `reg_time`, $this->field_pass AS `password`, `passwd_question`")->find(array($this->field_id => $id));
+        $row = $this->db->field("$this->field_id AS `user_id`, $this->field_name AS `user_name`, $this->field_email AS `email`, $this->field_gender AS `sex`, $this->field_bday AS `birthday`, $this->field_reg_date AS `reg_time`, $this->field_pass AS `password`, `passwd_question`")->find(array($this->field_id => $id));
         return $row;
     }
 
@@ -430,7 +430,7 @@ abstract class integrate_abstract
      *  检查指定用户是否存在及密码是否正确
      *
      * @access  public
-     * @param   string  $username   用户名
+     * @param   string $username 用户名
      *
      * @return  int
      */
@@ -440,9 +440,9 @@ abstract class integrate_abstract
 
         /* 如果没有定义密码则只检查用户名 */
         if ($password === null) {
-        	return $this->db->field($this->field_id)->find(array($this->field_name => $post_username));
+            return $this->db->field($this->field_id)->find(array($this->field_name => $post_username));
         } else {
-        	return $this->db->field($this->field_id)->find(array($this->field_name => $post_username, $this->field_pass => $this->compile_password(array('password' => $password))));
+            return $this->db->field($this->field_id)->find(array($this->field_name => $post_username, $this->field_pass => $this->compile_password(array('password' => $password))));
         }
     }
 
@@ -450,7 +450,7 @@ abstract class integrate_abstract
      *  检查指定邮箱是否存在
      *
      * @access  public
-     * @param   string  $email   用户邮箱
+     * @param   string $email 用户邮箱
      *
      * @return  boolean
      */
@@ -459,7 +459,7 @@ abstract class integrate_abstract
         if (!empty($email)) {
             /* 检查email是否重复 */
             $result = $this->db->field($this->field_id)->find(array($this->field_email => $email));
-	        if($result[$this->field_id] > 0) {
+            if ($result[$this->field_id] > 0) {
                 $this->error = ERR_EMAIL_EXISTS;
                 return true;
             }
@@ -489,19 +489,19 @@ abstract class integrate_abstract
      *
      * @return void
      */
-    public function set_cookie($username = '', $remember = null )
+    public function set_cookie($username = '', $remember = null)
     {
-    	if (empty($username)) {
+        if (empty($username)) {
             /* 摧毁cookie */
             $time = time() - 3600;
-            setcookie("ECJIA[user_id]",  '', $time, $this->cookie_path);            
+            setcookie("ECJIA[user_id]", '', $time, $this->cookie_path);
             setcookie("ECJIA[password]", '', $time, $this->cookie_path);
 
         } elseif ($remember) {
             /* 设置cookie */
             $time = time() + 3600 * 24 * 15;
             setcookie("ECJIA[username]", $username, $time, $this->cookie_path, $this->cookie_domain);
-            
+
             $row = $this->db->field('user_id, password')->find(array('user_name' => $username));
             if ($row) {
                 setcookie("ECJIA[user_id]", $row['user_id'], $time, $this->cookie_path, $this->cookie_domain);
@@ -518,12 +518,12 @@ abstract class integrate_abstract
      *
      * @return void
      */
-    public function set_session ($username='')
+    public function set_session($username = '')
     {
         if (empty($username)) {
             RC_Session::destroy();
         } else {
-        	$row = $this->db->field('user_id, password, email')->find(array('user_name' => $username));
+            $row = $this->db->field('user_id, password, email')->find(array('user_name' => $username));
             if ($row) {
                 //$_SESSION['user_id']   			= $row['user_id'];
                 //$_SESSION['user_name'] 			= $username;
@@ -531,7 +531,7 @@ abstract class integrate_abstract
                 //$_SESSION['session_user_type']  = $row['user'];
                 //$_SESSION['email']     			= $row['email'];
                 //$_SESSION['ip']     			= RC_Ip::client_ip();
-                
+
                 RC_Session::set('user_id', $row['user_id']);
                 RC_Session::set('user_name', $username);
                 RC_Session::set('session_user_id', $row['user_id']);
@@ -547,29 +547,29 @@ abstract class integrate_abstract
      * 在给定的表名前加上数据库名以及前缀
      *
      * @access  private
-     * @param   string      $str    表名
+     * @param   string $str 表名
      *
      * @return void
      */
     public function table($str)
     {
-        return '`' .$this->db_name. '`.`'.$this->prefix.$str.'`';
+        return '`' . $this->db_name . '`.`' . $this->prefix . $str . '`';
     }
 
     /**
      *  编译密码函数
      *
      * @access  public
-     * @param   array   $cfg 包含参数为 $password, $md5password, $salt, $type
+     * @param   array $cfg 包含参数为 $password, $md5password, $salt, $type
      *
      * @return void
      */
-    public function compile_password ($cfg)
+    public function compile_password($cfg)
     {
         if (isset($cfg['password'])) {
             $cfg['md5password'] = md5($cfg['password']);
         }
-       
+
         if (empty($cfg['type'])) {
             $cfg['type'] = PWD_MD5;
         }
@@ -587,22 +587,22 @@ abstract class integrate_abstract
                 if (empty($cfg['salt'])) {
                     $cfg['salt'] = '';
                 }
-                
+
                 $password = md5($cfg['salt'] . $cfg['md5password']);
                 break;
-                
-           case PWD_SUF_SALT :
+
+            case PWD_SUF_SALT :
                 if (empty($cfg['salt'])) {
                     $cfg['salt'] = '';
                 }
 
                 $password = md5($cfg['md5password'] . $cfg['salt']);
                 break;
-           default:
-               break;
-       }
-       
-       return $password;
+            default:
+                break;
+        }
+
+        return $password;
     }
 
     /**
@@ -613,9 +613,9 @@ abstract class integrate_abstract
      *
      * @return void
      */
-    public function sync ($username, $password='', $md5password='')
+    public function sync($username, $password = '', $md5password = '')
     {
-    	
+
         if ((!empty($password)) && empty($md5password)) {
             $md5password = md5($password);
         }
@@ -630,24 +630,24 @@ abstract class integrate_abstract
         if (empty($profile)) {
             /* 向用户表插入一条新记录 */
             if (empty($md5password)) {
-            	$data = array(
-            		'user_name'  => $username,
-            		'email'      => $main_profile['email'],
-            		'sex'        => $main_profile['sex'],
-            		'birthday'   => $main_profile['birthday'] ,
-            		'reg_time'   => $main_profile['reg_time'],
-            	);
-            	$this->db->insert($data);
+                $data = array(
+                    'user_name' => $username,
+                    'email'     => $main_profile['email'],
+                    'sex'       => $main_profile['sex'],
+                    'birthday'  => $main_profile['birthday'],
+                    'reg_time'  => $main_profile['reg_time'],
+                );
+                $this->db->insert($data);
             } else {
-            	$data = array(
-            		'user_name'  => $username,
-            		'email'      => $main_profile['email'],
-            		'sex'        => $main_profile['sex'],
-            		'birthday'   => $main_profile['birthday'] ,
-            		'reg_time'   => $main_profile['reg_time'],
-            		'password'   => $md5password
-            	);
-            	$this->db->insert($data);
+                $data = array(
+                    'user_name' => $username,
+                    'email'     => $main_profile['email'],
+                    'sex'       => $main_profile['sex'],
+                    'birthday'  => $main_profile['birthday'],
+                    'reg_time'  => $main_profile['reg_time'],
+                    'password'  => $md5password
+                );
+                $this->db->insert($data);
 
             }
             return true;
@@ -656,21 +656,21 @@ abstract class integrate_abstract
             if ($main_profile['email'] != $profile['email']) {
                 $values['email'] = $main_profile['email'];
             }
-            
+
             if ($main_profile['sex'] != $profile['sex']) {
                 $values['sex'] = $main_profile['sex'];
             }
-            
+
             if ($main_profile['birthday'] != $profile['birthday']) {
                 $values['birthday'] = $main_profile['birthday'];
             }
-            
+
             if ((!empty($md5password)) && ($md5password != $profile['password'])) {
                 $values['password'] = $md5password;
             }
 
             if (empty($values)) {
-                return  true;
+                return true;
             } else {
                 $this->db->where(array('user_name' => $username))->update($values);
                 return true;
@@ -686,7 +686,7 @@ abstract class integrate_abstract
      *
      * @return void
      */
-    public function get_points_name ()
+    public function get_points_name()
     {
         return array();
     }
@@ -702,9 +702,9 @@ abstract class integrate_abstract
     public function get_points($username)
     {
         $credits = $this->get_points_name();
-        $fileds = array_keys($credits);
+        $fileds  = array_keys($credits);
         if ($fileds) {
-        	$row = $this->db->field($this->field_id, implode(', ',$fileds))->find(array($this->field_name => $username));
+            $row = $this->db->field($this->field_id, implode(', ', $fileds))->find(array($this->field_name => $username));
             return $row;
         } else {
             return false;
@@ -719,9 +719,9 @@ abstract class integrate_abstract
      *
      * @return void
      */
-    public function set_points ($username, $credits)
+    public function set_points($username, $credits)
     {
-        $user_set = array_keys($credits);
+        $user_set   = array_keys($credits);
         $points_set = array_keys($this->get_points_name());
 
         $set = array_intersect($user_set, $points_set);
@@ -729,7 +729,7 @@ abstract class integrate_abstract
         if ($set) {
             $tmp = array();
             foreach ($set as $credit) {
-               $tmp[$credit] = $credit + $credits[$credit];
+                $tmp[$credit] = $credit + $credits[$credit];
             }
             $this->db->where(array($this->field_name => $username))->update($tmp);
         }
@@ -751,12 +751,12 @@ abstract class integrate_abstract
      *
      * @return void
      */
-    public function test_conflict ($user_list)
+    public function test_conflict($user_list)
     {
         if (empty($user_list)) {
             return array();
         }
-        
+
         $user_list = $this->db->field($this->field_name)->in(array($this->field_name => $user_list))->select();
         return $user_list;
     }

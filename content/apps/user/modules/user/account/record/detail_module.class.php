@@ -50,92 +50,94 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 用户充值/提现记录详情
  * @author zrl
  */
-class user_account_record_detail_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    		
-    	if ($_SESSION['user_id'] <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
- 		$account_id = $this->requestData('account_id' , 0);
- 		$user_id = $_SESSION['user_id'];
- 		
- 		if (empty($account_id)) {
- 			return new ecjia_error( 'invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
- 		}
- 		
- 		$account_info = RC_Api::api('user', 'user_account_info', array('account_id' => intval($account_id)));
- 		
- 		if (is_ecjia_error($account_info)) {
- 			return $account_info;
- 		}
- 		
- 		if (empty($account_info)) {
- 			return new ecjia_error( 'user_account_info_error', '充值/提现记录不存在！');
- 		}
- 		//数据处理
- 		$formatted_account_info = $this->getFormatInfo($account_info);
- 		
- 		return $formatted_account_info;
-	}
-	
-	
-	/**
-	 * 用户充值/提现数据处理
-	 */
-	private function getFormatInfo($account_info = array())
-	{
-		$format_data = array();
-		if ($account_info) {
-			$payment_info = array();
-			if ($account_info['payment']) {
-				$payment_info = RC_DB::table('payment')->where('pay_code', $account_info['payment'])->first();
-			}
-			//支付状态
-			if ($account_info['is_paid'] == '1') {
-				$pay_status = '已完成';
-			} elseif ($account_info['is_paid'] == '2') {
-				$pay_status = '已取消';
-			} else {
-				$pay_status = '未确认';
-			}
+class user_account_record_detail_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
+        if ($_SESSION['user_id'] <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+        $account_id = $this->requestData('account_id', 0);
+        $user_id    = $_SESSION['user_id'];
+
+        if (empty($account_id)) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+        }
+
+        $account_info = RC_Api::api('user', 'user_account_info', array('account_id' => intval($account_id)));
+
+        if (is_ecjia_error($account_info)) {
+            return $account_info;
+        }
+
+        if (empty($account_info)) {
+            return new ecjia_error('user_account_info_error', __('充值/提现记录不存在！', 'user'));
+        }
+        //数据处理
+        $formatted_account_info = $this->getFormatInfo($account_info);
+
+        return $formatted_account_info;
+    }
+
+
+    /**
+     * 用户充值/提现数据处理
+     */
+    private function getFormatInfo($account_info = array())
+    {
+        $format_data = array();
+        if ($account_info) {
+            $payment_info = array();
+            if ($account_info['payment']) {
+                $payment_info = RC_DB::table('payment')->where('pay_code', $account_info['payment'])->first();
+            }
+            //支付状态
+            if ($account_info['is_paid'] == '1') {
+                $pay_status = __('已完成', 'user');
+            } elseif ($account_info['is_paid'] == '2') {
+                $pay_status = __('已取消', 'user');
+            } else {
+                $pay_status = __('未确认', 'user');
+            }
 
             if ($account_info['payment'] == 'withdraw_cash') {
-            	$pay_name = $account_info['payment_name'];
+                $pay_name = $account_info['payment_name'];
             } elseif ($account_info['payment'] == 'withdraw_wxpay') {
-            	$pay_name = $account_info['bank_name'] . ' (' . $account_info['cardholder'] . ')';
+                $pay_name = $account_info['bank_name'] . ' (' . $account_info['cardholder'] . ')';
             } else {
-            	$bank_card_str = substr($account_info['bank_card'], -4);
-            	$pay_name = $account_info['bank_name'] . ' (' . $bank_card_str . ')';
+                $bank_card_str = substr($account_info['bank_card'], -4);
+                $pay_name      = $account_info['bank_name'] . ' (' . $bank_card_str . ')';
             }
-            
-			$format_data = array(
-				'account_id'				=> intval($account_info['id']),
-				'order_sn'					=> !empty($account_info['order_sn']) ? trim($account_info['order_sn']) : '',
-				'user_id'					=> intval($account_info['user_id']),
-				'admin_user'				=> !empty($account_info['admin_user']) ? trim($account_info['admin_user']) : '',
-				'amount'					=> $account_info['amount'],
-				'formatted_amount'			=> price_format(abs($account_info['amount']), false),
-				'user_note'					=> empty($account_info['user_note']) ? '' : $account_info['user_note'],
-				'type'						=> $account_info['process_type'] == 0 ? 'deposit' : 'withdraw',
-				'lable_type'				=> $account_info['process_type'] == 0 ? '充值' : '提现',
-				'pay_name'					=> $account_info['process_type'] == 0 ? (empty($payment_info['pay_name']) ? '' : $payment_info['pay_name']) : $pay_name,
 
-				'pay_id'					=> empty($payment_info['pay_id']) ? '' : intval($payment_info['pay_id']),
-				'pay_code'					=> empty($account_info['payment']) ? '' : $account_info['payment'],
-				'pay_status'				=> $pay_status,
-				'add_time'					=> RC_Time::local_date(ecjia::config('time_format'), $account_info['add_time']),
-				'pay_fee'					=> $account_info['pay_fee'],
-				'formatted_pay_fee'			=> price_format($account_info['pay_fee'], false),
-				'real_amount'				=> $account_info['real_amount'],
-				'formatted_real_amount'		=> price_format($account_info['real_amount'], false),
-				'bank_name'					=> empty($account_info['bank_name']) ? '' : $account_info['bank_name'],
-				'bank_card'					=> empty($account_info['bank_card']) ? '' : $account_info['bank_card'],
-				'cardholder'				=> empty($account_info['cardholder']) ? '' : $account_info['cardholder'],
-			);
-		}
-		
-		return $format_data;
-	}
+            $format_data = array(
+                'account_id'       => intval($account_info['id']),
+                'order_sn'         => !empty($account_info['order_sn']) ? trim($account_info['order_sn']) : '',
+                'user_id'          => intval($account_info['user_id']),
+                'admin_user'       => !empty($account_info['admin_user']) ? trim($account_info['admin_user']) : '',
+                'amount'           => $account_info['amount'],
+                'formatted_amount' => price_format(abs($account_info['amount']), false),
+                'user_note'        => empty($account_info['user_note']) ? '' : $account_info['user_note'],
+                'type'             => $account_info['process_type'] == 0 ? 'deposit' : 'withdraw',
+                'lable_type'       => $account_info['process_type'] == 0 ? __('充值', 'user') : __('提现', 'user'),
+                'pay_name'         => $account_info['process_type'] == 0 ? (empty($payment_info['pay_name']) ? '' : $payment_info['pay_name']) : $pay_name,
+
+                'pay_id'                => empty($payment_info['pay_id']) ? '' : intval($payment_info['pay_id']),
+                'pay_code'              => empty($account_info['payment']) ? '' : $account_info['payment'],
+                'pay_status'            => $pay_status,
+                'add_time'              => RC_Time::local_date(ecjia::config('time_format'), $account_info['add_time']),
+                'pay_fee'               => $account_info['pay_fee'],
+                'formatted_pay_fee'     => price_format($account_info['pay_fee'], false),
+                'real_amount'           => $account_info['real_amount'],
+                'formatted_real_amount' => price_format($account_info['real_amount'], false),
+                'bank_name'             => empty($account_info['bank_name']) ? '' : $account_info['bank_name'],
+                'bank_card'             => empty($account_info['bank_card']) ? '' : $account_info['bank_card'],
+                'cardholder'            => empty($account_info['cardholder']) ? '' : $account_info['cardholder'],
+            );
+        }
+
+        return $format_data;
+    }
 }
 
 // end

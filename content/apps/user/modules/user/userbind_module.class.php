@@ -50,98 +50,100 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 手机快速注册/用户账户关联注册（手机、邮箱等）
  * @author will.chen
  */
-class user_userbind_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-    	$this->authSession();	
-		$type = $this->requestData('type');
-		$value = $this->requestData('value');
-		$api_version = $this->request->header('api-version');
-		$type_array = array('mobile');
-		//判断值是否为空，且type是否是在此类型中
-		if ( empty($type) || empty($value) || !in_array($type, $type_array)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
-		}
-		
-		//手机号码格式判断
-		if ($type == 'mobile') {
+class user_userbind_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
+        $this->authSession();
+        $type        = $this->requestData('type');
+        $value       = $this->requestData('value');
+        $api_version = $this->request->header('api-version');
+        $type_array  = array('mobile');
+        //判断值是否为空，且type是否是在此类型中
+        if (empty($type) || empty($value) || !in_array($type, $type_array)) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+        }
+
+        //手机号码格式判断
+        if ($type == 'mobile') {
 // 			$str = '/^1[345678]{1}\d{9}$/';
 // 			if(!preg_match($str, $value)){
 // 				new ecjia_error('mobile_wrong', '手机号码格式不正确！');
 // 			}
-		    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($value);
-			if (is_ecjia_error($check_mobile)) {
-			    return $check_mobile;
-			}
-		}
-		if (version_compare($api_version, '1.14', '>=')) {
-			$captcha_code = $this->requestData('captcha_code');
-			if (empty($captcha_code)) {
-				return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
-			}
-			//判断验证码是否正确
-			if (isset($captcha_code) && $_SESSION['captcha_word'] != strtolower($captcha_code)) {
-				return new ecjia_error( 'captcha_code_error', '验证码错误');
-			}
-		}
-		
-		$db_user = RC_Model::model('user/users_model');
-		//设置session用于校验校验码
-		$code = rand(100000, 999999);
-		//版本兼容
-		if (version_compare($api_version, '1.14', '<')) {
-			if (ecjia_integrate::checkUser($value)) {
-				return array('registered' => 1);
-			}
-		}
-		
-		
-		$mobile_phone = $db_user->find(array('mobile_phone' => $value));
-		
-		if ($type == 'mobile') {
-			//发送短信
-			$options = array(
-				'mobile' => $value,
-				'event'	 => 'sms_get_validate',
-				'value'  =>array(
-						'code' 			=> $code,
-						'service_phone' => ecjia::config('service_phone'),
-				),
-			);
-			
-			$response = RC_Api::api('sms', 'send_event_sms', $options);	
-			
-			$_SESSION['bind_code']         = $code;
-			$_SESSION['bindcode_lifetime'] = RC_Time::gmtime();
-			$_SESSION['bind_value']        = $value;
-			$_SESSION['bind_type']         = $type;
-			
-			if (is_ecjia_error($response)) {
-				return new ecjia_error('sms_error', '短信发送失败！');
-			} else {
-				//版本兼容
-				if (version_compare($api_version, '1.14', '<')) {
-					return array('registered' => 0);
-				} else {
-					/* 判断在有效期内是否已被邀请*/
-					$is_invited = 0;
-					$is_invitedinfo = RC_DB::table('invitee_record')
-					->where('invitee_phone', $value)
-					->where('invite_type', 'signup')
-					->where('expire_time', '>', RC_Time::gmtime())
-					->first();
-					if (!empty($is_invitedinfo)) {
-						$is_invited = 1;
-					}
-					if (!empty($mobile_phone)) {
-						return array('registered' => 1);
-					} else {
-						return array('registered' => 0, 'is_invited' => $is_invited);
-					}
-				}
-			}
-		}
-	}
+            $check_mobile = Ecjia\App\Sms\Helper::check_mobile($value);
+            if (is_ecjia_error($check_mobile)) {
+                return $check_mobile;
+            }
+        }
+        if (version_compare($api_version, '1.14', '>=')) {
+            $captcha_code = $this->requestData('captcha_code');
+            if (empty($captcha_code)) {
+                return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            }
+            //判断验证码是否正确
+            if (isset($captcha_code) && $_SESSION['captcha_word'] != strtolower($captcha_code)) {
+                return new ecjia_error('captcha_code_error', __('验证码错误', 'user'));
+            }
+        }
+
+        $db_user = RC_Model::model('user/users_model');
+        //设置session用于校验校验码
+        $code = rand(100000, 999999);
+        //版本兼容
+        if (version_compare($api_version, '1.14', '<')) {
+            if (ecjia_integrate::checkUser($value)) {
+                return array('registered' => 1);
+            }
+        }
+
+
+        $mobile_phone = $db_user->find(array('mobile_phone' => $value));
+
+        if ($type == 'mobile') {
+            //发送短信
+            $options = array(
+                'mobile' => $value,
+                'event'  => 'sms_get_validate',
+                'value'  => array(
+                    'code'          => $code,
+                    'service_phone' => ecjia::config('service_phone'),
+                ),
+            );
+
+            $response = RC_Api::api('sms', 'send_event_sms', $options);
+
+            $_SESSION['bind_code']         = $code;
+            $_SESSION['bindcode_lifetime'] = RC_Time::gmtime();
+            $_SESSION['bind_value']        = $value;
+            $_SESSION['bind_type']         = $type;
+
+            if (is_ecjia_error($response)) {
+                return new ecjia_error('sms_error', __('短信发送失败！', 'user'));
+            } else {
+                //版本兼容
+                if (version_compare($api_version, '1.14', '<')) {
+                    return array('registered' => 0);
+                } else {
+                    /* 判断在有效期内是否已被邀请*/
+                    $is_invited     = 0;
+                    $is_invitedinfo = RC_DB::table('invitee_record')
+                        ->where('invitee_phone', $value)
+                        ->where('invite_type', 'signup')
+                        ->where('expire_time', '>', RC_Time::gmtime())
+                        ->first();
+                    if (!empty($is_invitedinfo)) {
+                        $is_invited = 1;
+                    }
+                    if (!empty($mobile_phone)) {
+                        return array('registered' => 1);
+                    } else {
+                        return array('registered' => 0, 'is_invited' => $is_invited);
+                    }
+                }
+            }
+        }
+    }
 }
 
 // end

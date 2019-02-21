@@ -46,7 +46,7 @@ class UserAddressClear extends UserCleanAbstract
 
         return <<<HTML
 
-<span class="controls-info w200">总共有<span class="ecjiafc-red ecjiaf-fs3">{$count}</span>个收货地址</span>
+<span class="controls-info w300">总共有<span class="ecjiafc-red ecjiaf-fs3">{$count}</span>个收货地址</span>
 
 <span class="controls-info"><a href="{$url}" target="__blank">查看全部>>></a></span>
 
@@ -99,7 +99,7 @@ HTML;
 
         $user_info = RC_Api::api('user', 'user_info', array('user_id' => $this->user_id));
 
-        $user_name = !empty($user_info) ? '用户名是' . $user_info['user_name'] : '用户ID是' . $this->user_id;
+        $user_name = !empty($user_info) ? sprintf(__('用户名是%s', 'user'), $user_info['user_name']) : sprintf(__('用户ID是%s', 'user'), $this->user_id);
 
         ecjia_admin::admin_log($user_name, 'clean', 'user_address');
     }

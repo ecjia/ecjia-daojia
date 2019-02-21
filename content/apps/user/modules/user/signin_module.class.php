@@ -46,174 +46,176 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class user_signin_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-    	$this->authSession();
-    	
-		RC_Loader::load_app_func('admin_user','user');
-		RC_Loader::load_app_func('cart','cart');
-		$name = $this->requestData('name');
-		$password = $this->requestData('password');
-		$login_type = $this->requestData('type', 'password');
-		$login_type_array = array('smslogin', 'password');
-		$api_version = $this->request->header('api-version');
-		
-		if (version_compare($api_version, '1.14', '>=')) {
-			if (empty($login_type) || !in_array($login_type, $login_type_array) || empty($name) || empty($password)) {
-				return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
-			}
-			
-			if ($login_type == 'password') {
-				$is_mobile = false;
-					
-				/* 判断是否为手机号*/
-				$check_mobile = Ecjia\App\Sms\Helper::check_mobile($name);
-				if($check_mobile === true) {
-					$user_count = RC_DB::table('users')->where('mobile_phone', $name)->count();
-					if ($user_count > 1) {
-						return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
-					}
-					$check_user = RC_DB::table('users')->where('mobile_phone', $name)->pluck('user_name');
-					/* 获取用户名进行判断验证*/
-					if (!empty($check_user)) {
-						if (ecjia_integrate::login($check_user, $password)) {
-							$is_mobile = true;
-						}
-					}
-				}
-					
-				/* 如果不是手机号码*/
-				if (!$is_mobile) {
-					if (! ecjia_integrate::login($name, $password)) {
-						return new ecjia_error('userinfo_error', '您输入的账号信息不正确 ！');
-					}
-				}
-			} else {
-				//短信验证码验证
-				//判断校验码是否过期
-				if ($_SESSION['bindcode_lifetime'] + 1800 < RC_Time::gmtime()) {
-					//过期
-					return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！'));
-				}
-				//判断校验码是否正确
-				if ($password != $_SESSION['bind_code'] ) {
-					return new ecjia_error('code_error', __('验证码错误，请重新填写！'));
-				}
-				//校验其他信息
-				if ($name != $_SESSION['bind_value']) {
-					return  new ecjia_error('msg_error', __('信息错误，请重新获取验证码'));
-				}
-				
-				$check_mobile = Ecjia\App\Sms\Helper::check_mobile($name);
-				if (is_ecjia_error($check_mobile)) {
-				    return $check_mobile;
-				}
-				$user_count = RC_DB::table('users')->where('mobile_phone', $name)->count();
-				if ($user_count > 1) {
-					return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
-				}
-				$user_name = RC_DB::table('users')->where('mobile_phone', $name)->pluck('user_name');
-				//账号信息检查
-				if (! ecjia_integrate::login($user_name, null)) {
-					return new ecjia_error('userinfo_error', '您输入的账号信息不正确 ！');
-				}
-			}
-		} else {
-			$is_mobile = false;
-			
-			/* 判断是否为手机号*/
-			$check_mobile = Ecjia\App\Sms\Helper::check_mobile($name);
-			if($check_mobile === true) {
-				$user_count = RC_DB::table('users')->where('mobile_phone', $name)->count();
-				if ($user_count > 1) {
-					return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
-				}
-				$check_user = RC_DB::table('users')->where('mobile_phone', $name)->pluck('user_name');
-				
-				/* 获取用户名进行判断验证*/
-				if (!empty($check_user)) {
-					if (ecjia_integrate::login($check_user, $password)) {
-						$is_mobile = true;
-					}
-				}
-			}
-			
-			/* 如果不是手机号码*/
-			if (!$is_mobile) {
-				if (! ecjia_integrate::login($name, $password)) {
-					return new ecjia_error('userinfo_error', '您输入的账号信息不正确 ！');
-				}
-			}
-		}
-		
-		/*登录成功*/
-		if ($_SESSION['user_id'] > 0) {
-			$userinfo = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->first();
-			if (empty($userinfo['ec_salt'])) {
-			    $salt = rand(1, 9999);
-			    if (version_compare($api_version, '1.14', '>=')) {
-					if ($login_type == 'smslogin') {
-						RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update(array('ec_salt' => $salt));
-					} elseif ($login_type == 'password') {
-						$new_password = md5(md5($password) . $salt);
-						$data = array(
-								'password' => $new_password,
-								'ec_salt'  => $salt
-						);
-						RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update($data);
-					}
-				} else {
-					$new_password = md5(md5($password) . $salt);
-					$data = array(
-							'password' => $new_password,
-							'ec_salt'  => $salt
-					);
-					RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update($data);
-				}
-			}
-		}
-		
-		//ecjia账号同步登录用户信息更新
-		$connect_options = [
-			'connect_code'  => 'app',
-			'user_id'       => $_SESSION['user_id'],
-			'is_admin'      => '0',
-			'user_type'     => 'user',
-			'open_id'       => md5(RC_Time::gmtime() . $_SESSION['user_id']),
-			'access_token'  => RC_Session::session_id(),
-			'refresh_token' => md5($_SESSION['user_id'] . 'user_refresh_token'),
-		];
-		$ecjiaAppUser = RC_Api::api('connect', 'ecjia_syncappuser_add', $connect_options);
-		if (is_ecjia_error($ecjiaAppUser)) {
-			return $ecjiaAppUser;
-		}
-		
-		$user_info = EM_user_info($_SESSION['user_id']);
-		$out = array(
-			'session' => array(
-				'sid' => RC_Session::session_id(),
-				'uid' => $_SESSION['user_id']
-			),
-			'user' => $user_info
-		);
-		
-		update_user_info();
-		recalculate_price();
-		
-		//修正咨询信息
-		if($_SESSION['user_id'] > 0) {
-			$device		      = $this->device;
-			//修正关联设备号
-			$result = ecjia_app::validate_application('mobile');
-			if (!is_ecjia_error($result)) {
-				if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
-					RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->where('user_type', 'user')->update(array('user_id' => $_SESSION['user_id'], 'update_time' => RC_Time::gmtime()));
-				}
-			}
-		}
-		return $out;
-	}
+class user_signin_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
+        $this->authSession();
+
+        RC_Loader::load_app_func('admin_user', 'user');
+        RC_Loader::load_app_func('cart', 'cart');
+        $name             = $this->requestData('name');
+        $password         = $this->requestData('password');
+        $login_type       = $this->requestData('type', 'password');
+        $login_type_array = array('smslogin', 'password');
+        $api_version      = $this->request->header('api-version');
+
+        if (version_compare($api_version, '1.14', '>=')) {
+            if (empty($login_type) || !in_array($login_type, $login_type_array) || empty($name) || empty($password)) {
+                return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+            }
+
+            if ($login_type == 'password') {
+                $is_mobile = false;
+
+                /* 判断是否为手机号*/
+                $check_mobile = Ecjia\App\Sms\Helper::check_mobile($name);
+                if ($check_mobile === true) {
+                    $user_count = RC_DB::table('users')->where('mobile_phone', $name)->count();
+                    if ($user_count > 1) {
+                        return new ecjia_error('user_repeat', __('用户重复，请与管理员联系！', 'user'));
+                    }
+                    $check_user = RC_DB::table('users')->where('mobile_phone', $name)->pluck('user_name');
+                    /* 获取用户名进行判断验证*/
+                    if (!empty($check_user)) {
+                        if (ecjia_integrate::login($check_user, $password)) {
+                            $is_mobile = true;
+                        }
+                    }
+                }
+
+                /* 如果不是手机号码*/
+                if (!$is_mobile) {
+                    if (!ecjia_integrate::login($name, $password)) {
+                        return new ecjia_error('userinfo_error', __('您输入的账号信息不正确 ！', 'user'));
+                    }
+                }
+            } else {
+                //短信验证码验证
+                //判断校验码是否过期
+                if ($_SESSION['bindcode_lifetime'] + 1800 < RC_Time::gmtime()) {
+                    //过期
+                    return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！', 'user'));
+                }
+                //判断校验码是否正确
+                if ($password != $_SESSION['bind_code']) {
+                    return new ecjia_error('code_error', __('验证码错误，请重新填写！', 'user'));
+                }
+                //校验其他信息
+                if ($name != $_SESSION['bind_value']) {
+                    return new ecjia_error('msg_error', __('信息错误，请重新获取验证码', 'user'));
+                }
+
+                $check_mobile = Ecjia\App\Sms\Helper::check_mobile($name);
+                if (is_ecjia_error($check_mobile)) {
+                    return $check_mobile;
+                }
+                $user_count = RC_DB::table('users')->where('mobile_phone', $name)->count();
+                if ($user_count > 1) {
+                    return new ecjia_error('user_repeat', __('用户重复，请与管理员联系！', 'user'));
+                }
+                $user_name = RC_DB::table('users')->where('mobile_phone', $name)->pluck('user_name');
+                //账号信息检查
+                if (!ecjia_integrate::login($user_name, null)) {
+                    return new ecjia_error('userinfo_error', __('您输入的账号信息不正确 ！', 'user'));
+                }
+            }
+        } else {
+            $is_mobile = false;
+
+            /* 判断是否为手机号*/
+            $check_mobile = Ecjia\App\Sms\Helper::check_mobile($name);
+            if ($check_mobile === true) {
+                $user_count = RC_DB::table('users')->where('mobile_phone', $name)->count();
+                if ($user_count > 1) {
+                    return new ecjia_error('user_repeat', __('用户重复，请与管理员联系！', 'user'));
+                }
+                $check_user = RC_DB::table('users')->where('mobile_phone', $name)->pluck('user_name');
+
+                /* 获取用户名进行判断验证*/
+                if (!empty($check_user)) {
+                    if (ecjia_integrate::login($check_user, $password)) {
+                        $is_mobile = true;
+                    }
+                }
+            }
+
+            /* 如果不是手机号码*/
+            if (!$is_mobile) {
+                if (!ecjia_integrate::login($name, $password)) {
+                    return new ecjia_error('userinfo_error', __('您输入的账号信息不正确 ！', 'user'));
+                }
+            }
+        }
+
+        /*登录成功*/
+        if ($_SESSION['user_id'] > 0) {
+            $userinfo = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->first();
+            if (empty($userinfo['ec_salt'])) {
+                $salt = rand(1, 9999);
+                if (version_compare($api_version, '1.14', '>=')) {
+                    if ($login_type == 'smslogin') {
+                        RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update(array('ec_salt' => $salt));
+                    } elseif ($login_type == 'password') {
+                        $new_password = md5(md5($password) . $salt);
+                        $data         = array(
+                            'password' => $new_password,
+                            'ec_salt'  => $salt
+                        );
+                        RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update($data);
+                    }
+                } else {
+                    $new_password = md5(md5($password) . $salt);
+                    $data         = array(
+                        'password' => $new_password,
+                        'ec_salt'  => $salt
+                    );
+                    RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update($data);
+                }
+            }
+        }
+
+        //ecjia账号同步登录用户信息更新
+        $connect_options = [
+            'connect_code'  => 'app',
+            'user_id'       => $_SESSION['user_id'],
+            'is_admin'      => '0',
+            'user_type'     => 'user',
+            'open_id'       => md5(RC_Time::gmtime() . $_SESSION['user_id']),
+            'access_token'  => RC_Session::session_id(),
+            'refresh_token' => md5($_SESSION['user_id'] . 'user_refresh_token'),
+        ];
+        $ecjiaAppUser    = RC_Api::api('connect', 'ecjia_syncappuser_add', $connect_options);
+        if (is_ecjia_error($ecjiaAppUser)) {
+            return $ecjiaAppUser;
+        }
+
+        $user_info = EM_user_info($_SESSION['user_id']);
+        $out       = array(
+            'session' => array(
+                'sid' => RC_Session::session_id(),
+                'uid' => $_SESSION['user_id']
+            ),
+            'user'    => $user_info
+        );
+
+        update_user_info();
+        recalculate_price();
+
+        //修正咨询信息
+        if ($_SESSION['user_id'] > 0) {
+            $device = $this->device;
+            //修正关联设备号
+            $result = ecjia_app::validate_application('mobile');
+            if (!is_ecjia_error($result)) {
+                if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
+                    RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->where('user_type', 'user')->update(array('user_id' => $_SESSION['user_id'], 'update_time' => RC_Time::gmtime()));
+                }
+            }
+        }
+        return $out;
+    }
 }
 
 // end

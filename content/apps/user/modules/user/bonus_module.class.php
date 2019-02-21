@@ -58,36 +58,36 @@ class user_bonus_module extends api_front implements api_interface
         $this->authSession();
         $user_id = $_SESSION['user_id'];
         if ($user_id <= 0) {
-            return new ecjia_error(100, 'Invalid session');
+            return new ecjia_error(100, __('Invalid session', 'user'));
         }
-        
+
         $api_version = $this->request->header('api-version');
         //判断用户有没申请注销
         if (version_compare($api_version, '1.25', '>=')) {
-        	$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
-        	if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
-        		return new ecjia_error('account_status_error', '当前账号已申请注销，不可查看此数据！');
-        	}
+            $account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
+            if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
+                return new ecjia_error('account_status_error', __('当前账号已申请注销，不可查看此数据！', 'user'));
+            }
         }
-		
-		$bonus_type	= $this->requestData('bonus_type');
-		$size = $this->requestData('pagination.count', 15);
-		$page = $this->requestData('pagination.page', 1);
-		
-		$filter = array(
-				'bonus_type'    => $bonus_type,
-				'size'          => !empty($size) ? intval($size) : 15,
-				'page'          => !empty($page) ? intval($page) : 1,
-		);
-		
-		$bonus_list = RC_Api::api('user', 'user_bonus_list', $filter);
-		$pager = array(
-		        'total' => $bonus_list['page']->total_records,
-		        'count' => $bonus_list['page']->total_records,
-		        'more'  => $bonus_list['page']->total_pages <= $page ? 0 : 1,
-		);
-		return array('data' => $bonus_list['bonus_list'], 'pager' => $pager);
-	}
+
+        $bonus_type = $this->requestData('bonus_type');
+        $size       = $this->requestData('pagination.count', 15);
+        $page       = $this->requestData('pagination.page', 1);
+
+        $filter = array(
+            'bonus_type' => $bonus_type,
+            'size'       => !empty($size) ? intval($size) : 15,
+            'page'       => !empty($page) ? intval($page) : 1,
+        );
+
+        $bonus_list = RC_Api::api('user', 'user_bonus_list', $filter);
+        $pager      = array(
+            'total' => $bonus_list['page']->total_records,
+            'count' => $bonus_list['page']->total_records,
+            'more'  => $bonus_list['page']->total_pages <= $page ? 0 : 1,
+        );
+        return array('data' => $bonus_list['bonus_list'], 'pager' => $pager);
+    }
 }
 
 // end

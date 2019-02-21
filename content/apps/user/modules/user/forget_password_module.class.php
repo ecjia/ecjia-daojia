@@ -50,73 +50,75 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 找回密码请求
  * @author will
  */
-class user_forget_password_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-    	$this->authSession();
-    	
-        $type = $this->requestData('type');
-        $value = $this->requestData('value');
+class user_forget_password_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
+        $this->authSession();
+
+        $type        = $this->requestData('type');
+        $value       = $this->requestData('value');
         $api_version = $this->request->header('api-version');
-        
+
         if (empty($type) || empty($value)) {
-        	return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
         }
-        
+
         $db = RC_Model::model('user/users_model');
-        
+
         if ($type == 'mobile') {
-        	//手机号码格式判断
-        	if ($type == 'mobile') {
+            //手机号码格式判断
+            if ($type == 'mobile') {
 //         		$str = '/^1[345678]{1}\d{9}$/';
 //         		if(!preg_match($str, $value)){
 //         			new ecjia_error('mobile_wrong', '手机号码格式不正确！');
 //         		}
-        		$check_mobile = Ecjia\App\Sms\Helper::check_mobile($value);
-        		if (is_ecjia_error($check_mobile)) {
-        		    return $check_mobile;
-        		}
-        	}
-        	if (version_compare($api_version, '1.14', '>=')) {
-        		$captcha_code = $this->requestData('captcha_code');
-        		if (empty($captcha_code)) {
-        			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
-        		}
-        		//判断验证码是否正确
-        		if (isset($captcha_code) && $_SESSION['captcha_word'] != strtolower($captcha_code)) {
-        			return new ecjia_error( 'captcha_code_error', '验证码错误');
-        		}
-        	}
-        	
-        	$user_count = $db->where(array('mobile_phone' => $value))->count();
-        	//如果用户数量大于1
-        	if ($user_count > 1) {
-        		return new ecjia_error('mobile_repeat_error', __('手机号重复，请与管理员联系！'));
-        	}
-        	$userinfo = $db->find(array('mobile_phone' => $value));
+                $check_mobile = Ecjia\App\Sms\Helper::check_mobile($value);
+                if (is_ecjia_error($check_mobile)) {
+                    return $check_mobile;
+                }
+            }
+            if (version_compare($api_version, '1.14', '>=')) {
+                $captcha_code = $this->requestData('captcha_code');
+                if (empty($captcha_code)) {
+                    return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+                }
+                //判断验证码是否正确
+                if (isset($captcha_code) && $_SESSION['captcha_word'] != strtolower($captcha_code)) {
+                    return new ecjia_error('captcha_code_error', __('验证码错误', 'user'));
+                }
+            }
+
+            $user_count = $db->where(array('mobile_phone' => $value))->count();
+            //如果用户数量大于1
+            if ($user_count > 1) {
+                return new ecjia_error('mobile_repeat_error', __('手机号重复，请与管理员联系！', 'user'));
+            }
+            $userinfo = $db->find(array('mobile_phone' => $value));
         }
         if ($type == 'email') {
-        	$userinfo = $db->find(array('email' => $value));
+            $userinfo = $db->find(array('email' => $value));
         }
-        
+
         if (empty($userinfo)) {
-        	return new ecjia_error('user_error', __('用户信息错误！'));
+            return new ecjia_error('user_error', __('用户信息错误！', 'user'));
         }
-        
+
         $code = rand(100000, 999999);
-        
-        $time = RC_Time::gmtime();
+
+        $time                      = RC_Time::gmtime();
         $_SESSION['forget_code']   = $code;
         $_SESSION['forget_expiry'] = $time + 600;//设置有效期10分钟
-        
+
         /* 短信找回密码*/
         if ($type == 'mobile') {
             //发送短信
-            $options = array(
+            $options  = array(
                 'mobile' => $value,
-                'event'	 => 'sms_get_validate',
-                'value'  =>array(
-                    'code' 			=> $code,
+                'event'  => 'sms_get_validate',
+                'value'  => array(
+                    'code'          => $code,
                     'service_phone' => ecjia::config('service_phone'),
                 ),
             );
@@ -124,25 +126,25 @@ class user_forget_password_module extends api_front implements api_interface {
         }
         /* 邮箱找回密码*/
         if ($type == 'email') {
-        	$tpl_name = 'email_verifying_authentication';
-        	$tpl   = RC_Api::api('mail', 'mail_template', $tpl_name);
+            $tpl_name = 'email_verifying_authentication';
+            $tpl      = RC_Api::api('mail', 'mail_template', $tpl_name);
             /* 判断短信模板是否存在*/
-        	if (!empty($tpl)) {
-        		ecjia_api::$controller->assign('action', __('通过短信找回密码'));
-        		ecjia_api::$controller->assign('code', $code);
-        		ecjia_api::$controller->assign('service_phone', ecjia::config('service_phone'));
-        		$content  = ecjia_api::$controller->fetch_string($tpl['template_content']);
-        		$response = RC_Mail::send_mail(ecjia::config('shop_name'), $value, $tpl['template_subject'], $content, $tpl['is_html']);
-        	}
+            if (!empty($tpl)) {
+                ecjia_api::$controller->assign('action', __('通过短信找回密码', 'user'));
+                ecjia_api::$controller->assign('code', $code);
+                ecjia_api::$controller->assign('service_phone', ecjia::config('service_phone'));
+                $content  = ecjia_api::$controller->fetch_string($tpl['template_content']);
+                $response = RC_Mail::send_mail(ecjia::config('shop_name'), $value, $tpl['template_subject'], $content, $tpl['is_html']);
+            }
         }
-        
+
         /* 判断是否发送成功*/
         if ($response === true) {
-        	return array('data' => '验证码发送成功！');
+            return array('data' => __('验证码发送成功！', 'user'));
         } else {
-        	return new ecjia_error('send_code_error', __('验证码发送失败！'));
+            return new ecjia_error('send_code_error', __('验证码发送失败！', 'user'));
         }
-	}
+    }
 }
 
 // end

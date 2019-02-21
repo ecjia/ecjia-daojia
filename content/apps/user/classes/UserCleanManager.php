@@ -55,21 +55,21 @@ class UserCleanManager
 {
 
     protected $api_name = 'user_remove_cleardata';
-    
+
     protected $factories;
 
     protected $user_id;
-    
+
     public function __construct($user_id)
     {
         $this->user_id = $user_id;
     }
-    
+
     public function getFactories()
     {
 
-        $apps = ecjia_app::installed_app_floders();
-        $handlers = RC_Api::apis( $apps, $this->api_name, ['user_id' => $this->user_id]);
+        $apps     = ecjia_app::installed_app_floders();
+        $handlers = RC_Api::apis($apps, $this->api_name, ['user_id' => $this->user_id]);
 
         $factories = [];
         foreach ($handlers as $values) {
@@ -89,13 +89,13 @@ class UserCleanManager
 
         return $new_factories;
     }
-    
+
     public function handler($code)
     {
         if (!array_key_exists($code, $this->factories)) {
             throw new InvalidArgumentException("Handler '$code' is not supported.");
         }
-    
+
         return $this->factories[$code];
     }
 
@@ -115,5 +115,5 @@ class UserCleanManager
             return ($a->getSort() > $b->getSort()) ? 1 : -1;
         }
     }
-    
+
 }

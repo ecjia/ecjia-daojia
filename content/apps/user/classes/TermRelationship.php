@@ -60,20 +60,21 @@ use RC_Lang;
  */
 class TermRelationship
 {
-	
+
     /**
      * 获取咨询对象id
      * @param array $options
      * @return array
      */
-    public static function GetObjectIds($options = array()) {
-    	$GetObjectIds = [];
-    	$GetObjectIds = RC_DB::table('term_relationship')
-    						->where('object_type', $options['object_type'])
-    						->where('object_group', $options['object_group'])
-    						->where('item_key2', $options['item_key2'])
-    						->where('item_value2', $options['item_value2'])
-    						->lists('object_id');
+    public static function GetObjectIds($options = array())
+    {
+        $GetObjectIds = [];
+        $GetObjectIds = RC_DB::table('term_relationship')
+            ->where('object_type', $options['object_type'])
+            ->where('object_group', $options['object_group'])
+            ->where('item_key2', $options['item_key2'])
+            ->where('item_value2', $options['item_value2'])
+            ->lists('object_id');
         return $GetObjectIds;
     }
 

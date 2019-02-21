@@ -50,103 +50,106 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 用户充值申请
  * @author royalwang
  */
-class user_account_deposit_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    		
-    	if ($_SESSION['user_id'] <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
- 		$amount		= $this->requestData('amount');
- 		$user_note	= $this->requestData('note', '');
- 		$account_id = $this->requestData('account_id', 0);
- 		$payment_id = $this->requestData('payment_id', 0);
- 		$user_id    = $_SESSION['user_id'];
- 		
- 		$api_version = $this->request->header('api-version');
- 		//判断用户有没申请注销
- 		if (version_compare($api_version, '1.25', '>=')) {
- 			$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
- 			if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
- 				return new ecjia_error('account_status_error', '当前账号已申请注销，不可执行此操作！');
- 			}
- 		}
- 		
- 		
- 		$amount = floatval($amount);
- 		if ($amount <= 0) {
- 			$result = new ecjia_error('amount_gt_zero', __('请在“金额”栏输入大于0的数字！'));
- 			return $result;
- 		}
- 		if (!$user_id) {
- 		    return new ecjia_error(100, 'Invalid session' );
- 		}
- 		
- 		RC_Loader::load_app_func('admin_order', 'orders');
- 		
- 		if ($account_id > 0) {
-            $res = RC_DB::table('user_account')->where('id', $account_id)->first();
-            $order_sn = $res['order_sn'];
- 		} else {
- 		    $order_sn = ecjia_order_deposit_sn();
- 		}
- 		
- 		/* 变量初始化 */
- 		$surplus = array(
-			'user_id'      => $user_id,
-			'order_sn'	   => $order_sn,
-			'account_id'   => intval($account_id),
-			'process_type' => 0,
-			'payment_id'   => intval($payment_id),
-			'user_note'    => $user_note,
-			'amount'       => $amount,
- 			'from_type'	   => 'user',
- 			'from_value'   => $user_id
- 		);
- 		
- 		if ($surplus['payment_id'] <= 0) {
- 			$result = new ecjia_error('select_payment_pls', __('请选择支付方式！'));
- 			return $result;
- 		}
- 		
- 		//获取支付方式名称
- 		$payment_info = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($surplus['payment_id']);
-        if (empty($payment_info)) {
-            $result = new ecjia_error('select_payment_pls_again', __('支付方式无效，请重新选择支付方式！'));
-        }
- 		$surplus['payment'] = $payment_info['pay_code'];
- 		$surplus['payment_name'] = $payment_info['pay_name'];
- 		
- 		if ($surplus['account_id'] > 0) {
- 			//更新会员账目明细
- 			$surplus['account_id'] = $this->em_update_user_account($surplus);
- 		} else {
- 			RC_Loader::load_app_func('admin_user', 'user');
- 			//插入会员账目明细
- 			$surplus['account_id'] = insert_user_account($surplus, $amount);
- 		}
- 		
- 		$order['payment']['payment_id'] = $surplus['payment_id'];
- 		$order['payment']['account_id'] = $surplus['account_id'];
+class user_account_deposit_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
 
- 		
- 		return array('payment' => $order['payment'], 'order_sn' => $surplus['order_sn']);
-	}
+        if ($_SESSION['user_id'] <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+        $amount     = $this->requestData('amount');
+        $user_note  = $this->requestData('note', '');
+        $account_id = $this->requestData('account_id', 0);
+        $payment_id = $this->requestData('payment_id', 0);
+        $user_id    = $_SESSION['user_id'];
+
+        $api_version = $this->request->header('api-version');
+        //判断用户有没申请注销
+        if (version_compare($api_version, '1.25', '>=')) {
+            $account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
+            if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
+                return new ecjia_error('account_status_error', __('当前账号已申请注销，不可执行此操作！', 'user'));
+            }
+        }
+
+
+        $amount = floatval($amount);
+        if ($amount <= 0) {
+            $result = new ecjia_error('amount_gt_zero', __('请在“金额”栏输入大于0的数字！', 'user'));
+            return $result;
+        }
+        if (!$user_id) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+
+        RC_Loader::load_app_func('admin_order', 'orders');
+
+        if ($account_id > 0) {
+            $res      = RC_DB::table('user_account')->where('id', $account_id)->first();
+            $order_sn = $res['order_sn'];
+        } else {
+            $order_sn = ecjia_order_deposit_sn();
+        }
+
+        /* 变量初始化 */
+        $surplus = array(
+            'user_id'      => $user_id,
+            'order_sn'     => $order_sn,
+            'account_id'   => intval($account_id),
+            'process_type' => 0,
+            'payment_id'   => intval($payment_id),
+            'user_note'    => $user_note,
+            'amount'       => $amount,
+            'from_type'    => 'user',
+            'from_value'   => $user_id
+        );
+
+        if ($surplus['payment_id'] <= 0) {
+            $result = new ecjia_error('select_payment_pls', __('请选择支付方式！', 'user'));
+            return $result;
+        }
+
+        //获取支付方式名称
+        $payment_info = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($surplus['payment_id']);
+        if (empty($payment_info)) {
+            $result = new ecjia_error('select_payment_pls_again', __('支付方式无效，请重新选择支付方式！', 'user'));
+        }
+        $surplus['payment']      = $payment_info['pay_code'];
+        $surplus['payment_name'] = $payment_info['pay_name'];
+
+        if ($surplus['account_id'] > 0) {
+            //更新会员账目明细
+            $surplus['account_id'] = $this->em_update_user_account($surplus);
+        } else {
+            RC_Loader::load_app_func('admin_user', 'user');
+            //插入会员账目明细
+            $surplus['account_id'] = insert_user_account($surplus, $amount);
+        }
+
+        $order['payment']['payment_id'] = $surplus['payment_id'];
+        $order['payment']['account_id'] = $surplus['account_id'];
+
+
+        return array('payment' => $order['payment'], 'order_sn' => $surplus['order_sn']);
+    }
 
     /**
      * 更新会员账目明细
      *
      * @access  public
-     * @param   array     $surplus  会员余额信息
+     * @param   array $surplus 会员余额信息
      *
      * @return  int
      */
-    private function em_update_user_account($surplus) {
+    private function em_update_user_account($surplus)
+    {
         $data = array(
-            'amount'	=> $surplus['amount'],
-            'user_note'	=> empty($surplus['user_note']) ? '' : $surplus['user_note'],
-            'payment'	=> empty($surplus['payment']) ? '' : $surplus['payment'],
+            'amount'    => $surplus['amount'],
+            'user_note' => empty($surplus['user_note']) ? '' : $surplus['user_note'],
+            'payment'   => empty($surplus['payment']) ? '' : $surplus['payment'],
         );
-		RC_DB::table('user_account')->where('id', $surplus['account_id'])->update($data);
+        RC_DB::table('user_account')->where('id', $surplus['account_id'])->update($data);
         return $surplus['account_id'];
     }
 }

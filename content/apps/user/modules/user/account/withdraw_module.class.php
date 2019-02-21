@@ -49,156 +49,158 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 用户提现申请 替换 user/account/raply
  * @author hyy
- * 
+ *
  * @add 1.25
  * @lastupdate 1.25
  */
-class user_account_withdraw_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-        
-        $user_id    = $_SESSION['user_id'];
-    	if ($_SESSION['user_id'] <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-    	
-    	//判断用户有没申请注销
-    	$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
-    	if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
-    		return new ecjia_error('account_status_error', '当前账号已申请注销，不可执行此操作！');
-    	}
-		
- 		$amount 			= $this->requestData('amount');
- 		$user_note 			= $this->requestData('note', '');
- 		$withdraw_way 		= $this->requestData('withdraw_way', '');//提现方式（wechat微信钱包，bank银行转账） 
- 		$withdraw_way_arr 	= array('wechat', 'bank');
- 		
- 		if (empty($withdraw_way) || !in_array($withdraw_way, $withdraw_way_arr)) {
- 			return new ecjia_error('invalid_parameter', '请求接口user_account_withdraw_module参数错误！');
- 		}
- 		
- 		//判断用户有没绑定微信钱包和银行卡
- 		$withdraw_way_bind = $this->is_bind_withdraw_way($withdraw_way, $user_id);
- 		if (!$withdraw_way_bind) {
- 			return new ecjia_error('not_bind_withdraw_way', '您还未绑定此提现方式！');
- 		} 
- 		
- 		$amount = floatval($amount);
-		if ($amount <= 0) {
- 			return new ecjia_error('amount_gt_zero', __('请在“金额”栏输入大于0的数字！'));
- 		}
- 		
- 		$pay_fee = '0.00';
- 		$real_amount = $amount;
- 		
-		/* 最小提现金额 */
-		$withdraw_min_amount = ecjia::config('withdraw_min_amount');
-		if ($withdraw_min_amount > 0) {
-			if ($amount < $withdraw_min_amount) {
-				return new ecjia_error('withdraw_min_amount_error', '提现金额不可小于最小提现金额：'.$withdraw_min_amount.'元');
-			}
-		}
- 		
- 		RC_Loader::load_app_func('admin_user', 'user');
- 		/* 判断是否有足够的余额的进行退款的操作 */
- 		//会员可用余额 ，即 用户现有余额;
- 		RC_Loader::load_app_class('user_account', 'user', false);
- 		$user_current_money = user_account::get_user_money($user_id);
- 		if ($amount > $user_current_money) {
- 			return new ecjia_error('surplus_amount_error', '您申请提现的金额超过了现有余额，此操作将不可进行！');
- 		}
- 		
- 		/* 提现手续费 */
- 		$withdraw_fee = ecjia::config('withdraw_fee');
- 		if ($withdraw_fee > 0) {
- 		    $pay_fee = $amount*($withdraw_fee/100);
- 		    if ($pay_fee > $amount) {
- 		        $pay_fee = $amount;
- 		    }
- 		    $real_amount = $amount - $pay_fee;
- 		}
- 		
- 		
- 		//支付方式
- 		$payment = [
- 		    'bank' => [
- 		        'pay_code' => 'withdraw_bank',
- 		        'pay_name' => '银行转账提现'
- 		        ],
- 		    'wechat' => [
- 		        'pay_code' => 'withdraw_wxpay',
- 		        'pay_name' => '微信钱包提现'
- 		    ],
- 		];
- 		
- 		
- 		/* 变量初始化 */
- 		$surplus = array(
- 		    'user_id'      => $user_id,
- 		    'order_sn'	   => ecjia_order_deposit_sn(),
- 		    'process_type' => 1,
- 		    'payment'      => isset($payment[$withdraw_way]['pay_code']) ? $payment[$withdraw_way]['pay_code'] : '',
- 			'payment_name' => isset($payment[$withdraw_way]['pay_name']) ? $payment[$withdraw_way]['pay_name'] : '',
- 		    'user_note'    => $user_note,
- 		    'amount'       => $amount,
- 		    'from_type'	   => 'user',
- 		    'from_value'   => $user_id,
- 		    'pay_fee'	   => $pay_fee,
- 		    'real_amount'  => $real_amount,
- 		);
- 		
- 		//绑定的提现方式信息
- 		$bank_info = RC_DB::table('withdraw_user_bank')->where('user_id', $user_id)->where('user_type', 'user')->where('bank_type', $withdraw_way)->first();
- 		
- 		$surplus['bank_name'] 		= empty($bank_info['bank_name']) 		? '' : $bank_info['bank_name'];
- 		$surplus['bank_branch_name']= empty($bank_info['bank_branch_name']) ? '' : $bank_info['bank_branch_name'];
- 		$surplus['bank_card']    	= empty($bank_info['bank_card']) 		? '' : $bank_info['bank_card'];
- 		$surplus['cardholder']   	= empty($bank_info['cardholder']) 		? '' : $bank_info['cardholder'];
- 		$surplus['bank_en_short']	= empty($bank_info['bank_en_short']) 	? '' : $bank_info['bank_en_short'];
- 		
- 		
- 		//插入会员账目明细
- 		$change_amount = $amount * -1;
- 		$surplus['account_id']  = insert_user_account($surplus, $change_amount);
- 		
- 		/* 如果成功提交 */
- 		if ($surplus['account_id'] > 0) {
- 			
-			//提现申请成功，记录account_log；从余额中冻结提现金额
- 		    $frozen_money = $amount;
- 		    
- 		    $options = array(
-	    		'user_id'		=> $_SESSION['user_id'],
-	    		'frozen_money'	=> $frozen_money,
- 		        'user_money'	=> $change_amount,
-	    		'change_type'	=> ACT_DRAWING,
-	    		'change_desc'	=> '【申请提现】'
- 		    );
- 		    
- 		    RC_Api::api('user', 'account_change_log', $options);
- 		    
- 			return array('data' => "您的提现申请已成功提交，请等待管理员的审核！");
- 		} else {
- 			$result = new ecjia_error('process_false', '此次操作失败，请返回重试！');
- 			return $result;
- 		}
-	}
-	
-	/**
-	 * 判断是否有绑定此提现方式
-	 */
-	private function is_bind_withdraw_way($withdraw_way, $user_id)
-	{
-		$withdraw_way_arr 	= array('wechat', 'bank');
-		if (in_array($withdraw_way, $withdraw_way_arr)) {
-			$withdraw_way_info = RC_DB::table('withdraw_user_bank')->where('user_id', $user_id)->where('user_type', 'user')->where('bank_type', $withdraw_way)->first();
-			if (empty($withdraw_way_info)) {
-				return false;
-			}
-		} else {
-			return false;
-		}
-		return true;
-	}
+class user_account_withdraw_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
+        $user_id = $_SESSION['user_id'];
+        if ($_SESSION['user_id'] <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+
+        //判断用户有没申请注销
+        $account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
+        if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
+            return new ecjia_error('account_status_error', __('当前账号已申请注销，不可执行此操作！', 'user'));
+        }
+
+        $amount           = $this->requestData('amount');
+        $user_note        = $this->requestData('note', '');
+        $withdraw_way     = $this->requestData('withdraw_way', '');//提现方式（wechat微信钱包，bank银行转账） 
+        $withdraw_way_arr = array('wechat', 'bank');
+
+        if (empty($withdraw_way) || !in_array($withdraw_way, $withdraw_way_arr)) {
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数错误！', 'user'), 'user_account_withdraw_module'));
+        }
+
+        //判断用户有没绑定微信钱包和银行卡
+        $withdraw_way_bind = $this->is_bind_withdraw_way($withdraw_way, $user_id);
+        if (!$withdraw_way_bind) {
+            return new ecjia_error('not_bind_withdraw_way', __('您还未绑定此提现方式！', 'user'));
+        }
+
+        $amount = floatval($amount);
+        if ($amount <= 0) {
+            return new ecjia_error('amount_gt_zero', __('请在“金额”栏输入大于0的数字！', 'user'));
+        }
+
+        $pay_fee     = '0.00';
+        $real_amount = $amount;
+
+        /* 最小提现金额 */
+        $withdraw_min_amount = ecjia::config('withdraw_min_amount');
+        if ($withdraw_min_amount > 0) {
+            if ($amount < $withdraw_min_amount) {
+                return new ecjia_error('withdraw_min_amount_error', sprintf(__('提现金额不可小于最小提现金额：%s元', 'user'), $withdraw_min_amount));
+            }
+        }
+
+        RC_Loader::load_app_func('admin_user', 'user');
+        /* 判断是否有足够的余额的进行退款的操作 */
+        //会员可用余额 ，即 用户现有余额;
+        RC_Loader::load_app_class('user_account', 'user', false);
+        $user_current_money = user_account::get_user_money($user_id);
+        if ($amount > $user_current_money) {
+            return new ecjia_error('surplus_amount_error', __('您申请提现的金额超过了现有余额，此操作将不可进行！', 'user'));
+        }
+
+        /* 提现手续费 */
+        $withdraw_fee = ecjia::config('withdraw_fee');
+        if ($withdraw_fee > 0) {
+            $pay_fee = $amount * ($withdraw_fee / 100);
+            if ($pay_fee > $amount) {
+                $pay_fee = $amount;
+            }
+            $real_amount = $amount - $pay_fee;
+        }
+
+
+        //支付方式
+        $payment = [
+            'bank'   => [
+                'pay_code' => 'withdraw_bank',
+                'pay_name' => __('银行转账提现', 'user')
+            ],
+            'wechat' => [
+                'pay_code' => 'withdraw_wxpay',
+                'pay_name' => __('微信钱包提现', 'user')
+            ],
+        ];
+
+
+        /* 变量初始化 */
+        $surplus = array(
+            'user_id'      => $user_id,
+            'order_sn'     => ecjia_order_deposit_sn(),
+            'process_type' => 1,
+            'payment'      => isset($payment[$withdraw_way]['pay_code']) ? $payment[$withdraw_way]['pay_code'] : '',
+            'payment_name' => isset($payment[$withdraw_way]['pay_name']) ? $payment[$withdraw_way]['pay_name'] : '',
+            'user_note'    => $user_note,
+            'amount'       => $amount,
+            'from_type'    => 'user',
+            'from_value'   => $user_id,
+            'pay_fee'      => $pay_fee,
+            'real_amount'  => $real_amount,
+        );
+
+        //绑定的提现方式信息
+        $bank_info = RC_DB::table('withdraw_user_bank')->where('user_id', $user_id)->where('user_type', 'user')->where('bank_type', $withdraw_way)->first();
+
+        $surplus['bank_name']        = empty($bank_info['bank_name']) ? '' : $bank_info['bank_name'];
+        $surplus['bank_branch_name'] = empty($bank_info['bank_branch_name']) ? '' : $bank_info['bank_branch_name'];
+        $surplus['bank_card']        = empty($bank_info['bank_card']) ? '' : $bank_info['bank_card'];
+        $surplus['cardholder']       = empty($bank_info['cardholder']) ? '' : $bank_info['cardholder'];
+        $surplus['bank_en_short']    = empty($bank_info['bank_en_short']) ? '' : $bank_info['bank_en_short'];
+
+
+        //插入会员账目明细
+        $change_amount         = $amount * -1;
+        $surplus['account_id'] = insert_user_account($surplus, $change_amount);
+
+        /* 如果成功提交 */
+        if ($surplus['account_id'] > 0) {
+
+            //提现申请成功，记录account_log；从余额中冻结提现金额
+            $frozen_money = $amount;
+
+            $options = array(
+                'user_id'      => $_SESSION['user_id'],
+                'frozen_money' => $frozen_money,
+                'user_money'   => $change_amount,
+                'change_type'  => ACT_DRAWING,
+                'change_desc'  => __('【申请提现】', 'user')
+            );
+
+            RC_Api::api('user', 'account_change_log', $options);
+
+            return array('data' => __("您的提现申请已成功提交，请等待管理员的审核！", 'user'));
+        } else {
+            $result = new ecjia_error('process_false', __('此次操作失败，请返回重试！', 'user'));
+            return $result;
+        }
+    }
+
+    /**
+     * 判断是否有绑定此提现方式
+     */
+    private function is_bind_withdraw_way($withdraw_way, $user_id)
+    {
+        $withdraw_way_arr = array('wechat', 'bank');
+        if (in_array($withdraw_way, $withdraw_way_arr)) {
+            $withdraw_way_info = RC_DB::table('withdraw_user_bank')->where('user_id', $user_id)->where('user_type', 'user')->where('bank_type', $withdraw_way)->first();
+            if (empty($withdraw_way_info)) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
 }
 
 // end

@@ -52,52 +52,55 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @add 1.25
  * @lastupdate 1.25
  */
-class user_info_bankcard_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-        $user_id = $_SESSION['user_id']/*   = 1040 */ ;
-    	if ($user_id <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-    	
-    	$user_binded_list = [];
-    	$available_list = [];
-    	//用户已绑定的提现方式
-    	$bank_list = RC_DB::table('withdraw_user_bank')->where('user_id', $user_id)->where('user_type', 'user')->get();
-    	if($bank_list) {
-    	    foreach ($bank_list as $val) {
-    	    	if ($val['bank_type'] == 'bank') {
-    	    		$bank 		= Ecjia\App\Setting\BankWithdraw::getBankInfoByEnShort($val['bank_en_short']);
-    	    		$bank_icon 	= $bank['bank_icon'];
-    	    	} elseif ($val['bank_type'] == 'wechat') {
-    	    		$bank_icon 	= RC_App::apps_url('user/statics/images/bank', '').'/wechat.png';
-    	    	}
-    	    	$user_binded_list[] = [
-    	    	    'id'				=> intval($val['id']),
-	    	    	'bank_name' 		=> $val['bank_name'],
-	    	    	'bank_icon' 		=> $bank_icon,
-	    	    	'bank_card' 		=> $val['bank_card'],
-	    	    	'cardholder'		=> $val['cardholder'],
-	    	    	'bank_branch_name' 	=> empty($val['bank_branch_name']) ? '' : $val['bank_branch_name'],
-	    	    	'bank_en_short' 	=> $val['bank_en_short'],
-	    	    	'bank_type'			=> empty($val['bank_type']) ? '' : $val['bank_type'],
-    	    	];
-    	    }
-    	}
-    	
-    	//网站开启支持的提现方式
-    	$available_list = (new \Ecjia\App\Withdraw\WithdrawBankType())->getDisplayBankType();
-    	//用户端不支持现金提现方式
-    	if (!empty($available_list)) {
-    		foreach ($available_list as $key => $val) {
-    			if ($val['bank_type'] == 'cash') {
-    				unset($available_list[$key]);
-    			}
-    		}
-    	}
-    	
-    	return array('user_binded_list' => $user_binded_list, 'available_withdraw_way' => $available_list);
-	}
+class user_info_bankcard_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
+        $user_id = $_SESSION['user_id']/*   = 1040 */
+        ;
+        if ($user_id <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+
+        $user_binded_list = [];
+        $available_list   = [];
+        //用户已绑定的提现方式
+        $bank_list = RC_DB::table('withdraw_user_bank')->where('user_id', $user_id)->where('user_type', 'user')->get();
+        if ($bank_list) {
+            foreach ($bank_list as $val) {
+                if ($val['bank_type'] == 'bank') {
+                    $bank      = Ecjia\App\Setting\BankWithdraw::getBankInfoByEnShort($val['bank_en_short']);
+                    $bank_icon = $bank['bank_icon'];
+                } elseif ($val['bank_type'] == 'wechat') {
+                    $bank_icon = RC_App::apps_url('user/statics/images/bank', '') . '/wechat.png';
+                }
+                $user_binded_list[] = [
+                    'id'               => intval($val['id']),
+                    'bank_name'        => $val['bank_name'],
+                    'bank_icon'        => $bank_icon,
+                    'bank_card'        => $val['bank_card'],
+                    'cardholder'       => $val['cardholder'],
+                    'bank_branch_name' => empty($val['bank_branch_name']) ? '' : $val['bank_branch_name'],
+                    'bank_en_short'    => $val['bank_en_short'],
+                    'bank_type'        => empty($val['bank_type']) ? '' : $val['bank_type'],
+                ];
+            }
+        }
+
+        //网站开启支持的提现方式
+        $available_list = (new \Ecjia\App\Withdraw\WithdrawBankType())->getDisplayBankType();
+        //用户端不支持现金提现方式
+        if (!empty($available_list)) {
+            foreach ($available_list as $key => $val) {
+                if ($val['bank_type'] == 'cash') {
+                    unset($available_list[$key]);
+                }
+            }
+        }
+
+        return array('user_binded_list' => $user_binded_list, 'available_withdraw_way' => $available_list);
+    }
 }
 
 // end

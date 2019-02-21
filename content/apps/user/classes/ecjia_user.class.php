@@ -224,7 +224,7 @@ abstract class ecjia_user extends ecjia {
 					return $this->redirect('index.php?m=user&c=passport&a=signin');
 				} else {
 					//未登录提交数据。非正常途径提交数据！
-					die($_LANG['require_login']);
+					die('非法入口。<br />必须登录才能完成操作。');
 				}
 			}
 		}
@@ -232,7 +232,7 @@ abstract class ecjia_user extends ecjia {
 		/* 如果是显示页面，对页面进行相应赋值 */
 		if (in_array($action, $ui_arr)) {
 			$this->assign_template();
-			$position = assign_ur_here(0, $_LANG['user_center']);
+			$position = assign_ur_here(0, '用户中心');
 			$this->assign('page_title', $position['title']); // 页面标题
 			$this->assign('ur_here',    $position['ur_here']);
 // 			$sql = "SELECT value FROM " . $db_shop_config->table() . " WHERE id = 419";
@@ -248,7 +248,7 @@ abstract class ecjia_user extends ecjia {
 // 			$this->assign('helps',      get_shop_help());        // 网店帮助
 			$this->assign('data_dir',   DATA_DIR);   // 数据目录
 			$this->assign('action',     $action);
-			$this->assign('lang',       $_LANG);
+//			$this->assign('lang',       $_LANG);
 		}
 	
 	}

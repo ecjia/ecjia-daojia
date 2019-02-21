@@ -50,70 +50,72 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 用户账户激活申请
  * @author zrl
  */
-class user_account_activate_apply_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    		
-    	if ($_SESSION['user_id'] <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-    	
- 		$smscode = $this->requestData('smscode', '');
- 		//参数判断
- 		if (empty($smscode)) {
-	    	return new ecjia_error('invalid_parameter', '请求接口user_account_activate_apply_module参数错误');
-	    }
-	    $user_id = $_SESSION['user_id'];
-	    //用户信息
-	    $user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
-	    if (empty($user_info)) {
-	    	return new ecjia_error('user_info_not_exist', '用户信息不存在！');
-	    }
-	    
-	    //验证验证码
-	    $check_smscode_result = $this->_check_sms_code($smscode, $user_info);
-	    if (is_ecjia_error($check_smscode_result)) {
-	    	return $check_smscode_result;
-	    }
+class user_account_activate_apply_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
 
-	    //判断账户状态
-	    $time = RC_Time::gmtime();
-	    if ($user_info['account_status'] == 'normal') {
-	    	return new ecjia_error('account_normal', '当前账号未有申请注销！');
-	    } elseif ($user_info['account_status'] == 'wait_delete' && !empty($user_info['delete_time'])) {
-	    	if ($time > $user_info['delete_time'] + 30*24*60*60) {
-	    		return new ecjia_error('account_status_error', '当前账号已注销！');
-	    	}
-	    }
-	    
-	  	//更新用户账号状态
-	    RC_DB::table('users')->where('user_id', $user_id)->update(array('account_status' => 'normal', 'delete_time' => 0, 'activate_time' => RC_Time::gmtime()));
-	    
-	    return array();
-	}
-	
-	
-	/**
-	 * 检查验证码
-	 */
-	private function _check_sms_code($smscode, $user_info)
-	{
-		//判断校验码是否过期
-		if ($_SESSION['captcha']['sms']['user_activate_account']['sendtime'] + 1800 < RC_Time::gmtime()) {
-			//过期
-			return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！'));
-		}
-		//判断校验码是否正确
-		if ($smscode != $_SESSION['captcha']['sms']['user_activate_account']['code'] ) {
-			return new ecjia_error('code_error', __('验证码错误，请重新填写！'));
-		}
-		
-		//校验其他信息
-		if ($user_info['mobile_phone'] != $_SESSION['captcha']['sms']['user_activate_account']['value']) {
-			return new ecjia_error('msg_error', __('接受验证码手机号与用户绑定手机号不同！'));
-		}
-		
-		return true;
-	}
+        if ($_SESSION['user_id'] <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+
+        $smscode = $this->requestData('smscode', '');
+        //参数判断
+        if (empty($smscode)) {
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数错误', 'user'), 'user_account_activate_apply_module'));
+        }
+        $user_id = $_SESSION['user_id'];
+        //用户信息
+        $user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
+        if (empty($user_info)) {
+            return new ecjia_error('user_info_not_exist', __('用户信息不存在！', 'user'));
+        }
+
+        //验证验证码
+        $check_smscode_result = $this->_check_sms_code($smscode, $user_info);
+        if (is_ecjia_error($check_smscode_result)) {
+            return $check_smscode_result;
+        }
+
+        //判断账户状态
+        $time = RC_Time::gmtime();
+        if ($user_info['account_status'] == 'normal') {
+            return new ecjia_error('account_normal', __('当前账号未有申请注销！', 'user'));
+        } elseif ($user_info['account_status'] == 'wait_delete' && !empty($user_info['delete_time'])) {
+            if ($time > $user_info['delete_time'] + 30 * 24 * 60 * 60) {
+                return new ecjia_error('account_status_error', __('当前账号已注销！', 'user'));
+            }
+        }
+
+        //更新用户账号状态
+        RC_DB::table('users')->where('user_id', $user_id)->update(array('account_status' => 'normal', 'delete_time' => 0, 'activate_time' => RC_Time::gmtime()));
+
+        return array();
+    }
+
+
+    /**
+     * 检查验证码
+     */
+    private function _check_sms_code($smscode, $user_info)
+    {
+        //判断校验码是否过期
+        if ($_SESSION['captcha']['sms']['user_activate_account']['sendtime'] + 1800 < RC_Time::gmtime()) {
+            //过期
+            return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！', 'user'));
+        }
+        //判断校验码是否正确
+        if ($smscode != $_SESSION['captcha']['sms']['user_activate_account']['code']) {
+            return new ecjia_error('code_error', __('验证码错误，请重新填写！', 'user'));
+        }
+
+        //校验其他信息
+        if ($user_info['mobile_phone'] != $_SESSION['captcha']['sms']['user_activate_account']['value']) {
+            return new ecjia_error('msg_error', __('接受验证码手机号与用户绑定手机号不同！', 'user'));
+        }
+
+        return true;
+    }
 }
 
 

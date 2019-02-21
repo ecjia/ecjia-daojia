@@ -61,47 +61,49 @@ use ecjia_region;
  */
 class UserAddress
 {
-	
+
     /**
      * 获取用户默认收货地址信息
      * @param int $user_id
      * @return array
      */
-    public static function UserDefaultAddressInfo($user_id = 0) {
-    	$info = [];
-    	if ($user_id) {
-    		$info = RC_DB::table('user_address as ua')
-    					->leftJoin('users as u', RC_DB::raw('ua.address_id'), '=', RC_DB::raw('u.address_id'))
-    					->where(RC_DB::raw('u.user_id'), $user_id)
-    					->select(RC_DB::raw('ua.*'))
-    					->first();
-			if($info) {
-			    $info['country_name']   = ecjia_region::getRegionName($info['country']);
-			    $info['province_name']  = ecjia_region::getRegionName($info['province']);
-			    $info['city_name']    	= ecjia_region::getRegionName($info['city']);
-			    $info['district_name']  = ecjia_region::getRegionName($info['district']);
-			    $info['street_name']    = ecjia_region::getRegionName($info['street']);
-			}
-    	}
+    public static function UserDefaultAddressInfo($user_id = 0)
+    {
+        $info = [];
+        if ($user_id) {
+            $info = RC_DB::table('user_address as ua')
+                ->leftJoin('users as u', RC_DB::raw('ua.address_id'), '=', RC_DB::raw('u.address_id'))
+                ->where(RC_DB::raw('u.user_id'), $user_id)
+                ->select(RC_DB::raw('ua.*'))
+                ->first();
+            if ($info) {
+                $info['country_name']  = ecjia_region::getRegionName($info['country']);
+                $info['province_name'] = ecjia_region::getRegionName($info['province']);
+                $info['city_name']     = ecjia_region::getRegionName($info['city']);
+                $info['district_name'] = ecjia_region::getRegionName($info['district']);
+                $info['street_name']   = ecjia_region::getRegionName($info['street']);
+            }
+        }
         return $info;
     }
-    
+
     /**
      * 获取用户收货地址列表
      * @param int $user_id
      * @return array
      */
-    public static function UserAddressList($user_id = 0) {
-    	$list = [];
-    	if ($user_id) {
-    		$dbview = RC_DB::table('user_address as ua')
-    		->leftJoin('regions as c', RC_DB::raw('c.region_id'), '=', RC_DB::raw('ua.country'))
-    		->leftJoin('regions as p', RC_DB::raw('p.region_id'), '=', RC_DB::raw('ua.province'))
-    		->leftJoin('regions as t', RC_DB::raw('t.region_id'), '=', RC_DB::raw('ua.city'))
-    		->leftJoin('regions as d', RC_DB::raw('d.region_id'), '=', RC_DB::raw('ua.district'));
-    		
-    		$list = $dbview->where(RC_DB::raw('user_id'), $user_id)->get();
-    	}
-    	return $list;
+    public static function UserAddressList($user_id = 0)
+    {
+        $list = [];
+        if ($user_id) {
+            $dbview = RC_DB::table('user_address as ua')
+                ->leftJoin('regions as c', RC_DB::raw('c.region_id'), '=', RC_DB::raw('ua.country'))
+                ->leftJoin('regions as p', RC_DB::raw('p.region_id'), '=', RC_DB::raw('ua.province'))
+                ->leftJoin('regions as t', RC_DB::raw('t.region_id'), '=', RC_DB::raw('ua.city'))
+                ->leftJoin('regions as d', RC_DB::raw('d.region_id'), '=', RC_DB::raw('ua.district'));
+
+            $list = $dbview->where(RC_DB::raw('user_id'), $user_id)->get();
+        }
+        return $list;
     }
 }

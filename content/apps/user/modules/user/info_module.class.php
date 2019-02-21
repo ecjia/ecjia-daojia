@@ -51,35 +51,37 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author royalwang
  * @lastupdate 1.25
  */
-class user_info_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
+class user_info_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
         //如果用户登录获取其session
-    	$api_version = $this->request->header('api-version');
-        $user_id = $_SESSION['user_id'];
-    	if ($user_id <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-    	
-		RC_Loader::load_app_func('admin_user', 'user');
-		
-		$user_info = EM_user_info($user_id);
-		$user_info['signup_reward_url'] =  RC_Uri::url('market/mobile_reward/init', array('token' => RC_Session::session_id()));
-		//是否绑定微信；微信昵称
-		$user_info['wechat_is_bind'] = 0;
-		$user_info['wechat_nickname'] = '';
-		
-		$connect_wechat_info = RC_DB::table('connect_user')->where('user_id', $user_id)->where('connect_platform', 'wechat')->where('user_type', 'user')->first();
-		if (!empty($connect_wechat_info)) {
-			$user_info['wechat_is_bind']  = 1;
-			if (!empty($connect_wechat_info['profile'])) {
-				$profile = unserialize($connect_wechat_info['profile']);
-				$user_info['wechat_nickname'] = empty($profile['nickname']) ? '' : $profile['nickname'];
-			}
-		}
-		
-		return $user_info;
-	}
+        $api_version = $this->request->header('api-version');
+        $user_id     = $_SESSION['user_id'];
+        if ($user_id <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+
+        RC_Loader::load_app_func('admin_user', 'user');
+
+        $user_info                      = EM_user_info($user_id);
+        $user_info['signup_reward_url'] = RC_Uri::url('market/mobile_reward/init', array('token' => RC_Session::session_id()));
+        //是否绑定微信；微信昵称
+        $user_info['wechat_is_bind']  = 0;
+        $user_info['wechat_nickname'] = '';
+
+        $connect_wechat_info = RC_DB::table('connect_user')->where('user_id', $user_id)->where('connect_platform', 'wechat')->where('user_type', 'user')->first();
+        if (!empty($connect_wechat_info)) {
+            $user_info['wechat_is_bind'] = 1;
+            if (!empty($connect_wechat_info['profile'])) {
+                $profile                      = unserialize($connect_wechat_info['profile']);
+                $user_info['wechat_nickname'] = empty($profile['nickname']) ? '' : $profile['nickname'];
+            }
+        }
+
+        return $user_info;
+    }
 }
 
 // end

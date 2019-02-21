@@ -50,46 +50,48 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 判断收货地址和商店地址接口
  * @author
  */
-class user_neighbors_address_store_api extends Component_Event_Api {
-	/**
-	 *
-	 * @param array $options
-	 * @return  array
-	 */
-	public function call (&$options) {
-		if (!is_array($options) || !isset($options['address']) || empty($options['store_id']) ) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
-		}
-		
-		$store_info = RC_DB::table('store_franchisee')->where('store_id', $options['store_id'])->where('shop_close', '0')->first();
-		
-		/* 判断是否有定位范围，如没有设置默认值*/
-		$mobile_location_range = ecjia::config('mobile_location_range', ecjia::CONFIG_CHECK) ? ecjia::config('mobile_location_range') : 3;
-		
-		if ($mobile_location_range == 0) {
-		    if ($store_info['city'] == $options['address']['city']) {
-		        return true;
-		    }
-		} else {
-		    $geohash = RC_Loader::load_app_class('geohash', 'store');
-		    $geohash_code = $geohash->encode($options['address']['latitude'], $options['address']['longitude']);
-		    $geohash_store_code = $store_info['geohash'];
-		    
-		    $geohash_code = substr($geohash_code, 0, $mobile_location_range);
-		    	
-		    $geohash_store = substr($geohash_store_code, 0, $mobile_location_range);
-		    
-		    //获取当前位置附近周边8点区域
-		    $neighbors = $geohash->geo_neighbors($geohash_code);
-		    array_push($neighbors, $geohash_code);
-		    
-		    if (in_array($geohash_store, $neighbors)) {
-		        return true;
-		    }
-		}
-		return false;
-		
-	}
+class user_neighbors_address_store_api extends Component_Event_Api
+{
+    /**
+     *
+     * @param array $options
+     * @return  array
+     */
+    public function call(&$options)
+    {
+        if (!is_array($options) || !isset($options['address']) || empty($options['store_id'])) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+        }
+
+        $store_info = RC_DB::table('store_franchisee')->where('store_id', $options['store_id'])->where('shop_close', '0')->first();
+
+        /* 判断是否有定位范围，如没有设置默认值*/
+        $mobile_location_range = ecjia::config('mobile_location_range', ecjia::CONFIG_CHECK) ? ecjia::config('mobile_location_range') : 3;
+
+        if ($mobile_location_range == 0) {
+            if ($store_info['city'] == $options['address']['city']) {
+                return true;
+            }
+        } else {
+            $geohash            = RC_Loader::load_app_class('geohash', 'store');
+            $geohash_code       = $geohash->encode($options['address']['latitude'], $options['address']['longitude']);
+            $geohash_store_code = $store_info['geohash'];
+
+            $geohash_code = substr($geohash_code, 0, $mobile_location_range);
+
+            $geohash_store = substr($geohash_store_code, 0, $mobile_location_range);
+
+            //获取当前位置附近周边8点区域
+            $neighbors = $geohash->geo_neighbors($geohash_code);
+            array_push($neighbors, $geohash_code);
+
+            if (in_array($geohash_store, $neighbors)) {
+                return true;
+            }
+        }
+        return false;
+
+    }
 
 }
 

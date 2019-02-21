@@ -48,64 +48,66 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * 获取会员红包数量
- * @author 
+ * @author
  */
-class user_user_bonus_number_api extends Component_Event_Api {
-    
-    public function call(&$options) {
-    	
-    	$db = RC_DB::table('bonus_type as bt')
-    			->leftJoin('user_bonus as ub', RC_DB::raw('bt.type_id'), '=', RC_DB::raw('ub.bonus_type_id'));
-    	$cur_date = RC_Time::gmtime();
-    	
-    	$where = array();
-    	if(isset($options['user_id'])) {
-    	    $user_id = $options['user_id'];
-    	} else {
-    	    $user_id = $_SESSION['user_id'];
-    	}
-    	
+class user_user_bonus_number_api extends Component_Event_Api
+{
+
+    public function call(&$options)
+    {
+
+        $db       = RC_DB::table('bonus_type as bt')
+            ->leftJoin('user_bonus as ub', RC_DB::raw('bt.type_id'), '=', RC_DB::raw('ub.bonus_type_id'));
+        $cur_date = RC_Time::gmtime();
+
+        $where = array();
+        if (isset($options['user_id'])) {
+            $user_id = $options['user_id'];
+        } else {
+            $user_id = $_SESSION['user_id'];
+        }
+
 // 	    $where_allow['bt.use_end_date']	= array('gt' => $cur_date);
 // 	    $where_allow['ub.order_id'] = 0;
 // 	    $where_allow['ub.user_id'] = $user_id;
-	    
+
 // 		$where_expired['bt.use_end_date'] = array('lt' => $cur_date);
 // 		$where_expired['ub.user_id'] = $user_id;
-		
+
 // 		$where_used['ub.order_id'] = array('gt' => 0);
 // 		$where_used['ub.user_id'] = $user_id;
-    	
+
 //     	$count_allow = $db->join(array('bonus_type'))->where($where_allow)->count();
-    	
+
 //     	$count_expired = $db->join(array('bonus_type'))->where($where_expired)->count();
 //     	$count_used = $db->join(array('bonus_type'))->where($where_used)->count();
-    	
-    	$count_allow = RC_DB::table('bonus_type as bt')
-    					->leftJoin('user_bonus as ub', RC_DB::raw('bt.type_id'), '=', RC_DB::raw('ub.bonus_type_id'))
-    					->where(RC_DB::raw('bt.use_end_date'), '>', $cur_date)
-    					->where(RC_DB::raw('ub.order_id'), 0)
-    					->where(RC_DB::raw('ub.user_id'), $user_id)
-    					->count(RC_DB::raw('ub.bonus_id'));
-    	
-    	$count_expired = RC_DB::table('bonus_type as bt')
-				    	->leftJoin('user_bonus as ub', RC_DB::raw('bt.type_id'), '=', RC_DB::raw('ub.bonus_type_id'))
-				    	->where(RC_DB::raw('bt.use_end_date'), '<', $cur_date)
-				    	->where(RC_DB::raw('ub.user_id'), $user_id)
-				    	->count(RC_DB::raw('ub.bonus_id'));
-    	
-    	$count_used	  = RC_DB::table('bonus_type as bt')
-					    	->leftJoin('user_bonus as ub', RC_DB::raw('bt.type_id'), '=', RC_DB::raw('ub.bonus_type_id'))
-					    	->where(RC_DB::raw('ub.order_id'), '>', 0)
-					    	->where(RC_DB::raw('ub.user_id'), $user_id)
-					    	->count(RC_DB::raw('ub.bonus_id'));
-    	
-    	$bonus_number = array(
-    	    'allow_use' => $count_allow,
-    	    'is_used' => $count_used,
-    	    'expired' => $count_expired
-    	);
-    	
-    	return $bonus_number;
+
+        $count_allow = RC_DB::table('bonus_type as bt')
+            ->leftJoin('user_bonus as ub', RC_DB::raw('bt.type_id'), '=', RC_DB::raw('ub.bonus_type_id'))
+            ->where(RC_DB::raw('bt.use_end_date'), '>', $cur_date)
+            ->where(RC_DB::raw('ub.order_id'), 0)
+            ->where(RC_DB::raw('ub.user_id'), $user_id)
+            ->count(RC_DB::raw('ub.bonus_id'));
+
+        $count_expired = RC_DB::table('bonus_type as bt')
+            ->leftJoin('user_bonus as ub', RC_DB::raw('bt.type_id'), '=', RC_DB::raw('ub.bonus_type_id'))
+            ->where(RC_DB::raw('bt.use_end_date'), '<', $cur_date)
+            ->where(RC_DB::raw('ub.user_id'), $user_id)
+            ->count(RC_DB::raw('ub.bonus_id'));
+
+        $count_used = RC_DB::table('bonus_type as bt')
+            ->leftJoin('user_bonus as ub', RC_DB::raw('bt.type_id'), '=', RC_DB::raw('ub.bonus_type_id'))
+            ->where(RC_DB::raw('ub.order_id'), '>', 0)
+            ->where(RC_DB::raw('ub.user_id'), $user_id)
+            ->count(RC_DB::raw('ub.bonus_id'));
+
+        $bonus_number = array(
+            'allow_use' => $count_allow,
+            'is_used'   => $count_used,
+            'expired'   => $count_expired
+        );
+
+        return $bonus_number;
     }
 }
 

@@ -50,72 +50,74 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 用户设置修改支付密码校验短信验证码
  * @author zrl
  */
-class user_paypassword_modify_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
+class user_paypassword_modify_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
         $this->authSession();
         $user_id = $_SESSION['user_id'];
-    	if ($user_id <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-		$smscode 		= $this->requestData('smscode');
-		$paypassword 	= trim($this->requestData('paypassword'));
-		
-		//判断值是否为空
-		if (empty($smscode) || empty($paypassword)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
-		}
-		
-		//密码判断
-		if (!is_numeric($paypassword) || strlen($paypassword) != 6) {
-			return new ecjia_error( 'paypassword_error', '支付密码必须为6位数字密码！');
-		}
-		
-		//用户信息
-		$user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
-		
-		//检查短信验证码
-		$result = $this->checkSmscode($smscode, $user_info);
-		if (is_ecjia_error($result)) {
-			return $result;
-		}
-		
-		//设置支付密码
-		$md5_password = md5($paypassword);
-		$password_final = md5($md5_password.$user_id);
-		
-        if ($user_info['pay_password'] == $password_final) {
-            return new ecjia_error( 'paypassword_error', '新密码不能与原密码相同');
+        if ($user_id <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
         }
-		
-		//更新支付密码
-		RC_DB::table('users')->where('user_id', $user_id)->update(array('pay_password' => $password_final));
-		
-		return array();
-	}
-	
-	/**
-	 * 检查短信验证码
-	 * @param string $smscode
-	 */
-	private function checkSmscode($smscode = '', $user_info = array())
-	{
-		//判断校验码是否过期
-		if ($_SESSION['captcha']['sms']['user_modify_paypassword']['sendtime'] + 1800 < RC_Time::gmtime()) {
-			//过期
-			return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！'));
-		}
-		//判断校验码是否正确
-		if ($smscode != $_SESSION['captcha']['sms']['user_modify_paypassword']['code'] ) {
-			return new ecjia_error('code_error', __('验证码错误，请重新填写！'));
-		}
-			
-		//校验其他信息
-		if ($user_info['mobile_phone'] != $_SESSION['captcha']['sms']['user_modify_paypassword']['value']) {
-			return new ecjia_error('msg_error', __('接受验证码手机号与用户绑定手机号不同！'));
-		}
-		return true;
-	}
+        $smscode     = $this->requestData('smscode');
+        $paypassword = trim($this->requestData('paypassword'));
+
+        //判断值是否为空
+        if (empty($smscode) || empty($paypassword)) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+        }
+
+        //密码判断
+        if (!is_numeric($paypassword) || strlen($paypassword) != 6) {
+            return new ecjia_error('paypassword_error', __('支付密码必须为6位数字密码！', 'user'));
+        }
+
+        //用户信息
+        $user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
+
+        //检查短信验证码
+        $result = $this->checkSmscode($smscode, $user_info);
+        if (is_ecjia_error($result)) {
+            return $result;
+        }
+
+        //设置支付密码
+        $md5_password   = md5($paypassword);
+        $password_final = md5($md5_password . $user_id);
+
+        if ($user_info['pay_password'] == $password_final) {
+            return new ecjia_error('paypassword_error', __('新密码不能与原密码相同', 'user'));
+        }
+
+        //更新支付密码
+        RC_DB::table('users')->where('user_id', $user_id)->update(array('pay_password' => $password_final));
+
+        return array();
+    }
+
+    /**
+     * 检查短信验证码
+     * @param string $smscode
+     */
+    private function checkSmscode($smscode = '', $user_info = array())
+    {
+        //判断校验码是否过期
+        if ($_SESSION['captcha']['sms']['user_modify_paypassword']['sendtime'] + 1800 < RC_Time::gmtime()) {
+            //过期
+            return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！', 'user'));
+        }
+        //判断校验码是否正确
+        if ($smscode != $_SESSION['captcha']['sms']['user_modify_paypassword']['code']) {
+            return new ecjia_error('code_error', __('验证码错误，请重新填写！', 'user'));
+        }
+
+        //校验其他信息
+        if ($user_info['mobile_phone'] != $_SESSION['captcha']['sms']['user_modify_paypassword']['value']) {
+            return new ecjia_error('msg_error', __('接受验证码手机号与用户绑定手机号不同！', 'user'));
+        }
+        return true;
+    }
 }
 
 // end

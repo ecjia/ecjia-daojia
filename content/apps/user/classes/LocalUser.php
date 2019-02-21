@@ -32,16 +32,16 @@ class LocalUser
      */
     public function create($username, $password = null, $email = null, $mobile = null)
     {
-        $ip = RC_Ip::client_ip();
+        $ip       = RC_Ip::client_ip();
         $reg_date = RC_Time::gmtime();
 
-        $data = [
-            'user_name'     => $username,
-            'password'      => $password,
-            'email'         => $email,
-            'mobile_phone'  => $mobile,
-            'reg_time'      => $reg_date,
-            'last_ip'       => $ip,
+        $data  = [
+            'user_name'    => $username,
+            'password'     => $password,
+            'email'        => $email,
+            'mobile_phone' => $mobile,
+            'reg_time'     => $reg_date,
+            'last_ip'      => $ip,
         ];
         $model = $this->model->create($data);
 
@@ -61,13 +61,13 @@ class LocalUser
     public function getProfileByModel(UserModel $model)
     {
         return [
-            'user_id'       => $model->user_id,
-            'user_name'     => $model->user_name,
-            'email'         => $model->email,
-            'sex'           => $model->sex,
-            'birthday'      => $model->birthday,
-            'reg_time'      => $model->reg_time,
-            'password'      => $model->password,
+            'user_id'   => $model->user_id,
+            'user_name' => $model->user_name,
+            'email'     => $model->email,
+            'sex'       => $model->sex,
+            'birthday'  => $model->birthday,
+            'reg_time'  => $model->reg_time,
+            'password'  => $model->password,
         ];
     }
 
