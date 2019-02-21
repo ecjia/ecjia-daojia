@@ -67,7 +67,7 @@ class merchant extends ecjia_merchant {
         
         RC_Script::enqueue_script('promotion', RC_App::apps_url('statics/js/promotion_merchant.js', __FILE__), array(), false, true);
         
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('促销管理'), RC_Uri::url('promotion/merchant/init')));
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('促销管理', 'promotion'), RC_Uri::url('promotion/merchant/init')));
         ecjia_merchant_screen::get_current_screen()->set_parentage('promotion', 'promotion/merchant.php');
     }
     	
@@ -77,10 +77,10 @@ class merchant extends ecjia_merchant {
 	public function init() {
 		$this->admin_priv('promotion_manage');
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('promotion::promotion.promotion')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('促销商品', 'promotion')));
 		
-		$this->assign('ur_here', RC_Lang::get('promotion::promotion.promotion_list'));
-		$this->assign('action_link', array('href' => RC_Uri::url('promotion/merchant/add'), 'text' => RC_Lang::get('promotion::promotion.add_promotion')));
+		$this->assign('ur_here', __('促销商品列表', 'promotion'));
+		$this->assign('action_link', array('href' => RC_Uri::url('promotion/merchant/add'), 'text' => __('添加促销商品', 'promotion')));
 		
 		$type = isset($_GET['type']) && in_array($_GET['type'], array('on_sale', 'coming', 'finished', 'merchant')) ? trim($_GET['type']) : '';
 		$promotion_list = $this->promotion_list($type);
@@ -103,9 +103,9 @@ class merchant extends ecjia_merchant {
 	public function add() {
 		$this->admin_priv('promotion_update');
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('promotion::promotion.add_promotion')));
-		$this->assign('ur_here', RC_Lang::get('promotion::promotion.add_promotion'));
-		$this->assign('action_link', array('href' => RC_Uri::url('promotion/merchant/init'), 'text' => RC_Lang::get('promotion::promotion.promotion_list')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加促销商品', 'promotion')));
+		$this->assign('ur_here', __('添加促销商品', 'promotion'));
+		$this->assign('action_link', array('href' => RC_Uri::url('promotion/merchant/init'), 'text' => __('促销商品列表', 'promotion')));
 		$date = array();
 		$date['sdate'] = RC_Time::local_date(ecjia::config('time_format'), RC_Time::gmtime());
 		$date['edate'] = RC_Time::local_date(ecjia::config('time_format'), RC_Time::local_strtotime("+1 months", RC_Time::local_strtotime($date['sdate']) + 28800));
@@ -124,7 +124,7 @@ class merchant extends ecjia_merchant {
 		$price		= is_numeric($_POST['price']) ? floatval($_POST['price']) : 0;
 		
 		if (empty($goods_id)) {
-			return $this->showmessage('请选择活动商品', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择活动商品', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		if (!empty($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
@@ -140,7 +140,7 @@ class merchant extends ecjia_merchant {
 			->first();
 		
 		if (!empty($info)) {
-			return $this->showmessage(RC_Lang::get('promotion::promotion.promotion_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('您选择的商品目前正在进行促销活动，请选择其他商品', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		$goods_info = RC_DB::table('goods')->where('goods_id', $goods_id)->first();
 		if ($price > $goods_info['shop_price']) {
@@ -151,7 +151,7 @@ class merchant extends ecjia_merchant {
 		$end_time 	= RC_Time::local_strtotime($_POST['end_time']);
 		
 		if ($start_time >= $end_time) {
-			return $this->showmessage(RC_Lang::get('promotion::promotion.promotion_invalid'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入一个有效的促销时间', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		RC_DB::table('goods')->where('goods_id', $goods_id)->update(array('is_promote' => 1, 'promote_price' => $price, 'promote_start_date' => $start_time, 'promote_end_date' => $end_time));
 		
@@ -166,9 +166,9 @@ class merchant extends ecjia_merchant {
 		}
 		
 		ecjia_merchant::admin_log($goods_info['goods_name'], 'add', 'promotion');
-		$links[] = array('text' => RC_Lang::get('promotion::promotion.return_promotion_list'), 'href'=> RC_Uri::url('promotion/merchant/init'));
-		$links[] = array('text' => RC_Lang::get('promotion::promotion.continue_add_promotion'), 'href'=> RC_Uri::url('promotion/merchant/add'));
-		return $this->showmessage(RC_Lang::get('promotion::promotion.add_promotion_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('promotion/merchant/edit', array('id' => $goods_id))));
+		$links[] = array('text' => __('返回促销商品列表', 'promotion'), 'href'=> RC_Uri::url('promotion/merchant/init'));
+		$links[] = array('text' => __('继续添加促销商品', 'promotion'), 'href'=> RC_Uri::url('promotion/merchant/add'));
+		return $this->showmessage(__('添加促销商品成功', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('promotion/merchant/edit', array('id' => $goods_id))));
 	}
 	
 	/**
@@ -177,10 +177,10 @@ class merchant extends ecjia_merchant {
 	public function edit() {	
 		$this->admin_priv('promotion_update');
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('promotion::promotion.edit_promotion')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑促销商品', 'promotion')));
 		
-		$this->assign('ur_here', RC_Lang::get('promotion::promotion.edit_promotion'));
-		$this->assign('action_link', array('href' => RC_Uri::url('promotion/merchant/init'), 'text' => RC_Lang::get('promotion::promotion.promotion_list')));
+		$this->assign('ur_here', __('编辑促销商品', 'promotion'));
+		$this->assign('action_link', array('href' => RC_Uri::url('promotion/merchant/init'), 'text' => __('促销商品列表', 'promotion')));
 		
 		$id = intval($_GET['id']);
 		$db = RC_DB::table('goods');
@@ -218,7 +218,7 @@ class merchant extends ecjia_merchant {
 		$old_goods_id   = intval($_POST['old_goods_id']);
 
 		if (empty($goods_id)) {
-			return $this->showmessage('请选择活动商品', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择活动商品', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$db = RC_DB::table('goods');
@@ -226,11 +226,11 @@ class merchant extends ecjia_merchant {
 			$db->where('store_id', $_SESSION['store_id']);
 		}
 		if ($start_time >= $end_time) {
-			return $this->showmessage(RC_Lang::get('promotion::promotion.promotion_invalid'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入一个有效的促销时间', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		$goods_info = RC_DB::table('goods')->where('goods_id', $goods_id)->first();
 		if ($price > $goods_info['shop_price']) {
-			return $this->showmessage('促销价不能大于商品价格：'.$goods_info['shop_price'], ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR); 
+			return $this->showmessage(__('促销价不能大于商品价格：', 'promotion').$goods_info['shop_price'], ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		$db->where('goods_id', $goods_id)->update(array('is_promote' => 1, 'promote_price' => $price, 'promote_start_date' => $start_time, 'promote_end_date' => $end_time));
@@ -251,7 +251,7 @@ class merchant extends ecjia_merchant {
 		}
 		
 		ecjia_merchant::admin_log($goods_info['goods_name'], 'edit', 'promotion');
-		return $this->showmessage(RC_Lang::get('promotion::promotion.edit_promotion_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('promotion/merchant/edit', array('id' => $goods_id))));
+		return $this->showmessage(__('编辑促销商品成功', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('promotion/merchant/edit', array('id' => $goods_id))));
 	}
 	
 	/**
@@ -281,7 +281,7 @@ class merchant extends ecjia_merchant {
 		}
 		
 		ecjia_merchant::admin_log($goods_name, 'remove', 'promotion');
-		return $this->showmessage(RC_Lang::get('promotion::promotion.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('删除成功', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
 	/**

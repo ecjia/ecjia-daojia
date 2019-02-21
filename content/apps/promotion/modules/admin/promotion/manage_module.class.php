@@ -64,13 +64,13 @@ class admin_promotion_manage_module extends api_admin implements api_interface {
 
         $goods_id = $this->requestData('goods_id', 0);
         if ($goods_id <= 0) {
-            return new ecjia_error(101, '参数错误');
+            return new ecjia_error(101, __('参数错误', 'promotion'));
         }
         $count = RC_DB::table('goods')
         ->where('store_id', $_SESSION['store_id'])->where('goods_id', $goods_id)
         ->count();
         if(empty($count)){
-            return new ecjia_error(101, '参数错误');
+            return new ecjia_error(101, __('参数错误', 'promotion'));
         }
         $promotion_info = RC_Model::Model('goods/goods_model')->promote_goods_info($goods_id);
         /* 多商户处理*/
@@ -88,7 +88,7 @@ class admin_promotion_manage_module extends api_admin implements api_interface {
 
         /* 检查促销时间 */
         if ($promotion['promote_start_date'] >= $promotion['promote_end_date']) {
-            return new ecjia_error('time_error', __('促销开始时间不能大于或等于结束时间'));
+            return new ecjia_error('time_error', __('促销开始时间不能大于或等于结束时间', 'promotion'));
         }
 
         RC_Model::Model('goods/goods_model')->promotion_manage($promotion);
@@ -96,7 +96,7 @@ class admin_promotion_manage_module extends api_admin implements api_interface {
         Ecjia\App\Promotion\Helper::assign_adminlog_content();
 
         if ($_SESSION['store_id'] > 0) {
-            RC_Api::api('merchant', 'admin_log', array('text'=>$promotion_info['goods_name'].'【来源掌柜】', 'action'=>'edit', 'object'=>'promotion'));
+            RC_Api::api('merchant', 'admin_log', array('text'=>$promotion_info['goods_name'].__('【来源掌柜】', 'promotion'), 'action'=>'edit', 'object'=>'promotion'));
         } 
         
         $orm_goods_db = RC_Model::model('goods/orm_goods_model');

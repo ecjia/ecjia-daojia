@@ -24,16 +24,16 @@
 		<div class="panel">
 			<div class="panel-body panel-body-small">
 				<ul class="nav nav-pills pull-left">
-					<li class="{if $type eq ''}active{/if}"><a class="data-pjax" href='{url path="promotion/merchant/init" args="{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>{lang key='promotion::promotion.all'} <span class="badge badge-info">{if $type_count.count}{$type_count.count}{else}0{/if}</span> </a></li>
-					<li class="{if $type eq 'on_sale'}active{/if}"><a class="data-pjax" href='{url path="promotion/merchant/init" args="type=on_sale{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>{lang key='promotion::promotion.on_sale'}<span class="badge badge-info">{if $type_count.on_sale}{$type_count.on_sale}{else}0{/if}</span> </a></li>
-					<li class="{if $type eq 'coming'}active{/if}"><a class="data-pjax" href='{url path="promotion/merchant/init" args="type=coming{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>{lang key='promotion::promotion.coming'}<span class="badge badge-info">{if $type_count.coming}{$type_count.coming}{else}0{/if}</span> </a></li>
-					<li class="{if $type eq 'finished'}active{/if}"><a class="data-pjax" href='{url path="promotion/merchant/init" args="type=finished{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>{lang key='promotion::promotion.finished'}<span class="badge badge-info">{if $type_count.finished}{$type_count.finished}{else}0{/if}</span> </a></li>
+					<li class="{if $type eq ''}active{/if}"><a class="data-pjax" href='{url path="promotion/merchant/init" args="{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>{t domain="promotion"}全部{/t} <span class="badge badge-info">{if $type_count.count}{$type_count.count}{else}0{/if}</span> </a></li>
+					<li class="{if $type eq 'on_sale'}active{/if}"><a class="data-pjax" href='{url path="promotion/merchant/init" args="type=on_sale{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>{t domain="promotion"}正在进行中{/t}<span class="badge badge-info">{if $type_count.on_sale}{$type_count.on_sale}{else}0{/if}</span> </a></li>
+					<li class="{if $type eq 'coming'}active{/if}"><a class="data-pjax" href='{url path="promotion/merchant/init" args="type=coming{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>{t domain="promotion"}即将开始{/t}<span class="badge badge-info">{if $type_count.coming}{$type_count.coming}{else}0{/if}</span> </a></li>
+					<li class="{if $type eq 'finished'}active{/if}"><a class="data-pjax" href='{url path="promotion/merchant/init" args="type=finished{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>{t domain="promotion"}已结束{/t}<span class="badge badge-info">{if $type_count.finished}{$type_count.finished}{else}0{/if}</span> </a></li>
 				</ul>	
 				<form class="form-inline pull-right" name="searchForm" method="post" action="{$form_search}{if $type}&type={$type}{/if}">
 					<div class="form-group">
 						<!-- 关键字 -->
-						<input type="text" class="form-control" name="keywords" value="{$smarty.get.keywords}" placeholder="{lang key='promotion::promotion.goods_keywords'}"/> 
-						<button class="btn btn-primary" type="submit"><i class='fa fa-search'></i> {lang key='promotion::promotion.search'}</button>
+						<input type="text" class="form-control" name="keywords" value="{$smarty.get.keywords}" placeholder="{t domain="promotion"}请输入商品名称关键字{/t}"/>
+						<button class="btn btn-primary" type="submit"><i class='fa fa-search'></i> {t domain="promotion"}搜索{/t}</button>
 					</div>
 				</form>
 			</div>
@@ -42,11 +42,11 @@
 					<table class="table table-striped table-hover table-hide-edit">
 						<thead>
 							<tr>
-								<th class="w150">{lang key='promotion::promotion.thumbnail'}</th>
-								<th>{lang key='promotion::promotion.goods_name'}</th>
-								<th class="w200">{lang key='promotion::promotion.start_time'}</th>
-								<th class="w200">{lang key='promotion::promotion.end_time'}</th>
-								<th class="w80">{lang key='promotion::promotion.promotion_price'}</th>
+								<th class="w150">{t domain="promotion"}缩略图{/t}</th>
+								<th>{t domain="promotion"}商品名称{/t}</th>
+								<th class="w200">{t domain="promotion"}开始时间{/t}</th>
+								<th class="w200">{t domain="promotion"}结束时间{/t}</th>
+								<th class="w80">{t domain="promotion"}活动价格{/t}</th>
 							</tr>
 						</thead>
 						<!-- {foreach from=$promotion_list.item item=item key=key} -->
@@ -59,8 +59,8 @@
 							<td class="hide-edit-area">
 								<span class="{if ($time >= $item.promote_start_date) && ($time <= $item.promote_end_date)}ecjiafc-red{/if}" >{$item.goods_name}</span><br>
 								<div class="edit-list">
-									<a class="data-pjax" href='{RC_Uri::url("promotion/merchant/edit", "id={$item.goods_id}")}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
-									<a data-toggle="ajaxremove" class="ajaxremove ecjiafc-red" data-msg="{lang key='promotion::promotion.drop_confirm'}" href='{RC_Uri::url("promotion/merchant/remove", "id={$item.goods_id}")}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>
+									<a class="data-pjax" href='{RC_Uri::url("promotion/merchant/edit", "id={$item.goods_id}")}' title='{t domain="promotion"}编辑{/t}'>{t domain="promotion"}编辑{/t}</a>&nbsp;|&nbsp;
+									<a data-toggle="ajaxremove" class="ajaxremove ecjiafc-red" data-msg='{t domain="promotion"}您确定要删除该促销活动吗？{/t}' href='{RC_Uri::url("promotion/merchant/remove", "id={$item.goods_id}")}' title="{t domain="promotion"}删除{/t}">{t domain="promotion"}删除{/t}</a>
 							    </div>
 							</td>
 							<td>{$item.start_time}</td>
@@ -68,7 +68,7 @@
 							<td>{$item.promote_price}</td>
 						</tr>
 						<!-- {foreachelse} -->
-						<tr><td class="no-records" colspan="5">{lang key='system::system.no_records'}</td></tr>
+						<tr><td class="no-records" colspan="5">{t domain="promotion"}没有找到任何记录{/t}</td></tr>
 						<!-- {/foreach} -->
 					</table>
 				</section>

@@ -56,7 +56,7 @@ class Helper
      * 添加管理员记录日志操作对象
      */
     public static function assign_adminlog_content() {
-    	ecjia_admin_log::instance()->add_object('promotion', RC_Lang::get('promotion::promotion.promotion'));
+    	ecjia_admin_log::instance()->add_object('promotion', __('促销商品', 'promotion'));
     }
     
 }

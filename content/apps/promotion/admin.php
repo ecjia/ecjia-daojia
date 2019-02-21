@@ -69,7 +69,7 @@ class admin extends ecjia_admin {
 		
         RC_Script::enqueue_script('promotion', RC_App::apps_url('statics/js/promotion.js', __FILE__), array(), false, true);
         
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('promotion::promotion.promotion'), RC_Uri::url('promotion/admin/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('促销商品', 'promotion'), RC_Uri::url('promotion/admin/init')));
     }
     	
 	/**
@@ -79,9 +79,9 @@ class admin extends ecjia_admin {
 		$this->admin_priv('promotion_manage');
 		
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('promotion::promotion.promotion')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('促销商品', 'promotion')));
 		
-		$this->assign('ur_here', RC_Lang::get('promotion::promotion.promotion_list'));
+		$this->assign('ur_here', __('促销商品列表', 'promotion'));
 		
 		$type = isset($_GET['type']) && in_array($_GET['type'], array('on_sale', 'coming', 'finished', 'self')) ? trim($_GET['type']) : '';
 		$promotion_list = $this->promotion_list($type);
@@ -144,7 +144,7 @@ class admin extends ecjia_admin {
         //清除应用缓存
         ecjia_update_cache::make()->clean('system_app_cache');
 
-		return $this->showmessage(RC_Lang::get('promotion::promotion.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('删除成功', 'promotion'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
 	/**

@@ -1,0 +1,235 @@
+# Copyright (C) 2019 Ecjia App promotion
+# This file is distributed under the same license as the Ecjia App promotion package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App promotion 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:57:52+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin.php:72 admin.php:82 apis/promotion_admin_menu_api.class.php:58
+#: apis/promotion_merchant_menu_api.class.php:58 classes/Helper.php:59
+#: configs/package.php:55 merchant.php:80
+msgid "促销商品"
+msgstr ""
+
+#: admin.php:84 merchant.php:82 merchant.php:108 merchant.php:183
+msgid "促销商品列表"
+msgstr ""
+
+#: admin.php:147 merchant.php:284
+msgid "删除成功"
+msgstr ""
+
+#: apis/promotion_admin_menu_api.class.php:56 merchant.php:70
+msgid "促销管理"
+msgstr ""
+
+#: apis/promotion_admin_purview_api.class.php:57
+#: apis/promotion_merchant_purview_api.class.php:57
+msgid "促销商品管理"
+msgstr ""
+
+#: apis/promotion_admin_purview_api.class.php:58
+#: apis/promotion_merchant_purview_api.class.php:59
+msgid "删除促销商品"
+msgstr ""
+
+#: apis/promotion_merchant_menu_api.class.php:56
+msgid "促销"
+msgstr ""
+
+#: apis/promotion_merchant_purview_api.class.php:58 merchant.php:180
+#: merchant.php:182
+msgid "编辑促销商品"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"促销方式如执行工具，是企业商家改造市场增进业绩的得力手段；而ECJIA TEAM 抓住促"
+"销的“策略方式、针对性，时效性、具有冲击力、主动性、抗争性”等等多种特征进行全"
+"面的整合营销；应用提供的“折扣购买、购买赠送、互动抽奖、关联促销、积分、团购等"
+"功能”将销售促进（SP）的多种方式发挥的淋漓尽致从而实现商家促销的全面性、长远"
+"性。"
+msgstr ""
+
+#: merchant.php:83 merchant.php:106 merchant.php:107
+msgid "添加促销商品"
+msgstr ""
+
+#: merchant.php:127 merchant.php:221
+msgid "请选择活动商品"
+msgstr ""
+
+#: merchant.php:143
+msgid "您选择的商品目前正在进行促销活动，请选择其他商品"
+msgstr ""
+
+#: merchant.php:154 merchant.php:229
+msgid "请输入一个有效的促销时间"
+msgstr ""
+
+#: merchant.php:169
+msgid "返回促销商品列表"
+msgstr ""
+
+#: merchant.php:170
+msgid "继续添加促销商品"
+msgstr ""
+
+#: merchant.php:171
+msgid "添加促销商品成功"
+msgstr ""
+
+#: merchant.php:233
+msgid "促销价不能大于商品价格："
+msgstr ""
+
+#: merchant.php:254
+msgid "编辑促销商品成功"
+msgstr ""
+
+#: modules/admin/promotion/manage_module.class.php:67
+#: modules/admin/promotion/manage_module.class.php:73
+msgid "参数错误"
+msgstr ""
+
+#: modules/admin/promotion/manage_module.class.php:91
+msgid "促销开始时间不能大于或等于结束时间"
+msgstr ""
+
+#: modules/admin/promotion/manage_module.class.php:99
+msgid "【来源掌柜】"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:20
+#: content/apps/promotion/templates/merchant/promotion_list.dwt.php:27
+msgid "全部"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:21
+#: content/apps/promotion/templates/merchant/promotion_list.dwt.php:28
+msgid "正在进行中"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:22
+#: content/apps/promotion/templates/merchant/promotion_list.dwt.php:29
+msgid "即将开始"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:23
+#: content/apps/promotion/templates/merchant/promotion_list.dwt.php:30
+msgid "已结束"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:24
+msgid "自营"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:30
+msgid "请输入商家名称关键字"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:31
+#: content/apps/promotion/templates/merchant/promotion_list.dwt.php:35
+msgid "请输入商品名称关键字"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:32
+#: content/apps/promotion/templates/merchant/promotion_list.dwt.php:36
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:32
+msgid "搜索"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:42
+#: content/apps/promotion/templates/merchant/promotion_list.dwt.php:45
+msgid "缩略图"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:43
+msgid "商家名称"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:44
+#: content/apps/promotion/templates/merchant/promotion_list.dwt.php:46
+msgid "商品名称"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:45
+#: content/apps/promotion/templates/merchant/promotion_list.dwt.php:47
+msgid "开始时间"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:46
+#: content/apps/promotion/templates/merchant/promotion_list.dwt.php:48
+msgid "结束时间"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:47
+#: content/apps/promotion/templates/merchant/promotion_list.dwt.php:49
+msgid "活动价格"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:61
+#: content/apps/promotion/templates/merchant/promotion_list.dwt.php:63
+msgid "您确定要删除该促销活动吗？"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:61
+#: content/apps/promotion/templates/merchant/promotion_list.dwt.php:63
+msgid "删除"
+msgstr ""
+
+#: content/apps/promotion/templates/admin/promotion_list.dwt.php:69
+#: content/apps/promotion/templates/merchant/promotion_list.dwt.php:71
+msgid "没有找到任何记录"
+msgstr ""
+
+#: content/apps/promotion/templates/merchant/promotion_list.dwt.php:62
+msgid "编辑"
+msgstr ""
+
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:28
+msgid "商品关键字："
+msgstr ""
+
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:35
+msgid "选择活动商品："
+msgstr ""
+
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:39
+msgid "请选择..."
+msgstr ""
+
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:48
+msgid "活动开始时间："
+msgstr ""
+
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:50
+msgid "请选择活动开始时间"
+msgstr ""
+
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:55
+msgid "活动结束时间："
+msgstr ""
+
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:57
+msgid "请选择活动结束时间"
+msgstr ""
+
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:62
+msgid "活动价格："
+msgstr ""
+
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:71
+msgid "更新"
+msgstr ""
+
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:74
+msgid "确定"
+msgstr ""
