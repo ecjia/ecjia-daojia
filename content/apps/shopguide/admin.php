@@ -79,16 +79,7 @@ class admin extends ecjia_admin
         RC_Script::enqueue_script('shopguide', RC_App::apps_url('statics/js/shopguide.js', __FILE__), array(), false, false);
         RC_Style::enqueue_style('shopguide', RC_App::apps_url('statics/css/shopguide.css', __FILE__), array());
 
-        $shopguide_lang = array(
-            'next_step'           => RC_Lang::get('shopguide::shopguide.next_step'),
-            'shop_name_required'  => RC_Lang::get('shopguide::shopguide.shop_name_required'),
-            'area_name_required'  => RC_Lang::get('shopguide::shopguide.area_name_required'),
-            'goods_cat_required'  => RC_Lang::get('shopguide::shopguide.goods_cat_required'),
-            'goods_name_required' => RC_Lang::get('shopguide::shopguide.goods_name_required'),
-            'store_cat_required'  => RC_Lang::get('shopguide::shopguide.store_cat_required'),
-            'pls_select'          => RC_Lang::get('shopguide::shopguide.pls_select'),
-        );
-        RC_Script::localize_script('shopguide', 'js_lang', $shopguide_lang);
+        RC_Script::localize_script('shopguide', 'js_lang', config('app-shopguide::jslang.shopguide_page'));
     }
 
     public function init()
@@ -98,9 +89,9 @@ class admin extends ecjia_admin
         $type = isset($_GET['type']) ? $_GET['type'] : '';
 
         if ($step > 1) {
-            ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('shopguide::shopguide.shopguide'), RC_Uri::url('shopguide/admin/init')));
+            ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('开店向导', 'shopguide'), RC_Uri::url('shopguide/admin/init')));
         } else {
-            ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('shopguide::shopguide.shopguide')));
+            ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('开店向导', 'shopguide')));
         }
         $data['shop_name']  = ecjia::config('shop_name');
         $data['shop_title'] = ecjia::config('shop_title');
@@ -163,7 +154,7 @@ class admin extends ecjia_admin
         $this->assign('step', $step);
         $this->assign('app_url', RC_App::apps_url('statics/images', __FILE__));
 
-        $this->assign('ur_here', RC_Lang::get('shopguide::shopguide.shopguide'));
+        $this->assign('ur_here', __('开店向导', 'shopguide'));
         $this->display('shop_guide.dwt');
     }
 
@@ -200,7 +191,7 @@ class admin extends ecjia_admin
             if (!empty($shop_name)) {
                 ecjia_config::instance()->write_config('shop_name', $shop_name);
             } else {
-                return $this->showmessage(RC_Lang::get('shopguide::shopguide.shop_name_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请输入商店名称', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             if (!empty($shop_title)) {
@@ -258,20 +249,20 @@ class admin extends ecjia_admin
             $store_cat_id = empty($_POST['store_cat_id']) ? 0 : intval($_POST['store_cat_id']);
 
             if (empty($cat_name)) {
-                return $this->showmessage(RC_Lang::get('shopguide::shopguide.goods_cat_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请输入商品分类', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             if (empty($store_cat)) {
-                return $this->showmessage(RC_Lang::get('shopguide::shopguide.store_cat_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请输入店铺分类', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             $count = RC_DB::table('category')->where('cat_name', $cat_name)->where('parent_id', 0)->where('cat_id', '!=', $cat_id)->count();
             if ($count > 0) {
-                return $this->showmessage(RC_Lang::get('shopguide::shopguide.cat_name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('该商品分类名称已存在', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             $store_count = RC_DB::table('store_category')->where('cat_name', $store_cat)->where('parent_id', 0)->where('cat_id', '!=', $store_cat_id)->count();
             if ($store_count > 0) {
-                return $this->showmessage(RC_Lang::get('shopguide::shopguide.store_cat_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('该店铺分类名称已存在', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             if (!empty($cat_id)) {
@@ -304,7 +295,7 @@ class admin extends ecjia_admin
             }
             return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('shopguide/admin/init', $arr)));
         } elseif ($step == 3) {
-            return $this->showmessage(RC_Lang::get('shopguide::shopguide.complete'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('shopguide/admin/init', array('step' => 4))));
+            return $this->showmessage(__('完成向导', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('shopguide/admin/init', array('step' => 4))));
         }
     }
 
@@ -316,7 +307,7 @@ class admin extends ecjia_admin
         $disk->delete(RC_Upload::upload_path() . $shop_logo);
 
         ecjia_config::instance()->write_config('shop_logo', '');
-        return $this->showmessage('删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        return $this->showmessage(__('删除成功', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 
     /**
@@ -336,7 +327,7 @@ class admin extends ecjia_admin
         if ($time - $region_last_checktime < 7 * 24 * 60 * 60) {
             //更新检测时间
             ecjia_config::instance()->write_config('region_last_checktime', $time);
-            return $this->showmessage(__('当前版本已是最新版本，上次更新时间是（' . $time_last_format . '）'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('shopguide/admin/init')));
+            return $this->showmessage(__('当前版本已是最新版本，上次更新时间是（' . $time_last_format . '）', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('shopguide/admin/init')));
         }
 
         $page   = !empty($_GET['page']) ? intval($_GET['page']) + 1 : 1;
@@ -378,12 +369,12 @@ class admin extends ecjia_admin
         }
 
         if ($pageinfo['more'] > 0) {
-            return $this->showmessage(sprintf(RC_Lang::get('shopguide::shopguide.get_region_already'), $count), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url("shopguide/admin/get_regioninfo"), 'notice' => 1, 'page' => $page, 'more' => $pageinfo['more']));
+            return $this->showmessage(sprintf(__('已经获取 %s 条地区数据，因数量较多，请耐心等待...', 'shopguide'), $count), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url("shopguide/admin/get_regioninfo"), 'notice' => 1, 'page' => $page, 'more' => $pageinfo['more']));
         } else {
             //更新地区表最后检查日期和本地版本
             ecjia_config::instance()->write_config('region_last_checktime', RC_Time::gmtime());
             ecjia_config::instance()->write_config('region_cn_version', $region_cn_version_new);
-            return $this->showmessage(RC_Lang::get('shopguide::shopguide.get_regioninfo_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('shopguide/admin/init')));
+            return $this->showmessage(__('获取地区信息成功', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('shopguide/admin/init')));
         }
     }
 }

@@ -52,11 +52,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
     'identifier'    => 'ecjia.shopguide',
     'directory'     => 'shopguide',
-    'name'          => 'shopguide',
-    'description'   => 'shopguide_desc', 			/* 描述对应的语言项 */
+    'name'          => __('开店向导', 'shopguide'),
+    'description'   => __('开店向导', 'shopguide'),
     'author'	    => 'ECJIA TEAM', 				/* 作者 */
     'website' 	    => 'http://www.ecjia.com', 	/* 网址 */
-    'version' 	    => '1.27.1', 					/* 版本号 */
+    'version' 	    => '1.27.4', 					/* 版本号 */
     'copyright'     => 'ECJIA Copyright 2016 ~ 2019.',
     'namespace'     => 'Ecjia\App\Shopguide',
     'provider'      => 'ShopguideServiceProvider',

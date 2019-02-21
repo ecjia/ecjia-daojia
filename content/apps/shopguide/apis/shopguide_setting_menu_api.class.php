@@ -55,7 +55,7 @@ class shopguide_setting_menu_api extends Component_Event_Api
 
     public function call(&$options)
     {
-        $menus = ecjia_admin::make_admin_menu('06_shopguide', RC_Lang::get('shopguide::shopguide.shopguide'), RC_Uri::url('shopguide/admin/init'), 6)->add_purview('shopguide_setup');
+        $menus = ecjia_admin::make_admin_menu('06_shopguide', __('开店向导', 'shopguide'), RC_Uri::url('shopguide/admin/init'), 6)->add_purview('shopguide_setup');
         return $menus;
     }
 }

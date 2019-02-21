@@ -79,6 +79,8 @@ class merchant extends ecjia_merchant
         RC_Script::enqueue_script('migrate', RC_App::apps_url('statics/mh-js/migrate.js', __FILE__), array(), false, true);
         RC_Style::enqueue_style('shopguide', RC_App::apps_url('statics/mh-css/shopguide.css', __FILE__), array());
 
+        RC_Script::localize_script('shopguide', 'js_lang', config('app-shopguide::jslang.shopguide_page'));
+
         RC_Loader::load_app_class('goods', 'goods', false);
         RC_Loader::load_app_class('goods_image_data', 'goods', false);
         RC_Loader::load_app_class('goods_imageutils', 'goods', false);
@@ -90,12 +92,12 @@ class merchant extends ecjia_merchant
         $step = isset($_GET['step']) ? $_GET['step'] : 1;
         $type = isset($_GET['type']) ? $_GET['type'] : '';
 
-        $this->assign('ur_here', RC_Lang::get('shopguide::shopguide.shopguide'));
+        $this->assign('ur_here', __('开店向导', 'shopguide'));
 
         if ($step > 1) {
-            ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('shopguide::shopguide.shopguide'), RC_Uri::url('shopguide/merchant/init')));
+            ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('开店向导', 'shopguide'), RC_Uri::url('shopguide/merchant/init')));
         } else {
-            ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('shopguide::shopguide.shopguide')));
+            ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('开店向导', 'shopguide')));
         }
 
         if ($step == 2) {
@@ -207,13 +209,13 @@ class merchant extends ecjia_merchant
                 $shop_time = explode(',', $shop_trade_time);
                 //营业时间验证
                 if ($shop_time[0] >= 1440) {
-                    return $this->showmessage('营业开始时间不能为次日', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                    return $this->showmessage(__('营业开始时间不能为次日', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
                 if ($shop_time[1] - $shop_time[0] > 1440) {
-                    return $this->showmessage('营业时间最多为24小时', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                    return $this->showmessage(__('营业时间最多为24小时', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
                 if (($shop_time[1] - $shop_time[0] == 1440) && ($shop_time[0] != 0)) {
-                    return $this->showmessage('24小时营业请选择0-24', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                    return $this->showmessage(__('24小时营业请选择0-24', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
 
                 $s_h             = ($shop_time[0] / 60);
@@ -261,10 +263,10 @@ class merchant extends ecjia_merchant
             $is_hot       = empty($_POST['is_hot']) ? 0 : 1;
 
             if (empty($cat_id)) {
-                return $this->showmessage('请选择商品分类', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请选择商品分类', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             if (empty($goods_name)) {
-                return $this->showmessage(RC_Lang::get('shopguide::shopguide.goods_name_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请输入商品名称', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             /* 处理商品图片 */
             $goods_img    = ''; // 初始化商品图片
@@ -347,7 +349,7 @@ class merchant extends ecjia_merchant
             }
             return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('shopguide/merchant/init', array('step' => 3, 'goods_id' => $goods_id))));
         } elseif ($step == 3) {
-            return $this->showmessage(RC_Lang::get('shopguide::shopguide.complete'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('shopguide/merchant/init', array('step' => 4))));
+            return $this->showmessage(__('完成向导', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('shopguide/merchant/init', array('step' => 4))));
         }
     }
 
@@ -394,15 +396,15 @@ class merchant extends ecjia_merchant
         $disk     = RC_Filesystem::disk();
         $disk->delete($file);
         if ($code == 'shop_nav_background') {
-            $msg = '店铺导航背景图';
+            $msg = __('店铺导航背景图', 'shopguide');
         } elseif ($code == 'shop_logo') {
-            $msg = '店铺LOGO';
+            $msg = __('店铺LOGO', 'shopguide');
         } elseif ($code == 'shop_banner_pic') {
-            $msg = '店铺顶部Banner图';
+            $msg = __('店铺顶部Banner图', 'shopguide');
         }
         // 记录日志
         ecjia_merchant::admin_log('删除' . $msg, 'edit', 'merchant');
-        return $this->showmessage('成功删除', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        return $this->showmessage(__('成功删除', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 }
 
