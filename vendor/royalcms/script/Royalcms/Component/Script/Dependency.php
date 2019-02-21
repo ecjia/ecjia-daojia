@@ -1,4 +1,7 @@
-<?php namespace Royalcms\Component\Script;
+<?php
+
+namespace Royalcms\Component\Script;
+
 /**
  * Class Dependency
  *
@@ -13,69 +16,81 @@ class Dependency
     /**
      * The handle name.
      *
-     * @access public
      * @since 2.6.0
      * @var null
      */
-    var $handle;
+    public $handle;
 
     /**
      * The handle source.
      *
-     * @access public
      * @since 2.6.0
      * @var null
      */
-    var $src;
+    public $src;
 
     /**
      * An array of handle dependencies.
      *
-     * @access public
      * @since 2.6.0
      * @var array
      */
-    var $deps = array();
+    public $deps = array();
 
     /**
      * The handle version.
      *
      * Used for cache-busting.
      *
-     * @access public
      * @since 2.6.0
-     * @var bool string
-    */
-    var $ver = false;
+     * @var bool|string
+     */
+    public $ver = false;
 
     /**
      * Additional arguments for the handle.
      *
-     * @access public
      * @since 2.6.0
      * @var null
      */
-    var $args = null; // Custom property, such as $in_footer or $media.
+    public $args = null;  // Custom property, such as $in_footer or $media.
 
     /**
      * Extra data to supply to the handle.
      *
-     * @access public
      * @since 2.6.0
      * @var array
      */
-    var $extra = array();
+    public $extra = array();
+
+    /**
+     * Translation textdomain set for this dependency.
+     *
+     * @since 5.0.0
+     * @var string
+     */
+    public $textdomain;
+
+    /**
+     * Translation path set for this dependency.
+     *
+     * @since 5.0.0
+     * @var string
+     */
+    public $translations_path;
 
     /**
      * Setup dependencies.
      *
      * @since 2.6.0
     */
-    function __construct()
+    public function __construct()
     {
-        @list ($this->handle, $this->src, $this->deps, $this->ver, $this->args) = func_get_args();
-        if (! is_array($this->deps))
+        list($this->handle, $this->src, $this->deps, $this->ver, $this->args) = func_get_args();
+
+        if (! is_array($this->deps)) {
             $this->deps = array();
+        }
     }
 
     /**
@@ -90,11 +105,24 @@ class Dependency
      *            The data value to add.
      * @return bool False if not scalar, true otherwise.
      */
-    function add_data($name, $data)
+    public function add_data($name, $data)
     {
-        if (! is_scalar($name))
+        if (! is_scalar($name)) {
             return false;
+        }
+
         $this->extra[$name] = $data;
+        return true;
+    }
+
+    public function set_translations( $domain, $path = null )
+    {
+        if ( !is_string($domain) ) {
+            return false;
+        }
+
+        $this->textdomain        = $domain;
+        $this->translations_path = $path;
         return true;
     }
 }

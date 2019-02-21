@@ -101,12 +101,12 @@ class Kses extends RoyalcmsObject
         if (substr($string, 0, 1) != '<') {
             return '&gt;';
         }
-        # It matched a ">" character
+        /* It matched a ">" character */
 
         if (!preg_match('%^<\s*(/\s*)?([a-zA-Z0-9]+)([^>]*)>?$%', $string, $matches)) {
             return '';
         }
-        # It's seriously malformed
+        /* It's seriously malformed */
 
         $slash    = trim($matches[1]);
         $elem     = $matches[2];
@@ -115,15 +115,14 @@ class Kses extends RoyalcmsObject
         if (!@isset($allowed_html[strtolower($elem)])) {
             return '';
         }
-        # They are using a not allowed HTML element
+        /* They are using a not allowed HTML element */
 
         if ($slash != '') {
             return "<$slash$elem>";
         }
-        # No attributes are allowed for closing elements
+        /* No attributes are allowed for closing elements */
 
-        return self::attr("$slash$elem", $attrlist, $allowed_html,
-            $allowed_protocols);
+        return self::attr("$slash$elem", $attrlist, $allowed_html, $allowed_protocols);
     }
 
 
@@ -139,40 +138,39 @@ class Kses extends RoyalcmsObject
      */
     public static function attr($element, $attr, $allowed_html, $allowed_protocols)
     {
-        # Is there a closing XHTML slash at the end of the attributes?
+        /* Is there a closing XHTML slash at the end of the attributes? */
 
         $xhtml_slash = '';
         if (preg_match('%\s/\s*$%', $attr)) {
             $xhtml_slash = ' /';
         }
 
-        # Are any attributes allowed at all for this element?
+        /* Are any attributes allowed at all for this element? */
 
         if (@count($allowed_html[strtolower($element)]) == 0) {
             return "<$element$xhtml_slash>";
         }
 
-        # Split it
+        /* Split it */
 
         $attrarr = self::hair($attr, $allowed_protocols);
 
-        # Go through $attrarr, and save the allowed attributes for this element
-        # in $attr2
+        /* Go through $attrarr, and save the allowed attributes for this element in $attr2 */
 
         $attr2 = '';
 
         foreach ($attrarr as $arreach) {
             if (!@isset($allowed_html[strtolower($element)][strtolower($arreach['name'])])) {
                 continue;
-            } # the attribute is not allowed
+            } /* the attribute is not allowed */
 
             $current = $allowed_html[strtolower($element)][strtolower($arreach['name'])];
 
             if (!is_array($current)) {
                 $attr2 .= ' ' . $arreach['whole'];
-            } # there are no checks
+            } /* there are no checks */
             else {
-                # there are some checks
+                /* there are some checks */
                 $ok = true;
                 foreach ($current as $currkey => $currval) {
                     if (!self::check_attr_val($arreach['value'], $arreach['vless'], $currkey, $currval)) {
@@ -183,11 +181,11 @@ class Kses extends RoyalcmsObject
 
                 if ($ok) {
                     $attr2 .= ' ' . $arreach['whole'];
-                } # it passed them
-            } # if !is_array($current)
-        } # foreach
+                } /* it passed them */
+            } /* if !is_array($current) */
+        } /* foreach */
 
-        # Remove any "<" or ">" characters
+        /* Remove any "<" or ">" characters */
 
         $attr2 = preg_replace('/[<>]/', '', $attr2);
 
@@ -211,13 +209,13 @@ class Kses extends RoyalcmsObject
         $mode     = 0;
         $attrname = '';
 
-        # Loop through the whole attribute list
+        /* Loop through the whole attribute list */
 
         while (strlen($attr) != 0) {
-            $working = 0; # Was the last operation successful?
+            $working = 0; /* Was the last operation successful? */
 
             switch ($mode) {
-                case 0: # attribute name, href for instance
+                case 0: /* attribute name, href for instance */
 
                     if (preg_match('/^([-a-zA-Z]+)/', $attr, $match)) {
                         $attrname = $match[1];
@@ -227,9 +225,9 @@ class Kses extends RoyalcmsObject
 
                     break;
 
-                case 1: # equals sign or valueless ("selected")
+                case 1: /* equals sign or valueless ("selected") */
 
-                    if (preg_match('/^\s*=\s*/', $attr)) # equals sign
+                    if (preg_match('/^\s*=\s*/', $attr)) /* equals sign */
                     {
                         $working = 1;
                         $mode    = 2;
@@ -237,7 +235,7 @@ class Kses extends RoyalcmsObject
                         break;
                     }
 
-                    if (preg_match('/^\s+/', $attr)) # valueless
+                    if (preg_match('/^\s+/', $attr)) /* valueless */
                     {
                         $working   = 1;
                         $mode      = 0;
@@ -252,7 +250,7 @@ class Kses extends RoyalcmsObject
 
                     break;
 
-                case 2: # attribute value, a URL after href= for instance
+                case 2: /* attribute value, a URL after href= for instance */
 
                     if (preg_match('/^"([^"]*)"(\s+|$)/', $attr, $match)) # "value"
                     {
@@ -296,24 +294,23 @@ class Kses extends RoyalcmsObject
                             'whole' => "$attrname=\"$thisval\"",
                             'vless' => 'n'
                         );
-                        # We add quotes to conform to W3C's HTML spec.
+                        /* We add quotes to conform to W3C's HTML spec. */
                         $working = 1;
                         $mode    = 0;
                         $attr    = preg_replace("%^[^\s\"']+(\s+|$)%", '', $attr);
                     }
 
                     break;
-            } # switch
+            } /* switch */
 
-            if ($working == 0) # not well formed, remove and try again
+            if ($working == 0) /* not well formed, remove and try again */
             {
                 $attr = self::html_error($attr);
                 $mode = 0;
             }
-        } # while
+        } /* while */
 
-        # special case, for when the attribute list ends with a valueless
-        # attribute like "selected"
+        /* special case, for when the attribute list ends with a valueless attribute like "selected" */
         if ($mode == 1)
         {
             $attrarr[] = array(

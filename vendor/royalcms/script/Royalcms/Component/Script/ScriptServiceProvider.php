@@ -1,8 +1,11 @@
-<?php namespace Royalcms\Component\Script;
+<?php
+
+namespace Royalcms\Component\Script;
 
 use Royalcms\Component\Support\ServiceProvider;
 
-class ScriptServiceProvider extends ServiceProvider {
+class ScriptServiceProvider extends ServiceProvider
+{
 
 	/**
 	 * Register the service provider.

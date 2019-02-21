@@ -52,6 +52,7 @@ class Uri extends RoyalcmsObject
                 $url = substr($url, 1);
                 break;
             case 'normal':
+                /*
                 foreach ($gets as $k => $value) {
                     if ($k % 2) {
                         $url .= '=' . $value;
@@ -60,6 +61,23 @@ class Uri extends RoyalcmsObject
                     }
                 }
                 $url = substr($url, 1);
+                */
+
+                foreach ($gets as $k => $value) {
+                    if ($k % 2) {
+
+                        if (is_array($value)) {
+                            $url .= '=' . implode('', $value);
+                        } else {
+                            $url .= '=' . $value;
+                        }
+
+                    } else {
+                        $url .= '&' . $value;
+                    }
+                }
+                $url = substr($url, 1);
+
                 break;
         }
         
@@ -126,7 +144,7 @@ class Uri extends RoyalcmsObject
         
         /* 合并GET参数 */ 
         $gets = array_merge($data, self::build_gets($pathinfo, $args));
-        
+
         return $gets;
     }
 
@@ -134,9 +152,10 @@ class Uri extends RoyalcmsObject
     {
         /* 参数$args为字符串时转数组 */ 
         if (is_string($args)) {
+            $args = urldecode($args);
             parse_str($args, $args);
         }
-        
+
         $parseUrl = parse_url(trim($pathinfo, '/'));
         
         /* 解析字符串的?后参数 并与$args合并 */ 
@@ -153,7 +172,7 @@ class Uri extends RoyalcmsObject
                 array_push($gets, $q);
             }
         }
-        
+
         return $gets;
     }
 

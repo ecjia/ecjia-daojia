@@ -293,6 +293,9 @@ class Uploader extends UploaderAbstract
         return RC_Storage::disk()->delete($file_path);
     }
 
+    /**
+     * @var array
+     */
     private static $fileKeys = array('error', 'name', 'size', 'tmp_name', 'type');
 
     /**

@@ -54,6 +54,7 @@ return array(
     'Royalcms\\Component\\LogViewer\\' => array($vendorDir . '/royalcms/log-viewer'),
     'Royalcms\\Component\\Mail\\' => array($vendorDir . '/royalcms/mail'),
     'Royalcms\\Component\\Memcache\\' => array($vendorDir . '/royalcms/memcache'),
+    'Royalcms\\Component\\Metable\\' => array($vendorDir . '/royalcms/metable'),
     'Royalcms\\Component\\Model\\' => array($vendorDir . '/royalcms/model'),
     'Royalcms\\Component\\NativeSession\\' => array($vendorDir . '/royalcms/native-session'),
     'Royalcms\\Component\\Notifications\\' => array($vendorDir . '/royalcms/notifications'),

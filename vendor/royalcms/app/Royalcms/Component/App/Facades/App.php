@@ -175,16 +175,24 @@ class App extends Facade
         $package = self::get_package_data($app_dir);
         
         if ( $package && $translate ) {
-            $lang_namespace = $package['directory'] . '::package.';
-            $package['format_name'] = Lang::get($lang_namespace . $package['name']);
-            $package['format_description'] = Lang::get($lang_namespace . $package['description']);
-            if (empty($package['format_name'])) {
-                $package['format_name'] = $package['name'];
-            }
-            if (empty($package['format_description'])) {
-                $package['format_description'] = $package['description'];
-            }
-        } 
+//            $lang_namespace = $package['directory'] . '::package.';
+//            $package['format_name'] = Lang::get($lang_namespace . $package['name']);
+//            $package['format_description'] = Lang::get($lang_namespace . $package['description']);
+//            if (empty($package['format_name'])) {
+//                $package['format_name'] = $package['name'];
+//            }
+//            if (empty($package['format_description'])) {
+//                $package['format_description'] = $package['description'];
+//            }
+
+            $package['format_name'] = __($package['name'], $package['directory']);
+            $package['format_description'] = __($package['description'], $package['directory']);
+
+        } else {
+
+            $package['format_name'] = $package['name'];
+            $package['format_description'] = $package['description'];
+        }
         
         return $package;
     }

@@ -105,9 +105,21 @@ class HttpQueryRoute
             $this->controller = $this->matchDefaultRoute($controllerName);
             $this->action = $this->matchDefaultRoute($actionName);
         }
-        
+
+        $this->module = $this->ksesString($this->module);
+        $this->controller = $this->ksesString($this->controller);
+        $this->action = $this->ksesString($this->action);
     }
-    
+
+    /**
+     * 过滤路由参数中的非法字符
+     * @param $route
+     * @return string
+     */
+    protected function ksesString($route)
+    {
+        return safe_remove($route);
+    }
     
     public function matchDefaultRoute($key)
     {

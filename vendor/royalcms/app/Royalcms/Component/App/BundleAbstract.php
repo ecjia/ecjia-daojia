@@ -135,15 +135,23 @@ abstract class BundleAbstract
         $package = $this->getPackageData();
         
         if ( $package && $translate ) {
-            $lang_namespace = $this->getNamespace() . '::package.';
-            $package['format_name'] = RC_Lang::get($lang_namespace . $package['name']);
-            $package['format_description'] = RC_Lang::get($lang_namespace . $package['description']);
-            if (empty($package['format_name'])) {
-                $package['format_name'] = $package['name'];
-            }
-            if (empty($package['format_description'])) {
-                $package['format_description'] = $package['description'];
-            }
+//            $lang_namespace = $this->getNamespace() . '::package.';
+//            $package['format_name'] = RC_Lang::get($lang_namespace . $package['name']);
+//            $package['format_description'] = RC_Lang::get($lang_namespace . $package['description']);
+//            if (empty($package['format_name'])) {
+//
+//            }
+//            if (empty($package['format_description'])) {
+//
+//            }
+
+            $package['format_name'] = __($package['name'], $this->getNamespace());
+            $package['format_description'] = __($package['description'], $this->getNamespace());
+
+        } else {
+
+            $package['format_name'] = $package['name'];
+            $package['format_description'] = $package['description'];
         }
         
         return $package;

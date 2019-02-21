@@ -26,14 +26,14 @@ class Royalcms extends Container implements RoyalcmsContract, HttpKernelInterfac
      *
      * @var string
      */
-    const VERSION = '5.6.0';
+    const VERSION = '5.7.0';
 
     /**
      * The Royalcms framework release.
      *
      * @var string
      */
-    const RELEASE = '2019-01-31';
+    const RELEASE = '2019-02-21';
 
     /**
      * The base path for the Laravel installation.

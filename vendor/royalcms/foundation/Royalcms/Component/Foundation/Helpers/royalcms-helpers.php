@@ -214,6 +214,37 @@ if ( ! function_exists('safe_replace'))
     }
 }
 
+if ( ! function_exists('safe_remove'))
+{
+    /**
+     * 安全过滤函数
+     *
+     * @param
+     *            $string
+     * @return string
+     */
+    function safe_remove($string)
+    {
+        $string = str_replace('%20', '', $string);
+        $string = str_replace('%27', '', $string);
+        $string = str_replace('%2527', '', $string);
+        $string = str_replace('*', '', $string);
+        $string = str_replace('"', '', $string);
+        $string = str_replace("'", '', $string);
+        $string = str_replace('"', '', $string);
+        $string = str_replace(';', '', $string);
+        $string = str_replace('<', '', $string);
+        $string = str_replace('>', '', $string);
+        $string = str_replace("{", '', $string);
+        $string = str_replace('}', '', $string);
+        $string = str_replace('\\', '', $string);
+        $string = str_replace('/', '', $string);
+        $string = str_replace('[', '', $string);
+        $string = str_replace(']', '', $string);
+        return $string;
+    }
+}
+
 if ( ! function_exists('trim_unsafe_control_chars'))
 {
     /**

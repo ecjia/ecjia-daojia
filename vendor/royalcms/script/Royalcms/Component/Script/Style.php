@@ -1,4 +1,6 @@
-<?php namespace Royalcms\Component\Script;
+<?php
+
+namespace Royalcms\Component\Script;
 
 use RC_Hook;
 
@@ -15,7 +17,6 @@ class Style
     /**
      * 返回当前终级类对象的实例
      *
-     * @param $cache_config 缓存配置            
      * @return object
      */
     public static function instance()
@@ -33,7 +34,7 @@ class Style
      * passing an array with one string prints that style,
      * and passing an array of strings prints those styles.
      *
-     * @global Component_Hook__Styles $rc_styles The Component_Hook__Styles object for printing styles.
+     * @global \Royalcms\Component\Script\HandleStyles $rc_styles The \Royalcms\Component\Script\HandleStyles object for printing styles.
      *        
      * @since 3.0.0
      *       
@@ -73,8 +74,8 @@ class Style
      * are added to the same stylesheet $handle, they will be printed in the order
      * they were added, i.e. the latter added styles can redeclare the previous.
      *
-     * @see Component_Hook_Styles::add_inline_style()
-     * @global Component_Hook_Styles $rc_styles The Component_Hook_Styles object for printing styles.
+     * @see \Royalcms\Component\Script\HandleStyles::add_inline_style()
+     * @global \Royalcms\Component\Script\HandleStyles $rc_styles The \Royalcms\Component\Script\HandleStyles object for printing styles.
      *        
      * @since 3.0.0
      *       
@@ -98,7 +99,7 @@ class Style
      *
      * @see Component_Hook_Dependencies::add()
      * @link http://www.w3.org/TR/CSS2/media.html#media-types List of CSS media types.
-     * @global Component_Hook_Styles $rc_styles The Component_Hook_Styles object for printing styles.
+     * @global \Royalcms\Component\Script\HandleStyles $rc_styles The \Royalcms\Component\Script\HandleStyles object for printing styles.
      *        
      * @since 3.0.0
      *       
@@ -125,7 +126,7 @@ class Style
      * Remove a registered stylesheet.
      *
      * @see Component_Hook_Dependencies::remove()
-     * @global Component_Hook_Styles $rc_styles The Component_Hook_Styles object for printing styles.
+     * @global \Royalcms\Component\Script\HandleStyles $rc_styles The \Royalcms\Component\Script\HandleStyles object for printing styles.
      *        
      * @since 3.0.0
      *       
@@ -144,7 +145,7 @@ class Style
      *
      * @see Component_Hook_Dependencies::add(), Component_Hook_Dependencies::enqueue()
      * @link http://www.w3.org/TR/CSS2/media.html#media-types List of CSS media types.
-     * @global Component_Hook_Styles $rc_styles The Component_Hook_Styles object for printing styles.
+     * @global \Royalcms\Component\Script\HandleStyles $rc_styles The \Royalcms\Component\Script\HandleStyles object for printing styles.
      *        
      * @since 3.0.0
      *       
@@ -176,7 +177,7 @@ class Style
      * Remove a previously enqueued CSS stylesheet.
      *
      * @see Component_Hook_Dependencies::dequeue()
-     * @global Component_Hook_Styles $rc_styles The Component_Hook_Styles object for printing styles.
+     * @global \Royalcms\Component\Script\HandleStyles $rc_styles The \Royalcms\Component\Script\HandleStyles object for printing styles.
      *        
      * @since 3.0.0
      *       
@@ -191,7 +192,7 @@ class Style
     /**
      * Check whether a CSS stylesheet has been added to the queue.
      *
-     * @global Component_Hook_Styles $rc_styles The Component_Hook_Styles object for printing styles.
+     * @global \Royalcms\Component\Script\HandleStyles $rc_styles The \Royalcms\Component\Script\HandleStyles object for printing styles.
      *        
      * @since 3.0.0
      *       

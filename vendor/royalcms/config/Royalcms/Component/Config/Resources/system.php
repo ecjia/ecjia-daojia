@@ -159,6 +159,40 @@ return array(
     */
     // @todo
 //    'manifest' => storage_path().'/meta',
+
+
+    /*
+     * loads the development (non-minified) versions of all scripts and CSS, and disables compression and concatenation.
+     * default: false
+     */
+    'script_debug'                  => false,
+    /**
+     * disables compression and concatenation of scripts and CSS.
+     * default: true
+     */
+    'concatenate_scripts'           => false,
+    /**
+     * disables compression of scripts.
+     * default: true
+     */
+    'compress_scripts'              => false,
+    /**
+     * disables compression of CSS.
+     * default: true
+     */
+    'compress_css'                  => true,
+    /**
+     * forces gzip for compression (default is deflate).
+     * default: true
+     */
+    'enforce_gzip'                  => true,
+    /**
+     * The globals $concatenate_scripts, $compress_scripts and $compress_css can be set by plugins
+     * to temporarily override the above settings. Also a compression test is run once and the result is saved
+     * as option 'can_compress_scripts' (0/1). The test will run again if that option is deleted.
+     * default: true
+     */
+    'can_compress_scripts'          => true,
     
 );
 
