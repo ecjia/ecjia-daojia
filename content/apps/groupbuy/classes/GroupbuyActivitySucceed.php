@@ -211,12 +211,12 @@ class GroupbuyActivitySucceed
 //        $order['order_status'] = OS_CONFIRMED;
 //        $order['confirm_time'] = RC_Time::gmtime();
 
-        $order['to_buyer'] = '团购活动成功结束';
+        $order['to_buyer'] = __('团购活动成功结束', 'groupbuy');
 
         $data = array(
-            'order_status' => '团购活动成功结束',
+            'order_status' => __('团购活动成功结束', 'groupbuy'),
             'order_id'     => $order['order_id'],
-            'message'      => '团购活动成功结束，请尽快支付订单剩余余款',
+            'message'      => __('团购活动成功结束，请尽快支付订单剩余余款', 'groupbuy'),
             'add_time'     => RC_Time::gmtime()
         );
 
@@ -235,7 +235,7 @@ class GroupbuyActivitySucceed
         RC_Loader::load_app_func('admin_order', 'orders');
 
         $order['order_status'] = OS_CANCELED;
-        $order['to_buyer']     = '团购活动成功未支付';
+        $order['to_buyer']     = __('团购活动成功未支付', 'groupbuy');
         $order['pay_status']   = PS_UNPAYED;
         $order['pay_time']     = 0;
         $money                 = $order['surplus'] + $order['money_paid'];
@@ -243,13 +243,13 @@ class GroupbuyActivitySucceed
             $order['surplus']      = 0;
             $order['money_paid']   = 0;
             $order['order_amount'] = $money;
-            order_refund($order, 1, RC_Lang::get('groupbuy::groupbuy.cancel_order_reason') . ':' . $order['order_sn']);
+            order_refund($order, 1, __('团购失败', 'groupbuy') . ':' . $order['order_sn']);
         }
 
         $data = array(
-            'order_status' => '团购活动成功未支付',
+            'order_status' => __('团购活动成功未支付', 'groupbuy'),
             'order_id'     => $order['order_id'],
-            'message'      => '团购活动已成功结束，您已超时未支付，订单自动取消',
+            'message'      => __('团购活动已成功结束，您已超时未支付，订单自动取消', 'groupbuy'),
             'add_time'     => RC_Time::gmtime()
         );
 
@@ -395,8 +395,17 @@ class GroupbuyActivitySucceed
         /* 状态 */
         $group_buy['status'] = $this->groupBuyStatus($group_buy);
 
-        if (RC_Lang::get('goods::goods.gbs.' . $group_buy['status'])) {
-            $group_buy['status_desc'] = RC_Lang::get('goods::goods.gbs.' . $group_buy['status']);
+        $gbs_arr = array(
+            GBS_PRE_START        => __('未开始', 'groupbuy'),
+            GBS_UNDER_WAY        => __('进行中', 'groupbuy'),
+            GBS_FINISHED         => __('结束未处理', 'groupbuy'),
+            GBS_SUCCEED          => __('成功结束', 'groupbuy'),
+            GBS_FAIL             => __('失败结束', 'groupbuy'),
+            GBS_SUCCEED_COMPLETE => __('成功结束', 'groupbuy'),
+            GBS_FAIL_COMPLETE    => __('失败结束', 'groupbuy')
+        );
+        if ($gbs_arr[$group_buy['status']]) {
+            $group_buy['status_desc'] = $gbs_arr[$group_buy['status']];
         }
 
         $group_buy['start_time'] = $group_buy['formated_start_date'];

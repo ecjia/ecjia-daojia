@@ -20,9 +20,9 @@
 <div class="row-fluid batch" >
 	<form action="{$search_action}{if $filter.type}&type={$filter.type}{/if}" name="searchForm" method="post">
 		<div class="choose_list f_r" >
-			<input type="text" name="order_sn" value="{$order_list.filter.order_sn}" placeholder="请输入订单编号关键词"/> 
-			<input type="text" name="user_name" value="{$order_list.filter.user_name}" placeholder="请输入用户名关键词"/> 
-			<button class="btn search-btn" type="button">{lang key='orders::order.search'}</button>
+			<input type="text" name="order_sn" value="{$order_list.filter.order_sn}" placeholder='{t domain="groupbuy"}请输入订单编号关键词{/t}'/>
+			<input type="text" name="user_name" value="{$order_list.filter.user_name}" placeholder='{t domain="groupbuy"}请输入用户名关键词{/t}'/>
+			<button class="btn search-btn" type="button">{t domain="groupbuy"}搜索{/t}</button>
 		</div>
 	</form>
 </div>
@@ -33,23 +33,23 @@
 			<table class="table table-striped table-hide-edit">
 				<thead>
 					<tr>
-						<th class="w130">{lang key='orders::order.order_sn'}</th>
-						<th class="w100">{lang key='orders::order.merchants_name'}</th>
-						<th class="w120">{lang key='orders::order.order_time'}</th>
-						<th>{lang key='orders::order.user_purchase_information'}</th>
-						<th class="w100">{lang key='orders::order.total_fee'}</th>
-						<th class="w50">保证金</th>
-						<th class="w100">{lang key='orders::order.order_amount'}</th>
-						<th class="w100">{lang key='orders::order.all_status'}</th>
+						<th class="w130">{t domain="groupbuy"}订单号{/t}</th>
+						<th class="w100">{t domain="groupbuy"}商家名称{/t}</th>
+						<th class="w120">{t domain="groupbuy"}下单时间{/t}</th>
+						<th>{t domain="groupbuy"}购买用户信息{/t}</th>
+						<th class="w100">{t domain="groupbuy"}总金额{/t}</th>
+						<th class="w50">{t domain="groupbuy"}保证金{/t}</th>
+						<th class="w100">{t domain="groupbuy"}应付金额{/t}</th>
+						<th class="w100">{t domain="groupbuy"}订单状态{/t}</th>
 					</tr>
 				</thead>
 				<tbody>
 					<!-- {foreach from=$order_list.orders item=order key=okey} -->
 					<tr>
 						<td class="hide-edit-area">
-							{$order.order_sn}<span class="groupbuy-icon">团</span>
+							{$order.order_sn}<span class="groupbuy-icon">{t domain="groupbuy"}团{/t}</span>
 							<div class="edit-list">
-								<a href='{url path="orders/admin/info" args="order_id={$order.order_id}"}' target="__blank" title="{lang key='orders::order.detail'}">{lang key='orders::order.detail'}</a>
+								<a href='{url path="orders/admin/info" args="order_id={$order.order_id}"}' target="__blank" title='{t domain="groupbuy"}查看{/t}'>{t domain="groupbuy"}查看{/t}</a>
 							</div>
 						</td>
 						<td class="ecjiafc-red">
@@ -67,7 +67,7 @@
 						<td align="center" valign="top" nowrap="nowrap">{$os[$order.order_status]},{$ps[$order.pay_status]},{$ss[$order.shipping_status]}</td>
 					</tr>
 					<!-- {foreachelse}-->
-					<tr><td class="no-records" colspan="9">{lang key='system::system.no_records'}</td></tr>
+					<tr><td class="no-records" colspan="9">{t domain="groupbuy"}没有找到任何记录{/t}</td></tr>
 					<!-- {/foreach} -->
 				</tbody>
 			</table>

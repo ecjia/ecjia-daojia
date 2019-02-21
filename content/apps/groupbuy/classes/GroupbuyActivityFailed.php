@@ -119,7 +119,7 @@ class GroupbuyActivityFailed extends GroupbuyActivitySucceed
 
         // 修改订单状态为已取消，付款状态为未付款
         $order['order_status'] = OS_CANCELED;
-        $order['to_buyer']     = RC_Lang::get('groupbuy::groupbuy.cancel_order_reason');
+        $order['to_buyer']     = __('团购失败', 'groupbuy');
         $order['pay_status']   = PS_UNPAYED;
         $order['pay_time']     = 0;
 
@@ -136,7 +136,7 @@ class GroupbuyActivityFailed extends GroupbuyActivitySucceed
             $action     = array(
                 'user_type' => 'admin',
                 'user_id'   => 0,
-                'user_name' => '系统操作'
+                'user_name' => __('系统操作', 'groupbuy')
             );
             $auto_apply = new ReturnAutoApply($order['order_id'], $action);
 
@@ -144,9 +144,9 @@ class GroupbuyActivityFailed extends GroupbuyActivitySucceed
         }
 
         $data = array(
-            'order_status' => '团购活动失败',
+            'order_status' => __('团购活动失败', 'groupbuy'),
             'order_id'     => $order['order_id'],
-            'message'      => '团购活动失败， 我们会尽快为你退款',
+            'message'      => __('团购活动失败， 我们会尽快为你退款', 'groupbuy'),
             'add_time'     => RC_Time::gmtime()
         );
 
@@ -188,7 +188,7 @@ class GroupbuyActivityFailed extends GroupbuyActivitySucceed
         $user_ob     = $orm_user_db->find($order['user_id']);
 
         $groupbuy_data      = array(
-            'title' => '团购活动失败',
+            'title' => __('团购活动失败', 'groupbuy'),
             'body'  => '您在' . $store_name . '店铺参加的商品' . $order['goods_name'] . '的团购活动失败， 我们会尽快为你退款。',
             'data'  => array(
                 'user_id'    => $order['user_id'],

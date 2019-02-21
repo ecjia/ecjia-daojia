@@ -142,9 +142,18 @@ class groupbuy_activity {
 	
 		/* 状态 */
 		$group_buy ['status'] = group_buy_status ( $group_buy );
-	
-		if (RC_Lang::get('goods::goods.gbs.' . $group_buy ['status'])) {
-			$group_buy ['status_desc'] = RC_Lang::get('goods::goods.gbs.' . $group_buy ['status']);
+
+        $gbs_arr = array(
+            GBS_PRE_START        => __('未开始', 'groupbuy'),
+            GBS_UNDER_WAY        => __('进行中', 'groupbuy'),
+            GBS_FINISHED         => __('结束未处理', 'groupbuy'),
+            GBS_SUCCEED          => __('成功结束', 'groupbuy'),
+            GBS_FAIL             => __('失败结束', 'groupbuy'),
+            GBS_SUCCEED_COMPLETE => __('成功结束', 'groupbuy'),
+            GBS_FAIL_COMPLETE    => __('失败结束', 'groupbuy')
+        );
+		if ($gbs_arr[$group_buy['status']]) {
+			$group_buy ['status_desc'] = $gbs_arr[$group_buy['status']];
 		}
 	
 		$group_buy ['start_time'] = $group_buy ['formated_start_date'];

@@ -1,0 +1,809 @@
+# Copyright (C) 2019 Ecjia App groupbuy
+# This file is distributed under the same license as the Ecjia App groupbuy package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App groupbuy 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:55:22+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin.php:83 admin.php:97 apis/groupbuy_admin_purview_api.class.php:12
+#: apis/groupbuy_merchant_purview_api.class.php:12
+#: classes/hooks/admin_groupbuy.class.php:52
+msgid "团购管理"
+msgstr ""
+
+#: admin.php:93 admin.php:128 admin.php:255 admin.php:257 admin.php:296
+#: admin.php:298 admin.php:323 merchant.php:90 merchant.php:93 merchant.php:114
+#: merchant.php:238 merchant.php:240
+msgid "团购活动列表"
+msgstr ""
+
+#: admin.php:94 admin.php:130 merchant.php:91 merchant.php:116
+msgid "添加团购活动"
+msgstr ""
+
+#: admin.php:100 admin.php:133 admin.php:263
+msgid "概述"
+msgstr ""
+
+#: admin.php:102
+msgid ""
+"欢迎访问ECJia智能后台团购活动列表页面，系统中所有的团购活动都会显示在此列表"
+"中。"
+msgstr ""
+
+#: admin.php:106 admin.php:139 admin.php:269
+msgid "更多信息:"
+msgstr ""
+
+#: admin.php:107
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:团购活动\" target="
+"\"_blank\">关于团购活动帮助文档</a>"
+msgstr ""
+
+#: admin.php:126 merchant.php:112
+msgid "添加团购商品"
+msgstr ""
+
+#: admin.php:127 merchant.php:113
+msgid "设置团购信息"
+msgstr ""
+
+#: admin.php:135
+msgid "欢迎访问ECJia智能后台添加团购活动页面，可以在此页面添加团购活动信息。"
+msgstr ""
+
+#: admin.php:140
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:团购活动#.E6.B7.BB.E5.8A."
+"A0.E5.9B.A2.E8.B4.AD.E6.B4.BB.E5.8A.A8\" target=\"_blank\">关于添加团购活动帮"
+"助文档</a>"
+msgstr ""
+
+#: admin.php:169 merchant.php:144 merchant.php:337
+msgid "您选择的商品目前有一个团购活动正在进行,请选择其他商品！"
+msgstr ""
+
+#: admin.php:178 merchant.php:153 merchant.php:343
+msgid "商品有属性价格时，不可添加为团购商品！"
+msgstr ""
+
+#: admin.php:196 merchant.php:176 merchant.php:365
+msgid "阶梯价格不能小于保证金金额！"
+msgstr ""
+
+#: admin.php:204 merchant.php:185 merchant.php:374
+msgid "请输入有效的价格阶梯！"
+msgstr ""
+
+#: admin.php:209 merchant.php:190 merchant.php:379 merchant.php:429
+msgid "限购数量不能小于价格阶梯中的最大数量！"
+msgstr ""
+
+#: admin.php:218 merchant.php:199 merchant.php:385 merchant.php:408
+msgid "请输入一个有效的团购时间！"
+msgstr ""
+
+#: admin.php:239 merchant.php:221 merchant.php:308
+msgid "返回团购活动列表"
+msgstr ""
+
+#: admin.php:240 merchant.php:222
+msgid "继续添加团购活动"
+msgstr ""
+
+#: admin.php:242 merchant.php:224
+msgid "添加团购活动成功！"
+msgstr ""
+
+#: admin.php:252
+msgid "更新团购商品"
+msgstr ""
+
+#: admin.php:253
+msgid "更新团购信息"
+msgstr ""
+
+#: admin.php:260 merchant.php:243
+msgid "更新团购活动"
+msgstr ""
+
+#: admin.php:265
+msgid ""
+"欢迎访问ECJia智能后台编辑团购活动页面，可以在此页面编辑相应的团购活动信息。"
+msgstr ""
+
+#: admin.php:270
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:团购活动#.E7.BC.96.E8."
+"BE.91.E5.9B.A2.E8.B4.AD.E6.B4.BB.E5.8A.A8\" target=\"_blank\">关于编辑团购活"
+"动帮助文档</a>"
+msgstr ""
+
+#: admin.php:294
+msgid "团购活动详情"
+msgstr ""
+
+#: admin.php:301
+msgid "活动详情"
+msgstr ""
+
+#: admin.php:322 admin.php:324
+msgid "团购订单列表"
+msgstr ""
+
+#: admin.php:328
+msgid "该团购活动不存在"
+msgstr ""
+
+#: admin.php:337
+msgid "未接单"
+msgstr ""
+
+#: admin.php:338
+msgid "已接单"
+msgstr ""
+
+#: admin.php:339 configs/jslang.php:68
+#: modules/groupbuy/order/detail_module.class.php:330
+msgid "取消"
+msgstr ""
+
+#: admin.php:340
+msgid "无效"
+msgstr ""
+
+#: admin.php:341
+msgid "退货"
+msgstr ""
+
+#: admin.php:342
+msgid "已分单"
+msgstr ""
+
+#: admin.php:343
+msgid "部分分单"
+msgstr ""
+
+#: admin.php:348
+msgid "未付款"
+msgstr ""
+
+#: admin.php:349
+msgid "付款中"
+msgstr ""
+
+#: admin.php:350 modules/groupbuy/order/detail_module.class.php:325
+msgid "已付款"
+msgstr ""
+
+#: admin.php:355
+msgid "未发货"
+msgstr ""
+
+#: admin.php:356 modules/groupbuy/order/detail_module.class.php:327
+msgid "配货中"
+msgstr ""
+
+#: admin.php:357 modules/groupbuy/order/detail_module.class.php:328
+msgid "已发货"
+msgstr ""
+
+#: admin.php:358
+msgid "收货确认"
+msgstr ""
+
+#: admin.php:359
+msgid "已发货(部分商品)"
+msgstr ""
+
+#: admin.php:360
+msgid "发货中"
+msgstr ""
+
+#: admin.php:378 merchant.php:499
+msgid "该团购活动已经有订单，不能删除！"
+msgstr ""
+
+#: admin.php:383 merchant.php:504
+msgid "删除成功！"
+msgstr ""
+
+#: admin.php:503 admin.php:697 classes/GroupbuyActivitySucceed.php:399
+#: classes/GroupbuyStatus.php:85 classes/groupbuy_activity.class.php:147
+#: merchant.php:635 merchant.php:830
+msgid "未开始"
+msgstr ""
+
+#: admin.php:504 admin.php:698 classes/GroupbuyActivitySucceed.php:400
+#: classes/GroupbuyStatus.php:86 classes/groupbuy_activity.class.php:148
+#: merchant.php:636 merchant.php:831
+#: modules/groupbuy/order/detail_module.class.php:408
+msgid "进行中"
+msgstr ""
+
+#: admin.php:505 admin.php:699 classes/GroupbuyActivitySucceed.php:401
+#: classes/GroupbuyStatus.php:87 classes/groupbuy_activity.class.php:149
+#: merchant.php:637 merchant.php:832
+msgid "结束未处理"
+msgstr ""
+
+#: admin.php:506 admin.php:508 admin.php:700 admin.php:702
+#: classes/GroupbuyActivitySucceed.php:402
+#: classes/GroupbuyActivitySucceed.php:404 classes/GroupbuyStatus.php:88
+#: classes/groupbuy_activity.class.php:150
+#: classes/groupbuy_activity.class.php:152 merchant.php:638 merchant.php:640
+#: merchant.php:833 merchant.php:835
+msgid "成功结束"
+msgstr ""
+
+#: admin.php:507 admin.php:509 admin.php:701 admin.php:703
+#: classes/GroupbuyActivitySucceed.php:403
+#: classes/GroupbuyActivitySucceed.php:405 classes/GroupbuyStatus.php:89
+#: classes/groupbuy_activity.class.php:151
+#: classes/groupbuy_activity.class.php:153 merchant.php:639 merchant.php:641
+#: merchant.php:834 merchant.php:836
+msgid "失败结束"
+msgstr ""
+
+#: apis/groupbuy_admin_purview_api.class.php:13
+#: apis/groupbuy_merchant_purview_api.class.php:15
+msgid "团购删除"
+msgstr ""
+
+#: apis/groupbuy_merchant_purview_api.class.php:13
+msgid "团购添加"
+msgstr ""
+
+#: apis/groupbuy_merchant_purview_api.class.php:14
+msgid "团购更新"
+msgstr ""
+
+#: classes/GroupbuyActivityFailed.php:122
+#: classes/GroupbuyActivitySucceed.php:246
+msgid "团购失败"
+msgstr ""
+
+#: classes/GroupbuyActivityFailed.php:139
+msgid "系统操作"
+msgstr ""
+
+#: classes/GroupbuyActivityFailed.php:147
+#: classes/GroupbuyActivityFailed.php:191
+msgid "团购活动失败"
+msgstr ""
+
+#: classes/GroupbuyActivityFailed.php:149
+msgid "团购活动失败， 我们会尽快为你退款"
+msgstr ""
+
+#: classes/GroupbuyActivitySucceed.php:214
+#: classes/GroupbuyActivitySucceed.php:217
+msgid "团购活动成功结束"
+msgstr ""
+
+#: classes/GroupbuyActivitySucceed.php:219
+msgid "团购活动成功结束，请尽快支付订单剩余余款"
+msgstr ""
+
+#: classes/GroupbuyActivitySucceed.php:238
+#: classes/GroupbuyActivitySucceed.php:250
+msgid "团购活动成功未支付"
+msgstr ""
+
+#: classes/GroupbuyActivitySucceed.php:252
+msgid "团购活动已成功结束，您已超时未支付，订单自动取消"
+msgstr ""
+
+#: classes/GroupbuyStatus.php:90
+msgid "团购成功完成"
+msgstr ""
+
+#: classes/GroupbuyStatus.php:91
+msgid "团购结束完成"
+msgstr ""
+
+#: classes/GroupbuyStatus.php:95
+msgid "未知状态"
+msgstr ""
+
+#: classes/hooks/merchant_groupbuy.class.php:52
+msgid "团购活动"
+msgstr ""
+
+#: configs/jslang.php:57
+msgid "此操作不可逆，您确定要设置该团购活动成功吗？"
+msgstr ""
+
+#: configs/jslang.php:58
+msgid "此操作不可逆，您确定要设置该团购活动失败吗？"
+msgstr ""
+
+#: configs/jslang.php:59
+msgid "您没有选择团购活动！"
+msgstr ""
+
+#: configs/jslang.php:60
+msgid "您输入的保证金不是数字！"
+msgstr ""
+
+#: configs/jslang.php:61
+msgid "您输入的限购数量不是整数！"
+msgstr ""
+
+#: configs/jslang.php:62
+msgid "您输入的赠送积分数不是整数！"
+msgstr ""
+
+#: configs/jslang.php:63
+msgid "没有搜索到任何商品，请重新搜索"
+msgstr ""
+
+#: configs/jslang.php:64
+msgid "您确定要删除选定的团购活动吗？"
+msgstr ""
+
+#: configs/jslang.php:65
+msgid "通知客户付清余款，以便发货"
+msgstr ""
+
+#: configs/jslang.php:66
+msgid "修改活动结束时间为当前时间？"
+msgstr ""
+
+#: configs/jslang.php:67
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:69
+msgid "请在添加团购商品区域选择团购商品"
+msgstr ""
+
+#: configs/jslang.php:70
+msgid "未搜索到商品信息"
+msgstr ""
+
+#: configs/jslang.php:71
+msgid "请输入开始时间！"
+msgstr ""
+
+#: configs/jslang.php:72
+msgid "请输入结束时间！"
+msgstr ""
+
+#: configs/jslang.php:73
+msgid "请选择商品"
+msgstr ""
+
+#: configs/package.php:52 modules/groupbuy/order/detail_module.class.php:162
+msgid "团购"
+msgstr ""
+
+#: configs/package.php:53
+msgid ""
+"在电子商务飞速发展的当下，团购已然成为最热门的促销活动之一，如何做好团购活动"
+"是每个电商商家都需要考虑的问题。为商家提供更加简单的团购发起方法，并含有普通"
+"团购、分级团购，多种方法，帮助商家在激烈的团购市场中夺得一席之地。"
+msgstr ""
+
+#: merchant.php:79
+msgid "团购活动管理"
+msgstr ""
+
+#: merchant.php:234
+msgid "编辑团购商品"
+msgstr ""
+
+#: merchant.php:235
+msgid "编辑团购信息"
+msgstr ""
+
+#: merchant.php:289 merchant.php:300 merchant.php:312
+msgid "当前状态不能执行该操作！"
+msgstr ""
+
+#: merchant.php:297 merchant.php:309 merchant.php:320
+msgid "编辑团购活动成功"
+msgstr ""
+
+#: merchant.php:353
+msgid "保证金不能为0"
+msgstr ""
+
+#: merchant.php:452
+msgid "编辑团购商品成功！"
+msgstr ""
+
+#: merchant.php:464
+msgid "入驻商家没有操作权限，请登陆商家后台操作！"
+msgstr ""
+
+#: merchant.php:480
+msgid "团购商品名称是"
+msgstr ""
+
+#: merchant.php:485
+msgid "操作失败，请先选择需要删除的团购活动"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:64
+#: modules/groupbuy/order/list_module.class.php:74
+#: modules/groupbuy/order/pay_module.class.php:68
+msgid "参数无效"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:74
+msgid "不存在的信息！"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:156
+msgid "扫码购"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:159
+msgid "自提"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:165
+msgid "配送"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:225
+msgid "已提取"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:229
+msgid "未提取"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:285
+msgid "免费"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:323
+msgid "订单提交成功"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:324
+#: modules/groupbuy/order/detail_module.class.php:372
+msgid "待付款"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:326
+msgid "等待商家接单"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:329
+msgid "配送员已取货"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:331
+msgid "确认收货"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:332
+msgid "订单已完成"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:333
+msgid "已提货"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:364
+msgid "已完成"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:368
+msgid "待收货"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:376
+msgid "待发货"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:380
+msgid "部分发货"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:383
+#: modules/groupbuy/order/detail_module.class.php:414
+msgid "已取消"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:386
+msgid "退款"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:411
+msgid "已退款"
+msgstr ""
+
+#: modules/groupbuy/order/detail_module.class.php:417
+msgid "退款被拒"
+msgstr ""
+
+#: modules/groupbuy/order/list_module.class.php:66
+msgid "当前账号已申请注销，不可查看此数据！"
+msgstr ""
+
+#: modules/groupbuy/order/pay_module.class.php:78
+msgid "订单不属于该用户"
+msgstr ""
+
+#: modules/groupbuy/order/pay_module.class.php:104
+msgid "抱歉，团购活动未开始或已结束！"
+msgstr ""
+
+#: modules/groupbuy/order/pay_module.class.php:107
+msgid "抱歉，团购活动失败结束！"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_order.dwt.php:23
+msgid "请输入订单编号关键词"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_order.dwt.php:24
+msgid "请输入用户名关键词"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_order.dwt.php:25
+#: content/apps/groupbuy/templates/admin/group_buy_list.dwt.php:35
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:45
+msgid "搜索"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_order.dwt.php:36
+msgid "订单号"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_order.dwt.php:37
+#: content/apps/groupbuy/templates/admin/group_buy_list.dwt.php:48
+msgid "商家名称"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_order.dwt.php:38
+msgid "下单时间"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_order.dwt.php:39
+msgid "购买用户信息"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_order.dwt.php:40
+msgid "总金额"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_order.dwt.php:41
+#: content/apps/groupbuy/templates/admin/group_buy_list.dwt.php:51
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:62
+msgid "保证金"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_order.dwt.php:42
+msgid "应付金额"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_order.dwt.php:43
+msgid "订单状态"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_order.dwt.php:50
+msgid "团"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_order.dwt.php:52
+#: content/apps/groupbuy/templates/admin/group_buy_list.dwt.php:67
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:83
+msgid "查看"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_order.dwt.php:70
+#: content/apps/groupbuy/templates/admin/group_buy_list.dwt.php:80
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:98
+msgid "没有找到任何记录"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_list.dwt.php:47
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:59
+msgid "商品名称"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_list.dwt.php:49
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:60
+msgid "限购数量"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_list.dwt.php:50
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:61
+msgid "订单数量"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_list.dwt.php:52
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:63
+msgid "当前价格"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_list.dwt.php:53
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:64
+msgid "结束时间"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_list.dwt.php:54
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:65
+msgid "状态"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_list.dwt.php:68
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:83
+msgid "查看订单"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:27
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:47
+msgid "活动商品："
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:31
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:33
+msgid "活动未开始"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:33
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:35
+msgid "活动进行中"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:51
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:61
+msgid "请先搜索商品,在此生成选项列表..."
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:56
+msgid ""
+"需要先在“添加团购商品”区域进行商品搜索，在此会生成商品列表，然后再选择即可"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:61
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:71
+msgid "保证金："
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:64
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:74
+msgid "买家参与该团购活动时，需要预先支付的金额。"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:69
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:80
+msgid "限购数量："
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:72
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:83
+msgid "达到此数量，团购活动自动结束。0表示没有数量限制。"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:77
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:88
+msgid "活动开始时间："
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:79
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:90
+msgid "请选择活动开始时间"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:84
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:96
+msgid "活动结束时间："
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:86
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:98
+msgid "请选择活动结束时间"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:91
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:104
+msgid "本店售价："
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:98
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:109
+msgid "价格阶梯："
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:103
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:108
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:114
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:122
+msgid "数量达到"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:104
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:109
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:115
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:123
+msgid "享受价格"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:113
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:130
+msgid "价格阶梯的数量指以全部用户团购的最终购买数的价格为准。"
+msgstr ""
+
+#: content/apps/groupbuy/templates/admin/group_buy_info.dwt.php:118
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:136
+msgid "活动说明："
+msgstr ""
+
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:27
+msgid "全部"
+msgstr ""
+
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:36
+msgid "批量操作"
+msgstr ""
+
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:38
+msgid "您确定要这么做吗？"
+msgstr ""
+
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:38
+msgid "请先选中要删除的团购活动记录！"
+msgstr ""
+
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:38
+msgid "删除团购"
+msgstr ""
+
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:43
+msgid "请输入团购商品名称"
+msgstr ""
+
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:81
+msgid "编辑"
+msgstr ""
+
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:86
+msgid "您确定要删除这条记录吗？"
+msgstr ""
+
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:86
+msgid "删除"
+msgstr ""
+
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:29
+msgid "团购状态："
+msgstr ""
+
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:49
+msgid "商品关键字："
+msgstr ""
+
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:57
+msgid "选择活动商品："
+msgstr ""
+
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:146
+msgid "更新"
+msgstr ""
+
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:151
+msgid "结束活动"
+msgstr ""
+
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:155
+msgid "活动成功"
+msgstr ""
+
+#: content/apps/groupbuy/templates/merchant/group_buy_info.dwt.php:156
+msgid "活动失败"
+msgstr ""

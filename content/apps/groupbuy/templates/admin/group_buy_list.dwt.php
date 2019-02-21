@@ -32,7 +32,7 @@
 	<form method="post" action="{$search_action}{if $smarty.get.type}&type={$smarty.get.type}{/if}" name="searchForm">
 		<div class="choose_list f_r" >
 			<input type="text" name="keywords" value="{$groupbuy_list.filter.keywords}" placeholder="请输入团购商品名称"/>
-			<button class="btn search-btn" type="button">{t}搜索{/t}</button>
+			<button class="btn search-btn" type="button">{t domain="groupbuy"}搜索{/t}</button>
 		</div>
 	</form>
 </div>
@@ -44,14 +44,14 @@
 				<thead>
 					<tr data-sorthref='{RC_Uri::url("groupbuy/admin/init", "{if $smarty.get.type}&type={$smarty.get.type}{/if}")}'>
 						<th class="table_checkbox"><input type="checkbox" name="select_rows" data-toggle="selectall" data-children=".checkbox"/></th>
-						<th class="w200">{t}商品名称{/t}</th>
-						<th class="w100">{t}商家名称{/t}</th>
-						<th class="w70">{t}限购数量{/t}</th>
-						<th class="w70">{t}订单数量{/t}</th>
-				    	<th class="w70">{t}保证金{/t}</th>
-				    	<th class="w70">{t}当前价格{/t}</th>
-				    	<th class="w100" data-toggle="sortby" data-sortby="end_time">{t}结束时间{/t}</th>
-				    	<th class="w80">{t}状态{/t}</th>
+						<th class="w200">{t domain="groupbuy"}商品名称{/t}</th>
+						<th class="w100">{t domain="groupbuy"}商家名称{/t}</th>
+						<th class="w70">{t domain="groupbuy"}限购数量{/t}</th>
+						<th class="w70">{t domain="groupbuy"}订单数量{/t}</th>
+				    	<th class="w70">{t domain="groupbuy"}保证金{/t}</th>
+				    	<th class="w70">{t domain="groupbuy"}当前价格{/t}</th>
+				    	<th class="w100" data-toggle="sortby" data-sortby="end_time">{t domain="groupbuy"}结束时间{/t}</th>
+				    	<th class="w80">{t domain="groupbuy"}状态{/t}</th>
 	                </tr>
 				</thead>
 				<tbody>
@@ -64,8 +64,8 @@
 							{$list.goods_name}<br>
 							<div class="edit-list">
 							{assign var=edit_url value=RC_Uri::url('groupbuy/admin/view',"id={$list.act_id}")}
-							<a class="data-pjax" href="{$edit_url}{if $smarty.get.page}&page={$smarty.get.page}{/if}" title="{t}查看{/t}">{t}活动详情{/t}</a>&nbsp;|&nbsp;
-							<a class="data-pjax" href='{RC_Uri::url("groupbuy/admin/view_order","group_buy_id={$list.act_id}")}' title="{t}查看订单{/t}">{t}查看订单{/t}</a> 
+							<a class="data-pjax" href="{$edit_url}{if $smarty.get.page}&page={$smarty.get.page}{/if}" title="{t domain="groupbuy"}查看{/t}">{t domain="groupbuy"}活动详情{/t}</a>&nbsp;|&nbsp;
+							<a class="data-pjax" href='{RC_Uri::url("groupbuy/admin/view_order","group_buy_id={$list.act_id}")}' title="{t domain="groupbuy"}查看订单{/t}">{t domain="groupbuy"}查看订单{/t}</a>
 							</div>
 						</td>
 						<td class="ecjiafc-red">{$list.merchants_name}</td>
@@ -77,7 +77,7 @@
 						<td>{$list.cur_status}</td>
 					</tr>
 					<!-- {foreachelse} -->
-					<tr><td class="no-records" colspan="10">{t}没有找到任何记录{/t}</td></tr>
+					<tr><td class="no-records" colspan="10">{t domain="groupbuy"}没有找到任何记录{/t}</td></tr>
 				<!-- {/foreach} -->
 				</tbody>
 			</table>

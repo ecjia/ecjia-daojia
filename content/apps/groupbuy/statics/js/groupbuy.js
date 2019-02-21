@@ -45,7 +45,7 @@
 					var $form = $("form[name='theForm']");
 					var submitname = $(this).attr('name');
 					if (submitname == 'finish') {
-						smoke.confirm("修改活动结束时间为当前时间？", function (e) {
+						smoke.confirm(js_lang.notice_finish, function (e) {
 							if (e) {
 								$form.ajaxSubmit({
 									dataType: "json",
@@ -58,11 +58,11 @@
 								});
 							}
 						}, {
-							ok: '确定',
-							cancel: '取消'
+							ok: js_lang.ok,
+							cancel: js_lang.cancel
 						});
 					} else if (submitname == 'succeed') {
-						smoke.confirm("此操作不可逆，您确定要设置该团购活动成功吗？", function (e) {
+						smoke.confirm(js_lang.succeed_confirm, function (e) {
 							if (e) {
 								$form.ajaxSubmit({
 									dataType: "json",
@@ -75,11 +75,11 @@
 								});
 							}
 						}, {
-							ok: '确定',
-							cancel: '取消'
+							ok: js_lang.ok,
+							cancel: js_lang.cancel
 						});
 					} else if (submitname == 'sms') {
-						smoke.confirm("通知客户付清余款，以便发货", function (e) {
+						smoke.confirm(js_lang.notice_mail, function (e) {
 							if (e) {
 								$form.ajaxSubmit({
 									dataType: "json",
@@ -92,11 +92,11 @@
 								});
 							}
 						}, {
-							ok: '确定',
-							cancel: '取消'
+							ok: js_lang.ok,
+							cancel: js_lang.cancel
 						});
 					} else if (submitname == 'fail') {
-						smoke.confirm("此操作不可逆，您确定要设置该团购活动失败吗？", function (e) {
+						smoke.confirm(js_lang.fail_confirm, function (e) {
 							if (e) {
 								$form.ajaxSubmit({
 									dataType: "json",
@@ -109,8 +109,8 @@
 								});
 							}
 						}, {
-							ok: '确定',
-							cancel: '取消'
+							ok: js_lang.ok,
+							cancel: js_lang.cancel
 						});
 					}
 				});
@@ -137,7 +137,7 @@
 					},
 					messages: {
 						goods_id: {
-							min: '请在添加团购商品区域选择团购商品！'
+							min: js_lang.select_groupbuy_goods
 						},
 						start_time: {
 							required: "",
@@ -193,7 +193,7 @@
 						$('.selectgoods').append(opt);
 					};
 				} else {
-					$('.selectgoods').append('<option value="0">未搜索到商品信息</option>');
+					$('.selectgoods').append('<option value="0">'+ js_lang.select_goods_empty +'</option>');
 				}
 
 				$('.selectgoods').trigger("liszt:updated").trigger("change");

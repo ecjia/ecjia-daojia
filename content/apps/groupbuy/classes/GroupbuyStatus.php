@@ -1,4 +1,5 @@
 <?php
+
 //
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
@@ -44,11 +45,60 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+/**
+ * Created by PhpStorm.
+ * User: Administrator
+ * Date: 19/2/21 021
+ * Time: 9:54
+ */
+namespace Ecjia\App\Groupbuy;
 
-return array(
-	'groupbuy' 			=> '团购',
-	'groupbuy_desc' 	=> '在电子商务飞速发展的当下，团购已然成为最热门的促销活动之一，如何做好团购活动是每个电商商家都需要考虑的问题。为商家提供更加简单的团购发起方法，并含有普通团购、分级团购，多种方法，帮助商家在激烈的团购市场中夺得一席之地。'
-);
+class GroupbuyStatus {
+    //未开始 0
+    const GBS_PRE_START = GBS_PRE_START;
 
-// end
+    //进行中 1
+    const GBS_UNDER_WAY = GBS_UNDER_WAY;
+
+    //已结束(未处理) 2
+    const GBS_FINISHED = GBS_FINISHED;
+
+    //团购成功 3
+    const GBS_SUCCEED = GBS_SUCCEED;
+
+    //团购失败 4
+    const GBS_FAIL = GBS_FAIL;
+
+    //团购成功（处理完成）13
+    const GBS_SUCCEED_COMPLETE = GBS_SUCCEED_COMPLETE;
+
+    //团购失败（处理完成）14
+    const GBS_FAIL_COMPLETE = GBS_FAIL_COMPLETE;
+
+    public function __construct()
+    {
+
+    }
+
+    public static function getStatusLabel($groupbuy_status) {
+        $statusArr = [
+            GBS_PRE_START        => __('未开始', 'groupbuy'),
+            GBS_UNDER_WAY        => __('进行中', 'groupbuy'),
+            GBS_FINISHED         => __('结束未处理', 'groupbuy'),
+            GBS_SUCCEED          => __('成功结束', 'groupbuy'),
+            GBS_FAIL             => __('失败结束', 'groupbuy'),
+            GBS_SUCCEED_COMPLETE => __('团购成功完成', 'groupbuy'),
+            GBS_FAIL_COMPLETE    => __('团购结束完成', 'groupbuy'),
+        ];
+
+        if(! array_key_exists($groupbuy_status, $statusArr)) {
+            return __('未知状态', 'groupbuy');
+        }
+
+        return array_get($statusArr, $groupbuy_status);
+
+    }
+
+
+}
+

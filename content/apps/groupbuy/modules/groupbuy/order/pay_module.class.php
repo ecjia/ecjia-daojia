@@ -65,7 +65,7 @@ class groupbuy_order_pay_module extends api_front implements api_interface {
 		$wxpay_open_id = $this->requestData('wxpay_open_id', null);
 		
 		if (!$order_id) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'groupbuy'));
 		}
 		
 		/* 订单详情 */
@@ -75,7 +75,7 @@ class groupbuy_order_pay_module extends api_front implements api_interface {
 		}
 		
 		if ($_SESSION['user_id'] != $order['user_id']) {
-			return new ecjia_error('error_order_detail', RC_Lang::get('orders::order.error_order_detail'));
+			return new ecjia_error('error_order_detail', __('订单不属于该用户', 'groupbuy'));
 		}
 		
 		if ($order['extension_code'] == 'group_buy' && $order['extension_id'] > 0) {
@@ -101,10 +101,10 @@ class groupbuy_order_pay_module extends api_front implements api_interface {
 				//2.活动失败结束
 				if ($group_buy['is_finished'] == 0) {
 					if ($now < $group_buy['start_date'] || $now > $group_buy['end_date']) {
-						return new ecjia_error('groupbuy_activity_error', '抱歉，团购活动未开始或已结束！');
+						return new ecjia_error('groupbuy_activity_error', __('抱歉，团购活动未开始或已结束！', 'groupbuy'));
 					}
 				} elseif ($group_buy['is_finished'] == GBS_FAIL) {
-					return new ecjia_error('groupbuy_activity_failed', '抱歉，团购活动失败结束！');
+					return new ecjia_error('groupbuy_activity_failed', __('抱歉，团购活动失败结束！', 'groupbuy'));
 				}
 			}
 		}

@@ -63,7 +63,7 @@ class groupbuy_order_list_module extends api_front implements api_interface {
     	if (version_compare($api_version, '1.25', '>=')) {
     		$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
     		if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
-    			return new ecjia_error('account_status_error', '当前账号已申请注销，不可查看此数据！');
+    			return new ecjia_error('account_status_error', __('当前账号已申请注销，不可查看此数据！', 'groupbuy'));
     		}
     	}
     	
@@ -71,7 +71,7 @@ class groupbuy_order_list_module extends api_front implements api_interface {
 		$type = $this->requestData('type', '');
 		$store_id = $this->requestData('store_id', 0);
 		if (!empty($type) && !in_array($type, array('await_pay', 'await_ship', 'shipped', 'finished', 'unconfirmed', 'whole', 'allow_comment'))) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'groupbuy'));
 		}
 		//type whole全部，await_pay待付款，await_ship待发货，shipped待收货，allow_comment待评价
 		$size = $this->requestData('pagination.count', 15);

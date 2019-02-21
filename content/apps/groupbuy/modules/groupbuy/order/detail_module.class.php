@@ -61,7 +61,7 @@ class groupbuy_order_detail_module extends api_front implements api_interface {
 		RC_Loader::load_app_func('admin_order', 'orders');
 		$order_id = $this->requestData('order_id', 0);
 		if (!$order_id) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'groupbuy'));
 		}
 
 		/* 订单详情 */
@@ -71,7 +71,7 @@ class groupbuy_order_detail_module extends api_front implements api_interface {
 			return $order;
 		}
 		if (empty($order)) {
-			return new ecjia_error('not_exist_info', "不存在的信息！");
+			return new ecjia_error('not_exist_info', __("不存在的信息！", 'groupbuy'));
 		}
 		
 		/*发票抬头和发票识别码处理*/
@@ -153,16 +153,16 @@ class groupbuy_order_detail_module extends api_front implements api_interface {
 		$order['order_id'] 			= intval($order['order_id']);
 		if (in_array($order['extension_code'], array('storebuy', 'cashdesk'))) {
 			$order['order_mode'] = 'storebuy';
-			$order['label_order_mode'] = '扫码购';
+			$order['label_order_mode'] = __('扫码购', 'groupbuy');
 		} elseif ($order['extension_code'] == 'storepickup') {
 			$order['order_mode'] = 'storepickup';
-			$order['label_order_mode'] = '自提';
+			$order['label_order_mode'] = __('自提', 'groupbuy');
 		} elseif ($order['extension_code'] == 'group_buy') {
 			$order['order_mode'] = 'groupbuy';
-			$order['label_order_mode'] = '团购';
+			$order['label_order_mode'] = __('团购', 'groupbuy');
 		} else {
 			$order['order_mode'] = 'default';
-			$order['label_order_mode'] = '配送';
+			$order['label_order_mode'] = __('配送', 'groupbuy');
 		}
 		$order['user_id'] 			= intval($order['user_id']);
 		$order['order_status'] 		= intval($order['order_status']);
@@ -222,11 +222,11 @@ class groupbuy_order_detail_module extends api_front implements api_interface {
 			$order['pickup_code'] = $pickup_info['meta_value'];
 			if ($order['shipping_status'] > SS_UNSHIPPED) {
 				$order['pickup_status'] = 1;
-				$order['label_pickup_status'] = '已提取';
+				$order['label_pickup_status'] = __('已提取', 'groupbuy');
 				$order['pickup_code_expiretime'] = '';
 			} else{
 				$order['pickup_status'] = 0;
-				$order['label_pickup_status'] = '未提取';
+				$order['label_pickup_status'] = __('未提取', 'groupbuy');
 				$order['pickup_code_expiretime'] = '';
 			}
 		}
@@ -282,7 +282,7 @@ class groupbuy_order_detail_module extends api_front implements api_interface {
 						'goods_attr'	=> $attr,
 						'goods_number'	=> $v['goods_number'],
 						'subtotal'		=> price_format($v['subtotal'], false),
-						'formated_shop_price' => $v['goods_price'] > 0 ? price_format($v['goods_price'], false) : __('免费'),
+						'formated_shop_price' => $v['goods_price'] > 0 ? price_format($v['goods_price'], false) : __('免费', 'groupbuy'),
 						'is_commented'	=> $v['is_commented'],
 						'comment_rank'  => empty($v['comment_rank']) ? 0 : intval($v['comment_rank']),
 						'comment_content' => empty($v['comment_content']) ? '' : $v['comment_content'],
@@ -320,17 +320,17 @@ class groupbuy_order_detail_module extends api_front implements api_interface {
 		$order['order_status_log'] = array();
 		if (!empty($order_status_log)) {
 			$labe_order_status = array(
-				'place_order'	=> RC_Lang::get('orders::order.place_order'),//下单 
-				'unpay'			=> RC_Lang::get('orders::order.unpay'), 
-				'payed' 		=> RC_Lang::get('orders::order.payed'),
-				'merchant_process' => RC_Lang::get('orders::order.merchant_process'),//等待接单
-				'shipping' 		=> RC_Lang::get('orders::order.shipping'), 
-				'shipped' 		=> RC_Lang::get('orders::order.shipped'),
-				'express_user_pickup'	=> RC_Lang::get('orders::order.express_user_pickup'),
-				'cancel'		=> RC_Lang::get('orders::order.order_cancel'),
-				'confirm_receipt'	=> RC_Lang::get('orders::order.confirm_receipted'),
-				'finished'		=> RC_Lang::get('orders::order.order_finished'),
-				'pickup_success'=> RC_Lang::get('orders::order.order_pickup_success'),
+				'place_order'	=> __('订单提交成功', 'groupbuy'),//下单
+				'unpay'			=> __('待付款', 'groupbuy'),
+				'payed' 		=> __('已付款', 'groupbuy'),
+				'merchant_process' => __('等待商家接单', 'groupbuy'),//等待接单
+				'shipping' 		=> __('配货中', 'groupbuy'),
+				'shipped' 		=> __('已发货', 'groupbuy'),
+				'express_user_pickup'	=> __('配送员已取货', 'groupbuy'),
+				'cancel'		=> __('取消', 'groupbuy'),
+				'confirm_receipt'	=> __('确认收货', 'groupbuy'),
+				'finished'		=> __('订单已完成', 'groupbuy'),
+				'pickup_success'=> __('已提货', 'groupbuy'),
 			);
 			
 			foreach ($order_status_log as $val) {
@@ -361,29 +361,29 @@ class groupbuy_order_detail_module extends api_front implements api_interface {
 		
 		if (in_array($order_status, array(OS_CONFIRMED, OS_SPLITED)) && in_array($shipping_status, array(SS_RECEIVED)) && in_array($pay_status, array(PS_PAYED, PS_PAYING)))
 		{
-			$label_order_status = RC_Lang::get('orders::order.cs.'.CS_FINISHED);
+			$label_order_status = __('已完成', 'groupbuy');
 			$status_code = 'finished';
 		}elseif (in_array($shipping_status, array(SS_SHIPPED)))
 		{
-			$label_order_status = RC_Lang::get('orders::order.label_await_confirm');
+			$label_order_status = __('待收货', 'groupbuy');
 			$status_code = 'shipped';
 		}elseif (in_array($order_status, array(OS_CONFIRMED, OS_SPLITED, OS_UNCONFIRMED)) && in_array($pay_status, array(PS_UNPAYED)) && (in_array($shipping_status, array(SS_SHIPPED, SS_RECEIVED)) || !$is_cod))
 		{
-			$label_order_status = RC_Lang::get('orders::order.label_await_pay');
+			$label_order_status = __('待付款', 'groupbuy');
 			$status_code = 'await_pay';
 		}elseif (in_array($order_status, array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART)) && in_array($shipping_status, array(SS_UNSHIPPED, SS_PREPARING, SS_SHIPPED_ING)) && (in_array($pay_status, array(PS_PAYED, PS_PAYING)) || $is_cod))
 		{
-			$label_order_status = RC_Lang::get('orders::order.label_await_ship');
+			$label_order_status = __('待发货', 'groupbuy');
 			$status_code = 'await_ship';
 		}elseif (in_array($order_status, array(OS_SPLITING_PART)) && in_array($shipping_status, array(SS_SHIPPED_PART)))
 		{
-			$label_order_status = RC_Lang::get('orders::order.label_shipped_part');
+			$label_order_status = __('部分发货', 'groupbuy');
 			$status_code = 'shipped_part';
 		}elseif (in_array($order_status, array(OS_CANCELED))) {
-			$label_order_status = RC_Lang::get('orders::order.label_canceled');
+			$label_order_status = __('已取消', 'groupbuy');
 			$status_code = 'canceled';
 		}elseif (in_array($order_status, array(OS_RETURNED))) {
-			$label_order_status = RC_Lang::get('orders::order.label_refunded');
+			$label_order_status = __('退款', 'groupbuy');
 			$status_code = 'refunded';
 		}
 	
@@ -405,16 +405,16 @@ class groupbuy_order_detail_module extends api_front implements api_interface {
 		//1进行中2已退款3已取消
 		if (in_array($status, array(Ecjia\App\Refund\RefundStatus::ORDER_UNCHECK, Ecjia\App\Refund\RefundStatus::ORDER_AGREE)) && $refund_status !=Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED) {
 			$refund_status_code = 'going';
-			$label_refund_staus = '进行中';
+			$label_refund_staus = __('进行中', 'groupbuy');
 		} elseif (in_array($status, array(Ecjia\App\Refund\RefundStatus::ORDER_AGREE)) && in_array($refund_status, array(Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED))) {
 			$refund_status_code = 'refunded';
-			$label_refund_staus = '已退款';
+			$label_refund_staus = __('已退款', 'groupbuy');
 		} elseif (in_array($status, array(Ecjia\App\Refund\RefundStatus::ORDER_CANCELED))) {
 			$refund_status_code = 'canceled';
-			$label_refund_staus = '已取消';
+			$label_refund_staus = __('已取消', 'groupbuy');
 		}elseif ($status == Ecjia\App\Refund\RefundStatus::ORDER_REFUSED) {
 			$refund_status_code = 'refused';
-			$label_refund_staus = '退款被拒';
+			$label_refund_staus = __('退款被拒', 'groupbuy');
 		}
 		$result['refund_status_code'] = $refund_status_code;
 		$result['label_refund_status'] = $label_refund_staus;

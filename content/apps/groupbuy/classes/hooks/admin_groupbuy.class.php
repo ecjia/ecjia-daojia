@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class groupbuy_admin_plugin {
 	
 	static public function groupbuy_admin_menu_api($menus) {
-	    $menu = ecjia_admin::make_admin_menu('05_groupbuy_list', __('团购管理'), RC_Uri::url('groupbuy/admin/init'), 5)->add_purview('groupbuy_manage');
+	    $menu = ecjia_admin::make_admin_menu('05_groupbuy_list', __('团购管理', 'groupbuy'), RC_Uri::url('groupbuy/admin/init'), 5)->add_purview('groupbuy_manage');
 	    $menus->add_submenu($menu);
 	    return $menus;
 	}

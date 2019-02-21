@@ -44,17 +44,34 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+
+/**
+ * js语言包设置
+ */
+
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class groupbuy_merchant_hook {
-	
-	public static function groupbuy_merchant_menu_api($menus) {
-	    $menu = ecjia_merchant::make_admin_menu('04_groupbuy_list', __('团购活动', 'groupbuy'), RC_Uri::url('groupbuy/merchant/init'), 4)->add_purview('groupbuy_manage')->add_icon('fa-table');
-	    $menus->add_submenu($menu);
-	    return $menus;
-	}
-}
+return array(
+    //groupbuy
+    'groupbuy_page' =>array(
+        'succeed_confirm'       => __('此操作不可逆，您确定要设置该团购活动成功吗？', 'groupbuy'),
+        'fail_confirm'          => __('此操作不可逆，您确定要设置该团购活动失败吗？', 'groupbuy'),
+        'error_goods_null'      => __('您没有选择团购活动！', 'groupbuy'),
+        'error_deposit'         => __('您输入的保证金不是数字！', 'groupbuy'),
+        'error_restrict_amount' => __('您输入的限购数量不是整数！', 'groupbuy'),
+        'error_gift_integral'   => __('您输入的赠送积分数不是整数！', 'groupbuy'),
+        'search_is_null'        => __('没有搜索到任何商品，请重新搜索', 'groupbuy'),
+        'batch_drop_confirm'    => __('您确定要删除选定的团购活动吗？', 'groupbuy'),
+        'notice_mail'           => __('通知客户付清余款，以便发货', 'groupbuy'),
+        'notice_finish'         => __('修改活动结束时间为当前时间？', 'groupbuy'),
+        'ok'                    => __('确定', 'groupbuy'),
+        'cancel'                => __('取消', 'groupbuy'),
+        'select_groupbuy_goods' => __('请在添加团购商品区域选择团购商品', 'groupbuy'),
+        'select_goods_empty'    => __('未搜索到商品信息', 'groupbuy'),
+        'start_time_required'   => __('请输入开始时间！', 'groupbuy'),
+        'end_time_required'     => __('请输入结束时间！', 'groupbuy'),
+        'select_product'     => __('请选择商品', 'groupbuy'),
+    ),
 
-RC_Hook::add_filter( 'promotion_merchant_menu_api', array('groupbuy_merchant_hook', 'groupbuy_merchant_menu_api') );
-
-// end
+);
+//end

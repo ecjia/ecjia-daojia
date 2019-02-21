@@ -49,11 +49,11 @@ defined('IN_ROYALCMS') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.groupbuy',
 	'directory' 	=> 'groupbuy',
-	'name'			=> 'groupbuy',
-	'description' 	=> 'groupbuy_desc',			/* 描述对应的语言项 */
+	'name'			=> __('团购', 'groupbuy'),
+	'description' 	=> __('在电子商务飞速发展的当下，团购已然成为最热门的促销活动之一，如何做好团购活动是每个电商商家都需要考虑的问题。为商家提供更加简单的团购发起方法，并含有普通团购、分级团购，多种方法，帮助商家在激烈的团购市场中夺得一席之地。', 'groupbuy'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.25.0',					/* 版本号 */
+	'version' 		=> '1.27.4',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Groupbuy',
     'provider'      => 'GroupbuyServiceProvider',
