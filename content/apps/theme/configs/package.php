@@ -52,11 +52,11 @@ defined('IN_ROYALCMS') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.theme',
 	'directory' 	=> 'theme',
-	'name'			=> 'theme',
-	'description' 	=> 'theme_desc',		    /* 描述对应的语言项 */
+	'name'			=> __('主题', 'theme'),
+	'description' 	=> __('方便快捷切换不同主题', 'theme'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.27.1',					/* 版本号 */
+	'version' 		=> '1.27.4',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Theme',
     'provider'      => 'ThemeServiceProvider',

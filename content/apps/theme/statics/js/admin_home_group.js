@@ -16,14 +16,22 @@
 		save_sort: function() {
 			$('.save-sort').on('click', function(e) {
 				e.preventDefault();
-					sort_url = $(this).attr('data-sorturl');
-				var info = [];
+
+				var sort_url = $(this).attr('data-sorturl');
+
+				var modules = [];
+
 				$('.opened li').each(function(i) {
 					var $this = $(this);
-					var codes = $this.attr('code');
-					info.push(codes);
+					var code = $this.attr('code');
+					if (code) {
+						modules.push(code);
+					}
 				});
-				$.get(sort_url, {info}, function(data) {
+
+				$.post(sort_url, {
+					'modules' : modules
+				}, function(data) {
 					ecjia.admin.showmessage(data);
 				})
 			});

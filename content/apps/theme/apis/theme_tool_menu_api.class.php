@@ -53,7 +53,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class theme_tool_menu_api extends Component_Event_Api {
 
     public function call(&$options) {
-        $menus = ecjia_admin::make_admin_menu('22_home_group_set', '首页模块设置', RC_Uri::url('theme/admin_home_group_sort/init'), 22)->add_purview('home_group_manage');
+        $menus = ecjia_admin::make_admin_menu('22_home_group_set', '首页模块设置', RC_Uri::url('theme/admin_home_module/init'), 22)->add_purview('home_group_manage');
         return $menus;
     }
 }

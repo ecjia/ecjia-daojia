@@ -50,22 +50,24 @@
 
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class admin_home_group_sort extends ecjia_admin {
+class admin_home_module extends ecjia_admin {
 
 	public function __construct() {
 		parent::__construct();
 
 		RC_Style::enqueue_style('chosen');
 		RC_Style::enqueue_style('uniform-aristo');
+
+        RC_Style::enqueue_style('dragslot', RC_App::apps_url('statics/css/dragslot.css', __FILE__), array());
+        RC_Style::enqueue_style('style', RC_App::apps_url('statics/css/style.css', __FILE__), array());
+
 		RC_Script::enqueue_script('jquery-chosen');
 		RC_Script::enqueue_script('smoke');
 		RC_Script::enqueue_script('jquery-uniform');
 
-		RC_Script::enqueue_script('dragslot', RC_App::apps_url('statics/js/dragslot.js', __FILE__));
-		RC_Script::enqueue_script('admin_home_group', RC_App::apps_url('statics/js/admin_home_group.js', __FILE__));
-		RC_Style::enqueue_style('dragslot', RC_App::apps_url('statics/css/dragslot.css', __FILE__), array());
-		RC_Style::enqueue_style('style', RC_App::apps_url('statics/css/style.css', __FILE__), array());
-		
+		RC_Script::enqueue_script('dragslot', RC_App::apps_url('statics/js/dragslot.js', __FILE__), array(), false, 1);
+		RC_Script::enqueue_script('admin_home_group', RC_App::apps_url('statics/js/admin_home_group.js', __FILE__), array('ecjia-admin'), false, 1);
+
 	}
 
 	/**
@@ -76,12 +78,14 @@ class admin_home_group_sort extends ecjia_admin {
 
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('首页模块管理')));
 		$this->assign('ur_here', __('首页模块管理'));
-		
+
+		$platform = $this->request->input('platform', 'default');
+		$client = $this->request->input('client', 'all');
+
 		//在使用的模块
-		$useing_group = [];
-		$useing_group_code = ecjia::config('home_visual_page');
-		$useing_group_code = unserialize($useing_group_code);
-		
+		$useing_group_code = \Ecjia\App\Theme\ComponentPlatform::getUseingHomeComponentByPlatform($platform, $client);
+        $useing_group = [];
+
 		RC_Hook::add_filter('ecjia_theme_component_filter', function ($components) use ($useing_group_code, &$useing_group) {
 			foreach ($components as $key => $val) {
 				if (in_array($key, $useing_group_code)) {
@@ -93,28 +97,47 @@ class admin_home_group_sort extends ecjia_admin {
 			}
 			return $components;
 		});
-		
-	
-		//首页所有模块
-		$factory = new Ecjia\App\Theme\Factory();
-		$components = $factory->getComponents();
-		
-		usort($useing_group, function($a, $b) {
-			if($a->getSort() > $b->getSort()) {
-				return 1;
-			}
-			elseif($a->getSort() < $b->getSort()) {
-				return -1;
-			}
-			else {
-				return 0;
-			}
-		});
-		
+
+
+        //首页所有模块
+        $components = \Ecjia\App\Theme\ComponentPlatform::getAvaliableHomeComponentByPlatform($platform);
+
+        $useing_group = array_sort($useing_group, function($item) {
+            return $item->getSort();
+        });
+
+		$platform_groups = \Ecjia\App\Theme\ComponentPlatform::getPlatformGroups();
+
+		$platform_clients = \Ecjia\App\Theme\ComponentPlatform::getPlatformClents($platform);
+		if (count($platform_clients) > 1) {
+		    array_unshift($platform_clients, [
+		        'device_client' => 'all',
+                'device_name' => __('统一设置', 'theme'),
+            ]);
+        }
+
+        ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice(__('<strong>温馨提示：</strong>首页模块化功能目前仅支持APP端和H5端的平台模板模式。'), 'alert-info'));
+
+		if (empty($useing_group)) {
+		    if ($platform != 'default') {
+
+		        if ($client != 'all') {
+                    ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice('当前产品平台客户端未自定义首页模块数据，将使用当前平台的统一设置。', 'alert-warning'));
+                } else {
+                    ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice('当前产品平台未自定义首页模块数据，将使用【默认全局】的设置。', 'alert-warning'));
+                }
+            }
+
+        }
+
 		$this->assign('avaliable_group', $components);
 		$this->assign('useing_group', $useing_group);
-		
-		$this->display('home_group_sort.dwt');
+		$this->assign('platform_groups', $platform_groups);
+		$this->assign('current_platform', $platform);
+		$this->assign('platform_clients', $platform_clients);
+		$this->assign('current_client', $client);
+
+		$this->display('home_group_module.dwt');
 	}
 	
 	
@@ -123,28 +146,18 @@ class admin_home_group_sort extends ecjia_admin {
 	 */
 	public function save_sort() {
 		$this->admin_priv('home_group_manage', ecjia::MSGTYPE_JSON);
-	
-		$sort = $_GET['info'];
-		$sort_last = [];
-	
-		if (!empty($sort)) {
-			foreach ($sort as $k => $v) {
-					if (!empty($v)) {
-						$sort_last[] = $v;
-					}
-			}
-			$sort_last = serialize($sort_last);
-		}
-		if (!empty($sort_last)) {
-// 			if (!ecjia::config('home_visual_page', ecjia::CONFIG_CHECK)) {
-// 				ecjia_config::instance()->insert_config('text', 'home_visual_page', '', array('type' => 'text'));
-// 			}
-			ecjia_config::instance()->write_config('home_visual_page', $sort_last);
-		} else {
-			ecjia_config::instance()->write_config('home_visual_page', '');
-		}
+
+		$modules = $this->request->input('modules');
+        $platform = $this->request->input('platform', 'default');
+        $client = $this->request->input('client', 'all');
+
+		$result = \Ecjia\App\Theme\ComponentPlatform::saveHomeComponentByPlatform($modules, $platform, $client);
+		if (is_ecjia_error($result)) {
+		    return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
 		
-		return $this->showmessage('保存排序成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('theme/admin_home_group_sort/init')));
+		return $this->showmessage('保存排序成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,
+            array('pjaxurl' => RC_Uri::url('theme/admin_home_module/init', ['platform' => $platform, 'client' => $client])));
 	}
 	
 }

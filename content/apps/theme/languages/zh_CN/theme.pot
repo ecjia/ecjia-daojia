@@ -1,0 +1,2444 @@
+# Copyright (C) 2019 Ecjia App theme
+# This file is distributed under the same license as the Ecjia App theme package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App theme 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:58:49+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin_home_module.php:79 admin_home_module.php:80
+msgid "首页模块管理"
+msgstr ""
+
+#: admin_home_module.php:115
+msgid "统一设置"
+msgstr ""
+
+#: admin_home_module.php:119
+msgid ""
+"<strong>温馨提示：</strong>首页模块化功能目前仅支持APP端和H5端的平台模板模"
+"式。"
+msgstr ""
+
+#: admin_layout.php:88 admin_layout_backup.php:76 admin_library.php:92
+#: admin_template.php:84
+msgid "外观"
+msgstr ""
+
+#: admin_layout.php:105 admin_layout.php:106
+#: apis/theme_skin_menu_api.class.php:58
+msgid "布局管理"
+msgstr ""
+
+#: admin_layout.php:248
+msgid "设置小工具内容成功。"
+msgstr ""
+
+#: admin_layout.php:264
+msgid "移除小工具成功。"
+msgstr ""
+
+#: admin_layout.php:496
+msgid "返回上一页"
+msgstr ""
+
+#: admin_layout.php:497
+msgid "设置模板内容成功。"
+msgstr ""
+
+#: admin_layout.php:499
+msgid "模板文件 %s 无法修改"
+msgstr ""
+
+#: admin_layout_backup.php:78 apis/theme_skin_menu_api.class.php:60
+msgid "布局设置备份"
+msgstr ""
+
+#: admin_layout_backup.php:87
+msgid "备份"
+msgstr ""
+
+#: admin_layout_backup.php:88
+msgid "模板布局备份"
+msgstr ""
+
+#: admin_layout_backup.php:116 admin_layout_backup.php:184
+msgid "备份布局设置"
+msgstr ""
+
+#: admin_layout_backup.php:123
+msgid "没有选择任何模板文件"
+msgstr ""
+
+#: admin_layout_backup.php:127
+msgid "备份注释 %s 已经用过，请换个注释名称"
+msgstr ""
+
+#: admin_layout_backup.php:132
+msgid "备份设置成功"
+msgstr ""
+
+#: admin_layout_backup.php:146
+msgid "备份模板设置"
+msgstr ""
+
+#: admin_layout_backup.php:148
+msgid "备份删除成功"
+msgstr ""
+
+#: admin_layout_backup.php:158
+msgid "还原"
+msgstr ""
+
+#: admin_layout_backup.php:159
+msgid "模板布局还原"
+msgstr ""
+
+#: admin_layout_backup.php:189
+msgid "还原布局设置"
+msgstr ""
+
+#: admin_layout_backup.php:191
+msgid "恢复备份成功"
+msgstr ""
+
+#: admin_layout_backup.php:196
+msgid "备份数据不存在或参数有误"
+msgstr ""
+
+#: admin_library.php:78
+msgid "您确定要保存编辑内容吗？"
+msgstr ""
+
+#: admin_library.php:79
+msgid "使用这个模板"
+msgstr ""
+
+#: admin_library.php:80
+msgid "使用这个模板风格"
+msgstr ""
+
+#: admin_library.php:81 admin_template.php:77
+msgid "您确定要放弃本次修改吗？"
+msgstr ""
+
+#: admin_library.php:82 admin_template.php:78
+msgid "请先输入内容！"
+msgstr ""
+
+#: admin_library.php:83 admin_template.php:79 navigator.php:73
+msgid "确定"
+msgstr ""
+
+#: admin_library.php:84 admin_template.php:80 navigator.php:74
+msgid "取消"
+msgstr ""
+
+#: admin_library.php:85
+msgid "您的修改内容还没有保存，您确定离开吗？"
+msgstr ""
+
+#: admin_library.php:86
+msgid "连接错误，请重新选择!"
+msgstr ""
+
+#: admin_library.php:87
+msgid ""
+"修改库项目是危险的高级操作，修改错误可能会导致前台无法正常显示。您依然确定要"
+"修改库项目吗？"
+msgstr ""
+
+#: admin_library.php:125 admin_library.php:126
+#: apis/theme_skin_menu_api.class.php:59
+msgid "库项目管理"
+msgstr ""
+
+#: admin_library.php:152
+msgid "库项目内容已经更新成功。"
+msgstr ""
+
+#: admin_library.php:158
+msgid "编辑库项目内容失败。请检查 %s 目录是否可以写入。"
+msgstr ""
+
+#: admin_option.php:32 apis/theme_skin_menu_api.class.php:61
+msgid "主题选项"
+msgstr ""
+
+#: admin_option.php:96
+msgid "设置保存成功。"
+msgstr ""
+
+#: admin_template.php:75
+msgid ""
+"启用新的模板将覆盖原来的模板。\n"
+"您确定要启用选定的模板吗？"
+msgstr ""
+
+#: admin_template.php:76
+msgid "您确定要启用选定的模板风格吗？"
+msgstr ""
+
+#: apis/theme_skin_menu_api.class.php:57
+msgid "主题选择"
+msgstr ""
+
+#: apis/theme_skin_menu_api.class.php:63
+msgid "菜单"
+msgstr ""
+
+#: classes/Customize/Control/BackgroundImageControl.php:35
+#: classes/Customize/Manager.php:5108
+msgid "Background Image"
+msgstr ""
+
+#: classes/Customize/Control/BackgroundPositionControl.php:47
+msgid "Top Left"
+msgstr ""
+
+#: classes/Customize/Control/BackgroundPositionControl.php:48
+msgid "Top"
+msgstr ""
+
+#: classes/Customize/Control/BackgroundPositionControl.php:49
+msgid "Top Right"
+msgstr ""
+
+#: classes/Customize/Control/BackgroundPositionControl.php:52
+msgid "Left"
+msgstr ""
+
+#: classes/Customize/Control/BackgroundPositionControl.php:53
+msgid "Center"
+msgstr ""
+
+#: classes/Customize/Control/BackgroundPositionControl.php:54
+msgid "Right"
+msgstr ""
+
+#: classes/Customize/Control/BackgroundPositionControl.php:57
+msgid "Bottom Left"
+msgstr ""
+
+#: classes/Customize/Control/BackgroundPositionControl.php:58
+msgid "Bottom"
+msgstr ""
+
+#: classes/Customize/Control/BackgroundPositionControl.php:59
+msgid "Bottom Right"
+msgstr ""
+
+#: classes/Customize/Control/BackgroundPositionControl.php:71
+#: classes/Customize/Manager.php:5158
+msgid "Image Position"
+msgstr ""
+
+#: classes/Customize/Control/ColorControl.php:56
+#: classes/Customize/Control/MediaControl.php:230
+#: classes/Customize/Control/MediaControl.php:240
+#: classes/Customize/Control/MediaControl.php:250
+#: classes/Customize/Control/MediaControl.php:260
+#: classes/Customize/Manager.php:4944
+msgid "Default"
+msgstr ""
+
+#: classes/Customize/Control/DateTimeControl.php:132
+msgid "Date"
+msgstr ""
+
+#: classes/Customize/Control/DateTimeControl.php:135
+msgid "Month"
+msgstr ""
+
+#: classes/Customize/Control/DateTimeControl.php:151
+msgid "Day"
+msgstr ""
+
+#: classes/Customize/Control/DateTimeControl.php:156
+msgid "Year"
+msgstr ""
+
+#: classes/Customize/Control/DateTimeControl.php:165
+msgid "Time"
+msgstr ""
+
+#: classes/Customize/Control/DateTimeControl.php:167
+msgid "Hour"
+msgstr ""
+
+#: classes/Customize/Control/DateTimeControl.php:172
+msgid "Minute"
+msgstr ""
+
+#: classes/Customize/Control/DateTimeControl.php:175
+msgid "Meridian"
+msgstr ""
+
+#: classes/Customize/Control/DateTimeControl.php:177
+msgid "AM"
+msgstr ""
+
+#: classes/Customize/Control/DateTimeControl.php:178
+msgid "PM"
+msgstr ""
+
+#: classes/Customize/Control/DateTimeControl.php:181
+msgid "Timezone"
+msgstr ""
+
+#. translators: 1: month number (01, 02, etc.), 2: month abbreviation
+#: classes/Customize/Control/DateTimeControl.php:206
+msgid "%1$s-%2$s"
+msgstr ""
+
+#. translators: 1: timezone name, 2: timezone abbreviation, 3: gmt offset
+#: classes/Customize/Control/DateTimeControl.php:239
+msgid "Timezone is %1$s (%2$s), currently %3$s."
+msgstr ""
+
+#. translators: %s: UTC offset
+#: classes/Customize/Control/DateTimeControl.php:248
+msgid "Timezone is %s."
+msgstr ""
+
+#: classes/Customize/Control/HeaderImageControl.php:36
+#: classes/Customize/Manager.php:5034
+msgid "Header Image"
+msgstr ""
+
+#: classes/Customize/Control/HeaderImageControl.php:102
+msgid "Randomize uploaded headers"
+msgstr ""
+
+#: classes/Customize/Control/HeaderImageControl.php:104
+msgid "Randomize suggested headers"
+msgstr ""
+
+#: classes/Customize/Control/HeaderImageControl.php:113
+msgid "Set image"
+msgstr ""
+
+#: classes/Customize/Control/HeaderImageControl.php:118
+msgid "Remove image"
+msgstr ""
+
+#: classes/Customize/Control/HeaderImageControl.php:131
+msgid "Randomizing uploaded headers"
+msgstr ""
+
+#: classes/Customize/Control/HeaderImageControl.php:133
+msgid "Randomizing suggested headers"
+msgstr ""
+
+#: classes/Customize/Control/HeaderImageControl.php:145
+msgid "No image set"
+msgstr ""
+
+#: classes/Customize/Control/HeaderImageControl.php:179
+msgid ""
+"Click &#8220;Add new image&#8221; to upload an image file from your "
+"computer. Your theme works best with an image that matches the size of your "
+"video &#8212; you&#8217;ll be able to crop your image once you upload it for "
+"a perfect fit."
+msgstr ""
+
+#. translators: %s: header size in pixels
+#: classes/Customize/Control/HeaderImageControl.php:182
+msgid ""
+"Click &#8220;Add new image&#8221; to upload an image file from your "
+"computer. Your theme works best with an image with a header size of %s "
+"pixels &#8212; you&#8217;ll be able to crop your image once you upload it "
+"for a perfect fit."
+msgstr ""
+
+#. translators: %s: header width in pixels
+#: classes/Customize/Control/HeaderImageControl.php:187
+msgid ""
+"Click &#8220;Add new image&#8221; to upload an image file from your "
+"computer. Your theme works best with an image with a header width of %s "
+"pixels &#8212; you&#8217;ll be able to crop your image once you upload it "
+"for a perfect fit."
+msgstr ""
+
+#. translators: %s: header height in pixels
+#: classes/Customize/Control/HeaderImageControl.php:192
+msgid ""
+"Click &#8220;Add new image&#8221; to upload an image file from your "
+"computer. Your theme works best with an image with a header height of %s "
+"pixels &#8212; you&#8217;ll be able to crop your image once you upload it "
+"for a perfect fit."
+msgstr ""
+
+#: classes/Customize/Control/HeaderImageControl.php:201
+msgid "Current header"
+msgstr ""
+
+#: classes/Customize/Control/HeaderImageControl.php:209
+msgid "Hide header image"
+msgstr ""
+
+#: classes/Customize/Control/HeaderImageControl.php:209
+msgid "Hide image"
+msgstr ""
+
+#: classes/Customize/Control/HeaderImageControl.php:210
+msgid "Add new header image"
+msgstr ""
+
+#: classes/Customize/Control/HeaderImageControl.php:210
+msgid "Add new image"
+msgstr ""
+
+#: classes/Customize/Control/HeaderImageControl.php:215
+msgctxt "custom headers"
+msgid "Previously uploaded"
+msgstr ""
+
+#: classes/Customize/Control/HeaderImageControl.php:222
+msgctxt "custom headers"
+msgid "Suggested"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:228
+#: classes/Customize/Control/MediaControl.php:233
+msgid "Select video"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:229
+msgid "Change video"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:231
+#: classes/Customize/Control/MediaControl.php:241
+#: classes/Customize/Control/MediaControl.php:251
+#: classes/Customize/Control/MediaControl.php:261
+#: classes/Customize/Control/NavMenuItemControl.php:144
+#: classes/Customize/Manager.php:4943 classes/Customize/Widgets.php:756
+#: classes/ThemeFramework/Fields/Group/Group.php:55
+#: classes/ThemeFramework/Fields/Group/Group.php:87
+msgid "Remove"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:232
+msgid "No video selected"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:234
+msgid "Choose video"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:238
+#: classes/Customize/Control/MediaControl.php:243
+msgid "Select audio"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:239
+msgid "Change audio"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:242
+msgid "No audio selected"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:244
+msgid "Choose audio"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:248
+#: classes/Customize/Control/MediaControl.php:253
+msgid "Select image"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:249
+msgid "Change image"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:252
+msgid "No image selected"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:254
+msgid "Choose image"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:258
+#: classes/Customize/Control/MediaControl.php:263
+msgid "Select file"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:259
+msgid "Change file"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:262
+msgid "No file selected"
+msgstr ""
+
+#: classes/Customize/Control/MediaControl.php:264
+msgid "Choose file"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuAutoAddControl.php:47
+#: classes/Customize/Panel/NavMenusPanel.php:90
+msgid "Menu Options"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuAutoAddControl.php:51
+msgid "Automatically add new top-level pages to this menu"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuControl.php:43
+msgid "Add Items"
+msgstr ""
+
+#. translators: %s: "Add Items" button text
+#: classes/Customize/Control/NavMenuControl.php:49
+msgid ""
+"Time to add some links! Click &#8220;%s&#8221; to start putting pages, "
+"categories, and custom links in your menu. Add as many things as you&#8217;d "
+"like."
+msgstr ""
+
+#: classes/Customize/Control/NavMenuControl.php:55
+msgid "Add or remove menu items"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuControl.php:58
+#: classes/Customize/NavMenus.php:459
+msgid "Reorder menu items"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuControl.php:59
+#: classes/Customize/Control/WidgetAreaCustomizeControl.php:65
+msgid "Reorder"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuControl.php:60
+#: classes/Customize/Control/WidgetAreaCustomizeControl.php:66
+msgid "Done"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuControl.php:63
+msgid ""
+"When in reorder mode, additional controls to reorder menu items will be "
+"available in the items list above."
+msgstr ""
+
+#. translators: 1: Title of a menu item, 2: Type of a menu item
+#: classes/Customize/Control/NavMenuItemControl.php:77
+msgid "Edit menu item: %1$s (%2$s)"
+msgstr ""
+
+#. translators: 1: Title of a menu item, 2: Type of a menu item
+#: classes/Customize/Control/NavMenuItemControl.php:81
+msgid "Remove Menu Item: %1$s (%2$s)"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuItemControl.php:91
+#: classes/Customize/NavMenus.php:1114
+msgid "URL"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuItemControl.php:98
+msgid "Navigation Label"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuItemControl.php:105
+msgid "Open link in a new tab"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuItemControl.php:110
+msgid "Title Attribute"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuItemControl.php:116
+msgid "CSS Classes"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuItemControl.php:122
+msgid "Link Relationship (XFN)"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuItemControl.php:128
+msgid "Description"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuItemControl.php:130
+msgid ""
+"The description will be displayed in the menu if the current theme supports "
+"it."
+msgstr ""
+
+#. translators: Nav menu item original title. 1: Original title
+#: classes/Customize/Control/NavMenuItemControl.php:139
+msgid "Original: %s"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuLocationControl.php:82
+msgid "Create a menu for this location"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuLocationControl.php:82
+msgid "+ Create New Menu"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuLocationControl.php:83
+msgid "Edit selected menu"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuLocationControl.php:83
+msgid "Edit Menu"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuLocationsControl.php:51
+msgctxt "menu locations"
+msgid "Where do you want this menu to appear?"
+msgstr ""
+
+#. translators: 1: Codex URL, 2: additional link attributes, 3: accessibility
+#. text
+#: classes/Customize/Control/NavMenuLocationsControl.php:56
+msgctxt "menu locations"
+msgid ""
+"(If you plan to use a menu <a href=\"%1$s\" %2$s>widget%3$s</a>, skip this "
+"step.)"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuLocationsControl.php:57
+msgid "https://codex.wordpress.org/WordPress_Widgets"
+msgstr ""
+
+#. translators: accessibility text
+#: classes/Customize/Control/NavMenuLocationsControl.php:61
+#: classes/Customize/Manager.php:4202 classes/Customize/Manager.php:5277
+#: classes/Customize/Manager.php:5297
+msgid "(opens in a new window)"
+msgstr ""
+
+#: classes/Customize/Control/NavMenuLocationsControl.php:68
+msgctxt "menu locations"
+msgid ""
+"Here&#8217;s where this menu appears. If you&#8217;d like to change that, "
+"pick another location."
+msgstr ""
+
+#. translators: %s: menu name
+#: classes/Customize/Control/NavMenuLocationsControl.php:82
+msgctxt "menu location"
+msgid "(Current: %s)"
+msgstr ""
+
+#: classes/Customize/Control/NewMenuControl.php:55
+msgid "Create Menu"
+msgstr ""
+
+#: classes/Customize/Control/SiteIconControl.php:72
+msgid "Preview as a browser icon"
+msgstr ""
+
+#: classes/Customize/Control/SiteIconControl.php:76
+msgid "Preview as an app icon"
+msgstr ""
+
+#. translators: %s: theme name
+#: classes/Customize/Control/ThemeControl.php:66
+msgid "Details for theme: %s"
+msgstr ""
+
+#. translators: %s: theme name
+#: classes/Customize/Control/ThemeControl.php:68
+msgid "Customize theme: %s"
+msgstr ""
+
+#. translators: %s: theme name
+#: classes/Customize/Control/ThemeControl.php:70
+msgid "Live preview theme: %s"
+msgstr ""
+
+#. translators: %s: theme name
+#: classes/Customize/Control/ThemeControl.php:72
+msgid "Install and preview theme: %s"
+msgstr ""
+
+#: classes/Customize/Control/ThemeControl.php:88
+#: classes/Customize/Section/ThemesSection.php:83
+msgid "Theme Details"
+msgstr ""
+
+#. translators: Theme author name
+#: classes/Customize/Control/ThemeControl.php:92
+msgctxt "theme author"
+msgid "By %s"
+msgstr ""
+
+#. translators: %s: "Update now" button
+#: classes/Customize/Control/ThemeControl.php:100
+msgid "New version available. %s"
+msgstr ""
+
+#: classes/Customize/Control/ThemeControl.php:100
+msgid "Update now"
+msgstr ""
+
+#. translators: %s: theme name
+#: classes/Customize/Control/ThemeControl.php:111
+msgid "<span>Previewing:</span> %s"
+msgstr ""
+
+#: classes/Customize/Control/ThemeControl.php:115
+msgid "Customize"
+msgstr ""
+
+#: classes/Customize/Control/ThemeControl.php:118
+#: classes/Customize/Control/ThemeControl.php:126
+msgctxt "theme"
+msgid "Installed"
+msgstr ""
+
+#: classes/Customize/Control/ThemeControl.php:123
+msgid "Live Preview"
+msgstr ""
+
+#: classes/Customize/Control/ThemeControl.php:131
+msgid "Install &amp; Preview"
+msgstr ""
+
+#: classes/Customize/Control/WidgetAreaCustomizeControl.php:62
+#: classes/Customize/Widgets.php:807
+msgid "Add a Widget"
+msgstr ""
+
+#: classes/Customize/Control/WidgetAreaCustomizeControl.php:64
+#: classes/Customize/Widgets.php:766
+msgid "Reorder widgets"
+msgstr ""
+
+#: classes/Customize/Control/WidgetAreaCustomizeControl.php:68
+msgid ""
+"When in reorder mode, additional controls to reorder widgets will be "
+"available in the widgets list above."
+msgstr ""
+
+#: classes/Customize/Control.php:589 classes/Customize/NavMenus.php:613
+msgid "&mdash; Select &mdash;"
+msgstr ""
+
+#. translators: %s: add new page label
+#: classes/Customize/Control.php:631
+msgid "+ %s"
+msgstr ""
+
+#: classes/Customize/Control.php:635
+msgid "New page title"
+msgstr ""
+
+#: classes/Customize/Control.php:636
+msgid "New page title&hellip;"
+msgstr ""
+
+#: classes/Customize/Control.php:637 classes/Customize/NavMenus.php:1084
+msgid "Add"
+msgstr ""
+
+#: classes/Customize/Manager.php:453
+msgid "Something went wrong."
+msgstr ""
+
+#: classes/Customize/Manager.php:518
+msgid "You need a higher level of permission."
+msgstr ""
+
+#: classes/Customize/Manager.php:519
+msgid "Sorry, you are not allowed to customize this site."
+msgstr ""
+
+#: classes/Customize/Manager.php:528
+msgid "Invalid changeset UUID"
+msgstr ""
+
+#: classes/Customize/Manager.php:555
+msgid "Non-existent changeset UUID."
+msgstr ""
+
+#: classes/Customize/Manager.php:574
+msgid "Sorry, you are not allowed to edit theme options on this site."
+msgstr ""
+
+#: classes/Customize/Manager.php:584
+msgid "The requested theme does not exist."
+msgstr ""
+
+#: classes/Customize/Manager.php:1852
+msgid ""
+"Unauthorized. You may remove the customize_messenger_channel param to "
+"preview as frontend."
+msgstr ""
+
+#: classes/Customize/Manager.php:2066
+#: classes/Customize/Partial/SelectiveRefresh.php:197
+msgid "Shift-click to edit this element."
+msgstr ""
+
+#: classes/Customize/Manager.php:2067
+msgid "This link is not live-previewable."
+msgstr ""
+
+#: classes/Customize/Manager.php:2068
+msgid "This form is not live-previewable."
+msgstr ""
+
+#: classes/Customize/Manager.php:2275
+msgid "Setting does not exist or is unrecognized."
+msgstr ""
+
+#: classes/Customize/Manager.php:2280
+msgid "Unauthorized to modify setting due to capability."
+msgstr ""
+
+#: classes/Customize/Manager.php:2303 classes/Customize/Setting.php:582
+msgid "Invalid value."
+msgstr ""
+
+#: classes/Customize/Manager.php:2459
+msgid "Changeset is being edited by other user."
+msgstr ""
+
+#: classes/Customize/Manager.php:2573
+msgid ""
+"The previous set of changes has already been published. Please try saving "
+"your current set of changes again."
+msgstr ""
+
+#: classes/Customize/Manager.php:2596 classes/Customize/Manager.php:2611
+msgid "You must supply a future date to schedule."
+msgstr ""
+
+#. translators: %s: number of invalid settings
+#: classes/Customize/Manager.php:2710
+msgid "Unable to save due to %s invalid setting."
+msgid_plural "Unable to save due to %s invalid settings."
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/Customize/Manager.php:3007
+msgid "There was an authentication problem. Please reload and try again."
+msgstr ""
+
+#: classes/Customize/Manager.php:3015
+msgid "No changes saved yet, so there is nothing to trash."
+msgstr ""
+
+#: classes/Customize/Manager.php:3024 classes/Customize/Manager.php:3040
+msgid "Unable to trash changes."
+msgstr ""
+
+#: classes/Customize/Manager.php:3030
+msgid "Changes have already been trashed."
+msgstr ""
+
+#: classes/Customize/Manager.php:3045
+msgid "Changes trashed successfully."
+msgstr ""
+
+#: classes/Customize/Manager.php:3215
+msgid "Security check failed."
+msgstr ""
+
+#: classes/Customize/Manager.php:3224
+msgid "No changeset found to take over"
+msgstr ""
+
+#: classes/Customize/Manager.php:3231
+msgid "Sorry, you are not allowed to take over."
+msgstr ""
+
+#. translators: 1: panel id, 2: link to 'customize_loaded_components' filter
+#. reference
+#: classes/Customize/Manager.php:3763
+msgid ""
+"Removing %1$s manually will cause PHP warnings. Use the %2$s filter instead."
+msgstr ""
+
+#. translators: %s: User who is customizing the changeset in customizer.
+#: classes/Customize/Manager.php:3971
+msgid ""
+"%s is already customizing this changeset. Please wait until they are done to "
+"try customizing. Your latest changes have been autosaved."
+msgstr ""
+
+#. translators: %s: User who is customizing the changeset in customizer.
+#: classes/Customize/Manager.php:3973
+msgid "%s is already customizing this changeset. Do you want to take over?"
+msgstr ""
+
+#. translators: %s: User who is customizing the changeset in customizer.
+#: classes/Customize/Manager.php:3978
+msgid ""
+"%s is already customizing this site. Please wait until they are done to try "
+"customizing. Your latest changes have been autosaved."
+msgstr ""
+
+#. translators: %s: User who is customizing the changeset in customizer.
+#: classes/Customize/Manager.php:3980
+msgid "%s is already customizing this site. Do you want to take over?"
+msgstr ""
+
+#: classes/Customize/Manager.php:4132
+msgid "Dismiss"
+msgstr ""
+
+#: classes/Customize/Manager.php:4157
+msgid "Go back"
+msgstr ""
+
+#: classes/Customize/Manager.php:4159
+msgid "Preview"
+msgstr ""
+
+#: classes/Customize/Manager.php:4161
+msgid "Take over"
+msgstr ""
+
+#: classes/Customize/Manager.php:4175
+msgid "Update anyway, even though it might break your site?"
+msgstr ""
+
+#: classes/Customize/Manager.php:4194
+msgid "Share Preview Link"
+msgstr ""
+
+#: classes/Customize/Manager.php:4196
+msgid ""
+"See how changes would look live on your website, and share the preview with "
+"people who can't access the Customizer."
+msgstr ""
+
+#: classes/Customize/Manager.php:4199
+msgid "Preview Link"
+msgstr ""
+
+#: classes/Customize/Manager.php:4205
+msgid "Copy"
+msgstr ""
+
+#: classes/Customize/Manager.php:4205
+msgid "Copied"
+msgstr ""
+
+#. translators: %s: document title from the preview
+#: classes/Customize/Manager.php:4372
+msgid "Customize: %s"
+msgstr ""
+
+#. translators: %s: document title from the preview
+#: classes/Customize/Manager.php:4375
+msgid "Live Preview: %s"
+msgstr ""
+
+#: classes/Customize/Manager.php:4620
+msgid "Publish"
+msgstr ""
+
+#: classes/Customize/Manager.php:4625
+msgid "Save Draft"
+msgstr ""
+
+#: classes/Customize/Manager.php:4630
+msgctxt "customizer changeset action/button label"
+msgid "Schedule"
+msgstr ""
+
+#: classes/Customize/Manager.php:4707
+msgid "Are you sure you want to delete this theme?"
+msgstr ""
+
+#. translators: %d: number of theme search results, which cannot currently
+#. consider singular vs. plural forms
+#: classes/Customize/Manager.php:4709
+msgid "%d themes found"
+msgstr ""
+
+#. translators: %d: number of themes being displayed, which cannot currently
+#. consider singular vs. plural forms
+#: classes/Customize/Manager.php:4711
+msgid "Displaying %d themes"
+msgstr ""
+
+#. translators: %s: theme name
+#: classes/Customize/Manager.php:4713
+msgid "Showing details for theme: %s"
+msgstr ""
+
+#: classes/Customize/Manager.php:4793
+msgid "Enter desktop preview mode"
+msgstr ""
+
+#: classes/Customize/Manager.php:4797
+msgid "Enter tablet preview mode"
+msgstr ""
+
+#: classes/Customize/Manager.php:4800
+msgid "Enter mobile preview mode"
+msgstr ""
+
+#: classes/Customize/Manager.php:4830
+msgid ""
+"Looking for a theme? You can search or browse the WordPress.org theme "
+"directory, install and preview themes, then activate them right here."
+msgstr ""
+
+#: classes/Customize/Manager.php:4831
+msgid ""
+"While previewing a new theme, you can continue to tailor things like widgets "
+"and menus, and explore theme-specific options."
+msgstr ""
+
+#: classes/Customize/Manager.php:4838
+msgid "Installed themes"
+msgstr ""
+
+#: classes/Customize/Manager.php:4847
+msgid "WordPress.org themes"
+msgstr ""
+
+#: classes/Customize/Manager.php:4864
+msgid "Site Identity"
+msgstr ""
+
+#: classes/Customize/Manager.php:4875
+msgid "Site Title"
+msgstr ""
+
+#: classes/Customize/Manager.php:4886
+msgid "Tagline"
+msgstr ""
+
+#: classes/Customize/Manager.php:4899 classes/Customize/Manager.php:4977
+msgid "Display Site Title and Tagline"
+msgstr ""
+
+#: classes/Customize/Manager.php:4913
+msgid "Site Icon"
+msgstr ""
+
+#: classes/Customize/Manager.php:4915
+msgid ""
+"Site Icons are what you see in browser tabs, bookmark bars, and within the "
+"WordPress mobile apps. Upload one here!"
+msgstr ""
+
+#. translators: %s: site icon size in pixels
+#: classes/Customize/Manager.php:4917
+msgid "Site Icons should be square and at least %s pixels."
+msgstr ""
+
+#: classes/Customize/Manager.php:4933
+msgid "Logo"
+msgstr ""
+
+#: classes/Customize/Manager.php:4941 classes/Customize/Manager.php:4946
+msgid "Select logo"
+msgstr ""
+
+#: classes/Customize/Manager.php:4942
+msgid "Change logo"
+msgstr ""
+
+#: classes/Customize/Manager.php:4945
+msgid "No logo selected"
+msgstr ""
+
+#: classes/Customize/Manager.php:4947
+msgid "Choose logo"
+msgstr ""
+
+#: classes/Customize/Manager.php:4961
+msgid "Colors"
+msgstr ""
+
+#: classes/Customize/Manager.php:4984
+msgid "Header Text Color"
+msgstr ""
+
+#: classes/Customize/Manager.php:4999
+msgid "Background Color"
+msgstr ""
+
+#: classes/Customize/Manager.php:5006
+msgid "Header Media"
+msgstr ""
+
+#: classes/Customize/Manager.php:5007
+msgid ""
+"If you add a video, the image will be used as a fallback while the video "
+"loads."
+msgstr ""
+
+#. translators: 1: .mp4, 2: header size in pixels
+#: classes/Customize/Manager.php:5014
+msgid ""
+"Upload your video in %1$s format and minimize its file size for best "
+"results. Your theme recommends dimensions of %2$s pixels."
+msgstr ""
+
+#. translators: 1: .mp4, 2: header width in pixels
+#: classes/Customize/Manager.php:5021
+msgid ""
+"Upload your video in %1$s format and minimize its file size for best "
+"results. Your theme recommends a width of %2$s pixels."
+msgstr ""
+
+#. translators: 1: .mp4, 2: header height in pixels
+#: classes/Customize/Manager.php:5028
+msgid ""
+"Upload your video in %1$s format and minimize its file size for best "
+"results. Your theme recommends a height of %2$s pixels."
+msgstr ""
+
+#: classes/Customize/Manager.php:5081
+msgid "Header Video"
+msgstr ""
+
+#: classes/Customize/Manager.php:5091
+msgid "Or, enter a YouTube URL:"
+msgstr ""
+
+#: classes/Customize/Manager.php:5133
+msgctxt "Background Preset"
+msgid "Preset"
+msgstr ""
+
+#: classes/Customize/Manager.php:5137
+msgctxt "Default Preset"
+msgid "Default"
+msgstr ""
+
+#: classes/Customize/Manager.php:5138 classes/Customize/Manager.php:5179
+msgid "Fill Screen"
+msgstr ""
+
+#: classes/Customize/Manager.php:5139 classes/Customize/Manager.php:5178
+msgid "Fit to Screen"
+msgstr ""
+
+#: classes/Customize/Manager.php:5140
+msgctxt "Repeat Image"
+msgid "Repeat"
+msgstr ""
+
+#: classes/Customize/Manager.php:5141
+msgctxt "Custom Preset"
+msgid "Custom"
+msgstr ""
+
+#: classes/Customize/Manager.php:5173
+msgid "Image Size"
+msgstr ""
+
+#: classes/Customize/Manager.php:5177
+msgid "Original"
+msgstr ""
+
+#: classes/Customize/Manager.php:5190
+msgid "Repeat Background Image"
+msgstr ""
+
+#: classes/Customize/Manager.php:5202
+msgid "Scroll with Page"
+msgstr ""
+
+#: classes/Customize/Manager.php:5223
+msgid "Homepage Settings"
+msgstr ""
+
+#: classes/Customize/Manager.php:5225
+msgid ""
+"You can choose what&#8217;s displayed on the homepage of your site. It can "
+"be posts in reverse chronological order (classic blog), or a fixed/static "
+"page. To set a static homepage, you first need to create two Pages. One will "
+"become the homepage, and the other will be where your posts are displayed."
+msgstr ""
+
+#: classes/Customize/Manager.php:5236
+msgid "Your homepage displays"
+msgstr ""
+
+#: classes/Customize/Manager.php:5240
+msgid "Your latest posts"
+msgstr ""
+
+#: classes/Customize/Manager.php:5241
+msgid "A static page"
+msgstr ""
+
+#: classes/Customize/Manager.php:5251
+msgid "Homepage"
+msgstr ""
+
+#: classes/Customize/Manager.php:5263
+msgid "Posts page"
+msgstr ""
+
+#: classes/Customize/Manager.php:5271
+msgid ""
+"Add your own CSS code here to customize the appearance and layout of your "
+"site."
+msgstr ""
+
+#: classes/Customize/Manager.php:5274
+msgid "https://codex.wordpress.org/CSS"
+msgstr ""
+
+#: classes/Customize/Manager.php:5275
+msgid "Learn more about CSS"
+msgstr ""
+
+#: classes/Customize/Manager.php:5281
+msgid "When using a keyboard to navigate:"
+msgstr ""
+
+#: classes/Customize/Manager.php:5283
+msgid "In the editing area, the Tab key enters a tab character."
+msgstr ""
+
+#: classes/Customize/Manager.php:5284
+msgid "To move away from this area, press the Esc key followed by the Tab key."
+msgstr ""
+
+#: classes/Customize/Manager.php:5285
+msgid ""
+"Screen reader users: when in forms mode, you may need to press the escape "
+"key twice."
+msgstr ""
+
+#. translators: 1: link to user profile, 2: additional link attributes, 3:
+#. accessibility text
+#: classes/Customize/Manager.php:5292
+msgid ""
+"The edit field automatically highlights code syntax. You can disable this in "
+"your <a href=\"%1$s\" %2$s>user profile%3$s</a> to work in plain text mode."
+msgstr ""
+
+#: classes/Customize/Manager.php:5304
+msgid "Close"
+msgstr ""
+
+#: classes/Customize/Manager.php:5308
+msgid "Additional CSS"
+msgstr ""
+
+#: classes/Customize/Manager.php:5321
+msgid "CSS code"
+msgstr ""
+
+#: classes/Customize/Manager.php:5573
+msgid "Invalid value for background repeat."
+msgstr ""
+
+#: classes/Customize/Manager.php:5577
+msgid "Invalid value for background attachment."
+msgstr ""
+
+#: classes/Customize/Manager.php:5581
+msgid "Invalid value for background position X."
+msgstr ""
+
+#: classes/Customize/Manager.php:5585
+msgid "Invalid value for background position Y."
+msgstr ""
+
+#: classes/Customize/Manager.php:5589 classes/Customize/Manager.php:5593
+msgid "Invalid value for background size."
+msgstr ""
+
+#: classes/Customize/Manager.php:5598
+msgid "Unrecognized background setting."
+msgstr ""
+
+#: classes/Customize/Manager.php:5638
+msgid ""
+"This video file is too large to use as a header video. Try a shorter video "
+"or optimize the compression settings and re-upload a file that is less than "
+"8MB. Or, upload your video to YouTube and link it with the option below."
+msgstr ""
+
+#. translators: 1: .mp4, 2: .mov
+#: classes/Customize/Manager.php:5644
+msgid ""
+"Only %1$s or %2$s files may be used for header video. Please convert your "
+"video file and try again, or, upload your video to YouTube and link it with "
+"the option below."
+msgstr ""
+
+#: classes/Customize/Manager.php:5668
+msgid "Please enter a valid YouTube URL."
+msgstr ""
+
+#: classes/Customize/NavMenus.php:156 classes/Customize/NavMenus.php:378
+msgctxt "nav menu home label"
+msgid "Home"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:158 classes/Customize/NavMenus.php:385
+#: classes/Customize/NavMenus.php:432
+#: classes/Customize/Setting/NavMenuItemSetting.php:327
+msgid "Custom Link"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:168
+#: classes/Customize/Setting/NavMenuItemSetting.php:325
+msgid "Post Type Archive"
+msgstr ""
+
+#. translators: %d: ID of a post
+#: classes/Customize/NavMenus.php:197 classes/Customize/NavMenus.php:340
+#: classes/Customize/Setting/NavMenuItemSetting.php:283
+msgid "#%d (no title)"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:279
+msgid "No results found."
+msgstr ""
+
+#: classes/Customize/NavMenus.php:419
+msgid "Your theme can display menus in one location."
+msgstr ""
+
+#. translators: %s: number of menu locations
+#: classes/Customize/NavMenus.php:422
+msgid "Your theme can display menus in %s location."
+msgid_plural "Your theme can display menus in %s locations."
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/Customize/NavMenus.php:430
+msgctxt "missing menu item navigation label"
+msgid "(no label)"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:431
+#: classes/Customize/Setting/NavMenuSetting.php:435
+msgctxt "Missing menu name."
+msgid "(unnamed)"
+msgstr ""
+
+#. translators: %s:      menu location
+#: classes/Customize/NavMenus.php:435
+msgctxt "menu"
+msgid "(Currently set to: %s)"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:436
+msgid "Menu Location"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:436
+msgid "Menu Locations"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:438
+msgid "Menu Name"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:439
+msgid ""
+"If your theme has multiple menus, giving them clear names will help you "
+"manage them."
+msgstr ""
+
+#: classes/Customize/NavMenus.php:440
+msgid "Menu item added"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:441
+msgid "Menu item deleted"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:442
+msgid "Menu created"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:443
+msgid "Menu deleted"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:444
+msgid "Menu item moved up"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:445
+msgid "Menu item moved down"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:446
+msgid "Menu item moved out of submenu"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:447
+msgid "Menu item is now a sub-item"
+msgstr ""
+
+#. translators: &#9656; is the unicode right-pointing triangle, and %s is the
+#. section title in the Customizer
+#: classes/Customize/NavMenus.php:449 classes/Customize/NavMenus.php:1010
+#: classes/Customize/Section.php:233 classes/Customize/Widgets.php:805
+msgid "Customizing &#9656; %s"
+msgstr ""
+
+#. translators: %s: title of menu item which is invalid
+#: classes/Customize/NavMenus.php:451
+msgid "%s (Invalid)"
+msgstr ""
+
+#. translators: %s: title of menu item in draft status
+#: classes/Customize/NavMenus.php:453
+msgid "%s (Pending)"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:454
+msgid "Number of items found: %d"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:455
+msgid "Additional items found: %d"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:456
+msgid "Loading more results... please wait."
+msgstr ""
+
+#: classes/Customize/NavMenus.php:457 classes/Customize/Widgets.php:764
+msgid "Reorder mode enabled"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:458 classes/Customize/Widgets.php:765
+msgid "Reorder mode closed"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:460
+msgid "Close reorder mode"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:477
+msgid "Move up one"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:478
+msgid "Move down one"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:479
+msgid "Move to the top"
+msgstr ""
+
+#. translators: %s: previous item name
+#: classes/Customize/NavMenus.php:481
+msgid "Move under %s"
+msgstr ""
+
+#. translators: %s: previous item name
+#: classes/Customize/NavMenus.php:483
+msgid "Move out from under %s"
+msgstr ""
+
+#. translators: %s: previous item name
+#: classes/Customize/NavMenus.php:485
+msgid "Under %s"
+msgstr ""
+
+#. translators: %s: previous item name
+#: classes/Customize/NavMenus.php:487
+msgid "Out from under %s"
+msgstr ""
+
+#. translators: 1: item name, 2: item position, 3: total number of items
+#: classes/Customize/NavMenus.php:489
+msgid "%1$s. Menu item %2$d of %3$d."
+msgstr ""
+
+#. translators: 1: item name, 2: item position, 3: parent item name
+#: classes/Customize/NavMenus.php:491
+msgid "%1$s. Sub item number %2$d under %3$s."
+msgstr ""
+
+#: classes/Customize/NavMenus.php:576
+msgid ""
+"This panel is used for managing navigation menus for content you have "
+"already published on your site. You can create menus and add items for "
+"existing content such as pages, posts, categories, tags, formats, or custom "
+"links."
+msgstr ""
+
+#. translators: URL to the widgets panel of the customizer
+#: classes/Customize/NavMenus.php:579
+msgid ""
+"Menus can be displayed in locations defined by your theme or in <a href=\"%s"
+"\">widget areas</a> by adding a &#8220;Navigation Menu&#8221; widget."
+msgstr ""
+
+#: classes/Customize/NavMenus.php:581
+msgid "Menus can be displayed in locations defined by your theme."
+msgstr ""
+
+#: classes/Customize/NavMenus.php:584
+#: classes/Customize/Panel/NavMenusPanel.php:103
+msgid "Menus"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:595
+msgid ""
+"Your theme can display menus in one location. Select which menu you would "
+"like to use."
+msgstr ""
+
+#. translators: %s: number of menu locations
+#: classes/Customize/NavMenus.php:598
+msgid ""
+"Your theme can display menus in %s location. Select which menu you would "
+"like to use."
+msgid_plural ""
+"Your theme can display menus in %s locations. Select which menu appears in "
+"each location."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: URL to the widgets panel of the customizer
+#: classes/Customize/NavMenus.php:603
+msgid ""
+"If your theme has widget areas, you can also add menus there. Visit the <a "
+"href=\"%s\">Widgets panel</a> and add a &#8220;Navigation Menu widget&#8221; "
+"to display a menu in a sidebar or footer."
+msgstr ""
+
+#: classes/Customize/NavMenus.php:607
+msgctxt "menu locations"
+msgid "View Location"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:607
+msgctxt "menu locations"
+msgid "View All Locations"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:712
+msgid "New Menu"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:808
+msgid "Invalid post type."
+msgstr ""
+
+#: classes/Customize/NavMenus.php:811
+msgid "Empty title"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:814
+msgid "Status is forbidden"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:900
+msgid "Post"
+msgstr ""
+
+#. translators: %1$s is the post type name and %2$s is the error message.
+#: classes/Customize/NavMenus.php:905
+msgid "%1$s could not be created: %2$s"
+msgstr ""
+
+#. translators: 1: Title of a menu item, 2: Type of a menu item
+#: classes/Customize/NavMenus.php:938
+msgid "Add to menu: %1$s (%2$s)"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:951 classes/Customize/Widgets.php:688
+msgid "Move up"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:952 classes/Customize/Widgets.php:687
+msgid "Move down"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:953
+msgid "Move one level up"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:954
+msgid "Move one level down"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:963
+msgid "Delete Menu"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:969
+msgid "Click &#8220;Next&#8221; to start adding links to your new menu."
+msgstr ""
+
+#: classes/Customize/NavMenus.php:970
+msgid "Next"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:980
+msgid ""
+"It doesn&#8217;t look like your site has any menus yet. Want to build one? "
+"Click the button to start."
+msgstr ""
+
+#: classes/Customize/NavMenus.php:983
+msgid ""
+"You&#8217;ll create a menu, assign it a location, and add menu items like "
+"links to pages and categories. If your theme has multiple menu areas, you "
+"might need to create more than one."
+msgstr ""
+
+#: classes/Customize/NavMenus.php:987
+msgid "Create New Menu"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:1004
+#: classes/Customize/Panel/NavMenusPanel.php:77
+#: classes/Customize/Panel/ThemesPanel.php:75 classes/Customize/Panel.php:362
+#: classes/Customize/Section.php:353 classes/Customize/Widgets.php:800
+msgid "Back"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:1013
+msgid "Add Menu Items"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:1018
+msgid "Search Menu Items"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:1019
+msgid "Search menu items&hellip;"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:1020
+#: classes/Customize/Section/ThemesSection.php:124
+#: classes/Customize/Section/ThemesSection.php:139
+#: classes/Customize/Widgets.php:815
+msgid "The search results will be updated as you type."
+msgstr ""
+
+#: classes/Customize/NavMenus.php:1024 classes/Customize/Widgets.php:814
+msgid "Clear Results"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:1069
+msgid "No items"
+msgstr ""
+
+#. translators: %s: Title of a section with menu items
+#: classes/Customize/NavMenus.php:1073
+msgid "Toggle section: %s"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:1105
+msgid "Custom Links"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:1107
+msgid "Toggle section: Custom Links"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:1118
+msgid "Link Text"
+msgstr ""
+
+#: classes/Customize/NavMenus.php:1123
+msgid "Add to Menu"
+msgstr ""
+
+#. translators: %s: the site/panel title in the Customizer
+#: classes/Customize/Panel/NavMenusPanel.php:83 classes/Customize/Panel.php:366
+msgid "You are customizing %s"
+msgstr ""
+
+#: classes/Customize/Panel/NavMenusPanel.php:87
+#: classes/Customize/Panel/ThemesPanel.php:85 classes/Customize/Panel.php:369
+#: classes/Customize/Section.php:362
+msgid "Help"
+msgstr ""
+
+#: classes/Customize/Panel/ThemesPanel.php:47
+msgid "Active theme"
+msgstr ""
+
+#: classes/Customize/Panel/ThemesPanel.php:49
+msgid "Previewing theme"
+msgstr ""
+
+#: classes/Customize/Panel/ThemesPanel.php:54
+msgid "Change theme"
+msgstr ""
+
+#: classes/Customize/Panel/ThemesPanel.php:54
+msgctxt "theme"
+msgid "Change"
+msgstr ""
+
+#. translators: %s: themes panel title in the Customizer
+#: classes/Customize/Panel/ThemesPanel.php:80
+msgid "You are browsing %s"
+msgstr ""
+
+#: classes/Customize/Panel/ThemesPanel.php:80
+msgid "Themes"
+msgstr ""
+
+#: classes/Customize/Panel.php:342
+msgid "Press return or enter to open this panel"
+msgstr ""
+
+#: classes/Customize/Partial/SelectiveRefresh.php:198
+msgid "Click to edit this menu."
+msgstr ""
+
+#: classes/Customize/Partial/SelectiveRefresh.php:199
+msgid "Click to edit this widget."
+msgstr ""
+
+#: classes/Customize/Partial/SelectiveRefresh.php:200
+msgid "Click to edit the site title."
+msgstr ""
+
+#: classes/Customize/Partial/SelectiveRefresh.php:201
+msgid "Click to edit this element."
+msgstr ""
+
+#. translators: %s: document.write()
+#: classes/Customize/Partial/SelectiveRefresh.php:203
+msgid "%s is forbidden"
+msgstr ""
+
+#: classes/Customize/Partial.php:210
+msgid ""
+"Partial render must echo the content or return the content string (or "
+"array), but not both."
+msgstr ""
+
+#: classes/Customize/Section/ThemesSection.php:89
+msgid ""
+"An unexpected error occurred. Something may be wrong with WordPress.org or "
+"this server&#8217;s configuration. If you continue to have problems, please "
+"try the <a href=\"https://wordpress.org/support/\">support forums</a>."
+msgstr ""
+
+#: classes/Customize/Section/ThemesSection.php:92
+msgid "No themes found. Try a different search."
+msgstr ""
+
+#. translators: %s: "Search WordPress.org themes" button
+#: classes/Customize/Section/ThemesSection.php:96
+msgid "No themes found. Try a different search, or %s."
+msgstr ""
+
+#: classes/Customize/Section/ThemesSection.php:97
+msgid "Search WordPress.org themes"
+msgstr ""
+
+#: classes/Customize/Section/ThemesSection.php:118
+msgid "Back to theme sources"
+msgstr ""
+
+#: classes/Customize/Section/ThemesSection.php:121
+#: classes/Customize/Section/ThemesSection.php:122
+#: classes/Customize/Section/ThemesSection.php:136
+#: classes/Customize/Section/ThemesSection.php:137
+msgid "Search themes&hellip;"
+msgstr ""
+
+#: classes/Customize/Section/ThemesSection.php:127
+msgid "Filter themes"
+msgstr ""
+
+#. translators: %s: number of filters selected.
+#: classes/Customize/Section/ThemesSection.php:130
+msgid "Filter themes (%s)"
+msgstr ""
+
+#. translators: %s: number of themes displayed.
+#: classes/Customize/Section/ThemesSection.php:146
+msgid "%s themes"
+msgstr ""
+
+#: classes/Customize/Section.php:235
+msgid "Customizing"
+msgstr ""
+
+#: classes/Customize/Section.php:347
+msgid "Press return or enter to open this section"
+msgstr ""
+
+#: classes/Customize/Setting/CustomCssSetting.php:166
+msgid "Markup is not allowed in CSS."
+msgstr ""
+
+#: classes/Customize/Setting/NavMenuItemSetting.php:718
+msgid "Invalid URL."
+msgstr ""
+
+#. translators: 1: original menu name, 2: duplicate count
+#: classes/Customize/Setting/NavMenuSetting.php:517
+msgid "%1$s (%2$d)"
+msgstr ""
+
+#: classes/Customize/Widgets.php:415
+msgid "Widgets"
+msgstr ""
+
+#: classes/Customize/Widgets.php:416
+msgid ""
+"Widgets are independent sections of content that can be placed into "
+"widgetized areas provided by your theme (commonly called sidebars)."
+msgstr ""
+
+#: classes/Customize/Widgets.php:686
+msgid "Move to another area&hellip;"
+msgstr ""
+
+#: classes/Customize/Widgets.php:694
+msgid "Select an area to move this widget into:"
+msgstr ""
+
+#: classes/Customize/Widgets.php:695
+msgctxt "Move widget"
+msgid "Move"
+msgstr ""
+
+#: classes/Customize/Widgets.php:716
+msgid ""
+"Your theme has 1 other widget area, but this particular page doesn&#8217;t "
+"display it."
+msgstr ""
+
+#. translators: %s: the number of other widget areas registered but not
+#. rendered
+#: classes/Customize/Widgets.php:724
+msgid ""
+"Your theme has %s other widget area, but this particular page doesn&#8217;t "
+"display it."
+msgid_plural ""
+"Your theme has %s other widget areas, but this particular page doesn&#8217;t "
+"display them."
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/Customize/Widgets.php:735
+msgid ""
+"Your theme has 1 widget area, but this particular page doesn&#8217;t display "
+"it."
+msgstr ""
+
+#. translators: %s: the total number of widget areas registered
+#: classes/Customize/Widgets.php:740
+msgid ""
+"Your theme has %s widget area, but this particular page doesn&#8217;t "
+"display it."
+msgid_plural ""
+"Your theme has %s widget areas, but this particular page doesn&#8217;t "
+"display them."
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/Customize/Widgets.php:754
+msgid "Apply"
+msgstr ""
+
+#: classes/Customize/Widgets.php:755
+msgid "Save and preview changes before publishing them."
+msgstr ""
+
+#: classes/Customize/Widgets.php:757
+msgid "Trash widget by moving it to the inactive widgets sidebar."
+msgstr ""
+
+#: classes/Customize/Widgets.php:758
+msgid "An error has occurred. Please reload the page and try again."
+msgstr ""
+
+#: classes/Customize/Widgets.php:759
+msgid "Widget moved up"
+msgstr ""
+
+#: classes/Customize/Widgets.php:760
+msgid "Widget moved down"
+msgstr ""
+
+#: classes/Customize/Widgets.php:761
+msgid ""
+"You can navigate to other pages on your site while using the Customizer to "
+"view and edit the widgets displayed on those pages."
+msgstr ""
+
+#. translators: %d: the number of widgets found
+#: classes/Customize/Widgets.php:768
+msgid "Number of widgets found: %d"
+msgstr ""
+
+#: classes/Customize/Widgets.php:769 classes/Customize/Widgets.php:823
+msgid "No widgets found."
+msgstr ""
+
+#: classes/Customize/Widgets.php:811
+msgid "Search Widgets"
+msgstr ""
+
+#: classes/Customize/Widgets.php:812
+msgid "Search widgets&hellip;"
+msgstr ""
+
+#: classes/Customize/Widgets.php:1142
+msgid "Shift-click to edit this widget."
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Background/Background.php:50
+#: classes/ThemeFramework/Fields/Background/Background.php:51
+#: classes/ThemeFramework/Fields/Upload/Upload.php:37
+#: classes/ThemeFramework/Fields/Upload/Upload.php:38
+msgid "Upload"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Background/Background.php:52
+#: classes/ThemeFramework/Fields/Upload/Upload.php:39
+msgid "Use Image"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Backup/Backup.php:27
+msgid "Import a Backup"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Backup/Backup.php:28
+msgid "copy-paste your backup string here"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Backup/Backup.php:33
+msgid "Export and Download Backup"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Backup/Backup.php:34
+msgid "or"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Backup/Backup.php:35
+msgid "Reset All Options"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Backup/Backup.php:36
+msgid "Please be sure for reset all of framework options."
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Gallery/Gallery.php:32
+msgid "Add Gallery"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Gallery/Gallery.php:33
+msgid "Edit Gallery"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Gallery/Gallery.php:34
+msgid "Clear"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Group/Group.php:33
+msgid "Adding"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Icon/Icon.php:29
+#: classes/ThemeFramework/Support/Actions.php:63
+msgid "Add Icon"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Icon/Icon.php:30
+msgid "Remove Icon"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Image/Image.php:31
+msgid "Add Image"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Sorter/Sorter.php:33
+msgid "Enabled Modules"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Sorter/Sorter.php:34
+msgid "Disabled Modules"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Switcher/Switcher.php:29
+msgid "on"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Switcher/Switcher.php:29
+msgid "off"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Textarea/Textarea.php:36
+#: classes/ThemeFramework/Foundation/ShortcodeManager.php:104
+#: classes/ThemeFramework/Foundation/ShortcodeManager.php:113
+msgid "Add Shortcode"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Typography/Typography.php:86
+msgid "Web Safe Fonts"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Typography/Typography.php:92
+msgid "Google Fonts"
+msgstr ""
+
+#: classes/ThemeFramework/Fields/Typography/Typography.php:120
+#: classes/ThemeFramework/Support/Actions.php:40
+msgid "Error! Can not load json file."
+msgstr ""
+
+#: classes/ThemeFramework/Foundation/AdminPanel.php:367
+msgid "Success. Imported backup options."
+msgstr ""
+
+#: classes/ThemeFramework/Foundation/AdminPanel.php:372
+msgid "Default options restored."
+msgstr ""
+
+#: classes/ThemeFramework/Foundation/AdminPanel.php:391
+msgid "Default options restored for only this section."
+msgstr ""
+
+#: classes/ThemeFramework/Foundation/Options.php:206
+msgid "CONFIG"
+msgstr ""
+
+#: classes/ThemeFramework/Foundation/Options.php:212
+#: classes/ThemeFramework/Foundation/Options.php:232
+msgid "USAGE"
+msgstr ""
+
+#: classes/ThemeFramework/Foundation/Options.php:218
+msgid "VALUE"
+msgstr ""
+
+#: classes/ThemeFramework/Foundation/Options.php:236
+msgid "ID"
+msgstr ""
+
+#: classes/ThemeFramework/Foundation/Options.php:311
+msgid "You are editing language: ( <strong>%s</strong> )"
+msgstr ""
+
+#: classes/ThemeFramework/Foundation/ShortcodeManager.php:115
+msgid "Select a shortcode"
+msgstr ""
+
+#: classes/ThemeFramework/Foundation/ShortcodeManager.php:131
+msgid "Insert Shortcode"
+msgstr ""
+
+#: classes/ThemeFramework/OptionField.php:80
+msgid "This field class is not available!"
+msgstr ""
+
+#: classes/ThemeFramework/Support/Actions.php:64
+msgid "Search a Icon..."
+msgstr ""
+
+#: classes/ThemeFramework/Support/Actions.php:65
+msgid "Loading..."
+msgstr ""
+
+#: classes/ThemeFramework/Support/Validate.php:21
+msgid "Please write a valid email address!"
+msgstr ""
+
+#: classes/ThemeFramework/Support/Validate.php:39
+msgid "Please write a numeric data!"
+msgstr ""
+
+#: classes/ThemeFramework/Support/Validate.php:55
+msgid "Fatal Error! This field is required!"
+msgstr ""
+
+#: classes/ThemeOption/ThemeOption.php:240
+msgid "%s is a protected ECJia Theme option and may not be modified"
+msgstr ""
+
+#. translators: %s: misc
+#. translators: %s: privacy
+#. translators: %s: misc
+#. translators: %s: privacy
+#. translators: %s: misc
+#. translators: %s: privacy
+#. translators: %s: misc
+#. translators: %s: privacy
+#: classes/ThemeOption/ThemeSetting.php:106
+#: classes/ThemeOption/ThemeSetting.php:116
+#: classes/ThemeOption/ThemeSetting.php:152
+#: classes/ThemeOption/ThemeSetting.php:162
+#: classes/ThemeOption/ThemeSetting.php:263
+#: classes/ThemeOption/ThemeSetting.php:273
+#: classes/ThemeOption/ThemeSetting.php:324
+#: classes/ThemeOption/ThemeSetting.php:334
+msgid "The \"%s\" options group has been removed. Use another settings group."
+msgstr ""
+
+#. translators: 1: $sanitize_callback, 2: register_setting()
+#: classes/ThemeOption/ThemeSetting.php:176
+msgid "%1$s is deprecated. The callback from %2$s is used instead."
+msgstr ""
+
+#: configs/package.php:55
+msgid "主题"
+msgstr ""
+
+#: configs/package.php:56
+msgid "方便快捷切换不同主题"
+msgstr ""
+
+#: navigator.php:72
+msgid "确定要移除这个菜单项吗？"
+msgstr ""
+
+#: navigator.php:91 navigator.php:92 navigator.php:157 navigator.php:158
+msgid "菜单管理"
+msgstr ""
+
+#: navigator.php:120
+msgid "没有这个菜单"
+msgstr ""
+
+#: navigator.php:173 navigator.php:223
+msgid "菜单名不能为空"
+msgstr ""
+
+#: navigator.php:177 navigator.php:229
+msgid "重复了"
+msgstr ""
+
+#: navigator.php:188
+msgid "失败"
+msgstr ""
+
+#: navigator.php:348
+msgid "查看购物车"
+msgstr ""
+
+#: navigator.php:349
+msgid "选购中心"
+msgstr ""
+
+#: navigator.php:350
+msgid "团购商品"
+msgstr ""
+
+#: navigator.php:351
+msgid "夺宝奇兵"
+msgstr ""
+
+#: navigator.php:352
+msgid "标签云"
+msgstr ""
+
+#: navigator.php:353
+msgid "用户中心"
+msgstr ""
+
+#: navigator.php:354
+msgid "批发"
+msgstr ""
+
+#: navigator.php:355
+msgid "优惠活动"
+msgstr ""
+
+#: navigator.php:356
+msgid "配送方式"
+msgstr ""
+
+#: navigator.php:357
+msgid "留言板"
+msgstr ""
+
+#: navigator.php:358
+msgid "报价单"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_list.dwt.php:14
+msgid "当前主题"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_list.dwt.php:36
+msgid "模板来源："
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_list.dwt.php:39
+msgid "模板作者："
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_list.dwt.php:43
+msgid "风格选择："
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_list.dwt.php:51
+msgid "主题描述："
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_list.dwt.php:55
+msgid "未选择任何主题"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_list.dwt.php:60
+msgid "可用主题"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_list.dwt.php:60
+msgid "（共有 <strong class=\"ok_color\">%1</strong> 套可用主题）"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_list.dwt.php:87
+msgid "暂无可用主题"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:20
+#: content/apps/theme/templates/admin/navigator.dwt.php:19
+msgid "选择要编辑的菜单："
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:22
+msgid "--选择--"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:27
+#: content/apps/theme/templates/admin/navigator.dwt.php:25
+msgid "选择"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:28
+#: content/apps/theme/templates/admin/navigator.dwt.php:26
+msgid "或"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:28
+msgid "返回自定义导航栏"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:37
+#: content/apps/theme/templates/admin/navigator.dwt.php:36
+msgid "页面"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:44
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:70
+#: content/apps/theme/templates/admin/navigator.dwt.php:43
+#: content/apps/theme/templates/admin/template_backup.dwt.php:28
+msgid "全选"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:44
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:56
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:70
+#: content/apps/theme/templates/admin/navigator.dwt.php:43
+#: content/apps/theme/templates/admin/navigator.dwt.php:55
+msgid "添加至菜单"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:50
+#: content/apps/theme/templates/admin/navigator.dwt.php:49
+msgid "链接"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:54
+#: content/apps/theme/templates/admin/navigator.dwt.php:53
+#: content/apps/theme/templates/admin/navigator.dwt.php:80
+msgid "URL："
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:55
+#: content/apps/theme/templates/admin/navigator.dwt.php:54
+msgid "文字："
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:62
+msgid "分类目录"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:80
+#: content/apps/theme/templates/admin/navigator.dwt.php:63
+msgid "菜单名称："
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:80
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:86
+msgid "创建菜单"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator_addlist.dwt.php:83
+msgid "在上面给菜单命名，然后点击“创建菜单”。"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator.dwt.php:27
+msgid "创建新菜单"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator.dwt.php:63
+#: content/apps/theme/templates/admin/navigator.dwt.php:122
+msgid "保存菜单"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator.dwt.php:67
+msgid "菜单结构"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator.dwt.php:68
+msgid "拖放各个项目到您喜欢的顺序，点击右侧的箭头可进行更详细的设置。"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator.dwt.php:81
+msgid "导航标签"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator.dwt.php:84
+msgid "是否显示"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator.dwt.php:87
+msgid "是否新窗口"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator.dwt.php:90
+msgid "移除"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator.dwt.php:98
+msgid "菜单设置"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator.dwt.php:99
+msgid "主题位置"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator.dwt.php:102
+msgid "首页/列表页菜单"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator.dwt.php:103
+#: content/apps/theme/templates/admin/navigator.dwt.php:107
+#: content/apps/theme/templates/admin/navigator.dwt.php:111
+#: content/apps/theme/templates/admin/navigator.dwt.php:115
+msgid "（当前设置：底部）"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator.dwt.php:106
+msgid "页脚菜单"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator.dwt.php:110
+msgid "播放页菜单"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator.dwt.php:114
+msgid "新闻页菜单"
+msgstr ""
+
+#: content/apps/theme/templates/admin/navigator.dwt.php:121
+msgid "删除菜单"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_backup.dwt.php:24
+msgid "选择模板："
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_backup.dwt.php:40
+msgid "备份注释："
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_backup.dwt.php:55
+msgid "没有可备份的布局设置"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_backup.dwt.php:62
+msgid "可使用的布局设置备份"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_backup.dwt.php:71
+msgid "删除"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_backup.dwt.php:75
+msgid "没有可用布局备份"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_library.dwt.php:15
+msgid "暂无库项目"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_library.dwt.php:47
+msgid "未选择库项目"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_library.dwt.php:54
+msgid "保存"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_library.dwt.php:62
+msgid "库项目"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_library.dwt.php:66
+#: content/apps/theme/templates/admin/template_layout.dwt.php:137
+msgid "筛选搜索到的商品信息"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_layout.dwt.php:14
+msgid "当前选择的主题没有可用布局管理模板。"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_layout.dwt.php:36
+msgid "可用库项目"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_layout.dwt.php:37
+#: content/apps/theme/templates/admin/template_layout.dwt.php:58
+msgid "停用"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_layout.dwt.php:41
+#: content/apps/theme/templates/admin/template_layout.dwt.php:62
+msgid ""
+"要激活某一小工具，将它拖动到侧栏或点击它。要禁用某一小工具并删除其设置，将它"
+"拖回来。"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_layout.dwt.php:57
+msgid "动态库项目"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_layout.dwt.php:78
+msgid "未使用的小工具"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_layout.dwt.php:81
+msgid "将小工具拖至这里，将它们从边栏移除，但同时保留设置。"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_layout.dwt.php:119
+#: content/apps/theme/templates/admin/template_layout.dwt.php:121
+msgid "暂无可用区域"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_layout.dwt.php:133
+msgid "模板文件"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_layout.dwt.php:153
+msgid "添加小工具"
+msgstr ""
+
+#: content/apps/theme/templates/admin/home_group_module.dwt.php:28
+msgid "可用产品"
+msgstr ""
