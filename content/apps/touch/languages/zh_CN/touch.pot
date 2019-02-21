@@ -1,0 +1,62 @@
+# Copyright (C) 2019 Ecjia App touch
+# This file is distributed under the same license as the Ecjia App touch package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App touch 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:59:07+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin_shop_config.php:67 admin_shop_config.php:83 admin_shop_config.php:115
+msgid "微商城设置"
+msgstr ""
+
+#: admin_shop_config.php:98
+msgid ""
+"URL Rewrite 功能要求您的 Web Server 必须安装IIS，并且起用了 ISAPI Rewrite 模"
+"块。如果您使用的是ISAPI Rewrite商业版，请您确认是否已经将httpd.txt文件重命名"
+"为httpd.ini。如果您使用的是ISAPI Rewrite免费版，请您确认是否已经将httpd.txt文"
+"件内的内容复制到ISAPI Rewrite安装目录中httpd.ini里。"
+msgstr ""
+
+#: admin_shop_config.php:102
+msgid ""
+"URL Rewrite 功能要求您的 Web Server 必须是 Apache，并且起用了 rewrite 模块。"
+"同时请您确认是否已经将htaccess.txt文件重命名为.htaccess。如果服务器上还有其他"
+"的重写规则请去掉注释,请将RewriteBase行的注释去掉,并将路径设置为服务器请求的绝"
+"对路径"
+msgstr ""
+
+#: admin_shop_config.php:213
+msgid "邮件服务器设置成功。"
+msgstr ""
+
+#: admin_shop_config.php:215 admin_shop_config.php:236
+msgid "保存商店设置成功。"
+msgstr ""
+
+#: apis/touch_admin_purview_api.class.php:57
+msgid "H5应用设置"
+msgstr ""
+
+#: configs/package.php:55
+msgid "微商城"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"采用APP方式设计，标准通用标记语言下的一个应用超文本标记语言(HTML)重大突破。 "
+msgstr ""
+
+#: content/apps/touch/templates/admin/shop_config.dwt.php:25
+msgid "确定"
+msgstr ""
+
+#: content/apps/touch/templates/admin/shop_config.dwt.php:26
+msgid "重置"
+msgstr ""

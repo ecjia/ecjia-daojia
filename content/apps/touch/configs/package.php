@@ -52,11 +52,11 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
     'identifier'    => 'ecjia.touch',
     'directory'     => 'touch',
-    'name'          => 'touch',
-    'description'   => 'touch_desc',			/* 描述对应的语言项 */
+    'name'          => __('微商城', 'touch'),
+    'description'   => __('采用APP方式设计，标准通用标记语言下的一个应用超文本标记语言(HTML)重大突破。 ', 'touch'),
 	'author'        => 'ECJIA TEAM',			/* 作者 */
 	'website'       => 'http://www.ecjia.com',	/* 网址 */
-	'version'       => '1.27.1',					/* 版本号 */
+	'version'       => '1.27.4',					/* 版本号 */
 	'copyright'     => 'ECJIA Copyright 2015 ~ 2019.',
     'namespace'     => 'Ecjia\App\Touch',
     'provider'      => 'TouchServiceProvider',
