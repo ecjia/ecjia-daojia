@@ -1,0 +1,320 @@
+# Copyright (C) 2019 Ecjia App staff
+# This file is distributed under the same license as the Ecjia App staff package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App staff 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:58:35+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: apis/staff_merchant_privilege_menu_api.class.php:58
+msgid "商家后台权限"
+msgstr ""
+
+#: apis/staff_merchant_purview_api.class.php:57 configs/package.php:55
+msgid "员工管理"
+msgstr ""
+
+#: apis/staff_merchant_purview_api.class.php:58
+msgid "员工更新"
+msgstr ""
+
+#: apis/staff_merchant_purview_api.class.php:59
+msgid "员工删除"
+msgstr ""
+
+#: apis/staff_merchant_purview_api.class.php:60
+msgid "员工权限分配"
+msgstr ""
+
+#: apis/staff_merchant_purview_api.class.php:62
+msgid "员工组管理"
+msgstr ""
+
+#: apis/staff_merchant_purview_api.class.php:63
+msgid "员工组更新"
+msgstr ""
+
+#: apis/staff_merchant_purview_api.class.php:64
+msgid "员工组删除"
+msgstr ""
+
+#: apis/staff_merchant_purview_api.class.php:66
+msgid "员工操作日志"
+msgstr ""
+
+#: configs/package.php:56
+msgid "对商家后台每个员工进行管理以及分配权限"
+msgstr ""
+
+#: get_password.php:103
+msgid "输入的信息不正确！"
+msgstr ""
+
+#: get_password.php:129
+msgid "重置密码的邮件已经发到您的邮箱："
+msgstr ""
+
+#: get_password.php:132
+msgid "重置密码邮件发送失败!请与管理员联系"
+msgstr ""
+
+#: get_password.php:135 get_password.php:159 get_password.php:192
+#: get_password.php:210
+msgid "返回"
+msgstr ""
+
+#: get_password.php:140
+msgid "用户名与Email地址不匹配,请重新输入！"
+msgstr ""
+
+#: get_password.php:161 get_password.php:194
+msgid "此链接不合法!"
+msgstr ""
+
+#: get_password.php:168
+msgid "修改密码"
+msgstr ""
+
+#: get_password.php:197
+msgid "新密码和确认密码须保持一致"
+msgstr ""
+
+#: get_password.php:212 modules/admin/user/password_module.class.php:90
+msgid "密码修改成功!"
+msgstr ""
+
+#: get_password.php:214 modules/admin/user/password_module.class.php:93
+msgid "密码修改失败!"
+msgstr ""
+
+#: merchant.php:450
+msgid "返回账户列表"
+msgstr ""
+
+#: merchant.php:451
+msgid "您不能对此管理员的权限进行任何操作！"
+msgstr ""
+
+#: merchant.php:457
+msgid "分派商家后台权限 [ %s ] "
+msgstr ""
+
+#: merchant.php:482
+msgid "编辑 %s 员工权限操作成功"
+msgstr ""
+
+#: mh_profile.php:79 mh_profile.php:80 mh_profile.php:329 mh_profile.php:330
+msgid "个人资料"
+msgstr ""
+
+#: mh_profile.php:125 mh_profile.php:126
+msgid "账户设置"
+msgstr ""
+
+#: mh_profile.php:154
+msgid "该Email地址 %s 已经存在！"
+msgstr ""
+
+#: mh_profile.php:205
+msgid "您已经成功的修改了密码，因此您必须重新登录！"
+msgstr ""
+
+#: mh_profile.php:207
+msgid "修改个人资料成功！"
+msgstr ""
+
+#: modules/admin/user/account/update_module.class.php:69
+msgid "验证码过期，请重新获取验证码！"
+msgstr ""
+
+#: modules/admin/user/account/validate_module.class.php:85
+msgid "验证码发送失败！"
+msgstr ""
+
+#: modules/admin/user/password_module.class.php:60
+msgid "提交信息有误!"
+msgstr ""
+
+#: modules/admin/user/password_module.class.php:65
+msgid "请输入至少6位数密码！"
+msgstr ""
+
+#: modules/admin/user/password_module.class.php:76
+msgid "信息错误！"
+msgstr ""
+
+#: modules/v2/admin/user/forget_request_module.class.php:62
+msgid "请填写用户相关信息！"
+msgstr ""
+
+#: modules/v2/admin/user/forget_request_module.class.php:67
+msgid "邮箱格式不正确！"
+msgstr ""
+
+#: modules/v2/admin/user/forget_request_module.class.php:118
+#: modules/v2/admin/user/forget_request_module.class.php:182
+msgid "邮件发送失败！"
+msgstr ""
+
+#: modules/v2/admin/user/forget_request_module.class.php:122
+#: modules/v2/admin/user/forget_request_module.class.php:156
+msgid "用户不存在！"
+msgstr ""
+
+#: modules/v2/admin/user/forget_request_module.class.php:186
+msgid "用户名与其信息不匹配！"
+msgstr ""
+
+#: modules/v2/admin/user/forget_validate_module.class.php:63
+msgid "请填写校验码！"
+msgstr ""
+
+#: modules/v2/admin/user/forget_validate_module.class.php:67
+msgid "校验码已过期！"
+msgstr ""
+
+#: modules/v2/admin/user/forget_validate_module.class.php:75
+msgid "校验码错误！"
+msgstr ""
+
+#: modules/v2/admin/user/signin_module.class.php:67
+#: modules/v2/admin/user/signin_module.class.php:121
+#: modules/v2/admin/user/signin_module.class.php:332
+#: modules/v2/admin/user/signin_module.class.php:345
+#: modules/v2/admin/user/signin_module.class.php:480
+msgid "您输入的帐号信息不正确"
+msgstr ""
+
+#: modules/v2/admin/user/signin_module.class.php:109
+msgid "此账号不是商家账号"
+msgstr ""
+
+#: modules/v2/admin/user/signin_module.class.php:128
+msgid "此设备不属于当前店铺设备，请使用当前店铺设备登录！"
+msgstr ""
+
+#: modules/v2/admin/user/signin_module.class.php:343
+msgid "平台管理员请登录掌柜管理"
+msgstr ""
+
+#: privilege.php:150
+msgid "登录成功"
+msgstr ""
+
+#: privilege.php:152
+msgid "该店铺已被锁定，暂无法登录"
+msgstr ""
+
+#: privilege.php:155
+msgid "您输入的帐号信息不正确。"
+msgstr ""
+
+#: content/apps/staff/templates/admin/store_staff_set.dwt.php:28
+msgid "员工数量："
+msgstr ""
+
+#: content/apps/staff/templates/admin/store_staff_set.dwt.php:37
+msgid "确定"
+msgstr ""
+
+#: content/apps/staff/templates/admin/store_staff.dwt.php:83
+msgid "没有找到任何记录"
+msgstr ""
+
+#: content/apps/staff/templates/merchant/staff_info.dwt.php:64
+msgid "员工手机号："
+msgstr ""
+
+#: content/apps/staff/templates/merchant/staff_info.dwt.php:72
+msgid "短信验证码："
+msgstr ""
+
+#: content/apps/staff/templates/merchant/staff_info.dwt.php:175
+msgid "员工名称："
+msgstr ""
+
+#: content/apps/staff/templates/merchant/staff_info.dwt.php:182
+msgid "员工昵称："
+msgstr ""
+
+#: content/apps/staff/templates/merchant/staff_info.dwt.php:184
+#: content/apps/staff/templates/merchant/staff_info.dwt.php:191
+#: content/apps/staff/templates/merchant/staff_info.dwt.php:213
+msgid "无"
+msgstr ""
+
+#: content/apps/staff/templates/merchant/staff_info.dwt.php:189
+msgid "员工编号："
+msgstr ""
+
+#: content/apps/staff/templates/merchant/staff_info.dwt.php:196
+msgid "员工介绍："
+msgstr ""
+
+#: content/apps/staff/templates/merchant/staff_info.dwt.php:203
+msgid "所属员工组："
+msgstr ""
+
+#: content/apps/staff/templates/merchant/staff_info.dwt.php:205
+msgid "没有在任何组"
+msgstr ""
+
+#: content/apps/staff/templates/merchant/staff_info.dwt.php:211
+msgid "员工备注："
+msgstr ""
+
+#: content/apps/staff/templates/merchant/staff_info.dwt.php:219
+msgid "加入时间："
+msgstr ""
+
+#: content/apps/staff/templates/merchant/staff_info.dwt.php:227
+msgid "手机账号："
+msgstr ""
+
+#: content/apps/staff/templates/merchant/staff_info.dwt.php:234
+msgid "邮件账号："
+msgstr ""
+
+#: content/apps/staff/templates/merchant/library/widget_merchant_dashboard_profile.lbi.php:25
+#: content/apps/staff/templates/merchant/library/profile_setting.lbi.php:16
+msgid "上次登录IP："
+msgstr ""
+
+#: content/apps/staff/templates/merchant/library/widget_merchant_dashboard_profile.lbi.php:29
+#: content/apps/staff/templates/merchant/library/profile_setting.lbi.php:20
+msgid "上次登录时间："
+msgstr ""
+
+#: content/apps/staff/templates/merchant/library/widget_merchant_dashboard_loglist.lbi.php:9
+msgid "管理员"
+msgstr ""
+
+#: content/apps/staff/templates/merchant/library/widget_merchant_dashboard_loglist.lbi.php:9
+msgid "在"
+msgstr ""
+
+#: content/apps/staff/templates/merchant/library/widget_merchant_dashboard_loglist.lbi.php:9
+msgid "IP下"
+msgstr ""
+
+#: content/apps/staff/templates/merchant/library/widget_merchant_dashboard_loglist.lbi.php:13
+msgid "暂无操作日志"
+msgstr ""
+
+#: content/apps/staff/templates/merchant/library/widget_merchant_dashboard_loglist.lbi.php:18
+msgid "查看更多"
+msgstr ""
+
+#: content/apps/staff/templates/merchant/staff_log_list.dwt.php:29
+msgid "全部IP"
+msgstr ""
+
+#: content/apps/staff/templates/merchant/staff_log_list.dwt.php:37
+msgid "全部管理员"
+msgstr ""
