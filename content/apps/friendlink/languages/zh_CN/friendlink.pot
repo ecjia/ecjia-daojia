@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App friendlink package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App friendlink 1.21.0\n"
+"Project-Id-Version: Ecjia App friendlink 1.21.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-01-28 09:16:50+00:00\n"
+"POT-Creation-Date: 2019-02-21 03:54:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -64,6 +64,22 @@ msgstr ""
 msgid "显示顺序的类型必须为数字"
 msgstr ""
 
+#: apis/friendlink_admin_purview_api.class.php:13
+msgid "友情链接管理"
+msgstr ""
+
+#: apis/friendlink_admin_purview_api.class.php:14
+msgid "编辑友情链接"
+msgstr ""
+
+#: apis/friendlink_admin_purview_api.class.php:15
+msgid "删除友情链接"
+msgstr ""
+
+#: apis/friendlink_tool_menu_api.class.php:12 configs/package.php:10
+msgid "友情链接"
+msgstr ""
+
 #: configs/jslang.php:57
 msgid "请输入链接名称"
 msgstr ""
@@ -92,6 +108,14 @@ msgstr ""
 msgid "取消"
 msgstr ""
 
+#: configs/package.php:11
+msgid ""
+"友情链接是指互相在自己的网站上放对方网站的链接。必须要能在网页代码中找到网址"
+"和网站名称，而且浏览网页的时候能显示网站名称；友情链接是网站流量来源的根本，"
+"比如一种可以自动交换链接的友情链接网站，这是一种创新的自助式友情链接互连网模"
+"式。"
+msgstr ""
+
 #: content/apps/friendlink/templates/admin/link_edit.dwt.php:25
 msgid "链接名称："
 msgstr ""
@@ -102,6 +126,10 @@ msgstr ""
 
 #: content/apps/friendlink/templates/admin/link_edit.dwt.php:41
 msgid "链接LOGO："
+msgstr ""
+
+#: content/apps/friendlink/templates/admin/link_edit.dwt.php:46
+msgid "图片预览"
 msgstr ""
 
 #: content/apps/friendlink/templates/admin/link_edit.dwt.php:50
@@ -136,6 +164,10 @@ msgstr ""
 
 #: content/apps/friendlink/templates/admin/link_list.dwt.php:27
 msgid "请选择要删除的友情链接"
+msgstr ""
+
+#: content/apps/friendlink/templates/admin/link_list.dwt.php:34
+msgid "请输入链接名称关键字"
 msgstr ""
 
 #: content/apps/friendlink/templates/admin/link_list.dwt.php:35

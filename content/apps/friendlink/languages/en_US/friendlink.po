@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the Ecjia App friendlink package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App friendlink 1.21.0\n"
+"Project-Id-Version: Ecjia App friendlink 1.21.1\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-01-28 09:16:50+00:00\n"
+"POT-Creation-Date: 2019-01-31 07:53:39+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-01-29 09:46+0800\n"
+"PO-Revision-Date: 2019-01-31 16:02+0800\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "X-Generator: Poedit 2.2.1\n"
 "Last-Translator: \n"
@@ -67,6 +67,22 @@ msgstr "Sort cannot be empty"
 msgid "显示顺序的类型必须为数字"
 msgstr "The type of display order must be a number"
 
+#: apis/friendlink_admin_purview_api.class.php:13
+msgid "友情链接管理"
+msgstr "Friendly link management"
+
+#: apis/friendlink_admin_purview_api.class.php:14
+msgid "编辑友情链接"
+msgstr "Editing friendship link"
+
+#: apis/friendlink_admin_purview_api.class.php:15
+msgid "删除友情链接"
+msgstr "Delete friendship link"
+
+#: apis/friendlink_tool_menu_api.class.php:12
+msgid "友情链接"
+msgstr "Friendship link"
+
 #: configs/jslang.php:57
 msgid "请输入链接名称"
 msgstr "Please enter a link name"
@@ -107,6 +123,10 @@ msgstr "link address:"
 msgid "链接LOGO："
 msgstr "Link LOGO:"
 
+#: content/apps/friendlink/templates/admin/link_edit.dwt.php:46
+msgid "图片预览"
+msgstr "Picture Preview"
+
 #: content/apps/friendlink/templates/admin/link_edit.dwt.php:50
 msgid "浏览"
 msgstr "Browse"
@@ -140,6 +160,10 @@ msgstr "Are you sure you want to delete the selected friendship link?"
 #: content/apps/friendlink/templates/admin/link_list.dwt.php:27
 msgid "请选择要删除的友情链接"
 msgstr "Please select the link to be deleted"
+
+#: content/apps/friendlink/templates/admin/link_list.dwt.php:34
+msgid "请输入链接名称关键字"
+msgstr "Please enter a link name keyword"
 
 #: content/apps/friendlink/templates/admin/link_list.dwt.php:35
 msgid "搜索"
