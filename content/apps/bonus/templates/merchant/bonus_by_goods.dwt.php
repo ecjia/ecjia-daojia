@@ -32,15 +32,15 @@
 				                <div class="pull-left">
 					                <div class="form-group">
 					                    <select name="cat_id" class="w130">
-					                    	<option value="0">{lang key='system::system.all_category'}{$merchant_cat_list}</option>
+					                    	<option value="0">{t domain="bonus"}所有分类{/t}{$merchant_cat_list}</option>
 					                    </select>
 					                </div>
 					                <div class="form-group">
 					                    <input class="form-control" type="text" name="keyword" />
 					                </div>
-					                <button type="button" class="btn btn-primary" data-toggle="searchGoods"><i class='fa fa-search'></i> <!-- {lang key='system::system.button_search'} --></button>
+					                <button type="button" class="btn btn-primary" data-toggle="searchGoods"><i class='fa fa-search'></i> <!-- {t domain="bonus"}搜索{/t} --></button>
 					                <div class="form-group">
-					                    <span class="help-block m_t5">{t}搜索要发放此类型红包的商品展示在左侧区域中，点击左侧列表中选项，商品即可进入右侧发放红包区域。您还可以在右侧编辑将发放红包的商品。{/t}</span>
+					                    <span class="help-block m_t5">{t domain="bonus"}搜索要发放此类型红包的商品展示在左侧区域中，点击左侧列表中选项，商品即可进入右侧发放红包区域。您还可以在右侧编辑将发放红包的商品。{/t}</span>
 					                </div>
 				                </div>
 				            </div>
@@ -49,7 +49,7 @@
 			                    <div class="ms-container " id="ms-custom-navigation">
 			                        <div class="ms-selectable">
 			                            <div class="search-header">
-			                                <input class="form-control" id="ms-search" type="text" placeholder="{t}筛选搜索到的商品信息{/t}" autocomplete="off">
+			                                <input class="form-control" id="ms-search" type="text" placeholder="{t domain="bonus"}筛选搜索到的商品信息{/t}" autocomplete="off">
 			                            </div>
 			                            <ul class="ms-list nav-list-ready">
 			                                <li class="ms-elem-selectable disabled"><span>暂无内容</span></li>
@@ -72,7 +72,7 @@
 				        </fieldset>
 					    <div class="form-group">
 					        <div class="ecjiaf-tac m_t20">
-					            <button class="btn btn-info" type="submit">{t}确定发放红包{/t}</button>
+					            <button class="btn btn-info" type="submit">{t domain="bonus"}确定发放红包{/t}</button>
 					            <input type="hidden" id="bonus_type_id" value="{$bonus_type_id}" />
 					        </div>
 					    </div>

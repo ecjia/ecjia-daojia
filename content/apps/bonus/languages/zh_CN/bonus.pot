@@ -1,0 +1,750 @@
+# Copyright (C) 2019 Ecjia App bonus
+# This file is distributed under the same license as the Ecjia App bonus package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App bonus 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:19:19+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin.php:83 admin.php:93 apis/bonus_merchant_purview_api.class.php:61
+#: classes/hooks/admin_bonus.class.php:52 merchant.php:84
+msgid "红包管理"
+msgstr ""
+
+#: admin.php:96 admin.php:127 admin.php:234 admin.php:447 admin.php:466
+#: admin.php:489 admin.php:504 admin.php:978
+msgid "概述"
+msgstr ""
+
+#: admin.php:97
+msgid ""
+"欢迎访问ECJia智能后台红包类型列表页面，系统中所有的红包类型都会显示在此列表"
+"中。"
+msgstr ""
+
+#: admin.php:101 admin.php:132 admin.php:239 admin.php:452 admin.php:471
+#: admin.php:494 admin.php:509 admin.php:983
+msgid "更多信息："
+msgstr ""
+
+#: admin.php:105 admin.php:137 admin.php:244 admin.php:440 admin.php:988
+#: merchant.php:94 merchant.php:114 merchant.php:236 merchant.php:444
+msgid "红包类型列表"
+msgstr ""
+
+#: admin.php:124 admin.php:136 merchant.php:95 merchant.php:113
+#: merchant.php:126
+msgid "添加红包类型"
+msgstr ""
+
+#: admin.php:128
+msgid ""
+"欢迎访问ECJia智能后台添加红包类型页面，在此页面中可以进行添加红包类型操作。"
+msgstr ""
+
+#: admin.php:166 admin.php:272 admin.php:355 merchant.php:148 merchant.php:258
+#: merchant.php:373
+msgid "此类型的名称已经存在！"
+msgstr ""
+
+#: admin.php:175 admin.php:297 merchant.php:158
+msgid "请输入发放起始日期！"
+msgstr ""
+
+#: admin.php:178 admin.php:300 merchant.php:161
+msgid "请输入发放结束日期！"
+msgstr ""
+
+#: admin.php:181 admin.php:303 merchant.php:164
+msgid "红包发放起始日期不能大于或等于发放结束日期"
+msgstr ""
+
+#: admin.php:185 admin.php:310 merchant.php:169
+msgid "请输入使用起始日期！"
+msgstr ""
+
+#: admin.php:188 admin.php:313 merchant.php:172
+msgid "请输入使用结束日期！"
+msgstr ""
+
+#: admin.php:192 admin.php:317 merchant.php:176
+msgid "红包使用起始日期不能大于或等于使用结束日期"
+msgstr ""
+
+#: admin.php:210 admin.php:323 admin.php:415 admin.php:621 admin.php:706
+#: admin.php:746 admin.php:789 functions/admin_bonus.func.php:115
+#: merchant.php:352 merchant.php:391 merchant.php:733 merchant.php:1041
+msgid "按用户发放"
+msgstr ""
+
+#: admin.php:211 admin.php:324 admin.php:416 admin.php:622 admin.php:707
+#: admin.php:747 admin.php:790 functions/admin_bonus.func.php:116
+#: merchant.php:356 merchant.php:395 merchant.php:734 merchant.php:1042
+msgid "按商品发放"
+msgstr ""
+
+#: admin.php:212 admin.php:325 admin.php:417 admin.php:623 admin.php:708
+#: admin.php:748 admin.php:791 functions/admin_bonus.func.php:117
+#: merchant.php:358 merchant.php:397 merchant.php:735 merchant.php:1043
+msgid "按订单金额发放"
+msgstr ""
+
+#: admin.php:213 admin.php:326 admin.php:418 admin.php:624 admin.php:709
+#: admin.php:749 admin.php:792 functions/admin_bonus.func.php:118
+#: merchant.php:354 merchant.php:393 merchant.php:736 merchant.php:1044
+msgid "线下发放的红包"
+msgstr ""
+
+#: admin.php:214 admin.php:327 admin.php:419 admin.php:625 admin.php:710
+#: admin.php:750 admin.php:793 functions/admin_bonus.func.php:119
+#: merchant.php:737 merchant.php:1045
+msgid "注册送红包"
+msgstr ""
+
+#: admin.php:215 admin.php:328 admin.php:420 admin.php:626 admin.php:711
+#: admin.php:751 admin.php:794 functions/admin_bonus.func.php:120
+#: merchant.php:738 merchant.php:1046
+msgid "优惠券"
+msgstr ""
+
+#: admin.php:218 admin.php:331 admin.php:423 admin.php:630 admin.php:716
+#: admin.php:756 admin.php:798 merchant.php:205 merchant.php:293
+#: merchant.php:334 merchant.php:742
+msgid "发放类型是 "
+msgstr ""
+
+#: admin.php:218 admin.php:331 admin.php:351 admin.php:423 admin.php:630
+#: admin.php:716 admin.php:756 admin.php:798 merchant.php:205 merchant.php:293
+#: merchant.php:334 merchant.php:742
+msgid "红包类型名称是 "
+msgstr ""
+
+#: admin.php:220 admin.php:333 merchant.php:207 merchant.php:295
+msgid "返回红包类型列表"
+msgstr ""
+
+#: admin.php:221 admin.php:334 merchant.php:208 merchant.php:296
+msgid "继续添加红包类型"
+msgstr ""
+
+#: admin.php:222 merchant.php:209
+msgid "添加成功"
+msgstr ""
+
+#: admin.php:231 admin.php:243 merchant.php:218 merchant.php:235
+msgid "编辑红包类型"
+msgstr ""
+
+#: admin.php:235
+msgid ""
+"欢迎访问ECJia智能后台编辑红包类型页面，在此页面中可以进行编辑红包类型操作。"
+msgstr ""
+
+#: admin.php:335 merchant.php:297
+msgid "编辑成功"
+msgstr ""
+
+#: admin.php:353 admin.php:375 admin.php:394 admin.php:759 admin.php:1020
+#: merchant.php:371 merchant.php:408 merchant.php:429 merchant.php:745
+#: merchant.php:838
+msgid "操作成功！"
+msgstr ""
+
+#: admin.php:358
+msgid "红包类型名称不能为空！"
+msgstr ""
+
+#: admin.php:372 merchant.php:400
+msgid "金额必须是数字并且不能小于 0 ！"
+msgstr ""
+
+#: admin.php:390
+msgid "红包类型的订单下限不能为空！"
+msgstr ""
+
+#: admin.php:425 merchant.php:337
+msgid "删除红包类型成功！"
+msgstr ""
+
+#: admin.php:439 admin.php:442 merchant.php:443 merchant.php:445
+msgid "发放红包"
+msgstr ""
+
+#: admin.php:448
+msgid ""
+"欢迎访问ECJia智能后台按照用户发放红包页面，在此页面可以对用户进行发放红包操"
+"作。"
+msgstr ""
+
+#: admin.php:467
+msgid ""
+"欢迎访问ECJia智能后台按照商品发放红包页面，在此页面可以对商品进行发放红包操"
+"作。"
+msgstr ""
+
+#: admin.php:490
+msgid ""
+"欢迎访问ECJia智能后台按照线下发放红包页面，在此页面可以进行线下发放红包操作。"
+msgstr ""
+
+#: admin.php:505
+msgid ""
+"欢迎访问ECJia智能后台按照商品发放优惠券，在此页面可以对商品进行发放优惠券操"
+"作。"
+msgstr ""
+
+#: admin.php:630
+msgid "发放等级是 "
+msgstr ""
+
+#: admin.php:632 admin.php:719 merchant.php:638 merchant.php:705
+msgid "共发送了 %d 个红包。"
+msgstr ""
+
+#: admin.php:645 merchant.php:651
+msgid "您没有选择需要发放红包的会员，请返回！"
+msgstr ""
+
+#: admin.php:716 admin.php:756 merchant.php:742
+msgid "发放目标是 "
+msgstr ""
+
+#: admin.php:799 merchant.php:774
+msgid "生成了 "
+msgstr ""
+
+#: admin.php:799 merchant.php:774
+msgid " 个红包序列号"
+msgstr ""
+
+#: admin.php:810 apis/bonus_bonus_info_api.class.php:57
+#: apis/bonus_bonus_type_count_api.class.php:57
+#: apis/bonus_bonus_type_info_api.class.php:57
+#: apis/bonus_coupon_list_api.class.php:57
+#: apis/bonus_merchant_bonus_type_list_api.class.php:58
+#: apis/bonus_send_bonus_api.class.php:63 apis/bonus_use_bonus_api.class.php:58
+#: merchant.php:890 modules/bonus/bind_module.class.php:18
+#: modules/bonus/receive_coupon_module.class.php:65
+#: modules/bonus/validate_module.class.php:16
+msgid "参数无效"
+msgstr ""
+
+#: admin.php:815 merchant.php:895
+msgid "该红包不存在"
+msgstr ""
+
+#: admin.php:819 admin.php:1058 merchant.php:873 merchant.php:899
+msgid "已成功加入邮件列表"
+msgstr ""
+
+#: admin.php:894 merchant.php:969
+msgid "线下红包信息列表"
+msgstr ""
+
+#: admin.php:895 merchant.php:970
+msgid "红包序列号"
+msgstr ""
+
+#: admin.php:896 merchant.php:971
+msgid "红包金额"
+msgstr ""
+
+#: admin.php:897 merchant.php:972
+msgid "类型名称"
+msgstr ""
+
+#: admin.php:898 merchant.php:973
+msgid "使用结束日期"
+msgstr ""
+
+#: admin.php:975 admin.php:987 merchant.php:810 merchant.php:812
+msgid "红包列表"
+msgstr ""
+
+#: admin.php:979
+msgid "欢迎访问ECJia智能后台红包列表页面，系统中所有的红包都会显示在此列表中。"
+msgstr ""
+
+#: admin.php:1052 merchant.php:868
+msgid "成功删除了 %d 个红包"
+msgstr ""
+
+#: apis/bonus_admin_purview_api.class.php:57
+#: apis/bonus_merchant_purview_api.class.php:57
+msgid "红包类型管理"
+msgstr ""
+
+#: apis/bonus_admin_purview_api.class.php:58
+#: apis/bonus_merchant_purview_api.class.php:59
+msgid "红包类型删除"
+msgstr ""
+
+#: apis/bonus_merchant_purview_api.class.php:58
+msgid "红包类型编辑"
+msgstr ""
+
+#: apis/bonus_merchant_purview_api.class.php:62
+msgid "发送红包"
+msgstr ""
+
+#: apis/bonus_merchant_purview_api.class.php:63
+msgid "删除红包"
+msgstr ""
+
+#: apis/bonus_send_bonus_api.class.php:94
+msgid "您已领取过该优惠券！"
+msgstr ""
+
+#: classes/bonus.class.php:145 functions/admin_bonus.func.php:189
+msgid "未使用"
+msgstr ""
+
+#: classes/hooks/merchant_bonus.class.php:52 configs/package.php:55
+#: merchant.php:100
+msgid "红包类型"
+msgstr ""
+
+#: configs/jslang.php:57
+msgid "编辑红包类型名称"
+msgstr ""
+
+#: configs/jslang.php:58
+msgid "编辑红包金额"
+msgstr ""
+
+#: configs/jslang.php:59
+msgid "编辑订单下限金额"
+msgstr ""
+
+#: configs/jslang.php:60
+msgid "请输入红包类型名称"
+msgstr ""
+
+#: configs/jslang.php:61
+msgid "红包类型名称长度不能小于1"
+msgstr ""
+
+#: configs/jslang.php:62
+msgid "请输入红包金额"
+msgstr ""
+
+#: configs/jslang.php:63
+msgid "请输入最小订单金额"
+msgstr ""
+
+#: configs/jslang.php:68
+msgid "请输入红包数量！"
+msgstr ""
+
+#: configs/jslang.php:69
+msgid "请输入数字！"
+msgstr ""
+
+#: configs/jslang.php:70
+msgid "未搜索到商品信息"
+msgstr ""
+
+#: configs/jslang.php:71
+msgid "未搜索到用户信息"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"在“红包”这个应用的设计上，遵循了简单原则、方式多样。 红包定义是为商家提供的一"
+"项增值服务，由商家批量或单个发送，  用于商品交易中的虚拟优惠券。红包所抵用金"
+"额，是由发送红包的商家承担的。  商家可以自行给客户发放红包，吸引客户在店铺购"
+"物，可以自行控制优惠金额。  红包发放方式多样化，指定用户发放，按商品发放，订"
+"单金额发或放线下发放等多种方式深得广大用户喜爱。"
+msgstr ""
+
+#: merchant.php:361
+msgid "请输红包类型名称！"
+msgstr ""
+
+#: merchant.php:422
+msgid "最小订单金额不能为空！"
+msgstr ""
+
+#: merchant.php:772
+msgid "发放红包,发放类型是线下红包,红包名是"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:22
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:101
+msgid "全场通用"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:27
+msgid "自营"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:32
+msgid "商家"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:42
+msgid "请输入商家名称关键字"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:43
+msgid "请输入类型名称关键字"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:44
+#: content/apps/bonus/templates/admin/bonus_by_goods.dwt.php:37
+#: content/apps/bonus/templates/admin/bonus_by_user.dwt.php:59
+#: content/apps/bonus/templates/merchant/bonus_by_goods.dwt.php:41
+#: content/apps/bonus/templates/merchant/bonus_by_user.dwt.php:68
+msgid "搜索"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:50
+#: content/apps/bonus/templates/merchant/bonus_type.dwt.php:33
+msgid "所有发放类型"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:56
+#: content/apps/bonus/templates/merchant/bonus_type.dwt.php:40
+msgid "筛选"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:67
+#: content/apps/bonus/templates/admin/bonus_list.dwt.php:46
+msgid "商家名称"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:68
+#: content/apps/bonus/templates/merchant/bonus_type.dwt.php:50
+msgid "发放类型"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:70
+msgid "订单下限"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:71
+#: content/apps/bonus/templates/merchant/bonus_type.dwt.php:53
+msgid "发放数量"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:72
+#: content/apps/bonus/templates/merchant/bonus_type.dwt.php:54
+msgid "使用数量"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:85
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:89
+#: content/apps/bonus/templates/merchant/bonus_type.dwt.php:66
+msgid "您确定要删除该红包类型吗？"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:85
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:89
+#: content/apps/bonus/templates/admin/bonus_list.dwt.php:72
+#: content/apps/bonus/templates/merchant/bonus_type.dwt.php:66
+msgid "移除"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:85
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:89
+#: content/apps/bonus/templates/merchant/bonus_type.dwt.php:66
+#: content/apps/bonus/templates/merchant/bonus_list.dwt.php:87
+msgid "删除"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:87
+#: content/apps/bonus/templates/merchant/bonus_type.dwt.php:64
+msgid "查看红包"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:88
+#: content/apps/bonus/templates/merchant/bonus_type.dwt.php:65
+msgid "编辑"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:94
+#: content/apps/bonus/templates/merchant/bonus_type.dwt.php:71
+msgid "导出报表"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type.dwt.php:129
+#: content/apps/bonus/templates/admin/bonus_list.dwt.php:77
+#: content/apps/bonus/templates/merchant/bonus_type.dwt.php:86
+#: content/apps/bonus/templates/merchant/bonus_list.dwt.php:92
+msgid "没有找到任何记录"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_list.dwt.php:23
+#: content/apps/bonus/templates/merchant/bonus_list.dwt.php:30
+msgid "批量操作"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_list.dwt.php:27
+#: content/apps/bonus/templates/admin/bonus_list.dwt.php:29
+#: content/apps/bonus/templates/merchant/bonus_list.dwt.php:32
+#: content/apps/bonus/templates/merchant/bonus_list.dwt.php:34
+msgid "您确定要这么做吗？"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_list.dwt.php:27
+msgid "请先选中要删除的红包"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_list.dwt.php:29
+msgid "请先选中要插入邮件发送队列的红包"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_list.dwt.php:29
+#: content/apps/bonus/templates/admin/bonus_list.dwt.php:73
+#: content/apps/bonus/templates/merchant/bonus_list.dwt.php:34
+#: content/apps/bonus/templates/merchant/bonus_list.dwt.php:88
+msgid "插入邮件发送队列"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_list.dwt.php:47
+#: content/apps/bonus/templates/merchant/bonus_list.dwt.php:56
+msgid "订单号"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_list.dwt.php:48
+#: content/apps/bonus/templates/merchant/bonus_list.dwt.php:57
+msgid "使用会员"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_list.dwt.php:49
+#: content/apps/bonus/templates/merchant/bonus_list.dwt.php:58
+msgid "使用时间"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_list.dwt.php:51
+#: content/apps/bonus/templates/merchant/bonus_list.dwt.php:60
+msgid "邮件通知"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_list.dwt.php:53
+#: content/apps/bonus/templates/merchant/bonus_list.dwt.php:62
+msgid "操作"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_list.dwt.php:72
+msgid "您确定要删除该红包吗？"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_print.dwt.php:25
+#: content/apps/bonus/templates/merchant/bonus_by_print.dwt.php:29
+msgid "类型金额"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_print.dwt.php:33
+#: content/apps/bonus/templates/merchant/bonus_by_print.dwt.php:38
+msgid "红包数量"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_print.dwt.php:41
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:109
+#: content/apps/bonus/templates/merchant/bonus_by_print.dwt.php:47
+#: content/apps/bonus/templates/merchant/bonus_type_info.dwt.php:124
+msgid "确定"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_goods.dwt.php:29
+#: content/apps/bonus/templates/merchant/bonus_by_goods.dwt.php:35
+msgid "所有分类"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_goods.dwt.php:32
+msgid "所有品牌"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_goods.dwt.php:38
+#: content/apps/bonus/templates/merchant/bonus_by_goods.dwt.php:43
+msgid ""
+"搜索要发放此类型红包的商品展示在左侧区域中，点击左侧列表中选项，商品即可进入"
+"右侧发放红包区域。您还可以在右侧编辑将发放红包的商品。"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_goods.dwt.php:44
+#: content/apps/bonus/templates/merchant/bonus_by_goods.dwt.php:52
+msgid "筛选搜索到的商品信息"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_goods.dwt.php:47
+msgid "暂无内容"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_goods.dwt.php:51
+msgid "发放此类型红包的商品"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_goods.dwt.php:67
+#: content/apps/bonus/templates/admin/bonus_by_user.dwt.php:45
+#: content/apps/bonus/templates/admin/bonus_by_user.dwt.php:82
+#: content/apps/bonus/templates/merchant/bonus_by_goods.dwt.php:75
+#: content/apps/bonus/templates/merchant/bonus_by_user.dwt.php:50
+#: content/apps/bonus/templates/merchant/bonus_by_user.dwt.php:93
+msgid "确定发放红包"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_user.dwt.php:27
+#: content/apps/bonus/templates/merchant/bonus_by_user.dwt.php:30
+msgid "按用户等级发放红包"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_user.dwt.php:30
+#: content/apps/bonus/templates/merchant/bonus_by_user.dwt.php:35
+msgid "会员级别："
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_user.dwt.php:33
+#: content/apps/bonus/templates/merchant/bonus_by_user.dwt.php:37
+msgid "选择会员等级..."
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_user.dwt.php:41
+#: content/apps/bonus/templates/merchant/bonus_by_user.dwt.php:44
+msgid "只给通过邮件验证的用户发放红包"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_user.dwt.php:56
+msgid "给指定用户发放红包"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_user.dwt.php:58
+msgid "请输入用户名/手机号关键字"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_user.dwt.php:60
+#: content/apps/bonus/templates/merchant/bonus_by_user.dwt.php:70
+msgid ""
+"搜索要发放此类型红包的用户展示在左侧区域中，点击左侧列表中选项，用户即可进入"
+"右侧发放红包区域。您还可以在右侧编辑将发放红包的用户。"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_user.dwt.php:66
+#: content/apps/bonus/templates/merchant/bonus_by_user.dwt.php:78
+msgid "筛选搜索到的用户信息"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_user.dwt.php:69
+msgid "暂无信息"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_by_user.dwt.php:73
+msgid "给下列用户发放红包"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:30
+#: content/apps/bonus/templates/merchant/bonus_type_info.dwt.php:34
+msgid "类型名称："
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:37
+#: content/apps/bonus/templates/merchant/bonus_type_info.dwt.php:42
+msgid "红包金额："
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:44
+#: content/apps/bonus/templates/merchant/bonus_type_info.dwt.php:50
+msgid "最小订单金额："
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:48
+#: content/apps/bonus/templates/merchant/bonus_type_info.dwt.php:53
+msgid "只有商品总金额达到这个数的订单才能使用这种红包"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:52
+#: content/apps/bonus/templates/merchant/bonus_type_info.dwt.php:59
+msgid "如何发放此类型红包："
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:61
+#: content/apps/bonus/templates/merchant/bonus_type_info.dwt.php:76
+msgid "订单下限："
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:64
+#: content/apps/bonus/templates/merchant/bonus_type_info.dwt.php:79
+msgid "只要订单金额达到该数值，就会发放红包给用户"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:68
+#: content/apps/bonus/templates/merchant/bonus_type_info.dwt.php:84
+msgid "发放起始日期："
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:72
+#: content/apps/bonus/templates/merchant/bonus_type_info.dwt.php:89
+msgid "只有当前时间介于起始日期和截止日期之间时，此类型的红包才可以发放"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:76
+#: content/apps/bonus/templates/merchant/bonus_type_info.dwt.php:94
+msgid "发放结束日期："
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:83
+msgid "使用类型："
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:86
+msgid "自主使用"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:87
+msgid "全场使用"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:92
+#: content/apps/bonus/templates/merchant/bonus_type_info.dwt.php:103
+msgid "使用起始日期："
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:96
+#: content/apps/bonus/templates/merchant/bonus_type_info.dwt.php:108
+msgid "只有当前时间介于起始日期和截止日期之间时，此类型的红包才可以使用"
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:100
+#: content/apps/bonus/templates/merchant/bonus_type_info.dwt.php:113
+msgid "使用结束日期："
+msgstr ""
+
+#: content/apps/bonus/templates/admin/bonus_type_info.dwt.php:111
+#: content/apps/bonus/templates/merchant/bonus_type_info.dwt.php:126
+msgid "更新"
+msgstr ""
+
+#: content/apps/bonus/templates/merchant/bonus_type.dwt.php:52
+msgid "最小订单金额"
+msgstr ""
+
+#: content/apps/bonus/templates/merchant/bonus_type.dwt.php:80
+msgid "编辑最小订单金额"
+msgstr ""
+
+#: content/apps/bonus/templates/merchant/bonus_list.dwt.php:32
+msgid "请先选中要删除的红包！"
+msgstr ""
+
+#: content/apps/bonus/templates/merchant/bonus_list.dwt.php:34
+msgid "您确定要插入邮件发送对列的红包？"
+msgstr ""
+
+#: content/apps/bonus/templates/merchant/bonus_list.dwt.php:87
+msgid "您确定要把该商品放入回收站吗？"
+msgstr ""
+
+#: content/apps/bonus/templates/merchant/bonus_by_print.dwt.php:32
+msgid "请选择..."
+msgstr ""
+
+#: content/apps/bonus/templates/merchant/bonus_by_user.dwt.php:61
+msgid "按指定用户发放红包"
+msgstr ""

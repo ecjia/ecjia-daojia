@@ -54,7 +54,7 @@ class bonus_bonus_type_info_api extends Component_Event_Api {
     
     public function call(&$options) {
     	if (!is_array($options)) {
-    		return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+    		return new ecjia_error('invalid_parameter', __('参数无效', 'bonus'));
     	}
     	$bonus_type_db = RC_DB::table('bonus_type as bt');
     	

@@ -26,25 +26,25 @@
               <div class="form">
                   <form method="post" class="form-horizontal tasi-form" action="{$form_action}" name="bonus_thePrintForm" data-pjax-url="{RC_Uri::url('bonus/merchant/bonus_list')}" >
 						<div class="form-group ">
-	                          <label class="control-label col-lg-2">{lang key='bonus::bonus.bonus_type_id'}:</label>
+	                          <label class="control-label col-lg-2">{t domain="bonus"}类型金额{/t}:</label>
 	                          <div class="col-lg-6">
 	                              <select class="form-control" name="bonus_type_id">
-	                                 <option value="0">{t}请选择...{/t}</option>
+	                                 <option value="0">{t domain="bonus"}请选择...{/t}</option>
 									 <!-- {html_options options=$type_list selected=$smarty.get.id} -->
 	                              </select>
 	                          </div>
 	                    </div>
 						<div class="form-group">
-	                          <label class="control-label col-lg-2">{lang key='bonus::bonus.send_bonus_count'}:</label>
+	                          <label class="control-label col-lg-2">{t domain="bonus"}红包数量{/t}:</label>
 	                           <div class="col-lg-6">
 	                              <input class="form-control" name="bonus_sum" type="text" value="" />
 	                          </div>
-                              <span class="input-must">{lang key='system::system.require_field'}</span>
+                              <span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 	                    </div>
 
 	                    <div class="form-group">
 	                         <div class="col-lg-offset-2 col-lg-6">
-	                              <button class="btn btn-info" type="submit">{lang key='system::system.button_submit'}</button>
+	                              <button class="btn btn-info" type="submit">{t domain="bonus"}确定{/t}</button>
 	                              <input type="hidden" name="type_id" value="{$bonus_arr.type_id}" />
 	                         </div>
 	                    </div>

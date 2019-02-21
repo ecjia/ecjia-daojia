@@ -55,7 +55,7 @@ class bonus_use_bonus_api extends Component_Event_Api {
     
     public function call(&$options) {
         if (!is_array($options) || !isset($options['bonus_id']) || (empty($options['order_id']) && empty($options['order_sn'])) ) {
-            return new ecjia_error('invalid_parameter', RC_Lang::get('bonus::bonus.invalid_parameter'));
+            return new ecjia_error('invalid_parameter', __('参数无效', 'bonus'));
         }
         $options['order_id'] = intval($options['order_id']);
         $options['order_sn'] = isset($options['order_sn']) ? $options['order_sn'] : '';

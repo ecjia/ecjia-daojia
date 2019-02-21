@@ -62,7 +62,7 @@ class bonus_receive_coupon_module extends api_front implements api_interface {
 		}
 		$bonus_id = $this->requestData('bonus_type_id', 0);
  		if ($bonus_id <= 0 ) {
- 			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+ 			return new ecjia_error('invalid_parameter', __('参数无效', 'bonus'));
  		}
  		
  		$time = RC_Time::gmtime();

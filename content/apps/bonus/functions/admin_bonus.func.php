@@ -110,11 +110,19 @@ function get_type_list() {
 		->take(10)
 		->skip($page->start_id-1)
 		->get();
-	
+
+    $send_by_arr = array(
+        SEND_BY_USER 		=> __('按用户发放', 'bonus'),
+        SEND_BY_GOODS 		=> __('按商品发放', 'bonus'),
+        SEND_BY_ORDER 		=> __('按订单金额发放', 'bonus'),
+        SEND_BY_PRINT 		=> __('线下发放的红包', 'bonus'),
+        SEND_BY_REGISTER 	=> __('注册送红包', 'bonus'),
+        SEND_COUPON			=> __('优惠券', 'bonus'),
+    );
 	$arr = array();
 	if (!empty($res)) {
 		foreach ($res as $row) {
-			$row['send_by']    = RC_Lang::get('bonus::bonus.send_by.'. $row['send_type']);
+			$row['send_by']    = $send_by_arr[$row['send_type']];
 			$row['send_count'] = isset($sent_arr[$row['type_id']]) ? $sent_arr[$row['type_id']] : 0;
 			$row['use_count']  = isset($used_arr[$row['type_id']]) ? $used_arr[$row['type_id']] : 0;
 			if (empty($row['store_id'])) {
@@ -168,11 +176,18 @@ function get_bonus_list() {
 		->take(15)
 		->skip($page->start_id-1)
 		->get();
-	
+
+	$mail_status_arr = array(
+        BONUS_NOT_MAIL 					=> '未发',
+        BONUS_INSERT_MAILLIST_FAIL 		=> '插入邮件发送队列失败',
+        BONUS_INSERT_MAILLIST_SUCCEED 	=> '插入邮件发送队列成功',
+        BONUS_MAIL_FAIL 				=> '发送邮件通知失败',
+        BONUS_MAIL_SUCCEED 				=> '发送邮件通知成功',
+    );
 	if (!empty($row)) {
 		foreach($row as $key => $val) {
-			$row[$key]['used_time'] = $val['used_time'] == 0 ? RC_Lang::get('bonus::bonus.no_use') : RC_Time::local_date(ecjia::config('date_format'), $val['used_time']);
-			$row[$key]['emailed']   = RC_Lang::get('bonus::bonus.mail_status.'.$row[$key]['emailed']);
+			$row[$key]['used_time'] = $val['used_time'] == 0 ? __('未使用', 'bonus') : RC_Time::local_date(ecjia::config('date_format'), $val['used_time']);
+			$row[$key]['emailed']   = $mail_status_arr[$row[$key]['emailed']];
 			$row[$key]['merchants_name'] = RC_DB::table('bonus_type as b')->leftJoin('store_franchisee as s', RC_DB::raw('b.store_id'), '=', RC_DB::raw('s.store_id'))->where(RC_DB::raw('b.type_id'), $val['bonus_type_id'])->pluck(RC_DB::raw('s.merchants_name'));
 		}
 	}

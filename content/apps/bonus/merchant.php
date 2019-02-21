@@ -78,24 +78,8 @@ class merchant extends ecjia_merchant {
         RC_Script::enqueue_script('bootstrap-editable-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/x-editable/bootstrap-editable/js/bootstrap-editable.min.js', array());
 		RC_Style::enqueue_style('bootstrap-editable-css', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/x-editable/bootstrap-editable/css/bootstrap-editable.css', array(), false, false);
 
-		$js_lang = array(
-			'edit_bonus_type_name'		=> RC_Lang::get('bonus::bonus.edit_bonus_type_name'),
-			'edit_bonus_money'			=> RC_Lang::get('bonus::bonus.edit_bonus_money'),
-			'edit_order_limit'			=> RC_Lang::get('bonus::bonus.edit_order_limit'),
-			'type_name_required'		=> RC_Lang::get('bonus::bonus.type_name_required'),
-			'type_name_minlength'		=> RC_Lang::get('bonus::bonus.type_name_minlength'),
-			'type_money_required'		=> RC_Lang::get('bonus::bonus.type_money_required'),
-			'min_goods_amount_required'	=> RC_Lang::get('bonus::bonus.min_goods_amount_required'),
-		);
-		RC_Script::localize_script('bonus_type', 'js_lang', $js_lang);
-
-		$bonus_js_lang = array(
-			'bonus_sum_required'	=> RC_Lang::get('bonus::bonus.bonus_sum_required'),
-			'bonus_number_required'	=> RC_Lang::get('bonus::bonus.bonus_number_required'),
-			'select_goods_empty'	=> RC_Lang::get('bonus::bonus.select_goods_empty'),
-			'select_user_empty'		=> RC_Lang::get('bonus::bonus.select_user_empty'),
-		);
-		RC_Script::localize_script('bonus', 'bonus_js_lang', $bonus_js_lang);
+        RC_Script::localize_script('bonus_type', 'js_lang', config('app-bonus::jslang.bonus_page'));
+        RC_Script::localize_script('bonus', 'bonus_js_lang', config('app-bonus::jslang.bonus_js_page'));
 		
 		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('红包管理'), RC_Uri::url('bonus/merchant/init')));
 		ecjia_merchant_screen::get_current_screen()->set_parentage('promotion', 'promotion/merchant.php');
@@ -107,13 +91,13 @@ class merchant extends ecjia_merchant {
 	public function init() {
 		$this->admin_priv('bonus_type_manage');
 
-		$this->assign('ur_here',    RC_Lang::get('bonus::bonus.bonustype_list'));
-		$this->assign('action_link', array('text' => RC_Lang::get('system::system.bonustype_add'), 'href' => RC_Uri::url('bonus/merchant/add')));
+		$this->assign('ur_here',    __('红包类型列表', 'bonus'));
+		$this->assign('action_link', array('text' =>__('添加红包类型', 'bonus'), 'href' => RC_Uri::url('bonus/merchant/add')));
 		$list = $this->get_type_list();
 		$this->assign('type_list',   $list);
 		$this->assign('bonustype',   $list['filter']);
 
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('bonus::bonus.bonus_type')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('红包类型', 'bonus')));
 
 		$this->assign('search_action', RC_Uri::url('bonus/merchant/init'));
 		$this->assign('admin_url', RC_Uri::admin_url());
@@ -126,8 +110,8 @@ class merchant extends ecjia_merchant {
 	 */
 	public function add() {
 		$this->admin_priv('bonus_type_update');
-		$this->assign('ur_here', RC_Lang::get('bonus::bonus.add_bonus_type'));
-		$this->assign('action_link', array('href' => RC_Uri::url('bonus/merchant/init'), 'text' => RC_Lang::get('bonus::bonus.bonustype_list')));
+		$this->assign('ur_here', __('添加红包类型', 'bonus'));
+		$this->assign('action_link', array('href' => RC_Uri::url('bonus/merchant/init'), 'text' => __('红包类型列表', 'bonus')));
 
 
 		$next_month = RC_Time::local_strtotime('+1 months');
@@ -139,7 +123,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('bonus_arr',    $bonus_arr);
      	$this->assign('form_action',  RC_Uri::url('bonus/merchant/insert'));
 
-     	ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('bonus::bonus.add_bonus_type')));
+     	ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加红包类型', 'bonus')));
 
 		$this->assign_lang();
 		$this->display('bonus_type_info.dwt');
@@ -161,7 +145,7 @@ class merchant extends ecjia_merchant {
 		$count = RC_DB::table('bonus_type')->where('type_name', $type_name)->where('store_id', $store_id)->count();
 		
 	    if ($count != 0) {
-            return $this->showmessage(RC_Lang::get('bonus::bonus.type_name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('此类型的名称已经存在！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$send_startdate = RC_Time::local_strtotime($_POST['send_start_date']);
@@ -171,25 +155,25 @@ class merchant extends ecjia_merchant {
 
 		if ($send_type != 0 && $send_type != 3) {
 			if (empty($send_startdate)) {
-				return $this->showmessage(RC_Lang::get('bonus::bonus.send_startdate_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('请输入发放起始日期！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			if (empty($send_enddate)) {
-				return $this->showmessage(RC_Lang::get('bonus::bonus.send_enddate_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('请输入发放结束日期！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			if ($send_startdate >= $send_enddate) {
-				return $this->showmessage(RC_Lang::get('bonus::bonus.send_start_lt_end'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('红包发放起始日期不能大于或等于发放结束日期', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 
 		if (empty($use_startdate)) {
-			return $this->showmessage(RC_Lang::get('bonus::bonus.use_startdate_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入使用起始日期！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if (empty($use_enddate)) {
-			return $this->showmessage(RC_Lang::get('bonus::bonus.use_enddate_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入使用结束日期！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		if ($use_startdate >= $use_enddate) {
-			return $this->showmessage(RC_Lang::get('bonus::bonus.use_start_lt_end'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('红包使用起始日期不能大于或等于使用结束日期', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
         $data = array(
@@ -218,11 +202,11 @@ class merchant extends ecjia_merchant {
 			$send = '按订单金额发放';
 		}
 		/* 记录日志 */
-		ecjia_merchant::admin_log(RC_Lang::get('bonus::bonus.send_type_is').$send.'，'.RC_Lang::get('bonus::bonus.bonustype_name_is').$type_name, 'add', 'bonustype');
+		ecjia_merchant::admin_log(__('发放类型是 ', 'bonus').$send.'，'.__('红包类型名称是 ', 'bonus').$type_name, 'add', 'bonustype');
 
-		$links[] = array('text' => RC_Lang::get('bonus::bonus.back_list'), 'href' => RC_Uri::url('bonus/merchant/init'));
-		$links[] = array('text' => RC_Lang::get('bonus::bonus.continus_add'), 'href' => RC_Uri::url('bonus/merchant/add'));
-		return $this->showmessage(RC_Lang::get('bonus::bonus.add_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('bonus/merchant/edit', array('type_id' => $id))));
+		$links[] = array('text' => __('返回红包类型列表', 'bonus'), 'href' => RC_Uri::url('bonus/merchant/init'));
+		$links[] = array('text' => __('继续添加红包类型', 'bonus'), 'href' => RC_Uri::url('bonus/merchant/add'));
+		return $this->showmessage(__('添加成功', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('bonus/merchant/edit', array('type_id' => $id))));
 	}
 
 	/**
@@ -231,7 +215,7 @@ class merchant extends ecjia_merchant {
 	public function edit() {
 		$this->admin_priv('bonus_type_update');
 		
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('bonus::bonus.bonustype_edit')));
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑红包类型', 'bonus')));
         $type_id	= !empty($_GET['type_id']) 		? intval($_GET['type_id'])	: 0;
         $store_id 	= !empty($_SESSION['store_id'])	? $_SESSION['store_id']		: 0;
         
@@ -248,8 +232,8 @@ class merchant extends ecjia_merchant {
 		$bonus_arr['use_start_date']  = RC_Time::local_date('Y-m-d H:i:s', $bonus_arr['use_start_date']);
 		$bonus_arr['use_end_date']    = RC_Time::local_date('Y-m-d H:i:s', $bonus_arr['use_end_date']);
 
-		$this->assign('ur_here',    RC_Lang::get('bonus::bonus.bonustype_edit'));
-		$this->assign('action_link', array('href' => RC_Uri::url('bonus/merchant/init'), 'text' => RC_Lang::get('bonus::bonus.bonustype_list')));
+		$this->assign('ur_here',    __('编辑红包类型', 'bonus'));
+		$this->assign('action_link', array('href' => RC_Uri::url('bonus/merchant/init'), 'text' => __('红包类型列表', 'bonus')));
 		$this->assign('bonus_arr',   $bonus_arr);
 		$this->assign('form_action', RC_Uri::url('bonus/merchant/update'));
 		$this->display('bonus_type_info.dwt');
@@ -271,7 +255,7 @@ class merchant extends ecjia_merchant {
 		
 		$count = RC_DB::table('bonus_type')->where('type_name', $type_name)->where('store_id', $store_id)->where('type_id', '!=', $type_id)->count();
 		if ($count != 0) {
-			return $this->showmessage(RC_Lang::get('bonus::bonus.type_name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('此类型的名称已经存在！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$data = array(
@@ -306,11 +290,11 @@ class merchant extends ecjia_merchant {
         }
 		/* 记录日志 */
 		ecjia_merchant::admin_log('发放类型是'.$send.',红包名是'.$type_name, 'edit', 'bonustype');
-		ecjia_merchant::admin_log(RC_Lang::get('bonus::bonus.send_type_is').$send.'，'.RC_Lang::get('bonus::bonus.bonustype_name_is').$type_name, 'edit', 'bonustype');
+		ecjia_merchant::admin_log(__('发放类型是 ', 'bonus').$send.'，'.__('红包类型名称是 ', 'bonus').$type_name, 'edit', 'bonustype');
 
-		$links[] = array('text' => RC_Lang::get('bonus::bonus.back_list'), 'href' => RC_Uri::url('bonus/merchant/init'));
-		$links[] = array('text' => RC_Lang::get('bonus::bonus.continus_add'), 'href' => RC_Uri::url('bonus/merchant/add'));
-		return $this->showmessage(RC_Lang::get('bonus::bonus.edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('bonus/merchant/edit', array('type_id' => $type_id))));
+		$links[] = array('text' => __('返回红包类型列表', 'bonus'), 'href' => RC_Uri::url('bonus/merchant/init'));
+		$links[] = array('text' => __('继续添加红包类型', 'bonus'), 'href' => RC_Uri::url('bonus/merchant/add'));
+		return $this->showmessage(__('编辑成功', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('bonus/merchant/edit', array('type_id' => $type_id))));
 	}
 
 	/**
@@ -347,10 +331,10 @@ class merchant extends ecjia_merchant {
 			RC_DB::table('goods')->where('bonus_type_id', $id)->where('store_id', $store_id)->update(array('bonus_type_id' => 0));
 			/* 记录日志 */
 			ecjia_merchant::admin_log('发放类型是'.$send.',红包名是'.$info['type_name'], 'remove', 'bonustype');
-			ecjia_merchant::admin_log(RC_Lang::get('bonus::bonus.send_type_is').$send.'，'.RC_Lang::get('bonus::bonus.bonustype_name_is').$info['type_name'], 'remove', 'bonustype');
+			ecjia_merchant::admin_log(__('发放类型是 ', 'bonus').$send.'，'.__('红包类型名称是 ', 'bonus').$info['type_name'], 'remove', 'bonustype');
 		}
 
-		return $this->showmessage(RC_Lang::get('bonus::bonus.del_bonustype_succed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('删除红包类型成功！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 
 	/**
@@ -365,16 +349,16 @@ class merchant extends ecjia_merchant {
 	    $bonus_type = RC_Api::api('bonus', 'bonus_type_info', array('type_id', $id));
 	
 	    if($bonus_type['send_type'] == 0){
-	        $send = '按用户发放';
+	        $send = __('按用户发放', 'bonus');
 	    }elseif($bonus_type['send_type'] == 3){
-	        $send = '线下发放的红包';
+	        $send = __('线下发放的红包', 'bonus');
 	    }elseif($bonus_type['send_type'] == 1){
-	        $send = '按商品发放';
+	        $send = __('按商品发放', 'bonus');
 	    }elseif($bonus_type['send_type'] == 2){
-	        $send = '按订单金额发放';
+	        $send = __('按订单金额发放', 'bonus');
 	    }
 	    if (empty($typename)) {
-	        return $this->showmessage('请输红包类型名称！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
+	        return $this->showmessage(__('请输红包类型名称！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
 	    }
 	
 	    if (RC_DB::table('bonus_type')->where('type_name', $typename)->where('store_id', $store_id)->where('type_id', '!=', $id)->count() == 0) {
@@ -384,9 +368,9 @@ class merchant extends ecjia_merchant {
 		        ->update(array('type_name' => $typename));
 	        /* 记录日志 */
 	        ecjia_merchant::admin_log('发放类型是'.$send.',红包名是'.$typename, 'edit', 'bonustype');
-	        return $this->showmessage(RC_Lang::get('bonus::bonus.attradd_succed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+	        return $this->showmessage(__('操作成功！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	    } else {
-	        return $this->showmessage(RC_Lang::get('bonus::bonus.type_name_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
+	        return $this->showmessage(__('此类型的名称已经存在！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
 	    }
 	}
 	
@@ -404,16 +388,16 @@ class merchant extends ecjia_merchant {
 		    ->where(RC_DB::Raw('store_id'), $_SESSION['store_id'])
 		    ->first();
 	    if ($bonus_type['send_type'] == 0) {
-	        $send = '按用户发放';
+	        $send = __('按用户发放', 'bonus');
 	    } elseif ($bonus_type['send_type'] == 3) {
-	        $send = '线下发放的红包';
+	        $send = __('线下发放的红包', 'bonus');
 	    } elseif ($bonus_type['send_type'] == 1) {
-	        $send = '按商品发放';
+	        $send = __('按商品发放', 'bonus');
 	    } elseif ($bonus_type['send_type'] == 2) {
-	        $send = '按订单金额发放';
+	        $send = __('按订单金额发放', 'bonus');
 	    }
 	    if ($val <= 0) {
-	        return $this->showmessage(RC_Lang::get('bonus::bonus.type_money_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	        return $this->showmessage(__('金额必须是数字并且不能小于 0 ！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	    } else {
 	        RC_DB::table('bonus_type')
 		        ->where(RC_DB::Raw('type_id'), $id)
@@ -421,7 +405,7 @@ class merchant extends ecjia_merchant {
 		        ->update(array('type_money' => $val));
 	        /* 记录日志 */
 	        ecjia_merchant::admin_log('发放类型是'.$send.',红包名是'.$bonus_type['type_name'], 'edit', 'bonustype');
-	        return $this->showmessage(RC_Lang::get('bonus::bonus.attradd_succed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('bonus/merchant/init')));
+	        return $this->showmessage(__('操作成功！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('bonus/merchant/init')));
 	    }
 	}
 	
@@ -435,14 +419,14 @@ class merchant extends ecjia_merchant {
 	    $val = floatval($_POST['value']);
 	    /* 可为0 */
 	    if ($val <= 0 && !($_POST['value'] === '0')) {
-	        return $this->showmessage(RC_Lang::get('bonus::bonus.min_goods_amount_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	        return $this->showmessage(__('最小订单金额不能为空！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	    }
 	    else {
 	        RC_DB::table('bonus_type')
 		        ->where(RC_DB::Raw('type_id'), $id)
 		        ->where(RC_DB::Raw('store_id'), $_SESSION['store_id'])
 		        ->update(array('min_goods_amount' => $val));
-	        return $this->showmessage(RC_Lang::get('bonus::bonus.attradd_succed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('bonus/merchant/init')));
+	        return $this->showmessage(__('操作成功！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('bonus/merchant/init')));
 	    }
 	}
 	
@@ -456,9 +440,9 @@ class merchant extends ecjia_merchant {
 		$id = !empty($_GET['id'])  ? intval($_GET['id'])  : 0;
 		$send_by = intval($_GET['send_by']);
 
-		$this->assign('ur_here',   RC_Lang::get('bonus::bonus.send_bonus'));
-		$this->assign('action_link',  array('href' => RC_Uri::url('bonus/merchant/init', array('bonus_type' => $id)), 'text' => RC_Lang::get('bonus::bonus.bonustype_list')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('bonus::bonus.send_bonus')));
+		$this->assign('ur_here',   __('发放红包', 'bonus'));
+		$this->assign('action_link',  array('href' => RC_Uri::url('bonus/merchant/init', array('bonus_type' => $id)), 'text' => __('红包类型列表', 'bonus')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('发放红包', 'bonus')));
 		$this->assign('admin_url', RC_Uri::admin_url());
 		$db_bonus_type = RC_DB::table('bonus_type');
 
@@ -651,7 +635,7 @@ class merchant extends ecjia_merchant {
 				$loop_faild++;
 			}
 		}
-		return $this->showmessage(sprintf(RC_Lang::get('bonus::bonus.sendbonus_count'), $loop), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('max_id' => $bonus_type_id));
+		return $this->showmessage(sprintf(__('共发送了 %d 个红包。', 'bonus'), $loop), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('max_id' => $bonus_type_id));
 	}
 
 
@@ -664,7 +648,7 @@ class merchant extends ecjia_merchant {
 		$user_list = array();
 		$user_ids = $_GET['linked_array'];
 		if (empty($user_ids)) {
-			return $this->showmessage(RC_Lang::get('bonus::bonus.send_user_empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('您没有选择需要发放红包的会员，请返回！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		$user_array = (is_array($user_ids)) ? $user_ids : explode(',', $user_ids);
 		$new_ids = array();
@@ -718,7 +702,7 @@ class merchant extends ecjia_merchant {
 				RC_DB::table('user_bonus')->insert($data);
 			}
 		}
-		return $this->showmessage(sprintf(RC_Lang::get('bonus::bonus.sendbonus_count'), $count), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(sprintf(__('共发送了 %d 个红包。', 'bonus'), $count), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 
 	/**
@@ -744,13 +728,21 @@ class merchant extends ecjia_merchant {
 			
 			$info = RC_DB::table('bonus_type')->where(RC_DB::raw('type_id'), $type_id)->first();
 			$goods_name_list = RC_DB::table('goods')->where('store_id', $store_id)->whereIn('goods_id', $new_ids)->lists('goods_name');
-			
-			$send_type = RC_Lang::get('bonus::bonus.send_by.'.$info['send_type']);
+
+            $send_by_arr = array(
+                SEND_BY_USER 		=> __('按用户发放', 'bonus'),
+                SEND_BY_GOODS 		=> __('按商品发放', 'bonus'),
+                SEND_BY_ORDER 		=> __('按订单金额发放', 'bonus'),
+                SEND_BY_PRINT 		=> __('线下发放的红包', 'bonus'),
+                SEND_BY_REGISTER 	=> __('注册送红包', 'bonus'),
+                SEND_COUPON			=> __('优惠券', 'bonus'),
+            );
+            $send_type = $send_by_arr[$info['send_type']];
 			foreach ($goods_name_list as $v) {
-				ecjia_merchant::admin_log(RC_Lang::get('bonus::bonus.send_type_is').$send_type.'，'.RC_Lang::get('bonus::bonus.bonustype_name_is').$info['type_name'].'，'.RC_Lang::get('bonus::bonus.send_target_is').$v, 'setup', 'bonustype');
+				ecjia_merchant::admin_log(__('发放类型是 ', 'bonus').$send_type.'，'.__('红包类型名称是 ', 'bonus').$info['type_name'].'，'.__('发放目标是 ', 'bonus').$v, 'setup', 'bonustype');
 			}
 		}
-		return $this->showmessage(RC_Lang::get('bonus::bonus.attradd_succed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('操作成功！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 
 	/**
@@ -777,9 +769,9 @@ class merchant extends ecjia_merchant {
 			RC_DB::table('user_bonus')->insert($data);
 			$j++;
 		}
-		$content = '发放红包,发放类型是线下红包,红包名是'.$bonus_type;
+		$content = __('发放红包,发放类型是线下红包,红包名是', 'bonus').$bonus_type;
 		ecjia_merchant::admin_log($content, 'setup', 'userbonus');
-		return $this->showmessage(RC_Lang::get('bonus::bonus.creat_bonus') . $j . RC_Lang::get('bonus::bonus.creat_bonus_num'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('max_id' => $bonus_typeid));
+		return $this->showmessage(__('生成了 ', 'bonus') . $j . __(' 个红包序列号', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('max_id' => $bonus_typeid));
 	}
 
 	/**
@@ -815,7 +807,7 @@ class merchant extends ecjia_merchant {
 		$this->admin_priv('bonus_manage');
 
 		$this->assign('full_page',   1);
-		$this->assign('ur_here',    RC_Lang::get('bonus::bonus.bonus_list'));
+		$this->assign('ur_here',    __('红包列表', 'bonus'));
 		$this->assign('action_link', array('href' => RC_Uri::url('bonus/merchant/init'), 'text' => '红包类型列表'));
         ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('红包列表')));
         $list = bonus::get_bonus_list();
@@ -843,7 +835,7 @@ class merchant extends ecjia_merchant {
 		if (RC_DB::table('bonus_type')->where('type_id', $bonus_type)->where('store_id', $_SESSION['store_id'])->count()) {
 			RC_DB::table('user_bonus')->where('bonus_id', $id)->delete();
 		}
-		return $this->showmessage(RC_Lang::get('bonus::bonus.attradd_succed'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('操作成功！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 
 	/**
@@ -873,12 +865,12 @@ class merchant extends ecjia_merchant {
 					}
 
 					RC_DB::table('user_bonus')->whereIn(RC_DB::raw('bonus_id'), $ids)->delete();
-					return $this->showmessage(sprintf(RC_Lang::get('bonus::bonus.batch_drop_success'), $count), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('bonus/merchant/bonus_list', array('bonus_type' => $bonus_type_id))));
+					return $this->showmessage(sprintf(__('成功删除了 %d 个红包', 'bonus'), $count), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('bonus/merchant/bonus_list', array('bonus_type' => $bonus_type_id))));
 					break;
 
 				case 'send' :
 					$this->send_bonus_mail($bonus_type_id, $ids);
-					return $this->showmessage(RC_Lang::get('bonus::bonus.success_send_mail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('bonus/merchant/bonus_list', array('bonus_type' => $bonus_type_id))));
+					return $this->showmessage(__('已成功加入邮件列表', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('bonus/merchant/bonus_list', array('bonus_type' => $bonus_type_id))));
 					break;
 
 				default :
@@ -895,16 +887,16 @@ class merchant extends ecjia_merchant {
 
     	$bonus_id = intval($_GET['bonus_id']);
     	if ($bonus_id <= 0) {
-    		return $this->showmessage(RC_Lang::get('bonus::bonus.invalid_parameter'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('参数无效', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	$bonus = bonus::bonus_info($bonus_id);
 
     	if (empty($bonus)) {
-    		return $this->showmessage(RC_Lang::get('bonus::bonus.bonus_not_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('该红包不存在', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	$count = $this->send_bonus_mail($bonus['bonus_type_id'], array($bonus_id));
 
-    	return $this->showmessage(sprintf(RC_Lang::get('bonus::bonus.success_send_mail'), $count), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+    	return $this->showmessage(sprintf(__('已成功加入邮件列表', 'bonus'), $count), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 
     /**
@@ -974,11 +966,11 @@ class merchant extends ecjia_merchant {
     	header("Content-type: application/vnd.ms-excel; charset=utf-8");
     	header("Content-Disposition: attachment; filename=$bonus_filename.xls");
 
-    	echo mb_convert_encoding(RC_Lang::get('bonus::bonus.bonus_excel_file')."\t\n", "GBK", "UTF-8");
-    	echo mb_convert_encoding(RC_Lang::get('bonus::bonus.bonus_sn')."\t" ,"GBK", "UTF-8");
-    	echo mb_convert_encoding(RC_Lang::get('bonus::bonus.type_money')."\t","GBK", "UTF-8") ;
-    	echo mb_convert_encoding(RC_Lang::get('bonus::bonus.type_name')."\t" ,"GBK", "UTF-8");
-    	echo mb_convert_encoding(RC_Lang::get('bonus::bonus.use_enddate')."\t\n","GBK", "UTF-8") ;
+    	echo mb_convert_encoding(__('线下红包信息列表', 'bonus')."\t\n", "GBK", "UTF-8");
+    	echo mb_convert_encoding(__('红包序列号', 'bonus')."\t" ,"GBK", "UTF-8");
+    	echo mb_convert_encoding(__('红包金额', 'bonus')."\t","GBK", "UTF-8") ;
+    	echo mb_convert_encoding(__('类型名称', 'bonus')."\t" ,"GBK", "UTF-8");
+    	echo mb_convert_encoding(__('使用结束日期', 'bonus')."\t\n","GBK", "UTF-8") ;
     	$val = array();
     	$db_view = RC_DB::table('user_bonus')
     		->leftJoin('bonus_type', 'bonus_type.type_id', '=', 'user_bonus.bonus_type_id')
@@ -1044,9 +1036,18 @@ class merchant extends ecjia_merchant {
 		$filter['limit']	= 15;
 		$res = RC_Api::api('bonus', 'merchant_bonus_type_list', array('skip' => $filter['skip'], 'limit' => $filter['limit'], 'bonustype_id' => $_GET['bonustype_id'], 'sort_by' => $filter['sort_by'], 'sort_order' => $filter['sort_order']));
 		$arr = array();
+
+        $send_by_arr = array(
+            SEND_BY_USER 		=> __('按用户发放', 'bonus'),
+            SEND_BY_GOODS 		=> __('按商品发放', 'bonus'),
+            SEND_BY_ORDER 		=> __('按订单金额发放', 'bonus'),
+            SEND_BY_PRINT 		=> __('线下发放的红包', 'bonus'),
+            SEND_BY_REGISTER 	=> __('注册送红包', 'bonus'),
+            SEND_COUPON			=> __('优惠券', 'bonus'),
+        );
 		if(!empty($res)) {
 			foreach ($res as $row){
-				$row['send_by']    = RC_Lang::get('bonus::bonus.send_by.'.$row['send_type']);
+				$row['send_by']    = $send_by_arr[$row['send_type']];
 				$row['send_count'] = isset($sent_arr[$row['type_id']]) ? $sent_arr[$row['type_id']] : 0;
 				$row['use_count']  = isset($used_arr[$row['type_id']]) ? $used_arr[$row['type_id']] : 0;
 				$arr[] = $row;

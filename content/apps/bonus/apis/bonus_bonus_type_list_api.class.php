@@ -58,7 +58,7 @@ class bonus_bonus_type_list_api extends Component_Event_Api {
      */
 	public function call(&$options) {
 // 		if (!is_array($options) || !isset($options['type'])) {
-// 			return new ecjia_error('invalid_parameter', RC_Lang::get('bonus::bonus.invalid_parameter'));
+// 			return new ecjia_error('invalid_parameter', __('参数无效', 'bonus'));
 // 		}
 		return $this->bonus_type_list($options);
 	}

@@ -60,7 +60,7 @@ class bonus_send_bonus_api extends Component_Event_Api
     public function call(&$options)
     {
         if (!is_array($options) || !isset($options['type'])) {
-            return new ecjia_error('invalid_parameter', RC_Lang::get('bonus::bonus.invalid_parameter'));
+            return new ecjia_error('invalid_parameter', __('参数无效', 'bonus'));
         }
 
         if ($options['type'] == SEND_COUPON) {
@@ -91,7 +91,7 @@ class bonus_send_bonus_api extends Component_Event_Api
             RC_DB::table('user_bonus')->insert($data);
             return true;
         } else {
-            return new ecjia_error('send_coupon_repeat', RC_Lang::get('bonus::bonus.send_coupon_repeat'));
+            return new ecjia_error('send_coupon_repeat', __('您已领取过该优惠券！', 'bonus'));
         }
     }
 }

@@ -24,13 +24,13 @@
 			<div class="choose_list span12">
 				<form class="form-horizontal " action="{$form_action}" method="post" name="userRankForm"  >
 					<div class="control-group">
-						<span><strong>{lang key='bonus::bonus.senduserrank'}</strong></span>
+						<span><strong>{t domain="bonus"}按用户等级发放红包{/t}</strong></span>
 					</div>
 					<div class="control-group">
-						<label><span>{lang key='bonus::bonus.user_rank'}</span></label>
+						<label><span>{t domain="bonus"}会员级别：{/t}</span></label>
 						<div>
 							<select name="rank_id">
-								<option value="">{lang key='bonus::bonus.select_rank'}</option>
+								<option value="">{t domain="bonus"}选择会员等级...{/t}</option>
 								<!-- {html_options options=$ranklist selected=$smarty.get.rank_id} -->
 							</select>
 						</div>
@@ -38,11 +38,11 @@
 					<div class="control-group">
 						<label>
 							<span class="p_t3"><input type="checkbox" name="validated_email" value="1"></span>
-							<span>{lang key='bonus::bonus.validated_email'}</span>
+							<span>{t domain="bonus"}只给通过邮件验证的用户发放红包{/t}</span>
 						</label>
 					</div>
 					<div class="control-group formSep m_b5">
-						<label><button class="btn btn-gebo" type="submit">{lang key='bonus::bonus.confirm_send_bonus'}</button></label>
+						<label><button class="btn btn-gebo" type="submit">{t domain="bonus"}确定发放红包{/t}</button></label>
 					</div>
 					<input type="hidden" name="act" value="send_by_user" />
 					<input type="hidden" name="id" value="{$id}" />
@@ -53,24 +53,24 @@
 		<form class="form-horizontal" action='{$form_user_action}' method="post" name="theForm">
 			<div class="tab-content">
 				<fieldset>
-					<div class="control-group"><strong>{lang key='bonus::bonus.sendtouser'}</strong></div>
+					<div class="control-group"><strong>{t domain="bonus"}给指定用户发放红包{/t}</strong></div>
 					<div class="control-group choose_list" id="search_user"  data-url="{url path='bonus/admin/search_users'}">
-						<input type="text" name="keyword" placeholder="请输入用户名/手机号关键字" />
-						<a class="btn" data-toggle="searchuser">搜索</a><br>
-						<span class="help-block m_t5">{lang key='bonus::bonus.search_user_help'}</span>
+						<input type="text" name="keyword" placeholder='{t domain="bonus"}请输入用户名/手机号关键字{/t}' />
+						<a class="btn" data-toggle="searchuser">{t domain="bonus"}搜索{/t}</a><br>
+						<span class="help-block m_t5">{t domain="bonus"}搜索要发放此类型红包的用户展示在左侧区域中，点击左侧列表中选项，用户即可进入右侧发放红包区域。您还可以在右侧编辑将发放红包的用户。{/t}</span>
 					</div>
 					<div class="control-group draggable">
 						<div class="ms-container " id="ms-custom-navigation">
 							<div class="ms-selectable">
 								<div class="search-header">
-									<input class="span12" id="ms-search" type="text" placeholder="{lang key='bonus::bonus.filter_user_info'}" autocomplete="off">
+									<input class="span12" id="ms-search" type="text" placeholder='{t domain="bonus"}筛选搜索到的用户信息{/t}' autocomplete="off">
 								</div>
 								<ul class="ms-list nav-list-ready">
-									<li class="ms-elem-selectable disabled"><span>{lang key='bonus::bonus.no_info'}</span></li>
+									<li class="ms-elem-selectable disabled"><span>{t domain="bonus"}暂无信息{/t}</span></li>
 								</ul>
 							</div>
 							<div class="ms-selection">
-								<div class="custom-header custom-header-align">{lang key='bonus::bonus.send_to_user'}</div>
+								<div class="custom-header custom-header-align">{t domain="bonus"}给下列用户发放红包{/t}</div>
 								<ul class="ms-list nav-list-content">
 								</ul>
 							</div>
@@ -79,7 +79,7 @@
 				</fieldset>
 			</div>
 			<p class="ecjiaf-tac">
-				<button class="btn btn-gebo" type="submit">{lang key='bonus::bonus.confirm_send_bonus'}</button>
+				<button class="btn btn-gebo" type="submit">{t domain="bonus"}确定发放红包{/t}</button>
 				<input type="hidden" id="bonus_type_id" value="{$id}" />
 			<p>
 		</form>

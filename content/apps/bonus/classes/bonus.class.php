@@ -132,11 +132,18 @@ class bonus {
 	    	->take(15)
 	    	->skip($page->start_id-1)
 	    	->get();
-    
+
+    	$mail_status_arr = array(
+            BONUS_NOT_MAIL 					=> '未发',
+            BONUS_INSERT_MAILLIST_FAIL 		=> '插入邮件发送队列失败',
+            BONUS_INSERT_MAILLIST_SUCCEED 	=> '插入邮件发送队列成功',
+            BONUS_MAIL_FAIL 				=> '发送邮件通知失败',
+            BONUS_MAIL_SUCCEED 				=> '发送邮件通知成功',
+        );
     	if (!empty($row)) {
     		foreach($row as $key => $val) {
-    			$row[$key]['used_time'] = $val['used_time'] == 0 ? RC_Lang::get('bonus::bonus.no_use') : RC_Time::local_date(ecjia::config('date_format'), $val['used_time']);
-    			$row[$key]['emailed']   = RC_Lang::get('bonus::bonus.mail_status.'.$row[$key]['emailed']);
+    			$row[$key]['used_time'] = $val['used_time'] == 0 ? __('未使用', 'bonus') : RC_Time::local_date(ecjia::config('date_format'), $val['used_time']);
+    			$row[$key]['emailed']   = $mail_status_arr[$row[$key]['emailed']];
     		}
     	}
     	$arr = array('item' => $row, 'filter' => $filter, 'page' => $page->show (2), 'desc' => $page->page_desc ());

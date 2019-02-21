@@ -22,7 +22,7 @@
 		<form method="post" class="form-horizontal" action="{$form_action}" name="bonus_thePrintForm" data-pjax-url="{RC_Uri::url('bonus/admin/bonus_list')}" >
 			<fieldset>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='bonus::bonus.bonus_type_id'}</label>
+					<label class="control-label">{t domain="bonus"}类型金额{/t}</label>
 					<div class="controls">
 						<select name="bonus_type_id">
 							<!-- {html_options options=$type_list selected=$smarty.get.id} -->
@@ -30,15 +30,15 @@
 					</div>
 				</div>    
 				<div class="control-group formSep">    
-					<label class="control-label">{lang key='bonus::bonus.send_bonus_count'}</label>
+					<label class="control-label">{t domain="bonus"}红包数量{/t}</label>
 					<div class="controls">
 						<input type="text" name="bonus_sum" size="30" maxlength="6" />
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 					</div>
 				</div>
 				<div class="control-group">
 					<div class="controls">
-						<button class="btn btn-gebo" type="submit">{lang key='system::system.button_submit'}</button>
+						<button class="btn btn-gebo" type="submit">{t domain="bonus"}确定{/t}</button>
 						<input type="hidden" name="type_id" value="{$bonus_arr.type_id}" />  	
 					</div>
 				</div>    

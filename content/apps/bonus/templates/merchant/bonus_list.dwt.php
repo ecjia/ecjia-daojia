@@ -27,11 +27,11 @@
         <div class="panel">
         	<div class="panel-body panel-body-small">
         		 <div class="btn-group">
-		            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> {lang key='goods::goods.batch_handle'} <span class="caret"></span></button>
+		            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> {t domain="bonus"}批量操作{/t} <span class="caret"></span></button>
 		            <ul class="dropdown-menu">
-		               <li><a class="remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="bonus/merchant/batch" args="sel_action=remove&bonus_type_id=$bonus_type_id"}' data-msg="您确定要这么做吗？" data-noSelectMsg="请先选中要删除的红包！" data-name="checkboxes" href="javascript:;"><i class="fa fa-trash-o"></i> {t}删除红包{/t}</a></li>
+		               <li><a class="remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="bonus/merchant/batch" args="sel_action=remove&bonus_type_id=$bonus_type_id"}' data-msg='{t domain="bonus"}您确定要这么做吗？{/t}' data-noSelectMsg='{t domain="bonus"}请先选中要删除的红包！{/t}' data-name="checkboxes" href="javascript:;"><i class="fa fa-trash-o"></i> {t domain="bonus"}删除红包{/t}</a></li>
 		            <!-- {if $show_mail} -->
-	            <li><a class="send"   data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="bonus/merchant/batch" args="sel_action=send&bonus_type_id=$bonus_type_id"}' data-msg="您确定要这么做吗？" data-noSelectMsg="您确定要插入邮件发送对列的红包？" data-name="checkboxes" href="javascript:;"><i class="fa fa-hand-o-right"></i> {t}插入邮件发送队列{/t}</a></li>
+	            <li><a class="send"   data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="bonus/merchant/batch" args="sel_action=send&bonus_type_id=$bonus_type_id"}' data-msg='{t domain="bonus"}您确定要这么做吗？{/t}' data-noSelectMsg='{t domain="bonus"}您确定要插入邮件发送对列的红包？{/t}' data-name="checkboxes" href="javascript:;"><i class="fa fa-hand-o-right"></i> {t domain="bonus"}插入邮件发送队列{/t}</a></li>
 	            <!-- {/if} -->
 		               </ul>
 		        </div>
@@ -50,16 +50,16 @@
 	                            </div>
 	                        </th>
 	                        <!-- {if $show_bonus_sn} -->
-                        <th>{lang key='bonus::bonus.bonus_sn'}</th>
+                        <th>{t domain="bonus"}红包序列号{/t}</th>
                         <!-- {/if} -->
-                        <th>{lang key='bonus::bonus.bonus_type'}</th>
-                        <th>{lang key='bonus::bonus.order_id'}</th>
-                        <th>{lang key='bonus::bonus.user_id'}</th>
-                        <th>{lang key='bonus::bonus.used_time'}</th>
+                        <th>{t domain="bonus"}红包类型{/t}</th>
+                        <th>{t domain="bonus"}订单号{/t}</th>
+                        <th>{t domain="bonus"}使用会员{/t}</th>
+                        <th>{t domain="bonus"}使用时间{/t}</th>
                         <!-- {if $show_mail} -->
-                        <th>{lang key='bonus::bonus.emailed'}</th>
+                        <th>{t domain="bonus"}邮件通知{/t}</th>
                         <!-- {/if} -->
-                        <th>{lang key='bonus::bonus.handler'}</th>
+                        <th>{t domain="bonus"}操作{/t}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,12 +84,12 @@
                         <td>{$bonus.emailed}</td>
                         <!-- {/if} -->
                         <td>
-                            <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='goods::goods.trash_goods_confirm'}" href='{RC_Uri::url("bonus/merchant/remove_bonus", "id={$bonus.bonus_id}")}'>{lang key='system::system.drop'}</a>&nbsp;&nbsp;
-                            {if $show_mail and $bonus.order_id eq 0 and $bonus.email}<a class="insert_mail_list no-underline" href="javascript:;" data-href="{RC_Uri::url('bonus/merchant/send_mail',"bonus_id={$bonus.bonus_id}&bonus_type={$bonus_type_id}")}" title="{t}插入邮件发送队列{/t}"><i class="fa fa-hand-o-right"></i></a>{/if}
+                            <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="bonus"}您确定要把该商品放入回收站吗？{/t}' href='{RC_Uri::url("bonus/merchant/remove_bonus", "id={$bonus.bonus_id}")}'>{t domain="bonus"}删除{/t}</a>&nbsp;&nbsp;
+                            {if $show_mail and $bonus.order_id eq 0 and $bonus.email}<a class="insert_mail_list no-underline" href="javascript:;" data-href="{RC_Uri::url('bonus/merchant/send_mail',"bonus_id={$bonus.bonus_id}&bonus_type={$bonus_type_id}")}" title='{t domain="bonus"}插入邮件发送队列{/t}'><i class="fa fa-hand-o-right"></i></a>{/if}
                         </td>
                     </tr>
                     <!-- {foreachelse} -->
-                    <tr><td class="no-records" colspan="10">{lang key='system::system.no_records'}</td></tr>
+                    <tr><td class="no-records" colspan="10">{t domain="bonus"}没有找到任何记录{/t}</td></tr>
                     <!-- {/foreach} -->
                 </tbody>
             </table>

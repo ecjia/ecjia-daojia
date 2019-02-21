@@ -44,14 +44,33 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 应用语言包
+ * js语言包设置
  */
-return array(
-	'bonus' 		=> '红包类型',
-	'bonus_desc' 	=> '在“红包”这个应用的设计上，遵循了简单原则、方式多样。 红包定义是为商家提供的一项增值服务，由商家批量或单个发送，  用于商品交易中的虚拟优惠券。红包所抵用金额，是由发送红包的商家承担的。  商家可以自行给客户发放红包，吸引客户在店铺购物，可以自行控制优惠金额。  红包发放方式多样化，指定用户发放，按商品发放，订单金额发或放线下发放等多种方式深得广大用户喜爱。'
-);
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+    //bonus
+    'bonus_page' =>array(
+        'edit_bonus_type_name'		=> __('编辑红包类型名称', 'bonus'),
+        'edit_bonus_money'			=> __('编辑红包金额', 'bonus'),
+        'edit_order_limit'			=> __('编辑订单下限金额', 'bonus'),
+        'type_name_required'		=> __('请输入红包类型名称', 'bonus'),
+        'type_name_minlength'		=> __('红包类型名称长度不能小于1', 'bonus'),
+        'type_money_required'		=> __('请输入红包金额', 'bonus'),
+        'min_goods_amount_required'	=> __('请输入最小订单金额', 'bonus'),
+
+    ),
+
+    'bonus_js_page' =>array(
+        'bonus_sum_required'	=> __('请输入红包数量！', 'bonus'),
+        'bonus_number_required'	=> __('请输入数字！', 'bonus'),
+        'select_goods_empty'	=> __('未搜索到商品信息', 'bonus'),
+        'select_user_empty'		=> __('未搜索到用户信息', 'bonus'),
+
+    ),
+
+);
+//end

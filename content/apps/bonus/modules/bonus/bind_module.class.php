@@ -15,7 +15,7 @@ class bonus_bind_module extends api_front implements api_interface
 		}
 		$bonus_sn = $this->requestData('bonus_sn', '0');
 		if (empty($bonus_sn)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'bonus'));
 		}
 		
 		$time = RC_Time::gmtime();
