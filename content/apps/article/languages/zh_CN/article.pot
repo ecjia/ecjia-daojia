@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App article package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App article 1.27.0\n"
+"Project-Id-Version: Ecjia App article 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-01-25 07:50:31+00:00\n"
+"POT-Creation-Date: 2019-02-21 03:19:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -756,7 +756,7 @@ msgstr ""
 msgid "参数无效"
 msgstr ""
 
-#: apis/article_merchant_menu_api.class.php:55
+#: apis/article_merchant_menu_api.class.php:55 configs/package.php:55
 msgid "文章"
 msgstr ""
 
@@ -846,6 +846,15 @@ msgstr ""
 
 #: configs/jslang.php:88
 msgid "请输入网店标题"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"文章管理应用是一款‘海纳百川’、‘井然有序’的文章编写和发布文章，涉及多个模块和"
+"应用的软文撰写发布，是系统不可缺少的软文管理应用；应用提供了文章分类、列表、"
+"网店帮助、网店信息等核心功能，商家可对文章自定义添加或编辑分类、文章，而网店"
+"信息、网店帮助又是专门为用户提供简介、新闻、和帮助信息，从而为商家和用户节约"
+"了宝贵时间。"
 msgstr ""
 
 #: functions/admin_article.func.php:98
@@ -939,12 +948,12 @@ msgid "参数错误！"
 msgstr ""
 
 #: modules/article/detail_module.class.php:69
-#: modules/shop/help/detail_module.class.php:64
-#: modules/shop/info/detail_module.class.php:65
 msgid "不存在的信息"
 msgstr ""
 
 #: modules/article/like/like_manage_module.class.php:71
+#: modules/shop/help/detail_module.class.php:64
+#: modules/shop/info/detail_module.class.php:65
 msgid "不存在的信息！"
 msgstr ""
 
