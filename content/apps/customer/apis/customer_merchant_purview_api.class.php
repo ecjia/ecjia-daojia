@@ -54,9 +54,9 @@ class customer_merchant_purview_api extends Component_Event_Api {
     
     public function call(&$options) {
         $purviews = array(
-        	array('action_name' => '商家会员', 	'action_code' => 'store_member', 	'relevance' => ''),
-            array('action_name' => '商家会员详情', 	'action_code' => 'store_member_info', 	'relevance' => ''),
-        	array('action_name' => '商家粉丝', 	'action_code' => 'store_fans', 		'relevance' => ''),
+        	array('action_name' => __('商家会员', 'customer'), 	'action_code' => 'store_member', 	'relevance' => ''),
+            array('action_name' => __('商家会员详情', 'customer'), 	'action_code' => 'store_member_info', 	'relevance' => ''),
+        	array('action_name' => __('商家粉丝', 'customer'), 	'action_code' => 'store_fans', 		'relevance' => ''),
         );
         
         return $purviews;

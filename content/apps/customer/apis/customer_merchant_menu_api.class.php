@@ -55,10 +55,10 @@ class customer_merchant_menu_api extends Component_Event_Api
 
     public function call(&$options)
     {
-        $menus = ecjia_merchant::make_admin_menu('10_customer', __('会员'), '', 6)->add_icon('fa-group')->add_purview(array('store_member', 'store_fans'))->add_base('customer');
+        $menus = ecjia_merchant::make_admin_menu('10_customer', __('会员', 'customer'), '', 6)->add_icon('fa-group')->add_purview(array('store_member', 'store_fans'))->add_base('customer');
         $submenus = array(
-            ecjia_merchant::make_admin_menu('01_store_member', __('商家会员'), RC_Uri::url('customer/merchant/init'), 1)->add_purview('store_member')->add_icon('fa-trophy'),
-            ecjia_merchant::make_admin_menu('02_store_fans', __('商家粉丝'), RC_Uri::url('customer/merchant/fans'), 2)->add_purview('store_fans')->add_icon('fa-heart'),
+            ecjia_merchant::make_admin_menu('01_store_member', __('商家会员', 'customer'), RC_Uri::url('customer/merchant/init'), 1)->add_purview('store_member')->add_icon('fa-trophy'),
+            ecjia_merchant::make_admin_menu('02_store_fans', __('商家粉丝', 'customer'), RC_Uri::url('customer/merchant/fans'), 2)->add_purview('store_fans')->add_icon('fa-heart'),
         );
         $menus->add_submenu($submenus);
         

@@ -61,24 +61,18 @@ class UpdateStoreUser extends AbstractCommand
     protected $code = 'update_store_user';
     
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '更新商家会员数据';
-    
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = '商家会员功能上线后，同步历史会员信息';
-    
-    /**
      * 图标
      * @var string
      */
     protected $icon = '/statics/images/setting_shop.png';
-    
-    
+
+
+    public function __construct()
+    {
+        $this->name = __('更新商家会员数据', 'customer');
+        $this->description = __('商家会员功能上线后，同步历史会员信息', 'customer');
+    }
+
     /**
      * 
      *
@@ -109,12 +103,10 @@ class UpdateStoreUser extends AbstractCommand
                     //更新商家会员
                     RC_Api::api('customer', 'store_user_buy', array('store_id' => $user['store_id'], 'user_id' => $user['user_id']));
                 }
-//                 _dump($store_user_list);
             }
         }
         
-//         _dump($store_list,1);
-        
+
         return true;
     }
     

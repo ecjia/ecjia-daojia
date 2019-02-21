@@ -74,8 +74,8 @@ class merchant extends ecjia_merchant {
 	public function init() {
 	    $this->admin_priv('store_member');
 	    ecjia_screen::get_current_screen()->remove_last_nav_here();
-	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('商家会员'));
-	    $this->assign('ur_here', '商家会员');
+	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家会员', 'customer')));
+	    $this->assign('ur_here', __('商家会员', 'customer'));
 	    
 	    RC_Loader::load_app_func('admin_user', 'user');
 	    
@@ -93,8 +93,8 @@ class merchant extends ecjia_merchant {
 	public function fans() {
 	    $this->admin_priv('store_fans');
 	    ecjia_screen::get_current_screen()->remove_last_nav_here();
-	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('商家粉丝'));
-	    $this->assign('ur_here', '商家粉丝');
+	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家粉丝', 'customer')));
+	    $this->assign('ur_here', __('商家粉丝', 'customer'));
 	    
 	    $user_list = $this->get_collect_store_user_list();
 	    $this->assign('user_list', $user_list);
@@ -111,17 +111,17 @@ class merchant extends ecjia_merchant {
 	    
 	    $user_id = isset($_GET['user_id']) ? intval($_GET['user_id']) : 0;
 	    if($user_id < 1) {
-	        return $this->showmessage('参数无效', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	        return $this->showmessage(__('参数无效', 'customer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	    }
 	    $store_user = RC_DB::table('store_users')->where('user_id', $user_id)->where('store_id', $_SESSION['store_id'])->first();
 	    if(empty($store_user)) {
-	        return $this->showmessage('非会员不能查看详情', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+	        return $this->showmessage(__('非会员不能查看详情', 'customer'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 	    }
 	    
-	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('商家会员', RC_Uri::url('customer/merchant/init')));
-	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('商家会员详情'));
-	    $this->assign('ur_here', '商家会员详情');
-	    $this->assign('action_link', array('text' => '返回会员列表', 'href' => RC_Uri::url('customer/merchant/init')));
+	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家会员', 'customer'), RC_Uri::url('customer/merchant/init')));
+	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家会员详情', 'customer')));
+	    $this->assign('ur_here', __('商家会员详情', 'customer'));
+	    $this->assign('action_link', array('text' => __('返回会员列表', 'customer'), 'href' => RC_Uri::url('customer/merchant/init')));
 	    
 	    //用户信息
 	    $user_info = $this->get_store_user_info($user_id);
@@ -171,7 +171,7 @@ class merchant extends ecjia_merchant {
 	        }
 	    }
 	    
-	    return array('list' => $order, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc(), 'count' => $count);
+	    return array('list' => $order, 'page' => $page->show(2), 'desc' => $page->page_desc(), 'count' => $count);
 	}
 	/**
 	 * 获取列表
@@ -234,7 +234,7 @@ class merchant extends ecjia_merchant {
                 $users[] = $rows;
             }
         }
-        return array('list' => $users, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc(), 'count' => $type_count);
+        return array('list' => $users, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc());
 	}
 	
 	private function get_store_user_info($user_id) {
@@ -311,7 +311,7 @@ class merchant extends ecjia_merchant {
 	        }
 	    }
 	    
-	    return array('list' => $users, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc(), 'count' => $type_count);
+	    return array('list' => $users, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc());
 	    
 	}
 	

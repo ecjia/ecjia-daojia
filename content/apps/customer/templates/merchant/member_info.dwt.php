@@ -40,7 +40,7 @@
 				<div class="panel-heading">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
                         <h4 class="panel-title">
-                            <strong>基本信息</strong>
+                            <strong>{t domain="customer"}基本信息{/t}</strong>
                         </h4>
                     </a>
                 </div>
@@ -52,31 +52,31 @@
                         <div class="col-sm-10">
                         	<table class="table table-oddtd table-info">
                         		<tr class="user_name_tr">
-                        			<td><div align="right">会员名称：</div></td>
+                        			<td><div align="right">{t domain="customer"}会员名称：{/t}</div></td>
                         			<td colspan="3"><h3 class="user_name ecjiafc-red">{$user_info.user_name}</h3> ({$user_info.rank_name})</td>
                         		</tr>
                         		<!-- {if $manage_mode eq 'self'} -->
                         		<tr>
-                        			<td><div align="right">手机号码：</div></td>
+                        			<td><div align="right">{t domain="customer"}手机号码：{/t}</div></td>
                         			<td>{$user_info.mobile_phone}</td>
-                        			<td><div align="right">邮箱账号：</div></td>
+                        			<td><div align="right">{t domain="customer"}邮箱账号：{/t}</div></td>
                         			<td>{$user_info.email}</td>
                         		</tr>
                         		<!-- {else} -->
                         		<tr>
-                        			<td><div align="right">手机号码：</div></td>
+                        			<td><div align="right">{t domain="customer"}手机号码：{/t}</div></td>
                         			<td colspan="3">{$user_info.mobile_phone_format}</td>
                         		</tr>
                         		<!-- {/if} -->
                         		<tr>
-                        			<td><div align="right">注册时间：</div></td>
+                        			<td><div align="right">{t domain="customer"}注册时间：{/t}</div></td>
                         			<td>{$user_info.reg_time_format}</td>
-                        			<td><div align="right">最近购买时间：</div></td>
+                        			<td><div align="right">{t domain="customer"}最近购买时间：{/t}</div></td>
                         			<td>{$user_info.last_buy_time_format}</td>
                         		</tr>
                         		<tr>
-                        			<td><div align="right">最近收货地区：</div></td>
-                        			<td colspan="3">{if $user_info.city_name}{$user_info.province_name} {$user_info.city_name}{else}暂无{/if}</td>
+                        			<td><div align="right">{t domain="customer"}最近收货地区：{/t}</div></td>
+                        			<td colspan="3">{if $user_info.city_name}{$user_info.province_name} {$user_info.city_name}{else}{t domain="customer"}暂无{/t}{/if}</td>
                         		</tr>
                         	</table>
                         </div>
@@ -88,17 +88,17 @@
 				<div class="panel-heading accordion-group-heading-relative">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
                         <h4 class="panel-title">
-                            <strong>会员资金</strong>
+                            <strong>{t domain="customer"}会员资金{/t}</strong>
                         </h4>
                     </a>
                 </div>
                 <div class="accordion-body in collapse " id="collapseThree">
                 	<div class="panel-body">
                 		{if $manage_mode eq 'self'}
-                		<div class="col-sm-6 ecjiaf-tac">消费金额：{$user_info.buy_amount}</div>
-                		<div class="col-sm-6 ecjiaf-tac">可用金额：{$user_info.user_money}</div>
+                		<div class="col-sm-6 ecjiaf-tac">{t domain="customer"}消费金额：{/t}{$user_info.buy_amount}</div>
+                		<div class="col-sm-6 ecjiaf-tac">{t domain="customer"}可用金额：{/t}{$user_info.user_money}</div>
                 		{else}
-                		<div class="col-sm-12 ecjiaf-tac">消费金额：{$user_info.buy_amount}</div>
+                		<div class="col-sm-12 ecjiaf-tac">{t domain="customer"}消费金额：{/t}{$user_info.buy_amount}</div>
                 		{/if}
                 	</div>
                 </div>
@@ -108,7 +108,7 @@
 				<div class="panel-heading">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">
                         <h4 class="panel-title">
-                            <strong>{t}收货地址{/t}</strong>
+                            <strong>{t domain="customer"}收货地址{/t}</strong>
                         </h4>
                     </a>
                 </div>
@@ -116,23 +116,23 @@
                 	<table class="table table-striped m_b0">
 						<thead>
 							<tr>
-								<th class="w150"><strong>收货人</strong></th>
-								<th class="w180"><strong>手机号</strong></th>
-								<th class="w180"><strong>地区</strong></th>
-								<th class="w280"><strong>详细地址</strong></th>
+								<th class="w150"><strong>{t domain="customer"}收货人{/t}</strong></th>
+								<th class="w180"><strong>{t domain="customer"}手机号{/t}</strong></th>
+								<th class="w180"><strong>{t domain="customer"}地区{/t}</strong></th>
+								<th class="w280"><strong>{t domain="customer"}详细地址{/t}</strong></th>
 							</tr>
 						</thead>
 						<tbody>
 							<!-- {foreach from=$address_list item=list} -->
 							<tr {if $list.default_address eq 1}class="info"{/if}>
-								<td>{$list.consignee}{if $list.default_address eq 1}(默认地址){/if}</td>
+								<td>{$list.consignee}{if $list.default_address eq 1}({t domain="customer"}默认地址{/t}){/if}</td>
 								<td>{$list.mobile}</td>
 								<td>{$list.province_name} {$list.city_name} {$list.district_name}</td>
 								<td>{$list.street_name}{$list.address}{$list.address_info}</td>
 							</tr>
 							<!-- {foreachelse} -->
 							<tr>
-								<td class="no-records w200" colspan="6">{t}暂无记录{/t}</td>
+								<td class="no-records w200" colspan="6">{t domain="customer"}暂无记录{/t}</td>
 							</tr>
 							<!-- {/foreach} -->
 						</tbody>
@@ -144,7 +144,7 @@
 				<div class="panel-heading">
                     <a data-toggle="collapse" data-parent="#accordion" href="#order">
                         <h4 class="panel-title">
-                            <strong>{t}会员订单{/t}({$order_list.count})</strong>
+                            <strong>{t domain="customer"}会员订单{/t}({$order_list.count})</strong>
                         </h4>
                     </a>
                 </div>
@@ -152,11 +152,11 @@
                 	<table class="table table-striped m_b0">
 						<thead>
 							<tr>
-								<th class="w180"><strong>订单号</strong></th>
-								<th class="w180"><strong>下单时间</strong></th>
-								<th class="w150"><strong>收货人</strong></th>
-								<th class="w150"><strong>订单金额</strong></th>
-								<th class="w150"><strong>订单状态</strong></th>
+								<th class="w180"><strong>{t domain="customer"}订单号{/t}</strong></th>
+								<th class="w180"><strong>{t domain="customer"}下单时间{/t}</strong></th>
+								<th class="w150"><strong>{t domain="customer"}收货人{/t}</strong></th>
+								<th class="w150"><strong>{t domain="customer"}订单金额{/t}</strong></th>
+								<th class="w150"><strong>{t domain="customer"}订单状态{/t}</strong></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -170,7 +170,7 @@
 							</tr>
 							<!-- {foreachelse} -->
 							<tr>
-								<td class="no-records w200" colspan="6">{t}暂无记录{/t}</td>
+								<td class="no-records w200" colspan="6">{t domain="customer"}暂无记录{/t}</td>
 							</tr>
 							<!-- {/foreach} -->
 						</tbody>

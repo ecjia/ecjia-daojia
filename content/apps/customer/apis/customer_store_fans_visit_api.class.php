@@ -56,7 +56,7 @@ class customer_store_fans_visit_api extends Component_Event_Api {
 	public function call(&$options) {
 		
 	    if (empty($options['user_id']) || empty($options['store_id'])) {
-	        return new ecjia_error('invalid_parameter', '参数无效');
+	        return new ecjia_error('invalid_parameter', __('参数无效', 'customer'));
 	    }
 	    //设置缓存key
 	    $cache_id = 'store_fans_visit-'.$options['store_id'].'-'.$options['user_id'];
@@ -70,7 +70,7 @@ class customer_store_fans_visit_api extends Component_Event_Api {
 	    
 	    $collect = RC_DB::table('collect_store')->where('store_id', $store_id)->where('user_id', $user_id)->first();
 	    if (empty($collect)) {
-	        return new ecjia_error('un_collect', '用户未关注店铺');
+	        return new ecjia_error('un_collect', __('用户未关注店铺', 'customer'));
 	    }
 	    
 	    if(!empty($options['longitude']) && !empty($options['latitude'])) {

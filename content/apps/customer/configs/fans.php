@@ -9,7 +9,7 @@ return array(
         'iphone' => 'iPhone',
         'android' => 'Android',
         'h5' => 'H5',
-        'weapp' => '微信小程序',
+        'weapp' => __('微信小程序', 'customer'),
     ]
 );
 

@@ -25,15 +25,15 @@ ecjia.merchant.customer_list.init();
 			<div class="panel-body panel-body-small">
 				<form class="form-inline" method="post" action="{$search_action}" name="searchForm">
 					<select class="w250" name="rank_id" id="select-cat">
-						<option value="0">全部会员等级</option>
+						<option value="0">{t domain="customer"}全部会员等级{/t}</option>
 						<!-- {foreach from=$rank_list key=key item=val} -->
 						<option value="{$key}" {if $smarty.get.rank_id eq $key}selected{/if} >{$val}</option>
 						<!-- {/foreach} -->
 					</select>
-					<a class="btn btn-primary m_l5 screen-btn"><i class="fa fa-search"></i> {lang key='article::article.filter'}</a>
+					<a class="btn btn-primary m_l5 screen-btn"><i class="fa fa-search"></i> {t domain="customer"}筛选{/t}</a>
 					<div class="f_r form-group">
-						<input type="text" name="keywords" class="form-control" value="{$smarty.get.keywords}" placeholder="请输入会员名"/>
-						<a class="btn btn-primary m_l5 search_articles"><i class="fa fa-search"></i> 搜索</a>
+						<input type="text" name="keywords" class="form-control" value="{$smarty.get.keywords}" placeholder="{t domain="customer"}请输入会员名{/t}"/>
+						<a class="btn btn-primary m_l5 search_articles"><i class="fa fa-search"></i> {t domain="customer"}搜索{/t}</a>
 					</div>
 				</form>
 			</div>
@@ -41,13 +41,13 @@ ecjia.merchant.customer_list.init();
 				<table class="table table-striped table-hover table-hide-edit ecjiaf-tlf">
 					<thead>
 						<tr data-sorthref='{url path="customer/merchant/init" args="{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $filter.rank_id}&rank_id={$filter.rank_id}{/if}"}'>
-							<th>会员</th>
-							<th class="w200">手机号</th>
-							<th class="w130 sorting" data-toggle="sortby" data-sortby="buy_times">购次</th>
-							<th class="w130 sorting" data-toggle="sortby" data-sortby="buy_amount">消费金额</th>
-							<th>会员等级</th>
-							<th>最近购买时间</th>
-							<th>开通时间</th>
+							<th>{t domain="customer"}会员{/t}</th>
+							<th class="w200">{t domain="customer"}手机号{/t}</th>
+							<th class="w130 sorting" data-toggle="sortby" data-sortby="buy_times">{t domain="customer"}购次{/t}</th>
+							<th class="w130 sorting" data-toggle="sortby" data-sortby="buy_amount">{t domain="customer"}消费金额{/t}</th>
+							<th>{t domain="customer"}会员等级{/t}</th>
+							<th>{t domain="customer"}最近购买时间{/t}</th>
+							<th>{t domain="customer"}开通时间{/t}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -60,7 +60,7 @@ ecjia.merchant.customer_list.init();
 							<td class="hide-edit-area">
 								<span class="cursor_pointer" >{$list.mobile_phone}</span>
 								<div class="edit-list">
-									<a class="data-pjax" href='{RC_Uri::url("customer/merchant/info", "user_id={$list.user_id}")}' title="查看详情">查看详情</a>
+									<a class="data-pjax" href='{RC_Uri::url("customer/merchant/info", "user_id={$list.user_id}")}' title="{t domain="customer"}查看详情{/t}">{t domain="customer"}查看详情{/t}</a>
 								</div>
 							</td>
 							<td>{$list.buy_times}</td>
@@ -74,7 +74,7 @@ ecjia.merchant.customer_list.init();
 						<!-- {foreachelse} -->
 						<tr>
 							<td class="no-records" colspan="7">
-								{lang key='system::system.no_records'}
+                                {t domain="customer"}没有找到任何记录{/t}
 							</td>
 						</tr>
 					<!-- {/foreach} -->

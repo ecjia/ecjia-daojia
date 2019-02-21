@@ -90,7 +90,7 @@ class customer_store_user_buy_api extends Component_Event_Api {
 	            //join_scene
 	            $store_name = !empty($options['store_name']) ? $options['store_name'] : RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
 	            if(empty($store_name)) {
-	                return new ecjia_error('not_exist_store', '店铺不存在');
+	                return new ecjia_error('not_exist_store', __('店铺不存在', 'customer'));
 	            }
 	            $data['store_id'] = $store_id;
 	            $data['store_name'] = $store_name;
