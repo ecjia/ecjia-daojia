@@ -70,6 +70,8 @@ class admin extends ecjia_admin
         Ecjia\App\Ucserver\Helper::assign_adminlog_content();
         
         RC_Script::enqueue_script('admin_ucenter', RC_App::apps_url('statics/js/admin_ucenter.js', __FILE__));
+        RC_Script::localize_script('admin_ucenter', 'js_lang', config('app-ucserver::jslang.ucserver_page'));
+
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('Ucenter', RC_Uri::url('ucserver/admin/init')));
     }
 
@@ -77,7 +79,7 @@ class admin extends ecjia_admin
     {
         $this->admin_priv('ucserver_manage');
 
-        $this->assign('ur_here', '应用列表');
+        $this->assign('ur_here', __('应用列表', 'ucserver'));
 
         ecjia_screen::get_current_screen()->remove_last_nav_here();
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('Ucenter'));
@@ -85,7 +87,7 @@ class admin extends ecjia_admin
         $list = $this->get_list();
         $this->assign('list', $list);
 
-        $this->assign('action_link', array('text' => '添加新应用', 'href' => RC_Uri::url('ucserver/admin/add')));
+        $this->assign('action_link', array('text' => __('添加新应用', 'ucserver'), 'href' => RC_Uri::url('ucserver/admin/add')));
         $this->assign('search_action', RC_Uri::url('ucserver/admin/init'));
 
         $this->display('ucenter_list.dwt');
@@ -103,9 +105,9 @@ class admin extends ecjia_admin
         $status = $app->testApi($url, $ip);
         
         if ($status == '1') {
-        	return $this->showmessage('通信成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('appid' => $appid));
+        	return $this->showmessage(__('通信成功', 'ucserver'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('appid' => $appid));
         } else {
-        	return $this->showmessage('通信失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('appid' => $appid));
+        	return $this->showmessage(__('通信失败', 'ucserver'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('appid' => $appid));
         }
     }
 
@@ -113,10 +115,10 @@ class admin extends ecjia_admin
     {
     	$this->admin_priv('ucenter_update');
     	
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('添加新应用'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加新应用', 'ucserver')));
 
-        $this->assign('ur_here', '添加新应用');
-        $this->assign('action_link', array('href' => RC_Uri::url('ucserver/admin/init'), 'text' => '应用列表'));
+        $this->assign('ur_here', __('添加新应用', 'ucserver'));
+        $this->assign('action_link', array('href' => RC_Uri::url('ucserver/admin/init'), 'text' => __('应用列表', 'ucserver')));
 
         $this->assign('form_action', RC_Uri::url('ucserver/admin/update'));
 
@@ -134,10 +136,10 @@ class admin extends ecjia_admin
     {
     	$this->admin_priv('ucenter_update');
     	
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑应用'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑应用', 'ucserver')));
 
-        $this->assign('ur_here', '编辑应用');
-        $this->assign('action_link', array('href' => RC_Uri::url('ucserver/admin/init'), 'text' => '应用列表'));
+        $this->assign('ur_here', __('编辑应用', 'ucserver'));
+        $this->assign('action_link', array('href' => RC_Uri::url('ucserver/admin/init'), 'text' => __('应用列表', 'ucserver')));
         $this->assign('form_action', RC_Uri::url('ucserver/admin/update'));
 
         $id = intval($_GET['id']);
@@ -170,11 +172,11 @@ class admin extends ecjia_admin
         $authkey = Ecjia\App\Ucserver\Helper::authcode($authkey, 'ENCODE', UC_MYKEY);
 
         if (!Ecjia\App\Ucserver\Helper::checkUrl($url)) {
-            return $this->showmessage('接口 URL 地址不合法', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('接口 URL 地址不合法', 'ucserver'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (!empty($ip) && !Ecjia\App\Ucserver\Helper::checkIp($ip)) {
-            return $this->showmessage('IP 地址不合法', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('IP 地址不合法', 'ucserver'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $data = array(
@@ -190,20 +192,20 @@ class admin extends ecjia_admin
         if (empty($id)) {
         	$count = RC_DB::table('ucenter_applications')->where('name', $name)->count();
         	if ($count != 0) {
-        		return $this->showmessage('应用名称不合法或者与其他应用重复, 请返回更换', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        		return $this->showmessage(__('应用名称不合法或者与其他应用重复, 请返回更换', 'ucserver'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         	}
         	
             $id = RC_DB::table('ucenter_applications')->insertGetId($data);
-            $message = '添加成功';
+            $message = __('添加成功', 'ucserver');
             ecjia_admin::admin_log($name, 'add', 'ucserver_app');
         } else {
         	$count = RC_DB::table('ucenter_applications')->where('appid', '!=', $id)->where('name', $name)->count();
         	if ($count != 0) {
-        		return $this->showmessage('应用名称不合法或者与其他应用重复, 请返回更换', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        		return $this->showmessage(__('应用名称不合法或者与其他应用重复, 请返回更换', 'ucserver'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         	}
         	
             RC_DB::table('ucenter_applications')->where('appid', $id)->update($data);
-            $message = '编辑成功';
+            $message = __('编辑成功', 'ucserver');
             ecjia_admin::admin_log($name, 'edit', 'ucserver_app');
         }
         return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('ucserver/admin/edit', array('id' => $id))));
@@ -220,7 +222,7 @@ class admin extends ecjia_admin
         
         RC_DB::table('ucenter_applications')->where('appid', $id)->delete();
         
-        return $this->showmessage('删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        return $this->showmessage(__('删除成功', 'ucserver'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 
     public function batch_remove()
@@ -237,7 +239,7 @@ class admin extends ecjia_admin
         	}
         }
         RC_DB::table('ucenter_applications')->whereIn('appid', $appid_list)->delete();
-        return $this->showmessage('删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('ucserver/admin/init')));
+        return $this->showmessage(__('删除成功', 'ucserver'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('ucserver/admin/init')));
     }
 
     private function get_list()

@@ -21,11 +21,11 @@
 	<form method="post" action="{$search_action}" name="searchForm">
 		<div class="btn-group f_l m_r5">
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-				<i class="fontello-icon-cog"></i>批量操作
+				<i class="fontello-icon-cog"></i>{t domain="ucserver"}批量操作{/t}
 				<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
-				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="ucenter/admin/batch_remove"}' data-msg="您确定要删除选中的应用吗？" data-noSelectMsg="请选择要删除的应用" data-name="appid" href="javascript:;"><i class="fontello-icon-trash"></i>删除</a></li>
+				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="ucenter/admin/batch_remove"}' data-msg='{t domain="ucserver"}您确定要删除选中的应用吗？{/t}' data-noSelectMsg='{t domain="ucserver"}请选择要删除的应用{/t}' data-name="appid" href="javascript:;"><i class="fontello-icon-trash"></i>{t domain="ucserver"}删除{/t}</a></li>
 			</ul>
 		</div>
 	</form>
@@ -38,10 +38,10 @@
 				<thead>
 					<tr>
 						<th class="table_checkbox"><input type="checkbox" name="select_rows" data-toggle="selectall" data-children=".checkbox"/></th>
-						<th class="w50">ID</th>
-						<th>应用名称</th>
-						<th class="w300">应用的主 URL</th>
-						<th class="w150">通信情况</th>
+						<th class="w50">{t domain="ucserver"}ID{/t}</th>
+						<th>{t domain="ucserver"}应用名称{/t}</th>
+						<th class="w300">{t domain="ucserver"}应用的主 URL{/t}</th>
+						<th class="w150">{t domain="ucserver"}通信情况{/t}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -56,15 +56,15 @@
 					<td class="hide-edit-area">
 						{$val.name}
 						<div class="edit-list">
-							<a class="data-pjax" href='{RC_Uri::url("ucserver/admin/edit", "id={$val.appid}")}' title="编辑">编辑</a>&nbsp;|&nbsp;
-				      		<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="您确定要删除该应用吗？" href='{RC_Uri::url("ucserver/admin/remove","id={$val.appid}")}' title="删除">删除</a>
+							<a class="data-pjax" href='{RC_Uri::url("ucserver/admin/edit", "id={$val.appid}")}' title='{t domain="ucserver"}编辑{/t}'>{t domain="ucserver"}编辑{/t}</a>&nbsp;|&nbsp;
+				      		<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="ucserver"}您确定要删除该应用吗？{/t}' href='{RC_Uri::url("ucserver/admin/remove","id={$val.appid}")}' title='{t domain="ucserver"}删除{/t}'>{t domain="ucserver"}删除{/t}</a>
 						</div>
 					</td>
 					<td>{$val.url}</td>
 					<td class="app_linkstatus" data-href="{RC_Uri::url('ucserver/admin/ping')}" data-url="{$val.url}" data-ip="{$val.ip}" data-appid="{$val.appid}" id="app_{$val.appid}"></td>
 				</tr>
 				<!--  {foreachelse} -->
-				<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
+				<tr><td class="no-records" colspan="6">{t domain="ucserver"}没有找到任何记录{/t}</td></tr>
 				<!-- {/foreach} -->
 				</tbody>
 			</table>

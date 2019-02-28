@@ -17,7 +17,7 @@
         			'ip': ip,
         			'appid': appid
         		};
-        		$('#app_' + appid).html('正在连接...');
+        		$('#app_' + appid).html(js_lang.connecting);
         		$.get(href, info, function(data) {
                     var appid = data.appid;
         			if (data.state == 'success') {
@@ -48,7 +48,7 @@
                 },
                 messages: {
                     url: {
-                        required: '应用的主URL不能为空'
+                        required: js_lang.url_cannot_be_empty
                     },
                 },
                 submitHandler: function () {

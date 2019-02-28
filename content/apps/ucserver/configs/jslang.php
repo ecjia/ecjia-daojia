@@ -44,25 +44,23 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台权限API
- * @author royalwang
+ * js语言包设置
  */
-class ucserver_admin_purview_api extends Component_Event_Api
-{
 
-    public function call(&$options)
-    {
-        $purviews = array(
-            array('action_name' => __('Ucenter应用管理', 'ucserver'), 'action_code' => 'ucserver_manage', 'relevance' => ''),
-            array('action_name' => __('Ucenter应用更新', 'ucserver'), 'action_code' => 'ucserver_update', 'relevance' => ''),
-        	array('action_name' => __('Ucenter应用删除', 'ucserver'), 'action_code' => 'ucserver_update', 'relevance' => ''),
-        );
+defined('IN_ECJIA') or exit('No permission resources.');
 
-        return $purviews;
-    }
-}
+return array(
+    //ucserver
+    'ucserver_page' =>array(
+        'connecting' =>  __('正在连接...', 'ucserver'),
+        'url_cannot_be_empty' =>  __('应用的主URL不能为空', 'ucserver'),
 
-// end
+        'ok' =>  __('确定', 'ucserver'),
+        'cancel' =>  __('取消', 'ucserver'),
+
+    ),
+
+);
+//end
