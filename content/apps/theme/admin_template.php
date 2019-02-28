@@ -70,16 +70,8 @@ class admin_template extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-uniform');
 
 		
-		RC_Script::enqueue_script('template', RC_App::apps_url('statics/js/template.js', __FILE__));		
-		$admin_template_lang = array(
-				'choosetemplate'     => __("启用新的模板将覆盖原来的模板。\n您确定要启用选定的模板吗？", 'theme'),
-				'choosetemplateFG'   => __('您确定要启用选定的模板风格吗？', 'theme'),
-				'abandon'            => __('您确定要放弃本次修改吗？', 'theme'),
-				'write'              => __('请先输入内容！', 'theme'),
-				'ok'                 => __('确定', 'theme'),
-				'cancel'             => __('取消', 'theme')
-		);
-		RC_Script::localize_script('template', 'admin_template_lang', $admin_template_lang );
+		RC_Script::enqueue_script('template', RC_App::apps_url('statics/js/template.js', __FILE__));
+		RC_Script::localize_script('template', 'admin_template_lang', config('app-theme::jslang.theme_page'));
 		
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('外观', 'theme'), RC_Uri::url('theme/admin_template/init')));
 	}
@@ -111,7 +103,7 @@ class admin_template extends ecjia_admin {
 		}
 
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('主题管理'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('主题管理', 'theme')));
 		
 		$this->assign('ur_here',                  __('主题管理', 'theme'));
 		$this->assign('curr_tpl_style',           $curr_style);

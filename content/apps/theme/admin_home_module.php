@@ -116,15 +116,15 @@ class admin_home_module extends ecjia_admin {
             ]);
         }
 
-        ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice(__('<strong>温馨提示：</strong>首页模块化功能目前仅支持APP端和H5端的平台模板模式。', 'theme'), 'alert-info'));
+        ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice(__('<strong>温馨提示：</strong>首页模块化功能目前仅支持APP端和H5端、门店小程序的平台模板模式。', 'theme'), 'alert-info'));
 
 		if (empty($useing_group)) {
 		    if ($platform != 'default') {
 
 		        if ($client != 'all') {
-                    ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice('当前产品平台客户端未自定义首页模块数据，将使用当前平台的统一设置。', 'alert-warning'));
+                    ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice(__('当前产品平台客户端未自定义首页模块数据，将使用当前平台的统一设置。', 'theme'), 'alert-warning'));
                 } else {
-                    ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice('当前产品平台未自定义首页模块数据，将使用【默认全局】的设置。', 'alert-warning'));
+                    ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice(__('当前产品平台未自定义首页模块数据，将使用【默认全局】的设置。', 'theme'), 'alert-warning'));
                 }
             }
 

@@ -120,18 +120,9 @@ HTML;
         $city_id	= empty($city_id) ? 0 : $city_id;
         $location	= $request->input('location', array());
         
-        $mobile_home_adsense_group_one = [];
-       
-        
         $device_client = $request->header('device-client', 'iphone');
-        
-        if ($device_client == 'android') {
-        	$client = \Ecjia\App\Adsense\Client::ANDROID;
-        } elseif ($device_client == 'h5') {
-        	$client = \Ecjia\App\Adsense\Client::H5;
-        } else {
-        	$client = \Ecjia\App\Adsense\Client::IPHONE;
-        }
+
+        $client = \Ecjia\App\Adsense\Client::transformDeviceClient($device_client);
         
         $mobile_home_adsense_group_one = \RC_Api::api('adsense',  'adsense_group', [
         		'code'     => 'home_complex_adsense',

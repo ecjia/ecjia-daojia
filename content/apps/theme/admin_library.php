@@ -73,21 +73,8 @@ class admin_library extends ecjia_admin {
 		RC_Script::enqueue_script('acejs-emmet', RC_Uri::admin_url('statics/lib/acejs/ext-emmet.js'), array(), false, true);
 		
 		RC_Script::enqueue_script('template', RC_App::apps_url('statics/js/template.js', __FILE__));
-
-		$admin_template_lang = array(
-				'editlibrary'       	=> __('您确定要保存编辑内容吗？', 'theme'),
-				'choosetemplate'    	=> __('使用这个模板', 'theme'),
-				'choosetemplateFG'  	=> __('使用这个模板风格', 'theme'),
-				'abandon'           	=> __('您确定要放弃本次修改吗？', 'theme'),
-				'write'             	=> __('请先输入内容！', 'theme'),
-				'ok'                	=> __('确定', 'theme'),
-				'cancel'            	=> __('取消', 'theme'),
-				'confirm_leave'			=> __('您的修改内容还没有保存，您确定离开吗？', 'theme'),
-				'confirm_leave'			=> __('连接错误，请重新选择!', 'theme'),
-				'confirm_edit_project'	=> __('修改库项目是危险的高级操作，修改错误可能会导致前台无法正常显示。您依然确定要修改库项目吗？', 'theme')
-		);
 		
-		RC_Script::localize_script('template', 'admin_template_lang', $admin_template_lang);
+		RC_Script::localize_script('template', 'admin_template_lang', config('app-theme::jslang.theme_library_page'));
 		
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('外观', 'theme'), RC_Uri::url('theme/admin_template/init')));
 	}

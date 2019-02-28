@@ -122,13 +122,7 @@ HTML;
 
         $device_client = $request->header('device-client', 'iphone');
 
-        if ($device_client == 'android') {
-            $client = \Ecjia\App\Adsense\Client::ANDROID;
-        } elseif ($device_client == 'h5') {
-            $client = \Ecjia\App\Adsense\Client::H5;
-        } else {
-            $client = \Ecjia\App\Adsense\Client::IPHONE;
-        }
+        $client = \Ecjia\App\Adsense\Client::transformDeviceClient($device_client);
 
         $cycleimageDatas = \RC_Api::api('adsense',  'cycleimage', [
             'code'     => 'home_cycleimage',

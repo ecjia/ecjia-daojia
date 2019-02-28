@@ -93,7 +93,7 @@ class admin_option extends ecjia_admin
          */
         // If no settings errors were registered add a general 'updated' message.
         if (!count(ecjia_theme_setting::get_settings_errors())) {
-            ecjia_theme_setting::add_settings_error('general', 'settings_updated', __('设置保存成功。'), 'updated');
+            ecjia_theme_setting::add_settings_error('general', 'settings_updated', __('设置保存成功。', 'theme'), 'updated');
         }
 
         ecjia_theme_transient::set_transient('settings_errors', ecjia_theme_setting::get_settings_errors(), 30);

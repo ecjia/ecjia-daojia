@@ -134,7 +134,7 @@
         </div>
         <div class="ms-selectable">
             <div class="template_list" id="ms-custom-navigation">
-                <input class="span12" id="ms-search" type="text" placeholder="{t domain="theme"}筛选搜索到的商品信息{/t}" autocomplete="off">
+                <input class="span12" id="ms-search" type="text" placeholder='{t domain="theme"}筛选搜索到的商品信息{/t}' autocomplete="off">
                 <ul class="unstyled">
                     <!-- {foreach from=$template_files item=val key=key} -->
                     <!-- {assign var=url_args value="template_file=$key&full=0"} -->

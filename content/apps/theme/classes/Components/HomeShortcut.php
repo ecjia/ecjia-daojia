@@ -121,15 +121,9 @@ HTML;
        	$city_id	= empty($city_id) ? 0 : $city_id;
 	
 		$device_client = $request->header('device-client', 'iphone');
-		
-		if ($device_client == 'android') {
-		    $client = \Ecjia\App\Adsense\Client::ANDROID;
-		} elseif ($device_client == 'h5') {
-		    $client = \Ecjia\App\Adsense\Client::H5;
-		} else {
-		    $client = \Ecjia\App\Adsense\Client::IPHONE;
-		}
-		$shortcutDatas = [];
+
+        $client = \Ecjia\App\Adsense\Client::transformDeviceClient($device_client);
+
 		$shortcutDatas = \RC_Api::api('adsense',  'shortcut', [
 		    'code'     => 'home_shortcut',
 		    'client'   => $client,

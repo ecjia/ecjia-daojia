@@ -67,13 +67,8 @@ class navigator extends ecjia_admin {
 		RC_Style::enqueue_style('uniform-aristo');
 		
 		RC_Script::enqueue_script('navigator', RC_App::apps_url('statics/js/navigator.js', __FILE__));
-		
-		$admin_nav_jslang = array(
-				'confirm_delete_menu'	=> __('确定要移除这个菜单项吗？', 'theme'),
-				'ok'					=> __('确定', 'theme'),
-				'cancel'				=> __('取消', 'theme')
-		);
-		RC_Script::localize_script('navigator', 'admin_nav_lang', $admin_nav_jslang );
+
+		RC_Script::localize_script('navigator', 'admin_nav_lang', config('app-theme::jslang.theme_page'));
 		
 	}
 

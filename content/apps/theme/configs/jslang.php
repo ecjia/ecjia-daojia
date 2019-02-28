@@ -44,94 +44,39 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+
 /**
- * Created by PhpStorm.
- * User: royalwang
- * Date: 2018/7/23
- * Time: 11:56 AM
+ * js语言包设置
  */
 
-namespace Ecjia\App\Theme\Components;
+defined('IN_ECJIA') or exit('No permission resources.');
 
+return array(
+    //theme
+    'theme_page' =>array(
+        'choosetemplate'     => __("启用新的模板将覆盖原来的模板。\n您确定要启用选定的模板吗？", 'theme'),
+        'choosetemplateFG'   => __('您确定要启用选定的模板风格吗？', 'theme'),
+        'abandon'            => __('您确定要放弃本次修改吗？', 'theme'),
+        'write'              => __('请先输入内容！', 'theme'),
 
-use Ecjia\App\Theme\ComponentAbstract;
+        'confirm_delete_menu'	=> __('确定要移除这个菜单项吗？', 'theme'),
 
-class HomeComplexAdsenseTwo extends ComponentAbstract
-{
+        'ok'                 => __('确定', 'theme'),
+        'cancel'             => __('取消', 'theme')
+    ),
 
-    /**
-     * 代号标识
-     * @var string
-     */
-    protected $code = 'home_complex_adsense_two';
+    'theme_library_page' =>array(
+        'editlibrary'       	=> __('您确定要保存编辑内容吗？', 'theme'),
+        'choosetemplate'    	=> __('使用这个模板', 'theme'),
+        'choosetemplateFG'  	=> __('使用这个模板风格', 'theme'),
+        'abandon'           	=> __('您确定要放弃本次修改吗？', 'theme'),
+        'write'             	=> __('请先输入内容！', 'theme'),
+        'ok'                	=> __('确定', 'theme'),
+        'cancel'            	=> __('取消', 'theme'),
+        'confirm_leave'			=> __('您的修改内容还没有保存，您确定离开吗？', 'theme'),
+        'confirm_leave'			=> __('连接错误，请重新选择!', 'theme'),
+        'confirm_edit_project'	=> __('修改库项目是危险的高级操作，修改错误可能会导致前台无法正常显示。您依然确定要修改库项目吗？', 'theme')
+    ),
 
-    /**
-     * 名称
-     * @var string
-     */
-    protected $name = '首页广告组二';
-
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = '首页广告组二，最多支持10个。';
-
-    /**
-     * 缩略图
-     * @var string
-     */
-    protected $thumb = '/statics/images/thumb/module_home_adsense_two.png'; //图片未添加
-
-
-    /**
-     * 预览显示使用的HTML
-     */
-    public function handlePriviewHtml()
-    {
-        $data = $this->queryData();
-
-        return <<<HTML
-
-
-HTML;
-    }
-
-
-    /**
-     * API使用的数据格式
-     */
-    public function handleData()
-    {
-        $data = $this->queryData();
-
-        return [
-            'module' => $this->code,
-            'title' => '',
-            'data'  => $data,
-        ];
-    }
-
-
-    protected function queryData()
-    {
-        $request = royalcms('request');
-        $city_id	= $request->input('city_id', 0);
-        $city_id	= empty($city_id) ? 0 : $city_id;
-        $location	= $request->input('location', array());
-        
-        $device_client = $request->header('device-client', 'iphone');
-
-        $client = \Ecjia\App\Adsense\Client::transformDeviceClient($device_client);
-        
-        $mobile_home_adsense_group_two = \RC_Api::api('adsense',  'adsense_group', [
-        		'code'     => 'home_complex_adsense_two',
-        		'client'   => $client,
-        		'city'     => $city_id
-        		]);
-
-        return $mobile_home_adsense_group_two;
-    }
-
-
-}
+);
+//end
