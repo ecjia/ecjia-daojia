@@ -56,6 +56,15 @@ return array(
     'comment_page' =>array(
         'ok'		 		=> __('确定', 'comment'),
         'cancel'	 		=> __('取消', 'comment'),
+
+        'open'	 		    => __('开启', 'comment'),
+        'shutdown'	 		=> __('关闭', 'comment'),
+        'share_wechat'	 		=> __('分享微信', 'comment'),
+        'sina_weibo'	 		=> __('新浪微博', 'comment'),
+        'save_picture'	 		=> __('保存图片', 'comment'),
+        'collapse'	 		=> __('收起', 'comment'),
+        'full_text'	 		=> __('全文', 'comment'),
+
         'content_required'	=> __('请填写回复内容！', 'comment'),
         'one_level'			=> __('1级-严重不合格', 'comment'),
         'two_level'			=> __('2级-不合格', 'comment'),

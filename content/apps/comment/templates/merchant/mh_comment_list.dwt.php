@@ -92,9 +92,9 @@
 				<form class="form-inline pull-right" name="searchForm" method="post" action='{url path="comment/mh_comment/init" args="{if $smarty.get.select_rank}&select_rank={$smarty.get.select_rank}{/if}{if $smarty.get.rank}&rank={$smarty.get.rank}{/if}{if $smarty.get.select_img}&select_img={$smarty.get.select_img}{/if}{if $smarty.get.has_img neq null}&has_img={$smarty.get.has_img}{/if}{if $goods_id}&goods_id={$goods_id}{/if}"}'>
 					<div class="screen f_r">
 						<div class="form-group">
-							<input type="text" class="form-control" name="keywords" value="{$smarty.get.keywords}" placeholder="输入用户名称">
+							<input type="text" class="form-control" name="keywords" value="{$smarty.get.keywords}" placeholder='{t domain="comment"}输入用户名称{/t}'>
 						</div>
-						<button class="btn btn-primary screen-btn" type="button"><i class="fa fa-search"></i> 搜索</button>
+						<button class="btn btn-primary screen-btn" type="button"><i class="fa fa-search"></i> {t domain="comment"}搜索{/t}</button>
 					</div>
 				</form>
 			</div>

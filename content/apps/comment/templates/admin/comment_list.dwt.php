@@ -26,7 +26,7 @@
 		<!-- {if $select_rank} -->
 		<li class="hide-rank"><span>></span></li>
 		<li class="hide-rank"><a class="data-pjax btn no-show-rank" href='{url path="comment/admin/init" args="{if $smarty.get.status neq null}&status={$smarty.get.status}{/if}{if $smarty.get.has_img neq null}&has_img={$smarty.get.has_img}{/if}{if $select_status}&select_status={$select_status}{/if}{if $select_img}&select_img={$select_img}{/if}"}' style="padding:3px 5px;">
-			{if $smarty.get.rank eq 1}{elseif $smarty.get.rank eq 2} {t domain="comment"}中评{/t} {elseif $smarty.get.rank eq 3}{t domain="comment"}差评{/t}{/if}
+			{if $smarty.get.rank eq 1}好评{elseif $smarty.get.rank eq 2} {t domain="comment"}中评{/t} {elseif $smarty.get.rank eq 3}{t domain="comment"}差评{/t}{/if}
 			<i class=" close-status fontello-icon-cancel cursor_pointer"></i></a>
 		</li>
 		<!-- {/if} -->
@@ -141,7 +141,7 @@
 								<a class="data-pjax" href='{url path="comment/admin/reply" args="comment_id={$comment.comment_id}"}'>
 									{t domain="comment"}查看及回复{/t}
 								</a>&nbsp;|&nbsp;
-                            <a class="ecjiafc-red toggle_view" href='{url path="comment/admin/check" args="list=1&comment_id={$comment.comment_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg='{t domain="comment" 1="{$comment.user_name}"}您确定要将该用户[%1]的评论移至回收站吗？{/t}' data-status="{$smarty.get.status}" data-val="trashed_comment" >{t}移至回收站{/t}</a>
+                            <a class="ecjiafc-red toggle_view" href='{url path="comment/admin/check" args="list=1&comment_id={$comment.comment_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}"}' data-msg='{t domain="comment" 1="{$comment.user_name}"}您确定要将该用户[%1]的评论移至回收站吗？{/t}' data-status="{$smarty.get.status}" data-val="trashed_comment" >{t domain="comment"}移至回收站{/t}</a>
 						    {/if}
 						</div>
 					</td>

@@ -176,7 +176,7 @@ class appeal extends ecjia_admin {
 		$db_comment_appeal = RC_DB::table('comment_appeal');
 		
 		if(empty($ckeck_remark)){
-			return $this->showmessage('审核申诉备注不可为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('审核申诉备注不可为空', 'comment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		$data = array(

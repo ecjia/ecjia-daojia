@@ -102,7 +102,7 @@ class admin extends ecjia_admin {
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __('更多信息：' ,'comment') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品评论" target="_blank">'.__('关于商品评论列表帮助文档' ,'comment').'</a>') . '</p>'
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品评论" target="_blank">关于商品评论列表帮助文档</a>', 'comment') . '</p>'
 		);
 		
 		$list = $this->get_comment_list();
@@ -565,7 +565,7 @@ class admin extends ecjia_admin {
 				));
 		ecjia_screen::get_current_screen()->set_help_sidebar(
 		'<p><strong>' . __('更多信息：' ,'comment') . '</strong></p>' .
-		'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品评论" target="_blank">'.__('关于商品评论列表帮助文档' ,'comment').'</a>') . '</p>'
+		'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品评论" target="_blank">关于商品评论列表帮助文档</a>', 'comment') . '</p>'
 				);
 		$_GET['list'] = !empty($_GET['list']) ? $_GET['list'] : 3;		
 		$store_id = isset($_GET['store_id']) ? $_GET['store_id'] : 0;	
