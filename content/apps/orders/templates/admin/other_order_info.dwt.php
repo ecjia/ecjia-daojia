@@ -23,7 +23,7 @@
 		<li class="step-first">
 			<div class="{if $flow_status.key eq '1'}step-cur{else}step-done{/if}">
 				<div class="step-no">{if $flow_status.key eq 1}1{/if}</div>
-				<div class="m_t5">{lang key='orders::order.submit_order'}</div>
+				<div class="m_t5">提交订单</div>
 				<div class="m_t5 ecjiafc-blue">{$order.formated_add_time}</div>
 			</div>
 		</li>
@@ -46,7 +46,7 @@
 <div class="row-fluid">
 	<div class="span12 ecjiaf-tac">
 		<div class="ecjiaf-fl">
-			<h3>{lang key='orders::order.label_order_sn'}{$order.order_sn}</h3>
+			<h3>订单号：{$order.order_sn}</h3>
 		</div>
 	</div>
 </div>
@@ -56,7 +56,7 @@
 			<div class="accordion-group">
 				<div class="accordion-heading">
 					<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseOne">
-						<strong>{lang key='orders::order.base_info'}</strong>
+						<strong>基本信息</strong>
 					</a>
 				</div>
 				<div class="accordion-body in collapse" id="collapseOne">
@@ -70,12 +70,12 @@
 								</td>
 								<td>
 									{$order.order_sn} {if $order.extension_code eq "group_buy"}
-									<a href='{url path="groupbuy/admin/edit" args="id={$order.extension_id}"}' target="_blank">{lang key='orders::order.group_buy'}</a>
+									<a href='{url path="groupbuy/admin/edit" args="id={$order.extension_id}"}' target="_blank"><span class="groupbuy-icon">团</span></a>
 									{/if}
 								</td>
 								<td>
 									<div align="right">
-										<strong>{lang key='orders::order.label_order_status'}</strong>
+										<strong>订单状态：</strong>
 									</div>
 								</td>
 								<td>{$order.status}</td>
@@ -87,7 +87,7 @@
 									</div>
 								</td>
 								<td>
-									{$order.user_name|default:{lang key='orders::order.anonymous'}}
+									{$order.user_name}
 								</td>
 								<td>
 									<div align="right">
@@ -99,7 +99,7 @@
 							<tr>
 								<td>
 									<div align="right">
-										<strong>{lang key='orders::order.label_payment'}</strong>
+										<strong>支付方式：</strong>
 									</div>
 								</td>
 								<td>
@@ -107,7 +107,7 @@
 								</td>
 								<td>
 									<div align="right">
-										<strong>{lang key='orders::order.label_order_time'}</strong>
+										<strong>下单时间：</strong>
 									</div>
 								</td>
 								<td>{$order.formated_add_time}</td>
@@ -116,13 +116,13 @@
 							<tr>
 								<td>
 									<div align="right">
-										<strong>{lang key='orders::order.label_pay_time'}</strong>
+										<strong>付款时间：</strong>
 									</div>
 								</td>
 								<td>{$order.pay_time}</td>
 								<td>
 									<div align="right">
-										<strong>{lang key='orders::order.from_order'}</strong>
+										<strong>订单来源：</strong>
 									</div>
 								</td>
 								<td colspan="3">{$order.label_referer}</td>
@@ -137,7 +137,7 @@
 			<div class="accordion-group">
 				<div class="accordion-heading accordion-heading-url">
 					<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseStore">
-						<strong>{lang key='orders::order.store_info'}</strong>
+						<strong>店铺信息</strong>
 					</div>
 				</div>
 				<div class="accordion-body in collapse" id="collapseStore">
@@ -146,7 +146,7 @@
 							<tr>
 								<td>
 									<div align="right">
-										<strong>{lang key='orders::order.label_merchants_name'}</strong>
+										<strong>店铺名称：</strong>
 									</div>
 								</td>
 								<td>
@@ -154,7 +154,7 @@
 								</td>
 								<td>
 									<div align="right">
-										<strong>{lang key='orders::order.label_responsible_person'}</strong>
+										<strong>负责人：</strong>
 									</div>
 								</td>
 								<td>{$order.responsible_person}</td>
@@ -162,13 +162,13 @@
 							<tr>
 								<td>
 									<div align="right">
-										<strong>{lang key='orders::order.label_contact_mobile'}</strong>
+										<strong>联系方式：</strong>
 									</div>
 								</td>
 								<td>{$order.contact_mobile}</td>
 								<td>
 									<div align="right">
-										<strong>{lang key='orders::order.label_email'}</strong>
+										<strong>电子邮件：</strong>
 									</div>
 								</td>
 								<td>{$order.merchants_email}</td>
@@ -177,7 +177,7 @@
 							<tr>
 								<td>
 									<div align="right">
-										<strong>{lang key='orders::order.label_company_name'}</strong>
+										<strong>公司名称：</strong>
 									</div>
 								</td>
 								<td colspan="3">{$order.company_name}</td>
@@ -240,7 +240,7 @@
 			<div class="accordion-group">
 				<div class="accordion-heading accordion-heading-url">
 					<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseTwo-a">
-						<strong>{lang key='orders::order.invoice_information'}</strong>
+						<strong>发票信息</strong>
 					</div>
 				</div>
 				<div class="accordion-body in collapse" id="collapseTwo-a">
@@ -249,7 +249,7 @@
 							<tr>
 								<td>
 									<div align="right">
-										<strong>{lang key='orders::order.label_inv_type'}</strong>
+										<strong>发票类型：</strong>
 									</div>
 								</td>
 								<td>{$order.inv_type}</td>
@@ -269,7 +269,7 @@
 								<td>{if $inv_payee}{$inv_payee}{else}个人{/if}</td>
 								<td>
 									<div align="right">
-										<strong>{lang key='orders::order.label_inv_content'}</strong>
+										<strong>发票内容：</strong>
 									</div>
 								</td>
 								<td>{$order.inv_content}</td>
@@ -282,7 +282,7 @@
 			<div class="accordion-group">
 				<div class="accordion-heading accordion-heading-url">
 					<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseTwo">
-						<strong>{lang key='orders::order.other_info'}</strong>
+						<strong>其他信息</strong>
 					</div>
 				</div>
 				<div class="accordion-body in collapse" id="collapseTwo">
@@ -305,22 +305,22 @@
 			<div class="accordion-group">
 				<div class="accordion-heading accordion-heading-url">
 					<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseFour">
-						<strong>{lang key='orders::order.goods_info'}</strong>
+						<strong>商品信息</strong>
 					</div>
 				</div>
 				<div class="accordion-body in collapse" id="collapseFour">
 					<table class="table table-striped table_vam m_b0 order-table-list">
 						<thead>
 							<tr class="table-list">
-								<th class="w80">{lang key='orders::order.product_thumbnail'}</th>
-								<th>{lang key='orders::order.goods_name_brand'}</th>
-								<th class="w80">{lang key='orders::order.goods_sn'}</th>
-								<th class="w70">{lang key='orders::order.product_sn'}</th>
-								<th class="w100">{lang key='orders::order.goods_price'}</th>
-								<th class="w30">{lang key='orders::order.goods_number'}</th>
-								<th class="w100">{lang key='orders::order.goods_attr'}</th>
-								<th class="w50">{lang key='orders::order.storage'}</th>
-								<th class="w100">{lang key='orders::order.subtotal'}</th>
+								<th class="w80">商品缩略图</th>
+								<th>商品名称 [ 品牌 ]</th>
+								<th class="w80">货号</th>
+								<th class="w70">货品号</th>
+								<th class="w100">价格</th>
+								<th class="w30">数量</th>
+								<th class="w100">属性</th>
+								<th class="w50">库存</th>
+								<th class="w100">小计</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -332,8 +332,8 @@
 								<td>
 									{if $goods.goods_id gt 0 and $goods.extension_code neq 'package_buy'}
 									<a href='{url path="goods/admin/preview" args="id={$goods.goods_id}"}' target="_blank">{$goods.goods_name} {if $goods.brand_name}[ {$goods.brand_name} ]{/if}{if $goods.is_gift}{if $goods.goods_price
-										gt 0}{lang key='orders::order.remark_favourable'}{else}{lang key='orders::order.remark_gift'}{/if}{/if}{if $goods.parent_id
-										gt 0}{lang key='orders::order.remark_fittings'}{/if}</a>
+										gt 0}（特惠品）{else}（赠品）{/if}{/if}{if $goods.parent_id
+										gt 0}（配件）{/if}</a>
 									{/if}
 								</td>
 								<td>{$goods.goods_sn}</td>
@@ -355,13 +355,13 @@
 							</tr>
 							<!-- {foreachelse} -->
 							<tr>
-								<td class="no-records" colspan="9">{lang key='orders::order.order_no_goods'}</td>
+								<td class="no-records" colspan="9">该订单暂无商品</td>
 							</tr>
 							<!-- {/foreach} -->
 							<tr>
 								<td colspan="8">
 									<div align="right">
-										<strong>{lang key='orders::order.label_total'}</strong>
+										<strong>合计：</strong>
 									</div>
 								</td>
 								<td>
@@ -375,7 +375,7 @@
 			<div class="accordion-group">
 				<div class="accordion-heading accordion-heading-url">
 					<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseFive">
-						<strong>{lang key='orders::order.fee_info'}</strong>
+						<strong>费用信息</strong>
 					</div>
 				</div>
 				<div class="accordion-body in collapse" id="collapseFive">
@@ -383,13 +383,13 @@
 						<tr>
 							<td>
 								<div align="right">
-									{lang key='orders::order.label_goods_amount'}
+									商品总金额：
 									<strong>{$order.formated_goods_amount}</strong>
-									- {lang key='orders::order.label_discount'}
+									- 折扣：
 									<strong>{$order.formated_discount}</strong>
-									- {lang key='orders::order.label_integral'}
+									- 使用积分：
 									<strong>{$order.formated_integral_money}</strong>
-									- {lang key='orders::order.label_bonus'}
+									- 使用红包：
 									<strong>{$order.formated_bonus}</strong>
 								</div>
 							</td>
@@ -409,7 +409,7 @@
 			<div class="accordion-group">
 				<div class="accordion-heading">
 					<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseSix">
-						<strong>{lang key='orders::order.operation_record'}</strong>
+						<strong>操作记录</strong>
 					</a>
 				</div>
 				<div class="accordion-body in collapse" id="collapseSix">
@@ -417,10 +417,10 @@
 						<thead>
 							<tr>
 								<th class="w130">
-									<strong>{lang key='orders::order.action_user_two'}</strong>
+									<strong>操作者</strong>
 								</th>
 								<th class="w180">
-									<strong>{lang key='orders::order.action_time'}</strong>
+									<strong>操作时间</strong>
 								</th>
 								<th class="w130">
 									<strong>订单状态</strong>
@@ -440,7 +440,7 @@
 							</tr>
 							<!-- {foreachelse} -->
 							<tr>
-								<td class="no-records" colspan="4">{lang key='orders::order.no_order_operation_record'}</td>
+								<td class="no-records" colspan="4">该订单暂无操作记录</td>
 							</tr>
 							<!-- {/foreach} -->
 						</tbody>

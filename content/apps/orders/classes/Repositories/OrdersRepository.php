@@ -107,14 +107,14 @@ class OrdersRepository extends AbstractRepository
     /**
      *  获取用户指定范围的订单列表
      *
-     * @param   int         $user_id        用户ID, 为0，获取所有用户的订单
-     * @param   string      $type           订单类型，订单状态类型
-     * @param   int         $page           列表当前页数
-     * @param   int         $size           列表每页多少条
-     * @param   string      $keywords       搜索关键词，可为订单号、商品名称
-     * @param   string      $store_id       店铺ID，为null，获取所有店铺的订单
-     * @param   string|array $with          关联表查询
-     * @param   callable    $callback       查询结果回调处理
+     * @param   int $user_id 用户ID, 为0，获取所有用户的订单
+     * @param   string $type 订单类型，订单状态类型
+     * @param   int $page 列表当前页数
+     * @param   int $size 列表每页多少条
+     * @param   string $keywords 搜索关键词，可为订单号、商品名称
+     * @param   string $store_id 店铺ID，为null，获取所有店铺的订单
+     * @param   string|array $with 关联表查询
+     * @param   callable $callback 查询结果回调处理
      * @return  array       $order_list     订单列表
      */
     public function getUserOrdersList($user_id, $type = null, $page = 1, $size = 15, $keywords = null, $store_id = null, $with = null, callable $callback = null, $extension_code = null)
@@ -231,43 +231,43 @@ class OrdersRepository extends AbstractRepository
     public function getOrderList(array $filter, $page = 1, $size = 15, $with = null, callable $callback = null)
     {
         /* 过滤信息 */
-        $filter['order_sn'] = trim(array_get($filter, 'order_sn'));
-        $filter['consignee'] = trim(array_get($filter, 'consignee'));
-        $filter['keywords'] = trim(array_get($filter, 'keywords'));
-        $filter['email'] = trim(array_get($filter, 'email'));
-        $filter['address'] = trim(array_get($filter, 'address'));
-        $filter['zipcode'] = trim(array_get($filter, 'zipcode'));
-        $filter['tel'] = trim(array_get($filter, 'tel'));
-        $filter['mobile'] = trim(array_get($filter, 'mobile'));
-        $filter['merchants_name'] = trim(array_get($filter, 'merchants_name'));
+        $filter['order_sn']          = trim(array_get($filter, 'order_sn'));
+        $filter['consignee']         = trim(array_get($filter, 'consignee'));
+        $filter['keywords']          = trim(array_get($filter, 'keywords'));
+        $filter['email']             = trim(array_get($filter, 'email'));
+        $filter['address']           = trim(array_get($filter, 'address'));
+        $filter['zipcode']           = trim(array_get($filter, 'zipcode'));
+        $filter['tel']               = trim(array_get($filter, 'tel'));
+        $filter['mobile']            = trim(array_get($filter, 'mobile'));
+        $filter['merchants_name']    = trim(array_get($filter, 'merchants_name'));
         $filter['merchant_keywords'] = trim(array_get($filter, 'merchant_keywords'));
 
-        $filter['country'] = trim(array_get($filter, 'country'));
+        $filter['country']  = trim(array_get($filter, 'country'));
         $filter['province'] = trim(array_get($filter, 'province'));
         $filter['district'] = trim(array_get($filter, 'district'));
 
-        $filter['shipping_id'] = intval(array_get($filter, 'shipping_id'));
-        $filter['pay_id'] = intval(array_get($filter, 'pay_id'));
-        $filter['status'] = intval(array_get($filter, 'status', -1));
-        $filter['order_status'] = intval(array_get($filter, 'order_status', -1));
+        $filter['shipping_id']     = intval(array_get($filter, 'shipping_id'));
+        $filter['pay_id']          = intval(array_get($filter, 'pay_id'));
+        $filter['status']          = intval(array_get($filter, 'status', -1));
+        $filter['order_status']    = intval(array_get($filter, 'order_status', -1));
         $filter['shipping_status'] = intval(array_get($filter, 'shipping_status', -1));
-        $filter['pay_status'] = intval(array_get($filter, 'pay_status', -1));
+        $filter['pay_status']      = intval(array_get($filter, 'pay_status', -1));
 
-        $filter['user_id'] = intval(array_get($filter, 'user_id'));
-        $filter['user_name'] = trim(array_get($filter, 'user_name'));
+        $filter['user_id']          = intval(array_get($filter, 'user_id'));
+        $filter['user_name']        = trim(array_get($filter, 'user_name'));
         $filter['composite_status'] = intval(array_get($filter, 'composite_status', -1));
-        $filter['group_buy_id'] = intval(array_get($filter, 'group_buy_id'));
-        $filter['sort_by'] = trim(array_get($filter, 'sort_by', 'add_time'));
-        $filter['sort_order'] = trim(array_get($filter, 'sort_order', 'DESC'));
+        $filter['group_buy_id']     = intval(array_get($filter, 'group_buy_id'));
+        $filter['sort_by']          = trim(array_get($filter, 'sort_by', 'add_time'));
+        $filter['sort_order']       = trim(array_get($filter, 'sort_order', 'DESC'));
 
         $filter['start_time'] = trim(array_get($filter, 'start_time'));
-        $filter['end_time'] = trim(array_get($filter, 'end_time'));
-        $filter['type'] = trim(array_get($filter, 'type'));
-        $filter['is_delete'] = intval(array_get($filter, 'is_delete', 0));
+        $filter['end_time']   = trim(array_get($filter, 'end_time'));
+        $filter['type']       = trim(array_get($filter, 'type'));
+        $filter['is_delete']  = intval(array_get($filter, 'is_delete', 0));
 
         $filter['extension_code'] = is_array($filter['extension_code']) ? $filter['extension_code'] : trim(array_get($filter, 'extension_code'));
-        $filter['store_id'] = trim(array_get($filter, 'store_id'));
-        $filter['referer'] = trim(array_get($filter, 'referer'));
+        $filter['store_id']       = trim(array_get($filter, 'store_id'));
+        $filter['referer']        = trim(array_get($filter, 'referer'));
         $filter['goods_keywords'] = trim(array_get($filter, 'goods_keywords'));
 
         $field = [
@@ -437,7 +437,7 @@ class OrdersRepository extends AbstractRepository
             }
             if (array_get($filter, 'today_order')) {
                 $start_time = RC_Time::local_mktime(0, 0, 0, RC_Time::local_date('m'), RC_Time::local_date('d'), RC_Time::local_date('Y')); //当天开始时间
-                $end_time = RC_Time::local_mktime(0, 0, 0, RC_Time::local_date('m'), RC_Time::local_date('d') + 1, RC_Time::local_date('Y')) - 1; //当天结束时间
+                $end_time   = RC_Time::local_mktime(0, 0, 0, RC_Time::local_date('m'), RC_Time::local_date('d') + 1, RC_Time::local_date('Y')) - 1; //当天结束时间
                 $query->where('order_info.add_time', '>=', $start_time)->where('order_info.add_time', '<', $end_time);
             }
             if (array_get($filter, 'group_buy_id')) {
@@ -450,14 +450,14 @@ class OrdersRepository extends AbstractRepository
                         ->orWhere('order_info.extension_code', null);
                 });
             } else {
-            	if (is_array($filter['extension_code'])) {
+                if (is_array($filter['extension_code'])) {
                     if (in_array('default', $filter['extension_code'])) {
                         $filter['extension_code'] = array_merge(array('', null), $filter['extension_code']);
                     }
-            		$query->whereIn('order_info.extension_code', $filter['extension_code']);
-            	} else {
-            		$query->where('order_info.extension_code', array_get($filter, 'extension_code'));
-            	}
+                    $query->whereIn('order_info.extension_code', $filter['extension_code']);
+                } else {
+                    $query->where('order_info.extension_code', array_get($filter, 'extension_code'));
+                }
             }
             if (array_get($filter, 'is_delete') != -1) {
                 $query->where('order_info.is_delete', array_get($filter, 'is_delete'));
@@ -573,8 +573,8 @@ class OrdersRepository extends AbstractRepository
         $where = [];
         //全部
         $filter['composite_status'] = -1;
-        $countQuery = $this->orderQuery($filter);
-        $count['all'] = $this->findWhereCount($where, RC_DB::raw("DISTINCT {$table}.order_id"), function ($query) use ($keywords, $countQuery) {
+        $countQuery                 = $this->orderQuery($filter);
+        $count['all']               = $this->findWhereCount($where, RC_DB::raw("DISTINCT {$table}.order_id"), function ($query) use ($keywords, $countQuery) {
             if (!empty($keywords)) {
                 $query->leftJoin('order_goods', function ($join) {
                     $join->on('order_info.order_id', '=', 'order_goods.order_id');
@@ -595,8 +595,8 @@ class OrdersRepository extends AbstractRepository
 
         //待付款
         $filter['composite_status'] = CS_AWAIT_PAY;
-        $countQuery = $this->orderQuery($filter);
-        $count['await_pay'] = $this->findWhereCount($where, RC_DB::raw("DISTINCT {$table}.order_id"), function ($query) use ($keywords, $countQuery) {
+        $countQuery                 = $this->orderQuery($filter);
+        $count['await_pay']         = $this->findWhereCount($where, RC_DB::raw("DISTINCT {$table}.order_id"), function ($query) use ($keywords, $countQuery) {
             if (!empty($keywords)) {
                 $query->leftJoin('order_goods', function ($join) {
                     $join->on('order_info.order_id', '=', 'order_goods.order_id');
@@ -615,8 +615,8 @@ class OrdersRepository extends AbstractRepository
 
         //待接单
         $filter['composite_status'] = CS_UNCONFIRMED;
-        $countQuery = $this->orderQuery($filter);
-        $count['unconfirmed'] = $this->findWhereCount($where, RC_DB::raw("DISTINCT {$table}.order_id"), function ($query) use ($keywords, $countQuery) {
+        $countQuery                 = $this->orderQuery($filter);
+        $count['unconfirmed']       = $this->findWhereCount($where, RC_DB::raw("DISTINCT {$table}.order_id"), function ($query) use ($keywords, $countQuery) {
             if (!empty($keywords)) {
                 $query->leftJoin('order_goods', function ($join) {
                     $join->on('order_info.order_id', '=', 'order_goods.order_id');
@@ -635,8 +635,8 @@ class OrdersRepository extends AbstractRepository
 
         //待发货
         $filter['composite_status'] = CS_AWAIT_SHIP;
-        $countQuery = $this->orderQuery($filter);
-        $count['await_ship'] = $this->findWhereCount($where, RC_DB::raw("DISTINCT {$table}.order_id"), function ($query) use ($keywords, $countQuery) {
+        $countQuery                 = $this->orderQuery($filter);
+        $count['await_ship']        = $this->findWhereCount($where, RC_DB::raw("DISTINCT {$table}.order_id"), function ($query) use ($keywords, $countQuery) {
             if (!empty($keywords)) {
                 $query->leftJoin('order_goods', function ($join) {
                     $join->on('order_info.order_id', '=', 'order_goods.order_id');
@@ -655,8 +655,8 @@ class OrdersRepository extends AbstractRepository
 
         //待收货
         $filter['composite_status'] = CS_SHIPPED;
-        $countQuery = $this->orderQuery($filter);
-        $count['shipped'] = $this->findWhereCount($where, RC_DB::raw("DISTINCT {$table}.order_id"), function ($query) use ($keywords, $countQuery) {
+        $countQuery                 = $this->orderQuery($filter);
+        $count['shipped']           = $this->findWhereCount($where, RC_DB::raw("DISTINCT {$table}.order_id"), function ($query) use ($keywords, $countQuery) {
             if (!empty($keywords)) {
                 $query->leftJoin('order_goods', function ($join) {
                     $join->on('order_info.order_id', '=', 'order_goods.order_id');
@@ -675,8 +675,8 @@ class OrdersRepository extends AbstractRepository
 
         //已完成
         $filter['composite_status'] = CS_FINISHED;
-        $countQuery = $this->orderQuery($filter);
-        $count['finished'] = $this->findWhereCount($where, RC_DB::raw("DISTINCT {$table}.order_id"), function ($query) use ($keywords, $countQuery) {
+        $countQuery                 = $this->orderQuery($filter);
+        $count['finished']          = $this->findWhereCount($where, RC_DB::raw("DISTINCT {$table}.order_id"), function ($query) use ($keywords, $countQuery) {
             if (!empty($keywords)) {
                 $query->leftJoin('order_goods', function ($join) {
                     $join->on('order_info.order_id', '=', 'order_goods.order_id');
@@ -695,8 +695,8 @@ class OrdersRepository extends AbstractRepository
 
         //退款/售后
         $filter['composite_status'] = CS_REFUND;
-        $countQuery = $this->orderQuery($filter);
-        $count['returned'] = $this->findWhereCount($where, RC_DB::raw("DISTINCT {$table}.order_id"), function ($query) use ($keywords, $countQuery) {
+        $countQuery                 = $this->orderQuery($filter);
+        $count['returned']          = $this->findWhereCount($where, RC_DB::raw("DISTINCT {$table}.order_id"), function ($query) use ($keywords, $countQuery) {
             if (!empty($keywords)) {
                 $query->leftJoin('order_goods', function ($join) {
                     $join->on('order_info.order_id', '=', 'order_goods.order_id');

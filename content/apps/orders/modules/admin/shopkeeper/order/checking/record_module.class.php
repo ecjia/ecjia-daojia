@@ -50,84 +50,86 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 掌柜查看验单记录
  * @author zrl
  */
-class admin_shopkeeper_order_checking_record_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	$this->authadminSession();
-    	if ($_SESSION['staff_id'] <= 0) {
-            return new ecjia_error(100, 'Invalid session');
+class admin_shopkeeper_order_checking_record_module extends api_admin implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+        $this->authadminSession();
+        if ($_SESSION['staff_id'] <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'orders'));
         }
         if ($_SESSION['store_id'] <= 0) {
-        	return new ecjia_error(100, 'Invalid session');
+            return new ecjia_error(100, __('Invalid session', 'orders'));
         }
-		
-		$keywords = $this->requestData('keywords');
-		$size     = $this->requestData('pagination.count', 15);
-		$page     = $this->requestData('pagination.page', 1);
-		
-		$dbview = RC_DB::table('order_info as oi')->leftJoin('term_meta as tm', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('tm.object_id'));
-		
-		$dbview->where(RC_DB::raw('oi.store_id'), $_SESSION['store_id'])
-				->where(RC_DB::raw('oi.pay_status'), PS_PAYED)
-				->where(RC_DB::raw('oi.shipping_status'), '>', SS_UNSHIPPED)
-				->where(RC_DB::raw('oi.order_status'), '<>', OS_CANCELED)
-				->where(RC_DB::raw('oi.order_status'), '<>', OS_INVALID)
-				->where(RC_DB::raw('tm.object_type'), 'ecjia.order')
-				->where(RC_DB::raw('tm.meta_key'), 'receipt_verification')
-				->where(RC_DB::raw('tm.object_group'), 'order');
-		
-		if (!empty($keywords)) {
-			$dbview ->whereRaw('(oi.order_sn  like  "%'.mysql_like_quote($keywords).'%" or tm.meta_value like "%'.mysql_like_quote($keywords).'%")');
-		}
-		
-		$count = $dbview->count(RC_DB::raw('oi.order_id'));
-		
-		//实例化分页
-		$page_row = new ecjia_page($count, $size, 6, '', $page);
-		
-		$field = 'tm.*, oi.*';
-		$order_result = $dbview->take($size)->skip($page_row->start_id - 1)->select(RC_DB::raw('tm.*'), RC_DB::raw('oi.*'))->orderBy(RC_DB::raw('oi.add_time'), 'desc')->get();
-		
-		$order_list = array();
-		$pickup_status = 0;
-		if (!empty($order_result)) {
-			foreach ($order_result as $row) {
-				if ($row['shipping_status'] > 0) {
-					$pickup_status = 1;
-					$label_pickup_status = '已验证';
-				} else {
-					$pickup_status = 0;
-					$label_pickup_status = '未验证';
-				}
-				
-				$total_fee =  $row['goods_amount']
-								+ $row['tax']
-								+ $row['shipping_fee']
-								+ $row['insure_fee']
-								+ $row['pay_fee']
-								+ $row['pack_fee']
-								+ $row['card_fee']
-								- $row['integral_money']
-								- $row['bonus']
-								- $row['discount'];
-				$order_list[] = array(
-						'pickup_code'			=> empty($row['meta_value']) ? '' : $row['meta_value'],
-						'pickup_status'			=> $pickup_status,
-						'label_pickup_status'	=> $label_pickup_status,
-						'order_id'				=> $row['order_id'],
-						'order_sn'				=> $row['order_sn'],
-						'total_fee'				=> $total_fee,
-						'formated_total_fee'	=> price_format($total_fee)
-				);
-			}
-		}
-		
-		$pager = array(
-			'total' => $page_row->total_records,
-			'count' => $page_row->total_records,
-			'more'	=> $page_row->total_pages <= $page ? 0 : 1,
-		);
-		return array('data' => $order_list, 'pager' => $pager);
-	 }	
+
+        $keywords = $this->requestData('keywords');
+        $size     = $this->requestData('pagination.count', 15);
+        $page     = $this->requestData('pagination.page', 1);
+
+        $dbview = RC_DB::table('order_info as oi')->leftJoin('term_meta as tm', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('tm.object_id'));
+
+        $dbview->where(RC_DB::raw('oi.store_id'), $_SESSION['store_id'])
+            ->where(RC_DB::raw('oi.pay_status'), PS_PAYED)
+            ->where(RC_DB::raw('oi.shipping_status'), '>', SS_UNSHIPPED)
+            ->where(RC_DB::raw('oi.order_status'), '<>', OS_CANCELED)
+            ->where(RC_DB::raw('oi.order_status'), '<>', OS_INVALID)
+            ->where(RC_DB::raw('tm.object_type'), 'ecjia.order')
+            ->where(RC_DB::raw('tm.meta_key'), 'receipt_verification')
+            ->where(RC_DB::raw('tm.object_group'), 'order');
+
+        if (!empty($keywords)) {
+            $dbview->whereRaw('(oi.order_sn  like  "%' . mysql_like_quote($keywords) . '%" or tm.meta_value like "%' . mysql_like_quote($keywords) . '%")');
+        }
+
+        $count = $dbview->count(RC_DB::raw('oi.order_id'));
+
+        //实例化分页
+        $page_row = new ecjia_page($count, $size, 6, '', $page);
+
+        $field        = 'tm.*, oi.*';
+        $order_result = $dbview->take($size)->skip($page_row->start_id - 1)->select(RC_DB::raw('tm.*'), RC_DB::raw('oi.*'))->orderBy(RC_DB::raw('oi.add_time'), 'desc')->get();
+
+        $order_list    = array();
+        $pickup_status = 0;
+        if (!empty($order_result)) {
+            foreach ($order_result as $row) {
+                if ($row['shipping_status'] > 0) {
+                    $pickup_status       = 1;
+                    $label_pickup_status = __('已验证', 'orders');
+                } else {
+                    $pickup_status       = 0;
+                    $label_pickup_status = __('未验证', 'orders');
+                }
+
+                $total_fee    = $row['goods_amount']
+                    + $row['tax']
+                    + $row['shipping_fee']
+                    + $row['insure_fee']
+                    + $row['pay_fee']
+                    + $row['pack_fee']
+                    + $row['card_fee']
+                    - $row['integral_money']
+                    - $row['bonus']
+                    - $row['discount'];
+                $order_list[] = array(
+                    'pickup_code'         => empty($row['meta_value']) ? '' : $row['meta_value'],
+                    'pickup_status'       => $pickup_status,
+                    'label_pickup_status' => $label_pickup_status,
+                    'order_id'            => $row['order_id'],
+                    'order_sn'            => $row['order_sn'],
+                    'total_fee'           => $total_fee,
+                    'formated_total_fee'  => price_format($total_fee)
+                );
+            }
+        }
+
+        $pager = array(
+            'total' => $page_row->total_records,
+            'count' => $page_row->total_records,
+            'more'  => $page_row->total_pages <= $page ? 0 : 1,
+        );
+        return array('data' => $order_list, 'pager' => $pager);
+    }
 }
 
 // end

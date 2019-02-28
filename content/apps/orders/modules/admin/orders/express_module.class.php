@@ -45,154 +45,157 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 获取订单物流信息
  * @author will
  *
  */
-class admin_orders_express_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+class admin_orders_express_module extends api_admin implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
 
-		$this->authadminSession();
-		if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-    	$result = $this->admin_priv('order_view');
+        $this->authadminSession();
+        if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+        $result = $this->admin_priv('order_view');
         if (is_ecjia_error($result)) {
-			return $result;
-		}
-		
-		$order_id = $this->requestData('order_id');
-		if (empty($order_id)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
-		}
-		
-		if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
-			$ru_id_group = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id))->group('store_id')->get_field('store_id', true);
-			if (count($ru_id_group) > 1 || $ru_id_group[0] != $_SESSION['store_id']) {
-				return new ecjia_error('no_authority', '对不起，您没权限查看此订单相关信息！');
-			}
-		}
-		
-		$delivery_result = RC_Model::model('orders/delivery_order_model')->where(array('order_id' => $order_id))->select();
+            return $result;
+        }
+
+        $order_id = $this->requestData('order_id');
+        if (empty($order_id)) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+        }
+
+        if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
+            $ru_id_group = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id))->group('store_id')->get_field('store_id', true);
+            if (count($ru_id_group) > 1 || $ru_id_group[0] != $_SESSION['store_id']) {
+                return new ecjia_error('no_authority', __('对不起，您没权限查看此订单相关信息！', 'orders'));
+            }
+        }
+
+        $delivery_result = RC_Model::model('orders/delivery_order_model')->where(array('order_id' => $order_id))->select();
 // 		RC_Logger::getlogger('info')->info($order_id);
 // 		RC_Logger::getlogger('info')->info($delivery_result);
-		
-		$delivery_list = array();
-		if (!empty($delivery_result)) {
-			$delivery_goods_db = RC_Model::model('orders/delivery_viewmodel');
-			$delivery_goods_db->view = array(
-					'goods' => array(
-							'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-							'alias' => 'g',
-							'on'    => 'dg.goods_id = g.goods_id',
-					),
-			);
-			$ship_code = RC_Loader::load_app_config('shipping_code', 'shipping');
-			foreach ($delivery_result as $val) {
-				$shipping_info = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])
-				    ->first();
-				if ($shipping_info['shipping_code'] == 'ship_o2o_express' || $shipping_info['shipping_code'] == 'ship_ecjia_express') {
-					$delivery_list1 = array();
-					if (!empty($val['invoice_no'])){
-						$delivery_list1 = RC_DB::table('express_track_record as etr')
-							->leftJoin('shipping as s', RC_DB::raw('s.shipping_code'), '=', RC_DB::raw('etr.express_code'))
-							->where(RC_DB::raw('express_code'), $shipping_info['shipping_code'])
-							->where(RC_DB::raw('track_number'), $val['invoice_no'])
-							->select(RC_DB::raw('etr.track_number'), RC_DB::raw('etr.time'), RC_DB::raw('etr.context'), RC_DB::raw('s.shipping_code'), RC_DB::raw('s.shipping_name'))->get();
-						/*商品*/
-						$delivery_goods = $delivery_goods_db->where(array('delivery_id' => $val['delivery_id']))->select();
-							
-						$goods_lists = array();
-						foreach ($delivery_goods as $v) {
-							$goods_lists[] = array(
-									'id'	=> $v['goods_id'],
-									'name'	=> $v['goods_name'],
-									'goods_sn'	 => $v['goods_sn'],
-									'number'	 => $v['send_number'],
-									'img'	=> array(
-											'thumb'	=> (isset($v['goods_img']) && !empty($v['goods_img']))		 ? RC_Upload::upload_url($v['goods_img'])	  : RC_Uri::admin_url('statics/images/nopic.png'),
-											'url'	=> (isset($v['original_img']) && !empty($v['original_img'])) ? RC_Upload::upload_url($v['original_img'])  : RC_Uri::admin_url('statics/images/nopic.png'),
-											'small'	=> (isset($v['goods_thumb']) && !empty($v['goods_thumb']))   ? RC_Upload::upload_url($v['goods_thumb'])   : RC_Uri::admin_url('statics/images/nopic.png')
-									),
-							);
-						}
-						
-						foreach ($delivery_list1 as $k1 => $v1) {
-							$delivery_list[] = array(
-									'shipping_name' 		=> $v1['shipping_name'],
-									'shipping_code' 		=> $v1['shipping_code'],
-									'shipping_number' 		=> $v1['track_number'],
-									'shipping_status'		=> '',
-									'label_shipping_status'	=> '',
-									'sign_time_formated' 	=> $v1['time'],
-									'content'				=> array('time' => $v1['time'], 'context' => $v1['context']),
-									'goods_items'			=> $goods_lists
-							);
-						}
-					}
-				} else {
-					$data = array();
+
+        $delivery_list = array();
+        if (!empty($delivery_result)) {
+            $delivery_goods_db       = RC_Model::model('orders/delivery_viewmodel');
+            $delivery_goods_db->view = array(
+                'goods' => array(
+                    'type'  => Component_Model_View::TYPE_LEFT_JOIN,
+                    'alias' => 'g',
+                    'on'    => 'dg.goods_id = g.goods_id',
+                ),
+            );
+            $ship_code               = RC_Loader::load_app_config('shipping_code', 'shipping');
+            foreach ($delivery_result as $val) {
+                $shipping_info = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])
+                    ->first();
+                if ($shipping_info['shipping_code'] == 'ship_o2o_express' || $shipping_info['shipping_code'] == 'ship_ecjia_express') {
+                    $delivery_list1 = array();
+                    if (!empty($val['invoice_no'])) {
+                        $delivery_list1 = RC_DB::table('express_track_record as etr')
+                            ->leftJoin('shipping as s', RC_DB::raw('s.shipping_code'), '=', RC_DB::raw('etr.express_code'))
+                            ->where(RC_DB::raw('express_code'), $shipping_info['shipping_code'])
+                            ->where(RC_DB::raw('track_number'), $val['invoice_no'])
+                            ->select(RC_DB::raw('etr.track_number'), RC_DB::raw('etr.time'), RC_DB::raw('etr.context'), RC_DB::raw('s.shipping_code'), RC_DB::raw('s.shipping_name'))->get();
+                        /*商品*/
+                        $delivery_goods = $delivery_goods_db->where(array('delivery_id' => $val['delivery_id']))->select();
+
+                        $goods_lists = array();
+                        foreach ($delivery_goods as $v) {
+                            $goods_lists[] = array(
+                                'id'       => $v['goods_id'],
+                                'name'     => $v['goods_name'],
+                                'goods_sn' => $v['goods_sn'],
+                                'number'   => $v['send_number'],
+                                'img'      => array(
+                                    'thumb' => (isset($v['goods_img']) && !empty($v['goods_img'])) ? RC_Upload::upload_url($v['goods_img']) : RC_Uri::admin_url('statics/images/nopic.png'),
+                                    'url'   => (isset($v['original_img']) && !empty($v['original_img'])) ? RC_Upload::upload_url($v['original_img']) : RC_Uri::admin_url('statics/images/nopic.png'),
+                                    'small' => (isset($v['goods_thumb']) && !empty($v['goods_thumb'])) ? RC_Upload::upload_url($v['goods_thumb']) : RC_Uri::admin_url('statics/images/nopic.png')
+                                ),
+                            );
+                        }
+
+                        foreach ($delivery_list1 as $k1 => $v1) {
+                            $delivery_list[] = array(
+                                'shipping_name'         => $v1['shipping_name'],
+                                'shipping_code'         => $v1['shipping_code'],
+                                'shipping_number'       => $v1['track_number'],
+                                'shipping_status'       => '',
+                                'label_shipping_status' => '',
+                                'sign_time_formated'    => $v1['time'],
+                                'content'               => array('time' => $v1['time'], 'context' => $v1['context']),
+                                'goods_items'           => $goods_lists
+                            );
+                        }
+                    }
+                } else {
+                    $data = array();
 // 					$typeCom = $this->getComType($val['shipping_name']);//快递公司类型
-					$typeCom = $ship_code[$shipping_info['shipping_code']];
-					
-					if (!empty($typeCom) && !empty($val['invoice_no'])) {
-						$cloud_express_key = ecjia::config('cloud_express_key');
-						$cloud_express_secret = ecjia::config('cloud_express_secret');
-						if (!empty($cloud_express_key) && !empty($cloud_express_secret)) {
-							$params = array(
-									'app_key' => $cloud_express_key,
-									'app_secret' => $cloud_express_secret,
-									'company' => $typeCom,
-									'number' => $val['invoice_no'],
-									'order' => 'desc',
-							);
-							$cloud = ecjia_cloud::instance()->api('express/track')->data($params)->run();
-					
-							if (is_ecjia_error($cloud->getError())) {
-								$data = array('content' => array('time' => 'error', 'context' => $cloud->getError()->get_error_message()));
-							} else {
-								$data = $cloud->getReturnData();
-							}
-						} else {
-							$data = array('content' => array('time' => 'error', 'context' => '物流跟踪未配置'));
-						}
-					}
-					
-					$delivery_goods = $delivery_goods_db->where(array('delivery_id' => $val['delivery_id']))->select();
-					
-					$goods_lists = array();
-					foreach ($delivery_goods as $v) {
-						$goods_lists[] = array(
-								'id'	=> $v['goods_id'],
-								'name'	=> $v['goods_name'],
-								'goods_sn'	 => $v['goods_sn'],
-								'number'	 => $v['send_number'],
-								'img'	=> array(
-										'thumb'	=> (isset($v['goods_img']) && !empty($v['goods_img']))		 ? RC_Upload::upload_url($v['goods_img'])	  : RC_Uri::admin_url('statics/images/nopic.png'),
-										'url'	=> (isset($v['original_img']) && !empty($v['original_img'])) ? RC_Upload::upload_url($v['original_img'])  : RC_Uri::admin_url('statics/images/nopic.png'),
-										'small'	=> (isset($v['goods_thumb']) && !empty($v['goods_thumb']))   ? RC_Upload::upload_url($v['goods_thumb'])   : RC_Uri::admin_url('statics/images/nopic.png')
-								),
-						);
-					}
-					
-					$delivery_list[] = array(
-							'shipping_name'		=> $val['shipping_name'],
-							'shipping_code'     => $shipping_info['shipping_code'],
-							'shipping_number'	=> $val['invoice_no'],
-							'shipping_status' => !empty($data['shipping_status']) ? $data['shipping_status'] : '',
-							'label_shipping_status' => $shipping_info['shipping_code'] == 'ship_no_express' ? '您当前选择的物流为【无需物流】，因此该订单暂无运单编号和物流状态' : (!empty($data['state_label']) ? $data['state_label'] : ''),
-							'sign_time_formated' => !empty($data['sign_time_formated']) ? $data['sign_time_formated'] : '',
-							'content'			=> !empty($data['content']) ? $data['content'] : array('time' => 'error', 'context' => '暂无物流信息'),
-							'goods_items'		=> $goods_lists,
-					);
-				}
-			
-				
-			}
-		}
-		return $delivery_list;
-	}
+                    $typeCom = $ship_code[$shipping_info['shipping_code']];
+
+                    if (!empty($typeCom) && !empty($val['invoice_no'])) {
+                        $cloud_express_key    = ecjia::config('cloud_express_key');
+                        $cloud_express_secret = ecjia::config('cloud_express_secret');
+                        if (!empty($cloud_express_key) && !empty($cloud_express_secret)) {
+                            $params = array(
+                                'app_key'    => $cloud_express_key,
+                                'app_secret' => $cloud_express_secret,
+                                'company'    => $typeCom,
+                                'number'     => $val['invoice_no'],
+                                'order'      => 'desc',
+                            );
+                            $cloud  = ecjia_cloud::instance()->api('express/track')->data($params)->run();
+
+                            if (is_ecjia_error($cloud->getError())) {
+                                $data = array('content' => array('time' => 'error', 'context' => $cloud->getError()->get_error_message()));
+                            } else {
+                                $data = $cloud->getReturnData();
+                            }
+                        } else {
+                            $data = array('content' => array('time' => 'error', 'context' => __('物流跟踪未配置', 'orders')));
+                        }
+                    }
+
+                    $delivery_goods = $delivery_goods_db->where(array('delivery_id' => $val['delivery_id']))->select();
+
+                    $goods_lists = array();
+                    foreach ($delivery_goods as $v) {
+                        $goods_lists[] = array(
+                            'id'       => $v['goods_id'],
+                            'name'     => $v['goods_name'],
+                            'goods_sn' => $v['goods_sn'],
+                            'number'   => $v['send_number'],
+                            'img'      => array(
+                                'thumb' => (isset($v['goods_img']) && !empty($v['goods_img'])) ? RC_Upload::upload_url($v['goods_img']) : RC_Uri::admin_url('statics/images/nopic.png'),
+                                'url'   => (isset($v['original_img']) && !empty($v['original_img'])) ? RC_Upload::upload_url($v['original_img']) : RC_Uri::admin_url('statics/images/nopic.png'),
+                                'small' => (isset($v['goods_thumb']) && !empty($v['goods_thumb'])) ? RC_Upload::upload_url($v['goods_thumb']) : RC_Uri::admin_url('statics/images/nopic.png')
+                            ),
+                        );
+                    }
+
+                    $delivery_list[] = array(
+                        'shipping_name'         => $val['shipping_name'],
+                        'shipping_code'         => $shipping_info['shipping_code'],
+                        'shipping_number'       => $val['invoice_no'],
+                        'shipping_status'       => !empty($data['shipping_status']) ? $data['shipping_status'] : '',
+                        'label_shipping_status' => $shipping_info['shipping_code'] == 'ship_no_express' ? __('您当前选择的物流为【无需物流】，因此该订单暂无运单编号和物流状态', 'orders') : (!empty($data['state_label']) ? $data['state_label'] : ''),
+                        'sign_time_formated'    => !empty($data['sign_time_formated']) ? $data['sign_time_formated'] : '',
+                        'content'               => !empty($data['content']) ? $data['content'] : array('time' => 'error', 'context' => __('暂无物流信息', 'orders')),
+                        'goods_items'           => $goods_lists,
+                    );
+                }
+
+
+            }
+        }
+        return $delivery_list;
+    }
 
     // 				0：在途，即货物处于运输过程中；
 // 				1：揽件，货物已由快递公司揽收并且产生了第一条跟踪信息；
@@ -387,11 +390,11 @@ class admin_orders_express_module extends api_admin implements api_interface {
     private function getExpressComCode($shipping_code)
     {
         $express_code = array(
-            'ship_yto' => 'yuantong',
+            'ship_yto'         => 'yuantong',
             'ship_sto_express' => 'shentong',
-            'ship_zto' => 'zhongtong',
-            'ship_ems' => 'ems',
-            'ship_sf_express' => 'shunfeng',
+            'ship_zto'         => 'zhongtong',
+            'ship_ems'         => 'ems',
+            'ship_sf_express'  => 'shunfeng',
         );
 
         if (isset($express_code[$shipping_code])) {
@@ -400,7 +403,7 @@ class admin_orders_express_module extends api_admin implements api_interface {
             return false;
         }
     }
-	
+
 }
 
 

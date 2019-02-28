@@ -45,141 +45,144 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 退款
  * @author will
  *
  */
-class admin_orders_refundConfirm_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-		$this->authadminSession();
+class admin_orders_refundConfirm_module extends api_admin implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+        $this->authadminSession();
 
         if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-		$device = $this->device;
-		$codes = config('app-cashier::cashier_device_code');
-		if (!in_array($device['code'], $codes)) {
-			$result = $this->admin_priv('order_stats');
-			if (is_ecjia_error($result)) {
-				return $result;
-			}
-		}
-		
-		$order_id = $this->requestData('order_id');
-		if (empty($order_id)) {
-		    return new ecjia_error(101, '参数错误');
-		}
-		
-		/* 查询订单信息 */
-		$order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
-		if (empty($order)) {
-			return new ecjia_error(13, '不存在的信息');
-		}
-		
-		$payment_method	= new Ecjia\App\Payment\PaymentPlugin();
-		$pay_info = $payment_method->getPluginDataById($order['pay_id']);
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+        $device = $this->device;
+        $codes  = config('app-cashier::cashier_device_code');
+        if (!in_array($device['code'], $codes)) {
+            $result = $this->admin_priv('order_stats');
+            if (is_ecjia_error($result)) {
+                return $result;
+            }
+        }
+
+        $order_id = $this->requestData('order_id');
+        if (empty($order_id)) {
+            return new ecjia_error(101, __('参数错误', 'orders'));
+        }
+
+        /* 查询订单信息 */
+        $order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
+        if (empty($order)) {
+            return new ecjia_error(13, __('不存在的信息', 'orders'));
+        }
+
+        $payment_method = new Ecjia\App\Payment\PaymentPlugin();
+        $pay_info       = $payment_method->getPluginDataById($order['pay_id']);
 // 		$payment_handler = $payment_method->get_payment_instance($pay_info['pay_code']);
-		$payment_handler = $payment_method->channel($pay_info['pay_code']);
-		
-		/* 判断是否有支付方式以及是否为现金支付和酷银*/
-		if (!$payment_handler) {
-			return new ecjia_error(8, '处理失败');
-		}
-		$payment_handler->set_orderinfo($order);
-		
-		if ($pay_info['pay_code'] == 'pay_cash') {
-			$pay_priv = $this->admin_priv('order_ps_edit');
-			if (is_ecjia_error($pay_priv)) {
-				return $pay_priv;
-			}
-			$result = $payment_handler->refund();
-			if (is_ecjia_error($result)) {
-				return $result;
-			} else {
-				$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
-				$data = array(
-						'order_id' 		=> $order_info['order_id'],
-						'money_paid'	=> $order_info['money_paid'],
-						'formatted_money_paid'	=> $order_info['formated_money_paid'],
-						'order_amount'	=> $order_info['order_amount'],
-						'formatted_order_amount' => $order_info['formated_order_amount'],
-						'pay_code'		=> $pay_info['pay_code'],
-						'pay_name'		=> $pay_info['pay_name'],
-						'pay_status'	=> 'success',
-						'desc'			=> '订单支付撤销成功！'
-				);
-				return array('refund' => $data);
-			}
-		}
-		
-		if ($pay_info['pay_code'] == 'pay_koolyun') {
-			$result = $payment_handler->refund();
-			if (is_ecjia_error($result)) {
-				return $result;
-			} else {
-				$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
-				$data = array(
-						'order_id' 		=> $order_info['order_id'],
-						'money_paid'	=> $order_info['money_paid'],
-						'formatted_money_paid'	=> $order_info['formated_money_paid'],
-						'order_amount'	=> $order_info['order_amount'],
-						'formatted_order_amount' => $order_info['formated_order_amount'],
-						'pay_code'		=> $pay_info['pay_code'],
-						'pay_name'		=> $pay_info['pay_name'],
-						'pay_status'	=> 'success',
-						'desc'			=> '订单支付撤销成功！'
-				);
-				return array('refund' => $data);
-			}
-		}
-		
-		if ($pay_info['pay_code'] == 'pay_balance') {
-			RC_Loader::load_app_func('admin_order', 'orders');
-			/* 标记订单为未付款，更新付款时间和已付款金额 */
-			$arr = array(
-					'pay_status'	=> PS_UNPAYED,
-					'pay_time'		=> 0,
-					'money_paid'	=> 0,
-					'order_amount'	=> $order['money_paid']
-			);
-			update_order($order_id, $arr);
-			
-			/* todo 处理退款 */
+        $payment_handler = $payment_method->channel($pay_info['pay_code']);
+
+        /* 判断是否有支付方式以及是否为现金支付和酷银*/
+        if (!$payment_handler) {
+            return new ecjia_error(8, __('处理失败', 'orders'));
+        }
+        $payment_handler->set_orderinfo($order);
+
+        if ($pay_info['pay_code'] == 'pay_cash') {
+            $pay_priv = $this->admin_priv('order_ps_edit');
+            if (is_ecjia_error($pay_priv)) {
+                return $pay_priv;
+            }
+            $result = $payment_handler->refund();
+            if (is_ecjia_error($result)) {
+                return $result;
+            } else {
+                $order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
+                $data       = array(
+                    'order_id'               => $order_info['order_id'],
+                    'money_paid'             => $order_info['money_paid'],
+                    'formatted_money_paid'   => $order_info['formated_money_paid'],
+                    'order_amount'           => $order_info['order_amount'],
+                    'formatted_order_amount' => $order_info['formated_order_amount'],
+                    'pay_code'               => $pay_info['pay_code'],
+                    'pay_name'               => $pay_info['pay_name'],
+                    'pay_status'             => 'success',
+                    'desc'                   => __('订单支付撤销成功！', 'orders')
+                );
+                return array('refund' => $data);
+            }
+        }
+
+        if ($pay_info['pay_code'] == 'pay_koolyun') {
+            $result = $payment_handler->refund();
+            if (is_ecjia_error($result)) {
+                return $result;
+            } else {
+                $order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
+                $data       = array(
+                    'order_id'               => $order_info['order_id'],
+                    'money_paid'             => $order_info['money_paid'],
+                    'formatted_money_paid'   => $order_info['formated_money_paid'],
+                    'order_amount'           => $order_info['order_amount'],
+                    'formatted_order_amount' => $order_info['formated_order_amount'],
+                    'pay_code'               => $pay_info['pay_code'],
+                    'pay_name'               => $pay_info['pay_name'],
+                    'pay_status'             => 'success',
+                    'desc'                   => __('订单支付撤销成功！', 'orders')
+                );
+                return array('refund' => $data);
+            }
+        }
+
+        if ($pay_info['pay_code'] == 'pay_balance') {
+            RC_Loader::load_app_func('admin_order', 'orders');
+            /* 标记订单为未付款，更新付款时间和已付款金额 */
+            $arr = array(
+                'pay_status'   => PS_UNPAYED,
+                'pay_time'     => 0,
+                'money_paid'   => 0,
+                'order_amount' => $order['money_paid']
+            );
+            update_order($order_id, $arr);
+
+            /* todo 处理退款 */
 // 			$refund_type = @$$this->requestData['refund'];
 // 			$refund_note = @$$this->requestData['refund_note'];
 // 			order_refund($order, $refund_type, $refund_note);
-			order_refund($order, 1, '收银台付款撤销');
-			/* 记录日志 */
-			if ($_SESSION['store_id'] > 0) {
-			    RC_Api::api('merchant', 'admin_log', array('text' => '未付款，订单号是 '.$order['order_sn'].'【来源掌柜】', 'action' => 'edit', 'object' => 'order_status'));
-			} 
-			/* 记录log */
-			order_action($order['order_sn'], OS_CONFIRMED, SS_UNSHIPPED, PS_UNPAYED, '');
-			
-			if (is_ecjia_error($result)) {
-				return $result;
-			} else {
-				$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
-				$data = array(
-						'order_id' 		=> $order_info['order_id'],
-						'money_paid'	=> $order_info['money_paid'],
-						'formatted_money_paid'	=> $order_info['formated_money_paid'],
-						'order_amount'	=> $order_info['order_amount'],
-						'formatted_order_amount' => $order_info['formated_order_amount'],
-						'pay_code'		=> $pay_info['pay_code'],
-						'pay_name'		=> $pay_info['pay_name'],
-						'pay_status'	=> 'success',
-						'desc'			=> '订单支付撤销成功！'
-				);
-				return array('refund' => $data);
-			}
-		}
-		
-		return array ();
-		
-	}
-	
+            order_refund($order, 1, __('收银台付款撤销', 'orders'));
+            /* 记录日志 */
+            if ($_SESSION['store_id'] > 0) {
+                RC_Api::api('merchant', 'admin_log', array('text' => sprintf(__('未付款，订单号是 %s【来源掌柜】', 'orders'), $order['order_sn']), 'action' => 'edit', 'object' => 'order_status'));
+            }
+            /* 记录log */
+            order_action($order['order_sn'], OS_CONFIRMED, SS_UNSHIPPED, PS_UNPAYED, '');
+
+            if (is_ecjia_error($result)) {
+                return $result;
+            } else {
+                $order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
+                $data       = array(
+                    'order_id'               => $order_info['order_id'],
+                    'money_paid'             => $order_info['money_paid'],
+                    'formatted_money_paid'   => $order_info['formated_money_paid'],
+                    'order_amount'           => $order_info['order_amount'],
+                    'formatted_order_amount' => $order_info['formated_order_amount'],
+                    'pay_code'               => $pay_info['pay_code'],
+                    'pay_name'               => $pay_info['pay_name'],
+                    'pay_status'             => 'success',
+                    'desc'                   => __('订单支付撤销成功！', 'orders')
+                );
+                return array('refund' => $data);
+            }
+        }
+
+        return array();
+
+    }
+
 }
 
 

@@ -45,85 +45,88 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 修改收货地址
  * @author will
  *
  */
-class admin_orders_operate_consignee_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-		$this->authadminSession();
+class admin_orders_operate_consignee_module extends api_admin implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+        $this->authadminSession();
         if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-		
-		$result_edit = $this->admin_priv('order_edit');
-		$result_view = $this->admin_priv('order_view');
-		if (is_ecjia_error($result_edit)) {
-			return $result_edit;
-		} elseif (is_ecjia_error($result_view)) {
-			return $result_view;
-		}
-		
-		$order_id		= $this->requestData('order_id', 0);
-		
-		$address_id		= $this->requestData('address_id', 0);
-		$consignee		= $this->requestData('consignee');
-		$address		= $this->requestData('address');
-		$country_id		= $this->requestData('country_id', 'CN');
-		$province_id	= $this->requestData('province_id', '');
-		$city_id		= $this->requestData('city_id', '');
-		$district_id	= $this->requestData('district_id', '');
-		$street_id		= $this->requestData('street_id', '');
-		$mobile			= $this->requestData('mobile');
-		
-		if (empty($order_id)) {
-			return new ecjia_error(101, '参数错误');
-		}
-		
-		if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
-		    $ru_id_group = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id))->group('store_id')->get_field('store_id', true);
-		    if (count($ru_id_group) > 1 || $ru_id_group[0] != $_SESSION['store_id']) {
-		        return new ecjia_error('no_authority', '对不起，您没权限对此订单进行操作！');
-		    }
-		}
-		
-		$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
-		if (empty($order_info)) {
-			return new ecjia_error('not_exitst', '订单信息不存在');
-		}
-		
-		RC_Loader::load_app_func('admin_order', 'orders');
-		/* 判断是非为会员购买*/
-		if ($address_id > 0 && $order_info['user_id'] > 0) {
-			$field = "consignee, email, country, province, city, district, street, address, zipcode, tel, mobile, sign_building, best_time";
-			$orders = RC_DB::table('user_address')->select(RC_DB::raw($field))->where('user_id', $order_info['user_id'])->where('address_id', $address_id)->first();
-			update_order($order_id, $orders);
-		} else {
-			if ((empty($consignee) || empty($address) || empty($country_id) || empty($province_id) || empty($city_id) || empty($mobile))) {
-				return new ecjia_error(101, '参数错误');
-			}
-			$order = array(
-					'consignee' => $consignee,
-					'country'	=> $country_id,
-					'province'	=> $province_id,
-					'city'		=> $city_id,
-					'district'	=> $district_id,
-					'street' 	=> $street_id,
-					'mobile'	=> $mobile,
-					'address'	=> $address,
-			);
-			update_order($order_id, $order);
-		}
-		
-		/* 记录日志 */
-		$sn = '订单号是 ' . $order_info['order_sn'];
-		if ($_SESSION['store_id'] > 0) {
-		    RC_Api::api('merchant', 'admin_log', array('text' => $sn.'【来源掌柜】', 'action' => 'edit', 'object' => 'order_consignee'));
-		}
-		
-		return array();
-	} 
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+
+        $result_edit = $this->admin_priv('order_edit');
+        $result_view = $this->admin_priv('order_view');
+        if (is_ecjia_error($result_edit)) {
+            return $result_edit;
+        } elseif (is_ecjia_error($result_view)) {
+            return $result_view;
+        }
+
+        $order_id = $this->requestData('order_id', 0);
+
+        $address_id  = $this->requestData('address_id', 0);
+        $consignee   = $this->requestData('consignee');
+        $address     = $this->requestData('address');
+        $country_id  = $this->requestData('country_id', 'CN');
+        $province_id = $this->requestData('province_id', '');
+        $city_id     = $this->requestData('city_id', '');
+        $district_id = $this->requestData('district_id', '');
+        $street_id   = $this->requestData('street_id', '');
+        $mobile      = $this->requestData('mobile');
+
+        if (empty($order_id)) {
+            return new ecjia_error(101, __('参数错误', 'orders'));
+        }
+
+        if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
+            $ru_id_group = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id))->group('store_id')->get_field('store_id', true);
+            if (count($ru_id_group) > 1 || $ru_id_group[0] != $_SESSION['store_id']) {
+                return new ecjia_error('no_authority', __('对不起，您没权限对此订单进行操作！', 'orders'));
+            }
+        }
+
+        $order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
+        if (empty($order_info)) {
+            return new ecjia_error('not_exitst', __('订单信息不存在', 'orders'));
+        }
+
+        RC_Loader::load_app_func('admin_order', 'orders');
+        /* 判断是非为会员购买*/
+        if ($address_id > 0 && $order_info['user_id'] > 0) {
+            $field  = "consignee, email, country, province, city, district, street, address, zipcode, tel, mobile, sign_building, best_time";
+            $orders = RC_DB::table('user_address')->select(RC_DB::raw($field))->where('user_id', $order_info['user_id'])->where('address_id', $address_id)->first();
+            update_order($order_id, $orders);
+        } else {
+            if ((empty($consignee) || empty($address) || empty($country_id) || empty($province_id) || empty($city_id) || empty($mobile))) {
+                return new ecjia_error(101, __('参数错误', 'orders'));
+            }
+            $order = array(
+                'consignee' => $consignee,
+                'country'   => $country_id,
+                'province'  => $province_id,
+                'city'      => $city_id,
+                'district'  => $district_id,
+                'street'    => $street_id,
+                'mobile'    => $mobile,
+                'address'   => $address,
+            );
+            update_order($order_id, $order);
+        }
+
+        /* 记录日志 */
+        $sn = sprintf(__('订单号是 %s', 'orders'), $order_info['order_sn']);
+        if ($_SESSION['store_id'] > 0) {
+            RC_Api::api('merchant', 'admin_log', array('text' => sprintf(__('%s【来源掌柜】', 'orders'), $sn), 'action' => 'edit', 'object' => 'order_consignee'));
+        }
+
+        return array();
+    }
 }
 
 

@@ -50,37 +50,37 @@ use Royalcms\Component\Database\Eloquent\Model;
 
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class GoodsModel extends Model 
+class GoodsModel extends Model
 {
-	protected $table = 'goods';
-	
-	protected $primaryKey = 'goods_id';
-	
-	/**
-	 * 可以被批量赋值的属性。
-	 *
-	 * @var array
-	 */
-	protected $fillable = [
-	    
-	];
-	
-	/**
-	 * 该模型是否被自动维护时间戳
-	 *
-	 * @var bool
-	 */
-	public $timestamps = false;
-	
-	
-	/**
-	 * 获取拥有此商品的订单。
-	 */
-	public function orders()
-	{
-	    return $this->belongsTo('Ecjia\App\Orders\Models\OrdersModel', 'order_id', 'order_id');
-	}
-	
+    protected $table = 'goods';
+
+    protected $primaryKey = 'goods_id';
+
+    /**
+     * 可以被批量赋值的属性。
+     *
+     * @var array
+     */
+    protected $fillable = [
+
+    ];
+
+    /**
+     * 该模型是否被自动维护时间戳
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+
+    /**
+     * 获取拥有此商品的订单。
+     */
+    public function orders()
+    {
+        return $this->belongsTo('Ecjia\App\Orders\Models\OrdersModel', 'order_id', 'order_id');
+    }
+
 }
 
 // end

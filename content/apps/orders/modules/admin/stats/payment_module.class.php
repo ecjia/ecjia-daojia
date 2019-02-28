@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * //收银台收银统计
  * @author will.chen
@@ -53,105 +54,104 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class admin_stats_payment_module extends api_admin implements api_interface
 {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
-    {	
-		$this->authadminSession();
-		if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-		
-		$device		  = $this->device;
-		$codes = config('app-cashier::cashier_device_code');
-		
-		if (!in_array($device['code'], $codes)) {
-			$result = $this->admin_priv('order_stats');
-			if (is_ecjia_error($result)) {
-				return $result;
-			}
-		}
-		
-		//传入参数
-		$start_date	= $this->requestData('start_date');
-		$end_date	= $this->requestData('end_date');
+    {
+        $this->authadminSession();
+        if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+
+        $device = $this->device;
+        $codes  = config('app-cashier::cashier_device_code');
+
+        if (!in_array($device['code'], $codes)) {
+            $result = $this->admin_priv('order_stats');
+            if (is_ecjia_error($result)) {
+                return $result;
+            }
+        }
+
+        //传入参数
+        $start_date = $this->requestData('start_date');
+        $end_date   = $this->requestData('end_date');
 // 		$start_date = $end_date = '2016-05-23';
-		if (empty($start_date) || empty($end_date)) {
-			return new ecjia_error('invalid_parameter', '参数错误');
-		}
-		$cache_key = 'cashdesk_stats_'.md5($start_date.$end_date);
-		$data = RC_Cache::app_cache_get($cache_key, 'stats');
-		$data = null;
-		if (empty($data)) {
-			$device =  $this->device;
-			$response = $this->payment_stats($start_date, $end_date, $device);
-			RC_Cache::app_cache_set($cache_key, $response, 'stats', 60);
-		} else {
-			$response = $data;
-		}
-		return $response;
-	}
+        if (empty($start_date) || empty($end_date)) {
+            return new ecjia_error('invalid_parameter', __('参数错误', 'orders'));
+        }
+        $cache_key = 'cashdesk_stats_' . md5($start_date . $end_date);
+        $data      = RC_Cache::app_cache_get($cache_key, 'stats');
+        $data      = null;
+        if (empty($data)) {
+            $device   = $this->device;
+            $response = $this->payment_stats($start_date, $end_date, $device);
+            RC_Cache::app_cache_set($cache_key, $response, 'stats', 60);
+        } else {
+            $response = $data;
+        }
+        return $response;
+    }
 
     private function payment_stats($start_date, $end_date, $device)
     {
-        $type = $start_date == $end_date ? 'time' : 'day';
-        $start_date = RC_Time::local_strtotime($start_date. ' 00:00:00');
-        $end_date	= RC_Time::local_strtotime($end_date. ' 23:59:59');
+        $type       = $start_date == $end_date ? 'time' : 'day';
+        $start_date = RC_Time::local_strtotime($start_date . ' 00:00:00');
+        $end_date   = RC_Time::local_strtotime($end_date . ' 23:59:59');
 
         /* 获取请求当前数据的device信息*/
         $codes = RC_Loader::load_app_config('cashier_device_code', 'cashier');
         if (!is_array($device) || !isset($device['code']) || !in_array($device['code'], $codes)) {
-            return new ecjia_error('caskdesk_error', '非收银台请求！');
+            return new ecjia_error('caskdesk_error', __('非收银台请求！', 'orders'));
         }
 
         /* 获取收银台的固有支付方式*/
-        $cashdesk_payment	= array('pay_cash', 'pay_koolyun_alipay', 'pay_koolyun_unionpay', 'pay_koolyun_wxpay', 'pay_balance', 'pay_shouqianba');
-        $pay_id_group 		= RC_DB::table('payment')->where('enabled', 1)->whereIn('pay_code', $cashdesk_payment)->select('pay_code', 'pay_id', 'pay_name')->get();
-        $pay_id_group_new 	= [];
-       	if (!empty($pay_id_group)) {
-       		foreach ($pay_id_group as $key => $value) {
-       			$pay_id_group_new[$value['pay_code']] = $value;
-       		}
-       	}
-     
+        $cashdesk_payment = array('pay_cash', 'pay_koolyun_alipay', 'pay_koolyun_unionpay', 'pay_koolyun_wxpay', 'pay_balance', 'pay_shouqianba');
+        $pay_id_group     = RC_DB::table('payment')->where('enabled', 1)->whereIn('pay_code', $cashdesk_payment)->select('pay_code', 'pay_id', 'pay_name')->get();
+        $pay_id_group_new = [];
+        if (!empty($pay_id_group)) {
+            foreach ($pay_id_group as $key => $value) {
+                $pay_id_group_new[$value['pay_code']] = $value;
+            }
+        }
+
         /* 定义默认数据*/
-        $data = array();
-        $device_type  = Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);
-        
+        $data        = array();
+        $device_type = Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);
+
         $field = 'count(*) as count, SUM((goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee)) AS total_fee';
         foreach ($cashdesk_payment as $val) {
             if (isset($pay_id_group_new[$val])) {
-            	$dbview = RC_DB::table('cashier_record as cr')
+                $dbview = RC_DB::table('cashier_record as cr')
                     ->leftJoin('order_info as oi', RC_DB::raw('cr.order_id'), '=', RC_DB::raw('oi.order_id'));
-                    
-              	$dbview->where(RC_DB::raw('oi.pay_status'), 2)
-	                    ->where(RC_DB::raw('oi.pay_time'), '>=', $start_date) 
-	                    ->where(RC_DB::raw('oi.pay_time'), '<=', $end_date)
-	                    ->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id'])
-	                    ->where('pay_id', $pay_id_group_new[$val]['pay_id']);
-              	
-              	//收银通不区分设备；收银台和POS机区分设备
-              	if ($device['code'] == Ecjia\App\Cashier\CashierDevice::CASHIERCODE) {
-              		$dbview->where(RC_DB::raw('cr.device_type'), $device_type);
-              	} else {
-              		$dbview->where(RC_DB::raw('cr.mobile_device_id'), $_SESSION['device_id']);
-              	}
-	                
+
+                $dbview->where(RC_DB::raw('oi.pay_status'), 2)
+                    ->where(RC_DB::raw('oi.pay_time'), '>=', $start_date)
+                    ->where(RC_DB::raw('oi.pay_time'), '<=', $end_date)
+                    ->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id'])
+                    ->where('pay_id', $pay_id_group_new[$val]['pay_id']);
+
+                //收银通不区分设备；收银台和POS机区分设备
+                if ($device['code'] == Ecjia\App\Cashier\CashierDevice::CASHIERCODE) {
+                    $dbview->where(RC_DB::raw('cr.device_type'), $device_type);
+                } else {
+                    $dbview->where(RC_DB::raw('cr.mobile_device_id'), $_SESSION['device_id']);
+                }
+
                 $order_stats = $dbview
-                				->select(RC_DB::raw('count("DISTINCT cr.order_id") as count'), RC_DB::raw('SUM((goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee)) AS total_fee'))
-                				->first();
-                    
+                    ->select(RC_DB::raw('count("DISTINCT cr.order_id") as count'), RC_DB::raw('SUM((goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee)) AS total_fee'))
+                    ->first();
+
                 $data[] = array(
-                    'pay_code'		=> $val,
-                    'pay_name'		=> $pay_id_group_new[$val]['pay_name'],
-                    'order_count'	=> $order_stats['count'],
-                    'order_amount'	=> $order_stats['total_fee'] > 0 ? $order_stats['total_fee'] : '0.00',
+                    'pay_code'               => $val,
+                    'pay_name'               => $pay_id_group_new[$val]['pay_name'],
+                    'order_count'            => $order_stats['count'],
+                    'order_amount'           => $order_stats['total_fee'] > 0 ? $order_stats['total_fee'] : '0.00',
                     'formatted_order_amount' => price_format($order_stats['total_fee'], false),
                 );
             }
         }
-        
-        
+
 
         return $data;
     }
-	 
+
 }
 

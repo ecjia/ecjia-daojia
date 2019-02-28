@@ -59,7 +59,7 @@ ecjia.merchant.order.init();
 						<a class="data-pjax" href="{$search_url}
 							{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}
 							{if $filter.keywords}&keywords={$filter.keywords}{/if}
-							">{lang key='orders::order.all'}
+							">全部
 							<span class="badge badge-info">{if $count.all}{$count.all}{else}0{/if}</span>
 						</a>
 					</li>
@@ -107,7 +107,7 @@ ecjia.merchant.order.init();
 	        			<div class="form-group">
 	        				<input type="text" class="form-control w230" name="keywords" value="{$smarty.get.keywords}" placeholder="请输入订单编号或购买者信息">
 	        			</div>
-	        			<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> {lang key='orders::order.search_order'}</button>
+	        			<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> {t domain="orders"}搜索订单{/t}</button>
 	        		</form>
         		</ul>
     		</div>
@@ -118,12 +118,12 @@ ecjia.merchant.order.init();
 			         <table class="table table-striped table-hide-edit">
 				        <thead>
         					<tr>
-        						<th class="w130">{lang key='orders::order.order_sn'}</th>
-        						<th class="w180">{lang key='orders::order.order_time'}</th>
-        						<th>{lang key='orders::order.user_purchase_information'}</th>
-        						<th class="w120">{lang key='orders::order.total_fee'}</th>
-        						<th class="w110">{lang key='orders::order.order_amount'}</th>
-        						<th class="w150">{lang key='orders::order.all_status'}</th>
+        						<th class="w130">订单号</th>
+        						<th class="w180">下单时间</th>
+        						<th>{t domain="orders"}购买用户信息{/t}</th>
+        						<th class="w120">总金额</th>
+        						<th class="w110">应付金额</th>
+        						<th class="w150">订单状态</th>
         					</tr>
 				        </thead>
 				        <tbody>
@@ -132,7 +132,7 @@ ecjia.merchant.order.init();
     						<td class="hide-edit-area">
     							{$order.order_sn}
     							<div class="edit-list">
-    								<a href='{url path="orders/merchant/info" args="order_id={$order.order_id}"}' class="data-pjax" title="{lang key='orders::order.detail'}">{t}查看详情{/t}</a>
+    								<a href='{url path="orders/merchant/info" args="order_id={$order.order_id}"}' class="data-pjax" title="查看">{t}查看详情{/t}</a>
     								{if $order.can_remove}
     								&nbsp;|&nbsp;
     								<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t name="{$order.order_sn}"}您确定要删除订单[ %1 ]吗？{/t}' href='{url path="orders/merchant/remove_order" args="order_id={$order.order_id}"}' title="{t}移除{/t}">{t}移除{/t}</a>
@@ -150,7 +150,7 @@ ecjia.merchant.order.init();
     						<td {if $order.pay_status eq $payed}class="ecjiafc-red"{/if}>{$order.label_order_status}</td>
     					</tr>
     					<!-- {foreachelse}-->
-    					<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
+    					<tr><td class="no-records" colspan="6">没有找到任何记录</td></tr>
     					<!-- {/foreach} -->
 				        </tbody>
 			         </table>

@@ -1,31 +1,31 @@
 <div class="move-mod-group" id="widget_admin_dashboard_stats">
 	<ul class="list-mod list-mod-stats move-mod-head">
 		<li class="span3">
-			<div class="bd ecjiaf-pre"><a target="__blank" href='{url path="goods/admin/init"}'>{$data.goods_num}</a><span class="f_s14">&nbsp;件</span></div>
+			<div class="bd ecjiaf-pre"><a target="__blank" href='{url path="goods/admin/init"}'>{$data.goods_num}</a><span class="f_s14">&nbsp;{t domain="orders"}件{/t}</span></div>
 			<div class="ft">
 				<img src="{$static_url}goods.png" />
-				<span>30天新增商品</span>
+				<span>{t domain="orders"}30天新增商品{/t}</span>
 			</div>
 		</li>
 		<li class="span3">
-			<div class="bd ecjiaf-pre"><a target="__blank" href='{url path="user/admin/init"}'>{$data.users_num}</a><span class="f_s14">&nbsp;个</span></div>
+			<div class="bd ecjiaf-pre"><a target="__blank" href='{url path="user/admin/init"}'>{$data.users_num}</a><span class="f_s14">&nbsp;{t domain="orders"}个{/t}</span></div>
 			<div class="ft">
 				<img src="{$static_url}user.png" />
-				<span>30天新增会员</span>
+				<span>{t domain="orders"}30天新增会员{/t}</span>
 			</div>
 		</li>
 		<li class="span3">
-			<div class="bd ecjiaf-pre"><a target="__blank" href='{url path="orders/admin/init"}'>{$data.orders_num}</a><span class="f_s14">&nbsp;单</span></div>
+			<div class="bd ecjiaf-pre"><a target="__blank" href='{url path="orders/admin/init"}'>{$data.orders_num}</a><span class="f_s14">&nbsp;{t domain="orders"}单{/t}</span></div>
 			<div class="ft">
 				<img src="{$static_url}order.png" />
-				<span>30天新增订单</span>
+				<span>{t domain="orders"}30天新增订单{/t}</span>
 			</div>
 		</li>
 		<li class="span3">
-			<div class="bd ecjiaf-pre"><a target="__blank" href='{url path="store/admin/join"}'>{$data.store_num}</a><span class="f_s14">&nbsp;个</span></div>
+			<div class="bd ecjiaf-pre"><a target="__blank" href='{url path="store/admin/join"}'>{$data.store_num}</a><span class="f_s14">&nbsp;{t domain="orders"}个{/t}</span></div>
 			<div class="ft">
 				<img src="{$static_url}seller.png" />
-				<span>30天新增入驻商</span>
+				<span>{t domain="orders"}30天新增入驻商{/t}</span>
 			</div>
 		</li>
 	</ul>

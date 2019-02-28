@@ -11,37 +11,33 @@ class Order
      * @var \Ecjia\App\Orders\Order\Consignee;
      */
     protected $consignee;
-    
-    
-    
-    
+
+
     public function __construct()
     {
-        
+
     }
-    
+
     /**
-     * 
+     *
      * @param Consignee $consignee
      * @return \Ecjia\App\Orders\Order
      */
     public function setConsignee(Consignee $consignee)
     {
         $this->consignee = $consignee;
-        
+
         return $this;
     }
-    
+
     /**
-     * 
+     *
      * @return \Ecjia\App\Orders\Order\Consignee;
      */
     public function getConsignee()
     {
         return $this->consignee;
     }
-    
-    
-    
-    
+
+
 }

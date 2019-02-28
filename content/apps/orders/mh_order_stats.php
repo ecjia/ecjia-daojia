@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 订单统计
  */
@@ -82,6 +83,7 @@ class mh_order_stats extends ecjia_merchant
 
         ecjia_merchant_screen::get_current_screen()->set_parentage('stats', 'orders/mh_order_stats.php');
     }
+
     /**
      * 订单统计
      */
@@ -104,7 +106,7 @@ class mh_order_stats extends ecjia_merchant
         $this->assign('order_stats_json', json_encode($order_stats['type']));
 
         $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
-        $year_list = [];
+        $year_list    = [];
         for ($i = 0; $i < 6; $i++) {
             $year_list[] = ($current_year - $i);
         }
@@ -112,7 +114,7 @@ class mh_order_stats extends ecjia_merchant
         for ($i = 12; $i > 0; $i--) {
             $month_list[] = $i;
         }
-        $year = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $year  = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
         $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
 
         $this->assign('year_list', $year_list);
@@ -136,16 +138,16 @@ class mh_order_stats extends ecjia_merchant
     {
         $this->admin_priv('order_stats');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('orders::statistic.order_stats')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('订单统计'));
         ecjia_screen::get_current_screen()->add_help_tab(array(
-            'id' => 'overview',
-            'title' => RC_Lang::get('orders::statistic.overview'),
-            'content' => '<p>' . RC_Lang::get('orders::statistic.order_stats_help') . '</p>',
+            'id'      => 'overview',
+            'title'   => '概述',
+            'content' => '<p>' . '欢迎访问ECJia智能后台订单统计页面，系统中所有的订单统计信息都会显示在此页面中。' . '</p>',
         ));
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
-            '<p><strong>' . RC_Lang::get('orders::statistic.more_info') . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E9.85.8D.E9.80.81.E6.96.B9.E5.BC.8F" target="_blank">' . RC_Lang::get('orders::statistic.about_order_stats') . '</a>') . '</p>'
+            '<p><strong>' . '更多信息：' . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E9.85.8D.E9.80.81.E6.96.B9.E5.BC.8F" target="_blank">' . '关于订单统计帮助文档' . '</a>') . '</p>'
         );
 
         $this->assign('ur_here', '订单统计');
@@ -158,7 +160,7 @@ class mh_order_stats extends ecjia_merchant
         $this->assign('order_stats_json', json_encode($order_stats['type']));
 
         $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
-        $year_list = [];
+        $year_list    = [];
         for ($i = 0; $i < 6; $i++) {
             $year_list[] = ($current_year - $i);
         }
@@ -166,7 +168,7 @@ class mh_order_stats extends ecjia_merchant
         for ($i = 12; $i > 0; $i--) {
             $month_list[] = $i;
         }
-        $year = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $year  = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
         $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
 
         $this->assign('store_id', $store_id);
@@ -191,16 +193,16 @@ class mh_order_stats extends ecjia_merchant
     {
         $this->admin_priv('order_stats');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('orders::statistic.order_stats')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('订单统计'));
         ecjia_screen::get_current_screen()->add_help_tab(array(
-            'id' => 'overview',
-            'title' => RC_Lang::get('orders::statistic.overview'),
-            'content' => '<p>' . RC_Lang::get('orders::statistic.order_stats_help') . '</p>',
+            'id'      => 'overview',
+            'title'   => '概述',
+            'content' => '<p>' . '欢迎访问ECJia智能后台订单统计页面，系统中所有的订单统计信息都会显示在此页面中。' . '</p>',
         ));
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
-            '<p><strong>' . RC_Lang::get('orders::statistic.more_info') . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E6.94.AF.E4.BB.98.E6.96.B9.E5.BC.8F" target="_blank">' . RC_Lang::get('orders::statistic.about_order_stats') . '</a>') . '</p>'
+            '<p><strong>' . '更多信息：' . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E6.94.AF.E4.BB.98.E6.96.B9.E5.BC.8F" target="_blank">' . '关于订单统计帮助文档' . '</a>') . '</p>'
         );
 
         $this->assign('ur_here', '订单统计');
@@ -213,7 +215,7 @@ class mh_order_stats extends ecjia_merchant
         $this->assign('order_stats_json', json_encode($order_stats['type']));
 
         $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
-        $year_list = [];
+        $year_list    = [];
         for ($i = 0; $i < 6; $i++) {
             $year_list[] = ($current_year - $i);
         }
@@ -221,7 +223,7 @@ class mh_order_stats extends ecjia_merchant
         for ($i = 12; $i > 0; $i--) {
             $month_list[] = $i;
         }
-        $year = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $year  = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
         $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
 
         $this->assign('store_id', $store_id);
@@ -250,8 +252,8 @@ class mh_order_stats extends ecjia_merchant
         $store_id = $_SESSION['store_id'];
 
         $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
-        $year = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
-        $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
+        $year         = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $month        = !empty($_GET['month']) ? intval($_GET['month']) : 0;
 
         if (empty($month)) {
             $smonth = 1;
@@ -261,48 +263,48 @@ class mh_order_stats extends ecjia_merchant
             $emonth = $month;
         }
         $start_time = $year . '-' . $smonth . '-1 00:00:00';
-        $em = $year . '-' . $emonth . '-1 23:59:59';
-        $end_time = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em));
+        $em         = $year . '-' . $emonth . '-1 23:59:59';
+        $end_time   = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em));
 
         $start_date = RC_Time::local_strtotime($start_time);
-        $end_date = RC_Time::local_strtotime($end_time);
+        $end_date   = RC_Time::local_strtotime($end_time);
 
-        $filename = RC_Lang::get('orders::statistic.order_statement');
+        $filename = '订单统计报表';
         if (!empty($start_time) && !empty($end_time)) {
             $filename .= '_' . $start_time . '至' . $end_time;
         }
-		
+
         $order_stats = $this->get_order_stats($store_id);
-        
-        $count_key = array('await_pay_count', 'await_ship_count', 'shipped_count', 'returned_count', 'canceled_count', 'finished_count');
-        $data_key = array('order_count_data', 'groupbuy_count_data', 'storebuy_count_data', 'storepickup_count_data', 'cashdesk_count_data');
-        $order_stats['order_count_data']['title'] = '配送型订单';
-        $order_stats['groupbuy_count_data']['title'] = '团购型订单';
-        $order_stats['storebuy_count_data']['title'] = '到店型订单';
+
+        $count_key                                      = array('await_pay_count', 'await_ship_count', 'shipped_count', 'returned_count', 'canceled_count', 'finished_count');
+        $data_key                                       = array('order_count_data', 'groupbuy_count_data', 'storebuy_count_data', 'storepickup_count_data', 'cashdesk_count_data');
+        $order_stats['order_count_data']['title']       = '配送型订单';
+        $order_stats['groupbuy_count_data']['title']    = '团购型订单';
+        $order_stats['storebuy_count_data']['title']    = '到店型订单';
         $order_stats['storepickup_count_data']['title'] = '自提型订单';
-        $order_stats['cashdesk_count_data']['title'] = '自提型订单';
+        $order_stats['cashdesk_count_data']['title']    = '自提型订单';
 
         $count_arr = $count_data_arr = [];
         foreach ($order_stats as $k => $v) {
-        	if (in_array($k, $count_key)) {
-        		$count_arr[] = $v;
-        	}
-        	if (in_array($k, $data_key)) {
-        		$count_data_arr[$k]['title'] = $order_stats[$k]['title'];
-        		$count_data_arr[$k]['order_count'] = $order_stats[$k]['order_count'];
-        		$count_data_arr[$k]['total_fee'] = $order_stats[$k]['total_fee'];
-        	}
+            if (in_array($k, $count_key)) {
+                $count_arr[] = $v;
+            }
+            if (in_array($k, $data_key)) {
+                $count_data_arr[$k]['title']       = $order_stats[$k]['title'];
+                $count_data_arr[$k]['order_count'] = $order_stats[$k]['order_count'];
+                $count_data_arr[$k]['total_fee']   = $order_stats[$k]['total_fee'];
+            }
         }
 
-        RC_Excel::load(RC_APP_PATH . 'orders' . DIRECTORY_SEPARATOR .'statics/files/merchant_orders_stats.xls', function($excel) use ($count_arr, $count_data_arr) {
-        	$excel->sheet('First sheet', function($sheet) use ($count_arr, $count_data_arr) {
-        		$sheet->appendRow(2, $count_arr);
-        		$i = 5;
-        		foreach ($count_data_arr as $k => $v) {
-        			$sheet->appendRow($i, $v);
-        			$i++;
-        		}
-        	});
+        RC_Excel::load(RC_APP_PATH . 'orders' . DIRECTORY_SEPARATOR . 'statics/files/merchant_orders_stats.xls', function ($excel) use ($count_arr, $count_data_arr) {
+            $excel->sheet('First sheet', function ($sheet) use ($count_arr, $count_data_arr) {
+                $sheet->appendRow(2, $count_arr);
+                $i = 5;
+                foreach ($count_data_arr as $k => $v) {
+                    $sheet->appendRow($i, $v);
+                    $i++;
+                }
+            });
         })->download('xls');
     }
 
@@ -313,8 +315,8 @@ class mh_order_stats extends ecjia_merchant
     private function get_order_stats($store_id = 0)
     {
         $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
-        $year = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
-        $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
+        $year         = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $month        = !empty($_GET['month']) ? intval($_GET['month']) : 0;
 
         if (empty($month)) {
             $smonth = 1;
@@ -324,18 +326,18 @@ class mh_order_stats extends ecjia_merchant
             $emonth = $month;
         }
         $start_time = $year . '-' . $smonth . '-1 00:00:00';
-        $em = $year . '-' . $emonth . '-1 23:59:59';
-        $end_time = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em));
+        $em         = $year . '-' . $emonth . '-1 23:59:59';
+        $end_time   = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em));
 
         $start_date = RC_Time::local_strtotime($start_time);
-        $end_date = RC_Time::local_strtotime($end_time);
+        $end_date   = RC_Time::local_strtotime($end_time);
 
         $field = 'SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - integral_money - bonus - discount) as total_fee';
         //待付款订单总金额
         $pay_cod_id = RC_DB::table('payment')->where('pay_code', 'pay_cod')->pluck('pay_id');
         $pay_cod_id = !empty($pay_cod_id) ? intval($pay_cod_id) : 0;
-        
-        $await_pay_count = RC_DB::table('order_info')
+
+        $await_pay_count         = RC_DB::table('order_info')
             ->where('is_delete', 0)
             ->where('store_id', $store_id)
             ->where('add_time', '>=', $start_date)
@@ -348,7 +350,7 @@ class mh_order_stats extends ecjia_merchant
         $data['await_pay_count'] = price_format($await_pay_count['total_fee']);
 
         //待发货订单总金额
-        $await_ship_count = RC_DB::table('order_info')
+        $await_ship_count         = RC_DB::table('order_info')
             ->where('is_delete', 0)
             ->where('store_id', $store_id)
             ->where('add_time', '>=', $start_date)
@@ -364,7 +366,7 @@ class mh_order_stats extends ecjia_merchant
         $data['await_ship_count'] = price_format($await_ship_count['total_fee']);
 
         //已发货订单总金额
-        $shipped_count = RC_DB::table('order_info')
+        $shipped_count         = RC_DB::table('order_info')
             ->where('is_delete', 0)
             ->where('store_id', $store_id)
             ->where('add_time', '>=', $start_date)
@@ -376,7 +378,7 @@ class mh_order_stats extends ecjia_merchant
         $data['shipped_count'] = price_format($shipped_count['total_fee']);
 
         //退货订单总金额
-        $returned_count = RC_DB::table('order_info')
+        $returned_count         = RC_DB::table('order_info')
             ->where('is_delete', 0)
             ->where('store_id', $store_id)
             ->where('add_time', '>=', $start_date)
@@ -388,7 +390,7 @@ class mh_order_stats extends ecjia_merchant
         $data['returned_count'] = price_format($returned_count['total_fee']);
 
         //已取消订单总金额
-        $canceled_count = RC_DB::table('order_info')
+        $canceled_count         = RC_DB::table('order_info')
             ->where('is_delete', 0)
             ->where('store_id', $store_id)
             ->where('add_time', '>=', $start_date)
@@ -399,7 +401,7 @@ class mh_order_stats extends ecjia_merchant
         $data['canceled_count'] = price_format($canceled_count['total_fee']);
 
         //已完成订单总金额
-        $finished_count = RC_DB::table('order_info')
+        $finished_count         = RC_DB::table('order_info')
             ->where('is_delete', 0)
             ->where('store_id', $store_id)
             ->where('add_time', '>=', $start_date)
@@ -460,7 +462,7 @@ class mh_order_stats extends ecjia_merchant
             ->where('extension_code', 'storepickup')
             ->select(RC_DB::raw("count('order_id') as order_count"), RC_DB::raw("SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - integral_money - bonus - discount) as total_fee"))
             ->first();
-        
+
         //收银台型订单数及总金额
         $data['cashdesk_count_data'] = RC_DB::table('order_info')
             ->where('is_delete', 0)
@@ -475,11 +477,11 @@ class mh_order_stats extends ecjia_merchant
 
         $data['count_all'] = $data['order_count_data']['order_count'] + $data['groupbuy_count_data']['order_count'] + $data['storebuy_count_data']['order_count'] + $data['storepickup_count_data']['order_count'] + $data['cashdesk_count_data']['order_count'];
 
-        $data['order_count_data']['total_fee'] = price_format($data['order_count_data']['total_fee']);
-        $data['groupbuy_count_data']['total_fee'] = price_format($data['groupbuy_count_data']['total_fee']);
-        $data['storebuy_count_data']['total_fee'] = price_format($data['storebuy_count_data']['total_fee']);
+        $data['order_count_data']['total_fee']       = price_format($data['order_count_data']['total_fee']);
+        $data['groupbuy_count_data']['total_fee']    = price_format($data['groupbuy_count_data']['total_fee']);
+        $data['storebuy_count_data']['total_fee']    = price_format($data['storebuy_count_data']['total_fee']);
         $data['storepickup_count_data']['total_fee'] = price_format($data['storepickup_count_data']['total_fee']);
-        $data['cashdesk_count_data']['total_fee'] = price_format($data['cashdesk_count_data']['total_fee']);
+        $data['cashdesk_count_data']['total_fee']    = price_format($data['cashdesk_count_data']['total_fee']);
 
         $data['type'] = array(
             array('name' => '配送', 'value' => $data['order_count_data']['order_count']),
@@ -497,8 +499,8 @@ class mh_order_stats extends ecjia_merchant
     private function get_order_general($store_id)
     {
         $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
-        $year = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
-        $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
+        $year         = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $month        = !empty($_GET['month']) ? intval($_GET['month']) : 0;
 
         if (empty($month)) {
             $smonth = 1;
@@ -508,50 +510,50 @@ class mh_order_stats extends ecjia_merchant
             $emonth = $month;
         }
         $start_time = $year . '-' . $smonth . '-1 00:00:00';
-        $em = $year . '-' . $emonth . '-1 23:59:59';
-        $end_time = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em));
+        $em         = $year . '-' . $emonth . '-1 23:59:59';
+        $end_time   = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em));
 
         $start_date = RC_Time::local_strtotime($start_time);
-        $end_date = RC_Time::local_strtotime($end_time);
+        $end_date   = RC_Time::local_strtotime($end_time);
 
         $order_info = $this->get_orderinfo($start_date, $end_date, $store_id);
 
         if (!empty($order_info)) {
             foreach ($order_info as $k => $v) {
                 if ($k == 'await_pay_num') {
-                    $key = RC_Lang::get('orders::statistic.await_pay_order');
+                    $key              = '待付款订单';
                     $order_info[$key] = $order_info['await_pay_num'];
                     unset($order_info['await_pay_num']);
 
                 } elseif ($k == 'await_ship_num') {
-                    $key = RC_Lang::get('orders::statistic.await_ship_order');
+                    $key              = '待发货订单';
                     $order_info[$key] = $order_info['await_ship_num'];
                     unset($order_info['confirmed_num']);
 
                 } elseif ($k == 'shipped_num') {
-                    $key = RC_Lang::get('orders::statistic.shipped_order');
+                    $key              = '已发货订单';
                     $order_info[$key] = $order_info['shipped_num'];
                     unset($order_info['shipped_num']);
 
                 } elseif ($k == 'returned_num') {
-                    $key = RC_Lang::get('orders::statistic.returned_order');
+                    $key              = '退货订单';
                     $order_info[$key] = $order_info['returned_num'];
                     unset($order_info['returned_num']);
                 } elseif ($k == 'canceled_num') {
-                    $key = RC_Lang::get('orders::statistic.canceled_order');
+                    $key              = '已取消订单';
                     $order_info[$key] = $order_info['canceled_num'];
                     unset($order_info['canceled_num']);
                 } elseif ($k == 'finished_num') {
-                    $key = RC_Lang::get('orders::statistic.succeed_order');
+                    $key              = '已完成订单';
                     $order_info[$key] = $order_info['finished_num'];
                     unset($order_info['finished_num']);
                 }
             }
             arsort($order_info);
             foreach ($order_info as $k => $v) {
-                if ($order_info[RC_Lang::get('orders::statistic.await_pay_order')] == 0 && $order_info[RC_Lang::get('orders::statistic.await_ship_order')] == 0
-                    && $order_info[RC_Lang::get('orders::statistic.shipped_order')] == 0 && $order_info[RC_Lang::get('orders::statistic.returned_order')] == 0
-                    && $order_info[RC_Lang::get('orders::statistic.canceled_order')] == 0 && $order_info[RC_Lang::get('orders::statistic.succeed_order')] == 0) {
+                if ($order_info['待付款订单'] == 0 && $order_info['待发货订单'] == 0
+                    && $order_info['已发货订单'] == 0 && $order_info['退货订单'] == 0
+                    && $order_info['已取消订单'] == 0 && $order_info['已完成订单'] == 0) {
                     $order_info = null;
                 } else {
                     break;
@@ -568,8 +570,8 @@ class mh_order_stats extends ecjia_merchant
     private function get_ship_status()
     {
         $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
-        $year = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
-        $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
+        $year         = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $month        = !empty($_GET['month']) ? intval($_GET['month']) : 0;
 
         if (empty($month)) {
             $smonth = 1;
@@ -579,11 +581,11 @@ class mh_order_stats extends ecjia_merchant
             $emonth = $month;
         }
         $start_time = $year . '-' . $smonth . '-1 00:00:00';
-        $em = $year . '-' . $emonth . '-1 23:59:59';
-        $end_time = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em));
+        $em         = $year . '-' . $emonth . '-1 23:59:59';
+        $end_time   = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em));
 
         $start_date = RC_Time::local_strtotime($start_time);
-        $end_date = RC_Time::local_strtotime($end_time);
+        $end_date   = RC_Time::local_strtotime($end_time);
 
         $where = "i.add_time >= '$start_date' AND i.add_time <= '$end_date'" . order_query_sql('finished');
 
@@ -610,8 +612,8 @@ class mh_order_stats extends ecjia_merchant
     private function get_pay_status()
     {
         $current_year = RC_Time::local_date('Y', RC_Time::gmtime());
-        $year = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
-        $month = !empty($_GET['month']) ? intval($_GET['month']) : 0;
+        $year         = !empty($_GET['year']) ? intval($_GET['year']) : $current_year;
+        $month        = !empty($_GET['month']) ? intval($_GET['month']) : 0;
 
         if (empty($month)) {
             $smonth = 1;
@@ -621,11 +623,11 @@ class mh_order_stats extends ecjia_merchant
             $emonth = $month;
         }
         $start_time = $year . '-' . $smonth . '-1 00:00:00';
-        $em = $year . '-' . $emonth . '-1 23:59:59';
-        $end_time = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em));
+        $em         = $year . '-' . $emonth . '-1 23:59:59';
+        $end_time   = RC_Time::local_date('Y-m-d H:i:s', RC_Time::local_strtotime($em));
 
         $start_date = RC_Time::local_strtotime($start_time);
-        $end_date = RC_Time::local_strtotime($end_time);
+        $end_date   = RC_Time::local_strtotime($end_time);
 
         $where = "i.add_time >= '$start_date' AND i.add_time <= '$end_date'" . order_query_sql('finished');
 

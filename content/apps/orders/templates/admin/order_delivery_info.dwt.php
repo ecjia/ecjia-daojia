@@ -19,55 +19,55 @@
 			<div id="accordion2" class="foldable-list">
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseOne"><strong>{lang key='orders::order.base_info'}</strong></a>
+						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseOne"><strong>基本信息</strong></a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseOne">
 						<table class="table table-oddtd m_b0">
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_order_sn'}</strong></div></td>
+								<td><div align="right"><strong>订单号：</strong></div></td>
 								<td>
 									{$order.order_sn}
 									<!-- {if $order.extension_code eq "group_buy"} -->
-<!-- 									<a href="group_buy.php?act=edit&id={$order.extension_id}">{lang key='orders::order.group_buy'}</a> -->
+<!-- 									<a href="group_buy.php?act=edit&id={$order.extension_id}"><span class="groupbuy-icon">团</span></a> -->
 									<!-- {elseif $order.extension_code eq "exchange_goods"}  -->
-<!-- 									<a href="exchange_goods.php?act=edit&id={$order.extension_id}">{lang key='orders::order.exchange_goods'}</a> -->
+<!-- 									<a href="exchange_goods.php?act=edit&id={$order.extension_id}">（积分兑换）</a> -->
 									<!-- {/if}  -->
 								</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_order_time'}</strong></div></td>
+								<td><div align="right"><strong>下单时间：</strong></div></td>
 								<td>{$order.formated_add_time}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_user_name'}</strong></div></td>
-								<td>{$order.user_name|default:{lang key='orders::order.anonymous'}}</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_how_oos'}</strong></div></td>
+								<td><div align="right"><strong>购货人：</strong></div></td>
+								<td>{$order.user_name}</td>
+								<td><div align="right"><strong>缺货处理：</strong></div></td>
 								<td>{$order.how_oos}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_shipping'}</strong></div></td>
+								<td><div align="right"><strong>配送方式：</strong></div></td>
 								<td>
 									<!-- {if $exist_real_goods} -->
 										<!-- {if $order.shipping_id > 0} -->
 											{$order.shipping_name}
 										<!-- {else} -->
-											{lang key='system::system.require_field'}
+											*
 										<!-- {/if} -->
 										<!-- {if $order.insure_fee > 0} -->
-											（{lang key='orders::order.label_insure_fee'}{$order.formated_insure_fee}）
+											（保价费用：{$order.formated_insure_fee}）
 										<!-- {/if} -->
 									<!-- {/if} -->
 								</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_shipping_fee'}</strong></div></td>
+								<td><div align="right"><strong>配送费用：</strong></div></td>
 								<td>{$order.shipping_fee}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_insure_yn'}</strong></div></td>
-								<td>{if $insure_yn}{lang key='system::system.yes'}{else}{lang key='system::system.no'}{/if}</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_insure_fee'}</strong></div></td>
+								<td><div align="right"><strong>是否保价：</strong></div></td>
+								<td>{if $insure_yn}是{else}否{/if}</td>
+								<td><div align="right"><strong>保价费用：</strong></div></td>
 								<td>{$order.insure_fee|default:0.00}</td>
 							</tr>
 							<!-- {if $exist_real_goods}-->
 <!-- 						  	<tr> -->
-<!-- 								<td><div align="right"><strong>{lang key='orders::order.label_invoice_no'}</strong></div></td> -->
+<!-- 								<td><div align="right"><strong>运单编号：</strong></div></td> -->
 <!-- 								<td colspan="3"><input name="delivery[invoice_no]" type="text" id="invoice_no" value="" size="20"/><input name="delivery_hidden" type="hidden" value="{$exist_real_goods}" /></td> -->
 <!-- 						  	</tr> -->
 						  	<!-- {/if} -->
@@ -76,32 +76,32 @@
 				</div>
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseTwo"><strong>{lang key='orders::order.consignee_info'}</strong></a>
+						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseTwo"><strong>收货人信息</strong></a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseTwo">
 						<table class="table table-oddtd m_b0">
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_consignee'}</strong></div></td>
+								<td><div align="right"><strong>收货人：</strong></div></td>
 								<td>{$order.consignee|escape}</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_email'}</strong></div></td>
+								<td><div align="right"><strong>电子邮件：</strong></div></td>
 								<td>{$order.email}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_address'}</strong></div></td>
+								<td><div align="right"><strong>地址：</strong></div></td>
 								<td>[{$order.region}] {$order.address|escape}</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_zipcode'}</strong></div></td>
+								<td><div align="right"><strong>邮编：</strong></div></td>
 								<td>{$order.zipcode|escape}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_tel'}</strong></div></td>
+								<td><div align="right"><strong>电话：</strong></div></td>
 								<td>{$order.tel}</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_mobile'}</strong></div></td>
+								<td><div align="right"><strong>手机：</strong></div></td>
 								<td>{$order.mobile|escape}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_sign_building'}</strong></div></td>
+								<td><div align="right"><strong>标志性建筑：</strong></div></td>
 								<td>{$order.sign_building|escape}</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_best_time'}</strong></div></td>
+								<td><div align="right"><strong>最佳送货时间：</strong></div></td>
 								<td>
 									{if $shipping_code eq 'ship_o2o_express'}
 										{$order.expect_shipping_time|escape}
@@ -113,7 +113,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_postscript'}</strong></div></td>
+								<td><div align="right"><strong>客户给商家的留言：</strong></div></td>
 								<td colspan="3">{$order.postscript}</td>
 							</tr>
 						</table>
@@ -121,23 +121,23 @@
 				</div>
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseThree"><strong>{lang key='orders::order.goods_info'}</strong></a>
+						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseThree"><strong>商品信息</strong></a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseThree">
 						<table class="table table-striped m_b0">
 							<thead>
 								<tr>
-									<td><div><strong>{lang key='orders::order.goods_name_brand'}</strong></div></td>
-									<td><div><strong>{lang key='orders::order.goods_sn'}</strong></div></td>
-									<td><div><strong>{lang key='orders::order.product_sn'}</strong></div></td>
-									<td><div><strong>{lang key='orders::order.goods_attr'}</strong></div></td>
+									<td><div><strong>商品名称 [ 品牌 ]</strong></div></td>
+									<td><div><strong>货号</strong></div></td>
+									<td><div><strong>货品号</strong></div></td>
+									<td><div><strong>属性</strong></div></td>
 									<!-- {if $suppliers_list neq 0} -->
-									<td><div><strong>{lang key='orders::order.suppliers_name'}</strong></div></td>
+									<td><div><strong>供货商</strong></div></td>
 									<!-- {/if} -->
-									<td><div><strong>{lang key='orders::order.storage'}</strong></div></td>
-									<td><div><strong>{lang key='orders::order.goods_number'}</strong></div></td>
-									<td><div><strong>{lang key='orders::order.goods_delivery'}</strong></div></td>
-									<td><div><strong>{lang key='orders::order.goods_delivery_curr'}</strong></div></td>
+									<td><div><strong>库存</strong></div></td>
+									<td><div><strong>数量</strong></div></td>
+									<td><div><strong>已发货数量</strong></div></td>
+									<td><div><strong>此单发货数量</strong></div></td>
 								</tr>
 							</thead>
 							<tbody>
@@ -145,7 +145,7 @@
 								<!--礼包-->
 								<!-- {if $goods.goods_id gt 0 && $goods.extension_code eq 'package_buy'} -->
 								<tr>
-									<td>{$goods.goods_name}<span class="ecjiafc-FF0000">{lang key='orders::order.remark_package'}</span></td>
+									<td>{$goods.goods_name}<span class="ecjiafc-FF0000">（礼包）</span></td>
 									<td>{$goods.goods_sn}</td>
 									<td>&nbsp;<!--货品货号--></td>
 									<td>&nbsp;<!--属性--></td>
@@ -166,7 +166,7 @@
 									<td>{$package.product_sn}</td>
 									<td>{$package.goods_attr_str}</td>
 									<!-- {if $suppliers_list neq 0} -->
-									<td><div>{$suppliers_name[$package.suppliers_id]|default:{lang key='orders::order.restaurant'}}</div></td>
+									<td><div>{$suppliers_name[$package.suppliers_id]}</div></td>
 									<!-- {/if} -->
 									<td><div>{$package.storage}</div></td>
 									<td><div>{$package.order_send_number}</div></td>
@@ -178,14 +178,14 @@
 								<tr>
 									<td>
 										<!-- {if $goods.goods_id gt 0 && $goods.extension_code neq 'package_buy'} -->
-										<a href='{url path="goods/admin/preview" args="id={$goods.goods_id}"}' target="_blank">{$goods.goods_name} {if $goods.brand_name}[ {$goods.brand_name} ]{/if}{if $goods.is_gift}{if $goods.goods_price > 0}{lang key='orders::order.remark_favourable'}{else}{lang key='orders::order.remark_gift'}{/if}{/if}{if $goods.parent_id > 0}{lang key='orders::order.remark_fittings'}{/if}</a>
+										<a href='{url path="goods/admin/preview" args="id={$goods.goods_id}"}' target="_blank">{$goods.goods_name} {if $goods.brand_name}[ {$goods.brand_name} ]{/if}{if $goods.is_gift}{if $goods.goods_price > 0}（特惠品）{else}（赠品）{/if}{/if}{if $goods.parent_id > 0}（配件）{/if}</a>
 										<!-- {/if} -->
 									</td>
 									<td>{$goods.goods_sn}</td>
 									<td>{$goods.product_sn}</td>
 									<td>{$goods.goods_attr|nl2br}</td>
 									<!-- {if $suppliers_list neq 0} -->
-									<td><div>{$suppliers_name[$goods.suppliers_id]|default:{lang key='orders::order.restaurant'}}</div></td>
+									<td><div>{$suppliers_name[$goods.suppliers_id]}</div></td>
 									<!-- {/if} -->
 									<td><div>{$goods.storage}</div></td>
 									<td><div>{$goods.goods_number}</div></td>
@@ -200,17 +200,17 @@
 				</div>
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseFour"><strong>{lang key='orders::order.action_info'}</strong></a>
+						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseFour"><strong>操作信息</strong></a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseFour">
 						<table class="table table-oddtd m_b0">
 							<tbody class="first-td-no-leftbd">
 								<!-- {if $suppliers_list neq 0} -->
 								<tr> 
-									<td width="15%"><div align="right"><strong>{lang key='orders::order.label_suppliers'}</strong></div></td> 
+									<td width="15%"><div align="right"><strong>选择供货商：</strong></div></td> 
 									<td colspan="3">
 										<select name="suppliers_id" id="suppliers_id">
-											<option value="0" selected="selected">{lang key='orders::order.suppliers_no'}</option>
+											<option value="0" selected="selected">不指定供货商本店自行处理</option>
 											<!-- {foreach from=$suppliers_list item=suppliers} -->
 											<option value="{$suppliers.suppliers_id}">{$suppliers.suppliers_name}</option>
 											<!-- {/foreach} -->
@@ -219,16 +219,16 @@
 								</tr>
 								<!-- {/if} -->
 								<tr>
-									<td><div align="right"><strong>{lang key='orders::order.label_action_note'}</strong></div></td> 
+									<td><div align="right"><strong>操作备注：</strong></div></td> 
 									<td colspan="3">
 										<textarea name="action_note" class="span10" cols="80" rows="3">{$action_note}</textarea>
 									</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>{lang key='orders::order.label_operable_act'}</strong></div></td> 
+									<td><div align="right"><strong>当前可执行操作：</strong></div></td> 
 									<td colspan="3">
-										<button class="btn btn-gebo" type="submit" name="delivery_confirmed">{lang key='orders::order.op_confirm'}{lang key='orders::order.op_split'}</button>
-										<a href='{url path="orders/admin/info" args="order_id={$order_id}"}'><button class="btn" type="button">{lang key='system::system.cancel'}</button></a>
+										<button class="btn btn-gebo" type="submit" name="delivery_confirmed">确认生成发货单</button>
+										<a href='{url path="orders/admin/info" args="order_id={$order_id}"}'><button class="btn" type="button">取消</button></a>
 
 										<input name="order_id" type="hidden" value="{$order.order_id}">
 										<input name="delivery[order_sn]" type="hidden" value="{$order.order_sn}">

@@ -51,72 +51,76 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author will.chen
  *
  */
-class order_comment_detail_module  extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+class order_comment_detail_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
 
 //         $user_id =1036;
 //         $rec_id = 4826;
-        
-		$user_id = $_SESSION['user_id'];
-		if ($user_id < 1) {
-			return new ecjia_error(100, 'Invalid session');
-		}
 
-		$rec_id = $this->requestData('rec_id', 0);
-		if (empty($rec_id)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
-		}
-		$field = 'oi.order_id, og.rec_id, og.goods_name, og.goods_id, og.goods_attr, og.goods_price, c.comment_id, c.content, c.comment_rank, c.has_image, c.is_anonymous';
-		
-		$comment = RC_DB::table('order_info as oi')
-			->leftJoin('order_goods as og', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('og.order_id'))
-			->leftJoin('comment as c', RC_DB::raw('og.rec_id'), '=', RC_DB::raw('c.rec_id'))
+        $user_id = $_SESSION['user_id'];
+        if ($user_id < 1) {
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+
+        $rec_id = $this->requestData('rec_id', 0);
+        if (empty($rec_id)) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+        }
+//        $field = 'oi.order_id, og.rec_id, og.goods_name, og.goods_id, og.goods_attr, og.goods_price, c.comment_id, c.content, c.comment_rank, c.has_image, c.is_anonymous';
+
+        $comment = RC_DB::table('order_info as oi')
+            ->leftJoin('order_goods as og', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('og.order_id'))
+            ->leftJoin('comment as c', RC_DB::raw('og.rec_id'), '=', RC_DB::raw('c.rec_id'))
 // 			->leftJoin('term_attachment as t', RC_DB::raw('c.comment_id'), '=', RC_DB::raw('t.object_id'))
-			->select(RC_DB::raw('oi.order_id'), RC_DB::raw('og.rec_id'), RC_DB::raw('og.goods_name'), RC_DB::raw('og.goods_id'), RC_DB::raw('og.goods_attr'), RC_DB::raw('og.goods_price'), RC_DB::raw('c.comment_id'), RC_DB::raw('c.content'), RC_DB::raw('c.comment_rank'), RC_DB::raw('c.has_image'), RC_DB::raw('c.is_anonymous'))
-			->where(RC_DB::raw('oi.user_id'), $user_id)
-			->where(RC_DB::raw('og.rec_id'), $rec_id)
-			->where(RC_DB::raw('c.parent_id'), 0)
-			->where(RC_DB::raw('oi.shipping_status'), SS_RECEIVED)
-			->first();
-			
-		if (empty($comment)) {
-			return new ecjia_error('order_error', '订单信息不存在！');
-		}
-		
-		$attr = array();
-		if (!empty($comment['goods_attr'])) {
-		    $goods_attr = explode("\n", $comment['goods_attr']);
-		    $goods_attr = array_filter($goods_attr);
-		    foreach ($goods_attr as  $val_attr) {
-		        $a = explode(':',$val_attr);
-		        if (!empty($a[0]) && !empty($a[1])) {
-		            $attr[] = array('name'=>$a[0], 'value'=>$a[1]);
-		        }
-		    }
-		}
-		
-		$comment_info = array(
-		    'goods_id'        => $comment['goods_id'],
-		    'goods_name'        => $comment['goods_name'],
-		    'goods_attr'        => $attr,
-			'comment_goods'		=> $comment['comment_rank'],
-			'comment_content'	=> $comment['content'],
-		    'is_anonymous'      => $comment['is_anonymous'],
-			'comment_image'		=> array(),
-		);
-		
-		if ($comment['has_image'] == 1) {
-			$comment_image = RC_DB::table('term_attachment')->where('object_app', 'ecjia.comment')->where('object_group', 'comment')->where('object_id', $comment['comment_id'])->get();
-			if (!empty($comment_image)) {
-				foreach ($comment_image as $val) {
-					if (!empty($val['file_path'])) {
-						$comment_info['comment_image'][] = RC_Upload::upload_url($val['file_path']);
-					}
-				}
-			}
-		}
-		return $comment_info;
-	}
+            ->select(RC_DB::raw('oi.order_id'), RC_DB::raw('og.rec_id'), RC_DB::raw('og.goods_name'), RC_DB::raw('og.goods_id'),
+                RC_DB::raw('og.goods_attr'), RC_DB::raw('og.goods_price'), RC_DB::raw('c.comment_id'), RC_DB::raw('c.content'),
+                RC_DB::raw('c.comment_rank'), RC_DB::raw('c.has_image'), RC_DB::raw('c.is_anonymous'))
+            ->where(RC_DB::raw('oi.user_id'), $user_id)
+            ->where(RC_DB::raw('og.rec_id'), $rec_id)
+            ->where(RC_DB::raw('c.parent_id'), 0)
+            ->where(RC_DB::raw('oi.shipping_status'), SS_RECEIVED)
+            ->first();
+
+        if (empty($comment)) {
+            return new ecjia_error('order_error', __('订单信息不存在！', 'orders'));
+        }
+
+        $attr = array();
+        if (!empty($comment['goods_attr'])) {
+            $goods_attr = explode("\n", $comment['goods_attr']);
+            $goods_attr = array_filter($goods_attr);
+            foreach ($goods_attr as $val_attr) {
+                $a = explode(':', $val_attr);
+                if (!empty($a[0]) && !empty($a[1])) {
+                    $attr[] = array('name' => $a[0], 'value' => $a[1]);
+                }
+            }
+        }
+
+        $comment_info = array(
+            'goods_id'        => $comment['goods_id'],
+            'goods_name'      => $comment['goods_name'],
+            'goods_attr'      => $attr,
+            'comment_goods'   => $comment['comment_rank'],
+            'comment_content' => $comment['content'],
+            'is_anonymous'    => $comment['is_anonymous'],
+            'comment_image'   => array(),
+        );
+
+        if ($comment['has_image'] == 1) {
+            $comment_image = RC_DB::table('term_attachment')->where('object_app', 'ecjia.comment')->where('object_group', 'comment')->where('object_id', $comment['comment_id'])->get();
+            if (!empty($comment_image)) {
+                foreach ($comment_image as $val) {
+                    if (!empty($val['file_path'])) {
+                        $comment_info['comment_image'][] = RC_Upload::upload_url($val['file_path']);
+                    }
+                }
+            }
+        }
+        return $comment_info;
+    }
 }
 
 // end

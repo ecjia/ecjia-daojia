@@ -18,7 +18,7 @@
 
 <div class="alert alert-info">
 	<a class="close" data-dismiss="alert">×</a>
-	<strong>{lang key='orders::statistic.tips'}</strong>统计店铺排名前30的销量以及成交金额对比
+	<strong>温馨提示：</strong>统计店铺排名前30的销量以及成交金额对比
 </div>
 
 <div class="row-fluid row-fluid-stats">
@@ -89,7 +89,7 @@
 					</tr>
 					<!-- {foreachelse}-->
 					<tr>
-						<td class="no-records" colspan="6">{lang key='system::system.no_records'}</td>
+						<td class="no-records" colspan="6">没有找到任何记录</td>
 					</tr>
 					<!-- {/foreach} -->
 				</tbody>

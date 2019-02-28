@@ -1,27 +1,27 @@
 <div class="move-mod-group" id="widget_admin_dashboard_briefing">
 	<ul class="list-mod list-mod-briefing move-mod-head">
 		<li class="span3">
-			<div class="bd ecjiaf-pre"><span class="f_s14">￥</span>{$order_money}<span class="f_s14">{lang key='orders::order.yuan'}</span></div>
+			<div class="bd ecjiaf-pre"><span class="f_s14">￥</span>{$order_money}<span class="f_s14">{t domain="orders"}元{/t}</span></div>
 			<a target="__blank" href='{url path="orders/admin_order_stats/init" args="start_date={$month_start_time}&end_date={$month_end_time}"}'>
-				<div class="ft"><i class="fontello-icon-doc-text-inv ecjiaf-fl"></i>{lang key='orders::order.order_money'}</div>
+				<div class="ft"><i class="fontello-icon-doc-text-inv ecjiaf-fl"></i>{t domain="orders"}本月订单总额{/t}</div>
 			</a>
 		</li>
 		<li class="span3">
-			<div class="bd ecjiaf-pre">{$month_order}<span class="f_s14">{lang key='orders::order.monad'}</span></div>
+			<div class="bd ecjiaf-pre">{$month_order}<span class="f_s14">{t domain="orders"}单{/t}</span></div>
 			<a target="__blank" href='{url path="orders/admin_order_stats/init" args="start_date={$month_start_time}&end_date={$month_end_time}"}'>
-				<div class="ft"><i class="fontello-icon-doc-text-inv ecjiaf-fl"></i>{lang key='orders::order.order_count'}</div>
+				<div class="ft"><i class="fontello-icon-doc-text-inv ecjiaf-fl"></i>{t domain="orders"}本月订单数量{/t}</div>
 			</a>
 		</li>
 		<li class="span3">
-			<div class="bd ecjiaf-pre">{$order_unconfirmed}<span class="f_s14">{lang key='orders::order.monad'}</span></div>
+			<div class="bd ecjiaf-pre">{$order_unconfirmed}<span class="f_s14">{t domain="orders"}单{/t}</span></div>
 			<a target="__blank" href='{url path="orders/admin/init" args="start_time={$today_start_time}&end_time={$today_end_time}&composite_status={$unconfirmed}"}'>
-				<div class="ft"><i class="fontello-icon-doc-text-inv ecjiaf-fl"></i>{lang key='orders::order.wait_confirm_order'}</div>
+				<div class="ft"><i class="fontello-icon-doc-text-inv ecjiaf-fl"></i>{t domain="orders"}今日待确认订单{/t}</div>
 			</a>
 		</li>
 		<li class="span3">
-			<div class="bd ecjiaf-pre">{$order_await_ship}<span class="f_s14">{lang key='orders::order.monad'}</span></div>
+			<div class="bd ecjiaf-pre">{$order_await_ship}<span class="f_s14">{t domain="orders"}单{/t}</span></div>
 			<a target="__blank" href='{url path="orders/admin/init" args="start_time={$today_start_time}&end_time={$today_end_time}&composite_status={$wait_ship}"}'>
-				<div class="ft"><i class="fontello-icon-doc-text-inv ecjiaf-fl"></i>{lang key='orders::order.today_order'}</div>
+				<div class="ft"><i class="fontello-icon-doc-text-inv ecjiaf-fl"></i>{t domain="orders"}今日待发货订单{/t}</div>
 			</a>
 		</li>
 	</ul>

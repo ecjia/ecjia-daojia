@@ -45,88 +45,91 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 修改订单金额
  * @author will
  *
  */
-class admin_orders_operate_money_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-		$this->authadminSession();
+class admin_orders_operate_money_module extends api_admin implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+        $this->authadminSession();
 
         if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-		
-		$result_view = $this->admin_priv('order_view');
-		$result_edit = $this->admin_priv('order_edit');
-		if (is_ecjia_error($result_view)) {
-			return $result_view;
-		} elseif (is_ecjia_error($result_edit)) {
-			return $result_edit;
-		}
-		$order_id		= $this->requestData('order_id', 0);
-		$goods_amount	= $this->requestData('goods_amount');
-		$shipping_fee	= $this->requestData('shipping_fee');
-		if ($order_id <= 0) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-		/*验证订单是否属于此入驻商*/
-        if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
-		    $ru_id_group = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id))->group('store_id')->get_field('store_id', true);
-		    if (count($ru_id_group) > 1 || $ru_id_group[0] != $_SESSION['store_id']) {
-		        return new ecjia_error('no_authority', '对不起，您没权限对此订单进行操作！');
-		    }
-		}
-		
-		$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
-		if (empty($order_info)) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-		
-		$order= array();
-		if (!empty($goods_amount)) {
-			$order['goods_amount'] = $goods_amount;
-		}
-		if (!empty($shipping_fee)) {
-			$order['shipping_fee'] = $shipping_fee;
-		}
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
 
-		/* 计算待付款金额 */
-		$order['order_amount']  = $goods_amount - $order_info['discount']
-								+ $order_info['tax']
-								+ $shipping_fee
-								+ $order_info['insure_fee']
-								+ $order_info['pay_fee']
-								+ $order_info['pack_fee']
-								+ $order_info['card_fee']
-								- $order_info['money_paid']
-								- $order_info['integral_money']
-								- $order_info['bonus'];
-		RC_Loader::load_app_func('admin_order', 'orders');
-		RC_Loader::load_app_func('global', 'orders');
-		
-		/* 暂不支持产生退款费用*/
-		if ($order['order_amount'] < 0) {
-			return new ecjia_error('amount_error', '订单金额过小，将产生退款费用！');
-		}
-		
-		update_order($order_id, $order);
-		/* 更新 pay_log */
-		update_pay_log($order_id);
-		
-		$sn = '编辑费用信息，';
-		$new_order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
-		if ($order_info['total_fee'] != $new_order['total_fee']) {
-			$sn .= sprintf(RC_Lang::lang('order_amount_change'), $order_info['total_fee'], $new_order['total_fee']).'，';
-		}
-		$sn .= '订单号是 '.$order_info['order_sn'];
-		if ($_SESSION['store_id'] > 0) {
-		    RC_Api::api('merchant', 'admin_log', array('text' => $sn.'【来源掌柜】', 'action' => 'edit', 'object' => 'order'));
-		} 
-			
-		return array();
-	} 
+        $result_view = $this->admin_priv('order_view');
+        $result_edit = $this->admin_priv('order_edit');
+        if (is_ecjia_error($result_view)) {
+            return $result_view;
+        } elseif (is_ecjia_error($result_edit)) {
+            return $result_edit;
+        }
+        $order_id     = $this->requestData('order_id', 0);
+        $goods_amount = $this->requestData('goods_amount');
+        $shipping_fee = $this->requestData('shipping_fee');
+        if ($order_id <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+        /*验证订单是否属于此入驻商*/
+        if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
+            $ru_id_group = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id))->group('store_id')->get_field('store_id', true);
+            if (count($ru_id_group) > 1 || $ru_id_group[0] != $_SESSION['store_id']) {
+                return new ecjia_error('no_authority', __('对不起，您没权限对此订单进行操作！', 'orders'));
+            }
+        }
+
+        $order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
+        if (empty($order_info)) {
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+
+        $order = array();
+        if (!empty($goods_amount)) {
+            $order['goods_amount'] = $goods_amount;
+        }
+        if (!empty($shipping_fee)) {
+            $order['shipping_fee'] = $shipping_fee;
+        }
+
+        /* 计算待付款金额 */
+        $order['order_amount'] = $goods_amount - $order_info['discount']
+            + $order_info['tax']
+            + $shipping_fee
+            + $order_info['insure_fee']
+            + $order_info['pay_fee']
+            + $order_info['pack_fee']
+            + $order_info['card_fee']
+            - $order_info['money_paid']
+            - $order_info['integral_money']
+            - $order_info['bonus'];
+        RC_Loader::load_app_func('admin_order', 'orders');
+        RC_Loader::load_app_func('global', 'orders');
+
+        /* 暂不支持产生退款费用*/
+        if ($order['order_amount'] < 0) {
+            return new ecjia_error('amount_error', __('订单金额过小，将产生退款费用！', 'orders'));
+        }
+
+        update_order($order_id, $order);
+        /* 更新 pay_log */
+        update_pay_log($order_id);
+
+        $sn        = __('编辑费用信息，', 'orders');
+        $new_order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
+        if ($order_info['total_fee'] != $new_order['total_fee']) {
+            $sn .= sprintf(__('订单总金额由 %s 变为 %s', 'orders'), $order_info['total_fee'], $new_order['total_fee']) . '，';
+        }
+        $sn .= sprintf(__('订单号是 %s', 'orders'), $order_info['order_sn']);
+        if ($_SESSION['store_id'] > 0) {
+            RC_Api::api('merchant', 'admin_log', array('text' => sprintf(__('%s【来源掌柜】', 'orders'), $sn), 'action' => 'edit', 'object' => 'order'));
+        }
+
+        return array();
+    }
 }
 
 

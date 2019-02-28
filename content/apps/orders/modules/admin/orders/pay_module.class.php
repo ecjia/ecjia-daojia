@@ -51,107 +51,109 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @author royalwang
  * 16-12-09 增加支付状态
  */
-class admin_orders_pay_module  extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-    	//收银台支付登录判断
-    	if ($_SESSION['staff_id'] <= 0 ) {
-    		return new ecjia_error(100, 'Invalid session');
-    	}
-    	
-		$order_id	= $this->requestData('order_id', 0);
-		$is_mobile	= $this->requestData('is_mobile', true);
-		$wxpay_open_id = $this->requestData('wxpay_open_id', null);
-		
-		if (!$order_id) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
-		}
-		
-		/* 订单详情 */
-		$order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
-		
-		if (is_ecjia_error($order)) {
-			return $order;
-		}
-		
-		//判断是否是管理员登录
-		if ($_SESSION['store_id'] > 0) {
-			$_SESSION['user_id'] = $order['user_id'];
-		}
-		
-		if ($_SESSION['user_id'] != $order['user_id']) {
-			return new ecjia_error('error_order_detail', RC_Lang::get('orders::order.error_order_detail'));
-		}
-		
-		//添加微信支付需要的OPEN_ID
-		if ($wxpay_open_id) {
-		    $order['open_id'] = $wxpay_open_id;
-		}
-		
-		//支付方式信息
-		RC_Logger::getLogger('info')->info('order-pay');
-		RC_Logger::getLogger('info')->info($order);
-		
-		$handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel(intval($order['pay_id']));
-		if (is_ecjia_error($handler)) {
-		    return $handler;
-		}
-		
-		/* 插入支付流水记录*/
-		RC_Api::api('payment', 'save_payment_record', [
-    		'order_sn' 		 => $order['order_sn'],
-    		'order_id' 		 => $order['order_id'],
-    		'total_fee'      => $order['order_amount'],
-    		'pay_code'       => $handler->getCode(),
-    		'pay_name'		 => $handler->getName(),
-    		'trade_type'	 => 'buy',
-		]);
-		
-		$handler->set_orderinfo($order);
-		$handler->set_mobile($is_mobile);
-		$handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
-		
-		$result = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);
+class admin_orders_pay_module extends api_admin implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
+        //收银台支付登录判断
+        if ($_SESSION['staff_id'] <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+
+        $order_id      = $this->requestData('order_id', 0);
+        $is_mobile     = $this->requestData('is_mobile', true);
+        $wxpay_open_id = $this->requestData('wxpay_open_id', null);
+
+        if (!$order_id) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+        }
+
+        /* 订单详情 */
+        $order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
+
+        if (is_ecjia_error($order)) {
+            return $order;
+        }
+
+        //判断是否是管理员登录
+        if ($_SESSION['store_id'] > 0) {
+            $_SESSION['user_id'] = $order['user_id'];
+        }
+
+        if ($_SESSION['user_id'] != $order['user_id']) {
+            return new ecjia_error('error_order_detail', __('订单不属于该用户', 'orders'));
+        }
+
+        //添加微信支付需要的OPEN_ID
+        if ($wxpay_open_id) {
+            $order['open_id'] = $wxpay_open_id;
+        }
+
+        //支付方式信息
+        RC_Logger::getLogger('info')->info('order-pay');
+        RC_Logger::getLogger('info')->info($order);
+
+        $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel(intval($order['pay_id']));
+        if (is_ecjia_error($handler)) {
+            return $handler;
+        }
+
+        /* 插入支付流水记录*/
+        RC_Api::api('payment', 'save_payment_record', [
+            'order_sn'   => $order['order_sn'],
+            'order_id'   => $order['order_id'],
+            'total_fee'  => $order['order_amount'],
+            'pay_code'   => $handler->getCode(),
+            'pay_name'   => $handler->getName(),
+            'trade_type' => 'buy',
+        ]);
+
+        $handler->set_orderinfo($order);
+        $handler->set_mobile($is_mobile);
+        $handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
+
+        $result = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);
         if (is_ecjia_error($result)) {
             return $result;
         } else {
-        	unset($_SESSION['user_id']);
+            unset($_SESSION['user_id']);
             $order['payment'] = $result;
         }
 
         //增加支付状态
-        $order['payment']['order_pay_status'] = $order['pay_status'];//0 未付款，1付款中，2已付款
-        
+        $order['payment']['order_pay_status'] = $order['pay_status']; //0 未付款，1付款中，2已付款
+
         $cod_fee = 0;
         if (intval($order['shipping_id']) > 0) {
             $shipping = RC_Api::api('shipping', 'shipping_area_info', array(
-            	'shipping_id' => $order['shipping_id'],
-            	'store_id'     => $order['store_id'],
-            	'country'      => $order['country'],
-            	'province'     => $order['province'],
-            	'city'         => $order['city'],
-            	'district'     => $order['district'],
+                'shipping_id' => $order['shipping_id'],
+                'store_id'    => $order['store_id'],
+                'country'     => $order['country'],
+                'province'    => $order['province'],
+                'city'        => $order['city'],
+                'district'    => $order['district'],
             ));
-            
-            if (! is_ecjia_error($shipping)) {
+
+            if (!is_ecjia_error($shipping)) {
                 if (array_get($shipping, 'shipping.support_cod')) {
                     $cod_fee = array_get($shipping, 'area.pay_fee');
                 }
             }
         }
-        
+
         $payment_list = RC_Api::api('payment', 'available_payments', array('store_id' => $order['store_id'], 'cod_fee' => $cod_fee));
 
         $other = collect($payment_list)->flatMap(function ($item) use ($order) {
             if ($item['pay_id'] == $order['pay_id']) {
                 return array();
             }
-            
+
             return array($item);
         })->all();
 
         return array('payment' => $order['payment'], 'others' => $other);
-	}
+    }
 }
 
 // end

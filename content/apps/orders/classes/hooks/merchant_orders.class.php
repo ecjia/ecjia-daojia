@@ -52,11 +52,11 @@ class orders_merchant_plugin
     //订单统计
     public static function merchant_dashboard_left_8_1()
     {
-        $filter['store_id'] = $_SESSION['store_id'];
+        $filter['store_id']       = $_SESSION['store_id'];
         $filter['extension_code'] = 'default';
-        $order_list = with(new Ecjia\App\Orders\Repositories\OrdersRepository())
+        $order_list               = with(new Ecjia\App\Orders\Repositories\OrdersRepository())
             ->getOrderList($filter, 1, 15, null, ['Ecjia\App\Orders\CustomizeOrderList', 'exportOrderListMerchant']);
-        $count = $order_list['filter_count'];
+        $count                    = $order_list['filter_count'];
 
         ecjia_merchant::$controller->assign('count', $count);
 
@@ -72,18 +72,18 @@ class orders_merchant_plugin
         $data = RC_DB::table('store_account')->where('store_id', $_SESSION['store_id'])->first();
         if (empty($data)) {
             $data['formated_amount_available'] = $data['formated_money'] = $data['formated_frozen_money'] = $data['formated_deposit'] = '￥0.00';
-            $data['amount_available'] = $data['money'] = $data['frozen_money'] = $data['deposit'] = '0.00';
+            $data['amount_available']          = $data['money'] = $data['frozen_money'] = $data['deposit'] = '0.00';
         } else {
-            $amount_available = $data['money'] - $data['deposit']; //可用余额=money-保证金
+            $amount_available                  = $data['money'] - $data['deposit']; //可用余额=money-保证金
             $data['formated_amount_available'] = price_format($amount_available);
-            $data['amount_available'] = $amount_available;
+            $data['amount_available']          = $amount_available;
 
-            $money = $data['money'] + $data['frozen_money']; //总金额=money+冻结
+            $money                  = $data['money'] + $data['frozen_money']; //总金额=money+冻结
             $data['formated_money'] = price_format($money);
-            $data['money'] = $money;
+            $data['money']          = $money;
 
             $data['formated_frozen_money'] = price_format($data['frozen_money']);
-            $data['formated_deposit'] = price_format($data['deposit']);
+            $data['formated_deposit']      = price_format($data['deposit']);
         }
 
         $store_id = $_SESSION['store_id'];
@@ -146,10 +146,10 @@ class orders_merchant_plugin
             }
         }
 
-        $data['promotion_count'] = RC_DB::table('goods')->where('is_promote', 1)->where('is_delete', 0)->where('store_id', $store_id)->count();
+        $data['promotion_count']  = RC_DB::table('goods')->where('is_promote', 1)->where('is_delete', 0)->where('store_id', $store_id)->count();
         $data['favourable_count'] = RC_DB::table('favourable_activity')->where('store_id', $store_id)->count();
-        $data['groupbuy_count'] = RC_DB::table('goods_activity')->where('act_type', GAT_GROUP_BUY)->where('store_id', $store_id)->count();
-        $data['quickpay_count'] = RC_DB::table('quickpay_activity')->where('store_id', $store_id)->count();
+        $data['groupbuy_count']   = RC_DB::table('goods_activity')->where('act_type', GAT_GROUP_BUY)->where('store_id', $store_id)->count();
+        $data['quickpay_count']   = RC_DB::table('quickpay_activity')->where('store_id', $store_id)->count();
 
         $sales_order_data = RC_DB::table('goods as g')
             ->leftJoin('order_goods as og', RC_DB::raw('og.goods_id'), '=', RC_DB::raw('g.goods_id'))
@@ -167,9 +167,9 @@ class orders_merchant_plugin
         if (!empty($sales_order_data)) {
             foreach ($sales_order_data as $key => $item) {
                 $sales_order_data[$key]['wvera_price'] = price_format($item['goods_num'] ? $item['turnover'] / $item['goods_num'] : 0);
-                $sales_order_data[$key]['short_name'] = $item['goods_name'];
-                $sales_order_data[$key]['turnover'] = price_format($item['turnover']);
-                $sales_order_data[$key]['taxis'] = $key + 1;
+                $sales_order_data[$key]['short_name']  = $item['goods_name'];
+                $sales_order_data[$key]['turnover']    = price_format($item['turnover']);
+                $sales_order_data[$key]['taxis']       = $key + 1;
             }
         }
         $data['sale_item'] = $sales_order_data;
@@ -187,14 +187,14 @@ class orders_merchant_plugin
         if (!isset($_SESSION['store_id']) || $_SESSION['store_id'] === '') {
             $count_list = array();
         } else {
-            $cache_key = 'order_bar_chart_' . md5($_SESSION['store_id']);
+            $cache_key  = 'order_bar_chart_' . md5($_SESSION['store_id']);
             $count_list = RC_Cache::app_cache_get($cache_key, 'order');
 
             if (!$count_list) {
-                $format = '%Y-%m-%d';
-                $time = (RC_Time::local_mktime(0, 0, 0, RC_Time::local_date('m'), RC_Time::local_date('d'), RC_Time::local_date('Y')) - 1);
+                $format     = '%Y-%m-%d';
+                $time       = (RC_Time::local_mktime(0, 0, 0, RC_Time::local_date('m'), RC_Time::local_date('d'), RC_Time::local_date('Y')) - 1);
                 $start_time = $time - 30 * 86400;
-                $store_id = $_SESSION['store_id'];
+                $store_id   = $_SESSION['store_id'];
 
                 $where = "add_time >= '$start_time' AND add_time <= '$time' AND store_id = $store_id AND is_delete = 0";
 
@@ -225,17 +225,17 @@ class orders_merchant_plugin
                     }
                 }
 
-                $tmp_day = '';
+                $tmp_day   = '';
                 $tmp_count = '';
                 foreach ($count_list as $k => $v) {
-                    $k = intval(date('d', strtotime($k)));
-                    $tmp_day .= "'$k',";
+                    $k         = intval(date('d', strtotime($k)));
+                    $tmp_day   .= "'$k',";
                     $tmp_count .= "$v,";
                 }
 
-                $tmp_day = rtrim($tmp_day, ',');
-                $tmp_count = rtrim($tmp_count, ',');
-                $count_list['day'] = $tmp_day;
+                $tmp_day             = rtrim($tmp_day, ',');
+                $tmp_count           = rtrim($tmp_count, ',');
+                $count_list['day']   = $tmp_day;
                 $count_list['count'] = $tmp_count;
 
                 RC_Cache::app_cache_set($cache_key, $count_list, 'order', 60 * 24); //24小时缓存
@@ -250,10 +250,10 @@ class orders_merchant_plugin
     public static function orders_stats_admin_menu_api($menus)
     {
         $menu = array(
-            2 => ecjia_merchant::make_admin_menu('02_order_stats', __('订单统计'), RC_Uri::url('orders/mh_order_stats/init'), 2)->add_purview('order_stats')->add_icon('fa-bar-chart-o')->add_base('stats'),
-            3 => ecjia_merchant::make_admin_menu('03_sale_general', __('销售概况'), RC_Uri::url('orders/mh_sale_general/init'), 3)->add_purview('sale_general_stats')->add_icon('fa-bar-chart-o')->add_base('stats'),
-            4 => ecjia_merchant::make_admin_menu('04_sale_list', __('销售明细'), RC_Uri::url('orders/mh_sale_list/init'), 4)->add_purview('sale_list_stats')->add_icon('fa-list')->add_base('stats'),
-            5 => ecjia_merchant::make_admin_menu('05_sale_order', __('销售排行'), RC_Uri::url('orders/mh_sale_order/init'), 5)->add_purview('sale_order_stats')->add_icon('fa-trophy')->add_base('stats'),
+            2 => ecjia_merchant::make_admin_menu('02_order_stats', __('订单统计', 'orders'), RC_Uri::url('orders/mh_order_stats/init'), 2)->add_purview('order_stats')->add_icon('fa-bar-chart-o')->add_base('stats'),
+            3 => ecjia_merchant::make_admin_menu('03_sale_general', __('销售概况', 'orders'), RC_Uri::url('orders/mh_sale_general/init'), 3)->add_purview('sale_general_stats')->add_icon('fa-bar-chart-o')->add_base('stats'),
+            4 => ecjia_merchant::make_admin_menu('04_sale_list', __('销售明细', 'orders'), RC_Uri::url('orders/mh_sale_list/init'), 4)->add_purview('sale_list_stats')->add_icon('fa-list')->add_base('stats'),
+            5 => ecjia_merchant::make_admin_menu('05_sale_order', __('销售排行', 'orders'), RC_Uri::url('orders/mh_sale_order/init'), 5)->add_purview('sale_order_stats')->add_icon('fa-trophy')->add_base('stats'),
         );
         $menus->add_submenu($menu);
         return $menus;

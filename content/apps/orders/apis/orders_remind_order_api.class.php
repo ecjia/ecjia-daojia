@@ -55,9 +55,9 @@ class orders_remind_order_api extends Component_Event_Api
 
     public function call(&$options)
     {
-        $m = RC_Time::local_date('m');
-        $d = RC_Time::local_date('d');
-        $y = RC_Time::local_date('y');
+        $m                = RC_Time::local_date('m');
+        $d                = RC_Time::local_date('d');
+        $y                = RC_Time::local_date('y');
         $today_start_date = RC_Time::local_mktime(0, 0, 0, $m, $d, $y);
 
         $arr['new_orders'] = RC_DB::table('order_info')

@@ -45,45 +45,48 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 订单设为抢单派发至门店
  * @author will
  *
  */
-class admin_orders_operate_setgrab_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-		$this->authadminSession();
+class admin_orders_operate_setgrab_module extends api_admin implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+        $this->authadminSession();
 
         if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-		
-		$order_id = $this->requestData('order_id', 0);
-		$store_id = $this->requestData('store_id');
-		
-		if ($order_id <= 0 || empty($store_id)) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-		
-		
-		//$ru_id = $this->>get_ru_id($order_id);
-		
-		$store_order_info = $this->get_store_order_info($order_id, $_SESSION['store_id']);
-		
-		if (empty($store_order_info)) {
-			RC_Model::model('orders/store_order_model')->insert(array(
-																'order_id'	=> $order_id,
-																'store_id'	=> '0',
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+
+        $order_id = $this->requestData('order_id', 0);
+        $store_id = $this->requestData('store_id');
+
+        if ($order_id <= 0 || empty($store_id)) {
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+
+
+        //$ru_id = $this->>get_ru_id($order_id);
+
+        $store_order_info = $this->get_store_order_info($order_id, $_SESSION['store_id']);
+
+        if (empty($store_order_info)) {
+            RC_Model::model('orders/store_order_model')->insert(array(
+                'order_id'        => $order_id,
+                'store_id'        => '0',
 // 																'ru_id'		=> $_SESSION['ru_id'],
-																'is_grab_order'		=> 1,
-																'grab_store_list'	=> $store_id,
-			));
-		} else {
-			RC_Model::model('orders/store_order_model')->where(array('order_id' => $order_id, 'ru_id' => $_SESSION['ru_id']))->update(array('grab_store_list' => $store_id));
-		}
-		
-		return array();
-	}
+                'is_grab_order'   => 1,
+                'grab_store_list' => $store_id,
+            ));
+        } else {
+            RC_Model::model('orders/store_order_model')->where(array('order_id' => $order_id, 'ru_id' => $_SESSION['ru_id']))->update(array('grab_store_list' => $store_id));
+        }
+
+        return array();
+    }
 
     /* 通过订单商品返回ru_id*/
     private function get_ru_id($order_id = 0)
@@ -98,7 +101,7 @@ class admin_orders_operate_setgrab_module extends api_admin implements api_inter
     }
 
     /* 获取记录信息*/
-    private function get_store_order_info($order_id = 0, $store_id=0)
+    private function get_store_order_info($order_id = 0, $store_id = 0)
     {
         $store_order_info = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id, 'store_id' => $store_id))->find();
         return $store_order_info;

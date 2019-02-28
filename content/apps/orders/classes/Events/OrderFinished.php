@@ -27,6 +27,4 @@ class OrderFinished extends Event
     }
 
 
-
-
 }

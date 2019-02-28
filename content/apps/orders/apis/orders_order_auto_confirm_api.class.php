@@ -50,58 +50,61 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 接单
  */
-class orders_order_auto_confirm_api extends Component_Event_Api {
+class orders_order_auto_confirm_api extends Component_Event_Api
+{
     /**
-     * @param  $options['order_sn'] 订单编号
+     * @param  $options ['order_sn'] 订单编号
      * @return bool
      */
-	public function call(&$options) {
-	    if (!is_array($options) || !isset($options['order_sn'])) {
-	        return new ecjia_error('invalid_parameter', '调用api文件,order_auto_confirm,参数错误');
-	    }
-		return $this->update_order($options['order_sn']);
-	}
+    public function call(&$options)
+    {
+        if (!is_array($options) || !isset($options['order_sn'])) {
+            return new ecjia_error('invalid_parameter', __('调用api文件order_auto_confirm参数错误', 'orders'));
+        }
+        return $this->update_order($options['order_sn']);
+    }
 
-	/**
-	 * 订单状态更新
-	 * @param   int	 $order_sn   订单编号
-	 * @return  bool
-	 */
-	private function update_order($order_sn = '') {
-		if (!empty($order_sn)) {
-			$order_info =RC_DB::table('order_info')->where('order_sn', $order_sn)->first(); 
-			if ($order_info['order_status'] == OS_UNCONFIRMED) {
-				$pay_code = RC_DB::table('payment')->where('pay_id', $order_info['pay_id'])->pluck('pay_code');
-				
-				if ($pay_code == 'pay_cod' || $order_info['pay_status'] == PS_PAYED) {
-					RC_DB::table('order_info')->where('order_sn', $order_sn)->update(array('order_status' => OS_CONFIRMED, 'confirm_time' => RC_Time::gmtime()));
-					RC_Loader::load_app_class('OrderStatusLog', 'orders', false);
-					OrderStatusLog::orderpaid_autoconfirm(array('order_id' => $order_info['order_id']));
-					//订单已接单短信通知
-					if (!empty($order_info['user_id'])) {
-						$user_info = RC_DB::table('users')->where('user_id', $order_info['user_id'])->select('mobile_phone', 'user_name')->first();
-						if (!empty($user_info['mobile_phone'])) {
-							try {
-								//发送短信
-								$options = array(
-										'mobile' => $user_info['mobile_phone'],
-										'event'	 => 'sms_order_confirmed',
-										'value'  =>array(
-												'order_sn'		=> $order_info['order_sn'],
-												'user_name' 	=> $user_info['user_name']
-										),
-								);
-								RC_Api::api('sms', 'send_event_sms', $options);
-							} catch (PDOException $e) {
-								RC_Logger::getLogger('info')->error($e);
-							}
-						}
-					}
-				}
-			}
-		}
-		return true;
-	}
+    /**
+     * 订单状态更新
+     * @param   int $order_sn 订单编号
+     * @return  bool
+     */
+    private function update_order($order_sn = '')
+    {
+        if (!empty($order_sn)) {
+            $order_info = RC_DB::table('order_info')->where('order_sn', $order_sn)->first();
+            if ($order_info['order_status'] == OS_UNCONFIRMED) {
+                $pay_code = RC_DB::table('payment')->where('pay_id', $order_info['pay_id'])->pluck('pay_code');
+
+                if ($pay_code == 'pay_cod' || $order_info['pay_status'] == PS_PAYED) {
+                    RC_DB::table('order_info')->where('order_sn', $order_sn)->update(array('order_status' => OS_CONFIRMED, 'confirm_time' => RC_Time::gmtime()));
+                    RC_Loader::load_app_class('OrderStatusLog', 'orders', false);
+                    OrderStatusLog::orderpaid_autoconfirm(array('order_id' => $order_info['order_id']));
+                    //订单已接单短信通知
+                    if (!empty($order_info['user_id'])) {
+                        $user_info = RC_DB::table('users')->where('user_id', $order_info['user_id'])->select('mobile_phone', 'user_name')->first();
+                        if (!empty($user_info['mobile_phone'])) {
+                            try {
+                                //发送短信
+                                $options = array(
+                                    'mobile' => $user_info['mobile_phone'],
+                                    'event'  => 'sms_order_confirmed',
+                                    'value'  => array(
+                                        'order_sn'  => $order_info['order_sn'],
+                                        'user_name' => $user_info['user_name']
+                                    ),
+                                );
+                                RC_Api::api('sms', 'send_event_sms', $options);
+                            } catch (PDOException $e) {
+                                RC_Logger::getLogger('info')->error($e);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }
 
 // end

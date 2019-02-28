@@ -33,7 +33,7 @@
 					{if $filter.extension_code}&extension_code={$filter.extension_code}{/if}
 					{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}
 					{if $filter.keywords}&keywords={$filter.keywords}{/if}
-					">{lang key='orders::order.all'} 
+					">全部 
 					<span class="badge badge-info">{if $count.all}{$count.all}{else}0{/if}</span> 
 				</a>
 			</li>
@@ -86,7 +86,7 @@
 		</ul>
 	
 		<div class="choose_list f_r" >
-			<input type="text" name="merchant_keywords" value="{$filter.merchant_keywords}" placeholder="{lang key='orders::order.enter_merchant_keywords'}"/> 
+			<input type="text" name="merchant_keywords" value="{$filter.merchant_keywords}" placeholder="请输入商家名称关键字"/> 
 			<input type="text" name="keywords" value="{$filter.keywords}" placeholder="请输入订单编号或购买者姓名"/> 
 			<button class="btn" type="submit">搜索</button>
 		</div>
@@ -100,24 +100,24 @@
 				<thead>
 					<tr>
 						<th class="w100">订单编号</th>
-						<th class="w150">{lang key='orders::order.merchants_name'}</th>
-						<th class="w150">{lang key='orders::order.order_time'}</th>
+						<th class="w150">商家名称</th>
+						<th class="w150">下单时间</th>
 						<th class="w150">购买者信息</th>
-						<th class="w150">{lang key='orders::order.total_fee'}</th>
-						<th class="w110">{lang key='orders::order.order_amount'}</th>
-						<th class="w100">{lang key='orders::order.all_status'}</th>
+						<th class="w150">总金额</th>
+						<th class="w110">应付金额</th>
+						<th class="w100">订单状态</th>
 					</tr>
 				</thead>
 				<tbody>
 					<!-- {foreach from=$order_list.order_list item=order key=okey} -->
 					<tr>
 						<td class="hide-edit-area">
-							{$order.order_sn}{if $order.extension_code eq "group_buy"}{lang key='orders::order.group_buy'}{elseif $order.extension_code eq "exchange_goods"}{lang key='orders::order.exchange_goods'}{/if}
+							{$order.order_sn}{if $order.extension_code eq "group_buy"}<span class="groupbuy-icon">团</span>{elseif $order.extension_code eq "exchange_goods"}（积分兑换）{/if}
 							<div class="edit-list">
-								<a href='{url path="orders/admin/info" args="order_id={$order.order_id}"}' class="data-pjax" title="{lang key='orders::order.detail'}">{lang key='orders::order.detail'}</a>
+								<a href='{url path="orders/admin/info" args="order_id={$order.order_id}"}' class="data-pjax" title="查看">查看</a>
 								{if $order.can_remove}
 								&nbsp;|&nbsp;
-								<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{lang key='orders::order.confirm_delete_order'}' href='{url path="orders/admin/remove_order" args="order_id={$order.order_id}"}' title="{lang key='orders::order.op_remove'}">{lang key='orders::order.op_remove'}</a>
+								<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='您确定要删除该订单么？' href='{url path="orders/admin/remove_order" args="order_id={$order.order_id}"}' title="删除">删除</a>
 								{/if}
 							</div>
 						</td>
@@ -135,7 +135,7 @@
 						<td align="center" valign="top" nowrap="nowrap">{$order.label_order_status}</td>
 					</tr>
 					<!-- {foreachelse}-->
-					<tr><td class="no-records" colspan="9">{lang key='system::system.no_records'}</td></tr>
+					<tr><td class="no-records" colspan="9">没有找到任何记录</td></tr>
 					<!-- {/foreach} -->
 				</tbody>
 			</table>

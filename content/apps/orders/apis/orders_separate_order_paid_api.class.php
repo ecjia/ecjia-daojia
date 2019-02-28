@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 use Ecjia\System\Notifications\OrderPay;
+
 defined('IN_ECJIA') or exit('No permission resources.');
 
 
@@ -52,8 +53,9 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 主订单支付后处理订单的接口
  * @author hyy
  */
-class orders_separate_order_paid_api extends Component_Event_Api {
-	
+class orders_separate_order_paid_api extends Component_Event_Api
+{
+
     /**
      * @param Y string order_sn  订单编号
      * @param Y float money      支付金额
@@ -61,257 +63,256 @@ class orders_separate_order_paid_api extends Component_Event_Api {
      * @param N string pay_code     支付方式
      * @return array
      */
-	public function call(&$options) {
-	    if (! array_get($options, 'order_sn') || ! array_get($options, 'money') ) {
-	        return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
-	    }
-	    
-	    $order_sn = $options['order_sn'];
+    public function call(&$options)
+    {
+        if (!array_get($options, 'order_sn') || !array_get($options, 'money')) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+        }
 
-	    /* 取得订单信息 */
-	    if(empty($options['order_info'])) {
-	        $order_info = RC_Api::api('orders', 'separate_order_info', array('order_sn' => $order_sn));
-	    } else {
-	        $order_info = $options['order_info'];
-	    }
-	    
-	    if(empty($order_info)) {
-	        return new ecjia_error('order_not_exists', '订单不存在');
-	    }
-	    if (intval($order_info['pay_status']) === PS_PAYED) {
-	        return new ecjia_error('order_has_been_paid', '订单已经支付了');
-	    }
-	    
-	    RC_Logger::getLogger('pay')->info('separate_order_paid');
-	    RC_Logger::getLogger('pay')->info(json_encode($order_info));
-	    /* 改变订单状态 */
-	    return $this->order_paid($order_sn, $order_info, PS_PAYED, $options['pay_code']);
-	}
-	
-	/**
-	 * 修改订单的支付状态
-	 *
-	 * @access  public
-	 * @param   string  $log_id     支付编号
-	 * @param   integer $pay_status 状态
-	 * @return  void
-	 */
-	private function order_paid($separate_order_sn, $separate_order, $pay_status = PS_PAYED, $pay_code = '') {
-	    RC_Loader::load_app_func('admin_order', 'orders');
-	    RC_Loader::load_app_class('OrderStatusLog', 'orders', false);
-	    RC_Loader::load_app_class('add_storeuser', 'user', false);
-	    
-	    //主订单 修改订单状态为已完成
-	    $time = RC_Time::gmtime();
-	    $data = array(
-	        'order_status' => OS_CONFIRMED,
-	        'confirm_time' => $time,
-	        'pay_status'   => $pay_status,
-	        'pay_time'     => $time,
-	        'order_amount' => 0,
-	    );
-	    if($pay_code == 'pay_balance') {
-	        $data['surplus'] = $separate_order['order_amount'];
-	    } else {
-	        $data['money_paid'] = $separate_order['order_amount'];
-	    }
-	    RC_DB::table('separate_order_info')->where('order_sn', $separate_order_sn)->update($data);
-	    
-	    //子订单
-	    $order_list = RC_DB::table('order_info')
-    	    ->select(RC_DB::raw('*,(goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee) AS total_fee '))
-    	    ->where('separate_order_sn', $separate_order_sn)->get();
-	    
-	    if($order_list) {
-	        $time = RC_Time::gmtime();
-	        
-	        foreach ($order_list as $order) {
-	            $order_id = $order['order_id'];
-	            $order_sn = $order['order_sn'];
-	            
-	            
-	            $orders_auto_confirm = Ecjia\App\Cart\StoreStatus::StoreOrdersAutoConfirm($order['store_id']);
-	            //判断订单类型，到店付款订单修改订单状态和发货状态
-	            if (in_array($order['extension_code'], array('storebuy', 'cashdesk'))) {
-	                /* 修改订单状态为已完成 */
-	                $data = array(
-	                    'order_status' => OS_CONFIRMED,
-	                    'confirm_time' => $time,
-	                    'pay_status'   => $pay_status,
-	                    'pay_time'     => $time,
-	                    'order_amount' => 0,
-	                );
-	                if($pay_code == 'pay_balance') {
-	                    $data['surplus'] = $order['order_amount'];
-	                } else {
-	                    $data['money_paid'] = $order['order_amount'];
-	                }
-	                
-	                RC_DB::table('order_info')->where('order_id', $order_id)->update($data);
-	                /* 记录订单操作记录 */
-	                order_action($order_sn, OS_CONFIRMED, SS_SHIPPED_ING, $pay_status, '', RC_Lang::get('orders::order.buyers'));
-	            } else {
-	                /* 修改订单状态为已付款 */
-	                //配送和团购支付后order_status还是未接单；自提为已接单
-	                if ($order['extension_code'] == 'storepickup') {
-	                    $order_status = OS_CONFIRMED;
-	                } else {
-	                    //订单对应店铺有没开启自动接单
-	                    if (($orders_auto_confirm == Ecjia\App\Cart\StoreStatus::AUTOCONFIRM) && ($order['extension_code'] !='group_buy')) {
-	                        $order_status = OS_CONFIRMED;
-	                    } else {
-	                        $order_status = OS_UNCONFIRMED;
-	                    }
-	                }
-	                
-	                $data = array(
-	                    'order_status' => $order_status,
-	                    'confirm_time' => $time,
-	                    'pay_status'   => $pay_status,
-	                    'pay_time'     => $time,
-	                    'order_amount' => 0,
-	                );
-	                if($pay_code == 'pay_balance') {
-	                    $data['surplus'] = $order['order_amount'] + $order['money_paid'];
-	                } else {
-	                    $data['money_paid'] = $order['order_amount'] + $order['money_paid'];
-	                }
-	                RC_DB::table('order_info')->where('order_id', $order_id)->update($data);
-	                /* 记录订单操作记录 */
-	                order_action($order_sn, $order_status, SS_UNSHIPPED, $pay_status, '', RC_Lang::get('orders::order.buyers'));
-	            }
-	            
-	            /* 处理余额变动信息 */
-	            if ($order['user_id'] > 0 && $data['surplus'] > 0) {
-	                $options = array(
-	                    'user_id'       => $order['user_id'],
-	                    'user_money'    => $order['order_amount'] * (-1),
-	                    'change_desc'	=> sprintf(RC_Lang::get('orders::order.pay_order'), $order['order_sn'])
-	                );
-	                RC_Api::api('user', 'account_change_log', $options);
-	            }
-	            
-	            RC_Api::api('affiliate', 'invite_reward', array('user_id' => $order['user_id'], 'invite_type' => 'orderpay'));
-	            
-	            
-	            //订单状态log记录区分
-	            if (in_array($order['extension_code'], array('storebuy', 'cashdesk', 'storepickup'))) {
-	                //订单付款成功时
-	                OrderStatusLog::order_paid(array('order_id' => $order_id));
-	                //订单付款成功时同时通知商家
-	                OrderStatusLog::notify_merchant(array('order_id' => $order_id));
-	                //自提订单，默认自动接单状态记录
-	                if ($order['extension_code'] == 'storepickup') {
-	                    OrderStatusLog::orderpaid_autoconfirm(array('order_id' => $order_id));
-	                }
-	            } else {
-	                if ($order['extension_code'] == 'group_buy' && $order['extension_id'] > 0) {
-	                    RC_Loader::load_app_func('admin_goods', 'goods');
-	                    $group_buy = group_buy_info($order['extension_id']);
-	                    if ($group_buy['deposit'] > 0 && empty($order['money_paid'])) {
-	                        //团购订单保证金支付成功
-	                        OrderStatusLog::groupbuy_order_paid(array('order_id' => $order_id));
-	                    } else {
-	                        //订单付款成功时
-	                        OrderStatusLog::order_paid(array('order_id' => $order_id));
-	                    }
-	                }
-	                //订单付款成功时同时通知商家
-	                OrderStatusLog::notify_merchant(array('order_id' => $order_id));
-	                //配送订单且非团购订单；有开启自动接单，状态记录
-	                if (($orders_auto_confirm == Ecjia\App\Cart\StoreStatus::AUTOCONFIRM) && ($order['extension_code'] !='group_buy')) {
-	                    OrderStatusLog::orderpaid_autoconfirm(array('order_id' => $order['order_id']));
-	                }
-	            }
-	            
-	            if (!empty($order['store_id'])) {
-	                
-	                /*门店自提，时发送提货验证码；*/
-	                if ($order['shipping_id'] > 0) {
-	                    Ecjia\App\Orders\SendPickupCode::send_pickup_code($order);
-	                }
-	                
-	                //会员店铺消费过，记录为店铺会员
-	                if (!empty($order['user_id'])) {
-	                    add_storeuser::add_store_user(array('user_id' => $order['user_id'], 'store_id' => $order['store_id']));
-	                    //更新商家会员消费
-	                    RC_Api::api('customer', 'store_user_buy', array('store_id' => $order['store_id'], 'user_id' => $order['user_id']));
-	                }
-	                
-	                /* 打印订单 */
-	                $res = with(new Ecjia\App\Orders\OrderPrint($order_id, $order['store_id']))->doPrint(true);
-	                if (is_ecjia_error($res)) {
-	                    RC_Logger::getLogger('error')->error($res->get_error_message());
-	                }
-	                
-	                /* 客户付款通知（默认通知店长）*/
-	                /* 获取店长的记录*/
-	                $staff_user = RC_DB::table('staff_user')->where('store_id', $order['store_id'])->where('parent_id', 0)->first();
-	                if (!empty($staff_user)) {
-	                    $options = array(
-	                        'user_id'   => $staff_user['user_id'],
-	                        'user_type' => 'merchant',
-	                        'event'     => 'order_payed',
-	                        'value' => array(
-	                            'order_sn'     => $order['order_sn'],
-	                            'consignee'    => $order['consignee'],
-	                            'telephone'    => $order['mobile'],
-	                            'order_amount' => $order['order_amount'],
-	                            'service_phone' => ecjia::config('service_phone'),
-	                        ),
-	                        'field' => array(
-	                            'open_type' => 'admin_message',
-	                        ),
-	                    );
-	                    RC_Api::api('push', 'push_event_send', $options);
-	                    
-	                    /* 通知记录*/
-	                    $orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
-	                    $staff_user_ob = $orm_staff_user_db->find($staff_user['user_id']);
-	                    
-	                    $order_data = array(
-	                        'title'	=> '客户付款',
-	                        'body'	=> '您有一笔新订单，订单号为：'.$order['order_sn'],
-	                        'data'	=> array(
-	                            'order_id'		=> $order['order_id'],
-	                            'order_sn'		=> $order['order_sn'],
-	                            'order_amount'	=> $order['order_amount'],
-	                            'formatted_order_amount' => price_format($order['order_amount']),
-	                            'consignee'		=> $order['consignee'],
-	                            'mobile'		=> $order['mobile'],
-	                            'address'		=> isset($order['address']) ? $order['address'] : '',
-	                            'order_time'	=> RC_Time::local_date(ecjia::config('time_format'), $order['add_time']),
-	                        ),
-	                    );
-	                    $push_order_pay = new OrderPay($order_data);
-	                    RC_Notification::send($staff_user_ob, $push_order_pay);
-	                    
-	                    /* 客户付款短信提醒 */
-	                    if (!empty($staff_user['mobile'])) {
-	                        $options = array(
-	                            'mobile' => $staff_user['mobile'],
-	                            'event'	 => 'sms_order_payed',
-	                            'value'  =>array(
-	                                'order_sn'  	=> $order['order_sn'],
-	                                'consignee' 	=> $order['consignee'],
-	                                'telephone'  	=> $order['mobile'],
-	                                'order_amount'	=> $order['order_amount'],
-	                                'service_phone' => ecjia::config('service_phone'),
-	                            ),
-	                        );
-	                        RC_Api::api('sms', 'send_event_sms', $options);
-	                    }
-	                }
-	                
-	            }
-	            
-	        }//foreach end
-	    }
-	    
-	    
-	    RC_Logger::getLogger('pay')->info('separate_order_pay ok');
-	    return true;
-	}
+        $order_sn = $options['order_sn'];
+
+        /* 取得订单信息 */
+        if (empty($options['order_info'])) {
+            $order_info = RC_Api::api('orders', 'separate_order_info', array('order_sn' => $order_sn));
+        } else {
+            $order_info = $options['order_info'];
+        }
+
+        if (empty($order_info)) {
+            return new ecjia_error('order_not_exists', __('订单不存在', 'orders'));
+        }
+        if (intval($order_info['pay_status']) === PS_PAYED) {
+            return new ecjia_error('order_has_been_paid', __('订单已经支付了', 'orders'));
+        }
+
+        RC_Logger::getLogger('pay')->info('separate_order_paid');
+        RC_Logger::getLogger('pay')->info(json_encode($order_info));
+        /* 改变订单状态 */
+        return $this->order_paid($order_sn, $order_info, PS_PAYED, $options['pay_code']);
+    }
+
+    /**
+     * 修改订单的支付状态
+     *
+     * @access  public
+     * @param   string $log_id 支付编号
+     * @param   integer $pay_status 状态
+     * @return  void
+     */
+    private function order_paid($separate_order_sn, $separate_order, $pay_status = PS_PAYED, $pay_code = '')
+    {
+        RC_Loader::load_app_func('admin_order', 'orders');
+        RC_Loader::load_app_class('OrderStatusLog', 'orders', false);
+        RC_Loader::load_app_class('add_storeuser', 'user', false);
+
+        //主订单 修改订单状态为已完成
+        $time = RC_Time::gmtime();
+        $data = array(
+            'order_status' => OS_CONFIRMED,
+            'confirm_time' => $time,
+            'pay_status'   => $pay_status,
+            'pay_time'     => $time,
+            'order_amount' => 0,
+        );
+        if ($pay_code == 'pay_balance') {
+            $data['surplus'] = $separate_order['order_amount'];
+        } else {
+            $data['money_paid'] = $separate_order['order_amount'];
+        }
+        RC_DB::table('separate_order_info')->where('order_sn', $separate_order_sn)->update($data);
+
+        //子订单
+        $order_list = RC_DB::table('order_info')
+            ->select(RC_DB::raw('*,(goods_amount - discount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee) AS total_fee '))
+            ->where('separate_order_sn', $separate_order_sn)->get();
+
+        if ($order_list) {
+            $time = RC_Time::gmtime();
+
+            foreach ($order_list as $order) {
+                $order_id = $order['order_id'];
+                $order_sn = $order['order_sn'];
+
+
+                $orders_auto_confirm = Ecjia\App\Cart\StoreStatus::StoreOrdersAutoConfirm($order['store_id']);
+                //判断订单类型，到店付款订单修改订单状态和发货状态
+                if (in_array($order['extension_code'], array('storebuy', 'cashdesk'))) {
+                    /* 修改订单状态为已完成 */
+                    $data = array(
+                        'order_status' => OS_CONFIRMED,
+                        'confirm_time' => $time,
+                        'pay_status'   => $pay_status,
+                        'pay_time'     => $time,
+                        'order_amount' => 0,
+                    );
+                    if ($pay_code == 'pay_balance') {
+                        $data['surplus'] = $order['order_amount'];
+                    } else {
+                        $data['money_paid'] = $order['order_amount'];
+                    }
+
+                    RC_DB::table('order_info')->where('order_id', $order_id)->update($data);
+                    /* 记录订单操作记录 */
+                    order_action($order_sn, OS_CONFIRMED, SS_SHIPPED_ING, $pay_status, '', __('买家', 'orders'));
+                } else {
+                    /* 修改订单状态为已付款 */
+                    //配送和团购支付后order_status还是未接单；自提为已接单
+                    if ($order['extension_code'] == 'storepickup') {
+                        $order_status = OS_CONFIRMED;
+                    } else {
+                        //订单对应店铺有没开启自动接单
+                        if (($orders_auto_confirm == Ecjia\App\Cart\StoreStatus::AUTOCONFIRM) && ($order['extension_code'] != 'group_buy')) {
+                            $order_status = OS_CONFIRMED;
+                        } else {
+                            $order_status = OS_UNCONFIRMED;
+                        }
+                    }
+
+                    $data = array(
+                        'order_status' => $order_status,
+                        'confirm_time' => $time,
+                        'pay_status'   => $pay_status,
+                        'pay_time'     => $time,
+                        'order_amount' => 0,
+                    );
+                    if ($pay_code == 'pay_balance') {
+                        $data['surplus'] = $order['order_amount'] + $order['money_paid'];
+                    } else {
+                        $data['money_paid'] = $order['order_amount'] + $order['money_paid'];
+                    }
+                    RC_DB::table('order_info')->where('order_id', $order_id)->update($data);
+                    /* 记录订单操作记录 */
+                    order_action($order_sn, $order_status, SS_UNSHIPPED, $pay_status, '', __('买家', 'orders'));
+                }
+
+                /* 处理余额变动信息 */
+                if ($order['user_id'] > 0 && $data['surplus'] > 0) {
+                    $options = array(
+                        'user_id'     => $order['user_id'],
+                        'user_money'  => $order['order_amount'] * (-1),
+                        'change_desc' => sprintf(__('支付订单 %s', 'orders'), $order['order_sn'])
+                    );
+                    RC_Api::api('user', 'account_change_log', $options);
+                }
+
+                RC_Api::api('affiliate', 'invite_reward', array('user_id' => $order['user_id'], 'invite_type' => 'orderpay'));
+
+
+                //订单状态log记录区分
+                if (in_array($order['extension_code'], array('storebuy', 'cashdesk', 'storepickup'))) {
+                    //订单付款成功时
+                    OrderStatusLog::order_paid(array('order_id' => $order_id));
+                    //订单付款成功时同时通知商家
+                    OrderStatusLog::notify_merchant(array('order_id' => $order_id));
+                    //自提订单，默认自动接单状态记录
+                    if ($order['extension_code'] == 'storepickup') {
+                        OrderStatusLog::orderpaid_autoconfirm(array('order_id' => $order_id));
+                    }
+                } else {
+                    if ($order['extension_code'] == 'group_buy' && $order['extension_id'] > 0) {
+                        RC_Loader::load_app_func('admin_goods', 'goods');
+                        $group_buy = group_buy_info($order['extension_id']);
+                        if ($group_buy['deposit'] > 0 && empty($order['money_paid'])) {
+                            //团购订单保证金支付成功
+                            OrderStatusLog::groupbuy_order_paid(array('order_id' => $order_id));
+                        } else {
+                            //订单付款成功时
+                            OrderStatusLog::order_paid(array('order_id' => $order_id));
+                        }
+                    }
+                    //订单付款成功时同时通知商家
+                    OrderStatusLog::notify_merchant(array('order_id' => $order_id));
+                    //配送订单且非团购订单；有开启自动接单，状态记录
+                    if (($orders_auto_confirm == Ecjia\App\Cart\StoreStatus::AUTOCONFIRM) && ($order['extension_code'] != 'group_buy')) {
+                        OrderStatusLog::orderpaid_autoconfirm(array('order_id' => $order['order_id']));
+                    }
+                }
+
+                if (!empty($order['store_id'])) {
+
+                    /*门店自提，时发送提货验证码；*/
+                    if ($order['shipping_id'] > 0) {
+                        Ecjia\App\Orders\SendPickupCode::send_pickup_code($order);
+                    }
+
+                    //会员店铺消费过，记录为店铺会员
+                    if (!empty($order['user_id'])) {
+                        add_storeuser::add_store_user(array('user_id' => $order['user_id'], 'store_id' => $order['store_id']));
+                        //更新商家会员消费
+                        RC_Api::api('customer', 'store_user_buy', array('store_id' => $order['store_id'], 'user_id' => $order['user_id']));
+                    }
+
+                    /* 打印订单 */
+                    $res = with(new Ecjia\App\Orders\OrderPrint($order_id, $order['store_id']))->doPrint(true);
+                    if (is_ecjia_error($res)) {
+                        RC_Logger::getLogger('error')->error($res->get_error_message());
+                    }
+
+                    /* 客户付款通知（默认通知店长）*/
+                    /* 获取店长的记录*/
+                    $staff_user = RC_DB::table('staff_user')->where('store_id', $order['store_id'])->where('parent_id', 0)->first();
+                    if (!empty($staff_user)) {
+                        $options = array(
+                            'user_id'   => $staff_user['user_id'],
+                            'user_type' => 'merchant',
+                            'event'     => 'order_payed',
+                            'value'     => array(
+                                'order_sn'      => $order['order_sn'],
+                                'consignee'     => $order['consignee'],
+                                'telephone'     => $order['mobile'],
+                                'order_amount'  => $order['order_amount'],
+                                'service_phone' => ecjia::config('service_phone'),
+                            ),
+                            'field'     => array(
+                                'open_type' => 'admin_message',
+                            ),
+                        );
+                        RC_Api::api('push', 'push_event_send', $options);
+
+                        /* 通知记录*/
+                        $orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
+                        $staff_user_ob     = $orm_staff_user_db->find($staff_user['user_id']);
+
+                        $order_data     = array(
+                            'title' => __('客户付款', 'orders'),
+                            'body'  => sprintf(__('您有一笔新订单，订单号为：%s', 'orders'), $order['order_sn']),
+                            'data'  => array(
+                                'order_id'               => $order['order_id'],
+                                'order_sn'               => $order['order_sn'],
+                                'order_amount'           => $order['order_amount'],
+                                'formatted_order_amount' => price_format($order['order_amount']),
+                                'consignee'              => $order['consignee'],
+                                'mobile'                 => $order['mobile'],
+                                'address'                => isset($order['address']) ? $order['address'] : '',
+                                'order_time'             => RC_Time::local_date(ecjia::config('time_format'), $order['add_time']),
+                            ),
+                        );
+                        $push_order_pay = new OrderPay($order_data);
+                        RC_Notification::send($staff_user_ob, $push_order_pay);
+
+                        /* 客户付款短信提醒 */
+                        if (!empty($staff_user['mobile'])) {
+                            $options = array(
+                                'mobile' => $staff_user['mobile'],
+                                'event'  => 'sms_order_payed',
+                                'value'  => array(
+                                    'order_sn'      => $order['order_sn'],
+                                    'consignee'     => $order['consignee'],
+                                    'telephone'     => $order['mobile'],
+                                    'order_amount'  => $order['order_amount'],
+                                    'service_phone' => ecjia::config('service_phone'),
+                                ),
+                            );
+                            RC_Api::api('sms', 'send_event_sms', $options);
+                        }
+                    }
+                }
+            }
+        }
+
+        RC_Logger::getLogger('pay')->info('separate_order_pay ok');
+        return true;
+    }
 }
 
 // end

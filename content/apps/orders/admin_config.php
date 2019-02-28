@@ -84,8 +84,8 @@ class admin_config extends ecjia_admin
     {
         $this->admin_priv('order_manage', ecjia::MSGTYPE_JSON);
 
-        $orders_auto_cancel_time   = !empty($_POST['orders_auto_cancel_time']) ? intval($_POST['orders_auto_cancel_time']) : 0;
-        
+        $orders_auto_cancel_time = !empty($_POST['orders_auto_cancel_time']) ? intval($_POST['orders_auto_cancel_time']) : 0;
+
         ecjia_config::instance()->write_config('orders_auto_cancel_time', $orders_auto_cancel_time);
 
         return $this->showmessage('保存成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('orders/admin_config/init')));

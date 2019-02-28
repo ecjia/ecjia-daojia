@@ -61,12 +61,12 @@ class orders_admin_plugin
             return false;
         }
 
-        $title = __('最新订单');
+        $title = __('最新订单', 'orders');
 
         $order_list = RC_Cache::app_cache_get('admin_dashboard_order_list', 'orders');
         if (!$order_list) {
             $order_query = RC_Loader::load_app_class('order_query', 'orders');
-            $order_list = $order_query->get_order_list(5);
+            $order_list  = $order_query->get_order_list(5);
             RC_Cache::app_cache_set('admin_dashboard_order_list', $order_list, 'orders', 120);
         }
 
@@ -74,9 +74,34 @@ class orders_admin_plugin
         ecjia_admin::$controller->assign('order_count', $order_list['filter']['record_count']);
         ecjia_admin::$controller->assign('order_list', $order_list['orders']);
 
-        ecjia_admin::$controller->assign('lang_os', RC_Lang::get('orders::order.os'));
-        ecjia_admin::$controller->assign('lang_ps', RC_Lang::get('orders::order.ps'));
-        ecjia_admin::$controller->assign('lang_ss', RC_Lang::get('orders::order.ss'));
+        $os = array(
+            OS_UNCONFIRMED   => __(__('未接单', 'orders'), 'orders'),
+            OS_CONFIRMED     => __(__('已接单', 'orders'), 'orders'),
+            OS_CANCELED      => __(__('<font color="red">取消</font>', 'orders'), 'orders'),
+            OS_INVALID       => __(__('<font color="red">无效</font>', 'orders'), 'orders'),
+            OS_RETURNED      => __(__('<font color="red">退货</font>', 'orders'), 'orders'),
+            OS_SPLITED       => __(__('已分单', 'orders'), 'orders'),
+            OS_SPLITING_PART => __(__('部分分单', 'orders'), 'orders'),
+        );
+
+        $ps = array(
+            PS_UNPAYED => __(__('未付款', 'orders'), 'orders'),
+            PS_PAYING  => __(__('付款中', 'orders'), 'orders'),
+            PS_PAYED   => __(__('已付款', 'orders'), 'orders'),
+        );
+
+        $ss = array(
+            SS_UNSHIPPED    => __(__('未发货', 'orders'), 'orders'),
+            SS_PREPARING    => __(__('配货中', 'orders'), 'orders'),
+            SS_SHIPPED      => __(__('已发货', 'orders'), 'orders'),
+            SS_RECEIVED     => __(__('收货确认', 'orders'), 'orders'),
+            SS_SHIPPED_PART => __(__('已发货(部分商品)', 'orders'), 'orders'),
+            SS_SHIPPED_ING  => __(__('发货中', 'orders'), 'orders'),
+        );
+
+        ecjia_admin::$controller->assign('lang_os', $os);
+        ecjia_admin::$controller->assign('lang_ps', $ps);
+        ecjia_admin::$controller->assign('lang_ss', $ss);
 
         ecjia_admin::$controller->assign_lang();
         ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_orderslist.lbi', 'orders'));
@@ -92,12 +117,12 @@ class orders_admin_plugin
         $y = RC_Time::local_date('y');
 
         $start_date = RC_Time::local_mktime(0, 0, 0, $m, $d - 30, $y); //30天前 开始时间
-        $end_date = RC_Time::gmtime(); //当前时间
+        $end_date   = RC_Time::gmtime(); //当前时间
 
-        $data['goods_num'] = RC_DB::table('goods')->where('is_delete', 0)->where('add_time', '>=', $start_date)->count();
-        $data['users_num'] = RC_DB::table('users')->where('reg_time', '>=', $start_date)->count();
+        $data['goods_num']  = RC_DB::table('goods')->where('is_delete', 0)->where('add_time', '>=', $start_date)->count();
+        $data['users_num']  = RC_DB::table('users')->where('reg_time', '>=', $start_date)->count();
         $data['orders_num'] = RC_DB::table('order_info')->where('is_delete', 0)->where('add_time', '>=', $start_date)->count();
-        $data['store_num'] = RC_DB::table('store_franchisee')->where('identity_status', 2)->where('apply_time', '>=', $start_date)->count();
+        $data['store_num']  = RC_DB::table('store_franchisee')->where('identity_status', 2)->where('apply_time', '>=', $start_date)->count();
 
         ecjia_admin::$controller->assign('data', $data);
         ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_shopstats_top.lbi', 'orders'));
@@ -110,7 +135,7 @@ class orders_admin_plugin
         $y = RC_Time::local_date('y');
 
         $start_date = RC_Time::local_mktime(0, 0, 0, $m, $d - 30, $y); //30天前 开始时间
-        $end_date = RC_Time::gmtime(); //当前时间
+        $end_date   = RC_Time::gmtime(); //当前时间
 
         //配送型订单数及总金额
         $data['order_count'] = RC_DB::table('order_info')
@@ -140,21 +165,21 @@ class orders_admin_plugin
             ->count('order_id');
 
         //会员统计
-        $today_start_date = RC_Time::local_mktime(0, 0, 0, $m, $d, $y);
+        $today_start_date  = RC_Time::local_mktime(0, 0, 0, $m, $d, $y);
         $data['today_num'] = RC_DB::table('users')->where('reg_time', '>=', $today_start_date)->count();
 
-        $sevendays_start_date = RC_Time::local_mktime(0, 0, 0, $m, $d - 7, $y);
+        $sevendays_start_date  = RC_Time::local_mktime(0, 0, 0, $m, $d - 7, $y);
         $data['sevendays_num'] = RC_DB::table('users')->where('reg_time', '>=', $sevendays_start_date)->count();
 
-        $thirtydays_start_date = RC_Time::local_mktime(0, 0, 0, $m, $d - 30, $y);
+        $thirtydays_start_date  = RC_Time::local_mktime(0, 0, 0, $m, $d - 30, $y);
         $data['thritydays_num'] = RC_DB::table('users')->where('reg_time', '>=', $thirtydays_start_date)->count();
 
         $data['total_num'] = RC_DB::table('users')->count();
 
         //待处理财务统计
-        $data['recharge_num'] = RC_DB::table('user_account')->where('process_type', 0)->where('is_paid', 0)->count();
-        $data['withdraw_num'] = RC_DB::table('user_account')->where('process_type', 1)->where('is_paid', 0)->count();
-        $data['refund_num'] = RC_DB::table('refund_payrecord')->where('action_back_time', 0)->count();
+        $data['recharge_num']          = RC_DB::table('user_account')->where('process_type', 0)->where('is_paid', 0)->count();
+        $data['withdraw_num']          = RC_DB::table('user_account')->where('process_type', 1)->where('is_paid', 0)->count();
+        $data['refund_num']            = RC_DB::table('refund_payrecord')->where('action_back_time', 0)->count();
         $data['merchant_withdraw_num'] = RC_DB::table('store_account_order')->where('process_type', 'withdraw')->where('status', 1)->count();
 
         ecjia_admin::$controller->assign('data', $data);
@@ -168,7 +193,7 @@ class orders_admin_plugin
         $y = RC_Time::local_date('y');
 
         $start_date = RC_Time::local_mktime(0, 0, 0, $m, $d - 30, $y); //30天前 开始时间
-        $end_date = RC_Time::gmtime(); //当前时间
+        $end_date   = RC_Time::gmtime(); //当前时间
 
         //配送调度统计
         $data['express_count'] = RC_DB::table('express_order')
@@ -180,13 +205,13 @@ class orders_admin_plugin
             ->first();
 
         //促销活动
-        $data['promotion_count'] = RC_DB::table('goods')->where('is_promote', 1)->where('is_delete', 0)->count();
+        $data['promotion_count']  = RC_DB::table('goods')->where('is_promote', 1)->where('is_delete', 0)->count();
         $data['favourable_count'] = RC_DB::table('favourable_activity')->count();
-        $data['groupbuy_count'] = RC_DB::table('goods_activity')->where('act_type', GAT_GROUP_BUY)->count();
-        $data['quickpay_count'] = RC_DB::table('quickpay_activity')->count();
+        $data['groupbuy_count']   = RC_DB::table('goods_activity')->where('act_type', GAT_GROUP_BUY)->count();
+        $data['quickpay_count']   = RC_DB::table('quickpay_activity')->count();
 
         //文章统计情况
-        $today_start_date = RC_Time::local_mktime(0, 0, 0, $m, $d, $y);
+        $today_start_date            = RC_Time::local_mktime(0, 0, 0, $m, $d, $y);
         $data['today_article_count'] = RC_DB::table('article as a')
             ->leftJoin('article_cat as ac', RC_DB::raw('ac.cat_id'), '=', RC_DB::raw('a.cat_id'))
             ->where(RC_DB::raw('a.cat_id'), '!=', '0')->where(RC_DB::raw('ac.cat_type'), 'article')
@@ -230,12 +255,11 @@ class orders_admin_plugin
             return false;
         }
 
-        $title = RC_Lang::get('orders::order.order_stats_info');
-
+        $title = '订单统计信息';
         $order = RC_Cache::app_cache_get('admin_dashboard_order_stats', 'orders');
         if (!$order) {
             $order_query = RC_Loader::load_app_class('order_query', 'orders');
-            $db = RC_Model::model('orders/order_info_model');
+            $db          = RC_Model::model('orders/order_info_model');
 
             /* 已完成的订单 */
             $order['finished'] = $db->where($order_query->order_finished())->count();
@@ -253,11 +277,11 @@ class orders_admin_plugin
             RC_Cache::app_cache_set('admin_dashboard_order_stats', $order, 'orders', 120);
         }
 
-        $status['await_ship'] = CS_AWAIT_SHIP;
-        $status['await_pay'] = CS_AWAIT_PAY;
+        $status['await_ship']   = CS_AWAIT_SHIP;
+        $status['await_pay']    = CS_AWAIT_PAY;
         $status['shipped_part'] = OS_SHIPPED_PART;
-        $status['unconfirmed'] = OS_UNCONFIRMED;
-        $status['finished'] = CS_FINISHED;
+        $status['unconfirmed']  = OS_UNCONFIRMED;
+        $status['finished']     = CS_FINISHED;
 
         ecjia_admin::$controller->assign('title', $title);
         ecjia_admin::$controller->assign('order', $order);
@@ -273,11 +297,11 @@ class orders_admin_plugin
     {
         $menu = array(
             ecjia_admin::make_admin_menu('divider', '', '', 50)->add_purview(array('order_stats', 'guest_stats', 'sale_general_stats', 'users_order_stats', 'sale_list_stats', 'sale_order_stats', 'visit_sold_stats', 'adsense_conversion_stats')),
-            ecjia_admin::make_admin_menu('guest_stats', __('客户统计'), RC_Uri::url('orders/admin_guest_stats/init'), 51)->add_purview('guest_stats'),
-            ecjia_admin::make_admin_menu('sale_general', __('销售概况'), RC_Uri::url('orders/admin_sale_general/init'), 53)->add_purview('sale_general_stats'),
+            ecjia_admin::make_admin_menu('guest_stats', __('客户统计', 'orders'), RC_Uri::url('orders/admin_guest_stats/init'), 51)->add_purview('guest_stats'),
+            ecjia_admin::make_admin_menu('sale_general', __('销售概况', 'orders'), RC_Uri::url('orders/admin_sale_general/init'), 53)->add_purview('sale_general_stats'),
             // ecjia_admin::make_admin_menu('users_order', __('会员排行'), RC_Uri::url('orders/admin_users_order/init'), 54)->add_purview('users_order_stats'),
-            ecjia_admin::make_admin_menu('sale_list', __('销售明细'), RC_Uri::url('orders/admin_sale_list/init'), 55)->add_purview('sale_list_stats'),
-            ecjia_admin::make_admin_menu('sale_order', __('销售排行'), RC_Uri::url('orders/admin_sale_order/init'), 56)->add_purview('sale_order_stats'),
+            ecjia_admin::make_admin_menu('sale_list', __('销售明细', 'orders'), RC_Uri::url('orders/admin_sale_list/init'), 55)->add_purview('sale_list_stats'),
+            ecjia_admin::make_admin_menu('sale_order', __('销售排行', 'orders'), RC_Uri::url('orders/admin_sale_order/init'), 56)->add_purview('sale_order_stats'),
         );
         $menus->add_submenu($menu);
         return $menus;
@@ -286,15 +310,15 @@ class orders_admin_plugin
     public static function admin_remind_order()
     {
         if (isset($_SESSION['action_list']) && ecjia_admin::$controller->admin_priv('order_view', ecjia::MSGTYPE_HTML, false)) {
-            $cache_key = 'admin_remind_order_' . md5($_SESSION['admin_id']);
+            $cache_key    = 'admin_remind_order_' . md5($_SESSION['admin_id']);
             $remind_order = RC_Cache::app_cache_get($cache_key, 'order');
             if (empty($remind_order) || $remind_order['time'] + 5 * 60 < RC_Time::gmtime()) {
                 $remind_order = RC_Api::api('orders', 'remind_order');
                 RC_Cache::app_cache_set($cache_key, array('time' => RC_Time::gmtime(), 'new_orders' => $remind_order['new_orders'], 'new_paid' => $remind_order['new_paid']), 'order', 5);
                 if ($remind_order['new_orders'] > 0 || $remind_order['new_paid'] > 0) {
-                    $url = RC_Uri::url('orders/admin/init');
-                    $html = '新订单通知：您有 <strong style="color:#ff0000">' . $remind_order['new_orders'] .
-                        '</strong> 个新订单以及  <strong style="color:#ff0000">' . $remind_order['new_paid'] . '</strong> 个新付款的订单。<a href="' . $url . '"><span style="color:#ff0000">点击查看</span></a>';
+                    $url  = RC_Uri::url('orders/admin/init');
+                    $html = sprintf(__('新订单通知：您有 <strong style="color:#ff0000">%s</strong> 个新订单以及  <strong style="color:#ff0000">%s</strong> 个新付款的订单。<a href="' . $url . '"><span style="color:#ff0000">点击查看</span></a>', 'orders'), $remind_order['new_orders'], $remind_order['new_paid']);
+
                     RC_Cache::app_cache_set($cache_key, array('time' => RC_Time::gmtime()), 'order', 5);
                     ecjia_notification::make()->register('remind_order',
                         admin_notification::make($html)
@@ -305,12 +329,12 @@ class orders_admin_plugin
             }
         }
     }
-    
+
     public static function append_admin_setting_group($menus)
     {
-    	$menus[] = ecjia_admin::make_admin_menu('nav-header', '订单', '', 122)->add_purview(array('order_manage'));
-    	$menus[] = ecjia_admin::make_admin_menu('orders_setting', '订单设置', RC_Uri::url('orders/admin_config/init'), 123)->add_purview('order_manage');
-    	return $menus;
+        $menus[] = ecjia_admin::make_admin_menu('nav-header', __('订单', 'orders'), '', 122)->add_purview(array('order_manage'));
+        $menus[] = ecjia_admin::make_admin_menu('orders_setting', __('订单设置', 'orders'), RC_Uri::url('orders/admin_config/init'), 123)->add_purview('order_manage');
+        return $menus;
     }
 }
 

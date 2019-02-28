@@ -19,7 +19,7 @@
 <!-- {block name="main_content"} -->
 <div class="alert alert-info">
 	<a class="close" data-dismiss="alert">×</a>
-	<strong>{lang key='orders::statistic.tips'}</strong>{lang key='orders::statistic.order_stats_date'}
+	<strong>温馨提示：</strong>订单统计数据默认显示当年全年统计数据
 </div>
 
 <div>
@@ -167,13 +167,13 @@
 		<div class="tabbable">
 			<ul class="nav nav-tabs">
 				<li class="{if $page eq 'init'}active{/if}">
-					<a class="data-pjax" href='{url path="orders/admin_order_stats/stats"}&store_id={$store_id}&year={$year}{if $month}&month={$month}{/if}'>{lang key='orders::statistic.order_circs'}</a>
+					<a class="data-pjax" href='{url path="orders/admin_order_stats/stats"}&store_id={$store_id}&year={$year}{if $month}&month={$month}{/if}'>订单概况</a>
 				</li>
 				<li class="{if $page eq 'shipping_status'}active{/if}">
-					<a class="data-pjax" href='{url path="orders/admin_order_stats/shipping_status"}&store_id={$store_id}&year={$year}{if $month}&month={$month}{/if}'>{lang key='orders::statistic.shipping_method'}</a>
+					<a class="data-pjax" href='{url path="orders/admin_order_stats/shipping_status"}&store_id={$store_id}&year={$year}{if $month}&month={$month}{/if}'>配送方式</a>
 				</li>
 				<li class="{if $page eq 'pay_status'}active{/if}">
-					<a class="data-pjax" href='{url path="orders/admin_order_stats/pay_status"}&store_id={$store_id}&year={$year}{if $month}&month={$month}{/if}'>{lang key='orders::statistic.pay_method'}</a>
+					<a class="data-pjax" href='{url path="orders/admin_order_stats/pay_status"}&store_id={$store_id}&year={$year}{if $month}&month={$month}{/if}'>支付方式</a>
 				</li>
 			</ul>
 			<form class="form-horizontal">

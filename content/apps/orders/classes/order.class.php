@@ -49,12 +49,14 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  *  订单基类
  */
-abstract class order {
-	/**
+abstract class order
+{
+    /**
      * 构造函数
      */
-    public function __construct() {
-    	
+    public function __construct()
+    {
+
     }
 }
 

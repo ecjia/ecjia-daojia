@@ -66,19 +66,19 @@ var templateCounts = '{$data}';
 					<ul class="nav nav-tabs">
 						<li class="{if $page eq 'init'}active{/if}">
 						<!-- {if $smarty.get.query_by_year} -->
-						<a class="data-pjax" href='{url path="orders/mh_sale_general/init" args="&query_by_year=1{if $smarty.get.year_beginYear}&year_beginYear={$smarty.get.year_beginYear}{/if}{if $smarty.get.year_endYear}&year_endYear={$smarty.get.year_endYear}{/if}"}'>{t}{lang key='orders::order.order_status'}{/t}</a>
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/init" args="&query_by_year=1{if $smarty.get.year_beginYear}&year_beginYear={$smarty.get.year_beginYear}{/if}{if $smarty.get.year_endYear}&year_endYear={$smarty.get.year_endYear}{/if}"}'>{t}订单状态{/t}</a>
 						<!-- {else if $smarty.get.query_by_month} -->
-						<a class="data-pjax" href='{url path="orders/mh_sale_general/init" args="&query_by_month=1{if $smarty.get.month_beginYear}&month_beginYear={$smarty.get.month_beginYear}{/if}{if $smarty.get.month_beginMonth}&month_beginMonth={$smarty.get.month_beginMonth}{/if}{if $smarty.get.month_endYear}&month_endYear={$smarty.get.month_endYear}{/if}{if $smarty.get.month_endMonth}&month_endMonth={$smarty.get.month_endMonth}{/if}"}'>{t}{lang key='orders::order.order_status'}{/t}</a>
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/init" args="&query_by_month=1{if $smarty.get.month_beginYear}&month_beginYear={$smarty.get.month_beginYear}{/if}{if $smarty.get.month_beginMonth}&month_beginMonth={$smarty.get.month_beginMonth}{/if}{if $smarty.get.month_endYear}&month_endYear={$smarty.get.month_endYear}{/if}{if $smarty.get.month_endMonth}&month_endMonth={$smarty.get.month_endMonth}{/if}"}'>{t}订单状态{/t}</a>
 						<!-- {else} -->
-						<a class="data-pjax" href='{url path="orders/mh_sale_general/init"}'>{t}{lang key='orders::statistic.order_status'}{/t}</a>
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/init"}'>{t}{t domain="orders"}订单走势{/t}{/t}</a>
 						<!-- {/if} -->
 						<li class="{if $page eq 'sales_trends'}active{/if}">
 						<!-- {if $smarty.get.query_by_year} -->
-						<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends" args="&query_by_year=1{if $smarty.get.year_beginYear}&year_beginYear={$smarty.get.year_beginYear}{/if}{if $smarty.get.year_endYear}&year_endYear={$smarty.get.year_endYear}{/if}"}'>{t}{lang key='orders::statistic.turnover_status'}{/t}</a>
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends" args="&query_by_year=1{if $smarty.get.year_beginYear}&year_beginYear={$smarty.get.year_beginYear}{/if}{if $smarty.get.year_endYear}&year_endYear={$smarty.get.year_endYear}{/if}"}'>{t}{t domain="orders"}销售额走势{/t}{/t}</a>
 						<!-- {else if $smarty.get.query_by_month} -->
-						<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends" args="&query_by_month=1{if $smarty.get.month_beginYear}&month_beginYear={$smarty.get.month_beginYear}{/if}{if $smarty.get.month_beginMonth}&month_beginMonth={$smarty.get.month_beginMonth}{/if}{if $smarty.get.month_endYear}&month_endYear={$smarty.get.month_endYear}{/if}{if $smarty.get.month_endMonth}&month_endMonth={$smarty.get.month_endMonth}{/if}"}'>{t}{lang key='orders::statistic.turnover_status'}{/t}</a>
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends" args="&query_by_month=1{if $smarty.get.month_beginYear}&month_beginYear={$smarty.get.month_beginYear}{/if}{if $smarty.get.month_beginMonth}&month_beginMonth={$smarty.get.month_beginMonth}{/if}{if $smarty.get.month_endYear}&month_endYear={$smarty.get.month_endYear}{/if}{if $smarty.get.month_endMonth}&month_endMonth={$smarty.get.month_endMonth}{/if}"}'>{t}{t domain="orders"}销售额走势{/t}{/t}</a>
 						<!-- {else} -->
-						<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends"}'>{t}{lang key='orders::statistic.turnover_status'}{/t}</a>
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends"}'>{t}{t domain="orders"}销售额走势{/t}{/t}</a>
 						<!-- {/if} -->
 						</li>
 					</ul>

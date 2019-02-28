@@ -98,7 +98,7 @@
                           <input class="form-control" name="pickup_code" type="text" value=""/>
                           <span class="help-block">请输入用户手机收到的提货验证码</span>
                      </div>
-                     <span class="input-must">{lang key='system::system.require_field'}</span>
+                     <span class="input-must">*</span>
                 </div>          
 				<div class="form-group">
                      <div class="col-lg-offset-2 col-lg-3">

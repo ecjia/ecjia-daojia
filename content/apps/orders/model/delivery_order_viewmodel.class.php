@@ -46,23 +46,25 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class delivery_order_viewmodel extends Component_Model_View {
+class delivery_order_viewmodel extends Component_Model_View
+{
+    public $table_name = '';
+    public $view = array();
 
-	public $table_name = '';
-	public $view = array();
-	public function __construct() {
-		$this->table_name 		= 'delivery_order';
-		$this->table_alias_name	= 'do';
-		
-		$this->view = array(
-				'delivery_goods' => array(
-						'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-						'alias' => 'dg',
-						'on'    => 'do.delivery_id = dg.delivery_id',
-				),
-		);
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        $this->table_name       = 'delivery_order';
+        $this->table_alias_name = 'do';
+
+        $this->view = array(
+            'delivery_goods' => array(
+                'type'  => Component_Model_View::TYPE_LEFT_JOIN,
+                'alias' => 'dg',
+                'on'    => 'do.delivery_id = dg.delivery_id',
+            ),
+        );
+        parent::__construct();
+    }
 }
 
 // end

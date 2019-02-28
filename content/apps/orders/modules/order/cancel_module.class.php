@@ -50,26 +50,28 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 取消订单
  * @author royalwang
  */
-class order_cancel_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-		$user_id = $_SESSION['user_id'];
-		if ($user_id < 1 ) {
-		    return new ecjia_error(100, 'Invalid session');
-		}
-		
-		$order_id = $this->requestData('order_id', 0);
-		if($user_id < 1 || $order_id <1) {
-		    return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
-		}
-		$result = $this->cancel_order($order_id, $user_id);
-		if (!is_ecjia_error($result)) {
-			
-			return array();
-		} else {
-			return $result;
-		}
-	}
+class order_cancel_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
+        $user_id = $_SESSION['user_id'];
+        if ($user_id < 1) {
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+
+        $order_id = $this->requestData('order_id', 0);
+        if ($user_id < 1 || $order_id < 1) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+        }
+        $result = $this->cancel_order($order_id, $user_id);
+        if (!is_ecjia_error($result)) {
+
+            return array();
+        } else {
+            return $result;
+        }
+    }
 
     /**
      * 取消一个用户订单
@@ -81,32 +83,33 @@ class order_cancel_module extends api_front implements api_interface {
      *            用户ID
      * @return void
      */
-    private function cancel_order ($order_id, $user_id = 0) {
+    private function cancel_order($order_id, $user_id = 0)
+    {
         $db = RC_Model::model('orders/order_info_model');
         /* 查询订单信息，检查状态 */
         $order = $db->field('user_id, order_id, order_sn , surplus , integral , bonus_id, order_status, shipping_status, pay_status')->find(array('order_id' => $order_id));
 
         if (empty($order)) {
-            return new ecjia_error('order_exist', RC_Lang::get('orders::order.order_not_exist'));
+            return new ecjia_error('order_exist', __('该订单不存在！', 'orders'));
         }
 
         // 如果用户ID大于0，检查订单是否属于该用户
         if ($user_id > 0 && $order['user_id'] != $user_id) {
-            return new ecjia_error('no_priv', RC_Lang::get('orders::order.no_priv'));
+            return new ecjia_error('no_priv', __('你没有权限操作他人订单', 'orders'));
         }
 
         // 发货状态只能是“未发货”
         if ($order['shipping_status'] != SS_UNSHIPPED) {
-            return new ecjia_error('current_ss_not_cancel', RC_Lang::get('orders::order.current_ss_not_cancel'));
+            return new ecjia_error('current_ss_not_cancel', __('只有在未发货状态下才能取消，你可以与店主联系。', 'orders'));
         }
 
         // 如果付款状态是“已付款”、“付款中”，不允许取消，要取消和商家联系
         if ($order['pay_status'] != PS_UNPAYED) {
-            return new ecjia_error('current_ps_not_cancel', RC_Lang::get('orders::order.current_ps_not_cancel'));
+            return new ecjia_error('current_ps_not_cancel', __('只有未付款状态才能取消，要取消请联系店主。', 'orders'));
         }
-        
-        if ($order['order_status'] == OS_CANCELED){
-        	return new ecjia_error('order_has_canceled', '该订单已取消过了！');
+
+        if ($order['order_status'] == OS_CANCELED) {
+            return new ecjia_error('order_has_canceled', __('该订单已取消过了！', 'orders'));
         }
 
         // 将用户订单设置为取消
@@ -115,39 +118,39 @@ class order_cancel_module extends api_front implements api_interface {
             RC_Loader::load_app_func('admin_order', 'orders');
             //订单取消，如果是下单减库存，还原库存
             if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_PLACE) {
-            	RC_Loader::load_app_class('cart', 'cart', false);
-            	$result = cart::change_order_goods_storage($order['order_id'], false, SDT_PLACE);
-            	if (is_ecjia_error($result)) {
-            		/* 库存不足删除已生成的订单（并发处理） will.chen*/
-            		RC_DB::table('order_info')->where('order_id', $order['order_id'])->delete();
-            		RC_DB::table('order_goods')->where('order_id', $order['order_id'])->delete();
-            		return $result;
-            	}
+                RC_Loader::load_app_class('cart', 'cart', false);
+                $result = cart::change_order_goods_storage($order['order_id'], false, SDT_PLACE);
+                if (is_ecjia_error($result)) {
+                    /* 库存不足删除已生成的订单（并发处理） will.chen*/
+                    RC_DB::table('order_info')->where('order_id', $order['order_id'])->delete();
+                    RC_DB::table('order_goods')->where('order_id', $order['order_id'])->delete();
+                    return $result;
+                }
             }
-            
+
             /* 记录log */
-            order_action($order['order_sn'], OS_CANCELED, $order['shipping_status'], PS_UNPAYED, RC_Lang::get('orders::order.buyer_cancel'), 'buyer');
+            order_action($order['order_sn'], OS_CANCELED, $order['shipping_status'], PS_UNPAYED, __('用户取消', 'orders'), 'buyer');
             /* 退货用户余额、积分、红包 */
             if ($order['user_id'] > 0 && $order['surplus'] > 0) {
                 $options = array(
-                    'user_id'		=> $order['user_id'],
-                    'user_money'	=> $order['surplus'],
-                    'change_desc'	=> sprintf(RC_Lang::get('orders::order.return_surplus_on_cancel'), $order['order_sn'])
+                    'user_id'     => $order['user_id'],
+                    'user_money'  => $order['surplus'],
+                    'change_desc' => sprintf(__('取消订单 %s，退回支付订单时使用的预付款', 'orders'), $order['order_sn'])
                 );
-                $result = RC_Api::api('user', 'account_change_log',$options);
+                $result  = RC_Api::api('user', 'account_change_log', $options);
                 if (is_ecjia_error($result)) {
                     return $result;
                 }
             }
             if ($order['user_id'] > 0 && $order['integral'] > 0) {
                 $options = array(
-                    'user_id'		=> $order['user_id'],
-                    'pay_points'	=> $order['integral'],
-                    'change_desc'	=> sprintf(RC_Lang::get('orders::order.return_integral_order_cancel'), $order['order_sn']),
-                    'from_type'		=> 'ordercancel_back_integral',
-                    'from_value'	=> $order['order_sn']
+                    'user_id'     => $order['user_id'],
+                    'pay_points'  => $order['integral'],
+                    'change_desc' => sprintf(__('取消订单 %s，退回下订单时使用的积分', 'orders'), $order['order_sn']),
+                    'from_type'   => 'ordercancel_back_integral',
+                    'from_value'  => $order['order_sn']
                 );
-                $result = RC_Api::api('user', 'account_change_log', $options);
+                $result  = RC_Api::api('user', 'account_change_log', $options);
                 if (is_ecjia_error($result)) {
                     return $result;
                 }
@@ -164,18 +167,18 @@ class order_cancel_module extends api_front implements api_interface {
 
             /* 修改订单 */
             $arr = array(
-                'bonus_id' => 0,
-                'bonus' => 0,
-                'integral' => 0,
+                'bonus_id'       => 0,
+                'bonus'          => 0,
+                'integral'       => 0,
                 'integral_money' => 0,
-                'surplus' => 0
+                'surplus'        => 0
             );
             update_order($order['order_id'], $arr);
             RC_DB::table('order_status_log')->insert(array(
-                'order_status'	=> RC_Lang::get('orders::order.order_cancel'),
-                'order_id'		=> $order['order_id'],
-                'message'		=> '您的订单已取消成功！',
-                'add_time'		=> RC_Time::gmtime(),
+                'order_status' => __('订单已取消', 'orders'),
+                'order_id'     => $order['order_id'],
+                'message'      => __('您的订单已取消成功！', 'orders'),
+                'add_time'     => RC_Time::gmtime(),
             ));
             return true;
         } else {

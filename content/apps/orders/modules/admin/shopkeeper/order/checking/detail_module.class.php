@@ -50,128 +50,130 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 掌柜查看验单详情
  * @author zrl
  */
-class admin_shopkeeper_order_checking_detail_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+class admin_shopkeeper_order_checking_detail_module extends api_admin implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
 
-		$this->authadminSession();
+        $this->authadminSession();
         if ($_SESSION['staff_id'] <= 0) {
-            return new ecjia_error(100, 'Invalid session');
-        } 
-        
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+
         $pickup_code = $this->requestData('pickup_code');
-        
+
         if (empty($pickup_code)) {
-        	return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
         }
         $order = array();
-        
+
         if (!empty($pickup_code)) {
-        	/*检查提货验证码*/
-        	$db_term_meta = RC_DB::table('term_meta');
-        	$db_term_meta->where('object_type', 'ecjia.order')->where('object_group', 'order')->where('meta_key', 'receipt_verification')->where('meta_value', $pickup_code);
-        	$order_count = $db_term_meta->count();
-        	if ($order_count > 1) {
-        		return new ecjia_error('pickup_code_repeat', '验证码重复，请与管理员联系！');
-        	}
-        	
-        	$pickup_code_info = $db_term_meta->first();
-        	
-        	if (empty($pickup_code_info['object_id']) || empty($pickup_code_info['meta_value'])) {
-        		return new ecjia_error('pickup_code_error', '验证码错误！');
-        	}
-        	
-        	/* 查询订单信息 */
-        	$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $pickup_code_info['object_id'], 'order_sn' => ''));
-        	
-        	if (empty($order_info)) {
-        		return new ecjia_error('order_not_exist', '该验证码对应的订单信息不存在！');
-        	}
-        	if (is_ecjia_error($order_info)) {
-        		return $order_info;
-        	}
-        	if ($order_info['store_id'] != $_SESSION['store_id']) {
-        		return new ecjia_error('order_info_error', '该验证码对应的订单不属于当前商家！');
-        	}
-        	
-        	/* 判断发货情况*/
-        	//if ($order_info['shipping_status'] > SS_UNSHIPPED) {
-        	//	return new ecjia_error('order_already_checked', '该验证码对应的订单已验证提货了！');
-        	//}
-        	
-        	if ($order_info['order_status'] == OS_CANCELED || $order_info['order_status'] == OS_INVALID) {
-        		return new ecjia_error('vinvalid_order', '验证码对应的订单已取消或是无效订单！');
-        	}
-        	
-        	$user_info = RC_DB::table('users')->where('user_id', $order_info['user_id'])->select('user_name', 'mobile_phone')->first();
-        	$total_fee =  $order_info['goods_amount'] 
-        					+ $order_info['tax'] 
-        					+ $order_info['shipping_fee'] 
-        					+ $order_info['insure_fee'] 
-        					+ $order_info['pay_fee'] 
-        					+ $order_info['pack_fee'] 
-        					+ $order_info['card_fee'] 
-        					-$order_info['integral_money']
-        					-$order_info['bonus']
-        					-$order_info['discount'];
-        	
-        	$pickup_status = $order_info['shipping_status'] > SS_UNSHIPPED ? 1 : 0;
-        	$goods_list = array();
-        	$goods_item = RC_DB::table('order_goods as og')->leftJoin('goods as g', RC_DB::raw('og.goods_id'), '=', RC_DB::raw('g.goods_id'))
-        					->where(RC_DB::raw('og.order_id'), $order_info['order_id'])
-        					->select(RC_DB::raw('og.*'), RC_DB::raw('g.goods_thumb'), RC_DB::raw('g.goods_img'), RC_DB::raw('g.original_img'))->get();
-        	
-        	
-        	if (!empty($goods_item)) {
-        		foreach ($goods_item as $row) {
-        			$subtotal = $row['goods_number']*$row['goods_price'];
-        			$goods_list[] = array(
-        					'goods_id' 			=> $row['goods_id'],
-        					'goods_name'		=> $row['goods_name'],
-        					'goods_attr_id' 	=> empty($row['goods_attr_id']) ? '' : $row['goods_attr_id'],
-        					'goods_attr'		=> empty($row['goods_attr']) ? '' : $row['goods_attr'],
-        					'goods_number'		=> $row['goods_number'],
-        					'subtotal'			=> $subtotal,
-        					'formated_subtotal'	=> price_format($subtotal),
-				        	'img' 				=> array(
-					        							'small'	=> !empty($row['goods_thumb']) ? RC_Upload::upload_url($row['goods_thumb']) : '',
-					        							'thumb'	=> !empty($row['goods_img']) ? RC_Upload::upload_url($row['goods_img']) : '',
-					        							'url' 	=> !empty($row['original_img']) ? RC_Upload::upload_url($row['original_img']) : '',
-					        						)
-        			);
-        		}
-        	}
-        	
-        	$order = array(
-        			'order_id' 					=> $order_info['order_id'],
-        			'store_id'					=> $order_info['store_id'],
-        			'order_sn'					=> $order_info['order_sn'],
-        			'user_name'					=> empty($user_info['user_name']) ? '' : $user_info['user_name'],
-        			'mobile'  					=> empty($user_info['mobile_phone']) ? '' : $user_info['mobile_phone'],
-        			'goods_amount' 				=> $order_info['goods_amount'],
-        			'formated_goods_amount'		=> price_format($order_info['goods_amount']),
-        			'money_paid'				=> $order_info['money_paid'],
-        			'formated_money_paid'  		=> price_format($order_info['money_paid']),
-        			'total_fee'					=> $total_fee,
-        			'formated_total_fee'		=> price_format($total_fee),
-        			'integral_money'			=> $order_info['integral_money'],
-        			'formated_integral_money'	=> price_format($order_info['integral_money']),
-        			'bonus'						=> $order_info['bonus'],
-        			'formated_bonus'			=> price_format($order_info['bonus']),
-        			'tax'						=> $order_info['tax'],
-        			'formated_tax'				=> price_format($order_info['tax']),
-        			'discount'					=> $order_info['discount'],
-        			'formated_discount'			=> price_format($order_info['discount']),
-        			'formated_add_time'			=> RC_Time::local_date(ecjia::config('time_format'), $order_info['add_time']),
-        			'pickup_code'				=> $pickup_code_info['meta_value'],
-        			'pickup_status'				=> $pickup_status,
-        			'label_pickup_status'		=> $pickup_status == 1 ? '已提取' : '未提取',
-        			'goods_list'				=> $goods_list,
-        	);
+            /*检查提货验证码*/
+            $db_term_meta = RC_DB::table('term_meta');
+            $db_term_meta->where('object_type', 'ecjia.order')->where('object_group', 'order')->where('meta_key', 'receipt_verification')->where('meta_value', $pickup_code);
+            $order_count = $db_term_meta->count();
+            if ($order_count > 1) {
+                return new ecjia_error('pickup_code_repeat', __('验证码重复，请与管理员联系！', 'orders'));
+            }
+
+            $pickup_code_info = $db_term_meta->first();
+
+            if (empty($pickup_code_info['object_id']) || empty($pickup_code_info['meta_value'])) {
+                return new ecjia_error('pickup_code_error', __('验证码错误！', 'orders'));
+            }
+
+            /* 查询订单信息 */
+            $order_info = RC_Api::api('orders', 'order_info', array('order_id' => $pickup_code_info['object_id'], 'order_sn' => ''));
+
+            if (empty($order_info)) {
+                return new ecjia_error('order_not_exist', __('该验证码对应的订单信息不存在！', 'orders'));
+            }
+            if (is_ecjia_error($order_info)) {
+                return $order_info;
+            }
+            if ($order_info['store_id'] != $_SESSION['store_id']) {
+                return new ecjia_error('order_info_error', __('该验证码对应的订单不属于当前商家！', 'orders'));
+            }
+
+            /* 判断发货情况*/
+            //if ($order_info['shipping_status'] > SS_UNSHIPPED) {
+            //	return new ecjia_error('order_already_checked', '该验证码对应的订单已验证提货了！');
+            //}
+
+            if ($order_info['order_status'] == OS_CANCELED || $order_info['order_status'] == OS_INVALID) {
+                return new ecjia_error('vinvalid_order', __('验证码对应的订单已取消或是无效订单！', 'orders'));
+            }
+
+            $user_info = RC_DB::table('users')->where('user_id', $order_info['user_id'])->select('user_name', 'mobile_phone')->first();
+            $total_fee = $order_info['goods_amount']
+                + $order_info['tax']
+                + $order_info['shipping_fee']
+                + $order_info['insure_fee']
+                + $order_info['pay_fee']
+                + $order_info['pack_fee']
+                + $order_info['card_fee']
+                - $order_info['integral_money']
+                - $order_info['bonus']
+                - $order_info['discount'];
+
+            $pickup_status = $order_info['shipping_status'] > SS_UNSHIPPED ? 1 : 0;
+            $goods_list    = array();
+            $goods_item    = RC_DB::table('order_goods as og')->leftJoin('goods as g', RC_DB::raw('og.goods_id'), '=', RC_DB::raw('g.goods_id'))
+                ->where(RC_DB::raw('og.order_id'), $order_info['order_id'])
+                ->select(RC_DB::raw('og.*'), RC_DB::raw('g.goods_thumb'), RC_DB::raw('g.goods_img'), RC_DB::raw('g.original_img'))->get();
+
+
+            if (!empty($goods_item)) {
+                foreach ($goods_item as $row) {
+                    $subtotal     = $row['goods_number'] * $row['goods_price'];
+                    $goods_list[] = array(
+                        'goods_id'          => $row['goods_id'],
+                        'goods_name'        => $row['goods_name'],
+                        'goods_attr_id'     => empty($row['goods_attr_id']) ? '' : $row['goods_attr_id'],
+                        'goods_attr'        => empty($row['goods_attr']) ? '' : $row['goods_attr'],
+                        'goods_number'      => $row['goods_number'],
+                        'subtotal'          => $subtotal,
+                        'formated_subtotal' => price_format($subtotal),
+                        'img'               => array(
+                            'small' => !empty($row['goods_thumb']) ? RC_Upload::upload_url($row['goods_thumb']) : '',
+                            'thumb' => !empty($row['goods_img']) ? RC_Upload::upload_url($row['goods_img']) : '',
+                            'url'   => !empty($row['original_img']) ? RC_Upload::upload_url($row['original_img']) : '',
+                        )
+                    );
+                }
+            }
+
+            $order = array(
+                'order_id'                => $order_info['order_id'],
+                'store_id'                => $order_info['store_id'],
+                'order_sn'                => $order_info['order_sn'],
+                'user_name'               => empty($user_info['user_name']) ? '' : $user_info['user_name'],
+                'mobile'                  => empty($user_info['mobile_phone']) ? '' : $user_info['mobile_phone'],
+                'goods_amount'            => $order_info['goods_amount'],
+                'formated_goods_amount'   => price_format($order_info['goods_amount']),
+                'money_paid'              => $order_info['money_paid'],
+                'formated_money_paid'     => price_format($order_info['money_paid']),
+                'total_fee'               => $total_fee,
+                'formated_total_fee'      => price_format($total_fee),
+                'integral_money'          => $order_info['integral_money'],
+                'formated_integral_money' => price_format($order_info['integral_money']),
+                'bonus'                   => $order_info['bonus'],
+                'formated_bonus'          => price_format($order_info['bonus']),
+                'tax'                     => $order_info['tax'],
+                'formated_tax'            => price_format($order_info['tax']),
+                'discount'                => $order_info['discount'],
+                'formated_discount'       => price_format($order_info['discount']),
+                'formated_add_time'       => RC_Time::local_date(ecjia::config('time_format'), $order_info['add_time']),
+                'pickup_code'             => $pickup_code_info['meta_value'],
+                'pickup_status'           => $pickup_status,
+                'label_pickup_status'     => $pickup_status == 1 ? __('已提取', 'orders') : __('未提取', 'orders'),
+                'goods_list'              => $goods_list,
+            );
         }
-        
-        
-		return $order;
-	}
+
+
+        return $order;
+    }
 }
 
 // end

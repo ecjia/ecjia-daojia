@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 use Ecjia\System\Notifications\OrderPay;
+
 defined('IN_ECJIA') or exit('No permission resources.');
 
 
@@ -53,190 +54,194 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * @deprecated 1.8.0 此接口已经废弃了
  * @author royalwang
  */
-class orders_order_paid_api extends Component_Event_Api {
-	
+class orders_order_paid_api extends Component_Event_Api
+{
+
     /**
-     * @param  $options['log_id'] 支付日志ID
+     * @param  $options ['log_id'] 支付日志ID
      *         $options['money'] 支付金额
      *         $options['pay_status'] 支付状态
      *         $options['note'] 支付备注（非必须）
      *
      * @return array
      */
-	public function call(&$options) {
-	    if (!is_array($options) 
-	        || !isset($options['log_id']) 
-	        || !isset($options['money']) 
-	        || !isset($options['pay_status'])) {
-	        return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
-	    }
+    public function call(&$options)
+    {
+        if (!is_array($options)
+            || !isset($options['log_id'])
+            || !isset($options['money'])
+            || !isset($options['pay_status'])) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+        }
 
-	    /* 检查支付的金额是否相符 */
-	    if (!$this->check_money($options['log_id'], $options['money'])) {
-	        return new ecjia_error('check_money_fail', RC_Lang::get('orders::order.check_money_fail'));
-	    }
-	    
-	    if (in_array($options['pay_status'], array(PS_UNPAYED, PS_PAYING, PS_PAYED)) && $options['pay_status'] == PS_PAYED) {
-	        /* 改变订单状态 */
-	        $this->order_paid($options['log_id'], PS_PAYED, $options['note']);
-	        return true;
-	    }
-		
-		return false;
-	}
-	
-	/**
-	 * 检查支付的金额是否与订单相符
-	 *
-	 * @access  public
-	 * @param   string   $log_id      支付编号
-	 * @param   float    $money       支付接口返回的金额
-	 * @return  true
-	 */
-	private function check_money($log_id, $money) {
-	    if (is_numeric($log_id)) {
-	        $amount = RC_DB::table('pay_log')->where('log_id', $log_id)->pluck('order_amount');
-	    } else {
-	        return false;
-	    }
-	     
-	    if ($money == $amount) {
-	        return true;
-	    } else {
-	        return false;
-	    }
-	}
-	
-	
-	/**
-	 * 修改订单的支付状态
-	 *
-	 * @access  public
-	 * @param   string  $log_id     支付编号
-	 * @param   integer $pay_status 状态
-	 * @param   string  $note       备注
-	 * @return  void
-	 */
-	private function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
-	    RC_Loader::load_app_func('admin_order', 'orders');
-	    /* 取得支付编号 */
-	    $log_id = intval($log_id);
-	    if ($log_id > 0) {
-	        /* 取得要修改的支付记录信息 */
-	        $pay_log = RC_DB::table('pay_log')->where('log_id', $log_id)->first();
-	        
-	        if ($pay_log && $pay_log['is_paid'] == 0) {
-	            /* 修改此次支付操作的状态为已付款 */
-	            RC_DB::table('pay_log')->where('log_id', $log_id)->update(array('is_paid' => 1));
-	            
-	            /* 根据记录类型做相应处理 */
-	            if ($pay_log['order_type'] == PAY_ORDER) {
-	                /* 取得订单信息 */
-	            	$order = RC_DB::table('order_info')->select('order_id', 'store_id', 'user_id', 'order_sn', 'consignee', 'address', 'tel', 'mobile', 'shipping_id', 'extension_code', 'extension_id', 'goods_amount', 'order_amount', 'add_time')
-						->where('order_id', $pay_log['order_id'])->first();
-	                
-	                $order_id = $order['order_id'];
-	                $order_sn = $order['order_sn'];
-	                
-	                /* 修改订单状态为已付款 */
-	                $data = array(
-	                    'order_status' => OS_CONFIRMED,
-	                    'confirm_time' => RC_Time::gmtime(),
-	                    'pay_status'   => $pay_status,
-	                    'pay_time'     => RC_Time::gmtime(),
-	                    'money_paid'   => $order['order_amount'],
-	                    'order_amount' => 0,
-	                );
-	                RC_DB::table('order_info')->where('order_id', $order_id)->update($data);
-	                
-	                //会员店铺消费过，记录为店铺会员
-	                if (!empty($order['user_id'])) {
-	                	if (!empty($order['store_id'])) {
-	                		RC_Loader::load_app_class('add_storeuser', 'user', false);
-	                		add_storeuser::add_store_user(array('user_id' => $order['user_id'], 'store_id' => $order['store_id']));
-	                	}
-	                }
-	                
-	                /* 记录订单操作记录 */
-	                order_action($order_sn, OS_CONFIRMED, SS_UNSHIPPED, $pay_status, '', RC_Lang::get('orders::order.buyers'));
-	                //订单付款成功时
-	                OrderStatusLog::order_paid(array('order_id' => $order_id));
-	                //订单付款成功时同时通知商家
-	                OrderStatusLog::notify_merchant(array('order_id' => $order_id));
-	                
-	                /*门店自提，时发送提货验证码；*/
-	                if ($order['shipping_id'] > 0) {
-	                	Ecjia\App\Orders\SendPickupCode::send_pickup_code($order);
-	                }
-	           		
-	                /* 客户付款通知（默认通知店长）*/
-	                /* 获取店长的记录*/
-	                $staff_user = RC_DB::table('staff_user')->where('store_id', $order['store_id'])->where('parent_id', 0)->first();
-	                
-	                if (!empty($staff_user)) {
+        /* 检查支付的金额是否相符 */
+        if (!$this->check_money($options['log_id'], $options['money'])) {
+            return new ecjia_error('check_money_fail', __('支付的金额有误', 'orders'));
+        }
 
-	                	$options = array(
-	                			'user_id'   => $staff_user['user_id'],
-	                			'user_type' => 'merchant',
-	                			'event'     => 'order_payed',
-	                			'value' => array(
-                					'order_sn'     => $order['order_sn'],
-                					'consignee'    => $order['consignee'],
-                					'telephone'    => $order['mobile'],
-                					'order_amount' => $order['order_amount'],
-                					'service_phone'=> ecjia::config('service_phone'),
-	                			),
-	                			'field' => array(
-	                				'open_type' => 'admin_message',
-	                			),
-	                	);
-	                	RC_Api::api('push', 'push_event_send', $options);
-	                }
-	                
-            		/* 通知记录*/
-            		$orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
-            		$staff_user_ob = $orm_staff_user_db->find($staff_user['user_id']);
-            
-            		$order_data = array(
-        				'title'	=> '客户付款',
-        				'body'	=> '您有一笔新订单，订单号为：'.$order['order_sn'],
-        				'data'	=> array(
-        					'order_id'		=> $order['order_id'],
-        					'order_sn'		=> $order['order_sn'],
-        					'order_amount'	=> $order['order_amount'],
-        					'formatted_order_amount' => price_format($order['order_amount']),
-        					'consignee'		=> $order['consignee'],
-        					'mobile'		=> $order['mobile'],
-        					'address'		=> $order['address'],
-        					'order_time'	=> RC_Time::local_date(ecjia::config('time_format'), $order['add_time']),
-        				),
-            		);
-            
-            		$push_order_pay = new OrderPay($order_data);
-            		RC_Notification::send($staff_user_ob, $push_order_pay);
-	                
-	                
-	                /* 客户付款短信提醒 */
-	                if (!empty($staff_user['mobile'])) {
-	                    //发送短信
-	                	$options = array(
-                			'mobile' => $staff_user['mobile'],
-                			'event'	 => 'sms_order_payed',
-                			'value'  =>array(
-                				'order_sn'  	=> $order['order_sn'],
-            					'consignee' 	=> $order['consignee'],
-            					'telephone'  	=> $order['mobile'],
-            					'order_amount'	=> $order['order_amount'],
-            					'service_phone' => ecjia::config('service_phone'),
-                			),
-	                	);
-	                	RC_Api::api('sms', 'send_event_sms', $options);
-	                }
+        if (in_array($options['pay_status'], array(PS_UNPAYED, PS_PAYING, PS_PAYED)) && $options['pay_status'] == PS_PAYED) {
+            /* 改变订单状态 */
+            $this->order_paid($options['log_id'], PS_PAYED, $options['note']);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 检查支付的金额是否与订单相符
+     *
+     * @access  public
+     * @param   string $log_id 支付编号
+     * @param   float $money 支付接口返回的金额
+     * @return  true
+     */
+    private function check_money($log_id, $money)
+    {
+        if (is_numeric($log_id)) {
+            $amount = RC_DB::table('pay_log')->where('log_id', $log_id)->pluck('order_amount');
+        } else {
+            return false;
+        }
+
+        if ($money == $amount) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * 修改订单的支付状态
+     *
+     * @access  public
+     * @param   string $log_id 支付编号
+     * @param   integer $pay_status 状态
+     * @param   string $note 备注
+     * @return  void
+     */
+    private function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
+    {
+        RC_Loader::load_app_func('admin_order', 'orders');
+        /* 取得支付编号 */
+        $log_id = intval($log_id);
+        if ($log_id > 0) {
+            /* 取得要修改的支付记录信息 */
+            $pay_log = RC_DB::table('pay_log')->where('log_id', $log_id)->first();
+
+            if ($pay_log && $pay_log['is_paid'] == 0) {
+                /* 修改此次支付操作的状态为已付款 */
+                RC_DB::table('pay_log')->where('log_id', $log_id)->update(array('is_paid' => 1));
+
+                /* 根据记录类型做相应处理 */
+                if ($pay_log['order_type'] == PAY_ORDER) {
+                    /* 取得订单信息 */
+                    $order = RC_DB::table('order_info')->select('order_id', 'store_id', 'user_id', 'order_sn', 'consignee', 'address', 'tel', 'mobile', 'shipping_id', 'extension_code', 'extension_id', 'goods_amount', 'order_amount', 'add_time')
+                        ->where('order_id', $pay_log['order_id'])->first();
+
+                    $order_id = $order['order_id'];
+                    $order_sn = $order['order_sn'];
+
+                    /* 修改订单状态为已付款 */
+                    $data = array(
+                        'order_status' => OS_CONFIRMED,
+                        'confirm_time' => RC_Time::gmtime(),
+                        'pay_status'   => $pay_status,
+                        'pay_time'     => RC_Time::gmtime(),
+                        'money_paid'   => $order['order_amount'],
+                        'order_amount' => 0,
+                    );
+                    RC_DB::table('order_info')->where('order_id', $order_id)->update($data);
+
+                    //会员店铺消费过，记录为店铺会员
+                    if (!empty($order['user_id'])) {
+                        if (!empty($order['store_id'])) {
+                            RC_Loader::load_app_class('add_storeuser', 'user', false);
+                            add_storeuser::add_store_user(array('user_id' => $order['user_id'], 'store_id' => $order['store_id']));
+                        }
+                    }
+
+                    /* 记录订单操作记录 */
+                    order_action($order_sn, OS_CONFIRMED, SS_UNSHIPPED, $pay_status, '', __('买家', 'orders'));
+                    //订单付款成功时
+                    OrderStatusLog::order_paid(array('order_id' => $order_id));
+                    //订单付款成功时同时通知商家
+                    OrderStatusLog::notify_merchant(array('order_id' => $order_id));
+
+                    /*门店自提，时发送提货验证码；*/
+                    if ($order['shipping_id'] > 0) {
+                        Ecjia\App\Orders\SendPickupCode::send_pickup_code($order);
+                    }
+
+                    /* 客户付款通知（默认通知店长）*/
+                    /* 获取店长的记录*/
+                    $staff_user = RC_DB::table('staff_user')->where('store_id', $order['store_id'])->where('parent_id', 0)->first();
+
+                    if (!empty($staff_user)) {
+
+                        $options = array(
+                            'user_id'   => $staff_user['user_id'],
+                            'user_type' => 'merchant',
+                            'event'     => 'order_payed',
+                            'value'     => array(
+                                'order_sn'      => $order['order_sn'],
+                                'consignee'     => $order['consignee'],
+                                'telephone'     => $order['mobile'],
+                                'order_amount'  => $order['order_amount'],
+                                'service_phone' => ecjia::config('service_phone'),
+                            ),
+                            'field'     => array(
+                                'open_type' => 'admin_message',
+                            ),
+                        );
+                        RC_Api::api('push', 'push_event_send', $options);
+                    }
+
+                    /* 通知记录*/
+                    $orm_staff_user_db = RC_Model::model('express/orm_staff_user_model');
+                    $staff_user_ob     = $orm_staff_user_db->find($staff_user['user_id']);
+
+                    $order_data = array(
+                        'title' => __('客户付款', 'orders'),
+                        'body'  => sprintf(__('您有一笔新订单，订单号为：%s', 'orders'), $order['order_sn']),
+                        'data'  => array(
+                            'order_id'               => $order['order_id'],
+                            'order_sn'               => $order['order_sn'],
+                            'order_amount'           => $order['order_amount'],
+                            'formatted_order_amount' => price_format($order['order_amount']),
+                            'consignee'              => $order['consignee'],
+                            'mobile'                 => $order['mobile'],
+                            'address'                => $order['address'],
+                            'order_time'             => RC_Time::local_date(ecjia::config('time_format'), $order['add_time']),
+                        ),
+                    );
+
+                    $push_order_pay = new OrderPay($order_data);
+                    RC_Notification::send($staff_user_ob, $push_order_pay);
+
+
+                    /* 客户付款短信提醒 */
+                    if (!empty($staff_user['mobile'])) {
+                        //发送短信
+                        $options = array(
+                            'mobile' => $staff_user['mobile'],
+                            'event'  => 'sms_order_payed',
+                            'value'  => array(
+                                'order_sn'      => $order['order_sn'],
+                                'consignee'     => $order['consignee'],
+                                'telephone'     => $order['mobile'],
+                                'order_amount'  => $order['order_amount'],
+                                'service_phone' => ecjia::config('service_phone'),
+                            ),
+                        );
+                        RC_Api::api('sms', 'send_event_sms', $options);
+                    }
 
                 } elseif ($pay_log['order_type'] == PAY_SURPLUS) {
-                	
+
                     $res_id = RC_DB::table('user_account')->select('id')->where('id', $pay_log['order_id'])->where('is_paid', 1)->first();
-                    
+
                     if (empty($res_id)) {
                         /* 更新会员预付款的到款状态 */
                         $data = array(
@@ -244,16 +249,16 @@ class orders_order_paid_api extends Component_Event_Api {
                             'is_paid'   => 1
                         );
                         RC_DB::table('user_account')->where('id', $pay_log['order_id'])->update($data);
-                        
+
                         /* 取得添加预付款的用户以及金额 */
                         $arr = RC_DB::table('user_account')->select('user_id', 'order_sn', 'amount')->where('id', $pay_log['order_id'])->first();
-                        
+
                         /* 修改会员帐户金额 */
                         $options = array(
-                        	'user_id'		=> $arr['user_id'],
-                        	'user_money'	=> $arr['amount'],
-                        	'change_desc'	=> RC_Lang::get('orders::order.surplus_type_0'),
-                        	'change_type'	=> ACT_SAVING
+                            'user_id'     => $arr['user_id'],
+                            'user_money'  => $arr['amount'],
+                            'change_desc' => __('充值', 'orders'),
+                            'change_type' => ACT_SAVING
                         );
                         RC_Api::api('user', 'account_change_log', $options);
                     }

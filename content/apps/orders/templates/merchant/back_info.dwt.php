@@ -24,7 +24,7 @@
 					<div class="panel-heading">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
                                 <h4 class="panel-title">
-                                    <strong>{lang key='orders::order.base_info'}</strong>
+                                    <strong>基本信息</strong>
                                 </h4>
                             </a>
                      </div>
@@ -32,21 +32,21 @@
 						<table class="table table-oddtd m_b0">
 							<tbody class="first-td-no-leftbd">
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.return_time'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="orders"}退货时间：{/t}</strong></div></td>
 								<td >{$back_order.formated_return_time}</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_invoice_no'}</strong></div></td>
+								<td><div align="right"><strong>运单编号：</strong></div></td>
 								<td colspan="3">{$back_order.invoice_no}</td>
 							</tr>
 
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.delivery_sn_number'}</strong></div></td>
+								<td><div align="right"><strong>发货单流水号：</strong></div></td>
 								<td>{$back_order.delivery_sn}</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_shipping_time'}</strong></div></td>
+								<td><div align="right"><strong>发货时间：</strong></div></td>
 								<td>{$back_order.formated_update_time}</td>
 							</tr>
 
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_order_sn'}</strong></div></td>
+								<td><div align="right"><strong>订单号：</strong></div></td>
 								<td>
 									<a href='{url path="orders/merchant/info" args="order_sn={$back_order.order_sn}"}'>{$back_order.order_sn}</a>
 									{if $back_order.extension_code eq "group_buy"}
@@ -55,39 +55,39 @@
 									<!-- <a href="exchange_goods.php?act=edit&id={$back_order.extension_id}">{$lang.exchange_goods}</a> -->
 									{/if}
 								</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_time'}</strong></div></td>
+								<td><div align="right"><strong>下单时间：</strong></div></td>
 								<td>{$back_order.formated_add_time}</td>
 							</tr>
 
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.print_buy_name'}</strong></div></td>
-								<td>{$back_order.user_name|default:{lang key='orders::order.anonymous'}}</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_how_oos'}</strong></div></td>
+								<td><div align="right"><strong>购货人：</strong></div></td>
+								<td>{$back_order.user_name}</td>
+								<td><div align="right"><strong>缺货处理：</strong></div></td>
 								<td>{$back_order.how_oos}</td>
 							</tr>
 
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_shipping'}</strong></div></td>
+								<td><div align="right"><strong>配送方式：</strong></div></td>
 								<td>
 									{if $exist_real_goods}
 									{if $back_order.shipping_id gt 0}
 									{$back_order.shipping_name}
 									{else}
-									{lang key='system::system.require_field'}
+									*
 									{/if}
 									{if $back_order.insure_fee gt 0}
-									{lang key='orders::order.label_insure_fee'}{$back_order.formated_insure_fee}
+									保价费用：{$back_order.formated_insure_fee}
 									{/if}
 									{/if}
 								</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_shipping_fee'}</strong></div></td>
+								<td><div align="right"><strong>配送费用：</strong></div></td>
 								<td>{$back_order.shipping_fee}</td>
 							</tr>
 
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_insure_yn'}</strong></div></td>
-								<td>{if $insure_yn}{lang key='system::system.yes'}{else}{lang key='system::system.no'}{/if}</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_insure_fee'}</strong></div></td>
+								<td><div align="right"><strong>是否保价：</strong></div></td>
+								<td>{if $insure_yn}是{else}否{/if}</td>
+								<td><div align="right"><strong>保价费用：</strong></div></td>
 								<td>{$back_order.insure_fee|default:0.00}</td>
 							</tr>
 							</tbody>
@@ -99,7 +99,7 @@
 					<div class="panel-heading">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
                                 <h4 class="panel-title">
-                                    <strong>{lang key='orders::order.buyer_info'}</strong>
+                                    <strong>{t domain="orders"}购货人信息{/t}</strong>
                                 </h4>
                             </a>
                     </div>
@@ -107,31 +107,31 @@
 						<table class="table table-oddtd m_b0">
 							<tbody class="first-td-no-leftbd">
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_consignee'}</strong></div></td>
+								<td><div align="right"><strong>收货人：</strong></div></td>
 								<td>{$back_order.consignee|escape}</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_email'}</strong></div></td>
+								<td><div align="right"><strong>电子邮件：</strong></div></td>
 								<td>{$back_order.email}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_address'}</strong></div></td>
+								<td><div align="right"><strong>地址：</strong></div></td>
 								<td>[{$back_order.region}] {$back_order.address|escape}</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_zipcode'}</strong></div></td>
+								<td><div align="right"><strong>邮编：</strong></div></td>
 								<td>{$back_order.zipcode|escape}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_tel'}</strong></div></td>
+								<td><div align="right"><strong>电话：</strong></div></td>
 								<td>{$back_order.tel}</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_mobile'}</strong></div></td>
+								<td><div align="right"><strong>手机：</strong></div></td>
 								<td>{$back_order.mobile|escape}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_sign_building'}</strong></div></td>
+								<td><div align="right"><strong>标志性建筑：</strong></div></td>
 								<td>{$back_order.sign_building|escape}</td>
-								<td><div align="right"><strong>{lang key='orders::order.label_best_time'}</strong></div></td>
+								<td><div align="right"><strong>最佳送货时间：</strong></div></td>
 								<td>{$back_order.best_time|escape}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.label_postscript'}</strong></div></td>
+								<td><div align="right"><strong>客户给商家的留言：</strong></div></td>
 								<td colspan="3">{$back_order.postscript}</td>
 							</tr>
 							</tbody>
@@ -143,7 +143,7 @@
 					<div class="panel-heading">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
                                 <h4 class="panel-title">
-                                    <strong>{lang key='orders::order.goods_info'}</strong>
+                                    <strong>商品信息</strong>
                                 </h4>
                             </a>
                     </div>
@@ -151,11 +151,11 @@
 						<table class="table table-striped m_b0 order-table-list">
 							<tbody>
 							<tr class="table-list">
-								<td>{lang key='orders::order.goods_name_brand'}</td>
-								<td>{lang key='orders::order.goods_sn'}</td>
-								<td>{lang key='orders::order.product_sn'}</td>
-								<td>{lang key='orders::order.goods_attr'}</td>
-								<td>{lang key='orders::order.label_send_number'}</td>
+								<td>商品名称 [ 品牌 ]</td>
+								<td>货号</td>
+								<td>货品号</td>
+								<td>属性</td>
+								<td>发货数量</td>
 							</tr>
 							<!-- {foreach from=$goods_list item=goods} -->
 							<tr class="table-list">
@@ -178,7 +178,7 @@
 					<div class="panel-heading">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
                                 <h4 class="panel-title">
-                                    <strong>{lang key='orders::order.action_info'}</strong>
+                                    <strong>操作信息</strong>
                                 </h4>
                             </a>
                     </div>
@@ -186,7 +186,7 @@
 						<table class="table table-oddtd m_b0">
 							<tbody class="first-td-no-leftbd">
 							<tr>
-								<td><div align="right"><strong>{lang key='orders::order.action_user'}</strong></div></td>
+								<td><div align="right"><strong>操作者：</strong></div></td>
 							    <td>{$back_order.action_user}</td>
 							</tr>
 							</tbody>

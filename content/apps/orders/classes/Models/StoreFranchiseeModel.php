@@ -50,29 +50,29 @@ use Royalcms\Component\Database\Eloquent\Model;
 
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class StoreFranchiseeModel extends Model 
+class StoreFranchiseeModel extends Model
 {
-	protected $table = 'store_franchisee';
-	
-	protected $primaryKey = 'store_id';
-	
-	/**
-	 * 可以被批量赋值的属性。
-	 *
-	 * @var array
-	 */
-	protected $fillable = [
-	    
-	];
-	
-	/**
-	 * 该模型是否被自动维护时间戳
-	 *
-	 * @var bool
-	 */
-	public $timestamps = false;
-	
-	
+    protected $table = 'store_franchisee';
+
+    protected $primaryKey = 'store_id';
+
+    /**
+     * 可以被批量赋值的属性。
+     *
+     * @var array
+     */
+    protected $fillable = [
+
+    ];
+
+    /**
+     * 该模型是否被自动维护时间戳
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+
 }
 
 // end

@@ -49,49 +49,52 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 拒单
  */
-class orders_order_auto_refuse_api extends Component_Event_Api {
+class orders_order_auto_refuse_api extends Component_Event_Api
+{
     /**
-     * @param  $options['order_sn'] 订单编号
+     * @param  $options ['order_sn'] 订单编号
      * @return bool
      */
-	public function call(&$options) {
-	    if (!is_array($options) || !isset($options['order_sn'])) {
-	        return new ecjia_error('invalid_parameter', '调用api文件,order_auto_refuse,参数错误');
-	    }
-		return $this->refuse_order($options['order_sn']);
-	}
+    public function call(&$options)
+    {
+        if (!is_array($options) || !isset($options['order_sn'])) {
+            return new ecjia_error('invalid_parameter', __('调用api文件order_auto_refuse参数错误', 'orders'));
+        }
+        return $this->refuse_order($options['order_sn']);
+    }
 
-	/**
-	 * 拒单处理
-	 * @param   int	 $order_id   订单id
-	 * @return  bool
-	 */
-	private function refuse_order($order_sn = '') {
-		if (!empty($order_sn)) {
-			$time = RC_Time::gmtime();
-			$order_info = RC_Api::api('orders', 'order_info', array('order_sn' => $order_sn));
-			if (is_ecjia_error($order_info)) {
-				return $order_info;
-			}
-			if (!empty($order_info)) {
-				$pay_code = RC_DB::table('payment')->where('pay_id', $order_info['pay_id'])->pluck('pay_code');
-				if ($order_info['order_status'] == OS_UNCONFIRMED) {
-					if ($pay_code == 'pay_cod' && $order_info['pay_status'] == PS_UNPAYED) {
-						RC_DB::table('order_info')->where('order_id', $order_info['order_id'])->update(array('order_status' => OS_CANCELED));
-						RC_DB::table('order_status_log')->insert(array(
-							'order_status'	=> RC_Lang::get('orders::order.order_cancel'),
-							'order_id'		=> $order_info['order_id'],
-							'message'		=> '订单已取消！',
-							'add_time'		=> RC_Time::gmtime()
-						));
-					} elseif ($order_info['pay_status'] == PS_PAYED) {
-						Ecjia\App\Orders\OrderAutoRefuse::AutoRejectOrder($order_info);
-					}
-				}
-			}
-		}
-		return true;
-	}
+    /**
+     * 拒单处理
+     * @param   int $order_id 订单id
+     * @return  bool
+     */
+    private function refuse_order($order_sn = '')
+    {
+        if (!empty($order_sn)) {
+            $time       = RC_Time::gmtime();
+            $order_info = RC_Api::api('orders', 'order_info', array('order_sn' => $order_sn));
+            if (is_ecjia_error($order_info)) {
+                return $order_info;
+            }
+            if (!empty($order_info)) {
+                $pay_code = RC_DB::table('payment')->where('pay_id', $order_info['pay_id'])->pluck('pay_code');
+                if ($order_info['order_status'] == OS_UNCONFIRMED) {
+                    if ($pay_code == 'pay_cod' && $order_info['pay_status'] == PS_UNPAYED) {
+                        RC_DB::table('order_info')->where('order_id', $order_info['order_id'])->update(array('order_status' => OS_CANCELED));
+                        RC_DB::table('order_status_log')->insert(array(
+                            'order_status' => __('订单已取消', 'orders'),
+                            'order_id'     => $order_info['order_id'],
+                            'message'      => __('订单已取消！', 'orders'),
+                            'add_time'     => RC_Time::gmtime()
+                        ));
+                    } elseif ($order_info['pay_status'] == PS_PAYED) {
+                        Ecjia\App\Orders\OrderAutoRefuse::AutoRejectOrder($order_info);
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }
 
 // end

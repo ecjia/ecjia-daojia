@@ -48,8 +48,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * 返回商家某个订单可执行的操作列表，包括权限判断
- * @param   array   $order      订单信息 order_status, shipping_status, pay_status
- * @param   bool    $is_cod     支付方式是否货到付款
+ * @param   array $order 订单信息 order_status, shipping_status, pay_status
+ * @param   bool $is_cod 支付方式是否货到付款
  * @return  array   可执行的操作  confirm, pay, unpay, prepare, ship, unship, receive, cancel, invalid, return, drop
  * 格式 array('confirm' => true, 'pay' => true)
  */
@@ -64,7 +64,7 @@ function merchant_operable_list($order)
     if ($actions == 'all') {
         $priv_list = array('os' => true, 'ss' => true, 'ps' => true, 'edit' => true);
     } else {
-        $actions = ',' . $actions . ',';
+        $actions   = ',' . $actions . ',';
         $priv_list = array('os' => strpos($actions, ',order_os_edit,') !== false, 'ss' => strpos($actions, ',order_ss_edit,') !== false, 'ps' => strpos($actions, ',order_ps_edit,') !== false, 'edit' => strpos($actions, ',order_edit,') !== false);
     }
     /* 取得订单支付方式是否货到付款 */
@@ -81,7 +81,7 @@ function merchant_operable_list($order)
                 $list['cancel'] = true;
             }
             if (PS_PAYED == $ps || $is_cod) {
-                $list['confirm'] = true;
+                $list['confirm']   = true;
                 $list['unconfirm'] = true; //拒单
             }
             // 取消
@@ -123,8 +123,8 @@ function merchant_operable_list($order)
                         $list['split'] = true;
                         // 分单
 
-                        $list['to_delivery'] = true;
-                        $list['return'] = true;
+                        $list['to_delivery']   = true;
+                        $list['return']        = true;
                         $list['after_service'] = true;
                     }
                 } else {
@@ -175,7 +175,7 @@ function merchant_operable_list($order)
                     if (SS_UNSHIPPED == $ss) {
                         $list['prepare'] = true;
                         // 配货
-                        $list['return'] = true;
+                        $list['return']      = true;
                         $list['to_delivery'] = true;
                     }
                     $list['split'] = true;
@@ -289,13 +289,13 @@ function get_merchant_back_list()
     $args = $_GET;
     /* 过滤信息 */
     $filter['delivery_sn'] = empty($args['delivery_sn']) ? '' : trim($args['delivery_sn']);
-    $filter['order_sn'] = empty($args['order_sn']) ? '' : trim($args['order_sn']);
-    $filter['order_id'] = empty($args['order_id']) ? 0 : intval($args['order_id']);
-    $filter['consignee'] = empty($args['consignee']) ? '' : trim($args['consignee']);
-    $filter['sort_by'] = empty($args['sort_by']) ? 'update_time' : trim($args['sort_by']);
-    $filter['sort_order'] = empty($args['sort_order']) ? 'DESC' : trim($args['sort_order']);
-    $filter['keywords'] = empty($args['keywords']) ? '' : trim($args['keywords']);
-    $db_back_order = RC_DB::table('back_order as bo')->leftJoin('order_info as oi', RC_DB::raw('bo.order_id'), '=', RC_DB::raw('oi.order_id'));
+    $filter['order_sn']    = empty($args['order_sn']) ? '' : trim($args['order_sn']);
+    $filter['order_id']    = empty($args['order_id']) ? 0 : intval($args['order_id']);
+    $filter['consignee']   = empty($args['consignee']) ? '' : trim($args['consignee']);
+    $filter['sort_by']     = empty($args['sort_by']) ? 'update_time' : trim($args['sort_by']);
+    $filter['sort_order']  = empty($args['sort_order']) ? 'DESC' : trim($args['sort_order']);
+    $filter['keywords']    = empty($args['keywords']) ? '' : trim($args['keywords']);
+    $db_back_order         = RC_DB::table('back_order as bo')->leftJoin('order_info as oi', RC_DB::raw('bo.order_id'), '=', RC_DB::raw('oi.order_id'));
     isset($_SESSION['store_id']) ? $db_back_order->where(RC_DB::raw('bo.store_id'), $_SESSION['store_id']) : '';
     $where = array();
     if ($filter['keywords']) {
@@ -311,7 +311,7 @@ function get_merchant_back_list()
         $db_back_order->where(RC_DB::raw('bo.delivery_sn'), 'like', '%' . mysql_like_quote($filter['delivery_sn']) . '%');
     }
     /* 记录总数 */
-    $count = RC_DB::table('back_order as bo')->leftJoin('order_info as oi', RC_DB::raw('bo.order_id'), '=', RC_DB::raw('oi.order_id'))->count();
+    $count                  = RC_DB::table('back_order as bo')->leftJoin('order_info as oi', RC_DB::raw('bo.order_id'), '=', RC_DB::raw('oi.order_id'))->count();
     $filter['record_count'] = $count;
     //加载分页类
     RC_Loader::load_sys_class('ecjia_page', false);
@@ -323,12 +323,12 @@ function get_merchant_back_list()
         /* 格式化数据 */
         foreach ($row as $key => $value) {
             $row[$key]['return_time'] = RC_Time::local_date(ecjia::config('time_format'), $value['return_time']);
-            $row[$key]['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $value['add_time']);
+            $row[$key]['add_time']    = RC_Time::local_date(ecjia::config('time_format'), $value['add_time']);
             $row[$key]['update_time'] = RC_Time::local_date(ecjia::config('time_format'), $value['update_time']);
             if ($value['status'] == 1) {
-                $row[$key]['status_name'] = RC_Lang::get('orders::order.delivery_status.1');
+                $row[$key]['status_name'] = '退货';
             } else {
-                $row[$key]['status_name'] = RC_Lang::get('orders::order.delivery_status.0');
+                $row[$key]['status_name'] = __(__('已发货', 'orders'), 'orders');
             }
         }
     }
@@ -350,12 +350,12 @@ function get_merchant_delivery_list()
     $args = $_GET;
     /* 过滤信息 */
     $filter['delivery_sn'] = empty($args['delivery_sn']) ? '' : trim($args['delivery_sn']);
-    $filter['order_sn'] = empty($args['order_sn']) ? '' : trim($args['order_sn']);
-    $filter['order_id'] = empty($args['order_id']) ? 0 : intval($args['order_id']);
-    $filter['consignee'] = empty($args['consignee']) ? '' : trim($args['consignee']);
-    $filter['sort_by'] = empty($args['sort_by']) ? 'update_time' : trim($args['sort_by']);
-    $filter['sort_order'] = empty($args['sort_order']) ? 'DESC' : trim($args['sort_order']);
-    $filter['keywords'] = empty($args['keywords']) ? '' : trim($args['keywords']);
+    $filter['order_sn']    = empty($args['order_sn']) ? '' : trim($args['order_sn']);
+    $filter['order_id']    = empty($args['order_id']) ? 0 : intval($args['order_id']);
+    $filter['consignee']   = empty($args['consignee']) ? '' : trim($args['consignee']);
+    $filter['sort_by']     = empty($args['sort_by']) ? 'update_time' : trim($args['sort_by']);
+    $filter['sort_order']  = empty($args['sort_order']) ? 'DESC' : trim($args['sort_order']);
+    $filter['keywords']    = empty($args['keywords']) ? '' : trim($args['keywords']);
     if ($filter['order_sn']) {
         $db_delivery_order->where(RC_DB::raw('do.order_sn'), 'like', '%' . mysql_like_quote($filter['order_sn']) . '%');
     }
@@ -390,13 +390,13 @@ function get_merchant_delivery_list()
         $delivery_status = $args['type'];
     }
     if ($delivery_status == 0) {
-        $count = $type_count['already_shipped'];
+        $count                  = $type_count['already_shipped'];
         $filter['record_count'] = $count;
     } elseif ($delivery_status == 1) {
-        $count = $type_count['op_return'];
+        $count                  = $type_count['op_return'];
         $filter['record_count'] = $count;
     } elseif ($delivery_status == 2) {
-        $count = $type_count['normal'];
+        $count                  = $type_count['normal'];
         $filter['record_count'] = $count;
     }
     /* 查询 */
@@ -405,7 +405,7 @@ function get_merchant_delivery_list()
         $status = 0;
     }
     $page = new ecjia_merchant_page($count, 15, 3);
-    $row = $db_delivery_order->select(
+    $row  = $db_delivery_order->select(
         'delivery_id', 'delivery_sn', 'action_user',
         RC_DB::raw('do.consignee'), RC_DB::raw('do.country'), RC_DB::raw('do.province'), RC_DB::raw('do.city'), RC_DB::raw('do.district'),
         RC_DB::raw('do.tel'), RC_DB::raw('do.status'), RC_DB::raw('do.update_time'), RC_DB::raw('do.email'),
@@ -419,14 +419,14 @@ function get_merchant_delivery_list()
     /* 格式化数据 */
     if (!empty($row)) {
         foreach ($row as $key => $value) {
-            $row[$key]['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $value['add_time']);
+            $row[$key]['add_time']    = RC_Time::local_date(ecjia::config('time_format'), $value['add_time']);
             $row[$key]['update_time'] = RC_Time::local_date(ecjia::config('time_format'), $value['update_time']);
             if ($value['status'] == 1) {
-                $row[$key]['status_name'] = RC_Lang::get('orders::order.delivery_status.1');
+                $row[$key]['status_name'] = '退货';
             } elseif ($value['status'] == 2) {
-                $row[$key]['status_name'] = RC_Lang::get('orders::order.delivery_status.2');
+                $row[$key]['status_name'] = '正常';
             } else {
-                $row[$key]['status_name'] = RC_Lang::get('orders::order.delivery_status.0');
+                $row[$key]['status_name'] = __(__('已发货', 'orders'), 'orders');
             }
         }
     }
@@ -440,55 +440,55 @@ function get_merchant_delivery_list()
 function get_merchant_order_count()
 {
     $keywords = trim($_GET['keywords']);
-    $db = RC_Loader::load_app_model('order_info_viewmodel', 'orders');
+    $db       = RC_Loader::load_app_model('order_info_viewmodel', 'orders');
     $db->view = array(
         'order_goods' => array(
-            'type' => Component_Model_View::TYPE_LEFT_JOIN,
+            'type'  => Component_Model_View::TYPE_LEFT_JOIN,
             'alias' => 'g',
-            'on' => 'oi.order_id = g.order_id',
+            'on'    => 'oi.order_id = g.order_id',
         ),
     );
 
-    $t = RC_Time::gmtime();
+    $t          = RC_Time::gmtime();
     $start_time = RC_Time::local_mktime(0, 0, 0, RC_Time::local_date("m", $t), RC_Time::local_date("d", $t), RC_Time::local_date("Y", $t)); //当天开始时间
-    $end_time = RC_Time::local_mktime(23, 59, 59, RC_Time::local_date("m", $t), RC_Time::local_date("d", $t), RC_Time::local_date("Y", $t)); //当天结束时间
+    $end_time   = RC_Time::local_mktime(23, 59, 59, RC_Time::local_date("m", $t), RC_Time::local_date("d", $t), RC_Time::local_date("Y", $t)); //当天结束时间
 
     $array = array('oi.store_id' => $_SESSION['store_id'], 'oi.add_time' => array('gt' => $start_time, 'lt' => $end_time), 'oi.is_delete' => 0);
     if (!empty($keywords)) {
         $array[] = "(oi.order_sn like '%" . mysql_like_quote($keywords) . "%' or oi.consignee like '%" . mysql_like_quote($keywords) . "%')";
     }
-    $order_all = $db->field('oi.order_id')
+    $order_all    = $db->field('oi.order_id')
         ->where($array)
         ->group('oi.order_id')
         ->select();
     $today['all'] = count($order_all);
 
-    $order_query = RC_Loader::load_app_class('merchant_order_query', 'orders');
-    $await_pay = $db->field('oi.order_id')
+    $order_query        = RC_Loader::load_app_class('merchant_order_query', 'orders');
+    $await_pay          = $db->field('oi.order_id')
         ->where(array_merge($order_query->order_await_pay('oi.'), $array))
         ->group('oi.order_id')
         ->select();
     $today['await_pay'] = count($await_pay);
 
-    $await_confirm = $db->field('oi.order_id')
+    $await_confirm          = $db->field('oi.order_id')
         ->where(array_merge($order_query->order_unconfirmed('oi.'), $array))
         ->group('oi.order_id')
         ->select();
     $today['await_confirm'] = count($await_confirm);
 
-    $payed = $db->field('oi.order_id')
+    $payed          = $db->field('oi.order_id')
         ->where(array_merge($order_query->order_payed('oi.'), $array))
         ->group('oi.order_id')
         ->select();
     $today['payed'] = count($payed);
 
-    $await_ship = $db->field('oi.order_id')
+    $await_ship          = $db->field('oi.order_id')
         ->where(array_merge($order_query->order_await_ship('oi.'), $array))
         ->group('oi.order_id')
         ->select();
     $today['await_ship'] = count($await_ship);
 
-    $order_finished = $db->field('oi.order_id')
+    $order_finished          = $db->field('oi.order_id')
         ->where(array_merge($order_query->order_finished('oi.'), $array))
         ->group('oi.order_id')
         ->select();

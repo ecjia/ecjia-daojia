@@ -49,12 +49,12 @@ defined('IN_ECJIA') or exit('No permission resources.');
 use Royalcms\Component\Notifications\Notifiable;
 use Royalcms\Component\Database\Eloquent\Model;
 
-class orm_users_model extends Model 
+class orm_users_model extends Model
 {
     use Notifiable;
-    
-	protected $table = 'users';
-	protected $primaryKey = 'user_id';
+
+    protected $table = 'users';
+    protected $primaryKey = 'user_id';
 
 }
 

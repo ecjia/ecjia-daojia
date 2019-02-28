@@ -50,61 +50,61 @@ use Royalcms\Component\Database\Eloquent\Model;
 
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class OrdersModel extends Model 
+class OrdersModel extends Model
 {
-	protected $table = 'order_info';
-	
-	protected $primaryKey = 'order_id';
-	
-	/**
-	 * 可以被批量赋值的属性。
-	 *
-	 * @var array
-	 */
-	protected $fillable = [
-	    
-	];
-	
-	/**
-	 * 该模型是否被自动维护时间戳
-	 *
-	 * @var bool
-	 */
-	public $timestamps = false;
-	
-	
-	/**
-	 * 获取订单的商品。
-	 */
-	public function orderGoods()
-	{
-	    return $this->hasMany('Ecjia\App\Orders\Models\OrderGoodsModel', 'order_id', 'order_id');
-	}
-	
-	/**
-	 * 获取订单的所属的商家。
-	 */
-	public function store()
-	{
-	    return $this->belongsTo('Ecjia\App\Orders\Models\StoreFranchiseeModel', 'store_id', 'store_id');
-	}
-	
-	/**
-	 * 获取订单的支付方式。
-	 */
-	public function payment()
-	{
-	    return $this->belongsTo('Ecjia\App\Payment\PaymentPlugin', 'pay_id', 'pay_id');
-	}
-	
-	/**
-	 * 获取订单的评价。
-	 */
-	public function comment()
-	{
-	    return $this->belongsTo('Ecjia\App\Orders\Models\CommentModel', 'order_id', 'order_id');
-	}
-	
+    protected $table = 'order_info';
+
+    protected $primaryKey = 'order_id';
+
+    /**
+     * 可以被批量赋值的属性。
+     *
+     * @var array
+     */
+    protected $fillable = [
+
+    ];
+
+    /**
+     * 该模型是否被自动维护时间戳
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+
+    /**
+     * 获取订单的商品。
+     */
+    public function orderGoods()
+    {
+        return $this->hasMany('Ecjia\App\Orders\Models\OrderGoodsModel', 'order_id', 'order_id');
+    }
+
+    /**
+     * 获取订单的所属的商家。
+     */
+    public function store()
+    {
+        return $this->belongsTo('Ecjia\App\Orders\Models\StoreFranchiseeModel', 'store_id', 'store_id');
+    }
+
+    /**
+     * 获取订单的支付方式。
+     */
+    public function payment()
+    {
+        return $this->belongsTo('Ecjia\App\Payment\PaymentPlugin', 'pay_id', 'pay_id');
+    }
+
+    /**
+     * 获取订单的评价。
+     */
+    public function comment()
+    {
+        return $this->belongsTo('Ecjia\App\Orders\Models\CommentModel', 'order_id', 'order_id');
+    }
+
 }
 
 // end

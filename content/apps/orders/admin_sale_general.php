@@ -45,11 +45,14 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 销售概况
-*/
-class admin_sale_general extends ecjia_admin {
-    public function __construct() {
+ */
+class admin_sale_general extends ecjia_admin
+{
+    public function __construct()
+    {
         parent::__construct();
         RC_Loader::load_app_func('global', 'orders');
         /* 加载所有全局 js/css */
@@ -69,83 +72,93 @@ class admin_sale_general extends ecjia_admin {
         RC_Script::localize_script('sale_general', 'js_lang', RC_Lang::get('orders::statistic.js_lang'));
         RC_Script::localize_script('sale_general_chart', 'js_lang', RC_Lang::get('orders::statistic.js_lang'));
     }
+
     /**
      * 显示统计信息
      */
-    public function init() {
+    public function init()
+    {
         /*权限判断 */
         $this->admin_priv('sale_general_stats');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('orders::statistic.report_sell')));
-        ecjia_screen::get_current_screen()->add_help_tab(array('id' => 'overview', 'title' => RC_Lang::get('orders::statistic.overview'), 'content' => '<p>' . RC_Lang::get('orders::statistic.sale_general_help') . '</p>'));
-        ecjia_screen::get_current_screen()->set_help_sidebar('<p><strong>' . RC_Lang::get('orders::statistic.more_info') . '</strong></p>' . '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:销售概况" target="_blank">' . RC_Lang::get('orders::statistic.about_sale_general') . '</a>') . '</p>');
-        $this->assign('ur_here', RC_Lang::get('orders::statistic.report_sell'));
-        $this->assign('action_link', array('text' => RC_Lang::get('orders::statistic.down_sales_stats'), 'href' => RC_Uri::url('orders/admin_sale_general/download')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('销售概况'));
+        ecjia_screen::get_current_screen()->add_help_tab(array('id' => 'overview', 'title' => '概述', 'content' => '<p>' . '欢迎访问ECJia智能后台销售概况页面，系统中所有的销售概况信息都会显示在此页面中。' . '</p>'));
+        ecjia_screen::get_current_screen()->set_help_sidebar('<p><strong>' . '更多信息：' . '</strong></p>' . '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:销售概况" target="_blank">' . '关于销售概况帮助文档' . '</a>') . '</p>');
+
+        $this->assign('ur_here', '销售概况');
+        $this->assign('action_link', array('text' => '销售概况报表下载', 'href' => RC_Uri::url('orders/admin_sale_general/download')));
         $this->assign('page', 'init');
         $this->assign('form_action', RC_Uri::url('orders/admin_sale_general/init'));
+
         $order_type = !empty($_GET['order_type']) ? intval($_GET['order_type']) : 1;
-        $data = $this->get_order_status($order_type);
+        $data       = $this->get_order_status($order_type);
+
         $this->assign('data', $data['item']);
         $this->assign('filter', $data['filter']);
+
         $this->display('sale_general.dwt');
     }
+
     /**
      * 显示销售额走势
      */
-    public function sales_trends() {
+    public function sales_trends()
+    {
         /*权限判断 */
         $this->admin_priv('sale_general_stats');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('orders::statistic.report_sell')));
-        ecjia_screen::get_current_screen()->add_help_tab(array('id' => 'overview', 'title' => RC_Lang::get('orders::statistic.overview'), 'content' => '<p>' . RC_Lang::get('orders::statistic.sale_general_help') . '</p>'));
-        ecjia_screen::get_current_screen()->set_help_sidebar('<p><strong>' . RC_Lang::get('orders::statistic.more_info') . '</strong></p>' . '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:销售概况" target="_blank">' . RC_Lang::get('orders::statistic.about_sale_general') . '</a>') . '</p>');
-        $this->assign('ur_here', RC_Lang::get('orders::statistic.report_sell'));
-        $this->assign('action_link', array('text' => RC_Lang::get('orders::statistic.down_sales_stats'), 'href' => RC_Uri::url('orders/admin_sale_general/download')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('销售概况'));
+        ecjia_screen::get_current_screen()->add_help_tab(array('id' => 'overview', 'title' => '概述', 'content' => '<p>' . '欢迎访问ECJia智能后台销售概况页面，系统中所有的销售概况信息都会显示在此页面中。' . '</p>'));
+        ecjia_screen::get_current_screen()->set_help_sidebar('<p><strong>' . '更多信息：' . '</strong></p>' . '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:销售概况" target="_blank">' . '关于销售概况帮助文档' . '</a>') . '</p>');
+        $this->assign('ur_here', '销售概况');
+        $this->assign('action_link', array('text' => '销售概况报表下载', 'href' => RC_Uri::url('orders/admin_sale_general/download')));
         $this->assign('page', 'sales_trends');
         $this->assign('form_action', RC_Uri::url('orders/admin_sale_general/sales_trends'));
         $order_type = !empty($_GET['order_type']) ? intval($_GET['order_type']) : 0;
-        $data = $this->get_order_status($order_type);
+        $data       = $this->get_order_status($order_type);
         $this->assign('data', $data['item']);
         $this->assign('filter', $data['filter']);
         $this->display('sale_general.dwt');
     }
+
     /**
      * 获取销售概况图表数据
      */
-    private function get_order_status($order_type) {
-    	if (empty($_GET['query_type'])) {
-    		$query_type = 'month';
-    		$start_year = RC_Time::local_date('Y')-3;
-    		$end_year = RC_Time::local_date('Y');
-    		$start_month = '';
-    		$end_month = '';
-    	}
-    	if ($_GET['query_by_year']) {
-    		$query_type = 'year';
-    		$start_year = intval($_GET['year_beginYear']);
-    		$end_year = intval($_GET['year_endYear']);
-    		$start_month = '';
-    		$end_month = '';
-    	} elseif ($_GET['query_by_month']) {
-    		$start_year = intval($_GET['month_beginYear']);
-    		$end_year = intval($_GET['month_endYear']);
-    		$start_month = intval($_GET['month_beginMonth']);
-    		$end_month = intval($_GET['month_endMonth']);
-    	}
-    	$filter['start_time'] = $filter['start_month_time'] = getTimestamp($start_year, $start_month)['start'];
-    	$filter['end_time'] = $filter['end_month_time'] = getTimestamp($end_year, $end_month)['end'];
-    	
+    private function get_order_status($order_type)
+    {
+        if (empty($_GET['query_type'])) {
+            $query_type  = 'month';
+            $start_year  = RC_Time::local_date('Y') - 3;
+            $end_year    = RC_Time::local_date('Y');
+            $start_month = '';
+            $end_month   = '';
+        }
+        if ($_GET['query_by_year']) {
+            $query_type  = 'year';
+            $start_year  = intval($_GET['year_beginYear']);
+            $end_year    = intval($_GET['year_endYear']);
+            $start_month = '';
+            $end_month   = '';
+        } elseif ($_GET['query_by_month']) {
+            $start_year  = intval($_GET['month_beginYear']);
+            $end_year    = intval($_GET['month_endYear']);
+            $start_month = intval($_GET['month_beginMonth']);
+            $end_month   = intval($_GET['month_endMonth']);
+        }
+        $filter['start_time'] = $filter['start_month_time'] = getTimestamp($start_year, $start_month)['start'];
+        $filter['end_time']   = $filter['end_month_time'] = getTimestamp($end_year, $end_month)['end'];
+
         if ($query_type == 'year') {
             /*时间参数*/
             $start_time = $filter['start_time'];
-            $end_time = $filter['end_time'];
+            $end_time   = $filter['end_time'];
         } else {
             $start_time = $filter['start_month_time'];
-            $end_time = $filter['end_month_time'];
+            $end_time   = $filter['end_month_time'];
         }
-        
+
         $format = $query_type == 'year' ? '%Y' : '%Y-%m';
-        $where = "(order_status = '" . OS_CONFIRMED . "' OR order_status >= '" . OS_SPLITED . "' ) AND ( pay_status = '" . PS_PAYED . "' OR pay_status = '" . PS_PAYING . "') AND (shipping_status = '" . SS_SHIPPED . "' OR shipping_status = '" . SS_RECEIVED . "' ) ";
+        $where  = "(order_status = '" . OS_CONFIRMED . "' OR order_status >= '" . OS_SPLITED . "' ) AND ( pay_status = '" . PS_PAYED . "' OR pay_status = '" . PS_PAYING . "') AND (shipping_status = '" . SS_SHIPPED . "' OR shipping_status = '" . SS_RECEIVED . "' ) ";
 //         AND (shipping_time >= ' " . $start_time . "' AND shipping_time <= '" . $end_time . "')
-        $where .= " AND is_delete = 0";
+        $where         .= " AND is_delete = 0";
         $templateCount = RC_DB::table('order_info')->select(RC_DB::raw("DATE_FORMAT(FROM_UNIXTIME(add_time+3600*8), '" . $format . "') AS period, COUNT(*) AS order_count, SUM(goods_amount + tax + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee - discount) AS order_amount"))
             ->whereRaw($where)->groupby('period')->get();
         if ($order_type == 1) {
@@ -165,59 +178,61 @@ class admin_sale_general extends ecjia_admin {
                 $templateCount = null;
             }
         }
-        $filter['start_time'] = RC_Time::local_date('Y-m-d', $filter['start_time']);
-        $filter['end_time'] = RC_Time::local_date('Y-m-d', $filter['end_time']);
+        $filter['start_time']       = RC_Time::local_date('Y-m-d', $filter['start_time']);
+        $filter['end_time']         = RC_Time::local_date('Y-m-d', $filter['end_time']);
         $filter['start_month_time'] = RC_Time::local_date('Y-m-d', $filter['start_month_time']);
-        $filter['end_month_time'] = RC_Time::local_date('Y-m-d', $filter['end_month_time']);
-        $filter['query_type'] = $query_type;
+        $filter['end_month_time']   = RC_Time::local_date('Y-m-d', $filter['end_month_time']);
+        $filter['query_type']       = $query_type;
         return array('item' => json_encode($templateCount), 'filter' => $filter);
     }
+
     /**
      * 下载EXCEL报表
      */
-    public function download() {
+    public function download()
+    {
         /* 权限判断 */
         $this->admin_priv('sale_general_stats', ecjia::MSGTYPE_JSON);
-       		
-		//默认查询时间
-		$query_type = 'month';
-		$start_year = RC_Time::local_date('Y')-3;
-		$end_year = RC_Time::local_date('Y');
-		$start_month = '';
-		$end_month = '';
-		//按年查询
-		if ($_GET['query_by_year']) {
-			$query_type = 'year';
-			$start_year = intval($_GET['year_beginYear']);
-			$end_year = intval($_GET['year_endYear']);
-			$start_month = '';
-			$end_month = '';
-		//按月查询
-		} elseif ($_GET['query_by_month']) {
-			$start_year = intval($_GET['month_beginYear']);
-			$end_year = intval($_GET['month_endYear']);
-			$start_month = intval($_GET['month_beginMonth']);
-			$end_month = intval($_GET['month_endMonth']);
-		}
-		$start_time = getTimestamp($start_year, $start_month)['start'];
-		$end_time = getTimestamp($end_year, $end_month)['end'];
-		
+
+        //默认查询时间
+        $query_type  = 'month';
+        $start_year  = RC_Time::local_date('Y') - 3;
+        $end_year    = RC_Time::local_date('Y');
+        $start_month = '';
+        $end_month   = '';
+        //按年查询
+        if ($_GET['query_by_year']) {
+            $query_type  = 'year';
+            $start_year  = intval($_GET['year_beginYear']);
+            $end_year    = intval($_GET['year_endYear']);
+            $start_month = '';
+            $end_month   = '';
+            //按月查询
+        } elseif ($_GET['query_by_month']) {
+            $start_year  = intval($_GET['month_beginYear']);
+            $end_year    = intval($_GET['month_endYear']);
+            $start_month = intval($_GET['month_beginMonth']);
+            $end_month   = intval($_GET['month_endMonth']);
+        }
+        $start_time = getTimestamp($start_year, $start_month)['start'];
+        $end_time   = getTimestamp($end_year, $end_month)['end'];
+
         $query_type = $_GET['query_type'];
         /* 分组统计订单数和销售额：已发货时间为准 */
-        $format = $query_type == 'year' ? '%Y' : '%Y-%m';
-        $where = " (order_status = '" . OS_CONFIRMED . "' OR order_status >= '" . OS_SPLITED . "' ) AND ( pay_status = '" . PS_PAYED . "' OR pay_status = '" . PS_PAYING . "') AND (shipping_status = '" . SS_SHIPPED . "' OR shipping_status = '" . SS_RECEIVED . "' ) AND (shipping_time >= ' " . $start_time . "' AND shipping_time <= '" . $end_time . "'  )";
-        $where .= " AND is_delete = 0";
+        $format    = $query_type == 'year' ? '%Y' : '%Y-%m';
+        $where     = " (order_status = '" . OS_CONFIRMED . "' OR order_status >= '" . OS_SPLITED . "' ) AND ( pay_status = '" . PS_PAYED . "' OR pay_status = '" . PS_PAYING . "') AND (shipping_status = '" . SS_SHIPPED . "' OR shipping_status = '" . SS_RECEIVED . "' ) AND (shipping_time >= ' " . $start_time . "' AND shipping_time <= '" . $end_time . "'  )";
+        $where     .= " AND is_delete = 0";
         $data_list = RC_DB::table('order_info')->select(RC_DB::raw("DATE_FORMAT(FROM_UNIXTIME(shipping_time), '" . $format . "') AS period, COUNT(*) AS order_count, SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee - discount) AS order_amount"))->whereRaw($where)->groupby('period')->get();
         /* 文件名 */
-        $filename = mb_convert_encoding(RC_Lang::get('orders::statistic.sales_statistics') . '_' . $_GET['start_time'] . '至' . $_GET['end_time'], "GBK", "UTF-8");
+        $filename = mb_convert_encoding('销售统计' . '_' . $_GET['start_time'] . '至' . $_GET['end_time'], "GBK", "UTF-8");
         header("Content-type: application/vnd.ms-excel; charset=utf-8");
         header("Content-Disposition: attachment; filename={$filename}.xls");
         /* 文件标题 */
-        echo mb_convert_encoding(RC_Lang::get('orders::statistic.sales_statistics'), "GBK", "UTF-8") . "\t\n";
+        echo mb_convert_encoding('销售统计', "GBK", "UTF-8") . "\t\n";
         /* 订单数量, 销售出商品数量, 销售金额 */
-        echo mb_convert_encoding(RC_Lang::get('orders::statistic.period'), "GBK", "UTF-8") . "\t";
-        echo mb_convert_encoding(RC_Lang::get('orders::statistic.order_count_trend'), "GBK", "UTF-8") . "\t";
-        echo mb_convert_encoding(RC_Lang::get('orders::statistic.order_amount_trend'), "GBK", "UTF-8") . "\t\n";
+        echo mb_convert_encoding('时间段', "GBK", "UTF-8") . "\t";
+        echo mb_convert_encoding('订单数(单位：个)', "GBK", "UTF-8") . "\t";
+        echo mb_convert_encoding('营业额(单位：元)', "GBK", "UTF-8") . "\t\n";
         if (!empty($data_list)) {
             foreach ($data_list as $data) {
                 echo mb_convert_encoding($data['period'], "GBK", "UTF-8") . "\t";

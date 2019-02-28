@@ -30,11 +30,11 @@ ecjia.merchant.order.addedit();
 					<thead>
 						<tr>
 							<th class="w35">&nbsp;</th>
-							<th class="w100">{lang key='orders::order.name'}</th>
-							<th>{lang key='orders::order.desc'}</th>
-							<th class="w100">{lang key='orders::order.shipping_fee'}</th>
-							<th class="w100">{lang key='orders::order.free_money'}</th>
-							<th class="w100">{lang key='orders::order.insure'}</th>
+							<th class="w100">名称</th>
+							<th>描述</th>
+							<th class="w100">配送费</th>
+							<th class="w100">免费额度</th>
+							<th class="w100">保价费</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -60,7 +60,7 @@ ecjia.merchant.order.addedit();
 	</div>
 	<p align="right">
 		<input id="insure" class="form-control" name="insure" type="checkbox" value="1" {if $order.insure_fee > 0}checked{/if} />
-		<label for="insure">{lang key='orders::order.want_insure'}</label>
+		<label for="insure">我要保价</label>
 	</p>
 	<!--{/if}-->
 
@@ -78,9 +78,9 @@ ecjia.merchant.order.addedit();
 					<thead>
 						<tr>
 							<th class="w35">&nbsp;</th>
-							<th class="w100">{lang key='orders::order.name'}</th>
-							<th>{lang key='orders::order.desc'}</th>
-							<th class="w100">{lang key='orders::order.pay_fee'}</th>
+							<th class="w100">名称</th>
+							<th>描述</th>
+							<th class="w100">手续费</th>
 						</tr>
 					</thead>
 					<!-- {foreach from=$payment_list item=payment} -->
@@ -101,9 +101,9 @@ ecjia.merchant.order.addedit();
 		</div>
 	</div>
 	<p align="center">
-		<button class="btn btn-info" type="submit">{lang key='orders::order.button_submit'}</button>
+		<button class="btn btn-info" type="submit">{t domain="orders"}确定{/t}</button>
 		<input type="hidden" name="action_note" value="{$action_note}" />
-		<a class="data-pjax" href='{url path="orders/merchant/go_shipping" args="order_id={$order_id}{if $action_note}&action_note={$action_note}{/if}"}'><button class="btn btn-default" type="button">{lang key='orders::order.button_cancel'}</button></a>
+		<a class="data-pjax" href='{url path="orders/merchant/go_shipping" args="order_id={$order_id}{if $action_note}&action_note={$action_note}{/if}"}'><button class="btn btn-default" type="button">取消</button></a>
 	</p>
 </form>
 <!-- {/block} -->

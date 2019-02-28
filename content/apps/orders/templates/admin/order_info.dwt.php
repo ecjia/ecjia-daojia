@@ -19,67 +19,67 @@
 
 <div class="order_userinfo_modal">
     <div class="modal hide fade" id="consigneeinfo">
-	<div class="modal-header">
-		<button class="close" data-dismiss="modal">×</button>
-		<h3>购货人信息</h3>
-	</div>
-	<div class="modal-body">
-		<div class="row-fluid">
-			<div class="span12 user-info">
-                <div class="basic-info clearfix">
-                    <img src="{if $user.avatar_img}{RC_Upload::upload_url($user.avatar_img)}{/if}" />
-                    <div class="detail">
-                        <p>
-                            <span class="name">{if $user.user_name}{$user.user_name}{else}匿名用户{/if}</span>
-                            {if $user.rank_name}<span class="rank_name">{$user.rank_name}</span>{/if}
-                        </p>
-                        <p>注册时间：{RC_Time::local_date('Y-m-d H:i:s', $user.reg_time)}</p>
-                    </div>
-                    <a target="__blank" class="view-detail" href='{url path="user/admin/info" args="id={$user.user_id}"}'>查看详细信息 >></a>
-                </div>
-                <div class="user-money">
-                    <div class="item">
-                        <p>账户余额</p>
-                        <span class="ecjiafc-FF0000">{if $user.formated_user_money}{$user.formated_user_money}{else}￥0.00{/if}</span>
-                    </div>
-                    <div class="item">
-                        <p>消费积分</p>
-                        <span class="ecjiafc-FF0000">{if $user.pay_points}{$user.pay_points}{else}0{/if}</span>
-                    </div>
-                    <div class="item">
-                        <p>成长值</p>
-                        <span class="ecjiafc-FF0000">{if $user.rank_points}{$user.rank_points}{else}0{/if}</span>
-                    </div><div class="item">
-                        <p>红包数量</p>
-                        <span class="ecjiafc-FF0000">{if $user.bonus_count}{$user.bonus_count}{else}0{/if}</span>
-                    </div>
-                </div>
-                <div class="user-address">
-                    <div class="address-title">收货地址</div>
-                    <div class="address-content">
-                        {foreach from=$address_list item=list}
-                        <div class="address-item">
-                            <div class="box-placeholder">
-                                <p class="address_name">{$list.consignee} </p>
-                                <p class="address_tel">{$list.mobile}</p>
-                                <p class="address_info">
-                                    {if $list.province}{ecjia_region::getRegionName($list.province)}{/if}
-                                    {if $list.city}{ecjia_region::getRegionName($list.city)}{/if}
-                                    {if $list.district}{ecjia_region::getRegionName($list.district)}{/if}
-                                    {if $list.street}{ecjia_region::getRegionName($list.street)}{/if}
-                                    {$list.address}
-                                </p>
-                            </div>
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal">×</button>
+            <h3>购货人信息</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row-fluid">
+                <div class="span12 user-info">
+                    <div class="basic-info clearfix">
+                        <img src="{if $user.avatar_img}{RC_Upload::upload_url($user.avatar_img)}{/if}" />
+                        <div class="detail">
+                            <p>
+                                <span class="name">{if $user.user_name}{$user.user_name}{else}匿名用户{/if}</span>
+                                {if $user.rank_name}<span class="rank_name">{$user.rank_name}</span>{/if}
+                            </p>
+                            <p>注册时间：{RC_Time::local_date('Y-m-d H:i:s', $user.reg_time)}</p>
                         </div>
-                        {foreachelse}
-                        <div class="no-records">暂无收货地址</div>
-                        {/foreach}
+                        <a target="__blank" class="view-detail" href='{url path="user/admin/info" args="id={$user.user_id}"}'>查看详细信息 >></a>
+                    </div>
+                    <div class="user-money">
+                        <div class="item">
+                            <p>账户余额</p>
+                            <span class="ecjiafc-FF0000">{if $user.formated_user_money}{$user.formated_user_money}{else}￥0.00{/if}</span>
+                        </div>
+                        <div class="item">
+                            <p>消费积分</p>
+                            <span class="ecjiafc-FF0000">{if $user.pay_points}{$user.pay_points}{else}0{/if}</span>
+                        </div>
+                        <div class="item">
+                            <p>成长值</p>
+                            <span class="ecjiafc-FF0000">{if $user.rank_points}{$user.rank_points}{else}0{/if}</span>
+                        </div><div class="item">
+                            <p>红包数量</p>
+                            <span class="ecjiafc-FF0000">{if $user.bonus_count}{$user.bonus_count}{else}0{/if}</span>
+                        </div>
+                    </div>
+                    <div class="user-address">
+                        <div class="address-title">收货地址</div>
+                        <div class="address-content">
+                            {foreach from=$address_list item=list}
+                            <div class="address-item">
+                                <div class="box-placeholder">
+                                    <p class="address_name">{$list.consignee} </p>
+                                    <p class="address_tel">{$list.mobile}</p>
+                                    <p class="address_info">
+                                        {if $list.province}{ecjia_region::getRegionName($list.province)}{/if}
+                                        {if $list.city}{ecjia_region::getRegionName($list.city)}{/if}
+                                        {if $list.district}{ecjia_region::getRegionName($list.district)}{/if}
+                                        {if $list.street}{ecjia_region::getRegionName($list.street)}{/if}
+                                        {$list.address}
+                                    </p>
+                                </div>
+                            </div>
+                            {foreachelse}
+                            <div class="no-records">暂无收货地址</div>
+                            {/foreach}
+                        </div>
                     </div>
                 </div>
             </div>
-		</div>
-	</div>
-</div>
+        </div>
+    </div>
 </div>
 
 <div class="order-status-base order-five-base m_b20">
@@ -87,7 +87,7 @@
 		<li class="step-first">
 			<div class="{if $flow_status.key eq '1'}step-cur{else}step-done{/if}">
 				<div class="step-no">{if $flow_status.key lt '2'}1{/if}</div>
-				<div class="m_t5">{lang key='orders::order.submit_order'}</div>
+				<div class="m_t5">提交订单</div>
 				<div class="m_t5 ecjiafc-blue">{$order.formated_add_time}</div>
 			</div>
 		</li>
@@ -125,23 +125,23 @@
 	<form name="queryinfo" action='{url path="orders/admin/query_info"}' method="post">
 		<div class="span12 ecjiaf-tac">
 			<div class="ecjiaf-fl">
-				<h3>{lang key='orders::order.label_order_sn'}{$order.order_sn}</h3>
+				<h3>订单号：{$order.order_sn}</h3>
 			</div>
 			<span class="choose_list">
-				<input type="text" name="keywords" class="ecjiaf-fn" placeholder="{lang key='orders::order.pls_order_id'}" />
-				<button class="btn ecjiaf-fn" type="submit">{lang key='orders::order.search'}</button>
+				<input type="text" name="keywords" class="ecjiaf-fn" placeholder="请输入订单号或者订单id" />
+				<button class="btn ecjiaf-fn" type="submit">搜索</button>
 			</span>
 			<div class="f_r">
 				{if $next_id}
 				<a class="data-pjax ecjiaf-tdn" href='{url path="orders/admin/info" args="order_id={$next_id}"}'>
 					{/if}
-					<button class="btn btn-small" type="button" {if !$next_id}disabled="disabled" {/if}>{lang key='orders::order.prev'}</button>
+					<button class="btn btn-small" type="button" {if !$next_id}disabled="disabled" {/if}>前一个订单</button>
 					{if $next_id}
 				</a>
 				{/if} {if $prev_id}
 				<a class="data-pjax ecjiaf-tdn" href='{url path="orders/admin/info" args="order_id={$prev_id}"}'>
 					{/if}
-					<button class="btn btn-small" type="button" {if !$prev_id}disabled="disabled" {/if}>{lang key='orders::order.next'}</button>
+					<button class="btn btn-small" type="button" {if !$prev_id}disabled="disabled" {/if}>后一个订单</button>
 					{if $prev_id}
 				</a>
 				{/if}
@@ -159,7 +159,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseOne">
-							<strong>{lang key='orders::order.base_info'}</strong>
+							<strong>基本信息</strong>
 						</a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseOne">
@@ -168,7 +168,7 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_order_sn'}</strong>
+											<strong>订单号：</strong>
 										</div>
 									</td>
 									<td>
@@ -176,7 +176,7 @@
 									</td>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_order_status'}</strong>
+											<strong>订单状态：</strong>
 										</div>
 									</td>
 									<td>{$order.status}</td>
@@ -188,13 +188,14 @@
 										</div>
 									</td>
 									<td>
-										{$order.user_name|default:{lang key='orders::order.anonymous'}} {if $order.user_id gt 0} [
-										<a class="userInfo cursor_pointer"
-										    data-toggle="modal" href="#consigneeinfo" title="{lang key='orders::order.display_buyer'}">{lang key='orders::order.display_buyer'}</a> ] {/if}
+										{$order.user_name}
+                                        {if $order.user_id gt 0}
+                                        [ <a class="userInfo cursor_pointer" data-toggle="modal" href="#consigneeinfo" title="显示购货人信息">显示购货人信息</a> ]
+                                        {/if}
 									</td>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_order_time'}</strong>
+											<strong>下单时间：</strong>
 										</div>
 									</td>
 									<td>{$order.formated_add_time}</td>
@@ -202,7 +203,7 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_payment'}</strong>
+											<strong>支付方式：</strong>
 										</div>
 									</td>
 									<td>
@@ -210,7 +211,7 @@
 									</td>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_pay_time'}</strong>
+											<strong>付款时间：</strong>
 										</div>
 									</td>
 									<td>{$order.pay_time}</td>
@@ -219,13 +220,13 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_shipping'}</strong>
+											<strong>配送方式：</strong>
 										</div>
 									</td>
 									<td>
 										{if $exist_real_goods}
 										<span>{if $order.shipping_name}{$order.shipping_name}{/if}</span>
-										{if $order.shipping_id gt 0 && $order.insure_fee gt 0}{lang key='orders::order.label_insure_fee'}{$order.formated_insure_fee}{/if}
+										{if $order.shipping_id gt 0 && $order.insure_fee gt 0}保价费用：{$order.formated_insure_fee}{/if}
 										{/if}
 									</td>
 									<td>
@@ -239,13 +240,13 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_shipping_time'}</strong>
+											<strong>发货时间：</strong>
 										</div>
 									</td>
 									<td>{$order.shipping_time}</td>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_invoice_no'}</strong>
+											<strong>运单编号：</strong>
 										</div>
 									</td>
 									<td>
@@ -259,13 +260,13 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_express_user'}</strong>
+											<strong>配送员：</strong>
 										</div>
 									</td>
 									<td>{$order.express_user}</td>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_express_user_mobile'}</strong>
+											<strong>配送员电话：</strong>
 										</div>
 									</td>
 									<td>{$order.express_mobile}</td>
@@ -275,7 +276,7 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.from_order'}</strong>
+											<strong>订单来源：</strong>
 										</div>
 									</td>
 									<td colspan="3">{$order.label_referer}</td>
@@ -360,11 +361,11 @@
 					</div>
 				</div>
 				{/if}
-				
+
 				<div class="accordion-group">
 					<div class="accordion-heading accordion-heading-url">
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseTwo-a">
-							<strong>{lang key='orders::order.invoice_information'}</strong>
+							<strong>发票信息</strong>
 						</div>
 					</div>
 					<div class="accordion-body in collapse" id="collapseTwo-a">
@@ -373,7 +374,7 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_inv_type'}</strong>
+											<strong>发票类型：</strong>
 										</div>
 									</td>
 									<td>{$order.inv_type}</td>
@@ -393,7 +394,7 @@
 									<td>{if $inv_payee}{$inv_payee}{else if $order.inv_type neq ''}个人{/if}</td>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_inv_content'}</strong>
+											<strong>发票内容：</strong>
 										</div>
 									</td>
 									<td>{$order.inv_content}</td>
@@ -402,11 +403,11 @@
 						</table>
 					</div>
 				</div>
-				
+
 				<div class="accordion-group">
 					<div class="accordion-heading accordion-heading-url">
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseTwo">
-							<strong>{lang key='orders::order.other_info'}</strong>
+							<strong>其他信息</strong>
 						</div>
 					</div>
 					<div class="accordion-body in collapse" id="collapseTwo">
@@ -423,7 +424,7 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_how_oos'}</strong>
+											<strong>缺货处理：</strong>
 										</div>
 									</td>
 									<td colspan="3">{$order.how_oos}</td>
@@ -431,7 +432,7 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_to_buyer'}</strong>
+											<strong>商家给客户的留言：</strong>
 										</div>
 									</td>
 									<td colspan="3">{$order.to_buyer}</td>
@@ -444,7 +445,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading accordion-heading-url">
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseThree">
-							<strong>{lang key='orders::order.consignee_info'}</strong>
+							<strong>收货人信息</strong>
 						</div>
 					</div>
 					<div class="accordion-body in collapse" id="collapseThree">
@@ -453,7 +454,7 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_consignee'}</strong>
+											<strong>收货人：</strong>
 										</div>
 									</td>
 									<td>{$order.consignee}</td>
@@ -467,7 +468,7 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_address'}</strong>
+											<strong>地址：</strong>
 										</div>
 									</td>
 									<td colspan="3">[{$order.region}] {$order.address}</td>
@@ -480,22 +481,22 @@
 				<div class="accordion-group">
 					<div class="accordion-heading accordion-heading-url">
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseFour">
-							<strong>{lang key='orders::order.goods_info'}</strong>
+							<strong>商品信息</strong>
 						</div>
 					</div>
 					<div class="accordion-body in collapse" id="collapseFour">
 						<table class="table table-striped table_vam m_b0 order-table-list">
 							<thead>
 								<tr class="table-list">
-									<th class="w80">{lang key='orders::order.product_thumbnail'}</th>
-									<th>{lang key='orders::order.goods_name_brand'}</th>
-									<th class="w80">{lang key='orders::order.goods_sn'}</th>
-									<th class="w70">{lang key='orders::order.product_sn'}</th>
-									<th class="w100">{lang key='orders::order.goods_price'}</th>
-									<th class="w30">{lang key='orders::order.goods_number'}</th>
-									<th class="w100">{lang key='orders::order.goods_attr'}</th>
-									<th class="w50">{lang key='orders::order.storage'}</th>
-									<th class="w100">{lang key='orders::order.subtotal'}</th>
+									<th class="w80">商品缩略图</th>
+									<th>商品名称 [ 品牌 ]</th>
+									<th class="w80">货号</th>
+									<th class="w70">货品号</th>
+									<th class="w100">价格</th>
+									<th class="w30">数量</th>
+									<th class="w100">属性</th>
+									<th class="w50">库存</th>
+									<th class="w100">小计</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -507,8 +508,8 @@
 									<td>
 										{if $goods.goods_id gt 0 and $goods.extension_code neq 'package_buy'}
 										<a href='{url path="goods/admin/preview" args="id={$goods.goods_id}"}' target="_blank">{$goods.goods_name} {if $goods.brand_name}[ {$goods.brand_name} ]{/if}{if $goods.is_gift}{if $goods.goods_price
-											gt 0}{lang key='orders::order.remark_favourable'}{else}{lang key='orders::order.remark_gift'}{/if}{/if}{if $goods.parent_id
-											gt 0}{lang key='orders::order.remark_fittings'}{/if}</a>
+											gt 0}（特惠品）{else}（赠品）{/if}{/if}{if $goods.parent_id
+											gt 0}（配件）{/if}</a>
 										{/if}
 									</td>
 									<td>{$goods.goods_sn}</td>
@@ -529,21 +530,27 @@
 								</tr>
 								{foreachelse}
 								<tr>
-									<td class="no-records" colspan="9">{lang key='orders::order.order_no_goods'}</td>
+									<td class="no-records" colspan="9">该订单暂无商品</td>
 								</tr>
 								{/foreach}
 								<tr>
-									<td colspan="5">{if $order.total_weight}
+									<td colspan="5">
+                                        {if $order.total_weight}
 										<div align="right">
-											<strong>{lang key='orders::order.label_total_weight'}
-											</strong>
-										</div>{/if}</td>
-									<td colspan="2">{if $order.total_weight}
-										<div align="right">{$order.total_weight}
-										</div>{/if}</td>
+											<strong>商品总重量：</strong>
+										</div>
+                                        {/if}
+                                    </td>
+									<td colspan="2">
+                                        {if $order.total_weight}
+										<div align="right">
+                                            {$order.total_weight}
+										</div>
+                                        {/if}
+                                    </td>
 									<td>
 										<div align="right">
-											<strong>{lang key='orders::order.label_total'}</strong>
+											<strong>合计：</strong>
 										</div>
 									</td>
 									<td>
@@ -558,7 +565,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading accordion-heading-url">
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseFive">
-							<strong>{lang key='orders::order.fee_info'}</strong>
+							<strong>费用信息</strong>
 						</div>
 					</div>
 					<div class="accordion-body in collapse" id="collapseFive">
@@ -566,28 +573,28 @@
 							<tr>
 								<td>
 									<div align="right">
-										{lang key='orders::order.label_goods_amount'}
+										商品总金额：
 										<strong>{$order.formated_goods_amount}</strong>
-										- {lang key='orders::order.label_discount'}
+										- 折扣：
 										<strong>{$order.formated_discount}</strong>
-										+ {lang key='orders::order.label_tax'}
+										+ 发票税额：
 										<strong>{$order.formated_tax}</strong>
-										+ {lang key='orders::order.label_shipping_fee'}
+										+ 配送费用：
 										<strong>{$order.formated_shipping_fee}</strong>
-										+ {lang key='orders::order.label_insure_fee'}
+										+ 保价费用：
 										<strong>{$order.formated_insure_fee}</strong>
-										+ {lang key='orders::order.label_pay_fee'}
+										+ 支付费用：
 										<strong>{$order.formated_pay_fee}</strong>
-										+ {lang key='orders::order.label_pack_fee'}
+										+ 包装费用：
 										<strong>{$order.formated_pack_fee}</strong>
-										+ {lang key='orders::order.label_card_fee'}
+										+ 贺卡费用：
 										<strong>{$order.formated_card_fee}</strong>
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<div align="right"> = {lang key='orders::order.label_order_amount'}
+									<div align="right"> = 订单总金额：
 										<strong>{$order.formated_total_fee}</strong>
 									</div>
 								</td>
@@ -595,13 +602,13 @@
 							<tr>
 								<td>
 									<div align="right">
-										- {lang key='orders::order.label_money_paid'}
+										- 已付款金额：
 										<strong>{$order.formated_money_paid}</strong>
-										- {lang key='orders::order.label_surplus'}
+										- 使用余额：
 										<strong>{$order.formated_surplus}</strong>
-										- {lang key='orders::order.label_integral'}
+										- 使用积分：
 										<strong>{$order.formated_integral_money}</strong>
-										- {lang key='orders::order.label_bonus'}
+										- 使用红包：
 										<strong>{$order.formated_bonus}</strong>
 									</div>
 								</td>
@@ -609,12 +616,12 @@
 							<tr>
 								<td>
 									<div align="right">
-										= {if $order.order_amount >= 0} {lang key='orders::order.label_money_dues'}
+										= {if $order.order_amount >= 0} 应付款金额：
 										<strong>{$order.formated_order_amount}</strong>
-										{else} {lang key='orders::order.label_money_refund'}
+										{else} 应退款金额：
 										<strong>{$order.formated_money_refund}</strong>
-										<input class="refund_click btn" type="button" data-href="{$refund_url}" value="{lang key='orders::order.refund'}"> {/if} {if $order.extension_code eq "group_buy"}
-										<br/>{lang key='orders::order.notice_gb_order_amount'}{/if}
+										<input class="refund_click btn" type="button" data-href="{$refund_url}" value="退款"> {/if}
+                                        {if $order.extension_code eq "group_buy"}<br/>（备注：团购如果有保证金，第一次只需支付保证金和相应的支付费用）{/if}
 									</div>
 								</td>
 							</tr>
@@ -625,7 +632,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseSix">
-							<strong>{lang key='orders::order.operation_record'}</strong>
+							<strong>操作记录</strong>
 						</a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseSix">
@@ -633,10 +640,10 @@
 							<thead>
 								<tr>
 									<th class="w150">
-										<strong>{lang key='orders::order.action_user_two'}</strong>
+										<strong>操作者</strong>
 									</th>
 									<th class="w180">
-										<strong>{lang key='orders::order.action_time'}</strong>
+										<strong>操作时间</strong>
 									</th>
 									<th class="w150">
 										<strong>订单状态</strong>
@@ -656,14 +663,14 @@
 								</tr>
 								{foreachelse}
 								<tr>
-									<td class="no-records" colspan="4">{lang key='orders::order.no_order_operation_record'}</td>
+									<td class="no-records" colspan="4">该订单暂无操作记录</td>
 								</tr>
 								{/foreach}
 							</tbody>
 						</table>
 					</div>
 				</div>
-				
+
 			</div>
 		</form>
 	</div>

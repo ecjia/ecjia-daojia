@@ -11,7 +11,7 @@
 <!--会员排行-->
 <div class="alert alert-info">
 	<a class="close" data-dismiss="alert">×</a>
-	<strong>{lang key='orders::statistic.tips'}</strong>{lang key='orders::statistic.no_included_member'}
+	<strong>温馨提示：</strong>没有完成过订单交易的会员不计入会员排行
 </div>
 <div>
 	<h3 class="heading">
@@ -23,11 +23,11 @@
 <div class="row-fluid">
 	<div class="choose_list f_r">
 		<form class="f_r" action="{$search_action}"  method="post" name="theForm">
-			<span>{lang key='orders::statistic.select_date_lable'}</span>
-			<input class="start_date f_l w110" name="start_date" type="text" placeholder="{lang key='orders::statistic.start_date'}" value="{$start_date}">
+			<span>按时间段查询：</span>
+			<input class="start_date f_l w110" name="start_date" type="text" placeholder="开始日期" value="{$start_date}">
 			<span class="f_l">-</span>
-			<input class="end_date f_l w110" name="end_date" type="text" placeholder="{lang key='orders::statistic.end_date'}" value="{$end_date}">
-			<input class="btn screen-btn" type="submit" value="{lang key='orders::statistic.search'}">
+			<input class="end_date f_l w110" name="end_date" type="text" placeholder="结束日期" value="{$end_date}">
+			<input class="btn screen-btn" type="submit" value="搜索">
 		</form>
 	</div>
 </div>
@@ -36,10 +36,10 @@
 	<table class="table table-striped" id="smpl_tbl">
 		<thead>
 			<tr data-sorthref='{url path="orders/admin_users_order/init" args="start_date={$start_date}&end_date={$end_date}"}'>
-				<th class="w100">{lang key='orders::statistic.order_by'}</th>
-				<th class="w200">{lang key='orders::statistic.member_name'}</th>
-				<th class="w200 sorting" data-toggle="sortby" data-sortby="order_num">{lang key='orders::statistic.order_amount'}</th>
-				<th class="w110" data-toggle="sortby" data-sortby="turnover">{lang key='orders::statistic.buy_sum'}</th>
+				<th class="w100">排行</th>
+				<th class="w200">会员名</th>
+				<th class="w200 sorting" data-toggle="sortby" data-sortby="order_num">订单数(单位：个)</th>
+				<th class="w110" data-toggle="sortby" data-sortby="turnover">购物金额</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -51,7 +51,7 @@
 				<td>{$list.turnover}</td>
 			</tr>
 			<!-- {foreachelse} -->
-	    	<tr><td class="dataTables_empty" colspan="4">{lang key='system::system.no_records'}</td></tr>
+	    	<tr><td class="dataTables_empty" colspan="4">没有找到任何记录</td></tr>
 	  		<!-- {/foreach} -->
 		</tbody>
 	</table>

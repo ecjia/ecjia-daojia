@@ -45,51 +45,54 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 修改订单配送方式
  * @author will
  *
  */
-class admin_orders_operate_shipping_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-		$this->authadminSession();
+class admin_orders_operate_shipping_module extends api_admin implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+        $this->authadminSession();
 
         if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-		
-		$result_view = $this->admin_priv('order_view');
-		$result_edit = $this->admin_priv('order_edit');
-		
-		if (is_ecjia_error($result_view)) {
-			return $result_view;
-		} elseif (is_ecjia_error($result_edit)) {
-			return $result_edit;
-		}
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
 
-		$order_id		= $this->requestData('order_id', 0);
-		$shipping_id	= $this->requestData('shipping_id', 0);
-		$action_note	= $this->requestData('action_note');
-		$shipping_id	= !empty($shipping_id) ? intval($shipping_id) : 0;
-		$expect_shipping_time		= $this->requestData('expect_shipping_time', '');
-		
-		if (empty($order_id)) {
-			return new ecjia_error(101, '参数错误');
-		}
-		
-		/*验证订单是否属于此入驻商*/
+        $result_view = $this->admin_priv('order_view');
+        $result_edit = $this->admin_priv('order_edit');
+
+        if (is_ecjia_error($result_view)) {
+            return $result_view;
+        } elseif (is_ecjia_error($result_edit)) {
+            return $result_edit;
+        }
+
+        $order_id             = $this->requestData('order_id', 0);
+        $shipping_id          = $this->requestData('shipping_id', 0);
+        $action_note          = $this->requestData('action_note');
+        $shipping_id          = !empty($shipping_id) ? intval($shipping_id) : 0;
+        $expect_shipping_time = $this->requestData('expect_shipping_time', '');
+
+        if (empty($order_id)) {
+            return new ecjia_error(101, __('参数错误', 'orders'));
+        }
+
+        /*验证订单是否属于此入驻商*/
         if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
-		    $ru_id_group = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id))->group('store_id')->get_field('store_id', true);
-		    if (count($ru_id_group) > 1 || $ru_id_group[0] != $_SESSION['store_id']) {
-		        return new ecjia_error('no_authority', '对不起，您没权限对此订单进行操作！');
-		    }
-		}
-		
-		$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
-		if (empty($order_info)) {
-			return new ecjia_error(101, '参数错误');
-		}
-		//无需物流方式
+            $ru_id_group = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id))->group('store_id')->get_field('store_id', true);
+            if (count($ru_id_group) > 1 || $ru_id_group[0] != $_SESSION['store_id']) {
+                return new ecjia_error('no_authority', __('对不起，您没权限对此订单进行操作！', 'orders'));
+            }
+        }
+
+        $order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
+        if (empty($order_info)) {
+            return new ecjia_error(101, __('参数错误', 'orders'));
+        }
+        //无需物流方式
 // 		if ($shipping_id == 0) {
 // 		    $noexpress_data = RC_DB::table('shipping')
 // 		    ->where('shipping_code', 'ship_no_express')
@@ -102,63 +105,63 @@ class admin_orders_operate_shipping_module extends api_admin implements api_inte
 // 		    }
 // 		    $shipping_id = $noexpress_data['shipping_id'];
 // 		}
-		
-		RC_Loader::load_app_func('admin_order', 'orders');
-		RC_Loader::load_app_func('global', 'orders');
-		/* 保存配送信息 */
-		/* 取得订单信息 */
-		$region_id_list = array($order_info['country'], $order_info['province'], $order_info['city'], $order_info['district'], $order_info['street']);
-		/* 保存订单 */
-		//$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
-		//$shipping		= $shipping_method->shipping_area_info($shipping_id, $region_id_list, $order_info['store_id']);
-		$best_time = '';
-		if(!empty($shipping_id) > 0){
-			$shipping = ecjia_shipping::pluginData($shipping_id);
-			if (empty($shipping)) {
-				return new ecjia_error('shipping_fail', '配送方式获取失败');
-			}
-			if (($shipping['shipping_code'] == 'ship_o2o_express' || $shipping['shipping_code'] == 'ship_ecjia_express') && !empty($expect_shipping_time)) {
-				$best_time = $expect_shipping_time;
-			}
-		}
-		
-		$weight_amount	= order_weight_price($order_id);
-		//$shipping_fee	= $shipping_method->shipping_fee($shipping['shipping_code'], $shipping['configure'], $weight_amount['weight'], $weight_amount['amount'], $weight_amount['number']);
-		
-		$order = array(
-			'shipping_id'	=> $shipping_id,
-			'shipping_name'	=> $shipping_id > 0 ? addslashes($shipping['shipping_name']) : '无需物流',
-			'expect_shipping_time'	=> $best_time
+
+        RC_Loader::load_app_func('admin_order', 'orders');
+        RC_Loader::load_app_func('global', 'orders');
+        /* 保存配送信息 */
+        /* 取得订单信息 */
+        $region_id_list = array($order_info['country'], $order_info['province'], $order_info['city'], $order_info['district'], $order_info['street']);
+        /* 保存订单 */
+        //$shipping_method = RC_Loader::load_app_class('shipping_method', 'shipping');
+        //$shipping		= $shipping_method->shipping_area_info($shipping_id, $region_id_list, $order_info['store_id']);
+        $best_time = '';
+        if (!empty($shipping_id) > 0) {
+            $shipping = ecjia_shipping::pluginData($shipping_id);
+            if (empty($shipping)) {
+                return new ecjia_error('shipping_fail', __('配送方式获取失败', 'orders'));
+            }
+            if (($shipping['shipping_code'] == 'ship_o2o_express' || $shipping['shipping_code'] == 'ship_ecjia_express') && !empty($expect_shipping_time)) {
+                $best_time = $expect_shipping_time;
+            }
+        }
+
+        $weight_amount = order_weight_price($order_id);
+        //$shipping_fee	= $shipping_method->shipping_fee($shipping['shipping_code'], $shipping['configure'], $weight_amount['weight'], $weight_amount['amount'], $weight_amount['number']);
+
+        $order = array(
+            'shipping_id'          => $shipping_id,
+            'shipping_name'        => $shipping_id > 0 ? addslashes($shipping['shipping_name']) : __('无需物流', 'orders'),
+            'expect_shipping_time' => $best_time
 // 			'shipping_fee'	=> $shipping_fee//修改配送方式，额外产生的费用不做修改
-		);
-		
-		
+        );
+
+
 // 		if (isset($$this->requestData['insure'])) {
 // 			/* 计算保价费 */
 // 			$order['insure_fee'] = shipping_insure_fee($shipping['shipping_code'], order_amount($order_id), $shipping['insure']);
 // 		} else {
 // 			$order['insure_fee'] = 0;
 // 		}
-		update_order($order_id, $order);
+        update_order($order_id, $order);
 // 		update_order_amount($order_id);
-		
-		/* 更新 pay_log */
-		update_pay_log($order_id);
-		
-		/* todo 记录日志 */
-		$sn = '编辑配送方式，';
+
+        /* 更新 pay_log */
+        update_pay_log($order_id);
+
+        /* todo 记录日志 */
+        $sn = __('编辑配送方式，', 'orders');
 // 		$new_order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
 // 		if ($order_info['total_fee'] != $new_order_info['total_fee']) {
 // 			$sn .= sprintf('订单总金额由 %s 变为 %s', $order_info['total_fee'], $new_order_info['total_fee']).'，';
 // 		}
-		$sn .= '订单号是 '.$order_info['order_sn'];
-		// 记录管理员操作
-		if ($_SESSION['store_id'] > 0) {
-		    RC_Api::api('merchant', 'admin_log', array('text' => $sn.'【来源掌柜】', 'action' => 'edit', 'object' => 'order'));
-		}
-		
-		return array();
-	} 
+        $sn .= sprintf(__('订单号是 %s', 'orders'), $order_info['order_sn']);
+        // 记录管理员操作
+        if ($_SESSION['store_id'] > 0) {
+            RC_Api::api('merchant', 'admin_log', array('text' => sprintf(__('%s【来源掌柜】'), $sn), 'action' => 'edit', 'object' => 'order'));
+        }
+
+        return array();
+    }
 }
 
 

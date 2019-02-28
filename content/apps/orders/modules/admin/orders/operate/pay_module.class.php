@@ -45,72 +45,75 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 设定订单支付
  * @author will
  *
  */
-class admin_orders_operate_pay_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-		$this->authadminSession();
+class admin_orders_operate_pay_module extends api_admin implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+        $this->authadminSession();
 
         if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-		
-		$result_view = $this->admin_priv('order_view');
-		$result_edit = $this->admin_priv('order_ps_edit');
-		if (is_ecjia_error($result_view)) {
-			return $result_view;
-		} elseif (is_ecjia_error($result_edit)) {
-			return $result_edit;
-		}
-		$order_id		= $this->requestData('order_id', 0);
-		$action_note	= $this->requestData('action_note', '');
-		
-		if (empty($order_id) || empty($action_note)) {
-			return new ecjia_error(101, '参数错误');
-		}
-		/*验证订单是否属于此入驻商*/
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+
+        $result_view = $this->admin_priv('order_view');
+        $result_edit = $this->admin_priv('order_ps_edit');
+        if (is_ecjia_error($result_view)) {
+            return $result_view;
+        } elseif (is_ecjia_error($result_edit)) {
+            return $result_edit;
+        }
+        $order_id    = $this->requestData('order_id', 0);
+        $action_note = $this->requestData('action_note', '');
+
+        if (empty($order_id) || empty($action_note)) {
+            return new ecjia_error(101, __('参数错误', 'orders'));
+        }
+        /*验证订单是否属于此入驻商*/
         if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
-		    $ru_id_group = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id))->group('store_id')->get_field('store_id', true);
-		    if (count($ru_id_group) > 1 || $ru_id_group[0] != $_SESSION['store_id']) {
-		        return new ecjia_error('no_authority', '对不起，您没权限对此订单进行操作！');
-		    }
-		}
-		
-		$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
-		if (empty($order_info)) {
-			return new ecjia_error('not_exitst', '订单信息不存在');
-		}
-		
-		RC_Loader::load_app_func('admin_order', 'orders');
-		/* 标记订单为已确认、已付款，更新付款时间和已支付金额，如果是货到付款，同时修改订单为“收货确认” */
-		if ($order_info['order_status'] != OS_CONFIRMED) {
-			// $arr['order_status']	= OS_CONFIRMED;
-			$arr['confirm_time']	= RC_Time::gmtime();
-		}
-		$arr['pay_status']		= PS_PAYED;
-		$arr['pay_time']		= RC_Time::gmtime();
-		$arr['money_paid']		= $order_info['money_paid'] + $order_info['order_amount'];
-		$arr['order_amount']	= 0;
+            $ru_id_group = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id))->group('store_id')->get_field('store_id', true);
+            if (count($ru_id_group) > 1 || $ru_id_group[0] != $_SESSION['store_id']) {
+                return new ecjia_error('no_authority', __('对不起，您没权限对此订单进行操作！', 'orders'));
+            }
+        }
+
+        $order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
+        if (empty($order_info)) {
+            return new ecjia_error('not_exitst', __('订单信息不存在', 'orders'));
+        }
+
+        RC_Loader::load_app_func('admin_order', 'orders');
+        /* 标记订单为已确认、已付款，更新付款时间和已支付金额，如果是货到付款，同时修改订单为“收货确认” */
+        if ($order_info['order_status'] != OS_CONFIRMED) {
+            // $arr['order_status']	= OS_CONFIRMED;
+            $arr['confirm_time'] = RC_Time::gmtime();
+        }
+        $arr['pay_status']   = PS_PAYED;
+        $arr['pay_time']     = RC_Time::gmtime();
+        $arr['money_paid']   = $order_info['money_paid'] + $order_info['order_amount'];
+        $arr['order_amount'] = 0;
 // 		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-		$payment = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($order_info['pay_id']);
-		if ($payment['is_cod']) {
-			$arr['shipping_status']		= SS_RECEIVED;
-			$order_info['shipping_status']	= SS_RECEIVED;
-		}
-		update_order($order_id, $arr);
-		
-		/* 记录日志 */
-		if ($_SESSION['store_id'] > 0) {
-		    RC_Api::api('merchant', 'admin_log', array('text' => '已付款，订单号是 '.$order_info['order_sn'].'【来源掌柜】', 'action' => 'edit', 'object' => 'order_status'));
-		} 
-		/* 记录log */
-		order_action($order_info['order_sn'], OS_CONFIRMED, $order_info['shipping_status'], PS_PAYED, $action_note);
-		
-		return array();
-	} 
+        $payment = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($order_info['pay_id']);
+        if ($payment['is_cod']) {
+            $arr['shipping_status']        = SS_RECEIVED;
+            $order_info['shipping_status'] = SS_RECEIVED;
+        }
+        update_order($order_id, $arr);
+
+        /* 记录日志 */
+        if ($_SESSION['store_id'] > 0) {
+            RC_Api::api('merchant', 'admin_log', array('text' => sprintf(__('已付款，订单号是 %s【来源掌柜】', 'orders'), $order_info['order_sn']), 'action' => 'edit', 'object' => 'order_status'));
+        }
+        /* 记录log */
+        order_action($order_info['order_sn'], OS_CONFIRMED, $order_info['shipping_status'], PS_PAYED, $action_note);
+
+        return array();
+    }
 }
 
 

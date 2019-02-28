@@ -50,44 +50,44 @@ use Royalcms\Component\Database\Eloquent\Model;
 
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class CommentModel extends Model 
+class CommentModel extends Model
 {
-	protected $table = 'comment';
-	
-	protected $primaryKey = 'comment_id';
-	
-	/**
-	 * 可以被批量赋值的属性。
-	 *
-	 * @var array
-	 */
-	protected $fillable = [
-	    
-	];
-	
-	/**
-	 * 该模型是否被自动维护时间戳
-	 *
-	 * @var bool
-	 */
-	public $timestamps = false;
-	
-	/**
-	 * 获取拥有此商品的订单。
-	 */
-	public function orders()
-	{
-	    return $this->belongsTo('Ecjia\App\Orders\Models\OrdersModel', 'order_id', 'order_id');
-	}
-	
-	/**
-	 * 获取拥有此商品的订单。
-	 */
-	public function orderGoods()
-	{
-	    return $this->belongsTo('Ecjia\App\Orders\Models\OrderGoodsModel', 'rec_id', 'rec_id');
-	}
-	
+    protected $table = 'comment';
+
+    protected $primaryKey = 'comment_id';
+
+    /**
+     * 可以被批量赋值的属性。
+     *
+     * @var array
+     */
+    protected $fillable = [
+
+    ];
+
+    /**
+     * 该模型是否被自动维护时间戳
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * 获取拥有此商品的订单。
+     */
+    public function orders()
+    {
+        return $this->belongsTo('Ecjia\App\Orders\Models\OrdersModel', 'order_id', 'order_id');
+    }
+
+    /**
+     * 获取拥有此商品的订单。
+     */
+    public function orderGoods()
+    {
+        return $this->belongsTo('Ecjia\App\Orders\Models\OrderGoodsModel', 'rec_id', 'rec_id');
+    }
+
 }
 
 // end

@@ -50,32 +50,34 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 订单列表接口
  * @author
  */
-class orders_order_list_api extends Component_Event_Api {
+class orders_order_list_api extends Component_Event_Api
+{
     /**
      * 查看订单列表
      * @param array $options
      * @return  array
      */
-    public function call (&$options) {
-        if (!is_array($options) ) {
-            return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+    public function call(&$options)
+    {
+        if (!is_array($options)) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
         }
 
         $user_id = array_get($options, 'user_id', $_SESSION['user_id']);
-        $type = array_get($options, 'type');
+        $type    = array_get($options, 'type');
 
-        $size = array_get($options, 'size', 15);
-        $page = array_get($options, 'page', 1);
-        $keywords = $options['keywords'];
-        $store_id = $options['store_id'];
+        $size           = array_get($options, 'size', 15);
+        $page           = array_get($options, 'page', 1);
+        $keywords       = $options['keywords'];
+        $store_id       = $options['store_id'];
         $extension_code = empty($options['extension_code']) ? null : $options['extension_code'];
-        
+
 //         $orders = $this->user_orders_list($user_id, $type, $page, $size, $keywords, $store_id);
-        $with = ['orderGoods', 'orderGoods.goods', 'store', 'payment', 'orderGoods.comment' => function ($query) {
-                $query->select('comment_id', 'has_image')->where('comment_type', 0)->where('parent_id', 0);
-            }];
+        $with   = ['orderGoods', 'orderGoods.goods', 'store', 'payment', 'orderGoods.comment' => function ($query) {
+            $query->select('comment_id', 'has_image')->where('comment_type', 0)->where('parent_id', 0);
+        }];
         $orders = with(new Ecjia\App\Orders\Repositories\OrdersRepository())
-                    ->getUserOrdersList($user_id, $type, $page, $size, $keywords, $store_id, $with, ['Ecjia\App\Orders\CustomizeOrderList', 'exportOrderListApi'], $extension_code);
+            ->getUserOrdersList($user_id, $type, $page, $size, $keywords, $store_id, $with, ['Ecjia\App\Orders\CustomizeOrderList', 'exportOrderListApi'], $extension_code);
 
         return $orders;
     }
@@ -84,52 +86,53 @@ class orders_order_list_api extends Component_Event_Api {
      *  获取用户指定范围的订单列表
      *
      * @access  public
-     * @param   int         $user_id        用户ID号
-     * @param   int         $num            列表最大数量
-     * @param   int         $start          列表起始位置
+     * @param   int $user_id 用户ID号
+     * @param   int $num 列表最大数量
+     * @param   int $start 列表起始位置
      * @return  array       $order_list     订单列表
      */
-    private function user_orders_list($user_id, $type = '', $page = 1, $size = 15, $keywords = '', $store_id) {
+    private function user_orders_list($user_id, $type = '', $page = 1, $size = 15, $keywords = '', $store_id)
+    {
         /**
          * await_pay 待付款
          * await_ship 待发货
          * shipped 待收货
          * finished 已完成
          */
-        $dbview_order_info = RC_Model::model('orders/order_info_viewmodel');
+        $dbview_order_info       = RC_Model::model('orders/order_info_viewmodel');
         $dbview_order_info->view = array(
-            'order_goods' => array(
-                'type'      => Component_Model_View::TYPE_LEFT_JOIN,
-                'alias'     => 'og',
-                'on'        => 'oi.order_id = og.order_id ',
+            'order_goods'      => array(
+                'type'  => Component_Model_View::TYPE_LEFT_JOIN,
+                'alias' => 'og',
+                'on'    => 'oi.order_id = og.order_id ',
             ),
-            'goods' => array(
-                'type'      => Component_Model_View::TYPE_LEFT_JOIN,
-                'alias'     => 'g',
-                'on'        => 'og.goods_id = g.goods_id'
+            'goods'            => array(
+                'type'  => Component_Model_View::TYPE_LEFT_JOIN,
+                'alias' => 'g',
+                'on'    => 'og.goods_id = g.goods_id'
             ),
             'store_franchisee' => array(
-                'type'      => Component_Model_View::TYPE_LEFT_JOIN,
-                'alias'     => 'ssi',
-                'on'        => 'oi.store_id = ssi.store_id'
+                'type'  => Component_Model_View::TYPE_LEFT_JOIN,
+                'alias' => 'ssi',
+                'on'    => 'oi.store_id = ssi.store_id'
             ),
-            'comment' => array(
-                'type'      => Component_Model_View::TYPE_LEFT_JOIN,
-                'alias'     => 'c',
-                'on'        => 'c.id_value = og.goods_id and c.rec_id = og.rec_id and c.order_id = oi.order_id and c.comment_type = 0 and c.parent_id = 0'
+            'comment'          => array(
+                'type'  => Component_Model_View::TYPE_LEFT_JOIN,
+                'alias' => 'c',
+                'on'    => 'c.id_value = og.goods_id and c.rec_id = og.rec_id and c.order_id = oi.order_id and c.comment_type = 0 and c.parent_id = 0'
             ),
         );
 
         RC_Loader::load_app_class('order_list', 'orders', false);
-        $where = array();
-        $where['oi.user_id'] = $user_id;
+        $where                 = array();
+        $where['oi.user_id']   = $user_id;
         $where['oi.is_delete'] = 0;
         if ($store_id > 0) {
-        	$where['oi.store_id'] = $store_id;
+            $where['oi.store_id'] = $store_id;
         }
-               
+
         if (!empty($keywords)) {
-            $where[] = "((og.goods_name LIKE '%" . $keywords ."%') or (oi.order_sn LIKE '%" . $keywords ."%'))";
+            $where[] = "((og.goods_name LIKE '%" . $keywords . "%') or (oi.order_sn LIKE '%" . $keywords . "%'))";
         }
 
         if (!empty($type)) {
@@ -137,16 +140,16 @@ class orders_order_list_api extends Component_Event_Api {
                 $where[] = 'comment_id is null';
 //                 $order_type = 'order_finished';
 //                 $where = array_merge($where, order_list::$order_type('oi.'));
-                $where['oi.order_status'] = array(OS_CONFIRMED, OS_SPLITED);
+                $where['oi.order_status']    = array(OS_CONFIRMED, OS_SPLITED);
                 $where['oi.shipping_status'] = array(SS_RECEIVED);
-                $where['oi.pay_status'] = array(PS_PAYED, PS_PAYING);
+                $where['oi.pay_status']      = array(PS_PAYED, PS_PAYING);
             } else {
-                $order_type = 'order_'.$type;
-                $where = array_merge($where, order_list::$order_type('oi.'));
+                $order_type = 'order_' . $type;
+                $where      = array_merge($where, order_list::$order_type('oi.'));
             }
         }
 
-        $record_count = $dbview_order_info->join(array('order_goods', 'goods','store_franchisee', 'comment'))->where($where)->count('DISTINCT oi.order_id');
+        $record_count = $dbview_order_info->join(array('order_goods', 'goods', 'store_franchisee', 'comment'))->where($where)->count('DISTINCT oi.order_id');
         //实例化分页
         $page_row = new ecjia_page($record_count, $size, 6, '', $page);
 
@@ -159,9 +162,9 @@ class orders_order_list_api extends Component_Event_Api {
 //             }
 //         }
 
-        $field = 'oi.order_id, oi.order_sn, oi.order_status, oi.shipping_status, oi.pay_status, oi.add_time, (oi.goods_amount + oi.shipping_fee + oi.insure_fee + oi.pay_fee + oi.pack_fee + oi.card_fee + oi.tax - oi.integral_money - oi.bonus - oi.discount) AS total_fee, oi.discount, oi.integral_money, oi.bonus, oi.shipping_fee, oi.pay_id, oi.order_amount'.
-        ', og.goods_id, og.goods_name, og.goods_attr, og.goods_attr_id, og.goods_price, og.goods_number, og.goods_price * og.goods_number AS subtotal, g.goods_thumb, g.original_img, g.goods_img, ssi.store_id, ssi.merchants_name, ssi.manage_mode, c.comment_id, c.has_image';
-        $res = $dbview_order_info->join(array('order_goods', 'goods', 'store_franchisee', 'comment'))->field($field)->where($where)->order(array('oi.order_id' => 'desc'))->limit($page_row->limit())->select();
+        $field = 'oi.order_id, oi.order_sn, oi.order_status, oi.shipping_status, oi.pay_status, oi.add_time, (oi.goods_amount + oi.shipping_fee + oi.insure_fee + oi.pay_fee + oi.pack_fee + oi.card_fee + oi.tax - oi.integral_money - oi.bonus - oi.discount) AS total_fee, oi.discount, oi.integral_money, oi.bonus, oi.shipping_fee, oi.pay_id, oi.order_amount' .
+            ', og.goods_id, og.goods_name, og.goods_attr, og.goods_attr_id, og.goods_price, og.goods_number, og.goods_price * og.goods_number AS subtotal, g.goods_thumb, g.original_img, g.goods_img, ssi.store_id, ssi.merchants_name, ssi.manage_mode, c.comment_id, c.has_image';
+        $res   = $dbview_order_info->join(array('order_goods', 'goods', 'store_franchisee', 'comment'))->field($field)->where($where)->order(array('oi.order_id' => 'desc'))->limit($page_row->limit())->select();
 
 //         _dump($dbview_order_info->last_sql());
 //         _dump($res,1);
@@ -176,141 +179,131 @@ class orders_order_list_api extends Component_Event_Api {
                 if (isset($row['goods_attr']) && !empty($row['goods_attr'])) {
                     $goods_attr = explode("\n", $row['goods_attr']);
                     $goods_attr = array_filter($goods_attr);
-                    foreach ($goods_attr as  $val) {
-                        $a = explode(':',$val);
+                    foreach ($goods_attr as $val) {
+                        $a = explode(':', $val);
                         if (!empty($a[0]) && !empty($a[1])) {
                             $attr[] = array('name' => $a[0], 'value' => $a[1]);
                         }
                     }
                 }
-                if ($order_id == 0 || $row['order_id'] != $order_id ) {
+                if ($order_id == 0 || $row['order_id'] != $order_id) {
                     $goods_number = $goods_type_number = 0;
                     if ($row['pay_id'] > 0) {
                         $payment = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById($row['pay_id']);
                     }
-                    $goods_type_number ++;
-                    $subject = $row['goods_name'].RC_Lang::get('orders::order.etc').$goods_type_number.RC_Lang::get('orders::order.kind_of_goods');
+                    $goods_type_number++;
+                    $subject      = sprintf(__('%s 等 %s 种商品', 'orders'), $row['goods_name'], $goods_type_number);
                     $goods_number += isset($row['goods_number']) ? $row['goods_number'] : 0;
 
 
                     if (in_array($row['order_status'], array(OS_CONFIRMED, OS_SPLITED)) &&
                         in_array($row['shipping_status'], array(SS_RECEIVED)) &&
-                        in_array($row['pay_status'], array(PS_PAYED, PS_PAYING)))
-                    {
-                        $label_order_status = RC_Lang::get('orders::order.cs.'.CS_FINISHED);
-                        $status_code = 'finished';
-                    }
-                    elseif (in_array($row['shipping_status'], array(SS_SHIPPED)))
-                    {
-                        $label_order_status = RC_Lang::get('orders::order.label_await_confirm');
-                        $status_code = 'shipped';
-                    }
-                    elseif (in_array($row['order_status'], array(OS_CONFIRMED, OS_SPLITED, OS_UNCONFIRMED)) &&
-                            in_array($row['pay_status'], array(PS_UNPAYED)) &&
-                            (in_array($row['shipping_status'], array(SS_SHIPPED, SS_RECEIVED)) || !$payment['is_cod']))
-                    {
-                        $label_order_status = RC_Lang::get('orders::order.label_await_pay');
-                        $status_code = 'await_pay';
-                    }
-                    elseif (in_array($row['order_status'], array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART)) &&
+                        in_array($row['pay_status'], array(PS_PAYED, PS_PAYING))) {
+                        $label_order_status = __('已完成', 'orders');
+                        $status_code        = 'finished';
+                    } elseif (in_array($row['shipping_status'], array(SS_SHIPPED))) {
+                        $label_order_status = __('待收货', 'orders');
+                        $status_code        = 'shipped';
+                    } elseif (in_array($row['order_status'], array(OS_CONFIRMED, OS_SPLITED, OS_UNCONFIRMED)) &&
+                        in_array($row['pay_status'], array(PS_UNPAYED)) &&
+                        (in_array($row['shipping_status'], array(SS_SHIPPED, SS_RECEIVED)) || !$payment['is_cod'])) {
+                        $label_order_status = __('待付款', 'orders');
+                        $status_code        = 'await_pay';
+                    } elseif (in_array($row['order_status'], array(OS_UNCONFIRMED, OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART)) &&
                         in_array($row['shipping_status'], array(SS_UNSHIPPED, SS_PREPARING, SS_SHIPPED_ING)) &&
-                        (in_array($row['pay_status'], array(PS_PAYED, PS_PAYING)) || $payment['is_cod']))
-                    {
-                        $label_order_status = RC_Lang::get('orders::order.label_await_ship');
-                        $status_code = 'await_ship';
-                    }
-               		elseif (in_array($row['order_status'], array(OS_SPLITING_PART)) &&
-                        in_array($row['shipping_status'], array(SS_SHIPPED_PART)))
-                    {
-                        $label_order_status = RC_Lang::get('orders::order.label_shipped_part');
-                        $status_code = 'shipped_part';
-                    }
-                    elseif (in_array($row['order_status'], array(OS_CANCELED))) {
-                        $label_order_status = RC_Lang::get('orders::order.label_canceled');
-                        $status_code = 'canceled';
+                        (in_array($row['pay_status'], array(PS_PAYED, PS_PAYING)) || $payment['is_cod'])) {
+                        $label_order_status = __('待发货', 'orders');
+                        $status_code        = 'await_ship';
+                    } elseif (in_array($row['order_status'], array(OS_SPLITING_PART)) &&
+                        in_array($row['shipping_status'], array(SS_SHIPPED_PART))) {
+                        $label_order_status = __('部分发货', 'orders');
+                        $status_code        = 'shipped_part';
+                    } elseif (in_array($row['order_status'], array(OS_CANCELED))) {
+                        $label_order_status = __('已取消', 'orders');
+                        $status_code        = 'canceled';
                     }
 
                     $orders[$row['order_id']] = array(
-                        'seller_id'             => !empty($row['store_id']) ? intval($row['store_id']) : 0,
-                        'seller_name'           => !empty($row['merchants_name']) ? $row['merchants_name'] : RC_Lang::get('orders::order.self_support'),
-                        'manage_mode'           => $row['manage_mode'],
-                        'order_id'              => $row['order_id'],
-                        'order_sn'              => $row['order_sn'],
-                        'order_status'          => $row['order_status'],
-                        'shipping_status'       => $row['shipping_status'],
-                        'pay_status'            => $row['pay_status'],
-                        'label_order_status'    => $label_order_status,
-                        'order_status_code'     => $status_code,
-                        'order_time'            => RC_Time::local_date(ecjia::config('time_format'), $row['add_time']),
-                        'total_fee'             => $row['total_fee'],
-                        'discount'              => $row['discount'],
-                        'goods_number'          => $goods_number,
-                        'is_cod'                => $payment['is_cod'],
-                        'formated_total_fee'    => price_format($row['total_fee'], false),
-                        'formated_integral_money'=> price_format($row['integral_money'], false),
-                        'formated_bonus'        => price_format($row['bonus'], false),
-                        'formated_shipping_fee' => price_format($row['shipping_fee'], false),
-                        'formated_discount'     => price_format($row['discount'], false),
-                        'order_info'            => array(
-                            'pay_code'          => isset($payment['pay_code']) ? $payment['pay_code'] : '',
-                            'order_amount'      => $row['order_amount'],
-                            'order_id'          => $row['order_id'],
-                            'subject'           => $subject,
-                            'desc'              => $subject,
-                            'order_sn'          => $row['order_sn'],
+                        'seller_id'               => !empty($row['store_id']) ? intval($row['store_id']) : 0,
+                        'seller_name'             => !empty($row['merchants_name']) ? $row['merchants_name'] : '自营',
+                        'manage_mode'             => $row['manage_mode'],
+                        'order_id'                => $row['order_id'],
+                        'order_sn'                => $row['order_sn'],
+                        'order_status'            => $row['order_status'],
+                        'shipping_status'         => $row['shipping_status'],
+                        'pay_status'              => $row['pay_status'],
+                        'label_order_status'      => $label_order_status,
+                        'order_status_code'       => $status_code,
+                        'order_time'              => RC_Time::local_date(ecjia::config('time_format'), $row['add_time']),
+                        'total_fee'               => $row['total_fee'],
+                        'discount'                => $row['discount'],
+                        'goods_number'            => $goods_number,
+                        'is_cod'                  => $payment['is_cod'],
+                        'formated_total_fee'      => price_format($row['total_fee'], false),
+                        'formated_integral_money' => price_format($row['integral_money'], false),
+                        'formated_bonus'          => price_format($row['bonus'], false),
+                        'formated_shipping_fee'   => price_format($row['shipping_fee'], false),
+                        'formated_discount'       => price_format($row['discount'], false),
+                        'order_info'              => array(
+                            'pay_code'     => isset($payment['pay_code']) ? $payment['pay_code'] : '',
+                            'order_amount' => $row['order_amount'],
+                            'order_id'     => $row['order_id'],
+                            'subject'      => $subject,
+                            'desc'         => $subject,
+                            'order_sn'     => $row['order_sn'],
                         ),
-                        'goods_list' => array()
+                        'goods_list'              => array()
                     );
 
                     if (!empty($row['goods_id'])) {
-                        $orders[$row['order_id']]['goods_list']    = array(
+                        $orders[$row['order_id']]['goods_list'] = array(
                             array(
-                                'goods_id'              => isset($row['goods_id'])? $row['goods_id'] : 0,
-                                'name'                  => isset($row['goods_name'])? $row['goods_name']: '',
-                                'goods_attr_id'         => $row['goods_attr_id'],
-                                'goods_attr'            => $attr,
-                                'goods_number'          => isset($row['goods_number'])? $row['goods_number']: 0,
-                                'subtotal'              => isset($row['subtotal'])? price_format($row['subtotal'], false): 0,
-                                'formated_shop_price'   => isset($row['goods_price']) ? price_format($row['goods_price'], false) : 0,
-                                'img' => array(
-                                    'small' => (isset($row['goods_thumb']) && !empty($row['goods_thumb']))       ? RC_Upload::upload_url($row['goods_thumb'])     : '',
-                                    'thumb' => (isset($row['goods_img']) && !empty($row['goods_img']))           ? RC_Upload::upload_url($row['goods_img'])         : '',
-                                    'url'   => (isset($row['original_img']) && !empty($row['original_img']))     ? RC_Upload::upload_url($row['original_img'])     : '',
+                                'goods_id'            => isset($row['goods_id']) ? $row['goods_id'] : 0,
+                                'name'                => isset($row['goods_name']) ? $row['goods_name'] : '',
+                                'goods_attr_id'       => $row['goods_attr_id'],
+                                'goods_attr'          => $attr,
+                                'goods_number'        => isset($row['goods_number']) ? $row['goods_number'] : 0,
+                                'subtotal'            => isset($row['subtotal']) ? price_format($row['subtotal'], false) : 0,
+                                'formated_shop_price' => isset($row['goods_price']) ? price_format($row['goods_price'], false) : 0,
+                                'img'                 => array(
+                                    'small' => (isset($row['goods_thumb']) && !empty($row['goods_thumb'])) ? RC_Upload::upload_url($row['goods_thumb']) : '',
+                                    'thumb' => (isset($row['goods_img']) && !empty($row['goods_img'])) ? RC_Upload::upload_url($row['goods_img']) : '',
+                                    'url'   => (isset($row['original_img']) && !empty($row['original_img'])) ? RC_Upload::upload_url($row['original_img']) : '',
                                 ),
-                                'is_commented'   => empty($row['comment_id']) ? 0 : 1,
-                                'is_showorder'	 => empty($row['has_image']) ? 0 : 1,
+                                'is_commented'        => empty($row['comment_id']) ? 0 : 1,
+                                'is_showorder'        => empty($row['has_image']) ? 0 : 1,
                             )
                         );
                     }
-                    
+
                     $goods_list = get_order_goods_base($row['order_id']);
                     if (!empty($goods_list)) {
-                        foreach ($goods_list as $k =>$v) {
+                        foreach ($goods_list as $k => $v) {
                             $attr = array();
                             if (!empty($v['goods_attr'])) {
                                 $goods_attr = explode("\n", $v['goods_attr']);
                                 $goods_attr = array_filter($goods_attr);
-                                foreach ($goods_attr as  $val) {
-                                    $a = explode(':',$val);
+                                foreach ($goods_attr as $val) {
+                                    $a = explode(':', $val);
                                     if (!empty($a[0]) && !empty($a[1])) {
-                                        $attr[] = array('name'=>$a[0], 'value'=>$a[1]);
+                                        $attr[] = array('name' => $a[0], 'value' => $a[1]);
                                     }
                                 }
                             }
                             $goods_list[$k] = array(
-                                'goods_id'				=> $v['goods_id'],
-                                'name'					=> $v['goods_name'],
-                                'goods_attr_id'         => $v['goods_attr_id'],
-                                'goods_attr'            => $attr,
-                                'goods_number'			=> $v['goods_number'],
-                                'subtotal'				=> price_format($v['subtotal'], false),
-                                'formated_shop_price' 	=> price_format($v['goods_price'], false),
-                                'is_commented'   => $v['is_commented'],
-                                'is_showorder'	 => $v['has_image'],
-                                'img' => array(
-                                    'thumb'	=> !empty($v['goods_img']) ? RC_Upload::upload_url($v['goods_img']) : '',
-                                    'url'	=> !empty($v['original_img']) ? RC_Upload::upload_url($v['original_img']) : '',
-                                    'small'	=> !empty($v['goods_thumb']) ? RC_Upload::upload_url($v['goods_thumb']) : '',
+                                'goods_id'            => $v['goods_id'],
+                                'name'                => $v['goods_name'],
+                                'goods_attr_id'       => $v['goods_attr_id'],
+                                'goods_attr'          => $attr,
+                                'goods_number'        => $v['goods_number'],
+                                'subtotal'            => price_format($v['subtotal'], false),
+                                'formated_shop_price' => price_format($v['goods_price'], false),
+                                'is_commented'        => $v['is_commented'],
+                                'is_showorder'        => $v['has_image'],
+                                'img'                 => array(
+                                    'thumb' => !empty($v['goods_img']) ? RC_Upload::upload_url($v['goods_img']) : '',
+                                    'url'   => !empty($v['original_img']) ? RC_Upload::upload_url($v['original_img']) : '',
+                                    'small' => !empty($v['goods_thumb']) ? RC_Upload::upload_url($v['goods_thumb']) : '',
                                 ),
                             );
                         }
@@ -319,26 +312,26 @@ class orders_order_list_api extends Component_Event_Api {
 
                     $order_id = $row['order_id'];
                 } else {
-                    $goods_number += isset($row['goods_number']) ? $row['goods_number'] : 0;
+                    $goods_number                             += isset($row['goods_number']) ? $row['goods_number'] : 0;
                     $orders[$row['order_id']]['goods_number'] = $goods_number;
-                    $goods_type_number ++;
-                    $subject = $row['goods_name'].RC_Lang::get('orders::order.etc').$goods_type_number.RC_Lang::get('orders::order.kind_of_goods');
-                    $orders[$row['order_id']]['order_info']['subject']    = $subject;
-                    $orders[$row['order_id']]['order_info']['desc']        = $subject;
-                    $orders[$row['order_id']]['goods_list'][] = array(
-                        'goods_id'          => isset($row['goods_id'])? $row['goods_id'] : 0,
-                        'name'              => isset($row['goods_name'])? $row['goods_name'] : '',
-                        'goods_attr_id'     => isset($row['goods_attr_id'])? $row['goods_attr_id'] : '',
-                        'goods_attr'        => empty($attr) ? '' : $attr,
-                        'goods_number'      => isset($row['goods_number']) ? $row['goods_number'] : 0,
-                        'subtotal'          => isset($row['subtotal'])? price_format($row['subtotal'], false) : 0,
-                        'formated_shop_price' => isset($row['goods_price']) ? price_format($row['goods_price'], false)     : 0,
-                        'img' => array(
-                            'small'         => (isset($row['goods_thumb']) && !empty($row['goods_thumb']))       ? RC_Upload::upload_url($row['goods_thumb'])     : '',
-                            'thumb'         => (isset($row['goods_img']) && !empty($row['goods_img']))           ? RC_Upload::upload_url($row['goods_img'])         : '',
-                            'url'           => (isset($row['original_img']) && !empty($row['original_img']))     ? RC_Upload::upload_url($row['original_img'])     : '',
+                    $goods_type_number++;
+                    $subject                                           = sprintf(__('%s 等 %s 种商品', 'orders'), $row['goods_name'], $goods_type_number);
+                    $orders[$row['order_id']]['order_info']['subject'] = $subject;
+                    $orders[$row['order_id']]['order_info']['desc']    = $subject;
+                    $orders[$row['order_id']]['goods_list'][]          = array(
+                        'goods_id'            => isset($row['goods_id']) ? $row['goods_id'] : 0,
+                        'name'                => isset($row['goods_name']) ? $row['goods_name'] : '',
+                        'goods_attr_id'       => isset($row['goods_attr_id']) ? $row['goods_attr_id'] : '',
+                        'goods_attr'          => empty($attr) ? '' : $attr,
+                        'goods_number'        => isset($row['goods_number']) ? $row['goods_number'] : 0,
+                        'subtotal'            => isset($row['subtotal']) ? price_format($row['subtotal'], false) : 0,
+                        'formated_shop_price' => isset($row['goods_price']) ? price_format($row['goods_price'], false) : 0,
+                        'img'                 => array(
+                            'small' => (isset($row['goods_thumb']) && !empty($row['goods_thumb'])) ? RC_Upload::upload_url($row['goods_thumb']) : '',
+                            'thumb' => (isset($row['goods_img']) && !empty($row['goods_img'])) ? RC_Upload::upload_url($row['goods_img']) : '',
+                            'url'   => (isset($row['original_img']) && !empty($row['original_img'])) ? RC_Upload::upload_url($row['original_img']) : '',
                         ),
-                        'is_commented'    => empty($row['relation_id']) ? 0 : 1,
+                        'is_commented'        => empty($row['relation_id']) ? 0 : 1,
                     );
 
                 }

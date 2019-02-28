@@ -56,9 +56,9 @@ class mh_print extends ecjia_merchant
         $this->admin_priv('mh_orders_order_print', ecjia::MSGTYPE_JSON);
 
         $order_id = intval($_GET['order_id']);
-        
+
         $result = with(new Ecjia\App\Orders\OrderPrint($order_id, $_SESSION['store_id']))->doPrint();
-        
+
         if (is_ecjia_error($result)) {
             return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }

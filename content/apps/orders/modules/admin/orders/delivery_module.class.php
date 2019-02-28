@@ -50,48 +50,51 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 发货单
  * @author will
  */
-class admin_orders_delivery_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+class admin_orders_delivery_module extends api_admin implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
 
-		$this->authadminSession();
+        $this->authadminSession();
         if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-            return new ecjia_error(100, 'Invalid session');
+            return new ecjia_error(100, __('Invalid session', 'orders'));
         }
-		
-		$order_id = $this->requestData('order_id', 0);
 
- 		if (empty($order_id)) {
- 			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
-		}
-		$db_table = RC_DB::table('delivery_order');
-		if ($_SESSION['store_id']) {
-		    $db_table->where('store_id', $_SESSION['store_id']);
-		}
-		$delivery_result = $db_table->where('order_id', $order_id)->get();
-		
-		$delivery_list = array();
-		if (!empty($delivery_result)) {
-			foreach ($delivery_result as $val) {
-				$delivery_list[] = array(
-					'delivery_id'	=> $val['delivery_id'],
-					'delivery_sn'	=> $val['delivery_sn'],
-					'pickup_qrcode_sn'	=> 'ecjiaopen://app?open_type=express_pickup&delivery_sn='. $val['delivery_sn'],
-					'order_sn'		=> $val['order_sn'],
-					'shipping_name'	=> $val['shipping_name'],
-					'consignee'		=> $val['consignee'],
-					'address'		=> $val['address'],
-					'mobile'		=> $val['mobile'],
-					'status'		=> $val['status'] == 0 ? 'shipped' : 'shipping',
-					'label_status'	=> $val['status'] == 0 ? '已发货' : '发货中', 
-				    'goods_items'   => $this->get_delivery_goods_list($val['delivery_id']),
-				    'send_time'     => RC_Time::local_date(ecjia::config('date_format'), $val['update_time']),
-				);
-			}
-		}
-		return $delivery_list;
-	}
+        $order_id = $this->requestData('order_id', 0);
 
-    private function get_delivery_goods_list($delivery_id) {
+        if (empty($order_id)) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+        }
+        $db_table = RC_DB::table('delivery_order');
+        if ($_SESSION['store_id']) {
+            $db_table->where('store_id', $_SESSION['store_id']);
+        }
+        $delivery_result = $db_table->where('order_id', $order_id)->get();
+
+        $delivery_list = array();
+        if (!empty($delivery_result)) {
+            foreach ($delivery_result as $val) {
+                $delivery_list[] = array(
+                    'delivery_id'      => $val['delivery_id'],
+                    'delivery_sn'      => $val['delivery_sn'],
+                    'pickup_qrcode_sn' => 'ecjiaopen://app?open_type=express_pickup&delivery_sn=' . $val['delivery_sn'],
+                    'order_sn'         => $val['order_sn'],
+                    'shipping_name'    => $val['shipping_name'],
+                    'consignee'        => $val['consignee'],
+                    'address'          => $val['address'],
+                    'mobile'           => $val['mobile'],
+                    'status'           => $val['status'] == 0 ? 'shipped' : 'shipping',
+                    'label_status'     => $val['status'] == 0 ? __(__('已发货', 'orders'), 'orders') : __(__('发货中', 'orders'), 'orders'),
+                    'goods_items'      => $this->get_delivery_goods_list($val['delivery_id']),
+                    'send_time'        => RC_Time::local_date(ecjia::config('date_format'), $val['update_time']),
+                );
+            }
+        }
+        return $delivery_list;
+    }
+
+    private function get_delivery_goods_list($delivery_id)
+    {
         $goods_list = RC_DB::table('delivery_goods as dg')
             ->leftJoin('goods as g', RC_DB::raw('dg.goods_id'), '=', RC_DB::raw('g.goods_id'))
             ->select(RC_DB::raw('dg.goods_id'), RC_DB::raw('dg.goods_name'), RC_DB::raw('dg.send_number'), RC_DB::raw('dg.goods_attr'), RC_DB::raw('g.goods_thumb'), RC_DB::raw('g.shop_price'), RC_DB::raw('g.goods_img'), RC_DB::raw('g.original_img'))
@@ -101,16 +104,16 @@ class admin_orders_delivery_module extends api_admin implements api_interface {
         if ($goods_list) {
             foreach ($goods_list as $goods) {
                 $goods_items[] = array(
-                    'goods_id' => $goods['goods_id'],
-                    'goods_name' => $goods['goods_name'],
-                    'shop_price' => $goods['shop_price'],
+                    'goods_id'            => $goods['goods_id'],
+                    'goods_name'          => $goods['goods_name'],
+                    'shop_price'          => $goods['shop_price'],
                     'formated_shop_price' => price_format($goods['shop_price'], false),
-                    'send_number' => $goods['send_number'],
-                    'goods_attr' => $goods['goods_attr'],
-                    'img' => array(
-                        'thumb'	=> (isset($goods['goods_img']) && !empty($goods['goods_img']))		 ? RC_Upload::upload_url($goods['goods_img'])		: '',
-                        'url'	=> (isset($goods['original_img']) && !empty($goods['original_img'])) ? RC_Upload::upload_url($goods['original_img'])  : '',
-                        'small'	=> (isset($goods['goods_thumb']) && !empty($goods['goods_thumb']))   ? RC_Upload::upload_url($goods['goods_thumb'])   : ''
+                    'send_number'         => $goods['send_number'],
+                    'goods_attr'          => $goods['goods_attr'],
+                    'img'                 => array(
+                        'thumb' => (isset($goods['goods_img']) && !empty($goods['goods_img'])) ? RC_Upload::upload_url($goods['goods_img']) : '',
+                        'url'   => (isset($goods['original_img']) && !empty($goods['original_img'])) ? RC_Upload::upload_url($goods['original_img']) : '',
+                        'small' => (isset($goods['goods_thumb']) && !empty($goods['goods_thumb'])) ? RC_Upload::upload_url($goods['goods_thumb']) : ''
                     )
                 );
             }

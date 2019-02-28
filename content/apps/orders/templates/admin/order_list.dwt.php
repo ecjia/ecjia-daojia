@@ -23,7 +23,7 @@
 
 <ul class="nav nav-pills">
 	<li class="{if $filter.composite_status eq ''}active{/if}">
-		<a class="data-pjax" data-href="{RC_Uri::url('orders/admin/init')}" href="{$search_url}">{lang key='orders::order.all'}
+		<a class="data-pjax" data-href="{RC_Uri::url('orders/admin/init')}" href="{$search_url}">全部
 			<span class="badge badge-info">{if $count.all}{$count.all}{else}0{/if}</span>
 		</a>
 	</li>
@@ -59,14 +59,13 @@
 <div class="row-fluid batch">
 	<form action="{RC_Uri::url('orders/admin/init')}{if $smarty.get.extension_code}&extension_code={$smarty.get.extension_code}{/if}" name="searchForm" method="post">
 		<select class="down-menu w180" name="status" id="select-rank">
-			<option value="-1">{lang key='orders::order.all_status'}</option>
+			<option value="-1">订单状态</option>
 			<!-- {html_options options=$status_list selected=$filter.composite_status} -->
 		</select>
 		<a class="btn m_l5 screen-btn">{t}筛选{/t}</a>
 
 		<div class="choose_list f_r">
-			<input type="text" name="merchant_keywords" value="{$filter.merchant_keywords}" placeholder="{lang key='orders::order.enter_merchant_keywords'}"
-			/>
+			<input type="text" name="merchant_keywords" value="{$filter.merchant_keywords}" placeholder="请输入商家名称关键字" />
 			<input type="text" name="keywords" value="{$filter.keywords}" placeholder="请输入订单编号或购买者信息" />
 			<button class="btn" type="submit">搜索</button>
 		</div>
@@ -80,18 +79,18 @@
 				<thead>
 					<tr>
 						<th class="w100">订单编号</th>
-						<th class="w180">{lang key='orders::order.merchants_name'}</th>
-						<th class="w150">{lang key='orders::order.order_time'}</th>
+						<th class="w180">商家名称</th>
+						<th class="w150">下单时间</th>
 						<th class="w150">购买者信息</th>
-						<th class="w150">{lang key='orders::order.total_fee'}</th>
+						<th class="w150">总金额</th>
 						{if $filter.extension_code eq "group_buy"}
 						<th class="w150">保证金</th>
 						{/if}
-						<th class="w110">{lang key='orders::order.order_amount'}</th>
+						<th class="w110">应付金额</th>
 						{if $filter.extension_code eq "group_buy"}
 						<th class="w130">团购状态</th>
 						{/if}
-						<th class="w100">{lang key='orders::order.all_status'}</th>
+						<th class="w100">订单状态</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -100,10 +99,10 @@
 						<td class="hide-edit-area">
 							{$order.order_sn}
 							<div class="edit-list">
-								<a href='{url path="orders/admin/info" args="order_id={$order.order_id}"}' class="data-pjax" title="{lang key='orders::order.detail'}">{lang key='orders::order.detail'}</a>
+								<a href='{url path="orders/admin/info" args="order_id={$order.order_id}"}' class="data-pjax" title="查看">查看</a>
 								{if $order.can_remove} &nbsp;|&nbsp;
-								<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{lang key=' orders::order.confirm_delete_order '}' href='{url path="orders/admin/remove_order" args="order_id={$order.order_id}"}'
-								    title="{lang key='orders::order.op_remove'}">{lang key='orders::order.op_remove'}</a>
+								<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='您确定要删除该订单么？' href='{url path="orders/admin/remove_order" args="order_id={$order.order_id}"}'
+								    title="删除">删除</a>
 								{/if}
 							</div>
 						</td>
@@ -142,7 +141,7 @@
 					</tr>
 					<!-- {foreachelse}-->
 					<tr>
-						<td class="no-records" colspan="{if $filter.extension_code eq 'group_buy'}9{else}7{/if}">{lang key='system::system.no_records'}</td>
+						<td class="no-records" colspan="{if $filter.extension_code eq 'group_buy'}9{else}7{/if}">没有找到任何记录</td>
 					</tr>
 					<!-- {/foreach} -->
 				</tbody>

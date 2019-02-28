@@ -57,14 +57,15 @@ class OrderStatusLog
      * @param array $options
      * @return bool
      */
-    public static function generate_order($options) {
-    	$data = array(
-    	'order_status'	=> RC_Lang::get('cart::shopping_flow.label_place_order'),
-    	'order_id'		=> $options['order_id'],
-    	'message'		=> '下单成功，订单号：'.$options['order_sn'],
-    	'add_time'		=> RC_Time::gmtime(),
-    	);
-    	 RC_DB::table('order_status_log')->insert($data);
+    public static function generate_order($options)
+    {
+        $data = array(
+            'order_status' => __('订单提交成功', 'orders'),
+            'order_id'     => $options['order_id'],
+            'message'      => sprintf(__('下单成功，订单号：%s', 'orders'), $options['order_sn']),
+            'add_time'     => RC_Time::gmtime(),
+        );
+        RC_DB::table('order_status_log')->insert($data);
         return true;
     }
 
@@ -73,247 +74,287 @@ class OrderStatusLog
      * @param array $options
      * @return bool
      */
-    public static function remind_pay($options) {
-		RC_DB::table('order_status_log')->insert(array(
-			'order_status'	=> RC_Lang::get('cart::shopping_flow.unpay'),
-			'order_id'		=> $options['order_id'],
-			'message'		=> '请尽快支付该订单，超时将会自动取消订单',
-			'add_time'		=> RC_Time::gmtime(),
-		));
+    public static function remind_pay($options)
+    {
+        RC_DB::table('order_status_log')->insert(array(
+            'order_status' => __('待付款', 'orders'),
+            'order_id'     => $options['order_id'],
+            'message'      => __('请尽快支付该订单，超时将会自动取消订单', 'orders'),
+            'add_time'     => RC_Time::gmtime(),
+        ));
         return true;
     }
-    
+
     /**
      * 订单付款成功时
      * @param array $options
      * @return bool
      */
-    public static function order_paid($options) {
-    	 RC_DB::table('order_status_log')->insert(array(
-    	    'order_status'	=> RC_Lang::get('orders::order.ps.'.PS_PAYED),
-    	    'order_id'		=> $options['order_id'],
-    	    'message'		=> RC_Lang::get('orders::order.notice_merchant_message'),
-    	    'add_time'		=> RC_Time::gmtime(),
-	    ));
-    	return true;
+    public static function order_paid($options)
+    {
+        $ps = array(
+            PS_UNPAYED => __(__('未付款', 'orders'), 'orders'),
+            PS_PAYING  => __(__('付款中', 'orders'), 'orders'),
+            PS_PAYED   => __(__('已付款', 'orders'), 'orders'),
+        );
+        RC_DB::table('order_status_log')->insert(array(
+            'order_status' => $ps[PS_PAYED],
+            'order_id'     => $options['order_id'],
+            'message'      => __('已通知商家处理，请耐心等待', 'orders'),
+            'add_time'     => RC_Time::gmtime(),
+        ));
+        return true;
     }
-    
-    
+
+
     /**
      * 订单付款成功时同时通知商家
      * @param array $options
      * @return bool
      */
-    public static function notify_merchant($options) {
-    	 RC_DB::table('order_status_log')->insert(array(
-    	    'order_status'	=> RC_Lang::get('cart::shopping_flow.merchant_process'),
-    	    'order_id'		=> $options['order_id'],
-    	    'message'		=> '订单已通知商家，等待商家处理',
-    	    'add_time'		=> RC_Time::gmtime(),
-	    ));
-    	return true;
+    public static function notify_merchant($options)
+    {
+        RC_DB::table('order_status_log')->insert(array(
+            'order_status' => __('等待商家接单', 'orders'),
+            'order_id'     => $options['order_id'],
+            'message'      => __('订单已通知商家，等待商家处理', 'orders'),
+            'add_time'     => RC_Time::gmtime(),
+        ));
+        return true;
     }
-    
+
     /**
      * 发货单入库
      * @param array $options
      * @return bool
      */
-    public static function generate_delivery_orderInvoice($options) {
-    	$data = array(
-    			'order_status' 	=> RC_Lang::get('orders::order.ss.'.SS_PREPARING),
-    			'order_id'   	=> $options['order_id'],
-    			'message'		=> sprintf(RC_Lang::get('orders::order.order_prepare_message'), $options['order_sn']),
-    			'add_time'     	=> RC_Time::gmtime()
-    	);
-    	RC_DB::table('order_status_log')->insert($data);
-    	return true;
+    public static function generate_delivery_orderInvoice($options)
+    {
+        $ss   = array(
+            SS_UNSHIPPED    => __(__('未发货', 'orders'), 'orders'),
+            SS_PREPARING    => __(__('配货中', 'orders'), 'orders'),
+            SS_SHIPPED      => __(__('已发货', 'orders'), 'orders'),
+            SS_RECEIVED     => __(__('收货确认', 'orders'), 'orders'),
+            SS_SHIPPED_PART => __(__('已发货(部分商品)', 'orders'), 'orders'),
+            SS_SHIPPED_ING  => __(__('发货中', 'orders'), 'orders'),
+        );
+        $data = array(
+            'order_status' => $ss[SS_PREPARING],
+            'order_id'     => $options['order_id'],
+            'message'      => sprintf(__('订单号为 %s 的商品正在备货中，请您耐心等待', 'orders'), $options['order_sn']),
+            'add_time'     => RC_Time::gmtime()
+        );
+        RC_DB::table('order_status_log')->insert($data);
+        return true;
     }
-    
+
     /**
      * 完成发货
      * @param array $options
      * @return bool
      */
-    public static function delivery_ship_finished($options) {
-    	$data = array(
-    			'order_status'	=> RC_Lang::get('orders::order.ss.'.SS_SHIPPED),
-    			'message'       => sprintf(RC_Lang::get('orders::order.order_send_message'), $options['order_sn']),
-    			'order_id'    	=> $options['order_id'],
-    			'add_time'    	=> RC_Time::gmtime(),
-    	);
-    	RC_DB::table('order_status_log')->insert($data);
-    	return true;
+    public static function delivery_ship_finished($options)
+    {
+        $ss   = array(
+            SS_UNSHIPPED    => __(__('未发货', 'orders'), 'orders'),
+            SS_PREPARING    => __(__('配货中', 'orders'), 'orders'),
+            SS_SHIPPED      => __(__('已发货', 'orders'), 'orders'),
+            SS_RECEIVED     => __(__('收货确认', 'orders'), 'orders'),
+            SS_SHIPPED_PART => __(__('已发货(部分商品)', 'orders'), 'orders'),
+            SS_SHIPPED_ING  => __(__('发货中', 'orders'), 'orders'),
+        );
+        $data = array(
+            'order_status' => $ss[SS_SHIPPED],
+            'message'      => sprintf(__('订单号为 %s 的商品已发货，请您耐心等待', 'orders'), $options['order_sn']),
+            'order_id'     => $options['order_id'],
+            'add_time'     => RC_Time::gmtime(),
+        );
+        RC_DB::table('order_status_log')->insert($data);
+        return true;
     }
-    
+
     /**
      * 订单确认收货
      * @param array $options
      * @return bool
      */
-    public static function affirm_received($options) {
-    	$order_status_data = array(
-        		'order_status' => RC_Lang::get('orders::order.confirm_receipted'),
-        		'order_id' 	   => $options['order_id'],
-        		'message'	   => '宝贝已签收，购物愉快！',
-        		'add_time'	   => RC_Time::gmtime()
-        );
-        RC_DB::table('order_status_log')->insert($order_status_data);
-        
+    public static function affirm_received($options)
+    {
         $order_status_data = array(
-        		'order_status' => RC_Lang::get('orders::order.order_finished'),
-        		'order_id' 	   => $options['order_id'],
-        		'message'	   => '感谢您在'.ecjia::config('shop_name').'购物，欢迎您再次光临！',
-        		'add_time'	   => RC_Time::gmtime()
+            'order_status' => __('已确认收货', 'orders'),
+            'order_id'     => $options['order_id'],
+            'message'      => __('宝贝已签收，购物愉快！', 'orders'),
+            'add_time'     => RC_Time::gmtime()
         );
         RC_DB::table('order_status_log')->insert($order_status_data);
-    	return true;
+
+        $order_status_data = array(
+            'order_status' => __('订单已完成', 'orders'),
+            'order_id'     => $options['order_id'],
+            'message'      => sprintf(__('感谢您在 %s 购物，欢迎您再次光临！', 'orders'), ecjia::config('shop_name')),
+            'add_time'     => RC_Time::gmtime()
+        );
+        RC_DB::table('order_status_log')->insert($order_status_data);
+        return true;
     }
-    
+
     /**
      * 取消订单
      * @param array $options
      * @return bool
      */
-    public static function cancel($options) {
-    	RC_DB::table('order_status_log')->insert(array(
-	        'order_status'	=> RC_Lang::get('orders::order.order_cancel'),
-	        'order_id'		=> $options['order_id'],
-	        'message'		=> '您的订单已取消成功！',
-	        'add_time'		=> RC_Time::gmtime(),
+    public static function cancel($options)
+    {
+        RC_DB::table('order_status_log')->insert(array(
+            'order_status' => __('订单已取消', 'orders'),
+            'order_id'     => $options['order_id'],
+            'message'      => __('您的订单已取消成功！', 'orders'),
+            'add_time'     => RC_Time::gmtime(),
         ));
-    	return true;
+        return true;
     }
-    
+
     /**
      * 订单自动取消
      * @param array $options
      * @return bool
      */
-    public static function order_auto_cancel($options) {
-    	RC_DB::table('order_status_log')->insert(array(
-    	'order_status'	=> '超时未支付取消',
-    	'order_id'		=> $options['order_id'],
-    	'message'		=> '订单超时未支付，已自动取消！',
-    	'add_time'		=> RC_Time::gmtime(),
-    	));
-    	return true;
+    public static function order_auto_cancel($options)
+    {
+        RC_DB::table('order_status_log')->insert(array(
+            'order_status' => __('超时未支付取消', 'orders'),
+            'order_id'     => $options['order_id'],
+            'message'      => __('订单超时未支付，已自动取消！', 'orders'),
+            'add_time'     => RC_Time::gmtime(),
+        ));
+        return true;
     }
-    
+
     /**
      * 仅退款订单已处理
      * @param array $options
      * @return bool
      */
-    public static function refund_order_process($options) {
-    	if ($options['status'] == 1) {
-    		$message = '申请审核已通过';
-    	} else {
-    		$message = '申请审核未通过';
-    	}
-    	$data = array(
-    		'order_status'	=> '订单退款申请已处理',
-    		'message'       => $message,
-    		'order_id'    	=> $options['order_id'],
-    		'add_time'    	=> RC_Time::gmtime(),
-    	);
-    	RC_DB::table('order_status_log')->insert($data);
-    	return true;
+    public static function refund_order_process($options)
+    {
+        if ($options['status'] == 1) {
+            $message = __('申请审核已通过', 'orders');
+        } else {
+            $message = __('申请审核未通过', 'orders');
+        }
+        $data = array(
+            'order_status' => __('订单退款申请已处理', 'orders'),
+            'message'      => $message,
+            'order_id'     => $options['order_id'],
+            'add_time'     => RC_Time::gmtime(),
+        );
+        RC_DB::table('order_status_log')->insert($data);
+        return true;
     }
-    
+
     /**
      * 退货退款订单已处理
      * @param array $options
      * @return bool
      */
-    public static function return_order_process($options) {
-    	if($options['status'] == 1) {
-    		$message = '申请审核已通过，请选择返回方式';
-    	} else {
-    		$message ='申请审核未通过';
-    	}
-    	$data = array(
-    		'order_status'	=> '订单退货退款申请已处理',
-    		'message'       => $message,
-    		'order_id'    	=> $options['order_id'],
-    		'add_time'    	=> RC_Time::gmtime(),
-    	);
-    	RC_DB::table('order_status_log')->insert($data);
-    	return true;
+    public static function return_order_process($options)
+    {
+        if ($options['status'] == 1) {
+            $message = __('申请审核已通过，请选择返回方式', 'orders');
+        } else {
+            $message = __('申请审核未通过', 'orders');
+        }
+        $data = array(
+            'order_status' => __('订单退货退款申请已处理', 'orders'),
+            'message'      => $message,
+            'order_id'     => $options['order_id'],
+            'add_time'     => RC_Time::gmtime(),
+        );
+        RC_DB::table('order_status_log')->insert($data);
+        return true;
     }
-    
+
     /**
      * 订单确认收货处理
      * @param array $options
      * @return bool
      */
-    public static function return_confirm_receive($options) {
-    	if($options['status'] == 3) {
-    		$message = '商家已确认收货，等价商家退款';
-    	} else {
-    		$message = '商家未收到货';
-    	}
-    	$data = array(
-    		'order_status'	=> '确认收货处理',
-    		'message'       => $message,
-    		'order_id'    	=> $options['order_id'],
-    		'add_time'    	=> RC_Time::gmtime(),
-    	);
-    	RC_DB::table('order_status_log')->insert($data);
-    	return true;
+    public static function return_confirm_receive($options)
+    {
+        if ($options['status'] == 3) {
+            $message = __('商家已确认收货，等价商家退款', 'orders');
+        } else {
+            $message = __('商家未收到货', 'orders');
+        }
+        $data = array(
+            'order_status' => __('确认收货处理', 'orders'),
+            'message'      => $message,
+            'order_id'     => $options['order_id'],
+            'add_time'     => RC_Time::gmtime(),
+        );
+        RC_DB::table('order_status_log')->insert($data);
+        return true;
     }
-    
+
     /**
      * 订单退款到账处理
      * @param array $options
      * @return bool
      */
-    public static function refund_payrecord($options) {
-    	if (!empty($options['back_pay_name'])) {
-    		$message = '您的退款'.$options['back_money'].'元，已退回至您的'.$options['back_pay_name'].'账户，请查收';
-    	} else {
-    		$message = '您的退款'.$options['back_money'].'元，已退回至您的余额，请查收';
-    	}
-    	$data = array(
-    		'order_status'	=> '退款到账',
-    		'message'       => $message,
-    		'order_id'    	=> $options['order_id'],
-    		'add_time'    	=> RC_Time::gmtime(),
-    	);
-    	RC_DB::table('order_status_log')->insert($data);
-    	return true;
+    public static function refund_payrecord($options)
+    {
+        if (!empty($options['back_pay_name'])) {
+            $message = sprintf(__('您的退款 %s 元，已退回至您的 %s 账户，请查收', 'orders'), $options['back_money'], $options['back_pay_name']);
+        } else {
+            $message = sprintf(__('您的退款 %s 元，已退回至您的余额，请查收', 'orders'), $options['back_money']);
+        }
+        $data = array(
+            'order_status' => __('退款到账', 'orders'),
+            'message'      => $message,
+            'order_id'     => $options['order_id'],
+            'add_time'     => RC_Time::gmtime(),
+        );
+        RC_DB::table('order_status_log')->insert($data);
+        return true;
     }
-    
+
     /**
      * 团购订单支付成功时
      * @param array $options
      * @return bool
      */
-    public static function groupbuy_order_paid($options) {
-    	$data = array(
-		    		'order_status'	=> RC_Lang::get('orders::order.ps.'.PS_PAYED),
-		    		'order_id'		=> $options['order_id'],
-		    		'message'		=> '保证金支付成功，等活动成功结束后尽快支付商品部分余款！',
-		    		'add_time'		=> RC_Time::gmtime(),
-	    		);
-    	
-    	RC_DB::table('order_status_log')->insert($data);
-    	return true;
+    public static function groupbuy_order_paid($options)
+    {
+        $ps   = array(
+            PS_UNPAYED => __(__('未付款', 'orders'), 'orders'),
+            PS_PAYING  => __(__('付款中', 'orders'), 'orders'),
+            PS_PAYED   => __(__('已付款', 'orders'), 'orders'),
+        );
+        $data = array(
+            'order_status' => $ps[PS_PAYED],
+            'order_id'     => $options['order_id'],
+            'message'      => __('保证金支付成功，等活动成功结束后尽快支付商品部分余款！', 'orders'),
+            'add_time'     => RC_Time::gmtime(),
+        );
+
+        RC_DB::table('order_status_log')->insert($data);
+        return true;
     }
-    
+
     /**
      * 自提和配送订单（开启自动接单时）；订单支付成功，默认已接单
      * @param array $options
      * @return bool
      */
-    public static function orderpaid_autoconfirm($options) {
-    	$data = array(
-    			'order_status'	=> '商家已接单',
-    			'order_id'		=> $options['order_id'],
-    			'message'		=> '已被商家接单，订单正在备货中',
-    			'add_time'		=> RC_Time::gmtime()
-    	);
-    	RC_DB::table('order_status_log')->insert($data);
-    	return true;
+    public static function orderpaid_autoconfirm($options)
+    {
+        $data = array(
+            'order_status' => __('商家已接单', 'orders'),
+            'order_id'     => $options['order_id'],
+            'message'      => __('已被商家接单，订单正在备货中', 'orders'),
+            'add_time'     => RC_Time::gmtime()
+        );
+        RC_DB::table('order_status_log')->insert($data);
+        return true;
     }
 }

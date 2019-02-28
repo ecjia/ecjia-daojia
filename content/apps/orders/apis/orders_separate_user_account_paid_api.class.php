@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 use Ecjia\System\Notifications\OrderPay;
+
 defined('IN_ECJIA') or exit('No permission resources.');
 
 
@@ -52,73 +53,76 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 余额支付后处理主订单的接口
  * @author hyy
  */
-class orders_separate_user_account_paid_api extends Component_Event_Api {
-	
+class orders_separate_user_account_paid_api extends Component_Event_Api
+{
+
     /**
-     * @param  $options['user_id'] 会员id
+     * @param  $options ['user_id'] 会员id
      *         $options['order_sn'] 订单sn
      * @return array
      */
-	public function call(&$options) {
-	    if (!is_array($options)
-	        || !isset($options['user_id'])
-	        || !isset($options['order_sn'])) {
-	        return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
-	    }
-	    
-	    $result = $this->user_account_paid($options['user_id'], $options['order_sn']);
-	    
-	    if (is_ecjia_error($result)) {
-	    	return $result;
-	    } else {
-	    	return true;
-	    }
-	    
-	}
-	
-	/**
-	 * 余额支付
-	 *
-	 * @access  public
-	 * @param   integer $user_id 用户id
-	 * @param   integer $order_id 订单id
-	 * @return  void
-	 */
-	private function user_account_paid($user_id, $order_sn) {
-	    /* 订单详情 */
-	    $order_info = RC_Api::api('orders', 'separate_order_info', array('order_sn' => $order_sn));
-	    if ($user_id != $order_info['user_id']) {
-	        return new ecjia_error('error_order_detail', RC_Lang::get('orders::order.error_order_detail'));
-	    }
-		
-		/* 会员详情*/
-		$user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
+    public function call(&$options)
+    {
+        if (!is_array($options)
+            || !isset($options['user_id'])
+            || !isset($options['order_sn'])) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+        }
 
-		/* 检查订单是否已经付款 */
-		if ($order_info['pay_status'] == PS_PAYED && $order_info['pay_time']) {
-		    return new ecjia_error('order_paid', RC_Lang::get('orders::order.pay_repeat_message'));
-		}
-		
-		/* 检查订单金额是否大于余额 */
-		if ($order_info['order_amount'] > ($user_info['user_money'] + $user_info['credit_line'])) {
-			return new ecjia_error('balance_less', RC_Lang::get('orders::order.not_enough_balance'));
-		}
-		$params = [
-		    'order_sn' => $order_sn, 
-		    'order_info' => $order_info, 
-		    'money' => $order_info['order_amount'],
-		    'pay_code' => 'pay_balance',
-		];
-		$result = RC_Api::api('orders', 'separate_order_paid', $params);
-		if(is_ecjia_error($result)) {
-		    //失败返还TODO
-		    return $result;
-		}
-		
-		//支付后扩展处理
-		RC_Hook::do_action('order_payed_do_something', $order_info);
-		
-		return true;
+        $result = $this->user_account_paid($options['user_id'], $options['order_sn']);
+
+        if (is_ecjia_error($result)) {
+            return $result;
+        } else {
+            return true;
+        }
+
+    }
+
+    /**
+     * 余额支付
+     *
+     * @access  public
+     * @param   integer $user_id 用户id
+     * @param   integer $order_id 订单id
+     * @return  void
+     */
+    private function user_account_paid($user_id, $order_sn)
+    {
+        /* 订单详情 */
+        $order_info = RC_Api::api('orders', 'separate_order_info', array('order_sn' => $order_sn));
+        if ($user_id != $order_info['user_id']) {
+            return new ecjia_error('error_order_detail', __('订单不属于该用户', 'orders'));
+        }
+
+        /* 会员详情*/
+        $user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
+
+        /* 检查订单是否已经付款 */
+        if ($order_info['pay_status'] == PS_PAYED && $order_info['pay_time']) {
+            return new ecjia_error('order_paid', __('该订单已经支付，请勿重复支付。', 'orders'));
+        }
+
+        /* 检查订单金额是否大于余额 */
+        if ($order_info['order_amount'] > ($user_info['user_money'] + $user_info['credit_line'])) {
+            return new ecjia_error('balance_less', __('您的余额不足以支付整个订单，请选择其他支付方式。', 'orders'));
+        }
+        $params = [
+            'order_sn'   => $order_sn,
+            'order_info' => $order_info,
+            'money'      => $order_info['order_amount'],
+            'pay_code'   => 'pay_balance',
+        ];
+        $result = RC_Api::api('orders', 'separate_order_paid', $params);
+        if (is_ecjia_error($result)) {
+            //失败返还TODO
+            return $result;
+        }
+
+        //支付后扩展处理
+        RC_Hook::do_action('order_payed_do_something', $order_info);
+
+        return true;
     }
 }
 

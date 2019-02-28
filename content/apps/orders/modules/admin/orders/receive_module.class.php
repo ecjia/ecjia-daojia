@@ -45,37 +45,40 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 确认订单
  * @author will
  *
  */
-class admin_orders_receive_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-		$this->authadminSession();
+class admin_orders_receive_module extends api_admin implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+        $this->authadminSession();
 
         if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-		$result = $this->admin_priv('order_os_edit');
-		if (is_ecjia_error($result)) {
-			return $result;
-		}
-		
-		$order_id = $this->requestData('order_id', 0);
-		$action_note = $this->requestData('note');
-		if (empty($order_id)) {
-			return new ecjia_error(101, '参数错误');
-		}	
-		
-		$result = RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'receive', 'note' => array('action_note' => $action_note)));
-		if (is_ecjia_error($result)) {
-			return $result;
-		}
-		return array();
-		
-	}
-	
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+        $result = $this->admin_priv('order_os_edit');
+        if (is_ecjia_error($result)) {
+            return $result;
+        }
+
+        $order_id    = $this->requestData('order_id', 0);
+        $action_note = $this->requestData('note');
+        if (empty($order_id)) {
+            return new ecjia_error(101, __('参数错误', 'orders'));
+        }
+
+        $result = RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'receive', 'note' => array('action_note' => $action_note)));
+        if (is_ecjia_error($result)) {
+            return $result;
+        }
+        return array();
+
+    }
+
 }
 
 

@@ -45,196 +45,199 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 去发货显示页面
  * @author will
  *
  */
-class admin_orders_operate_shipping_detail_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-		$this->authadminSession();
+class admin_orders_operate_shipping_detail_module extends api_admin implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+        $this->authadminSession();
 
         if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-		
-		$result = $this->admin_priv('order_view');
-		
-		if (is_ecjia_error($result)) {
-			return $result;
-		}
-		$order_id	= $this->requestData('order_id', 0);
-		if ($order_id <= 0) {
-			return new ecjia_error(101, '参数错误');
-		}
-		
-		/*验证订单是否属于此入驻商*/
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+
+        $result = $this->admin_priv('order_view');
+
+        if (is_ecjia_error($result)) {
+            return $result;
+        }
+        $order_id = $this->requestData('order_id', 0);
+        if ($order_id <= 0) {
+            return new ecjia_error(101, __('参数错误', 'orders'));
+        }
+
+        /*验证订单是否属于此入驻商*/
         if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
-		    $ru_id_group = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id))->group('store_id')->get_field('store_id', true);
-		    if (count($ru_id_group) > 1 || $ru_id_group[0] != $_SESSION['store_id']) {
-		        return new ecjia_error('no_authority', '对不起，您没权限对此订单进行操作！');
-		    }
-		}
-		
-		/* 获取订单信息*/
-		$order_dbview = RC_Model::model('orders/order_order_infogoods_viewmodel');
-		$order_dbview->view =  array(
-				'order_goods' => array(
-						'type'  =>	Component_Model_View::TYPE_LEFT_JOIN,
-						'alias'	=>	'og',
-						'on'    =>	'oi.order_id = og.order_id ',
-				),
-				'goods'	=> array(
-						'type'  =>	Component_Model_View::TYPE_LEFT_JOIN,
-						'alias'	=>	'g',
-						'on'    =>	'og.goods_id = g.goods_id ',
-				),
-		);
-		$field = 'oi.order_id, oi.expect_shipping_time, order_sn, consignee, country, province, city, district, street, address, mobile, pay_id, shipping_id, shipping_name, oi.add_time, pay_time, og.rec_id, og.goods_id, og.product_id, og.goods_name, og.goods_price, og.goods_number, og.goods_attr, goods_thumb, goods_img, original_img';
-		$order_list = $order_dbview->join(array('order_goods', 'goods'))->field($field)->where(array('oi.order_id' => $order_id))->select();
-		if (empty($order_list)) {
-			return new ecjia_error('orders_empty', '订单信息不存在！');
-		}
-		
-		/* 获取发货单信息*/
-		$delivery_order_dbview = RC_Model::model('orders/delivery_order_viewmodel');
-		$delivery_list = $delivery_order_dbview->join(array('delivery_goods'))->where(array('do.order_id' => $order_id))->select();
-		
-		$delivery_info = array();
-		foreach ($order_list as $key => $val) {
-			/* 首次设置订单信息*/
-			if ($key == 0) {
-				//收货人地址
-				$order['country_id']	= $val['country'];
-				$order['province_id']	= $val['province'];
-				$order['city_id']		= $val['city'];
-				$order['district_id']	= $val['district'];
-				$order['street_id']		= $val['street'];
+            $ru_id_group = RC_Model::model('orders/order_info_model')->where(array('order_id' => $order_id))->group('store_id')->get_field('store_id', true);
+            if (count($ru_id_group) > 1 || $ru_id_group[0] != $_SESSION['store_id']) {
+                return new ecjia_error('no_authority', __('对不起，您没权限对此订单进行操作！', 'orders'));
+            }
+        }
 
-				$order['country']	= ecjia_region::getCountryName($val['country']);
-				$order['province']	= ecjia_region::getRegionName($val['province']);
-				$order['city']		= ecjia_region::getRegionName($val['city']);
-				$order['district']	= ecjia_region::getRegionName($val['district']);
-				$order['street']    = ecjia_region::getRegionName($val['street']);
-				$order['shipping_code'] = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->pluck('shipping_code');
-				
-				$order['pay_code'] = RC_DB::table('payment')->where('pay_id', $val['pay_id'])->pluck('pay_code');
-				
-				
-				//期望送达时间
-				$expect_shipping_time = trim($val['expect_shipping_time']);
-				$expect_shipping_time = explode(" ", $expect_shipping_time );  
+        /* 获取订单信息*/
+        $order_dbview       = RC_Model::model('orders/order_order_infogoods_viewmodel');
+        $order_dbview->view = array(
+            'order_goods' => array(
+                'type'  => Component_Model_View::TYPE_LEFT_JOIN,
+                'alias' => 'og',
+                'on'    => 'oi.order_id = og.order_id ',
+            ),
+            'goods'       => array(
+                'type'  => Component_Model_View::TYPE_LEFT_JOIN,
+                'alias' => 'g',
+                'on'    => 'og.goods_id = g.goods_id ',
+            ),
+        );
+        $field              = 'oi.order_id, oi.expect_shipping_time, order_sn, consignee, country, province, city, district, street, address, mobile, pay_id, shipping_id, shipping_name, oi.add_time, pay_time, og.rec_id, og.goods_id, og.product_id, og.goods_name, og.goods_price, og.goods_number, og.goods_attr, goods_thumb, goods_img, original_img';
+        $order_list         = $order_dbview->join(array('order_goods', 'goods'))->field($field)->where(array('oi.order_id' => $order_id))->select();
+        if (empty($order_list)) {
+            return new ecjia_error('orders_empty', __('订单信息不存在！', 'orders'));
+        }
 
-				$delivery_info = array(
-					'order_id'		=> $val['order_id'],
-					'order_sn'		=> $val['order_sn'],
-					'consignee'		=> $val['consignee'],
-					'country_id'	=> $order['country_id'],
-					'province_id'	=> $order['province_id'],
-					'city_id'		=> $order['city_id'],
-					'district_id'	=> $order['district_id'],
-					'street_id'		=> $order['street_id'],
-					'country'		=> $order['country'],
-					'province'		=> $order['province'],
-					'city'			=> $order['city'],
-					'district'		=> $order['district'],
-					'street'		=> $order['street'],
-					'address'		=> $val['address'],
-					'mobile'		=> $val['mobile'],
-					'shipping_id'	=> $val['shipping_id'],
-					'shipping_name'	=> $val['shipping_name'],
-					'shipping_code'	=> $order['shipping_code'],
-					'pay_code'	=> $order['pay_code'],
-					'add_time'		=> RC_Time::local_date(ecjia::config('time_format'), $val['add_time']),
-					'pay_time'		=> empty($val['pay_time']) ? null : RC_Time::local_date(ecjia::config('time_format'), $val['pay_time']),
-					'deliveryed_number'	=> 0,
-				);
-				
-				if ($order['shipping_code'] == 'ship_o2o_express' || $order['shipping_code'] == 'ship_ecjia_express') {
-					
-					$delivery_info['expect_shipping_time'] = array('date' => $expect_shipping_time['0'], 'time' => $expect_shipping_time['1']);
-					$shipping_area_info = RC_DB::table('shipping_area')
-								->where('store_id', $_SESSION['store_id'])
-								->where('shipping_id', $val['shipping_id'])->first();
-					$shipping_cfg = ecjia_shipping::unserializeConfig($shipping_area_info['configure']);
-					
-					/* 获取最后可送的时间（当前时间+需提前下单时间）*/
-					$time = RC_Time::local_date('H:i', RC_Time::gmtime() + $shipping_cfg['last_order_time'] * 60);
-					
-					$ship_date = 0;
-					
-					if (empty($shipping_cfg['ship_days'])) {
-						$shipping_cfg['ship_days'] = 7;
-					}
-					
-					while ($shipping_cfg['ship_days']) {
-						foreach ($shipping_cfg['ship_time'] as $k => $v) {
-					
-							if ($v['end'] > $time || $ship_date > 0) {
-								$delivery_info['shipping_date'][$ship_date]['date'] = RC_Time::local_date('Y-m-d', RC_Time::local_strtotime('+'.$ship_date.' day'));
-								$delivery_info['shipping_date'][$ship_date]['time'][] = array(
-										'start_time' 	=> $v['start'],
-										'end_time'		=> $v['end'],
-								);
-							}
-						}
-					
-						$ship_date ++;
-					
-						if (count($delivery_info['shipping_date']) >= $shipping_cfg['ship_days']) {
-							break;
-						}
-					}
-					$delivery_info['shipping_date'] = array_merge($delivery_info['shipping_date']);
-					
-				}
-				
-				/* 判断订单商品的发货情况*/
-				if (!empty($delivery_list)) {
-					foreach ($delivery_list as $v) {
-						$delivery_info['deliveryed_number'] += $v['send_number'];
-					}
-				}
-			}
-			/* 设置订单商品信息*/
-			$delivery_info['order_goods'][$key] = array(
-				'rec_id'		=> $val['rec_id'],
-				'goods_id'		=> $val['goods_id'], 
-				'goods_name'	=> $val['goods_name'], 
-				'product_id'	=> $val['product_id'],
-				'goods_price'	=> $val['goods_price'],
-				'goods_number'	=> $val['goods_number'],
-			    'goods_attr'    => trim($val['goods_attr']),
-				'img'			=> array(
-					'small'	=> !empty($val['goods_thumb']) ? RC_Upload::upload_url($val['goods_thumb']) : '',
-					'thumb'	=> !empty($val['goods_img']) ? RC_Upload::upload_url($val['goods_img']) : '',
-					'url'	=> !empty($val['original_img']) ? RC_Upload::upload_url($val['original_img']) : '',
-				)
-			);
-			
-			/* 判断订单商品的发货情况*/
-			if (!empty($delivery_list)) {
-				//发货数量
-				$send_number = 0;
-				foreach ($delivery_list as $v) {
-					/* 判断是否是同一件货品*/
-					if ($v['goods_id'] == $val['goods_id'] && $v['product_id'] == $val['product_id']) {
-						$send_number += $v['send_number'];
-						/* 如果发货数量等于订单数量，去除已发货的商品*/
-						if ($val['goods_number'] == $send_number) {
-							unset($delivery_info['order_goods'][$key]);
-						} else {
-							$delivery_info['order_goods'][$key]['goods_number'] = $delivery_info['order_goods'][$key]['goods_number'] - $v['send_number']; 
-						}
-					}
-				}
-			}
-			
-		}
-		$delivery_info['order_goods'] = array_merge($delivery_info['order_goods']);
-		
-		return $delivery_info;
-	} 
+        /* 获取发货单信息*/
+        $delivery_order_dbview = RC_Model::model('orders/delivery_order_viewmodel');
+        $delivery_list         = $delivery_order_dbview->join(array('delivery_goods'))->where(array('do.order_id' => $order_id))->select();
+
+        $delivery_info = array();
+        foreach ($order_list as $key => $val) {
+            /* 首次设置订单信息*/
+            if ($key == 0) {
+                //收货人地址
+                $order['country_id']  = $val['country'];
+                $order['province_id'] = $val['province'];
+                $order['city_id']     = $val['city'];
+                $order['district_id'] = $val['district'];
+                $order['street_id']   = $val['street'];
+
+                $order['country']       = ecjia_region::getCountryName($val['country']);
+                $order['province']      = ecjia_region::getRegionName($val['province']);
+                $order['city']          = ecjia_region::getRegionName($val['city']);
+                $order['district']      = ecjia_region::getRegionName($val['district']);
+                $order['street']        = ecjia_region::getRegionName($val['street']);
+                $order['shipping_code'] = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->pluck('shipping_code');
+
+                $order['pay_code'] = RC_DB::table('payment')->where('pay_id', $val['pay_id'])->pluck('pay_code');
+
+
+                //期望送达时间
+                $expect_shipping_time = trim($val['expect_shipping_time']);
+                $expect_shipping_time = explode(" ", $expect_shipping_time);
+
+                $delivery_info = array(
+                    'order_id'          => $val['order_id'],
+                    'order_sn'          => $val['order_sn'],
+                    'consignee'         => $val['consignee'],
+                    'country_id'        => $order['country_id'],
+                    'province_id'       => $order['province_id'],
+                    'city_id'           => $order['city_id'],
+                    'district_id'       => $order['district_id'],
+                    'street_id'         => $order['street_id'],
+                    'country'           => $order['country'],
+                    'province'          => $order['province'],
+                    'city'              => $order['city'],
+                    'district'          => $order['district'],
+                    'street'            => $order['street'],
+                    'address'           => $val['address'],
+                    'mobile'            => $val['mobile'],
+                    'shipping_id'       => $val['shipping_id'],
+                    'shipping_name'     => $val['shipping_name'],
+                    'shipping_code'     => $order['shipping_code'],
+                    'pay_code'          => $order['pay_code'],
+                    'add_time'          => RC_Time::local_date(ecjia::config('time_format'), $val['add_time']),
+                    'pay_time'          => empty($val['pay_time']) ? null : RC_Time::local_date(ecjia::config('time_format'), $val['pay_time']),
+                    'deliveryed_number' => 0,
+                );
+
+                if ($order['shipping_code'] == 'ship_o2o_express' || $order['shipping_code'] == 'ship_ecjia_express') {
+
+                    $delivery_info['expect_shipping_time'] = array('date' => $expect_shipping_time['0'], 'time' => $expect_shipping_time['1']);
+                    $shipping_area_info                    = RC_DB::table('shipping_area')
+                        ->where('store_id', $_SESSION['store_id'])
+                        ->where('shipping_id', $val['shipping_id'])->first();
+                    $shipping_cfg                          = ecjia_shipping::unserializeConfig($shipping_area_info['configure']);
+
+                    /* 获取最后可送的时间（当前时间+需提前下单时间）*/
+                    $time = RC_Time::local_date('H:i', RC_Time::gmtime() + $shipping_cfg['last_order_time'] * 60);
+
+                    $ship_date = 0;
+
+                    if (empty($shipping_cfg['ship_days'])) {
+                        $shipping_cfg['ship_days'] = 7;
+                    }
+
+                    while ($shipping_cfg['ship_days']) {
+                        foreach ($shipping_cfg['ship_time'] as $k => $v) {
+
+                            if ($v['end'] > $time || $ship_date > 0) {
+                                $delivery_info['shipping_date'][$ship_date]['date']   = RC_Time::local_date('Y-m-d', RC_Time::local_strtotime('+' . $ship_date . ' day'));
+                                $delivery_info['shipping_date'][$ship_date]['time'][] = array(
+                                    'start_time' => $v['start'],
+                                    'end_time'   => $v['end'],
+                                );
+                            }
+                        }
+
+                        $ship_date++;
+
+                        if (count($delivery_info['shipping_date']) >= $shipping_cfg['ship_days']) {
+                            break;
+                        }
+                    }
+                    $delivery_info['shipping_date'] = array_merge($delivery_info['shipping_date']);
+
+                }
+
+                /* 判断订单商品的发货情况*/
+                if (!empty($delivery_list)) {
+                    foreach ($delivery_list as $v) {
+                        $delivery_info['deliveryed_number'] += $v['send_number'];
+                    }
+                }
+            }
+            /* 设置订单商品信息*/
+            $delivery_info['order_goods'][$key] = array(
+                'rec_id'       => $val['rec_id'],
+                'goods_id'     => $val['goods_id'],
+                'goods_name'   => $val['goods_name'],
+                'product_id'   => $val['product_id'],
+                'goods_price'  => $val['goods_price'],
+                'goods_number' => $val['goods_number'],
+                'goods_attr'   => trim($val['goods_attr']),
+                'img'          => array(
+                    'small' => !empty($val['goods_thumb']) ? RC_Upload::upload_url($val['goods_thumb']) : '',
+                    'thumb' => !empty($val['goods_img']) ? RC_Upload::upload_url($val['goods_img']) : '',
+                    'url'   => !empty($val['original_img']) ? RC_Upload::upload_url($val['original_img']) : '',
+                )
+            );
+
+            /* 判断订单商品的发货情况*/
+            if (!empty($delivery_list)) {
+                //发货数量
+                $send_number = 0;
+                foreach ($delivery_list as $v) {
+                    /* 判断是否是同一件货品*/
+                    if ($v['goods_id'] == $val['goods_id'] && $v['product_id'] == $val['product_id']) {
+                        $send_number += $v['send_number'];
+                        /* 如果发货数量等于订单数量，去除已发货的商品*/
+                        if ($val['goods_number'] == $send_number) {
+                            unset($delivery_info['order_goods'][$key]);
+                        } else {
+                            $delivery_info['order_goods'][$key]['goods_number'] = $delivery_info['order_goods'][$key]['goods_number'] - $v['send_number'];
+                        }
+                    }
+                }
+            }
+
+        }
+        $delivery_info['order_goods'] = array_merge($delivery_info['order_goods']);
+
+        return $delivery_info;
+    }
 }
 
 

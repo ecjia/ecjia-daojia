@@ -1,20 +1,25 @@
-.p_top{
-	padding-top:7px;
+.p_top {
+    padding-top: 7px;
 }
-.modal-dialog{
-	width:480px;
+
+.modal-dialog {
+    width: 480px;
 }
-.col-lg-offset-2-new{
-	margin-left: 4.667%;
+
+.col-lg-offset-2-new {
+    margin-left: 4.667%;
 }
-.btn-info-new{
-	background-color:#f5f5f5;	
+
+.btn-info-new {
+    background-color: #f5f5f5;
 }
-.pickup_code{
-	font-size:18px;
-	font-weight:bold;
+
+.pickup_code {
+    font-size: 18px;
+    font-weight: bold;
 }
-.btn-new{
+
+.btn-new {
     -moz-user-select: none;
     background-image: none;
     border: 1px solid transparent;
@@ -29,8 +34,8 @@
     text-align: center;
     vertical-align: middle;
     white-space: nowrap;
-	background-color:#c62626;
-	border: 1px solid #c62626;
-	color:#fff;
-	margin-left:50px;
+    background-color: #c62626;
+    border: 1px solid #c62626;
+    color: #fff;
+    margin-left: 50px;
 }

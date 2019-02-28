@@ -50,53 +50,55 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 订单列表
  * @author royalwang
  */
-class order_list_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-    	if ($_SESSION['user_id'] < 1 ) {
-    	    return new ecjia_error(100, 'Invalid session');
-    	}
-		
-    	$user_id = $_SESSION['user_id'];
-    	
-    	$api_version = $this->request->header('api-version');
-    	//判断用户有没申请注销
-    	if (version_compare($api_version, '1.25', '>=')) {
-    		$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
-    		if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
-    			return new ecjia_error('account_status_error', '当前账号已申请注销，不可执行此操作！');
-    		}
-    	}
-    	
-		$type = $this->requestData('type');
-		$store_id = $this->requestData('store_id', 0);
-		if (!empty($type) && !in_array($type, array('await_pay', 'await_ship', 'shipped', 'finished', 'unconfirmed', 'whole', 'allow_comment'))) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
-		}
-		//type whole全部，await_pay待付款，await_ship待发货，shipped待收货，allow_comment待评价
-		$size = $this->requestData('pagination.count', 15);
-		$page = $this->requestData('pagination.page', 1);
-		$keywords = $this->requestData('keywords');
-		$keywords = trim($keywords);
-		
-		$type = $type == 'whole' ? '' : $type;
-		$options = array('type' => $type, 'store_id' => $store_id, 'page' => $page, 'size' => $size, 'keywords'=> $keywords);
-		$result = RC_Api::api('orders', 'order_list', $options);
-		
-		if (is_ecjia_error($result)) {
-			return $result;
-		}
-		
-		$page_row = new ecjia_page($result['count'], $size, 6, '', $page);
-		
-		
-		$pager = array(
-			'total' => $page_row->total_records,
-			'count' => $page_row->total_records,
-			'more'	=> $page_row->total_pages <= $page ? 0 : 1,
-		);
-		return array('data' => $result['order_list'], 'pager' => $pager);
-	 }	
+class order_list_module extends api_front implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+
+        if ($_SESSION['user_id'] < 1) {
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+
+        $user_id = $_SESSION['user_id'];
+
+        $api_version = $this->request->header('api-version');
+        //判断用户有没申请注销
+        if (version_compare($api_version, '1.25', '>=')) {
+            $account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
+            if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
+                return new ecjia_error('account_status_error', __('当前账号已申请注销，不可执行此操作！', 'orders'));
+            }
+        }
+
+        $type     = $this->requestData('type');
+        $store_id = $this->requestData('store_id', 0);
+        if (!empty($type) && !in_array($type, array('await_pay', 'await_ship', 'shipped', 'finished', 'unconfirmed', 'whole', 'allow_comment'))) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
+        }
+        //type whole全部，await_pay待付款，await_ship待发货，shipped待收货，allow_comment待评价
+        $size     = $this->requestData('pagination.count', 15);
+        $page     = $this->requestData('pagination.page', 1);
+        $keywords = $this->requestData('keywords');
+        $keywords = trim($keywords);
+
+        $type    = $type == 'whole' ? '' : $type;
+        $options = array('type' => $type, 'store_id' => $store_id, 'page' => $page, 'size' => $size, 'keywords' => $keywords);
+        $result  = RC_Api::api('orders', 'order_list', $options);
+
+        if (is_ecjia_error($result)) {
+            return $result;
+        }
+
+        $page_row = new ecjia_page($result['count'], $size, 6, '', $page);
+
+
+        $pager = array(
+            'total' => $page_row->total_records,
+            'count' => $page_row->total_records,
+            'more'  => $page_row->total_pages <= $page ? 0 : 1,
+        );
+        return array('data' => $result['order_list'], 'pager' => $pager);
+    }
 }
 
 // end

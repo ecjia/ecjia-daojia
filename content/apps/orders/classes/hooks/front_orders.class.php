@@ -49,25 +49,26 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class orders_front_plugin
 {
 
-	public static function front_storebuy_order_payed_autoship($order)
-	{	
-		if (empty($order['order_sn'])) {
-			RC_Logger::getLogger('error')->error('storebuy_order_payed_autoship_error');return false;
-		}
-		$order_sn = $order['order_sn'];
-		$order_info = RC_DB::table('order_info')->where('order_sn', $order_sn)->first();
-		
-		if(empty($order_info)) {
-			RC_Logger::getLogger('error')->error('到店购订单'.$order_sn.'发货失败');
-			return false;
-		}
-		
-		//到店购订单；自动发货
-		if ($order_info['extension_code'] == 'storebuy') {
-			RC_Loader::load_app_class('Process_storebuyOrder_autoShip', 'orders', false);
-			Process_storebuyOrder_autoShip::storebuy_order_ship($order_info);
-		}
-	}
+    public static function front_storebuy_order_payed_autoship($order)
+    {
+        if (empty($order['order_sn'])) {
+            RC_Logger::getLogger('error')->error('storebuy_order_payed_autoship_error');
+            return false;
+        }
+        $order_sn   = $order['order_sn'];
+        $order_info = RC_DB::table('order_info')->where('order_sn', $order_sn)->first();
+
+        if (empty($order_info)) {
+            RC_Logger::getLogger('error')->error(sprintf(__('到店购订单 %s 发货失败', 'orders'), $order_sn));
+            return false;
+        }
+
+        //到店购订单；自动发货
+        if ($order_info['extension_code'] == 'storebuy') {
+            RC_Loader::load_app_class('Process_storebuyOrder_autoShip', 'orders', false);
+            Process_storebuyOrder_autoShip::storebuy_order_ship($order_info);
+        }
+    }
 }
 
 RC_Hook::add_action('order_payed_do_something', array('orders_front_plugin', 'front_storebuy_order_payed_autoship'));

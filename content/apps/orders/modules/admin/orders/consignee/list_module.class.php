@@ -45,72 +45,75 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 收货地址
  * @author will
  *
  */
-class admin_orders_consignee_list_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-		$this->authadminSession();
+class admin_orders_consignee_list_module extends api_admin implements api_interface
+{
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    {
+        $this->authadminSession();
 
         if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-		
-		$result_view = $this->admin_priv('order_view');
-		$result_edit = $this->admin_priv('order_edit');
-		if (is_ecjia_error($result_view)) {
-			return $result_view;
-		} elseif (is_ecjia_error($result_edit)) {
-			return $result_edit;
-		}
-		
-		$order_id	= $this->requestData('order_id', 0);
-		if ($order_id <= 0) {
-			return new ecjia_error(101, '参数错误');
-		}
-		$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
-		$address_list = array();
-		if ($order_info['user_id'] > 0 ) {
-			$user_id = $order_info['user_id'];
-			$address_result = RC_DB::table('user_address')->where('user_id', $user_id)->get();
-			if (!empty($address_result)) {
-				$user_info = RC_Model::model('user/users_model')->where(array('user_id' => $user_id))->find();
-				foreach ($address_result as $key => $value) {
-					$address_list[$key]['id']			= $value['address_id'];
-					$address_list[$key]['consignee']	= $value['consignee'];
-					$address_list[$key]['address']		= $value['address'];
-					$address_list[$key]['address_info']	= $value['address_info'];
-					$country	= $value['country'];
-					$province	= $value['province'];
-					$city		= $value['city'];
-					$district	= $value['district'];
-					$street		= $value['street'];
-			
-					$address_list[$key]['country_name']		= ecjia_region::getCountryName($country);
-					$address_list[$key]['province_name']	= ecjia_region::getRegionName($province);
-					$address_list[$key]['city_name']		= ecjia_region::getRegionName($city);
-					$address_list[$key]['district_name']	= ecjia_region::getRegionName($district);
-					$address_list[$key]['street_name']		= ecjia_region::getRegionName($street);
-					$address_list[$key]['tel']				= $value['tel'];
-					$address_list[$key]['mobile']			= $value['mobile'];
-					$address_list[$key]['province_id']			= $province;
-					$address_list[$key]['city_id']				= $city;
-					$address_list[$key]['district_id']			= $district;
-					$address_list[$key]['street_id']			= $street;
-			
-					if ($value['address_id'] == $user_info['address_id']) {
-						$address_list[$key]['default_address'] = 1;
-					} else {
-						$address_list[$key]['default_address'] = 0;
-					}
-				}
-			}
-		}
-			
-		return $address_list;
-	} 
+            return new ecjia_error(100, __('Invalid session', 'orders'));
+        }
+
+        $result_view = $this->admin_priv('order_view');
+        $result_edit = $this->admin_priv('order_edit');
+        if (is_ecjia_error($result_view)) {
+            return $result_view;
+        } elseif (is_ecjia_error($result_edit)) {
+            return $result_edit;
+        }
+
+        $order_id = $this->requestData('order_id', 0);
+        if ($order_id <= 0) {
+            return new ecjia_error(101, __('参数错误', 'orders'));
+        }
+        $order_info   = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
+        $address_list = array();
+        if ($order_info['user_id'] > 0) {
+            $user_id        = $order_info['user_id'];
+            $address_result = RC_DB::table('user_address')->where('user_id', $user_id)->get();
+            if (!empty($address_result)) {
+                $user_info = RC_Model::model('user/users_model')->where(array('user_id' => $user_id))->find();
+                foreach ($address_result as $key => $value) {
+                    $address_list[$key]['id']           = $value['address_id'];
+                    $address_list[$key]['consignee']    = $value['consignee'];
+                    $address_list[$key]['address']      = $value['address'];
+                    $address_list[$key]['address_info'] = $value['address_info'];
+                    $country                            = $value['country'];
+                    $province                           = $value['province'];
+                    $city                               = $value['city'];
+                    $district                           = $value['district'];
+                    $street                             = $value['street'];
+
+                    $address_list[$key]['country_name']  = ecjia_region::getCountryName($country);
+                    $address_list[$key]['province_name'] = ecjia_region::getRegionName($province);
+                    $address_list[$key]['city_name']     = ecjia_region::getRegionName($city);
+                    $address_list[$key]['district_name'] = ecjia_region::getRegionName($district);
+                    $address_list[$key]['street_name']   = ecjia_region::getRegionName($street);
+                    $address_list[$key]['tel']           = $value['tel'];
+                    $address_list[$key]['mobile']        = $value['mobile'];
+                    $address_list[$key]['province_id']   = $province;
+                    $address_list[$key]['city_id']       = $city;
+                    $address_list[$key]['district_id']   = $district;
+                    $address_list[$key]['street_id']     = $street;
+
+                    if ($value['address_id'] == $user_info['address_id']) {
+                        $address_list[$key]['default_address'] = 1;
+                    } else {
+                        $address_list[$key]['default_address'] = 0;
+                    }
+                }
+            }
+        }
+
+        return $address_list;
+    }
 }
 
 

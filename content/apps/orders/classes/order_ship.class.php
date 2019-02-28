@@ -49,185 +49,185 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 订单发货
  */
-class order_ship {
-	
-	/**
-	 * 订单发货
-	 * 
-	 */
-	public static function delivery_ship($order_id, $delivery_id, $invoice_no, $action_note) {
-		RC_Logger::getLogger('error')->info('订单发货处理【订单id|'.$order_id.'】');
-		RC_Loader::load_app_func('global', 'orders');
-		RC_Loader::load_app_func('admin_order', 'orders');
-		$db_delivery = RC_Loader::load_app_model('delivery_viewmodel','orders');
-		$db_delivery_order		= RC_Loader::load_app_model('delivery_order_model','orders');
-		$db_goods				= RC_Loader::load_app_model('goods_model','goods');
-		$db_products			= RC_Loader::load_app_model('products_model','goods');
-		/* 取得参数 */
-		$delivery				= array();
-		$order_id				= intval(trim($order_id));			// 订单id
-		$delivery_id			= intval(trim($delivery_id));		// 发货单id
-		$delivery['invoice_no']	= isset($invoice_no) ? trim($invoice_no) : '';
-		$action_note			= isset($action_note) ? trim($action_note) : '';
-	
-		/* 根据发货单id查询发货单信息 */
-		if (!empty($delivery_id)) {
-			$delivery_id = intval($delivery_id);
-			$delivery_order = delivery_order_info($delivery_id);
-		}
-		
-		if (empty($delivery_order)) {
-			return new ecjia_error('delivery_error', __('无法找到对应发货单！'));
-		}
-	
-		/* 查询订单信息 */
-		$order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
-		
-		/* 检查此单发货商品库存缺货情况 */
-		$virtual_goods			= array();
-	
-		$delivery_stock_result = RC_DB::table('delivery_goods as dg')
-		->leftJoin('goods as g', RC_DB::raw('dg.goods_id'), '=', RC_DB::raw('g.goods_id'))
-		->leftJoin('products as p', RC_DB::raw('dg.product_id'), '=', RC_DB::raw('p.product_id'))
-		->select(RC_DB::raw('dg.goods_id'), RC_DB::raw('dg.is_real'), RC_DB::raw('dg.product_id'), RC_DB::raw('SUM(dg.send_number) AS sums'), RC_DB::raw("IF(dg.product_id > 0, p.product_number, g.goods_number) AS storage"), RC_DB::raw('g.goods_name'), RC_DB::raw('dg.send_number'))
-		->where(RC_DB::raw('dg.delivery_id'), $delivery_id)
-		->groupBy(RC_DB::raw('dg.product_id'))
-		->get();
-	
-	
-		/* 如果商品存在规格就查询规格，如果不存在规格按商品库存查询 */
-		if(!empty($delivery_stock_result)) {
-			foreach ($delivery_stock_result as $value) {
-				if (($value['sums'] > $value['storage'] || $value['storage'] <= 0) &&
-				((ecjia::config('use_storage') == '1'  && ecjia::config('stock_dec_time') == SDT_SHIP) ||
-						(ecjia::config('use_storage') == '0' && $value['is_real'] == 0))) {
-					RC_Logger::getLogger('error')->info('缺货处理a');
-					return new ecjia_error('act_good_vacancy', sprintf(RC_Lang::lang('act_good_vacancy'), $value['goods_name']));
-				}
-	
-				/* 虚拟商品列表 virtual_card */
-				if ($value['is_real'] == 0) {
-					$virtual_goods[] = array(
-							'goods_id'		=> $value['goods_id'],
-							'goods_name'	=> $value['goods_name'],
-							'num'			=> $value['send_number']
-					);
-				}
-			}
-		} else {
-			$delivery_stock_result = RC_DB::table('delivery_goods as dg')
-			->leftJoin('goods as g', RC_DB::raw('dg.goods_id'), '=', RC_DB::raw('g.goods_id'))
-			->select(RC_DB::raw('dg.goods_id'), RC_DB::raw('dg.is_real'), RC_DB::raw('SUM(dg.send_number) AS sums'), RC_DB::raw('g.goods_number'), RC_DB::raw('g.goods_name'), RC_DB::raw('dg.send_number'))
-			->where(RC_DB::raw('dg.delivery_id'), $delivery_id)
-			->groupBy(RC_DB::raw('dg.goods_id'))
-			->get();
-	
-			foreach ($delivery_stock_result as $value) {
-				if (($value['sums'] > $value['goods_number'] || $value['goods_number'] <= 0) &&
-				((ecjia::config('use_storage') == '1'  && ecjia::config('stock_dec_time') == SDT_SHIP) ||
-						(ecjia::config('use_storage') == '0' && $value['is_real'] == 0))) {
-					RC_Logger::getLogger('error')->info('缺货处理b');
-					return new ecjia_error('act_good_vacancy', sprintf(RC_Lang::lang('act_good_vacancy'), $value['goods_name']));
-				}
-	
-				/* 虚拟商品列表 virtual_card*/
-				if ($value['is_real'] == 0) {
-					$virtual_goods[] = array(
-							'goods_id'		=> $value['goods_id'],
-							'goods_name'	=> $value['goods_name'],
-							'num'			=> $value['send_number']
-					);
-				}
-			}
-		}
-	
-		/* 如果使用库存，且发货时减库存，则修改库存 */
-		if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_SHIP) {
-			foreach ($delivery_stock_result as $value) {
-				/* 商品（实货）、超级礼包（实货） */
-				if ($value['is_real'] != 0) {
-					/* （货品） */
-					if (!empty($value['product_id'])) {
-						$data = array(
-								'product_number' => $value['storage'] - $value['sums'],
-						);
-						$db_products->where(array('product_id' => $value['product_id']))->update($data);
-					} else {
-						$data = array(
-								'goods_number' => $value['storage'] - $value['sums'],
-						);
-						$db_goods->where(array('goods_id' => $value['goods_id']))->update($data);
-					}
-				}
-			}
-		}
-	
-		/* 修改发货单信息 */
-		$invoice_no = str_replace(',', '<br>', $delivery['invoice_no']);
-		$invoice_no = trim($invoice_no, '<br>');
-		$_delivery['invoice_no']	= $invoice_no;
-		$_delivery['status']		= 0;	/* 0，为已发货 */
-		$result = $db_delivery_order->where(array('delivery_id' => $delivery_id))-> update($_delivery);
-	
-		if (!$result) {
-			return new ecjia_error('act_false', RC_Lang::lang('act_false'));
-		}
-	
-		/* 标记订单为已确认 “已发货” */
-		/* 更新发货时间 */
-		$order_finish				= get_all_delivery_finish($order_id);
-	
-		$shipping_status			= ($order_finish == 1) ? SS_SHIPPED : SS_SHIPPED_PART;
-		$arr['shipping_status']		= $shipping_status;
-		$arr['shipping_time']		= RC_Time::gmtime(); // 发货时间
-		$arr['invoice_no']			= trim($order['invoice_no'] . '<br>' . $invoice_no, '<br>');
-		update_order($order_id, $arr);
-	
-		/* 发货单发货记录log */
+class order_ship
+{
+
+    /**
+     * 订单发货
+     *
+     */
+    public static function delivery_ship($order_id, $delivery_id, $invoice_no, $action_note)
+    {
+        RC_Logger::getLogger('error')->info(sprintf(__('订单发货处理【订单id|%s】', 'orders'), $order_id));
+        RC_Loader::load_app_func('global', 'orders');
+        RC_Loader::load_app_func('admin_order', 'orders');
+        $db_delivery       = RC_Loader::load_app_model('delivery_viewmodel', 'orders');
+        $db_delivery_order = RC_Loader::load_app_model('delivery_order_model', 'orders');
+        $db_goods          = RC_Loader::load_app_model('goods_model', 'goods');
+        $db_products       = RC_Loader::load_app_model('products_model', 'goods');
+        /* 取得参数 */
+        $delivery               = array();
+        $order_id               = intval(trim($order_id));            // 订单id
+        $delivery_id            = intval(trim($delivery_id));        // 发货单id
+        $delivery['invoice_no'] = isset($invoice_no) ? trim($invoice_no) : '';
+        $action_note            = isset($action_note) ? trim($action_note) : '';
+
+        /* 根据发货单id查询发货单信息 */
+        if (!empty($delivery_id)) {
+            $delivery_id    = intval($delivery_id);
+            $delivery_order = delivery_order_info($delivery_id);
+        }
+
+        if (empty($delivery_order)) {
+            return new ecjia_error('delivery_error', __('无法找到对应发货单！', 'orders'));
+        }
+
+        /* 查询订单信息 */
+        $order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'order_sn' => ''));
+
+        /* 检查此单发货商品库存缺货情况 */
+        $virtual_goods = array();
+
+        $delivery_stock_result = RC_DB::table('delivery_goods as dg')
+            ->leftJoin('goods as g', RC_DB::raw('dg.goods_id'), '=', RC_DB::raw('g.goods_id'))
+            ->leftJoin('products as p', RC_DB::raw('dg.product_id'), '=', RC_DB::raw('p.product_id'))
+            ->select(RC_DB::raw('dg.goods_id'), RC_DB::raw('dg.is_real'), RC_DB::raw('dg.product_id'), RC_DB::raw('SUM(dg.send_number) AS sums'), RC_DB::raw("IF(dg.product_id > 0, p.product_number, g.goods_number) AS storage"), RC_DB::raw('g.goods_name'), RC_DB::raw('dg.send_number'))
+            ->where(RC_DB::raw('dg.delivery_id'), $delivery_id)
+            ->groupBy(RC_DB::raw('dg.product_id'))
+            ->get();
+
+
+        /* 如果商品存在规格就查询规格，如果不存在规格按商品库存查询 */
+        if (!empty($delivery_stock_result)) {
+            foreach ($delivery_stock_result as $value) {
+                if (($value['sums'] > $value['storage'] || $value['storage'] <= 0) &&
+                    ((ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_SHIP) ||
+                        (ecjia::config('use_storage') == '0' && $value['is_real'] == 0))) {
+                    RC_Logger::getLogger('error')->info(__('缺货处理a', 'orders'));
+                    return new ecjia_error('act_good_vacancy', sprintf(__('商品已缺货', 'orders'), $value['goods_name']));
+                }
+
+                /* 虚拟商品列表 virtual_card */
+                if ($value['is_real'] == 0) {
+                    $virtual_goods[] = array(
+                        'goods_id'   => $value['goods_id'],
+                        'goods_name' => $value['goods_name'],
+                        'num'        => $value['send_number']
+                    );
+                }
+            }
+        } else {
+            $delivery_stock_result = RC_DB::table('delivery_goods as dg')
+                ->leftJoin('goods as g', RC_DB::raw('dg.goods_id'), '=', RC_DB::raw('g.goods_id'))
+                ->select(RC_DB::raw('dg.goods_id'), RC_DB::raw('dg.is_real'), RC_DB::raw('SUM(dg.send_number) AS sums'), RC_DB::raw('g.goods_number'), RC_DB::raw('g.goods_name'), RC_DB::raw('dg.send_number'))
+                ->where(RC_DB::raw('dg.delivery_id'), $delivery_id)
+                ->groupBy(RC_DB::raw('dg.goods_id'))
+                ->get();
+
+            foreach ($delivery_stock_result as $value) {
+                if (($value['sums'] > $value['goods_number'] || $value['goods_number'] <= 0) &&
+                    ((ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_SHIP) ||
+                        (ecjia::config('use_storage') == '0' && $value['is_real'] == 0))) {
+                    RC_Logger::getLogger('error')->info(__('缺货处理b', 'orders'));
+                    return new ecjia_error('act_good_vacancy', sprintf(__('商品已缺货', 'orders'), $value['goods_name']));
+                }
+
+                /* 虚拟商品列表 virtual_card*/
+                if ($value['is_real'] == 0) {
+                    $virtual_goods[] = array(
+                        'goods_id'   => $value['goods_id'],
+                        'goods_name' => $value['goods_name'],
+                        'num'        => $value['send_number']
+                    );
+                }
+            }
+        }
+
+        /* 如果使用库存，且发货时减库存，则修改库存 */
+        if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_SHIP) {
+            foreach ($delivery_stock_result as $value) {
+                /* 商品（实货）、超级礼包（实货） */
+                if ($value['is_real'] != 0) {
+                    /* （货品） */
+                    if (!empty($value['product_id'])) {
+                        $data = array(
+                            'product_number' => $value['storage'] - $value['sums'],
+                        );
+                        $db_products->where(array('product_id' => $value['product_id']))->update($data);
+                    } else {
+                        $data = array(
+                            'goods_number' => $value['storage'] - $value['sums'],
+                        );
+                        $db_goods->where(array('goods_id' => $value['goods_id']))->update($data);
+                    }
+                }
+            }
+        }
+
+        /* 修改发货单信息 */
+        $invoice_no              = str_replace(',', '<br>', $delivery['invoice_no']);
+        $invoice_no              = trim($invoice_no, '<br>');
+        $_delivery['invoice_no'] = $invoice_no;
+        $_delivery['status']     = 0;    /* 0，为已发货 */
+        $result                  = $db_delivery_order->where(array('delivery_id' => $delivery_id))->update($_delivery);
+
+        if (!$result) {
+            return new ecjia_error('act_false', __('操作失败', 'orders'));
+        }
+
+        /* 标记订单为已确认 “已发货” */
+        /* 更新发货时间 */
+        $order_finish = get_all_delivery_finish($order_id);
+
+        $shipping_status        = ($order_finish == 1) ? SS_SHIPPED : SS_SHIPPED_PART;
+        $arr['shipping_status'] = $shipping_status;
+        $arr['shipping_time']   = RC_Time::gmtime(); // 发货时间
+        $arr['invoice_no']      = trim($order['invoice_no'] . '<br>' . $invoice_no, '<br>');
+        update_order($order_id, $arr);
+
+        /* 发货单发货记录log */
 // 		order_action($order['order_sn'], OS_CONFIRMED, $shipping_status, $order['pay_status'], '收银台发货', null, 1);
-		// 记录管理员操作
+        // 记录管理员操作
 // 		if ($_SESSION['store_id'] > 0) {
 // 			RC_Api::api('merchant', 'admin_log', array('text' => '发货，订单号是'.$order['order_sn'].'【来源掌柜】', 'action' => 'setup', 'object' => 'order'));
 // 		} else {
 // 			ecjia_admin::admin_log('发货，订单号是'.$order['order_sn'].'【来源掌柜】', 'setup', 'order'); // 记录日志
 // 		}
-	
-	
-		RC_Logger::getLogger('error')->info('判断是否全部发货'.$order_finish);
-	
-	
-		/* 如果当前订单已经全部发货 */
-		if ($order_finish) {
-			RC_Logger::getLogger('error')->info('订单发货，积分红包处理');
-			/* 如果订单用户不为空，计算积分，并发给用户；发红包 */
-			if ($order['user_id'] > 0) {
-				 
-				 
-				/* 取得用户信息 */
-				$user = user_info($order['user_id']);
-				/* 计算并发放积分 */
-				$integral = integral_to_give($order);
-				$integral_name = ecjia::config('integral_name');
-				if (empty($integral_name)) {
-					$integral_name = '积分';
-				}
-				$options = array(
-						'user_id'		=> $order['user_id'],
-						'rank_points'	=> intval($integral['rank_points']),
-						'pay_points'	=> intval($integral['custom_points']),
-						'change_desc'	=>'订单'.$order['order_sn'].'赠送的'.$integral_name,
-						'from_type'		=> 'order_give_integral',
-						'from_value'	=> $order['order_sn'],
-				);
-				RC_Api::api('user', 'account_change_log',$options);
-				/* 发放红包 */
-				send_order_bonus($order_id);
-			}
-		}
-	
-		return true;
-	}
-}	
+
+        RC_Logger::getLogger('error')->info(sprintf(__('判断是否全部发货%s', 'orders'), $order_finish));
+
+        /* 如果当前订单已经全部发货 */
+        if ($order_finish) {
+            RC_Logger::getLogger('error')->info(__('订单发货，积分红包处理', 'orders'));
+            /* 如果订单用户不为空，计算积分，并发给用户；发红包 */
+            if ($order['user_id'] > 0) {
+
+
+                /* 取得用户信息 */
+                $user = user_info($order['user_id']);
+                /* 计算并发放积分 */
+                $integral      = integral_to_give($order);
+                $integral_name = ecjia::config('integral_name');
+                if (empty($integral_name)) {
+                    $integral_name = '积分';
+                }
+                $options = array(
+                    'user_id'     => $order['user_id'],
+                    'rank_points' => intval($integral['rank_points']),
+                    'pay_points'  => intval($integral['custom_points']),
+                    'change_desc' => sprintf(__('订单%s赠送的' . $integral_name, 'orders'), $order['order_sn']),
+                    'from_type'   => 'order_give_integral',
+                    'from_value'  => $order['order_sn'],
+                );
+                RC_Api::api('user', 'account_change_log', $options);
+                /* 发放红包 */
+                send_order_bonus($order_id);
+            }
+        }
+
+        return true;
+    }
+}
 
 
 // end

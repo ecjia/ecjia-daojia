@@ -48,6 +48,7 @@ namespace Ecjia\App\Orders\Notifications;
 
 use Royalcms\Component\Bus\Queueable;
 use Royalcms\Component\Notifications\Notification;
+
 // use Royalcms\Component\Notifications\Messages\MailMessage;
 
 /**
@@ -56,8 +57,9 @@ use Royalcms\Component\Notifications\Notification;
 class OrderPickupSuccess extends Notification
 {
     use Queueable;
-    
-	private $notifiable_data;
+
+    private $notifiable_data;
+
     /**
      * Create a new notification instance.
      *
@@ -72,7 +74,7 @@ class OrderPickupSuccess extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -97,7 +99,7 @@ class OrderPickupSuccess extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function toArray()
