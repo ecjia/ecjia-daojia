@@ -18,7 +18,7 @@
 	</div>
 	<!-- {if $action_link} -->
 	<div class="pull-right">
-		<a class="btn btn-primary" id="sticky_a" href="{$action_link.href}&start_date={$start_date}&end_date={$end_date}"><i class="glyphicon glyphicon-download-alt"></i> {t}{$action_link.text}{/t}</a>
+		<a class="btn btn-primary" id="sticky_a" href="{$action_link.href}&start_date={$start_date}&end_date={$end_date}"><i class="glyphicon glyphicon-download-alt"></i> {$action_link.text}</a>
 	</div>
 	<!-- {/if} -->
 	<div class="clearfix">

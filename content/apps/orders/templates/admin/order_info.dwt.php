@@ -21,7 +21,7 @@
     <div class="modal hide fade" id="consigneeinfo">
         <div class="modal-header">
             <button class="close" data-dismiss="modal">×</button>
-            <h3>购货人信息</h3>
+            <h3>{t domain="orders"}购货人信息{/t}</h3>
         </div>
         <div class="modal-body">
             <div class="row-fluid">
@@ -30,32 +30,32 @@
                         <img src="{if $user.avatar_img}{RC_Upload::upload_url($user.avatar_img)}{/if}" />
                         <div class="detail">
                             <p>
-                                <span class="name">{if $user.user_name}{$user.user_name}{else}匿名用户{/if}</span>
+                                <span class="name">{if $user.user_name}{$user.user_name}{else}{t domain="orders"}匿名用户{/t}{/if}</span>
                                 {if $user.rank_name}<span class="rank_name">{$user.rank_name}</span>{/if}
                             </p>
-                            <p>注册时间：{RC_Time::local_date('Y-m-d H:i:s', $user.reg_time)}</p>
+                            <p>{t domain="orders"}注册时间：{/t}{RC_Time::local_date('Y-m-d H:i:s', $user.reg_time)}</p>
                         </div>
-                        <a target="__blank" class="view-detail" href='{url path="user/admin/info" args="id={$user.user_id}"}'>查看详细信息 >></a>
+                        <a target="__blank" class="view-detail" href='{url path="user/admin/info" args="id={$user.user_id}"}'>{t domain="orders"}查看详细信息 >>{/t}</a>
                     </div>
                     <div class="user-money">
                         <div class="item">
-                            <p>账户余额</p>
+                            <p>{t domain="orders"}账户余额{/t}</p>
                             <span class="ecjiafc-FF0000">{if $user.formated_user_money}{$user.formated_user_money}{else}￥0.00{/if}</span>
                         </div>
                         <div class="item">
-                            <p>消费积分</p>
+                            <p>{t domain="orders"}消费积分{/t}</p>
                             <span class="ecjiafc-FF0000">{if $user.pay_points}{$user.pay_points}{else}0{/if}</span>
                         </div>
                         <div class="item">
-                            <p>成长值</p>
+                            <p>{t domain="orders"}成长值{/t}</p>
                             <span class="ecjiafc-FF0000">{if $user.rank_points}{$user.rank_points}{else}0{/if}</span>
                         </div><div class="item">
-                            <p>红包数量</p>
+                            <p>{t domain="orders"}红包数量{/t}</p>
                             <span class="ecjiafc-FF0000">{if $user.bonus_count}{$user.bonus_count}{else}0{/if}</span>
                         </div>
                     </div>
                     <div class="user-address">
-                        <div class="address-title">收货地址</div>
+                        <div class="address-title">{t domain="orders"}收货地址{/t}</div>
                         <div class="address-content">
                             {foreach from=$address_list item=list}
                             <div class="address-item">
@@ -72,7 +72,7 @@
                                 </div>
                             </div>
                             {foreachelse}
-                            <div class="no-records">暂无收货地址</div>
+                            <div class="no-records">{t domain="orders"}暂无收货地址{/t}</div>
                             {/foreach}
                         </div>
                     </div>
@@ -87,7 +87,7 @@
 		<li class="step-first">
 			<div class="{if $flow_status.key eq '1'}step-cur{else}step-done{/if}">
 				<div class="step-no">{if $flow_status.key lt '2'}1{/if}</div>
-				<div class="m_t5">提交订单</div>
+				<div class="m_t5">{t domain="orders"}提交订单{/t}</div>
 				<div class="m_t5 ecjiafc-blue">{$order.formated_add_time}</div>
 			</div>
 		</li>
@@ -115,7 +115,7 @@
 		<li class="step-last">
 			<div class="{if $flow_status.key eq '5'}step-cur{elseif $flow_status.key gt '5'}step-done{/if}">
 				<div class="step-no">{if $flow_status.key lt '6'}5{/if}</div>
-				<div class="m_t5">交易完成</div>
+				<div class="m_t5">{t domain="orders"}交易完成{/t}</div>
 			</div>
 		</li>
 	</ul>
@@ -125,24 +125,26 @@
 	<form name="queryinfo" action='{url path="orders/admin/query_info"}' method="post">
 		<div class="span12 ecjiaf-tac">
 			<div class="ecjiaf-fl">
-				<h3>订单号：{$order.order_sn}</h3>
+				<h3>{t domain="orders"}订单号：{/t}{$order.order_sn}</h3>
 			</div>
 			<span class="choose_list">
-				<input type="text" name="keywords" class="ecjiaf-fn" placeholder="请输入订单号或者订单id" />
-				<button class="btn ecjiaf-fn" type="submit">搜索</button>
+				<input type="text" name="keywords" class="ecjiaf-fn" placeholder='{t domain="orders"}请输入订单号或者订单id{/t}' />
+				<button class="btn ecjiaf-fn" type="submit">{t domain="orders"}搜索{/t}</button>
 			</span>
 			<div class="f_r">
 				{if $next_id}
 				<a class="data-pjax ecjiaf-tdn" href='{url path="orders/admin/info" args="order_id={$next_id}"}'>
-					{/if}
-					<button class="btn btn-small" type="button" {if !$next_id}disabled="disabled" {/if}>前一个订单</button>
-					{if $next_id}
+				{/if}
+					<button class="btn btn-small" type="button" {if !$next_id}disabled="disabled" {/if}>{t domain="orders"}前一个订单{/t}</button>
+				{if $next_id}
 				</a>
-				{/if} {if $prev_id}
+				{/if}
+
+                {if $prev_id}
 				<a class="data-pjax ecjiaf-tdn" href='{url path="orders/admin/info" args="order_id={$prev_id}"}'>
-					{/if}
-					<button class="btn btn-small" type="button" {if !$prev_id}disabled="disabled" {/if}>后一个订单</button>
-					{if $prev_id}
+				{/if}
+					<button class="btn btn-small" type="button" {if !$prev_id}disabled="disabled" {/if}>{t domain="orders"}后一个订单{/t}</button>
+				{if $prev_id}
 				</a>
 				{/if}
 			</div>
@@ -159,7 +161,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseOne">
-							<strong>基本信息</strong>
+							<strong>{t domain="orders"}基本信息{/t}</strong>
 						</a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseOne">
@@ -168,7 +170,7 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>订单号：</strong>
+											<strong>{t domain="orders"}订单号：{/t}</strong>
 										</div>
 									</td>
 									<td>
@@ -176,7 +178,7 @@
 									</td>
 									<td>
 										<div align="right">
-											<strong>订单状态：</strong>
+											<strong>{t domain="orders"}订单状态：{/t}</strong>
 										</div>
 									</td>
 									<td>{$order.status}</td>
@@ -184,18 +186,18 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>购买人：</strong>
+											<strong>{t domain="orders"}购买人：{/t}</strong>
 										</div>
 									</td>
 									<td>
 										{$order.user_name}
                                         {if $order.user_id gt 0}
-                                        [ <a class="userInfo cursor_pointer" data-toggle="modal" href="#consigneeinfo" title="显示购货人信息">显示购货人信息</a> ]
+                                        [ <a class="userInfo cursor_pointer" data-toggle="modal" href="#consigneeinfo" title='{t domain="orders"}显示购货人信息{/t}'>{t domain="orders"}显示购货人信息{/t}</a> ]
                                         {/if}
 									</td>
 									<td>
 										<div align="right">
-											<strong>下单时间：</strong>
+											<strong>{t domain="orders"}下单时间：{/t}</strong>
 										</div>
 									</td>
 									<td>{$order.formated_add_time}</td>
@@ -203,7 +205,7 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>支付方式：</strong>
+											<strong>{t domain="orders"}支付方式：{/t}</strong>
 										</div>
 									</td>
 									<td>
@@ -211,7 +213,7 @@
 									</td>
 									<td>
 										<div align="right">
-											<strong>付款时间：</strong>
+											<strong>{t domain="orders"}付款时间：{/t}</strong>
 										</div>
 									</td>
 									<td>{$order.pay_time}</td>
@@ -220,18 +222,18 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>配送方式：</strong>
+											<strong>{t domain="orders"}配送方式：{/t}</strong>
 										</div>
 									</td>
 									<td>
 										{if $exist_real_goods}
 										<span>{if $order.shipping_name}{$order.shipping_name}{/if}</span>
-										{if $order.shipping_id gt 0 && $order.insure_fee gt 0}保价费用：{$order.formated_insure_fee}{/if}
+										{if $order.shipping_id gt 0 && $order.insure_fee gt 0}{t domain="orders"}保价费用：{/t}{$order.formated_insure_fee}{/if}
 										{/if}
 									</td>
 									<td>
 										<div align="right">
-											<strong>期望送达时间：</strong>
+											<strong>{t domain="orders"}期望送达时间：{/t}</strong>
 										</div>
 									</td>
 									<td>{$order.expect_shipping_time}</td>
@@ -240,18 +242,18 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>发货时间：</strong>
+											<strong>{t domain="orders"}发货时间：{/t}</strong>
 										</div>
 									</td>
 									<td>{$order.shipping_time}</td>
 									<td>
 										<div align="right">
-											<strong>运单编号：</strong>
+											<strong>{t domain="orders"}运单编号：{/t}</strong>
 										</div>
 									</td>
 									<td>
 										{if $order.shipping_id gt 0 and $order.shipping_status gt 0}
-										<span>{if $order.invoice_no}{$order.invoice_no}{else}暂无{/if}</span>
+										<span>{if $order.invoice_no}{$order.invoice_no}{else}{t domain="orders"}暂无{/t}{/if}</span>
 										{/if}
 									</td>
 								</tr>
@@ -260,13 +262,13 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>配送员：</strong>
+											<strong>{t domain="orders"}配送员：{/t}</strong>
 										</div>
 									</td>
 									<td>{$order.express_user}</td>
 									<td>
 										<div align="right">
-											<strong>配送员电话：</strong>
+											<strong>{t domain="orders"}配送员电话：{/t}</strong>
 										</div>
 									</td>
 									<td>{$order.express_mobile}</td>
@@ -276,7 +278,7 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>订单来源：</strong>
+											<strong>{t domain="orders"}订单来源：{/t}</strong>
 										</div>
 									</td>
 									<td colspan="3">{$order.label_referer}</td>
@@ -290,7 +292,7 @@
                 <div class="accordion-group">
                     <div class="accordion-heading">
                         <a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseGroupBuy">
-                            <strong>参与活动</strong>
+                            <strong>{t domain="orders"}参与活动{/t}</strong>
                         </a>
                     </div>
                     <div class="accordion-body in collapse" id="collapseGroupBuy">
@@ -299,13 +301,13 @@
                                 <tr>
                                     <td>
                                         <div align="right">
-                                            <strong>活动类型：</strong>
+                                            <strong>{t domain="orders"}活动类型：{/t}</strong>
                                         </div>
                                     </td>
-                                    <td>团购</td>
+                                    <td>{t domain="orders"}团购{/t}</td>
                                     <td>
                                         <div align="right">
-                                            <strong>活动状态：</strong>
+                                            <strong>{t domain="orders"}活动状态：{/t}</strong>
                                         </div>
                                     </td>
                                     <td>{$groupbuy_info.status_desc}</td>
@@ -313,21 +315,21 @@
                                 <tr>
                                     <td>
                                         <div align="right">
-                                            <strong>店铺名称：</strong>
+                                            <strong>{t domain="orders"}店铺名称：{/t}</strong>
                                         </div>
                                     </td>
                                     <td>{$order.merchants_name}</td>
                                     <td>
                                         <div align="right">
-                                            <strong>活动商品：</strong>
+                                            <strong>{t domain="orders"}活动商品：{/t}</strong>
                                         </div>
                                     </td>
-                                    <td>{$groupbuy_info.goods_name} <a target="__blank" href="{RC_Uri::url('groupbuy/admin/view')}&id={$groupbuy_info.act_id}">[ 活动详情 ]</a></td>
+                                    <td>{$groupbuy_info.goods_name} <a target="__blank" href="{RC_Uri::url('groupbuy/admin/view')}&id={$groupbuy_info.act_id}">{t domain="orders"}[ 活动详情 ]{/t}</a></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div align="right">
-                                            <strong>保证金：</strong>
+                                            <strong>{t domain="orders"}保证金：{/t}</strong>
                                         </div>
                                     </td>
                                     <td class="ecjiafc-FF0000" colspan="3">{$groupbuy_deposit_status}</td>
@@ -342,7 +344,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading accordion-heading-url">
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseDelivery">
-							<strong>发货单信息</strong>
+							<strong>{t domain="orders"}发货单信息{/t}</strong>
 						</div>
 					</div>
 					<div class="accordion-body in collapse" id="collapseDelivery">
@@ -351,7 +353,7 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>发货单流水号：</strong>
+											<strong>{t domain="orders"}发货单流水号：{/t}</strong>
 										</div>
 									</td>
 									<td colspan="3"><a href="{RC_Uri::url('orders/admin_order_delivery/delivery_info')}&delivery_id={$delivery_info.delivery_id}" target="__blank">{$delivery_info.delivery_sn}</a></td>
@@ -365,7 +367,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading accordion-heading-url">
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseTwo-a">
-							<strong>发票信息</strong>
+							<strong>{t domain="orders"}发票信息{/t}</strong>
 						</div>
 					</div>
 					<div class="accordion-body in collapse" id="collapseTwo-a">
@@ -374,13 +376,13 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>发票类型：</strong>
+											<strong>{t domain="orders"}发票类型：{/t}</strong>
 										</div>
 									</td>
 									<td>{$order.inv_type}</td>
 									<td>
 										<div align="right">
-											<strong>纳税人识别码：</strong>
+											<strong>{t domain="orders"}纳税人识别码：{/t}</strong>
 										</div>
 									</td>
 									<td>{$inv_tax_no}</td>
@@ -388,13 +390,13 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>发票抬头：</strong>
+											<strong>{t domain="orders"}发票抬头：{/t}</strong>
 										</div>
 									</td>
-									<td>{if $inv_payee}{$inv_payee}{else if $order.inv_type neq ''}个人{/if}</td>
+									<td>{if $inv_payee}{$inv_payee}{else if $order.inv_type neq ''}{t domain="orders"}个人{/t}{/if}</td>
 									<td>
 										<div align="right">
-											<strong>发票内容：</strong>
+											<strong>{t domain="orders"}发票内容：{/t}</strong>
 										</div>
 									</td>
 									<td>{$order.inv_content}</td>
@@ -407,7 +409,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading accordion-heading-url">
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseTwo">
-							<strong>其他信息</strong>
+							<strong>{t domain="orders"}其他信息{/t}</strong>
 						</div>
 					</div>
 					<div class="accordion-body in collapse" id="collapseTwo">
@@ -416,7 +418,7 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>订单备注：</strong>
+											<strong>{t domain="orders"}订单备注：{/t}</strong>
 										</div>
 									</td>
 									<td colspan="3">{$order.postscript}</td>
@@ -424,7 +426,7 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>缺货处理：</strong>
+											<strong>{t domain="orders"}缺货处理：{/t}</strong>
 										</div>
 									</td>
 									<td colspan="3">{$order.how_oos}</td>
@@ -432,7 +434,7 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>商家给客户的留言：</strong>
+											<strong>{t domain="orders"}商家给客户的留言：{/t}</strong>
 										</div>
 									</td>
 									<td colspan="3">{$order.to_buyer}</td>
@@ -445,7 +447,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading accordion-heading-url">
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseThree">
-							<strong>收货人信息</strong>
+							<strong>{t domain="orders"}收货人信息{/t}</strong>
 						</div>
 					</div>
 					<div class="accordion-body in collapse" id="collapseThree">
@@ -454,13 +456,13 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>收货人：</strong>
+											<strong>{t domain="orders"}收货人：{/t}</strong>
 										</div>
 									</td>
 									<td>{$order.consignee}</td>
 									<td>
 										<div align="right">
-											<strong>手机号：</strong>
+											<strong>{t domain="orders"}手机号：{/t}</strong>
 										</div>
 									</td>
 									<td>{$order.mobile}</td>
@@ -468,7 +470,7 @@
 								<tr>
 									<td>
 										<div align="right">
-											<strong>地址：</strong>
+											<strong>{t domain="orders"}地址：{/t}</strong>
 										</div>
 									</td>
 									<td colspan="3">[{$order.region}] {$order.address}</td>
@@ -481,22 +483,22 @@
 				<div class="accordion-group">
 					<div class="accordion-heading accordion-heading-url">
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseFour">
-							<strong>商品信息</strong>
+							<strong>{t domain="orders"}商品信息{/t}</strong>
 						</div>
 					</div>
 					<div class="accordion-body in collapse" id="collapseFour">
 						<table class="table table-striped table_vam m_b0 order-table-list">
 							<thead>
 								<tr class="table-list">
-									<th class="w80">商品缩略图</th>
-									<th>商品名称 [ 品牌 ]</th>
-									<th class="w80">货号</th>
-									<th class="w70">货品号</th>
-									<th class="w100">价格</th>
-									<th class="w30">数量</th>
-									<th class="w100">属性</th>
-									<th class="w50">库存</th>
-									<th class="w100">小计</th>
+									<th class="w80">{t domain="orders"}商品缩略图{/t}</th>
+									<th>{t domain="orders"}商品名称 [ 品牌 ]{/t}</th>
+									<th class="w80">{t domain="orders"}货号{/t}</th>
+									<th class="w70">{t domain="orders"}货品号{/t}</th>
+									<th class="w100">{t domain="orders"}价格{/t}</th>
+									<th class="w30">{t domain="orders"}数量{/t}</th>
+									<th class="w100">{t domain="orders"}属性{/t}</th>
+									<th class="w50">{t domain="orders"}库存{/t}</th>
+									<th class="w100">{t domain="orders"}小计{/t}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -507,9 +509,23 @@
 									</td>
 									<td>
 										{if $goods.goods_id gt 0 and $goods.extension_code neq 'package_buy'}
-										<a href='{url path="goods/admin/preview" args="id={$goods.goods_id}"}' target="_blank">{$goods.goods_name} {if $goods.brand_name}[ {$goods.brand_name} ]{/if}{if $goods.is_gift}{if $goods.goods_price
-											gt 0}（特惠品）{else}（赠品）{/if}{/if}{if $goods.parent_id
-											gt 0}（配件）{/if}</a>
+										<a href='{url path="goods/admin/preview" args="id={$goods.goods_id}"}' target="_blank">
+                                            {$goods.goods_name}
+
+                                            {if $goods.brand_name}
+                                                [ {$goods.brand_name} ]
+                                            {/if}
+
+                                            {if $goods.is_gift}
+                                                {if $goods.goods_price gt 0}
+                                                    {t domain="orders"}（特惠品）{/t}
+                                                {else}
+                                                    {t domain="orders"}（赠品）{/t}
+                                                {/if}
+                                            {/if}
+
+                                            {if $goods.parent_id gt 0}{t domain="orders"}（配件）{/t}{/if}
+                                        </a>
 										{/if}
 									</td>
 									<td>{$goods.goods_sn}</td>
@@ -530,14 +546,14 @@
 								</tr>
 								{foreachelse}
 								<tr>
-									<td class="no-records" colspan="9">该订单暂无商品</td>
+									<td class="no-records" colspan="9">{t domain="orders"}该订单暂无商品{/t}</td>
 								</tr>
 								{/foreach}
 								<tr>
 									<td colspan="5">
                                         {if $order.total_weight}
 										<div align="right">
-											<strong>商品总重量：</strong>
+											<strong>{t domain="orders"}商品总重量：{/t}</strong>
 										</div>
                                         {/if}
                                     </td>
@@ -550,7 +566,7 @@
                                     </td>
 									<td>
 										<div align="right">
-											<strong>合计：</strong>
+											<strong>{t domain="orders"}合计：{/t}</strong>
 										</div>
 									</td>
 									<td>
@@ -565,7 +581,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading accordion-heading-url">
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseFive">
-							<strong>费用信息</strong>
+							<strong>{t domain="orders"}费用信息{/t}</strong>
 						</div>
 					</div>
 					<div class="accordion-body in collapse" id="collapseFive">
@@ -573,28 +589,28 @@
 							<tr>
 								<td>
 									<div align="right">
-										商品总金额：
+                                        {t domain="orders"}商品总金额：{/t}
 										<strong>{$order.formated_goods_amount}</strong>
-										- 折扣：
+										- {t domain="orders"}折扣：{/t}
 										<strong>{$order.formated_discount}</strong>
-										+ 发票税额：
+										+ {t domain="orders"}发票税额：{/t}
 										<strong>{$order.formated_tax}</strong>
-										+ 配送费用：
+										+ {t domain="orders"}配送费用：{/t}
 										<strong>{$order.formated_shipping_fee}</strong>
-										+ 保价费用：
+										+ {t domain="orders"}保价费用：{/t}
 										<strong>{$order.formated_insure_fee}</strong>
-										+ 支付费用：
+										+ {t domain="orders"}支付费用：{/t}
 										<strong>{$order.formated_pay_fee}</strong>
-										+ 包装费用：
+										+ {t domain="orders"}包装费用：{/t}
 										<strong>{$order.formated_pack_fee}</strong>
-										+ 贺卡费用：
+										+ {t domain="orders"}贺卡费用：{/t}
 										<strong>{$order.formated_card_fee}</strong>
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<div align="right"> = 订单总金额：
+									<div align="right"> = {t domain="orders"}订单总金额：{/t}
 										<strong>{$order.formated_total_fee}</strong>
 									</div>
 								</td>
@@ -602,13 +618,13 @@
 							<tr>
 								<td>
 									<div align="right">
-										- 已付款金额：
+										- {t domain="orders"}已付款金额：{/t}
 										<strong>{$order.formated_money_paid}</strong>
-										- 使用余额：
+										- {t domain="orders"}使用余额：{/t}
 										<strong>{$order.formated_surplus}</strong>
-										- 使用积分：
+										- {t domain="orders"}使用积分：{/t}
 										<strong>{$order.formated_integral_money}</strong>
-										- 使用红包：
+										- {t domain="orders"}使用红包：{/t}
 										<strong>{$order.formated_bonus}</strong>
 									</div>
 								</td>
@@ -616,12 +632,12 @@
 							<tr>
 								<td>
 									<div align="right">
-										= {if $order.order_amount >= 0} 应付款金额：
+										= {if $order.order_amount >= 0} {t domain="orders"}应付款金额：{/t}
 										<strong>{$order.formated_order_amount}</strong>
-										{else} 应退款金额：
+										{else} {t domain="orders"}应退款金额：{/t}
 										<strong>{$order.formated_money_refund}</strong>
-										<input class="refund_click btn" type="button" data-href="{$refund_url}" value="退款"> {/if}
-                                        {if $order.extension_code eq "group_buy"}<br/>（备注：团购如果有保证金，第一次只需支付保证金和相应的支付费用）{/if}
+										<input class="refund_click btn" type="button" data-href="{$refund_url}" value='{t domain="orders"}退款{/t}'> {/if}
+                                        {if $order.extension_code eq "group_buy"}<br/>{t domain="orders"}（备注：团购如果有保证金，第一次只需支付保证金和相应的支付费用）{/t}{/if}
 									</div>
 								</td>
 							</tr>
@@ -632,7 +648,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle acc-in" data-toggle="collapse" data-target="#collapseSix">
-							<strong>操作记录</strong>
+							<strong>{t domain="orders"}操作记录{/t}</strong>
 						</a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseSix">
@@ -640,16 +656,16 @@
 							<thead>
 								<tr>
 									<th class="w150">
-										<strong>操作者</strong>
+										<strong>{t domain="orders"}操作者{/t}</strong>
 									</th>
 									<th class="w180">
-										<strong>操作时间</strong>
+										<strong>{t domain="orders"}操作时间{/t}</strong>
 									</th>
 									<th class="w150">
-										<strong>订单状态</strong>
+										<strong>{t domain="orders"}订单状态{/t}</strong>
 									</th>
 									<th class="ecjiafc-pre t_c w150">
-										<strong>操作备注</strong>
+										<strong>{t domain="orders"}操作备注{/t}</strong>
 									</th>
 								</tr>
 							</thead>
@@ -663,7 +679,7 @@
 								</tr>
 								{foreachelse}
 								<tr>
-									<td class="no-records" colspan="4">该订单暂无操作记录</td>
+									<td class="no-records" colspan="4">{t domain="orders"}该订单暂无操作记录{/t}</td>
 								</tr>
 								{/foreach}
 							</tbody>

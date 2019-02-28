@@ -15,7 +15,7 @@
 		<a class="btn plus_or_reply data-pjax" href="{$action_link.href}"><i class=" fontello-icon-search"></i>{$action_link.text}</a>
 		<!-- {/if} -->
 		<a class="btn plus_or_reply show_order_search" href="javascript:;">
-			<i class="fontello-icon-search"></i>高级查询</a>
+			<i class="fontello-icon-search"></i>{t domain="orders"}高级查询{/t}</a>
 	</h3>
 </div>
 
@@ -33,7 +33,7 @@
 					{if $filter.extension_code}&extension_code={$filter.extension_code}{/if}
 					{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}
 					{if $filter.keywords}&keywords={$filter.keywords}{/if}
-					">全部 
+					">{t domain="orders"}全部{/t}
 					<span class="badge badge-info">{if $count.all}{$count.all}{else}0{/if}</span> 
 				</a>
 			</li>
@@ -44,7 +44,7 @@
 					&composite_status=102
 					{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}
 					{if $filter.keywords}&keywords={$filter.keywords}{/if}
-					">已完成
+					">{t domain="orders"}已完成{/t}
 					<span class="badge badge-info">{if $count.finished}{$count.finished}{else}0{/if}</span> 
 				</a>
 			</li>
@@ -57,7 +57,7 @@
 					&composite_status=101
 					{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}
 					{if $filter.keywords}&keywords={$filter.keywords}{/if}
-					">未提货
+					">{t domain="orders"}未提货{/t}
 					<span class="badge badge-info">{if $count.await_ship}{$count.await_ship}{else}0{/if}</span> 
 				</a>
 			</li>
@@ -67,7 +67,7 @@
 					&composite_status=102
 					{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}
 					{if $filter.keywords}&keywords={$filter.keywords}{/if}
-					">已提货
+					">{t domain="orders"}已提货{/t}
 					<span class="badge badge-info">{if $count.finished}{$count.finished}{else}0{/if}</span> 
 				</a>
 			</li>			
@@ -79,16 +79,16 @@
 					&composite_status=100
 					{if $filter.merchant_keywords}&merchant_keywords={$filter.merchant_keywords}{/if}
 					{if $filter.keywords}&keywords={$filter.keywords}{/if}
-					">待付款
+					">{t domain="orders"}待付款{/t}
 					<span class="badge badge-info">{if $count.await_pay}{$count.await_pay}{else}0{/if}</span> 
 				</a>
 			</li>
 		</ul>
 	
 		<div class="choose_list f_r" >
-			<input type="text" name="merchant_keywords" value="{$filter.merchant_keywords}" placeholder="请输入商家名称关键字"/> 
-			<input type="text" name="keywords" value="{$filter.keywords}" placeholder="请输入订单编号或购买者姓名"/> 
-			<button class="btn" type="submit">搜索</button>
+			<input type="text" name="merchant_keywords" value="{$filter.merchant_keywords}" placeholder='{t domain="orders"}请输入商家名称关键字{/t}'/>
+			<input type="text" name="keywords" value="{$filter.keywords}" placeholder='{t domain="orders"}请输入订单编号或购买者姓名{/t}'/>
+			<button class="btn" type="submit">{t domain="orders"}搜索{/t}</button>
 		</div>
 	</form>
 </div>
@@ -99,30 +99,30 @@
 			<table class="table table-striped table-hide-edit">
 				<thead>
 					<tr>
-						<th class="w100">订单编号</th>
-						<th class="w150">商家名称</th>
-						<th class="w150">下单时间</th>
-						<th class="w150">购买者信息</th>
-						<th class="w150">总金额</th>
-						<th class="w110">应付金额</th>
-						<th class="w100">订单状态</th>
+						<th class="w100">{t domain="orders"}订单编号{/t}</th>
+						<th class="w150">{t domain="orders"}商家名称{/t}</th>
+						<th class="w150">{t domain="orders"}下单时间{/t}</th>
+						<th class="w150">{t domain="orders"}购买者信息{/t}</th>
+						<th class="w150">{t domain="orders"}总金额{/t}</th>
+						<th class="w110">{t domain="orders"}应付金额{/t}</th>
+						<th class="w100">{t domain="orders"}订单状态{/t}</th>
 					</tr>
 				</thead>
 				<tbody>
 					<!-- {foreach from=$order_list.order_list item=order key=okey} -->
 					<tr>
 						<td class="hide-edit-area">
-							{$order.order_sn}{if $order.extension_code eq "group_buy"}<span class="groupbuy-icon">团</span>{elseif $order.extension_code eq "exchange_goods"}（积分兑换）{/if}
+							{$order.order_sn}{if $order.extension_code eq "group_buy"}<span class="groupbuy-icon">{t domain="orders"}团{/t}</span>{elseif $order.extension_code eq "exchange_goods"}{t domain="orders"}（积分兑换）{/t}{/if}
 							<div class="edit-list">
-								<a href='{url path="orders/admin/info" args="order_id={$order.order_id}"}' class="data-pjax" title="查看">查看</a>
+								<a href='{url path="orders/admin/info" args="order_id={$order.order_id}"}' class="data-pjax" title='{t domain="orders"}查看{/t}'>{t domain="orders"}查看{/t}</a>
 								{if $order.can_remove}
 								&nbsp;|&nbsp;
-								<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='您确定要删除该订单么？' href='{url path="orders/admin/remove_order" args="order_id={$order.order_id}"}' title="删除">删除</a>
+								<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="orders"}您确定要删除该订单么？{/t}' href='{url path="orders/admin/remove_order" args="order_id={$order.order_id}"}' title='{t domain="orders"}删除{/t}'>{t domain="orders"}删除{/t}</a>
 								{/if}
 							</div>
 						</td>
 						<td>
-							{$order.seller_name}{if $order.manage_mode eq 'self'}<span class="ecjiafc-red">（自营）</span>{/if}
+							{$order.seller_name}{if $order.manage_mode eq 'self'}<span class="ecjiafc-red">{t domain="orders"}（自营）{/t}</span>{/if}
 						</td>
 						<td>
 							{$order.order_time}
@@ -135,7 +135,7 @@
 						<td align="center" valign="top" nowrap="nowrap">{$order.label_order_status}</td>
 					</tr>
 					<!-- {foreachelse}-->
-					<tr><td class="no-records" colspan="9">没有找到任何记录</td></tr>
+					<tr><td class="no-records" colspan="9">{t domain="orders"}没有找到任何记录{/t}</td></tr>
 					<!-- {/foreach} -->
 				</tbody>
 			</table>

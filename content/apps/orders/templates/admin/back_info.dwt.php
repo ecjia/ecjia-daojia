@@ -16,23 +16,23 @@
 			<div id="accordion2" class="foldable-list">
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseOne"><strong>基本信息</strong></a>
+						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseOne"><strong>{t domain="orders"}基本信息{/t}</strong></a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseOne">
 						<table class="table table-oddtd m_b0">
 							<tbody class="first-td-no-leftbd">
 								<tr>
-									<td><div align="right"><strong>退货时间：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}退货时间：{/t}</strong></div></td>
 									<td colspan="3">{$back_order.formated_return_time}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>发货单流水号：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}发货单流水号：{/t}</strong></div></td>
 									<td>{$back_order.delivery_sn}</td>
-									<td><div align="right"><strong>发货时间：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}发货时间：{/t}</strong></div></td>
 									<td>{$back_order.formated_update_time}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>订单号：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}订单号：{/t}</strong></div></td>
 									<td>
 										{$back_order.order_sn}
 										{if $back_order.extension_code eq "group_buy"}
@@ -41,17 +41,17 @@
 <!-- 										<a href="exchange_goods.php?act=edit&id={$back_order.extension_id}">（积分兑换）</a> -->
 										{/if}
 									</td>
-									<td><div align="right"><strong>下单时间：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}下单时间：{/t}</strong></div></td>
 									<td>{$back_order.formated_add_time}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>购货人：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}购货人：{/t}</strong></div></td>
 									<td>{$back_order.user_name}</td>
-									<td><div align="right"><strong>缺货处理：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}缺货处理：{/t}</strong></div></td>
 									<td>{$back_order.how_oos}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>配送方式：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}配送方式：{/t}</strong></div></td>
 									<td>
 										{if $exist_real_goods}
 										{if $back_order.shipping_id gt 0}
@@ -60,21 +60,27 @@
 										*
 										{/if} 
 										{if $back_order.insure_fee gt 0}
-                                        保价费用：{$back_order.formated_insure_fee}
+                                        {t domain="orders"}保价费用：{/t}{$back_order.formated_insure_fee}
 										{/if}
 										{/if}
 									</td>
-									<td><div align="right"><strong>配送费用：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}配送费用：{/t}</strong></div></td>
 									<td>{$back_order.shipping_fee}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>是否保价：</strong></div></td>
-									<td>{if $insure_yn}是{else}否{/if}</td>
-									<td><div align="right"><strong>保价费用：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}是否保价：{/t}</strong></div></td>
+									<td>
+                                        {if $insure_yn}
+                                        {t domain="orders"}是{/t}
+                                        {else}
+                                        {t domain="orders"}否{/t}
+                                        {/if}
+                                    </td>
+									<td><div align="right"><strong>{t domain="orders"}保价费用：{/t}</strong></div></td>
 									<td>{$back_order.insure_fee|default:0.00}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>运单编号：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}运单编号：{/t}</strong></div></td>
 									<td colspan="3">{$back_order.invoice_no}</td>
 								</tr>
 							</tbody>
@@ -83,37 +89,37 @@
 				</div>
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseTwo"><strong>收货人信息</strong></a>
+						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseTwo"><strong>{t domain="orders"}收货人信息{/t}</strong></a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseTwo">
 						<table class="table table-oddtd m_b0">
 							<tbody class="first-td-no-leftbd">
 								<tr>
-									<td><div align="right"><strong>收货人：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}收货人：{/t}</strong></div></td>
 									<td>{$back_order.consignee|escape}</td>
-									<td><div align="right"><strong>电子邮件：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}电子邮件：{/t}</strong></div></td>
 									<td>{$back_order.email}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>地址：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}地址：{/t}</strong></div></td>
 									<td>[{$back_order.region}] {$back_order.address|escape}</td>
-									<td><div align="right"><strong>邮编：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}邮编：{/t}</strong></div></td>
 									<td>{$back_order.zipcode|escape}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>电话：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}电话：{/t}</strong></div></td>
 									<td>{$back_order.tel}</td>
-									<td><div align="right"><strong>手机：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}手机：{/t}</strong></div></td>
 									<td>{$back_order.mobile|escape}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>标志性建筑：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}标志性建筑：{/t}</strong></div></td>
 									<td>{$back_order.sign_building|escape}</td>
-									<td><div align="right"><strong>最佳送货时间：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}最佳送货时间：{/t}</strong></div></td>
 									<td>{$back_order.best_time|escape}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>客户给商家的留言：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}客户给商家的留言：{/t}</strong></div></td>
 									<td colspan="3">{$back_order.postscript}</td>
 								</tr>
 							</tbody>
@@ -122,17 +128,17 @@
 				</div>
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseThree"><strong>商品信息</strong></a>
+						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseThree"><strong>{t domain="orders"}商品信息{/t}</strong></a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseThree">
 						<table class="table table-striped m_b0 order-table-list">
 							<tbody>
 								<tr class="table-list">
-									<td>商品名称 [ 品牌 ]</td>
-									<td>货号</td>
-									<td>货品号</td>
-									<td>属性</td>
-									<td>发货数量</td>
+									<td>{t domain="orders"}商品名称 [ 品牌 ]{/t}</td>
+									<td>{t domain="orders"}货号{/t}</td>
+									<td>{t domain="orders"}货品号{/t}</td>
+									<td>{t domain="orders"}属性{/t}</td>
+									<td>{t domain="orders"}发货数量{/t}</td>
 								</tr>
 								<!-- {foreach from=$goods_list item=goods} -->
 								<tr class="table-list">
@@ -153,14 +159,14 @@
 				</div>
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseFour"><strong>操作信息</strong></a>
+						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseFour"><strong>{t domain="orders"}操作信息{/t}</strong></a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseFour">
 						<table class="table table-oddtd m_b0">
 							<tbody class="first-td-no-leftbd">
 								<tr>
 								<tr>
-									<td><div align="right"><strong>操作信息</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}操作信息{/t}</strong></div></td>
 									<td>{$back_order.action_user}</td>
 								</tr>
 							</tbody>

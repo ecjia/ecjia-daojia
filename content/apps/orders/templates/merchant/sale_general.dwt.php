@@ -30,7 +30,7 @@ var templateCounts = '{$data}';
 		<!-- {else} -->
 		<a class="btn btn-primary" id="sticky_a" href="{$action_link.href}&start_time={$filter.start_time}&end_time={$filter.end_time}&query_type={$filter.query_type}">
 		<!-- {/if} -->
-		<i class="glyphicon glyphicon-download-alt"></i> {t}{$action_link.text}{/t}</a>
+		<i class="glyphicon glyphicon-download-alt"></i> {$action_link.text}</a>
 	</div>
 	<!-- {/if} -->
 	<div class="clearfix">

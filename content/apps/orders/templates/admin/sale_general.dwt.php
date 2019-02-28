@@ -16,7 +16,7 @@ var templateCounts = '{$data}';
 <!-- {block name="main_content"} -->
 <div class="alert alert-info">
 	<a class="close" data-dismiss="alert">×</a>
-	<strong>温馨提示：</strong>没有完成的订单不计入销售概况，默认为月走势
+	<strong>{t domain="orders"}温馨提示：{/t}</strong>{t domain="orders"}没有完成的订单不计入销售概况，默认为月走势{/t}
 </div>
 <div>
 	<h3 class="heading">
@@ -30,7 +30,7 @@ var templateCounts = '{$data}';
 <form action="{$form_action}" method="post" name="searchForm">
 	<div class="row-fluid">
 		<div class="choose_list f_r">
-			<strong class="f_l">年走势：</strong>
+			<strong class="f_l">{t domain="orders"}年走势：{/t}</strong>
 			{html_select_date prefix="year_begin" class="w80" time=$filter.start_time start_year="2006" end_year="+1" display_days=false display_months=false}
 			<span class="f_l">-</span>
 			{html_select_date prefix="year_end" class="w80" time=$filter.end_time start_year="2006" end_year="+1" display_days=false display_months=false}

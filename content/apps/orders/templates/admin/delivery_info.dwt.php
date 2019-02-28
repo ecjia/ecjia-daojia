@@ -22,19 +22,19 @@
 			<div id="accordion2" class="foldable-list form-inline">
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseOne"><strong>基本信息</strong></a>
+						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseOne"><strong>{t domain="orders"}基本信息{/t}</strong></a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseOne">
 						<table class="table table-oddtd m_b0">
 							<tbody class="first-td-no-leftbd">
 								<tr>
-									<td><div align="right"><strong>发货单流水号：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}发货单流水号：{/t}</strong></div></td>
 									<td>{$delivery_order.delivery_sn}</td>
-									<td><div align="right"><strong>发货时间：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}发货时间：{/t}</strong></div></td>
 									<td>{$delivery_order.formated_update_time}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>订单号：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}订单号：{/t}</strong></div></td>
 									<td>
 										<a href='{url path="orders/admin/info" args="order_id={$delivery_order.order_id}"}'>{$delivery_order.order_sn}</a>
 										{if $delivery_order.extension_code eq "group_buy"}
@@ -43,29 +43,29 @@
 <!-- 										<a href="exchange_goods.php?act=edit&id={$delivery_order.extension_id}">（积分兑换）</a> -->
 										{/if}
 									</td>
-									<td><div align="right"><strong>下单时间：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}下单时间：{/t}</strong></div></td>
 									<td>{$delivery_order.formated_add_time}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>购货人：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}购货人：{/t}</strong></div></td>
 									<td>{$delivery_order.user_name}</td>
-									<td><div align="right"><strong>缺货处理：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}缺货处理：{/t}</strong></div></td>
 									<td>{$delivery_order.how_oos}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>配送方式：</strong></div></td>
-									<td>{if $exist_real_goods}{if $delivery_order.shipping_id gt 0}{$delivery_order.shipping_name}{else}*{/if} {if $delivery_order.insure_fee gt 0}保价费用：{$delivery_order.formated_insure_fee}{/if}{/if}</td>
-									<td><div align="right"><strong>配送费用：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}配送方式：{/t}</strong></div></td>
+									<td>{if $exist_real_goods}{if $delivery_order.shipping_id gt 0}{$delivery_order.shipping_name}{else}*{/if} {if $delivery_order.insure_fee gt 0}{t domain="orders"}保价费用：{/t}{$delivery_order.formated_insure_fee}{/if}{/if}</td>
+									<td><div align="right"><strong>{t domain="orders"}配送费用：{/t}</strong></div></td>
 									<td>{$delivery_order.shipping_fee}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>是否保价：</strong></div></td>
-									<td>{if $insure_yn}是{else}否{/if}</td>
-									<td><div align="right"><strong>保价费用：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}是否保价：{/t}</strong></div></td>
+									<td>{if $insure_yn}{t domain="orders"}是{/t}{else}{t domain="orders"}否{/t}{/if}</td>
+									<td><div align="right"><strong>{t domain="orders"}保价费用：{/t}</strong></div></td>
 									<td>{$delivery_order.insure_fee|default:0.00}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>运单编号：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}运单编号：{/t}</strong></div></td>
 									<td colspan="3">
 										{if $delivery_order.status neq 1}
 										<input name="invoice_no" type="text" class="span4" value="{$delivery_order.invoice_no}" {if $delivery_order.status eq 0} readonly="readonly" {/if} />
@@ -81,33 +81,33 @@
 				</div>
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseTwo"><strong>收货人信息</strong></a>
+						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseTwo"><strong>{t domain="orders"}收货人信息{/t}</strong></a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseTwo">
 						<table class="table table-oddtd m_b0">
 							<tbody class="first-td-no-leftbd">
 								<tr>
-									<td><div align="right"><strong>收货人：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}收货人：{/t}</strong></div></td>
 									<td>{$delivery_order.consignee|escape}</td>
-									<td><div align="right"><strong>电子邮件：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}电子邮件：{/t}</strong></div></td>
 									<td>{$delivery_order.email}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>地址：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}地址：{/t}</strong></div></td>
 									<td>[{$delivery_order.region}] {$delivery_order.address|escape}</td>
-									<td><div align="right"><strong>邮编：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}邮编：{/t}</strong></div></td>
 									<td>{$delivery_order.zipcode|escape}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>电话：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}电话：{/t}</strong></div></td>
 									<td>{$delivery_order.tel}</td>
-									<td><div align="right"><strong>手机：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}手机：{/t}</strong></div></td>
 									<td>{$delivery_order.mobile|escape}</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>标志性建筑：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}标志性建筑：{/t}</strong></div></td>
 									<td>{$delivery_order.sign_building|escape}</td>
-									<td><div align="right"><strong>最佳送货时间：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}最佳送货时间：{/t}</strong></div></td>
 									<td>
 										{if $expect_shipping_time}
 											{$expect_shipping_time|escape}
@@ -117,7 +117,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>客户给商家的留言：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}客户给商家的留言：{/t}</strong></div></td>
 									<td colspan="3">{$delivery_order.postscript}</td>
 								</tr>
 							</tbody>
@@ -126,17 +126,17 @@
 				</div>
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseThree"><strong>商品信息</strong></a>
+						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseThree"><strong>{t domain="orders"}商品信息{/t}</strong></a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseThree">
 						<table class="table table-striped m_b0 order-table-list">
 							<tbody>
 								<tr class="table-list">
-									<th>商品名称 [ 品牌 ]</th>
-									<th>货号</th>
-									<th>货品号</th>
-									<th>属性</th>
-									<th>发货数量</th>
+									<th>{t domain="orders"}商品名称 [ 品牌 ]{/t}</th>
+									<th>{t domain="orders"}货号{/t}</th>
+									<th>{t domain="orders"}货品号{/t}</th>
+									<th>{t domain="orders"}属性{/t}</th>
+									<th>{t domain="orders"}发货数量{/t}</th>
 								</tr>
 								<!-- {foreach from=$goods_list item=goods} -->
 								<tr class="table-list">
@@ -155,18 +155,18 @@
 				</div>
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseFour"><strong>发货操作信息</strong></a>
+						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseFour"><strong>{t domain="orders"}发货操作信息{/t}</strong></a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseFour">
 						<table class="table table-striped m_b0">
 							<thead>
 								<tr>
-									<th>操作者</th>
-									<th>操作时间</th>
-									<th>订单状态</th>
-									<th>付款状态</th>
-									<th>发货状态</th>
-									<th>备注</th>
+									<th>{t domain="orders"}操作者{/t}</th>
+									<th>{t domain="orders"}操作时间{/t}</th>
+									<th>{t domain="orders"}订单状态{/t}</th>
+									<th>{t domain="orders"}付款状态{/t}</th>
+									<th>{t domain="orders"}发货状态{/t}</th>
+									<th>{t domain="orders"}备注{/t}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -181,7 +181,7 @@
 								</tr>
 								<!-- {foreachelse} -->
 								<tr>
-									<td class="no-records" colspan="6">该订单暂无操作记录</td>
+									<td class="no-records" colspan="6">{t domain="orders"}该订单暂无操作记录{/t}</td>
 								</tr>
 								<!-- {/foreach} -->
 							</tbody>
@@ -190,27 +190,27 @@
 				</div>
 				<div class="accordion-group">
 					<div class="accordion-heading">
-						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseFive"><strong>发货操作信息</strong></a>
+						<a class="accordion-toggle acc-in" data-toggle="collapse" href="#collapseFive"><strong>{t domain="orders"}发货操作信息{/t}</strong></a>
 					</div>
 					<div class="accordion-body in collapse" id="collapseFive">
 						<table class="table table-oddtd m_b0">
 							<tbody class="first-td-no-leftbd">
 								<tr>
-									<td><div align="right"><strong>操作者：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}操作者：{/t}</strong></div></td>
 									<td>{$delivery_order.action_user}</td>
 								</tr>
 								<!-- {if $delivery_order.status neq 1} -->
 								<tr>
-									<td><div align="right"><span class='input-must'>* </span><strong>操作备注：</strong></div></td>
+									<td><div align="right"><span class='input-must'>* </span><strong>{t domain="orders"}操作备注：{/t}</strong></div></td>
 									<td><textarea name="action_note" cols="80" rows="5" class="span10"></textarea></td>
 								</tr>
 								<tr>
-									<td><div align="right"><strong>当前可执行操作：</strong></div></td>
+									<td><div align="right"><strong>{t domain="orders"}当前可执行操作：{/t}</strong></div></td>
 									<td align="left">
 										{if $delivery_order.status eq 2}
-										<button class="btn" type="submit">发货</button>
+										<button class="btn" type="submit">{t domain="orders"}发货{/t}</button>
 										{else}
-										<button class="btn" type="submit">取消发货</button>
+										<button class="btn" type="submit">{t domain="orders"}取消发货{/t}</button>
 										{/if}
 										<input name="order_id" type="hidden" value="{$delivery_order.order_id}">
 										<input name="delivery_id" type="hidden" value="{$delivery_order.delivery_id}">

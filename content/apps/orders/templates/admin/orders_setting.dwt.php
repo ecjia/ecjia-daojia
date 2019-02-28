@@ -18,16 +18,16 @@
 			</div>
 
 			<div class="control-group formSep">
-				<label class="control-label">未付款订单取消：</label>
+				<label class="control-label">{t domain="orders"}未付款订单取消：{/t}</label>
 				<div class="controls">
 					<input type="text" class="span5" name="orders_auto_cancel_time" value="{if $orders_auto_cancel_time}{$orders_auto_cancel_time}{else}0{/if}"/> 
-					<span class="help-block">会员未付款的订单，在设置时间（单位：分钟）后若还没有支付，系统将会自动取消未付款的订单，默认0代表不设置，不设置则未支付订单将不会自动取消。</span>
+					<span class="help-block">{t domain="orders"}会员未付款的订单，在设置时间（单位：分钟）后若还没有支付，系统将会自动取消未付款的订单，默认0代表不设置，不设置则未支付订单将不会自动取消。{/t}</span>
 				</div>
 			</div>
 
 			<div class="control-group">
 				<div class="controls">
-					<input type="submit" value="确定" class="btn btn-gebo" />
+					<input type="submit" value='{t domain="orders"}确定{/t}' class="btn btn-gebo" />
 				</div>
 			</div>
 		</fieldset>
