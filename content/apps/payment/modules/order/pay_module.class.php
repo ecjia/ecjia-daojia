@@ -65,13 +65,32 @@ class order_pay_module extends api_front implements api_interface {
 		$wxpay_open_id = $this->requestData('wxpay_open_id', null);
 		
 		if (!$order_id) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'payment'));
 		}
 		
 		/* 订单详情 */
 		$order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
 		if (is_ecjia_error($order)) {
 			return $order;
+		}
+		if (empty($order)) {
+			//订单id是否是分单主订单id
+			$order = RC_Api::api('orders', 'separate_order_info', array('order_id' => $order_id));
+			if (is_ecjia_error($order)) {
+				return $order;
+			}
+		}
+		
+		//订单都不存在
+		if (empty($order)) {
+			return new ecjia_error('not_exist_order', __('订单不存在', 'payment'));
+		}
+		
+		$order_type = $this->transform_order_sn($order['order_sn']);
+		if($order_type == \Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_BUY) {
+			$order_type_pay = Ecjia\App\Payment\PayConstant::PAY_ORDER;
+		} else if($order_type == \Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_SEPARATE) {
+			$order_type_pay = Ecjia\App\Payment\PayConstant::PAY_SEPARATE_ORDER;
 		}
 		
 		//判断是否是管理员登录
@@ -103,11 +122,12 @@ class order_pay_module extends api_front implements api_interface {
     		'total_fee'      => $order['order_amount'],
     		'pay_code'       => $handler->getCode(),
     		'pay_name'		 => $handler->getName(),
-		    'trade_type'	 => Ecjia\App\Payment\PayConstant::PAY_ORDER,
+		    'trade_type'	 => $order_type_pay,
 		]);
 
 		$handler->set_orderinfo($order);
 		$handler->set_mobile($is_mobile);
+		$handler->setOrderType($order_type_pay);//类型
 		$handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
 
 		$result = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);
@@ -151,6 +171,21 @@ class order_pay_module extends api_front implements api_interface {
         })->all();
 
         return array('payment' => $order['payment'], 'others' => $other);
+	}
+	
+	
+	/**
+	 * 获取订单类型
+	 */
+	private function transform_order_sn($order_sn) {
+		$order_type_string = substr($order_sn, 0, 2);
+		if($order_type_string == \Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_BUY) {
+			return \Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_BUY;
+		} else if($order_type_string == \Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_SEPARATE) {
+			return \Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_SEPARATE;
+		} else {
+			return 0;
+		}
 	}
 }
 
