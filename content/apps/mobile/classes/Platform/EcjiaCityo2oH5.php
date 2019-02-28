@@ -93,6 +93,16 @@ class EcjiaCityo2oH5 extends ApplicationPlatform implements HomeComponentInterfa
         'pay_wxpay',
     ];
 
+    /**
+     * 应用支持的配置选项
+     * @var array
+     */
+    protected $options = [
+        'config_client',
+        'mobile_device',
+
+        'config_pay',
+    ];
 
     public function __construct()
     {

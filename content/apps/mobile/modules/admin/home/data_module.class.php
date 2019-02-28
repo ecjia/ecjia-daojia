@@ -168,32 +168,32 @@ class admin_home_data_module extends api_admin implements api_interface {
 		$data['order_stats']  =  array(
 				array(
 					'key'	=> 'today_orders_proceeds',
-					'label'	=> __('今日收益'),
+					'label'	=> __('今日收益', 'mobile'),
 					'value'	=> price_format($order_data_today['order_amount'], false),
 				),
 				array(
 					'key'	=> 'today_orders',
-					'label'	=> __('今日订单'),
+					'label'	=> __('今日订单', 'mobile'),
 					'value'	=> intval($order_data_today['order_count']),
 				),
 				array(
 					'key'	=> 'today_total_visitors',
-					'label' => __('今日访客'),
+					'label' => __('今日访客', 'mobile'),
 					'value' => $total_visitors,
 				),
 				array(
 						'key'	=> 'yesterday_orders_proceeds',
-						'label'	=> __('昨日收益'),
+						'label'	=> __('昨日收益', 'mobile'),
 						'value'	=> price_format($order_data_yesterday['order_amount'], false),
 				),
 				array(
 						'key'	=> 'yesterday_orders',
-						'label'	=> __('昨日订单'),
+						'label'	=> __('昨日订单', 'mobile'),
 						'value'	=> intval($order_data_yesterday['order_count']),
 				),
 				array(
 						'key'	=> 'yesterday_total_visitors',
-						'label' => __('昨日访客'),
+						'label' => __('昨日访客', 'mobile'),
 						'value' => $next_total_visitors,
 				),
 		);

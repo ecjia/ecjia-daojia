@@ -134,6 +134,17 @@ class EcjiaStreet extends ApplicationPlatform
     	MobileAction::MERCHANT_DETAIL,
     ];
 
+    /**
+     * 应用支持的配置选项
+     * @var array
+     */
+    protected $options = [
+        'config_client',
+        'mobile_device',
+
+        'config_pay',
+    ];
+
     public function __construct()
     {
         $this->name = __('ECJia云店', 'mobile');

@@ -21,9 +21,9 @@
 		<table class="table table-striped table-hide-edit" data-rowlink="a">
 			<thead>
 				<tr>
-					<th class="w200">{lang key='mobile::mobile.mobile_news_img'}</th>
-					<th>{lang key='mobile::mobile.content_title'}</th>
-					<th class="w150">{lang key='mobile::mobile.create_time'}</th>
+					<th class="w200">{t domain="mobile"}今日热点主图{/t}</th>
+					<th>{t domain="mobile"}内容标题{/t}</th>
+					<th class="w150">{t domain="mobile"}创建时间{/t}</th>
 				</tr>
 			</thead>
 			<!-- {foreach from=$mobile_news.item item=item key=key name=children} -->
@@ -40,8 +40,8 @@
 					<!-- {/foreach} -->
 					{$item.text}
 					<div class="edit-list">
-						<a class="data-pjax" href='{RC_Uri::url("mobile/admin_mobile_news/edit", "id={$item.id}")}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
-						<a data-toggle="ajaxremove" class="ajaxremove ecjiafc-red" data-msg="{lang key='mobile::mobile.drop_mobile_news_confirm'}" href='{RC_Uri::url("mobile/admin_mobile_news/remove", "id={$item.id}")}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>
+						<a class="data-pjax" href='{RC_Uri::url("mobile/admin_mobile_news/edit", "id={$item.id}")}' title='{t domain="mobile"}编辑{/t}'>{t domain="mobile"}编辑{/t}</a>&nbsp;|&nbsp;
+						<a data-toggle="ajaxremove" class="ajaxremove ecjiafc-red" data-msg='{t domain="mobile"}您确定要删除该今日热点吗？{/t}' href='{RC_Uri::url("mobile/admin_mobile_news/remove", "id={$item.id}")}' title="{t domain="mobile"}删除{/t}">{t domain="mobile"}删除{/t}</a>
 				    </div>
 				</td>
 				<td>
@@ -50,7 +50,7 @@
 				
 			</tr>
 			<!-- {foreachelse} -->
-			 <tr><td class="no-records" colspan="3">{lang key='system::system.no_records'}</td></tr>
+			 <tr><td class="no-records" colspan="3">{t domain="mobile"}没有找到任何记录{/t}</td></tr>
 			<!-- {/foreach} -->
 		</table>
 		<!-- {$mobile_news.page} -->

@@ -131,13 +131,7 @@ class home_data_module extends api_front implements api_interface {
 
         $device_client = $request->header('device-client', 'iphone');
 
-        if ($device_client == 'android') {
-            $client = Ecjia\App\Adsense\Client::ANDROID;
-        } elseif ($device_client == 'h5') {
-            $client = Ecjia\App\Adsense\Client::H5;
-        } else {
-            $client = Ecjia\App\Adsense\Client::IPHONE;
-        }
+        $client = \Ecjia\App\Adsense\Client::transformDeviceClient($device_client);
 
         $cycleimageDatas = RC_Api::api('adsense',  'cycleimage', [
             'code'     => 'home_cycleimage',
@@ -170,13 +164,7 @@ class home_data_module extends api_front implements api_interface {
 
         $device_client = $request->header('device-client', 'iphone');
 
-        if ($device_client == 'android') {
-            $client = Ecjia\App\Adsense\Client::ANDROID;
-        } elseif ($device_client == 'h5') {
-            $client = Ecjia\App\Adsense\Client::H5;
-        } else {
-            $client = Ecjia\App\Adsense\Client::IPHONE;
-        }
+        $client = Ecjia\App\Adsense\Client::transformDeviceClient($device_client);
 
         $shortcutDatas = RC_Api::api('adsense',  'shortcut', [
             'code'     => 'home_shortcut',
@@ -318,13 +306,7 @@ class home_data_module extends api_front implements api_interface {
 
         $device_client = $request->header('device-client', 'iphone');
 
-        if ($device_client == 'android') {
-            $client = Ecjia\App\Adsense\Client::ANDROID;
-        } elseif ($device_client == 'h5') {
-            $client = Ecjia\App\Adsense\Client::H5;
-        } else {
-            $client = Ecjia\App\Adsense\Client::IPHONE;
-        }
+        $client = \Ecjia\App\Adsense\Client::transformDeviceClient($device_client);
 
         $mobile_home_adsense_group = RC_Api::api('adsense',  'adsense_group', [
             'code'     => 'home_complex_adsense',

@@ -10,6 +10,23 @@
         		var app_secret = document.getElementById('app_secret');
         		new Clipboard(app_secret);
         	}
+        	
+	    	$('.new_del').on('click', function() {
+				var $this = $(this);
+				var message = $this.attr('data-msg');
+				var url = $this.attr('data-href');
+				if (message != undefined) {
+					smoke.confirm(message, function(e) {
+						if (e) {
+							$.get(url, function(data){
+								ecjia.admin.showmessage(data);
+							})
+						}
+					}, {ok:"确定", cancel:"取消"});
+				} 
+			});
+	    	
+	    	
 	    	$('.change_status').on('click', function() {
 				var $this = $(this);
 				var message = $this.attr('data-msg');

@@ -59,14 +59,8 @@ class home_discover_module extends api_front implements api_interface {
 		$city_id	= $request->input('city_id', 0);
 		
 		$device_client = $request->header('device-client', 'iphone');
-		
-		if ($device_client == 'android') {
-		    $client = Ecjia\App\Adsense\Client::ANDROID;
-		} elseif ($device_client == 'h5') {
-		    $client = Ecjia\App\Adsense\Client::H5;
-		} else {
-		    $client = Ecjia\App\Adsense\Client::IPHONE;
-		}
+
+        $client = \Ecjia\App\Adsense\Client::transformDeviceClient($device_client);
 		
 		$discoverDatas = RC_Api::api('adsense',  'shortcut', [
 		    'code'     => 'discover',

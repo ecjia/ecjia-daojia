@@ -60,7 +60,7 @@ class mobile_device_client_api extends Component_Event_Api {
      */
 	public function call(&$options) {	
 	    if (! array_get($options, 'code') ) {
-	        return new ecjia_error('invalid_parameter', __('缺少必要参数'));
+	        return new ecjia_error('invalid_parameter', __('缺少必要参数', 'mobile'));
 	    }
 	    
 	    try {

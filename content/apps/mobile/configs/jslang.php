@@ -44,23 +44,47 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * API入口应用
+ * js语言包设置
  */
-return array(
-    'identifier'    => 'ecjia.mobile',
-    'directory'     => 'mobile',
-    'name'          => __('移动应用', 'mobile'),
-    'description'   => __('移动应用已经不仅仅只是移动设备上的一个客户端那么简单，无线设备、又如iphone、ipad、以Android为核心系统的多种跨系统跨平台的移动应用更是层出不穷；如今，推出一款针对移动应用对其基本参数、规则进行快捷设置，便捷商家操作流程的无线管理的应用，常规整合整合、告别繁琐。', 'mobile'),
-	'author'        => 'ECJIA TEAM',			/* 作者 */
-	'website'       => 'http://www.ecjia.com',	/* 网址 */
-	'version'       => '1.27.4',					/* 版本号 */
-	'copyright'     => 'ECJIA Copyright 2014 ~ 2019.',
-    'namespace'     => 'Ecjia\App\Mobile',
-    'provider'      => 'MobileServiceProvider',
-    'installer'     => 'Ecjia\App\Mobile\Installer',
-);
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+    //mobile
+    'mobile_page' =>array(
+        'ok'					=> __('确定', 'mobile'),
+        'cancel'				=> __('取消', 'mobile'),
+        'label_brief'			=> __('简介：', 'mobile'),
+        'img_url_required'		=> __('请输入图片链接地址', 'mobile'),
+        'add'					=> __('添加', 'mobile'),
+        'no_select_region'		=> __('没有可选择的地区', 'mobile'),
+        'region_selected'		=> __('该地区已被选择！', 'mobile'),
+        'no_select_goods'		=> __('未搜索到商品信息', 'mobile'),
+        'enabled'				=> __('开启', 'mobile'),
+        'disabled'				=> __('关闭', 'mobile'),
+        'app_name_required'		=> __('请填写应用名称！', 'mobile'),
+        'app_client_required'	=> __('请选择应用Client！', 'mobile'),
+        'app_code_required'		=> __('请填写应用Code！', 'mobile'),
+        'bundleid_required'		=> __('请填写应用包名！', 'mobile'),
+        'appkey_required'		=> __('请填写AppKey！', 'mobile'),
+        'appsecret_required'	=> __('请填写AppSecret！', 'mobile'),
+        'platform_required'		=> __('请选择服务平台！', 'mobile'),
+
+        'not_set_parameter'		=> __('clone-obj方法未设置data-parent参数。', 'mobile'),
+        'operate_miss_parameter'=> __('批量操作缺少参数！', 'mobile'),
+        'most_eight'			=> __('今日热点最多只能添加8条', 'mobile'),
+        'mobile_news'			=> __('今日热点 ', 'mobile'),
+        'enter_mobile_news'		=> __('请填写今日热点 ', 'mobile'),
+        'upload_mobile_news'	=> __('请上传今日热点 ', 'mobile'),
+        'the_title'				=> __('的标题', 'mobile'),
+        'the_cover'				=> __('的封面', 'mobile'),
+        'the_abstract'			=> __('的摘要', 'mobile'),
+        'the_graphic_link'		=> __('的图文链接', 'mobile'),
+        'title'					=> __('标题', 'mobile'),
+        'title_required'		=> __('请输入新闻标题！', 'mobile'),
+    ),
+
+);
+//end

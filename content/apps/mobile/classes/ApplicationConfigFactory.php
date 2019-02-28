@@ -44,23 +44,81 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Mobile;
 
-/**
- * API入口应用
- */
-return array(
-    'identifier'    => 'ecjia.mobile',
-    'directory'     => 'mobile',
-    'name'          => __('移动应用', 'mobile'),
-    'description'   => __('移动应用已经不仅仅只是移动设备上的一个客户端那么简单，无线设备、又如iphone、ipad、以Android为核心系统的多种跨系统跨平台的移动应用更是层出不穷；如今，推出一款针对移动应用对其基本参数、规则进行快捷设置，便捷商家操作流程的无线管理的应用，常规整合整合、告别繁琐。', 'mobile'),
-	'author'        => 'ECJIA TEAM',			/* 作者 */
-	'website'       => 'http://www.ecjia.com',	/* 网址 */
-	'version'       => '1.27.4',					/* 版本号 */
-	'copyright'     => 'ECJIA Copyright 2014 ~ 2019.',
-    'namespace'     => 'Ecjia\App\Mobile',
-    'provider'      => 'MobileServiceProvider',
-    'installer'     => 'Ecjia\App\Mobile\Installer',
-);
+use RC_Hook;
+use RC_Cache;
+use InvalidArgumentException;
 
-// end
+class ApplicationConfigFactory
+{
+    
+    protected static $factories;
+    
+    public function __construct()
+    {
+        self::$factories = $this->getFactories();
+    }
+    
+    public function getFactories()
+    {
+        $cache_key = 'mobile_application_config_factories';
+    
+        $factories = RC_Cache::app_cache_get($cache_key, 'mobile');
+
+        if (empty($factories)) {
+    
+            $dir = __DIR__ . '/Metables';
+    
+            $platforms = royalcms('files')->files($dir);
+
+            $factories = [];
+    
+            foreach ($platforms as $key => $value) {
+                $value = str_replace($dir . '/', '', $value);
+                $value = str_replace('.php', '', $value);
+                $className = __NAMESPACE__ . '\Metables\\' . $value;
+                
+                $key = with(new $className)->getCode();
+                $factories[$key] = $className;
+            }
+    
+            RC_Cache::app_cache_set($cache_key, $factories, 'mobile', 10080);
+        }
+    
+        return RC_Hook::apply_filters('ecjia_mobile_config_filter', $factories);
+    }
+    
+    /**
+     * 获取所有支持平台
+     * @return array
+     */
+    public function getOptionKeys()
+    {
+        $platforms = [];
+    
+        foreach (self::$factories as $key => $value) {
+            $platforms[$key] = new $value();
+        }
+    
+        return $platforms;
+    }
+    
+    /**
+     * 获取某个平台操作对象
+     * @param string $code  平台代号
+     * @throws InvalidArgumentException
+     * @return \Ecjia\App\Mobile\ApplicationPlatform
+     */
+    public function getOptionKey($code)
+    {
+        if (!array_key_exists($code, self::$factories)) {
+            throw new InvalidArgumentException("Application Option key '$code' is not supported.");
+        }
+    
+        $className = self::$factories[$code];
+    
+        return new $className();
+    }
+    
+}

@@ -107,6 +107,17 @@ class EcjiaCashier extends ApplicationPlatform
         MobileAction::MAIN,
     ];
 
+    /**
+     * 应用支持的配置选项
+     * @var array
+     */
+    protected $options = [
+        'config_client',
+        'mobile_device',
+
+        'config_pay',
+    ];
+
     public function __construct()
     {
         $this->name = __('ECJia收银通', 'mobile');

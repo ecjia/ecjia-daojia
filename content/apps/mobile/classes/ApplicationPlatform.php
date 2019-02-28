@@ -100,6 +100,12 @@ class ApplicationPlatform
     protected $opentypes = [];
 
     /**
+     * 应用支持的配置选项
+     * @var array
+     */
+    protected $options = [];
+
+    /**
      * @return string
      */
     public function getGroup()
@@ -220,4 +226,14 @@ class ApplicationPlatform
         }
         return $result;
     }
+
+    /**
+     * 获取平台的选项键值组合
+     * @return mixed
+     */
+    public function getMobileOptionKeys()
+    {
+        return \RC_Hook::apply_filters('mobile_application_platorm_options', $this->options, $this);
+    }
+
 }

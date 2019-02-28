@@ -48,8 +48,9 @@
 namespace Ecjia\App\Mobile\Platform;
 
 use Ecjia\App\Mobile\ApplicationPlatform;
+use Ecjia\App\Mobile\Contracts\HomeComponentInterface;
 
-class EcjiaWeapp extends ApplicationPlatform
+class EcjiaWeapp extends ApplicationPlatform implements HomeComponentInterface
 {
 
     /**
@@ -78,6 +79,17 @@ class EcjiaWeapp extends ApplicationPlatform
         'pay_wxpay_weapp',
     ];
 
+    /**
+     * 应用支持的配置选项
+     * @var array
+     */
+    protected $options = [
+        'config_client',
+        'mobile_device',
+
+        'config_pay',
+    ];
+
     public function __construct()
     {
         $this->name = __('ECJia到家门店小程序', 'mobile');
@@ -85,12 +97,45 @@ class EcjiaWeapp extends ApplicationPlatform
         $this->clients = [
             [
                 'device_client' => 'weapp',
-                'device_name' => __('微信小程序'),
+                'device_name' => __('微信小程序', 'mobile'),
                 'device_code' => '6015',
             ],
         ];
 
     }
-    
+
+    /**
+     * 获取首页默认模块组件
+     * @return mixed
+     */
+    public function getHomeComponent()
+    {
+        return [
+            'home_cycleimage',
+            'home_shortcut',
+            'promote_goods',
+            'new_goods',
+            'best_goods',
+            'home_complex_adsense_one',
+            'home_complex_adsense_two',
+        ];
+    }
+
+    /**
+     * 获取首页定义允许使用的模块组件
+     * @return mixed
+     */
+    public function getDefinedHomeComponent()
+    {
+        return [
+            'home_cycleimage', //轮播图
+            'home_shortcut', //快捷菜单
+            'home_complex_adsense_one', //广告组一
+            'home_complex_adsense_two', //广告组二
+            'promote_goods', //促销商品
+            'new_goods', //新品推荐
+            'best_goods', //店长推荐
+        ];
+    }
     
 }

@@ -16,28 +16,6 @@
 	<div class="span12">
 		<div class="container_list">
 			<ul>
-				<!-- 默认 -->
-				<li>
-					<p style="text-align: right;">
-						{if $default_select}<img src="{$ok_img}" />{else}<img src="{$error_img}" />{/if}
-					</p>
-					<h2>默认</h2>
-					<h3></h3>
-					<p style="margin-top:25px;">Code：{$config.code}</p>
-					<p style="margin-top:25px;">
-						{if $config.code eq 'ecjia-cityo2o-h5'}
-							<img src="{$h5}"/>
-						{elseif $config.code eq 'ecjia-shop-weapp'}
-							<img src="{$wechant_client}" />
-						{else}
-							<img src="{$Android_img}" /><img src="{$iPhone_img}" />
-						{/if}
-					</p>
-					<p style="margin-top:60px;">
-						<a style="cursor:pointer;"  class="data-pjax" href='{RC_Uri::url("mobile/admin_mobile_config/config_push", "code={$config.code}")}'><span>配置</span></a>
-					</p>
-				</li>
-				
 				<!-- {foreach from=$data item=list} -->
 					<li>
 					    {if $list.app_id}
@@ -54,17 +32,18 @@
 									<img src="{$iPhone_img}" />
 								{elseif $list.device_client eq 'h5'}
 							 		<img src="{$h5}" />
+							 	{else if $list.device_client eq 'local'}
+							 	    <img src="{$local}" />
 							 	{else}
 							 	    <img src="{$wechant_client}" />
 							 	{/if}
 							</p>
 							<p style="margin-top:60px;">
-								<a style="cursor:pointer;"  class="data-pjax" href='{RC_Uri::url("mobile/admin_mobile_manage/edit", "code={$config.code}&id={$list.app_id}")}'>查看</a>
-								<a style="cursor:pointer;"  class="data-pjax" href='{RC_Uri::url("mobile/admin_mobile_config/config_push", "code={$config.code}&app_id={$list.app_id}")}'>配置</a>
+								<a style="cursor:pointer;"  class="data-pjax" href='{RC_Uri::url("mobile/admin_mobile_manage/edit", "code={$config.code}&app_id={$list.app_id}")}'>{t domain="mobile"}配置{/t}</a>
 							</p>
 					    {else}
 						    <p style="text-align: right;"><img src="{$error_img}" /></p>
-							<h2>未激活</h2>
+							<h2>{t domain="mobile"}未激活{/t}</h2>
 							<h3></h3>
 							<p style="margin-top:72px;">
 								{if $list.device_client eq 'android'}
@@ -73,6 +52,8 @@
 									<img src="{$iPhone_img}" />
 								{elseif $list.device_client eq 'h5'}
 							 		<img src="{$h5}" />
+							 	{else if $list.device_client eq 'local'}
+							 	    <img src="{$local}" />
 							 	{else}
 							 	    <img src="{$wechant_client}" />
 							 	{/if}

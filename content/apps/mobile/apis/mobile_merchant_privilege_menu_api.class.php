@@ -55,7 +55,7 @@ class mobile_merchant_privilege_menu_api extends Component_Event_Api {
 	public function call(&$options) {
 	    $user_id = royalcms('request')->query('user_id');
 	    
-	    $mobile_privilege_menu 	 = ecjia_admin::make_admin_menu('shopkeeper_privilege_menu', __('掌柜权限'), RC_Uri::url('mobile/merchant_privilege/allot', array('user_id' => $user_id)), 3)->add_purview('shopkeeper_privilege_menu');
+	    $mobile_privilege_menu 	 = ecjia_admin::make_admin_menu('shopkeeper_privilege_menu', __('掌柜权限', 'mobile'), RC_Uri::url('mobile/merchant_privilege/allot', array('user_id' => $user_id)), 3)->add_purview('shopkeeper_privilege_menu');
 	    
 	    return $mobile_privilege_menu;
 	}

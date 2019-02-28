@@ -72,7 +72,7 @@ class mobile_manage {
         //$row = $db_mobile_manage->where(array('app_id' => $this->app_id))->find();
     	$row = RC_DB::table('mobile_manage')->where('app_id', $this->app_id)->first();
         if (empty($row)) {
-            return new ecjia_error('mobile_manage_not_found_appid', RC_Lang::get('mobile::mobile.unknown_appid'));
+            return new ecjia_error('mobile_manage_not_found_appid', __('未识别的AppID', 'mobile'));
         }
         return $row;
     }

@@ -103,6 +103,17 @@ class EcjiaShopKeeper extends ApplicationPlatform
         MobileAction::WEBVIEW,
     ];
 
+    /**
+     * 应用支持的配置选项
+     * @var array
+     */
+    protected $options = [
+        'config_client',
+        'mobile_device',
+
+        'config_pay',
+    ];
+
     public function __construct()
     {
         $this->name = __('ECJia掌柜', 'mobile');

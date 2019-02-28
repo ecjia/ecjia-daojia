@@ -47,6 +47,7 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 class mobile_admin_hooks {
+
    public static function append_admin_setting_group($menus) 
    {
        $menus[] = ecjia_admin::make_admin_menu('nav-header', '移动应用', '', 30)->add_purview(array('mobile_config_manage'));
@@ -56,9 +57,31 @@ class mobile_admin_hooks {
        
        return $menus;
    }
+
+
+   public static function mobile_config_appid_filter($app_id, $code, $meta_key)
+   {
+
+       if (empty($code)) {
+           return $app_id;
+       }
+
+       $platform = (new \Ecjia\App\Mobile\ApplicationFactory())->platform($code);
+       $options = new \Ecjia\App\Mobile\ApplicationConfigOptions($platform, $app_id);
+       $options->handleConfigMenus($meta_key);
+       $config_handler = $options->getOptionKey($meta_key);
+       $config_handler->handleClientMenus();
+
+       $current_client = $config_handler->getMobilePlatformClient();
+
+       return $current_client['app_id'];
+   }
+
     
 }
 
+
 RC_Hook::add_action( 'append_admin_setting_group', array('mobile_admin_hooks', 'append_admin_setting_group') );
+RC_Hook::add_filter( 'mobile_config_appid_filter', array('mobile_admin_hooks', 'mobile_config_appid_filter'), 10, 3 );
 
 // end

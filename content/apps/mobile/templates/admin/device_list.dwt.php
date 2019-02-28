@@ -1,5 +1,5 @@
 <?php defined('IN_ECJIA') or exit('No permission resources.');?>
-<!-- {extends file="ecjia.dwt.php"} -->
+<!-- {extends file="mobile_config_parent.dwt.php"} -->
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
@@ -7,49 +7,37 @@
 </script>
 <!-- {/block} -->
 
-<!-- {block name="main_content"} -->
-<div>
-	<h3 class="heading">
-		<!-- {if $ur_here}{$ur_here}{/if} -->
-		{if $action_link}
-		<a class="btn plus_or_reply data-pjax" href="{$action_link.href}" id="sticky_a"><i class="fontello-icon-plus"></i>{$action_link.text}</a>
-		{/if}
-	</h3>
-</div>
+<!-- {block name="main_right_content"} -->
 
-<!-- <div class="row-fluid"> -->
-	<!-- <div class="choose_list span12">  -->
-	<ul class="nav nav-pills">
-		<li class="{if $device_list.filter.deviceval eq '0'}active{/if}"><a class="data-pjax" href='{url path="mobile/admin_device/init" args="deviceval=0"}'>{lang key='mobile::mobile.all'}<span class="badge badge-info">{$device_list.msg_count.count}</span></a></li>
-		<li class="{if $device_list.filter.deviceval eq '1'}active{/if}"><a class="data-pjax" href='{url path="mobile/admin_device/init" args="deviceval=1"}'>{lang key='mobile::mobile.android'}<span class="badge badge-info">{$device_list.msg_count.android}</span></a></li>
-		<li class="{if $device_list.filter.deviceval eq '2'}active{/if}"><a class="data-pjax" href='{url path="mobile/admin_device/init" args="deviceval=2"}'>{lang key='mobile::mobile.iphone'}<span class="badge badge-info">{$device_list.msg_count.iphone}</span></a></li>
-		<li class="{if $device_list.filter.deviceval eq '3'}active{/if}"><a class="data-pjax" href='{url path="mobile/admin_device/init" args="deviceval=3"}'>{lang key='mobile::mobile.ipad'}<span class="badge badge-info">{$device_list.msg_count.ipad}</span></a></li>
-		<li class="{if $device_list.filter.deviceval eq '4'}active{/if}"><a class="data-pjax" href='{url path="mobile/admin_device/init" args="deviceval=4"}'>{lang key='mobile::mobile.cashdesk'}<span class="badge badge-info">{$device_list.msg_count.cashier}</span></a></li>
-		<li class="{if $device_list.filter.deviceval eq '5'}active{/if}"><a class="data-pjax" href='{url path="mobile/admin_device/init" args="deviceval=5"}'>{lang key='mobile::mobile.recycle_bin'}<span class="badge badge-info">{$device_list.msg_count.trashed}</span></a></li>
-	</ul>
-	<!-- </div> -->
-<!-- </div> -->
+<!-- {if $platform_clients} -->
+<ul class="nav nav-pills">
+    <!-- {foreach $platform_clients as $client} -->
+    {assign var="count_key" value="{$client.device_client}_count"}
+    <li class="{if $client.device_client eq $current_client}active{/if}"><a class="data-pjax" href='{url path="mobile/admin_device/init" args="code={$client.platform}&app_id={$client.app_id}"}'>{$client.app_name}<span class="badge badge-info">{$device_list.msg_count.{$count_key}}</span></a></li>
+    <!-- {/foreach} -->
+</ul>
+<!-- {/if} -->
 
 <!-- 批量操作和搜索 -->
 <div class="row-fluid batch" >
-	<form method="post" action="{$search_action}&deviceval={$device_list.filter.deviceval}" name="searchForm">
+	<form method="post" action="{$search_action}" name="searchForm">
 		<div class="btn-group f_l m_r5">
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-				<i class="fontello-icon-cog"></i>{lang key='mobile::mobile.batch_handle'}
+				<i class="fontello-icon-cog"></i>{t domain="mobile"}批量操作{/t}
 				<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
-				<!-- {if $device_list.filter.deviceval eq '5'} -->
-				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="mobile/admin_device/batch" args="&sel_action=returndevice&deviceval={$device_list.filter.deviceval}"}' data-msg="{lang key='mobile::mobile.batch_restore_confirm'}" data-noSelectMsg="{lang key='mobile::mobile.select_restore_device'}" data-name="id" href="javascript:;"><i class="fontello-icon-reply-all"></i>{lang key='mobile::mobile.restore_device'}</a></li>
-				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="mobile/admin_device/batch" args="&sel_action=del&deviceval={$device_list.filter.deviceval}"}'  data-msg="{lang key='mobile::mobile.batch_remove_confirm'}" data-noSelectMsg="{lang key='mobile::mobile.select_remove_device'}" data-name="id" href="javascript:;"><i class="fontello-icon-trash"></i>{lang key='mobile::mobile.delete_forever'}</a></li>
+				<!-- {if $device_list.filter.app_id eq '-1'} -->
+				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="mobile/admin_device/batch" args="code={$code}&app_id={$app_id}&sel_action=returndevice"}' data-msg='{t domain="mobile"}您确定要批量还原选中的设备吗？{/t}' data-noSelectMsg='{t domain="mobile"}请先选中要还原的设备！{/t}' data-name="id" href="javascript:;"><i class="fontello-icon-reply-all"></i>{t domain="mobile"}还原设备{/t}</a></li>
+				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="mobile/admin_device/batch" args="code={$code}&app_id={$app_id}&sel_action=del"}'  data-msg='{t domain="mobile"}您确定要批量删除选中的设备吗？{/t}' data-noSelectMsg='{t domain="mobile"}请先选中要删除的设备！{/t}' data-name="id" href="javascript:;"><i class="fontello-icon-trash"></i>{t domain="mobile"}永久删除{/t}</a></li>
 				<!-- {else} -->
-				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="mobile/admin_device/batch" args="&sel_action=trash&deviceval={$device_list.filter.deviceval}"}'  data-msg="{lang key='mobile::mobile.batch_trash_confirm'}" data-noSelectMsg="{lang key='mobile::mobile.select_trash_device'}" data-name="id" href="javascript:;"><i class="fontello-icon-box"></i>{lang key='mobile::mobile.move_to_recyclebin'}</a></li>
+				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="mobile/admin_device/batch" args="code={$code}&app_id={$app_id}&sel_action=trash"}'  data-msg='{t domain="mobile"}您确定要批量将选中的设备移至回收站吗？{/t}' data-noSelectMsg='{t domain="mobile"}请先选中要移至回收站的的设备！{/t}' data-name="id" href="javascript:;"><i class="fontello-icon-box"></i>{t domain="mobile"}移至回收站{/t}</a></li>
 				<!-- {/if} -->
 			</ul>
 		</div>
 		<div class="choose_list f_r" >
-			<input type="text" name="keywords" value="{$device_list.filter.keywords}" placeholder="{lang key='mobile::mobile.device_name_keywords_empty'}"/>
-			<button class="btn search_device" type="button">{lang key='mobile::mobile.search'}</button>
+			<input type="text" name="keywords" value="{$device_list.filter.keywords}" placeholder='{t domain="mobile"}请输入设备名称关键字{/t}'/>
+			<button class="btn search_device" type="button">{t domain="mobile"}搜索{/t}</button>
 		</div>
 	</form>
 </div>
@@ -61,11 +49,11 @@
 				<thead>
 					<tr>
 						<th class="table_checkbox"><input type="checkbox" name="select_rows" data-toggle="selectall" data-children=".checkbox"/></th>
-						<th class="w130">{lang key='mobile::mobile.device_type'}</th>
-						<th>{lang key='mobile::mobile.device_name'}</th>
-						<th class="w200">{lang key='mobile::mobile.device_os'}</th>
-						<th class="w150">{lang key='mobile::mobile.location'}</th>
-						<th class="w150">{lang key='mobile::mobile.add_time'}</th>
+						<th class="w130">{t domain="mobile"}设备类型{/t}</th>
+						<th>{t domain="mobile"}设备名称{/t}</th>
+						<th class="w200">{t domain="mobile"}操作系统{/t}</th>
+						<th class="w150">{t domain="mobile"}位置{/t}</th>
+						<th class="w150">{t domain="mobile"}添加时间{/t}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -77,12 +65,12 @@
 					<td class="hide-edit-area">
 						{$val.device_client}
 						<div class="edit-list">
-						{if $device_list.filter.deviceval eq '5'}
-     					<a class="toggle_view" data-msg="{lang key='mobile::mobile.restore_decice_confirm'}" href='{url path="mobile/admin_device/returndevice" args="id={$val.id}"}' data-pjax-url='{url path="mobile/admin_device/init" args="deviceval={$device_list.filter.deviceval}"}' data-val="back">{lang key='mobile::mobile.restore_device'}</a>&nbsp;|&nbsp;
-						<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='mobile::mobile.remove_decice_confirm'}" href='{RC_Uri::url("mobile/admin_device/remove","id={$val.id}&deviceval={$device_list.filter.deviceval}")}'>{lang key='mobile::mobile.delete_forever'}</a>
+						{if $device_list.filter.app_id eq '-1'}
+	     					<a class="toggle_view" data-msg='{t domain="mobile"}您确定要还原此设备吗？{/t}' href='{url path="mobile/admin_device/returndevice" args="id={$val.id}"}' data-pjax-url='{url path="mobile/admin_device/init" args="code={$code}&app_id={$app_id}"}' data-val="back">{t domain="mobile"}还原设备{/t}</a>&nbsp;|&nbsp;
+							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="mobile"}您确定要删除此设备吗？{/t}' href='{RC_Uri::url("mobile/admin_device/remove","code={$code}&app_id={$app_id}&id={$val.id}")}'>{t domain="mobile"}永久删除{/t}</a>
 						{else}
-						<a class="data-pjax" href='{RC_Uri::url("mobile/admin_device/preview", "id={$val.id}")}' title="{lang key='system::system.view'}">{lang key='system::system.view'}</a>&nbsp;|&nbsp;
-						<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='mobile::mobile.trash_decice_confirm'}" href='{RC_Uri::url("mobile/admin_device/trash", "id={$val.id}&deviceval={$device_list.filter.deviceval}")}' title="{lang key='mobile::mobile.move_to_recyclebin'}">{lang key='mobile::mobile.move_to_recyclebin'}</a>
+							<a class="data-pjax" href='{RC_Uri::url("mobile/admin_device/preview", "code={$code}&app_id={$app_id}&id={$val.id}")}' >{t domain="mobile"}查看{/t}</a>&nbsp;|&nbsp;
+							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="mobile"}您确定要将此设备移至回收站吗？{/t}' href='{RC_Uri::url("mobile/admin_device/trash", "code={$code}&app_id={$app_id}&id={$val.id}")}' >{t domain="mobile"}移至回收站{/t}</a>
 						{/if}
 						</div>
 					</td>
@@ -100,7 +88,7 @@
 					<td>{$val.add_time}</td>
 				</tr>
 				<!--  {foreachelse} -->
-				<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
+				<tr><td class="no-records" colspan="6">{t domain="mobile"}没有找到任何记录{/t}</td></tr>
 				<!-- {/foreach} -->
 				</tbody>
 			</table>

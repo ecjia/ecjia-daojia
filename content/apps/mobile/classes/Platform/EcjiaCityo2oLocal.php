@@ -67,7 +67,7 @@ class EcjiaCityo2oLocal extends ApplicationPlatform
      * 图标
      * @var string
      */
-    protected $icon = '/statics/images/H5.png';
+    protected $icon = '/statics/images/cityo2olocal.png';
     
     /**
      * 支持的客户端类型
@@ -90,6 +90,16 @@ class EcjiaCityo2oLocal extends ApplicationPlatform
         'pay_cod',
         'pay_alipay',
         'pay_wxpay_pc',
+    ];
+
+    /**
+     * 应用支持的配置选项
+     * @var array
+     */
+    protected $options = [
+        'config_client',
+
+        'config_pay',
     ];
 
     public function __construct()

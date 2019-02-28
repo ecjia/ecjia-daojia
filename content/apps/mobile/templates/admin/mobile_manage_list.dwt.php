@@ -3,14 +3,7 @@
 
 <!-- {block name="footer"} -->
 <style>
-a{
-	color:#000000;
-	text-decoration:none;
-}
-a:hover {
-    color:#08c;
-	text-decoration:none;
-}
+
 </style>
 <!-- {/block} -->
 
@@ -28,7 +21,7 @@ a:hover {
 			<div class="active">
 				<div class="row-fluid">
                     <!-- {foreach from=$group.data item=list} -->
-						<div class="outline {if in_array($list->getCode(), $activation_list)}outline-background{/if}">
+						<div class="outline {if in_array($list->getCode(), $activation_list)}outline-select{/if}">
 							<a class="data-pjax"  href='{RC_Uri::url("mobile/admin_mobile_manage/client_list", "code={$list->getCode()}")}' >
 								<div class="outline-left"><img src="{$list->getIcon()}" /></div>
 								<div class="outline-right">

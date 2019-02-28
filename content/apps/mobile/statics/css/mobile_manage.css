@@ -1,3 +1,11 @@
+a{
+	color:#000000;
+	text-decoration:none;
+}
+a:hover {
+    color:#08c;
+	text-decoration:none;
+}
 .outline{
 	background-color: #efefef;
     border-radius: 5px;
@@ -8,12 +16,17 @@
 	display: inline-block;
 	vertical-align: top;
 }
+.outline-select{
+   background-color: #d1eae2;
+}
+.outline-select:hover{
+   background-color: #d1eae2;
+}
+
 .outline-right{
     margin-top: 6px;
 }
-.outline-background{
-   background-color: #d1eae2;
-}
+
 .container_list ul {
 	margin: 0;
 	padding: 0;
@@ -95,7 +108,7 @@
 .wookmark .thumbnail {
 	background-color: #F9F9F9;
 	margin-right: 1%;
-    width: 24%;
+    width: 32%;
 }
 
 .wookmark .bd {
@@ -125,7 +138,7 @@
 
 
 .app_copy {
-	width: 50%;
+	width: 65%;
 	background: #629fe5;
 	border-radius: 5px;
 	font-color: #ffffff;

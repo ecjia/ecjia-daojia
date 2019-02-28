@@ -53,7 +53,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class mobile_service_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {	
-		$menus = ecjia_admin::make_admin_menu('admin_street', __('云店铺'), RC_Uri::url('mobile/admin_street/init'), 3);
+		$menus = ecjia_admin::make_admin_menu('admin_street', __('云店铺', 'mobile'), RC_Uri::url('mobile/admin_street/init'), 3);
 		return $menus;
 	}
 }

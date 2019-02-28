@@ -55,22 +55,22 @@ class Helper
      * 添加管理员记录日志操作对象
      */
     public static function assign_adminlog_content() {
-    	ecjia_admin_log::instance()->add_object('mobile_shortcut', RC_Lang::get('mobile::mobile.shortcut'));
-    	ecjia_admin_log::instance()->add_object('mobile_shortcut_display', RC_Lang::get('mobile::mobile.mobile_shortcut_display'));
-    	ecjia_admin_log::instance()->add_object('mobile_shortcut_sort', RC_Lang::get('mobile::mobile.mobile_shortcut_sort'));
+    	ecjia_admin_log::instance()->add_object('mobile_shortcut', __('快捷菜单', 'mobile'));
+    	ecjia_admin_log::instance()->add_object('mobile_shortcut_display', __('快捷菜单是否显示', 'mobile'));
+    	ecjia_admin_log::instance()->add_object('mobile_shortcut_sort', __('快捷菜单排序', 'mobile'));
     	
-    	ecjia_admin_log::instance()->add_object('mobile_discover', RC_Lang::get('mobile::mobile.discover'));
-    	ecjia_admin_log::instance()->add_object('mobile_discover_display', RC_Lang::get('mobile::mobile.mobile_discover_display'));
-    	ecjia_admin_log::instance()->add_object('mobile_discover_sort', RC_Lang::get('mobile::mobile.mobile_discover_sort'));
+    	ecjia_admin_log::instance()->add_object('mobile_discover', __('百宝箱', 'mobile'));
+    	ecjia_admin_log::instance()->add_object('mobile_discover_display', __('百宝箱是否显示', 'mobile'));
+    	ecjia_admin_log::instance()->add_object('mobile_discover_sort', __('百宝箱排序', 'mobile'));
     	
-    	ecjia_admin_log::instance()->add_object('mobile_device', RC_Lang::get('mobile::mobile.mobile_device'));
+    	ecjia_admin_log::instance()->add_object('mobile_device', __('移动设备', 'mobile'));
     	
-    	ecjia_admin_log::instance()->add_object('mobile_cycleimage', RC_Lang::get('mobile::mobile.cycleimage'));
-    	ecjia_admin_log::instance()->add_object('mobile_config', RC_Lang::get('mobile::mobile.mobile_config'));
-    	ecjia_admin_log::instance()->add_object('mobile_news', RC_Lang::get('mobile::mobile.mobile_news'));
-    	ecjia_admin_log::instance()->add_object('mobile_manage', RC_Lang::get('mobile::mobile.mobile_app_manage'));
-    	ecjia_admin_log::instance()->add_object('mobile_toutiao', RC_Lang::get('mobile::mobile.mobile_headline'));
-    	ecjia_admin_log::instance()->add_object('mobile_activity', RC_Lang::get('mobile::mobile.activity'));
+    	ecjia_admin_log::instance()->add_object('mobile_cycleimage', __('轮播图', 'mobile'));
+    	ecjia_admin_log::instance()->add_object('mobile_config', __('应用配置', 'mobile'));
+    	ecjia_admin_log::instance()->add_object('mobile_news', __('今日热点 ', 'mobile'));
+    	ecjia_admin_log::instance()->add_object('mobile_manage', __('客户端管理', 'mobile'));
+    	ecjia_admin_log::instance()->add_object('mobile_toutiao', __('客户端标题', 'mobile'));
+    	ecjia_admin_log::instance()->add_object('mobile_activity', __('活动', 'mobile'));
     }
     
 }

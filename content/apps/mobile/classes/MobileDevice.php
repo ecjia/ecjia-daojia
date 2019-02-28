@@ -59,15 +59,18 @@ use ecjia_page;
  */
 class MobileDevice
 {
-// 	const NORMAL 	 = 1;//正常
-// 	const LOCKED 	 = 2;//锁定
-	
+ 	const NORMAL 	 = 0;//正常
+
+    const TRASH 	 = 1;//回收站
+ 	const LOCKED 	 = 2;//锁定
+
 
      /**
      * 移动设备更新
      * @param  $act_id
      */
-    public static function DeviceUpdate($id, $data) {
+    public static function DeviceUpdate($id, $data)
+    {
     	if (!empty($id) && !empty($data)) {
     		if (is_array($id)) {
     			RC_DB::table('mobile_device')->whereIn('id', $id)->update($data);
@@ -82,7 +85,8 @@ class MobileDevice
      * 设备信息
      * @param int $id
      */
-	public static function DeviceInfo($id) {
+	public static function DeviceInfo($id)
+    {
 		return RC_DB::table('mobile_device')->where('id', $id)->first();
 	}
     
@@ -90,7 +94,8 @@ class MobileDevice
 	 * 删除移动设备
 	 * @param int or array  $id
 	 */
-	public static function DeviceDelete($id) {
+	public static function DeviceDelete($id)
+    {
 		if (is_array($id)) {
 			return RC_DB::table('mobile_device')->whereIn('id', $id)->delete();
 		} else {
@@ -102,7 +107,8 @@ class MobileDevice
 	 * 获得指定id移动设备列表信息
 	 * @param int or array  $id
 	 */
-	public function DeviceSelect($id) {
+	public function DeviceSelect($id)
+    {
 		$db_mobile_device = RC_DB::table('mobile_device');
 	
 		if (is_array($id)) {
