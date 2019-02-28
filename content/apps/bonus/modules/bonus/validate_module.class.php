@@ -26,7 +26,7 @@ class bonus_validate_module extends api_front implements api_interface
     						->first();
     	
 		if (empty($bonus_info)) {
-			return new ecjia_error('bonus_error', '红包信息有误！');
+			return new ecjia_error('bonus_error', __('红包信息有误！', 'bonus'));
 		}
 		$data = array(
 			'bonus_id'					=> $bonus_info['bonus_id'],
@@ -35,7 +35,7 @@ class bonus_validate_module extends api_front implements api_interface
 			'formatted_bonus_amount' 	=> price_format($bonus_info['type_money']),
 			'request_amount'			=> $bonus_info['min_goods_amount'],
 			'formatted_request_amount' 	=> price_format($bonus_info['min_goods_amount']),
-			'label_request_amount' 		=> '购物满'.price_format($bonus_info['min_goods_amount']).'才可以使用此红包',
+			'label_request_amount' 		=> sprintf(__('购物满%s才可以使用此红包', 'bonus'), price_format($bonus_info['min_goods_amount'])),
 			'start_date'				=> $bonus_info['use_start_date'],
 			'end_date'					=> $bonus_info['use_end_date'],
 			'formatted_start_date'   	=> RC_Time::local_date(ecjia::config('date_format'), $bonus_info['use_start_date']),

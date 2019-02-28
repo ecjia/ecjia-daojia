@@ -123,7 +123,7 @@
                                 {if $bonus_arr.type_id eq ''}
                                     <button class="btn btn-info" type="submit">{t domain="bonus"}确定{/t}</button>
                                 {else}
-                                    <button class="btn btn-info" type="submit">{t domain="bonus"}{t domain="bonus"}更新{/t}{/t}</button>
+                                    <button class="btn btn-info" type="submit">{t domain="bonus"}更新{/t}</button>
                                 {/if}
                             </div>
                         </div>

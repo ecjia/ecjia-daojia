@@ -83,7 +83,7 @@ class bonus_receive_coupon_module extends api_front implements api_interface {
  								   ->count(RC_DB::raw('ub.bonus_id'));
  		
  		if ($user_bonus_count > 0) {
- 			return new ecjia_error('received', '此优惠卷每人只限领一次'); 
+ 			return new ecjia_error('received', __('此优惠卷每人只限领一次', 'bonus'));
  		}
  		$options = array('type' => SEND_COUPON, 'bonus_type_id' => $bonus_id, 'where' => $where);
  		$result = RC_Api::api('bonus', 'send_bonus', $options);

@@ -49,14 +49,14 @@
 			                    <div class="ms-container " id="ms-custom-navigation">
 			                        <div class="ms-selectable">
 			                            <div class="search-header">
-			                                <input class="form-control" id="ms-search" type="text" placeholder="{t domain="bonus"}筛选搜索到的商品信息{/t}" autocomplete="off">
+			                                <input class="form-control" id="ms-search" type="text" placeholder='{t domain="bonus"}筛选搜索到的商品信息{/t}' autocomplete="off">
 			                            </div>
 			                            <ul class="ms-list nav-list-ready">
-			                                <li class="ms-elem-selectable disabled"><span>暂无内容</span></li>
+			                                <li class="ms-elem-selectable disabled"><span>{t domain="bonus"}暂无内容{/t}</span></li>
 			                            </ul>
 			                        </div>
 			                        <div class="ms-selection">
-			                            <div class="custom-header custom-header-align">发放此类型红包的商品</div>
+			                            <div class="custom-header custom-header-align">{t domain="bonus"}发放此类型红包的商品{/t}</div>
 			                            <ul class="ms-list nav-list-content">
 			                                <!-- {foreach from=$goods_list item=goods} -->
 			                                <li class="ms-elem-selection">

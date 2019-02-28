@@ -63,7 +63,7 @@
                             </div>
                             <div class="form-group choose_lists"  id="search_user"  data-url="{url path='bonus/merchant/search_users'}">
                                 <div class="col-lg-4">
-                                    <input class="form-control" type="text" name="keyword" placeholder="请输入用户名关键字/完整手机号" />
+                                    <input class="form-control" type="text" name="keyword" placeholder='{t domain="bonus"}请输入用户名关键字/完整手机号{/t}' />
                                 </div>
                                 <a class="btn btn-primary" data-toggle="searchuser"><i class='fa fa-search'></i> {t domain="bonus"}搜索{/t}</a>
                                 <div class="col-lg-12 m_t5">
@@ -75,15 +75,15 @@
                                 <div class="ms-container col-lg-12" id="ms-custom-navigation">
                                     <div class="ms-selectable">
                                         <div class="search-header">
-                                            <input class="form-control"  id="ms-search" type="text" placeholder="{t domain="bonus"}筛选搜索到的用户信息{/t}" autocomplete="off">
+                                            <input class="form-control"  id="ms-search" type="text" placeholder='{t domain="bonus"}筛选搜索到的用户信息{/t}' autocomplete="off">
                                         </div>
                                         <ul class="ms-list nav-list-ready">
-                                            <li class="ms-elem-selectable disabled"><span>暂无信息</span></li>
+                                            <li class="ms-elem-selectable disabled"><span>{t domain="bonus"}暂无信息{/t}</span></li>
                                         </ul>
                                     </div>
 
                                     <div class="ms-selection">
-                                        <div class="custom-header custom-header-align">给下列用户发放红包</div>
+                                        <div class="custom-header custom-header-align">{t domain="bonus"}给下列用户发放红包{/t}</div>
                                         <ul class="ms-list nav-list-content">
                                         </ul>
                                     </div>

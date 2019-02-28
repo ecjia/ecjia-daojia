@@ -29,7 +29,7 @@ class bonus_bind_module extends api_front implements api_interface
 		->first();
 		
 		if (empty($bonus_info)) {
-			return new ecjia_error('bonus_error', '红包信息有误！');
+			return new ecjia_error('bonus_error', __('红包信息有误！', 'bonus'));
 		}
 		
 		RC_DB::table('user_bonus')->where('bonus_sn', $bonus_sn)->where('user_id', 0)->where('order_id', 0)->update(array('user_id' => $_SESSION['user_id']));

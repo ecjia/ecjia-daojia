@@ -81,7 +81,7 @@ class merchant extends ecjia_merchant {
         RC_Script::localize_script('bonus_type', 'js_lang', config('app-bonus::jslang.bonus_page'));
         RC_Script::localize_script('bonus', 'bonus_js_lang', config('app-bonus::jslang.bonus_js_page'));
 		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('红包管理'), RC_Uri::url('bonus/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('红包管理', 'bonus'), RC_Uri::url('bonus/merchant/init')));
 		ecjia_merchant_screen::get_current_screen()->set_parentage('promotion', 'promotion/merchant.php');
 	}
 
@@ -367,7 +367,7 @@ class merchant extends ecjia_merchant {
 		        ->where('store_id', $store_id)
 		        ->update(array('type_name' => $typename));
 	        /* 记录日志 */
-	        ecjia_merchant::admin_log('发放类型是'.$send.',红包名是'.$typename, 'edit', 'bonustype');
+	        ecjia_merchant::admin_log(sprintf(__('发放类型是%s红包名是%s', 'bonus'), $send,$typename), 'edit', 'bonustype');
 	        return $this->showmessage(__('操作成功！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	    } else {
 	        return $this->showmessage(__('此类型的名称已经存在！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
@@ -404,7 +404,7 @@ class merchant extends ecjia_merchant {
 		        ->where(RC_DB::Raw('store_id'), $_SESSION['store_id'])
 		        ->update(array('type_money' => $val));
 	        /* 记录日志 */
-	        ecjia_merchant::admin_log('发放类型是'.$send.',红包名是'.$bonus_type['type_name'], 'edit', 'bonustype');
+	        ecjia_merchant::admin_log(sprintf(__('发放类型是%s,红包名是%s', 'bonus'), $send,$bonus_type['type_name']), 'edit', 'bonustype');
 	        return $this->showmessage(__('操作成功！', 'bonus'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('bonus/merchant/init')));
 	    }
 	}
@@ -808,8 +808,8 @@ class merchant extends ecjia_merchant {
 
 		$this->assign('full_page',   1);
 		$this->assign('ur_here',    __('红包列表', 'bonus'));
-		$this->assign('action_link', array('href' => RC_Uri::url('bonus/merchant/init'), 'text' => '红包类型列表'));
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('红包列表')));
+		$this->assign('action_link', array('href' => RC_Uri::url('bonus/merchant/init'), 'text' => __('红包类型列表', 'bonus')));
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('红包列表', 'bonus')));
         $list = bonus::get_bonus_list();
 		$bonus_type_id = intval($_GET['bonus_type']);
         $bonus_type = RC_DB::table('bonus_type')->where('type_id', $bonus_type_id)->first();

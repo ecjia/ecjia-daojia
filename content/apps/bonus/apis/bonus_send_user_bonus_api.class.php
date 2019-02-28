@@ -61,7 +61,7 @@ class bonus_send_user_bonus_api extends Component_Event_Api
     public function call(&$options)
     {
         if (!array_get($options, 'type_id') || !array_get($options, 'user_id')) {
-            return new ecjia_error('invalid_parameter', '请求接口bonus_send_user_bonus_api参数无效');
+            return new ecjia_error('invalid_parameter', __('请求接口bonus_send_user_bonus_api参数无效', 'bonus'));
         }
 
         $type_id = array_get($options, 'type_id');
@@ -77,7 +77,7 @@ class bonus_send_user_bonus_api extends Component_Event_Api
         if (!empty($model)) {
             return $this->send_bonus($type_id, $user_id);
         } else {
-            return new ecjia_error('send_user_bonus_failed', '发送用户红包失败');
+            return new ecjia_error('send_user_bonus_failed', __('发送用户红包失败', 'bonus'));
         }
     }
 

@@ -99,7 +99,7 @@ class admin extends ecjia_admin {
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __('更多信息：', 'bonus') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:红包类型" target="_blank">'.__('关于红包类型列表帮助文档', 'bonus').'</a>') . '</p>'
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:红包类型" target="_blank">关于红包类型列表帮助文档</a>', 'bonus') . '</p>'
 		);
 		
 		$this->assign('ur_here', __('红包类型列表', 'bonus'));
@@ -130,7 +130,7 @@ class admin extends ecjia_admin {
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __('更多信息：', 'bonus') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:红包类型#.E6.B7.BB.E5.8A.A0.E7.BA.A2.E5.8C.85.E7.B1.BB.E5.9E.8B" target="_blank">'.__('关于添加红包类型帮助文档', 'bonus').'</a>') . '</p>'
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:红包类型#.E6.B7.BB.E5.8A.A0.E7.BA.A2.E5.8C.85.E7.B1.BB.E5.9E.8B" target="_blank">关于添加红包类型帮助文档</a>', 'bonus') . '</p>'
 		);
 		
 		$this->assign('ur_here', __('添加红包类型', 'bonus'));
@@ -237,7 +237,7 @@ class admin extends ecjia_admin {
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __('更多信息：', 'bonus') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:红包类型#.E7.BC.96.E8.BE.91.E7.BA.A2.E5.8C.85.E7.B1.BB.E5.9E.8B" target="_blank">'.__('关于编辑红包类型帮助文档', 'bonus').'</a>') . '</p>'
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:红包类型#.E7.BC.96.E8.BE.91.E7.BA.A2.E5.8C.85.E7.B1.BB.E5.9E.8B" target="_blank">关于编辑红包类型帮助文档</a>', 'bonus') . '</p>'
 		);
 	
 		$this->assign('ur_here', __('编辑红包类型', 'bonus'));
@@ -450,7 +450,7 @@ class admin extends ecjia_admin {
 				
 			ecjia_screen::get_current_screen()->set_help_sidebar(
 				'<p><strong>' . __('更多信息：', 'bonus') . '</strong></p>' .
-				'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:红包类型#.E6.8C.89.E7.85.A7.EF.BC.88.E7.94.A8.E6.88.B7.EF.BC.89.E5.8F.91.E6.94.BE.E7.BA.A2.E5.8C.85" target="_blank">'.__('关于按照用户发放红包帮助文档', 'bonus').'</a>') . '</p>'
+				'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:红包类型#.E6.8C.89.E7.85.A7.EF.BC.88.E7.94.A8.E6.88.B7.EF.BC.89.E5.8F.91.E6.94.BE.E7.BA.A2.E5.8C.85" target="_blank">关于按照用户发放红包帮助文档)</a>', 'bonus') . '</p>'
 			);
 			$bonus_type = RC_DB::table('bonus_type')->select('type_id', 'type_name')->where('type_id', $id)->first();
 			
@@ -469,7 +469,7 @@ class admin extends ecjia_admin {
 				
 			ecjia_screen::get_current_screen()->set_help_sidebar(
 				'<p><strong>' . __('更多信息：', 'bonus') . '</strong></p>' .
-				'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:红包类型#.E6.8C.89.E7.85.A7.EF.BC.88.E5.95.86.E5.93.81.EF.BC.89.E5.8F.91.E6.94.BE.E7.BA.A2.E5.8C.85" target="_blank">'.__('关于按照商品发放红包帮助文档', 'bonus').'</a>') . '</p>'
+				'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:红包类型#.E6.8C.89.E7.85.A7.EF.BC.88.E5.95.86.E5.93.81.EF.BC.89.E5.8F.91.E6.94.BE.E7.BA.A2.E5.8C.85" target="_blank">关于按照商品发放红包帮助文档</a>', 'bonus') . '</p>'
 			);
 			$bonus_type = RC_DB::table('bonus_type')->select('type_id', 'type_name')->where('type_id', $id)->first();
 			$goods_list = get_bonus_goods($id);
@@ -492,7 +492,7 @@ class admin extends ecjia_admin {
 				
 			ecjia_screen::get_current_screen()->set_help_sidebar(
 				'<p><strong>' . __('更多信息：', 'bonus') . '</strong></p>' .
-				'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:红包类型#.E6.8C.89.E7.85.A7.EF.BC.88.E7.BA.BF.E4.B8.8B.EF.BC.89.E5.8F.91.E6.94.BE.E7.BA.A2.E5.8C.85" target="_blank">'.__('关于按照线下发放红包帮助文档', 'bonus').'</a>') . '</p>'
+				'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:红包类型#.E6.8C.89.E7.85.A7.EF.BC.88.E7.BA.BF.E4.B8.8B.EF.BC.89.E5.8F.91.E6.94.BE.E7.BA.A2.E5.8C.85" target="_blank">关于按照线下发放红包帮助文档</a>', 'bonus') . '</p>'
 			);
 			$this->assign('type_list', get_bonus_type());
 			$this->assign('form_action', RC_Uri::url('bonus/admin/send_by_print'));
@@ -507,7 +507,7 @@ class admin extends ecjia_admin {
 			
 			ecjia_screen::get_current_screen()->set_help_sidebar(
 				'<p><strong>' . __('更多信息：', 'bonus') . '</strong></p>' .
-				'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:红包类型#.E6.8C.89.E7.85.A7.EF.BC.88.E5.95.86.E5.93.81.EF.BC.89.E5.8F.91.E6.94.BE.E7.BA.A2.E5.8C.85" target="_blank">'.__('关于按照商品发放红包帮助文档', 'bonus').'</a>') . '</p>'
+				'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:红包类型#.E6.8C.89.E7.85.A7.EF.BC.88.E5.95.86.E5.93.81.EF.BC.89.E5.8F.91.E6.94.BE.E7.BA.A2.E5.8C.85" target="_blank">关于按照商品发放红包帮助文档</a>', 'bonus') . '</p>'
 			);
 			
 			$this->assign('cat_list', RC_Api::api('goods', 'get_goods_category'));
@@ -981,7 +981,7 @@ class admin extends ecjia_admin {
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __('更多信息：', 'bonus') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:红包类型#.E6.9F.A5.E7.9C.8B.E7.BA.A2.E5.8C.85" target="_blank">'.__('关于红包列表帮助文档', 'bonus').'</a>') . '</p>'
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:红包类型#.E6.9F.A5.E7.9C.8B.E7.BA.A2.E5.8C.85" target="_blank">关于红包列表帮助文档</a>', 'bonus') . '</p>'
 		);
 		
 		$this->assign('ur_here', __('红包列表', 'bonus'));
