@@ -55,14 +55,8 @@ return array(
     'address/setDefault'            => 'user::address/setDefault',
     'address/update'                => 'user::address/update',
 
-    //article
-    'article/category'              => 'article::article/category',//2.4+api(测试)
-    'article/detail'                => 'article::article/detail',
-	
-    
     //cart
     'cart/create'                   => 'cart::cart/create',
-    //'cart/gift/create'            => 'cart::cart/gift/create',//2.4+api(测试) //hyy 9.12
     'cart/delete'                   => 'cart::cart/delete',
     'cart/list'                     => 'cart::cart/list',
     'cart/update'                   => 'cart::cart/update',
@@ -360,9 +354,7 @@ return array(
 
     //配送员
 	'express/grab_list'			    => 'express::express/grab_list',     //1.5废弃
-	'express/list'				    => 'express::express/list',          //1.5废弃
 	'express/detail'			    => 'express::express/detail',        //1.5废弃
-	'express/user/location'		    => 'express::express/user/location', //1.5废弃
 	'express/user/info'			    => 'express::express/user/info',     //1.5废弃
 	'express/user/checkin'          => 'express::express/user/checkin',  //1.5废弃
 	'express/pickup'			    => 'express::express/pickup',        //1.5废弃
@@ -370,7 +362,6 @@ return array(
 	'express/basicinfo'			    => 'express::express/basicinfo',     //1.5废弃
     
     'admin/express/grab_list'		=> 'express::express/grab_list',         //1.5新增
-    'admin/express/list'			=> 'express::express/list',              //1.5新增
     'admin/express/detail'			=> 'express::express/detail',            //1.5新增
     'admin/express/pickup'			=> 'express::express/pickup',            //1.5新增
     'admin/express/grab'			=> 'express::express/grab',              //1.5新增
@@ -390,9 +381,11 @@ return array(
 	'article/home/cycleimage'		=> 'article::article/home/cycleimage',   //1.6
 	
 	'weapp/wxlogin'					=> 'weapp::weapp/wxlogin',	//小程序登录
+    'weapp/wxmobile'				=> 'weapp::weapp/wxmobile',	//小程序解析手机号
+	'weapp/wxauthorize'				=> 'weapp::weapp/wxauthorize',	//小程序授权用户
 	'weapp/wxbind'					=> 'weapp::weapp/wxbind',	//小程序绑定用户
 	'weapp/wxpay'					=> 'weapp::weapp/wxpay',	//小程序微信支付
-	
+
 	'admin/merchant/refreshQrcode'	=> 'merchant::admin/merchant/refreshQrcode',	//1.7 掌柜店铺刷新二维码
 	'market/shake'                  => 'market::market/shake',        //1.6增加 摇一摇
     'admin/orders/today'            => 'orders::admin/orders/today',    //1.6增加 商家今日订单
@@ -585,10 +578,6 @@ return array(
      * 1.0 已经废弃
      *
      * article 
-     * 
-     * 
-     * 'article'				=> 'article::article/detail',
-     * 
      * goods
      * 'brand'					=> 'goods::goods/brand',
      * 'category'               => 'goods::goods/category',
