@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class bbc_flow_done_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 		/**
-         * bonus 0 //红包
+         * bonus_id 0 //红包
          * how_oos 0 //缺货处理
          * integral 0 //积分
          * payment 3 //支付方式
@@ -135,9 +135,9 @@ class bbc_flow_done_module extends api_front implements api_interface {
     		'pack_id'     	=> $this->requestData('pack', 0),
     		'card_id'    	=> $this->requestData('card', 0),
     		'card_message'  => trim($this->requestData('card_message')),
-    		'surplus'   	=> $this->requestData('surplus', 0.00),
-    		'integral'     	=> $this->requestData('integral', 0),
-    		'bonus_id'     	=> $this->requestData('bonus', 0),
+    		'surplus'   	=> $this->requestData('surplus', '0.00'),
+    		'integral'     	=> $this->requestData('integral', '0'),
+    		'bonus_id'     	=> $this->requestData('bonus_id', '0'),
     		'need_inv'     	=> $this->requestData('need_inv', 0),
     		'inv_type'     	=> $this->requestData('inv_type', ''),
     		'inv_payee'    	=> $inv_payee_last,
@@ -155,10 +155,12 @@ class bbc_flow_done_module extends api_front implements api_interface {
     		'expect_shipping_time' =>  $this->requestData('expect_shipping_time', array()),
     	);
     	
-    	$order['shipping_id'] = ['63-19', '62-16'];
+    	//$order['shipping_id'] = ['63-21', '62-16'];
+    	//$order['shipping_id'] = ['63-21'];
     	
 		//期望送达时间过滤
     	$order['expect_shipping_time'] = empty($order['expect_shipping_time']) ? '' : $order['expect_shipping_time'];
+    	//$order['expect_shipping_time'] = array('63|2019-02-19 09:00-18:30');
     	
     	if (empty($order['pay_id'])) {
     	    return new ecjia_error('empty_payment', __('请选择支付方式', 'cart'));

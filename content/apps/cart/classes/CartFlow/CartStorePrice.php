@@ -13,7 +13,9 @@ class CartStorePrice
 {
 
     protected $prices = [];
-
+    
+    protected $discount = [];
+    
     protected $store_id;
 
     public function __construct($store_id)
@@ -29,7 +31,16 @@ class CartStorePrice
     {
         $this->prices[] = $price;
     }
-
+	
+    /**
+     * 添加优惠折扣
+     * @param CartPrice $price
+     */
+    public function addDiscount(array $discount)
+    {
+    	$this->discount = $discount;
+    }
+    
     /**
      * 店铺购物车价格计算
      */
@@ -49,8 +60,9 @@ class CartStorePrice
         	$total = $item->computeTotalPrice();
         	return $total['market_price'];
         });
-
-
+		
+        $discount =  $this->discount['store_cart_discount'];
+        
         $total['goods_amount'] = sprintf("%.2f", $goods_price);
         $total['goods_number'] = $goods_quantity;
         $total['saving']       = ecjia_price_format($market_price - $goods_price, false);
@@ -62,7 +74,9 @@ class CartStorePrice
         $total['unformatted_market_price'] 	= sprintf("%.2f", $market_price);
         $total['market_price'] 				= ecjia_price_format($market_price, false);
         $total['real_goods_count']    		= $goods_quantity;
-
+        $total['discount'] 					= sprintf("%.2f", $discount);
+        $total['formated_discount'] 		= ecjia_price_format($discount, false);
+        
         return $total;
     }
 

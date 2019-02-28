@@ -33,7 +33,6 @@ class MultiCart
     public function getGoodsCollection()
     {
 
-//        dd($this->carts);
         $cart_price = new MultiCartPrice();
 
         $result = collect($this->carts)->map(function($item) use ($cart_price) {
@@ -44,7 +43,7 @@ class MultiCart
 
         $total = $cart_price->computeTotalPrice();
 
-        return array('carts' => $result, 'total' => $total);
+        return array('cart_list' => $result, 'total' => $total);
     }
 
 }

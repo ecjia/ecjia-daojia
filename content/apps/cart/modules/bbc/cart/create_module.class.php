@@ -64,7 +64,7 @@ class bbc_cart_create_module extends api_front implements api_interface {
     	if (version_compare($api_version, '1.25', '>=')) {
     		$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
     		if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
-    			return new ecjia_error('account_status_error', '当前账号已申请注销，不可执行此操作！');
+    			return new ecjia_error('account_status_error', __('当前账号已申请注销，不可执行此操作！', 'cart'));
     		}
     	}
     	
@@ -72,10 +72,9 @@ class bbc_cart_create_module extends api_front implements api_interface {
 	    $goods_number	= $this->requestData('number', 1);
 	    $location		= $this->requestData('location', array());
 	    if (empty($goods_id) || !is_numeric($goods_id)) {
-	        return new ecjia_error('invalid_parameter', '请求接口bbc_cart_create_module参数错误');
+	        return new ecjia_error('invalid_parameter', __('请求接口bbc_cart_create_module参数错误', 'cart'));
 	    }
 	    $goods_spec		= $this->requestData('spec', array());
-	    $goods_spec 	= array(4127,4129,4131);
 	    
 	    $rec_type		= trim($this->requestData('rec_type', 'GENERAL_GOODS')); 
 	    $object_id 		= $this->requestData('goods_activity_id', 0);
@@ -90,7 +89,7 @@ class bbc_cart_create_module extends api_front implements api_interface {
 		$store_id 		= Ecjia\App\Cart\StoreStatus::GetStoreId($goods_id);
 		$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($store_id);
 		if ($store_status == Ecjia\App\Cart\StoreStatus::LOCKED) {
-			return new ecjia_error('store_locked', '对不起，该商品所属的店铺已锁定！');
+			return new ecjia_error('store_locked', __('对不起，该商品所属的店铺已锁定！', 'cart'));
 		}
     	
     	$store_id_group = array($store_id);

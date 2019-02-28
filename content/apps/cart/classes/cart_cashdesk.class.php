@@ -79,8 +79,7 @@ class cart_cashdesk {
 			$db->where(RC_DB::raw('c.session_id'), $_SESSION['device_id']);
 		}
 		
-		$field = 'g.store_id, goods_img, original_img, goods_thumb, c.rec_id, c.goods_buy_weight, c.user_id, c.goods_id, c.goods_name, c.goods_sn, c.goods_number, c.market_price, c.goods_price, c.goods_attr, c.is_real, c.extension_code, c.parent_id, c.is_gift, c.is_shipping, (c.goods_price * c.goods_number) as subtotal, goods_weight as goodsWeight, c.goods_attr_id';
-		
+		$field = 'g.store_id, goods_img, original_img, goods_thumb, c.rec_id, c.goods_buy_weight, c.user_id, c.goods_id, c.goods_name, c.goods_sn, c.goods_number, c.market_price, c.goods_price, c.goods_attr, c.is_real, c.extension_code, c.parent_id, c.is_gift, c.is_shipping, (c.goods_price * c.goods_number) as subtotal, goods_weight as goodsWeight, c.goods_attr_id, c.product_id';
 		$arr		  = $db->select(RC_DB::raw($field))->get();
 		
 		/* 格式化价格及礼包商品 */

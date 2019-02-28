@@ -31,6 +31,10 @@ class CartGoods
         /**
          * $this->model->goods 这是购物车商品的数据模型
          */
+        
+        /**
+         * $this->model->store_franchisee 这是购物车店铺的数据模型
+         */
     }
 
 
@@ -53,8 +57,14 @@ class CartGoods
             $this->output['is_disabled'] = 1;
             $this->output['disabled_label'] = $result->get_error_message();
         }
-
-
+		
+		//判断购物车商品所属店铺是否关闭
+		$result = $this->checkStoreIsClose();
+		if (is_ecjia_error($result)) {
+			$this->output['is_disabled'] = 1;
+			$this->output['disabled_label'] = $result->get_error_message();
+		}
+        
         //不可用状态，取消选中
         $this->checkSeletedStatus();
 
@@ -67,7 +77,7 @@ class CartGoods
         $this->output['goods_name'] 			= rc_stripslashes($this->model->goods_name);
         $this->output['goods_price'] 			= $this->model->goods_price;
         $this->output['market_price'] 			= $this->model->market_price;
-        $this->output['formatted_goods_price'] 	= ecjia_price_format($this->model->market_price, false);
+        $this->output['formatted_goods_price'] 	= ecjia_price_format($this->model->goods_price, false);
         $this->output['formatted_market_price'] = ecjia_price_format($this->model->market_price, false);
         $this->output['goods_number']			= $this->model->goods_number;
         $this->output['subtotal'] 				= ($this->model->goods_price) * ($this->model->goods_number);
@@ -112,6 +122,16 @@ class CartGoods
     		return new ecjia_error('goods_onsale_error', __('商品已下架', 'cart'));
     	}
     }
+    
+    /**
+     * 检查店铺是否关闭
+     */
+    protected function checkStoreIsClose()
+    {
+    	if ($this->model->store_franchisee->shop_close != 0) {
+    		return new ecjia_error('store_error', __('商品所属店铺已关闭', 'cart'));
+    	}
+    }
 
     /**
      * 检查商品选中状态;不可用状态，取消选中
@@ -121,7 +141,7 @@ class CartGoods
         if ($this->model->is_disabled === 1) {
             $this->output['is_checked'] = 0;
             //TODO，更新购物车已选中状态
-			//RC_DB::table('cart')->where('rec_id', $this->model->rec_id)->update(array('is_checked' => 0));
+			CartModel::where('rec_id', $this->model->rec_id)->update(array('is_checked' => 0));
         }
     }
     

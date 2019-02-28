@@ -63,7 +63,7 @@ class bbc_flow_checkOrder_module extends api_front implements api_interface {
 		$location 	= $this->requestData('location', array());
 		
 		if (empty($rec_id)) {
-		    return new ecjia_error( 'invalid_parameter', '请求接口bbc_flow_checkOrder参数无效');
+		    return new ecjia_error( 'invalid_parameter', __('请求接口bbc_flow_checkOrder参数无效', 'cart'));
 		}
 		$cart_id = array();
 		if (!empty($rec_id)) {
@@ -76,7 +76,7 @@ class bbc_flow_checkOrder_module extends api_front implements api_interface {
 		$rec_type = RC_DB::table('cart')->whereIn('rec_id', $cart_id)->lists('rec_type');
 		$rec_type = array_unique($rec_type);
 		if (count($rec_type) > 1) {
-			return new ecjia_error( 'error_rec_type', '购物车类型不一致！');
+			return new ecjia_error( 'error_rec_type', __('购物车类型不一致！', 'cart'));
 		} else {
 			$rec_type = $rec_type['0'];
 			if ($rec_type == 1) {
@@ -107,7 +107,7 @@ class bbc_flow_checkOrder_module extends api_front implements api_interface {
 		$format_cart_list = cart_bbc::formated_bbc_cart_list($get_cart_goods, $_SESSION['user_rank'], $_SESSION['user_id']);
 		
 		if (count($get_cart_goods['goods_list']) == 0) {
-		    return new ecjia_error('not_found_cart_goods', '购物车中还没有商品');
+		    return new ecjia_error('not_found_cart_goods', __('购物车中还没有商品', 'cart'));
 		}
 		
 		/* 对是否允许修改购物车赋值 */
@@ -151,11 +151,11 @@ class bbc_flow_checkOrder_module extends api_front implements api_interface {
 				if ($flow_type == CART_GROUP_BUY_GOODS) {
 					$group_buy_id = $_SESSION['extension_id'];
 					if ($group_buy_id <= 0) {
-						return new ecjia_error('groupbuy_not_support_cod', '如果是团购，且保证金大于0，不能使用货到付款');
+						return new ecjia_error('groupbuy_not_support_cod', __('如果是团购，且保证金大于0，不能使用货到付款', 'cart'));
 					}
 					$group_buy = group_buy_info($group_buy_id);
 					if (empty($group_buy)) {
-						return new ecjia_error( 'groupbuy_not_exist', '团购活动不存在');
+						return new ecjia_error( 'groupbuy_not_exist', __('团购活动不存在', 'cart'));
 					}
 					if ($group_buy['deposit'] > 0) {
 						$cod = false;
@@ -220,7 +220,7 @@ class bbc_flow_checkOrder_module extends api_front implements api_interface {
 			// 取得用户可用红包
 			$pra = array(
 					'user_id' 			=> $_SESSION['user_id'],
-					'store_id' 			=> array_merge($format_cart_list['cart_store_ids'], [0]),
+					'store_id' 			=> array_merge($format_cart_list['cart_store_ids']),
 					'min_goods_amount'	=> $format_cart_list['total']['unformatted_goods_price']
 			);
 			$user_bonus = Ecjia\App\Bonus\UserAvaliableBonus::GetUserBonus($pra);
@@ -288,7 +288,9 @@ class bbc_flow_checkOrder_module extends api_front implements api_interface {
 						'type_name'				=> trim($val['type_name']),
 						'bonus_money'			=> $val['type_money'],
 						'bonus_id'				=> intval($val['bonus_id']),
-						'bonus_money_formated'	=> ecjia_price_format($val['type_money'], false)
+						'bonus_money_formated'	=> ecjia_price_format($val['type_money'], false),
+						'store_id'				=> intval($val['store_id']),
+						'store_name'			=> $val['merchants_name'],
 				);
 			}
 		}

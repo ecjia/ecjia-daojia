@@ -10,6 +10,7 @@ namespace Ecjia\App\Cart\CartFlow;
 
 
 use Ecjia\App\Cart\Models\CartModel;
+use Ecjia\App\Merchant\Models\StoreFranchiseeModel;
 
 class CartStore
 {
@@ -17,12 +18,11 @@ class CartStore
     /**
      * @var CartModel
      */
-    protected $model;
+    protected $store_model;
 
-    public function __construct(CartModel $model)
+    public function __construct($store_id)
     {
-        $this->model = $model;
-
+        $this->store_id = $store_id;
         /**
          * $this->model->goods 这是购物车商品的数据模型
          */
@@ -32,6 +32,15 @@ class CartStore
          */
     }
 	
+    /**
+     * 店铺信息
+     */
+    public function storeInFo()
+    {	
+    	$store_info = StoreFranchiseeModel::where('store_id', $this->store_id)->first();
+    	return $store_info;
+    }
+    
     /**
      * 店铺购物车列表
      */

@@ -13,7 +13,9 @@ class MultiCartPrice
 {
 
     protected $prices = [];
-
+	
+    protected $discount = [];
+    
     public function __construct()
     {
 
@@ -26,6 +28,15 @@ class MultiCartPrice
     public function addPrice(array $price)
     {
         $this->prices[] = $price;
+    }
+    
+    /**
+     * 添加优惠折扣
+     * @param CartPrice $price
+     */
+    public function addDiscount(array $discount)
+    {
+    	$this->discount = $discount;
     }
 
     /**
@@ -44,7 +55,11 @@ class MultiCartPrice
         $market_price = collect($this->prices)->sum(function($item) {
         	return $item['unformatted_market_price'];
         });
-
+		
+         $discount = collect($this->prices)->sum(function($item) {
+        	return $item['discount'];
+        });
+        
         $total['goods_amount'] = sprintf("%.2f", $goods_price);
         $total['goods_number'] = $goods_quantity;
         
@@ -57,6 +72,8 @@ class MultiCartPrice
         $total['unformatted_market_price'] 	= sprintf("%.2f", $market_price);
         $total['market_price'] 				= ecjia_price_format($market_price, false);
         $total['real_goods_count']    		= $goods_quantity;
+        $total['discount']    				= sprintf("%.2f", $discount);
+        $total['formatted_discount']        = ecjia_price_format($discount, false);
 
         return $total;
     }
