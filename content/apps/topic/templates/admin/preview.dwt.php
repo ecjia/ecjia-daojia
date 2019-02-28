@@ -77,7 +77,7 @@
 			<div class="accordion-group">
 				<div class="accordion-heading">
 					<a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#{$k}">
-						<strong>{$k}</strong>
+						<strong>{if $k eq 'default'}{t domain="topic"}未分类{/t}{else}{$k}{/if}</strong>
 					</a>
 				</div>
 				<div class="accordion-body in collapse" id="{$k}">
@@ -107,7 +107,7 @@
 			<div class="accordion-group">
 				<div class="accordion-heading">
 					<a class="accordion-toggle collapsed move-mod-head"  style="background: url({RC_Upload::upload_url()}/{$topic.title_pic});  border: 1px solid #ddd;" data-toggle="collapse" data-target="#{$k}">
-						<strong>{$k}</strong>
+                        <strong>{if $k eq 'default'}{t domain="topic"}未分类{/t}{else}{$k}{/if}</strong>
 					</a>
 				</div>
 				<div class="accordion-body in collapse" id="{$k}">
