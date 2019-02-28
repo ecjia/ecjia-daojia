@@ -45,25 +45,47 @@
 //  ---------------------------------------------------------------------------------
 //
 
-namespace Ecjia\App\Sms\Events;
+/**
+ * js语言包设置
+ */
+defined('IN_ECJIA') or exit('No permission resources.');
 
-use Ecjia\App\Sms\EventAbstract;
-
-class SmsRegisterValidate extends EventAbstract
-{
-    protected $code = 'sms_register_validate';
-   
-    protected $template = '您手机注册的验证码为：${code}，如有问题请拨打客服电话：${service_phone}。';
-    
-    public function __construct()
-    {
-    	$this->name = __('注册验证', 'sms');
-    	 
-    	$this->description = __('用户手机注册时是否给用户发短信', 'sms');
-    	 
-    	$this->available_values = [
-			'code' => __('验证码', 'sms'),
-    		'service_phone' => __('客服电话', 'sms')
-    	];
-    }
-}
+return array(
+	//短信记录
+	'sms_page' =>array(
+		'start_lt_end_time'	 => '开始时间不得大于结束时间！',
+	),
+		
+	//短信事件
+	'sms_events_page' =>array(
+		'ok'	 => __('确定', 'sms'),
+		'cancel' => __('取消', 'sms'),
+	),
+		
+	//短信模板
+	'sms_template_page' =>array(
+		'sFirst'	       	=> __('首页', 'sms'),
+		'sLast' 		   	=> __('尾页', 'sms'),
+		'sPrevious'		   	=> __('上一页', 'sms'),
+		'sNext'				=> __('下一页', 'sms'),
+		'sInfo'				=> __('共_TOTAL_条记录 第_START_条到第_END_条', 'sms'),
+		'sZeroRecords' 		=> __('没有找到任何记录', 'sms'),
+		'sEmptyTable' 		=> __('没有找到任何记录', 'sms'),
+		'sInfoEmpty'		=> __('共0条记录', 'sms'),
+		'sInfoFiltered'		=> __('（从_MAX_条数据中检索）', 'sms'),
+		'subject_required'	=> __('短信主题不能为空！', 'sms'),
+		'content_required'	=> __('模板内容不能为空！', 'sms'),
+		'id_required'		=> __('请输入短信模板ID', 'sms'),	
+		'enter_signature' 	=> __('请输入签名', 'sms'),
+	),
+			
+	//短信渠道
+	'sms_channel_page' =>array(
+		'ok'	 => __('确定', 'sms'),
+		'cancel' => __('取消', 'sms'),
+		'channel_name_required'	=> __('请输入短信渠道名称', 'sms'),
+		'channel_desc_required'	=> __('请输入描述', 'sms'),
+		'channel_desc_minlength'=> __('描述长度不能小于6', 'sms'),				
+	)
+);
+//end

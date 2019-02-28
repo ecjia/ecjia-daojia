@@ -20,7 +20,7 @@
 								ecjia.admin.showmessage(data);
 							})
 						}
-					}, {ok:"确定", cancel:"取消"});
+					}, {ok:js_lang_events.ok, cancel:js_lang_events.cancel});
 				} 
 			});
 	    	
@@ -35,7 +35,7 @@
 								ecjia.admin.showmessage(data);
 							})
 						}
-					}, {ok:"确定", cancel:"取消"});
+					}, {ok:js_lang_events.ok, cancel:js_lang_events.cancel});
 				} 
 			});
 	    	
@@ -50,7 +50,7 @@
 								ecjia.admin.showmessage(data);
 							})
 						}
-					}, {ok:"确定", cancel:"取消"});
+					}, {ok:js_lang_events.ok, cancel:js_lang_events.cancel});
 				} 
 			});
         },

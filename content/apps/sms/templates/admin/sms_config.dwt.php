@@ -3,7 +3,7 @@
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
-	ecjia.admin.sms_config_edit.init();
+	ecjia.admin.sms_config.init();
 </script>
 <!-- {/block} -->
 
@@ -19,14 +19,14 @@
 				</div>
 				
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='sms::sms.label_shop_mobile'}</label>
+					<label class="control-label">{t domain="sms"}平台通知电话：{/t}</label>
 					<div class="controls">
 						<input type='text' name='sms_shop_mobile' value="{$config_mobile}" size='20' /> 
 					</div>
 				</div>
 				<div class="control-group">
 					<div class="controls">
-						<input type="submit" value="{lang key='system::system.button_submit'}" class="btn btn-gebo" />
+						<input type="submit" value='{t domain="sms"}确定{/t}' class="btn btn-gebo" />
 					</div>
 				</div>
 			</fieldset>

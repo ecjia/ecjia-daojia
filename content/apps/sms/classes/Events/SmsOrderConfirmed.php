@@ -51,19 +51,19 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsOrderConfirmed extends EventAbstract
 {
-
     protected $code = 'sms_order_confirmed';
 
-    protected $name = '订单已接单';
-
-    protected $description = '当订单已接单时是否发送短信';
-    
     protected $template = '尊敬的${user_name}用户，您的订单${order_sn}商家已接单，订单正在备货中。';
 
-    protected $available_values = [
-    	'user_name'    => '会员名称',
-    	'order_sn'     => '订单编号'
-    ];
+    public function __construct()
+    {
+    	$this->name = __('订单已接单', 'sms');
     
+    	$this->description = __('当订单已接单时是否发送短信', 'sms');
     
+    	$this->available_values = [
+	    	'user_name'    => __('会员名称', 'sms'),
+	    	'order_sn'     => __('订单编号', 'sms')
+    	];
+    }
 }

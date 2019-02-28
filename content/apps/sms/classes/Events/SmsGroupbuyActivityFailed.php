@@ -51,18 +51,20 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsGroupbuyActivityFailed extends EventAbstract
 {
-    
     protected $code = 'sms_groupbuy_activity_failed';
     
-    protected $name = '团购活动失败';
-    
-    protected $description = '通知用户此次团购活动失败';
-    
     protected $template = '亲爱的${user_name}，您在${store_name}店铺参加了商品${goods_name}的团购活动，活动现已失败结束，我们将尽快为你退款。';
-
-    protected $available_values = [
-    	'user_name' 	=> '用户名称',
-    	'store_name'	=> '店铺名称',
-    	'goods_name'    => '商品名称'
-    ];  
+    
+    public function __construct()
+    {
+    	$this->name = __('团购活动失败', 'sms');
+    
+    	$this->description = __('通知用户此次团购活动失败', 'sms');
+    
+    	$this->available_values = [
+	    	'user_name'  => __('用户名称', 'sms'),
+	    	'store_name' => __('店铺名称', 'sms'),
+	    	'goods_name' => __('商品名称', 'sms')
+    	];
+    }
 }

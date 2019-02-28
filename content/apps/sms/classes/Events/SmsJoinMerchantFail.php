@@ -51,19 +51,21 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsJoinMerchantFail extends EventAbstract
 {
-    
     protected $code = 'sms_join_merchant_fail';
-    
-    protected $name = '商家入驻审核失败';
-    
-    protected $description = '商家入驻审核失败通过是否给商家发送短信告知';
     
     protected $template = '尊敬的${user_name}，您在${shop_name}平台入驻的${merchants_name}店铺未通过审核，可访问网站查看原因。如有问题请拨打客服电话：${service_phone}。';
     
-    protected $available_values = [
-    	'user_name' => '商家名称',
-    	'shop_name' => '平台名称',
-    	'merchants_name' => '店铺名称',
-    	'service_phone'=>'客服电话',
-    ];  
+    public function __construct()
+    {
+    	$this->name = __('商家入驻审核失败', 'sms');
+    
+    	$this->description = __('商家入驻审核失败通过是否给商家发送短信告知', 'sms');
+    
+    	$this->available_values = [
+	    	'user_name' => __('商家名称', 'sms'),
+	    	'shop_name' => __('店铺名称', 'sms'),
+	    	'merchants_name'=> __('店铺名称', 'sms'),
+	    	'service_phone' => __('客服电话', 'sms')
+    	];
+    }
 }

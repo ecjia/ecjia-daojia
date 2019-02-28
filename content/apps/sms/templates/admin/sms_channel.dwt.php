@@ -13,10 +13,10 @@
 <table class="table table-striped table-hide-edit" data-rowlink="a">
 	<thead>
 		<tr>
-			<th class="w150">{lang key='sms::sms.name'}</th>
-			<th>{lang key='sms::sms.desc'}</th>
-			<th class="w80">{lang key='sms::sms.sort_order'}</th>
-			<th class="w80">{lang key='sms::sms.is_enabled'}</th>
+			<th class="w150">{t domain="sms"}名称{/t}</th>
+			<th>{t domain="sms"}描述{/t}</th>
+			<th class="w80">{t domain="sms"}排序{/t}</th>
+			<th class="w80">{t domain="sms"}是否开启{/t}</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -24,7 +24,7 @@
 		<tr>
 			<td >
 				<!-- {if $val.enabled == 1} -->
-					<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('sms/admin_plugin/edit_name')}" data-name="channel_name" data-pk="{$val.channel_id}"  data-title="{lang key='sms::sms.edit_channel_name'}">{$val.channel_name}</span>
+					<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('sms/admin_plugin/edit_name')}" data-name="channel_name" data-pk="{$val.channel_id}"  data-title='{t domain="sms"}编辑名称{/t}'>{$val.channel_name}</span>
 				<!-- {else} -->
 					{$val.channel_name}
 				<!-- {/if} -->
@@ -34,19 +34,19 @@
 				<span class="balance" style="color: #08c;font-size:14px;"></span>
 				<!-- {if $val.enabled == 1} -->
 					<div class="edit-list">
-						<a class="data-pjax" href='{RC_Uri::url("sms/admin_plugin/edit", "code={$val.channel_code}")}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
-						<a class="switch ecjiafc-red" href="javascript:;" data-url='{RC_Uri::url("sms/admin_plugin/switch_state", "code={$val.channel_code}")}&enabled=0' title="{lang key='sms::sms.disable'}">{lang key='sms::sms.disable'}</a>&nbsp;|&nbsp;
-						<a class="check" href="javascript:;" data-url='{RC_Uri::url("sms/admin_plugin/check_balance", "code={$val.channel_code}")}' title="查看余额">查看余额</a>
+						<a class="data-pjax" href='{RC_Uri::url("sms/admin_plugin/edit", "code={$val.channel_code}")}' title='{t domain="sms"}编辑{/t}'>{t domain="sms"}编辑{/t}</a>&nbsp;|&nbsp;
+						<a class="switch ecjiafc-red" href="javascript:;" data-url='{RC_Uri::url("sms/admin_plugin/switch_state", "code={$val.channel_code}")}&enabled=0' title='{t domain="sms"}禁用{/t}'>{t domain="sms"}禁用{/t}</a>&nbsp;|&nbsp;
+						<a class="check" href="javascript:;" data-url='{RC_Uri::url("sms/admin_plugin/check_balance", "code={$val.channel_code}")}' title='{t domain="sms"}查看余额{/t}' >{t domain="sms"}查看余额{/t}</a>
 					</div>
 				<!-- {else} -->
 					<div class="edit-list">
-						<a class="switch" href="javascript:;" data-url='{RC_Uri::url("sms/admin_plugin/switch_state", "code={$val.channel_code}")}&enabled=1' title="{lang key='sms::sms.enable'}">{lang key='sms::sms.enable'}</a>
+						<a class="switch" href="javascript:;" data-url='{RC_Uri::url("sms/admin_plugin/switch_state", "code={$val.channel_code}")}&enabled=1' title='{t domain="sms"}启用{/t}'>{t domain="sms"}启用{/t}</a>
 					</div>
 				<!-- {/if} -->
 			</td>
 			<td>
 				<!-- {if $val.enabled == 1} -->
-					<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('sms/admin_plugin/edit_order')}" data-name="sort_order" data-pk="{$val.channel_id}" data-title="{lang key='sms::sms.edit_channel_sort'}">{$val.sort_order}</span>
+					<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('sms/admin_plugin/edit_order')}" data-name="sort_order" data-pk="{$val.channel_id}" data-title='{t domain="sms"}编辑排序{/t}'>{$val.sort_order}</span>
 				<!-- {else} -->
 					{$val.sort_order}
 				<!-- {/if} -->
@@ -56,7 +56,7 @@
 			</td>
 		</tr>
 		<!-- {foreachelse} -->
-		<tr><td class="no-records" colspan="4">{lang key='system::system.no_records'}</td></tr>
+		<tr><td class="no-records" colspan="4">{t domain="sms"}没有找到任何记录{/t}</td></tr>
 		<!-- {/foreach} -->
 	</tbody>
 </table>

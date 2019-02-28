@@ -51,19 +51,21 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsSelfMerchant extends EventAbstract
 {
-    
     protected $code = 'sms_self_merchant';
-    
-    protected $name = '添加自营商家';
-    
-    protected $description = '添加商家自营，发送短信告知';
     
     protected $template = '恭喜您成为${shop_name}平台的自营商家。账号：${account}， 密码：${password}，请不要把密码泄露给其他人。如有问题请拨打客服电话：${service_phone}。';
 
-    protected $available_values = [
-    	'shop_name' => '平台名称',
-    	'account'	=>'商家账号',
-    	'password'	=>'商家密码',
-    	'service_phone'=>'客服电话',
-    ];  
+    public function __construct()
+    {
+    	$this->name = __('添加自营商家', 'sms');
+    
+    	$this->description = __('添加商家自营，发送短信告知', 'sms');
+    
+    	$this->available_values = [
+    		'shop_name' => __('平台名称', 'sms'),
+	    	'account'	=> __('商家账号', 'sms'),
+	    	'password'	=> __('商家密码', 'sms'),
+	    	'service_phone' => __('客服电话', 'sms')
+    	];
+    }
 }

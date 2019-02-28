@@ -65,9 +65,8 @@ class admin_config extends ecjia_admin
         RC_Style::enqueue_style('uniform-aristo');
         RC_Script::enqueue_script('jquery-uniform');
         RC_Script::enqueue_script('jquery-chosen');
+        
         RC_Script::enqueue_script('sms_config', RC_App::apps_url('statics/js/sms_config.js', __FILE__), array(), false, true);
-
-        RC_Script::localize_script('sms_config', 'js_lang', RC_Lang::get('sms::sms.js_lang'));
     }
 
     /**
@@ -77,19 +76,19 @@ class admin_config extends ecjia_admin
     {
         $this->admin_priv('sms_config_manage');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('sms::sms.sms_config')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('短信配置', 'sms')));
         ecjia_screen::get_current_screen()->add_help_tab(array(
             'id'      => 'overview',
-            'title'   => RC_Lang::get('sms::sms.overview'),
-            'content' => '<p>' . RC_Lang::get('sms::sms.sms_config_help') . '</p>',
+            'title'   => __('概述', 'sms'),
+            'content' => '<p>' .__('欢迎访问ECJia智能后台短信配置页面，系统中有关短信配置信息显示在此页面。', 'sms') . '</p>',
         ));
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
-            '<p><strong>' . RC_Lang::get('sms::sms.more_info') . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:短信配置" target="_blank">' . RC_Lang::get('sms::sms.about_sms_config') . '</a>') . '</p>'
+            '<p><strong>' . __('更多信息：', 'sms') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:短信配置" target="_blank">关于短信配置帮助文档</a>', 'sms') . '</p>'
         );
 
-        $this->assign('ur_here', '短信通知');
+        $this->assign('ur_here', __('短信通知', 'sms'));
 
         $this->assign('config_mobile', ecjia::config('sms_shop_mobile')); //商家电话
         $this->assign('current_code', 'sms');
@@ -103,12 +102,12 @@ class admin_config extends ecjia_admin
      */
     public function update()
     {
-        $this->admin_priv('sms_config_update', ecjia::MSGTYPE_JSON);
+        $this->admin_priv('sms_config_update');
 
         $sms_mobile = $_POST['sms_shop_mobile'];
         ecjia_config::instance()->write_config('sms_shop_mobile', $sms_mobile);
-        ecjia_admin::admin_log(RC_Lang::get('sms::sms.set_config'), 'setup', 'sms_config');
-        return $this->showmessage(RC_Lang::get('sms::sms.update_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin_config/init')));
+        ecjia_admin::admin_log(__('短信管理>短信配置', 'sms'), 'setup', 'sms_config');
+        return $this->showmessage(__('更新短信配置成功！', 'sms'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin_config/init')));
     }
 }
 

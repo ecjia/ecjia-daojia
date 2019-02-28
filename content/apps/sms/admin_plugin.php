@@ -66,9 +66,9 @@ class admin_plugin extends ecjia_admin
         Ecjia\App\Sms\Helper::assign_adminlog_content();
 
         RC_Script::enqueue_script('sms_channel', RC_App::apps_url('statics/js/sms_channel.js', __FILE__));
-        RC_Script::localize_script('sms_channel', 'js_lang', RC_Lang::get('sms::sms.js_lang'));
+        RC_Script::localize_script('sms_channel', 'channel_js_lang', config('app-sms::jslang.sms_channel_page'));
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('sms::sms.sms_channel'), RC_Uri::url('sms/admin_plugin/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('短信渠道', 'sms'), RC_Uri::url('sms/admin_plugin/init')));
         ecjia_screen::get_current_screen()->set_parentage('sms', 'sms/admin_plugin.php');
     }
 
@@ -79,9 +79,9 @@ class admin_plugin extends ecjia_admin
     {
         $this->admin_priv('sms_channel_manage');
 
-        $this->assign('ur_here', RC_Lang::get('sms::sms.sms_channel'));
+        $this->assign('ur_here', __('短信渠道', 'sms'));
         ecjia_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('sms::sms.sms_channel')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('短信渠道', 'sms')));
 
         $list_data = $this->get_channel_list();
         $this->assign('list', $list_data);
@@ -104,11 +104,11 @@ class admin_plugin extends ecjia_admin
             if (is_ecjia_error($result)) {
                 return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
-                $balance_label = sprintf(RC_Lang::get('sms::sms.surplus'), "<strong>{$result->getBalance()}</strong>");
-                return $this->showmessage('查询成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $balance_label));
+                $balance_label = sprintf(__('您当前短信还剩余 %s 条', 'sms'), "<strong>{$result->getBalance()}</strong>");
+                return $this->showmessage(__('查询成功', 'sms'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $balance_label));
             }
         } else {
-            return $this->showmessage('抱歉，该插件暂且还不支持余额查询', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('抱歉，该插件暂且还不支持余额查询', 'sms'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     }
 
@@ -119,10 +119,10 @@ class admin_plugin extends ecjia_admin
     {
         $this->admin_priv('sms_channel_update');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('sms::sms.edit_sms_channel')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑短信渠道', 'sms')));
 
-        $this->assign('action_link', array('text' => RC_Lang::get('sms::sms.sms_channel'), 'href' => RC_Uri::url('sms/admin_plugin/init')));
-        $this->assign('ur_here', RC_Lang::get('sms::sms.edit_sms_channel'));
+        $this->assign('action_link', array('text' => __('短信渠道', 'sms'), 'href' => RC_Uri::url('sms/admin_plugin/init')));
+        $this->assign('ur_here', __('编辑短信渠道', 'sms'));
         $this->assign('form_action', RC_Uri::url('sms/admin_plugin/update'));
 
         $channel_code = !empty($_GET['code']) ? trim($_GET['code']) : '';
@@ -161,12 +161,12 @@ class admin_plugin extends ecjia_admin
 
         /* 检查输入 */
         if (empty($name)) {
-            return $this->showmessage(RC_Lang::get('sms::sms.channel_name_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入短信渠道名称', 'sms'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $count = RC_DB::table('notification_channels')->where('channel_name', $name)->where('channel_code', '!=', $code)->where('channel_type', $type)->count();
         if ($count > 0) {
-            return $this->showmessage(RC_Lang::get('sms::sms.name_exists'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该短信渠道名称已存在', 'sms'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         /* 取得配置信息 */
@@ -193,7 +193,7 @@ class admin_plugin extends ecjia_admin
 
             /* 记录日志 */
             ecjia_admin::admin_log($name, 'edit', 'sms_channel');
-            return $this->showmessage(RC_Lang::get('sms::sms.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+            return $this->showmessage(__('编辑成功', 'sms'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
         } else {
             $count = RC_DB::table('notification_channels')->where('channel_code', $code)->where('channel_type', $type)->count();
             if ($count > 0) {
@@ -221,7 +221,7 @@ class admin_plugin extends ecjia_admin
             ecjia_admin::admin_log($name, 'edit', 'sms_channel');
             $refresh_url = RC_Uri::url('sms/admin_plugin/edit', array('code' => $code, 'type' => $type));
 
-            return $this->showmessage(RC_Lang::get('sms::sms.install_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
+            return $this->showmessage(__('安装成功', 'sms'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
         }
     }
 
@@ -243,15 +243,15 @@ class admin_plugin extends ecjia_admin
 
         if ($enabled == 1) {
             $action  = 'use';
-            $message = RC_Lang::get('sms::sms.enabled');
+            $message = __('已启用', 'sms');
         } elseif ($enabled == 0) {
             $action  = 'stop';
-            $message = RC_Lang::get('sms::sms.disabled');
+            $message = __('已停用', 'sms');
         }
         ecjia_admin::admin_log($channel_info['channel_name'], $action, 'sms_channel');
 
         $refresh_url = RC_Uri::url('sms/admin_plugin/init');
-        return $this->showmessage(RC_Lang::get('sms::sms.plugin') . "<strong> " . $message . " </strong>", ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
+        return $this->showmessage(sprintf(__('插件%s', 'sms'), "<strong>$message</strong>"), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
     }
 
     /**
@@ -267,16 +267,16 @@ class admin_plugin extends ecjia_admin
 
         /* 检查名称是否为空 */
         if (empty($channel_name) || $channel_id == 0) {
-            return $this->showmessage(RC_Lang::get('sms::sms.name_is_null'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入短信渠道名称', 'sms'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } else {
             /* 检查名称是否重复 */
             if (RC_DB::table('notification_channels')->where('channel_name', $channel_name)->where('channel_id', '!=', $channel_id)->where('channel_type', $type)->count() > 0) {
-                return $this->showmessage(RC_Lang::get('sms::sms.name_exists'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('该短信渠道名称已存在', 'sms'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
                 RC_DB::table('notification_channels')->where('channel_id', $channel_id)->update(array('channel_name' => stripcslashes($channel_name)));
 
                 ecjia_admin::admin_log(stripcslashes($channel_name), 'edit', 'sms_channel');
-                return $this->showmessage(RC_Lang::get('sms::sms.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+                return $this->showmessage(__('编辑成功', 'sms'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
             }
         }
     }
@@ -289,7 +289,7 @@ class admin_plugin extends ecjia_admin
         $this->admin_priv('sms_channel_update', ecjia::MSGTYPE_JSON);
 
         if (!is_numeric($_POST['value'])) {
-            return $this->showmessage(RC_Lang::get('sms::sms.number_required'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入数字类型的排序值', 'sms'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } else {
             /* 取得参数 */
             $channel_id   = intval($_POST['pk']);
@@ -298,9 +298,8 @@ class admin_plugin extends ecjia_admin
             RC_DB::table('notification_channels')->where('channel_id', $channel_id)->update(array('sort_order' => $channel_sort));
 
             $channel_info = RC_DB::table('notification_channels')->where('channel_id', $channel_id)->first();
-
-            ecjia_admin::admin_log(stripcslashes($channel_info['channel_name']) . '，排序值为' . $channel_sort, 'edit', 'sms_channel_sort');
-            return $this->showmessage(RC_Lang::get('sms::sms.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin_plugin/init')));
+            ecjia_admin::admin_log(sprintf(__('%s，排序值为%s', 'sms'), $channel_info['channel_name'],$channel_sort), 'edit', 'sms_channel_sort');
+            return $this->showmessage(__('编辑成功', 'sms'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin_plugin/init')));
         }
     }
 
@@ -322,7 +321,6 @@ class admin_plugin extends ecjia_admin
         $data = $db_channel->take(10)->skip($page->start_id - 1)->orderBy('sort_order', 'asc')->get();
         return array('item' => $data, 'page' => $page->show(2), 'desc' => $page->page_desc());
     }
-
 }
 
 //end

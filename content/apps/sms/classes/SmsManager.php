@@ -149,7 +149,7 @@ class SmsManager extends RC_Object
             $template = $this->model->getTemplateByCode($this->event->getCode(), $plugin);
             if (empty($template))
             {
-                return new ecjia_error('sms_template_not_exist', __('短信模板不存在'));
+                return new ecjia_error('sms_template_not_exist', __('短信模板不存在', 'sms'));
             }
             
             $template_var = $this->matchTemplateVar($template['template_content'], $template_var);
@@ -203,7 +203,7 @@ class SmsManager extends RC_Object
     {
         $sms = SmsSendlistModel::find($smsid);
         if (empty($sms)) {
-            return new ecjia_error('not_found_smsid', RC_Lang::get('sms::sms.not_found_smsid'));
+            return new ecjia_error('not_found_smsid', __('没有找到此短信记录', 'sms'));
         }
     
         $mobile         = $sms->mobile;

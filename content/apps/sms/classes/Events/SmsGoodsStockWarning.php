@@ -51,18 +51,20 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsGoodsStockWarning extends EventAbstract
 {
-
     protected $code = 'sms_goods_stock_warning';
 
-    protected $name = '商品库存警告';
-
-    protected $description = '库存数据达到商家设置的警告数量时进行短信通知';
-
     protected $template    = '温馨提醒：您所管理的${store_name}店铺中的${goods_name}商品库存不足，剩余库存为${goods_number}，请及时进行补货。';
-
-    protected $available_values = [
-    	'store_name'     => '店铺名称',
-    	'goods_name'     => '商品名称',
-    	'goods_number'   => '商品库存',
-    ];
+    
+    public function __construct()
+    {
+    	$this->name = __('商品库存警告', 'sms');
+    
+    	$this->description = __('库存数据达到商家设置的警告数量时进行短信通知', 'sms');
+    
+    	$this->available_values = [
+	    	'store_name'     => __('店铺名称', 'sms'),
+	    	'goods_name'     => __('商品名称', 'sms'),
+	    	'goods_number'   => __('商品库存', 'sms')
+    	];
+    }
 }

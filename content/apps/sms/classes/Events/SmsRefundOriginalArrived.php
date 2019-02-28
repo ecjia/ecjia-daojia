@@ -51,17 +51,19 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsRefundOriginalArrived extends EventAbstract
 {
-    
     protected $code = 'sms_refund_original_arrived';
-    
-    protected $name = '退款原路退回';
-    
-    protected $description = '通知用户退款原路退回';
     
     protected $template = '尊敬的${user_name}，退款业务已受理成功，原路退回${back_pay_name}。';
 
-    protected $available_values = [
-    	'user_name' 	=> '用户名称',
-    	'back_pay_name' => '退款方式名称',
-    ];  
+    public function __construct()
+    {
+    	$this->name = __('退款原路退回', 'sms');
+    	
+    	$this->description = __('通知用户退款原路退回', 'sms');
+    	
+    	$this->available_values = [
+	    	'user_name' 	=> __('用户名称', 'sms'),
+	    	'back_pay_name' => __('退款方式名称', 'sms')
+    	];
+    }
 }

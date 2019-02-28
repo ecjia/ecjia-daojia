@@ -72,11 +72,11 @@ class admin extends ecjia_admin
         RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 
         RC_Script::enqueue_script('sms', RC_App::apps_url('statics/js/sms.js', __FILE__), array(), false, true);
-        RC_Script::localize_script('sms', 'js_lang', RC_Lang::get('sms::sms.js_lang'));
+        RC_Script::localize_script('sms', 'js_lang', config('app-sms::jslang.sms_page'));
 
         RC_Style::enqueue_style('hint.min', RC_Uri::admin_url('statics/lib/hint_css/hint.min.css'));
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('sms::sms.sms_record_list'), RC_Uri::url('sms/admin/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('短信记录列表', 'sms'), RC_Uri::url('sms/admin/init')));
     }
 
     /**
@@ -87,20 +87,20 @@ class admin extends ecjia_admin
         $this->admin_priv('sms_history_manage');
 
         ecjia_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('sms::sms.sms_record')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('短信记录', 'sms')));
         ecjia_screen::get_current_screen()->add_help_tab(array(
             'id'      => 'overview',
-            'title'   => RC_Lang::get('sms::sms.overview'),
-            'content' => '<p>' . RC_Lang::get('sms::sms.sms_history_help') . '</p>',
+            'title'   => __('概述', 'sms'),
+            'content' => '<p>' . __('欢迎访问ECJia智能后台短信记录列表页面，系统中所有的短信记录都会显示在此列表中。', 'sms') . '</p>',
         ));
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
-            '<p><strong>' . RC_Lang::get('sms::sms.more_info') . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:短信记录" target="_blank">' . RC_Lang::get('sms::sms.about_sms_history') . '</a>') . '</p>'
+            '<p><strong>' . __('更多信息：', 'sms') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:短信记录" target="_blank">关于短信记录列表帮助文档</a>', 'sms') . '</p>'
         );
 
-        $this->assign('action_link', array('text' => RC_Lang::get('sms::sms.add_sms_send'), 'href' => RC_Uri::url('sms/admin/display_send_ui')));
-        $this->assign('ur_here', RC_Lang::get('sms::sms.sms_record_list'));
+        $this->assign('action_link', array('text' => __('添加短信发送', 'sms'), 'href' => RC_Uri::url('sms/admin/display_send_ui')));
+        $this->assign('ur_here', __('短信记录列表', 'sms'));
 
         $listdb = $this->get_sendlist();
         $this->assign('listdb', $listdb);
@@ -119,11 +119,12 @@ class admin extends ecjia_admin
 
         $smsid  = intval($_GET['id']);
         $result = \Ecjia\App\Sms\SmsManager::make()->resend($smsid);
-        ecjia_admin::admin_log(sprintf(RC_Lang::get('sms::sms.receive_number_is'), $smsid), 'setup', 'sms_record');
+        
+        ecjia_admin::admin_log(sprintf(__('短信编号为%s的再次进行发送短信', 'sms'), $smsid), 'setup', 'sms_record');
         if (is_ecjia_error($result)) {
             return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('sms/admin/init')));
         } else {
-            return $this->showmessage(RC_Lang::get('sms::sms.send_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin/init')));
+            return $this->showmessage(__('发送成功', 'sms'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin/init')));
         }
     }
 
@@ -143,7 +144,7 @@ class admin extends ecjia_admin
         if (is_ecjia_error($result)) {
             return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('sms/admin/init')));
         } else {
-            return $this->showmessage(RC_Lang::get('sms::sms.batch_send_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin/init')));
+            return $this->showmessage(__('已批量发送完毕', 'sms'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('sms/admin/init')));
         }
     }
     

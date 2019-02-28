@@ -21,17 +21,17 @@
 		<form id="form-privilege" class="form-horizontal" name="editForm" action="{$form_action}" method="post" enctype="multipart/form-data" >
 			<fieldset>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='sms::sms.label_name'}</label>
+					<label class="control-label">{t domain="sms"}名称：{/t}</label>
 					<div class="controls">
 						<input class="w350" name="channel_name" type="text" value="{$channel.channel_name|escape}" size="40" />
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 					</div>
 				</div>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='sms::sms.label_desc'}</label>
+					<label class="control-label">{t domain="sms"}描述：{/t}</label>
 					<div class="controls">
 						<textarea class="w350" name="channel_desc" cols="10" rows="6">{$channel.channel_desc|escape}</textarea>
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 					</div>
 				</div>
 				<!-- {foreach from=$channel.channel_config item=config key=key} -->
@@ -58,7 +58,7 @@
 				<!-- {/foreach} -->
 				<div class="control-group">
 					<div class="controls">
-						<button class="btn btn-gebo" type="submit">{lang key='system::system.button_submit'}</button>
+						<button class="btn btn-gebo" type="submit">{t domain="sms"}确定{/t}</button>
 						<input type="hidden" name="channel_id" value="{$channel.channel_id}" />
 						<input type="hidden" name="channel_code" value="{$channel.channel_code}" />
 						<input type="hidden" name="channel_type" value="{$channel.channel_type}" />

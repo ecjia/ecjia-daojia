@@ -51,18 +51,19 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsExpressOrderReminder extends EventAbstract
 {
-
     protected $code = 'sms_express_order_reminder';
 
-    protected $name = '派单提醒';
-
-    protected $description = '商家提醒平台派单';
-    
     protected $template = '该配送单${express_sn}还未派单， 商家${store_name}提醒您尽快派单，赶紧登录平台处理吧。';
 
-    protected $available_values = [
-    	'express_sn'	=> '配送单编号',
-    	'store_name' 	=> '商家名'
-    ];
+    public function __construct()
+    {
+    	$this->name = __('派单提醒', 'sms');
     
+    	$this->description = __('商家提醒平台派单', 'sms');
+    
+    	$this->available_values = [
+	    	'express_sn' => __('配送单编号', 'sms'),
+	    	'store_name' => __('商家名', 'sms')
+    	];
+    }
 }

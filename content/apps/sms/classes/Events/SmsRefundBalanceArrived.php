@@ -51,18 +51,20 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsRefundBalanceArrived extends EventAbstract
 {
-    
     protected $code = 'sms_refund_balance_arrived';
-    
-    protected $name = '退款到余额';
-    
-    protected $description = '通知用户退款到余额';
     
     protected $template = '尊敬的${user_name}，退款业务已受理成功，退回余额${amount}元，目前可用余额${user_money}元。';
 
-    protected $available_values = [
-    	'user_name' 	=> '用户名称',
-    	'amount'    	=> '退款金额',
-    	'user_money'	=> '可用余额',
-    ];  
+    public function __construct()
+    {
+    	$this->name = __('退款到余额', 'sms');
+    
+    	$this->description = __('通知用户退款到余额', 'sms');
+    
+    	$this->available_values = [
+	    	'user_name' 	=> __('用户名称', 'sms'),
+	    	'amount'    	=> __('退款金额', 'sms'),
+	    	'user_money'	=> __('可用余额', 'sms')
+    	];
+    }
 }

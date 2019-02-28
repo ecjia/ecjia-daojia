@@ -11,14 +11,14 @@
 {if !$data}
 <div class="alert alert-error">
 	<a class="close" data-dismiss="alert">×</a>
-	<strong>温馨提示：</strong>请您先前往 "控制面板" -> "插件管理" 中安装短信渠道。
+	<strong>{t domain="sms"}温馨提示：{/t}</strong>{t domain="sms"}请您先前往 "控制面板" -> "插件管理" 中安装短信渠道。{/t}
 </div>
 {/if}
 
 <div class="row-fluid">
 	<div class="span3">
 		<div class="setting-group">
-	        <span class="setting-group-title"><i class="fontello-icon-cog"></i>短信渠道</span>
+	        <span class="setting-group-title"><i class="fontello-icon-cog"></i>{t domain="sms"}短信渠道{/t}</span>
 	        <!-- {if $data} -->
 	        <ul class="nav nav-list m_t10">
 		        <!-- {foreach from=$data item=val} -->
@@ -44,9 +44,9 @@
 		<table class="table table-striped smpl_tbl dataTable table-hide-edit" id="plugin-table">
 			<thead>
 				<tr>
-					<th class="w150">模板代号</th>
-					<th class="w150">{lang key='sms::sms.sms_template_subject'}</th>
-					<th>{lang key='sms::sms.sms_template_content'}</th>
+					<th class="w150">{t domain="sms"}模板代号{/t}</th>
+					<th class="w150">{t domain="sms"}短信主题{/t}</th>
+					<th>{t domain="sms"}模板内容{/t}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -54,9 +54,9 @@
 				<tr>
 					 <td class="hide-edit-area hide_edit_area_bottom">{$list.template_code}
 						<div class="edit-list">
-						 <a class="data-pjax no-underline" href='{url path="sms/admin_template/edit" args="id={$list.id}&channel_code={$channel_code}&event_code={$list.template_code}"}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
-		                 <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='sms::sms.drop_confirm'}" href='{RC_Uri::url("sms/admin_template/remove", "id={$list.id}&channel_code={$channel_code}")}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>
-		                &nbsp;|&nbsp; <a class="data-pjax no-underline" href='{url path="sms/admin_template/test" args="id={$list.id}&channel_code={$channel_code}&event_code={$list.template_code}"}'  title="短信测试">短信测试</a>
+						 <a class="data-pjax no-underline" href='{url path="sms/admin_template/edit" args="id={$list.id}&channel_code={$channel_code}&event_code={$list.template_code}"}' title='{t domain="sms"}编辑{/t}'>{t domain="sms"}编辑{/t}</a>&nbsp;|&nbsp;
+		                 <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="sms"}您确认要删除这条记录吗?{/t}' href='{RC_Uri::url("sms/admin_template/remove", "id={$list.id}&channel_code={$channel_code}")}' title='{t domain="sms"}删除{/t}'>{t domain="sms"}删除{/t}</a>
+		                &nbsp;|&nbsp; <a class="data-pjax no-underline" href='{url path="sms/admin_template/test" args="id={$list.id}&channel_code={$channel_code}&event_code={$list.template_code}"}'  title='{t domain="sms"}短信测试{/t}' >{t domain="sms"}短信测试{/t}</a>
 						</div>
 					 </td>
 					<td>{$list.template_subject}</td>

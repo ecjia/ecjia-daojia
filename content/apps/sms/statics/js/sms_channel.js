@@ -28,7 +28,7 @@
 								ecjia.admin.showmessage(data);
 							},'json');
 						}
-					}, {ok:'确定', cancel:'取消'});
+					}, {ok:channel_js_lang.ok, cancel:channel_js_lang.cancel});
 				} else {
 					$.post(url, option, function(data){
 						ecjia.admin.showmessage(data);
@@ -82,11 +82,11 @@
 	            },
 	            messages: {
 	            	channel_name: {
-	                    required: js_lang.channel_name_required,
+	                    required: channel_js_lang.channel_name_required,
 	                },
 	                channel_desc: {
-	                    required: js_lang.channel_desc_required,
-	                    minlength: js_lang.channel_desc_minlength,
+	                    required: channel_js_lang.channel_desc_required,
+	                    minlength: channel_js_lang.channel_desc_minlength,
 	                }
 	            },
 	            submitHandler: function () {

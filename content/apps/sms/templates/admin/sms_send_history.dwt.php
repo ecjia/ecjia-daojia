@@ -15,10 +15,10 @@
 </div>
 
 <ul class="nav nav-pills">
-	<li class="{if $listdb.filter.errorval eq '0'}active{/if}"><a class="data-pjax" href='{url path="sms/admin/init" args="errorval=0{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>{lang key='sms::sms.all'}<span class="badge badge-info">{$listdb.msg_count.count}</span></a></li>
-	<li class="{if $listdb.filter.errorval eq '1'}active{/if}"><a class="data-pjax" href='{url path="sms/admin/init" args="errorval=1{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>{lang key='sms::sms.wait_send'}<span class="badge badge-info">{$listdb.msg_count.wait}</span></a></li>
-	<li class="{if $listdb.filter.errorval eq '2'}active{/if}"><a class="data-pjax" href='{url path="sms/admin/init" args="errorval=2{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>{lang key='sms::sms.send_success'}<span class="badge badge-info">{$listdb.msg_count.success}</span></a></li>
-	<li class="{if $listdb.filter.errorval eq '3'}active{/if}"><a class="data-pjax" href='{url path="sms/admin/init" args="errorval=3{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>{lang key='sms::sms.send_faild'}<span class="badge badge-info">{$listdb.msg_count.faild}</span></a></li>
+	<li class="{if $listdb.filter.errorval eq '0'}active{/if}"><a class="data-pjax" href='{url path="sms/admin/init" args="errorval=0{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>{t domain="sms"}全部{/t}<span class="badge badge-info">{$listdb.msg_count.count}</span></a></li>
+	<li class="{if $listdb.filter.errorval eq '1'}active{/if}"><a class="data-pjax" href='{url path="sms/admin/init" args="errorval=1{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>{t domain="sms"}待发送{/t}<span class="badge badge-info">{$listdb.msg_count.wait}</span></a></li>
+	<li class="{if $listdb.filter.errorval eq '2'}active{/if}"><a class="data-pjax" href='{url path="sms/admin/init" args="errorval=2{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>{t domain="sms"}发送成功{/t}<span class="badge badge-info">{$listdb.msg_count.success}</span></a></li>
+	<li class="{if $listdb.filter.errorval eq '3'}active{/if}"><a class="data-pjax" href='{url path="sms/admin/init" args="errorval=3{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>{t domain="sms"}发送失败{/t}<span class="badge badge-info">{$listdb.msg_count.faild}</span></a></li>
 </ul>
 
 <!-- 批量操作、筛选、搜索 -->
@@ -26,24 +26,24 @@
 	<form method="post" action="{$search_action}&errorval={$listdb.filter.errorval}" name="searchForm">
 		<div class="btn-group f_l m_r5">
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-				<i class="fontello-icon-cog"></i>{lang key='sms::sms.batch_handle'}
+				<i class="fontello-icon-cog"></i>{t domain="sms"}批量操作{/t}
 				<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
-				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{url path='sms/admin/batch_resend'}" data-msg="{lang key='sms::sms.batch_send_confirm'}" data-noSelectMsg="{lang key='sms::sms.select_confirm'}" data-name="sms_id" href="javascript:;"><i class="fontello-icon-chat-empty"></i>{lang key='sms::sms.send_sms_again'}</a></li>
+				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{url path='sms/admin/batch_resend'}" data-msg='{t domain="sms"}您确定要再次发送选中的短信记录吗？{/t}' data-noSelectMsg='{t domain="sms"}请先选中要再次发送的短信记录！{/t}' data-name="sms_id" href="javascript:;"><i class="fontello-icon-chat-empty"></i>{t domain="sms"}再次发送短信{/t}</a></li>
 			</ul>
 		</div>
 		
 		<div class="choose_list f_l" >
-			<input class="date f_l w180" name="start_date" type="text" value="{$listdb.filter.start_date}" placeholder="{lang key='sms::sms.start_time'}">
-			<span class="f_l">{lang key='sms::sms.to'}</span>
-			<input class="date f_l w180" name="end_date" type="text" value="{$listdb.filter.end_date}" placeholder="{lang key='sms::sms.end_time'}">
-			<button class="btn select-button" type="submit">{lang key='sms::sms.filter'}</button>
+			<input class="date f_l w180" name="start_date" type="text" value="{$listdb.filter.start_date}" placeholder='{t domain="sms"}开始时间{/t}'>
+			<span class="f_l">{t domain="sms"}至{/t}</span>
+			<input class="date f_l w180" name="end_date" type="text" value="{$listdb.filter.end_date}" placeholder='{t domain="sms"}截止时间{/t}'>
+			<button class="btn select-button" type="submit">{t domain="sms"}筛选{/t}</button>
 		</div>
 		
 		<div class="choose_list f_r" >
-			<input type="text" name="keywords" value="{$listdb.filter.keywords}" placeholder="{lang key='sms::sms.sms_keywords'}"/>
-			<button class="btn search_sms" type="button">{lang key='sms::sms.search'}</button>
+			<input type="text" name="keywords" value="{$listdb.filter.keywords}" placeholder='{t domain="sms"}请输入短信接收号码或内容关键字{/t}'/>
+			<button class="btn search_sms" type="button">{t domain="sms"}搜索{/t}</button>
 		</div>
 	</form>
 </div>
@@ -54,11 +54,11 @@
 			<thead>
 				<tr>
 					<th class="table_checkbox"><input type="checkbox" name="select_rows" data-toggle="selectall" data-children=".checkbox"/></th>
-					<th class="w110">短信渠道</th>
-					<th class="w100">{lang key='sms::sms.sms_number'}</th>
-					<th>{lang key='sms::sms.sms_content'}</th>
-					<th class="w150">{lang key='sms::sms.send_time'}</th>
-					<th class="w100">{lang key='sms::sms.send_status'}</th>
+					<th class="w110">{t domain="sms"}短信渠道{/t}</th>
+					<th class="w100">{t domain="sms"}接收短信号码{/t}</th>
+					<th>{t domain="sms"}短信内容{/t}</th>
+					<th class="w150">{t domain="sms"}发送时间{/t}</th>
+					<th class="w100">{t domain="sms"}发送状态{/t}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -79,19 +79,19 @@
 					<td>{$val.last_send}</td>
 					<td>
 						<!-- {if $val.error eq 0 } -->
-							{lang key='sms::sms.send_success'}
+							{t domain="sms"}发送成功{/t}
 						<!-- {elseif $val.error eq -1} -->
-							{lang key='sms::sms.wait_send'}
+							{t domain="sms"}待发送{/t}
 						<!-- {else} -->
-                            <a class="hint--left  hint--error" style="text-decoration:none;"  {if $val.last_error_message}data-hint="{$val.last_error_message|escape}"{/if}><span class="ecjiafc-red">{if $val.last_error_message}<u>{$val.error} {lang key='sms::sms.error_times'}</u>{else}{$val.error} {lang key='sms::sms.error_times'}{/if}</span></a><br>
+                            <a class="hint--left  hint--error" style="text-decoration:none;"  {if $val.last_error_message}data-hint="{$val.last_error_message|escape}"{/if}><span class="ecjiafc-red">{if $val.last_error_message}<u>{$val.error} {t domain="sms"}次发送错误{/t}</u>{else}{$val.error} {t domain="sms"}次发送错误{/t}{/if}</span></a><br>
 							<!-- {if $val.error gt 0}  -->
-								<a class="ajaxsms" href='{RC_Uri::url("sms/admin/resend", "id={$val.id}")}'>{lang key='sms::sms.send_again'}</a>
+								<a class="ajaxsms" href='{RC_Uri::url("sms/admin/resend", "id={$val.id}")}'>{t domain="sms"}再次发送{/t}</a>
 							<!-- {/if} -->
 						<!-- {/if} -->
 					</td>					
 				</tr>
 				<!--  {foreachelse} -->
-				<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
+				<tr><td class="no-records" colspan="6">{t domain="sms"}没有找到任何记录{/t}</td></tr>
 				<!-- {/foreach} -->
 			</tbody>
 		</table>

@@ -74,13 +74,13 @@ class sms_plugin_install_api extends Component_Event_Api
 
             /* 检查输入 */
             if (empty($format_name) || empty($options['config']['sms_code'])) {
-                return ecjia_plugin::add_error('plugin_install_error', RC_Lang::get('sms::sms.plugin_name_empty'));
+                return ecjia_plugin::add_error('plugin_install_error', __('短信插件名称不能为空', 'sms'));
             }
 
             /* 检测名称重复 */
             $name_count = RC_DB::table('notification_channels')->where('channel_name', $format_name)->where('channel_code', $options['config']['sms_code'])->count();
             if ($name_count > 0) {
-                return ecjia_plugin::add_error('plugin_install_error', RC_Lang::get('sms::sms.plugin_exist'));
+                return ecjia_plugin::add_error('plugin_install_error', __('安装的插件已存在', 'sms'));
             }
 
             /* 取得配置信息 */

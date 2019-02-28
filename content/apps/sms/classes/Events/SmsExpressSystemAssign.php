@@ -51,17 +51,18 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsExpressSystemAssign extends EventAbstract
 {
-
     protected $code = 'sms_express_system_assign';
 
-    protected $name = '系统派单';
-
-    protected $description = '系统分配配送单通知';
-
     protected $template = '有单啦！系统已分配配送单${express_sn}到您账户，赶快行动起来吧。';
-
-    protected $available_values = [
-    	'express_sn' => '配送单号',
-    ];
-
+    
+    public function __construct()
+    {
+    	$this->name = __('系统派单', 'sms');
+    
+    	$this->description = __('系统分配配送单通知', 'sms');
+    
+    	$this->available_values = [
+    		'express_sn' 	=> __('配送单号', 'sms')
+    	];
+    }
 }

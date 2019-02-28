@@ -51,19 +51,21 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsStoreExpressAdded extends EventAbstract
 {
-    
     protected $code = 'sms_store_express_added';
-    
-    protected $name = '添加店铺配送员';
-    
-    protected $description = '商家添加店铺配送员时，发送帐号密码信息给配送员';
     
     protected $template = '尊敬的${user_name}恭喜您成为${store_name}店铺的配送员。您的登录账号是：${account}， 密码是：${password}，请不要把密码泄露给其他人。';
 
-    protected $available_values = [
-        'user_name' => '配送员名称',
-    	'store_name'=> '店铺名称',
-    	'account'	=> '登录账号',
-    	'password'	=> '登录密码'
-    ];  
+    public function __construct()
+    {
+    	$this->name = __('添加店铺配送员', 'sms');
+    
+    	$this->description = __('商家添加店铺配送员时，发送帐号密码信息给配送员', 'sms');
+    
+    	$this->available_values = [
+	    	'user_name' => __('配送员名称', 'sms'),
+	    	'store_name'=> __('店铺名称', 'sms'),
+	    	'account'	=> __('登录账号', 'sms'),
+	    	'password'	=> __('登录密码', 'sms')
+    	];
+    }
 }

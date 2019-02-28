@@ -51,18 +51,20 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsGroupbuyActivitySucceed extends EventAbstract
 {
-    
     protected $code = 'sms_groupbuy_activity_succeed';
-    
-    protected $name = '团购活动成功结束';
-    
-    protected $description = '通知用户支付有保证金团购订单的余款';
     
     protected $template = '亲爱的${user_name}，您在${store_name}店铺参加了商品${goods_name}的团购活动，活动现已结束， 请尽快支付订单剩余余款，方便及时给您发货。';
 
-    protected $available_values = [
-    	'user_name' 	=> '用户名称',
-    	'store_name'	=> '店铺名称',
-    	'goods_name'    => '商品名称'
-    ];  
+    public function __construct()
+    {
+    	$this->name = __('团购活动成功结束', 'sms');
+    
+    	$this->description = __('通知用户支付有保证金团购订单的余款', 'sms');
+    
+    	$this->available_values = [
+	    	'user_name' 	=> __('用户名称', 'sms'),
+	    	'store_name'	=> __('店铺名称', 'sms'),
+	    	'goods_name'    => __('商品名称', 'sms')
+    	];
+    }
 }

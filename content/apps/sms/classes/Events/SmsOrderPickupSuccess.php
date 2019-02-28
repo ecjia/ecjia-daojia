@@ -51,19 +51,19 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsOrderPickupSuccess extends EventAbstract
 {
-
     protected $code = 'sms_order_pickup_success';
 
-    protected $name = '订单提货成功';
-
-    protected $description = '订单提货成功是否发送短信';
-    
     protected $template = '尊敬的${user_name}，您的订单${order_sn}已提货成功，期待您下次光顾！';
 
-    protected $available_values = [
-    	'user_name' 	=> '会员名称',
-    	'order_sn'		=> '订单号'
-    ];
+    public function __construct()
+    {
+    	$this->name = __('订单提货成功', 'sms');
     
+    	$this->description = __('订单提货成功是否发送短信', 'sms');
     
+    	$this->available_values = [
+	    	'user_name' 	=> __('会员名称', 'sms'),
+	    	'order_sn'		=> __('订单号', 'sms')
+    	];
+    }
 }

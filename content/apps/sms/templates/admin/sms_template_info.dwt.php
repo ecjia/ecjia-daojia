@@ -11,7 +11,7 @@
 {if !$template_code_list}
 <div class="alert">
 	<a class="close" data-dismiss="alert">×</a>
-	<strong>温馨提示：</strong>暂时未有短信模板可添加。
+	<strong>{t domain="sms"}温馨提示：{/t}</strong>{t domain="sms"}暂时未有短信模板可添加。{/t}
 </div>
 {/if}
 
@@ -29,28 +29,28 @@
 		<form id="form-privilege" class="form-horizontal" name="theForm"  method="post" action="{$form_action}">
 			<fieldset>
 				<div class="control-group formSep">
-					<label class="control-label">短信事件：</label>
+					<label class="control-label">{t domain="sms"}短信事件：{/t}</label>
 					<div class="controls">
 						<select name="template_code" class="span6" id="template_code">
-	                        <option value='0'>请选择</option>
+	                        <option value='0'>{t domain="sms"}请选择{/t}</option>
 	        				<!-- {html_options options=$template_code_list selected=$data.template_code} -->
 						</select>
 					</div>
 				</div>
 								
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='sms::sms.label_subject'}</label>
+					<label class="control-label">{t domain="sms"}短信主题：{/t}</label>
 					<div class="controls">
 						<input type="text" name="subject" id="subject" value="{$data.template_subject}" class="span6"/>
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 					</div>
 				</div>
 				
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='sms::sms.label_content'}</label>
+					<label class="control-label">{t domain="sms"}模板内容：{/t}</label>
 					<div class="controls">
 						<textarea class="span6 h200" name="content" id="content" >{$data.template_content}</textarea>
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 						<span class="help-block">
 							{if $desc}
 								<!-- {foreach from=$desc item=list} -->
@@ -63,20 +63,20 @@
 				</div>
 				{if $templateid}
 					<div class="control-group formSep">
-						<label class="control-label">短信模板ID：</label>
+						<label class="control-label">{t domain="sms"}短信模板ID：{/t}</label>
 						<div class="controls">
 							<input type="text" name="template_id" id="template_id" value="{$data.template_id}" class="span6"/>
-							<span class="input-must">{lang key='system::system.require_field'}</span>
+							<span class="input-must">*</span>
 						</div>
 					</div>
 				{/if}
 				
 				{if $signname}
 					<div class="control-group formSep">
-						<label class="control-label">签名：</label>
+						<label class="control-label">{t domain="sms"}签名：{/t}</label>
 						<div class="controls">
 							<input type="text" name="sign_name" id="sign_name" value="{$data.sign_name}" class="span6"/>
-							<span class="input-must">{lang key='system::system.require_field'}</span>
+							<span class="input-must">*</span>
 						</div>
 					</div>
 				{/if}
@@ -87,9 +87,9 @@
 						<input type="hidden" value="{url path='sms/admin_template/ajax_event'}" id="data-href"/>
 						<input type="hidden" value="{$channel_code}" name="channel_code" id="channel_code"/>
 						{if $action eq "insert"}
-						<button class="btn btn-gebo" type="submit">{lang key='system::system.button_submit'}</button>
+						<button class="btn btn-gebo" type="submit">{t domain="sms"}确定{/t}</button>
 						{else}
-						<button class="btn btn-gebo" type="submit">{lang key='sms::sms.update'}</button>
+						<button class="btn btn-gebo" type="submit">{t domain="sms"}更新{/t}</button>
 						{/if}
 					</div>
 				</div>

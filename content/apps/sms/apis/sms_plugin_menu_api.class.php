@@ -53,7 +53,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class sms_plugin_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {	
-		$menus = ecjia_admin::make_admin_menu('sms_list', RC_Lang::get('sms::sms.sms_channel'), RC_Uri::url('sms/admin_plugin/init'), 1)->add_purview('notification_manage')->add_base('sms');
+		$menus = ecjia_admin::make_admin_menu('sms_list', __('短信渠道', 'sms'), RC_Uri::url('sms/admin_plugin/init'), 1)->add_purview('notification_manage')->add_base('sms');
 
 		return $menus;
 	}

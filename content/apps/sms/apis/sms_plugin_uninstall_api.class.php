@@ -74,7 +74,7 @@ class sms_plugin_uninstall_api extends Component_Event_Api
 
             /* 检查输入 */
             if (empty($format_name) || empty($options['config']['sms_code'])) {
-                return ecjia_plugin::add_error('plugin_uninstall_error', RC_Lang::get('sms::sms.plugin_name_empty'));
+                return ecjia_plugin::add_error('plugin_uninstall_error', __('短信插件名称不能为空', 'sms'));
             }
 
             /* 从数据库中删除短信插件 */

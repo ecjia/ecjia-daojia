@@ -22,20 +22,20 @@
 		<form id="form-privilege" class="form-horizontal" name="theForm"  method="post" action="{$form_action}">
 			<fieldset>
 				<div class="control-group formSep">
-					<label class="control-label">短信主题：</label>
+					<label class="control-label">{t domain="sms"}短信主题：{/t}</label>
 					<div class="controls l_h30">{$data.template_subject}[{$data.template_code}]</div>
 				</div>
 				
 				<div class="control-group formSep">
-					<label class="control-label">手机号码：</label>
+					<label class="control-label">{t domain="sms"}手机号码：{/t}</label>
 					<div class="controls">
 						<input type="text" name="mobile" id="mobile" value="" class="span6" pro/>
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 					</div>
 				</div>
 				
 				<div class="control-group formSep">
-					<label class="control-label">短信模板内容：</label>
+					<label class="control-label">{t domain="sms"}短信模板内容：{/t}</label>
 					<div class="controls l_h30">{$data.template_content}</div>
 				</div>
 				
@@ -44,7 +44,7 @@
 						<label class="control-label">{$val}：</label>
 						<div class="controls">
 							<input type="text" name="data[{$val}]" class="span6" />
-							<span class="input-must">{lang key='system::system.require_field'}</span>
+							<span class="input-must">*</span>
 						</div>
 					</div>
 				<!-- {/foreach} -->
@@ -53,7 +53,7 @@
 					<div class="controls">
 					    <input type="hidden" value="{$channel_code}" name="channel_code"/>
 						<input type="hidden" value="{$data.template_code}" name="template_code"/>
-						<button class="btn btn-gebo" type="submit">提交测试</button>
+						<button class="btn btn-gebo" type="submit">{t domain="sms"}提交测试{/t}</button>
 					</div>
 				</div>
 			</fieldset>

@@ -51,23 +51,24 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsQuickpayOrderPayed extends EventAbstract
 {
-
     protected $code = 'sms_quickpay_order_payed';
 
-    protected $name = '客户进行优惠买单付款时';
-
-    protected $description = '当客户进行优惠买单付款时是否发送短信通知店长';
-    
     protected $template = '您有新的订单${order_sn}已付款，${user_name}在${store_name}店铺参与优惠买单活动，实付金额：${order_amount}。';
     
-    protected $available_values = [
-    	'order_sn'		=> '订单编号',
-    	'store_name'	=> '店铺名称',
-    	'user_name'  	=> '购买者',
-    	'goods_amount'  => '消费金额',
-    	'discount'  	=> '闪惠金额',
-    	'order_amount'  => '实付金额',
-    	'telephone'  	=> '联系方式',
-    ];
+    public function __construct()
+    {
+    	$this->name = __('客户进行优惠买单付款时', 'sms');
     
+    	$this->description = __('当客户进行优惠买单付款时是否发送短信通知店长', 'sms');
+    
+    	$this->available_values = [
+	    	'order_sn'		=> __('订单编号', 'sms'),
+	    	'store_name'	=> __('店铺名称', 'sms'),
+	    	'user_name'  	=> __('购买者', 'sms'),
+	    	'goods_amount'  => __('消费金额', 'sms'),
+	    	'discount'  	=> __('闪惠金额', 'sms'),
+	    	'order_amount'  => __('实付金额', 'sms'),
+	    	'telephone'  	=> __('联系方式', 'sms')
+    	];
+    }
 }

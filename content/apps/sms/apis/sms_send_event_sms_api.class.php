@@ -64,7 +64,7 @@ class sms_send_event_sms_api extends Component_Event_Api {
 	    // $mobile, $event, $value
 	    
 	    if (!array_key_exists('mobile', $options) || !array_key_exists('event', $options) || !array_key_exists('value', $options)) {
-	        return new ecjia_error('invalid_argument', __('无效参数'));
+	        return new ecjia_error('invalid_argument', __('无效参数', 'sms'));
 	    }
 	    
 	    $mobile = $options['mobile'];
@@ -76,7 +76,7 @@ class sms_send_event_sms_api extends Component_Event_Api {
 
             $eventHandler = with(new Ecjia\App\Sms\EventFactory())->event($event);
             if (!$eventHandler->hasEnabled()) {
-                return new ecjia_error('event_not_open', "请先开启短信".$eventHandler->getName()."事件");
+                return new ecjia_error('event_not_open',  sprintf(__('请先开启短信%s事件', 'sms'), $eventHandler->getName()));
             }
 
             $result = \Ecjia\App\Sms\SmsManager::make()

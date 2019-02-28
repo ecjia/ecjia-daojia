@@ -51,20 +51,22 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsJoinMerchant extends EventAbstract
 {
-    
     protected $code = 'sms_join_merchant';
-    
-    protected $name = '商家入驻审核';
-    
-    protected $description = '商家入驻，审核通过是否给商家发送短信告知';
     
     protected $template = '尊敬的${user_name}，恭喜您通过${shop_name}平台商家入驻审核。账号：${account}， 密码：${password}，请不要把密码泄露给其他人。如有问题请拨打客服电话：${service_phone}。';
 
-    protected $available_values = [
-    	'user_name' => '商家名称',
-    	'shop_name' => '平台名称',
-    	'account'	=>'商家账号',
-    	'password'	=>'商家密码',
-    	'service_phone'=>'客服电话',
-    ];  
+    public function __construct()
+    {
+    	$this->name = __('商家入驻审核', 'sms');
+    
+    	$this->description = __('商家入驻，审核通过是否给商家发送短信告知', 'sms');
+    
+    	$this->available_values = [
+	    	'user_name' => __('商家名称', 'sms'),
+	    	'shop_name' => __('平台名称', 'sms'),
+	    	'account'	=> __('商家账号', 'sms'),
+	    	'password'	=> __('商家密码', 'sms'),
+	    	'service_phone' => __('客服电话', 'sms')
+    	];
+    }
 }

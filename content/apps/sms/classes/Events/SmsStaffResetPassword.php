@@ -51,19 +51,21 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsStaffResetPassword extends EventAbstract
 {
-    
     protected $code = 'sms_staff_reset_password';
-    
-    protected $name = '员工重置密码';
-    
-    protected $description = '商家员工重置密码，发送新密码到手机短信';
     
     protected $template = '尊敬的${user_name}，您的账号：${account}， 重置密码成功，新密码：${password}，请不要把密码泄露给其他人。如有问题请拨打客服电话：${service_phone}。';
 
-    protected $available_values = [
-    	'user_name' => '员工姓名',
-    	'account'	=>'商家员工账号',
-    	'password'	=>'商家员工密码',
-    	'service_phone'=>'客服电话',
-    ];  
+    public function __construct()
+    {
+    	$this->name = __('员工重置密码', 'sms');
+    
+    	$this->description = __('商家员工重置密码，发送新密码到手机短信', 'sms');
+    
+    	$this->available_values = [
+    		'user_name' => __('员工姓名', 'sms'),
+	    	'account'	=> __('商家员工账号', 'sms'),
+	    	'password'	=> __('商家员工密码', 'sms'),
+	    	'service_phone' => __('客服电话', 'sms')
+    	];
+    }
 }

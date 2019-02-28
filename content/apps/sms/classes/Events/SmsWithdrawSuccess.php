@@ -51,19 +51,21 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsWithdrawSuccess extends EventAbstract
 {
-    
     protected $code = 'sms_withdraw_success';
-    
-    protected $name = '用户提现成功';
-    
-    protected $description = '通知用户提现成功';
     
     protected $template = '尊敬的${user_name}，您的提现业务已受理成功，此次提现金额${amount}元，目前可用资金${user_money}元。如有问题请拨打客服电话：${service_phone}。';
 
-    protected $available_values = [
-    	'user_name' 	=> '用户名称',
-    	'amount'    	=> '提现金额',
-    	'user_money'	=> '可用资金',
-    	'service_phone'	=> '客服电话'
-    ];  
+    public function __construct()
+    {
+    	$this->name = __('用户提现成功', 'sms');
+    
+    	$this->description = __('通知用户提现成功', 'sms');
+    
+    	$this->available_values = [
+    		'user_name' 	=> __('用户名称', 'sms'),
+	    	'amount'    	=> __('提现金额', 'sms'),
+	    	'user_money'	=> __('可用资金','sms'),
+	    	'service_phone'	=> __('客服电话', 'sms')
+    	];
+    }
 }

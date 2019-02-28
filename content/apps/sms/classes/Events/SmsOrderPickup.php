@@ -51,22 +51,21 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsOrderPickup extends EventAbstract
 {
-
     protected $code = 'sms_order_pickup';
-
-    protected $name = '订单收货验证码';
-
-    protected $description = '订单收货验证码是否发送短信';
     
-    protected $template = '尊敬的${user_name}，您在我们网站已成功下单。订单号：${order_sn}，收货验证码为：${code}。请保管好您的验证码，以便收货验证。
-    ';
+    protected $template = '尊敬的${user_name}，您在我们网站已成功下单。订单号：${order_sn}，收货验证码为：${code}。请保管好您的验证码，以便收货验证。';
 
-    protected $available_values = [
-    	'user_name' 	=> '会员名称',
-    	'order_sn'		=> '订单号',
-    	'code' 			=> '提货码',
-    	'service_phone' => '客服电话',
-    ];
+    public function __construct()
+    {
+    	$this->name = __('订单收货验证码', 'sms');
     
+    	$this->description = __('订单收货验证码是否发送短信', 'sms');
     
+    	$this->available_values = [
+	    	'user_name' 	=> __('会员名称', 'sms'),
+	    	'order_sn'		=> __('订单号','sms'),
+	    	'code' 			=> __('提货码','sms'),
+	    	'service_phone' => __('客服电话','sms')
+    	];
+    }
 }

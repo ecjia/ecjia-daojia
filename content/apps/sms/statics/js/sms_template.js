@@ -14,16 +14,16 @@
                 "aaSorting": [[2, "asc"]],
                 "oLanguage": {
                     "oPaginate": {
-                        "sFirst": js_lang.sFirst,
-                        "sLast": js_lang.sLast,
-                        "sPrevious": js_lang.sPrevious,
-                        "sNext": js_lang.sNext
+                        "sFirst": js_lang_template.sFirst,
+                        "sLast": js_lang_template.sLast,
+                        "sPrevious": js_lang_template.sPrevious,
+                        "sNext": js_lang_template.sNext
                     },
-                    "sInfo": js_lang.sInfo,
-                    "sZeroRecords": js_lang.sZeroRecords,
-                    "sEmptyTable": js_lang.sEmptyTable,
-                    "sInfoEmpty": js_lang.sInfoEmpty,
-                    "sInfoFiltered": js_lang.sInfoFiltered
+                    "sInfo": js_lang_template.sInfo,
+                    "sZeroRecords": js_lang_template.sZeroRecords,
+                    "sEmptyTable": js_lang_template.sEmptyTable,
+                    "sInfoEmpty": js_lang_template.sInfoEmpty,
+                    "sInfoFiltered": js_lang_template.sInfoFiltered
                 },
                 "aoColumns": [
                     {
@@ -150,16 +150,16 @@
                 },
                 messages: {
                     subject: {
-                        required: js_lang.subject_required
+                        required: js_lang_template.subject_required
                     },
                     content: {
-                        required: js_lang.content_required
+                        required: js_lang_template.content_required
                     },
                     template_id: {
-                        required: "请输入短信模板ID"
+                        required: js_lang_template.id_required
                     },
                     sign_name: {
-                        required: "请输入签名"
+                        required: js_lang_template.enter_signature
                     }
                 },
                 submitHandler: function () {

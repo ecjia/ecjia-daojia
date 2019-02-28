@@ -59,16 +59,16 @@ class Helper
      */
     public static function assign_adminlog_content()
     {
-        ecjia_admin_log::instance()->add_object('sms_template', RC_Lang::get('sms::sms.sms_template'));
-        ecjia_admin_log::instance()->add_object('sms_config', RC_Lang::get('sms::sms.sms_config'));
-        ecjia_admin_log::instance()->add_object('sms_record', RC_Lang::get('sms::sms.sms_record'));
-        ecjia_admin_log::instance()->add_object('sms_channel', RC_Lang::get('sms::sms.sms_channel'));
-        ecjia_admin_log::instance()->add_object('sms_channel_sort', RC_Lang::get('sms::sms.sms_channel_sort'));
-        ecjia_admin_log::instance()->add_object('sms', RC_Lang::get('sms::sms.sms'));
-        ecjia_admin_log::instance()->add_object('sms_events', '短信事件');
+        ecjia_admin_log::instance()->add_object('sms_template', __('短信模板', 'sms'));
+        ecjia_admin_log::instance()->add_object('sms_config', __('短信配置', 'sms'));
+        ecjia_admin_log::instance()->add_object('sms_record', __('短信记录', 'sms'));
+        ecjia_admin_log::instance()->add_object('sms_channel', __('短信渠道', 'sms'));
+        ecjia_admin_log::instance()->add_object('sms_channel_sort', __('短信渠道排序', 'sms'));
+        ecjia_admin_log::instance()->add_object('sms',__('短信', 'sms'));
+        ecjia_admin_log::instance()->add_object('sms_events', __('短信事件', 'sms'));
         
-        ecjia_admin_log::instance()->add_action('batch_setup', RC_Lang::get('sms::sms.batch_setup'));
-        ecjia_admin_log::instance()->add_action('close', '关闭');
+        ecjia_admin_log::instance()->add_action('batch_setup', __('批量设置', 'sms'));
+        ecjia_admin_log::instance()->add_action('close', __('关闭', 'sms'));
     }
     
     public static function check_mobile($mobile, $callback = null) {
@@ -85,11 +85,11 @@ class Helper
     public static function check_china_mobile_filter($mobile)
     {
         if (empty($mobile)) {
-            return new ecjia_error('empty_mobile', '手机号不能为空');
+            return new ecjia_error('empty_mobile', __('手机号不能为空', 'sms'));
         }
         $chars = "/^1(3|4|5|6|7|8|9)\d{9}$/";
         if (!preg_match($chars, $mobile)) {
-            return new ecjia_error('error_mobile', '手机号码格式错误');
+            return new ecjia_error('error_mobile', __('手机号码格式错误', 'sms'));
         }
         
         return true;

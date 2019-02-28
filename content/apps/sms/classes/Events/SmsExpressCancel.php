@@ -51,17 +51,18 @@ use Ecjia\App\Sms\EventAbstract;
 
 class SmsExpressCancel extends EventAbstract
 {
-
-    protected $code = 'sms_express_cancel';
-
-    protected $name = '配送单撤销配送';
-
-    protected $description = '商家同意用户退款申请时通知配送员撤销配送';
-
-    protected $template = '您的配送单${express_sn}已撤销配送，您无需继续配送，如已取货请将商品返还给商家。';
-
-    protected $available_values = [
-    	'express_sn' 	=> '配送单号'
-    ];
-
+	protected $code = 'sms_express_cancel';
+	
+	protected $template = '您的配送单${express_sn}已撤销配送，您无需继续配送，如已取货请将商品返还给商家。';
+	
+	public function __construct()
+	{
+		$this->name = __('配送单撤销配送', 'sms');
+		
+		$this->description = __('商家同意用户退款申请时通知配送员撤销配送', 'sms');
+		
+		$this->available_values = [
+			'express_sn' 	=> __('配送单号', 'sms')
+		];
+	}
 }
