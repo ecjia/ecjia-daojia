@@ -107,6 +107,8 @@ class IndexController extends SimpleController
         RC_Script::enqueue_script('jquery-cookie');
        
         RC_Script::enqueue_script('ecjia-installer', RC_App::apps_url('statics/front/js/install.js', $this->__FILE__), array('ecjia-front'), false, true);
+        RC_Script::localize_script('ecjia-installer', 'js_lang', config('app-installer::jslang.installer_page'));
+
     }
 
     public function front_enqueue_scripts()
