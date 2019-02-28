@@ -6584,8 +6584,8 @@ use Royalcms\Component\Contracts\Foundation\Royalcms as RoyalcmsContract;
 use Royalcms\Component\Contracts\Debug\ExceptionHandler;
 class Royalcms extends Container implements RoyalcmsContract, HttpKernelInterface
 {
-    const VERSION = '5.7.0';
-    const RELEASE = '2019-02-21';
+    const VERSION = '5.8.0';
+    const RELEASE = '2019-02-28';
     protected $basePath;
     protected $hasBeenBootstrapped = false;
     protected $booted = false;
@@ -31074,7 +31074,7 @@ class HttpQueryRoute
     }
     public function getRule()
     {
-        return $rules = config('route.rule', []);
+        return $rules = config('route.rules', []);
     }
     public function justCurrentRoute($route)
     {
@@ -34610,6 +34610,9 @@ abstract class EcjiaController extends RoyalcmsController
         static::$controller =& $this;
         static::$view_object =& $this->view;
         $this->load_hooks();
+        RC_Response::header('X-XSS-Protection', '1; mode=block');
+        RC_Response::header('X-Frame-Options', 'SAMEORIGIN');
+        RC_Response::header('X-Content-Type-Options', 'nosniff');
     }
     public function __call($method, $parameters)
     {
@@ -35208,6 +35211,7 @@ class ecjia_view
     }
     public function display($resource_name, $cache_id = null, $show = true, $options = array())
     {
+        RC_Hook::do_action('ecjia_view_display_before');
         if (strpos($resource_name, 'string:') !== 0) {
             $resource_name = $this->fileloader->get_template_file($resource_name);
         }
