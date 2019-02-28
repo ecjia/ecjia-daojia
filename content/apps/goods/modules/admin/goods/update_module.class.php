@@ -175,8 +175,8 @@ class admin_goods_update_module extends api_admin implements api_interface {
     			'clicks'		=> intval($row['click_count']),
     			'stock'			=> (ecjia::config('use_storage') == 1) ? $row['goods_number'] : '',
     			'goods_weight'	=> $row['goods_weight']  = (intval($row['goods_weight']) > 0) ?
-    			$row['goods_weight'] . __('千克') :
-    			($row['goods_weight'] * 1000) . __('克'),
+    			$row['goods_weight'] . __('千克', 'goods') :
+    			($row['goods_weight'] * 1000) . __('克', 'goods'),
     			'is_promote'	=> $row['is_promote'],
     			'is_best'		=> $row['is_best'],
     			'is_new'		=> $row['is_new'],

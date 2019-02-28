@@ -156,7 +156,7 @@ class admin_goods_list_module extends api_admin implements api_interface {
 				    'formatted_promote_end_date'	=> !empty($val['promote_end_date']) ? RC_Time::local_date('Y-m-d H:i:s', $val['promote_end_date']) : '',
 				    'clicks'		=> intval($val['click_count']),
 					'stock'				=> (ecjia::config('use_storage') == 1) ? $val['goods_number'] : '',
-					'goods_weight'		=> $val['goods_weight']  = (intval($val['goods_weight']) > 0) ? $val['goods_weight'] . __('千克') : ($val['goods_weight'] * 1000) . __('克'),
+					'goods_weight'		=> $val['goods_weight']  = (intval($val['goods_weight']) > 0) ? $val['goods_weight'] . __('千克', 'goods') : ($val['goods_weight'] * 1000) . __('克', 'goods'),
 					'is_best'			=> $val['is_best'] == 1 ? 1 : 0,
 					'is_new'			=> $val['is_new'] == 1 ? 1 : 0,
 					'is_hot'			=> $val['is_hot'] == 1 ? 1 : 0,

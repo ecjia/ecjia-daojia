@@ -104,7 +104,7 @@ class goods_detail_module extends api_front implements api_interface {
         			foreach ($price_ladder as $rows) {
                         $price_ladder_str .= sprintf(__('满%d份%s元，', 'goods'), $rows['amount'], $rows['price']);
         			}
-        			$groupbuy_price_ladder_str = substr($price_ladder_str, 0, -1);
+        			$groupbuy_price_ladder_str = mb_substr($price_ladder_str, 0, -1);
         		}
         		
         	}else {
@@ -196,7 +196,6 @@ class goods_detail_module extends api_front implements api_interface {
         $data['specification']   = $properties['spe'];
         $data['collected']       = 0;
         
-        //$db_favourable = RC_Model::model('favourable/favourable_activity_model');
        	/*增加优惠活动缓存*/
 		$store_options = array(
 				'store_id' => $goods['store_id']
@@ -260,6 +259,7 @@ class goods_detail_module extends api_front implements api_interface {
             }
         }
 		
+        
         $data = ecjia_api::transformerData('GOODS', $data);
         
         $data['unformatted_shop_price'] = $goods['shop_price'];
@@ -278,17 +278,16 @@ class goods_detail_module extends api_front implements api_interface {
         	foreach ($user_rank_prices as $key => $val) {
         		if ($key == $user_rank_info['rank_id']) {
         			$data['shop_price'] = $val['price'];
-        			$data['unformatted_shop_price'] = $data['unformatted_price'];
+        			$data['unformatted_shop_price'] = $val['unformatted_price'];
         			break;
         		}
         	}
         }
         
         $groupbuy_info = [];
-     
+
         if ($rec_type == 'GROUPBUY_GOODS') {
         	/* 取得团购活动信息 */
-        	//$group_buy = group_buy_info($object_id);
         	$data['promote_price'] 			= $group_buy['cur_price'];
         	$data['formated_promote_price'] = $group_buy['formated_cur_price'];
         	$data['promote_start_date'] 	= $group_buy['formated_start_date'];
@@ -305,35 +304,10 @@ class goods_detail_module extends api_front implements api_interface {
         			'price_ladder'				=> $price_ladder,
         	);
         } else {
-        	$mobilebuy_db = RC_Model::model('goods/goods_activity_model');
-        	$groupbuy = $mobilebuy_db->find(array(
-        		'goods_id'	 => $data['id'],
-        		'start_time' => array('elt' => RC_Time::gmtime()),
-        		'end_time'	 => array('egt' => RC_Time::gmtime()),
-        		'act_type'	 => GAT_GROUP_BUY,
-        	));
-        	$mobilebuy = $mobilebuy_db->find(array(
-        		'goods_id'	 => $data['id'],
-        		'start_time' => array('elt' => RC_Time::gmtime()),
-        		'end_time'	 => array('egt' => RC_Time::gmtime()),
-        		'act_type'	 => GAT_MOBILE_BUY,
-        	));
         	/* 判断是否有促销价格*/
         	$price = ($data['unformatted_shop_price'] > $goods['promote_price_org'] && $goods['promote_price_org'] > 0) ? $goods['promote_price_org'] : $data['unformatted_shop_price'];
         	$activity_type = ($data['unformatted_shop_price'] > $goods['promote_price_org'] && $goods['promote_price_org'] > 0) ? 'PROMOTE_GOODS' : 'GENERAL_GOODS';
-
-
-        	$mobilebuy_price = $groupbuy_price = 0;
-        	if (!empty($mobilebuy)) {
-       			$ext_info = unserialize($mobilebuy['ext_info']);
-       			$mobilebuy_price = $ext_info['price'];
-       			if ($mobilebuy_price < $price) {
-       				$goods['promote_start_date'] = $mobilebuy['start_time'];
-       				$goods['promote_end_date'] = $mobilebuy['end_time'];
-       			}
-       			$price = $mobilebuy_price > $price ? $price : $mobilebuy_price;
-       			$activity_type = $mobilebuy_price > $price ? $activity_type : 'MOBILEBUY_GOODS';
-			}
+			
 
         }
         $data['groupbuy_info'] = $groupbuy_info;
@@ -470,7 +444,7 @@ class goods_detail_module extends api_front implements api_interface {
         // $data['is_warehouse'] = null;
         $data['seller_name'] = $info['merchants_name'];
         $shop_name = empty($info['merchants_name']) ? ecjia::config('shop_name') : $info['merchants_name'];
-        $data['server_desc'] = sprintf(__('由%s发货并提供售后服务', 'goods'), $shop_name);;
+        $data['server_desc'] = sprintf(__('由%s发货并提供售后服务', 'goods'), $shop_name);
 
         /* 分享链接*/
         $data['share_link'] = '';
@@ -513,7 +487,7 @@ class goods_detail_module extends api_front implements api_interface {
 		} else {
 			$data['add_time'] = '';
 		}
-        
+
         return $data;
     }
     
@@ -582,17 +556,6 @@ class goods_detail_module extends api_front implements api_interface {
 		$dbview = RC_Model::model('goods/goods_activity_package_goods_viewmodel');
 		$db_view = RC_Model::model('goods/goods_attr_attribute_viewmodel');
 		$now = RC_Time::gmtime();
-		//   $where = array(
-		// 'ga.start_time' => array('elt' => $now) ,
-		// 'ga.end_time' => array('egt' => $now) ,
-		//   	'pg.goods_id' => $goods_id
-		//   );
-		// $res = $dbview
-		// 	->join('package_goods')
-		// 	->where($where)
-		// 	->group('ga.act_id')
-		// 	->order(array('ga.act_id' => 'asc'))
-		// 	->select();
 	
 		$res = array();
 		$data = RC_DB::table('goods_activity')->where('start_time', '<=', $now)->where('end_time', '>=', $now)->groupBy('act_id')->get();
@@ -603,7 +566,7 @@ class goods_detail_module extends api_front implements api_interface {
 				}
 			}
 		}
-	
+
 		foreach ($res as $tempkey => $value) {
 			$subtotal = 0;
 			$row = unserialize($value['ext_info']);

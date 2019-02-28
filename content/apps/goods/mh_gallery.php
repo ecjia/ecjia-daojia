@@ -110,7 +110,7 @@ class mh_gallery extends ecjia_merchant {
         
         ecjia_merchant_screen::get_current_screen()->set_help_sidebar(
        	 	'<p><strong>' . __('更多信息：', 'goods') . '</strong></p>' .
-        	'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E5.95.86.E5.93.81.E7.9B.B8.E5.86.8C" target="_blank">关于商品相册帮助文档</a>') . '</p>'
+        	'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E5.95.86.E5.93.81.E7.9B.B8.E5.86.8C" target="_blank">关于商品相册帮助文档</a>', 'goods') . '</p>'
         );
         
         $goods_id = intval($_GET['goods_id']);

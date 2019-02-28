@@ -125,7 +125,7 @@ class GoodsAttr {
     //属性值的录入方式 名称
     public static function getAttrInputTypeLabel($inputTypeValue) {
         $typeArr = self::getAttrInputType();
-        $typeArr[ATTR_OPTIONAL] = '从列表中选择';
+        $typeArr[ATTR_OPTIONAL] = __('从列表中选择', 'goods');
 
         if(! array_key_exists($inputTypeValue, $typeArr)) {
             return __('未知', 'goods');

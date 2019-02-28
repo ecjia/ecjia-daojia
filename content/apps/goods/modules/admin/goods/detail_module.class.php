@@ -123,7 +123,7 @@ class admin_goods_detail_module extends api_admin implements api_interface {
 				'clicks'				=> intval($row['click_count']),
 				'stock'					=> (ecjia::config('use_storage') == 1) ? $row['goods_number'] : '',
 				'sales_volume'          => $row['sales_volume'],
-			    'goods_weight'			=> $row['goods_weight']  = (intval($row['goods_weight']) > 0) ? $row['goods_weight'] . __('千克') : ($row['goods_weight'] * 1000) . __('克'),
+			    'goods_weight'			=> $row['goods_weight']  = (intval($row['goods_weight']) > 0) ? $row['goods_weight'] . __('千克', 'goods') : ($row['goods_weight'] * 1000) . __('克', 'goods'),
 				'is_promote'			=> $row['is_promote'] == 1 ? 1 : 0,
 				'is_best'				=> $row['is_best'] == 1 ? 1 : 0,
 				'is_new'				=> $row['is_new'] == 1 ? 1 : 0,

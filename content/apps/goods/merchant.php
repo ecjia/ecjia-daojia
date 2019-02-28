@@ -1983,7 +1983,7 @@ class merchant extends ecjia_merchant {
 		$goods = RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->first();
 		
 		if (empty($goods) === true) {
-			return $this->showmessage(sprintf(sprintf(__('找不到ID为 %s 的商品！', 'goods'), $goods_id), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('返回商品列表', 'goods'), 'href' => RC_Uri::url('goods/merchant/init'))))), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(sprintf(__('找不到ID为 %s 的商品！', 'goods'), $goods_id), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('返回商品列表', 'goods'), 'href' => RC_Uri::url('goods/merchant/init')))));
 		}
 		if (!empty($goods['goods_desc'])) {
 			$goods['goods_desc'] = stripslashes($goods['goods_desc']);
@@ -2356,7 +2356,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('goods_article_list',	$goods_article_list);
 		$this->assign('action_link', array('href' => RC_Uri::url('goods/merchant/init'), 'text' => __('商品列表', 'goods')));
 		
-		$ur_here = __('欢迎访问ECJia智能后台商品关联文章页面，可以在此对相应的商品进行关联文章操作。', 'goods');
+		$ur_here = __('关联文章', 'goods');
 		$this->assign('ur_here', $ur_here);
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($ur_here));
 		

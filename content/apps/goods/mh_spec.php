@@ -119,7 +119,7 @@ class mh_spec extends ecjia_merchant {
 		
 		ecjia_merchant_screen::get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __('更多信息：', 'goods') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB.E5.8A.A0.E5.95.86.E5.93.81.E7.B1.BB.E5.9E.8B" target="_blank">关于添加商品规格帮助文档</a>') . '</p>'
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB.E5.8A.A0.E5.95.86.E5.93.81.E7.B1.BB.E5.9E.8B" target="_blank">关于添加商品规格帮助文档</a>', 'goods') . '</p>'
 		);
 		
 		$this->assign('ur_here', __('添加商品规格', 'goods'));

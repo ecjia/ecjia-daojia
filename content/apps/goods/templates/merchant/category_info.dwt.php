@@ -134,7 +134,7 @@
                                                     <input class="form-control" type="text" name="keywords" value="" placeholder="{t domain="goods"}请输入关键词进行搜索{/t}"/>
                                                 </div>
                                                 <a class="btn btn-primary ad_search" href="javascript:;" data-url="{RC_Uri::url('goods/mh_category/search_ad')}"><i class="fa fa-search"></i> {t domain="goods"}搜索{/t} </a>
-                                                <span class="help-block" style="padding-left: 15px;">{t domain="goods"}请先搜索并选择一个广告位作为此分类广告<br>建议尺寸：宽284 高572{/t}</span>
+                                                <span class="help-block" style="padding-left: 15px;">{t domain="goods" escape=no}请先搜索并选择一个广告位作为此分类广告<br>建议尺寸：宽284 高572{/t}</span>
                                             </div>
 
                                             <div class="form-group">

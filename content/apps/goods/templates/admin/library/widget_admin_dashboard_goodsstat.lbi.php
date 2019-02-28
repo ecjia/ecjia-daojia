@@ -35,7 +35,7 @@
 					<strong>{$goods.best_goods}</strong>
 				</td>
 				<td>
-					<a href="{$goods.hot_goods_url}" title="{t domain="goods"}热销商品数{/t}">热销商品数</a>
+					<a href="{$goods.hot_goods_url}" title="{t domain="goods"}热销商品数{/t}">{t domain="goods"}热销商品数{/t}</a>
 				</td>
 				<td>
 					<strong>{$goods.hot_goods}</strong>

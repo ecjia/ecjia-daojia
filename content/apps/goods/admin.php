@@ -1729,7 +1729,7 @@ class admin extends ecjia_admin {
 		$goods_id = intval($_REQUEST['goods_id']);
 		$goods = $this->db_goods->find(array('goods_id' => $goods_id));
 		if (empty($goods) === true) {
-			return $this->showmessage(sprintf(sprintf(__('找不到ID为 %s 的商品！', 'goods'), $goods_id), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('返回上一页', 'goods'), 'href' => 'javascript:history.go(-1)')))), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(sprintf(__('找不到ID为 %s 的商品！', 'goods'), $goods_id), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('返回上一页', 'goods'), 'href' => 'javascript:history.go(-1)'))));
 		}
 
 		//设置选中状态,并分配标签导航
@@ -2036,7 +2036,7 @@ class admin extends ecjia_admin {
 			'<p><strong>' . __('更多信息：', 'goods') . '</strong></p>' .
 			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E5.85.B3.E8.81.94.E6.96.87.E7.AB.A0" target="_blank">关于商品关联文章帮助文档</a>', 'goods') . '</p>'
 		);
-		$this->assign('ur_here', __('欢迎访问ECJia智能后台商品关联文章页面，可以在此对相应的商品进行关联文章操作。', 'goods'));
+		$this->assign('ur_here', __('关联文章', 'goods'));
 		
 		$goods_id = intval($_GET['goods_id']);
 		$goods_article_list = get_goods_articles($goods_id);

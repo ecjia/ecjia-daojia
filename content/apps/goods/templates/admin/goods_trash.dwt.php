@@ -35,7 +35,7 @@
 			</a>
 			<ul class="dropdown-menu">
 				<li><a data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{$form_action}&type=restore&page={$smarty.get.page}" data-msg="{t domain="goods"}您确定要把选中的商品还原吗？{/t}" data-noselectmsg="{t domain="goods"}请选择需要操作的商品{/t}" data-name="checkboxes" href="javascript:;"><i class="fontello-icon-export"></i>{t domain="goods"}还原{/t}</a></li>
-				<li><a data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{$form_action}&type=drop&page={$smarty.get.page}" data-msg="{t domain="goods"}彻底删除商品将删除与该商品有关的所有信息，\n您确定要删除选中的商品吗？{/t}" data-noselectmsg="{t domain="goods"}请选择需要操作的商品{/t}" data-name="checkboxes" href="javascript:;"><i class="fontello-icon-trash"></i>{t domain="goods"}删除{/t}</a></li>
+				<li><a data-toggle="ecjiabatch" data-idclass=".checkbox:checked" data-url="{$form_action}&type=drop&page={$smarty.get.page}" data-msg="{t domain="goods" escape=no}彻底删除商品将删除与该商品有关的所有信息，<br/>您确定要删除选中的商品吗？{/t}" data-noselectmsg="{t domain="goods"}请选择需要操作的商品{/t}" data-name="checkboxes" href="javascript:;"><i class="fontello-icon-trash"></i>{t domain="goods"}删除{/t}</a></li>
 			</ul>
 		</div>
 	</form>

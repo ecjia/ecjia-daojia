@@ -374,7 +374,7 @@ function get_recommend_goods($type = '', $cats = '') {
 				$goods [$idx] ['short_name'] = ecjia::config ( 'goods_name_length' ) > 0 ? RC_String::sub_str ( $row ['goods_name'], ecjia::config ( 'goods_name_length' ) ) : $row ['goods_name'];
 				$goods [$idx] ['short_style_name'] = add_style ( $goods [$idx] ['short_name'], $row ['goods_name_style'] );
 				$goods [$idx] ['market_price'] = price_format ( $row ['market_price'] );
-				$goods [$idx] ['shop_price'] = $row ['shop_price'] > 0 ? price_format ( $row ['shop_price'] ) : __('免费');
+				$goods [$idx] ['shop_price'] = $row ['shop_price'] > 0 ? price_format ( $row ['shop_price'] ) : __('免费', 'goods');
 				$goods [$idx] ['thumb'] = get_image_path ($row ['goods_id'], $row ['goods_thumb'], true);
 				$goods [$idx] ['goods_img'] = get_image_path ( $row ['goods_id'], $row ['goods_img'] );
 				$goods [$idx] ['original_img'] = get_image_path ( $row ['goods_id'], $row ['original_img'] );
