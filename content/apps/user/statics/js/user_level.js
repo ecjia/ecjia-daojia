@@ -95,7 +95,7 @@
             var dataset = [];
             var ticks = [];
             if (data.length == 0) {
-                var nodata = "<div style='width:100%;height:100%;line-height:400px;text-align:center;overflow: hidden;'>'+ js_lang.no_records +'<\/div>";
+                var nodata = "<div style='width:100%;height:100%;line-height:400px;text-align:center;overflow: hidden;'>"+ js_lang.no_records +"<\/div>";
                 $('#user_level').html(nodata);
             } else {
                 $.each(JSON.parse(data), function (key, value) {

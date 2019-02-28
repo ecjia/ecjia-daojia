@@ -76,7 +76,7 @@ class admin_level extends ecjia_admin
         RC_Script::enqueue_script('user_level_js', RC_App::apps_url('statics/js/user_level.js', __FILE__));
         RC_Style::enqueue_style('user_level_css', RC_App::apps_url('statics/css/user_level.css', __FILE__));
 
-        RC_Script::localize_script('user_level', 'js_lang', config('app-user::jslang.admin_level_page'));
+        RC_Script::localize_script('user_level_js', 'js_lang', config('app-user::jslang.admin_level_page'));
     }
 
     /**
