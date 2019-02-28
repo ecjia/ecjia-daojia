@@ -56,7 +56,7 @@ return array(
 	'description' 	=> __('头条是商家的服务器的简称，商家可以针对自己的关注粉丝每日推送动态。', 'toutiao'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.27.4',					/* 版本号 */
+	'version' 		=> '1.28.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Toutiao',
     'provider'      => 'ToutiaoServiceProvider',

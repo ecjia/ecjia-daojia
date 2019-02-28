@@ -56,7 +56,7 @@ return array(
 	'description' 	=> __('在“红包”这个应用的设计上，遵循了简单原则、方式多样。 红包定义是为商家提供的一项增值服务，由商家批量或单个发送，  用于商品交易中的虚拟优惠券。红包所抵用金额，是由发送红包的商家承担的。  商家可以自行给客户发放红包，吸引客户在店铺购物，可以自行控制优惠金额。  红包发放方式多样化，指定用户发放，按商品发放，订单金额发或放线下发放等多种方式深得广大用户喜爱。', 'bonus'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.27.4',					/* 版本号 */
+	'version' 		=> '1.28.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Bonus',
     'provider'      => 'BonusServiceProvider',

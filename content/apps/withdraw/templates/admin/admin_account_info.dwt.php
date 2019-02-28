@@ -141,7 +141,7 @@
                                 <div align="right"><strong>{t domain="withdraw"}收款人姓名：{/t}</strong></div>
                             </td>
                             <td>
-                                <strong class="ecjiafc-red ecjiaf-fs3">{$account_info.user_name}</strong>
+                                <strong class="ecjiafc-red ecjiaf-fs3">{$account_info.cardholder}</strong>
                             </td>
 						</tr>
 

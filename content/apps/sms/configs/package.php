@@ -56,7 +56,7 @@ return array(
 	'description' 	=> __('短信是信息推送最直接却又不会过分影响消费者的优秀途径，在短信记录中，商家可以查看、管理所有发送成功、不成功的短信；短信模板让推送短信的编辑更加简单便捷，而短信配置允许商家设置短信平台账号和商家电话已经不同情况是否发送短信，为商家提供一套完善的短信解决方案，使得短信管理的易用性、可操作性都大大提高。', 'sms'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.27.4',				/* 版本号 */
+	'version' 		=> '1.28.0',				/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Sms',
     'provider'      => 'SmsServiceProvider',

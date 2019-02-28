@@ -31,7 +31,7 @@
 	
 	<form method="post" action="{$search_action}{if $smarty.get.type}&type={$smarty.get.type}{/if}" name="searchForm">
 		<div class="choose_list f_r" >
-			<input type="text" name="keywords" value="{$groupbuy_list.filter.keywords}" placeholder='t domain="groupbuy"}请输入团购商品名称{/t}'/>
+			<input type="text" name="keywords" value="{$groupbuy_list.filter.keywords}" placeholder='{t domain="groupbuy"}请输入团购商品名称{/t}'/>
 			<button class="btn search-btn" type="button">{t domain="groupbuy"}搜索{/t}</button>
 		</div>
 	</form>

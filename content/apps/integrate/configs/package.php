@@ -56,7 +56,7 @@ return array(
 	'description' 	=> __('如果需要整合其他的用户系统，请到【插件中心】安装相应插件进行整合。', 'integrate'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.27.4',					/* 版本号 */
+	'version' 		=> '1.28.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Integrate',
     'provider'      => 'IntegrateServiceProvider',

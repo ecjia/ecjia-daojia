@@ -246,7 +246,7 @@ class merchant extends ecjia_merchant {
 				'add_time'	=> RC_Time::gmtime()
 			);
 			RC_DB::table('refund_payrecord')->insertGetId($data);
-			$log_msg = '同意';
+			$log_msg = __('同意', 'refund');
 			/*如果订单是众包或商家配送的话；找出对应的配送单更改配送单状态为取消配送*/
 			if ($refund_info['shipping_code'] == 'ship_o2o_express' || $refund_info['shipping_code'] == 'ship_ecjia_express') {
 				$express_order_info = RC_DB::table('express_order')->where('order_id', $refund_info['order_id'])->get();
@@ -257,7 +257,7 @@ class merchant extends ecjia_merchant {
 		} else {
 			$status = 11;
 			$refund_status = 0;
-			$log_msg = '不同意';
+			$log_msg = __('不同意', 'refund');
 		}
 		RC_DB::table('refund_order')->where('refund_id', $refund_id)->update(array('status' => $status,'refund_status' => $refund_status));
 		
@@ -282,9 +282,10 @@ class merchant extends ecjia_merchant {
 		
 		//普通订单操作日志表
 		$order_info = RC_DB::table('order_info')->where('order_id', $refund_info['order_id'])->select('shipping_status', 'pay_status')->first();
+		
 		order_refund::order_action($refund_info['order_id'], OS_RETURNED, $order_info['shipping_status'], $order_info['pay_status'], $action_note, '商家');
 		
-		ecjia_merchant::admin_log('['.$refund_info['refund_sn'].'] 结果为'.$log_msg, 'check', 'refund_order');
+		ecjia_admin::admin_log(sprintf(__('[%s]结果为 %s', 'refund'), $refund_info['refund_sn'], $log_msg), 'check', 'refund_order');
 		
 		return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('refund/merchant/refund_detail', array('refund_id' => $refund_id))));
 	}
@@ -439,7 +440,7 @@ class merchant extends ecjia_merchant {
 			} else {
 				$return_shipping_range = implode(",", $return_shipping_range);
 			}
-			$log_msg = '同意';
+			$log_msg = __('同意', 'refund');
 			/*如果订单是众包或商家配送的话；找出对应的配送单更改配送单状态为取消配送*/
 			$refund_info = RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();
 			if ($refund_info['shipping_code'] == 'ship_o2o_express' || $refund_info['shipping_code'] == 'ship_ecjia_express') {
@@ -450,7 +451,7 @@ class merchant extends ecjia_merchant {
 			}
 		} else {
 			$status = 11;
-			$log_msg = '不同意';
+			$log_msg = __('不同意', 'refund');
 		}
 		RC_DB::table('refund_order')->where('refund_id', $refund_id)->update(array('status' => $status, 'return_shipping_range' => $return_shipping_range));
 		
@@ -495,7 +496,7 @@ class merchant extends ecjia_merchant {
 		$action_note= trim($_POST['action_note']);
 		
 		if (empty($action_note)) {
-			return $this->showmessage('请输入操作备注', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入操作备注', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if ($type == 'get') {
 			$return_status = 3;
@@ -545,11 +546,11 @@ class merchant extends ecjia_merchant {
 					'add_time'	=> RC_Time::gmtime()
 			);
 			RC_DB::table('refund_payrecord')->insertGetId($data);
-			$log_msg = '确认收货';
+			$log_msg = __('确认收货', 'refund');
 		} else {
 			$return_status = 11;
 			$refund_status = 0;
-			$log_msg = '未收到货';
+			$log_msg = __('未收到货', 'refund');
 		}
 		RC_DB::table('refund_order')->where('refund_id', $refund_id)->update(array('return_status' => $return_status,'refund_status' => $refund_status));
 		
@@ -575,7 +576,7 @@ class merchant extends ecjia_merchant {
 		OrderStatusLog::return_confirm_receive(array('order_id' => $order_id, 'status' => $return_status));
 		
 		$refund_sn = RC_DB::table('refund_order')->where('refund_id', $refund_id)->pluck('refund_sn');
-		ecjia_merchant::admin_log('['.$refund_sn.'] 结果为'.$log_msg, 'check', 'refund_order');
+		ecjia_admin::admin_log(sprintf(__('[%s]结果为 %s', 'refund'), $refund_sn, $log_msg), 'check', 'refund_order');
 		
 		return $this->showmessage(__('操作成功', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/merchant/return_detail', array('refund_id' => $refund_id))));
 	}

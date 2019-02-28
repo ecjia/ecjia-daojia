@@ -56,7 +56,7 @@ return array(
 	'description' => __('企业通过介入重大的社会活动或整合有效的资源策划大型活动而迅速提高企业及其品牌知名度、美誉度和影响力，促进产品销售的一种营销方式。', 'market'),
 	'author' 	  => 'ECJIA TEAM',			/* 作者 */
 	'website' 	  => 'http://www.ecjia.com',	/* 网址 */
-	'version' 	  => '1.27.4',					/* 版本号 */
+	'version' 	  => '1.28.0',					/* 版本号 */
 	'copyright'   => 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'   => 'Ecjia\App\Market',
     'provider'    => 'MarketServiceProvider',

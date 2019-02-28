@@ -58,7 +58,7 @@
 								<input name="return_shipping_range" id="shop" value="shop" type="checkbox"> 
 								<label for="shop"><strong>{t domain="refund"}到店退货{/t}</strong></label><small>{t domain="refund"}（由用户到门店线下退货）{/t}</small>
 								<div class="return_shipping_content">
-									<p>{t domain="refund"}店铺名称：{/t}{$return_shipping_content.store_name} &nbsp;&nbsp;&nbsp;电话：{$return_shipping_content.shop_kf_mobile}</p>
+									<p>{t domain="refund"}店铺名称：{/t}{$return_shipping_content.store_name} &nbsp;&nbsp;&nbsp;{t domain="refund"}电话：{/t}{$return_shipping_content.shop_kf_mobile}</p>
 									<p>{t domain="refund"}地址：{/t}{$return_shipping_content.address}</p>
 								</div>
 							</div>
