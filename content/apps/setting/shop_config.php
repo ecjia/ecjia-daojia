@@ -93,7 +93,7 @@ class shop_config extends ecjia_admin {
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __('更多信息：', 'setting') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.95.86.E5.BA.97.E8.AE.BE.E7.BD.AE" target="_blank">关于商店设置帮助文档</a>') . '</p>'
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.95.86.E5.BA.97.E8.AE.BE.E7.BD.AE" target="_blank">关于商店设置帮助文档</a>', 'setting') . '</p>'
 		);
 		
 		$code = trim($_GET['code']);

@@ -77,13 +77,13 @@ class admin_region extends ecjia_admin {
 		$this->assign('ur_here', __('地区列表', 'setting'));
 		//ecjia_screen::get_current_screen()->add_help_tab(array(
 		//	'id'        => 'overview',
-		//	'title'     => __('概述'),
-		//	'content'   => '<p>' . __('欢迎访问ECJia智能后台地区设置页面，用户可以在此进行设置地区。') . '</p>'
+		//	'title'     => __('概述', 'setting'),
+		//	'content'   => '<p>' . __('欢迎访问ECJia智能后台地区设置页面，用户可以在此进行设置地区。', 'setting') . '</p>'
 		//));
 		
 		//ecjia_screen::get_current_screen()->set_help_sidebar(
-		//'<p><strong>' . __('更多信息：') . '</strong></p>' .
-		//'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.9C.B0.E5.8C.BA.E5.88.97.E8.A1.A8" target="_blank">关于地区设置帮助文档</a>') . '</p>'
+		//'<p><strong>' . __('更多信息：', 'setting') . '</strong></p>' .
+		//'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E5.9C.B0.E5.8C.BA.E5.88.97.E8.A1.A8" target="_blank">关于地区设置帮助文档</a>', 'setting') . '</p>'
 		//);
 
 		$id = isset($_GET['id']) ? trim($_GET['id']) : 'CN';
@@ -356,7 +356,7 @@ class admin_region extends ecjia_admin {
 				if ($time - $region_last_checktime < 7*24*60*60) {
 					//更新检测时间
 					ecjia_config::instance()->write_config('region_last_checktime', $time);
-					return $this->showmessage(sprintf(__('当前版本已是最新版本，同步更新时间间隔不能小于7天，上次更新时间是（%s）'),$time_last_format), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('setting/admin_region/init')));
+					return $this->showmessage(sprintf(__('当前版本已是最新版本，同步更新时间间隔不能小于7天，上次更新时间是（%s）', 'setting'),$time_last_format), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('setting/admin_region/init')));
 				}
 				
 				if ($pageinfo['more'] == 1) {

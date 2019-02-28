@@ -60,7 +60,7 @@
 							<a class="data-pjax no-underline" title='{t domain="setting"}进入{/t}' href="{url path='setting/admin_region/init' args="id={$region.region_id}"}"><i class="fontello-icon-login"></i></a>
 						{/if}
 						<a class="no-underline" title='{t domain="setting"}编辑{/t}' value="{$region.region_id}" data-toggle="modal" href="#editArea" data-name="{$region.region_name}"  data-index-letter="{$region.index_letter}"><i class="fontello-icon-edit"></i></a>
-						<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg='{t domain="setting"}您确定要删除此地区[{$region.region_name}]吗？删除此地区将会同时删除此地区下的所有地区！{/t}' href='{url path="setting/admin_region/drop_area" args="id={$region.region_id}"}' title='{t domain="setting"}删除一级地区{/t}'><i class="fontello-icon-trash ecjiafc-red"></i></a>
+						<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg='{t domain="setting" 1={$region.region_name}}您确定要删除此地区[%1]吗？删除此地区将会同时删除此地区下的所有地区！{/t}' href='{url path="setting/admin_region/drop_area" args="id={$region.region_id}"}' title='{t domain="setting"}删除一级地区{/t}'><i class="fontello-icon-trash ecjiafc-red"></i></a>
 					</div>
 				</li>
 				<!-- {/foreach} -->
