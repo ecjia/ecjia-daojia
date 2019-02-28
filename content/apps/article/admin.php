@@ -152,7 +152,7 @@ class admin extends ecjia_admin {
 		));
 
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . __('更多信息：') . '</strong></p>' .
+			'<p><strong>' . __('更多信息：', 'article') . '</strong></p>' .
 			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:添加文章" target="_blank">关于添加文章帮助文档</a>', 'article') . '</p>'     
 		);
 		$publishby = trim($_GET['publishby']);
@@ -649,12 +649,10 @@ class admin extends ecjia_admin {
 		));
 
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . __('更多信息：') . '</strong></p>' .
+			'<p><strong>' . __('更多信息：', 'article') . '</strong></p>' .
 			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:文章列表#.E5.85.B3.E8.81.94.E5.95.86.E5.93.81" target="_blank">关于关联商品帮助文档</a>', 'article') . '</p>'  
 		);
-		
-		$this->assign('action_link', array('href' => $href, 'text' => __('文章列表', 'article')));
-		$this->assign('ur_here', __('编辑关联商品', 'article'));
+
 		
 		$publishby = trim($_GET['publishby']);
 		if (!empty($publishby)) {
@@ -663,6 +661,9 @@ class admin extends ecjia_admin {
 			$href	= RC_Uri::url('article/admin/init');
 		}
 
+		$this->assign('action_link', array('href' => $href, 'text' => __('文章列表', 'article')));
+		$this->assign('ur_here', __('编辑关联商品', 'article'));
+		
 		$article_id = !empty($_GET['id']) ? $_GET['id'] : '';
 		$linked_goods = RC_DB::table('goods_article')
 			->leftJoin('goods', 'goods.goods_id', '=', 'goods_article.goods_id')

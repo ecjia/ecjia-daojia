@@ -86,7 +86,7 @@ class admin_shophelp extends ecjia_admin {
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . __('更多信息：') . '</strong></p>' .
+			'<p><strong>' . __('更多信息：', 'article') . '</strong></p>' .
 			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:网店帮助" target="_blank">关于网店帮助列表帮助文档</a>', 'article') . '</p>'   
 		);
 		
