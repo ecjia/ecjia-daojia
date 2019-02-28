@@ -89,7 +89,7 @@ abstract class UserIntegrateDatabaseAbstract extends UserIntegrateAbstract
         }
 
         /* 检查email是否重复 */
-        if ($this->checkEmail($email)) {
+        if (! is_null($email) && $this->checkEmail($email)) {
             $this->error = self::ERR_EMAIL_EXISTS;
             return false;
         }
@@ -350,7 +350,8 @@ abstract class UserIntegrateDatabaseAbstract extends UserIntegrateAbstract
             $this->user_table->getFieldGender() . ' AS `sex`, ' .
             $this->user_table->getFieldBirthDay() . ' AS `birthday`, ' .
             $this->user_table->getFieldRegDate() . ' AS `reg_time`, ' .
-            $this->user_table->getFieldPass() . ' AS `password`'
+            $this->user_table->getFieldPass() . ' AS `password`, ' .
+            $this->user_table->getFieldMobile() . ' AS `mobile_phone`'
         )->where($this->user_table->getFieldName(), $username)
             ->first();
 
@@ -358,11 +359,11 @@ abstract class UserIntegrateDatabaseAbstract extends UserIntegrateAbstract
     }
 
     /**
-     *  获取指定用户的信息
-     *
-     * @param $id
-     * @return array
-     */
+ *  获取指定用户的信息
+ *
+ * @param $id
+ * @return array
+ */
     public function getProfileById($id)
     {
         $row = RC_DB::table($this->user_table->getUserTable())->selectRaw(
@@ -372,8 +373,32 @@ abstract class UserIntegrateDatabaseAbstract extends UserIntegrateAbstract
             $this->user_table->getFieldGender() . ' AS `sex`, ' .
             $this->user_table->getFieldBirthDay() . ' AS `birthday`, ' .
             $this->user_table->getFieldRegDate() . ' AS `reg_time`, ' .
-            $this->user_table->getFieldPass() . ' AS `password`'
+            $this->user_table->getFieldPass() . ' AS `password`, ' .
+            $this->user_table->getFieldMobile() . ' AS `mobile_phone`'
         )->where($this->user_table->getFieldId(), $id)
+            ->first();
+
+        return $row;
+    }
+
+    /**
+     *  获取指定用户的信息
+     *
+     * @param $mobile
+     * @return array
+     */
+    public function getProfileByMobile($mobile)
+    {
+        $row = RC_DB::table($this->user_table->getUserTable())->selectRaw(
+            $this->user_table->getFieldId() . ' AS `user_id`, ' .
+            $this->user_table->getFieldName() . ' AS `user_name`, ' .
+            $this->user_table->getFieldEmail() . ' AS `email`, ' .
+            $this->user_table->getFieldGender() . ' AS `sex`, ' .
+            $this->user_table->getFieldBirthDay() . ' AS `birthday`, ' .
+            $this->user_table->getFieldRegDate() . ' AS `reg_time`, ' .
+            $this->user_table->getFieldPass() . ' AS `password`, ' .
+            $this->user_table->getFieldMobile() . ' AS `mobile_phone`'
+        )->where($this->user_table->getFieldMobile(), $mobile)
             ->first();
 
         return $row;

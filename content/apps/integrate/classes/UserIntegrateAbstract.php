@@ -177,6 +177,15 @@ abstract class UserIntegrateAbstract extends AbstractPlugin implements UserInteg
 
 
     /**
+     *  获取指定用户的信息
+     *
+     * @param $mobile
+     * @return array
+     */
+    abstract public function getProfileByMobile($mobile);
+
+
+    /**
      * 编译密码函数 包含参数为 $password, $md5password, $salt, $type
      *
      * @param $password

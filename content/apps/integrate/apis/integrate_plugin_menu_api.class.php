@@ -53,7 +53,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class integrate_plugin_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {	
-		$menus = ecjia_admin::make_admin_menu('menu_user_integrate', '会员整合', RC_Uri::url('integrate/admin_plugin/init'), 10)->add_purview('integrate_users')->add_base('integrate');
+		$menus = ecjia_admin::make_admin_menu('menu_user_integrate', __('会员整合', 'integrate'), RC_Uri::url('integrate/admin_plugin/init'), 10)->add_purview('integrate_users')->add_base('integrate');
 
 		return $menus;
 	}
