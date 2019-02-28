@@ -833,7 +833,7 @@ class cart_controller
             $total['goods_price']  += $item['subtotal'];
         }
         $total['goods_price_formated']  = price_format($total['goods_price']);
-        $total['shipping_fee']          = $selected_shipping['shipping_fee']; //$rs['shipping_list'];
+//        $total['shipping_fee']          = $selected_shipping['shipping_fee']; //$rs['shipping_list'];
         $total['shipping_fee_formated'] = price_format($total['shipping_fee']);
         $total['discount_bonus']        = 0;
         if ($_SESSION['cart'][$cart_key]['temp']['bonus']) {
