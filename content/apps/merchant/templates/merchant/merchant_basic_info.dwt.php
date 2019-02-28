@@ -47,7 +47,7 @@ label + div.col-lg-6, label + div.col-lg-2 {
                                 <div class="fileupload fileupload-{if $data.shop_nav_background}exists{else}new{/if}" data-provides="fileupload">
                                     {if $data.shop_nav_background}
                                     <div class="fileupload-{if $data.shop_nav_background}exists{else}new{/if} thumbnail" style="max-width: 60px;">
-                                        <img src="{$data.shop_nav_background}" alt="店铺导航背景图" style="width:50px; height:50px;"/>
+                                        <img src="{$data.shop_nav_background}" alt='{t domain="merchant"}店铺导航背景图{/t}' style="width:50px; height:50px;"/>
                                     </div>
                                     {/if}
                                     <div class="fileupload-preview fileupload-{if $data.shop_nav_background}new{else}exists{/if} thumbnail" style="max-width: 60px;max-height: 60px;line-height: 10px;"></div>
@@ -68,7 +68,7 @@ label + div.col-lg-6, label + div.col-lg-2 {
                                 <div class="fileupload fileupload-{if $data.shop_logo}exists{else}new{/if}" data-provides="fileupload">
                                     {if $data.shop_logo}
                                     <div class="fileupload-{if $data.shop_logo}exists{else}new{/if} thumbnail" style="max-width: 60px;">
-                                        <img src="{$data.shop_logo}" alt="店铺LOGO" style="width:50px; height:50px;"/>
+                                        <img src="{$data.shop_logo}" alt='{t domain="merchant"}店铺LOGO{/t}' style="width:50px; height:50px;"/>
                                     </div>
                                     {/if}
                                     <div class="fileupload-preview fileupload-{if $data.shop_logo}new{else}exists{/if} thumbnail" style="max-width: 60px;max-height: 60px;line-height: 10px;"></div>
@@ -127,18 +127,18 @@ label + div.col-lg-6, label + div.col-lg-2 {
                             	{if $data.store_qrcode}
                                 <div class="fileupload fileupload-{if $data.store_qrcode}exists{else}new{/if}" data-provides="fileupload">
                                     <div class="fileupload-{if $data.store_qrcode}exists{else}new{/if} thumbnail fileupload-store-qrcode f_l">
-                                        <img src="{$data.store_qrcode}" alt="店铺二维码" style="width:150px; height:150px;"/>
+                                        <img src="{$data.store_qrcode}" alt='{t domain="merchant"}店铺二维码{/t}' style="width:150px; height:150px;"/>
                                     </div>
                                     <div class="help-block f_l" style="width: 700px;margin-left: 10px;">
                                         {t domain="merchant" escape=no}<p>该二维码是您店铺的手机网址；</p>
                                         <p>您可以将此二维码通过网上或线下宣传展示给您的用户；用户使用手机扫描该二维码，就可以访问您的店铺网页并下单哦！</p>
                                         <p>上传店铺logo后，点击刷新按钮可生成店铺二维码。删除店铺logo后，需手动刷新才可删除店铺二维码。</p>{/t}
                                     </div>
-                                    <a class="btn btn-primary btn-sm fileupload-exists" {if $data.store_qrcode}data-toggle="ajax_remove"{else}data-dismiss="fileupload"{/if} href="{url path='merchant/merchant/refresh_qrcode'}" style="margin-top: 5px; margin-left: 10px;">刷新</a>
-                                    <a class="btn btn-primary btn-sm" href="{url path='merchant/merchant/download'}&type=merchant_qrcode" style="margin-top: 5px;">下载二维码</a>
+                                    <a class="btn btn-primary btn-sm fileupload-exists" {if $data.store_qrcode}data-toggle="ajax_remove"{else}data-dismiss="fileupload"{/if} href="{url path='merchant/merchant/refresh_qrcode'}" style="margin-top: 5px; margin-left: 10px;">{t domain="merchant"}刷新{/t}</a>
+                                    <a class="btn btn-primary btn-sm" href="{url path='merchant/merchant/download'}&type=merchant_qrcode" style="margin-top: 5px;">{t domain="merchant"}下载二维码{/t}</a>
                                 </div>
                                 {else}
-                                <a class="btn btn-primary btn-sm fileupload-exists" data-toggle="ajax_remove" href="{url path='merchant/merchant/refresh_qrcode'}">刷新</a>
+                                <a class="btn btn-primary btn-sm fileupload-exists" data-toggle="ajax_remove" href="{url path='merchant/merchant/refresh_qrcode'}">{t domain="merchant"}刷新{/t}</a>
                                 {/if}
                             </div>
                         </div>

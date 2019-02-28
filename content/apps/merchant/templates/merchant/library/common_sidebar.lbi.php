@@ -1,5 +1,5 @@
 <?php defined('IN_ECJIA') or exit('No permission resources.');?>
-<a class="sidebar_switch on_switch ttip_r" href="javascript:void(0)" title="{t domain="merchant"}隐藏侧边栏{/t}">{t domain="merchant"}侧边栏开关{/t}</a>
+<a class="sidebar_switch on_switch ttip_r" href="javascript:void(0)" title='{t domain="merchant"}隐藏侧边栏{/t}'>{t domain="merchant"}侧边栏开关{/t}</a>
 <div class="sidebar">
 	<div class="antiScroll">
 		<div class="antiscroll-inner">

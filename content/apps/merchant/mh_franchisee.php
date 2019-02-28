@@ -397,7 +397,7 @@ class mh_franchisee extends ecjia_merchant {
                         $store_info[$field_key] = RC_DB::table('store_category')->where('cat_id', $store_info[$field_key])->pluck('cat_name');
                         $data[$field_key] = RC_DB::table('store_category')->where('cat_id', $data[$field_key])->pluck('cat_name');
                     } else if ($field_key == 'identity_type') {
-                        $store_info[$field_key] = $store_info[$field_key] == 1 ? __('身份证', 'merchant') : ($store_info[$field_key] == 2 ? __('护照', 'merchant') : '港澳身份证');
+                        $store_info[$field_key] = $store_info[$field_key] == 1 ? __('身份证', 'merchant') : ($store_info[$field_key] == 2 ? __('护照', 'merchant') : __('港澳身份证', 'merchant'));
                         $data[$field_key] = $data[$field_key] == 1 ? __('身份证', 'merchant') : ($data[$field_key] == 2 ? __('护照', 'merchant') : __('港澳身份证', 'merchant'));
                     } else if ( in_array($field_key, array('province', 'city', 'district', 'street'))) {
                         $store_info[$field_key] = ecjia_region::getRegionName($store_info[$field_key]);
