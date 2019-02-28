@@ -19,9 +19,9 @@
 							async: false,
 							success: function(result) {
 								if (result.state == 'error') {
-									smoke.alert(result.message, {ok: '确定',});
+									smoke.alert(result.message, {ok: js_lang.ok,});
 								} else if (result.state == 'success') {
-									var files='<ul class=""><li>更新内容</li><li><pre>'+ result.readme +'</pre></li></ul>';
+									var files='<ul class=""><li>'+ js_lang.update_content +'</li><li><pre>'+ result.readme +'</pre></li></ul>';
 									$this.parent().css({'margin-bottom': 0, 'border-radius': '4px 4px 0 0'}).after(files);
 								}
 							},
@@ -46,7 +46,7 @@
 			var version_last = $('input[name="version_last"]').val();
 			//验证是否确认覆盖数据库
 			if (version_current == version_last) {
-				smoke.alert('当前版本已是最新版', {ok: '确定',});
+				smoke.alert(js_lang.latest_version, {ok: js_lang.ok,});
 				return false;
 			}
 			start_upgrade();
@@ -65,7 +65,7 @@
 	function progress(val) {
 		var html;
 		if (val == 100) {
-			html = '安装完成'
+			html = js_lang.installation_complete
 		} else {
 			html = val + '%';
 		}
@@ -110,12 +110,12 @@
 		
 		$.post(url, params, function(result) {
 			if (result.state == 'error') {
-				var msg = '正在升级至' + version;
+				var msg = js_lang.upgrading + version;
 				ErrorMsg(msg, result.message);
 				return false;
 			} 
 			if (result.state == 'success') {
-				var msg = '<div class="install_notice">正在升级至' + version + '</div>';
+				var msg = '<div class="install_notice">'+ js_lang.upgrading + version + '</div>';
 				SuccessMsg(msg);
 				ver_list.shift();
 				progress_step = parseInt((count - ver_list.length) / count * 100);
@@ -123,7 +123,7 @@
 				each_upgrade(ver_list, upgrade_post);
 			}
 			if (typeof(result.state) == 'undefined') {
-				var msg = '正在升级至' + version;
+				var msg = js_lang.upgrading + version;
 				ErrorMsg(msg, 0);
 			}
 		});
@@ -131,12 +131,12 @@
 
 	//提示程序安装终止信息
 	function stopNotice() {
-		$("#js-monitor-wait-please").html('安装进程已中止');
+		$("#js-monitor-wait-please").html(js_lang.installation_aborted);
 	};
 
 	//显示完成（成功）信息
 	function SuccessMsg($msg) {
-		$msg += "<span class='install_correct'><img src=" + correct_img + "> 成功 </span>" + lf;
+		$msg += "<span class='install_correct'><img src=" + correct_img + ">"+ js_lang.success +"</span>" + lf;
 		$('#js-notice').append($msg);
 	}
 
@@ -144,10 +144,10 @@
 	function ErrorMsg(result, tip) {
 		stopNotice();
 		notice_html += '<div class="install_notice">' + result + '</div>';
-		notice_html += "<span class='install_error'><img src=" + error_img + "> 失败 </span></strong>" + lf;
+		notice_html += "<span class='install_error'><img src=" + error_img + ">"+ js_lang.fail +"</span></strong>" + lf;
 		$("#js-monitor-notice").css('display', "block");
 		if (tip) {
-			notice_html += "<span class='m_l30' style='color:red'>提示：" + tip + "</span>" + lf;
+			notice_html += "<span class='m_l30' style='color:red'"+ js_lang.prompt + tip + "</span>" + lf;
 		}
 		$('#js-notice').append(notice_html);
 		$('#js-install-return-once').css('display', 'block');

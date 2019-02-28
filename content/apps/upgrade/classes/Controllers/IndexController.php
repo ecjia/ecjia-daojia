@@ -44,48 +44,111 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\App\Upgrade\Controllers;
+
+use Ecjia\App\Upgrade\UpgradeUtility;
 use Ecjia\System\BaseController\SimpleController;
+use Ecjia\System\Version\VersionUtility;
+use RC_Uri;
+use RC_App;
+use RC_Config;
+use RC_Package;
+use RC_Event;
+use Ecjia_VersionManager;
+use ecjia;
+use RC_Script;
+use RC_Style;
+use ecjia_loader;
+use PDOException;
 
-defined('IN_ECJIA') or exit('No permission resources.');
-
-RC_Package::package('app::upgrade')->loadClass('upgrade_utility', false);
-
-class index extends SimpleController {
-    
+class IndexController extends SimpleController
+{
+	private $__FILE__;
+	 
     public function __construct()
     {
         parent::__construct();
         
+        $this->__FILE__ = dirname(dirname(__FILE__));
+        
         set_time_limit(60);
         
-        /* js与css加载路径*/
-        $this->assign('front_url', RC_App::apps_url('statics/front', __FILE__));
-        $this->assign('system_statics_url', RC_Uri::admin_url('statics'));
-        $this->assign('logo_pic', RC_App::apps_url('statics/front/images/logo_pic.png', __FILE__));
+        define('DATA_PATH', dirname($this->__FILE__).'/data/');
         
+        /* js与css加载路径*/
+        $this->assign('front_url', RC_App::apps_url('statics/front', $this->__FILE__));
+        $this->assign('system_statics_url', RC_Uri::admin_url('statics'));
+        $this->assign('logo_pic', RC_App::apps_url('statics/front/images/logo_pic.png', $this->__FILE__));
         $this->assign('version', RC_Config::get('release.version'));
         $this->assign('build', RC_Config::get('release.build'));
-        $this->assign('page_title', __('ECJIA到家升级程序', 'upgrade'));
+        
+        $this->load_default_script_style();
     }
     
+    protected function load_default_script_style()
+    {
+    	//自定义加载
+    	RC_Style::enqueue_style('upgrade-normalize', RC_App::apps_url('statics/front/css/normalize.css', $this->__FILE__));
+    	RC_Style::enqueue_style('upgrade-grid', RC_App::apps_url('statics/front/css/grid.css', $this->__FILE__));
+    	RC_Style::enqueue_style('upgrade-style', RC_App::apps_url('statics/front/css/style.css', $this->__FILE__));
+    
+    	//系统加载样式
+    	RC_Style::enqueue_style('ecjia-ui');
+    	RC_Style::enqueue_style('upgrade-bootstrap', RC_App::apps_url('statics/front/css/bootstrap.min.css', $this->__FILE__));
+    	RC_Style::enqueue_style('bootstrap-responsive-nodeps');
+    	RC_Style::enqueue_style('chosen');
+    	RC_Style::enqueue_style('uniform-aristo');
+    	RC_Style::enqueue_style('fontello');
+    
+    	//系统加载脚本
+    	RC_Script::enqueue_script('ecjia-jquery-chosen');
+    	RC_Script::enqueue_script('jquery-migrate');
+    	RC_Script::enqueue_script('jquery-uniform');
+    	RC_Script::enqueue_script('smoke');
+    	RC_Script::enqueue_script('jquery-cookie');
+    	 
+    	RC_Script::enqueue_script('ecjia-upgrade', RC_App::apps_url('statics/front/js/upgrade.js', $this->__FILE__), array('ecjia-front'), false, true);
+        RC_Script::localize_script('ecjia-upgrade', 'js_lang', config('app-upgrade::jslang.upgrade_page'));
+
+
+    }
+    public function front_print_styles()
+    {
+    	ecjia_loader::print_admin_styles();
+    }
+    
+    public function front_print_head_scripts()
+    {
+    	ecjia_loader::print_head_scripts();
+    }
+    
+    public function front_print_footer_scripts()
+    {
+    	ecjia_loader::_admin_footer_scripts();
+    }
+    
+    public function _front_footer_scripts()
+    {
+    	ecjia_loader::_admin_footer_scripts();
+    }
     
     public function init()
     {
-        if (upgrade_utility::checkUpgradeLock()) {
+        if (UpgradeUtility::checkUpgradeLock()) {
             return $this->redirect(RC_Uri::url('upgrade/index/upgraded'));
         }
         
         // 获取当前版本
-        $version_current = Ecjia\System\Version\VersionUtility::getCurrentVersion();
+        $version_current = VersionUtility::getCurrentVersion();
         // 获取最新版本
-        $version_last = Ecjia\System\Version\VersionUtility::getLatestVersion();
+        $version_last = VersionUtility::getLatestVersion();
         
         if ($version_current == $version_last) {
             return $this->redirect(RC_Uri::url('upgrade/index/upgraded'));
         }
 
         // 获取两个版本之前的可用升级版本
-        $version_list = Ecjia\System\Version\VersionUtility::getUpgradeVersionList($version_current, $version_last);
+        $version_list = VersionUtility::getUpgradeVersionList($version_current, $version_last);
         $version_list = $version_list->keys()->toArray();
 
         if (in_array('v'.$version_last, $version_list)) {
@@ -105,8 +168,8 @@ class index extends SimpleController {
         $this->assign('init_url', RC_Uri::url("upgrade/index/init"));
         $this->assign('ajax_change_files', RC_Uri::url('upgrade/index/ajax_change_files'));
         $this->assign('ajax_upgrade_url', RC_Uri::url('upgrade/index/ajax_upgrade'));
-        $this->assign('correct_img', RC_App::apps_url('statics/front/images/correct.png', __FILE__));
-        $this->assign('error_img', RC_App::apps_url('statics/front/images/error.png', __FILE__));
+        $this->assign('correct_img', RC_App::apps_url('statics/front/images/correct.png', $this->__FILE__));
+        $this->assign('error_img', RC_App::apps_url('statics/front/images/error.png', $this->__FILE__));
         
         $this->assign('step', 1);
         $this->display(
@@ -142,7 +205,7 @@ class index extends SimpleController {
                 return false;
             }
         
-            upgrade_utility::updateEcjiaVersion($version);
+            UpgradeUtility::updateEcjiaVersion($version);
         });
         
         try {
@@ -161,18 +224,18 @@ class index extends SimpleController {
     
     public function finish() 
     {
-        if (! upgrade_utility::checkUpgradeLock()) {
+        if (! UpgradeUtility::checkUpgradeLock()) {
             // 获取当前版本
-            $version_current = Ecjia\System\Version\VersionUtility::getCurrentVersion();
+            $version_current = VersionUtility::getCurrentVersion();
             // 获取最新版本
-            $version_last = Ecjia\System\Version\VersionUtility::getLatestVersion();
+            $version_last = VersionUtility::getLatestVersion();
             
             if ($version_current != $version_last) {
                 return $this->redirect(RC_Uri::url('upgrade/index/init'));
             }
             
             //写入升级锁定
-            upgrade_utility::saveUpgradeLock();
+            UpgradeUtility::saveUpgradeLock();
             
             $finish_message = __('恭喜您，升级成功！', 'upgrade');
             $this->assign('finish_message', $finish_message . __('当前版本已是最新版本。', 'upgrade'));
@@ -205,7 +268,7 @@ class index extends SimpleController {
      */
     public function upgraded() {
 
-        if (! upgrade_utility::checkUpgradeLock()) {
+        if (! UpgradeUtility::checkUpgradeLock()) {
             return $this->redirect(RC_Uri::url('upgrade/index/init'));
         }
         
