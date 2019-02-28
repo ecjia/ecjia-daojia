@@ -264,9 +264,9 @@ class admin_shop_config extends ecjia_admin {
 
 		/* 整理数据 */
 		$group_list     = array();
-		$cfg_name_lang  = RC_Lang::get('touch::shop_config.cfg_name');
-		$cfg_desc_lang  = RC_Lang::get('touch::shop_config.cfg_desc');
-		$cfg_range_lang = RC_Lang::get('touch::shop_config.cfg_range');
+		$cfg_name_lang  = config('app-touch::touch_config.cfg_name');
+		$cfg_desc_lang  = config('app-touch::touch_config.cfg_desc');
+		$cfg_range_lang = config('app-touch::touch_config.cfg_range');
 
 		/* 增加图标数组 */
 		$icon_arr = array(
