@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Royalcms\\Component\\Encryption\\": ""
+            "Royalcms\\Component\\Encryption\\": "Royalcms/Component/Encryption"
         }
     },
     "extra": {

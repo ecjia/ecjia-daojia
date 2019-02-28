@@ -16,17 +16,17 @@
     "require": {
         "php": ">=5.5.9",
         "ext-mbstring": "*",
-        "illuminate/contracts": "5.0.*",
+        "royalcms/contracts": "5.0.*",
         "doctrine/inflector": "~1.0",
         "danielstjules/stringy": "~1.8",
         "paragonie/random_compat": "~1.4"
     },
     "autoload": {
         "psr-4": {
-            "Royalcms\\Component\\Support\\": ""
+            "Royalcms\\Component\\Support\\": "Royalcms/Component/Support"
         },
         "files": [
-            "helpers.php"
+            "Royalcms/Component/Support/helpers.php"
         ]
     },
     "extra": {

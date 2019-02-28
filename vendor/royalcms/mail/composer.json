@@ -1,6 +1,6 @@
 {
-    "name": "royalcms/hashing",
-    "description": "The Royalcms Hashing package.",
+    "name": "royalcms/mail",
+    "description": "The Royalcms Mail package.",
     "license": "MIT",
     "homepage": "http://royalcms.cn",
     "support": {
@@ -15,18 +15,26 @@
     ],
     "require": {
         "php": ">=5.5.9",
+        "royalcms/container": "5.0.*",
         "royalcms/contracts": "5.0.*",
-        "royalcms/support": "5.0.*"
+        "royalcms/support": "5.0.*",
+        "psr/log": "~1.0",
+        "swiftmailer/swiftmailer": "~5.1"
     },
     "autoload": {
         "psr-4": {
-            "Royalcms\\Component\\Hashing\\": "Royalcms/Component/Hashing"
+            "Royalcms\\Component\\Mail\\": "Royalcms/Component/Mail"
         }
     },
     "extra": {
         "branch-alias": {
             "dev-master": "5.0-dev"
         }
+    },
+    "suggest": {
+        "aws/aws-sdk-php": "Required to use the SES mail driver (~3.0).",
+        "guzzlehttp/guzzle": "Required to use the Mailgun and Mandrill mail drivers (~5.3|~6.0).",
+        "jeremeamia/superclosure": "Required to be able to serialize closures (~2.0)."
     },
     "minimum-stability": "dev"
 }

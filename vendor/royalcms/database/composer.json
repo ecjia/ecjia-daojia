@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Royalcms\\Component\\Database\\": ""
+            "Royalcms\\Component\\Database\\": "Royalcms/Component/Database"
         }
     },
     "extra": {

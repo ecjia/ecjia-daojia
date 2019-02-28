@@ -28,7 +28,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Royalcms\\Component\\Pay\\": "Royalcms/Component/Config"
+            "Royalcms\\Component\\Pay\\": "Royalcms/Component/Pay"
         }
     }
 }

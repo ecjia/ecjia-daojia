@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Royalcms\\Component\\Events\\": ""
+            "Royalcms\\Component\\Events\\": "Royalcms/Component/Events"
         }
     },
     "extra": {

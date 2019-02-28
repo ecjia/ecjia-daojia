@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Royalcms\\Component\\Console\\": ""
+            "Royalcms\\Component\\Console\\": "Royalcms/Component/Console"
         }
     },
     "extra": {

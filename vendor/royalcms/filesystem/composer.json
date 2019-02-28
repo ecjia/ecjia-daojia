@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Royalcms\\Component\\Filesystem\\": ""
+            "Royalcms\\Component\\Filesystem\\": "Royalcms/Component/Filesystem"
         }
     },
     "extra": {

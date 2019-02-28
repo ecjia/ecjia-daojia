@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Royalcms\\Component\\Validation\\": ""
+            "Royalcms\\Component\\Validation\\": "Royalcms/Component/Validation"
         }
     },
     "extra": {
@@ -32,7 +32,7 @@
         }
     },
     "suggest": {
-        "illuminate/database": "Required to use the database presence verifier (5.0.*)."
+        "royalcms/database": "Required to use the database presence verifier (5.0.*)."
     },
     "minimum-stability": "dev"
 }

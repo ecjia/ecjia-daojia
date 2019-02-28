@@ -152,7 +152,7 @@ class HttpQueryRoute
      */
     public function getRule()
     {
-        return $rules = config('route.rule', []);
+        return $rules = config('route.rules', []);
     }
 
     public function justCurrentRoute($route)

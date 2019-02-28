@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Royalcms\\Component\\Log\\": ""
+            "Royalcms\\Component\\Log\\": "Royalcms/Component/Log"
         }
     },
     "extra": {

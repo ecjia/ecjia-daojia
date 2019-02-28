@@ -15,16 +15,16 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "royalcms/container": "5.1.*",
-        "royalcms/contracts": "5.1.*",
-        "royalcms/events": "5.1.*",
-        "royalcms/filesystem": "5.1.*",
-        "royalcms/support": "5.1.*",
+        "royalcms/container": "5.0.*",
+        "royalcms/contracts": "5.0.*",
+        "royalcms/events": "5.0.*",
+        "royalcms/filesystem": "5.0.*",
+        "royalcms/support": "5.0.*",
         "symfony/debug": "2.7.*"
     },
     "autoload": {
         "psr-4": {
-            "Royalcms\\Component\\View\\": ""
+            "Royalcms\\Component\\View\\": "Royalcms/Component/View"
         }
     },
     "extra": {
