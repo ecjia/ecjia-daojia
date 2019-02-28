@@ -23,11 +23,11 @@
 <div class="row">
 	<div class="col-lg-12 panel-heading">
     	<form class="form-inline pull-right" action="{$search_action}" method="post" name="theForm">
-			<span>{lang key='stats::statistic.start_date'}</span>
-			<input class="form-control start_date w110" name="start_date" type="text" placeholder="{lang key='stats::statistic.start_date_msg'}" value="{$start_date}">
-			<span>{lang key='stats::statistic.end_date'}</span>
-			<input class="form-control end_date w110" name="end_date" type="text" placeholder="{lang key='stats.statistic.end_date_msg'}" value="{$end_date}">
-			<button class="btn btn-primary screen-btn" type="submit"><i class="fa fa-search" data-original-title="" title=""></i> {lang key='system::system.button_search'}</button>
+			<span>{t domain="stats"}开始日期：{/t}</span>
+			<input class="form-control start_date w110" name="start_date" type="text" placeholder="{t domain="stats"}开始日期{/t}" value="{$start_date}">
+			<span>{t domain="stats"}结束日期：{/t}</span>
+			<input class="form-control end_date w110" name="end_date" type="text" placeholder="{t domain="stats"}结束时间{/t}" value="{$end_date}">
+			<button class="btn btn-primary screen-btn" type="submit"><i class="fa fa-search" data-original-title="" title=""></i> {t domain="stats"}搜索{/t}</button>
     	</form>
 	</div>
 </div>
@@ -38,9 +38,9 @@
         	<table class="table table-striped table-hover" id="smpl_tbl">
         		<thead>
         			<tr>
-        				<th>{lang key='stats::statistic.keywords'}</th>
-        				<th class="w120">{lang key='stats::statistic.hits'}</th>
-        				<th class="w100">{lang key='stats::statistic.date'}</th>
+        				<th>{t domain="stats"}关键词{/t}</th>
+        				<th class="w120">{t domain="stats"}搜索次数{/t}</th>
+        				<th class="w100">{t domain="stats"}日期{/t}</th>
         			</tr>
         		</thead>
         		<tbody>
@@ -51,7 +51,7 @@
         				<td>{$list.date}</td>
         			</tr>
         			<!-- {foreachelse} -->
-        	    	<tr><td class="dataTables_empty" colspan="3">{lang key='system::system.no_records'}</td></tr>
+        	    	<tr><td class="dataTables_empty" colspan="3">{t domain="stats"}没有找到任何记录{/t}</td></tr>
         	  		<!-- {/foreach} -->
         		</tbody>
         	</table>

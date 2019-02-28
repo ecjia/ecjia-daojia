@@ -54,10 +54,10 @@ class stats_merchant_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {
 
-		$menus = ecjia_merchant::make_admin_menu('13_stats',__('报表'), '', 5)->add_icon('fa-bar-chart-o')->add_purview(array('stats_search_keywords','order_stats','sale_general_stats','sale_list_stats','sale_order_stats'))->add_base('stats');
+		$menus = ecjia_merchant::make_admin_menu('13_stats',__('报表', 'stats'), '', 5)->add_icon('fa-bar-chart-o')->add_purview(array('stats_search_keywords','order_stats','sale_general_stats','sale_list_stats','sale_order_stats'))->add_base('stats');
 		
 		$submenus = array(
-            ecjia_merchant::make_admin_menu('01_keywords_stats',__('搜索关键字'), RC_Uri::url('stats/mh_keywords_stats/init'), 1)->add_purview('stats_search_keywords')->add_icon('fa-search'),
+            ecjia_merchant::make_admin_menu('01_keywords_stats',__('搜索关键字', 'stats'), RC_Uri::url('stats/mh_keywords_stats/init'), 1)->add_purview('stats_search_keywords')->add_icon('fa-search'),
 		);
        	$menus->add_submenu($submenus);
 		

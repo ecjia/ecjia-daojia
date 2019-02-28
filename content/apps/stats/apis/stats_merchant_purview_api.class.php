@@ -54,7 +54,7 @@ class stats_merchant_purview_api extends Component_Event_Api {
     
     public function call(&$options) {
         $purviews = array(
-            array('action_name' => __('搜索关键字'), 'action_code' => 'stats_search_keywords', 'relevance' => ''),
+            array('action_name' => __('搜索关键字', 'stats'), 'action_code' => 'stats_search_keywords', 'relevance' => ''),
         );
         
         return $purviews;
