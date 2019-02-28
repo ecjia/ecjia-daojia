@@ -81,6 +81,8 @@ class admin_user_account_pay_module extends api_admin implements api_interface
                 return $result;
             } else {
                 $order['payment'] = $result;
+                $order['payment']['pay_fee'] = $payment_info['pay_fee'] > 0 ? $payment_info['pay_fee'] : 0;
+                $order['payment']['formatted_pay_fee'] = ecjia_price_format($payment_info['pay_fee'], false);
             }
 
             return array('payment' => $order['payment']);
