@@ -72,18 +72,18 @@ class admin_cashier_orders_refund_apply_module extends api_admin implements api_
 		$refund_content = $auto_refuse['0']['reason_name'];
 		
 		if (empty($order_id) || empty($refund_way) || !in_array($refund_way, $refund_way_arr)) {
-			return new ecjia_error('invalid_parameter', '参数错误');
+			return new ecjia_error('invalid_parameter', __('参数错误', 'cashier'));
 		}
 		
 		$order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id, 'store_id' => $_SESSION['store_id'], 'referer' => 'ecjia-cashdesk'));
 		
 		if (empty($order_info)) {
-			return new ecjia_error('not_exists_info', '订单信息不存在！');
+			return new ecjia_error('not_exists_info', __('订单信息不存在！', 'cashier'));
 		}
 		
 		//订单是否属于当前店铺
 		if ($order_info['store_id'] != $_SESSION['store_id']) {
-			return new ecjia_error('order_error', '该订单不属于此店铺！');
+			return new ecjia_error('order_error', __('该订单不属于此店铺！', 'cashier'));
 		}
 		
 		//现金支付的订单，只支持退现金
@@ -93,21 +93,21 @@ class admin_cashier_orders_refund_apply_module extends api_admin implements api_
 		}
 		if (!empty($pay_code) && $pay_code == 'pay_cash') {
 			if (($refund_way == 'original') || ($refund_way == 'balance')) {
-				return new ecjia_error('refund_way_error', '现金支付的订单只支持退现金！');
+				return new ecjia_error('refund_way_error', __('现金支付的订单只支持退现金！', 'cashier'));
 			}
 		}
 		
 		//余额支付的订单，只支持退余额和现金
 		if (!empty($pay_code) && $pay_code == 'pay_balance') {
 			if (($refund_way == 'original')) {
-				return new ecjia_error('refund_way_error', '余额支付的订单只支持退回余额或退现金！');
+				return new ecjia_error('refund_way_error', __('余额支付的订单只支持退回余额或退现金！', 'cashier'));
 			}
 		}
 		
 		//如果订单没有添加会员的话；不支持退回余额
 		if (empty($order_info['user_id'])) {
 			if ($refund_way == 'balance') {
-				return new ecjia_error('refund_way_error', '该订单未添加会员，不支持退回余额！');
+				return new ecjia_error('refund_way_error', __('该订单未添加会员，不支持退回余额！', 'cashier'));
 			}
 		}
 		
@@ -154,7 +154,7 @@ class admin_cashier_orders_refund_apply_module extends api_admin implements api_
                 if ($refund_returnway_shop) {
                     $merchant_confirm_options = array(
                         'refund_id' 		=> $refundOrderInfo['refund_id'],
-                        'action_note' 		=> '审核通过',
+                        'action_note' 		=> __('审核通过', 'cashier'),
                         'store_id' 			=> $_SESSION['store_id'],
                         'staff_id' 			=> $_SESSION['staff_id'],
                         'staff_name' 		=> $_SESSION['staff_name'],
@@ -184,7 +184,7 @@ class admin_cashier_orders_refund_apply_module extends api_admin implements api_
                         } else {
 
                             $back_type = '';
-                            $result = new ecjia_error('refund_checking', '退款审核中');
+                            $result = new ecjia_error('refund_checking', __('退款审核中', 'cashier'));
                         }
                         
                         if (is_ecjia_error($result)) {
@@ -319,9 +319,9 @@ class admin_cashier_orders_refund_apply_module extends api_admin implements api_
     private function _updateRefundPayrecord($refund_payrecord_id, $refund_way, $back_type)
     {
         if ($refund_way == 'cash') {
-            $action_back_content = '收银台申请退款，现金退款成功';
+            $action_back_content = __('收银台申请退款，现金退款成功', 'cashier');
         } elseif ($refund_way == 'original')  {
-            $action_back_content = '收银台申请退款，原路退回成功';
+            $action_back_content = __('收银台申请退款，原路退回成功', 'cashier');
         } else {
         	$action_back_content = '';
         }

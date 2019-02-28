@@ -44,32 +44,56 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台权限API
- * @author royalwang
+ * js语言包设置
  */
-class cashier_merchant_purview_api extends Component_Event_Api {
-    
-    public function call(&$options) {
-        $purviews = array(
-            array('action_name' => __('散装商品管理', 'cashier'), 'action_code' => 'mh_bulk_goods_manage', 'relevance' => ''),
-        	array('action_name' => __('散装商品更新', 'cashier'), 'action_code' => 'mh_bulk_goods_update', 'relevance' => ''),
-        		
-        	array('action_name' => __('收银台商品管理', 'cashier'), 'action_code' => 'mh_cashier_goods_manage', 'relevance' => ''),
-        	array('action_name' => __('收银台商品更新', 'cashier'), 'action_code' => 'mh_cashier_goods_update', 'relevance' => ''),
-        		
-        	array('action_name' => __('条码秤管理', 'cashier'), 'action_code' => 'mh_scales_manage', 'relevance' => ''),
-        	array('action_name' => __('条码秤更新', 'cashier'), 'action_code' => 'mh_scales_update', 'relevance' => ''),
-        		
-        	array('action_name' => __('收银设备管理', 'cashier'), 'action_code' => 'mh_cashier_device_manage', 'relevance' => ''),
-        	array('action_name' => __('收银设备更新', 'cashier'), 'action_code' => 'mh_cashier_device_update', 'relevance' => ''),
-        	array('action_name' => __('收银设备删除', 'cashier'), 'action_code' => 'mh_cashier_device_delete', 'relevance' => ''),
-        		
-        );
-        return $purviews;
-    }
-}
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+	//散装商品
+	'bulk_goods_page' 		=>array(
+		'not_calculate'				=> __('未计算', 'cashier'),
+		'goods_name_required'		=> __('请输入商品名称！', 'cashier'),
+		'goods_sn_required'			=> __('请输入商品货号！', 'cashier'),
+		'shop_price_required'		=> __('请输入商品价格！', 'cashier'),
+		'shop_price_limit'			=> __('请输入正确价格格式！', 'cashier'),
+		'weight_stock_required'		=> __('请输入商品库存重量！', 'cashier'),
+		'weight_stock_limit'		=> __('商品重量库存最小只能为0！', 'cashier'),
+		'category_id_select'		=> __('请选择商品分类！', 'cashier'),
+		//'marketPriceRate'			=> __(''),
+		'choose_select_goods'		=> __('请选择需要转移的商品', 'cashier'),
+	),
+	
+	//收银设备
+	'cashier_device_page'	=> array(
+		'device_name'				=> __('请填写收银设备名称！', 'cashier'),
+		'device_mac'				=> __('请填写设备MAC地址！', 'cashier'),
+		'product_sn'				=> __('请填写产品序列号！', 'cashier'),
+		'cashier_type'				=> __('收银设备类型', 'cashier'),
+		'device_type'				=> __('请选择机型！', 'cashier'),
+		'device_sn'					=> __('请填写设备号！', 'cashier'),
+	),
+		
+	//条码秤
+	'cashdesk_scales_page'      => array(
+		'scale_sn_required'			=> __('请输入条码秤码！', 'cashier'),
+		'open'						=> __('开启', 'cashier'),
+		'close'						=> __('关闭', 'cashier'),
+	),
+	
+	//收银台商品
+	'cashier_goods_page'      	=> array(
+		'not_calculate'				=> __('未计算', 'cashier'),
+		'goods_name_required'		=> __('请输入商品名称！', 'cashier'),
+		'shop_price_required'		=> __('请输入商品价格！', 'cashier'),
+		'shop_price_limit'			=> __('请输入正确价格格式！', 'cashier'),
+		'goods_number'				=> __('请输入商品库存！', 'cashier'),
+		'category_id_select'		=> __('请选择商品分类！', 'cashier'),
+		'category_id_select'		=> __('请选择商品分类！', 'cashier'),
+		'choose_select_goods'		=> __('请选择需要转移的商品', 'cashier'),
+	),
+
+);
+//end

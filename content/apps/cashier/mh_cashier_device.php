@@ -59,15 +59,10 @@ class mh_cashier_device extends ecjia_merchant {
 		RC_Script::enqueue_script('smoke');
         RC_Style::enqueue_style('uniform-aristo');
         
-//         RC_Style::enqueue_style('chosen_style', RC_App::apps_url('statics/assets/chosen/chosen.css', __FILE__), array());
-//         RC_Script::enqueue_script('chosen', RC_App::apps_url('statics/assets/chosen/chosen.jquery.min.js', __FILE__), array(), false, true);
-//         RC_Style::enqueue_style('chosen');
-//         RC_Script::enqueue_script('jquery-chosen');
-        
         RC_Script::enqueue_script('mh_cashier_device', RC_App::apps_url('statics/js/mh_cashier_device.js', __FILE__));
-        RC_Script::localize_script('mh_cashier_device', 'js_lang', RC_Lang::get('cashier::bulk_goods.js_lang'));
+        RC_Script::localize_script('mh_cashier_device', 'js_lang', config('app-cashier::jslang.cashier_device_page'));
 
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('收银设备管理', RC_Uri::url('cashier/mh_cashier_device/init')));
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('收银设备管理', 'cashier'), RC_Uri::url('cashier/mh_cashier_device/init')));
         ecjia_merchant_screen::get_current_screen()->set_parentage('merchant', 'merchant/mh_cashier_device.php');
 	}
 
@@ -77,10 +72,10 @@ class mh_cashier_device extends ecjia_merchant {
 	public function init() {
 		$this->admin_priv('mh_cashier_device_manage');
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('收银设备'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('收银设备', 'cashier')));
 
-		$this->assign('ur_here', '收银设备');
-		$this->assign('action_link', array('href' => RC_Uri::url('cashier/mh_cashier_device/add'), 'text' => '添加收银设备'));
+		$this->assign('ur_here', __('收银设备', 'cashier'));
+		$this->assign('action_link', array('href' => RC_Uri::url('cashier/mh_cashier_device/add'), 'text' => __('添加收银设备', 'cashier')));
         
 		$cashier_device_list = $this->cashier_device_list();
 		
@@ -100,10 +95,10 @@ class mh_cashier_device extends ecjia_merchant {
 		// 检查权限
 		$this->admin_priv('mh_cashier_device_update');
 	
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('收银设备列表'));
-		$this->assign('action_link', array('href' => RC_Uri::url('cashier/mh_cashier_device/init'), 'text' => '收银设备列表'));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('收银设备列表', 'cashier')));
+		$this->assign('action_link', array('href' => RC_Uri::url('cashier/mh_cashier_device/init'), 'text' => __('收银设备列表', 'cashier')));
 	
-		$this->assign('ur_here', '添加收银设备');
+		$this->assign('ur_here', __('添加收银设备', 'cashier'));
 	
 		$this->assign('form_action', RC_Uri::url('cashier/mh_cashier_device/insert'));
 	
@@ -130,25 +125,25 @@ class mh_cashier_device extends ecjia_merchant {
 		$cashier_type 		= empty($_POST['cashier_type']) ? 'cashier-desk' : trim($_POST['cashier_type']);
 		
 		if (empty($device_name)) {
-			return $this->showmessage('请输入设备名称！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入设备名称！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if (empty($device_mac)) {
-			return $this->showmessage('请填写设备MAC地址！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请填写设备MAC地址！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if (empty($product_sn)) {
-			return $this->showmessage('请填写产品序列号！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请填写产品序列号！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if (empty($device_type)) {
-			return $this->showmessage('请选择机型！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择机型！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if (empty($device_sn)) {
-			return $this->showmessage('请填写设备号！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请填写设备号！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		//店铺内收银设备号不可重复
 		$count = RC_DB::table('cashier_device')->where('store_id', $_SESSION['store_id'])->where('device_sn', $device_sn)->count();
 		if ($count > 0) {
-			return $this->showmessage('设备号已存在，请重新输入！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('设备号已存在，请重新输入！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$data = array(
@@ -168,7 +163,7 @@ class mh_cashier_device extends ecjia_merchant {
 	
 		/* 记录日志 */
 		ecjia_merchant::admin_log($device_name, 'add', 'cashier_device');
-		return $this->showmessage('添加收银设备成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cashier/mh_cashier_device/edit', array('id' => $id))));
+		return $this->showmessage(__('添加收银设备成功！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cashier/mh_cashier_device/edit', array('id' => $id))));
 	}
 	
 	/**
@@ -177,11 +172,11 @@ class mh_cashier_device extends ecjia_merchant {
 	public function edit() {
 		$this->admin_priv('mh_cashier_device_update');
 	
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('收银设备列表', RC_Uri::url('cashier/mh_cashier_device/init')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑收银设备'));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('收银设备列表', 'cashier'), RC_Uri::url('cashier/mh_cashier_device/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑收银设备', 'cashier')));
 	
-		$this->assign('ur_here', '编辑收银设备');
-		$this->assign('action_link', array('href' => RC_Uri::url('cashier/mh_cashier_device/init'), 'text' => '收银设备列表'));
+		$this->assign('ur_here', __('编辑收银设备', 'cashier'));
+		$this->assign('action_link', array('href' => RC_Uri::url('cashier/mh_cashier_device/init'), 'text' => __('收银设备列表', 'cashier')));
 		$id = $_GET['id'];
 		/* 条码秤信息 */
 		$cashier_device_info = RC_DB::table('cashier_device')->where('id', $id)->where('store_id', $_SESSION['store_id'])->first();
@@ -213,25 +208,25 @@ class mh_cashier_device extends ecjia_merchant {
 		$cashier_type 		= empty($_POST['cashier_type']) ? 'cashier-desk' : trim($_POST['cashier_type']);
 		
 		if (empty($device_name)) {
-			return $this->showmessage('请输入设备名称！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入设备名称！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if (empty($device_mac)) {
-			return $this->showmessage('请填写设备MAC地址！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请填写设备MAC地址！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if (empty($product_sn)) {
-			return $this->showmessage('请填写产品序列号！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请填写产品序列号！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if (empty($device_type)) {
-			return $this->showmessage('请选择机型！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择机型！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if (empty($device_sn)) {
-			return $this->showmessage('请填写设备号！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请填写设备号！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		//店铺内设备号不可重复
 		$count = RC_DB::table('cashier_device')->where('store_id', $_SESSION['store_id'])->where('device_sn', $device_sn)->where('id', '!=', $id)->count();
 		if ($count > 0) {
-			return $this->showmessage('设备号已存在！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('设备号已存在！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$data = array(
@@ -249,7 +244,7 @@ class mh_cashier_device extends ecjia_merchant {
 		/* 记录日志 */
 		ecjia_merchant::admin_log($device_name, 'edit', 'cashier_device');
 		
-		return $this->showmessage('编辑收银设备成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cashier/mh_cashier_device/edit', array('id' => $id))));
+		return $this->showmessage(__('编辑收银设备成功', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cashier/mh_cashier_device/edit', array('id' => $id))));
 	}
 	
 	/**
@@ -267,7 +262,7 @@ class mh_cashier_device extends ecjia_merchant {
 		);
 		RC_DB::table('cashier_device')->where('id', $id)->where('store_id', $_SESSION['store_id'])->update($data);
 	
-		return $this->showmessage('已成功切状态', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('已成功切状态', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
 	/**
@@ -282,7 +277,7 @@ class mh_cashier_device extends ecjia_merchant {
 		RC_DB::table('cashier_device')->where('id', $id)->where('store_id', $_SESSION['store_id'])->delete();
 	
 		ecjia_merchant::admin_log(addslashes($device_name), 'remove', 'cashier_device');
-		return $this->showmessage('移除收银设备成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('移除收银设备成功！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
 	/**

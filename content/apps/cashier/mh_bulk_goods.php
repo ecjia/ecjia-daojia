@@ -70,10 +70,9 @@ class mh_bulk_goods extends ecjia_merchant {
 		RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
 		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 		
-// 		RC_Style::enqueue_style('goods', RC_App::apps_url('statics/styles/goods.css', __FILE__), array());
 		RC_Script::enqueue_script('mh_bulk_goods_list', RC_App::apps_url('statics/js/mh_bulk_goods_list.js', __FILE__));
 		RC_Script::enqueue_script('mh_bulk_goods_info', RC_App::apps_url('statics/js/mh_bulk_goods_info.js', __FILE__));
-		RC_Script::localize_script('mh_bulk_goods_info', 'js_lang', RC_Lang::get('cashier::bulk_goods.js_lang'));
+		RC_Script::localize_script('mh_bulk_goods_info', 'js_lang', config('app-cashier::jslang.bulk_goods_page'));
 		
 		$goods_list_jslang = array(
 				'user_rank_list'	=> Ecjia\App\Cashier\BulkGoods::get_rank_list(),
@@ -85,7 +84,7 @@ class mh_bulk_goods extends ecjia_merchant {
 		RC_Loader::load_app_func('merchant_goods', 'goods');
 		
 		ecjia_merchant_screen::get_current_screen()->set_parentage('cashier', 'cashier/mh_bulk_goods.php');
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('散装商品管理', RC_Uri::url('cashier/mh_bulk_goods/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('散装商品管理', 'cashier'), RC_Uri::url('cashier/mh_bulk_goods/init')));
 	}
 
 	/**
@@ -94,8 +93,8 @@ class mh_bulk_goods extends ecjia_merchant {
 	public function init() {
 	    $this->admin_priv('mh_bulk_goods_manage');
 
-		$this->assign('ur_here', '散装商品列表');
-		$this->assign('action_link', array('href' => RC_Uri::url('cashier/mh_bulk_goods/add'), 'text' => '添加散装商品'));
+		$this->assign('ur_here', __('散装商品列表', 'cashier'));
+		$this->assign('action_link', array('href' => RC_Uri::url('cashier/mh_bulk_goods/add'), 'text' => __('添加散装商品', 'cashier')));
 		
 		$bulk_goods_list = $this->bulk_goods_list();
 		$this->assign('bulk_goods_list', $bulk_goods_list);
@@ -115,7 +114,7 @@ class mh_bulk_goods extends ecjia_merchant {
 		$goods_id = !empty($_POST['checkboxes']) ? $_POST['checkboxes'] : 0;
 		
 		if (!isset($_GET['type']) || $_GET['type'] == '') {
-			return $this->showmessage('请选择操作', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择操作', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		$goods_id = explode(',', $goods_id);
 		$data = RC_DB::table('goods')->select('goods_name')->whereIn('goods_id', $goods_id)->get();
@@ -148,7 +147,7 @@ class mh_bulk_goods extends ecjia_merchant {
 				$this->admin_priv('mh_bulk_goods_update', ecjia::MSGTYPE_JSON);
 				
 				if (empty($_GET['target_cat'])) {
-					return $this->showmessage('请先选择要转移的分类', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+					return $this->showmessage(__('请先选择要转移的分类', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
 				Ecjia\App\Cashier\BulkGoods::update_goods($goods_id, 'merchant_cat_id', $_GET['target_cat']);
 				$action = 'batch_move_cat';
@@ -166,7 +165,7 @@ class mh_bulk_goods extends ecjia_merchant {
 	
 		$pjaxurl = RC_Uri::url('cashier/mh_bulk_goods/init' ,$page);
 	
-		return $this->showmessage('批量操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
+		return $this->showmessage(__('批量操作成功', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $pjaxurl));
 	}
 	
 	/**
@@ -180,9 +179,9 @@ class mh_bulk_goods extends ecjia_merchant {
 		
 		if (!empty($goods_name)) {
 			RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->update(array('goods_name' => $goods_name, 'last_update' => RC_Time::gmtime()));
-			return $this->showmessage('修改成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => stripslashes($goods_name)));
+			return $this->showmessage(__('修改成功！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => stripslashes($goods_name)));
 		} else {
-			return $this->showmessage('请输入商品名称！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入商品名称！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 	
@@ -196,31 +195,31 @@ class mh_bulk_goods extends ecjia_merchant {
 		$goods_sn = trim($_POST['value']);
 	
 		if (empty($goods_sn)) {
-			return $this->showmessage('请输入商品货号', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入商品货号', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	
 		/* 检查是否重复 */
 		if ($goods_sn) {
 			$count = RC_DB::table('goods')->where('goods_sn', $goods_sn)->where('goods_id', '!=', $goods_id)->where('store_id', $_SESSION['store_id'])->count();
 			if ($count > 0) {
-				return $this->showmessage('您输入的货号已存在，请换一个', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('您输入的货号已存在，请换一个', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 		
 		//散装商品货号为7位
 		$goods_sn_length = strlen($goods_sn);
 		if ($goods_sn_length != 7) {
-			return $this->showmessage('散装商品货号必须为7位', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('散装商品货号必须为7位', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		$scales_sn = substr($goods_sn, 0, 2);
 		$cashdesk_scales_sn_arr = Ecjia\App\Cashier\BulkGoods::get_scales_sn_arr($_SESSION['store_id']);//商家所有条码秤编码
 		if (!in_array($scales_sn, $cashdesk_scales_sn_arr)) {
-			return $this->showmessage('请检查商品货号，散装商品货号前2位必须为条码秤编码！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请检查商品货号，散装商品货号前2位必须为条码秤编码！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->update(array('goods_sn' => $goods_sn, 'last_update' => RC_Time::gmtime()));
 	
-		return $this->showmessage(RC_Lang::get('goods::goods.edit_ok'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => stripslashes($goods_sn)));
+		return $this->showmessage(__('修改成功', 'cashier'),ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => stripslashes($goods_sn)));
 	}
 	
 	/**
@@ -238,12 +237,12 @@ class mh_bulk_goods extends ecjia_merchant {
 				'last_update'   => RC_Time::gmtime()
 		);
 		if ($goods_price < 0 || $goods_price == 0 && $_POST['val'] != "$goods_price") {
-			return $this->showmessage(RC_Lang::get('goods::goods.shop_price_invalid'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('您输入了一个非法的市场价格。', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 			RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->update($data);
 			//为更新用户购物车数据加标记
 			//RC_Api::api('cart', 'mark_cart_goods', array('goods_id' => $goods_id));
-			return $this->showmessage(RC_Lang::get('goods::goods.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => number_format($goods_price, 2, '.', '')));
+			return $this->showmessage(__('修改成功', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => number_format($goods_price, 2, '.', '')));
 		}
 	}
 	
@@ -262,10 +261,10 @@ class mh_bulk_goods extends ecjia_merchant {
 		);
 	
 		if ($weight_stock < 0) {
-			return $this->showmessage('商品重量库存错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('商品重量库存错误', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->update($data);
-		return $this->showmessage(RC_Lang::get('goods::goods.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $weight_stock));
+		return $this->showmessage(__('修改成功', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $weight_stock));
 	}
 	
 	/**
@@ -282,7 +281,7 @@ class mh_bulk_goods extends ecjia_merchant {
 				'last_update' 	=> RC_Time::gmtime()
 		);
 		RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->update($data);
-		return $this->showmessage('已成功切换上架状态', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $on_sale));
+		return $this->showmessage(__('已成功切换上架状态', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $on_sale));
 	}
 	
 	/**
@@ -299,7 +298,7 @@ class mh_bulk_goods extends ecjia_merchant {
 		);
 		RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->update($data);
 	
-		return $this->showmessage('修改成功!', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $sort_order));
+		return $this->showmessage(__('修改成功!', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $sort_order));
 	}
 	
 	/**
@@ -309,11 +308,11 @@ class mh_bulk_goods extends ecjia_merchant {
 		// 检查权限
 		$this->admin_priv('mh_bulk_goods_update');
 	
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('散装商品列表'));
-		$this->assign('action_link', array('href' => RC_Uri::url('cashier/mh_bulk_goods/init'), 'text' => '散装商品列表'));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('散装商品列表', 'cashier')));
+		$this->assign('action_link', array('href' => RC_Uri::url('cashier/mh_bulk_goods/init'), 'text' => __('散装商品列表', 'cashier')));
 	
 		
-		$this->assign('ur_here', '基本信息');
+		$this->assign('ur_here', __('基本信息', 'cashier'));
 		
 		$goods = array(
 				'goods_id'				=> 0,
@@ -372,27 +371,27 @@ class mh_bulk_goods extends ecjia_merchant {
 		
 		$goods_sn = trim($_POST['goods_sn']);
 		if (empty($goods_sn)) {
-			return $this->showmessage('请填写商品货号！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请填写商品货号！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		//商品货号
 		if (!empty($goods_sn)) {
 			//散装商品货号为7位
 			$goods_sn_length = strlen($goods_sn);
 			if ($goods_sn_length != 7) {
-				return $this->showmessage('散装商品货号必须为7位', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('散装商品货号必须为7位', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			/* 检查货号是否重复 */
 			$count = RC_DB::table('goods')->where('goods_sn', $goods_sn)->where('store_id', $_SESSION['store_id'])->count();
 			if ($count > 0) {
-				return $this->showmessage('您输入的货号已存在，请换一个', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('您输入的货号已存在，请换一个', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			$scales_sn = substr($goods_sn, 0, 2);
 			$cashdesk_scales_sn_arr = Ecjia\App\Cashier\BulkGoods::get_scales_sn_arr($_SESSION['store_id']);//商家所有条码秤编码
 			if (empty($cashdesk_scales_sn_arr)) {
-				return $this->showmessage('请先添加条码秤！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('请先添加条码秤！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			if (!in_array($scales_sn, $cashdesk_scales_sn_arr)) {
-				return $this->showmessage('请检查商品货号，散装商品货号前2位必须为条码秤编码！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('请检查商品货号，散装商品货号前2位必须为条码秤编码！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 	
@@ -435,11 +434,11 @@ class mh_bulk_goods extends ecjia_merchant {
 			$exppire_date = Ecjia\App\Cashier\BulkGoods::expiry_date($generate_date, $limit_days, $limit_days_unit);
 		}
 		if (empty($merchant_cat_id)) {
-			return $this->showmessage('请选择店铺商品分类', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择店铺商品分类', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		if (empty($goods_name)) {
-			return $this->showmessage('请输入商品名称', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入商品名称', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	
 		/* 入库 */
@@ -498,12 +497,12 @@ class mh_bulk_goods extends ecjia_merchant {
 			$temp_num = array_count_values($_POST['volume_number']);
 			foreach ($temp_num as $v) {
 				if ($v > 1) {
-					return $this->showmessage(RC_Lang::get('goods::goods.volume_number_continuous'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+					return $this->showmessage(__('优惠数量重复！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				}
 			}
 			Ecjia\App\Cashier\BulkGoods::handle_volume_price($goods_id, $_POST['volume_number'], $_POST['volume_price']);
 		}
-		return $this->showmessage('添加散装商品成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cashier/mh_bulk_goods/edit', array('goods_id' => $goods_id))));
+		return $this->showmessage(__('添加散装商品成功！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cashier/mh_bulk_goods/edit', array('goods_id' => $goods_id))));
 	}
 	
 	/**
@@ -512,17 +511,17 @@ class mh_bulk_goods extends ecjia_merchant {
 	public function edit() {
 		$this->admin_priv('mh_bulk_goods_update');
 	
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('散装商品列表', RC_Uri::url('cashier/mh_bulk_goods/init')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑散装商品'));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('散装商品列表', 'cashier'), RC_Uri::url('cashier/mh_bulk_goods/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑散装商品', 'cashier')));
 	
-		$this->assign('ur_here', '编辑散装商品');
-		$this->assign('action_link', array('href' => RC_Uri::url('cashier/mh_bulk_goods/init'), 'text' => '散装商品列表'));
+		$this->assign('ur_here', __('编辑散装商品', 'cashier'));
+		$this->assign('action_link', array('href' => RC_Uri::url('cashier/mh_bulk_goods/init'), 'text' => __('散装商品列表', 'cashier')));
 	
 		/* 商品信息 */
 		$goods = RC_DB::table('goods')->where('goods_id', $_GET['goods_id'])->where('extension_code', 'bulk')->where('store_id', $_SESSION['store_id'])->first();
 		
 		if (empty($goods)) {
-			return $this->showmessage('未检测到此商品', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => '返回散装商品列表', 'href' => RC_Uri::url('cashier/mh_bulk_goods/init')))));
+			return $this->showmessage(__('未检测到此商品', 'cashier'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('返回散装商品列表', 'cashier'), 'href' => RC_Uri::url('cashier/mh_bulk_goods/init')))));
 		}
 	
 		if (empty($goods)) {
@@ -608,28 +607,28 @@ class mh_bulk_goods extends ecjia_merchant {
 		$goods_id = !empty($_POST['goods_id']) ? intval($_POST['goods_id']) : 0;
 		$goods_sn = trim($_POST['goods_sn']);
 		if (empty($goods_sn)) {
-			return $this->showmessage('请填写商品货号！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请填写商品货号！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		//商品货号
 		if (!empty($goods_sn)) {
 			//散装商品货号为7位
 			$goods_sn_length = strlen($goods_sn);
 			if ($goods_sn_length != 7) {
-				return $this->showmessage('散装商品货号必须为7位', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('散装商品货号必须为7位', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			/* 检查货号是否重复 */
 			$count = RC_DB::table('goods')->where('goods_sn', $goods_sn)->where('goods_id', '!=', $goods_id)->where('store_id', $_SESSION['store_id'])->count();
 			if ($count > 0) {
-				return $this->showmessage('您输入的货号已存在，请换一个', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('您输入的货号已存在，请换一个', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			$scales_sn = substr($goods_sn, 0, 2);
 			//商家所有条码秤编码
 			$cashdesk_scales_sn_arr = Ecjia\App\Cashier\BulkGoods::get_scales_sn_arr($_SESSION['store_id']);
 			if (empty($cashdesk_scales_sn_arr)) {
-				return $this->showmessage('请先添加条码秤！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('请先添加条码秤！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 			if (!in_array($scales_sn, $cashdesk_scales_sn_arr)) {
-				return $this->showmessage('请检查商品货号，散装商品货号前2位必须为条码秤编码！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('请检查商品货号，散装商品货号前2位必须为条码秤编码！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 		
@@ -671,11 +670,11 @@ class mh_bulk_goods extends ecjia_merchant {
 		$merchant_cat_id 	= empty($_POST['merchant_cat_id']) 	? '' 	: intval($_POST['merchant_cat_id']);
 
 		if (empty($merchant_cat_id)) {
-			return $this->showmessage('请选择店铺商品分类', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择店铺商品分类', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		if (empty($goods_name)) {
-			return $this->showmessage('请输入商品名称', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入商品名称', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		$data = array(
@@ -732,13 +731,13 @@ class mh_bulk_goods extends ecjia_merchant {
 			$temp_num = array_count_values($_POST['volume_number']);
 			foreach ($temp_num as $v) {
 				if ($v > 1) {
-					return $this->showmessage(RC_Lang::get('goods::goods.volume_number_continuous'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+					return $this->showmessage(__('优惠数量重复！', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 					break;
 				}
 			}
 			Ecjia\App\Cashier\BulkGoods::handle_volume_price($goods_id, $_POST['volume_number'], $_POST['volume_price']);
 		}
-		return $this->showmessage('编辑商品成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cashier/mh_bulk_goods/edit', array('goods_id' => $goods_id))));
+		return $this->showmessage(__('编辑商品成功', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('cashier/mh_bulk_goods/edit', array('goods_id' => $goods_id))));
 	}
 	
 	/**
@@ -753,7 +752,7 @@ class mh_bulk_goods extends ecjia_merchant {
 		RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->update(array('is_delete' => 1));
 	
 		ecjia_merchant::admin_log(addslashes($goods_name), 'trash', 'bulk_goods');
-		return $this->showmessage(RC_Lang::get('goods::goods.trash_goods_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('放入回收站成功', 'cashier'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
 	/**

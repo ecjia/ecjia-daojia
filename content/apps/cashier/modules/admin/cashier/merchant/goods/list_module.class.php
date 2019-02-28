@@ -63,7 +63,7 @@ class admin_cashier_merchant_goods_list_module extends api_admin implements api_
 		$store_id 		= empty($store_id) ? 0 : $store_id;
 	
 		if (empty($store_id)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+			return new ecjia_error( 'invalid_parameter', __('参数无效', 'cashier'));
 		}
 		
 		switch ($sort_type) {

@@ -63,13 +63,13 @@ class payConfirm_module extends api_admin implements api_interface
     	/* 获取请求当前数据的device信息*/
         $codes = RC_Loader::load_app_config('cashier_device_code', 'cashier');
         if (!is_array($device) || !isset($device['code']) || !in_array($device['code'], $codes)) {
-            return new ecjia_error('caskdesk_error', '非收银台请求！');
+            return new ecjia_error('caskdesk_error', __('非收银台请求！', 'cashier'));
         }
 		
 		$order_id = $this->requestData('order_id');
 		
 		if (empty($order_id)) {
-			return new ecjia_error('invalid_parameter', '参数错误');
+			return new ecjia_error('invalid_parameter', __('参数错误', 'cashier'));
 		}
 		
 		/*买单订单信息 */
@@ -78,7 +78,7 @@ class payConfirm_module extends api_admin implements api_interface
 			return $quickpay_order_info;
 		}
 		if (empty($quickpay_order_info)) {
-			return new ecjia_error('quickpay_order_info_not_exist', '收款订单不存在！');
+			return new ecjia_error('quickpay_order_info_not_exist', __('收款订单不存在！', 'cashier'));
 		}
 		$payment_method	= new Ecjia\App\Payment\PaymentPlugin();
 		$pay_info = $payment_method->getPluginDataByCode($quickpay_order_info['pay_code']);
@@ -102,14 +102,14 @@ class payConfirm_module extends api_admin implements api_interface
 						'pay_code'					=> $pay_info['pay_code'],
 						'pay_name'					=> $pay_info['pay_name'],
 						'pay_status'				=> 'success',
-						'desc'						=> '订单支付成功！'
+						'desc'						=> __('订单支付成功！', 'cashier')
 				);
 				$print_data = $this->_getPrint_data($quickpay_order_info);
 				
 				return array('payment' => $data, 'print_data' => $print_data);
 			}
 		} else {
-			return new ecjia_error('not_support_payment', '此充值记录对应的支付方式不支持收银台充值支付！');
+			return new ecjia_error('not_support_payment', __('此充值记录对应的支付方式不支持收银台充值支付！', 'cashier'));
 		}
 	}
 	

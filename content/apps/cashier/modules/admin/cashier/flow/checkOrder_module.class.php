@@ -249,7 +249,7 @@ class admin_cashier_flow_checkOrder_module extends api_admin implements api_inte
 				if (version_compare($api_version, '1.25', '>=')) {
 					$account_status = Ecjia\App\User\Users::UserAccountStatus($user_id);
 					if ($account_status == Ecjia\App\User\Users::WAITDELETE) {
-						return new ecjia_error('account_status_error', '当前账号已申请注销，不可执行此操作！');
+						return new ecjia_error('account_status_error', __('当前账号已申请注销，不可执行此操作！', 'cashier'));
 					}
 				}
 		
@@ -322,14 +322,14 @@ class admin_cashier_flow_checkOrder_module extends api_admin implements api_inte
 			$goods = RC_DB::table('goods')->where('goods_sn', trim($addgoods['goods_sn']))->where('store_id', $store_id)->where('is_on_sale', 1)->where('is_delete', 0)->first();
 		}
 		if (empty($goods)) {
-			return new ecjia_error('addgoods_error', '该商品不存在或已下架');
+			return new ecjia_error('addgoods_error', __('该商品不存在或已下架', 'cashier'));
 		}
 		//该商品对应店铺是否被锁定
 		if (!empty($goods['goods_id'])) {
 			$store_id 		= Ecjia\App\Cart\StoreStatus::GetStoreId($goods['goods_id']);
 			$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($store_id);
 			if ($store_status == Ecjia\App\Cart\StoreStatus::LOCKED) {
-				return new ecjia_error('store_locked', '对不起，该商品所属的店铺已锁定！');
+				return new ecjia_error('store_locked', __('对不起，该商品所属的店铺已锁定！', 'cashier'));
 			}
 		}
 			

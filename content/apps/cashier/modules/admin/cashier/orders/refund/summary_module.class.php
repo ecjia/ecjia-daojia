@@ -21,7 +21,7 @@ class admin_cashier_orders_refund_summary_module  extends api_admin implements a
         $codes = RC_Loader::load_app_config('cashier_device_code', 'cashier');
       
         if (!in_array($device['code'], $codes)) {
-        	return new ecjia_error('not_cashdesk_requst', '非收银台请求！');
+        	return new ecjia_error('not_cashdesk_requst', __('非收银台请求！', 'cashier'));
         }
         
         if (empty($start_date) && empty($end_date)) {
@@ -31,7 +31,7 @@ class admin_cashier_orders_refund_summary_module  extends api_admin implements a
         }
         
         if (empty($start_date) || empty($end_date)) {
-        	return new ecjia_error('invalid_parameter', '参数错误');
+        	return new ecjia_error('invalid_parameter', __('参数错误', 'cashier'));
         }
        
         $field = 'count(refund_id) as count,

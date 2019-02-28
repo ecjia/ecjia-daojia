@@ -65,11 +65,11 @@ class admin_cashier_quickpay_order_pay_module extends api_admin implements api_i
 		$pay_code = $this->requestData('pay_code', '');
 		
 		if (empty($pay_code)) {
-			return new ecjia_error( 'payment_error', '请选择支付方式');
+			return new ecjia_error( 'payment_error', __('请选择支付方式', 'cashier'));
 		}
 		
 		if (!$order_id) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效！', 'cashier'));
 		}
 		
 		/* 订单详情 */
@@ -85,7 +85,7 @@ class admin_cashier_quickpay_order_pay_module extends api_admin implements api_i
 		}
 		
 		if ($_SESSION['user_id'] != $order['user_id']) {
-			return new ecjia_error('error_order_detail', RC_Lang::get('orders::order.error_order_detail'));
+			return new ecjia_error('error_order_detail', __('订单不属于该用户', 'cashier'));
 		}
 		
 		$payment_info = RC_DB::table('payment')->where('pay_code', $pay_code)->first();

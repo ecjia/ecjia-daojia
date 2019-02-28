@@ -52,7 +52,7 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
     {	
 		
 		/**
-         * bonus 0 //红包
+         * bonus_id 0 //红包
          * how_oos 0 //缺货处理
          * integral 0 //积分
          * payment 3 //支付方式
@@ -95,7 +95,7 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
 		/* 订单中的商品 */
 		$cart_goods = cart_cashdesk::cashdesk_cart_goods($flow_type, $cart_id, $pendorder_id);
 		if (empty($cart_goods) || count($cart_goods) == 0) {
-			return new ecjia_error('no_goods_in_cart', '购物车中没有商品');
+			return new ecjia_error('no_goods_in_cart', __('购物车中没有商品', 'cashier'));
 		}
 		
         /* 如果使用库存，且下订单时减库存，检查库存*/
@@ -107,7 +107,7 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
             }
             $result = cart_goods_stock::flow_cart_stock($_cart_goods_stock);
             if (is_ecjia_error($result)) {            	
-            	return new ecjia_error('Inventory shortage', '库存不足');
+            	return new ecjia_error('Inventory_shortage', __('库存不足', 'cashier'));
             }
             unset($cart_goods_stock, $_cart_goods_stock);
         }        
@@ -115,7 +115,7 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
         /* 判断是否是会员 */
         $consignee = array();
         $consignee = array(
-        		'consignee'	=> '匿名用户',
+        		'consignee'	=> __('匿名用户', 'cashier'),
         		'mobile'	=> '',
         		'tel'		=> '',
         		'email'		=> '',
@@ -163,7 +163,6 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
         $inv_payee			 	= $this->requestData('inv_payee', '');
         $inv_content 			= $this->requestData('inv_content', '');
         $postscript			 	= $this->requestData('postscript', '');
-        $how_oosLang 			= RC_Lang::lang("oos/$how_oos");
         
         $order = array(
         	'shipping_id' 		=> $this->requestData('shipping_id', 0),
@@ -178,7 +177,6 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
         	'inv_payee' 		=> trim($inv_payee),
         	'inv_content' 		=> $inv_content,
         	'postscript' 		=> trim($postscript),
-        	'how_oos' 			=> isset($how_oosLang) ? addslashes($how_oosLang) : '',
             'user_id'			=> $_SESSION['user_id'],
             'add_time'			=> RC_Time::gmtime(),
             'order_status'		=> OS_UNCONFIRMED,
@@ -192,7 +190,7 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
         
         //支付方式
         if (empty($order['pay_id'])) {
-        	return new ecjia_error('empty_payment', '请选择支付方式');
+        	return new ecjia_error('empty_payment', __('请选择支付方式', 'cashier'));
         }
         
         /* 检查积分余额是否合法 */
@@ -264,7 +262,7 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
         } else {
             //无需物流
         	$order['shipping_id'] = 0;
-        	$order['shipping_name'] = '无需物流';
+        	$order['shipping_name'] = __('无需物流', 'cashier');
         }
         $order['shipping_fee']	= $total['shipping_fee'];
         $order['insure_fee']	= $total['shipping_insure'];
@@ -314,16 +312,8 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
         $order['order_id'] = $new_order_id;
         
         /* 插入订单商品 */
-        $field = 'store_id, goods_id, goods_name, goods_sn, product_id, goods_number, goods_buy_weight, market_price, goods_price, goods_attr, is_real, extension_code, parent_id, is_gift, goods_attr_id';
-
-        $db_cart = RC_DB::table('cart');
-        $db_cart->where('rec_type', $flow_type)->where('user_id', $_SESSION['user_id']);
-        if (is_array($cart_id) && !empty($cart_id)) {
-        	$db_cart->whereIn('rec_id', $cart_id);
-        }
-        $data_row = $db_cart->select(RC_DB::raw($field))->get();
-        if (!empty($data_row)) {
-        	foreach ($data_row as $row) {
+        if (!empty($cart_goods)) {
+        	foreach ($cart_goods as $row) {
         		$arr = array(
         				'order_id'			=> $new_order_id,
         				'goods_id'			=> $row['goods_id'],
@@ -354,13 +344,13 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
         	$options = array(
         			'user_id'=>$order['user_id'],
         			'pay_points'=> $order['integral'] * (- 1),
-        			'change_desc'=>sprintf(RC_Lang::get('cart::shopping_flow.pay_order'), $order['order_sn']),
+        			'change_desc'  => sprintf(__('支付订单 %s', 'cashier'), $order['order_sn']),
         			'from_type'		=> 'order_use_integral',
         			'from_value'	=> $order['order_sn']
         	);
         	$result = RC_Api::api('user', 'account_change_log', $options);
         	if (is_ecjia_error($result)) {
-        		return new ecjia_error('fail_error', '处理失败');
+        		return new ecjia_error('fail_error', __('处理失败', 'cashier'));
         	}
         }
         if ($order['bonus_id'] > 0 && $temp_amout > 0) {
@@ -392,41 +382,6 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
                     'num' => $row['num']
                 );
             }
-            
-//             if ($virtual_goods and $flow_type != CART_GROUP_BUY_GOODS) {
-//                 /* 虚拟卡发货 */
-//                 if (virtual_goods_ship($virtual_goods, $msg, $order['order_sn'], true)) {
-//                     /* 如果没有实体商品，修改发货状态，送积分和红包 */
-//                     $count = $db_order_goods->where(array('order_id' => $order['order_id'] , 'is_real' => 1))->count();
-//                		if ($count <= 0) {
-//                     /* 修改订单状态 */
-//                         update_order($order['order_id'], array(
-//                             'shipping_status' => SS_SHIPPED,
-//                             'shipping_time' => RC_Time::gmtime()
-//                         ));
-                        
-//                         /* 如果订单用户不为空，计算积分，并发给用户；发红包 */
-//                         if ($order['user_id'] > 0) {
-//                             /* 取得用户信息 */
-//                             $user = user_info($order['user_id']);
-//                             /* 计算并发放积分 */
-//                             $integral = integral_to_give($order);
-//                             $options = array(
-//                             		'user_id' =>$order['user_id'],
-//                             		'rank_points' => intval($integral['rank_points']),
-//                             		'pay_points' => intval($integral['custom_points']),
-//                             		'change_desc' =>sprintf(RC_Lang::lang('order_gift_integral'), $order['order_sn'])
-//                             );
-//                             $result = RC_Api::api('user', 'account_change_log',$options);
-//                             if (is_ecjia_error($result)) {
-//                             	return new ecjia_error('fail_error', '处理失败');
-//                             }
-//                             /* 发放红包 */
-//                             send_order_bonus($order['order_id']);
-//                         }
-//                     }
-//                 }
-//             }
         }
         
         /*记录订单状态日志*/

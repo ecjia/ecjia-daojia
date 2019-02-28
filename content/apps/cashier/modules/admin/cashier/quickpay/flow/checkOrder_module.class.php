@@ -67,7 +67,7 @@ class admin_cashier_quickpay_flow_checkOrder_module extends api_admin implements
 		
 		if ($goods_amount > 0 && $exclude_amount > 0) {
 			if ($exclude_amount > $goods_amount) {
-				return new ecjia_error('exclude_amount_error', '不可参与活动金额不能大于消费金额！');
+				return new ecjia_error('exclude_amount_error', __('不可参与活动金额不能大于消费金额！', 'cashier'));
 			}
 		}
 		
@@ -76,14 +76,14 @@ class admin_cashier_quickpay_flow_checkOrder_module extends api_admin implements
 		}
 		
 		if (empty($store_id) || $goods_amount <= 0) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'cashier'));
 		}
 		
 		//店铺有没锁定
 		if (!empty($store_id)) {
 			$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($store_id);
 			if ($store_status == Ecjia\App\Cart\StoreStatus::LOCKED) {
-				return new ecjia_error('store_locked', '对不起，该店铺已锁定！');
+				return new ecjia_error('store_locked', __('对不起，该店铺已锁定！', 'cashier'));
 			}
 		}
 		

@@ -20,11 +20,11 @@ class admin_cashier_orders_search_module  extends api_admin implements api_inter
         $codes = RC_Loader::load_app_config('cashier_device_code', 'cashier');
       
         if (!in_array($device['code'], $codes)) {
-        	return new ecjia_error('not_cashdesk_requst', '非收银台请求！');
+        	return new ecjia_error('not_cashdesk_requst', __('非收银台请求！', 'cashier'));
         }
         
         if (empty($type) || empty($value) || !in_array($type, $type_arr)) {
-        	return new ecjia_error('invalid_parameter', '参数错误');
+        	return new ecjia_error('invalid_parameter', __('参数错误', 'cashier'));
         }
        
         //按订单号搜索
@@ -53,7 +53,7 @@ class admin_cashier_orders_search_module  extends api_admin implements api_inter
         			'formatted_money_paid_amount'	=> price_format($result['money_paid'], false)
         	);
         } else {
-        	return new ecjia_error('order_info_error', '订单信息不存在！');
+        	return new ecjia_error('order_info_error', __('订单信息不存在！', 'cashier'));
         }
 		return $arr;
 	}

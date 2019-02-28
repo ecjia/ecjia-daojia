@@ -61,7 +61,7 @@ class admin_cashier_quickpay_order_detail_module extends api_admin implements ap
     	RC_Loader::load_app_class('quickpay_activity', 'quickpay', false);
 		$order_id = $this->requestData('order_id', 0);
 		if (empty($order_id)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效！', 'cashier'));
 		}
 		
 		$options = array('order_id' => $order_id, 'store_id' => $_SESSION['store_id']);
@@ -73,11 +73,11 @@ class admin_cashier_quickpay_order_detail_module extends api_admin implements ap
 			return $order;
 		}
 		if (empty($order)) {
-			return new ecjia_error('no_exsist', '订单信息不存在');
+			return new ecjia_error('no_exsist', __('订单信息不存在', 'cashier'));
 		}
 		// 检查订单是否属于当前店铺
 		if ($_SESSION['store_id'] != $order['store_id']) {
-			return new ecjia_error('orders_error', '该订单不属于当前店铺订单！');
+			return new ecjia_error('orders_error', __('该订单不属于当前店铺订单！', 'cashier'));
 		}
 		
 		/*优惠活动信息*/

@@ -61,7 +61,7 @@ class admin_cashier_notify_printmachine_print_module extends api_admin implement
 		$order_sn 	= trim($this->requestData('order_sn'));
 		
 		if (empty($order_sn)) {
-			return new ecjia_error('invalid_parameter', '调用接口admin_cashier_notify_printmachine_print_module参数无效');
+			return new ecjia_error('invalid_parameter', __('调用接口admin_cashier_notify_printmachine_print_module参数无效', 'cashier'));
 		}
 		
 		//获取订单信息
@@ -70,7 +70,7 @@ class admin_cashier_notify_printmachine_print_module extends api_admin implement
 			return $order_info;
 		}
 		if (empty($order_info)) {
-			return new ecjia_error('not_exist_info', '订单信息不存在！');
+			return new ecjia_error('not_exist_info', __('订单信息不存在！', 'cashier'));
 		}
 		
 		//打印小票

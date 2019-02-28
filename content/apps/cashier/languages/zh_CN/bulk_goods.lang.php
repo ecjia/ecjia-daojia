@@ -61,6 +61,7 @@ return array(
 		'weight_stock_limit'	=> '商品重量库存最小只能为0！',
 		'goods_number'			=> '请输入商品库存！',
 		'category_id_select'	=> '请选择商品分类！',
+		'choose_select_goods'	=> '请选择需要转移的商品',
 		'scale_sn_required'		=> '请输入条码秤码！',
 		'device_name'			=> '请填写收银设备名称！',
 		'device_mac'			=> '请填写设备MAC地址！',

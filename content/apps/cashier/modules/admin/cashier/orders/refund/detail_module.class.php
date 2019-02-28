@@ -58,7 +58,7 @@ class admin_cashier_orders_refund_detail_module extends api_admin implements api
         }
 		$refund_sn	= trim($this->requestData('refund_sn', ''));
     	if (empty($refund_sn)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'cashier'));
 		}
 		
 		RC_Loader::load_app_class('order_refund', 'refund', false);
@@ -66,25 +66,25 @@ class admin_cashier_orders_refund_detail_module extends api_admin implements api
 		$options = array('refund_sn' => $refund_sn);
 		$refund_order_info = order_refund::get_refundorder_detail($options);
 		if (empty($refund_order_info)) {
-			return new ecjia_error('not_exsist', '售后申请信息不存在');
+			return new ecjia_error('not_exsist', __('售后申请信息不存在', 'cashier'));
 		}
 		//售后申请是否属于当前店铺
 		if ($refund_order_info['store_id'] != $_SESSION['store_id']) {
-			return new ecjia_error('refund_order_error', '未找到相应的售后申请单！');
+			return new ecjia_error('refund_order_error', __('未找到相应的售后申请单！', 'cashier'));
 		}
 		
 		/*退款状态处理*/
 		$cashier_name = '';
 		if ($refund_order_info['refund_status'] == Ecjia\App\Refund\RefundStatus::PAY_UNTRANSFER) {
 			$refund_status 		= 'checked';
-			$label_refund_status= '已审核';
+			$label_refund_status= __('已审核', 'cashier');
 		} elseif ($refund_order_info['refund_status'] == Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED) {
 			$refund_status 		= 'refunded';
-			$label_refund_status= '已退款';
+			$label_refund_status= __('已退款', 'cashier');
 			$cashier_name = RC_DB::table('refund_payrecord')->where('refund_id', $refund_order_info['refund_id'])->pluck('action_user_name');
 		} else {
 			$refund_status 		= 'await_check';
-			$label_refund_status= '待审核';
+			$label_refund_status= __('待审核', 'cashier');
 		}
 		
 		$goods_item = order_refund::get_order_goods_list($refund_order_info['order_id']);
@@ -99,7 +99,7 @@ class admin_cashier_orders_refund_detail_module extends api_admin implements api
 		$result = array(
 				'refund_sn' 					=> trim($refund_order_info['refund_sn']),
 				'refund_type'					=> $refund_order_info['refund_type'],
-				'label_refund_type'				=> $refund_order_info['refund_type'] == 'return' ? '退货退款' : '仅退款',
+				'label_refund_type'				=> $refund_order_info['refund_type'] == 'return' ? __('退货退款', 'cashier') : __('仅退款', 'cashier'),
 				'refund_status'					=> $refund_status,
 				'label_refund_status'			=> $label_refund_status,
 				'cashier_name'					=> $cashier_name,

@@ -15,14 +15,14 @@ class admin_cashier_pendorder_create_module extends api_admin implements api_int
 		
 	    $rec_id = $this->requestData('rec_id', '0');
 	    if (empty($rec_id)) {
-	        return new ecjia_error('invalid_parameter', '参数错误');
+	        return new ecjia_error('invalid_parameter', __('参数错误', 'cashier'));
 	    }
 	    
 	    $rec_ids = explode(',', $rec_id);
 	    
 	    $rec_cart_count = RC_DB::table('cart')->whereIn('rec_id', $rec_ids)->count();
 	    if (empty($rec_cart_count)) {
-	    	return new ecjia_error('cartgoods_not_exist', '指定的购物车商品不存在！');
+	    	return new ecjia_error('cartgoods_not_exist', __('指定的购物车商品不存在！', 'cashier'));
 	    }
 	    
 	    if ($_SESSION['staff_id'] > 0) {

@@ -67,7 +67,7 @@ class list_module extends api_admin implements api_interface {
 		$device		  = $this->device;
 		$codes = RC_Loader::load_app_config('cashier_device_code', 'cashier');
 		if (!is_array($device) || !isset($device['code']) || !in_array($device['code'], $codes)) {
-			return new ecjia_error('caskdesk_error', '非收银台请求！');
+			return new ecjia_error('caskdesk_error', __('非收银台请求！', 'cashier'));
 		}
 		
 		if (!empty($start_date) && !empty($end_date)) {

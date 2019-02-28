@@ -77,7 +77,7 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
     	
     	if ($goods_amount > 0 && $exclude_amount > 0) {
     		if ($exclude_amount > $goods_amount) {
-    			return new ecjia_error('exclude_amount_error', '不可参与活动金额不能大于消费金额！');
+    			return new ecjia_error('exclude_amount_error', __('不可参与活动金额不能大于消费金额！', 'cashier'));
     		}
     	}
     	if (empty($store_id)) {
@@ -85,15 +85,10 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
     	}
     	
 		if (empty($goods_amount) || empty($store_id)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter'));
+			return new ecjia_error( 'invalid_parameter', __('参数无效', 'cashier'));
 		}
 		$goods_amount = sprintf("%.2f", $goods_amount);
-    	/*商家买单功能是否开启*/
-// 		$quickpay_enabled = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'quickpay_enabled')->pluck('value');
-// 		if (empty($quickpay_enabled)) {
-// 			return new ecjia_error('quickpay_enabled_error', '此商家未开启优惠买单功能！');
-// 		}
-		
+    	
 		/*初始化订单信息*/
 		$order = array();
 		$order = array(
@@ -108,11 +103,11 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
 			/*获取买单活动信息*/
 			$quickpay_activity_info = RC_DB::table('quickpay_activity')->where('id', $activity_id)->first();
 			if (empty($quickpay_activity_info)) {
-				return new ecjia_error('activity_not_exists', '活动信息不存在');
+				return new ecjia_error('activity_not_exists', __('活动信息不存在', 'cashier'));
 			}
 			
 			if ($quickpay_activity_info['enabled'] == '0') {
-				return new ecjia_error('activity_closed', '此活动已关闭！');
+				return new ecjia_error('activity_closed', __('此活动已关闭！', 'cashier'));
 			}
 			$order['activity_type'] = $quickpay_activity_info['activity_type'];
 			$order['activity_id'] = $quickpay_activity_info['id'];
@@ -121,7 +116,7 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
 			/*活动时间限制处理*/
 			$time = RC_Time::gmtime();
 			if (($time > $quickpay_activity_info['end_time']) || ($quickpay_activity_info['start_time'] > $time)) {
-				return new ecjia_error('activity_error', '活动还未开始或已结束');
+				return new ecjia_error('activity_error', __('活动还未开始或已结束', 'cashier'));
 			}
 			
 			/*活动可优惠金额获取*/

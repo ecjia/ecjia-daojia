@@ -191,7 +191,7 @@
 						},
 						weight_stock: {
 							required: js_lang.weight_stock_required,
-							min: js_lang.goods_number_limit
+							min: js_lang.weight_stock_limit
 						},
 						merchant_cat_id: {
 							required: js_lang.category_id_select,

@@ -56,15 +56,15 @@ class Helper
      * 添加管理员记录日志操作对象
      */
     public static function assign_adminlog_content() {
-        ecjia_admin_log::instance()->add_object('bulk_goods', '散装商品');
-        ecjia_admin_log::instance()->add_object('scales', '条码秤');
-        ecjia_admin_log::instance()->add_object('cashier_device', '收银设备');
-        ecjia_admin_log::instance()->add_object('cashier_goods', '收银台商品');
+        ecjia_admin_log::instance()->add_object('bulk_goods', __('散装商品', 'cashier'));
+        ecjia_admin_log::instance()->add_object('scales', __('条码秤', 'cashier'));
+        ecjia_admin_log::instance()->add_object('cashier_device', __('收银设备', 'cashier'));
+        ecjia_admin_log::instance()->add_object('cashier_goods', __('收银台商品', 'cashier'));
         
-	    ecjia_admin_log::instance()->add_action('batch_move_cat', '批量转移分类');
-	    ecjia_admin_log::instance()->add_action('batch_on', '批量上架');
-	    ecjia_admin_log::instance()->add_action('batch_off', '批量下架');
-	    ecjia_admin_log::instance()->add_action('batch_trash', '批量移至回收站');
+	    ecjia_admin_log::instance()->add_action('batch_move_cat', __('批量转移分类', 'cashier'));
+	    ecjia_admin_log::instance()->add_action('batch_on', __('批量上架', 'cashier'));
+	    ecjia_admin_log::instance()->add_action('batch_off', __('批量下架', 'cashier'));
+	    ecjia_admin_log::instance()->add_action('batch_trash', __('批量移至回收站', 'cashier'));
     }
     
 }

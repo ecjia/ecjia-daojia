@@ -46,8 +46,8 @@ class BulkGoods
 	 */
 	public static function unit_list() {
 		$arr = array(
-				'1' =>	'克',
-				'2' =>	'千克'
+				'1' =>	__('克', 'cashier'),
+				'2' =>	__('千克', 'cashier')
 		);
 	
 		return $arr;
@@ -60,9 +60,9 @@ class BulkGoods
 	 */
 	public static function limit_days_unit_list() {
 		$arr = array(
-				'1' =>	'天',
-				'2' =>	'月',
-				'3'	=>  '年'
+				'1' =>	__('天', 'cashier'),
+				'2' =>	__('月', 'cashier'),
+				'3'	=>  __('年', 'cashier')
 		);
 	
 		return $arr;

@@ -67,7 +67,7 @@ class admin_cashier_pendorder_list_module  extends api_admin implements api_inte
 						$rows[$key]['goods_items'][] = array(
 								'rec_id' 					=> intval($v['rec_id']),
 								'user_id'					=> intval($v['user_id']),
-								'store_id'					=> intval($v['ru_id']),
+								'store_id'					=> intval($v['store_id']),
 								'goods_id'					=> intval($v['goods_id']),
 								'goods_sn'					=> $v['goods_sn'],
 								'goods_name'				=> $v['goods_name'],

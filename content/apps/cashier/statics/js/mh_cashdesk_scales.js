@@ -4,8 +4,8 @@
         init: function () {
         	$('.info-toggle-button').toggleButtons({
 				label: {  
-                     enabled: "开启",  
-                     disabled: "关闭"  
+                     enabled: js_lang.open,  
+                     disabled: js_lang.close  
                 },  
                 style: {
                     enabled: "info",
