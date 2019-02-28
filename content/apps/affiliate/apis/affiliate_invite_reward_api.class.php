@@ -80,7 +80,7 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 		    /* 邀请人奖励处理*/
 	    	$integral_name = ecjia::config('integral_name');
 	    	if (empty($integral_name)) {
-	    		$integral_name = '积分';
+	    		$integral_name = __('积分', 'affiliate');
 	    	}
 		    if ($affiliate['intvie_reward']['intive_reward_by'] == $options['invite_type'] && $is_reward && $affiliate['intvie_reward']['intive_reward_value'] > 0) {
 		    	if ($affiliate['intvie_reward']['intive_reward_type'] == 'bonus') {
@@ -90,7 +90,7 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 		    		$option = array(
 	    				'user_id'		=> $invite_id,
 	    				'pay_points'	=> $affiliate['intvie_reward']['intive_reward_value'],
-	    				'change_desc'	=> '邀请送'.$integral_name
+	    				'change_desc'	=> __('邀请送', 'affiliate').$integral_name
 		    		);
 		    		$result = RC_Api::api('user', 'account_change_log', $option);
 		    		$reward_type = 'integral';
@@ -98,7 +98,7 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 		    		$option = array(
 	    				'user_id'		=> $invite_id,
 	    				'user_money'	=> $affiliate['intvie_reward']['intive_reward_value'],
-	    				'change_desc'	=> '邀请送余额'
+	    				'change_desc'	=> __('邀请送余额', 'affiliate')
 		    		);
 		    		$result = RC_Api::api('user', 'account_change_log', $option);
 		    		$reward_type = 'balance';
@@ -132,14 +132,14 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 		    		$option = array(
 	    				'user_id'		=> $options['user_id'],
 	    				'pay_points'	=> $affiliate['intviee_reward']['intivee_reward_value'],
-	    				'change_desc'	=> '邀请送'.$integral_name
+	    				'change_desc'	=> __('邀请送', 'affiliate').$integral_name
 		    		);
 		    		$result = RC_Api::api('user', 'account_change_log', $option);
 		    	} else {
 		    		$option = array(
 	    				'user_id'		=> $options['user_id'],
 	    				'user_money'	=> $affiliate['intviee_reward']['intivee_reward_value'],
-	    				'change_desc'	=> '邀请送余额'
+	    				'change_desc'	=> __('邀请送余额', 'affiliate')
 		    		);
 		    		$result = RC_Api::api('user', 'account_change_log', $option);
 		    	}
