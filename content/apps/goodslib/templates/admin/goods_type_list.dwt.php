@@ -53,7 +53,7 @@
 						<div class="edit-list">
 							<a class="data-pjax" href='{url path="goodslib/admin_attribute/init" args="cat_id={$goods_type.cat_id}"}' title="{t domain="goodslib"}查看规格属性{/t}">{t domain="goodslib"}查看规格属性{/t}</a>&nbsp;|&nbsp;
 							<a class="data-pjax" href='{url path="goodslib/admin_goods_spec/edit" args="cat_id={$goods_type.cat_id}"}' title="{t domain="goodslib"}编辑{/t}">{t domain="goodslib"}编辑{/t}</a>&nbsp;|&nbsp;
-							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{t domain="goodslib"}删除商品规格将会清除该规格下的所有属性。\n您确定要删除选定的商品规格吗？{/t}" href='{url path="goodslib/admin_goods_spec/remove" args="id={$goods_type.cat_id}"}' title="{t domain="goodslib"}删除{/t}">{t domain="goodslib"}删除{/t}</a>
+							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{t domain="goodslib" escape=no}删除商品规格将会清除该规格下的所有属性。<br/>您确定要删除选定的商品规格吗？{/t}" href='{url path="goodslib/admin_goods_spec/remove" args="id={$goods_type.cat_id}"}' title="{t domain="goodslib"}删除{/t}">{t domain="goodslib"}删除{/t}</a>
 						</div>
 					</td>
 					<td>

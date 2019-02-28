@@ -961,21 +961,31 @@ class admin extends ecjia_admin {
         
         //商品相册
         $goods_photo_list = RC_DB::table('goodslib_gallery')->where('goods_id', $goods['goods_id'])->get();
+        /* 格式化相册图片路径 */
         if (!empty($goods_photo_list)) {
+            $goods_photo_list_sort = $goods_photo_list_id = array();
             $disk = RC_Filesystem::disk();
-            foreach ($goods_photo_list as $k => $v) {
-                if (!$disk->exists(RC_Upload::upload_path($v['img_url'])) || empty($v['img_url'])) {
-                    $goods_photo_list[$k]['img_url'] = RC_Uri::admin_url('statics/images/nopic.png');
+            foreach ($goods_photo_list as $key => $gallery_img) {
+                $desc_index = intval(strrpos($gallery_img['img_original'], '?')) + 1;
+                !empty($desc_index) && $goods_photo_list[$key]['sort'] = substr($gallery_img['img_original'], $desc_index);
+
+                //判断img_original值是否有？出现，过滤以便检测
+                if (strrpos($gallery_img['img_original'], '?') > 0) {
+                    $img_original = substr($gallery_img['img_original'], 0, strrpos($gallery_img['img_original'], '?'));
                 } else {
-                    $goods_photo_list[$k]['img_url'] = RC_Upload::upload_url($v['img_url']);
+                    $img_original = $gallery_img['img_original'];
                 }
-                
-                if (!$disk->exists(RC_Upload::upload_path($v['thumb_url'])) || empty($v['thumb_url'])) {
-                    $goods_photo_list[$k]['thumb_url'] = RC_Uri::admin_url('statics/images/nopic.png');
-                } else {
-                    $goods_photo_list[$k]['thumb_url'] = RC_Upload::upload_url($v['thumb_url']);
-                }
+
+                $goods_photo_list[$key]['img_url'] 		= empty($gallery_img['img_url']) 		|| !$disk->exists(RC_Upload::upload_path($gallery_img['img_url'])) 		?  $no_picture : RC_Upload::upload_url() . '/' . $gallery_img['img_url'];
+                $goods_photo_list[$key]['thumb_url'] 	= empty($gallery_img['thumb_url']) 		|| !$disk->exists(RC_Upload::upload_path($gallery_img['thumb_url'])) 		?  $no_picture : RC_Upload::upload_url() . '/' . $gallery_img['thumb_url'];
+                $goods_photo_list[$key]['img_original'] = empty($gallery_img['img_original']) 	|| !$disk->exists(RC_Upload::upload_path($img_original)) 	?  $no_picture : RC_Upload::upload_url() . '/' . $gallery_img['img_original'];
+
+                $goods_photo_list_sort[$key] = $goods_photo_list[$key]['sort'];
+                $goods_photo_list_id[$key] = $gallery_img['img_id'];
             }
+
+            //先使用sort排序，再使用id排序。
+            array_multisort($goods_photo_list_sort, $goods_photo_list_id, $goods_photo_list);
         }
         $this->assign('goods_photo_list', $goods_photo_list);
         
@@ -1130,7 +1140,7 @@ class admin extends ecjia_admin {
         $goods_id = intval($_REQUEST['goods_id']);
         $goods = RC_DB::table('goodslib')->where('goods_id', $goods_id)->first();
         if (empty($goods) === true) {
-            return $this->showmessage(sprintf(sprintf(__('找不到ID为 %s 的商品！', 'goodslib'), $goods_id), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('返回上一页', 'goodslib'), 'href' => 'javascript:history.go(-1)')))), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(sprintf(__('找不到ID为 %s 的商品！', 'goodslib'), $goods_id), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('返回上一页', 'goodslib'), 'href' => 'javascript:history.go(-1)'))));
         }
         if($goods['goods_desc']) {
             $goods['goods_desc'] = stripslashes($goods['goods_desc']);
@@ -1476,7 +1486,7 @@ class admin extends ecjia_admin {
             } else {
                 $arr['pjaxurl'] = RC_Uri::url('goodslib/admin/product_list', array('goods_id' => $product['goods_id']));
             }
-            $message = __('保存货品成功', 'goodslib');;
+            $message = __('保存货品成功', 'goodslib');
         }
         return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, $arr);
     }

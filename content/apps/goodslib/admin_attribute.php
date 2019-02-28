@@ -223,7 +223,7 @@ class admin_attribute extends ecjia_admin {
 		$this->assign('goods_type_list', goods_type_list($attr['cat_id'], false));
 	
 		/* 模板赋值 */
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__($is_add ? __('添加属性', 'goodslib') : __('编辑属性', 'goodslib'))));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($is_add ? __('添加属性', 'goodslib') : __('编辑属性', 'goodslib')));
 		$this->assign('ur_here', $is_add ? __('添加属性', 'goodslib') : __('编辑属性', 'goodslib'));
 		$this->assign('action_link', array('href' => RC_Uri::url('goodslib/admin_attribute/init', array('cat_id' => $attr['cat_id'])), 'text' => __('商品属性', 'goodslib')));
 		$this->assign('form_action', RC_Uri::url('goodslib/admin_attribute/update'));
