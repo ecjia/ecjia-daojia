@@ -53,7 +53,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class cron_plugin_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {	
-		$menus = ecjia_admin::make_admin_menu('cron_list', '计划任务', RC_Uri::url('cron/admin_plugin/init'), 1)->add_purview('cron_manage')->add_base('cron');
+		$menus = ecjia_admin::make_admin_menu('cron_list', __('计划任务', 'cron'), RC_Uri::url('cron/admin_plugin/init'), 1)->add_purview('cron_manage')->add_base('cron');
 
 		return $menus;
 	}
