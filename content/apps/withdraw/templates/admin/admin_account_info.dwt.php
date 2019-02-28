@@ -137,19 +137,25 @@
 							<td>
 								{if $account_info.payment_name}{$account_info.payment_name}{else}{t domain="withdraw"}银行转账提现{/t}{/if}
 							</td>
-							<td>
-								<div align="right"><strong>{t domain="withdraw"}提现账户：{/t}</strong></div>
-							</td>
-							<td>
-								<strong class="ecjiafc-red ecjiaf-fs3">{$account_info.formated_payment_name}</strong>
-							</td>
+                            <td>
+                                <div align="right"><strong>{t domain="withdraw"}收款人姓名：{/t}</strong></div>
+                            </td>
+                            <td>
+                                <strong class="ecjiafc-red ecjiaf-fs3">{$account_info.user_name}</strong>
+                            </td>
 						</tr>
 
 						<tr>
 							<td>
 								<div align="right"><strong>{t domain="withdraw"}申请时间：{/t}</strong></div>
 							</td>
-							<td colspan="3">{$account_info.add_time}</td>
+							<td>{$account_info.add_time}</td>
+                            <td>
+                                <div align="right"><strong>{t domain="withdraw"}提现账户：{/t}</strong></div>
+                            </td>
+                            <td>
+                                <strong class="ecjiafc-red ecjiaf-fs3">{$account_info.formated_payment_name}</strong>
+                            </td>
 						</tr>
 
 					</tbody>
