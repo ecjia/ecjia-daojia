@@ -49,7 +49,7 @@ Plugin Name: 余额支付
 Plugin URI: http://www.ecjia.com/plugins/ecjia.balance/
 Description: 使用帐户余额支付。只有会员才能使用，通过设置信用额度，可以透支。
 Author: ECJIA TEAM
-Version: 1.27.0
+Version: 1.28.0
 Author URI: http://www.ecjia.com/
 Plugin App: payment
 */
