@@ -96,7 +96,7 @@ class ecjiauc extends UserIntegrateAbstract
     public function getProfileByName($username)
     {
         $row = RC_DB::table('users')
-            ->select('user_id', 'user_name', 'email', 'sex', 'birthday', 'reg_time', 'password')
+            ->select('user_id', 'user_name', 'email', 'sex', 'birthday', 'reg_time', 'password', 'mobile_phone')
             ->where('user_name', $username)
             ->first();
 
@@ -113,8 +113,25 @@ class ecjiauc extends UserIntegrateAbstract
     public function getProfileById($id)
     {
         $row = RC_DB::table('users')
-            ->select('user_id', 'user_name', 'email', 'sex', 'birthday', 'reg_time', 'password')
+            ->select('user_id', 'user_name', 'email', 'sex', 'birthday', 'reg_time', 'password', 'mobile_phone')
             ->where('user_id', $id)
+            ->first();
+
+        return $row;
+    }
+
+
+    /**
+     *  获取指定用户的信息
+     *
+     * @param $mobile
+     * @return array
+     */
+    public function getProfileByMobile($mobile)
+    {
+        $row = RC_DB::table('users')
+            ->select('user_id', 'user_name', 'email', 'sex', 'birthday', 'reg_time', 'password', 'mobile_phone')
+            ->where('mobile_phone', $mobile)
             ->first();
 
         return $row;
