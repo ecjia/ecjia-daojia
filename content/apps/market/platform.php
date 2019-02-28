@@ -423,7 +423,7 @@ class platform extends ecjia_platform
             'prize_prob' => $prize_prob,
         );
         $p_id = RC_DB::table('market_activity_prize')->insertGetId($data);
-        $this->admin_log('活动'.$activity_info['activity_name'].'的奖品'.$prize_name, 'add', 'market_activity_prize');
+        $this->admin_log(sprintf(__('活动%s的奖品%s', 'market'), $activity_info['activity_name'],$prize_name), 'add', 'market_activity_prize');
         return $this->showmessage(__('修改活动奖品池成功', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/platform/activity_prize_edit', array('code' => $code, 'p_id' => $p_id))));
     }
 
@@ -548,7 +548,7 @@ class platform extends ecjia_platform
         );
 
         RC_DB::table('market_activity_prize')->where('prize_id', $p_id)->update($data);
-        $this->admin_log('活动'.$activity_info['activity_name'].'的奖品'.$prize_name, 'edit', 'market_activity_prize');
+        $this->admin_log(sprintf(__('活动%s的奖品%s', 'market'), $activity_info['activity_name'],$prize_name), 'edit', 'market_activity_prize');
         
         return $this->showmessage(__('修改活动奖品池成功', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }

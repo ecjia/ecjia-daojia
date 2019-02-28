@@ -110,7 +110,7 @@ class platform_prize extends ecjia_platform
         }
 
         ecjia_platform_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('抽奖记录', 'market'));
+        ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('抽奖记录', 'market')));
         ecjia_platform_screen::get_current_screen()->add_option('current_code', $activity_code);
         $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_detail', array('code' => $activity_code)), 'text' => __('返回活动详情', 'market')));
 
@@ -168,7 +168,7 @@ class platform_prize extends ecjia_platform
     			RC_DB::table('market_activity_prize')->where('prize_id', $prize_info['prize_id'])->decrement('prize_number');
     		}
 //    		$this->admin_log('发放奖品' . $info['prize_name'] . '给' . $info['user_name'], 'issue', 'prize');
-            $this->admin_log(sprintf(__('发放奖品%s给%s'), $info['prize_name'], $info['user_name']), 'issue', 'prize');
+            $this->admin_log(sprintf(__('发放奖品%s给%s', 'market'), $info['prize_name'], $info['user_name']), 'issue', 'prize');
 
             return $this->showmessage(__('发放奖品成功！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/platform_prize/init', array('code' => $code, 'type' => $type))));
     	} else {
@@ -189,7 +189,7 @@ class platform_prize extends ecjia_platform
     	header("Content-type: application/vnd.ms-excel; charset=utf-8");
     	header("Content-Disposition: attachment; filename=$filename.xls");
     
-    	$data = '奖品名'."\t".'发放状态'."\t".'微信昵称'."\t".'收货人'."\t".'手机号'."\t".'收货地址'."\t\n";
+    	$data = __('奖品名', 'market')."\t".__('发放状态', 'market')."\t".__('微信昵称', 'market')."\t".__('收货人', 'market')."\t".__('手机号', 'market')."\t".__('收货地址', 'market')."\t\n";
     	
     	if (!empty($list['list'])) {
     		foreach ($list['list'] as $v) {
@@ -318,7 +318,7 @@ class platform_prize extends ecjia_platform
     	
     	if (!empty($res)) {
     		foreach ($res as $key => $val) {
-    			$res[$key]['label_issue_status'] = $val['issue_status'] == '0' ? '未发放' : '已发放';
+    			$res[$key]['label_issue_status'] = $val['issue_status'] == '0' ? __('未发放', 'market') : __('已发放', 'market');
     			if (!empty($val['issue_extend'])) {
     				$issue_extend = unserialize($val['issue_extend']);
     				$res[$key]['is_issue_extend'] = 1;

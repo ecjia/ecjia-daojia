@@ -112,7 +112,7 @@
 					<div class="modal-footer justify-content-center">
 						<input type="hidden" name="id" value="{$activity_info.activity_id}" />
 						<input type="hidden" name="activity_code" value="{$activity_info.activity_group}" />
-						<input type="submit" class="btn btn-outline-primary" value="{t domain="market"}更新{/t}" />
+						<input type="submit" class="btn btn-outline-primary" value='{t domain="market"}更新{/t}' />
 					</div>
 				</form>	
             </div>

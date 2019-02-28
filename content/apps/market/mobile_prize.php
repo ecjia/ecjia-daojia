@@ -97,13 +97,13 @@ class mobile_prize extends EcjiaMarketActivityController
         		}
         		$activity_group = RC_DB::table('market_activity')->where('activity_id', $val['activity_id'])->pluck('activity_group');
         		if ($activity_group == 'wechat_dazhuanpan') {
-        			$prize_log_list[$key]['activity_name'] = '微信大转盘';
+        			$prize_log_list[$key]['activity_name'] = __('微信大转盘', 'market');
         		} elseif ($activity_group == 'wechat_guaguale') {
-        			$prize_log_list[$key]['activity_name'] = '微信刮刮乐';
+        			$prize_log_list[$key]['activity_name'] = __('微信刮刮乐', 'market');
         		} elseif ($activity_group == 'wechat_zajindan') {
-        			$prize_log_list[$key]['activity_name'] = '微信砸金蛋';
+        			$prize_log_list[$key]['activity_name'] = __('微信砸金蛋', 'market');
         		} elseif ($activity_group == 'mobile_shake') {
-        			$prize_log_list[$key]['activity_name'] = '手机摇一摇';
+        			$prize_log_list[$key]['activity_name'] = __('手机摇一摇', 'market');
         		}
         		$prize_log_list[$key]['formated_add_time'] = RC_Time::local_date('Y-m-d H:i:s', $val['add_time']);
         		if (!empty($val['issue_extend'])) {
@@ -167,13 +167,13 @@ class mobile_prize extends EcjiaMarketActivityController
     	
     	$activity_group = RC_DB::table('market_activity')->where('activity_id', $prize_info['activity_id'])->pluck('activity_group');
     	if ($activity_group == 'wechat_dazhuanpan') {
-    		$prize_info['activity_name'] = '微信大转盘';
+    		$prize_info['activity_name'] = __('微信大转盘', 'market');
     	} elseif ($activity_group == 'wechat_guaguale') {
-    		$prize_info['activity_name'] = '微信刮刮乐';
+    		$prize_info['activity_name'] = __('微信刮刮乐', 'market');
     	} elseif ($activity_group == 'wechat_zajindan') {
-    		$prize_info['activity_name'] = '微信砸金蛋';
+    		$prize_info['activity_name'] = __('微信砸金蛋', 'market');
     	} elseif ($activity_group == 'mobile_shake') {
-    		$prize_info['activity_name'] = '手机摇一摇';
+    		$prize_info['activity_name'] = __('手机摇一摇', 'market');
     	}
     	
     	$this->assign('prize_info', $prize_info);

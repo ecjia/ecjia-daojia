@@ -616,7 +616,7 @@ class admin extends ecjia_admin
         
         RC_DB::table('market_activity_prize')->where('prize_id', $p_id)->delete();
 //        $this->admin_log('活动'.$activity_name.'的奖品'.$prize_info['prize_name'], 'remove', 'prize');
-        $this->admin_log(sprintf(__('活动%s的奖品%s'), $activity_name, $prize_info['prize_name']), 'remove', 'prize');
+        $this->admin_log(sprintf(__('活动%s的奖品%s', 'market'), $activity_name, $prize_info['prize_name']), 'remove', 'prize');
         return $this->showmessage(__('删除成功', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 
@@ -645,7 +645,7 @@ class admin extends ecjia_admin
 			}
 
 //            ecjia_admin::admin_log('发放奖品' . $info['prize_name'] . '给' . $info['user_name'], 'issue', 'prize');
-            $this->admin_log(sprintf(__('发放奖品%s给%s'), $info['prize_name'], $info['user_name']), 'issue', 'prize');
+            $this->admin_log(sprintf(__('发放奖品%s给%s', 'market'), $info['prize_name'], $info['user_name']), 'issue', 'prize');
 
             return $this->showmessage(__('发放奖品成功！', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('market/admin/activity_record', array('code' => $code))));
         } else {

@@ -127,8 +127,8 @@
 					<div class="modal-footer justify-content-center">
 						<input type="hidden" name="p_id" value="{$activity_prize.prize_id}" />
 						<input type="hidden" name="code" value="{$code}" /> {if $p_id}
-						<input type="submit" class="btn btn-outline-primary" value="{t domain="market"}更新{/t}" /> {else}
-						<input type="submit" class="btn btn-outline-primary" value="{t domain="market"}确定{/t}" /> {/if}
+						<input type="submit" class="btn btn-outline-primary" value='{t domain="market"}更新{/t}' /> {else}
+						<input type="submit" class="btn btn-outline-primary" value='{t domain="market"}确定{/t}' /> {/if}
 					</div>
 				</form>
 			</div>

@@ -47,7 +47,7 @@
 										</div>
 									</div>
 									<div class="input">
-										<a class="data-pjax float-left p_l20" title="{t domain="market"}编辑{/t}" href='{RC_Uri::url("market/platform/activity_prize_edit", "code={$code}&p_id={$prize.prize_id}")}'>
+										<a class="data-pjax float-left p_l20" title='{t domain="market"}编辑{/t}' href='{RC_Uri::url("market/platform/activity_prize_edit", "code={$code}&p_id={$prize.prize_id}")}'>
 											<i class="ft-edit"></i>
 										</a>
 										{if $prize.is_used eq 0}
