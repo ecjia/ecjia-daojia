@@ -13,7 +13,7 @@
   	</div>
 	<!-- {if $action_link} -->
 	<div class="pull-right">
-	  <a class="btn btn-primary data-pjax" href="{$action_link.href}"><i class="fa fa-reply"></i> {t domain="commission"}{$action_link.text}{/t}</a>
+	  <a class="btn btn-primary data-pjax" href="{$action_link.href}"><i class="fa fa-reply"></i> {$action_link.text}</a>
 	</div>
 	<!-- {/if} -->
 	<div class="clearfix"></div>

@@ -445,7 +445,7 @@ class admin extends ecjia_admin {
 	    
 	    if ($store_id) {
 	        $merchants_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
-	        $this->assign('ur_here', $merchants_name.' - ' . __(订单分成列表, 'commission'));
+	        $this->assign('ur_here', $merchants_name.' - ' . __('订单分成列表', 'commission'));
 	    }
 	     
 	    $record_list = $this->db_store_bill_detail->get_bill_record($store_id, $_GET['page'], 20, $filter, 1);

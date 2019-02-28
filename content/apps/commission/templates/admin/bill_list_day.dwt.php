@@ -101,7 +101,7 @@ ecjia.admin.bill_list.searchFormDay();
                         <!-- {if $commission.percent_value} -->
                         <td>{$commission.percent_value}%</td>
                         <!-- {else} -->
-                        <td>{t domain="commission"}100%{/t}</td>
+                        <td>100%</td>
                         <!-- {/if} -->
                         <td>￥{$commission.brokerage_amount}</td>
                     </tr>

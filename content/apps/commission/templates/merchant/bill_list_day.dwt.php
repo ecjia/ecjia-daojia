@@ -13,7 +13,7 @@ ecjia.merchant.bill.record()
   	</div>
 	<!-- {if $action_link} -->
 	<div class="pull-right">
-	  <a class="btn btn-primary" href="{$action_link.href}&start_date={$start_date}&end_date={$end_date}"><i class="fa fa-reply"></i> {t domain="commission"}{$action_link.text}{/t}</a>
+	  <a class="btn btn-primary" href="{$action_link.href}&start_date={$start_date}&end_date={$end_date}"><i class="fa fa-reply"></i> {$action_link.text}</a>
 	</div>
 	<!-- {/if} -->
 	<div class="clearfix"></div>
