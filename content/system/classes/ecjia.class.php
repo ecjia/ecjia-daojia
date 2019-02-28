@@ -231,9 +231,6 @@ class ecjia {
 		ini_set('display_errors',        1);
 
 		RC_Response::header('X-Powered-By', 'ROYALCMS/'.Royalcms::VERSION . ' ' . APPNAME.'/'.VERSION);
-		RC_Response::header('X-XSS-Protection', '1; mode=block');
-		RC_Response::header('X-Frame-Options', 'DENY');
-		RC_Response::header('X-Content-Type-Options', 'nosniff');
 
 		/**
 		 * 加载系统配置

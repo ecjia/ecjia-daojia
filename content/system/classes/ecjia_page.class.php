@@ -44,12 +44,15 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+
+use \Royalcms\Component\Page\Page;
+
 /**
  * 分页处理类
  * @package     Core
  */
-class ecjia_page extends Component_Page_Page {
+class ecjia_page extends Page
+{
 
     /**
      * 上一页

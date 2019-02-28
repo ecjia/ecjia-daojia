@@ -59,6 +59,17 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
  * ECJIA 控制器基础类
+ *
+ * @method string display($resource_name, $cache_id = null, $show = true, $options = array()) 显示视图
+ * @method string fetch($tpl_file = null, $cache_id = null, $options = array()) 获得视图显示内容 用于生成静态或生成缓存文件
+ * @method string fetch_string($tpl_string = null, $cache_id = null, $options = array()) 使用字符串作为模板，获取解析后输出内容
+ * @method bool is_cached($resource_name, $cache_id = null, $options = array()) 模板缓存是否过期
+ * @method bool clear_cache($resource_name, $cache_id = null, $options = array()) 清除单个模板缓存
+ * @method bool clear_all_cache($cache_time = null, $options = array()) 清除全部缓存
+ * @method void assign($name, $value = null) 向模版注册变量
+ * @method void assign_lang($lang = array()) 重新向模版注册语言包
+ * @method bool clear_compiled_files() 清除模版编译文件
+ * @method bool clear_cache_files() 清除缓存文件
  */
 abstract class EcjiaController extends RoyalcmsController
 {
@@ -128,6 +139,10 @@ abstract class EcjiaController extends RoyalcmsController
         static::$view_object = & $this->view;
 
         $this->load_hooks();
+
+        RC_Response::header('X-XSS-Protection', '1; mode=block');
+        RC_Response::header('X-Frame-Options', 'SAMEORIGIN');
+        RC_Response::header('X-Content-Type-Options', 'nosniff');
     }
     
     

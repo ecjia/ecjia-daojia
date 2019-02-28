@@ -110,6 +110,8 @@ class ecjia_view {
      */
     public function display($resource_name, $cache_id = null, $show = true, $options = array())
     {
+        RC_Hook::do_action('ecjia_view_display_before');
+
         if (strpos($resource_name, 'string:') !== 0) {
             $resource_name = $this->fileloader->get_template_file($resource_name);
         }
