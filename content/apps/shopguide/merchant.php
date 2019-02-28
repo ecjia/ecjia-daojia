@@ -388,7 +388,7 @@ class merchant extends ecjia_merchant
             }
             RC_DB::table('goods')->where('store_id', $_SESSION['store_id'])->where('goods_id', $goods_id)->update(array('goods_img' => '', 'goods_thumb' => '', 'original_img' => ''));
             ecjia_merchant::admin_log($data['goods_name'], 'eidt', 'goods');
-            return $this->showmessage('成功删除', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+            return $this->showmessage(__('成功删除', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
         }
         $img      = get_merchant_config($code);
         $merchant = set_merchant_config($code, '');
@@ -403,7 +403,7 @@ class merchant extends ecjia_merchant
             $msg = __('店铺顶部Banner图', 'shopguide');
         }
         // 记录日志
-        ecjia_merchant::admin_log('删除' . $msg, 'edit', 'merchant');
+        ecjia_merchant::admin_log(__('删除', 'shopguide') . $msg, 'edit', 'merchant');
         return $this->showmessage(__('成功删除', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 }

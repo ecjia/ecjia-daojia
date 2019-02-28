@@ -66,7 +66,7 @@
 								<span class="fileupload-exists"> {t domain="shopguide"}修改{/t}</span>
 								<input type="file" class="default" name="shop_logo"/>
 								</span>
-								<a class="btn btn-danger btn-sm fileupload-exists" {if $data.shop_logo}data-toggle="ajaxremove"{else}data-dismiss="fileupload"{/if} data-msg="您确定要删除该店铺logo吗？" href="{url path='shopguide/merchant/drop_file' args="code=shop_logo"}">删除</a>
+								<a class="btn btn-danger btn-sm fileupload-exists" {if $data.shop_logo}data-toggle="ajaxremove"{else}data-dismiss="fileupload"{/if} data-msg='{t domain="shopguide"}您确定要删除该店铺logo吗？{/t}' href="{url path='shopguide/merchant/drop_file' args="code=shop_logo"}">{t domain="shopguide"}删除{/t}</a>
 							</div>
 						</div>
 					</div>
@@ -87,7 +87,7 @@
 								<span class="fileupload-exists"> {t domain="shopguide"}修改{/t}</span>
 								<input type="file" class="default" name="shop_banner_pic"/>
 								</span>
-								<a class="btn btn-danger btn-sm fileupload-exists" {if $data.shop_banner_pic}data-toggle="ajaxremove"{else}data-dismiss="fileupload"{/if} data-msg="您确定要删除该图吗？" href="{url path='shopguide/merchant/drop_file' args="code=shop_banner_pic"}">删除</a>
+								<a class="btn btn-danger btn-sm fileupload-exists" {if $data.shop_banner_pic}data-toggle="ajaxremove"{else}data-dismiss="fileupload"{/if} data-msg='{t domain="shopguide"}您确定要删除该图吗？{/t}' href="{url path='shopguide/merchant/drop_file' args="code=shop_banner_pic"}">{t domain="shopguide"}删除{/t}</a>
 							</div>
 						</div>
 					</div>
@@ -126,7 +126,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-lg-6 m_t0">
-							<input class="btn btn-info" type="submit" value="{t domain="shopguide"}下一步{/t}"/>
+							<input class="btn btn-info" type="submit" value='{t domain="shopguide"}下一步{/t}'/>
 						</div>
 					</div>
 				</fieldset>

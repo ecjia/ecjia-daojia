@@ -129,7 +129,7 @@
 				<div class="control-group m_t10">
 					<label>{t domain="shopguide"}店铺分类：{/t}</label>
 					<div class="controls">
-						<input class="w500" type="text" name="store_cat" placeholder="请输入店铺分类" value="{$data.store_cat_name}"/>
+						<input class="w500" type="text" name="store_cat" placeholder='{t domain="shopguide"}请输入店铺分类{/t}' value="{$data.store_cat_name}"/>
 						<input type="hidden" name="store_cat_id" value="{$store_cat_id}" />
 						<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 					</div>
@@ -156,7 +156,7 @@
 				</ul>
 				<div class="color_838383 m_b20">{t domain="shopguide"}温馨提示：配送方式安装完成后，请刷新此页面查看安装后效果。{/t}</div>
 				
-				<h2>支付方式<span class="color_838383 m_l10">{t domain="shopguide"}可开启支付方式，启用之后，点击支付方式可设置支付方式信息，配送方式可设置多个。此项非必填项，您可选择暂时跳过此步骤。{/t}</span></h2>
+				<h2>{t domain="shopguide"}支付方式{/t}<span class="color_838383 m_l10">{t domain="shopguide"}可开启支付方式，启用之后，点击支付方式可设置支付方式信息，配送方式可设置多个。此项非必填项，您可选择暂时跳过此步骤。{/t}</span></h2>
 				<ul class="step-ul">
 					<!-- {foreach from=$payment_list item=val} -->
 					<a target="__blank" href="{RC_Uri::url('payment/admin_plugin/edit')}&code={$val.pay_code}">

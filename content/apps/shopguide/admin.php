@@ -327,7 +327,7 @@ class admin extends ecjia_admin
         if ($time - $region_last_checktime < 7 * 24 * 60 * 60) {
             //更新检测时间
             ecjia_config::instance()->write_config('region_last_checktime', $time);
-            return $this->showmessage(__('当前版本已是最新版本，上次更新时间是（' . $time_last_format . '）', 'shopguide'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('shopguide/admin/init')));
+            return $this->showmessage(sprintf(__('当前版本已是最新版本，上次更新时间是（%s）', 'shopguide'), $time_last_format), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('shopguide/admin/init')));
         }
 
         $page   = !empty($_GET['page']) ? intval($_GET['page']) + 1 : 1;
