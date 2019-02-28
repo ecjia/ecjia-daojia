@@ -27,7 +27,7 @@
                 <div class="panel-body">
 					<form id="form-privilege" class="form-horizontal panel" name="theForm" action="{$form_action}" method="post" >
 						<div class="form-group">
-							<label class="control-label col-lg-2">订单号：</label>
+							<label class="control-label col-lg-2">{t domain="quickpay"}订单号：{/t}</label>
 							<div class="col-lg-6">
 								<input class="form-control" type="text" name="order_sn" />
 							</div>
@@ -46,10 +46,10 @@
 <!-- 						</div> -->
 						
 						<div class="form-group">
-							<label class="control-label col-lg-2">买单优惠类型：</label>
+							<label class="control-label col-lg-2">{t domain="quickpay"}买单优惠类型：{/t}</label>
 							<div class="col-lg-6">
 								<select class="form-control" name="activity_type" id="select9" >
-									<option value="0">请选择……</option>
+									<option value="0">{t domain="quickpay"}请选择……{/t}</option>
 									<!-- {foreach from =$type_list item = list key=key} -->
 									<option value="{$key}">{$list}</option>
 									<!-- {/foreach} -->
@@ -58,27 +58,27 @@
 						</div>
 						
 						<div class="form-group form-inline order-query">
-							<label class="control-label col-lg-2">买单时间：</label>
+							<label class="control-label col-lg-2">{t domain="quickpay"}买单时间：{/t}</label>
 							<div class="col-lg-10"> 
 								<div class="form-group ">
-									<input name="start_time" class="date form-control w-form-control" type="text" placeholder="{t}开始时间{/t}"/>
+									<input name="start_time" class="date form-control w-form-control" type="text" placeholder='{t domain="quickpay"}开始时间{/t}'/>
 								</div>
-								<div class="form-group">至</div>
+								<div class="form-group">{t domain="quickpay"}至{/t}</div>
 								<div class="form-group">
-									<input name="end_time" class="date form-control w-form-control" type="text" placeholder="{t}结束时间{/t}"/>
+									<input name="end_time" class="date form-control w-form-control" type="text" placeholder='{t domain="quickpay"}结束时间{/t}'/>
 								</div>
 							</div>
 						</div>
 						
 						<div class="form-group">
-							<label class="control-label col-lg-2">购买者姓名：</label>
+							<label class="control-label col-lg-2">{t domain="quickpay"}购买者姓名：{/t}</label>
 							<div class="col-lg-6">
 								<input class="form-control" type="text" name="user_name" />
 							</div>
 						</div>
 						
 						<div class="form-group">
-							<label class="control-label col-lg-2">购买者手机号：</label>
+							<label class="control-label col-lg-2">{t domain="quickpay"}购买者手机号：{/t}</label>
 							<div class="col-lg-6">
 								<input class="form-control" type="text" name="user_mobile" />
 							</div>
@@ -87,8 +87,8 @@
 						<div class="form-group">
 							<label class="control-label col-lg-2"></label>
 							<div class="col-lg-6">
-								<button class="btn btn-info" type="submit">查询</button>
-								<button class="btn btn-info" type="reset">重置</button>
+								<button class="btn btn-info" type="submit">{t domain="quickpay"}查询{/t}</button>
+								<button class="btn btn-info" type="reset">{t domain="quickpay"}重置{/t}</button>
 							</div>
 						</div>
 					</form>

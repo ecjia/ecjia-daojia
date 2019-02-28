@@ -17,7 +17,7 @@
 
 <div class="alert alert-info">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" data-original-title="" title=""></i></button>
-	<strong>温馨提示：</strong>只有已付款的订单才计入销售明细。
+	<strong>{t domain="quickpay"}温馨提示：{/t}</strong>{t domain="quickpay"}只有已付款的订单才计入销售明细。{/t}
 </div>
 
 <div class="page-header">
@@ -39,14 +39,14 @@
 			<header class="panel-heading">
 				<div class="form-group choose_list">
 					<form class="form-inline" action="{$search_action}" method="post" name="searchForm">
-						<span>按照年份查：</span>
+						<span>{t domain="quickpay"}按照年份查：{/t}</span>
 		                {html_select_date prefix="year_begin" class="no_search w110" time=$filter.start_date start_year="-10" reverse_years=true display_months=false display_days=false }
-		                <span style="margin-left: 15px;">按月份查：</span>
+		                <span style="margin-left: 15px;">{t domain="quickpay"}按月份查：{/t}</span>
 		                {html_select_date prefix="month_begin" class="no_search w110" time=$filter.end_date display_years=false display_days=false field_order="YMD" month_format="%m" month_empty="全年"}
-						<input type="submit" name="search_sale_data" value="查询" class="btn btn-primary screen-btn"/>
+						<input type="submit" name="search_sale_data" value='{t domain="quickpay"}查询{/t}' class="btn btn-primary screen-btn"/>
 					</form>
 				</div><br>
-				<div class="sale_desc">订单共计：<span>{if $order_count}{$order_count}{else}0{/if}</span>&nbsp;单&nbsp;&nbsp;&nbsp;实际总金额共计：<span>¥{if $order_amount}{$order_amount}{else}0{/if}</span>&nbsp;元</div>
+				<div class="sale_desc">订单共计：<span>{if $order_count}{$order_count}{else}0{/if}</span>&nbsp;{t domain="quickpay"}单{/t}&nbsp;&nbsp;&nbsp;{t domain="quickpay"}实际总金额共计：{/t}<span>¥{if $order_amount}{$order_amount}{else}0{/if}</span>&nbsp;{t domain="quickpay"}元{/t}</div>
 			</header>
 		</section>
 		
@@ -56,11 +56,11 @@
 					<table class="table table-striped table-advance table-hover">
 						<thead>
 							<tr>
-								<th class="w150">日期</th>
-								<th class="w100">订单数量（单）</th>
-								<th class="w100">消费总金额（元）</th>
-								<th class="w100">优惠总金额（元）</th>
-								<th class="w100">实付总金额（元）</th>
+								<th class="w150">{t domain="quickpay"}日期{/t}</th>
+								<th class="w100">{t domain="quickpay"}订单数量（单）{/t}</th>
+								<th class="w100">{t domain="quickpay"}消费总金额（元）{/t}</th>
+								<th class="w100">{t domain="quickpay"}优惠总金额（元）{/t}</th>
+								<th class="w100">{t domain="quickpay"}实付总金额（元）{/t}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -74,7 +74,7 @@
 							</tr>
 							<!-- {foreachelse} -->
 							<tr>
-								<td class="dataTables_empty" colspan="5">没有找到任何记录</td>
+								<td class="dataTables_empty" colspan="5">{t domain="quickpay"}没有找到任何记录{/t}</td>
 							</tr>
 							<!-- {/foreach} -->
 						</tbody>

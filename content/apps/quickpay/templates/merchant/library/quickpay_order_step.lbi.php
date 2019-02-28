@@ -6,10 +6,11 @@
 			<li class="step-first">
 				<div class="{if $step lt '2'}step-cur{else}step-done{/if}">
 					<div class="step-no">{if $step lt '2'}1{/if}</div>
-					<div class="m_t5">{if $order_info.order_status eq 9}{t domain="quickpay"}取消订单{/t}{else}{t domain="quickpay"}提交订单{/t}/if}</div>
+					<div class="m_t5">{if $order_info.order_status eq 9}{t domain="quickpay"}取消订单{/t}{else}{t domain="quickpay"}提交订单{/t}{/if}</div>
 					<div class="m_t5 ecjiafc-blue">{if $order_info.order_status eq 9}{$cancel_time}{else}{$order_info.add_time}{/if}</div>
 				</div>
 			</li>
+			
 			<li>
 				<div class="{if $step eq '2'}step-cur{elseif $step gt '2'}step-done{/if}">
 					<div class="step-no">{if $step lt '3'}2{/if}</div>

@@ -76,15 +76,31 @@
 								<td class="hide-edit-area">
 		                           {$list.title}
 		                           <div class="edit-list">
-		                               <a class="data-pjax" href='{url path="quickpay/merchant/edit" args="id={$list.id}"}' title='{t domain="quickpay"}编辑{/t}'>{t domain="quickpay"}编辑{/t}</a>&nbsp;|&nbsp;
-		                               <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="你确定要删除该优惠买单规则吗？" href='{url path="quickpay/merchant/remove" args="id={$list.id}"}' title='{t domain="quickpay"}删除{/t}'>{t domain="quickpay"}删除{/t}</a>&nbsp;|&nbsp;
-		                               <a target="_blank" href='{url path="quickpay/mh_order/init" args="act_id={$list.id}"}' title='{t domain="quickpay"}查看订单{/t}'>{t domain="quickpay"}查看订单{/t}</a>
+		                               <a class="data-pjax" href='{url path="quickpay/merchant/edit" args="id={$list.id}"}' >{t domain="quickpay"}编辑{/t}</a>&nbsp;|&nbsp;
+		                               <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="quickpay"}你确定要删除该优惠买单规则吗？{/t}' href='{url path="quickpay/merchant/remove" args="id={$list.id}"}' >{t domain="quickpay"}删除{/t}</a>&nbsp;|&nbsp;
+		                               <a target="_blank" href='{url path="quickpay/mh_order/init" args="act_id={$list.id}"}' >{t domain="quickpay"}查看订单{/t}</a>
 		                           </div>
 		                        </td>
-								<td>{if $list.activity_type eq 'discount'}{t domain="quickpay"}价格折扣{/t}{elseif $list.activity_type eq 'everyreduced'}{t domain="quickpay"}每满多少减多少，最高减多少{/t}{else $list.activity_type eq 'reduced'}{t domain="quickpay"}满多少减多少{/t}{/if}</td>
+								<td>
+									{if $list.activity_type eq 'discount'}
+									{t domain="quickpay"}价格折扣{/t}
+									{elseif $list.activity_type eq 'everyreduced'}
+									{t domain="quickpay"}每满多少减多少，最高减多少{/t}
+									{elseif $list.activity_type eq 'reduced'}
+									{t domain="quickpay"}满多少减多少{/t}
+									{/if}
+								</td>
 								<td>{$list.start_time}</td>
 								<td>{$list.end_time}</td>
-								<td>{if $now lt $list.start_time}未开始{elseif $now gt $list.end_time}{t domain="quickpay"}已结束{/t}{else}{t domain="quickpay"}进行中{/t}{/if}</td>
+								<td>
+									{if $now lt $list.start_time}
+									{t domain="quickpay"}未开始{/t}
+									{elseif $now gt $list.end_time}
+									{t domain="quickpay"}已结束{/t}
+									{else}
+									{t domain="quickpay"}进行中{/t}
+									{/if}
+								</td>
 							</tr>
 							<!-- {foreachelse} -->
 							   <tr><td class="no-records" colspan="5">{t domain="quickpay"}没有找到任何记录{/t}</td></tr>

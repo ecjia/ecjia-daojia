@@ -17,15 +17,15 @@
 <!-- 批量操作和搜索 -->
 <div class="row-fluid batch" >
 	<ul class="nav nav-pills">
-		<li class="{if $type eq ''}active{/if}"><a class="data-pjax" href='{url path="quickpay/admin/init" args="{if $filter.merchant_name}&merchant_name={$filter.merchant_name}{/if}{if $filter.keyword}&keyword={$filter.keyword}{/if}"}'>全部 <span class="badge badge-info">{if $type_count.count}{$type_count.count}{else}0{/if}</span> </a></li>
-		<li class="{if $type eq 'on_going'}active{/if}"><a class="data-pjax" href='{url path="quickpay/admin/init" args="type=on_going{if $filter.merchant_name}&merchant_name={$filter.merchant_name}{/if}{if $filter.keyword}&keyword={$filter.keyword}{/if}"}'>正在进行中 <span class="badge badge-info">{if $type_count.on_sale}{$type_count.on_sale}{else}0{/if}</span> </a></li>
-		<li class="{if $type eq 'self'}active{/if}"><a class="data-pjax" href='{url path="quickpay/admin/init" args="type=self{if $filter.merchant_name}&merchant_name={$filter.merchant_name}{/if}{if $filter.keyword}&keyword={$filter.keyword}{/if}"}'>自营 <span class="badge badge-info">{if $type_count.self}{$type_count.self}{else}0{/if}</span> </a></li>
+		<li class="{if $type eq ''}active{/if}"><a class="data-pjax" href='{url path="quickpay/admin/init" args="{if $filter.merchant_name}&merchant_name={$filter.merchant_name}{/if}{if $filter.keyword}&keyword={$filter.keyword}{/if}"}'>{t domain="quickpay"}全部 {/t} <span class="badge badge-info">{if $type_count.count}{$type_count.count}{else}0{/if}</span> </a></li>
+		<li class="{if $type eq 'on_going'}active{/if}"><a class="data-pjax" href='{url path="quickpay/admin/init" args="type=on_going{if $filter.merchant_name}&merchant_name={$filter.merchant_name}{/if}{if $filter.keyword}&keyword={$filter.keyword}{/if}"}'>{t domain="quickpay"}正在进行中{/t} <span class="badge badge-info">{if $type_count.on_sale}{$type_count.on_sale}{else}0{/if}</span> </a></li>
+		<li class="{if $type eq 'self'}active{/if}"><a class="data-pjax" href='{url path="quickpay/admin/init" args="type=self{if $filter.merchant_name}&merchant_name={$filter.merchant_name}{/if}{if $filter.keyword}&keyword={$filter.keyword}{/if}"}'>{t domain="quickpay"}自营{/t} <span class="badge badge-info">{if $type_count.self}{$type_count.self}{else}0{/if}</span> </a></li>
 	</ul>
 	
 	<form method="post" action="{$search_action}{if $type}&type={$type}{/if}" name="searchForm">
 		<div class="btn-group f_l m_r5">
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-				<i class="fontello-icon-cog"></i>{t}批量操作{/t}
+				<i class="fontello-icon-cog"></i>{t domain="quickpay"}批量操作{/t}
 				<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
@@ -69,16 +69,23 @@
 					{$quickpay.title}
 		     	  	<div class="edit-list">
 			     	  	{if $quickpay.manage_mode eq 'self'}
-						  	<a class="data-pjax" href='{url path="quickpay/admin/edit" args="id={$quickpay.id}&store_id={$quickpay.store_id}"}' title='{t domain="quickpay"}编辑{/t}'>{t domain="quickpay"}编辑{/t}</a>&nbsp;|&nbsp;
-				          	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="quickpay"}你确定要删除该买单规则吗？{/t}' href='{url path="quickpay/admin/remove" args="id={$quickpay.id}"}' title='{t domain="quickpay"}删除{/t}'>{t domain="quickpay"}删除{/t}</a>
+						  	<a class="data-pjax" href='{url path="quickpay/admin/edit" args="id={$quickpay.id}&store_id={$quickpay.store_id}"}' >{t domain="quickpay"}编辑{/t}</a>&nbsp;|&nbsp;
+				          	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="quickpay"}你确定要删除该买单规则吗？{/t}' href='{url path="quickpay/admin/remove" args="id={$quickpay.id}"}' >{t domain="quickpay"}删除{/t}</a>
 				        {else}
-				        	<a target="_blank" href='{url path="quickpay/admin/detail" args="id={$quickpay.id}"}' title='{t domain="quickpay"}查看详情{/t}'>{t domain="quickpay"}查看详情{/t}</a>
+				        	<a target="_blank" href='{url path="quickpay/admin/detail" args="id={$quickpay.id}"}'>{t domain="quickpay"}查看详情{/t}</a>
 				        {/if}	
 		    	  	</div>
 		      	</td>
 		      	<td class="ecjiafc-red">{$quickpay.merchants_name}</td>
-		      	<td>{if $quickpay.activity_type eq 'discount'}{t domain="quickpay"}价格折扣{/t}{elseif $quickpay.activity_type eq 'everyreduced'}{t domain="quickpay"}每满多少减多少，最高减多少{/t}{else $quickpay.activity_type eq 'reduced'}{t domain="quickpay"}满多少减多少{/t}{/if}</td>
-		      
+		      	<td>
+			      	{if $quickpay.activity_type eq 'discount'}
+			      	{t domain="quickpay"}价格折扣{/t}
+			      	{elseif $quickpay.activity_type eq 'everyreduced'}
+			      	{t domain="quickpay"}每满多少减多少，最高减多少{/t}
+			      	{elseif $quickpay.activity_type eq 'reduced'}
+			      	{t domain="quickpay"}满多少减多少{/t}
+			      	{/if}
+		      	</td>
 		      	<td>{$quickpay.start_time}</td>
 		      	<td>{$quickpay.end_time}</td>
 		    </tr>

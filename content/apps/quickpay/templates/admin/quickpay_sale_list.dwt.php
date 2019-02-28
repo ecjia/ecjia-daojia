@@ -62,11 +62,11 @@
 		<table class="table table-striped table-hide-edit">
 			<thead>
 				<tr>
-					<th class="w150">日期</th>
-					<th class="w100">订单数量（单）</th>
-					<th class="w100">消费总金额（元）</th>
-					<th class="w100">优惠总金额（元）</th>
-					<th class="w100">实付总金额（元）</th>
+					<th class="w150">{t domain="quickpay"}日期{/t}</th>
+					<th class="w100">{t domain="quickpay"}订单数量（单）{/t}</th>
+					<th class="w100">{t domain="quickpay"}消费总金额（元）{/t}</th>
+					<th class="w100">{t domain="quickpay"}优惠总金额（元）{/t}</th>
+					<th class="w100">{t domain="quickpay"}实付总金额（元）{/t}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -80,7 +80,7 @@
 				</tr>
 				<!-- {foreachelse} -->
 				<tr>
-					<td class="dataTables_empty" colspan="5">没有找到任何记录</td>
+					<td class="dataTables_empty" colspan="5">{t domain="quickpay"}没有找到任何记录{/t}</td>
 				</tr>
 				<!-- {/foreach} -->
 			</tbody>
