@@ -68,7 +68,8 @@ class admin extends ecjia_admin {
 		RC_Style::enqueue_style('datetimepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datetimepicker.min.css'));
 		
         RC_Script::enqueue_script('promotion', RC_App::apps_url('statics/js/promotion.js', __FILE__), array(), false, true);
-        
+        RC_Script::localize_script('promotion', 'js_lang', config('app-promotion::jslang.promotion_page'));
+
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('促销商品', 'promotion'), RC_Uri::url('promotion/admin/init')));
     }
     	

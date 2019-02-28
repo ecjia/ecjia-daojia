@@ -69,7 +69,7 @@
 					$('.goods_list').append(opt);
 				};
 			} else {
-				$('.goods_list').append('<option value="-1">未搜索到商品信息</option>');
+				$('.goods_list').append('<option value="-1">'+ js_lang.product_information_not_found +'</option>');
 			}
 			
 			$('.goods_list').trigger("liszt:updated").trigger("change");
@@ -85,16 +85,16 @@
 						price : {required : true, min : 0.01}
 					},
 					messages : {
-						goods_id : { min : '请先选择活动商品'},
+						goods_id : { min : js_lang.select_active_products},
 						start_time : {
-							required : "请选择活动开始时间",
+							required : js_lang.select_event_start_time,
 						},
 						end_time : {
-							required : "请选择活动结束时间",
+							required : js_lang.select_event_end_time,
 						},
 						price : {
-							required : "请填写活动价格",
-							min : '活动价格最低为1分钱'
+							required : js_lang.fill_event_price,
+							min : js_lang.activity_price_is_at_least_1_cent
 						},
 					},
 					submitHandler : function() {
