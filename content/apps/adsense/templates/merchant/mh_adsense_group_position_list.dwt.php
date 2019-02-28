@@ -54,7 +54,7 @@ tr{
 {if $cycimage_config}
 	<div class="alert alert-info">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" data-original-title="" title=""></i></button>
-		<strong>温馨提示：</strong>请您先启用广告组。
+		<strong>{t domain="adsense"}温馨提示：{/t}</strong>{t domain="adsense"}请您先启用广告组。{/t}
 	</div>
 {/if}
 <div class="row" >
@@ -64,7 +64,7 @@ tr{
                 <div class="panel-body">
                 	<div class="col-lg-3">
 						<div class="setting-group">
-					        <span class="setting-group-title"><i class="fa fa-gear"></i> 广告组</span>
+					        <span class="setting-group-title"><i class="fa fa-gear"></i> {t domain="adsense"}广告组{/t}</span>
 					        <!-- {if $data} -->
 					        <ul class="nav nav-list m_t10 change">
 						        <!-- {foreach from=$data item=val} -->
@@ -78,12 +78,12 @@ tr{
 					<div class="col-lg-9">
 						<div class="panel-body panel-body-small">
 							<h2 class="page-header">
-								<!-- {if $ur_here}{$ur_here}{/if} --><font style="color: #999;">（拖拽列表可排序）</font>
+								<!-- {if $ur_here}{$ur_here}{/if} --><font style="color: #999;">{t domain="adsense"}（拖拽列表可排序）{/t}</font>
 								<div class="pull-right"  data-url='{RC_Uri::url("adsense/mh_group/update_sort")}'>
 								{if $cycimage_config}
-									<a id="ajaxstart" href='{RC_Uri::url("adsense/mh_group/insert")}' class="btn btn-primary" title="启用"><i class="fa fa-check-square-o"></i> 启用广告组</a>
+									<a id="ajaxstart" href='{RC_Uri::url("adsense/mh_group/insert")}' class="btn btn-primary" title='{t domain="adsense"}启用{/t}'><i class="fa fa-check-square-o"></i> {t domain="adsense"}启用广告组{/t}</a>
 								{else}
-									<a data-toggle="ajaxremove" class="ajaxremove btn btn-primary"  data-msg="您要关闭该广告组么？"  href='{RC_Uri::url("adsense/mh_group/remove","position_id={$position_id}")}' title="关闭"><i class="fa fa-minus-square"></i> 关闭广告组</a>
+									<a data-toggle="ajaxremove" class="ajaxremove btn btn-primary"  data-msg='{t domain="adsense"}您要关闭该广告组么？{/t}'  href='{RC_Uri::url("adsense/mh_group/remove","position_id={$position_id}")}' title='{t domain="adsense"}关闭{/t}'><i class="fa fa-minus-square"></i> {t domain="adsense"}关闭广告组{/t}</a>
 								{/if}
 								</div>
 							</h2>
@@ -92,12 +92,12 @@ tr{
 								<table class="table table-striped" id="sort">
 									<thead>
 										<tr data-sorthref='{url path="adsense/mh_group/init" args="position_id={$position_id}"}'>
-										 	<th class="w50">编号</th>
-							                <th class="w200">广告位名称</th>
-							                <th class="w130">广告位代号</th>
-							                <th>广告位描述</th>
-										    <th class="index w100" data-toggle="sortby" data-sortby="sort_order">排序</th>
-										    <th class="w80">查看</th>
+										 	<th class="w50">{t domain="adsense"}编号{/t}</th>
+							                <th class="w200">{t domain="adsense"}广告位名称{/t}</th>
+							                <th class="w130">{t domain="adsense"}广告位代号{/t}</th>
+							                <th>{t domain="adsense"}广告位描述{/t}</th>
+										    <th class="index w100" data-toggle="sortby" data-sortby="sort_order">{t domain="adsense"}排序{/t}</th>
+										    <th class="w80">{t domain="adsense"}查看{/t}</th>
 						                </tr>
 									</thead>
 									<tbody>
@@ -107,19 +107,19 @@ tr{
 										    <td><span>{$val.position_name}</span></td>
 										    <td><span>{if $val.position_code}{$val.position_code}{else}<i><无></i>{/if}</span></td>
 										    <td><span>{$val.position_desc}</span></td>
-										    <td class="position_sort index"><span class="edit_sort cursor_pointer" data-trigger="editable" data-url='{RC_Uri::url("adsense/mh_position/edit_sort", "group_position_id={$position_id}")}' data-name="sort_order" data-pk="{$val.position_id}" data-title="排序">{$val.sort_order}</span></td>
+										    <td class="position_sort index"><span class="edit_sort cursor_pointer" data-trigger="editable" data-url='{RC_Uri::url("adsense/mh_position/edit_sort", "group_position_id={$position_id}")}' data-name="sort_order" data-pk="{$val.position_id}" data-title='{t domain="adsense"}排序{/t}'>{$val.sort_order}</span></td>
 										    <td>
-											   	<a class="data-pjax" href='{RC_Uri::url("adsense/mh_ad/init", "position_id={$val.position_id}")}' title="查看广告"><button class="btn btn-primary screen-btn">查看广告</button></a>
+											   	<a class="data-pjax" href='{RC_Uri::url("adsense/mh_ad/init", "position_id={$val.position_id}")}' title='{t domain="adsense"}查看广告{/t}'><button class="btn btn-primary screen-btn">{t domain="adsense"}查看广告{/t}</button></a>
 										    </td>
 										</tr>
 										<!-- {foreachelse} -->
-						                <tr><td class="no-records" colspan="7">{lang key='system::system.no_records'}</td></tr>
+						                <tr><td class="no-records" colspan="7">{t domain="adsense"}没有找到任何记录{/t}</td></tr>
 						                <!-- {/foreach} -->
 						            </tbody>
 								</table>
 							</section>
 							{if !$cycimage_config}
-								<a href='{RC_Uri::url("adsense/mh_group/constitute","position_id={$position_id}")}' class="btn btn-primary data-pjax"><i class="fa fa-plus"></i> 编排广告位</a>	
+								<a href='{RC_Uri::url("adsense/mh_group/constitute","position_id={$position_id}")}' class="btn btn-primary data-pjax"><i class="fa fa-plus"></i> {t domain="adsense"}编排广告位{/t}</a>
 							{/if}
 						</div>
 					</div>

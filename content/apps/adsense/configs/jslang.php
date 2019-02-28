@@ -44,91 +44,40 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Adsense\Repositories;
 
-use Royalcms\Component\Repository\Repositories\AbstractRepository;
+/**
+ * js语言包设置
+ */
 
-class MerchantAdPositionRepository extends AbstractRepository
-{
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+    //adsense
+    'adsense_page' =>array(
+        'ad_name_required' => __('请填写广告名称', 'adsense'),
+        'gen_code_message' => __('建议您指定该广告所要投放的站点的名称，方便于该广告的来源统计', 'adsense'),
+
+        'enter_ad_slot_name' => __('请输入广告位名称', 'adsense'),
+        'enter_ad_slot_code' => __('请输入广告位代号', 'adsense'),
+        'enter_ad_group_name' => __('请输入广告组名称', 'adsense'),
+        'enter_ad_group_code' => __('请输入广告组代号', 'adsense'),
+
+        'enter_carousel_name' =>  __('请输入轮播组名称', 'adsense'),
+        'enter_carousel_code' =>  __('请输入轮播组代号', 'adsense'),
+        'enter_image_link' =>  __('请输入图片链接', 'adsense'),
+
+        'enter_menu_group_name' =>  __('请输入菜单组名称', 'adsense'),
+        'enter_menu_group_code' =>  __('请输入菜单组代号', 'adsense'),
+
+        'position_name_required' => __('请填写广告位置名称', 'adsense'),
+        'ad_width_required' => __('请填写广告位宽度', 'adsense'),
+        'ad_height_required' => __('请填写广告位高度', 'adsense'),
+
+        'ok' =>  __('确定', 'adsense'),
+        'cancel' =>  __('取消', 'adsense'),
+
+    ),
 
 
-
-	protected $model = 'Ecjia\App\Adsense\Models\MerchantAdPositionModel';
-	
-	/**
-	 * 类型：广告位(adsense)
-	 * @var string
-	 */
-	protected $type = 'adsense';
-	
-	protected $orderBy = ['sort_order' => 'asc', 'position_id' => 'desc'];
-	
-	public function getAllGroups($store, array $orderBy)
-	{
-		if (!empty($orderBy)) {
-			$this->orderBy = $orderBy;
-		}
-		
-		$where = [
-    		'type'     => $this->type,
-    		'store_id'  => $store,
-		];
-		$group = $this->findWhere($where, ['position_id', 'position_name', 'position_code', 'position_desc', 'ad_width', 'ad_height', 'sort_order']);
-		
-		return $group->toArray();
-	}
-	
-	/**
-	 * Find data by multiple fields
-	 *
-	 * @param array $where
-	 * @param array $columns
-	 *
-	 * @return mixed
-	 */
-	public function findWhereByFirst(array $where, $columns = ['*'])
-	{
-		$this->newQuery();
-	
-		foreach ($where as $field => $value) {
-			if (is_array($value)) {
-				list($field, $condition, $val) = $value;
-				$this->query->where($field, $condition, $val);
-			}
-			else {
-				$this->query->where($field, '=', $value);
-			}
-		}
-	
-		return $this->query->first($columns);
-	}	
-	
-	/**
-	 * Retrieve all data of repository, paginated
-	 *
-	 * @param array $where
-	 * @param null  $limit
-	 * @param array $columns
-	 *
-	 * @return \Royalcms\Component\Pagination\Paginator
-	 */
-	public function wherePaginate(array $where, $limit = null, $columns = ['*'])
-	{
-	    $this->newQuery();
-	
-	    foreach ($where as $field => $value) {
-	        if (is_array($value)) {
-	            list($field, $condition, $val) = $value;
-	            $this->query->where($field, $condition, $val);
-	        }
-	        else {
-	            $this->query->where($field, '=', $value);
-	        }
-	    }
-	
-	    return $this->query->paginate($limit, $columns);
-	}
-	
-}
-
-// end
+);
+//end

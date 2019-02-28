@@ -66,8 +66,9 @@ class admin_shortcut extends ecjia_admin {
 		RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
 			
 		RC_Script::enqueue_script('shortcut', RC_App::apps_url('statics/js/shortcut.js', __FILE__));
+        RC_Script::localize_script('shortcut', 'js_lang', config('app-adsense::jslang.adsense_page'));
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('快捷菜单管理', RC_Uri::url('adsense/admin_shortcut/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('快捷菜单管理', 'adsense'), RC_Uri::url('adsense/admin_shortcut/init')));
 	}
     
     /**
@@ -77,37 +78,37 @@ class admin_shortcut extends ecjia_admin {
 		$this->admin_priv('shortcut_manage');
 		
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('快捷菜单管理'));
-		$this->assign('ur_here', '快捷菜单列表');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('快捷菜单管理', 'adsense')));
+		$this->assign('ur_here', __('快捷菜单列表', 'adsense'));
 		
 		ecjia_screen::$current_screen->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('mobile::mobile.open_app_function'),
+			'title'		=> __('打开应用功能', 'adsense'),
 			'content'	=>
-			'<p>'.RC_Lang::get('mobile::mobile.open_discover').'ecjiaopen://app?open_type=discover' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_qrcode').'ecjiaopen://app?open_type=qrcode</p>' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_qrshare').'ecjiaopen://app?open_type=qrshare</p>' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_history').'ecjiaopen://app?open_type=history</p>' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_feedback').'ecjiaopen://app?open_type=feedback</p>' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_map').'ecjiaopen://app?open_type=map</p>' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_message').'ecjiaopen://app?open_type=message</p>' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_search').'ecjiaopen://app?open_type=search</p>' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_help').'ecjiaopen://app?open_type=help</p>'
+			'<p>'.__('打开发现：', 'adsense').'ecjiaopen://app?open_type=discover' .
+			'<p>'.__('打开二维码扫描：', 'adsense').'ecjiaopen://app?open_type=qrcode</p>' .
+			'<p>'.__('打开二维码分享：', 'adsense').'ecjiaopen://app?open_type=qrshare</p>' .
+			'<p>'.__('打开浏览记录：', 'adsense').'ecjiaopen://app?open_type=history</p>' .
+			'<p>'.__('打开咨询：', 'adsense').'ecjiaopen://app?open_type=feedback</p>' .
+			'<p>'.__('打开地图：', 'adsense').'ecjiaopen://app?open_type=map</p>' .
+			'<p>'.__('打开消息中心：', 'adsense').'ecjiaopen://app?open_type=message</p>' .
+			'<p>'.__('打开搜索：', 'adsense').'ecjiaopen://app?open_type=search</p>' .
+			'<p>'.__('打开帮助中心：', 'adsense').'ecjiaopen://app?open_type=help</p>'
 		));
 		ecjia_screen::$current_screen->add_help_tab(array(
 			'id'		=> 'managing-pages',
-			'title'		=> RC_Lang::get('mobile::mobile.open_goods_order_user'),
+			'title'		=> __('打开商品订单用户', 'adsense'),
 			'content'	=>
-			'<p>'.RC_Lang::get('mobile::mobile.open_goods_list').'ecjiaopen://app?open_type=goods_list&category_id={id}, {id}'.RC_Lang::get('mobile::mobile.is_category_id').'</p>' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_goods_comment').'ecjiaopen://app?open_type=goods_comment&goods_id={id}, {id}'.RC_Lang::get('mobile::mobile.is_goods_id').'</p>' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_goods_detail').'ecjiaopen://app?open_type=goods_detail&goods_id={id}, {id}'.RC_Lang::get('mobile::mobile.is_goods_id').'</p>' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_oder_list').'ecjiaopen://app?open_type=orders_list</p>' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_order_detail').'ecjiaopen://app?open_type=orders_detail&order_id={id}, {id}'.RC_Lang::get('mobile::mobile.is_order_id').'</p>' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_user_wallet').'ecjiaopen://app?open_type=user_wallet</p>' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_user_address').'ecjiaopen://app?open_type=user_address</p>' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_user_account').'ecjiaopen://app?open_type=user_account</p>' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_user_password').'ecjiaopen://app?open_type=user_password</p>' .
-			'<p>'.RC_Lang::get('mobile::mobile.open_user_center').'ecjiaopen://app?open_type=user_center</p>'
+			'<p>'.__('打开商品列表', 'adsense').'ecjiaopen://app?open_type=goods_list&category_id={id}, {id}'.__('是分类的ID', 'adsense').'</p>' .
+			'<p>'.__('打开商品评论', 'adsense').'ecjiaopen://app?open_type=goods_comment&goods_id={id}, {id}'.__('是商品的ID', 'adsense').'</p>' .
+			'<p>'.__('打开商品详情', 'adsense').'ecjiaopen://app?open_type=goods_detail&goods_id={id}, {id}'.__('是商品的ID', 'adsense').'</p>' .
+			'<p>'.__('打开我的订单', 'adsense').'ecjiaopen://app?open_type=orders_list</p>' .
+			'<p>'.__('打开订单详情', 'adsense').'ecjiaopen://app?open_type=orders_detail&order_id={id}, {id}'.__('是订单的ID', 'adsense').'</p>' .
+			'<p>'.__('打开我的钱包', 'adsense').'ecjiaopen://app?open_type=user_wallet</p>' .
+			'<p>'.__('打开地址管理', 'adsense').'ecjiaopen://app?open_type=user_address</p>' .
+			'<p>'.__('打开账户余额', 'adsense').'ecjiaopen://app?open_type=user_account</p>' .
+			'<p>'.__('打开修改密码', 'adsense').'ecjiaopen://app?open_type=user_password</p>' .
+			'<p>'.__('打开用户中心', 'adsense').'ecjiaopen://app?open_type=user_center</p>'
 		));
 		
 		//获取城市 
@@ -162,9 +163,9 @@ class admin_shortcut extends ecjia_admin {
     public function add_group() {
     	$this->admin_priv('shortcut_update');
     	
-    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('添加菜单组'));
-    	$this->assign('ur_here', '添加菜单组');
-    	$this->assign('action_link', array('href' => RC_Uri::url('adsense/admin_shortcut/init'), 'text' => '快捷菜单设置'));
+    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加菜单组', 'adsense')));
+    	$this->assign('ur_here', __('添加菜单组', 'adsense'));
+    	$this->assign('action_link', array('href' => RC_Uri::url('adsense/admin_shortcut/init'), 'text' => __('快捷菜单设置', 'adsense')));
     	
     	//$city_list = $this->get_select_city();
         $city_list   = $this->get_business_city();
@@ -189,11 +190,11 @@ class admin_shortcut extends ecjia_admin {
     	$city_id       = !empty($_POST['city_id']) ? trim($_POST['city_id']) : 0;
     	$city_name     = ecjia_region::getRegionName($city_id);
     	if (!$city_name) {
-    		$city_name = '默认';
+    		$city_name = __('默认', 'adsense');
     	}
     	$query = RC_DB::table('ad_position')->where('position_code', $position_code)->where('city_id', $city_id)->where('type', 'shortcut')->count();
     	if ($query > 0) {
-    		return $this->showmessage('该菜单组代号在当前城市中已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('该菜单组代号在当前城市中已存在', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	
     	$data = array(
@@ -210,14 +211,14 @@ class admin_shortcut extends ecjia_admin {
     	);
     	$position_id = RC_DB::table('ad_position')->insertGetId($data);
     	ecjia_admin::admin_log($position_name, 'add', 'group_shortcut');
-    	return $this->showmessage('添加菜单组成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/edit_group', array('position_id' => $position_id, 'city_id' => $city_id))));
+    	return $this->showmessage(__('添加菜单组成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/edit_group', array('position_id' => $position_id, 'city_id' => $city_id))));
     }    
     
     public function edit_group() {
     	$this->admin_priv('shortcut_update');
     	
-    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑菜单组'));
-    	$this->assign('ur_here', '编辑菜单组');
+    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑菜单组', 'adsense')));
+    	$this->assign('ur_here', __('编辑菜单组', 'adsense'));
         	
     	$city_id     = $_GET['city_id'];
     	$position_id = $_GET['position_id'];
@@ -258,12 +259,12 @@ class admin_shortcut extends ecjia_admin {
     	$city_id       = isset($_POST['city_id']) ? trim($_POST['city_id']) : 0;
     	$city_name     = ecjia_region::getRegionName($city_id);
     	if (!$city_name) {
-    		$city_name = '默认';
+    		$city_name = __('默认', 'adsense');
     	}
     	$position_id   = intval($_POST['position_id']);
     	$query = RC_DB::table('ad_position')->where('position_code', $position_code)->where('type', 'shortcut')->where('city_id', $city_id)->where('position_id', '!=', $position_id)->count();
     	if ($query > 0) {
-    		return $this->showmessage('该菜单组代号在当前城市中已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('该菜单组代号在当前城市中已存在', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	
     	$data = array(
@@ -280,7 +281,7 @@ class admin_shortcut extends ecjia_admin {
     	
     	RC_DB::table('ad_position')->where('position_id', $position_id)->update($data);
     	ecjia_admin::admin_log($position_name, 'edit', 'group_shortcut');
-    	return $this->showmessage('编辑菜单组成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/edit_group', array('position_id' => $position_id,'city_id' => $city_id))));
+    	return $this->showmessage(__('编辑菜单组成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/edit_group', array('position_id' => $position_id,'city_id' => $city_id))));
     }
     
     public function delete_group() {
@@ -290,15 +291,15 @@ class admin_shortcut extends ecjia_admin {
     	$position_name = RC_DB::table('ad_position')->where('position_id', $position_id)->pluck('position_name');
     	$city_id = trim($_GET['city_id']);
     	if (RC_DB::table('ad')->where('position_id', $position_id)->count() > 0) {
-    		return $this->showmessage('该菜单组已存在快捷菜单，暂不能删除！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('该菜单组已存在快捷菜单，暂不能删除！', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	} else {
     		RC_DB::table('ad_position')->where('position_id', $position_id)->delete();
     		ecjia_admin::admin_log($position_name, 'remove', 'group_shortcut');
     		$count = RC_DB::table('ad_position')->where('type', 'shortcut')->where('city_id', $city_id)->count();
     		if (!$count) {
-    			return $this->showmessage('成功删除菜单组', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/init')));
+    			return $this->showmessage(__('成功删除菜单组', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/init')));
     		} else {
-    			return $this->showmessage('成功删除菜单组', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/init',array('city_id' => $city_id))));
+    			return $this->showmessage(__('成功删除菜单组', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/init',array('city_id' => $city_id))));
     		}
     	}
     }
@@ -319,12 +320,12 @@ class admin_shortcut extends ecjia_admin {
     	$city_id = trim($_GET['city_id']);
     	$city_name = ecjia_region::getRegionName($city_id);
     	if (!$city_name) {
-    		$city_name = '默认';
+    		$city_name = __('默认', 'adsense');
     	}
     	$position_id   = intval($_POST['position_id']);
     		$query = RC_DB::table('ad_position')->where('position_code', $position_code)->where('city_id', $city_id)->where('type', 'shortcut')->count();
     	if ($query > 0) {
-    		return $this->showmessage('请重新选择城市，该菜单组代号在当前城市中已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('请重新选择城市，该菜单组代号在当前城市中已存在', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	 
     	$data = array(
@@ -342,7 +343,7 @@ class admin_shortcut extends ecjia_admin {
 
     	$position_id = RC_DB::table('ad_position')->insertGetId($data);
     	ecjia_admin::admin_log($position_name, 'copy', 'group_shortcut');
-    	return $this->showmessage('复制成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/edit_group', array('position_id' => $position_id, 'city_id' => $city_id))));
+    	return $this->showmessage(__('复制成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/edit_group', array('position_id' => $position_id, 'city_id' => $city_id))));
     }
         
     /**
@@ -372,20 +373,7 @@ class admin_shortcut extends ecjia_admin {
         }
         return $regions;
     }
-    
-    /**
-     * 获取平台
-     */
-    private function get_show_client(){
-    	$client_list = array(
-    		'iPhone' => Ecjia\App\Adsense\Client::IPHONE,
-    		'Android'=> Ecjia\App\Adsense\Client::ANDROID,
-    		'H5' 	 => Ecjia\App\Adsense\Client::H5, 
-    		'PC'     => Ecjia\App\Adsense\Client::PC
-    	);
-    	return $client_list;
-    }
-    
+
     /**
      * 处理快捷菜单
      */
@@ -397,9 +385,9 @@ class admin_shortcut extends ecjia_admin {
     	$this->assign('position_id', $position_id);
     	$this->assign('city_id', $city_id);
 
-    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('添加快捷菜单'));
-    	$this->assign('ur_here', '添加快捷菜单');
-    	$this->assign('action_link', array('href' => RC_Uri::url('adsense/admin_shortcut/init',array('position_id' => $position_id, 'city_id' => $city_id)), 'text' => '快捷菜单列表'));
+    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加快捷菜单', 'adsense')));
+    	$this->assign('ur_here', __('添加快捷菜单', 'adsense'));
+    	$this->assign('action_link', array('href' => RC_Uri::url('adsense/admin_shortcut/init',array('position_id' => $position_id, 'city_id' => $city_id)), 'text' => __('快捷菜单列表', 'adsense')));
 
     	$info = RC_DB::table('ad_position')->where('position_id', $position_id)->select('ad_width', 'ad_height')->first();
     	$data['ad_width'] = $info['ad_width'];
@@ -407,7 +395,7 @@ class admin_shortcut extends ecjia_admin {
     	$data['enabled'] = 1;
 		$this->assign('data', $data);
 	
-		$client_list = $this->get_show_client();
+		$client_list = \Ecjia\App\Adsense\Client::displayClients();
 		$this->assign('client_list', $client_list);
 		
     	$this->assign('form_action', RC_Uri::url('adsense/admin_shortcut/insert'));
@@ -435,11 +423,11 @@ class admin_shortcut extends ecjia_admin {
     			}
     		}
     	}else{
-    		return $this->showmessage('请上传快捷菜单图片', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('请上传快捷菜单图片', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	
     	if (empty($_POST['show_client'])) {
-    		return $this->showmessage('请选择投放平台', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('请选择投放平台', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	} else {
     		$show_client = Ecjia\App\Adsense\Client::clientSelected($_POST['show_client']);
     	}
@@ -457,14 +445,14 @@ class admin_shortcut extends ecjia_admin {
     	$id = RC_DB::table('ad')->insertGetId($data);
     	ecjia_admin::admin_log($ad_name, 'add', 'shortcut');
     	$city_id = trim($_POST['city_id']);
-    	return $this->showmessage('添加快捷菜单成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/edit', array('id' => $id, 'city_id' => $city_id))));
+    	return $this->showmessage(__('添加快捷菜单成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/edit', array('id' => $id, 'city_id' => $city_id))));
     }
     
     public function edit() {
     	$this->admin_priv('shortcut_update');
     	
-    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑快捷菜单'));
-    	$this->assign('ur_here', '编辑快捷菜单');
+    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑快捷菜单', 'adsense')));
+    	$this->assign('ur_here', __('编辑快捷菜单', 'adsense'));
 	    	
     	$id = intval($_GET['id']);
     	$data = RC_DB::table('ad')->where('ad_id', $id)->first();
@@ -478,9 +466,9 @@ class admin_shortcut extends ecjia_admin {
     	$this->assign('city_id', $city_id);
     	$this->assign('show_client', $show_client);
     	
-    	$this->assign('action_link', array('href' => RC_Uri::url('adsense/admin_shortcut/init',array('position_id' => $data['position_id'], 'city_id'=>$city_id, 'show_client' => $show_client)), 'text' => '快捷菜单列表'));
+    	$this->assign('action_link', array('href' => RC_Uri::url('adsense/admin_shortcut/init',array('position_id' => $data['position_id'], 'city_id'=>$city_id, 'show_client' => $show_client)), 'text' => __('快捷菜单列表', 'adsense')));
     	
-    	$client_list = $this->get_show_client();
+    	$client_list = \Ecjia\App\Adsense\Client::displayClients();
     	$this->assign('client_list', $client_list);
     	
     	$data['show_client'] = Ecjia\App\Adsense\Client::clients($data['show_client']);
@@ -514,7 +502,7 @@ class admin_shortcut extends ecjia_admin {
     	}
     	
     	if (empty($_POST['show_client'])) {
-    		return $this->showmessage('请选择投放平台', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('请选择投放平台', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	} else {
     		$show_client = Ecjia\App\Adsense\Client::clientSelected($_POST['show_client']);
     	}
@@ -532,7 +520,7 @@ class admin_shortcut extends ecjia_admin {
     	ecjia_admin::admin_log($ad_name, 'edit', 'shortcut');
     	$city_id = trim($_POST['city_id']);
     	$show_client = intval($_POST['show_client_value']);
-    	return $this->showmessage('编辑快捷菜单成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/edit', array('id' => $id, 'city_id' => $city_id, 'show_client' => $show_client))));
+    	return $this->showmessage(__('编辑快捷菜单成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/edit', array('id' => $id, 'city_id' => $city_id, 'show_client' => $show_client))));
     }
 
     
@@ -546,7 +534,7 @@ class admin_shortcut extends ecjia_admin {
     	$disk->delete(RC_Upload::upload_path() . $data['ad_code']);
     	RC_DB::table('ad')->where('ad_id', $id)->delete();
     	ecjia_admin::admin_log($data['ad_name'], 'add', 'shortcut');
-    	return $this->showmessage('成功删除快捷菜单', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+    	return $this->showmessage(__('成功删除快捷菜单', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     } 
     
     /**
@@ -562,7 +550,7 @@ class admin_shortcut extends ecjia_admin {
     	$show_client  = intval($_GET['show_client']);
     	
     	RC_DB::table('ad')->where('ad_id', $id)->update(array('enabled'=> $val));
-    	return $this->showmessage('切换成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/init', array('position_id' => $position_id, 'city_id' => $city_id, 'show_client' => $show_client))));
+    	return $this->showmessage(__('切换成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/init', array('position_id' => $position_id, 'city_id' => $city_id, 'show_client' => $show_client))));
     }
     
     /**
@@ -578,7 +566,7 @@ class admin_shortcut extends ecjia_admin {
     	$show_client  = intval($_GET['show_client']);
     	
     	RC_DB::table('ad')->where('ad_id', $id)->update(array('sort_order'=> $sort_order));
-    	return $this->showmessage('编辑排序成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/init', array('position_id' => $position_id, 'city_id' => $city_id, 'show_client' => $show_client))));
+    	return $this->showmessage(__('编辑排序成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/admin_shortcut/init', array('position_id' => $position_id, 'city_id' => $city_id, 'show_client' => $show_client))));
     }
     
 }

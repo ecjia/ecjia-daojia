@@ -64,18 +64,21 @@ class mh_position extends ecjia_merchant {
 		RC_Script::enqueue_script('mh_ad_position', RC_App::apps_url('statics/js/mh_ad_position.js', __FILE__));
 		RC_Script::enqueue_script('mh_adsense', RC_App::apps_url('statics/js/mh_adsense.js', __FILE__));	
 		RC_Script::enqueue_script('mh_group', RC_App::apps_url('statics/js/mh_group.js', __FILE__));
-		
-		ecjia_merchant_screen::get_current_screen()->set_parentage('adsense', 'adsense/mh_position.php');
+        RC_Script::localize_script('mh_ad_position', 'js_lang', config('app-adsense::jslang.adsense_page'));
+        RC_Script::localize_script('mh_adsense', 'js_lang', config('app-adsense::jslang.adsense_page'));
+        RC_Script::localize_script('mh_group', 'js_lang', config('app-adsense::jslang.adsense_page'));
+
+        ecjia_merchant_screen::get_current_screen()->set_parentage('adsense', 'adsense/mh_position.php');
 	}
     
     public function init() {
     	$this->admin_priv('mh_adsense_position_manage');
     		
     	ecjia_screen::get_current_screen()->remove_last_nav_here();
-    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('广告位管理'));
+    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('广告位管理', 'adsense')));
     	
-    	$this->assign('ur_here', '广告位置列表 ');
-    	$this->assign('action_link', array('text' => '添加广告位', 'href' => RC_Uri::url('adsense/mh_position/add')));
+    	$this->assign('ur_here', __('广告位置列表 ', 'adsense'));
+    	$this->assign('action_link', array('text' => __('添加广告位', 'adsense'), 'href' => RC_Uri::url('adsense/mh_position/add')));
     	
     	$sort_by   = trim($_GET['sort_by']);
     	$sort_order= trim($_GET['sort_order']);
@@ -98,9 +101,9 @@ class mh_position extends ecjia_merchant {
     public function add() {
     	$this->admin_priv('mh_adsense_position_update');
     
-    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('添加广告位'));
-    	$this->assign('ur_here', '添加广告位置');
-    	$this->assign('action_link', array('href' => RC_Uri::url('adsense/mh_position/init'), 'text' => '广告位列表'));
+    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加广告位', 'adsense')));
+    	$this->assign('ur_here', __('添加广告位置', 'adsense'));
+    	$this->assign('action_link', array('href' => RC_Uri::url('adsense/mh_position/init'), 'text' => __('广告位列表', 'adsense')));
     	
     	$this->assign('form_action', RC_Uri::url('adsense/mh_position/insert'));
     	
@@ -120,7 +123,7 @@ class mh_position extends ecjia_merchant {
     	
     	$query = RC_DB::table('merchants_ad_position')->where('position_code', $position_code)->where('store_id', $_SESSION['store_id'])->where('type', 'adsense')->count();
     	if ($query > 0) {
-    		return $this->showmessage('该广告位代号在当前店铺中已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('该广告位代号在当前店铺中已存在', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	$data = array(
     		'store_id'		=> $_SESSION['store_id'],
@@ -136,15 +139,15 @@ class mh_position extends ecjia_merchant {
     	$position_id = RC_DB::table('merchants_ad_position')->insertGetId($data);
     	
     	ecjia_merchant::admin_log($position_name, 'add', 'ads_position');
-    	return $this->showmessage('添加广告位成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_position/edit', array('position_id' => $position_id))));
+    	return $this->showmessage(__('添加广告位成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_position/edit', array('position_id' => $position_id))));
     }
     
     public function edit() {
     	$this->admin_priv('mh_adsense_position_update');
     
-    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑广告位'));
-    	$this->assign('ur_here', '编辑广告位');
-    	$this->assign('action_link', array('href' => RC_Uri::url('adsense/mh_position/init'), 'text' => '广告位列表'));
+    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑广告位', 'adsense')));
+    	$this->assign('ur_here', __('编辑广告位', 'adsense'));
+    	$this->assign('action_link', array('href' => RC_Uri::url('adsense/mh_position/init'), 'text' => __('广告位列表', 'adsense')));
     	
     	$position_id = intval($_GET['position_id']);
     	$data = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->first();
@@ -178,7 +181,7 @@ class mh_position extends ecjia_merchant {
     	RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->update($data);
     	
     	ecjia_merchant::admin_log($position_name, 'edit', 'ads_position');
-    	return $this->showmessage('编辑广告位成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_position/edit', array('position_id' => $position_id))));
+    	return $this->showmessage(__('编辑广告位成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_position/edit', array('position_id' => $position_id))));
     }
 
     public function remove() {
@@ -186,12 +189,12 @@ class mh_position extends ecjia_merchant {
     
     	$id = intval($_GET['id']);
     	if (RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('position_id', $id)->count() != 0) {
-    		return $this->showmessage('该广告位已经有广告存在，不能删除！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('该广告位已经有广告存在，不能删除！', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	} else {
     		$position_name = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $id)->pluck('position_name');
     		ecjia_merchant::admin_log($position_name, 'remove', 'ads_position');
     		RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $id)->delete();
-    		return $this->showmessage('删除广告位成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_position/init')));
+    		return $this->showmessage(__('删除广告位成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_position/init')));
     	}
     }
     
@@ -208,9 +211,9 @@ class mh_position extends ecjia_merchant {
     		$data = array('position_name' => $position_name);
     		RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $id)->update($data);
     		ecjia_admin::admin_log($position_name, 'edit', 'ads_position');
-    		return $this->showmessage('编辑广告位名称成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_position/init')));
+    		return $this->showmessage(__('编辑广告位名称成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_position/init')));
     	} else {
-    		return $this->showmessage('请输入广告位名称', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('请输入广告位名称', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     }
     
@@ -226,9 +229,9 @@ class mh_position extends ecjia_merchant {
     	
     	$group_position_id  = intval($_GET['group_position_id']);
     	if ($group_position_id) {
-    		return $this->showmessage('编辑排序成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/mh_group/init', array('position_id' => $group_position_id))));
+    		return $this->showmessage(__('编辑排序成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/mh_group/init', array('position_id' => $group_position_id))));
     	} else {
-    		return $this->showmessage('编辑排序成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/mh_position/init', array('position_id' => $id))));
+    		return $this->showmessage(__('编辑排序成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/mh_position/init', array('position_id' => $id))));
     	}
     
     }

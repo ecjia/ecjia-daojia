@@ -11,10 +11,10 @@
 <div class="row">
      <div class="col-lg-12">
          <div class="position_detail">
-            <h3>广告位信息</h3>
+            <h3>{t domain="adsense"}广告位信息{/t}</h3>
             <ul>
-                <li><div class="detail"><strong>广告位名称：</strong><span>{$position_data.position_name}{if $position_data.position_code}（{$position_data.position_code}）{else}（无）{/if}</span></div></li>
-                <li><div class="detail"><strong>显示数量：</strong><span>{$position_data.max_number}</span></div></li>
+                <li><div class="detail"><strong>{t domain="adsense"}广告位名称：{/t}</strong><span>{$position_data.position_name}{if $position_data.position_code}（{$position_data.position_code}）{else}（无）{/if}</span></div></li>
+                <li><div class="detail"><strong>{t domain="adsense"}显示数量：{/t}</strong><span>{$position_data.max_number}</span></div></li>
                 <li><div class="detail"><strong>建议大小：</strong><span>{$position_data.ad_width} x {$position_data.ad_height}</span><p class="f_r"><a href='{url path="adsense/mh_position/edit" args="position_id={$position_id}"}'>快速进入广告位 >></a></p></div></li>
             </ul>
           </div>
@@ -53,15 +53,15 @@
 		            <div class="screen f_r">
 		                <div class="form-group">
 		                    <select name="media_type" id="media_type" class="no_search w150">
-		                        <option value='-1'  {if $smarty.get.media_type eq '-1' } selected="true" {/if}>{lang key='adsense::adsense.choose_media_type'}</option>
-								<option value='0' {if $smarty.get.media_type eq '0'} selected="true" {/if}>{lang key='adsense::adsense.ad_img'}</option>
-								<option value='2' {if $smarty.get.media_type eq '2'} selected="true" {/if}>{lang key='adsense::adsense.ad_html'}</option>
-								<option value='3' {if $smarty.get.media_type eq '3'} selected="true" {/if}>{lang key='adsense::adsense.ad_text'}</option>
+		                        <option value='-1'  {if $smarty.get.media_type eq '-1' } selected="true" {/if}>{t domain="adsense"}请选择媒介类型{/t}</option>
+								<option value='0' {if $smarty.get.media_type eq '0'} selected="true" {/if}>{t domain="adsense"}图片{/t}</option>
+								<option value='2' {if $smarty.get.media_type eq '2'} selected="true" {/if}>{t domain="adsense"}代码{/t}</option>
+								<option value='3' {if $smarty.get.media_type eq '3'} selected="true" {/if}>{t domain="adsense"}文字{/t}</option>
 		                    </select>
 		                </div>
 			            <input type="hidden" value="{$position_id}" name="position_id" />
 						<input type="hidden" value="{$show_client}" name="show_client" />
-		                <button class="btn btn-primary screen-btn" type="button"><i class='fa fa-search'></i> {lang key='bonus::bonus.filter'}</button>
+		                <button class="btn btn-primary screen-btn" type="button"><i class='fa fa-search'></i> {t domain="adsense"}筛选{/t}</button>
 		            </div>
 		        </form>
     		</div>
@@ -70,13 +70,13 @@
 					<table class="table table-striped table-hover table-hide-edit ecjiaf-tlf">
 						<thead>
 							<tr>
-							    <th class="w100">编号</th>
-			                	<th>广告名称</th>
-						    	<th class="w150">媒介类型</th>
-						    	<th class="w150">开始日期</th>
-						    	<th class="w150">结束日期</th>
-						    	<th class="w100">是否开启</th>
-						    	<th class="w100">排序</th>
+							    <th class="w100">{t domain="adsense"}编号{/t}</th>
+			                	<th>{t domain="adsense"}广告名称{/t}</th>
+						    	<th class="w150">{t domain="adsense"}媒介类型{/t}</th>
+						    	<th class="w150">{t domain="adsense"}开始日期{/t}</th>
+						    	<th class="w150">{t domain="adsense"}结束日期{/t}</th>
+						    	<th class="w100">{t domain="adsense"}是否开启{/t}</th>
+						    	<th class="w100">{t domain="adsense"}排序{/t}</th>
 			                </tr>
 						</thead>
 						<tbody>
@@ -98,10 +98,10 @@
 								    
 							    	<div class="edit-list">
 								      	<a class="data-pjax" href='{RC_Uri::url("adsense/mh_ad/edit", "ad_id={$list.ad_id}&position_id={$position_id}&show_client={$show_client}")}' title="编辑">编辑</a>&nbsp;|&nbsp;
-							      		<a data-toggle="ajaxremove" class="ajaxremove ecjiafc-red" data-msg="您要删除该广告么？" href='{RC_Uri::url("adsense/mh_ad/remove","ad_id={$list.ad_id}")}' title="删除">删除</a>
+							      		<a data-toggle="ajaxremove" class="ajaxremove ecjiafc-red" data-msg='{t domain="adsense"}您要删除该广告么？{/t}' href='{RC_Uri::url("adsense/mh_ad/remove","ad_id={$list.ad_id}")}' title="删除">删除</a>
 									</div>
 							    </td>
-							    <td>{if $list.media_type eq 0}图片{elseif $list.media_type eq 2}代码{else}文字{/if}</td>
+							    <td>{if $list.media_type eq 0}{t domain="adsense"}图片{/t}{elseif $list.media_type eq 2}{t domain="adsense"}代码{/t}{else}文字{/if}</td>
 							    <td>{$list.start_time}</td>
 							    <td>{$list.end_time}</td>
 							    <td>
@@ -110,7 +110,7 @@
 								<td><span class="edit_sort cursor_pointer" data-trigger="editable" data-url='{RC_Uri::url("adsense/mh_ad/edit_sort", "position_id={$position_id}&show_client={$show_client}")}' data-name="sort_order" data-pk="{$list.ad_id}" data-title="排序">{$list.sort_order}</span></td>
 			                </tr>
 							<!-- {foreachelse}-->
-							<tr><td class="no-records" colspan="7">{lang key='system::system.no_records'}</td></tr>
+							<tr><td class="no-records" colspan="7">{t domain="adsense"}没有找到任何记录{/t}</td></tr>
 							<!-- {/foreach} -->
 						</tbody>
 					</table>

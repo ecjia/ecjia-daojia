@@ -10,7 +10,7 @@
 <!-- {block name="main_content"} -->
 <div class="alert">
 	<a class="close" data-dismiss="alert">×</a>
-	<strong>温馨提示：</strong>建议您添加为"默认"地区的广告组，当并未设置地区时就会显示默认的广告组。
+	<strong>{t domain="adsense"}温馨提示：{/t}</strong>{t domain="adsense"}建议您添加为"默认"地区的广告组，当并未设置地区时就会显示默认的广告组。{/t}
 </div>
 
 <div>
@@ -39,9 +39,9 @@
 							{$val.position_desc}
 						</div>
 						<div class="group_checkin">
-							<a class="data-pjax ecjiafc-gray" href='{url path="adsense/admin_group/group_position_list" args="city_id={$city_id}&position_id={$val.position_id}"}'><i class="fontello-icon-th-list"></i>查看组合</a>
+							<a class="data-pjax ecjiafc-gray" href='{url path="adsense/admin_group/group_position_list" args="city_id={$city_id}&position_id={$val.position_id}"}'><i class="fontello-icon-th-list"></i>{t domain="adsense"}查看组合{/t}</a>
 							<font style="margin:20px 20px;">|</font>
-							<a class="data-pjax ecjiafc-gray" href='{url path="adsense/admin_group/constitute" args="city_id={$city_id}&position_id={$val.position_id}"}'><i class="fontello-icon-plus-squared"></i>进行组合</a>
+							<a class="data-pjax ecjiafc-gray" href='{url path="adsense/admin_group/constitute" args="city_id={$city_id}&position_id={$val.position_id}"}'><i class="fontello-icon-plus-squared"></i>{t domain="adsense"}进行组合{/t}</a>
 						</div>
 					</div>
 				</li>
@@ -52,7 +52,7 @@
 							<a class="more" href='{RC_Uri::url("adsense/admin_group/add")}' >
 								<i class="fontello-icon-plus"></i>
 							</a>
-							点击添加广告组<br>
+                            {t domain="adsense"}点击添加广告组{/t}<br>
 						</div>
 					</div>
 				</li>

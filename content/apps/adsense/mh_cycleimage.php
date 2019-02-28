@@ -63,7 +63,9 @@ class mh_cycleimage extends ecjia_merchant {
 		
 		RC_Script::enqueue_script('mh_cycleimage', RC_App::apps_url('statics/js/mh_cycleimage.js', __FILE__));
 		RC_Style::enqueue_style('merchant', RC_App::apps_url('statics/styles/merchant.css', __FILE__), array());
-		ecjia_merchant_screen::get_current_screen()->set_parentage('adsense', 'adsense/mh_cycleimage.php');
+        RC_Script::localize_script('mh_cycleimage', 'js_lang', config('app-adsense::jslang.adsense_page'));
+
+        ecjia_merchant_screen::get_current_screen()->set_parentage('adsense', 'adsense/mh_cycleimage.php');
 		
 	}
     
@@ -71,8 +73,8 @@ class mh_cycleimage extends ecjia_merchant {
     	$this->admin_priv('mh_cycleimage_manage');
     	
     	ecjia_screen::get_current_screen()->remove_last_nav_here();
-    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('轮播图管理'));
-    	$this->assign('ur_here', '轮播图列表');
+    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('轮播图管理', 'adsense')));
+    	$this->assign('ur_here', __('轮播图列表', 'adsense'));
     
     	//获取轮播组
     	$position = new Ecjia\App\Adsense\Merchant\PositionManage('cycleimage', $_SESSION['store_id']);
@@ -161,7 +163,7 @@ class mh_cycleimage extends ecjia_merchant {
     	}
     
     	ecjia_merchant::admin_log($position_name, 'add', 'group_cycleimage');
-    	return $this->showmessage('启用轮播组成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_cycleimage/init')));
+    	return $this->showmessage(__('启用轮播组成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_cycleimage/init')));
     }   
      
     //关闭轮播组
@@ -171,11 +173,11 @@ class mh_cycleimage extends ecjia_merchant {
     	$position_id = intval($_GET['position_id']);
     	$position_name = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->pluck('position_name');
     	if (RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->count() > 0) {
-    		return $this->showmessage('该轮播组已存在轮播图，暂不能关闭！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('该轮播组已存在轮播图，暂不能关闭！', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	} else {
     		RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->delete();
     		ecjia_merchant::admin_log($position_name, 'remove', 'group_cycleimage');
-    		return $this->showmessage('关闭轮播组成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/mh_cycleimage/init')));
+    		return $this->showmessage(__('关闭轮播组成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/mh_cycleimage/init')));
     	}
     }
 
@@ -234,9 +236,9 @@ class mh_cycleimage extends ecjia_merchant {
     	$position_id = intval($_GET['position_id']);
     	$this->assign('position_id', $position_id);
     
-    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('添加轮播图'));
-    	$this->assign('ur_here', '添加轮播图');
-    	$this->assign('action_link', array('href' => RC_Uri::url('adsense/mh_cycleimage/init',array('position_id' => $position_id)), 'text' => '轮播图列表'));
+    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加轮播图', 'adsense')));
+    	$this->assign('ur_here', __('添加轮播图', 'adsense'));
+    	$this->assign('action_link', array('href' => RC_Uri::url('adsense/mh_cycleimage/init',array('position_id' => $position_id)), 'text' => __('轮播图列表', 'adsense')));
     
     	$info = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->select('ad_width', 'ad_height')->first();
     	$data['ad_width'] = $info['ad_width'];
@@ -244,7 +246,7 @@ class mh_cycleimage extends ecjia_merchant {
     	$data['enabled'] = 1;
     	$this->assign('data', $data);
     
-    	$client_list = $this->get_show_client();
+    	$client_list = \Ecjia\App\Adsense\Client::displayClients();
     	$this->assign('client_list', $client_list);
     
     	$this->assign('form_action', RC_Uri::url('adsense/mh_cycleimage/insert'));
@@ -272,11 +274,11 @@ class mh_cycleimage extends ecjia_merchant {
     			}
     		}
     	}else{
-    		return $this->showmessage('请上传轮播图片', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('请上传轮播图片', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	 
     	if (empty($_POST['show_client'])) {
-    		return $this->showmessage('请选择投放平台', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('请选择投放平台', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	} else {
     		$show_client = Ecjia\App\Adsense\Client::clientSelected($_POST['show_client']);
     	}
@@ -292,14 +294,14 @@ class mh_cycleimage extends ecjia_merchant {
     	);
     	$id = RC_DB::table('merchants_ad')->insertGetId($data);
     	ecjia_merchant::admin_log($ad_name, 'add', 'cycleimage');
-    	return $this->showmessage('添加轮播图成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_cycleimage/edit', array('id' => $id))));
+    	return $this->showmessage(__('添加轮播图成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_cycleimage/edit', array('id' => $id))));
     }
     
     public function edit() {
     	$this->admin_priv('mh_cycleimage_update');
     	 
-    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑轮播图'));
-    	$this->assign('ur_here', '编辑轮播图');
+    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑轮播图', 'adsense')));
+    	$this->assign('ur_here', __('编辑轮播图', 'adsense'));
     
     	$id = intval($_GET['id']);
     	$data = RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->first();
@@ -311,9 +313,9 @@ class mh_cycleimage extends ecjia_merchant {
     	$show_client = intval($_GET['show_client']);
     	$this->assign('show_client', $show_client);
     	 
-    	$this->assign('action_link', array('href' => RC_Uri::url('adsense/mh_cycleimage/init',array('position_id' => $data['position_id'], 'show_client' => $show_client)), 'text' => '轮播图列表'));
+    	$this->assign('action_link', array('href' => RC_Uri::url('adsense/mh_cycleimage/init',array('position_id' => $data['position_id'], 'show_client' => $show_client)), 'text' => __('轮播图列表', 'adsense')));
     	 
-    	$client_list = $this->get_show_client();
+    	$client_list = \Ecjia\App\Adsense\Client::displayClients();
     	$this->assign('client_list', $client_list);
     	 
     	$data['show_client'] = Ecjia\App\Adsense\Client::clients($data['show_client']);
@@ -347,7 +349,7 @@ class mh_cycleimage extends ecjia_merchant {
     	}
     	 
     	if (empty($_POST['show_client'])) {
-    		return $this->showmessage('请选择投放平台', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('请选择投放平台', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	} else {
     		$show_client = Ecjia\App\Adsense\Client::clientSelected($_POST['show_client']);
     	}
@@ -363,7 +365,7 @@ class mh_cycleimage extends ecjia_merchant {
     	RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->update($data);
     	ecjia_merchant::admin_log($ad_name, 'edit', 'cycleimage');
     	$show_client = intval($_POST['show_client_value']);
-    	return $this->showmessage('编辑轮播图成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_cycleimage/edit', array('id' => $id, 'show_client' => $show_client))));
+    	return $this->showmessage(__('编辑轮播图成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('adsense/mh_cycleimage/edit', array('id' => $id, 'show_client' => $show_client))));
     }
     
     public function delete() {
@@ -376,7 +378,7 @@ class mh_cycleimage extends ecjia_merchant {
     	RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->delete();
     	 
     	ecjia_merchant::admin_log($data['ad_name'], 'remove', 'cycleimage');
-    	return $this->showmessage('成功删除轮播图', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+    	return $this->showmessage(__('成功删除轮播图', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
     
     /**
@@ -391,7 +393,7 @@ class mh_cycleimage extends ecjia_merchant {
     	$show_client  = intval($_GET['show_client']);
     	 
     	RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->update(array('enabled'=> $val));
-    	return $this->showmessage('切换成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/mh_cycleimage/init', array('position_id' => $position_id, 'show_client' => $show_client))));
+    	return $this->showmessage(__('切换成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/mh_cycleimage/init', array('position_id' => $position_id, 'show_client' => $show_client))));
     }
     
     /**
@@ -406,19 +408,7 @@ class mh_cycleimage extends ecjia_merchant {
     	$show_client  = intval($_GET['show_client']);
     	 
     	RC_DB::table('merchants_ad')->where('store_id', $_SESSION['store_id'])->where('ad_id', $id)->update(array('sort_order'=> $sort_order));
-    	return $this->showmessage('编辑排序成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/mh_cycleimage/init', array('position_id' => $position_id, 'show_client' => $show_client))));
+    	return $this->showmessage(__('编辑排序成功', 'adsense'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('adsense/mh_cycleimage/init', array('position_id' => $position_id, 'show_client' => $show_client))));
     }
     
-    /**
-     * 获取平台
-     */
-    private function get_show_client(){
-    	$client_list = array(
-    		'iPhone' => Ecjia\App\Adsense\Client::IPHONE,
-    		'Android'=> Ecjia\App\Adsense\Client::ANDROID,
-    		'H5' 	 => Ecjia\App\Adsense\Client::H5,
-    		'PC'     => Ecjia\App\Adsense\Client::PC
-    	);
-    	return $client_list;
-    }
 }

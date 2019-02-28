@@ -11,11 +11,11 @@
 <div class="row">
      <div class="col-lg-12">
          <div class="position_detail" data-url='{RC_Uri::url("adsense/mh_group/update_sort")}'>
-            <h3>广告组信息</h3>
+            <h3>{t domain="adsense"}广告组信息{/t}</h3>
             <ul>
                 <li>
 	                <div class="detail">
-	                	<strong>广告组名称：</strong><span>{$position_data.position_name}{if $position_data.position_code}（{$position_data.position_code}）{else}（无）{/if}</span>
+	                	<strong>{t domain="adsense"}广告组名称：{/t}</strong><span>{$position_data.position_name}{if $position_data.position_code}（{$position_data.position_code}）{else}{t domain="adsense"}（无）{/t}{/if}</span>
 	               	</div>
                 </li>
             </ul>
@@ -26,7 +26,7 @@
 <div class="row">
 	<div class="col-lg-12">
 		<h2 class="page-header">
-		<!-- {if $ur_here}{$ur_here}{/if} --><font style="color: #999;">（拖拽列表可排序）</font>
+		<!-- {if $ur_here}{$ur_here}{/if} --><font style="color: #999;">{t domain="adsense"}（拖拽列表可排序）{/t}</font>
 		<div class="pull-right">
 			{if $edit_action_link}
 				<a href="{$edit_action_link.href}" class="btn btn-primary data-pjax" id="sticky_a"><i class="fa fa-plus"></i> {$edit_action_link.text}</a>
@@ -51,19 +51,19 @@
 								<div class="ms-container" id="ms-custom-navigation">
 									<div class="ms-selectable">
 										<div class="search-header">
-											<input class="form-control" id="ms-search" type="text" placeholder="筛选搜索到的广告位信息" autocomplete="off">
+											<input class="form-control" id="ms-search" type="text" placeholder='{t domain="adsense"}筛选搜索到的广告位信息{/t}' autocomplete="off">
 										</div>
 										<ul class="ms-list nav-list-ready">
 											<!-- {foreach from=$opt item=link_position} -->
 												<li class="ms-elem-selectable {if in_array($link_position, $group_position_list)}disabled{/if}"  id="{$link_position.position_id}" data-id="{$link_position.position_id}"><span>{$link_position.position_name}</span></li>
 											<!-- {foreachelse} -->
-												<li class="ms-elem-selectable disabled"><span>暂无内容</span></li>
+												<li class="ms-elem-selectable disabled"><span>{t domain="adsense"}暂无内容{/t}</span></li>
 											<!-- {/foreach} -->
 										</ul>
 									</div>
 									<div class="ms-selection">
 										<div class="custom-header custom-header-align">
-											编排广告位
+                                            {t domain="adsense"}编排广告位{/t}
 										</div>
 										<ul class="ms-list nav-list-content">
 											<!-- {foreach from=$group_position_list item=link_position key=key} -->
@@ -80,7 +80,7 @@
 						</fieldset>
 						
 						<p class="t_c row m_t20">
-							<button class="btn btn-info" type="submit">确定</button>
+							<button class="btn btn-info" type="submit">{t domain="adsense"}确定{/t}</button>
 						</p>
 					 </form>
 				</div>

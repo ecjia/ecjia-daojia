@@ -23,15 +23,15 @@ ecjia.admin.cycleimage.cycleimage_group_info();
 			<div class="row-fluid edit-page editpage-rightbar">
 				<div class="left-bar move-mod">
 			        <div class="control-group formSep">
-			        	<label class="control-label">轮播组名称：</label>
+			        	<label class="control-label">{t domain="adsense"}轮播组名称：{/t}</label>
 			          	<div class="controls">
 			            	<input class="w350" type="text" name="position_name" value="{$data.position_name}" />
-			            	<span class="input-must">{lang key='system::system.require_field'}</span>
+			            	<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 			            </div>
 			        </div>
 			        
 			        <div class="control-group formSep">
-			        	<label class="control-label">轮播组代号：</label>
+			        	<label class="control-label">{t domain="adsense"}轮播组代号：{/t}</label>
 				        <div class="controls">
 							{if $data.position_code}
 								<input class="w350" type="text" disabled="disabled" value="{$data.position_code}" />
@@ -39,28 +39,28 @@ ecjia.admin.cycleimage.cycleimage_group_info();
 							{elseif $data.position_code eq ''}
 								<input class="w350" type="text" name="position_code_ifnull" />
 							{/if}
-							<span class="input-must">{lang key='system::system.require_field'}</span>
-							<span class="help-block">轮播组调用标识，且在同一地区下该标识不可重复。</span>
+							<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
+							<span class="help-block">{t domain="adsense"}轮播组调用标识，且在同一地区下该标识不可重复。{/t}</span>
 						</div>
 			        </div>
 			      
 			        <div class="control-group formSep">
-			        	<label class="control-label">轮播组描述：</label>
+			        	<label class="control-label">{t domain="adsense"}轮播组描述：{/t}</label>
 			          	<div class="controls">
 			            	<textarea name="position_desc" class="w350"  cols="60" rows="5" id="position_desc">{$data.position_desc}</textarea>
 			            </div>
 			        </div>	
 			        
 			        <div class="control-group formSep">
-			        	<label class="control-label">可展示数量最大值：</label>
+			        	<label class="control-label">{t domain="adsense"}可展示数量最大值：{/t}</label>
 			          	<div class="controls">
 			            	<input class="w350" type="text" name="max_number" value="{$data.max_number}" />
-			            	<span class="help-block">在此可设置前台调用该轮播组的轮播图显示数量。</span>
+			            	<span class="help-block">{t domain="adsense"}在此可设置前台调用该轮播组的轮播图显示数量。{/t}</span>
 			            </div>
 			        </div>	
 			        
 			        <div class="control-group formSep">
-			        	<label class="control-label">排序：</label>
+			        	<label class="control-label">{t domain="adsense"}排序：{/t}</label>
 			          	<div class="controls">
 			            	<input class="w350" type="text" name="sort_order" value="{if $data.sort_order}{$data.sort_order}{else}50{/if}" />
 			            </div>
@@ -70,10 +70,10 @@ ecjia.admin.cycleimage.cycleimage_group_info();
 			        	<div class="controls">
 			        		{if $data.position_id}
 			        			<input type="hidden" name="position_id" value="{$data.position_id}" />
-			        			<input type="submit" value="更新" class="btn btn-gebo" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			        			<a class="copy ecjiafc-red" style="cursor: pointer;" data-msg="您确定要进行复制该轮播组信息吗？" data-href='{url path="adsense/admin_cycleimage/copy" args="position_id={$position_id}"}' title="复制"><button class="btn" type="button">复制</button></a>
+			        			<input type="submit" value='{t domain="adsense"}更新{/t}' class="btn btn-gebo" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			        			<a class="copy ecjiafc-red" style="cursor: pointer;" data-msg='{t domain="adsense"}您确定要进行复制该轮播组信息吗？{/t}' data-href='{url path="adsense/admin_cycleimage/copy" args="position_id={$position_id}"}' title='{t domain="adsense"}复制{/t}'><button class="btn" type="button">{t domain="adsense"}复制{/t}</button></a>
 			        		{else}
-			        			<input type="submit" value="确定" class="btn btn-gebo" />
+			        			<input type="submit" value='{t domain="adsense"}确定{/t}' class="btn btn-gebo" />
 			        		{/if}
 					    </div>
 		        	</div>	  
@@ -84,34 +84,34 @@ ecjia.admin.cycleimage.cycleimage_group_info();
 						<div class="accordion-group">
 							<div class="accordion-heading">
 								<a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#goods_info_area_author">
-									<strong>选择城市</strong>
+									<strong>{t domain="adsense"}选择城市{/t}</strong>
 								</a>
 							</div>
 							<div class="accordion-body in in_visable collapse" id="goods_info_area_author">
 								<div class="accordion-inner">
 									<div class="control-group control-group-small formSep" >
-										<label class="control-label">选择城市：</label>
+										<label class="control-label">{t domain="adsense"}选择城市：{/t}</label>
 										<div class="controls">
 	        								<select name="city_id" id="city_id">
-						                   		<option value='0'>默认</option>
+						                   		<option value='0'>{t domain="adsense"}默认{/t}</option>
 						                      	<!-- {html_options options=$city_list selected=$data.city_id} -->
 											</select>
 										</div>
 									</div>	
 									
 									<div class="control-group control-group-small formSep">
-							        	<label class="control-label">宽度：</label>
+							        	<label class="control-label">{t domain="adsense"}宽度：{/t}</label>
 							        	<div class="controls">
-								        	<input type="text" name="ad_width" value="{$data.ad_width}"  class="" placeholder="像素" />
-											<span class="help-block">建议轮播组宽度单位为Px</span>
+								        	<input type="text" name="ad_width" value="{$data.ad_width}"  class="" placeholder='{t domain="adsense"}像素{/t}' />
+											<span class="help-block">{t domain="adsense"}建议轮播组宽度单位为Px{/t}</span>
 										</div>
 							        </div>
 							        
 							  		<div class="control-group control-group-small">
-							        	<label class="control-label">高度：</label>
+							        	<label class="control-label">{t domain="adsense"}高度：{/t}</label>
 							        	<div class="controls">
-						            		<input type="text" name="ad_height" value="{$data.ad_height}" class="" placeholder="像素" />
-						            		<span class="help-block">建议轮播组高度单位为Px</span>
+						            		<input type="text" name="ad_height" value="{$data.ad_height}" class="" placeholder='{t domain="adsense"}像素{/t}' />
+						            		<span class="help-block">{t domain="adsense"}建议轮播组高度单位为Px{/t}</span>
 						            	</div>
 							        </div>
 								</div>

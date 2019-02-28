@@ -71,13 +71,7 @@ class AdRepository extends AbstractRepository
      * @return array
      */
     public function getAllClients() {
-        $clients = array(
-            'iPhone' => Client::IPHONE,
-            'Android'=> Client::ANDROID,
-            'H5' 	 => Client::H5,
-            'PC'     => Client::PC
-        );
-        return $clients;
+        return Client::displayClients();
     }
     
     

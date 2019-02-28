@@ -53,25 +53,25 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class adsense_admin_purview_api extends Component_Event_Api {
 	public function call(&$options) {
 		$purviews = array(
-			array('action_name' => RC_Lang::get('adsense::adsense.ads_manage'), 'action_code' => 'adsense_manage', 'relevance' => ''),
-			array('action_name' => RC_Lang::get('adsense::adsense.ads_edit'), 'action_code' => 'adsense_update', 'relevance' => ''),
-			array('action_name' => RC_Lang::get('adsense::adsense.drop_ads'), 'action_code' => 'adsense_delete', 'relevance' => ''),
+			array('action_name' => __('广告管理', 'adsense'), 'action_code' => 'adsense_manage', 'relevance' => ''),
+			array('action_name' => __('编辑广告', 'adsense'), 'action_code' => 'adsense_update', 'relevance' => ''),
+			array('action_name' => __('删除广告', 'adsense'), 'action_code' => 'adsense_delete', 'relevance' => ''),
 				
-			array('action_name' => RC_Lang::get('adsense::adsense.ads_position_manage'), 'action_code' => 'ad_position_manage', 'relevance' => ''),
-			array('action_name' => RC_Lang::get('adsense::adsense.edit_ads_position'), 'action_code' => 'ad_position_update', 'relevance' => ''),
-			array('action_name' => RC_Lang::get('adsense::adsense.drop_ads_position'), 'action_code' => 'ad_position_delete', 'relevance' => ''),
+			array('action_name' => __('广告位置管理', 'adsense'), 'action_code' => 'ad_position_manage', 'relevance' => ''),
+			array('action_name' => __('编辑广告位置', 'adsense'), 'action_code' => 'ad_position_update', 'relevance' => ''),
+			array('action_name' => __('删除广告位置', 'adsense'), 'action_code' => 'ad_position_delete', 'relevance' => ''),
 				
-			array('action_name' => '广告组列表', 'action_code' => 'ad_group_manage', 'relevance' => ''),
-			array('action_name' => '广告组编辑', 'action_code' => 'ad_group_update', 'relevance' => ''),
-			array('action_name' => '广告组删除', 'action_code' => 'ad_group_delete', 'relevance' => ''),
+			array('action_name' => __('广告组列表', 'adsense'), 'action_code' => 'ad_group_manage', 'relevance' => ''),
+			array('action_name' => __('广告组编辑', 'adsense'), 'action_code' => 'ad_group_update', 'relevance' => ''),
+			array('action_name' => __('广告组删除', 'adsense'), 'action_code' => 'ad_group_delete', 'relevance' => ''),
 
-			array('action_name' => '轮播图管理', 'action_code' => 'cycleimage_manage', 'relevance' => ''),
-			array('action_name' => '轮播图编辑', 'action_code' => 'cycleimage_update', 'relevance' => ''),
-			array('action_name' => '轮播图删除', 'action_code' => 'cycleimage_delete', 'relevance' => ''),
+			array('action_name' => __('轮播图管理', 'adsense'), 'action_code' => 'cycleimage_manage', 'relevance' => ''),
+			array('action_name' => __('轮播图编辑', 'adsense'), 'action_code' => 'cycleimage_update', 'relevance' => ''),
+			array('action_name' => __('轮播图删除', 'adsense'), 'action_code' => 'cycleimage_delete', 'relevance' => ''),
 				
-			array('action_name' => '快捷菜单管理', 'action_code' => 'shortcut_manage', 'relevance' => ''),
-			array('action_name' => '快捷菜单编辑', 'action_code' => 'shortcut_update', 'relevance' => ''),
-			array('action_name' => '快捷菜单删除', 'action_code' => 'shortcut_delete', 'relevance' => ''),
+			array('action_name' => __('快捷菜单管理', 'adsense'), 'action_code' => 'shortcut_manage', 'relevance' => ''),
+			array('action_name' => __('快捷菜单编辑', 'adsense'), 'action_code' => 'shortcut_update', 'relevance' => ''),
+			array('action_name' => __('快捷菜单删除', 'adsense'), 'action_code' => 'shortcut_delete', 'relevance' => ''),
 		);
 		return $purviews;
 	}

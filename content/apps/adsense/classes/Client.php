@@ -48,47 +48,86 @@ namespace Ecjia\App\Adsense;
 
 /**
  * 广告展示在多个客户端的处理
- * 
+ *
  * @author royalwang
  *
  */
 class Client
 {
-    
-    
+
+
     const IPHONE = 0b00000001;
-    
+
     const ANDROID = 0b00000010;
-    
+
     const H5 = 0b00000100;
-    
+
     const PC = 0b00001000;
-    
+
+    const WEAPP = 0b00010000;
+
     /**
      * 计算客户端选中的总数
      * @param array $clients
      * @return integer
      */
-    public static function clientSelected(array $clients) {
-        
+    public static function clientSelected(array $clients)
+    {
+
         return collect($clients)->sum();
     }
-    
+
 
     /**
      * 返回选中的客户端
      * @param integer $selected
      */
-    public static function clients($selected) {
-        
+    public static function clients($selected)
+    {
+
         $clients = [];
-        
+
         if (self::IPHONE & $selected) $clients[] = self::IPHONE;
         if (self::ANDROID & $selected) $clients[] = self::ANDROID;
         if (self::H5 & $selected) $clients[] = self::H5;
         if (self::PC & $selected) $clients[] = self::PC;
-        
+        if (self::WEAPP & $selected) $clients[] = self::WEAPP;
+
         return $clients;
     }
-    
+
+    /**
+     * 显示的客户端平台
+     */
+    public static function displayClients()
+    {
+        $client_list = array(
+            'iPhone'  => self::IPHONE,
+            'Android' => self::ANDROID,
+            'H5'      => self::H5,
+            'PC'      => self::PC,
+            __('小程序', 'adsense')   => self::WEAPP
+        );
+
+        return $client_list;
+    }
+
+    /**
+     * 转变device_client为广告的投放平台
+     */
+    public static function transformDeviceClient($device_client)
+    {
+        if ($device_client == 'android') {
+            $client = self::ANDROID;
+        } elseif ($device_client == 'h5') {
+            $client = self::H5;
+        } elseif ($device_client == 'weapp') {
+            $client = self::WEAPP;
+        } else {
+            $client = self::IPHONE;
+        }
+
+        return $client;
+    }
+
 }

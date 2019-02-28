@@ -11,7 +11,7 @@ ecjia.merchant.mh_cycleimage.cycleimage_list();
 {if $cycimage_config}
 	<div class="alert alert-info">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" data-original-title="" title=""></i></button>
-		<strong>温馨提示：</strong>请您先启用轮播组。
+		<strong>{t domain="adsense"}温馨提示：{/t}</strong>{t domain="adsense"}请您先启用轮播组。{/t}
 	</div>
 {/if}
 
@@ -21,7 +21,7 @@ ecjia.merchant.mh_cycleimage.cycleimage_list();
                 <div class="panel-body">
                 	<div class="col-lg-3">
 						<div class="setting-group">
-					        <span class="setting-group-title"><i class="fa fa-gear"></i> 轮播组</span>
+					        <span class="setting-group-title"><i class="fa fa-gear"></i> {t domain="adsense"}轮播组{/t}</span>
 					        <!-- {if $data} -->
 					        <ul class="nav nav-list m_t10 change">
 						        <!-- {foreach from=$data item=val} -->
@@ -38,9 +38,9 @@ ecjia.merchant.mh_cycleimage.cycleimage_list();
 								{if $ur_here}{$ur_here}{/if}{if $position_code}（{$position_code}）{/if}
 								<div class="pull-right">
 									{if $cycimage_config}
-										<a id="ajaxstart" href='{RC_Uri::url("adsense/mh_cycleimage/insert_group")}' class="btn btn-primary" title="启用"><i class="fa fa-check-square-o"></i> 启用轮播组</a>
+										<a id="ajaxstart" href='{RC_Uri::url("adsense/mh_cycleimage/insert_group")}' class="btn btn-primary" title='{t domain="adsense"}启用{/t}'><i class="fa fa-check-square-o"></i> {t domain="adsense"}启用轮播组{/t}</a>
 									{else}
-										<a data-toggle="ajaxremove" class="ajaxremove btn btn-primary"  data-msg="您要关闭该轮播组么？"  href='{RC_Uri::url("adsense/mh_cycleimage/delete_group","position_id={$position_id}")}' title="关闭"><i class="fa fa-minus-square"></i> 关闭轮播组</a>
+										<a data-toggle="ajaxremove" class="ajaxremove btn btn-primary"  data-msg='{t domain="adsense"}您要关闭该轮播组么？{/t}'  href='{RC_Uri::url("adsense/mh_cycleimage/delete_group","position_id={$position_id}")}' title='{t domain="adsense"}关闭{/t}'><i class="fa fa-minus-square"></i> {t domain="adsense"}关闭轮播组{/t}</a>
 									{/if}
 								</div>
 							</h2>
@@ -57,10 +57,10 @@ ecjia.merchant.mh_cycleimage.cycleimage_list();
 								<table class="table table-striped table-hover table-hide-edit ecjiaf-tlf">
 									<thead>
 										<tr>
-											<th class="w150">缩略图</th>
-											<th>图片链接</th>
-											<th class="w100">是否开启</th>
-											<th class="w50">排序</th>
+											<th class="w150">{t domain="adsense"}缩略图{/t}</th>
+											<th>{t domain="adsense"}图片链接{/t}</th>
+											<th class="w100">{t domain="adsense"}是否开启{/t}</th>
+											<th class="w50">{t domain="adsense"}排序{/t}</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -75,27 +75,27 @@ ecjia.merchant.mh_cycleimage.cycleimage_list();
 												<span><a href="{$item.ad_link}" target="_blank">{$item.ad_link}</a></span><br>
 												{$item.ad_name}
 												<div class="edit-list">
-													<a class="data-pjax" href='{RC_Uri::url("adsense/mh_cycleimage/edit", "id={$item.ad_id}&show_client={$show_client}")}' title="编辑">编辑</a>&nbsp;|&nbsp;
-													<a data-toggle="ajaxremove" class="ajaxremove ecjiafc-red" data-msg="您要删除这张轮播图么？" href='{RC_Uri::url("adsense/mh_cycleimage/delete", "id={$item.ad_id}&position_id={$position_id}")}' title="删除">删除</a>
+													<a class="data-pjax" href='{RC_Uri::url("adsense/mh_cycleimage/edit", "id={$item.ad_id}&show_client={$show_client}")}' title='{t domain="adsense"}编辑{/t}'>{t domain="adsense"}编辑{/t}</a>&nbsp;|&nbsp;
+													<a data-toggle="ajaxremove" class="ajaxremove ecjiafc-red" data-msg='{t domain="adsense"}您要删除这张轮播图么？{/t}' href='{RC_Uri::url("adsense/mh_cycleimage/delete", "id={$item.ad_id}&position_id={$position_id}")}' title='{t domain="adsense"}删除{/t}'>{t domain="adsense"}删除{/t}</a>
 											    </div>
 											</td>
 											<td>
 										    	<i class="cursor_pointer fa {if $item.enabled}fa-check {else}fa-times{/if}" data-trigger="toggleState" data-url='{RC_Uri::url("adsense/mh_cycleimage/toggle_show","position_id={$position_id}&show_client={$show_client}")}' data-id="{$item.ad_id}"></i>
 											</td>
 											<td>
-												<span class="cursor_pointer" data-trigger="editable" data-placement="left" data-url='{RC_Uri::url("adsense/mh_cycleimage/edit_sort", "position_id={$position_id}&show_client={$show_client}")}' data-name="sort_order" data-pk="{$item.ad_id}" data-title="请输入排序序号"> 
+												<span class="cursor_pointer" data-trigger="editable" data-placement="left" data-url='{RC_Uri::url("adsense/mh_cycleimage/edit_sort", "position_id={$position_id}&show_client={$show_client}")}' data-name="sort_order" data-pk="{$item.ad_id}" data-title='{t domain="adsense"}请输入排序序号{/t}'>
 												{$item.sort_order}
 												</span>
 											</td>
 										</tr>
 										<!-- {foreachelse} -->
-										   <tr><td class="no-records" colspan="4">{lang key='system::system.no_records'}</td></tr>
+										   <tr><td class="no-records" colspan="4">{t domain="adsense"}没有找到任何记录{/t}</td></tr>
 										<!-- {/foreach} -->
 									</tbody>
 								</table>
 							</section>
 							{if !$cycimage_config}
-								<a href='{RC_Uri::url("adsense/mh_cycleimage/add","position_id={$position_id}")}' class="btn btn-primary data-pjax"><i class="fa fa-plus"></i> 添加轮播图</a>	
+								<a href='{RC_Uri::url("adsense/mh_cycleimage/add","position_id={$position_id}")}' class="btn btn-primary data-pjax"><i class="fa fa-plus"></i> {t domain="adsense"}添加轮播图{/t}</a>
 							{/if}
 						</div>
 					</div>

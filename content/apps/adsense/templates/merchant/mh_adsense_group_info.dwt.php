@@ -27,35 +27,35 @@ ecjia.merchant.merchant_group_edit.init();
                         <form class="form-horizontal"  name="theForm" action="{$form_action}" method="post" enctype="multipart/form-data" >
                                 <fieldset>
                                     <div class="form-group">
-                                        <label class="control-label col-lg-2">广告组名称：</label>
+                                        <label class="control-label col-lg-2">{t domain="adsense"}广告组名称：{/t}</label>
                                         <div class="controls col-lg-6">
                                             <input class="form-control" type="text" name="position_name" id="position_name" value="{$data.position_name}" />
                                         </div>
-                                        <span class="input-must">{lang key='system::system.require_field'}</span>
+                                        <span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
                                     </div>
                                     
                                     <div class="form-group">
-                                        <label class="control-label col-lg-2">广告组代号：</label>
+                                        <label class="control-label col-lg-2">{t domain="adsense"}广告组代号：{/t}</label>
                                         <div class="controls col-lg-6">
 	                                        {if $data.position_code}
 												<input class="form-control" name="position_code" type="text" disabled="disabled" value="{$data.position_code}" />
 											{elseif $data.position_code eq ''}
 												 <input class="form-control" type="text" name="position_code" id="position_code"/>
 											{/if}
-											<span class="help-block">广告组调用标识，且在同门店下该标识不可重复。</span>
+											<span class="help-block">{t domain="adsense"}广告组调用标识，且在同门店下该标识不可重复。{/t}</span>
                                         </div>
-                                        <span class="input-must">{lang key='system::system.require_field'}</span>
+                                        <span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
                                     </div>
                                     
  									<div class="form-group">
-				                        <label class="control-label col-lg-2">广告组描述：</label>
+				                        <label class="control-label col-lg-2">{t domain="adsense"}广告组描述：{/t}</label>
 				                        <div class="controls col-lg-6 ">
 				                          <textarea class="form-control" id="position_desc" name="position_desc">{$data.position_desc}</textarea>
 				                        </div>
 			                      	</div>
                                     
                                     <div class="form-group">
-                                        <label class="control-label col-lg-2">排序：</label>
+                                        <label class="control-label col-lg-2">{t domain="adsense"}排序：{/t}</label>
                                         <div class="controls col-lg-6">
                                             <input class="form-control" type="text" name="sort_order" id="sort_order" value="{$data.sort_order}" />
                                         </div>
@@ -64,7 +64,7 @@ ecjia.merchant.merchant_group_edit.init();
                                     <div class="form-group">
                                         <div class="col-lg-offset-3 col-lg-6">
 					        			<input type="hidden" name="position_id" value="{$data.position_id}" />
-					        			<input type="submit" value="确定" class="btn btn-info" />
+					        			<input type="submit" value='{t domain="adsense"}确定{/t}' class="btn btn-info" />
                                         </div>
                                     </div>
                                 </fieldset>

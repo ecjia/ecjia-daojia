@@ -28,56 +28,56 @@ ecjia.merchant.mh_shortcut.shortcut_info();
                                 <fieldset>
                                 	<div class="form-group">
                                 		{if !$data.ad_code}
-										<label class="control-label col-lg-2">{t}上传图片：{/t}</label>
+										<label class="control-label col-lg-2">{t domain="adsense"}上传图片：{/t}</label>
 										<div class="col-lg-6">
 											 <div class="fileupload fileupload-{if $data.ad_code}exists{else}new{/if}" data-provides="fileupload">
 												<div class="fileupload-preview fileupload-{if $data.ad_code}new{else}exists{/if} thumbnail" style="max-width: 60px;max-height: 60px;line-height: 10px;"></div>
 												<span class="btn btn-primary btn-file btn-sm">
-													<span class="fileupload-new">浏览</span>
-			                                        <span class="fileupload-exists"> 修改</span>
+													<span class="fileupload-new">{t domain="adsense"}浏览{/t}</span>
+			                                        <span class="fileupload-exists"> {t domain="adsense"}修改{/t}</span>
 													<input type='file' name='ad_code' class="default"/>
 												</span>
-												 <a class="btn btn-danger btn-sm fileupload-exists" {if $data.ad_code}data-toggle="ajaxremove"{else}data-dismiss="fileupload"{/if} href="{url path='merchant/merchant/drop_file' args="code=ad_code"}" >删除</a>
+												 <a class="btn btn-danger btn-sm fileupload-exists" {if $data.ad_code}data-toggle="ajaxremove"{else}data-dismiss="fileupload"{/if} href="{url path='merchant/merchant/drop_file' args="code=ad_code"}" >{t domain="adsense"}删除{/t}</a>
 												<span class="input-must"><span class="require-field" style="color:#FF0000;">*</span></span>
-												<span class="help-block">此模板的图片标准宽度为：{$data.ad_width}px 标准高度为：{$data.ad_height}px</span>
+												<span class="help-block">{t domain="adsense"}此模板的图片标准宽度为：{/t}{$data.ad_width}px {t domain="adsense"}标准高度为：{/t}{$data.ad_height}px</span>
 											</div>
 										</div>
 										{else}
-										<label class="control-label col-lg-2">图片预览：</label>
+										<label class="control-label col-lg-2">{t domain="adsense"}图片预览：{/t}</label>
 										<div class="col-lg-6">
 											 <div class="fileupload fileupload-{if $data.ad_code}exists{else}new{/if}" data-provides="fileupload">
 												<img class="w600 h300"  class="img-polaroid" src="{RC_Upload::upload_url()}/{$data.ad_code}"><br><br>
-												图片地址： {$data.ad_code}<br><br>
+                                                 {t domain="adsense"}图片地址：{/t} {$data.ad_code}<br><br>
 												<div class="fileupload-preview fileupload-{if $data.ad_code}new{else}exists{/if} thumbnail" style="max-width: 60px;max-height: 60px;line-height: 10px;"></div>
 												<span class="btn btn-primary btn-file btn-sm">
-													<span class="fileupload-new">更换图片</span>
-			                                        <span class="fileupload-exists"> 修改</span>
+													<span class="fileupload-new">{t domain="adsense"}更换图片{/t}</span>
+			                                        <span class="fileupload-exists"> {t domain="adsense"}修改{/t}</span>
 													<input type='file' name='ad_code' class="default" />
 												</span>
 												<span class="input-must"><span class="require-field" style="color:#FF0000;">*</span></span>
-												<span class="help-block">此模板的图片标准宽度为：{$data.ad_width}px 标准高度为：{$data.ad_height}px</span>
+												<span class="help-block">{t domain="adsense"}此模板的图片标准宽度为：{/t}{$data.ad_width}px {t domain="adsense"}标准高度为：{/t}{$data.ad_height}px</span>
 											</div>
 										</div>
 										{/if}
 			                        </div>
                                 	
                                     <div class="form-group">
-                                        <label class="control-label col-lg-2">图片链接：</label>
+                                        <label class="control-label col-lg-2">{t domain="adsense"}图片链接：{/t}</label>
                                         <div class="controls col-lg-6">
                                             <input class="form-control" type="text" name="ad_link" id="ad_link" value="{$data.ad_link}"  />
                                         </div>
-                                        <span class="input-must">{lang key='system::system.require_field'}</span>
+                                        <span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
                                     </div>
                                     
                                    	<div class="form-group">
-				                        <label class="control-label col-lg-2">图片说明：</label>
+				                        <label class="control-label col-lg-2">{t domain="adsense"}图片说明：{/t}</label>
 				                        <div class="controls col-lg-6">
 				                          <textarea class="form-control" id="ad_name" name="ad_name">{$data.ad_name}</textarea>
 				                        </div>
 			                      	</div>
 			                      	
                       	       		<div class="form-group">
-				                        <label class="control-label col-lg-2">投放平台：</label>
+				                        <label class="control-label col-lg-2">{t domain="adsense"}投放平台：{/t}</label>
 				                        <div class="col-lg-6 m_t5">
 				                         <!-- {foreach from=$client_list key=key item=val} -->
 											<input type="checkbox" name="show_client[]" value="{$val}" id="{$val}" {if in_array($val, $data.show_client)}checked="true"{/if}/> <label for="{$val}">{$key}</label>
@@ -86,17 +86,17 @@ ecjia.merchant.mh_shortcut.shortcut_info();
 			                      	</div>
 			                      	
                       	            <div class="form-group">
-				                        <label class="control-label col-lg-2">是否开启：</label>
+				                        <label class="control-label col-lg-2">{t domain="adsense"}是否开启：{/t}</label>
 				                       	<div class="controls col-lg-6">
 			                                <input id="open" name="enabled" value="1" type="radio" {if $data.enabled eq 1} checked="true" {/if}>
-			                                <label for="open">开启</label>
+			                                <label for="open">{t domain="adsense"}开启{/t}</label>
 			                                <input id="close" name="enabled" value="0" type="radio" {if $data.enabled eq 0} checked="true" {/if}>
-			                                <label for="close">关闭</label>
+			                                <label for="close">{t domain="adsense"}关闭{/t}</label>
 			                            </div>
 			                      	</div>
 			                      	
                                     <div class="form-group">
-                                        <label class="control-label col-lg-2">排序：</label>
+                                        <label class="control-label col-lg-2">{t domain="adsense"}排序：{/t}</label>
                                         <div class="controls col-lg-6">
                                             <input class="form-control" type="text" name="sort_order" id="sort_order" value="{$data.sort_order}" />
                                         </div>
@@ -107,7 +107,7 @@ ecjia.merchant.mh_shortcut.shortcut_info();
                                         	  <input type="hidden" name="id" value="{$data.ad_id}" />
 											  <input type="hidden" name="position_id" value="{$position_id}" />
 											  <input type="hidden" name="show_client_value" value="{$show_client}" />
-                                              <button class="btn btn-info" type="submit">确定</button>
+                                              <button class="btn btn-info" type="submit">{t domain="adsense"}确定{/t}</button>
                                         </div>
                                     </div>
                                 </fieldset>

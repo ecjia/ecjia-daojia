@@ -24,14 +24,14 @@
 			<form class="form-horizontal" action="{$form_action}" method="post" name="theForm">
 				<fieldset>
 			  		<div class="control-group formSep">
-			        	<label class="control-label">{lang key='adsense::adsense.outside_address'}</label>
+			        	<label class="control-label">{t domain="adsense"}投放广告的站点名称：{/t}</label>
 			          	<div class="controls">
 			            	<input type="text" name="outside_address" size="30" />
-			            	<span class="input-must">{lang key='system::system.require_field'}</span>
+			            	<span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
 			            </div>
 			        </div>				
 			  		<div class="control-group formSep">
-			        	<label class="control-label">{lang key='adsense::adsense.label_charset'}</label>
+			        	<label class="control-label">{t domain="adsense"}选择编码：{/t}</label>
 			          	<div class="controls">
 			            	<select name="charset" id="charset">
 					        <!-- {html_options options=$lang_list} -->
@@ -41,7 +41,7 @@
 			  		<div class="control-group">
 			          	<div class="controls">
 			          		<div>
-			            		<input type="button" name="gen_code" data-jsurl="{$url}" value="{lang key='adsense::adsense.add_js_code_btn'}"  class="btn btn-gebo" />
+			            		<input type="button" name="gen_code" data-jsurl="{$url}" value='{t domain="adsense"}生成并复制JS代码{/t}'  class="btn btn-gebo" />
 			            	</div>
 			            </div>
 			        </div>	

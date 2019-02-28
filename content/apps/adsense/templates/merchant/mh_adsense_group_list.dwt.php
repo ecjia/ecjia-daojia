@@ -31,9 +31,9 @@
 							{$val.position_desc}
 						</div>
 						<div class="group_checkin">
-							<a class="data-pjax ecjiafc-gray" href='{url path="adsense/mh_group/group_position_list" args="position_id={$val.position_id}"}'><i class="fontello-icon-th-list"></i>广告位列表</a>
+							<a class="data-pjax ecjiafc-gray" href='{url path="adsense/mh_group/group_position_list" args="position_id={$val.position_id}"}'><i class="fontello-icon-th-list"></i>{t domain="adsense"}广告位列表{/t}</a>
 							<font style="margin:20px 20px;">|</font>
-							<a class="data-pjax ecjiafc-gray" href='{url path="adsense/mh_group/constitute" args="position_id={$val.position_id}"}'><i class="fontello-icon-plus-squared"></i>添加广告位</a>
+							<a class="data-pjax ecjiafc-gray" href='{url path="adsense/mh_group/constitute" args="position_id={$val.position_id}"}'><i class="fontello-icon-plus-squared"></i>{t domain="adsense"}添加广告位{/t}</a>
 						</div>
 					</div>
 				</li>
@@ -44,7 +44,7 @@
 							<a class="more" href='{RC_Uri::url("adsense/mh_group/add")}' >
 								 <img src="{$ecjia_main_static_url}img/plus.png" /><br>
 							</a>
-							点击添加广告组<br>
+                            {t domain="adsense"}点击添加广告组{/t}<br>
 						</div>
 					</div>
 				</li>
