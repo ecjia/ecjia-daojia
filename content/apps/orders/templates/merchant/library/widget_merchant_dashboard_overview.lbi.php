@@ -6,7 +6,7 @@
             </div>
             <div class="value">
                 <h1 class="count"><a href="{RC_Uri::url('orders/merchant/init')}&composite_status=105" target="__blank">{$count.unconfirmed}</a></h1>
-                <p>{t domain="orders"待接单订单（单）{/t}</p>
+                <p>{t domain="orders"}待接单订单（单）{/t}</p>
             </div>
         </section>
     </div>
@@ -17,7 +17,7 @@
             </div>
             <div class="value">
                 <h1 class="count2"><a href="{RC_Uri::url('orders/merchant/init')}&composite_status=101" target="__blank">{$count.await_ship}</a></h1>
-                <p>{t domain="orders"待发货订单（单）{/t}</p>
+                <p>{t domain="orders"}待发货订单（单）{/t}</p>
             </div>
         </section>
     </div>
@@ -28,7 +28,7 @@
             </div>
             <div class="value">
                 <h1 class="count3"><a href="{RC_Uri::url('orders/merchant/init')}&composite_status=104" target="__blank">{$count.shipped}</a></h1>
-                <p>{t domain="orders"待收货订单（单）{/t}</p>
+                <p>{t domain="orders"}待收货订单（单）{/t}</p>
             </div>
         </section>
     </div>
@@ -39,7 +39,7 @@
             </div>
             <div class="value">
                 <h1 class="count4"><a href="{RC_Uri::url('refund/merchant/init')}" target="__blank">{$count.returned}</a></h1>
-                <p>{t domain="orders"退款/售后订单（单）{/t}</p>
+                <p>{t domain="orders"}退款/售后订单（单）{/t}</p>
             </div>
         </section>
     </div>

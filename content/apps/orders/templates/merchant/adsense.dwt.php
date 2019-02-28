@@ -18,11 +18,11 @@
 	<table class="table table-striped" id="smpl_tbl">
 		<thead>
 			<tr>
-				<th class="w180">{t}投放的名称{/t}</th>
-				<th class="w300">{t}点击来源{/t}</th>
-				<th class="w100">{t}点击次数{/t}</th>
-				<th class="w150">{t}有效订单数{/t}</th>
-				<th class="w150">{t}产生订单总数{/t}</th>
+				<th class="w180">{t domain="orders"}投放的名称{/t}</th>
+				<th class="w300">{t domain="orders"}点击来源{/t}</th>
+				<th class="w100">{t domain="orders"}点击次数{/t}</th>
+				<th class="w150">{t domain="orders"}有效订单数{/t}</th>
+				<th class="w150">{t domain="orders"}产生订单总数{/t}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -50,7 +50,7 @@
 		<!-- {/if} -->
 		<!-- {if $ads_stats eq '' AND $goods_stats eq ''} -->
 			<tr>
-				<td class="dataTables_empty" colspan="5">{t}没有统计数据{/t}</td>
+				<td class="dataTables_empty" colspan="5">{t domain="orders"}没有统计数据{/t}</td>
 			</tr>
 		<!-- {/if} -->
 		</tbody>

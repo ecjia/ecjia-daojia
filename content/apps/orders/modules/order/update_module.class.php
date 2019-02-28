@@ -70,9 +70,22 @@ class order_update_module extends api_front implements api_interface
         RC_Loader::load_app_func('admin_order', 'orders');
         RC_Loader::load_app_class('cart', 'cart', false);
 
-        $order_info = get_order_detail($order_id, $user_id, 'front');
+        /* 订单详情 */
+        $order_info = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
         if (is_ecjia_error($order_info)) {
-            return $order_info;
+        	return $order_info;
+        }
+        if (empty($order_info)) {
+        	//订单id是否是分单主订单id
+        	$order_info = RC_Api::api('orders', 'separate_order_info', array('order_id' => $order_id));
+        	if (is_ecjia_error($order_info)) {
+        		return $order_info;
+        	}
+        }
+        
+        //订单都不存在
+        if (empty($order_info)) {
+        	return new ecjia_error('not_exist_order', __('订单不存在', 'payment'));
         }
 
         /*重新处理订单的配送费用*/
