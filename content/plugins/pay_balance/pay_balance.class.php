@@ -296,8 +296,6 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
     				'user_money'	=> $refund_payrecord['back_money_total'],
     				'change_desc'	=> '由于订单'.$refund_order['order_sn'].'退款，退还下单使用的'.$integral_name.'，退款金额退回余额',
     				'change_type'	=> ACT_SAVING,
-    				'from_type'		=> 'refund_back_integral',
-    				'from_value'	=> $refund_order['order_sn']
     		);
     		
     		RC_Api::api('finance', 'account_balance_change', $options);
