@@ -67,7 +67,7 @@ class shop_captcha_sms_module extends api_front implements api_interface {
 		    return $check_mobile;
 		}
 	    if (RC_Time::gmtime() - $_SESSION['captcha']['sms']['sendtime'] < 60) {
-	        return new ecjia_error('send_error', '发送频率过高，请一分钟后再试');
+	        return new ecjia_error('send_error', __('发送频率过高，请一分钟后再试', 'captcha'));
 	    }
 	    
 	    //type
@@ -99,7 +99,7 @@ class shop_captcha_sms_module extends api_front implements api_interface {
 	    
 	    $response = RC_Api::api('sms', 'send_event_sms', $options);
 	    if (is_ecjia_error($response)) {
-	    	return new ecjia_error('sms_error', '短信发送失败！');//$response['description']
+	    	return new ecjia_error('sms_error', __('短信发送失败！', 'captcha'));//$response['description']
 	    } else {
 			return array();
 	    }

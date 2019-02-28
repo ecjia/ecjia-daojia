@@ -74,7 +74,7 @@ class admin_shop_captcha_sms_checkcode_module extends api_admin implements api_i
 		}
 		//判断验证码是否正确
 		if (isset($captcha_code) && $_SESSION['captcha_word'] != strtolower($captcha_code)) {
-			return new ecjia_error( 'captcha_code_error', '验证码错误');
+			return new ecjia_error( 'captcha_code_error', __('验证码错误', 'captcha'));
 		}
 		
 		$code = rand(100000, 999999);
@@ -97,7 +97,7 @@ class admin_shop_captcha_sms_checkcode_module extends api_admin implements api_i
 			$_SESSION['mobile_value']      = $mobile;
 			
 			if (is_ecjia_error($response)) {
-				return new ecjia_error('sms_error', '短信发送失败！');
+				return new ecjia_error('sms_error', __('短信发送失败！', 'captcha'));
 			} else {
 				return array();
 			}

@@ -67,11 +67,11 @@ class shop_captcha_sms_checkcode_module extends api_front implements api_interfa
 		
 		//判断校验码是否过期
 		if ($_SESSION['captcha']['sms'][$type]['lifetime'] < RC_Time::gmtime()) {
-		    return new ecjia_error('code_timeout', '验证码已过期，请重新获取！');
+		    return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！', 'captcha'));
 		}
 		//判断校验码是否正确
 		if ($smscode != $_SESSION['captcha']['sms'][$type]['code'] ) {
-		    return new ecjia_error('code_error', '验证码错误，请重新填写！');
+		    return new ecjia_error('code_error', __('验证码错误，请重新填写！', 'captcha'));
 		}
 		
 		//特殊操作验证手机号，业务逻辑内实现

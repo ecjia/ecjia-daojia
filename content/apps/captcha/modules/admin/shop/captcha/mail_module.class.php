@@ -61,10 +61,10 @@ class admin_shop_captcha_mail_module extends api_admin implements api_interface 
 		    
 	    $chars = "/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i";
 	    if (!preg_match($chars, $value)) {
-	        return new ecjia_error('email_error', '邮箱账号格式错误');
+	        return new ecjia_error('email_error', __('邮箱账号格式错误', 'captcha'));
 	    }
 	    if (RC_Time::gmtime() - $_SESSION['captcha']['mail']['sendtime'] < 60) {
-	        return new ecjia_error('send_error', '发送频率过高，请一分钟后再试');
+	        return new ecjia_error('send_error', __('发送频率过高，请一分钟后再试', 'captcha'));
 	    }
 	    
 	    //type
@@ -83,7 +83,7 @@ class admin_shop_captcha_mail_module extends api_admin implements api_interface 
 	        $content  = ecjia_api::$controller->fetch_string($tpl['template_content']);
 	        $response = RC_Mail::send_mail(ecjia::config('shop_name'), $value, $tpl['template_subject'], $content, $tpl['is_html']);
 	    } else {
-	        return new ecjia_error('email_template_error', __('请检查短信模板send_validate'));
+	        return new ecjia_error('email_template_error', __('请检查短信模板send_validate', 'captcha'));
 	    }
 	    
 	    /* 判断是否发送成功*/
@@ -96,9 +96,9 @@ class admin_shop_captcha_mail_module extends api_admin implements api_interface 
 	            'sendtime' => $time,
 	        );
 	        $_SESSION['captcha']['mail']['sendtime'] = $time;
-	        return array('data' => '验证码发送成功！');
+	        return array('data' => __('验证码发送成功！', 'captcha'));
 	    } else {
-	        return new ecjia_error('send_code_error', __('验证码发送失败！'));
+	        return new ecjia_error('send_code_error', __('验证码发送失败！', 'captcha'));
 	    }
 		    
 	}
