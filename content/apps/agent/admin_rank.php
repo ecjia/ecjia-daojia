@@ -82,7 +82,7 @@ class admin_rank extends ecjia_admin
         RC_Style::enqueue_style('agent', RC_App::apps_url('statics/css/agent.css', __FILE__));
 
         RC_Script::localize_script('agent', 'js_lang', config('app-agent::jslang.agent_page'));
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('代理等级', RC_Uri::url('agent/admin_rank/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('代理等级', 'agent'), RC_Uri::url('agent/admin_rank/init')));
     }
 
     public function init()

@@ -23,7 +23,7 @@
             <div class="accordion-heading">
                 <div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#detail_info_one">
                     <strong>{t domain="agent"}基本信息{/t}</strong>
-                    <a class="m_l5 stop_propagation" target="_blank" href='{url path="agent/admin/edit" args="id={$data.user_id}"}'>编辑</a>
+                    <a class="m_l5 stop_propagation" target="_blank" href='{url path="agent/admin/edit" args="id={$data.user_id}"}'>{t domain="agent"}编辑{/t}</a>
                 </div>
             </div>
             <div class="accordion-body in collapse" id="detail_info_one">

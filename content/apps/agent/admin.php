@@ -85,7 +85,7 @@ class admin extends ecjia_admin
 
         RC_Script::localize_script('agent', 'js_lang', config('app-agent::jslang.agent_page'));
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('代理商列表', RC_Uri::url('agent/admin/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('代理商列表', 'agent'), RC_Uri::url('agent/admin/init')));
     }
 
     public function init()
@@ -227,7 +227,7 @@ class admin extends ecjia_admin
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑代理商', 'agent')));
 
         $this->assign('ur_here', __('编辑代理商', 'agent'));
-        $this->assign('action_link', array('href' => RC_Uri::url('agent/admin/init'), 'text' => '代理商列表'));
+        $this->assign('action_link', array('href' => RC_Uri::url('agent/admin/init'), 'text' => __('代理商列表', 'agent')));
         $this->assign('form_action', RC_Uri::url('agent/admin/update'));
 
         $id   = intval($_GET['id']);

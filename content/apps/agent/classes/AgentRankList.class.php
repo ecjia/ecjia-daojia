@@ -56,21 +56,21 @@ class AgentRankList
     {
         $data = array(
             array(
-                'rank_name'         => '省级代理',
+                'rank_name'         => __('省级代理', 'agent'),
                 'rank_code'         => 'province_agent',
-                'rank_alias'        => '一级代理',
+                'rank_alias'        => __('一级代理', 'agent'),
                 'affiliate_percent' => 15
             ),
             array(
-                'rank_name'         => '市级代理',
+                'rank_name'         => __('市级代理', 'agent'),
                 'rank_code'         => 'city_agent',
-                'rank_alias'        => '二级代理',
+                'rank_alias'        => __('二级代理', 'agent'),
                 'affiliate_percent' => 10
             ),
             array(
-                'rank_name'         => '区级代理',
+                'rank_name'         => __('区级代理', 'agent'),
                 'rank_code'         => 'district_agent',
-                'rank_alias'        => '三级代理',
+                'rank_alias'        => __('三级代理', 'agent'),
                 'affiliate_percent' => 5
             )
         );

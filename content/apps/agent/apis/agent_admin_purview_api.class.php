@@ -55,13 +55,13 @@ class agent_admin_purview_api extends Component_Event_Api
     public function call(&$options)
     {
         $purviews = array(
-            array('action_name' => '区域代理', 'action_code' => 'agent_manage', 'relevance' => ''),
-            array('action_name' => '更新区域代理', 'action_code' => 'agent_update', 'relevance' => ''),
-            array('action_name' => '删除区域代理', 'action_code' => 'agent_delete', 'relevance' => ''),
+            array('action_name' => __('区域代理', 'agent'), 'action_code' => 'agent_manage', 'relevance' => ''),
+            array('action_name' => __('更新区域代理', 'agent'), 'action_code' => 'agent_update', 'relevance' => ''),
+            array('action_name' => __('删除区域代理', 'agent'), 'action_code' => 'agent_delete', 'relevance' => ''),
 
-            array('action_name' => '区域代理等级', 'action_code' => 'agent_rank_manage', 'relevance' => ''),
-            array('action_name' => '更新代理等级', 'action_code' => 'agent_rank_update', 'relevance' => ''),
-            array('action_name' => '删除代理等级', 'action_code' => 'agent_rank_delete', 'relevance' => ''),
+            array('action_name' => __('区域代理等级', 'agent'), 'action_code' => 'agent_rank_manage', 'relevance' => ''),
+            array('action_name' => __('更新代理等级', 'agent'), 'action_code' => 'agent_rank_update', 'relevance' => ''),
+            array('action_name' => __('删除代理等级', 'agent'), 'action_code' => 'agent_rank_delete', 'relevance' => ''),
         );
         return $purviews;
     }

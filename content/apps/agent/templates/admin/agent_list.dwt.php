@@ -25,7 +25,7 @@
         </a>
         <ul class="dropdown-menu">
             <li>
-                <a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{url path='agent/admin/batch'}" data-msg="您确定要这么做吗？" data-noSelectMsg="请先选择要删除的代理商！" data-name="id" href="javascript:;">
+                <a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{url path='agent/admin/batch'}" data-msg='{t domain="agent"}您确定要这么做吗？{/t}' data-noSelectMsg='{t domain="agent"}请先选择要删除的代理商！{/t}' data-name="id" href="javascript:;">
                     <i class="fontello-icon-trash"></i>{t domain="agent"}删除{/t}
                 </a>
             </li>
@@ -75,7 +75,7 @@
                         <div class="edit-list">
                             <a class="data-pjax" href="{RC_Uri::url('agent/admin/edit')}&id={$val.user_id}">{t domain="agent"}编辑{/t}</a>&nbsp;|&nbsp;
                             <a class="data-pjax" href="{RC_Uri::url('agent/admin/detail')}&id={$val.user_id}">{t domain="agent"}查看详情{/t}</a>&nbsp;|&nbsp;
-                            <a class="ecjiafc-red" data-toggle="ajaxremove" data-msg="您确定要删除该代理商吗？" href="{RC_Uri::url('agent/admin/delete')}&id={$val.user_id}">{t domain="agent"}删除{/t}</a>
+                            <a class="ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="agent"}您确定要删除该代理商吗？{/t}' href="{RC_Uri::url('agent/admin/delete')}&id={$val.user_id}">{t domain="agent"}删除{/t}</a>
                         </div>
                     </td>
                     <td>{$val.mobile}</td>
