@@ -48,9 +48,9 @@
                         <div class="qr_code_pc">
                             <img class="qr_code_pc_img" id="js_pc_qr_code_img" src="{$store_qrcode}"/>
                             <p>
-                                微信扫一扫
+                                {t domain="toutiao"}微信扫一扫{/t}
                                 <br>
-                                    访问该店铺
+                                {t domain="toutiao"}访问该店铺{/t}
                                 </br>
                             </p>
                         </div>

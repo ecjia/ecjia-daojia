@@ -52,9 +52,9 @@ class toutiao_merchant_purview_api extends Component_Event_Api
     public function call(&$options)
     {
         $purviews = array(
-            array('action_name' => __('头条管理'), 'action_code' => 'toutiao_manage', 'relevance' => ''),
-            array('action_name' => __('头条更新'), 'action_code' => 'toutiao_update', 'relevance' => ''),
-            array('action_name' => __('头条删除'), 'action_code' => 'toutiao_delete', 'relevance' => ''),
+            array('action_name' => __('头条管理', 'toutiao'), 'action_code' => 'toutiao_manage', 'relevance' => ''),
+            array('action_name' => __('头条更新', 'toutiao'), 'action_code' => 'toutiao_update', 'relevance' => ''),
+            array('action_name' => __('头条删除', 'toutiao'), 'action_code' => 'toutiao_delete', 'relevance' => ''),
         );
         return $purviews;
     }

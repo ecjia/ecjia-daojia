@@ -25,8 +25,8 @@
 							<div class="select_mobile_area mobile_news_main">
 								<div class="show_image"></div>
 								<div class="item">
-									<div class="default">{lang key='wechat::wechat.cover_images'}</div>
-									<h4 class='news_main_title title_show'>{lang key='wechat::wechat.title'}</h4>
+									<div class="default">{t domain="toutiao"}封面图片{/t}</div>
+									<h4 class='news_main_title title_show'>{t domain="toutiao"}标题{/t}</h4>
 								</div>
 								<div class="edit_mask">
 									<a href="javascript:void(0);"><i class="fa fa-edit"></i></a>
@@ -36,52 +36,52 @@
 					</div>
 					<div class="mobile_news_edit">
 						<div class="mobile_news_edit_area">
-							<h4 class="heading new_heading">图文素材1</h4>
+							<h4 class="heading new_heading">{t domain="toutiao"}图文素材{/t}1</h4>
 							<fieldset>
 								<div class="form-group row">
-									<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.label_title'}</label>
+									<label class="col-lg-2 label-control text-right">{t domain="toutiao"}标题：{/t}</label>
 									<div class="col-lg-9 controls">
 										<input class="span8 form-control" type="text" name="title" value='' />
 									</div>
 									<span class="input-must">*</span>
 								</div>
 								<div class="form-group row">
-									<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.cover'}</label>
+									<label class="col-lg-2 label-control text-right">{t domain="toutiao"}封面：{/t}</label>
 									<div class="col-lg-9 controls">
 										<div class="fileupload fileupload-new" data-provides="fileupload">
 											<div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 60px;max-height: 60px;line-height: 10px;"></div>
 											<span class="btn btn-primary btn-file btn-sm">
-												<span class="fileupload-new"><i class="fa fa-paper-clip"></i>浏览</span>
-												<span class="fileupload-exists"> 修改</span>
+												<span class="fileupload-new"><i class="fa fa-paper-clip"></i>{t domain="toutiao"}浏览{/t}</span>
+												<span class="fileupload-exists"> {t domain="toutiao"}修改{/t}</span>
 												<input type="file" class="default" name="image" />
 											</span>
-											<a class="btn btn-danger btn-sm fileupload-exists" data-dismiss="fileupload" href="" >删除</a>
+											<a class="btn btn-danger btn-sm fileupload-exists" data-dismiss="fileupload" href="" >{t domain="toutiao"}删除{/t}</a>
 											<span class="input-must">*</span>
 										</div>
-										<span class="help-block">{lang key='wechat::wechat.img_size900x500'}</span>
+										<span class="help-block">{t domain="toutiao"}（大图片建议尺寸：900像素 * 500像素）{/t}</span>
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.summary'}</label>
+									<label class="col-lg-2 label-control text-right">{t domain="toutiao"}摘要：{/t}</label>
 									<div class="col-lg-9 controls">
 										<textarea name="description" cols="55" rows="6" class="span8 form-control"></textarea>
-										<span class="help-block">{lang key='wechat::wechat.optional_for54'}</span>
+										<span class="help-block">{t domain="toutiao"}选填，如果不填写会默认抓取正文前54个字{/t}</span>
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.text_link'}</label>
+									<label class="col-lg-2 label-control text-right">{t domain="toutiao"}原文链接：{/t}</label>
 									<div class="col-lg-9 controls">
-										<input name='content_url' class='span8 form-control' type='text' value='{t}http://{/t}' />
+										<input name='content_url' class='span8 form-control' type='text' value='{t domain="toutiao"}http://{/t}' />
 									</div>
 								</div>
 								<div class="form-group row sort_form">
-									<label class="col-lg-2 label-control text-right">{lang key='wechat::wechat.label_sort'}</label>
+									<label class="col-lg-2 label-control text-right">{t domain="toutiao"}排序：{/t}</label>
 									<div class="col-lg-9 controls">
 										<input name='sort' class='span8 form-control' type='text'/>
 									</div>
 								</div>
 								<div class="form-group row">
-									<h3 class="heading card-title col-lg-12">{lang key='wechat::wechat.main_body'}</h3>
+									<h3 class="heading card-title col-lg-12">{t domain="toutiao"}正文{/t}</h3>
 									<div class="col-lg-11">
 										{ecjia:editor content='' textarea_name='content'}
 									</div>
@@ -89,7 +89,7 @@
 								<div class="form-group row">
 									<label class="col-lg-2 label-control text-right"></label>
 									<div class="col-lg-9 controls">
-										<input type="submit" value="存入素材库" class="btn btn-info" />
+										<input type="submit" value='{t domain="toutiao"}存入素材库{/t}' class="btn btn-info" />
 									</div>
 								</div>
 							</fieldset>

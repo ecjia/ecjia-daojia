@@ -19,7 +19,7 @@
                     pid: pid
                 }
                 if (count == 0) {
-                    smoke.confirm('添加子菜单后，一级菜单的内容将被清除。确定添加子菜单？', function(e) {
+                    smoke.confirm(js_lang.whether_to_add_submenu, function(e) {
                         if (e) {
                             $.post(url, info, function(data) {
                                 $('#weixin-menu').html(data.data);
@@ -28,8 +28,8 @@
                             });
                         }
                     }, {
-                        ok: "确定",
-                        cancel: "取消"
+                        ok: js_lang.ok,
+                        cancel: js_lang.cancel
                     });
                 } else {
                     $.post(url, info, function(data) {
@@ -73,15 +73,15 @@
                 var info = {
                     id: id
                 }
-                smoke.confirm('您确定要删除该菜单吗？', function(e) {
+                smoke.confirm(js_lang.delete_this_menu, function(e) {
                     if (e) {
                         $.post(url, info, function(data) {
                             ecjia.merchant.showmessage(data);
                         });
                     }
                 }, {
-                    ok: "确定",
-                    cancel: "取消"
+                    ok: js_lang.ok,
+                    cancel: js_lang.cancel
                 });
             });
         },
@@ -105,8 +105,8 @@
                                     ecjia.merchant.showmessage(data);
                                 }, 'json');
                             }, {
-                                ok: '确定',
-                                cancel: '取消'
+                                ok: js_lang.ok,
+                                cancel: js_lang.cancel
                             });
                         } else {
                             $.get(url, function(data) {

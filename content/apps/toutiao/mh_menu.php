@@ -60,8 +60,9 @@ class mh_menu extends ecjia_merchant
         RC_Script::enqueue_script('jquery-form');
         RC_Script::enqueue_script('mh_menu_js', RC_App::apps_url('statics/js/mh_menu.js', __FILE__), array(), false, true);
         RC_Style::enqueue_style('mh_menu_css', RC_App::apps_url('statics/css/mh_menu.css', __FILE__));
+        RC_Script::localize_script('mh_menu_js', 'js_lang', config('app-toutiao::jslang.menu_page'));
 
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('头条', RC_Uri::url('toutiao/mh_menu/init')));
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('头条', 'toutiao'), RC_Uri::url('toutiao/mh_menu/init')));
         ecjia_merchant_screen::get_current_screen()->set_parentage('toutiao', 'toutiao/mh_menu.php');
     }
 
@@ -69,8 +70,8 @@ class mh_menu extends ecjia_merchant
     {
         $this->admin_priv('toutiao_manage');
 
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('自定义菜单'));
-        $this->assign('ur_here', '店铺自定义菜单');
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('自定义菜单', 'toutiao')));
+        $this->assign('ur_here', __('店铺自定义菜单', 'toutiao'));
 
         $this->assign('form_action', RC_Uri::url('toutiao/mh_menu/insert'));
         $this->assign('edit_url', RC_Uri::url('toutiao/mh_menu/get_menu_info'));
@@ -95,7 +96,7 @@ class mh_menu extends ecjia_merchant
         $store_id = $_SESSION['store_id'];
 
         $pid  = !empty($_POST['pid']) ? intval($_POST['pid']) : 0;
-        $name = !empty($_POST['name']) ? trim($_POST['name']) : !empty($pid) ? '子菜单名称' : '菜单名称';
+        $name = !empty($_POST['name']) ? trim($_POST['name']) : !empty($pid) ? __('子菜单名称', 'toutiao') : __('菜单名称', 'toutiao');
 
         $key = !empty($_POST['key']) ? $_POST['key'] : '';
         $url = !empty($_POST['url']) ? $_POST['url'] : '';
@@ -152,11 +153,11 @@ class mh_menu extends ecjia_merchant
         $sort   = !empty($_POST['sort']) ? intval($_POST['sort']) : 0;
 
         if (empty($name)) {
-            return $this->showmessage('菜单名称不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('菜单名称不能为空', 'toutiao'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (!empty($pid) && empty($url)) {
-            return $this->showmessage('请输入外链url', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入外链url', 'toutiao'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $data = array(
@@ -192,7 +193,7 @@ class mh_menu extends ecjia_merchant
             $result = $this->fetch('library/toutiao_menu_sub.lbi');
         }
 
-        return $this->showmessage('保存成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $res, 'result' => $result));
+        return $this->showmessage(__('保存成功', 'toutiao'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $res, 'result' => $result));
     }
 
     /**
@@ -213,7 +214,7 @@ class mh_menu extends ecjia_merchant
         RC_DB::table('merchant_menu')->where('store_id', $store_id)->where('id', $id)->delete();
 
         ecjia_merchant::admin_log($info['name'], 'remove', 'menu');
-        return $this->showmessage('删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('toutiao/mh_menu/init')));
+        return $this->showmessage(__('删除成功', 'toutiao'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('toutiao/mh_menu/init')));
     }
 
     public function check()
@@ -267,7 +268,7 @@ class mh_menu extends ecjia_merchant
 
         $list = RC_DB::table('merchant_menu')->where('status', 1)->where('store_id', $store_id)->orderBy('sort', 'asc')->get();
         if (empty($list)) {
-            return $this->showmessage('请添加自定义菜单或者检查菜单是否是开启状态', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请添加自定义菜单或者检查菜单是否是开启状态', 'toutiao'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $data = array();
@@ -299,7 +300,7 @@ class mh_menu extends ecjia_merchant
                 }
             }
         }
-        return $this->showmessage('生成菜单成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        return $this->showmessage(__('生成菜单成功', 'toutiao'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 
     public function get_menu_info()
