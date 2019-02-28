@@ -44,90 +44,34 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\User;
 
-/**
- * 验证红包
- * @author royalwang
- */
-class validate_bonus_module extends api_front implements api_interface
+class UserPasswdQuestions
 {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+    public function __construct()
     {
-
-        $this->authSession();
-        RC_Loader::load_app_func('admin_order', 'orders');
-        RC_Loader::load_app_func('cart', 'cart');
-        $bonus_sn = $this->requestData('bonus_sn');
-
-        if (empty($_SESSION['user_id'])) {
-            return new ecjia_error(100, __('Invalid session', 'user'));
-        }
-
-        if (is_numeric($bonus_sn)) {
-            RC_Loader::load_app_func('admin_bonus', 'bonus');
-            $bonus = bonus_info(0, $bonus_sn);
-        } else {
-            $bonus = array();
-        }
-        //$bonus_kill = price_format($bonus['type_money'], false);
-        $result = array('error' => '', 'content' => '');
-
-        /* 取得购物类型 */
-        $flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
-
-        /* 获得收货人信息 */
-        $consignee = get_consignee($_SESSION['user_id']);
-
-        /* 对商品信息赋值 */
-        $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
-
-        if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type)) {
-            $result['error'] = '您的购物车中没有商品！';
-        } else {
-            /* 取得订单信息 */
-            $order = flow_order_info();
-
-            if (((!empty($bonus) && $bonus['user_id'] == $_SESSION['user_id']) || ($bonus['type_money'] > 0 && empty($bonus['user_id']))) && $bonus['order_id'] <= 0) {
-                //$order['bonus_kill'] = $bonus['type_money'];
-                $now = RC_Time::gmtime();
-
-                if ($now > $bonus['use_end_date']) {
-                    $order['bonus_id'] = '';
-                    $result['error']   = __('该红包已经过了使用期！', 'user');
-                } else {
-                    $order['bonus_id'] = $bonus['bonus_id'];
-                    $order['bonus_sn'] = $bonus_sn;
-                }
-            } else {
-                $order['bonus_id'] = '';
-                $result['error']   = __('您选择的红包并不存在。', 'user');
-            }
-
-            /* 计算订单的费用 */
-            $total = order_fee($order, $cart_goods, $consignee);
-
-            if ($total['goods_price'] < $bonus['min_goods_amount']) {
-                $order['bonus_id'] = '';
-                /* 重新计算订单 */
-                $total           = order_fee($order, $cart_goods, $consignee);
-                $result['error'] = sprintf(__('订单商品金额没有达到使用该红包的最低金额 %s', 'user'), price_format($bonus['min_goods_amount'], false));
-            }
-            /* 团购标志 */
-            if ($flow_type == CART_GROUP_BUY_GOODS) {
-                $is_group_buy = 1;
-            }
-
-            $result['is_group_buy'] = $is_group_buy;
-            $result['total']        = $total;
-        }
-        if (!empty($result['error'])) {
-            return new ecjia_error(101, '参数错误');
-        }
-
-        $out = array('bonus' => $result['total']['bonus'], 'bonus_formated' => $result['total']['bonus_formated']);
-        return $out;
     }
+
+    public static function getQuestionsLabel($passwd_question_key = '')
+    {
+        $passwd_questions = array(
+            'friend_birthday' => __('我最好朋友的生日？', 'user'),
+            'old_address'     => __('我儿时居住地的地址？', 'user'),
+            'motto'           => __('我的座右铭是？', 'user'),
+            'favorite_movie'  => __('我最喜爱的电影？', 'user'),
+            'favorite_song'   => __('我最喜爱的歌曲？', 'user'),
+            'favorite_food'   => __('我最喜爱的食物？', 'user'),
+            'interest'        => __('我最大的爱好？', 'user'),
+            'favorite_novel'  => __('我最喜欢的小说？', 'user'),
+            'favorite_equipe' => __('我最喜欢的运动队？', 'user')
+        );
+
+        if (!array_key_exists($passwd_question_key, $passwd_questions)) {
+            return '';
+        }
+
+        return array_get($passwd_questions, $passwd_question_key);
+    }
+
 }
 
-// end

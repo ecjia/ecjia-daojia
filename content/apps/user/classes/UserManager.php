@@ -57,6 +57,7 @@ use ecjia_error;
 use ecjia_config;
 use ecjia_integrate;
 use RC_Hook;
+use RC_Loader;
 
 /**
  * Class UserManager
@@ -66,9 +67,13 @@ use RC_Hook;
 class UserManager
 {
 
+    protected static $instance;
+
     public function __construct()
     {
-        self::$instance = ecjia_integrate::init_users();
+        if (is_null(self::$instance)) {
+            self::$instance = ecjia_integrate::init_users();
+        }
     }
 
 
@@ -190,5 +195,20 @@ class UserManager
         return true;
     }
 
+
+    public function loginSuccessHook($user_info)
+    {
+        //设置session,设置cookie
+        ecjia_integrate::setSession($user_info['user_name']);
+        ecjia_integrate::setCookie($user_info['user_name']);
+
+        //同步会员信息
+        RC_Loader::load_app_func('admin_user', 'user');
+        $user_info = EM_user_info($user_info['user_id']);
+
+        update_user_info(); // 更新用户信息
+        RC_Loader::load_app_func('cart', 'cart');
+        recalculate_price(); // 重新计算购物车中的商品价格
+    }
 
 }

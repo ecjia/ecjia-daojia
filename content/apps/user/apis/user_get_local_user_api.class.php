@@ -47,86 +47,60 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 验证红包
+ * 获取本地会员帐号接口
  * @author royalwang
  */
-class validate_bonus_module extends api_front implements api_interface
+class user_get_local_user_api extends Component_Event_Api
 {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
+
+    /**
+     * 创建用户
+     *
+     * username 用户名（必填）
+     * password 密码
+     * email 邮箱
+     * mobile 手机号（必填）
+     * gender 性别
+     * birthday 生日
+     * reg_date 注册日期
+     *
+     * @param array $options
+     * @return array | ecjia_error
+     */
+    public function call(& $options)
     {
 
-        $this->authSession();
-        RC_Loader::load_app_func('admin_order', 'orders');
-        RC_Loader::load_app_func('cart', 'cart');
-        $bonus_sn = $this->requestData('bonus_sn');
+        $username = array_get($options, 'username');
+        $mobile   = array_get($options, 'mobile');
+        $email    = array_get($options, 'email');
+        $user_id  = array_get($options, 'user_id');
 
-        if (empty($_SESSION['user_id'])) {
-            return new ecjia_error(100, __('Invalid session', 'user'));
+        if (empty($username) && empty($mobile) && empty($email) && empty($user_id)) {
+            return new ecjia_error('invalid_parameter', __('调用接口user_get_local_user_api参数无效', 'user'));
         }
 
-        if (is_numeric($bonus_sn)) {
-            RC_Loader::load_app_func('admin_bonus', 'bonus');
-            $bonus = bonus_info(0, $bonus_sn);
+        $localUser = new \Ecjia\App\User\LocalUser();
+
+        if (!empty($mobile)) {
+            $model = $localUser->getProfileByMobile($mobile);
+        }
+        elseif (!empty($email)) {
+            $model = $localUser->getProfileByEmail($email);
+        }
+        elseif (!empty($username)) {
+            $model = $localUser->getProfileByName($username);
+        }
+        else {
+            $model = $localUser->getProfileById($user_id);
+        }
+
+        if ($model) {
+            $profile = $localUser->getProfileByModel($model);
+            return $profile;
         } else {
-            $bonus = array();
-        }
-        //$bonus_kill = price_format($bonus['type_money'], false);
-        $result = array('error' => '', 'content' => '');
-
-        /* 取得购物类型 */
-        $flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
-
-        /* 获得收货人信息 */
-        $consignee = get_consignee($_SESSION['user_id']);
-
-        /* 对商品信息赋值 */
-        $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
-
-        if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type)) {
-            $result['error'] = '您的购物车中没有商品！';
-        } else {
-            /* 取得订单信息 */
-            $order = flow_order_info();
-
-            if (((!empty($bonus) && $bonus['user_id'] == $_SESSION['user_id']) || ($bonus['type_money'] > 0 && empty($bonus['user_id']))) && $bonus['order_id'] <= 0) {
-                //$order['bonus_kill'] = $bonus['type_money'];
-                $now = RC_Time::gmtime();
-
-                if ($now > $bonus['use_end_date']) {
-                    $order['bonus_id'] = '';
-                    $result['error']   = __('该红包已经过了使用期！', 'user');
-                } else {
-                    $order['bonus_id'] = $bonus['bonus_id'];
-                    $order['bonus_sn'] = $bonus_sn;
-                }
-            } else {
-                $order['bonus_id'] = '';
-                $result['error']   = __('您选择的红包并不存在。', 'user');
-            }
-
-            /* 计算订单的费用 */
-            $total = order_fee($order, $cart_goods, $consignee);
-
-            if ($total['goods_price'] < $bonus['min_goods_amount']) {
-                $order['bonus_id'] = '';
-                /* 重新计算订单 */
-                $total           = order_fee($order, $cart_goods, $consignee);
-                $result['error'] = sprintf(__('订单商品金额没有达到使用该红包的最低金额 %s', 'user'), price_format($bonus['min_goods_amount'], false));
-            }
-            /* 团购标志 */
-            if ($flow_type == CART_GROUP_BUY_GOODS) {
-                $is_group_buy = 1;
-            }
-
-            $result['is_group_buy'] = $is_group_buy;
-            $result['total']        = $total;
-        }
-        if (!empty($result['error'])) {
-            return new ecjia_error(101, '参数错误');
+            return new ecjia_error('user_not_found', __('未找到用户', 'user'));
         }
 
-        $out = array('bonus' => $result['total']['bonus'], 'bonus_formated' => $result['total']['bonus_formated']);
-        return $out;
     }
 }
 

@@ -58,16 +58,21 @@ class LocalUser
     }
 
 
+    /**
+     * @param UserModel $model
+     * @return array
+     */
     public function getProfileByModel(UserModel $model)
     {
         return [
-            'user_id'   => $model->user_id,
-            'user_name' => $model->user_name,
-            'email'     => $model->email,
-            'sex'       => $model->sex,
-            'birthday'  => $model->birthday,
-            'reg_time'  => $model->reg_time,
-            'password'  => $model->password,
+            'user_id'      => $model->user_id,
+            'user_name'    => $model->user_name,
+            'email'        => $model->email,
+            'sex'          => $model->sex,
+            'birthday'     => $model->birthday,
+            'reg_time'     => $model->reg_time,
+            'password'     => $model->password,
+            'mobile_phone' => $model->mobile_phone,
         ];
     }
 
@@ -76,12 +81,12 @@ class LocalUser
      *  获取指定用户的信息
      *
      * @param $username
-     * @return array
+     * @return UserModel
      */
     public function getProfileByName($username)
     {
         $row = $this->model
-            ->select('user_id', 'user_name', 'email', 'sex', 'birthday', 'reg_time', 'password')
+            ->select('user_id', 'user_name', 'email', 'sex', 'birthday', 'reg_time', 'mobile_phone')
             ->where('user_name', $username)
             ->first();
 
@@ -91,14 +96,30 @@ class LocalUser
     /**
      *  获取指定用户的信息
      *
-     * @param $username
-     * @return array
+     * @param $mobile
+     * @return UserModel
      */
     public function getProfileByMobile($mobile)
     {
         $row = $this->model
-            ->select('user_id', 'user_name', 'email', 'sex', 'birthday', 'reg_time', 'password')
+            ->select('user_id', 'user_name', 'email', 'sex', 'birthday', 'reg_time', 'mobile_phone')
             ->where('mobile_phone', $mobile)
+            ->first();
+
+        return $row;
+    }
+
+    /**
+     *  获取指定用户的信息
+     *
+     * @param $email
+     * @return UserModel
+     */
+    public function getProfileByEmail($email)
+    {
+        $row = $this->model
+            ->select('user_id', 'user_name', 'email', 'sex', 'birthday', 'reg_time', 'mobile_phone')
+            ->where('email', $email)
             ->first();
 
         return $row;
@@ -109,12 +130,12 @@ class LocalUser
      *  获取指定用户的信息
      *
      * @param $id
-     * @return array
+     * @return UserModel
      */
     public function getProfileById($id)
     {
         $row = $this->model
-            ->select('user_id', 'user_name', 'email', 'sex', 'birthday', 'reg_time', 'password')
+            ->select('user_id', 'user_name', 'email', 'sex', 'birthday', 'reg_time', 'mobile_phone')
             ->where('user_id', $id)
             ->first();
 

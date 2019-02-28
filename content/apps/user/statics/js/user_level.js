@@ -22,7 +22,7 @@
                 if (year == 0 || year == undefined) {
                     ecjia.admin.showmessage({
                         'state': 'error',
-                        'message': '请选择年份'
+                        'message': js_lang.year_required
                     });
                     return false;
                 }
@@ -45,7 +45,7 @@
                 if (start_date != '' && end_date != '') {
                     if (start_date >= end_date) {
                         var data = {
-                            message: '开始时间不能大于或等于结束时间',
+                            message: js_lang.time_error,
                             state: "error",
                         };
                         ecjia.admin.showmessage(data);
@@ -55,7 +55,7 @@
 
                     if (date_diff > 90) {
                         var data = {
-                            message: '查询时间间隔不超过90天',
+                            message: js_lang.search_time_error,
                             state: "error",
                         };
                         ecjia.admin.showmessage(data);
@@ -65,7 +65,7 @@
 
                 if (start_date == '' && end_date != '') {
                     var data = {
-                        message: '开始时间不能为空',
+                        message: js_lang.start_date_required,
                         state: "error",
                     };
                     ecjia.admin.showmessage(data);
@@ -74,7 +74,7 @@
 
                 if (start_date != '' && end_date == '') {
                     var data = {
-                        message: '结束时间不能为空',
+                        message: js_lang.end_date_required,
                         state: "error",
                     };
                     ecjia.admin.showmessage(data);
@@ -95,7 +95,7 @@
             var dataset = [];
             var ticks = [];
             if (data.length == 0) {
-                var nodata = "<div style='width:100%;height:100%;line-height:400px;text-align:center;overflow: hidden;'>没有找到任何记录<\/div>";
+                var nodata = "<div style='width:100%;height:100%;line-height:400px;text-align:center;overflow: hidden;'>'+ js_lang.no_records +'<\/div>";
                 $('#user_level').html(nodata);
             } else {
                 $.each(JSON.parse(data), function (key, value) {

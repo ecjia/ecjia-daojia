@@ -61,10 +61,6 @@ class validate_get_module extends api_front implements api_interface
 
         $code = rand(100001, 999999);
         if ($type == 'mobile') {
-// 		    $chars = "/^1(3|4|5|6|7|8|9)\d{9}$/s";
-// 		    if (!preg_match($chars, $value)) {
-// 		        return new ecjia_error('mobile_error', '手机号码格式错误');
-// 		    }
             $check_mobile = Ecjia\App\Sms\Helper::check_mobile($value);
             if (is_ecjia_error($check_mobile)) {
                 return $check_mobile;

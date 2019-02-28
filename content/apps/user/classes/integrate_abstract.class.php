@@ -198,14 +198,14 @@ abstract class integrate_abstract
     {
         /* 将用户添加到整合方 */
         if ($this->check_user($username) > 0) {
-            $this->error = new ecjia_error('ERR_USERNAME_EXISTS', RC_Lang::get('user::users.username_exists'));
+            $this->error = new ecjia_error('ERR_USERNAME_EXISTS', __('已经存在一个相同的用户名。', 'user'));
             return false;
         }
 
         /* 检查email是否重复 */
         $query = $this->db->field($this->field_id)->find(array($this->field_email => $email));
         if ($query[$this->field_id] > 0) {
-            $this->error = new ecjia_error('ERR_EMAIL_EXISTS', RC_Lang::get('user::users.email_exists'));
+            $this->error = new ecjia_error('ERR_EMAIL_EXISTS', __('该邮件地址已经存在。', 'user'));
             return false;
         }
 

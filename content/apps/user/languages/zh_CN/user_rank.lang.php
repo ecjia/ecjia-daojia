@@ -73,8 +73,8 @@ return array(
     'rank_name_exists'    => '会员等级名 %s 已经存在。',
     'add_rank_success'    => '会员等级已经添加成功。',
     'edit_rank_success'   => '会员等级已经编辑成功。',
-    'integral_min_exists' => '已经存在一个成长值下限为 %d 的会员等级',
-    'integral_max_exists' => '已经存在一个成长值上限为 %d 的会员等级',
+    'integral_min_exists' => '已经存在一个成长值下限为 %s 的会员等级',
+    'integral_max_exists' => '已经存在一个成长值上限为 %s 的会员等级',
 
     /* JS 语言 */
     'js_languages'        => array(

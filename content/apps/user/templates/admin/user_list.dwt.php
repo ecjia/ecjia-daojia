@@ -79,7 +79,7 @@
 					<td>{$user.user_money}</td>
 					<td>{$user.pay_points}</td>
 					<td>{$user.rank_name}</td>
-					<td>{if $user.reg_time}{$user.reg_time}{else}{t}1970-01-01 00:00:00{/if}</td>
+					<td>{if $user.reg_time}{$user.reg_time}{else}1970-01-01 00:00:00{/if}</td>
 				</tr>
 				<!--{foreachelse}-->
 				<tr><td class="no-records" colspan="8">{t domain="user"}没有找到任何记录{/t}</td></tr>

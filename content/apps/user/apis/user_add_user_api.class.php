@@ -83,7 +83,13 @@ class user_add_user_api extends Component_Event_Api
 //        ecjia_log_debug('user_add_user_api', $options);
 
         if (empty($username)) {
-            return new ecjia_error('invalid_parameter', __('调用接口user_add_user_api参数无效', 'user'));
+
+            if (!empty($mobile)) {
+                $username = $mobile;
+            } else {
+                return new ecjia_error('invalid_parameter', __('调用接口user_add_user_api参数无效', 'user'));
+            }
+
         }
 
         $result = ecjia_integrate::addUser($username, $password, $email, $mobile, $gender, $birthday, $reg_date);

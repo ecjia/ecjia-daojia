@@ -46,7 +46,7 @@
                             }
                         });
                     }
-                }, {ok: "确定", cancel: "取消"});
+                }, {ok: js_lang.ok, cancel: js_lang.cancel});
             });
         }
     };
@@ -93,18 +93,18 @@
                 },
                 messages: {
                     username: {
-                        required: user_jslang.username_required
+                        required: js_lang.username_required
                     },
                     mobile_phone: {
-                        required: user_jslang.mobile_phone_required,
+                        required: js_lang.mobile_phone_required,
                     },
                     password: insert ? {
-                        required: user_jslang.password_required,
-                        minlength: user_jslang.password_length
+                        required: js_lang.password_required,
+                        minlength: js_lang.password_length
                     } : '',
-                    newpassword: insert ? user_jslang.password_length : '',
+                    newpassword: insert ? js_lang.password_length : '',
                     confirm_password: {
-                        equalTo: user_jslang.password_check
+                        equalTo: js_lang.password_check
                     }
                 },
                 submitHandler: function () {
@@ -172,16 +172,16 @@
                 },
                 messages: {
                     rank_name: {
-                        required: rank_jslang.rank_name_required
+                        required: js_lang.rank_name_required
                     },
                     min_points: {
-                        required: rank_jslang.min_points_required
+                        required: js_lang.min_points_required
                     },
                     max_points: {
-                        required: rank_jslang.max_points_required
+                        required: js_lang.max_points_required
                     },
                     discount: {
-                        required: rank_jslang.discount_required
+                        required: js_lang.discount_required
                     }
                 },
                 submitHandler: function () {
@@ -217,10 +217,10 @@
                 },
                 messages: {
                     reg_field_name: {
-                        required: reg_jslang.reg_field_name_required
+                        required: js_lang.reg_field_name_required
                     },
                     reg_field_order: {
-                        required: reg_jslang.reg_field_order_required
+                        required: js_lang.reg_field_order_required
                     }
                 },
                 submitHandler: function () {

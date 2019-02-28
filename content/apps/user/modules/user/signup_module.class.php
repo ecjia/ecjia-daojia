@@ -139,11 +139,7 @@ class user_signup_module extends api_front implements api_interface
         }
 
         $other['last_login'] = RC_Time::gmtime();
-        if (version_compare($api_version, '1.17', '>=')) {
-            $result = $this->register($username, $password, $email, $other['mobile_phone'], $other, $api_version);
-        } else {
-            $result = $this->register($username, $password, $email, $other['mobile_phone'], $other);
-        }
+        $result = $this->register($username, $password, $email, $other['mobile_phone'], $other, $api_version);
 
         if (is_ecjia_error($result)) {
             return $result;
@@ -268,19 +264,13 @@ class user_signup_module extends api_front implements api_interface
             return new ecjia_error('shop_reg_closed', __('会员注册关闭', 'user'));
         }
 
-        if (version_compare($api_version, '1.17', '>=')) {
-            /* 检查username */
-            if (empty($username)) {
-                return new ecjia_error('username_not_empty', __('用户名不能为空！', 'user'));
-            } else {
+        if (empty($username)) {
+            return new ecjia_error('username_not_empty', __('用户名不能为空！', 'user'));
+        } else {
+            if (version_compare($api_version, '1.17', '>=')) {
                 if (preg_match('/\'\/^\\s*$|^c:\\\\con\\\\con$|[%,\\\"\\s\\t\\<\\>\\&\'\\\\]/', $username)) {
                     return new ecjia_error('username_error', __('用户名有敏感字符', 'user'));
                 }
-            }
-        } else {
-            /* 检查username */
-            if (empty($username)) {
-                return new ecjia_error('username_not_empty', __('用户名不能为空！', 'user'));
             } else {
                 if (preg_match('/\'\/^\\s*$|^c:\\\\con\\\\con$|[%,\\*\\"\\s\\t\\<\\>\\&\'\\\\]/', $username)) {
                     return new ecjia_error('username_error', __('用户名有敏感字符', 'user'));
@@ -303,11 +293,10 @@ class user_signup_module extends api_front implements api_interface
                     'user_id'     => $_SESSION['user_id'],
                     'rank_points' => ecjia::config('register_points'),
                     'pay_points'  => ecjia::config('register_points'),
-                    'change_desc' => RC_Lang::get('user::user.register_points')
+                    'change_desc' => __('注册送积分', 'user')
                 );
                 $result  = RC_Api::api('user', 'account_change_log', $options);
             }
-
 
             // 定义other合法的变量数组
             $other_key_array         = array(
@@ -334,8 +323,8 @@ class user_signup_module extends api_front implements api_interface
 
             RC_Loader::load_app_func('admin_user', 'user');
             update_user_info(); // 更新用户信息
-            RC_Loader::load_app_func('cart', 'cart');
-            recalculate_price(); // 重新计算购物车中的商品价格
+//             RC_Loader::load_app_func('cart', 'cart');
+//             recalculate_price(); // 重新计算购物车中的商品价格
 
             return true;
         }

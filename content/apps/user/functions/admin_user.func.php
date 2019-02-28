@@ -618,7 +618,6 @@ function change_account_log($user_id, $user_money = 0, $frozen_money = 0, $rank_
 function update_user_info()
 {
     // 链接数据库
-    $dbview       = RC_Model::model('user/user_viewmodel');
     $db_users     = RC_Model::model('user/users_model');
     $db_user_rank = RC_Model::model('user/user_rank_model');
 
@@ -629,19 +628,7 @@ function update_user_info()
     /* 查询会员信息 */
     $time = RC_Time::gmtime();
 
-    $dbview->view = array(
-        'user_bonus' => array(
-            'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-            'alias' => 'ub',
-            'on'    => 'ub.user_id = u.user_id AND ub.used_time = 0'
-        ),
-        'bonus_type' => array(
-            'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-            'alias' => 'b',
-            'on'    => "b.type_id = ub.bonus_type_id AND b.use_start_date <= '$time' AND b.use_end_date >= '$time'"
-        )
-    );
-    $row          = $dbview->find('u.user_id = ' . $_SESSION['user_id'] . '');
+    $row = $db_users->where('user_id = ' . $_SESSION['user_id'])->find();
     if ($row) {
         /* 更新SESSION */
         $_SESSION['last_time']  = RC_Time::local_date('Y-m-d H:i:s', $row['last_login']);
@@ -664,20 +651,20 @@ function update_user_info()
         /* 取得用户等级和折扣 */
         if ($row['user_rank'] == 0) {
             // 非特殊等级，根据成长值计算用户等级（注意：不包括特殊等级）
-            $row = $db_user_rank->field('rank_id, discount')->find('special_rank = "0" AND min_points <= "' . intval($row['rank_points']) . '" AND max_points > "' . intval($row['rank_points']) . '"');
-            if ($row) {
-                $_SESSION['user_rank'] = $row['rank_id'];
-                $_SESSION['discount']  = $row['discount'] / 100.00;
+            $row_rank = $db_user_rank->field('rank_id, discount')->find('special_rank = "0" AND min_points <= "' . intval($row['rank_points']) . '" AND max_points > "' . intval($row['rank_points']) . '"');
+            if ($row_rank) {
+                $_SESSION['user_rank'] = $row_rank['rank_id'];
+                $_SESSION['discount']  = $row_rank['discount'] / 100.00;
             } else {
                 $_SESSION['user_rank'] = 0;
                 $_SESSION['discount']  = 1;
             }
         } else {
             // 特殊等级
-            $row = $db_user_rank->field('rank_id, discount')->find('rank_id = "' . $row[user_rank] . '"');
-            if ($row) {
-                $_SESSION['user_rank'] = $row['rank_id'];
-                $_SESSION['discount']  = $row['discount'] / 100.00;
+            $row_rank = $db_user_rank->field('rank_id, discount')->find('rank_id = "' . $row[user_rank] . '"');
+            if ($row_rank) {
+                $_SESSION['user_rank'] = $row_rank['rank_id'];
+                $_SESSION['discount']  = $row_rank['discount'] / 100.00;
             } else {
                 $_SESSION['user_rank'] = 0;
                 $_SESSION['discount']  = 1;
@@ -690,11 +677,11 @@ function update_user_info()
 
     /* 更新登录时间，登录次数及登录ip */
     $data = array(
-        'visit_count' => visit_count + 1,
+        'visit_count' => $row['visit_count'] + 1,
         'last_ip'     => RC_Ip::client_ip(),
         'last_login'  => RC_Time::gmtime()
     );
-    $db_users->where('user_id = ' . $_SESSION[user_id] . '')->update($data);
+    $db_users->where('user_id = ' . $_SESSION['user_id'] . '')->update($data);
 }
 
 

@@ -66,13 +66,13 @@ class validate_bind_module extends api_front implements api_interface
             return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
         }
         //判断校验码是否过期
-        if ($_SESSION['bindcode_lifetime'] + 1800 < RC_Time::gmtime()) {
+        if (!isset($_SESSION['bindcode_lifetime']) || $_SESSION['bindcode_lifetime'] + 1800 < RC_Time::gmtime()) {
             //过期
             $result = new ecjia_error('code_timeout', __('验证码已过期，请重新获取！'));
             return $result;
         }
         //判断校验码是否正确
-        if ($code != $_SESSION['bind_code']) {
+        if (!isset($_SESSION['bind_code']) || $code != $_SESSION['bind_code']) {
             $result = new ecjia_error('code_error', __('验证码错误，请重新填写！'));
             return $result;
         }
