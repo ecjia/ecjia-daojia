@@ -46,64 +46,81 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class weapp_wxlogin_module extends api_front implements api_interface
+class weapp_wxmobile_module extends api_front implements api_interface
 {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
         $this->authSession();
-        $uuid = $this->requestData('uuid');
-        $code = $this->requestData('code');
+        $iv            = trim($this->requestData('iv'));
+        $encrypteddata = trim($this->requestData('encrypteddata'));
+        $uuid          = trim($this->requestData('uuid'));
 
-        if (empty($uuid) || empty($code)) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'weapp'));
+        if (empty($iv) || empty($encrypteddata) || empty($uuid)) {
+            return new ecjia_error('invalid_parameter', __(sprintf('%s参数无效', 'weapp/wxmobile'), 'weapp'));
         }
 
-        /*获取weappid*/
+        $openid      = session('openid');
+        $unionid      = session('unionid');
+        $session_key = session('session_key');
+
+
+        //获取小程序的weappid,即小程序自增id
         $WeappUUID = new Ecjia\App\Weapp\WeappUUID($uuid);
         $weappId   = $WeappUUID->getWeappID();
 
-        /*登录*/
+        //获取用户解密数据
         $WeappUser = new Ecjia\App\Weapp\WeappUser($WeappUUID);
-        $data      = $WeappUser->login($code);
+        $data      = $WeappUser->decryptedData($session_key, $encrypteddata, $iv);
 
-        /*创建用户*/
-        $WechatUserRepository = new Ecjia\App\Weapp\Repositories\WechatUserRepository($weappId);
-        $wechat_user          = $WechatUserRepository->createUser($weappId, array(
-            'openid'      => $data['openid'],
-            'unionid'     => $data['unionid'],
-            'session_key' => $data['session_key']
-        ));
+        if (is_ecjia_error($data)) {
+            return $data;
+        }
 
-        $out = array();
-        if ($wechat_user) {
-            session([
-                'openid'      => $data['openid'],
-                'unionid'     => $data['unionid'],
-                'session_key' => $data['session_key'],
-            ]);
+        if ($data['countryCode'] == '86') {
 
+            $mobile = $data['purePhoneNumber'];
 
-            //绑定会员
-            $connect_user = RC_Api::api('connect', 'connect_user',
-                array(
-                    'connect_code'     => 'sns_wechat_weapp',
-                    'open_id'          => $data['openid'],
-                    'union_id'         => $data['unionid'],
-                )
-            );
+            session(['session_wechat_mobile' => $mobile]);
 
-            if (is_ecjia_error($connect_user)) {
-                return $connect_user;
-            }
+            if (! empty($mobile)) {
 
-            //获取会员信息
-            $user_info = RC_Api::api('user', 'get_local_user', array('user_id' => $connect_user->getUserId()));
-            if (is_ecjia_error($user_info)) {
-                $out = array(
-                    'token' => RC_Session::getId()
+                $user_info = RC_Api::api('user', 'get_local_user', array('mobile' => $mobile));
+
+                if (is_ecjia_error($user_info)) {
+
+                    return $user_info;
+
+                }
+
+                //如果已经有用户了，则自动绑定已有用户
+                $WechatUserRepository = new Ecjia\App\Weapp\Repositories\WechatUserRepository($weappId);
+                $data = $WechatUserRepository->findUser($openid);
+
+                //转换数据格式
+                $newdata = array(
+                    'openid'     => $data['openid'],
+                    'nickname'   => $data['nickname'],
+                    'sex'        => $data['sex'],
+                    'language'   => $data['language'],
+                    'city'       => $data['city'],
+                    'province'   => $data['province'],
+                    'country'    => $data['country'],
+                    'headimgurl' => $data['headimgurl'],
+                    'privilege'  => '',
+                    'unionid'    => $data['unionid'],
                 );
 
-            } else {
+                //绑定会员
+                $connect_user = RC_Api::api('connect', 'connect_user_bind',
+                    array(
+                        'connect_code'     => 'sns_wechat_weapp',
+                        'connect_platform' => 'wechat',
+                        'open_id'          => $newdata['openid'],
+                        'union_id'         => $newdata['unionid'],
+                        'profile'          => $newdata,
+                        'mobile'           => $mobile,
+                    )
+                );
 
                 //会员登录后，相关信息处理
                 (new \Ecjia\App\User\UserManager())->loginSuccessHook($user_info);
@@ -123,12 +140,19 @@ class weapp_wxlogin_module extends api_front implements api_interface
                     'user' => $user_info
                 );
 
+                return $out;
+
             }
 
-            return $out;
+        } else {
+            return new ecjia_error('mobile_phone_not_china', __('手机号不是中国地区，暂未支持。'));
         }
 
-        return new ecjia_error('create_wechat_user_failed', __('创建微信用户失败', 'weapp'));
     }
+
 }
+
+
+
+
 // end
