@@ -52,42 +52,69 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class connect_update_user_avatar_api extends Component_Event_Api {
     
-    public function call(&$options) {
+    public function call(&$options)
+    {
         if (!is_array($options) || !isset($options['avatar_url'])) {
             return new ecjia_error('invalid_parameter', __('参数无效', 'connect') . ' connect_update_user_avatar_api');
         }
         
 	    $avatar_url    = trim($options['avatar_url']);
 	    $user_id       = trim($options['user_id']);
+
 	    if (empty($user_id)) {
-	        $user_id = $_SESSION['user_id'];
+	        $user_id = session('user_id');
 	    }
+
 // 		$get_file      = @file_get_contents($avatar_url);
 		
-		$ch=curl_init();
-		$timeout=30;
-		curl_setopt($ch,CURLOPT_URL,$avatar_url);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
-		$get_file=curl_exec($ch);
-		curl_close($ch);
-		
-		if ($get_file) {
-			
-			$filename        = md5($user_id);
-			$path            = RC_Upload::upload_path() . 'data/avatar';
-			$avatar_path     = $path.'/'.$filename.'.jpg';
-			
-			//创建目录
-			$result = royalcms('files')->makeDirectory($path, 0777, true, true);
-			//删除原有图片
-			royalcms('files')->delete($avatar_path);
-			$fp = @fopen($avatar_path,"w");
-			@fwrite($fp, $get_file);
-			@fclose($fp);
-			$rs = RC_DB::table('users')->where('user_id', $user_id)->update(array('avatar_img' => 'data/avatar'.'/'.$filename.'.jpg'));
-		}
-        return true;
+//		$ch=curl_init();
+//		$timeout=30;
+//		curl_setopt($ch,CURLOPT_URL,$avatar_url);
+//		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+//		curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
+//		$get_file=curl_exec($ch);
+//		curl_close($ch);
+
+//		$disk = RC_Storage::disk();
+
+        $filename        = md5($user_id);
+        $relative_path   = 'data/avatar/'.$filename.'.jpg';
+        $avatar_path     = RC_Upload::upload_path($relative_path);
+
+        $result = RC_Http::remote_get($avatar_url, array(
+            'stream'        => true,
+            'filename'      => $avatar_path
+        ));
+
+        if (!empty($result['filename'])) {
+
+            $rs = RC_DB::table('users')->where('user_id', $user_id)->update(array('avatar_img' => $relative_path));
+
+            return $rs;
+
+        }
+
+        return new ecjia_error('download_avatar_failed', __('下载头像图片失败', 'connect'));
+
+
+//        dd($result);
+
+//		if ($get_file) {
+//
+////            $filename        = md5($user_id);
+////            $path            = RC_Upload::upload_path() . 'data/avatar';
+////            $avatar_path     = $path.'/'.$filename.'.jpg';
+//
+//			//创建目录
+//			$result = royalcms('files')->makeDirectory($path, 0777, true, true);
+//			//删除原有图片
+//			royalcms('files')->delete($avatar_path);
+//			$fp = @fopen($avatar_path,"w");
+//			@fwrite($fp, $get_file);
+//			@fclose($fp);
+//			$rs = RC_DB::table('users')->where('user_id', $user_id)->update(array('avatar_img' => 'data/avatar'.'/'.$filename.'.jpg'));
+//		}
+//        return true;
     }
 }
 

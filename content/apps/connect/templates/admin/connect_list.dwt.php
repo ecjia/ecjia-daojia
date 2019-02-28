@@ -28,7 +28,7 @@
 		<tr>
 			<td>
 				<!-- {if $module.enabled == 1} -->
-					<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('connect/admin_plugin/edit_name')}" data-name="title" data-pk="{$module.connect_id}"  data-title="{t domain="connect"}编辑名称{/t}">{$module.connect_name}</span>
+					<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('connect/admin_plugin/edit_name')}" data-name="title" data-pk="{$module.connect_id}"  data-title='{t domain="connect"}编辑名称{/t}'>{$module.connect_name}</span>
 				<!-- {else} -->
 					{$module.connect_name}
 				<!-- {/if} -->
@@ -39,21 +39,21 @@
 				{$module.connect_desc|nl2br}
 				<div class="edit-list">
 					{assign var=connect_edit value=RC_Uri::url('connect/admin_plugin/edit',"code={$module.connect_code}")}
-					<a class="data-pjax" href="{$connect_edit}" title="{t domain="connect"}编辑{/t}">{t domain="connect"}编辑{/t}</a>&nbsp;|&nbsp;
+					<a class="data-pjax" href="{$connect_edit}" title='{t domain="connect"}编辑{/t}'>{t domain="connect"}编辑{/t}</a>&nbsp;|&nbsp;
 					{assign var=connect_disable value=RC_Uri::url('connect/admin_plugin/disable',"id={$module.connect_id}")}
-					<a class="ecjiafc-red ajaxall"  href="{$connect_disable}" data-url="{$connect_disable}" title="{t domain="connect"}禁用{/t}">{t domain="connect"}禁用{/t}</a>
+					<a class="ecjiafc-red ajaxall"  href="{$connect_disable}" data-url="{$connect_disable}" title='{t domain="connect"}禁用{/t}'>{t domain="connect"}禁用{/t}</a>
 				</div>
 				<!-- {else} -->
 				{$module.connect_desc|nl2br}
 				<div class="edit-list">
 					{assign var=connect_enable value=RC_Uri::url('connect/admin_plugin/enable',"id={$module.connect_id}")}
-					<a class="ajaxall" href="{$connect_enable}" data-url="{$connect_enable}" title="{t domain="connect"}启用{/t}">{t domain="connect"}启用{/t}</a>
+					<a class="ajaxall" href="{$connect_enable}" data-url="{$connect_enable}" title='{t domain="connect"}启用{/t}'>{t domain="connect"}启用{/t}</a>
 				</div>
 				<!-- {/if} -->
 			</td>
 			<td>
 				<!-- {if $module.enabled == 1} -->
-				<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('connect/admin_plugin/edit_order')}" data-name="title" data-pk="{$module.connect_id}" data-title="{t domain="connect"}编辑排序{/t}">{$module.connect_order}</span>
+				<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('connect/admin_plugin/edit_order')}" data-name="title" data-pk="{$module.connect_id}" data-title='{t domain="connect"}编辑排序{/t}'>{$module.connect_order}</span>
 				<!-- {else} -->
 				{$module.connect_order}
 				<!-- {/if} -->

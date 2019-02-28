@@ -67,7 +67,7 @@ class connect_connect_user_bind_api extends Component_Event_Api
     public function call(&$options)
     {
         if (!array_get($options, 'connect_code') || !array_get($options, 'open_id') || !array_get($options, 'profile')) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'connect'). ' connect_connect_user_bind_api');
+            return new ecjia_error('invalid_parameter', __('参数无效', 'connect') . ' connect_connect_user_bind_api');
         }
 
         $expires_in       = array_get($options, 'expires_in', 7200);
@@ -76,13 +76,14 @@ class connect_connect_user_bind_api extends Component_Event_Api
         $connect_platform = $options['connect_platform'];
         $open_id          = $options['open_id'];
         $union_id         = $options['union_id'];
+        $mobile           = $options['mobile'];
 
         $connect_user = new \Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
         $connect_user->setConnectPlatform($connect_platform);
         $connect_user->setUnionId($union_id);
 
         //通过union_id同步已绑定的用户信息
-        if($union_id) {
+        if ($union_id) {
             $connect_user->bindUserByUnionId();
         }
 
@@ -99,7 +100,7 @@ class connect_connect_user_bind_api extends Component_Event_Api
             return $connect_user;
         } else {
             $user_model = $connect_user->checkOpenId();
-            if ( $user_model) {
+            if ($user_model) {
                 $connect_user->saveConnectProfile($user_model, null, null, serialize($profile), $expires_in);
             } else {
                 $user_model = $connect_user->createUser(0);
@@ -114,20 +115,24 @@ class connect_connect_user_bind_api extends Component_Event_Api
          */
 //        ecjia_log_debug('connect_user', (array)$connect_user);
 
-        /*创建用户*/
-        $username = with(new \Ecjia\App\Connect\UserGenerate($connect_user))->getGenerateUserName();
-        $email = with(new \Ecjia\App\Connect\UserGenerate($connect_user))->getGenerateEmail();
-        /**
-         * @debug royalwang
-         */
-//        ecjia_log_debug('生成用户名', (array)$username);
+        if (! empty($mobile)) {
 
-        $userinfo = RC_Api::api('user', 'add_user', array('username' => $username, 'email' => $email));
+            $userinfo = RC_Api::api('user', 'get_local_user', array('mobile' => $mobile));
+            
+            if (is_ecjia_error($userinfo)) {
 
-//        ecjia_log_debug('创建用户', (array)$userinfo);
+                /*创建用户*/
+                $username = with(new \Ecjia\App\Connect\UserGenerate($connect_user))->getGenerateUserName();
+                $email    = with(new \Ecjia\App\Connect\UserGenerate($connect_user))->getGenerateEmail();
 
-        if (is_ecjia_error($userinfo)) {
-            return $userinfo;
+                $userinfo = RC_Api::api('user', 'add_user', array('username' => $username, 'email' => $email, 'mobile' => $mobile));
+
+                if (is_ecjia_error($userinfo)) {
+                    return $userinfo;
+                }
+
+            }
+
         }
 
         //获取远程头像，更新用户头像
