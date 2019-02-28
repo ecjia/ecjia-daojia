@@ -145,6 +145,8 @@ class refund_refund_apply_api extends Component_Event_Api {
 			$refund_id = RC_DB::table('refund_order')->insertGetId($refund_data);
 			
 			if ($refund_id) {
+				//收银台默认退商品
+				$this->gernate_refund_goods($refund_id, $order_id);
 				//退款还原订单商品库存
 				Ecjia\App\Refund\RefundBackGoodsStock::refund_back_stock($refund_id);
 			}
@@ -164,6 +166,50 @@ class refund_refund_apply_api extends Component_Event_Api {
 			$refund_order_info = RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();
 			
 			return $refund_order_info;
+		}
+	}
+	
+	/**
+	 * 退货商品录入
+	 * @param int $refund_id
+	 * @param int $order_id
+	 */
+	private function gernate_refund_goods($refund_id, $order_id)
+	{
+		//退商品
+		//获取订单的发货单列表
+		RC_Loader::load_app_class('order_refund', 'refund', false);
+		$delivery_list = order_refund::currorder_delivery_list($order_id);
+	
+		if (!empty($delivery_list)) {
+			foreach ($delivery_list as $row) {
+				//获取发货单的发货商品列表
+				$delivery_goods_list   = order_refund::delivery_goodsList($row['delivery_id']);
+				if (!empty($delivery_goods_list)) {
+					foreach ($delivery_goods_list as $res) {
+						if($res['send_number'] == 0) {
+							continue;
+						}
+						$refund_goods_data = array(
+								'refund_id'		=> $refund_id,
+								'goods_id'		=> $res['goods_id'],
+								'product_id'	=> $res['product_id'],
+								'goods_name'	=> $res['goods_name'],
+								'goods_sn'		=> $res['goods_sn'],
+								'is_real'		=> $res['is_real'],
+								'send_number'	=> $res['send_number'],
+								'goods_attr'	=> $res['goods_attr'],
+								'brand_name'	=> $res['brand_name']
+						);
+						$refund_goods_id = RC_DB::table('refund_goods')->insertGetId($refund_goods_data);
+					}
+					/* 修改订单的发货单状态为退货 */
+					$delivery_order_data = array(
+							'status' => 1,
+					);
+					RC_DB::table('delivery_order')->where('order_id', $order_id)->whereIn('status', array(0,2))->update($delivery_order_data);
+				}
+			}
 		}
 	}
 }

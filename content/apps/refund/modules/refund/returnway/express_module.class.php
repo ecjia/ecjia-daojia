@@ -119,7 +119,7 @@ class refund_returnway_express_module extends api_front implements api_interface
         $update_data = array('return_shipping_type' => 'express', 'return_time'	=> RC_Time::gmtime(), 'return_shipping_value' => $express, 'return_status' => 2);
        	RC_DB::table('refund_order')->where('refund_sn', $refund_sn)->update($update_data);
        	//售后状态log记录
-        $pra = array('status' => '返还退货商品', 'refund_id' => $refund_info['order_id'], 'message' => '买家已返还退货商品！');
+        $pra = array('status' => '返还退货商品', 'refund_id' => $refund_info['refund_id'], 'message' => '买家已返还退货商品！');
        	order_refund::refund_status_log($pra);
         
         return array();

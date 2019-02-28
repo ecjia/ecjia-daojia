@@ -412,7 +412,7 @@ class merchant extends ecjia_merchant {
 		$return_shipping_content['store_name']  = $_SESSION['store_name'];
 		$store_info = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->select('province', 'city', 'district', 'street', 'address')->first();
 		$return_shipping_content['address']	= ecjia_region::getRegionName($store_info['province']).ecjia_region::getRegionName($store_info['city']).ecjia_region::getRegionName($store_info['district']).ecjia_region::getRegionName($store_info['street']).$store_info['address'];
-		$return_shipping_content['shop_kf_mobile'] = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');;
+		$return_shipping_content['shop_kf_mobile'] = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'shop_kf_mobile')->pluck('value');
 		$this->assign('return_shipping_content', $return_shipping_content);
 		
 		$this->display('return_detail.dwt');

@@ -73,7 +73,7 @@ class refund_cancel_module extends api_front implements api_interface {
 		}
 		
 		
-		if (($refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_REFUSED) || (($refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_AGREE) && Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED)) {
+		if (($refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_CANCELED) || (($refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_AGREE) && Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED)) {
 			return new ecjia_error('cannot_cancel', __('当前售后申请不可撤销！', 'refund'));
 		}
 		

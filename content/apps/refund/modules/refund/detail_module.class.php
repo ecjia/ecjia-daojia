@@ -112,6 +112,9 @@ class refund_detail_module extends api_front implements api_interface {
 			$label_refund_status= __('待审核', 'refund');
 		}
 		
+		/*退货状态处理*/
+		list($return_status, $label_return_status) = $this->get_return_status($refund_order_info['return_status']);
+		
 		//用户地址
 		$order_info = RC_DB::table('order_info')->where('order_id', $refund_order_info['order_id'])->select('consignee', 'mobile', 'city', 'district', 'street', 'address', 'order_status', 'pay_status', 'shipping_status')->first();
 		$user_address = ecjia_region::getRegionName($order_info['city']).ecjia_region::getRegionName($order_info['district']).ecjia_region::getRegionName($order_info['street']).$order_info['address'];
@@ -268,24 +271,21 @@ class refund_detail_module extends api_front implements api_interface {
 			$refused_reasons = order_refund::get_one_group_reasons($refund_order_info['refund_reason']);
 		}
 		
-		//配送费说明
-// 		$shipping_fee_desc = array(
-// 				'shipping_fee' 		=> price_format($refund_order_info['shipping_fee']),
-// 				'insure_fee'	   	=> price_format($refund_order_info['insure_fee']),
-// 				'total_fee'			=> price_format($refund_order_info['shipping_fee'] + $refund_order_info['insure_fee']),
-// 				'desc'				=> '运费：原订单实际支付的运费金额'
-// 		);
-		
+		//商家拒绝收货后，获取商家拒绝操作备注
+		$refuse_receive_note = $this->get_refuse_receive_note($refund_order_info['refund_id']);
 		$arr = array();
 		$arr = array(
 				'order_sn'					=> $refund_order_info['order_sn'],
 				'refund_sn' 				=> $refund_sn,
 				'store_service_phone' 		=> !empty($store_service_phone) ? $store_service_phone : '',
 				'refund_type'				=> $refund_order_info['refund_type'],
-				'label_refund_type'			=> $refund_order_info['refund_type'] == 'refund' ? __('仅退款', 'refund') : _('退货退款', 'refund'),
+				'label_refund_type'			=> $refund_order_info['refund_type'] == 'refund' ? __('仅退款', 'refund') : __('退货退款', 'refund'),
 				'status'					=> $status,
 				'label_status'				=> $label_status,
 				'refund_status'				=> $refund_status,
+				'return_status'				=> $return_status,
+				'label_return_status'		=> $label_return_status,
+				'refuse_receive_note'		=> $refuse_receive_note,
 				'label_refund_status'		=> $label_refund_status,
 				'refund_goods_amount'		=> price_format($refund_order_info['goods_amount']),
 				'refund_shipping_fee'		=> $refund_shipping_fee,
@@ -310,6 +310,43 @@ class refund_detail_module extends api_front implements api_interface {
 				'store_name'				=> $store_name
 		);
 		return  $arr;
+	}
+	
+	private function get_return_status($return_status = 0)
+	{
+		if ($return_status == Ecjia\App\Refund\RefundStatus::SHIP_NOSHIP) {
+			$return_status 			= 'noneed_ship';
+			$label_return_status	= __('无需退货', 'refund');
+		} elseif ($return_status == Ecjia\App\Refund\RefundStatus::SHIP_UNSHIP) {
+			$return_status			= 'unship';
+			$label_return_status	= __('买家未发货', 'refund');
+		} elseif ($return_status == Ecjia\App\Refund\RefundStatus::SHIP_SHIPPED) {
+			$return_status			= 'shipped';
+			$label_return_status	= __('买家发货', 'refund');
+		} elseif ($return_status == Ecjia\App\Refund\RefundStatus::SHIP_CONFIRM_RECV) {
+			$return_status			= 'confirm_received';
+			$label_return_status	= __('商家确认收货', 'refund');
+		} elseif ($return_status == Ecjia\App\Refund\RefundStatus::SHIP_UNRECEIVE) {
+			$return_status			= 'unreceived';
+			$label_return_status	= __('商家未收到货', 'refund');
+		}
+		
+		return [$return_status, $label_return_status];
+	}
+	
+	
+	private function get_refuse_receive_note($refund_id = 0)
+	{
+		$refuse_receive_note = '';
+		if ($refund_id) {
+			$refuse_receive_note = RC_DB::table('refund_order_action')
+									->where('refund_id', $refund_id)
+									->where('status', Ecjia\App\Refund\RefundStatus::ORDER_AGREE)
+									->where('refund_status', Ecjia\App\Refund\RefundStatus::PAY_NOTRANSFER)
+									->where('return_status', Ecjia\App\Refund\RefundStatus::ORDER_REFUSED)
+									->pluck('action_note');
+		}
+		return $refuse_receive_note;
 	}
 }
 
