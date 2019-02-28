@@ -311,7 +311,7 @@ class GroupbuyActivitySucceed
      */
     protected function getStoreName($store_id)
     {
-        $store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');;
+        $store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
         return $store_name;
     }
 

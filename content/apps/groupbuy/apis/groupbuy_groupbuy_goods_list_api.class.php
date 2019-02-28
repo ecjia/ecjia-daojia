@@ -14,7 +14,7 @@ class groupbuy_groupbuy_goods_list_api extends Component_Event_Api
     public function call(&$options)
     {
         if (!is_array($options)) {
-            return new ecjia_error('invalid_parameter', '调用api文件,groupbuy_goods_list,参数无效');
+            return new ecjia_error('invalid_parameter', __('调用api文件,groupbuy_goods_list,参数无效', 'groupbuy'));
         }
         return $this->groupbuy_goods_list($options);
     }

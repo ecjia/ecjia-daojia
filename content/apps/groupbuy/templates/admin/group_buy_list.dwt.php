@@ -31,7 +31,7 @@
 	
 	<form method="post" action="{$search_action}{if $smarty.get.type}&type={$smarty.get.type}{/if}" name="searchForm">
 		<div class="choose_list f_r" >
-			<input type="text" name="keywords" value="{$groupbuy_list.filter.keywords}" placeholder="请输入团购商品名称"/>
+			<input type="text" name="keywords" value="{$groupbuy_list.filter.keywords}" placeholder='t domain="groupbuy"}请输入团购商品名称{/t}'/>
 			<button class="btn search-btn" type="button">{t domain="groupbuy"}搜索{/t}</button>
 		</div>
 	</form>
@@ -64,8 +64,8 @@
 							{$list.goods_name}<br>
 							<div class="edit-list">
 							{assign var=edit_url value=RC_Uri::url('groupbuy/admin/view',"id={$list.act_id}")}
-							<a class="data-pjax" href="{$edit_url}{if $smarty.get.page}&page={$smarty.get.page}{/if}" title="{t domain="groupbuy"}查看{/t}">{t domain="groupbuy"}活动详情{/t}</a>&nbsp;|&nbsp;
-							<a class="data-pjax" href='{RC_Uri::url("groupbuy/admin/view_order","group_buy_id={$list.act_id}")}' title="{t domain="groupbuy"}查看订单{/t}">{t domain="groupbuy"}查看订单{/t}</a>
+							<a class="data-pjax" href="{$edit_url}{if $smarty.get.page}&page={$smarty.get.page}{/if}" title='{t domain="groupbuy"}查看{/t}'>{t domain="groupbuy"}活动详情{/t}</a>&nbsp;|&nbsp;
+							<a class="data-pjax" href='{RC_Uri::url("groupbuy/admin/view_order","group_buy_id={$list.act_id}")}' title='{t domain="groupbuy"}查看订单{/t}'>{t domain="groupbuy"}查看订单{/t}</a>
 							</div>
 						</td>
 						<td class="ecjiafc-red">{$list.merchants_name}</td>
