@@ -1,0 +1,152 @@
+<?php
+defined('IN_ECJIA') or exit('No permission resources.');
+
+/**
+ * ECJIA Topic Management Language Packs
+ */
+
+return array(
+    'tab_general'                   => 'General information',
+    'tab_desc'                      => 'Introduction',
+    'tab_goods'                     => 'Topic merchandise',
+    'tab_advanced'                  => 'Advanced Options',
+    'back_list'                     => 'Return to topic list',
+    'continue_add'                  => 'Continue to add topic',
+    'topic_class'                   => 'Thematic classification',
+    'select_product'                => 'Choice of goods',
+    'default_class'                 => 'No Category',
+    'publish_to_player'             => 'Publish to Flash playlist',
+    'publish_to_ads'                => 'Posted to ads',
+
+    /* 提示信息 */
+    'succed'                        => 'Successful operation!',
+    'notice_template_file'          => 'Fill in the current topic template file name, template file should be uploaded to the current template directory mall, do not fill in will call the default template.',
+    'notice_css'                    => 'Fill in the current topic of CSS style code, do not fill in the template default CSS file called.',
+
+    'js_languages'                  => array(
+        'topic_name_empty'     => 'Please enter the topic keywords',
+        'start_time_empty'     => 'Please select the topic start time!',
+        'end_time_empty'       => 'Please select a topic The End Time!',
+        'delete_topic_confirm' => 'Delete the selected item to determine it?',
+        'sort_name_exist'      => 'The classification already existed',
+        'sort_name_empty'      => 'Please enter the category names',
+        'move_item_confirm'    => 'Selected goods has been transferred to the \"className \" classification under the',
+        'item_upper_limit'     => 'Each classification of goods under Can not more than 50',
+        'start_lt_end'         => 'The topic start time should not exceed the end of time',
+    ),
+
+    'invalid_type'                  => 'You upload the image format is not correct!',
+    'web_url_no'                    => 'Remote address error. Please fill in the complete URL address!',
+
+    /* 专题信息字段 */
+    'topic_id'                      => 'No.',
+    'topic_title'                   => 'Topic name:',
+    'topic_desc'                    => 'Introduction:',
+    'template_file'                 => 'Template file:',
+    'style_sheet'                   => 'Stylesheet:',
+
+    'lable_topic_type'              => 'Image Type',
+    'lable_base_style'              => 'Basic Style:',
+    'lable_title_upload'            => 'Category title image:',
+    'lable_topic_keywords'          => 'Topics page keywords',
+    'lable_topic_description'       => 'Topics page description',
+
+    'tips_width_height'             => 'This template is the standard width of the picture:%s Standard height:%s',
+    'tips_upload_notice'            => 'From the advertisement image file, or you can specify a remote URL address for advertising images',
+    'tips_title_width_height'       => 'The standard width of the template image:%s Standard height:%s',
+
+    'all_goods'                     => 'Optional products',
+    'selected_goods'                => 'Selected product',
+    'top_img'                       => 'Picture',
+    'top_flash'                     => 'Flash:',
+    'top_html'                      => 'Code:',
+    'lable_upload'                  => 'Upload:',
+    'lable_from_web'                => 'Or remote URL address',
+    'lable_content'                 => 'Content',
+
+    //追加
+    'select_flash'                  => 'Upload Flash Files',
+    'select_html'                   => 'Code Contents',
+    'topic_list'                    => 'Topic list',
+    'topic_add'                     => 'Add Topic',
+    'add_succed'                    => 'Add topic success',
+    'edit_succed'                   => 'Edit topic success',
+    'topic_edit'                    => 'Edit Topic',
+    'top_html_confirm'              => 'Code can not be empty',
+    'delete_category_pic_succed'    => 'Remove Categories successful title picture',
+    'delete_flash_succed'           => 'Remove Flash file successfully',
+    'delete_topic_pic_succed'       => 'Remove successful thematic Photos',
+    'edit_topic_name_succed'        => 'Edit topic name success',
+    'bactch_delete_succed'          => 'Batch delete success',
+    'delete_succed'                 => 'Remove topic success',
+    'delete_failure'                => 'Delete operation failed topics',
+    'topic_preview'                 => 'Topic Preview',
+
+    'edit_topic_category'           => 'Edit By Subject',
+    'topic_category_name_confirm'   => 'Please enter a category name topics',
+    'topic_name_is'                 => 'Special name',
+    'add_topic_category_succed'     => 'Add Theme Success',
+    'edit_topic_goods'              => 'Edit Topic Goods',
+    'edit_topic_goods_succed'       => 'Special trade successfully modified',
+    'delete_topic_category_succed'  => 'Remove thematic classification success',
+
+    'topic_information'             => 'Thematic information',
+    'keywords'                      => 'Keyword:',
+    'description'                   => 'Quick description:',
+    'yuan'                          => 'yuan',
+    'no_open'                       => 'The thematic starting time yet to come, so stay tuned.',
+    'over'                          => 'Deadline to the topic, the system has been off the shelf.',
+
+    'add_topic_category'            => 'Add Special Categories:',
+    'topic_category_name'           => 'Category name',
+    'operating'                     => 'Operate',
+    'delete_topic_confirm'          => 'Are you sure you want to delete the topic?',
+    'delete_topic_category_confirm' => 'Are you sure you want to delete the topic classification it?',
+    'delete'                        => 'Delete',
+    'topic_category'                => 'Topic type:',
+    'remote_connections'            => 'Remote connections',
+    'local_upload'                  => 'Local upload',
+    'upload_remark'                 => 'When you specify a remote LOGO pictures, LOGO image URL must be URL http: // or https: // at the beginning of the correct URL format!',
+    'picture_preview'               => 'Picture Preview',
+    'browse'                        => 'Browse',
+    'modify'                        => 'Modify',
+    'pic_remark'                    => 'Picture this template is standard width: 960px Standard height: 300px',
+    'pic_remark_two'                => 'Picture this template is standard width: 2px standard height: 38px',
+    'delete_file_confirm'           => 'Are you sure you want to delete this file?',
+    'file_address'                  => 'File address:',
+    'delete_file'                   => 'Delete files',
+    'edit_top_flash'                => 'Modify flash files',
+    'start_time'                    => 'Event start time:',
+    'end_time'                      => 'Event end time:',
+    'seo_optimization'              => 'SEO optimization',
+    'separated_commas'              => 'Separated by commas',
+    'topic_template_style'          => 'Special template style',
+    'please_select_topic_category'  => 'Please select thematic category:',
+    'no_category'                   => 'Uncategorized',
+    'filter_information'            => 'Filter to product information',
+    'no_content'                    => 'No content yet',
+    'selected_goods'                => 'Selected goods',
+    'bulk_operations'               => 'Batch Operations',
+    'do_confirm'                    => 'Are you sure you want to batch delete the selected topics?',
+    'please_select_delete_topic'    => 'Please select the topic you want to delete',
+    'delete_topic'                  => 'Remove Topic',
+    'search'                        => 'Search',
+    'list_topic_name'               => 'Topic name',
+    'list_start_time'               => 'Event start time',
+    'list_end_time'                 => 'Event end time',
+    'edit_topic_name'               => 'Edit the topic name',
+    'preview'                       => 'Preview',
+
+    'topic_manage'                  => 'Topic Management',
+    'invalid_parameter'             => 'Invalid parameter',
+    'topic'                         => 'Special subject',
+    'button_update'                 => 'Update',
+
+    //js
+    'topic_name_required'           => 'Please enter a topic name!',
+    'start_time_required'           => 'Please select start time!',
+    'end_time_required'             => 'Please select end time!',
+    'no_message'                    => 'Not to search for goods information',
+);
+
+// end
