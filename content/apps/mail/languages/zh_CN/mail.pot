@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App mail 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 03:56:10+00:00\n"
+"POT-Creation-Date: 2019-03-06 09:04:39+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,6 +28,12 @@ msgid ""
 "中。"
 msgstr ""
 
+#: admin.php:92 admin.php:127
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:邮件模板\" target="
+"\"_blank\"></a>"
+msgstr ""
+
 #: admin.php:118 admin.php:130 admin.php:207
 msgid "编辑邮件模板"
 msgstr ""
@@ -37,6 +43,7 @@ msgid "欢迎访问ECJia智能后台编辑邮件模板页面，可以在此编�
 msgstr ""
 
 #: admin.php:126 admin_email_list.php:87 admin_mail_settings.php:87
+#: admin_view_sendlist.php:83
 msgid "更多信息："
 msgstr ""
 
@@ -76,29 +83,35 @@ msgid ""
 "列中。"
 msgstr ""
 
-#: admin_email_list.php:146 admin_view_sendlist.php:130
+#: admin_email_list.php:88
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:邮件订阅管理\" target="
+"\"_blank\"></a>"
+msgstr ""
+
+#: admin_email_list.php:147 admin_view_sendlist.php:132
 msgid "请选择要进行的操作"
 msgstr ""
 
-#: admin_email_list.php:165 admin_email_list.php:177 admin_email_list.php:189
-#: admin_view_sendlist.php:116 admin_view_sendlist.php:148
-#: admin_view_sendlist.php:184 admin_view_sendlist.php:264
+#: admin_email_list.php:166 admin_email_list.php:178 admin_email_list.php:190
+#: admin_view_sendlist.php:118 admin_view_sendlist.php:150
+#: admin_view_sendlist.php:186 admin_view_sendlist.php:266
 msgid "邮件地址是 %s"
 msgstr ""
 
-#: admin_email_list.php:165 admin_email_list.php:177 admin_email_list.php:189
+#: admin_email_list.php:166 admin_email_list.php:178 admin_email_list.php:190
 msgid "邮件编号是 %s"
 msgstr ""
 
-#: admin_email_list.php:168
+#: admin_email_list.php:169
 msgid "批量删除成功"
 msgstr ""
 
-#: admin_email_list.php:180
+#: admin_email_list.php:181
 msgid "批量退订成功"
 msgstr ""
 
-#: admin_email_list.php:192
+#: admin_email_list.php:193
 msgid "批量确认成功"
 msgstr ""
 
@@ -154,20 +167,26 @@ msgid ""
 "列中。"
 msgstr ""
 
-#: admin_view_sendlist.php:116 admin_view_sendlist.php:148
-#: admin_view_sendlist.php:184 admin_view_sendlist.php:264
+#: admin_view_sendlist.php:84
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:邮件对列管理\" target="
+"\"_blank\">关于邮件队列管理帮助文档</a>"
+msgstr ""
+
+#: admin_view_sendlist.php:118 admin_view_sendlist.php:150
+#: admin_view_sendlist.php:186 admin_view_sendlist.php:266
 msgid "邮件标题是 %s"
 msgstr ""
 
-#: admin_view_sendlist.php:117 admin_view_sendlist.php:151
+#: admin_view_sendlist.php:119 admin_view_sendlist.php:153
 msgid "共删除 %d 条记录，删除成功！"
 msgstr ""
 
-#: admin_view_sendlist.php:217 admin_view_sendlist.php:299
+#: admin_view_sendlist.php:219 admin_view_sendlist.php:301
 msgid "共 %d 条邮件发送完成！"
 msgstr ""
 
-#: admin_view_sendlist.php:224
+#: admin_view_sendlist.php:226
 msgid "没有选择消息"
 msgstr ""
 
@@ -339,6 +358,46 @@ msgstr ""
 msgid "请输入正确格式的发送邮件帐号！"
 msgstr ""
 
+#: configs/mail_config.php:56
+msgid "状态"
+msgstr ""
+
+#: configs/mail_config.php:57
+msgid "未确认"
+msgstr ""
+
+#: configs/mail_config.php:58
+msgid "已确认"
+msgstr ""
+
+#: configs/mail_config.php:59
+msgid "已退订"
+msgstr ""
+
+#: configs/mail_config.php:63
+msgid "优先级"
+msgstr ""
+
+#: configs/mail_config.php:64
+msgid "普通"
+msgstr ""
+
+#: configs/mail_config.php:65
+msgid "高"
+msgstr ""
+
+#: configs/mail_config.php:70
+msgid "邮件类型"
+msgstr ""
+
+#: configs/mail_config.php:71
+msgid "杂志订阅"
+msgstr ""
+
+#: configs/mail_config.php:72
+msgid "关注订阅"
+msgstr ""
+
 #: configs/package.php:55
 msgid "邮件"
 msgstr ""
@@ -403,10 +462,6 @@ msgstr ""
 msgid "编号"
 msgstr ""
 
-#: content/apps/mail/templates/admin/email_list.dwt.php:46
-msgid "状态"
-msgstr ""
-
 #: content/apps/mail/templates/admin/mail_template_info.dwt.php:25
 msgid "邮件模板："
 msgstr ""
@@ -447,24 +502,8 @@ msgstr ""
 msgid "所有邮件类型"
 msgstr ""
 
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:46
-msgid "杂志订阅"
-msgstr ""
-
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:47
-msgid "关注订阅"
-msgstr ""
-
 #: content/apps/mail/templates/admin/view_sendlist.dwt.php:51
 msgid "所有级别"
-msgstr ""
-
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:52
-msgid "普通"
-msgstr ""
-
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:53
-msgid "高"
 msgstr ""
 
 #: content/apps/mail/templates/admin/view_sendlist.dwt.php:55
@@ -475,16 +514,8 @@ msgstr ""
 msgid "邮件标题"
 msgstr ""
 
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:72
-msgid "邮件类型"
-msgstr ""
-
 #: content/apps/mail/templates/admin/view_sendlist.dwt.php:83
 msgid "次发送错误"
-msgstr ""
-
-#: content/apps/mail/templates/admin/view_sendlist.dwt.php:86
-msgid "优先级"
 msgstr ""
 
 #: content/apps/mail/templates/admin/view_sendlist.dwt.php:86

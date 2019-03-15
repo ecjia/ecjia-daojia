@@ -70,7 +70,7 @@ class admin_email_list extends ecjia_admin {
 		RC_Style::enqueue_style('uniform-aristo');
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Script::enqueue_script('jquery-chosen');
-		RC_Script::enqueue_script('email_list', RC_App::apps_url('statics/js/email_list.js', __FILE__), array(), false, true);
+		RC_Script::enqueue_script('email_list', RC_App::apps_url('statics/js/email_list.js', __FILE__), array(), false, 1);
 	}
 
 	public function init() {
@@ -85,13 +85,14 @@ class admin_email_list extends ecjia_admin {
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __('更多信息：', 'mail') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:邮件订阅管理" target="_blank">'. __('关于邮件订阅管理帮助文档', 'mail').'</a>') . '</p>'
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:邮件订阅管理" target="_blank"></a>', 'mail') . '</p>'
 		);
 		$this->assign('ur_here', __('邮件订阅管理', 'mail'));
 
 		$emaildb = $this->get_email_list();
 		$this->assign('emaildb', $emaildb);
-		$this->assign('stat', RC_Lang::get('mail::email_list.stat'));
+		$stat = config('app-mail::mail_config.stat');
+		$this->assign('stat', $stat);
 		
 		$this->assign('form_action', RC_Uri::url('mail/admin_email_list/batch'));
 		

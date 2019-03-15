@@ -66,7 +66,7 @@ class admin extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-form');
 		RC_Script::enqueue_script('smoke');
 		RC_Script::enqueue_script('jquery-dataTables-bootstrap');
-		RC_Script::enqueue_script('mail_template', RC_App::apps_url('statics/js/mail_template.js', __FILE__), array(), false, false);
+		RC_Script::enqueue_script('mail_template', RC_App::apps_url('statics/js/mail_template.js', __FILE__), array(), false, 1);
 		
 		RC_Script::localize_script('mail_template', 'js_lang', config('app-mail::jslang.mail_template_page'));
 		
@@ -89,7 +89,7 @@ class admin extends ecjia_admin {
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __('概述', 'mail') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:邮件模板" target="_blank">'. __('关于邮件模板列表帮助文档', 'mail') .'</a>') . '</p>'
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:邮件模板" target="_blank"></a>', 'mail') . '</p>'
 		);
 		
 		$this->assign('ur_here', __('邮件模板', 'mail'));
@@ -124,7 +124,7 @@ class admin extends ecjia_admin {
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __('更多信息：', 'mail') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:邮件模板" target="_blank">'.__('关于编辑邮件模板帮助文档', 'mail').'</a>') . '</p>'
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:邮件模板" target="_blank"></a>', 'mail') . '</p>'
 		);
 		
 		$this->assign('ur_here', __('编辑邮件模板', 'mail'));

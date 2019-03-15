@@ -80,13 +80,15 @@ class admin_view_sendlist extends ecjia_admin {
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-			'<p><strong>' . RC_Lang::get('mail::view_sendlist.more_info') . '</strong></p>' .
-			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:邮件对列管理" target="_blank">'. RC_Lang::get('mail::view_sendlist.about_send_list') .'</a>') . '</p>'
+			'<p><strong>' . __('更多信息：', 'mail'). '</strong></p>' .
+			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:邮件对列管理" target="_blank">关于邮件队列管理帮助文档</a>', 'mail') . '</p>'
 		);
 		
 		$this->assign('ur_here', __('邮件队列管理', 'mail'));
-		$this->assign('pri', RC_Lang::get('mail::view_sendlist.pri'));
-		$this->assign('type', RC_Lang::get('mail::view_sendlist.type'));
+		$pri = config('app-mail::mail_config.pri');
+		$type = config('app-mail::mail_config.type');
+		$this->assign('pri', $pri);
+		$this->assign('type', $type);
 		
 		$listdb = $this->get_send_list();
 		if (count($listdb['item']) > 0) {
