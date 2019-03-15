@@ -108,14 +108,14 @@ class quickpay_order_pay_module extends api_front implements api_interface {
     		'total_fee'      => $order['order_amount'],
     		'pay_code'       => $handler->getCode(),
     		'pay_name'		 => $handler->getName(),
-    		'trade_type'	 => Ecjia\App\Payment\PayConstant::PAY_QUICKYPAY,
+    		'trade_type'	 => \Ecjia\App\Payment\Enums\PayEnum::PAY_QUICKYPAY,
 		]);
 
 		$handler->set_orderinfo($order);
 		$handler->set_mobile($is_mobile);
-		$handler->setOrderType(Ecjia\App\Payment\PayConstant::PAY_QUICKYPAY);
+		$handler->setOrderType(\Ecjia\App\Payment\Enums\PayEnum::PAY_QUICKYPAY);
 		$handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
-		$result = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);
+		$result = $handler->get_code(\Ecjia\App\Payment\Enums\PayCodeEnum::PAYCODE_PARAM);
 		
         if (is_ecjia_error($result)) {
             return $result;

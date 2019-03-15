@@ -44,68 +44,32 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Quickpay\Enums;
+
+use Royalcms\Component\Enum\Enum;
 
 /**
- * 买单订单删除
- * @author zrl
- *
+ * 买单订单状态处理（订单状态、支付状态、审核状态）
  */
-class quickpay_order_operate_delete_module extends api_front implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-    	//如果用户登录获取其session
-    	$this->authSession();
-		$user_id = $_SESSION['user_id'];
-		if ($user_id < 1) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-		
-		$user_id 		= $_SESSION['user_id'];
-		$order_id		= $this->requestData('order_id', 0);
-		
-		if ( $order_id <= 0) {
-			return new ecjia_error('invalid_parameter', '参数错误！');
-		}
+class QuickpayOrderEnum extends Enum
+{
 	
-		$options = array('order_id' => $order_id);
-		$order_info = RC_Api::api('quickpay', 'quickpay_order_info', $options);
-		if (is_ecjia_error($order_info)) {
-			return $order_info;
-		}
-		
-		if (empty($order_info)) {
-			return new ecjia_error('not_exist_info', '订单信息不存在！');
-		}
-		
-		$pay_status = \Ecjia\App\Quickpay\Enums\QuickpayPayEnum::UNPAID;
-		$order_status = \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::CANCELED;
-		$verification_status = \Ecjia\App\Quickpay\Enums\QuickpayVerifyEnum::UNVERIFICATION;
-		
-		if (($order_info['order_status'] != $pay_status) && ($order_info['pay_status'] != $pay_status) && $order_info['verification_status'] != $verification_status) {
-			return new ecjia_error('not_support_cancel', '当前订单不支持删除！');
-		}
-		
-		$arr = array(
-				'order_status' 			=> \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::DELETED,
-		);
-		
-		RC_DB::table('quickpay_orders')->where('order_id', $order_id)->update($arr);
-		
-		/* 记录log */
-		RC_Loader::load_app_class('quickpay_activity', 'quickpay', false);
-		$data = array(
-				'order_id' 			=> $order_id,
-				'action_user_id'	=> $order_info['user_id'],
-				'action_user_name' 	=> $order_info['user_name'],
-				'action_user_type'	=> 'user',
-				'order_status' 		=> \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::DELETED,
-				'pay_status' 		=> $pay_status,
-				'action_note' 		=> ''
-		);
-		quickpay_activity::quickpay_order_action($data);
-	
-		return array();
-	}
-}
+    const UNCONFIRMED 	 = 0;//未确认
+    
+    const CONFIRMED   	 = 1;//已确认
+    
+    const CANCELED       = 9;//取消
+    
+    const DELETED        = 99;//删除
 
-// end
+
+    protected function __statusMap()
+    {
+        return [
+            self::UNCONFIRMED       => __('未确认'),
+            self::CONFIRMED         => __('已确认'),
+            self::CANCELED          => __('取消'),
+            self::DELETED           => __('删除'),
+        ];
+    }
+}

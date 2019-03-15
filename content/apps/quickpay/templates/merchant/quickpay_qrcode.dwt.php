@@ -40,8 +40,8 @@
         			</div>
         			<div class="right-handle">
         				<a class="btn btn-primary" href="{$refresh_url}" data-toggle="ajaxremove" data-msg='{t domain="quickpay"}您确定要刷新该收款二维码吗？{/t}'>{t domain="quickpay"}刷新二维码{/t}</a>
-        				<a class="btn btn-info m_l10 nopjax" target="__blank" href="{$download_url}">{t domain="quickpay"}下载素材{/t}</a>
-        				<a class="btn btn-info m_l10 nopjax" target="__blank" href="{$print_url}">{t domain="quickpay"}打印二维码{/t}</a>
+        				<a class="btn btn-info m_l10 nopjax" target="_blank" href="{$download_url}">{t domain="quickpay"}下载素材{/t}</a>
+        				<a class="btn btn-info m_l10 nopjax" target="_blank" href="{$print_url}">{t domain="quickpay"}打印二维码{/t}</a>
         			</div>
         		</div>
         	</div>

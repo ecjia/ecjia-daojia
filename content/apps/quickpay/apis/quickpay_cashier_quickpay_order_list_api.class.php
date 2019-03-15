@@ -44,8 +44,8 @@ class quickpay_cashier_quickpay_order_list_api extends Component_Event_Api {
 		$size  	  = empty($options['size']) 		? 15 : intval($options['size']);
 		$page 	  = empty($options['page']) 		? 1 : intval($options['page']);
 		
-		$deleted_status = Ecjia\App\Quickpay\Status::DELETED;
-		$canceled_status = Ecjia\App\Quickpay\Status::CANCELED;
+		$deleted_status = \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::DELETED;
+		$canceled_status = \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::CANCELED;
 		
 		$dbview->where(RC_DB::raw('qo.order_status'), '<>', $deleted_status);
 		$dbview->where(RC_DB::raw('qo.order_status'), '<>', $canceled_status);

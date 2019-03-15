@@ -78,16 +78,16 @@ class quickpay_order_operate_cancel_module extends api_front implements api_inte
 			return new ecjia_error('not_exist_info', '订单信息不存在！');
 		}
 		
-		$pay_status = Ecjia\App\Quickpay\Status::UNPAID;
-		$order_status = Ecjia\App\Quickpay\Status::UNCONFIRMED;
-		$verification_status = Ecjia\App\Quickpay\Status::UNVERIFICATION;
+		$pay_status = \Ecjia\App\Quickpay\Enums\QuickpayPayEnum::UNPAID;
+		$order_status = \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::UNCONFIRMED;
+		$verification_status = \Ecjia\App\Quickpay\Enums\QuickpayVerifyEnum::UNVERIFICATION;
 		
 		if (($order_info['order_status'] != $pay_status) && ($order_info['pay_status'] != $pay_status) && $order_info['verification_status'] != $verification_status) {
 			return new ecjia_error('not_support_cancel', '当前订单不支持取消！');
 		}
 		
 		$arr = array(
-				'order_status' 			=> Ecjia\App\Quickpay\Status::CANCELED,
+				'order_status' 			=> \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::CANCELED,
 		);
 		
 		RC_DB::table('quickpay_orders')->where('order_id', $order_id)->update($arr);
@@ -133,7 +133,7 @@ class quickpay_order_operate_cancel_module extends api_front implements api_inte
 				'action_user_id'	=> $order_info['user_id'],
 				'action_user_name' 	=> $order_info['user_name'],
 				'action_user_type'	=> 'user',
-				'order_status' 		=> Ecjia\App\Quickpay\Status::CANCELED,
+				'order_status' 		=> \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::CANCELED,
 				'pay_status' 		=> $pay_status,
 				'action_note' 		=> ''
 		);

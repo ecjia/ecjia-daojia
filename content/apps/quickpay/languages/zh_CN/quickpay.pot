@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App quickpay 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 03:58:03+00:00\n"
+"POT-Creation-Date: 2019-03-15 01:49:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -117,11 +117,13 @@ msgstr ""
 msgid "无优惠"
 msgstr ""
 
-#: admin_order.php:131 admin_order.php:308 mh_order.php:131 mh_order.php:479
+#: admin_order.php:131 admin_order.php:308
+#: classes/Enums/QuickpayOrderEnum.php:69 mh_order.php:131 mh_order.php:479
 msgid "未确认"
 msgstr ""
 
-#: admin_order.php:132 admin_order.php:309 mh_order.php:132 mh_order.php:480
+#: admin_order.php:132 admin_order.php:309
+#: classes/Enums/QuickpayOrderEnum.php:70 mh_order.php:132 mh_order.php:480
 msgid "已确认"
 msgstr ""
 
@@ -141,11 +143,13 @@ msgstr ""
 msgid "已付款"
 msgstr ""
 
-#: admin_order.php:143 admin_order.php:314 mh_order.php:143 mh_order.php:485
+#: admin_order.php:143 admin_order.php:314
+#: classes/Enums/QuickpayVerifyEnum.php:65 mh_order.php:143 mh_order.php:485
 msgid "未核销"
 msgstr ""
 
-#: admin_order.php:144 admin_order.php:315 mh_order.php:144 mh_order.php:486
+#: admin_order.php:144 admin_order.php:315
+#: classes/Enums/QuickpayVerifyEnum.php:66 mh_order.php:144 mh_order.php:486
 msgid "已核销"
 msgstr ""
 
@@ -355,6 +359,42 @@ msgstr ""
 msgid "您的余额不足以支付整个订单，请选择其他支付方式。"
 msgstr ""
 
+#: apis/quickpay_store_remove_cleardata_api.class.php:63
+msgid "请求接口%s参数无效"
+msgstr ""
+
+#: classes/Enums/QuickpayOrderEnum.php:71 configs/jslang.php:66
+msgid "取消"
+msgstr ""
+
+#: classes/Enums/QuickpayOrderEnum.php:72
+msgid "删除"
+msgstr ""
+
+#: classes/Enums/QuickpayPayEnum.php:65
+msgid "未支付"
+msgstr ""
+
+#: classes/Enums/QuickpayPayEnum.php:66
+msgid "已支付"
+msgstr ""
+
+#: classes/StoreCleanHandlers/StoreQuickpayClear.php:47
+msgid "店铺买单活动总共<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>个"
+msgstr ""
+
+#: classes/StoreCleanHandlers/StoreQuickpayClear.php:48
+msgid "查看全部>>>"
+msgstr ""
+
+#: classes/StoreCleanHandlers/StoreQuickpayClear.php:107
+msgid "店铺名是%s"
+msgstr ""
+
+#: classes/StoreCleanHandlers/StoreQuickpayClear.php:107
+msgid "店铺ID是%s"
+msgstr ""
+
 #: configs/jslang.php:57
 msgid "规则描述不能为空"
 msgstr ""
@@ -373,10 +413,6 @@ msgstr ""
 
 #: configs/jslang.php:65
 msgid "确定"
-msgstr ""
-
-#: configs/jslang.php:66
-msgid "取消"
 msgstr ""
 
 #: configs/jslang.php:67
@@ -515,6 +551,14 @@ msgstr ""
 msgid "商家买单销售明细"
 msgstr ""
 
+#: modules/admin/cashier/quickpay/summary/records_module.class.php:60
+msgid "Invalid session"
+msgstr ""
+
+#: modules/admin/cashier/quickpay/summary/records_module.class.php:69
+msgid "非收银台请求！"
+msgstr ""
+
 #: modules/quickpay/flow/done_module.class.php:281
 msgid "积分使用失败！"
 msgstr ""
@@ -539,7 +583,20 @@ msgstr ""
 msgid "请选择支付方式"
 msgstr ""
 
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:20
+msgid "全部 "
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:21
+msgid "正在进行中"
+msgstr ""
+
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:22
+msgid "自营"
+msgstr ""
+
 #: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:28
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:37
 msgid "批量操作"
 msgstr ""
 
@@ -569,6 +626,7 @@ msgstr ""
 #: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:227
 #: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:193
 #: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:57
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:67
 #: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:270
 msgid "搜索"
 msgstr ""
@@ -589,6 +647,7 @@ msgstr ""
 #: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:43
 #: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:67
 #: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:55
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:143
 msgid "买单优惠类型"
 msgstr ""
 
@@ -621,41 +680,43 @@ msgstr ""
 msgid "你确定要删除该买单规则吗？"
 msgstr ""
 
-#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:73
-#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:80
-msgid "删除"
-msgstr ""
-
 #: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:75
 #: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:76
 #: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:161
 msgid "查看详情"
 msgstr ""
 
-#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:80
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:84
 #: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:85
-#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:84
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:88
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:182
 msgid "每满多少减多少，最高减多少"
 msgstr ""
 
-#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:86
+#: content/apps/quickpay/templates/admin/quickpay_list.dwt.php:93
 #: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:117
-#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:90
-#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:190
+#: content/apps/quickpay/templates/admin/quickpay_sale_list.dwt.php:83
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:106
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:206
+#: content/apps/quickpay/templates/merchant/quickpay_sale_list.dwt.php:77
 msgid "没有找到任何记录"
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_sale_general.dwt.php:19
 #: content/apps/quickpay/templates/admin/quickpay_sale_list.dwt.php:29
 #: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:16
+#: content/apps/quickpay/templates/merchant/quickpay_sale_general.dwt.php:19
+#: content/apps/quickpay/templates/merchant/quickpay_sale_list.dwt.php:20
 msgid "温馨提示："
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_sale_general.dwt.php:19
+#: content/apps/quickpay/templates/merchant/quickpay_sale_general.dwt.php:19
 msgid "只有已付款的订单才计入订单统计。"
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_sale_general.dwt.php:68
+#: content/apps/quickpay/templates/merchant/quickpay_sale_general.dwt.php:74
 msgid "年走势："
 msgstr ""
 
@@ -663,10 +724,15 @@ msgstr ""
 #: content/apps/quickpay/templates/admin/quickpay_sale_general.dwt.php:82
 #: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:87
 #: content/apps/quickpay/templates/admin/quickpay_sale_list.dwt.php:49
+#: content/apps/quickpay/templates/merchant/quickpay_sale_general.dwt.php:78
+#: content/apps/quickpay/templates/merchant/quickpay_sale_general.dwt.php:89
+#: content/apps/quickpay/templates/merchant/quickpay_order_search.dwt.php:90
+#: content/apps/quickpay/templates/merchant/quickpay_sale_list.dwt.php:46
 msgid "查询"
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_sale_general.dwt.php:78
+#: content/apps/quickpay/templates/merchant/quickpay_sale_general.dwt.php:85
 msgid "月走势："
 msgstr ""
 
@@ -685,6 +751,7 @@ msgid "销售额走势"
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:26
+#: content/apps/quickpay/templates/merchant/quickpay_order_search.dwt.php:30
 #: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:36
 msgid "订单号："
 msgstr ""
@@ -692,28 +759,34 @@ msgstr ""
 #: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:45
 #: content/apps/quickpay/templates/admin/quickpay_edit.dwt.php:38
 #: content/apps/quickpay/templates/admin/quickpay_detail.dwt.php:37
+#: content/apps/quickpay/templates/merchant/quickpay_order_search.dwt.php:49
 #: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:81
 #: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:57
 msgid "买单优惠类型："
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:48
+#: content/apps/quickpay/templates/merchant/quickpay_order_search.dwt.php:52
 msgid "请选择……"
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:57
+#: content/apps/quickpay/templates/merchant/quickpay_order_search.dwt.php:61
 msgid "买单时间："
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:72
+#: content/apps/quickpay/templates/merchant/quickpay_order_search.dwt.php:74
 msgid "购买者姓名："
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:79
+#: content/apps/quickpay/templates/merchant/quickpay_order_search.dwt.php:81
 msgid "购买者手机号："
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_order_search.dwt.php:88
+#: content/apps/quickpay/templates/merchant/quickpay_order_search.dwt.php:91
 msgid "重置"
 msgstr ""
 
@@ -722,6 +795,7 @@ msgid "全部"
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:22
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:29
 msgid "待核销"
 msgstr ""
 
@@ -729,12 +803,14 @@ msgstr ""
 #: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:68
 #: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:107
 #: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:46
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:146
 #: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:138
 msgid "订单状态"
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:46
 #: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:49
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:61
 msgid "筛选"
 msgstr ""
 
@@ -743,18 +819,22 @@ msgid "请输入订单号或者购买者姓名"
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:62
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:141
 msgid "订单号"
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:64
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:142
 msgid "购买者信息"
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:66
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:144
 msgid "下单时间"
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_order_list.dwt.php:67
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:145
 msgid "实付金额"
 msgstr ""
 
@@ -772,14 +852,17 @@ msgid "提交订单"
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_sale_list.dwt.php:29
+#: content/apps/quickpay/templates/merchant/quickpay_sale_list.dwt.php:20
 msgid "只有已付款的订单才计入销售明细。"
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_sale_list.dwt.php:45
+#: content/apps/quickpay/templates/merchant/quickpay_sale_list.dwt.php:42
 msgid "按照年份查："
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_sale_list.dwt.php:47
+#: content/apps/quickpay/templates/merchant/quickpay_sale_list.dwt.php:44
 msgid "按月份查："
 msgstr ""
 
@@ -788,6 +871,7 @@ msgid "订单共计："
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_sale_list.dwt.php:57
+#: content/apps/quickpay/templates/merchant/quickpay_sale_list.dwt.php:49
 msgid "实际总金额共计："
 msgstr ""
 
@@ -1129,6 +1213,8 @@ msgid "操作时间"
 msgstr ""
 
 #: content/apps/quickpay/templates/admin/quickpay_order_info.dwt.php:108
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:77
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:106
 #: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:139
 msgid "操作备注"
 msgstr ""
@@ -1158,20 +1244,108 @@ msgstr ""
 msgid "状态"
 msgstr ""
 
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:80
+msgid "你确定要删除该优惠买单规则吗？"
+msgstr ""
+
 #: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:81
 msgid "查看订单"
 msgstr ""
 
-#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:87
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:97
+msgid "未开始"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:99
 msgid "已结束"
 msgstr ""
 
-#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:87
+#: content/apps/quickpay/templates/merchant/quickpay_list.dwt.php:101
 msgid "进行中"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_sale_general.dwt.php:47
+msgid "订单总数量（单）"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_sale_general.dwt.php:59
+msgid "惠总金额（元）"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_sale_general.dwt.php:121
+#: content/apps/quickpay/templates/merchant/quickpay_sale_general.dwt.php:132
+msgid "加载中..."
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:39
+msgid "删除订单将清除该订单的所有信息。您确定要这么做吗？"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:39
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:40
+msgid "请选择您要操作的订单"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:40
+msgid "你确定要取消这些订单吗？"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:66
+msgid "请输入订单号"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:92
+#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:181
+msgid "确认核销"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:167
+msgid "你确定要删除该订单吗？"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_order_list.dwt.php:171
+msgid "核销"
 msgstr ""
 
 #: content/apps/quickpay/templates/merchant/library/quickpay_order_step.lbi.php:9
 msgid "取消订单"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_qrcode.dwt.php:31
+msgid "微信扫描二维码进行买单"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_qrcode.dwt.php:37
+msgid ""
+"此收款码用于商家收款使用，二维码收款是客户向商家转账的一种方式，客户在店内消"
+"费后使用微信“扫一扫”，则直接使用微信支付转账给商家，方便、快捷、减少客户等待"
+"时间，还可使用A4纸张打印机打印。"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_qrcode.dwt.php:38
+msgid "打印尺寸：A4纸尺寸"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_qrcode.dwt.php:39
+msgid ""
+"使用说明：先将二维码下载，用A4纸打印后裁切出来，可张贴在店铺内桌子、服务台等"
+"处，方便用户扫码。"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_qrcode.dwt.php:42
+msgid "您确定要刷新该收款二维码吗？"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_qrcode.dwt.php:42
+msgid "刷新二维码"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_qrcode.dwt.php:43
+msgid "下载素材"
+msgstr ""
+
+#: content/apps/quickpay/templates/merchant/quickpay_qrcode.dwt.php:44
+msgid "打印二维码"
 msgstr ""
 
 #: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:20
@@ -1203,10 +1377,6 @@ msgstr ""
 #: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:178
 #: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:211
 msgid "当前可执行操作："
-msgstr ""
-
-#: content/apps/quickpay/templates/merchant/quickpay_order_info.dwt.php:181
-msgid "确认核销"
 msgstr ""
 
 #: content/apps/quickpay/templates/merchant/quickpay_info.dwt.php:274

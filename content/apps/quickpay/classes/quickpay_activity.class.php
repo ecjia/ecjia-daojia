@@ -277,16 +277,16 @@ class quickpay_activity {
 		$order_status_str = '';
 		$label_order_status = '';
 		
-		if (($order_status == Ecjia\App\Quickpay\Status::UNCONFIRMED) && ($pay_status == Ecjia\App\Quickpay\Status::UNPAID) && ($verification_status == Ecjia\App\Quickpay\Status::UNVERIFICATION)) {
+		if (($order_status == \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::UNCONFIRMED) && ($pay_status == \Ecjia\App\Quickpay\Enums\QuickpayPayEnum::UNPAID) && ($verification_status == \Ecjia\App\Quickpay\Enums\QuickpayVerifyEnum::UNVERIFICATION)) {
 			$order_status_str = 'unpaid';
 			$label_order_status = '待付款';
-		} elseif (($order_status == Ecjia\App\Quickpay\Status::CONFIRMED) && ($pay_status == Ecjia\App\Quickpay\Status::PAID)) {
+		} elseif (($order_status == \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::CONFIRMED) && ($pay_status == \Ecjia\App\Quickpay\Enums\QuickpayPayEnum::PAID)) {
 			$order_status_str = 'paid';
 			$label_order_status = '已付款';
-		} elseif (($order_status == Ecjia\App\Quickpay\Status::CONFIRMED) && ($pay_status == Ecjia\App\Quickpay\Status::PAID) && ($verification_status == Ecjia\App\Quickpay\Status::VERIFICATION)) {
+		} elseif (($order_status == \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::CONFIRMED) && ($pay_status == \Ecjia\App\Quickpay\Enums\QuickpayPayEnum::PAID) && ($verification_status == \Ecjia\App\Quickpay\Enums\QuickpayVerifyEnum::VERIFICATION)) {
 			$order_status_str = 'succeed';
 			$label_order_status = '买单成功';
-		} elseif (($order_status == Ecjia\App\Quickpay\Status::CANCELED) && ($pay_status == Ecjia\App\Quickpay\Status::UNPAID) && ($verification_status == Ecjia\App\Quickpay\Status::UNVERIFICATION)){
+		} elseif (($order_status == \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::CANCELED) && ($pay_status == \Ecjia\App\Quickpay\Enums\QuickpayPayEnum::UNPAID) && ($verification_status == \Ecjia\App\Quickpay\Enums\QuickpayVerifyEnum::UNVERIFICATION)){
 			$order_status_str = 'canceled';
 			$label_order_status = '已取消';
 		}

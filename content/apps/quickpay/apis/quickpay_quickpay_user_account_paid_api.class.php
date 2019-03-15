@@ -98,7 +98,7 @@ class quickpay_quickpay_user_account_paid_api extends Component_Event_Api {
 		$user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
 		
 		/* 检查订单是否已经付款 */
-		if ($order_info['pay_status'] == Ecjia\App\Quickpay\Status::PAID && $order_info['pay_time']) {
+		if ($order_info['pay_status'] == \Ecjia\App\Quickpay\Enums\QuickpayPayEnum::PAID && $order_info['pay_time']) {
 			return new ecjia_error('order_paid', __('该订单已经支付，请勿重复支付。', 'quickpay'));
 		}
 		
@@ -109,9 +109,9 @@ class quickpay_quickpay_user_account_paid_api extends Component_Event_Api {
 		
 		/* 更新订单表支付后信息 */
 		$data = array(
-			'order_status'    => Ecjia\App\Quickpay\Status::CONFIRMED,
+			'order_status'    => \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::CONFIRMED,
 			//'confirm_time'    => RC_Time::gmtime(),
-			'pay_status'      => Ecjia\App\Quickpay\Status::PAID,
+			'pay_status'      => \Ecjia\App\Quickpay\Enums\QuickpayPayEnum::PAID,
 			'pay_time'        => RC_Time::gmtime(),
 			'order_amount'    => 0,
 			'surplus'         => sprintf("%.2f", $order_info['order_amount']),
@@ -149,8 +149,8 @@ class quickpay_quickpay_user_account_paid_api extends Component_Event_Api {
 				'action_user_id' 	=> $_SESSION['user_id'],
 				'action_user_name'	=> __('买家', 'quickpay'),
 				'action_user_type'	=> 'user',
-				'order_status'		=> Ecjia\App\Quickpay\Status::CONFIRMED,
-				'pay_status'		=> Ecjia\App\Quickpay\Status::PAID,
+				'order_status'		=> \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::CONFIRMED,
+				'pay_status'		=> \Ecjia\App\Quickpay\Enums\QuickpayPayEnum::PAID,
 				'action_note'		=> ''
 	   
 		);

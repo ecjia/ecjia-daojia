@@ -44,27 +44,26 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Quickpay;
+namespace Ecjia\App\Quickpay\Enums;
+
+use Royalcms\Component\Enum\Enum;
 
 /**
  * 买单订单状态处理（订单状态、支付状态、审核状态）
  */
-class Status
+class QuickpayPayEnum extends Enum
 {
-	
-    const UNCONFIRMED 	 = 0;//未确认
-    
-    const CONFIRMED   	 = 1;//已确认
-    
+
     const UNPAID     	 = 0;//未支付
-    
+
     const PAID       	 = 1;//已支付
-    
-    const UNVERIFICATION = 0;//未核销
-    
-    const VERIFICATION   = 1;//已核销 
-    
-    const CANCELED       = 9;//取消
-    
-    const DELETED        = 99;//删除
+
+
+    protected function __statusMap()
+    {
+        return [
+            self::UNPAID            => __('未支付'),
+            self::PAID              => __('已支付'),
+        ];
+    }
 }

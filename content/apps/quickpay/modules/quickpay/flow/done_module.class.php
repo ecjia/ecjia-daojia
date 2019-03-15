@@ -110,7 +110,7 @@ class quickpay_flow_done_module extends api_front implements api_interface {
 				'bonus_id'     		=> $bonus_id,
 				'user_id'      		=> $_SESSION['user_id'],
 				'add_time'     		=> RC_Time::gmtime(),
-				'order_status'  	=> Ecjia\App\Quickpay\Status::UNCONFIRMED,
+				'order_status'  	=> \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::UNCONFIRMED,
 		);
 
 		if (!empty($activity_id) && $activity_id > 0) {
@@ -256,7 +256,7 @@ class quickpay_flow_done_module extends api_front implements api_interface {
     	
     	/* 如果订单金额为0（使用余额或积分或红包支付），修改订单状态为已确认、已付款 */
     	if ($order['order_amount'] <= 0) {
-    		$order['order_status']	= Ecjia\App\Quickpay\Status::PAID;
+    		$order['order_status']	= \Ecjia\App\Quickpay\Enums\QuickpayPayEnum::PAID;
     		$order['pay_time']		= RC_Time::gmtime();
     		$order['order_amount']	= 0;
     	}
