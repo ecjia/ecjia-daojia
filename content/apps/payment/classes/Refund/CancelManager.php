@@ -28,7 +28,7 @@ class CancelManager extends PaymentManagerAbstract
     protected function doPluginHandler()
     {
         if (! ($this->pluginHandler instanceof CancelPayment)) {
-            return new ecjia_error('payment_plugin_not_support_cancel_payment', $this->pluginHandler->getName().'支付方式不支持支付撤单操作');
+            return new ecjia_error('payment_plugin_not_support_cancel_payment', $this->pluginHandler->getName().__('支付方式不支持支付撤单操作', 'payment'));
         }
 
         $result = $this->pluginHandler->cancel($this->paymentRecord->order_trade_no);

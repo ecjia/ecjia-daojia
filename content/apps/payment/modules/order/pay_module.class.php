@@ -88,9 +88,9 @@ class order_pay_module extends api_front implements api_interface {
 		
 		$order_type = $this->transform_order_sn($order['order_sn']);
 		if($order_type == \Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_BUY) {
-			$order_type_pay = Ecjia\App\Payment\PayConstant::PAY_ORDER;
+			$order_type_pay = \Ecjia\App\Payment\Enums\PayEnum::PAY_ORDER;
 		} else if($order_type == \Ecjia\System\Business\Orders\OrderSnGeneration::ORDER_SEPARATE) {
-			$order_type_pay = Ecjia\App\Payment\PayConstant::PAY_SEPARATE_ORDER;
+			$order_type_pay = \Ecjia\App\Payment\Enums\PayEnum::PAY_SEPARATE_ORDER;
 		}
 		
 		//判断是否是管理员登录
@@ -99,7 +99,7 @@ class order_pay_module extends api_front implements api_interface {
 		}
 		
 		if ($_SESSION['user_id'] != $order['user_id']) {
-			return new ecjia_error('error_order_detail', RC_Lang::get('orders::order.error_order_detail'));
+			return new ecjia_error('error_order_detail', __('订单不属于该用户', 'payment'));
 		}
 		
 		//添加微信支付需要的OPEN_ID
@@ -130,7 +130,7 @@ class order_pay_module extends api_front implements api_interface {
 		$handler->setOrderType($order_type_pay);//类型
 		$handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
 
-		$result = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);
+		$result = $handler->get_code(\Ecjia\App\Payment\Enums\PayCodeEnum::PAYCODE_PARAM);
 
         if (is_ecjia_error($result)) {
             return $result;

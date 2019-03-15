@@ -73,7 +73,7 @@ class payment_plugin_install_api extends Component_Event_Api {
 	        
 	        /* 检查输入 */
 	        if (empty($format_name) || empty($options['config']['pay_code'])) {
-	            return ecjia_plugin::add_error('plugin_install_error', RC_Lang::get('payment::payment.plugin_install_error'));
+	            return ecjia_plugin::add_error('plugin_install_error', __('支付方式名称或pay_code不能为空', 'payment'));
 	        }
 	       
 // 	        $db = RC_Loader::load_app_model('payment_model', 'payment');

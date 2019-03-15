@@ -76,7 +76,7 @@ class respond extends ecjia_front
 		
 		/* 参数是否为空 */
 		if (empty($pay_code)) {
-			$msg = RC_Lang::get('payment::payment.pay_not_exist');
+			$msg = __('此支付方式不存在或者参数错误！', 'payment');
 		} else {
 		    $payment_method = RC_Loader::load_app_class('payment_method', 'payment');
 		    
@@ -84,7 +84,7 @@ class respond extends ecjia_front
         
 			/* 判断是否启用 */
 			if (count($payment_list) == 0) {
-				$msg = RC_Lang::get('payment::payment.pay_disabled');
+				$msg = __('此支付方式还没有被启用！', 'payment');
 			} else {
 			    $payment_handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel($pay_code);
 			    $payment_handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
@@ -92,7 +92,7 @@ class respond extends ecjia_front
 				/* 检查插件文件是否存在，如果存在则验证支付是否成功，否则则返回失败信息 */
 				if (is_ecjia_error($payment_handler)) {
 				    
-				    $msg = RC_Lang::get('payment::payment.pay_not_exist');
+				    $msg = __('此支付方式不存在或者参数错误！', 'payment');
 				    RC_Logger::getLogger('pay')->debug($payment_handler->get_error_message());
 				    
 				} else {
@@ -104,7 +104,7 @@ class respond extends ecjia_front
 				        $msg = $result->get_error_data();
 				    } else {
 				        RC_Logger::getLogger('pay')->debug('pay_success_response');
-				        $msg = RC_Lang::get('payment::payment.pay_success');
+				        $msg = __('您此次的支付操作已成功！', 'payment');
 				    }
 				    
 				}

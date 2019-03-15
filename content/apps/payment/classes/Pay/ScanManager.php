@@ -32,7 +32,7 @@ class ScanManager extends PaymentManagerAbstract
     protected function doPluginHandler()
     {
         if (! ($this->pluginHandler instanceof ScanPayment)) {
-            return new ecjia_error('payment_plugin_not_support_scan_payment', $this->pluginHandler->getName().'支付方式不支持扫码收款操作');
+            return new ecjia_error('payment_plugin_not_support_scan_payment', $this->pluginHandler->getName().__('支付方式不支持扫码收款操作', 'payment'));
         }
 
         $result = $this->pluginHandler->scan($this->paymentRecord->order_trade_no, $this->dynamic_code);

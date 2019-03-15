@@ -36,7 +36,7 @@ class RefundCallback
         });
 
         if (empty($plugin)) {
-            return new ecjia_error('payment_not_found', '插件未找到或已经被禁用！');
+            return new ecjia_error('payment_not_found', __('插件未找到或已经被禁用！', 'payment'));
         }
 
         $payment_handler = $payment_plugin->channel($plugin['pay_code']);
@@ -46,7 +46,7 @@ class RefundCallback
         }
 
         if (! ($payment_handler instanceof RefundCallbackPayment)) {
-            return new ecjia_error('payment_plugin_not_support_refund_callbakc', $payment_handler->getName().'支付方式不支持退款回调操作');
+            return new ecjia_error('payment_plugin_not_support_refund_callbakc', $payment_handler->getName().__('支付方式不支持退款回调操作', 'payment'));
         }
 
         $payment_handler->setPaymentRecord(new PaymentRecordRepository());

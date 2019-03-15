@@ -49,7 +49,7 @@ namespace Ecjia\App\Payment\Repositories;
 
 use Royalcms\Component\Repository\Repositories\AbstractRepository;
 use RC_Time;
-use Ecjia\App\Payment\PayConstant;
+use Ecjia\App\Payment\Enums\PaymentRecordEnum;
 
 class PaymentRecordRepository extends AbstractRepository
 {
@@ -65,12 +65,12 @@ class PaymentRecordRepository extends AbstractRepository
      * @param number $isPaid    是否已支付
      * @return int
      */
-    public function addOrUpdatePaymentRecord($orderSn, $amount, $type = PayConstant::PAY_ORDER, $callback = null)
+    public function addOrUpdatePaymentRecord($orderSn, $amount, $type = \Ecjia\App\Payment\Enums\PayEnum::PAY_ORDER, $callback = null)
     {
         $where = array(
         	'order_sn'      => $orderSn,
             'trade_type'    => $type,
-            'pay_status'    => PayConstant::PAYMENT_RECORD_STATUS_WAIT,
+            'pay_status'    => PaymentRecordEnum::PAYMENT_RECORD_STATUS_WAIT,
             'total_fee'     => $amount,
         );
         $result = $this->findWhere($where);
@@ -104,7 +104,7 @@ class PaymentRecordRepository extends AbstractRepository
      * @param number $isPaid    是否已支付
      * @return int
      */
-    public function addPaymentRecord($orderSn, $amount, $type = PayConstant::PAY_ORDER, $callback = null)
+    public function addPaymentRecord($orderSn, $amount, $type = \Ecjia\App\Payment\Enums\PayEnum::PAY_ORDER, $callback = null)
     {
         $attributes = array(
             'order_sn' => $orderSn,
@@ -170,7 +170,7 @@ class PaymentRecordRepository extends AbstractRepository
             'update_time' => RC_Time::gmtime(),
         );
         
-        return $this->getModel()->where('order_trade_no', $orderTradeNo)->where('pay_status', PayConstant::PAYMENT_RECORD_STATUS_WAIT)->update($attributes);
+        return $this->getModel()->where('order_trade_no', $orderTradeNo)->where('pay_status', PaymentRecordEnum::PAYMENT_RECORD_STATUS_WAIT)->update($attributes);
     }
     
     /**
@@ -241,7 +241,7 @@ class PaymentRecordRepository extends AbstractRepository
         });
 
         return $this->getModel()->where('order_trade_no', $orderTradeNo)
-            ->where('pay_status', PayConstant::PAYMENT_RECORD_STATUS_WAIT)
+            ->where('pay_status', PaymentRecordEnum::PAYMENT_RECORD_STATUS_WAIT)
             ->update($attributes);
     }
     
@@ -256,7 +256,7 @@ class PaymentRecordRepository extends AbstractRepository
     public function updateOrderPaid($orderTradeNo, $amount, $tradeNo = null)
     {
         $attributes = array(
-            'pay_status' => PayConstant::PAYMENT_RECORD_STATUS_PAYED,
+            'pay_status' => PaymentRecordEnum::PAYMENT_RECORD_STATUS_PAYED,
             'pay_time' => RC_Time::gmtime(),
         );
         if (! is_null($tradeNo)) {
@@ -264,7 +264,7 @@ class PaymentRecordRepository extends AbstractRepository
         }
         /* 修改此次支付操作的状态为已付款 */
         return $this->getModel()->where('order_trade_no', $orderTradeNo)
-                                ->where('pay_status', PayConstant::PAYMENT_RECORD_STATUS_WAIT)
+                                ->where('pay_status', PaymentRecordEnum::PAYMENT_RECORD_STATUS_WAIT)
                                 ->where('total_fee', $amount)
                                 ->update($attributes);
     }
@@ -275,14 +275,14 @@ class PaymentRecordRepository extends AbstractRepository
     public function updateOrderCancel($orderTradeNo, $requestNo = null)
     {
         $attributes = array(
-            'pay_status' => PayConstant::PAYMENT_RECORD_STATUS_CANCEL,
+            'pay_status' => PaymentRecordEnum::PAYMENT_RECORD_STATUS_CANCEL,
             'refund_time' => RC_Time::gmtime(),
             'refund_request_no' => $requestNo,
         );
 
         /* 修改此次支付操作的状态为已退款 */
         return $this->getModel()->where('order_trade_no', $orderTradeNo)
-            ->where('pay_status', PayConstant::PAYMENT_RECORD_STATUS_PAYED)
+            ->where('pay_status', PaymentRecordEnum::PAYMENT_RECORD_STATUS_PAYED)
             ->update($attributes);
     }
 
@@ -292,7 +292,7 @@ class PaymentRecordRepository extends AbstractRepository
     public function updateOrderRefund($orderTradeNo, $requestNo, $refundAmount, $operator)
     {
         $attributes = array(
-            'pay_status' => PayConstant::PAYMENT_RECORD_STATUS_REFUND,
+            'pay_status' => PaymentRecordEnum::PAYMENT_RECORD_STATUS_REFUND,
             'refund_time' => RC_Time::gmtime(),
             'refund_amount' => $refundAmount,
             'refund_operator' => $operator,
@@ -301,7 +301,7 @@ class PaymentRecordRepository extends AbstractRepository
 
         /* 修改此次支付操作的状态为已退款 */
         return $this->getModel()->where('order_trade_no', $orderTradeNo)
-            ->where('pay_status', PayConstant::PAYMENT_RECORD_STATUS_PAYED)
+            ->where('pay_status', PaymentRecordEnum::PAYMENT_RECORD_STATUS_PAYED)
             ->update($attributes);
     }
     

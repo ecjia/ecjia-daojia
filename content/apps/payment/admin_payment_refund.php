@@ -59,7 +59,7 @@ class admin_payment_refund extends ecjia_admin {
 		RC_Script::enqueue_script('smoke');		
 		
 		
-		RC_Script::enqueue_script('payment_refund', RC_App::apps_url('statics/js/payment_refund.js',__FILE__),array(), false, true);
+		RC_Script::enqueue_script('payment_refund', RC_App::apps_url('statics/js/payment_refund.js',__FILE__),array(), false, 1);
 		RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
 		RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
 	
@@ -70,6 +70,9 @@ class admin_payment_refund extends ecjia_admin {
 		//时间控件
 		RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
 		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
+		
+		//js语言包
+		RC_Script::localize_script('payment_refund', 'js_lang', config('app-payment::jslang.payment_refund_page'));
 	}
 
 	/**
@@ -77,7 +80,7 @@ class admin_payment_refund extends ecjia_admin {
 	 */
 	public function init() {
 	    $this->admin_priv('payment_refund_manage');
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(('退款流水')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('退款流水', 'payment')));
 		
 		$filter = array();
 		
@@ -95,10 +98,10 @@ class admin_payment_refund extends ecjia_admin {
 	public function payment_refund_info() {
 		$this->admin_priv('payment_refund_manage');
 	
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(('退款流水'), RC_Uri::url('payment/admin_payment_refund/init')));
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('查看退款流水'));
-		$this->assign('ur_here', '查看退款流水');
-		$this->assign('action_link', array('text' => '退款流水', 'href' => RC_Uri::url('payment/admin_payment_refund/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('退款流水', 'payment'), RC_Uri::url('payment/admin_payment_refund/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('查看退款流水', 'payment')));
+		$this->assign('ur_here', __('查看退款流水', 'payment'));
+		$this->assign('action_link', array('text' => __('退款流水', 'payment'), 'href' => RC_Uri::url('payment/admin_payment_refund/init')));
 	
 		$id = $_GET['id'];
 	
@@ -108,7 +111,7 @@ class admin_payment_refund extends ecjia_admin {
 			$payment_refund_info['label_refund_status'] = $this->label_refund_status($payment_refund_info['refund_status']);
 			//订单类型处理
 			if ($payment_refund_info['order_type'] == 'buy') {
-				$payment_refund_info['label_order_type'] = '消费';
+				$payment_refund_info['label_order_type'] = __('消费', 'payment');
 			} else {
 				$payment_refund_info['label_order_type'] = '';
 			}
@@ -147,7 +150,7 @@ class admin_payment_refund extends ecjia_admin {
 
             //到款状态不能再次修改
             if (empty($account)) {
-                return $this->showmessage('该退款流水记录不存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('该退款流水记录不存在', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             $result = (new \Ecjia\App\Payment\Refund\RefundQueryManager($account['order_sn']))->refundQuery();
@@ -156,7 +159,7 @@ class admin_payment_refund extends ecjia_admin {
                 return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
-            return $this->showmessage('与支付机构对账成功，状态正常', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+            return $this->showmessage(__('与支付机构对账成功，状态正常', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 
         } catch (\Royalcms\Component\Database\QueryException $e) {
             return $this->showmessage($e->getMessage(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -239,15 +242,15 @@ class admin_payment_refund extends ecjia_admin {
 	{
 		$label_refund_status = '';
 		if ($refund_status == '0') {
-			$label_refund_status = '待处理';
+			$label_refund_status = __('待处理', 'payment');
 		} elseif ($refund_status == '1') {
-			$label_refund_status = '已退款';
+			$label_refund_status = __('已退款', 'payment');
 		} elseif ($refund_status == '2') {
-			$label_refund_status = '退款处理中';
+			$label_refund_status = __('退款处理中', 'payment');
 		} elseif ($refund_status == '11') {
-			$label_refund_status == '退款失败';
+			$label_refund_status == __('退款失败', 'payment');
 		}elseif ($refund_status == '12') {
-			$label_refund_status = '退款关闭';
+			$label_refund_status = __('退款关闭', 'payment');
 		}
 		return $label_refund_status;
 	}

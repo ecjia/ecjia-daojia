@@ -70,14 +70,14 @@ class admin_payment_notify_pay_module extends api_admin implements api_interface
         
         //传参判断
         if (empty($order_trade_no) || empty($notify_data)) {
-        	return new ecjia_error('invalid_parameter', 'admin_payment_notify_pay_module接口参数无效');
+        	return new ecjia_error('invalid_parameter', __('admin_payment_notify_pay_module接口参数无效', 'payment'));
         }
         
         //查找交易记录
         $paymentRecordRepository = new Ecjia\App\Payment\Repositories\PaymentRecordRepository();
         $record_model = $paymentRecordRepository->getPaymentRecord($order_trade_no);
         if (empty($record_model)) {
-        	return new ecjia_error('payment_record_not_found', '此笔交易记录未找到');
+        	return new ecjia_error('payment_record_not_found', __('此笔交易记录未找到', 'payment'));
         }
         
         //写业务逻辑
@@ -102,7 +102,7 @@ class admin_payment_notify_pay_module extends api_admin implements api_interface
 			
 			$orderinfo 	= $paidOrderOrocess->getOrderInfo();
 			if (empty($orderinfo)) {
-				return new ecjia_error('order_dose_not_exist', $record_model->order_sn . '未找到该订单信息');
+				return new ecjia_error('order_dose_not_exist', $record_model->order_sn . __('未找到该订单信息', 'payment'));
 			}
 
 			//支付成功返回数据

@@ -67,7 +67,7 @@ class payment_pay_balance_module extends api_front implements api_interface {
     	$paypasword = $this->requestData('paypassword');
     	
     	if (empty($record_id) || empty($paypasword)) {
-    		return new ecjia_error( 'invalid_parameter', '调用接口payment_pay_balance_module参数错误！');
+    		return new ecjia_error( 'invalid_parameter', __('调用接口payment_pay_balance_module参数错误！', 'payment'));
     	}
 		
     	//支付密码检验
@@ -77,7 +77,7 @@ class payment_pay_balance_module extends api_front implements api_interface {
     		$md5PayPassword =  md5($paypasword);
     		$md5_pay_password = md5($md5PayPassword.$user_id);
     		if ($md5_pay_password != $user_info['pay_password']) {
-    			return new ecjia_error( 'pay_password_error', '支付密码错误！');
+    			return new ecjia_error( 'pay_password_error', __('支付密码错误！', 'payment'));
     		}
     	}
     	
@@ -85,7 +85,7 @@ class payment_pay_balance_module extends api_front implements api_interface {
     	
     	$record_model = $paymentRecordRepository->find($record_id);
     	if (empty($record_model)) {
-    		return new ecjia_error('payment_record_not_found', '此笔交易记录未找到');
+    		return new ecjia_error('payment_record_not_found', __('此笔交易记录未找到', 'payment'));
     	}
     	
     	$result = (new Ecjia\App\Payment\Pay\PayManager($record_model->order_sn))->pay();

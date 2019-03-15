@@ -62,7 +62,7 @@ class payment_batch_payment_info_api extends Component_Event_Api {
      */
 	public function call(&$options) {	
 		if (!isset($options['code'])) {
-			return new ecjia_error('invalid_parameter', __('缺少必要参数'));
+			return new ecjia_error('invalid_parameter', __('缺少必要参数', 'payment'));
 		}
 	   	return $this->get_pay_info($options['code']);
 	}

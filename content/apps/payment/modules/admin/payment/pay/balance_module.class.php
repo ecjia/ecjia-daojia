@@ -61,14 +61,14 @@ class admin_payment_pay_balance_module extends api_admin implements api_interfac
     	$record_id 	= $this->requestData('record_id');
     	
     	if (empty($record_id)) {
-    		return new ecjia_error( 'invalid_parameter', '调用接口admin_payment_pay_balance_module参数无效！');
+    		return new ecjia_error( 'invalid_parameter', __('调用接口admin_payment_pay_balance_module参数无效！', 'payment'));
     	}
     	
     	$paymentRecordRepository = new Ecjia\App\Payment\Repositories\PaymentRecordRepository();
     	
     	$record_model = $paymentRecordRepository->find($record_id);
     	if (empty($record_model)) {
-    		return new ecjia_error('payment_record_not_found', '此笔交易记录未找到');
+    		return new ecjia_error('payment_record_not_found', __('此笔交易记录未找到', 'payment'));
     	}
     	
     	$result = (new Ecjia\App\Payment\Pay\PayManager($record_model->order_sn))->pay();
@@ -85,7 +85,7 @@ class admin_payment_pay_balance_module extends api_admin implements api_interfac
     	}
     		
     	if (empty($orderinfo)) {
-    		return new ecjia_error('order_dose_not_exist', $record_model->order_sn . '未找到该订单信息');
+    		return new ecjia_error('order_dose_not_exist', $record_model->order_sn . __('未找到该订单信息', 'payment'));
     	}
     	
     	//支付成功后更新数据
@@ -145,7 +145,7 @@ class admin_payment_pay_balance_module extends api_admin implements api_interfac
     				'pay_code'					=> $record_model->pay_code,
     				'pay_name'					=> $record_model->pay_name,
     				'pay_status'				=> 'success',
-    				'desc'						=> '订单支付成功！'
+    				'desc'						=> __('订单支付成功！', 'payment')
     		);
     	}
     	

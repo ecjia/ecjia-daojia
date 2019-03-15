@@ -50,115 +50,6 @@ namespace Ecjia\App\Payment;
 
 class PayConstant
 {
-
-    /**
-     * =======================================
-     * 常见支付订单类型
-     * =======================================
-     */
-    /**
-     * 订单支付
-     * @var string
-     */
-    const PAY_ORDER = 'buy';
-
-    /**
-     * 分单订单支付
-     * @var string
-     */
-    const PAY_SEPARATE_ORDER = 'separate';
-
-    /**
-     * 会员预付款
-     * @var string
-     */
-    const PAY_SURPLUS = 'surplus';
-    
-    /**
-     * 闪付订单
-     * @var string
-     */
-    const PAY_QUICKYPAY = 'quickpay';
-
-
-    /**
-     * ====================================
-     * 废弃支付类型
-     * ====================================
-     */
-    /**
-     * 会员充值提现
-     * @var string
-     */
-    const PAY_DEPOSIT = 'deposit';
-    const PAY_WITHDRAW = 'withdraw';
-    //@end
-
-
-    /**
-     * PC平台
-     * @var number
-     */
-    const PLATFORM_PC       = 0b00000001;
-    
-    /**
-     * 手机APP平台
-     * @var number
-     */
-    const PLATFORM_APP      = 0b00000010;
-    
-    /**
-     * H5平台
-     * @var number
-     */
-    const PLATFORM_H5       = 0b00000100;
-    
-    /**
-     * 微信小程序平台
-     * @var number
-     */
-    const PLATFORM_WEAPP    = 0b00001000;
-    
-    
-    /**
-     * 支付代码类型 1 => 表单
-     * @var integer
-     */
-    const PAYCODE_FORM     = 1;
-    
-    /**
-     * 支付代码类型 2 => 链接
-     * @var integer
-     */
-    const PAYCODE_STRING   = 2;
-    
-    /**
-     * 支付代码类型 3 => 数组
-     * @var integer
-     */
-    const PAYCODE_PARAM    = 3;
-
-
-    /**
-     * 流水记录的支付状态
-     */
-    const PAYMENT_RECORD_STATUS_WAIT        = 0; //等待支付
-    const PAYMENT_RECORD_STATUS_PAYED       = 1; //支付完成
-    const PAYMENT_RECORD_STATUS_PROGRESS    = 2; //支付进行中
-    const PAYMENT_RECORD_STATUS_FAIL        = 11; //支付失败
-    const PAYMENT_RECORD_STATUS_CANCEL      = 21; //订单撤消
-    const PAYMENT_RECORD_STATUS_REFUND      = 22; //订单退款
-
-
-    /**
-     * 退款流水状态
-     */
-    const PAYMENT_REFUND_STATUS_CREATE      = 0; //创建退款请求
-    const PAYMENT_REFUND_STATUS_REFUND      = 1; //确认退款
-    const PAYMENT_REFUND_STATUS_PROGRESS    = 2; //退款处理中
-    const PAYMENT_REFUND_STATUS_FAIL        = 11; //退款失败
-    const PAYMENT_REFUND_STATUS_CLOSE       = 12; //退款关闭
-
     
     protected static $payways = [
         '1'     => '支付宝',
@@ -196,7 +87,7 @@ class PayConstant
      */
     public static function getPayway($payway)
     {
-        return array_get(self::$payways, $payway, '未知');
+        return array_get(self::$payways, $payway, __('未知', 'payment'));
     }
 
 
@@ -208,7 +99,7 @@ class PayConstant
      */
     public static function getSubPayway($sub_payway)
     {
-        return array_get(self::$sub_payways, $sub_payway, '未知');
+        return array_get(self::$sub_payways, $sub_payway, __('未知', 'payment'));
     }
 
 

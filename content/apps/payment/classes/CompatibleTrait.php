@@ -78,11 +78,11 @@ trait CompatibleTrait
             return $prepare_data;
         }
          
-        if ($type == PayConstant::PAYCODE_FORM) {
+        if ($type == \Ecjia\App\Payment\Enums\PayCodeEnum::PAYCODE_FORM) {
             return $this->build_request_form($prepare_data, $args);
-        } elseif ($type == PayConstant::PAYCODE_STRING) {
+        } elseif ($type == \Ecjia\App\Payment\Enums\PayCodeEnum::PAYCODE_STRING) {
             return $this->build_request_param_toString($prepare_data);
-        } elseif ($type == PayConstant::PAYCODE_PARAM) {
+        } elseif ($type == \Ecjia\App\Payment\Enums\PayCodeEnum::PAYCODE_PARAM) {
             return $this->build_request_param($prepare_data);
         } else {
             return ;

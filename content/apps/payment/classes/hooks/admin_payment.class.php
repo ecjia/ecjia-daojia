@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class payment_admin_plugin {
 	
 	public static function payment_admin_menu_api($menus) {
-	    $menu = ecjia_admin::make_admin_menu('payment_record', RC_Lang::get('payment::payment.transaction_flow_record'), RC_Uri::url('payment/admin_payment_record/init'), 11)->add_purview('payment_manage');
+	    $menu = ecjia_admin::make_admin_menu('payment_record', __('交易流水', 'payment'), RC_Uri::url('payment/admin_payment_record/init'), 11)->add_purview('payment_manage');
 	    $menus->add_submenu($menu);
 	    return $menus;
 	}

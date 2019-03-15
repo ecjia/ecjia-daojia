@@ -46,58 +46,27 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 获取支付方式信息
- * @author wutifang
- */
-class payment_pay_info_api extends Component_Event_Api {
+return array(
+	//支付交易流水
+    'payment_record_page'  => array(
+    	'check_time'   		   => __('开始日期不能大于结束日期', 'payment'),
+    ),
 	
-    /**
-     * @return array
-     */
-	public function call(&$options) {	
-		if (!isset($options['code'])) {
-			return new ecjia_error('invalid_parameter', __('调用pay_info_api文件参数无效', 'payment'));
-		}
-	   	return $this->get_pay_info($options['code']);
-	}
-	
-	/**
-	 * 获取支付方式信息
-	 */
-	private function get_pay_info($code) {
-// 		$db_payment = RC_Loader::load_app_model('payment_model', 'payment');
 		
-		/* 查询该支付方式内容 */
-// 		$pay = $db_payment->payment_find(array('pay_code' => $code, 'enabled' => 1));
-		$pay = RC_DB::table('payment')->where('pay_code', $code)->where('enabled', 1)->first();
+	//退款交易流水
+    'payment_refund_page' => array(
+    	'check_time'   		   => __('开始日期不能大于结束日期', 'payment'),
+    ),
 		
-		if (empty($pay)) {
-			return new ecjia_error('invalid_parameter', __('该支付插件不存在或尚未安装', 'payment'));
-		}
+	//支付方式
+	'payment_list_page' => array(
+		'pay_name_required'    => __('请输入支付名称', 'payment'),
+		'pay_name_minlength'   => __('支付名称长度不能小于3', 'payment'),
+		'pay_desc_required'    => __('请输入支付描述', 'payment'),
+		'pay_desc_minlength'   => __('支付描述长度不能小于6', 'payment'),
+		'check_time'   		   => __('开始日期不能大于结束日期', 'payment'),
+	),
 		
-		/* 取得配置信息 */
-		if (is_string($pay['pay_config'])) {
-			$pay_config = unserialize($pay['pay_config']);
-			
-			/* 取出已经设置属性的code */
-			$code_list = array();
-			if (!empty($pay_config)) {
-				foreach ($pay_config as $key => $value) {
-					$code_list[$value['name']] = $value['value'];
-				}
-			}
-// 			$payment_handle = new payment_factory($code);
-			$payment_handle = with(new Ecjia\App\Payment\PaymentPlugin)->channel($code);
-// 			$pay['pay_config'] = $payment_handle->configure_forms($code_list, true);
-			$pay['pay_config'] = $payment_handle->makeFormData($code_list);
-		}
-		/* 如果以前没设置支付费用，编辑时补上 */
-		if (!isset($pay['pay_fee'])) {
-			$pay['pay_fee'] = 0;
-		}
-		return $pay;
-	}
-}
+);
 
 // end

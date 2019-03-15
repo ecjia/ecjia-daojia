@@ -10,7 +10,7 @@
 <!-- {block name="main_content"} -->
 {if $pay.enabled neq 1}
 <div class="alert alert-error">
-	<strong>温馨提示：</strong>该支付方式已经禁用，如果您需要使用，请点击<a class="switch" href="javascript:;" data-url='{RC_Uri::url("payment/admin_plugin/enable", "code={$pay.pay_code}&from=edit")}' title="{lang key='payment::payment.enable'}">启用</a>。
+	<strong>{t domain="payment"}温馨提示：{/t}</strong>{t domain="payment"}该支付方式已经禁用，如果您需要使用，请点击{/t}<a class="switch" href="javascript:;" data-url='{RC_Uri::url("payment/admin_plugin/enable", "code={$pay.pay_code}&from=edit")}' title='{t domain="payment"}启用{/t}'>{t domain="payment"}启用{/t}</a>。
 </div>
 {/if}
 
@@ -27,17 +27,17 @@
 		<form id="form-privilege"  class="form-horizontal"  name="editForm" action="{$form_action}" method="post" enctype="multipart/form-data" >
 			<fieldset>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='payment::payment.label_payment_name'}</label>
+					<label class="control-label">{t domain="payment"}名称：{/t}</label>
 					<div class="controls">
 						<input class="w350" name="pay_name" type="text" id="pay_name" value="{$pay.pay_name|escape}" size="40" {if $pay.enabled neq 1}disabled{/if}/>
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 					</div>
 				</div>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='payment::payment.label_payment_desc'}</label>
+					<label class="control-label">{t domain="payment"}描述：{/t}</label>
 					<div class="controls">
 						<textarea class="w350" id="pay_desc" name="pay_desc" cols="10" rows="6" {if $pay.enabled neq 1}disabled{/if}>{$pay.pay_desc|escape}</textarea>
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 					</div>
 				</div>
 				<!-- {if $pay.enabled eq 1} -->
@@ -56,16 +56,16 @@
                             <!-- {elseif $config.type == "file"} -->
 
                             {if $config.value}
-                            <div class="m_t5 ecjiaf-wwb">文件地址：{$config.value}</div>
-                            <a class="ecjiafc-red cursor_pointer" data-toggle="ajaxremove" data-msg="{t}您确定要删除此文件吗？{/t}"
-                               data-href='{RC_Uri::url("payment/admin_plugin/delete_file", "pay_code={$pay.pay_code}&code={$config.name}")}' data-removefile="true">{t}删除文件{/t}</a>
+                            <div class="m_t5 ecjiaf-wwb">{t domain="payment"}文件地址：{/t}{$config.value}</div>
+                            <a class="ecjiafc-red cursor_pointer" data-toggle="ajaxremove" data-msg='{t domain="payment"}您确定要删除此文件吗？{/t}'
+                               data-href='{RC_Uri::url("payment/admin_plugin/delete_file", "pay_code={$pay.pay_code}&code={$config.name}")}' data-removefile="true">{t domain="payment"}删除文件{/t}</a>
                             <input type="hidden" name="cfg_value[]" value="{$config.value}" />
                             {else}
                             <div data-provides="fileupload" class="fileupload fileupload-new">
                                 <input type="hidden" name="cfg_value[]" value="" />
                                 <span class="btn btn-file">
-                                    <span class="fileupload-new">浏览</span>
-                                    <span class="fileupload-exists">修改</span>
+                                    <span class="fileupload-new">{t domain="payment"}浏览{/t}</span>
+                                    <span class="fileupload-exists">{t domain="payment"}修改{/t}</span>
                                     <input type="{$config.type}" name="{$config.name}" />
                                 </span>
                                 <span class="fileupload-preview"></span>
@@ -83,8 +83,8 @@
     						{/if}
 							<!--the tenpay code -->
 							{if $key eq "0"}
-							{if $smarty.get.code eq "tenpay"}<input type="button" value="{lang key='payment::payment.ctenpay'}" onclick="javascript:window.open('{lang key='payment::payment.ctenpay_url'}')"/>
-							{elseif $smarty.get.code eq "tenpayc2c"} <input type="button" value="{lang key='payment::payment.ctenpay'}" onclick="javascript:window.open('{lang key='payment::payment.ctenpayc2c_url'}')"/>
+							{if $smarty.get.code eq "tenpay"}<input type="button" value='{t domain="payment"}立即注册财付通商户号{/t}' onclick='javascript:window.open("http://union.tenpay.com/mch/mch_register_b2c.shtml?sp_suggestuser=542554970")'/>
+							{elseif $smarty.get.code eq "tenpayc2c"} <input type="button" value='{t domain="payment"}立即注册财付通商户号{/t}' onclick='javascript:window.open("https://www.tenpay.com/mchhelper/mch_register_c2c.shtml?sp_suggestuser=542554970")'/>
 							{/if}
 							{/if}
 							<!--the tenpay code -->
@@ -94,34 +94,34 @@
 				<!-- {/if} -->
 				<!-- 支付手续费 -->
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='payment::payment.label_pay_fee'}</label>
+					<label class="control-label">{t domain="payment"}支付手续费：{/t}</label>
 					<div class="controls">
 						{if $pay.is_cod }
-						<label class="p_t5">{lang key='payment::payment.decide_by_ship'}</label>
+						<label class="p_t5">{t domain="payment"}配送决定{/t}</label>
 						<input class="w350" name="pay_fee" type="hidden" value="{$pay.pay_fee|default:0}" {if $pay.enabled neq 1}disabled{/if}/>
 						{else}
 						<input class="w350" name="pay_fee" type="text" value="{$pay.pay_fee|default:0}" {if $pay.enabled neq 1}disabled{/if}/>
 						{/if}
 					</div>
-					<div class="controls help-block">设置方式1：固定手续费，如：5<br>设置方式2：比例手续费，如：5%</div>
+					<div class="controls help-block">{t domain="payment"}设置方式1：固定手续费，如：5{/t}<br>{t domain="payment"}设置方式2：比例手续费，如：5%{/t}</div>
 				</div>
 				<!-- 货到付款 -->
 				<div class="control-group formSep">
-					<label  class="control-label">{lang key='payment::payment.payment_is_cod'}</label>
+					<label  class="control-label">{t domain="payment"}货到付款：{/t}</label>
 					<div class="controls">
-						<label class="p_t5">{if $pay.is_cod == "1"}{lang key='system::system.yes'}{else}{lang key='system::system.no'}{/if}</label>
+						<label class="p_t5">{if $pay.is_cod == "1"}{t domain="payment"}是{/t}{else}{t domain="payment"}否{/t}{/if}</label>
 					</div>
 				</div>
 				<!-- 在线支付 -->
 				<div class="control-group formSep">
-					<label  class="control-label">{lang key='payment::payment.payment_is_online'}</label>
+					<label  class="control-label">{t domain="payment"}在线支付：{/t}</label>
 					<div class="controls">
-						<label class="p_t5">{if $pay.is_online == "1"}{lang key='system::system.yes'}{else}{lang key='system::system.no'}{/if}</label>
+						<label class="p_t5">{if $pay.is_online == "1"}{t domain="payment"}是{/t}{else}{t domain="payment"}否{/t}{/if}</label>
 					</div>
 				</div>
 				<div class="control-group">
 					<div class="controls">
-						<button class="btn btn-gebo" type="submit" {if $pay.enabled neq 1}disabled{/if}>{lang key='system::system.button_submit'}</button>
+						<button class="btn btn-gebo" type="submit" {if $pay.enabled neq 1}disabled{/if}>{t domain="payment"}确定{/t}</button>
 						<input type="hidden" name="pay_id" value="{$pay.pay_id}" />
 						<input type="hidden" name="pay_code" value="{$pay.pay_code}" />
 						<input type="hidden" name="is_cod" value="{$pay.is_cod}" />

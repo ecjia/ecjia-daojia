@@ -62,7 +62,7 @@ class payment_save_payment_record_api extends Component_Event_Api {
      */
 	public function call(&$options) {	
 		if (!array_get($options, 'order_sn') || !array_has($options, 'total_fee')) {
-			return new ecjia_error('invalid_parameter', __('缺少必要参数'));
+			return new ecjia_error('invalid_parameter', __('缺少必要参数', 'payment'));
 		}
 		
 		$trade_type = array_get($options, 'trade_type', 'buy');

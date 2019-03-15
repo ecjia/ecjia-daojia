@@ -79,7 +79,7 @@ abstract class PaymentAbstract extends AbstractPlugin
      * PAY_SURPLUS = surplus 会员预付费订单
      * @var string
      */
-    protected $orderType = PayConstant::PAY_ORDER;
+    protected $orderType = \Ecjia\App\Payment\Enums\PayEnum::PAY_ORDER;
 
     /**
      * 支付结果数据
@@ -244,26 +244,26 @@ abstract class PaymentAbstract extends AbstractPlugin
         
         /* 检查支付的金额是否相符 */
         if (!$this->paymentRecord->checkMoney($orderTradeNo, $amount)) {
-            return new ecjia_error('check_money_fail', __('支付的金额有误'));
+            return new ecjia_error('check_money_fail', __('支付的金额有误', 'payment'));
         }
 
         $this->paymentRecord->updateOrderPaid($orderTradeNo, $amount, $tradeNo);
         
         $item = $this->parseOrderTradeNo($orderTradeNo);
         if (!$item) {
-            return new ecjia_error('parse_order_trade_no_error', __('解析订单号时失败'));
+            return new ecjia_error('parse_order_trade_no_error', __('解析订单号时失败', 'payment'));
         }
         
-        if ($this->orderType == PayConstant::PAY_ORDER) {
+        if ($this->orderType == \Ecjia\App\Payment\Enums\PayEnum::PAY_ORDER) {
             $result = RC_Api::api('orders', 'buy_order_paid', array('order_sn' => $item['order_sn'], 'money' => $amount));
         }
-        elseif ($this->orderType == PayConstant::PAY_SEPARATE_ORDER) {
+        elseif ($this->orderType == \Ecjia\App\Payment\Enums\PayEnum::PAY_SEPARATE_ORDER) {
             $result = RC_Api::api('orders', 'separate_order_paid', array('order_sn' => $item['order_sn'], 'money' => $amount));
         }
-        elseif ($this->orderType == PayConstant::PAY_SURPLUS) {
+        elseif ($this->orderType == \Ecjia\App\Payment\Enums\PayEnum::PAY_SURPLUS) {
             $result = RC_Api::api('finance', 'surplus_order_paid', array('order_sn' => $item['order_sn'], 'money' => $amount));
         }
-        elseif ($this->orderType == PayConstant::PAY_QUICKYPAY) {
+        elseif ($this->orderType == \Ecjia\App\Payment\Enums\PayEnum::PAY_QUICKYPAY) {
             $result = RC_Api::api('quickpay', 'quickpay_order_paid', array('order_sn' => $item['order_sn'], 'money' => $amount));
         }
         

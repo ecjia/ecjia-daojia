@@ -72,14 +72,14 @@ class admin_payment_notify_refund_module extends api_admin implements api_interf
         
         //传参判断
         if (empty($order_trade_no) || empty($notify_data)) {
-        	return new ecjia_error('invalid_parameter', 'admin_payment_notify_refund_module接口参数无效');
+        	return new ecjia_error('invalid_parameter', __('admin_payment_notify_refund_module接口参数无效', 'payment'));
         }
          
         //查找交易记录
         $paymentRecordRepository = new Ecjia\App\Payment\Repositories\PaymentRecordRepository();
         $record_model = $paymentRecordRepository->getPaymentRecord($order_trade_no);
         if (empty($record_model)) {
-        	return new ecjia_error('payment_record_not_found', '此笔交易记录未找到');
+        	return new ecjia_error('payment_record_not_found', __('此笔交易记录未找到', 'payment'));
         }
         
         $refund_amount 	= $record_model->total_fee;
@@ -104,7 +104,7 @@ class admin_payment_notify_refund_module extends api_admin implements api_interf
 			
 			$orderinfo 	= $paidOrderOrocess->getOrderInfo();
 			if (empty($orderinfo)) {
-				return new ecjia_error('order_dose_not_exist', $record_model->order_sn . '未找到该订单信息');
+				return new ecjia_error('order_dose_not_exist', $record_model->order_sn . __('未找到该订单信息', 'payment'));
 			}
 			
 			//退款步骤；原路退回
@@ -253,7 +253,7 @@ class admin_payment_notify_refund_module extends api_admin implements api_interf
     {
     	$merchant_confirm_options = array(
     			'refund_id' 		=> $refundOrderInfo['refund_id'],
-    			'action_note' 		=> '审核通过',
+    			'action_note' 		=> __('审核通过', 'payment'),
     			'store_id' 			=> $_SESSION['store_id'],
     			'staff_id' 			=> $_SESSION['staff_id'],
     			'staff_name' 		=> $_SESSION['staff_name'],

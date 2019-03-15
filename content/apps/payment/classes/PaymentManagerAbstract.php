@@ -64,7 +64,7 @@ abstract class PaymentManagerAbstract
     public function initPaymentRecord()
     {
         if (empty($this->paymentRecord)) {
-            return new ecjia_error('payment_record_not_found', __('此笔交易记录未找到', 'app-payment'));
+            return new ecjia_error('payment_record_not_found', __('此笔交易记录未找到', 'payment'));
         }
 
         $this->payCode = $this->paymentRecord->pay_code;

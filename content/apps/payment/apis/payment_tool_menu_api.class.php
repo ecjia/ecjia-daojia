@@ -53,10 +53,10 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class payment_tool_menu_api extends Component_Event_Api {
 	
 	public function call(&$options) {	
-		$menus = ecjia_admin::make_admin_menu('15_payment_manage', '支付管理', '', 15);
+		$menus = ecjia_admin::make_admin_menu('15_payment_manage', __('支付管理', 'payment'), '', 15);
 		$submenus = array(
-			ecjia_admin::make_admin_menu('01_payment_list', RC_Lang::get('payment::payment.payment'), RC_Uri::url('payment/admin_plugin/init'), 1)->add_purview('payment_manage'),
-			ecjia_admin::make_admin_menu('payment_record', RC_Lang::get('payment::payment.transaction_flow_record'), RC_Uri::url('payment/admin_payment_record/init'), 2)->add_purview(array('payment_manage')),
+			ecjia_admin::make_admin_menu('01_payment_list', __('支付方式', 'payment'), RC_Uri::url('payment/admin_plugin/init'), 1)->add_purview('payment_manage'),
+			ecjia_admin::make_admin_menu('payment_record', __('交易流水', 'payment'), RC_Uri::url('payment/admin_payment_record/init'), 2)->add_purview(array('payment_manage')),
 		);
 		
         $menus->add_submenu($submenus);

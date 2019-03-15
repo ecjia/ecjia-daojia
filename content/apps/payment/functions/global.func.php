@@ -63,8 +63,6 @@ function return_url($code) {
  *  @param  string  $code   支付方式代码
  */
 function get_payment($code) {
-	// $db = RC_Loader::load_app_model('payment_model', 'payment');
-	// $payment = $db->find('pay_code = "'. $code. '" AND enabled = "1"');
     $payment = RC_DB::table('payment')->where('pay_code', $code)->where('enabled', 1)->first();
 
     if ($payment) {
@@ -135,7 +133,6 @@ function get_payment_record_list($args = array()) {
         $db_payment_record->where('order_sn', 'LIKE', '%' . mysql_like_quote($filter['order_sn']) . '%');
     }
     if ($filter['keywords']) {
-        //$db_payment_record->where('trade_no', 'LIKE', '%' . mysql_like_quote($filter['trade_no']) . '%');
     	$db_payment_record ->whereRaw('(trade_no like  "%' . mysql_like_quote($filter['keywords']) . '%" or order_trade_no like "%'.mysql_like_quote($filter['keywords']).'%" )');
     }
 
@@ -152,7 +149,6 @@ function get_payment_record_list($args = array()) {
     
     $filter['skip'] = $page->start_id-1;
     $filter['limit'] = 15;
-    //$db_payment_record = $db_payment_record->get();
     $db_payment_record = $db_payment_record
     ->orderBy('id', 'desc')
     ->take($filter['limit'])
@@ -161,26 +157,26 @@ function get_payment_record_list($args = array()) {
 
     foreach ($db_payment_record as $key => $val) {
         if ($db_payment_record[$key]['pay_status'] == 0) {
-            $db_payment_record[$key]['pay_status'] = RC_Lang::get('payment::payment.wait_for_payment');
+            $db_payment_record[$key]['pay_status'] = __('等待付款', 'payment');
         } elseif ($db_payment_record[$key]['pay_status'] == 1) {
-            $db_payment_record[$key]['pay_status'] = RC_Lang::get('payment::payment.payment_success');
-        } elseif ($db_payment_record[$key]['pay_status'] == Ecjia\App\Payment\PayConstant::PAYMENT_RECORD_STATUS_CANCEL) {
-        	$db_payment_record[$key]['pay_status'] = '订单撤消';
-        } elseif ($db_payment_record[$key]['pay_status'] == Ecjia\App\Payment\PayConstant::PAYMENT_RECORD_STATUS_REFUND) {
-        	$db_payment_record[$key]['pay_status'] = '订单退款';
+            $db_payment_record[$key]['pay_status'] = __('付款成功', 'payment');
+        } elseif ($db_payment_record[$key]['pay_status'] == \Ecjia\App\Payment\Enums\PaymentRecordEnum::PAYMENT_RECORD_STATUS_CANCEL) {
+        	$db_payment_record[$key]['pay_status'] = __('订单撤消', 'payment');
+        } elseif ($db_payment_record[$key]['pay_status'] == \Ecjia\App\Payment\Enums\PaymentRecordEnum::PAYMENT_RECORD_STATUS_REFUND) {
+        	$db_payment_record[$key]['pay_status'] = __('订单退款', 'payment');
         }
         if ($db_payment_record[$key]['trade_type'] == 'buy') {
-            $db_payment_record[$key]['trade_type'] = RC_Lang::get('payment::payment.buy');
+            $db_payment_record[$key]['trade_type'] = __('消费', 'payment');
         } elseif ($db_payment_record[$key]['trade_type'] == 'refund') {
-            $db_payment_record[$key]['trade_type'] = RC_Lang::get('payment::payment.refund');
+            $db_payment_record[$key]['trade_type'] = __('退款', 'payment');
         } elseif ($db_payment_record[$key]['trade_type'] == 'deposit') {
-            $db_payment_record[$key]['trade_type'] = RC_Lang::get('payment::payment.deposit');
+            $db_payment_record[$key]['trade_type'] = __('充值', 'payment');
         } elseif ($db_payment_record[$key]['trade_type'] == 'withdraw') {
-            $db_payment_record[$key]['trade_type'] = RC_Lang::get('payment::payment.withdraw');
+            $db_payment_record[$key]['trade_type'] = __('提现', 'payment');
         }elseif ($db_payment_record[$key]['trade_type'] == 'surplus') {
-            $db_payment_record[$key]['trade_type'] = RC_Lang::get('payment::payment.surplus');
+            $db_payment_record[$key]['trade_type'] = __('会员充值', 'payment');
         }elseif ($db_payment_record[$key]['trade_type'] == 'quickpay') {
-            $db_payment_record[$key]['trade_type'] = RC_Lang::get('payment::payment.quickpay');
+            $db_payment_record[$key]['trade_type'] = __('优惠买单', 'payment');
         }
         $db_payment_record[$key]['create_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['create_time']);
         $db_payment_record[$key]['update_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['update_time']);
@@ -255,7 +251,7 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                 $db_order->where('order_id = '.$order_id.'')->update($data);
 
                 /* 记录订单操作记录 */
-                order_action($order_sn, OS_CONFIRMED, SS_UNSHIPPED, $pay_status, $note, RC_Lang::get('payment::payment.buyer'));
+                order_action($order_sn, OS_CONFIRMED, SS_UNSHIPPED, $pay_status, $note, __('买家', 'payment'));
 
                 /* 如果需要，发短信 */
 //                 if ($GLOBALS['_CFG']['sms_order_payed'] == '1' && $GLOBALS['_CFG']['sms_shop_mobile'] != '')
@@ -284,13 +280,13 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                     		$db_order->where('order_id = '.$order_id.'')->update($data);
 
                          /* 记录订单操作记录 */
-                        order_action($order_sn, OS_CONFIRMED, SS_SHIPPED, $pay_status, $note, RC_Lang::get('payment::payment.buyer'));
+                        order_action($order_sn, OS_CONFIRMED, SS_SHIPPED, $pay_status, $note, __('买家', 'payment'));
                         $integral = integral_to_give($order);
                         $options = array(
                         	'user_id'		=> $order['user_id'],
                         	'rank_points'	=> intval($integral['rank_points']),
                         	'pay_points'	=> intval($integral['custom_points']),
-                        	'change_desc'	=> sprintf(RC_Lang::get('payment::payment.order_gift_integral'), $order['order_sn'])
+                        	'change_desc'	=> sprintf(__('订单 %s赠送的积分', 'payment'), $order['order_sn'])
                         );
                         RC_Api::api('user', 'account_change_log',$options);
 //                         log_account_change($order['user_id'], 0, 0, intval($integral['rank_points']), intval($integral['custom_points']), sprintf($GLOBALS['_LANG']['order_gift_integral'], $order['order_sn']));
@@ -313,7 +309,7 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                     $options = array(
                     	'user_id'		=> $arr['user_id'],
                     	'user_money'	=> $arr['amount'],
-                    	'change_desc'	=> RC_Lang::get('payment::payment.surplus_type_0'),
+                    	'change_desc'	=> __('充值', 'payment'),
                     	'change_type'	=> ACT_SAVING
                     );
                     RC_Api::api('user', 'account_change_log',$options);
@@ -344,7 +340,7 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                         }
                     }
                 } else {
-                    $msg = '<div>' .  RC_Lang::get('payment::payment.please_view_order_detail') . '</div>';
+                    $msg = '<div>' .  __('商品已发货，详情请到用户中心订单详情查看', 'payment') . '</div>';
                 }
                 $GLOBALS['_LANG']['pay_success'] .= $msg;
 			}
@@ -363,10 +359,8 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
  * @return  array('is_cod' => '', 'is_not_cod' => '')
  */
 function get_pay_ids() {
-	//$db = RC_Model::model('payment/payment_model');
 
 	$ids = array('is_cod' => '0', 'is_not_cod' => '0');
-	//$data = $db->field('pay_id, is_cod')->where('enabled = 1')->select();
 	$data	= RC_DB::table('payment')->where('enabled', 1)->select('pay_id', 'is_cod')->get();
 	if(!empty($data)) {
 		foreach ($data as $row) {

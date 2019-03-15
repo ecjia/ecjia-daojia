@@ -59,7 +59,7 @@ class admin_plugin extends ecjia_admin {
 		
 		/* 支付方式 列表页面 js/css */
         RC_Script::enqueue_script('bootstrap-placeholder');
-		RC_Script::enqueue_script('payment_admin', RC_App::apps_url('statics/js/payment_admin.js',__FILE__),array(), false, true);
+		RC_Script::enqueue_script('payment_admin', RC_App::apps_url('statics/js/payment_admin.js',__FILE__),array(), false, 1);
 		RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
 		RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
 
@@ -67,9 +67,10 @@ class admin_plugin extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Style::enqueue_style('chosen');
 		RC_Script::enqueue_script('jquery-chosen');
-		RC_Script::localize_script('payment_admin', 'js_lang', RC_Lang::get('payment::payment.js_lang'));
+		//js语言包
+		RC_Script::localize_script('payment_admin', 'js_lang', config('app-payment::jslang.payment_list_page'));
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('支付方式'), RC_Uri::url('payment/admin_plugin/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('支付方式', 'payment'), RC_Uri::url('payment/admin_plugin/init')));
 		ecjia_screen::get_current_screen()->set_parentage('payment', 'payment/admin_plugin.php');
 	}
 
@@ -80,18 +81,18 @@ class admin_plugin extends ecjia_admin {
 		$this->admin_priv('payment_manage');
 		
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('payment::payment.payment')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('支付方式', 'payment')));
 		ecjia_screen::get_current_screen()->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> RC_Lang::get('payment::payment.overview'),
-			'content'	=> '<p>' . RC_Lang::get('payment::payment.payment_list_help') . '</p>'
+			'title'		=> __('概述', 'payment'),
+			'content'	=> '<p>' . __('欢迎访问ECJia智能后台支付方式页面，系统中所有的支付方式都会显示在此列表中。', 'payment') . '</p>'
 		));
 		
 		ecjia_screen::get_current_screen()->set_help_sidebar(
-		'<p><strong>' . RC_Lang::get('payment::payment.more_info') . '</strong></p>' .
-		'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:支付方式" target="_blank">'. RC_Lang::get('payment::payment.about_payment_list') .'</a>') . '</p>'
+		'<p><strong>' . __('更多信息：', 'payment') . '</strong></p>' .
+		'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:支付方式" target="_blank">关于支付方式帮助文档</a>', 'payment') . '</p>'
 		);
-		$this->assign('ur_here', RC_Lang::get('payment::payment.payment'));
+		$this->assign('ur_here', __('支付方式', 'payment'));
 		
 		$plugins = ecjia_config::instance()->get_addon_config('payment_plugins', true, true);
 		/* 不能用，该数据查询会把特殊字符双重转义*/
@@ -134,7 +135,7 @@ class admin_plugin extends ecjia_admin {
 		ecjia_admin::admin_log($pay_name, 'stop', 'payment');
 		
 		$refresh_url = RC_Uri::url('payment/admin_plugin/init');
-		return $this->showmessage(RC_Lang::get('payment::payment.plugin')."<strong> ".RC_Lang::get('payment::payment.disabled')." </strong>", ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
+		return $this->showmessage(__('插件', 'payment')."<strong> ".__('已停用', 'payment')." </strong>", ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
 	}
 	
 	/**
@@ -156,7 +157,7 @@ class admin_plugin extends ecjia_admin {
 		ecjia_admin::admin_log($pay_name, 'use', 'payment');
 		
 		$refresh_url = RC_Uri::url('payment/admin_plugin/init');
-		return $this->showmessage(RC_Lang::get('payment::payment.plugin')."<strong> ".RC_Lang::get('payment::payment.enabled')." </strong>", ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
+		return $this->showmessage(__('插件', 'payment')."<strong> ".__('已启用', 'payment')." </strong>", ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
 	}
 	
 	/**
@@ -165,20 +166,20 @@ class admin_plugin extends ecjia_admin {
 	public function edit() {
 		$this->admin_priv('payment_update');
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('payment::payment.edit_payment')));
-		$this->assign('action_link', array('text' => RC_Lang::get('payment::payment.payment'), 'href' => RC_Uri::url('payment/admin_plugin/init')));
-		$this->assign('ur_here', RC_Lang::get('payment::payment.edit_payment'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑支付方式', 'payment')));
+		$this->assign('action_link', array('text' => __('支付方式', 'payment'), 'href' => RC_Uri::url('payment/admin_plugin/init')));
+		$this->assign('ur_here', __('编辑支付方式', 'payment'));
 		
 		if (isset($_GET['code'])) {
 		    $pay_code = trim($_GET['code']); 
 		} else {
-		    return $this->showmessage(__('invalid parameter'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		    return $this->showmessage(__('参数无效', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		/* 查询该支付方式内容 */
 		$pay = RC_DB::table('payment')->where('pay_code', $pay_code)->where('enabled', 1)->first();
 		
 		if (empty($pay)) {
-		    return $this->showmessage(RC_Lang::get('payment::payment.payment_not_available'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		    return $this->showmessage(__('该支付插件不存在或尚未安装', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		/* 取得配置信息 */
@@ -217,12 +218,12 @@ class admin_plugin extends ecjia_admin {
 		$code = trim($_POST['pay_code']);
 		/* 检查输入 */
 		if (empty($name)) {
-			return $this->showmessage(RC_Lang::get('payment::payment.payment_name') . RC_Lang::get('system::system.empty'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('名称不能为空', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$data = RC_DB::table('payment')->where('pay_name', $name)->where('pay_code', '!=', $code)->count();
 		if ($data > 0) {
-			return $this->showmessage(RC_Lang::get('payment::payment.payment_name'). RC_Lang::get('payment::payment.repeat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('名称已存在', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		/* 取得配置信息 */
@@ -278,7 +279,7 @@ class admin_plugin extends ecjia_admin {
 			 
 			/* 记录日志 */
 			ecjia_admin::admin_log($name, 'edit', 'payment');
-			return $this->showmessage(RC_Lang::get('payment::payment.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
+			return $this->showmessage(__('编辑成功', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
 		} else {
 			$data_one = RC_DB::table('payment')->where('pay_code', $code)->count();
 			if ($data_one > 0) {
@@ -309,7 +310,7 @@ class admin_plugin extends ecjia_admin {
 			
 			/* 记录日志 */
 			ecjia_admin::admin_log($name, 'edit', 'payment');
-			return $this->showmessage(RC_Lang::get('payment::payment.install_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
+			return $this->showmessage(__('安装成功', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
 		}			
 	}
 
@@ -324,7 +325,7 @@ class admin_plugin extends ecjia_admin {
         $pay = RC_DB::table('payment')->where('pay_code', $pay_code)->where('enabled', 1)->first();
 
         if (empty($pay)) {
-            return $this->showmessage(RC_Lang::get('payment::payment.payment_not_available'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该支付插件不存在或尚未安装', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $pay_config = [];
@@ -353,7 +354,7 @@ class admin_plugin extends ecjia_admin {
 
         $refresh_url = RC_Uri::url('payment/admin_plugin/edit', array('code' => $pay_code));
 
-        return $this->showmessage('删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
+        return $this->showmessage(__('删除成功', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
     }
 	
 	/**
@@ -368,16 +369,16 @@ class admin_plugin extends ecjia_admin {
 		
 		/* 检查名称是否为空 */
 		if (empty($pay_name) || $pay_id==0 ) {
-			return $this->showmessage(RC_Lang::get('payment::payment.name_is_null'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('您没有输入支付方式名称！', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 			/* 检查名称是否重复 */
 			if (RC_DB::table('payment')->where('pay_name', $pay_name)->where('pay_id', '!=', $pay_id)->count() > 0) {
-				return $this->showmessage(RC_Lang::get('payment::payment.name_exists') , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
+				return $this->showmessage(__('该支付方式名称已存在！', 'payment') , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR );
 			} else {
 				RC_DB::table('payment')->where('pay_id', $pay_id)->update(array('pay_name' => stripcslashes($pay_name)));
 				
 				ecjia_admin::admin_log(stripcslashes($pay_name), 'edit', 'payment');
-				return $this->showmessage(RC_Lang::get('payment::payment.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+				return $this->showmessage(__('编辑成功', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 			}
 		}
 	}
@@ -390,7 +391,7 @@ class admin_plugin extends ecjia_admin {
 		$this->admin_priv('payment_update', ecjia::MSGTYPE_JSON);
 		
 		if ( !is_numeric($_POST['value']) ) {
-			return $this->showmessage('请输入合法数字', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入合法数字', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 			/* 取得参数 */
 			$pay_id    = intval($_POST['pk']);
@@ -398,7 +399,7 @@ class admin_plugin extends ecjia_admin {
 		
 			RC_DB::table('payment')->where('pay_id', $pay_id)->update(array('pay_order' => $pay_order));
 			
-			return $this->showmessage(RC_Lang::get('payment::payment.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_uri::url('payment/admin_plugin/init')) );
+			return $this->showmessage(__('编辑成功', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_uri::url('payment/admin_plugin/init')) );
 		}
 	}
 	
@@ -413,12 +414,12 @@ class admin_plugin extends ecjia_admin {
 		$pay_fee = trim($_POST['value']);
 		
 		if (empty($pay_fee) && !($pay_fee === '0')) {
-			return $this->showmessage(RC_Lang::get('payment::payment.invalid_pay_fee') , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('支付费用不是一个合法的价格', 'payment') , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
 			$pay_insure = make_semiangle($pay_fee); //全角转半角
 			if (strpos($pay_insure, '%') === false) { //不包含百分号
 				if ( !is_numeric($pay_fee) ) {
-					return $this->showmessage('请输入合法数字或百分比%', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+					return $this->showmessage(__('请输入合法数字或百分比%', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 				} else {
 					$pay_fee = floatval($pay_insure);
 				}
@@ -429,8 +430,9 @@ class admin_plugin extends ecjia_admin {
 			$pay_name = RC_DB::table('pay_id', $pay_id)->pluck('pay_name');
 			RC_DB::table('payment')->where('pay_id', $pay_id)->update(array('pay_fee' => stripcslashes($pay_fee)));
 			
-			ecjia_admin::admin_log($pay_name.'，'.'修改费用为 '.$pay_fee, 'setup', 'payment');
-			return $this->showmessage(RC_Lang::get('payment::payment.edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+			//ecjia_admin::admin_log($pay_name.'，'.'修改费用为 '.$pay_fee, 'setup', 'payment');
+			ecjia_admin::admin_log(sprintf(__('%s，修改费用为：%s', 'payment'), $pay_name, $pay_fee), 'setup', 'payment');
+			return $this->showmessage(__('编辑成功', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 		}
 	}
 }

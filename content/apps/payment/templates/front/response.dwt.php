@@ -216,23 +216,23 @@ html, body {
 {nocache}
 	<div class="ecjia">
 	    <header class="ecjia-header">
-        	<div class="ecjia-header-title">支付提示</div>
+        	<div class="ecjia-header-title">{t domain="payment"}支付提示{/t}</div>
     	</header>
 		<div class="ecjia-flow-done">
             <div class="flow-success">
                 <p style="width:4em;height:4em;"></p>
                 <!-- <div><img alt="" src="{$theme_url}images/pay_response.png"></div> -->
-                <div class="ecjia-margin-t ecjiaf-tac ecjia-fz-big ecjia-color-green">{if $msg}{$msg}{else}支付成功！{/if}</div>
+                <div class="ecjia-margin-t ecjiaf-tac ecjia-fz-big ecjia-color-green">{if $msg}{$msg}{else}{t domain="payment"}支付成功！{/t}{/if}</div>
             </div>
             <ul>
-                {if $info.pay_name}<li><div class="fl">支付方式：</div><div class="fr">{$info.pay_name}</div></li>{/if}
-                {if $info.amount}<li><div class="fl">付款金额：</div><div class="fr">{$info.amount}</div></li>{/if}
+                {if $info.pay_name}<li><div class="fl">{t domain="payment"}支付方式：{/t}</div><div class="fr">{$info.pay_name}</div></li>{/if}
+                {if $info.amount}<li><div class="fl">{t domain="payment"}付款金额：{/t}</div><div class="fr">{$info.amount}</div></li>{/if}
             </ul>
             
             <div class="ecjia-margin-t ecjia-margin-b two-btn">
-                {if $url.index}<a class="btn" href="{$url.index}">返回首页</a>{/if}
+                {if $url.index}<a class="btn" href="{$url.index}">{t domain="payment"}返回首页{/t}</a>{/if}
                 {if $info.order_type != 'surplus'}
-                    {if $url.order}<a class="btn btn-hollow" href="{$url.order}">查看订单</a>{/if}
+                    {if $url.order}<a class="btn btn-hollow" href="{$url.order}">{t domain="payment"}查看订单{/t}</a>{/if}
                 {/if}
             </div>
         </div>

@@ -9,7 +9,7 @@
 namespace Ecjia\App\Payment\Repositories;
 
 use Royalcms\Component\Repository\Repositories\AbstractRepository;
-use Ecjia\App\Payment\PayConstant;
+use Ecjia\App\Payment\Enums\PaymentRefundEnum;
 
 class PaymentRefundRepository extends AbstractRepository
 {
@@ -30,7 +30,7 @@ class PaymentRefundRepository extends AbstractRepository
         if (empty($model)) {
             $insertData['refund_out_no']        = array_get($data, 'refund_out_no');
             $insertData['refund_fee']           = array_get($data, 'refund_fee');
-            $insertData['refund_status']        = PayConstant::PAYMENT_REFUND_STATUS_CREATE;
+            $insertData['refund_status']        = PaymentRefundEnum::PAYMENT_REFUND_STATUS_CREATE;
             $insertData['refund_create_time']   = array_get($data, 'refund_create_time');
             $insertData['order_sn']             = array_get($data, 'order_sn');
             $insertData['order_type']           = array_get($data, 'order_type');
@@ -57,7 +57,7 @@ class PaymentRefundRepository extends AbstractRepository
         $model = $this->findUnSuccessfulRefundOutNo($refund_out_no);
         if (!empty($model)) {
             $model->refund_trade_no = $refund_trade_no;
-            $model->refund_status = PayConstant::PAYMENT_REFUND_STATUS_PROGRESS;
+            $model->refund_status = PaymentRefundEnum::PAYMENT_REFUND_STATUS_PROGRESS;
             $model->refund_info = serialize($refund_info);
             $model->last_error_message = null;
             $model->last_error_time = null;
@@ -76,7 +76,7 @@ class PaymentRefundRepository extends AbstractRepository
         $model = $this->findUnSuccessfulRefundOutNo($refund_out_no);
         if (!empty($model)) {
             $model->refund_trade_no = $refund_trade_no;
-            $model->refund_status = PayConstant::PAYMENT_REFUND_STATUS_REFUND;
+            $model->refund_status = PaymentRefundEnum::PAYMENT_REFUND_STATUS_REFUND;
             $model->refund_info = serialize($refund_info);
             $model->last_error_message = null;
             $model->last_error_time = null;
@@ -98,7 +98,7 @@ class PaymentRefundRepository extends AbstractRepository
     {
         $model = $this->findUnSuccessfulRefundOutNo($refund_out_no);
         if (!empty($model)) {
-            $model->refund_status = PayConstant::PAYMENT_REFUND_STATUS_FAIL;
+            $model->refund_status = PaymentRefundEnum::PAYMENT_REFUND_STATUS_FAIL;
             $model->last_error_message = $error_message;
             $model->last_error_time = \RC_Time::gmtime();
             $model->save();
@@ -122,7 +122,7 @@ class PaymentRefundRepository extends AbstractRepository
             }
 
             $model->refund_trade_no = $refund_trade_no;
-            $model->refund_status = PayConstant::PAYMENT_REFUND_STATUS_FAIL;
+            $model->refund_status = PaymentRefundEnum::PAYMENT_REFUND_STATUS_FAIL;
             $model->refund_info = serialize($refund_info);
             $model->save();
         }
@@ -145,7 +145,7 @@ class PaymentRefundRepository extends AbstractRepository
             }
 
             $model->refund_trade_no = $refund_trade_no;
-            $model->refund_status = PayConstant::PAYMENT_REFUND_STATUS_REFUND;
+            $model->refund_status = PaymentRefundEnum::PAYMENT_REFUND_STATUS_REFUND;
             $model->refund_info = serialize($refund_info);
             $model->last_error_message = null;
             $model->last_error_time = null;
@@ -182,7 +182,7 @@ class PaymentRefundRepository extends AbstractRepository
      */
     public function findPayTradeNo($pay_trade_no)
     {
-        $model = $this->findWhere(['pay_trade_no' => $pay_trade_no, 'refund_status' => ['refund_status', '<>', PayConstant::PAYMENT_REFUND_STATUS_REFUND]])->first();
+        $model = $this->findWhere(['pay_trade_no' => $pay_trade_no, 'refund_status' => ['refund_status', '<>', PaymentRefundEnum::PAYMENT_REFUND_STATUS_REFUND]])->first();
         return $model;
     }
 
@@ -196,7 +196,7 @@ class PaymentRefundRepository extends AbstractRepository
             return $refund_out_no;
         }
 
-        $model = $this->findWhere(['refund_out_no' => $refund_out_no, 'refund_status' => ['refund_status', '<>', PayConstant::PAYMENT_REFUND_STATUS_REFUND]])->first();
+        $model = $this->findWhere(['refund_out_no' => $refund_out_no, 'refund_status' => ['refund_status', '<>', PaymentRefundEnum::PAYMENT_REFUND_STATUS_REFUND]])->first();
         return $model;
     }
 

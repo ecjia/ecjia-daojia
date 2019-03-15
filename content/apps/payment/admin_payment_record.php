@@ -60,8 +60,8 @@ class admin_payment_record extends ecjia_admin {
 		
 		/* 支付方式 列表页面 js/css */
 
-		RC_Script::enqueue_script('payment_admin', RC_App::apps_url('statics/js/payment_admin.js',__FILE__),array(), false, true);
-		RC_Script::enqueue_script('payment_admin_record', RC_App::apps_url('statics/js/payment_admin_record.js',__FILE__),array(), false, true);
+		RC_Script::enqueue_script('payment_admin', RC_App::apps_url('statics/js/payment_admin.js',__FILE__),array(), false, 1);
+		RC_Script::enqueue_script('payment_admin_record', RC_App::apps_url('statics/js/payment_admin_record.js',__FILE__),array(), false, 1);
 		RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
 		RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
 	
@@ -73,7 +73,8 @@ class admin_payment_record extends ecjia_admin {
 		RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
 		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 		
-		RC_Script::localize_script('payment_admin', 'js_lang', RC_Lang::get('payment::payment.js_lang'));
+		//js语言包
+		RC_Script::localize_script('payment_admin', 'js_lang', config('app-payment::jslang.payment_record_page'));
 
 	}
 
@@ -83,7 +84,7 @@ class admin_payment_record extends ecjia_admin {
 	public function init() {
 	    $this->admin_priv('payment_manage');
 	    
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here((RC_Lang::get('payment::payment.transaction_flow_record'))));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here((__('交易流水', 'payment'))));
 		
 		$filter = array();
 		$filter['order_sn']		= empty($_GET['order_sn'])		? ''		: trim($_GET['order_sn']);
@@ -98,7 +99,7 @@ class admin_payment_record extends ecjia_admin {
 	    $this->assign('modules', $db_payment_record);
 	    $this->assign('filter', $db_payment_record['filter']);
 	    $this->assign('search_action', RC_Uri::url('payment/admin_payment_record/init'));
-		$this->assign('ur_here', RC_Lang::get('payment::payment.transaction_flow_record'));
+		$this->assign('ur_here', __('交易流水', 'payment'));
 		
 		$this->display('payment_record_list.dwt');
 	}
@@ -109,8 +110,8 @@ class admin_payment_record extends ecjia_admin {
 	public function info() {
 		$this->admin_priv('payment_update');
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here((RC_Lang::get('payment::payment.transaction_flow_record')), RC_Uri::url('payment/admin_payment_record/init')));
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('payment::payment.view_flow_record')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here((__('交易流水', 'payment')), RC_Uri::url('payment/admin_payment_record/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('查看交易流水', 'payment')));
 		RC_Loader::load_app_func('global');
 		$id = $_GET['id'];
 		$order_sn = RC_DB::table('payment_record')->where('id', $id)->pluck('order_sn');
@@ -128,28 +129,28 @@ class admin_payment_record extends ecjia_admin {
 		$db_payment_record = RC_DB::table('payment_record')->where('id', $id)->first();
 		
 		if ($db_payment_record['trade_type'] == 'buy') {
-			$db_payment_record['label_trade_type'] = RC_Lang::get('payment::payment.buy');
+			$db_payment_record['label_trade_type'] = __('消费', 'payment');
 			$this->assign('check_modules', $order);
 		} elseif ($db_payment_record['trade_type'] == 'refund') {
-			$db_payment_record['label_trade_type'] = RC_Lang::get('payment::payment.refund');
+			$db_payment_record['label_trade_type'] = __('退款', 'payment');
 		} elseif ($db_payment_record['trade_type'] == 'deposit') {
-			$db_payment_record['label_trade_type'] = RC_Lang::get('payment::payment.deposit');
+			$db_payment_record['label_trade_type'] = __('充值', 'payment');
 		} elseif ($db_payment_record['trade_type'] == 'withdraw') {
-			$db_payment_record['label_trade_type'] = RC_Lang::get('payment::payment.withdraw');
+			$db_payment_record['label_trade_type'] = __('提现', 'payment');
 		}elseif ($db_payment_record['trade_type'] == 'surplus') {
-			$db_payment_record['label_trade_type'] = RC_Lang::get('payment::payment.surplus');
+			$db_payment_record['label_trade_type'] = __('会员充值', 'payment');
 		}elseif ($db_payment_record['trade_type'] == 'quickpay') {
-			$db_payment_record['label_trade_type'] = RC_Lang::get('payment::payment.quickpay');
+			$db_payment_record['label_trade_type'] = __('优惠买单', 'payment');
 		}
 		
 		if ($db_payment_record['pay_status'] == 0) {
-			$db_payment_record['label_pay_status'] = RC_Lang::get('payment::payment.wait_for_payment');
+			$db_payment_record['label_pay_status'] = __('等待付款', 'payment');
 		} elseif ($db_payment_record['pay_status'] == 1) {
-			$db_payment_record['label_pay_status'] = RC_Lang::get('payment::payment.payment_success');
-		}elseif ($db_payment_record['pay_status'] == Ecjia\App\Payment\PayConstant::PAYMENT_RECORD_STATUS_CANCEL) {
-        	$db_payment_record['pay_status'] = '订单撤消';
-        } elseif ($db_payment_record[$key]['pay_status'] == Ecjia\App\Payment\PayConstant::PAYMENT_RECORD_STATUS_REFUND) {
-        	$db_payment_record[$key]['pay_status'] = '订单退款';
+			$db_payment_record['label_pay_status'] = __('付款成功', 'payment');
+		}elseif ($db_payment_record['pay_status'] == \Ecjia\App\Payment\Enums\PaymentRecordEnum::PAYMENT_RECORD_STATUS_CANCEL) {
+        	$db_payment_record['pay_status'] = __('订单撤消', 'payment');
+        } elseif ($db_payment_record['pay_status'] == \Ecjia\App\Payment\Enums\PaymentRecordEnum::PAYMENT_RECORD_STATUS_REFUND) {
+        	$db_payment_record['pay_status'] = __('订单退款', 'payment');
         }
 
 		$db_payment_record['create_time'] = RC_Time::local_date(ecjia::config('time_format'), $db_payment_record['create_time']);
@@ -162,11 +163,11 @@ class admin_payment_record extends ecjia_admin {
 			$user_account['formated_order_amount'] = price_format($user_account['amount']);
 			
 			if ($user_account['is_paid'] == '0') {
-				$order_status = '未完成';
+				$order_status = __('未完成', 'payment');
 			} elseif ($user_account['is_paid'] == '1') {
-				$order_status = '已完成';
+				$order_status = __('已完成', 'payment');
 			} elseif ($user_account['is_paid'] == '2') {
-				$order_status = '已取消';
+				$order_status = __('已取消', 'payment');
 			}
 			$user_account['formated_order_status'] = $order_status;
 			
@@ -209,8 +210,8 @@ class admin_payment_record extends ecjia_admin {
 		}
 		
 		$this->assign('order', $order);
-		$this->assign('ur_here', RC_Lang::get('payment::payment.view_flow_record'));
-		$this->assign('action_link', array('text' => RC_Lang::get('payment::payment.transaction_flow_record'), 'href' => RC_Uri::url('payment/admin_payment_record/init')));
+		$this->assign('ur_here', __('查看交易流水', 'payment'));
+		$this->assign('action_link', array('text' => __('交易流水', 'payment'), 'href' => RC_Uri::url('payment/admin_payment_record/init')));
 		$this->assign('modules', $db_payment_record);
 
 		$this->display('payment_record_info.dwt');
@@ -224,7 +225,7 @@ class admin_payment_record extends ecjia_admin {
 		$payment_record_info = RC_DB::table('payment_record')->where('id', $id)->first();
 		
 		if (empty($payment_record_info) || empty($payment_record_info['order_sn'])) {
-			return $this->showmessage('订单支付记录信息不存在！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('订单支付记录信息不存在！', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		if ($payment_record_info['trade_type'] == 'buy') {
@@ -237,7 +238,7 @@ class admin_payment_record extends ecjia_admin {
 			return $result;
 		} else {
 			$refresh_url = RC_Uri::url('payment/admin_payment_record/info', array('id' => $id));
-			return $this->showmessage(RC_Lang::get('payment::payment.change_status_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
+			return $this->showmessage(__('修复订单状态成功！', 'payment'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $refresh_url));
 		}
 	}
 }
