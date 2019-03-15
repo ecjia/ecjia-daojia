@@ -70,16 +70,15 @@ class admin extends ecjia_admin {
 		
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Script::enqueue_script('jquery-chosen');
-		RC_Script::enqueue_script('bonus_type', RC_App::apps_url('statics/js/bonus_type.js', __FILE__), array(), false, true);
-		RC_Script::enqueue_script('bonus', RC_App::apps_url('statics/js/bonus.js', __FILE__), array(), false, true);
+		RC_Script::enqueue_script('bonus_type', RC_App::apps_url('statics/js/bonus_type.js', __FILE__), array(), false, 1);
+		RC_Script::enqueue_script('bonus', RC_App::apps_url('statics/js/bonus.js', __FILE__), array(), false, 1);
 		
 		//时间控件
         RC_Script::enqueue_script('bootstrap-datetimepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datetimepicker.js'));
 		RC_Style::enqueue_style('datetimepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datetimepicker.min.css'));
 
 		RC_Script::localize_script('bonus_type', 'js_lang', config('app-bonus::jslang.bonus_page'));
-		RC_Script::localize_script('bonus', 'bonus_js_lang', config('app-bonus::jslang.bonus_js_page'));
-		
+
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('红包管理', 'bonus'), RC_Uri::url('bonus/admin/init')));
 	}
 	

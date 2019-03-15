@@ -56,7 +56,7 @@ return array(
 	'description' 	=> __('是ECJIA管理系统提供的一项使系统在您设定的时刻,自动执行某项任务的功能。', 'cron'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.28.0',					/* 版本号 */
+	'version' 		=> '1.29.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2015 ~ 2019.',
     'namespace'     => 'Ecjia\App\Cron',
     'provider'      => 'CronServiceProvider',

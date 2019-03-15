@@ -59,7 +59,7 @@ class mh_appeal extends ecjia_merchant {
 		RC_Script::enqueue_script('smoke');
 		RC_Style::enqueue_style('uniform-aristo');
 		
-		RC_Script::enqueue_script('mh_appeal', RC_App::apps_url('statics/js/mh_appeal.js', __FILE__));
+		RC_Script::enqueue_script('mh_appeal', RC_App::apps_url('statics/js/mh_appeal.js', __FILE__), array(), false, 1);
 		RC_Style::enqueue_style('mh_appeal', RC_App::apps_url('statics/css/mh_appeal.css', __FILE__), array());
 		RC_Style::enqueue_style('bootstrap-fileupload', RC_App::apps_url('statics/bootstrap-fileupload/bootstrap-fileupload.css', __FILE__), array());
 		RC_Script::enqueue_script('bootstrap-fileupload', RC_App::apps_url('statics/bootstrap-fileupload/bootstrap-fileupload.js', __FILE__), array(), false, true);

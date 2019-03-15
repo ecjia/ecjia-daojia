@@ -24,16 +24,17 @@ class StoreFavourableClear extends StoreCleanAbstract
     protected $code = 'store_favourable_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '优惠活动';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 14;
+
+    public function __construct($store_id)
+    {
+        $this->name = __('优惠活动', 'favourable');
+
+        parent::__construct($store_id);
+    }
 
     /**
      * 数据描述及输出显示内容

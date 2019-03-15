@@ -24,16 +24,18 @@ class UserCollectStoreClear extends UserCleanAbstract
     protected $code = 'user_collect_store_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '账户收藏店铺';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 71;
+
+    public function __construct($user_id)
+    {
+        $this->name = __('账户收藏店铺', 'user');
+
+        parent::__construct($user_id);
+    }
+
 
     /**
      * 数据描述及输出显示内容
@@ -42,9 +44,11 @@ class UserCollectStoreClear extends UserCleanAbstract
     {
         $count = $this->handleCount();
 
+        $text = sprintf(__('账户共收藏<span class="ecjiafc-red ecjiaf-fs3">%s</span>家店铺', 'user'), $count);
+
         return <<<HTML
 
-<span class="controls-info">账户共收藏<span class="ecjiafc-red ecjiaf-fs3">{$count}</span>家店铺</span>
+<span class="controls-info">{$text}</span>
 
 HTML;
 

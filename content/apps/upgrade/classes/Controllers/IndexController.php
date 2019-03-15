@@ -58,7 +58,6 @@ use Ecjia_VersionManager;
 use ecjia;
 use RC_Script;
 use RC_Style;
-use ecjia_loader;
 use PDOException;
 
 class IndexController extends SimpleController
@@ -67,12 +66,13 @@ class IndexController extends SimpleController
 	 
     public function __construct()
     {
-        parent::__construct();
-        
+    	
         $this->__FILE__ = dirname(dirname(__FILE__));
         
-        set_time_limit(60);
+        parent::__construct();
         
+        //安装脚本不限制超时时间
+        set_time_limit(60);
         define('DATA_PATH', dirname($this->__FILE__).'/data/');
         
         /* js与css加载路径*/

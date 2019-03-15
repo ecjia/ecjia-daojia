@@ -78,7 +78,7 @@ class affiliate_order_detail_module extends api_front implements api_interface
         }
 
         //订单已参与分成
-        if ($order_info['is_separate'] == Ecjia\App\Affiliate\OrderAffiliateStatus::SEPARATED) {
+        if ($order_info['is_separate'] == \Ecjia\App\Affiliate\Enums\AffiliateOrderEnum::SEPARATED) {
             //获取分成记录信息
             $affiliate_log = RC_DB::table('affiliate_log')->where('order_id', $order_id)->where('user_id', $user_id)->first();
         }
@@ -101,8 +101,8 @@ class affiliate_order_detail_module extends api_front implements api_interface
             'formatted_total_amount'      => $order_info['formated_total_fee'],
             'store_id'                    => $order_info['store_id'],
             'store_name'                  => Ecjia\App\Store\StoreFranchisee::StoreName($order_info['store_id']),
-            'affiliated_amount'           => $order_info['is_separate'] == Ecjia\App\Affiliate\OrderAffiliateStatus::UNSEPARATE ? 0 : $affiliate_log['money'],
-            'formatted_affiliated_amount' => $order_info['is_separate'] == Ecjia\App\Affiliate\OrderAffiliateStatus::UNSEPARATE ? '' : ecjia_price_format($affiliate_log['money'], false),
+            'affiliated_amount'           => $order_info['is_separate'] == \Ecjia\App\Affiliate\Enums\AffiliateOrderEnum::UNSEPARATE ? 0 : $affiliate_log['money'],
+            'formatted_affiliated_amount' => $order_info['is_separate'] == \Ecjia\App\Affiliate\Enums\AffiliateOrderEnum::UNSEPARATE ? '' : ecjia_price_format($affiliate_log['money'], false),
             'separate_status'             => $order_info['is_separate'] == 1 ? 'separated' : 'await_separate',
             'label_separate_status'       => $order_info['is_separate'] == 1 ? '已分成' : '待分成',
             'goods_list'                  => $order_goods_list,

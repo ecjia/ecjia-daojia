@@ -69,16 +69,15 @@ class admin extends ecjia_admin {
 		RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
 		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 		
-		RC_Script::enqueue_script('bootstrap-placeholder', RC_Uri::admin_url('statics/lib/dropper-upload/bootstrap-placeholder.js'), array(), false, true);
+		RC_Script::enqueue_script('bootstrap-placeholder', RC_Uri::admin_url('statics/lib/dropper-upload/bootstrap-placeholder.js'), array(), false, 1);
 		
-		RC_Script::enqueue_script('group', RC_App::apps_url('statics/js/group.js', __FILE__));
-		RC_Script::enqueue_script('ad_position', RC_App::apps_url('statics/js/ad_position.js', __FILE__));
-		RC_Script::enqueue_script('adsense', RC_App::apps_url('statics/js/adsense.js', __FILE__));
-		
+		RC_Script::enqueue_script('group', RC_App::apps_url('statics/js/group.js', __FILE__), array(), false, 1);
+		RC_Script::enqueue_script('ad_position', RC_App::apps_url('statics/js/ad_position.js', __FILE__), array(), false, 1);
+		RC_Script::enqueue_script('adsense', RC_App::apps_url('statics/js/adsense.js', __FILE__), array(), false, 1);
 		RC_Style::enqueue_style('adsense', RC_App::apps_url('statics/styles/adsense.css', __FILE__), array());
+
 		RC_Script::localize_script('group', 'js_lang', config('app-adsense::jslang.adsense_page'));
-        RC_Script::localize_script('ad_position', 'js_lang', config('app-adsense::jslang.adsense_page'));
-        RC_Script::localize_script('adsense', 'js_lang', config('app-adsense::jslang.adsense_page'));
+
 
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('广告列表', 'adsense'), RC_Uri::url('adsense/admin/init', ['position_id' => $_GET['position_id']])));
 	}

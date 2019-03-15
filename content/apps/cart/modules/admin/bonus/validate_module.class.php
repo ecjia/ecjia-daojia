@@ -71,6 +71,10 @@ class admin_bonus_validate_module extends api_admin implements api_interface
         if (empty($bonus)) {
 			return new ecjia_error('bonus_error', __('红包信息有误！', 'cart'));
 		}
+		//红包所属者判断
+		if ($bonus['user_id'] > 0 && !empty($_SESSION['user_id']) && $bonus['user_id'] != $_SESSION['user_id']) {
+			return new ecjia_error('bonus_error', __('此红包不属于当前用户！', 'cart'));
+		}
 		if ($bonus['order_id'] > 0) {
 		    return new ecjia_error('bonus_error', __('红包已使用！', 'cart'));
 		}

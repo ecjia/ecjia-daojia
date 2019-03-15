@@ -23,7 +23,6 @@ class UserConnectClear extends UserCleanAbstract
      */
     protected $code = 'user_connect_clear';
 
-
     /**
      * 排序
      * @var int

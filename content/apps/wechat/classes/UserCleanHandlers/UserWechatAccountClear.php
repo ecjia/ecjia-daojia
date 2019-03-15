@@ -24,25 +24,28 @@ class UserWechatAccountClear extends UserCleanAbstract
     protected $code = 'user_wechat_account_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '账户微信粉丝账号';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 51;
+
+    public function __construct($user_id)
+    {
+        $this->name = __('账户微信粉丝账号', 'user');
+
+        parent::__construct($user_id);
+    }
 
     /**
      * 数据描述及输出显示内容
      */
     public function handlePrintData()
     {
+        $text = __('账户关注微信公众号对应的粉丝账号', 'user');
+
         return <<<HTML
 
-<span class="controls-info">账户关注微信公众号对应的粉丝账号</span>
+<span class="controls-info">{$text}</span>
 
 HTML;
 

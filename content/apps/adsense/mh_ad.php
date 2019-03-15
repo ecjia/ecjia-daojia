@@ -65,12 +65,12 @@ class mh_ad extends ecjia_merchant {
 		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 		RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
 		
-		RC_Script::enqueue_script('mh_adsense', RC_App::apps_url('statics/js/mh_adsense.js', __FILE__));
-		RC_Script::enqueue_script('mh_ad_position', RC_App::apps_url('statics/js/mh_ad_position.js', __FILE__));
-		RC_Script::enqueue_script('mh_group', RC_App::apps_url('statics/js/mh_group.js', __FILE__));
+		RC_Script::enqueue_script('mh_adsense', RC_App::apps_url('statics/js/mh_adsense.js', __FILE__), array(), false, 1);
+		RC_Script::enqueue_script('mh_ad_position', RC_App::apps_url('statics/js/mh_ad_position.js', __FILE__), array(), false, 1);
+		RC_Script::enqueue_script('mh_group', RC_App::apps_url('statics/js/mh_group.js', __FILE__), array(), false, 1);
+
         RC_Script::localize_script('mh_adsense', 'js_lang', config('app-adsense::jslang.adsense_page'));
-        RC_Script::localize_script('mh_ad_position', 'js_lang', config('app-adsense::jslang.adsense_page'));
-        RC_Script::localize_script('mh_group', 'js_lang', config('app-adsense::jslang.adsense_page'));
+
 
         ecjia_merchant_screen::get_current_screen()->set_parentage('adsense', 'adsense/mh_ad.php');
 	}

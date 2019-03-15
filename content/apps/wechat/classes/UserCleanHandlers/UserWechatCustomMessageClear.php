@@ -24,25 +24,28 @@ class UserWechatCustomMessageClear extends UserCleanAbstract
     protected $code = 'user_wechat_custom_message_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '账户发送消息记录';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 52;
+
+    public function __construct($user_id)
+    {
+        $this->name = __('账户发送消息记录', 'user');
+
+        parent::__construct($user_id);
+    }
 
     /**
      * 数据描述及输出显示内容
      */
     public function handlePrintData()
     {
+        $text = __('账户微信公众号上发送的所有消息记录', 'wechat');
+
         return <<<HTML
 
-<span class="controls-info">账户微信公众号上发送的所有消息记录</span>
+<span class="controls-info">{$text}</span>
 
 HTML;
 

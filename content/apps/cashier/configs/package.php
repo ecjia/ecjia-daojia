@@ -10,7 +10,7 @@ return array(
 	'description' 	=> __('线下收银设备管理，收银记录管理。', 'cashier'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.28.0',					/* 版本号 */
+	'version' 		=> '1.29.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Cashier',
     'provider'      => 'CashierServiceProvider',

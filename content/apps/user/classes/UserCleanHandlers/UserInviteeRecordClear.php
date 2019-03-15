@@ -24,25 +24,28 @@ class UserInviteeRecordClear extends UserCleanAbstract
     protected $code = 'user_invitee_record_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '会员邀请记录';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 91;
+
+    public function __construct($user_id)
+    {
+        $this->name = __('会员邀请记录', 'user');
+
+        parent::__construct($user_id);
+    }
 
     /**
      * 数据描述及输出显示内容
      */
     public function handlePrintData()
     {
+        $text = __('会员推荐邀请的所有记录', 'user');
+
         return <<<HTML
 
-<span class="controls-info">会员推荐邀请的所有记录</span>
+<span class="controls-info">{$text}</span>
 
 HTML;
 

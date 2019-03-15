@@ -24,16 +24,17 @@ class StoreBonusClear extends StoreCleanAbstract
     protected $code = 'store_bonus_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '店铺红包';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 13;
+
+    public function __construct($store_id)
+    {
+        $this->name = __('店铺红包', 'bonus');
+
+        parent::__construct($store_id);
+    }
 
     /**
      * 数据描述及输出显示内容

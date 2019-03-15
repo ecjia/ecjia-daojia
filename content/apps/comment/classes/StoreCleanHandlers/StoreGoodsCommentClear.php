@@ -26,16 +26,17 @@ class StoreGoodsCommentClear extends StoreCleanAbstract
     protected $code = 'store_goods_comment_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '商品评论';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 40;
+
+    public function __construct($store_id)
+    {
+        $this->name = __('商品评论', 'comment');
+
+        parent::__construct($store_id);
+    }
 
     /**
      * 数据描述及输出显示内容
@@ -43,6 +44,7 @@ class StoreGoodsCommentClear extends StoreCleanAbstract
     public function handlePrintData()
     {
         $text = __('将店铺内所有商品评论全部删除', 'comment');
+        
         return <<<HTML
 <span class="controls-info">{$text}</span>
 HTML;

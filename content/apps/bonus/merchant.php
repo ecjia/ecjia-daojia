@@ -61,8 +61,8 @@ class merchant extends ecjia_merchant {
 		RC_Script::enqueue_script('smoke');
 
 		/* 红包类型编辑页面 js/css */
-		RC_Script::enqueue_script('bonus_type', RC_App::apps_url('statics/js/bonus_merchant_type.js', __FILE__), array(), false, true);
-		RC_Script::enqueue_script('bonus', RC_App::apps_url('statics/js/bonus_merchant.js', __FILE__), array(), false, true);
+		RC_Script::enqueue_script('bonus_type', RC_App::apps_url('statics/js/bonus_merchant_type.js', __FILE__), array(), false, 1);
+		RC_Script::enqueue_script('bonus', RC_App::apps_url('statics/js/bonus_merchant.js', __FILE__), array(), false, 1);
 
         // select 选择框
         RC_Style::enqueue_style('chosen_style', dirname(RC_App::app_dir_url(__FILE__)) .'/merchant/statics/assets/chosen/chosen.css', array());
@@ -79,8 +79,7 @@ class merchant extends ecjia_merchant {
 		RC_Style::enqueue_style('bootstrap-editable-css', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/x-editable/bootstrap-editable/css/bootstrap-editable.css', array(), false, false);
 
         RC_Script::localize_script('bonus_type', 'js_lang', config('app-bonus::jslang.bonus_page'));
-        RC_Script::localize_script('bonus', 'bonus_js_lang', config('app-bonus::jslang.bonus_js_page'));
-		
+
 		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('红包管理', 'bonus'), RC_Uri::url('bonus/merchant/init')));
 		ecjia_merchant_screen::get_current_screen()->set_parentage('promotion', 'promotion/merchant.php');
 	}

@@ -24,16 +24,17 @@ class StoreMarketActivityClear extends StoreCleanAbstract
     protected $code = 'store_market_activity_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '公众平台营销活动';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 25;
+
+    public function __construct($store_id)
+    {
+        $this->name = __('公众平台营销活动', 'market');
+
+        parent::__construct($store_id);
+    }
 
     /**
      * 数据描述及输出显示内容
@@ -41,6 +42,7 @@ class StoreMarketActivityClear extends StoreCleanAbstract
     public function handlePrintData()
     {
         $text = __('店铺内的公众平台营销活动全部删除', 'market');
+        
         return <<<HTML
 <span class="controls-info w300">{$text}</span>
 HTML;

@@ -56,7 +56,7 @@ return array(
 	'description'   => __('我们可以完成商店的几乎所有的设置，包括的设置有网店信息基本设置、显示设置、购物流程、商品显示设置 等，这个部分可以说是网店系统的核心配置。', 'setting'),
 	'author'        => 'ECJIA TEAM',			/* 作者 */
 	'website'       => 'http://www.ecjia.com',	/* 网址 */
-	'version'       => '2.28.0',					/* 版本号 */
+	'version'       => '2.29.0',					/* 版本号 */
 	'copyright'     => 'ECJIA Copyright 2016 ~ 2019.',
     'namespace'     => 'Ecjia\App\Setting',
     'provider'      => 'SettingServiceProvider',

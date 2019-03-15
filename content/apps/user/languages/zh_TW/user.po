@@ -1,0 +1,2002 @@
+# Copyright (C) 2019 Ecjia App user
+# This file is distributed under the same license as the Ecjia App user package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App user 1.28.0\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-03-15 03:30:53+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-03-15 11:37+0800\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
+
+#: admin.php:74 admin.php:94 admin.php:106 admin.php:147 admin.php:315
+#: admin.php:570 admin.php:732 admin.php:883
+#: apis/user_admin_menu_api.class.php:59
+msgid "会员列表"
+msgstr ""
+
+#: admin.php:97 admin.php:130 admin.php:304 admin.php:560 admin.php:872
+#: admin_rank.php:91 admin_rank.php:118 admin_rank.php:210
+#: admin_reg_fields.php:89 admin_reg_fields.php:117 admin_reg_fields.php:180
+msgid "概述"
+msgstr ""
+
+#: admin.php:102 admin.php:135 admin.php:310 admin.php:566 admin.php:878
+#: admin_rank.php:96 admin_rank.php:123 admin_rank.php:215
+#: admin_reg_fields.php:94 admin_reg_fields.php:122 admin_reg_fields.php:185
+msgid "更多信息："
+msgstr ""
+
+#: admin.php:103
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:会员列表\" target="
+"\"_blank\">关于会员列表帮助文档</a>"
+msgstr ""
+
+#: admin.php:107 admin.php:127 admin.php:146
+#: apis/user_admin_menu_api.class.php:60
+msgid "添加会员"
+msgstr ""
+
+#: admin.php:131
+msgid "欢迎访问ECJia智能后台添加会员页面，在此页面可以进行添加会员操作。"
+msgstr ""
+
+#: admin.php:136
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:添加会员\" target="
+"\"_blank\">关于添加会员帮助文档</a>"
+msgstr ""
+
+#: admin.php:168 admin.php:414
+msgid "保密"
+msgstr ""
+
+#: admin.php:168 admin.php:414
+msgid "男"
+msgstr ""
+
+#: admin.php:168 admin.php:414
+msgid "女"
+msgstr ""
+
+#: admin.php:200 admin.php:447 admin.php:703
+msgid "没有输入邮件地址或者输入了一个无效的邮件地址。"
+msgstr ""
+
+#: admin.php:205 admin.php:453
+msgid "密码不能有中文或非法字符。"
+msgstr ""
+
+#: admin.php:208 admin.php:456
+msgid "没有输入确认密码。"
+msgstr ""
+
+#: admin.php:211 admin.php:459
+msgid "确认密码和输入的密码不一致。"
+msgstr ""
+
+#: admin.php:214 admin.php:462
+msgid "密码和确认密码的长度不能小于6。"
+msgstr ""
+
+#: admin.php:217 admin.php:465
+msgid "密码中不能包含空格。"
+msgstr ""
+
+#: admin.php:223 admin.php:472
+msgid "信用额度不为空且为数值类型。"
+msgstr ""
+
+#: admin.php:241 admin.php:524
+msgid "手机号码已存在"
+msgstr ""
+
+#: admin.php:278 classes/integrate.class.php:278
+#: modules/user/signup_module.class.php:296
+msgid "注册送积分"
+msgstr ""
+
+#: admin.php:285 admin.php:545
+msgid "返回会员列表"
+msgstr ""
+
+#: admin.php:286
+msgid "继续添加会员"
+msgstr ""
+
+#: admin.php:287
+msgid "会员账号添加成功"
+msgstr ""
+
+#: admin.php:301 admin.php:314
+msgid "编辑会员账号"
+msgstr ""
+
+#: admin.php:306
+msgid "欢迎访问ECJia智能后台编辑会员页面，在此页面可以进行编辑会员操作。"
+msgstr ""
+
+#: admin.php:311
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:会员列表#.E4.BC.9A."
+"E5.91.98.E7.BC.96.E8.BE.91\" target=\"_blank\">关于编辑会员帮助文档</a>"
+msgstr ""
+
+#: admin.php:547 admin.php:713
+msgid "编辑成功！"
+msgstr ""
+
+#: admin.php:557 admin.php:569 admin.php:738 admin.php:742
+msgid "会员详情"
+msgstr ""
+
+#: admin.php:562
+msgid ""
+"欢迎访问ECJia智能后台会员详情页面，在此页面可以进行对会员的详细信息查看。"
+msgstr ""
+
+#: admin.php:567
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:会员列表#.E8.AF.A6.E7."
+"BB.86.E4.BF.A1.E6.81.AF\" target=\"_blank\">关于查看会员帮助文档</a>"
+msgstr ""
+
+#: admin.php:586
+msgid "没有查询到该会员的信息"
+msgstr ""
+
+#: admin.php:624
+msgid "未验证"
+msgstr ""
+
+#: admin.php:624
+msgid "已验证"
+msgstr ""
+
+#: admin.php:625
+msgid "新用户还未登录"
+msgstr ""
+
+#: admin.php:711
+msgid "%s邮箱信息"
+msgstr ""
+
+#: admin.php:716 classes/integrate_abstract.class.php:208
+msgid "该邮件地址已经存在。"
+msgstr ""
+
+#: admin.php:719 configs/jslang.php:53 configs/jslang.php:79
+#: configs/jslang.php:101
+msgid "请输入邮箱地址！"
+msgstr ""
+
+#: admin.php:733
+msgid "该用户不存在"
+msgstr ""
+
+#: admin.php:739 admin.php:741
+msgid "删除帐号数据"
+msgstr ""
+
+#: admin.php:782
+msgid "当前还有用户数据未清除，请先清除后再执行删除会员操作"
+msgstr ""
+
+#: admin.php:787
+msgid "删除会员成功"
+msgstr ""
+
+#: admin.php:806
+msgid "操作失败，当前code无效"
+msgstr ""
+
+#: admin.php:811
+msgid "%s删除成功"
+msgstr ""
+
+#: admin.php:813
+msgid "%s删除失败"
+msgstr ""
+
+#: admin.php:847
+msgid "%s删除失败；<br>"
+msgstr ""
+
+#: admin.php:854 admin.php:856
+msgid "一键删除会员成功"
+msgstr ""
+
+#: admin.php:859
+msgid "操作失败"
+msgstr ""
+
+#: admin.php:869 admin.php:882
+msgid "收货地址"
+msgstr ""
+
+#: admin.php:874
+msgid ""
+"欢迎访问ECJia智能后台会员收获地址列表页面，系统中所有的会员收获地址都会显示在"
+"此列表中。"
+msgstr ""
+
+#: admin.php:879
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:会员列表#.E6.94.B6.E8.B4."
+"A7.E5.9C.B0.E5.9D.80\" target=\"_blank\">关于会员收获地址列表帮助文档</a>"
+msgstr ""
+
+#: admin_config.php:69 classes/hooks/admin_user.class.php:54
+msgid "会员中心"
+msgstr ""
+
+#: admin_config.php:70
+msgid "PC设置"
+msgstr ""
+
+#: admin_config.php:86
+msgid "会员中心->PC设置"
+msgstr ""
+
+#: admin_config.php:87
+msgid "修改成功"
+msgstr ""
+
+#: admin_level.php:89
+msgid "会员排行榜"
+msgstr ""
+
+#: admin_rank.php:77 admin_rank.php:88 admin_rank.php:99 admin_rank.php:128
+#: admin_rank.php:219 apis/user_admin_menu_api.class.php:61
+msgid "会员等级"
+msgstr ""
+
+#: admin_rank.php:92
+msgid ""
+"欢迎访问ECJia智能后台会员等级列表页面，系统中所有的会员等级都会显示在此列表"
+"中。"
+msgstr ""
+
+#: admin_rank.php:97
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:会员等级\" target="
+"\"_blank\">关于会员等级列表帮助文档</a>"
+msgstr ""
+
+#: admin_rank.php:100 admin_rank.php:115 admin_rank.php:127
+msgid "添加会员等级"
+msgstr ""
+
+#: admin_rank.php:119
+msgid ""
+"欢迎访问ECJia智能后台添加会员等级页面，在此页面可以进行添加会员等级操作。"
+msgstr ""
+
+#: admin_rank.php:124
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:会员等级#.E6.B7.BB.E5.8A."
+"A0.E4.BC.9A.E5.91.98.E7.AD.89.E7.BA.A7\" target=\"_blank\">关于添加会员等级帮"
+"助文档</a>"
+msgstr ""
+
+#: admin_rank.php:158 admin_rank.php:252 admin_rank.php:337
+msgid "会员等级名 %s 已经存在。"
+msgstr ""
+
+#: admin_rank.php:163 admin_rank.php:258 admin_rank.php:368 admin_rank.php:403
+msgid "成长值上限必须大于成长值下限。"
+msgstr ""
+
+#: admin_rank.php:170 admin_rank.php:266 admin_rank.php:372
+msgid "已经存在一个成长值下限为 %s 的会员等级"
+msgstr ""
+
+#: admin_rank.php:174 admin_rank.php:272 admin_rank.php:407
+msgid "已经存在一个成长值上限为 %s 的会员等级"
+msgstr ""
+
+#: admin_rank.php:180 admin_rank.php:279 admin_rank.php:432
+msgid "请填写为0-100的整数，如填入80，表示初始折扣率为8折"
+msgstr ""
+
+#: admin_rank.php:194 admin_rank.php:294
+msgid "返回会员等级列表"
+msgstr ""
+
+#: admin_rank.php:195
+msgid "继续添加会员等级"
+msgstr ""
+
+#: admin_rank.php:196
+msgid "会员等级[ %s ]添加成功"
+msgstr ""
+
+#: admin_rank.php:207 admin_rank.php:218
+msgid "编辑会员等级"
+msgstr ""
+
+#: admin_rank.php:211
+msgid ""
+"欢迎访问ECJia智能后台编辑会员等级页面，在此页面可以进行编辑会员等级操作。"
+msgstr ""
+
+#: admin_rank.php:216
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:会员等级#.E7.BC.96.E8."
+"BE.91.E4.BC.9A.E5.91.98.E7.AD.89.E7.BA.A7\" target=\"_blank\">关于编辑会员等"
+"级帮助文档</a>"
+msgstr ""
+
+#: admin_rank.php:295
+msgid "会员等级[ %s ]编辑成功"
+msgstr ""
+
+#: admin_rank.php:314
+msgid "会员等级[ %s ]删除成功"
+msgstr ""
+
+#: admin_rank.php:332 configs/jslang.php:59 configs/jslang.php:85
+#: configs/jslang.php:107
+msgid "请输入会员等级名称"
+msgstr ""
+
+#: admin_rank.php:342
+msgid "等级名是 %s"
+msgstr ""
+
+#: admin_rank.php:344 admin_rank.php:380 admin_rank.php:414 admin_rank.php:439
+#: admin_reg_fields.php:285 admin_reg_fields.php:308
+msgid "编辑成功"
+msgstr ""
+
+#: admin_rank.php:346 admin_rank.php:382 admin_rank.php:416 admin_rank.php:441
+#: admin_rank.php:466 admin_rank.php:489 admin_reg_fields.php:287
+#: admin_reg_fields.php:310 admin_reg_fields.php:327 admin_reg_fields.php:344
+msgid "编辑失败"
+msgstr ""
+
+#: admin_rank.php:362 admin_rank.php:398
+msgid "您没有输入成长值下限或者成长值下限不是一个正整数。"
+msgstr ""
+
+#: admin_rank.php:459
+msgid "%s，显示价格"
+msgstr ""
+
+#: admin_rank.php:461
+msgid "%s，隐藏价格"
+msgstr ""
+
+#: admin_rank.php:464 admin_rank.php:487 admin_reg_fields.php:325
+#: admin_reg_fields.php:342
+msgid "切换成功"
+msgstr ""
+
+#: admin_rank.php:483
+msgid "%s，加入特殊会员组"
+msgstr ""
+
+#: admin_rank.php:485
+msgid "%s，移出特殊会员组"
+msgstr ""
+
+#: admin_reg_fields.php:75 admin_reg_fields.php:86 admin_reg_fields.php:98
+#: admin_reg_fields.php:127 admin_reg_fields.php:190
+#: apis/user_admin_menu_api.class.php:63
+#: apis/user_admin_purview_api.class.php:64
+msgid "会员注册项设置"
+msgstr ""
+
+#: admin_reg_fields.php:90
+msgid ""
+"欢迎访问ECJia智能后台会员注册项列表页面，系统中所有的会员注册项都会显示在此列"
+"表中。"
+msgstr ""
+
+#: admin_reg_fields.php:95
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:会员注册项设置\" target="
+"\"_blank\">关于会员注册项帮助文档</a>"
+msgstr ""
+
+#: admin_reg_fields.php:99 admin_reg_fields.php:114 admin_reg_fields.php:126
+msgid "添加会员注册项"
+msgstr ""
+
+#: admin_reg_fields.php:118
+msgid ""
+"欢迎访问ECJia智能后台添加会员注册项页面，在此页面可以进行添加会员注册项操作。"
+msgstr ""
+
+#: admin_reg_fields.php:123
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:会员注册项设置\" target="
+"\"_blank\">关于添加会员注册项帮助文档</a>"
+msgstr ""
+
+#: admin_reg_fields.php:153 admin_reg_fields.php:223 admin_reg_fields.php:278
+msgid "会员注册项名 %s 已经存在。"
+msgstr ""
+
+#: admin_reg_fields.php:165 admin_reg_fields.php:236
+msgid "返回会员注册项列表"
+msgstr ""
+
+#: admin_reg_fields.php:166
+msgid "继续添加会员注册项"
+msgstr ""
+
+#: admin_reg_fields.php:167
+msgid "会员注册项已经添加成功。"
+msgstr ""
+
+#: admin_reg_fields.php:177 admin_reg_fields.php:189
+msgid "编辑会员注册项"
+msgstr ""
+
+#: admin_reg_fields.php:181
+msgid ""
+"欢迎访问ECJia智能后台编辑会员注册项页面，在此页面可以进行编辑会员注册项操作。"
+msgstr ""
+
+#: admin_reg_fields.php:186
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:会员注册项设置\" target="
+"\"_blank\">关于编辑会员注册项帮助文档</a>"
+msgstr ""
+
+#: admin_reg_fields.php:237
+msgid "会员注册项已经修改成功。"
+msgstr ""
+
+#: admin_reg_fields.php:255
+msgid "删除成功"
+msgstr ""
+
+#: admin_reg_fields.php:270
+msgid "您没有输入会员注册字段名称。"
+msgstr ""
+
+#: admin_reg_fields.php:303
+msgid "输入的排序权值不是有效的数字。"
+msgstr ""
+
+#: apis/user_account_change_log_api.class.php:59
+#: apis/user_address_manage_api.class.php:64
+#: apis/user_edit_user_api.class.php:59
+#: apis/user_get_user_list_api.class.php:64
+#: apis/user_neighbors_address_api.class.php:63
+#: apis/user_neighbors_address_store_api.class.php:63
+#: apis/user_update_user_rank_api.class.php:60
+#: apis/user_user_info_api.class.php:59
+#: apis/user_user_session_logins_api.class.php:70
+#: modules/address/add_module.class.php:66
+#: modules/address/delete_module.class.php:66
+#: modules/address/info_module.class.php:66
+#: modules/address/setDefault_module.class.php:66
+#: modules/address/update_module.class.php:69
+#: modules/admin/merchant/user/list_module.class.php:26
+#: modules/admin/user/account/deposit_module.class.php:27
+#: modules/admin/user/add_module.class.php:28
+#: modules/admin/validate/get_module.class.php:59
+#: modules/goods/collect/cancel_module.class.php:67
+#: modules/goods/collect/create_module.class.php:65
+#: modules/store/collect/cancel_module.class.php:65
+#: modules/store/collect/create_module.class.php:65
+#: modules/store/collect/list_module.class.php:80
+#: modules/user/account/cancel_module.class.php:64
+#: modules/user/account/record/detail_module.class.php:65
+#: modules/user/account/record_module.class.php:77
+#: modules/user/account/switchPayment_module.class.php:67
+#: modules/user/bind_module.class.php:79
+#: modules/user/collect/delete_module.class.php:66
+#: modules/user/forget_password_module.class.php:65
+#: modules/user/forget_password_module.class.php:85
+#: modules/user/password_module.class.php:120
+#: modules/user/paypassword/modify_module.class.php:68
+#: modules/user/reset_password_module.class.php:62
+#: modules/user/signin_module.class.php:66
+#: modules/user/signup_module.class.php:90
+#: modules/user/userbind_module.class.php:65
+#: modules/user/userbind_module.class.php:82
+#: modules/validate/bind_module.class.php:66
+#: modules/validate/forget_password_module.class.php:63
+#: modules/validate/get_module.class.php:59
+#: modules/validate/integral_module.class.php:64
+msgid "参数无效"
+msgstr ""
+
+#: apis/user_add_local_user_api.class.php:82
+msgid "调用接口user_add_local_user_api参数无效"
+msgstr ""
+
+#: apis/user_add_local_user_api.class.php:95
+msgid "创建用户失败"
+msgstr ""
+
+#: apis/user_add_user_api.class.php:90
+msgid "调用接口user_add_user_api参数无效"
+msgstr ""
+
+#: apis/user_add_user_api.class.php:100
+msgid "创建用户失败%s"
+msgstr ""
+
+#: apis/user_address_manage_api.class.php:71
+msgid "email地址格式错误"
+msgstr ""
+
+#: apis/user_address_manage_api.class.php:114
+#: modules/address/info_module.class.php:76
+#: modules/goods/collect/create_module.class.php:72
+#: modules/user/collect/create_module.class.php:72
+msgid "不存在的信息"
+msgstr ""
+
+#: apis/user_address_manage_api.class.php:173
+msgid "收货地址信息重复，请修改！"
+msgstr ""
+
+#: apis/user_address_manage_api.class.php:190
+msgid "收货地址最多只能添加20个！"
+msgstr ""
+
+#: apis/user_admin_menu_api.class.php:57
+#: apis/user_admin_purview_api.class.php:59
+msgid "会员管理"
+msgstr ""
+
+#: apis/user_admin_menu_api.class.php:62
+msgid "会员排行"
+msgstr ""
+
+#: apis/user_admin_purview_api.class.php:60
+msgid "更新会员"
+msgstr ""
+
+#: apis/user_admin_purview_api.class.php:61
+msgid "删除会员"
+msgstr ""
+
+#: apis/user_admin_purview_api.class.php:63
+msgid "会员等级管理"
+msgstr ""
+
+#: apis/user_admin_purview_api.class.php:66
+msgid "会员设置"
+msgstr ""
+
+#: apis/user_edit_user_api.class.php:71
+msgid "设置密码失败"
+msgstr ""
+
+#: apis/user_get_local_user_api.class.php:79
+msgid "调用接口user_get_local_user_api参数无效"
+msgstr ""
+
+#: apis/user_get_local_user_api.class.php:101
+msgid "未找到用户"
+msgstr ""
+
+#: apis/user_store_user_list_api.class.php:19
+msgid "调用api文件store_user_list参数无效"
+msgstr ""
+
+#: apis/user_store_user_list_api.class.php:62
+#: apis/user_store_user_list_api.class.php:64
+msgid "非特殊等级"
+msgstr ""
+
+#: apis/user_update_user_avatar_api.class.php:59
+msgid "调用update_user_avatar参数无效"
+msgstr ""
+
+#: apis/user_update_user_rank_api.class.php:67
+msgid "会员信息不存在"
+msgstr ""
+
+#: apis/user_user_account_info_api.class.php:66
+msgid "调用接口user_account_info_api参数无效！"
+msgstr ""
+
+#: apis/user_user_bonus_list_api.class.php:114
+msgid "未开始"
+msgstr ""
+
+#: apis/user_user_bonus_list_api.class.php:118
+msgid "已过期"
+msgstr ""
+
+#: apis/user_user_bonus_list_api.class.php:121
+msgid "可使用"
+msgstr ""
+
+#: apis/user_user_bonus_list_api.class.php:125
+msgid "已使用"
+msgstr ""
+
+#: apis/user_user_collect_goods_list_api.class.php:19
+msgid "调用api文件,user_collect_goods_list参数无效"
+msgstr ""
+
+#: apis/user_user_remove_cleardata_api.class.php:63
+msgid "请求接口user_user_remove_cleardata_api参数无效"
+msgstr ""
+
+#: classes/Helper.php:61
+msgid "会员账户"
+msgstr ""
+
+#: classes/Helper.php:63
+msgid "充值提现"
+msgstr ""
+
+#: classes/Helper.php:65
+msgid "提现申请"
+msgstr ""
+
+#: classes/Helper.php:67
+msgid "充值申请"
+msgstr ""
+
+#: classes/Helper.php:69
+msgid "配置"
+msgstr ""
+
+#: classes/Helper.php:71
+msgid "到款审核"
+msgstr ""
+
+#: classes/Helper.php:73
+msgid "用户红包"
+msgstr ""
+
+#: classes/Helper.php:75
+msgid "用户收货地址"
+msgstr ""
+
+#: classes/Helper.php:77
+msgid "用户账户余额"
+msgstr ""
+
+#: classes/Helper.php:79
+msgid "用户收藏商品"
+msgstr ""
+
+#: classes/Helper.php:81
+msgid "用户第三方关联"
+msgstr ""
+
+#: classes/Helper.php:83
+msgid "账户日志"
+msgstr ""
+
+#: classes/Helper.php:85
+msgid "账户微信粉丝账号"
+msgstr ""
+
+#: classes/Helper.php:87
+msgid "账户发送消息记录"
+msgstr ""
+
+#: classes/Helper.php:89
+msgid "账户抽奖记录"
+msgstr ""
+
+#: classes/Helper.php:91
+msgid "微信客服消息记录"
+msgstr ""
+
+#: classes/Helper.php:93
+msgid "用户充值/提现记录"
+msgstr ""
+
+#: classes/Helper.php:95
+msgid "用户收藏店铺"
+msgstr ""
+
+#: classes/Helper.php:97
+msgid "账户发票信息"
+msgstr ""
+
+#: classes/Helper.php:99
+msgid "用户积分记录"
+msgstr ""
+
+#: classes/Helper.php:101
+msgid "会员父级ID"
+msgstr ""
+
+#: classes/Helper.php:103
+msgid "用户邀请记录"
+msgstr ""
+
+#: classes/Helper.php:105
+msgid "清空"
+msgstr ""
+
+#: classes/UserCleanHandlers/UserAddressClear.php:47
+msgid "总共有<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>个收货地址"
+msgstr "總共有<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>個收貨地址"
+
+#: classes/UserCleanHandlers/UserAddressClear.php:49
+msgid "查看全部>>>"
+msgstr ""
+
+#: classes/UserCleanHandlers/UserAddressClear.php:106
+#: classes/UserCleanHandlers/UserBonusClear.php:108
+#: classes/UserCleanHandlers/UserCollectGoodsClear.php:98
+#: classes/UserCleanHandlers/UserCollectStoreClear.php:98
+#: classes/UserCleanHandlers/UserInviteeRecordClear.php:96
+#: classes/UserCleanHandlers/UserLogClear.php:135
+#: classes/UserCleanHandlers/UserParentIdClear.php:96
+msgid "用户名是%s"
+msgstr ""
+
+#: classes/UserCleanHandlers/UserAddressClear.php:106
+#: classes/UserCleanHandlers/UserBonusClear.php:108
+#: classes/UserCleanHandlers/UserCollectGoodsClear.php:98
+#: classes/UserCleanHandlers/UserCollectStoreClear.php:98
+#: classes/UserCleanHandlers/UserInviteeRecordClear.php:96
+#: classes/UserCleanHandlers/UserLogClear.php:135
+#: classes/UserCleanHandlers/UserParentIdClear.php:96
+msgid "用户ID是%s"
+msgstr ""
+
+#: classes/UserManager.php:97 classes/integrate.class.php:225
+msgid "该网店暂停注册"
+msgstr ""
+
+#: classes/UserManager.php:102 classes/UserManager.php:183
+#: classes/integrate.class.php:229 classes/integrate.class.php:307
+msgid "用户名不能为空"
+msgstr ""
+
+#: classes/UserManager.php:106 classes/UserManager.php:187
+#: classes/integrate.class.php:232 classes/integrate.class.php:310
+msgid "用户名含有敏感字符"
+msgstr ""
+
+#: classes/UserManager.php:111 classes/integrate.class.php:238
+msgid "email不能为空"
+msgstr ""
+
+#: classes/UserManager.php:115 classes/integrate.class.php:241
+msgid "不是合法的email地址"
+msgstr ""
+
+#: classes/UserManager.php:122 classes/integrate.class.php:253
+msgid "用户名 %s 含有敏感字符"
+msgstr ""
+
+#: classes/UserManager.php:126 classes/integrate.class.php:255
+msgid "用户名 %s 不允许注册"
+msgstr ""
+
+#: classes/UserManager.php:130 classes/integrate.class.php:257
+msgid "用户名 %s 已经存在"
+msgstr ""
+
+#: classes/UserManager.php:134 classes/integrate.class.php:259
+msgid "%s 不是合法的email地址"
+msgstr ""
+
+#: classes/UserManager.php:138 classes/integrate.class.php:261
+msgid "Email %s 不允许注册"
+msgstr ""
+
+#: classes/UserManager.php:142 classes/integrate.class.php:263
+msgid "%s 已经存在"
+msgstr ""
+
+#: classes/UserManager.php:146 classes/integrate.class.php:265
+msgid "未知错误！"
+msgstr ""
+
+#: classes/UserManager.php:191 classes/integrate.class.php:318
+msgid "登录失败"
+msgstr ""
+
+#: classes/UserPasswdQuestions.php:58
+msgid "我最好朋友的生日？"
+msgstr ""
+
+#: classes/UserPasswdQuestions.php:59
+msgid "我儿时居住地的地址？"
+msgstr ""
+
+#: classes/UserPasswdQuestions.php:60
+msgid "我的座右铭是？"
+msgstr ""
+
+#: classes/UserPasswdQuestions.php:61
+msgid "我最喜爱的电影？"
+msgstr ""
+
+#: classes/UserPasswdQuestions.php:62
+msgid "我最喜爱的歌曲？"
+msgstr ""
+
+#: classes/UserPasswdQuestions.php:63
+msgid "我最喜爱的食物？"
+msgstr ""
+
+#: classes/UserPasswdQuestions.php:64
+msgid "我最大的爱好？"
+msgstr ""
+
+#: classes/UserPasswdQuestions.php:65
+msgid "我最喜欢的小说？"
+msgstr ""
+
+#: classes/UserPasswdQuestions.php:66
+msgid "我最喜欢的运动队？"
+msgstr ""
+
+#: classes/hooks/admin_user.class.php:53 configs/package.php:55
+msgid "会员"
+msgstr ""
+
+#: classes/integrate.class.php:246
+msgid "用户名已经存在"
+msgstr ""
+
+#: classes/integrate_abstract.class.php:201
+msgid "已经存在一个相同的用户名。"
+msgstr ""
+
+#: configs/jslang.php:51 configs/jslang.php:77 configs/jslang.php:99
+msgid "请先输入关键字"
+msgstr ""
+
+#: configs/jslang.php:52 configs/jslang.php:78 configs/jslang.php:100
+msgid "请输入会员名称！"
+msgstr ""
+
+#: configs/jslang.php:54 configs/jslang.php:80 configs/jslang.php:102
+msgid "请输入正确的邮箱地址格式！"
+msgstr ""
+
+#: configs/jslang.php:55 configs/jslang.php:81 configs/jslang.php:103
+msgid "请输入密码！"
+msgstr ""
+
+#: configs/jslang.php:56 configs/jslang.php:82 configs/jslang.php:104
+msgid "密码长度不能小于6！"
+msgstr ""
+
+#: configs/jslang.php:57 configs/jslang.php:83 configs/jslang.php:105
+msgid "两次密码不一致！"
+msgstr ""
+
+#: configs/jslang.php:58 configs/jslang.php:84 configs/jslang.php:106
+msgid "请输入手机号码！"
+msgstr ""
+
+#: configs/jslang.php:60 configs/jslang.php:86 configs/jslang.php:108
+msgid "请输入成长值下限"
+msgstr ""
+
+#: configs/jslang.php:61 configs/jslang.php:87 configs/jslang.php:109
+msgid "请输入成长值上限"
+msgstr ""
+
+#: configs/jslang.php:62 configs/jslang.php:88 configs/jslang.php:110
+msgid "请输入折扣率"
+msgstr ""
+
+#: configs/jslang.php:63 configs/jslang.php:89 configs/jslang.php:111
+msgid "请输入注册项名称"
+msgstr ""
+
+#: configs/jslang.php:64 configs/jslang.php:90 configs/jslang.php:112
+msgid "请输入排序"
+msgstr ""
+
+#: configs/jslang.php:65 configs/jslang.php:91 configs/jslang.php:113
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:66 configs/jslang.php:92 configs/jslang.php:114
+msgid "取消"
+msgstr ""
+
+#: configs/jslang.php:69
+msgid "请选择年份"
+msgstr ""
+
+#: configs/jslang.php:70
+msgid "开始时间不能大于或等于结束时间"
+msgstr ""
+
+#: configs/jslang.php:71
+msgid "查询时间间隔不超过90天"
+msgstr ""
+
+#: configs/jslang.php:72
+msgid "开始时间不能为空"
+msgstr ""
+
+#: configs/jslang.php:73
+msgid "结束时间不能为空"
+msgstr ""
+
+#: configs/jslang.php:74
+msgid "没有找到任何记录"
+msgstr ""
+
+#: configs/package.php:56
+msgid ""
+"都说“顾客是上帝”，那么我们对上帝的信息储存岂能怠慢？会员应用不仅为“上帝”打造"
+"更好的信息管理储存，同时也为商家对会员信息、会员订单、消费明细、充值、提现、"
+"收货地址、详细信息、注册项等应有尽有的功能全方面进行管理，同时可对用户收支、"
+"消费等习惯统计整合，分析出用户消费习惯喜好，迎合现如今的大数据时代。"
+msgstr ""
+
+#: functions/admin_user.func.php:191 functions/admin_user.func.php:349
+#: modules/user/account/record/detail_module.class.php:122
+msgid "提现"
+msgstr ""
+
+#: functions/admin_user.func.php:191 functions/admin_user.func.php:347
+#: modules/user/account/record/detail_module.class.php:122
+msgid "充值"
+msgstr ""
+
+#: functions/admin_user.func.php:325
+#: modules/user/account/record/detail_module.class.php:97
+msgid "已完成"
+msgstr ""
+
+#: functions/admin_user.func.php:327
+#: modules/user/account/record/detail_module.class.php:99
+msgid "已取消"
+msgstr ""
+
+#: functions/admin_user.func.php:329
+#: modules/user/account/record/detail_module.class.php:101
+msgid "未确认"
+msgstr ""
+
+#: functions/admin_user.func.php:333 functions/admin_user.func.php:335
+msgid "暂无"
+msgstr ""
+
+#: functions/admin_user.func.php:367
+msgid "付款"
+msgstr ""
+
+#: functions/admin_user.func.php:906
+msgid "免费"
+msgstr ""
+
+#: modules/address/add_module.class.php:62
+#: modules/address/delete_module.class.php:62
+#: modules/address/info_module.class.php:62
+#: modules/address/list_module.class.php:62
+#: modules/address/setDefault_module.class.php:62
+#: modules/address/update_module.class.php:62
+#: modules/admin/merchant/user/list_module.class.php:15
+#: modules/admin/user/account/deposit_module.class.php:16
+#: modules/admin/user/account/payConfirm_module.class.php:60
+#: modules/admin/user/account/pay_module.class.php:16
+#: modules/admin/user/add_module.class.php:15
+#: modules/admin/user/userinfo_module.class.php:60
+#: modules/goods/collect/cancel_module.class.php:61
+#: modules/goods/collect/create_module.class.php:61
+#: modules/goods/collect/list_module.class.php:61
+#: modules/store/collect/cancel_module.class.php:61
+#: modules/store/collect/create_module.class.php:61
+#: modules/store/collect/list_module.class.php:61
+#: modules/user/account/activate/apply_module.class.php:59
+#: modules/user/account/cancel_module.class.php:59
+#: modules/user/account/delete/apply_module.class.php:59
+#: modules/user/account/deposit_module.class.php:59
+#: modules/user/account/deposit_module.class.php:83
+#: modules/user/account/integral/record_module.class.php:59
+#: modules/user/account/pay_module.class.php:59
+#: modules/user/account/raply_module.class.php:59
+#: modules/user/account/record/detail_module.class.php:59
+#: modules/user/account/record_module.class.php:59
+#: modules/user/account/record_module.class.php:80
+#: modules/user/account/switchPayment_module.class.php:60
+#: modules/user/account/withdraw_module.class.php:63
+#: modules/user/bind_module.class.php:60 modules/user/bonus_module.class.php:61
+#: modules/user/collect/create_module.class.php:61
+#: modules/user/collect/delete_module.class.php:61
+#: modules/user/collect/list_module.class.php:61
+#: modules/user/info/bankcard_module.class.php:63
+#: modules/user/info_module.class.php:63
+#: modules/user/password_module.class.php:63
+#: modules/user/paypassword/modify_module.class.php:61
+#: modules/user/update_module.class.php:60
+#: modules/validate/bonus_module.class.php:64
+#: modules/validate/integral_module.class.php:60
+msgid "Invalid session"
+msgstr ""
+
+#: modules/address/delete_module.class.php:70
+msgid "删除失败！"
+msgstr ""
+
+#: modules/address/list_module.class.php:70
+#: modules/store/collect/list_module.class.php:69
+#: modules/user/account/record_module.class.php:68
+#: modules/user/bonus_module.class.php:69
+msgid "当前账号已申请注销，不可查看此数据！"
+msgstr ""
+
+#: modules/admin/stats/visitor_module.class.php:68
+#: modules/admin/user/account/payConfirm_module.class.php:73
+#: modules/admin/user/account/pay_module.class.php:24
+#: modules/user/account/pay_module.class.php:69
+#: modules/user/collect/create_module.class.php:65
+msgid "参数错误"
+msgstr ""
+
+#: modules/admin/user/account/deposit_module.class.php:32
+#: modules/user/account/deposit_module.class.php:79
+#: modules/user/account/raply_module.class.php:76
+#: modules/user/account/withdraw_module.class.php:89
+msgid "请在“金额”栏输入大于0的数字！"
+msgstr ""
+
+#: modules/admin/user/account/deposit_module.class.php:58
+#: modules/user/account/deposit_module.class.php:109
+msgid "请选择支付方式！"
+msgstr ""
+
+#: modules/admin/user/account/deposit_module.class.php:63
+#: modules/admin/user/account/pay_module.class.php:95
+#: modules/user/account/deposit_module.class.php:116
+#: modules/user/account/pay_module.class.php:136
+msgid "支付方式无效，请重新选择支付方式！"
+msgstr ""
+
+#: modules/admin/user/account/payConfirm_module.class.php:67
+msgid "非收银台请求！"
+msgstr ""
+
+#: modules/admin/user/account/payConfirm_module.class.php:80
+#: modules/admin/user/account/pay_module.class.php:35
+#: modules/user/account/pay_module.class.php:75
+msgid "充值记录不存在"
+msgstr ""
+
+#: modules/admin/user/account/payConfirm_module.class.php:104
+msgid "订单支付成功！"
+msgstr ""
+
+#: modules/admin/user/account/payConfirm_module.class.php:110
+msgid "此充值记录对应的支付方式不支持收银台充值支付！"
+msgstr ""
+
+#: modules/admin/user/account/pay_module.class.php:28
+msgid "请选择支付方式"
+msgstr ""
+
+#: modules/admin/user/add_module.class.php:53
+#: modules/user/signup_module.class.php:272
+#: modules/user/signup_module.class.php:276
+msgid "用户名有敏感字符"
+msgstr ""
+
+#: modules/admin/user/add_module.class.php:58
+#: modules/user/update_module.class.php:125
+msgid "用户名已存在！"
+msgstr ""
+
+#: modules/admin/user/add_module.class.php:63
+msgid "手机号已存在！"
+msgstr ""
+
+#: modules/admin/user/add_module.class.php:86
+msgid "添加会员失败！"
+msgstr ""
+
+#: modules/admin/user/forget_request_module.class.php:64
+msgid "请填写用户相关信息！"
+msgstr ""
+
+#: modules/admin/user/forget_request_module.class.php:70
+msgid "邮箱格式不正确！"
+msgstr ""
+
+#: modules/admin/user/forget_request_module.class.php:82
+msgid ""
+"[%s]您的管理员账户正在变更账户信息，效验码：%s，打死都不能告诉别人哦！唯一热"
+"线%s"
+msgstr ""
+
+#: modules/admin/user/forget_request_module.class.php:86
+msgid "账户变更效验码"
+msgstr ""
+
+#: modules/admin/user/forget_request_module.class.php:97
+msgid "邮件发送失败！"
+msgstr ""
+
+#: modules/admin/user/forget_request_module.class.php:103
+msgid "用户名与其信息不匹配！"
+msgstr ""
+
+#: modules/admin/user/forget_validate_module.class.php:65
+msgid "请填写校验码！"
+msgstr ""
+
+#: modules/admin/user/forget_validate_module.class.php:69
+msgid "校验码已过期！"
+msgstr ""
+
+#: modules/admin/user/forget_validate_module.class.php:77
+msgid "校验码错误！"
+msgstr ""
+
+#: modules/admin/user/signin_module.class.php:64
+#: modules/admin/user/signin_module.class.php:189
+msgid "您输入的帐号信息不正确。"
+msgstr ""
+
+#: modules/admin/validate/get_module.class.php:73
+#: modules/admin/validate/get_module.class.php:106
+msgid "发送频率过高，请一分钟后再试"
+msgstr ""
+
+#: modules/admin/validate/get_module.class.php:93
+#: modules/user/userbind_module.class.php:122
+msgid "短信发送失败！"
+msgstr ""
+
+#: modules/admin/validate/get_module.class.php:103
+msgid "邮箱账号格式错误"
+msgstr ""
+
+#: modules/admin/validate/get_module.class.php:121
+#: modules/validate/get_module.class.php:119
+msgid "请检查短信模板send_validate"
+msgstr ""
+
+#: modules/admin/validate/get_module.class.php:133
+#: modules/user/forget_password_module.class.php:143
+msgid "验证码发送成功！"
+msgstr ""
+
+#: modules/admin/validate/get_module.class.php:135
+#: modules/user/forget_password_module.class.php:145
+#: modules/validate/get_module.class.php:133
+msgid "验证码发送失败！"
+msgstr ""
+
+#: modules/user/account/activate/apply_module.class.php:65
+#: modules/user/account/delete/apply_module.class.php:65
+msgid "请求接口%s参数错误"
+msgstr ""
+
+#: modules/user/account/activate/apply_module.class.php:71
+msgid "用户信息不存在！"
+msgstr ""
+
+#: modules/user/account/activate/apply_module.class.php:83
+msgid "当前账号未有申请注销！"
+msgstr ""
+
+#: modules/user/account/activate/apply_module.class.php:86
+msgid "当前账号已注销！"
+msgstr ""
+
+#: modules/user/account/activate/apply_module.class.php:105
+#: modules/user/account/delete/apply_module.class.php:116
+#: modules/user/paypassword/modify_module.class.php:108
+#: modules/user/signin_module.class.php:99
+#: modules/validate/bind_module.class.php:71
+msgid "验证码已过期，请重新获取！"
+msgstr ""
+
+#: modules/user/account/activate/apply_module.class.php:109
+#: modules/user/account/delete/apply_module.class.php:120
+#: modules/user/paypassword/modify_module.class.php:112
+#: modules/user/signin_module.class.php:103
+#: modules/validate/bind_module.class.php:76
+msgid "验证码错误，请重新填写！"
+msgstr ""
+
+#: modules/user/account/activate/apply_module.class.php:114
+#: modules/user/account/delete/apply_module.class.php:125
+#: modules/user/paypassword/modify_module.class.php:117
+msgid "接受验证码手机号与用户绑定手机号不同！"
+msgstr ""
+
+#: modules/user/account/cancel_module.class.php:83
+msgid "提现取消"
+msgstr ""
+
+#: modules/user/account/cancel_module.class.php:87
+msgid "取消失败"
+msgstr ""
+
+#: modules/user/account/delete/apply_module.class.php:84
+msgid "请确保账号内无余额或已结清！"
+msgstr ""
+
+#: modules/user/account/delete/apply_module.class.php:92
+msgid "请先解除要注销账号与其他网站、其他APP的授权登录或绑定关系！"
+msgstr ""
+
+#: modules/user/account/delete/apply_module.class.php:98
+msgid "请确保账号内交易无未完成订单！"
+msgstr ""
+
+#: modules/user/account/deposit_module.class.php:72
+#: modules/user/account/raply_module.class.php:68
+#: modules/user/account/withdraw_module.class.php:69
+#: modules/user/bind_module.class.php:68
+#: modules/user/password_module.class.php:70
+#: modules/user/update_module.class.php:68
+msgid "当前账号已申请注销，不可执行此操作！"
+msgstr ""
+
+#: modules/user/account/raply_module.class.php:88
+#: modules/user/account/withdraw_module.class.php:99
+msgid "提现金额不可小于最小提现金额：%s元"
+msgstr ""
+
+#: modules/user/account/raply_module.class.php:127
+msgid "您要申请提现的金额超过了您现有的余额，此操作将不可进行！"
+msgstr ""
+
+#: modules/user/account/raply_module.class.php:154
+#: modules/user/account/withdraw_module.class.php:176
+msgid "【申请提现】"
+msgstr ""
+
+#: modules/user/account/raply_module.class.php:159
+#: modules/user/account/withdraw_module.class.php:181
+msgid "您的提现申请已成功提交，请等待管理员的审核！"
+msgstr ""
+
+#: modules/user/account/raply_module.class.php:161
+#: modules/user/account/withdraw_module.class.php:183
+msgid "此次操作失败，请返回重试！"
+msgstr ""
+
+#: modules/user/account/record/detail_module.class.php:75
+msgid "充值/提现记录不存在！"
+msgstr ""
+
+#: modules/user/account/record_module.class.php:121
+msgid "管理员操作"
+msgstr ""
+
+#: modules/user/account/switchPayment_module.class.php:74
+msgid "不存在的信息！"
+msgstr ""
+
+#: modules/user/account/switchPayment_module.class.php:86
+msgid "处理失败！"
+msgstr ""
+
+#: modules/user/account/withdraw_module.class.php:78
+msgid "请求接口%s参数错误！"
+msgstr ""
+
+#: modules/user/account/withdraw_module.class.php:84
+msgid "您还未绑定此提现方式！"
+msgstr ""
+
+#: modules/user/account/withdraw_module.class.php:109
+msgid "您申请提现的金额超过了现有余额，此操作将不可进行！"
+msgstr ""
+
+#: modules/user/account/withdraw_module.class.php:127
+msgid "银行转账提现"
+msgstr ""
+
+#: modules/user/account/withdraw_module.class.php:131
+msgid "微信钱包提现"
+msgstr ""
+
+#: modules/user/bind_module.class.php:82
+#: modules/user/password_module.class.php:128
+msgid "请填写验证码"
+msgstr ""
+
+#: modules/user/bind_module.class.php:91
+msgid "该手机号已被注册"
+msgstr ""
+
+#: modules/user/bind_module.class.php:94 modules/user/bind_module.class.php:111
+#: modules/user/password_module.class.php:131
+msgid "验证码已过期"
+msgstr ""
+
+#: modules/user/bind_module.class.php:97 modules/user/bind_module.class.php:114
+#: modules/user/forget_password_module.class.php:89
+#: modules/user/password_module.class.php:134
+#: modules/user/userbind_module.class.php:86
+msgid "验证码错误"
+msgstr ""
+
+#: modules/user/bind_module.class.php:100
+#: modules/user/password_module.class.php:137
+msgid "接收和验证的手机号不同"
+msgstr ""
+
+#: modules/user/bind_module.class.php:108
+msgid "该邮箱已被注册"
+msgstr ""
+
+#: modules/user/bind_module.class.php:117
+msgid "接收和验证的邮箱不同"
+msgstr ""
+
+#: modules/user/collect/create_module.class.php:80
+msgid "您已收藏过此商品"
+msgstr ""
+
+#: modules/user/collect/list_module.class.php:131
+msgid "已省%s元"
+msgstr ""
+
+#: modules/user/forget_password_module.class.php:96
+#: modules/user/reset_password_module.class.php:71
+#: modules/validate/forget_password_module.class.php:70
+msgid "手机号重复，请与管理员联系！"
+msgstr ""
+
+#: modules/user/forget_password_module.class.php:105
+#: modules/user/reset_password_module.class.php:80
+#: modules/validate/forget_password_module.class.php:78
+msgid "用户信息错误！"
+msgstr ""
+
+#: modules/user/forget_password_module.class.php:133
+msgid "通过短信找回密码"
+msgstr ""
+
+#: modules/user/password_module.class.php:82
+#: modules/user/reset_password_module.class.php:95
+msgid "- 登录密码不能少于 6 个字符。"
+msgstr ""
+
+#: modules/user/password_module.class.php:89
+#: modules/user/password_module.class.php:155
+msgid "新密码不能与旧密码相同！"
+msgstr ""
+
+#: modules/user/password_module.class.php:109
+#: modules/user/password_module.class.php:112
+#: modules/user/password_module.class.php:174
+#: modules/user/password_module.class.php:177
+msgid "您输入的旧密码不正确！"
+msgstr ""
+
+#: modules/user/password_module.class.php:125
+msgid "请先绑定手机号码！"
+msgstr ""
+
+#: modules/user/password_module.class.php:151
+msgid "修改密码失败！"
+msgstr ""
+
+#: modules/user/paypassword/modify_module.class.php:73
+msgid "支付密码必须为6位数字密码！"
+msgstr ""
+
+#: modules/user/paypassword/modify_module.class.php:90
+msgid "新密码不能与原密码相同"
+msgstr ""
+
+#: modules/user/reset_password_module.class.php:86
+#: modules/validate/forget_password_module.class.php:84
+msgid "验证码过期，请重新获取验证码！"
+msgstr ""
+
+#: modules/user/reset_password_module.class.php:90
+msgid "验证码验证失败！"
+msgstr ""
+
+#: modules/user/signin_module.class.php:77
+#: modules/user/signin_module.class.php:116
+#: modules/user/signin_module.class.php:132
+msgid "用户重复，请与管理员联系！"
+msgstr ""
+
+#: modules/user/signin_module.class.php:91
+#: modules/user/signin_module.class.php:121
+#: modules/user/signin_module.class.php:147
+msgid "您输入的账号信息不正确 ！"
+msgstr ""
+
+#: modules/user/signin_module.class.php:107
+#: modules/validate/bind_module.class.php:82
+msgid "信息错误，请重新获取验证码"
+msgstr ""
+
+#: modules/user/signup_module.class.php:55
+#: modules/user/signup_module.class.php:264
+msgid "会员注册关闭"
+msgstr ""
+
+#: modules/user/signup_module.class.php:135
+msgid "用户已存在！"
+msgstr ""
+
+#: modules/user/signup_module.class.php:268
+msgid "用户名不能为空！"
+msgstr ""
+
+#: modules/user/update_module.class.php:88
+msgid "头像上传失败！"
+msgstr ""
+
+#: modules/user/update_module.class.php:144
+msgid "30天内只允许修改一次会员名称！"
+msgstr ""
+
+#: modules/validate/bonus_module.class.php:97
+msgid "该红包已经过了使用期！"
+msgstr ""
+
+#: modules/validate/bonus_module.class.php:104
+msgid "您选择的红包并不存在。"
+msgstr ""
+
+#: modules/validate/bonus_module.class.php:114
+msgid "订单商品金额没有达到使用该红包的最低金额 %s"
+msgstr ""
+
+#: modules/validate/forget_password_module.class.php:89
+msgid "验证码错误！"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_address_list.dwt.php:11
+msgid "（当前会员：%1）"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_address_list.dwt.php:17
+#: content/apps/user/templates/admin/user_address_list.dwt.php:20
+msgid "全部地址"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_address_list.dwt.php:18
+#: content/apps/user/templates/admin/user_address_list.dwt.php:21
+msgid "默认地址"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_address_list.dwt.php:29
+#: content/apps/user/templates/admin/user_info.dwt.php:204
+msgid "收货人"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_address_list.dwt.php:30
+msgid "所在地区"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_address_list.dwt.php:31
+msgid "详细地址"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_address_list.dwt.php:32
+#: content/apps/user/templates/admin/user_info.dwt.php:175
+msgid "邮编"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_address_list.dwt.php:33
+msgid "电话/手机"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_address_list.dwt.php:46
+msgid "电话："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_address_list.dwt.php:47
+msgid "手机："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_address_list.dwt.php:52
+#: content/apps/user/templates/admin/user_info.dwt.php:183
+msgid "该用户暂无收货地址"
+msgstr ""
+
+#: content/apps/user/templates/admin/reg_fields_edit.dwt.php:24
+msgid "注册项名称："
+msgstr ""
+
+#: content/apps/user/templates/admin/reg_fields_edit.dwt.php:31
+msgid "排序权值："
+msgstr ""
+
+#: content/apps/user/templates/admin/reg_fields_edit.dwt.php:39
+msgid "是否显示："
+msgstr ""
+
+#: content/apps/user/templates/admin/reg_fields_edit.dwt.php:41
+#: content/apps/user/templates/admin/reg_fields_edit.dwt.php:49
+msgid "是"
+msgstr ""
+
+#: content/apps/user/templates/admin/reg_fields_edit.dwt.php:42
+#: content/apps/user/templates/admin/reg_fields_edit.dwt.php:50
+msgid "否"
+msgstr ""
+
+#: content/apps/user/templates/admin/reg_fields_edit.dwt.php:47
+msgid "是否必填："
+msgstr ""
+
+#: content/apps/user/templates/admin/reg_fields_edit.dwt.php:56
+#: content/apps/user/templates/admin/user_rank_edit.dwt.php:63
+msgid "更新"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_edit.dwt.php:24
+#: content/apps/user/templates/admin/user_edit.dwt.php:79
+#: content/apps/user/templates/admin/user_info.dwt.php:86
+msgid "会员等级："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_edit.dwt.php:31
+msgid "成长值下限："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_edit.dwt.php:38
+msgid "成长值上限："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_edit.dwt.php:46
+msgid "初始折扣率："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_edit.dwt.php:53
+msgid "在商品详情页显示该会员等级的商品价格"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_edit.dwt.php:56
+#: content/apps/user/templates/admin/user_rank_list.dwt.php:22
+msgid "特殊会员组"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_edit.dwt.php:57
+msgid "特殊会员组的会员不会随着积分的变化而变化。"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:23
+msgid "所有等级"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:28
+msgid "筛选"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:30
+#: content/apps/user/templates/admin/user_info.dwt.php:24
+msgid "请输入会员名称／邮箱／手机"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:31
+#: content/apps/user/templates/admin/user_level_list.dwt.php:66
+msgid "搜索"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:42
+#: content/apps/user/templates/admin/user_level_list.dwt.php:79
+msgid "会员名称"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:43
+msgid "邮件地址"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:44
+msgid "手机号码"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:45
+#: content/apps/user/templates/admin/user_level_list.dwt.php:80
+msgid "可用资金"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:46
+#: content/apps/user/templates/admin/user_level_list.dwt.php:81
+msgid "积分"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:47
+msgid "所属等级"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:48
+msgid "注册日期"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:62
+#: content/apps/user/templates/admin/user_rank_list.dwt.php:58
+#: content/apps/user/templates/admin/reg_fields_list.dwt.php:42
+#: content/apps/user/templates/admin/user_info.dwt.php:40
+msgid "编辑"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:63
+msgid "详细信息"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:65
+#: content/apps/user/templates/admin/user_info.dwt.php:212
+msgid "查看订单"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:67
+msgid "查看余额变动"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:68
+msgid "查看积分变动"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:69
+msgid "查看成长值变动"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:74
+msgid "编辑邮箱地址"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_list.dwt.php:75
+msgid "（已验证）"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_config.dwt.php:16
+msgid "是否开启会员中心："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_config.dwt.php:18
+msgid "开启"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_config.dwt.php:19
+msgid "关闭"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_config.dwt.php:21
+msgid "开启则显示PC会员中心，关闭则隐藏"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_delete.dwt.php:29
+msgid "温馨提示"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_delete.dwt.php:31
+msgid "当前账户没有关联数据，您可以直接删除此会员账户。"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_delete.dwt.php:41
+msgid "您确定要这么做吗？"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_delete.dwt.php:41
+msgid "删除数据"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_delete.dwt.php:51
+msgid "您确定要彻底删除该会员所有信息吗？"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_delete.dwt.php:51
+msgid "一键删除所有"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_delete.dwt.php:54
+msgid "您确定要彻底删除该会员吗？"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_delete.dwt.php:57
+msgid ""
+"注：一键删除：点击后，会将以上所有有关当前账号的数据全部删除，一旦删除后将不"
+"可恢复。"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_delete.dwt.php:58
+msgid "删除会员：点击后，将当前会员账号彻底删除。"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_edit.dwt.php:26
+#: content/apps/user/templates/admin/user_info.dwt.php:48
+msgid "会员名称："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_edit.dwt.php:39
+#: content/apps/user/templates/admin/user_info.dwt.php:70
+msgid "手机号码："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_edit.dwt.php:48
+msgid "登录密码："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_edit.dwt.php:56
+msgid "新密码："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_edit.dwt.php:64
+msgid "确认密码："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_edit.dwt.php:72
+msgid "邮件地址："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_edit.dwt.php:99
+msgid "会员基础信息"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_edit.dwt.php:104
+#: content/apps/user/templates/admin/user_info.dwt.php:59
+msgid "性别："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_edit.dwt.php:112
+#: content/apps/user/templates/admin/user_info.dwt.php:63
+msgid "出生日期："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_edit.dwt.php:114
+msgid "选择日期"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_edit.dwt.php:118
+#: content/apps/user/templates/admin/user_info.dwt.php:93
+msgid "信用额度："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_edit.dwt.php:132
+msgid "会员详细信息"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_list.dwt.php:17
+msgid "会员等级名称"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_list.dwt.php:18
+#: content/apps/user/templates/admin/user_rank_list.dwt.php:38
+msgid "成长值下限"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_list.dwt.php:19
+#: content/apps/user/templates/admin/user_rank_list.dwt.php:45
+msgid "成长值上限"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_list.dwt.php:20
+msgid "初始折扣率(%)"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_list.dwt.php:21
+msgid "显示价格"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_list.dwt.php:23
+#: content/apps/user/templates/admin/reg_fields_list.dwt.php:21
+msgid "操作"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_list.dwt.php:31
+msgid "编辑会员名称"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_list.dwt.php:49
+msgid "编辑初始折扣率"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_list.dwt.php:52
+#: content/apps/user/templates/admin/user_rank_list.dwt.php:55
+#: content/apps/user/templates/admin/reg_fields_list.dwt.php:36
+#: content/apps/user/templates/admin/reg_fields_list.dwt.php:39
+msgid "点击切换状态"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_list.dwt.php:59
+msgid "您确定要删除会员等级吗？"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_rank_list.dwt.php:59
+#: content/apps/user/templates/admin/reg_fields_list.dwt.php:44
+msgid "移除"
+msgstr ""
+
+#: content/apps/user/templates/admin/reg_fields_list.dwt.php:17
+msgid "会员注册项名称"
+msgstr ""
+
+#: content/apps/user/templates/admin/reg_fields_list.dwt.php:18
+msgid "排序权值"
+msgstr ""
+
+#: content/apps/user/templates/admin/reg_fields_list.dwt.php:19
+msgid "是否显示"
+msgstr ""
+
+#: content/apps/user/templates/admin/reg_fields_list.dwt.php:20
+msgid "是否必填"
+msgstr ""
+
+#: content/apps/user/templates/admin/reg_fields_list.dwt.php:29
+msgid "编辑会员注册名称"
+msgstr ""
+
+#: content/apps/user/templates/admin/reg_fields_list.dwt.php:33
+msgid "编辑排序"
+msgstr ""
+
+#: content/apps/user/templates/admin/reg_fields_list.dwt.php:44
+msgid "您确定要删除会员注册项吗？"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_level_list.dwt.php:16
+#: content/apps/user/templates/admin/user_level_list.dwt.php:53
+msgid "温馨提示："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_level_list.dwt.php:16
+msgid "默认统计30天内，排名前30的订单总数以及下单总金额对比。"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_level_list.dwt.php:20
+msgid "会员图表展示"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_level_list.dwt.php:30
+#: content/apps/user/templates/admin/user_level_list.dwt.php:83
+msgid "下单总金额"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_level_list.dwt.php:31
+#: content/apps/user/templates/admin/user_level_list.dwt.php:82
+msgid "下单总数"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_level_list.dwt.php:47
+msgid "导出Excel"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_level_list.dwt.php:53
+msgid "最多可搜索90天时间以内的数据。"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_level_list.dwt.php:62
+msgid "开始日期"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_level_list.dwt.php:63
+msgid "至"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_level_list.dwt.php:64
+msgid "结束日期"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_level_list.dwt.php:65
+msgid "请输入会员名称关键字"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_level_list.dwt.php:95
+msgid "查看详情"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:25
+#: content/apps/user/templates/admin/user_info.dwt.php:141
+#: content/apps/user/templates/admin/user_info.dwt.php:148
+#: content/apps/user/templates/admin/user_info.dwt.php:152
+msgid "查看"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:39
+msgid "基本信息"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:52
+msgid "邮箱账号："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:74
+msgid "微信："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:77
+#: content/apps/user/templates/admin/user_info.dwt.php:84
+msgid "未绑定"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:84
+msgid "已绑定"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:97
+msgid "推荐人："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:104
+msgid "注册时间："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:108
+msgid "最后登录时间："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:115
+msgid "最后登录IP："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:122
+msgid "删除会员："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:124
+msgid "去删除账号数据"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:134
+msgid "会员资金"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:140
+msgid "可用资金："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:144
+msgid "冻结资金："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:147
+msgid "积分："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:151
+msgid "成长值："
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:161
+msgid "更多"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:170
+msgid "（默认地址）"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:173
+msgid "电话"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:174
+msgid "手机"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:193
+msgid "会员订单"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:202
+msgid "订单号"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:203
+msgid "下单时间"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:205
+msgid "总金额"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:206
+msgid "订单状态"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_info.dwt.php:229
+msgid "该会员暂无订单信息"
+msgstr ""

@@ -56,7 +56,7 @@ return array(
 	'description' 	=> __('广告是随着人类经济活动的发展而产生并不断更新；广告提高企业竞争实力促进企业经济效益的作用；广告对于消费者消费观念，消费心理和消费行为的趋向具有导引作用。', 'adsense'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.28.0',					/* 版本号 */
+	'version' 		=> '1.29.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Adsense',
     'provider'      => 'AdsenseServiceProvider',

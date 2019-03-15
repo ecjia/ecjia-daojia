@@ -24,16 +24,17 @@ class UserAccountLogClear extends UserCleanAbstract
     protected $code = 'user_account_log_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '会员积分记录';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 81;
+
+    public function __construct($user_id)
+    {
+        $this->name = __('会员积分记录', 'finance');
+
+        parent::__construct($user_id);
+    }
 
     /**
      * 数据描述及输出显示内容
@@ -42,9 +43,11 @@ class UserAccountLogClear extends UserCleanAbstract
     {
         $count = $this->handleCount();
 
+        $text = __('账户积分所有的变动记录', 'finance');
+
         return <<<HTML
 
-<span class="controls-info">账户积分所有的变动记录</span>
+<span class="controls-info">{$text}</span>
 
 HTML;
 

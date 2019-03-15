@@ -91,7 +91,7 @@ class affiliate_order_records_module extends api_front implements api_interface
 
         $db = RC_DB::table('order_info as oi')->leftJoin('users as u', RC_DB::raw('oi.user_id'), '=', RC_DB::raw('u.user_id'));
 
-        $db->where(RC_DB::raw('u.parent_id'), $user_id)->where(RC_DB::raw('oi.is_separate'), Ecjia\App\Affiliate\OrderAffiliateStatus::UNSEPARATE);
+        $db->where(RC_DB::raw('u.parent_id'), $user_id)->where(RC_DB::raw('oi.is_separate'), \Ecjia\App\Affiliate\Enums\AffiliateOrderEnum::UNSEPARATE);
 
         $count    = $db->count(RC_DB::raw('oi.order_id'));
         $page_row = new ecjia_page($count, $size, 6, '', $page);
@@ -138,8 +138,8 @@ class affiliate_order_records_module extends api_front implements api_interface
             ->leftJoin('affiliate_log as ag', RC_DB::raw('ag.order_id'), '=', RC_DB::raw('oi.order_id'));
 
         $db->where(RC_DB::raw('ag.user_id'), $user_id)//分成记录是自己的
-        ->whereNotIn(RC_DB::raw('ag.separate_type'), [Ecjia\App\Affiliate\AffiliateLogStatus::AFFILIATE_REGISTER_CANCELED, Ecjia\App\Affiliate\AffiliateLogStatus::AFFILIATE_ORDER_CANCELED])
-            ->where(RC_DB::raw('oi.is_separate'), Ecjia\App\Affiliate\OrderAffiliateStatus::SEPARATED);
+        ->whereNotIn(RC_DB::raw('ag.separate_type'), [\Ecjia\App\Affiliate\Enums\AffiliateLogEnum::AFFILIATE_REGISTER_CANCELED, \Ecjia\App\Affiliate\Enums\AffiliateLogEnum::AFFILIATE_ORDER_CANCELED])
+            ->where(RC_DB::raw('oi.is_separate'), \Ecjia\App\Affiliate\Enums\AffiliateOrderEnum::SEPARATED);
 
         $count    = $db->count(RC_DB::raw('ag.log_id'));
         $page_row = new ecjia_page($count, $size, 6, '', $page);

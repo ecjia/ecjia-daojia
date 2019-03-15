@@ -26,16 +26,17 @@ class StoreAdsenseClear extends StoreCleanAbstract
     protected $code = 'store_adsense_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '店铺广告';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 26;
+
+    public function __construct($store_id)
+    {
+        $this->name = __('店铺广告', 'adsense');
+
+        parent::__construct($store_id);
+    }
 
     /**
      * 数据描述及输出显示内容
@@ -43,6 +44,7 @@ class StoreAdsenseClear extends StoreCleanAbstract
     public function handlePrintData()
     {
         $text = __('店铺内所有有关广告数据（含广告、快捷菜单、轮播图等）全部删除', 'adsense');
+        
         return <<<HTML
 <span class="controls-info w400">{$text}</span>
 HTML;

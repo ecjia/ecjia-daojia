@@ -66,17 +66,16 @@ class admin extends ecjia_admin {
 		RC_Script::enqueue_script('jquery.toggle.buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/jquery.toggle.buttons.js'));
 		RC_Style::enqueue_style('bootstrap-toggle-buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/bootstrap-toggle-buttons.css'));
 		
-		RC_Script::enqueue_script('comment_manage', RC_App::apps_url('statics/js/comment_manage.js', __FILE__), array(), false, false);
-		RC_Script::enqueue_script('appeal', RC_App::apps_url('statics/js/appeal.js', __FILE__), array(), false, false);
+		RC_Script::enqueue_script('comment_manage', RC_App::apps_url('statics/js/comment_manage.js', __FILE__), array(), false, 1);
+		RC_Script::enqueue_script('appeal', RC_App::apps_url('statics/js/appeal.js', __FILE__), array(), false, 1);
 		RC_Style::enqueue_style('comment', RC_App::apps_url('statics/css/comment.css', __FILE__));
 		//RC_Style::enqueue_style('start', RC_App::apps_url('statics/css/start.css', __FILE__));
 		
-		RC_Script::enqueue_script('photoswipe', RC_App::apps_url('statics/lib/photoswipe/js/photoswipe.min.js', __FILE__) , array() , false, true);
+		RC_Script::enqueue_script('photoswipe', RC_App::apps_url('statics/lib/photoswipe/js/photoswipe.min.js', __FILE__) , array() , false, 1);
 		RC_Script::enqueue_script('photoswipe-ui', RC_App::apps_url('statics/lib/photoswipe/js/photoswipe-ui-default.min.js', __FILE__) , array() , false, true);
 		RC_Style::enqueue_style('photoswipe', RC_App::apps_url('statics/lib/photoswipe/css/photoswipe.css', __FILE__), array());
 		RC_Style::enqueue_style('default-skin', RC_App::apps_url('statics/lib/photoswipe/css/default-skin/default-skin.css', __FILE__), array());
 
-        RC_Script::localize_script('appeal', 'js_lang', config('app-comment::jslang.comment_page'));
         RC_Script::localize_script('comment_manage', 'js_lang', config('app-comment::jslang.comment_page'));
 
     }

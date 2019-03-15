@@ -24,16 +24,17 @@ class StorePromotionClear extends StoreCleanAbstract
     protected $code = 'store_promotion_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '促销活动';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 15;
+
+    public function __construct($store_id)
+    {
+        $this->name = __('促销活动', 'promotion');
+
+        parent::__construct($store_id);
+    }
 
     /**
      * 数据描述及输出显示内容

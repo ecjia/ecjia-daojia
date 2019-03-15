@@ -78,7 +78,7 @@ class admin_rank extends ecjia_admin
 
         RC_Script::enqueue_script('bootstrap-placeholder', RC_Uri::admin_url('statics/lib/dropper-upload/bootstrap-placeholder.js'), array(), false, true);
 
-        RC_Script::enqueue_script('agent', RC_App::apps_url('statics/js/agent.js', __FILE__));
+        RC_Script::enqueue_script('agent', RC_App::apps_url('statics/js/agent.js', __FILE__), array(), false, 1);
         RC_Style::enqueue_style('agent', RC_App::apps_url('statics/css/agent.css', __FILE__));
 
         RC_Script::localize_script('agent', 'js_lang', config('app-agent::jslang.agent_page'));

@@ -66,14 +66,16 @@ class mh_comment extends ecjia_merchant {
 		RC_Script::enqueue_script('bootstrap-fileupload-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
 		RC_Style::enqueue_style('bootstrap-fileupload', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', array(), false, false);
 		RC_Style::enqueue_style('mh_comment', RC_App::apps_url('statics/css/mh_comment.css', __FILE__), array());
-		RC_Script::enqueue_script('mh_comment', RC_App::apps_url('statics/js/mh_comment.js', __FILE__), array(), false, true);
+		RC_Script::enqueue_script('mh_comment', RC_App::apps_url('statics/js/mh_comment.js', __FILE__), array(), false, 1);
 		
-		RC_Script::enqueue_script('photoswipe', RC_App::apps_url('statics/lib/photoswipe/js/photoswipe.min.js', __FILE__) , array() , false, true);
+		RC_Script::enqueue_script('photoswipe', RC_App::apps_url('statics/lib/photoswipe/js/photoswipe.min.js', __FILE__) , array() , false, 1);
 		RC_Script::enqueue_script('photoswipe-ui', RC_App::apps_url('statics/lib/photoswipe/js/photoswipe-ui-default.min.js', __FILE__) , array() , false, true);
 		RC_Style::enqueue_style('photoswipe', RC_App::apps_url('statics/lib/photoswipe/css/photoswipe.css', __FILE__), array());
 		RC_Style::enqueue_style('default-skin', RC_App::apps_url('statics/lib/photoswipe/css/default-skin/default-skin.css', __FILE__), array());
-		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('评论管理', 'comment'), RC_Uri::url('comment/mh_comment/init')));
+
+        RC_Script::localize_script('mh_comment', 'js_lang', config('app-comment::jslang.comment_page'));
+
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('评论管理', 'comment'), RC_Uri::url('comment/mh_comment/init')));
 		ecjia_merchant_screen::get_current_screen()->set_parentage('order', 'order/merchant.php');
 	}
 

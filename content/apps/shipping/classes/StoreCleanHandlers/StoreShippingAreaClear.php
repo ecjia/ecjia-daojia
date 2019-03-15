@@ -24,16 +24,17 @@ class StoreShippingAreaClear extends StoreCleanAbstract
     protected $code = 'store_shipping_area_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '店铺配送区域、运费模板';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 32;
+
+    public function __construct($store_id)
+    {
+        $this->name = __('店铺配送区域、运费模板', 'shipping');
+
+        parent::__construct($store_id);
+    }
 
     /**
      * 数据描述及输出显示内容

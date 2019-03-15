@@ -24,16 +24,17 @@ class StoreAdsensePositionClear extends StoreCleanAbstract
     protected $code = 'store_adsense_position_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '店铺广告位';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 27;
+
+    public function __construct($store_id)
+    {
+        $this->name = __('店铺广告位', 'adsense');
+
+        parent::__construct($store_id);
+    }
 
     /**
      * 数据描述及输出显示内容
@@ -41,6 +42,7 @@ class StoreAdsensePositionClear extends StoreCleanAbstract
     public function handlePrintData()
     {
         $text = __('店铺内所有广告位数据全部删除', 'adsense');
+
         return <<<HTML
 <span class="controls-info w400">{$text}</span>
 HTML;

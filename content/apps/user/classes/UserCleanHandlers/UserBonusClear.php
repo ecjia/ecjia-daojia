@@ -24,16 +24,17 @@ class UserBonusClear extends UserCleanAbstract
     protected $code = 'user_bonus_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '账户红包';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 2;
+
+    public function __construct($user_id)
+    {
+        $this->name = __('账户红包', 'user');
+
+        parent::__construct($user_id);
+    }
 
     /**
      * 数据描述及输出显示内容
@@ -42,9 +43,11 @@ class UserBonusClear extends UserCleanAbstract
     {
         $count = $this->handleCount();
 
+        $text = sprintf(__('账户内可用红包<span class="ecjiafc-red ecjiaf-fs3">%s</span>个', 'user'), $count);
+
         return <<<HTML
 
-<span class="controls-info">账户内可用红包<span class="ecjiafc-red ecjiaf-fs3">{$count}</span>个</span>
+<span class="controls-info">{$text}</span>
 
 HTML;
     }

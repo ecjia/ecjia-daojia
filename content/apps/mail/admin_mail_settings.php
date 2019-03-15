@@ -63,7 +63,7 @@ class admin_mail_settings extends ecjia_admin {
 		
 		RC_Script::enqueue_script('mail_settings', RC_App::apps_url('statics/js/mail_settings.js', __FILE__), array(), false, 1);
 
-        RC_Script::localize_script('mail_settings', 'mail_settings', config('app-mail::jslang::mail_settings_page'));
+        RC_Script::localize_script('mail_settings', 'mail_settings', config('app-mail::jslang.mail_settings_page'));
     }
 	
 	/**

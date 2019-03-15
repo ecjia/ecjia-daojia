@@ -24,16 +24,17 @@ class UserMoneyClear extends UserCleanAbstract
     protected $code = 'user_money_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '账户余额';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 11;
+
+    public function __construct($user_id)
+    {
+        $this->name = __('账户余额', 'finance');
+
+        parent::__construct($user_id);
+    }
 
     /**
      * 数据描述及输出显示内容
@@ -46,11 +47,15 @@ class UserMoneyClear extends UserCleanAbstract
 
         $url = RC_Uri::url('finance/admin_account_log/init', array('account_type' => 'user_money', 'user_id' => $this->user_id));
 
+        $text = sprintf(__('账户内可用余额<span class="ecjiafc-red ecjiaf-fs3">%s</span>', 'finance'), $user_money);
+
+        $view_all = __('查看全部>>>', 'finance');
+
         return <<<HTML
 
-<span class="controls-info w300">账户内可用余额<span class="ecjiafc-red ecjiaf-fs3">{$user_money}</span></span>
+<span class="controls-info w300">{$text}</span></span>
 
-<span class="controls-info"><a href="{$url}" target="_blank">查看全部>>></a></span>
+<span class="controls-info"><a href="{$url}" target="_blank">{$view_all}</a></span>
 
 HTML;
 

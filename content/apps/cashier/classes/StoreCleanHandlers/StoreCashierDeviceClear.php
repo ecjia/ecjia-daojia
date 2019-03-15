@@ -24,16 +24,17 @@ class StoreCashierDeviceClear extends StoreCleanAbstract
     protected $code = 'store_cashier_device_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '店铺收银设备';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 23;
+
+    public function __construct($store_id)
+    {
+        $this->name = __('店铺收银设备', 'cashier');
+
+        parent::__construct($store_id);
+    }
 
     /**
      * 数据描述及输出显示内容

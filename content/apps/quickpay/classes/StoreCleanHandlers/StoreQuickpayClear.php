@@ -24,16 +24,17 @@ class StoreQuickpayClear extends StoreCleanAbstract
     protected $code = 'store_quickpay_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '买单活动';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 17;
+
+    public function __construct($store_id)
+    {
+        $this->name = __('买单活动', 'quickpay');
+
+        parent::__construct($store_id);
+    }
 
     /**
      * 数据描述及输出显示内容

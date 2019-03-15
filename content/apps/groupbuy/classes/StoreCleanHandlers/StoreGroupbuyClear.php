@@ -24,16 +24,17 @@ class StoreGroupbuyClear extends StoreCleanAbstract
     protected $code = 'store_groupbuy_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '团购活动';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 16;
+
+    public function __construct($store_id)
+    {
+        $this->name = __('团购活动', 'groupbuy');
+
+        parent::__construct($store_id);
+    }
 
     /**
      * 数据描述及输出显示内容

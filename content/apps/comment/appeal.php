@@ -67,8 +67,8 @@ class appeal extends ecjia_admin {
 		RC_Script::enqueue_script('jquery.toggle.buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/jquery.toggle.buttons.js'));
 		RC_Style::enqueue_style('bootstrap-toggle-buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/bootstrap-toggle-buttons.css'));
 		
-		RC_Script::enqueue_script('appeal', RC_App::apps_url('statics/js/appeal.js', __FILE__), array(), false, false);
-		RC_Script::enqueue_script('comment_manage', RC_App::apps_url('statics/js/comment_manage.js', __FILE__), array(), false, false);
+		RC_Script::enqueue_script('appeal', RC_App::apps_url('statics/js/appeal.js', __FILE__), array(), false, 1);
+		RC_Script::enqueue_script('comment_manage', RC_App::apps_url('statics/js/comment_manage.js', __FILE__), array(), false, 1);
 		RC_Style::enqueue_style('appeal', RC_App::apps_url('statics/css/appeal.css', __FILE__));
 		RC_Style::enqueue_style('comment', RC_App::apps_url('statics/css/comment.css', __FILE__));
 		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
@@ -76,7 +76,6 @@ class appeal extends ecjia_admin {
 		//RC_Style::enqueue_style('start', RC_App::apps_url('statics/css/start.css', __FILE__));
 
         RC_Script::localize_script('appeal', 'js_lang', config('app-comment::jslang.comment_page'));
-        RC_Script::localize_script('comment_manage', 'js_lang', config('app-comment::jslang.comment_page'));
 	}
 	
 	/**

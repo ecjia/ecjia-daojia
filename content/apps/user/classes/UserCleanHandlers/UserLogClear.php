@@ -24,25 +24,28 @@ class UserLogClear extends UserCleanAbstract
     protected $code = 'user_log_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '账户日志';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 41;
+
+    public function __construct($user_id)
+    {
+        $this->name = __('账户日志', 'user');
+
+        parent::__construct($user_id);
+    }
 
     /**
      * 数据描述及输出显示内容
      */
     public function handlePrintData()
     {
+        $text = __('与账号有关的所有日志记录', 'user');
+
         return <<<HTML
 
-<span class="controls-info">与账号有关的所有日志记录</span>
+<span class="controls-info">{$text}</span>
 
 HTML;
 

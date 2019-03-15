@@ -24,25 +24,28 @@ class UserWechatPrizeClear extends UserCleanAbstract
     protected $code = 'user_wechat_prize_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '账户抽奖记录';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 53;
+
+    public function __construct($user_id)
+    {
+        $this->name = __('账户抽奖记录', 'wechat');
+
+        parent::__construct($user_id);
+    }
 
     /**
      * 数据描述及输出显示内容
      */
     public function handlePrintData()
     {
+        $text = __('账户参与抽奖活动有关的所有记录', 'wechat');
+
         return <<<HTML
 
-<span class="controls-info">账户参与抽奖活动有关的所有记录</span>
+<span class="controls-info">{$text}</span>
 
 HTML;
 

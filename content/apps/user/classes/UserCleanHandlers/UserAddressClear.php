@@ -24,16 +24,17 @@ class UserAddressClear extends UserCleanAbstract
     protected $code = 'user_address_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '账户收货地址';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 1;
+
+    public function __construct($user_id)
+    {
+        $this->name = __('账户收货地址', 'user');
+
+        parent::__construct($user_id);
+    }
 
     /**
      * 数据描述及输出显示内容
@@ -44,11 +45,15 @@ class UserAddressClear extends UserCleanAbstract
 
         $url = RC_Uri::url('user/admin/address_list', array('id' => $this->user_id));
 
+        $text = sprintf(__('总共有<span class="ecjiafc-red ecjiaf-fs3">%s</span>个收货地址', 'user'), $count);
+
+        $view_all = __('查看全部>>>', 'user');
+
         return <<<HTML
 
-<span class="controls-info w300">总共有<span class="ecjiafc-red ecjiaf-fs3">{$count}</span>个收货地址</span>
+<span class="controls-info w300">{$text}</span>
 
-<span class="controls-info"><a href="{$url}" target="_blank">查看全部>>></a></span>
+<span class="controls-info"><a href="{$url}" target="_blank">{$view_all}</a></span>
 
 HTML;
 

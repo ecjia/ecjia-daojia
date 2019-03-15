@@ -24,16 +24,17 @@ class UserFinanceInvoiceClear extends UserCleanAbstract
     protected $code = 'finance_invoice_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '账户发票记录';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 81;
+
+    public function __construct($user_id)
+    {
+        $this->name = __('账户发票记录', 'finance');
+
+        parent::__construct($user_id);
+    }
 
     /**
      * 数据描述及输出显示内容
@@ -42,9 +43,11 @@ class UserFinanceInvoiceClear extends UserCleanAbstract
     {
         $count = $this->handleCount();
 
+        $text = __('账号添加的发票信息', 'finance');
+
         return <<<HTML
 
-<span class="controls-info">账号添加的发票信息</span>
+<span class="controls-info">{$text}</span>
 
 HTML;
 

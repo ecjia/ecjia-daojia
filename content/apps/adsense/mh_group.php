@@ -62,12 +62,11 @@ class mh_group extends ecjia_merchant {
 		RC_Script::enqueue_script('bootstrap-fileupload-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
 		RC_Style::enqueue_style('bootstrap-fileupload', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', array(), false, false);
 		
-		RC_Script::enqueue_script('mh_group', RC_App::apps_url('statics/js/mh_group.js', __FILE__));
-		RC_Script::enqueue_script('mh_ad_position', RC_App::apps_url('statics/js/mh_ad_position.js', __FILE__));
-		RC_Script::enqueue_script('mh_adsense', RC_App::apps_url('statics/js/mh_adsense.js', __FILE__));
+		RC_Script::enqueue_script('mh_group', RC_App::apps_url('statics/js/mh_group.js', __FILE__), array(), false, 1);
+		RC_Script::enqueue_script('mh_ad_position', RC_App::apps_url('statics/js/mh_ad_position.js', __FILE__), array(), false, 1);
+		RC_Script::enqueue_script('mh_adsense', RC_App::apps_url('statics/js/mh_adsense.js', __FILE__), array(), false, 1);
+
         RC_Script::localize_script('mh_group', 'js_lang', config('app-adsense::jslang.adsense_page'));
-        RC_Script::localize_script('mh_ad_position', 'js_lang', config('app-adsense::jslang.adsense_page'));
-        RC_Script::localize_script('mh_adsense', 'js_lang', config('app-adsense::jslang.adsense_page'));
 
         ecjia_merchant_screen::get_current_screen()->set_parentage('adsense', 'adsense/mh_group.php');
 	}

@@ -24,16 +24,17 @@ class StoreUserClear extends StoreCleanAbstract
     protected $code = 'store_user_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '店铺会员';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 36;
+
+    public function __construct($store_id)
+    {
+        $this->name = __('店铺会员', 'store');
+
+        parent::__construct($store_id);
+    }
 
     /**
      * 数据描述及输出显示内容

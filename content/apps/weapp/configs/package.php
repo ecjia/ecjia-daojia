@@ -56,7 +56,7 @@ return array(
     'description' => __('微信小程序', 'weapp'),
     'author'      => 'ECJIA TEAM',                  /* 作者 */
     'website'     => 'http://www.ecjia.com',        /* 网址 */
-    'version'     => '1.28.0',                      /* 版本号 */
+    'version'     => '1.29.0',                      /* 版本号 */
     'copyright'   => 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'   => 'Ecjia\App\Weapp',
     'provider'    => 'WeappServiceProvider',

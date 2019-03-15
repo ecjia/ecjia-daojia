@@ -24,25 +24,28 @@ class UserParentIdClear extends UserCleanAbstract
     protected $code = 'user_parent_id_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '会员父级ID';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 91;
+
+    public function __construct($user_id)
+    {
+        $this->name = __('会员父级ID', 'user');
+
+        parent::__construct($user_id);
+    }
 
     /**
      * 数据描述及输出显示内容
      */
     public function handlePrintData()
     {
+        $text = __('会员推荐注册时绑定的会员父级ID', 'user');
+
         return <<<HTML
 
-<span class="controls-info">会员推荐注册时绑定的会员父级ID</span>
+<span class="controls-info">{$text}</span>
 
 HTML;
 

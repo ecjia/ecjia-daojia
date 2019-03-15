@@ -56,7 +56,6 @@ use Ecjia\App\Installer\Helper;
 use ecjia;
 use RC_Script;
 use RC_Style;
-use ecjia_loader;
 
 class IndexController extends SimpleController
 {
@@ -65,9 +64,10 @@ class IndexController extends SimpleController
 
     public function __construct()
     {
-        parent::__construct();
 
         $this->__FILE__ = dirname(dirname(__FILE__));
+
+        parent::__construct();
 
         //安装脚本不限制超时时间
         set_time_limit(0);
@@ -80,6 +80,7 @@ class IndexController extends SimpleController
 
         $this->assign('version', RC_Config::get('release.version'));
         $this->assign('build', RC_Config::get('release.build'));
+
 
     }
 

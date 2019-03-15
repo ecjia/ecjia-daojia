@@ -439,11 +439,15 @@ class cart_cashdesk {
 			if (!empty($goods_attr)) {
 				$db_cart->where('goods_attr', get_goods_attr_info($spec));
 			}
-			if (!empty($_SESSION['user_id'])) {
-				$db_cart->where('user_id', $_SESSION['user_id']);
-			}
+
+			$db_cart->where('user_id', $_SESSION['user_id']);
+
 			if (!empty($_SESSION['store_id'])) {
 				$db_cart->where('store_id', $_SESSION['store_id']);
+			}
+			//当前设备id
+			if ($_SESSION['device_id']) {
+				$db_cart->where('session_id', $_SESSION['device_id']);
 			}
 			$row = $db_cart->first();
 			
@@ -456,7 +460,7 @@ class cart_cashdesk {
 						$goods_storage = $goods['goods_number'];
 					}
 					//如果购物车已经有此物品，则更新
-					$cart_id = ['rec_id'];
+					$cart_id = $row['rec_id'];
 					if ($row['pendorder_id'] > 0) { //当前数据为挂单数据
 						if (!empty($pendorder_id)) { //当前操作为挂单继续添加
 							if ($row['pendorder_id'] == $pendorder_id) { //当前挂单id与此数据挂单id相同，直接更新
@@ -471,13 +475,15 @@ class cart_cashdesk {
 									if (!empty($_SESSION['store_id'])) {
 										$db_cart_update->where('store_id', $_SESSION['store_id']);
 									}
-									if (!empty($_SESSION['user_id'])) {
-										$db_cart_update->where('user_id', $_SESSION['user_id']);
-									} else {
-										$db_cart_update->where('user_id', 0);
-									}
+
+									$db_cart_update->where('user_id', $_SESSION['user_id']);
+ 									
 									if (!empty($goods_attr)) {
 										$db_cart_update->where('goods_attr', get_goods_attr_info($spec));
+									}
+									//当前设备id
+									if ($_SESSION['device_id']) {
+										$db_cart_update->where('session_id', $_SESSION['device_id']);
 									}
 									$db_cart_update->where('goods_id', $goods_id)->where('parent_id', 0)->where('rec_type', $rec_type)->where('pendorder_id', $pendorder_id)->update($data);
 								} else {
@@ -512,13 +518,15 @@ class cart_cashdesk {
 									if (!empty($_SESSION['store_id'])) {
 										$db_update_cart->where('store_id', $_SESSION['store_id']);
 									}
-									if (!empty($_SESSION['user_id'])) {
-										$db_update_cart->where('user_id', $_SESSION['user_id']);
-									} else {
-										$db_update_cart->where('user_id', 0);
-									}
+
+									$db_update_cart->where('user_id', $_SESSION['user_id']);
+
 									if (!empty($goods_attr)) {
 										$db_update_cart->where('goods_attr', get_goods_attr_info($spec));
+									}
+									//当前设备id
+									if ($_SESSION['device_id']) {
+										$db_cart_update->where('session_id', $_SESSION['device_id']);
 									}
 									$db_update_cart->where('goods_id', $goods_id)->where('parent_id', 0)->where('rec_type', $rec_type)->where('pendorder_id', $pendorder_id)->update($data);
 								} else {

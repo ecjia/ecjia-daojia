@@ -117,27 +117,27 @@ class UserManager
 
 
         if (!self::$instance->addUser($username, $password, $email)) {
-            if (self::$instance->getError() == (self::$instance)::ERR_INVALID_USERNAME) {
+            if (self::$instance->getError() == \Ecjia\App\Integrate\Enums\UserIntegrateErrorEnum::ERR_INVALID_USERNAME) {
 
                 return new ecjia_error('username_invalid', sprintf(__("用户名 %s 含有敏感字符", 'user'), $username));
 
-            } elseif (self::$instance->getError() == (self::$instance)::ERR_USERNAME_NOT_ALLOW) {
+            } elseif (self::$instance->getError() == \Ecjia\App\Integrate\Enums\UserIntegrateErrorEnum::ERR_USERNAME_NOT_ALLOW) {
 
                 return new ecjia_error('username_not_allow', sprintf(__("用户名 %s 不允许注册", 'user'), $username));
 
-            } elseif (self::$instance->getError() == (self::$instance)::ERR_USERNAME_EXISTS) {
+            } elseif (self::$instance->getError() == \Ecjia\App\Integrate\Enums\UserIntegrateErrorEnum::ERR_USERNAME_EXISTS) {
 
                 return new ecjia_error('username_exist', sprintf(__("用户名 %s 已经存在", 'user'), $username));
 
-            } elseif (self::$instance->getError() == (self::$instance)::ERR_INVALID_EMAIL) {
+            } elseif (self::$instance->getError() == \Ecjia\App\Integrate\Enums\UserIntegrateErrorEnum::ERR_INVALID_EMAIL) {
 
                 return new ecjia_error('email_invalid', sprintf(__("%s 不是合法的email地址", 'user'), $email));
 
-            } elseif (self::$instance->getError() == (self::$instance)::ERR_EMAIL_NOT_ALLOW) {
+            } elseif (self::$instance->getError() == \Ecjia\App\Integrate\Enums\UserIntegrateErrorEnum::ERR_EMAIL_NOT_ALLOW) {
 
                 return new ecjia_error('email_not_allow', sprintf(__("Email %s 不允许注册", 'user'), $email));
 
-            } elseif (self::$instance->getError() == (self::$instance)::ERR_EMAIL_EXISTS) {
+            } elseif (self::$instance->getError() == \Ecjia\App\Integrate\Enums\UserIntegrateErrorEnum::ERR_EMAIL_EXISTS) {
 
                 return new ecjia_error('email_exist', sprintf(__("%s 已经存在", 'user'), $email));
 

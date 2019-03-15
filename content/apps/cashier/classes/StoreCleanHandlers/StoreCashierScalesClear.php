@@ -24,16 +24,17 @@ class StoreCashierScalesClear extends StoreCleanAbstract
     protected $code = 'store_cashier_scales_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '店铺电子秤设备';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 24;
+
+    public function __construct($store_id)
+    {
+        $this->name = __('店铺电子秤设备', 'cashier');
+
+        parent::__construct($store_id);
+    }
 
     /**
      * 数据描述及输出显示内容

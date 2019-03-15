@@ -24,16 +24,17 @@ class StoreCloseClear extends StoreCleanAbstract
     protected $code = 'store_close_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '锁定、关闭店铺主表';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 34;
+
+    public function __construct($store_id)
+    {
+        $this->name = __('锁定、关闭店铺主表', 'store');
+
+        parent::__construct($store_id);
+    }
 
     /**
      * 数据描述及输出显示内容

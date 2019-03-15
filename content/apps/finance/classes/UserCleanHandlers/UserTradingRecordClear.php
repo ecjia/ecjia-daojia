@@ -24,16 +24,17 @@ class UserTradingRecordClear extends UserCleanAbstract
     protected $code = 'user_trading_record_clear';
 
     /**
-     * 名称
-     * @var string
-     */
-    protected $name = '用户充值/提现记录';
-
-    /**
      * 排序
      * @var int
      */
     protected $sort = 61;
+
+    public function __construct($user_id)
+    {
+        $this->name = __('用户充值/提现记录', 'finance');
+
+        parent::__construct($user_id);
+    }
 
     /**
      * 数据描述及输出显示内容
@@ -42,9 +43,11 @@ class UserTradingRecordClear extends UserCleanAbstract
     {
         $count = $this->handleCount();
 
+        $text = __('账户充值、提现有关的所有记录', 'finance');
+
         return <<<HTML
 
-<span class="controls-info">账户充值、提现有关的所有记录</span>
+<span class="controls-info">{$text}</span>
 
 HTML;
 
