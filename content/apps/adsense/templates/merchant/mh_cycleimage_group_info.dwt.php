@@ -116,7 +116,7 @@ ecjia.merchant.mh_cycleimage.cycleimage_group_info();
 							              				<label class="control-label col-lg-3">{t domain="adsense"}高度：{/t}</label>
 							              				<div class="col-lg-9">
 							                          		<input class="form-control" name="ad_height" value="{$data.ad_height}" type="text" placeholder='{t domain="adsense"}像素{/t}'>
-							                          		<span class="help-block">{t domain="adsense"}{/t}</span>
+							                          		<span class="help-block">{t domain="adsense"}建议轮播组高度单位为Px{/t}</span>
 							                          	</div>
 							              			</div>
 			                                    </div>

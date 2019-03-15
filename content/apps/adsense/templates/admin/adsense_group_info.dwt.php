@@ -52,7 +52,7 @@ ecjia.admin.ad_group_edit.init();
 			        </div>	
 			        
 			        <div class="control-group formSep">
-			        	<label class="control-label">排序：</label>
+			        	<label class="control-label">{t domain="adsense"}排序：{/t}</label>
 			          	<div class="controls">
 			            	<input class="w350" type="text" name="sort_order" value="{if $data.sort_order}{$data.sort_order}{else}50{/if}" />
 			            </div>

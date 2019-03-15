@@ -176,7 +176,7 @@
 							<div class="foldable-list move-mod-group">
 								<div class="accordion-group">
 									<div class="accordion-heading">
-										<a class="accordion-toggle acc-in move-mod-head" data-toggle="collapse" data-target="#position_data"><strong>广告位信息</strong></a>
+										<a class="accordion-toggle acc-in move-mod-head" data-toggle="collapse" data-target="#position_data"><strong>{t domain="adsense"}广告位信息{/t}</strong></a>
 									</div>
 									<div class="accordion-body in collapse" id="position_data">
 										<div class="accordion-inner">

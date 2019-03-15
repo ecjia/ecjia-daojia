@@ -55,13 +55,13 @@ tr{
          <div class="position_detail" data-url='{RC_Uri::url("adsense/admin_group/update_sort")}'>
             <h3>{t domain="adsense"}广告组信息{/t}</h3>
             <ul>
-                <li><div class="detail"><strong>{t domain="adsense"}广告组名称：{/t}</strong><span>{$position_data.position_name}{if $position_data.position_code}（{$position_data.position_code}）{else}（无）{/if}</span></div></li>
+                <li><div class="detail"><strong>{t domain="adsense"}广告组名称：{/t}</strong><span>{$position_data.position_name}{if $position_data.position_code}（{$position_data.position_code}）{else}{t domain="adsense"}（无）{/t}{/if}</span></div></li>
                 <li>
                 	<div class="detail">
 		                <strong>{t domain="adsense"}所在城市：{/t}</strong><span>{$position_data.city_name}</span>
 		                <p class="f_r"> 
 			               <a class="data-pjax ecjiafc-gray" href='{RC_Uri::url("adsense/admin_group/edit", "position_id={$position_data.position_id}&city_id={$city_id}")}'><i class="fontello-icon-edit"></i>{t domain="adsense"}编辑广告组{/t}</a>&nbsp;|&nbsp;
-			               <a class="ajaxremove ecjiafc-gray" data-toggle="ajaxremove" data-msg="你确定要删除该广告组吗？" href='{RC_Uri::url("adsense/admin_group/remove", "group_position_id={$position_data.position_id}&city_id={$city_id}")}' title='{t domain="adsense"}删除{/t}'><i class="fontello-icon-trash"></i>{t domain="adsense"}删除广告组{/t}</a>
+			               <a class="ajaxremove ecjiafc-gray" data-toggle="ajaxremove" data-msg='{t domain="adsense"}你确定要删除该广告组吗？{/t}' href='{RC_Uri::url("adsense/admin_group/remove", "group_position_id={$position_data.position_id}&city_id={$city_id}")}' title='{t domain="adsense"}删除{/t}'><i class="fontello-icon-trash"></i>{t domain="adsense"}删除广告组{/t}</a>
 		                </p>
 	                </div>
                 </li>

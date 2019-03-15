@@ -42,8 +42,8 @@
 							    <td class="hide-edit-area hide_edit_area_bottom">
 							    	<span class="cursor_pointer" data-text="text" data-trigger="editable" data-url="{RC_Uri::url('adsense/mh_position/edit_position_name')}" data-name="position_name" data-pk="{$val.position_id}" data-title='{t domain="adsense"}编辑广告位置名称{/t}'>{$val.position_name}</span>
 			                    	<div class="edit-list">
-								      	<a class="data-pjax" href='{RC_Uri::url("adsense/mh_position/edit", "position_id={$val.position_id}")}' title="{t domain="adsense"}编辑{/t}">{t domain="adsense"}编辑{/t}</a>&nbsp;|&nbsp;
-								    	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{t domain="adsense"}您确定要删除吗？{/t}" href='{RC_Uri::url("adsense/mh_position/remove", "id={$val.position_id}")}' title='{t domain="adsense"}删除{/t}'>{t domain="adsense"}删除{/t}</a>
+								      	<a class="data-pjax" href='{RC_Uri::url("adsense/mh_position/edit", "position_id={$val.position_id}")}' title='{t domain="adsense"}编辑{/t}'>{t domain="adsense"}编辑{/t}</a>&nbsp;|&nbsp;
+								    	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="adsense"}您确定要删除吗？{/t}' href='{RC_Uri::url("adsense/mh_position/remove", "id={$val.position_id}")}' title='{t domain="adsense"}删除{/t}'>{t domain="adsense"}删除{/t}</a>
 									</div>
 							    </td>
 							    <td><span>{if $val.position_code}{$val.position_code}{else}<i><无></i>{/if}</span></td>

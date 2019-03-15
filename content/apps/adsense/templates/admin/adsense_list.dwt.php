@@ -52,7 +52,7 @@
 			</select>
 			<input type="hidden" value="{$position_id}" name="position_id" />
 			<input type="hidden" value="{$show_client}" name="show_client" />
-			<a class="btn m_l5 screen-btn">{lang key='adsense::adsense.filter'}</a>
+			<a class="btn m_l5 screen-btn">{t domain="adsense"}筛选{/t}</a>
 		</form>
 	</ul>
 </div>
@@ -65,8 +65,8 @@
 				    <th class="w100">{t domain="adsense"}编号{/t}</th>
                 	<th>{t domain="adsense"}广告名称{/t}</th>
 			    	<th class="w100">{t domain="adsense"}媒介类型{/t}</th>
-			    	<th class="w100">{lang key='adsense::adsense.start_date'}</th>
-			    	<th class="w100">{lang key='adsense::adsense.end_date'}</th>
+			    	<th class="w100">{t domain="adsense"}开始日期{/t}</th>
+			    	<th class="w100">{t domain="adsense"}结束日期{/t}</th>
 			    	<th class="w100">{t domain="adsense"}是否开启{/t}</th>
 			    	<th class="w50">{t domain="adsense"}排序{/t}</th>
                 </tr>
@@ -78,20 +78,20 @@
                     	<span>{$list.ad_id}</span>
                     </td>
                     <td class="hide-edit-area hide_edit_area_bottom">
-					    <span class="cursor_pointer" data-text="text"data-trigger="editable" data-url="{RC_Uri::url('adsense/admin/edit_ad_name')}" data-name="ad_name" data-pk="{$list.ad_id}" data-title="{lang key='adsense::adsense.edit_ad_name'}">
+					    <span class="cursor_pointer" data-text="text"data-trigger="editable" data-url="{RC_Uri::url('adsense/admin/edit_ad_name')}" data-name="ad_name" data-pk="{$list.ad_id}" data-title='{t domain="adsense"}编辑广告名称{/t}'>
 					    	{$list.ad_name}
 					    </span>
 					    
 					    <span>
 						    {if $list.ad_code and $list.media_type eq 0}
-							    <a tabindex="0" role="button" href="javascript:;" class="no-underline cursor_pointor" data-id="{$list.ad_id}" data-trigger="focus" data-toggle="popover" data-placement="top" title="{$list.ad_name}">（预览）</a>
+							    <a tabindex="0" role="button" href="javascript:;" class="no-underline cursor_pointor" data-id="{$list.ad_id}" data-trigger="focus" data-toggle="popover" data-placement="top" title="{$list.ad_name}">{t domain="adsense"}（预览）{/t}</a>
 							    <div class="hide" id="content_{$list.ad_id}"><img class="mh150" src="{RC_Upload::upload_url()}/{$list.ad_code}"></div> 
 						    {/if}
 					    </span>
 					    
 				    	<div class="edit-list">
-					      	<a class="data-pjax" href='{RC_Uri::url("adsense/admin/edit", "ad_id={$list.ad_id}&position_id={$position_id}&show_client={$show_client}")}' title="{t domain="adsense"}编辑{/t}">{lang key='adsense::adsense.edit'}</a>&nbsp;|&nbsp;
-				      		<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{t domain="adsense"}您确定要删除吗？{/t}" href='{RC_Uri::url("adsense/admin/remove","ad_id={$list.ad_id}")}' title="{t domain="adsense"}删除{/t}">{t domain="adsense"}删除{/t}</a>
+					      	<a class="data-pjax" href='{RC_Uri::url("adsense/admin/edit", "ad_id={$list.ad_id}&position_id={$position_id}&show_client={$show_client}")}' title='{t domain="adsense"}编辑{/t}'>{t domain="adsense"}编辑{/t}</a>&nbsp;|&nbsp;
+				      		<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="adsense"}您确定要删除吗？{/t}' href='{RC_Uri::url("adsense/admin/remove","ad_id={$list.ad_id}")}' title='{t domain="adsense"}删除{/t}'>{t domain="adsense"}删除{/t}</a>
 						</div>
 				    </td>
 				    <td>{if $list.media_type eq 0}{t domain="adsense"}图片{/t}{elseif $list.media_type eq 2}{t domain="adsense"}代码{/t}{else}{t domain="adsense"}文字{/t}{/if}</td>
@@ -100,7 +100,7 @@
 				    <td>
 				    	<i class="{if $list.enabled eq '1'}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" data-trigger="toggleState" data-url='{RC_Uri::url("adsense/admin/toggle_show","position_id={$position_id}&city_id={$city_id}&show_client={$show_client}")}' data-id="{$list.ad_id}" ></i>
 					</td>
-					<td><span class="edit_sort cursor_pointer" data-trigger="editable" data-url='{RC_Uri::url("adsense/admin/edit_sort", "position_id={$position_id}&show_client={$show_client}")}' data-name="sort_order" data-pk="{$list.ad_id}" data-title="排序">{$list.sort_order}</span></td>
+					<td><span class="edit_sort cursor_pointer" data-trigger="editable" data-url='{RC_Uri::url("adsense/admin/edit_sort", "position_id={$position_id}&show_client={$show_client}")}' data-name="sort_order" data-pk="{$list.ad_id}" data-title='{t domain="adsense"}排序{/t}'>{$list.sort_order}</span></td>
                 </tr>
                 <!-- {foreachelse} -->
                 <tr><td class="no-records" colspan="7">{t domain="adsense"}没有找到任何记录{/t}</td></tr>

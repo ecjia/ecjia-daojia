@@ -19,7 +19,7 @@
 		                <strong>{t domain="adsense"}所在城市：{/t}</strong><span>{$position_data.city_name}</span>
 		                <p class="f_r"> 
 			               <a class="data-pjax ecjiafc-gray" href='{RC_Uri::url("adsense/admin_group/edit", "position_id={$position_data.position_id}&city_id={$city_id}")}'><i class="fontello-icon-edit"></i>{t domain="adsense"}编辑广告组{/t}</a>&nbsp;|&nbsp;
-			               <a class="ajaxremove ecjiafc-gray" data-toggle="ajaxremove" data-msg="你确定要删除该广告组吗？" href='{RC_Uri::url("adsense/admin_group/remove", "group_position_id={$position_data.position_id}&city_id={$city_id}&key=constitute")}' title='{t domain="adsense"}删除{/t}'><i class="fontello-icon-trash"></i>{t domain="adsense"}删除广告组{/t}</a>
+			               <a class="ajaxremove ecjiafc-gray" data-toggle="ajaxremove" data-msg='{t domain="adsense"}你确定要删除该广告组吗？{/t}' href='{RC_Uri::url("adsense/admin_group/remove", "group_position_id={$position_data.position_id}&city_id={$city_id}&key=constitute")}' title='{t domain="adsense"}删除{/t}'><i class="fontello-icon-trash"></i>{t domain="adsense"}删除广告组{/t}</a>
 		                </p>
 	                </div>
                 </li>
