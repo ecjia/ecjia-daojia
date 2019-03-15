@@ -66,7 +66,8 @@ class admin extends ecjia_admin {
 		
 		/*加载自定义JS和CSS*/
 		RC_Style::enqueue_style('maintain', RC_App::apps_url('statics/css/maintain.css', __FILE__), array(), false, false);
-		RC_Script::enqueue_script('maintain', RC_App::apps_url('statics/js/maintain.js', __FILE__));
+		RC_Script::enqueue_script('maintain', RC_App::apps_url('statics/js/maintain.js', __FILE__), array(), false, 1);
+        RC_Script::localize_script('maintain', 'js_lang', config('app-maintain::jslang.maintain_page'));
 
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('运维工具', 'maintain'), RC_Uri::url('maintain/admin/init')));
 	}

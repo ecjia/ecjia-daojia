@@ -4,7 +4,7 @@
         init: function () {
             $("#maintain_run").on('click', function (e) {
             	 $(this).addClass('disabled');
-            	 $('#start').html("正在运行");
+            	 $('#start').html(js_lang.start_operation);
 	             e.preventDefault();
 	             var url = $(this).attr('href');
 	             var code = $("input[name='code']").val();
@@ -12,7 +12,7 @@
 	             $.get(url, function (data) {
 	                  ecjia.admin.showmessage(data);
 	                  $(this).removeClass('disabled');
-	                  $('#start').html("开始运行");
+	                  $('#start').html(js_lang.running);
 	             }, 'json');
             });
         	
