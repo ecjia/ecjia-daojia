@@ -54,7 +54,7 @@ class device_setDeviceinfo_module extends api_front implements api_interface {
 		
 		$device = $this->device;
 		
-		$device['device_token'] = $this->requestData('device_token');
+		$device_token = $this->requestData('device_token');
 		
 		$device_name	= $this->requestData('device_name');
 		$device_os		= $this->requestData('device_os');
@@ -77,7 +77,8 @@ class device_setDeviceinfo_module extends api_front implements api_interface {
 		
 		if (empty($row)) {
 			$device_data['add_time']		    = RC_Time::gmtime();
-			$device_data['device_token']	    = !empty($device['device_token']) ? $device['device_token'] : '';
+            $device_data['update_time']		    = RC_Time::gmtime();
+			$device_data['device_token']	    = $device_token;
 			$device_data['device_name']		    = $device_name;
 			$device_data['device_os']		    = $device_os;
 			$device_data['device_type']		    = $device_type;
@@ -85,23 +86,25 @@ class device_setDeviceinfo_module extends api_front implements api_interface {
 			$device_data['location_city']		= $city;
 			$device_data['visit_times']		    = 1;
 			$device_data['in_status']		    = 0;
-			
+			$device_data['user_id']		        = session('session_user_id');
+			$device_data['user_type']		    = session('session_user_type');
+
 			RC_DB::table('mobile_device')->insert($device_data);
 		} else {
 			$data = array();
-			if (!empty($device['device_token'])) {
-				$data['device_token'] = $device['device_token'];
-			}
-			$data['device_name']		= $device_name;
-			$data['device_os']			= $device_os;
-			$data['device_type']		= $device_type;
-			$data['location_province']	= $province;
-			$data['location_city']		= $city;
-			$data['visit_times']		= $row['visit_times'] + 1;
-			$data['update_time']		= RC_Time::gmtime();
-			
+            $data['device_token']               = $device_token;
+			$data['device_name']		        = $device_name;
+			$data['device_os']			        = $device_os;
+			$data['device_type']		        = $device_type;
+			$data['location_province']	        = $province;
+			$data['location_city']		        = $city;
+			$data['visit_times']		        = $row['visit_times'] + 1;
+			$data['update_time']		        = RC_Time::gmtime();
+            $data['user_id']		            = session('session_user_id');
+
 			RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->where('user_type', $user_type)->update($data);
 		}
+		
 		return array();
 		
 	}

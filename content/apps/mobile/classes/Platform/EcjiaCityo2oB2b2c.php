@@ -81,11 +81,13 @@ class EcjiaCityo2oB2b2c extends ApplicationPlatform implements HomeComponentInte
         	'device_client' => 'iphone',
             'device_name' => 'iPhone',
             'device_code' => '6022',
+            'device_icon' => '/statics/images/iphone.png',
         ],
         [
             'device_client' => 'android',
             'device_name' => 'Android',
             'device_code' => '6021',
+            'device_icon' => '/statics/images/android.png',
         ]
     ];
     
@@ -173,6 +175,7 @@ class EcjiaCityo2oB2b2c extends ApplicationPlatform implements HomeComponentInte
             'best_goods',
             'home_complex_adsense_one',
             'home_complex_adsense_two',
+            'groupbuy_goods',
         ];
     }
 
@@ -192,6 +195,7 @@ class EcjiaCityo2oB2b2c extends ApplicationPlatform implements HomeComponentInte
             'promote_goods', //促销商品
             'new_goods', //新品推荐
             'best_goods', //店长推荐
+            'groupbuy_goods', //团购商品
         ];
     }
 }

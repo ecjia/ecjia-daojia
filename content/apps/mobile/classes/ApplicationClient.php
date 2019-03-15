@@ -23,6 +23,12 @@ class ApplicationClient
      * @var string
      */
     protected $device_code;
+
+    /**
+     * 图标
+     * @var string
+     */
+    protected $device_icon;
     
     /**
      * 平台代号
@@ -76,6 +82,22 @@ class ApplicationClient
     public function getDeviceCode()
     {
         return $this->device_code;
+    }
+
+    public function setDeviceIcon($device_icon)
+    {
+        $this->device_icon = $device_icon;
+
+        return $this;
+    }
+
+    public function getDeviceIcon()
+    {
+        if ($this->device_icon)
+        {
+            $this->device_icon = \RC_App::apps_url('', __DIR__) . $this->device_icon;
+        }
+        return $this->device_icon;
     }
     
     

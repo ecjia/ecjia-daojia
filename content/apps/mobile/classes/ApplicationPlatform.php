@@ -170,6 +170,15 @@ class ApplicationPlatform
     }
 
     /**
+     *
+     * @return array
+     */
+    public function hasOption($option)
+    {
+        return array_search($option, $this->options);
+    }
+
+    /**
      * @return ApplicationPlatformOption
      */
     public function getApplicationPlatformOption()

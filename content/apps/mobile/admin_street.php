@@ -55,7 +55,7 @@ class admin_street extends ecjia_admin
         parent::__construct();
         
         RC_Style::enqueue_style('mobile_street', RC_App::apps_url('statics/css/mobile_street.css', __FILE__));
-        RC_Script::enqueue_script('mobile_street', RC_App::apps_url('statics/js/mobile_street.js', __FILE__), array(), false, true);
+        RC_Script::enqueue_script('mobile_street', RC_App::apps_url('statics/js/mobile_street.js', __FILE__), array(), false, 1);
     }
     
     

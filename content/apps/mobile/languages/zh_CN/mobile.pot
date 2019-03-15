@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App mobile package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App mobile 1.27.4\n"
+"Project-Id-Version: Ecjia App mobile 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 03:56:58+00:00\n"
+"POT-Creation-Date: 2019-03-06 09:04:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,8 +12,243 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 
-#: admin_street.php:66 apis/mobile_service_menu_api.class.php:56
+#: admin_config.php:89 admin_config.php:90 admin_config.php:177
+#: admin_config.php:178 admin_config.php:212 admin_config.php:213
+#: admin_config.php:251 admin_config.php:252
+#: classes/ApplicationConfigOptions.php:89 classes/Helper.php:69
+msgid "应用配置"
+msgstr ""
+
+#: admin_config.php:143
+msgid "暂无有效红包"
+msgstr ""
+
+#: admin_config.php:308
+msgid "添加成功"
+msgstr ""
+
+#: admin_config.php:310
+msgid "应用截图最多只能添加10张"
+msgstr ""
+
+#: admin_config.php:325
+msgid "保存排序成功"
+msgstr ""
+
+#: admin_config.php:337
+msgid "编辑成功"
+msgstr ""
+
+#: admin_config.php:385
+msgid "APP入口三端至少必须开启一个"
+msgstr ""
+
+#: admin_config.php:443 admin_config.php:515 admin_config.php:542
+#: admin_config.php:594
+msgid "移动应用>应用配置"
+msgstr ""
+
+#: admin_config.php:444 admin_config.php:516 admin_config.php:543
+#: admin_config.php:595
+msgid "更新应用配置成功"
+msgstr ""
+
+#: admin_config.php:638
+msgid "删除成功"
+msgstr ""
+
+#: admin_device.php:75 admin_device.php:85
+#: apis/mobile_admin_purview_api.class.php:65
+msgid "移动设备管理"
+msgstr ""
+
+#: admin_device.php:87 admin_device.php:179
+msgid "移动设备列表"
+msgstr ""
+
+#: admin_device.php:107
+msgid "全部"
+msgstr ""
+
+#: admin_device.php:114
+msgid "回收站"
+msgstr ""
+
+#: admin_device.php:178 admin_device.php:180
+msgid "查看移动设备信息"
+msgstr ""
+
+#: admin_device.php:219 admin_device.php:249 admin_device.php:277
+#: admin_device.php:321 admin_device.php:332 admin_device.php:339
+#: admin_device.php:376
+msgid "设备类型是 %s"
+msgstr ""
+
+#: admin_device.php:219 admin_device.php:249 admin_device.php:277
+#: admin_device.php:321 admin_device.php:332 admin_device.php:339
+#: admin_device.php:376
+msgid "设备名是 %s"
+msgstr ""
+
+#: admin_device.php:221
+msgid "移至回收站成功"
+msgstr ""
+
+#: admin_device.php:223
+msgid "移至回收站失败"
+msgstr ""
+
+#: admin_device.php:252
+msgid "永久删除成功"
+msgstr ""
+
+#: admin_device.php:254
+msgid "永久删除失败"
+msgstr ""
+
+#: admin_device.php:279
+msgid "还原成功"
+msgstr ""
+
+#: admin_device.php:281
+msgid "还原失败"
+msgstr ""
+
+#: admin_device.php:346
+msgid "批量操作成功"
+msgstr ""
+
+#: admin_device.php:361
+msgid "请输入设备别名"
+msgstr ""
+
+#: admin_device.php:377
+msgid "编辑设备别名成功"
+msgstr ""
+
+#: admin_device.php:379
+msgid "编辑设备别名失败"
+msgstr ""
+
+#: admin_mobile_config.php:78 admin_mobile_manage.php:81
+#: admin_mobile_manage.php:91 admin_mobile_manage.php:92
+#: admin_mobile_manage.php:132
+msgid "移动产品"
+msgstr ""
+
+#: admin_mobile_config.php:91 admin_mobile_config.php:97
+#: admin_mobile_config.php:155 admin_mobile_config.php:161
+#: admin_mobile_manage.php:129 admin_mobile_manage.php:131
+#: admin_mobile_manage.php:186 admin_mobile_manage.php:191
+#: admin_mobile_manage.php:280 admin_mobile_manage.php:283
+#: apis/mobile_admin_purview_api.class.php:78 classes/Helper.php:71
+msgid "客户端管理"
+msgstr ""
+
+#: admin_mobile_config.php:92 admin_mobile_config.php:96
+#: admin_mobile_config.php:156 admin_mobile_config.php:160
+msgid "客户端配置"
+msgstr ""
+
+#: admin_mobile_config.php:123
+msgid "配置信息不能为空"
+msgstr ""
+
+#: admin_mobile_config.php:144
+msgid "配置推送成功"
+msgstr ""
+
+#: admin_mobile_config.php:191
+msgid "成功禁用插件"
+msgstr ""
+
+#: admin_mobile_config.php:208
+msgid "成功启用插件"
+msgstr ""
+
+#: admin_mobile_manage.php:187 admin_mobile_manage.php:190
+msgid "激活客户端"
+msgstr ""
+
+#: admin_mobile_manage.php:241
+msgid "激活客户端成功"
+msgstr ""
+
+#: admin_mobile_manage.php:281
+msgid "查看客户端"
+msgstr ""
+
+#: admin_mobile_manage.php:282
+msgid "基本信息"
+msgstr ""
+
+#: admin_mobile_manage.php:308
+msgid "开启客户端成功"
+msgstr ""
+
+#: admin_mobile_manage.php:322
+msgid "关闭客户端成功"
+msgstr ""
+
+#: admin_mobile_manage.php:338 admin_mobile_manage.php:353
+msgid "更新应用名称成功"
+msgstr ""
+
+#: admin_mobile_manage.php:366
+msgid "删除客户端成功"
+msgstr ""
+
+#: admin_street.php:65 admin_street.php:66
+#: apis/mobile_service_menu_api.class.php:56
 msgid "云店铺"
+msgstr ""
+
+#: admin_street.php:69
+msgid "店铺街"
+msgstr ""
+
+#: admin_street.php:71
+msgid ""
+"ECJia店铺街到家是一款免费的到家APP，拿起APP直接扫码便可体验原生到家手机APP，1"
+"分钟简单操作就能开启属于你的电商之旅，还提供了各种尺寸的店铺二维码图片，让宣"
+"传更加方便。"
+msgstr ""
+
+#: admin_street.php:75
+msgid "掌柜"
+msgstr ""
+
+#: admin_street.php:77
+msgid ""
+"ECJia掌柜 可以让您随时随地使用手机管理自己的商城，查看交易变化、修改商品信"
+"息、发起促销活动，及时获得各项运营信息，掌握商城动态。让你不论身处何时何地，"
+"都能手握手机轻松管理商城。"
+msgstr ""
+
+#: admin_street.php:81
+msgid "配送员"
+msgstr ""
+
+#: admin_street.php:83
+msgid ""
+"EC+配送员具有系统派单，抢单，取货，配送，及配送记录的APP，支持消息推送，路线"
+"导航等一系列使用功能，是一款专为配送人员打造，服务于广大配送员的管理工具。"
+msgstr ""
+
+#: admin_street.php:86
+msgid "更多信息："
+msgstr ""
+
+#: admin_street.php:117
+msgid "刷新成功！"
+msgstr ""
+
+#: apis/mobile_admin_purview_api.class.php:74
+msgid "移动应用设置"
+msgstr ""
+
+#: apis/mobile_admin_purview_api.class.php:82
+msgid "店铺街管理"
 msgstr ""
 
 #: apis/mobile_device_client_api.class.php:63
@@ -24,110 +259,286 @@ msgstr ""
 msgid "掌柜权限"
 msgstr ""
 
-#: classes/Platform/EcjiaCashDesk.php:111
+#: apis/mobile_tool_menu_api.class.php:56 configs/package.php:55
+msgid "移动应用"
+msgstr ""
+
+#: classes/ApplicationConfig.php:123
+msgid "统一设置"
+msgstr ""
+
+#: classes/Helper.php:58
+msgid "快捷菜单"
+msgstr ""
+
+#: classes/Helper.php:59
+msgid "快捷菜单是否显示"
+msgstr ""
+
+#: classes/Helper.php:60
+msgid "快捷菜单排序"
+msgstr ""
+
+#: classes/Helper.php:62
+msgid "百宝箱"
+msgstr ""
+
+#: classes/Helper.php:63
+msgid "百宝箱是否显示"
+msgstr ""
+
+#: classes/Helper.php:64
+msgid "百宝箱排序"
+msgstr ""
+
+#: classes/Helper.php:66 classes/Metables/MobileDevice.php:40
+msgid "移动设备"
+msgstr ""
+
+#: classes/Helper.php:68
+msgid "轮播图"
+msgstr ""
+
+#: classes/Helper.php:70 configs/jslang.php:78
+msgid "今日热点 "
+msgstr ""
+
+#: classes/Helper.php:72
+msgid "客户端标题"
+msgstr ""
+
+#: classes/Helper.php:73
+msgid "活动"
+msgstr ""
+
+#: classes/Metables/ConfigClient.php:40
+msgid "客户端信息"
+msgstr ""
+
+#: classes/Metables/ConfigPay.php:37
+msgid "支付配置"
+msgstr ""
+
+#: classes/Metables/ConfigPush.php:37
+msgid "推送配置"
+msgstr ""
+
+#: classes/Platform/EcjiaCashDesk.php:123
 msgid "ECJia收银台"
 msgstr ""
 
-#: classes/Platform/EcjiaCashDesk.php:112
+#: classes/Platform/EcjiaCashDesk.php:124
 msgid "ECJia收银台App是一款多站点通用的商家桌面收银客户端。"
 msgstr ""
 
-#: classes/Platform/EcjiaCashier.php:112
+#: classes/Platform/EcjiaCashier.php:123
 msgid "ECJia收银通"
 msgstr ""
 
-#: classes/Platform/EcjiaCashier.php:113
+#: classes/Platform/EcjiaCashier.php:124
 msgid "ECJia收银通App是一款多站点通用的商家收银客户端。"
 msgstr ""
 
-#: classes/Platform/EcjiaCityo2o.php:142
+#: classes/Platform/EcjiaCityo2o.php:155
 msgid "ECJia到家"
 msgstr ""
 
-#: classes/Platform/EcjiaCityo2o.php:143
+#: classes/Platform/EcjiaCityo2o.php:156
 msgid "ECJia到家App是一款集消费者、商家、配送员于一体的客户端。"
 msgstr ""
 
-#: classes/Platform/EcjiaCityo2oB2b2c.php:143
+#: classes/Platform/EcjiaCityo2oB2b2c.php:157
 msgid "ECJia到家商城"
 msgstr ""
 
-#: classes/Platform/EcjiaCityo2oB2b2c.php:144
+#: classes/Platform/EcjiaCityo2oB2b2c.php:158
 msgid ""
 "ECJia到家商城是一款全新的电商业务APP，去除了O2O定位的限制，适合跨区域的购物与"
 "配送。"
 msgstr ""
 
-#: classes/Platform/EcjiaCityo2oH5.php:99
+#: classes/Platform/EcjiaCityo2oH5.php:109
 msgid "ECJia到家H5"
 msgstr ""
 
-#: classes/Platform/EcjiaCityo2oH5.php:100
+#: classes/Platform/EcjiaCityo2oH5.php:110
 msgid "ECJia到家H5是一款用于微信公众号上使用的微商城。"
 msgstr ""
 
-#: classes/Platform/EcjiaCityo2oLocal.php:98
+#: classes/Platform/EcjiaCityo2oLocal.php:107
 msgid "ECJia到家Local"
 msgstr ""
 
-#: classes/Platform/EcjiaCityo2oLocal.php:99
-msgid "ECJia到家是一款用于微信公众号上使用的微商城。"
+#: classes/Platform/EcjiaCityo2oLocal.php:108
+msgid "ECJia到家Local是为了方便在同一进程中快速调用API数据的模拟客户端。"
 msgstr ""
 
-#: classes/Platform/EcjiaExpress.php:109
+#: classes/Platform/EcjiaExpress.php:119
 msgid "ECJia配送员"
 msgstr ""
 
-#: classes/Platform/EcjiaExpress.php:110
+#: classes/Platform/EcjiaExpress.php:120
 msgid "ECJia配送员App是一款多站点通用的配送员骑手客户端。"
 msgstr ""
 
-#: classes/Platform/EcjiaPOS.php:111
+#: classes/Platform/EcjiaPOS.php:121
 msgid "ECJia收银POS"
 msgstr ""
 
-#: classes/Platform/EcjiaPOS.php:112
+#: classes/Platform/EcjiaPOS.php:122
 msgid "ECJia收银POS App是一款多站点通用的商家POS机收银终端。"
 msgstr ""
 
-#: classes/Platform/EcjiaShop.php:123
+#: classes/Platform/EcjiaShop.php:136
 msgid "ECJia到家门店"
 msgstr ""
 
-#: classes/Platform/EcjiaShop.php:124
+#: classes/Platform/EcjiaShop.php:137
 msgid "ECJia到家门店App是一款以附近门店为中心的消费者购物客户端。"
 msgstr ""
 
-#: classes/Platform/EcjiaShopKeeper.php:108
+#: classes/Platform/EcjiaShopKeeper.php:119
 msgid "ECJia掌柜"
 msgstr ""
 
-#: classes/Platform/EcjiaShopKeeper.php:109
+#: classes/Platform/EcjiaShopKeeper.php:120
 msgid "ECJia掌柜App是一款多站点通用的商家管理客户端。"
 msgstr ""
 
-#: classes/Platform/EcjiaStreet.php:139
+#: classes/Platform/EcjiaStreet.php:150
 msgid "ECJia云店"
 msgstr ""
 
-#: classes/Platform/EcjiaStreet.php:140
+#: classes/Platform/EcjiaStreet.php:151
 msgid "ECJia云店App是一款多站点通用的消费者购物客户端。"
 msgstr ""
 
-#: classes/Platform/EcjiaWeapp.php:83
+#: classes/Platform/EcjiaWeapp.php:95
 msgid "ECJia到家门店小程序"
 msgstr ""
 
-#: classes/Platform/EcjiaWeapp.php:84
+#: classes/Platform/EcjiaWeapp.php:96
 msgid "ECJia到家门店小程序是一款以附近门店为中心的消费者购物微信小程序。"
 msgstr ""
 
-#: classes/Platform/EcjiaWeapp.php:88
+#: classes/Platform/EcjiaWeapp.php:100
 msgid "微信小程序"
 msgstr ""
 
-#: configs/package.php:55
-msgid "移动应用"
+#: classes/mobile_manage.class.php:75
+msgid "未识别的AppID"
+msgstr ""
+
+#: configs/jslang.php:57
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:58
+msgid "取消"
+msgstr ""
+
+#: configs/jslang.php:59
+msgid "简介："
+msgstr ""
+
+#: configs/jslang.php:60
+msgid "请输入图片链接地址"
+msgstr ""
+
+#: configs/jslang.php:61
+msgid "添加"
+msgstr ""
+
+#: configs/jslang.php:62
+msgid "没有可选择的地区"
+msgstr ""
+
+#: configs/jslang.php:63
+msgid "该地区已被选择！"
+msgstr ""
+
+#: configs/jslang.php:64
+msgid "未搜索到商品信息"
+msgstr ""
+
+#: configs/jslang.php:65
+msgid "开启"
+msgstr ""
+
+#: configs/jslang.php:66
+msgid "关闭"
+msgstr ""
+
+#: configs/jslang.php:67
+msgid "请填写应用名称！"
+msgstr ""
+
+#: configs/jslang.php:68
+msgid "请选择应用Client！"
+msgstr ""
+
+#: configs/jslang.php:69
+msgid "请填写应用Code！"
+msgstr ""
+
+#: configs/jslang.php:70
+msgid "请填写应用包名！"
+msgstr ""
+
+#: configs/jslang.php:71
+msgid "请填写AppKey！"
+msgstr ""
+
+#: configs/jslang.php:72
+msgid "请填写AppSecret！"
+msgstr ""
+
+#: configs/jslang.php:73
+msgid "请选择服务平台！"
+msgstr ""
+
+#: configs/jslang.php:75
+msgid "clone-obj方法未设置data-parent参数。"
+msgstr ""
+
+#: configs/jslang.php:76
+msgid "批量操作缺少参数！"
+msgstr ""
+
+#: configs/jslang.php:77
+msgid "今日热点最多只能添加8条"
+msgstr ""
+
+#: configs/jslang.php:79
+msgid "请填写今日热点 "
+msgstr ""
+
+#: configs/jslang.php:80
+msgid "请上传今日热点 "
+msgstr ""
+
+#: configs/jslang.php:81
+msgid "的标题"
+msgstr ""
+
+#: configs/jslang.php:82
+msgid "的封面"
+msgstr ""
+
+#: configs/jslang.php:83
+msgid "的摘要"
+msgstr ""
+
+#: configs/jslang.php:84
+msgid "的图文链接"
+msgstr ""
+
+#: configs/jslang.php:85
+msgid "标题"
+msgstr ""
+
+#: configs/jslang.php:86
+msgid "请输入新闻标题！"
 msgstr ""
 
 #: configs/package.php:56
@@ -170,6 +581,10 @@ msgstr ""
 msgid "分派权限"
 msgstr ""
 
+#: merchant_privilege.php:96
+msgid "账户列表"
+msgstr ""
+
 #: merchant_privilege.php:100
 msgid "返回账户列表"
 msgstr ""
@@ -184,6 +599,10 @@ msgstr ""
 
 #: merchant_privilege.php:138
 msgid "编辑 %s 操作成功！"
+msgstr ""
+
+#: mobile.php:59
+msgid " - 手机APP下载"
 msgstr ""
 
 #: modules/admin/home/data_module.class.php:171
@@ -208,4 +627,711 @@ msgstr ""
 
 #: modules/admin/home/data_module.class.php:196
 msgid "昨日访客"
+msgstr ""
+
+#: modules/device/setDeviceinfo_module.class.php:67
+msgid "参数无效"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_manage_activation.dwt.php:25
+#: content/apps/mobile/templates/admin/mobile_manage_info.dwt.php:16
+msgid "应用名称："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_manage_activation.dwt.php:32
+#: content/apps/mobile/templates/admin/mobile_manage_info.dwt.php:23
+msgid "应用包名："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_manage_activation.dwt.php:35
+msgid "若为APP产品则为必填项"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_manage_activation.dwt.php:43
+msgid "激活"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:24
+msgid "移动设备信息"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:31
+msgid "用户ID："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:32
+msgid "暂无"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:32
+msgid "不是管理员"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:32
+msgid "是管理员"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:35
+msgid "设备类型："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:37
+msgid "设备名称："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:41
+msgid "操作系统："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:43
+msgid "UDID："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:47
+msgid "设备别名："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:49
+msgid "编辑设备别名"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:51
+msgid "状态："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:55
+msgid "添加时间："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:57
+msgid "位置："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:61
+msgid "更新时间："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:63
+msgid "访问次数："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/preview.dwt.php:67
+msgid "DeviceToken："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:26
+msgid "批量操作"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:31
+msgid "您确定要批量还原选中的设备吗？"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:31
+msgid "请先选中要还原的设备！"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:31
+#: content/apps/mobile/templates/admin/device_list.dwt.php:69
+msgid "还原设备"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:32
+msgid "您确定要批量删除选中的设备吗？"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:32
+msgid "请先选中要删除的设备！"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:32
+#: content/apps/mobile/templates/admin/device_list.dwt.php:70
+msgid "永久删除"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:34
+msgid "您确定要批量将选中的设备移至回收站吗？"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:34
+msgid "请先选中要移至回收站的的设备！"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:34
+#: content/apps/mobile/templates/admin/device_list.dwt.php:73
+msgid "移至回收站"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:39
+msgid "请输入设备名称关键字"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:40
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:68
+msgid "搜索"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:52
+msgid "设备类型"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:53
+msgid "设备名称"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:54
+msgid "操作系统"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:55
+msgid "位置"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:56
+msgid "添加时间"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:69
+msgid "您确定要还原此设备吗？"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:70
+msgid "您确定要删除此设备吗？"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:72
+msgid "查看"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:73
+msgid "您确定要将此设备移至回收站吗？"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/device_list.dwt.php:91
+#: content/apps/mobile/templates/admin/mobile_news.dwt.php:53
+msgid "没有找到任何记录"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:30
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:131
+msgid "封面图片"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:42
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:199
+msgid "缩略图"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:45
+#: content/apps/mobile/templates/admin/mobile_news.dwt.php:44
+msgid "您确定要删除该今日热点吗？"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:52
+msgid "取消发布"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:54
+msgid "发布"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:61
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:145
+msgid "今日热点"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:64
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:148
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:208
+msgid "标题："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:71
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:155
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:215
+msgid "封面："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:80
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:161
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:221
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:31
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:147
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:186
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:208
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:230
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:314
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:330
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:392
+msgid "浏览"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:81
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:162
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:222
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:32
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:148
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:187
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:209
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:231
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:315
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:331
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:393
+msgid "修改"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:88
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:168
+msgid "（大图片建议尺寸：900像素 * 500像素）"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:90
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:228
+msgid "（小图片建议尺寸：200像素 * 200像素）"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:95
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:172
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:232
+msgid "摘要："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:102
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:179
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:239
+msgid "图文链接："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:165
+#: content/apps/mobile/templates/admin/mobile_news_edit.dwt.php:225
+#: content/apps/mobile/templates/admin/mobile_news.dwt.php:44
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:35
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:151
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:190
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:212
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:234
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:318
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:334
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:396
+msgid "删除"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news.dwt.php:24
+msgid "今日热点主图"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news.dwt.php:25
+msgid "内容标题"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news.dwt.php:26
+msgid "创建时间"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_news.dwt.php:43
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:362
+msgid "编辑"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config_push.dwt.php:18
+msgid "APP推送"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config_push.dwt.php:21
+msgid "推送环境："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config_push.dwt.php:23
+msgid "开发环境"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config_push.dwt.php:24
+msgid "生产环境"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config_push.dwt.php:25
+msgid "App上线运行请务必切换置生产环境"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config_pay.dwt.php:38
+msgid "没有找到任何记录，需进行安装相关支付插件。"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:18
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:301
+msgid "移动应用名称："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:24
+msgid "移动应用Logo："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:28
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:144
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:183
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:205
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:227
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:311
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:327
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:389
+msgid "暂无图片"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:35
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:151
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:190
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:212
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:234
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:318
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:334
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:396
+msgid "您确定要删除此文件吗？"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:40
+msgid "移动应用版本号："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:46
+msgid "移动应用简介："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:52
+msgid "移动应用视频地址："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:58
+msgid "红包使用说明："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:62
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:101
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:258
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:413
+msgid "请选择..."
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:69
+msgid "请选择一篇文章，作为您的红包使用说明"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:73
+msgid "请选择一篇文章，作为您的红包使用说明咨询默认回复设置："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:79
+msgid "PC商城地址："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:85
+msgid "WAP/H5商城地址："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:91
+msgid "分享连接："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:98
+msgid "新人有礼红包："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:109
+msgid "新人有礼说明："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:116
+msgid "手机端登录页设置"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:118
+msgid "手机端登录页前景色："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:129
+msgid "手机端登录页背景色："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:140
+msgid "手机端登录页背景图片："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:158
+msgid "iOS智能广告条"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:163
+msgid ""
+"Apple应用商城中的应用程序ID。可以从<a href=\"https://linkmaker.itunes.apple."
+"com/\" target=\"_blank\">iTunes Link Maker</a>中找到您的应用程序ID，请在搜索"
+"字段中输入您的应用程序的名称，然后选择适当的国家和媒体类型。 在结果中，找到您"
+"的应用程序并在右侧的列中选择iPhone应用程序链接。 您的应用ID是ID和？mt之间的九"
+"位数字。"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:177
+msgid "APP下载地址"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:179
+msgid "iPhone下载二维码："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:195
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:217
+msgid "iPhone下载地址："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:201
+msgid "Android下载二维码："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:223
+msgid "WAP/H5访问二维码"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:240
+msgid "掌柜UrlScheme设置："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:246
+msgid "商城UrlScheme设置："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:253
+msgid "移动广告位设置"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:255
+msgid "移动启动页广告图："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:263
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:418
+msgid "请选择所需展示的广告位。"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:267
+msgid "移动首页广告组："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:272
+msgid "筛选搜索到的应用名称"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:278
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:433
+msgid "暂无内容"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:283
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:438
+msgid "所选广告位"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:299
+msgid "应用截图"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:307
+msgid "应用预览图1："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:323
+msgid "应用预览图2："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:342
+msgid "应用截图："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:342
+msgid "（编辑、排序、删除）"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:343
+msgid "排序后请点击“保存排序”"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:359
+msgid "保存"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:360
+msgid "您确定要删除这张应用截图吗？"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:360
+msgid "移除"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:361
+msgid "移动"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:363
+msgid "无标题"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:370
+msgid "保存排序"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:377
+msgid "是否开启微商城："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:385
+msgid "微商城 Logo："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:401
+msgid "微商城地址："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:410
+msgid "TV首页广告位"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:422
+msgid "TV首页广告组"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:427
+msgid "筛选搜索到的广告位名称"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:455
+msgid "APP入口设置"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:458
+msgid "温馨提示："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:458
+msgid "三端可同时开启，但不能同时关闭，至少必须开启一端；"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:462
+msgid "是否关闭消费端："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:469
+msgid "是否关闭掌柜端："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_config.dwt.php:476
+msgid "是否关闭配送员端："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_client_list.dwt.php:42
+msgid "配置"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_client_list.dwt.php:46
+msgid "未激活"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:35
+msgid ""
+"ECJia云店到家是一款免费的到家APP，拿起APP直接扫码便可体验原生到家手机APP，1分"
+"钟简单操作就能开启属于你的电商之旅，还提供了各种尺寸的店铺二维码图片，让宣传"
+"更加方便。"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:40
+msgid "扫一下下载体验免费APP"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:43
+msgid "API地址："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:45
+msgid "您选择可以扫一扫添加店铺，也可以选择手动输入API地址进行添加"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:46
+msgid "刷新二维码"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:54
+msgid "二维码更多尺寸下载："
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:58
+msgid "二维码边长（cm）"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:59
+msgid "建议扫描距离（米）"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:60
+msgid "下载链接"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:91
+msgid "二维码尺寸请按照4.3像素的整数倍数缩放，以保持最佳效果"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:94
+msgid "ECJia云店APP下载"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:99
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:111
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:123
+msgid "iPhone端下载"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:100
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:112
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:124
+msgid "Android端下载"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:106
+msgid "ECJia掌柜APP下载"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_street.dwt.php:118
+msgid "ECJia配送员APP下载"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_manage_info.dwt.php:25
+msgid "未设置"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_manage_info.dwt.php:50
+msgid "安全信息"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_manage_info.dwt.php:56
+#: content/apps/mobile/templates/admin/mobile_manage_info.dwt.php:66
+msgid "复制"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_manage_info.dwt.php:74
+msgid "你确定要删除该客户端端吗？"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_manage_info.dwt.php:74
+msgid "删除客户端"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_manage_info.dwt.php:78
+msgid "您确定要关闭该客户端吗？"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_manage_info.dwt.php:78
+msgid "您确定要开启该客户端吗？"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_manage_info.dwt.php:86
+msgid "点击关闭客户端"
+msgstr ""
+
+#: content/apps/mobile/templates/admin/mobile_manage_info.dwt.php:88
+msgid "点击开启客户端"
 msgstr ""

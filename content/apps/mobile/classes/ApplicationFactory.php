@@ -143,6 +143,24 @@ class ApplicationFactory
 
         return $platforms;
     }
+
+    /**
+     * 获取实现某个接口的所有支持平台
+     * @return array
+     */
+    public function getPlatformsByOption($option)
+    {
+        $platforms = [];
+
+        foreach (self::$factories as $key => $value) {
+            $object = new $value;
+            if ($object->hasOption($option)) {
+                $platforms[$key] = $object;
+            }
+        }
+
+        return $platforms;
+    }
     
     /**
      * 获取某个平台操作对象
@@ -170,18 +188,68 @@ class ApplicationFactory
         $allClients = [];
         
         foreach (self::$factories as $key => $value) {
+            /**
+             * @var \Ecjia\App\Mobile\ApplicationPlatform $platform
+             */
             $platform = new $value;
             $clients = $platform->getClients();
             
             foreach ($clients as $client) {
-                $allClients[$client['device_code']] = with(new ApplicationClient())->setDeviceClient($client['device_client'])
-                                                                                   ->setDeviceName($client['device_name'])
-                                                                                   ->setDeviceCode($client['device_code'])
-                                                                                   ->setPlatformCode($platform->getCode())
-                                                                                   ->setPlatform($platform);
+                if (array_get($client, 'device_code')) {
+
+                    $allClients[array_get($client, 'device_code')]
+                        = with(new ApplicationClient())
+                        ->setDeviceClient(array_get($client, 'device_client'))
+                        ->setDeviceName(array_get($client, 'device_name'))
+                        ->setDeviceCode(array_get($client, 'device_code'))
+                        ->setDeviceIcon(array_get($client, 'device_icon'))
+                        ->setPlatformCode($platform->getCode())
+                        ->setPlatform($platform);
+
+                }
+
+
             }
         }
         
+        return $allClients;
+    }
+
+    /**
+     * 获取所有平台的客户端
+     * @param string | array $platforms
+     * @return array
+     */
+    public function getClientsByPlatform($platforms)
+    {
+        $platforms = (array) $platforms;
+
+        $allClients = [];
+
+        foreach (self::$factories as $key => $value) {
+            /**
+             * @var \Ecjia\App\Mobile\ApplicationPlatform $platform
+             */
+            $platform = new $value;
+
+            if (in_array($platform->getCode(), $platforms)) {
+                $clients = $platform->getClients();
+
+                foreach ($clients as $client) {
+
+                    $allClients[array_get($client, 'device_code')]
+                        = with(new ApplicationClient())
+                        ->setDeviceClient(array_get($client, 'device_client'))
+                        ->setDeviceName(array_get($client, 'device_name'))
+                        ->setDeviceCode(array_get($client, 'device_code'))
+                        ->setDeviceIcon(array_get($client, 'device_icon'))
+                        ->setPlatformCode($platform->getCode())
+                        ->setPlatform($platform);
+
+                }
+            }
+        }
+
         return $allClients;
     }
     

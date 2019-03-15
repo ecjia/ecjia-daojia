@@ -79,11 +79,13 @@ class EcjiaShop extends ApplicationPlatform
         	'device_client' => 'iphone',
             'device_name' => 'iPhone',
             'device_code' => '6012',
+            'device_icon' => '/statics/images/iphone.png',
         ],
         [
             'device_client' => 'android',
             'device_name' => 'Android',
             'device_code' => '6011',
+            'device_icon' => '/statics/images/android.png',
         ]
     ];
         

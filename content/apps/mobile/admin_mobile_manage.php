@@ -72,8 +72,8 @@ class admin_mobile_manage extends ecjia_admin {
 		RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
 		RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
 		RC_Script::enqueue_script('bootstrap-placeholder');
-		RC_Script::enqueue_script('clipboard.min', RC_App::apps_url('statics/js/clipboard.min.js', __FILE__), array(), false, false);
-		RC_Script::enqueue_script('mobile_manage', RC_App::apps_url('statics/js/mobile_manage.js', __FILE__), array(), false, false);
+		RC_Script::enqueue_script('clipboard.min', RC_App::apps_url('statics/js/clipboard.min.js', __FILE__), array(), false, 1);
+		RC_Script::enqueue_script('mobile_manage', RC_App::apps_url('statics/js/mobile_manage.js', __FILE__), array(), false, 1);
 		RC_Script::localize_script('mobile_manage', 'js_lang', config('app-mobile::jslang.mobile_page'));
 		
 		RC_Style::enqueue_style('mobile_manage', RC_App::apps_url('statics/css/mobile_manage.css', __FILE__), array(), false, false);
@@ -162,8 +162,8 @@ class admin_mobile_manage extends ecjia_admin {
 		
 		$ok_img = RC_App::apps_url('statics/images/ok.png', __FILE__);
 		$error_img = RC_App::apps_url('statics/images/error.png', __FILE__);
-		$Android_img = RC_App::apps_url('statics/images/Android.png', __FILE__);
-		$iPhone_img = RC_App::apps_url('statics/images/iPhone.png', __FILE__);
+		$Android_img = RC_App::apps_url('statics/images/android.png', __FILE__);
+		$iPhone_img = RC_App::apps_url('statics/images/iphone.png', __FILE__);
 		$wechant_client = RC_App::apps_url('statics/images/wechant_client.png', __FILE__);
 		$h5 = RC_App::apps_url('statics/images/h5_client.png', __FILE__);
 		$local = RC_App::apps_url('statics/images/cityo2olocal.png', __FILE__);

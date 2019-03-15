@@ -62,7 +62,7 @@ class merchant_privilege extends ecjia_merchant
         RC_Script::enqueue_script('jquery-form');
         RC_Script::enqueue_script('smoke');
         RC_Style::enqueue_style('uniform-aristo');
-        RC_Script::enqueue_script('mobile', RC_App::apps_url('statics/mh-js/mobile.js', __FILE__));
+        RC_Script::enqueue_script('mobile', RC_App::apps_url('statics/mh-js/mobile.js', __FILE__), array(), false, 1);
 
         ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('员工管理', 'mobile'), RC_Uri::url('staff/merchant/init')));
         ecjia_merchant_screen::get_current_screen()->set_parentage('staff', 'staff/merchant.php');

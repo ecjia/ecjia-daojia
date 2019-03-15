@@ -3,6 +3,7 @@
 namespace Ecjia\App\Mobile;
 
 use Ecjia\App\Mobile\Models\MobileDeviceModel;
+use Royalcms\Component\DateTime\Carbon;
 
 class User {
     
@@ -36,7 +37,7 @@ class User {
     /**
      * 获取所有可用于推送的用户设备
      */
-    public function getDevices()
+    public function getDevices($day = 'all')
     {        
         $model = MobileDeviceModel::whereNotNull('device_token');
 
@@ -57,7 +58,16 @@ class User {
             default:
         }
 
-        return $model->get();
+        if ($day == 'all') {
+
+            return $model->get();
+
+        } else {
+
+            $before_7days = Carbon::now(new \DateTimeZone('UTC'))->subDay($day)->getTimestamp();
+            return $model->where('update_time', '>', $before_7days)->get();
+        }
+        
     }
     
     /**
@@ -65,8 +75,8 @@ class User {
      */
     public function getClientOptions($client_code, $name)
     {
-        $client = with(new ApplicationFactory)->client($client_code);
-        return $client->getOptions($name);
+        $client = (new ApplicationFactory)->client($client_code);
+        return $client->getOption($name);
     }
     
     

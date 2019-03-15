@@ -80,11 +80,13 @@ class EcjiaCityo2o extends ApplicationPlatform implements HomeComponentInterface
         	'device_client' => 'iphone',
             'device_name' => 'iPhone',
             'device_code' => '6002',
+            'device_icon' => '/statics/images/iphone.png',
         ],
         [
             'device_client' => 'android',
             'device_name' => 'Android',
             'device_code' => '6001',
+            'device_icon' => '/statics/images/android.png',
         ]
     ];
     

@@ -68,8 +68,8 @@ class admin_device extends ecjia_admin {
 		RC_Style::enqueue_style('uniform-aristo');
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Script::enqueue_script('jquery-chosen');
-		RC_Script::enqueue_script('device', RC_App::apps_url('statics/js/device.js', __FILE__), array(), false, true);
-		RC_Script::enqueue_script('bootstrap-placeholder', RC_Uri::admin_url('statics/lib/dropper-upload/bootstrap-placeholder.js'), array(), false, true);
+		RC_Script::enqueue_script('device', RC_App::apps_url('statics/js/device.js', __FILE__), array(), false, 1);
+		RC_Script::enqueue_script('bootstrap-placeholder', RC_Uri::admin_url('statics/lib/dropper-upload/bootstrap-placeholder.js'), array(), false, 1);
 		
 		RC_Script::localize_script('device', 'js_lang', config('app-mobile::jslang.mobile_page'));
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('移动设备管理', 'mobile'), RC_Uri::url('mobile/admin_device/init')));

@@ -112,7 +112,6 @@ class EcjiaExpress extends ApplicationPlatform
         'config_client',
         'mobile_device',
 
-        'config_push',
     ];
 
     public function __construct()
