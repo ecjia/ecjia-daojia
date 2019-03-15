@@ -30,11 +30,12 @@ class Cart
 
     protected $model;
 
-    public function __construct($user_id, $store_id, $cart_type)
+    public function __construct($user_id, $store_id, $cart_type, $cart_id = [])
     {
         $this->user_id   = $user_id;
         $this->store_id  = $store_id;
         $this->cart_type = $cart_type;
+        $this->cart_id	 = $cart_id;
 
         $this->model = new CartModel();
     }
@@ -50,12 +51,22 @@ class Cart
          * g.goods_thumb, g.goods_img, g.original_img, g.goods_number as g_goods_number, g.is_on_sale, g.is_delete
          */
         /* 循环、统计 */
-        $data = $this->model
-            ->where('rec_type', $this->cart_type)
-            ->where('user_id', $this->user_id)
-             ->where('store_id', $this->store_id)
-            ->orderBy('add_time', 'desc')->orderBy('rec_id', 'desc')
-            ->get();
+        if (is_array($this->cart_id) && !empty($this->cart_id)) {
+        	$data = $this->model
+        	->where('rec_type', $this->cart_type)
+        	->where('user_id', $this->user_id)
+        	->where('store_id', $this->store_id)
+        	->whereIn('rec_id', $this->cart_id)
+        	->orderBy('add_time', 'desc')->orderBy('rec_id', 'desc')
+        	->get();
+        } else {
+        	$data = $this->model
+        	->where('rec_type', $this->cart_type)
+        	->where('user_id', $this->user_id)
+        	->where('store_id', $this->store_id)
+        	->orderBy('add_time', 'desc')->orderBy('rec_id', 'desc')
+        	->get();
+        }
 
         $data = $this->mapGoodsCollection($data);
 

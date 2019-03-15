@@ -83,6 +83,7 @@ class CartGoods
         $this->output['subtotal'] 				= ($this->model->goods_price) * ($this->model->goods_number);
         $this->output['formatted_subtotal'] 	= ecjia_price_format($this->output['subtotal'], false);
         $this->output['is_checked'] 			= $this->model->is_checked;
+        $this->output['is_shipping'] 			= $this->model->is_shipping;
         $this->output['img']					= array(
         											 'thumb' => empty($this->model->goods->goods_img) ? '' : RC_Upload::upload_url($this->model->goods->goods_img),
         											 'url'	 => empty($this->model->goods->original_img) ? '' : RC_Upload::upload_url($this->model->goods->original_img),

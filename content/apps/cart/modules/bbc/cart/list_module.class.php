@@ -80,31 +80,31 @@ class bbc_cart_list_module extends api_front implements api_interface {
     		RC_DB::table('cart')->whereIn('rec_id', $rec_id)->where('user_id', $user_id)->update(array('is_checked' => $is_checked));
     	}
     	//多店购物车获取
-//         $store_ids = RC_DB::table('cart')->where('user_id', $user_id)->where('rec_type', Ecjia\App\Cart\CartConstant::CART_GENERAL_GOODS)->lists('store_id');
-//         $store_ids = array_unique($store_ids);
-//         $cart_multi = new Ecjia\App\Cart\CartFlow\MultiCart();
+        $store_ids = RC_DB::table('cart')->where('user_id', $user_id)->where('rec_type', Ecjia\App\Cart\CartConstant::CART_GENERAL_GOODS)->lists('store_id');
+        $store_ids = array_unique($store_ids);
+        $cart_multi = new Ecjia\App\Cart\CartFlow\MultiCart();
     
-//         foreach ($store_ids as $val) {
-//             //单店购物车
-//             $cart_single = (new \Ecjia\App\Cart\CartFlow\Cart($user_id, $val, Ecjia\App\Cart\CartConstant::CART_GENERAL_GOODS));
-//             //多店购物车
-//             $cart_multi->addCart($cart_single);
-//         }
-        
-//         $cart_list = $cart_multi->getGoodsCollection();
-
-//         return $cart_list;
-        
-        $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => CART_GENERAL_GOODS));
-        if (is_ecjia_error($cart_result)) {
-          	return $cart_result;
+        foreach ($store_ids as $val) {
+            //单店购物车
+            $cart_single = (new \Ecjia\App\Cart\CartFlow\Cart($user_id, $val, Ecjia\App\Cart\CartConstant::CART_GENERAL_GOODS));
+            //多店购物车
+            $cart_multi->addCart($cart_single);
         }
+        
+        $cart_list = $cart_multi->getGoodsCollection();
+
+        return $cart_list;
+        
+//         $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => CART_GENERAL_GOODS));
+//         if (is_ecjia_error($cart_result)) {
+//           	return $cart_result;
+//         }
          
-        //增加店铺优惠活动返回，数据格式化处理
-        RC_Loader::load_app_class('cart_bbc', 'cart');
-        $final_cart_list = cart_bbc::formated_bbc_cart_list($cart_result, $_SESSION['user_rank'], $_SESSION['user_id']);
+//         //增加店铺优惠活动返回，数据格式化处理
+//         RC_Loader::load_app_class('cart_bbc', 'cart');
+//         $final_cart_list = cart_bbc::formated_bbc_cart_list($cart_result, $_SESSION['user_rank'], $_SESSION['user_id']);
          
-        return $final_cart_list;
+//         return $final_cart_list;
 	}
 }
 

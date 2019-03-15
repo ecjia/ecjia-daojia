@@ -45,45 +45,29 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
- * 收银台红包验证
- * @author 
+ * 移除店铺购物车商品信息接口
  *
+ * @author royalwang
  */
-class admin_bonus_validate_module extends api_admin implements api_interface
+class cart_store_remove_cleardata_api extends Component_Event_Api
 {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
-    {	
-		$this->authadminSession();
-		if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-			return new ecjia_error(100, 'Invalid session');
-		}
-		
-		$bonus_sn = $this->requestData('bonus_sn');
-		if (empty($bonus_sn)) {
-            return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
-		}
-		RC_Loader::load_app_func('admin_bonus', 'bonus');
-		RC_Loader::load_app_func('cart', 'cart');
-		$bonus = bonus_info(0, $bonus_sn);
-		$now = RC_Time::gmtime();
-		
-        if (empty($bonus)) {
-			return new ecjia_error('bonus_error', __('红包信息有误！', 'cart'));
-		}
-		if ($bonus['order_id'] > 0) {
-		    return new ecjia_error('bonus_error', __('红包已使用！', 'cart'));
-		}
-		if ($now < $bonus['use_start_date'] ||  $now > $bonus['use_end_date']) {
-		    return new ecjia_error('bonus_error', __('红包不在有效期！', 'cart'));
-		}
-		$min_amount = $bonus['min_goods_amount'] > 0 ? $bonus['min_goods_amount'] : 0;
-		if ($bonus['order_id'] > 0) {
-		    return new ecjia_error('bonus_error', __('红包已使用！', 'cart'));
-		} else {
-		    return array('bonus_id' => $bonus['bonus_id'], 'bonus' => $bonus['type_money'], 'bonus_formated' => price_format($bonus['type_money']), 'min_amount' => $min_amount);
-		}
-	}
+
+    public function call(& $options)
+    {
+
+        $store_id = array_get($options, 'store_id');
+
+        if (empty($store_id)) {
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'cart'), 'cart_store_remove_cleardata_api'));
+        }
+
+        return [
+            new \Ecjia\App\Cart\StoreCleanHandlers\StoreCartGoodsClear($store_id),
+        ];
+    }
+
 }
 
 // end

@@ -458,14 +458,16 @@ class cart {
 	 * @return  integral
 	 */
 	public static function flow_available_points($cart_id = array(), $rec_type = CART_GENERAL_GOODS) {
-		$cart_where = array('c.user_id' => $_SESSION['user_id'], 'c.is_gift' => 0 , 'g.integral' => array('gt' => 0) , 'c.rec_type' => $rec_type);
-		if (!empty($cart_id)) {
-			$cart_where = array_merge($cart_where, array('rec_id' => $cart_id));
+		$dbview = RC_DB::table('cart as c')->leftJoin('goods as g', RC_DB::raw('c.goods_id'), '=', RC_DB::raw('g.goods_id'));
+		$dbview->where(RC_DB::raw('c.user_id'), $_SESSION['user_id'])->where(RC_DB::raw('c.is_gift'), 0)->where(RC_DB::raw('g.integral'), '>', 0)->where(RC_DB::raw('c.rec_type'), $rec_type);
+		if (is_array($cart_id) && !empty($cart_id)) {
+			$dbview->whereIn(RC_DB::raw('c.rec_id'), $cart_id);
 		}
-
-		$total_goods_integral_money = RC_Model::model('cart/cart_goods_viewmodel')->join('goods')->where($cart_where)->sum('g.integral * c.goods_number');
+		$result = $dbview->select(RC_DB::raw('sum(g.integral * c.goods_number) as total_integral_money, sum(c.goods_price * c.goods_number) as total_goods_price'))->first();
+		
+		$total_goods_integral_money = $result['total_integral_money'];
 		//购物车商品总价
-		$total_goods_price = RC_Model::model('cart/cart_goods_viewmodel')->join('goods')->where($cart_where)->sum('c.goods_price * c.goods_number');
+		$total_goods_price = $result['total_goods_price'];
 		//取价格最小值，防止积分抵扣超过商品价格(并未计算优惠)
 		$val_min = min($total_goods_integral_money, $total_goods_price);
 		if ($val_min < 1 && $val_min > 0) {
@@ -505,21 +507,18 @@ class cart {
 	 * @return  float   购物车总金额
 	 */
 	public static function cart_amount($include_gift = true, $type = CART_GENERAL_GOODS, $cart_id = array()) {
-		$where = array('rec_type' => $type, 'user_id' => $_SESSION['user_id']);
-// 		if (defined('SESS_ID')) {
-// 			$where['session_id'] = SESS_ID;
-// 		}
-
-		if (!empty($cart_id)) {
-			$where['rec_id'] = $cart_id;
+		
+		$db = RC_DB::table('cart');
+		$db->where('rec_type', $type)->where('user_id', $_SESSION['user_id']);
+		if (is_array($cart_id) && !empty($cart_id)) {
+			$db->whereIn('rec_id', $cart_id);
 		}
-
 		if (!$include_gift) {
-			$where['is_gift']	= 0;
-			$where['goods_id']	= array('gt' => 0);
+			$db->where('is_gift', 0)->where('goods_id', '>', 0);
 		}
+		
+		$data = $db->pluck(RC_DB::raw('sum(goods_price * goods_number)'));
 
-		$data = RC_Model::model('cart/cart_model')->where($where)->sum('goods_price * goods_number');
 		return $data;
 	}
 

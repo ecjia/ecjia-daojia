@@ -2,66 +2,69 @@
 # This file is distributed under the same license as the Ecjia App cart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App cart 1.28.0\n"
+"Project-Id-Version: Ecjia App cart 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-15 01:49:03+00:00\n"
+"POT-Creation-Date: 2019-03-13 13:59+0800\n"
+"PO-Revision-Date: 2019-03-14 13:44+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: apis/cart_bbc_flow_done_api.class.php:82
 #: apis/cart_bbc_flow_done_api.class.php:121
 #: apis/cart_flow_done_api.class.php:100 apis/cart_flow_done_api.class.php:107
 #: apis/cart_flow_done_api.class.php:145
 msgid "请完善收货人信息！"
-msgstr ""
+msgstr "請完善收貨人信息！"
 
 #: apis/cart_bbc_flow_done_api.class.php:92
 #: apis/cart_flow_done_api.class.php:122
 msgid "购物车中没有您选择的商品"
-msgstr ""
+msgstr "購物車中沒有您選擇的商品"
 
 #: apis/cart_bbc_flow_done_api.class.php:107
 #: apis/cart_bbc_flow_done_api.class.php:112
 msgid "请选择配送方式！"
-msgstr ""
+msgstr "請選擇配送方式！"
 
 #: apis/cart_bbc_flow_done_api.class.php:237
 #: apis/cart_flow_done_api.class.php:287
 msgid "货到付款不支持非自营商家！"
-msgstr ""
+msgstr "貨到付款不支持非自營商家！"
 
 #: apis/cart_cart_groupbuy_manage_api.class.php:63
 #: apis/cart_cart_manage_api.class.php:63
 msgid "当前定位地址超出服务范围！"
-msgstr ""
+msgstr "當前定位地址超出服務範圍！"
 
 #: apis/cart_cart_groupbuy_manage_api.class.php:67
 #: apis/cart_cart_manage_api.class.php:67
 msgid "请选择您所需要的商品！"
-msgstr ""
+msgstr "請選擇您所需要的商品！"
 
 #: apis/cart_cart_groupbuy_manage_api.class.php:95 functions/cart.func.php:1661
 msgid "对不起，该团购活动不存在！"
-msgstr ""
+msgstr "對不起，該團購活動不存在！"
 
 #: apis/cart_cart_groupbuy_manage_api.class.php:101
 #: functions/cart.func.php:1667
 msgid "对不起，该团购活动已经结束或尚未开始，现在不能参加！"
-msgstr ""
+msgstr "對不起，該團購活動已經結束或尚未開始，現在不能參加！"
 
 #: apis/cart_cart_groupbuy_manage_api.class.php:113
 #: functions/cart.func.php:1673
 msgid "对不起，团购商品不存在！"
-msgstr ""
+msgstr "對不起，團購商品不存在！"
 
 #: apis/cart_cart_groupbuy_manage_api.class.php:118
 #: apis/cart_cart_manage_api.class.php:110
 msgid "对不起，该商品所属的店铺已经下线！"
-msgstr ""
+msgstr "對不起，該商品所屬的店鋪已經下線！"
 
 #: apis/cart_cart_groupbuy_manage_api.class.php:139
 #: apis/cart_cart_groupbuy_manage_api.class.php:146
@@ -87,143 +90,147 @@ msgstr ""
 #: modules/storebuy/flow/done_module.class.php:111
 #: modules/storepickup/flow/done_module.class.php:112
 msgid "库存不足"
-msgstr ""
+msgstr "庫存不足"
 
 #: apis/cart_cart_groupbuy_manage_api.class.php:156
 msgid "对不起，超出团购商品限购数量，请您修改数量！"
-msgstr ""
+msgstr "對不起，超出團購商品限購數量，請您修改數量！"
 
 #: apis/cart_cart_list_api.class.php:125 classes/CartFlow/CartGoods.php:123
 msgid "商品已下架"
-msgstr ""
+msgstr "商品已下架"
 
 #: apis/cart_cart_manage_api.class.php:100
 msgid "对不起，该商品不存在！"
-msgstr ""
+msgstr "對不起，該商品不存在！"
 
 #: apis/cart_cart_manage_api.class.php:105 functions/cart.func.php:533
 msgid "对不起，该商品已下架！"
-msgstr ""
+msgstr "對不起，該商品已下架！"
 
 #: apis/cart_cart_manage_api.class.php:125 classes/cart_cashdesk.class.php:283
 #: functions/cart.func.php:544
 msgid "对不起，您希望将该商品做为配件购买，可是购物车中还没有该商品的基本件。"
-msgstr ""
+msgstr "對不起，您希望將該商品做為配件購買，可是購物車中還沒有該商品的基本件。"
 
 #: apis/cart_cart_manage_api.class.php:131 functions/cart.func.php:550
 msgid "对不起，该商品不能单独购买！"
-msgstr ""
+msgstr "對不起，該商品不能單獨購買！"
 
 #: apis/cart_cart_manage_api.class.php:164 functions/cart.func.php:577
 #: functions/cart.func.php:582
 msgid "货品库存不足"
-msgstr ""
+msgstr "貨品庫存不足"
 
 #: apis/cart_exchange_buy_api.class.php:58
 msgid "参数无效"
-msgstr ""
+msgstr "參數無效"
 
 #: apis/cart_exchange_buy_api.class.php:76
 msgid "商品不存在"
-msgstr ""
+msgstr "商品不存在"
 
 #: apis/cart_exchange_buy_api.class.php:81
 #: apis/cart_exchange_buy_api.class.php:121
 msgid "商品库存不足！"
-msgstr ""
+msgstr "商品庫存不足！"
 
 #: apis/cart_exchange_buy_api.class.php:86
 msgid "积分商品已下架！"
-msgstr ""
+msgstr "積分商品已下架！"
 
 #: apis/cart_exchange_buy_api.class.php:93
 msgid "用户积分不足！"
-msgstr ""
+msgstr "用戶積分不足！"
 
 #: apis/cart_flow_done_api.class.php:138
 #: modules/flow/checkOrder_module.class.php:216
 #: modules/storepickup/flow/checkOrder_module.class.php:138
 #: modules/storepickup/flow/done_module.class.php:139
 msgid "请单个店铺进行结算!"
-msgstr ""
+msgstr "請單個店鋪進行結算!"
 
 #: apis/cart_flow_done_api.class.php:230
 msgid "您的商品金额未达到最低限购金额，还差"
-msgstr ""
+msgstr "您的商品金額未達到最低限購金額，還差"
 
 #: apis/cart_flow_done_api.class.php:244
 msgid "请选择一个配送方式！"
-msgstr ""
+msgstr "請選擇一個配送方式！"
 
 #: apis/cart_flow_done_api.class.php:430 classes/cart_bbc.class.php:806
 #: classes/cart_bbc.class.php:1127
 msgid "积分"
-msgstr ""
+msgstr "積分"
 
 #: apis/cart_flow_done_api.class.php:435 classes/cart_bbc.class.php:811
 #: classes/cart_bbc.class.php:1132 modules/admin/flow/done_module.class.php:430
 #: modules/storebuy/flow/done_module.class.php:420
 #: modules/storepickup/flow/done_module.class.php:472
 msgid "支付订单 %s"
-msgstr ""
+msgstr "支付訂單 %s"
 
 #: apis/cart_flow_done_api.class.php:441
 msgid "使用失败！"
-msgstr ""
+msgstr "使用失敗！"
 
 #: apis/cart_flow_done_api.class.php:498
 #: apis/cart_flow_done_do_something_api.class.php:158
 msgid "订单收货验证码"
-msgstr ""
+msgstr "訂單收貨驗證碼"
 
 #: apis/cart_flow_done_api.class.php:499
 #: apis/cart_flow_done_do_something_api.class.php:159
-msgid "尊敬的%s，您在我们网站已成功下单。订单号：%s，收货验证码为：%s。请保管好您的验证码，以便收货验证"
+msgid ""
+"尊敬的%s，您在我们网站已成功下单。订单号：%s，收货验证码为：%s。请保管好您的"
+"验证码，以便收货验证"
 msgstr ""
+"尊敬的%s，您在我們網站已成功下單。訂單號：%s，收貨驗證碼為：%s。請保管好您的"
+"驗證碼，以便收貨驗證"
 
 #: apis/cart_flow_done_api.class.php:581
 #: modules/storebuy/flow/done_module.class.php:480
 #: modules/storepickup/flow/done_module.class.php:524
 msgid "订单 %s 赠送的积分"
-msgstr ""
+msgstr "訂單 %s 贈送的積分"
 
 #: apis/cart_flow_done_api.class.php:629
 #: apis/cart_flow_done_do_something_api.class.php:188
 msgid "订单提交成功"
-msgstr ""
+msgstr "訂單提交成功"
 
 #: apis/cart_flow_done_api.class.php:631
 #: apis/cart_flow_done_do_something_api.class.php:190
 msgid "下单成功，订单号："
-msgstr ""
+msgstr "下單成功，訂單號："
 
 #: apis/cart_flow_done_api.class.php:637
 #: apis/cart_flow_done_do_something_api.class.php:196
 msgid "待付款"
-msgstr ""
+msgstr "待付款"
 
 #: apis/cart_flow_done_api.class.php:639
 #: apis/cart_flow_done_do_something_api.class.php:198
 msgid "请尽快支付该订单，超时将会自动取消订单"
-msgstr ""
+msgstr "請盡快支付該訂單，超時將會自動取消訂單"
 
 #: apis/cart_flow_done_api.class.php:689
 #: apis/cart_flow_done_do_something_api.class.php:253
 msgid "客户下单"
-msgstr ""
+msgstr "客戶下單"
 
 #: apis/cart_flow_done_api.class.php:690
 #: apis/cart_flow_done_do_something_api.class.php:254
 msgid "您有一笔新订单，订单号为："
-msgstr ""
+msgstr "您有一筆新訂單，訂單號為："
 
 #: apis/cart_store_remove_cleardata_api.class.php:63
 msgid "请求接口%s参数无效"
-msgstr ""
+msgstr "請求接口%s參數無效"
 
 #: classes/CartFlow/CartGoods.php:133
 msgid "商品所属店铺已关闭"
-msgstr ""
+msgstr "商品所屬店鋪已關閉"
 
 #: classes/CartFlow/CartStoreFavourable.php:101 classes/cart_bbc.class.php:246
 #: functions/cart.func.php:1876 functions/cart.func.php:1888
@@ -231,7 +238,7 @@ msgstr ""
 #: functions/cart.func.php:2235 functions/cart.func.php:2342
 #: functions/cart.func.php:2417 functions/cart.func.php:2490
 msgid "满减"
-msgstr ""
+msgstr "滿減"
 
 #: classes/CartFlow/CartStoreFavourable.php:101 classes/cart_bbc.class.php:246
 #: functions/cart.func.php:1876 functions/cart.func.php:1888
@@ -239,118 +246,124 @@ msgstr ""
 #: functions/cart.func.php:2239 functions/cart.func.php:2346
 #: functions/cart.func.php:2421 functions/cart.func.php:2494
 msgid "满折"
-msgstr ""
+msgstr "滿折"
 
 #: classes/StoreCleanHandlers/StoreCartGoodsClear.php:43
 msgid "将用户购物车内当前店铺的商品数据全部删除"
-msgstr ""
+msgstr "將用戶購物車內當前店舖的商品數據全部刪除"
 
 #: classes/StoreCleanHandlers/StoreCartGoodsClear.php:95
 msgid "店铺名是%s"
-msgstr ""
+msgstr "店鋪名是%s"
 
 #: classes/StoreCleanHandlers/StoreCartGoodsClear.php:95
 msgid "店铺ID是%s"
-msgstr ""
+msgstr "店鋪ID是%s"
 
 #: classes/cart.class.php:84 classes/cart_cashdesk.class.php:626
 #: modules/bbc/cart/create_module.class.php:92
 #: modules/cart/create_module.class.php:98
 #: modules/storebuy/cart/create_module.class.php:113
 msgid "对不起，该商品所属的店铺已锁定！"
-msgstr ""
+msgstr "對不起，該商品所屬的店鋪已鎖定！"
 
 #: classes/cart.class.php:994
 msgid "克"
-msgstr ""
+msgstr "克"
 
 #: classes/cart.class.php:997
 msgid "千克"
-msgstr ""
+msgstr "千克"
 
 #: classes/cart_bbc.class.php:771 classes/cart_bbc.class.php:779
 #: classes/cart_bbc.class.php:927
 msgid "订单生成失败"
-msgstr ""
+msgstr "訂單生成失敗"
 
 #: classes/cart_bbc.class.php:1098
 msgid "子订单生成失败"
-msgstr ""
+msgstr "子訂單生成失敗"
 
 #: classes/cart_bbc.class.php:1152
 msgid "生成订单失败"
-msgstr ""
+msgstr "生成訂單失敗"
 
 #: classes/cart_cashdesk.class.php:89 functions/cart.func.php:98
 #: functions/cart.func.php:1078
 msgid "免费"
-msgstr ""
+msgstr "免費"
 
 #: classes/cart_cashdesk.class.php:263 functions/cart.func.php:529
 msgid "对不起，指定的商品不存在！"
-msgstr ""
+msgstr "對不起，指定的商品不存在！"
 
 #: classes/cart_cashdesk.class.php:267 classes/cart_cashdesk.class.php:289
 msgid "购买失败"
-msgstr ""
+msgstr "購買失敗"
 
 #: classes/cart_goods_stock.class.php:78 functions/cart.func.php:820
 msgid "商品[%s]下架"
-msgstr ""
+msgstr "商品[%s]下架"
 
 #: classes/cart_goods_stock.class.php:197
 #: classes/cart_goods_stock.class.php:205
 msgid "库存不足，请重新选择！"
-msgstr ""
+msgstr "庫存不足，請重新選擇！"
 
 #: configs/package.php:55
 msgid "购物车"
-msgstr ""
+msgstr "購物車"
 
 #: configs/package.php:56
-msgid "在种类繁多的商城中，顾客用于暂时或长期存放所选商品，可以在商品浏览、收藏、订阅等多种方式添加，顾客可以随心所欲对购物车内商品进行、增、删、改、查操作，并集成购物流程和订单结算（可选自定义支付方式、收货地址、配送方式等）。"
+msgid ""
+"在种类繁多的商城中，顾客用于暂时或长期存放所选商品，可以在商品浏览、收藏、订"
+"阅等多种方式添加，顾客可以随心所欲对购物车内商品进行、增、删、改、查操作，并"
+"集成购物流程和订单结算（可选自定义支付方式、收货地址、配送方式等）。"
 msgstr ""
+"在種類繁多的商城中，顧客用於暫時或長期存放所選商品，可以在商品瀏覽、收藏、訂"
+"閱等多種方式添加，顧客可以隨心所欲對購物車內商品進行、增、刪、改、查操作，並"
+"集成購物流程和訂單結算（可選自定義支付方式、收貨地址、配送方式等）。"
 
 #: functions/cart.func.php:721
 msgid "该商品已限购"
-msgstr ""
+msgstr "該商品已限購"
 
 #: functions/cart.func.php:1678 functions/cart.func.php:1689
 msgid "对不起，商品库存不足，请您修改数量！"
-msgstr ""
+msgstr "對不起，商品庫存不足，請您修改數量！"
 
 #: functions/cart.func.php:1942
 msgid "普通"
-msgstr ""
+msgstr "普通"
 
 #: functions/cart.func.php:1943
 msgid "团购"
-msgstr ""
+msgstr "團購"
 
 #: functions/cart.func.php:1944
 msgid "拍卖"
-msgstr ""
+msgstr "拍賣"
 
 #: functions/cart.func.php:1945
 msgid "夺宝奇兵"
-msgstr ""
+msgstr "奪寶奇兵"
 
 #: functions/cart.func.php:1946
 msgid "积分商城"
-msgstr ""
+msgstr "積分商城"
 
 #: functions/cart.func.php:1947
 msgid "预售"
-msgstr ""
+msgstr "預售"
 
 #: functions/cart.func.php:1948
 msgid "秒杀"
-msgstr ""
+msgstr "秒殺"
 
 #: functions/cart.func.php:2231 functions/cart.func.php:2338
 #: functions/cart.func.php:2413 functions/cart.func.php:2486
 msgid "满赠"
-msgstr ""
+msgstr "滿贈"
 
 #: modules/admin/bonus/validate_module.class.php:64
 #: modules/bbc/flow/done_module.class.php:83
@@ -371,25 +384,25 @@ msgstr ""
 #: modules/storebuy/flow/done_module.class.php:204
 #: modules/storepickup/flow/checkOrder_module.class.php:65
 msgid "参数错误"
-msgstr ""
-
-#: modules/admin/bonus/validate_module.class.php:72
-msgid "红包信息有误！"
-msgstr ""
+msgstr "參數錯誤"
 
 #: modules/admin/bonus/validate_module.class.php:75
-#: modules/admin/bonus/validate_module.class.php:82
-msgid "红包已使用！"
-msgstr ""
+#: modules/admin/bonus/validate_module.class.php:88
+msgid "红包信息有误！"
+msgstr "紅包信息有誤！"
 
 #: modules/admin/bonus/validate_module.class.php:78
+msgid "红包已使用！"
+msgstr "紅包已使用！"
+
+#: modules/admin/bonus/validate_module.class.php:84
 msgid "红包不在有效期！"
-msgstr ""
+msgstr "紅包不在有效期！"
 
 #: modules/admin/flow/checkOrder_module.class.php:168
 #: modules/storebuy/cart/create_module.class.php:107
 msgid "该商品不存在或已下架"
-msgstr ""
+msgstr "該商品不存在或已下架"
 
 #: modules/admin/flow/done_module.class.php:113
 #: modules/admin/flow/done_module.class.php:263
@@ -398,19 +411,19 @@ msgstr ""
 #: modules/storepickup/flow/done_module.class.php:100
 #: modules/storepickup/flow/done_module.class.php:128
 msgid "购物车中没有商品"
-msgstr ""
+msgstr "購物車中沒有商品"
 
 #: modules/admin/flow/done_module.class.php:147
 #: modules/storebuy/flow/done_module.class.php:147
 #: modules/storepickup/flow/done_module.class.php:159
 msgid "匿名用户"
-msgstr ""
+msgstr "匿名用戶"
 
 #: modules/admin/flow/done_module.class.php:268
 #: modules/storebuy/flow/done_module.class.php:256
 #: modules/storepickup/flow/done_module.class.php:280
 msgid "您的余额不足以支付整个订单，请选择其他支付方式。"
-msgstr ""
+msgstr "您的余額不足以支付整個訂單，請選擇其他支付方式。"
 
 #: modules/admin/flow/done_module.class.php:434
 #: modules/storebuy/flow/done_module.class.php:426
@@ -418,72 +431,72 @@ msgstr ""
 #: modules/storepickup/flow/done_module.class.php:478
 #: modules/storepickup/flow/done_module.class.php:528
 msgid "处理失败"
-msgstr ""
+msgstr "處理失敗"
 
 #: modules/admin/flow/done_module.class.php:535
 #: modules/storebuy/flow/done_module.class.php:511
 #: modules/storepickup/flow/done_module.class.php:557
 msgid "%s等%d种商品"
-msgstr ""
+msgstr "%s等%d種商品"
 
 #: modules/bbc/cart/create_module.class.php:67
 #: modules/cart/create_module.class.php:67
 #: modules/storebuy/cart/create_module.class.php:67
 msgid "当前账号已申请注销，不可执行此操作！"
-msgstr ""
+msgstr "當前賬號已申請註銷，不可執行此操作！"
 
 #: modules/bbc/cart/create_module.class.php:75
 msgid "请求接口bbc_cart_create_module参数错误"
-msgstr ""
+msgstr "請求接口bbc_cart_create_module參數錯誤"
 
 #: modules/bbc/cart/list_module.class.php:68
 #: modules/cart/list_module.class.php:68
 #: modules/storebuy/cart/list_module.class.php:68
 msgid "当前账号已申请注销，不可查看此数据！"
-msgstr ""
+msgstr "當前賬號已申請註銷，不可查看此數據！"
 
 #: modules/bbc/flow/checkOrder_module.class.php:66
 msgid "请求接口bbc_flow_checkOrder参数无效"
-msgstr ""
+msgstr "請求接口bbc_flow_checkOrder參數無效"
 
 #: modules/bbc/flow/checkOrder_module.class.php:78
 #: modules/bbc/flow/done_module.class.php:90
 #: modules/flow/checkOrder_module.class.php:80
 #: modules/flow/done_module.class.php:89
 msgid "购物车类型不一致！"
-msgstr ""
+msgstr "購物車類型不一致！"
 
 #: modules/bbc/flow/checkOrder_module.class.php:103
 #: modules/flow/checkOrder_module.class.php:110
 #: modules/storepickup/flow/checkOrder_module.class.php:86
 msgid "购物车中还没有商品"
-msgstr ""
+msgstr "購物車中還沒有商品"
 
 #: modules/bbc/flow/done_module.class.php:111
 #: modules/flow/done_module.class.php:101
 msgid "请选择收货地址"
-msgstr ""
+msgstr "請選擇收貨地址"
 
 #: modules/bbc/flow/done_module.class.php:119
 #: modules/flow/done_module.class.php:109
 msgid "个人"
-msgstr ""
+msgstr "個人"
 
 #: modules/bbc/flow/done_module.class.php:125
 #: modules/flow/done_module.class.php:115
 #: modules/storepickup/flow/done_module.class.php:202
 msgid "发票抬头和识别码都不能为空！"
-msgstr ""
+msgstr "發票擡頭和識別碼都不能為空！"
 
 #: modules/bbc/flow/done_module.class.php:166
 #: modules/flow/done_module.class.php:157
 msgid "请选择支付方式"
-msgstr ""
+msgstr "請選擇支付方式"
 
 #: modules/bbc/flow/done_module.class.php:180
 #: modules/flow/done_module.class.php:169
 msgid "货到付款支付不支持上门取货配送！"
-msgstr ""
+msgstr "貨到付款支付不支持上門取貨配送！"
 
 #: modules/cart/buyagain_module.class.php:77
 #: modules/cart/checked_module.class.php:97
@@ -492,53 +505,56 @@ msgstr ""
 #: modules/cart/delete_module.class.php:97
 #: modules/cart/list_module.class.php:90
 msgid "请定位您当前所在地址！"
-msgstr ""
+msgstr "請定位您當前所在地址！"
 
 #: modules/cart/buyagain_module.class.php:84
 msgid "订单信息异常"
-msgstr ""
+msgstr "訂單信息異常"
 
 #: modules/cart/create_module.class.php:91
 #: modules/storebuy/cart/create_module.class.php:85
 msgid "请选择您所需要购买的商品！"
-msgstr ""
+msgstr "請選擇您所需要購買的商品！"
 
 #: modules/cart/update_module.class.php:101
 msgid "当前的定位地址超出店铺配送范围，请重新定位"
-msgstr ""
+msgstr "當前的定位地址超出店鋪配送範圍，請重新定位"
 
 #: modules/flow/checkOrder_module.class.php:114
 msgid "有部分商品不在送货范围内！"
-msgstr ""
+msgstr "有部分商品不在送貨範圍內！"
 
 #: modules/flow/checkOrder_module.class.php:354
 msgid "如果是团购，且保证金大于0，不能使用货到付款"
-msgstr ""
+msgstr "如果是團購，且保證金大於0，不能使用貨到付款"
 
 #: modules/flow/checkOrder_module.class.php:490
 msgid "未使用"
-msgstr ""
+msgstr "未使用"
 
 #: modules/flow/checkOrder_module.class.php:648
 #: modules/storebuy/flow/checkOrder_module.class.php:173
 #: modules/storepickup/flow/checkOrder_module.class.php:197
 msgid "满%s可使用"
-msgstr ""
+msgstr "满%s可使用"
 
 #: modules/flow/done_module.class.php:160
 msgid "当前收货地址暂无可用配送方式，请重新更换其他的收货地址！"
-msgstr ""
+msgstr "當前收貨地址暫無可用配送方式，請重新更換其他的收貨地址！"
 
 #: modules/storebuy/flow/checkOrder_module.class.php:140
 #: modules/storepickup/flow/checkOrder_module.class.php:147
 msgid "对不起，商品所属的店铺已锁定！"
-msgstr ""
+msgstr "對不起，商品所屬的店鋪已鎖定！"
 
 #: modules/storebuy/flow/done_module.class.php:298
 msgid "无需物流"
-msgstr ""
+msgstr "無需物流"
 
 #: modules/storebuy/flow/done_module.class.php:314
 #: modules/storepickup/flow/done_module.class.php:337
 msgid "请先安装微信小程序支付方式"
-msgstr ""
+msgstr "請先安裝微信小程序支付方式"
+
+#~ msgid "团购活动不存在"
+#~ msgstr "團購活動不存在"
