@@ -48,7 +48,7 @@
 								ecjia.admin.showmessage(data);
 							}
 						});
-					}, {ok:store.ok, cancel:store.cancel});
+					}, {ok:js_lang.ok, cancel:js_lang.cancel});
 			});
 		},
 		

@@ -22,21 +22,21 @@
 		<form method="post" class="form-horizontal" action="{$form_action}" name="theForm" enctype="multipart/form-data">
 			<fieldset>
 				<div class="control-group formSep edit-page">
-					<label class="control-label">{t}店铺街首页头部广告：{/t}</label>
+					<label class="control-label">{t domain="store"}店铺街首页头部广告：{/t}</label>
 					<div class="controls">
 						<select name='mobile_store_home_adsense'>
-							<option value='0'>{t}请选择...{/t}</option>
+							<option value='0'>{t domain="store"}请选择...{/t}</option>
 							<!-- {foreach from=$ad_position_list item=list} -->
 								<option value="{$list.position_id}" {if $list.position_id eq $mobile_store_home_adsense}selected{/if}>{$list.position_name}</option>
 							<!-- {/foreach} -->
 						</select>
-						<span class="help-block">{t}请选择所需展示的广告位。{/t}</span>
+						<span class="help-block">{t domain="store"}请选择所需展示的广告位。{/t}</span>
 					</div>
 				</div>
 				
 				<div class="control-group">
 					<div class="controls">
-						<input type="submit" value="确定" class="btn btn-gebo" />
+						<input type="submit" value='{t domain="store"}确定{/t}' class="btn btn-gebo" />
 					</div>
 				</div>
 			</fieldset>

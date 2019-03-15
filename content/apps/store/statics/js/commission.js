@@ -15,7 +15,7 @@
 					suppliers_percent : {required : true}
 				},
 				messages : {
-					suppliers_percent : {required : "请选择佣金比例！"}
+					suppliers_percent : {required : commission_js_lang.required_commission_percent}
 				},
 				submitHandler : function() {
 					$form.ajaxSubmit({
@@ -37,7 +37,7 @@
 					percent_value : {required : true}
 				},
 				messages : {
-					percent_value : {required : "请输入奖励额度！"}
+					percent_value : {required : commission_js_lang.required_percent_value}
 				},
 				submitHandler : function() {
 					$form.ajaxSubmit({
@@ -91,7 +91,7 @@
 				if(start_time ==''){
 					var mesObj = new Object ();
 			        mesObj.state   = 'error';
-				    mesObj.message = '请输入开始时间！';
+				    mesObj.message = commission_js_lang.required_start_time;
 				    ecjia.admin.showmessage(mesObj);
 					return;
 				}
@@ -99,7 +99,7 @@
 				if(end_time ==''){
 					var mesObj = new Object ();
 			        mesObj.state   = 'error';
-				    mesObj.message = '请输入结束时间！';
+				    mesObj.message = commission_js_lang.required_end_time;
 				    ecjia.admin.showmessage(mesObj);
 					return;
 				}
@@ -108,7 +108,7 @@
 					if (start_time >= end_time) {
 						var mesObj = new Object ();
 				        mesObj.state   = 'error';
-					    mesObj.message = '开始时间不能超于结束时间！';
+					    mesObj.message = commission_js_lang.time_error;
 					    ecjia.admin.showmessage(mesObj);
 						return;
 					}

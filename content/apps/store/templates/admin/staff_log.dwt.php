@@ -33,36 +33,36 @@
                 <form name="deleteForm" method="post" action="{url path='store/admin/batch_drop' args="store_id={$smarty.get.store_id}"}">
                     <!-- 批量删除 -->
                     <select class="w110" name="log_date">
-                        <option value="0">{t}选择日期{/t}</option>
-                        <option value="1">{t}一周之前{/t}</option>
-                        <option value="2">{t}一个月前{/t}</option>
-                        <option value="3">{t}三个月前{/t}</option>
-                        <option value="4">{t}半年之前{/t}</option>
-                        <option value="5">{t}一年之前{/t}</option>
+                        <option value="0">{t domain="store"}选择日期{/t}</option>
+                        <option value="1">{t domain="store"}一周之前{/t}</option>
+                        <option value="2">{t domain="store"}一个月前{/t}</option>
+                        <option value="3">{t domain="store"}三个月前{/t}</option>
+                        <option value="4">{t domain="store"}半年之前{/t}</option>
+                        <option value="5">{t domain="store"}一年之前{/t}</option>
                     </select>
                     <input type="hidden" name="drop_type_date" value="true" />
-                    <button class="btn f_l" type="submit">{t}批量删除{/t}</button>
+                    <button class="btn f_l" type="submit">{t domain="store"}批量删除{/t}</button>
                 </form>
                 <form name="siftForm" method="get" action="{$form_search_action}">
                     <span class="separ">&nbsp;</span>
                     <select class="w120" name="ip">
-                        <option value="0">{t}全部IP{/t}</option>
+                        <option value="0">{t domain="store"}全部IP{/t}</option>
                         <!-- {foreach from=$ip_list item=list} -->
                         <option value="{$list}" {if $list eq $smarty.get.ip}selected="selected"{/if}>{$list}</option>
                         <!-- {/foreach} -->
                     </select>
                     <select class="w130" name="userid">
-                        <option value="0">{t}全部管理员{/t}</option>
+                        <option value="0">{t domain="store"}全部管理员{/t}</option>
                         <!-- {foreach from=$user_list item=list key=key} -->
                         <option value="{$key}" {if $key eq $smarty.get.user_id}selected="selected"{/if}>{$list}</option>
                         <!-- {/foreach} -->
                     </select>
-                    <button class="btn f_l" type="submit">{t}筛选{/t}</button>
+                    <button class="btn f_l" type="submit">{t domain="store"}筛选{/t}</button>
                 </form>
                 <form class="f_r" name="searchForm" method="post" action="{$form_search_action}">
                     <!-- 关键字 -->
-                    <input type="text" name="keyword" size="15" placeholder="{t}请输入关键字{/t}" value="{$smarty.get.keyword}" />
-                    <button class="btn" type="submit">{t}搜索{/t}</button>
+                    <input type="text" name="keyword" size="15" placeholder='{t domain="store"}请输入关键字{/t}' value="{$smarty.get.keyword}" />
+                    <button class="btn" type="submit">{t domain="store"}搜索{/t}</button>
                 </form>
             </div>
 
@@ -71,11 +71,11 @@
                     <table class="table table-striped table-advance table-hover">
                         <thead>
                             <tr>
-                                <th class="w50">{lang key='store::store.log_id'}</th>
-                                <th class="w120">{lang key='store::store.log_name'}</th>
-                                <th class="w150">{lang key='store::store.log_time'}</th>
-                                <th class="w120">{lang key='store::store.log_ip'}</th>
-                                <th>{lang key='store::store.log_info'}</th>
+                                <th class="w50">{t domain="store"}编号{/t}</th>
+                                <th class="w120">{t domain="store"}操作者{/t}</th>
+                                <th class="w150">{t domain="store"}操作日期{/t}</th>
+                                <th class="w120">{t domain="store"}IP地址{/t}</th>
+                                <th>{t domain="store"}操作记录{/t}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,7 +88,7 @@
                                 <td>{$list.log_info}</td>
                             </tr>
                             <!-- {foreachelse} -->
-                            <tr><td class="no-records" colspan="5">{lang key='system::system.no_records'}</td></tr>
+                            <tr><td class="no-records" colspan="5">{t domain="store"}没有找到任何记录{/t}</td></tr>
                             <!-- {/foreach} -->
                         </tbody>
                     </table>

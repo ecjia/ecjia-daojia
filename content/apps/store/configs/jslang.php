@@ -46,58 +46,36 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class admin_mobileconfig extends ecjia_admin {
-	private $db_ad_position;
-	public function __construct() {
-		parent::__construct();
-		
-		RC_Loader::load_app_func('global');
-		Ecjia\App\Store\Helper::assign_adminlog_content();
+return array(
+    'admin_page' => array(
+        'ok'     			=> __('确定', 'store'),
+        'cancel' 			=> __('取消', 'store'),
+    	'choose_delet_time' => __('请先选择删除日志的时间！', 'store'),
+    	'delet_ok_1'        => __('确定删除', 'store'),
+    	'delet_ok_2'        => __('的日志吗？', 'store'),
+    ),
 	
-		RC_Script::enqueue_script('jquery-validate');
-		RC_Script::enqueue_script('jquery-form');
-		RC_Script::enqueue_script('smoke');
-		
-		RC_Style::enqueue_style('chosen');
-		RC_Style::enqueue_style('uniform-aristo');
-		RC_Script::enqueue_script('jquery-uniform');
-		RC_Script::enqueue_script('jquery-chosen');
-		RC_Script::enqueue_script('bootstrap-placeholder');
-		
-		RC_Script::enqueue_script('admin_mobileconfig', RC_App::apps_url('statics/js/admin_mobileconfig.js', __FILE__), array(), false, 1);
-	}
+	//商家设置
+	'store_config_page' => array(
+			'open'     			=> __('开启', 'store'),
+			'close' 			=> __('关闭', 'store'),
+			'no_store_info' 	=> __('未搜索到店铺信息', 'store'),
+			'add'				=> __('添加', 'store'),
+			'no_select_region'	=> __('没有可选择的地区', 'store'),
+			'region_selected'	=> __('该地区已被选择！', 'store'),
+	),
+	//商家佣金设置
+	'store_commission_page' => array(
+			'required_commission_percent'   => __('请选择佣金比例！', 'store'),
+			'required_percent_value' 		=> __('请输入奖励额度！', 'store'),
+			'required_start_time' 			=> __('请输入开始时间！', 'store'),
+			'required_end_time'				=> __('请输入结束时间！', 'store'),
+			'time_error'					=> __('开始时间不能超于结束时间！', 'store'),
+	),
+	//商家分类
+	'store_category_page' => array(
+			'required_cat_name'   => __('请输入分类名称！', 'store'),
+	),
+);
 
-					
-	/**
-	 * 移动应用设置
-	 */
-	public function init() {
-	    $this->admin_priv('store_mobileconfig_manage');
-	   
-		$this->assign('ur_here', __('店铺街移动应用设置', 'store'));
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('店铺街移动应用设置', 'store')));
-		
-		$ad_position_list = RC_DB::table('ad_position')->select(RC_DB::raw('position_id, position_name'))->get();
-		
-    	$this->assign('mobile_store_home_adsense', ecjia::config('mobile_store_home_adsense'));
-    	$this->assign('ad_position_list', $ad_position_list);
-		$this->assign('form_action', RC_Uri::url('store/admin_mobileconfig/update'));
-		
-		$this->display('store_mobileconfig.dwt');
-	}
-		
-	/**
-	 * 处理后台设置
-	 */
-	public function update() {
-		$this->admin_priv('store_mobileconfig_manage', ecjia::MSGTYPE_JSON);
-		
-		ecjia_config::instance()->write_config('mobile_store_home_adsense', $_POST['mobile_store_home_adsense']);
-
-		ecjia_admin::admin_log(__('店铺街移动应用>店铺街首页配置', 'store'), 'setup', 'store_mobileconfig');
-		return $this->showmessage(__('更新店铺街首页配置设置成功！', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('store/admin_mobileconfig/init')));
-	}
-	
-}
-
-//end
+// end

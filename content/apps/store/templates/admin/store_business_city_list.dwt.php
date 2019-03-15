@@ -25,9 +25,9 @@
 	<table class="table table-striped"  id="list-table">
 		<thead>
 			<tr>
-				<th>城市名称</th>
-				<th>城市别名</th>
-				<th class="w80">操作</th>
+				<th>{t domain="store"}城市名称{/t}</th>
+				<th>{t domain="store"}城市别名{/t}</th>
+				<th class="w80">{t domain="store"}操作{/t}</th>
 			</tr>
 		</thead>
 		<!-- {foreach from=$business_city_list item=business_city} -->
@@ -38,9 +38,9 @@
 				</td>
 				<td>{$business_city.business_city_alias}</td>
 				<td>
-					<a class="no-underline edit-business-city-modal" data-toggle="modal" data-backdrop="static" href="#myModal2" edit-business-city-url='{url path="store/admin_store_business_city/edit" args="city_id={$business_city.business_city}"}'  title="编辑经营城市"><i class="fontello-icon-edit"></i></a>
-					<a class="no-underline add-business-district-modal" data-toggle="test_modal" data-backdrop="static" data-href="#myModal4" add-business-district-url='{url path="store/admin_store_business_city/add_business_district" args="city_id={$business_city.business_city}"}'  title="添加经营地区"><i class="fontello-icon-pencil-squared"></i></a>
-					<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="您确定删除该经营城市吗？" href='{url path="store/admin_store_business_city/remove" args="city_id={$business_city.business_city}"}' title="删除经营城市"><i class="fontello-icon-trash"></i></a>
+					<a class="no-underline edit-business-city-modal" data-toggle="modal" data-backdrop="static" href="#myModal2" edit-business-city-url='{url path="store/admin_store_business_city/edit" args="city_id={$business_city.business_city}"}'  title='{t domain="store"}编辑经营城市{/t}'><i class="fontello-icon-edit"></i></a>
+					<a class="no-underline add-business-district-modal" data-toggle="test_modal" data-backdrop="static" data-href="#myModal4" add-business-district-url='{url path="store/admin_store_business_city/add_business_district" args="city_id={$business_city.business_city}"}'  title='{t domain="store"}添加经营地区{/t}'><i class="fontello-icon-pencil-squared"></i></a>
+					<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg='{t domain="store"}您确定删除该经营城市吗？{/t}' href='{url path="store/admin_store_business_city/remove" args="city_id={$business_city.business_city}"}' title='{t domain="store"}删除经营城市{/t}'><i class="fontello-icon-trash"></i></a>
 				</td>
 			</tr>
 			<!-- {if $business_city.business_district_name}-->
@@ -52,14 +52,14 @@
 				</td>
 				<td></td>
 				<td>
-					<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="您确定删除该经营地区吗？" href='{url path="store/admin_store_business_city/remove_business_district" args="city_id={$business_city.business_city}&district_id={$district.district_id}"}' title="删除经营地区"><i class="fontello-icon-trash"></i></a>
+					<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg='{t domain="store"}您确定删除该经营地区吗？{/t}' href='{url path="store/admin_store_business_city/remove_business_district" args="city_id={$business_city.business_city}&district_id={$district.district_id}"}' title='{t domain="store"}删除经营地区{/t}'><i class="fontello-icon-trash"></i></a>
 				</td>
 			</tr>
 				<!-- {/foreach} -->
 			<!-- {/if}-->
 		<!-- {foreachelse}-->
 			<tr>
-				<td class="no-records" colspan="3">没找到任何记录</td>
+				<td class="no-records" colspan="3">{t domain="store"}没找到任何记录{/t}</td>
 			</tr>	
 		<!-- {/foreach} -->
 	</table>

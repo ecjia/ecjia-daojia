@@ -619,7 +619,7 @@ function order_refund($order, $refund_type, $refund_note = '', $refund_amount = 
 	/* 检查参数 */
 	$user_id = $order['user_id'];
 	if ($user_id == 0 && $refund_type == 1) {
-		return new ecjia_error('invalid_user', '匿名用户不能返回退款到账户余额！');
+		return new ecjia_error('invalid_user', __('匿名用户不能返回退款到账户余额！', 'store'));
 	}
 
 	$amount = $refund_amount > 0 ? $refund_amount : $order['money_paid'];
@@ -628,14 +628,14 @@ function order_refund($order, $refund_type, $refund_note = '', $refund_amount = 
 	}
 
 	if (!in_array($refund_type, array(1, 2, 3))) {
-		return new ecjia_error('invalid_refund_type', '退款方式错误');
+		return new ecjia_error('invalid_refund_type', __('退款方式错误', 'store'));
 	}
 
 	/* 备注信息 */
 	if ($refund_note) {
 		$change_desc = $refund_note;
 	} else {
-		$change_desc = sprintf(RC_Lang::get('store::store.order_refund'), $order['order_sn']);
+		$change_desc = sprintf(__('订单退款：%s', 'store'), $order['order_sn']);
 	}
 
 	/* 处理退款 */
@@ -659,7 +659,7 @@ function order_refund($order, $refund_type, $refund_note = '', $refund_amount = 
 		}
 
 		/* user_account 表增加提款申请记录 */
-		$admin_note = sprintf(RC_Lang::get('store::store.order_refund'), $order['order_sn']);
+		$admin_note = sprintf(__('订单退款：%s', 'store'), $order['order_sn']);
 		$account = array(
 			'user_id'		=> $user_id,
 			'amount'		=> (-1) * $amount,
@@ -689,7 +689,6 @@ function exist_real_goods($order_id = 0, $flow_type = CART_GENERAL_GOODS) {
 	$db_cart	= RC_Loader::load_app_model('cart_model', 'cart');
 	$db_order	= RC_Loader::load_app_model('order_goods_model','orders');
 	if ($order_id <= 0) {
-// 		$query	= $db_cart->where(array('session_id' => SESS_ID , 'is_real' => 1 , 'rec_type' => $flow_type))->count();
 		if ($_SESSION['user_id']) {
 			$query 	= $db_cart->where(array('user_id' => $_SESSION['user_id'] , 'is_real' => 1 , 'rec_type' => $flow_type))->count();
 		} else {
@@ -1226,7 +1225,7 @@ function get_order_detail ($order_id, $user_id = 0)
 
     $order['user_name'] = $_SESSION['user_name'];
     /* 无配送时的处理 */
-    $order['shipping_id'] == - 1 and $order['shipping_name'] = RC_Lang::get('store::store.shipping_not_need');
+    $order['shipping_id'] == - 1 and $order['shipping_name'] = __('无需使用配送方式', 'store');
 
     /* 其他信息初始化 */
     $order['how_oos_name'] = $order['how_oos'];
@@ -1285,12 +1284,12 @@ function get_order_detail ($order_id, $user_id = 0)
 
     /* 确认时间 支付时间 发货时间 */
     if ($order['confirm_time'] > 0 && ($order['order_status'] == OS_CONFIRMED || $order['order_status'] == OS_SPLITED || $order['order_status'] == OS_SPLITING_PART)) {
-        $order['confirm_time'] = sprintf(RC_Lang::get('store::store.confirm_time'), RC_Time::local_date(ecjia::config('time_format'), $order['confirm_time']));
+        $order['confirm_time'] = sprintf(__('审核通过时间', 'store'), RC_Time::local_date(ecjia::config('time_format'), $order['confirm_time']));
     } else {
         $order['confirm_time'] = '';
     }
     if ($order['pay_time'] > 0 && $order['pay_status'] != PS_UNPAYED) {
-        $order['pay_time'] = sprintf(RC_Lang::get('store::store.pay_time'), RC_Time::local_date(ecjia::config('time_format'), $order['pay_time']));
+        $order['pay_time'] = sprintf(__('付款时间：', 'store'), RC_Time::local_date(ecjia::config('time_format'), $order['pay_time']));
     } else {
         $order['pay_time'] = '';
     }
@@ -1298,7 +1297,7 @@ function get_order_detail ($order_id, $user_id = 0)
         SS_SHIPPED,
         SS_RECEIVED
     ))) {
-        $order['shipping_time'] = sprintf(RC_Lang::get('store::store.shipping_time'), RC_Time::local_date(ecjia::config('time_format'), $order['shipping_time']));
+        $order['shipping_time'] = sprintf(__('发货时间：', 'store'), RC_Time::local_date(ecjia::config('time_format'), $order['shipping_time']));
     } else {
         $order['shipping_time'] = '';
     }
@@ -1424,7 +1423,7 @@ function EM_order_query_sql($type = 'finished', $alias = '') {
 		/* 已发货订单：不论是否付款 */
 		return " AND {$alias}shipping_status " . db_create_in(array(SS_SHIPPED)) . " ";
 	} else {
-		die('函数 order_query_sql 参数错误');
+		die(__('函数 order_query_sql 参数错误', 'store'));
 	}
 }
 

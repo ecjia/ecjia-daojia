@@ -52,52 +52,50 @@ defined('IN_ECJIA') or exit('No permission resources.');
 function set_store_menu($store_id, $key){
 
     $keys = array('preview','store_set','commission_set','commission','view_staff','view_log','check_log');
-//     if(!in_array($key,$keys)){
-//         $key = 'preview';
-//     }
+
     $arr = array(
         array(
-            'menu'  => '基本信息',
+            'menu'  => __('基本信息', 'store'),
             'name'  => 'preview',
             'url'   => RC_Uri::url('store/admin/preview', array('store_id' => $store_id))
         ),
         array(
-            'menu'  => '店铺设置',
+            'menu'  => __('店铺设置', 'store'),
             'name'  => 'store_set',
         	'url'   => RC_Uri::url('merchant/admin_store_setting/init', array('store_id' => $store_id))
         ),
         array(
-            'menu'  => '资质认证',
+            'menu'  => __('资质认证', 'store'),
             'name'  => 'auth',
             'url'   => RC_Uri::url('store/admin/auth', array('store_id' => $store_id))
         ),
         array(
-            'menu'  => '佣金设置',
+            'menu'  => __('佣金设置', 'store'),
             'name'  => 'commission_set',
             'url'   => RC_Uri::url('store/admin_commission/edit', array('store_id' => $store_id))
         ),
         array(
-            'menu'  => '结算账单',
+            'menu'  => __('结算账单', 'store'),
             'name'  => 'bill',
             'url'   => RC_Uri::url('commission/admin/init', array('store_id' => $store_id, 'refer' => 'store'))
         ),
         array(
-            'menu'  => '查看员工',
+            'menu'  => __('查看员工', 'store'),
             'name'  => 'view_staff',
             'url'   => RC_Uri::url('staff/admin_store_staff/init', array('store_id' => $store_id))
         ),
         array(
-            'menu'  => '配送方式',
+            'menu'  => __('配送方式', 'store'),
             'name'  => 'shipping',
             'url'   => RC_Uri::url('shipping/admin_store_shipping/init', array('store_id' => $store_id))
         ),
         array(
-            'menu'  => '查看日志',
+            'menu'  => __('查看日志', 'store'),
             'name'  => 'view_log',
             'url'   => RC_Uri::url('store/admin/view_log', array('store_id' => $store_id))
         ),
         array(
-            'menu'  => '审核日志',
+            'menu'  => __('审核日志', 'store'),
             'name'  => 'check_log',
             'url'   => RC_Uri::url('store/admin/check_log', array('store_id' => $store_id))
         ),

@@ -22,21 +22,21 @@
 		<div class="span12">
 			<fieldset>
 				<div class="control-group formSep">
-					<label class="control-label">{t}奖励额度：{/t}</label>
+					<label class="control-label">{t domain="store"}奖励额度：{/t}</label>
 					<div class="controls">
 		 				<input type="text" name="percent_value" maxlength="60" value="{$percent.percent_value}" />&nbsp;%
 		 				<label class="input-must">*</label>
 					</div>	
 				</div>
 				<div class="control-group formSep" >
-					<label class="control-label">{t}排序：{/t}</label>
+					<label class="control-label">{t domain="store"}排序：{/t}</label>
 					<div  class="controls">
 						<input type="text" name="sort_order" maxlength="60" value="{$percent.sort_order}"/>
 					</div>
 				</div>
 				<div class="control-group">
 					<div class="controls">
-						<input type="submit" value="{t}确定{/t}" class="btn btn-gebo" />
+						<input type="submit" value='{t domain="store"}确定{/t}' class="btn btn-gebo" />
 						<input type="hidden" name="id" value="{$id}" />
 					</div>
 				</div>		

@@ -72,8 +72,8 @@ class admin_store_business_city extends ecjia_admin {
 		
 		RC_Script::enqueue_script('region', RC_Uri::admin_url('statics/lib/ecjia-js/ecjia.region.js'));
 		
-		RC_Script::enqueue_script('store_business_city', RC_App::apps_url('statics/js/store_business_city.js', __FILE__), array(), false, true);
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家经营城市'), RC_Uri::url('store/admin_store_business_city/init')));
+		RC_Script::enqueue_script('store_business_city', RC_App::apps_url('statics/js/store_business_city.js', __FILE__), array(), false, 1);
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家经营城市', 'store'), RC_Uri::url('store/admin_store_business_city/init')));
 	}
 	
 	/**
@@ -83,7 +83,7 @@ class admin_store_business_city extends ecjia_admin {
 	    $this->admin_priv('store_business_city_manage');
 		
 	    ecjia_screen::get_current_screen()->remove_last_nav_here();
-	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('经营城市列表')));
+	    ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('经营城市列表', 'store')));
 	   
 	    $business_city_list = RC_DB::table('store_business_city')->orderBy('index_letter', 'asc')->get();
 	    if (!empty($business_city_list)) {
@@ -100,8 +100,8 @@ class admin_store_business_city extends ecjia_admin {
 	  	
 	    $this->assign('business_city_list', $business_city_list);
 		
-	    $this->assign('ur_here',__('经营城市列表'));
-	    $this->assign('action_link', array('text' => __('添加经营城市'),'href'=>RC_Uri::url('store/admin_store_business_city/add')));
+	    $this->assign('ur_here',__('经营城市列表', 'store'));
+	    $this->assign('action_link', array('text' => __('添加经营城市', 'store'),'href'=>RC_Uri::url('store/admin_store_business_city/add')));
 	    $this->display('store_business_city_list.dwt');
 	}
 
@@ -133,13 +133,13 @@ class admin_store_business_city extends ecjia_admin {
 		$district    			= trim($_POST['district']);
 
 		if ( empty($city) || empty($province)) {
-			return $this->showmessage(__('请选择地区！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择地区！', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		/*所添加城市是否已存在*/
 		if (!empty($city)) {
 			$city_count = RC_DB::table('store_business_city')->where('business_city', $city)->count();
 			if ($city_count > 0) {
-				return $this->showmessage('当前添加的经营城市已存在！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('当前添加的经营城市已存在！', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		}
 		$business_city_name = ecjia_region::getRegionName($city);
@@ -153,8 +153,8 @@ class admin_store_business_city extends ecjia_admin {
 		);
 		
 		 RC_DB::table('store_business_city')->insert($data);
-		 ecjia_admin::admin_log('添加经营城市：' . $business_city_name, 'add', 'store_business_city');
-		return $this->showmessage('添加经营城市成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin_store_business_city/init')));
+		 ecjia_admin::admin_log(sprintf(__('添加经营城市：%s', 'store'), $business_city_name), 'add', 'store_business_city');
+		return $this->showmessage(__('添加经营城市成功！', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin_store_business_city/init')));
 	}
 	
 	
@@ -184,8 +184,8 @@ class admin_store_business_city extends ecjia_admin {
 		RC_DB::table('store_business_city')->where('business_city', $city_id)->update(array('business_city_alias' => $business_city_alias, 'index_letter' => $index_letter));
 		$business_city_name = ecjia_region::getRegionName($city_id);
 		//记录log
-		ecjia_admin::admin_log('编辑经营城市：' . $business_city_name, 'edit', 'store_business_city');
-		return $this->showmessage('编辑经营城市成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin_store_business_city/init')));
+		ecjia_admin::admin_log(__('编辑经营城市：', 'store') . $business_city_name, 'edit', 'store_business_city');
+		return $this->showmessage(__('编辑经营城市成功！', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin_store_business_city/init')));
 	}
 	
 	/**
@@ -198,8 +198,8 @@ class admin_store_business_city extends ecjia_admin {
 		RC_DB::table('store_business_city')->where('business_city', $city_id)->delete();
 		//记录log
 		$business_city_name = ecjia_region::getRegionName($city_id);
-		ecjia_admin::admin_log('删除经营城市：' . $business_city_name, 'remove', 'store_business_city');
-		return $this->showmessage('删除经营城市成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		ecjia_admin::admin_log(sprintf(__('删除经营城市：%s', 'store'), $business_city_name), 'remove', 'store_business_city');
+		return $this->showmessage(__('删除经营城市成功！', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
 	/**
@@ -248,7 +248,7 @@ class admin_store_business_city extends ecjia_admin {
 		$district    	= empty($_POST['region_id']) ? array() : $_POST['region_id'];
 		
 		if ( empty($city_id) || empty($district)) {
-			return $this->showmessage(__('请选择地区！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请选择地区！', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		/*所添加地区是否已存在*/
 		if (!empty($district)) {
@@ -259,9 +259,9 @@ class admin_store_business_city extends ecjia_admin {
 				$district_names[] = ecjia_region::getRegionName($val);
 			}
 			$district_name_str = explode(',', $district_names);
-			ecjia_admin::admin_log('添加经营地区：' . $district_name_str, 'add', 'store_business_city');
+			ecjia_admin::admin_log(sprintf(__('添加经营地区：%s', 'store'), $district_name_str), 'add', 'store_business_city');
 		}
-		return $this->showmessage('添加经营城市成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin_store_business_city/init')));
+		return $this->showmessage(__('添加经营城市成功！', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin_store_business_city/init')));
 	}
 	
 	/**
@@ -286,10 +286,10 @@ class admin_store_business_city extends ecjia_admin {
 			RC_DB::table('store_business_city')->where('business_city', $city_id)->update(array('business_district' => $business_district_last));
 			//记录log
 			$district_name = ecjia_region::getRegionName($district_id);
-			ecjia_admin::admin_log('删除经营地区：' . $district_name, 'remove', 'store_business_city');
+			ecjia_admin::admin_log(sprintf(__('删除经营地区：%s', 'store'), $district_name), 'remove', 'store_business_city');
 		}
 		
-		return $this->showmessage('删除经营地区成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('删除经营地区成功！', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
 	/**

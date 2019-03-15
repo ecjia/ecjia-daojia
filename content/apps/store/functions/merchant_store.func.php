@@ -95,16 +95,16 @@ function get_store_trade_time($store_id = 0) {
 
     $trade_time = get_merchant_config($store_id, 'shop_trade_time', '');
     if (empty($trade_time)) {
-        return '暂未设置';
+        return __('暂未设置', 'store');
     }
     $trade_time = unserialize($trade_time);
     if (empty($trade_time)) {
-        return '暂未设置';
+        return __('暂未设置', 'store');
     }
     $sart_time = $trade_time['start'];
     $end_time = explode(':', $trade_time['end']);
     if ($end_time[0] >= 24) {
-        $end_time[0] = '次日'. ($end_time[0] - 24);
+        $end_time[0] = __('次日', 'store'). ($end_time[0] - 24);
     }
 
     return $sart_time . '--' . $end_time[0] . ':' . $end_time[1];
@@ -148,7 +148,7 @@ function set_merchant_config($store_id = 0, $code = '', $value = '', $arr = ''){
             }
             return true;
         }else{
-            return new ecjia_error(101, '参数错误');
+            return new ecjia_error('invalid_parameter', __('参数错误', 'store'));
         }
     }else{
         $count = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', '=', $code)->count();

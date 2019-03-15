@@ -56,12 +56,12 @@ class store_store_menu_api extends Component_Event_Api {
 	    $store_id = royalcms('request')->query('store_id');
 
 		$menus = array(
-            ecjia_admin::make_admin_menu('store_preview', '基本信息', RC_Uri::url('store/admin/preview', array('store_id' => $store_id)), 1)->add_purview('store_affiliate_manage'),
-			ecjia_admin::make_admin_menu('store_auth', '资质认证', RC_Uri::url('store/admin/auth', array('store_id' => $store_id)), 3)->add_purview('store_auth_manage'),
-            ecjia_admin::make_admin_menu('store_commission', '资金设置', RC_Uri::url('store/admin_commission/edit', array('store_id' => $store_id)), 4)->add_purview('store_commission_manage'),
-			ecjia_admin::make_admin_menu('store_fund', '资金管理', RC_Uri::url('store/admin_commission/fund', array('store_id' => $store_id)), 5)->add_purview('store_fund_manage'),
-			ecjia_admin::make_admin_menu('store_view_log', '查看日志', RC_Uri::url('store/admin/view_log', array('store_id' => $store_id)), 9)->add_purview('store_log_manage'),
-            ecjia_admin::make_admin_menu('store_check_log', '审核日志', RC_Uri::url('store/admin/check_log', array('store_id' => $store_id)), 10)->add_purview('store_preaudit_check_log'),
+            ecjia_admin::make_admin_menu('store_preview', __('基本信息', 'store'), RC_Uri::url('store/admin/preview', array('store_id' => $store_id)), 1)->add_purview('store_affiliate_manage'),
+			ecjia_admin::make_admin_menu('store_auth', __('资质认证', 'store'), RC_Uri::url('store/admin/auth', array('store_id' => $store_id)), 3)->add_purview('store_auth_manage'),
+            ecjia_admin::make_admin_menu('store_commission', __('资金设置', 'store'), RC_Uri::url('store/admin_commission/edit', array('store_id' => $store_id)), 4)->add_purview('store_commission_manage'),
+			ecjia_admin::make_admin_menu('store_fund', __('资金管理', 'store'), RC_Uri::url('store/admin_commission/fund', array('store_id' => $store_id)), 5)->add_purview('store_fund_manage'),
+			ecjia_admin::make_admin_menu('store_view_log', __('查看日志', 'store'), RC_Uri::url('store/admin/view_log', array('store_id' => $store_id)), 9)->add_purview('store_log_manage'),
+            ecjia_admin::make_admin_menu('store_check_log', __('审核日志', 'store'), RC_Uri::url('store/admin/check_log', array('store_id' => $store_id)), 10)->add_purview('store_preaudit_check_log'),
         );
         
         return $menus;

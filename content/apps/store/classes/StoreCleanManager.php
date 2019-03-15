@@ -44,60 +44,76 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Store;
 
-class admin_mobileconfig extends ecjia_admin {
-	private $db_ad_position;
-	public function __construct() {
-		parent::__construct();
-		
-		RC_Loader::load_app_func('global');
-		Ecjia\App\Store\Helper::assign_adminlog_content();
-	
-		RC_Script::enqueue_script('jquery-validate');
-		RC_Script::enqueue_script('jquery-form');
-		RC_Script::enqueue_script('smoke');
-		
-		RC_Style::enqueue_style('chosen');
-		RC_Style::enqueue_style('uniform-aristo');
-		RC_Script::enqueue_script('jquery-uniform');
-		RC_Script::enqueue_script('jquery-chosen');
-		RC_Script::enqueue_script('bootstrap-placeholder');
-		
-		RC_Script::enqueue_script('admin_mobileconfig', RC_App::apps_url('statics/js/admin_mobileconfig.js', __FILE__), array(), false, 1);
-	}
+use RC_Hook;
+use RC_Api;
+use InvalidArgumentException;
+use ecjia_app;
 
-					
-	/**
-	 * 移动应用设置
-	 */
-	public function init() {
-	    $this->admin_priv('store_mobileconfig_manage');
-	   
-		$this->assign('ur_here', __('店铺街移动应用设置', 'store'));
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('店铺街移动应用设置', 'store')));
-		
-		$ad_position_list = RC_DB::table('ad_position')->select(RC_DB::raw('position_id, position_name'))->get();
-		
-    	$this->assign('mobile_store_home_adsense', ecjia::config('mobile_store_home_adsense'));
-    	$this->assign('ad_position_list', $ad_position_list);
-		$this->assign('form_action', RC_Uri::url('store/admin_mobileconfig/update'));
-		
-		$this->display('store_mobileconfig.dwt');
-	}
-		
-	/**
-	 * 处理后台设置
-	 */
-	public function update() {
-		$this->admin_priv('store_mobileconfig_manage', ecjia::MSGTYPE_JSON);
-		
-		ecjia_config::instance()->write_config('mobile_store_home_adsense', $_POST['mobile_store_home_adsense']);
+class StoreCleanManager
+{
 
-		ecjia_admin::admin_log(__('店铺街移动应用>店铺街首页配置', 'store'), 'setup', 'store_mobileconfig');
-		return $this->showmessage(__('更新店铺街首页配置设置成功！', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('store/admin_mobileconfig/init')));
-	}
-	
+    protected $api_name = 'store_remove_cleardata';
+
+    protected $factories;
+
+    protected $store_id;
+
+    public function __construct($store_id)
+    {
+        $this->store_id = $store_id;
+    }
+
+    public function getFactories()
+    {
+
+        $apps     = ecjia_app::installed_app_floders();
+        $handlers = RC_Api::apis($apps, $this->api_name, ['store_id' => $this->store_id]);
+
+        $factories = [];
+        foreach ($handlers as $values) {
+            foreach ($values as $item) {
+                $factories[$item->getCode()] = $item;
+            }
+        }
+
+        $factories = RC_Hook::apply_filters('ecjia_store_clean_component_filter', $factories, $this->store_id);
+
+        usort($factories, array($this, 'listMenuBySort'));
+
+        $new_factories = [];
+        foreach ($factories as $item) {
+            $new_factories[$item->getCode()] = $item;
+        }
+
+        return $new_factories;
+    }
+
+    public function handler($code)
+    {
+        if (!array_key_exists($code, $this->factories)) {
+            throw new InvalidArgumentException("Handler '$code' is not supported.");
+        }
+
+        return $this->factories[$code];
+    }
+
+
+    /**
+     * 列表排序
+     *
+     * @param StoreCleanAbstract $a
+     * @param StoreCleanAbstract $b
+     * @return number
+     */
+    protected function listMenuBySort(StoreCleanAbstract $a, StoreCleanAbstract $b)
+    {
+        if ($a->getSort() == $b->getSort()) {
+            return 0;
+        } else {
+            return ($a->getSort() > $b->getSort()) ? 1 : -1;
+        }
+    }
+
 }
-
-//end

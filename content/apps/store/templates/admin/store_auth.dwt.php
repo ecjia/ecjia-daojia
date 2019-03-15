@@ -32,9 +32,9 @@
                     <div class="accordion-heading">
                         <div class="accordion-heading accordion-heading-url">
                             <div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#info2">
-                                <strong>经营主体信息</strong>
+                                <strong>{t domain="store"}经营主体信息{/t}</strong>
                             </div>
-                            <a class="data-pjax accordion-url m_l10" href='{RC_Uri::url("store/admin/edit","store_id={$smarty.get.store_id}&step=identity")}'>编辑</a>
+                            <a class="data-pjax accordion-url m_l10" href='{RC_Uri::url("store/admin/edit","store_id={$smarty.get.store_id}&step=identity")}'>{t domain="store"}编辑{/t}</a>
                         </div>
                     </div>
                     <div class="accordion-body in collapse" id="info2">
@@ -42,53 +42,53 @@
                             <tbody class="first-td-no-leftbd">
                             {if $store.validate_type eq 1}
                             <tr>
-                                <td><div align="right"><strong>{lang key='store::store.validate_type'}</strong></div></td>
-                                <td>{if $store.validate_type eq 1}{lang key='store::store.personal'}{else}{lang key='store::store.company'}{/if}</td>
-                                <td><div align="right"><strong>负责人:</strong></div></td>
+                                <td><div align="right"><strong>{t domain="store"}入驻类型：{/t}</strong></div></td>
+                                <td>{if $store.validate_type eq 1}{t domain="store"}个人{/t}{else}{t domain="store"}企业{/t}{/if}</td>
+                                <td><div align="right"><strong>{t domain="store"}负责人:{/t}</strong></div></td>
                                 <td>{$store.responsible_person}</td>
                             </tr>
 
                             <tr>
-                                <td ><div align="right"><strong>{lang key='store::store.identity_type_lable'}</strong></div></td>
+                                <td ><div align="right"><strong>{t domain="store"}证件类型：{/t}</strong></div></td>
                                 {if $store.identity_type eq 1}
-                                <td>{lang key='store::store.people_id'}</td>
+                                <td>{t domain="store"}身份证{/t}</td>
                                 {elseif $store.identity_type eq 2}
-                                <td>{lang key='store::store.passport'}</td>
+                                <td>{t domain="store"}护照{/t}</td>
                                 {elseif $store.identity_type eq 3}
-                                <td>{lang key='store::store.hong_kong_and_macao_pass'}</td>
+                                <td>{t domain="store"}港澳身份证{/t}</td>
                                 {else}
                                 <td></td>
                                 {/if}
-                                <td><div align="right"><strong>{lang key='store::store.identity_number_lable'}</strong></div></td>
+                                <td><div align="right"><strong>{t domain="store"}证件号码：{/t}</strong></div></td>
                                 <td>{$store.identity_number}</td>
                             </tr>
                             {elseif $store.validate_type eq 2}
                             <tr>
-                                <td><div align="right"><strong>{lang key='store::store.validate_type'}</strong></div></td>
-                                <td>{if $store.validate_type eq 1}{lang key='store::store.personal'}{else}{lang key='store::store.company'}{/if}</td>
-                                <td><div align="right"><strong>{lang key='store::store.person_lable'}</strong></div></td>
+                                <td><div align="right"><strong>{t domain="store"}入驻类型：{/t}</strong></div></td>
+                                <td>{if $store.validate_type eq 1}{t domain="store"}个人{/t}{else}{t domain="store"}企业{/t}{/if}</td>
+                                <td><div align="right"><strong>{t domain="store"}负责人：{/t}</strong></div></td>
                                 <td>{$store.responsible_person}</td>
                             </tr>
 
                             <tr>
-                                <td><div align="right"><strong>{lang key='store::store.companyname_lable'}</strong></div></td>
+                                <td><div align="right"><strong>{t domain="store"}公司名称：{/t}</strong></div></td>
                                 <td>{$store.company_name}</td>
-                                <td><div align="right"><strong>{lang key='store::store.business_licence_lable'}</strong></div></td>
+                                <td><div align="right"><strong>{t domain="store"}营业执照注册号：{/t}</strong></div></td>
                                 <td >{$store.business_licence}</td>
                             </tr>
 
                             <tr>
-                                <td><div align="right"><strong>{lang key='store::store.identity_type_lable'}</strong></div></td>
+                                <td><div align="right"><strong>{t domain="store"}证件类型：{/t}</strong></div></td>
                                 {if $store.identity_type eq 1}
-                                <td>{lang key='store::store.people_id'}</td>
+                                <td>{t domain="store"}身份证{/t}</td>
                                 {elseif $store.identity_type eq 2}
-                                <td>{lang key='store::store.passport'}</td>
+                                <td>{t domain="store"}护照{/t}</td>
                                 {elseif $store.identity_type eq 3}
-                                <td>{lang key='store::store.hong_kong_and_macao_pass'}</td>
+                                <td>{t domain="store"}港澳身份证{/t}</td>
                                 {else}
                                 <td></td>
                                 {/if}
-                                <td><div align="right"><strong>{lang key='store::store.identity_number_lable'}</strong></div></td>
+                                <td><div align="right"><strong>{t domain="store"}证件号码：{/t}</strong></div></td>
                                 <td>{$store.identity_number}</td>
                             </tr>
                             {/if}
@@ -101,9 +101,9 @@
                     <div class="accordion-heading">
                         <div class="accordion-heading accordion-heading-url">
                             <div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#identity_pic">
-                                <strong>证件电子版</strong>
+                                <strong>{t domain="store"}证件电子版{/t}</strong>
                             </div>
-                            <a class="data-pjax accordion-url" href='{RC_Uri::url("store/admin/edit","store_id={$smarty.get.store_id}&step=pic")}'>编辑</a>
+                            <a class="data-pjax accordion-url" href='{RC_Uri::url("store/admin/edit","store_id={$smarty.get.store_id}&step=pic")}'>{t domain="store"}编辑{/t}</a>
                         </div>
                     </div>
 
@@ -111,48 +111,48 @@
                         <table class="table table-oddtd m_b0">
                             <tbody class="first-td-no-leftbd">
                             <tr>
-                                <td><div align="right"><strong>{lang key='store::store.identity_pic_front_lable'}</strong></div></td>
+                                <td><div align="right"><strong>{t domain="store"}证件正面：{/t}</strong></div></td>
                                 <td>
                                     {if $store.identity_pic_front neq ''}
-                                    <a href="{RC_Upload::upload_url({$store.identity_pic_front})}" title="点击查看大图" target="_blank"><img class="w200 h120 thumbnail"  class="img-polaroid" src="{RC_Upload::upload_url({$store.identity_pic_front})}"></a>
+                                    <a href="{RC_Upload::upload_url({$store.identity_pic_front})}" title='{t domain="store"}点击查看大图{/t}' target="_blank"><img class="w200 h120 thumbnail"  class="img-polaroid" src="{RC_Upload::upload_url({$store.identity_pic_front})}"></a>
                                     {else}
                                     <div class="l_h30">
-                                        {lang key='store::store.no_upload'}
+                                        {t domain="store"} 还未上传{/t}
                                     </div>
                                     {/if}
                                 </td>
-                                <td><div align="right"><strong>{lang key='store::store.identity_pic_back_lable'}</strong></div></td>
+                                <td><div align="right"><strong>{t domain="store"}证件反面：{/t}</strong></div></td>
                                 <td>
                                     {if $store.identity_pic_back neq ''}
-                                    <a href="{RC_Upload::upload_url({$store.identity_pic_back})}" title="点击查看大图" target="_blank"><img class="w200 h120 thumbnail"  class="img-polaroid" src="{RC_Upload::upload_url({$store.identity_pic_back})}"></a>
+                                    <a href="{RC_Upload::upload_url({$store.identity_pic_back})}" title='{t domain="store"}点击查看大图{/t}' target="_blank"><img class="w200 h120 thumbnail"  class="img-polaroid" src="{RC_Upload::upload_url({$store.identity_pic_back})}"></a>
                                     {else}
                                     <div class="l_h30">
-                                        {lang key='store::store.no_upload'}
+                                        {t domain="store"}还未上传{/t}
                                     </div>
                                     {/if}
                                 </td>
                             </tr>
                             <tr>
-                                <td><div align="right"><strong>{lang key='store::store.personhand_identity_pic_lable'}</strong></div></td>
+                                <td><div align="right"><strong>{t domain="store"}手持证件：{/t}</strong></div></td>
                                 <td {if $store.validate_type eq 1} colspan="3"{/if}>
                                     {if $store.personhand_identity_pic neq ''}
-                                    <a href="{RC_Upload::upload_url({$store.personhand_identity_pic})}" title="点击查看大图" target="_blank"><img class="w200 h120 thumbnail"  class="img-polaroid" src="{RC_Upload::upload_url({$store.personhand_identity_pic})}"></a>
+                                    <a href="{RC_Upload::upload_url({$store.personhand_identity_pic})}" title='{t domain="store"}点击查看大图{/t}' target="_blank"><img class="w200 h120 thumbnail"  class="img-polaroid" src="{RC_Upload::upload_url({$store.personhand_identity_pic})}"></a>
                                     {else}
                                     <div class="l_h30">
-                                        {lang key='store::store.no_upload'}
+                                         {t domain="store"}还未上传{/t}
                                     </div>
                                     {/if}
                                 </td>
                             <!-- {if $store.validate_type eq 1} -->
                             <input type="hidden"  name="identity_type" value="{$store.validate_type}" />
                             <!-- {elseif $store.validate_type eq 2} -->
-                                <td><div align="right"><strong>{lang key='store::store.business_licence_pic_lable'}</strong></div></td>
+                                <td><div align="right"><strong>{t domain="store"}营业执照电子版：{/t}</strong></div></td>
                                 <td>
                                     {if $store.business_licence_pic neq ''}
-                                    <a href="{RC_Upload::upload_url({$store.business_licence_pic})}" title="点击查看大图" target="_blank"><img class="w200 h120 thumbnail"  class="img-polaroid" src="{RC_Upload::upload_url({$store.business_licence_pic})}"></a>
+                                    <a href="{RC_Upload::upload_url({$store.business_licence_pic})}" title='{t domain="store"}点击查看大图{/t}' target="_blank"><img class="w200 h120 thumbnail"  class="img-polaroid" src="{RC_Upload::upload_url({$store.business_licence_pic})}"></a>
                                     {else}
                                     <div class="l_h30">
-                                        {lang key='store::store.no_upload'}
+                                      	{t domain="store"}还未上传{/t}
                                     </div>
                                     {/if}
                                 </td>
@@ -167,7 +167,7 @@
                     <div class="accordion-heading">
                         <div class="accordion-heading accordion-heading-url">
                             <div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#operate">
-                                <strong>认证操作</strong>
+                                <strong>{t domain="store"}认证操作{/t}</strong>
                             </div>
                         </div>
                     </div>
@@ -177,21 +177,20 @@
                         <table class="table table-oddtd m_b0">
                             <tbody class="first-td-no-leftbd">
                             <tr>
-                                <td><div align="right"><strong>当前认证状态：</strong></div></td>
-                                <td colspan="3">{if $store.identity_status eq 0}待认证
-                                {else if $store.identity_status eq 1}认证中
-                                {else if $store.identity_status eq 2}认证通过
-                                {else if $store.identity_status eq 3}<span class="ecjiafc_red m_l10">不通过</span>{/if}
+                                <td><div align="right"><strong>{t domain="store"}当前认证状态：{/t}</strong></div></td>
+                                <td colspan="3">{if $store.identity_status eq 0}{t domain="store"}待认证{/t}
+                                {else if $store.identity_status eq 1}{t domain="store"}认证中{/t}
+                                {else if $store.identity_status eq 2}{t domain="store"}认证通过{/t}
+                                {else if $store.identity_status eq 3}<span class="ecjiafc_red m_l10">{t domain="store"}不通过{/t}</span>{/if}
                                 </td>
                             </tr>
                             <tr>
-                                <td><div align="right"><strong>可执行操作：</strong></div></td>
+                                <td><div align="right"><strong>{t domain="store"}可执行操作：{/t}</strong></div></td>
                                 <td>
                                     <input type="hidden" name="store_id" value="{$store.store_id}" />
-                                    {if $store.identity_status neq 1}<button class="btn operatesubmit " type="submit" name="check_ing">认证中</button>&nbsp;&nbsp;{/if}
-                                    {if $store.identity_status neq 3}<button class="btn operatesubmit btn-danger" type="submit" name="check_no">不通过</button>&nbsp;&nbsp;{/if}
-                                    {if $store.identity_status neq 2}<button class="btn operatesubmit btn-success" type="submit" name="check_yes">{lang key='store::store.check_yes'}</button>{/if}
-                                    <!-- <button class="btn btn-gebo" type="submit">{lang key='store::store.sub_check'}</button> -->
+                                    {if $store.identity_status neq 1}<button class="btn operatesubmit " type="submit" name="check_ing">{t domain="store"}认证中{/t}</button>&nbsp;&nbsp;{/if}
+                                    {if $store.identity_status neq 3}<button class="btn operatesubmit btn-danger" type="submit" name="check_no">{t domain="store"}不通过{/t}</button>&nbsp;&nbsp;{/if}
+                                    {if $store.identity_status neq 2}<button class="btn operatesubmit btn-success" type="submit" name="check_yes">{t domain="store"}通过{/t}</button>{/if}
                                 </td>
                             </tr>
                             </tbody>

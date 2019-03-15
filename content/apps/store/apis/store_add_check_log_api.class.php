@@ -58,7 +58,7 @@ class store_add_check_log_api extends Component_Event_Api {
 	 */
 	public function call (&$options) {
 		if (!is_array($options) ) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效！', 'store'));
 		}
 		$options['time'] = RC_Time::gmtime();
 		

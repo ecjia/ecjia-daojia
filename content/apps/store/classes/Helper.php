@@ -56,23 +56,67 @@ class Helper
      */
     public static function assign_adminlog_content()
     {
-        ecjia_admin_log::instance()->add_object('store_commission', '佣金结算');
-        ecjia_admin_log::instance()->add_object('store_commission_status', '佣金结算状态');
+        ecjia_admin_log::instance()->add_object('store_commission', __('佣金结算', 'store'));
+        ecjia_admin_log::instance()->add_object('store_commission_status', __('佣金结算状态', 'store'));
 
-        ecjia_admin_log::instance()->add_object('merchants_step', '申请流程');
-        ecjia_admin_log::instance()->add_object('merchants_step_title', '申请流程信息');
-        ecjia_admin_log::instance()->add_object('merchants_step_custom', '自定义字段');
+        ecjia_admin_log::instance()->add_object('merchants_step', __('申请流程', 'store'));
+        ecjia_admin_log::instance()->add_object('merchants_step_title', __('申请流程信息', 'store'));
+        ecjia_admin_log::instance()->add_object('merchants_step_custom', __('自定义字段', 'store'));
 
-        ecjia_admin_log::instance()->add_object('seller', '入驻商');
-        ecjia_admin_log::instance()->add_object('merchants_brand', '商家品牌');
-        ecjia_admin_log::instance()->add_object('store_category', '店铺分类');
-        ecjia_admin_log::instance()->add_object('merchant_notice', '商家公告');
+        ecjia_admin_log::instance()->add_object('seller', __('入驻商', 'store'));
+        ecjia_admin_log::instance()->add_object('merchants_brand', __('商家品牌', 'store'));
+        ecjia_admin_log::instance()->add_object('store_category', __('店铺分类', 'store'));
+        ecjia_admin_log::instance()->add_object('merchant_notice', __('商家公告', 'store'));
 
-        ecjia_admin_log::instance()->add_object('config', '配置');
-        ecjia_admin_log::instance()->add_object('store_percent', '佣金比例');
-        ecjia_admin_log::instance()->add_object('store_mobileconfig', '店铺街配置');
-        
-        ecjia_admin_log::instance()->add_object('store_business_city', '店铺经营城市');
+        ecjia_admin_log::instance()->add_object('config', __('配置', 'store'));
+        ecjia_admin_log::instance()->add_object('store_percent', __('佣金比例', 'store'));
+        ecjia_admin_log::instance()->add_object('store_mobileconfig', __('店铺街配置', 'store'));
+
+        ecjia_admin_log::instance()->add_object('store_business_city', __('店铺经营城市', 'store'));
+
+        ecjia_admin_log::instance()->add_object('store', __('店铺', 'store'));
+        ecjia_admin_log::instance()->add_object('store_article', __('店铺文章', 'store'));
+        ecjia_admin_log::instance()->add_object('store_article_comment', __('文章评论', 'store'));
+
+        ecjia_admin_log::instance()->add_object('store_bonus', __('店铺红包', 'store'));
+        ecjia_admin_log::instance()->add_object('store_favourable_activity', __('店铺优惠活动', 'store'));
+        ecjia_admin_log::instance()->add_object('store_promotion_activity', __('店铺促销活动', 'store'));
+        ecjia_admin_log::instance()->add_object('store_groupbuy_activity', __('店铺团购活动', 'store'));
+        ecjia_admin_log::instance()->add_object('store_quickpay_activity', __('店铺买单活动', 'store'));
+
+        ecjia_admin_log::instance()->add_object('store_staff', __('店铺员工', 'store'));
+        ecjia_admin_log::instance()->add_object('store_collect', __('店铺收藏', 'store'));
+        ecjia_admin_log::instance()->add_object('store_goods', __('店铺商品数据', 'store'));
+        ecjia_admin_log::instance()->add_object('store_cart_goods', __('店铺购物车商品', 'store'));
+
+        ecjia_admin_log::instance()->add_object('store_cashier_pendorder', __('店铺收银台挂单', 'store'));
+        ecjia_admin_log::instance()->add_object('store_cashier_device', __('店铺收银台设备', 'store'));
+        ecjia_admin_log::instance()->add_object('store_cashier_scales', __('店铺电子秤设备', 'store'));
+
+        ecjia_admin_log::instance()->add_object('store_market_activity', __('店铺公众平台营销活动', 'store'));
+
+        ecjia_admin_log::instance()->add_object('store_adsense', __('店铺广告', 'store'));
+        ecjia_admin_log::instance()->add_object('store_adsense_position', __('店铺广告位', 'store'));
+
+        ecjia_admin_log::instance()->add_object('store_toutiao_menu', __('店铺自定义菜单', 'store'));
+        ecjia_admin_log::instance()->add_object('store_toutiao', __('店铺今日头条', 'store'));
+
+        ecjia_admin_log::instance()->add_object('store_printer', __('店铺小票打印机', 'store'));
+        ecjia_admin_log::instance()->add_object('store_print_record', __('店铺小票打印记录', 'store'));
+
+        ecjia_admin_log::instance()->add_object('store_shipping_area', __('店铺配送区域', 'store'));
+        ecjia_admin_log::instance()->add_object('store_staff_log', __('店铺操作日志', 'store'));
+        ecjia_admin_log::instance()->add_object('store_close', __('锁定、关闭店铺主表', 'store'));
+        ecjia_admin_log::instance()->add_object('store_keywords', __('店铺搜索关键词', 'store'));
+        ecjia_admin_log::instance()->add_object('store_user', __('店铺会员', 'store'));
+
+        ecjia_admin_log::instance()->add_object('store_check_log', __('店铺审核日志', 'store'));
+        ecjia_admin_log::instance()->add_object('store_preaudit', __('店铺申请资料', 'store'));
+        ecjia_admin_log::instance()->add_object('store_order', __('店铺订单', 'store'));
+        ecjia_admin_log::instance()->add_object('store_goods_comment', __('商品评论', 'store'));
+        ecjia_admin_log::instance()->add_object('store_shipping_template', __('运费模版', 'store'));
+
+        ecjia_admin_log::instance()->add_action('clean', __('一键删除', 'store'));
     }
 
 }

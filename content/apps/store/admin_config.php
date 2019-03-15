@@ -70,8 +70,9 @@ class admin_config extends ecjia_admin
         RC_Script::enqueue_script('jquery.toggle.buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/jquery.toggle.buttons.js'));
         RC_Style::enqueue_style('bootstrap-toggle-buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/bootstrap-toggle-buttons.css'));
 
-        RC_Script::enqueue_script('admin_config', RC_App::apps_url('statics/js/admin_config.js', __FILE__), array(), false, true);
-        RC_Script::localize_script('admin_config', 'js_lang', RC_Lang::get('mobile::mobile.js_lang'));
+        RC_Script::enqueue_script('admin_config', RC_App::apps_url('statics/js/admin_config.js', __FILE__), array(), false, 1);
+        //js语言包
+        RC_Script::localize_script('admin_config', 'js_lang', config('app-store::jslang.store_config_page'));
     }
 
     /**
@@ -81,14 +82,13 @@ class admin_config extends ecjia_admin
     {
         $this->admin_priv('store_config_manage');
 
-        $this->assign('ur_here', '后台配置');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('后台配置')));
+        $this->assign('ur_here', __('后台配置', 'store'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('后台配置', 'store')));
 
         /* 判断定位范围设置code是否存在，如果不存在则插入*/
         if (!ecjia::config('mobile_location_range', ecjia::CONFIG_CHECK)) {
             ecjia_config::instance()->insert_config('mobile', 'mobile_location_range', 3, array('type' => 'text'));
         }
-//         $this->assign('config_cpname', ecjia::config('merchant_admin_cpname')); //需删除
 
         $this->assign('config_logoimg', RC_Upload::upload_url(ecjia::config('merchant_admin_login_logo')));
         $this->assign('config_logo', ecjia::config('merchant_admin_login_logo'));
@@ -138,7 +138,7 @@ class admin_config extends ecjia_admin
         if (!empty($region_data)) {
             foreach ($region_data as $key => $val) {
                 if (empty($val['region_name'])) {
-                    $regions[$val['region_id']] = '<lable  style="color:red">' . RC_Lang::get('mobile::mobile.region_removed') . '</lable>';
+                    $regions[$val['region_id']] = '<lable  style="color:red">' . __('该区域已被移除', 'store') . '</lable>';
                 } else {
                     $regions[$val['region_id']] = $val['region_name'];
                 }
@@ -175,17 +175,17 @@ class admin_config extends ecjia_admin
         } elseif ($store_model == 1) {
             $store_id = !empty($_POST['store']) ? intval($_POST['store']) : 0;
             if (empty($store_id)) {
-                return $this->showmessage('请搜索后选择店铺', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请搜索后选择店铺', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             $store_model = $store_id;
             //多门店
         } elseif ($store_model == 2) {
             $store_id = !empty($_POST['store_id']) ? $_POST['store_id'] : '';
             if (empty($store_id)) {
-                return $this->showmessage('请搜索后选择店铺', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请搜索后选择店铺', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             if (count($store_id) < 2) {
-                return $this->showmessage('请至少选择两个店铺', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请至少选择两个店铺', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             $store_model = implode(',', $store_id);
             //平台模式
@@ -236,8 +236,8 @@ class admin_config extends ecjia_admin
         }
         ecjia_config::instance()->write_config('mobile_recommend_city', $mobile_recommend_city);
 
-        ecjia_admin::admin_log('商家入驻>后台设置', 'setup', 'config');
-        return $this->showmessage(__('更新商店设置成功！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin_config/init')));
+        ecjia_admin::admin_log(__('商家入驻>后台设置', 'store'), 'setup', 'config');
+        return $this->showmessage(__('更新商店设置成功！', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin_config/init')));
     }
 
     /**
@@ -255,7 +255,7 @@ class admin_config extends ecjia_admin
                 ecjia_config::instance()->write_config('merchant_admin_login_logo', '');
             }
         }
-        return $this->showmessage(__('删除图片成功！'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin_config/init')));
+        return $this->showmessage(__('删除图片成功！', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('store/admin_config/init')));
     }
 
     /**

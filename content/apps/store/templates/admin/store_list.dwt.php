@@ -43,16 +43,16 @@
 	
 <div class="nav nav-pills">
 	<li class="{if !$smarty.get.type}active{/if}">
-		<a class="data-pjax" href="{if $manage_mode eq 'self'}{RC_Uri::url('store/admin/init')}{else}{RC_Uri::url('store/admin/join')}{/if}{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}">{lang key='store::store.preaudit_list'} 
+		<a class="data-pjax" href="{if $manage_mode eq 'self'}{RC_Uri::url('store/admin/init')}{else}{RC_Uri::url('store/admin/join')}{/if}{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}">{t domain="store"}全部{/t} 
 			<span class="badge badge-info">{$filter.count_all}</span>
 		</a>
 	</li>
 	
 	<li class="{if $smarty.get.type eq 1}active{/if}">
 		{if $manage_mode eq 'self'}
-			<a class="data-pjax" href='{RC_Uri::url("store/admin/init", "type=1{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}")}'>正常
+			<a class="data-pjax" href='{RC_Uri::url("store/admin/init", "type=1{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}")}'>{t domain="store"}正常{/t}
 		{else}
-			<a class="data-pjax" href='{RC_Uri::url("store/admin/join", "type=1{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}")}'>正常
+			<a class="data-pjax" href='{RC_Uri::url("store/admin/join", "type=1{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}")}'>{t domain="store"}正常{/t}
 		{/if}
 			<span class="badge badge-info use-plugins-num">{$filter.count_unlock}</span>
 		</a>
@@ -60,28 +60,28 @@
 	
 	<li class="{if $smarty.get.type eq 2}active{/if}">	
 		{if $manage_mode eq 'self'}
-			<a class="data-pjax" href='{RC_Uri::url("store/admin/init", "type=2{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}")}'>{lang key='store::store.lock'}
+			<a class="data-pjax" href='{RC_Uri::url("store/admin/init", "type=2{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}")}'>{t domain="store"}锁定{/t}
 		{else}
-			<a class="data-pjax" href='{RC_Uri::url("store/admin/join", "type=2{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}")}'>{lang key='store::store.lock'}
+			<a class="data-pjax" href='{RC_Uri::url("store/admin/join", "type=2{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}")}'>{t domain="store"}锁定{/t}
 		{/if}
 			<span class="badge badge-info unuse-plugins-num">{$filter.count_locking}</span>
 		</a>
 	</li>
 	<form class="f_r form-inline" action="{$search_action}{if $smarty.get.type}&type={$smarty.get.type}{/if}" name="searchForm" method="post">
-		<input type="text" name="keywords" placeholder="{lang key='store::store.pls_name'}" value="{$store_list.filter.keywords}"/>
-		<input class="btn search_store" type="submit" value="{lang key='store::store.serach'}"/>
+		<input type="text" name="keywords" placeholder='{t domain="store"}请输入店铺名称或手机号{/t}' value="{$store_list.filter.keywords}"/>
+		<input class="btn search_store" type="submit" value='{t domain="store"}搜索{/t}'/>
   	</form>
 </div>
 <div class="row-fluid">
 <div class="nav nav-pills">
 
 	<li class="{if !$smarty.get.cat}active{/if}">
-		<a class="data-pjax" href="{if $manage_mode eq 'self'}{RC_Uri::url('store/admin/init')}{else}{RC_Uri::url('store/admin/join')}{/if}{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $smarty.get.type}&type={$smarty.get.type}{/if}">全部分类
+		<a class="data-pjax" href="{if $manage_mode eq 'self'}{RC_Uri::url('store/admin/init')}{else}{RC_Uri::url('store/admin/join')}{/if}{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $smarty.get.type}&type={$smarty.get.type}{/if}">{t domain="store"}全部分类{/t}
 			<span class="badge badge-info"></span>
 		</a>
 	</li>
 	<li class="{if $smarty.get.cat eq -1}active{/if}">
-		<a class="data-pjax" href="{if $manage_mode eq 'self'}{RC_Uri::url('store/admin/init','cat=-1')}{else}{RC_Uri::url('store/admin/join','cat=-1')}{/if}{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $smarty.get.type}&type={$smarty.get.type}{/if}">未分类
+		<a class="data-pjax" href="{if $manage_mode eq 'self'}{RC_Uri::url('store/admin/init','cat=-1')}{else}{RC_Uri::url('store/admin/join','cat=-1')}{/if}{if $store_list.status}&merchant_keywords={$store_list.status}{/if}{if $filter.keywords}&keywords={$filter.keywords}{/if}{if $smarty.get.type}&type={$smarty.get.type}{/if}">{t domain="store"}未分类{/t}
 			<span class="badge badge-info"></span>
 		</a>
 	</li>
@@ -118,7 +118,7 @@
 			<!-- {/foreach} -->
 			</ul>
 		{else}
-		<pre class="sepH_c" style=" background-color: #fbfbfb; height:80px;line-height:80px;">{lang key='system::system.no_records'}</pre>
+		<pre class="sepH_c" style=" background-color: #fbfbfb; height:80px;line-height:80px;">{t domain="store"}没有找到任何记录{/t}</pre>
 		{/if}
 		</div>
 		</form>

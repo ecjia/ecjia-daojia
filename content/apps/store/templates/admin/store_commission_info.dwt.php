@@ -23,12 +23,12 @@ ecjia.admin.commission.init();
         <div class="tab-content tab_merchants">
             <div class="tab-pane active" style="min-height:300px;">
                 <form class="form-horizontal" method="post" action='{$form_action}' name="theForm">
-                    <h3 class="heading">佣金比例</h3>
+                    <h3 class="heading">{t domain="store"}佣金比例{/t}</h3>
                     <div class="control-group formSep">
-                        <label class="control-label">{t}佣金比例：{/t}</label>
+                        <label class="control-label">{t domain="store"}佣金比例：{/t}</label>
                         <div class="controls">
                             <select name="percent_id">
-                                <option value="0">{t}请选择{/t}</option>
+                                <option value="0">{t domain="store"}请选择{/t}</option>
                                 <!-- {foreach from=$store_percent item=percent} -->
                                 <option value="{$percent.percent_id}" {if $store_commission.percent_id eq $percent.percent_id} selected="selected" {/if}>{$percent.percent_value}%</option>
                                 <!-- {/foreach} -->
@@ -37,18 +37,18 @@ ecjia.admin.commission.init();
                         </div>
                     </div>
                     
-                    <h3 class="heading">保证金</h3>
+                    <h3 class="heading">{t domain="store"}保证金{/t}</h3>
                     <div class="control-group formSep">
-                        <label class="control-label">{t}保证金：{/t}</label>
+                        <label class="control-label">{t domain="store"}保证金：{/t}</label>
                         <div class="controls">
-                            <input type="text" name="store_deposit" value="{$store_deposit}" /> 元
-    				        <span class="help-block">设置此商家需要向平台缴纳的保证金金额</span>
+                            <input type="text" name="store_deposit" value="{$store_deposit}" /> {t domain="store"}元{/t}
+    				        <span class="help-block">{t domain="store"}设置此商家需要向平台缴纳的保证金金额{/t}</span>
                         </div>
                     </div>
 
                     <div class="control-group " >
                         <div class="controls">
-                            <input type="submit" value="{t}确定{/t}" class="btn btn-gebo" />
+                            <input type="submit" value='{t domain="store"}确定{/t}' class="btn btn-gebo" />
                             <input type="hidden" name="store_id" value="{$store_id}">
                             <input type="hidden" name="id" value="{$id}">
                         </div>

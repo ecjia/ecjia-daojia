@@ -94,16 +94,16 @@ class StoreFranchisee
     
     	$trade_time = self::GetMerchantConfig('shop_trade_time', '', $store_id);
     	if (empty($trade_time)) {
-    		return '暂未设置';
+    		return __('暂未设置', 'store');
     	}
     	$trade_time = unserialize($trade_time);
     	if (empty($trade_time)) {
-    		return '暂未设置';
+    		return __('暂未设置', 'store');
     	}
     	$sart_time = $trade_time['start'];
     	$end_time = explode(':', $trade_time['end']);
     	if ($end_time[0] >= 24) {
-    		$end_time[0] = '次日'. ($end_time[0] - 24);
+    		$end_time[0] = __('次日', 'store'). ($end_time[0] - 24);
     	}
     
     	return $sart_time . '--' . $end_time[0] . ':' . $end_time[1];

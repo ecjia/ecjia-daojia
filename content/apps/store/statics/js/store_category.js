@@ -17,7 +17,7 @@
 							cat_name : { required : true }
 						},
 						messages : {
-							cat_name : { required : "请输入分类名称！" }
+							cat_name : { required : js_lang.required_cat_name}
 						},
 						submitHandler : function() {
 							$form.ajaxSubmit({

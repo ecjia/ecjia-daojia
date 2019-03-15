@@ -58,7 +58,7 @@ class store_neighbors_store_id_api extends Component_Event_Api {
 	 */
 	public function call (&$options) {
 		if (!is_array($options) || ((!isset($options['geohash']) || empty($options['geohash'])) && (!isset($options['city_id']) || !$options['city_id']))) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效！', 'store'));
 		}
 
 		return $this->neighbors_store($options['geohash'], $options['city_id']);
@@ -97,10 +97,6 @@ class store_neighbors_store_id_api extends Component_Event_Api {
 		}
 		
 		return $group_store_id;
-
-// 		/* 获取当前经纬度的geohash值*/
-// 		$geohash_code = $geohash->encode($filter['location']['latitude'] , $filter['location']['longitude']);
-// 		$geohash_code = substr($geohash_code, 0, 5);
 	}
 }
 

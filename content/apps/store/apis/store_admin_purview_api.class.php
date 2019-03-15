@@ -55,47 +55,49 @@ class store_admin_purview_api extends Component_Event_Api {
     public function call(&$options) {
         $purviews = array(
         	//入驻商权限	
-            array('action_name' => RC_Lang::get('store::store.store_affiliate'), 'action_code' => 'store_affiliate_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('store::store.store_update'), 'action_code' => 'store_affiliate_update', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('store::store.store_lock'), 'action_code' => 'store_affiliate_lock', 	'relevance' => ''),
-            array('action_name' => '添加商家', 'action_code' => 'store_affiliate_add', 	'relevance' => ''),
-        	array('action_name' => '自营商家', 'action_code' => 'store_self_manage', 	'relevance' => ''),
+            array('action_name' => __('入驻商家', 'store'), 'action_code' => 'store_affiliate_manage', 	'relevance' => ''),
+        	array('action_name' => __('编辑入驻商', 'store'), 'action_code' => 'store_affiliate_update', 	'relevance' => ''),
+        	array('action_name' => __('锁定商家', 'store'), 'action_code' => 'store_affiliate_lock', 	'relevance' => ''),
+            array('action_name' => __('添加商家', 'store'), 'action_code' => 'store_affiliate_add', 	'relevance' => ''),
+        	array('action_name' => __('自营商家', 'store'), 'action_code' => 'store_self_manage', 	'relevance' => ''),
 
-        	array('action_name' => '店铺设置', 		'action_code' => 'store_set_manage', 		'relevance' => ''),
-            array('action_name' => '修改店铺设置', 	'action_code' => 'store_set_update', 		'relevance' => ''),
-            array('action_name' => '资质认证', 		'action_code' => 'store_auth_manage', 		'relevance' => ''),
-        	array('action_name' => '资金设置', 		'action_code' => 'store_commission_manage', 'relevance' => ''),
-        	array('action_name' => '资金管理', 		'action_code' => 'store_fund_manage', 		'relevance' => ''),
+            //删除商家
+            array('action_name' => __('删除商家', 'store'), 'action_code' => 'store_delete', 	'relevance' => ''),
+
+        	array('action_name' => __('店铺设置', 'store'), 'action_code' => 'store_set_manage', 		'relevance' => ''),
+            array('action_name' => __('修改店铺设置', 'store'), 	'action_code' => 'store_set_update', 		'relevance' => ''),
+            array('action_name' => __('资质认证', 'store'), 		'action_code' => 'store_auth_manage', 		'relevance' => ''),
+        	array('action_name' => __('资金设置', 'store'), 		'action_code' => 'store_commission_manage', 'relevance' => ''),
+        	array('action_name' => __('资金管理', 'store'), 		'action_code' => 'store_fund_manage', 		'relevance' => ''),
         		
-            array('action_name' => '查看员工', 		'action_code' => 'store_staff_manage', 		'relevance' => ''),
-            array('action_name' => '编辑店长', 		'action_code' => 'store_staff_edit', 		'relevance' => ''),
-            array('action_name' => '重置店长密码', 		'action_code' => 'store_staff_reset', 		'relevance' => ''),
-            array('action_name' => '配送方式', 		'action_code' => 'store_shipping_manage', 	'relevance' => ''),
-            array('action_name' => '查看日志', 		'action_code' => 'store_log_manage', 		'relevance' => ''),
-            array('action_name' => '删除日志', 		'action_code' => 'store_log_delete', 		'relevance' => ''),
+            array('action_name' => __('查看员工', 'store'), 		'action_code' => 'store_staff_manage', 		'relevance' => ''),
+            array('action_name' => __('编辑店长', 'store'), 		'action_code' => 'store_staff_edit', 		'relevance' => ''),
+            array('action_name' => __('重置店长密码', 'store'), 		'action_code' => 'store_staff_reset', 		'relevance' => ''),
+            array('action_name' => __('配送方式', 'store'), 		'action_code' => 'store_shipping_manage', 	'relevance' => ''),
+            array('action_name' => __('查看日志', 'store'), 		'action_code' => 'store_log_manage', 		'relevance' => ''),
+            array('action_name' => __('删除日志', 'store'), 		'action_code' => 'store_log_delete', 		'relevance' => ''),
         		
         	//待审核入驻商权限
-        	array('action_name' => RC_Lang::get('store::store.store_preaudit'), 'action_code' => 'store_preaudit_manage', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('store::store.store_preaudit_update'), 'action_code' => 'store_preaudit_update', 	'relevance' => ''),
-        	array('action_name' => RC_Lang::get('store::store.store_check'), 'action_code' => 'store_preaudit_check', 	'relevance' => ''),
-            array('action_name' => '查看审核日志', 'action_code' => 'store_preaudit_check_log', 	'relevance' => ''),
+        	array('action_name' => __('待审核入驻商', 'store'), 'action_code' => 'store_preaudit_manage', 	'relevance' => ''),
+        	array('action_name' => __('待审核入驻商更新', 'store'), 'action_code' => 'store_preaudit_update', 	'relevance' => ''),
+        	array('action_name' => __('审核入驻商', 'store'), 'action_code' => 'store_preaudit_check', 	'relevance' => ''),
+            array('action_name' => __('查看审核日志', 'store'), 'action_code' => 'store_preaudit_check_log', 	'relevance' => ''),
         	
         	//店铺分类权限
-        	array('action_name' => __('店铺分类管理'), 'action_code' => 'store_category_manage', 'relevance'   => ''),
-        	array('action_name' => __('店铺分类删除'), 'action_code' => 'store_category_drop', 'relevance'   => ''),
+        	array('action_name' => __('店铺分类管理', 'store'), 'action_code' => 'store_category_manage', 'relevance'   => ''),
+        	array('action_name' => __('店铺分类删除', 'store'), 'action_code' => 'store_category_drop', 'relevance'   => ''),
         		
         	//经营城市权限
-        	array('action_name' => __('经营城市管理'), 'action_code' => 'store_business_city_manage', 'relevance'   => ''),
-        	array('action_name' => __('经营城市删除'), 'action_code' => 'store_business_city_drop', 'relevance'   => ''),
+        	array('action_name' => __('经营城市管理', 'store'), 'action_code' => 'store_business_city_manage', 'relevance'   => ''),
+        	array('action_name' => __('经营城市删除', 'store'), 'action_code' => 'store_business_city_drop', 'relevance'   => ''),
 
         	//佣金比例权限
-        	array('action_name' => __('佣金比例管理'), 'action_code' => 'store_percent_manage', 'relevance'   => ''),
-        	array('action_name' => __('佣金比例添加'), 'action_code' => 'store_percent_add', 'relevance'   => ''),
-        	array('action_name' => __('佣金比例更新'), 'action_code' => 'store_percent_update', 'relevance'   => ''),
-        	array('action_name' => __('佣金比例删除'), 'action_code' => 'store_percent_delete', 'relevance'   => ''),
+        	array('action_name' => __('佣金比例管理', 'store'), 'action_code' => 'store_percent_manage', 'relevance'   => ''),
+        	array('action_name' => __('佣金比例添加', 'store'), 'action_code' => 'store_percent_add', 'relevance'   => ''),
+        	array('action_name' => __('佣金比例更新', 'store'), 'action_code' => 'store_percent_update', 'relevance'   => ''),
+        	array('action_name' => __('佣金比例删除', 'store'), 'action_code' => 'store_percent_delete', 'relevance'   => ''),
         		
-        	array('action_name' => __('后台设置'), 'action_code' => 'store_config_manage', 'relevance'   => ''),
-//         	array('action_name' => __('移动应用设置'), 'action_code' => 'store_mobileconfig_manage', 'relevance'   => ''),
+        	array('action_name' => __('后台设置', 'store'), 'action_code' => 'store_config_manage', 'relevance'   => ''),
 
         );
         

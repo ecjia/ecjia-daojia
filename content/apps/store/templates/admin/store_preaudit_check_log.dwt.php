@@ -27,9 +27,9 @@
             <table class="table table-striped">
                 <thead>
                   <tr>
-                      <th class="w120">时间</th>
-                      <th>操作人</th>
-                      <th>日志</th>
+                      <th class="w120">{t domain="store"}时间{/t}</th>
+                      <th>{t domain="store"}操作人{/t}</th>
+                      <th>{t domain="store"}日志{/t}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -43,9 +43,9 @@
                                 <table class="table table-condensed table-hover log">
                                     <thead>
                                         <tr>
-                                            <th width="20%">字段</th>
-                                            <th width="40%">旧值</th>
-                                            <th width="40%">新值</th>
+                                            <th width="20%">{t domain="store"}字段{/t}</th>
+                                            <th width="40%">{t domain="store"}旧值{/t}</th>
+                                            <th width="40%">{t domain="store"}新值{/t}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -62,7 +62,7 @@
                         </td>
                     </tr>
                     <!-- {foreachelse} -->
-                    <tr><td class="no-records" colspan="3">暂无数据</td></tr>
+                    <tr><td class="no-records" colspan="3">{t domain="store"}暂无数据{/t}</td></tr>
                     <!-- {/foreach} -->
                 </tbody>
             </table>

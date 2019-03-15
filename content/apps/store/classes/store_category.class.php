@@ -78,11 +78,9 @@ class store_category {
 		 * 如果是取出底级分类上级分类，
 		 * 如果不是取当前分类及其下的子分类
 		 */
-		//$count = $db_category->where(array('parent_id' => $parent_id, 'is_show' => 1))->count('cat_id');
 		$count = RC_DB::table('store_category')->where('parent_id', $parent_id)->where('is_show', 1)->count();
 		if ($count || $parent_id == 0) {
 			/* 获取当前分类及其子分类 */
-			//$res = $db_category->join('store_category')->field('cat_id, cat_name, parent_id, is_show')->where(array('parent_id' => $parent_id, 'is_show' => 1))->order(array('sort_order'=>'asc','cat_id'=> 'asc'))->select();
 			$res = RC_DB::table('store_category')->where('parent_id', $parent_id)->where('is_show', 1)->select('cat_id', 'cat_name', 'parent_id', 'is_show')->orderBy('sort_order', 'asc')->orderBy('cat_id', 'asc')->get();
 			foreach ( $res as $row ) {
 				if ($row ['is_show']) {

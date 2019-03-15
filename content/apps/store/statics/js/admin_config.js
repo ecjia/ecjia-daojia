@@ -11,8 +11,8 @@
             });
             $('.info-toggle-button').toggleButtons({
                 label: {
-                    enabled: "开启",
-                    disabled: "关闭"
+                    enabled: js_lang.open,
+                    disabled: js_lang.close
                 },
                 style: {
                     enabled: "info",
@@ -78,7 +78,7 @@
                                 $('.store_list').append(opt);
                             };
                         } else {
-                            $('.store_list').append('<option value="-1">未搜索到店铺信息</option>');
+                            $('.store_list').append('<option value="-1">'+ js_lang.no_store_info + '</option>');
                         }
                         $('.store_list').trigger("liszt:updated").trigger("change");
                     } else if (store_model == 2) {
@@ -90,7 +90,7 @@
                                 $('.nav-list-ready.nav-store-list').append(opt);
                             };
                         } else {
-                            $('.nav-list-ready.nav-store-list').html('<li class="ms-elem-selectable disabled"><span>未搜索到店铺信息</span></li>');
+                            $('.nav-list-ready.nav-store-list').html('<li class="ms-elem-selectable disabled"><span>' + js_lang.no_store_info + '</span></li>');
                         }
                         app.admin_config.add_link_store();
                     }

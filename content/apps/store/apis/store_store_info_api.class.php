@@ -58,7 +58,7 @@ class store_store_info_api extends Component_Event_Api {
 	 */
 	public function call (&$options) {
 		if (!array_key_exists('store_id', $options)) {
-			return new ecjia_error('invalid_parameter', __('调用store_info，无效参数'));
+			return new ecjia_error('invalid_parameter', __('调用store_info_api文件，参数无效', 'store'));
 		}
 		
 		$store_id = $options['store_id'];

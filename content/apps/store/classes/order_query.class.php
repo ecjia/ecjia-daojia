@@ -314,7 +314,7 @@ class order_query extends order {
             'users' => array(
                 'type'  	=> Component_Model_View::TYPE_LEFT_JOIN,
                 'alias'		=> 'u',
-                'field' 	=> "o.order_id, o.user_id, o.order_sn, o.add_time, o.order_status, o.shipping_status, o.order_amount, o.money_paid,o.pay_status, o.consignee, o.address, o.email, o.tel, o.extension_code, o.extension_id ,(" . $this->order_amount_field('o.') . ") AS total_fee,IFNULL(u.user_name, '" .RC_Lang::get('store::store.anonymous'). "') AS buyer,u.email as user_mail,u.mobile_phone as user_phone",
+                'field' 	=> "o.order_id, o.user_id, o.order_sn, o.add_time, o.order_status, o.shipping_status, o.order_amount, o.money_paid,o.pay_status, o.consignee, o.address, o.email, o.tel, o.extension_code, o.extension_id ,(" . $this->order_amount_field('o.') . ") AS total_fee,IFNULL(u.user_name, '匿名用户 ') AS buyer,u.email as user_mail,u.mobile_phone as user_phone",
                 'on'    	=> 'u.user_id = o.user_id ',
             )
         );

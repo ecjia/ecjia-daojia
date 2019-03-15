@@ -46,58 +46,33 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class admin_mobileconfig extends ecjia_admin {
-	private $db_ad_position;
-	public function __construct() {
-		parent::__construct();
-		
-		RC_Loader::load_app_func('global');
-		Ecjia\App\Store\Helper::assign_adminlog_content();
-	
-		RC_Script::enqueue_script('jquery-validate');
-		RC_Script::enqueue_script('jquery-form');
-		RC_Script::enqueue_script('smoke');
-		
-		RC_Style::enqueue_style('chosen');
-		RC_Style::enqueue_style('uniform-aristo');
-		RC_Script::enqueue_script('jquery-uniform');
-		RC_Script::enqueue_script('jquery-chosen');
-		RC_Script::enqueue_script('bootstrap-placeholder');
-		
-		RC_Script::enqueue_script('admin_mobileconfig', RC_App::apps_url('statics/js/admin_mobileconfig.js', __FILE__), array(), false, 1);
-	}
+/**
+ * 移除店铺信息接口
+ *
+ * @author royalwang
+ */
+class store_store_remove_cleardata_api extends Component_Event_Api
+{
 
-					
-	/**
-	 * 移动应用设置
-	 */
-	public function init() {
-	    $this->admin_priv('store_mobileconfig_manage');
-	   
-		$this->assign('ur_here', __('店铺街移动应用设置', 'store'));
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('店铺街移动应用设置', 'store')));
-		
-		$ad_position_list = RC_DB::table('ad_position')->select(RC_DB::raw('position_id, position_name'))->get();
-		
-    	$this->assign('mobile_store_home_adsense', ecjia::config('mobile_store_home_adsense'));
-    	$this->assign('ad_position_list', $ad_position_list);
-		$this->assign('form_action', RC_Uri::url('store/admin_mobileconfig/update'));
-		
-		$this->display('store_mobileconfig.dwt');
-	}
-		
-	/**
-	 * 处理后台设置
-	 */
-	public function update() {
-		$this->admin_priv('store_mobileconfig_manage', ecjia::MSGTYPE_JSON);
-		
-		ecjia_config::instance()->write_config('mobile_store_home_adsense', $_POST['mobile_store_home_adsense']);
+    public function call(& $options)
+    {
 
-		ecjia_admin::admin_log(__('店铺街移动应用>店铺街首页配置', 'store'), 'setup', 'store_mobileconfig');
-		return $this->showmessage(__('更新店铺街首页配置设置成功！', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('store/admin_mobileconfig/init')));
-	}
-	
+        $store_id = array_get($options, 'store_id');
+
+        if (empty($store_id)) {
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'store'), 'store_store_remove_cleardata_api'));
+        }
+
+        return [
+            new \Ecjia\App\Store\StoreCleanHandlers\StoreCollectClear($store_id),
+            new \Ecjia\App\Store\StoreCleanHandlers\StoreCheckLogClear($store_id),
+            new \Ecjia\App\Store\StoreCleanHandlers\StorePreauditClear($store_id),
+            new \Ecjia\App\Store\StoreCleanHandlers\StoreCloseClear($store_id),
+            new \Ecjia\App\Store\StoreCleanHandlers\StoreKeywordsClear($store_id),
+            new \Ecjia\App\Store\StoreCleanHandlers\StoreUserClear($store_id),
+        ];
+    }
+
 }
 
-//end
+// end

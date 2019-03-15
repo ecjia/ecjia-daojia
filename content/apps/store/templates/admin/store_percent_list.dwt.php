@@ -20,11 +20,11 @@
 	<form method="post" action="{$search_action}" name="searchForm">
 		<div class="btn-group f_l m_r5">
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-				<i class="fontello-icon-cog"></i>{t}批量操作{/t}
+				<i class="fontello-icon-cog"></i>{t domain="store"}批量操作{/t}
 				<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
-				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{url path='store/admin_percent/batch'}" data-msg="您确定要删除选中的佣金比例吗？" data-noSelectMsg="请先选中要删除的佣金比例！" data-name="id" href="javascript:;"><i class="fontello-icon-trash"></i>{t}删除佣金比例{/t}</a></li>
+				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{url path='store/admin_percent/batch'}" data-msg='{t domain="store"}您确定要删除选中的佣金比例吗？{/t}' data-noSelectMsg='{t domain="store"}请先选中要删除的佣金比例！{/t}' data-name="id" href="javascript:;"><i class="fontello-icon-trash"></i>{t domain="store"}删除佣金比例{/t}</a></li>
 			</ul>
 		</div>
 	</form>
@@ -40,10 +40,10 @@
 					    	<th class="table_checkbox">
 					    		<input type="checkbox" data-toggle="selectall" data-children=".checkbox"/>
 					    	</th>
-					      	<th>{t}奖励额度{/t}</th>
-					      	<th class="sorting" data-toggle="sortby" data-sortby="add_time">{t}添加时间{/t} </th>
-					      	<th class="sorting w75" data-toggle="sortby" data-sortby="sort_order">{t}排序{/t}</th>
-					      	<th class="w75">{t}操作{/t}</th>
+					      	<th>{t domain="store"}奖励额度{/t}</th>
+					      	<th class="sorting" data-toggle="sortby" data-sortby="add_time">{t domain="store"}添加时间{/t} </th>
+					      	<th class="sorting w75" data-toggle="sortby" data-sortby="sort_order">{t domain="store"}排序{/t}</th>
+					      	<th class="w75">{t domain="store"}操作{/t}</th>
 					    </tr>
 					</thead>
 					<tbody>    
@@ -58,12 +58,12 @@
 					      	<td align="center">{$percent.add_time}</td>
 					      	<td>{$percent.sort_order}</td>  
 					      	<td>
-					      		<a class="data-pjax" href="{RC_Uri::url('store/admin_percent/edit',"id={$percent.percent_id}")}" title="编辑"><i class="fontello-icon-edit"></i></a>
-      							<a data-toggle="ajaxremove" class="ecjiafc-red" data-msg="{t}您确定要删除吗？{/t}" href="{RC_Uri::url('store/admin_percent/remove',"id={$percent.percent_id}")}" title="删除"><i class="fontello-icon-trash"></i></a>
+					      		<a class="data-pjax" href="{RC_Uri::url('store/admin_percent/edit',"id={$percent.percent_id}")}" title='{t domain="store"}编辑{/t}'><i class="fontello-icon-edit"></i></a>
+      							<a data-toggle="ajaxremove" class="ecjiafc-red" data-msg='{t domain="store"}您确定要删除吗？{/t}' href="{RC_Uri::url('store/admin_percent/remove',"id={$percent.percent_id}")}" title='{t domain="store"}删除{/t}'><i class="fontello-icon-trash"></i></a>
 					      	</td>
 					    </tr>
 					    <!-- {foreachelse} -->
-					    <tr><td class="no-records" colspan="5">{lang key='system::system.no_records'}</td></tr>
+					    <tr><td class="no-records" colspan="5">{t domain="store"}没有找到任何记录{/t}</td></tr>
 					    <!-- {/foreach} -->
 					</tbody>
 				</table>

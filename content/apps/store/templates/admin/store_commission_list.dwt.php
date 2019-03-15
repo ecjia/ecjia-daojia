@@ -17,11 +17,11 @@
 	<form method="post" action="{$search_action}" name="searchForm">
 		<div class="btn-group f_l m_r5">
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-				<i class="fontello-icon-cog"></i>{t}批量操作{/t}
+				<i class="fontello-icon-cog"></i>{t domain="store"}批量操作{/t}
 				<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
-				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{url path='store/admin_commission/batch'}" data-msg="您确定要删除选中的佣金结算吗？" data-noSelectMsg="请先选中要删除的佣金结算！" data-name="id" href="javascript:;"><i class="fontello-icon-trash"></i>{t}删除佣金结算{/t}</a></li>
+				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{url path='store/admin_commission/batch'}" data-msg='{t domain="store"}您确定要删除选中的佣金结算吗？{/t}' data-noSelectMsg='{t domain="store"}请先选中要删除的佣金结算！{/t}' data-name="id" href="javascript:;"><i class="fontello-icon-trash"></i>{t domain="store"}删除佣金结算{/t}</a></li>
 			</ul>
 		</div>
 	</form>
@@ -36,11 +36,11 @@
 					<thead>
 						<tr >
 							<th class="table_checkbox"><input type="checkbox" name="select_rows" data-toggle="selectall" data-children=".checkbox"/></th>
-						    <th>{t}商家名称{/t}</th>
-						    <th>{t}联系方式{/t}</th>
-						    <th>{t}订单有效总金额{/t}</th>
-						    <th>{t}订单退款总金额{/t}</th>
-						    <th>{t}佣金比例{/t}</th>
+						    <th>{t domain="store"}商家名称{/t}</th>
+						    <th>{t domain="store"}联系方式{/t}</th>
+						    <th>{t domain="store"}订单有效总金额{/t}</th>
+						    <th>{t domain="store"}订单退款总金额{/t}</th>
+						    <th>{t domain="store"}佣金比例{/t}</th>
 						 </tr>
 					</thead>
 
@@ -50,9 +50,9 @@
 							<td class="hide-edit-area">
 								{$commission.merchants_name}
 								<div class="edit-list">
-      								<a class="data-pjax" href='{RC_Uri::url("store/admin_commission/order_list","store_id={$commission.store_id}")}' title="订单列表">{t}订单列表{/t}</a>&nbsp;|&nbsp;
-      								<a class="data-pjax" href='{RC_Uri::url("store/admin_commission/edit","id={$commission.id}&store_id={$commission.store_id}")}' title="编辑">{t}编辑{/t}</a>&nbsp;|&nbsp;
-      								<a data-toggle="ajaxremove" class="ajaxremove ecjiafc-red" data-msg="{t}您确定要删除吗？{/t}" href='{RC_Uri::url("store/admin_commission/remove","id={$commission.id}")}' title="删除">{t}删除{/t}</a>
+      								<a class="data-pjax" href='{RC_Uri::url("store/admin_commission/order_list","store_id={$commission.store_id}")}' title='{t domain="store"}订单列表{/t}'>{t domain="store"}订单列表{/t}</a>&nbsp;|&nbsp;
+      								<a class="data-pjax" href='{RC_Uri::url("store/admin_commission/edit","id={$commission.id}&store_id={$commission.store_id}")}' title='{t domain="store"}编辑{/t}'>{t domain="store"}编辑{/t}</a>&nbsp;|&nbsp;
+      								<a data-toggle="ajaxremove" class="ajaxremove ecjiafc-red" data-msg='{t domain="store"}您确定要删除吗？{/t}' href='{RC_Uri::url("store/admin_commission/remove","id={$commission.id}")}' title='{t domain="store"}删除{/t}'>{t domain="store"}删除{/t}</a>
 								</div>
 							</td>
 						    <td>{$commission.contact_mobile}</td>
@@ -65,7 +65,7 @@
 						    <!-- {/if} -->
 						</tr>
 						<!-- {foreachelse} -->
-					   <tr><td class="no-records" colspan="6">{t}没有找到任何记录{/t}</td></tr>
+					   <tr><td class="no-records" colspan="6">{t domain="store"}没有找到任何记录{/t}</td></tr>
 					<!-- {/foreach} -->
 				</table>
 				<!-- {$commission_list.page} -->

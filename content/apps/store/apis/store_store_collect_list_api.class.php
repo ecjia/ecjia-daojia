@@ -12,7 +12,7 @@ class store_store_collect_list_api extends Component_Event_Api {
      */
 	public function call(&$options) {
 		if (!is_array($options)) {
-			return new ecjia_error('invalid_parameter', '调用api文件,store_collect_list,参数无效');
+			return new ecjia_error('invalid_parameter', __('调用api文件,store_collect_list,参数无效', 'store'));
 		}
 		return $this->store_collect_list($options);
 	}
@@ -70,7 +70,7 @@ class store_store_collect_list_api extends Component_Event_Api {
 							$favourable_list[] = array(
 									'name' => $val['act_name'],
 									'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-									'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+									'type_label' => $val['act_type'] == '1' ? __('满减', 'store') : __('满折', 'store'),
 							);
 						} else {
 							$act_range_ext = explode(',', $val['act_range_ext']);
@@ -79,21 +79,21 @@ class store_store_collect_list_api extends Component_Event_Api {
 									$favourable_list[] = array(
 									'name' => $val['act_name'],
 									'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-									'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+									'type_label' => $val['act_type'] == '1' ? __('满减', 'store') : __('满折', 'store'),
 									);
 									break;
 								case 2 :
 									$favourable_list[] = array(
 									'name' => $val['act_name'],
 									'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-									'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+									'type_label' => $val['act_type'] == '1' ? __('满减', 'store') : __('满折', 'store'),
 									);
 									break;
 								case 3 :
 									$favourable_list[] = array(
 									'name' => $val['act_name'],
 									'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-									'type_label' => $val['act_type'] == '1' ? __('满减') : __('满折'),
+									'type_label' => $val['act_type'] == '1' ? __('满减', 'store') : __('满折', 'store'),
 									);
 									break;
 								default:

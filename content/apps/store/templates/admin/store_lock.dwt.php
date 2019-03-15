@@ -28,10 +28,10 @@
 		<div class="tabbable tabs-left">
 		
 			<ul class="nav nav-tabs tab_merchants_nav">
-				<li><a href='{RC_Uri::url("store/admin/preview","store_id={$smarty.get.store_id}")}' class="pjax" >基本信息</a></li>
-				<li><a href='{RC_Uri::url("store/admin_commission/edit","store_id={$smarty.get.store_id}")}' class="pjax" >设置佣金</a></li>
-				<li><a href='{RC_Uri::url("commission/admin/init","store_id={$smarty.get.store_id}")}' class="pjax" >结算账单</a></li>
-				<li><a href='{RC_Uri::url("store/admin/view_staff","store_id={$smarty.get.store_id}")}' class="pjax" >查看员工</a></li>
+				<li><a href='{RC_Uri::url("store/admin/preview","store_id={$smarty.get.store_id}")}' class="pjax" >{t domain="store"}基本信息{/t}</a></li>
+				<li><a href='{RC_Uri::url("store/admin_commission/edit","store_id={$smarty.get.store_id}")}' class="pjax" >{t domain="store"}设置佣金{/t}</a></li>
+				<li><a href='{RC_Uri::url("commission/admin/init","store_id={$smarty.get.store_id}")}' class="pjax" >{t domain="store"}结算账单{/t}</a></li>
+				<li><a href='{RC_Uri::url("store/admin/view_staff","store_id={$smarty.get.store_id}")}' class="pjax" >{t domain="store"}查看员工{/t}</a></li>
 			</ul>
 			
 			<div class="tab-content tab_merchants">
@@ -39,23 +39,23 @@
     				<form class="form-horizontal"  name="theForm" action="{$form_action}" method="post" >
             	    	{if $status eq 1}
             	    	 <div class="alert alert-block alert-error fade in">
-            	            <h4 class="alert-heading">温馨提示!</h4>
+            	            <h4 class="alert-heading">{t domain="store"}温馨提示!{/t}</h4>
             	            <ul>
-            	                <li>锁定店铺后，商家后台无法进行登录</li>
-            	                <li>所有商品即刻下架</li>
+            	                <li>{t domain="store"}锁定店铺后，商家后台无法进行登录{/t}</li>
+            	                <li>{t domain="store"}所有商品即刻下架{/t}</li>
             	            </ul>
             	            <br>
-            	            <button type="submit" class="btn"><i class="splashy-lock_small_locked"></i>锁定</button>
+            	            <button type="submit" class="btn"><i class="splashy-lock_small_locked"></i>{t domain="store"}锁定{/t}</button>
             	        </div>
             	    	{else}
             	    	 <div class="alert alert-block alert-success fade in">
-            	            <h4 class="alert-heading">温馨提示!</h4>
+            	            <h4 class="alert-heading">{t domain="store"}温馨提示!{/t}</h4>
             	            <ul>
-            	                <li>解锁店铺后，商家后台可进行登录</li>
-            	                <li>所有商品恢复上架</li>
+            	                <li>{t domain="store"}解锁店铺后，商家后台可进行登录{/t}</li>
+            	                <li>{t domain="store"}所有商品恢复上架{/t}</li>
             	            </ul>
             	            <br>
-            	            <button type="submit" class="btn"><i class="splashy-lock_small_unlocked"></i>解锁</button>
+            	            <button type="submit" class="btn"><i class="splashy-lock_small_unlocked"></i>{t domain="store"}解锁{/t}</button>
             	        </div>
             	    	{/if}
             	    </form>
