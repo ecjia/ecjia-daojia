@@ -14,16 +14,16 @@
                 "aaSorting": [[2, "asc"]],
                 "oLanguage": {
                     "oPaginate": {
-                        "sFirst": js_lang.sFirst,
-                        "sLast": js_lang.sLast,
-                        "sPrevious": js_lang.sPrevious,
-                        "sNext": js_lang.sNext,
+                        "sFirst": js_lang_template.sFirst,
+                        "sLast": js_lang_template.sLast,
+                        "sPrevious": js_lang_template.sPrevious,
+                        "sNext": js_lang_template.sNext,
                     },
-                    "sInfo": js_lang.sInfo,
-                    "sZeroRecords": js_lang.sZeroRecords,
-                    "sEmptyTable": js_lang.sEmptyTable,
-                    "sInfoEmpty": js_lang.sInfoEmpty,
-                    "sInfoFiltered": js_lang.sInfoFiltered,
+                    "sInfo": js_lang_template.sInfo,
+                    "sZeroRecords": js_lang_template.sZeroRecords,
+                    "sEmptyTable": js_lang_template.sEmptyTable,
+                    "sInfoEmpty": js_lang_template.sInfoEmpty,
+                    "sInfoFiltered": js_lang_template.sInfoFiltered,
                 },
                 "aoColumns": [
                     {
@@ -94,19 +94,19 @@
         					app.push_template_test.user_list(data);
         				}, "JSON");
         				return false;
-                    } else {
-                    	$('.searchUser').on('click',function(e){
-                          	var user_keywords = $("input[name='user_keywords']").val();
-            				var searchURL = $('.searchUser').attr('data-url');
-            				var option = {
-            					'user_keywords' : user_keywords,
-            				};
-            				$.post(searchURL, option, function(data) {
-            					app.push_template_test.user_list(data);
-            				}, "JSON");
-            			});
-                    }
+                    } 
                 });
+            	
+            	$('.searchUser').on('click',function(e){
+                  	var user_keywords = $("input[name='user_keywords']").val();
+    				var searchURL = $('.searchUser').attr('data-url');
+    				var option = {
+    					'user_keywords' : user_keywords,
+    				};
+    				$.post(searchURL, option, function(data) {
+    					app.push_template_test.user_list(data);
+    				}, "JSON");
+    			});
     		},
     		user_list : function (data) {
     			$('.user_list').html('');
@@ -116,7 +116,7 @@
     					$('.user_list').append(opt_user);
     				};
     			} else {
-    				$('.user_list').append('<option value="0">未搜索到会员信息</option>');
+    				$('.user_list').append('<option value="0">'+js_lang_template.no_search_user+'</option>');
     			}
     			$('.user_list').trigger("liszt:updated").trigger("change");
     		},
@@ -135,20 +135,21 @@
         					app.push_template_test.merchant_user_list(data);
         				}, "JSON");
         				return false;
-                    } else {
-                    	$('.searchMer').on('click',function(e){
-            				var mer_keywords = $("input[name='mer_keywords']").val();
-            				var searchURL = $('.searchMer').attr('data-url');
-            				var option = {
-            					'mer_keywords' : mer_keywords,
-            				};
-            				$.post(searchURL, option, function(data) {
-            					app.push_template_test.merchant_user_list(data);
-            				}, "JSON");
-            			});
                     }
                 });
+    			
+            	$('.searchMer').on('click',function(e){
+    				var mer_keywords = $("input[name='mer_keywords']").val();
+    				var searchURL = $('.searchMer').attr('data-url');
+    				var option = {
+    					'mer_keywords' : mer_keywords,
+    				};
+    				$.post(searchURL, option, function(data) {
+    					app.push_template_test.merchant_user_list(data);
+    				}, "JSON");
+    			});
     		},
+    		
     		merchant_user_list : function (data) {
     			$('.merchant_user_list').html('');
     			if (data.content.length > 0) {
@@ -157,13 +158,12 @@
     					$('.merchant_user_list').append(opt_mer);
     				};
     			} else {
-    				$('.merchant_user_list').append('<option value="0">未搜索到商家会员信息</option>');
+    				$('.merchant_user_list').append('<option value="0">'+js_lang_template.no_search_mer_user+'</option>');
     			}
     			$('.merchant_user_list').trigger("liszt:updated").trigger("change");
     		},
 
-    		
-    		
+
             //搜索管理员
             search_admin : function () {
     			$('#admin_keywords').bind('keypress',function(event){ 
@@ -177,19 +177,21 @@
         					app.push_template_test.admin_list(data);
         				}, "JSON");
         				return false;
-                    } else {
-                    	$('.searchAadmin').on('click',function(e){
-                    		var admin_keywords = $("input[name='admin_keywords']").val();
-            				var searchURL = $('.searchAadmin').attr('data-url');
-            				var option = {
-            					'admin_keywords' : admin_keywords,
-            				};
-            				$.post(searchURL, option, function(data) {
-            					app.push_template_test.admin_list(data);
-            				}, "JSON");
-            			});
                     }
                 });
+    			
+
+            	$('.searchAadmin').on('click',function(e){
+            		var admin_keywords = $("input[name='admin_keywords']").val();
+    				var searchURL = $('.searchAadmin').attr('data-url');
+    				var option = {
+    					'admin_keywords' : admin_keywords,
+    				};
+    				$.post(searchURL, option, function(data) {
+    					app.push_template_test.admin_list(data);
+    				}, "JSON");
+    			});
+            
     		},
     		admin_list : function (data) {
     			$('.admin_list').html('');
@@ -199,7 +201,7 @@
     					$('.admin_list').append(opt_admin);
     				};
     			} else {
-    				$('.admin_list').append('<option value="0">未搜索到管理员信息</option>');
+    				$('.admin_list').append('<option value="0">'+js_lang_template.no_search_admin+'</option>');
     			}
     			$('.admin_list').trigger("liszt:updated").trigger("change");
     		},
@@ -213,14 +215,19 @@
                      },
                      messages: {
                      	mobile: {
-                             required: "请输入手机号"
+                             required: js_lang_template.pls_tel
                          }
                      },
                      submitHandler: function () {
                          $("form[name='theForm']").ajaxSubmit({
                              dataType: "json",
                              success: function (data) {
-                                 ecjia.admin.showmessage(data);
+                            	 if(data.state == 'success'){
+                            		var $info = $('<div class="staticalert alert alert-success ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
+                            		$info.appendTo('.error-success').delay(10000).hide(0);
+                            	 } else {
+                            		ecjia.admin.showmessage(data); 
+                            	 }
                              }
                          });
                      }
@@ -289,10 +296,10 @@
                     },
                     messages: {
                         subject: {
-                            required: '消息主题不能为空！'
+                            required: js_lang_template.subject_no_empty
                         },
                         content: {
-                            required: '模板内容不能为空！'
+                            required: js_lang_template.content_no_empty
                         }
                     },
                     submitHandler: function () {

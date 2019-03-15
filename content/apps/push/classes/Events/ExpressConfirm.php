@@ -51,18 +51,19 @@ use Ecjia\App\Push\EventAbstract;
 
 class ExpressConfirm extends EventAbstract
 {
-
     protected $code = 'express_confirm';
-
-    protected $name = '确认收货';
-
-    protected $description = '买家确认收货时及时通知商家';
 
     protected $template = '买家已成功确认收货，配送单号为：${express_sn}。如有问题请拨打客服电话：${service_phone}。';
 
-    protected $available_values = [
-    	'express_sn' 	=> '配送单号',
-    	'service_phone' => '客服电话',
-    ];
+    public function __construct()
+    {
+    	$this->name = __('确认收货', 'push');
     
+    	$this->description = __('买家确认收货时及时通知商家', 'push');
+    
+    	$this->available_values = [
+	    	'express_sn' 	=> __('配送单号', 'push'),
+	    	'service_phone' => __('客服电话', 'push'),
+    	];
+    } 
 }

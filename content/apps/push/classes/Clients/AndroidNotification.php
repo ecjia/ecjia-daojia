@@ -71,7 +71,7 @@ class AndroidNotification extends NotificationAbstract
 	public function sendBroadcast() {
 		try {
 		    if (!$this->push_content) {
-		        throw new Exception(__('推送消息的内容不能为空'));
+		        throw new Exception(__('推送消息的内容不能为空', 'push'));
 		    }
 		    
 			$brocast = new AndroidBroadcast();

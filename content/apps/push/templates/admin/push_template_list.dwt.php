@@ -8,6 +8,7 @@
 <!-- {/block} -->
 
 <!-- {block name="main_content"} -->
+
 <!-- {if !$data} -->
 <!-- <div class="alert alert-error"> -->
 <!-- 	<a class="close" data-dismiss="alert">×</a> -->

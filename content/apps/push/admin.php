@@ -69,14 +69,15 @@ class admin extends ecjia_admin {
 		
 		RC_Script::enqueue_script('push', RC_App::apps_url('statics/js/push.js', __FILE__), array(), false, true);
 		RC_Script::enqueue_script('push_action', RC_App::apps_url('statics/js/push_action.js', __FILE__), array(), false, true);
+		RC_Script::localize_script('push', 'js_lang', RC_Lang::get('push::push.js_lang'));
 		
 		RC_Style::enqueue_style('push_event', RC_App::apps_url('statics/css/push_event.css', __FILE__), array(), false, false);
 		RC_Style::enqueue_style('push_action', RC_App::apps_url('statics/css/push_action.css', __FILE__), array(), false, false);
 		
 		RC_Style::enqueue_style('hint.min', RC_Uri::admin_url('statics/lib/hint_css/hint.min.css'));
 		
-		RC_Script::localize_script('push', 'js_lang', RC_Lang::get('push::push.js_lang'));
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('push::push.msg_record'), RC_Uri::url('push/admin/init')));
+
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('消息记录', 'push'), RC_Uri::url('push/admin/init')));
 	}
 
 	/**
@@ -86,10 +87,10 @@ class admin extends ecjia_admin {
 		$this->admin_priv('push_history_manage');
 
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('push::push.msg_record')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('消息记录', 'push')));
 		
-		$this->assign('action_link_device', array('text' => '群发推送', 'href'=> RC_Uri::url('push/admin/push_action')));
-		$this->assign('ur_here', RC_Lang::get('push::push.msg_record_list'));
+		$this->assign('action_link_device', array('text' => __('群发推送', 'push'), 'href'=> RC_Uri::url('push/admin/push_action')));
+		$this->assign('ur_here', __('消息记录列表', 'push'));
 		
 		$listdb = $this->get_sendlist();
 		$this->assign('listdb', $listdb);
@@ -105,9 +106,9 @@ class admin extends ecjia_admin {
 	public function push_action() {
 		$this->admin_priv('push_message');
 	
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('push::push.msg_push')));
-		$this->assign('ur_here', '消息推送');
-		$this->assign('action_link', array('text' => '消息记录列表', 'href' => RC_Uri::url('push/admin/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('消息推送', 'push')));
+		$this->assign('ur_here', __('消息推送', 'push'));
+		$this->assign('action_link', array('text' => __('消息记录列表', 'push'), 'href' => RC_Uri::url('push/admin/init')));
 
 		$product_device_list = $this->get_product_device_list();
 		$this->assign('product_device_list', $product_device_list);
@@ -221,7 +222,7 @@ class admin extends ecjia_admin {
 				->setPushContent($push_content)
 				->userSend($field, $priority);
 			} else {
-				return $this->showmessage('未获取到要推送的用户', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('未获取到要推送的用户', 'push'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		} else {
 			$result = \Ecjia\App\Push\PushManager::make()
@@ -232,7 +233,7 @@ class admin extends ecjia_admin {
 		if (is_ecjia_error($result)) {
 			return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}else{
-			return $this->showmessage('推送成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('push/admin/init')));
+			return $this->showmessage(__('推送成功', 'push'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('push/admin/init')));
 		}
 	}
 
@@ -248,7 +249,7 @@ class admin extends ecjia_admin {
 		if (is_ecjia_error($result)) {
 			return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('push/admin/init')));
 		}else{
-			return $this->showmessage('推送成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('push/admin/init')));
+			return $this->showmessage(__('推送成功', 'push'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('push/admin/init')));
 		}
 	}
 		
@@ -267,7 +268,7 @@ class admin extends ecjia_admin {
 		if (is_ecjia_error($result)) {
 			return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('push/admin/init')));
 		} else {
-			return $this->showmessage('消息推送成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('push/admin/init')));
+			return $this->showmessage(__('消息推送成功', 'push'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('push/admin/init')));
 		}
 	}
 	
@@ -278,9 +279,9 @@ class admin extends ecjia_admin {
 	public function push_copy() {
 		$this->admin_priv('push_message');
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('消息复用'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('消息复用', 'push')));
 		$this->assign('ur_here', '消息复用');
-		$this->assign('action_link', array('text' => '消息记录列表', 'href' => RC_Uri::url('push/admin/init')));
+		$this->assign('action_link', array('text' => __('消息记录列表', 'push'), 'href' => RC_Uri::url('push/admin/init')));
 		
 		//获取产品
 		$product_device_list = $this->get_product_device_list();
@@ -302,23 +303,28 @@ class admin extends ecjia_admin {
 			$action_list[$event->getOpenType()] = $event->getName();
 		}
 		$this->assign('action_list', $action_list);
-		
 
 		//获取打开动作信息
 		$object_info = $push_object[$open_type];
-		$args = $object_info->getArguments();
-		$args_list = array();
-		foreach ($args as $k => $event) {
-			$args_list[$k]['code'] = $event->getCode();
-			$args_list[$k]['name'] = $event->getNmae().'：';
-			$args_list[$k]['description'] = $event->getDescription();
-		}
-		
-		foreach ($args_list as $k => $v) {
-			if (array_key_exists($v['code'], $push['extradata'])) {
-				$args_list[$k]['value'] = $push['extradata'][$v['code']];
-			}
-		}
+
+        $args_list = array();
+
+		if ($object_info) {
+            $args = $object_info->getArguments();
+
+            foreach ($args as $k => $event) {
+                $args_list[$k]['code'] = $event->getCode();
+                $args_list[$k]['name'] = $event->getNmae().'：';
+                $args_list[$k]['description'] = $event->getDescription();
+            }
+
+            foreach ($args_list as $k => $v) {
+                if (array_key_exists($v['code'], $push['extradata'])) {
+                    $args_list[$k]['value'] = $push['extradata'][$v['code']];
+                }
+            }
+        }
+
 		$this->assign('args_list', $args_list);
 		
 		$this->assign('push', $push);
@@ -396,37 +402,25 @@ class admin extends ecjia_admin {
 	 * 获取产品
 	 */
 	private function get_product_device_list() {
-		$product_device_list = RC_DB::table('mobile_manage')->select('app_name', 'device_client', 'platform', 'device_code')->get();
+		
+        $platforms = (new \Ecjia\App\Mobile\ApplicationFactory())->getPlatformsByOption('config_push');
 
-		$android_img = RC_App::apps_url('statics/images/android.png', __FILE__);
-		$iphone_img = RC_App::apps_url('statics/images/iphone.png', __FILE__);
-		$wechant_img = RC_App::apps_url('statics/images/wechant.png', __FILE__);
-		$h5_img = RC_App::apps_url('statics/images/h5.png', __FILE__);
-		
-		foreach ($product_device_list as $key => $val) {
-			if ($val['device_client'] == 'iphone') {
-		
-				$product_device_list[$key]['client_name'] = 'iPhone';
-				$product_device_list[$key]['icon'] = $iphone_img;
-					
-			} elseif ($val['device_client'] == 'android') {
-		
-				$product_device_list[$key]['client_name'] = 'Android';
-				$product_device_list[$key]['icon'] = $android_img;
-					
-			} elseif ($val['device_client'] == 'h5') {
-		
-				$product_device_list[$key]['client_name'] = 'H5';
-				$product_device_list[$key]['icon'] = $h5_img;
-					
-			} elseif ($val['device_client'] == 'weapp') {
-		
-				$product_device_list[$key]['client_name']= 'Weapp';
-				$product_device_list[$key]['icon'] = $wechant_img;
-		
-			}
-		}
-	
+        $platform_codes = array_keys($platforms);
+
+        $clients = (new \Ecjia\App\Mobile\ApplicationFactory())->getClientsByPlatform($platform_codes);
+
+        $product_device_list = collect($platforms)
+            ->map(function($platform) {
+                return $platform->getMobileDevices();
+            })
+            ->collapse()
+            ->map(function($client) use ($clients) {
+                $client['client_name'] = $clients[$client['device_code']]->getDeviceName();
+                $client['icon'] = $clients[$client['device_code']]->getDeviceIcon();
+
+                return $client;
+            })->all();
+
 		return $product_device_list;
 	}
 	

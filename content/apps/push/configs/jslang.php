@@ -44,49 +44,42 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 发送消息的接口
- * @author royalwang
- * @deprecated 2018-05-24 该API接口已经废弃
+ * js语言包设置
  */
-class push_push_send_api extends Component_Event_Api {
-	
-    /**
-     * @param $options array
-     *          $options['user_id'] 用户ID
-     *          $options['admin_id'] 管理员ID
-     *          $options['device_token'] 设备token
-     *          $options['device_client'] 设备类型
-     *          $options['custom_fields'] 自定义字段
-     *          $options['description'] 推送消息描述
-     * @return array
-     */
-	public function call(&$options) {
-        _deprecated_file(basename( __FILE__ ), '1.17.0', 'push_push_event_send_api.php');
-	    
-	    // $user_id, $admin_id, $device_token, $device_client, $priority
-	    if (!is_array($options)) {
-	        return new ecjia_error('invalid_argument', __('无效参数'));
-	    }
-	    
-	    if (empty($options['user_id']) && empty($options['admin_id']) && empty($options['device_token']) && empty($options['device_client'])) {
-	        return new ecjia_error('invalid_argument', __('无效参数'));
-	    }
-	    
-	    if (!isset($options['description']) && !isset($options['msg']) && !isset($options['template_id'])) {
-	        return new ecjia_error('invalid_argument', __('无效参数'));
-	    }
-	    
-	    if (isset($options['priority'])) {
-	        $priority = $options['priority'];
-	    } else {
-	        $priority = 1;
-	    }
+defined('IN_ECJIA') or exit('No permission resources.');
 
-	    return false;
-	}
-}
-
-// end
+return array(
+		
+	 //消息事件
+	'push_events_page' =>array(
+		'ok'	 => __('确定', 'push'),
+		'cancel' => __('取消', 'push'),
+	),
+		
+	 //消息模板
+	'push_template_page' =>array(
+		//列表
+		'sFirst'	       	=> __('首页', 'push'),
+		'sLast' 		   	=> __('尾页', 'push'),
+		'sPrevious'		   	=> __('上一页', 'push'),
+		'sNext'				=> __('下一页', 'push'),
+		'sInfo'				=> __('共_TOTAL_条记录 第_START_条到第_END_条', 'push'),
+		'sZeroRecords' 		=> __('没有找到任何记录', 'push'),
+		'sEmptyTable' 		=> __('没有找到任何记录', 'push'),
+		'sInfoEmpty'		=> __('共0条记录', 'push'),
+		'sInfoFiltered'		=> __('（从_MAX_条数据中检索）', 'push'),
+			
+		//测试 	
+		'no_search_user'	 => __('未搜索到会员信息', 'push'),
+		'no_search_mer_user' => __('未搜索到商家会员信息', 'push'),
+		'no_search_admin'	 => __('未搜索到管理员信息', 'push'),
+		'pls_tel'  => __('请输入手机号', 'push'),
+			
+		//添加编辑消息模板
+		'subject_no_empty' => __('消息主题不能为空！', 'push'),	
+		'content_no_empty' => __('模板内容不能为空！', 'push'),
+	)
+);
+//end

@@ -51,21 +51,22 @@ use Ecjia\App\Push\EventAbstract;
 
 class ExpressSystemAssign extends EventAbstract
 {
-
     protected $code = 'express_system_assign';
 
-    protected $name = '系统派单';
-
-    protected $description = '系统分配配送单通知';
-
     protected $template = '有单啦！系统已分配配送单${express_sn}到您账户，赶快行动起来吧。';
-
-    protected $available_values = [
-    	'express_sn' => '配送单号',
-    ];
 
     protected $sound = 'new_order.mp3';
     
     protected $mutableContent = 1;
-
+    
+    public function __construct()
+    {
+    	$this->name = __('系统派单', 'push');
+    
+    	$this->description = __('系统分配配送单通知', 'push');
+    
+    	$this->available_values = [
+    		'express_sn' => __('配送单号', 'push'),
+    	];
+    }
 }

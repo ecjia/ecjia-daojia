@@ -51,25 +51,26 @@ use Ecjia\App\Push\EventAbstract;
 
 class OrderPayed extends EventAbstract
 {
-
     protected $code = 'order_payed';
-
-    protected $name = '客户付款';
-
-    protected $description = '当客户付款时推送消息告知商家';
 
     protected $template = '订单编号：${order_sn} 已付款。 收货人：${consignee}，联系电话：${telephone}，订单金额：${order_amount}。';
 
-    protected $available_values = [
-    	'order_sn'		=> '订单编号',
-    	'consignee' 	=> '收货人',
-    	'telephone'  	=> '联系方式',
-    	'order_amount'  => '订单金额',
-    	'service_phone' => '客服电话',
-    ];
-    
     protected $sound = 'new_order.mp3';
     
     protected $mutableContent = 1;
-
+    
+    public function __construct()
+    {
+    	$this->name = __('客户付款', 'push');
+    
+    	$this->description = __('当客户付款时推送消息告知商家', 'push');
+    
+    	$this->available_values = [
+	    	'order_sn'		=> __('订单编号', 'push'),
+	    	'consignee' 	=> __('收货人', 'push'),
+	    	'telephone'  	=> __('联系方式', 'push'),
+	    	'order_amount'  => __('订单金额', 'push'),
+	    	'service_phone' => __('客服电话', 'push')
+    	];
+    }
 }

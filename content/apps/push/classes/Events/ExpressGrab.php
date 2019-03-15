@@ -51,24 +51,23 @@ use Ecjia\App\Push\EventAbstract;
 
 class ExpressGrab extends EventAbstract
 {
-
     protected $code = 'express_grab';
-
-    protected $name = '抢单成功';
-
-    protected $description = '通知用户抢单成功';
 
     protected $template = '恭喜您已抢单成功，配送单号为：${express_sn}。如有问题请拨打客服电话：${service_phone}。';
 
-    protected $available_values = [
-    	'express_sn'   => '配送单号',
-    	'service_phone'=> '客服电话',
-    ];
-    
     protected $sound = 'new_order.mp3';
     
     protected $mutableContent = 1;
-
-
-
+    
+    public function __construct()
+    {
+    	$this->name = __('抢单成功', 'push');
+    
+    	$this->description = __('通知用户抢单成功', 'push');
+    
+    	$this->available_values = [
+	    	'express_sn' 	=> __('配送单号', 'push'),
+	    	'service_phone' => __('客服电话', 'push'),
+    	];
+    }
 }

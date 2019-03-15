@@ -53,13 +53,13 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class push_service_menu_api extends Component_Event_Api {
 
     public function call(&$options) {
-        $menus = ecjia_admin::make_admin_menu('11_content', RC_Lang::get('push::push.push_msg'), '', 11);
+        $menus = ecjia_admin::make_admin_menu('11_content', __('推送消息', 'push'), '', 11);
         
         $submenus = array(
-        	ecjia_admin::make_admin_menu('01_push_device', '群发推送', RC_Uri::url('push/admin/push_action'), 1)->add_purview('push_message'),
-        	ecjia_admin::make_admin_menu('02_push_message', RC_Lang::get('push::push.msg_record'), RC_Uri::url('push/admin/init'), 2)->add_purview('push_history_manage'),
-        	ecjia_admin::make_admin_menu('03_push_event', RC_Lang::get('push::push.msg_event'), RC_Uri::url('push/admin_events/init'), 3)->add_purview('push_event_manage'),
-        	ecjia_admin::make_admin_menu('04_push_template', RC_Lang::get('push::push.msg_template'), RC_Uri::url('push/admin_template/init'), 4)->add_purview('push_template_manage'),
+        	ecjia_admin::make_admin_menu('01_push_device', __('群发推送', 'push'), RC_Uri::url('push/admin/push_action'), 1)->add_purview('push_message'),
+        	ecjia_admin::make_admin_menu('02_push_message', __('消息记录', 'push'), RC_Uri::url('push/admin/init'), 2)->add_purview('push_history_manage'),
+        	ecjia_admin::make_admin_menu('03_push_event', __('消息事件', 'push'), RC_Uri::url('push/admin_events/init'), 3)->add_purview('push_event_manage'),
+        	ecjia_admin::make_admin_menu('04_push_template', __('消息模板', 'push'), RC_Uri::url('push/admin_template/init'), 4)->add_purview('push_template_manage'),
         );
         
         $menus->add_submenu($submenus);

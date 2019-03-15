@@ -136,8 +136,8 @@ class PushSend
     
     public function send()
     {     
-        $notification = with(new NotificationFactory())->notification($this->client);
-        
+        $notification = (new NotificationFactory())->notification($this->client);
+
         $notification->setAppKey($this->appKey);
         $notification->setAppSecret($this->appSecret);
         $notification->setDebug($this->debug);
@@ -147,14 +147,14 @@ class PushSend
         $notification->setSound($this->pushContent->getSound());
         $notification->setBadge($this->pushContent->getBadge());
         $notification->setMutableContent($this->pushContent->getMutableContent());
-        
+
         return $notification->sendUnicast();
     }
     
     
     public function broadcastSend()
     {
-        $notification = with(new NotificationFactory())->notification($this->client);
+        $notification = (new NotificationFactory())->notification($this->client);
         
         $notification->setAppKey($this->appKey);
         $notification->setAppSecret($this->appSecret);

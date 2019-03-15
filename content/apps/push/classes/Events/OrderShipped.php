@@ -51,21 +51,21 @@ use Ecjia\App\Push\EventAbstract;
 
 class OrderShipped extends EventAbstract
 {
-
     protected $code = 'order_shipped';
-
-    protected $name = '商家发货';
-
-    protected $description = '当商家发货时是推送消息告知用户';
-
-    protected $template = '尊敬的${user_name}用户，您的订单${order_sn}已发货，收货人${consignee}，请您及时查收。';
-
-    protected $available_values = [
-    	'user_name'    => '会员名称',
-    	'order_sn'     => '订单编号',
-    	'consignee'    => '收货人',
-    	'service_phone'=> '客服电话',
-    ];
     
-
+    protected $template = '尊敬的${user_name}用户，您的订单${order_sn}已发货，收货人${consignee}，请您及时查收。';
+    
+    public function __construct()
+    {
+    	$this->name = __('商家发货', 'push');
+    
+    	$this->description = __('当商家发货时是推送消息告知用户', 'push');
+    
+    	$this->available_values = [
+	    	'user_name'    => __('会员名称', 'push'),
+	    	'order_sn'     => __('订单编号', 'push'),
+	    	'consignee'    => __('收货人', 'push'),
+	    	'service_phone'=> __('客服电话', 'push')
+    	];
+    }
 }

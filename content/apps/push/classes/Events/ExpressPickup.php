@@ -51,17 +51,18 @@ use Ecjia\App\Push\EventAbstract;
 
 class ExpressPickup extends EventAbstract
 {
-
     protected $code = 'express_pickup';
-
-    protected $name = '取货成功';
-
-    protected $description = '通知用户取货成功';
 
     protected $template = '恭喜您已成功取得配送单号为：${express_sn}的配送货物。';
 
-    protected $available_values = [
-    	'express_sn' => '配送单号',
-    ];
+    public function __construct()
+    {
+    	$this->name = __('取货成功', 'push');
     
+    	$this->description = __('通知用户取货成功', 'push');
+    
+    	$this->available_values = [
+    		'express_sn' => __('配送单号', 'push'),
+    	];
+    }
 }

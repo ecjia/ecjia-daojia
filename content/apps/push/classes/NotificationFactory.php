@@ -101,8 +101,11 @@ class NotificationFactory
 
         return $events;
     }
-    
-    
+
+    /**
+     * @param $code
+     * @return NotificationAbstract
+     */
     public function notification($code)
     {
         if (!array_key_exists($code, self::$factories)) {

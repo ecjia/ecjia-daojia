@@ -49,6 +49,7 @@ namespace Ecjia\App\Push;
 
 use Ecjia\App\Push\Models\PushTemplateModel;
 use Ecjia\App\Push\Models\PushMessageModel;
+use Ecjia\App\Push\Sends\EventSend;
 use ecjia_error;
 use RC_Time;
 use RC_Hook;
@@ -56,10 +57,25 @@ use RC_Object;
 
 class PushManager extends RC_Object
 {
-        
+
+    /**
+     * @var \Ecjia\App\Push\Models\PushTemplateModel
+     */
     protected $model;
+
+    /**
+     * @var \Ecjia\App\Push\EventAbstract
+     */
     protected $event;
+
+    /**
+     * @var \Ecjia\App\Mobile\User
+     */
     protected $user;
+
+    /**
+     * @var \Ecjia\App\Push\PushContent
+     */
     protected $content;
     
     /**
@@ -146,94 +162,14 @@ class PushManager extends RC_Object
     
     /** 发送短消息
      *
-     * @access  public
-     * @param   string  $template_var     消息模板变量，数组格式
-     * @param   string  $extended_field   消息模板扩展字段，数组格式
+     * @param   array  $template_var     消息模板变量，数组格式
+     * @param   array  $extended_field   消息模板扩展字段，数组格式
+     *
+     * @return ecjia_error | \Royalcms\Component\Support\Collection
      */
     public function send(array $template_var = [], array $extended_field = [])
     {
-        $beforeSend = true;
-        $beforeSend = RC_Hook::apply_filters('push_event_send_before', $beforeSend, $template_var, $extended_field);
-        if (is_ecjia_error($beforeSend))
-        {
-            return $beforeSend;
-        }
-        else 
-        {
-            $plugin = 'push_umeng';
-
-            //发送
-            $template = $this->model->getTemplateByCode($this->event->getCode(), $plugin);
-            if (empty($template))
-            {
-                return new ecjia_error('push_template_not_exist', __('消息模板不存在'));
-            }
-            
-            $content = new PushContent();
-            $content->setContent($template['template_content']);
-            $content->setContentByCustomVar($template_var);
-            $content->setTemplateVar($template_var);
-            $content->setTemplateId($template['template_id']);
-            $content->setSubject($template['template_subject']);
-            $content->setSound($this->event->getSound());
-            $content->setMutableContent($this->event->getMutableContent());
-            
-            $error = new ecjia_error();
-            
-            $user = $this->user;
-            $devices = $this->user->getDevices();
-            $devices->each(function ($item) use ($content, $template, $user, $plugin, $error, $template_var, $extended_field) {
-
-                try {
-                    $client = $item['device_client'];
-
-                    $push_umeng = $user->getClientOptions($item['device_code'], $plugin);
-
-                    if (empty($push_umeng)) {
-                        $error->add('push_meng_config_not_found', 'APP推送配置信息不存在');
-                        return ;
-                    }
-
-                    $debug          = $push_umeng['environment'] == 'develop' ? true : false;
-                    $key            = $push_umeng['app_key'];
-                    $secret         = $push_umeng['app_secret'];
-                    $device_token   = $item['device_token'];
-
-                    $push = new PushSend($key, $secret, $debug);
-                    $push->setPushContent($content);
-                    $push->setDeviceToken($device_token);
-                    $push->setClient($client);
-                    $push->setCustomFields($extended_field);
-                    $result = $push->send();
-
-                    /**
-                     * 重新发送消息后做什么，过滤器
-                     * @param $result   推送结果
-                     * @param $item  推送的消息数据模型对象
-                     * @param $template_var 模板变量
-                     * @param $extended_field   扩展字段
-                     * @return $result
-                     */
-                    $result = RC_Hook::apply_filters('push_event_send_after', $result, $item, $template_var, $extended_field);
-
-                    $this->addRecord($item['device_code'], $item['device_client'], $item['device_token'], $template['template_subject'], $template['template_id'], $template_var, $extended_field, $content->getContent(), $plugin, $result);
-
-                    if (is_ecjia_error($result)) {
-                        $error->add($result->get_error_code(), $result->get_error_message(), $result->get_error_data());
-                    }
-                } catch (\InvalidArgumentException $e) {
-                    $error->add($e->getCode(), $e->getMessage());
-                }
-
-            });
-            
-            if (count($error->get_error_messages()) > 0) 
-            {
-                return $error;
-            }
-
-            return true;
-        }
+        return (new EventSend($this, [$template_var, $extended_field]))->send();
     }
     
     /**
@@ -262,7 +198,7 @@ class PushManager extends RC_Object
             try {
                 $client = $message['device_client'];
 
-                $client     = with(new \Ecjia\App\Mobile\ApplicationFactory)->client($message['device_code']);
+                $client     = (new \Ecjia\App\Mobile\ApplicationFactory)->client($message['device_code']);
                 $push_umeng = $client->getOption($plugin);
 
                 if (empty($push_umeng)) {
@@ -295,10 +231,10 @@ class PushManager extends RC_Object
 
                 /**
                  * 重新发送消息后做什么，过滤器
-                 * @param $result   推送结果
-                 * @param $message  推送的消息数据模型对象
-                 * @param $template_var 模板变量
-                 * @param $extended_field   扩展字段
+                 * @param array $result   推送结果
+                 * @param array $message  推送的消息数据模型对象
+                 * @param array $template_var 模板变量
+                 * @param array $extended_field   扩展字段
                  * @return $result
                  */
                 $result = RC_Hook::apply_filters('push_resend_send_after', $result, $message, $template_var, $extended_field);
@@ -345,13 +281,13 @@ class PushManager extends RC_Object
             'add_time'          => RC_Time::gmtime(),
             'extradata'         => serialize($extended_field),
 
-            'template_id'       => $template_id,//短信模板ID
+            'template_id'       => $template_id,//推送消息模板ID
 
             'priority'          => $priority,//优先级高低（0，1）
             'push_time'         => RC_Time::gmtime(),//最后发送时间
             'push_count'        => 1,
 
-        	'channel_code'	    => $plugin//短信渠道代码
+        	'channel_code'	    => $plugin//推送消息渠道代码
         );
 
         if (is_ecjia_error($result))
@@ -446,7 +382,7 @@ class PushManager extends RC_Object
         {
             try {
                 $plugin     = 'push_umeng';
-                $client     = with(new \Ecjia\App\Mobile\ApplicationFactory)->client($device_code);
+                $client     = (new \Ecjia\App\Mobile\ApplicationFactory)->client($device_code);
                 $push_umeng = $client->getOption($plugin);
 
                 if (empty($push_umeng)) {
@@ -509,7 +445,7 @@ class PushManager extends RC_Object
         {
             try {
                 $plugin     = 'push_umeng';
-                $client     = with(new \Ecjia\App\Mobile\ApplicationFactory)->client($device_code);
+                $client     = (new \Ecjia\App\Mobile\ApplicationFactory)->client($device_code);
                 $push_umeng = $client->getOption($plugin);
 
                 if (empty($push_umeng)) {
@@ -565,6 +501,11 @@ class PushManager extends RC_Object
             $content = $this->content;
             $user = $this->user;
             $devices = $this->user->getDevices();
+            dd($devices);
+
+            /**
+             * @var $user \Ecjia\App\Mobile\User
+             */
             $devices->each(function ($item) use ($content, $user, $plugin, $error, $extended_field, $priority) {
 
                 try {
@@ -573,7 +514,7 @@ class PushManager extends RC_Object
                     $push_umeng = $user->getClientOptions($item['device_code'], $plugin);
 
                     if (empty($push_umeng)) {
-                        $error->add('push_meng_config_not_found', 'APP推送配置信息不存在');
+                        $error->add('push_meng_config_not_found', __('APP推送配置信息不存在', 'push'));
                         return;
                     }
 
@@ -591,11 +532,11 @@ class PushManager extends RC_Object
 
                     /**
                      * 重新发送消息后做什么，过滤器
-                     * @param $result   推送结果
-                     * @param $item  推送的消息数据模型对象
-                     * @param $template_var 模板变量
-                     * @param $extended_field   扩展字段
-                     * @return $result
+                     * @param array $result   推送结果
+                     * @param array $item  推送的消息数据模型对象
+                     * @param array $template_var 模板变量
+                     * @param array$extended_field   扩展字段
+                     * @return array $result
                      */
                     $result = RC_Hook::apply_filters('push_unicast_send_after', $result, $item, $extended_field);
 

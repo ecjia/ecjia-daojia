@@ -75,9 +75,10 @@ class admin_events extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-dataTables-bootstrap');
 		
 		RC_Script::enqueue_script('push_events', RC_App::apps_url('statics/js/push_events.js', __FILE__), array(), false, false);
-		RC_Script::enqueue_script('push_template', RC_App::apps_url('statics/js/push_template.js', __FILE__), array(), false, false);
-		RC_Script::localize_script('push_template', 'js_lang', RC_Lang::get('sms::sms.js_lang'));
+		RC_Script::localize_script('push_events', 'js_lang_events', config('app-push::jslang.push_events_page'));
 		
+		RC_Script::enqueue_script('push_template', RC_App::apps_url('statics/js/push_template.js', __FILE__), array(), false, false);
+		RC_Script::localize_script('push_template', 'js_lang_template', config('app-push::jslang.push_template_page'));
 	}
 	
 	/**
@@ -87,9 +88,9 @@ class admin_events extends ecjia_admin {
 		$this->admin_priv('push_event_manage');
 		
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('消息事件'));
-		$this->assign('ur_here', '消息事件列表');
-		$this->assign('action_link', array('href' => RC_Uri::url('push/admin_template/init'), 'text' => '消息模板列表'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('消息事件', 'push')));
+		$this->assign('ur_here', __('消息事件列表', 'push'));
+		$this->assign('action_link', array('href' => RC_Uri::url('push/admin_template/init'), 'text' => __('消息模板列表', 'push')));
 	
 		$data = $this->template_code_list();
 		$database = RC_DB::table('notification_events')
@@ -125,7 +126,7 @@ class admin_events extends ecjia_admin {
 			RC_DB::table('notification_events')->where('id', $_GET['id'])->update(array('status'=> 'open'));
 		}
 		ecjia_admin::admin_log($_GET['code'], 'add', 'push_events');
-		return $this->showmessage('开启成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('push/admin_events/init')));
+		return $this->showmessage(__('开启成功', 'push'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('push/admin_events/init')));
 	}
 	
 	public function all_open() {
@@ -156,7 +157,7 @@ class admin_events extends ecjia_admin {
 			}
 		}
  
-		return $this->showmessage('全部开启成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('push/admin_events/init')));
+		return $this->showmessage(__('全部开启成功', 'push'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('push/admin_events/init')));
 	}
 	
 
@@ -164,15 +165,15 @@ class admin_events extends ecjia_admin {
 		$this->admin_priv('push_event_manage');
 		RC_DB::table('notification_events')->where('id', $_GET['id'])->update(array('status'=> 'close'));
 		ecjia_admin::admin_log($_GET['code'], 'close', 'push_events');
-		return $this->showmessage('关闭成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('push/admin_events/init')));
+		return $this->showmessage(__('关闭成功', 'push'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('push/admin_events/init')));
 	}
 	
 	public function all_close() {
-		$this->admin_priv('sms_events_manage');
+		$this->admin_priv('push_event_manage');
 	
 		RC_DB::table('notification_events')->where('channel_type', 'push')->update(array('status' => 'close'));
 	
-		return $this->showmessage('全部关闭成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('push/admin_events/init')));
+		return $this->showmessage(__('全部关闭成功', 'push'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('push/admin_events/init')));
 	}
 	
 	

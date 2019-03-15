@@ -54,21 +54,21 @@ class push_push_event_send_api extends Component_Event_Api {
 	
     /**
      * $options array
-     * @param user_id   用户ID
-     * @param user_type 用户类型
-     * @param event     发送事件
-     * @param value     消息模板变量
-     * @param field     自定义字段
-     * @param priority  优化级
-     * @return array
+     * @param int user_id   用户ID
+     * @param string user_type 用户类型
+     * @param string event     发送事件
+     * @param string value     消息模板变量
+     * @param array field     自定义字段
+     * @param int priority  优化级
+     * @return array | ecjia_error
      */
 	public function call(&$options) {	    
 	    if (!is_array($options)) {
-	        return new ecjia_error('invalid_argument', __('无效参数'));
+	        return new ecjia_error('invalid_argument', __('无效参数', 'push'));
 	    }
 	    
 	    if (!array_get($options, 'user_id') || !array_get($options, 'user_type') || !array_get($options, 'event')) {
-	        return new ecjia_error('invalid_argument', __('无效参数'));
+	        return new ecjia_error('invalid_argument', __('无效参数', 'push'));
 	    }
 	    
 	    $user_id   = array_get($options, 'user_id');
@@ -80,7 +80,7 @@ class push_push_event_send_api extends Component_Event_Api {
 	    
 	    $eventHandler = with(new Ecjia\App\Push\EventFactory())->event($event);
 	    if (!$eventHandler->hasEnabled()) {
-	        return new ecjia_error('event_not_open', "请先开启推送消息".$eventHandler->getName()."事件");
+	        return new ecjia_error('event_not_open',  sprintf(__('请先开启推送消息%s事件', 'sms'), $eventHandler->getName()));
 	    }
 	    
 	    $result = \Ecjia\App\Push\PushManager::make()

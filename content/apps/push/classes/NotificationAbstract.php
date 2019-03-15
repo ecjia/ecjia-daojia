@@ -125,7 +125,7 @@ abstract class NotificationAbstract
 	
 	/**
 	 * 添加内容
-	 * @param unknown $content
+	 * @param string $content
 	 */
 	public function addContent($description, $content) {
 	    $this->push_description = $description;

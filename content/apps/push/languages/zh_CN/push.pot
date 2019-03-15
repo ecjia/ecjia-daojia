@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App push 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 03:57:58+00:00\n"
+"POT-Creation-Date: 2019-03-15 01:49:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,23 +12,322 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 
+#: admin.php:80 admin.php:90 apis/push_service_menu_api.class.php:60
+msgid "消息记录"
+msgstr ""
+
+#: admin.php:92 apis/push_service_menu_api.class.php:59
+msgid "群发推送"
+msgstr ""
+
+#: admin.php:93 admin.php:111 admin.php:284
+msgid "消息记录列表"
+msgstr ""
+
+#: admin.php:109 admin.php:110 configs/package.php:56
+msgid "消息推送"
+msgstr ""
+
+#: admin.php:225
+msgid "未获取到要推送的用户"
+msgstr ""
+
+#: admin.php:236 admin.php:252
+msgid "推送成功"
+msgstr ""
+
+#: admin.php:271
+msgid "消息推送成功"
+msgstr ""
+
+#: admin.php:282
+msgid "消息复用"
+msgstr ""
+
+#: admin_events.php:91 apis/push_admin_purview_api.class.php:58
+#: apis/push_service_menu_api.class.php:61
+msgid "消息事件"
+msgstr ""
+
+#: admin_events.php:92 admin_template.php:96
+msgid "消息事件列表"
+msgstr ""
+
+#: admin_events.php:93 admin_template.php:120 admin_template.php:205
+#: admin_template.php:281
+msgid "消息模板列表"
+msgstr ""
+
+#: admin_events.php:129
+msgid "开启成功"
+msgstr ""
+
+#: admin_events.php:160
+msgid "全部开启成功"
+msgstr ""
+
+#: admin_events.php:168
+msgid "关闭成功"
+msgstr ""
+
+#: admin_events.php:176
+msgid "全部关闭成功"
+msgstr ""
+
+#: admin_template.php:83 admin_template.php:93 admin_template.php:95
+#: admin_template.php:117 admin_template.php:202
+#: apis/push_service_menu_api.class.php:62
+msgid "消息模板"
+msgstr ""
+
+#: admin_template.php:97 admin_template.php:119
+msgid "添加消息模板"
+msgstr ""
+
+#: admin_template.php:153 admin_template.php:232
+msgid "可用变量：%s"
+msgstr ""
+
+#: admin_template.php:155 admin_template.php:234
+msgid ""
+"变量使用说明：变量不限位置摆放，可自由摆放，但变量不可自定义名称，需保持与以"
+"上名称一致。"
+msgstr ""
+
+#: admin_template.php:173 admin_template.php:255
+msgid "请选择消息事件"
+msgstr ""
+
+#: admin_template.php:178 admin_template.php:260
+msgid "该消息模板代号在该渠道下已存在"
+msgstr ""
+
+#: admin_template.php:193
+msgid "添加消息模板成功"
+msgstr ""
+
+#: admin_template.php:204
+msgid "编辑消息模板"
+msgstr ""
+
+#: admin_template.php:271
+msgid "编辑消息模板成功"
+msgstr ""
+
+#: admin_template.php:280
+msgid "测试消息模板"
+msgstr ""
+
+#: admin_template.php:307
+msgid "模板变量不能为空"
+msgstr ""
+
+#: admin_template.php:321
+msgid "请选择推送对象"
+msgstr ""
+
+#: admin_template.php:366
+msgid "删除消息模板成功"
+msgstr ""
+
+#: apis/push_admin_purview_api.class.php:57
+#: apis/push_service_menu_api.class.php:56
+msgid "推送消息"
+msgstr ""
+
+#: apis/push_admin_purview_api.class.php:59
+msgid "消息记录管理"
+msgstr ""
+
+#: apis/push_admin_purview_api.class.php:60
+msgid "消息模板管理"
+msgstr ""
+
+#: apis/push_admin_purview_api.class.php:61
+msgid "消息模板更新"
+msgstr ""
+
+#: apis/push_admin_purview_api.class.php:62
+msgid "消息模板删除"
+msgstr ""
+
+#: apis/push_admin_purview_api.class.php:63
+msgid "消息配置管理"
+msgstr ""
+
 #: apis/push_push_event_send_api.class.php:67
-#: apis/push_push_event_send_api.class.php:71
-#: apis/push_push_send_api.class.php:71 apis/push_push_send_api.class.php:75
-#: apis/push_push_send_api.class.php:79 classes/PushManager.php:419
+#: apis/push_push_event_send_api.class.php:71 classes/PushManager.php:355
 msgid "无效参数"
+msgstr ""
+
+#: apis/push_push_event_send_api.class.php:83
+msgid "请先开启推送消息%s事件"
 msgstr ""
 
 #: classes/Clients/AndroidNotification.php:74
 msgid "推送消息的内容不能为空"
 msgstr ""
 
-#: classes/PushManager.php:169
+#: classes/Events/ExpressConfirm.php:60
+msgid "确认收货"
+msgstr ""
+
+#: classes/Events/ExpressConfirm.php:62
+msgid "买家确认收货时及时通知商家"
+msgstr ""
+
+#: classes/Events/ExpressConfirm.php:65 classes/Events/ExpressGrab.php:69
+#: classes/Events/ExpressPickup.php:65
+#: classes/Events/ExpressSystemAssign.php:69
+msgid "配送单号"
+msgstr ""
+
+#: classes/Events/ExpressConfirm.php:66 classes/Events/ExpressGrab.php:70
+#: classes/Events/OrderPayed.php:73 classes/Events/OrderPlaced.php:73
+#: classes/Events/OrderShipped.php:68
+msgid "客服电话"
+msgstr ""
+
+#: classes/Events/ExpressGrab.php:64
+msgid "抢单成功"
+msgstr ""
+
+#: classes/Events/ExpressGrab.php:66
+msgid "通知用户抢单成功"
+msgstr ""
+
+#: classes/Events/ExpressPickup.php:60
+msgid "取货成功"
+msgstr ""
+
+#: classes/Events/ExpressPickup.php:62
+msgid "通知用户取货成功"
+msgstr ""
+
+#: classes/Events/ExpressSystemAssign.php:64
+msgid "系统派单"
+msgstr ""
+
+#: classes/Events/ExpressSystemAssign.php:66
+msgid "系统分配配送单通知"
+msgstr ""
+
+#: classes/Events/OrderPayed.php:64
+msgid "客户付款"
+msgstr ""
+
+#: classes/Events/OrderPayed.php:66
+msgid "当客户付款时推送消息告知商家"
+msgstr ""
+
+#: classes/Events/OrderPayed.php:69 classes/Events/OrderPlaced.php:69
+#: classes/Events/OrderShipped.php:66
+msgid "订单编号"
+msgstr ""
+
+#: classes/Events/OrderPayed.php:70 classes/Events/OrderPlaced.php:70
+#: classes/Events/OrderShipped.php:67
+msgid "收货人"
+msgstr ""
+
+#: classes/Events/OrderPayed.php:71 classes/Events/OrderPlaced.php:71
+msgid "联系方式"
+msgstr ""
+
+#: classes/Events/OrderPayed.php:72 classes/Events/OrderPlaced.php:72
+msgid "订单金额"
+msgstr ""
+
+#: classes/Events/OrderPlaced.php:64
+msgid "客户下单"
+msgstr ""
+
+#: classes/Events/OrderPlaced.php:66
+msgid "当客户下单时推送消息告知商家"
+msgstr ""
+
+#: classes/Events/OrderShipped.php:60
+msgid "商家发货"
+msgstr ""
+
+#: classes/Events/OrderShipped.php:62
+msgid "当商家发货时是推送消息告知用户"
+msgstr ""
+
+#: classes/Events/OrderShipped.php:65
+msgid "会员名称"
+msgstr ""
+
+#: classes/PushManager.php:517 classes/Sends/SingleSend.php:51
+msgid "APP推送配置信息不存在"
+msgstr ""
+
+#: classes/Sends/EventSend.php:48
 msgid "消息模板不存在"
 msgstr ""
 
-#: configs/package.php:56
-msgid "消息推送"
+#: configs/jslang.php:57
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:58
+msgid "取消"
+msgstr ""
+
+#: configs/jslang.php:64
+msgid "首页"
+msgstr ""
+
+#: configs/jslang.php:65
+msgid "尾页"
+msgstr ""
+
+#: configs/jslang.php:66
+msgid "上一页"
+msgstr ""
+
+#: configs/jslang.php:67
+msgid "下一页"
+msgstr ""
+
+#: configs/jslang.php:68
+msgid "共_TOTAL_条记录 第_START_条到第_END_条"
+msgstr ""
+
+#: configs/jslang.php:69 configs/jslang.php:70
+msgid "没有找到任何记录"
+msgstr ""
+
+#: configs/jslang.php:71
+msgid "共0条记录"
+msgstr ""
+
+#: configs/jslang.php:72
+msgid "（从_MAX_条数据中检索）"
+msgstr ""
+
+#: configs/jslang.php:75
+msgid "未搜索到会员信息"
+msgstr ""
+
+#: configs/jslang.php:76
+msgid "未搜索到商家会员信息"
+msgstr ""
+
+#: configs/jslang.php:77
+msgid "未搜索到管理员信息"
+msgstr ""
+
+#: configs/jslang.php:78
+msgid "请输入手机号"
+msgstr ""
+
+#: configs/jslang.php:81
+msgid "消息主题不能为空！"
+msgstr ""
+
+#: configs/jslang.php:82
+msgid "模板内容不能为空！"
 msgstr ""
 
 #: configs/package.php:57
@@ -38,58 +337,305 @@ msgid ""
 "减少用于网络上搜索的时间。"
 msgstr ""
 
-#: content/apps/push/templates/admin/push_event_info.dwt.php:25
-msgid "消息事件名称："
+#: content/apps/push/templates/admin/push_template_test.dwt.php:26
+msgid "推送对象："
 msgstr ""
 
-#: content/apps/push/templates/admin/push_event_info.dwt.php:32
-msgid "消息事件Code："
+#: content/apps/push/templates/admin/push_template_test.dwt.php:28
+#: content/apps/push/templates/admin/push_send.dwt.php:88
+msgid "用户"
 msgstr ""
 
-#: content/apps/push/templates/admin/push_event_info.dwt.php:47
-#: content/apps/push/templates/admin/push_event_info.dwt.php:134
-#: content/apps/push/templates/admin/push_event_info.dwt.php:190
-msgid "确定"
+#: content/apps/push/templates/admin/push_template_test.dwt.php:29
+#: content/apps/push/templates/admin/push_send.dwt.php:89
+msgid "商家用户"
 msgstr ""
 
-#: content/apps/push/templates/admin/push_event_info.dwt.php:75
-msgid "编辑"
+#: content/apps/push/templates/admin/push_template_test.dwt.php:30
+#: content/apps/push/templates/admin/push_send.dwt.php:90
+msgid "管理员"
 msgstr ""
 
-#: content/apps/push/templates/admin/push_event_info.dwt.php:76
-msgid "您确定要删除该消息事件吗？"
+#: content/apps/push/templates/admin/push_template_test.dwt.php:36
+#: content/apps/push/templates/admin/push_send.dwt.php:122
+msgid "会员手机号："
 msgstr ""
 
-#: content/apps/push/templates/admin/push_event_info.dwt.php:76
-msgid "移除"
+#: content/apps/push/templates/admin/push_template_test.dwt.php:39
+#: content/apps/push/templates/admin/push_template_test.dwt.php:57
+#: content/apps/push/templates/admin/push_template_test.dwt.php:75
+#: content/apps/push/templates/admin/push_send_history.dwt.php:39
+#: content/apps/push/templates/admin/push_send.dwt.php:107
+#: content/apps/push/templates/admin/push_send.dwt.php:125
+#: content/apps/push/templates/admin/push_send.dwt.php:143
+msgid "搜索"
 msgstr ""
 
-#: content/apps/push/templates/admin/push_event_info.dwt.php:94
-msgid "编辑客户端应用"
+#: content/apps/push/templates/admin/push_template_test.dwt.php:44
+#: content/apps/push/templates/admin/push_send.dwt.php:130
+msgid "选择要推送的会员："
 msgstr ""
 
-#: content/apps/push/templates/admin/push_event_info.dwt.php:102
-#: content/apps/push/templates/admin/push_event_info.dwt.php:158
-msgid "客户端应用："
+#: content/apps/push/templates/admin/push_template_test.dwt.php:47
+#: content/apps/push/templates/admin/push_send.dwt.php:133
+msgid "需要先搜索会员，然后再选择。"
 msgstr ""
 
-#: content/apps/push/templates/admin/push_event_info.dwt.php:105
-#: content/apps/push/templates/admin/push_event_info.dwt.php:117
-#: content/apps/push/templates/admin/push_event_info.dwt.php:161
-#: content/apps/push/templates/admin/push_event_info.dwt.php:173
+#: content/apps/push/templates/admin/push_template_test.dwt.php:54
+#: content/apps/push/templates/admin/push_send.dwt.php:104
+msgid "管理员名称："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_template_test.dwt.php:62
+#: content/apps/push/templates/admin/push_send.dwt.php:112
+msgid "选择要推送的管理员："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_template_test.dwt.php:65
+#: content/apps/push/templates/admin/push_send.dwt.php:115
+msgid "需要先搜索管理员，然后再选择。"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_template_test.dwt.php:72
+#: content/apps/push/templates/admin/push_send.dwt.php:140
+msgid "商家会员手机号："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_template_test.dwt.php:80
+#: content/apps/push/templates/admin/push_send.dwt.php:148
+msgid "选择要推送的商家会员："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_template_test.dwt.php:83
+#: content/apps/push/templates/admin/push_send.dwt.php:151
+msgid "需要先搜索商家会员，然后再选择。"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_template_test.dwt.php:89
+#: content/apps/push/templates/admin/push_template_info.dwt.php:42
+#: content/apps/push/templates/admin/push_send.dwt.php:24
+msgid "消息主题："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_template_test.dwt.php:94
+msgid "消息模板内容："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_template_test.dwt.php:111
+msgid "提交测试"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:19
+msgid "全部"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:20
+msgid "待发送"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:21
+msgid "发送成功"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:22
+#: content/apps/push/templates/admin/push_send_history.dwt.php:88
+#: content/apps/push/templates/admin/push_send_history.dwt.php:91
+msgid "发送失败"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:30
+msgid "批量操作"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:33
+#: content/apps/push/templates/admin/push_send_history.dwt.php:70
+msgid "您确定要再次推送该条消息吗？"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:33
+msgid "请先选中要再次推送的消息"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:33
+msgid "批量发送"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:38
+msgid "请输入消息主题关键字"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:52
+msgid "设备类型"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:53
+msgid "消息主题/消息内容"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:54
+msgid "推送时间"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:55
+msgid "推送状态"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:68
+msgid "您确定要推送该条这条消息吗？"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:68
+msgid "推送"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:70
+msgid "再次推送"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:81
+msgid "推送完成"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:82
+msgid "该消息已经被推送了"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:82
+msgid "次"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send_history.dwt.php:83
+msgid "推送于："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_template_info.dwt.php:14
+#: content/apps/push/templates/admin/push_send.dwt.php:166
+msgid "温馨提示："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_template_info.dwt.php:14
+msgid "暂时未有消息模板可添加。"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_template_info.dwt.php:32
+msgid "消息事件："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_template_info.dwt.php:35
+#: content/apps/push/templates/admin/push_send.dwt.php:61
 msgid "请选择"
 msgstr ""
 
-#: content/apps/push/templates/admin/push_event_info.dwt.php:114
-#: content/apps/push/templates/admin/push_event_info.dwt.php:170
-msgid "消息模板："
+#: content/apps/push/templates/admin/push_template_info.dwt.php:50
+msgid "模板内容："
 msgstr ""
 
-#: content/apps/push/templates/admin/push_event_info.dwt.php:126
-#: content/apps/push/templates/admin/push_event_info.dwt.php:182
-msgid "是否启用："
+#: content/apps/push/templates/admin/push_template_info.dwt.php:73
+msgid "更新"
 msgstr ""
 
-#: content/apps/push/templates/admin/push_event_info.dwt.php:150
-msgid "绑定客户端应用"
+#: content/apps/push/templates/admin/push_events_list.dwt.php:17
+msgid "您确定要关闭全部推送消息事件吗？"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_events_list.dwt.php:17
+msgid "全部关闭"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_events_list.dwt.php:18
+msgid "您确定要开启全部推送消息事件吗？"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_events_list.dwt.php:18
+msgid "全部开启"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_events_list.dwt.php:28
+msgid "您确定要关闭该消息事件吗？"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_events_list.dwt.php:28
+msgid "您确定要开启该消息事件吗？"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_events_list.dwt.php:30
+msgid "点击关闭"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_events_list.dwt.php:32
+msgid "点击开启"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_events_list.dwt.php:39
+msgid "开启中"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_events_list.dwt.php:39
+msgid "已关闭"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send.dwt.php:28
+msgid "用于标识消息，方便查找和管理"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send.dwt.php:32
+msgid "消息内容："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send.dwt.php:36
+msgid "这里是要推送的消息内容"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send.dwt.php:41
+msgid "推送产品"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send.dwt.php:56
+msgid "推送行为"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send.dwt.php:58
+msgid "打开动作："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send.dwt.php:64
+msgid "选择该消息需要打开的页面，不选择时，默认打开主页"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send.dwt.php:82
+msgid "推送对象"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send.dwt.php:84
+msgid "推送给："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send.dwt.php:86
+msgid "所有设备"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send.dwt.php:87
+msgid "单播"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send.dwt.php:156
+msgid "推送时机"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send.dwt.php:158
+msgid "发送时间："
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send.dwt.php:160
+msgid "立即发送"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send.dwt.php:161
+msgid "稍后发送"
+msgstr ""
+
+#: content/apps/push/templates/admin/push_send.dwt.php:168
+msgid ""
+"暂无产品进行推送，请前往顶部菜单 -> 工具 -> 移动应用 -> 客户端管理  进行配置"
+"信息即可。"
 msgstr ""

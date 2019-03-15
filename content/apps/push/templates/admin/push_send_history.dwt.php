@@ -16,10 +16,10 @@
 </div>
 
 <ul class="nav nav-pills">
-	<li class="{if $listdb.filter.errorval eq '0'}active{/if}"><a class="data-pjax" href='{url path="push/admin/init" args="errorval=0{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>全部<span class="badge badge-info">{$listdb.msg_count.count}</span></a></li>
-	<li class="{if $listdb.filter.errorval eq '1'}active{/if}"><a class="data-pjax" href='{url path="push/admin/init" args="errorval=1{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>待发送<span class="badge badge-info">{$listdb.msg_count.wait}</span></a></li>
-	<li class="{if $listdb.filter.errorval eq '2'}active{/if}"><a class="data-pjax" href='{url path="push/admin/init" args="errorval=2{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>发送成功<span class="badge badge-info">{$listdb.msg_count.success}</span></a></li>
-	<li class="{if $listdb.filter.errorval eq '3'}active{/if}"><a class="data-pjax" href='{url path="push/admin/init" args="errorval=3{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>发送失败<span class="badge badge-info">{$listdb.msg_count.faild}</span></a></li>
+	<li class="{if $listdb.filter.errorval eq '0'}active{/if}"><a class="data-pjax" href='{url path="push/admin/init" args="errorval=0{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>{t domain="push"}全部{/t}<span class="badge badge-info">{$listdb.msg_count.count}</span></a></li>
+	<li class="{if $listdb.filter.errorval eq '1'}active{/if}"><a class="data-pjax" href='{url path="push/admin/init" args="errorval=1{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>{t domain="push"}待发送{/t}<span class="badge badge-info">{$listdb.msg_count.wait}</span></a></li>
+	<li class="{if $listdb.filter.errorval eq '2'}active{/if}"><a class="data-pjax" href='{url path="push/admin/init" args="errorval=2{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>{t domain="push"}发送成功{/t}<span class="badge badge-info">{$listdb.msg_count.success}</span></a></li>
+	<li class="{if $listdb.filter.errorval eq '3'}active{/if}"><a class="data-pjax" href='{url path="push/admin/init" args="errorval=3{if $listdb.filter.keywords}&keywords={$listdb.filter.keywords}{/if}"}'>{t domain="push"}发送失败{/t}<span class="badge badge-info">{$listdb.msg_count.faild}</span></a></li>
 </ul>
 
 <!-- 批量操作、筛选、搜索 -->
@@ -27,16 +27,16 @@
 	<form method="post" action="{$search_action}" name="searchForm">
 		<div class="btn-group f_l m_r5">
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-				<i class="fontello-icon-cog"></i>批量操作<span class="caret"></span>
+				<i class="fontello-icon-cog"></i>{t domain="push"}批量操作{/t}<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
-				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="push/admin/batch_resend" args="appid={$appid}"}' data-msg="{lang key='push::push.resend_confirm'}" data-noSelectMsg="{lang key='push::push.emtpy_resend_msg'}" data-name="message_id" href="javascript:;"><i class="fontello-icon-chat-empty"></i>批量发送</a></li>
+				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{url path="push/admin/batch_resend" args="appid={$appid}"}' data-msg='{t domain="push"}您确定要再次推送该条消息吗？{/t}' data-noSelectMsg='{t domain="push"}请先选中要再次推送的消息{/t}' data-name="message_id" href="javascript:;"><i class="fontello-icon-chat-empty"></i>{t domain="push"}批量发送{/t}</a></li>
 			</ul>
 		</div>
 	
 		<div class="choose_list f_r" >
-			<input type="text" name="keywords" value="{$listdb.filter.keywords}" placeholder="{lang key='push::push.msg_keywords'}"/>
-			<button class="btn search_push" type="button">搜索</button>
+			<input type="text" name="keywords" value="{$listdb.filter.keywords}" placeholder='{t domain="push"}请输入消息主题关键字{/t}' />
+			<button class="btn search_push" type="button">{t domain="push"}搜索{/t}</button>
 		</div>
 	</form>
 </div>
@@ -49,10 +49,10 @@
 					<thead>
 						<tr>
 							<th class="table_checkbox"><input type="checkbox" name="select_rows" data-toggle="selectall" data-children=".checkbox"/></th>
-							<th class="w150">设备类型</th>
-							<th>消息主题/消息内容</th>
-							<th class="w150">推送时间</th>
-							<th class="w200">推送状态</th>
+							<th class="w150">{t domain="push"}设备类型{/t}</th>
+							<th>{t domain="push"}消息主题/消息内容{/t}</th>
+							<th class="w150">{t domain="push"}推送时间{/t}</th>
+							<th class="w200">{t domain="push"}推送状态{/t}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -65,11 +65,11 @@
 								<span>{if $val.device_client eq 'iphone'}iPhone{elseif $val.device_client eq 'android'}Android{/if}<br>{$val.app_name}</span>
 								<div class="edit-list">
 									<!-- {if $val.in_status neq 1} -->
-										<a class="ajaxpush" data-msg="{lang key='push::push.push_confirm'}" href='{url path="push/admin/resend" args="message_id={$val.message_id}"}'>{lang key='push::push.push'}</a>&nbsp;|&nbsp;
+										<a class="ajaxpush" data-msg='{t domain="push"}您确定要推送该条这条消息吗？{/t}' href='{url path="push/admin/resend" args="message_id={$val.message_id}"}'>{t domain="push"}推送{/t}</a>&nbsp;|&nbsp;
 									<!-- {else} -->
-										<a class="ajaxpush" data-msg="{lang key='push::push.resend_confirm'}" href='{url path="push/admin/resend" args="message_id={$val.message_id}"}'>{lang key='push::push.resend'}</a>&nbsp;|&nbsp;
+										<a class="ajaxpush" data-msg='{t domain="push"}您确定要再次推送该条消息吗？{/t}' href='{url path="push/admin/resend" args="message_id={$val.message_id}"}'>{t domain="push"}再次推送{/t}</a>&nbsp;|&nbsp;
 									<!-- {/if} -->
-							      	<a class="data-pjax" href='{RC_Uri::url("push/admin/push_copy", "message_id={$val.message_id}")}'>{lang key='push::push.push_copy'}</a>
+							      	<a class="data-pjax" href='{RC_Uri::url("push/admin/push_copy", "message_id={$val.message_id}")}'>{t domain="push"}消息复用{/t}</a>
 								</div>
 							</td>
 							<td>
@@ -78,22 +78,24 @@
 							<td>{$val.push_time}</td>
 							<td>
 								{if $val.in_status == 1}
-									{lang key='push::push.push_success'}<br>
-									{lang key='push::push.has_pushed'}<font class="ecjiafc-red">{$val.push_count}</font>{lang key='push::push.time'}<br>
-									{lang key='push::push.label_push_on'}{$val.push_time}
+									{t domain="push"}推送完成{/t}<br>
+									{t domain="push"}该消息已经被推送了{/t}<font class="ecjiafc-red">{$val.push_count}</font>{t domain="push"}次{/t}<br>
+									{t domain="push"}推送于：{/t}{$val.push_time}
 								{else}
 									{if $val.last_error_message}
 										<a class="hint--left  hint--error"  data-hint="{$val.last_error_message|escape}">
 											<span class="ecjiafc-red">
-											<u>发送失败</u></span>
+											<u>{t domain="push"}发送失败{/t}</u></span>
 										</a>
-									{else}发送失败{/if}<br><br>
+									{else}
+									{t domain="push"}发送失败{/t}
+									{/if}<br><br>
 								{/if}
 								<br>
 							</td>
 						</tr>
 						<!-- {foreachelse} -->
-						<tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
+						<tr><td class="no-records" colspan="6">{t domain="push"}没有找到任何记录{/t}</td></tr>
 						<!-- {/foreach} -->
 					</tbody>
 				</table>
