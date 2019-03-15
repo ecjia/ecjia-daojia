@@ -20,9 +20,9 @@
 <div class="row-fluid batch" >
 	<form action="{$search_action}" name="searchForm" method="post" >
 		<div class="choose_list f_r" >
-			<input type="text" name="merchant_keywords" value="{$smarty.get.merchant_keywords}" placeholder="{lang key='shipping::shipping.admin_enter_merchant_keywords'}"/> 
-			<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="{lang key='shipping::shipping.admin_pls_express_sn'}"/> 
-			<button class="btn" type="submit">{lang key='shipping::shipping.admin_search_express'}</button>
+			<input type="text" name="merchant_keywords" value="{$smarty.get.merchant_keywords}" placeholder='{t domain="shipping"}输入商家名称关键字{/t}'/> 
+			<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder='{t domain="shipping"}输入配送流水号等关键字{/t}'/> 
+			<button class="btn" type="submit">{t domain="shipping"}搜索{/t}</button>
 		</div>
 	</form>
 </div>
@@ -33,15 +33,15 @@
 			<table class="table table-striped table-hide-edit">
 				<thead>
 					 <tr>
-                        <th class="w150">{lang key='shipping::shipping.admin_express_sn'}</th>
-                        <th class="w150">{lang key='shipping::shipping.admin_delivery_sn'}</th>
-                        <th class="w150">{lang key='shipping::shipping.admin_merchants_name'}</th>
-                        <th class="w110">{lang key='shipping::shipping.admin_consignee'}</th>
-                        <th class="w120">{lang key='shipping::shipping.admin_mobile'}</th>
-                        <th class="w150">{lang key='shipping::shipping.admin_address'}</th>
-                        <th class="w180">{lang key='shipping::shipping.admin_add_time'}</th>
-                        <th class="w100">{lang key='shipping::shipping.admin_from'}</th>
-                        <th class="w100">{lang key='shipping::shipping.admin_express_status'}</th>
+                        <th class="w150">{t domain="shipping"}配送流水号{/t}</th>
+                        <th class="w150">{t domain="shipping"}发货单流水号{/t}</th>
+                        <th class="w150">{t domain="shipping"}商家名称{/t}</th>
+                        <th class="w110">{t domain="shipping"}收货人名称{/t}</th>
+                        <th class="w120">{t domain="shipping"}联系方式{/t}</th>
+                        <th class="w150">{t domain="shipping"}收货地址{/t}</th>
+                        <th class="w180">{t domain="shipping"}创建时间{/t}</th>
+                        <th class="w100">{t domain="shipping"}配送来源{/t}</th>
+                        <th class="w100">{t domain="shipping"}配送状态{/t}</th>
                     </tr>
 				</thead>
 				<tbody>
@@ -51,8 +51,7 @@
                             {$express.express_sn}
                             <br/>
                             <div class="edit-list">
-                                <a class="data-pjax" href='{RC_Uri::url("shipping/admin_express_order/info", "express_id={$express.express_id}")}' title="{lang key='shipping::shipping.admin_view_info'}">{lang key='shipping::shipping.admin_view_info'}</a><!-- &nbsp;|&nbsp;
-                                <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='bonus::bonus.remove_bonustype_confirm'}" href='{RC_Uri::url("bonus/merchant/remove","id={$type.type_id}")}' title="{lang key='system::system.remove'}">{lang key='system::system.drop'}</a> -->
+                                <a class="data-pjax" href='{RC_Uri::url("shipping/admin_express_order/info", "express_id={$express.express_id}")}' title='{t domain="shipping"}查看详情{/t}'>{t domain="shipping"}查看详情{/t}</a>
                             </div>
                         </td>
                         <td>{$express.delivery_sn}</td>
@@ -71,7 +70,7 @@
                         <td>{$express.label_status}</td>
                     </tr>
                     <!-- {foreachelse} -->
-                    <tr><td class="no-records" colspan="9">{lang key='system::system.no_records'}</td></tr>
+                    <tr><td class="no-records" colspan="9">{t domain="shipping"}没有找到任何记录{/t}</td></tr>
                   <!-- {/foreach} -->
 				</tbody>
 			</table>

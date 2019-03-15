@@ -5,12 +5,12 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 
 return array(
-	'yuantong' 	        	=> '圆通速递',
-    'zhongtong'          	=> '中通速递',
-    'yunda'               	=> '韵达快运',
-    'shunfeng'          	=> '顺丰速运',
-    'shentong'              => '申通快递',
-	'ems'					=> '国内邮政特快专递',
+	'yuantong' 	        	=> __('圆通速递', 'shipping'),
+    'zhongtong'          	=> __('中通速递', 'shipping'),
+    'yunda'               	=> __('韵达快运', 'shipping'),
+    'shunfeng'          	=> __('顺丰速运', 'shipping'),
+    'shentong'              => __('申通快递', 'shipping'),
+	'ems'					=> __('国内邮政特快专递', 'shipping'),
 );
 
 // end

@@ -83,8 +83,8 @@ class ShipNoExpress extends ShippingAbstract
     public function loadLanguage($key = null, $default = null)
     {
         $lang = array(
-            'ship_no_express'            => '无需物流',
-            'ship_no_express_desc'       => '不需要物流时选择此插件（本配送方式只支持商家发货时使用）',
+            'ship_no_express'            => __('无需物流', 'shipping'),
+            'ship_no_express_desc'       => __('不需要物流时选择此插件（本配送方式只支持商家发货时使用）', 'shipping'),
         );
     
         return $this->getArrayData($lang, $key, $default);

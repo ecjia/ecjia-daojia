@@ -66,13 +66,16 @@ class mh_shipping extends ecjia_merchant
         RC_Script::enqueue_script('bootstrap-datetimepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datetimepicker.js'));
         RC_Style::enqueue_style('datetimepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datetimepicker.min.css'));
         
-        RC_Script::enqueue_script('mh_shipping', RC_App::apps_url('statics/js/merchant_express.js', __FILE__));
+        RC_Script::enqueue_script('merchant_express', RC_App::apps_url('statics/js/merchant_express.js', __FILE__), array(), false, 1);
         RC_Script::enqueue_script('ecjia.utils');
 
         RC_Style::enqueue_style('mh_shipping', RC_App::apps_url('statics/css/merchant_express.css', __FILE__), array());
         
+        //js语言包
+        RC_Script::localize_script('merchant_express', 'js_lang', config('app-shipping::jslang.merchant_shipping_page'));
+        
         ecjia_merchant_screen::get_current_screen()->set_parentage('shipping', 'shipping/mh_shipping.php');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送管理', RC_Uri::url('shipping/mh_shipping/shipping_template')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送管理', 'shipping'), RC_Uri::url('shipping/mh_shipping/shipping_template')));
     }
 
     //运费模板
@@ -80,8 +83,8 @@ class mh_shipping extends ecjia_merchant
     {
         $this->admin_priv('ship_merchant_manage');
 
-        $this->assign('ur_here', '运费模板');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('运费模板'));
+        $this->assign('ur_here', __('运费模板', 'shipping'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('运费模板', 'shipping')));
 
         $data = $this->get_template_list();
         $this->assign('data', $data);
@@ -92,11 +95,11 @@ class mh_shipping extends ecjia_merchant
     public function add_shipping_template()
     {
         $this->admin_priv('ship_merchant_update');
-        $this->assign('ur_here', '添加运费模板');
+        $this->assign('ur_here', __('添加运费模板', 'shipping'));
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('运费模板', RC_Uri::url('shipping/mh_shipping/shipping_template')));
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('添加运费模板'));
-        $this->assign('action_link', array('href' => RC_Uri::url('shipping/mh_shipping/shipping_template'), 'text' => '运费模板'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('运费模板', 'shipping'), RC_Uri::url('shipping/mh_shipping/shipping_template')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加运费模板', 'shipping')));
+        $this->assign('action_link', array('href' => RC_Uri::url('shipping/mh_shipping/shipping_template'), 'text' => __('运费模板', 'shipping')));
 
         $provinces = ecjia_region::getSubarea(ecjia::config('shop_country')); //获取当前国家的所有省份
         $this->assign('provinces', $provinces);
@@ -116,10 +119,10 @@ class mh_shipping extends ecjia_merchant
     	
         $template_name = !empty($_GET['template_name']) ? trim($_GET['template_name']) : '';
 
-        $this->assign('ur_here', '编辑运费模板');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('运费模板', RC_Uri::url('shipping/mh_shipping/shipping_template')));
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑运费模板'));
-        $this->assign('action_link', array('href' => RC_Uri::url('shipping/mh_shipping/shipping_template'), 'text' => '运费模板'));
+        $this->assign('ur_here', __('编辑运费模板', 'shipping'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('运费模板', 'shipping'), RC_Uri::url('shipping/mh_shipping/shipping_template')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑运费模板', 'shipping')));
+        $this->assign('action_link', array('href' => RC_Uri::url('shipping/mh_shipping/shipping_template'), 'text' => __('运费模板', 'shipping')));
 
         $provinces = ecjia_region::getSubarea(ecjia::config('shop_country')); //获取当前国家的所有省份
         $this->assign('provinces', $provinces);
@@ -363,7 +366,7 @@ class mh_shipping extends ecjia_merchant
                 ->where('shipping_area_name', $temp_name)
                 ->count();
             if ($count > 0) {
-                return $this->showmessage('该模板名称已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('该模板名称已存在', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
 
@@ -374,7 +377,7 @@ class mh_shipping extends ecjia_merchant
                 ->where('shipping_area_name', '!=', $template_name)
                 ->count();
             if ($count > 0) {
-                return $this->showmessage('该模板名称已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('该模板名称已存在', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
 
@@ -388,7 +391,7 @@ class mh_shipping extends ecjia_merchant
                 ->where('shipping_area_id', '!=', $shipping_area_id)
                 ->count();
             if ($count > 0) {
-                return $this->showmessage('该配送方式已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('该配送方式已存在', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
         $shipping_data = RC_DB::table('shipping')->where('shipping_id', $shipping_id)->select('shipping_name', 'shipping_code', 'support_cod')->first();
@@ -414,11 +417,11 @@ class mh_shipping extends ecjia_merchant
         		foreach ($_POST['start_ship_time'] as $k => $v) {
         			$start_time = trim($v);
         			if (empty($start_time)) {
-        				return $this->showmessage('配送开始时间不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        				return $this->showmessage(__('配送开始时间不能为空', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         			}
         			$end_time = trim($_POST['end_ship_time'][$k]);
         			if (empty($end_time)) {
-        				return $this->showmessage('配送结束时间不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        				return $this->showmessage(__('配送结束时间不能为空', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         			}
         			$time[$k]['start']	= $v;
         			$time[$k]['end']	= $_POST['end_ship_time'][$k];
@@ -427,11 +430,11 @@ class mh_shipping extends ecjia_merchant
         		foreach ($_POST['express_distance'] as $k => $v) {
         			$express_distance = floatval($v);
         			if (empty($express_distance)) {
-        				return $this->showmessage('配送距离只能为数值且不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        				return $this->showmessage(__('配送距离只能为数值且不能为空', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         			}
         			$express_money = is_numeric($_POST['express_money'][$k]) ? floatval($_POST['express_money'][$k]) : '';
         			if ($express_money === '') {
-        				return $this->showmessage('配送费只能为数值且不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        				return $this->showmessage(__('配送费只能为数值且不能为空', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         			}
         			$express[$k]['express_distance'] = $v;
         			$express[$k]['express_money']	= $_POST['express_money'][$k];
@@ -454,11 +457,11 @@ class mh_shipping extends ecjia_merchant
         		foreach ($_POST['start_pickup_time'] as $k => $v) {
         			$start_pickup_time = trim($v);
         			if (empty($start_pickup_time)) {
-        				return $this->showmessage('取货开始时间不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        				return $this->showmessage(__('取货开始时间不能为空', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         			}
         			$end_pickup_time = trim($_POST['end_pickup_time'][$k]);
         			if (empty($end_pickup_time)) {
-        				return $this->showmessage('取货结束时间不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        				return $this->showmessage(__('取货结束时间不能为空', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         			}
         			//$time[$k]['start']	= $v;
         			//$time[$k]['end']	= $_POST['end_pickup_time'][$k];
@@ -511,10 +514,10 @@ class mh_shipping extends ecjia_merchant
         $url = RC_Uri::url('shipping/mh_shipping/edit_shipping_template', array('template_name' => $template_name));
         if (!empty($shipping_area_id)) {
         	ecjia_merchant::admin_log($temp_name, 'edit', 'shipping_template');
-            return $this->showmessage('编辑成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
+            return $this->showmessage(__('编辑成功', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
         } else {
-        	ecjia_merchant::admin_log('运费模板名称为:'.$temp_name.'，快递方式名称为：'.$shipping_data['shipping_name'], 'add', 'shipping');
-            return $this->showmessage('添加成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
+        	ecjia_merchant::admin_log(sprintf(__('运费模板名称为:%s，快递方式名称为：%s', 'shipping'),$temp_name, $shipping_data['shipping_name']), 'add', 'shipping');
+            return $this->showmessage(__('添加成功', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
         }
     }
 
@@ -534,10 +537,10 @@ class mh_shipping extends ecjia_merchant
         $count = RC_DB::table('shipping_area')->where('shipping_area_name', $info['shipping_area_name'])->where('store_id', $_SESSION['store_id'])->count();
         if ($count == 0) {
         	ecjia_merchant::admin_log($info['shipping_area_name'], 'remove', 'shipping_template');
-            return $this->showmessage('删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('shipping/mh_shipping/add_shipping_template')));
+            return $this->showmessage(__('删除成功', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('shipping/mh_shipping/add_shipping_template')));
         } else {
-        	ecjia_merchant::admin_log('运费模板名称为：'.$info['shipping_area_name'].'，快递名称为：'.$shipping_name, 'remove', 'shipping');
-            return $this->showmessage('删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        	ecjia_merchant::admin_log(sprintf(__('运费模板名称为：%s，快递名称为：%s', 'shipping'), $info['shipping_area_name'], $shipping_name), 'remove', 'shipping');
+            return $this->showmessage(__('删除成功', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
         }
     }
 
@@ -550,7 +553,7 @@ class mh_shipping extends ecjia_merchant
         if (!empty($area_id_list)) {
             RC_DB::table('area_region')->whereIn('shipping_area_id', $area_id_list)->delete();
         }
-        return $this->showmessage('删除成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        return $this->showmessage(__('删除成功', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 
     public function save_shipping_template()
@@ -562,7 +565,7 @@ class mh_shipping extends ecjia_merchant
 
         $regions = !empty($_POST['regions']) ? $_POST['regions'] : '';
         if (empty($regions)) {
-            return $this->showmessage('请添加配送地区', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请添加配送地区', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $area_list = RC_DB::table('shipping_area')
@@ -570,7 +573,7 @@ class mh_shipping extends ecjia_merchant
             ->where('shipping_area_name', $template_name)
             ->lists('shipping_area_id');
         if (empty($area_list)) {
-            return $this->showmessage('请添加快递方式', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请添加快递方式', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (!empty($temp_name) && !empty($template_name)) {
@@ -580,7 +583,7 @@ class mh_shipping extends ecjia_merchant
                 ->where('shipping_area_name', $temp_name)
                 ->count();
             if ($count > 0) {
-                return $this->showmessage('该模板名称已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('该模板名称已存在', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
 
@@ -605,7 +608,7 @@ class mh_shipping extends ecjia_merchant
         $url = RC_Uri::url('shipping/mh_shipping/edit_shipping_template', array('template_name' => $temp_name));
 
         ecjia_merchant::admin_log($temp_name, 'edit', 'shipping_template');
-        return $this->showmessage('编辑成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
+        return $this->showmessage(__('编辑成功', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
     }
 
     /**
@@ -615,8 +618,8 @@ class mh_shipping extends ecjia_merchant
     {
         $this->admin_priv('ship_merchant_manage');
         
-        $this->assign('ur_here', '配送记录');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送记录'));
+        $this->assign('ur_here', __('配送记录', 'shipping'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送记录', 'shipping')));
 
         $count = RC_Api::api('express', 'express_order_count');
 
@@ -631,34 +634,34 @@ class mh_shipping extends ecjia_merchant
             foreach ($express_list as $key => $val) {
                 $express_list[$key]['formatted_add_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['add_time']);
                 if ($val['from'] == 'assign') {
-                    $express_list[$key]['label_from'] = RC_Lang::get('express::express.assign');
+                    $express_list[$key]['label_from'] = __('派单', 'shipping');
                 } elseif ($val['from'] == 'grab') {
-                    $express_list[$key]['label_from'] = RC_Lang::get('express::express.grab');
+                    $express_list[$key]['label_from'] = __('抢单', 'shipping');
                 } else {
-                    $express_list[$key]['label_from'] = RC_Lang::get('express::express.wait_assign');
+                    $express_list[$key]['label_from'] = __('待派单', 'shipping');
                 }
 
                 switch ($val['status']) {
                     case 0:
-                        $express_list[$key]['label_status'] = RC_Lang::get('express::express.wait_assign_express');
+                        $express_list[$key]['label_status'] = __('未分派运单', 'shipping');
                         break;
                     case 1:
-                        $express_list[$key]['label_status'] = RC_Lang::get('express::express.wait_pick_up');
+                        $express_list[$key]['label_status'] = __('已接派单待取货', 'shipping');
                         break;
                     case 2:
-                        $express_list[$key]['label_status'] = RC_Lang::get('express::express.express_delivery');
+                        $express_list[$key]['label_status'] = __('已取货派送中', 'shipping');
                         break;
                     case 3:
-                        $express_list[$key]['label_status'] = RC_Lang::get('express::express.return_express');
+                        $express_list[$key]['label_status'] = __('退货中', 'shipping');
                         break;
                     case 4:
-                        $express_list[$key]['label_status'] = RC_Lang::get('express::express.refused');
+                        $express_list[$key]['label_status'] = __('拒收', 'shipping');
                         break;
                     case 5:
-                        $express_list[$key]['label_status'] = RC_Lang::get('express::express.already_signed');
+                        $express_list[$key]['label_status'] = __('已签收', 'shipping');
                         break;
                     case 6:
-                        $express_list[$key]['label_status'] = RC_Lang::get('express::express.has_returned');
+                        $express_list[$key]['label_status'] = __('已退回', 'shipping');
                         break;
                 }
             }
@@ -675,7 +678,7 @@ class mh_shipping extends ecjia_merchant
     {
         $this->admin_priv('ship_merchant_manage');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('express::express.express_info')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送详情', 'shipping')));
 
         $express_id = isset($_GET['express_id']) ? intval($_GET['express_id']) : 0;
         $where      = array('store_id' => $_SESSION['store_id']);
@@ -691,34 +694,34 @@ class mh_shipping extends ecjia_merchant
         $express_info['formatted_update_time']  = $express_info['update_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $express_info['update_time']) : '';
 
         if ($express_info['from'] == 'assign') {
-            $express_info['label_from'] = RC_Lang::get('express::express.assign');
+            $express_info['label_from'] = __('派单', 'shipping');
         } elseif ($express_info['from'] == 'grab') {
-            $express_info['label_from'] = RC_Lang::get('express::express.grab');
+            $express_info['label_from'] = __('抢单', 'shipping');
         } elseif ($express_info['from'] == 'grab' && $express_info['staff_id'] == 0) {
-            $express_info['label_from'] = RC_Lang::get('express::express.wait_assign');
+            $express_info['label_from'] = __('待派单', 'shipping');
         }
 
         switch ($express_info['status']) {
             case 0:
-                $express_info['label_status'] = RC_Lang::get('express::express.wait_assign_express');
+                $express_info['label_status'] = __('未分派运单', 'shipping');
                 break;
             case 1:
-                $express_info['label_status'] = RC_Lang::get('express::express.wait_pick_up');
+                $express_info['label_status'] = __('已接派单待取货', 'shipping');
                 break;
             case 2:
-                $express_info['label_status'] = RC_Lang::get('express::express.express_delivery');
+                $express_info['label_status'] = __('已取货派送中', 'shipping');
                 break;
             case 3:
-                $express_info['label_status'] = RC_Lang::get('express::express.return_express');
+                $express_info['label_status'] = __('退货中', 'shipping');
                 break;
             case 4:
-                $express_info['label_status'] = RC_Lang::get('express::express.refused');
+                $express_info['label_status'] = __('拒收', 'shipping');
                 break;
             case 5:
-                $express_info['label_status'] = RC_Lang::get('express::express.already_signed');
+                $express_info['label_status'] = __('已签收', 'shipping');
                 break;
             case 6:
-                $express_info['label_status'] = RC_Lang::get('express::express.has_returned');
+                $express_info['label_status'] = __('已退回', 'shipping');
                 break;
         }
 
@@ -751,8 +754,8 @@ class mh_shipping extends ecjia_merchant
         $this->assign('goods_list', $goods_list);
         $this->assign('form_action', RC_Uri::url('shipping/mh_shipping/assign_express'));
 
-        $this->assign('ur_here', RC_Lang::get('express::express.express_info'));
-        $this->assign('action_link', array('href' => RC_Uri::url('shipping/mh_shipping/shipping_record'), 'text' => RC_Lang::get('express::express.express_list')));
+        $this->assign('ur_here', __('配送详情', 'shipping'));
+        $this->assign('action_link', array('href' => RC_Uri::url('shipping/mh_shipping/shipping_record'), 'text' => __('配送列表', 'shipping')));
 
         $this->display('shipping_record_info.dwt');
     }
@@ -768,18 +771,18 @@ class mh_shipping extends ecjia_merchant
 
         /* 判断配送单*/
         if (empty($express_info)) {
-            return $this->showmessage('没有相应的配送单！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('没有相应的配送单！', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $staff_user = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('user_id', $staff_id)->first();
         if (empty($staff_user)) {
-            return $this->showmessage('请选择相应配送员！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请选择相应配送员！', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $assign_express_data = array('status' => 1, 'staff_id' => $staff_id, 'express_user' => $staff_user['name'], 'express_mobile' => $staff_user['mobile'], 'update_time' => RC_Time::gmtime());
         RC_DB::table('express_order')->where('store_id', $_SESSION['store_id'])->where('express_id', $express_id)->update($assign_express_data);
 
-        return $this->showmessage('配送单派单成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('shipping/mh_shipping/record_info', array('express_id' => $express_id))));
+        return $this->showmessage(__('配送单派单成功！', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('shipping/mh_shipping/record_info', array('express_id' => $express_id))));
     }
 
     //快递单模板
@@ -787,8 +790,8 @@ class mh_shipping extends ecjia_merchant
     {
         $this->admin_priv('ship_merchant_manage');
         
-        $this->assign('ur_here', '快递单模板');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('快递单模板'));
+        $this->assign('ur_here', __('快递单模板', 'shipping'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('快递单模板', 'shipping')));
 
         $this->display('shipping_template_list.dwt');
     }

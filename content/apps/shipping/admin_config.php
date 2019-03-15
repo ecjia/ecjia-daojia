@@ -67,7 +67,9 @@ class admin_config extends ecjia_admin
         RC_Style::enqueue_style('uniform-aristo');
         RC_Script::enqueue_script('jquery-uniform');
         RC_Script::enqueue_script('jquery-chosen');
-        RC_Script::enqueue_script('shipping_config', RC_App::apps_url('statics/js/shipping_config.js', __FILE__), array(), false, true);
+        RC_Script::enqueue_script('shipping_config', RC_App::apps_url('statics/js/shipping_config.js', __FILE__), array(), false, 1);
+        //js语言包
+        RC_Script::localize_script('shipping_config', 'js_lang', config('app-shipping::jslang.shipping_config_page'));
     }
 
     /**
@@ -77,9 +79,9 @@ class admin_config extends ecjia_admin
     {
         $this->admin_priv('shipping_config_update');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('物流跟踪设置'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('物流跟踪设置', 'shipping')));
 
-        $this->assign('ur_here', '物流跟踪设置');
+        $this->assign('ur_here', __('物流跟踪设置', 'shipping'));
 
         $this->assign('cloud_express_key', ecjia::config('cloud_express_key')); //用户名
         $this->assign('cloud_express_secret', ecjia::config('cloud_express_secret')); //密码
@@ -103,8 +105,8 @@ class admin_config extends ecjia_admin
         ecjia_config::instance()->write_config('cloud_express_key', $express_key);
         ecjia_config::instance()->write_config('cloud_express_secret', $express_secret);
 
-        ecjia_admin::admin_log('物流跟踪配置', 'edit', 'shop_config');
-        return $this->showmessage('操作成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('shipping/admin_config/init')));
+        ecjia_admin::admin_log(__('物流跟踪配置', 'shipping'), 'edit', 'shop_config');
+        return $this->showmessage(__('操作成功', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('shipping/admin_config/init')));
     }
 
 }

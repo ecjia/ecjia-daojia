@@ -46,21 +46,28 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class shipping_admin_hooks
+/**
+ * 移除店铺配送区域接口
+ *
+ * @author royalwang
+ */
+class shipping_store_remove_cleardata_api extends Component_Event_Api
 {
 
-    public static function append_admin_setting_group($menus)
+    public function call(& $options)
     {
-        $setting = ecjia_admin_setting::singleton();
 
-        $menus[] = ecjia_admin::make_admin_menu('nav-header', __('配送方式', 'shipping'), '', 70)->add_purview(array('shop_config'));
-        $menus[] = ecjia_admin::make_admin_menu('shipping', __('物流跟踪设置', 'shipping'), RC_Uri::url('shipping/admin_config/init'), 71)->add_purview('shop_config')->add_icon('fontello-icon-chat-empty');
+        $store_id = array_get($options, 'store_id');
 
-        return $menus;
+        if (empty($store_id)) {
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'shipping'), 'shipping_store_remove_cleardata_api'));
+        }
+
+        return [
+            new \Ecjia\App\Shipping\StoreCleanHandlers\StoreShippingAreaClear($store_id),
+        ];
     }
 
 }
-
-RC_Hook::add_action('append_admin_setting_group', array('shipping_admin_hooks', 'append_admin_setting_group'));
 
 // end

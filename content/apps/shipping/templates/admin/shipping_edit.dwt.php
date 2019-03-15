@@ -21,36 +21,36 @@
 		<form id="form-privilege"  class="form-horizontal"  name="editForm" action="{$form_action}" method="post" enctype="multipart/form-data" >
 			<fieldset>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='shipping::shipping.shipping_name_lable'}</label>
+					<label class="control-label">{t domain="shipping"}名称：{/t}</label>
 					<div class="controls">
 						<input class="w350" name="shipping_name" type="text" id="shipping_name" value="{$shipping.shipping_name|escape}" size="40" />
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 					</div>
 				</div>
 				<div class="control-group formSep">
-					<label class="control-label">{lang key='shipping::shipping.shipping_desc_lable'}</label>
+					<label class="control-label">{t domain="shipping"}描述：{/t}</label>
 					<div class="controls">
 						<textarea class="w350" id="shipping_desc" name="shipping_desc"  cols="10" rows="6">{$shipping.shipping_desc|escape}</textarea>
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 					</div>
 				</div>
 				<!-- 保价费用-->
 				<div class="control-group formSep">
-					<label  class="control-label">{lang key='shipping::shipping.insure_lable'}</label>
+					<label  class="control-label">{t domain="shipping"}保价费用：{/t}</label>
 					<div class="controls">
-						<label class="p_t5">{if $shipping.insure}{$shipping.insure}{else}{lang key='shipping::shipping.not_support'}{/if}</label>
+						<label class="p_t5">{if $shipping.insure}{$shipping.insure}{else}{t domain="shipping"}不支持{/t}{/if}</label>
 					</div>
 				</div>
 				<!-- 货到付款-->
 				<div class="control-group formSep">
-					<label  class="control-label">{lang key='shipping::shipping.support_cod_label'}</label>
+					<label  class="control-label">{t domain="shipping"}是否支持货到付款：{/t}</label>
 					<div class="controls">
-						<label class="p_t5">{if $shipping.support_cod == "1"}{lang key='system::system.yes'}{else}{lang key='system::system.no'}{/if}</label>
+						<label class="p_t5">{if $shipping.support_cod == "1"}{t domain="shipping"}是{/t}{else}{t domain="shipping"}否{/t}{/if}</label>
 					</div>
 				</div>
 				<div class="control-group">
 					<div class="controls">
-						<button class="btn btn-gebo" type="submit">{lang key='system::system.button_submit'}</button>
+						<button class="btn btn-gebo" type="submit">{t domain="shipping"}确定{/t}</button>
 						<input type="hidden" name="shipping_id" value="{$shipping.shipping_id}" />
 						<input type="hidden" name="shipping_code" value="{$shipping.shipping_code}" />
 						<input type="hidden" name="is_cod" value="{$shipping.is_cod}" />

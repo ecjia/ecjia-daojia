@@ -51,55 +51,55 @@
 return array(
 	array(
 		'variable' => '{$shop_name}',
-		'name'  => '表示网店名称',
+		'name'  => __('表示网店名称', 'shipping'),
 	),
 	array(
 		'variable' => '{$province}',
-		'name'  => '表示网店所属省份',
+		'name'  => __('表示网店所属省份', 'shipping'),
 	),
 	array(
 		'variable' => '{$city}',
-		'name'  => '表示网店所属城市',
+		'name'  => __('表示网店所属城市', 'shipping'),
 	),
 	array(
 		'variable' => '{$shop_address}',
-		'name'  => '表示网店地址',
+		'name'  => __('表示网店地址', 'shipping'),
 	),
 	array(
 		'variable' => '{$service_phone}',
-		'name'  => '表示网店联系电话',
+		'name'  => __('表示网店联系电话', 'shipping'),
 	),
 	array(
 		'variable' => '{$order.order_amount}',
-		'name'  => '表示订单金额',
+		'name'  => __('表示订单金额', 'shipping'),
 	),
 	array(
 		'variable' => '{$order.region}',
-		'name'  => '表示收件人地区',
+		'name'  => __('表示收件人地区', 'shipping'),
 	),
 	array(
 		'variable' => '{$order.tel}',
-		'name'  => '表示收件人电话',
+		'name'  => __('表示收件人电话', 'shipping'),
 	),
 	array(
 		'variable' => '{$order.mobile}',
-		'name'  => '表示收件人手机',
+		'name'  => __('表示收件人手机', 'shipping'),
 	),
 	array(
 		'variable' => '{$order.zipcode}',
-		'name'  => '表示收件人邮编',
+		'name'  => __('表示收件人邮编', 'shipping'),
 	),
 	array(
 		'variable' => '{$order.address}',
-		'name'  => '表示收件人详细地址',
+		'name'  => __('表示收件人详细地址', 'shipping'),
 	),
 	array(
 		'variable' => '{$order.consignee}',
-		'name'  => '表示收件人名称',
+		'name'  => __('表示收件人名称', 'shipping'),
 	),
 	array(
 		'variable' => '{$order.order_sn}',
-		'name'  => '表示订单号',
+		'name'  => __('表示订单号', 'shipping'),
 	)
 );
 

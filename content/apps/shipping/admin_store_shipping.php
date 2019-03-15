@@ -81,10 +81,10 @@ class admin_store_shipping extends ecjia_admin
 
         $store_id   = intval($_GET['store_id']);
         $store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
-        $nav_here   = '入驻商家';
+        $nav_here   = __('入驻商家', 'shipping');
         $url        = RC_Uri::url('store/admin/join');
         if ($store_info['manage_mode'] == 'self') {
-            $nav_here = '自营店铺';
+            $nav_here = __('自营店铺', 'shipping');
             $url      = RC_Uri::url('store/admin/init');
         }
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($nav_here, $url));
@@ -97,19 +97,19 @@ class admin_store_shipping extends ecjia_admin
         
         $store_id = intval($_GET['store_id']);
         if (empty($store_id)) {
-            return $this->showmessage(__('请选择您要操作的店铺'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请选择您要操作的店铺', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $store = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
         if ($store['manage_mode'] == 'self') {
-            $this->assign('action_link', array('href' => RC_Uri::url('store/admin/init'), 'text' => '自营店铺列表'));
+            $this->assign('action_link', array('href' => RC_Uri::url('store/admin/init'), 'text' => __('自营店铺列表', 'shipping')));
         } else {
-            $this->assign('action_link', array('href' => RC_Uri::url('store/admin/join'), 'text' => RC_Lang::get('store::store.store_list')));
+            $this->assign('action_link', array('href' => RC_Uri::url('store/admin/join'), 'text' => __('入驻商家列表', 'shipping')));
         }
-        $this->assign('ur_here', $store['merchants_name'] . ' - 运费模板');
+        $this->assign('ur_here', $store['merchants_name'] . __(' - 运费模板', 'shipping'));
         
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($store['merchants_name'], RC_Uri::url('store/admin/preview', array('store_id' => $store_id))));
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('运费模板'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('运费模板', 'shipping')));
 
         ecjia_screen::get_current_screen()->set_sidebar_display(false);
         ecjia_screen::get_current_screen()->add_option('store_name', $store['merchants_name']);
@@ -128,22 +128,22 @@ class admin_store_shipping extends ecjia_admin
     	 
     	$store_id = intval($_GET['store_id']);
     	if (empty($store_id)) {
-    		return $this->showmessage(__('请选择您要操作的店铺'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return $this->showmessage(__('请选择您要操作的店铺', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	
     	$template_name = !empty($_GET['template_name']) ? trim($_GET['template_name']) : '';
     	
     	$store = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
-        $this->assign('ur_here', $store['merchants_name'] . ' - 运费模板');
+        $this->assign('ur_here', $store['merchants_name'] . __(' - 运费模板', 'shipping'));
         
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($store['merchants_name'], RC_Uri::url('store/admin/preview', array('store_id' => $store_id))));
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('运费模板'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('运费模板', 'shipping')));
 
         ecjia_screen::get_current_screen()->set_sidebar_display(false);
         ecjia_screen::get_current_screen()->add_option('store_name', $store['merchants_name']);
         ecjia_screen::get_current_screen()->add_option('current_code', 'store_shipping');
         
-    	$this->assign('action_link', array('href' => RC_Uri::url('shipping/admin_store_shipping/init', array('store_id' => $store_id)), 'text' => '运费模板'));
+    	$this->assign('action_link', array('href' => RC_Uri::url('shipping/admin_store_shipping/init', array('store_id' => $store_id)), 'text' => __('运费模板', 'shipping')));
     	
     	$provinces = ecjia_region::getSubarea(ecjia::config('shop_country')); //获取当前国家的所有省份
     	$this->assign('provinces', $provinces);

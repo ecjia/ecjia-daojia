@@ -30,7 +30,7 @@
 				<div class="panel-heading">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
                         <h4 class="panel-title">
-                            <strong>{lang key='express::express.base_info'}</strong>
+                            <strong>{t domain="shipping"}基本信息{/t}</strong>
                         </h4>
                     </a>
                 </div>
@@ -38,39 +38,39 @@
 					<table class="table table-oddtd m_b0">
 						<tbody class="first-td-no-leftbd">
 							<tr>
-								<td><div align="right"><strong>{lang key='express::express.label_express_sn'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}配送流水号：{/t}</strong></div></td>
 								<td>{$express_info.delivery_sn}</td>
-								<td><div align="right"><strong>{lang key='express::express.label_add_time'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}创建时间：{/t}</strong></div></td>
 								<td>{$express_info.formatted_add_time}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='express::express.label_order_sn'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}订单编号：{/t}</strong></div></td>
 								<td>
 									<a href='{url path="orders/merchant/record_info" args="order_sn={$express_info.order_sn}"}'>{$express_info.order_sn}</a>
 								</td>
-								<td><div align="right"><strong>{lang key='express::express.label_delivery_sn'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}发货单流水号：{/t}</strong></div></td>
 								<td>{$express_info.delivery_sn}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='express::express.label_from'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}配送来源：{/t}</strong></div></td>
 								<td>{$express_info.label_from}</td>
-								<td><div align="right"><strong>{lang key='express::express.label_express_status'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}配送状态：{/t}</strong></div></td>
 								<td>{$express_info.label_status}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='express::express.label_express_staff_name'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}配送员：{/t}</strong></div></td>
 								<td>{$express_info.staff_user}</td>
-								<td><div align="right"><strong>{lang key='express::express.label_receive_time'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}接单时间：{/t}</strong></div></td>
 								<td>{$express_info.formatted_receive_time}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='express::express.label_express_time'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}取货配送时间：{/t}</strong></div></td>
 								<td>{$express_info.formatted_express_time}</td>
-								<td><div align="right"><strong>{lang key='express::express.label_signed_time'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}签收时间：{/t}</strong></div></td>
 								<td>{$express_info.formatted_signed_time}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='express::express.label_update_time'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}更新时间：{/t}</strong></div></td>
 								<td colspan="3">{$express_info.formatted_update_time}</td>
 							</tr>
 						</tbody>
@@ -80,32 +80,32 @@
 			<div class="accordion-group panel panel-default">
 				<div class="panel-heading">
 					<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                		<h4 class="panel-title"><strong>{lang key='express::express.consignee_info'}</strong></h4>
+                		<h4 class="panel-title"><strong>{t domain="shipping"}收货人信息{/t}</strong></h4>
                   	</a>
 				</div>
 				<div class="accordion-body in collapse" id="collapseTwo">
 					<table class="table table-oddtd m_b0">
 						<tbody class="first-td-no-leftbd">
 							<tr>
-								<td><div align="right"><strong>{lang key='express::express.label_consignee'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}收货人名称：{/t}</strong></div></td>
 								<td>{$express_info.consignee|escape}</td>
-								<td><div align="right"><strong>{lang key='express::express.label_email'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}邮箱地址：{/t}</strong></div></td>
 								<td>{$express_info.email}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='express::express.label_address'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}收货地址：{/t}</strong></div></td>
 								<td>[{$express_info.region}] {$express_info.address|escape}</td>
-								<td><div align="right"><strong>{lang key='express::express.label_mobile'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}联系方式：{/t}</strong></div></td>
 								<td>{$express_info.mobile}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='express::express.label_distance'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}送货距离：{/t}</strong></div></td>
 								<td>{$express_info.distance}</td>
-								<td><div align="right"><strong>{lang key='express::express.label_best_time'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}期望送货时间：{/t}</strong></div></td>
 								<td>{$express_info.label_best_time}</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='express::express.label_remark'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}客户给商家的留言：{/t}</strong></div></td>
 								<td colspan="3">{$express_info.remark}</td>
 							</tr>
 						</tbody>
@@ -116,7 +116,7 @@
 				<div class="panel-heading">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
                         <h4 class="panel-title">
-                            <strong>{lang key='express::express.goods_info'}</strong>
+                            <strong>{t domain="shipping"}商品信息{/t}</strong>
                         </h4>
                     </a>
                 </div>
@@ -124,11 +124,11 @@
 					<table class="table table-striped m_b0 order-table-list">
 						<tbody>
 							<tr class="table-list">
-								<th>{lang key='express::express.goods_name_brand'}</th>
-								<th>{lang key='express::express.goods_sn'}</th>
-								<th>{lang key='express::express.product_sn'}</th>
-								<th>{lang key='express::express.goods_attr'}</th>
-								<th>{lang key='express::express.label_send_number'}</th>
+								<th>{t domain="shipping"}商品名称 [品牌 ]{/t}</th>
+								<th>{t domain="shipping"}货号{/t}</th>
+								<th>{t domain="shipping"}货品号{/t}</th>
+								<th>{t domain="shipping"}属性{/t}</th>
+								<th>{t domain="shipping"}发货数量{/t}</th>
 							</tr>
 							<!-- {foreach from=$goods_list item=goods} -->
 							<tr class="table-list">
@@ -150,7 +150,7 @@
 				<div class="panel-heading">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
                         <h4 class="panel-title">
-                            <strong>{lang key='express::express.express_op_info'}</strong>
+                            <strong>{t domain="shipping"}配送操作信息{/t}</strong>
                         </h4>
                     </a>
                 </div>
@@ -158,10 +158,10 @@
 					<table class="table table-oddtd m_b0">
 						<tbody class="first-td-no-leftbd">
 							<tr>
-								<td><div align="right"><strong>{lang key='express::express.label_express_user'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}配送人员：{/t}</strong></div></td>
 								<td>
 									<select class="w250 form-control" name='staff_id'>
-										<option value='0'>请选择</option>
+										<option value='0'>{t domain="shipping"}请选择{/t}</option>
 										<!-- {foreach from=$staff_user item=list} -->
 											<option value="{$list.user_id}" {if $list.user_id eq $express_info.staff_id}selected="selected"{/if}>{$list.name}</option>
 										<!-- {/foreach} -->
@@ -169,9 +169,9 @@
 								</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{lang key='express::express.label_operable_act'}</strong></div></td>
+								<td><div align="right"><strong>{t domain="shipping"}当前可执行操作：{/t}</strong></div></td>
 								<td align="left">
-									<button class="btn btn-info" type="submit">{lang key='express::express.change_express_user'}</button>
+									<button class="btn btn-info" type="submit">{t domain="shipping"}变更配送人员{/t}</button>
 									<input name="express_id" type="hidden" value="{$express_info.express_id}">
 									<input name="act" type="hidden" value="{$action_act}">
 								</td>

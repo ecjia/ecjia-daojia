@@ -18,11 +18,11 @@
 <table class="table table-striped table-hide-edit">
 	<thead>
 		<tr>
-			<th class="w150">{lang key='shipping::shipping.shipping_name'}</th>
-			<th>{lang key='shipping::shipping.shipping_desc'}</th>
-			<th class="w80">{lang key='system::system.sort_order'}</th>
-			<th class="w80">{lang key='shipping::shipping.insure'}</th>
-			<th class="w70">{lang key='shipping::shipping.support_cod'}</th>
+			<th class="w150">{t domain="shipping"}名称{/t}</th>
+			<th>{t domain="shipping"}描述{/t}</th>
+			<th class="w80">{t domain="shipping"}排序{/t}</th>
+			<th class="w80">{t domain="shipping"}保价费用{/t}</th>
+			<th class="w70">{t domain="shipping"}货到付款{/t}</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -30,7 +30,7 @@
 		<tr>
 			<td>
 				<!-- {if $module.enabled == 1} -->
-					<span class="shipping_name cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('shipping/admin_plugin/edit_name')}" data-name="title" data-pk="{$module.id}"  data-title="{lang key='shipping::shipping.edit_shipping_name'}">{$module.name}</span>
+					<span class="shipping_name cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('shipping/admin_plugin/edit_name')}" data-name="title" data-pk="{$module.id}"  data-title='{t domain="shipping"}编辑配送方式名称{/t}'>{$module.name}</span>
 				<!-- {else} -->
 					{$module.name}
 				<!-- {/if} -->
@@ -39,23 +39,23 @@
 			<!-- {if $module.enabled == 1} -->
 					{$module.desc|nl2br}
 					<div class="edit-list">
-						<a class="data-pjax" href='{RC_Uri::url("shipping/admin_plugin/edit", "code={$module.code}")}' title="{lang key='system::system.edit'}">{lang key='system::system.edit'}</a>&nbsp;|&nbsp;
+						<a class="data-pjax" href='{RC_Uri::url("shipping/admin_plugin/edit", "code={$module.code}")}' title='{t domain="shipping"}编辑{/t}'>{t domain="shipping"}编辑{/t}</a>&nbsp;|&nbsp;
 						{if $module.print_support}
-							<a class="data-pjax" href='{RC_Uri::url("shipping/admin/edit_print_template", "shipping_id={$module.id}&code={$module.code}")}' title="{lang key='shipping::shipping.shipping_print_edit'}">快递单模板</a>&nbsp;|&nbsp;
+							<a class="data-pjax" href='{RC_Uri::url("shipping/admin/edit_print_template", "shipping_id={$module.id}&code={$module.code}")}' title='{t domain="shipping"}编辑打印模板{/t}'>{t domain="shipping"}快递单模板{/t}</a>&nbsp;|&nbsp;
 						{/if}
-						<a class="switch ecjiafc-red" href="javascript:;" data-url='{RC_Uri::url("shipping/admin_plugin/disable", "code={$module.code}")}' title="{lang key='payment::payment.disable'}">{lang key='payment::payment.disable'}</a>
+						<a class="switch ecjiafc-red" href="javascript:;" data-url='{RC_Uri::url("shipping/admin_plugin/disable", "code={$module.code}")}' title='{t domain="shipping"}禁用{/t}'>{t domain="shipping"}禁用{/t}</a>
 					</div>
 				<!-- {else} -->
 					{$module.desc|nl2br}
 					<div class="edit-list">
-						<a class="switch" href="javascript:;" data-url='{RC_Uri::url("shipping/admin_plugin/enable", "code={$module.code}")}' title="{lang key='payment::payment.enable'}">{lang key='payment::payment.enable'}</a>
+						<a class="switch" href="javascript:;" data-url='{RC_Uri::url("shipping/admin_plugin/enable", "code={$module.code}")}' title='{t domain="shipping"}启用{/t}'>{t domain="shipping"}启用{/t}</a>
 					</div>
 				<!-- {/if} -->
 				
 			</td>
 			<td>
 				<!-- {if $module.enabled == 1} -->
-					<span class="shipping_order cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('shipping/admin_plugin/edit_order')}" data-name="title" data-pk="{$module.id}"  data-title="{lang key='shipping::shipping.edit_shipping_order'}">{$module.shipping_order}</span>
+					<span class="shipping_order cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('shipping/admin_plugin/edit_order')}" data-name="title" data-pk="{$module.id}"  data-title='{t domain="shipping"}编辑配送方式排序{/t}'>{$module.shipping_order}</span>
 				<!-- {else} -->
 					{$module.shipping_order}
 				<!-- {/if} -->
@@ -64,19 +64,19 @@
 				<!-- {if $module.is_insure } -->
 					{$module.insure_fee}
 				<!-- {else} -->
-					{lang key='shipping::shipping.not_support'}
+					{t domain="shipping"}不支持{/t}
 				<!-- {/if} -->
 			</td>
 			<td>
 				{if $module.cod==1}
-					{lang key='system::system.yes'}
+					{t domain="shipping"}是{/t}
 				{else}
-					{lang key='system::system.no'}
+					{t domain="shipping"}否{/t}
 				{/if}
 			</td>
 		</tr>
 		<!-- {foreachelse} -->
-		<tr><td class="no-records" colspan="5">{lang key='system::system.no_records'}</td></tr>
+		<tr><td class="no-records" colspan="5">{t domain="shipping"}没有找到任何记录{/t}</td></tr>
 		<!-- {/foreach} -->
 	</tbody>
 </table>

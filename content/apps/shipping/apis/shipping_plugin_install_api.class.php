@@ -76,7 +76,7 @@ class shipping_plugin_install_api extends Component_Event_Api
 
             /* 检查输入 */
             if (empty($format_name) || empty($options['config']['shipping_code'])) {
-                return ecjia_plugin::add_error('plugin_install_error', RC_Lang::get('shipping::shipping.no_shipping_name'));
+                return ecjia_plugin::add_error('plugin_install_error', __('配送方式名称不能为空。', 'shipping'));
             }
 
             $insure = empty($options['config']['insure']) ? 0 : $options['config']['insure'];

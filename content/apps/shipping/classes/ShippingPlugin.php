@@ -110,7 +110,7 @@ class ShippingPlugin extends PluginModel
 
     public function getPluginDataByName($name)
     {
-        if ($name == '无需物流') {
+        if ($name == __('无需物流', 'shipping')) {
             return with(new ShipNoExpress)->express();
         }
         return $this->where('shipping_name', $name)->where('enabled', 1)->first();

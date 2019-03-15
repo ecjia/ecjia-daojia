@@ -8,7 +8,7 @@
 <!-- {block name="home-content"} -->
 <div class="page-header">
 	<div class="pull-left">
-		<h2>配送管理</h2>
+		<h2>{t domain="shipping"}配送管理{/t}</h2>
   	</div>
   	<div class="clearfix"></div>
 </div>
@@ -18,11 +18,11 @@
                 <div class="panel-body">
                 	<div class="col-lg-3">
 						<div class="setting-group">
-					        <span class="setting-group-title">配送管理</span>
+					        <span class="setting-group-title">{t domain="shipping"}配送管理{/t}</span>
 					        <ul class="nav nav-list m_t10 change">
-						        <li><a class="setting-group-item data-pjax" href='{url path="shipping/mh_shipping/shipping_template"}'>运费模板</a></li>
-						        <li><a class="setting-group-item data-pjax" href='{url path="express/merchant/init" args="type=wait_grab"}'>配送任务</a></li>
-						        <li><a class="setting-group-item data-pjax llv-active" href='{url path="express/mh_history/init"}'>历史配送</a></li>
+						        <li><a class="setting-group-item data-pjax" href='{url path="shipping/mh_shipping/shipping_template"}'>{t domain="shipping"}运费模板{/t}</a></li>
+						        <li><a class="setting-group-item data-pjax" href='{url path="express/merchant/init" args="type=wait_grab"}'>{t domain="shipping"}配送任务{/t}</a></li>
+						        <li><a class="setting-group-item data-pjax llv-active" href='{url path="express/mh_history/init"}'>{t domain="shipping"}历史配送{/t}</a></li>
 					        </ul>
 						</div>
 					</div>
@@ -36,23 +36,22 @@
 						            <table class="table table-striped table-hover table-hide-edit">
 						                <thead>
 						                    <tr>
-						                        <th class="w210">流水号</th>
-						                        <th class="w100">{lang key='express::express.consignee'}</th>
-						                        <th>{lang key='express::express.address'}</th>
-						                        <th class="w110">{lang key='express::express.add_time'}</th>
-						                        <th class="w80">{lang key='express::express.from'}</th>
-						                        <th class="w100">{lang key='express::express.express_status'}</th>
+						                        <th class="w210">{t domain="shipping"}流水号{/t}</th>
+						                        <th class="w100">{t domain="shipping"}收货人名称{/t}</th>
+						                        <th>{t domain="shipping"}收货地址{/t}</th>
+						                        <th class="w110">{t domain="shipping"}创建时间{/t}</th>
+						                        <th class="w80">{t domain="shipping"}配送来源{/t}</th>
+						                        <th class="w100">{t domain="shipping"}配送状态{/t}</th>
 						                    </tr>
 						                </thead>
 						                <tbody>
 						                    <!-- {foreach from=$express_list item=list} -->
 						                    <tr>
 						                        <td class="hide-edit-area">
-						                           	 配送：{$list.express_sn}<br/>
-						                           	 发货单：{$list.delivery_sn}<br/>
+						                           	 {t domain="shipping"}配送单：{/t}{$list.express_sn}<br/>
+						                           	 {t domain="shipping"}发货单：{/t}{$list.delivery_sn}<br/>
 						                            <div class="edit-list">
-						                                <a class="data-pjax" href='{RC_Uri::url("shipping/mh_shipping/record_info", "express_id={$list.express_id}")}' title="{lang key='express::express.view_info'}">{lang key='express::express.view_info'}</a><!-- &nbsp;|&nbsp;
-						                                <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='bonus::bonus.remove_bonustype_confirm'}" href='{RC_Uri::url("bonus/merchant/remove","id={$type.type_id}")}' title="{lang key='system::system.remove'}">{lang key='system::system.drop'}</a> -->
+						                                <a class="data-pjax" href='{RC_Uri::url("shipping/mh_shipping/record_info", "express_id={$list.express_id}")}' title='{t domain="shipping"}查看详情{/t}'>{t domain="shipping"}查看详情{/t}</a>
 						                            </div>
 						                        </td>
 						                        <td>
@@ -65,7 +64,7 @@
 						                        <td>{$list.label_status}</td>
 						                    </tr>
 						                    <!-- {foreachelse} -->
-						                    <tr><td class="no-records" colspan="8">{lang key='system::system.no_records'}</td></tr>
+						                    <tr><td class="no-records" colspan="8">{t domain="shipping"}没有找到任何记录{/t}</td></tr>
 						                    <!-- {/foreach} -->
 						                </tbody>
 						            </table>

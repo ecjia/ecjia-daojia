@@ -55,10 +55,10 @@ class shipping_merchant_menu_api extends Component_Event_Api
 
     public function call(&$options)
     {
-        $menus = ecjia_merchant::make_admin_menu('shipping', '配送', '', 8)->add_purview('ship_merchant_manage')->add_icon('fa-truck')->add_base('shipping');
+        $menus = ecjia_merchant::make_admin_menu('shipping', __('配送', 'shipping'), '', 8)->add_purview('ship_merchant_manage')->add_icon('fa-truck')->add_base('shipping');
 
         $submenus = array(
-        	ecjia_merchant::make_admin_menu('express_list', '运费模板', RC_Uri::url('shipping/mh_shipping/shipping_template'), 1)->add_purview('ship_merchant_manage')->add_icon('fa-inbox'),
+        	ecjia_merchant::make_admin_menu('express_list', __('运费模板', 'shipping'), RC_Uri::url('shipping/mh_shipping/shipping_template'), 1)->add_purview('ship_merchant_manage')->add_icon('fa-inbox'),
         );
 
         $menus->add_submenu($submenus);

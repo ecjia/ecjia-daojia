@@ -60,8 +60,8 @@ class admin_express_order extends ecjia_admin
         RC_Script::enqueue_script('jquery-validate');
         RC_Script::enqueue_script('jquery-form');
         RC_Script::enqueue_script('smoke');
-        RC_Script::enqueue_script('admin_express_order', RC_App::apps_url('statics/js/admin_express_order.js', __FILE__));
-        RC_Script::enqueue_script('shipping', RC_App::apps_url('statics/js/shipping.js', __FILE__));
+        RC_Script::enqueue_script('admin_express_order', RC_App::apps_url('statics/js/admin_express_order.js', __FILE__), array(), false, 1);
+        RC_Script::enqueue_script('shipping', RC_App::apps_url('statics/js/shipping.js', __FILE__), array(), false, 1);
         RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
         RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
         RC_Script::enqueue_script('ecjia.utils');
@@ -71,7 +71,7 @@ class admin_express_order extends ecjia_admin
         RC_Script::enqueue_script('jquery-uniform');
         RC_Script::enqueue_script('jquery-chosen');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('shipping::shipping.express_order_list'), RC_Uri::url('shipping/admin_express_order/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送列表', 'shipping'), RC_Uri::url('shipping/admin_express_order/init')));
     }
 
     /**
@@ -82,8 +82,8 @@ class admin_express_order extends ecjia_admin
         $this->admin_priv('admin_express_order_manage');
 
         ecjia_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('shipping::shipping.express_order_list')));
-        $this->assign('ur_here', RC_Lang::get('shipping::shipping.express_order_list'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送列表', 'shipping')));
+        $this->assign('ur_here', __('配送列表', 'shipping'));
 
         $this->assign('search_action', RC_Uri::url('shipping/admin_express_order/init'));
         $express_list = $this->get_express_order_list();
@@ -97,7 +97,7 @@ class admin_express_order extends ecjia_admin
     {
         $this->admin_priv('admin_express_order_manage');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('shipping::shipping.admin_express_info')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送详情', 'shipping')));
 
         $express_id = isset($_GET['express_id']) ? intval($_GET['express_id']) : 0;
 
@@ -112,34 +112,34 @@ class admin_express_order extends ecjia_admin
         $express_info['formatted_update_time']  = $express_info['update_time'] > 0 ? RC_Time::local_date(ecjia::config('time_format'), $express_info['update_time']) : '';
 
         if ($express_info['from'] == 'assign') {
-            $express_info['label_from'] = RC_Lang::get('shipping::shipping.admin_assign');
+            $express_info['label_from'] = __('派单', 'shipping');
         } elseif ($express_info['from'] == 'grab') {
-            $express_info['label_from'] = RC_Lang::get('shipping::shipping.admin_grab');
+            $express_info['label_from'] = __('抢单', 'shipping');
         } elseif ($express_info['from'] == 'grab' && $express_info['staff_id'] == 0) {
-            $express_info['label_from'] = RC_Lang::get('shipping::shipping.wait_assign');
+            $express_info['label_from'] = __('待派单', 'shipping');
         }
 
         switch ($express_info['status']) {
             case 0:
-                $express_info['label_status'] = RC_Lang::get('shipping::shipping.admin_wait_assign_express');
+                $express_info['label_status'] = __('未分派运单', 'shipping');
                 break;
             case 1:
-                $express_info['label_status'] = RC_Lang::get('shipping::shipping.admin_wait_pick_up');
+                $express_info['label_status'] = __('已接派单待取货', 'shipping');
                 break;
             case 2:
-                $express_info['label_status'] = RC_Lang::get('shipping::shipping.admin_express_delivery');
+                $express_info['label_status'] = __('已取货派送中', 'shipping');
                 break;
             case 3:
-                $express_info['label_status'] = RC_Lang::get('shipping::shipping.admin_return_express');
+                $express_info['label_status'] = __('退货中', 'shipping');
                 break;
             case 4:
-                $express_info['label_status'] = RC_Lang::get('shipping::shipping.admin_refused');
+                $express_info['label_status'] = __('拒收', 'shipping');
                 break;
             case 5:
-                $express_info['label_status'] = RC_Lang::get('shipping::shipping.admin_already_signed');
+                $express_info['label_status'] = __('已签收', 'shipping');
                 break;
             case 6:
-                $express_info['label_status'] = RC_Lang::get('shipping::shipping.admin_has_returned');
+                $express_info['label_status'] = __('已退回', 'shipping');
                 break;
         }
 
@@ -169,8 +169,8 @@ class admin_express_order extends ecjia_admin
         $this->assign('express_info', $express_info);
         $this->assign('goods_list', $goods_list);
 
-        $this->assign('ur_here', RC_Lang::get('shipping::shipping.admin_express_info'));
-        $this->assign('action_link', array('href' => RC_Uri::url('shipping/admin_express_order/init'), 'text' => RC_Lang::get('shipping::shipping.express_order_list')));
+        $this->assign('ur_here', __('配送详情', 'shipping'));
+        $this->assign('action_link', array('href' => RC_Uri::url('shipping/admin_express_order/init'), 'text' => __('配送列表', 'shipping')));
 
         $this->display('express_info.dwt');
     }
@@ -206,33 +206,33 @@ class admin_express_order extends ecjia_admin
             foreach ($express_list as $key => $val) {
                 $express_list[$key]['formatted_add_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['add_time']);
                 if ($val['from'] == 'assign') {
-                    $express_list[$key]['label_from'] = RC_Lang::get('shipping::shipping.admin_assign');
+                    $express_list[$key]['label_from'] = __('派单', 'shipping');
                 } elseif ($val['from'] == 'grab') {
-                    $express_list[$key]['label_from'] = RC_Lang::get('shipping::shipping.admin_grab');
+                    $express_list[$key]['label_from'] = __('抢单', 'shipping');
                 } else {
-                    $express_list[$key]['label_from'] = RC_Lang::get('shipping::shipping.admin_wait_assign');
+                    $express_list[$key]['label_from'] = __('待派单', 'shipping');
                 }
                 switch ($val['status']) {
                     case 0:
-                        $express_list[$key]['label_status'] = RC_Lang::get('shipping::shipping.admin_wait_assign_express');
+                        $express_list[$key]['label_status'] = __('未分派运单', 'shipping');
                         break;
                     case 1:
-                        $express_list[$key]['label_status'] = RC_Lang::get('shipping::shipping.admin_wait_pick_up');
+                        $express_list[$key]['label_status'] = __('已接派单待取货', 'shipping');
                         break;
                     case 2:
-                        $express_list[$key]['label_status'] = RC_Lang::get('shipping::shipping.admin_express_delivery');
+                        $express_list[$key]['label_status'] = __('已取货派送中', 'shipping');
                         break;
                     case 3:
-                        $express_list[$key]['label_status'] = RC_Lang::get('shipping::shipping.admin_return_express');
+                        $express_list[$key]['label_status'] = __('退货中', 'shipping');
                         break;
                     case 4:
-                        $express_list[$key]['label_status'] = RC_Lang::get('shipping::shipping.admin_refused');
+                        $express_list[$key]['label_status'] = __('拒收', 'shipping');
                         break;
                     case 5:
-                        $express_list[$key]['label_status'] = RC_Lang::get('shipping::shipping.admin_already_signed');
+                        $express_list[$key]['label_status'] = __('已签收', 'shipping');
                         break;
                     case 6:
-                        $express_list[$key]['label_status'] = RC_Lang::get('shipping::shipping.admin_has_returned');
+                        $express_list[$key]['label_status'] = __('已退回', 'shipping');
                         break;
                 }
             }

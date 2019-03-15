@@ -55,10 +55,10 @@ class Helper
      * 添加管理员记录日志操作对象
      */
     public static function assign_adminlog_content() {
-    	ecjia_admin_log::instance()->add_object('shipping_print_template', RC_Lang::get('shipping::shipping.shipping_print_template'));
+    	ecjia_admin_log::instance()->add_object('shipping_print_template', __('快递单模板', 'shipping'));
     	
-    	ecjia_admin_log::instance()->add_object('shipping_template', '运费模板');
-    	ecjia_admin_log::instance()->add_object('shipping', '快递方式');
+    	ecjia_admin_log::instance()->add_object('shipping_template', __('运费模板', 'shipping'));
+    	ecjia_admin_log::instance()->add_object('shipping', __('快递方式', 'shipping'));
     }
     
 }

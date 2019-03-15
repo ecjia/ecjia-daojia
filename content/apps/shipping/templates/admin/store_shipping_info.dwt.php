@@ -21,18 +21,18 @@
                 <form class="form-horizontal" >
                     <fieldset>
                         <div class="control-group formSep">
-                            <label class="control-label">模板名称：</label>
+                            <label class="control-label">{t domain="shipping"}模板名称：{/t}</label>
                             <div class="controls l_h30">
                                 {$template_name}
-                                <span class="help-block">该名称只在运费模板列表显示，便于管理员查找模板</span>
+                                <span class="help-block">{t domain="shipping"}该名称只在运费模板列表显示，便于管理员查找模板{/t}</span>
                             </div>
                         </div>
                         <div class="control-group formSep">
-                            <label class="control-label">地区设置：</label>
+                            <label class="control-label">{t domain="shipping"}地区设置：{/t}</label>
                             <div class="controls">
                             	<div class="template-info-item">
 									<div class="template-info-head">
-										<div class="head-left">配送至</div>
+										<div class="head-left">{t domain="shipping"}配送至{/t}</div>
 									</div>
 									<div class="template-info-content">
 										<div class="content-area" {if $regions}style="display:block"{/if}>
@@ -49,11 +49,11 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label">快递方式：</label>
+                            <label class="control-label">{t domain="shipping"}快递方式：{/t}</label>
                             <div class="controls">
                                 <div class="template-info-item">
 									<div class="template-info-head">
-										<div class="head-left">快递方式</div>
+										<div class="head-left">{t domain="shipping"}快递方式{/t}</div>
 									</div>
 									<div class="template-info-shipping">
 										<!-- {foreach from=$data item=list} -->

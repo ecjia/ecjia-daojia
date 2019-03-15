@@ -36,7 +36,7 @@
                 },
                 messages: {
                 	template_name: {
-                        required: '请填写模板名称',
+                        required: js_lang.template_name_required,
                     }
                 },
                 submitHandler: function () {
@@ -69,7 +69,7 @@
                 }
                 /* 如果是0的选项，则后续参数也设置为0 */
                 if (val == 0) {
-                    var $tmp = $('<li class="ms-elem-selectable" data-val="0"><span>没有可选择的地区</span></li>');
+                    var $tmp = $('<li class="ms-elem-selectable" data-val="0"><span>' + js_lang.no_region_choose +'</span></li>');
                     $next.html($tmp);
                     $tmp.trigger('click');
                     return;
@@ -92,8 +92,8 @@
                             data.regions[i].region_name + '</span>';
 	                		var region_id = data.regions[i].region_id;
 	                		var index = $.inArray(region_id, region);
-	                		var hide_add = '<a class="ecjiaf-dn" href="javascript:;">添加</a></span>';
-	                		var show_add = '<a href="javascript:;">添加</a></span>';
+	                		var hide_add = '<a class="ecjiaf-dn" href="javascript:;">'+ js_lang.add + '</a></span>';
+	                		var show_add = '<a href="javascript:;">' + js_lang.add + '</a></span>';
 	                		
 	                		if ($next_attr == 'selCities') {
 	                			html += '<span class="edit-list">';
@@ -116,7 +116,7 @@
                         app.express.choose_area();
                         app.express.selected_area();
                     } else {
-                        var $tmp = $('<li class="ms-elem-selectable" data-val="0"><span>没有可选择的地区</span></li>');
+                        var $tmp = $('<li class="ms-elem-selectable" data-val="0"><span>' + js_lang.no_region_choose + '</span></li>');
                         $next.html($tmp);
                         $tmp.trigger('click');
                         return;
@@ -263,13 +263,13 @@
         	$('.add_shipping').off('click').on('click', function() {
         		var template_name = $('input[name="temp_name"]').val();
         		if (template_name == '') {
-        			smoke.alert('请输入模板名称');
+        			smoke.alert(js_lang.template_name_required);
         			return false;
         		}
         		
         		var length = $('.content-area-list').find('input').length;
         		if (length == 0) {
-        			smoke.alert('请选择地区');
+        			smoke.alert(js_lang.select_region);
         			return false;
         		}
         		clearForm();
@@ -287,19 +287,19 @@
         	});
         	
         	$('.remove_shipping').off('click').on('click', function() {
-        		var message = '您确定要删除该快递方式吗？';
+        		var message = js_lang.confirm_del_shipping;
         		var $this = $(this);
 				smoke.confirm(message, function(e) {
 					if (e) {
 						$this.parents('.info-shipping-item').remove();
 					}
-				}, {ok:"确定", cancel:"取消"});
+				}, {ok:js_lang.confirmed, cancel:js_lang.canceled});
         	});
         	
         	$('.edit_shipping').off('click').on('click', function() {
         		var length = $('.content-area-list').find('input').length;
         		if (length == 0) {
-        			smoke.alert('请选择地区');
+        			smoke.alert(js_lang.select_region);
         			return false;
         		}
         		
@@ -389,23 +389,23 @@
                 },
                 messages: {
                 	shipping_id: {
-                        required: '请选择快递方式',
-                        min: '请选择快递方式'
+                        required: js_lang.select_shipping_way,
+                        min: js_lang.select_shipping_way,
                     },
                     base_fee: {
-                    	min: '请输入正确的价格格式',
+                    	min: js_lang.fill_right_price_format,
                     },
                     step_fee: {
-                    	min: '请输入正确的价格格式',
+                    	min: js_lang.fill_right_price_format,
                     },
                     free_money: {
-                    	min: '请输入正确的价格格式',
+                    	min: js_lang.fill_right_price_format,
                     },
                     pay_fee: {
-                    	min: '请输入正确的价格格式',
+                    	min: js_lang.fill_right_price_format,
                     },
                     item_fee: {
-                    	min: '请输入正确的价格格式',
+                    	min: js_lang.fill_right_price_format,
                     }
                 },
                 submitHandler: function () {
@@ -416,7 +416,7 @@
                 	if (type == 'add') {
              			if (shipping_item.length > 0) {
              				var data = {
-                                message : "该快递方式已存在",
+                                message : js_lang.shipping_way_existed,
                                 state : "error",
                             };
              				app.express.showmessage(data);

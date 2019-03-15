@@ -222,6 +222,7 @@
 				return true;
 			}
 	};
+	
 </script>
 
 <style type="text/css">
@@ -404,15 +405,15 @@
 	</h3>
 
 	<div style="text-align: center;margin:10px 0 10px 0;">
-	    <button type="button" id="model_2" {if $shipping.print_model == 2}class="btn btn-gebo" {else} class="btn" {/if} onclick="javascript:ecjia.admin.shipTemplate.template_radio_click('2');" >所见即所得模式</button>&nbsp;&nbsp;&nbsp;
-	    <button type="button" id="model_1" {if $shipping.print_model == 1}class="btn btn-gebo" {else} class="btn" {/if} onclick="javascript:ecjia.admin.shipTemplate.template_radio_click('1');">代码模式</button>
+	    <button type="button" id="model_2" {if $shipping.print_model == 2}class="btn btn-gebo" {else} class="btn" {/if} onclick="javascript:ecjia.admin.shipTemplate.template_radio_click('2');" >{t domain="shipping"}所见即所得模式{/t}</button>&nbsp;&nbsp;&nbsp;
+	    <button type="button" id="model_1" {if $shipping.print_model == 1}class="btn btn-gebo" {else} class="btn" {/if} onclick="javascript:ecjia.admin.shipTemplate.template_radio_click('1');">{t domain="shipping"}代码模式{/t}</button>
 	</div>
 
 	<div class="pull-right list_choose{if !$full} hide{/if} m_b10">
 		<div class="btn-group">
-			<button class="btn dropdown-toggle" data-toggle="dropdown">--- 选择插入标签 --- <span id="label_select" class="caret"></span></button>
+			<button class="btn dropdown-toggle" data-toggle="dropdown">{t domain="shipping"}--- 选择插入标签 ---{/t} <span id="label_select" class="caret"></span></button>
 			<ul class="dropdown-menu">
-				<li><a class="batch-del-btn add-lable" data-val="" data-text="" href="javascript:;"> 选择插入标签 </a></li>
+				<li><a class="batch-del-btn add-lable" data-val="" data-text="" href="javascript:;"> {t domain="shipping"}选择插入标签{/t} </a></li>
 				<!-- {foreach from=$lang_lable_box key=Key item=val} -->
 				<li><a class="batch-del-btn add-lable" data-text="{$val}" data-val="{$Key}" href="javascript:;">{$val}</a></li>
 				<!-- {/foreach} -->
@@ -429,7 +430,7 @@
 		                 <div class="{if $full}span12{else}span9{/if} chat_content template_info">
 	                        <div class="chat_heading clearfix">
 	                         	<div class="pull-right"><i class="ecjiaf-csp{if $full} fontello-icon-resize-small{else} fontello-icon-resize-full{/if} enlarge"></i></div>
-	                            <span class="title">快递单模板</span>
+	                            <span class="title">{t domain="shipping"}快递单模板{/t}</span>
 	                        </div>
 	                        
 	                        <pre class="span12" id="editor" style="display: none;"></pre>
@@ -438,25 +439,25 @@
 								<div id="top-row">
 									<!-- 删除图片 -->
 									<div id="pic_control_upload" {if $shipping.print_bg !=''} class="display_no"{/if}>
-										<strong>模板底图：</strong>
+										<strong>{t domain="shipping"}模板底图：{/t}</strong>
 										<div class="btn-group file-group" style="margin-top: 5px;">
 											<input type="file" onchange='checkFileType(this.value);' name="bg" id="bg" {if $shipping.print_bg !=''} disabled="disabled"{/if}>
-											<span id="uni-filename" class="uni-filename" style="-moz-user-select: none;">上传打印单图片,未选中文件</span>
-											<span class="uni-action" style="-moz-user-select: none;">选择图片</span>
-											<input type="submit" class="btn" name="upload" id="upload" value="{lang key='shipping::shipping.upload'}" {if $shipping.print_bg !=''} disabled="disabled"{/if} style="height:32px;"> 
+											<span id="uni-filename" class="uni-filename" style="-moz-user-select: none;">{t domain="shipping"}上传打印单图片,未选中文件{/t}</span>
+											<span class="uni-action" style="-moz-user-select: none;">{t domain="shipping"}选择图片{/t}</span>
+											<input type="submit" class="btn" name="upload" id="upload" value='{t domain="shipping"}上传{/t}' {if $shipping.print_bg !=''} disabled="disabled"{/if} style="height:32px;"> 
 										</div> 
 										<iframe id="bg_upload_hidden" name="bg_upload_hidden" frameborder="0" scrolling="no" class="display_no"></iframe>
 									</div>
 									
 									<div id="pic_control_del" {if $shipping.print_bg== ''}class="display_no"{/if}>
-										<strong>模板底图：</strong>
-										<input type="button" name="upload_del" class="btn btn-warning" id="upload_del" value="删除打印单图片" data-url="{$post_links.print_img_del}"
+										<strong>{t domain="shipping"}模板底图：{/t}</strong>
+										<input type="button" name="upload_del" class="btn btn-warning" id="upload_del" value='{t domain="shipping"}删除打印单图片{/t}' data-url="{$post_links.print_img_del}"
 										onclick="javascript:pintObj.bg_del(this);" {if $shipping.print_bg== ''}disabled="disabled"{/if}>
 									</div>
 									
 									<div id="del_lable"> 
-										<button class="btn" type="button" name="del" id="del" onclick="javascript:pintObj.call_flash('lable_del', this);">{lang key='shipping::shipping.del_lable'}</button>
-										<span id="desc_lable" class="help-block">注：需选中标签才可进行删除</span>
+										<button class="btn" type="button" name="del" id="del" onclick="javascript:pintObj.call_flash('lable_del', this);">{t domain="shipping"}删除标签{/t}</button>
+										<span id="desc_lable" class="help-block">{t domain="shipping"}注：需选中标签才可进行删除{/t}</span>
 									</div>
 								</div>
 	                        </div>
@@ -486,7 +487,7 @@
 			                
 		                <div class="span3 chat_sidebar {if $full} hide{/if}">
 		                    <div class="chat_heading clearfix">
-		                        {t}设置打印内容{/t}
+		                        {t domain="shipping"}设置打印内容{/t}
 		                    </div>
 		                    <div class="ms-selectable">
 		                        <div class="template_list" id="ms-custom-navigation" style="height: 723px;">
@@ -517,8 +518,8 @@
 				<input type="hidden" name="config_lable" value=""> 
 				<input type="hidden" name="print_model" value="2">
 				<input type="hidden" name="shipping_name" value="{$shipping.shipping_name}">
-				<button type="button" class="btn btn-gebo"  data-url="{$post_links.do_edit}"  onclick="javascript:pintObj.save(this);">保存设置</button>&nbsp;&nbsp;
-				<button type="button" class="btn btn-gebo"  data-url="{$post_links.recovery}" onclick="javascript:pintObj.recovery_default(this);">恢复默认</button>
+				<button type="button" class="btn btn-gebo"  data-url="{$post_links.do_edit}"  onclick="javascript:pintObj.save(this);">{t domain="shipping"}保存设置{/t}</button>&nbsp;&nbsp;
+				<button type="button" class="btn btn-gebo"  data-url="{$post_links.recovery}" onclick="javascript:pintObj.recovery_default(this);">{t domain="shipping"}恢复默认{/t}</button>
 			</div>
 		</form>
 	</div>
@@ -533,18 +534,18 @@
 				        	<div class="row-fluid">
 				                <div class="span9 chat_content" id="code_shipping_print" {if $shipping.print_model == 2}style="display:none"{/if}>
 			                        <div class="chat_heading clearfix">
-			                            <span class="title">代码模式</span>
+			                            <span class="title">{t domain="shipping"}代码模式{/t}</span>
 			                        </div>
 			                        
 				  					<div class="text-box">
-				  						<span class="help-block">温馨提示：请复制右侧区域变量放入以下输入框中</span>
+				  						<span class="help-block">{t domain="shipping"}温馨提示：请复制右侧区域变量放入以下输入框中{/t}</span>
 					       				<textarea class="text-con" id="shipping_print" name="shipping_print" rows="40" cols="3" >{$shipping.shipping_print|escape:html}</textarea>
 					                </div>
 				                </div>
 				                
 				                <div class="span3 chat_sidebar" id="code_shipping_help" {if $shipping.print_model == 2}style="display:none"{/if}>
 				                    <div class="chat_heading clearfix">
-				                        {t}订单模板变量说明{/t}
+				                        {t domain="shipping"}订单模板变量说明{/t}
 				                    </div>
 				                    <div class="ms-selectable" >
 				                        <div class="template_list" id="ms-custom-navigation" style="height: 518px;">
@@ -559,7 +560,7 @@
 			                </div>
 				        </div>
 		        		<div id="code_submit" {if $shipping.print_model == 2}style="display:none"{/if}>
-							<button class="btn btn-gebo m_t15 m_b15" type="button" id="save_template_1">保存设置</button>
+							<button class="btn btn-gebo m_t15 m_b15" type="button" id="save_template_1">{t domain="shipping"}保存设置{/t}</button>
 							<input type="hidden" name="shipping_id" value="{$shipping.shipping_id}">
 							<input type="hidden" name="print_model" value="1">
 							<input type="hidden" name="shipping_name" value="{$shipping.shipping_name}">

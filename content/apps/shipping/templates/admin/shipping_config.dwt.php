@@ -19,24 +19,24 @@ ecjia.admin.shipping_config.init();
 		<form method="post" class="form-horizontal" action="{$form_action}" name="theForm"  >
 			<fieldset>
 				<div class="control-group formSep">
-					<label class="control-label">App Key:</label>
+					<label class="control-label">App Key</label>
 					<div class="controls">
 						<input type='text' class="w350" name='express_key' value="{$cloud_express_key}" /> 
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 					</div>
 				</div>
 				
 				<div class="control-group formSep">
-					<label class="control-label">App Secret:</label>
+					<label class="control-label">App Secret</label>
 					<div class="controls">
 						<input type="text" class="w350" name='express_secret' value="{$cloud_express_secret}" /> 
-						<span class="input-must">{lang key='system::system.require_field'}</span>
+						<span class="input-must">*</span>
 					</div>
 				</div>
 				
 				<div class="control-group">
 					<div class="controls">
-						<input type="submit" value="{lang key='system::system.button_submit'}" class="btn btn-gebo" />
+						<input type="submit" value='{t domain="shipping"}确定{/t}' class="btn btn-gebo" />
 					</div>
 				</div>
 			</fieldset>

@@ -18,10 +18,10 @@
                 },
                 messages: {
                     express_key: {
-                        required: '请填写'
+                        required: js_lang.required_express_key,
                     },
                     express_secret: {
-                        required: '请填写'
+                        required: js_lang.required_express_secret,
                     }
                 },
                 submitHandler: function() {
