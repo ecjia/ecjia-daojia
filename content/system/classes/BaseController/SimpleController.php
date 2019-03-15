@@ -79,6 +79,8 @@ class SimpleController extends EcjiaController implements EcjiaTemplateFileLoade
         } else {
             error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
         }
+
+        $this->load_default_script_style();
     
         RC_Hook::do_action('ecjia_simple_finish_launching');
     }
@@ -274,6 +276,11 @@ class SimpleController extends EcjiaController implements EcjiaTemplateFileLoade
         RC_Hook::add_action( 'front_print_scripts',	array($this, 'front_print_head_scripts'),	9 );
         RC_Hook::add_action( 'front_print_footer_scripts',	array($this, 'print_front_footer_scripts'), 20 );
 
+    }
+
+    protected function load_default_script_style()
+    {
+        //...
     }
 
     /**

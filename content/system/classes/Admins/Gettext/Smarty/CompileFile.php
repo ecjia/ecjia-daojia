@@ -121,7 +121,7 @@ class CompileFile
     protected function generateOutData(array $result_msgctxt, array $result_msgid)
     {
         ob_start();
-        echo ($this->compiler)::MSGID_HEADER;
+        echo SmartyGettextCompiler::MSGID_HEADER;
         foreach($result_msgctxt as $msgctxt => $data_msgid) {
             foreach($data_msgid as $msgid => $data) {
                 echo "#: ", join(' ', $data['lineno']), "\n";
