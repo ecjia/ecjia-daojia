@@ -1,6 +1,12 @@
 <?php defined('IN_ECJIA') or exit('No permission resources.');?>
 {extends file="./ecjia_upgrade.dwt.php"}
 
+{block name="footer"}
+<script type="text/javascript">
+    ecjia.front.upgrade.init();
+</script>
+{/block}
+
 {block name="main_content"}
 	<div class="container">
 	    <div class="row">
