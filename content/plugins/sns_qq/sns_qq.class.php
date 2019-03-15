@@ -108,6 +108,9 @@ class sns_qq extends ConnectAbstract
         );
         $this->recorder = new Recorder($inc);
         $this->urlUtils = new UrlUtils();
+        if(is_ecjia_error($this->recorder)) {
+            return $this->recorder;
+        }
     }
     
     /**
@@ -154,7 +157,7 @@ class sns_qq extends ConnectAbstract
      *          ConnectUser::MERCHANT,
      *          ConnectUser::ADMIN
      * @see \Ecjia\App\Connect\ConnectAbstract::callback()
-     * @return \Ecjia\App\Connect\ConnectUser
+     * @return \Ecjia\App\Connect\ConnectUser\ConnectUser
      */
     public function callback($user_type = 'user') {
         $state = $this->recorder->read("state");
