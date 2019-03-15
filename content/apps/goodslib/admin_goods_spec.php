@@ -52,10 +52,6 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class admin_goods_spec extends ecjia_admin {
 	public function __construct() {
 		parent::__construct();
-
-		RC_Loader::load_app_func('global', 'goods');
-		RC_Loader::load_app_func('global', 'goodslib');
-		RC_Loader::load_app_func('admin_goods', 'goods');
 		
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');
@@ -65,12 +61,16 @@ class admin_goods_spec extends ecjia_admin {
 		RC_Style::enqueue_style('uniform-aristo');
 		RC_Script::enqueue_script('jquery-uniform');
 		
-		RC_Script::enqueue_script('goods_attribute', RC_App::apps_url('statics/js/goods_attribute.js', __FILE__) , array() , false, true);
-		RC_Script::enqueue_script('adsense-bootstrap-editable-script', RC_Uri::admin_url() . '/statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js', array(), false, true);
+		RC_Script::enqueue_script('goods_attribute', RC_App::apps_url('statics/js/goods_attribute.js', __FILE__) , array() , false, 1);
+		RC_Script::enqueue_script('adsense-bootstrap-editable-script', RC_Uri::admin_url() . '/statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js', array(), false, 1);
 		RC_Style::enqueue_style('adsense-bootstrap-editable-style', RC_Uri::admin_url() . '/statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css');
 
         RC_Script::localize_script('goods_attribute', 'js_lang', config('app-goodslib::jslang.attribute_page'));
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品库规格', 'goodslib'), RC_Uri::url('goodslib/admin_goods_spec/init')));
+
+        RC_Loader::load_app_func('global', 'goods');
+        RC_Loader::load_app_func('global', 'goodslib');
+        RC_Loader::load_app_func('admin_goods', 'goods');
 	}
 	
 	/**

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App goodslib 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 03:54:52+00:00\n"
+"POT-Creation-Date: 2019-03-06 09:04:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,8 +13,8 @@ msgstr ""
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 
 #: admin.php:111 admin.php:122 admin.php:123 admin.php:154 admin.php:419
-#: admin.php:433 admin.php:636 admin.php:918 admin.php:1127 admin.php:1186
-#: admin.php:1325 admin_gallery.php:98
+#: admin.php:433 admin.php:636 admin.php:918 admin.php:1137 admin.php:1196
+#: admin.php:1335 admin_gallery.php:98
 #: apis/goodslib_admin_menu_api.class.php:54 configs/package.php:55
 msgid "商品库"
 msgstr ""
@@ -28,7 +28,7 @@ msgid "添加商品库商品"
 msgstr ""
 
 #: admin.php:157 admin.php:344 admin.php:621 admin.php:640 admin.php:861
-#: admin.php:1141 admin.php:1175 admin.php:1209 admin.php:1366 admin.php:1529
+#: admin.php:1151 admin.php:1185 admin.php:1219 admin.php:1376 admin.php:1539
 #: admin_gallery.php:153
 msgid "商品列表"
 msgstr ""
@@ -53,7 +53,7 @@ msgstr ""
 msgid "继续添加"
 msgstr ""
 
-#: admin.php:356 admin.php:1467 configs/jslang.php:68
+#: admin.php:356 admin.php:1477 configs/jslang.php:68
 msgid "添加商品成功"
 msgstr ""
 
@@ -61,7 +61,7 @@ msgstr ""
 msgid "导入商品"
 msgstr ""
 
-#: admin.php:422 admin.php:927 admin.php:1330 admin.php:1352 merchant.php:391
+#: admin.php:422 admin.php:927 admin.php:1340 admin.php:1362 merchant.php:391
 msgid "返回商品列表"
 msgstr ""
 
@@ -106,7 +106,7 @@ msgstr ""
 msgid "未检测到此商品"
 msgstr ""
 
-#: admin.php:645 admin.php:915 admin.php:1133 merchant.php:378
+#: admin.php:645 admin.php:915 admin.php:1143 merchant.php:378
 msgid "返回上一页"
 msgstr ""
 
@@ -114,7 +114,7 @@ msgstr ""
 msgid "请输入商品名称"
 msgstr ""
 
-#: admin.php:864 admin.php:1177
+#: admin.php:864 admin.php:1187
 msgid "编辑商品成功"
 msgstr ""
 
@@ -130,220 +130,220 @@ msgstr ""
 msgid "返回"
 msgstr ""
 
-#: admin.php:1010
+#: admin.php:1020
 msgid "请选择操作"
 msgstr ""
 
-#: admin.php:1060
+#: admin.php:1070
 msgid "批量操作成功"
 msgstr ""
 
-#: admin.php:1078
+#: admin.php:1088
 msgid "您输入了一个非法的市场价格。"
 msgstr ""
 
-#: admin.php:1082 admin.php:1118
+#: admin.php:1092 admin.php:1128
 msgid "修改成功"
 msgstr ""
 
-#: admin.php:1101
+#: admin.php:1111
 msgid "已成功切换上架状态"
 msgstr ""
 
-#: admin.php:1128 admin.php:1142
+#: admin.php:1138 admin.php:1152
 msgid "编辑商品描述"
 msgstr ""
 
-#: admin.php:1133
+#: admin.php:1143
 msgid "找不到ID为 %s 的商品！"
 msgstr ""
 
-#: admin.php:1160
+#: admin.php:1170
 msgid "找不到ID为%s的商品！"
 msgstr ""
 
-#: admin.php:1187 admin.php:1213
+#: admin.php:1197 admin.php:1223
 msgid "编辑商品属性"
 msgstr ""
 
-#: admin.php:1315
+#: admin.php:1325
 msgid "编辑属性成功"
 msgstr ""
 
-#: admin.php:1326 admin.php:1528
+#: admin.php:1336 admin.php:1538
 msgid "货品列表"
 msgstr ""
 
-#: admin.php:1331
+#: admin.php:1341
 msgid "缺少参数，请重试"
 msgstr ""
 
-#: admin.php:1351 admin_attribute.php:82 admin_attribute.php:99
-#: admin_attribute.php:119 admin_attribute.php:139 admin_attribute.php:221
+#: admin.php:1361 admin_attribute.php:83 admin_attribute.php:100
+#: admin_attribute.php:120 admin_attribute.php:143 admin_attribute.php:228
 #: functions/global.func.php:363
 msgid "商品属性"
 msgstr ""
 
-#: admin.php:1353
+#: admin.php:1363
 msgid "请先添加库存属性，再到货品管理中设置货品库存"
 msgstr ""
 
-#: admin.php:1360 admin.php:1504
+#: admin.php:1370 admin.php:1514
 msgid "商品名称：%s"
 msgstr ""
 
-#: admin.php:1361 admin.php:1505
+#: admin.php:1371 admin.php:1515
 msgid "货号：%s"
 msgstr ""
 
-#: admin.php:1372
+#: admin.php:1382
 msgid "添加货品"
 msgstr ""
 
-#: admin.php:1374
+#: admin.php:1384
 msgid "编辑货品"
 msgstr ""
 
-#: admin.php:1394 admin.php:1406
+#: admin.php:1404 admin.php:1416
 msgid "找不到指定的商品"
 msgstr ""
 
-#: admin.php:1479
+#: admin.php:1489
 msgid "保存货品成功"
 msgstr ""
 
-#: admin.php:1491
+#: admin.php:1501
 msgid "货品id为空"
 msgstr ""
 
-#: admin.php:1500 admin.php:1510
+#: admin.php:1510 admin.php:1520
 msgid "错误"
 msgstr ""
 
-#: admin.php:1502
+#: admin.php:1512
 msgid "（商品货号：%s）"
 msgstr ""
 
-#: admin.php:1503
+#: admin.php:1513
 msgid "（商品价格：%d）"
 msgstr ""
 
-#: admin.php:1553
+#: admin.php:1563
 msgid "删除成功！"
 msgstr ""
 
-#: admin.php:1568
+#: admin.php:1578
 msgid "货品货号重复"
 msgstr ""
 
-#: admin.php:1576
+#: admin.php:1586
 msgid "货品修改成功！"
 msgstr ""
 
-#: admin_attribute.php:73 admin_goods_spec.php:73 admin_goods_spec.php:83
+#: admin_attribute.php:70 admin_goods_spec.php:69 admin_goods_spec.php:83
 #: apis/goodslib_admin_menu_api.class.php:58
 msgid "商品库规格"
 msgstr ""
 
-#: admin_attribute.php:85 admin_attribute.php:124 admin_attribute.php:226
+#: admin_attribute.php:86 admin_attribute.php:125 admin_attribute.php:233
 #: admin_gallery.php:103 admin_goods_spec.php:86 admin_goods_spec.php:117
 #: admin_goods_spec.php:173
 msgid "概述"
 msgstr ""
 
-#: admin_attribute.php:86
+#: admin_attribute.php:87
 msgid ""
 "欢迎访问ECJia智能后台商品属性列表页面，系统中所有的商品属性都会显示在此列表"
 "中。"
 msgstr ""
 
-#: admin_attribute.php:90 admin_attribute.php:129 admin_attribute.php:231
+#: admin_attribute.php:91 admin_attribute.php:130 admin_attribute.php:238
 #: admin_gallery.php:109 admin_goods_spec.php:91 admin_goods_spec.php:122
 #: admin_goods_spec.php:178
 msgid "更多信息："
 msgstr ""
 
-#: admin_attribute.php:91
+#: admin_attribute.php:92
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E5.B1.9E.E6.80."
 "A7.E5.88.97.E8.A1.A8\" target=\"_blank\">关于商品属性列表帮助文档</a>"
 msgstr ""
 
-#: admin_attribute.php:100 admin_attribute.php:120 admin_attribute.php:138
-#: admin_attribute.php:220
+#: admin_attribute.php:101 admin_attribute.php:121 admin_attribute.php:142
+#: admin_attribute.php:226 admin_attribute.php:227
 msgid "添加属性"
 msgstr ""
 
-#: admin_attribute.php:101 admin_goods_spec.php:127 admin_goods_spec.php:183
+#: admin_attribute.php:102 admin_goods_spec.php:127 admin_goods_spec.php:183
 msgid "商品规格列表"
 msgstr ""
 
-#: admin_attribute.php:125
+#: admin_attribute.php:126
 msgid "欢迎访问ECJia智能后台添加商品属性页面，可以在此页面添加商品属性信息。"
 msgstr ""
 
-#: admin_attribute.php:130
+#: admin_attribute.php:131
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB.E5.8A."
 "A0.E5.B1.9E.E6.80.A7\" target=\"_blank\">关于添加商品属性帮助文档</a>"
 msgstr ""
 
-#: admin_attribute.php:155
+#: admin_attribute.php:159
 msgid "商品类型不能为空"
 msgstr ""
 
-#: admin_attribute.php:159 admin_attribute.php:250 admin_attribute.php:324
+#: admin_attribute.php:163 admin_attribute.php:257 admin_attribute.php:331
 msgid "该属性名称已存在，请您换一个名称。"
 msgstr ""
 
-#: admin_attribute.php:179 admin_attribute.php:270
+#: admin_attribute.php:183 admin_attribute.php:277
 msgid "返回属性列表"
 msgstr ""
 
-#: admin_attribute.php:180
+#: admin_attribute.php:184
 msgid "添加下一个属性"
 msgstr ""
 
-#: admin_attribute.php:182
+#: admin_attribute.php:186
 msgid "添加属性 [%s] 成功。"
 msgstr ""
 
-#: admin_attribute.php:220
+#: admin_attribute.php:226 admin_attribute.php:227
 msgid "编辑属性"
 msgstr ""
 
-#: admin_attribute.php:227
+#: admin_attribute.php:234
 msgid "欢迎访问ECJia智能后台编辑商品属性页面，可以在此页面编辑商品属性信息。"
 msgstr ""
 
-#: admin_attribute.php:232
+#: admin_attribute.php:239
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E7.BC.96.E8."
 "BE.91.E5.B1.9E.E6.80.A7\" target=\"_blank\">关于编辑商品属性帮助文档</a>"
 msgstr ""
 
-#: admin_attribute.php:272
+#: admin_attribute.php:279
 msgid "编辑属性 [%s] 成功。"
 msgstr ""
 
-#: admin_attribute.php:286 admin_gallery.php:229 admin_goods_spec.php:247
+#: admin_attribute.php:293 admin_gallery.php:229 admin_goods_spec.php:247
 msgid "删除成功"
 msgstr ""
 
-#: admin_attribute.php:306
+#: admin_attribute.php:313
 msgid "成功删除了 %d 条商品属性"
 msgstr ""
 
-#: admin_attribute.php:331 admin_attribute.php:356 admin_gallery.php:242
+#: admin_attribute.php:338 admin_attribute.php:363 admin_gallery.php:242
 #: admin_goods_spec.php:268
 msgid "编辑成功"
 msgstr ""
 
-#: admin_attribute.php:334 configs/jslang.php:58
+#: admin_attribute.php:341 configs/jslang.php:58
 msgid "请输入属性名称"
 msgstr ""
 
-#: admin_attribute.php:349
+#: admin_attribute.php:356
 msgid "请输入大于0的整数"
 msgstr ""
 
@@ -1084,18 +1084,6 @@ msgstr ""
 msgid "能否进行检索："
 msgstr ""
 
-#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:51
-msgid "不需要检索"
-msgstr ""
-
-#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:52
-msgid "关键字检索"
-msgstr ""
-
-#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:53
-msgid "范围检索"
-msgstr ""
-
 #: content/apps/goodslib/templates/admin/attribute_info.dwt.php:54
 msgid ""
 "不需要该属性成为检索商品条件的情况请选择不需要检索，需要该属性进行关键字检索"
@@ -1119,18 +1107,6 @@ msgstr ""
 msgid "属性是否可选："
 msgstr ""
 
-#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:67
-msgid "唯一属性"
-msgstr ""
-
-#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:68
-msgid "单选属性"
-msgstr ""
-
-#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:69
-msgid "复选属性"
-msgstr ""
-
 #: content/apps/goodslib/templates/admin/attribute_info.dwt.php:70
 msgid ""
 "选择\"单选/复选属性\"时，可以对商品该属性设置多个值，同时还能对不同属性值指定"
@@ -1140,18 +1116,6 @@ msgstr ""
 
 #: content/apps/goodslib/templates/admin/attribute_info.dwt.php:74
 msgid "该属性值的录入方式："
-msgstr ""
-
-#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:76
-msgid "手工录入"
-msgstr ""
-
-#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:77
-msgid "从下面的列表中选择（一行代表一个可选值）"
-msgstr ""
-
-#: content/apps/goodslib/templates/admin/attribute_info.dwt.php:78
-msgid "多行文本框"
 msgstr ""
 
 #: content/apps/goodslib/templates/admin/attribute_info.dwt.php:82
@@ -1193,7 +1157,8 @@ msgid "查看规格属性"
 msgstr ""
 
 #: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:56
-msgid "删除商品规格将会清除该规格下的所有属性。n您确定要删除选定的商品规格吗？"
+msgid ""
+"删除商品规格将会清除该规格下的所有属性。<br/>您确定要删除选定的商品规格吗？"
 msgstr ""
 
 #: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:66
