@@ -64,7 +64,7 @@
                     <td class="hide-edit-area">
                         {$val.name}
                         <div class="edit-list">
-                            <a target="__blank" href='{RC_Uri::url("weapp/admin/autologin","id={$val.id}")}' title='{t domain="weapp"}进入管理{/t}'>{t domain="weapp"}进入管理{/t}</a> &nbsp;|&nbsp;
+                            <a target="_blank" href='{RC_Uri::url("weapp/admin/autologin","id={$val.id}")}' title='{t domain="weapp"}进入管理{/t}'>{t domain="weapp"}进入管理{/t}</a> &nbsp;|&nbsp;
                             <a class="data-pjax" href='{RC_Uri::url("weapp/admin/edit", "id={$val.id}")}' title='{t domain="weapp"}编辑{/t}'>{t domain="weapp"}编辑{/t}</a> &nbsp;|&nbsp;
                             <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="weapp" 1={$val.name}}您确定要删除小程序[%1]吗？{/t}' href='{RC_Uri::url("weapp/admin/remove","id={$val.id}")}' title='{t domain="weapp"}删除{/t}'>{t domain="weapp"}删除{/t}</a>
                         </div>

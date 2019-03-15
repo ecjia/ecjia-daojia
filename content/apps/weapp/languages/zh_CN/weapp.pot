@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App weapp package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App weapp 1.27.4\n"
+"Project-Id-Version: Ecjia App weapp 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 03:59:49+00:00\n"
+"POT-Creation-Date: 2019-03-06 09:04:45+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -440,14 +440,23 @@ msgstr ""
 msgid "公众号排序不能为空！"
 msgstr ""
 
-#: modules/weapp/wxbind_module.class.php:61
+#: modules/weapp/wxauthorize_module.class.php:87
+#: modules/weapp/wxbind_module.class.php:158
+msgid "更新用户数据失败"
+msgstr ""
+
+#: modules/weapp/wxbind_module.class.php:134
 #: modules/weapp/wxlogin_module.class.php:58
 #: modules/weapp/wxpay_module.class.php:69
 msgid "参数无效"
 msgstr ""
 
-#: modules/weapp/wxbind_module.class.php:86
-msgid "更新用户数据失败"
+#: modules/weapp/wxlogin_module.class.php:122
+msgid "创建微信用户失败"
+msgstr ""
+
+#: modules/weapp/wxmobile_module.class.php:139
+msgid "手机号不是中国地区，暂未支持。"
 msgstr ""
 
 #: modules/weapp/wxpay_module.class.php:79
@@ -469,6 +478,13 @@ msgstr ""
 #: platform_customer.php:116
 msgid ""
 "欢迎访问ECJia智能后台编辑客服帐号页面，在此页面可以进行编辑客服帐号操作。"
+msgstr ""
+
+#: platform_customer.php:121
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia公众平台:多客服管理#.E7.BC.96.E8."
+"BE.91.E5.AE.A2.E6.9C.8D.E7.8A.B6.E6.80.81\" target=\"_blank\">关于编辑客服帐"
+"号帮助文档</a>"
 msgstr ""
 
 #: platform_material.php:86 platform_material.php:183
@@ -1960,8 +1976,8 @@ msgstr ""
 #: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:14
 msgid ""
 "\n"
-"    <p>一、配置前先<a href=\"%1\" target=\"__blank\"> 注册小程序 </a>，进行微"
-"信认证, 已有微信小程序<a href=\"%2\" target=\"__blank\"> 立即登录 </a>。\n"
+"    <p>一、配置前先<a href=\"%1\" target=\"_blank\"> 注册小程序 </a>，进行微"
+"信认证, 已有微信小程序<a href=\"%2\" target=\"_blank\"> 立即登录 </a>。\n"
 "    </p>\n"
 "    "
 msgstr ""
@@ -1969,8 +1985,8 @@ msgstr ""
 #: content/apps/weapp/templates/merchant/weapp_edit.dwt.php:18
 msgid ""
 "\n"
-"    <p>二、登录<a href=\"%1\" target=\"__blank\"> 微信公众号平台 </a>后，在 "
-"设置 - 开发者设置 中，查看到微信小程序的 AppID、Appsecret，并配置填写好域名。"
+"    <p>二、登录<a href=\"%1\" target=\"_blank\"> 微信公众号平台 </a>后，在 设"
+"置 - 开发者设置 中，查看到微信小程序的 AppID、Appsecret，并配置填写好域名。"
 "（注意不可直接使用微信服务号或订阅号的 AppID、AppSecret）\n"
 "    </p>\n"
 "    "

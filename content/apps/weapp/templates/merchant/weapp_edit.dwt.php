@@ -12,11 +12,11 @@
 <div class="staticalert alert alert-dismissable ui_showmessage panel"><a class="close" data-dismiss="alert">×</a>
     <p><h4>{t domain="weapp"}操作提示{/t}</h4></p>
     {t domain="weapp" escape=no 1="https://mp.weixin.qq.com/debug/wxadoc/introduction/index.html" 2="https://mp.weixin.qq.com/"}
-    <p>一、配置前先<a href="%1" target="__blank"> 注册小程序 </a>，进行微信认证, 已有微信小程序<a href="%2" target="__blank"> 立即登录 </a>。
+    <p>一、配置前先<a href="%1" target="_blank"> 注册小程序 </a>，进行微信认证, 已有微信小程序<a href="%2" target="_blank"> 立即登录 </a>。
     </p>
     {/t}
     {t domain="weapp" escape=no 1="https://mp.weixin.qq.com/"}
-    <p>二、登录<a href="%1" target="__blank"> 微信公众号平台 </a>后，在 设置 - 开发者设置 中，查看到微信小程序的 AppID、Appsecret，并配置填写好域名。（注意不可直接使用微信服务号或订阅号的 AppID、AppSecret）
+    <p>二、登录<a href="%1" target="_blank"> 微信公众号平台 </a>后，在 设置 - 开发者设置 中，查看到微信小程序的 AppID、Appsecret，并配置填写好域名。（注意不可直接使用微信服务号或订阅号的 AppID、AppSecret）
     </p>
     {/t}
     <p>{t domain="weapp"}三、微信认证后，开通小程序微信支付。开通后，配置小程序微信支付的商户号和密钥。{/t}</p>

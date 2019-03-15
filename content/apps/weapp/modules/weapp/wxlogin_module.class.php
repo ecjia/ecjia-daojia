@@ -106,16 +106,7 @@ class weapp_wxlogin_module extends api_front implements api_interface
             } else {
 
                 //会员登录后，相关信息处理
-                (new \Ecjia\App\User\UserManager())->loginSuccessHook($user_info);
-
-                //修正关联设备号
-                RC_Api::api('mobile', 'bind_device_user', array(
-                    'device_udid'   => $this->requestDevice('udid'),
-                    'device_client' => $this->requestDevice('client'),
-                    'device_code'   => $this->requestDevice('code'),
-                    'user_type'     => 'user',
-                    'user_id'       => $user_info['user_id'],
-                ));
+                (new \Ecjia\App\User\UserManager())->apiLoginSuccessHook($user_info);
 
                 //如果user_info已经存在，返回user_info信息
                 $out = array(

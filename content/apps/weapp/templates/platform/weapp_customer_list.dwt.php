@@ -50,7 +50,7 @@
             <div class="card-header">
                 <h4 class="card-title">
                     <!-- {if $ur_here}{$ur_here}{/if} -->
-                    <a class="btn btn-outline-primary float-right m_r10" href="https://mpkf.weixin.qq.com/" target="__blank"><i class="ft-link"></i>{t domain="weapp"}去微信客服中心{/t}</a>
+                    <a class="btn btn-outline-primary float-right m_r10" href="https://mpkf.weixin.qq.com/" target="_blank"><i class="ft-link"></i>{t domain="weapp"}去微信客服中心{/t}</a>
                 </h4>
             </div>
             <div class="card-body">

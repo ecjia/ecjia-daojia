@@ -118,7 +118,7 @@ class platform_customer extends ecjia_platform
 
         ecjia_platform_screen::get_current_screen()->set_help_sidebar(
             '<p><strong>' . '更多信息：' . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia公众平台:多客服管理#.E7.BC.96.E8.BE.91.E5.AE.A2.E6.9C.8D.E7.8A.B6.E6.80.81" target="_blank">' . __('关于编辑客服帐号帮助文档', 'weapp') . '</a>') . '</p>'
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia公众平台:多客服管理#.E7.BC.96.E8.BE.91.E5.AE.A2.E6.9C.8D.E7.8A.B6.E6.80.81" target="_blank">关于编辑客服帐号帮助文档</a>', 'weapp') . '</p>'
         );
         $wechat_id = $this->platformAccount->getAccountID();
 

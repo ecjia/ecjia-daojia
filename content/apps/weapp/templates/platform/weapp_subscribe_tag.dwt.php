@@ -39,7 +39,7 @@
                         <!-- {foreach from=$list.item item=val} -->
                         <tr>
                             <td>
-                                <a href="{RC_Uri::url('weapp/platform_user/init')}&tag_id={$val.tag_id}" target="__blank">{$val.name}</a>
+                                <a href="{RC_Uri::url('weapp/platform_user/init')}&tag_id={$val.tag_id}" target="_blank">{$val.name}</a>
                             </td>
                             <td>{$val.count}</td>
                             <td>

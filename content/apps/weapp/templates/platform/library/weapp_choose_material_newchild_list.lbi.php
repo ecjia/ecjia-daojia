@@ -2,7 +2,7 @@
 <li class="thumbnail move-mod-group big grid-item" data-id="{$articles.id}">
     <div class="article">
         <div class="cover">
-            <a target="__blank" href="javascript:;">
+            <a target="_blank" href="javascript:;">
                 <img src="{$articles.file}"/>
             </a>
             <span>{$articles.title}</span>
@@ -14,7 +14,7 @@
     <!-- {foreach from=$articles.articles key=key item=val} -->
     <div class="article_list">
         <div class="f_l">{if $val.title}{$val.title}{else}{t domain="weapp"}无标题{/t}{/if}</div>
-        <a target="__blank" href="javascript:;">
+        <a target="_blank" href="javascript:;">
             <img src="{$val.file}" class="pull-right"/>
         </a>
     </div>
@@ -24,7 +24,7 @@
 <li class="thumbnail move-mod-group big grid-item" data-id="{$articles.id}">
     <div class="articles">
         <div class="articles_title">{if $articles.title}{$articles.title}{else}{t domain="weapp"}无标题{/t}{/if}</div>
-        <a target="__blank" href="javascript:;">
+        <a target="_blank" href="javascript:;">
             <img src="{$articles.file}"/>
         </a>
         <div class="articles_content border-none">{$articles.content}</div>
