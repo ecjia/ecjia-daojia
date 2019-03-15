@@ -60,7 +60,7 @@
 								<span class="{if ($time >= $item.promote_start_date) && ($time <= $item.promote_end_date)}ecjiafc-red{/if}" >{$item.goods_name}</span><br>
 								<div class="edit-list">
 									<a class="data-pjax" href='{RC_Uri::url("promotion/merchant/edit", "id={$item.goods_id}")}' title='{t domain="promotion"}编辑{/t}'>{t domain="promotion"}编辑{/t}</a>&nbsp;|&nbsp;
-									<a data-toggle="ajaxremove" class="ajaxremove ecjiafc-red" data-msg='{t domain="promotion"}您确定要删除该促销活动吗？{/t}' href='{RC_Uri::url("promotion/merchant/remove", "id={$item.goods_id}")}' title="{t domain="promotion"}删除{/t}">{t domain="promotion"}删除{/t}</a>
+									<a data-toggle="ajaxremove" class="ajaxremove ecjiafc-red" data-msg='{t domain="promotion"}您确定要删除该促销活动吗？{/t}' href='{RC_Uri::url("promotion/merchant/remove", "id={$item.goods_id}")}' title='{t domain="promotion"}删除{/t}'>{t domain="promotion"}删除{/t}</a>
 							    </div>
 							</td>
 							<td>{$item.start_time}</td>
