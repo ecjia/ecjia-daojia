@@ -51,9 +51,21 @@ Description: UEditor富文本编辑器，来自百度编辑器
 Author: ECJIA TEAM
 Version: 1.20.0
 Author URI: http://www.ecjia.com/
-Plugin App: system
+Plugin App: global
 */
 defined('IN_ECJIA') or exit('No permission resources.');
+
+if (is_dir(SITE_PLUGIN_PATH.'ueditor')) {
+    Royalcms\Component\ClassLoader\ClassManager::addNamespaces(array(
+        'Royalcms\Component\UEditor' => SITE_PLUGIN_PATH.'ueditor/Royalcms/Component/UEditor',
+    ));
+} else {
+    Royalcms\Component\ClassLoader\ClassManager::addNamespaces(array(
+        'Royalcms\Component\UEditor' => RC_PLUGIN_PATH.'ueditor/Royalcms/Component/UEditor',
+    ));
+}
+
+royalcms()->forgeRegister('Royalcms\Component\UEditor\UEditorServiceProvider');
 
 require_once RC_Plugin::plugin_dir_path(__FILE__) . 'ueditor.class.php';
 
