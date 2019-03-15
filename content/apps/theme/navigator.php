@@ -66,7 +66,7 @@ class navigator extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Style::enqueue_style('uniform-aristo');
 		
-		RC_Script::enqueue_script('navigator', RC_App::apps_url('statics/js/navigator.js', __FILE__));
+		RC_Script::enqueue_script('navigator', RC_App::apps_url('statics/js/navigator.js', __FILE__), array(), false, 1);
 
 		RC_Script::localize_script('navigator', 'admin_nav_lang', config('app-theme::jslang.theme_page'));
 		

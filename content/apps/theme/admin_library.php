@@ -69,10 +69,10 @@ class admin_library extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Script::enqueue_script('jquery-form');
 		
-		RC_Script::enqueue_script('acejs', RC_Uri::admin_url('statics/lib/acejs/ace.js'), array(), false, true);
-		RC_Script::enqueue_script('acejs-emmet', RC_Uri::admin_url('statics/lib/acejs/ext-emmet.js'), array(), false, true);
+		RC_Script::enqueue_script('acejs', RC_Uri::admin_url('statics/lib/acejs/ace.js'), array(), false, 1);
+		RC_Script::enqueue_script('acejs-emmet', RC_Uri::admin_url('statics/lib/acejs/ext-emmet.js'), array(), false, 1);
 		
-		RC_Script::enqueue_script('template', RC_App::apps_url('statics/js/template.js', __FILE__));
+		RC_Script::enqueue_script('template', RC_App::apps_url('statics/js/template.js', __FILE__), array(), false, 1);
 		
 		RC_Script::localize_script('template', 'admin_template_lang', config('app-theme::jslang.theme_library_page'));
 		

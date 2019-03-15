@@ -21,7 +21,7 @@ class admin_option extends ecjia_admin
         RC_Style::enqueue_style('uniform-aristo');
         RC_Script::enqueue_script('jquery-uniform');
 
-        RC_Script::enqueue_script('admin_option', RC_App::apps_url('statics/js/admin_option.js', __FILE__));
+        RC_Script::enqueue_script('admin_option', RC_App::apps_url('statics/js/admin_option.js', __FILE__), array(), false, 1);
     }
 
 

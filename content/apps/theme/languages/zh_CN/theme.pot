@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App theme 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 03:58:49+00:00\n"
+"POT-Creation-Date: 2019-03-01 01:49:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,6 +13,7 @@ msgstr ""
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 
 #: admin_home_module.php:79 admin_home_module.php:80
+#: apis/theme_admin_purview_api.class.php:62
 msgid "首页模块管理"
 msgstr ""
 
@@ -22,12 +23,24 @@ msgstr ""
 
 #: admin_home_module.php:119
 msgid ""
-"<strong>温馨提示：</strong>首页模块化功能目前仅支持APP端和H5端的平台模板模"
-"式。"
+"<strong>温馨提示：</strong>首页模块化功能目前仅支持APP端和H5端、门店小程序的"
+"平台模板模式。"
 msgstr ""
 
-#: admin_layout.php:88 admin_layout_backup.php:76 admin_library.php:92
-#: admin_template.php:84
+#: admin_home_module.php:125
+msgid "当前产品平台客户端未自定义首页模块数据，将使用当前平台的统一设置。"
+msgstr ""
+
+#: admin_home_module.php:127
+msgid "当前产品平台未自定义首页模块数据，将使用【默认全局】的设置。"
+msgstr ""
+
+#: admin_home_module.php:159
+msgid "保存排序成功！"
+msgstr ""
+
+#: admin_layout.php:88 admin_layout_backup.php:76 admin_library.php:79
+#: admin_template.php:76
 msgid "外观"
 msgstr ""
 
@@ -56,7 +69,8 @@ msgstr ""
 msgid "模板文件 %s 无法修改"
 msgstr ""
 
-#: admin_layout_backup.php:78 apis/theme_skin_menu_api.class.php:60
+#: admin_layout_backup.php:78 apis/theme_admin_purview_api.class.php:59
+#: apis/theme_skin_menu_api.class.php:60
 msgid "布局设置备份"
 msgstr ""
 
@@ -112,58 +126,17 @@ msgstr ""
 msgid "备份数据不存在或参数有误"
 msgstr ""
 
-#: admin_library.php:78
-msgid "您确定要保存编辑内容吗？"
-msgstr ""
-
-#: admin_library.php:79
-msgid "使用这个模板"
-msgstr ""
-
-#: admin_library.php:80
-msgid "使用这个模板风格"
-msgstr ""
-
-#: admin_library.php:81 admin_template.php:77
-msgid "您确定要放弃本次修改吗？"
-msgstr ""
-
-#: admin_library.php:82 admin_template.php:78
-msgid "请先输入内容！"
-msgstr ""
-
-#: admin_library.php:83 admin_template.php:79 navigator.php:73
-msgid "确定"
-msgstr ""
-
-#: admin_library.php:84 admin_template.php:80 navigator.php:74
-msgid "取消"
-msgstr ""
-
-#: admin_library.php:85
-msgid "您的修改内容还没有保存，您确定离开吗？"
-msgstr ""
-
-#: admin_library.php:86
-msgid "连接错误，请重新选择!"
-msgstr ""
-
-#: admin_library.php:87
-msgid ""
-"修改库项目是危险的高级操作，修改错误可能会导致前台无法正常显示。您依然确定要"
-"修改库项目吗？"
-msgstr ""
-
-#: admin_library.php:125 admin_library.php:126
+#: admin_library.php:112 admin_library.php:113
+#: apis/theme_admin_purview_api.class.php:58
 #: apis/theme_skin_menu_api.class.php:59
 msgid "库项目管理"
 msgstr ""
 
-#: admin_library.php:152
+#: admin_library.php:139
 msgid "库项目内容已经更新成功。"
 msgstr ""
 
-#: admin_library.php:158
+#: admin_library.php:145
 msgid "编辑库项目内容失败。请检查 %s 目录是否可以写入。"
 msgstr ""
 
@@ -175,22 +148,42 @@ msgstr ""
 msgid "设置保存成功。"
 msgstr ""
 
-#: admin_template.php:75
-msgid ""
-"启用新的模板将覆盖原来的模板。\n"
-"您确定要启用选定的模板吗？"
+#: admin_option.php:103
+msgid "设置保存成功"
 msgstr ""
 
-#: admin_template.php:76
-msgid "您确定要启用选定的模板风格吗？"
+#: admin_template.php:106 admin_template.php:108
+msgid "主题管理"
 msgstr ""
 
+#: admin_template.php:135
+msgid "启用模板成功。"
+msgstr ""
+
+#: apis/theme_admin_purview_api.class.php:56
 #: apis/theme_skin_menu_api.class.php:57
 msgid "主题选择"
 msgstr ""
 
+#: apis/theme_admin_purview_api.class.php:57
+msgid "外观管理"
+msgstr ""
+
+#: apis/theme_admin_purview_api.class.php:60
 #: apis/theme_skin_menu_api.class.php:63
 msgid "菜单"
+msgstr ""
+
+#: apis/theme_admin_purview_api.class.php:64
+msgid "主题选项管理"
+msgstr ""
+
+#: apis/theme_admin_purview_api.class.php:65
+msgid "主题选项更新"
+msgstr ""
+
+#: apis/theme_tool_menu_api.class.php:56
+msgid "首页模块设置"
 msgstr ""
 
 #: classes/Customize/Control/BackgroundImageControl.php:35
@@ -2092,6 +2085,62 @@ msgstr ""
 msgid "%1$s is deprecated. The callback from %2$s is used instead."
 msgstr ""
 
+#: configs/jslang.php:57
+msgid ""
+"启用新的模板将覆盖原来的模板。\n"
+"您确定要启用选定的模板吗？"
+msgstr ""
+
+#: configs/jslang.php:58
+msgid "您确定要启用选定的模板风格吗？"
+msgstr ""
+
+#: configs/jslang.php:59 configs/jslang.php:72
+msgid "您确定要放弃本次修改吗？"
+msgstr ""
+
+#: configs/jslang.php:60 configs/jslang.php:73
+msgid "请先输入内容！"
+msgstr ""
+
+#: configs/jslang.php:62
+msgid "确定要移除这个菜单项吗？"
+msgstr ""
+
+#: configs/jslang.php:64 configs/jslang.php:74
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:65 configs/jslang.php:75
+msgid "取消"
+msgstr ""
+
+#: configs/jslang.php:69
+msgid "您确定要保存编辑内容吗？"
+msgstr ""
+
+#: configs/jslang.php:70
+msgid "使用这个模板"
+msgstr ""
+
+#: configs/jslang.php:71
+msgid "使用这个模板风格"
+msgstr ""
+
+#: configs/jslang.php:76
+msgid "您的修改内容还没有保存，您确定离开吗？"
+msgstr ""
+
+#: configs/jslang.php:77
+msgid "连接错误，请重新选择!"
+msgstr ""
+
+#: configs/jslang.php:78
+msgid ""
+"修改库项目是危险的高级操作，修改错误可能会导致前台无法正常显示。您依然确定要"
+"修改库项目吗？"
+msgstr ""
+
 #: configs/package.php:55
 msgid "主题"
 msgstr ""
@@ -2100,71 +2149,67 @@ msgstr ""
 msgid "方便快捷切换不同主题"
 msgstr ""
 
-#: navigator.php:72
-msgid "确定要移除这个菜单项吗？"
-msgstr ""
-
-#: navigator.php:91 navigator.php:92 navigator.php:157 navigator.php:158
+#: navigator.php:86 navigator.php:87 navigator.php:152 navigator.php:153
 msgid "菜单管理"
 msgstr ""
 
-#: navigator.php:120
+#: navigator.php:115
 msgid "没有这个菜单"
 msgstr ""
 
-#: navigator.php:173 navigator.php:223
+#: navigator.php:168 navigator.php:218
 msgid "菜单名不能为空"
 msgstr ""
 
-#: navigator.php:177 navigator.php:229
+#: navigator.php:172 navigator.php:224
 msgid "重复了"
 msgstr ""
 
-#: navigator.php:188
+#: navigator.php:183
 msgid "失败"
 msgstr ""
 
-#: navigator.php:348
+#: navigator.php:343
 msgid "查看购物车"
 msgstr ""
 
-#: navigator.php:349
+#: navigator.php:344
 msgid "选购中心"
 msgstr ""
 
-#: navigator.php:350
+#: navigator.php:345
 msgid "团购商品"
 msgstr ""
 
-#: navigator.php:351
+#: navigator.php:346
 msgid "夺宝奇兵"
 msgstr ""
 
-#: navigator.php:352
+#: navigator.php:347
 msgid "标签云"
 msgstr ""
 
-#: navigator.php:353
+#: navigator.php:348
 msgid "用户中心"
 msgstr ""
 
-#: navigator.php:354
+#: navigator.php:349
 msgid "批发"
 msgstr ""
 
-#: navigator.php:355
+#: navigator.php:350
 msgid "优惠活动"
 msgstr ""
 
-#: navigator.php:356
+#: navigator.php:351
 msgid "配送方式"
 msgstr ""
 
-#: navigator.php:357
+#: navigator.php:352
 msgid "留言板"
 msgstr ""
 
-#: navigator.php:358
+#: navigator.php:353
 msgid "报价单"
 msgstr ""
 
@@ -2198,6 +2243,10 @@ msgstr ""
 
 #: content/apps/theme/templates/admin/template_list.dwt.php:60
 msgid "（共有 <strong class=\"ok_color\">%1</strong> 套可用主题）"
+msgstr ""
+
+#: content/apps/theme/templates/admin/template_list.dwt.php:71
+msgid "作者信息"
 msgstr ""
 
 #: content/apps/theme/templates/admin/template_list.dwt.php:87
@@ -2349,6 +2398,11 @@ msgstr ""
 msgid "删除菜单"
 msgstr ""
 
+#: content/apps/theme/templates/admin/template_backup.dwt.php:13
+#: content/apps/theme/templates/admin/template_backup.dwt.php:62
+msgid "可使用的布局设置备份"
+msgstr ""
+
 #: content/apps/theme/templates/admin/template_backup.dwt.php:24
 msgid "选择模板："
 msgstr ""
@@ -2357,12 +2411,12 @@ msgstr ""
 msgid "备份注释："
 msgstr ""
 
-#: content/apps/theme/templates/admin/template_backup.dwt.php:55
-msgid "没有可备份的布局设置"
+#: content/apps/theme/templates/admin/template_backup.dwt.php:43
+msgid "请给备份模板添加名称，方便查找。"
 msgstr ""
 
-#: content/apps/theme/templates/admin/template_backup.dwt.php:62
-msgid "可使用的布局设置备份"
+#: content/apps/theme/templates/admin/template_backup.dwt.php:55
+msgid "没有可备份的布局设置"
 msgstr ""
 
 #: content/apps/theme/templates/admin/template_backup.dwt.php:71
@@ -2377,11 +2431,17 @@ msgstr ""
 msgid "暂无库项目"
 msgstr ""
 
+#: content/apps/theme/templates/admin/template_library.dwt.php:21
+msgid ""
+"抱歉，您的%1文件没有写入权限，请开启写入权限。或直接修改库项目文件并上传。"
+msgstr ""
+
 #: content/apps/theme/templates/admin/template_library.dwt.php:47
 msgid "未选择库项目"
 msgstr ""
 
 #: content/apps/theme/templates/admin/template_library.dwt.php:54
+#: content/apps/theme/templates/admin/home_group_module.dwt.php:113
 msgid "保存"
 msgstr ""
 
@@ -2439,6 +2499,18 @@ msgstr ""
 msgid "添加小工具"
 msgstr ""
 
+#: content/apps/theme/templates/admin/template_option_default.dwt.php:18
+msgid "当前使用的主题，未扩展主题选项功能。"
+msgstr ""
+
 #: content/apps/theme/templates/admin/home_group_module.dwt.php:28
 msgid "可用产品"
+msgstr ""
+
+#: content/apps/theme/templates/admin/home_group_module.dwt.php:61
+msgid "可用模块"
+msgstr ""
+
+#: content/apps/theme/templates/admin/home_group_module.dwt.php:62
+msgid "已启用模块"
 msgstr ""

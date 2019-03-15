@@ -70,7 +70,7 @@ class admin_template extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-uniform');
 
 		
-		RC_Script::enqueue_script('template', RC_App::apps_url('statics/js/template.js', __FILE__));
+		RC_Script::enqueue_script('template', RC_App::apps_url('statics/js/template.js', __FILE__), array(), false, 1);
 		RC_Script::localize_script('template', 'admin_template_lang', config('app-theme::jslang.theme_page'));
 		
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('外观', 'theme'), RC_Uri::url('theme/admin_template/init')));

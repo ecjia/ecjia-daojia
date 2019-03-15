@@ -91,7 +91,7 @@ class admin_layout extends ecjia_admin {
 		$this->template = new \Ecjia\System\Theme\ThemeTemplate($this->theme, $this->template_file.'.dwt.php');
 		
 
-		RC_Script::enqueue_script('layout', RC_App::apps_url('statics/js/layout.js', __FILE__));
+		RC_Script::enqueue_script('layout', RC_App::apps_url('statics/js/layout.js', __FILE__), array(), false, 1);
 		RC_Style::enqueue_style('layout', RC_App::apps_url('statics/css/layout.css', __FILE__), array());
 		
 	}
