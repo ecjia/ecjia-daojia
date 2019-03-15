@@ -328,6 +328,9 @@ return array(
     //1.27
     'CreateAgentUserTable' => $contentDir . '/database/migrations/2019_01_23_152223_create_agent_user_table.php',
     'AddConnectPlatformAndUnionIdToConnectUserTable' => $contentDir . '/database/migrations/2019_01_23_152712_add_connect_platform_and_union_id_to_connect_user_table.php',
+    //1.29
+    'CreateSessionLoginsTable' => $contentDir . '/database/migrations/2019_03_13_090805_create_session_logins_table.php',
+    'AddAccountStatusAndDeleteTimeToStoreFranchiseeTable' => $contentDir . '/database/migrations/2019_03_13_091518_add_account_status_and_delete_time_to_store_franchisee_table.php',
 
     // seeder
     'DatabaseSeeder' => $contentDir . '/database/seeds/DatabaseSeeder.php',
