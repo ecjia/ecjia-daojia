@@ -8,408 +8,418 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2019-03-06 17:23+0800\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 1.8.7\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
 
 #: admin.php:88 admin.php:96 admin.php:98 admin.php:114 admin.php:230
 #: admin.php:346 admin_rank.php:137 apis/agent_admin_menu_api.class.php:61
 msgid "代理商列表"
-msgstr ""
+msgstr "代理商列表"
 
 #: admin.php:99 admin.php:111 admin.php:113
 msgid "添加代理商"
-msgstr ""
+msgstr "添加代理商"
 
 #: admin.php:148 admin.php:276
 msgid "请输入代理商名称"
-msgstr ""
+msgstr "請輸入代理商名稱"
 
 #: admin.php:152 admin.php:280
 msgid "请输入手机号码"
-msgstr ""
+msgstr "請輸入手機號碼"
 
 #: admin.php:156 admin.php:283
 msgid "请输入邮箱账号"
-msgstr ""
+msgstr "請輸入郵箱賬號"
 
 #: admin.php:160
 msgid "请输入登录密码"
-msgstr ""
+msgstr "請輸入登錄密碼"
 
 #: admin.php:165 admin.php:288
 msgid "该代理商名称已存在"
-msgstr ""
+msgstr "該代理商名稱已存在"
 
 #: admin.php:175 admin.php:298
 msgid "该手机号码已存在"
-msgstr ""
+msgstr "該手機號碼已存在"
 
 #: admin.php:180 admin.php:303
 msgid "该邮箱账号已存在"
-msgstr ""
+msgstr "該郵箱賬號已存在"
 
 #: admin.php:198
 msgid "代理商"
-msgstr ""
+msgstr "代理商"
 
 #: admin.php:204
 msgid "添加失败"
-msgstr ""
+msgstr "添加失敗"
 
 #: admin.php:220
 msgid "添加成功"
-msgstr ""
+msgstr "添加成功"
 
 #: admin.php:227 admin.php:229
 msgid "编辑代理商"
-msgstr ""
+msgstr "編輯代理商"
 
 #: admin.php:236 admin.php:272 admin.php:351
 msgid "该代理商不存在"
-msgstr ""
+msgstr "該代理商不存在"
 
 #: admin.php:336 admin_rank.php:177
 msgid "编辑成功"
-msgstr ""
+msgstr "編輯成功"
 
 #: admin.php:343 admin.php:345
 msgid "代理商详情"
-msgstr ""
+msgstr "代理商詳情"
 
 #: admin.php:382 admin.php:405
 msgid "删除成功"
-msgstr ""
+msgstr "刪除成功"
 
 #: admin.php:391
 msgid "请先选择要删除的代理商"
-msgstr ""
+msgstr "請先選擇要刪除的代理商"
 
 #: admin.php:466
 msgid "请选择代理等级"
-msgstr ""
+msgstr "請選擇代理等級"
 
 #: admin.php:477
 msgid "请选择省份"
-msgstr ""
+msgstr "請選擇省份"
 
 #: admin.php:480
 msgid "该省份已存在一个代理商"
-msgstr ""
+msgstr "該省份已存在一個代理商"
 
 #: admin.php:484
 msgid "请选择城市"
-msgstr ""
+msgstr "請選擇城市"
 
 #: admin.php:487
 msgid "该城市已存在一个代理商"
-msgstr ""
+msgstr "該城市已存在一個代理商"
 
 #: admin.php:491
 msgid "请选择地区"
-msgstr ""
+msgstr "請選擇地區"
 
 #: admin.php:494
 msgid "该地区已存在一个代理商"
-msgstr ""
+msgstr "該地區已存在一個代理商"
 
 #: admin_rank.php:85 admin_rank.php:93 admin_rank.php:95
 #: apis/agent_admin_menu_api.class.php:62
 msgid "代理等级"
-msgstr ""
+msgstr "代理等級"
 
 #: admin_rank.php:116 admin_rank.php:136
 msgid "编辑代理等级"
-msgstr ""
+msgstr "編輯代理等級"
 
 #: admin_rank.php:130
 msgid "该代理等级不存在"
-msgstr ""
+msgstr "該代理等級不存在"
 
 #: admin_rank.php:152
 msgid "分成比例不能大于或等于100%"
-msgstr ""
+msgstr "分成比例不能大於或等於100%"
 
 #: apis/agent_admin_menu_api.class.php:58
 #: apis/agent_admin_purview_api.class.php:58 configs/package.php:55
 msgid "区域代理"
-msgstr ""
+msgstr "區域代理"
 
 #: apis/agent_admin_purview_api.class.php:59
 msgid "更新区域代理"
-msgstr ""
+msgstr "更新區域代理"
 
 #: apis/agent_admin_purview_api.class.php:60
 msgid "删除区域代理"
-msgstr ""
+msgstr "刪除區域代理"
 
 #: apis/agent_admin_purview_api.class.php:62
 msgid "区域代理等级"
-msgstr ""
+msgstr "區域代理等級"
 
 #: apis/agent_admin_purview_api.class.php:63
 msgid "更新代理等级"
-msgstr ""
+msgstr "更新代理等級"
 
 #: apis/agent_admin_purview_api.class.php:64
 msgid "删除代理等级"
-msgstr ""
+msgstr "刪除代理等級"
 
 #: classes/AgentRankList.class.php:59
 msgid "省级代理"
-msgstr ""
+msgstr "省級代理"
 
 #: classes/AgentRankList.class.php:61
 msgid "一级代理"
-msgstr ""
+msgstr "一級代理"
 
 #: classes/AgentRankList.class.php:65
 msgid "市级代理"
-msgstr ""
+msgstr "市級代理"
 
 #: classes/AgentRankList.class.php:67
 msgid "二级代理"
-msgstr ""
+msgstr "二級代理"
 
 #: classes/AgentRankList.class.php:71
 msgid "区级代理"
-msgstr ""
+msgstr "區級代理"
 
 #: classes/AgentRankList.class.php:73
 msgid "三级代理"
-msgstr ""
+msgstr "三級代理"
 
 #: configs/jslang.php:57
 msgid "请输入代理商名称！"
-msgstr ""
+msgstr "請輸入代理商名稱！"
 
 #: configs/jslang.php:58
 msgid "请输入手机号码！"
-msgstr ""
+msgstr "請輸入手機號碼！"
 
 #: configs/jslang.php:59
 msgid "请输入登录密码！"
-msgstr ""
+msgstr "請輸入登錄密碼！"
 
 #: configs/jslang.php:60
 msgid "请输入邮箱账号！"
-msgstr ""
+msgstr "請輸入郵箱賬號！"
 
 #: configs/jslang.php:61
 msgid "请输入分红比例！"
-msgstr ""
+msgstr "請輸入分紅比例！"
 
 #: configs/package.php:56
 msgid ""
-"区域代理商就是取得《代理产品》所有权，然后在不同的地区予以而代理商是代理厂家"
-"进行销售，本身并不购买厂家的产品，也不享有该产品的所有权，所有的货都是厂家"
-"的，产品所有权仍然属于厂家所有，其关系是 厂家——（代理商）——消费者，当然这种代"
-"理商所谓的促成交易，也包括的代理商对产品进行销售，但代理商的地位是代理厂家进"
-"行销售，并通过销售提取佣金。"
+"区域代理商就是取得《代理产品》所有权，然后在不同的地区予以而代理商是代理"
+"厂家进行销售，本身并不购买厂家的产品，也不享有该产品的所有权，所有的货都"
+"是厂家的，产品所有权仍然属于厂家所有，其关系是 厂家——（代理商）——消费"
+"者，当然这种代理商所谓的促成交易，也包括的代理商对产品进行销售，但代理商"
+"的地位是代理厂家进行销售，并通过销售提取佣金。"
 msgstr ""
+"區域代理商就是取得《代理產品》所有權，然後在不同的地區予以而代理商是代理"
+"廠家進行銷售，本身並不購買廠家的產品，也不享有該產品的所有權，所有的貨都"
+"是廠家的，產品所有權仍然屬於廠家所有，其關系是 廠家——（代理商）——消費"
+"者，當然這種代理商所謂的促成交易，也包括的代理商對產品進行銷售，但代理商"
+"的地位是代理廠家進行銷售，並通過銷售提取傭金。"
 
 #: content/apps/agent/templates/admin/agent_rank_edit.dwt.php:24
 msgid "等级名称："
-msgstr ""
+msgstr "等級名稱："
 
 #: content/apps/agent/templates/admin/agent_rank_edit.dwt.php:29
 msgid "等级别名："
-msgstr ""
+msgstr "等級別名："
 
 #: content/apps/agent/templates/admin/agent_rank_edit.dwt.php:32
 msgid ""
-"您可将等级名称重新命名，未填写时直接显示本名，只影响到代理商的显示，不会对后"
-"台功能名称作影响"
+"您可将等级名称重新命名，未填写时直接显示本名，只影响到代理商的显示，不会"
+"对后台功能名称作影响"
 msgstr ""
+"您可將等級名稱重新命名，未填寫時直接顯示本名，只影響到代理商的顯示，不會"
+"對後臺功能名稱作影響"
 
 #: content/apps/agent/templates/admin/agent_rank_edit.dwt.php:37
 msgid "分红比例："
-msgstr ""
+msgstr "分紅比例："
 
 #: content/apps/agent/templates/admin/agent_rank_edit.dwt.php:41
 msgid "请设置代理商的分红百分比"
-msgstr ""
+msgstr "請設置代理商的分紅百分比"
 
 #: content/apps/agent/templates/admin/agent_rank_edit.dwt.php:48
 #: content/apps/agent/templates/admin/agent_edit.dwt.php:107
 msgid "确定"
-msgstr ""
+msgstr "確定"
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:25
 msgid "基本信息"
-msgstr ""
+msgstr "基本信息"
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:26
 #: content/apps/agent/templates/admin/agent_list.dwt.php:76
 msgid "编辑"
-msgstr ""
+msgstr "編輯"
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:34
 #: content/apps/agent/templates/admin/agent_edit.dwt.php:24
 msgid "代理商名称："
-msgstr ""
+msgstr "代理商名稱："
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:38
 #: content/apps/agent/templates/admin/agent_edit.dwt.php:32
 msgid "手机号码："
-msgstr ""
+msgstr "手機號碼："
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:44
 #: content/apps/agent/templates/admin/agent_edit.dwt.php:40
 msgid "邮箱账号："
-msgstr ""
+msgstr "郵箱賬號："
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:48
 #: content/apps/agent/templates/admin/agent_edit.dwt.php:66
 msgid "代理等级："
-msgstr ""
+msgstr "代理等級："
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:54
 msgid "管辖区域："
-msgstr ""
+msgstr "管轄區域："
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:58
 msgid "添加时间："
-msgstr ""
+msgstr "添加時間："
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:64
 msgid "最后登录："
-msgstr ""
+msgstr "最後登錄："
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:76
 msgid "管辖情况"
-msgstr ""
+msgstr "管轄情況"
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:81
 msgid "今日新增店铺："
-msgstr ""
+msgstr "今日新增店鋪："
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:82
 msgid "等待审核店铺："
-msgstr ""
+msgstr "等待審核店鋪："
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:83
 msgid "累计推广店铺："
-msgstr ""
+msgstr "累計推廣店鋪："
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:91
 msgid "管辖店铺"
-msgstr ""
+msgstr "管轄店鋪"
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:98
 msgid "店铺名称"
-msgstr ""
+msgstr "店鋪名稱"
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:99
 msgid "商家分类"
-msgstr ""
+msgstr "商家分類"
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:100
 msgid "负责人"
-msgstr ""
+msgstr "負責人"
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:101
 #: content/apps/agent/templates/admin/agent_list.dwt.php:60
 msgid "手机号码"
-msgstr ""
+msgstr "手機號碼"
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:102
 msgid "申请时间"
-msgstr ""
+msgstr "申請時間"
 
 #: content/apps/agent/templates/admin/agent_detail.dwt.php:116
 #: content/apps/agent/templates/admin/agent_rank_list.dwt.php:42
 #: content/apps/agent/templates/admin/agent_list.dwt.php:89
 msgid "没有找到任何记录"
-msgstr ""
+msgstr "沒有找到任何記錄"
 
 #: content/apps/agent/templates/admin/agent_rank_list.dwt.php:25
 msgid "等级名称"
-msgstr ""
+msgstr "等級名稱"
 
 #: content/apps/agent/templates/admin/agent_rank_list.dwt.php:26
 msgid "等级别名"
-msgstr ""
+msgstr "等級別名"
 
 #: content/apps/agent/templates/admin/agent_rank_list.dwt.php:27
 msgid "分红比例"
-msgstr ""
+msgstr "分紅比例"
 
 #: content/apps/agent/templates/admin/agent_rank_list.dwt.php:28
 msgid "操作"
-msgstr ""
+msgstr "操作"
 
 #: content/apps/agent/templates/admin/agent_list.dwt.php:23
 msgid "批量操作"
-msgstr ""
+msgstr "批量操作"
 
 #: content/apps/agent/templates/admin/agent_list.dwt.php:28
 msgid "您确定要这么做吗？"
-msgstr ""
+msgstr "您確定要這麽做嗎？"
 
 #: content/apps/agent/templates/admin/agent_list.dwt.php:28
 msgid "请先选择要删除的代理商！"
-msgstr ""
+msgstr "請先選擇要刪除的代理商！"
 
 #: content/apps/agent/templates/admin/agent_list.dwt.php:29
 #: content/apps/agent/templates/admin/agent_list.dwt.php:78
 msgid "删除"
-msgstr ""
+msgstr "刪除"
 
 #: content/apps/agent/templates/admin/agent_list.dwt.php:42
 msgid "筛选"
-msgstr ""
+msgstr "篩選"
 
 #: content/apps/agent/templates/admin/agent_list.dwt.php:46
 msgid "请输入代理商名称/手机号"
-msgstr ""
+msgstr "請輸入代理商名稱/手機號"
 
 #: content/apps/agent/templates/admin/agent_list.dwt.php:47
 msgid "搜索"
-msgstr ""
+msgstr "搜索"
 
 #: content/apps/agent/templates/admin/agent_list.dwt.php:59
 msgid "姓名"
-msgstr ""
+msgstr "姓名"
 
 #: content/apps/agent/templates/admin/agent_list.dwt.php:62
 msgid "累计管辖店铺"
-msgstr ""
+msgstr "累計管轄店鋪"
 
 #: content/apps/agent/templates/admin/agent_list.dwt.php:63
 msgid "管辖区域"
-msgstr ""
+msgstr "管轄區域"
 
 #: content/apps/agent/templates/admin/agent_list.dwt.php:64
 msgid "添加时间"
-msgstr ""
+msgstr "添加時間"
 
 #: content/apps/agent/templates/admin/agent_list.dwt.php:77
 msgid "查看详情"
-msgstr ""
+msgstr "查看詳情"
 
 #: content/apps/agent/templates/admin/agent_list.dwt.php:78
 msgid "您确定要删除该代理商吗？"
-msgstr ""
+msgstr "您確定要刪除該代理商嗎？"
 
 #: content/apps/agent/templates/admin/agent_edit.dwt.php:49
 msgid "登录密码："
-msgstr ""
+msgstr "登錄密碼："
 
 #: content/apps/agent/templates/admin/agent_edit.dwt.php:57
 msgid "新密码："
-msgstr ""
+msgstr "新密碼："
 
 #: content/apps/agent/templates/admin/agent_edit.dwt.php:76
 msgid "管辖地区："
-msgstr ""
+msgstr "管轄地區："
 
 #: content/apps/agent/templates/admin/agent_edit.dwt.php:79
 #: content/apps/agent/templates/admin/agent_edit.dwt.php:86
 #: content/apps/agent/templates/admin/agent_edit.dwt.php:95
 msgid "请选择..."
-msgstr ""
+msgstr "請選擇..."
 
 #: content/apps/agent/templates/admin/agent_edit.dwt.php:107
 msgid "更新"
-msgstr ""
+msgstr "更新"
