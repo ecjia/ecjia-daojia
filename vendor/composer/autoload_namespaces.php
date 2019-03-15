@@ -32,6 +32,7 @@ return array(
     'Royalcms\\Component\\DirectoryHasher\\' => array($vendorDir . '/royalcms/directory-hasher'),
     'Royalcms\\Component\\Editor\\' => array($vendorDir . '/royalcms/editor'),
     'Royalcms\\Component\\Encryption\\' => array($vendorDir . '/royalcms/encryption'),
+    'Royalcms\\Component\\Enum\\' => array($vendorDir . '/royalcms/enum'),
     'Royalcms\\Component\\Environment\\' => array($vendorDir . '/royalcms/environment'),
     'Royalcms\\Component\\Error\\' => array($vendorDir . '/royalcms/error'),
     'Royalcms\\Component\\Events\\' => array($vendorDir . '/royalcms/events'),
