@@ -111,7 +111,7 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
     
     private function beforVersionPredata($user_info)
     {
-    	if ($this->order_info['order_type'] == Ecjia\App\Payment\PayConstant::PAY_QUICKYPAY) {
+    	if ($this->order_info['order_type'] == \Ecjia\App\Payment\Enums\PayEnum::PAY_QUICKYPAY) {
     		$result = RC_Api::api('quickpay', 'quickpay_user_account_paid', array('user_id' => $user_info['user_id'], 'order_id' => $this->order_info['order_id']));
     	} else {
     		$result = RC_Api::api('orders', 'user_account_paid', array('user_id' => $user_info['user_id'], 'order_id' => $this->order_info['order_id']));
@@ -180,9 +180,9 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
         }
     	
     	//订单信息
-    	if ($record_model->trade_type == Ecjia\App\Payment\PayConstant::PAY_QUICKYPAY) {
+    	if ($record_model->trade_type == \Ecjia\App\Payment\Enums\PayEnum::PAY_QUICKYPAY) {
     		$orderinfo = RC_Api::api('quickpay', 'quickpay_order_info', array('order_sn' => $record_model->order_sn));
-    	} else if ($record_model->trade_type == Ecjia\App\Payment\PayConstant::PAY_SEPARATE_ORDER) {
+    	} else if ($record_model->trade_type == \Ecjia\App\Payment\Enums\PayEnum::PAY_SEPARATE_ORDER) {
     	    $orderinfo = RC_Api::api('orders', 'separate_order_info', array('order_sn' => $record_model->order_sn));
     	} else {
     		$orderinfo = RC_Api::api('orders', 'order_info', array('order_sn' => $record_model->order_sn));
@@ -199,9 +199,9 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
     	/* 获取会员信息*/
     	$user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
     	
-    	if ($record_model->trade_type == Ecjia\App\Payment\PayConstant::PAY_QUICKYPAY) {
+    	if ($record_model->trade_type == \Ecjia\App\Payment\Enums\PayEnum::PAY_QUICKYPAY) {
     		$result = RC_Api::api('quickpay', 'quickpay_user_account_paid', array('user_id' => $user_info['user_id'], 'order_id' => $orderinfo['order_id']));
-    	} else if ($record_model->trade_type == Ecjia\App\Payment\PayConstant::PAY_SEPARATE_ORDER) {
+    	} else if ($record_model->trade_type == \Ecjia\App\Payment\Enums\PayEnum::PAY_SEPARATE_ORDER) {
     	    $result = RC_Api::api('orders', 'separate_user_account_paid', array('user_id' => $user_info['user_id'], 'order_sn' => $orderinfo['order_sn']));
     	} else {
     		$result = RC_Api::api('orders', 'user_account_paid', array('user_id' => $user_info['user_id'], 'order_id' => $orderinfo['order_id']));
