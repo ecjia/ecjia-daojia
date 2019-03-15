@@ -70,8 +70,8 @@ class mh_bulk_goods extends ecjia_merchant {
 		RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
 		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 		
-		RC_Script::enqueue_script('mh_bulk_goods_list', RC_App::apps_url('statics/js/mh_bulk_goods_list.js', __FILE__));
-		RC_Script::enqueue_script('mh_bulk_goods_info', RC_App::apps_url('statics/js/mh_bulk_goods_info.js', __FILE__));
+		RC_Script::enqueue_script('mh_bulk_goods_list', RC_App::apps_url('statics/js/mh_bulk_goods_list.js', __FILE__), array(), false, 1);
+		RC_Script::enqueue_script('mh_bulk_goods_info', RC_App::apps_url('statics/js/mh_bulk_goods_info.js', __FILE__), array(), false, 1);
 		RC_Script::localize_script('mh_bulk_goods_info', 'js_lang', config('app-cashier::jslang.bulk_goods_page'));
 		
 		$goods_list_jslang = array(

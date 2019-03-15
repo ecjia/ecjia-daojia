@@ -178,24 +178,16 @@ class admin_cashier_flow_checkOrder_module extends api_admin implements api_inte
 		$out['order_max_integral'] = $order_max_integral;//订单最大可使用积分
 		/* 如果使用红包，取得用户可以使用的红包及用户选择的红包 */
 		$allow_use_bonus = 0;
+		$bonus_list = [];
 		if ((ecjia::config('use_bonus') == '1') && ($flow_type != CART_GROUP_BUY_GOODS && $flow_type != CART_EXCHANGE_GOODS)){
 			// 取得用户可用红包
 			$user_bonus = user_bonus($_SESSION['user_id'], $total['goods_price'], array(), $_SESSION['store_id']);
-			if (!empty($user_bonus)) {
-				foreach ($user_bonus AS $key => $val) {
-					$user_bonus[$key]['bonus_money_formated'] = price_format($val['type_money'], false);
-					$user_bonus[$key]['use_start_date_formated'] = RC_Time::local_date(ecjia::config('date_format'), $val['use_start_date']);
-					$user_bonus[$key]['use_end_date_formated'] = RC_Time::local_date(ecjia::config('date_format'), $val['use_end_date']);
-					$user_bonus[$key]['min_amount'] = $val['min_goods_amount'];
-					$user_bonus[$key]['label_min_amount'] = '满'.$val['min_goods_amount'].'可使用';
-				}
-				$bonus_list = $user_bonus;
-			}
+			$bonus_list = $this->user_bonus_data_handle($user_bonus);
 			// 能使用红包
 			$allow_use_bonus = 1;
 		}
 		$out['allow_use_bonus'] = $allow_use_bonus;//是否使用红包
-		$out['bonus'] 			= $bonus_list;//红包
+		$out['bonus_list'] 		= $bonus_list;//红包
 		$out['your_integral']	= $user_info['pay_points'];//用户可用积分
 		
 		$out['discount']		= number_format($total['discount'], 2, '.', '');//用户享受折扣数
@@ -389,6 +381,31 @@ class admin_cashier_flow_checkOrder_module extends api_admin implements api_inte
 		return $addgoods;
 	}
 	
+	
+	/**
+	 * 用户可用红包数据处理
+	 */
+	private function user_bonus_data_handle($user_bonus)
+	{
+		$bonus_list = [];
+		if (!empty($user_bonus)) {
+			foreach ($user_bonus AS $key => $val) {
+				$bonus_list[] = [
+					'bonus_id' 					=> intval($val['bonus_id']),	
+					'bonus_sn'					=> empty($val['bonus_sn']) ? '' : trim($val['bonus_sn']),
+					'bonus_name'				=> $val['type_name'],
+					'bonus_money'				=> $val['type_money'],
+					'formatted_bonus_money'		=> ecjia_price_format($val['type_money'], false),
+					'min_amount'				=> $val['min_goods_amount'],
+					'label_min_amount'			=> '满'.$val['min_goods_amount'].'可使用',
+					'formatted_use_start_date'	=> RC_Time::local_date(ecjia::config('date_format'), $val['use_start_date']),
+					'formatted_use_end_date'	=> RC_Time::local_date(ecjia::config('date_format'), $val['use_end_date'])
+				]; 
+			}
+			
+		}
+		return $bonus_list;
+	}
 	
 }
 

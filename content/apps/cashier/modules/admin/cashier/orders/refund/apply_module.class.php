@@ -358,7 +358,7 @@ class admin_cashier_orders_refund_apply_module extends api_admin implements api_
     {
         //更新售后订单表
         $data = array(
-            'refund_status' => Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED,
+            'refund_status' => \Ecjia\App\Refund\Enums\RefundPayEnum::PAY_TRANSFERED,
             'refund_time' => RC_Time::gmtime(),
         );
         
@@ -375,9 +375,9 @@ class admin_cashier_orders_refund_apply_module extends api_admin implements api_
             'action_user_type' 		=> 'merchant',
             'action_user_id' 		=> $_SESSION['staff_id'],
             'action_user_name' 		=> $_SESSION['staff_name'],
-            'status' 				=> Ecjia\App\Refund\RefundStatus::ORDER_AGREE,
-            'refund_status' 		=> Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED,
-            'return_status' 		=> Ecjia\App\Refund\RefundStatus::SHIP_CONFIRM_RECV,
+            'status' 				=> \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_AGREE,
+            'refund_status' 		=> \Ecjia\App\Refund\Enums\RefundPayEnum::PAY_TRANSFERED,
+            'return_status' 		=> \Ecjia\App\Refund\Enums\RefundShipEnum::SHIP_CONFIRM_RECV,
             'action_note' 			=> $action_note,
             'log_time' 				=> RC_Time::gmtime(),
         );

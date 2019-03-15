@@ -96,7 +96,7 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
 				'surplus'   		=> $this->requestData('surplus', 0.00),
 				'user_id'      		=> 0,
 				'add_time'     		=> RC_Time::gmtime(),
-				'order_status'  	=> Ecjia\App\Quickpay\Status::UNCONFIRMED,
+				'order_status'  	=> \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::UNCONFIRMED,
 		);
 
 		if (!empty($activity_id) && $activity_id > 0) {
@@ -192,7 +192,7 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
     	
     	/* 如果订单金额为0（使用余额或积分或红包支付），修改订单状态为已确认、已付款 */
     	if ($order['order_amount'] <= 0) {
-    		$order['order_status']	= Ecjia\App\Quickpay\Status::PAID;
+    		$order['order_status']	= \Ecjia\App\Quickpay\Enums\QuickpayPayEnum::PAID;
     		$order['pay_time']		= RC_Time::gmtime();
     		$order['order_amount']	= 0;
     	}

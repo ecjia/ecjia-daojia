@@ -221,12 +221,14 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
         	} elseif (!empty($bonus_sn)) {
         		$bonus = bonus_info(0, $bonus_sn);
         		$now = RC_Time::gmtime();
-        		if (empty($bonus) || $bonus['user_id'] > 0 || $bonus['order_id'] > 0 || $bonus['min_goods_amount'] > cart_cashdesk::cart_amount(true, $flow_type, $cart_id) || $now > $bonus['use_end_date']) {} else {
+        		if (empty($bonus) || $bonus['user_id'] > 0 || $bonus['order_id'] > 0 || $bonus['min_goods_amount'] > cart_cashdesk::cart_amount(true, $flow_type, $cart_id) || $now > $bonus['use_end_date']) {
+        			$order['bonus_id'] = 0;
+        			$order['bonus'] = 0;
+        		} else {
         			if ($user_id > 0) {
         				RC_DB::table('user_bonus')->where('bonus_id', $bonus['bonus_id'])->update(array('user_id' => $user_id));
         			}
         			$order['bonus_id'] = $bonus['bonus_id'];
-        			$order['bonus_sn'] = $bonus_sn;
         		}
         	}
         }

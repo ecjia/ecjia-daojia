@@ -59,7 +59,7 @@ class mh_cashier_device extends ecjia_merchant {
 		RC_Script::enqueue_script('smoke');
         RC_Style::enqueue_style('uniform-aristo');
         
-        RC_Script::enqueue_script('mh_cashier_device', RC_App::apps_url('statics/js/mh_cashier_device.js', __FILE__));
+        RC_Script::enqueue_script('mh_cashier_device', RC_App::apps_url('statics/js/mh_cashier_device.js', __FILE__), array(), false, 1);
         RC_Script::localize_script('mh_cashier_device', 'js_lang', config('app-cashier::jslang.cashier_device_page'));
 
         ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('收银设备管理', 'cashier'), RC_Uri::url('cashier/mh_cashier_device/init')));

@@ -62,7 +62,7 @@ class mh_cashier_scales extends ecjia_merchant {
         RC_Script::enqueue_script('jquery.toggle.buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/jquery.toggle.buttons.js'));
         RC_Style::enqueue_style('bootstrap-toggle-buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/bootstrap-toggle-buttons.css'));
         
-        RC_Script::enqueue_script('mh_cashdesk_scales', RC_App::apps_url('statics/js/mh_cashdesk_scales.js', __FILE__));
+        RC_Script::enqueue_script('mh_cashdesk_scales', RC_App::apps_url('statics/js/mh_cashdesk_scales.js', __FILE__), array(), false, 1);
         RC_Script::localize_script('mh_cashdesk_scales', 'js_lang', config('app-cashier::jslang.cashdesk_scales_page'));
 
         ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('条码秤管理', 'cashier'), RC_Uri::url('cashier/mh_cashier_scales/init')));

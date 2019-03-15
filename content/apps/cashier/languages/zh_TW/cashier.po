@@ -2,999 +2,974 @@
 # This file is distributed under the same license as the Ecjia App cashier package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App cashier 1.28.0\n"
+"Project-Id-Version: Ecjia App cashier 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-15 01:49:03+00:00\n"
+"POT-Creation-Date: 2019-03-01 01:42:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2019-03-08 13:34+0800\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 1.8.7\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
 
 #: apis/cashier_merchant_purview_api.class.php:57 mh_bulk_goods.php:87
 msgid "散装商品管理"
-msgstr ""
+msgstr "散裝商品管理"
 
 #: apis/cashier_merchant_purview_api.class.php:58
 msgid "散装商品更新"
-msgstr ""
+msgstr "散裝商品更新"
 
 #: apis/cashier_merchant_purview_api.class.php:60
 msgid "收银台商品管理"
-msgstr ""
+msgstr "收銀臺商品管理"
 
 #: apis/cashier_merchant_purview_api.class.php:61
 msgid "收银台商品更新"
-msgstr ""
+msgstr "收銀臺商品更新"
 
 #: apis/cashier_merchant_purview_api.class.php:63 mh_cashier_scales.php:68
 msgid "条码秤管理"
-msgstr ""
+msgstr "條碼秤管理"
 
 #: apis/cashier_merchant_purview_api.class.php:64
 msgid "条码秤更新"
-msgstr ""
+msgstr "條碼秤更新"
 
 #: apis/cashier_merchant_purview_api.class.php:66 mh_cashier_device.php:65
 msgid "收银设备管理"
-msgstr ""
+msgstr "收銀設備管理"
 
 #: apis/cashier_merchant_purview_api.class.php:67
 msgid "收银设备更新"
-msgstr ""
+msgstr "收銀設備更新"
 
 #: apis/cashier_merchant_purview_api.class.php:68
 msgid "收银设备删除"
-msgstr ""
-
-#: apis/cashier_store_remove_cleardata_api.class.php:63
-msgid "请求接口%s参数无效"
-msgstr ""
+msgstr "收銀設備刪除"
 
 #: classes/BulkGoods.php:49
 msgid "克"
-msgstr ""
+msgstr "克"
 
 #: classes/BulkGoods.php:50
 msgid "千克"
-msgstr ""
+msgstr "千克"
 
 #: classes/BulkGoods.php:63
 msgid "天"
-msgstr ""
+msgstr "天"
 
 #: classes/BulkGoods.php:64
 msgid "月"
-msgstr ""
+msgstr "月"
 
 #: classes/BulkGoods.php:65
 msgid "年"
-msgstr ""
+msgstr "年"
 
 #: classes/Helper.php:59 classes/hooks/merchant_cashier.class.php:53
 msgid "散装商品"
-msgstr ""
+msgstr "散裝商品"
 
 #: classes/Helper.php:60 classes/hooks/merchant_cashier.class.php:66
 #: mh_cashier_scales.php:78 mh_cashier_scales.php:81
 msgid "条码秤"
-msgstr ""
+msgstr "條碼秤"
 
 #: classes/Helper.php:61 classes/hooks/merchant_cashier.class.php:67
 #: mh_cashier_device.php:75 mh_cashier_device.php:77
 msgid "收银设备"
-msgstr ""
+msgstr "收銀設備"
 
 #: classes/Helper.php:62 classes/hooks/merchant_cashier.class.php:54
 #: mh_cashier_goods.php:87 mh_cashier_goods.php:96 mh_cashier_goods.php:298
 #: mh_cashier_goods.php:299 mh_cashier_goods.php:500 mh_cashier_goods.php:504
 msgid "收银台商品"
-msgstr ""
+msgstr "收銀臺商品"
 
 #: classes/Helper.php:64
 msgid "批量转移分类"
-msgstr ""
+msgstr "批量轉移分類"
 
 #: classes/Helper.php:65
 msgid "批量上架"
-msgstr ""
+msgstr "批量上架"
 
 #: classes/Helper.php:66
 msgid "批量下架"
-msgstr ""
+msgstr "批量下架"
 
 #: classes/Helper.php:67
 msgid "批量移至回收站"
-msgstr ""
-
-#: classes/StoreCleanHandlers/StoreCashierDeviceClear.php:43
-msgid "店铺内所有添加的收银设备全部删除"
-msgstr ""
-
-#: classes/StoreCleanHandlers/StoreCashierDeviceClear.php:95
-#: classes/StoreCleanHandlers/StoreCashierPendorderClear.php:95
-#: classes/StoreCleanHandlers/StoreCashierScalesClear.php:95
-msgid "店铺名是%s"
-msgstr ""
-
-#: classes/StoreCleanHandlers/StoreCashierDeviceClear.php:95
-#: classes/StoreCleanHandlers/StoreCashierPendorderClear.php:95
-#: classes/StoreCleanHandlers/StoreCashierScalesClear.php:95
-msgid "店铺ID是%s"
-msgstr ""
-
-#: classes/StoreCleanHandlers/StoreCashierPendorderClear.php:43
-msgid "将当前店铺内，收银台上的挂单数据全部删除"
-msgstr ""
-
-#: classes/StoreCleanHandlers/StoreCashierScalesClear.php:43
-msgid "店铺内所有添加的电子秤设备全部删除"
-msgstr ""
+msgstr "批量移至回收站"
 
 #: configs/jslang.php:57 configs/jslang.php:88
 msgid "未计算"
-msgstr ""
+msgstr "未計算"
 
 #: configs/jslang.php:58 configs/jslang.php:89 mh_bulk_goods.php:184
 #: mh_cashier_goods.php:184
 msgid "请输入商品名称！"
-msgstr ""
+msgstr "請輸入商品名稱！"
 
 #: configs/jslang.php:59
 msgid "请输入商品货号！"
-msgstr ""
+msgstr "請輸入商品貨號！"
 
 #: configs/jslang.php:60 configs/jslang.php:90
 msgid "请输入商品价格！"
-msgstr ""
+msgstr "請輸入商品價格！"
 
 #: configs/jslang.php:61 configs/jslang.php:91
 msgid "请输入正确价格格式！"
-msgstr ""
+msgstr "請輸入正確價格格式！"
 
 #: configs/jslang.php:62
 msgid "请输入商品库存重量！"
-msgstr ""
+msgstr "請輸入商品庫存重量！"
 
 #: configs/jslang.php:63
 msgid "商品重量库存最小只能为0！"
-msgstr ""
+msgstr "商品重量庫存最小只能為0！"
 
 #: configs/jslang.php:64 configs/jslang.php:93 configs/jslang.php:94
 msgid "请选择商品分类！"
-msgstr ""
+msgstr "請選擇商品分類！"
 
 #: configs/jslang.php:66 configs/jslang.php:95
 msgid "请选择需要转移的商品"
-msgstr ""
+msgstr "請選擇需要轉移的商品"
 
 #: configs/jslang.php:71
 msgid "请填写收银设备名称！"
-msgstr ""
+msgstr "請填寫收銀設備名稱！"
 
 #: configs/jslang.php:72 mh_cashier_device.php:131 mh_cashier_device.php:214
 msgid "请填写设备MAC地址！"
-msgstr ""
+msgstr "請填寫設備MAC地址！"
 
 #: configs/jslang.php:73 mh_cashier_device.php:134 mh_cashier_device.php:217
 msgid "请填写产品序列号！"
-msgstr ""
+msgstr "請填寫產品序列號！"
 
 #: configs/jslang.php:74
 msgid "收银设备类型"
-msgstr ""
+msgstr "收銀設備類型"
 
 #: configs/jslang.php:75 mh_cashier_device.php:137 mh_cashier_device.php:220
 msgid "请选择机型！"
-msgstr ""
+msgstr "請選擇機型！"
 
 #: configs/jslang.php:76 mh_cashier_device.php:140 mh_cashier_device.php:223
 msgid "请填写设备号！"
-msgstr ""
+msgstr "請填寫設備號！"
 
 #: configs/jslang.php:81 mh_cashier_scales.php:124 mh_cashier_scales.php:192
 msgid "请输入条码秤码！"
-msgstr ""
+msgstr "請輸入條碼秤碼！"
 
 #: configs/jslang.php:82
 msgid "开启"
-msgstr ""
+msgstr "開啟"
 
 #: configs/jslang.php:83
 msgid "关闭"
-msgstr ""
+msgstr "關閉"
 
 #: configs/jslang.php:92
 msgid "请输入商品库存！"
-msgstr ""
+msgstr "請輸入商品庫存！"
 
 #: configs/package.php:9
 msgid "收银"
-msgstr ""
+msgstr "收銀"
 
 #: configs/package.php:10
 msgid "线下收银设备管理，收银记录管理。"
-msgstr ""
+msgstr "線下收銀設備管理，收銀記錄管理。"
 
 #: mh_bulk_goods.php:96 mh_bulk_goods.php:311 mh_bulk_goods.php:312
 #: mh_bulk_goods.php:514 mh_bulk_goods.php:518
 msgid "散装商品列表"
-msgstr ""
+msgstr "散裝商品列表"
 
 #: mh_bulk_goods.php:97
 msgid "添加散装商品"
-msgstr ""
+msgstr "添加散裝商品"
 
 #: mh_bulk_goods.php:117 mh_cashier_goods.php:117
 msgid "请选择操作"
-msgstr ""
+msgstr "添加散裝商品"
 
 #: mh_bulk_goods.php:150 mh_cashier_goods.php:150
 msgid "请先选择要转移的分类"
-msgstr ""
+msgstr "請先選擇要轉移的分類"
 
 #: mh_bulk_goods.php:168 mh_cashier_goods.php:168
 msgid "批量操作成功"
-msgstr ""
+msgstr "批量操作成功"
 
 #: mh_bulk_goods.php:182 mh_cashier_goods.php:182
 msgid "修改成功！"
-msgstr ""
+msgstr "修改成功！"
 
 #: mh_bulk_goods.php:198 mh_cashier_goods.php:198
 msgid "请输入商品货号"
-msgstr ""
+msgstr "請輸入商品貨號"
 
 #: mh_bulk_goods.php:205 mh_bulk_goods.php:386 mh_bulk_goods.php:622
 #: mh_cashier_goods.php:205 mh_cashier_goods.php:363 mh_cashier_goods.php:599
 msgid "您输入的货号已存在，请换一个"
-msgstr ""
+msgstr "您輸入的貨號已存在，請換一個"
 
 #: mh_bulk_goods.php:212 mh_bulk_goods.php:381 mh_bulk_goods.php:617
 msgid "散装商品货号必须为7位"
-msgstr ""
+msgstr "散裝商品貨號必須為7位"
 
 #: mh_bulk_goods.php:217 mh_bulk_goods.php:394 mh_bulk_goods.php:631
 msgid "请检查商品货号，散装商品货号前2位必须为条码秤编码！"
-msgstr ""
+msgstr "請檢查商品貨號，散裝商品貨號前2位必須為條碼秤編碼！"
 
 #: mh_bulk_goods.php:222 mh_bulk_goods.php:245 mh_bulk_goods.php:267
 #: mh_cashier_goods.php:211 mh_cashier_goods.php:234 mh_cashier_goods.php:254
 msgid "修改成功"
-msgstr ""
+msgstr "修改成功"
 
 #: mh_bulk_goods.php:240 mh_cashier_goods.php:229
 msgid "您输入了一个非法的市场价格。"
-msgstr ""
+msgstr "您輸入了一個非法的市場價格。"
 
 #: mh_bulk_goods.php:264
 msgid "商品重量库存错误"
-msgstr ""
+msgstr "商品重量庫存錯誤"
 
 #: mh_bulk_goods.php:284 mh_cashier_goods.php:271
 msgid "已成功切换上架状态"
-msgstr ""
+msgstr "已成功切換上架狀態"
 
 #: mh_bulk_goods.php:301 mh_cashier_goods.php:288
 msgid "修改成功!"
-msgstr ""
+msgstr "修改成功!"
 
 #: mh_bulk_goods.php:315 mh_cashier_goods.php:302
 msgid "基本信息"
-msgstr ""
+msgstr "基本信息"
 
 #: mh_bulk_goods.php:374 mh_bulk_goods.php:610
 msgid "请填写商品货号！"
-msgstr ""
+msgstr "請填寫商品貨號！"
 
 #: mh_bulk_goods.php:391 mh_bulk_goods.php:628
 msgid "请先添加条码秤！"
-msgstr ""
+msgstr "請先添加條碼秤！"
 
 #: mh_bulk_goods.php:437 mh_bulk_goods.php:673 mh_cashier_goods.php:418
 #: mh_cashier_goods.php:642
 msgid "请选择店铺商品分类"
-msgstr ""
+msgstr "請選擇店鋪商品分類"
 
 #: mh_bulk_goods.php:441 mh_bulk_goods.php:677 mh_cashier_goods.php:422
 #: mh_cashier_goods.php:646
 msgid "请输入商品名称"
-msgstr ""
+msgstr "請輸入商品名稱"
 
 #: mh_bulk_goods.php:500 mh_bulk_goods.php:734 mh_cashier_goods.php:486
 #: mh_cashier_goods.php:701
 msgid "优惠数量重复！"
-msgstr ""
+msgstr "優惠數量重復！"
 
 #: mh_bulk_goods.php:505
 msgid "添加散装商品成功！"
-msgstr ""
+msgstr "添加散裝商品成功！"
 
 #: mh_bulk_goods.php:515 mh_bulk_goods.php:517
 msgid "编辑散装商品"
-msgstr ""
+msgstr "編輯散裝商品"
 
 #: mh_bulk_goods.php:524 mh_cashier_goods.php:510
 msgid "未检测到此商品"
-msgstr ""
+msgstr "未檢測到此商品"
 
 #: mh_bulk_goods.php:524
 msgid "返回散装商品列表"
-msgstr ""
+msgstr "返回散裝商品列表"
 
 #: mh_bulk_goods.php:740 mh_cashier_goods.php:707
 msgid "编辑商品成功"
-msgstr ""
+msgstr "編輯商品成功"
 
 #: mh_bulk_goods.php:755 mh_cashier_goods.php:722
 msgid "放入回收站成功"
-msgstr ""
+msgstr "放入回收站成功"
 
 #: mh_cashier_device.php:78 mh_cashier_device.php:101
 msgid "添加收银设备"
-msgstr ""
+msgstr "添加收銀設備"
 
 #: mh_cashier_device.php:98 mh_cashier_device.php:99 mh_cashier_device.php:175
 #: mh_cashier_device.php:179
 msgid "收银设备列表"
-msgstr ""
+msgstr "收銀設備列表"
 
 #: mh_cashier_device.php:128 mh_cashier_device.php:211
 msgid "请输入设备名称！"
-msgstr ""
+msgstr "請輸入設備名稱！"
 
 #: mh_cashier_device.php:146
 msgid "设备号已存在，请重新输入！"
-msgstr ""
+msgstr "設備號已存在，請重新輸入！"
 
 #: mh_cashier_device.php:166
 msgid "添加收银设备成功！"
-msgstr ""
+msgstr "添加收銀設備成功！"
 
 #: mh_cashier_device.php:176 mh_cashier_device.php:178
 msgid "编辑收银设备"
-msgstr ""
+msgstr "編輯收銀設備"
 
 #: mh_cashier_device.php:229
 msgid "设备号已存在！"
-msgstr ""
+msgstr "設備號已存在！"
 
 #: mh_cashier_device.php:247
 msgid "编辑收银设备成功"
-msgstr ""
+msgstr "編輯收銀設備成功"
 
 #: mh_cashier_device.php:265 mh_cashier_scales.php:233
 #: mh_cashier_scales.php:250
 msgid "已成功切状态"
-msgstr ""
+msgstr "已成功切狀態"
 
 #: mh_cashier_device.php:280
 msgid "移除收银设备成功！"
-msgstr ""
+msgstr "移除收銀設備成功！"
 
 #: mh_cashier_goods.php:97
 msgid "添加收银台商品"
-msgstr ""
+msgstr "添加收銀臺商品"
 
 #: mh_cashier_goods.php:491
 msgid "添加收银台商品成功！"
-msgstr ""
+msgstr "添加收銀臺商品成功！"
 
 #: mh_cashier_goods.php:501 mh_cashier_goods.php:503
 msgid "编辑收银台商品"
-msgstr ""
+msgstr "編輯收銀臺商品"
 
 #: mh_cashier_goods.php:510
 msgid "返回收银台商品"
-msgstr ""
+msgstr "返回收銀臺商品"
 
 #: mh_cashier_scales.php:82 mh_cashier_scales.php:101
 msgid "添加条码秤"
-msgstr ""
+msgstr "添加條碼秤"
 
 #: mh_cashier_scales.php:98 mh_cashier_scales.php:99 mh_cashier_scales.php:159
 #: mh_cashier_scales.php:163
 msgid "条码秤列表"
-msgstr ""
+msgstr "條碼秤列表"
 
 #: mh_cashier_scales.php:129
 msgid "条码秤码已存在，请重新输入！"
-msgstr ""
+msgstr "條碼秤碼已存在，請重新輸入！"
 
 #: mh_cashier_scales.php:133 mh_cashier_scales.php:201
 msgid "请输入2位数的条码秤码！"
-msgstr ""
+msgstr "請輸入2位數的條碼秤碼！"
 
 #: mh_cashier_scales.php:149
 msgid "条码秤码%s"
-msgstr ""
+msgstr "條碼秤碼%s"
 
 #: mh_cashier_scales.php:150
 msgid "添加条码秤成功！"
-msgstr ""
+msgstr "添加條碼秤成功！"
 
 #: mh_cashier_scales.php:160 mh_cashier_scales.php:162
 msgid "编辑条码秤"
-msgstr ""
+msgstr "編輯條碼秤"
 
 #: mh_cashier_scales.php:197
 msgid "条码秤码已存在！"
-msgstr ""
+msgstr "條碼秤碼已存在！"
 
 #: mh_cashier_scales.php:214
 msgid "条码秤码"
-msgstr ""
+msgstr "條碼秤碼"
 
 #: mh_cashier_scales.php:216
 msgid "编辑条码秤成功"
-msgstr ""
+msgstr "編輯條碼秤成功"
 
-#: modules/admin/cashier/flow/checkOrder_module.class.php:244
+#: modules/admin/cashier/flow/checkOrder_module.class.php:252
 msgid "当前账号已申请注销，不可执行此操作！"
-msgstr ""
+msgstr "當前賬號已申請註銷，不可執行此操作"
 
-#: modules/admin/cashier/flow/checkOrder_module.class.php:317
+#: modules/admin/cashier/flow/checkOrder_module.class.php:325
 msgid "该商品不存在或已下架"
-msgstr ""
+msgstr "該商品不存在或已下架"
 
-#: modules/admin/cashier/flow/checkOrder_module.class.php:324
+#: modules/admin/cashier/flow/checkOrder_module.class.php:332
 msgid "对不起，该商品所属的店铺已锁定！"
-msgstr ""
+msgstr "對不起，該商品所屬的店鋪已鎖定！"
 
 #: modules/admin/cashier/flow/done_module.class.php:98
 msgid "购物车中没有商品"
-msgstr ""
+msgstr "購物車中沒有商品"
 
 #: modules/admin/cashier/flow/done_module.class.php:110
 msgid "库存不足"
-msgstr ""
+msgstr "庫存不足"
 
 #: modules/admin/cashier/flow/done_module.class.php:118
 msgid "匿名用户"
-msgstr ""
+msgstr "匿名用戶"
 
 #: modules/admin/cashier/flow/done_module.class.php:193
 #: modules/admin/cashier/quickpay/order/pay_module.class.php:68
 msgid "请选择支付方式"
-msgstr ""
+msgstr "請選擇支付方式"
 
-#: modules/admin/cashier/flow/done_module.class.php:267
+#: modules/admin/cashier/flow/done_module.class.php:265
 msgid "无需物流"
-msgstr ""
+msgstr "無需物流"
 
-#: modules/admin/cashier/flow/done_module.class.php:349
+#: modules/admin/cashier/flow/done_module.class.php:347
 msgid "支付订单 %s"
-msgstr ""
+msgstr "支付訂單 %s"
 
-#: modules/admin/cashier/flow/done_module.class.php:355
+#: modules/admin/cashier/flow/done_module.class.php:353
 msgid "处理失败"
-msgstr ""
+msgstr "處理失敗"
 
 #: modules/admin/cashier/merchant/goods/list_module.class.php:66
 #: modules/admin/cashier/orders/refund/detail_module.class.php:61
 #: modules/admin/cashier/quickpay/flow/checkOrder_module.class.php:79
 #: modules/admin/cashier/quickpay/flow/done_module.class.php:88
 msgid "参数无效"
-msgstr ""
+msgstr "參數無效"
 
 #: modules/admin/cashier/notify/printmachine/print_module.class.php:64
 msgid "调用接口admin_cashier_notify_printmachine_print_module参数无效"
-msgstr ""
+msgstr "調用接口admin_cashier_notify_printmachine_print_module參數無效"
 
 #: modules/admin/cashier/notify/printmachine/print_module.class.php:73
 #: modules/admin/cashier/orders/refund/apply_module.class.php:81
 #: modules/admin/cashier/orders/search_module.class.php:56
 msgid "订单信息不存在！"
-msgstr ""
+msgstr "訂單信息不存在！"
 
 #: modules/admin/cashier/orders/refund/apply_module.class.php:75
 #: modules/admin/cashier/orders/refund/summary_module.class.php:34
 #: modules/admin/cashier/orders/search_module.class.php:27
-#: modules/admin/cashier/orders/summary_module.class.php:33
+#: modules/admin/cashier/orders/summary_module.class.php:34
 #: modules/admin/cashier/pendorder/create_module.class.php:18
 #: modules/admin/cashier/pendorder/delete_module.class.php:19
 #: modules/admin/cashier/quickpay/order/payConfirm_module.class.php:72
 msgid "参数错误"
-msgstr ""
+msgstr "參數錯誤"
 
 #: modules/admin/cashier/orders/refund/apply_module.class.php:86
 msgid "该订单不属于此店铺！"
-msgstr ""
+msgstr "該訂單不屬於此店鋪！"
 
 #: modules/admin/cashier/orders/refund/apply_module.class.php:96
 msgid "现金支付的订单只支持退现金！"
-msgstr ""
+msgstr "現金支付的訂單只支持退現金！"
 
 #: modules/admin/cashier/orders/refund/apply_module.class.php:103
 msgid "余额支付的订单只支持退回余额或退现金！"
-msgstr ""
+msgstr "余額支付的訂單只支持退回余額或退現金！"
 
 #: modules/admin/cashier/orders/refund/apply_module.class.php:110
 msgid "该订单未添加会员，不支持退回余额！"
-msgstr ""
+msgstr "該訂單未添加會員，不支持退回余額！"
 
 #: modules/admin/cashier/orders/refund/apply_module.class.php:157
 msgid "审核通过"
-msgstr ""
+msgstr "審核通過"
 
 #: modules/admin/cashier/orders/refund/apply_module.class.php:187
 msgid "退款审核中"
-msgstr ""
+msgstr "退款審核中"
 
 #: modules/admin/cashier/orders/refund/apply_module.class.php:322
 msgid "收银台申请退款，现金退款成功"
-msgstr ""
+msgstr "收銀臺申請退款，現金退款成功"
 
 #: modules/admin/cashier/orders/refund/apply_module.class.php:324
 msgid "收银台申请退款，原路退回成功"
-msgstr ""
+msgstr "收銀臺申請退款，原路退回成功"
 
 #: modules/admin/cashier/orders/refund/detail_module.class.php:69
 msgid "售后申请信息不存在"
-msgstr ""
+msgstr "售後申請信息不存在"
 
 #: modules/admin/cashier/orders/refund/detail_module.class.php:73
 msgid "未找到相应的售后申请单！"
-msgstr ""
+msgstr "未找到相應的售後申請單！"
 
 #: modules/admin/cashier/orders/refund/detail_module.class.php:80
 msgid "已审核"
-msgstr ""
+msgstr "已審核"
 
 #: modules/admin/cashier/orders/refund/detail_module.class.php:83
 msgid "已退款"
-msgstr ""
+msgstr "已退款"
 
 #: modules/admin/cashier/orders/refund/detail_module.class.php:87
 msgid "待审核"
-msgstr ""
+msgstr "待審核"
 
 #: modules/admin/cashier/orders/refund/detail_module.class.php:102
 msgid "退货退款"
-msgstr ""
+msgstr "退貨退款"
 
 #: modules/admin/cashier/orders/refund/detail_module.class.php:102
 msgid "仅退款"
-msgstr ""
+msgstr "僅退款"
 
 #: modules/admin/cashier/orders/refund/summary_module.class.php:24
 #: modules/admin/cashier/orders/search_module.class.php:23
-#: modules/admin/cashier/orders/summary_module.class.php:23
+#: modules/admin/cashier/orders/summary_module.class.php:24
 #: modules/admin/cashier/quickpay/order/list_module.class.php:70
 #: modules/admin/cashier/quickpay/order/payConfirm_module.class.php:66
 msgid "非收银台请求！"
-msgstr ""
+msgstr "非收銀臺請求！"
 
 #: modules/admin/cashier/pendorder/create_module.class.php:25
 msgid "指定的购物车商品不存在！"
-msgstr ""
+msgstr "指定的購物車商品不存在！"
 
 #: modules/admin/cashier/pendorder/delete_module.class.php:24
 msgid "挂单信息不存在！"
-msgstr ""
+msgstr "掛單信息不存在！"
 
 #: modules/admin/cashier/pendorder/delete_module.class.php:28
 msgid "您没权限执行此操作！"
-msgstr ""
+msgstr "您沒權限執行此操作！"
 
 #: modules/admin/cashier/quickpay/flow/checkOrder_module.class.php:70
 #: modules/admin/cashier/quickpay/flow/done_module.class.php:80
 msgid "不可参与活动金额不能大于消费金额！"
-msgstr ""
+msgstr "不可參與活動金額不能大於消費金額！"
 
 #: modules/admin/cashier/quickpay/flow/checkOrder_module.class.php:86
 msgid "对不起，该店铺已锁定！"
-msgstr ""
+msgstr "對不起，該店鋪已鎖定！"
 
 #: modules/admin/cashier/quickpay/flow/done_module.class.php:106
 msgid "活动信息不存在"
-msgstr ""
+msgstr "活動信息不存在"
 
 #: modules/admin/cashier/quickpay/flow/done_module.class.php:110
 msgid "此活动已关闭！"
-msgstr ""
+msgstr "此活動已關閉！"
 
 #: modules/admin/cashier/quickpay/flow/done_module.class.php:119
 msgid "活动还未开始或已结束"
-msgstr ""
+msgstr "活動還未開始或已結束"
 
 #: modules/admin/cashier/quickpay/order/detail_module.class.php:64
 #: modules/admin/cashier/quickpay/order/pay_module.class.php:72
 msgid "参数无效！"
-msgstr ""
+msgstr "參數無效！"
 
 #: modules/admin/cashier/quickpay/order/detail_module.class.php:76
 msgid "订单信息不存在"
-msgstr ""
+msgstr "訂單信息不存在"
 
 #: modules/admin/cashier/quickpay/order/detail_module.class.php:80
 msgid "该订单不属于当前店铺订单！"
-msgstr ""
+msgstr "該訂單不屬於當前店鋪訂單！"
 
 #: modules/admin/cashier/quickpay/order/payConfirm_module.class.php:81
 msgid "收款订单不存在！"
-msgstr ""
+msgstr "收款訂單不存在！"
 
 #: modules/admin/cashier/quickpay/order/payConfirm_module.class.php:105
 msgid "订单支付成功！"
-msgstr ""
+msgstr "訂單支付成功！"
 
 #: modules/admin/cashier/quickpay/order/payConfirm_module.class.php:112
 msgid "此充值记录对应的支付方式不支持收银台充值支付！"
-msgstr ""
+msgstr "此充值記錄對應的支付方式不支持收銀臺充值支付！"
 
 #: modules/admin/cashier/quickpay/order/pay_module.class.php:88
 msgid "订单不属于该用户"
-msgstr ""
+msgstr "訂單不屬於該用戶"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:17
 msgid "转移商品至分类"
-msgstr ""
+msgstr "轉移商品至分類"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:29
 msgid "暂无任何分类"
-msgstr ""
+msgstr "暫無任何分類"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:35
 msgid "是否将选中商品转移至分类？"
-msgstr ""
+msgstr "是否將選中商品轉移至分類？"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:35
 msgid "请选择要转移的商品"
-msgstr ""
+msgstr "請選擇要轉移的商品"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:35
 msgid "开始转移"
-msgstr ""
+msgstr "開始轉移"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:64
 msgid "全部"
-msgstr ""
+msgstr "全部"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:71
 msgid "已上架"
-msgstr ""
+msgstr "已上架"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:78
 msgid "未上架"
-msgstr ""
+msgstr "未上架"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:88
 msgid "批量操作"
-msgstr ""
+msgstr "批量操作"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:90
 msgid "您确定要把选中的商品放入回收站吗？"
-msgstr ""
+msgstr "您確定要把選中的商品放入回收站嗎？"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:90
 msgid "请选择要移至回收站的商品"
-msgstr ""
+msgstr "請選擇要移至回收站的商品"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:90
 msgid "移至回收站"
-msgstr ""
+msgstr "移至回收站"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:91
 msgid "您确定要把选中的商品上架吗？"
-msgstr ""
+msgstr "您確定要把選中的商品上架嗎？"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:91
 msgid "请选择要上架的商品"
-msgstr ""
+msgstr "請選擇要上架的商品"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:91
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:123
 msgid "上架"
-msgstr ""
+msgstr "上架"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:92
 msgid "您确定要把选中的商品下架吗？"
-msgstr ""
+msgstr "您確定要把選中的商品下架嗎？"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:92
 msgid "请选择要下架的商品"
-msgstr ""
+msgstr "請選擇要下架的商品"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:92
 msgid "下架"
-msgstr ""
+msgstr "下架"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:93
 msgid "转移到分类"
-msgstr ""
+msgstr "轉移到分類"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:100
 msgid "请输入商品名，商品货号等关键字"
-msgstr ""
+msgstr "請輸入商品名，商品貨號等關鍵字"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:102
 msgid "搜索"
-msgstr ""
+msgstr "搜索"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:118
 msgid "商品名称"
-msgstr ""
+msgstr "商品名稱"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:119
 msgid "货号"
-msgstr ""
+msgstr "貨號"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:120
 msgid "价格"
-msgstr ""
+msgstr "價格"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:121
 msgid "单位"
-msgstr ""
+msgstr "單位"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:122
 msgid "库存"
-msgstr ""
+msgstr "庫存"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:124
 msgid "排序"
-msgstr ""
+msgstr "排序"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:140
 msgid "编辑"
-msgstr ""
+msgstr "編輯"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:141
 msgid "您确定要把该商品放入回收站吗？"
-msgstr ""
+msgstr "您確定要把該商品放入回收站嗎？"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:141
 msgid "删除"
-msgstr ""
+msgstr "删除"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:150
 msgid "请输入商品价格"
-msgstr ""
+msgstr "請輸入商品價格"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:157
 msgid "请输入重量库存"
-msgstr ""
+msgstr "請輸入重量庫存"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:167
 msgid "请输入排序序号"
-msgstr ""
+msgstr "請輸入排序序號"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_list.dwt.php:174
 msgid "没有找到任何记录"
-msgstr ""
+msgstr "沒有找到任何記錄"
 
 #: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:37
 msgid "设备名称："
-msgstr ""
+msgstr "設備名稱："
 
 #: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:45
 msgid "设备MAC地址："
-msgstr ""
+msgstr "設備MAC地址："
 
 #: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:53
 msgid "产品序列号："
-msgstr ""
+msgstr "產品序列號："
 
 #: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:61
 msgid "收银设备类型："
-msgstr ""
+msgstr "收銀設備類型："
 
 #: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:78
 #: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:88
 msgid "机型："
-msgstr ""
+msgstr "機型："
 
 #: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:98
 msgid "设备号："
-msgstr ""
+msgstr "設備號："
 
 #: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:106
 msgid "密码键盘序列号："
-msgstr ""
+msgstr "密碼鍵盤序列號："
 
 #: content/apps/cashier/templates/merchant/cashier_device_info.dwt.php:113
 msgid "状态："
-msgstr ""
+msgstr "狀態："
 
 #: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:38
 msgid "条码秤模式："
-msgstr ""
+msgstr "條碼秤模式："
 
 #: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:41
 msgid "金额模式"
-msgstr ""
+msgstr "金額模式"
 
 #: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:42
 msgid "重量模式"
-msgstr ""
+msgstr "重量模式"
 
 #: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:43
 msgid "重量模式+金额模式"
-msgstr ""
+msgstr "重量模式+金額模式"
 
 #: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:49
 msgid "条码秤码："
-msgstr ""
+msgstr "條碼秤碼："
 
 #: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:52
 msgid "条码秤码既条码秤条码标识位（通常有21，22，24，29等）"
-msgstr ""
+msgstr "條碼秤碼既條碼秤條碼標識位（通常有21，22，24，29等）"
 
 #: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:58
 msgid "日期设置："
-msgstr ""
+msgstr "日期设置："
 
 #: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:68
 msgid "净重单位："
-msgstr ""
+msgstr "凈重單位："
 
 #: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:78
 msgid "单价单位："
-msgstr ""
+msgstr "單價單位："
 
 #: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:81
 msgid "千克/元"
-msgstr ""
+msgstr "千克/元"
 
 #: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:83
 msgid "克/元"
-msgstr ""
+msgstr "克/元"
 
 #: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:88
 msgid "抹零设置："
-msgstr ""
+msgstr "抹零設置："
 
 #: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:97
 msgid "分位保留："
-msgstr ""
+msgstr "分位保留："
 
 #: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:108
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:180
 msgid "更新"
-msgstr ""
+msgstr "更新"
 
 #: content/apps/cashier/templates/merchant/cashdesk_scales_info.dwt.php:108
 msgid "确定"
-msgstr ""
+msgstr "確定"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:35
 msgid "商品名称："
-msgstr ""
+msgstr "商品名稱："
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:43
 msgid "商品货号："
-msgstr ""
+msgstr "商品貨號："
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:46
 msgid "散装商品货号共7位，前2位必须填写条码秤编码"
-msgstr ""
+msgstr "散裝商品貨號共7位，前2位必須填寫條碼秤編碼"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:51
 msgid "本店售价："
-msgstr ""
+msgstr "本店售價："
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:56
 msgid "按市场价计算"
-msgstr ""
+msgstr "按市場價計算"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:62
 msgid "市场售价："
-msgstr ""
+msgstr "市場售價："
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:67
 msgid "取整数"
-msgstr ""
+msgstr "取整數"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:72
 msgid "库存重量："
-msgstr ""
+msgstr "庫存重量："
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:85
 msgid "警告重量："
-msgstr ""
+msgstr "警告重量："
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:96
 msgid "特殊属性"
-msgstr ""
+msgstr "特殊屬性"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:102
 msgid "进货价："
-msgstr ""
+msgstr "進貨價："
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:108
 msgid "生产日期："
-msgstr ""
+msgstr "生產日期："
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:114
 msgid "保质期："
-msgstr ""
+msgstr "保質期："
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:127
 msgid "过期日期："
-msgstr ""
+msgstr "過期日期："
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:142
 msgid "备注信息"
-msgstr ""
+msgstr "備註信息"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:148
 msgid "商家备注："
-msgstr ""
+msgstr "商家備註："
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:165
 msgid "发布"
-msgstr ""
+msgstr "發布"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:171
 msgid "上架："
-msgstr ""
+msgstr "上架："
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:174
 msgid "打勾表示允许销售，否则不允许销售。"
-msgstr ""
+msgstr "打勾表示允許銷售，否則不允許銷售。"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:180
 msgid "完成"
-msgstr ""
+msgstr "完成"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:197
 msgid "商品分类"
-msgstr ""
+msgstr "商品分類"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:203
 msgid "选择店铺商品分类"
-msgstr ""
+msgstr "選擇店鋪商品分類"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:207
 msgid "请选择..."
-msgstr ""
+msgstr "請選擇..."
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:222
 msgid "折扣、促销价格"
-msgstr ""
+msgstr "折扣、促銷價格"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:228
 msgid "会员价格："
-msgstr ""
+msgstr "會員價格："
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:244
 msgid "优惠数量"
-msgstr ""
+msgstr "優惠數量"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:248
 msgid "优惠价格"
-msgstr ""
+msgstr "優惠價格"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:267
 msgid "添加优惠价格"
-msgstr ""
+msgstr "添加優惠價格"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:268
 msgid "购买数量达到优惠数量时享受的优惠价格"
-msgstr ""
+msgstr "購買數量達到優惠數量時享受的優惠價格"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:279
 msgid "促销信息"
-msgstr ""
+msgstr "促銷信息"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:287
 msgid "促销价："
-msgstr ""
+msgstr "促銷價："
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:295
 msgid "促销日期："
-msgstr ""
+msgstr "促銷日期："
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:318
 msgid "积分相关"
-msgstr ""
+msgstr "積分相關"
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:324
 msgid "积分购买金额："
-msgstr ""
+msgstr "積分購買金額："
 
 #: content/apps/cashier/templates/merchant/bulk_goods_info.dwt.php:329
 msgid "(此处需填写金额)购买该商品时最多可以使用积分的金额"
-msgstr ""
+msgstr "(此處需填寫金額)購買該商品時最多可以使用積分的金額"

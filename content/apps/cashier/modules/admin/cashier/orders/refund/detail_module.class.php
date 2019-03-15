@@ -75,10 +75,10 @@ class admin_cashier_orders_refund_detail_module extends api_admin implements api
 		
 		/*退款状态处理*/
 		$cashier_name = '';
-		if ($refund_order_info['refund_status'] == Ecjia\App\Refund\RefundStatus::PAY_UNTRANSFER) {
+		if ($refund_order_info['refund_status'] == \Ecjia\App\Refund\Enums\RefundPayEnum::PAY_UNTRANSFER) {
 			$refund_status 		= 'checked';
 			$label_refund_status= __('已审核', 'cashier');
-		} elseif ($refund_order_info['refund_status'] == Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED) {
+		} elseif ($refund_order_info['refund_status'] == \Ecjia\App\Refund\Enums\RefundPayEnum::PAY_TRANSFERED) {
 			$refund_status 		= 'refunded';
 			$label_refund_status= __('已退款', 'cashier');
 			$cashier_name = RC_DB::table('refund_payrecord')->where('refund_id', $refund_order_info['refund_id'])->pluck('action_user_name');
