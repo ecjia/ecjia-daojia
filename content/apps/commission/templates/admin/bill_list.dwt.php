@@ -19,7 +19,7 @@ ecjia.admin.bill_list.init();
 			<a class="btn plus_or_reply" href='{RC_Uri::url("commission/admin/init", "{$url_args}")}'><i class="fontello-icon-reply"></i>{t domain="commission"}返回全部{/t}</a>
 		<!-- {/if} -->
 		<!-- {if $action_link} -->
-		<a class="btn plus_or_reply {if $smarty.get.refer neq 'store'}data-pjax{/if}" href="{$action_link.href}" {if $smarty.get.refer eq 'store'}target="__blank"{/if}><i class="fontello-icon-plus"></i>{$action_link.text}</a>
+		<a class="btn plus_or_reply {if $smarty.get.refer neq 'store'}data-pjax{/if}" href="{$action_link.href}" {if $smarty.get.refer eq 'store'}target="_blank"{/if}><i class="fontello-icon-plus"></i>{$action_link.text}</a>
 		<!-- {/if} -->
 		<a class="btn plus_or_reply" id="sticky_a" href='{RC_Uri::url("commission/admin/export", "{$url_parames}")}'><i class="fontello-icon-download"></i>{t domain="commission"}导出结果{/t}</a>
 	</h3>

@@ -80,17 +80,14 @@ class admin extends ecjia_admin {
 		RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
         
         /*自定义js*/
-        RC_Script::enqueue_script('bill-admin', RC_App::apps_url('statics/js/bill_admin.js', __FILE__));
+        RC_Script::enqueue_script('bill-admin', RC_App::apps_url('statics/js/bill_admin.js', __FILE__), array(), false, 1);
         RC_Script::localize_script('bill-admin', 'jslang', config('app-commission::jslang'));
-        RC_Script::enqueue_script('bill-pay', RC_App::apps_url('statics/js/bill_pay.js', __FILE__));
-        RC_Script::localize_script('bill-pay', 'jslang', config('app-commission::jslang'));
-        RC_Script::enqueue_script('bill-order', RC_App::apps_url('statics/js/order.js', __FILE__));
-        RC_Script::enqueue_script('bill-update', RC_App::apps_url('statics/js/bill_update.js', __FILE__));
-        RC_Script::localize_script('bill-update', 'jslang', config('app-commission::jslang'));
-        RC_Script::enqueue_script('order-com', RC_App::apps_url('statics/js/order_com.js', __FILE__));
+        RC_Script::enqueue_script('bill-pay', RC_App::apps_url('statics/js/bill_pay.js', __FILE__), array(), false, 1);
+        RC_Script::enqueue_script('bill-order', RC_App::apps_url('statics/js/order.js', __FILE__), array(), false, 1);
+        RC_Script::enqueue_script('bill-update', RC_App::apps_url('statics/js/bill_update.js', __FILE__), array(), false, 1);
+        RC_Script::enqueue_script('order-com', RC_App::apps_url('statics/js/order_com.js', __FILE__), array(), false, 1);
         
-        RC_Script::enqueue_script('withdraw', RC_App::apps_url('statics/js/withdraw.js', __FILE__));
-        RC_Script::localize_script('withdraw', 'jslang', config('app-commission::jslang'));
+        RC_Script::enqueue_script('withdraw', RC_App::apps_url('statics/js/withdraw.js', __FILE__), array(), false, 1);
         RC_Style::enqueue_style('mh_fund', RC_App::apps_url('statics/css/mh_fund.css',__FILE__));
 	}
 	

@@ -90,7 +90,7 @@ class store_account {
     }
     
     //结算
-    public function bill($data) {
+    public static function bill($data) {
         if(empty($data['store_id']) || empty($data['amount']) || empty($data['bill_order_type']) || empty($data['bill_order_id']) || empty($data['bill_order_sn']) ) {
             return new ecjia_error('invalid_parameter', __('参数无效', 'commission'));
         }
@@ -119,7 +119,7 @@ class store_account {
     }
     
     //订单表
-    public function insert_store_account_order($data) {
+    public static function insert_store_account_order($data) {
 //         `store_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
 //         `order_sn` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '订单编号',
 //         `amount` decimal(10,2) NOT NULL,
@@ -142,7 +142,7 @@ class store_account {
         return RC_DB::table('store_account_order')->insert($data);
     }
     
-    public function update_store_account($store_id, $money = 0, $change_type = '', $change_desc = '', $platform_profit = 0) {
+    public static function update_store_account($store_id, $money = 0, $change_type = '', $change_desc = '', $platform_profit = 0) {
         $info = RC_DB::table('store_account')->where('store_id', $store_id)->first();
         
         if(empty($info)) {
@@ -179,7 +179,7 @@ class store_account {
         
     }
     
-    public function insert_store_account_log($data) {
+    public static function insert_store_account_log($data) {
 
         if(empty($data['store_id']) || empty($data['change_type'])) {
             return new ecjia_error('invalid_parameter', __('参数无效', 'commission'));
