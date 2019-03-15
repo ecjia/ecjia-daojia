@@ -13,8 +13,8 @@
         <div  class="info-block help clearfix" id="helpaa">
             <div id="leftMenu" class="help-left">
                 {if empty($article_list)}
-                <input id="help_onekey" type="hidden" value="帮助中心">
-                <p class="menu_head current-header">帮助中心</p>
+                <input id="help_onekey" type="hidden" value='{t domain="default"}帮助中心{/t}'>
+                <p class="menu_head current-header">{t domain="default"}帮助中心{/t}</p>
                 {else}
                 <!-- {foreach $article_list as $article_list_cat} -->
                 <input id="help_onekey" type="hidden" value="{$article_list_cat.name}">
@@ -34,9 +34,9 @@
                 <div>
                     <ul class="crumb clearfix">
                         {if empty($article_list)}
-                        <li><a href='{url path="article/info/init"}'>帮助中心</a></li>
+                        <li><a href='{url path="article/info/init"}'>{t domain="default"}帮助中心{/t}</a></li>
                         {else}
-                        <li><a href='{url path="article/help/init"}'>帮助中心</a> <i>&gt;</i></li>
+                        <li><a href='{url path="article/help/init"}'>{t domain="default"}帮助中心{/t}</a> <i>&gt;</i></li>
                         <!-- {foreach $article_list as $article_list_cat} -->
                         <!-- {foreach $article_list_cat.article as  $article_list_child_cat} -->
                         {if $article_list_child_cat.id eq $aid}
@@ -51,7 +51,7 @@
                     </ul>
                 </div>
                 {if empty($article_list)}
-                <div class="detail help-list">暂无内容</div>
+                <div class="detail help-list">{t domain="default"}暂无内容{/t}</div>
                 {else}
                 <div class="help-title" id="topNavigate" >{$article.title}</div>
                 <div class="detail help-list" id="artricleText">

@@ -1,14 +1,14 @@
 <div class="tools">
     <!-- {nocache} -->
     <div class="wrap">
-        <div class="bl-name" title="{$shop_name}"><div class="txt">Hi，欢迎来到{$shop_name}</div><b></b></div>
+        <div class="bl-name" title="{$shop_name}"><div class="txt">{t domain="default"}Hi，欢迎来到{/t}{$shop_name}</div><b></b></div>
         {if ecjia::config('pc_enabled_member')}
         <div class="tools-right">
             <ul>
                 <li id="user_not_login" class="box">
                     <div>
-                        <a href="{$site_member}" target="_blank" class=""><span>会员中心</span></a>
-                        <a href="{$url_order}" target="_blank" class=""><span>我的订单</span></a>
+                        <a href="{$site_member}" target="_blank" class=""><span>{t domain="default"}会员中心{/t}</span></a>
+                        <a href="{$url_order}" target="_blank" class=""><span>{t domain="default"}我的订单{/t}</span></a>
                     </div>
                 </li>
             </ul>
@@ -27,13 +27,13 @@
             <div class="info-menu">
                 <ul>
                     <li onclick="document.getElementById('shop_help').click();" class="help-center {if $smarty.get.c eq 'help' || empty($smarty.get.c) } current {/if}">
-                        <a id="shop_help" href='{url path="article/help/init"}'><span>帮助中心</span> </a>
+                        <a id="shop_help" href='{url path="article/help/init"}'><span>{t domain="default"}帮助中心{/t}</span> </a>
                     </li>
                     <li onclick="document.getElementById('shop_notice').click();" class="new-ad {if $smarty.get.c eq 'notice'} current {/if}">
-                        <a id="shop_notice" href='{url path="article/notice/init"}'><span>商城公告</span></a>
+                        <a id="shop_notice" href='{url path="article/notice/init"}'><span>{t domain="default"}商城公告{/t}</span></a>
                     </li>
                     <li onclick="document.getElementById('shop_info').click();" class="about-our {if $smarty.get.c eq 'info'} current {/if}">
-                        <a id="shop_info" href='{url path="article/info/init"}'> <span>关于我们</span></a>
+                        <a id="shop_info" href='{url path="article/info/init"}'> <span>{t domain="default"}关于我们{/t}</span></a>
                     </li>
                 </ul>
             </div>

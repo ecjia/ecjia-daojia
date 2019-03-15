@@ -13,12 +13,12 @@
         <div class="info-block help clearfix" id="helpaa">
             <div id="leftMenu" class="help-left">
                 {if empty($article_list)}
-                <input id="help_onekey" type="hidden" value="商城公告">
-                <p class="menu_head current-header">商城公告</p>
+                <input id="help_onekey" type="hidden" value='{t domain="default"}商城公告{/t}'>
+                <p class="menu_head current-header">{t domain="default"}商城公告{/t}</p>
                 {else}
                 <!-- {foreach $article_list as $article_list_cat} -->
-                <input id="help_onekey" type="hidden" value="商城公告">
-                <p class="menu_head current-header">商城公告</p>
+                <input id="help_onekey" type="hidden" value='{t domain="default"}商城公告{/t}'>
+                <p class="menu_head current-header">{t domain="default"}商城公告{/t}</p>
                 <ul  class="menu_body" style="display: none">
                     <!-- {foreach $article_list_cat.article as $key => $article_list_child_cat} -->
                     <li>
@@ -33,15 +33,15 @@
             <div class="help-right new-block-list" id="newNavigate">
                 <div>
                     <ul class="crumb clearfix">
-                        <li><a href='{url path="article/notice/init"}'>商城公告</a> <i>&gt;</i></li>
+                        <li><a href='{url path="article/notice/init"}'>{t domain="default"}商城公告{/t}</a> <i>&gt;</i></li>
                         <li id="help_one" class="last-one">
-                            热点公告
+                            {t domain="default"}热点公告{/t}
                         </li>
                     </ul>
                 </div>
                 <div class="detail help-list new-list" id="newArt">
                     {if empty($article_list)}
-                        暂无商城公告
+                    {t domain="default"}暂无商城公告{/t}
                     {else}
                     <ul>
                         <!-- {foreach $article_list as $article_list_cat} -->

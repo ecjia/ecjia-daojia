@@ -13,12 +13,12 @@
         <div  class="info-block help clearfix" id="helpaa">
             <div id="leftMenu" class="help-left">
                 {if empty($article_list)}
-                <input id="help_onekey" type="hidden" value="关于我们">
-                <p class="menu_head current-header">关于我们</p>
+                <input id="help_onekey" type="hidden" value='{t domain="default"}关于我们{/t}'>
+                <p class="menu_head current-header">{t domain="default"}关于我们{/t}</p>
                 {else}
                 <!-- {foreach $article_list as $key => $article_list_cat} -->
-                <input id="help_onekey" type="hidden" value="关于我们">
-                <p class="menu_head current-header">关于我们</p>
+                <input id="help_onekey" type="hidden" value='{t domain="default"}关于我们{/t}'>
+                <p class="menu_head current-header">{t domain="default"}关于我们{/t}</p>
                 <ul  class="menu_body"  style="display: none">
                     <!-- {foreach $article_list_cat.article as $key => $article_list_child_cat} -->
                     <li>
@@ -26,7 +26,7 @@
                     </li>
                     <!-- {/foreach} -->
                     <li>
-                        <a  href='{url path="article/info/friendlink"}' {if $smarty.get.a eq "friendlink"} class='current' {/if}>友情链接</a>
+                        <a  href='{url path="article/info/friendlink"}' {if $smarty.get.a eq "friendlink"} class='current' {/if}>{t domain="default"}友情链接{/t}</a>
                     </li>
                 </ul>
                 <!-- {/foreach} -->
@@ -37,11 +37,11 @@
             <div id="rightContent" class="help-right">
                 <div>
                     <ul class="crumb clearfix">
-                        <li><a href='{url path="article/info/init"}'>关于我们</a> <i>&gt;</i></li>
-                        <li id="help_one" class="last-one">友情链接</li>
+                        <li><a href='{url path="article/info/init"}'>{t domain="default"}关于我们{/t}</a> <i>&gt;</i></li>
+                        <li id="help_one" class="last-one">{t domain="default"}友情链接{/t}</li>
                     </ul>
                 </div>
-                <div class="help-title friend-title" id="topNavigate">友情链接</div>
+                <div class="help-title friend-title" id="topNavigate">{t domain="default"}友情链接{/t}</div>
                 <div class="detail help-list" id="artricleText">
                     <ul>
                         {foreach $friendlink_list as $link}

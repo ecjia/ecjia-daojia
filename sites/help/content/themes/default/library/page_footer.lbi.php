@@ -27,7 +27,7 @@
             {$shop_info_html}
         </div>
         <div class="copyright">
-            {if ecjia::config('company_name')}{ecjia::config('company_name')}版权所有{/if}
+            {if ecjia::config('company_name')}{ecjia::config('company_name')}{t domain="default"}版权所有{/t}{/if}
             {if ecjia::config('icp_number')}<a href="http://www.miibeian.gov.cn" target="_blank">{ecjia::config('icp_number')}</a>{/if}&nbsp;&nbsp;{$commoninfo.powered}
         </div>
         <div class="police">

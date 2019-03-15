@@ -93,7 +93,7 @@ class article_controller
             ecjia_front::$controller->assign('article_type',     $article_type);
             ecjia_front::$controller->assign('article', $shop_help_detail);
 
-            ecjia_front::$controller->assign_title('帮助中心');
+            ecjia_front::$controller->assign_title(__('帮助中心', 'default'));
         }
 
         ecjia_front::$controller->display('article_help.dwt', $cache_id);
@@ -144,7 +144,7 @@ class article_controller
             $friendlink_list = RC_Api::api('friendlink', 'friendlink_list', array('type' => 'logo'));
             ecjia_front::$controller->assign('friendlink_list', $friendlink_list);
 
-            ecjia_front::$controller->assign_title('关于我们');
+            ecjia_front::$controller->assign_title(__('关于我们', 'default'));
         }
 
         ecjia_front::$controller->display('article_info.dwt', $cache_id);
@@ -197,7 +197,7 @@ class article_controller
             ecjia_front::$controller->assign('article_type',     $article_type);
             ecjia_front::$controller->assign('article', $shop_notice_detail);
 
-            ecjia_front::$controller->assign_title('商家公告');
+            ecjia_front::$controller->assign_title(__('商家公告', 'default'));
         }
         ecjia_front::$controller->display('article_notice.dwt', $cache_id);
     }
@@ -244,7 +244,7 @@ class article_controller
             ecjia_front::$controller->assign('article_type',     $article_type);
             ecjia_front::$controller->assign('article', $shop_notice_detail);
 
-            ecjia_front::$controller->assign_title('商家公告');
+            ecjia_front::$controller->assign_title(__('商家公告', 'default'));
         }
         ecjia_front::$controller->display('article_detail.dwt', $cache_id);
     }
@@ -285,7 +285,7 @@ class article_controller
             $friendlink_list = RC_Api::api('friendlink', 'friendlink_list', array('type' => 'logo'));
             ecjia_front::$controller->assign('friendlink_list', $friendlink_list);
 
-            ecjia_front::$controller->assign_title('关于我们');
+            ecjia_front::$controller->assign_title(__('关于我们', 'default'));
         }
 
         ecjia_front::$controller->display('article_friendlink.dwt', $cache_id);

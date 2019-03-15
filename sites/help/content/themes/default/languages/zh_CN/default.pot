@@ -1,0 +1,95 @@
+# Copyright (C) 2019 ECJia Team
+# This file is distributed under the same license as the 通用帮助中心模板 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 通用帮助中心模板 1.26.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/theme/default\n"
+"POT-Creation-Date: 2019-03-15 01:49:21+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: extras/controller/article_controller.php:96
+msgid "帮助中心"
+msgstr ""
+
+#: extras/controller/article_controller.php:147
+#: extras/controller/article_controller.php:288
+msgid "关于我们"
+msgstr ""
+
+#: extras/controller/article_controller.php:200
+#: extras/controller/article_controller.php:247
+msgid "商家公告"
+msgstr ""
+
+#. #-#-#-#-#  default.pot (通用帮助中心模板 1.26.0)  #-#-#-#-#
+#. Template Name of the plugin/theme
+#. #-#-#-#-#  default.pot (通用帮助中心模板 1.26.0)  #-#-#-#-#
+#. Description of the plugin/theme
+msgid "通用帮助中心模板"
+msgstr ""
+
+#. #-#-#-#-#  default.pot (通用帮助中心模板 1.26.0)  #-#-#-#-#
+#. Template URI of the plugin/theme
+#. #-#-#-#-#  default.pot (通用帮助中心模板 1.26.0)  #-#-#-#-#
+#. Author URI of the plugin/theme
+msgid "https://ecjia.com/"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "ECJia Team"
+msgstr ""
+
+#: sites/help/content/themes/default/article_detail.dwt.php:16
+#: sites/help/content/themes/default/article_detail.dwt.php:17
+#: sites/help/content/themes/default/article_detail.dwt.php:20
+#: sites/help/content/themes/default/article_detail.dwt.php:21
+#: sites/help/content/themes/default/article_detail.dwt.php:36
+#: sites/help/content/themes/default/library/page_header.lbi.php:33
+#: sites/help/content/themes/default/article_notice.dwt.php:16
+#: sites/help/content/themes/default/article_notice.dwt.php:17
+#: sites/help/content/themes/default/article_notice.dwt.php:20
+#: sites/help/content/themes/default/article_notice.dwt.php:21
+#: sites/help/content/themes/default/article_notice.dwt.php:36
+msgid "商城公告"
+msgstr ""
+
+#: sites/help/content/themes/default/article_info.dwt.php:29
+#: sites/help/content/themes/default/article_friendlink.dwt.php:29
+#: sites/help/content/themes/default/article_friendlink.dwt.php:41
+#: sites/help/content/themes/default/article_friendlink.dwt.php:44
+msgid "友情链接"
+msgstr ""
+
+#: sites/help/content/themes/default/article_info.dwt.php:57
+#: sites/help/content/themes/default/article_help.dwt.php:54
+msgid "暂无内容"
+msgstr ""
+
+#: sites/help/content/themes/default/library/page_header.lbi.php:4
+msgid "Hi，欢迎来到"
+msgstr ""
+
+#: sites/help/content/themes/default/library/page_header.lbi.php:10
+msgid "会员中心"
+msgstr ""
+
+#: sites/help/content/themes/default/library/page_header.lbi.php:11
+msgid "我的订单"
+msgstr ""
+
+#: sites/help/content/themes/default/library/page_footer.lbi.php:30
+msgid "版权所有"
+msgstr ""
+
+#: sites/help/content/themes/default/article_notice.dwt.php:38
+msgid "热点公告"
+msgstr ""
+
+#: sites/help/content/themes/default/article_notice.dwt.php:44
+msgid "暂无商城公告"
+msgstr ""
