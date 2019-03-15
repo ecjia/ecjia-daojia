@@ -138,6 +138,8 @@ return array(
         'img_priview'                => __('图片预览', 'toutiao'),
         'remove_material_cover'      => __('您确定要删除该封面素材吗？', 'toutiao'),
         'title_placeholder_graphic'  => __('请输入图文标题', 'toutiao'),
+        
+        'picture_and_text_material'  => __('图文素材', 'toutiao'),
 
     ),
 

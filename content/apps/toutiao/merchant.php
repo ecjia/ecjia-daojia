@@ -58,14 +58,14 @@ class merchant extends ecjia_merchant
         RC_Script::enqueue_script('smoke');
         RC_Script::enqueue_script('jquery-validate');
         RC_Script::enqueue_script('jquery-form');
-        RC_Script::enqueue_script('jquery-dropper', RC_App::apps_url('statics/js/dropper-upload/jquery.fs.dropper.js', __FILE__), array(), false, true);
+        RC_Script::enqueue_script('jquery-dropper', RC_App::apps_url('statics/js/dropper-upload/jquery.fs.dropper.js', __FILE__), array(), false, 1);
 
         RC_Script::enqueue_script('bootstrap-fileupload-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
         RC_Style::enqueue_style('bootstrap-fileupload', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', array(), false, false);
 
-        RC_Script::enqueue_script('mh_menu_js', RC_App::apps_url('statics/js/mh_menu.js', __FILE__), array(), false, true);
+        RC_Script::enqueue_script('mh_menu_js', RC_App::apps_url('statics/js/mh_menu.js', __FILE__), array(), false, 1);
 
-        RC_Script::enqueue_script('mh_toutiao_js', RC_App::apps_url('statics/js/mh_toutiao.js', __FILE__), array(), false, true);
+        RC_Script::enqueue_script('mh_toutiao_js', RC_App::apps_url('statics/js/mh_toutiao.js', __FILE__), array(), false, 1);
         RC_Style::enqueue_style('mh_material_css', RC_App::apps_url('statics/css/mh_material.css', __FILE__));
         RC_Script::localize_script('mh_toutiao_js', 'js_lang', config('app-toutiao::jslang.toutiao_page'));
 

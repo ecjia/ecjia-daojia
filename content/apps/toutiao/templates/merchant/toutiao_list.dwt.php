@@ -47,13 +47,13 @@
 								<img src="{$item.image}" width="215" height="125" />
 							</td>
 							<td style="padding-bottom: 30px;">
-								<a href='{RC_Uri::url("toutiao/mobile/preview", "id={$item.id}")}' target="__blank">{$key+1}.{$item.title}</a>
+								<a href='{RC_Uri::url("toutiao/mobile/preview", "id={$item.id}")}' target="_blank">{$key+1}.{$item.title}</a>
 								
 								<span class="m_l5 ecjiafc-blue"><i class="fa fa-eye m_r5"></i>{$item.click_count}次</span><br/>
 								
 								{if $item.children}
 									{foreach from=$item.children item=val key=k}
-									<a href='{RC_Uri::url("toutiao/mobile/preview", "id={$val.id}")}' target="__blank">{$k+2}.{$val.title} </a>
+									<a href='{RC_Uri::url("toutiao/mobile/preview", "id={$val.id}")}' target="_blank">{$k+2}.{$val.title} </a>
 									<span class="m_l5 ecjiafc-blue"><i class="fa fa-eye m_r5"></i>{$val.click_count}次</span><br/>
 									{/foreach}
 								{/if}

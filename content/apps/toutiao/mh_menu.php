@@ -58,7 +58,7 @@ class mh_menu extends ecjia_merchant
         RC_Script::enqueue_script('smoke');
         RC_Script::enqueue_script('jquery-validate');
         RC_Script::enqueue_script('jquery-form');
-        RC_Script::enqueue_script('mh_menu_js', RC_App::apps_url('statics/js/mh_menu.js', __FILE__), array(), false, true);
+        RC_Script::enqueue_script('mh_menu_js', RC_App::apps_url('statics/js/mh_menu.js', __FILE__), array(), false, 1);
         RC_Style::enqueue_style('mh_menu_css', RC_App::apps_url('statics/css/mh_menu.css', __FILE__));
         RC_Script::localize_script('mh_menu_js', 'js_lang', config('app-toutiao::jslang.menu_page'));
 

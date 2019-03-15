@@ -122,7 +122,7 @@
 										{if $residue_degree gt 0}
 										<a class="btn btn-info" data-toggle="ajaxremove" data-msg='{t domain="toutiao"}您确定要发送该图文素材吗？{/t}' href='{RC_Uri::url("toutiao/merchant/send", "id={$id}")}'>{t domain="toutiao"}发送{/t}</a>
 										{/if}
-										<a href='{RC_Uri::url("toutiao/mobile/preview", "id={$id}")}' target="__blank" class="btn btn-primary btn-preview {if $residue_degree gt 0}m_l10{/if}">{t domain="toutiao"}预览{/t}</a>
+										<a href='{RC_Uri::url("toutiao/mobile/preview", "id={$id}")}' target="_blank" class="btn btn-primary btn-preview {if $residue_degree gt 0}m_l10{/if}">{t domain="toutiao"}预览{/t}</a>
 										<input type="submit" value='{t domain="toutiao"}存入素材库{/t}' class="btn btn-info m_l10"/>
 										<p class="help-block m_t10">{t domain="toutiao" 1={$residue_degree}}你今日还可群发 %1 次消息{/t}</p>
 									</div>
