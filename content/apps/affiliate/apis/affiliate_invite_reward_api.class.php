@@ -86,7 +86,7 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 		    	if ($affiliate['intvie_reward']['intive_reward_type'] == 'bonus') {
 		    		RC_DB::table('user_bonus')->insert(array('bonus_type_id' => $affiliate['intvie_reward']['intive_reward_value'], 'user_id' => $invite_id));
 		    		$reward_type = 'bonus';
-		    	} elseif ($affiliate['intvie_reward']['intive_reward_type'] == 'integral') {
+		    	} elseif ($affiliate['intvie_reward']['intive_reward_type'] == 'integral' && $affiliate['intvie_reward']['intive_reward_value'] > 0) {
 		    		$option = array(
 	    				'user_id'		=> $invite_id,
 	    				'pay_points'	=> $affiliate['intvie_reward']['intive_reward_value'],
@@ -94,7 +94,7 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 		    		);
 		    		$result = RC_Api::api('user', 'account_change_log', $option);
 		    		$reward_type = 'integral';
-		    	} elseif ($affiliate['intvie_reward']['intive_reward_type'] == 'balance') {
+		    	} elseif ($affiliate['intvie_reward']['intive_reward_type'] == 'balance' && $affiliate['intvie_reward']['intive_reward_value'] > 0) {
 		    		$option = array(
 	    				'user_id'		=> $invite_id,
 	    				'user_money'	=> $affiliate['intvie_reward']['intive_reward_value'],
@@ -128,18 +128,18 @@ class affiliate_invite_reward_api extends Component_Event_Api {
 		    if ($affiliate['intviee_reward']['intivee_reward_by'] == $options['invite_type'] && $invitee_is_reward && $affiliate['intviee_reward']['intivee_reward_value'] > 0) {
 		    	if ($affiliate['intviee_reward']['intivee_reward_type'] == 'bonus') {
 		    		RC_DB::table('user_bonus')->insert(array('bonus_type_id' => $affiliate['intviee_reward']['intivee_reward_value'], 'user_id' => $options['user_id']));
-		    	} elseif ($affiliate['intviee_reward']['intivee_reward_type'] == 'integral') {
+		    	} elseif ($affiliate['intviee_reward']['intivee_reward_type'] == 'integral' && $affiliate['intviee_reward']['intivee_reward_value'] > 0) {
 		    		$option = array(
 	    				'user_id'		=> $options['user_id'],
 	    				'pay_points'	=> $affiliate['intviee_reward']['intivee_reward_value'],
 	    				'change_desc'	=> __('邀请送', 'affiliate').$integral_name
 		    		);
 		    		$result = RC_Api::api('user', 'account_change_log', $option);
-		    	} else {
+		    	} elseif ($affiliate['intviee_reward']['intivee_reward_type'] == 'balance' && $affiliate['intviee_reward']['intivee_reward_value'] > 0) {
 		    		$option = array(
-	    				'user_id'		=> $options['user_id'],
-	    				'user_money'	=> $affiliate['intviee_reward']['intivee_reward_value'],
-	    				'change_desc'	=> __('邀请送余额', 'affiliate')
+		    				'user_id'		=> $options['user_id'],
+		    				'user_money'	=> $affiliate['intviee_reward']['intivee_reward_value'],
+		    				'change_desc'	=> __('邀请送余额', 'affiliate')
 		    		);
 		    		$result = RC_Api::api('user', 'account_change_log', $option);
 		    	}
