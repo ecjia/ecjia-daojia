@@ -4,13 +4,85 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App ucserver 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 03:59:32+00:00\n"
+"POT-Creation-Date: 2019-03-01 01:49:43+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: admin.php:82 admin.php:121 admin.php:142
+msgid "应用列表"
+msgstr ""
+
+#: admin.php:90 admin.php:118 admin.php:120
+msgid "添加新应用"
+msgstr ""
+
+#: admin.php:108
+msgid "通信成功"
+msgstr ""
+
+#: admin.php:110
+msgid "通信失败"
+msgstr ""
+
+#: admin.php:139 admin.php:141
+msgid "编辑应用"
+msgstr ""
+
+#: admin.php:175
+msgid "接口 URL 地址不合法"
+msgstr ""
+
+#: admin.php:179
+msgid "IP 地址不合法"
+msgstr ""
+
+#: admin.php:195 admin.php:204
+msgid "应用名称不合法或者与其他应用重复, 请返回更换"
+msgstr ""
+
+#: admin.php:199
+msgid "添加成功"
+msgstr ""
+
+#: admin.php:208
+msgid "编辑成功"
+msgstr ""
+
+#: admin.php:225 admin.php:242
+msgid "删除成功"
+msgstr ""
+
+#: apis/ucserver_admin_purview_api.class.php:59
+msgid "Ucenter应用管理"
+msgstr ""
+
+#: apis/ucserver_admin_purview_api.class.php:60
+msgid "Ucenter应用更新"
+msgstr ""
+
+#: apis/ucserver_admin_purview_api.class.php:61
+msgid "Ucenter应用删除"
+msgstr ""
+
+#: configs/jslang.php:57
+msgid "正在连接..."
+msgstr ""
+
+#: configs/jslang.php:58
+msgid "应用的主URL不能为空"
+msgstr ""
+
+#: configs/jslang.php:60
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:61
+msgid "取消"
+msgstr ""
 
 #: configs/package.php:55
 msgid "UC服务端"
@@ -20,4 +92,120 @@ msgstr ""
 msgid ""
 "UCenter是各个产品之间信息直接传递的一个桥梁，通过UcServer无缝整合系列产品，实"
 "现用户的一站式注册、登录、退出以及社区其他数据的交互。"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:24
+msgid "批量操作"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:28
+msgid "您确定要删除选中的应用吗？"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:28
+msgid "请选择要删除的应用"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:28
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:60
+msgid "删除"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:41
+msgid "ID"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:42
+msgid "应用名称"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:43
+msgid "应用的主 URL"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:44
+msgid "通信情况"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:59
+msgid "编辑"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:60
+msgid "您确定要删除该应用吗？"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:67
+msgid "没有找到任何记录"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:24
+msgid "应用类型："
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:35
+msgid "应用名称："
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:38
+msgid "限 20 字节"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:43
+msgid "应用的主URL："
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:48
+msgid ""
+"该应用与 UCenter 通信的接口 URL，结尾请不要加“/” ，应用的通知只发送给主 URL"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:52
+msgid "应用IP："
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:55
+msgid ""
+"正常情况下留空即可。如果由于域名解析问题导致 UCenter 与该应用通信失败，请尝试"
+"设置为该应用所在服务器的 IP 地址"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:60
+msgid "通信密钥："
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:63
+msgid ""
+"只允许使用英文字母及数字，限 64 字节。应用端的通信密钥必须与此设置保持一致，"
+"否则该应用将无法与 UCenter 正常通信"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:68
+msgid "应用接口文件的名称："
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:71
+msgid "应用接口文件名称，不含路径，默认为uc.php"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:76
+msgid "是否开启同步登陆："
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:78
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:87
+msgid "是"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:79
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:88
+msgid "否"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:80
+msgid "开启同步登录后，当用户在登录其他应用时，同时也会登录该应用"
+msgstr ""
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:85
+msgid "是否接受通知："
 msgstr ""

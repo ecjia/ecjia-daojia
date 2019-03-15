@@ -69,7 +69,7 @@ class admin extends ecjia_admin
 
         Ecjia\App\Ucserver\Helper::assign_adminlog_content();
         
-        RC_Script::enqueue_script('admin_ucenter', RC_App::apps_url('statics/js/admin_ucenter.js', __FILE__));
+        RC_Script::enqueue_script('admin_ucenter', RC_App::apps_url('statics/js/admin_ucenter.js', __FILE__),array(), false, 1);
         RC_Script::localize_script('admin_ucenter', 'js_lang', config('app-ucserver::jslang.ucserver_page'));
 
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('Ucenter', RC_Uri::url('ucserver/admin/init')));
