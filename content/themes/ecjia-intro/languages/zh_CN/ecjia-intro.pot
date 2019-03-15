@@ -1,0 +1,110 @@
+# Copyright (C) 2019 ECJia Team
+# This file is distributed under the same license as the ECJia到家APP宣传 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: ECJia到家APP宣传 1.23.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/theme/ecjia-intro\n"
+"POT-Creation-Date: 2019-03-13 09:48:19+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#. Template Name of the plugin/theme
+msgid "ECJia到家APP宣传"
+msgstr ""
+
+#. #-#-#-#-#  ecjia-intro.pot (ECJia到家APP宣传 1.23.0)  #-#-#-#-#
+#. Template URI of the plugin/theme
+#. #-#-#-#-#  ecjia-intro.pot (ECJia到家APP宣传 1.23.0)  #-#-#-#-#
+#. Author URI of the plugin/theme
+msgid "https://ecjia.com/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "ECJia到家App下载模板"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "ECJia Team"
+msgstr ""
+
+#: content/themes/ecjia-intro/library/shop_subtitle.lbi.php:7
+msgid "同城上门O2O解决方案"
+msgstr ""
+
+#: content/themes/ecjia-intro/library/brief_intro.lbi.php:7
+msgid "发掘最后一公里，上门电商的全新机遇"
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:20
+msgid "首页"
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:21
+msgid "帮助手册"
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:22
+msgid "会员中心"
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:23
+msgid "商家入驻"
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:24
+msgid "商家登录"
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:35
+msgid "鼠标点击手机体验"
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:76
+#: content/themes/ecjia-intro/index.dwt.php:149
+msgid "iPhone端下载"
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:77
+#: content/themes/ecjia-intro/index.dwt.php:150
+msgid "Android端下载"
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:82
+msgid "扫一扫，体验APP"
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:87
+msgid "扫一扫，体验微信H5界面"
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:97
+msgid "简介"
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:102
+msgid "应用视频介绍"
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:112
+msgid "界面精彩截图"
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:166
+msgid "打开微信扫一扫关注"
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:177
+msgid "版权所有"
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:178
+msgid "地址："
+msgstr ""
+
+#: content/themes/ecjia-intro/index.dwt.php:178
+msgid "咨询热线："
+msgstr ""
