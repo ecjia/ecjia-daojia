@@ -21,7 +21,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <div class="ecjia-header">
         	<div class="ecjia-search-header ecjia-search">
         		<form class="ecjia-form" action="{url path='user/order/order_list&type=whole'}{if $store_id neq 0}&store_id={$store_id}{/if}">
-        			<input name="keywords" type="search" placeholder="商品名称/订单号" {if $keywords}value={$keywords}{/if} data-type="search_order">
+        			<input name="keywords" type="search" placeholder='{t domain="h5"}商品名称/订单号{/t}' {if $keywords}value={$keywords}{/if} data-type="search_order">
         			<i class="iconfont icon-search btn-search"></i>
         		</form>
         	</div>
@@ -36,7 +36,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	</ul>
 	{else}
     <div class="ecjia-nolist">
-    	{t}暂无相关订单{/t}
+    	{t domain="h5"}暂无相关订单{/t}
     </div>
 	{/if}
 </div>
@@ -47,7 +47,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <li class="ecjia-order-item ecjia-checkout ecjia-margin-t {if $type == "whole"}ecjia-order-mt{/if}">
 	<div class="order-hd">
 		<a class="ecjiaf-fl nopjax external" href='{url path="merchant/index/init" args="store_id={$list.seller_id}"}'>
-			<span class="order_model">{if $list.order_mode eq 'default'}【配送】{elseif $list.order_mode eq 'storepickup'}【自提】{elseif $list.order_mode eq 'storebuy'}【扫码购】{/if}</span>{$list.seller_name}<i class="iconfont icon-jiantou-right"></i>
+			<span class="order_model">{if $list.order_mode eq 'default'}{t domain="h5"}【配送】{/t}{elseif $list.order_mode eq 'storepickup'}{t domain="h5"}【自提】{/t}{elseif $list.order_mode eq 'storebuy'}{t domain="h5"}【扫码购】{/t}{/if}</span>{$list.seller_name}<i class="iconfont icon-jiantou-right"></i>
 		</a>
 		<a class="ecjiaf-fr" href='{url path="user/order/order_detail" args="order_id={$list.order_id}"}'><span class="{if $list.order_status_code eq 'finished'}ecjia-color-green{else if $list.order_status_code eq 'canceled'}ecjia-color-red{/if}">{$list.label_order_status}</span></a>
 	</div>
@@ -57,7 +57,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<li class="goods-img-more more-info">
 					<span class="ecjiaf-ib">
 						<p class="price">{$list.formated_total_fee}</p>
-						<p>共{$list.goods_number}件</p>
+						<p>{t domain="h5" 1={$list.goods_number}}共%1件{/t}</p>
 					</span>
 				</li>
 				<!-- {foreach from=$list.goods_list item=goods key=key} -->
@@ -76,15 +76,15 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<span>{$list.order_time}</span>
 		<span class="two-btn ecjiaf-fr">
 		{if $list.order_status_code eq 'await_pay'} 
-			<a class="btn btn-hollow" href='{url path="payment/pay/init" args="order_id={$list.order_id}&from=list"}'>去支付</a>
+			<a class="btn btn-hollow" href='{url path="payment/pay/init" args="order_id={$list.order_id}&from=list"}'>{t domain="h5"}去支付{/t}</a>
 		{else if $list.order_mode neq 'storebuy'} 
 			{if $list.order_status_code eq 'finished' || $list.order_status_code eq 'canceled'}
-				<a class="btn btn-hollow" href='{url path="user/order/buy_again" args="order_id={$list.order_id}&from=list"}'>再次购买</a>
+				<a class="btn btn-hollow" href='{url path="user/order/buy_again" args="order_id={$list.order_id}&from=list"}'>{t domain="h5"}再次购买{/t}</a>
 			{/if}
 		{/if}
 		
-		{if $list.shipping_status eq '1'} <a class="btn btn-hollow affirm_received" href='{url path="user/order/affirm_received" args="order_id={$list.order_id}&from=list&order_type={$type}"}'>确认收货</a>{/if}
-		{if $list.shipping_status eq '2'} <a class="btn btn-hollow" href='{url path="user/order/comment_list" args="order_id={$list.order_id}&from=list"}'>评价晒单</a>{/if}
+		{if $list.shipping_status eq '1'} <a class="btn btn-hollow affirm_received" href='{url path="user/order/affirm_received" args="order_id={$list.order_id}&from=list&order_type={$type}"}'>{t domain="h5"}确认收货{/t}</a>{/if}
+		{if $list.shipping_status eq '2'} <a class="btn btn-hollow" href='{url path="user/order/comment_list" args="order_id={$list.order_id}&from=list"}'>{t domain="h5"}评价晒单{/t}</a>{/if}
 		</span>
 	</div>
 </li>

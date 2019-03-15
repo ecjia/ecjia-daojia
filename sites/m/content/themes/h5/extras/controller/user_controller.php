@@ -96,7 +96,7 @@ class user_controller
         }
 
         ecjia_front::$controller->assign('active', 'mine');
-        ecjia_front::$controller->assign_title('个人中心');
+        ecjia_front::$controller->assign_title(__('个人中心', 'h5'));
 
         $login_str = user_function::return_login_str();
         ecjia_front::$controller->assign('login_url', RC_Uri::url($login_str));
@@ -122,8 +122,8 @@ class user_controller
             $invite_user_detail['invite_explain'] = explode("\n", $invite_user_detail['invite_explain']);
 
             $invite_user_detail['invite_url'] = RC_Uri::url('affiliate/index/init', array('invite_code' => $invite_user_detail['invite_code']));
-            ecjia_front::$controller->assign('share_title', $name . '推荐这个实用的App给你~');
-            ecjia_front::$controller->assign_title('我的推广');
+            ecjia_front::$controller->assign('share_title', __(sprintf("%s推荐这个实用的App给你~", $name), 'h5'));
+            ecjia_front::$controller->assign_title(__('我的推广', 'h5'));
             ecjia_front::$controller->assign('invite_user', $invite_user_detail);
             ecjia_front::$controller->assign('url', RC_Uri::url('user/index/wxconfig'));
 
@@ -189,7 +189,7 @@ class user_controller
 
     public static function follow_list()
     {
-        ecjia_front::$controller->assign_title('关注店铺');
+        ecjia_front::$controller->assign_title(__('关注店铺', 'h5'));
         ecjia_front::$controller->display('follow_list.dwt');
     }
 
@@ -225,7 +225,7 @@ class user_controller
     //我的团队
     public static function team_list()
     {
-        $title = '我的团队';
+        $title = __('我的团队', 'h5');
         ecjia_front::$controller->assign_title($title);
 
         $token = ecjia_touch_user::singleton()->getToken();

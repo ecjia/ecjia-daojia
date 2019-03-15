@@ -20,7 +20,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <div class="ecjia-select">
     	<div class="ecjia-select-white">
     		{if $payment_list.online || $payment_list.offline}
-	        <p class="select-title ecjia-margin-l"><span class="icon-pay-title"></span>支付方式</p>
+	        <p class="select-title ecjia-margin-l"><span class="icon-pay-title"></span>{t domain="h5"}支付方式{/t}</p>
 	        <ul class="ecjia-list">
 	        
 	        	<!-- {if $payment_list.online} -->
@@ -49,7 +49,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	        <ul class="ecjia-list border-top-none">
 	            <label class="select-item select-shipping-date show">
 	                <li>
-	                	<span class="slect-title">提货时间</span>
+	                	<span class="slect-title">{t domain="h5"}提货时间{/t}</span>
 	                	<span class="ecjiaf-fr icon-span"><i class="iconfont icon-jiantou-right"></i></span>
 	                	<span class="ecjiaf-fr shipping-time">{if $temp.pickup_date}{$temp.pickup_date} {$temp.pickup_time}{/if}</span>
 	                </li>
@@ -64,7 +64,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
             <input type="hidden" name="address_id" value="{$address_id}">
             <input type="hidden" name="rec_id" value="{$rec_id}" />
             <input type="hidden" name="payment" value="{$temp.pay_id}">
-			<input class="btn btn-info" name="payment_pickup_update" type="submit" value="确定"/>
+			<input class="btn btn-info" name="payment_pickup_update" type="submit" value='{t domain="h5"}确定{/t}' />
         </div>
     </div>
 </form>
@@ -72,7 +72,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="mod_address_slide" id="shippingTimeArea">
 	<div class="mod_address_slide_main">
 		<div class="mod_address_slide_head">
-			提货时间<i class="iconfont icon-close"></i>
+			{t domain="h5"}提货时间{/t}<i class="iconfont icon-close"></i>
 		</div>
 		<div class="mod_address_slide_body">
 			<ul class="mod_address_slide_tabs navBar">

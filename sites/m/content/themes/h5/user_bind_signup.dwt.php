@@ -25,35 +25,35 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<div class="form-group ecjia-margin-t margin-right-left">
 				<label class="input">
 					<i class="iconfont icon-mobilefill icon-set"></i>
-					<input type="text" name="mobile" id="mobile" datatype="m" errormsg="手机号格式不正确" placeholder="请输入手机号" />
+					<input type="text" name="mobile" id="mobile" datatype="m" errormsg='{t domain="h5"}手机号格式不正确{/t}' placeholder='{t domain="h5"}请输入手机号{/t}' />
 				</label>
 			</div>
 			<div class="form-group small-text ecjia-margin-t">
 				<label class="input-1">
-					<input name="code" type="text" datatype="n6-6" errormsg="请输入正确格式的验证码" placeholder="输入验证码" />
+					<input name="code" type="text" datatype="n6-6" errormsg='{t domain="h5"}请输入正确格式的验证码{/t}' placeholder='{t domain="h5"}输入验证码{/t}' />
 				</label>
 			</div>
 			<div class="small-submit ecjia-margin-t">
                     <input type="hidden" name="referer" value="{$smarty.get.referer}" />
-                    <span><input type="button" class="btn btn-info login-btn" value="获取验证码" data-url="{url path='user/privilege/signup'}" id="get_code"  /></span>
+                    <span><input type="button" class="btn btn-info login-btn" value='{t domain="h5"}获取验证码{/t}' data-url="{url path='user/privilege/signup'}" id="get_code"  /></span>
         	</div>
 			<div class="form-group bf margin-right-left five-margin-top">
 				<label class="input">
 					<i class="iconfont icon-yanzhengma"></i>
-					<input name="verification" id="verification" type="text" datatype="*6-10" placeholder="邀请码6位数字或字母" errormsg="邀请码6位数字或字母" ignore="ignore">
+					<input name="verification" id="verification" type="text" datatype="*6-10" placeholder='{t domain="h5"}邀请码6位数字或字母{/t}' errormsg='{t domain="h5"}邀请码6位数字或字母{/t}' ignore="ignore">
 				</label>
 			</div>
 			<div class="form-group ecjia-margin-t margin-right-left">
 				<label class="input">
 					<i class="iconfont icon-dengluyonghuming"></i>
-					<input name="username" id="username" type="text" value="" datatype="*3-16|zh2-7" placeholder="请输入用户名" errormsg="用户名不正确">
+					<input name="username" id="username" type="text" value="" datatype="*3-16|zh2-7" placeholder='{t domain="h5"}请输入用户名{/t}' errormsg='{t domain="h5"}用户名不正确{/t}'>
 				</label>
 			</div>
 			<div class="form-group ecjia-margin-t margin-right-left">
 				<label class="input">
 					<i class="iconfont icon-unlock"></i>
 					<i class="iconfont icon-attention ecjia-login-margin-l"></i>
-					<input name="password" id="password1" type="password" datatype="*6-16" placeholder="请输入密码" errormsg="请输入6-16位密码">
+					<input name="password" id="password1" type="password" datatype="*6-16" placeholder='{t domain="h5"}请输入密码{/t}' errormsg='{t domain="h5"}请输入6-16位密码{/t}'>
 				</label>
 			</div>
 			<div class="ecjia-login-b ">
@@ -61,7 +61,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<input name="open_id" type="hidden" value="{$open_id}" />
 				<input type="hidden" name="back_act" value="{$back_act}" />
 				<div class="around margin-top">
-				<button class="btn btn-info login-btn" type="submit">{t}注册并关联{/t}</button>
+				<button class="btn btn-info login-btn" type="submit">{t domain="h5"}注册并关联{/t}</button>
 				</div>
 			</div>
 		</form>

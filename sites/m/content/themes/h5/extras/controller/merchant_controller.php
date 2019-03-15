@@ -112,13 +112,13 @@ class merchant_controller
         $store_temp_action_type = $_SESSION['store_temp' . $store_id]['action_type'];
 
         if ($store_temp_action_type == 'all') {
-            $type_name = '全部';
+            $type_name = __('全部', 'h5');
         } elseif ($store_temp_action_type == 'best') {
-            $type_name = '精选';
+            $type_name = __('精选', 'h5');
         } elseif ($store_temp_action_type == 'hot') {
-            $type_name = '热销';
+            $type_name = __('热销', 'h5');
         } elseif ($store_temp_action_type == 'new') {
-            $type_name = '新品';
+            $type_name = __('新品', 'h5');
         }
 
         if (!empty($store_temp_action_type)) {
@@ -184,7 +184,7 @@ class merchant_controller
                 $goods_list        = $data;
             }
             if (empty($category_id)) {
-                $type_name = '全部';
+                $type_name = __('全部', 'h5');
             }
         }
 
@@ -358,11 +358,11 @@ class merchant_controller
         $pages     = intval($_GET['page']) ? intval($_GET['page']) : 1;
 
         if ($action_type == 'best') {
-            $type_name = '精选';
+            $type_name = __('精选', 'h5');
         } elseif ($action_type == 'hot') {
-            $type_name = '热销';
+            $type_name = __('热销', 'h5');
         } elseif ($action_type == 'new') {
-            $type_name = '新品';
+            $type_name = __('新品', 'h5');
         }
 
         //店铺分类
@@ -398,7 +398,7 @@ class merchant_controller
             }
 
             if (empty($category_id)) {
-                $type_name = '全部';
+                $type_name = __('全部', 'h5');
             } else {
                 $type_name = '';
                 if (!is_ecjia_error($store_category) && !empty($store_category)) {
@@ -464,7 +464,7 @@ class merchant_controller
             if (!empty($goods_list)) {
                 foreach ($goods_list as $k => $v) {
                     if (!empty($v['specification'])) {
-                        $spec_goods[$v['id']]['goods_price']            = ltrim((!empty($v['promote_price']) ? $v['promote_price'] : ($v['shop_price'] == '免费' ? '0' : $v['shop_price'])), '￥');
+                        $spec_goods[$v['id']]['goods_price']            = ltrim((!empty($v['promote_price']) ? $v['promote_price'] : ($v['shop_price'] == __('免费', 'h5') ? '0' : $v['shop_price'])), '￥');
                         $spec_goods[$v['id']]['goods_info']             = $v;
                         $spec_goods[$v['id']]['goods_info']['goods_id'] = $v['id'];
                     }
@@ -525,7 +525,7 @@ class merchant_controller
         if (!ecjia_front::$controller->is_cached('merchant_position.dwt', $cache_id)) {
             $shop_address = $_GET['shop_address'];
             ecjia_front::$controller->assign('shop_address', $shop_address);
-            ecjia_front::$controller->assign_title('店铺位置');
+            ecjia_front::$controller->assign_title(__('店铺位置', 'h5'));
         }
         ecjia_front::$controller->display('merchant_position.dwt', $cache_id);
     }
@@ -563,7 +563,7 @@ class merchant_controller
             }
         }
 
-        ecjia_front::$controller->assign_title('店铺列表');
+        ecjia_front::$controller->assign_title(__('店铺列表', 'h5'));
         ecjia_front::$controller->assign('cid', $cid);
         ecjia_front::$controller->display('seller_list.dwt');
     }
@@ -583,8 +583,8 @@ class merchant_controller
         ecjia_front::$controller->assign('store_info', $store_info);
         ecjia_front::$controller->assign('store_id', $store_id);
 
-        ecjia_front::$controller->assign_title($store_info['seller_name'] . '在线买单');
-        ecjia_front::$controller->assign('title', $store_info['seller_name'] . '在线买单');
+        ecjia_front::$controller->assign_title(__(sprintf("%s在线买单", $store_info['seller_name']), 'h5'));
+        ecjia_front::$controller->assign('title', __(sprintf("%s在线买单", $store_info['seller_name']), 'h5'));
 
         if (empty($_SESSION['wxpay_open_id']) && cart_function::is_weixin()) {
             //提前获取微信支付wxpay_open_id
@@ -639,10 +639,10 @@ class merchant_controller
         $type     = intval($_POST['type']);
 
         if ($type == 1) {
-            $message = '关注成功';
+            $message = __('关注成功', 'h5');
             $api_url = ecjia_touch_api::STORE_COLLECT_CREATE;
         } else {
-            $message = '取消关注成功';
+            $message = __('取消关注成功', 'h5');
             $api_url = ecjia_touch_api::STORE_COLLECT_CANCEL;
         }
         $token = ecjia_touch_user::singleton()->getToken();

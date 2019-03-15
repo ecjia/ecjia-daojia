@@ -60,7 +60,7 @@ class franchisee_controller
         $config = !is_ecjia_error($config) ? $config : array();
 
         if ($config['merchant_join_close'] == 1) {
-            return ecjia_front::$controller->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('抱歉，该网站已关闭入驻商加盟！', 'h5'), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
         }
 
         $token = ecjia_touch_user::singleton()->getAdminToken();
@@ -71,7 +71,7 @@ class franchisee_controller
         ecjia_front::$controller->assign('image', $res['base64']);
 
         ecjia_front::$controller->assign('form_action', RC_Uri::url('franchisee/index/first_check'));
-        ecjia_front::$controller->assign_title('店铺入驻');
+        ecjia_front::$controller->assign_title(__('店铺入驻', 'h5'));
         ecjia_front::$controller->assign_lang();
 
         ecjia_front::$controller->display('franchisee_first.dwt');
@@ -84,13 +84,13 @@ class franchisee_controller
         $mobile = empty($_POST['f_mobile']) ? '' : trim($_POST['f_mobile']);
 
         if (empty($name)) {
-            return ecjia_front::$controller->showmessage('请输入真实姓名', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请输入真实姓名', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($email)) {
-            return ecjia_front::$controller->showmessage('请输入电子邮箱', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请输入电子邮箱', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($mobile)) {
-            return ecjia_front::$controller->showmessage('请输入手机号码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请输入手机号码', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
         if (is_ecjia_error($check_mobile)) {
@@ -119,7 +119,7 @@ class franchisee_controller
         ecjia_front::$controller->assign('image', $res['base64']);
         ecjia_front::$controller->assign('url', RC_Uri::url('franchisee/index/second_check'));
         ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->assign_title('进度查询');
+        ecjia_front::$controller->assign_title(__('进度查询', 'h5'));
 
         ecjia_front::$controller->display('franchisee_enter_captcha.dwt');
     }
@@ -128,13 +128,13 @@ class franchisee_controller
     {
         $mobile = $_SESSION['franchisee_add']['mobile'];
         if (empty($mobile)) {
-            return ecjia_front::$controller->showmessage(__('手机号码不能为空'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('手机号码不能为空', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $code = !empty($_POST['f_code']) ? trim($_POST['f_code']) : '';
 
         if (empty($code)) {
-            return ecjia_front::$controller->showmessage(__('请输入图形验证码'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请输入图形验证码', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
         if (is_ecjia_error($check_mobile)) {
@@ -156,7 +156,7 @@ class franchisee_controller
             return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
         } else {
             $_SESSION['franchisee_add']['captcha_code'] = $code;
-            return ecjia_front::$controller->showmessage('验证码已发送', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('franchisee/index/three', array('mobile' => $mobile, 'code' => $code))));
+            return ecjia_front::$controller->showmessage(__('验证码已发送', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('franchisee/index/three', array('mobile' => $mobile, 'code' => $code))));
         }
     }
 
@@ -167,8 +167,8 @@ class franchisee_controller
             ecjia_front::$controller->redirect(RC_Uri::url('franchisee/index/first'));
         }
 
-        ecjia_front::$controller->assign('title', '输入验证码');
-        ecjia_front::$controller->assign_title('输入验证码');
+        ecjia_front::$controller->assign('title', __('输入验证码', 'h5'));
+        ecjia_front::$controller->assign_title(__('输入验证码', 'h5'));
         ecjia_front::$controller->assign_lang();
 
         ecjia_front::$controller->assign('mobile', $mobile);
@@ -199,7 +199,7 @@ class franchisee_controller
             return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } else {
             $_SESSION['franchisee_add']['code'] = $value;
-            return ecjia_front::$controller->showmessage('校验成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('franchisee/index/four')));
+            return ecjia_front::$controller->showmessage(__('校验成功', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('franchisee/index/four')));
         }
     }
 
@@ -220,7 +220,7 @@ class franchisee_controller
         if (is_ecjia_error($rs)) {
             return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
         } else {
-            return ecjia_front::$controller->showmessage('发送成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+            return ecjia_front::$controller->showmessage(__('发送成功', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
         }
     }
 
@@ -243,11 +243,11 @@ class franchisee_controller
             if (is_ecjia_error($rs)) {
                 return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('search_url' => RC_Uri::url('franchisee/index/search')));
             } else {
-                return ecjia_front::$controller->showmessage("短信已发送到手机" . $mobile . "，请注意查看", ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+                return ecjia_front::$controller->showmessage(__(sprintf("短信已发送到手机%s，请注意查看", $mobile), 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
             }
         } else {
             if (empty($mobile)) {
-                return ecjia_front::$controller->showmessage('请输入手机号码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage(__('请输入手机号码', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
             if (is_ecjia_error($check_mobile)) {
@@ -262,11 +262,11 @@ class franchisee_controller
         $config = !is_ecjia_error($config) ? $config : array();
 
         if ($config['merchant_join_close'] == 1) {
-            return ecjia_front::$controller->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('抱歉，该网站已关闭入驻商加盟！', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         //验证第一步是否通过
         if (empty($_SESSION['franchisee_add']) || $_SESSION['franchisee_add']['access_time'] + 1800 < RC_Time::gmtime()) {
-            return ecjia_front::$controller->showmessage('请先填写基本信息', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('franchisee/index/first')));
+            return ecjia_front::$controller->showmessage(__('请先填写基本信息', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('franchisee/index/first')));
         }
 
         $token = ecjia_touch_user::singleton()->getAdminToken();
@@ -298,7 +298,7 @@ class franchisee_controller
         ecjia_front::$controller->assign('region_data', $region_data);
 
         if (is_ecjia_error($mobile)) {
-            return ecjia_front::$controller->showmessage('请先填写基本信息', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('franchisee/index/first')));
+            return ecjia_front::$controller->showmessage(__('请先填写基本信息', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('franchisee/index/first')));
         } else {
             $category_show = '';
             foreach ($category_list as $k => $v) {
@@ -310,9 +310,9 @@ class franchisee_controller
                 $category_show = $category_list[0]['name'];
             }
             if ($reaudit['validate_type'] == 2) {
-                $validate_type = '企业入驻';
+                $validate_type = __('企业入驻', 'h5');
             } else {
-                $validate_type = '个人入驻';
+                $validate_type = __('个人入驻', 'h5');
             }
             $province_list['regions'] = json_decode($region_data['province_list'], true);
             $city_list['regions']     = json_decode($region_data['city_list'], true);
@@ -391,7 +391,7 @@ class franchisee_controller
         ecjia_front::$controller->assign('category', $category);
         ecjia_front::$controller->assign('category_arr', json_decode($category, true));
 
-        ecjia_front::$controller->assign_title('店铺入驻');
+        ecjia_front::$controller->assign_title(__('店铺入驻', 'h5'));
         ecjia_front::$controller->assign_lang();
         ecjia_front::$controller->display('franchisee_second.dwt');
     }
@@ -415,7 +415,7 @@ class franchisee_controller
         $config = !is_ecjia_error($config) ? $config : array();
 
         if ($config['merchant_join_close'] == 1) {
-            return ecjia_front::$controller->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('抱歉，该网站已关闭入驻商加盟！', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $responsible_person = !empty($_SESSION['franchisee_add']['name']) ? $_SESSION['franchisee_add']['name'] : '';
@@ -440,43 +440,43 @@ class franchisee_controller
         $latitude  = !empty($_POST['latitude']) ? $_POST['latitude'] : '';
 
         if (empty($responsible_person)) {
-            return ecjia_front::$controller->showmessage('请输入真实姓名', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请输入真实姓名', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($email)) {
-            return ecjia_front::$controller->showmessage('请输入邮箱地址', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请输入邮箱地址', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($mobile)) {
-            return ecjia_front::$controller->showmessage('请输入手机号码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请输入手机号码', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($seller_name)) {
-            return ecjia_front::$controller->showmessage('请输入商店名称', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请输入商店名称', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (mb_strlen($seller_name) > 17) {
-            return ecjia_front::$controller->showmessage('店铺名称不能超过17个字符', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('店铺名称不能超过17个字符', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($seller_category)) {
-            return ecjia_front::$controller->showmessage('请选择店铺分类', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请选择店铺分类', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($validate_type)) {
-            return ecjia_front::$controller->showmessage('请选择店铺类型', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请选择店铺类型', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($province)) {
-            return ecjia_front::$controller->showmessage('请选择省', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请选择省', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($city)) {
-            return ecjia_front::$controller->showmessage('请选择市', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请选择市', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($district)) {
-            return ecjia_front::$controller->showmessage('请选择区', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请选择区', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($street)) {
-            return ecjia_front::$controller->showmessage('请选择街道', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请选择街道', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($address)) {
-            return ecjia_front::$controller->showmessage('请填写详细地址', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请填写详细地址', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($longitude) || empty($latitude)) {
-            return ecjia_front::$controller->showmessage('请填写详细地址', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请填写详细地址', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $token     = ecjia_touch_user::singleton()->getAdminToken();
@@ -511,7 +511,7 @@ class franchisee_controller
         if (is_ecjia_error($data)) {
             return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
         } else {
-            return ecjia_front::$controller->showmessage("入驻信息已提交，请耐心等耐审核", ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('franchisee/index/process', 'show=1')));
+            return ecjia_front::$controller->showmessage(__("入驻信息已提交，请耐心等耐审核", 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('franchisee/index/process', 'show=1')));
         }
     }
 
@@ -525,7 +525,7 @@ class franchisee_controller
         ecjia_front::$controller->assign('url', RC_Uri::url('franchisee/index/process_mobile_check'));
 
         ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->assign_title('进度查询');
+        ecjia_front::$controller->assign_title(__('进度查询', 'h5'));
 
         ecjia_front::$controller->display('franchisee_search.dwt');
     }
@@ -535,7 +535,7 @@ class franchisee_controller
     {
         $mobile = !empty($_POST['f_mobile']) ? $_POST['f_mobile'] : '';
         if (empty($mobile)) {
-            return ecjia_front::$controller->showmessage(__('请输入手机号码'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请输入手机号码', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
@@ -560,7 +560,7 @@ class franchisee_controller
         ecjia_front::$controller->assign('url', RC_Uri::url('franchisee/index/process_captcha_check'));
 
         ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->assign_title('进度查询');
+        ecjia_front::$controller->assign_title(__('进度查询', 'h5'));
 
         ecjia_front::$controller->display('franchisee_enter_captcha.dwt');
     }
@@ -570,13 +570,13 @@ class franchisee_controller
     {
         $mobile = $_SESSION['franchisee_add']['mobile'];
         if (empty($mobile)) {
-            return ecjia_front::$controller->showmessage(__('手机号码不能为空'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('手机号码不能为空', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $code = !empty($_POST['f_code']) ? trim($_POST['f_code']) : '';
 
         if (empty($code)) {
-            return ecjia_front::$controller->showmessage(__('请输入图形验证码'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请输入图形验证码', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
         if (is_ecjia_error($check_mobile)) {
@@ -599,7 +599,7 @@ class franchisee_controller
             $_SESSION['franchisee_add']['captcha_code']  = $code;
             $_SESSION['franchisee_add']['mobile']        = $mobile;
             $_SESSION['franchisee_add']['validate_type'] = 'process';
-            return ecjia_front::$controller->showmessage('验证码已发送', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('franchisee/index/process_enter_code', array('mobile' => $mobile, 'code' => $code))));
+            return ecjia_front::$controller->showmessage(__('验证码已发送', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('franchisee/index/process_enter_code', array('mobile' => $mobile, 'code' => $code))));
         }
     }
 
@@ -611,8 +611,8 @@ class franchisee_controller
             ecjia_front::$controller->redirect(RC_Uri::url('franchisee/index/search'));
         }
 
-        ecjia_front::$controller->assign('title', '输入验证码');
-        ecjia_front::$controller->assign_title('输入验证码');
+        ecjia_front::$controller->assign('title', __('输入验证码', 'h5'));
+        ecjia_front::$controller->assign_title(__('输入验证码', 'h5'));
         ecjia_front::$controller->assign_lang();
 
         ecjia_front::$controller->assign('mobile', $mobile);
@@ -630,7 +630,7 @@ class franchisee_controller
         $code   = !empty($_POST['value']) ? trim($_POST['value']) : '';
 
         if (empty($code)) {
-            return ecjia_front::$controller->showmessage(__('验证码不能为空'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('验证码不能为空', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $token  = ecjia_touch_user::singleton()->getAdminToken();
@@ -644,7 +644,7 @@ class franchisee_controller
         if (is_ecjia_error($rs)) {
             return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } else {
-            return ecjia_front::$controller->showmessage('校验成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('franchisee/index/process', array('mobile' => $mobile, 'code' => $code))));
+            return ecjia_front::$controller->showmessage(__('校验成功', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('franchisee/index/process', array('mobile' => $mobile, 'code' => $code))));
         }
     }
 
@@ -654,7 +654,7 @@ class franchisee_controller
         $config = !is_ecjia_error($config) ? $config : array();
 
         if ($config['merchant_join_close'] == 1) {
-            return ecjia_front::$controller->showmessage('抱歉，该网站已关闭入驻商加盟！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('抱歉，该网站已关闭入驻商加盟！', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $token  = ecjia_touch_user::singleton()->getAdminToken();
@@ -711,7 +711,7 @@ class franchisee_controller
         ecjia_front::$controller->assign('check_status', $check_status);
         ecjia_front::$controller->assign('info', $info);
         ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->assign_title('申请进度');
+        ecjia_front::$controller->assign_title(__('申请进度', 'h5'));
 
         ecjia_front::$controller->display('franchisee_process.dwt');
     }
@@ -734,7 +734,7 @@ class franchisee_controller
         ecjia_front::$controller->assign('code', $code);
 
         ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->assign_title('店铺精确位置');
+        ecjia_front::$controller->assign_title(__('店铺精确位置', 'h5'));
 
         ecjia_front::$controller->display('franchisee_get_location.dwt');
     }

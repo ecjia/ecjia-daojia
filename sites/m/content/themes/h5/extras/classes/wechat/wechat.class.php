@@ -87,8 +87,8 @@ class wechat {
         if (empty($code)) {
             $call_url = urlencode(RC_Uri::current_url());
             $url = $jsApiPub->createOauthUrlForCode($call_url);
-            return ecjia_front::$controller->redirect($url);
-            header("Location: ".$url);die;
+            ecjia_front::$controller->redirect($url);
+            ecjia_front::$controller->exited();
         }
 
         $jsApiPub->setCode($code);

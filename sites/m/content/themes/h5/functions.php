@@ -50,19 +50,31 @@ RC_Loader::load_app_class('touch', 'touch', false);
 RC_Loader::load_theme('extras/classes/ecjia_extra.class.php');
 
 /**
+ * step:1
  * 自动加载类管理
  */
 ecjia_extra::autoload();
 
 /**
+ * step:2
  * 加载路由
  */
 ecjia_extra::routeDispacth();
 
 /**
+ * step:3
  * 加载主题选项设置面板
  */
+ecjia_extra::defaultLoading();
 ecjia_extra::loadThemeFrameworkOptions();
+
+/**
+ * step:4
+ * 自定义主题框架的控制器
+ */
+RC_Hook::add_action('royalcms_default_controller', function($route) {
+    return new ecjia_theme_controller();
+});
 
 /**
  * step:5
@@ -167,7 +179,7 @@ RC_Hook::add_action('connect_callback_user_signin', function($connect_user) {
     $userid = $connect_user->getUserId();
     $user_info = EM_user_info($userid);
     if (empty($user_info)) {
-        return ecjia_front::$controller->showmessage('关联用户不存在，请联系管理员', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
+        return ecjia_front::$controller->showmessage(__('关联用户不存在，请联系管理员', 'h5'), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
     }
 
     if (is_ecjia_error($user_info)) {
@@ -187,7 +199,13 @@ RC_Hook::add_action('connect_callback_user_signin', function($connect_user) {
 //    );
 //    ecjia_touch_user::singleton()->setUserinfo($res);
 
-    ecjia_touch_user::singleton()->connectSignin($connect_user->getOpenId(), $connect_user->getConnectCode());
+    /**
+     * @var \Ecjia\App\Connect\ConnectUser\ConnectUser $connect_user
+     */
+    $connect_signin = ecjia_touch_user::singleton()->connectSignin($connect_user->getConnectCode(), $connect_user->getOpenId(), $connect_user->getUnionId(), $connect_user->getProfile());
+    if (is_ecjia_error($connect_signin)) {
+        return ecjia_front::$controller->showmessage($connect_signin->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
+    }
      
     update_user_info(); // 更新用户信息
     
@@ -219,18 +237,18 @@ RC_Hook::add_action('connect_callback_user_signin', function($connect_user) {
 RC_Hook::add_action('connect_callback_user_bind_complete', function($result) {
     if (is_ajax() && !is_pjax()) {
         if ($result) {
-            $link[] = array(RC_Lang::get('connect::connect.back_member'), 'href' => RC_Uri::url('touch/my/init'));
-            return ecjia_front::$controller->showmessage(RC_Lang::get('connect::connect.bind_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $link));
+            $link[] = array(__('返回会员中心', 'h5'), 'href' => RC_Uri::url('touch/my/init'));
+            return ecjia_front::$controller->showmessage(__('绑定成功', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $link));
         } else {
-            $link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
-            return ecjia_front::$controller->showmessage(RC_Lang::get('connect::connect.bind_fail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('links' => $link));
+            $link[] = array('text' => __('返回上一页', 'h5'), 'href' => 'javascript:history.back(-1)');
+            return ecjia_front::$controller->showmessage(__('绑定失败，用户名或密码错误！', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('links' => $link));
         }
     } else {
         if ($result) {
             return ecjia_front::$controller->redirect(RC_Uri::url('touch/my/init'));
         } else {
-            $link[] = array('text' => RC_Lang::get('system::system.go_back'), 'href' => 'javascript:history.back(-1)');
-            return ecjia_front::$controller->showmessage(RC_Lang::get('connect::connect.bind_fail'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
+            $link[] = array('text' => __('返回上一页', 'h5'), 'href' => 'javascript:history.back(-1)');
+            return ecjia_front::$controller->showmessage(__('绑定失败，用户名或密码错误！', 'h5'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
         }
     }
 });
@@ -240,7 +258,7 @@ RC_Hook::add_action('connect_callback_user_bind_complete', function($result) {
  */
 RC_Hook::add_action('connect_code_before_launching', function($connect_code) {
     if ($connect_code == 'sns_wechat' && !ecjia_plugin::is_active('sns_wechat/sns_wechat.php')) {
-        echo '请先购买并安装微信登录插件<br><a href="https://daojia.ecjia.com/opensource.html" target="_blank">购买链接</a>';
+        echo __('请先购买并安装微信登录插件', 'h5').'<br><a href="https://daojia.ecjia.com/opensource.html" target="_blank">'.__('购买链接', 'h5').'</a>';
         exit();
     }
 });
@@ -385,5 +403,20 @@ RC_Hook::add_filter('custom_site_api_url', 'custom_site_api_url');
  */
 RC_Hook::add_filter('http_request_timeout', function($time) {
 	return 20;
+});
+
+RC_Hook::add_action('front_enqueue_scripts', function() {
+    $request = royalcms('request');
+
+    $path = $request->query('m') . '/' . $request->query('c') . '/' . $request->query('a');
+
+    $paths = [
+        'connect/callback/init',
+        'payment/respond/response',
+    ];
+
+    if (in_array($path, $paths) && strpos($request->getBaseUrl(), '/sites/m') !== false) {
+        ecjia_theme_controller::registerDefaultStyleScripts();
+    }
 });
 

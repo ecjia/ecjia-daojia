@@ -9,7 +9,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {if $data} -->
 <div class="ecjia-mod ecjia-store-model ecjia-margin-t">
 	<div class="head-title">
-		<h2><i class="icon-store"></i>推荐店铺</h2>
+		<h2><i class="icon-store"></i>{t domain="h5"}推荐店铺{/t}</h2>
 	</div>
 	<div class="ecjia-suggest-store-content">
 		<ul class="ecjia-suggest-store" id="suggest_store_list" {if $is_last neq 1}data-toggle="asynclist" data-loadimg="{$theme_url}dist/images/loader.gif" data-url="{url path='index/ajax_suggest_store'}" data-page="2" {/if}>
@@ -20,7 +20,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 						<a class="seller-logo nopjax external" href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
 							<img src="{$val.seller_logo}">
 							{if $val.shop_closed eq 1}
-								<div class="shop_closed_mask">休息中</div>
+								<div class="shop_closed_mask">{t domain="h5"}休息中{/t}</div>
 							{/if}
 						</a>
 					</div>
@@ -28,7 +28,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 						<a class="nopjax external" href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
 							<div class="store-title">
 								<span class="store-name">{$val.seller_name}</span>
-								{if $val.manage_mode eq 'self'}<span class="manage_mode">自营</span>{/if}
+								{if $val.manage_mode eq 'self'}<span class="manage_mode">{t domain="h5"}自营{/t}</span>{/if}
 								{if $val.is_follower eq 1}<img class="followed" src="{$theme_url}images/user_center/icon_follow.png">{/if}
 								<span class="store-distance">{$val.distance}</span>
 							</div>
@@ -36,7 +36,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 								<i class="icon-shop-time"></i>{$val.label_trade_time}
 								
 								<!-- {if $val.allow_use_quickpay eq 1} -->
-								<a href="{RC_Uri::url('user/quickpay/init')}&store_id={$val.id}"><span class="store-quickpay-btn">买单</span></a>
+								<a href="{RC_Uri::url('user/quickpay/init')}&store_id={$val.id}"><span class="store-quickpay-btn">{t domain="h5"}买单{/t}</span></a>
 								<!-- {/if} -->
 								
 							</div>
@@ -61,7 +61,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 								<!-- {foreach from=$val.quickpay_activity_list item=list key=key} -->
 								{if $key eq 0}
 								<li class="quick">
-									<span class="quick-label">买单</span>
+									<span class="quick-label">{t domain="h5"}买单{/t}</span>
 									<span class="promotion-name">{$list.title}</span>
 								</li>
 								{/if}

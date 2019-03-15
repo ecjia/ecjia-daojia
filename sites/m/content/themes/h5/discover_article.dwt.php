@@ -40,7 +40,7 @@ ecjia.touch.index.init();
 						<a class="nopjax external" href='{url path="goods/index/show"}&goods_id={$goods.goods_id}'><p class="content-sku-name line-clamp2">{$goods.name}</p></a>
 						<div class="content-sku-bottom clearfix"> 
 							<span class="sku-price ellipsis">{$goods.shop_price}</span>  
-							<a class="nopjax external" href='{url path="goods/index/show"}&goods_id={$goods.goods_id}'><span class="buy-btn">去购买</span></a>
+							<a class="nopjax external" href='{url path="goods/index/show"}&goods_id={$goods.goods_id}'><span class="buy-btn">{t domain="h5"}去购买{/t}</span></a>
 						</div> 
 					</div> 
 				</div>  
@@ -58,10 +58,10 @@ ecjia.touch.index.init();
 			<span class="author-name ellipsis">{$data.store_name}</span> 
 		</div> 
 		<p class="author-desc"> 
-			<span>共{$data.total_articles}篇资讯</span> 
+			<span>{t domain="h5" 1={$data.total_articles}}共%1篇资讯{/t}</span> 
 		</p>  
 		<a class="nopjax external" href='{url path="merchant/index/init"}&store_id={$data.store_id}'>
-			<div class="enter-store">进入店铺</div> 
+			<div class="enter-store">{t domain="h5"}进入店铺{/t}</div> 
 		</a>
 	</div>
 	<!-- {/if} -->
@@ -70,7 +70,7 @@ ecjia.touch.index.init();
 	<div class="floor"> 
         <div class="ecjia-margin-t">
 			<div class="floor-title"> 
-				<span class="floor-title-cn">相关商品</span> 
+				<span class="floor-title-cn">{t domain="h5"}相关商品{/t}</span> 
 				<span class="floor-title-en">Related Products</span> 
 			</div> 
             <div class="form-group ecjia-form ecjia-like-goods-list">
@@ -98,7 +98,7 @@ ecjia.touch.index.init();
             </div>
         </div>
         <a class="nopjax external" href="{RC_Uri::url('merchant/index/init')}&store_id={$data.store_id}">
-        	<div class="view-more-goods">查看更多商品</div> 
+        	<div class="view-more-goods">{t domain="h5"}查看更多商品{/t}</div> 
         </a>
 	</div>
 	<!-- {/if} -->
@@ -106,10 +106,10 @@ ecjia.touch.index.init();
 	<div class="floor comment-floor" name="floor-comment" id="floor-comment"> 
 		<div class="background-fff">
 			<div class="floor-title"> 
-				<span class="floor-title-cn">评论</span> 
+				<span class="floor-title-cn">{t domain="h5"}评论{/t}</span> 
 				<span class="floor-title-en">Comments</span> 
 				{if $data.comment_count neq 0}
-				<span class="floor-title-count">共{$data.comment_count}条</span>
+				<span class="floor-title-count">{t domain="h5" 1={$data.comment_count}}共%1条{/t}</span>
 				{/if}
 			</div> 
 			<div class="floor-content">
@@ -125,7 +125,7 @@ ecjia.touch.index.init();
 	        	<i class="iconfont icon-appreciate"><span>{$data.like_count}</span></i>
 	        </a>
 	        <a class="article-bianji external" href="javascript:;">
-	        	<i class="iconfont icon-bianji1"></i><span class="write-comment">写评论</span>
+	        	<i class="iconfont icon-bianji1"></i><span class="write-comment">{t domain="h5"}写评论{/t}</span>
 	        </a>
 	        <a class="external" href="#floor-comment">
 	        	<i class="iconfont icon-comment"><span>{$data.comment_count}</span></i>
@@ -135,8 +135,8 @@ ecjia.touch.index.init();
     
     <div class="send-box">
         <div class="textarea-box">
-            <textarea cols="30" rows="3" placeholder="我来说两句..."></textarea>
-            <a class="xin-btn xin-btn-small send-btn" href="javascript:void(0);">发送</a>
+            <textarea cols="30" rows="3" placeholder='{t domain="h5"}我来说两句...{/t}'></textarea>
+            <a class="xin-btn xin-btn-small send-btn" href="javascript:void(0);">{t domain="h5"}发送{/t}</a>
         </div>
         <input type="hidden" name="add_comment" value="{RC_Uri::url('article/index/add_comment')}&article_id={$article_id}" />
     </div>

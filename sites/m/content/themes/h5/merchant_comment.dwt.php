@@ -23,9 +23,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- #BeginLibraryItem "/library/merchant_head.lbi" --><!-- #EndLibraryItem -->
 <div class="ecjia-mod ecjia-store-ul">
 	<ul>
-		<li class="ecjia-store-li" data-url="{$url}"><span class="">购物</span></li>
-		<li class="ecjia-store-li"><span class="active">评价</span></li>
-		<li class="ecjia-store-li"><span>商家</span></li>
+		<li class="ecjia-store-li" data-url="{$url}"><span class="">{t domain="h5"}购物{/t}</span></li>
+		<li class="ecjia-store-li"><span class="active">{t domain="h5"}评价{/t}</span></li>
+		<li class="ecjia-store-li"><span>{t domain="h5"}商家{/t}</span></li>
 	</ul>
 </div>
 
@@ -35,28 +35,28 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<div class="store-hr"></div>
 			<div class="store-header-title">
 				<div class="store-score">
-					<div class="score-name">商品评分 ({$store_info.comment.comment_goods})</div>
+					<div class="score-name">{t domain="h5"}商品评分{/t} ({$store_info.comment.comment_goods})</div>
 					<span class="score-val" data-val="{$store_info.comment.comment_goods_val}"></span>
 				</div>
 				<div class="store-option">
 					<dl class="active" data-url="{$ajax_url}&action_type=all&status=toggle" data-type="all">
-						<dt>全部</dt>
+						<dt>{t domain="h5"}全部{/t}</dt>
 						<dd>{$comment_number.all}</dd>
 					</dl>
 					<dl data-url="{$ajax_url}&action_type=good&status=toggle" data-type="good">
-						<dt>好评</dt>
+						<dt>{t domain="h5"}好评{/t}</dt>
 						<dd>{$comment_number.good}</dd>
 					</dl>
 					<dl data-url="{$ajax_url}&action_type=general&status=toggle" data-type="general">
-						<dt>中评</dt>
+						<dt>{t domain="h5"}中评{/t}</dt>
 						<dd>{$comment_number.general}</dd>
 					</dl>
 					<dl data-url="{$ajax_url}&action_type=low&status=toggle" data-type="low">
-						<dt>差评</dt>
+						<dt>{t domain="h5"}差评{/t}</dt>
 						<dd>{$comment_number.low}</dd>
 					</dl>
 					<dl data-url="{$ajax_url}&action_type=picture&status=toggle" data-type="picture">
-						<dt>晒图</dt>
+						<dt>{t domain="h5"}晒图{/t}</dt>
 						<dd>{$comment_number.picture}</dd>
 					</dl>
 				</div>
@@ -98,7 +98,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			</div>
 			<!-- {/if} -->
 			{if $list.reply_content}
-			<div class="store-reply">商家回复：{$list.reply_content}</div>
+			<div class="store-reply">{t domain="h5"}商家回复：{/t}{$list.reply_content}</div>
 			{/if}
 		</div>    
 	</div>    
@@ -106,7 +106,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {foreachelse} -->
 <div class="ecjia-nolist">
     <img src="{$theme_url}images/wallet/null280.png">
-    <p class="tags_list_font">暂无商品评论</p>
+    <p class="tags_list_font">{t domain="h5"}暂无商品评论{/t}</p>
 </div>
 <!-- {/foreach} -->
 <!-- {/block} -->

@@ -1,0 +1,1839 @@
+# Copyright (C) 2019 ECJIA Team
+# This file is distributed under the same license as the ECJia到家H5主题 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: ECJia到家H5主题 "
+"1.29.0\n"
+"Report-Msgid-Bugs-To: https://www."
+"ecjia.com/support/theme/h5\n"
+"POT-Creation-Date: 2019-03-08 "
+"14:06+0800\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; "
+"charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-03-08 "
+"14:20+0800\n"
+"Language-Team: ecjia@ecjia.com\n"
+"X-Generator: Poedit 1.8.7\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n !"
+"= 1);\n"
+"Language: en_US\n"
+
+#: extras/configs/theme-framework.php:18
+msgid "布局"
+msgstr "Layout"
+
+#: extras/configs/theme-framework.php:24
+msgid "首页、分类和标签布局"
+msgstr ""
+
+#: extras/configs/theme-framework.php:30
+msgid "选择商品列表布局"
+msgstr ""
+
+#: extras/configs/theme-framework.php:32
+msgid "纯商品展示"
+msgstr ""
+
+#: extras/configs/theme-framework.php:33
+msgid "店铺+商品展示"
+msgstr ""
+
+#: extras/configs/theme-framework.php:50
+msgid "关于"
+msgstr "About"
+
+#: extras/configs/theme-framework.php:60
+msgid "ECJia到家官网，详情请访问："
+msgstr ""
+
+#: extras/configs/theme-settings.php:16
+msgid "主题个性化"
+msgstr "Theme personalization"
+
+#: extras/configs/theme-settings.php:21
+msgid ""
+"主题个性化 <small>配置菜单</small>"
+msgstr ""
+"Theme personalization "
+"<small>Configuration menu</small>"
+
+#: extras/controller/affiliate_controller.php:83
+#: extras/controller/affiliate_controller.php:132
+#: extras/controller/connect_controller.php:320
+#: extras/controller/user_get_password_controller.php:72
+msgid "请输入手机号"
+msgstr ""
+
+#: extras/controller/affiliate_controller.php:87
+#: extras/controller/connect_controller.php:383
+#: extras/controller/user_get_password_controller.php:121
+#: extras/controller/user_privilege_controller.php:331
+#: extras/controller/user_profile_controller.php:380
+#: extras/controller/user_profile_controller.php:539
+msgid "请输入验证码"
+msgstr ""
+
+#: extras/controller/affiliate_controller.php:103
+msgid "您已经是老用户，可以直接去登陆"
+msgstr ""
+
+#: extras/controller/affiliate_controller.php:107
+msgid "该手机号已被推荐邀请"
+msgstr ""
+
+#: extras/controller/affiliate_controller.php:110
+#: extras/controller/connect_controller.php:417
+#: extras/controller/franchisee_controller.php:159
+#: extras/controller/franchisee_controller.php:602
+#: extras/controller/user_get_password_controller.php:137
+#: extras/controller/user_privilege_controller.php:365
+msgid "验证码已发送"
+msgstr ""
+
+#: extras/controller/affiliate_controller.php:136
+msgid "请输入短信验证码"
+msgstr ""
+
+#: extras/controller/affiliate_controller.php:151
+msgid "领取成功"
+msgstr ""
+
+#: extras/controller/article_controller.php:66
+msgid "帮助中心"
+msgstr "Help"
+
+#: extras/controller/article_controller.php:156
+msgid "发现"
+msgstr "Discover"
+
+#: extras/controller/article_controller.php:221
+msgid "请输入评论内容"
+msgstr ""
+
+#: extras/controller/cart_controller.php:96
+msgid "购物车列表"
+msgstr ""
+
+#: extras/controller/cart_controller.php:307
+#: extras/controller/cart_controller.php:652
+#: extras/controller/cart_controller.php:918
+#: extras/controller/cart_controller.php:966
+#: extras/controller/cart_controller.php:1058
+#: extras/controller/cart_controller.php:1135
+#: extras/controller/cart_controller.php:1197
+#: extras/controller/cart_controller.php:1229
+#: extras/controller/cart_controller.php:1310
+#: extras/controller/cart_controller.php:1367
+#: extras/controller/cart_controller.php:1403
+#: extras/controller/cart_controller.php:1445
+#: extras/controller/cart_controller.php:1477
+#: extras/controller/cart_controller.php:1517
+msgid "请先登录再继续操作"
+msgstr ""
+
+#: extras/controller/cart_controller.php:322
+#: extras/controller/cart_controller.php:667
+#: extras/controller/cart_controller.php:925
+#: extras/controller/cart_controller.php:989
+#: extras/controller/cart_controller.php:1079
+#: extras/controller/cart_controller.php:1142
+#: extras/controller/cart_controller.php:1205
+#: extras/controller/cart_controller.php:1236
+#: extras/controller/cart_controller.php:1317
+#: extras/controller/cart_controller.php:1373
+#: extras/controller/cart_controller.php:1411
+#: extras/controller/cart_controller.php:1453
+#: extras/controller/cart_controller.php:1484
+#: extras/controller/cart_controller.php:1524
+msgid "请选择商品再进行结算"
+msgstr ""
+
+#: extras/controller/cart_controller.php:470
+msgid "请选择配送方式"
+msgstr ""
+
+#: extras/controller/cart_controller.php:503
+#: extras/controller/cart_controller.php:783
+msgid "请填写完整的发票信息"
+msgstr ""
+
+#: extras/controller/cart_controller.php:611
+#: extras/controller/cart_controller.php:888
+msgid "结算"
+msgstr ""
+
+#: extras/controller/cart_controller.php:816
+#: extras/controller/cart_controller.php:1531
+#: extras/controller/quickpay_controller.php:74
+msgid "积分"
+msgstr ""
+
+#: extras/controller/cart_controller.php:929
+#: extras/controller/cart_controller.php:994
+#: extras/controller/cart_controller.php:1146
+#: extras/controller/cart_controller.php:1209
+#: extras/controller/cart_controller.php:1240
+#: extras/controller/cart_controller.php:1377
+#: extras/controller/cart_controller.php:1415
+#: extras/controller/cart_controller.php:1457
+#: extras/controller/cart_controller.php:1488
+#: extras/controller/cart_controller.php:1528
+msgid "请先选择收货地址"
+msgstr ""
+
+#: extras/controller/cart_controller.php:955
+msgid "商品清单"
+msgstr ""
+
+#: extras/controller/cart_controller.php:1003
+msgid ""
+"当前收货地址暂无可用配送方式，请重新更"
+"换其他的收货地址"
+msgstr ""
+
+#: extras/controller/cart_controller.php:1007
+#: extras/controller/cart_controller.php:1088
+msgid "请选择一个支付方式"
+msgstr ""
+
+#: extras/controller/cart_controller.php:1037
+msgid "当前配送方式不支持货到付款"
+msgstr ""
+
+#: extras/controller/cart_controller.php:1092
+msgid "请选择提货时间"
+msgstr ""
+
+#: extras/controller/cart_controller.php:1218
+msgid "配送方式"
+msgstr ""
+
+#: extras/controller/cart_controller.php:1302
+#: extras/controller/cart_controller.php:1359
+msgid "选择支付配送方式"
+msgstr ""
+
+#: extras/controller/cart_controller.php:1392
+msgid "配送时间"
+msgstr ""
+
+#: extras/controller/cart_controller.php:1434
+msgid "开发票"
+msgstr ""
+
+#: extras/controller/cart_controller.php:1466
+msgid "备注留言"
+msgstr ""
+
+#: extras/controller/cart_controller.php:1496
+msgid "红包不可用"
+msgstr ""
+
+#: extras/controller/cart_controller.php:1506
+msgid "使用红包"
+msgstr ""
+
+#: extras/controller/connect_controller.php:73
+msgid ""
+"登录授权失败，请稍后再试或联系客服"
+msgstr ""
+
+#: extras/controller/connect_controller.php:106
+msgid "登录授权失败，请使用其他方式登录"
+msgstr ""
+
+#: extras/controller/connect_controller.php:119
+#: extras/controller/connect_controller.php:120
+msgid "绑定手机号"
+msgstr ""
+
+#: extras/controller/connect_controller.php:133
+#: extras/controller/connect_controller.php:170
+#: extras/controller/connect_controller.php:217
+#: extras/controller/connect_controller.php:239
+#: extras/controller/connect_controller.php:562
+msgid "授权信息异常，请重新授权"
+msgstr ""
+
+#: extras/controller/connect_controller.php:138
+#: extras/controller/connect_controller.php:139
+msgid "注册绑定"
+msgstr ""
+
+#: extras/controller/connect_controller.php:167
+#: extras/controller/connect_controller.php:243
+msgid "请填写完整信息"
+msgstr ""
+
+#: extras/controller/connect_controller.php:174
+#: extras/controller/connect_controller.php:548
+#: extras/controller/user_privilege_controller.php:506
+msgid "邀请码格式不正确"
+msgstr ""
+
+#: extras/controller/connect_controller.php:184
+#: extras/controller/user_privilege_controller.php:492
+msgid ""
+"该手机号已被注册，请更换其他手机号"
+msgstr ""
+
+#: extras/controller/connect_controller.php:205
+#: extras/controller/connect_controller.php:523
+#: extras/controller/user_privilege_controller.php:444
+#: extras/controller/user_privilege_controller.php:559
+msgid "恭喜您，注册成功"
+msgstr ""
+
+#: extras/controller/connect_controller.php:207
+#: extras/controller/connect_controller.php:265
+#: extras/controller/connect_controller.php:492
+#: extras/controller/connect_controller.php:592
+msgid "授权用户信息关联失败"
+msgstr ""
+
+#: extras/controller/connect_controller.php:222
+#: extras/controller/connect_controller.php:223
+msgid "验证并关联"
+msgstr ""
+
+#: extras/controller/connect_controller.php:258
+#: extras/controller/connect_controller.php:478
+msgid ""
+"用户验证成功，获取用户信息失败，请重"
+"试！"
+msgstr ""
+
+#: extras/controller/connect_controller.php:262
+#: extras/controller/connect_controller.php:490
+msgid "关联成功"
+msgstr ""
+
+#: extras/controller/connect_controller.php:349
+#: extras/controller/connect_controller.php:350
+#: extras/controller/user_get_password_controller.php:99
+#: extras/controller/user_get_password_controller.php:100
+#: extras/controller/user_privilege_controller.php:297
+#: extras/controller/user_privilege_controller.php:298
+msgid "图形验证码"
+msgstr ""
+
+#: extras/controller/connect_controller.php:386
+#: extras/controller/user_get_password_controller.php:124
+#: extras/controller/user_privilege_controller.php:334
+msgid ""
+"规定时间1分钟以外，可重新发送验证码"
+msgstr ""
+
+#: extras/controller/connect_controller.php:419
+#: extras/controller/franchisee_controller.php:223
+#: extras/controller/user_get_password_controller.php:139
+#: extras/controller/user_privilege_controller.php:368
+msgid "发送成功"
+msgstr ""
+
+#: extras/controller/connect_controller.php:436
+#: extras/controller/connect_controller.php:437
+#: extras/controller/franchisee_controller.php:170
+#: extras/controller/franchisee_controller.php:171
+#: extras/controller/franchisee_controller.php:614
+#: extras/controller/franchisee_controller.php:615
+#: extras/controller/user_get_password_controller.php:155
+#: extras/controller/user_get_password_controller.php:156
+#: extras/controller/user_privilege_controller.php:384
+#: extras/controller/user_privilege_controller.php:385
+msgid "输入验证码"
+msgstr ""
+
+#: extras/controller/connect_controller.php:553
+#: extras/controller/user_privilege_controller.php:539
+msgid "请设置用户名"
+msgstr ""
+
+#: extras/controller/connect_controller.php:556
+#: extras/controller/user_privilege_controller.php:542
+#: extras/controller/user_profile_controller.php:383
+msgid "请设置密码"
+msgstr ""
+
+#: extras/controller/connect_controller.php:590
+msgid "恭喜您，绑定注册成功"
+msgstr ""
+
+#: extras/controller/connect_controller.php:597
+#: extras/controller/user_privilege_controller.php:566
+msgid "设置名字密码"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:63
+#: extras/controller/franchisee_controller.php:265
+#: extras/controller/franchisee_controller.php:418
+#: extras/controller/franchisee_controller.php:657
+msgid "抱歉，该网站已关闭入驻商加盟！"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:74
+#: extras/controller/franchisee_controller.php:394
+msgid "店铺入驻"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:87
+#: extras/controller/franchisee_controller.php:443
+msgid "请输入真实姓名"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:90
+msgid "请输入电子邮箱"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:93
+#: extras/controller/franchisee_controller.php:250
+#: extras/controller/franchisee_controller.php:449
+#: extras/controller/franchisee_controller.php:538
+msgid "请输入手机号码"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:122
+#: extras/controller/franchisee_controller.php:528
+#: extras/controller/franchisee_controller.php:563
+msgid "进度查询"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:131
+#: extras/controller/franchisee_controller.php:573
+#: extras/controller/user_profile_controller.php:355
+#: extras/controller/user_profile_controller.php:377
+msgid "手机号码不能为空"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:137
+#: extras/controller/franchisee_controller.php:579
+msgid "请输入图形验证码"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:202
+#: extras/controller/franchisee_controller.php:647
+msgid "校验成功"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:269
+#: extras/controller/franchisee_controller.php:301
+msgid "请先填写基本信息"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:313
+msgid "企业入驻"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:315
+msgid "个人入驻"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:446
+msgid "请输入邮箱地址"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:452
+msgid "请输入商店名称"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:455
+msgid "店铺名称不能超过17个字符"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:458
+msgid "请选择店铺分类"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:461
+msgid "请选择店铺类型"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:464
+msgid "请选择省"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:467
+msgid "请选择市"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:470
+msgid "请选择区"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:473
+msgid "请选择街道"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:476
+#: extras/controller/franchisee_controller.php:479
+msgid "请填写详细地址"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:514
+msgid "入驻信息已提交，请耐心等耐审核"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:633
+#: extras/controller/user_profile_controller.php:759
+#: extras/controller/user_profile_controller.php:776
+msgid "验证码不能为空"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:714
+msgid "申请进度"
+msgstr ""
+
+#: extras/controller/franchisee_controller.php:737
+msgid "店铺精确位置"
+msgstr ""
+
+#: extras/controller/goods_controller.php:121
+msgid "所有分类"
+msgstr ""
+
+#: extras/controller/goods_controller.php:273
+#: extras/controller/merchant_controller.php:467
+msgid "免费"
+msgstr ""
+
+#: extras/controller/goods_controller.php:411
+msgid "促销商品"
+msgstr ""
+
+#: extras/controller/goods_controller.php:420
+msgid "团购商品"
+msgstr ""
+
+#: extras/controller/goods_controller.php:481
+msgid "新品首发"
+msgstr ""
+
+#: extras/controller/goods_controller.php:490
+msgid "店长推荐"
+msgstr ""
+
+#: extras/controller/goods_controller.php:529
+msgid "商品列表"
+msgstr ""
+
+#: extras/controller/goods_controller.php:710
+#: extras/controller/merchant_controller.php:566
+msgid "店铺列表"
+msgstr ""
+
+#: extras/controller/merchant_controller.php:115
+#: extras/controller/merchant_controller.php:187
+#: extras/controller/merchant_controller.php:401
+msgid "全部"
+msgstr ""
+
+#: extras/controller/merchant_controller.php:117
+#: extras/controller/merchant_controller.php:361
+msgid "精选"
+msgstr ""
+
+#: extras/controller/merchant_controller.php:119
+#: extras/controller/merchant_controller.php:363
+msgid "热销"
+msgstr ""
+
+#: extras/controller/merchant_controller.php:121
+#: extras/controller/merchant_controller.php:365
+msgid "新品"
+msgstr ""
+
+#: extras/controller/merchant_controller.php:528
+msgid "店铺位置"
+msgstr ""
+
+#: extras/controller/merchant_controller.php:642
+msgid "关注成功"
+msgstr ""
+
+#: extras/controller/merchant_controller.php:645
+msgid "取消关注成功"
+msgstr ""
+
+#: extras/controller/mobile_controller.php:79
+msgid "百宝箱"
+msgstr ""
+
+#: extras/controller/payment_controller.php:65
+#: extras/controller/quickpay_controller.php:369
+#: extras/controller/quickpay_controller.php:493
+#: extras/controller/quickpay_controller.php:514
+#: extras/controller/user_order_controller.php:118
+#: extras/controller/user_order_controller.php:127
+#: extras/controller/user_order_controller.php:207
+#: extras/controller/user_order_controller.php:217
+#: extras/controller/user_order_controller.php:241
+#: extras/controller/user_order_controller.php:270
+#: extras/controller/user_order_controller.php:388
+#: extras/controller/user_order_controller.php:679
+#: extras/controller/user_order_controller.php:732
+#: extras/controller/user_order_controller.php:750
+#: extras/controller/user_order_controller.php:779
+#: extras/controller/user_order_controller.php:926
+#: extras/controller/user_order_controller.php:937
+msgid "订单不存在"
+msgstr ""
+
+#: extras/controller/payment_controller.php:96
+#: extras/controller/quickpay_controller.php:389
+msgid "该订单已支付请勿重复支付"
+msgstr ""
+
+#: extras/controller/payment_controller.php:230
+#: extras/controller/user_account_controller.php:617
+msgid "请选择支付方式"
+msgstr ""
+
+#: extras/controller/quickpay_controller.php:128
+msgid "该店铺未开启优惠买单活动"
+msgstr ""
+
+#: extras/controller/quickpay_controller.php:328
+msgid "消费金额不能为空"
+msgstr ""
+
+#: extras/controller/quickpay_controller.php:501
+#: extras/controller/user_account_controller.php:521
+msgid "取消成功"
+msgstr ""
+
+#: extras/controller/quickpay_controller.php:522
+#: extras/controller/user_address_controller.php:600
+#: extras/controller/user_profile_controller.php:528
+msgid "删除成功"
+msgstr ""
+
+#: extras/controller/quickpay_controller.php:551
+msgid "支付成功"
+msgstr ""
+
+#: extras/controller/quickpay_controller.php:567
+msgid "我的买单"
+msgstr ""
+
+#: extras/controller/quickpay_controller.php:619
+msgid "该订单不存在"
+msgstr ""
+
+#: extras/controller/quickpay_controller.php:624
+msgid "买单详情"
+msgstr ""
+
+#: extras/controller/touch_controller.php:243
+msgid "搜索"
+msgstr ""
+
+#: extras/controller/touch_controller.php:279
+msgid "缓存设置"
+msgstr ""
+
+#: extras/controller/touch_controller.php:321
+msgid "选择门店"
+msgstr ""
+
+#: extras/controller/touch_controller.php:340
+msgid "关于我们"
+msgstr ""
+
+#: extras/controller/touch_controller.php:349
+#: extras/controller/touch_controller.php:350
+msgid "定位"
+msgstr ""
+
+#: extras/controller/touch_controller.php:436
+msgid "选择城市"
+msgstr ""
+
+#: extras/controller/touch_controller.php:457
+#: extras/controller/touch_controller.php:470
+msgid "定位失败，请手动选择"
+msgstr ""
+
+#: extras/controller/user_account_controller.php:71
+msgid "我的钱包"
+msgstr ""
+
+#: extras/controller/user_account_controller.php:86
+msgid "账户余额"
+msgstr ""
+
+#: extras/controller/user_account_controller.php:170
+#: extras/controller/user_account_controller.php:522
+msgid "充值"
+msgstr ""
+
+#: extras/controller/user_account_controller.php:214
+msgid "金额不能为空"
+msgstr ""
+
+#: extras/controller/user_account_controller.php:241
+msgid "提现"
+msgstr ""
+
+#: extras/controller/user_account_controller.php:259
+msgid "您还未设置微信提现的真实姓名"
+msgstr ""
+
+#: extras/controller/user_account_controller.php:264
+msgid "请输入提现金额"
+msgstr ""
+
+#: extras/controller/user_account_controller.php:269
+msgid "用户信息不存在"
+msgstr ""
+
+#: extras/controller/user_account_controller.php:274
+msgid "余额不足，请确定提现金额"
+msgstr ""
+
+#: extras/controller/user_account_controller.php:278
+msgid "提现金额不能为0"
+msgstr ""
+
+#: extras/controller/user_account_controller.php:316
+msgid "交易记录"
+msgstr ""
+
+#: extras/controller/user_account_controller.php:498
+msgid "交易明细"
+msgstr ""
+
+#: extras/controller/user_account_controller.php:516
+msgid "取消"
+msgstr ""
+
+#: extras/controller/user_account_controller.php:602
+msgid "继续充值"
+msgstr ""
+
+#: extras/controller/user_address_controller.php:77
+msgid "选择收货地址"
+msgstr ""
+
+#: extras/controller/user_address_controller.php:105
+msgid "收货地址管理"
+msgstr ""
+
+#: extras/controller/user_address_controller.php:271
+msgid "添加收货地址"
+msgstr ""
+
+#: extras/controller/user_address_controller.php:311
+#: extras/controller/user_address_controller.php:524
+msgid "请完整填写相关信息"
+msgstr ""
+
+#: extras/controller/user_address_controller.php:385
+msgid "添加地址成功"
+msgstr ""
+
+#: extras/controller/user_address_controller.php:395
+#: extras/controller/user_address_controller.php:521
+#: extras/controller/user_address_controller.php:584
+#: extras/controller/user_address_controller.php:624
+msgid "参数错误"
+msgstr ""
+
+#: extras/controller/user_address_controller.php:486
+msgid "编辑收货地址"
+msgstr ""
+
+#: extras/controller/user_address_controller.php:564
+msgid "编辑地址成功"
+msgstr ""
+
+#: extras/controller/user_address_controller.php:603
+msgid "该地址为默认的收货地址，不能删除"
+msgstr ""
+
+#: extras/controller/user_address_controller.php:631
+#: extras/controller/user_profile_controller.php:687
+msgid "设置成功"
+msgstr ""
+
+#: extras/controller/user_address_controller.php:654
+msgid "请先选择城市"
+msgstr ""
+
+#: extras/controller/user_address_controller.php:659
+msgid "选择位置"
+msgstr ""
+
+#: extras/controller/user_bonus_controller.php:62
+msgid "我的红包"
+msgstr ""
+
+#: extras/controller/user_bonus_controller.php:143
+msgid "我的奖励"
+msgstr ""
+
+#: extras/controller/user_bonus_controller.php:175
+msgid "奖励明细"
+msgstr ""
+
+#: extras/controller/user_bonus_controller.php:228
+msgid "添加红包"
+msgstr ""
+
+#: extras/controller/user_controller.php:99
+msgid "个人中心"
+msgstr ""
+
+#: extras/controller/user_controller.php:126
+msgid "我的推广"
+msgstr ""
+
+#: extras/controller/user_controller.php:192
+msgid "关注店铺"
+msgstr ""
+
+#: extras/controller/user_controller.php:228
+msgid "我的团队"
+msgstr ""
+
+#: extras/controller/user_get_password_controller.php:61
+#: extras/controller/user_get_password_controller.php:62
+msgid "找回密码"
+msgstr ""
+
+#: extras/controller/user_get_password_controller.php:201
+#: extras/controller/user_profile_controller.php:159
+msgid "请输入新密码"
+msgstr ""
+
+#: extras/controller/user_get_password_controller.php:204
+msgid "请输入确认密码"
+msgstr ""
+
+#: extras/controller/user_get_password_controller.php:207
+msgid "两次密码输入不一致"
+msgstr ""
+
+#: extras/controller/user_get_password_controller.php:215
+msgid "您已成功找回密码"
+msgstr ""
+
+#: extras/controller/user_get_password_controller.php:224
+#: extras/controller/user_get_password_controller.php:225
+msgid "设置新密码"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:68
+#: extras/controller/user_order_controller.php:69
+msgid "售后订单"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:87
+msgid "全部订单"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:89
+msgid "待付款订单"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:92
+msgid "待发货订单"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:95
+msgid "待收货订单"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:98
+msgid "待评价订单"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:140
+#: extras/controller/user_order_controller.php:141
+#: extras/controller/user_order_controller.php:950
+#: extras/controller/user_order_controller.php:951
+msgid "订单详情"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:192
+#: extras/controller/user_order_controller.php:193
+#: extras/controller/user_order_controller.php:986
+#: extras/controller/user_order_controller.php:987
+msgid "订单状态"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:228
+#: extras/controller/user_order_controller.php:229
+msgid "物流信息"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:249
+msgid "取消订单成功"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:254
+msgid "订单取消申请已提交至商家审核"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:402
+msgid "收货成功"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:485
+msgid "商品质量俱佳，强烈推荐！"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:508
+#: extras/controller/user_order_controller.php:709
+#: extras/controller/user_order_controller.php:858
+msgid "提交成功"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:545
+msgid "配送员位置"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:560
+#: extras/controller/user_order_controller.php:561
+msgid "申请查询"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:610
+#: extras/controller/user_order_controller.php:611
+msgid "申请售后"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:637
+#: extras/controller/user_order_controller.php:638
+msgid "售后进度"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:646
+#: extras/controller/user_order_controller.php:647
+msgid "退款详情"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:663
+#: extras/controller/user_order_controller.php:664
+msgid "售后详情"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:682
+msgid "申请失败，请选择售后原因"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:685
+msgid "申请失败，请填写问题描述"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:721
+msgid "撤销成功"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:792
+msgid "请选择期望取件时间"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:796
+msgid "请输入联系人"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:800
+msgid "请输入联系电话"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:822
+msgid "请输入快递名称"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:825
+msgid "请输入快递单号"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:999
+msgid "订单分成"
+msgstr ""
+
+#: extras/controller/user_order_controller.php:1042
+msgid "分成详情"
+msgstr ""
+
+#: extras/controller/user_privilege_controller.php:96
+#: extras/controller/user_privilege_controller.php:197
+#: extras/controller/user_privilege_controller.php:198
+msgid "密码登录"
+msgstr ""
+
+#: extras/controller/user_privilege_controller.php:99
+#: extras/controller/user_privilege_controller.php:100
+#: extras/controller/user_privilege_controller.php:194
+msgid "手机登录"
+msgstr ""
+
+#: extras/controller/user_privilege_controller.php:137
+msgid "微信快捷登录"
+msgstr ""
+
+#: extras/controller/user_privilege_controller.php:240
+msgid "请输入用户名或手机号"
+msgstr ""
+
+#: extras/controller/user_privilege_controller.php:242
+msgid "请输入密码"
+msgstr ""
+
+#: extras/controller/user_privilege_controller.php:468
+msgid "手机快速注册"
+msgstr ""
+
+#: extras/controller/user_privilege_controller.php:470
+msgid "注册"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:77
+msgid "个人资料"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:115
+msgid "修改用户名"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:128
+msgid "修改失败，请输入正确的用户名格式"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:133
+msgid "修改成功"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:155
+msgid "请输入旧密码"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:163
+msgid "请输入确认新密码"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:169
+msgid "新密码不能旧密码相同"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:173
+msgid "修改密码成功"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:178
+msgid "两次输入的密码不同，请重新输入"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:186
+#: extras/controller/user_profile_controller.php:738
+msgid "请先绑定手机号码"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:189
+#: extras/controller/user_profile_controller.php:190
+msgid "修改密码"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:226
+msgid "提现账户"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:249
+msgid "绑定手机"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:251
+msgid "绑定邮箱"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:255
+msgid "绑定银行卡"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:257
+msgid "绑定微信钱包提现"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:327
+msgid "该手机号与当前绑定的手机号相同"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:332
+msgid ""
+"该邮箱地址与当前绑定的邮箱地址相同"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:386
+msgid "登录密码不能少于 6 个字符"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:395
+msgid "修改成功，请重新登录"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:461
+msgid "更换手机号"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:463
+msgid "更换邮箱"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:465
+msgid "绑定微信"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:467
+msgid "解除绑定"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:471
+msgid "编辑银行卡"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:497
+#: extras/controller/user_profile_controller.php:800
+msgid "验证手机号"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:515
+msgid "该提现方式不存在"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:519
+#: extras/controller/user_profile_controller.php:577
+#: extras/controller/user_profile_controller.php:606
+msgid "请输入手机验证码"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:547
+msgid "解绑成功"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:565
+msgid "请输入持卡人姓名"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:568
+msgid "请选择所属银行"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:571
+msgid "请输入开户行"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:574
+msgid "请输入银行卡号"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:594
+#: extras/controller/user_profile_controller.php:620
+msgid "绑定成功"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:602
+msgid "请输入微信认证的真实姓名"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:637
+msgid "支付密码"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:653
+msgid "请设置支付密码"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:656
+msgid "再次确认支付密码"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:689
+msgid "两次密码输入不一致，请重试"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:718
+msgid "注销账号"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:722
+msgid "激活账号"
+msgstr ""
+
+#: extras/controller/user_profile_controller.php:784
+msgid "激活成功"
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "ECJia到家H5主题"
+msgstr ""
+
+#. Template URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"EC+到家App上经典的绿色皮肤。适合O2O当"
+"地平台运营为主的运营模式。招商入驻，展"
+"示多个商家。"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "ECJIA Team"
+msgstr ""
+
+#: sites/m/content/themes/h5/quickpay_list.dwt.php:26
+msgid "暂无买单记录"
+msgstr ""
+
+#: sites/m/content/themes/h5/franchisee_second.dwt.php:23
+msgid "请输入店铺名称10字以内"
+msgstr ""
+
+#: sites/m/content/themes/h5/franchisee_second.dwt.php:38
+msgid "请选择入驻类型 "
+msgstr ""
+
+#: sites/m/content/themes/h5/franchisee_second.dwt.php:65
+msgid "输入详细地址"
+msgstr ""
+
+#: sites/m/content/themes/h5/franchisee_second.dwt.php:82
+msgid "提交"
+msgstr ""
+
+#: sites/m/content/themes/h5/select_location.dwt.php:24
+msgid "选择城市、小区、写字楼、学校"
+msgstr ""
+
+#: sites/m/content/themes/h5/search.dwt.php:29
+#: sites/m/content/themes/h5/library/model_search.lbi.php:22
+msgid "清除"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_bind_signup.dwt.php:64
+msgid "注册并关联"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_address_list.dwt.php:34
+#: sites/m/content/themes/h5/library/address_modal.lbi.php:15
+msgid "新建收货地址"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_address_list.dwt.php:55
+#: sites/m/content/themes/h5/user_address_list.dwt.php:57
+#: sites/m/content/themes/h5/user_address_list.dwt.php:81
+#: sites/m/content/themes/h5/user_address_list.dwt.php:83
+#: sites/m/content/themes/h5/user_address_list.dwt.php:105
+#: sites/m/content/themes/h5/user_address_list.dwt.php:107
+msgid "设为默认"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_address_list.dwt.php:59
+#: sites/m/content/themes/h5/user_address_list.dwt.php:85
+#: sites/m/content/themes/h5/user_address_list.dwt.php:109
+msgid "您确定要删除此收货地址吗？"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_address_list.dwt.php:59
+#: sites/m/content/themes/h5/user_address_list.dwt.php:85
+#: sites/m/content/themes/h5/user_address_list.dwt.php:109
+#: sites/m/content/themes/h5/library/consignee.lbi.php:68
+msgid "删除"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_address_list.dwt.php:60
+#: sites/m/content/themes/h5/user_address_list.dwt.php:86
+#: sites/m/content/themes/h5/user_address_list.dwt.php:110
+msgid "编辑"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_order_return_list.dwt.php:26
+#: sites/m/content/themes/h5/user_groupbuy_order_list.dwt.php:39
+#: sites/m/content/themes/h5/user_order_list.dwt.php:39
+msgid "暂无相关订单"
+msgstr ""
+
+#: sites/m/content/themes/h5/franchisee_search.dwt.php:21
+#: sites/m/content/themes/h5/franchisee_first.dwt.php:35
+msgid "请输入手机号码 "
+msgstr ""
+
+#: sites/m/content/themes/h5/goods_show.dwt.php:330
+msgid "暂无任何商品详情"
+msgstr ""
+
+#: sites/m/content/themes/h5/goods_show.dwt.php:347
+msgid "暂无任何规格参数"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_account_withdraw.dwt.php:16
+#: sites/m/content/themes/h5/user_account_recharge.dwt.php:23
+msgid "金额"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_account_withdraw.dwt.php:17
+msgid "建议提现100元以上的金额"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_account_withdraw.dwt.php:27
+msgid "提现申请"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_bonus.dwt.php:21
+msgid "可使用"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_bonus.dwt.php:22
+msgid "已使用"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_bonus.dwt.php:23
+msgid "已过期"
+msgstr ""
+
+#: sites/m/content/themes/h5/franchisee_get_location.dwt.php:86
+msgid "返回"
+msgstr ""
+
+#: sites/m/content/themes/h5/franchisee_first.dwt.php:28
+msgid "请输入电子邮箱 "
+msgstr ""
+
+#: sites/m/content/themes/h5/franchisee_first.dwt.php:40
+msgid "下一步"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_account_balance.dwt.php:30
+msgid "暂无账单记录"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_address_edit.dwt.php:58
+msgid "写字楼，小区，学校，街道"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_address_edit.dwt.php:67
+msgid "楼层，门牌"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_address_edit.dwt.php:74
+msgid "请输入真实姓名，限6个字"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_address_edit.dwt.php:80
+msgid "请确保收货电话真实有效"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_address_edit.dwt.php:85
+msgid "保存"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/store_notice_modal.lbi.php:16
+msgid "优惠信息"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/store_notice_modal.lbi.php:32
+msgid "商城公告"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/model_hotgoods.lbi.php:12
+msgid "热门推荐"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/goods_comment.lbi.php:14
+msgid "好评"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/goods_comment.lbi.php:18
+msgid "中评"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/goods_comment.lbi.php:22
+msgid "差评"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/goods_comment.lbi.php:26
+msgid "晒图"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/goods_comment.lbi.php:54
+msgid "商家回复："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/goods_comment.lbi.php:63
+msgid "暂无商品评论"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:13
+msgid "全部商品"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:18
+msgid "上新"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:23
+msgid "促销"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:28
+msgid "店铺动态"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:36
+#: sites/m/content/themes/h5/library/merchant_head.lbi.php:30
+#: sites/m/content/themes/h5/library/suggest_store.lbi.php:25
+#: sites/m/content/themes/h5/library/suggest_store.lbi.php:48
+#: sites/m/content/themes/h5/library/model_store.lbi.php:39
+#: sites/m/content/themes/h5/library/model_store.lbi.php:64
+#: sites/m/content/themes/h5/library/store_list.lbi.php:36
+#: sites/m/content/themes/h5/library/store_list.lbi.php:57
+msgid "买单"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:37
+msgid "买单立享优惠"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:38
+msgid "优惠买单"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:70
+msgid "商家电话"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:71
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:77
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:82
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:88
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:92
+msgid "暂无"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:76
+msgid "公司名称"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:80
+msgid "所在地区"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:87
+msgid "营业时间"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:91
+msgid "商家简介"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:96
+msgid "营业执照"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/goods_attr_static_modal.lbi.php:25
+#: sites/m/content/themes/h5/library/goods_attr_modal.lbi.php:47
+msgid "加入购物车"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/address_modal.lbi.php:11
+msgid "您当前使用的地址是："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/address_modal.lbi.php:16
+msgid "更换地址"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/index_header.lbi.php:22
+#: sites/m/content/themes/h5/library/index_header.lbi.php:30
+#: sites/m/content/themes/h5/library/model_search.lbi.php:12
+msgid "搜索店内商品"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/index_header.lbi.php:22
+#: sites/m/content/themes/h5/library/index_header.lbi.php:30
+#: sites/m/content/themes/h5/library/model_search.lbi.php:12
+msgid "搜索附近门店"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/ecjia_bonus_modal.lbi.php:12
+msgid "恭喜您！"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/ecjia_bonus_modal.lbi.php:13
+msgid "红包添加成功！"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/ecjia_bonus_modal.lbi.php:17
+msgid "确认"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/ecjia_bonus_modal.lbi.php:21
+msgid "您输入的号码有误，"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/ecjia_bonus_modal.lbi.php:22
+msgid "请核对后重新输入！"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/ecjia_bonus_modal.lbi.php:26
+msgid "重新输入"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/ecjia_bonus_modal.lbi.php:30
+msgid "红包详情"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/ecjia_bonus_modal.lbi.php:32
+msgid "红包名称："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/ecjia_bonus_modal.lbi.php:36
+msgid "红包金额："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/ecjia_bonus_modal.lbi.php:40
+msgid "使用期限："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/ecjia_bonus_modal.lbi.php:44
+msgid "使用条件："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/ecjia_bonus_modal.lbi.php:47
+msgid "确认添加"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/ecjia_bonus_modal.lbi.php:48
+msgid "取消添加"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_head.lbi.php:20
+#: sites/m/content/themes/h5/library/model_new_goods.lbi.php:22
+#: sites/m/content/themes/h5/library/suggest_store.lbi.php:18
+#: sites/m/content/themes/h5/library/model_suggest_goods.lbi.php:22
+#: sites/m/content/themes/h5/library/model_promotions.lbi.php:25
+#: sites/m/content/themes/h5/library/model_store.lbi.php:31
+#: sites/m/content/themes/h5/library/store_list.lbi.php:31
+msgid "自营"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_head.lbi.php:22
+msgid "已关注"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_head.lbi.php:24
+msgid "关注"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_head.lbi.php:48
+msgid "共 %1 个活动"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/model_new_goods.lbi.php:11
+#: sites/m/content/themes/h5/library/model_suggest_goods.lbi.php:11
+#: sites/m/content/themes/h5/library/model_promotions.lbi.php:11
+#: sites/m/content/themes/h5/library/model_groupbuy.lbi.php:11
+msgid "更多"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/shipping_fee_modal.lbi.php:10
+msgid "配送费说明"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/shipping_fee_modal.lbi.php:12
+msgid "总计"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/shipping_fee_modal.lbi.php:17
+msgid "配送费"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/shipping_fee_modal.lbi.php:20
+msgid "保价费"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/shipping_fee_modal.lbi.php:24
+msgid "说明"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/shipping_fee_modal.lbi.php:25
+msgid "运费：原订单实际支付的运费金额"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/model_bar.lbi.php:9
+msgid "首页"
+msgstr "Home"
+
+#: sites/m/content/themes/h5/library/model_bar.lbi.php:10
+msgid "分类"
+msgstr "Category"
+
+#: sites/m/content/themes/h5/library/model_bar.lbi.php:12
+msgid "购物车"
+msgstr "Cart"
+
+#: sites/m/content/themes/h5/library/model_bar.lbi.php:13
+msgid "我的"
+msgstr "My"
+
+#: sites/m/content/themes/h5/library/consignee.lbi.php:11
+msgid "收货人姓名必填"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/consignee.lbi.php:11
+msgid "请输入长度为3 ~ 15的收货人姓名"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/consignee.lbi.php:16
+msgid "手机必填"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/consignee.lbi.php:16
+msgid "请输入正确格式的联系方式"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/consignee.lbi.php:24
+#: sites/m/content/themes/h5/library/consignee.lbi.php:32
+#: sites/m/content/themes/h5/library/consignee.lbi.php:40
+#: sites/m/content/themes/h5/library/consignee.lbi.php:48
+msgid "请选择"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/consignee.lbi.php:61
+msgid "详细地址"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/consignee.lbi.php:70
+msgid "配送至这个地址"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/suggest_store.lbi.php:10
+#: sites/m/content/themes/h5/library/model_store.lbi.php:23
+#: sites/m/content/themes/h5/library/store_list.lbi.php:25
+msgid "休息中"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/article_comment.lbi.php:14
+msgid "暂无评论"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_goods.lbi.php:23
+msgid "选规格"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_goods.lbi.php:28
+msgid "减"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_goods.lbi.php:30
+msgid "加"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/merchant_goods.lbi.php:38
+msgid "暂无相关商品数据"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/model_search.lbi.php:22
+msgid "搜索（%1 条记录）"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/model_search.lbi.php:37
+msgid "您还没有搜索记录"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/change_goods_num.lbi.php:15
+msgid "修改数量"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/change_goods_num.lbi.php:28
+msgid "确定"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/article_list.lbi.php:32
+msgid "暂无文章"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/order_total.lbi.php:12
+msgid "获得%1："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/order_total.lbi.php:17
+msgid "获得红包："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/order_total.lbi.php:17
+msgid "红包"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/order_total.lbi.php:21
+msgid "商品总价："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/order_total.lbi.php:24
+msgid "折扣："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/order_total.lbi.php:28
+msgid "发票税额："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/order_total.lbi.php:37
+msgid "运费："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/order_total.lbi.php:41
+msgid "保价费用："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/order_total.lbi.php:45
+msgid "支付手续费："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/order_total.lbi.php:49
+msgid "包装费用："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/order_total.lbi.php:53
+msgid "贺卡费用："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/order_total.lbi.php:58
+msgid "余额付款："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/order_total.lbi.php:62
+msgid "使用%1："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/order_total.lbi.php:66
+msgid "使用红包："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/order_total.lbi.php:74
+msgid ""
+"（备注：团购如果有保证金，第一次只需支"
+"付保证金和相应的支付费用）"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/order_total.lbi.php:78
+msgid "积分商城商品需要消耗积分："
+msgstr ""
+
+#: sites/m/content/themes/h5/library/model_store.lbi.php:12
+msgid "推荐店铺"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/model_groupbuy.lbi.php:11
+msgid "限时团购"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/page_qrcode.lbi.php:11
+msgid "微信“扫一扫”浏览"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/store_list.lbi.php:85
+msgid "查看更多（%1）"
+msgstr ""
+
+#: sites/m/content/themes/h5/library/store_list.lbi.php:88
+msgid "收起"
+msgstr ""
+
+#: sites/m/content/themes/h5/quickpay_explain.dwt.php:22
+msgid "买单说明"
+msgstr ""
+
+#: sites/m/content/themes/h5/quickpay_explain.dwt.php:24
+msgid ""
+"1、优惠买单仅限于到店消费后使用，请勿"
+"提前支付；"
+msgstr ""
+
+#: sites/m/content/themes/h5/quickpay_explain.dwt.php:25
+msgid ""
+"2、请在输入买单金额前与商家确认门店信"
+"息和消费金额；"
+msgstr ""
+
+#: sites/m/content/themes/h5/quickpay_explain.dwt.php:26
+msgid ""
+"3、遇节假日能否享受优惠，请详细咨询商"
+"家；"
+msgstr ""
+
+#: sites/m/content/themes/h5/quickpay_explain.dwt.php:27
+msgid ""
+"4、请咨询商家能否与店内其他优惠同享；"
+msgstr ""
+
+#: sites/m/content/themes/h5/quickpay_explain.dwt.php:28
+msgid ""
+"5、如需发票，请您在消费时向商家咨询；"
+msgstr ""
+
+#: sites/m/content/themes/h5/quickpay_explain.dwt.php:36
+msgid "买单优惠"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_account_recharge_again.dwt.php:21
+msgid ""
+"当前订单不支持原有支付方式，请切换新的"
+"支付方式继续支付。"
+msgstr ""
+
+#: sites/m/content/themes/h5/franchisee_enter_captcha.dwt.php:24
+msgid "请输入图形验证码 "
+msgstr ""
+
+#: sites/m/content/themes/h5/cart_list.dwt.php:21
+msgid "点击登录"
+msgstr ""
+
+#: sites/m/content/themes/h5/cart_list.dwt.php:113
+msgid "去逛逛"
+msgstr ""
+
+#: sites/m/content/themes/h5/pay_change.dwt.php:52
+#: sites/m/content/themes/h5/pay.dwt.php:67
+msgid "确认支付"
+msgstr ""
+
+#: sites/m/content/themes/h5/user.dwt.php:42
+#: sites/m/content/themes/h5/user.dwt.php:138
+msgid "我的订单"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_account_wechat_withdraw.dwt.php:54
+msgid "立即提现"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_account_recharge.dwt.php:24
+msgid "建议充入100元以上金额"
+msgstr ""
+
+#: sites/m/content/themes/h5/user_account_recharge.dwt.php:50
+#: sites/m/content/themes/h5/user_account_recharge.dwt.php:55
+msgid "立即充值"
+msgstr ""
+
+#: sites/m/content/themes/h5/quickpay_checkout.dwt.php:27
+msgid "消费金额 (元)"
+msgstr ""
+
+#: sites/m/content/themes/h5/quickpay_checkout.dwt.php:35
+msgid "输入不参与优惠金额 (元)"
+msgstr ""
+
+#: sites/m/content/themes/h5/quickpay_checkout.dwt.php:39
+msgid "不参与优惠金额 (元)"
+msgstr ""
+
+#: sites/m/content/themes/h5/follow_list.dwt.php:99
+msgid "暂无关注店铺"
+msgstr ""

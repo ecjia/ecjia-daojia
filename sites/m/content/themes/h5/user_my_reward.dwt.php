@@ -20,7 +20,7 @@ ecjia.touch.spread.init();
     <div class="ecjia-spread ecjia-margin-b ecjia-spread-padding0">
         <ul class="ecjia-list list-short">
             <li>
-                <div class="reward-title">获得的{$integral_name}奖励</div>
+                <div class="reward-title">{t domain="h5" 1={$integral_name}}获得的%1奖励{/t}</div>
                 <div class="reward-label">
                     <div class="reward-num reward-g">
                     	{$intive_total.invite_integral_reward}
@@ -36,7 +36,7 @@ ecjia.touch.spread.init();
                 </div>
             </li>
             <li>
-                <div class="reward-title">获得的红包奖励</div>
+                <div class="reward-title">{t domain="h5"}获得的红包奖励{/t}</div>
                 <div class="reward-label">
                     <div class="reward-num reward-b">
                     	{$intive_total.invite_bouns_reward}
@@ -52,7 +52,7 @@ ecjia.touch.spread.init();
                 </div>
             </li>
             <li>
-                <div class="reward-title">获得的现金奖励</div>
+                <div class="reward-title">{t domain="h5"}获得的现金奖励{/t}</div>
                 <div class="reward-label">
                     <div class="reward-num reward-o">
                     	{$intive_total.invite_balance_reward}
@@ -79,7 +79,7 @@ ecjia.touch.spread.init();
                     <div class="qrcode_image2">
                         <img src="{$theme_url}images/wallet/60x60_1.png">
                     </div>
-                    <span>奖励明细</span>
+                    <span>{t domain="h5"}奖励明细{/t}</span>
                 </a>
             </li>
             <li>
@@ -87,7 +87,7 @@ ecjia.touch.spread.init();
                     <div class="qrcode_image3">
                         <img src="{$theme_url}images/wallet/60x60_2.png">
                     </div>
-                    <span>赚{$integral_name}</span>
+                    <span>{t domain="h5"}赚{/t}{$integral_name}</span>
                 </a>
             </li>
         </ul>

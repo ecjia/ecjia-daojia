@@ -7,114 +7,50 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {else} -->
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0, minimal-ui, viewport-fit=cover">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="format-detection" content="telephone=no" />
-	<title>{$page_title}</title>
-	<link href="{if ecjia::config('wap_logo')}{RC_Upload::upload_url(ecjia::config('wap_logo'))}{else}favicon.ico{/if}" rel="shortcut icon bookmark">
-	<link href="{if ecjia::config('wap_logo')}{RC_Upload::upload_url(ecjia::config('wap_logo'))}{else}favicon.ico{/if}" rel="apple-touch-icon-precomposed">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0, minimal-ui, viewport-fit=cover">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="format-detection" content="telephone=no" />
+		<title>{$page_title}</title>
+		<link href="{if ecjia::config('wap_logo')}{RC_Upload::upload_url(ecjia::config('wap_logo'))}{else}favicon.ico{/if}" rel="shortcut icon bookmark">
+		<link href="{if ecjia::config('wap_logo')}{RC_Upload::upload_url(ecjia::config('wap_logo'))}{else}favicon.ico{/if}" rel="apple-touch-icon-precomposed">
+	    <!-- {ecjia:hook id=front_enqueue_scripts} -->
+	    <!-- {ecjia:hook id=front_print_styles} -->
+	    <!-- {ecjia:hook id=front_print_scripts} -->
+	    <!-- {block name="ready_meta"} --><!-- {/block} -->
+	    <!-- {block name="meta"} --><!-- {/block} -->
+		<!-- {ecjia:hook id=front_head} -->
+        <script charset="utf-8" src="{ecjia_location_mapjs('convertor')}"></script>
+        <script type="text/javascript">var theme_url = "{$theme_url}";</script>
+		<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+	</head>
+	<body>
+		<div class="ecjia" id="get_location" data-url="{url path='touch/location/get_location_msg'}">
+			<input type="hidden" name="key" value="{$key}"/>
+			<input type="hidden" name="referer" value="{$referer}"/>
+			<!-- {block name="main-content"} --><!-- {/block} -->
+			<!-- #BeginLibraryItem "/library/page_menu.lbi" --><!-- #EndLibraryItem -->
+			<!--{if $ecjia_qrcode_image}-->
+			<!-- #BeginLibraryItem "/library/page_qrcode.lbi" --><!-- #EndLibraryItem -->
+			<!--{/if}-->
+		</div>
 
-	<!-- {block name="ready_meta"} --><!-- {/block} -->
-	<link rel="stylesheet" href="{$theme_url}lib/bootstrap3/css/bootstrap.css">
-
-	<link rel="stylesheet" href="{$theme_url}dist/css/iconfont.min.css">
-	<link rel="stylesheet" href="{$theme_url}css/ecjia.touch.css">
-	<link rel="stylesheet" href="{$theme_url}css/ecjia.touch.develop.css">
-	<link rel="stylesheet" href="{$theme_url}css/ecjia.touch.b2b2c.css">
-	<link rel="stylesheet" href="{$theme_url}css/ecjia_city.css">
-	<link rel="stylesheet" href="{$theme_url}css/ecjia_help.css">
-    <!-- 弹窗 -->
-	<link rel="stylesheet" href="{$theme_url}css/ecjia.touch.models.css">
-	<link rel="stylesheet" href="{$theme_url}dist/other/swiper.min.css">
-    <link rel="stylesheet" href="{$theme_url}lib/datePicker/css/datePicker.min.css">
-    <link rel="stylesheet" href="{$theme_url}lib/winderCheck/css/winderCheck.min.css">
-    <!-- 图片预览 -->
-    <link rel="stylesheet" href="{$theme_url}lib/photoswipe/css/photoswipe.css">
-    <link rel="stylesheet" href="{$theme_url}lib/photoswipe/css/default-skin/default-skin.css">
-    
-	<!-- skin -->
-	<link rel="stylesheet" href="{$theme_url}{$curr_style}">
-	<link rel="stylesheet" href="{$theme_url}lib/iOSOverlay/css/iosOverlay.css">
-	<!-- {ecjia:hook id=front_head} -->
-</head>
-<body>
-	<div class="ecjia" id="get_location" data-url="{url path='touch/location/get_location_msg'}">
-		<input type="hidden" name="key" value="{$key}"/>
-		<input type="hidden" name="referer" value="{$referer}"/>
-		<!-- {block name="main-content"} --><!-- {/block} -->
-		<!-- #BeginLibraryItem "/library/page_menu.lbi" --><!-- #EndLibraryItem -->
-		<!--{if $ecjia_qrcode_image}-->
-		<!-- #BeginLibraryItem "/library/page_qrcode.lbi" --><!-- #EndLibraryItem -->
-		<!--{/if}-->
-	</div>
-	<!-- {block name="ready_footer"} --><!-- {/block} -->
-	<script charset="utf-8" src="{ecjia_location_mapjs('convertor')}"></script>
-	<script type="text/javascript" src="{$theme_url}lib/jquery/jquery.min.js"></script>
-	<script type="text/javascript" src="{$theme_url}lib/multi-select/js/jquery.quicksearch.js"></script>
-	<script type="text/javascript" src="{$theme_url}lib/jquery/jquery.pjax.js"></script>
-	<script type="text/javascript" src="{$theme_url}lib/jquery/jquery.cookie.js"></script>
-	<script type="text/javascript" src="{$theme_url}lib/iscroll/js/iscroll.js"></script>
-	<script type="text/javascript" src="{$theme_url}lib/bootstrap3/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="{$theme_url}lib/ecjiaUI/ecjia.js"></script>
-	<script type="text/javascript" src="{$theme_url}lib/jquery-form/jquery.form.min.js"></script>
-	<script type="text/javascript" src="{$theme_url}lib/clipboard/js/clipboard.min.js"></script>
-	<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
-
-	<script type="text/javascript" src="{$theme_url}lib/jquery-localstorage/jquery.localstorage.js"></script>
-	<!-- 图片预览 -->
-	<script type="text/javascript" src="{$theme_url}lib/photoswipe/js/photoswipe.min.js"></script>
-	<script type="text/javascript" src="{$theme_url}lib/photoswipe/js/photoswipe-ui-default.min.js"></script>
-
-	<!-- {block name="meta"} --><!-- {/block} -->
-    <script type="text/javascript" src="{$theme_url}js/jquery.yomi.js"></script>
-	<script type="text/javascript" src="{$theme_url}js/ecjia.touch.koala.js"></script>
-	<script type="text/javascript" src="{$theme_url}js/ecjia.touch.js"></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.others.js"></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.goods.js"></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.user.js"></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.flow.js"></script>
-
-    <script type="text/javascript">var theme_url = "{$theme_url}";</script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.goods_detail.js"></script>
-
-	{if $is_weixin}
-	<script type="text/javascript" src="{$theme_url}js/jweixin-1.2.0.js"></script>
-	{/if}
-
- 	<script type="text/javascript" src="{$theme_url}js/ecjia.touch.spread.js"></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.user_account.js"></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.franchisee.js"></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.comment.js"></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.raty.js"></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.fly.js"></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.quickpay.js"></script>
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.share.js"></script>
-    <!-- 弹窗 -->
-    <script type="text/javascript" src="{$theme_url}js/ecjia.touch.intro.min.js"></script>
-	<script type="text/javascript" src="{$theme_url}lib/Validform/Validform_v5.3.2_min.js"></script>
-
-	<script type="text/javascript" src="{$theme_url}lib/swiper/js/swiper.min.js"></script>
-    <script type="text/javascript" src="{$theme_url}lib/datePicker/js/datePicker.min.js"></script>
-    <script type="text/javascript" src="{$theme_url}lib/winderCheck/js/winderCheck.min.js"></script>
-    <script type="text/javascript" src="{$theme_url}js/greenCheck.js"></script>
-
-    <script type="text/javascript" src="{$theme_url}lib/iOSOverlay/js/iosOverlay.js"></script>
-    <script type="text/javascript" src="{$theme_url}lib/iOSOverlay/js/prettify.js"></script>
-	<!-- {block name="footer"} --><!-- {/block} -->
-	<script type="text/javascript">
-		var hidenav = {if $hidenav eq 1}1{else}0{/if}, hidetab = {if $hidetab eq 1}1{else}0{/if}, hideinfo = {if $hideinfo}1{else}0{/if};
-		if (hideinfo) {
-			$('header').hide();
-			$('footer').hide();
-			$('.ecjia-menu').hide();
-		} else {
-			hidenav && $('header').hide();
-			hidetab && $('footer').hide();
-		}
-	</script>
-</body>
+	    <!-- {ecjia:hook id=front_print_footer_scripts} -->
+	    <!-- {block name="ready_footer"} --><!-- {/block} -->
+	    <!-- {block name="footer"} --><!-- {/block} -->
+		<script type="text/javascript">
+			var hidenav = {if $hidenav eq 1}1{else}0{/if}, hidetab = {if $hidetab eq 1}1{else}0{/if}, hideinfo = {if $hideinfo}1{else}0{/if};
+			if (hideinfo) {
+				$('header').hide();
+				$('footer').hide();
+				$('.ecjia-menu').hide();
+			} else {
+				hidenav && $('header').hide();
+				hidetab && $('footer').hide();
+			}
+		</script>
+	</body>
 </html>
 <!-- {/if} -->
 <!-- {else} -->

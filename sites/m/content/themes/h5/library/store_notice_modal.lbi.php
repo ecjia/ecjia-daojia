@@ -13,7 +13,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<div class="hd">
 			<h2>
 				<span class="line"></span>
-				<span class="goods-index-title">优惠信息</span>
+				<span class="goods-index-title">{t domain="h5"}优惠信息{/t}</span>
 			</h2>
 		</div>
 		<ul class="store-promotion">
@@ -29,7 +29,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<div class="hd">
 			<h2>
 				<span class="line"></span>
-				<span class="goods-index-title">商城公告</span>
+				<span class="goods-index-title">{t domain="h5"}商城公告{/t}</span>
 			</h2>
 		</div>
 		<div class="store-notice">{$store_info.seller_notice}</div>

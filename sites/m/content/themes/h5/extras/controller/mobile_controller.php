@@ -76,7 +76,7 @@ class mobile_controller
             }
 
             ecjia_front::$controller->assign('signup_reward_url', $signup_reward_url);
-            ecjia_front::$controller->assign_title('百宝箱');
+            ecjia_front::$controller->assign_title(__('百宝箱', 'h5'));
         }
         ecjia_front::$controller->display('application.dwt', $cache_id);
     }

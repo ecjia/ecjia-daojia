@@ -27,9 +27,9 @@ ecjia.touch.category.init();
 <!-- #BeginLibraryItem "/library/merchant_head.lbi" --><!-- #EndLibraryItem -->
 <div class="ecjia-mod ecjia-store-ul">
 	<ul>
-		<li class="ecjia-store-li"><span class="active">购物</span></li>
-		<li class="ecjia-store-li" data-url="{$url}&status=comment"><span>评价</span></li>
-		<li class="ecjia-store-li"><span class="{if $status eq 'store'}active{/if}">商家</span></li>
+		<li class="ecjia-store-li"><span class="active">{t domain="h5"}购物{/t}</span></li>
+		<li class="ecjia-store-li" data-url="{$url}&status=comment"><span>{t domain="h5"}评价{/t}</span></li>
+		<li class="ecjia-store-li"><span class="{if $status eq 'store'}active{/if}">{t domain="h5"}商家{/t}</span></li>
 	</ul>
 </div>
 <div class="ecjia-mod ecjia-store-goods ecjia-store-toggle">
@@ -37,24 +37,24 @@ ecjia.touch.category.init();
 		<div class="a21 clearfix">
 			<ul class="a1o">
 				<li class="a1p {if (!$category_id && !$action_type) || $action_type eq 'all'}a1r{/if}">
-					<strong class="a1s" data-href="{RC_Uri::url('merchant/index/ajax_goods')}&store_id={$store_id}&type=all" data-toggle="toggle-category" data-type="all">全部</strong>
+					<strong class="a1s" data-href="{RC_Uri::url('merchant/index/ajax_goods')}&store_id={$store_id}&type=all" data-toggle="toggle-category" data-type="all">{t domain="h5"}全部{/t}</strong>
 				</li>
 				
 				<!-- {if $store_info.goods_count.best_goods gt 0} -->
 				<li class="a1p {if $action_type eq 'best'}a1r{/if}">
-					<strong class="a1s" data-href="{RC_Uri::url('merchant/index/ajax_goods')}&store_id={$store_id}&type=best" data-toggle="toggle-category" data-type="best">精选</strong>
+					<strong class="a1s" data-href="{RC_Uri::url('merchant/index/ajax_goods')}&store_id={$store_id}&type=best" data-toggle="toggle-category" data-type="best">{t domain="h5"}精选{/t}</strong>
 				</li>
 				<!-- {/if} -->
 
 				<!-- {if $store_info.goods_count.hot_goods gt 0} -->
 				<li class="a1p {if $action_type eq 'hot'}a1r{/if}">
-					<strong class="a1s" data-href="{RC_Uri::url('merchant/index/ajax_goods')}&store_id={$store_id}&type=hot" data-toggle="toggle-category" data-type="hot">热销</strong>
+					<strong class="a1s" data-href="{RC_Uri::url('merchant/index/ajax_goods')}&store_id={$store_id}&type=hot" data-toggle="toggle-category" data-type="hot">{t domain="h5"}热销{/t}</strong>
 				</li>
 				<!-- {/if} -->
 
 				<!-- {if $store_info.goods_count.new_goods gt 0} -->
 				<li class="a1p {if $action_type eq 'new'}a1r{/if}">
-					<strong class="a1s" data-href="{RC_Uri::url('merchant/index/ajax_goods')}&store_id={$store_id}&type=new" data-toggle="toggle-category" data-type="new">新品</strong>
+					<strong class="a1s" data-href="{RC_Uri::url('merchant/index/ajax_goods')}&store_id={$store_id}&type=new" data-toggle="toggle-category" data-type="new">{t domain="h5"}新品{/t}</strong>
 				</li>
 				<!-- {/if} -->
 
@@ -103,19 +103,19 @@ ecjia.touch.category.init();
 	</a>
 	<div class="a4z" style="transform: translateX(0px);">
 		{if $store_info.shop_closed eq 1}
-			<div class="a61">商家打烊了</div>
-			<div class="a62">营业时间 {$store_info.label_trade_time}</div>
+			<div class="a61">{t domain="h5"}商家打烊了{/t}</div>
+			<div class="a62">{t domain="h5"}营业时间{/t} {$store_info.label_trade_time}</div>
 		{else}
 			{if !$real_count.goods_number}
-				<div class="a50">购物车是空的</div>
+				<div class="a50">{t domain="h5"}购物车是空的{/t}</div>
 			{else}
 			<div>
-				{$count.goods_price}{if $count.discount neq 0}<label>(已减{$count.discount})</label>{/if}
+				{$count.goods_price}{if $count.discount neq 0}<label>{t domain="h5" 1={$count.discount}}(已减%1){/t}</label>{/if}
 			</div>
 			{/if}
 		{/if}
 	</div>
-	<a class="a51 {if !$count.check_one || $count.meet_min_amount neq 1}disabled{/if} check_cart" data-href="{RC_Uri::url('cart/flow/checkout')}" data-store="{$store_id}" data-address="{$address_id}" data-rec="{$rec_id}">{if $count.meet_min_amount eq 1 || !$count.label_short_amount}去结算{else}还差{$count.label_short_amount}起送{/if}</a>
+	<a class="a51 {if !$count.check_one || $count.meet_min_amount neq 1}disabled{/if} check_cart" data-href="{RC_Uri::url('cart/flow/checkout')}" data-store="{$store_id}" data-address="{$address_id}" data-rec="{$rec_id}">{if $count.meet_min_amount eq 1 || !$count.label_short_amount}{t domain="h5"}去结算{/t}{else}{t domain="h5" 1={$count.label_short_amount}}还差%1起送{/t}{/if}</a>
 	<div class="minicart-content" style="transform: translateY(0px); display: block;">
 		<a href="javascript:void 0;" class="a4x {if $count.goods_number}light{else}disabled{/if} incartcontent show_cart" show="false">
 			{if $real_count.goods_number}
@@ -126,9 +126,9 @@ ecjia.touch.category.init();
 		</a>
 		<i class="a57"></i>
 		<div class="a58 ">
-			<span class="a69 a6a {if $count.check_all}checked{/if}" data-toggle="toggle_checkbox" data-children=".checkbox" id="checkall">全选</span>
-			<p class="a6c">(已选{$count.goods_number}件)</p>
-			<a href="javascript:void 0;" class="a59" data-toggle="deleteall" data-url="{RC_Uri::url('cart/index/update_cart')}">清空购物车</a>
+			<span class="a69 a6a {if $count.check_all}checked{/if}" data-toggle="toggle_checkbox" data-children=".checkbox" id="checkall">{t domain="h5"}全选{/t}</span>
+			<p class="a6c">{t domain="h5" 1={$count.goods_number}}(已选%1件){/t}</p>
+			<a href="javascript:void 0;" class="a59" data-toggle="deleteall" data-url="{RC_Uri::url('cart/index/update_cart')}">{t domain="h5"}清空购物车{/t}</a>
 		</div>
 		
 		<div class="a5b" style="max-height: 25em;">
@@ -160,7 +160,7 @@ ecjia.touch.category.init();
 										<div class="a7j">{$cart.goods_name}</div>
 										{if $cart.attr}<div class="a7s">{$cart.attr}</div>{/if}
 										<span class="a7c">
-										{if $cart.goods_price eq 0}免费{else}{$cart.formated_goods_price}{/if}
+										{if $cart.goods_price eq 0}{t domain="h5"}免费{/t}{else}{$cart.formated_goods_price}{/if}
 										</span>
 									</td>
 								</tr>
@@ -214,7 +214,7 @@ ecjia.touch.category.init();
 						<div class="a7j">{$val.goods_name}</div> 
 						{if $val.attr}<div class="a7s">{$val.attr}</div>{/if}
 						<span class="a7c">
-						{if $val.goods_price eq 0}免费{else}{$val.formated_goods_price}{/if}
+						{if $val.goods_price eq 0}{t domain="h5"}免费{/t}{else}{$val.formated_goods_price}{/if}
 						</span>
 					</td>
 				</tr>

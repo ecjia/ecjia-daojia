@@ -15,17 +15,17 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
             <div class="ecjia-list ecjia-list-normal form-group right-angle ecjia-user-no-border-b">
                 <li>
                 	<label class="input">
-            			<input class="ecjia-account-passwd-on ecjia-user-height-2" name="old_password" placeholder="请输入旧密码" type="password">
+            			<input class="ecjia-account-passwd-on ecjia-user-height-2" name="old_password" placeholder='{t domain="h5"}请输入旧密码{/t}' type="password">
             		</label>
                 </li>
                 <li>
                 	<label class="input">
-            			<input class="ecjia-account-passwd-on ecjia-user-height-2" name="new_password" placeholder="请输入新密码" type="password">
+            			<input class="ecjia-account-passwd-on ecjia-user-height-2" name="new_password" placeholder='{t domain="h5"}请输入新密码{/t} type="password">
             		</label>
                 </li>
                  <li>
             		<label class="input">
-            			<input class="ecjia-account-passwd-on ecjia-user-height-2" name="confirm_password" placeholder="请确认新密码" type="password">
+            			<input class="ecjia-account-passwd-on ecjia-user-height-2" name="confirm_password" placeholder='{t domain="h5"}请确认新密码{/t}' type="password">
             		</label>
                 </li>
             </div>
@@ -33,7 +33,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     </div>
     <input name="act" type="hidden" value="edit_password" />
     <div class="ecjia-button-top-list ecjia-margin-b">
-    	<input class="btn btn-info" name="submit" type="submit" value="确定" />
+    	<input class="btn btn-info" name="submit" type="submit" value='{t domain="h5"}确定{/t}' />
     </div>
 </form>
 <!-- {/block} -->

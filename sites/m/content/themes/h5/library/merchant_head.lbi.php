@@ -17,17 +17,17 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					<div class="store-title">
 						<span class="store-name">{$store_info.seller_name}</span>
 						{if $store_info.distance} <span class="seller-distance">{$store_info.distance}</span>{/if}
-						{if $store_info.manage_mode eq 'self'}<span class="manage-mode">自营</span>{/if}
+						{if $store_info.manage_mode eq 'self'}<span class="manage-mode">{t domain="h5"}自营{/t}</span>{/if}
 						{if $store_info.is_follower eq 1}
-							<span class="follower not" data-toggle="follow_store" data-type=0 data-url="{$follow_url}">已关注</span>
+							<span class="follower not" data-toggle="follow_store" data-type=0 data-url="{$follow_url}">{t domain="h5"}已关注{/t}</span>
 						{else}
-							<span class="follower" data-toggle="follow_store" data-type=1 data-url="{$follow_url}"><i class="iconfont icon-add"></i>关注</span>
+							<span class="follower" data-toggle="follow_store" data-type=1 data-url="{$follow_url}"><i class="iconfont icon-add"></i>{t domain="h5"}关注{/t}</span>
 						{/if}
 					</div>
 					<div class="store-range">
 						<i class="icon-shop-time"></i>{$store_info.label_trade_time}
 						{if $store_info.allow_use_quickpay eq 1}
-						<a href="{RC_Uri::url('user/quickpay/init')}&store_id={$store_id}"><span class="check">买单</span></a>
+						<a href="{RC_Uri::url('user/quickpay/init')}&store_id={$store_id}"><span class="check">{t domain="h5"}买单{/t}</span></a>
 						{/if}
 					</div>
 					<div class="store-description"><i class="icon-shop-notice"></i>{$store_info.seller_notice}</div>
@@ -45,7 +45,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		</ul>
 		{/if}
 		{if $store_info.favourable_count}
-		<li class="favourable_notice">共{$store_info.favourable_count}个活动<i class="iconfont icon-jiantou-right"></i></li>
+		<li class="favourable_notice">{t domain="h5" 1={$store_info.favourable_count}}共 %1 个活动{/t}<i class="iconfont icon-jiantou-right"></i></li>
 		{/if}
 	</div>
 	<div class="ecjia-header-right">

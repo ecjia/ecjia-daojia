@@ -36,12 +36,12 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     			</li>
     		</ul>
     		<input type="hidden" value="{$rec_info.comment_goods}" name="comment_goods" />
-    		<div class="star"><span>评分<span></div>
+    		<div class="star"><span>{t domain="h5"}评分{/t}<span></div>
     		<div class="input">
     		    {if $rec_info.comment_content}
                 <textarea id="goods_evaluate" name="note" readonly="readonly">{$rec_info.comment_content}</textarea>
                 {else}
-                <textarea id="goods_evaluate" name="note" placeholder="商品质量俱佳，强烈推荐！" ></textarea>
+                <textarea id="goods_evaluate" name="note" placeholder='{t domain="h5"}商品质量俱佳，强烈推荐！{/t}' ></textarea>
                 {/if}
                 <input type="hidden" value="{$rec_info.comment_content}" name="comment_content" />
             </div>
@@ -87,7 +87,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
             	       <input type="file" class="push_img_btn" id="filechooser4" name="picture[]" accept="image/jpeg,image/jpg,image/png,image/bmp,image/gif">
             	   </div>
             	</div>
-                <p class="push_img_fonz" >请上传图片 (最多5张)</p>
+                <p class="push_img_fonz" >{t domain="h5"}请上传图片 (最多5张){/t}</p>
                 {/if}
             </div>
     	</div>
@@ -99,14 +99,14 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <label class="select-item">
         <li>
             <span class="ecjiaf-fr">
-                <div {if $rec_info.is_anonymous == 0}class="ecjia-anonymity-check"{else if $rec_info.is_anonymous == 1}class="ecjia-anonymity-check  anonymity-check-checked"{/if} id="option_box"><input type="radio" name="anonymity" value="0" /><p>匿名评价</p></div>
+                <div {if $rec_info.is_anonymous == 0}class="ecjia-anonymity-check"{else if $rec_info.is_anonymous == 1}class="ecjia-anonymity-check  anonymity-check-checked"{/if} id="option_box"><input type="radio" name="anonymity" value="0" /><p>{t domain="h5"}匿名评价{/t}</p></div>
                 <input type="hidden" name="anonymity_status" value="0" />
                 <input type="hidden" value="{$goods.is_commented}" name=is_commented />
             </span>
         </li>
     </label>
     <span class="ecjiaf-fr push-comment-btn">
-        <input class="btn" name="push-comment-btn" type="submit" data-url="{RC_Uri::url('user/order/make_comment')}" value="发表评价"/>
+        <input class="btn" name="push-comment-btn" type="submit" data-url="{RC_Uri::url('user/order/make_comment')}" value='{t domain="h5"}发表评价{/t}'/>
         <input type="hidden" value="{$goods.rec_id}" name="rec_id" />
         <input type="hidden" value="{$order_id}" name="order_id" />
     </span>

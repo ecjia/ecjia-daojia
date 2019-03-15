@@ -37,7 +37,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <div class="ecjia-margin-t ecjia-margin-b">
             <input type="hidden" name="address_id" value="{$address_id}">
             <input type="hidden" name="rec_id" value="{$rec_id}" />
-			<input class="btn btn-info" name="shipping_update" type="submit" value="确定"/>
+			<input class="btn btn-info" name="shipping_update" type="submit" value='{t domain="h5"}确定{/t}' />
         </div>
     </div>
 </form>

@@ -51,7 +51,7 @@ class merchant_function
 
     /**
      * 格式化店铺距离
-     * @param unknown $data
+     * @param array $data
      * @return array
      */
     public static function format_distance($data = array())
@@ -73,7 +73,7 @@ class merchant_function
 
     /**
      * 格式化店铺详情店铺距离
-     * @param unknown $data
+     * @param array $data
      * @return array
      */
     public static function format_info_distance($data = array())

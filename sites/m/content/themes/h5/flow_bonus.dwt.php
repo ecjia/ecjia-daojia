@@ -31,7 +31,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
            <!-- {foreachelse} -->
            <label class="select-item" for="{$list.bonus_id}">
                 <li>
-                    <span class="ecjia-color-999">暂无可用红包</span>
+                    <span class="ecjia-color-999">{t domain="h5"}暂无可用红包{/t}</span>
                 </li>
           	</label>
            	<!-- {/foreach} -->
@@ -39,8 +39,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <div class="two-btn">
             <input type="hidden" name="address_id" value="{$address_id}">
             <input type="hidden" name="rec_id" value="{$rec_id}" />
-            <input class="btn btn-hollow-danger" name="bonus_clear" type="submit" value="清空"/>
-            <input class="btn btn-info" name="bonus_update" type="submit" value="确定"/>
+            <input class="btn btn-hollow-danger" name="bonus_clear" type="submit" value='{t domain="h5"}清空{/t}'/>
+            <input class="btn btn-info" name="bonus_update" type="submit" value='{t domain="h5"}确定{/t}'/>
         </div>
     </div>
 </form>

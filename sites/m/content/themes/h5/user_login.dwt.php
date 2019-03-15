@@ -19,17 +19,17 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="form-group margin-right-left">
 		<label class="input">
 			<span class="roaming">+86</span>
-			<input placeholder="手机号" name="mobile_phone" class="mobile_phone">
+			<input placeholder='{t domain="h5"}手机号{/t}' name="mobile_phone" class="mobile_phone">
 		</label>
 	</div>
     <div class="around">
         <input type="hidden" name="referer_url" value="{$smarty.get.referer_url}" />
-        <input type="button" class="btn btn-info login-btn" name="ecjia-mobile-login" value="登录" data-url="{url path='user/privilege/mobile_login'}"/>
+        <input type="button" class="btn btn-info login-btn" name="ecjia-mobile-login" value='{t domain="h5"}登录{/t}' data-url="{url path='user/privilege/mobile_login'}"/>
     </div>
-    <p class="ecjiaf-tac">未注册手机验证后自动注册登录，享新人好礼</p>
+    <p class="ecjiaf-tac">{t domain="h5"}未注册手机验证后自动注册登录，享新人好礼{/t}</p>
     
     {if $sns_qq eq 1 || $sns_wechat eq 1}
-    <p class="ecjiaf-tac other-account">其他账号登录</p>
+    <p class="ecjiaf-tac other-account">{t domain="h5"}其他账号登录{/t}</p>
    	{/if}  
     
 	<ul class="thirdparty-wrap">

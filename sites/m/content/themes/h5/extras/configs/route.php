@@ -248,6 +248,9 @@ return [
     'user/order/return_way_list'                 => 'user_order_controller@return_way_list',
     'user/order/return_way'                      => 'user_order_controller@return_way',
     'user/order/add_return_way'                  => 'user_order_controller@add_return_way',
+    'user/order/affiliate'                       => 'user_order_controller@affiliate', //订单分成
+    'user/order/affiliate_detail'                => 'user_order_controller@affiliate_detail',
+    'user/order/ajax_order_affiliate'            => 'user_order_controller@ajax_order_affiliate',
 
     //团购订单
     'user/order/groupbuy_order'                  => 'user_order_controller@groupbuy_order',
@@ -308,7 +311,6 @@ return [
     'user/quickpay/explain'                      => 'quickpay_controller@explain',
     'user/quickpay/bonus'                        => 'quickpay_controller@bonus',
     'user/quickpay/integral'                     => 'quickpay_controller@integral',
-    'user/quickpay/notify'                       => 'quickpay_controller@notify',
     'user/quickpay/async_quickpay_list'          => 'quickpay_controller@async_quickpay_list',
     'user/quickpay/quickpay_detail'              => 'quickpay_controller@quickpay_detail',
     'user/quickpay/pay'                          => 'quickpay_controller@pay',

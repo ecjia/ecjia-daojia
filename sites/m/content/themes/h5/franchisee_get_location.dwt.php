@@ -71,11 +71,11 @@ geocoder.getLocation(address);
 <div id="allmap"></div>
 	<div class="ecjia-f-location">
 	    <div class="location-longitude">
-    		<span>经度：</span>
+    		<span>{t domain="h5"}经度：{/t}</span>
     		<input name="longitude"  type="text"  readonly="readonly" />
 		</div>
 		<div class="location-latitude">
-    		<span>纬度：</span>
+    		<span>{t domain="h5"}纬度：{/t}</span>
     		<input name="latitude"  type="text"  readonly="readonly" />
 		</div>
 	</div>
@@ -83,7 +83,7 @@ geocoder.getLocation(address);
 	<input type="hidden" name="code" value={$code} />
 	
  	<div class="ecjia-margin-t ecjia-margin-b">
-		<input class="btn btn-info nopjax external" style="margin-top: 2em;" name="button" id="button" type="button" data-url="{url path='franchisee/index/four'}" value="{t}返回{/t}"/>
+		<input class="btn btn-info nopjax external" style="margin-top: 2em;" name="button" id="button" type="button" data-url="{url path='franchisee/index/four'}" value='{t domain="h5"}返回{/t}' />
 	</div>
 <!-- {/block} -->
 <!-- {/nocache} -->

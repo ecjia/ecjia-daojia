@@ -27,7 +27,7 @@ ecjia.touch.spread.init();
 			<img src="{$invite_user.invite_qrcode_image}" />
 		</div>
 		<div class="my-invite-code">
-			<p>我的邀请码</p>
+			<p>{t domain="h5"}我的邀请码{/t}</p>
 			<div class="code-style">{$invite_user.invite_code}</div>
 		</div>
 	</div>
@@ -35,15 +35,15 @@ ecjia.touch.spread.init();
 		<textarea class="invite-template-style" name="invite_template">{$invite_user.invite_template}</textarea>
 	</div>
 	<div class="go-to-spread">
-		<a class="show_spread_share nopjax external" href="javascript:;"><div class="would-spread">我要推广</div></a>
+		<a class="show_spread_share nopjax external" href="javascript:;"><div class="would-spread">{t domain="h5"}我要推广{/t}</div></a>
 	</div>
 	
 	<div class="ecjia-my-reward">
-		<a class="nopjax external" href="{url path='user/bonus/my_reward'}"><div class="my_reward">查看我的奖励</div></a>
+		<a class="nopjax external" href="{url path='user/bonus/my_reward'}"><div class="my_reward">{t domain="h5"}查看我的奖励{/t}</div></a>
 	</div>
 	
 	<div class="invite_explain"> 
-		<p class="invite_explain-literal">邀请说明：</p>
+		<p class="invite_explain-literal">{t domain="h5"}邀请说明：{/t}</p>
 		<div class="invite_explain-content">
 			{if $invite_user.invite_explain}
 				<!--{foreach from=$invite_user.invite_explain item=invite}-->

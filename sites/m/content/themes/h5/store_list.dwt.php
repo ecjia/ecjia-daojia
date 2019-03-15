@@ -33,19 +33,19 @@ var releated_goods = {$releated_goods};
 						<div class="store-left">
 							<img src="{if $val.seller_logo}{$val.seller_logo}{else}{$theme_url}images/store_default.png{/if}">
 							{if $val.shop_closed eq 1}
-								<div class="shop_closed_mask">休息中</div>
+								<div class="shop_closed_mask">{t domain="h5"}休息中{/t}</div>
 							{/if}
 						</div>
 						<div class="store-right">
 							<div class="store-title">
 								<span class="store-name">{$val.seller_name}</span>
-								{if $val.manage_mode eq 'self'}<span class="manage_mode">自营</span>{/if}
+								{if $val.manage_mode eq 'self'}<span class="manage_mode">{t domain="h5"}自营{/t}</span>{/if}
 								{if $val.distance}<span class="store-distance">{$val.distance}</span>{/if}
 							</div>
 							<div class="store-range">
 								<i class="icon-shop-time"></i>{$val.label_trade_time}
 								<!-- {if $val.allow_use_quickpay eq 1} -->
-								<a href="{RC_Uri::url('user/quickpay/init')}&store_id={$val.id}"><span class="store-quickpay-btn">买单</span></a>
+								<a href="{RC_Uri::url('user/quickpay/init')}&store_id={$val.id}"><span class="store-quickpay-btn">{t domain="h5"}买单{/t}</span></a>
 								<!-- {/if} -->
 							</div>
 							{if $val.seller_notice neq ''}
@@ -71,7 +71,7 @@ var releated_goods = {$releated_goods};
 						<!-- {foreach from=$val.quickpay_activity_list item=list key=key} -->
 						{if $key eq 0}
 						<li class="quick">
-							<span class="quick-label">买单</span>
+							<span class="quick-label">{t domain="h5"}买单{/t}</span>
 							<span class="promotion-name">{$list.title}</span>
 						</li>
 						{/if}
@@ -99,10 +99,10 @@ var releated_goods = {$releated_goods};
 			{if $val.goods_count > 3}
 			<ul>
 				<li class="goods-info view-more">
-					查看更多（{$val.goods_count-3}）<i class="iconfont icon-jiantou-bottom"></i>
+					{t domain="h5"}查看更多{/t}（{$val.goods_count-3}）<i class="iconfont icon-jiantou-bottom"></i>
 				</li>
 				<li class="goods-info view-more retract hide">
-					收起<i class="iconfont icon-jiantou-top"></i>
+					{t domain="h5"}收起{/t}<i class="iconfont icon-jiantou-top"></i>
 				</li>
 			</ul>
 			{/if}
@@ -120,13 +120,13 @@ var releated_goods = {$releated_goods};
 			<div class="box" id="goods_{$val.id}">
 				<!-- {if $val.specification} -->
 				<div class="goods_attr goods_spec_{$val.id}">
-					<span class="choose_attr spec_goods" rec_id="{$val.rec_id}" goods_id="{$val.id}" data-num="{$val.num}" data-spec="{$val.default_spec}" data-url="{RC_Uri::url('cart/index/check_spec')}&store_id={$val.store_id}">选规格</span>
+					<span class="choose_attr spec_goods" rec_id="{$val.rec_id}" goods_id="{$val.id}" data-num="{$val.num}" data-spec="{$val.default_spec}" data-url="{RC_Uri::url('cart/index/check_spec')}&store_id={$val.store_id}">{t domain="h5"}选规格{/t}</span>
 					{if $val.num}<i class="attr-number">{$val.num}</i>{/if}
 				</div>
 				<!-- {else} -->
-				<span class="reduce {if $val.num}show{else}hide{/if}" data-toggle="remove-to-cart" rec_id="{$val.rec_id}">减</span>
+				<span class="reduce {if $val.num}show{else}hide{/if}" data-toggle="remove-to-cart" rec_id="{$val.rec_id}">{t domain="h5"}减{/t}</span>
 				<label class="{if $val.num}show{else}hide{/if}">{$val.num}</label>
-				<span class="add" data-toggle="add-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.id}">加</span>
+				<span class="add" data-toggle="add-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.id}">{t domain="h5"}加{/t}</span>
 				<!-- {/if} -->
 			</div>
 			{/if}
@@ -148,9 +148,9 @@ var releated_goods = {$releated_goods};
 		<p><img src="{$theme_url}images/wallet/null280.png"></p>
 		{/if}
 		{if $keywords}
-		暂无搜索结果
+		{t domain="h5"}暂无搜索结果{/t}
 		{else}
-		暂时没有商家
+		{t domain="h5"}暂时没有商家{/t}
 		{/if}
 	</div>
 </div>
@@ -168,19 +168,19 @@ var releated_goods = {$releated_goods};
 	</a>
 	<div class="a4z" style="transform: translateX(0px);">
 		{if $store_info.shop_closed eq 1}
-			<div class="a61">商家打烊了</div>
-			<div class="a62">营业时间 {$store_info.label_trade_time}</div>
+			<div class="a61">{t domain="h5"}商家打烊了{/t}</div>
+			<div class="a62">{t domain="h5"}营业时间{/t} {$store_info.label_trade_time}</div>
 		{else}
 			{if !$real_count.goods_number}
-				<div class="a50">购物车是空的</div>
+				<div class="a50">{t domain="h5"}购物车是空的{/t}</div>
 			{else}
 			<div>
-				{$count.goods_price}{if $count.discount neq 0}<label>(已减{$count.discount})</label>{/if}
+				{$count.goods_price}{if $count.discount neq 0}<label>{t domain="h5" 1={$count.discount}}(已减%1){/t}</label>{/if}
 			</div>
 			{/if}
 		{/if}
 	</div>
-	<a class="a51 {if !$count.check_one || $count.meet_min_amount neq 1}disabled{/if} check_cart" data-href="{RC_Uri::url('cart/flow/checkout')}" data-store="{$store_id}" data-address="{$address_id}" data-rec="{$rec_id}" href="javascript:;">{if $count.meet_min_amount eq 1 || !$count.label_short_amount}去结算{else}还差{$count.label_short_amount}起送{/if}</a>
+	<a class="a51 {if !$count.check_one || $count.meet_min_amount neq 1}disabled{/if} check_cart" data-href="{RC_Uri::url('cart/flow/checkout')}" data-store="{$store_id}" data-address="{$address_id}" data-rec="{$rec_id}" href="javascript:;">{if $count.meet_min_amount eq 1 || !$count.label_short_amount}{t domain="h5"}去结算{/t}{else}{t domain="h5" 1={$count.label_short_amount}}还差%1起送{/t}{/if}</a>
 	<div class="minicart-content" style="transform: translateY(0px); display: block;">
 		<a href="javascript:void 0;" class="a4x {if $count.goods_number}light{else}disabled{/if} incartcontent show_cart" show="false">
 			{if $real_count.goods_number}
@@ -191,9 +191,9 @@ var releated_goods = {$releated_goods};
 		</a>
 		<i class="a57"></i>
 		<div class="a58 ">
-			<span class="a69 a6a {if $count.check_all}checked{/if}" data-toggle="toggle_checkbox" data-children=".checkbox" id="checkall">全选</span>
-			<p class="a6c">(已选{$count.goods_number}件)</p>
-			<a href="javascript:void 0;" class="a59" data-toggle="deleteall" data-url="{RC_Uri::url('cart/index/update_cart')}">清空购物车</a>
+			<span class="a69 a6a {if $count.check_all}checked{/if}" data-toggle="toggle_checkbox" data-children=".checkbox" id="checkall">{t domain="h5"}全选{/t}</span>
+			<p class="a6c">{t domain="h5" 1={$count.goods_number}}(已选%1件){/t}</p>
+			<a href="javascript:void 0;" class="a59" data-toggle="deleteall" data-url="{RC_Uri::url('cart/index/update_cart')}">{t domain="h5"}清空购物车{/t}</a>
 		</div>
 		<div class="a5b" style="max-height: 21em;">
 			<div class="a5l single">
@@ -224,7 +224,7 @@ var releated_goods = {$releated_goods};
 										<div class="a7j">{$cart.goods_name}</div> 
 										{if $cart.attr}<div class="a7s">{$cart.attr}</div>{/if}
 										<span class="a7c">
-										{if $cart.goods_price eq 0}免费{else}{$cart.formated_goods_price}{/if}
+										{if $cart.goods_price eq 0}{t domain="h5"}免费{/t}{else}{$cart.formated_goods_price}{/if}
 										</span>
 									</td>
 								</tr>
@@ -268,13 +268,13 @@ var releated_goods = {$releated_goods};
 		<div class="box" id="goods_{$val.id}">
 			<!-- {if $val.specification} -->
 			<div class="goods_attr goods_spec_{$val.id}">
-				<span class="choose_attr spec_goods" rec_id="{$val.rec_id}" goods_id="{$val.id}" data-num="{$val.num}" data-spec="{$val.default_spec}" data-url="{RC_Uri::url('cart/index/check_spec')}&store_id={$val.store_id}">选规格</span>
+				<span class="choose_attr spec_goods" rec_id="{$val.rec_id}" goods_id="{$val.id}" data-num="{$val.num}" data-spec="{$val.default_spec}" data-url="{RC_Uri::url('cart/index/check_spec')}&store_id={$val.store_id}">{t domain="h5"}选规格{/t}</span>
 				{if $val.num}<i class="attr-number">{$val.num}</i>{/if}
 			</div>
 			<!-- {else} -->
-			<span class="reduce {if $val.num}show{else}hide{/if}" data-toggle="remove-to-cart" rec_id="{$val.rec_id}">减</span>
+			<span class="reduce {if $val.num}show{else}hide{/if}" data-toggle="remove-to-cart" rec_id="{$val.rec_id}">{t domain="h5"}减{/t}</span>
 			<label class="{if $val.num}show{else}hide{/if}">{$val.num}</label>
-			<span class="add" data-toggle="add-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.id}">加</span>
+			<span class="add" data-toggle="add-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.id}">{t domain="h5"}加{/t}</span>
 			<!-- {/if} -->
 		</div>
 		{/if}

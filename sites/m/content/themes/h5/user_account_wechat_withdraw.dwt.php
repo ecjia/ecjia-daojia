@@ -20,7 +20,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="ecjia-user">
 		<div class="ecjia-list list-short">
 			<li class="height-3">
-				<span class="icon-name margin-no-l">提现方式</span>
+				<span class="icon-name margin-no-l">{t domain="h5"}提现方式{/t}</span>
 				<span class="icon-price text-color choose-div">
                     <span class="choose_bank">
                         {if $bank_info}
@@ -34,24 +34,24 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<li class="height-5">
 				<span class="icon-name margin-no-l">￥</span>
 				<input placeholder="可提现金额 {$user.formated_user_money}" name="amount" />
-				<span class="withdraw_all_span" data-price="{$user.user_money}">全部提现</span>
+				<span class="withdraw_all_span" data-price="{$user.user_money}">{t domain="h5"}全部提现{/t}</span>
 			</li>
 			<li class="height-3">
-				<p class="text-ty m_l0">最低提现金额：{$config.formatted_min_withdraw_amount}</p>
+				<p class="text-ty m_l0">{t domain="h5"}最低提现金额：{/t}{$config.formatted_min_withdraw_amount}</p>
 			</li>
 		</div>
 
 		<div class="ecjia-list list-short">
 			<li class="height-3">
-				<p class="m_l0">提现手续费<label class="ecjiaf-fr withdraw_fee_label"><span>￥</span><span class="withdraw_fee_money">0.00</span></label></p>
+				<p class="m_l0">{t domain="h5"}提现手续费{/t}<label class="ecjiaf-fr withdraw_fee_label"><span>￥</span><span class="withdraw_fee_money">0.00</span></label></p>
 			</li>
 		</div>
 	</div>
-	<p class="wechat_withdraw_notice">申请提交后，我们将3-5个工作日审核，请您耐心等待</p>
+	<p class="wechat_withdraw_notice">{t domain="h5"}申请提交后，我们将3-5个工作日审核，请您耐心等待{/t}</p>
 
 	<div class="text-center">
 		<input type="hidden" name="withdraw_fee_percent" value="{$config.withdraw_fee_percent}" />
-		<input class="btn btn-info" name="submit" type="submit" value="{t}立即提现{/t}" />
+		<input class="btn btn-info" name="submit" type="submit" value='{t domain="h5"}立即提现{/t}' />
 	</div>
 </form>
 

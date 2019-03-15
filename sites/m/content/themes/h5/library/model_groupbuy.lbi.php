@@ -8,7 +8,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 {if $value.data}
 <div class="ecjia-mod ecjia-promotion-model ecjia-margin-t {if $count eq $key && !$data}ecjia-mod-pb35{/if}">
 	<div class="head-title">
-		<h2><i class="icon-groupbuy"></i>限时团购<a href="{RC_Uri::url('goods/index/groupbuy')}" class="more_info">更多</a></h2>
+		<h2><i class="icon-groupbuy"></i>{t domain="h5"}限时团购{/t}<a href="{RC_Uri::url('goods/index/groupbuy')}" class="more_info">{t domain="h5"}更多{/t}</a></h2>
 	</div>
 	<div class="swiper-container swiper-promotion">
 		<div class="swiper-wrapper">

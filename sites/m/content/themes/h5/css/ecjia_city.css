@@ -8177,6 +8177,37 @@ footer {
     right: 1em
 }
 
+/*========================  企业发票说明-sqq ===========================*/
+.inv_img_invoice {
+	height: 100%;
+}
+.inv_img_invoice_title{
+	position:fixed;
+	background: #FFF;
+	width: 100%;
+	height: 3em;
+	border-bottom: 1px solid #eee;
+	z-index: 100;
+}
+.inv_img_invoice_title h2{
+	line-height: 2em;
+	position: absolute;
+	right: 0;
+	left: 0;
+	height: 2em;
+}
+.inv_img_invoice_content{
+	padding:15px;
+	overflow-y: scroll;
+	padding-top: 3em;
+	text-align: left;
+	width: 100%;
+	height: 100%;
+}
+.inv_img_invoice_content .detail{
+	color:#838383;
+}
+
 /*========================  分类店铺 ===========================*/
 .ecjia-store-goods-list {
     background: #fffFFF;
@@ -15271,4 +15302,164 @@ body,
     margin: .5em 0 0 .5em;
     color: #ff3434;
     font-size: 1.1em;
+}
+
+/* 订单分成 */
+.ecjia-reward-list .reward-head {
+    height: 3.5em;
+    line-height: 3.5em;
+    background-color: #fff;
+    width: 100%;
+    border-bottom: 2px solid #eee;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    width: 100%;
+    max-width: 640px;
+}
+
+.ecjia-reward-list .reward-list {
+    margin-top: 3.5em;
+    overflow: hidden;
+}
+
+.ecjia-reward-list .reward-head .reward-head-item {
+    float: left;
+    width: 33.3%;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.ecjia-reward-list.list-two .reward-head .reward-head-item {
+    width: 50%;
+}
+
+.ecjia-reward-list .reward-head .reward-head-item.active span {
+    color: #47aa4d;
+    border-bottom: 2px solid #47aa4d;
+    height: 3.2em;
+    display: inline-block;
+    width: 4em;
+}
+
+.ecjia-reward-list .reward-item {
+    background: #fff;
+    overflow: hidden;
+}
+
+.ecjia-reward-list .reward-hd {
+    height: 3em;
+    line-height: 3em;
+    padding: 0 1em;
+}
+
+.ecjia-reward-list .flow-goods-list {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+    position: relative;
+}
+
+.ecjia-reward-list .reward-ft {
+    height: 3em;
+    line-height: 3em;
+    padding: 0 1em;
+}
+
+.ecjia-reward-list .goods-item, .ecjia-reward-detail .goods-item {
+    overflow: hidden;
+    position: relative;
+    padding: 1em;
+    height: 7em;
+}
+
+.ecjia-reward-list .goods-item li, .ecjia-reward-detail .goods-item li {
+    margin-right: 0;
+}
+
+.ecjia-reward-list .goods-item .goods-img img, .ecjia-reward-detail .goods-item .goods-img img {
+    height: 5em;
+    width: 5em;
+    border: 1px solid #eee;
+}
+
+.ecjia-reward-list .goods-item .goods-right, .ecjia-reward-detail .goods-item .goods-right {
+    margin-left: 6em;
+    overflow: hidden;
+}
+
+.ecjia-reward-list .goods-item .goods-name, .ecjia-reward-detail .goods-item .goods-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ecjia-reward-list .goods-item .block, .ecjia-reward-detail .goods-item .block {
+    color: #838383;
+    margin-top: .5em;
+}
+
+/* 分成详情 */
+.ecjia-reward-detail .reward-detail-top {
+    background-color: #fff;
+    margin: 1em 0;
+    text-align: center;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee
+}
+
+.ecjia-reward-detail .reward-detail-top .status {
+    padding-top: 2em
+}
+
+.ecjia-reward-detail .reward-detail-top .status img {
+    width: 4em;
+    height: 4em
+}
+
+.ecjia-reward-detail .reward-detail-top p {
+    line-height: 3em;
+    display: block;
+    overflow: hidden
+}
+
+.ecjia-reward-detail .reward-detail-top p.price {
+    line-height: 2em;
+    font-size: 1.2em;
+    color: #FF2500;
+    border-bottom: 2px dotted #eee;
+    padding-bottom: 1em
+}
+
+.ecjia-reward-detail .detail-list {
+    padding: .5em 1em;
+}
+
+.ecjia-reward-detail .detail-list p {
+    line-height: 2.5em;
+    color: #838383;
+    display: block;
+    overflow: hidden
+}
+
+.ecjia-reward-detail .reward-detail-bottom {
+    background-color: #fff;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee
+}
+
+.ecjia-reward-detail .reward-detail-bottom .bottom-hd {
+    height: 3em;
+    line-height: 3em;
+    padding-left: 1em;
+    border-bottom: 1px solid #eee
+}
+
+.ecjia-reward-detail .reward-detail-bottom .bottom-hd img {
+    width: 1.2em;
+    height: 1.2em
+}
+
+.ecjia-reward-detail .reward-detail-bottom .detail-list {
+    border-top: 1px solid #eee
 }

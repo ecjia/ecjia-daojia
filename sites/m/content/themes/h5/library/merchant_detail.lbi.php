@@ -10,22 +10,22 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<ul class="store-goods">
 		<li class="goods-info">
 			<span class="store-goods-count">{$store_info.goods_count.count}</span><br>
-			<span class="store-goods-desc">全部商品</span>
+			<span class="store-goods-desc">{t domain="h5"}全部商品{/t}</span>
 			<span class="goods-border"></span>
 		</li>
 		<li class="goods-info">
 			<span class="store-goods-count">{$store_info.goods_count.new_goods}</span><br>
-			<span class="store-goods-desc">上新</span>
+			<span class="store-goods-desc">{t domain="h5"}上新{/t}</span>
 			<span class="goods-border"></span>
 		</li>
 		<li class="goods-info">
 			<span class="store-goods-count">{$store_info.goods_count.best_goods}</span><br>
-			<span class="store-goods-desc">促销</span>
+			<span class="store-goods-desc">{t domain="h5"}促销{/t}</span>
 			<span class="goods-border"></span>
 		</li>
 		<li class="goods-info">
 			<span class="store-goods-count">{$store_info.goods_count.hot_goods}</span><br>
-			<span class="store-goods-desc">店铺动态</span>
+			<span class="store-goods-desc">{t domain="h5"}店铺动态{/t}</span>
 		</li>
 	</ul>
 	
@@ -33,9 +33,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="store-hr"></div>
 	<ul class="store-promotion">
 		<li class="quick">
-			<span class="quick-label">买单</span>
-			<span class="quick-name">买单立享优惠</span>
-			<a class="quick-btn" href="{RC_Uri::url('user/quickpay/init')}&store_id={$store_info.id}" >优惠买单</a>
+			<span class="quick-label">{t domain="h5"}买单{/t}</span>
+			<span class="quick-name">{t domain="h5"}买单立享优惠{/t}</span>
+			<a class="quick-btn" href="{RC_Uri::url('user/quickpay/init')}&store_id={$store_info.id}" >{t domain="h5"}优惠买单{/t}</a>
 		</li>
 		{if $store_info.quick_activity_list}
 		<ul class="quick-item">
@@ -67,33 +67,33 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	{/if}
 	<div class="store-hr"></div>
 	<div class="store-tel">
-		<span class="tel-name"><i class="icon-shop-phone"></i>商家电话</span>
-		<p class="tel-result">{if $store_info.telephone}{$store_info.telephone}<a class="external" href="tel:{$store_info.telephone}"><i class="icon-call-phone"></i></a>{else}暂无{/if}</p>
+		<span class="tel-name"><i class="icon-shop-phone"></i>{t domain="h5"}商家电话{/t}</span>
+		<p class="tel-result">{if $store_info.telephone}{$store_info.telephone}<a class="external" href="tel:{$store_info.telephone}"><i class="icon-call-phone"></i></a>{else}{t domain="h5"}暂无{/t}{/if}</p>
 	</div>
 	<div class="store-hr"></div>
 	<ul class="store-other-info">
 		<li>
-			<span class="other-info-name"><i class="icon-shop-buliding"></i>公司名称</span>
-			<p class="other-info-result">{if $store_info.shop_name}{$store_info.shop_name}{else}暂无{/if}</p>
+			<span class="other-info-name"><i class="icon-shop-buliding"></i>{t domain="h5"}公司名称{/t}</span>
+			<p class="other-info-result">{if $store_info.shop_name}{$store_info.shop_name}{else}{t domain="h5"}暂无{/t}{/if}</p>
 		</li>
 		<li>
-			<span class="other-info-name"><i class="icon-shop-location"></i>所在地区</span>
+			<span class="other-info-name"><i class="icon-shop-location"></i>{t domain="h5"}所在地区{/t}</span>
 			{if $store_info.shop_address}<a href="{$header_right.location_url}" class="nopjax external">{/if}
-				<p class="other-info-result {if $store_info.shop_address}shop-address-result{/if}">{if $store_info.shop_address}{$store_info.shop_address}{else}暂无{/if}</p>
+				<p class="other-info-result {if $store_info.shop_address}shop-address-result{/if}">{if $store_info.shop_address}{$store_info.shop_address}{else}{t domain="h5"}暂无{/t}{/if}</p>
 				<i class="icon-position"></i>
 			{if $store_info.shop_address}</a>{/if}
 		</li>
 		<li>
-			<span class="other-info-name"><i class="icon-shop-time"></i>营业时间</span>
-			<p class="other-info-result">{if $store_info.label_trade_time}{$store_info.label_trade_time}{else}暂无{/if}</p>
+			<span class="other-info-name"><i class="icon-shop-time"></i>{t domain="h5"}营业时间{/t}</span>
+			<p class="other-info-result">{if $store_info.label_trade_time}{$store_info.label_trade_time}{else}{t domain="h5"}暂无{/t}{/if}</p>
 		</li>
 		<li>
-			<span class="other-info-name"><i class="icon-shop-description"></i>商家简介</span>
-			<p class="other-info-result">{if $store_info.seller_description}{$store_info.seller_description}{else}暂无{/if}</p>
+			<span class="other-info-name"><i class="icon-shop-description"></i>{t domain="h5"}商家简介{/t}</span>
+			<p class="other-info-result">{if $store_info.seller_description}{$store_info.seller_description}{else}{t domain="h5"}暂无{/t}{/if}</p>
 		</li>
 		{if $store_info.business_licence_pic}
 		<li>
-			<span class="other-info-name"><i class="icon-shop-description"></i>营业执照</span>
+			<span class="other-info-name"><i class="icon-shop-description"></i>{t domain="h5"}营业执照{/t}</span>
 			<div class="other-info-result business_licence_pic">
 				<div class="img-list img-pwsp-list" data-pswp-uid="business_licence_pic">
 					<figure><span><a class="nopjax external" href="{$store_info.business_licence_pic}"><img src="{$store_info.business_licence_pic}" /></a></span></figure>

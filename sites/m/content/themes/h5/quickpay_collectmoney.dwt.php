@@ -35,51 +35,51 @@ body { background: #fff; }
 
 <div class="ecjia-quickpay-form">
 	{if $store_info.shop_closed eq 1}
-	<div class="shop_closed_notice">商家打烊中，优惠买单尚未开始~</div>
+	<div class="shop_closed_notice">{t domain="h5"}商家打烊中，优惠买单尚未开始~{/t}</div>
 	{/if}
 	<form name="quickpayForm" action="{if $direct_pay eq 1}{url path='quickpay/flow/flow_checkorder'}{else}{url path='quickpay/flow/done'}{/if}" method="post" data-url="{url path='quickpay/flow/flow_checkorder'}">
 		<div class="ecjia-quickpay-content">
 			<div class="quickpay-content-title">
-				消费总金额（元）
+				{t domain="h5"}消费总金额（元）{/t}
 			</div>
 			<div class="quickpay-content-input">
 				<div class="logo">￥</div>
-				<input type="number" placeholder='请询问店员后输入' step="0.01" name="order_money" maxlength="9" {if $store_info.shop_closed eq 1}readonly{/if}/>
+				<input type="number" placeholder='{t domain="h5"}请询问店员后输入{/t}' step="0.01" name="order_money" maxlength="9" {if $store_info.shop_closed eq 1}readonly{/if}/>
 			</div>
 			<div class="quickpay-content-block">
-				<a class="more-discount external" href="{RC_Uri::url('user/quickpay/init')}&store_id={$store_id}">更多优惠选择 >>></a>
+				<a class="more-discount external" href="{RC_Uri::url('user/quickpay/init')}&store_id={$store_id}">{t domain="h5"}更多优惠选择 >>>{/t}</a>
 			</div>
 		</div>
 		<div class="ecjia-service-content-bottom">
 			<input type="hidden" name="activity_id" class="auto_activity_id"/>
 			<input type="hidden" name="store_id" value="{$store_id}">
 			<input type="hidden" name="direct_pay" value="{$direct_pay}">
-			<input class="btn quickpay_done external check_quickpay_btn" type="button" value="我要买单" />
+			<input class="btn quickpay_done external check_quickpay_btn" type="button" value='{t domain="h5"}我要买单{/t}' />
 		</div>
 	</form>
 
 	<div class="ecjia-pay-content">
 		<div class="ecjia-pay-content-area">
-			<div class="pay-content-title">确认付款
+			<div class="pay-content-title">{t domain="h5"}确认付款{/t}
 			<image class="pay-content-close" src="{$theme_url}images/icon/close.png" />
 			</div>
 			<div class="pay-content-price"></div>
 			<div class="pay-content-li">
-			<div class="left">消费金额</div>
+			<div class="left">{t domain="h5"}消费金额{/t}</div>
 			<div class="right goods-amount"></div>
 			</div>
 			<div class="pay-content-li">
-			<div class="left">优惠金额</div>
+			<div class="left">{t domain="h5"}优惠金额{/t}</div>
 			<div class="right red discount"></div>
 			</div>
 			<div class="pay-content-li">
-			<div class="left">实付金额</div>
+			<div class="left">{t domain="h5"}实付金额{/t}</div>
 			<div class="right total-fee"></div>
 			</div>
 			<div class="pay-content-btn">
 				<input type="hidden" name="quickpay_done_url" value="{url path='quickpay/flow/done'}">
 				<input type="hidden" name="pay_url" value="{url path='user/quickpay/dopay'}">
-				<button class="btn confirm-pay-btn" data-money="" data-activity="" data-paycode="{$payment.pay_code}">确认买单</button>
+				<button class="btn confirm-pay-btn" data-money="" data-activity="" data-paycode="{$payment.pay_code}">{t domain="h5"}确认买单{/t}</button>
 				<div class="wei-xin-pay hide"></div>
 			</div>
 		</div>

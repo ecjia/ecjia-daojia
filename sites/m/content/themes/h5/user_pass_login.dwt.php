@@ -18,24 +18,24 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-form  ecjia-login">
 	<div class="form-group margin-right-left">
 		<label class="input">
-			<input class="p_d0" placeholder="请输入用户名或手机号" name="username">
+			<input class="p_d0" placeholder='{t domain="h5"}请输入用户名或手机号{/t}' name="username">
 		</label>
 	</div>
 	<div class="form-group ecjia-margin-t margin-right-left">
 		<label class="input">
 			<i class="iconfont icon-attention ecjia-login-margin-l" id="password1"></i>
-			<input class="p_d0" placeholder="密码" id="password-1" name="password" type="password">
+			<input class="p_d0" placeholder='{t domain="h5"}密码{/t}' id="password-1" name="password" type="password">
 		</label>
 	</div>
 	<div class="ecjia-login-login-foot ecjia-margin-b">
-		<a class="ecjiaf-fr ecjia-margin-t" href="{url path='user/get_password/init'}">忘记密码？</a>
+		<a class="ecjiaf-fr ecjia-margin-t" href="{url path='user/get_password/init'}">{t domain="h5"}忘记密码？{/t}</a>
 	</div>
     <div class="around">
         <input type="hidden" name="referer_url" value="{$smarty.get.referer_url}" />
-        <input type="button" class="btn btn-info login-btn" name="ecjia-login" value="登录" data-url="{url path='user/privilege/signin'}"/>
+        <input type="button" class="btn btn-info login-btn" name="ecjia-login" value='{t domain="h5"}登录{/t}' data-url="{url path='user/privilege/signin'}"/>
     </div>
     {if $sns_qq eq 1 || $sns_wechat eq 1}
-    <p class="ecjiaf-tac other-account">其他帐号登录</p>
+    <p class="ecjiaf-tac other-account">{t domain="h5"}其他帐号登录{/t}</p>
     {/if}
 	<ul class="thirdparty-wrap">
 		{if $sns_qq eq 1}

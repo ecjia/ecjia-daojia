@@ -20,19 +20,19 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 {if $type eq 'mobile'}
 <div class="ecjia-check-info">
     <div class="bind-info">
-        <p>已绑：{$user.mobile_phone}</p>
+        <p>{t domain="h5"}已绑：{/t}{$user.mobile_phone}</p>
     </div>
     <div>
-        <a class="btn btn-info nopjax external" href="{RC_uri::url('user/profile/account_bind')}&type=mobile&status=change">更换手机号</a>
+        <a class="btn btn-info nopjax external" href="{RC_uri::url('user/profile/account_bind')}&type=mobile&status=change">{t domain="h5"}更换手机号{/t}</a>
     </div>
 </div>
 {elseif $type eq 'email'}
 <div class="ecjia-check-info">
     <div class="bind-info">
-        <p>已绑：{$user.email}</p>
+        <p>{t domain="h5"}已绑：{/t}{$user.email}</p>
     </div>
     <div>
-        <a class="btn btn-info nopjax external" href="{RC_uri::url('user/profile/account_bind')}&type=email&status=change">更换邮箱号</a>
+        <a class="btn btn-info nopjax external" href="{RC_uri::url('user/profile/account_bind')}&type=email&status=change">{t domain="h5"}更换邮箱号{/t}</a>
     </div>
 </div>
 {elseif $type eq 'wechat'}
@@ -43,12 +43,12 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
             <p>
                 <!--{if $user.wechat_is_bind eq 1}-->
                     <!--{if $user.wechat_nickname}-->
-                        已绑：<!--{$user.wechat_nickname}-->
+                        {t domain="h5"}已绑：{/t}<!--{$user.wechat_nickname}-->
                     <!--{else}-->
-                        已绑定
+                        {t domain="h5"}已绑定{/t}
                     <!--{/if}-->
                 <!--{else}-->
-                    暂未绑定
+                    {t domain="h5"}暂未绑定{/t}
                 <!--{/if}-->
             </p>
         </div>
@@ -57,29 +57,29 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <div class="ecjia-input">
             <div class="input-li b_b b_t">
                 {if $user.mobile_phone}
-                <span class="input-fl">手机号码</span>
+                <span class="input-fl">{t domain="h5"}手机号码{/t}</span>
                 <span class="mobile_phone">{$user.mobile_phone}</span>
-                <input class="get_code" type="button" id="get_code" value="获取验证码" data-url="{url path='user/profile/get_code'}&type=user_unbind_connect" />
+                <input class="get_code" type="button" id="get_code" value='{t domain="h5"}获取验证码{/t}' data-url="{url path='user/profile/get_code'}&type=user_unbind_connect" />
                 <input type="hidden" name="mobile" value="{$user.mobile_phone}" />
                 {else}
-                <span class="input-fl">手机号码</span>
-                <span class="mobile_phone">请先去绑定手机号</span>
-                <div class="bind_notice"><a class="external nopjax" href="{RC_Uri::url('user/profile/account_bind')}&type=mobile">去绑定</a></div>
+                <span class="input-fl">{t domain="h5"}手机号码{/t}</span>
+                <span class="mobile_phone">{t domain="h5"}请先去绑定手机号{/t}</span>
+                <div class="bind_notice"><a class="external nopjax" href="{RC_Uri::url('user/profile/account_bind')}&type=mobile">{t domain="h5"}去绑定{/t}</a></div>
                 {/if}
             </div>
 
             <div class="input-li">
-                <span class="input-fl">验证码</span>
-                <input class="text_left" type="text" name="smscode" placeholder="请输入手机验证码" value=""/>
+                <span class="input-fl">{t domain="h5"}验证码{/t}</span>
+                <input class="text_left" type="text" name="smscode" placeholder='{t domain="h5"}请输入手机验证码{/t}' value=""/>
             </div>
         </div>
         {/if}
 
         <div class="ecjia-margin-t2">
             <!--{if $user.wechat_is_bind eq 1}-->
-            <input class="btn btn-info" name="submit" type="submit" value="解绑微信">
+            <input class="btn btn-info" name="submit" type="submit" value='{t domain="h5"}解绑微信{/t}'>
             <!--{else}-->
-            <a class="btn btn-info nopjax external" href='{url path="connect/index/authorize" args="connect_code=sns_wechat"}'>去绑定</a>
+            <a class="btn btn-info nopjax external" href='{url path="connect/index/authorize" args="connect_code=sns_wechat"}'>{t domain="h5"}去绑定{/t}</a>
             <!--{/if}-->
         </div>
     </div>

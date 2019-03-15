@@ -9,7 +9,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="hd">
 		<h2>
 			<span class="line"></span>
-			<span class="goods-index-title"><i class="icon-goods-hot"></i>热门推荐</span>
+			<span class="goods-index-title"><i class="icon-goods-hot"></i>{t domain="h5"}热门推荐{/t}</span>
 		</h2>
 	</div>
 	<div class="bd">

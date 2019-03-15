@@ -21,11 +21,11 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="ecjia-discover-icon">
 		<div class="swiper-container" id="swiper-discover-icon">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide"><a href="{RC_Uri::url('mobile/discover/init')}"><img src="{$theme_url}images/discover/75_2.png" /><span>百宝箱</span></a></div>
-				<div class="swiper-slide"><a href="{$signup_reward_url}"><img src="{$theme_url}images/discover/75_3.png" /><span>新人有礼</span></a></div>
-				<div class="swiper-slide"><a href="{RC_Uri::url('user/index/spread')}"><img src="{$theme_url}images/discover/75_4.png" /><span>推广</span></a></div>
-				<div class="swiper-slide"><a href="{RC_Uri::url('goods/index/new')}"><img src="{$theme_url}images/discover/75_5.png" /><span>新品推荐</span></a></div>
-				<div class="swiper-slide"><a href="{RC_Uri::url('goods/index/promotion')}"><img src="{$theme_url}images/discover/75_6.png" /><span>促销商品</span></a></div>
+				<div class="swiper-slide"><a href="{RC_Uri::url('mobile/discover/init')}"><img src="{$theme_url}images/discover/75_2.png" /><span>{t domain="h5"}百宝箱{/t}</span></a></div>
+				<div class="swiper-slide"><a href="{$signup_reward_url}"><img src="{$theme_url}images/discover/75_3.png" /><span>{t domain="h5"}新人有礼{/t}</span></a></div>
+				<div class="swiper-slide"><a href="{RC_Uri::url('user/index/spread')}"><img src="{$theme_url}images/discover/75_4.png" /><span>{t domain="h5"}推广{/t}</span></a></div>
+				<div class="swiper-slide"><a href="{RC_Uri::url('goods/index/new')}"><img src="{$theme_url}images/discover/75_5.png" /><span>{t domain="h5"}新品推荐{/t}</span></a></div>
+				<div class="swiper-slide"><a href="{RC_Uri::url('goods/index/promotion')}"><img src="{$theme_url}images/discover/75_6.png" /><span>{t domain="h5"}促销商品{/t}</span></a></div>
 			</div>
 		</div>
 	</div>
@@ -46,7 +46,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="ecjia-discover-article">
 		<div class="swiper-container" id="swiper-article-cat">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide active" data-url="{url path='article/index/ajax_article_list'}&action_type=stickie" data-type="stickie">精选</div>
+				<div class="swiper-slide active" data-url="{url path='article/index/ajax_article_list'}&action_type=stickie" data-type="stickie">{t domain="h5"}精选{/t}</div>
 				<!-- {foreach from=$article_cat item=cat key=key} -->
 				<div class="swiper-slide" data-url="{url path='article/index/ajax_article_list'}&action_type={$cat.cat_id}" data-type="{$cat.cat_id}">{$cat.cat_name}</div>
 				<!-- {/foreach} -->
@@ -57,7 +57,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<div class="ecjia-down-navi-content">
 			<div class="ecjia-down-navi clearfix"> 
 				<ul class="navi-list">
-					<li class="navi active" data-id="stickie"><p class="navi-name">精选</p></li>
+					<li class="navi active" data-id="stickie"><p class="navi-name">{t domain="h5"}精选{/t}</p></li>
 					<!-- {foreach from=$article_cat item=cat key=key} -->
 					<li class="navi" data-id="{$cat.cat_id}"><p class="navi-name">{$cat.cat_name}</p></li>
 					<!-- {/foreach} -->

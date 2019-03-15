@@ -41,19 +41,7 @@
 
 		inv_img: function () {
 			$('.inv_img').on('click', function () {
-				alert('<div style="height: 100%;">' +
-					'<div style="position:fixed;background: #FFF;width: 100%;height: 3em;border-bottom: 1px solid #eee;z-index: 100;">' +
-					'<h2 style="line-height: 2em;position: absolute;right: 0;left: 0;height: 2em;">发票税号说明</h2>' +
-					'</div>' +
-					'<div style="padding:15px;overflow-y: scroll;padding-top: 3em;text-align: left;width: 100%;height: 100%;">' +
-					'<p><b>1、什么是纳税人识别号／统一社会信用代码？</b></p>' +
-					'<p style="color:#838383">纳税人识别号，通常简称为“税号”，就是税务登记证上的号，每个企业的识别号都是唯一的，相当于税务局颁发给企业的“身份证”号。统一社会信用代码，是一组长度为18位的用于法人和其他组织身份识别的代码。统一社会信用代码由国家标准委发布。2015年10月1日起，国家启动将企业依次申请的工商营业执照，组织机构代码和税务登记证三证合为一证，并将三证号码合并为统一社会信用代码，目前大部分企业均已完成合并，另外有少部分企业其纳税人识别号仍然有效。</p>' +
-					'<p><b>2、如何获取／知晓纳税人识别号／统一社会信用代码？</b></p>' +
-					'<p style="color:#838383">您可向贵单位的财务部门索取；另外也可以根据单位名称在国家企业信用信息公示系统（https://www.gsxt.gov.cn/index.html）查询统一社会信用代码。</p>' +
-					'<p><b>3、为什么要填写纳税人识别号／统一社会信用代码？</b></p>' +
-					'<p style="color:#838383">根据国家税务总局2017年16号公告，从7月1日起企业（包括公司、非公司制企业法人、企业分支机构、个人独资企业、合伙企业和其他企业）索取票面带有“购买方纳税人识别号”栏目的发票时，应向销售方提供纳税人识别号或统一社会信用代码。因此，当您选择开具单位抬头增值税普通发票时，请根据提示准确填写贵单位号码，以免影响您的发票报销。请注意此公告并不适用于政府机构及事业单位中的非企业单位，因此，如贵单位属于这种类型，可无需填写纳税人识别号／统一社会信用代码，谨慎起见，请您与贵单位财务部门联系确认。</p>' +
-					'</div>' +
-					'</div>')
+			    alert(js_lang.invoice_desc);
 				$(".modal-overlay").css('transition-duration', "0ms");
 				$(".modal-in").css("position", "fixed");
 				$(".modal-in").css("top", "30%");
@@ -362,11 +350,11 @@
 			$('[data-flag="need_inv_i"]').on('click', function () {
 				if ($(this).hasClass("fl")) {
 					$(this).removeClass("fl").addClass("fr");
-					$(this).siblings("ins").text("是");
+					$(this).siblings("ins").text(js_lang.yes);
 					$(this).parent().parent("li").siblings().hide();
 				} else if ($(this).hasClass("fr")) {
 					$(this).removeClass("fr").addClass("fl");
-					$(this).siblings("ins").text("否");
+					$(this).siblings("ins").text(js_lang.no);
 					$(this).parent().parent("li").siblings().show();
 				}
 			});
@@ -473,7 +461,7 @@
 				$('.mod_address_slide').removeClass('show');
 				firstResultAry = [];
 
-				$('.confirm-payment').val("确认支付");
+				$('.confirm-payment').val(js_lang.confirm_payment);
 				$('.confirm-payment').attr("disabled", false);
 				$('.confirm-payment').removeClass("payment-bottom");
 			});
@@ -522,15 +510,14 @@
 
 				if (!$(this).hasClass('payment-balance')) {
 					if ($("input[name='pay_id']:checked").val() == null) {
-						alert("请选择支付方式");
+						alert(js_lang.please_select_payment);
 						return false;
 					}
 				} else {
 					//支付时输入支付密码
 					var has_set_paypass = $('input[name="has_set_paypass"]').val();
 					if (has_set_paypass == 1) {
-
-						$(this).val("请求中...");
+						$(this).val(js_lang.requesting);
 						$(this).attr("disabled", true);
 						$(this).addClass("payment-bottom");
 
@@ -541,16 +528,16 @@
                         var url = $('.set_paypass_url').attr('data-url');
                         myApp.modal({
                             title: '',
-                            text: '您还未设置支付密码',
+                            text: js_lang.payment_password,
                             buttons: [{
-                                text: '取消',
+                                text: js_lang.cancel,
                                 onClick: function () {
                                     $('.modal').remove();
                                     $('.modal-overlay').remove();
                                     return false;
                                 }
                             }, {
-                                text: '去设置',
+                                text: js_lang.go_set,
                                 onClick: function () {
                                     window.location.href = url;
                                 }
@@ -562,7 +549,7 @@
 
 				$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
 				var alipay_btn_html = $(this).val();
-				$(this).val("请求中...");
+				$(this).val(js_lang.requesting);
 				$(this).attr("disabled", true);
 				$(this).addClass("payment-bottom");
 
@@ -644,7 +631,7 @@
 						$('.la-ball-atom').remove();
 						$('.confirm-payment').removeClass("payment-bottom")
 						$('.confirm-payment').removeAttr("disabled");
-						$('.confirm-payment').val('确认支付');
+						$('.confirm-payment').val(js_lang.confirm_payment);
 						if (data.state == 'error') {
 							// $('.mod_address_slide').removeClass('show');
 							$("#payPassword_container").find(".point").remove();

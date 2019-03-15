@@ -22,7 +22,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <li class="height-3">
             <a class="fnUrlReplace" href="{url path='user/profile/account_bind'}&type={$list.bank_type}">
                 <span class="icon-name margin-no-l">{$list.bank_name}</span>
-                <span class="icon-price text-color">{if $list.bind_info}{$list.bind_info.cardholder}{else}未设置{/if}</span>
+                <span class="icon-price text-color">{if $list.bind_info}{$list.bind_info.cardholder}{else}{t domain="h5"}未设置{/t}{/if}</span>
                 <i class="iconfont icon-jiantou-right margin-r-icon"></i>
             </a>
         </li>

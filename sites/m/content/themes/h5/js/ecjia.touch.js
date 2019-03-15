@@ -9,7 +9,8 @@
                 var key = $("input[name='key']").val();
                 var referer = $("input[name='referer']").val();
                 var geolocation = new qq.maps.Geolocation(key, referer);
-                geolocation.getLocation(showPosition, showErr);
+                var options = {timeout: 8000};
+                geolocation.getLocation(showPosition, showErr, options);
 
                 function showPosition(result) {
                     var lat = result.lat;

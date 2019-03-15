@@ -27,7 +27,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					<i class="{if $smarty.session.order_address_temp.address_id eq $value.id}icon-default{else}icon-not-default{/if}"></i>
 					<div class="ecjia-address-info">
 						<div class="ecjia-of-h">
-							{if $value.default_address eq 1}<span class="deafult-span">默认</span>{/if}
+							{if $value.default_address eq 1}<span class="deafult-span">{t domain="h5"}默认{/t}</span>{/if}
 							<p class="ecjiaf-fl ecjia-mxw6">{$value.consignee}</p>
 							<p class="ecjiaf-fl ecjia-margin-l ecjia-address-mobile">{$value.mobile}</p>
 						</div>
@@ -42,7 +42,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		
 		<!-- {if $address_list.other} -->
 		<ul class="ecjia-list list-one ecjia-margin-b over" id="J_ItemList">
-			<p class="m3">* 以下地址超出配送范围</p>
+			<p class="m3">* {t domain="h5"}以下地址超出配送范围{/t}</p>
 			<!-- 配送地址 start-->
 			<!-- {foreach from=$address_list.other item=value key=key}-->
 			<li class="ecjia-margin-t choose_address-list">
@@ -50,7 +50,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					<i class="{if $smarty.session.order_address_temp.address_id eq $value.id}icon-default{else}icon-not-default{/if}"></i>
 					<div class="ecjia-address-info">
 						<div class="ecjia-of-h">
-							{if $value.default_address eq 1}<span class="deafult-span">默认</span>{/if}
+							{if $value.default_address eq 1}<span class="deafult-span">{t domain="h5"}默认{/t}</span>{/if}
 							<p class="ecjiaf-fl ecjia-mxw6">{$value.consignee}</p>
 							<p class="ecjiaf-fl ecjia-margin-l ecjia-address-mobile">{$value.mobile}</p>
 						</div>
@@ -69,14 +69,14 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<div class="ecjia-margin-t">
 			<div class="ecjia-nolist">
 				<p><img src="{$theme_url}images/wallet/null280.png"></p>
-				暂无收货地址，请添加
+				{t domain="h5"}暂无收货地址，请添加{/t}
 			</div>
 		</div>
 		<!-- {/if} -->
 	</section>
 	
 	<section class="ecjia-margin-t jm">
-		<a class="btn" href="{url path='user/address/add_address' args='clear=1'}"><img src="{$theme_url}images/address_list/50x50_7.png">新建收货地址</a>
+		<a class="btn" href="{url path='user/address/add_address' args='clear=1'}"><img src="{$theme_url}images/address_list/50x50_7.png">{t domain="h5"}新建收货地址{/t}</a>
 	</section>
 </div>
 <!-- {/block} -->

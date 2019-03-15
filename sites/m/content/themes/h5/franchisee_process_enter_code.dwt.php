@@ -18,9 +18,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {block name="main-content"} -->
 <!-- #EndLibraryItem -->
 <div class="ecjia-address-list">
-	<div class="franchisee-search-title ecjia-margin-t">验证码已发送至</div>
+	<div class="franchisee-search-title ecjia-margin-t">{t domain="h5"}验证码已发送至{/t}</div>
 
-	<p class="ecjiaf-tac ecjia-margin-b ecjia-margin-t">手机号<span class="ecjia-color-orange">{$mobile}</span>，<span class="ecjiaf-tac blue resend_sms" data-url="{$resend_url}"></span></p>
+	<p class="ecjiaf-tac ecjia-margin-b ecjia-margin-t">{t domain="h5"}手机号{/t}<span class="ecjia-color-orange">{$mobile}</span>，<span class="ecjiaf-tac blue resend_sms" data-url="{$resend_url}"></span></p>
 
 	<div id="payPassword_container">
 		<div class="franchisee_pass_container">

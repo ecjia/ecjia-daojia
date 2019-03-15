@@ -17,17 +17,17 @@ ecjia.touch.user_account.init();
 <!-- {block name="main-content"} -->
 <form class="ecjia-account ecjia-form user-profile-form" name="useraccountForm" action="{url path='user/account/recharge_account'}" method="post">
     <div class="ecjia-form ecjia-account ecjia-flow-done ecjia-pay">
-    	<p class="account-top text-ty ">{t}账户充值：{$user.name}{/t}</p>
+    	<p class="account-top text-ty ">{t domain="h5"}账户充值：{/t}{$user.name}</p>
     	<div class="form-group form-group-text account-lr-fom no-border">
     		<label class="input">
-    			<span class="ecjiaf-fl">{t}金额{/t}</span>
-    			<input placeholder="{t}建议充入100元以上金额{/t}" type="tel" name="amount"/>
+    			<span class="ecjiaf-fl">{t domain="h5"}金额{/t}</span>
+    			<input placeholder='{t domain="h5"}建议充入100元以上金额{/t}' type="tel" name="amount"/>
     		</label>
     	</div>
     	 {if $payment_list}
 		    <ul class="ecjia-list ecjia-margin-t1">
 		        <li>
-		            支付方式 <span class="ecjiaf-fr"></span>
+		            {t domain="h5"}支付方式 {/t}<span class="ecjiaf-fr"></span>
 		        </li>
 		    </ul>
 		    <ul class="ecjia-list list-short payment-list">
@@ -47,12 +47,12 @@ ecjia.touch.user_account.init();
 
     	{if $brownser}
     	<div class=" text-center account-top">
-    		<input class="btn btn-recharge wxpay-btn" name="submit" type="submit" value="{t}立即充值{/t}" />
+    		<input class="btn btn-recharge wxpay-btn" name="submit" type="submit" value='{t domain="h5"}立即充值{/t}' />
     	</div>
     	<div class="wei-xin-pay hide"></div>
     	{else}
     	<div class=" text-center account-top">
-    		<input class="btn btn-recharge alipay-btn" type="button" value="{t}立即充值{/t}" />
+    		<input class="btn btn-recharge alipay-btn" type="button" value='{t domain="h5"}立即充值{/t}' />
     	</div>
     	{/if}
     </div>	

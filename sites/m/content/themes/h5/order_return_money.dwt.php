@@ -13,9 +13,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- #EndLibraryItem -->
 <div class="return-status-content">
 	<ul class="aam">
-		<li>退回金额<span class="aan ecjia-red">{$data.format_back_amount}</span></li>
-		<li>退回账户<span class="aan">{$data.back_account}</span></li>
-		<li>退款进度<span class="aan">{$data.label_back_status}</span></li>
+		<li>{t domain="h5"}退回金额{/t}<span class="aan ecjia-red">{$data.format_back_amount}</span></li>
+		<li>{t domain="h5"}退回账户{/t}<span class="aan">{$data.back_account}</span></li>
+		<li>{t domain="h5"}退款进度{/t}<span class="aan">{$data.label_back_status}</span></li>
 	</ul>
 	
 	<div class="q5">

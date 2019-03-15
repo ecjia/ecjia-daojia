@@ -13,9 +13,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-account-list-f">
     <div class="ecjia-account-list">
         <ul class="ecjia-list ecjia-list-three ecjia-nav ecjia-account ecjia-bonus-border-right1">
-        	<li><a {if $smarty.get.status eq ''}class="ecjia-green left-bottom ecjia-green-rf"{else}class="left-bottom ecjia-green-rf"{/if} id="left-bottom" href="{url path='user/account/record' args='status='}">{t}全部{/t}</a></li>
-        	<li><a {if $smarty.get.status eq 'raply'}class="ecjia-green ecjia-green-rf"{else}class="ecjia-green-rf"{/if} href="{url path='user/account/record' args='status=raply'}">{t}提现{/t}</a></li>
-        	<li><a {if $smarty.get.status eq 'deposit'}class="ecjia-green right-bottom ecjia-green-rf"{else}class="right-bottom ecjia-green-rf"{/if} id="right-bottom" href="{url path='user/account/record' args='status=deposit'}">{t}充值{/t}</a></li>
+        	<li><a {if $smarty.get.status eq ''}class="ecjia-green left-bottom ecjia-green-rf"{else}class="left-bottom ecjia-green-rf"{/if} id="left-bottom" href="{url path='user/account/record' args='status='}">{t domain="h5"}全部{/t}</a></li>
+        	<li><a {if $smarty.get.status eq 'raply'}class="ecjia-green ecjia-green-rf"{else}class="ecjia-green-rf"{/if} href="{url path='user/account/record' args='status=raply'}">{t domain="h5"}提现{/t}</a></li>
+        	<li><a {if $smarty.get.status eq 'deposit'}class="ecjia-green right-bottom ecjia-green-rf"{else}class="right-bottom ecjia-green-rf"{/if} id="right-bottom" href="{url path='user/account/record' args='status=deposit'}">{t domain="h5"}充值{/t}</a></li>
         </ul>
     </div>
 </div>
@@ -66,7 +66,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <!-- {else} -->
         <!-- {if $pages eq 1} -->
         <div class="ecjia-nolist">
-            <div class="img-norecord">暂无明细记录</div>
+            <div class="img-norecord">{t domain="h5"}暂无明细记录{/t}</div>
         </div>
         <!-- {/if} -->
     <!-- {/if} -->

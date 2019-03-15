@@ -22,18 +22,18 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<div class="form">
 			<form class="invite-form" name="inviteForm" action='{url path="affiliate/index/invite"}'>
 				<div class="input-container">
-					<input type="text" id="mobile" name="mobile" placeholder="输入手机号码"/>
+					<input type="text" id="mobile" name="mobile" placeholder='{t domain="h5"}输入手机号码{/t}'/>
 				</div>
 				<div class="input-container">
 					<span class="identify_code" data-url="{url path='affiliate/index/refresh'}"><img src="data:image/png;base64,{$captcha_image}"></span>
-					<input class="code_captcha" type="text" name="code_captcha" placeholder="请输入左侧验证码"/>
-					<span class="identify_code_btn" data-url="{url path='affiliate/index/check'}">验证</span>
+					<input class="code_captcha" type="text" name="code_captcha" placeholder='{t domain="h5"}请输入左侧验证码{/t}'/>
+					<span class="identify_code_btn" data-url="{url path='affiliate/index/check'}">{t domain="h5"}验证{/t}</span>
 				</div>
 				<div class="input-container">
-					<input type="text" name="code" placeholder="输入短信验证码"/>
+					<input type="text" name="code" placeholder='{t domain="h5"}输入短信验证码{/t}'/>
 				</div>
 				<input type="hidden" name="invite_code" value="{$invite_code}"/>
-				<input class="receive_btn" type="submit" value="立即领取"/>
+				<input class="receive_btn" type="submit" value='{t domain="h5"}立即领取{/t}'/>
 			</form>
 		</div>
 	</div>

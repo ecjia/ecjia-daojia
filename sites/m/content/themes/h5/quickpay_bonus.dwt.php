@@ -32,7 +32,7 @@ ecjia.touch.user.init();
 	           	<!-- {foreachelse} -->
 	           	<label class="select-item">
 	           		<li>
-	                    <span class="ecjia-color-999">暂无可用红包</span>
+	                    <span class="ecjia-color-999">{t domain="h5"}暂无可用红包{/t}</span>
 	                </li>
 	          	</label>
 	           	<!-- {/foreach} -->
@@ -40,8 +40,8 @@ ecjia.touch.user.init();
 	    </div>
 	    
 		<div class="save_discard">
-	    	<input class="btn mag-t1" name="bonus_update" type="submit" value="保存">
-	        <input class="btn btn-hollow-danger mag-t1" name="bonus_clear" type="submit" value="清空">
+	    	<input class="btn mag-t1" name="bonus_update" type="submit" value='{t domain="h5"}保存{/t}'>
+	        <input class="btn btn-hollow-danger mag-t1" name="bonus_clear" type="submit" value='{t domain="h5"}清空{/t}'>
 	    </div>
 	</div>
 </form>

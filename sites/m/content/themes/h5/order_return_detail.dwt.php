@@ -24,12 +24,12 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			        <span class="order-status-img"><p></p><img src="{$theme_url}images/address_list/50x50_2.png"></span>
 			        <div class="order-status-msg">
 	    		        <span class="order-head-top"><span class="order-head-font">{$refund_logs.label_status}</span><span class="ecjiaf-fr order-color">{$refund_logs.formatted_action_time}</span></span>
-	    		        <p class="ecjia-margin-t status"><span class="order-color order-status">{$refund_logs.log_description}</span><span class="ecjiaf-fr more-status">更多状态 ></span></p>
+	    		        <p class="ecjia-margin-t status"><span class="order-color order-status">{$refund_logs.log_description}</span><span class="ecjiaf-fr more-status">{t domain="h5"}更多状态 >{/t}</span></p>
 			        </div>
 		        </a>
 	        </div>
 	        
-			<p class="select-title ecjiaf-fwb ecjia-margin-l">售后商品</p>
+			<p class="select-title ecjiaf-fwb ecjia-margin-l">{t domain="h5"}售后商品{/t}</p>
 		    <ul class="goods-item">
 				<!-- {foreach from=$order.goods_list item=goods} -->
 				<li>
@@ -50,32 +50,32 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			
 			<div class="return-item">
 				<div class="c9">
-					<p><i class="c6">{$order.refund_goods_amount}</i><b>退商品金额</b></p>
+					<p><i class="c6">{$order.refund_goods_amount}</i><b>{t domain="h5"}退商品金额{/t}</b></p>
 					
 					{if $order.refund_shipping_fee neq '0'}
-					<p><i class="c6">{$order.refund_shipping_fee}</i><b>退配送费</b></p>
+					<p><i class="c6">{$order.refund_shipping_fee}</i><b>{t domain="h5"}退配送费{/t}</b></p>
 					{/if}
 					
 					{if $order.refund_integral neq '0'}
-					<p><i class="c6">{$order.refund_integral}</i><b>退{$integral_name}</b></p>
+					<p><i class="c6">{$order.refund_integral}</i><b>{t domain="h5"}退{/t}{$integral_name}</b></p>
 					{/if}
 					
 					{if $order.refund_inv_tax neq '0'}
-					<p><i class="c6">{$order.refund_inv_tax}</i><b>退发票</b></p>
+					<p><i class="c6">{$order.refund_inv_tax}</i><b>{t domain="h5"}退发票{/t}</b></p>
 					{/if}
 					
-					<p><i class="c6 ecjia-red">{$order.refund_total_amount}</i><b>退总金额</b></p>
-					<p class="ca"><span>温馨提示:</span><b>退商品金额是按照您实际支付的商品金额进行退回，如有问题，请联系客服。</b></p>
+					<p><i class="c6 ecjia-red">{$order.refund_total_amount}</i><b>{t domain="h5"}退总金额{/t}</b></p>
+					<p class="ca"><span>{t domain="h5"}温馨提示:{/t}</span><b>{t domain="h5"}退商品金额是按照您实际支付的商品金额进行退回，如有问题，请联系客服。{/t}</b></p>
 				</div>
 			</div>
 			
-			<p class="select-title ecjiaf-fwb ecjia-margin-l">问题描述</p>
+			<p class="select-title ecjiaf-fwb ecjia-margin-l">{t domain="h5"}问题描述{/t}</p>
 			<div class="co">
-				<p class="cp"><span>售后原因：</span><b>{$order.reason}</b></p>
-				<p class="cp"><span>问题描述：</span><b>{if $order.refund_desc}{$order.refund_desc}{else}暂无{/if}</b></p>
+				<p class="cp"><span>{t domain="h5"}售后原因：{/t}</span><b>{$order.reason}</b></p>
+				<p class="cp"><span>{t domain="h5"}问题描述：{/t}</span><b>{if $order.refund_desc}{$order.refund_desc}{else}{t domain="h5"}暂无{/t}{/if}</b></p>
 				{if $order.return_images}
 				<p class="cq">
-					<span>售后图片：</span>
+					<span>{t domain="h5"}售后图片：{/t}</span>
 					<b>
 						<!-- {foreach from=$order.return_images item=img} -->
 						<img src="{$img}">
@@ -86,23 +86,23 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			</div>
 			
 			{if $order.selected_returnway_info}
-			<p class="select-title ecjiaf-fwb ecjia-margin-l">取货信息</p>
+			<p class="select-title ecjiaf-fwb ecjia-margin-l">{t domain="h5"}取货信息{/t}</p>
 				{if $order.selected_returnway_info.return_way_code eq 'home'}
 				<div class="co">
 					{if $order.selected_returnway_info.return_way_name}
-					<p class="cp"><span>退货方式：</span><b>{$order.selected_returnway_info.return_way_name}</b></p>
+					<p class="cp"><span>{t domain="h5"}退货方式：{/t}</span><b>{$order.selected_returnway_info.return_way_name}</b></p>
 					{/if}
 					{if $order.selected_returnway_info.expect_pickup_time}
-					<p class="cp"><span>取货时间：</span><b>{$order.selected_returnway_info.expect_pickup_time}</b></p>
+					<p class="cp"><span>{t domain="h5"}取货时间：{/t}</span><b>{$order.selected_returnway_info.expect_pickup_time}</b></p>
 					{/if}
 					{if $order.selected_returnway_info.pickup_address}
-					<p class="cp"><span>取货地址：</span><b>{$order.selected_returnway_info.pickup_address}</b></p>
+					<p class="cp"><span>{t domain="h5"}取货地址：{/t}</span><b>{$order.selected_returnway_info.pickup_address}</b></p>
 					{/if}
 					{if $order.selected_returnway_info.contact_name}
-					<p class="cp"><span>联系人：</span><b>{$order.selected_returnway_info.contact_name}</b></p>
+					<p class="cp"><span>{t domain="h5"}联系人：{/t}</span><b>{$order.selected_returnway_info.contact_name}</b></p>
 					{/if}
 					{if $order.selected_returnway_info.contact_phone}
-					<p class="cp"><span>联系电话：</span><b>{$order.selected_returnway_info.contact_phone}</b></p>
+					<p class="cp"><span>{t domain="h5"}联系电话：{/t}</span><b>{$order.selected_returnway_info.contact_phone}</b></p>
 					{/if}
 				</div>
 				{/if}
@@ -110,22 +110,22 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				{if $order.selected_returnway_info.return_way_code eq 'express'}
 				<div class="co">
 					{if $order.selected_returnway_info.return_way_name}
-					<p class="cp"><span>退货方式：</span><b>{$order.selected_returnway_info.return_way_name}</b></p>
+					<p class="cp"><span>{t domain="h5"}退货方式：{/t}</span><b>{$order.selected_returnway_info.return_way_name}</b></p>
 					{/if}
 					{if $order.selected_returnway_info.recipients}
-					<p class="cp"><span>收件人：</span><b>{$order.selected_returnway_info.recipients}</b></p>
+					<p class="cp"><span>{t domain="h5"}收件人：{/t}</span><b>{$order.selected_returnway_info.recipients}</b></p>
 					{/if}
 					{if $order.selected_returnway_info.contact_phone}
-					<p class="cp"><span>联系方式：</span><b>{$order.selected_returnway_info.contact_phone}</b></p>
+					<p class="cp"><span>{t domain="h5"}联系方式：{/t}</span><b>{$order.selected_returnway_info.contact_phone}</b></p>
 					{/if}
 					{if $order.selected_returnway_info.recipient_address}
-					<p class="cp"><span>收件地址：</span><b>{$order.selected_returnway_info.recipient_address}</b></p>
+					<p class="cp"><span>{t domain="h5"}收件地址：{/t}</span><b>{$order.selected_returnway_info.recipient_address}</b></p>
 					{/if}
 					{if $order.selected_returnway_info.shipping_name}
-					<p class="cp"><span>快递名称：</span><b>{$order.selected_returnway_info.shipping_name}</b></p>
+					<p class="cp"><span>{t domain="h5"}快递名称：{/t}</span><b>{$order.selected_returnway_info.shipping_name}</b></p>
 					{/if}
 					{if $order.selected_returnway_info.shipping_sn}
-					<p class="cp"><span>快递单号：</span><b>{$order.selected_returnway_info.shipping_sn}</b></p>
+					<p class="cp"><span>{t domain="h5"}快递单号：{/t}</span><b>{$order.selected_returnway_info.shipping_sn}</b></p>
 					{/if}
 				</div>
 				{/if}
@@ -133,16 +133,16 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				{if $order.selected_returnway_info.return_way_code eq 'shop'}
 				<div class="co">
 					{if $order.selected_returnway_info.return_way_name}
-					<p class="cp"><span>退货方式：</span><b>{$order.selected_returnway_info.return_way_name}</b></p>
+					<p class="cp"><span>{t domain="h5"}退货方式：{/t}</span><b>{$order.selected_returnway_info.return_way_name}</b></p>
 					{/if}
 					{if $order.selected_returnway_info.store_name}
-					<p class="cp"><span>店铺名称：</span><b>{$order.selected_returnway_info.store_name}</b></p>
+					<p class="cp"><span>{t domain="h5"}店铺名称：{/t}</span><b>{$order.selected_returnway_info.store_name}</b></p>
 					{/if}
 					{if $order.selected_returnway_info.contact_phone}
-					<p class="cp"><span>联系方式：</span><b>{$order.selected_returnway_info.contact_phone}</b></p>
+					<p class="cp"><span>{t domain="h5"}联系方式：{/t}</span><b>{$order.selected_returnway_info.contact_phone}</b></p>
 					{/if}
 					{if $order.selected_returnway_info.store_address}
-					<p class="cp"><span>店铺地址：</span><b>{$order.selected_returnway_info.store_address}</b></p>
+					<p class="cp"><span>{t domain="h5"}店铺地址：{/t}</span><b>{$order.selected_returnway_info.store_address}</b></p>
 					{/if}
 				</div>
 				{/if}
@@ -150,45 +150,45 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 			<div class="order-ft-link">
 				{if $order.status eq 'canceled'}
-				<span class="canceled">本次申请已撤销</span>
+				<span class="canceled">{t domain="h5"}本次申请已撤销{/t}</span>
 				{else}
-				<a class="btn btn-small btn-hollow external" href="{if $order.store_service_phone}tel://{$order.store_service_phone}{else}javascript:alert('无法联系卖家');{/if}">联系卖家</a>
+				<a class="btn btn-small btn-hollow external" href="{if $order.store_service_phone}tel://{$order.store_service_phone}{else}javascript:alert('{t domain='h5'}无法联系卖家{/t}');{/if}">{t domain="h5"}联系卖家{/t}</a>
 				{/if}
 				
 				{if $order.refund_type eq 'refund' && $order.refund_status neq 'refunded'}
 					{if $order.status eq 'agree' || $order.refund_status eq 'refunded'}
-<!-- 						<a class="btn btn-small btn-hollow external" href="{url path='user/order/return_detail'}&refund_sn={$order.refund_sn}&type=return_money">退款详情</a> -->
+<!-- 						<a class="btn btn-small btn-hollow external" href="{url path='user/order/return_detail'}&refund_sn={$order.refund_sn}&type=return_money">{t domain="h5"}退款详情{/t}</a> -->
 					{/if}
 					
 					{if $order.status eq 'uncheck'}
-						<a class="btn btn-small btn-hollow undo_reply" href='{url path="user/order/undo_reply" args="order_id={$order_id}&refund_sn={$order.refund_sn}"}'>撤销申请</a>
+						<a class="btn btn-small btn-hollow undo_reply" href='{url path="user/order/undo_reply" args="order_id={$order_id}&refund_sn={$order.refund_sn}"}'>{t domain="h5"}撤销申请{/t}</a>
 					{/if}
 					
 					{if $order.status eq 'refused'}
-						<a class="btn btn-small btn-hollow" href='{url path="user/order/return_order" args="order_id={$order_id}&refund_sn={$order.refund_sn}"}'>重新申请</a>
+						<a class="btn btn-small btn-hollow" href='{url path="user/order/return_order" args="order_id={$order_id}&refund_sn={$order.refund_sn}"}'>{t domain="h5"}重新申请{/t}</a>
 					{/if}
 				{/if}
 				
 				{if $order.refund_type eq 'return' && $order.refund_status neq 'refunded'}
 					{if $order.status eq 'uncheck'}
-						<a class="btn btn-small btn-hollow undo_reply" href='{url path="user/order/undo_reply" args="order_id={$order_id}&refund_sn={$order.refund_sn}"}'>撤销申请</a>
+						<a class="btn btn-small btn-hollow undo_reply" href='{url path="user/order/undo_reply" args="order_id={$order_id}&refund_sn={$order.refund_sn}"}'>{t domain="h5"}撤销申请{/t}</a>
 					{/if}
 					
 					{if $order.status eq 'agree' && !$order.selected_returnway_info}
 						{if $return_way_info}
-						<a class="btn btn-small btn-hollow data-pjax" href='{url path="user/order/return_way" args="refund_sn={$order.refund_sn}&type={$return_way_info.return_way_code}"}'>返还方式</a>
+						<a class="btn btn-small btn-hollow data-pjax" href='{url path="user/order/return_way" args="refund_sn={$order.refund_sn}&type={$return_way_info.return_way_code}"}'>{t domain="h5"}返还方式{/t}</a>
 						{else}
-						<a class="btn btn-small btn-hollow data-pjax" href='{url path="user/order/return_way_list" args="refund_sn={$order.refund_sn}"}'>返还方式</a>
+						<a class="btn btn-small btn-hollow data-pjax" href='{url path="user/order/return_way_list" args="refund_sn={$order.refund_sn}"}'>{t domain="h5"}返还方式{/t}</a>
 						{/if}
 					{/if}
 					
 					{if $order.status eq 'refused'}
-						<a class="btn btn-small btn-hollow" href='{url path="user/order/return_order" args="order_id={$order_id}&refund_sn={$order.refund_sn}&type={$order.refund_type}"}'>重新申请</a>
+						<a class="btn btn-small btn-hollow" href='{url path="user/order/return_order" args="order_id={$order_id}&refund_sn={$order.refund_sn}&type={$order.refund_type}"}'>{t domain="h5"}重新申请{/t}</a>
 					{/if}
 				{/if}
 				
 				{if $order.refund_status eq 'refunded' || $order.refund_status eq 'checked'}
-					<a class="btn btn-small btn-hollow external" href="{url path='user/order/return_detail'}&refund_sn={$order.refund_sn}&type=return_money">退款详情</a>
+					<a class="btn btn-small btn-hollow external" href="{url path='user/order/return_detail'}&refund_sn={$order.refund_sn}&type=return_money">{t domain="h5"}退款详情{/t}</a>
 				{/if}
 			</div>
 		</div>

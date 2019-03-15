@@ -32,7 +32,7 @@ $(function(){
 <form id="theForm" name="theForm" action='{url path="cart/flow/checkout" args="{if $smarty.session.order_address_temp.store_id}store_id={$smarty.session.order_address_temp.store_id}&{/if}address_id={$address_id}&rec_id={$rec_id}"}' method="post">
     <div class="ecjia-select ecjia-shipping-date">
     
-        <p class="select-title ecjia-margin-l">选择日期</p>
+        <p class="select-title ecjia-margin-l">{t domain="h5"}选择日期{/t}</p>
         <ul class="ecjia-list">
             <!-- {foreach from=$shipping.shipping_date item=list} -->
             <label class="select-item" for="shipping_{$list.date}">
@@ -48,7 +48,7 @@ $(function(){
             <!-- {/foreach} -->
         </ul>
         
-        <p class="select-title ecjia-margin-l">选择时间段</p>
+        <p class="select-title ecjia-margin-l">{t domain="h5"}选择时间段{/t}</p>
         <!-- {foreach from=$shipping.shipping_date item=date key=index} -->
         <ul class="ecjia-list data-shipping shipping-time-{$index}">
             <!-- {foreach from=$date.time item=list} -->
@@ -69,7 +69,7 @@ $(function(){
         <div class="ecjia-margin-t ecjia-margin-b">
             <input type="hidden" name="address_id" value="{$address_id}">
             <input type="hidden" name="rec_id" value="{$rec_id}" />
-			<input class="btn btn-info" name="shipping_date_update" type="submit" value="确定"/>
+			<input class="btn btn-info" name="shipping_date_update" type="submit" value='{t domain="h5"}确定{/t}/>
         </div>
     </div>
 </form>

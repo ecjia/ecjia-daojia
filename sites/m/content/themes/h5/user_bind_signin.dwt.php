@@ -22,34 +22,34 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="form-group margin-right-left">
 		<label class="input">
 			<i class="iconfont icon-dengluyonghuming"></i>
-			<input placeholder="请输入用户名或手机号" name="username" datatype="*3-16|zh2-7" errormsg="手机号错误请重新输入！" nullmsg="请输入手机号" />
+			<input placeholder='{t domain="h5"}请输入用户名或手机号{/t}' name="username" datatype="*3-16|zh2-7" errormsg='{t domain="h5"}手机号错误请重新输入！{/t}' nullmsg='{t domain="h5"}请输入手机号{/t}' />
 		</label>
 	</div>
 	<div class="form-group ecjia-margin-t margin-right-left">
 		<label class="input">
 			<i class="iconfont icon-lock "></i>
 			<i class="iconfont icon-attention ecjia-login-margin-l"  id="password1"></i>
-			<input placeholder="请输入密码" name="password" type="password" id="password-1" datatype="*6-16" errormsg="密码错误请重新输入！" nullmsg="请输入密码" />
+			<input placeholder='{t domain="h5"}请输入密码{/t}' name="password" type="password" id="password-1" datatype="*6-16" errormsg='{t domain="h5"}密码错误请重新输入！{/t}' nullmsg='{t domain="h5"}请输入密码{/t}' />
 		</label>
 	</div>
 	<!-- 判断是否启用验证码{if $enabled_captcha} -->
 	<div class="form-group">
 		<label class="input captcha-img">
 			<i class="iconfont icon-pic"></i>
-			<input data-rule='notEmpty' name="captcha" placeholder="验证码" />
+			<input data-rule='notEmpty' name="captcha" placeholder='{t domain="h5"}验证码{/t}' />
 			<img src="{url path='captcha/index/init'}" alt="captcha" onClick="this.src='{url path='captcha/index/init'}&t='+Math.random();" />
 		</label>
 	</div>
 	<!--{/if}-->
 	<div class="ecjia-login-b ecjia-login-login-foot margin-right-left">
-		<a class="ecjiaf-fr ecjia-margin-r ecjia-margin-t" href="{url path='user/get_password/mobile_register'}">忘记密码？</a>
+		<a class="ecjiaf-fr ecjia-margin-r ecjia-margin-t" href="{url path='user/get_password/mobile_register'}">{t domain="h5"}忘记密码？{/t}</a>
 	</div>
 	<div class="ecjia-login-b">
 	    <div class="around">
 	        <input type="hidden" name="connect_code" value="{$connect_code}">
 	        <input type="hidden" name="open_id" value="{$open_id}">
             <input type="hidden" name="referer" value="{$smarty.get.referer}" />
-            <input type="submit" class="btn btn-info login-btn" value="关联" />
+            <input type="submit" class="btn btn-info login-btn" value='{t domain="h5"}关联{/t}' />
 	    </div>	
 	</div>
 </form>

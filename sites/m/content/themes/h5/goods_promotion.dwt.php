@@ -54,7 +54,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-mod search-no-pro ecjia-margin-t ecjia-margin-b">
 	<div class="ecjia-nolist">
 		<p><img src="{$theme_url}images/wallet/null280.png"></p>
-		暂无商品
+		{t domain="h5"}暂无商品{/t}
 	</div>
 </div>
 <!-- {/if} -->

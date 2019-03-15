@@ -15,22 +15,22 @@ return array(
     */
     array(
         'name'     => 'layout',
-        'title'    => '布局',
+        'title'    => __('布局', 'h5'),
         'icon'     => 'fa fa-cubes',
         'fields'   => array(
             array(
                 'type'  => 'notice',
                 'class' => 'info',
-                'content'   => '首页、分类和标签布局',
+                'content'   => __('首页、分类和标签布局', 'h5'),
             ),
             array(
                 'id'           => 'i_layout_goods_list_type',
                 'class'        => 'horizontal',
                 'type'         => 'radio_image',
-                'title'        => '选择商品列表布局',
+                'title'        => __('选择商品列表布局', 'h5'),
                 'options'      => array(
-                    'goods'         => '纯商品展示',
-                    'store_goods'   => '店铺+商品展示',
+                    'goods'         => __('纯商品展示', 'h5'),
+                    'store_goods'   => __('店铺+商品展示', 'h5'),
                 ),
                 'options_images' => array(
                     'goods'         => ecjia_extra::themeUrl('images/goods_list/goods.png'),
@@ -47,7 +47,7 @@ return array(
     // ------------------------------
     array(
         'name'     => 'license',
-        'title'    => '关于',
+        'title'    => __('关于', 'h5'),
         'icon'     => 'fa fa-info-circle',
         'fields'   => array(
 
@@ -57,7 +57,7 @@ return array(
             ),
             array(
                 'type'    => 'content',
-                'content' => 'ECJia到家官网，详情请访问： <a href="https://daojia.ecjia.com/" target="_blank">https://daojia.ecjia.com/</a>',
+                'content' => __('ECJia到家官网，详情请访问：', 'h5') . ' <a href="https://daojia.ecjia.com/" target="_blank">https://daojia.ecjia.com/</a>',
             ),
 
         )

@@ -20,7 +20,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <div class="ecjia-select">
     
         {if $payment_list.online}
-        <p class="select-title ecjia-margin-l">线上支付</p>
+        <p class="select-title ecjia-margin-l">{t domain="h5"}线上支付{/t}</p>
         <ul class="ecjia-list">
             <!-- {foreach from=$payment_list.online item=rs} -->
             <label class="select-item" for="{$rs.pay_code}">
@@ -36,7 +36,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         {/if}
         
         {if $payment_list.offline}
-        <p class="select-title ecjia-margin-l">线下支付</p>
+        <p class="select-title ecjia-margin-l">{t domain="h5"}线下支付{/t}</p>
         <ul class="ecjia-list">
             <!-- {foreach from=$payment_list.offline item=rs} -->
             <label class="select-item" for="{$rs.pay_code}">
@@ -54,7 +54,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <div class="ecjia-margin-t ecjia-margin-b">
             <input type="hidden" name="address_id" value="{$address_id}">
             <input type="hidden" name="rec_id" value="{$rec_id}" />
-			<input class="btn btn-info" name="payment_update" type="submit" value="确定"/>
+			<input class="btn btn-info" name="payment_update" type="submit" value='{t domain="h5"}确定{/t}' />
         </div>
     </div>
 </form>

@@ -25,7 +25,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     					    </p>
     					    <span class="ecjiaf-fl cmt-goods-price">{$goods.goods_price}</span>
     					    <span class="ecjiaf-fr btn-comment">
-        		              <a class="fnUrlReplace btn btn-hollow" href='{url path="user/order/goods_comment" args="goods_id={$goods.goods_id}&order_id={$order_id}&rec_id={$goods.rec_id}&is_commented={$goods.is_commented}&is_showorder={$goods.is_showorder}"}'>{if $goods.is_commented eq 1}{if $goods.is_showorder eq 1}查看评价{else}追加晒图{/if}{else}发表评价{/if}</a>
+        		              <a class="fnUrlReplace btn btn-hollow" href='{url path="user/order/goods_comment" args="goods_id={$goods.goods_id}&order_id={$order_id}&rec_id={$goods.rec_id}&is_commented={$goods.is_commented}&is_showorder={$goods.is_showorder}"}'>{if $goods.is_commented eq 1}{if $goods.is_showorder eq 1}{t domain="h5"}查看评价{/t}{else}{t domain="h5"}追加晒图{/t}{/if}{else}{t domain="h5"}发表评价{/t}{/if}</a>
         		            </span>
 					    </div>
     				</li>

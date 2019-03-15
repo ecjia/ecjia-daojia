@@ -24,7 +24,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	</div>
     <div class="around">
         <input type="hidden" name="referer_url" value="{$smarty.get.referer_url}" />
-        <input type="button" class="btn btn-info login-btn" name="ecjia-mobile-login" value="确定" data-url="{url path='user/get_password/mobile_check'}"/>
+        <input type="button" class="btn btn-info login-btn" name="ecjia-mobile-login" value='{t domain="h5"}确定{/t}' data-url="{url path='user/get_password/mobile_check'}"/>
     </div>
 </div>
 <!-- {/block} -->

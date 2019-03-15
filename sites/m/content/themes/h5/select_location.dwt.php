@@ -19,18 +19,18 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-zs" id="ecjia-zs" data-type="index" data-url="{url path='touch/index/init'}">
 	<div class="ecjia-zt a1">
 		<a href="{url path='touch/location/select_city' args="type=search{if $smarty.get.city_id}&city_id={$smarty.get.city_id}{else}&city_id={$smarty.cookies.city_id}{/if}"}">
-			<h2 class="ecjia-zu"><span class="city-name">{if $smarty.cookies.city_name}{$smarty.cookies.city_name}{else}请选择{/if}</span></h2>
+			<h2 class="ecjia-zu"><span class="city-name">{if $smarty.cookies.city_name}{$smarty.cookies.city_name}{else}{t domain="h5"}请选择{/t}{/if}</span></h2>
  		</a>
-		<input class="ecjia-zv" type="text" id="search_location_list" data-toggle="search-address" data-url="{url path='touch/location/search_list'}"  name="address" placeholder="选择城市、小区、写字楼、学校" maxlength="50" >
+		<input class="ecjia-zv" type="text" id="search_location_list" data-toggle="search-address" data-url="{url path='touch/location/search_list'}"  name="address" placeholder='{t domain="h5"}选择城市、小区、写字楼、学校{/t}' maxlength="50" >
 	</div>
 	<div class="ecjia-zw">
 		<a class="external" href="{$my_location}">
-			<div class="ecjia-zx"><i></i><p>点击定位当前地点</p></div>
+			<div class="ecjia-zx"><i></i><p>{t domain="h5"}点击定位当前地点{/t}</p></div>
 		</a>
 	</div>
 	{if $login}
 	<div class="ecjia-list ecjia-address-list ecjia-select-address">
-		<div class="address-backgroundw"><span>我的收货地址</span></div>
+		<div class="address-backgroundw"><span>{t domain="h5"}我的收货地址{/t}</span></div>
 		<ul class="list-one">
 			{if $address_list}
 			<!-- {foreach from=$address_list item=value} 循环地址列表 -->
@@ -48,18 +48,18 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			</li>
 			<!-- {/foreach} -->
 			{else}
-			<li class="no-address">您当前还没有收货地址</li>
+			<li class="no-address">{t domain="h5"}您当前还没有收货地址{/t}</li>
 			{/if}
 		</ul>
 		<div class="address-list-center">
 			<a type="botton" href="{if $address_list}{RC_Uri::url('user/address/address_list')}{else}{RC_Uri::url('user/address/add_address')}&referer_url={$location_url}{/if}">
-				<i class="iconfont icon-roundadd"></i> {if $address_list}管理收货地址{else}添加收货地址{/if}
+				<i class="iconfont icon-roundadd"></i> {if $address_list}{t domain="h5"}管理收货地址{/t}{else}{t domain="h5"}添加收货地址{/t}{/if}
 			</a>
 		</div>
 	</div>
 	{/if}
 	
-	<div class="ecjia-near-address">您附近的地址</div>
+	<div class="ecjia-near-address">{t domain="h5"}您附近的地址{/t}</div>
 	<div class="ecjia-address_list">
 		<ul class="nav-list-ready ecjia-location-list-wrap near-location-list">
 		<!-- {if $content} -->

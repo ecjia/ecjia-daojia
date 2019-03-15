@@ -40,7 +40,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	    </li>
         <!-- {foreachelse} -->
         <div class="ecjia-nolist">
-	        <div class="img-noreward">暂无奖励</div>
+	        <div class="img-noreward">{t domain="h5"}暂无奖励{/t}</div>
 		</div>
         <!-- {/foreach} -->
 	</ul>
@@ -56,7 +56,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     </li>
    	<!-- {foreachelse} -->
 	<div class="ecjia-nolist">
-		<div class="img-noreward">暂无奖励</div>
+		<div class="img-noreward">{t domain="h5"}暂无奖励{/t}</div>
 	</div>
     <!-- {/foreach} -->
 <!-- {/block} -->

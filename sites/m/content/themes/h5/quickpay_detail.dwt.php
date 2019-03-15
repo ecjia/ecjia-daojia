@@ -31,34 +31,34 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	    <div class="franchisee-info quickpay-detail">
 	        <ul>
 	            <p>
-	                <span class="ecjiaf-fl fran-info-color">订单编号</span>
+	                <span class="ecjiaf-fl fran-info-color">{t domain="h5"}订单编号{/t}</span>
 	                <span class="ecjiaf-fr">{$data.order_sn}</span>
 	            </p>
 	            {if $data.title}
 	            <p>
-	                <span class="ecjiaf-fl fran-info-color">优惠名称</span>
+	                <span class="ecjiaf-fl fran-info-color">{t domain="h5"}优惠名称{/t}</span>
 	                <span class="ecjiaf-fr">{$data.title}</span>
 	            </p>
 	            {/if}
 	            <p>
-	                <span class="ecjiaf-fl fran-info-color">消费金额</span>
+	                <span class="ecjiaf-fl fran-info-color">{t domain="h5"}消费金额{/t}</span>
 	                <span class="ecjiaf-fr">{$data.formated_goods_amount}</span>
 	            </p>
 	            <p>
-	                <span class="ecjiaf-fl fran-info-color">优惠金额</span>
+	                <span class="ecjiaf-fl fran-info-color">{t domain="h5"}优惠金额{/t}</span>
 	                <span class="ecjiaf-fr">-{$data.formated_total_discount}</span>
 	            </p>
 	            <p>
-	                <span class="ecjiaf-fl fran-info-color">实付金额</span>
+	                <span class="ecjiaf-fl fran-info-color">{t domain="h5"}实付金额{/t}</span>
 	                <span class="ecjiaf-fr">{$data.formated_order_amount}</span>
 	            </p>
 	            <p>
-	                <span class="ecjiaf-fl fran-info-color">买单时间</span>
+	                <span class="ecjiaf-fl fran-info-color">{t domain="h5"}买单时间{/t}</span>
 	                <span class="ecjiaf-fr address-span">{$data.formated_add_time}</span>
 	            </p>
 	           	{if $data.pay_name}
 	            <p>
-	                <span class="ecjiaf-fl fran-info-color">支付方式</span>
+	                <span class="ecjiaf-fl fran-info-color">{t domain="h5"}支付方式{/t}</span>
 	                <span class="ecjiaf-fr address-span">{$data.pay_name}</span>
 	            </p>
 	            {/if}
@@ -69,19 +69,19 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	    	<input type="hidden" name="order_id" value="{$data.order_id}">
 	    	<input  type="hidden" name="pay_code" value="{$data.pay_code}" />
 	    	{if $data.order_status_str eq 'unpaid'}
-	    		<a class="btn btn-small btn-hollow external quickpay_order_handle" href="{RC_Uri::url('user/quickpay/cancel')}&order_id={$data.order_id}" data-message="您确定要取消该订单吗？">取消订单</a>
+	    		<a class="btn btn-small btn-hollow external quickpay_order_handle" href="{RC_Uri::url('user/quickpay/cancel')}&order_id={$data.order_id}" data-message='{t domain="h5"}您确定要取消该订单吗？{/t}'>{t domain="h5"}取消订单{/t}</a>
 		    	{if $change eq 1}
-		    	<a class="btn btn-small btn-hollow external" href="{RC_Uri::url('user/quickpay/pay')}&order_id={$data.order_id}">去支付</a>
+		    	<a class="btn btn-small btn-hollow external" href="{RC_Uri::url('user/quickpay/pay')}&order_id={$data.order_id}">{t domain="h5"}去支付{/t}</a>
 		    	{else}
-		    	<input type="submit" class="btn btn-small btn-hollow external quick_pay_btn" value="去支付" />
+		    	<input type="submit" class="btn btn-small btn-hollow external quick_pay_btn" value='{t domain="h5"}去支付{/t}' />
 		    	{/if}
 	    	<div class="wei-xin-pay hide"></div>
 	    	{/if}
 	    	
 	    	{if $data.order_status_str eq 'canceled'}
-	    	<a class="btn btn-small btn-hollow external quickpay_order_handle" href="{RC_Uri::url('user/quickpay/delete')}&order_id={$data.order_id}" data-message="您确定要删除该订单吗？">删除订单</a>
+	    	<a class="btn btn-small btn-hollow external quickpay_order_handle" href="{RC_Uri::url('user/quickpay/delete')}&order_id={$data.order_id}" data-message='{t domain="h5"}您确定要删除该订单吗？{/t}'>{t domain="h5"}删除订单{/t}</a>
 	    	{else}
-	        <a class="btn btn-small btn-hollow external" href="tel://{$data.service_phone}">联系卖家</a>
+	        <a class="btn btn-small btn-hollow external" href="tel://{$data.service_phone}">{t domain="h5"}联系卖家{/t}</a>
 	        {/if}
 	    </div>
 	</form>

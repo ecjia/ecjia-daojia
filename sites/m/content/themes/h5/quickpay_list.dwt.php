@@ -23,7 +23,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	</ul>
 	{else}
     <div class="ecjia-nolist">
-    	{t}暂无买单记录{/t}
+    	{t domain="h5"}暂无买单记录{/t}
     </div>
 	{/if}
 </div>
@@ -45,16 +45,16 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					<img class="ecjiaf-fl" src="{$list.store_logo}" alt="{$list.store_name}" title="{$list.store_name}" />
 				    <ul>
 				        <li class="quickpay-info-li">
-				            <span class="quickpay-info">订单编号</span>{$list.order_sn}
+				            <span class="quickpay-info">{t domain="h5"}订单编号{/t}</span>{$list.order_sn}
 				        </li>
 				        <li class="quickpay-info-li">
-				            <span class="quickpay-info">优惠金额</span>{$list.formated_total_discount}
+				            <span class="quickpay-info">{t domain="h5"}优惠金额{/t}</span>{$list.formated_total_discount}
 				        </li>
 				        <li class="quickpay-info-li">
-				            <span class="quickpay-info">实付金额</span>{$list.formated_order_amount}
+				            <span class="quickpay-info">{t domain="h5"}实付金额{/t}</span>{$list.formated_order_amount}
 				        </li>
 				        <li class="quickpay-info-li">
-				            <span class="quickpay-info">买单时间</span>{$list.formated_add_time}
+				            <span class="quickpay-info">{t domain="h5"}买单时间{/t}</span>{$list.formated_add_time}
 				        </li>
 				    </ul>
 				</li>

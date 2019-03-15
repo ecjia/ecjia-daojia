@@ -63,7 +63,7 @@ class article_controller
             if (!is_ecjia_error($data)) {
                 ecjia_front::$controller->assign('data', $data);
             }
-            ecjia_front::$controller->assign_title('帮助中心');
+            ecjia_front::$controller->assign_title(__('帮助中心', 'h5'));
         }
         ecjia_front::$controller->display('article_init.dwt', $cache_id);
     }
@@ -153,7 +153,7 @@ class article_controller
 
         //菜单选中
         ecjia_front::$controller->assign('active', 'discover');
-        ecjia_front::$controller->assign_title('发现');
+        ecjia_front::$controller->assign_title(__('发现', 'h5'));
 
         ecjia_front::$controller->display('discover_init.dwt');
     }
@@ -218,7 +218,7 @@ class article_controller
             $article_id = !empty($_GET['article_id']) ? intval($_GET['article_id']) : 0;
             $content    = !empty($_POST['val']) ? trim(htmlspecialchars($_POST['val'])) : '';
             if (empty($content)) {
-                return ecjia_front::$controller->showmessage('请输入评论内容', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage(__('请输入评论内容', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
             $article_param = array(
                 'token'      => ecjia_touch_user::singleton()->getToken(),

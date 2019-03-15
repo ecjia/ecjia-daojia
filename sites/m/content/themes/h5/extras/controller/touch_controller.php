@@ -240,7 +240,7 @@ class touch_controller
 
             ecjia_front::$controller->assign('searchs', user_function::get_search($store_id));
             ecjia_front::$controller->assign('searchs_count', count(user_function::get_search($store_id)));
-            ecjia_front::$controller->assign_title('搜索');
+            ecjia_front::$controller->assign_title(__('搜索', 'h5'));
         }
         ecjia_front::$controller->display('search.dwt', $cache_id);
     }
@@ -276,7 +276,7 @@ class touch_controller
 
         if (!ecjia_front::$controller->is_cached('cache_set.dwt', $cache_id)) {
 
-            ecjia_front::$controller->assign_title('缓存设置');
+            ecjia_front::$controller->assign_title(__('缓存设置', 'h5'));
         }
         ecjia_front::$controller->display('cache_set.dwt', $cache_id);
     }
@@ -318,7 +318,7 @@ class touch_controller
             ecjia_front::$controller->assign('data', $data);
             ecjia_front::$controller->assign('is_last', $is_last);
         }
-        ecjia_front::$controller->assign_title('选择门店');
+        ecjia_front::$controller->assign_title(__('选择门店', 'h5'));
 
         ecjia_front::$controller->display('choose_store.dwt');
     }
@@ -337,7 +337,7 @@ class touch_controller
             $shop_config = is_ecjia_error($shop_config) ? array() : $shop_config;
             ecjia_front::$controller->assign('shop_config', $shop_config);
 
-            ecjia_front::$controller->assign_title('关于我们');
+            ecjia_front::$controller->assign_title(__('关于我们', 'h5'));
         }
         ecjia_front::$controller->display('about_us.dwt', $cache_id);
     }
@@ -346,8 +346,8 @@ class touch_controller
     //1、获取当前位置2、搜索位置  最终返回首页顶部定位更换信息
     public static function select_location()
     {
-        ecjia_front::$controller->assign('title', '定位');
-        ecjia_front::$controller->assign_title('定位');
+        ecjia_front::$controller->assign('title', __('定位', 'h5'));
+        ecjia_front::$controller->assign_title(__('定位', 'h5'));
 
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
 
@@ -433,7 +433,7 @@ class touch_controller
             $city_id = !empty($_GET['city_id']) ? trim($_GET['city_id']) : '';
             ecjia_front::$controller->assign('city_id', $city_id);
 
-            ecjia_front::$controller->assign_title('选择城市');
+            ecjia_front::$controller->assign_title(__('选择城市', 'h5'));
             ecjia_front::$controller->assign_lang();
         }
         ecjia_front::$controller->display('select_location_city.dwt', $cache_id);
@@ -454,7 +454,7 @@ class touch_controller
 
         $url = RC_Uri::url('touch/location/select_location');
         if (empty($longitude) || empty($latitude)) {
-            return ecjia_front::$controller->showmessage('定位失败，请手动选择', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => $url));
+            return ecjia_front::$controller->showmessage(__('定位失败，请手动选择', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => $url));
         }
 
         $ad_info   = $location_content['ad_info'];
@@ -467,7 +467,7 @@ class touch_controller
         );
         $rs = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_REGION_DETAIL)->data($params)->run();
         if (is_ecjia_error($rs)) {
-            return ecjia_front::$controller->showmessage('定位失败，请手动选择', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => $url));
+            return ecjia_front::$controller->showmessage(__('定位失败，请手动选择', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => $url));
         } else {
             $city_id = !empty($rs['region_id']) ? $rs['region_id'] : '';
         }

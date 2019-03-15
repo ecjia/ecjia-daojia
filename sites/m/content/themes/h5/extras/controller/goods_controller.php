@@ -118,7 +118,7 @@ class goods_controller
                 ecjia_front::$controller->assign('cat_id', $cat_id);
                 ecjia_front::$controller->assign('data', $data);
             }
-            ecjia_front::$controller->assign_title('所有分类');
+            ecjia_front::$controller->assign_title(__('所有分类', 'h5'));
             ecjia_front::$controller->assign('active', 'category');
             ecjia_front::$controller->assign_lang();
         }
@@ -270,7 +270,7 @@ class goods_controller
             if (!empty($goods_info['related_goods'])) {
                 foreach ($goods_info['related_goods'] as $k => $v) {
                     if (!empty($v['specification'])) {
-                        $spec_releated_goods[$v['goods_id']]['goods_price'] = ltrim((!empty($v['promote_price']) ? $v['promote_price'] : ($v['shop_price'] == '免费' ? '0' : $v['shop_price'])), '￥');
+                        $spec_releated_goods[$v['goods_id']]['goods_price'] = ltrim((!empty($v['promote_price']) ? $v['promote_price'] : ($v['shop_price'] == __('免费', 'h5') ? '0' : $v['shop_price'])), '￥');
                         $spec_releated_goods[$v['goods_id']]['goods_info']  = $v;
 
                         if (!empty($cart_goods['arr']) && array_key_exists($v['goods_id'], $cart_goods['arr'])) {
@@ -408,7 +408,7 @@ class goods_controller
      */
     public static function promotion()
     {
-        ecjia_front::$controller->assign_title('促销商品');
+        ecjia_front::$controller->assign_title(__('促销商品', 'h5'));
         ecjia_front::$controller->display('goods_promotion.dwt');
     }
 
@@ -417,7 +417,7 @@ class goods_controller
      */
     public static function groupbuy()
     {
-        ecjia_front::$controller->assign_title('团购商品');
+        ecjia_front::$controller->assign_title(__('团购商品', 'h5'));
         ecjia_front::$controller->display('goods_groupbuy.dwt');
     }
 
@@ -478,7 +478,7 @@ class goods_controller
      */
     public static function goods_new()
     {
-        ecjia_front::$controller->assign_title('新品首发');
+        ecjia_front::$controller->assign_title(__('新品首发', 'h5'));
         ecjia_front::$controller->display('goods_new.dwt');
     }
 
@@ -487,7 +487,7 @@ class goods_controller
      */
     public static function goods_best()
     {
-        ecjia_front::$controller->assign_title('店长推荐');
+        ecjia_front::$controller->assign_title(__('店长推荐', 'h5'));
         ecjia_front::$controller->display('goods_best.dwt');
     }
 
@@ -526,7 +526,7 @@ class goods_controller
             ecjia_front::$controller->assign('cid', $cid);
             ecjia_front::$controller->assign('keywords', $keywords);
 
-            ecjia_front::$controller->assign_title('商品列表');
+            ecjia_front::$controller->assign_title(__('商品列表', 'h5'));
             ecjia_front::$controller->display('store_goods_list.dwt');
 
             return false;
@@ -707,7 +707,7 @@ class goods_controller
         }
 
         ecjia_front::$controller->assign('referer_url', urlencode(RC_Uri::url('goods/category/store_list', array('store_id' => $store_id, 'keywords' => $keywords))));
-        ecjia_front::$controller->assign_title('店铺列表');
+        ecjia_front::$controller->assign_title(__('店铺列表', 'h5'));
         ecjia_front::$controller->display('store_list.dwt');
     }
 

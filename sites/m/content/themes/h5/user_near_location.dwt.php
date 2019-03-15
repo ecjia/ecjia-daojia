@@ -22,7 +22,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
       <div class="ecjia-zt al">
            <input class="ecjia-zv" type="text" id="search_location_list"
             data-toggle="search-address" data-url="{url path='touch/location/search_list'}"
-             name="address" placeholder="小区，写字楼，学校" maxlength="50" style="width: 100%;left:0;right:0;top:0; position:relative" >
+             name="address" placeholder='{t domain="h5"}小区，写字楼，学校{/t}' maxlength="50" style="width: 100%;left:0;right:0;top:0; position:relative" >
       </div>
       <div class="ecjia-address_list">
            <ul class="nav-list-ready ecjia-location-list-wrap"></ul>    

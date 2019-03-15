@@ -27,7 +27,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 						</div>
 						<div class="order_info">
 							<div class="order_amount">{$order_info.formated_order_amount}</div>
-							<div class="order_sn">优惠买单订单号：{$order_info.order_sn}</div>
+							<div class="order_sn">{t domain="h5"}优惠买单订单号：{/t}{$order_info.order_sn}</div>
 						</div>
 		          	</div>
 				</div>
@@ -60,7 +60,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                 <input name="has_set_paypass" type="hidden" value="{if $user.has_paypassword eq 1}1{else}0{/if}" />
                 <input type="hidden" class="set_paypass_url" data-url="{url path='user/profile/set_pay_password'}" />
 
-		    	<input class="btn btn-recharge quick_pay_btn" name="submit" type="submit" value="确认支付" />
+		    	<input class="btn btn-recharge quick_pay_btn" name="submit" type="submit" value='{t domain="h5"}确认支付{/t}' />
 		    	<div class="wei-xin-pay hide"></div>
 		    </div>
 	    </div>
@@ -70,11 +70,11 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="mod_address_slide" id="enterPassArea">
     <div class="mod_address_slide_main">
         <div class="mod_address_slide_head">
-            请输入支付密码<i class="iconfont icon-close"></i>
+            {t domain="h5"}请输入支付密码{/t}<i class="iconfont icon-close"></i>
         </div>
         <div class="mod_address_slide_body h350">
             <div class="ecjia-form">
-                <p class="ecjiaf-tac ecjia-margin-b ecjia-margin-t ecjia-color-85878c">为了保证您的账户安全，请输入您的支付密码</p>
+                <p class="ecjiaf-tac ecjia-margin-b ecjia-margin-t ecjia-color-85878c">{t domain="h5"}为了保证您的账户安全，请输入您的支付密码{/t}</p>
                 </p>
                 <div id="payPassword_container">
                     <div class="pass_container enter_paypass_container">
@@ -87,7 +87,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                     </div>
                 </div>
                 <input name="url" type="hidden" value="{url path='user/quickpay/dopay'}" />
-                <a class="ecjiaf-fr blue forget_paypass" href="{RC_Uri::url('user/profile/set_pay_password')}" style="padding-right:2em;color:#337ab7;">忘记支付密码</a>
+                <a class="ecjiaf-fr blue forget_paypass" href="{RC_Uri::url('user/profile/set_pay_password')}" style="padding-right:2em;color:#337ab7;">{t domain="h5"}忘记支付密码{/t}</a>
             </div>
             <ul class="keyboard pct100 abs-lb" id="keyboard">
                 <li data-key="1">

@@ -40,7 +40,7 @@
 				if (mobile.length == 11) {
 					url += '&mobile=' + mobile;
 				} else {
-					alert('请输入正确的手机号');
+					alert(js_lang.please_enter_correct_tel);
 					return false;
 				}
 
@@ -48,15 +48,15 @@
 					if (data.state == 'error') {
 						var myApp = new Framework7();
 						myApp.modal({
-							title: '提示',
+							title: js_lang.prompt,
 							text: data.message,
 							buttons: [{
-								text: '取消',
+								text: js_lang.cancel,
 								onClick: function () {
 									return false;
 								}
 							}, {
-								text: '查看申请进度',
+								text: js_lang.view_progress,
 								onClick: function () {
 									$('.modal').remove();
 									$('.modal-overlay').remove();
@@ -96,7 +96,7 @@
 						window.clearInterval(InterValObj); //停止计时器
 						$("#mobile").removeAttr("readonly"); //启用按钮
 						$("#get_code").removeAttr("disabled"); //启用按钮
-						$("#get_code").val("重新发送");
+						$("#get_code").val(js_lang.resend);
 						$("#get_code").attr("class", "btn btn-info login-btn btn-small settled-message");
 					} else {
 						curCount--;
@@ -118,28 +118,28 @@
 				var url = $("form[name='theForm']").attr('action');
 
 				if (f_name == '') {
-					alert('请输入真实姓名');
+					alert(js_lang.please_enter_name);
 					return false;
 				}
 
 				if (f_email == '') {
-					alert('请输入电子邮箱');
+					alert(js_lang.please_enter_email);
 					return false;
 				} else {
 					var search_str = /^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/;
 					if (!search_str.test(f_email)) {
-						alert("请输入正确的邮箱格式 !");
+						alert(js_lang.please_enter_correct_email);
 						return false;
 					}
 				}
 
 				if (f_mobile == '') {
-					alert('请输入手机号码');
+					alert(js_lang.please_enter_tel);
 					return false;
 				}
 
 				if (f_code == '') {
-					alert('验证码不能为空');
+					alert(js_lang.verification_filled);
 					return false;
 				}
 
@@ -199,7 +199,7 @@
 				if (curCount == 0) {
 					window.clearInterval(InterValObj); //停止计时器
 					$(".resend_sms").removeClass("disabled"); //启用按钮
-					$(".resend_sms").html('重新发送');
+					$(".resend_sms").html(js_lang.resend);
 				} else {
 					curCount--;
 					$(".resend_sms").html("请查收 (" + curCount + "s)");
@@ -295,39 +295,39 @@
 				});
 				var url = $("form[name='theForm']").attr('action');
 				if (seller_name == '') {
-					alert('请输入店铺名称');
+					alert(js_lang.please_store_name);
 					return false;
 				}
 				if (seller_category == '') {
-					alert('请选择店铺分类');
+					alert(js_lang.please_select_store_category);
 					return false;
 				}
 				if (validate_type == '') {
-					alert('请选择入驻类型');
+					alert(js_lang.please_select_type);
 					return false;
 				}
 				if (province == '') {
-					alert('请选择店铺所在省');
+					alert(js_lang.please_select_province);
 					return false;
 				}
 				if (city == '') {
-					alert('请选择店铺所在市');
+					alert(js_lang.please_select_city);
 					return false;
 				}
 				if (district == '') {
-					alert('请选择店铺所在区');
+					alert(js_lang.please_select_area);
 					return false;
 				}
 				if (street == '') {
-					alert('请选择店铺所在街道');
+					alert(js_lang.please_select_street);
 					return false;
 				}
 				if (address == '') {
-					alert('请填写店铺详细地址');
+					alert(js_lang.please_address);
 					return false;
 				}
 				if (longitude == '' || latitude == '') {
-					alert('请获取店铺坐标');
+					alert(js_lang.please_get_store_coordinates);
 					return false;
 				}
 
@@ -516,7 +516,7 @@
 						$('input[name="f_district"]').val(col2Value);
 
 						if (district_value != col2Value) {
-							$('.ecjia-franchisee-location-street').html('请选择街道');
+							$('.ecjia-franchisee-location-street').html(js_lang.please_street);
 							$('input[name="f_street"]').val('');
 							$('input[name="f_street_name"]').val('');
 						}
@@ -555,7 +555,7 @@
 				var city = $('input[name="f_city"]').val();
 				var district = $('input[name="f_district"]').val();
 				if (province == '' || city == '' || district == '') {
-					alert('请先选择所在地区');
+					alert(js_lang.please_street_region);
 					return false;
 				}
 			});

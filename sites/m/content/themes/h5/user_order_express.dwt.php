@@ -21,9 +21,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<img src="{$goods_info.img.small}" />
 		</div>
 		<div class="express-right">
-			<div class="express-name">物流公司：{$express_info.shipping_name}</div>
-			<div class="express-num">运单编号：{$express_info.shipping_number}
-				<span class="copy-btn copy-express-btn" data-clipboard-text="{$express_info.shipping_number}">复制</span>
+			<div class="express-name">{t domain="h5"}物流公司：{/t}{$express_info.shipping_name}</div>
+			<div class="express-num">{t domain="h5"}运单编号：{/t}{$express_info.shipping_number}
+				<span class="copy-btn copy-express-btn" data-clipboard-text="{$express_info.shipping_number}">{t domain="h5"}复制{/t}</span>
 			</div>
 		</div>
 	</div>
@@ -48,7 +48,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	{else}
 	<div class="no-express-info">
 		<img src="{$theme_url}/images/wallet/null280.png" />
-		暂无物流信息
+		{t domain="h5"}暂无物流信息{/t}
 	</div>
 	{/if}
 	

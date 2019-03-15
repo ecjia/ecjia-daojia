@@ -11,7 +11,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <!-- {block name="main-content"} -->
 <div class="ecjia-user ecjia-margin-b">
-	 <div class="ecjia-return-title">快递方式选择</div>
+	 <div class="ecjia-return-title">{t domain="h5"}快递方式选择{/t}</div>
      <ul class="ecjia-list ecjia-return-way-list">
      	<!-- {foreach from=$data.return_way_list item=shipping} -->
         <li>

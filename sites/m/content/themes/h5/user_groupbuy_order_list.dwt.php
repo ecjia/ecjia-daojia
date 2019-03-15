@@ -21,7 +21,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
         <div class="ecjia-header">
         	<div class="ecjia-search-header ecjia-search">
         		<form class="ecjia-form" action="{url path='user/order/groupbuy_order'}{if $store_id neq 0}&store_id={$store_id}{/if}">
-        			<input name="keywords" type="search" placeholder="商品名称/订单号" {if $keywords}value={$keywords}{/if} data-type="search_order">
+        			<input name="keywords" type="search" placeholder='{t domain="h5"}商品名称/订单号{/t}' {if $keywords}value={$keywords}{/if} data-type="search_order">
         			<i class="iconfont icon-search btn-search"></i>
         		</form>
         	</div>
@@ -36,7 +36,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	</ul>
 	{else}
     <div class="ecjia-nolist">
-    	{t}暂无相关订单{/t}
+    	{t domain="h5"}暂无相关订单{/t}
     </div>
 	{/if}
 </div>
@@ -57,7 +57,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<li class="goods-img-more more-info">
 					<span class="ecjiaf-ib">
 						<p class="price">{$list.formated_total_fee}</p>
-						<p>共{$list.goods_number}件</p>
+						<p>{t domain="h5" 1={$list.goods_number}}共%1件{/t}</p>
 					</span>
 				</li>
 				<!-- {foreach from=$list.goods_list item=goods key=key} -->
@@ -78,9 +78,9 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		{if $list.order_status_code eq 'await_pay'} 
 			<a class="btn btn-hollow" href='{url path="payment/pay/init" args="order_id={$list.order_id}&type=group_buy"}'>
 				{if $list.has_deposit eq 1}
-					支付余额 {if $list.order_amount neq 0}{$list.formated_order_amount}{/if}
+					{t domain="h5"}支付余额{/t} {if $list.order_amount neq 0}{$list.formated_order_amount}{/if}
 				{else}
-					去支付
+					{t domain="h5"}去支付{/t}
 				{/if}
 			</a>
 		{/if}

@@ -21,17 +21,17 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <ul>
         <li>
             <span class="{if !$sort_by}active{/if}">
-                <a class="fnUrlReplace" href="{RC_Uri::url('goods/category/store_list')}{if $keywords}&keywords={$keywords}{/if}{if $cid}&cid={$cid}{/if}">综合</a>
+                <a class="fnUrlReplace" href="{RC_Uri::url('goods/category/store_list')}{if $keywords}&keywords={$keywords}{/if}{if $cid}&cid={$cid}{/if}">{t domain="h5"}综合{/t}</a>
             </span>
         </li>
         <li>
             <span class="{if $sort_by eq 'is_hot'}active{/if}">
-                <a class="fnUrlReplace" href="{RC_Uri::url('goods/category/store_list')}&sort_by=is_hot{if $keywords}&keywords={$keywords}{/if}{if $cid}&cid={$cid}{/if}">热销</a>
+                <a class="fnUrlReplace" href="{RC_Uri::url('goods/category/store_list')}&sort_by=is_hot{if $keywords}&keywords={$keywords}{/if}{if $cid}&cid={$cid}{/if}">{t domain="h5"}热销{/t}</a>
             </span>
         </li>
         <li>
             <span class="{if $sort_by eq 'price'}active{/if}">
-                <a class="fnUrlReplace" href="{RC_Uri::url('goods/category/store_list')}&sort_by=price&sort_order={if $sort_order eq 'asc'}desc{else}asc{/if}{if $keywords}&keywords={$keywords}{/if}{if $cid}&cid={$cid}{/if}">价格
+                <a class="fnUrlReplace" href="{RC_Uri::url('goods/category/store_list')}&sort_by=price&sort_order={if $sort_order eq 'asc'}desc{else}asc{/if}{if $keywords}&keywords={$keywords}{/if}{if $cid}&cid={$cid}{/if}">{t domain="h5"}价格{/t}
                     {if $sort_order eq ''}
                     <img src="{$theme_url}images/sort/price_sort.png" width="10" height="10">
                     {else if $sort_order eq 'asc'}
@@ -65,7 +65,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<img src="{$goods.img.thumb}" alt="{$goods.name}">
 		</span>
         <span class="list-page-box">
-			<p class="merchants-name"><i class="iconfont icon-shop"></i>{$goods.seller_name}{if $goods.manage_mode eq 'self'}<span class="manage_mode">自营</span>{/if}</p>
+			<p class="merchants-name"><i class="iconfont icon-shop"></i>{$goods.seller_name}{if $goods.manage_mode eq 'self'}<span class="manage_mode">{t domain="h5"}自营{/t}</span>{/if}</p>
 			<span class="goods-name">{$goods.name}</span>
 			<span class="list-page-goods-price">
 				<!--{if $goods.promote_price}-->
@@ -82,7 +82,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-mod search-no-pro ecjia-margin-t ecjia-margin-b">
     <div class="ecjia-nolist">
         <p><img src="{$theme_url}images/wallet/null280.png"></p>
-        暂无商品
+        {t domain="h5"}暂无商品{/t}
     </div>
 </div>
 <!-- {/if} -->

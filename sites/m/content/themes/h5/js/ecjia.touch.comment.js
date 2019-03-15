@@ -9,7 +9,6 @@
 			ecjia.touch.comment.anonymity();
 			ecjia.touch.comment.photo();
 			ecjia.touch.comment.remove_goods_img();
-//			ecjia.touch.comment.back();
 			ecjia.touch.comment.submitForm();
 		},
 		goods_info: function () {
@@ -124,11 +123,11 @@
 
 				var path = $(this).parent();
 				var myApp = new Framework7({
-					modalButtonCancel: '取消',
-					modalButtonOk: '确定',
+					modalButtonCancel: js_lang.cancel,
+					modalButtonOk: js_lang.ok,
 					modalTitle: ''
 				});
-				myApp.confirm('您确定要删除照片？', function () {
+				myApp.confirm(js_lang.confirm_delete, function () {
 					if ($(".push_photo_img img").length <= 5) {
 						$(".push_photo").show();
 					}
@@ -149,36 +148,7 @@
 				});
 			})
 		},
-
-//		back: function () {
-//			var comment_content = $("input[name='comment_content']").val();
-//			if (window.history && window.history.pushState) {
-//				$(window).on('popstate', function () {
-//					var goods_evaluate = $("#goods_evaluate").val();
-//					if (goods_evaluate != '' && comment_content == '') {
-//						var myApp = new Framework7();
-//						myApp.modal({
-//							title: '评价信息还未提交，返回将会丢失',
-//							buttons: [{
-//								text: '取消',
-//								onClick: function () {
-//									ecjia.touch.comment.back();
-//								}
-//							}, {
-//								text: '确定',
-//								onClick: function () {
-//									history.back();
-//								}
-//							}, ]
-//						});
-//					} else {
-//						history.back();
-//					}
-//				});
-//				window.history.pushState('forward', null, "#");
-//			}
-//		},
-
+		
 		submitForm: function () {
 			$('input[name="push-comment-btn"]').on('click', function (e) {
 				e.preventDefault();
@@ -186,7 +156,7 @@
 				var comment_goods = $("input[name='comment_goods']").val();
 				if (comment_goods == '') {
 					if (!$(".star").attr("data-number")) {
-						alert("请选择星级!");
+						alert(js_lang.please_choose_star);
 						return false;
 					}
 				}
@@ -201,7 +171,7 @@
 						myApp.modal({
 							title: data.message,
 							buttons: [{
-								text: '确定',
+								text: js_lang.ok,
 								onClick: function () {
 									if (data.pjaxurl != '') {
 										ecjia.pjax(data.pjaxurl, function () { }, {

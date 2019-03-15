@@ -38,12 +38,12 @@ $(document).ready(function() {
 	<div class="cityall" id="cityall" data-url="{url path='user/address/near_location'}">
 {/if}
 	<input type="hidden" name="address_id" value="{$smarty.get.address_id}">
-	<h2 class="select-city"><span>选择城市</span></h2>
+	<h2 class="select-city"><span>{t domain="h5"}选择城市{/t}</span></h2>
 	<ul class="city citylist" >
 	<!-- {foreach from=$citylist item=list} -->
 		<li data-id="{$list.id}"{if $list.id eq $smarty.get.city_id} class="active"{/if}>{$list.name}</li>
 	<!-- {foreachelse} -->
-		<li>暂无</li>
+		<li>{t domain="h5"}暂无{/t}</li>
 	<!-- {/foreach} -->
 	</ul>
 </div>

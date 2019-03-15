@@ -26,19 +26,19 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					<div class="store-left">
 						<img src="{$val.seller_logo}">
 						{if $val.shop_closed eq 1}
-							<div class="shop_closed_mask">休息中</div>
+							<div class="shop_closed_mask">{t domain="h5"}休息中{/t}</div>
 						{/if}
 					</div>
 					<div class="store-right">
 						<div class="store-title">
 							<span class="store-name">{$val.seller_name}</span>
-							{if $val.manage_mode eq 'self'}<span class="manage_mode">自营</span>{/if}
+							{if $val.manage_mode eq 'self'}<span class="manage_mode">{t domain="h5"}自营{/t}</span>{/if}
 							{if $val.distance}<span class="store-distance">{$val.distance}</span>{/if}
 						</div>
 						<div class="store-range">
 							<i class="icon-shop-time"></i>{$val.label_trade_time}
 							<!-- {if $val.allow_use_quickpay eq 1} -->
-								<a href="{RC_Uri::url('user/quickpay/init')}&store_id={$val.id}"><span class="store-quickpay-btn">买单</span></a>
+								<a href="{RC_Uri::url('user/quickpay/init')}&store_id={$val.id}"><span class="store-quickpay-btn">{t domain="h5"}买单{/t}</span></a>
 							<!-- {/if} -->
 						</div>
 						{if $val.seller_notice neq ''}
@@ -65,7 +65,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					<!-- {foreach from=$val.quickpay_activity_list item=list key=key} -->
 					{if $key eq 0}
 					<li class="quick">
-						<span class="quick-label">买单</span>
+						<span class="quick-label">{t domain="h5"}买单{/t}</span>
 						<span class="promotion-name">{$list.title}</span>
 					</li>
 					{/if}
@@ -81,7 +81,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="search-no-pro">
 		<div class="ecjia-nolist">
 			<p><img src="{$theme_url}images/no_store.png"></p>
-			暂时没有商家
+			{t domain="h5"}暂时没有商家{/t}
 		</div>
 	</div>
 	<!-- {/foreach} -->

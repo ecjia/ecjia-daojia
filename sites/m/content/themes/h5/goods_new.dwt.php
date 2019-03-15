@@ -35,7 +35,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<img src="{$goods.img.thumb}" alt="{$goods.name}">
 		</span>
 		<span class="list-page-box">
-			<p class="merchants-name"><i class="iconfont icon-shop"></i>{$goods.seller_name}{if $goods.manage_mode eq 'self'}<span class="manage_mode">自营</span>{/if}</p>
+			<p class="merchants-name"><i class="iconfont icon-shop"></i>{$goods.seller_name}{if $goods.manage_mode eq 'self'}<span class="manage_mode">{t domain="h5"}自营{/t}</span>{/if}</p>
 			<span class="goods-name">{$goods.name}</span>
 			<span class="list-page-goods-price">
 				<!--{if $goods.promote_price}-->
@@ -52,7 +52,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-mod search-no-pro ecjia-margin-t ecjia-margin-b">
 	<div class="ecjia-nolist">
 		<p><img src="{$theme_url}images/wallet/null280.png"></p>
-		暂无商品
+		{t domain="h5"}暂无商品{/t}
 	</div>
 </div>
 <!-- {/if} -->

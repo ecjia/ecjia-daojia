@@ -79,5 +79,6 @@ return [
 	'payment_controller'           => 'extras/controller/payment_controller.php',     //支付
 	
 	'ecjia_location'               => 'extras/classes/ecjia_location.class.php',
-	
+	'ecjia_theme_controller'       => 'extras/classes/ecjia_theme_controller.class.php',
+
 ];

@@ -62,7 +62,7 @@ class payment_controller
         $type = !empty($_GET['type']) ? trim($_GET['type']) : '';
 
         if (empty($order_id)) {
-            return ecjia_front::$controller->showmessage('订单不存在', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('订单不存在', 'h5'), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
         }
         $token = ecjia_touch_user::singleton()->getToken();
 
@@ -93,7 +93,7 @@ class payment_controller
             return ecjia_front::$controller->showmessage($detail->get_error_message(), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR);
         }
         if ($detail['pay_status'] == PS_PAYED) {
-            return ecjia_front::$controller->showmessage('该订单已支付请勿重复支付', ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $pjaxurl));
+            return ecjia_front::$controller->showmessage(__('该订单已支付请勿重复支付', 'h5'), ecjia::MSGTYPE_ALERT | ecjia::MSGSTAT_ERROR, array('pjaxurl' => $pjaxurl));
         }
         
         //不支持原有支付方式，请切换新的支付方式继续支付
@@ -227,7 +227,7 @@ class payment_controller
         $extension_code = trim($_POST['extension_code']);
 
         if (empty($pay_id)) {
-            return ecjia_front::$controller->showmessage(__('请选择支付方式'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请选择支付方式', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $token = ecjia_touch_user::singleton()->getToken();
 

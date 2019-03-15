@@ -18,26 +18,26 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="form-group form-group-text">
 		<label class="input">
 			<span class="ecjiaf-fl"><img src="{$theme_url}images/user_center/f_name.png" width="30" height="30"></span>
-			<input style="padding-left: 3.5em;" name="f_name" placeholder="{t}请输入真实姓名{/t}" type="text"  value="" />
+			<input style="padding-left: 3.5em;" name="f_name" placeholder='{t domain="h5"}请输入真实姓名{/t}' type="text"  value="" />
 		</label>
 	</div>
 	
 	<div class="form-group form-group-text">
 		<label class="input">
 			<span class="ecjiaf-fl"><img src="{$theme_url}images/user_center/f_email.png" width="30" height="30"></span>
-			<input style="padding-left: 3.5em;" name="f_email" placeholder="{t}请输入电子邮箱 {/t}" type="email"  value="" />
+			<input style="padding-left: 3.5em;" name="f_email" placeholder='{t domain="h5"}请输入电子邮箱 {/t}' type="email"  value="" />
 		</label>
 	</div>
 	
 	<div class="form-group form-group-text">
 		<label class="input">
 			<span class="ecjiaf-fl"><img src="{$theme_url}images/user_center/f_mobile.png" width="30" height="30"></span>
-			<input style="padding-left: 3.5em;" name="f_mobile" placeholder="{t}请输入手机号码 {/t}" type="tel" value="" />
+			<input style="padding-left: 3.5em;" name="f_mobile" placeholder='{t domain="h5"}请输入手机号码 {/t}' type="tel" value="" />
 		</label>
 	</div>
 	
 	<div class="ecjia-margin-t2 ecjia-margin-b">
-		<input class="btn btn-info nopjax external" name="next_button" type="submit" value="{t}下一步{/t}" />
+		<input class="btn btn-info nopjax external" name="next_button" type="submit" value='{t domain="h5"}下一步{/t}' />
 	</div>
 	
 </form>

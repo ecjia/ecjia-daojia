@@ -18,16 +18,16 @@ ecjia.touch.user_account.init();
 <form class="ecjia-account ecjia-form user-profile-form" name="useraccountForm" action="{url path='user/account/recharge_again_account'}" method="post">
     <div class="ecjia-form ecjia-account ecjia-flow-done ecjia-pay">
     	{if !$pay_msg}
-    		<div class="help-text"><p>{t}当前订单不支持原有支付方式，请切换新的支付方式继续支付。{/t}</p></div>
+    		<div class="help-text"><p>{t domain="h5"}当前订单不支持原有支付方式，请切换新的支付方式继续支付。{/t}</p></div>
     	{/if}
     	
     	<div class="account-user-money">{$format_amount}</div>
-    	<div class="account-user-info">{t}为账户【{$user.name}】充值{/t}</div>
+    	<div class="account-user-info">{t domain="h5" 1={$user.name}}为账户【%1】充值{/t}</div>
     	
     	 {if $payment_list}
 		    <ul class="ecjia-list ecjia-margin-t">
 		        <li>
-		                        支付方式 <span class="ecjiaf-fr"></span>
+		            {t domain="h5"}支付方式 {/t}<span class="ecjiaf-fr"></span>
 		        </li>
 		    </ul>
 		    <ul class="ecjia-list list-short payment-list">
@@ -45,7 +45,7 @@ ecjia.touch.user_account.init();
 	    {/if}
     	<input name="account_id" type="hidden" value="{$account_id}" />
     	<div class="text-center account-top">
-    		<input class="btn btn-recharge pay-btn" name="submit" type="submit" value="{t}继续充值{/t}" />
+    		<input class="btn btn-recharge pay-btn" name="submit" type="submit" value='{t domain="h5"}继续充值{/t}' />
     	</div>
     	<div class="wei-xin-pay hide"></div>
     </div>	

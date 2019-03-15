@@ -23,7 +23,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	</ul>
 	{else}
     <div class="ecjia-nolist">
-    	{t}暂无相关订单{/t}
+    	{t domain="h5"}暂无相关订单{/t}
     </div>
 	{/if}
 </div>
@@ -44,7 +44,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<li class="goods-img-more more-info">
 					<span class="ecjiaf-ib">
 						<p class="price">{$list.total_refund_amount}</p>
-						<p>共{$list.total_goods_number}件</p>
+						<p>{t domain="h5" 1={$list.total_goods_number}}共%1件{/t}</p>
 					</span>
 				</li>
 				<!-- {foreach from=$list.goods_list item=goods key=key} -->
@@ -63,10 +63,10 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<span>{$list.formated_add_time}</span></span>
 		<span class="two-btn ecjiaf-fr">
 			{if $list.service_status_code eq 'refunded'} 
-                <a class="btn btn-hollow" href='{url path="user/order/return_detail" args="refund_sn={$list.refund_sn}&type=return_money"}'>查看退款</a>
+                <a class="btn btn-hollow" href='{url path="user/order/return_detail" args="refund_sn={$list.refund_sn}&type=return_money"}'>{t domain="h5"}查看退款{/t}</a>
             {/if}
 <!--			{if $list.service_status_code eq 'refunded' || $list.service_status_code eq 'canceled'} -->
-<!--				<a class="btn btn-hollow" href='{url path="user/order/buy_again" args="order_id={$list.order_id}&from=list"}'>再次购买</a>-->
+<!--				<a class="btn btn-hollow" href='{url path="user/order/buy_again" args="order_id={$list.order_id}&from=list"}'>{t domain="h5"}再次购买{/t}</a>-->
 <!--			{/if}-->
 		</span>
 	</div>

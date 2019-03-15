@@ -80,11 +80,11 @@ class affiliate_controller
         $code_captcha = trim($_GET['code_captcha']);
 
         if (empty($mobile)) {
-            return ecjia_front::$controller->showmessage('请输入手机号', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请输入手机号', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (empty($code_captcha)) {
-            return ecjia_front::$controller->showmessage('请输入验证码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请输入验证码', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $token = ecjia_touch_user::singleton()->getShopToken();
@@ -100,14 +100,14 @@ class affiliate_controller
             return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if ($res['registered'] == 1) {
-            return ecjia_front::$controller->showmessage('您已经是老用户，可以直接去登陆', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('registered' => 1, 'url' => RC_Uri::url('user/privilege/login')));
+            return ecjia_front::$controller->showmessage(__('您已经是老用户，可以直接去登陆', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('registered' => 1, 'url' => RC_Uri::url('user/privilege/login')));
         }
 
         if ($res['is_invited'] == 1) {
-            return ecjia_front::$controller->showmessage('该手机号已被推荐邀请', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('该手机号已被推荐邀请', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        return ecjia_front::$controller->showmessage('验证码已发送', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+        return ecjia_front::$controller->showmessage(__('验证码已发送', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     }
 
     //刷新图形验证码
@@ -129,11 +129,11 @@ class affiliate_controller
         $code        = trim($_POST['code']);
 
         if (empty($mobile)) {
-            return ecjia_front::$controller->showmessage('请输入手机号', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请输入手机号', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (empty($code)) {
-            return ecjia_front::$controller->showmessage('请输入短信验证码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请输入短信验证码', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $token = ecjia_touch_user::singleton()->getShopToken();
@@ -148,7 +148,7 @@ class affiliate_controller
         if (is_ecjia_error($res)) {
             return ecjia_front::$controller->showmessage($res->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-        return ecjia_front::$controller->showmessage('领取成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('touch/index/init')));
+        return ecjia_front::$controller->showmessage(__('领取成功', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('touch/index/init')));
     }
 }
 

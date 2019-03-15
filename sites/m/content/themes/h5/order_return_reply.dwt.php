@@ -42,41 +42,41 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				
 				<ul class="ecjia-list">
 					<div class="return-fee-list">
-						<p>退商品金额<span class="ecjiaf-fr">{$refund_fee_info.refund_goods_amount}</span></p>
+						<p>{t domain="h5"}退商品金额{/t}<span class="ecjiaf-fr">{$refund_fee_info.refund_goods_amount}</span></p>
 						{if $refund_fee_info.refund_shipping_fee neq '0'}
-						<p>退配送费<span class="ecjiaf-fr">{$refund_fee_info.refund_shipping_fee}</span></p>
+						<p>{t domain="h5"}退配送费{/t}<span class="ecjiaf-fr">{$refund_fee_info.refund_shipping_fee}</span></p>
 						{/if}
 						{if $refund_fee_info.refund_integral neq '0'}
-						<p>退{$integral_name}<span class="ecjiaf-fr ">{$refund_fee_info.refund_integral}</span></p>
+						<p>{t domain="h5"}退{/t}{$integral_name}<span class="ecjiaf-fr ">{$refund_fee_info.refund_integral}</span></p>
 						{/if}
 						{if $refund_fee_info.refund_inv_tax neq '0'}
-						<p>退发票<span class="ecjiaf-fr ">{$refund_fee_info.refund_inv_tax}</span></p>
+						<p>{t domain="h5"}退发票{/t}<span class="ecjiaf-fr ">{$refund_fee_info.refund_inv_tax}</span></p>
 						{/if}
-						<p>退总金额<span class="ecjiaf-fr ecjia-red">{$refund_fee_info.refund_total_amount}</span></p>
+						<p>{t domain="h5"}退总金额{/t}<span class="ecjiaf-fr ecjia-red">{$refund_fee_info.refund_total_amount}</span></p>
 					</div>
 					<li class="notice">
 						<div class="notice-content">
-							<span class="title">温馨提示：</span>
+							<span class="title">{t domain="h5"}温馨提示：{/t}</span>
 							<div class="content">
-							1.退商品金额是按照您实际支付的商品金额进行退回，如有问题，请联系客服。<br/>
-							2.如需退货请准备好发票，附件等资料，与商品一并寄回。
+							{t domain="h5"}1.退商品金额是按照您实际支付的商品金额进行退回，如有问题，请联系客服。{/t}<br/>
+							{t domain="h5"}2.如需退货请准备好发票，附件等资料，与商品一并寄回。{/t}
 							</div>
 						</div>
 					</li>
 					<li class="return-reason">
 						<span class="input-must">*</span>
-						<span class="title">售后原因</span>
+						<span class="title">{t domain="h5"}售后原因{/t}</span>
 						<div class="choose_reason">
-							<span>{if $refund_info.reason}{$refund_info.reason}{else}请选择售后原因{/if}</span>
+							<span>{if $refund_info.reason}{$refund_info.reason}{else}{t domain="h5"}请选择售后原因{/t}{/if}</span>
 							<img src="{$theme_url}images/address_list/down_eee.png"></i>
 							<input type="hidden" name="reason_id" value="{$refund_info.reason_id}"/>
 						</div>
 					</li>
 					<li class="return-reason desc">
 						<span class="input-must">*</span>
-						<div class="title question-desc-title">问题描述</div>
+						<div class="title question-desc-title">{t domain="h5"}问题描述{/t}</div>
 						<div class="text question-desc-content">
-							<textarea class="question_desc reset_top_text" type="text" name="question_desc" placeholder="请填写问题描述">{$refund_info.refund_desc}</textarea>
+							<textarea class="question_desc reset_top_text" type="text" name="question_desc" placeholder='{t domain="h5"}请填写问题描述{/t}'>{$refund_info.refund_desc}</textarea>
 						</div>
 					</li>
 					
@@ -94,7 +94,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			            	<!-- {/foreach} -->
 			            	
 		                </div>
-		                <p class="push_img_fonz">为了帮助我们更好的解决问题，请上传照片，最多5张。</p>
+		                <p class="push_img_fonz">{t domain="h5"}为了帮助我们更好的解决问题，请上传照片，最多5张。{/t}</p>
 					</li>
 				</ul>
 			</div>
@@ -104,7 +104,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<input type="hidden" name="refund_type" value="{$type}">
 				<input type="hidden" name="refund_sn" value="{$order.refund_info.refund_sn}">
 				
-				<input class="btn btn-small btn-hollow" name="add-return-btn" type="submit" value="提交"/>
+				<input class="btn btn-small btn-hollow" name="add-return-btn" type="submit" value='{t domain="h5"}提交{/t}' />
 			</div>
 		</div>
 	</div>

@@ -19,17 +19,17 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
 <form class="ecjia-form" name="payForm" action="{url path='payment/pay/pay_order'}" method="post">
     <div class="ecjia-flow-done ecjia-pay">
-        <p class="ecjia-payment-notice">当前订单不支持原有支付方式，请切换新的支付方式继续支付。</p>
+        <p class="ecjia-payment-notice">{t domain="h5"}当前订单不支持原有支付方式，请切换新的支付方式继续支付。{/t}</p>
 
         <ul class="ecjia-list ecjia-margin-t">
-            <li>订单金额：<span class="ecjiaf-fr">{$detail.formated_total_fee}</span></li>
-            <li>支付方式：<span class="ecjiaf-fr flow-msg">{$detail.pay_name}</span></li>
+            <li>{t domain="h5"}订单金额：{/t}<span class="ecjiaf-fr">{$detail.formated_total_fee}</span></li>
+            <li>{t domain="h5"}支付方式：{/t}<span class="ecjiaf-fr flow-msg">{$detail.pay_name}</span></li>
         </ul>
         
         {if $payment_list}
             <ul class="ecjia-list ecjia-margin-t">
                 <li>
-                    其它支付方式 <span class="ecjiaf-fr"></span>
+                    {t domain="h5"}其它支付方式{/t} <span class="ecjiaf-fr"></span>
                 </li>
             </ul>
 
@@ -49,7 +49,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
         <div class="ecjia-margin-t ecjia-margin-b">
             <input name="order_id" type="hidden" value="{$detail.order_id}" />
-            <input class="btn btn-recharge confirm-payment" name="submit" type="submit" value="{t}确认支付{/t}" />
+            <input class="btn btn-recharge confirm-payment" name="submit" type="submit" value='{t domain="h5"}确认支付{/t}' />
         </div>
         <div class="wei-xin-pay hide"></div>
     </div>
