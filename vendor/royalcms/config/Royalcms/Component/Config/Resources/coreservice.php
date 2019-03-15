@@ -180,7 +180,6 @@ return array(
         'Royalcms\Component\Package\PackageServiceProvider',
         'Royalcms\Component\App\AppServiceProvider',
         'Royalcms\Component\Variable\VariableServiceProvider',
-        'Royalcms\Component\SmartyView\SmartyServiceProvider',
         'Royalcms\Component\Rewrite\RewriteServiceProvider',
         'Royalcms\Component\Purifier\PurifierServiceProvider',
         'Royalcms\Component\LogViewer\LogViewerServiceProvider',
