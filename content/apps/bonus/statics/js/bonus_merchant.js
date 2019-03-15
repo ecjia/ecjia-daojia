@@ -8,7 +8,7 @@
 					bonus_sum : { required : true, number : true },
 				},
 				messages : {
-					bonus_sum : { required : "请输入红包数量！", number : "请输入数字" },
+					bonus_sum : { required : bonus_js_lang.bonus_sum_required, number : bonus_js_lang.bonus_number_required },
 				},
 				submitHandler : function() {
 					$form.ajaxSubmit({

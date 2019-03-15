@@ -180,14 +180,14 @@
 				},
 				messages:{
 					type_name : {
-						required : "请输入红包类型名称",
-						minlength : "红包类型名称长度不能小于1"
+						required : js_lang.type_name_required,
+						minlength : js_lang.type_name_minlength
 					},
 					type_money : {
-						required : "请输入红包金额",
+						required : js_lang.type_money_required,
 					},
 					min_goods_amount : {
-						required : "请输入最小订单金额",
+						required : js_lang.min_goods_amount_required,
 					}
 				},
 
