@@ -50,7 +50,9 @@ return array(
 	'shop_type'					=> 'cityo2o',
     
     'site_name'                 => 'EC+到家',
-    
+
+    //是否启用店铺删除
+    'store_delete_enabled'      => false,
 );
 
 // end
