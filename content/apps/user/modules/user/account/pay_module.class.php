@@ -110,18 +110,20 @@ class user_account_pay_module extends api_front implements api_interface
 
             RC_Loader::load_app_func('admin_order', 'orders');
             //计算支付手续费用
-            $payment_info['pay_fee'] = pay_fee($payment_id, $order['surplus_amount'], 0);
-
+            //$payment_info['pay_fee'] = pay_fee($payment_id, $order['surplus_amount'], 0);
             //计算此次预付款需要支付的总金额
-            $order['order_amount'] = strval($order['surplus_amount'] + $payment_info['pay_fee']);
+            //$order['order_amount'] = strval($order['surplus_amount'] + $payment_info['pay_fee']);
+
+            //用户充值不计支付手续费
+            $order['order_amount'] = strval($order['surplus_amount']);
 
             $handler = $plugin->channel($payment_info['pay_code']);
             $handler->set_orderinfo($order);
             $handler->set_mobile($is_mobile);
-            $handler->setOrderType(Ecjia\App\Payment\PayConstant::PAY_SURPLUS);
+            $handler->setOrderType(\Ecjia\App\Payment\Enums\PayEnum::PAY_SURPLUS);
             $handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
 
-            $result = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);
+            $result = $handler->get_code(\Ecjia\App\Payment\Enums\PayCodeEnum::PAYCODE_PARAM);
             if (is_ecjia_error($result)) {
                 return $result;
             } else {

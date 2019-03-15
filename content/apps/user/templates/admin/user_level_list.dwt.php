@@ -92,7 +92,7 @@
 						<td class="hide-edit-area">
 							{$val.user_name}
 							<div class="edit-list">
-								<a target="__blank" href='{url path="user/admin/info" args="id={$val.user_id}"}'>{t domain="user"}查看详情{/t}</a>
+								<a target="_blank" href='{url path="user/admin/info" args="id={$val.user_id}"}'>{t domain="user"}查看详情{/t}</a>
 							</div>
 						</td>
 						<td>{$val.formated_avaliable_money}</td>

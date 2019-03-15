@@ -46,24 +46,26 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class user_admin_hooks
+class user_front_hooks
 {
-    public static function append_admin_setting_group($menus)
+    public static function record_user_session_logins($row)
     {
-        $menus[] = ecjia_admin::make_admin_menu('nav-header', __('会员', 'user'), '', 42)->add_purview(array('user_manage'));
-        $menus[] = ecjia_admin::make_admin_menu('user_center', __('会员中心', 'user'), RC_Uri::url('user/admin_config/init'), 43)->add_purview('user_manage');
-        return $menus;
+        RC_Api::api('user', 'user_session_logins', [
+            'user_id' => $row['user_id'],
+            'from_type' => 'weblogin',
+        ]);
     }
 
-    public static function add_maintain_command($factories)
+
+    public static function user_session_logout_remove()
     {
-        $factories['refresh_user_rank'] = 'Ecjia\App\User\Maintains\RefreshUserRank';
-        return $factories;
+        $session_id = session()->getId();
+
+        (new \Ecjia\System\Admins\SessionLogins\UserSessionLogins($session_id, session('session_user_id')))->removeBySessionId();
     }
 }
 
-RC_Hook::add_action('append_admin_setting_group', array('user_admin_hooks', 'append_admin_setting_group'));
-RC_Hook::add_filter('ecjia_maintain_command_filter', array('user_admin_hooks', 'add_maintain_command'));
-
+RC_Hook::add_action( 'ecjia_user_login_after', array('user_front_hooks', 'record_user_session_logins') );
+RC_Hook::add_action( 'ecjia_user_logout_before', array('user_front_hooks', 'user_session_logout_remove') );
 
 // end

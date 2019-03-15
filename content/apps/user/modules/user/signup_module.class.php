@@ -321,10 +321,7 @@ class user_signup_module extends api_front implements api_interface
 
             $db_user->where(array('user_id' => $_SESSION['user_id']))->update($update_data);
 
-            RC_Loader::load_app_func('admin_user', 'user');
-            update_user_info(); // 更新用户信息
-//             RC_Loader::load_app_func('cart', 'cart');
-//             recalculate_price(); // 重新计算购物车中的商品价格
+            \Ecjia\App\User\UserInfoFunction::update_user_info(); // 更新用户信息
 
             return true;
         }

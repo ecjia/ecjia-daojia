@@ -92,7 +92,7 @@ class admin_reg_fields extends ecjia_admin
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
             '<p><strong>' . __('更多信息：', 'user') . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员注册项设置" target="_blank">' . __('关于会员注册项帮助文档', 'user') . '</a>') . '</p>'
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员注册项设置" target="_blank">关于会员注册项帮助文档</a>', 'user') . '</p>'
         );
 
         $this->assign('ur_here', __('会员注册项设置', 'user'));
@@ -120,7 +120,7 @@ class admin_reg_fields extends ecjia_admin
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
             '<p><strong>' . __('更多信息：', 'user') . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员注册项设置" target="_blank">' . __('关于添加会员注册项帮助文档', 'user') . '</a>') . '</p>'
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员注册项设置" target="_blank">关于添加会员注册项帮助文档</a>', 'user') . '</p>'
         );
 
         $this->assign('ur_here', __('添加会员注册项', 'user'));
@@ -183,7 +183,7 @@ class admin_reg_fields extends ecjia_admin
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
             '<p><strong>' . __('更多信息：', 'user') . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员注册项设置" target="_blank">' . __('关于编辑会员注册项帮助文档', 'user') . '</a>') . '</p>'
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员注册项设置" target="_blank">关于编辑会员注册项帮助文档</a>', 'user') . '</p>'
         );
 
         $this->assign('ur_here', __('编辑会员注册项', 'user'));

@@ -53,11 +53,15 @@
 
 namespace Ecjia\App\User;
 
+use Ecjia\App\Cart\CartFunction;
 use ecjia_error;
 use ecjia_config;
 use ecjia_integrate;
 use RC_Hook;
 use RC_Loader;
+use RC_Api;
+use RC_Time;
+use RC_Session;
 
 /**
  * Class UserManager
@@ -195,20 +199,52 @@ class UserManager
         return true;
     }
 
-
+    /**
+     * 登录后操作
+     * @param array $user_info [user_id,user_name]
+     */
     public function loginSuccessHook($user_info)
     {
         //设置session,设置cookie
         ecjia_integrate::setSession($user_info['user_name']);
         ecjia_integrate::setCookie($user_info['user_name']);
 
-        //同步会员信息
-        RC_Loader::load_app_func('admin_user', 'user');
-        $user_info = EM_user_info($user_info['user_id']);
+        //ecjia账号同步登录用户信息更新
+        $connect_options = [
+            'connect_code'  => 'app',
+            'user_id'       => $_SESSION['user_id'],
+            'user_type'     => 'user',
+            'open_id'       => md5(RC_Time::gmtime() . $_SESSION['user_id']),
+            'access_token'  => RC_Session::session_id(),
+            'refresh_token' => md5($_SESSION['user_id'] . 'user_refresh_token'),
+        ];
+        $ecjiaAppUser = RC_Api::api('connect', 'ecjia_syncappuser_add', $connect_options);
+        if (is_ecjia_error($ecjiaAppUser)) {
+            return $ecjiaAppUser;
+        }
 
-        update_user_info(); // 更新用户信息
-        RC_Loader::load_app_func('cart', 'cart');
-        recalculate_price(); // 重新计算购物车中的商品价格
+        UserInfoFunction::update_user_info(); // 更新用户信息
+        CartFunction::recalculate_price(); // 重新计算购物车中的商品价格
+    }
+
+    /**
+     * API登录后操作
+     * @param array $user_info [user_id,user_name]
+     */
+    public function apiLoginSuccessHook($user_info)
+    {
+        $this->loginSuccessHook($user_info);
+
+        $request = royalcms('request');
+
+        //修正关联设备号
+        RC_Api::api('mobile', 'bind_device_user', array(
+            'device_udid'   => $request->header('device-udid'),
+            'device_client' => $request->header('device-client'),
+            'device_code'   => $request->header('device-code'),
+            'user_type'     => 'user',
+            'user_id'       => $user_info['user_id'],
+        ));
     }
 
 }

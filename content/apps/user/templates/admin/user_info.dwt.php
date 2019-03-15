@@ -21,7 +21,7 @@
 <div class="row-fluid">
 	<div class="choose_list">
 		<form method="post" action="{url path='user/admin/info'}" name="searchForm" data-id="{$user.user_id}">
-			<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder='{t domain="user"}请输入ID或会员名称或邮箱{/t}' />
+			<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder='{t domain="user"}请输入会员名称／邮箱／手机{/t}' />
 			<button class="btn" type="submit">{t domain="user"}查看{/t}</button>
 		</form>
 	</div>
@@ -37,7 +37,7 @@
 					<div class="accordion-heading">
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#telescopic1">
 							<strong>{t domain="user"}基本信息{/t}</strong>
-							<a target="_blank" href='{url path="user/admin/edit" args="id={$user.user_id}"}'>编辑</a>
+							<a target="_blank" href='{url path="user/admin/edit" args="id={$user.user_id}"}'>{t domain="user"}编辑{/t}</a>
 						</div>
 					</div>
 					<div class="accordion-body in collapse" id="telescopic1">
@@ -138,18 +138,18 @@
 						<div class="item-content">
 							<div class="item">
                                 {t domain="user"}可用资金：{/t}<span class="ecjiafc-FF0000">{$user.formated_user_money}</span>
-                                <a class="m_l5" target="__blank" href="{RC_Uri::url('finance/admin_account_log/init')}&account_type=user_money&user_id={$user.user_id}">{t domain="user"}查看{/t}</a>
+                                <a class="m_l5" target="_blank" href="{RC_Uri::url('finance/admin_account_log/init')}&account_type=user_money&user_id={$user.user_id}">{t domain="user"}查看{/t}</a>
                             </div>
 							<div class="item">
                                 {t domain="user"}冻结资金：{/t}<span class="ecjiafc-FF0000">{$user.formated_frozen_money}</span>
                             </div>
 							<div class="item">
                                 {t domain="user"}积分：{/t}<span class="ecjiafc-FF0000">{$user.pay_points}</span>
-                                <a class="m_l5" target="__blank" href="{RC_Uri::url('finance/admin_account_log/init')}&account_type=pay_points&user_id={$user.user_id}">{t domain="user"}查看{/t}</a>
+                                <a class="m_l5" target="_blank" href="{RC_Uri::url('finance/admin_account_log/init')}&account_type=pay_points&user_id={$user.user_id}">{t domain="user"}查看{/t}</a>
                             </div>
 							<div class="item">
                                 {t domain="user"}成长值：{/t}<span class="ecjiafc-FF0000">{$user.rank_points}</span>
-                                <a class="m_l5" target="__blank" href="{RC_Uri::url('finance/admin_account_log/init')}&account_type=rank_points&user_id={$user.user_id}">{t domain="user"}查看{/t}</a>
+                                <a class="m_l5" target="_blank" href="{RC_Uri::url('finance/admin_account_log/init')}&account_type=rank_points&user_id={$user.user_id}">{t domain="user"}查看{/t}</a>
                             </div>
 						</div>
 					</div>
@@ -158,8 +158,7 @@
 					<div class="accordion-heading">
 						<div class="accordion-toggle acc-in" data-toggle="collapse" data-target="#telescopic3">
 							<strong>{t domain="user"}收货地址{/t}</strong>
-							<a target="_blank" href='{url path="user/admin/address_list" args="id={$user.user_id}"}'>{lang
-								key='user::users.more'}</a>
+							<a target="_blank" href='{url path="user/admin/address_list" args="id={$user.user_id}"}'>{t domain="user"}更多{/t}</a>
 						</div>
 					</div>
 					<div class="accordion-body in collapse" id="telescopic3">

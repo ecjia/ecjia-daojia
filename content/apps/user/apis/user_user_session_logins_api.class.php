@@ -1,5 +1,5 @@
 <?php
-//
+//  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//
+//   
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -45,25 +45,36 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
-
-class user_admin_hooks
+/**
+ * 普通会员登录记录
+ * @author royalwang
+ *
+ */
+class user_user_session_logins_api extends Component_Event_Api
 {
-    public static function append_admin_setting_group($menus)
+    /**
+     * user_id
+     * from_type
+     * from_value
+     * @param array $options
+     */
+    public function call(&$options)
     {
-        $menus[] = ecjia_admin::make_admin_menu('nav-header', __('会员', 'user'), '', 42)->add_purview(array('user_manage'));
-        $menus[] = ecjia_admin::make_admin_menu('user_center', __('会员中心', 'user'), RC_Uri::url('user/admin_config/init'), 43)->add_purview('user_manage');
-        return $menus;
+        $user_id = array_get($options, 'user_id');
+        $from_type = array_get($options, 'from_type');
+        $from_value = array_get($options, 'from_value');
+
+        $session_id = session()->getId();
+
+        if (empty($user_id)) {
+            return new ecjia_error('invalid_parameter', __('参数无效'));
+        }
+
+        (new \Ecjia\System\Admins\SessionLogins\UserSessionLogins($session_id, $user_id))->record($from_type, $from_value);
+
+        return true;
     }
 
-    public static function add_maintain_command($factories)
-    {
-        $factories['refresh_user_rank'] = 'Ecjia\App\User\Maintains\RefreshUserRank';
-        return $factories;
-    }
 }
-
-RC_Hook::add_action('append_admin_setting_group', array('user_admin_hooks', 'append_admin_setting_group'));
-RC_Hook::add_filter('ecjia_maintain_command_filter', array('user_admin_hooks', 'add_maintain_command'));
-
 
 // end

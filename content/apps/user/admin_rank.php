@@ -94,7 +94,7 @@ class admin_rank extends ecjia_admin
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
             '<p><strong>' . __('更多信息：', 'user') . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员等级" target="_blank">' . __('关于会员等级列表帮助文档', 'user') . '</a>') . '</p>'
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员等级" target="_blank">关于会员等级列表帮助文档</a>', 'user') . '</p>'
         );
         $this->assign('ur_here', __('会员等级', 'user'));
         $this->assign('action_link', array('text' => __('添加会员等级', 'user'), 'href' => RC_Uri::url('user/admin_rank/add')));
@@ -121,7 +121,7 @@ class admin_rank extends ecjia_admin
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
             '<p><strong>' . __('更多信息：', 'user') . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员等级#.E6.B7.BB.E5.8A.A0.E4.BC.9A.E5.91.98.E7.AD.89.E7.BA.A7" target="_blank">' . __('关于添加会员等级帮助文档', 'user') . '</a>') . '</p>'
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员等级#.E6.B7.BB.E5.8A.A0.E4.BC.9A.E5.91.98.E7.AD.89.E7.BA.A7" target="_blank">关于添加会员等级帮助文档</a>', 'user') . '</p>'
         );
 
         $this->assign('ur_here', __('添加会员等级', 'user'));
@@ -213,7 +213,7 @@ class admin_rank extends ecjia_admin
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
             '<p><strong>' . __('更多信息：', 'user') . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员等级#.E7.BC.96.E8.BE.91.E4.BC.9A.E5.91.98.E7.AD.89.E7.BA.A7" target="_blank">' . __('关于编辑会员等级帮助文档', 'user') . '</a>') . '</p>'
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员等级#.E7.BC.96.E8.BE.91.E4.BC.9A.E5.91.98.E7.AD.89.E7.BA.A7" target="_blank">关于编辑会员等级帮助文档</a>', 'user') . '</p>'
         );
         $this->assign('ur_here', __('编辑会员等级', 'user'));
         $this->assign('action_link', array('text' => __('会员等级', 'user'), 'href' => RC_Uri::url('user/admin_rank/init')));

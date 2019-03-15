@@ -612,11 +612,14 @@ function change_account_log($user_id, $user_money = 0, $frozen_money = 0, $rank_
 /**
  * 更新用户SESSION,COOKIE及登录时间、登录次数。
  *
+ * @deprecated 1.29.0
  * @access public
  * @return void
  */
 function update_user_info()
 {
+    _deprecated_function( __FUNCTION__, '1.29.0', '\Ecjia\App\User\UserInfoFunction::update_user_info()' );
+
     // 链接数据库
     $db_users     = RC_Model::model('user/users_model');
     $db_user_rank = RC_Model::model('user/user_rank_model');

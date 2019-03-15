@@ -191,7 +191,20 @@ class user_signin_module extends api_front implements api_interface
             return $ecjiaAppUser;
         }
 
-        $user_info = EM_user_info($_SESSION['user_id']);
+        $user_info = \Ecjia\App\User\UserInfoFunction::EM_user_info($_SESSION['user_id']);
+
+        \Ecjia\App\User\UserInfoFunction::update_user_info();
+        \Ecjia\App\Cart\CartFunction::recalculate_price();
+
+        //修正关联设备号
+        RC_Api::api('mobile', 'bind_device_user', array(
+            'device_udid'   => $request->header('device-udid'),
+            'device_client' => $request->header('device-client'),
+            'device_code'   => $request->header('device-code'),
+            'user_type'     => 'user',
+            'user_id'       => $_SESSION['user_id'],
+        ));
+
         $out       = array(
             'session' => array(
                 'sid' => RC_Session::session_id(),
@@ -200,20 +213,6 @@ class user_signin_module extends api_front implements api_interface
             'user'    => $user_info
         );
 
-        update_user_info();
-        recalculate_price();
-
-        //修正咨询信息
-        if ($_SESSION['user_id'] > 0) {
-            $device = $this->device;
-            //修正关联设备号
-            $result = ecjia_app::validate_application('mobile');
-            if (!is_ecjia_error($result)) {
-                if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
-                    RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->where('user_type', 'user')->update(array('user_id' => $_SESSION['user_id'], 'update_time' => RC_Time::gmtime()));
-                }
-            }
-        }
         return $out;
     }
 }
