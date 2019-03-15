@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App integrate 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 03:55:44+00:00\n"
+"POT-Creation-Date: 2019-03-01 01:44:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,6 +14,7 @@ msgstr ""
 
 #: admin_plugin.php:71 admin_plugin.php:86 admin_plugin.php:97
 #: apis/integrate_admin_purview_api.class.php:57
+#: apis/integrate_plugin_menu_api.class.php:56
 #: classes/hooks/admin_integrate.class.php:55 configs/package.php:55
 msgid "会员整合"
 msgstr ""

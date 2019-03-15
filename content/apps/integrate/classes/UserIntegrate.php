@@ -73,7 +73,7 @@ class UserIntegrate
     }
 
     /**
-     * 返回字符集列表数组
+     * Return character array list array
      *
      * @return array
      */
@@ -88,7 +88,7 @@ class UserIntegrate
     }
 
     /**
-     * 初始化会员数据整合类
+     * Initialize member data integration class
      *
      * @return mixed
      */
@@ -104,7 +104,7 @@ class UserIntegrate
     }
 
     /**
-     * 获取所有可用的插件
+     * Get all available plugins
      */
     public function integrate_list()
     {
@@ -117,6 +117,44 @@ class UserIntegrate
     public function plugin()
     {
         return royalcms('ecjia.integrate.plugin');
+    }
+
+
+    /**
+     *  User login function
+     *
+     * @param   string  $username
+     * @param   string  $password
+     *
+     * @return boolean
+     */
+    public function login($username, $password, $remember = null)
+    {
+        $row = self::$instance->getUserInfo($username);
+
+        RC_Hook::do_action('ecjia_user_login_before', $row);
+
+        $result = self::$instance->login($username, $password, $remember);
+
+        RC_Hook::do_action('ecjia_user_login_after', $row);
+
+        return $result;
+    }
+
+    /**
+     *
+     * User logs out
+     *
+     * @return void
+     */
+    public function logout()
+    {
+        RC_Hook::do_action('ecjia_user_logout_before');
+
+        self::$instance->logout();
+
+        //Destroy the session
+        session()->destroy();
     }
 
 
