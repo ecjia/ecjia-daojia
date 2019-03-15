@@ -71,7 +71,7 @@ class admin_keywords_stats extends ecjia_admin {
 		
 		/*自定义JS*/
 		RC_Style::enqueue_style('stats-css', RC_App::apps_url('statics/css/stats.css', __FILE__), array());
-		RC_Script::enqueue_script('keywords', RC_App::apps_url('statics/js/keywords.js', __FILE__));
+		RC_Script::enqueue_script('keywords', RC_App::apps_url('statics/js/keywords.js', __FILE__), array(), false, 1);
 		RC_Script::localize_script('keywords', 'js_lang', config('app-stats::jslang.statistic_page'));
 	}
 

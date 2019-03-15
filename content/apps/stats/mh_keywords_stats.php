@@ -71,7 +71,7 @@ class mh_keywords_stats extends ecjia_merchant {
 		
 		/*自定义JS*/
 		RC_Style::enqueue_style('stats-css', RC_App::apps_url('statics/css/stats.css', __FILE__), array());
-		RC_Script::enqueue_script('keywords', RC_App::apps_url('statics/js/merchant_keywords.js', __FILE__), array());
+		RC_Script::enqueue_script('keywords', RC_App::apps_url('statics/js/merchant_keywords.js', __FILE__), array(), false, 1);
         RC_Script::localize_script('keywords_lang', 'js_lang', config('app-stats::jslang.statistic_page'));
 
         ecjia_merchant_screen::get_current_screen()->set_parentage('stats', 'stats/mh_keywords_stats.php');
