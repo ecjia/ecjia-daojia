@@ -2,389 +2,400 @@
 # This file is distributed under the same license as the Ecjia App comment package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App comment 1.28.0\n"
+"Project-Id-Version: Ecjia App comment 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-13 05:24:23+00:00\n"
+"POT-Creation-Date: 2019-03-13 14:03+0800\n"
+"PO-Revision-Date: 2019-03-13 14:04+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: admin.php:92
 msgid "商品评论列表"
-msgstr ""
+msgstr "商品評論列表"
 
 #: admin.php:93 apis/comment_admin_menu_api.class.php:58
 msgid "商品评价"
-msgstr ""
+msgstr "商品評價"
 
 #: admin.php:95
 msgid "查看回收站"
-msgstr ""
+msgstr "查看回收站"
 
 #: admin.php:99 admin.php:563
 msgid "概述"
-msgstr ""
+msgstr "概述"
 
 #: admin.php:100 admin.php:564
 msgid ""
 "欢迎访问ECJia智能后台商品评论列表页面，系统中有关商品的评论都会显示在此列表"
 "中。"
 msgstr ""
+"歡迎訪問ECJia智能後臺商品評論列表頁面，系統中有關商品的評論都會顯示在此列表"
+"中。"
 
 #: admin.php:104 admin.php:567
 msgid "更多信息："
-msgstr ""
+msgstr "更多信息："
 
 #: admin.php:105 admin.php:568
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品评论\" target="
 "\"_blank\">关于商品评论列表帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/幫助:ECJia智能後臺:商品評論\" target="
+"\"_blank\">關於商品評論列表幫助文檔</a>"
 
 #: admin.php:133 mh_comment.php:119
 msgid "感谢您对本店的支持！我们会更加的努力，为您提供更优质的服务。"
-msgstr ""
+msgstr "感謝您對本店的支持！我們會更加的努力，為您提供更優質的服務。"
 
 #: admin.php:144 admin.php:320 admin.php:336 admin.php:416 admin.php:418
 msgid "评论ID："
-msgstr ""
+msgstr "評論ID："
 
 #: admin.php:158 admin.php:338 mh_comment.php:141 mh_comment.php:253
 msgid "回复成功"
-msgstr ""
+msgstr "回復成功"
 
 #: admin.php:171
 msgid "没有找到相应的评论信息"
-msgstr ""
+msgstr "沒有找到相應的評論信息"
 
 #: admin.php:265 admin.php:559 apis/comment_merchant_purview_api.class.php:58
 #: mh_comment.php:87 mh_comment.php:88 mh_comment.php:153
 msgid "评论列表"
-msgstr ""
+msgstr "評論列表"
 
 #: admin.php:278 admin.php:280 mh_comment.php:150 mh_comment.php:151
 msgid "评论详情"
-msgstr ""
+msgstr "評論列表"
 
 #: admin.php:299 mh_comment.php:205
 msgid "请输入回复内容"
-msgstr ""
+msgstr "請輸入回復內容"
 
 #: admin.php:332 mh_comment.php:237
 msgid "请输入邮件地址"
-msgstr ""
+msgstr "請輸入回復內容"
 
 #: admin.php:393
 msgid "批准成功"
-msgstr ""
+msgstr "批準成功"
 
 #: admin.php:412
 msgid "已成功将评论移至回收站"
-msgstr ""
+msgstr "已成功將評論移至回收站"
 
 #: admin.php:432
 msgid "删除成功"
-msgstr ""
+msgstr "刪除成功"
 
 #: admin.php:524
 msgid "操作成功"
-msgstr ""
+msgstr "操作成功"
 
 #: admin.php:527
 msgid "没有选择消息"
-msgstr ""
+msgstr "沒有選擇消息"
 
 #: admin.php:540 admin.php:541 apis/comment_admin_menu_api.class.php:59
 msgid "评论回收站"
-msgstr ""
+msgstr "評論回收站"
 
 #: admin.php:556
 msgid "店铺商品评论列表"
-msgstr ""
+msgstr "店鋪商品評論列表"
 
 #: admin.php:557
 msgid "店铺商品评论"
-msgstr ""
+msgstr "店鋪商品評論"
 
 #: admin.php:692
 msgid "匿名用户"
-msgstr ""
+msgstr "匿名用戶"
 
 #: admin_config.php:78 admin_config.php:79
 #: apis/comment_admin_purview_api.class.php:63
 msgid "评论设置"
-msgstr ""
+msgstr "評論設置"
 
 #: admin_config.php:139
 msgid "修改评论设置"
-msgstr ""
+msgstr "修改評論設置"
 
 #: admin_config.php:141
 msgid "评论设置更新成功"
-msgstr ""
+msgstr "評論設置更新成功"
 
 #: apis/comment_admin_menu_api.class.php:56
 #: apis/comment_admin_purview_api.class.php:57
 msgid "评价晒单"
-msgstr ""
+msgstr "評價曬單"
 
 #: apis/comment_admin_menu_api.class.php:60
 #: apis/comment_merchant_purview_api.class.php:61 appeal.php:89 appeal.php:90
 #: appeal.php:160 mh_appeal.php:79 mh_appeal.php:80
 msgid "申诉列表"
-msgstr ""
+msgstr "申訴列表"
 
 #: apis/comment_admin_purview_api.class.php:58
 msgid "评论更新"
-msgstr ""
+msgstr "評論更新"
 
 #: apis/comment_admin_purview_api.class.php:59
 msgid "评论删除"
-msgstr ""
+msgstr "評論刪除"
 
 #: apis/comment_admin_purview_api.class.php:60
 msgid "评论回收站列表"
-msgstr ""
+msgstr "論回收站列表"
 
 #: apis/comment_admin_purview_api.class.php:61
 msgid "评论申诉管理"
-msgstr ""
+msgstr "評論申訴管理"
 
 #: apis/comment_admin_purview_api.class.php:62
 msgid "评论申诉审核"
-msgstr ""
+msgstr "評論申訴審核"
 
 #: apis/comment_comment_award_api.class.php:60
 #: apis/comment_update_goods_comment_api.class.php:60
 #: modules/goods/comments_module.class.php:62
 #: modules/store/comments_module.class.php:62
 msgid "参数无效"
-msgstr ""
+msgstr "參數無效"
 
 #: apis/comment_comment_award_api.class.php:64
 msgid "评论送积分未开启"
-msgstr ""
+msgstr "評論送積分未開啟"
 
 #: apis/comment_comment_award_api.class.php:69
 msgid "评论信息不存在"
-msgstr ""
+msgstr "評論信息不存在"
 
 #: apis/comment_comment_award_api.class.php:72
 msgid "状态错误"
-msgstr ""
+msgstr "狀態錯誤"
 
 #: apis/comment_comment_award_api.class.php:85
 msgid "评论送积分"
-msgstr ""
+msgstr "評論送積分"
 
 #: apis/comment_merchant_purview_api.class.php:62
 msgid "发起申诉"
-msgstr ""
+msgstr "發起申訴"
 
 #: apis/comment_merchant_purview_api.class.php:63
 msgid "撤销申诉"
-msgstr ""
+msgstr "撤銷申訴"
 
 #: apis/comment_store_remove_cleardata_api.class.php:63
 msgid "请求接口%s参数无效"
-msgstr ""
+msgstr "請求接口%s參數無效"
 
 #: apis/comment_update_goods_comment_api.class.php:65
 msgid "商品信息不存在"
-msgstr ""
+msgstr "商品信息不存在"
 
 #: appeal.php:108
 msgid "不存在的信息"
-msgstr ""
+msgstr "不存在的信息"
 
 #: appeal.php:146 mh_appeal.php:201 mh_appeal.php:202
 msgid "申诉详情"
-msgstr ""
+msgstr "申訴詳情"
 
 #: appeal.php:148
 msgid "申诉详情（审核中）"
-msgstr ""
+msgstr "申诉详情（审核中）"
 
 #: appeal.php:150
 msgid "申诉详情（申诉成功）"
-msgstr ""
+msgstr "申訴詳情（申訴成功）"
 
 #: appeal.php:152
 msgid "申诉详情（申诉失败）"
-msgstr ""
+msgstr "申訴詳情（申訴失敗）"
 
 #: appeal.php:179
 msgid "审核申诉备注不可为空"
-msgstr ""
+msgstr "審核申訴備註不可為空"
 
 #: appeal.php:189
 msgid "申诉ID："
-msgstr ""
+msgstr "申訴ID："
 
 #: appeal.php:193
 msgid "审核申诉成功"
-msgstr ""
+msgstr "審核申訴成功"
 
 #: appeal.php:253 mh_appeal.php:280
 msgid "待处理"
-msgstr ""
+msgstr "待處理"
 
 #: appeal.php:255 mh_appeal.php:282
 msgid "通过"
-msgstr ""
+msgstr "通過"
 
 #: appeal.php:257 mh_appeal.php:284
 msgid "驳回"
-msgstr ""
+msgstr "駁回"
 
 #: classes/StoreCleanHandlers/StoreArticleCommentClear.php:43
 msgid "店铺内，文章的所有评论"
-msgstr ""
+msgstr "店舖內，文章的所有評論"
 
 #: classes/StoreCleanHandlers/StoreArticleCommentClear.php:94
 #: classes/StoreCleanHandlers/StoreGoodsCommentClear.php:111
 msgid "店铺名是%s"
-msgstr ""
+msgstr "店鋪名是%s"
 
 #: classes/StoreCleanHandlers/StoreArticleCommentClear.php:94
 #: classes/StoreCleanHandlers/StoreGoodsCommentClear.php:111
 msgid "店铺ID是%s"
-msgstr ""
+msgstr "店鋪ID是%s"
 
 #: classes/StoreCleanHandlers/StoreGoodsCommentClear.php:45
 msgid "将店铺内所有商品评论全部删除"
-msgstr ""
+msgstr "將店舖內所有商品評論全部刪除"
 
 #: configs/jslang.php:57
 msgid "确定"
-msgstr ""
+msgstr "確定"
 
 #: configs/jslang.php:58
 msgid "取消"
-msgstr ""
+msgstr "取消"
 
 #: configs/jslang.php:60
 msgid "开启"
-msgstr ""
+msgstr "開啟"
 
 #: configs/jslang.php:61
 msgid "关闭"
-msgstr ""
+msgstr "关闭"
 
 #: configs/jslang.php:62
 msgid "分享微信"
-msgstr ""
+msgstr "分享微信"
 
 #: configs/jslang.php:63
 msgid "新浪微博"
-msgstr ""
+msgstr "新浪微博"
 
 #: configs/jslang.php:64
 msgid "保存图片"
-msgstr ""
+msgstr "保存圖片"
 
 #: configs/jslang.php:65
 msgid "收起"
-msgstr ""
+msgstr "收起"
 
 #: configs/jslang.php:66
 msgid "全文"
-msgstr ""
+msgstr "全文"
 
 #: configs/jslang.php:68
 msgid "请填写回复内容！"
-msgstr ""
+msgstr "請填寫回復內容！"
 
 #: configs/jslang.php:69
 msgid "1级-严重不合格"
-msgstr ""
+msgstr "1級-嚴重不合格"
 
 #: configs/jslang.php:70
 msgid "2级-不合格"
-msgstr ""
+msgstr "2級-不合格"
 
 #: configs/jslang.php:71
 msgid "3级-合格"
-msgstr ""
+msgstr "3級-合格"
 
 #: configs/jslang.php:72
 msgid "4级-优秀"
-msgstr ""
+msgstr "4級-優秀"
 
 #: configs/jslang.php:73
 msgid "5级-完美"
-msgstr ""
+msgstr "5級-完美"
 
 #: configs/jslang.php:74
 msgid "未搜索到商品信息"
-msgstr ""
+msgstr "未搜索到商品信息"
 
 #: configs/jslang.php:75
 msgid "未搜索到会员信息"
-msgstr ""
+msgstr "未搜索到會員信息"
 
 #: configs/jslang.php:76
 msgid "请求失败"
-msgstr ""
+msgstr "請求失敗"
 
 #: configs/jslang.php:77
 msgid "开始时间不得大于结束时间！"
-msgstr ""
+msgstr "開始時間不得大於結束時間！"
 
 #: configs/package.php:54
 msgid "评论"
-msgstr ""
+msgstr "評論"
 
 #: configs/package.php:55
 msgid ""
-"集成商品、文章功能，对商城发布产品发表个人看法、思想观点、使用心得和对文章进"
-"行意见发表、思想观点表述的一种应用文体，该应用了后台审核机制，对言论及广告消"
-"息起到重要的过滤作用；并以强大安全的处理机智对数据进行储存，同时以邮件形式通"
-"知用户。"
+"集成商品、文章功能，对商城发布产品发表个人看法、思想观点、使用心得和对文章"
+"进行意见发表、思想观点表述的一种应用文体，该应用了后台审核机制，对言论及广"
+"告消息起到重要的过滤作用；并以强大安全的处理机智对数据进行储存，同时以邮件"
+"形式通知用户。"
 msgstr ""
+"集成商品、文章功能，對商城發布產品發表個人看法、思想觀點、使用心得和對文章"
+"進行意見發表、思想觀點表述的一種應用文體，該應用了後臺審核機制，對言論及廣"
+"告消息起到重要的過濾作用；並以強大安全的處理機智對數據進行儲存，同時以郵件"
+"形式通知用戶。"
 
 #: mh_appeal.php:68
 msgid "申诉管理"
-msgstr ""
+msgstr "申訴管理"
 
 #: mh_appeal.php:97 mh_appeal.php:98
 msgid "申诉"
-msgstr ""
+msgstr "申訴"
 
 #: mh_appeal.php:131
 msgid "请输入申诉理由"
-msgstr ""
+msgstr "請輸入申訴理由"
 
 #: mh_appeal.php:171
 msgid "申诉图片"
-msgstr ""
+msgstr "申訴圖片"
 
 #: mh_appeal.php:192
 msgid "发起申诉处理"
-msgstr ""
+msgstr "發起申訴處理"
 
 #: mh_appeal.php:193
 msgid "申诉提交成功"
-msgstr ""
+msgstr "申訴提交成功"
 
 #: mh_appeal.php:237
 msgid "撤销序号:"
-msgstr ""
+msgstr "撤銷序號:"
 
 #: mh_appeal.php:238
 msgid "申诉撤销成功"
-msgstr ""
+msgstr "申訴撤銷成功"
 
 #: mh_comment.php:76
 msgid "评论管理"
-msgstr ""
+msgstr "評論管理"
 
 #: mh_comment.php:140 mh_comment.php:225 mh_comment.php:241
 msgid "评论ID:"
-msgstr ""
+msgstr "評論ID:"
 
 #: content/apps/comment/templates/admin/appeal_list.dwt.php:18
 #: content/apps/comment/templates/admin/comment_list.dwt.php:18
@@ -392,16 +403,16 @@ msgstr ""
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:52
 #: content/apps/comment/templates/merchant/mh_appeal_list.dwt.php:31
 msgid "全部"
-msgstr ""
+msgstr "全部"
 
 #: content/apps/comment/templates/admin/appeal_list.dwt.php:20
 #: content/apps/comment/templates/merchant/mh_appeal_list.dwt.php:33
 msgid "已处理"
-msgstr ""
+msgstr "已處理"
 
 #: content/apps/comment/templates/admin/appeal_list.dwt.php:24
 msgid "输入申诉编号或商家名称"
-msgstr ""
+msgstr "輸入申訴編號或商家名稱"
 
 #: content/apps/comment/templates/admin/appeal_list.dwt.php:25
 #: content/apps/comment/templates/admin/comment_list.dwt.php:92
@@ -410,52 +421,52 @@ msgstr ""
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:97
 #: content/apps/comment/templates/merchant/mh_appeal_list.dwt.php:39
 msgid "搜索"
-msgstr ""
+msgstr "搜索"
 
 #: content/apps/comment/templates/admin/appeal_list.dwt.php:28
 msgid "开始时间"
-msgstr ""
+msgstr "開始時間"
 
 #: content/apps/comment/templates/admin/appeal_list.dwt.php:29
 msgid "至"
-msgstr ""
+msgstr "至"
 
 #: content/apps/comment/templates/admin/appeal_list.dwt.php:30
 msgid "截止时间"
-msgstr ""
+msgstr "截止時間"
 
 #: content/apps/comment/templates/admin/appeal_list.dwt.php:39
 #: content/apps/comment/templates/merchant/mh_appeal_list.dwt.php:48
 msgid "申诉编号"
-msgstr ""
+msgstr "申訴編號"
 
 #: content/apps/comment/templates/admin/appeal_list.dwt.php:40
 #: content/apps/comment/templates/admin/comment_list.dwt.php:106
 #: content/apps/comment/templates/admin/comment_trash.dwt.php:36
 msgid "商家名称"
-msgstr ""
+msgstr "商家名稱"
 
 #: content/apps/comment/templates/admin/appeal_list.dwt.php:41
 #: content/apps/comment/templates/merchant/mh_appeal_list.dwt.php:49
 #: content/apps/comment/templates/merchant/mh_appeal_detail.dwt.php:57
 #: content/apps/comment/templates/merchant/mh_appeal_info.dwt.php:131
 msgid "申诉内容"
-msgstr ""
+msgstr "申訴內容"
 
 #: content/apps/comment/templates/admin/appeal_list.dwt.php:42
 #: content/apps/comment/templates/merchant/mh_appeal_list.dwt.php:50
 msgid "审核状态"
-msgstr ""
+msgstr "審核狀態"
 
 #: content/apps/comment/templates/admin/appeal_list.dwt.php:52
 msgid "申诉于"
-msgstr ""
+msgstr "申訴於"
 
 #: content/apps/comment/templates/admin/appeal_list.dwt.php:59
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:126
 #: content/apps/comment/templates/merchant/mh_appeal_list.dwt.php:66
 msgid "查看详情"
-msgstr ""
+msgstr "查看詳情"
 
 #: content/apps/comment/templates/admin/appeal_list.dwt.php:66
 #: content/apps/comment/templates/admin/comment_list.dwt.php:167
@@ -464,124 +475,124 @@ msgstr ""
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:144
 #: content/apps/comment/templates/merchant/mh_appeal_list.dwt.php:73
 msgid "没有找到任何记录"
-msgstr ""
+msgstr "沒有找到任何記錄"
 
 #: content/apps/comment/templates/admin/library/appeal_step.lbi.php:8
 #: content/apps/comment/templates/merchant/library/appeal_step.lbi.php:8
 #: content/apps/comment/templates/merchant/mh_appeal_info.dwt.php:145
 msgid "提交申诉"
-msgstr ""
+msgstr "提交申訴"
 
 #: content/apps/comment/templates/admin/library/appeal_step.lbi.php:16
 #: content/apps/comment/templates/merchant/library/appeal_step.lbi.php:15
 msgid "审核中"
-msgstr ""
+msgstr "審核中"
 
 #: content/apps/comment/templates/admin/library/appeal_step.lbi.php:25
 #: content/apps/comment/templates/admin/library/appeal_step.lbi.php:35
 #: content/apps/comment/templates/merchant/library/appeal_step.lbi.php:23
 #: content/apps/comment/templates/merchant/library/appeal_step.lbi.php:33
 msgid "申诉成功"
-msgstr ""
+msgstr "申訴成功"
 
 #: content/apps/comment/templates/admin/library/appeal_step.lbi.php:30
 #: content/apps/comment/templates/merchant/library/appeal_step.lbi.php:28
 msgid "申诉失败"
-msgstr ""
+msgstr "申訴失敗"
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:28
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:26
 msgid "评论等级："
-msgstr ""
+msgstr "評論等級："
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:43
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:41
 msgid "评论内容："
-msgstr ""
+msgstr "評論內容："
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:62
 msgid "绑定商品"
-msgstr ""
+msgstr "綁定商品"
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:68
 msgid "绑定商品："
-msgstr ""
+msgstr "綁定商品："
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:70
 msgid "请先点击下面搜索按钮，选择商品"
-msgstr ""
+msgstr "請先點擊下面搜索按鈕，選擇商品"
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:76
 msgid "请输入商品名"
-msgstr ""
+msgstr "請輸入商品名"
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:77
 msgid "搜索商品"
-msgstr ""
+msgstr "搜索商品"
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:81
 msgid "筛选搜索到的商品信息"
-msgstr ""
+msgstr "篩選搜索到的商品信息"
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:85
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:121
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:83
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:119
 msgid "暂无内容"
-msgstr ""
+msgstr "暫無內容"
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:89
 msgid "点击搜索结果绑定商品信息"
-msgstr ""
+msgstr "點擊搜索結果綁定商品信息"
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:99
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:97
 msgid "绑定会员"
-msgstr ""
+msgstr "綁定會員"
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:104
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:102
 msgid "绑定会员："
-msgstr ""
+msgstr "綁定會員："
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:106
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:104
 msgid "请先点击下面搜索按钮，选择会员"
-msgstr ""
+msgstr "請先點擊下面搜索按鈕，選擇會員"
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:112
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:110
 msgid "请输入会员名"
-msgstr ""
+msgstr "請輸入會員名"
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:113
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:111
 msgid "搜索会员"
-msgstr ""
+msgstr "搜索会员"
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:117
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:115
 msgid "筛选搜索到的会员信息"
-msgstr ""
+msgstr "篩選搜索到的會員信息"
 
 #: content/apps/comment/templates/admin/comment_add_goods.dwt.php:125
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:123
 msgid "点击搜索结果绑定会员信息"
-msgstr ""
+msgstr "點擊搜索結果綁定會員信息"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:22
 #: content/apps/comment/templates/admin/comment_list.dwt.php:51
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:43
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:68
 msgid "待审核"
-msgstr ""
+msgstr "待審核"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:22
 #: content/apps/comment/templates/admin/comment_list.dwt.php:52
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:43
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:69
 msgid "已批准"
-msgstr ""
+msgstr "已批準"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:29
 #: content/apps/comment/templates/admin/comment_list.dwt.php:59
@@ -592,7 +603,7 @@ msgstr ""
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:59
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:77
 msgid "中评"
-msgstr ""
+msgstr "中評"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:29
 #: content/apps/comment/templates/admin/comment_list.dwt.php:60
@@ -602,30 +613,30 @@ msgstr ""
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:59
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:78
 msgid "差评"
-msgstr ""
+msgstr "差評"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:35
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:56
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:65
 msgid "有图"
-msgstr ""
+msgstr "有圖"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:35
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:56
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:65
 msgid "无图"
-msgstr ""
+msgstr "無圖"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:49
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:66
 msgid "审核状态："
-msgstr ""
+msgstr "審核狀態："
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:56
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:73
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:74
 msgid "评分级别："
-msgstr ""
+msgstr "評分級別："
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:58
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:50
@@ -634,35 +645,35 @@ msgstr ""
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:59
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:76
 msgid "好评"
-msgstr ""
+msgstr "好評"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:64
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:81
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:82
 msgid "有无晒图："
-msgstr ""
+msgstr "有無曬圖："
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:66
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:83
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:84
 msgid "有"
-msgstr ""
+msgstr "有"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:67
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:84
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:85
 msgid "无"
-msgstr ""
+msgstr "無"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:76
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:92
 msgid "批量操作"
-msgstr ""
+msgstr "批量操作"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:81
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:97
 msgid "您确定要批量允许显示选中的评论吗？"
-msgstr ""
+msgstr "您確定要批量允許顯示選中的評論嗎？"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:81
 #: content/apps/comment/templates/admin/comment_list.dwt.php:84
@@ -671,27 +682,27 @@ msgstr ""
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:100
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:102
 msgid "请选择需要操作的评论"
-msgstr ""
+msgstr "請選擇需要操作的評論"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:81
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:97
 msgid "允许显示"
-msgstr ""
+msgstr "允許顯示"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:84
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:100
 msgid "您确定要批量禁止显示选中的评论吗？"
-msgstr ""
+msgstr "您確定要批量禁止顯示選中的評論嗎？"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:84
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:100
 msgid "禁止显示"
-msgstr ""
+msgstr "禁止顯示"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:86
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:102
 msgid "您确定要批量将选中的评论移至回收站吗？"
-msgstr ""
+msgstr "您確定要批量將選中的評論移至回收站嗎？"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:86
 #: content/apps/comment/templates/admin/comment_list.dwt.php:144
@@ -699,266 +710,268 @@ msgstr ""
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:102
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:155
 msgid "移至回收站"
-msgstr ""
+msgstr "移至回收站"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:91
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:107
 msgid "输入评价关键词进行搜索"
-msgstr ""
+msgstr "輸入評價關鍵詞進行搜索"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:105
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:120
 #: content/apps/comment/templates/admin/comment_trash.dwt.php:35
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:106
 msgid "用户名"
-msgstr ""
+msgstr "用戶名"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:107
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:121
 #: content/apps/comment/templates/admin/comment_trash.dwt.php:37
 msgid "商品详情"
-msgstr ""
+msgstr "商品詳情"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:108
 #: content/apps/comment/templates/admin/comment_trash.dwt.php:38
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:108
 msgid "星级"
-msgstr ""
+msgstr "星級"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:127
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:138
 #: content/apps/comment/templates/admin/comment_trash.dwt.php:56
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:118
 msgid "评论于"
-msgstr ""
+msgstr "評論於"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:138
 #: content/apps/comment/templates/admin/comment_info.dwt.php:54
 #: content/apps/comment/templates/admin/comment_info.dwt.php:58
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:149
 msgid "您确定要更改此评论的状态吗？"
-msgstr ""
+msgstr "您確定要更改此評論的狀態嗎？"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:139
 #: content/apps/comment/templates/admin/comment_info.dwt.php:55
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:150
 msgid "批准"
-msgstr ""
+msgstr "批準"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:142
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:153
 msgid "查看及回复"
-msgstr ""
+msgstr "查看及回復"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:144
 #: content/apps/comment/templates/admin/comment_info.dwt.php:62
 #: content/apps/comment/templates/admin/appeal_detail.dwt.php:59
 msgid "\"}您确定要将该用户[%1]的评论移至回收站吗？"
-msgstr ""
+msgstr "\"}您確定要將該用戶[%1]的評論移至回收站嗎？"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:160
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:174
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:140
 msgid ""
-"感谢您对本店的支持！我们会更加的努力，为您提供更优质的服务。（可在此输入回复"
-"内容，也可选择系统自动回复）"
+"感谢您对本店的支持！我们会更加的努力，为您提供更优质的服务。（可在此输入回"
+"复内容，也可选择系统自动回复）"
 msgstr ""
+"感謝您對本店的支持！我們會更加的努力，為您提供更優質的服務。（可在此輸入回"
+"復內容，也可選擇系統自動回復）"
 
 #: content/apps/comment/templates/admin/comment_info.dwt.php:33
 #: content/apps/comment/templates/admin/appeal_detail.dwt.php:42
 msgid "匿名发表"
-msgstr ""
+msgstr "匿名發表"
 
 #: content/apps/comment/templates/admin/comment_info.dwt.php:37
 #: content/apps/comment/templates/merchant/mh_appeal_detail.dwt.php:43
 #: content/apps/comment/templates/merchant/mh_appeal_info.dwt.php:115
 #: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:43
 msgid "商品评分："
-msgstr ""
+msgstr "商品評分："
 
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:28
 msgid "综合评分："
-msgstr ""
+msgstr "綜合評分："
 
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:31
 msgid "全部评论："
-msgstr ""
+msgstr "全部評論："
 
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:32
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:37
 msgid "好评率："
-msgstr ""
+msgstr "好評率："
 
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:61
 msgid "共"
-msgstr ""
+msgstr "共"
 
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:61
 msgid "条相关评论"
-msgstr ""
+msgstr "條相關評論"
 
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:122
 msgid "评级"
-msgstr ""
+msgstr "評級"
 
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:155
 msgid "\"}您确定要将该用户[]的评论移至回收站吗？"
-msgstr ""
+msgstr "\"}您確定要將該用戶[]的評論移至回收站嗎？"
 
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:175
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:127
 #: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:130
 msgid "回复"
-msgstr ""
+msgstr "回復"
 
 #: content/apps/comment/templates/admin/appeal_detail.dwt.php:30
 msgid "评价内容"
-msgstr ""
+msgstr "評價內容"
 
 #: content/apps/comment/templates/admin/appeal_detail.dwt.php:43
 msgid "IP："
-msgstr ""
+msgstr "IP："
 
 #: content/apps/comment/templates/admin/appeal_detail.dwt.php:48
 msgid "商品相符："
-msgstr ""
+msgstr "商品相符："
 
 #: content/apps/comment/templates/admin/appeal_detail.dwt.php:59
 msgid "删除至回收站"
-msgstr ""
+msgstr "刪除至回收站"
 
 #: content/apps/comment/templates/admin/appeal_detail.dwt.php:68
 msgid "申诉内容："
-msgstr ""
+msgstr "申訴內容："
 
 #: content/apps/comment/templates/admin/appeal_detail.dwt.php:84
 msgid "请输入内容"
-msgstr ""
+msgstr "請輸入內容"
 
 #: content/apps/comment/templates/admin/appeal_detail.dwt.php:99
 msgid "申诉回复："
-msgstr ""
+msgstr "申訴回復："
 
 #: content/apps/comment/templates/admin/comment_trash.dwt.php:25
 msgid "输入评价关键字进行搜索"
-msgstr ""
+msgstr "輸入評價關鍵字進行搜索"
 
 #: content/apps/comment/templates/admin/comment_trash.dwt.php:65
 msgid "查看"
-msgstr ""
+msgstr "查看"
 
 #: content/apps/comment/templates/admin/comment_trash.dwt.php:68
 msgid "删除"
-msgstr ""
+msgstr "刪除"
 
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:60
 msgid "绑定文章"
-msgstr ""
+msgstr "綁定文章"
 
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:66
 msgid "绑定文章："
-msgstr ""
+msgstr "綁定文章："
 
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:68
 msgid "请先点击下面搜索按钮，选择文章"
-msgstr ""
+msgstr "請先點擊下面搜索按鈕，選擇文章"
 
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:74
 msgid "请输入文章名"
-msgstr ""
+msgstr "請輸入文章名"
 
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:75
 msgid "搜索文章"
-msgstr ""
+msgstr "搜索文章"
 
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:79
 msgid "筛选搜索到的文章信息"
-msgstr ""
+msgstr "篩選搜索到的文章信息"
 
 #: content/apps/comment/templates/admin/comment_add_article.dwt.php:87
 msgid "点击搜索结果绑定文章信息"
-msgstr ""
+msgstr "點擊搜索結果綁定文章信息"
 
 #: content/apps/comment/templates/admin/comment_config.dwt.php:22
 msgid "用户评论是否需要审核："
-msgstr ""
+msgstr "用戶評論是否需要審核："
 
 #: content/apps/comment/templates/admin/comment_config.dwt.php:30
 msgid "评论送积分是否开启："
-msgstr ""
+msgstr "評論送積分是否開啟："
 
 #: content/apps/comment/templates/admin/comment_config.dwt.php:38
 msgid "评论一次获得积分奖励："
-msgstr ""
+msgstr "評論一次獲得積分獎勵："
 
 #: content/apps/comment/templates/admin/comment_config.dwt.php:42
 msgid "按照会员等级可设置评论后获得的积分数量"
-msgstr ""
+msgstr "按照會員等級可設置評論後獲得的積分數量"
 
 #: content/apps/comment/templates/admin/comment_config.dwt.php:50
 msgid "不用此规则，则设置为0或不填，否则以规则为准。"
-msgstr ""
+msgstr "不用此規則，則設置為0或不填，否則以規則為準。"
 
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:36
 msgid "价格："
-msgstr ""
+msgstr "價格："
 
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:95
 msgid "输入用户名称"
-msgstr ""
+msgstr "輸入用戶名稱"
 
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:141
 msgid "快捷回复"
-msgstr ""
+msgstr "快捷回復"
 
 #: content/apps/comment/templates/merchant/mh_appeal_list.dwt.php:38
 msgid "请输入申诉内容"
-msgstr ""
+msgstr "請輸入申訴內容"
 
 #: content/apps/comment/templates/merchant/mh_appeal_list.dwt.php:67
 msgid "您确定要撤销该申诉吗？"
-msgstr ""
+msgstr "您確定要撤銷該申訴嗎？"
 
 #: content/apps/comment/templates/merchant/mh_appeal_list.dwt.php:67
 msgid "撤销"
-msgstr ""
+msgstr "撤銷"
 
 #: content/apps/comment/templates/merchant/mh_appeal_detail.dwt.php:70
 msgid "平台回复"
-msgstr ""
+msgstr "平臺回復"
 
 #: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:64
 msgid "申诉中"
-msgstr ""
+msgstr "申訴中"
 
 #: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:77
 msgid "管理员回复内容"
-msgstr ""
+msgstr "管理員回復內容"
 
 #: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:93
 msgid "平台管理员"
-msgstr ""
+msgstr "平臺管理員"
 
 #: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:95
 msgid "商家管理员"
-msgstr ""
+msgstr "商家管理員"
 
 #: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:103
 msgid "管理员暂时还未回复任何消息"
-msgstr ""
+msgstr "管理員暫時還未回復任何消息"
 
 #: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:113
 msgid "回复评论"
-msgstr ""
+msgstr "回復評論"
 
 #: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:116
 msgid "回复内容："
-msgstr ""
+msgstr "回復內容："
 
 #: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:123
 msgid "邮件通知"
-msgstr ""
+msgstr "郵件通知"
 
 #: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:125
 msgid "请输入电子邮箱"
-msgstr ""
+msgstr "請輸入電子郵箱"
