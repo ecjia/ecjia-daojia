@@ -53,7 +53,7 @@ return array(
     //网站时区，Etc/GMT-8 实际表示的是 GMT+8 timezone
     'timezone' 						=> env('TIMEZONE', 'Etc/GMT-8'),
     //网站语言包
-    'locale' 						=> 'zh_CN',
+    'locale' 						=> env('LOCALE', 'zh_CN'), //zh_CN, en_US, zh_TW
     //是否Gzip压缩后输出
     'gzip' 							=> 0,
     //密钥
