@@ -150,7 +150,7 @@
 									</div>
 								</td>
 								<td>
-									<a href='{url path="store/admin/preview" args="store_id={$order.store_id}"}' target="__blank">{$order.merchants_name}</a>
+									<a href='{url path="store/admin/preview" args="store_id={$order.store_id}"}' target="_blank">{$order.merchants_name}</a>
 								</td>
 								<td>
 									<div align="right">

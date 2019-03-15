@@ -95,7 +95,7 @@ class order_pay_module extends api_front implements api_interface
         $handler->set_orderinfo($order);
         $handler->set_mobile($is_mobile);
 
-        $result = $handler->get_code(Ecjia\App\Payment\PayConstant::PAYCODE_PARAM);
+        $result = $handler->get_code(\Ecjia\App\Payment\Enums\PayCodeEnum::PAYCODE_PARAM);
         if (is_ecjia_error($result)) {
             return $result;
         } else {
@@ -107,7 +107,7 @@ class order_pay_module extends api_front implements api_interface
         $payment_record = $db->where('order_sn', $order['order_sn'])->first();
         $payment_data   = array(
             'order_sn'   => $order['order_sn'],
-            'trade_type' => Ecjia\App\Payment\PayConstant::PAY_ORDER,
+            'trade_type' => Ecjia\App\Payment\Enums\PayEnum::PAY_ORDER,
             'pay_code'   => $payment_info['pay_code'],
             'pay_name'   => $payment_info['pay_name'],
             'total_fee'  => $order['order_amount'],

@@ -65,8 +65,8 @@ class mh_reminder extends ecjia_merchant
         RC_Style::enqueue_style('uniform-aristo');
 
         $this->dbview_order_reminder = RC_Model::Model('orders/order_reminder_viewmodel');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单管理'), RC_Uri::url('orders/merchant/init')));
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('发货提醒列表', RC_Uri::url('orders/admin_order_remind/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单管理', 'orders'), RC_Uri::url('orders/merchant/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('发货提醒列表', 'orders'), RC_Uri::url('orders/admin_order_remind/init')));
         ecjia_merchant_screen::get_current_screen()->set_parentage('order', 'order/mh_reminder.php');
     }
 
@@ -78,16 +78,16 @@ class mh_reminder extends ecjia_merchant
         $this->admin_priv('delivery_view');
 
         ecjia_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('发货提醒列表'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('发货提醒列表', 'orders')));
         ecjia_screen::get_current_screen()->add_help_tab(array(
             'id'      => 'overview',
             'title'   => __('概述', 'orders'),
-            'content' => '<p>' . '欢迎访问ECJia智能后台发货提醒列表页面，显示买家催款情况。' . '</p>'
+            'content' => '<p>' . __('欢迎访问ECJia智能后台发货提醒列表页面，显示买家催款情况。', 'orders') . '</p>'
         ));
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
             '<p><strong>' . __('更多信息', 'orders') . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:发货提醒列表" target="_blank">' . '关于发货提醒列表帮助文档' . '</a>') . '</p>'
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:发货提醒列表" target="_blank">关于发货提醒列表帮助文档</a>', 'orders') . '</p>'
         );
 
         /* 查询 */
@@ -112,13 +112,13 @@ class mh_reminder extends ecjia_merchant
 
         if (!empty($result_list['list'])) {
             foreach ($result_list['list'] as $key => $val) {
-                $result_list['list'][$key]['order_status'] = $val[order_status] == 1 ? '已处理' : '未处理';
+                $result_list['list'][$key]['order_status'] = $val[order_status] == 1 ? __('已处理', 'orders') : __('未处理', 'orders');
                 $result_list['list'][$key]['confirm_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['confirm_time']);
             }
         }
 
         /* 模板赋值 */
-        $this->assign('ur_here', '发货提醒列表');
+        $this->assign('ur_here', __('发货提醒列表', 'orders'));
         $this->assign('form_action', RC_Uri::url('orders/mh_reminder/remove&type=batch'));
         $this->assign('order_remind', $result_list['list']);
         $this->assign('result_list', $result_list);
@@ -137,7 +137,7 @@ class mh_reminder extends ecjia_merchant
 
         /* 记录日志 */
         RC_DB::table('order_reminder')->whereIn('order_id', $order_id)->delete();
-        return $this->showmessage('退货单删除成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('orders/mh_reminder/init')));
+        return $this->showmessage(__('退货单删除成功！', 'orders'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('orders/mh_reminder/init')));
     }
 }
 

@@ -76,20 +76,20 @@ class admin_guest_stats extends ecjia_admin
     {
         $this->admin_priv('guest_stats');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('客户统计'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('客户统计', 'orders')));
         ecjia_screen::get_current_screen()->add_help_tab(array(
             'id'      => 'overview',
-            'title'   => '概述',
-            'content' => '<p>' . '欢迎访问ECJia智能后台客户统计页面，系统中所有的客户统计信息都会显示在此页面中。' . '</p>'
+            'title'   => __('概述', 'orders'),
+            'content' => '<p>' . __('欢迎访问ECJia智能后台客户统计页面，系统中所有的客户统计信息都会显示在此页面中。', 'orders') . '</p>'
         ));
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
-            '<p><strong>' . '更多信息：' . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:客户统计" target="_blank">' . '关于客户统计帮助文档' . '</a>') . '</p>'
+            '<p><strong>' . __('更多信息：', 'orders') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:客户统计" target="_blank">关于客户统计帮助文档</a>', 'orders') . '</p>'
         );
 
-        $this->assign('ur_here', '客户统计');
-        $this->assign('action_link', array('text' => '客户统计报表下载', 'href' => RC_Uri::url('orders/admin_guest_stats/download')));
+        $this->assign('ur_here', __('客户统计', 'orders'));
+        $this->assign('action_link', array('text' => __('客户统计报表下载', 'orders'), 'href' => RC_Uri::url('orders/admin_guest_stats/download')));
 
         /* 取得会员总数 */
         $res      = RC_DB::table('users')->count();
@@ -148,19 +148,19 @@ class admin_guest_stats extends ecjia_admin
 
         $user_all_order['turnover'] = floatval($user_all_order['turnover']);
 
-        $filename = mb_convert_encoding('客户统计报表' . '-' . RC_Time::local_date('Y-m-d'), "GBK", "UTF-8");
+        $filename = mb_convert_encoding(__('客户统计报表', 'orders') . '-' . RC_Time::local_date('Y-m-d'), "GBK", "UTF-8");
         header("Content-type: application/vnd.ms-excel;charset=utf-8");
         header("Content-Disposition:attachment;filename=$filename.xls");
 
         /* 生成会员购买率 */
-        $data = '会员购买率' . "\t\n";
-        $data .= '会员总数' . "\t" . '有订单会员数' . "\t" . '会员订单总数' . "\t" . '会员购买率' . "\n";
+        $data = __('会员购买率', 'orders') . "\t\n";
+        $data .= __('会员总数', 'orders') . "\t" . __('有订单会员数', 'orders') . "\t" . __('会员订单总数', 'orders') . "\t" . __('会员购买率', 'orders') . "\n";
 
         $data .= $user_num . "\t" . $have_order_usernum . "\t" . $user_all_order['order_num'] . "\t" . sprintf("%0.2f", ($user_num > 0 ? ($have_order_usernum / $user_num) : 0) * 100) . '%' . "\n\n";
 
         /* 每会员平均订单数及购物额 */
-        $data .= '每会员平均订单数及购物额' . "\t\n";
-        $data .= '会员购物总额' . "\t" . '每会员订单数' . "\t" . '每会员购物额' . "\n";
+        $data .= __('每会员平均订单数及购物额', 'orders') . "\t\n";
+        $data .= __('会员购物总额', 'orders') . "\t" . __('每会员订单数', 'orders') . "\t" . __('每会员购物额', 'orders') . "\n";
 
         $ave_user_ordernum = $user_num > 0 ? sprintf("%0.2f", $user_all_order['order_num'] / $user_num) : 0;
         $ave_user_turnover = $user_num > 0 ? price_format($user_all_order['turnover'] / $user_num) : 0;

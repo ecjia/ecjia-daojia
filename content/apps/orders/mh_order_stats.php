@@ -78,8 +78,10 @@ class mh_order_stats extends ecjia_merchant
         RC_Style::enqueue_style('orders-css', RC_App::apps_url('statics/css/merchant_orders.css', __FILE__));
         RC_Style::enqueue_style('stats-css', RC_App::apps_url('statics/css/merchant_stats.css', __FILE__));
 
-        RC_Script::localize_script('order_stats', 'js_lang', RC_Lang::get('orders::statistic.js_lang'));
-        RC_Script::localize_script('order_stats_chart', 'js_lang', RC_Lang::get('orders::statistic.js_lang'));
+        RC_Script::enqueue_script('js-sprintf');
+
+        RC_Script::localize_script('order_stats', 'js_lang', config('app-orders::jslang.admin_order_stats_page'));
+        RC_Script::localize_script('order_stats_chart', 'jslang', config('app-orders::jslang.admin_order_stats_chart_page'));
 
         ecjia_merchant_screen::get_current_screen()->set_parentage('stats', 'orders/mh_order_stats.php');
     }
@@ -269,20 +271,20 @@ class mh_order_stats extends ecjia_merchant
         $start_date = RC_Time::local_strtotime($start_time);
         $end_date   = RC_Time::local_strtotime($end_time);
 
-        $filename = '订单统计报表';
+        $filename = __('订单统计报表', 'orders');
         if (!empty($start_time) && !empty($end_time)) {
-            $filename .= '_' . $start_time . '至' . $end_time;
+            $filename .= '_' . $start_time . __('至', 'orders') . $end_time;
         }
 
         $order_stats = $this->get_order_stats($store_id);
 
         $count_key                                      = array('await_pay_count', 'await_ship_count', 'shipped_count', 'returned_count', 'canceled_count', 'finished_count');
         $data_key                                       = array('order_count_data', 'groupbuy_count_data', 'storebuy_count_data', 'storepickup_count_data', 'cashdesk_count_data');
-        $order_stats['order_count_data']['title']       = '配送型订单';
-        $order_stats['groupbuy_count_data']['title']    = '团购型订单';
-        $order_stats['storebuy_count_data']['title']    = '到店型订单';
-        $order_stats['storepickup_count_data']['title'] = '自提型订单';
-        $order_stats['cashdesk_count_data']['title']    = '自提型订单';
+        $order_stats['order_count_data']['title']       = __('配送型订单', 'orders');
+        $order_stats['groupbuy_count_data']['title']    = __('团购型订单', 'orders');
+        $order_stats['storebuy_count_data']['title']    = __('到店型订单', 'orders');
+        $order_stats['storepickup_count_data']['title'] = __('自提型订单', 'orders');
+        $order_stats['cashdesk_count_data']['title']    = __('自提型订单', 'orders');
 
         $count_arr = $count_data_arr = [];
         foreach ($order_stats as $k => $v) {
@@ -356,7 +358,7 @@ class mh_order_stats extends ecjia_merchant
             ->where('add_time', '>=', $start_date)
             ->where('add_time', '<', $end_date)
             ->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART))
-            ->where(function ($query) {
+            ->where(function ($query) use ($pay_cod_id) {
                 $query->whereIn('pay_status', array(PS_PAYED, PS_PAYING))
                     ->orWhere('pay_id', $pay_cod_id);
             })
@@ -484,11 +486,11 @@ class mh_order_stats extends ecjia_merchant
         $data['cashdesk_count_data']['total_fee']    = price_format($data['cashdesk_count_data']['total_fee']);
 
         $data['type'] = array(
-            array('name' => '配送', 'value' => $data['order_count_data']['order_count']),
-            array('name' => '团购', 'value' => $data['groupbuy_count_data']['order_count']),
-            array('name' => '到店', 'value' => $data['storebuy_count_data']['order_count']),
-            array('name' => '自提', 'value' => $data['storepickup_count_data']['order_count']),
-            array('name' => '收银台', 'value' => $data['cashdesk_count_data']['order_count']),
+            array('name' => __('配送', 'orders'), 'value' => $data['order_count_data']['order_count']),
+            array('name' => __('团购', 'orders'), 'value' => $data['groupbuy_count_data']['order_count']),
+            array('name' => __('到店', 'orders'), 'value' => $data['storebuy_count_data']['order_count']),
+            array('name' => __('自提', 'orders'), 'value' => $data['storepickup_count_data']['order_count']),
+            array('name' => __('收银台', 'orders'), 'value' => $data['cashdesk_count_data']['order_count']),
         );
         return $data;
     }
@@ -521,39 +523,39 @@ class mh_order_stats extends ecjia_merchant
         if (!empty($order_info)) {
             foreach ($order_info as $k => $v) {
                 if ($k == 'await_pay_num') {
-                    $key              = '待付款订单';
+                    $key              = __('待付款订单', 'orders');
                     $order_info[$key] = $order_info['await_pay_num'];
                     unset($order_info['await_pay_num']);
 
                 } elseif ($k == 'await_ship_num') {
-                    $key              = '待发货订单';
+                    $key              = __('待发货订单', 'orders');
                     $order_info[$key] = $order_info['await_ship_num'];
                     unset($order_info['confirmed_num']);
 
                 } elseif ($k == 'shipped_num') {
-                    $key              = '已发货订单';
+                    $key              = __('已发货订单', 'orders');
                     $order_info[$key] = $order_info['shipped_num'];
                     unset($order_info['shipped_num']);
 
                 } elseif ($k == 'returned_num') {
-                    $key              = '退货订单';
+                    $key              = __('退货订单', 'orders');
                     $order_info[$key] = $order_info['returned_num'];
                     unset($order_info['returned_num']);
                 } elseif ($k == 'canceled_num') {
-                    $key              = '已取消订单';
+                    $key              = __('已取消订单', 'orders');
                     $order_info[$key] = $order_info['canceled_num'];
                     unset($order_info['canceled_num']);
                 } elseif ($k == 'finished_num') {
-                    $key              = '已完成订单';
+                    $key              = __('已完成订单', 'orders');
                     $order_info[$key] = $order_info['finished_num'];
                     unset($order_info['finished_num']);
                 }
             }
             arsort($order_info);
             foreach ($order_info as $k => $v) {
-                if ($order_info['待付款订单'] == 0 && $order_info['待发货订单'] == 0
-                    && $order_info['已发货订单'] == 0 && $order_info['退货订单'] == 0
-                    && $order_info['已取消订单'] == 0 && $order_info['已完成订单'] == 0) {
+                if ($order_info[__('待付款订单', 'orders')] == 0 && $order_info[__('待发货订单', 'orders')] == 0
+                    && $order_info[__('已发货订单', 'orders')] == 0 && $order_info[__('退货订单', 'orders')] == 0
+                    && $order_info[__('已取消订单', 'orders')] == 0 && $order_info[__('已完成订单', 'orders')] == 0) {
                     $order_info = null;
                 } else {
                     break;

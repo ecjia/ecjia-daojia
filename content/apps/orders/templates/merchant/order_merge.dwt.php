@@ -17,7 +17,7 @@
 
 <div class="row-fluid panel panel-body">
     <div class="alert alert-info">	
-    	<strong>当两个订单不一致时，合并后的订单信息（如：支付方式、配送方式、包装、贺卡、红包等）以主订单为准。</strong>
+    	<strong>{t domain="orders"}当两个订单不一致时，合并后的订单信息（如：支付方式、配送方式、包装、贺卡、红包等）以主订单为准。{/t}</strong>
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" data-original-title="" title=""></i></button>
     	</div>
 	<div class="span12 ">
@@ -25,33 +25,33 @@
 			<fieldset>
 				<div class="control-group formSep">	
 					<div class="form-inline form-group">
-					   <label class="control-label col-lg-2">主订单：</label>
+					   <label class="control-label col-lg-2">{t domain="orders"}主订单：{/t}</label>
 					   <input class="form-control " name="to_order_sn" type="text" id="to_order_sn" class="f_l m_r5"/>
 					   <div class="form-group order-query">
     					   <div class="col-lg-11">
         					   <select class="panel-body w250" name="to_list" id="to_list" >
-        					       <option value="">请选择...</option>
+        					       <option value="">{t domain="orders"}请选择...{/t}</option>
                 				   <!-- {foreach from=$order_list item=order} -->
-            						    <option value="{$order.order_sn}">{$order.order_sn} {if $order.user_name}[{$order.user_name}]{else}[匿名]{/if}</option>
+            						    <option value="{$order.order_sn}">{$order.order_sn} {if $order.user_name}[{$order.user_name}]{else}{t domain="orders"}[匿名]{/t}{/if}</option>
                 				   <!-- {/foreach} -->
         					   </select>
     					   </div>
 					   <span class="input-must">*</span>
 					   </div>
-					   <span class="help-block" {if $help_open}style="display:block" {else} style="display:none" {/if} id="noticeOrderSn">当两个订单不一致时，合并后的订单信息（如：支付方式、配送方式、包装、贺卡、红包等）以主订单为准。</span>
+					   <span class="help-block" {if $help_open}style="display:block" {else} style="display:none" {/if} id="noticeOrderSn">{t domain="orders"}当两个订单不一致时，合并后的订单信息（如：支付方式、配送方式、包装、贺卡、红包等）以主订单为准。{/t}</span>
 			       </div>
 			   </div>
 			   
 				<div class="control-group formSep">
 				    <div class="form-inline form-group">
-    					<label class="control-label col-lg-2">从订单：</label>
+    					<label class="control-label col-lg-2">{t domain="orders"}从订单：{/t}</label>
 						<input class="form-control" name="from_order_sn" type="text" id="from_order_sn" class="f_l m_r5"/>
 						<div class="form-group order-query">
     					   <div class="col-lg-11">
         						<select class="panel-body w250" name="from_list" id="from_list" >
-        							<option value="">请选择...</option>
+        							<option value="">{t domain="orders"}请选择...{/t}</option>
         							<!-- {foreach from=$order_list item=order} -->
-        							     <option value="{$order.order_sn}">{$order.order_sn} {if $order.user_name}[{$order.user_name}]{else}[匿名]{/if}</option>
+        							     <option value="{$order.order_sn}">{$order.order_sn} {if $order.user_name}[{$order.user_name}]{else}{t domain="orders"}[匿名]{/t}{/if}</option>
         							<!-- {/foreach} -->
         						</select>
 							</div>
@@ -62,7 +62,7 @@
 				<div class="control-group formSep">
     				<div class="form-inline form-group">
     				   <label class="col-lg-2"></label>
-				       <button class="btn btn-info" type="submit">合并</button>
+				       <button class="btn btn-info" type="submit">{t domain="orders"}合并{/t}</button>
     				</div>
 				</div>
 			</fieldset>

@@ -75,6 +75,7 @@ class mh_sale_list extends ecjia_merchant
 
         /*自定义js*/
         RC_Script::enqueue_script('sale_list', RC_App::apps_url('statics/js/merchant_sale_list.js', __FILE__), array('ecjia-merchant'), false, 1);
+        RC_Script::localize_script('sale_list', 'js_lang', config('app-orders::jslang.merchant_sale_list_page'));
 
         ecjia_merchant_screen::get_current_screen()->set_parentage('stats', 'stats/mh_sale_list.php');
     }
@@ -87,11 +88,11 @@ class mh_sale_list extends ecjia_merchant
         /* 权限判断 */
         $this->admin_priv('sale_list_stats');
 
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('报表统计', RC_Uri::url('stats/mh_keywords_stats/init')));
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('销售明细'));
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('报表统计', 'orders'), RC_Uri::url('stats/mh_keywords_stats/init')));
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('销售明细', 'orders')));
 
-        $this->assign('ur_here', '销售明细');
-        $this->assign('action_link', array('text' => '下载销售明细', 'href' => RC_Uri::url('orders/mh_sale_list/download')));
+        $this->assign('ur_here', __('销售明细', 'orders'));
+        $this->assign('action_link', array('text' => __('下载销售明细', 'orders'), 'href' => RC_Uri::url('orders/mh_sale_list/download')));
 
         /* 时间参数 */
         $start_date = !empty($_GET['start_date']) ? $_GET['start_date'] : RC_Time::local_date(ecjia::config('date_format'), RC_Time::local_strtotime('-7 days'));
@@ -123,14 +124,14 @@ class mh_sale_list extends ecjia_merchant
         $end_date   = !empty($_GET['end_date']) ? $_GET['end_date'] : RC_Time::local_date(ecjia::config('date_format'), RC_Time::local_strtotime('today'));
 
         /*文件名*/
-        $file_name        = '销售明细';
+        $file_name        = __('销售明细', 'orders');
         $goods_sales_list = $this->get_sale_list(false);
         /*强制下载,下载类型EXCEL*/
         header("Content-type: application/vnd.ms-excel; charset=utf-8");
         header("Content-Disposition: attachment; filename=$file_name.xls");
 
-        echo mb_convert_encoding($file_name . '销售明细报表', 'UTF-8', 'UTF-8') . "\t\n";
-        $data = '商品名称' . "\t" . '订单号' . "\t" . '数量' . "\t" . '售价' . "\t" . '售出日期' . "\n";
+        echo mb_convert_encoding(sprintf(__('%s销售明细报表', 'orders'), $file_name), 'UTF-8', 'UTF-8') . "\t\n";
+        $data = __('商品名称', 'orders') . "\t" . __('订单号', 'orders') . "\t" . __('数量', 'orders') . "\t" . __('售价', 'orders') . "\t" . __('售出日期', 'orders') . "\n";
 
         foreach ($goods_sales_list as $row) {
             foreach ($row as $v) {

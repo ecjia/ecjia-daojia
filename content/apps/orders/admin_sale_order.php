@@ -71,7 +71,7 @@ class admin_sale_order extends ecjia_admin
         RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 
         RC_Script::enqueue_script('sale_order', RC_App::apps_url('statics/js/sale_order.js', __FILE__));
-        RC_Script::localize_script('sale_order', 'js_lang', RC_Lang::get('orders::statistic.js_lang'));
+        RC_Script::localize_script('sale_order', 'js_lang', config('app-orders::jslang.admin_sale_order_page'));
     }
 
     public function init()
@@ -79,21 +79,21 @@ class admin_sale_order extends ecjia_admin
         /* 权限检查 */
         $this->admin_priv('sale_order_stats');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('销售排行'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('销售排行', 'orders')));
         ecjia_screen::get_current_screen()->add_help_tab(array(
             'id'      => 'overview',
-            'title'   => '概述',
-            'content' => '<p>' . '欢迎访问ECJia智能后台销售排行页面，系统中所有的销售排行信息都会显示在此页面中。' . '</p>'
+            'title'   => __('概述', 'orders'),
+            'content' => '<p>' . __('欢迎访问ECJia智能后台销售排行页面，系统中所有的销售排行信息都会显示在此页面中。', 'orders') . '</p>'
         ));
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
-            '<p><strong>' . '更多信息：' . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:销售排行" target="_blank">' . '关于销售排行帮助文档' . '</a>') . '</p>'
+            '<p><strong>' . __('更多信息：', 'orders') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:销售排行" target="_blank">关于销售排行帮助文档</a>', 'orders') . '</p>'
         );
 
         /* 赋值到模板 */
-        $this->assign('ur_here', '销售排行');
-        $this->assign('action_link', array('text' => '销售排行报表下载', 'href' => RC_Uri::url('orders/admin_sale_order/download')));
+        $this->assign('ur_here', __('销售排行', 'orders'));
+        $this->assign('action_link', array('text' => __('销售排行报表下载', 'orders'), 'href' => RC_Uri::url('orders/admin_sale_order/download')));
 
         /*时间参数*/
         $start_date = !empty($_GET['start_date']) ? $_GET['start_date'] : RC_Time::local_date(ecjia::config('date_format'), strtotime('-1 month') - 8 * 3600);
@@ -124,7 +124,7 @@ class admin_sale_order extends ecjia_admin
 
         if ($_REQUEST['store_id']) {
             $store_info = RC_DB::table('store_franchisee')->where('store_id', $_GET['store_id'])->first();
-            $this->assign('ur_here', $store_info['merchants_name'] . ' - ' . '销售排行');
+            $this->assign('ur_here', sprintf(__('%s - 销售排行', 'orders'), $store_info['merchants_name']));
         }
         $goods_order_data = $this->get_sales_order(true, $filter);
 
@@ -159,7 +159,7 @@ class admin_sale_order extends ecjia_admin
         $filter['sort_by']           = empty($_REQUEST['sort_by']) ? 'goods_num' : trim($_REQUEST['sort_by']);
         $filter['sort_order']        = empty($_REQUEST['sort_order']) ? 'DESC' : trim($_REQUEST['sort_order']);
         $filter['merchant_keywords'] = $merchant_keywords;
-        $file                        .= '销售排行报表' . '_' . $start_date . '至' . $end_date;
+        $file                        .= sprintf(__('销售排行报表' . '_%s至%s', 'orders'), $start_date, $end_date);
         $goods_order_data            = $this->get_sales_order(false, $filter);
 
         $filename = mb_convert_encoding($file, "GBK", "UTF-8");
@@ -167,7 +167,7 @@ class admin_sale_order extends ecjia_admin
         header("Content-type: application/vnd.ms-excel; charset=utf-8");
         header("Content-Disposition: attachment; filename=$filename.xls");
 
-        $data = '排行' . "\t" . '商品名称' . "\t" . '商家名称' . "\t" . '货号' . "\t" . '销售量' . "\t" . '销售额' . "\t" . '均价' . "\n";
+        $data = __('排行', 'orders') . "\t" . __('商品名称', 'orders') . "\t" . __('商家名称', 'orders') . "\t" . __('货号', 'orders') . "\t" . __('销售量', 'orders') . "\t" . __('销售额', 'orders') . "\t" . __('均价', 'orders') . "\n";
 
         if (!empty($goods_order_data['item'])) {
             foreach ($goods_order_data['item'] as $k => $v) {

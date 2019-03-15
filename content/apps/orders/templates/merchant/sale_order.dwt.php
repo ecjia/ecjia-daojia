@@ -10,7 +10,7 @@
 <!--销售排行-->
 <div class="alert alert-info">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" data-original-title="" title=""></i></button>
-	<strong>温馨提示：</strong>{t}没有完成的订单不计入销售排行{/t}
+	<strong>{t domain="orders"}温馨提示：{/t}</strong>{t domain="orders"}没有完成的订单不计入销售排行{/t}
 </div>
 <div class="page-header">
 	<div class="pull-left">
@@ -30,11 +30,11 @@
 			<header class="panel-heading">
 				<div class="t_r">
 					<form class="form-inline" action="{$search_action}" method="post" name="theForm">
-						<span>按时间段查询：</span>
-						<input class="form-control start_date w110" name="start_date" type="text" placeholder="开始时间" value="{$start_date}">
+						<span>{t domain="orders"}按时间段查询：{/t}</span>
+						<input class="form-control start_date w110" name="start_date" type="text" placeholder='{t domain="orders"}开始时间{/t}' value="{$start_date}">
 						<span class="">-</span>
-						<input class="form-control end_date w110" name="end_date" type="text" placeholder="结束时间" value="{$end_date}">
-						<input class="btn btn-primary screen-btn" type="submit" value="搜索">
+						<input class="form-control end_date w110" name="end_date" type="text" placeholder='{t domain="orders"}结束时间{/t}' value="{$end_date}">
+						<input class="btn btn-primary screen-btn" type="submit" value='{t domain="orders"}搜索{/t}'>
 					</form>
 				</div>
 			</header>
@@ -44,22 +44,22 @@
 						<thead>
 							<tr data-sorthref='{url path="orders/mh_sale_order/init" args="start_date={$start_date}&end_date={$end_date}"}'>
 								<th class="w100">
-									{t}排行{/t}
+									{t domain="orders"}排行{/t}
 								</th>
 								<th>
-									{t}商品名称{/t}
+									{t domain="orders"}商品名称{/t}
 								</th>
 								<th class="w100">
-									{t}货号{/t}
+									{t domain="orders"}货号{/t}
 								</th>
 								<th class="w80 sorting" data-toggle="sortby" data-sortby="goods_num">
-									{t}销售量{/t}
+									{t domain="orders"}销售量{/t}
 								</th>
 								<th class="w120" data-toggle="sortby" data-sortby="turnover">
-									{t}销售额{/t}
+									{t domain="orders"}销售额{/t}
 								</th>
 								<th class="w120">
-									{t}均价{/t}
+									{t domain="orders"}均价{/t}
 								</th>
 							</tr>
 						</thead>
@@ -88,7 +88,7 @@
 							</tr>
 							<!-- {foreachelse} -->
 							<tr>
-								<td class="dataTables_empty" colspan="6">没有找到任何记录</td>
+								<td class="dataTables_empty" colspan="6">{t domain="orders"}没有找到任何记录{/t}</td>
 							</tr>
 							<!-- {/foreach} -->
 						</tbody>

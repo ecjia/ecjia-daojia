@@ -71,7 +71,7 @@ class admin_sale_list extends ecjia_admin
         RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 
         RC_Script::enqueue_script('sale_list', RC_App::apps_url('statics/js/sale_list.js', __FILE__));
-        RC_Script::localize_script('sale_list', 'js_lang', RC_Lang::get('orders::statistic.js_lang'));
+        RC_Script::localize_script('sale_list', 'js_lang', config('app-orders::jslang.admin_sale_list_page'));
     }
 
     /**
@@ -82,19 +82,19 @@ class admin_sale_list extends ecjia_admin
         /* 权限判断 */
         $this->admin_priv('sale_list_stats');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('销售明细'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('销售明细', 'orders')));
         ecjia_screen::get_current_screen()->add_help_tab(array(
             'id'      => 'overview',
-            'title'   => '概述',
-            'content' => '<p>' . '欢迎访问ECJia智能后台销售明细页面，系统中所有的销售明细信息都会显示在此列表中。' . '</p>'
+            'title'   => __('概述', 'orders'),
+            'content' => '<p>' . __('欢迎访问ECJia智能后台销售明细页面，系统中所有的销售明细信息都会显示在此列表中。', 'orders') . '</p>'
         ));
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
-            '<p><strong>' . '更多信息：' . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:销售明细" target="_blank">' . '关于销售明细帮助文档' . '</a>') . '</p>'
+            '<p><strong>' . __('更多信息：', 'orders') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:销售明细" target="_blank">关于销售明细帮助文档</a>', 'orders') . '</p>'
         );
-        $this->assign('ur_here', '销售明细');
-        $this->assign('action_link', array('text' => '下载销售明细报表', 'href' => RC_Uri::url('orders/admin_sale_list/download')));
+        $this->assign('ur_here', __('销售明细', 'orders'));
+        $this->assign('action_link', array('text' => __('下载销售明细报表', 'orders'), 'href' => RC_Uri::url('orders/admin_sale_list/download')));
 
         /* 时间参数 */
         $start_date = !empty($_GET['start_date']) ? $_GET['start_date'] : RC_Time::local_date(ecjia::config('date_format'), strtotime('-1 month') - 8 * 3600);
@@ -118,7 +118,7 @@ class admin_sale_list extends ecjia_admin
 
         if (!empty($_GET['store_id'])) {
             $store_info = RC_DB::table('store_franchisee')->where('store_id', $_GET['store_id'])->first();
-            $this->assign('ur_here', $store_info['merchants_name'] . ' - ' . '销售明细');
+            $this->assign('ur_here', sprintf(__('%s - ' . '销售明细', 'orders'), $store_info['merchants_name']));
         }
 
         $sale_list_data = $this->get_sale_list();
@@ -143,9 +143,9 @@ class admin_sale_list extends ecjia_admin
         $end_date   = !empty($_GET['end_date']) ? $_GET['end_date'] : RC_Time::local_date(ecjia::config('date_format'), RC_Time::local_strtotime('today'));
         if (!empty($_GET['store_id'])) {
             $store_info = RC_DB::table('store_franchisee')->where('store_id', $_GET['store_id'])->first();
-            $file_name  = mb_convert_encoding('销售明细报表' . '_' . $store_info['merchants_name'] . '_' . $_GET['start_date'] . '-' . $_GET['end_date'], "GBK", "UTF-8");
+            $file_name  = mb_convert_encoding(sprintf(__('销售明细报表' . '_%s_%s-%s', 'orders'), $store_info['merchants_name'], $_GET['start_date'], $_GET['end_date']), "GBK", "UTF-8");
         } else {
-            $file_name = mb_convert_encoding('销售明细报表' . '_' . $_GET['start_date'] . '-' . $_GET['end_date'], "GBK", "UTF-8");
+            $file_name = mb_convert_encoding(sprintf(__('销售明细报表' . '_%s-%s', 'orders'), $_GET['start_date'], $_GET['end_date']), "GBK", "UTF-8");
         }
 
         /*文件名*/
@@ -155,7 +155,7 @@ class admin_sale_list extends ecjia_admin
         header("Content-type: application/vnd.ms-excel; charset=utf-8");
         header("Content-Disposition: attachment; filename=$file_name.xls");
 
-        $data = '商品名称' . "\t商家名称\t" . '订单号' . "\t" . '数量' . "\t" . '售价' . "\t" . '售出日期' . "\n";
+        $data = __('商品名称', 'orders') . __("\t商家名称\t", 'orders') . __('订单号', 'orders') . "\t" . __('数量', 'orders') . "\t" . __('售价', 'orders') . "\t" . __('售出日期', 'orders') . "\n";
         if (!empty($goods_sales_list['item'])) {
             foreach ($goods_sales_list['item'] as $v) {
                 $data .= mb_convert_encoding($v['goods_name'] . "\t" . $v['merchants_name'] . "\t" . $v['order_sn'] . "\t" . $v['goods_num'] . "\t" . $v['sales_price'] . "\t" . $v['sales_time'] . "\n", 'UTF-8', 'auto');

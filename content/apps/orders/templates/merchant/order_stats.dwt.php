@@ -21,7 +21,7 @@
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
 		<i class="fa fa-times" data-original-title="" title=""></i>
 	</button>
-	<strong>温馨提示：</strong>订单统计数据默认显示当年全年统计数据
+	<strong>{t domain="orders"}温馨提示：{/t}</strong>{t domain="orders"}订单统计数据默认显示当年全年统计数据{/t}
 </div>
 
 <div class="page-header">
@@ -41,25 +41,25 @@
 				<div class="choose_list f_r">
 					<form action="{$form_action}" method="post" name="searchForm">
 						<div class="screen f_r">
-							<span>选择年份：</span>
+							<span>{t domain="orders"}选择年份：{/t}</span>
 							<div class="f_l m_r5">
 								<select class="w150" name="year">
-									<option value="0">请选择年份</option>
+									<option value="0">{t domain="orders"}请选择年份{/t}</option>
 									<!-- {foreach from=$year_list item=val} -->
 									<option value="{$val}" {if $val eq $year}selected{/if}>{$val}</option>
 									<!-- {/foreach} -->
 								</select>
 							</div>
-							<span>选择月份：</span>
+							<span>{t domain="orders"}选择月份：{/t}</span>
 							<div class="f_l m_r5">
 								<select class="no_search w120" name="month">
-									<option value="0">全年</option>
+									<option value="0">{t domain="orders"}全年{/t}</option>
 									<!-- {foreach from=$month_list item=val} -->
 									<option value="{$val}" {if $val eq $month}selected{/if}>{$val}</option>
 									<!-- {/foreach} -->
 								</select>
 							</div>
-							<button class="btn btn-primary screen-btn" type="button">查询</button>
+							<button class="btn btn-primary screen-btn" type="button">{t domain="orders"}查询{/t}</button>
 						</div>
 					</form>
 				</div>
@@ -70,32 +70,32 @@
 					<div class="ecjia-order-amount">
 						<div class="item">
 							<div class="price">{$order_stats.await_pay_count}</div>
-							<div class="type">待付款订单（元）</div>
+							<div class="type">{t domain="orders"}待付款订单（元）{/t}</div>
 						</div>
 
 						<div class="item">
 							<div class="price">{$order_stats.await_ship_count}</div>
-							<div class="type">待发货订单（元）</div>
+							<div class="type">{t domain="orders"}待发货订单（元）{/t}</div>
 						</div>
 
 						<div class="item">
 							<div class="price">{$order_stats.shipped_count}</div>
-							<div class="type">已发货订单（元）</div>
+							<div class="type">{t domain="orders"}已发货订单（元）{/t}</div>
 						</div>
 
 						<div class="item">
 							<div class="price">{$order_stats.returned_count}</div>
-							<div class="type">退货订单（元）</div>
+							<div class="type">{t domain="orders"}退货订单（元）{/t}</div>
 						</div>
 
 						<div class="item">
 							<div class="price">{$order_stats.canceled_count}</div>
-							<div class="type">已取消订单（元）</div>
+							<div class="type">{t domain="orders"}已取消订单（元）{/t}</div>
 						</div>
 
 						<div class="item">
 							<div class="price">{$order_stats.finished_count}</div>
-							<div class="type">已完成订单（元）</div>
+							<div class="type">{t domain="orders"}已完成订单（元）{/t}</div>
 						</div>
 					</div>
 				</div>
@@ -104,7 +104,7 @@
 			<div class="panel-body">
 				<div class="page-header">
 					<div class="pull-left">
-						<h4>订单类型</h4>
+						<h4>{t domain="orders"}订单类型{/t}</h4>
 					</div>
 					<div class="clearfix"></div>
 				</div>
@@ -124,34 +124,34 @@
 										<table class="table table-striped table-hide-edit">
 											<thead>
 												<tr>
-													<th class="w180">订单类型</th>
-													<th>总订单数</th>
-													<th>总金额数</th>
+													<th class="w180">{t domain="orders"}订单类型{/t}</th>
+													<th>{t domain="orders"}总订单数{/t}</th>
+													<th>{t domain="orders"}总金额数{/t}</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
-													<td><a href="{RC_Uri::url('orders/merchant/init')}" target="__blank">配送型订单</a></td>
+													<td><a href="{RC_Uri::url('orders/merchant/init')}" target="_blank">{t domain="orders"}配送型订单{/t}</a></td>
 													<td>{$order_stats.order_count_data.order_count}</td>
 													<td>{$order_stats.order_count_data.total_fee}</td>
 												</tr>
 												<tr>
-													<td><a href="{RC_Uri::url('orders/merchant/init')}&extension_code=group_buy" target="__blank">团购型订单</a></td>
+													<td><a href="{RC_Uri::url('orders/merchant/init')}&extension_code=group_buy" target="_blank">{t domain="orders"}团购型订单{/t}</a></td>
 													<td>{$order_stats.groupbuy_count_data.order_count}</td>
 													<td>{$order_stats.groupbuy_count_data.total_fee}</td>
 												</tr>
 												<tr>
-													<td><a href="{RC_Uri::url('orders/merchant/init')}&extension_code=storebuy" target="__blank">到店型订单</a></td>
+													<td><a href="{RC_Uri::url('orders/merchant/init')}&extension_code=storebuy" target="_blank">{t domain="orders"}到店型订单{/t}</a></td>
 													<td>{$order_stats.storebuy_count_data.order_count}</td>
 													<td>{$order_stats.storebuy_count_data.total_fee}</td>
 												</tr>
 												<tr>
-													<td><a href="{RC_Uri::url('orders/merchant/init')}&extension_code=storepickup" target="__blank">自提型订单</a></td>
+													<td><a href="{RC_Uri::url('orders/merchant/init')}&extension_code=storepickup" target="_blank">{t domain="orders"}自提型订单{/t}</a></td>
 													<td>{$order_stats.storepickup_count_data.order_count}</td>
 													<td>{$order_stats.storepickup_count_data.total_fee}</td>
 												</tr>
 												<tr>
-													<td><a href="{RC_Uri::url('orders/merchant/init')}&extension_code=storepickup" target="__blank">收银台型订单</a></td>
+													<td><a href="{RC_Uri::url('orders/merchant/init')}&extension_code=storepickup" target="_blank">{t domain="orders"}收银台型订单{/t}</a></td>
 													<td>{$order_stats.cashdesk_count_data.order_count}</td>
 													<td>{$order_stats.cashdesk_count_data.total_fee}</td>
 												</tr>
@@ -169,13 +169,13 @@
 				<section id="unseen">
 					<ul class="nav nav-tabs">
 						<li class="{if $page eq 'init'}active{/if}">
-							<a class="data-pjax" href='{url path="orders/mh_order_stats/init"}&year={$year}{if $month}&month={$month}{/if}'>订单概况</a>
+							<a class="data-pjax" href='{url path="orders/mh_order_stats/init"}&year={$year}{if $month}&month={$month}{/if}'>{t domain="orders"}订单概况{/t}</a>
 						</li>
 						<li class="{if $page eq 'shipping_status'}active{/if}">
-							<a class="data-pjax" href='{url path="orders/mh_order_stats/shipping_status"}&year={$year}{if $month}&month={$month}{/if}'>配送方式</a>
+							<a class="data-pjax" href='{url path="orders/mh_order_stats/shipping_status"}&year={$year}{if $month}&month={$month}{/if}'>{t domain="orders"}配送方式{/t}</a>
 						</li>
 						<li class="{if $page eq 'pay_status'}active{/if}">
-							<a class="data-pjax" href='{url path="orders/mh_order_stats/pay_status"}&year={$year}{if $month}&month={$month}{/if}'>支付方式</a>
+							<a class="data-pjax" href='{url path="orders/mh_order_stats/pay_status"}&year={$year}{if $month}&month={$month}{/if}'>{t domain="orders"}支付方式{/t}</a>
 						</li>
 					</ul>
 					<form class="form-horizontal">

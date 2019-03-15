@@ -17,7 +17,7 @@
 	</div>
 	<div class="pull-right">
 		<a href="javascript:;" class="btn btn-primary show_order_search">
-			<i class="fa fa-search"></i> 高级查询
+			<i class="fa fa-search"></i> {t domain="orders"}高级查询{/t}
 		</a>
 	</div>
 	<div class="clearfix"></div>
@@ -38,7 +38,7 @@
 						<a class="data-pjax" href="{RC_Uri::url('orders/merchant/init')}
 							{if $smarty.get.extension_code}&extension_code={$smarty.get.extension_code}{/if}
 							{if $filter.keywords}&keywords={$filter.keywords}{/if}
-							">全部
+							">{t domain="orders"}全部{/t}
 							<span class="badge badge-info">{if $count.all}{$count.all}{else}0{/if}</span>
 						</a>
 					</li>
@@ -47,7 +47,7 @@
 							{if $smarty.get.extension_code}&extension_code={$smarty.get.extension_code}{/if}
 							&composite_status=100
 							{if $filter.keywords}&keywords={$filter.keywords}{/if}
-							">待付款
+							">{t domain="orders"}待付款{/t}
 							<span class="badge badge-info">{if $count.await_pay}{$count.await_pay}{else}0{/if}</span>
 						</a>
 					</li>
@@ -56,7 +56,7 @@
 							{if $smarty.get.extension_code}&extension_code={$smarty.get.extension_code}{/if}
 							&composite_status=101
 							{if $filter.keywords}&keywords={$filter.keywords}{/if}
-							">待发货
+							">{t domain="orders"}待发货{/t}
 							<span class="badge badge-info">{if $count.await_ship}{$count.await_ship}{else}0{/if}</span>
 						</a>
 					</li>
@@ -65,7 +65,7 @@
 							{if $smarty.get.extension_code}&extension_code={$smarty.get.extension_code}{/if}
 							&composite_status=104
 							{if $filter.keywords}&keywords={$filter.keywords}{/if}
-							">待收货
+							">{t domain="orders"}待收货{/t}
 							<span class="badge badge-info">{if $count.shipped}{$count.shipped}{else}0{/if}</span>
 						</a>
 					</li>
@@ -74,7 +74,7 @@
 							{if $smarty.get.extension_code}&extension_code={$smarty.get.extension_code}{/if}
 							&composite_status=102
 							{if $filter.keywords}&keywords={$filter.keywords}{/if}
-							">已完成
+							">{t domain="orders"}已完成{/t}
 							<span class="badge badge-info">{if $count.finished}{$count.finished}{else}0{/if}</span>
 						</a>
 					</li>
@@ -90,19 +90,19 @@
 					<ul class="dropdown-menu operate_note" data-url='{url path="orders/merchant/operate_note"}'>
 						<li>
 							<a class="batch-del-btn" data-toggle="ecjiabatch" data-name="order_id" data-idClass=".checkbox:checked" data-url="{$form_action}&operation=confirm"
-							    data-msg="{t domain='orders'}您确定要审批这些订单吗？{/t}" data-noSelectMsg="{t domain='orders'}请选择需要操作的订单{/t}"
+							    data-msg='{t domain="orders"}您确定要审批这些订单吗？{/t}' data-noSelectMsg='{t domain="orders"}请选择需要操作的订单{/t}'
 							    href="javascript:;">
 								<i class="fa fa-check"></i> 接单</a>
 						</li>
 						<li>
-							<a class="batch-operate batch-operate-cancel" data-operatetype="cancel" data-url="{$form_action}&operation=cancel" data-cancel-msg="{t domain='orders'}您确定要取消这些订单吗？{/t}"
+							<a class="batch-operate batch-operate-cancel" data-operatetype="cancel" data-url="{$form_action}&operation=cancel" data-cancel-msg='{t domain="orders"}您确定要取消这些订单吗？{/t}'
 							    href="javascript:;">
 								<i class="fa fa-times"></i> {t domain="orders"}取消{/t}</a>
 						</li>
 						<li>
 							<a class="batch-del-btn" data-toggle="ecjiabatch" data-name="order_id" data-idClass=".checkbox:checked" data-url="{$form_action}&operation=remove"
-							    data-msg="{t domain='orders'}删除订单将清除该订单的所有信息。您确定要这么做吗？{/t}" href="javascript:;">
-								<i class="fa fa-trash-o"></i> 删除</a>
+							    data-msg='{t domain="orders"}删除订单将清除该订单的所有信息。您确定要这么做吗？{/t}' href="javascript:;">
+								<i class="fa fa-trash-o"></i> {t domain="orders"}删除{/t}</a>
 						</li>
 						<li>
 							<a class="batch-print" data-url="{$form_action}&print=1" href="javascript:;">
@@ -112,20 +112,20 @@
 				</div>
 				<div class="form-group">
 					<select class="w180" name="status" id="select-rank">
-						<option value="-1">订单状态</option>
+						<option value="-1">{t domain="orders"}订单状态{/t}</option>
 						<!-- {html_options options=$status_list selected=$filter.composite_status } -->
 					</select>
 				</div>
 				<button class="btn btn-primary screen-btn" type="button">
-					<i class="fa fa-search"></i> 筛选 </button>
+					<i class="fa fa-search"></i> {t domain="orders"}筛选{/t} </button>
 				<form class="form-inline pull-right" action="{RC_Uri::url('orders/merchant/init')}
 					{if $smarty.get.extension_code}&extension_code={$smarty.get.extension_code}{/if}
 					" method="post" name="searchForm">
 					<div class="form-group">
-						<input type="text" class="form-control w230" name="keywords" value="{$smarty.get.keywords}" placeholder="请输入订单编号或购买者信息">
+						<input type="text" class="form-control w230" name="keywords" value="{$smarty.get.keywords}" placeholder='{t domain="orders"}请输入订单编号或购买者信息{/t}'>
 					</div>
 					<button type="submit" class="btn btn-primary">
-						<i class="fa fa-search"></i> 搜索</button>
+						<i class="fa fa-search"></i> {t domain="orders"}搜索{/t}</button>
 				</form>
 			</div>
 
@@ -141,14 +141,14 @@
 											<label for="checkall"></label>
 										</div>
 									</th>
-									<th class="w130">订单编号</th>
-									<th class="w150">下单时间</th>
-									<th class="w150">购买者信息</th>
-									<th class="w120">总金额</th>
+									<th class="w130">{t domain="orders"}订单编号{/t}</th>
+									<th class="w150">{t domain="orders"}下单时间{/t}</th>
+									<th class="w150">{t domain="orders"}购买者信息{/t}</th>
+									<th class="w120">{t domain="orders"}总金额{/t}</th>
 									<th class="w110">{t domain="orders"}保证金{/t}</th>
-									<th class="w110">应付金额</th>
-									<th class="w110">团购状态</th>
-									<th class="w80">订单状态</th>
+									<th class="w110">{t domain="orders"}应付金额{/t}</th>
+									<th class="w110">{t domain="orders"}团购状态{/t}</th>
+									<th class="w80">{t domain="orders"}订单状态{/t}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -163,10 +163,10 @@
 									<td class="hide-edit-area">
 										{$order.order_sn}
 										<div class="edit-list">
-											<a href='{url path="orders/merchant/info" args="order_id={$order.order_id}"}' class="data-pjax" title="查看">{t}查看详情{/t}</a>
+											<a href='{url path="orders/merchant/info" args="order_id={$order.order_id}"}' class="data-pjax" title='{t domain="orders"}查看{/t}'>{t domain="orders"}查看详情{/t}</a>
 											{if $order.can_remove} &nbsp;|&nbsp;
-											<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t name="{$order.order_sn}"}您确定要删除订单[ %1 ]吗？{/t}' href='{url path="orders/merchant/remove_order" args="order_id={$order.order_id}"}'
-											    title="{t}移除{/t}">{t}移除{/t}</a>
+											<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="orders" 1="{$order.order_sn}"}您确定要删除订单[ %1 ]吗？{/t}'
+                                               href='{url path="orders/merchant/remove_order" args="order_id={$order.order_id}"}' title='{t domain="orders"}移除{/t}'>{t domain="orders"}移除{/t}</a>
 											{/if}
 										</div>
 									</td>
@@ -197,7 +197,7 @@
 								</tr>
 								<!-- {foreachelse}-->
 								<tr>
-									<td class="no-records" colspan="10">没有找到任何记录</td>
+									<td class="no-records" colspan="10">{t domain="orders"}没有找到任何记录{/t}</td>
 								</tr>
 								<!-- {/foreach} -->
 							</tbody>

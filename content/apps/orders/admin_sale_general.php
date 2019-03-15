@@ -69,8 +69,9 @@ class admin_sale_general extends ecjia_admin
         RC_Style::enqueue_style('orders-css', RC_App::apps_url('statics/css/admin_orders.css', __FILE__));
         RC_Script::enqueue_script('sale_general', RC_App::apps_url('statics/js/sale_general.js', __FILE__));
         RC_Script::enqueue_script('sale_general_chart', RC_App::apps_url('statics/js/sale_general_chart.js', __FILE__));
-        RC_Script::localize_script('sale_general', 'js_lang', RC_Lang::get('orders::statistic.js_lang'));
-        RC_Script::localize_script('sale_general_chart', 'js_lang', RC_Lang::get('orders::statistic.js_lang'));
+
+        RC_Script::localize_script('sale_general', 'js_lang', config('app-orders::jslang.admin_sale_general_page'));
+        RC_Script::localize_script('sale_general_chart', 'jslang', config('app-orders::jslang.admin_sale_general_chart_page'));
     }
 
     /**
@@ -80,12 +81,12 @@ class admin_sale_general extends ecjia_admin
     {
         /*权限判断 */
         $this->admin_priv('sale_general_stats');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('销售概况'));
-        ecjia_screen::get_current_screen()->add_help_tab(array('id' => 'overview', 'title' => '概述', 'content' => '<p>' . '欢迎访问ECJia智能后台销售概况页面，系统中所有的销售概况信息都会显示在此页面中。' . '</p>'));
-        ecjia_screen::get_current_screen()->set_help_sidebar('<p><strong>' . '更多信息：' . '</strong></p>' . '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:销售概况" target="_blank">' . '关于销售概况帮助文档' . '</a>') . '</p>');
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('销售概况', 'orders')));
+        ecjia_screen::get_current_screen()->add_help_tab(array('id' => 'overview', 'title' => __('概述', 'orders'), 'content' => '<p>' . __('欢迎访问ECJia智能后台销售概况页面，系统中所有的销售概况信息都会显示在此页面中。', 'orders') . '</p>'));
+        ecjia_screen::get_current_screen()->set_help_sidebar('<p><strong>' . __('更多信息：', 'orders') . '</strong></p>' . '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:销售概况" target="_blank">关于销售概况帮助文档</a>', 'orders') . '</p>');
 
-        $this->assign('ur_here', '销售概况');
-        $this->assign('action_link', array('text' => '销售概况报表下载', 'href' => RC_Uri::url('orders/admin_sale_general/download')));
+        $this->assign('ur_here', __('销售概况', 'orders'));
+        $this->assign('action_link', array('text' => __('销售概况报表下载', 'orders'), 'href' => RC_Uri::url('orders/admin_sale_general/download')));
         $this->assign('page', 'init');
         $this->assign('form_action', RC_Uri::url('orders/admin_sale_general/init'));
 
@@ -105,11 +106,11 @@ class admin_sale_general extends ecjia_admin
     {
         /*权限判断 */
         $this->admin_priv('sale_general_stats');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('销售概况'));
-        ecjia_screen::get_current_screen()->add_help_tab(array('id' => 'overview', 'title' => '概述', 'content' => '<p>' . '欢迎访问ECJia智能后台销售概况页面，系统中所有的销售概况信息都会显示在此页面中。' . '</p>'));
-        ecjia_screen::get_current_screen()->set_help_sidebar('<p><strong>' . '更多信息：' . '</strong></p>' . '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:销售概况" target="_blank">' . '关于销售概况帮助文档' . '</a>') . '</p>');
-        $this->assign('ur_here', '销售概况');
-        $this->assign('action_link', array('text' => '销售概况报表下载', 'href' => RC_Uri::url('orders/admin_sale_general/download')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('销售概况', 'orders')));
+        ecjia_screen::get_current_screen()->add_help_tab(array('id' => 'overview', 'title' => __('概述', 'orders'), 'content' => '<p>' . __('欢迎访问ECJia智能后台销售概况页面，系统中所有的销售概况信息都会显示在此页面中。', 'orders') . '</p>'));
+        ecjia_screen::get_current_screen()->set_help_sidebar('<p><strong>' . __('更多信息：', 'orders') . '</strong></p>' . '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:销售概况" target="_blank">关于销售概况帮助文档</a>', 'orders') . '</p>');
+        $this->assign('ur_here', __('销售概况', 'orders'));
+        $this->assign('action_link', array('text' => __('销售概况报表下载', 'orders'), 'href' => RC_Uri::url('orders/admin_sale_general/download')));
         $this->assign('page', 'sales_trends');
         $this->assign('form_action', RC_Uri::url('orders/admin_sale_general/sales_trends'));
         $order_type = !empty($_GET['order_type']) ? intval($_GET['order_type']) : 0;
@@ -224,15 +225,15 @@ class admin_sale_general extends ecjia_admin
         $where     .= " AND is_delete = 0";
         $data_list = RC_DB::table('order_info')->select(RC_DB::raw("DATE_FORMAT(FROM_UNIXTIME(shipping_time), '" . $format . "') AS period, COUNT(*) AS order_count, SUM(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee - discount) AS order_amount"))->whereRaw($where)->groupby('period')->get();
         /* 文件名 */
-        $filename = mb_convert_encoding('销售统计' . '_' . $_GET['start_time'] . '至' . $_GET['end_time'], "GBK", "UTF-8");
+        $filename = mb_convert_encoding(sprintf(__('销售统计' . '_ %s 至 %s', 'orders'), $_GET['start_time'], $_GET['end_time']), "GBK", "UTF-8");
         header("Content-type: application/vnd.ms-excel; charset=utf-8");
         header("Content-Disposition: attachment; filename={$filename}.xls");
         /* 文件标题 */
-        echo mb_convert_encoding('销售统计', "GBK", "UTF-8") . "\t\n";
+        echo mb_convert_encoding(__('销售统计', 'orders'), "GBK", "UTF-8") . "\t\n";
         /* 订单数量, 销售出商品数量, 销售金额 */
-        echo mb_convert_encoding('时间段', "GBK", "UTF-8") . "\t";
-        echo mb_convert_encoding('订单数(单位：个)', "GBK", "UTF-8") . "\t";
-        echo mb_convert_encoding('营业额(单位：元)', "GBK", "UTF-8") . "\t\n";
+        echo mb_convert_encoding(__('时间段', 'orders'), "GBK", "UTF-8") . "\t";
+        echo mb_convert_encoding(__('订单数(单位：个)', 'orders'), "GBK", "UTF-8") . "\t";
+        echo mb_convert_encoding(__('营业额(单位：元)', 'orders'), "GBK", "UTF-8") . "\t\n";
         if (!empty($data_list)) {
             foreach ($data_list as $data) {
                 echo mb_convert_encoding($data['period'], "GBK", "UTF-8") . "\t";

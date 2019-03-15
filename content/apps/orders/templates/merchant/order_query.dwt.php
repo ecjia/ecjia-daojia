@@ -22,33 +22,33 @@ ecjia.merchant.order_query.init();
   	<div class="clearfix"></div>
 </div>
 
-<form id="form-privilege" class="form-horizontal panel" name="theForm" action="{$form_action}" method="post" >
+<form id="form-privilege" class="form-horizontal panel" name="theForm" action="{$form_action}" method="post">
 	<fieldset>
 		<div class="row-fluid editpage-rightbar panel-heading">
 			<div class="left-bar">
 				<div class="form-group">
-					<label class="control-label col-lg-2">订单号：</label>
+					<label class="control-label col-lg-2">{t domain="orders"}订单号：{/t}</label>
 					<div class="col-lg-6">
 						<input class="form-control" type="text" name="order_sn" />
 					</div>
 				</div>
 				<div class="form-group form-inline order-query">
-					<label class="control-label col-lg-2">下单时间：</label>
+					<label class="control-label col-lg-2">{t domain="orders"}下单时间：{/t}</label>
 					<div class="col-lg-10"> 
 						<div class="form-group ">
-								<input name="start_time" class="date form-control w-form-control" type="text" placeholder="{t}开始时间{/t}"/>
+								<input name="start_time" class="date form-control w-form-control" type="text" placeholder='{t domain="orders"}开始时间{/t}'/>
 						</div>
-						<div class="form-group">至</div>
+						<div class="form-group">{t domain="orders"}至{/t}</div>
 						<div class="form-group">
-							<input name="end_time" class="date form-control w-form-control" type="text" placeholder="{t}结束时间{/t}"/>
+							<input name="end_time" class="date form-control w-form-control" type="text" placeholder='{t domain="orders"}结束时间{/t}'/>
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-lg-2">订单状态：</label>
+					<label class="control-label col-lg-2">{t domain="orders"}订单状态：{/t}</label>
 					<div class="col-lg-6">
 						<select class="form-control" name="order_status" id="select9" >
-							<option value="-1">请选择...</option>
+							<option value="-1">{t domain="orders"}请选择...{/t}</option>
 							<!-- {foreach from = $os_list item = list key=key} -->
 							<option value="{$key}">{$list}</option>
 							<!-- {/foreach} -->
@@ -56,25 +56,25 @@ ecjia.merchant.order_query.init();
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-lg-2">付款状态：</label>
+					<label class="control-label col-lg-2">{t domain="orders"}付款状态：{/t}</label>
 					<div class="col-lg-6">
 						<select class="form-control" name="pay_status" id="select11" >
-							<option value="-1">请选择...</option>
+							<option value="-1">{t domain="orders"}请选择...{/t}</option>
 							<!-- {html_options options=$ps_list selected=-1} -->
 						</select>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-lg-2">发货状态：</label>
+					<label class="control-label col-lg-2">{t domain="orders"}发货状态：{/t}</label>
 					<div class="col-lg-6">
 						<select class="form-control" name="shipping_status" id="select10">
-							<option value="-1">请选择...</option>
+							<option value="-1">{t domain="orders"}请选择...{/t}</option>
 							<!-- {html_options options=$ss_list selected=-1} -->
 						</select>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-lg-2">电子邮件：</label>
+					<label class="control-label col-lg-2">{t domain="orders"}电子邮件：{/t}</label>
 					<div class="col-lg-6">
 						<input class="form-control" type="text" name="email" autocomplete="off"/>
 					</div>
@@ -82,7 +82,7 @@ ecjia.merchant.order_query.init();
 				
 				<!--购货人-->
 				<div class="form-group">
-					<label class="control-label col-lg-2">购货人：</label>
+					<label class="control-label col-lg-2">{t domain="orders"}购货人：{/t}</label>
 					<div class="col-lg-6">
 						<input class="form-control" type="text" name="user_name" autocomplete="off" />
 					</div>
@@ -90,20 +90,20 @@ ecjia.merchant.order_query.init();
 				
 				<!-- 收货人 -->
 				<div class="form-group">
-					<label class="control-label col-lg-2">收货人：</label>
+					<label class="control-label col-lg-2">{t domain="orders"}收货人：{/t}</label>
 					<div class="col-lg-6">
 						<input class="form-control" type="text" name="consignee" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-lg-2">电话：</label>
+					<label class="control-label col-lg-2">{t domain="orders"}电话：{/t}</label>
 					<div class="col-lg-6">
 						<input class="form-control" type="text" name="tel" />
 					</div>
 				</div>
 				
 				<div class="form-group">
-					<label class="control-label col-lg-2">手机：</label>
+					<label class="control-label col-lg-2">{t domain="orders"}手机：{/t}</label>
 					<div class="col-lg-6">
 						<input class="form-control" type="text" name="mobile" />
 					</div>
@@ -112,8 +112,8 @@ ecjia.merchant.order_query.init();
 				<div class="form-group">
 					<label class="control-label col-lg-2"></label>
 					<div class="col-lg-6">
-						<button class="btn btn-info" type="submit">搜索</button>
-						<button class="btn btn-info" type="reset">重置</button>
+						<button class="btn btn-info" type="submit">{t domain="orders"}搜索{/t}</button>
+						<button class="btn btn-info" type="reset">{t domain="orders"}重置{/t}</button>
 					</div>
 				</div>
 			</div>
@@ -123,22 +123,22 @@ ecjia.merchant.order_query.init();
 	                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="accordion-toggle">
 	                    	<span class="glyphicon"></span>
 	                        <h4 class="panel-title">
-	                            <strong>收货地址信息</strong>
+	                            <strong>{t domain="orders"}收货地址信息{/t}</strong>
 	                        </h4>
 	                    </a>
 	                </div>
 	                <div class="accordion-body in collapse " id="collapseOne">
 	                	<div class="form-group first-form-group form-inline">
-							<label class="control-label col-lg-4">地址：</label>
+							<label class="control-label col-lg-4">{t domain="orders"}地址：{/t}</label>
 							<div class="col-lg-7">
 								<input class="form-control" type="text" name="address"/>
 							</div>
 						</div>
 						<div class="form-group form-inline">
-							<label class="control-label col-lg-4">{t}省：{/t}</label>
+							<label class="control-label col-lg-4">{t domain="orders"}省：{/t}</label>
 							<div class="col-lg-7">
-								<select class="region-summary-provinces form-control" name="province" data-toggle="regionSummary" data-url='{url path="merchant/region/init"}'  data-type="1" data-target="region-summary-cities" >
-									<option value="0">请选择...</option>
+								<select class="region-summary-provinces form-control" name="province" data-toggle="regionSummary" data-url='{url path="merchant/region/init"}' data-type="1" data-target="region-summary-cities" >
+									<option value="0">{t domain="orders"}请选择...{/t}</option>
 									<!-- {foreach from=$provinces item=province} -->
 									<option value="{$province.region_id}">{$province.region_name}</option>
 									<!-- {/foreach} -->
@@ -146,31 +146,31 @@ ecjia.merchant.order_query.init();
 							</div>
 						</div>
 						<div class="form-group form-inline">
-							<label class="control-label col-lg-4">{t}市：{/t}</label>
+							<label class="control-label col-lg-4">{t domain="orders"}市：{/t}</label>
 							<div class="col-lg-7">
 								<select class="region-summary-cities form-control" name="city" data-toggle="regionSummary" data-type="2" data-target="region-summary-districts" >
-									<option value="0">请选择...</option>
+									<option value="0">{t domain="orders"}请选择...{/t}</option>
 								</select>
 							</div>
 						</div>
 						<div class="form-group form-inline">
-							<label class="control-label col-lg-4">{t}区/县：{/t}</label>
+							<label class="control-label col-lg-4">{t domain="orders"}区/县：{/t}</label>
 							<div class="col-lg-7">
 								<select class="region-summary-districts form-control" name="district" data-toggle="regionSummary" data-type="3" data-target="region-summary-streets" >
-									<option value="0">请选择...</option>
+									<option value="0">{t domain="orders"}请选择...{/t}</option>
 								</select>
 							</div>
 						</div>
 						<div class="form-group form-inline">
-							<label class="control-label col-lg-4">{t}街道/镇：{/t}</label>
+							<label class="control-label col-lg-4">{t domain="orders"}街道/镇：{/t}</label>
 							<div class="col-lg-7">
 								<select class="region-summary-streets form-control" name="street">
-									<option value="0">请选择...</option>
+									<option value="0">{t domain="orders"}请选择...{/t}</option>
 								</select>
 							</div>
 						</div>
 						<div class="form-group form-inline">
-							<label class="control-label col-lg-4">邮编：</label>
+							<label class="control-label col-lg-4">{t domain="orders"}邮编：{/t}</label>
 							<div class="col-lg-7">
 								<input class="form-control" type="text" name="zipcode"  />
 							</div>
@@ -182,16 +182,16 @@ ecjia.merchant.order_query.init();
 	                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="accordion-toggle">
 	                    	<span class="glyphicon"></span>
 	                        <h4 class="panel-title">
-	                            <strong>收货地址信息</strong>
+	                            <strong>{t domain="orders"}收货地址信息{/t}</strong>
 	                        </h4>
 	                    </a>
 	                </div>
 	                <div class="accordion-body in collapse " id="collapseTwo">
 	                	<div class="form-group first-form-group form-inline">
-							<label class="control-label col-lg-4">配送方式：</label>
+							<label class="control-label col-lg-4">{t domain="orders"}配送方式：{/t}</label>
 							<div class="col-lg-7">
 								<select class="form-control" name="shipping_id" id="select4">
-									<option value="0">请选择...</option>
+									<option value="0">{t domain="orders"}请选择...{/t}</option>
 									<!-- {foreach from=$shipping_list item=shipping} -->
 									<option value="{$shipping.shipping_id}">{$shipping.shipping_name}</option>
 									<!-- {/foreach} -->
@@ -199,10 +199,10 @@ ecjia.merchant.order_query.init();
 							</div>
 						</div>
 						<div class="form-group form-inline">
-							<label class="control-label col-lg-4">支付方式：</label>
+							<label class="control-label col-lg-4">{t domain="orders"}支付方式：{/t}</label>
 							<div class="col-lg-7">
 								<select class="form-control" name="pay_id" id="select5">
-									<option value="0">请选择...</option>
+									<option value="0">{t domain="orders"}请选择...{/t}</option>
 									<!-- {foreach from=$pay_list item=pay} -->
 									<option value="{$pay.pay_id}">{$pay.pay_name}</option>
 									<!-- {/foreach} -->

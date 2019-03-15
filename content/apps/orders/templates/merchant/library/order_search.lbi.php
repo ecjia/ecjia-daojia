@@ -23,7 +23,7 @@
 		<div class="search-item">
 			<div class="item">
 				<div class="form-group">
-					<label class="control-label col-lg-2">>{t domain="orders"}订单状态：{/t}</label>
+					<label class="control-label col-lg-2">{t domain="orders"}订单状态：{/t}</label>
 					<div class="controls">
 						<select name="composite_status" class="w180 form-control">
 							<option value="">>{t domain="orders"}请选择订单状态{/t}</option>
@@ -35,7 +35,7 @@
 			{if $filter.extension_code neq 'cashdesk'}
 			<div class="item">
 				<div class="form-group">
-					<label class="control-label col-lg-2">>{t domain="orders"}配送方式：{/t}</label>
+					<label class="control-label col-lg-2">{t domain="orders"}配送方式：{/t}</label>
 					<div class="controls">
 						<select name="shipping_id" class="w180 form-control">
 							<option value="">>{t domain="orders"}请选择配送方式{/t}</option>
@@ -49,7 +49,7 @@
 			{/if}
 			<div class="item">
 				<div class="form-group">
-					<label class="control-label col-lg-2">>{t domain="orders"}支付方式：{/t}</label>
+					<label class="control-label col-lg-2">{t domain="orders"}支付方式：{/t}</label>
 					<div class="controls">
 						<select name="pay_id" class="w180 form-control">
 							<option value="">>{t domain="orders"}请选择支付方式{/t}</option>
@@ -66,7 +66,7 @@
 			{if $filter.extension_code neq 'cashdesk'}
 			<div class="item">
 				<div class="form-group">
-					<label class="control-label col-lg-2">>{t domain="orders"}下单渠道：{/t}</label>
+					<label class="control-label col-lg-2">{t domain="orders"}下单渠道：{/t}</label>
 					<div class="controls">
 						<select name="referer" class="w180 form-control">
 							<option value="">>{t domain="orders"}请选择下单渠道{/t}</option>

@@ -71,7 +71,7 @@ class admin_users_order extends ecjia_admin
         RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 
         RC_Script::enqueue_script('user_order', RC_App::apps_url('statics/js/user_order.js', __FILE__));
-        RC_Script::localize_script('user_order', 'js_lang', RC_Lang::get('orders::statistic.js_lang'));
+        RC_Script::localize_script('user_order', 'js_lang', config('app-orders::jslang.admin_user_order_page'));
     }
 
     /**
@@ -82,20 +82,20 @@ class admin_users_order extends ecjia_admin
         /* 权限判断 */
         $this->admin_priv('users_order_stats');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('会员排行'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('会员排行', 'orders')));
         ecjia_screen::get_current_screen()->add_help_tab(array(
             'id'      => 'overview',
-            'title'   => '概述',
-            'content' => '<p>' . '欢迎访问ECJia智能后台会员排行页面，系统中所有的会员排行信息都会显示在此列表中。' . '</p>'
+            'title'   => __('概述', 'orders'),
+            'content' => '<p>' . __('欢迎访问ECJia智能后台会员排行页面，系统中所有的会员排行信息都会显示在此列表中。', 'orders') . '</p>'
         ));
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
-            '<p><strong>' . '更多信息：' . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员排行" target="_blank">' . '关于会员排行帮助文档' . '</a>') . '</p>'
+            '<p><strong>' . __('更多信息：', 'orders') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:会员排行" target="_blank">关于会员排行帮助文档</a>', 'orders') . '</p>'
         );
 
-        $this->assign('ur_here', '会员排行');
-        $this->assign('action_link', array('text' => '下载会员排行报表', 'href' => RC_Uri::url('orders/admin_users_order/download')));
+        $this->assign('ur_here', __('会员排行', 'orders'));
+        $this->assign('action_link', array('text' => __('下载会员排行报表', 'orders'), 'href' => RC_Uri::url('orders/admin_users_order/download')));
 
         /* 时间参数 */
         $start_date = !empty($_GET['start_date']) ? $_GET['start_date'] : RC_Time::local_date(ecjia::config('date_format'), strtotime('-7 days') - 8 * 3600);
@@ -136,14 +136,14 @@ class admin_users_order extends ecjia_admin
         $filter['sort_order'] = empty($_GET['sort_order']) ? 'DESC' : trim($_GET['sort_order']);
 
         /*文件名*/
-        $file_name        = mb_convert_encoding('会员排行报表_' . $_GET['start_date'] . '至' . $_GET['end_date'], "GBK", "UTF-8");
+        $file_name        = mb_convert_encoding(sprintf(__('会员排行报表_%s至%s', 'orders'), $_GET['start_date'], $_GET['end_date']), "GBK", "UTF-8");
         $users_order_data = $this->get_users_order($filter, false);
 
         /*强制下载,下载类型EXCEL*/
         header("Content-type: application/vnd.ms-excel; charset=utf-8");
         header("Content-Disposition: attachment; filename=$file_name.xls");
 
-        $data = '排行' . "\t" . '会员名' . "\t" . '订单数(单位：个)' . "\t" . '购物金额' . "\n";
+        $data = __('排行', 'orders') . "\t" . __('会员名', 'orders') . "\t" . __('订单数(单位：个)', 'orders') . "\t" . __('购物金额', 'orders') . "\n";
         if (!empty($users_order_data['item'])) {
             foreach ($users_order_data['item'] as $k => $v) {
                 $order_by = $k + 1;

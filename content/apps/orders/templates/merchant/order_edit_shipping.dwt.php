@@ -10,13 +10,13 @@ ecjia.merchant.order.addedit();
 <!-- {block name="home-content"} -->
 {if $shipping_list_error}
 <div class="alert alert-error">
-	<strong>{t}您可能没有添加配送插件或填写收货人地址信息！暂无对应的配送方式！{/t}</strong>
+	<strong>{t domain="orders"}您可能没有添加配送插件或填写收货人地址信息！暂无对应的配送方式！{/t}</strong>
 </div>
 {/if}
 
 <div class="page-header">
 	<div class="pull-left">
-		<h2><!-- {if $ur_here}{$ur_here}{/if} --><!-- {if $user_name}<small>（当前用户：{$user_name}）</small>{/if} --></h2>
+		<h2><!-- {if $ur_here}{$ur_here}{/if} --><!-- {if $user_name}<small>{t domain="orders" 1={$user_name}}（当前用户：%1）{/t}</small>{/if} --></h2>
   	</div>
   	<div class="clearfix"></div>
 </div>
@@ -30,11 +30,11 @@ ecjia.merchant.order.addedit();
 					<thead>
 						<tr>
 							<th class="w35">&nbsp;</th>
-							<th class="w100">名称</th>
-							<th>描述</th>
-							<th class="w100">配送费</th>
-							<th class="w100">免费额度</th>
-							<th class="w100">保价费</th>
+							<th class="w100">{t domain="orders"}名称{/t}</th>
+							<th>{t domain="orders"}描述{/t}</th>
+							<th class="w100">{t domain="orders"}配送费{/t}</th>
+							<th class="w100">{t domain="orders"}免费额度{/t}</th>
+							<th class="w100">{t domain="orders"}保价费{/t}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -51,7 +51,7 @@ ecjia.merchant.order.addedit();
 							<td><div>{$shipping.insure}</div></td>
 						</tr>
 						<!-- {foreachelse}-->
-    					<tr><td class="no-records" colspan="6">没有找到任何记录</td></tr>
+    					<tr><td class="no-records" colspan="6">{t domain="orders"}没有找到任何记录{/t}</td></tr>
     					<!-- {/foreach} -->
 					</tbody>
 				</table>
@@ -60,7 +60,7 @@ ecjia.merchant.order.addedit();
 	</div>
 	<p align="right">
 		<input id="insure" class="form-control" name="insure" type="checkbox" value="1" {if $order.insure_fee > 0}checked{/if} />
-		<label for="insure">我要保价</label>
+		<label for="insure">{t domain="orders"}我要保价{/t}</label>
 	</p>
 	<!--{/if}-->
 
@@ -78,9 +78,9 @@ ecjia.merchant.order.addedit();
 					<thead>
 						<tr>
 							<th class="w35">&nbsp;</th>
-							<th class="w100">名称</th>
-							<th>描述</th>
-							<th class="w100">手续费</th>
+							<th class="w100">{t domain="orders"}名称{/t}</th>
+							<th>{t domain="orders"}描述{/t}</th>
+							<th class="w100">{t domain="orders"}手续费{/t}</th>
 						</tr>
 					</thead>
 					<!-- {foreach from=$payment_list item=payment} -->
@@ -94,7 +94,7 @@ ecjia.merchant.order.addedit();
 						<td>{$payment.pay_fee}</td>
 					</tr>
 					<!-- {foreachelse}-->
-    				<tr><td class="no-records" colspan="4">没有找到任何记录</td></tr>
+    				<tr><td class="no-records" colspan="4">{t domain="orders"}没有找到任何记录{/t}</td></tr>
     				<!-- {/foreach} -->
 				</table>
 			</section>
@@ -103,7 +103,9 @@ ecjia.merchant.order.addedit();
 	<p align="center">
 		<button class="btn btn-info" type="submit">{t domain="orders"}确定{/t}</button>
 		<input type="hidden" name="action_note" value="{$action_note}" />
-		<a class="data-pjax" href='{url path="orders/merchant/go_shipping" args="order_id={$order_id}{if $action_note}&action_note={$action_note}{/if}"}'><button class="btn btn-default" type="button">取消</button></a>
+		<a class="data-pjax" href='{url path="orders/merchant/go_shipping" args="order_id={$order_id}{if $action_note}&action_note={$action_note}{/if}"}'>
+            <button class="btn btn-default" type="button">{t domain="orders"}取消{/t}</button>
+        </a>
 	</p>
 </form>
 <!-- {/block} -->

@@ -1318,6 +1318,7 @@ function EM_order_goods($order_id)
 
 /**
  * 生成查询订单的sql
+ * @deprecated 1.29.0
  * @param   string $type 类型
  * @param   string $alias order表的别名（包括.例如 o.）
  * @return  string
@@ -1611,7 +1612,7 @@ function get_back_list()
             $row[$key]['add_time']    = RC_Time::local_date(ecjia::config('time_format'), $value['add_time']);
             $row[$key]['update_time'] = RC_Time::local_date(ecjia::config('time_format'), $value['update_time']);
             if ($value['status'] == 1) {
-                $row[$key]['status_name'] = '退货';
+                $row[$key]['status_name'] = __('退货', 'orders');
             } else {
                 $row[$key]['status_name'] = __(__('已发货', 'orders'), 'orders');
             }
@@ -1673,7 +1674,7 @@ function get_delivery_list()
             $row[$key]['add_time']    = RC_Time::local_date(ecjia::config('time_format'), $value['add_time']);
             $row[$key]['update_time'] = RC_Time::local_date(ecjia::config('time_format'), $value['update_time']);
             if ($value['status'] == 1) {
-                $row[$key]['status_name'] = '退货';
+                $row[$key]['status_name'] = __('退货', 'orders');
             } elseif ($value['status'] == 2) {
                 $row[$key]['status_name'] = '正常';
             } else {

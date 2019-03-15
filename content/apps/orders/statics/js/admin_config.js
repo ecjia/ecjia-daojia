@@ -1,16 +1,16 @@
 // JavaScript Document
 ;
-(function(app, $) {
+(function (app, $) {
     app.admin_config = {
-        init: function() {
+        init: function () {
             app.admin_config.form();
         },
-        form: function() {
+        form: function () {
             var option = {
-                submitHandler: function() {
+                submitHandler: function () {
                     $("form[name='theForm']").ajaxSubmit({
                         dataType: "json",
-                        success: function(data) {
+                        success: function (data) {
                             ecjia.admin.showmessage(data);
                         }
                     });

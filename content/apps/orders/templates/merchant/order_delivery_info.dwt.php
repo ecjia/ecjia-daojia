@@ -21,49 +21,49 @@
 			     <div class="panel-heading">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
                         <h4 class="panel-title">
-                            <strong>基本信息</strong>
+                            <strong>{t domain="orders"}基本信息{/t}</strong>
                         </h4>
                     </a>
                 </div>
 				<div class="accordion-body in collapse" id="collapseOne">
 					<table class="table table-oddtd m_b0">
 						<tr>
-							<td><div align="right"><strong>订单号：</strong></div></td>
+							<td><div align="right"><strong>{t domain="orders"}订单号：{/t}</strong></div></td>
 							<td>
 								{$order.order_sn}
 							</td>
-							<td><div align="right"><strong>下单时间：</strong></div></td>
+							<td><div align="right"><strong>{t domain="orders"}下单时间：{/t}</strong></div></td>
 							<td>{$order.formated_add_time}</td>
 						</tr>
 						<tr>
-							<td><div align="right"><strong>购货人：</strong></div></td>
+							<td><div align="right"><strong>{t domain="orders"}购货人：{/t}</strong></div></td>
 							<td>{$order.user_name}</td>
-							<td><div align="right"><strong>缺货处理：</strong></div></td>
+							<td><div align="right"><strong>{t domain="orders"}缺货处理：{/t}</strong></div></td>
 							<td>{$order.how_oos}</td>
 						</tr>
 						<tr>
-							<td><div align="right"><strong>配送方式：</strong></div></td>
+							<td><div align="right"><strong>{t domain="orders"}配送方式：{/t}</strong></div></td>
 							<td>
 								<!-- {if $exist_real_goods} -->
 									<!-- {if $order.shipping_id > 0} -->
 										{$order.shipping_name}
 										<a class="data-pjax" href='{url path="orders/merchant/edit_shipping" args="order_id={$order.order_id}{if $action_note}&action_note={$action_note}{/if}"}'>{t domain="orders"}编辑{/t}</a>
-										<div style="margin-top:10px;color:#777;float:left;">注：修改配送方式，额外产生的配送费用不做修改</div>
+										<div style="margin-top:10px;color:#777;float:left;">{t domain="orders"}注：修改配送方式，额外产生的配送费用不做修改{/t}</div>
 									<!-- {else} -->
 										*
 									<!-- {/if} -->
 									<!-- {if $order.insure_fee > 0} -->
-										（保价费用：{$order.formated_insure_fee}）
+                                        {t domain="orders" 1={$order.formated_insure_fee}}（保价费用：%1）{/t}
 									<!-- {/if} -->
 								<!-- {/if} -->
 							</td>
-							<td><div align="right"><strong>配送费用：</strong></div></td>
+							<td><div align="right"><strong>{t domain="orders"}配送费用：{/t}</strong></div></td>
 							<td>{$order.formated_shipping_fee}</td>
 						</tr>
 						<tr>
-							<td><div align="right"><strong>是否保价：</strong></div></td>
-							<td>{if $insure_yn}是{else}否{/if}</td>
-							<td><div align="right"><strong>保价费用：</strong></div></td>
+							<td><div align="right"><strong>{t domain="orders"}是否保价：{/t}</strong></div></td>
+							<td>{if $insure_yn}{t domain="orders"}是{/t}{else}{t domain="orders"}否{/t}{/if}</td>
+							<td><div align="right"><strong>{t domain="orders"}保价费用：{/t}</strong></div></td>
 							<td>{$order.formated_shipping_fee|default:0.00}</td>
 						</tr>
 					</table>
@@ -74,22 +74,22 @@
 			     <div class="panel-heading">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
                         <h4 class="panel-title">
-                            <strong>收货人信息</strong>
+                            <strong>{t domain="orders"}收货人信息{/t}</strong>
                         </h4>
                     </a>
                 </div>
 				<div class="accordion-body in collapse" id="collapseTwo">
 					<table class="table table-oddtd m_b0">
 						<tr>
-							<td><div align="right"><strong>收货人：</strong></div></td>
+							<td><div align="right"><strong>{t domain="orders"}收货人：{/t}</strong></div></td>
 							<td>{$order.consignee|escape}</td>
-							<td><div align="right"><strong>手机：</strong></div></td>
+							<td><div align="right"><strong>{t domain="orders"}手机：{/t}</strong></div></td>
 							<td>{$order.mobile|escape}</td>
 						</tr>
 						<tr>
-							<td><div align="right"><strong>地址：</strong></div></td>
+							<td><div align="right"><strong>{t domain="orders"}地址：{/t}</strong></div></td>
 							<td>[{$order.region}] {$order.address|escape}</td>
-							<td><div align="right"><strong>最佳送货时间：</strong></div></td>
+							<td><div align="right"><strong>{t domain="orders"}最佳送货时间：{/t}</strong></div></td>
 							<td>
 							{if $shipping_code eq 'ship_o2o_express'}
 									{$order.expect_shipping_time|escape}
@@ -101,7 +101,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td><div align="right"><strong>订单备注：</strong></div></td>
+							<td><div align="right"><strong>{t domain="orders"}订单备注：{/t}</strong></div></td>
 							<td colspan="3">{$order.postscript}</td>
 						</tr>
 					</table>
@@ -112,7 +112,7 @@
 			     <div class="panel-heading">
                     <a data-toggle="collapse" data-parent="#accordion" href=#collapseThree>
                         <h4 class="panel-title">
-                            <strong>商品信息</strong>
+                            <strong>{t domain="orders"}商品信息{/t}</strong>
                         </h4>
                     </a>
                 </div>
@@ -120,17 +120,17 @@
 					<table class="table table-striped m_b0">
 						<thead>
 							<tr>
-								<th class="sorting"><div><strong>商品名称 [ 品牌 ]</strong></div></th>
-								<th><div><strong>货号</strong></div></th>
-								<th ckass="w110"><div><strong>货品号</strong></div></th>
-								<th><strong>属性</strong></th>
+								<th class="sorting"><div><strong>{t domain="orders"}商品名称 [ 品牌 ]{/t}</strong></div></th>
+								<th><div><strong>{t domain="orders"}货号{/t}</strong></div></th>
+								<th ckass="w110"><div><strong>{t domain="orders"}货品号{/t}</strong></div></th>
+								<th><strong>{t domain="orders"}属性{/t}</strong></th>
 								<!-- {if $suppliers_list neq 0} -->
-								<th><strong>供货商</strong></th>
+								<th><strong>{t domain="orders"}供货商{/t}</strong></th>
 								<!-- {/if} -->
-								<th><strong>库存</strong></th>
-								<th><div><strong>数量</strong></div></th>
-								<th><div><strong>已发货数量</strong></div></th>
-								<th class="w130"><div><strong>此单发货数量</strong></div></th>
+								<th><strong>{t domain="orders"}库存{/t}</strong></th>
+								<th><div><strong>{t domain="orders"}数量{/t}</strong></div></th>
+								<th><div><strong>{t domain="orders"}已发货数量{/t}</strong></div></th>
+								<th class="w130"><div><strong>{t domain="orders"}此单发货数量{/t}</strong></div></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -138,7 +138,7 @@
 							<!--礼包-->
 							<!-- {if $goods.goods_id gt 0 && $goods.extension_code eq 'package_buy'} -->
 							<tr>
-								<td>{$goods.goods_name}<span class="ecjiafc-FF0000">（礼包）</span></td>
+								<td>{$goods.goods_name}<span class="ecjiafc-FF0000">{t domain="orders"}（礼包）{/t}</span></td>
 								<td>{$goods.goods_sn}</td>
 								<td>&nbsp;<!--货品货号--></td>
 								<td>&nbsp;<!--属性--></td>
@@ -171,7 +171,7 @@
 							<tr>
 								<td>
 									<!-- {if $goods.goods_id gt 0 && $goods.extension_code neq 'package_buy'} -->
-									<a href='{url path="goods/merchant/preview" args="id={$goods.goods_id}"}' target="_blank">{$goods.goods_name} {if $goods.brand_name}[ {$goods.brand_name} ]{/if}{if $goods.is_gift}{if $goods.goods_price > 0}（特惠品）{else}（赠品）{/if}{/if}{if $goods.parent_id > 0}（配件）{/if}</a>
+									<a href='{url path="goods/merchant/preview" args="id={$goods.goods_id}"}' target="_blank">{$goods.goods_name} {if $goods.brand_name}[ {$goods.brand_name} ]{/if}{if $goods.is_gift}{if $goods.goods_price > 0}{t domain="orders"}（特惠品）{/t}{else}{t domain="orders"}（赠品）{/t}{/if}{/if}{if $goods.parent_id > 0}{t domain="orders"}（配件）{/t}{/if}</a>
 									<!-- {/if} -->
 								</td>
 								<td>{$goods.goods_sn}</td>
@@ -196,7 +196,7 @@
 			     <div class="panel-heading">
                     <a data-toggle="collapse" data-parent="#accordion" href=#collapseFour>
                         <h4 class="panel-title">
-                            <strong>操作信息</strong>
+                            <strong>{t domain="orders"}操作信息{/t}</strong>
                         </h4>
                     </a>
                 </div>
@@ -205,10 +205,10 @@
 						<tbody class="first-td-no-leftbd">
 							<!-- {if $suppliers_list neq 0} -->
 							<tr> 
-								<td width="15%"><div align="right"><strong>选择供货商：</strong></div></td> 
+								<td width="15%"><div align="right"><strong>{t domain="orders"}选择供货商：{/t}</strong></div></td>
 								<td colspan="3">
 									<select name="suppliers_id" id="suppliers_id">
-										<option value="0" selected="selected">不指定供货商本店自行处理</option>
+										<option value="0" selected="selected">{t domain="orders"}不指定供货商本店自行处理{/t}</option>
 										<!-- {foreach from=$suppliers_list item=suppliers} -->
 										<option value="{$suppliers.suppliers_id}">{$suppliers.suppliers_name}</option>
 										<!-- {/foreach} -->
@@ -217,17 +217,17 @@
 							</tr>
 							<!-- {/if} -->
 							<tr>
-								<td><div align="right"><strong>操作备注：</strong></div></td> 
+								<td><div align="right"><strong>{t domain="orders"}操作备注：{/t}</strong></div></td>
 								<td colspan="3">
 									<textarea name="action_note" class="span10 form-control" cols="80" rows="3">{$action_note}</textarea>
 								</td>
 							</tr>
 							<tr>
-								<td><div align="right"><strong>{t}当前可执行操作：{/t}</strong></div></td> 
+								<td><div align="right"><strong>{t domain="orders"}当前可执行操作：{/t}</strong></div></td>
 								<td colspan="3">
-									<button class="btn btn-info" type="submit" name="delivery_confirmed">确认生成发货单</button>
+									<button class="btn btn-info" type="submit" name="delivery_confirmed">{t domain="orders"}确认生成发货单{/t}</button>
 									<a href='{url path="orders/merchant/info" args="order_id={$order_id}"}'>
-									<button class="btn btn-info" type="button">取消</button>
+									<button class="btn btn-info" type="button">{t domain="orders"}取消{/t}</button>
 									</a>
 
 									<input name="order_id" type="hidden" value="{$order.order_id}">
@@ -262,10 +262,10 @@
 								</td>
 							</tr>
 							<tr>
-								<td width="15%"><div align="right"> <strong>操作说明：</strong></div></td>
+								<td width="15%"><div align="right"> <strong>{t domain="orders"}操作说明：{/t}</strong></div></td>
 								<td colspan="3">
-									【确认生成发货单】确认生成该订单的发货单；<br>
-									【取消】取消生成发货单操作，返回到上一步；
+                                    {t domain="orders"}【确认生成发货单】确认生成该订单的发货单；{/t}<br>
+                                    {t domain="orders"}【取消】取消生成发货单操作，返回到上一步；{/t}
 								</td>
 							</tr>
 						</tbody>

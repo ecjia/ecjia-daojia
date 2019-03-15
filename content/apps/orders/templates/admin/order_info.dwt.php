@@ -35,7 +35,7 @@
                             </p>
                             <p>{t domain="orders"}注册时间：{/t}{RC_Time::local_date('Y-m-d H:i:s', $user.reg_time)}</p>
                         </div>
-                        <a target="__blank" class="view-detail" href='{url path="user/admin/info" args="id={$user.user_id}"}'>{t domain="orders"}查看详细信息 >>{/t}</a>
+                        <a target="_blank" class="view-detail" href='{url path="user/admin/info" args="id={$user.user_id}"}'>{t domain="orders"}查看详细信息 >>{/t}</a>
                     </div>
                     <div class="user-money">
                         <div class="item">
@@ -324,7 +324,7 @@
                                             <strong>{t domain="orders"}活动商品：{/t}</strong>
                                         </div>
                                     </td>
-                                    <td>{$groupbuy_info.goods_name} <a target="__blank" href="{RC_Uri::url('groupbuy/admin/view')}&id={$groupbuy_info.act_id}">{t domain="orders"}[ 活动详情 ]{/t}</a></td>
+                                    <td>{$groupbuy_info.goods_name} <a target="_blank" href="{RC_Uri::url('groupbuy/admin/view')}&id={$groupbuy_info.act_id}">{t domain="orders"}[ 活动详情 ]{/t}</a></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -356,7 +356,7 @@
 											<strong>{t domain="orders"}发货单流水号：{/t}</strong>
 										</div>
 									</td>
-									<td colspan="3"><a href="{RC_Uri::url('orders/admin_order_delivery/delivery_info')}&delivery_id={$delivery_info.delivery_id}" target="__blank">{$delivery_info.delivery_sn}</a></td>
+									<td colspan="3"><a href="{RC_Uri::url('orders/admin_order_delivery/delivery_info')}&delivery_id={$delivery_info.delivery_id}" target="_blank">{$delivery_info.delivery_sn}</a></td>
 								</tr>
 							</tbody>
 						</table>

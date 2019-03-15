@@ -768,7 +768,7 @@
 				{if $step_act eq "add"}<a class="data-pjax" href='{url path="orders/admin/add" args="order_id={$order_id}&step=other"}'><button class="btn" type="button">{t domain="orders"}上一步{/t}</button></a>&nbsp;&nbsp;&nbsp;{/if}
 				<button class="btn btn-gebo" type="submit" name="finish">{t domain="orders"}完成{/t}</button>&nbsp;&nbsp;&nbsp;
 				<a class="cancel_order" data-href='{url path="orders/admin/process" args="func=cancel_order&order_id={$order_id}&step_act={$step_act}"}'><button class="btn" type="button">{t domain="orders"}取消{/t}</button></a>
-				<input name="finish" type="hidden" value="{t domain='orders'}完成{/t}" />
+				<input name="finish" type="hidden" value='{t domain="orders"}完成{/t}' />
 			</p>
 		</div>
 	</div>
@@ -802,7 +802,7 @@
 	</div>
 	<p align="center">
 		<button class="btn btn-gebo" type="submit" name="finish">{t domain="orders"}确定{/t}</button>&nbsp;&nbsp;&nbsp;
-		<input name="finish" type="hidden" value="{t domain='orders'}完成{/t}" />
+		<input name="finish" type="hidden" value='{t domain="orders"}完成{/t}' />
 		<a class="data-pjax" href='{url path="orders/admin/info" args="order_id={$order_id}"}'><button class="btn" type="button">{t domain="orders"}取消{/t}</button></a>
 	</p>
 </form>

@@ -121,27 +121,27 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td><a href="{RC_Uri::url('orders/admin/init')}" target="__blank">{t domain="orders"}配送型订单{/t}</a></td>
+											<td><a href="{RC_Uri::url('orders/admin/init')}" target="_blank">{t domain="orders"}配送型订单{/t}</a></td>
 											<td>{$order_stats.order_count_data.order_count}</td>
 											<td>{$order_stats.order_count_data.total_fee}</td>
 										</tr>
 										<tr>
-											<td><a href="{RC_Uri::url('orders/admin/init')}&extension_code=group_buy" target="__blank">{t domain="orders"}团购型订单{/t}</a></td>
+											<td><a href="{RC_Uri::url('orders/admin/init')}&extension_code=group_buy" target="_blank">{t domain="orders"}团购型订单{/t}</a></td>
 											<td>{$order_stats.groupbuy_count_data.order_count}</td>
 											<td>{$order_stats.groupbuy_count_data.total_fee}</td>
 										</tr>
 										<tr>
-											<td><a href="{RC_Uri::url('orders/admin/init')}&extension_code=storebuy" target="__blank">{t domain="orders"}到店型订单{/t}</a></td>
+											<td><a href="{RC_Uri::url('orders/admin/init')}&extension_code=storebuy" target="_blank">{t domain="orders"}到店型订单{/t}</a></td>
 											<td>{$order_stats.storebuy_count_data.order_count}</td>
 											<td>{$order_stats.storebuy_count_data.total_fee}</td>
 										</tr>
 										<tr>
-											<td><a href="{RC_Uri::url('orders/admin/init')}&extension_code=storepickup" target="__blank">{t domain="orders"}自提型订单{/t}</a></td>
+											<td><a href="{RC_Uri::url('orders/admin/init')}&extension_code=storepickup" target="_blank">{t domain="orders"}自提型订单{/t}</a></td>
 											<td>{$order_stats.storepickup_count_data.order_count}</td>
 											<td>{$order_stats.storepickup_count_data.total_fee}</td>
 										</tr>
 										<tr>
-											<td><a href="{RC_Uri::url('orders/admin/init')}&extension_code=cashdesk" target="__blank">{t domain="orders"}收银台型订单{/t}</a></td>
+											<td><a href="{RC_Uri::url('orders/admin/init')}&extension_code=cashdesk" target="_blank">{t domain="orders"}收银台型订单{/t}</a></td>
 											<td>{$order_stats.cashdesk_count_data.order_count}</td>
 											<td>{$order_stats.cashdesk_count_data.total_fee}</td>
 										</tr>

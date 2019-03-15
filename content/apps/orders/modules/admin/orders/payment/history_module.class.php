@@ -87,7 +87,7 @@ class history_module extends api_admin implements api_interface
         $order_list = [];
 
         $dbview->where(RC_DB::raw('oi.pay_status'), PS_PAYED)
-            ->whereIn(RC_DB::raw('cr.action'), array('billing', 'receipt'));
+            ->whereIn(RC_DB::raw('cr.action'), array('billing', 'check_order'));//开单和验单的
 
         $device_type = Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);
         //收银台和收银POS区分设备，收银通不区分设备；

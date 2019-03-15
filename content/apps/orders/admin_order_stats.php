@@ -77,8 +77,10 @@ class admin_order_stats extends ecjia_admin
         RC_Script::enqueue_script('order_stats_chart', RC_App::apps_url('statics/js/order_stats_chart.js', __FILE__));
         RC_Style::enqueue_style('orders-css', RC_App::apps_url('statics/css/admin_orders.css', __FILE__));
 
-        RC_Script::localize_script('order_stats', 'js_lang', RC_Lang::get('orders::statistic.js_lang'));
-        RC_Script::localize_script('order_stats_chart', 'js_lang', RC_Lang::get('orders::statistic.js_lang'));
+        RC_Script::enqueue_script('js-sprintf');
+
+        RC_Script::localize_script('order_stats', 'js_lang', config('app-orders::jslang.admin_order_stats_page'));
+        RC_Script::localize_script('order_stats_chart', 'jslang', config('app-orders::jslang.admin_order_stats_chart_page'));
     }
 
     /**
@@ -88,20 +90,20 @@ class admin_order_stats extends ecjia_admin
     {
         $this->admin_priv('order_stats');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('订单统计'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单统计', 'orders')));
         ecjia_screen::get_current_screen()->add_help_tab(array(
             'id'      => 'overview',
-            'title'   => '概述',
-            'content' => '<p>' . '欢迎访问ECJia智能后台订单统计页面，系统中所有的订单统计信息都会显示在此页面中。' . '</p>',
+            'title'   => __('概述', 'orders'),
+            'content' => '<p>' . __('欢迎访问ECJia智能后台订单统计页面，系统中所有的订单统计信息都会显示在此页面中。', 'orders') . '</p>',
         ));
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
-            '<p><strong>' . '更多信息：' . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E8.AE.A2.E5.8D.95.E6.A6.82.E5.86.B5" target="_blank">' . '关于订单统计帮助文档' . '</a>') . '</p>'
+            '<p><strong>' . __('更多信息：', 'orders') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E8.AE.A2.E5.8D.95.E6.A6.82.E5.86.B5" target="_blank">关于订单统计帮助文档</a>', 'orders') . '</p>'
         );
 
-        $this->assign('ur_here', '订单统计');
-        $this->assign('action_link', array('text' => '订单统计报表下载', 'href' => RC_Uri::url('orders/admin_order_stats/download')));
+        $this->assign('ur_here', __('订单统计', 'orders'));
+        $this->assign('action_link', array('text' => __('订单统计报表下载', 'orders'), 'href' => RC_Uri::url('orders/admin_order_stats/download')));
 
         $list = $this->get_merchant_list();
         $this->assign('list', $list);
@@ -122,26 +124,26 @@ class admin_order_stats extends ecjia_admin
     {
         $this->admin_priv('order_stats');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('订单统计'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单统计', 'orders')));
         ecjia_screen::get_current_screen()->add_help_tab(array(
             'id'      => 'overview',
-            'title'   => '概述',
-            'content' => '<p>' . '欢迎访问ECJia智能后台订单统计页面，系统中所有的订单统计信息都会显示在此页面中。' . '</p>',
+            'title'   => __('概述', 'orders'),
+            'content' => '<p>' . __('欢迎访问ECJia智能后台订单统计页面，系统中所有的订单统计信息都会显示在此页面中。', 'orders') . '</p>',
         ));
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
-            '<p><strong>' . '更多信息：' . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E8.AE.A2.E5.8D.95.E6.A6.82.E5.86.B5" target="_blank">' . '关于订单统计帮助文档' . '</a>') . '</p>'
+            '<p><strong>' . __('更多信息：', 'orders') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E8.AE.A2.E5.8D.95.E6.A6.82.E5.86.B5" target="_blank">关于订单统计帮助文档</a>', 'orders') . '</p>'
         );
 
         $store_id   = intval($_GET['store_id']);
         $store_info = RC_Api::api('store', 'store_info', array('store_id' => $store_id));
         if (empty($store_info)) {
-            return $this->showmessage('该店铺不存在', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => '订单统计', 'href' => RC_Uri::url('orders/admin_order_stats/init')))));
+            return $this->showmessage(__('该店铺不存在', 'orders'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('订单统计', 'orders'), 'href' => RC_Uri::url('orders/admin_order_stats/init')))));
         }
 
-        $this->assign('ur_here', $store_info['merchants_name'] . ' - ' . '订单统计');
-        $this->assign('action_link', array('text' => '订单统计报表下载', 'href' => RC_Uri::url('orders/admin_order_stats/download')));
+        $this->assign('ur_here', sprintf(__('%s - ' . '订单统计', 'orders'), $store_info['merchants_name']));
+        $this->assign('action_link', array('text' => __('订单统计报表下载', 'orders'), 'href' => RC_Uri::url('orders/admin_order_stats/download')));
 
         //获取订单统计信息
         $order_stats = $this->get_order_stats($store_id);
@@ -182,26 +184,26 @@ class admin_order_stats extends ecjia_admin
     {
         $this->admin_priv('order_stats');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('订单统计'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单统计', 'orders')));
         ecjia_screen::get_current_screen()->add_help_tab(array(
             'id'      => 'overview',
-            'title'   => '概述',
-            'content' => '<p>' . '欢迎访问ECJia智能后台订单统计页面，系统中所有的订单统计信息都会显示在此页面中。' . '</p>',
+            'title'   => __('概述', 'orders'),
+            'content' => '<p>' . __('欢迎访问ECJia智能后台订单统计页面，系统中所有的订单统计信息都会显示在此页面中。', 'orders') . '</p>',
         ));
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
-            '<p><strong>' . '更多信息：' . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E9.85.8D.E9.80.81.E6.96.B9.E5.BC.8F" target="_blank">' . '关于订单统计帮助文档' . '</a>') . '</p>'
+            '<p><strong>' . __('更多信息：', 'orders') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E9.85.8D.E9.80.81.E6.96.B9.E5.BC.8F" target="_blank">关于订单统计帮助文档</a>', 'orders') . '</p>'
         );
 
         $store_id   = intval($_GET['store_id']);
         $store_info = RC_Api::api('store', 'store_info', array('store_id' => $store_id));
         if (empty($store_info)) {
-            return $this->showmessage('该店铺不存在', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => '订单统计', 'href' => RC_Uri::url('orders/admin_order_stats/init')))));
+            return $this->showmessage(__('该店铺不存在', 'orders'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('订单统计', 'orders'), 'href' => RC_Uri::url('orders/admin_order_stats/init')))));
         }
 
-        $this->assign('ur_here', $store_info['merchants_name'] . ' - ' . '订单统计');
-        $this->assign('action_link', array('text' => '订单统计报表下载', 'href' => RC_Uri::url('orders/admin_order_stats/download')));
+        $this->assign('ur_here', sprintf(__('%s - ' . '订单统计', 'orders'), $store_info['merchants_name']));
+        $this->assign('action_link', array('text' => __('订单统计报表下载', 'orders'), 'href' => RC_Uri::url('orders/admin_order_stats/download')));
 
         //获取订单统计信息
         $order_stats = $this->get_order_stats($store_id);
@@ -242,25 +244,25 @@ class admin_order_stats extends ecjia_admin
     {
         $this->admin_priv('order_stats');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('订单统计'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单统计', 'orders')));
         ecjia_screen::get_current_screen()->add_help_tab(array(
             'id'      => 'overview',
-            'title'   => '概述',
-            'content' => '<p>' . '欢迎访问ECJia智能后台订单统计页面，系统中所有的订单统计信息都会显示在此页面中。' . '</p>',
+            'title'   => __('概述', 'orders'),
+            'content' => '<p>' . __('欢迎访问ECJia智能后台订单统计页面，系统中所有的订单统计信息都会显示在此页面中。', 'orders') . '</p>',
         ));
 
         ecjia_screen::get_current_screen()->set_help_sidebar(
-            '<p><strong>' . '更多信息：' . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E6.94.AF.E4.BB.98.E6.96.B9.E5.BC.8F" target="_blank">' . '关于订单统计帮助文档' . '</a>') . '</p>'
+            '<p><strong>' . __('更多信息：', 'orders') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E6.94.AF.E4.BB.98.E6.96.B9.E5.BC.8F" target="_blank">关于订单统计帮助文档</a>', 'orders') . '</p>'
         );
 
         $store_id   = intval($_GET['store_id']);
         $store_info = RC_Api::api('store', 'store_info', array('store_id' => $store_id));
         if (empty($store_info)) {
-            return $this->showmessage('该店铺不存在', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => '订单统计', 'href' => RC_Uri::url('orders/admin_order_stats/init')))));
+            return $this->showmessage(__('该店铺不存在', 'orders'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('订单统计', 'orders'), 'href' => RC_Uri::url('orders/admin_order_stats/init')))));
         }
 
-        $this->assign('ur_here', $store_info['merchants_name'] . ' - ' . '订单统计');
+        $this->assign('ur_here', sprintf(__('%s - ' . '订单统计', 'orders'), $store_info['merchants_name']));
         $this->assign('action_link', array('text' => '订单统计报表下载', 'href' => RC_Uri::url('orders/admin_order_stats/download')));
 
         //获取订单统计信息
@@ -323,20 +325,20 @@ class admin_order_stats extends ecjia_admin
         $start_date = RC_Time::local_strtotime($start_time);
         $end_date   = RC_Time::local_strtotime($end_time);
 
-        $filename = '订单统计报表';
+        $filename = __('订单统计报表', 'orders');
         if (!empty($start_time) && !empty($end_time)) {
-            $filename .= '_' . $start_time . '至' . $end_time;
+            $filename .= '_' . $start_time . __('至', 'orders') . $end_time;
         }
 
         $order_stats = $this->get_order_stats($store_id);
 
         $count_key                                      = array('await_pay_count', 'await_ship_count', 'shipped_count', 'returned_count', 'canceled_count', 'finished_count');
         $data_key                                       = array('order_count_data', 'groupbuy_count_data', 'storebuy_count_data', 'storepickup_count_data', 'cashdesk_count_data');
-        $order_stats['order_count_data']['title']       = '配送型订单';
-        $order_stats['groupbuy_count_data']['title']    = '团购型订单';
-        $order_stats['storebuy_count_data']['title']    = '到店型订单';
-        $order_stats['storepickup_count_data']['title'] = '自提型订单';
-        $order_stats['cashdesk_count_data']['title']    = '收银台型订单';
+        $order_stats['order_count_data']['title']       = __('配送型订单', 'orders');
+        $order_stats['groupbuy_count_data']['title']    = __('团购型订单', 'orders');
+        $order_stats['storebuy_count_data']['title']    = __('到店型订单', 'orders');
+        $order_stats['storepickup_count_data']['title'] = __('自提型订单', 'orders');
+        $order_stats['cashdesk_count_data']['title']    = __('收银台型订单', 'orders');
 
         $count_arr = $count_data_arr = [];
         foreach ($order_stats as $k => $v) {
@@ -410,7 +412,7 @@ class admin_order_stats extends ecjia_admin
             ->where('add_time', '>=', $start_date)
             ->where('add_time', '<', $end_date)
             ->whereIn('order_status', array(OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART))
-            ->where(function ($query) {
+            ->where(function ($query) use ($pay_cod_id) {
                 $query->whereIn('pay_status', array(PS_PAYED, PS_PAYING))
                     ->orWhere('pay_id', $pay_cod_id);
             })
@@ -538,11 +540,11 @@ class admin_order_stats extends ecjia_admin
         $data['cashdesk_count_data']['total_fee']    = price_format($data['cashdesk_count_data']['total_fee']);
 
         $data['type'] = array(
-            array('name' => '配送', 'value' => $data['order_count_data']['order_count']),
-            array('name' => '团购', 'value' => $data['groupbuy_count_data']['order_count']),
-            array('name' => '到店', 'value' => $data['storebuy_count_data']['order_count']),
-            array('name' => '自提', 'value' => $data['storepickup_count_data']['order_count']),
-            array('name' => '收银台', 'value' => $data['cashdesk_count_data']['order_count']),
+            array('name' => __('配送', 'orders'), 'value' => $data['order_count_data']['order_count']),
+            array('name' => __('团购', 'orders'), 'value' => $data['groupbuy_count_data']['order_count']),
+            array('name' => __('到店', 'orders'), 'value' => $data['storebuy_count_data']['order_count']),
+            array('name' => __('自提', 'orders'), 'value' => $data['storepickup_count_data']['order_count']),
+            array('name' => __('收银台', 'orders'), 'value' => $data['cashdesk_count_data']['order_count']),
         );
         return $data;
     }
@@ -575,39 +577,39 @@ class admin_order_stats extends ecjia_admin
         if (!empty($order_info)) {
             foreach ($order_info as $k => $v) {
                 if ($k == 'await_pay_num') {
-                    $key              = '待付款订单';
+                    $key              = __('待付款订单', 'orders');
                     $order_info[$key] = $order_info['await_pay_num'];
                     unset($order_info['await_pay_num']);
 
                 } elseif ($k == 'await_ship_num') {
-                    $key              = '待发货订单';
+                    $key              = __('待发货订单', 'orders');
                     $order_info[$key] = $order_info['await_ship_num'];
                     unset($order_info['confirmed_num']);
 
                 } elseif ($k == 'shipped_num') {
-                    $key              = '已发货订单';
+                    $key              = __('已发货订单', 'orders');
                     $order_info[$key] = $order_info['shipped_num'];
                     unset($order_info['shipped_num']);
 
                 } elseif ($k == 'returned_num') {
-                    $key              = '退货订单';
+                    $key              = __('退货订单', 'orders');
                     $order_info[$key] = $order_info['returned_num'];
                     unset($order_info['returned_num']);
                 } elseif ($k == 'canceled_num') {
-                    $key              = '已取消订单';
+                    $key              = __('已取消订单', 'orders');
                     $order_info[$key] = $order_info['canceled_num'];
                     unset($order_info['canceled_num']);
                 } elseif ($k == 'finished_num') {
-                    $key              = '已完成订单';
+                    $key              = __('已完成订单', 'orders');
                     $order_info[$key] = $order_info['finished_num'];
                     unset($order_info['finished_num']);
                 }
             }
             arsort($order_info);
             foreach ($order_info as $k => $v) {
-                if ($order_info['待付款订单'] == 0 && $order_info['待发货订单'] == 0
-                    && $order_info['已发货订单'] == 0 && $order_info['退货订单'] == 0
-                    && $order_info['已取消订单'] == 0 && $order_info['已完成订单'] == 0) {
+                if ($order_info[__('待付款订单', 'orders')] == 0 && $order_info[__('待发货订单', 'orders')] == 0
+                    && $order_info[__('已发货订单', 'orders')] == 0 && $order_info[__('退货订单', 'orders')] == 0
+                    && $order_info[__('已取消订单', 'orders')] == 0 && $order_info[__('已完成订单', 'orders')] == 0) {
                     $order_info = null;
                 } else {
                     break;
@@ -819,9 +821,19 @@ where s.shop_close = 0 and s.identity_status = 2";
         $stats_data = RC_DB::select($level_sql);
         //图表数据 根据按钮状态切换显示 end
 
-        $sql .= " ORDER BY " . $sort_by . ' ' . $sort_order;
+        $amount_sql = $sql; //店铺排行 不受分页/关键字影响
+
+        //列表数据 start
+        $data = [];
+        if (!empty($keywords)) {
+            $sql .= ' and s.merchants_name like "' . '%' . $keywords . '%"';
+        }
+        $sql  .= " ORDER BY " . $sort_by . ' ' . $sort_order;
+        $data = RC_DB::select($sql);
+        //列表数据 end
+
         //店铺排行 不受分页/关键字影响 start
-        $amount_sql = $sql;
+        $amount_sql .= " ORDER BY " . $sort_by . ' ' . $sort_order;
         $level_data = RC_DB::select($amount_sql);
         $level      = [];
         if (!empty($level_data)) {
@@ -830,14 +842,6 @@ where s.shop_close = 0 and s.identity_status = 2";
             }
         }
         //店铺排行 不受分页/关键字影响 end
-
-        //列表数据 start
-        $data = [];
-        if (!empty($keywords)) {
-            $sql .= ' and s.merchants_name like "' . '%' . $keywords . '%"';
-        }
-        $data = RC_DB::select($sql);
-        //列表数据 end
 
         $pageSize = 30;
         $count    = count($data);

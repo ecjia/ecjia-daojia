@@ -67,11 +67,11 @@ class mh_back extends ecjia_merchant
         RC_Style::enqueue_style('uniform-aristo');
 
         ecjia_merchant_screen::get_current_screen()->set_parentage('order', 'order/mh_back.php');
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单管理'), RC_Uri::url('orders/merchant/init')));
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('退货单列表', RC_Uri::url('orders/mh_back/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单管理', 'orders'), RC_Uri::url('orders/merchant/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('退货单列表', 'orders'), RC_Uri::url('orders/mh_back/init')));
 
         $upgrade_url = RC_Uri::url('refund/merchant/init');
-        $warning     = sprintf(__('温馨提示：当前退货单功能已废弃，退货单列表以及详情页仅支持历史数据查看。从 v1.14.0 版本起请进入售后列表体验新的退货退款功能。<br><br><a href="%s">进入售后列表 >></a>'), $upgrade_url);
+        $warning     = sprintf(__('温馨提示：当前退货单功能已废弃，退货单列表以及详情页仅支持历史数据查看。从 v1.14.0 版本起请进入售后列表体验新的退货退款功能。<br><br><a href="%s">进入售后列表 >></a>', 'orders'), $upgrade_url);
         ecjia_merchant_screen::get_current_screen()->add_admin_notice(new admin_notice($warning, 'alert-warning'));
     }
 
@@ -84,14 +84,14 @@ class mh_back extends ecjia_merchant
         $this->admin_priv('back_view');
 
         ecjia_screen::get_current_screen()->remove_last_nav_here();
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('退货单列表'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('退货单列表', 'orders')));
 
         /* 查询 */
         RC_Loader::load_app_func('merchant_order');
         $result = get_merchant_back_list();
 
         /* 模板赋值 */
-        $this->assign('ur_here', '退货单列表');
+        $this->assign('ur_here', __('退货单列表', 'orders'));
         $this->assign('form_action', RC_Uri::url('order/admin_order_back/product_add_execute'));
 
         $this->assign('back_list', $result);
@@ -111,7 +111,7 @@ class mh_back extends ecjia_merchant
         /* 检查权限 */
         $this->admin_priv('back_view');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('退货单操作：查看'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('退货单操作：查看', 'orders')));
         $store_id = $_SESSION['store_id'];
 
         $back_id = intval(trim($_GET['back_id']));
@@ -125,10 +125,10 @@ class mh_back extends ecjia_merchant
             RC_Loader::load_app_func('global', 'orders');
             $back_order = back_order_info($back_id, $store_id);
         } else {
-            return $this->showmessage('无法找到对应退货单', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('无法找到对应退货单', 'orders'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }
         if (empty($back_order)) {
-            return $this->showmessage('无法找到对应退货单', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('无法找到对应退货单', 'orders'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }
 
         /* 取得用户名 */
@@ -157,13 +157,13 @@ class mh_back extends ecjia_merchant
         }
         /* 模板赋值 */
         $this->assign('back_order', $back_order);
-        $this->assign('ur_here', '退货单操作：查看');
+        $this->assign('ur_here', __('退货单操作：查看', 'orders'));
 
         $this->assign('exist_real_goods', exist_real_goods);
         $this->assign('goods_list', $goods_list);
         $this->assign('back_id', $back_id); // 发货单id
         /* 显示模板 */
-        $this->assign('action_link', array('href' => RC_Uri::url('orders/mh_back/init'), 'text' => '退货单列表'));
+        $this->assign('action_link', array('href' => RC_Uri::url('orders/mh_back/init'), 'text' => __('退货单列表', 'orders')));
 
         $this->assign_lang();
         $this->display('back_info.dwt');
@@ -176,7 +176,7 @@ class mh_back extends ecjia_merchant
         $this->admin_priv('order_os_edit', ecjia::MSGTYPE_JSON);
         $back_id = $_REQUEST['back_id'];
         /* 记录日志 */
-        ecjia_admin_log::instance()->add_object('order_back', '退货单');
+        ecjia_admin_log::instance()->add_object('order_back', __('退货单', 'orders'));
         $type = htmlspecialchars($_GET['type']);
         $back = explode(',', $back_id);
 
@@ -184,11 +184,11 @@ class mh_back extends ecjia_merchant
         $db_back_order_get = $db_back_order->first();
 
         if ($db_back_order_get['store_id'] != $_SESSION['store_id']) {
-            return $this->showmessage(__('无法找到对应的订单！'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('无法找到对应的订单！', 'orders'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }
 
         $db_back_order->delete();
-        return $this->showmessage('退货单删除成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('orders/mh_back/init')));
+        return $this->showmessage(__('退货单删除成功！', 'orders'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('orders/mh_back/init')));
     }
 
     /*收货人信息*/
@@ -210,10 +210,10 @@ class mh_back extends ecjia_merchant
                     ->first();
                 $row['region'] = $region['region'];
             } else {
-                return $this->showmessage('无法找到响应的发货单收货人', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('无法找到响应的发货单收货人', 'orders'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         } else {
-            return $this->showmessage('操作有误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('操作有误', 'orders'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         die(json_encode($row));
     }

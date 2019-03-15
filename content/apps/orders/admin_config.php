@@ -69,9 +69,9 @@ class admin_config extends ecjia_admin
     {
         $this->admin_priv('order_manage');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('订单设置'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单设置', 'orders')));
 
-        $this->assign('ur_here', '订单设置');
+        $this->assign('ur_here', __('订单设置', 'orders'));
         $this->assign('form_action', RC_Uri::url('orders/admin_config/update'));
 
         $this->assign('orders_auto_cancel_time', ecjia::config('orders_auto_cancel_time'));
@@ -88,7 +88,7 @@ class admin_config extends ecjia_admin
 
         ecjia_config::instance()->write_config('orders_auto_cancel_time', $orders_auto_cancel_time);
 
-        return $this->showmessage('保存成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('orders/admin_config/init')));
+        return $this->showmessage(__('保存成功', 'orders'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('orders/admin_config/init')));
     }
 
 }

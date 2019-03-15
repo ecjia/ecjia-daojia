@@ -34,7 +34,7 @@ var templateCounts = '{$data}';
 			{html_select_date prefix="year_begin" class="w80" time=$filter.start_time start_year="2006" end_year="+1" display_days=false display_months=false}
 			<span class="f_l">-</span>
 			{html_select_date prefix="year_end" class="w80" time=$filter.end_time start_year="2006" end_year="+1" display_days=false display_months=false}
-			<input type="submit" name="query_by_year" value="{t domain='orders'}查询{/t}" class="btn screen-btn" />
+			<input type="submit" name="query_by_year" value='{t domain="orders"}查询{/t}' class="btn screen-btn" />
 		</div>
 	</div>
 	
@@ -44,7 +44,7 @@ var templateCounts = '{$data}';
 			{html_select_date prefix="month_begin" class="w80" time=$filter.start_month_time start_year="2006" end_year="+1" display_days=false field_order="YMD" month_format="%m"}
 			<span class="f_l">-</span>
 			{html_select_date prefix="month_end" class="w80" time=$filter.end_month_time start_year="2006" end_year="+1" display_days=false field_order="YMD" month_format="%m"}
-			<input type="submit" name="query_by_month" value="{t domain='orders'}查询{/t}" class="btn screen-btn1" />
+			<input type="submit" name="query_by_month" value='{t domain="orders"}查询{/t}' class="btn screen-btn1" />
 		</div>
 	</div>
 </form>

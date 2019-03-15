@@ -21,15 +21,15 @@
         <div class="panel">
             <div class="col-lg-12 panel-heading form-inline">
                 <div class="btn-group form-group">
-                	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> 批量操作 <span class="caret"></span></button>
-                    <ul class="dropdown-menu"><li><a class="batch-del-btn" name='movetype' data-toggle="ecjiabatch" data-name="back_id" data-idClass=".checkbox:checked" data-url="{$del_action}" data-msg='您确定需要删除这些发货单吗？' data-noSelectMsg="请选择需要操作的发货单！" href="javascript:;"><i class="fa fa-trash-o"></i> {t domain="orders"}移除{/t}</a></li></ul>
+                	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> {t domain="orders"}批量操作{/t} <span class="caret"></span></button>
+                    <ul class="dropdown-menu"><li><a class="batch-del-btn" name='movetype' data-toggle="ecjiabatch" data-name="back_id" data-idClass=".checkbox:checked" data-url="{$del_action}" data-msg='{t domain="orders"}您确定需要删除这些发货单吗？{/t}' data-noSelectMsg='{t domain="orders"}请选择需要操作的发货单！{/t}' href="javascript:;"><i class="fa fa-trash-o"></i> {t domain="orders"}移除{/t}</a></li></ul>
                 </div>	
                 <form class="form-inline pull-right" action='{RC_Uri::url("orders/mh_back/init")}{if $smarty.get.type}&type={$smarty.get.type}{/if}' method="post" name="searchForm">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="delivery_sn" value="{$filter.delivery_sn}" placeholder='请输入发货单流水号'>
-                        <input type="text" class="form-control" name="keywords" value="{$filter.keywords}" placeholder='请输入订单号或者收货人'>
+                        <input type="text" class="form-control" name="delivery_sn" value="{$filter.delivery_sn}" placeholder='{t domain="orders"}请输入发货单流水号{/t}'>
+                        <input type="text" class="form-control" name="keywords" value="{$filter.keywords}" placeholder='{t domain="orders"}请输入订单号或者收货人{/t}'>
                     </div>
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> 搜索 </button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> {t domain="orders"}搜索{/t} </button>
                 </form>
             </div>
 
@@ -44,13 +44,13 @@
 					                    <label for="checkall"></label>
 					                </div>
 					            </th>
-					            <th>发货单流水号</th>
-					            <th>订单号</th>
-					            <th>下单时间</th>
-					            <th>收货人</th>
-					            <th>发货时间</th>
-					            <th>退货时间</th>
-					            <th>操作者</th>
+					            <th>{t domain="orders"}发货单流水号{/t}</th>
+					            <th>{t domain="orders"}订单号{/t}</th>
+					            <th>{t domain="orders"}下单时间{/t}</th>
+					            <th>{t domain="orders"}收货人{/t}</th>
+					            <th>{t domain="orders"}发货时间{/t}</th>
+					            <th>{t domain="orders"}退货时间{/t}</th>
+					            <th>{t domain="orders"}操作者{/t}</th>
 					        </tr>
 					    </thead>
 					
@@ -66,19 +66,19 @@
 					            <td class="hide-edit-area" >
 					                {$back.delivery_sn}
 					                <div class="edit-list">
-					                    <a class="data-pjax" href='{url path="orders/mh_back/back_info" args="back_id={$back.back_id}"}' title="查看">{t}{t domain="orders"}查看详情{/t}{/t}</a>&nbsp;|&nbsp;
-					                    <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t name="{$back.delivery_sn}"}您确定要删除退货单[ %1 ]吗？{/t}' href='{url path="orders/mh_back/remove" args="back_id={$back.back_id}"}' title="{t}移除{/t}">{t}{t domain="orders"}移除{/t}{/t}</a>
+					                    <a class="data-pjax" href='{url path="orders/mh_back/back_info" args="back_id={$back.back_id}"}' title='{t domain="orders"}查看{/t}'>{t domain="orders"}查看详情{/t}</a>&nbsp;|&nbsp;
+					                    <a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="orders" 1="{$back.delivery_sn}"}您确定要删除退货单[ %1 ]吗？{/t}' href='{url path="orders/mh_back/remove" args="back_id={$back.back_id}"}' title='{t domain="orders"}移除{/t}'>{t domain="orders"}移除{/t}</a>
 					                </div>
 					            </td>
-					            <td><a href='{url path="orders/merchant/info" args="order_sn={$back.order_sn}"}' target="_blank" title="{t}查看订单{/t}">{$back.order_sn}</a></td>
+					            <td><a href='{url path="orders/merchant/info" args="order_sn={$back.order_sn}"}' target="_blank" title='{t domain="orders"}查看订单{/t}'>{$back.order_sn}</a></td>
 					            <td>{$back.add_time}</td>
-					            <td><a class="cursor_pointer consignee_info" data-url='{url path="orders/mh_back/consignee_info" args="back_id={$back.back_id}"}' title="{t}显示收货人信息{/t}">{$back.consignee|escape}</a></td>
+					            <td><a class="cursor_pointer consignee_info" data-url='{url path="orders/mh_back/consignee_info" args="back_id={$back.back_id}"}' title='{t domain="orders"}显示收货人信息{/t}'>{$back.consignee|escape}</a></td>
 					            <td>{$back.update_time}</td>
 					            <td>{$back.return_time}</td>
 					            <td>{$back.action_user}</td>
 					        </tr>
 					        <!-- {foreachelse} -->
-					        <tr><td class="no-records" colspan="8">没有找到任何记录</td></tr>
+					        <tr><td class="no-records" colspan="8">{t domain="orders"}没有找到任何记录{/t}</td></tr>
 					        <!-- {/foreach} -->
 					    </tbody>
 					</table>

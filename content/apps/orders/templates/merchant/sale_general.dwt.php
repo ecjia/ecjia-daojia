@@ -15,7 +15,7 @@ var templateCounts = '{$data}';
 <!-- {block name="home-content"} -->
 <div class="alert alert-info">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times" data-original-title="" title=""></i></button>
-	<strong>温馨提示：</strong>{t}没有完成的订单不计入销售概况，默认为月走势{/t}
+	<strong>{t domain="orders"}温馨提示：{/t}</strong>{t domain="orders"}没有完成的订单不计入销售概况，默认为月走势{/t}
 </div>
 <div class="page-header">
 	<div class="pull-left">
@@ -42,22 +42,22 @@ var templateCounts = '{$data}';
 			<header class="panel-heading col-lg-12">
 				<div class="form-group choose_list">
 					<form class="form-inline f_r" action="{$form_action}" method="post" name="searchForm">
-						<span class="f_l">年走势：</span>
+						<span class="f_l">{t domain="orders"}年走势：{/t}</span>
 		                	{html_select_date prefix="year_begin" class="no_search w110" time=$filter.start_time start_year="2006" end_year="+1" display_days=false display_months=false}
 						<span class="f_l">-</span>
 		        			{html_select_date prefix="year_end" class="no_search w110" time=$filter.end_time start_year="2006" end_year="+1" display_days=false display_months=false}
-						<input type="submit" name="query_by_year" value="查询" class="btn btn-primary screen-btn"/>
+						<input type="submit" name="query_by_year" value='{t domain="orders"}查询{/t}' class="btn btn-primary screen-btn"/>
 					</form>
 				</div>
 			</header>
 			<header class="panel-heading col-lg-12">
 				<div class="form-group choose_list">
 					<form class="form-inline f_r" action="{$form_action}" method="post" name="selectForm">
-						<span class="f_l">月走势：</span>
+						<span class="f_l">{t domain="orders"}月走势：{/t}</span>
 		            		{html_select_date prefix="month_begin" class="no_search w110" time=$filter.start_month_time start_year="2006" end_year="+1" display_days=false field_order="YMD" month_format="%m"}
 						<span class="f_l">-</span>
 		        			{html_select_date prefix="month_end" class="no_search w110" time=$filter.end_month_time start_year="2006" end_year="+1" display_days=false field_order="YMD" month_format="%m"}
-						<input type="submit" name="query_by_month" value="查询" class="btn btn-primary screen-btn1"/>
+						<input type="submit" name="query_by_month" value='{t domain="orders"}查询{/t}' class="btn btn-primary screen-btn1"/>
 					</form>
 				</div>
 			</header>
@@ -66,19 +66,19 @@ var templateCounts = '{$data}';
 					<ul class="nav nav-tabs">
 						<li class="{if $page eq 'init'}active{/if}">
 						<!-- {if $smarty.get.query_by_year} -->
-						<a class="data-pjax" href='{url path="orders/mh_sale_general/init" args="&query_by_year=1{if $smarty.get.year_beginYear}&year_beginYear={$smarty.get.year_beginYear}{/if}{if $smarty.get.year_endYear}&year_endYear={$smarty.get.year_endYear}{/if}"}'>{t}订单状态{/t}</a>
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/init" args="&query_by_year=1{if $smarty.get.year_beginYear}&year_beginYear={$smarty.get.year_beginYear}{/if}{if $smarty.get.year_endYear}&year_endYear={$smarty.get.year_endYear}{/if}"}'>{t domain="orders"}订单状态{/t}</a>
 						<!-- {else if $smarty.get.query_by_month} -->
-						<a class="data-pjax" href='{url path="orders/mh_sale_general/init" args="&query_by_month=1{if $smarty.get.month_beginYear}&month_beginYear={$smarty.get.month_beginYear}{/if}{if $smarty.get.month_beginMonth}&month_beginMonth={$smarty.get.month_beginMonth}{/if}{if $smarty.get.month_endYear}&month_endYear={$smarty.get.month_endYear}{/if}{if $smarty.get.month_endMonth}&month_endMonth={$smarty.get.month_endMonth}{/if}"}'>{t}订单状态{/t}</a>
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/init" args="&query_by_month=1{if $smarty.get.month_beginYear}&month_beginYear={$smarty.get.month_beginYear}{/if}{if $smarty.get.month_beginMonth}&month_beginMonth={$smarty.get.month_beginMonth}{/if}{if $smarty.get.month_endYear}&month_endYear={$smarty.get.month_endYear}{/if}{if $smarty.get.month_endMonth}&month_endMonth={$smarty.get.month_endMonth}{/if}"}'>{t domain="orders"}订单状态{/t}</a>
 						<!-- {else} -->
-						<a class="data-pjax" href='{url path="orders/mh_sale_general/init"}'>{t}{t domain="orders"}订单走势{/t}{/t}</a>
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/init"}'>{t domain="orders"}订单走势{/t}</a>
 						<!-- {/if} -->
 						<li class="{if $page eq 'sales_trends'}active{/if}">
 						<!-- {if $smarty.get.query_by_year} -->
-						<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends" args="&query_by_year=1{if $smarty.get.year_beginYear}&year_beginYear={$smarty.get.year_beginYear}{/if}{if $smarty.get.year_endYear}&year_endYear={$smarty.get.year_endYear}{/if}"}'>{t}{t domain="orders"}销售额走势{/t}{/t}</a>
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends" args="&query_by_year=1{if $smarty.get.year_beginYear}&year_beginYear={$smarty.get.year_beginYear}{/if}{if $smarty.get.year_endYear}&year_endYear={$smarty.get.year_endYear}{/if}"}'>{t domain="orders"}销售额走势{/t}</a>
 						<!-- {else if $smarty.get.query_by_month} -->
-						<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends" args="&query_by_month=1{if $smarty.get.month_beginYear}&month_beginYear={$smarty.get.month_beginYear}{/if}{if $smarty.get.month_beginMonth}&month_beginMonth={$smarty.get.month_beginMonth}{/if}{if $smarty.get.month_endYear}&month_endYear={$smarty.get.month_endYear}{/if}{if $smarty.get.month_endMonth}&month_endMonth={$smarty.get.month_endMonth}{/if}"}'>{t}{t domain="orders"}销售额走势{/t}{/t}</a>
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends" args="&query_by_month=1{if $smarty.get.month_beginYear}&month_beginYear={$smarty.get.month_beginYear}{/if}{if $smarty.get.month_beginMonth}&month_beginMonth={$smarty.get.month_beginMonth}{/if}{if $smarty.get.month_endYear}&month_endYear={$smarty.get.month_endYear}{/if}{if $smarty.get.month_endMonth}&month_endMonth={$smarty.get.month_endMonth}{/if}"}'>{t domain="orders"}销售额走势{/t}</a>
 						<!-- {else} -->
-						<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends"}'>{t}{t domain="orders"}销售额走势{/t}{/t}</a>
+						<a class="data-pjax" href='{url path="orders/mh_sale_general/sales_trends"}'>{t domain="orders"}销售额走势{/t}</a>
 						<!-- {/if} -->
 						</li>
 					</ul>
@@ -89,7 +89,7 @@ var templateCounts = '{$data}';
 								<div class="m_t10">
 									<div id="order_count" data-url='{RC_Uri::url("orders/mh_sale_general/get_order_status","start_time={$filter.start_time}&end_time={$filter.end_time}&start_month_time={$filter.start_month_time}&end_month_time={$filter.end_month_time}&query_type={$filter.query_type}&order_type=1")}'>
 										<div class="ajax_loading">
-											<i class="fa fa-spin fa-spinner"></i>加载中...
+											<i class="fa fa-spin fa-spinner"></i>{t domain="orders"}加载中...{/t}
 										</div>
 									</div>
 								</div>
@@ -100,7 +100,7 @@ var templateCounts = '{$data}';
 								<div class="m_t10">
 									<div id="order_amount" data-url='{RC_Uri::url("orders/mh_sale_general/get_order_status","start_time={$filter.start_time}&end_time={$filter.end_time}&start_month_time={$filter.start_month_time}&end_month_time={$filter.end_month_time}&query_type={$filter.query_type}&order_type=0")}'>
 										<div class="ajax_loading">
-											<i class="fa fa-spin fa-spinner"></i>加载中...
+											<i class="fa fa-spin fa-spinner"></i>{t domain="orders"}加载中...{/t}
 										</div>
 									</div>
 								</div>
