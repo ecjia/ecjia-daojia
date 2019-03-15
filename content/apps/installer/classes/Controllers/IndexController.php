@@ -81,7 +81,6 @@ class IndexController extends SimpleController
         $this->assign('version', RC_Config::get('release.version'));
         $this->assign('build', RC_Config::get('release.build'));
 
-        $this->load_default_script_style();
     }
 
     protected function load_default_script_style()
@@ -109,31 +108,6 @@ class IndexController extends SimpleController
         RC_Script::enqueue_script('ecjia-installer', RC_App::apps_url('statics/front/js/install.js', $this->__FILE__), array('ecjia-front'), false, true);
         RC_Script::localize_script('ecjia-installer', 'js_lang', config('app-installer::jslang.installer_page'));
 
-    }
-
-    public function front_enqueue_scripts()
-    {
-
-    }
-
-    public function front_print_styles()
-    {
-        ecjia_loader::print_admin_styles();
-    }
-
-    public function front_print_head_scripts()
-    {
-        ecjia_loader::print_head_scripts();
-    }
-
-    public function front_print_footer_scripts()
-    {
-        ecjia_loader::_admin_footer_scripts();
-    }
-
-    public function _front_footer_scripts()
-    {
-        ecjia_loader::_admin_footer_scripts();
     }
 
     /**
