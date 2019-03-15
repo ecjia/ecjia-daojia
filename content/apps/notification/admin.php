@@ -59,7 +59,7 @@ class admin extends ecjia_admin
         RC_Loader::load_app_func('global');
         Ecjia\App\Notification\Helper::assign_adminlog_content();
 
-        RC_Script::enqueue_script('notification', RC_App::apps_url('statics/js/notification.js', __FILE__));
+        RC_Script::enqueue_script('notification', RC_App::apps_url('statics/js/notification.js', __FILE__), array(), false, 1);
         RC_Style::enqueue_style('notification', RC_App::apps_url('statics/css/notification.css', __FILE__), array());
 
         RC_Script::localize_script('notification', 'js_lang', config('app-notification::jslang.notification_page'));
