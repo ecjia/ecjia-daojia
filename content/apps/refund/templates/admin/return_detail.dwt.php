@@ -117,10 +117,10 @@
 					</div>
 					<div class="accordion-body in collapse" id="mer_content">
 						<div class="refund_content">
-							<p>{t domain="refund"}处理状态：{/t}<{if $refund_info.return_status eq '3'}{t domain="refund"}确认收货{/t}{elseif $refund_info.return_status eq '11'}{t domain="refund"}未收到货{/t}<{/if}</p>
-							<p>{t domain="refund"}商家备注：{/t}<{$action_mer_msg_confirm.action_note}</p>
-							<p>{t domain="refund"}操作人：{/t}<{$action_mer_msg_confirm.action_user_name}</p>
-							<p>{t domain="refund"}处理时间：{/t}<{$action_mer_msg_confirm.log_time}</p>
+							<p>{t domain="refund"}处理状态：{/t}{if $refund_info.return_status eq '3'}{t domain="refund"}确认收货{/t}{elseif $refund_info.return_status eq '11'}{t domain="refund"}未收到货{/t}<{/if}</p>
+							<p>{t domain="refund"}商家备注：{/t}{$action_mer_msg_confirm.action_note}</p>
+							<p>{t domain="refund"}操作人：{/t}{$action_mer_msg_confirm.action_user_name}</p>
+							<p>{t domain="refund"}处理时间：{/t}{$action_mer_msg_confirm.log_time}</p>
 						</div>
 					</div>
 				</div>  

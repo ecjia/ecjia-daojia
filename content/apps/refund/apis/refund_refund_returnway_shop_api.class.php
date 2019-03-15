@@ -56,7 +56,7 @@ class refund_refund_returnway_shop_api extends Component_Event_Api {
 		
 		$shop = serialize($shop);
 		
-		if ($refund_info['return_status'] != Ecjia\App\Refund\RefundStatus::SHIP_SHIPPED) {
+		if ($refund_info['return_status'] != \Ecjia\App\Refund\Enums\RefundShipEnum::SHIP_SHIPPED) {
 			$update_data = array('return_shipping_type' => 'shop', 'return_time'=> RC_Time::gmtime(), 'return_shipping_value' => $shop, 'return_status' => 2);
 			RC_DB::table('refund_order')->where('refund_id', $refund_id)->update($update_data);
 			//售后状态log记录

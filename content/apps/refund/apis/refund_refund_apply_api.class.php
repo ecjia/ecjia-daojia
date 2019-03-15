@@ -48,8 +48,8 @@ class refund_refund_apply_api extends Component_Event_Api {
 			//原路退回，未审核的及进行中的可继续退款
 			if ($options['refund_way'] == 'original') {
 				//已存在处理中的申请或退款成功的申请
-				if ( ($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_REFUSED)
-				|| (($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_AGREE) && ($order_refund_info['refund_status'] == Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED))
+				if ( ($order_refund_info['status'] == \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_REFUSED)
+				|| (($order_refund_info['status'] == \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_AGREE) && ($order_refund_info['refund_status'] == \Ecjia\App\Refund\Enums\RefundPayEnum::PAY_TRANSFERED))
 				) {
 					return new ecjia_error('error_apply', __('当前订单已申请了售后！', 'refund'));
 				} else {
@@ -58,9 +58,9 @@ class refund_refund_apply_api extends Component_Event_Api {
 			} else {
 				//已存在处理中的申请或退款成功的申请
 				if (
-					($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_UNCHECK)
-				   || ($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_AGREE && $order_refund_info['refund_status'] == Ecjia\App\Refund\RefundStatus::PAY_UNTRANSFER)
-				   || ($order_refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_AGREE && $order_refund_info['refund_status'] == Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED)
+					($order_refund_info['status'] == \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_UNCHECK)
+				   || ($order_refund_info['status'] == \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_AGREE && $order_refund_info['refund_status'] == \Ecjia\App\Refund\Enums\RefundPayEnum::PAY_UNTRANSFER)
+				   || ($order_refund_info['status'] == \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_AGREE && $order_refund_info['refund_status'] == \Ecjia\App\Refund\Enums\RefundPayEnum::PAY_TRANSFERED)
 				) {
 					return new ecjia_error('error_apply', __('当前订单已申请了售后！', 'refund'));
 				} else {

@@ -133,7 +133,7 @@ class OrderPrint
      */
     public function getOrderInfo($order_id)
     {
-        $refund_order = RC_DB::table('refund_order')->where('order_id', $order_id)->where('status', '!=', \Ecjia\App\Refund\RefundStatus::ORDER_CANCELED)->first();
+        $refund_order = RC_DB::table('refund_order')->where('order_id', $order_id)->where('status', '!=', \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_CANCELED)->first();
         
         if (empty($refund_order)) {
             return new ecjia_error('not_found_order', __('没有找到该退款订单', 'refund'));

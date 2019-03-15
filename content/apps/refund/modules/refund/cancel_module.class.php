@@ -72,11 +72,11 @@ class refund_cancel_module extends api_front implements api_interface {
 			return new ecjia_error('not_exists_info', __('不存在的信息！', 'refund'));
 		}
 		
-		if (($refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_CANCELED) || (($refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_AGREE) && $refund_info['refund_status'] == Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED)) {
+		if (($refund_info['status'] == \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_CANCELED) || (($refund_info['status'] == \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_AGREE) && $refund_info['refund_status'] == \Ecjia\App\Refund\Enums\RefundPayEnum::PAY_TRANSFERED)) {
 			return new ecjia_error('cannot_cancel', __('当前售后申请不可撤销！', 'refund'));
 		}
 		
-		$cancel_status = Ecjia\App\Refund\RefundStatus::ORDER_CANCELED;
+		$cancel_status = \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_CANCELED;
 		
         RC_DB::table('refund_order')->where('refund_sn', $refund_sn)->update(array('status' => $cancel_status));
         
@@ -199,9 +199,10 @@ class refund_cancel_module extends api_front implements api_interface {
 	private function getBeforeRefundOrderStatus($order_id)
 	{
 		$berore_refund_status = 0;
-		$order_status_arr = RC_DB::table('order_action')->where('order_id', $order_id)->orderBy('log_time', 'desc')->lists('order_status');
-		$refund_key = array_search(OS_RETURNED, $order_status_arr); 
-		$berore_refund_status = $order_status_arr[$refund_key + 1];
+		$order_status_arr = RC_DB::table('order_action')->where('order_id', $order_id)->where('order_status', '!=', OS_RETURNED)->orderBy('log_time', 'desc')->lists('action_id');
+		$refund_key = $order_status_arr['0']; 
+		$order_action_info = RC_DB::table('order_action')->where('action_id', $refund_key)->first();
+		$berore_refund_status = $order_action_info['order_status'];
 		return $berore_refund_status;
 	}
 	

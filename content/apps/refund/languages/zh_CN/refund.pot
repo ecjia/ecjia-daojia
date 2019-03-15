@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App refund package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App refund 1.27.4\n"
+"Project-Id-Version: Ecjia App refund 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 03:58:08+00:00\n"
+"POT-Creation-Date: 2019-03-15 01:49:10+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15,7 +15,7 @@ msgstr ""
 #: admin.php:94 admin.php:104 admin.php:105 admin.php:124 admin.php:217
 #: classes/hooks/admin_refund.class.php:52
 #: classes/hooks/merchant_refund.class.php:52 merchant.php:98 merchant.php:99
-#: merchant.php:118 merchant.php:301
+#: merchant.php:118 merchant.php:302
 msgid "售后列表"
 msgstr ""
 
@@ -23,19 +23,19 @@ msgstr ""
 msgid "退款服务"
 msgstr ""
 
-#: admin.php:214 admin.php:215 merchant.php:298 merchant.php:299
+#: admin.php:214 admin.php:215 merchant.php:299 merchant.php:300
 msgid "退货退款服务"
 msgstr ""
 
-#: admin.php:228 merchant.php:312 modules/refund/detail_module.class.php:139
+#: admin.php:228 merchant.php:313 modules/refund/detail_module.class.php:142
 msgid "上门取件"
 msgstr ""
 
-#: admin.php:230 merchant.php:314 modules/refund/detail_module.class.php:151
+#: admin.php:230 merchant.php:315 modules/refund/detail_module.class.php:154
 msgid "自选快递"
 msgstr ""
 
-#: admin.php:232 merchant.php:316 modules/refund/detail_module.class.php:162
+#: admin.php:232 merchant.php:317 modules/refund/detail_module.class.php:165
 msgid "到店退货"
 msgstr ""
 
@@ -117,14 +117,14 @@ msgstr ""
 #: apis/refund_merchant_refund_order_api.class.php:66
 #: apis/refund_refund_order_list_api.class.php:62
 #: modules/refund/apply_module.class.php:395
-#: modules/refund/detail_module.class.php:285
+#: modules/refund/detail_module.class.php:282
 msgid "仅退款"
 msgstr ""
 
 #: apis/refund_merchant_refund_order_api.class.php:66
 #: apis/refund_refund_order_list_api.class.php:62
 #: modules/refund/apply_module.class.php:395
-#: modules/refund/detail_module.class.php:285
+#: modules/refund/detail_module.class.php:282
 msgid "退货退款"
 msgstr ""
 
@@ -165,6 +165,57 @@ msgstr ""
 
 #: apis/refund_refund_order_list_api.class.php:15
 msgid "调用api文件，refund_order_list，参数无效。"
+msgstr ""
+
+#: classes/Enums/RefundOrderEnum.php:40
+msgid "退款申请"
+msgstr ""
+
+#: classes/Enums/RefundOrderEnum.php:41
+msgid "退款确认"
+msgstr ""
+
+#: classes/Enums/RefundOrderEnum.php:42
+msgid "取消申请"
+msgstr ""
+
+#: classes/Enums/RefundOrderEnum.php:43
+msgid "拒绝退款"
+msgstr ""
+
+#: classes/Enums/RefundPayEnum.php:36
+msgid "无打款请求"
+msgstr ""
+
+#: classes/Enums/RefundPayEnum.php:37
+msgid "待处理打款"
+msgstr ""
+
+#: classes/Enums/RefundPayEnum.php:38
+msgid "已打款"
+msgstr ""
+
+#: classes/Enums/RefundShipEnum.php:42
+#: modules/refund/detail_module.class.php:319
+msgid "无需退货"
+msgstr ""
+
+#: classes/Enums/RefundShipEnum.php:43
+#: modules/refund/detail_module.class.php:322
+msgid "买家未发货"
+msgstr ""
+
+#: classes/Enums/RefundShipEnum.php:44
+#: modules/refund/detail_module.class.php:325
+msgid "买家发货"
+msgstr ""
+
+#: classes/Enums/RefundShipEnum.php:45 merchant.php:549
+msgid "确认收货"
+msgstr ""
+
+#: classes/Enums/RefundShipEnum.php:46 merchant.php:553
+msgid "未收到货"
 msgstr ""
 
 #: classes/Helper.php:59
@@ -293,16 +344,36 @@ msgstr ""
 msgid "订单管理"
 msgstr ""
 
-#: merchant.php:198 merchant.php:432
+#: merchant.php:198 merchant.php:433 merchant.php:499
 msgid "请输入操作备注"
 msgstr ""
 
-#: merchant.php:438
+#: merchant.php:249 merchant.php:443 modules/refund/detail_module.class.php:95
+msgid "同意"
+msgstr ""
+
+#: merchant.php:260 merchant.php:454
+msgid "不同意"
+msgstr ""
+
+#: merchant.php:288 merchant.php:579
+msgid "[%s]结果为 %s"
+msgstr ""
+
+#: merchant.php:439
 msgid "请选择返还方式"
 msgstr ""
 
-#: merchant.php:483 merchant.php:580
+#: merchant.php:484 merchant.php:581
 msgid "操作成功"
+msgstr ""
+
+#: modules/admin/cashier/refund/summary/records_module.class.php:60
+msgid "Invalid session"
+msgstr ""
+
+#: modules/admin/cashier/refund/summary/records_module.class.php:68
+msgid "非收银台请求！"
 msgstr ""
 
 #: modules/refund/apply_module.class.php:68
@@ -332,7 +403,7 @@ msgstr ""
 msgid "参数无效"
 msgstr ""
 
-#: modules/refund/cancel_module.class.php:77
+#: modules/refund/cancel_module.class.php:76
 msgid "当前售后申请不可撤销！"
 msgstr ""
 
@@ -352,10 +423,6 @@ msgstr ""
 msgid "待审核"
 msgstr ""
 
-#: modules/refund/detail_module.class.php:95
-msgid "同意"
-msgstr ""
-
 #: modules/refund/detail_module.class.php:101
 msgid "拒绝"
 msgstr ""
@@ -363,6 +430,14 @@ msgstr ""
 #: modules/refund/detail_module.class.php:106
 #: modules/refund/payrecord_module.class.php:114
 msgid "已审核"
+msgstr ""
+
+#: modules/refund/detail_module.class.php:328
+msgid "商家确认收货"
+msgstr ""
+
+#: modules/refund/detail_module.class.php:331
+msgid "商家未收到货"
 msgstr ""
 
 #: modules/refund/payrecord_module.class.php:87
@@ -400,6 +475,883 @@ msgstr ""
 msgid "当前申请不支持到店退货返还方式！"
 msgstr ""
 
+#: content/apps/refund/templates/admin/return_detail.dwt.php:26
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:78
+msgid "买家退货退款申请"
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:31
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:26
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:80
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:28
+msgid "退款编号："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:32
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:36
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:81
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:29
+msgid "申请人："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:32
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:37
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:81
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:29
+msgid "（商家申请）"
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:33
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:41
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:82
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:30
+msgid "退款原因："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:38
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:38
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:50
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:87
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:35
+msgid "退款金额："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:39
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:39
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:55
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:88
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:36
+msgid "退款说明："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:39
+#: content/apps/refund/templates/admin/return_detail.dwt.php:48
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:48
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:56
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:69
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:88
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:97
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:36
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:45
+msgid "暂无"
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:40
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:60
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:89
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:37
+msgid "上传凭证："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:51
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:51
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:75
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:311
+#: content/apps/refund/templates/admin/refund_list.dwt.php:53
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:35
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:100
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:48
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:60
+msgid "申请时间："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:60
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:107
+msgid "商家退货退款意见"
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:65
+#: content/apps/refund/templates/admin/return_detail.dwt.php:120
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:65
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:109
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:209
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:56
+msgid "处理状态："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:66
+#: content/apps/refund/templates/admin/return_detail.dwt.php:121
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:66
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:110
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:210
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:57
+msgid "商家备注："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:68
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:112
+msgid "可用退货方式："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:70
+#: content/apps/refund/templates/admin/return_detail.dwt.php:122
+#: content/apps/refund/templates/admin/return_detail.dwt.php:146
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:67
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:91
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:249
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:114
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:211
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:224
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:58
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:100
+msgid "操作人："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:71
+#: content/apps/refund/templates/admin/return_detail.dwt.php:123
+#: content/apps/refund/templates/admin/return_detail.dwt.php:147
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:68
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:92
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:115
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:212
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:225
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:59
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:101
+msgid "处理时间："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:81
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:151
+msgid "买家退货信息"
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:87
+#: content/apps/refund/templates/admin/return_detail.dwt.php:93
+#: content/apps/refund/templates/admin/return_detail.dwt.php:100
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:154
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:160
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:167
+msgid "退货方式："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:88
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:155
+msgid "取件地址："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:89
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:156
+msgid "期望取件时间："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:90
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:157
+msgid "联系人："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:91
+#: content/apps/refund/templates/admin/return_detail.dwt.php:298
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:243
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:158
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:333
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:208
+msgid "联系电话："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:94
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:50
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:161
+msgid "收件人："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:95
+#: content/apps/refund/templates/admin/return_detail.dwt.php:102
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:162
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:169
+msgid "联系方式："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:96
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:163
+msgid "收件地址："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:97
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:164
+msgid "快递名称："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:98
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:165
+msgid "快递单号："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:101
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:61
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:168
+msgid "店铺名称："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:103
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:170
+msgid "店铺地址："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:115
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:207
+msgid "商家确认收货意见"
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:129
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:75
+msgid "退款操作："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:129
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:75
+msgid "去退款"
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:139
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:84
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:220
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:96
+msgid "商城平台退款审核"
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:144
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:89
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:222
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:98
+msgid "平台确认：已退款"
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:145
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:90
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:223
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:99
+msgid "平台备注："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:155
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:100
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:230
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:106
+msgid "商城平台退款详情"
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:160
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:105
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:127
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:182
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:232
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:108
+msgid "退款方式："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:160
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:105
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:183
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:91
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:232
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:108
+msgid "原路退回"
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:161
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:106
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:187
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:233
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:109
+msgid "应退款金额："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:163
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:108
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:88
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:199
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:235
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:111
+msgid "扣除支付手续费："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:167
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:112
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:95
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:207
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:239
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:115
+msgid "扣除配送费："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:171
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:116
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:102
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:214
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:243
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:119
+msgid "扣除保价费："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:175
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:120
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:109
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:221
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:247
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:123
+msgid "退回发票费："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:178
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:123
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:115
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:227
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:250
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:126
+msgid "实际退款金额："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:180
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:125
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:233
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:252
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:128
+msgid "积分："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:182
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:127
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:244
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:254
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:130
+msgid "退款时间："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:195
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:140
+msgid "店铺信息"
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:206
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:151
+msgid "退款退货"
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:210
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:155
+msgid "营业时间："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:211
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:156
+msgid "商家电话："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:212
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:157
+msgid "商家地址："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:224
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:169
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:262
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:138
+msgid "已收货商品"
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:245
+#: content/apps/refund/templates/admin/return_detail.dwt.php:301
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:190
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:246
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:267
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:280
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:336
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:155
+msgid "订单实付金额："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:245
+#: content/apps/refund/templates/admin/return_detail.dwt.php:288
+#: content/apps/refund/templates/admin/return_detail.dwt.php:295
+#: content/apps/refund/templates/admin/return_detail.dwt.php:301
+#: content/apps/refund/templates/admin/return_detail.dwt.php:344
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:190
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:233
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:240
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:246
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:289
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:280
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:323
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:330
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:336
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:379
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:155
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:198
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:205
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:211
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:254
+msgid "查看更多"
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:248
+#: content/apps/refund/templates/admin/return_detail.dwt.php:304
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:193
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:249
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:270
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:283
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:339
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:158
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:214
+msgid "商品总金额："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:252
+#: content/apps/refund/templates/admin/return_detail.dwt.php:308
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:197
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:253
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:274
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:287
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:343
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:162
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:218
+msgid "发票税额："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:256
+#: content/apps/refund/templates/admin/return_detail.dwt.php:312
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:201
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:257
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:278
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:291
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:347
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:166
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:222
+msgid "配送费用："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:260
+#: content/apps/refund/templates/admin/return_detail.dwt.php:316
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:205
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:261
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:282
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:295
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:351
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:170
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:226
+msgid "保价费用："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:264
+#: content/apps/refund/templates/admin/return_detail.dwt.php:320
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:209
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:265
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:286
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:299
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:355
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:174
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:230
+msgid "支付费用："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:268
+#: content/apps/refund/templates/admin/return_detail.dwt.php:324
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:213
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:269
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:290
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:303
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:359
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:178
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:234
+msgid "包装费用："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:272
+#: content/apps/refund/templates/admin/return_detail.dwt.php:328
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:217
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:273
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:294
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:307
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:363
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:182
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:238
+msgid "贺卡费用："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:276
+#: content/apps/refund/templates/admin/return_detail.dwt.php:332
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:221
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:277
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:298
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:311
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:367
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:186
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:242
+msgid "积分金额："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:280
+#: content/apps/refund/templates/admin/return_detail.dwt.php:336
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:225
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:281
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:302
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:315
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:371
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:190
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:246
+msgid "红包金额："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:284
+#: content/apps/refund/templates/admin/return_detail.dwt.php:340
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:229
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:285
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:306
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:319
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:375
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:194
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:250
+msgid "折扣金额："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:288
+#: content/apps/refund/templates/admin/return_detail.dwt.php:344
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:233
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:289
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:266
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:323
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:379
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:198
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:254
+msgid "订单编号："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:290
+#: content/apps/refund/templates/admin/return_detail.dwt.php:346
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:235
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:291
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:310
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:325
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:381
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:200
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:256
+msgid "支付方式："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:291
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:236
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:292
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:326
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:201
+msgid "下单时间："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:292
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:237
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:327
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:202
+msgid "付款时间："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:295
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:240
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:330
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:205
+msgid "收货人："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:297
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:242
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:332
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:207
+msgid "收货地址："
+msgstr ""
+
+#: content/apps/refund/templates/admin/return_detail.dwt.php:359
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:389
+msgid "申请退货商品"
+msgstr ""
+
+#: content/apps/refund/templates/admin/library/return_step.lbi.php:8
+#: content/apps/refund/templates/merchant/library/return_step.lbi.php:8
+msgid "买家申请退货退款"
+msgstr ""
+
+#: content/apps/refund/templates/admin/library/return_step.lbi.php:19
+#: content/apps/refund/templates/admin/library/refund_step.lbi.php:19
+#: content/apps/refund/templates/merchant/library/return_step.lbi.php:19
+#: content/apps/refund/templates/merchant/library/refund_step.lbi.php:19
+msgid "商家处理退款申请"
+msgstr ""
+
+#: content/apps/refund/templates/admin/library/return_step.lbi.php:26
+#: content/apps/refund/templates/merchant/library/return_step.lbi.php:26
+msgid "买家退货给商家"
+msgstr ""
+
+#: content/apps/refund/templates/admin/library/return_step.lbi.php:44
+#: content/apps/refund/templates/admin/library/refund_step.lbi.php:26
+#: content/apps/refund/templates/merchant/library/return_step.lbi.php:44
+#: content/apps/refund/templates/merchant/library/refund_step.lbi.php:26
+msgid "平台审核、退款完成"
+msgstr ""
+
+#: content/apps/refund/templates/admin/library/refund_step.lbi.php:8
+#: content/apps/refund/templates/merchant/library/refund_step.lbi.php:8
+msgid "买家申请退款"
+msgstr ""
+
+#: content/apps/refund/templates/admin/library/payrecord_step.lbi.php:8
+msgid "商家提交退款申请"
+msgstr ""
+
+#: content/apps/refund/templates/admin/library/payrecord_step.lbi.php:15
+msgid "退款成功"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:26
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:24
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:26
+msgid "买家退款申请"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:31
+msgid "退款编号： "
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:32
+msgid "申请人： "
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:32
+msgid "（商家申请） "
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:33
+msgid "退款原因： "
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:39
+msgid "暂无 "
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:40
+msgid "上传凭证： "
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_detail.dwt.php:60
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:54
+msgid "商家退款意见"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:31
+msgid "退款类型："
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:32
+#: content/apps/refund/templates/admin/refund_list.dwt.php:45
+#: content/apps/refund/templates/admin/refund_list.dwt.php:101
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:44
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:48
+msgid "撤单退款"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:80
+msgid "退款操作"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:83
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:194
+msgid "退还支付手续费："
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:121
+msgid "退回积分："
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:148
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:122
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:180
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:66
+msgid "操作备注："
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:152
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:126
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:184
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:70
+msgid "请选择……"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:153
+msgid "退款完成"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:154
+msgid "退款金额已原路退回"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:155
+msgid "已全额退款"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:156
+msgid "金额已退回账户余额"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:157
+msgid "退回商品金额及红包、积分"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:160
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:134
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:192
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:78
+msgid "可使用快捷用语"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:175
+msgid "平台退款详情"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:177
+msgid "平台确认："
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:239
+msgid "退款备注："
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:260
+msgid "售后基本信息"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:309
+msgid "是否配送："
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:309
+msgid "已配送"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:309
+msgid "未配送"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:312
+msgid "审核时间："
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:313
+msgid "点此处查看退款单详细信息 >>"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:329
+msgid "退款流水状态："
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:332
+msgid "退款失败原因："
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:334
+msgid "退款订单流水号："
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:335
+msgid "支付公司退款流水号："
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:336
+msgid "退款创建时间："
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:337
+msgid "退款确认时间："
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:338
+msgid "点此处查看退款流水详细信息 >>"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_list.dwt.php:14
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:15
+msgid "旧版退货单列表"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_list.dwt.php:24
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:27
+msgid "全部"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_list.dwt.php:54
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:36
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:61
+msgid "开始时间"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_list.dwt.php:55
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:37
+msgid "至"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_list.dwt.php:56
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:38
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:63
+msgid "结束时间"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_list.dwt.php:59
+#: content/apps/refund/templates/admin/refund_list.dwt.php:82
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:67
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:68
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:95
+msgid "处理状态"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_list.dwt.php:60
+#: content/apps/refund/templates/admin/refund_list.dwt.php:106
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:125
+msgid "无"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_list.dwt.php:65
+msgid "请输入商家名称或退款/订单编号"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_list.dwt.php:66
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:48
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:80
+msgid "搜索"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_list.dwt.php:76
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:58
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:90
+msgid "退款编号"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_list.dwt.php:77
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:59
+msgid "商家名称"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_list.dwt.php:78
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:60
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:92
+msgid "订单编号"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_list.dwt.php:79
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:41
+msgid "申请类型"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_list.dwt.php:80
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:62
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:93
+msgid "退款金额"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_list.dwt.php:81
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:63
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:94
+msgid "申请时间"
+msgstr ""
+
+#: content/apps/refund/templates/admin/refund_list.dwt.php:83
+msgid "商家确认"
+msgstr ""
+
 #: content/apps/refund/templates/admin/refund_list.dwt.php:92
 #: content/apps/refund/templates/admin/refund_list.dwt.php:94
 #: content/apps/refund/templates/admin/payrecord_list.dwt.php:75
@@ -412,4 +1364,114 @@ msgstr ""
 #: content/apps/refund/templates/admin/payrecord_list.dwt.php:96
 #: content/apps/refund/templates/merchant/refund_list.dwt.php:129
 msgid "没有找到任何记录"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:22
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:89
+msgid "待退款"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:47
+msgid "请输入商家名称或退款编号"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:61
+msgid "支付方式"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_list.dwt.php:65
+msgid "退款时间"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:31
+msgid "选择返还方式"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:41
+msgid "（由商家联系配送员上门取件）"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:48
+msgid "（由用户自选第三方快递公司配送）"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:50
+msgid "手机："
+msgstr ""
+
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:51
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:62
+msgid "地址："
+msgstr ""
+
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:59
+msgid "（由用户到门店线下退货）"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:61
+msgid "电话："
+msgstr ""
+
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:68
+msgid "确定"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:120
+msgid "商家退货退款操作"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:127
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:185
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:71
+msgid "审核通过"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:128
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:186
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:72
+msgid "审核通过，用户需写明退货信息，退回被损坏货品"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:129
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:187
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:73
+msgid "审核未通过，用户申请不符合退货退款要求"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:130
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:188
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:74
+msgid "退回货品已签收，等待平台退款"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:131
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:189
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:75
+msgid "退回货品未收到，暂不处理退款请求"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:132
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:190
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:76
+msgid "货品破损严重，拒绝签收"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/return_detail.dwt.php:178
+msgid "商家确认收货操作"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/refund_detail.dwt.php:64
+msgid "商家退款操作"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:77
+msgid "请输入订单编号或退款编号"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:91
+msgid "退款方式"
+msgstr ""
+
+#: content/apps/refund/templates/merchant/refund_list.dwt.php:96
+msgid "平台确认"
 msgstr ""

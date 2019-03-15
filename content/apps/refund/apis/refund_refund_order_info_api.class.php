@@ -81,9 +81,9 @@ class refund_refund_order_info_api extends Component_Event_Api {
 		}
 		$info = [];
 		if ($refund_sn) {
-            $info = $db->where('refund_sn', $refund_sn)->where('status', '!=', Ecjia\App\Refund\RefundStatus::ORDER_CANCELED)->first();
+            $info = $db->where('refund_sn', $refund_sn)->where('status', '!=', \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_CANCELED)->first();
         } else {
-            $info = $db->where('refund_id', $refund_id)->where('status', '!=', Ecjia\App\Refund\RefundStatus::ORDER_CANCELED)->first();
+            $info = $db->where('refund_id', $refund_id)->where('status', '!=', \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_CANCELED)->first();
         }
 		
         if (!empty($info)) {
