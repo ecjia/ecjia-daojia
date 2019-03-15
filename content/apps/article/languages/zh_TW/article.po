@@ -4,19 +4,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App article 1.27.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-01-25 02:53:30+00:00\n"
+"POT-Creation-Date: 2019-03-13 13:46+0800\n"
+"PO-Revision-Date: 2019-03-13 13:55+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-01-25 16:33+0800\n"
-"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "X-Generator: Poedit 1.8.7\n"
-"Last-Translator: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language: zh_TW\n"
 
 #: admin.php:78 admin.php:88 admin.php:105 admin.php:165 admin.php:415
-#: admin.php:656 admin.php:1115 apis/article_admin_menu_api.class.php:61
+#: admin.php:664 admin.php:1116 apis/article_admin_menu_api.class.php:61
 #: apis/article_merchant_menu_api.class.php:57
 #: apis/article_merchant_purview_api.class.php:58 merchant.php:80
 #: merchant.php:93 merchant.php:95 merchant.php:129 merchant.php:359
@@ -83,7 +83,7 @@ msgstr "文章類型為普通文章時，文章內容不能為空"
 msgid "文章类型为跳转链接时，外部链接不能为空"
 msgstr "文章類型為跳轉鏈接時，外部鏈接不能為空"
 
-#: admin.php:223 admin.php:509 admin.php:743 admin_notice.php:133
+#: admin.php:223 admin.php:509 admin.php:744 admin_notice.php:133
 #: admin_notice.php:227 merchant.php:646
 msgid "文章 %s 已经存在"
 msgstr "文章 %s 已經存在"
@@ -169,7 +169,7 @@ msgstr ""
 msgid "编辑文章"
 msgstr "編輯文章"
 
-#: admin.php:644 admin.php:657 merchant.php:568 merchant.php:571
+#: admin.php:644 admin.php:665 merchant.php:568 merchant.php:571
 msgid "编辑关联商品"
 msgstr "編輯關聯商品"
 
@@ -187,198 +187,198 @@ msgstr ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:文章列表#.E5.85.B3."
 "E8.81.94.E5.95.86.E5.93.81\" target=\"_blank\">關於關聯商品幫助文檔</a>"
 
-#: admin.php:716
+#: admin.php:717
 msgid "关联商品，文章标题是："
 msgstr "關聯商品，文章標題是："
 
-#: admin.php:724 admin_article_auto.php:165 admin_article_auto.php:195
+#: admin.php:725 admin_article_auto.php:165 admin_article_auto.php:195
 #: admin_article_auto.php:225 merchant.php:627 merchant.php:958
 #: merchant.php:1007
 msgid "操作成功"
 msgstr "操作成功"
 
-#: admin.php:738 merchant.php:641
+#: admin.php:739 merchant.php:641
 msgid "文章标题不能为空"
 msgstr "文章標題不能為空"
 
-#: admin.php:758 merchant.php:662
+#: admin.php:759 merchant.php:662
 msgid "文章标题编辑成功"
 msgstr "文章標題編輯成功"
 
-#: admin.php:760 merchant.php:664
+#: admin.php:761 merchant.php:664
 msgid "文章标题编辑失败"
 msgstr "文章標題編輯失敗"
 
-#: admin.php:791 admin.php:801
+#: admin.php:792 admin.php:802
 msgid "成功切换文章状态"
 msgstr "成功切換文章狀態"
 
-#: admin.php:793
+#: admin.php:794
 msgid "通过文章，文章标题是：%s"
 msgstr "通過文章，文章標題是：%s"
 
-#: admin.php:804
+#: admin.php:805
 msgid "设为待审核文章，文章标题是：%s"
 msgstr "設為待審核文章，文章標題是：%s"
 
-#: admin.php:807
+#: admin.php:808
 msgid "还原文章，文章标题是：%s"
 msgstr "還原文章，文章標題是：%s"
 
-#: admin.php:816
+#: admin.php:817
 msgid "成功设置文章为垃圾文章"
 msgstr "成功設置文章為垃圾文章"
 
-#: admin.php:818
+#: admin.php:819
 msgid "设为垃圾文章，文章标题是：%s"
 msgstr "設為垃圾文章，文章標題是：%s"
 
-#: admin.php:826
+#: admin.php:827
 msgid "移除文章至回收站成功"
 msgstr "移除文章至回收站成功"
 
-#: admin.php:828
+#: admin.php:829
 msgid "文章移到回收站，文章标题是：%s"
 msgstr "文章移到回收站，文章標題是：%s"
 
-#: admin.php:858 admin.php:868
+#: admin.php:859 admin.php:869
 msgid "成功切换文章是否置顶"
 msgstr "成功切換文章是否置頂"
 
-#: admin.php:860
+#: admin.php:861
 msgid "设为置顶文章，文章标题是：%s"
 msgstr "設為置頂文章，文章標題是：%s"
 
-#: admin.php:871
+#: admin.php:872
 msgid "设为默认文章，文章标题是：%s"
 msgstr "設為默認文章，文章標題是：%s"
 
-#: admin.php:917 admin_articlecat.php:370 admin_notice.php:314
+#: admin.php:918 admin_articlecat.php:370 admin_notice.php:314
 #: admin_shopinfo.php:329 merchant.php:691 merchant.php:763
 msgid "删除成功"
 msgstr "刪除成功"
 
-#: admin.php:919 merchant.php:693 merchant.php:766
+#: admin.php:920 merchant.php:693 merchant.php:766
 msgid "操作失败"
 msgstr "操作失敗"
 
-#: admin.php:946 merchant.php:792
+#: admin.php:947 merchant.php:792
 msgid "删除附件成功"
 msgstr "刪除附件成功"
 
-#: admin.php:1008 admin.php:1314 merchant.php:735 merchant.php:827
+#: admin.php:1009 admin.php:1315 merchant.php:735 merchant.php:827
 msgid "批量删除操作成功"
 msgstr "批量刪除操作成功"
 
-#: admin.php:1023
+#: admin.php:1024
 msgid "批量移除文章到回收站，文章标题是：%s"
 msgstr "批量移除文章到回收站，文章標題是：%s"
 
-#: admin.php:1025
+#: admin.php:1026
 msgid "批量移除文章到回收站成功"
 msgstr "批量移除文章到回收站成功"
 
-#: admin.php:1041
+#: admin.php:1042
 msgid "批量审核通过文章，文章标题是：%s"
 msgstr "批量審核通過文章，文章標題是：%ss"
 
-#: admin.php:1043
+#: admin.php:1044
 msgid "批量审核通过文章成功"
 msgstr "批量審核通過文章成功"
 
-#: admin.php:1058
+#: admin.php:1059
 msgid "批量设置文章为垃圾文章，文章标题是：%s"
 msgstr "批量設置文章為垃圾文章，文章標題是：%s"
 
-#: admin.php:1060
+#: admin.php:1061
 msgid "批量设置文章为垃圾文章成功"
 msgstr "批量設置文章為垃圾文章成功"
 
-#: admin.php:1067 configs/jslang.php:63 merchant.php:182 merchant.php:455
+#: admin.php:1068 configs/jslang.php:63 merchant.php:182 merchant.php:455
 #: merchant.php:834
 msgid "请选择文章分类"
 msgstr "請選擇文章分類"
 
-#: admin.php:1080
+#: admin.php:1081
 msgid "批量转移文章 %s 至分类 %s "
 msgstr "批量轉移文章 %s 至分類 %s "
 
-#: admin.php:1083 merchant.php:849
+#: admin.php:1084 merchant.php:849
 msgid "批量转移操作成功"
 msgstr "批量转移操作成功"
 
-#: admin.php:1100 admin.php:1114 admin.php:1138 merchant.php:890
+#: admin.php:1101 admin.php:1115 admin.php:1139 merchant.php:890
 #: merchant.php:891
 msgid "文章评论列表"
 msgstr "文章評論列表"
 
-#: admin.php:1139 apis/article_admin_menu_api.class.php:65
+#: admin.php:1140 apis/article_admin_menu_api.class.php:65
 #: apis/article_merchant_menu_api.class.php:59
 #: apis/article_merchant_purview_api.class.php:62 classes/Helper.php:67
 msgid "文章评论"
 msgstr "文章評論"
 
-#: admin.php:1213 admin.php:1226
+#: admin.php:1214 admin.php:1227
 msgid "成功切换评论状态"
 msgstr "成功切換評論狀態"
 
-#: admin.php:1215
+#: admin.php:1216
 msgid "通过评论，评论内容是："
 msgstr "通過評論，評論內容是："
 
-#: admin.php:1229
+#: admin.php:1230
 msgid "设为待审核评论，评论内容是："
 msgstr "設為待審核評論，評論內容是："
 
-#: admin.php:1232
+#: admin.php:1233
 msgid "还原评论，评论内容是："
 msgstr "還原評論，評論內容是："
 
-#: admin.php:1243
+#: admin.php:1244
 msgid "成功设置评论为垃圾评论"
 msgstr "成功設置評論為垃圾評論"
 
-#: admin.php:1245
+#: admin.php:1246
 msgid "设为垃圾评论，评论内容是："
 msgstr "設為垃圾評論，評論內容是："
 
-#: admin.php:1255
+#: admin.php:1256
 msgid "移除评论至回收站成功"
 msgstr "移除評論至回收站成功"
 
-#: admin.php:1257
+#: admin.php:1258
 msgid "评论移到回收站，评论内容是："
 msgstr "評論移到回收站，評論內容是："
 
-#: admin.php:1312
+#: admin.php:1313
 msgid "评论内容是："
 msgstr "評論內容是："
 
-#: admin.php:1330
+#: admin.php:1331
 msgid "批量移除文章评论到回收站，评论内容是："
 msgstr "批量移除文章評論到回收站，評論內容是："
 
-#: admin.php:1332
+#: admin.php:1333
 msgid "批量移除文章评论到回收站成功"
 msgstr "批量移除文章評論到回收站成功"
 
-#: admin.php:1348
+#: admin.php:1349
 msgid "批量审核通过文章评论，评论内容是："
 msgstr "批量審核通過文章評論，評論內容是："
 
-#: admin.php:1350
+#: admin.php:1351
 msgid "批量审核通过文章评论成功"
 msgstr "批量審核通過文章評論成功"
 
-#: admin.php:1365
+#: admin.php:1366
 msgid "批量设置文章评论为垃圾评论，评论内容是："
 msgstr "批量設置文章評論為垃圾評論，評論內容是："
 
-#: admin.php:1367
+#: admin.php:1368
 msgid "批量设置文章评论为垃圾评论成功"
 msgstr "批量設置文章評論為垃圾評論成功"
 
-#: admin.php:1393
+#: admin.php:1394
 msgid "删除文章评论成功"
 msgstr "刪除文章評論成功"
 
@@ -662,6 +662,7 @@ msgstr "添加 %s 分類成功"
 #: admin_shopinfo.php:72 admin_shopinfo.php:82 admin_shopinfo.php:94
 #: admin_shopinfo.php:120 admin_shopinfo.php:198
 #: apis/article_admin_menu_api.class.php:71
+#: classes/Enums/ArticleTypeEnum.php:51
 msgid "网店信息"
 msgstr "網店信息"
 
@@ -736,18 +737,24 @@ msgid "添加文章"
 msgstr "添加文章"
 
 #: apis/article_admin_menu_api.class.php:69
+#: classes/Enums/ArticleTypeEnum.php:55 functions/admin_article.func.php:114
 msgid "平台公告"
 msgstr "平臺公告"
 
 #: apis/article_admin_menu_api.class.php:70
+#: classes/Enums/ArticleTypeEnum.php:50
 msgid "网店帮助"
 msgstr "網店幫助"
 
-#: apis/article_admin_menu_api.class.php:72 classes/Helper.php:69
+#: apis/article_admin_menu_api.class.php:72
+#: classes/Enums/ArticleTypeEnum.php:54 classes/Helper.php:69
+#: functions/admin_article.func.php:97
 msgid "商家公告"
 msgstr "商家公告"
 
-#: apis/article_admin_menu_api.class.php:73 classes/Helper.php:70
+#: apis/article_admin_menu_api.class.php:73
+#: classes/Enums/ArticleTypeEnum.php:53 classes/Helper.php:70
+#: functions/admin_article.func.php:106
 msgid "系统信息"
 msgstr "系統信息"
 
@@ -807,7 +814,7 @@ msgstr "商家公告管理"
 msgid "参数无效"
 msgstr "參數無效"
 
-#: apis/article_merchant_menu_api.class.php:55
+#: apis/article_merchant_menu_api.class.php:55 configs/package.php:55
 msgid "文章"
 msgstr "文章"
 
@@ -818,6 +825,14 @@ msgstr "我要投稿"
 #: apis/article_merchant_purview_api.class.php:60
 msgid "删除文章"
 msgstr "刪除文章"
+
+#: apis/article_store_remove_cleardata_api.class.php:63
+msgid "请求接口%s参数无效"
+msgstr "請求接口%s參數無效"
+
+#: classes/Enums/ArticleTypeEnum.php:52
+msgid "普通文章"
+msgstr "普通文章"
 
 #: classes/Helper.php:62
 msgid "批量设置"
@@ -838,6 +853,26 @@ msgstr "撤銷"
 #: classes/Helper.php:66
 msgid "更新文章评论状态"
 msgstr "更新文章評論狀態"
+
+#: classes/StoreCleanHandlers/StoreArticleClear.php:49
+msgid "总共有<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>篇文章"
+msgstr "總共有<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>篇文章"
+
+#: classes/StoreCleanHandlers/StoreArticleClear.php:50
+msgid "查看全部>>>"
+msgstr "查看全部>>>"
+
+#: classes/StoreCleanHandlers/StoreArticleClear.php:120
+msgid "店铺名是%s"
+msgstr "店鋪名是%s"
+
+#: classes/StoreCleanHandlers/StoreArticleClear.php:120
+msgid "店铺ID是%s"
+msgstr "店鋪ID是%s"
+
+#: classes/hooks/admin_article.class.php:58
+msgid "文章投稿"
+msgstr "句子帖子"
 
 #: configs/jslang.php:57
 msgid "请选择需要转移的文章"
@@ -894,6 +929,44 @@ msgstr "請輸入幫助文章標題"
 #: configs/jslang.php:88
 msgid "请输入网店标题"
 msgstr "請輸入網店標題"
+
+#: configs/package.php:56
+msgid ""
+"文章管理应用是一款‘海纳百川’、‘井然有序’的文章编写和发布文章，涉及多个模块"
+"和应用的软文撰写发布，是系统不可缺少的软文管理应用；应用提供了文章分类、列"
+"表、网店帮助、网店信息等核心功能，商家可对文章自定义添加或编辑分类、文章，"
+"而网店信息、网店帮助又是专门为用户提供简介、新闻、和帮助信息，从而为商家和"
+"用户节约了宝贵时间。"
+msgstr ""
+"文章管理應用是一款'海納百川'、'井然有序'的文章編寫和發布文章，涉及多個模塊"
+"和應用的軟文撰寫發布，是系統不可缺少的軟文管理應用；應用提供了文章分類、列"
+"表、網店幫助、網店信息等核心功能，商家可對文章自定義添加或編輯分類、文章，"
+"而網店信息、網店幫助又是專門為用戶提供簡介、新聞、和幫助信息，從而為商家和"
+"用戶節約了寶貴時間。"
+
+#: functions/admin_article.func.php:98
+msgid "发布商家公告"
+msgstr "發布商家公告"
+
+#: functions/admin_article.func.php:99
+msgid "编辑商家公告"
+msgstr "編輯商家公告"
+
+#: functions/admin_article.func.php:107
+msgid "发布系统信息"
+msgstr "發布系統信息"
+
+#: functions/admin_article.func.php:108
+msgid "编辑系统信息"
+msgstr "編輯系統信息"
+
+#: functions/admin_article.func.php:115
+msgid "发布平台公告"
+msgstr "發布平台公告"
+
+#: functions/admin_article.func.php:116
+msgid "编辑平台公告"
+msgstr "編輯平台公告"
 
 #: merchant.php:187 merchant.php:460
 msgid "请输入文章内容"
@@ -955,6 +1028,21 @@ msgstr "設為垃圾評論，評論內容為：%s，文章標題為：%s"
 #: merchant.php:1001
 msgid "评论内容为：%s，文章标题为：%s"
 msgstr "評論內容為：%s，文章標題為：%s"
+
+#: modules/article/comment/create_module.class.php:67
+#: modules/article/like/like_manage_module.class.php:67
+msgid "参数错误！"
+msgstr "參數錯誤！"
+
+#: modules/article/detail_module.class.php:69
+msgid "不存在的信息"
+msgstr "不存在的信息"
+
+#: modules/article/like/like_manage_module.class.php:71
+#: modules/shop/help/detail_module.class.php:64
+#: modules/shop/info/detail_module.class.php:65
+msgid "不存在的信息！"
+msgstr "不存在的信息！"
 
 #: content/apps/article/templates/admin/preview.dwt.php:22
 #: content/apps/article/templates/merchant/preview.dwt.php:26

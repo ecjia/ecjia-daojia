@@ -8,6 +8,7 @@
 
 namespace Ecjia\App\Article;
 
+use Ecjia\App\Article\Enums\ArticleTypeEnum;
 use RC_Uri;
 
 class ShopInfoArticleList extends BaseArticleList
@@ -15,7 +16,7 @@ class ShopInfoArticleList extends BaseArticleList
 
     public function __construct()
     {
-        $this->type = ArticleType::TYPE_SHOP_INFO;
+        $this->type = ArticleTypeEnum::TYPE_SHOP_INFO;
 
         parent::__construct($this->type);
     }

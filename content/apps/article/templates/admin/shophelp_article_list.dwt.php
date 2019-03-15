@@ -4,7 +4,7 @@
 <!-- {block name="main_content"} -->
 <div>
 	<h3 class="heading">
-		<!-- {if $ur_here}{$ur_here}{/if} --><small>{t 1={$list.num}}（共  %1 篇）{/t}</small>
+		<!-- {if $ur_here}{$ur_here}{/if} --><small>{t domain="article" 1={$list.num}}（共  %1 篇）{/t}</small>
 		{if $action_linkadd}
 		<a class="btn plus_or_reply data-pjax" href="{$action_linkadd.href}" id="sticky_a" ><i class="fontello-icon-plus"></i>{$action_linkadd.text}</a>
 		{/if}

@@ -101,7 +101,7 @@
 							</td>
 							<td>{$list.user_name}</td>
 							<td class="hide-edit-area">
-								<a href='{RC_Uri::url("article/merchant/article_comment", "id={$list.id_value}")}' target="__blank"><span>{$list.title}</span></a>
+								<a href='{RC_Uri::url("article/merchant/article_comment", "id={$list.id_value}")}' target="_blank"><span>{$list.title}</span></a>
 								<div>{t domain="article"}评论于{/t}&nbsp;{$list.date}</div>
 								<span>{$list.content}</span>
 								<div class="edit-list">
