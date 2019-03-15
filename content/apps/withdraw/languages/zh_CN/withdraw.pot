@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App withdraw 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 04:00:01+00:00\n"
+"POT-Creation-Date: 2019-03-01 01:50:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -491,7 +491,7 @@ msgstr ""
 
 #: content/apps/withdraw/templates/admin/admin_account_edit.dwt.php:92
 #: content/apps/withdraw/templates/admin/withdraw_setting.dwt.php:57
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:195
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:201
 #: content/apps/withdraw/templates/admin/withdraw_edit.dwt.php:108
 msgid "确定"
 msgstr ""
@@ -729,90 +729,94 @@ msgid "到账金额："
 msgstr ""
 
 #: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:141
+msgid "收款人姓名："
+msgstr ""
+
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:154
 msgid "提现账户："
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:168
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:174
 msgid "订单操作"
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:177
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:183
 msgid "备注信息："
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:180
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:186
 msgid "请输入审核备注信息"
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:186
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:192
 msgid "操作："
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:192
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:198
 msgid "同意"
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:193
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:199
 msgid "取消"
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:198
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:204
 msgid "【同意】操作后，同意并打款给当前用户；"
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:199
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:205
 msgid "【取消】操作后，订单状态更改为“已取消”，提现金额返还给对应账号；"
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:212
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:218
 msgid "平台审核操作"
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:220
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:226
 msgid "操作人："
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:224
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:230
 msgid "审核时间："
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:230
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:236
 msgid "审核备注："
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:248
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:254
 msgid "提现流水记录"
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:256
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:262
 msgid "商户单号："
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:260
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:266
 msgid "提现状态："
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:266
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:272
 msgid "支付公司单号："
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:270
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:276
 msgid "付款商户号："
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:276
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:282
 msgid "付款账号："
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:280
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:286
 msgid "创建时间："
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:286
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:292
 msgid "付款成功时间："
 msgstr ""
 
-#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:290
+#: content/apps/withdraw/templates/admin/admin_account_info.dwt.php:296
 msgid "转账时间："
 msgstr ""
 
