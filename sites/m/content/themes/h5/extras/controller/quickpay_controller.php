@@ -78,9 +78,9 @@ class quickpay_controller
                 unset($_SESSION['quick_pay']['temp']['integral']);
                 unset($_SESSION['quick_pay']['temp']['integral_bonus']);
             } else if ($_POST['integral'] > $_SESSION['quick_pay']['activity']['order_max_integral']) {
-                return ecjia_front::$controller->showmessage(__(sprintf("%s使用超出订单限制", $integral_name), 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage(sprintf(__("%s使用超出订单限制", 'h5', $integral_name)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else if ($_POST['integral'] > $_SESSION['quick_pay']['data']['user_integral']) {
-                return ecjia_front::$controller->showmessage(__(sprintf("%s不足", $integral_name), 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage(sprintf(__("%s不足", 'h5'), $integral_name), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
                 $_SESSION['quick_pay']['temp']['integral'] = empty($_POST['integral']) ? 0 : intval($_POST['integral']);
                 if (!empty($_POST['integral'])) {

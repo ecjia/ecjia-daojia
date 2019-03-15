@@ -243,7 +243,7 @@ class franchisee_controller
             if (is_ecjia_error($rs)) {
                 return ecjia_front::$controller->showmessage($rs->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('search_url' => RC_Uri::url('franchisee/index/search')));
             } else {
-                return ecjia_front::$controller->showmessage(__(sprintf("短信已发送到手机%s，请注意查看", $mobile), 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+                return ecjia_front::$controller->showmessage(sprintf(__("短信已发送到手机%s，请注意查看", 'h5'), $mobile), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
             }
         } else {
             if (empty($mobile)) {

@@ -537,9 +537,9 @@ class cart_controller
         //积分
         if ($_POST['integral_update']) {
             if ($_POST['integral'] > $_SESSION['cart'][$cart_key]['data']['order_max_integral']) {
-                return ecjia_front::$controller->showmessage(__(sprintf("%s使用超出订单限制", $integral_name), 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage(sprintf(__("%s使用超出订单限制", 'h5'), $integral_name), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else if ($_POST['integral'] > $_SESSION['cart'][$cart_key]['data']['your_integral']) {
-                return ecjia_front::$controller->showmessage(__(sprintf("%s不足", $integral_name), 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage(sprintf(__("%s不足", 'h5'), $integral_name), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
                 $_SESSION['cart'][$cart_key]['temp']['integral'] = empty($_POST['integral']) ? 0 : intval($_POST['integral']);
             }
@@ -817,9 +817,9 @@ class cart_controller
         //积分
         if ($_POST['integral_update']) {
             if ($_POST['integral'] > $_SESSION['cart'][$cart_key]['data']['order_max_integral']) {
-                return ecjia_front::$controller->showmessage(__(sprintf("%s使用超出订单限制", $integral_name), 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage(sprintf(__("%s使用超出订单限制", 'h5'), $integral_name), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else if ($_POST['integral'] > $_SESSION['cart'][$cart_key]['data']['your_integral']) {
-                return ecjia_front::$controller->showmessage(__(sprintf("%s不足", $integral_name), 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return ecjia_front::$controller->showmessage(sprintf(__("%s不足", 'h5'), $integral_name), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             } else {
                 $_SESSION['cart'][$cart_key]['temp']['integral'] = empty($_POST['integral']) ? 0 : intval($_POST['integral']);
             }
@@ -1534,7 +1534,7 @@ class cart_controller
         $temp          = $_SESSION['cart'][$cart_key]['temp'];
 
         if ($data['order_max_integral'] == 0) {
-            return ecjia_front::$controller->showmessage(__(sprintf("%s不可用", $integral_name), 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
+            return ecjia_front::$controller->showmessage(sprintf(__("%s不可用", 'h5'), $integral_name), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => ''));
         }
         ecjia_front::$controller->assign('data', $data);
         ecjia_front::$controller->assign('temp', $temp);
@@ -1544,7 +1544,7 @@ class cart_controller
         $action = $temp['order_mode'] == 'default' ? 'checkout' : 'storepickup_checkout';
         ecjia_front::$controller->assign('action', $action);
 
-        ecjia_front::$controller->assign_title(__(sprintf("使用%s", $integral_name), 'h5'));
+        ecjia_front::$controller->assign_title(sprintf(__("使用%s", 'h5'), $integral_name));
 
         ecjia_front::$controller->display('flow_integral.dwt');
     }

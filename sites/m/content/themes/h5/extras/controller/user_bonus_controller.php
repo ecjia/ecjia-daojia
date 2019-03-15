@@ -215,7 +215,7 @@ class user_bonus_controller
 
         if (!ecjia_front::$controller->is_cached('user_get_integral.dwt', $cache_id)) {
             $integral_name = !empty(ecjia::config('integral_name')) ? ecjia::config('integral_name') : '积分';
-            ecjia_front::$controller->assign_title(__(sprintf("赚%s", $integral_name), 'h5'));
+            ecjia_front::$controller->assign_title(sprintf(__("赚%s", 'h5'), $integral_name));
         }
         ecjia_front::$controller->display('user_get_integral.dwt', $cache_id);
     }

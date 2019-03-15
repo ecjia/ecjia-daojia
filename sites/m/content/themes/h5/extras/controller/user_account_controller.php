@@ -284,7 +284,7 @@ class user_account_controller
         $min_withdraw_amount = !empty($config['min_withdraw_amount']) ? $config['min_withdraw_amount'] : 1;
 
         if ($amount < $min_withdraw_amount) {
-            return ecjia_front::$controller->showmessage(__(sprintf("最低提现金额不能小于%s", $config['formatted_min_withdraw_amount']), 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(sprintf(__("最低提现金额不能小于%s", 'h5'), $config['formatted_min_withdraw_amount']), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $param = array('token' => $token, 'amount' => $amount, 'note' => $note, 'withdraw_way' => $withdraw_way);
@@ -341,7 +341,7 @@ class user_account_controller
                 $day              = substr($val['add_time'], 0, 10);
 
                 if ($day == $now_day) {
-                    $arr[$time][$key]['add_time'] = __(sprintf("今天%s", substr($val['add_time'], 11, 5)), 'h5');
+                    $arr[$time][$key]['add_time'] = sprintf(__("今天%s", 'h5'), substr($val['add_time'], 11, 5));
                 } else {
                     $arr[$time][$key]['add_time'] = substr($val['add_time'], 5, 11);
                 }
@@ -393,7 +393,7 @@ class user_account_controller
                 $day              = substr($val['add_time'], 0, 10);
 
                 if ($day == $now_day) {
-                    $arr[$time][$key]['add_time'] = __(sprintf("今天%s", substr($val['add_time'], 11, 5)), 'h5');
+                    $arr[$time][$key]['add_time'] = sprintf(__("今天%s", 'h5'), substr($val['add_time'], 11, 5));
                 } else {
                     $arr[$time][$key]['add_time'] = substr($val['add_time'], 5, 11);
                 }

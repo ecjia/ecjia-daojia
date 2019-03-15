@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ECJia到家H5主题 1.29.0\n"
 "Report-Msgid-Bugs-To: https://www.ecjia.com/support/theme/h5\n"
-"POT-Creation-Date: 2019-03-15 01:49:15+00:00\n"
+"POT-Creation-Date: 2019-03-15 05:03:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -314,6 +314,18 @@ msgstr ""
 msgid "请填写完整的发票信息"
 msgstr ""
 
+#: extras/controller/cart_controller.php:540
+#: extras/controller/cart_controller.php:820
+#: extras/controller/quickpay_controller.php:81
+msgid "%s使用超出订单限制"
+msgstr ""
+
+#: extras/controller/cart_controller.php:542
+#: extras/controller/cart_controller.php:822
+#: extras/controller/quickpay_controller.php:83
+msgid "%s不足"
+msgstr ""
+
 #: extras/controller/cart_controller.php:611
 #: extras/controller/cart_controller.php:888
 msgid "结算"
@@ -386,6 +398,14 @@ msgstr ""
 
 #: extras/controller/cart_controller.php:1506
 msgid "使用红包"
+msgstr ""
+
+#: extras/controller/cart_controller.php:1537
+msgid "%s不可用"
+msgstr ""
+
+#: extras/controller/cart_controller.php:1547
+msgid "使用%s"
 msgstr ""
 
 #: extras/controller/connect_controller.php:73
@@ -553,6 +573,11 @@ msgstr ""
 msgid "校验成功"
 msgstr ""
 
+#: extras/controller/franchisee_controller.php:246
+#: extras/controller/user_privilege_controller.php:495
+msgid "短信已发送到手机%s，请注意查看"
+msgstr ""
+
 #: extras/controller/franchisee_controller.php:269
 #: extras/controller/franchisee_controller.php:301
 msgid "请先填写基本信息"
@@ -668,6 +693,11 @@ msgstr ""
 
 #: extras/controller/merchant_controller.php:528
 msgid "店铺位置"
+msgstr ""
+
+#: extras/controller/merchant_controller.php:586
+#: extras/controller/merchant_controller.php:587
+msgid "%s在线买单"
 msgstr ""
 
 #: extras/controller/merchant_controller.php:642
@@ -813,8 +843,17 @@ msgstr ""
 msgid "提现金额不能为0"
 msgstr ""
 
+#: extras/controller/user_account_controller.php:287
+msgid "最低提现金额不能小于%s"
+msgstr ""
+
 #: extras/controller/user_account_controller.php:316
 msgid "交易记录"
+msgstr ""
+
+#: extras/controller/user_account_controller.php:344
+#: extras/controller/user_account_controller.php:396
+msgid "今天%s"
 msgstr ""
 
 #: extras/controller/user_account_controller.php:498
@@ -890,12 +929,20 @@ msgstr ""
 msgid "奖励明细"
 msgstr ""
 
+#: extras/controller/user_bonus_controller.php:218
+msgid "赚%s"
+msgstr ""
+
 #: extras/controller/user_bonus_controller.php:228
 msgid "添加红包"
 msgstr ""
 
 #: extras/controller/user_controller.php:99
 msgid "个人中心"
+msgstr ""
+
+#: extras/controller/user_controller.php:125
+msgid "%s推荐这个实用的App给你~"
 msgstr ""
 
 #: extras/controller/user_controller.php:126
@@ -3312,12 +3359,11 @@ msgid "输入手机号码"
 msgstr ""
 
 #: sites/m/content/themes/h5/affiliate_invite_register.dwt.php:29
-#: sites/m/content/themes/h5/user_captcha_validate.dwt.php:22
 msgid "请输入左侧验证码"
 msgstr ""
 
 #: sites/m/content/themes/h5/affiliate_invite_register.dwt.php:30
-#: sites/m/content/themes/h5/user_captcha_validate.dwt.php:27
+#: sites/m/content/themes/h5/user_captcha_validate.dwt.php:29
 msgid "验证"
 msgstr ""
 
@@ -3340,15 +3386,17 @@ msgid "请再次输入新密码"
 msgstr ""
 
 #: sites/m/content/themes/h5/franchisee_enter_captcha.dwt.php:18
+#: sites/m/content/themes/h5/user_captcha_validate.dwt.php:19
 msgid "身份验证，请输入图中验证码"
 msgstr ""
 
 #: sites/m/content/themes/h5/franchisee_enter_captcha.dwt.php:21
-#: sites/m/content/themes/h5/user_captcha_validate.dwt.php:29
+#: sites/m/content/themes/h5/user_captcha_validate.dwt.php:22
 msgid "看不清，换一张"
 msgstr ""
 
 #: sites/m/content/themes/h5/franchisee_enter_captcha.dwt.php:24
+#: sites/m/content/themes/h5/user_captcha_validate.dwt.php:25
 msgid "请输入图形验证码 "
 msgstr ""
 

@@ -122,7 +122,7 @@ class user_controller
             $invite_user_detail['invite_explain'] = explode("\n", $invite_user_detail['invite_explain']);
 
             $invite_user_detail['invite_url'] = RC_Uri::url('affiliate/index/init', array('invite_code' => $invite_user_detail['invite_code']));
-            ecjia_front::$controller->assign('share_title', __(sprintf("%s推荐这个实用的App给你~", $name), 'h5'));
+            ecjia_front::$controller->assign('share_title', sprintf(__("%s推荐这个实用的App给你~", 'h5'), $name));
             ecjia_front::$controller->assign_title(__('我的推广', 'h5'));
             ecjia_front::$controller->assign('invite_user', $invite_user_detail);
             ecjia_front::$controller->assign('url', RC_Uri::url('user/index/wxconfig'));

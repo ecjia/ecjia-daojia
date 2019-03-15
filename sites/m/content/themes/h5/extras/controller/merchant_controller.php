@@ -583,8 +583,8 @@ class merchant_controller
         ecjia_front::$controller->assign('store_info', $store_info);
         ecjia_front::$controller->assign('store_id', $store_id);
 
-        ecjia_front::$controller->assign_title(__(sprintf("%s在线买单", $store_info['seller_name']), 'h5'));
-        ecjia_front::$controller->assign('title', __(sprintf("%s在线买单", $store_info['seller_name']), 'h5'));
+        ecjia_front::$controller->assign_title(sprintf(__("%s在线买单", 'h5'), $store_info['seller_name']));
+        ecjia_front::$controller->assign('title', sprintf(__("%s在线买单", 'h5'), $store_info['seller_name']));
 
         if (empty($_SESSION['wxpay_open_id']) && cart_function::is_weixin()) {
             //提前获取微信支付wxpay_open_id

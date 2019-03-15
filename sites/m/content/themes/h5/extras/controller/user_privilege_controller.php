@@ -492,7 +492,7 @@ class user_privilege_controller
             return ecjia_front::$controller->showmessage(__('该手机号已被注册，请更换其他手机号', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } else {
             $_SESSION['user_temp']['mobile'] = $mobile;
-            return ecjia_front::$controller->showmessage(__(sprintf("短信已发送到手机%s，请注意查看", $mobile), 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+            return ecjia_front::$controller->showmessage(sprintf(__("短信已发送到手机%s，请注意查看", 'h5'), $mobile), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
         }
     }
 
