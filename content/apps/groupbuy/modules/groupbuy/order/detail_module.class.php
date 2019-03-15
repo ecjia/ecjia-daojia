@@ -117,7 +117,7 @@ class groupbuy_order_detail_module extends api_front implements api_interface {
 			
 			//被拒后返回原因，供重新申请使用
 			$refused_reasons =array();
-			if ($refund_info['status'] == Ecjia\App\Refund\RefundStatus::ORDER_REFUSED) {
+			if ($refund_info['status'] == \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_REFUSED) {
 				$refused_reasons = order_refund::get_one_group_reasons($refund_info['refund_reason']);
 			}
 			
@@ -403,16 +403,16 @@ class groupbuy_order_detail_module extends api_front implements api_interface {
 		$status = $refund_info['status'];
 		$refund_status = $refund_info['refund_status'];
 		//1进行中2已退款3已取消
-		if (in_array($status, array(Ecjia\App\Refund\RefundStatus::ORDER_UNCHECK, Ecjia\App\Refund\RefundStatus::ORDER_AGREE)) && $refund_status !=Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED) {
+		if (in_array($status, array(\Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_UNCHECK, \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_AGREE)) && $refund_status != \Ecjia\App\Refund\Enums\RefundPayEnum::PAY_TRANSFERED) {
 			$refund_status_code = 'going';
 			$label_refund_staus = __('进行中', 'groupbuy');
-		} elseif (in_array($status, array(Ecjia\App\Refund\RefundStatus::ORDER_AGREE)) && in_array($refund_status, array(Ecjia\App\Refund\RefundStatus::PAY_TRANSFERED))) {
+		} elseif (in_array($status, array(\Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_AGREE)) && in_array($refund_status, array(\Ecjia\App\Refund\Enums\RefundPayEnum::PAY_TRANSFERED))) {
 			$refund_status_code = 'refunded';
 			$label_refund_staus = __('已退款', 'groupbuy');
-		} elseif (in_array($status, array(Ecjia\App\Refund\RefundStatus::ORDER_CANCELED))) {
+		} elseif (in_array($status, array(\Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_CANCELED))) {
 			$refund_status_code = 'canceled';
 			$label_refund_staus = __('已取消', 'groupbuy');
-		}elseif ($status == Ecjia\App\Refund\RefundStatus::ORDER_REFUSED) {
+		}elseif ($status == \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_REFUSED) {
 			$refund_status_code = 'refused';
 			$label_refund_staus = __('退款被拒', 'groupbuy');
 		}

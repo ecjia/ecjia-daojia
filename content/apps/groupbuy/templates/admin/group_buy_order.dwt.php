@@ -49,7 +49,7 @@
 						<td class="hide-edit-area">
 							{$order.order_sn}<span class="groupbuy-icon">{t domain="groupbuy"}团{/t}</span>
 							<div class="edit-list">
-								<a href='{url path="orders/admin/info" args="order_id={$order.order_id}"}' target="__blank" title='{t domain="groupbuy"}查看{/t}'>{t domain="groupbuy"}查看{/t}</a>
+								<a href='{url path="orders/admin/info" args="order_id={$order.order_id}"}' target="_blank" title='{t domain="groupbuy"}查看{/t}'>{t domain="groupbuy"}查看{/t}</a>
 							</div>
 						</td>
 						<td class="ecjiafc-red">

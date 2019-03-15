@@ -39,7 +39,7 @@ class groupbuy_groupbuy_goods_list_api extends Component_Event_Api
             ->where(RC_DB::raw('g.is_on_sale'), 1)
             ->where(RC_DB::raw('g.is_alone_sale'), 1);
 
-        if (!empty($options['store_id'])) {
+        if (!empty($options['store_id']) && is_array($options['store_id'])) {
             $db_goods_activity->whereIn(RC_DB::raw('g.store_id'), $options['store_id']);
         }
 

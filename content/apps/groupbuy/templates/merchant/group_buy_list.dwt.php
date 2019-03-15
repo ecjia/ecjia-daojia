@@ -80,7 +80,7 @@
 								{assign var=edit_url value=RC_Uri::url('groupbuy/merchant/edit',"id={$list.act_id}")}
 								<a class="data-pjax" href="{$edit_url}{if $smarty.get.page}&page={$smarty.get.page}{/if}" title='{t domain="groupbuy"}编辑{/t}'>{t domain="groupbuy"}编辑{/t}</a>
 								&nbsp;|&nbsp;
-								<a href="{RC_Uri::url('orders/merchant/init')}&extension_code=group_buy&group_buy_id={$list.act_id}" title='{t domain="groupbuy"}查看{/t}' target="__blank">{t domain="groupbuy"}查看订单{/t}</a>
+								<a href="{RC_Uri::url('orders/merchant/init')}&extension_code=group_buy&group_buy_id={$list.act_id}" title='{t domain="groupbuy"}查看{/t}' target="_blank">{t domain="groupbuy"}查看订单{/t}</a>
 								{if $list.status neq 0 && $list.status neq 1}
 								&nbsp;|&nbsp;
 								<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="groupbuy"}您确定要删除这条记录吗？{/t}' href='{RC_Uri::url("groupbuy/merchant/remove","id={$list.act_id}")}' title='{t domain="groupbuy"}删除{/t}'>{t domain="groupbuy"}删除{/t}</a>

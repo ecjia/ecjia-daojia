@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App groupbuy package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App groupbuy 1.27.4\n"
+"Project-Id-Version: Ecjia App groupbuy 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 03:55:22+00:00\n"
+"POT-Creation-Date: 2019-03-06 09:04:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -258,12 +258,20 @@ msgstr ""
 msgid "团购删除"
 msgstr ""
 
+#: apis/groupbuy_groupbuy_goods_list_api.class.php:17
+msgid "调用api文件,groupbuy_goods_list,参数无效"
+msgstr ""
+
 #: apis/groupbuy_merchant_purview_api.class.php:13
 msgid "团购添加"
 msgstr ""
 
 #: apis/groupbuy_merchant_purview_api.class.php:14
 msgid "团购更新"
+msgstr ""
+
+#: apis/groupbuy_store_remove_cleardata_api.class.php:63
+msgid "请求接口%s参数无效"
 msgstr ""
 
 #: classes/GroupbuyActivityFailed.php:122
@@ -312,6 +320,22 @@ msgstr ""
 
 #: classes/GroupbuyStatus.php:95
 msgid "未知状态"
+msgstr ""
+
+#: classes/StoreCleanHandlers/StoreGroupbuyClear.php:46
+msgid "店铺团购活动总共<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>个"
+msgstr ""
+
+#: classes/StoreCleanHandlers/StoreGroupbuyClear.php:47
+msgid "查看全部>>>"
+msgstr ""
+
+#: classes/StoreCleanHandlers/StoreGroupbuyClear.php:100
+msgid "店铺名是%s"
+msgstr ""
+
+#: classes/StoreCleanHandlers/StoreGroupbuyClear.php:100
+msgid "店铺ID是%s"
 msgstr ""
 
 #: classes/hooks/merchant_groupbuy.class.php:52
@@ -610,6 +634,11 @@ msgstr ""
 msgid "没有找到任何记录"
 msgstr ""
 
+#: content/apps/groupbuy/templates/admin/group_buy_list.dwt.php:34
+#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:43
+msgid "请输入团购商品名称"
+msgstr ""
+
 #: content/apps/groupbuy/templates/admin/group_buy_list.dwt.php:47
 #: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:59
 msgid "商品名称"
@@ -762,10 +791,6 @@ msgstr ""
 
 #: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:38
 msgid "删除团购"
-msgstr ""
-
-#: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:43
-msgid "请输入团购商品名称"
 msgstr ""
 
 #: content/apps/groupbuy/templates/merchant/group_buy_list.dwt.php:81

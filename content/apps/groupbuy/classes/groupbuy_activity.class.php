@@ -177,7 +177,7 @@ class groupbuy_activity {
 		->where(RC_DB::raw('ga.start_time'), '<=', RC_Time::gmtime())
 		->where(RC_DB::raw('ga.end_time'), '>=', RC_Time::gmtime())
 		->whereRaw('g.goods_id is not null')
-		->where(RC_DB::raw('g.review_status'), '>', 3)
+		->where(RC_DB::raw('g.review_status'), '>', 2)
 		->where(RC_DB::raw('g.is_delete'), 0)
 		->where(RC_DB::raw('g.is_on_sale'), 1)
 		->where(RC_DB::raw('g.is_alone_sale'), 1);
