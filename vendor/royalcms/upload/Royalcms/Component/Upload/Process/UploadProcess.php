@@ -52,7 +52,7 @@ class UploadProcess extends UploadProcessAbstract
         $tmp_name = $upload_file->getRealPath();
 
         /* 生成保存文件名 */
-        $savename = $this->uploader->generateFilename($name, $ext);
+        $savename = $this->uploader->generateFilename($name, '');
         if (false == $savename) {
             return false;
         }
