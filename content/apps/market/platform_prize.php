@@ -70,10 +70,10 @@ class platform_prize extends ecjia_platform
         RC_Style::enqueue_style('activity', RC_App::apps_url('statics/platform-css/activity.css', __FILE__));
         RC_Style::enqueue_style('prize', RC_App::apps_url('statics/platform-css/prize.css', __FILE__));
 
-        RC_Script::enqueue_script('prize_list', RC_App::apps_url('statics/platform-js/prize_list.js', __FILE__), array(), false, true);
-        RC_Script::localize_script('platform_activity', 'js_lang', config('app-market::js_lang.market_platform_page'));
+        RC_Script::enqueue_script('prize_list', RC_App::apps_url('statics/platform-js/prize_list.js', __FILE__), array(), false, 1);
+        RC_Script::localize_script('prize_list', 'js_lang', config('app-market::jslang.market_platform_page'));
 
-        RC_Script::enqueue_script('popover', RC_App::apps_url('statics/platform-js/popover.js', __FILE__), array(), false, true);
+        RC_Script::enqueue_script('popover', RC_App::apps_url('statics/platform-js/popover.js', __FILE__), array(), false, 1);
 
         ecjia_platform_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('抽奖记录', 'market'), RC_Uri::url('market/platform_prize/init')));
         ecjia_platform_screen::get_current_screen()->set_subject('抽奖记录');

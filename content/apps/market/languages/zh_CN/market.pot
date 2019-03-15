@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App market package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App market 1.27.4\n"
+"Project-Id-Version: Ecjia App market 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 03:56:36+00:00\n"
+"POT-Creation-Date: 2019-03-06 09:04:39+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15,69 +15,69 @@ msgstr ""
 #: admin.php:85 admin.php:105 admin.php:107
 #: apis/market_admin_menu_api.class.php:61
 #: apis/market_platform_menu_api.class.php:63 classes/Helper.php:58
-#: configs/package.php:55 platform.php:76 platform.php:77 platform.php:88
-#: platform.php:89
+#: configs/package.php:55 platform.php:77 platform.php:78 platform.php:89
+#: platform.php:90
 msgid "营销活动"
 msgstr ""
 
-#: admin.php:89 admin.php:175 admin.php:177 platform.php:158 platform.php:160
+#: admin.php:89 admin.php:175 admin.php:177 platform.php:159 platform.php:161
 msgid "编辑营销活动"
 msgstr ""
 
 #: admin.php:90 admin.php:330 admin.php:352 admin.php:370 admin.php:385
-#: admin.php:387 admin.php:492 admin.php:508 admin.php:511 platform.php:281
-#: platform.php:303 platform.php:324 platform.php:339 platform.php:342
-#: platform.php:443 platform.php:459 platform.php:463
+#: admin.php:387 admin.php:492 admin.php:508 admin.php:511 platform.php:282
+#: platform.php:304 platform.php:325 platform.php:340 platform.php:343
+#: platform.php:444 platform.php:460 platform.php:464
 msgid "活动奖品池"
 msgstr ""
 
-#: admin.php:91 platform.php:584
+#: admin.php:91 platform.php:585
 msgid "活动记录"
 msgstr ""
 
-#: admin.php:125 admin.php:126 platform.php:105 platform.php:107
+#: admin.php:125 admin.php:126 platform.php:106 platform.php:108
 msgid "活动详情"
 msgstr ""
 
-#: admin.php:128 admin.php:290 platform.php:109 platform.php:581
+#: admin.php:128 admin.php:290 platform.php:110 platform.php:582
 msgid "返回营销活动"
 msgstr ""
 
-#: admin.php:174 admin.php:296 admin.php:354 platform.php:157 platform.php:307
-#: platform.php:588 platform_prize.php:115
+#: admin.php:174 admin.php:296 admin.php:354 platform.php:158 platform.php:308
+#: platform.php:589 platform_prize.php:115
 msgid "返回活动详情"
 msgstr ""
 
-#: admin.php:197 platform.php:182
+#: admin.php:197 platform.php:183
 msgid "成功关闭营销活动"
 msgstr ""
 
-#: admin.php:199 admin.php:236 admin.php:652 platform.php:184 platform.php:222
+#: admin.php:199 admin.php:236 admin.php:652 platform.php:185 platform.php:223
 #: platform_prize.php:175
 msgid "错误的参数"
 msgstr ""
 
-#: admin.php:234 platform.php:220
+#: admin.php:234 platform.php:221
 msgid "成功开启营销活动"
 msgstr ""
 
-#: admin.php:256 configs/jslang.php:64 platform.php:243
+#: admin.php:256 configs/jslang.php:58 platform.php:244
 msgid "请输入活动开始时间"
 msgstr ""
 
-#: admin.php:260 platform.php:247
+#: admin.php:260 configs/jslang.php:59 platform.php:248
 msgid "请输入活动结束时间"
 msgstr ""
 
-#: admin.php:264 platform.php:251
+#: admin.php:264 platform.php:252
 msgid "活动开始时间不能大于结束时间"
 msgstr ""
 
-#: admin.php:280 platform.php:267
+#: admin.php:280 platform.php:268
 msgid "编辑活动成功"
 msgstr ""
 
-#: admin.php:291 platform.php:582
+#: admin.php:291 platform.php:583
 msgid "查看活动记录"
 msgstr ""
 
@@ -85,43 +85,43 @@ msgstr ""
 msgid "添加活动"
 msgstr ""
 
-#: admin.php:413 admin.php:539 platform.php:368 platform.php:491
+#: admin.php:413 admin.php:539 platform.php:369 platform.php:492
 msgid "请选择奖品等级！"
 msgstr ""
 
-#: admin.php:417 admin.php:543 platform.php:372 platform.php:495
+#: admin.php:417 admin.php:543 platform.php:373 platform.php:496
 msgid "请填写奖品名称！"
 msgstr ""
 
-#: admin.php:421 admin.php:547 platform.php:376 platform.php:499
+#: admin.php:421 admin.php:547 platform.php:377 platform.php:500
 msgid "请填写奖品类型！"
 msgstr ""
 
-#: admin.php:432 admin.php:558 platform.php:387 platform.php:510
+#: admin.php:432 admin.php:558 platform.php:388 platform.php:511
 msgid "请选择礼券奖品的红包！"
 msgstr ""
 
-#: admin.php:437 admin.php:563 platform.php:392 platform.php:515
+#: admin.php:437 admin.php:563 platform.php:393 platform.php:516
 msgid "请填写奖品内容！"
 msgstr ""
 
-#: admin.php:443 admin.php:569 platform.php:398 platform.php:521
+#: admin.php:443 admin.php:569 platform.php:399 platform.php:522
 msgid "请填写奖品数量！"
 msgstr ""
 
-#: admin.php:446 admin.php:573 platform.php:401 platform.php:525
+#: admin.php:446 admin.php:573 platform.php:402 platform.php:526
 msgid "请填写获奖概率！"
 msgstr ""
 
-#: admin.php:458 admin.php:585 platform.php:413 platform.php:537
+#: admin.php:458 admin.php:585 platform.php:414 platform.php:538
 msgid "活动所有奖品获奖概率总和不可大于100"
 msgstr ""
 
-#: admin.php:475 admin.php:600 platform.php:427 platform.php:553
+#: admin.php:475 admin.php:600 platform.php:428 platform.php:554
 msgid "修改活动奖品池成功"
 msgstr ""
 
-#: admin.php:619
+#: admin.php:619 platform.php:427 platform.php:552
 msgid "活动%s的奖品%s"
 msgstr ""
 
@@ -179,6 +179,10 @@ msgstr ""
 msgid "中奖记录管理"
 msgstr ""
 
+#: apis/market_store_remove_cleardata_api.class.php:63
+msgid "请求接口%s参数无效"
+msgstr ""
+
 #: classes/Helper.php:59
 msgid "奖品"
 msgstr ""
@@ -191,26 +195,90 @@ msgstr ""
 msgid "发放"
 msgstr ""
 
+#: classes/StoreCleanHandlers/StoreMarketActivityClear.php:43
+msgid "店铺内的公众平台营销活动全部删除"
+msgstr ""
+
+#: classes/StoreCleanHandlers/StoreMarketActivityClear.php:94
+msgid "店铺名是%s"
+msgstr ""
+
+#: classes/StoreCleanHandlers/StoreMarketActivityClear.php:94
+msgid "店铺ID是%s"
+msgstr ""
+
 #: configs/jslang.php:57
-msgid "未搜索到商品信息"
-msgstr ""
-
-#: configs/jslang.php:58
-msgid "取消"
-msgstr ""
-
-#: configs/jslang.php:63
 msgid "请输入活动名称"
 msgstr ""
 
+#: configs/jslang.php:60
+msgid "请选择奖品等级"
+msgstr ""
+
+#: configs/jslang.php:61
+msgid "请填写奖品名称"
+msgstr ""
+
+#: configs/jslang.php:62
+msgid "请选择奖品类型"
+msgstr ""
+
+#: configs/jslang.php:63
+msgid "请选择礼券奖品的红包"
+msgstr ""
+
+#: configs/jslang.php:64
+msgid "请填写奖品内容"
+msgstr ""
+
 #: configs/jslang.php:65
-msgid "返回选择栏目"
+msgid "请填写奖品数量"
+msgstr ""
+
+#: configs/jslang.php:66
+msgid "请填写获奖概率"
+msgstr ""
+
+#: configs/jslang.php:68
+msgid "填写中奖的实物奖品，如iPhone X或iPad Pro 2"
+msgstr ""
+
+#: configs/jslang.php:69
+msgid "填写中奖后发放的消费积分数量"
+msgstr ""
+
+#: configs/jslang.php:70
+msgid "填写中奖后发放的现金红包金额，中奖后直接发放到用户帐户余额"
+msgstr ""
+
+#: configs/jslang.php:72
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:73
+msgid "取消"
 msgstr ""
 
 #: configs/package.php:56
 msgid ""
 "企业通过介入重大的社会活动或整合有效的资源策划大型活动而迅速提高企业及其品牌"
 "知名度、美誉度和影响力，促进产品销售的一种营销方式。"
+msgstr ""
+
+#: mobile_prize.php:100 mobile_prize.php:170
+msgid "微信大转盘"
+msgstr ""
+
+#: mobile_prize.php:102 mobile_prize.php:172
+msgid "微信刮刮乐"
+msgstr ""
+
+#: mobile_prize.php:104 mobile_prize.php:174
+msgid "微信砸金蛋"
+msgstr ""
+
+#: mobile_prize.php:106 mobile_prize.php:176
+msgid "手机摇一摇"
 msgstr ""
 
 #: mobile_prize.php:196 mobile_prize.php:237
@@ -279,6 +347,38 @@ msgstr ""
 
 #: modules/market/shake_module.class.php:77
 msgid "参数无效"
+msgstr ""
+
+#: platform_prize.php:192
+msgid "奖品名"
+msgstr ""
+
+#: platform_prize.php:192
+msgid "发放状态"
+msgstr ""
+
+#: platform_prize.php:192
+msgid "微信昵称"
+msgstr ""
+
+#: platform_prize.php:192
+msgid "收货人"
+msgstr ""
+
+#: platform_prize.php:192
+msgid "手机号"
+msgstr ""
+
+#: platform_prize.php:192
+msgid "收货地址"
+msgstr ""
+
+#: platform_prize.php:321
+msgid "未发放"
+msgstr ""
+
+#: platform_prize.php:321
+msgid "已发放"
 msgstr ""
 
 #: content/apps/market/templates/platform/activity_edit.dwt.php:14
@@ -389,36 +489,42 @@ msgstr ""
 #: content/apps/market/templates/platform/activity_prize_add.dwt.php:32
 #: content/apps/market/templates/platform/prize_list.dwt.php:33
 #: content/apps/market/templates/admin/activity_prize_add.dwt.php:29
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:31
 msgid "特等奖"
 msgstr ""
 
 #: content/apps/market/templates/platform/activity_prize_add.dwt.php:33
 #: content/apps/market/templates/platform/prize_list.dwt.php:33
 #: content/apps/market/templates/admin/activity_prize_add.dwt.php:30
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:31
 msgid "一等奖"
 msgstr ""
 
 #: content/apps/market/templates/platform/activity_prize_add.dwt.php:34
 #: content/apps/market/templates/platform/prize_list.dwt.php:33
 #: content/apps/market/templates/admin/activity_prize_add.dwt.php:31
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:31
 msgid "二等奖"
 msgstr ""
 
 #: content/apps/market/templates/platform/activity_prize_add.dwt.php:35
 #: content/apps/market/templates/platform/prize_list.dwt.php:34
 #: content/apps/market/templates/admin/activity_prize_add.dwt.php:32
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:32
 msgid "三等奖"
 msgstr ""
 
 #: content/apps/market/templates/platform/activity_prize_add.dwt.php:36
 #: content/apps/market/templates/platform/prize_list.dwt.php:34
 #: content/apps/market/templates/admin/activity_prize_add.dwt.php:33
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:32
 msgid "四等奖"
 msgstr ""
 
 #: content/apps/market/templates/platform/activity_prize_add.dwt.php:37
 #: content/apps/market/templates/platform/prize_list.dwt.php:35
 #: content/apps/market/templates/admin/activity_prize_add.dwt.php:34
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:32
 msgid "五等奖"
 msgstr ""
 
@@ -441,21 +547,6 @@ msgstr ""
 msgid "其他奖品内容："
 msgstr ""
 
-#: content/apps/market/templates/platform/activity_prize_add.dwt.php:97
-#: content/apps/market/templates/admin/activity_prize_add.dwt.php:82
-msgid "填写中奖的实物奖品，如iPhone X或iPad Pro 2"
-msgstr ""
-
-#: content/apps/market/templates/platform/activity_prize_add.dwt.php:99
-#: content/apps/market/templates/admin/activity_prize_add.dwt.php:84
-msgid "填写中奖后发放的消费积分数量"
-msgstr ""
-
-#: content/apps/market/templates/platform/activity_prize_add.dwt.php:101
-#: content/apps/market/templates/admin/activity_prize_add.dwt.php:86
-msgid "填写中奖后发放的现金红包金额，中奖后直接发放到用户帐户余额"
-msgstr ""
-
 #: content/apps/market/templates/platform/activity_prize_add.dwt.php:109
 #: content/apps/market/templates/admin/activity_prize_add.dwt.php:93
 msgid "奖品数量："
@@ -471,11 +562,6 @@ msgstr ""
 msgid "单位%"
 msgstr ""
 
-#: content/apps/market/templates/platform/activity_prize_add.dwt.php:131
-#: content/apps/market/templates/admin/activity_prize_add.dwt.php:116
-msgid "确定"
-msgstr ""
-
 #: content/apps/market/templates/platform/activity_record.dwt.php:25
 #: content/apps/market/templates/admin/activity_record.dwt.php:25
 msgid "会员名称"
@@ -485,12 +571,6 @@ msgstr ""
 #: content/apps/market/templates/platform/prize_record.dwt.php:71
 #: content/apps/market/templates/admin/activity_record.dwt.php:26
 msgid "奖品名称"
-msgstr ""
-
-#: content/apps/market/templates/platform/activity_record.dwt.php:27
-#: content/apps/market/templates/platform/prize_record.dwt.php:72
-#: content/apps/market/templates/admin/activity_record.dwt.php:27
-msgid "发放状态"
 msgstr ""
 
 #: content/apps/market/templates/platform/activity_record.dwt.php:28
@@ -507,19 +587,6 @@ msgstr ""
 #: content/apps/market/templates/platform/activity_record.dwt.php:30
 #: content/apps/market/templates/admin/activity_record.dwt.php:30
 msgid "抽奖时间"
-msgstr ""
-
-#: content/apps/market/templates/platform/activity_record.dwt.php:39
-#: content/apps/market/templates/platform/prize_record.dwt.php:91
-#: content/apps/market/templates/admin/activity_record.dwt.php:39
-msgid "未发放"
-msgstr ""
-
-#: content/apps/market/templates/platform/activity_record.dwt.php:39
-#: content/apps/market/templates/platform/prize_record.dwt.php:91
-#: content/apps/market/templates/admin/activity_record.dwt.php:39
-#: content/apps/market/templates/front/prize_list.dwt.php:39
-msgid "已发放"
 msgstr ""
 
 #: content/apps/market/templates/platform/activity_record.dwt.php:46
@@ -539,10 +606,6 @@ msgstr ""
 
 #: content/apps/market/templates/platform/prize_record.dwt.php:55
 msgid "导出实物中奖用户信息"
-msgstr ""
-
-#: content/apps/market/templates/platform/prize_record.dwt.php:70
-msgid "微信昵称"
 msgstr ""
 
 #: content/apps/market/templates/platform/prize_record.dwt.php:84
@@ -669,22 +732,27 @@ msgid "暂未设置"
 msgstr ""
 
 #: content/apps/market/templates/platform/prize_list.dwt.php:42
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:41
 msgid "未中奖"
 msgstr ""
 
 #: content/apps/market/templates/platform/prize_list.dwt.php:42
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:41
 msgid "礼券红包"
 msgstr ""
 
 #: content/apps/market/templates/platform/prize_list.dwt.php:43
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:41
 msgid "实物奖品"
 msgstr ""
 
 #: content/apps/market/templates/platform/prize_list.dwt.php:43
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:42
 msgid "送积分"
 msgstr ""
 
 #: content/apps/market/templates/platform/prize_list.dwt.php:43
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:42
 msgid "推荐商品"
 msgstr ""
 
@@ -694,6 +762,7 @@ msgid "推荐店铺"
 msgstr ""
 
 #: content/apps/market/templates/platform/prize_list.dwt.php:44
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:43
 msgid "现金红包"
 msgstr ""
 
@@ -733,6 +802,10 @@ msgstr ""
 msgid "请选择"
 msgstr ""
 
+#: content/apps/market/templates/admin/activity_prize_list.dwt.php:36
+msgid "奖品内容："
+msgstr ""
+
 #: content/apps/market/templates/admin/activity_detail.dwt.php:25
 msgid "功能详情"
 msgstr ""
@@ -769,24 +842,12 @@ msgstr ""
 msgid "红包奖励"
 msgstr ""
 
-#: content/apps/market/templates/front/fill_user_info.dwt.php:49
-msgid "收货人"
-msgstr ""
-
 #: content/apps/market/templates/front/fill_user_info.dwt.php:52
 msgid "请输入收货人姓名"
 msgstr ""
 
-#: content/apps/market/templates/front/fill_user_info.dwt.php:55
-msgid "手机号"
-msgstr ""
-
 #: content/apps/market/templates/front/fill_user_info.dwt.php:58
 msgid "请输入收货人手机号"
-msgstr ""
-
-#: content/apps/market/templates/front/fill_user_info.dwt.php:61
-msgid "收货地址"
 msgstr ""
 
 #: content/apps/market/templates/front/fill_user_info.dwt.php:64

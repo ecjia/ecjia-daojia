@@ -66,35 +66,35 @@
 				},
 				messages: {
 					'activity_name': {
-						required: '请输入活动名称'
+						required: js_lang.market_activity_name
 					},
 					'start_time': {
-						required: '请输入活动开始时间'
+						required: js_lang.market_start_time
 					},
 					'end_time': {
-						required: '返回选择栏目'
+						required: js_lang.market_end_time
 					},
 
 					'prize_level': {
-						required: '请选择奖品等级'
+						required: js_lang.market_prize_level
 					},
 					'prize_name': {
-						required: '请填写奖品名称'
+						required: js_lang.market_prize_name
 					},
 					'prize_type': {
-						required: '请选择奖品类型'
+						required: js_lang.market_prize_type
 					},
 					'prize_value': {
-						required: '请选择礼券奖品的红包'
+						required: js_lang.market_prize_value
 					},
 					'prize_value_other': {
-						required: '请填写奖品内容'
+						required: js_lang.market_prize_value_other
 					},
 					'prize_number': {
-						required: '请填写奖品数量'
+						required: js_lang.market_prize_number
 					},
 					'prize_prob': {
-						required: '请填写获奖概率'
+						required: js_lang.market_prize_prob
 					},
 				},
 				submitHandler: function () {
@@ -144,19 +144,19 @@
 					$('.prize_value_bonus').removeClass('display-dn').find('select').select2();
 					$('.prize_value_other').addClass('display-dn');
 				}
-				//2实物奖品 3积分奖品 6现金红包 手动填写 
+				//2实物奖品 3积分奖品 6现金红包 手动填写
 				if (val == 2 || val == 3 || val == 6) {
 					$('.prize_value_other').find('.help-block').remove();
 					$('.prize_value_other').find('input').val('');
 					html += '<span class="help-block">';
 					if (val == 2) {
-						html += '填写中奖的实物奖品，如iPhone X或iPad Pro 2';
+						html += js_lang.winning_physical_prize;
 					}
 					if (val == 3) {
-						html += '填写中奖后发放的消费积分数量';
+						html += js_lang.number_of_points_consumed;
 					}
 					if (val == 6) {
-						html += '填写中奖后发放的现金红包金额，中奖后直接发放到用户帐户余额';
+						html += js_lang.cash_red_envelope_amount;
 					}
 					html += '</span>'
 					$('.prize_value_bonus').addClass('display-dn');

@@ -44,34 +44,30 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-
-/**
- * js语言包设置
- */
-
 defined('IN_ECJIA') or exit('No permission resources.');
 
-return array(
-    //营销活动
-    'market_page' =>array(
-        'market_activity_name'		=> __('请输入活动名称', 'market'),
-        'market_start_time'	        => __('请输入活动开始时间', 'market'),
-        'market_end_time'	            => __('请输入活动结束时间', 'market'),
-        'market_prize_level'   => __('请选择奖品等级', 'market'),
-        'market_prize_name'			    => __('请填写奖品名称', 'market'),
-        'market_prize_type'			    => __('请选择奖品类型', 'market'),
-        'market_prize_value'			    => __('请选择礼券奖品的红包', 'market'),
-        'market_prize_value_other'			    => __('请填写奖品内容', 'market'),
-        'market_prize_number'			    => __('请填写奖品数量', 'market'),
-        'market_prize_prob'			    => __('请填写获奖概率', 'market'),
+/**
+ * 移除店铺公众平台营销活动信息接口
+ *
+ * @author royalwang
+ */
+class market_store_remove_cleardata_api extends Component_Event_Api
+{
 
-        'winning_physical_prize'			    => __('填写中奖的实物奖品，如iPhone X或iPad Pro 2', 'market'),
-        'number_of_points_consumed'			    => __('填写中奖后发放的消费积分数量', 'market'),
-        'cash_red_envelope_amount'			    => __('填写中奖后发放的现金红包金额，中奖后直接发放到用户帐户余额', 'market'),
+    public function call(& $options)
+    {
 
-        'ok' =>  __('确定', 'market'),
-        'cancel' =>  __('取消', 'market'),
-    ),
+        $store_id = array_get($options, 'store_id');
 
-);
-//end
+        if (empty($store_id)) {
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'market'), 'market_store_remove_cleardata_api'));
+        }
+
+        return [
+            new \Ecjia\App\Market\StoreCleanHandlers\StoreMarketActivityClear($store_id),
+        ];
+    }
+
+}
+
+// end

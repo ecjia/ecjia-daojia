@@ -74,9 +74,9 @@ class admin extends ecjia_admin
         RC_Script::enqueue_script('bootstrap-editable.min', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js'));
         RC_Style::enqueue_style('bootstrap-editable', RC_Uri::admin_url('statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css'));
 
-        RC_Script::enqueue_script('activity', RC_App::apps_url('statics/js/activity.js', __FILE__), array(), false, false);
+        RC_Script::enqueue_script('activity', RC_App::apps_url('statics/js/activity.js', __FILE__), array(), false, 1);
         RC_Style::enqueue_style('activity', RC_App::apps_url('statics/css/activity.css', __FILE__));
-        RC_Script::localize_script('activity', 'js_lang', config('app-market::js_lang.market_page'));
+        RC_Script::localize_script('activity', 'js_lang', config('app-market::jslang.market_page'));
 
         //时间控件
         RC_Script::enqueue_script('bootstrap-datetimepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datetimepicker.js'));

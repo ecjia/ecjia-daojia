@@ -28,19 +28,19 @@
 							<div class="prize_level prize_level_{$prize.prize_level}">
 								<div class="model-title ware_name">
 									<span>
-										{if $prize.prize_level eq '0'} [{t domain="market"}特等奖{/f}] {elseif $prize.prize_level eq '1'} [{t domain="market"}一等奖{/f}] {elseif $prize.prize_level eq '2'} [{t domain="market"}二等奖{/f}] {elseif
-										$prize.prize_level eq '3'} [{t domain="market"}三等奖{/f}] {elseif $prize.prize_level eq '4'} [{t domain="market"}四等奖{/f}] {elseif $prize.prize_level eq '5'} [{t domain="market"}五等奖{/f}]
+										{if $prize.prize_level eq '0'} [{t domain="market"}特等奖{/t}] {elseif $prize.prize_level eq '1'} [{t domain="market"}一等奖{/t}] {elseif $prize.prize_level eq '2'} [{t domain="market"}二等奖{/t}] {elseif
+										$prize.prize_level eq '3'} [{t domain="market"}三等奖{/t}] {elseif $prize.prize_level eq '4'} [{t domain="market"}四等奖{/t}] {elseif $prize.prize_level eq '5'} [{t domain="market"}五等奖{/t}]
 										{/if} {$prize.prize_name}
 									</span>
 									<br>
-									<span>{t domain="market"}奖品内容：{/f}{$prize.prize_value_label}</span>
+									<span>{t domain="market"}奖品内容：{/t}{$prize.prize_value_label}</span>
 								</div>
 								<p class="model-inner">
 									<span class="f_l">{$prize.prize_number}&nbsp;/&nbsp;{$prize.prize_prob}%</span>
 									<span class="f_r">
-										{if $prize.prize_type eq '0'} {t domain="market"}未中奖{/f} {elseif $prize.prize_type eq '1'} {t domain="market"}礼券红包{/f} {elseif $prize.prize_type eq '2'} {t domain="market"}实物奖品{/f} {elseif $prize.prize_type
-										eq '3'} {t domain="market"}送积分{/f} {elseif $prize.prize_type eq '4'} {t domain="market"}推荐商品{/f} {elseif $prize.prize_type eq '5'} {t domain="market"}推荐店铺{/t} {elseif $prize.prize_type
-										eq '6'} {t domain="market"}现金红包{/f} {/if}
+										{if $prize.prize_type eq '0'} {t domain="market"}未中奖{/t} {elseif $prize.prize_type eq '1'} {t domain="market"}礼券红包{/t} {elseif $prize.prize_type eq '2'} {t domain="market"}实物奖品{/t} {elseif $prize.prize_type
+										eq '3'} {t domain="market"}送积分{/t} {elseif $prize.prize_type eq '4'} {t domain="market"}推荐商品{/t} {elseif $prize.prize_type eq '5'} {t domain="market"}推荐店铺{/t} {elseif $prize.prize_type
+										eq '6'} {t domain="market"}现金红包{/t} {/if}
 									</span>
 								</p>
 							</div>
