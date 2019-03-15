@@ -34033,6 +34033,117 @@ class Config extends Facade
 }
 }
 
+namespace Ecjia\System\Facades {
+use Royalcms\Component\Support\Facades\Facade;
+class ThemeManager extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'ecjia.theme.manager';
+    }
+}
+}
+
+namespace Ecjia\System\Facades {
+use Royalcms\Component\Support\Facades\Facade;
+class PluginManager extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'ecjia.plugin.manager';
+    }
+}
+}
+
+namespace Ecjia\System\Facades {
+use Royalcms\Component\Support\Facades\Facade;
+class SiteManager extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'ecjia.site.manager';
+    }
+}
+}
+
+namespace Ecjia\System\Facades {
+use Royalcms\Component\Support\Facades\Facade;
+class VersionManager extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'ecjia.version.manager';
+    }
+}
+}
+
+namespace Ecjia\System\Frameworks\Contracts {
+interface EcjiaTemplateFileLoader
+{
+    public function get_template_dir();
+    public function get_template_file($file);
+}
+}
+
+namespace Ecjia\System\Frameworks\Contracts {
+interface PaidOrderProcessInterface
+{
+    public function getOrderInfo();
+    public function getPaymentData();
+    public function getPrintData();
+}
+}
+
+namespace Ecjia\System\Frameworks\Contracts {
+interface ScriptLoaderInterface
+{
+    public function print_head_scripts();
+    public function print_footer_scripts();
+}
+}
+
+namespace Ecjia\System\Frameworks\Contracts {
+interface StyleLoaderInterface
+{
+    public function print_head_styles();
+    public function print_late_styles();
+}
+}
+
+namespace Ecjia\System\Frameworks\Contracts {
+interface UserAllotPurview
+{
+    public function getUserId();
+    public function save($value);
+    public function get();
+}
+}
+
+namespace Ecjia\System\Frameworks\Contracts {
+interface UserInterface
+{
+    public function getUserName();
+    public function getUserId();
+    public function getUserType();
+    public function getEmail();
+    public function getLastLogin();
+    public function getLastIp();
+    public function getActionList();
+    public function setActionList($purview);
+    public function getLangType();
+    public function getRoleId();
+    public function getAddTime();
+}
+}
+
+namespace Ecjia\System\Frameworks\Contracts {
+interface ShopInterface
+{
+    public function getStoreName();
+    public function getSotreId();
+}
+}
+
 namespace Ecjia\System\Config {
 use Closure;
 use ArrayAccess;
@@ -34585,232 +34696,6 @@ trait CompatibleTrait
 }
 }
 
-namespace Ecjia\System\BaseController {
-use ecjia;
-use ecjia_utility;
-use RC_Lang;
-use RC_Redirect;
-use RC_Response;
-use RC_Package;
-use Royalcms\Component\Routing\Controller as RoyalcmsController;
-defined('IN_ECJIA') or exit('No permission resources.');
-abstract class EcjiaController extends RoyalcmsController
-{
-    protected $view;
-    protected $view_method = ['display', 'fetch', 'fetch_string', 'is_cached', 'clear_cache', 'clear_all_cache', 'assign', 'assign_lang', 'clear_compiled_files', 'clear_cache_files'];
-    protected $request;
-    public static $view_object;
-    public static $controller;
-    protected $public_route = [];
-    public function __construct()
-    {
-        $this->request = royalcms('request');
-        $this->session_start();
-        $this->view = $this->create_view();
-        static::$controller =& $this;
-        static::$view_object =& $this->view;
-        $this->load_hooks();
-        RC_Response::header('X-XSS-Protection', '1; mode=block');
-        RC_Response::header('X-Frame-Options', 'SAMEORIGIN');
-        RC_Response::header('X-Content-Type-Options', 'nosniff');
-    }
-    public function __call($method, $parameters)
-    {
-        if (in_array($method, $this->view_method)) {
-            return call_user_func_array(array($this->view, $method), $parameters);
-        }
-        return parent::__call($method, $parameters);
-    }
-    public function getRequest()
-    {
-        return $this->request;
-    }
-    public function isVerificationPublicRoute()
-    {
-        $route_m = ROUTE_M == config('system.admin_entrance') ? 'system' : ROUTE_M;
-        $route_controller = $route_m . '/' . ROUTE_C . '/' . ROUTE_A;
-        if (in_array($route_controller, $this->public_route)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    protected function ajax($data, $type = ecjia::DATATYPE_JSON)
-    {
-        $type = strtoupper($type);
-        switch ($type) {
-            case ecjia::DATATYPE_HTML:
-            case ecjia::DATATYPE_TEXT:
-                return royalcms('response')->setContent($data);
-                break;
-            case ecjia::DATATYPE_XML:
-                return $this->xml($data);
-                break;
-            case ecjia::DATATYPE_JSON:
-            default:
-                return $this->json($data);
-        }
-    }
-    protected function xml($data)
-    {
-        $cookies = royalcms('response')->headers->getCookies();
-        $response = RC_Response::xml($data);
-        foreach ($cookies as $cookie) {
-            $response->withCookie($cookie);
-        }
-        royalcms()->instance('response', $response);
-        return $response;
-    }
-    protected function json($data)
-    {
-        $cookies = royalcms('response')->headers->getCookies();
-        $response = RC_Response::json($data);
-        foreach ($cookies as $cookie) {
-            $response->withCookie($cookie);
-        }
-        royalcms()->instance('response', $response);
-        return $response;
-    }
-    public function redirect($url, $code = 302)
-    {
-        $cookies = royalcms('response')->headers->getCookies();
-        $response = RC_Redirect::away($url, $code);
-        foreach ($cookies as $cookie) {
-            $response->withCookie($cookie);
-        }
-        royalcms()->instance('response', $response);
-        return $response;
-    }
-    public function exited()
-    {
-        royalcms('response')->send();
-        exit(0);
-    }
-    protected function header($key, $value, $replace = true)
-    {
-        RC_Response::header($key, $value, $replace);
-    }
-    protected function alert($msg, $url = null, $parent = false)
-    {
-        header("Content-type: text/html; charset=utf-8");
-        $alert_msg = "alert('{$msg}');";
-        if (empty($url)) {
-            $gourl = 'history.go(-1);';
-        } else {
-            $gourl = ($parent ? 'parent' : 'window') . ".location.href = '{$url}'";
-        }
-        $script = "<script>" . PHP_EOL;
-        $script .= $alert_msg . PHP_EOL;
-        $script .= $gourl . PHP_EOL;
-        $script .= "</script>" . PHP_EOL;
-        $cookies = royalcms('response')->headers->getCookies();
-        $response = RC_Response::make($script);
-        foreach ($cookies as $cookie) {
-            $response->withCookie($cookie);
-        }
-        royalcms()->instance('response', $response);
-        return $response;
-    }
-    protected function message($msg = '操作成功', $url = null, $time = 2, $tpl = null)
-    {
-        $url = $url ? "window.location.href='" . $url . "'" : "window.history.back(-1);";
-        $content = ecjia_utility::message_template($msg, $url);
-        $cookies = royalcms('response')->headers->getCookies();
-        $response = RC_Response::make($content);
-        foreach ($cookies as $cookie) {
-            $response->withCookie($cookie);
-        }
-        royalcms()->instance('response', $response);
-        return $response;
-    }
-    protected function displayContent($content, $content_type = null)
-    {
-        $response = royalcms('response');
-        if ($content_type) {
-            $response->header('Content-Type', $content_type);
-        }
-        $response->setContent($content);
-        return $response;
-    }
-    public function displayAppTemplate($app, $resource_name, $cache_id = null, $show = true, $options = array())
-    {
-        $resource_name = RC_Package::package('app::' . $app)->loadTemplate($resource_name, true);
-        return $this->display($resource_name, $cache_id, $show, $options);
-    }
-    public function load_constants()
-    {
-    }
-    public function showmessage($message, $type = ecjia::MSGTYPE_HTML, $options = array())
-    {
-        $state = $type & 0xf;
-        $type = $type & 0xf0;
-        if ($type === ecjia::MSGTYPE_JSON && !is_ajax()) {
-            $type = ecjia::MSGTYPE_ALERT;
-        }
-        if ($type === ecjia::MSGTYPE_HTML) {
-            switch ($state) {
-                case 1:
-                    $this->assign('page_state', array('icon' => 'fontello-icon-ok-circled', 'msg' => __('操作成功'), 'class' => 'alert-success'));
-                    break;
-                case 2:
-                    $this->assign('page_state', array('icon' => 'fontello-icon-info-circled', 'msg' => __('操作提示'), 'class' => 'alert-info'));
-                    break;
-                case 3:
-                    $this->assign('page_state', array('icon' => 'fontello-icon-attention-circled', 'msg' => __('操作警告'), 'class' => ''));
-                    break;
-                default:
-                    $this->assign('page_state', array('icon' => 'fontello-icon-cancel-circled', 'msg' => __('操作错误'), 'class' => 'alert-danger'));
-            }
-            $this->assign('ur_here', __('系统信息'));
-            $this->assign('msg_detail', $message);
-            $this->assign('msg_type', $state);
-            if (!empty($options)) {
-                foreach ($options as $key => $val) {
-                    $this->assign($key, $val);
-                }
-            }
-            return $this->message($message, null, 3);
-        } elseif ($type === ecjia::MSGTYPE_ALERT) {
-            $url = '';
-            if (!empty($options) && !empty($options['pjaxurl'])) {
-                $url = $options['pjaxurl'];
-            }
-            return $this->alert($message, $url);
-        } elseif ($type === ecjia::MSGTYPE_JSON) {
-            $res = array('message' => $message);
-            if ($state === 0) {
-                $res['state'] = 'error';
-            } elseif ($state === 1) {
-                $res['state'] = 'success';
-            }
-            if (!empty($options)) {
-                foreach ($options as $key => $val) {
-                    $res[$key] = $val;
-                }
-            }
-            return $this->ajax($res);
-        } elseif ($type === ecjia::MSGTYPE_XML) {
-            return $this->ajax($message, 'xml');
-        }
-        return royalcms('response');
-    }
-    public abstract function create_view();
-    protected abstract function load_hooks();
-    protected abstract function session_start();
-}
-}
-
-namespace Ecjia\System\Facades {
-use Royalcms\Component\Support\Facades\Facade;
-class ThemeManager extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'ecjia.theme.manager';
-    }
-}
-}
-
 namespace Ecjia\System\Theme {
 use ecjia;
 use RC_Hook;
@@ -35173,11 +35058,222 @@ class ParseThemeStyle
 }
 }
 
-namespace {
-interface ecjia_template_fileloader
+namespace Ecjia\System\BaseController {
+use ecjia;
+use ecjia_utility;
+use RC_Lang;
+use RC_Redirect;
+use RC_Response;
+use RC_Package;
+use Royalcms\Component\Routing\Controller as RoyalcmsController;
+defined('IN_ECJIA') or exit('No permission resources.');
+abstract class EcjiaController extends RoyalcmsController
 {
-    public function get_template_dir();
-    public function get_template_file($file);
+    protected $view;
+    protected $view_method = ['display', 'fetch', 'fetch_string', 'is_cached', 'clear_cache', 'clear_all_cache', 'assign', 'assign_lang', 'clear_compiled_files', 'clear_cache_files'];
+    protected $request;
+    public static $view_object;
+    public static $controller;
+    protected $public_route = [];
+    public function __construct()
+    {
+        $this->request = royalcms('request');
+        $this->session_start();
+        $this->registerViewServiceProvider();
+        static::$controller =& $this;
+        static::$view_object =& $this->view;
+        $this->load_hooks();
+        RC_Response::header('X-XSS-Protection', '1; mode=block');
+        RC_Response::header('X-Frame-Options', 'SAMEORIGIN');
+    }
+    public function __call($method, $parameters)
+    {
+        if (in_array($method, $this->view_method)) {
+            return call_user_func_array(array($this->view, $method), $parameters);
+        }
+        return parent::__call($method, $parameters);
+    }
+    public function getRequest()
+    {
+        return $this->request;
+    }
+    public function registerViewServiceProvider()
+    {
+        royalcms()->forgeRegister('Royalcms\\Component\\SmartyView\\SmartyServiceProvider');
+        $this->view = $this->create_view();
+    }
+    public function isVerificationPublicRoute()
+    {
+        $route_m = ROUTE_M == config('system.admin_entrance') ? 'system' : ROUTE_M;
+        $route_controller = $route_m . '/' . ROUTE_C . '/' . ROUTE_A;
+        if (in_array($route_controller, $this->public_route)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected function ajax($data, $type = ecjia::DATATYPE_JSON)
+    {
+        $type = strtoupper($type);
+        switch ($type) {
+            case ecjia::DATATYPE_HTML:
+            case ecjia::DATATYPE_TEXT:
+                return royalcms('response')->setContent($data);
+                break;
+            case ecjia::DATATYPE_XML:
+                return $this->xml($data);
+                break;
+            case ecjia::DATATYPE_JSON:
+            default:
+                return $this->json($data);
+        }
+    }
+    protected function xml($data)
+    {
+        $cookies = royalcms('response')->headers->getCookies();
+        $response = RC_Response::xml($data);
+        foreach ($cookies as $cookie) {
+            $response->withCookie($cookie);
+        }
+        royalcms()->instance('response', $response);
+        return $response;
+    }
+    protected function json($data)
+    {
+        $cookies = royalcms('response')->headers->getCookies();
+        $response = RC_Response::json($data);
+        foreach ($cookies as $cookie) {
+            $response->withCookie($cookie);
+        }
+        royalcms()->instance('response', $response);
+        return $response;
+    }
+    public function redirect($url, $code = 302)
+    {
+        $cookies = royalcms('response')->headers->getCookies();
+        $response = RC_Redirect::away($url, $code);
+        foreach ($cookies as $cookie) {
+            $response->withCookie($cookie);
+        }
+        royalcms()->instance('response', $response);
+        return $response;
+    }
+    public function exited()
+    {
+        royalcms('response')->send();
+        exit(0);
+    }
+    protected function header($key, $value, $replace = true)
+    {
+        RC_Response::header($key, $value, $replace);
+    }
+    protected function alert($msg, $url = null, $parent = false)
+    {
+        header("Content-type: text/html; charset=utf-8");
+        $alert_msg = "alert('{$msg}');";
+        if (empty($url)) {
+            $gourl = 'history.go(-1);';
+        } else {
+            $gourl = ($parent ? 'parent' : 'window') . ".location.href = '{$url}'";
+        }
+        $script = "<script>" . PHP_EOL;
+        $script .= $alert_msg . PHP_EOL;
+        $script .= $gourl . PHP_EOL;
+        $script .= "</script>" . PHP_EOL;
+        $cookies = royalcms('response')->headers->getCookies();
+        $response = RC_Response::make($script);
+        foreach ($cookies as $cookie) {
+            $response->withCookie($cookie);
+        }
+        royalcms()->instance('response', $response);
+        return $response;
+    }
+    protected function message($msg = '操作成功', $url = null, $time = 2, $tpl = null)
+    {
+        $url = $url ? "window.location.href='" . $url . "'" : "window.history.back(-1);";
+        $content = ecjia_utility::message_template($msg, $url);
+        $cookies = royalcms('response')->headers->getCookies();
+        $response = RC_Response::make($content);
+        foreach ($cookies as $cookie) {
+            $response->withCookie($cookie);
+        }
+        royalcms()->instance('response', $response);
+        return $response;
+    }
+    protected function displayContent($content, $content_type = null)
+    {
+        $response = royalcms('response');
+        if ($content_type) {
+            $response->header('Content-Type', $content_type);
+        }
+        $response->setContent($content);
+        return $response;
+    }
+    public function displayAppTemplate($app, $resource_name, $cache_id = null, $show = true, $options = array())
+    {
+        $resource_name = RC_Package::package('app::' . $app)->loadTemplate($resource_name, true);
+        return $this->display($resource_name, $cache_id, $show, $options);
+    }
+    public function load_constants()
+    {
+    }
+    public function showmessage($message, $type = ecjia::MSGTYPE_HTML, $options = array())
+    {
+        $state = $type & 0xf;
+        $type = $type & 0xf0;
+        if ($type === ecjia::MSGTYPE_JSON && !is_ajax()) {
+            $type = ecjia::MSGTYPE_ALERT;
+        }
+        if ($type === ecjia::MSGTYPE_HTML) {
+            switch ($state) {
+                case 1:
+                    $this->assign('page_state', array('icon' => 'fontello-icon-ok-circled', 'msg' => __('操作成功'), 'class' => 'alert-success'));
+                    break;
+                case 2:
+                    $this->assign('page_state', array('icon' => 'fontello-icon-info-circled', 'msg' => __('操作提示'), 'class' => 'alert-info'));
+                    break;
+                case 3:
+                    $this->assign('page_state', array('icon' => 'fontello-icon-attention-circled', 'msg' => __('操作警告'), 'class' => ''));
+                    break;
+                default:
+                    $this->assign('page_state', array('icon' => 'fontello-icon-cancel-circled', 'msg' => __('操作错误'), 'class' => 'alert-danger'));
+            }
+            $this->assign('ur_here', __('系统信息'));
+            $this->assign('msg_detail', $message);
+            $this->assign('msg_type', $state);
+            if (!empty($options)) {
+                foreach ($options as $key => $val) {
+                    $this->assign($key, $val);
+                }
+            }
+            return $this->message($message, null, 3);
+        } elseif ($type === ecjia::MSGTYPE_ALERT) {
+            $url = '';
+            if (!empty($options) && !empty($options['pjaxurl'])) {
+                $url = $options['pjaxurl'];
+            }
+            return $this->alert($message, $url);
+        } elseif ($type === ecjia::MSGTYPE_JSON) {
+            $res = array('message' => $message);
+            if ($state === 0) {
+                $res['state'] = 'error';
+            } elseif ($state === 1) {
+                $res['state'] = 'success';
+            }
+            if (!empty($options)) {
+                foreach ($options as $key => $val) {
+                    $res[$key] = $val;
+                }
+            }
+            return $this->ajax($res);
+        } elseif ($type === ecjia::MSGTYPE_XML) {
+            return $this->ajax($message, 'xml');
+        }
+        return royalcms('response');
+    }
+    public abstract function create_view();
+    protected abstract function load_hooks();
+    protected abstract function session_start();
 }
 }
 
@@ -35187,7 +35283,7 @@ class ecjia_view
     protected $smarty;
     protected $isAdminView = true;
     protected $fileloader;
-    public function __construct(ecjia_template_fileloader $fileloader)
+    public function __construct(\Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader $fileloader)
     {
         $this->fileloader = $fileloader;
         $this->smarty = royalcms('view')->getSmarty();
@@ -35377,124 +35473,19 @@ namespace {
 defined('IN_ECJIA') or exit('No permission resources.');
 class ecjia_loader
 {
+    protected static $script_loader;
+    protected static $style_loader;
     public static function default_scripts(&$scripts)
     {
-        $develop_src = false !== strpos(Royalcms\Component\Foundation\Royalcms::VERSION, '-src');
-        if (!defined('SCRIPT_DEBUG')) {
-            define('SCRIPT_DEBUG', $develop_src);
+        if (is_null(self::$script_loader)) {
+            self::$script_loader = new \Ecjia\System\Frameworks\ScriptLoader\ScriptLoader($scripts);
         }
-        $scripts->base_url = RC_Uri::system_static_url();
-        $scripts->content_url = RC_Uri::system_static_url();
-        $scripts->default_version = VERSION;
-        $scripts->default_dirs = array('/');
-        $suffix = SCRIPT_DEBUG ? '' : '.min';
-        $dev_suffix = $develop_src ? '' : '.min';
-        $scripts->add('ecjia', '/lib/ecjia-js/ecjia.js', array('jquery'));
-        $scripts->add('ecjia-region', '/lib/ecjia-js/ecjia.region.js', array('ecjia'));
-        $scripts->add('ecjia-ui', '/lib/ecjia-js/ecjia.ui.js', array('ecjia'));
-        $scripts->add('ecjia-utils', '/lib/ecjia-js/ecjia.utils.js', array('ecjia'));
-        $scripts->add('jquery', "/js/jquery{$suffix}.js", array(), '2.1.0');
-        $scripts->add('jquery-pjax', "/js/jquery-pjax.js", array('jquery'));
-        $scripts->add('jquery-peity', "/js/jquery-peity{$suffix}.js", array('jquery'), '0.6.0', 1);
-        $scripts->add('jquery-mockjax', "/js/jquery-mockjax{$suffix}.js", array('jquery'), '1.5.1', 1);
-        $scripts->add('jquery-wookmark', "/js/jquery-wookmark{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-migrate', "/js/jquery-migrate{$suffix}.js", array('jquery'), '1.0.0', 1);
-        $scripts->add('jquery-cookie', "/js/jquery-cookie{$suffix}.js", array('jquery'), true, 1);
-        $scripts->add('jquery-actual', "/js/jquery-actual{$suffix}.js", array('jquery'), '1.0.6', 1);
-        $scripts->add('jquery-debouncedresize', "/js/jquery-debouncedresize{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-easing', "/js/jquery-easing{$suffix}.js", array('jquery'), '1.3', 1);
-        $scripts->add('jquery-mediaTable', "/js/jquery-mediaTable{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-imagesloaded', "/js/jquery-imagesloaded{$suffix}.js", array('jquery'), '2.0.1', 1);
-        $scripts->add('jquery-gmap3', "/js/jquery-gmap3{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-autosize', "/js/jquery-autosize{$suffix}.js", array('jquery'), '1.7', 1);
-        $scripts->add('jquery-counter', "/js/jquery-counter{$suffix}.js", array('jquery'), '2.1', 1);
-        $scripts->add('jquery-inputmask', "/js/jquery-inputmask{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-progressbar', "/js/jquery-anim_progressbar{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('js-json', "/js/json2.js", array(), false, 1);
-        $scripts->add('js-sprintf', "/lib/sprintf_js/sprintf{$suffix}.js", array(), '1.1.2', 1);
-        $scripts->add('jquery-ui-touchpunch', "/js/ui/jquery-ui-touchpunch{$suffix}.js", array('jquery-ui'), false, 1);
-        $scripts->add('jquery-ui-totop', "/js/ui/jquery-ui-totop{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('ecjia-admin', '/ecjia/ecjia-admin.js', array('ecjia', 'jquery-pjax', 'jquery-cookie', 'jquery-quicksearch', 'jquery-mousewheel', 'jquery-ui-totop'));
-        $scripts->add('ecjia-front', '/ecjia/ecjia-front.js', array('ecjia'));
-        $scripts->add('ecjia-admin_cache', '/ecjia/ecjia-admin_cache.js', array('ecjia-admin'), false, 1);
-        $scripts->add('ecjia-admin_logs', '/ecjia/ecjia-admin_logs.js', array('ecjia-admin'), false, 1);
-        $scripts->add('ecjia-admin_message_list', '/ecjia/ecjia-admin_message_list.js', array('ecjia-admin'), false, 1);
-        $scripts->add('ecjia-admin_region', '/ecjia/ecjia-admin_region.js', array('ecjia-admin'), false, 1);
-        $scripts->add('ecjia-admin_role', '/ecjia/ecjia-admin_role.js', array('ecjia-admin'), false, 1);
-        $scripts->add('ecjia-admin_upgrade', '/ecjia/ecjia-admin_upgrade.js', array('ecjia-admin'), false, 1);
-        $scripts->add('ecjia-admin_application', '/ecjia/ecjia-application.js', array('ecjia-admin'), false, 1);
-        $scripts->add('ecjia-admin_dashboard', '/ecjia/ecjia-dashboard.js', array('ecjia-admin'), false, 1);
-        $scripts->add('ecjia-admin_team', '/ecjia/ecjia-about_team.js', array('ecjia-admin'), false, 1);
-        $scripts->add('ecjia-admin_plugin', '/ecjia/ecjia-plugin_list.js', array('ecjia-admin'), false, 1);
-        $scripts->add('ecjia-admin_privilege', '/ecjia/ecjia-privilege.js', array('ecjia-admin'), false, 1);
-        $scripts->add('ecjia-admin_shop_config', '/ecjia/ecjia-shop_config.js', array('ecjia-admin'), false, 1);
-        $scripts->add('ecjia-admin_license', '/ecjia/ecjia-admin_license.js', array('ecjia-admin'), false, 1);
-        $scripts->add('jquery-chosen', "/js/ecjia.chosen.js", array('ecjia-jquery-chosen'), false, 1);
-        $scripts->add('ecjia-jquery-chosen', "/lib/chosen/chosen.jquery{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('bootstrap', "/lib/bootstrap/js/bootstrap{$suffix}.js");
-        $scripts->add('jquery-ui', "/lib/jquery-ui/jquery-ui{$suffix}.js", array('jquery'));
-        $scripts->add('jquery-validate', "/lib/validation/jquery.validate{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-uniform', "/lib/uniform/jquery.uniform{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('smoke', "/lib/smoke/smoke{$suffix}.js", array(), false, 1);
-        $scripts->add('bootstrap-placeholder', "/lib/jasny-bootstrap/js/bootstrap-placeholder{$suffix}.js", array('bootstrap'), false, 1);
-        $scripts->add('bootstrap-colorpicker', "/lib/colorpicker/bootstrap-colorpicker{$suffix}.js", array(), false, 1);
-        $scripts->add('jquery-flot', "/lib/flot/jquery.flot{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-flot-curvedLines', "/lib/flot/jquery.flot.curvedLines{$suffix}.js", array('jquery-flot'), false, 1);
-        $scripts->add('jquery-flot-multihighlight', "/lib/flot/jquery.flot.multihighlight{$suffix}.js", array('jquery-flot'), false, 1);
-        $scripts->add('jquery-flot-orderBars', "/lib/flot/jquery.flot.orderBars{$suffix}.js", array('jquery-flot'), false, 1);
-        $scripts->add('jquery-flot-pie', "/lib/flot/jquery.flot.pie{$suffix}.js", array('jquery-flot'), false, 1);
-        $scripts->add('jquery-flot-pyramid', "/lib/flot/jquery.flot.pyramid{$suffix}.js", array('jquery-flot'), false, 1);
-        $scripts->add('jquery-flot-resize', "/lib/flot/jquery.flot.resize{$suffix}.js", array('jquery-flot'), false, 1);
-        $scripts->add('antiscroll', "/lib/antiscroll/antiscroll{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-mousewheel', "/lib/antiscroll/jquery-mousewheel.js", array('jquery', 'antiscroll'), false, 1);
-        $scripts->add('jquery-colorbox', "/lib/colorbox/jquery.colorbox{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-qtip', "/lib/qtip2/jquery.qtip{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-sticky', "/lib/sticky/sticky{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-jBreadCrumb', "/lib/jBreadcrumbs/js/jquery.jBreadCrumb{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-form', "/lib/jquery-form/jquery.form{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('ios-orientationchange', "/lib/ios-fix/ios-orientationchange-fix{$suffix}.js", array(), false, 1);
-        $scripts->add('google-code-prettify', "/lib/google-code-prettify/prettify{$suffix}.js", array(), false, 1);
-        $scripts->add('selectnav', "/lib/selectnav/selectnav{$suffix}.js", array(), false, 1);
-        $scripts->add('jquery-dataTables', "/lib/datatables/jquery.dataTables{$suffix}.js", array('jquery'), false, 1);
-        $scripts->add('jquery-dataTables-sorting', "/lib/datatables/jquery.dataTables.sorting{$suffix}.js", array('jquery-dataTables'), false, 1);
-        $scripts->add('jquery-dataTables-bootstrap', "/lib/datatables/jquery.dataTables.bootstrap{$suffix}.js", array('jquery-dataTables'), false, 1);
-        $scripts->add('jquery-stepy', "/lib/stepy/js/jquery.stepy{$suffix}.js", array(), false, 1);
-        $scripts->add('jquery-quicksearch', "/lib/multi-select/js/jquery.quicksearch.js", array(), false, 1);
-        $scripts->add('tinymce', RC_Uri::vendor_url('tinymce/tinymce') . "{$suffix}.js", array(), false, 1);
-        RC_Script::localize_script('ecjia.ui', 'admin_lang', config('system::jslang.loader_page'));
     }
     public static function default_styles(&$styles)
     {
-        $develop_src = false !== strpos(Royalcms\Component\Foundation\Royalcms::VERSION, '-src');
-        if (!defined('SCRIPT_DEBUG')) {
-            define('SCRIPT_DEBUG', $develop_src);
+        if (is_null(self::$style_loader)) {
+            self::$style_loader = new \Ecjia\System\Frameworks\ScriptLoader\StyleLoader($styles);
         }
-        $styles->base_url = RC_Uri::system_static_url();
-        $styles->content_url = RC_Uri::system_static_url();
-        $styles->default_version = VERSION;
-        $styles->text_direction = function_exists('is_rtl') && is_rtl() ? 'rtl' : 'ltr';
-        $styles->default_dirs = array('/');
-        $suffix = SCRIPT_DEBUG ? '' : '.min';
-        $styles->add('ecjia', "/styles/ecjia.css");
-        $styles->add('ecjia-ui', "/styles/ecjia.ui.css");
-        $styles->add('ecjia-function', "/styles/ecjia.function.css");
-        $styles->add('ecjia-skin-blue', "/styles/ecjia.skin.blue.css", array('ecjia'));
-        $styles->add('bootstrap', "/lib/bootstrap/css/bootstrap{$suffix}.css");
-        $styles->add('bootstrap-responsive', "/lib/bootstrap/css/bootstrap-responsive{$suffix}.css", array('bootstrap'));
-        $styles->add('bootstrap-responsive-nodeps', "/lib/bootstrap/css/bootstrap-responsive{$suffix}.css");
-        $styles->add('jquery-ui-aristo', "/lib/jquery-ui/css/Aristo/Aristo.css");
-        $styles->add('jquery-qtip', "/lib/qtip2/jquery.qtip{$suffix}.css");
-        $styles->add('jquery-jBreadCrumb', "/lib/jBreadcrumbs/css/BreadCrumb.css");
-        $styles->add('jquery-colorbox', "/lib/colorbox/colorbox.css");
-        $styles->add('jquery-sticky', "/lib/sticky/sticky.css");
-        $styles->add('google-code-prettify', "/lib/google-code-prettify/prettify.css");
-        $styles->add('splashy', "/images/splashy/splashy.css");
-        $styles->add('flags', "/images/flags/flags.css");
-        $styles->add('datatables-TableTools', "/lib/datatables/extras/TableTools/media/css/TableTools.css");
-        $styles->add('fontello', "/lib/fontello/css/fontello.css");
-        $styles->add('chosen', "/lib/chosen/chosen.css");
-        $styles->add('uniform-aristo', "/lib/uniform/Aristo/uniform.aristo.css");
-        $styles->add('jquery-stepy', "/lib/stepy/css/jquery.stepy.css");
     }
     public static function admin_print_footer_scripts()
     {
@@ -35504,130 +35495,26 @@ class ecjia_loader
     {
         RC_Hook::do_action('admin_enqueue_scripts');
     }
-    public static $concatenate_scripts;
-    public static $compress_scripts;
-    public static $compress_css;
-    public static function script_concat_settings()
-    {
-        $compressed_output = ini_get('zlib.output_compression') || 'ob_gzhandler' == ini_get('output_handler');
-        if (is_null(self::$concatenate_scripts)) {
-            self::$concatenate_scripts = config('system.concatenate_scripts', true);
-            if (config('system.script_debug')) {
-                self::$concatenate_scripts = false;
-            }
-        }
-        if (is_null(self::$compress_scripts)) {
-            self::$compress_scripts = config('system.compress_scripts', true);
-            if (self::$compress_scripts && (!config('system.can_compress_scripts') || $compressed_output)) {
-                self::$compress_scripts = false;
-            }
-        }
-        if (is_null(self::$compress_css)) {
-            self::$compress_css = config('system.compress_css', true);
-            if (self::$compress_css && (!config('system.can_compress_scripts') || $compressed_output)) {
-                self::$compress_css = false;
-            }
-        }
-    }
     public static function print_head_scripts()
     {
-        if (!RC_Hook::did_action('rc_print_scripts')) {
-            RC_Hook::do_action('rc_print_scripts');
-        }
-        self::script_concat_settings();
-        RC_Script::instance()->do_concat = self::$concatenate_scripts;
-        RC_Script::instance()->do_head_items();
-        if (RC_Hook::apply_filters('print_head_scripts', true)) {
-            self::_print_scripts();
-        }
-        RC_Script::instance()->reset();
-        return RC_Script::instance()->done;
+        return self::$script_loader->print_head_scripts();
     }
     public static function print_footer_scripts()
     {
-        self::script_concat_settings();
-        RC_Script::instance()->do_concat = self::$concatenate_scripts;
-        RC_Script::instance()->do_footer_items();
-        if (RC_Hook::apply_filters('print_footer_scripts', true)) {
-            self::_print_scripts();
-        }
-        RC_Script::instance()->reset();
-        return RC_Script::instance()->done;
+        return self::$script_loader->print_footer_scripts();
     }
-    public static function _print_scripts()
-    {
-        $zip = self::$compress_scripts ? 1 : 0;
-        if ($zip && config('system.enforce_gzip')) {
-            $zip = 'gzip';
-        }
-        if ($concat = trim(RC_Script::instance()->concat, ', ')) {
-            if (!empty(RC_Script::instance()->print_code)) {
-                echo "\n<script type='text/javascript'>\n";
-                echo "/* <![CDATA[ */\n";
-                echo RC_Script::instance()->print_code;
-                echo "/* ]]> */\n";
-                echo "</script>\n";
-            }
-            $concat = str_split($concat, 128);
-            $concat = 'load%5B%5D=' . implode('&load%5B%5D=', $concat);
-            $args = "compress={$zip}&" . $concat . '&ver=' . RC_Script::instance()->default_version;
-            $src = RC_Uri::url('@load_scripts/init', $args);
-            echo "<script type='text/javascript' src='" . RC_Format::esc_attr($src) . "'></script>\n";
-        }
-        if (!empty(RC_Script::instance()->print_html)) {
-            echo RC_Script::instance()->print_html;
-        }
-    }
-    public static function _admin_footer_scripts()
+    public static function print_admin_footer_scripts()
     {
         self::print_late_styles();
         self::print_footer_scripts();
     }
-    public static function print_admin_styles()
+    public static function print_head_styles()
     {
-        self::script_concat_settings();
-        RC_Style::instance()->do_concat = self::$concatenate_scripts;
-        RC_Style::instance()->do_items(false);
-        if (RC_Hook::apply_filters('print_admin_styles', true)) {
-            self::_print_styles();
-        }
-        RC_Style::instance()->reset();
-        return RC_Style::instance()->done;
+        return self::$style_loader->print_head_styles();
     }
     public static function print_late_styles()
     {
-        self::script_concat_settings();
-        RC_Style::instance()->do_concat = self::$concatenate_scripts;
-        RC_Style::instance()->do_footer_items();
-        if (RC_Hook::apply_filters('print_late_styles', true)) {
-            self::_print_styles();
-        }
-        RC_Style::instance()->reset();
-        return RC_Style::instance()->done;
-    }
-    public static function _print_styles()
-    {
-        $zip = self::$compress_css ? 1 : 0;
-        if ($zip && config('system.enforce_gzip')) {
-            $zip = 'gzip';
-        }
-        if ($concat = trim(RC_Style::instance()->concat, ', ')) {
-            $dir = RC_Style::instance()->text_direction;
-            $ver = RC_Style::instance()->default_version;
-            $concat = str_split($concat, 128);
-            $concat = 'load%5B%5D=' . implode('&load%5B%5D=', $concat);
-            $args = "compress={$zip}&dir={$dir}&" . $concat . '&ver=' . $ver;
-            $href = RC_Uri::url('@load_styles/init', $args);
-            echo "<link rel=\"stylesheet\" href=\"" . RC_Format::esc_attr($href) . "\" type=\"text/css\" media=\"all\" />\n";
-            if (!empty(RC_Style::instance()->print_code)) {
-                echo "<style type='text/css'>\n";
-                echo RC_Style::instance()->print_code;
-                echo "\n</style>\n";
-            }
-        }
-        if (!empty(RC_Style::instance()->print_html)) {
-            echo RC_Style::instance()->print_html;
-        }
+        return self::$style_loader->print_late_styles();
     }
 }
 }
