@@ -53,6 +53,12 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 return array(
     //touch
+    'touch_page' =>array(
+        'remove_menu'		=> __('确定要移除这个菜单项吗？', 'touch'),
+
+        'ok' =>  __('确定', 'touch'),
+        'cancel' =>  __('取消', 'touch'),
+    ),
 
 
 );

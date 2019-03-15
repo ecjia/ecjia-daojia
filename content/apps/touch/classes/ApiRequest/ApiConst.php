@@ -295,6 +295,10 @@ class ApiConst
     const USER_ACCOUNT_ACTIVATE_APPLY = 'user/account/activate/apply';//申请激活
 
     const GOODS_LIST = 'goods/list';//商品列表
+
+    //订单分成
+    const AFFILIATE_ORDER_RECORDS = 'affiliate/order/records';
+    const AFFILIATE_ORDER_DETAIL  = 'affiliate/order/detail';
 }
 
 // end

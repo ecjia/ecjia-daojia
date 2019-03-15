@@ -87,11 +87,13 @@ class User extends RC_Object
         return array_get($res, 'user');
     }
 
-    public function connectSignin($openid, $connect_code)
+    public function connectSignin($connect_code, $openid, $unionid, $profile)
     {
         $data = [
             'openid' => $openid,
+            'unionid' => $unionid,
             'code' => $connect_code,
+            'profile' => $profile,
         ];
         $api = ecjia_touch_manager::make()->api(ecjia_touch_api::CONNECT_SIGNIN)->data($data);
         $res = $api->run();

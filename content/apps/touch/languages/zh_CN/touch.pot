@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App touch package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App touch 1.27.4\n"
+"Project-Id-Version: Ecjia App touch 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 03:59:07+00:00\n"
+"POT-Creation-Date: 2019-03-13 05:24:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,6 +13,7 @@ msgstr ""
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 
 #: admin_shop_config.php:67 admin_shop_config.php:83 admin_shop_config.php:115
+#: configs/touch_config.php:57
 msgid "微商城设置"
 msgstr ""
 
@@ -44,6 +45,18 @@ msgstr ""
 msgid "H5应用设置"
 msgstr ""
 
+#: configs/jslang.php:57
+msgid "确定要移除这个菜单项吗？"
+msgstr ""
+
+#: configs/jslang.php:59
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:60
+msgid "取消"
+msgstr ""
+
 #: configs/package.php:55
 msgid "微商城"
 msgstr ""
@@ -53,8 +66,84 @@ msgid ""
 "采用APP方式设计，标准通用标记语言下的一个应用超文本标记语言(HTML)重大突破。 "
 msgstr ""
 
-#: content/apps/touch/templates/admin/shop_config.dwt.php:25
-msgid "确定"
+#: configs/touch_config.php:58
+msgid "是否使用微商城功能"
+msgstr ""
+
+#: configs/touch_config.php:59
+msgid "微商城 LOGO"
+msgstr ""
+
+#: configs/touch_config.php:60
+msgid "微商城首页LOGO"
+msgstr ""
+
+#: configs/touch_config.php:61
+msgid "微商城热门搜索"
+msgstr ""
+
+#: configs/touch_config.php:62
+msgid "PC商城地址"
+msgstr ""
+
+#: configs/touch_config.php:63
+msgid "微商城地址"
+msgstr ""
+
+#: configs/touch_config.php:64
+msgid "iPhone下载地址"
+msgstr ""
+
+#: configs/touch_config.php:65
+msgid "android下载地址"
+msgstr ""
+
+#: configs/touch_config.php:66
+msgid "iPad下载地址"
+msgstr ""
+
+#: configs/touch_config.php:67
+msgid "APP图标"
+msgstr ""
+
+#: configs/touch_config.php:68
+msgid "APP简介"
+msgstr ""
+
+#: configs/touch_config.php:69
+msgid "首页底部广告图片"
+msgstr ""
+
+#: configs/touch_config.php:70
+msgid "首页底部广告链接"
+msgstr ""
+
+#: configs/touch_config.php:71
+msgid "版权信息"
+msgstr ""
+
+#: configs/touch_config.php:75
+msgid "为了更好地兼容各种手机类型，LOGO 最好为png图片"
+msgstr ""
+
+#: configs/touch_config.php:76
+msgid "每个热门搜索词组请使用“,”隔开，注意“,”必须是英文逗号"
+msgstr ""
+
+#: configs/touch_config.php:77
+msgid "注意：只有设置了广告跳转地址，底部广告才会显示。否则不会显示"
+msgstr ""
+
+#: configs/touch_config.php:78
+msgid "请填写您商城的版权信息。若留空，则不显示版权信息"
+msgstr ""
+
+#: configs/touch_config.php:83
+msgid "关闭"
+msgstr ""
+
+#: configs/touch_config.php:84
+msgid "开启"
 msgstr ""
 
 #: content/apps/touch/templates/admin/shop_config.dwt.php:26
