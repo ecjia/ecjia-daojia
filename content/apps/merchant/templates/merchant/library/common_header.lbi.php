@@ -63,7 +63,7 @@
                     <ul class="dropdown-menu extended notification">
                         <div class="notify-arrow notify-arrow-yellow"></div>
                         <li>
-                            <p class="yellow">{t domain="merchant" 1={$ecjia_merchant_notice_count}}您有  条新通知{/t}</p>
+                            <p class="yellow">{t domain="merchant" 1={$ecjia_merchant_notice_count}}您有 %1 条新通知{/t}</p>
                         </li>
                   		<div class="mh300 ecjiaf-oa">
                         <!-- {foreach from=$ecjia_merchant_notice_list item=val} -->

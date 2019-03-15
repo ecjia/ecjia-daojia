@@ -70,13 +70,13 @@ class admin_store_setting extends ecjia_admin {
 
 		RC_Style::enqueue_style('splashy');
 
-        RC_Script::enqueue_script('jquery-range', RC_App::apps_url('statics/js/jquery.range.js', __FILE__));
+        RC_Script::enqueue_script('jquery-range', RC_App::apps_url('statics/js/jquery.range.js', __FILE__), array(), false, 1);
         RC_Style::enqueue_style('range', RC_App::apps_url('statics/css/range.css', __FILE__), array());
         //时间控件
         RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
         RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 
-        RC_Script::enqueue_script('store', RC_App::apps_url('statics/js/admin_store_setting.js', __FILE__));
+        RC_Script::enqueue_script('store', RC_App::apps_url('statics/js/admin_store_setting.js', __FILE__), array(), false, 1);
         RC_Script::enqueue_script('qq_map', ecjia_location_mapjs());
 
         RC_Script::localize_script('store', 'js_lang', config('app-merchant::jslang.merchant_page'));

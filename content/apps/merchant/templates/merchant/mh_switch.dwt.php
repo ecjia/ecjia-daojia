@@ -71,7 +71,7 @@
 					  	<div class="col-lg-6">
 					      	<input class="form-control" name="code" placeholder='{t domain="merchant"}请输入手机短信验证码{/t}' type="text" />
 					  	</div>
-					  	<a class="btn btn-primary" data-url="{url path='merchant/merchant/get_code_value'}" id="get_code">{t domain="merchant"}获取短信验证码{/t}</a>
+					  	<a class="btn btn-primary" data-url="{url path='merchant/merchant/get_code_value'}&type=shop_close" id="get_code">{t domain="merchant"}获取短信验证码{/t}</a>
 					</div>
 				
 					<div class="form-group ">

@@ -1,5 +1,5 @@
 <?php
-//
+//  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//
+//   
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -45,37 +45,36 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
-
-class merchant_merchant_hooks
+/**
+ * 商家会员登录记录
+ * @author royalwang
+ *
+ */
+class merchant_merchant_session_logins_api extends Component_Event_Api
 {
-
-    public static function ecjia_builtin_app_bundles($apps)
+    /**
+     * user_id
+     * from_type
+     * from_value
+     * @param array $options
+     */
+    public function call(&$options)
     {
-        $merchant_apps = RC_Config::get('merchant.apps');
-        return $merchant_apps;
-    }
+        $user_id = array_get($options, 'user_id');
+        $from_type = array_get($options, 'from_type');
+        $from_value = array_get($options, 'from_value');
 
-
-    public static function record_merchant_session_logins($row)
-    {
-        RC_Api::api('merchant', 'merchant_session_logins', [
-            'user_id' => $row['user_id'],
-            'from_type' => 'weblogin',
-        ]);
-    }
-
-
-    public static function merchant_session_logout_remove()
-    {
         $session_id = session()->getId();
 
-        (new \Ecjia\System\Admins\SessionLogins\AdminSessionLogins($session_id, session('session_user_id')))->removeBySessionId();
+        if (empty($user_id)) {
+            return new ecjia_error('invalid_parameter', __('参数无效'));
+        }
+
+        (new \Ecjia\System\Admins\SessionLogins\MerchantSessionLogins($session_id, $user_id))->record($from_type, $from_value);
+
+        return true;
     }
 
 }
-
-RC_Hook::add_filter('ecjia_builtin_app_bundles', array('merchant_merchant_hooks', 'ecjia_builtin_app_bundles'));
-RC_Hook::add_action( 'ecjia_merchant_login_after', array('merchant_merchant_hooks', 'record_merchant_session_logins') );
-RC_Hook::add_action( 'ecjia_merchant_logout_before', array('merchant_merchant_hooks', 'merchant_session_logout_remove') );
 
 // end

@@ -62,9 +62,6 @@ class mh_franchisee extends ecjia_merchant {
         RC_Script::enqueue_script('smoke');
         RC_Style::enqueue_style('uniform-aristo');
 
-        // 自定义JS
-        RC_Script::enqueue_script('merchant_info', RC_App::apps_url('statics/js/merchant_info.js', __FILE__) , array() , false, true);
-
         // 页面css样式
         RC_Style::enqueue_style('merchant', RC_App::apps_url('statics/css/merchant.css', __FILE__), array());
 
@@ -73,16 +70,21 @@ class mh_franchisee extends ecjia_merchant {
 
         // input file 长传
         RC_Style::enqueue_style('bootstrap-fileupload', RC_App::apps_url('statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', __FILE__), array());
-        RC_Script::enqueue_script('bootstrap-fileupload', RC_App::apps_url('statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', __FILE__), array(), false, true);
-        RC_Script::enqueue_script('migrate', RC_App::apps_url('statics/js/migrate.js', __FILE__) , array() , false, true);
+        RC_Script::enqueue_script('bootstrap-fileupload', RC_App::apps_url('statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', __FILE__), array(), false, 1);
+        RC_Script::enqueue_script('jquery.toggle.buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/jquery.toggle.buttons.js'));
+        RC_Style::enqueue_style('bootstrap-toggle-buttons', RC_Uri::admin_url('statics/lib/toggle_buttons/bootstrap-toggle-buttons.css'));
+        RC_Script::enqueue_script('migrate', RC_App::apps_url('statics/js/migrate.js', __FILE__) , array() , false, 1);
+        RC_Script::enqueue_script('yomi', RC_App::apps_url('statics/js/jquery.yomi.js', __FILE__), array(), false, 1);
 
         // select 选择框
         RC_Style::enqueue_style('chosen_style', RC_App::apps_url('statics/assets/chosen/chosen.css', __FILE__), array());
-        RC_Script::enqueue_script('chosen', RC_App::apps_url('statics/assets/chosen/chosen.jquery.min.js', __FILE__), array(), false, true);
+        RC_Script::enqueue_script('chosen', RC_App::apps_url('statics/assets/chosen/chosen.jquery.min.js', __FILE__), array(), false, 1);
         RC_Script::enqueue_script('qq_map', ecjia_location_mapjs());
         
         RC_Loader::load_app_func('merchant');
         Ecjia\App\Merchant\Helper::assign_adminlog_content();
+        // 自定义JS
+        RC_Script::enqueue_script('merchant_info', RC_App::apps_url('statics/js/merchant_info.js', __FILE__) , array() , false, 1);
         RC_Script::localize_script('merchant_info', 'js_lang', config('app-merchant::jslang.merchant_page'));
 
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('我的店铺', 'merchant'), RC_Uri::url('merchant/mh_franchisee/init')));

@@ -13,7 +13,7 @@
                     <p>
 	                    <span class="sosmed-footer">
 	                    	{if ecjia::config('shop_weibo_url')}
-	                        <a target="__blank" href="{ecjia::config('shop_weibo_url')}"><i class="fa fa-weibo" title='{t domain="merchant"}新浪微博{/t}'></i></a>
+	                        <a target="_blank" href="{ecjia::config('shop_weibo_url')}"><i class="fa fa-weibo" title='{t domain="merchant"}新浪微博{/t}'></i></a>
 	                        {/if}
 	                        
 	                    	{if ecjia::config('qq')}
@@ -25,7 +25,7 @@
 	                        {/if}
 	                        
 	                        {if ecjia::config('skype')}
-	                        <a target="__blank" href="{ecjia::config('skype')}"><i class="fa fa-skype" title="Skype"></i></a>
+	                        <a target="_blank" href="{ecjia::config('skype')}"><i class="fa fa-skype" title="Skype"></i></a>
 	                        {/if}
 	                        
 	                        {if ecjia::config('mobile_iphone_qrcode')}

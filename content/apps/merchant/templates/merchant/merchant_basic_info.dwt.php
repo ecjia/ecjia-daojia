@@ -16,7 +16,7 @@
   	<div class="pull-right">
   		{if $action_link}
 		<a href="{$action_link.href}" class="btn btn-primary data-pjax">
-			<i class="fa fa-reply"></i> {$action_link.text}
+			<i class="fa fa-ban"></i> {$action_link.text}
 		</a>
 		{/if}
   	</div>

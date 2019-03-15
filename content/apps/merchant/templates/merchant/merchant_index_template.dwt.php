@@ -14,7 +14,7 @@
     </div>
     <div class="pull-right">
         {if $action_link}
-        <a target="__blank" href="{$action_link.href}" class="btn btn-primary">{$action_link.text}</a>
+        <a target="_blank" href="{$action_link.href}" class="btn btn-primary">{$action_link.text}</a>
         {/if}
     </div>
     <div class="clearfix"></div>

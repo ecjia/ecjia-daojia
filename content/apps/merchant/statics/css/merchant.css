@@ -1,6 +1,7 @@
 .form-group .merchant-info-img {
     max-width: 150px;
 }
+
 #toTop {
     display: none;
     text-decoration: none;
@@ -14,6 +15,7 @@
     text-indent: 100%;
     border-radius: 3px 0px 0px 3px;
 }
+
 #toTopHover {
     background-position: 0 -32px;
     width: 29px;
@@ -25,35 +27,42 @@
     -moz-opacity: 0;
     filter: alpha(opacity=0);
 }
+
 .merchant-examine {
     text-align: center;
     line-height: 100px;
 }
+
 .input-must {
     line-height: 34px;
     padding-left: 0;
 }
-.chzn-search input{
+
+.chzn-search input {
     border-radius: 4px;
 }
-.hide{
+
+.hide {
     display: none;
 }
+
 .status {
     text-align: center;
     margin-top: 70px;
     padding-bottom: 20px;
 }
-.status .error{
+
+.status .error {
     position: relative;
     width: 90px;
     height: 90px;
     transform: translateX(-50%);
     left: 50%;
-    border:2px solid red;
+    border: 2px solid red;
     border-radius: 100%;
 }
-.status .error .line{
+
+.status .error .line {
     height: 2px;
     width: 70px;
     background: red;
@@ -62,7 +71,8 @@
     left: 10px;
     transform: rotate(45deg);
 }
-.status .error .line::before{
+
+.status .error .line::before {
     content: '';
     display: inline-block;
     width: 70px;
@@ -73,22 +83,189 @@
     left: 0px;
     transform: rotate(90deg);
 }
-.error-title{
+
+.error-title {
     margin-top: 10px;
     margin-bottom: 20px;
 }
-.error-logs{
-    margin:0 auto;
+
+.error-logs {
+    margin: 0 auto;
     color: #999;
 }
-.table{
+
+.table {
     margin-bottom: 0;
 }
-.merchant_tags{
+
+.merchant_tags {
     padding: 4px 10px;
     margin-left: 20px;
     font-size: 12px;
     background-color: #3498db;
     border-radius: 7px;
-    color:#fff;
+    color: #fff;
+}
+
+
+.stepy-titles {
+    width: 90%;
+    margin: 30px auto;
+    margin-bottom: 0;
+}
+
+.stepy-titles .current-step {
+    color: #1ABC9C;
+}
+
+.stepy-titles .current-step .stepNb {
+    background: #1ABC9C;
+}
+
+.stepy-titles li {
+    cursor: auto;
+    padding: 0 98px 14px 45px;
+}
+
+.stepy-titles li:before {
+    left: -90px;
+}
+
+.merchant-main-info {
+    background-color: #F9FAFA;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 20px 40px;
+    position: relative;
+}
+
+.merchant-main-info .left {
+    float: left;
+}
+
+.merchant-main-info .left img {
+    border-radius: 50%;
+    margin-top: 10px;
+    width: 80px;
+    height: 80px;
+}
+
+.merchant-main-info .right {
+    margin-left: 120px;
+}
+
+.merchant-main-info .right .bold {
+    font-weight: bold;
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+.merchant-main-info .right .unclose {
+    color: #fff;
+    background-color: #1abc9c;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-size: 15px
+}
+
+.merchant-main-info .right .closed {
+    color: #fff;
+    background-color: #e74c3c;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-size: 15px
+}
+
+.merchant-main-info .right p:last-child {
+    margin-bottom: 0;
+}
+
+.merchant-main-info .link {
+    position: absolute;
+    right: 40px;
+    bottom: 20px;
+    font-size: 16px;
+}
+
+.merchant-cancel-notice .header {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.merchant-cancel-notice .notice-item {
+    line-height: 25px;
+    margin: 10px 0;
+}
+
+.merchant-cancel-notice .notice-item [type="checkbox"] + label {
+    padding-right: 0;
+}
+
+.merchant-cancel-notice .notice-item .cancel_notice_link {
+    text-decoration: none;
+}
+
+.merchant-cancel-notice .left {
+    float: left;
+}
+
+.merchant-cancel-notice .right {
+    margin-left: 20px;
+}
+
+.header-step-two {
+    margin: 15px 70px 30px 70px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.merchant-cancel-two {
+    margin: 30px 0 45px 0;
+}
+
+.merchant-cancel-three {
+    text-align: center;
+    margin: 50px 0 100px 0;
+}
+
+.merchant-cancel-three .bold {
+    margin: 20px 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.merchant-cancel-three img {
+    width: 60px;
+    height: 60px;
+}
+
+.merchant-cancel-three .time span {
+    background-color: #FA852A;
+    color: #fff;
+    border-radius: 4px;
+    padding: 2px 5px;
+    margin: 0 5px;
+}
+
+.merchant-cancel-three .notice {
+    width: 560px;
+    margin: 20px auto;
+    text-align: left;
+    line-height: 30px;
+}
+
+.merchant-cancel-three .merchant-cancel-active {
+    padding-top: 50px;
+}
+
+#cancel_model .modal-dialog {
+    width: 1000px;
+}
+
+#check_active_modal .modal-dialog {
+    width: 800px;
+}
+
+#check_active_modal .modal-dialog .header-step-two {
+    margin: 15px 70px 30px 20px;
 }

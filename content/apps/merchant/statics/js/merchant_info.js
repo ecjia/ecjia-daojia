@@ -1,5 +1,5 @@
 // JavaScript Document
-; (function (app, $) {
+;(function (app, $) {
     app.merchant_info = {
         init: function () {
             app.merchant_info.submit_form();
@@ -12,21 +12,51 @@
             app.merchant_info.image_preview();
             app.merchant_info.orders_auto_confirm_change();
             app.merchant_info.make_thumb();
+            app.merchant_info.cancel_store();
+            app.merchant_info.mh_switch();
+            app.merchant_info.submit_cancel_form();
         },
 
         submit_form: function () {
             var $this = $('form[name="theForm"]');
             var option = {
-                rules: {
-                },
-                messages: {
-
-                },
+                rules: {},
+                messages: {},
                 submitHandler: function () {
                     $this.ajaxSubmit({
                         dataType: "json",
                         success: function (data) {
+                            if (data.type == 'active_store') {
+                                if (data.state == 'error') {
+                                    smoke.alert(data.message, {ok: js_lang.ok});
+                                }
+                                return false;
+                            }
+                            $('.modal').modal('hide');
+                            $(".modal-backdrop").remove();
                             ecjia.merchant.showmessage(data);
+                        }
+                    });
+                }
+            }
+            var options = $.extend(ecjia.merchant.defaultOptions.validate, option);
+            $this.validate(options);
+        },
+
+        submit_cancel_form: function () {
+            var $this = $('form[name="cancelForm"]');
+            var option = {
+                rules: {},
+                messages: {},
+                submitHandler: function () {
+                    $this.ajaxSubmit({
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.state == 'error') {
+                                ecjia.merchant.showmessage(data);
+                                return false;
+                            }
+                            ecjia.pjax(data.pjaxurl);
                         }
                     });
                 }
@@ -48,10 +78,10 @@
                 smoke.confirm(msg, function (e) {
                     if (e) {
                         $.get(url, function (data) {
-                        	ecjia.merchant.showmessage(data);
+                            ecjia.merchant.showmessage(data);
                         }, 'json');
                     }
-                }, { ok: js_lang.ok, cancel: js_lang.cancel });
+                }, {ok: js_lang.ok, cancel: js_lang.cancel});
             });
         },
 
@@ -76,7 +106,7 @@
                 var pid = $this.attr('data-pid') || $this.find('option:checked').val();
                 var type = $this.attr('data-type');
                 var target = $this.attr('data-target');
-                var option = { url: url, pid: pid, type: type, target: target };
+                var option = {url: url, pid: pid, type: type, target: target};
                 e.preventDefault();
                 app.merchant_info.regionSummary(option);
             });
@@ -129,8 +159,7 @@
                 value = hours + ':' + mins;
                 var text = String(js_lang.next_day + '%s').replace('%s', value);
                 return text;
-            }
-            else {
+            } else {
                 return value;
             }
         },
@@ -153,13 +182,13 @@
                     city = $('select[name="city"]').val(),
                     district = $('select[name="district"]').val(),
                     address = $('input[name="address"]').val(),
-                    street = $('select[name="street"]').val(), 
+                    street = $('select[name="street"]').val(),
                     url = $(this).attr('data-url');
 
                 var option = {
-                    'province': 　province,
-                    'city': 　city,
-                    'district': 　district,
+                    'province': province,
+                    'city': city,
+                    'district': district,
                     'street': street,
                     'address': address,
                 }
@@ -227,9 +256,11 @@
             var count = 120; 	//间隔函数，1秒执行
             var curCount;		//当前剩余秒数
 
-            $("#get_code").on('click', function (e) {
+            $("#get_code").off('click').on('click', function (e) {
                 e.preventDefault();
-                var url = $(this).attr('data-url') + '&mobile=' + $("input[name='mobile']").val();
+                var $this = $(this);
+                var url = $this.attr('data-url') + '&mobile=' + $("input[name='mobile']").val();
+                $this.addClass('disabled');
                 $.get(url, function (data) {
                     if (!!data && data.state == 'success') {
                         curCount = count;
@@ -237,6 +268,13 @@
                         $("#get_code").attr("disabled", "true");
                         $("#get_code").html(js_lang.resend + curCount + "(s)");
                         InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+                    }
+                    if (data.type == 'active_store') {
+                        if (data.state == 'error') {
+                            $this.removeClass('disabled');
+                            smoke.alert(data.message, {ok: js_lang.ok});
+                        }
+                        return false;
                     }
                     ecjia.merchant.showmessage(data);
                 }, 'json');
@@ -255,16 +293,206 @@
                     $("#get_code").html(js_lang.resend + curCount + "(s)");
                 }
             };
-            $('.unset_SetRemain').on('click', function () {
+            $('.unset_SetRemain').off('click').on('click', function () {
                 window.clearInterval(InterValObj);
             })
         },
-        
-        image_preview: function() {
-        	var initPhotoSwipeFromDOM=function(gallerySelector){var parseThumbnailElements=function(el){var thumbElements=el.childNodes,numNodes=thumbElements.length,items=[],el,childElements,thumbnailEl,size,item;for(var i=0;i<numNodes;i++){el=thumbElements[i];if(el.nodeType!==1){continue}childElements=el.children;size=el.getAttribute('data-size').split('x');item={src:el.getAttribute('href'),w:parseInt(size[0],10),h:parseInt(size[1],10),author:el.getAttribute('data-author')};item.el=el;if(childElements.length>0){item.msrc=childElements[0].getAttribute('src');if(childElements.length>1){item.title=childElements[1].innerHTML}}var mediumSrc=el.getAttribute('data-med');if(mediumSrc){size=el.getAttribute('data-med-size').split('x');item.m={src:mediumSrc,w:parseInt(size[0],10),h:parseInt(size[1],10)}}item.o={src:item.src,w:item.w,h:item.h};items.push(item)}return items};var closest=function closest(el,fn){return el&&(fn(el)?el:closest(el.parentNode,fn))};var onThumbnailsClick=function(e){e=e||window.event;e.preventDefault?e.preventDefault():e.returnValue=false;var eTarget=e.target||e.srcElement;var clickedListItem=closest(eTarget,function(el){return el.tagName==='A'});if(!clickedListItem){return}var clickedGallery=clickedListItem.parentNode;var childNodes=clickedListItem.parentNode.childNodes,numChildNodes=childNodes.length,nodeIndex=0,index;for(var i=0;i<numChildNodes;i++){if(childNodes[i].nodeType!==1){continue}if(childNodes[i]===clickedListItem){index=nodeIndex;break}nodeIndex++}if(index>=0){openPhotoSwipe(index,clickedGallery)}return false};var photoswipeParseHash=function(){var hash=window.location.hash.substring(1),params={};if(hash.length<5){return params}var vars=hash.split('&');for(var i=0;i<vars.length;i++){if(!vars[i]){continue}var pair=vars[i].split('=');if(pair.length<2){continue}params[pair[0]]=pair[1]}if(params.gid){params.gid=parseInt(params.gid,10)}return params};var openPhotoSwipe=function(index,galleryElement,disableAnimation,fromURL){var pswpElement=document.querySelectorAll('.pswp')[0],gallery,options,items;items=parseThumbnailElements(galleryElement);options={galleryUID:galleryElement.getAttribute('data-pswp-uid'),getThumbBoundsFn:function(index){var thumbnail=items[index].el.children[0],pageYScroll=window.pageYOffset||document.documentElement.scrollTop,rect=thumbnail.getBoundingClientRect();return{x:rect.left,y:rect.top+pageYScroll,w:rect.width}},addCaptionHTMLFn:function(item,captionEl,isFake){if(!item.title){captionEl.children[0].innerText='';return false}captionEl.children[0].innerHTML=item.title+'<br/><small>Photo: '+item.author+'</small>';return true}};if(fromURL){if(options.galleryPIDs){for(var j=0;j<items.length;j++){if(items[j].pid==index){options.index=j;break}}}else{options.index=parseInt(index,10)-1}}else{options.index=parseInt(index,10)}if(isNaN(options.index)){return}var radios=document.getElementsByName('gallery-style');for(var i=0,length=radios.length;i<length;i++){if(radios[i].checked){if(radios[i].id=='radio-all-controls'){}else if(radios[i].id=='radio-minimal-black'){options.mainClass='pswp--minimal--dark';options.barsSize={top:0,bottom:0};options.captionEl=false;options.fullscreenEl=false;options.shareEl=false;options.bgOpacity=0.85;options.tapToClose=true;options.tapToToggleControls=false}break}}if(disableAnimation){options.showAnimationDuration=0}gallery=new PhotoSwipe(pswpElement,PhotoSwipeUI_Default,items,options);var realViewportWidth,useLargeImages=false,firstResize=true,imageSrcWillChange;gallery.listen('beforeResize',function(){var dpiRatio=window.devicePixelRatio?window.devicePixelRatio:1;dpiRatio=Math.min(dpiRatio,2.5);realViewportWidth=gallery.viewportSize.x*dpiRatio;if(realViewportWidth>=1200||(!gallery.likelyTouchDevice&&realViewportWidth>800)||screen.width>1200){if(!useLargeImages){useLargeImages=true;imageSrcWillChange=true}}else{if(useLargeImages){useLargeImages=false;imageSrcWillChange=true}}if(imageSrcWillChange&&!firstResize){gallery.invalidateCurrItems()}if(firstResize){firstResize=false}imageSrcWillChange=false});gallery.listen('gettingData',function(index,item){if(useLargeImages){item.src=item.o.src;item.w=item.o.w;item.h=item.o.h}else{item.src=item.m.src;item.w=item.m.w;item.h=item.m.h}});gallery.init()};var galleryElements=document.querySelectorAll(gallerySelector);for(var i=0,l=galleryElements.length;i<l;i++){galleryElements[i].setAttribute('data-pswp-uid',i+1);galleryElements[i].onclick=onThumbnailsClick}var hashData=photoswipeParseHash();if(hashData.pid&&hashData.gid){openPhotoSwipe(hashData.pid,galleryElements[hashData.gid-1],true,true)}};
-        	initPhotoSwipeFromDOM('.img-pwsp-list');
+
+        image_preview: function () {
+            var initPhotoSwipeFromDOM = function (gallerySelector) {
+                var parseThumbnailElements = function (el) {
+                    var thumbElements = el.childNodes, numNodes = thumbElements.length, items = [], el, childElements,
+                        thumbnailEl, size, item;
+                    for (var i = 0; i < numNodes; i++) {
+                        el = thumbElements[i];
+                        if (el.nodeType !== 1) {
+                            continue
+                        }
+                        childElements = el.children;
+                        size = el.getAttribute('data-size').split('x');
+                        item = {
+                            src: el.getAttribute('href'),
+                            w: parseInt(size[0], 10),
+                            h: parseInt(size[1], 10),
+                            author: el.getAttribute('data-author')
+                        };
+                        item.el = el;
+                        if (childElements.length > 0) {
+                            item.msrc = childElements[0].getAttribute('src');
+                            if (childElements.length > 1) {
+                                item.title = childElements[1].innerHTML
+                            }
+                        }
+                        var mediumSrc = el.getAttribute('data-med');
+                        if (mediumSrc) {
+                            size = el.getAttribute('data-med-size').split('x');
+                            item.m = {src: mediumSrc, w: parseInt(size[0], 10), h: parseInt(size[1], 10)}
+                        }
+                        item.o = {src: item.src, w: item.w, h: item.h};
+                        items.push(item)
+                    }
+                    return items
+                };
+                var closest = function closest(el, fn) {
+                    return el && (fn(el) ? el : closest(el.parentNode, fn))
+                };
+                var onThumbnailsClick = function (e) {
+                    e = e || window.event;
+                    e.preventDefault ? e.preventDefault() : e.returnValue = false;
+                    var eTarget = e.target || e.srcElement;
+                    var clickedListItem = closest(eTarget, function (el) {
+                        return el.tagName === 'A'
+                    });
+                    if (!clickedListItem) {
+                        return
+                    }
+                    var clickedGallery = clickedListItem.parentNode;
+                    var childNodes = clickedListItem.parentNode.childNodes, numChildNodes = childNodes.length,
+                        nodeIndex = 0, index;
+                    for (var i = 0; i < numChildNodes; i++) {
+                        if (childNodes[i].nodeType !== 1) {
+                            continue
+                        }
+                        if (childNodes[i] === clickedListItem) {
+                            index = nodeIndex;
+                            break
+                        }
+                        nodeIndex++
+                    }
+                    if (index >= 0) {
+                        openPhotoSwipe(index, clickedGallery)
+                    }
+                    return false
+                };
+                var photoswipeParseHash = function () {
+                    var hash = window.location.hash.substring(1), params = {};
+                    if (hash.length < 5) {
+                        return params
+                    }
+                    var vars = hash.split('&');
+                    for (var i = 0; i < vars.length; i++) {
+                        if (!vars[i]) {
+                            continue
+                        }
+                        var pair = vars[i].split('=');
+                        if (pair.length < 2) {
+                            continue
+                        }
+                        params[pair[0]] = pair[1]
+                    }
+                    if (params.gid) {
+                        params.gid = parseInt(params.gid, 10)
+                    }
+                    return params
+                };
+                var openPhotoSwipe = function (index, galleryElement, disableAnimation, fromURL) {
+                    var pswpElement = document.querySelectorAll('.pswp')[0], gallery, options, items;
+                    items = parseThumbnailElements(galleryElement);
+                    options = {
+                        galleryUID: galleryElement.getAttribute('data-pswp-uid'),
+                        getThumbBoundsFn: function (index) {
+                            var thumbnail = items[index].el.children[0],
+                                pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+                                rect = thumbnail.getBoundingClientRect();
+                            return {x: rect.left, y: rect.top + pageYScroll, w: rect.width}
+                        },
+                        addCaptionHTMLFn: function (item, captionEl, isFake) {
+                            if (!item.title) {
+                                captionEl.children[0].innerText = '';
+                                return false
+                            }
+                            captionEl.children[0].innerHTML = item.title + '<br/><small>Photo: ' + item.author + '</small>';
+                            return true
+                        }
+                    };
+                    if (fromURL) {
+                        if (options.galleryPIDs) {
+                            for (var j = 0; j < items.length; j++) {
+                                if (items[j].pid == index) {
+                                    options.index = j;
+                                    break
+                                }
+                            }
+                        } else {
+                            options.index = parseInt(index, 10) - 1
+                        }
+                    } else {
+                        options.index = parseInt(index, 10)
+                    }
+                    if (isNaN(options.index)) {
+                        return
+                    }
+                    var radios = document.getElementsByName('gallery-style');
+                    for (var i = 0, length = radios.length; i < length; i++) {
+                        if (radios[i].checked) {
+                            if (radios[i].id == 'radio-all-controls') {
+                            } else if (radios[i].id == 'radio-minimal-black') {
+                                options.mainClass = 'pswp--minimal--dark';
+                                options.barsSize = {top: 0, bottom: 0};
+                                options.captionEl = false;
+                                options.fullscreenEl = false;
+                                options.shareEl = false;
+                                options.bgOpacity = 0.85;
+                                options.tapToClose = true;
+                                options.tapToToggleControls = false
+                            }
+                            break
+                        }
+                    }
+                    if (disableAnimation) {
+                        options.showAnimationDuration = 0
+                    }
+                    gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+                    var realViewportWidth, useLargeImages = false, firstResize = true, imageSrcWillChange;
+                    gallery.listen('beforeResize', function () {
+                        var dpiRatio = window.devicePixelRatio ? window.devicePixelRatio : 1;
+                        dpiRatio = Math.min(dpiRatio, 2.5);
+                        realViewportWidth = gallery.viewportSize.x * dpiRatio;
+                        if (realViewportWidth >= 1200 || (!gallery.likelyTouchDevice && realViewportWidth > 800) || screen.width > 1200) {
+                            if (!useLargeImages) {
+                                useLargeImages = true;
+                                imageSrcWillChange = true
+                            }
+                        } else {
+                            if (useLargeImages) {
+                                useLargeImages = false;
+                                imageSrcWillChange = true
+                            }
+                        }
+                        if (imageSrcWillChange && !firstResize) {
+                            gallery.invalidateCurrItems()
+                        }
+                        if (firstResize) {
+                            firstResize = false
+                        }
+                        imageSrcWillChange = false
+                    });
+                    gallery.listen('gettingData', function (index, item) {
+                        if (useLargeImages) {
+                            item.src = item.o.src;
+                            item.w = item.o.w;
+                            item.h = item.o.h
+                        } else {
+                            item.src = item.m.src;
+                            item.w = item.m.w;
+                            item.h = item.m.h
+                        }
+                    });
+                    gallery.init()
+                };
+                var galleryElements = document.querySelectorAll(gallerySelector);
+                for (var i = 0, l = galleryElements.length; i < l; i++) {
+                    galleryElements[i].setAttribute('data-pswp-uid', i + 1);
+                    galleryElements[i].onclick = onThumbnailsClick
+                }
+                var hashData = photoswipeParseHash();
+                if (hashData.pid && hashData.gid) {
+                    openPhotoSwipe(hashData.pid, galleryElements[hashData.gid - 1], true, true)
+                }
+            };
+            initPhotoSwipeFromDOM('.img-pwsp-list');
         },
-        
+
         confirm_link: function () {
             $('[data-toggle="confirm_link"]').on('click', function (e) {
                 e.preventDefault();
@@ -278,40 +506,80 @@
                 }
                 smoke.confirm(msg, function (e) {
                     if (e) {
-                    	if (ajax) {
-                    		$.get(url, function (data) {
-                            	ecjia.merchant.showmessage(data);
+                        if (ajax) {
+                            $.get(url, function (data) {
+                                ecjia.merchant.showmessage(data);
                             }, 'json');
-                    	} else {
-                    		ecjia.pjax(url);
-                    	}
-                        
+                        } else {
+                            ecjia.pjax(url);
+                        }
+
                     }
-                }, { ok: js_lang.ok, cancel: js_lang.cancel });
+                }, {ok: js_lang.ok, cancel: js_lang.cancel});
             });
         },
-        
-        orders_auto_confirm_change: function() {
-        	$('input[name="orders_auto_confirm"]').off('click').on('click', function() {
-        		var $this = $(this),
-        			val = $this.val();
-        		if (val == 1) {
-        			$('.orders_auto_rejection_time').addClass('hide');
-        		} else {
-        			$('.orders_auto_rejection_time').removeClass('hide');
-        		}
-        	});
+
+        orders_auto_confirm_change: function () {
+            $('input[name="orders_auto_confirm"]').off('click').on('click', function () {
+                var $this = $(this),
+                    val = $this.val();
+                if (val == 1) {
+                    $('.orders_auto_rejection_time').addClass('hide');
+                } else {
+                    $('.orders_auto_rejection_time').removeClass('hide');
+                }
+            });
         },
 
-        make_thumb: function() {
-            $('[data-toggle="make_thumb"]').off('click').on('click', function() {
+        make_thumb: function () {
+            $('[data-toggle="make_thumb"]').off('click').on('click', function () {
                 var $this = $(this),
                     url = $this.attr('data-url'),
                     type = $this.attr('data-type');
-                $.post(url, {type: type}, function(data){
+                $.post(url, {type: type}, function (data) {
                     ecjia.merchant.showmessage(data);
                 });
             })
+        },
+
+        cancel_store: function () {
+            $('.cancel_store_btn').off('click').on('click', function (e) {
+                e.preventDefault();
+
+                var agree = $('input[name="agree"]:checked').val(),
+                    agree_notice = $('input[name="agree"]').attr('data-msg');
+
+                if (agree == undefined) {
+                    smoke.alert(agree_notice, {ok: js_lang.ok});
+                    return false;
+                }
+
+                var $this = $(this),
+                    url = $this.attr('data-url'),
+                    msg = $this.attr('data-msg');
+
+                smoke.confirm(msg, function (e) {
+                    if (e) {
+                        $.post(url, {step: 2}, function (data) {
+                            if (data.state == 'error') {
+                                ecjia.merchant.showmessage(data);
+                                return false;
+                            }
+                            ecjia.pjax(data.pjaxurl);
+                        }, 'json');
+                    }
+                }, {ok: js_lang.ok, cancel: js_lang.cancel});
+            });
+
+            $('.lefttime').yomi();
+
+            $('.active_store_btn').off('click').on('click', function (e) {
+                e.preventDefault();
+                var $this = $(this),
+                    url = $this.attr('data-url'),
+                    msg = $this.attr('data-msg');
+                $('#check_active_modal').modal('show');
+            });
         }
     };
 })(ecjia.merchant, jQuery);
