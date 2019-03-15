@@ -99,7 +99,7 @@ class RC_Hook extends Royalcms\Component\Hook\Facades\Hook
      *            Additional variables passed to the functions hooked to <tt>$tag</tt>.
      * @return mixed The filtered value after all hooked functions are applied to it.
      */
-    public static function apply_filters($tag, $value, $var1 = null, $var2 = null, $var3 = null, $var4 = null) {}
+    public static function apply_filters($tag, $value, $var1 = null, $var2 = null, $var3 = null, $var4 = null, $var5 = null, $var6 = null, $var7 = null, $var8 = null) {}
 
 
     /**
