@@ -164,7 +164,7 @@ class get_password extends ecjia_admin {
 		
 		RC_Loader::load_app_class('hooks.plugin_captcha', 'captcha', false);
 		
-		if ((intval(ecjia::config('captcha')) & CAPTCHA_ADMIN) && RC_ENV::gd_version() > 0) {
+		if ((intval(ecjia::config('captcha')) & \Ecjia\App\Captcha\Enums\CaptchaEnum::CAPTCHA_ADMIN) && RC_ENV::gd_version() > 0) {
 			$this->assign('gd_version', RC_ENV::gd_version());
 			$this->assign('random',     mt_rand());
 		}

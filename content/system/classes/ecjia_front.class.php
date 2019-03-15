@@ -49,7 +49,8 @@
  */
 defined('IN_ECJIA') or exit('No permission resources.');
 
-abstract class ecjia_front extends Ecjia\System\BaseController\EcjiaController implements ecjia_template_fileloader {
+abstract class ecjia_front extends Ecjia\System\BaseController\EcjiaController implements \Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader
+{
     
 	public function __construct() {
 		parent::__construct();
@@ -85,6 +86,8 @@ abstract class ecjia_front extends Ecjia\System\BaseController\EcjiaController i
 		} else {
 			error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 		}
+
+        $this->load_default_script_style();
 
 		/* 判断是否支持 Gzip 模式 */
 		if (RC_Config::get('system.gzip') && RC_Env::gzip_enabled()) {
@@ -367,12 +370,11 @@ abstract class ecjia_front extends Ecjia\System\BaseController\EcjiaController i
 
 	protected function load_hooks()
     {
-		RC_Hook::add_action( 'front_head',	array($this, 'front_enqueue_scripts'),	1 );
-		RC_Hook::add_action( 'front_head',	array($this, 'front_print_styles'),		8 );
-		RC_Hook::add_action( 'front_head',	array($this, 'front_print_head_scripts'),	9 );
-		RC_Hook::add_action( 'front_footer',	array($this, 'front_print_footer_scripts'), 20 );
-		RC_Hook::add_action( 'front_print_footer_scripts', array($this, '_front_footer_scripts'));
-		
+		RC_Hook::add_action( 'front_enqueue_scripts',	array($this, 'front_enqueue_scripts'),	1 );
+		RC_Hook::add_action( 'front_print_styles',	array($this, 'front_print_head_styles'),		8 );
+		RC_Hook::add_action( 'front_print_scripts',	array($this, 'front_print_head_scripts'),	9 );
+		RC_Hook::add_action( 'front_print_footer_scripts',	array($this, 'print_front_footer_scripts'), 20 );
+
 		$apps = ecjia_app::installed_app_floders();
 		if (is_array($apps)) {
 			foreach ($apps as $app) {
@@ -381,29 +383,60 @@ abstract class ecjia_front extends Ecjia\System\BaseController\EcjiaController i
 		}
 	}
 
-	public function front_enqueue_scripts()
+	protected function load_default_script_style()
     {
-
+        //...
     }
 
-    public function front_print_styles()
+    /**
+     * 需要的时候继承修改
+     * Fires when scripts and styles are enqueued.
+     * @since 1.0.0
+     */
+    public function front_enqueue_scripts()
     {
-
+        //...
     }
 
+    /**
+     * 禁止继承修改
+     */
+    public final function print_front_footer_scripts()
+    {
+        $this->front_print_late_styles();
+        $this->front_print_footer_scripts();
+    }
+
+    /**
+     * 前台控制器打印头部style样式文件
+     */
+    public function front_print_head_styles()
+    {
+        ecjia_loader::print_head_styles();
+    }
+
+    /**
+     * 前台控制器打印头部script脚本文件
+     */
     public function front_print_head_scripts()
     {
-
+        ecjia_loader::print_head_scripts();
     }
 
-    public function front_print_footer_scripts()
+    /**
+     * 前台控制器打印底部style样式文件
+     */
+    protected function front_print_late_styles()
     {
-
+        ecjia_loader::print_late_styles();
     }
 
-    public function _front_footer_scripts()
+    /**
+     * 前台控制器打印底部script脚本文件
+     */
+    protected function front_print_footer_scripts()
     {
-
+        ecjia_loader::print_footer_scripts();
     }
 	
 }

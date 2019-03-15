@@ -49,7 +49,8 @@
  * @author royalwang
  *
  */
-class ecjia_view {
+class ecjia_view
+{
     
     /**
      * 模板视图对象
@@ -63,7 +64,7 @@ class ecjia_view {
     
     protected $fileloader;
     
-    public function __construct(ecjia_template_fileloader $fileloader) {
+    public function __construct(\Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader $fileloader) {
         $this->fileloader = $fileloader;
         
         $this->smarty = royalcms('view')->getSmarty();

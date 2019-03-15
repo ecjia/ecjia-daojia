@@ -40,6 +40,8 @@ class GettextMakePOTCommand extends Command
      */
     public function fire()
     {
+        //忽略内存大小限制
+        ini_set('memory_limit',          -1);
 
         $makepot = new MakePOT($this);
 

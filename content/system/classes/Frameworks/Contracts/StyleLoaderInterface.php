@@ -44,65 +44,33 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-use Royalcms\Component\ClassLoader\ClassManager;
 
-/*
- |--------------------------------------------------------------------------
- | Register The Class Loader
- |--------------------------------------------------------------------------
- |
- | In addition to using Composer, you may use the Laravel class loader to
- | load your controllers and models. This is useful for keeping all of
- | your classes in the "global" namespace without Composer updating.
- |
+/**
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2019-03-06
+ * Time: 18:19
  */
 
-//ClassManager::addNamespaces(array());
-
-//注册Session驱动
-RC_Session::extend('mysql', function ($royalcms) {
-    $getDatabaseConnection = function ($royalcms)
-    {
-        $connection = $royalcms['config']['session.connection'];
-    
-        return $royalcms['db']->connection($connection);
-    };
-    
-    $getDatabaseOptions = function ($table, $royalcms)
-    {
-        return array(
-            'db_table' => $table, 
-            'db_id_col' => 'id', 
-            'db_data_col' => 'payload', 
-            'db_time_col' => 'last_activity',
-            'db_userid_col' => 'user_id',
-            'db_usertype_col' => 'user_type',
-        );
-    };
-
-    $connection = $getDatabaseConnection($royalcms);
-    
-    $table = $connection->getTablePrefix().$royalcms['config']['session.table'];
-    
-    return new Ecjia\System\Sessions\Handler\MysqlSessionHandler($connection->getPdo(), $getDatabaseOptions($table, $royalcms));
-});
-RC_Session::extend('memcache', function () {
-    $getMemcachePrefix = function () {
-        $defaultconnection = RC_Config::get('database.default');
-        $connection = array_get(RC_Config::get('database.connections'), $defaultconnection);
-        if (array_get($connection, 'database')) {
-            $memcache_prefix = $connection['database'] . ':';
-        }
-        else {
-            $memcache_prefix = 'ecjia_session:';
-        }
-    
-        return $memcache_prefix;
-    };
-    
-    $options = ['prefix' => $getMemcachePrefix(), 'expiretime' => RC_Config::get('session.lifetime', 1440) * 60];
-    
-    return new Ecjia\System\Sessions\Handler\MemcacheSessionHandler(royalcms('memcache'), $options);
-});
+namespace Ecjia\System\Frameworks\Contracts;
 
 
+interface StyleLoaderInterface
+{
+
+    /**
+     * Prints the styles queue in the HTML head on admin pages.
+     *
+     * @since 1.0.0
+     */
+    public function print_head_styles();
+
+
+    /**
+     * Prints the styles that were queued too late for the HTML head.
+     *
+     * @since 1.0.0
+     */
+    public function print_late_styles();
+
+}

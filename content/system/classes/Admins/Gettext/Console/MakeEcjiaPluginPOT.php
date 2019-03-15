@@ -91,7 +91,7 @@ class MakeEcjiaPluginPOT extends MakePOT
     }
 
 
-    private function guess_plugin_slug($dir)
+    protected function guess_plugin_slug($dir)
     {
         if ('trunk' == basename($dir)) {
             $slug = basename(dirname($dir));

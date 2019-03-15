@@ -255,11 +255,15 @@ class privilege extends ecjia_admin {
 	 * 退出登录
 	 */
 	public function logout() {
+
+        RC_Hook::do_action('ecjia_admin_logout_before');
+
 		/* 清除cookie */
 		RC_Cookie::delete('ECJAP[admin_id]');
 		RC_Cookie::delete('ECJAP[admin_pass]');
 
 		RC_Session::destroy();
+
 		return $this->redirect(RC_Uri::url('@privilege/login'));
 	}
 	

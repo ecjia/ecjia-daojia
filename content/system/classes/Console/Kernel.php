@@ -67,6 +67,7 @@ class Kernel extends ConsoleKernel
         Commands\GettextMakePOTCommand::class,
         Commands\GettextMetadataCommand::class,
         Commands\GettextCommentCommand::class,
+        Commands\GettextMakeBatchCommand::class,
     );
 
     /**

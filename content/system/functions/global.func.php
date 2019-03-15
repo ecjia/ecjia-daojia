@@ -786,6 +786,10 @@ if ( ! function_exists('ecjia_log_info'))
             $domain = 'ecjia';
         }
 
+        if (!is_array($context)) {
+            $context = (array)$context;
+        }
+
         RC_Logger::getLogger($domain)->info($message, $context);
     }
 }
@@ -803,6 +807,10 @@ if ( ! function_exists('ecjia_log_error'))
     {
         if (is_null($domain)) {
             $domain = 'ecjia';
+        }
+
+        if (!is_array($context)) {
+            $context = (array)$context;
         }
 
         RC_Logger::getLogger($domain)->error($message, $context);
@@ -824,6 +832,10 @@ if ( ! function_exists('ecjia_log_debug'))
             $domain = 'ecjia';
         }
 
+        if (!is_array($context)) {
+            $context = (array)$context;
+        }
+
         RC_Logger::getLogger($domain)->debug($message, $context);
     }
 }
@@ -843,6 +855,10 @@ if ( ! function_exists('ecjia_log_warning'))
             $domain = 'ecjia';
         }
 
+        if (!is_array($context)) {
+            $context = (array)$context;
+        }
+
         RC_Logger::getLogger($domain)->warning($message, $context);
     }
 }
@@ -860,6 +876,10 @@ if ( ! function_exists('ecjia_log_notice'))
     {
         if (is_null($domain)) {
             $domain = 'ecjia';
+        }
+
+        if (!is_array($context)) {
+            $context = (array)$context;
         }
 
         RC_Logger::getLogger($domain)->notice($message, $context);

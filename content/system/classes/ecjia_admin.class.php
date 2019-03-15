@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 //定义在后台
 define('IN_ADMIN', true);
 
-abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController implements ecjia_template_fileloader
+abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController implements \Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader
 {
 
 	
@@ -454,7 +454,7 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 		// to top 右侧跳到顶部
 		RC_Script::enqueue_script('jquery-ui-totop');
 		// scroll 处理触摸事件
-		RC_Script::enqueue_script('nicescroll');
+// 		RC_Script::enqueue_script('nicescroll');
 
 		RC_Script::enqueue_script('ecjia-admin');
 		RC_Script::enqueue_script('ecjia-ui');
@@ -469,8 +469,8 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 		RC_Hook::add_action('admin_head', array(__CLASS__, '_ie_support_header'));
 		RC_Hook::add_action('admin_head', array('ecjia_loader', 'admin_enqueue_scripts'), 1 );
 		RC_Hook::add_action('admin_print_scripts', array('ecjia_loader', 'print_head_scripts'), 20 );
-		RC_Hook::add_action('admin_print_footer_scripts', array('ecjia_loader', '_admin_footer_scripts') );
-		RC_Hook::add_action('admin_print_styles', array('ecjia_loader', 'print_admin_styles'), 20 );
+		RC_Hook::add_action('admin_print_footer_scripts', array('ecjia_loader', 'print_admin_footer_scripts') );
+		RC_Hook::add_action('admin_print_styles', array('ecjia_loader', 'print_head_styles'), 20 );
 		RC_Hook::add_action('admin_print_main_bottom', array(__CLASS__, 'display_admin_copyright'));
 		RC_Hook::add_action('admin_print_header_nav', array(__CLASS__, 'display_admin_header_nav'));
 		RC_Hook::add_action('admin_sidebar_collapse_search', array(__CLASS__, 'display_admin_sidebar_nav_search'), 9);

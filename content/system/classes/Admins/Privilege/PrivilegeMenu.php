@@ -58,6 +58,8 @@ class PrivilegeMenu extends RC_Object
 {
     
     protected $cacheKey;
+
+    protected $user_id;
     
     public function __construct()
     {
@@ -66,6 +68,8 @@ class PrivilegeMenu extends RC_Object
         } else {
             $this->cacheKey = 'admin_privilege_menus';
         }
+
+        $this->user_id = royalcms('request')->query('id');
     }
     
     /**
@@ -104,7 +108,7 @@ class PrivilegeMenu extends RC_Object
      */
     public function Menus()
     {
-        $cache_menus = RC_Cache::app_cache_get($this->cacheKey, 'system');
+        $cache_menus = RC_Cache::userdata_cache_get($this->cacheKey, $this->user_id);
         if (! empty($cache_menus)) {
             return $cache_menus;
         }
@@ -113,7 +117,7 @@ class PrivilegeMenu extends RC_Object
     
         $menus   = $this->loadMenu($apps, 'privilege_menu');
     
-        RC_Cache::app_cache_set($this->cacheKey, $menus, 'system');
+        RC_Cache::userdata_cache_set($this->cacheKey, $menus, $this->user_id);
     
         return $menus;
     }
@@ -192,7 +196,7 @@ class PrivilegeMenu extends RC_Object
      */
     public function cleanCache() 
     {
-        RC_Cache::app_cache_delete($this->cacheKey, 'system');
+        RC_Cache::userdata_cache_delete($this->cacheKey, $this->user_id);
     }
     
 }

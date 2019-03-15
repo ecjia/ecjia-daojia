@@ -226,18 +226,31 @@ class SystemServiceProvider extends AppParentServiceProvider
             $dir . "/Exceptions/Handler.php",
             $dir . "/Sessions/Handler/MysqlSessionHandler.php",
             $dir . "/Sessions/EcjiaSessionInterface.php",
+
             $dir . "/Facades/Config.php",
+            $dir . "/Facades/ThemeManager.php",
+            $dir . "/Facades/PluginManager.php",
+            $dir . "/Facades/SiteManager.php",
+            $dir . "/Facades/VersionManager.php",
+
+            $dir . "/Frameworks/Contracts/EcjiaTemplateFileLoader.php",
+            $dir . "/Frameworks/Contracts/PaidOrderProcessInterface.php",
+            $dir . "/Frameworks/Contracts/ScriptLoaderInterface.php",
+            $dir . "/Frameworks/Contracts/StyleLoaderInterface.php",
+            $dir . "/Frameworks/Contracts/UserAllotPurview.php",
+            $dir . "/Frameworks/Contracts/UserInterface.php",
+            $dir . "/Frameworks/Contracts/ShopInterface.php",
+
             $dir . "/Config/DatabaseConfigRepository.php",
             $dir . "/Config/ConfigRepositoryInterface.php",
             $dir . "/Config/ConfigModel.php",
             $dir . "/Config/Config.php",
             $dir . "/Config/CompatibleTrait.php",
-            $dir . "/BaseController/EcjiaController.php",
-            $dir . "/Facades/ThemeManager.php",
             $dir . "/Theme/ThemeManager.php",
             $dir . "/Theme/Theme.php",
             $dir . "/Theme/ParseThemeStyle.php",
-            $dir . "/interface/ecjia_template_fileloader.class.php",
+
+            $dir . "/BaseController/EcjiaController.php",
 
 
             $dir . "/ecjia_view.class.php",

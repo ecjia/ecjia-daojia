@@ -8,17 +8,21 @@
 
 namespace Ecjia\System\Admins\Gettext\Console;
 
+use Ecjia\System\Admins\Gettext\Smarty\SmartyGettextCompiler;
+use Ecjia\System\Admins\Gettext\Smarty\CompileDirectory;
 
-class MakeEcjiaThemePOT extends MakePOT
+class MakeEcjiaThemePOT extends MakeEcjiaGenericPOT
 {
 
+    protected $slug;
+
     protected $meta = array(
-        'description'        => 'Translation of the Ecjia theme {name} {version} by {author}',
-        'msgid-bugs-address' => 'https://www.ecjia.org/support/theme/{slug}',
-        'copyright-holder'   => '{author}',
-        'package-name'       => '{name}',
-        'package-version'    => '{version}',
-        'comments'           => 'Copyright (C) {year} {author}\nThis file is distributed under the same license as the {package-name} package.',
+        'description'        => "Translation of the Ecjia theme {name} {version} by {author}",
+        'msgid-bugs-address' => "https://www.ecjia.com/support/theme/{slug}",
+        'copyright-holder'   => "{author}",
+        'package-name'       => "{name}",
+        'package-version'    => "{version}",
+        'comments'           => "Copyright (C) {year} {author}\nThis file is distributed under the same license as the {package-name} package.",
     );
 
 
@@ -27,7 +31,9 @@ class MakeEcjiaThemePOT extends MakePOT
         $placeholders = array();
         // guess plugin slug
         if (is_null($slug)) {
-            $slug = $this->guess_plugin_slug($dir);
+            $this->slug = $this->guess_plugin_slug($dir);
+        } else {
+            $this->slug = $slug;
         }
 
         $main_file = $dir . '/style.css';
@@ -35,67 +41,112 @@ class MakeEcjiaThemePOT extends MakePOT
 
         $placeholders['version'] = $this->get_addon_header('Version', $source);
         $placeholders['author']  = $this->get_addon_header('Author', $source);
-        $placeholders['name']    = $this->get_addon_header('Theme Name', $source);
-        $placeholders['slug']    = $slug;
+        $placeholders['name']    = $this->get_addon_header('Template Name', $source);
+        $placeholders['slug']    = $this->slug;
 
         $license = $this->get_addon_header('License', $source);
         if ($license)
         {
-            $this->meta['wp-theme']['comments'] = "Copyright (C) {year} {author}\nThis file is distributed under the {$license}.";
+            $this->meta['ecjia-theme']['comments'] = "Copyright (C) {year} {author}\nThis file is distributed under the {$license}.";
         }
         else
         {
-            $this->meta['wp-theme']['comments'] = "Copyright (C) {year} {author}\nThis file is distributed under the same license as the {package-name} package.";
+            $this->meta['ecjia-theme']['comments'] = "Copyright (C) {year} {author}\nThis file is distributed under the same license as the {package-name} package.";
         }
 
-        $output = is_null($output) ? "$slug.pot" : $output;
-        $res    = $this->xgettext('wp-theme', $dir, $output, $placeholders);
+        if (is_null($output)) {
+            $output =  $dir . "/languages/zh_CN/{$this->slug}.pot";
+        }
+
+        $res    = $this->xgettext('ecjia-theme', $dir, $output, $placeholders);
         if (!$res)
         {
             return false;
         }
 
         $potextmeta = new PotExtMeta($this->console);
-        $res        = $potextmeta->append($main_file, $output, array('Theme Name', 'Theme URI', 'Description', 'Author', 'Author URI'));
+        $res        = $potextmeta->append($main_file, $output, array('Template Name', 'Template URI', 'Description', 'Author', 'Author URI'));
         if (!$res)
         {
             return false;
         }
 
-        // If we're dealing with a pre-3.4 default theme, don't extract page templates before 3.4.
-        $extract_templates = !in_array($slug, array('twentyten', 'twentyeleven', 'default', 'classic'));
-        if (!$extract_templates) {
-            $wp_dir            = dirname(dirname(dirname($dir)));
-            $extract_templates = file_exists("$wp_dir/wp-admin/user/about.php") || !file_exists("$wp_dir/wp-load.php");
-        }
-
-        if ($extract_templates) {
-            $res = $potextmeta->append($dir, $output, array('Template Name'));
-            if (!$res)
-            {
-                return false;
-            }
-
-            $files = scandir($dir);
-            foreach ($files as $file) {
-                if ('.' == $file[0] || 'CVS' == $file)
-                {
-                    continue;
-                }
-
-                if (is_dir($dir . '/' . $file)) {
-                    $res = $potextmeta->append($dir . '/' . $file, $output, array('Template Name'));
-                    if (!$res)
-                    {
-                        return false;
-                    }
-                }
-            }
-        }
         /* Adding non-gettexted strings can repeat some phrases */
         $output_shell = escapeshellarg($output);
         system("msguniq $output_shell -o $output_shell");
-        return $res;
+
+        $this->console->info(sprintf(__("提取%sPHP中语言包成功"), $this->slug));
+
+        $template_result = $this->makeTemplate($dir);
+
+        return $res && $template_result;
+    }
+
+
+    protected function guess_plugin_slug($dir)
+    {
+        if ('trunk' == basename($dir)) {
+            $slug = basename(dirname($dir));
+        } elseif (in_array(basename(dirname($dir)), array('branches', 'tags'))) {
+            $slug = basename(dirname(dirname($dir)));
+        } else {
+            $slug = basename($dir);
+        }
+        return $slug;
+    }
+
+    private function getPHPPotPath($dir, $realpath = false)
+    {
+        if ($realpath) {
+            return realpath($dir . "/languages/zh_CN/{$this->slug}.pot");
+        } else {
+            return $dir . "/languages/zh_CN/{$this->slug}.pot";
+        }
+    }
+
+    private function getTemplatePotPath($dir)
+    {
+        $pot = $this->getPHPPotPath($dir);
+
+        return str_replace('.pot', '_template.pot', $pot);
+    }
+
+    public function makeTemplate($dir)
+    {
+        $php_pot = $this->getPHPPotPath($dir, true);
+        if (! file_exists($php_pot)) {
+            return false;
+        }
+
+        $includes = array(
+            $dir
+        );
+
+        $template_pot = $this->getTemplatePotPath($dir);
+
+        $compiler = new SmartyGettextCompiler();
+
+        $compiler->setOutFile($template_pot);
+
+        // initialize output
+        file_put_contents($template_pot, SmartyGettextCompiler::MSGID_HEADER);
+
+        foreach ($includes as $dir) {
+            (new CompileDirectory($compiler, $dir))->compile();
+        }
+
+        /* Adding non-gettexted strings can repeat some phrases */
+        $output_shell = escapeshellarg($template_pot);
+        system("msguniq $output_shell -o $output_shell");
+
+        if (file_exists($template_pot)) {
+            system("msgcat --use-first $php_pot $template_pot -o $php_pot");
+            unlink($template_pot);
+        }
+
+        $this->console->info(sprintf(__("提取%s模板语言包成功"), $this->slug));
+
+        return true;
     }
 
 

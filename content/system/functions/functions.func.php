@@ -358,6 +358,7 @@ function remove_env_pretty_page_table_data($tables) {
 }
 RC_Hook::add_filter('pretty_page_table_data', 'remove_env_pretty_page_table_data');
 
-
+//加载hooks
+ecjia::loadGlobalPlugins();
 
 // end

@@ -292,6 +292,17 @@ class ecjia {
 	{
 	    RC_Gettext::loadAppTextdomain($app);
 	}
+
+
+	public static function loadGlobalPlugins()
+    {
+        $global_plugins = ecjia_config::instance()->get_addon_config('global_plugins', true);
+        if (is_array($global_plugins)) {
+            foreach ($global_plugins as $plugin_file) {
+                RC_Plugin::load_files($plugin_file);
+            }
+        }
+    }
 	
     
     /**
@@ -397,7 +408,7 @@ class ecjia {
      * 注销自动加载方法
      */
     public static function autoload_unregister() {
-        spl_autoload_unregister(array(__CLASS__, 'auto_load_classes'), true);
+        spl_autoload_unregister(array(__CLASS__, 'auto_load_classes'));
     }
     
 }

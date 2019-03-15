@@ -113,6 +113,12 @@ class ecjia_plugin {
                     $system_plugins[$plugin_dir] = $plugin;
                     ecjia_config::instance()->set_addon_config('system_plugins', $system_plugins, true);
                 }
+                elseif ($all_plugins[$plugin]['PluginApp'] == 'global') {
+                    $plugin_dir = dirname($plugin);
+                    $global_plugins = ecjia_config::instance()->get_addon_config('global_plugins', true);
+                    $global_plugins[$plugin_dir] = $plugin;
+                    ecjia_config::instance()->set_addon_config('global_plugins', $global_plugins, true);
+                }
                 
                 /**
                  * Fires before a plugin is activated.

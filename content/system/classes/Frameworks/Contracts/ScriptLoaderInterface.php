@@ -1,5 +1,5 @@
 <?php
-//  
+//
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//   
+//
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,17 +44,39 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-interface ecjia_template_fileloader {
-    
+
+/**
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2019-03-06
+ * Time: 18:15
+ */
+
+namespace Ecjia\System\Frameworks\Contracts;
+
+
+interface ScriptLoaderInterface
+{
+
+
     /**
-     * 获得模板目录
-     * @return string
+     * Prints the script queue in the HTML head on admin pages.
+     *
+     * Postpones the scripts that were queued for the footer.
+     * print_footer_scripts() is called in the footer to print these scripts.
+     *
+     * @since 1.0.0
+     *
+     * @see admin_print_scripts()
      */
-    public function get_template_dir();
-    
+    public function print_head_scripts();
+
     /**
-     * 获得模版文件
+     * Prints the scripts that were queued for the footer or too late for the HTML head.
+     *
+     * @since 1.0.0
      */
-    public function get_template_file($file);
-    
+    public function print_footer_scripts();
+
+
 }

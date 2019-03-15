@@ -108,7 +108,7 @@ abstract class EcjiaController extends RoyalcmsController
 
     /**
      * 控制器对象静态属性
-     * @var
+     * @var \Ecjia\System\BaseController\EcjiaController
      */
     public static $controller;
 
@@ -133,7 +133,7 @@ abstract class EcjiaController extends RoyalcmsController
         
         $this->session_start();
         
-        $this->view = $this->create_view();
+        $this->registerViewServiceProvider();
         
         static::$controller = & $this;
         static::$view_object = & $this->view;
@@ -142,7 +142,6 @@ abstract class EcjiaController extends RoyalcmsController
 
         RC_Response::header('X-XSS-Protection', '1; mode=block');
         RC_Response::header('X-Frame-Options', 'SAMEORIGIN');
-        RC_Response::header('X-Content-Type-Options', 'nosniff');
     }
     
     
@@ -158,6 +157,13 @@ abstract class EcjiaController extends RoyalcmsController
     public function getRequest()
     {
         return $this->request;
+    }
+
+    public function registerViewServiceProvider()
+    {
+        royalcms()->forgeRegister('Royalcms\Component\SmartyView\SmartyServiceProvider');
+
+        $this->view = $this->create_view();
     }
 
     /**

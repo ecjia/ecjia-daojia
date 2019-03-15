@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia System package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia System 1.26.0\n"
+"Project-Id-Version: Ecjia System 1.43\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-01-21 09:10:09+00:00\n"
+"POT-Creation-Date: 2019-03-15 01:49:01+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,175 +12,105 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 
-#: admin_application.php:78
-msgid "未找到搜索内容!"
-msgstr ""
-
-#: admin_application.php:79 admin_application.php:90
-msgid "开始安装"
-msgstr ""
-
-#: admin_application.php:80 index.php:278
-msgid "后退"
-msgstr ""
-
-#: admin_application.php:81 admin_plugin.php:85
-msgid "首页"
-msgstr ""
-
-#: admin_application.php:82 admin_plugin.php:86
-msgid "尾页"
-msgstr ""
-
-#: admin_application.php:83 admin_plugin.php:87
-msgid "上一页"
-msgstr ""
-
-#: admin_application.php:84 admin_plugin.php:88
-msgid "下一页"
-msgstr ""
-
-#: admin_application.php:85 admin_plugin.php:89
-msgid "没有找到任何记录"
-msgstr ""
-
-#: admin_application.php:86 admin_plugin.php:90
-msgid "共_TOTAL_条记录 第_START_ 到 第_END_条"
-msgstr ""
-
-#: admin_application.php:87 admin_plugin.php:91
-msgid "共0条记录"
-msgstr ""
-
-#: admin_application.php:88 admin_plugin.php:92
-msgid "（从_MAX_条数据中检索）"
-msgstr ""
-
-#: admin_application.php:89
-msgid "安装中..."
-msgstr ""
-
-#: admin_application.php:94 admin_application.php:108 admin_application.php:109
+#: admin_application.php:80 admin_application.php:94 admin_application.php:95
 #: apis/system_system_menu_api.class.php:70
 #: apis/system_system_purview_api.class.php:60
 msgid "应用管理"
 msgstr ""
 
-#: admin_application.php:113 admin_logs.php:87 admin_message.php:89
-#: admin_plugin.php:101 admin_role.php:95
-#: classes/Controllers/UpgradeController.php:84 index.php:87 index.php:123
-#: index.php:150 index.php:175 index.php:253 index.php:309 privilege.php:104
-#: privilege.php:724
+#: admin_application.php:99 admin_logs.php:81 admin_message.php:89
+#: admin_plugin.php:85 admin_role.php:92
+#: classes/Controllers/UpgradeController.php:84 index.php:70 index.php:107
+#: index.php:134 index.php:159 index.php:237 index.php:282 privilege.php:95
+#: privilege.php:719
 msgid "概述"
 msgstr ""
 
-#: admin_application.php:115
+#: admin_application.php:101
 msgid "欢迎访问ECJia智能后台应用管理页面，系统中所有的应用都会显示在此列表中。"
 msgstr ""
 
-#: admin_application.php:119 admin_logs.php:93 admin_message.php:95
-#: admin_plugin.php:107 admin_role.php:101
-#: classes/Controllers/UpgradeController.php:90 index.php:93 index.php:129
-#: index.php:156 index.php:181 index.php:259 index.php:315 privilege.php:110
-#: privilege.php:730
+#: admin_application.php:105 admin_logs.php:87 admin_message.php:95
+#: admin_plugin.php:91 admin_role.php:98
+#: classes/Controllers/UpgradeController.php:90 index.php:76 index.php:113
+#: index.php:140 index.php:165 index.php:243 index.php:288 privilege.php:101
+#: privilege.php:725
 msgid "更多信息："
 msgstr ""
 
-#: admin_application.php:120
+#: admin_application.php:106
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:应用管理\" target="
 "\"_blank\">关于应用管理帮助文档</a>"
 msgstr ""
 
-#: admin_application.php:191 admin_application.php:192
+#: admin_application.php:177 admin_application.php:178
 msgid "应用安装"
 msgstr ""
 
-#: admin_application.php:195 admin_application.php:196
+#: admin_application.php:181 admin_application.php:182
 msgid "应用详情"
 msgstr ""
 
-#: admin_application.php:197
+#: admin_application.php:183
 msgid "返回应用列表"
 msgstr ""
 
-#: admin_application.php:231
+#: admin_application.php:217
 msgid "%s 应用安装成功"
 msgstr ""
 
-#: admin_application.php:257
+#: admin_application.php:243
 msgid "%s 应用卸载成功"
 msgstr ""
 
-#: admin_logs.php:67
-msgid "请先选择删除日志的时间！"
-msgstr ""
-
-#: admin_logs.php:68
-msgid "确定删除"
-msgstr ""
-
-#: admin_logs.php:69
-msgid "的日志吗？"
-msgstr ""
-
-#: admin_logs.php:70 admin_plugin.php:81 classes/ecjia_admin.class.php:469
-#: classes/ecjia_loader.class.php:179 index.php:302
-msgid "确定"
-msgstr ""
-
-#: admin_logs.php:71 admin_plugin.php:82 classes/ecjia_admin.class.php:470
-#: classes/ecjia_loader.class.php:180 index.php:303
-msgid "取消"
-msgstr ""
-
-#: admin_logs.php:82 admin_logs.php:83 apis/system_system_menu_api.class.php:65
+#: admin_logs.php:76 admin_logs.php:77 apis/system_system_menu_api.class.php:65
 msgid "管理员日志"
 msgstr ""
 
-#: admin_logs.php:89
+#: admin_logs.php:83
 msgid ""
 "欢迎访问ECJia智能后台管理员日志页面，可以在此查看管理员操作的一些记录信息。"
 msgstr ""
 
-#: admin_logs.php:94
+#: admin_logs.php:88
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1."
 "E7.90.86.E5.91.98.E6.97.A5.E5.BF.97\" target=\"_blank\">关于管理员日志帮助文"
 "档</a>"
 msgstr ""
 
-#: admin_logs.php:143
+#: admin_logs.php:137
 msgid "一周之前"
 msgstr ""
 
-#: admin_logs.php:148
+#: admin_logs.php:142
 msgid "一个月前"
 msgstr ""
 
-#: admin_logs.php:153
+#: admin_logs.php:147
 msgid "三个月前"
 msgstr ""
 
-#: admin_logs.php:158
+#: admin_logs.php:152
 msgid "半年之前"
 msgstr ""
 
-#: admin_logs.php:164
+#: admin_logs.php:158
 msgid "一年之前"
 msgstr ""
 
-#: admin_logs.php:170
+#: admin_logs.php:164
 msgid "删除 %s 的日志。"
 msgstr ""
 
-#: admin_logs.php:172
+#: admin_logs.php:166
 msgid "%s 的日志成功删除。"
 msgstr ""
 
 #: admin_message.php:84 admin_message.php:85
 #: classes/admin/ecjia_admin_log.class.php:105
-#: classes/hooks/admin_system.class.php:169
+#: classes/hooks/admin_system.class.php:175
 msgid "管理员留言"
 msgstr ""
 
@@ -215,109 +145,89 @@ msgstr ""
 msgid "发送失败"
 msgstr ""
 
-#: admin_plugin.php:78
-msgid "参数错误，无法安装！"
-msgstr ""
-
-#: admin_plugin.php:79
-msgid "参数错误，无法卸载！"
-msgstr ""
-
-#: admin_plugin.php:80
-msgid "您确定要卸载这个插件吗？"
-msgstr ""
-
-#: admin_plugin.php:83
-msgid "您确定要删除这个插件吗？"
-msgstr ""
-
-#: admin_plugin.php:84
-msgid "此插件暂时不能删除。"
-msgstr ""
-
-#: admin_plugin.php:96 admin_plugin.php:97
+#: admin_plugin.php:80 admin_plugin.php:81
 #: apis/system_system_menu_api.class.php:71
 #: apis/system_system_purview_api.class.php:64
 msgid "插件管理"
 msgstr ""
 
-#: admin_plugin.php:103
+#: admin_plugin.php:87
 msgid "欢迎访问ECJia智能后台插件管理页面，系统中所有的插件都会显示在此列表中。"
 msgstr ""
 
-#: admin_plugin.php:108
+#: admin_plugin.php:92
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:插件管理\" target="
 "\"_blank\">关于插件管理帮助文档</a>"
 msgstr ""
 
-#: admin_plugin.php:174
+#: admin_plugin.php:158
 msgid "%s 插件安装成功！"
 msgstr ""
 
-#: admin_plugin.php:201
+#: admin_plugin.php:185
 msgid "%s 插件卸载成功！"
 msgstr ""
 
-#: admin_plugin.php:209 admin_plugin.php:211
+#: admin_plugin.php:193 admin_plugin.php:195
 #: apis/system_system_menu_api.class.php:72
 msgid "插件配置"
 msgstr ""
 
-#: admin_role.php:76 privilege.php:79
-msgid "请输入用户名！"
-msgstr ""
-
-#: admin_role.php:80 admin_role.php:90 admin_role.php:91
+#: admin_role.php:77 admin_role.php:87 admin_role.php:88
 #: apis/system_system_menu_api.class.php:63
 #: apis/system_system_purview_api.class.php:72
 msgid "角色管理"
 msgstr ""
 
-#: admin_role.php:97
+#: admin_role.php:94
 msgid "欢迎访问ECJia智能后台角色管理页面，系统中所有的角色都会显示在此列表中。"
 msgstr ""
 
-#: admin_role.php:102
+#: admin_role.php:99
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E8.A7.92.E8.89."
 "B2.E7.AE.A1.E7.90.86\" target=\"_blank\">关于角色管理帮助文档</a>"
 msgstr ""
 
-#: admin_role.php:105 admin_role.php:118 admin_role.php:119
+#: admin_role.php:102 admin_role.php:115 admin_role.php:116
 msgid "添加角色"
 msgstr ""
 
-#: admin_role.php:120 admin_role.php:148 admin_role.php:176
+#: admin_role.php:117 admin_role.php:145 admin_role.php:173
 msgid "角色列表"
 msgstr ""
 
-#: admin_role.php:144 admin_role.php:205 admin_role.php:228
+#: admin_role.php:141 admin_role.php:202 admin_role.php:225
 msgid "管理员角色"
 msgstr ""
 
-#: admin_role.php:151 privilege.php:448
+#: admin_role.php:148 privilege.php:443
 msgid "添加 %s 操作成功"
 msgstr ""
 
-#: admin_role.php:172 admin_role.php:175
+#: admin_role.php:169 admin_role.php:172
 msgid "修改角色"
 msgstr ""
 
-#: admin_role.php:209
+#: admin_role.php:206
 msgid "返回角色列表"
 msgstr ""
 
-#: admin_role.php:210
+#: admin_role.php:207
 msgid "编辑 %s 操作成功"
 msgstr ""
 
-#: admin_role.php:222
+#: admin_role.php:219
 msgid "此角色有管理员在使用，暂时不能删除！"
 msgstr ""
 
-#: admin_role.php:231
+#: admin_role.php:228
 msgid "成功删除管理员角色 %s"
+msgstr ""
+
+#: apis/system_admin_session_logins_api.class.php:70
+msgid "参数无效"
 msgstr ""
 
 #: apis/system_privilege_menu_api.class.php:58
@@ -397,19 +307,19 @@ msgstr ""
 msgid "权限管理"
 msgstr ""
 
-#: apis/system_system_menu_api.class.php:62 privilege.php:100 privilege.php:141
-#: privilege.php:383 privilege.php:480 privilege.php:742 privilege.php:784
+#: apis/system_system_menu_api.class.php:62 privilege.php:91 privilege.php:132
+#: privilege.php:378 privilege.php:475 privilege.php:737 privilege.php:779
 msgid "管理员列表"
 msgstr ""
 
 #: apis/system_system_menu_api.class.php:67
 #: apis/system_system_purview_api.class.php:57
-#: classes/admin/ecjia_admin_log.class.php:161 index.php:296 index.php:297
+#: classes/admin/ecjia_admin_log.class.php:161 index.php:277 index.php:278
 msgid "授权证书"
 msgstr ""
 
 #: apis/system_system_menu_api.class.php:68
-#: apis/system_system_purview_api.class.php:58 index.php:249 index.php:274
+#: apis/system_system_purview_api.class.php:58 index.php:233 index.php:257
 msgid "更新缓存"
 msgstr ""
 
@@ -430,8 +340,8 @@ msgstr ""
 msgid "目录权限检测"
 msgstr ""
 
-#: apis/system_system_menu_api.class.php:86 index.php:117 index.php:144
-#: index.php:169
+#: apis/system_system_menu_api.class.php:86 index.php:101 index.php:128
+#: index.php:153
 msgid "关于"
 msgstr ""
 
@@ -459,7 +369,7 @@ msgstr ""
 msgid "菜单管理"
 msgstr ""
 
-#: apis/system_system_purview_api.class.php:73 privilege.php:767
+#: apis/system_system_purview_api.class.php:73 privilege.php:762
 msgid "分派权限"
 msgstr ""
 
@@ -524,11 +434,15 @@ msgid ""
 "span>"
 msgstr ""
 
-#: classes/Admins/Gettext/Console/MakeEcjiaSystemPOT.php:45
+#: classes/Admins/Gettext/Console/MakeEcjiaAppPOT.php:77
+#: classes/Admins/Gettext/Console/MakeEcjiaSystemPOT.php:49
+#: classes/Admins/Gettext/Console/MakeEcjiaThemePOT.php:78
 msgid "提取%sPHP中语言包成功"
 msgstr ""
 
-#: classes/Admins/Gettext/Console/MakeEcjiaSystemPOT.php:85
+#: classes/Admins/Gettext/Console/MakeEcjiaAppPOT.php:122
+#: classes/Admins/Gettext/Console/MakeEcjiaSystemPOT.php:89
+#: classes/Admins/Gettext/Console/MakeEcjiaThemePOT.php:147
 msgid "提取%s模板语言包成功"
 msgstr ""
 
@@ -1229,24 +1143,23 @@ msgstr ""
 msgid "Const [serverHost] url not defined."
 msgstr ""
 
-#: classes/BaseController/EcjiaController.php:381
-#: classes/ecjia_admin.class.php:466
+#: classes/BaseController/EcjiaController.php:415 configs/jslang.php:141
 msgid "操作成功"
 msgstr ""
 
-#: classes/BaseController/EcjiaController.php:384
+#: classes/BaseController/EcjiaController.php:418
 msgid "操作提示"
 msgstr ""
 
-#: classes/BaseController/EcjiaController.php:387
+#: classes/BaseController/EcjiaController.php:421
 msgid "操作警告"
 msgstr ""
 
-#: classes/BaseController/EcjiaController.php:390
+#: classes/BaseController/EcjiaController.php:424
 msgid "操作错误"
 msgstr ""
 
-#: classes/BaseController/EcjiaController.php:393 index.php:170 index.php:171
+#: classes/BaseController/EcjiaController.php:427 index.php:154 index.php:155
 msgid "系统信息"
 msgstr ""
 
@@ -1355,7 +1268,7 @@ msgid "批量停用"
 msgstr ""
 
 #: classes/admin/ecjia_admin_log.class.php:104
-#: classes/hooks/admin_system.class.php:187
+#: classes/hooks/admin_system.class.php:193
 msgid "操作日志"
 msgstr ""
 
@@ -1581,7 +1494,7 @@ msgstr ""
 msgid "快捷导航"
 msgstr ""
 
-#: classes/ecjia.class.php:303
+#: classes/ecjia.class.php:320
 msgid "共执行 %d 个查询，程序运行用时 %s 秒"
 msgstr ""
 
@@ -1605,43 +1518,11 @@ msgstr ""
 msgid "对不起，您没有执行此项操作的权限！"
 msgstr ""
 
-#: classes/ecjia_admin.class.php:462
-msgid "显示侧边栏"
-msgstr ""
-
-#: classes/ecjia_admin.class.php:463
-msgid "隐藏侧边栏"
-msgstr ""
-
-#: classes/ecjia_admin.class.php:464
-msgid "请先输入搜索信息"
-msgstr ""
-
-#: classes/ecjia_admin.class.php:465
-msgid "未搜索到导航信息"
-msgstr ""
-
-#: classes/ecjia_admin.class.php:467
-msgid "操作失败"
-msgstr ""
-
-#: classes/ecjia_admin.class.php:468
-msgid "是否确认跳转？"
-msgstr ""
-
-#: classes/ecjia_admin.class.php:471
-msgid "请求失败，错误编号："
-msgstr ""
-
-#: classes/ecjia_admin.class.php:472
-msgid "，错误信息："
-msgstr ""
-
-#: classes/ecjia_admin.class.php:720 classes/ecjia_admin.class.php:748
+#: classes/ecjia_admin.class.php:710 classes/ecjia_admin.class.php:738
 msgid "欢迎使用ECJia"
 msgstr ""
 
-#: classes/ecjia_admin.class.php:721 classes/ecjia_admin.class.php:749
+#: classes/ecjia_admin.class.php:711 classes/ecjia_admin.class.php:739
 msgid ""
 "ECJia是一款基于PHP+MYSQL开发的多语言移动电商管理框架，推出了灵活的应用+插件机"
 "制，软件执行效率高；简洁超炫的UI设计，轻松上手；多国语言支持、后台管理功能方"
@@ -1649,11 +1530,11 @@ msgid ""
 "来全新的使用体验！"
 msgstr ""
 
-#: classes/ecjia_admin.class.php:722
+#: classes/ecjia_admin.class.php:712
 msgid "了解更多 »"
 msgstr ""
 
-#: classes/ecjia_admin.class.php:750
+#: classes/ecjia_admin.class.php:740
 msgid "进入官网 »"
 msgstr ""
 
@@ -1673,7 +1554,7 @@ msgstr ""
 msgid "Class '%s' not found"
 msgstr ""
 
-#: classes/ecjia_app.class.php:335 classes/ecjia_plugin.class.php:177
+#: classes/ecjia_app.class.php:335 classes/ecjia_plugin.class.php:183
 msgid "The plugin generated unexpected output."
 msgstr ""
 
@@ -1695,46 +1576,6 @@ msgstr ""
 
 #: classes/ecjia_form.class.php:110
 msgid "Save Changes"
-msgstr ""
-
-#: classes/ecjia_loader.class.php:181
-msgid "您确定要删除这条记录吗？"
-msgstr ""
-
-#: classes/ecjia_loader.class.php:182
-msgid "参数错误，无法删除！"
-msgstr ""
-
-#: classes/ecjia_loader.class.php:183
-msgid "您确定要操作所有选中项吗？"
-msgstr ""
-
-#: classes/ecjia_loader.class.php:184
-msgid "请先选中操作项！"
-msgstr ""
-
-#: classes/ecjia_loader.class.php:185
-msgid "批量操作缺少参数！"
-msgstr ""
-
-#: classes/ecjia_loader.class.php:186
-msgid "参数错误，无法选择！"
-msgstr ""
-
-#: classes/ecjia_loader.class.php:187
-msgid "状态修改成功！"
-msgstr ""
-
-#: classes/ecjia_loader.class.php:188
-msgid "clone-obj方法未设置data-parent参数。"
-msgstr ""
-
-#: classes/ecjia_loader.class.php:189
-msgid "缺少参数"
-msgstr ""
-
-#: classes/ecjia_loader.class.php:190
-msgid "您确定要删除此文件吗？"
 msgstr ""
 
 #: classes/ecjia_metadata.class.php:87
@@ -1776,23 +1617,23 @@ msgid ""
 "The timezone you have entered is not valid. Please select a valid timezone."
 msgstr ""
 
-#: classes/ecjia_page.class.php:202
+#: classes/ecjia_page.class.php:205
 msgid "总计 "
 msgstr ""
 
-#: classes/ecjia_page.class.php:203
+#: classes/ecjia_page.class.php:206
 msgid "条记录，分为"
 msgstr ""
 
-#: classes/ecjia_page.class.php:204
+#: classes/ecjia_page.class.php:207
 msgid "页当前第"
 msgstr ""
 
-#: classes/ecjia_page.class.php:205
+#: classes/ecjia_page.class.php:208
 msgid "页，每页"
 msgstr ""
 
-#: classes/ecjia_page.class.php:206
+#: classes/ecjia_page.class.php:209
 msgid " 页"
 msgstr ""
 
@@ -1886,20 +1727,31 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: classes/hooks/admin_system.class.php:200
+#: classes/hooks/admin_system.class.php:206
 msgid "产品新闻"
 msgstr ""
 
-#: classes/hooks/admin_system.class.php:228
+#: classes/hooks/admin_system.class.php:234
 msgid "今日新增用户"
 msgstr ""
 
-#: classes/hooks/admin_system.class.php:242
+#: classes/hooks/admin_system.class.php:248
 msgid "新手机咨询"
 msgstr ""
 
-#: classes/hooks/admin_system.class.php:256
+#: classes/hooks/admin_system.class.php:262
 msgid "今日新增订单"
+msgstr ""
+
+#: classes/hooks/admin_system.class.php:347
+msgid ""
+"ECJia到家 v%s 现已经可用！ 请现在下载更新，前往<a href=\"%s\">更新检测</a>。"
+msgstr ""
+
+#: classes/hooks/admin_system.class.php:357
+msgid ""
+"授权提示：您的站点还未经过授权许可！请上传您的证书，前往<a href=\"%s\">授权证"
+"书管理</a> 。"
 msgstr ""
 
 #: classes/widgets/widget_ad_position.class.php:59
@@ -1966,6 +1818,212 @@ msgstr ""
 msgid "自定义菜单"
 msgstr ""
 
+#: configs/jslang.php:58
+msgid "未找到搜索内容!"
+msgstr ""
+
+#: configs/jslang.php:59 configs/jslang.php:70
+msgid "开始安装"
+msgstr ""
+
+#: configs/jslang.php:60 configs/jslang.php:110 configs/jslang.php:118
+msgid "后退"
+msgstr ""
+
+#: configs/jslang.php:61 configs/jslang.php:92
+msgid "首页"
+msgstr ""
+
+#: configs/jslang.php:62 configs/jslang.php:93
+msgid "尾页"
+msgstr ""
+
+#: configs/jslang.php:63 configs/jslang.php:94
+msgid "上一页"
+msgstr ""
+
+#: configs/jslang.php:64 configs/jslang.php:95
+msgid "下一页"
+msgstr ""
+
+#: configs/jslang.php:65 configs/jslang.php:96
+msgid "没有找到任何记录"
+msgstr ""
+
+#: configs/jslang.php:66 configs/jslang.php:97
+msgid "共_TOTAL_条记录 第_START_ 到 第_END_条"
+msgstr ""
+
+#: configs/jslang.php:67 configs/jslang.php:98
+msgid "共0条记录"
+msgstr ""
+
+#: configs/jslang.php:68 configs/jslang.php:99
+msgid "（从_MAX_条数据中检索）"
+msgstr ""
+
+#: configs/jslang.php:69
+msgid "安装中..."
+msgstr ""
+
+#: configs/jslang.php:76
+msgid "请先选择删除日志的时间！"
+msgstr ""
+
+#: configs/jslang.php:77
+msgid "确定删除"
+msgstr ""
+
+#: configs/jslang.php:78
+msgid "的日志吗？"
+msgstr ""
+
+#: configs/jslang.php:79 configs/jslang.php:88 configs/jslang.php:144
+#: configs/jslang.php:152
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:80 configs/jslang.php:89 configs/jslang.php:145
+#: configs/jslang.php:153
+msgid "取消"
+msgstr ""
+
+#: configs/jslang.php:85
+msgid "参数错误，无法安装！"
+msgstr ""
+
+#: configs/jslang.php:86
+msgid "参数错误，无法卸载！"
+msgstr ""
+
+#: configs/jslang.php:87
+msgid "您确定要卸载这个插件吗？"
+msgstr ""
+
+#: configs/jslang.php:90
+msgid "您确定要删除这个插件吗？"
+msgstr ""
+
+#: configs/jslang.php:91
+msgid "此插件暂时不能删除。"
+msgstr ""
+
+#: configs/jslang.php:104 configs/jslang.php:126
+msgid "请输入用户名！"
+msgstr ""
+
+#: configs/jslang.php:109 configs/jslang.php:117
+msgid "开始"
+msgstr ""
+
+#: configs/jslang.php:111 configs/jslang.php:119
+msgid "请选择要清除的缓存类型！"
+msgstr ""
+
+#: configs/jslang.php:112 configs/jslang.php:120
+msgid "清除："
+msgstr ""
+
+#: configs/jslang.php:125
+msgid "此管理员不可以编辑！"
+msgstr ""
+
+#: configs/jslang.php:127
+msgid "用户名长度不能小于2！"
+msgstr ""
+
+#: configs/jslang.php:128
+msgid "请输入邮箱地址！"
+msgstr ""
+
+#: configs/jslang.php:129
+msgid "请输入正确的邮箱格式！"
+msgstr ""
+
+#: configs/jslang.php:130
+msgid "请输入密码！"
+msgstr ""
+
+#: configs/jslang.php:131
+msgid "密码长度不能小于6！"
+msgstr ""
+
+#: configs/jslang.php:132
+msgid "两次密码不一致！"
+msgstr ""
+
+#: configs/jslang.php:137
+msgid "显示侧边栏"
+msgstr ""
+
+#: configs/jslang.php:138
+msgid "隐藏侧边栏"
+msgstr ""
+
+#: configs/jslang.php:139
+msgid "请先输入搜索信息"
+msgstr ""
+
+#: configs/jslang.php:140
+msgid "未搜索到导航信息"
+msgstr ""
+
+#: configs/jslang.php:142
+msgid "操作失败"
+msgstr ""
+
+#: configs/jslang.php:143
+msgid "是否确认跳转？"
+msgstr ""
+
+#: configs/jslang.php:146
+msgid "请求失败，错误编号："
+msgstr ""
+
+#: configs/jslang.php:147
+msgid "，错误信息："
+msgstr ""
+
+#: configs/jslang.php:154
+msgid "您确定要删除这条记录吗？"
+msgstr ""
+
+#: configs/jslang.php:155
+msgid "参数错误，无法删除！"
+msgstr ""
+
+#: configs/jslang.php:156
+msgid "您确定要操作所有选中项吗？"
+msgstr ""
+
+#: configs/jslang.php:157
+msgid "请先选中操作项！"
+msgstr ""
+
+#: configs/jslang.php:158
+msgid "批量操作缺少参数！"
+msgstr ""
+
+#: configs/jslang.php:159
+msgid "参数错误，无法选择！"
+msgstr ""
+
+#: configs/jslang.php:160
+msgid "状态修改成功！"
+msgstr ""
+
+#: configs/jslang.php:161
+msgid "clone-obj方法未设置data-parent参数。"
+msgstr ""
+
+#: configs/jslang.php:162
+msgid "缺少参数"
+msgstr ""
+
+#: configs/jslang.php:163
+msgid "您确定要删除此文件吗？"
+msgstr ""
+
 #: functions/functions.func.php:255
 msgid "本店盘点中，请您稍后再来..."
 msgstr ""
@@ -2007,129 +2065,91 @@ msgstr ""
 msgid "密码修改失败!"
 msgstr ""
 
-#: index.php:70
-msgid ""
-"授权提示：您的站点还未经过授权许可！请上传您的证书，前往<a href=\"%s\">授权证"
-"书管理</a> 。"
-msgstr ""
-
-#: index.php:75
-msgid ""
-"您还没有删除 installer 文件夹，出于安全的考虑，我们建议您删除 content/apps/"
-"installer 文件夹。"
-msgstr ""
-
-#: index.php:81
-msgid ""
-"您当前已经覆盖了最新版的v%s程序，建议您立即升级数据库结构，升级前做好备份，前"
-"往<a href=\"%s\">升级中心</a>。"
-msgstr ""
-
-#: index.php:89
+#: index.php:72
 msgid ""
 "欢迎访问ECJia智能后台仪表盘！在您每次登录站点后，您都会看到本页面。您可以在这"
 "里访问ECJia智能后台的各种管理页面。点击任何页面右上角的“帮助”选项卡可阅读相应"
 "帮助信息。"
 msgstr ""
 
-#: index.php:94
+#: index.php:77
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台操作指南\" target=\"_blank"
 "\">关于ECJia智能后台的帮助文档</a>"
 msgstr ""
 
-#: index.php:102
+#: index.php:85
 msgid "<a target=\"_blank\" href=\"%s\">点击查看</a>。"
 msgstr ""
 
-#: index.php:118 index.php:119
+#: index.php:102 index.php:103
 msgid "关于 ECJIA"
 msgstr ""
 
-#: index.php:125 index.php:152 index.php:177
+#: index.php:109 index.php:136 index.php:161
 msgid "欢迎访问ECJia智能后台关于页面，可以更加了解ECJia。"
 msgstr ""
 
-#: index.php:130 index.php:157 index.php:182
+#: index.php:114 index.php:141 index.php:166
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:关于\" target=\"_blank\">"
 "关于ECJia帮助文档</a>"
 msgstr ""
 
-#: index.php:145 index.php:146
+#: index.php:129 index.php:130
 msgid "ECJIA团队"
 msgstr ""
 
-#: index.php:193 index.php:194 index.php:195 index.php:197
+#: index.php:177 index.php:178 index.php:179 index.php:181
 msgid "是"
 msgstr ""
 
-#: index.php:193 index.php:194 index.php:195 index.php:197
+#: index.php:177 index.php:178 index.php:179 index.php:181
 msgid "否"
 msgstr ""
 
-#: index.php:196
+#: index.php:180
 msgid "无需设置"
 msgstr ""
 
-#: index.php:255
+#: index.php:239
 msgid ""
 "欢迎访问ECJia智能后台更新缓存页面，可以在此页面进行清除系统中缓存的操作。"
 msgstr ""
 
-#: index.php:260
+#: index.php:244
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:更新缓存\" target="
 "\"_blank\">关于清除缓存帮助文档</a>"
 msgstr ""
 
-#: index.php:277
-msgid "开始"
-msgstr ""
-
-#: index.php:279
-msgid "请选择要清除的缓存类型！"
-msgstr ""
-
-#: index.php:280
-msgid "清除："
-msgstr ""
-
-#: index.php:300
-msgid "将证书文件拖动至此处上传"
-msgstr ""
-
-#: index.php:301
-msgid "您确定要删除这个证书吗？"
-msgstr ""
-
-#: index.php:311
+#: index.php:284
 msgid "欢迎访问ECJia智能后台授权证书管理页面，可以在此对证书进行授权操作。"
 msgstr ""
 
-#: index.php:316
+#: index.php:289
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:授权证书\" target="
 "\"_blank\">关于授权证书管理帮助文档</a>"
 msgstr ""
 
-#: index.php:378
+#: index.php:351
 msgid "证书内容不全。请先确定证书是否正确然后重新上传！"
 msgstr ""
 
-#: index.php:389
+#: index.php:362
 msgid "授权证书上传成功。"
 msgstr ""
 
-#: index.php:394
+#: index.php:367
 msgid "授权证书连接服务器校验失败，请检查授权证书的合法性。"
 msgstr ""
 
-#: index.php:414
+#: index.php:387
 msgid "下载"
 msgstr ""
 
-#: index.php:445
+#: index.php:418
 msgid "证书已删除。"
 msgstr ""
 
@@ -2137,170 +2157,142 @@ msgstr ""
 msgid "没有找到该注释的模板备份"
 msgstr ""
 
-#: privilege.php:78
-msgid "此管理员不可以编辑！"
-msgstr ""
-
 #: privilege.php:80
-msgid "用户名长度不能小于2！"
-msgstr ""
-
-#: privilege.php:81
-msgid "请输入邮箱地址！"
-msgstr ""
-
-#: privilege.php:82
-msgid "请输入正确的邮箱格式！"
-msgstr ""
-
-#: privilege.php:83
-msgid "请输入密码！"
-msgstr ""
-
-#: privilege.php:84
-msgid "密码长度不能小于6！"
-msgstr ""
-
-#: privilege.php:85
-msgid "两次密码不一致！"
-msgstr ""
-
-#: privilege.php:89
 msgid "管理员管理"
 msgstr ""
 
-#: privilege.php:106
+#: privilege.php:97
 msgid ""
 "欢迎访问ECJia智能后台管理员列表页面，系统中所有的管理员都会显示在此列表中。"
 msgstr ""
 
-#: privilege.php:111
+#: privilege.php:102
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#.E7.AE.A1."
 "E7.90.86.E5.91.98.E5.88.97.E8.A1.A8\" target=\"_blank\">关于管理员列表帮助文"
 "档</a>"
 msgstr ""
 
-#: privilege.php:142 privilege.php:379 privilege.php:382
+#: privilege.php:133 privilege.php:374 privilege.php:377
 msgid "添加管理员"
 msgstr ""
 
-#: privilege.php:366
+#: privilege.php:361
 msgid "登录成功"
 msgstr ""
 
-#: privilege.php:368
+#: privilege.php:363
 msgid "您输入的帐号信息不正确。"
 msgstr ""
 
-#: privilege.php:399
+#: privilege.php:394
 msgid "数据不完整"
 msgstr ""
 
-#: privilege.php:406 privilege.php:529
+#: privilege.php:401 privilege.php:524
 msgid "该管理员 %s 已经存在！"
 msgstr ""
 
-#: privilege.php:414 privilege.php:542 privilege.php:640
+#: privilege.php:409 privilege.php:537 privilege.php:635
 msgid "该Email地址 %s 已经存在！"
 msgstr ""
 
-#: privilege.php:441
+#: privilege.php:436
 msgid "设置管理员权限"
 msgstr ""
 
-#: privilege.php:443
+#: privilege.php:438
 msgid "继续添加管理员"
 msgstr ""
 
-#: privilege.php:457 privilege.php:618 privilege.php:711 privilege.php:776
-#: privilege.php:819
+#: privilege.php:452 privilege.php:613 privilege.php:706 privilege.php:771
+#: privilege.php:814
 msgid "返回管理员列表"
 msgstr ""
 
-#: privilege.php:458 privilege.php:712 privilege.php:777
+#: privilege.php:453 privilege.php:707 privilege.php:772
 msgid "您不能对此管理员的权限进行任何操作！"
 msgstr ""
 
-#: privilege.php:467 privilege.php:479
+#: privilege.php:462 privilege.php:474
 msgid "编辑管理员"
 msgstr ""
 
-#: privilege.php:548
+#: privilege.php:543
 msgid "超级管理员 %s 不可被修改！"
 msgstr ""
 
-#: privilege.php:567 privilege.php:574
+#: privilege.php:562 privilege.php:569
 msgid "返回上一页"
 msgstr ""
 
-#: privilege.php:568 privilege.php:658
+#: privilege.php:563 privilege.php:653
 msgid "输入的旧密码错误！"
 msgstr ""
 
-#: privilege.php:575 privilege.php:663
+#: privilege.php:570 privilege.php:658
 msgid "两次输入的密码不一致！"
 msgstr ""
 
-#: privilege.php:613 privilege.php:853
+#: privilege.php:608 privilege.php:848
 msgid "管理员账号"
 msgstr ""
 
-#: privilege.php:615
+#: privilege.php:610
 msgid "您已经成功的修改了个人帐号信息！"
 msgstr ""
 
-#: privilege.php:618 privilege.php:720 privilege.php:741
+#: privilege.php:613 privilege.php:715 privilege.php:736
 msgid "编辑个人资料"
 msgstr ""
 
-#: privilege.php:687
+#: privilege.php:682
 msgid "个人资料"
 msgstr ""
 
-#: privilege.php:696
+#: privilege.php:691
 msgid "您已经成功的修改了密码，因此您必须重新登录！"
 msgstr ""
 
-#: privilege.php:698
+#: privilege.php:693
 msgid "修改个人资料成功！"
 msgstr ""
 
-#: privilege.php:726
+#: privilege.php:721
 msgid "欢迎访问ECJia智能后台编辑个人资料页面，用户可在此编辑个人资料。"
 msgstr ""
 
-#: privilege.php:731
+#: privilege.php:726
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:个人设置\" target="
 "\"_blank\">关于编辑个人资料帮助文档</a>"
 msgstr ""
 
-#: privilege.php:783
+#: privilege.php:778
 msgid "分派平台权限 [ %s ] "
 msgstr ""
 
-#: privilege.php:822
+#: privilege.php:817
 msgid "编辑 %s 操作成功！"
 msgstr ""
 
-#: privilege.php:837
+#: privilege.php:832
 msgid "您不能删除demo这个管理员！"
 msgstr ""
 
-#: privilege.php:842
+#: privilege.php:837
 msgid "此管理员您不能进行删除操作！"
 msgstr ""
 
-#: privilege.php:847
+#: privilege.php:842
 msgid "您不能删除自己！"
 msgstr ""
 
-#: privilege.php:855
+#: privilege.php:850
 msgid "删除成功！"
 msgstr ""
 
-#: privilege.php:857
+#: privilege.php:852
 msgid "操作失败！"
 msgstr ""
 
@@ -2489,7 +2481,7 @@ msgid "正在进行文件校验，请稍候..."
 msgstr ""
 
 #: content/system/templates/check_file_hash.dwt.php:176
-#: content/system/templates/admin_upgrade.dwt.php:141
+#: content/system/templates/admin_upgrade.dwt.php:155
 msgid "如果您的链接没有自动跳转，请点击这里"
 msgstr ""
 
@@ -2507,43 +2499,43 @@ msgstr ""
 msgid "有新版本啦！！！"
 msgstr ""
 
-#: content/system/templates/admin_upgrade.dwt.php:51
+#: content/system/templates/admin_upgrade.dwt.php:50
 msgid "构建日期："
 msgstr ""
 
-#: content/system/templates/admin_upgrade.dwt.php:54
+#: content/system/templates/admin_upgrade.dwt.php:53
 msgid "更新介绍"
 msgstr ""
 
-#: content/system/templates/admin_upgrade.dwt.php:62
+#: content/system/templates/admin_upgrade.dwt.php:67
 msgid "修改文件 （%1个）"
 msgstr ""
 
-#: content/system/templates/admin_upgrade.dwt.php:74
+#: content/system/templates/admin_upgrade.dwt.php:83
 msgid "新增文件 （%1个）"
 msgstr ""
 
-#: content/system/templates/admin_upgrade.dwt.php:86
+#: content/system/templates/admin_upgrade.dwt.php:98
 msgid "删除文件 （%1个）"
 msgstr ""
 
-#: content/system/templates/admin_upgrade.dwt.php:106
+#: content/system/templates/admin_upgrade.dwt.php:120
 msgid "升级帮助"
 msgstr ""
 
-#: content/system/templates/admin_upgrade.dwt.php:107
+#: content/system/templates/admin_upgrade.dwt.php:121
 msgid "下载升级补丁"
 msgstr ""
 
-#: content/system/templates/admin_upgrade.dwt.php:116
+#: content/system/templates/admin_upgrade.dwt.php:130
 msgid "更新版本"
 msgstr ""
 
-#: content/system/templates/admin_upgrade.dwt.php:125
+#: content/system/templates/admin_upgrade.dwt.php:139
 msgid "没有可用更新版本！"
 msgstr ""
 
-#: content/system/templates/admin_upgrade.dwt.php:139
+#: content/system/templates/admin_upgrade.dwt.php:153
 msgid "正在进行新版本检测，请稍候..."
 msgstr ""
 
@@ -2762,7 +2754,7 @@ msgstr ""
 msgid "发展历程"
 msgstr ""
 
-#: content/system/templates/about_team.dwt.php:166
+#: content/system/templates/about_team.dwt.php:173
 msgid "再显示5条"
 msgstr ""
 

@@ -1,5 +1,5 @@
 <?php
-//
+//  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//
+//   
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,65 +44,21 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-use Royalcms\Component\ClassLoader\ClassManager;
 
-/*
- |--------------------------------------------------------------------------
- | Register The Class Loader
- |--------------------------------------------------------------------------
- |
- | In addition to using Composer, you may use the Laravel class loader to
- | load your controllers and models. This is useful for keeping all of
- | your classes in the "global" namespace without Composer updating.
- |
- */
+namespace Ecjia\System\Frameworks\Contracts;
 
-//ClassManager::addNamespaces(array());
-
-//注册Session驱动
-RC_Session::extend('mysql', function ($royalcms) {
-    $getDatabaseConnection = function ($royalcms)
-    {
-        $connection = $royalcms['config']['session.connection'];
+interface EcjiaTemplateFileLoader
+{
     
-        return $royalcms['db']->connection($connection);
-    };
+    /**
+     * 获得模板目录
+     * @return string
+     */
+    public function get_template_dir();
     
-    $getDatabaseOptions = function ($table, $royalcms)
-    {
-        return array(
-            'db_table' => $table, 
-            'db_id_col' => 'id', 
-            'db_data_col' => 'payload', 
-            'db_time_col' => 'last_activity',
-            'db_userid_col' => 'user_id',
-            'db_usertype_col' => 'user_type',
-        );
-    };
-
-    $connection = $getDatabaseConnection($royalcms);
+    /**
+     * 获得模版文件
+     */
+    public function get_template_file($file);
     
-    $table = $connection->getTablePrefix().$royalcms['config']['session.table'];
-    
-    return new Ecjia\System\Sessions\Handler\MysqlSessionHandler($connection->getPdo(), $getDatabaseOptions($table, $royalcms));
-});
-RC_Session::extend('memcache', function () {
-    $getMemcachePrefix = function () {
-        $defaultconnection = RC_Config::get('database.default');
-        $connection = array_get(RC_Config::get('database.connections'), $defaultconnection);
-        if (array_get($connection, 'database')) {
-            $memcache_prefix = $connection['database'] . ':';
-        }
-        else {
-            $memcache_prefix = 'ecjia_session:';
-        }
-    
-        return $memcache_prefix;
-    };
-    
-    $options = ['prefix' => $getMemcachePrefix(), 'expiretime' => RC_Config::get('session.lifetime', 1440) * 60];
-    
-    return new Ecjia\System\Sessions\Handler\MemcacheSessionHandler(royalcms('memcache'), $options);
-});
-
-
+}

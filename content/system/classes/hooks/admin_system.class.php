@@ -359,6 +359,22 @@ EOF;
         }
     }
 
+
+    public static function record_admin_session_logins($row)
+    {
+        RC_Api::api('system', 'admin_session_logins', [
+            'user_id' => $row['user_id'],
+            'from_type' => 'weblogin',
+        ]);
+    }
+
+
+    public static function admin_session_logout_remove()
+    {
+        $session_id = session()->getId();
+
+        (new \Ecjia\System\Admins\SessionLogins\AdminSessionLogins($session_id, session('session_user_id')))->removeBySessionId();
+    }
 	
 }
 
@@ -372,6 +388,8 @@ RC_Hook::add_action( 'ecjia_admin_dashboard_index', array('admin_system_hooks', 
 RC_Hook::add_action( 'ecjia_admin_dashboard_index', array('admin_system_hooks', 'cloud_checked') );
 
 RC_Hook::add_action( 'display_admin_privilege_menus', array('admin_system_hooks', 'display_admin_privilege_menus') );
+RC_Hook::add_action( 'ecjia_admin_login_after', array('admin_system_hooks', 'record_admin_session_logins') );
+RC_Hook::add_action( 'ecjia_admin_logout_before', array('admin_system_hooks', 'admin_session_logout_remove') );
 
 // RC_Hook::add_action( 'admin_dashboard_header_links', array('admin_system_hooks', 'admin_dashboard_header_links') );
 
