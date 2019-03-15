@@ -568,11 +568,21 @@ return array(
 	//1.27
 	'affiliate/user/invitee'						  => 'affiliate::affiliate/user/invitee',				//团队列表，当前用户推荐的直属用户
 	
+    //1.28到家商城
 	'bbc/cart/create'						  		  => 'cart::bbc/cart/create',							//添加商品到购物车（到家商城专用）
 	'bbc/cart/list'						  		  	  => 'cart::bbc/cart/list',								//用户购物车列表（到家商城专用）
 	'bbc/flow/checkOrder'							  => 'cart::bbc/flow/checkOrder',						//购物流订单检查（到家商城专用）
 	'bbc/flow/done'							  		  => 'cart::bbc/flow/done',								//购物流订单结算提交（到家商城专用）
 	
+    //1.29
+    'affiliate/order/records'                         => 'affiliate::affiliate/order/records',               //推荐用户订单分成记录
+    'affiliate/order/detail'                          => 'affiliate::affiliate/order/detail',               //推荐用户订单分成记录详情
+    
+	//收银台2.2.0
+	'admin/cashier/orders/summary/records'			  => 'orders::admin/cashier/orders/summary/records',    	//资金流水开单/验单列表（支付完成的）
+	'admin/cashier/quickpay/summary/records'		  => 'quickpay::admin/cashier/quickpay/summary/records',    //资金流水买单列表（买单支付完成的）
+	'admin/cashier/refund/summary/records'		  	  => 'refund::admin/cashier/refund/summary/records',    	//资金流水退款列表（退款完成的）
+
 	
     /**
      * 1.0 已经废弃
