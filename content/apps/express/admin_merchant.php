@@ -72,8 +72,9 @@ class admin_merchant extends ecjia_admin {
 		
 		RC_Script::enqueue_script('admin_merchant', RC_App::apps_url('statics/js/admin_merchant.js', __FILE__));
 		RC_Style::enqueue_style('admin_express', RC_App::apps_url('statics/css/admin_express.css', __FILE__));
-		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('商家管理', RC_Uri::url('express/admin_merchant/init')));
+        RC_Script::localize_script('admin_merchant', 'js_lang', config('app-express::jslang.express_page'));
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家管理', 'express'), RC_Uri::url('express/admin_merchant/init')));
 	}
 	
 	/**
@@ -84,14 +85,13 @@ class admin_merchant extends ecjia_admin {
 		
 		ecjia_screen::$current_screen->add_help_tab(array(
 			'id'		=> 'overview',
-			'title'		=> '温馨提示',
-			'content'	=>
-			'<p>商家管理列表只展示未完成配送订单的商家以及分类</p>'
+			'title'		=> __('温馨提示', 'express'),
+			'content'	=> '<p>' . __('商家管理列表只展示未完成配送订单的商家以及分类', 'express') .  '</p>'
 		));
 				
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('商家管理'));
-		$this->assign('ur_here', '商家管理');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家管理', 'express')));
+		$this->assign('ur_here', __('商家管理', 'express'));
 		
 		$cat_id = trim($_GET['cat_id']);
 		$data = $this->get_merchant_list($cat_id);
@@ -116,8 +116,8 @@ class admin_merchant extends ecjia_admin {
 		$this->admin_priv('express_merchant_manage');
 	
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('商家详情'));
-		$this->assign('ur_here', '商家详情');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家详情', 'express')));
+		$this->assign('ur_here', __('商家详情', 'express'));
 		
 		$store_id = trim($_GET['store_id']);
 		$this->assign('store_id', $store_id);
@@ -190,8 +190,8 @@ class admin_merchant extends ecjia_admin {
 	public function order_detail() {
 		$this->admin_priv('express_merchant_manage');
 	
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送详情'));
-		$this->assign('ur_here', '配送详情');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送详情', 'express')));
+		$this->assign('ur_here', __('配送详情', 'express'));
 
 		$express_id = intval($_POST['express_id']);
 		$express_info = RC_DB::table('express_order')->where('express_id', $express_id)->select('store_id','consignee','mobile','order_id', 'order_sn', 'delivery_id', 'delivery_sn', 'user_id','express_sn', 'distance','commision','express_user','express_mobile','from','signed_time','district as eodistrict','street as eostreet','address as eoaddress','status')->first();
@@ -225,9 +225,9 @@ class admin_merchant extends ecjia_admin {
 		$content['express_all_address'] = $content['eodistrict'].$content['eostreet'];
 	
 		if($content['from'] == 'grab') {
-			$content['from'] ='抢单';
+			$content['from'] =__('抢单', 'express');
 		} else {
-			$content['from'] ='派单';
+			$content['from'] =__('派单', 'express');
 		}
 	
 		$this->assign('content', $content);

@@ -63,7 +63,7 @@ class express_pickup_module extends api_admin implements api_interface {
         $delivery_sn = $this->requestData('delivery_sn');
         
 		if (empty($delivery_sn)) {
-    		return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+    		return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
     	}
     	$express_order         = array();
     	//$express_order_db      = RC_Model::model('express/express_order_viewmodel');
@@ -152,7 +152,7 @@ class express_pickup_module extends api_admin implements api_interface {
     	}
     	
     	RC_DB::table('order_status_log')->insert(array(
-	    	'order_status'	=> RC_Lang::get('express::express.express_user_pickup'),
+	    	'order_status'	=> __('配送员已取货', 'express'),
 	    	'order_id'		=> $express_order_info['order_id'],
 	    	'message'		=> '配送员已取货，正在向您奔去，配送员：'.$_SESSION['staff_name'],
 	    	'add_time'		=> RC_Time::gmtime(),

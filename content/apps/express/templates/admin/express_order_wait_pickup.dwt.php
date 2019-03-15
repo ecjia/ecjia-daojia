@@ -31,13 +31,13 @@
 <!-- 批量操作和搜索 -->
 <div class="row-fluid batch" >
 	<ul class="nav nav-pills" style="margin-bottom:5px;">
-		<li class="{if $type eq 'wait_grab'}active{/if}"><a class="data-pjax" href='{url path="express/admin/init" args="type=wait_grab"}'>待抢单 <span class="badge badge-info">{if $express_order_count.wait_grab}{$express_order_count.wait_grab}{else}0{/if}</span> </a></li>
-		<li class="{if $type eq 'wait_pickup'}active{/if}"><a class="data-pjax" href='{url path="express/admin/wait_pickup" args="type=wait_pickup{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>待取货 <span class="badge badge-info">{if $express_order_count.wait_pickup}{$express_order_count.wait_pickup}{else}0{/if}</span> </a></li>
-		<li class="{if $type eq 'sending'}active{/if}"><a class="data-pjax" href='{url path="express/admin/wait_pickup" args="type=sending{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>配送中 <span class="badge badge-info">{if $express_order_count.sending}{$express_order_count.sending}{else}0{/if}</span> </a></li>
+		<li class="{if $type eq 'wait_grab'}active{/if}"><a class="data-pjax" href='{url path="express/admin/init" args="type=wait_grab"}'>{t domain="express"}待抢单{/t} <span class="badge badge-info">{if $express_order_count.wait_grab}{$express_order_count.wait_grab}{else}0{/if}</span> </a></li>
+		<li class="{if $type eq 'wait_pickup'}active{/if}"><a class="data-pjax" href='{url path="express/admin/wait_pickup" args="type=wait_pickup{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>{t domain="express"}待取货{/t} <span class="badge badge-info">{if $express_order_count.wait_pickup}{$express_order_count.wait_pickup}{else}0{/if}</span> </a></li>
+		<li class="{if $type eq 'sending'}active{/if}"><a class="data-pjax" href='{url path="express/admin/wait_pickup" args="type=sending{if $filter.keywords}&keywords={$filter.keywords}{/if}"}'>{t domain="express"}配送中{/t} <span class="badge badge-info">{if $express_order_count.sending}{$express_order_count.sending}{else}0{/if}</span> </a></li>
 		<form method="post" action="{$search_action}{if $type}&type={$type}{/if}" name="searchForm">
 			<div class="choose_list f_r">
-				<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder="请输入配送员名称或配送单号"/> 
-				<button class="btn search_express_order" type="submit">搜索</button>
+				<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder='{t domain="express"}请输入配送员名称或配送单号{/t}'/>
+				<button class="btn search_express_order" type="submit">{t domain="express"}搜索{/t}</button>
 			</div>
 		</form>
 	</ul>
@@ -48,13 +48,13 @@
 		<table class="table table-striped smpl_tbl table-hide-edit">
 			<thead>
 				<tr>
-				    <th class="w250">配送单号</th>
-				    <th class="w150">配送员</th>
-				    <th class="w150">收货人信息</th>
-				    <th class="w500">取/送货地址</th>
-				    <th class="w100">任务类型</th>
-				    <th class="w200">接单时间</th>
-				    <th class="w100">配送状态</th>
+				    <th class="w250">{t domain="express"}配送单号{/t}</th>
+				    <th class="w150">{t domain="express"}配送员{/t}</th>
+				    <th class="w150">{t domain="express"}收货人信息{/t}</th>
+				    <th class="w500">{t domain="express"}取/送货地址{/t}</th>
+				    <th class="w100">{t domain="express"}任务类型{/t}</th>
+				    <th class="w200">{t domain="express"}接单时间{/t}</th>
+				    <th class="w100">{t domain="express"}配送状态{/t}</th>
 			  	</tr>
 			</thead>
 			<!-- {foreach from=$wait_pickup_list.list item=wait_pickup} -->
@@ -62,22 +62,22 @@
 		      	<td class="hide-edit-area">
 					{$wait_pickup.express_sn}
 		     	  	<div class="edit-list">
-					  	 <a  class="express-order-modal" data-toggle="modal" data-backdrop="static" href="#myModal1" express-id="{$wait_pickup.express_id}" express-order-url='{url path="express/admin/express_order_detail" args="express_id={$wait_pickup.express_id}{if $type}&type={$type}{/if}"}'  title="查看详情">查看详情</a>
-					  	 {if $type eq 'wait_pickup'}&nbsp;|&nbsp;<a class="express-reassign-click" data-toggle="modal" data-backdrop="static" href="#myModal2" express-id="{$wait_pickup.express_id}" express-reassign-url='{url path="express/admin/express_reasign_detail" args="express_id={$wait_pickup.express_id}&store_id={$wait_pickup.store_id}{if $type}&type={$type}{/if}"}'  title="重新指派">重新指派</a>{/if}
-					  	 {if $wait_pickup.online_status eq '1'}&nbsp;|&nbsp;<a class="express-location" data-toggle="modal" data-backdrop="static" href="#myModal3" express-id="{$wait_pickup.express_id}" express-location-url='{url path="express/admin/express_location" args="express_id={$wait_pickup.express_id}&store_id={$wait_pickup.store_id}{if $type}&type={$type}{/if}"}'  title="当前位置">当前位置</a>{/if}
+					  	 <a  class="express-order-modal" data-toggle="modal" data-backdrop="static" href="#myModal1" express-id="{$wait_pickup.express_id}" express-order-url='{url path="express/admin/express_order_detail" args="express_id={$wait_pickup.express_id}{if $type}&type={$type}{/if}"}'  title='{t domain="express"}查看详情{/t}'>{t domain="express"}查看详情{/t}</a>
+					  	 {if $type eq 'wait_pickup'}&nbsp;|&nbsp;<a class="express-reassign-click" data-toggle="modal" data-backdrop="static" href="#myModal2" express-id="{$wait_pickup.express_id}" express-reassign-url='{url path="express/admin/express_reasign_detail" args="express_id={$wait_pickup.express_id}&store_id={$wait_pickup.store_id}{if $type}&type={$type}{/if}"}'  title='{t domain="express"}重新指派{/t}'>{t domain="express"}重新指派{/t}</a>{/if}
+					  	 {if $wait_pickup.online_status eq '1'}&nbsp;|&nbsp;<a class="express-location" data-toggle="modal" data-backdrop="static" href="#myModal3" express-id="{$wait_pickup.express_id}" express-location-url='{url path="express/admin/express_location" args="express_id={$wait_pickup.express_id}&store_id={$wait_pickup.store_id}{if $type}&type={$type}{/if}"}'  title='{t domain="express"}当前位置{/t}'>{t domain="express"}当前位置{/t}</a>{/if}
 		    	  	</div>
 		      	</td>
 		      	<td>{$wait_pickup.express_user}</td>
 		      	<td>{$wait_pickup.consignee}</td>
-		      	<td>取：{$wait_pickup.from_address}<br>
-					送：{$wait_pickup.to_address}
+		      	<td>{t domain="express"}取：{/t}{$wait_pickup.from_address}<br>
+                    {t domain="express"}送：{/t}{$wait_pickup.to_address}
 		      	</td>
-		      	<td>{if $wait_pickup.from eq 'assign'}派单{else}抢单{/if}</td>
+		      	<td>{if $wait_pickup.from eq 'assign'}{t domain="express"}派单{/t}{else}{t domain="express"}抢单{/t}{/if}</td>
 		      	<td>{$wait_pickup.format_receive_time}</td>
-		      	<td>{if $type eq 'wait_pickup'}待取货{elseif $type eq 'sending'}配送中{/if}</td>
+		      	<td>{if $type eq 'wait_pickup'}{t domain="express"}待取货{/t}{elseif $type eq 'sending'}{t domain="express"}配送中{/t}{/if}</td>
 		    </tr>
 		    <!-- {foreachelse} -->
-	        <tr><td class="no-records" colspan="7">{lang key='system::system.no_records'}</td></tr>
+	        <tr><td class="no-records" colspan="7">{t domain="express"}没有找到任何记录{/t}</td></tr>
 			<!-- {/foreach} -->
             </tbody>
          </table>

@@ -44,39 +44,35 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 时时更新配送员坐标
- * @author will.chen
+ * js语言包设置
  */
-class express_user_location_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
-    	
-    	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
-            return new ecjia_error(100, 'Invalid session');
-        }
-		
-		$location = $this->requestData('location', array());
-		
-		/*经纬度为空判断*/
-		if (!is_array($location) || empty($location['longitude']) || empty($location['latitude'])) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
-		}
-		$store_id = $_SESSION['store_id'];
-		if (empty($_SESSION['store_id'])) {
-			$store_id = 0;
-		}
-		
-		$express_user_info = RC_DB::table('express_user')->where('user_id', $_SESSION['staff_id'])->where('store_id', $store_id)->first();
-		
-		if (empty($express_user_info)) {
-			RC_DB::table('express_user')->insert(array('user_id' => $_SESSION['staff_id'], 'store_id' => $store_id, 'longitude' => $location['longitude'], 'latitude' => $location['latitude'], 'delivery_count' => 0, 'delivery_distance' => 0));
-		} else {
-			RC_DB::table('express_user')->where('user_id', $_SESSION['staff_id'])->where('store_id', $store_id)->update(array('longitude' => $location['longitude'], 'latitude' => $location['latitude']));
-		}
-		return array();
-	 }	
-}
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+    //express
+    'express_page' =>array(
+        'delivery_name' =>  __('请输入配送员名称', 'express'),
+        'cellphone_number' =>  __('请输入手机号码', 'express'),
+        'time_range_screening' =>  __('请选择正确的时间范围进行筛选', 'express'),
+        'automatic_refresh_after_seconds' =>  __('秒后自动刷新', 'express'),
+        'ok' =>  __('确定', 'express'),
+        'cancel' =>  __('取消', 'express'),
+
+    ),
+
+    'express_mh_page' =>array(
+        'time_range_screening' =>  __('请选择正确的时间范围进行筛选', 'express'),
+        'make_sure_to_do_this' =>  __('您确定进行该操作吗？', 'express'),
+        'parameter_error' =>  __('参数错误！', 'express'),
+        'order_goods_are_taken_away' =>  __('您确定订单商品已被配送员取走？如未完成就操作，您将会被用户投诉', 'express'),
+        'automatic_refresh_after_seconds' =>  __('秒后自动刷新', 'express'),
+        'ok' =>  __('确定', 'express'),
+        'cancel' =>  __('取消', 'express'),
+
+    ),
+
+);
+//end

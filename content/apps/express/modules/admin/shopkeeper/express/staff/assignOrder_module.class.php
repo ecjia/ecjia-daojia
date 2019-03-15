@@ -67,7 +67,7 @@ class admin_shopkeeper_express_staff_assignOrder_module extends api_admin implem
         $staff_id 	= $this->requestData('staff_id', 0);
         
 		if (empty($express_id) || empty($staff_id)) {
-    		return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+    		return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
     	}
     	
     	//配送单信息是否存在

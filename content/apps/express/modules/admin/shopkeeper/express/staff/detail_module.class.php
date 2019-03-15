@@ -67,7 +67,7 @@ class admin_shopkeeper_express_staff_detail_module extends api_admin implements 
 		$page     = $this->requestData('pagination.page', 1);
     	
     	if (empty($staff_id)) {
-    		return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+    		return new ecjia_error( 'invalid_parameter', __('参数无效', 'express'));
     	}
     	$express_user_dbview = RC_DB::table('staff_user')->leftJoin('express_user', 'staff_user.user_id', '=', 'express_user.user_id');
     	$express_user_info =  $express_user_dbview->select('staff_user.*', 'express_user.longitude', 'express_user.latitude')->where('staff_user.user_id', '=', $staff_id)->first();

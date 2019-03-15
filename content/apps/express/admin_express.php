@@ -72,8 +72,9 @@ class admin_express extends ecjia_admin {
 		
 		RC_Script::enqueue_script('admin_express', RC_App::apps_url('statics/js/admin_express.js', __FILE__));
 		RC_Style::enqueue_style('admin_express', RC_App::apps_url('statics/css/admin_express.css', __FILE__));
-		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送员管理', RC_Uri::url('express/admin_express/init')));
+        RC_Script::localize_script('admin_express', 'js_lang', config('app-express::jslang.express_page'));
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送员管理', 'express'), RC_Uri::url('express/admin_express/init')));
 	}
 	
 	/**
@@ -83,9 +84,9 @@ class admin_express extends ecjia_admin {
 		$this->admin_priv('express_manage');
 		
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送员管理'));
-		$this->assign('ur_here', '配送员列表');
-		$this->assign('action_link', array('text' => '添加配送员', 'href' => RC_Uri::url('express/admin_express/add')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送员管理', 'express')));
+		$this->assign('ur_here', __('配送员列表', 'express'));
+		$this->assign('action_link', array('text' => __('添加配送员', 'express'), 'href' => RC_Uri::url('express/admin_express/add')));
 		
 		$type = trim($_GET['type']);
 		$this->assign('type', $type);
@@ -104,9 +105,9 @@ class admin_express extends ecjia_admin {
 	public function add() {
 		$this->admin_priv('express_update');
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('添加配送员'));
-		$this->assign('ur_here', '添加配送员');
-		$this->assign('action_link', array('text' => '配送员列表', 'href' => RC_Uri::url('express/admin_express/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加配送员', 'express')));
+		$this->assign('ur_here', __('添加配送员', 'express'));
+		$this->assign('action_link', array('text' => __('配送员列表', 'express'), 'href' => RC_Uri::url('express/admin_express/init')));
 		
         $provinces = ecjia_region::getSubarea(ecjia::config('shop_country'));
         $this->assign('province', $provinces);
@@ -138,24 +139,24 @@ class admin_express extends ecjia_admin {
 		}
 	   	$is_exist_mobile = RC_DB::table('staff_user')->where('mobile', $mobile)->get();
         if ($is_exist_mobile) {
-            return $this->showmessage('手机号已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('手机号已存在，请修改', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         
         if (!preg_match('/\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/', $email)) {
-        	return $this->showmessage('email地址格式错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        	return $this->showmessage(__('email地址格式错误', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         
         $is_exist_email = RC_DB::table('staff_user')->where('email', $email)->get();
         if ($is_exist_email) {
-        	return $this->showmessage('邮箱已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        	return $this->showmessage(__('邮箱已存在，请修改', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         
         if(empty($_POST['province']) || empty($_POST['city']) || empty($_POST['district']) || empty($_POST['street'])) {
-        	return $this->showmessage('请选择配送员所在地区', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        	return $this->showmessage(__('请选择配送员所在地区', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         
         if(empty($address)) {
-        	return $this->showmessage('请输入详细地址', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        	return $this->showmessage(__('请输入详细地址', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         		
 		//产生配送员资料staff_user表
@@ -191,12 +192,12 @@ class admin_express extends ecjia_admin {
 			);
 			
 			if(RC_DB::table('express_user')->insert($data_express)){
-				return $this->showmessage('添加配送员成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('express/admin_express/edit', array('user_id' => $staff_id))));	
+				return $this->showmessage(__('添加配送员成功', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('express/admin_express/edit', array('user_id' => $staff_id))));
 			} else {
-				return $this->showmessage('添加配送员失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('添加配送员失败', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		} else{
-			return $this->showmessage('添加配送员失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('添加配送员失败', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}	
 	}
 	
@@ -206,9 +207,9 @@ class admin_express extends ecjia_admin {
 	public function edit() {
 		$this->admin_priv('express_update');		
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑配送员'));
-		$this->assign('ur_here', '编辑配送员');
-		$this->assign('action_link', array('text' => '配送员列表', 'href' => RC_Uri::url('express/admin_express/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑配送员', 'express')));
+		$this->assign('ur_here', __('编辑配送员', 'express'));
+		$this->assign('action_link', array('text' => __('配送员列表', 'express'), 'href' => RC_Uri::url('express/admin_express/init')));
 		
 		$user_id = intval($_GET['user_id']);
 		$staff_user   = RC_DB::table('staff_user')->where('user_id', $user_id)->first();

@@ -54,14 +54,14 @@ class express_merchant_purview_api extends Component_Event_Api {
     
     public function call(&$options) {
         $purviews = array(
-        	array('action_name' => '任务中心', 'action_code' => 'mh_express_task_manage', 'relevance'   => ''),
-        	array('action_name' => '历史配送', 'action_code' => 'mh_express_history_manage', 'relevance'   => ''),
+        	array('action_name' => __('任务中心', 'express'), 'action_code' => 'mh_express_task_manage', 'relevance'   => ''),
+        	array('action_name' => __('历史配送', 'express'), 'action_code' => 'mh_express_history_manage', 'relevance'   => ''),
         		
-        	array('action_name' => '配送员管理', 'action_code' => 'mh_express_manage', 'relevance' => ''),
-        	array('action_name' => '配送员编辑', 'action_code' => 'mh_express_update', 'relevance' => ''),
-        	array('action_name' => '配送员删除', 'action_code' => 'mh_express_delete', 'relevance' => ''),
+        	array('action_name' => __('配送员管理', 'express'), 'action_code' => 'mh_express_manage', 'relevance' => ''),
+        	array('action_name' => __('配送员编辑', 'express'), 'action_code' => 'mh_express_update', 'relevance' => ''),
+        	array('action_name' => __('配送员删除', 'express'), 'action_code' => 'mh_express_delete', 'relevance' => ''),
         		
-        	array('action_name' => '资金对账', 'action_code' => 'mh_express_match_manage', 'relevance' => ''),
+        	array('action_name' => __('资金对账', 'express'), 'action_code' => 'mh_express_match_manage', 'relevance' => ''),
         	
         );
         return $purviews;

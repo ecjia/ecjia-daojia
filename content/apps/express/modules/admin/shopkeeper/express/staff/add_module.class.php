@@ -70,7 +70,7 @@ class admin_shopkeeper_express_staff_add_module extends api_admin implements api
         $remark 	= $this->requestData('remark', '');
         
 		if (empty($name) || empty($mobile) || empty($user_ident) || empty($remark)) {
-    		return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+    		return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
     	}
     	
     	//用户名重复判断

@@ -63,7 +63,7 @@ class express_location_module extends api_front implements api_interface {
 		$express_id = $this->requestData('express_id', 0);
 		/*参数为空判断*/
 		if (empty($order_id)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
 		}
 		
     	/* 订单详情 */

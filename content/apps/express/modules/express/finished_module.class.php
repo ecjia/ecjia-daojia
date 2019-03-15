@@ -62,7 +62,7 @@ class express_finished_module extends api_admin implements api_interface {
         $express_id = $this->requestData('express_id', 0);
         
 		if (empty($express_id)) {
-    		return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+    		return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
     	}
     	
     	$field = 'eo.*, oi.add_time as order_time, oi.pay_time,  oi.order_status, oi.pay_status, oi.expect_shipping_time, oi.order_amount, oi.pay_name, sf.merchants_name, sf.district as sf_district, sf.street as sf_street, sf.address as merchant_address, sf.longitude as sf_longitude, sf.latitude as sf_latitude';
@@ -92,7 +92,7 @@ class express_finished_module extends api_admin implements api_interface {
 			$db_order_status_log = RC_DB::table('order_status_log');
 							   
 			$order_status_data = array(
-					'order_status' => RC_Lang::get('orders::order.confirm_receipted'),
+					'order_status' => __('已确认收货', 'express'),
 					'order_id' 	   => $express_order_info['order_id'],
 					'message'	   => '宝贝已签收，购物愉快！',
 					'add_time'	   => RC_Time::gmtime()
@@ -101,7 +101,7 @@ class express_finished_module extends api_admin implements api_interface {
 			 
 			 
 			$order_status_data = array(
-					'order_status' => RC_Lang::get('orders::order.order_finished'),
+					'order_status' => __('订单已完成', 'express'),
 					'order_id' 	   => $express_order_info['order_id'],
 					'message'	   => '感谢您在'.ecjia::config('shop_name').'购物，欢迎您再次光临！',
 					'add_time'	   => RC_Time::gmtime()

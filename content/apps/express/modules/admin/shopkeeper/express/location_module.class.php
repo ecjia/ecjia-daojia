@@ -60,7 +60,7 @@ class admin_shopkeeper_express_location_module extends api_admin implements api_
         $staff_id = $this->requestData('staff_id');
         
         if (empty($staff_id)) {
-        	return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+        	return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
         }
         
         $dbview = RC_DB::table('staff_user as su')

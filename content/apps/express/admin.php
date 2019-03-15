@@ -70,8 +70,10 @@ class admin extends ecjia_admin {
 		RC_Script::enqueue_script('admin_express_order_list', RC_App::apps_url('statics/js/admin_express_order_list.js', __FILE__));
 		RC_Style::enqueue_style('admin_express_task', RC_App::apps_url('statics/css/admin_express_task.css', __FILE__));
 		RC_Script::enqueue_script('qq_map', ecjia_location_mapjs());
-		RC_Script::localize_script('express', 'js_lang', RC_Lang::get('express::express.js_lang'));
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送调度', RC_Uri::url('express/admin/init')));
+		RC_Script::localize_script('admin_express_task', 'js_lang', config('app-express::jslang.express_page'));
+        RC_Script::localize_script('admin_express_order_list', 'js_lang', config('app-express::jslang.express_page'));
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送调度', 'express'), RC_Uri::url('express/admin/init')));
 	}
 	
 	/**
@@ -81,8 +83,8 @@ class admin extends ecjia_admin {
 		$this->admin_priv('express_task_manage');
 		
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('任务中心'));
-		$this->assign('ur_here', '任务中心');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('任务中心', 'express')));
+		$this->assign('ur_here', __('任务中心', 'express'));
 		
 		$type = empty($_GET['type']) ? 'wait_grab' : trim($_GET['type']);
 		$keywords = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
@@ -235,7 +237,7 @@ class admin extends ecjia_admin {
 		$express_id = $_POST['express_id'];
 
 		if (empty($express_id)) {
-			return $this->showmessage('暂无可指派的订单！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('暂无可指派的订单！', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		$staff_id = $_GET['staff_id'];
@@ -259,7 +261,7 @@ class admin extends ecjia_admin {
 							->first();
 		
 		if ($staff_user_info['online_status'] == '4') {
-			return $this->showmessage('当前配送员不在线，请选择在线配送员进行指派！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('当前配送员不在线，请选择在线配送员进行指派！', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		$commision = $staff_user_info['shippingfee_percent']/100 * $express_order_info['shipping_fee'];
@@ -323,13 +325,13 @@ class admin extends ecjia_admin {
 			$express_to_address = ecjia_region::getRegionName($express_order_info['district']).ecjia_region::getRegionName($express_order_info['street']).$express_order_info['address'];
 				
 			$notification_express_data = array(
-					'title'	=> '系统派单',
-					'body'	=> '有单啦！系统已分配配送单到您账户，赶快行动起来吧！',
+					'title'	=> __('系统派单', 'express'),
+					'body'	=> __('有单啦！系统已分配配送单到您账户，赶快行动起来吧！', 'express'),
 					'data'	=> array(
 							'express_id'			=> $express_order_info['express_id'],
 							'express_sn'			=> $express_order_info['express_sn'],
 							'express_type'			=> $express_order_info['from'],
-							'label_express_type'	=> $express_order_info['from'] == 'assign' ? '系统派单' : '抢单',
+							'label_express_type'	=> $express_order_info['from'] == 'assign' ? __('系统派单', 'express') : __('抢单', 'express'),
 							'order_sn'				=> $express_order_info['order_sn'],
 							'payment_name'			=> $express_order_info['pay_name'],
 							'express_from_address'	=> '【'.$express_order_info['merchants_name'].'】'. $express_from_address,
@@ -360,9 +362,9 @@ class admin extends ecjia_admin {
 		
 		
 		if ($type == 'wait_grab') {
-			return $this->showmessage('指派订单成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('express/admin/init', array('type' => $type))));
+			return $this->showmessage(__('指派订单成功！', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('express/admin/init', array('type' => $type))));
 		} else {
-			return $this->showmessage('指派订单成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS , array('pjaxurl' => RC_Uri::url('express/admin/wait_pickup', array('type' => $type))));
+			return $this->showmessage(__('指派订单成功！', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS , array('pjaxurl' => RC_Uri::url('express/admin/wait_pickup', array('type' => $type))));
 		}
 	}
 	
@@ -427,8 +429,8 @@ class admin extends ecjia_admin {
 		$this->admin_priv('express_task_manage');
 	
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('任务中心'));
-		$this->assign('ur_here', '任务中心');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('任务中心', 'express')));
+		$this->assign('ur_here', __('任务中心', 'express'));
 	
 		$type = empty($_GET['type']) ? 'wait_pickup' : trim($_GET['type']);
 		$keywords = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);

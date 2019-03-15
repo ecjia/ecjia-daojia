@@ -60,7 +60,7 @@ class express_user_checkin_module extends api_admin implements api_interface {
 		$checkin_type = $this->requestData('checkin_type');
 		
 		if (empty($checkin_type)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
 		}
 		
 		/* 获取配送员信息*/

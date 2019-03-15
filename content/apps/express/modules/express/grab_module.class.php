@@ -63,7 +63,7 @@ class express_grab_module extends api_admin implements api_interface {
 		$express_id = $this->requestData('express_id');
 		
 		if (empty($express_id)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
 		}
 		
 		//$where                = array('store_id' => $_SESSION['store_id'], 'staff_id' => 0, 'express_id' => $express_id);

@@ -61,7 +61,7 @@ class admin_express_user_location_module extends api_admin implements api_interf
 		
 		/*经纬度为空判断*/
 		if (!is_array($location) || empty($location['longitude']) || empty($location['latitude'])) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
 		}
 		$store_id = $_SESSION['store_id'];
 		if (empty($_SESSION['store_id'])) {

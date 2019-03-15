@@ -69,9 +69,10 @@ class admin_reminder extends ecjia_admin
         RC_Script::enqueue_script('admin_express_order_list', RC_App::apps_url('statics/js/admin_express_order_list.js', __FILE__));
         RC_Style::enqueue_style('admin_express_task', RC_App::apps_url('statics/css/admin_express_task.css', __FILE__));
         RC_Script::enqueue_script('qq_map', ecjia_location_mapjs());
-        RC_Script::localize_script('express', 'js_lang', RC_Lang::get('express::express.js_lang'));
+        RC_Script::localize_script('admin_express_task', 'js_lang', config('app-express::jslang.express_page'));
+        RC_Script::localize_script('admin_express_order_list', 'js_lang', config('app-express::jslang.express_page'));
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('派单提醒'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('派单提醒', 'express')));
     }
 
     /**
@@ -122,7 +123,7 @@ class admin_reminder extends ecjia_admin
         if (!empty($result_list['list'])) {
             foreach ($result_list['list'] as $key => $val) {
             	$result_list['list'][$key]['unformat_status'] = $val['status'];
-                $result_list['list'][$key]['status'] = $val['status'] == 1 ? RC_Lang::get('orders::order.processed') : RC_Lang::get('orders::order.untreated');
+                $result_list['list'][$key]['status'] = $val['status'] == 1 ? __('已处理', 'express') : __('未处理', 'express');
                 $result_list['list'][$key]['create_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['create_time']);
                 
                 $result_list['list'][$key]['express_all_address'] = '';
@@ -140,7 +141,7 @@ class admin_reminder extends ecjia_admin
         $this->assign('express_remind_count', $express_remind_count);
         $this->assign('type', $type);
         $this->assign('keywords', $keywords);
-        $this->assign('ur_here', '派单提醒列表');
+        $this->assign('ur_here', __('派单提醒列表', 'express'));
         $this->assign('form_action', RC_Uri::url('express/admin_reminder/remove&type=batch'));
         $this->assign('search_action', RC_Uri::url('express/admin_reminder/init'));
 
@@ -247,7 +248,7 @@ class admin_reminder extends ecjia_admin
 
         $this->assign('search_action', RC_Uri::url('express/admin_reminder/reassign_search_user', array('type' => $type)));
         $this->assign('assign_url', RC_Uri::url('express/admin_reminder/assign_express_order'));
-        $this->assign('title', '指派订单');
+        $this->assign('title', __('指派订单', 'express'));
 
         $data = $this->fetch('express_order_reassign.dwt');
 
@@ -287,7 +288,7 @@ class admin_reminder extends ecjia_admin
 
         $express_id = $_POST['express_id'];
         if (empty($express_id)) {
-            return $this->showmessage('暂无可指派的订单！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('暂无可指派的订单！', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $staff_id = $_GET['staff_id'];
@@ -305,7 +306,7 @@ class admin_reminder extends ecjia_admin
             ->select(RC_DB::raw('su.name'), RC_DB::raw('su.mobile'), RC_DB::raw('su.online_status'), RC_DB::raw('eu.shippingfee_percent'))->first();
 
         if ($staff_user_info['online_status'] == '4') {
-            return $this->showmessage('当前配送员不在线，请选择在线配送员进行指派！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('当前配送员不在线，请选择在线配送员进行指派！', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $commision = $staff_user_info['shippingfee_percent'] / 100 * $express_order_info['shipping_fee'];
@@ -368,13 +369,13 @@ class admin_reminder extends ecjia_admin
             $express_to_address = ecjia_region::getRegionName($express_order_info['district']) . ecjia_region::getRegionName($express_order_info['street']) . $express_order_info['address'];
 
             $notification_express_data = array(
-                'title' => '系统派单',
-                'body' => '有单啦！系统已分配配送单到您账户，赶快行动起来吧！',
+                'title' => __('系统派单', 'express'),
+                'body' => __('有单啦！系统已分配配送单到您账户，赶快行动起来吧！', 'express'),
                 'data' => array(
                     'express_id' 			=> $express_order_info['express_id'],
                     'express_sn' 			=> $express_order_info['express_sn'],
                     'express_type' 			=> $express_order_info['from'],
-                    'label_express_type' 	=> $express_order_info['from'] == 'assign' ? '系统派单' : '抢单',
+                    'label_express_type' 	=> $express_order_info['from'] == 'assign' ? __('系统派单', 'express') : __('抢单', 'express'),
                     'order_sn' 				=> $express_order_info['order_sn'],
                     'payment_name' 			=> $express_order_info['pay_name'],
                     'express_from_address' 	=> '【' . $express_order_info['merchants_name'] . '】' . $express_from_address,
@@ -401,7 +402,7 @@ class admin_reminder extends ecjia_admin
             $express_assign = new ExpressAssign($notification_express_data);
             RC_Notification::send($user, $express_assign);
         }
-        return $this->showmessage('指派订单成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('express/admin_reminder/init')));
+        return $this->showmessage(__('指派订单成功！', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('express/admin_reminder/init')));
     }
 
     /**

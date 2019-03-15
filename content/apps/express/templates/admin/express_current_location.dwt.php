@@ -1,7 +1,7 @@
 <?php defined('IN_ECJIA') or exit('No permission resources.');?>
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal">×</button>
-		<h3>配送员当前位置</h3>
+		<h3>{t domain="express"}配送员当前位置{/t}</h3>
 	</div> 
 	<div class="location-detail">
 		<div class="modal-body">

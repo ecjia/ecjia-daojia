@@ -60,7 +60,7 @@ class express_detail_module extends api_admin implements api_interface {
     	$express_sn = $this->requestData('express_sn');
     	$location	= $this->requestData('location', array());
     	if (empty($express_id) && empty($express_sn)) {
-    		return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+    		return new ecjia_error( 'invalid_parameter', __('参数无效', 'express'));
     	}
     	$express_order     = array();
     	//$express_order_db  = RC_Model::model('express/express_order_viewmodel');

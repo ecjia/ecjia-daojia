@@ -71,8 +71,9 @@ class admin_history extends ecjia_admin {
 		
 		RC_Script::enqueue_script('admin_history', RC_App::apps_url('statics/js/admin_history.js', __FILE__));
 		RC_Style::enqueue_style('admin_express', RC_App::apps_url('statics/css/admin_express.css', __FILE__));
-		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('历史配送', RC_Uri::url('express/admin_history/init')));
+        RC_Script::localize_script('admin_history', 'js_lang', config('app-express::jslang.express_page'));
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('历史配送', 'express'), RC_Uri::url('express/admin_history/init')));
 	}
 	
 	/**
@@ -82,8 +83,8 @@ class admin_history extends ecjia_admin {
 		$this->admin_priv('express_history_manage');
 		
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('历史配送'));
-		$this->assign('ur_here', '历史配送');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('历史配送', 'express')));
+		$this->assign('ur_here', __('历史配送', 'express'));
 		
 		$data = $this->get_history_list();
 		$this->assign('data', $data);
@@ -101,8 +102,8 @@ class admin_history extends ecjia_admin {
 	public function detail() {
 		$this->admin_priv('express_history_manage');
 	
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送详情'));
-		$this->assign('ur_here', '配送详情');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送详情', 'express')));
+		$this->assign('ur_here', __('配送详情', 'express'));
 	
 		$express_id = intval($_POST['express_id']);
 		$express_info = RC_DB::table('express_order')->where('express_id', $express_id)->select('store_id','order_id', 'order_sn', 'delivery_id', 'delivery_sn','mobile','consignee','user_id','express_sn', 'distance','commision','express_user','express_mobile','from','signed_time','district as eodistrict','street as eostreet','address as eoaddress')->first();
@@ -137,9 +138,9 @@ class admin_history extends ecjia_admin {
 		$content['express_all_address'] = $content['eodistrict'].$content['eostreet'];
 		
 		if($content['from'] == 'grab') {
-			$content['from'] ='抢单';
+			$content['from'] =__('抢单', 'express');
 		} else {
-			$content['from'] ='派单';
+			$content['from'] =__('派单', 'express');
 		}
 	
 		$this->assign('content', $content);

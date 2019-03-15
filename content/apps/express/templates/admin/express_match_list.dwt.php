@@ -18,8 +18,8 @@
 <div class="row-fluid" >
 	<form method="post" action="{$search_action}" name="searchForm">
 		<div class="choose_list f_r">
-			<input type="text" name="keyword" value="{$smarty.get.keyword}" placeholder="请输入配送员名称或手机号"/> 
-			<button class="btn search_match" type="button">搜索</button>
+			<input type="text" name="keyword" value="{$smarty.get.keyword}" placeholder='{t domain="express"}请输入配送员名称或手机号{/t}'/>
+			<button class="btn search_match" type="button">{t domain="express"}搜索{/t}</button>
 		</div>
 	</form>
 </div>
@@ -29,12 +29,12 @@
 		<table class="table table-striped smpl_tbl table-hide-edit">
 			<thead>
 				<tr>
-				    <th class="w150">配送员名称</th>
-				    <th class="w150">手机号</th>
-				    <th class="w150">订单数</th>
-				    <th class="w100">配送总费用</th>
-				    <th class="w100">平台总应得</th>
-				    <th class="w100">配送员总应得</th>
+				    <th class="w150">{t domain="express"}配送员名称{/t}</th>
+				    <th class="w150">{t domain="express"}手机号{/t}</th>
+				    <th class="w150">{t domain="express"}订单数{/t}</th>
+				    <th class="w100">{t domain="express"}配送总费用{/t}</th>
+				    <th class="w100">{t domain="express"}平台总应得{/t}</th>
+				    <th class="w100">{t domain="express"}配送员总应得{/t}</th>
 			  	</tr>
 			</thead>
 			<!-- {foreach from=$data.list item=match} -->
@@ -42,7 +42,7 @@
 		      	<td class="hide-edit-area">
 					{$match.name}
 		     	  	<div class="edit-list">
-					  	<a target="_blank"   href='{url path="express/admin_match/detail" args="user_id={$match.user_id}"}' title="查看详情">查看详情</a>
+					  	<a target="_blank"   href='{url path="express/admin_match/detail" args="user_id={$match.user_id}"}' title='{t domain="express"}查看详情{/t}'>{t domain="express"}查看详情{/t}</a>
 		    	  	</div>
 		      	</td>
 		      	<td>{$match.mobile}</td>
@@ -52,7 +52,7 @@
 		      	<td>{$match.money.express_money} </td>
 		    </tr>
 		    <!-- {foreachelse} -->
-	        <tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
+	        <tr><td class="no-records" colspan="6">{t domain="express"}没有找到任何记录{/t}</td></tr>
 			<!-- {/foreach} -->
             </tbody>
          </table>

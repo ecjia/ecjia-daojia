@@ -493,7 +493,7 @@
 								 }
 							})
 						}
-					}, {ok:"确定", cancel:"取消"});
+					}, {ok:js_lang.ok, cancel:js_lang.cancel});
 				} 
 			});
 		},
@@ -521,11 +521,11 @@
 			function SetRemainTime() {
 				if (count == 0) {
 					window.clearInterval(InterValObj);		//停止计时器
-					$('.auto-refresh').html('<span class="numcolor">120</span>秒后自动刷新');
+					$('.auto-refresh').html('<span class="numcolor">120</span>' + js_lang.automatic_refresh_after_seconds);
 					ecjia.pjax(location.href);
 				} else {
 					count--;
-					$('.auto-refresh').html('<span class="numcolor">'+ count + '</span>' + "秒后自动刷新");
+					$('.auto-refresh').html('<span class="numcolor">'+ count + '</span>' + js_lang.automatic_refresh_after_seconds);
 				}
 			};
 			$(document).on('pjax:start', function () {
@@ -599,7 +599,7 @@
    								}
    							})
    						}
-   					}, {ok:"确定", cancel:"取消"});
+   					}, {ok:js_lang.ok, cancel:js_lang.cancel});
    				} 
    			});
    		 },

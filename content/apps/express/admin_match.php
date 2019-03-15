@@ -71,7 +71,9 @@ class admin_match extends ecjia_admin {
 		
 		RC_Script::enqueue_script('admin_express', RC_App::apps_url('statics/js/admin_express.js', __FILE__));
 		RC_Style::enqueue_style('admin_express', RC_App::apps_url('statics/css/admin_express.css', __FILE__));
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('资金对账', RC_Uri::url('express/admin_match/init')));
+        RC_Script::localize_script('admin_express', 'js_lang', config('app-express::jslang.express_page'));
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('资金对账', 'express'), RC_Uri::url('express/admin_match/init')));
 	}
 	
 	/**
@@ -80,8 +82,8 @@ class admin_match extends ecjia_admin {
 	public function init() {
 		$this->admin_priv('express_match_manage');
 	
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('资金对账'));
-		$this->assign('ur_here', '资金对账');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('资金对账', 'express')));
+		$this->assign('ur_here', __('资金对账', 'express'));
 	
 		$data = $this->get_account_list();
 		$this->assign('data', $data);
@@ -97,8 +99,8 @@ class admin_match extends ecjia_admin {
 	public function detail() {
 		$this->admin_priv('express_match_manage');
 	
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('对账详情'));
-		$this->assign('ur_here', '对账详情');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('对账详情', 'express')));
+		$this->assign('ur_here', __('对账详情', 'express'));
 	
 		$user_id = intval($_GET['user_id']);
 		$name = RC_DB::table('staff_user')->where('user_id', $user_id)->pluck('name');

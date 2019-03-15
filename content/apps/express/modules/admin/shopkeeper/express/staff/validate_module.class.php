@@ -62,7 +62,7 @@ class admin_shopkeeper_express_staff_validate_module extends api_admin implement
 		$smscode = $this->requestData('smscode', '');
 		
 		if (empty($mobile) || empty($smscode)) {
-        	return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+        	return new ecjia_error( 'invalid_parameter', __('参数无效', 'express'));
         }
         //手机号是否存在
         $mobile_count = RC_DB::table('staff_user')->where('mobile', $mobile)->count();

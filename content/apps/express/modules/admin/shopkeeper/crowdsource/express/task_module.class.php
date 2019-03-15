@@ -77,7 +77,7 @@ class admin_shopkeeper_crowdsource_express_task_module extends api_admin impleme
 		$page     = $this->requestData('pagination.page', 1);
 		
 		if (empty($express_type)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
 		}
 		
 		$dbview = RC_DB::table('express_order as eo')

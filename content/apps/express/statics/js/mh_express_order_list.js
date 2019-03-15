@@ -60,10 +60,10 @@
 	                e.preventDefault();
 	                var $this = $(this),
 	                    url = $this.attr('data-href') || $this.attr('href'),
-	                    msg = $this.attr('data-msg') || '您确定进行该操作吗？';
+	                    msg = $this.attr('data-msg') || js_lang.make_sure_to_do_this;
 	                var exp_id = $('.selected-express-id').val();
 	                if (!url) {
-	                    smoke.alert('参数错误！');
+	                    smoke.alert(js_lang.parameter_error);
 	                    return false;
 	                }
 	                smoke.confirm(msg, function (e) {
@@ -75,7 +75,7 @@
 	                        	ecjia.merchant.showmessage(data);
 	                        }, 'json');
 	                    }
-	                }, { ok: "确定", cancel: "取消"});
+	                }, { ok: js_lang.ok, cancel: js_lang.cancel});
 	            });
 	        },
 	        
@@ -489,7 +489,7 @@
         		var info = {
         			sn: sn
         		};
-                smoke.confirm('您确定订单商品已被配送员取走？如未完成就操作，您将会被用户投诉', function (e) {
+                smoke.confirm(js_lang.order_goods_are_taken_away, function (e) {
                     if (e) {
                         $.post(url, info, function (data) {
                             $('#myModal1').modal('hide');
@@ -499,8 +499,8 @@
                         })
                     }
                 }, {
-                    ok: '确定',
-                    cancel: '取消'
+                    ok:  js_lang.ok,
+                    cancel:  js_lang.cancel
                 });
         	});
         }

@@ -14,7 +14,7 @@ class express_express_order_list_api extends Component_Event_Api {
      */
 	public function call(&$options) {
 		if (!is_array($options)) {
-			return new ecjia_error('invalid_parameter', '调用api文件,express_order_list,参数无效');
+			return new ecjia_error('invalid_parameter', __('调用api文件,express_order_list,参数无效', 'express'));
 		}
 		return $this->express_order_list($options);
 	}
@@ -54,19 +54,19 @@ class express_express_order_list_api extends Component_Event_Api {
 		    	switch ($row['status']) {
 		    		case '0' :
 		    			$status = 'wait_assign';
-		    			$label_express_status = '待指派';
+		    			$label_express_status = __('待指派', 'express');
 		    			break;
 		    		case '1' :
 		    			$status = 'wait_pickup';
-		    			$label_express_status = '待取货';
+		    			$label_express_status = __('待取货', 'express');
 		    			break;
 		    		case '2' :
 		    			$status = 'sending';
-		    			$label_express_status = '配送中';
+		    			$label_express_status = __('配送中', 'express');
 		    			break;
 		    		case '5' :
 		    			$status = 'finished';
-		    			$label_express_status = '已完成';
+		    			$label_express_status = __('已完成', 'express');
 		    			break;
 		    	}		    	
 		    	$row['express_status'] = $status;

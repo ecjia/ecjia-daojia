@@ -69,9 +69,10 @@ class mh_express extends ecjia_merchant {
 		
 		RC_Script::enqueue_script('mh_express', RC_App::apps_url('statics/js/mh_express.js', __FILE__));
 		RC_Style::enqueue_style('mh_express', RC_App::apps_url('statics/css/mh_express.css', __FILE__));
-		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('员工管理', RC_Uri::url('staff/mh_group/init')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送员管理', RC_Uri::url('express/mh_express/init')));
+        RC_Script::localize_script('mh_express', 'js_lang', config('app-express::jslang.express_mh_page'));
+
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('员工管理', 'express'), RC_Uri::url('staff/mh_group/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送员管理', 'express'), RC_Uri::url('express/mh_express/init')));
 		ecjia_merchant_screen::get_current_screen()->set_parentage('express', 'express/mh_express.php');
 	}
 	
@@ -82,9 +83,9 @@ class mh_express extends ecjia_merchant {
 		$this->admin_priv('mh_express_manage');
 
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送员管理'));
-		$this->assign('ur_here', '配送员管理');
-		$this->assign('action_link', array('text' => '添加配送员', 'href' => RC_Uri::url('staff/merchant/add', array('step'=>1))));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送员管理', 'express')));
+		$this->assign('ur_here', __('配送员管理', 'express'));
+		$this->assign('action_link', array('text' => __('添加配送员', 'express'), 'href' => RC_Uri::url('staff/merchant/add', array('step'=>1))));
 		
 		$type = trim($_GET['type']);
 		$this->assign('type', $type);
@@ -104,7 +105,7 @@ class mh_express extends ecjia_merchant {
 	public function add() {
 		$this->admin_priv('mh_express_update');
 
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('添加配送员'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加配送员', 'express')));
 		$this->assign('ur_here', '添加配送员');
 		$this->assign('action_link', array('text' => '配送员列表', 'href' => RC_Uri::url('express/mh_express/init')));
 		
@@ -121,7 +122,7 @@ class mh_express extends ecjia_merchant {
 		RC_DB::table('staff_user')->where('user_id', $user_id)->delete();
 		RC_DB::table('express_user')->where('user_id', $user_id)->delete();
 	
-		return $this->showmessage('删除配送员成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		return $this->showmessage(__('删除配送员成功', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 	
 	/**
@@ -134,7 +135,7 @@ class mh_express extends ecjia_merchant {
 		RC_DB::table('staff_user')->whereIn('user_id', $ids)->delete();
 		RC_DB::table('express_user')->whereIn('user_id', $ids)->delete();
 		
-		return $this->showmessage('批量删除配送员成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('express/mh_express/init')));
+		return $this->showmessage(__('批量删除配送员成功', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('express/mh_express/init')));
 	}
 	
 	/**
@@ -143,10 +144,10 @@ class mh_express extends ecjia_merchant {
 	public function detail() {
 		$this->admin_priv('mh_express_manage');
 		
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送员详情'));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送员详情', 'express')));
 		
-		$this->assign('ur_here', '配送员详情');
-		$this->assign('action_link', array('text' => '配送员列表', 'href' => RC_Uri::url('express/mh_express/init')));
+		$this->assign('ur_here', __('配送员详情', 'express'));
+		$this->assign('action_link', array('text' => __('配送员列表', 'express'), 'href' => RC_Uri::url('express/mh_express/init')));
 		
 		$user_id = intval($_GET['user_id']);
 		
@@ -198,9 +199,9 @@ class mh_express extends ecjia_merchant {
 	public function account_list() {
 		$this->admin_priv('mh_express_manage');
 	
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('查看账目明细'));
-		$this->assign('ur_here', '查看账目明细');
-		$this->assign('action_link', array('text' => '配送员列表', 'href' => RC_Uri::url('express/mh_express/init')));
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('查看账目明细', 'express')));
+		$this->assign('ur_here', __('查看账目明细', 'express'));
+		$this->assign('action_link', array('text' => __('配送员列表', 'express'), 'href' => RC_Uri::url('express/mh_express/init')));
 	
 		$user_id = intval($_GET['user_id']);
 		$user_money = RC_DB::table('express_user')->where('user_id', $user_id)->pluck('user_money');

@@ -8,7 +8,7 @@
     <div class="modal-content">
         <div class="modal-header">
             <button data-dismiss="modal" class="close" type="button">×</button>
-            <h4 class="modal-title">修改配送员</h4>
+            <h4 class="modal-title">{t domain="express"}修改配送员{/t}</h4>
         </div>
         
         <input type="hidden" name="home_url" value="{RC_Uri::home_url()}"/>

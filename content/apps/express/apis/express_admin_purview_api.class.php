@@ -53,21 +53,21 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class express_admin_purview_api extends Component_Event_Api {
     public function call(&$options) {
         $purviews = array(
-        	array('action_name' => '配送任务中心', 'action_code' => 'express_task_manage', 'relevance' => ''),
+        	array('action_name' => __('配送任务中心', 'express'), 'action_code' => 'express_task_manage', 'relevance' => ''),
         		
-        	array('action_name' => '配送员管理', 'action_code' => 'express_manage', 'relevance' => ''),
-        	array('action_name' => '配送员编辑', 'action_code' => 'express_update', 'relevance' => ''),
-        	array('action_name' => '配送员删除', 'action_code' => 'express_delete', 'relevance' => ''),
+        	array('action_name' => __('配送员管理', 'express'), 'action_code' => 'express_manage', 'relevance' => ''),
+        	array('action_name' => __('配送员编辑', 'express'), 'action_code' => 'express_update', 'relevance' => ''),
+        	array('action_name' => __('配送员删除', 'express'), 'action_code' => 'express_delete', 'relevance' => ''),
         		
-        	array('action_name' => '商家管理', 'action_code' => 'express_merchant_manage', 'relevance' => ''),
+        	array('action_name' => __('商家管理', 'express'), 'action_code' => 'express_merchant_manage', 'relevance' => ''),
         		
-        	array('action_name' => '资金对账', 'action_code' => 'express_match_manage', 'relevance' => ''),
+        	array('action_name' => __('资金对账', 'express'), 'action_code' => 'express_match_manage', 'relevance' => ''),
         		
-        	array('action_name' => '历史配送', 'action_code' => 'express_history_manage', 'relevance' => ''),
+        	array('action_name' => __('历史配送', 'express'), 'action_code' => 'express_history_manage', 'relevance' => ''),
 
-            array('action_name' => '派单提醒', 'action_code' => 'express_reminder_manage', 'relevance' => ''),
+            array('action_name' => __('派单提醒', 'express'), 'action_code' => 'express_reminder_manage', 'relevance' => ''),
         		
-        	array('action_name' => '众包配送设置', 'action_code' => 'ship_ecjia_express_set', 'relevance' => '')
+        	array('action_name' => __('众包配送设置', 'express'), 'action_code' => 'ship_ecjia_express_set', 'relevance' => '')
         );
         return $purviews;
     }

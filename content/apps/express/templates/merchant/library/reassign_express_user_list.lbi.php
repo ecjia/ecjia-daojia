@@ -5,7 +5,7 @@
 	<div class="foldable-list move-mod-group">
 		<div class="accordion-group">
 			<div class="accordion-heading">
-				<a class="accordion-toggle move-mod-head"><strong>配送员列表</strong></a>
+				<a class="accordion-toggle move-mod-head"><strong>{t domain="express"}配送员列表{/t}</strong></a>
 			</div>
 			<div class="accordion-body">
 				<div class="accordion-inner right-scroll">
@@ -14,9 +14,9 @@
 						     <form id="form-privilege" class="form-horizontal" name="express_searchForm" action="{$search_action}" method="post" >
 						     	 {if $express_count.online or $express_count.offline}
 								 <div class="col-lg-10">
-						            <input name="keywords" class="form-control express-search-input" type="text" placeholder="请输入配送员名称" value="{$smarty.get.keywords}" />
+						            <input name="keywords" class="form-control express-search-input" type="text" placeholder='{t domain="express"}请输入配送员名称{/t}' value="{$smarty.get.keywords}" />
 						         </div>
-						         <button class="btn btn-primary express-search-btn" type="button">搜索</button>
+						         <button class="btn btn-primary express-search-btn" type="button">{t domain="express"}搜索{/t}</button>
 						         {/if}
 							 </form>
 						</div>
@@ -25,7 +25,7 @@
 					{if $express_count.online or $express_count.offline}
 						{if $express_count.online}
 						<div class="control-group control-group-small press-list" style="margin-bottom:0px;">
-							<div class="margin-label online-list" style="margin-top:5px;margin-bottom: 5px;">在线 （{$express_count.online}）<a class="acc-in move-mod-head online-triangle" data-toggle="collapse" data-target="#online"><b class="triangle on-tran"></b></a></div>
+							<div class="margin-label online-list" style="margin-top:5px;margin-bottom: 5px;">{t domain="express" 1={$express_count.online}}在线 （%1）{/t}<a class="acc-in move-mod-head online-triangle" data-toggle="collapse" data-target="#online"><b class="triangle on-tran"></b></a></div>
 								<div class="online open">
 								<div class="express-user-list assign-operate accordion-body in collapse" id="online">
 									<!-- {foreach from=$express_user_list.list item=list} -->
@@ -38,15 +38,15 @@
 												</div>
 												<div class="express-order-div">
 													<div class="waitfor-pickup">
-														待取货<span class="ecjia-red">{if $list.wait_pickup_count}{$list.wait_pickup_count}{else}0{/if}单</span>
+                                                        {t domain="express"}待取货{/t}<span class="ecjia-red">{if $list.wait_pickup_count}{$list.wait_pickup_count}{else}0{/if}{t domain="express"}单{/t}</span>
 													</div>
 													<div class="wait-sending">
-														待配送<span class="ecjia-red">{if $list.sending_count}{$list.sending_count}{else}0{/if}单</span>
+                                                        {t domain="express"}待配送{/t}<span class="ecjia-red">{if $list.sending_count}{$list.sending_count}{else}0{/if}{t domain="express"}单{/t}</span>
 													</div>
 												</div>
 											</div>
 											<div class="assign-div">
-				                       			 <a class="btn btn-warning" type="button" data-toggle="ajax_assign" data-msg="是否确定让  【{$list.name}】  去配送？" href='{url path="express/merchant/assign_express_order" args="staff_id={$list.user_id}&type={$type}"}'>指派给他</a>
+				                       			 <a class="btn btn-warning" type="button" data-toggle="ajax_assign" data-msg='{t domain="express" 1={$list.name}}是否确定让  【%1】  去配送？{/t}" href='{url path="express/merchant/assign_express_order" args="staff_id={$list.user_id}&type={$type}"}'>{t domain="express"}指派给他{/t}</a>
 											</div>
 											
 											<input type="hidden" class="ex-u-id" value=""/>
@@ -60,7 +60,7 @@
 						
 						{if $express_count.offline}
 						<div class="control-group control-group-small press-list" style="margin-bottom:0px;">
-							<div class="margin-label online-list" style="margin-top:5px;margin-bottom: 5px;">离线 （{$express_count.offline}）<a class="acc-in  move-mod-head collapsed leave-trangle" data-toggle="collapse" data-target="#leave"><b class="triangle1 leaveline"></b></a></div>
+							<div class="margin-label online-list" style="margin-top:5px;margin-bottom: 5px;">{t domain="express" 1={$express_count.offline}}离线 （%1）{/t}<a class="acc-in  move-mod-head collapsed leave-trangle" data-toggle="collapse" data-target="#leave"><b class="triangle1 leaveline"></b></a></div>
 							<div class="leaveline-express">
 								<div class="express-user-list-leave assign-operate accordion-body collapse" id="leave">
 									<!-- {foreach from=$express_user_list.list item=list} -->
@@ -73,15 +73,15 @@
 												</div>
 												<div class="express-order-div">
 													<div class="waitfor-pickup">
-														待取货<span class="ecjia-red">{if $list.wait_pickup_count}{$list.wait_pickup_count}{else}0{/if}单</span>
+                                                        {t domain="express"}待取货{/t}<span class="ecjia-red">{if $list.wait_pickup_count}{$list.wait_pickup_count}{else}0{/if}{t domain="express"}单{/t}</span>
 													</div>
 													<div class="wait-sending">
-														待配送<span class="ecjia-red">{if $list.sending_count}{$list.sending_count}{else}0{/if}单</span>
+                                                        {t domain="express"}待配送{/t}<span class="ecjia-red">{if $list.sending_count}{$list.sending_count}{else}0{/if}{t domain="express"}单{/t}</span>
 													</div>
 												</div>
 											</div>
 											<div class="assign-div">
-												 <button class="btn btn-default" type="button" disabled="disabled">指派给他</button>  
+												 <button class="btn btn-default" type="button" disabled="disabled">{t domain="express"}指派给他{/t}</button>
 											</div>
 										</div>
 									{/if}
@@ -91,7 +91,7 @@
 						</div>
 						{/if}
 					{else}
-						<div class="norecord">还未添加配送员!</div>
+						<div class="norecord">{t domain="express"}还未添加配送员!{/t}</div>
 					{/if}
 				</div>
 			</div>

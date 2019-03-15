@@ -17,7 +17,7 @@
                 var keyword    = $("input[name='keyword']").val();
                 if (start_date > end_date && (start_date != '' && end_date != '')) {
                     var data = {
-                        message: "请选择正确的时间范围进行筛选",
+                        message: js_lang.time_range_screening,
                         state: "error",
                     };
                     ecjia.admin.showmessage(data);

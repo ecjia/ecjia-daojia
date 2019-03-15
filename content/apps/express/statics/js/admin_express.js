@@ -115,10 +115,10 @@
     	            },
     	            messages: {
     	            	name: {
-    	                	required: "请输入配送员名称"
+    	                	required: js_lang.delivery_name
     	                },
     	                mobile: {
-    	                    required: "请输入手机号码"
+    	                    required: js_lang.cellphone_number
     	                }
     	            },
     	            submitHandler: function () {
@@ -153,7 +153,7 @@
      
                     if (start_date > end_date && (start_date != '' && end_date != '')) {
                         var data = {
-                            message: "请选择正确的时间范围进行筛选",
+                            message: js_lang.time_range_screening,
                             state: "error",
                         };
                         ecjia.admin.showmessage(data);
@@ -198,7 +198,7 @@
      
                     if (start_date > end_date && (start_date != '' && end_date != '')) {
                         var data = {
-                            message: "请选择正确的时间范围进行筛选",
+                            message: js_lang.time_range_screening,
                             state: "error",
                         };
                         ecjia.admin.showmessage(data);

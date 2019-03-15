@@ -4,7 +4,7 @@
 	<div class="modal-content">
         <div class="modal-header">
             <button data-dismiss="modal" class="close" type="button">×</button>
-            <h4 class="modal-title">配送员当前位置</h4>
+            <h4 class="modal-title">{t domain="express"}配送员当前位置{/t}</h4>
         </div>
         <div class="modal-body">
 			<div id="allmap"></div>

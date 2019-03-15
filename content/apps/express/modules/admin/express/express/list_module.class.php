@@ -64,7 +64,7 @@ class admin_express_express_list_module extends api_admin implements api_interfa
 		$page     = $this->requestData('pagination.page', 1);
 		
 		if (empty($express_type)) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
 		}
 		//$where    = array('staff_id' => $_SESSION['staff_id']);
 		//switch ($express_type) {
@@ -81,7 +81,7 @@ class admin_express_express_list_module extends api_admin implements api_interfa
 		//		if (!empty($order_sn)) {
 		//			$where['eo.express_sn'] = array('like' => '%'.$order_sn.'%');
 		//		} else {
-		//			return new ecjia_error('invalid_parameter', RC_Lang::get('orders::order.invalid_parameter'));
+		//			return new ecjia_error('invalid_parameter', __('参数无效', 'express'));
 		//		}
 		//}
 		//if (!empty($type) && in_array($type, array('assign', 'grab'))) {

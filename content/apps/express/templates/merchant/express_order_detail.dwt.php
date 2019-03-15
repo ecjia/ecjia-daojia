@@ -4,68 +4,68 @@
     <div class="modal-content">
         <div class="modal-header">
             <button data-dismiss="modal" class="close" type="button">×</button>
-            <h4 class="modal-title">配送详情</h4>
+            <h4 class="modal-title">{t domain="express"}配送详情{/t}</h4>
         </div>
         
         <div class="modal-body">
 			<div class="express_content">
 				<div class="express_order">
-					<span>配送单号：<font class="ecjiafc-red">{$content.express_sn}</font></span>
-					<span>配送状态：<font class="ecjiafc-red"> {if $type eq 'wait_grab'}待派单{elseif $type eq 'wait_pickup'}待取货{elseif $type eq 'sending'}配送中{/if}   </font></span>
-					<span>取货距离：<font class="ecjiafc-red">{$content.distance}</font>米</span>
-					<span>运费：<font class="ecjiafc-red">¥{if $type eq 'wait_grab'}{$content.shipping_fee}{else}{$content.commision}{/if}</font>元</span>
+					<span>{t domain="express"}配送单号：{/t}<font class="ecjiafc-red">{$content.express_sn}</font></span>
+					<span>{t domain="express"}配送状态：{/t}<font class="ecjiafc-red"> {if $type eq 'wait_grab'}{t domain="express"}待派单{/t}{elseif $type eq 'wait_pickup'}{t domain="express"}待取货{/t}{elseif $type eq 'sending'}{t domain="express"}配送中{/t}{/if}   </font></span>
+					<span>{t domain="express"}取货距离：{/t}<font class="ecjiafc-red">{$content.distance}</font>{t domain="express"}米{/t}</span>
+					<span>{t domain="express"}运费：{/t}<font class="ecjiafc-red">¥{if $type eq 'wait_grab'}{$content.shipping_fee}{else}{$content.commision}{/if}</font>{t domain="express"}元{/t}</span>
 				</div>
 				
 				<div class="pickup_info">
 					<ul>
-						<li><font class="express_title">取货信息</font></li>
-						<li>商家名称：<span>{$content.merchants_name}</span></li>
-						<li>商家电话：<span>{if $content.contact_mobile}{$content.contact_mobile}{else}暂无{/if}</span></li>
-						<li>下单时间：<span>{$content.add_time}</span></li>
-						<li>取货地址：<span>{$content.all_address}&nbsp;&nbsp;{$content.address}</span></li>
+						<li><font class="express_title">{t domain="express"}取货信息{/t}</font></li>
+						<li>{t domain="express"}商家名称：{/t}<span>{$content.merchants_name}</span></li>
+						<li>{t domain="express"}商家电话：{/t}<span>{if $content.contact_mobile}{$content.contact_mobile}{else}{t domain="express"}暂无{/t}{/if}</span></li>
+						<li>{t domain="express"}下单时间：{/t}<span>{$content.add_time}</span></li>
+						<li>{t domain="express"}取货地址：{/t}<span>{$content.all_address}&nbsp;&nbsp;{$content.address}</span></li>
 					</ul>
 				</div>
 				
 				<div class="delivery_info">
 					<ul>
-						<li><font class="express_title">送货信息</font></li>
-						<li>收货人名称：<span>{$content.consignee}</span></li>
-						<li>收货人电话：<span>{$content.mobile}</span></li>
-						<li>期望送达时间：<span>{if $content.expect_shipping_time}{$content.expect_shipping_time}{else}暂无{/if}</span></li>
-						<li>送货地址：<span>{$content.express_all_address}&nbsp;&nbsp;&nbsp;&nbsp;{$content.eoaddress}</span></li>
+						<li><font class="express_title">{t domain="express"}送货信息{/t}</font></li>
+						<li>{t domain="express"}收货人名称：{/t}<span>{$content.consignee}</span></li>
+						<li>{t domain="express"}收货人电话：{/t}<span>{$content.mobile}</span></li>
+						<li>{t domain="express"}期望送达时间：{/t}<span>{if $content.expect_shipping_time}{$content.expect_shipping_time}{else}{t domain="express"}暂无{/t}{/if}</span></li>
+						<li>{t domain="express"}送货地址：{/t}<span>{$content.express_all_address}&nbsp;&nbsp;&nbsp;&nbsp;{$content.eoaddress}</span></li>
 					</ul>
 				</div>
 				
 				{if $type neq 'wait_grab'}
 					<div class="shipping_info">
 						<ul>
-							<li><font class="express_title">配送信息</font></li>
-							<li>配送员名称：<span>{$content.express_user}</span></li>
-							<li>配送员电话：<span>{$content.express_mobile}</span></li>
-							<li>任务类型：<span>{if $content.from eq 'assign'}派单{elseif $content.from eq 'grab'}抢单{/if}</span></li>
+							<li><font class="express_title">{t domain="express"}配送信息{/t}</font></li>
+							<li>{t domain="express"}配送员名称：{/t}<span>{$content.express_user}</span></li>
+							<li>{t domain="express"}配送员电话：{/t}<span>{$content.express_mobile}</span></li>
+							<li>{t domain="express"}任务类型：{/t}<span>{if $content.from eq 'assign'}{t domain="express"}派单{/t}{elseif $content.from eq 'grab'}{t domain="express"}抢单{/t}{/if}</span></li>
 						</ul>
 					</div>
 				{/if}
 				
 				<div class="order_info">
 					<ul>
-			         	<li><font class="express_title">订单信息</font></li>
+			         	<li><font class="express_title">{t domain="express"}订单信息{/t}</font></li>
 			            <li>
-			            	<div class="order">订单编号：<a  href='{url path="orders/merchant/info" args="order_id={$content.order_id}"}' target="_blank">{$content.order_sn}</a></div>
-			            	<div class="order">发货单号：<a  href='{url path="orders/mh_delivery/delivery_info" args="delivery_id={$content.delivery_id}"}' target="_blank">{$content.delivery_sn}</a></div>
+			            	<div class="order">{t domain="express"}订单编号：{/t}<a  href='{url path="orders/merchant/info" args="order_id={$content.order_id}"}' target="_blank">{$content.order_sn}</a></div>
+			            	<div class="order">{t domain="express"}发货单号：{/t}<a  href='{url path="orders/mh_delivery/delivery_info" args="delivery_id={$content.delivery_id}"}' target="_blank">{$content.delivery_sn}</a></div>
 			            </li>
 			        </ul>
 				</div>
 				
 				<div class="order_goods">
 					<ul>
-			         	<li><font class="express_title">订单商品</font></li>
+			         	<li><font class="express_title">{t domain="express"}订单商品{/t}</font></li>
 			         	<!-- {foreach from=$goods_list item=list} -->
 				            <li class="goodslist">
 				            	<div class="goods-info">
 					            	<div class="info-left" ><img src="{$list.image}" width="50" height="50" /></div>
 					            	<div class="info-right">
-						            	<span>{$list.goods_name}</span><span class="goods_number">数量：X{$list.send_number}</span>
+						            	<span>{$list.goods_name}</span><span class="goods_number">{t domain="express"}数量：{/t}X{$list.send_number}</span>
 						            	<p>{$list.formated_goods_price} </p>
 					            	</div>
 				            	</div>
@@ -76,14 +76,14 @@
 				
 				<div class="order_desc">
 					<ul>
-			         	<li><font class="express_title">订单备注</font></li>
-			            <li>{if $content.postscript}{$content.postscript}{else}此用户没有填写备注内容{/if}</li>
+			         	<li><font class="express_title">{t domain="express"}订单备注{/t}</font></li>
+			            <li>{if $content.postscript}{$content.postscript}{else}{t domain="express"}此用户没有填写备注内容{/t}{/if}</li>
 			        </ul>
 				</div>
 
                 {if $show_taked_ship}
                 <div class="ecjiaf_fl clear_both">
-                    <a class="btn btn-info m_t20 m_b10" data-toggle="toggleState" data-url="{RC_Uri::url('express/merchant/taked_ship')}{if $platform eq 1}&platform=1{/if}" data-sn="{$content.express_sn}">已取货</a>
+                    <a class="btn btn-info m_t20 m_b10" data-toggle="toggleState" data-url="{RC_Uri::url('express/merchant/taked_ship')}{if $platform eq 1}&platform=1{/if}" data-sn="{$content.express_sn}">{t domain="express"}已取货{/t}</a>
                 </div>
                 {/if}
 			</div>

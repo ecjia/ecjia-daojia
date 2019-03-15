@@ -4,7 +4,7 @@
 	</script>
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal">×</button>
-		<h3>{if $title}{$title}{else}修改配送员{/if}</h3>
+		<h3>{if $title}{$title}{else}{t domain="express"}修改配送员{/t}{/if}</h3>
 	</div> 
 	<div class="assign-detail">
 		<div class="modal-body">

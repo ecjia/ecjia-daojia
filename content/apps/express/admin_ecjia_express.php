@@ -62,7 +62,8 @@ class admin_ecjia_express extends ecjia_admin
         RC_Script::enqueue_script('jquery-uniform');
         RC_Script::enqueue_script('jquery-chosen');
         RC_Script::enqueue_script('admin_ship_ecjia_express', RC_App::apps_url('statics/js/admin_ship_ecjia_express.js', __FILE__), array(), false, true);
-        
+        RC_Script::localize_script('admin_ship_ecjia_express', 'js_lang', config('app-express::jslang.express_page'));
+
         RC_Script::enqueue_script('bootstrap-datetimepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datetimepicker.js'));
         RC_Style::enqueue_style('datetimepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datetimepicker.min.css'));
     }
@@ -74,9 +75,9 @@ class admin_ecjia_express extends ecjia_admin
     {
         $this->admin_priv('shipping_config_update');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('众包配送设置'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('众包配送设置', 'express')));
         
-        $this->assign('ur_here', '众包配送设置');
+        $this->assign('ur_here', __('众包配送设置', 'express'));
         $this->assign('current_code', 'ecjia_express_set');
         $this->assign('form_action', RC_Uri::url('express/admin_ecjia_express/update'));
         
@@ -172,11 +173,11 @@ class admin_ecjia_express extends ecjia_admin
     		foreach ($_POST['start_ship_time'] as $k => $v) {
     			$start_time = trim($v);
     			if (empty($start_time)) {
-    				return $this->showmessage('配送开始时间不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    				return $this->showmessage(__('配送开始时间不能为空', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     			}
     			$end_time = trim($_POST['end_ship_time'][$k]);
     			if (empty($end_time)) {
-    				return $this->showmessage('配送结束时间不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    				return $this->showmessage(__('配送结束时间不能为空', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     			}
     			$time[$k]['start']	= $v;
     			$time[$k]['end']	= $_POST['end_ship_time'][$k];
@@ -185,11 +186,11 @@ class admin_ecjia_express extends ecjia_admin
     		foreach ($_POST['express_distance'] as $k => $v) {
     			$express_distance = floatval($v);
     			if (empty($express_distance)) {
-    				return $this->showmessage('配送距离只能为数值且不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    				return $this->showmessage(__('配送距离只能为数值且不能为空', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     			}
     			$express_money = floatval($_POST['express_money'][$k]);
     			if (empty($express_money)) {
-    				return $this->showmessage('配送费只能为数值且不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    				return $this->showmessage(__('配送费只能为数值且不能为空', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     			}
     			$express[$k]['express_distance'] = $v;
     			$express[$k]['express_money']	= $_POST['express_money'][$k];
@@ -210,7 +211,7 @@ class admin_ecjia_express extends ecjia_admin
 		RC_DB::table('shipping_area')->where('shipping_id', $shipping_data['shipping_id'])->update(array('configure' => serialize($config)));
 		
     	$url = RC_Uri::url('express/admin_ecjia_express/init');
-    	return $this->showmessage('编辑成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
+    	return $this->showmessage(__('编辑成功', 'express'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => $url));
     }
 
 }

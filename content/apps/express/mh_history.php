@@ -68,10 +68,11 @@ class mh_history extends ecjia_merchant {
 		
 		RC_Script::enqueue_script('mh_history', RC_App::apps_url('statics/js/mh_history.js', __FILE__));
 		RC_Style::enqueue_style('mh_express', RC_App::apps_url('statics/css/mh_express.css', __FILE__));
-		
-		
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送管理', RC_Uri::url('shipping/mh_shipping/shipping_template')));
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('历史配送', RC_Uri::url('express/mh_history/init')));
+        RC_Script::localize_script('mh_history', 'js_lang', config('app-express::jslang.express_mh_page'));
+
+
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送管理', 'express'), RC_Uri::url('shipping/mh_shipping/shipping_template')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('历史配送', 'express'), RC_Uri::url('express/mh_history/init')));
 		ecjia_merchant_screen::get_current_screen()->set_parentage('express', 'express/mh_history.php');
 		
 	}
@@ -83,8 +84,8 @@ class mh_history extends ecjia_merchant {
 		$this->admin_priv('mh_express_history_manage');
 		
 		ecjia_screen::get_current_screen()->remove_last_nav_here();
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('历史配送'));
-		$this->assign('ur_here', '历史配送');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('历史配送', 'express')));
+		$this->assign('ur_here', __('历史配送', 'express'));
 		
 		$data = $this->get_history_list();
 		$this->assign('data', $data);
@@ -104,8 +105,8 @@ class mh_history extends ecjia_merchant {
 	public function detail() {
 		$this->admin_priv('mh_express_history_manage');
 	
-		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('配送详情'));
-		$this->assign('ur_here', '配送详情');
+		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('配送详情', 'express')));
+		$this->assign('ur_here', __('配送详情', 'express'));
 	
 		$express_id = intval($_POST['express_id']);
 		$express_info = RC_DB::table('express_order')->where('express_id', $express_id)->select('store_id','order_id', 'order_sn', 'delivery_id', 'delivery_sn','mobile','consignee','user_id','express_sn', 'distance','commision','express_user','express_mobile','from','signed_time','district as eodistrict','street as eostreet','address as eoaddress')->first();
