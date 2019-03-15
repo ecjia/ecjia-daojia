@@ -19,7 +19,7 @@ class admin extends ecjia_admin
         RC_Script::enqueue_script('jquery-uniform');
         RC_Style::enqueue_style('uniform-aristo');
         RC_Script::enqueue_script('jquery-chosen');
-        RC_Script::enqueue_script('friendlink', RC_App::apps_url('statics/js/friendlink.js', __FILE__), array(), false, true);
+        RC_Script::enqueue_script('friendlink', RC_App::apps_url('statics/js/friendlink.js', __FILE__), array(), false, 1);
 
         RC_Script::localize_script('friendlink', 'js_lang', config('app-friendlink::jslang.friendlink_page'));
 
