@@ -30,7 +30,7 @@
 						curCount = count;
 						$("#mobile").attr("readonly", "true");
 						$("#get_code").attr("disabled", "true");
-						$("#get_code").html("重新发送" + curCount + "(s)");
+						$("#get_code").html(js_lang.resend + curCount + "(s)");
 						InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
 					}
 					ecjia.merchant.showmessage(data);
@@ -43,11 +43,11 @@
 					window.clearInterval(InterValObj);		//停止计时器
 					$("#mobile").removeAttr("readonly");	//启用按钮
 					$("#get_code").removeAttr("disabled");	//启用按钮
-					$("#get_code").html("重新发送验证码");
+					$("#get_code").html(js_lang.resend_smscode);
 				} else {
 					curCount--;
 					$("#get_code").attr("disabled", "true");
-					$("#get_code").html("重新发送" + curCount + "(s)");
+					$("#get_code").html(js_lang.resend + curCount + "(s)");
 				}
 			};
 
@@ -69,19 +69,19 @@
 					identity_number: "required"
 				},
 				messages: {
-					mobile: "请输入手机号码",
-					merchants_name: "请输入店铺名称",
+					mobile: js_lang.mobile_required,
+					merchants_name: js_lang.store_name_required,
 					store_cat: {
-						min: "请选择店铺分类"
+						min: js_lang.store_category_required,
 					},
 					email: {
-						required: "请输入电子邮箱",
-						email: "请输入一个正确的邮箱",
+						required: js_lang.email_required,
+						email: js_lang.fill_effective_email,
 					},
-					address: "请输入详细地址",
-					responsible_person: "请输入负责人姓名",
-					company_responsible_person: "请输入法定代表人姓名",
-					identity_number: "请输入证件号码"
+					address: js_lang.detail_address_required,
+					responsible_person: js_lang.responsible_person_required,
+					company_responsible_person: js_lang.company_responsible_required,
+					identity_number: js_lang.identity_number_required
 				},
 				submitHandler: function () {
 					$form.ajaxSubmit({
@@ -112,7 +112,7 @@
 								ecjia.pjax(data.pjaxurl);
 							})
 						}
-					}, { ok: "确定", cancel: "取消" });
+					}, { ok: js_lang.confirmed, cancel: js_lang.canceled });
 				}
 			});
 

@@ -44,21 +44,26 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Franchisee;
+defined('IN_ECJIA') or exit('No permission resources.');
 
-use ecjia_admin_log;
-
-class Helper
-{
-    
-    /**
-     * 添加管理员记录日志操作对象
-     */
-    public static function assign_adminlog_content() {
-    	ecjia_admin_log::instance()->add_object('apply_franchisee', __('申请入驻', 'franchisee'));
-    	ecjia_admin_log::instance()->add_action('cancel', __('撤销', 'franchisee'));
-    }
-    
-}
+return array(
+	//商家入驻
+    'merchant_franchisee_page'  => array(
+    	'resend'   		   				=> __('重新发送', 'franchisee'),
+    	'resend_smscode'   				=> __('重新发送验证码', 'franchisee'),
+    	'mobile_required'  				=> __('请输入手机号码', 'franchisee'),
+    	'store_name_required'  			=> __('请输入店铺名称', 'franchisee'),
+    	'store_category_required'  		=> __('请选择店铺分类', 'franchisee'),
+    	'email_required'  				=> __('请输入电子邮箱', 'franchisee'),
+    	'fill_effective_email'  		=> __('请输入一个正确的邮箱', 'franchisee'),
+    	'detail_address_required'  		=> __('请输入详细地址', 'franchisee'),
+    	'responsible_person_required'  	=> __('请输入负责人姓名', 'franchisee'),
+    	'company_responsible_required'  => __('请输入法定代表人姓名', 'franchisee'),
+    	'identity_number_required'  	=> __('请输入证件号码', 'franchisee'),
+    	'confirmed'  					=> __('确定', 'franchisee'),
+    	'canceled'  					=> __('取消', 'franchisee'),
+    ),
+	
+);
 
 // end

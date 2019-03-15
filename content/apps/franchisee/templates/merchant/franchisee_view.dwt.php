@@ -2,12 +2,12 @@
 
 <!-- {block name="meta"} -->
 <title>
-查询审核进度 - {ecjia::config('shop_name')}
+{t domain="franchisee"}查询审核进度 {/t} - {ecjia::config('shop_name')}
 </title>
 <!-- {/block} -->
 
 <!-- {block name="title"} -->
-查询审核进度 - {ecjia::config('shop_name')}
+{t domain="franchisee"}查询审核进度{/t} - {ecjia::config('shop_name')}
 <!-- {/block} -->
 
 <!-- {block name="common_header"} -->
@@ -80,32 +80,32 @@ if (lat != '' && lng != '') {
 				{if $step eq 1}
 				<form class="cmxform form-horizontal" name="theForm" action="{$form_action}" method="post">
 					<div class="form-group">
-					  	<label class="control-label col-lg-2">手机号码：</label>
+					  	<label class="control-label col-lg-2">{t domain="franchisee"}手机号码：{/t}</label>
 					  	<div class="controls col-lg-6">
-					      	<input class="form-control" name="mobile" id="mobile" placeholder="请输入手机号码" type="text"/>
+					      	<input class="form-control" name="mobile" id="mobile" placeholder='{t domain="franchisee"}请输入手机号码{/t}' type="text"/>
 					  	</div>
 					  	{if !$check_captcha}
-					  	<a class="btn btn-primary" data-url="{url path='franchisee/merchant/get_code_value'}" id="get_code">获取短信验证码</a>
+					  	<a class="btn btn-primary" data-url="{url path='franchisee/merchant/get_code_value'}" id="get_code">{t domain="franchisee"}获取短信验证码{/t}</a>
 					  	{/if}
 					</div>
 					
 					{if $check_captcha}
 					<div class="form-group">
-					  	<label class="control-label col-lg-2">图形验证码：</label>
+					  	<label class="control-label col-lg-2">{t domain="franchisee"}图形验证码：{/t}</label>
 					    <!-- {ecjia:hook id=merchant_join_captcha} -->
-					 	<a class="btn btn-primary" data-url="{url path='franchisee/merchant/get_code_value'}" id="get_code">获取短信验证码</a>
+					 	<a class="btn btn-primary" data-url="{url path='franchisee/merchant/get_code_value'}" id="get_code">{t domain="franchisee"}获取短信验证码{/t}</a>
 					</div>
 					{/if}
 					
 					<div class="form-group">
-					  	<label class="control-label col-lg-2">{t}短信验证码：{/t}</label>
+					  	<label class="control-label col-lg-2">{t domain="franchisee"}短信验证码：{/t}</label>
 					  	<div class="col-lg-6">
-					      	<input class="form-control" name="code" placeholder="请输入手机短信验证码" type="text"/>
+					      	<input class="form-control" name="code" placeholder='{t domain="franchisee"}请输入手机短信验证码{/t}' type="text"/>
 					  	</div>
 					</div>
 					<div class="form-group ">
 						<div class="col-lg-6 col-md-offset-2">
-							<input class="btn btn-primary" type="submit" value="下一步">
+							<input class="btn btn-primary" type="submit" value='{t domain="franchisee"}下一步{/t}'>
 					  	</div>
 					</div>
 				</form>

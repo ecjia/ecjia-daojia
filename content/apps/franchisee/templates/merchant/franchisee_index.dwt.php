@@ -2,12 +2,12 @@
 
 <!-- {block name="meta"} -->
 <title>
-商家入驻 - {ecjia::config('shop_name')}
+{t domain="franchisee"}商家入驻{/t} - {ecjia::config('shop_name')}
 </title>
 <!-- {/block} -->
 
 <!-- {block name="title"} -->
-商家入驻 - {ecjia::config('shop_name')}
+{t domain="franchisee"}商家入驻{/t} - {ecjia::config('shop_name')}
 <!-- {/block} -->
 
 <!-- {block name="common_header"} -->
@@ -19,13 +19,13 @@
 	<div class="sett-banner" style="background:url({$static_url}franchisee_index.jpg) center center no-repeat;">
 		<div class="banner-auto" style="width: 1100px;">
 			<div class="s-b-tit">
-				<h3>马上入驻 开向未来</h3>
+				<h3>{t domain="franchisee"}马上入驻 开向未来{/t}</h3>
 				<div class="s-b-line">
 				</div>
 			</div>
 			<div class="s-b-btn">
-				<a href="{RC_Uri::url('franchisee/merchant/join')}" class="im-sett">我要入驻</a>
-				<a href="{RC_Uri::url('franchisee/merchant/view')}" class="view-prog">入驻进度查询</a>
+				<a href="{RC_Uri::url('franchisee/merchant/join')}" class="im-sett">{t domain="franchisee"}我要入驻{/t}</a>
+				<a href="{RC_Uri::url('franchisee/merchant/view')}" class="view-prog">{t domain="franchisee"}入驻进度查询{/t}</a>
 			</div>
 		</div>
 	</div>
@@ -33,7 +33,7 @@
 		<div class="w w1100">
 			<div class="sett-title">
 				<div class="zw-tit">
-					<h3>入驻流程</h3>
+					<h3>{t domain="franchisee"}入驻流程{/t}</h3>
 					<span class="line"></span>
 				</div>
 				<span class="yw-tit">ADVANCE REGISTRATION PROCESS</span>
@@ -44,10 +44,10 @@
 						<i></i>
 					</div>
 					<div class="tit">
-						1 提交入驻资料
+						{t domain="franchisee"}1 提交入驻资料{/t}
 					</div>
-					<span>选择店铺类型/品牌</span>
-					<span>填写入驻信息</span>
+					<span>{t domain="franchisee"}选择店铺类型/品牌{/t}</span>
+					<span>{t domain="franchisee"}填写入驻信息{/t}</span>
 				</div>
 				<em class="item-jt"></em>
 				<div class="item item-two">
@@ -55,10 +55,10 @@
 						<i></i>
 					</div>
 					<div class="tit">
-						2 商家等待审核
+						{t domain="franchisee"}2 商家等待审核{/t}
 					</div>
-					<span>平台审核入驻信息</span>
-					<span>通知商家</span>
+					<span>{t domain="franchisee"}平台审核入驻信息{/t}</span>
+					<span>{t domain="franchisee"}通知商家{/t}</span>
 				</div>
 				<em class="item-jt"></em>
 				<div class="item item-three">
@@ -66,10 +66,10 @@
 						<i></i>
 					</div>
 					<div class="tit">
-						3 完善店铺信息
+						{t domain="franchisee"}3 完善店铺信息{/t}
 					</div>
-					<span>登录商家后台</span>
-					<span>完善店铺信息</span>
+					<span>{t domain="franchisee"}登录商家后台{/t}</span>
+					<span>{t domain="franchisee"}完善店铺信息{/t}</span>
 				</div>
 				<em class="item-jt"></em>
 				<div class="item item-four">
@@ -77,10 +77,10 @@
 						<i></i>
 					</div>
 					<div class="tit">
-						4 店铺上线
+						{t domain="franchisee"}4 店铺上线{/t}
 					</div>
-					<span>上传商品</span>
-					<span>发布销售</span>
+					<span>{t domain="franchisee"}上传商品{/t}</span>
+					<span>{t domain="franchisee"}发布销售{/t}</span>
 				</div>
 			</div>
 		</div>
@@ -91,7 +91,7 @@
 		<div class="w w1100">
 			<div class="sett-title">
 				<div class="zw-tit">
-					<h3>热招类目</h3>
+					<h3>{t domain="franchisee"}热招类目{/t}</h3>
 					<span class="line"></span>
 				</div>
 				<span class="yw-tit">BUSINESS CATEGORY</span>
@@ -117,7 +117,7 @@
 		<div class="w w1100">
 			<div class="sett-title">
 				<div class="zw-tit">
-					<h3>成功案例</h3>
+					<h3>{t domain="franchisee"}成功案例{/t}</h3>
 					<span class="line"></span>
 				</div>
 				<span class="yw-tit">SUCCESSFUL CASE</span>
@@ -145,7 +145,7 @@
 		<div class="w w1100">
 			<div class="sett-title">
 				<div class="zw-tit">
-					<h3>常见问题</h3>
+					<h3>{t domain="franchisee"}常见问题{/t}</h3>
 					<span class="line"></span>
 				</div>
 				<span class="yw-tit">COMMON PROBLEM</span>

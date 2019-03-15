@@ -8,451 +8,460 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2019-03-08 16:07+0800\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
 
 #: classes/Helper.php:58 merchant.php:310 merchant.php:725
 msgid "申请入驻"
-msgstr ""
+msgstr "申請入駐"
 
 #: classes/Helper.php:59
 msgid "撤销"
-msgstr ""
+msgstr "撤銷"
 
 #: configs/jslang.php:52
 msgid "重新发送"
-msgstr ""
+msgstr "重新發送"
 
 #: configs/jslang.php:53
 msgid "重新发送验证码"
-msgstr ""
+msgstr "重新發送驗證碼"
 
 #: configs/jslang.php:54 merchant.php:342
 msgid "请输入手机号码"
-msgstr ""
+msgstr "請輸入手機號碼"
 
 #: configs/jslang.php:55
 msgid "请输入店铺名称"
-msgstr ""
+msgstr "請輸入店鋪名稱"
 
 #: configs/jslang.php:56
 msgid "请选择店铺分类"
-msgstr ""
+msgstr "請選擇店鋪分類"
 
 #: configs/jslang.php:57 merchant.php:402
 msgid "请输入电子邮箱"
-msgstr ""
+msgstr "請輸入電子郵箱"
 
 #: configs/jslang.php:58
 msgid "请输入一个正确的邮箱"
-msgstr ""
+msgstr "請輸入一個正確的郵箱"
 
 #: configs/jslang.php:59
 msgid "请输入详细地址"
-msgstr ""
+msgstr "請輸入詳細地址"
 
 #: configs/jslang.php:60 merchant.php:394
 msgid "请输入负责人姓名"
-msgstr ""
+msgstr "請輸入負責人姓名"
 
 #: configs/jslang.php:61 merchant.php:397
 msgid "请输入法定代表人姓名"
-msgstr ""
+msgstr "請輸入法定代表人姓名"
 
 #: configs/jslang.php:62
 msgid "请输入证件号码"
-msgstr ""
+msgstr "請輸入證件號碼"
 
 #: configs/jslang.php:63
 msgid "确定"
-msgstr ""
+msgstr "確定"
 
 #: configs/jslang.php:64
 msgid "取消"
-msgstr ""
+msgstr "取消"
 
 #: configs/package.php:52 configs/package.php:53 merchant.php:119
 #: merchant.php:157 merchant.php:698
 msgid "商家入驻"
-msgstr ""
+msgstr "商家入駐"
 
 #: functions/merchant_franchisee.func.php:64
 msgid "申请入驻信息第一次提交"
-msgstr ""
+msgstr "申請入駐信息第一次提交"
 
 #: functions/merchant_franchisee.func.php:73
 msgid "店铺名称"
-msgstr ""
+msgstr "店鋪名稱"
 
 #: functions/merchant_franchisee.func.php:74
 msgid "公司名称"
-msgstr ""
+msgstr "公司名稱"
 
 #: functions/merchant_franchisee.func.php:75
 msgid "店铺关键字"
-msgstr ""
+msgstr "店鋪關鍵字"
 
 #: functions/merchant_franchisee.func.php:76
 msgid "店铺分类"
-msgstr ""
+msgstr "店鋪分類"
 
 #: functions/merchant_franchisee.func.php:77
 msgid "负责人"
-msgstr ""
+msgstr "負責人"
 
 #: functions/merchant_franchisee.func.php:78
 msgid "电子邮箱"
-msgstr ""
+msgstr "電子郵箱"
 
 #: functions/merchant_franchisee.func.php:79
 msgid "联系方式"
-msgstr ""
+msgstr "聯系方式"
 
 #: functions/merchant_franchisee.func.php:80
 msgid "省"
-msgstr ""
+msgstr "省"
 
 #: functions/merchant_franchisee.func.php:81
 msgid "市"
-msgstr ""
+msgstr "市"
 
 #: functions/merchant_franchisee.func.php:82
 msgid "区"
-msgstr ""
+msgstr "區"
 
 #: functions/merchant_franchisee.func.php:83
 msgid "街道"
-msgstr ""
+msgstr "街道"
 
 #: functions/merchant_franchisee.func.php:84
 msgid "详细地址"
-msgstr ""
+msgstr "詳細地址"
 
 #: functions/merchant_franchisee.func.php:85
 msgid "证件类型"
-msgstr ""
+msgstr "證件類型"
 
 #: functions/merchant_franchisee.func.php:86
 msgid "证件号码"
-msgstr ""
+msgstr "證件號碼"
 
 #: functions/merchant_franchisee.func.php:87
 msgid "营业执照注册号"
-msgstr ""
+msgstr "營業執照註冊號"
 
 #: functions/merchant_franchisee.func.php:88 merchant.php:816
 msgid "证件正面"
-msgstr ""
+msgstr "證件正面"
 
 #: functions/merchant_franchisee.func.php:89 merchant.php:818
 msgid "证件反面"
-msgstr ""
+msgstr "證件反面"
 
 #: functions/merchant_franchisee.func.php:90
 msgid "手持证件照"
-msgstr ""
+msgstr "手持證件照"
 
 #: functions/merchant_franchisee.func.php:91 merchant.php:822
 msgid "营业执照电子版"
-msgstr ""
+msgstr "營業執照電子版"
 
 #: functions/merchant_franchisee.func.php:92
 msgid "经度"
-msgstr ""
+msgstr "經度"
 
 #: functions/merchant_franchisee.func.php:93
 msgid "纬度"
-msgstr ""
+msgstr "緯度"
 
 #: functions/merchant_franchisee.func.php:102
 #: functions/merchant_franchisee.func.php:103 merchant.php:222
 msgid "身份证"
-msgstr ""
+msgstr "身份證"
 
 #: functions/merchant_franchisee.func.php:102
 #: functions/merchant_franchisee.func.php:103 merchant.php:223
 msgid "护照"
-msgstr ""
+msgstr "護照"
 
 #: functions/merchant_franchisee.func.php:102
 #: functions/merchant_franchisee.func.php:103 merchant.php:224
 msgid "港澳身份证"
-msgstr ""
+msgstr "港澳身份證"
 
 #: functions/merchant_franchisee.func.php:108
 msgid "<图片已删除>"
-msgstr ""
+msgstr "<圖片已刪除>"
 
 #: functions/merchant_franchisee.func.php:108
 #: functions/merchant_franchisee.func.php:109
 #: functions/merchant_franchisee.func.php:111
 #: functions/merchant_franchisee.func.php:112
 msgid "<空>"
-msgstr ""
+msgstr "<空>"
 
 #: functions/merchant_franchisee.func.php:121
 msgid "申请入驻信息修改"
-msgstr ""
+msgstr "申請入駐信息修改"
 
 #: merchant.php:160 merchant.php:700
 msgid "抱歉，该网站已关闭入驻商加盟！"
-msgstr ""
+msgstr "抱歉，該網站已關閉入駐商加盟！"
 
 #: merchant.php:241
 msgid "正在审核中，请耐心等待..."
-msgstr ""
+msgstr "正在審核中，請耐心等待..."
 
 #: merchant.php:243
 msgid "很抱歉，审核未通过，您可以点击右侧按钮修改申请信息"
-msgstr ""
+msgstr "很抱歉，審核未通過，您可以點擊右側按鈕修改申請信息"
 
 #: merchant.php:256
 msgid "恭喜您，审核通过"
-msgstr ""
+msgstr "恭喜您，審核通過"
 
 #: merchant.php:283
 msgid "返回申请入驻"
-msgstr ""
+msgstr "返回申請入駐"
 
 #: merchant.php:284 merchant.php:734
 msgid "返回查询审核进度"
-msgstr ""
+msgstr "返回查詢審核進度"
 
 #: merchant.php:285 merchant.php:735
 msgid "操作失败"
-msgstr ""
+msgstr "操作失敗"
 
 #: merchant.php:308
 msgid "修改申请"
-msgstr ""
+msgstr "修改申請"
 
 #: merchant.php:311 merchant.php:724 merchant.php:727
 msgid "查询审核进度"
-msgstr ""
+msgstr "查询审核进度"
 
 #: merchant.php:328
 msgid ""
-"您当前的浏览器版本过低，建议升级您的浏览器或使用chrome内核浏览器！如：360极速"
-"浏览器、360安全浏览器（极速模式）、火狐浏览器、谷歌浏览器。"
+"您当前的浏览器版本过低，建议升级您的浏览器或使用chrome内核浏览"
+"器！如：360极速浏览器、360安全浏览器（极速模式）、火狐浏览器、"
+"谷歌浏览器。"
 msgstr ""
+"您當前的瀏覽器版本過低，建議升級您的瀏覽器或使用chrome內核瀏覽"
+"器！如：360極速瀏覽器、360安全瀏覽器（極速模式）、火狐瀏覽器、"
+"谷歌瀏覽器。"
 
 #: merchant.php:352
 msgid "请输入图形验证码"
-msgstr ""
+msgstr "請輸入圖形驗證碼"
 
 #: merchant.php:378
 msgid "手机验证码发送成功，请注意查收"
-msgstr ""
+msgstr "手機驗證碼發送成功，請註意查收"
 
 #: merchant.php:415 merchant.php:448 merchant.php:465
 msgid "该邮箱已存在"
-msgstr ""
+msgstr "該郵箱已存在"
 
 #: merchant.php:420
 msgid "请输入正确的短信验证码"
-msgstr ""
+msgstr "請輸入正確的短信驗證碼"
 
 #: merchant.php:436
 msgid "是我的，查看审核进度"
-msgstr ""
+msgstr "是我的，查看審核進度"
 
 #: merchant.php:437
 msgid "换个手机号重新申请入驻"
-msgstr ""
+msgstr "換個手機號重新申請入駐"
 
 #: merchant.php:439
 msgid "该手机号正在申请入驻，请确认该账号是否为你本人所有"
-msgstr ""
+msgstr "該手機號正在申請入駐，請確認該賬號是否為你本人所有"
 
 #: merchant.php:441 merchant.php:519
 msgid "该手机号已申请入驻，无法再次申请"
-msgstr ""
+msgstr "該手機號已申請入駐，無法再次申請"
 
 #: merchant.php:456
 msgid "该手机号码已存在"
-msgstr ""
+msgstr "該手機號碼已存在"
 
 #: merchant.php:514
 msgid "手机号不正确"
-msgstr ""
+msgstr "手機號不正確"
 
 #: merchant.php:524
 msgid "店铺名称不能为空"
-msgstr ""
+msgstr "店鋪名稱不能為空"
 
 #: merchant.php:527
 msgid "店铺名称不能超过17个字符"
-msgstr ""
+msgstr "店鋪名稱不能超過17個字符"
 
 #: merchant.php:537
 msgid "店铺名称已存在"
-msgstr ""
+msgstr "店鋪名稱已存在"
 
 #: merchant.php:542
 msgid "请点击获取精准坐标获取店铺经纬度"
-msgstr ""
+msgstr "請點擊獲取精準坐標獲取店鋪經緯度"
 
 #: merchant.php:674 merchant.php:687 merchant.php:792
 msgid "店铺名称为：%s，联系号码为：%s"
-msgstr ""
+msgstr "店鋪名稱為：%s，聯系號碼為：%s"
 
 #: merchant.php:677
 msgid "申请失败"
-msgstr ""
+msgstr "申請失敗"
 
 #: merchant.php:688
 msgid "修改申请成功"
-msgstr ""
+msgstr "修改申請成功"
 
 #: merchant.php:690
 msgid "修改申请失败"
-msgstr ""
+msgstr "修改申請失敗"
 
 #: merchant.php:765
 msgid "没有关于该手机号的入驻信息"
-msgstr ""
+msgstr "沒有關於該手機號的入駐信息"
 
 #: merchant.php:776
 msgid "请输入正确的手机验证码"
-msgstr ""
+msgstr "請輸入正確的手機驗證碼"
 
 #: merchant.php:797
 msgid "撤销成功"
-msgstr ""
+msgstr "撤銷成功"
 
 #: merchant.php:799
 msgid "手机号码不正确"
-msgstr ""
+msgstr "手機號碼不正確"
 
 #: merchant.php:820
 msgid "手持证件"
-msgstr ""
+msgstr "手持證件"
 
 #: merchant.php:825
 msgid "删除%s"
-msgstr ""
+msgstr "刪除%s"
 
 #: merchant.php:826
 msgid "成功删除"
-msgstr ""
+msgstr "成功刪除"
 
 #: merchant.php:841
 msgid "请选择省份"
-msgstr ""
+msgstr "請選擇省份"
 
 #: merchant.php:844
 msgid "请选择城市"
-msgstr ""
+msgstr "請選擇城市"
 
 #: merchant.php:847
 msgid "请选择地区"
-msgstr ""
+msgstr "請選擇地區"
 
 #: merchant.php:850
 msgid "请选择街道"
-msgstr ""
+msgstr "請選擇街道"
 
 #: merchant.php:853
 msgid "请填写详细地址"
-msgstr ""
+msgstr "請填寫詳細地址"
 
 #: merchant.php:857
 msgid "腾讯地图key不能为空"
-msgstr ""
+msgstr "騰訊地圖key不能為空"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:66
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:73
 msgid "温馨提示："
-msgstr ""
+msgstr "溫馨提示："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:73
-msgid "如您的手机号码已申请入驻，可点击右侧查询按钮查询审核进度。"
+msgid ""
+"如您的手机号码已申请入驻，可点击右侧查询按钮查询审核进度。"
 msgstr ""
+"如您的手機號碼已申請入駐，可點擊右側查詢按鈕查詢審核進度。"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:100
 msgid "个人信息"
-msgstr ""
+msgstr "個人信息"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:104
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:189
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:478
 msgid "店铺信息"
-msgstr ""
+msgstr "店鋪信息"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:108
 msgid "等待审核"
-msgstr ""
+msgstr "等待審核"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:112
 msgid "审核完成"
-msgstr ""
+msgstr "審核完成"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:121
 #: content/apps/franchisee/templates/merchant/franchisee_view.dwt.php:83
 msgid "手机号码："
-msgstr ""
+msgstr "手機號碼："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:126
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:135
 #: content/apps/franchisee/templates/merchant/franchisee_view.dwt.php:88
 #: content/apps/franchisee/templates/merchant/franchisee_view.dwt.php:96
 msgid "获取短信验证码"
-msgstr ""
+msgstr "獲取短信驗證碼"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:133
 #: content/apps/franchisee/templates/merchant/franchisee_view.dwt.php:94
 msgid "图形验证码："
-msgstr ""
+msgstr "圖形驗證碼："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:139
 #: content/apps/franchisee/templates/merchant/franchisee_view.dwt.php:101
 msgid "短信验证码："
-msgstr ""
+msgstr "短信驗證碼："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:141
 #: content/apps/franchisee/templates/merchant/franchisee_view.dwt.php:103
 msgid "请输入手机短信验证码"
-msgstr ""
+msgstr "請輸入手機短信驗證碼"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:147
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:483
 msgid "入驻类型："
-msgstr ""
+msgstr "入駐類型："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:150
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:484
 msgid "个人"
-msgstr ""
+msgstr "個人"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:152
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:484
 msgid "企业"
-msgstr ""
+msgstr "企業"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:157
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:300
 msgid "负责人姓名："
-msgstr ""
+msgstr "負責人姓名："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:165
 msgid "法定代表人姓名："
-msgstr ""
+msgstr "法定代表人姓名："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:173
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:224
 msgid "电子邮箱："
-msgstr ""
+msgstr "電子郵箱："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:181
 #: content/apps/franchisee/templates/merchant/franchisee_view.dwt.php:108
 msgid "下一步"
-msgstr ""
+msgstr "下一步"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:191
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:491
 msgid "店铺分类："
-msgstr ""
+msgstr "店鋪分類："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:194
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:235
@@ -461,97 +470,97 @@ msgstr ""
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:262
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:310
 msgid "请选择..."
-msgstr ""
+msgstr "請選擇..."
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:202
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:487
 msgid "店铺名称："
-msgstr ""
+msgstr "店鋪名稱："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:210
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:495
 msgid "店铺关键字："
-msgstr ""
+msgstr "店鋪關鍵字："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:217
 msgid "联系方式："
-msgstr ""
+msgstr "聯系方式："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:231
 msgid "选择地区："
-msgstr ""
+msgstr "選擇地區："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:273
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:499
 msgid "详细地址："
-msgstr ""
+msgstr "詳細地址："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:276
 msgid "点击获取精确位置显示地图坐标"
-msgstr ""
+msgstr "點擊獲取精確位置顯示地圖坐標"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:280
 msgid "获取精准坐标"
-msgstr ""
+msgstr "獲取精準坐標"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:285
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:509
 msgid "店铺精确位置："
-msgstr ""
+msgstr "店鋪精確位置："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:288
 msgid "点击选择店铺精确位置，双击放大地图，拖动查看地图其他区域"
-msgstr ""
+msgstr "點擊選擇店鋪精確位置，雙擊放大地圖，拖動查看地圖其他區域"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:290
 msgid "经纬度："
-msgstr ""
+msgstr "經緯度："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:298
 msgid "经营主体信息"
-msgstr ""
+msgstr "經營主體信息"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:307
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:568
 msgid "证件类型："
-msgstr ""
+msgstr "證件類型："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:316
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:577
 msgid "证件号码："
-msgstr ""
+msgstr "證件號碼："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:325
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:603
 msgid "公司名称："
-msgstr ""
+msgstr "公司名稱："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:332
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:607
 msgid "营业执照注册号："
-msgstr ""
+msgstr "營業執照註冊號："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:340
 msgid "证件电子版"
-msgstr ""
+msgstr "證件電子版"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:342
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:581
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:582
 msgid "证件正面："
-msgstr ""
+msgstr "證件正面："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:347
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:367
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:387
 msgid "店铺LOGO"
-msgstr ""
+msgstr "店鋪LOGO"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:352
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:392
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:414
 msgid "浏览"
-msgstr ""
+msgstr "瀏覽"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:353
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:372
@@ -559,93 +568,93 @@ msgstr ""
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:393
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:415
 msgid "修改"
-msgstr ""
+msgstr "修改"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:356
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:376
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:396
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:418
 msgid "您确定要执行该操作吗？"
-msgstr ""
+msgstr "您確定要執行該操作嗎？"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:356
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:376
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:396
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:418
 msgid "删除"
-msgstr ""
+msgstr "刪除"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:358
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:378
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:398
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:420
 msgid "大小不超过1M"
-msgstr ""
+msgstr "大小不超過1M"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:362
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:585
 msgid "证件反面："
-msgstr ""
+msgstr "證件反面："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:382
 msgid "手持证件："
-msgstr ""
+msgstr "手持證件："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:404
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:611
 msgid "营业执照电子版："
-msgstr ""
+msgstr "營業執照電子版："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:427
 msgid "提交"
-msgstr ""
+msgstr "提交"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:436
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:456
 msgid "修改申请信息"
-msgstr ""
+msgstr "修改申請信息"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:439
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:460
 msgid "您确定要撤销该申请吗？"
-msgstr ""
+msgstr "確定要撤銷該申請嗎？"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:439
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:460
 msgid "撤销申请"
-msgstr ""
+msgstr "撤銷申請"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:444
 msgid "正在审核中，请耐心等待。"
-msgstr ""
+msgstr "正在審核中，請耐心等待"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:446
 msgid "恭喜你，你的申请已提交，请耐心等待审核。"
-msgstr ""
+msgstr "恭喜你，你的申請已提交，請耐心等待審核。"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:466
 msgid "审核状态："
-msgstr ""
+msgstr "審核狀態："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:471
 msgid "拒绝原因："
-msgstr ""
+msgstr "拒絕原因："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:484
 msgid "入驻"
-msgstr ""
+msgstr "入駐"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:488
 msgid "自营"
-msgstr ""
+msgstr "自營"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:492
 msgid "还未选择"
-msgstr ""
+msgstr "還未選擇"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:496
 msgid "还未填写 "
-msgstr ""
+msgstr "還未填寫 "
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:503
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:533
@@ -654,175 +663,175 @@ msgstr ""
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:570
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:578
 msgid "还未填写"
-msgstr ""
+msgstr "還未填寫"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:512
 msgid "双击放大地图，拖动查看地图其他区域"
-msgstr ""
+msgstr "雙擊放大地圖，拖動查看地圖其他區域"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:513
 msgid "当前经纬度："
-msgstr ""
+msgstr "當前經緯度："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:523
 msgid "联系人信息"
-msgstr ""
+msgstr "聯系人信息"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:528
 msgid "负责人："
-msgstr ""
+msgstr "負責人："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:538
 msgid "联系邮箱："
-msgstr ""
+msgstr "聯系郵箱："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:548
 msgid "联系手机："
-msgstr ""
+msgstr "聯系手機："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:563
 msgid "资质信息"
-msgstr ""
+msgstr "資質信息"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:582
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:586
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:590
 msgid "还未上传"
-msgstr ""
+msgstr "還未上傳"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:589
 msgid "手持证件拍照："
-msgstr ""
+msgstr "手持證件拍照："
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:590
 msgid "手持证件拍照"
-msgstr ""
+msgstr "手持證件拍照"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:598
 msgid "公司信息"
-msgstr ""
+msgstr "公司信息"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:612
 msgid "营业执照"
-msgstr ""
+msgstr "營業執照"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:622
 msgid "审核日志"
-msgstr ""
+msgstr "審核日誌"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:627
 msgid "审核人"
-msgstr ""
+msgstr "審核人"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:628
 msgid "备注信息"
-msgstr ""
+msgstr "備註信息"
 
 #: content/apps/franchisee/templates/merchant/franchisee.dwt.php:629
 msgid "审核时间"
-msgstr ""
+msgstr "審核時間"
 
 #: content/apps/franchisee/templates/merchant/library/franchisee_nologin_header.lbi.php:10
 msgid "网站首页"
-msgstr ""
+msgstr "網站首頁"
 
 #: content/apps/franchisee/templates/merchant/library/franchisee_nologin_header.lbi.php:23
 msgid "首页"
-msgstr ""
+msgstr "首頁"
 
 #: content/apps/franchisee/templates/merchant/library/franchisee_nologin_header.lbi.php:25
 #: content/apps/franchisee/templates/merchant/library/franchisee_nologin_header.lbi.php:26
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:36
 msgid "入驻流程"
-msgstr ""
+msgstr "入駐流程"
 
 #: content/apps/franchisee/templates/merchant/library/franchisee_nologin_header.lbi.php:27
 #: content/apps/franchisee/templates/merchant/library/franchisee_nologin_header.lbi.php:28
 msgid "入驻协议"
-msgstr ""
+msgstr "入駐協議"
 
 #: content/apps/franchisee/templates/merchant/library/franchisee_nologin_header.lbi.php:29
 #: content/apps/franchisee/templates/merchant/library/franchisee_nologin_header.lbi.php:30
 msgid "入驻帮助"
-msgstr ""
+msgstr "入駐幫助"
 
 #: content/apps/franchisee/templates/merchant/library/franchisee_nologin_header.lbi.php:31
 #: content/apps/franchisee/templates/merchant/library/franchisee_nologin_header.lbi.php:32
 msgid "了解更多"
-msgstr ""
+msgstr "了解更多"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:22
 msgid "马上入驻 开向未来"
-msgstr ""
+msgstr "馬上入駐 開向未來"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:27
 msgid "我要入驻"
-msgstr ""
+msgstr "我要入駐"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:28
 msgid "入驻进度查询"
-msgstr ""
+msgstr "入駐進度查詢"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:47
 msgid "1 提交入驻资料"
-msgstr ""
+msgstr "1 提交入駐資料"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:49
 msgid "选择店铺类型/品牌"
-msgstr ""
+msgstr "選擇店鋪類型/品牌"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:50
 msgid "填写入驻信息"
-msgstr ""
+msgstr "填寫入駐信息"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:58
 msgid "2 商家等待审核"
-msgstr ""
+msgstr "2 商家等待審核"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:60
 msgid "平台审核入驻信息"
-msgstr ""
+msgstr "平臺審核入駐信息"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:61
 msgid "通知商家"
-msgstr ""
+msgstr "通知商家"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:69
 msgid "3 完善店铺信息"
-msgstr ""
+msgstr "3 完善店鋪信息"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:71
 msgid "登录商家后台"
-msgstr ""
+msgstr "登錄商家後臺"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:72
 msgid "完善店铺信息"
-msgstr ""
+msgstr "完善店鋪信息"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:80
 msgid "4 店铺上线"
-msgstr ""
+msgstr "4 店鋪上線"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:82
 msgid "上传商品"
-msgstr ""
+msgstr "上傳商品"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:83
 msgid "发布销售"
-msgstr ""
+msgstr "發布銷售"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:94
 msgid "热招类目"
-msgstr ""
+msgstr "熱招類目"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:120
 msgid "成功案例"
-msgstr ""
+msgstr "成功案例"
 
 #: content/apps/franchisee/templates/merchant/franchisee_index.dwt.php:148
 msgid "常见问题"
-msgstr ""
+msgstr "常見問題"
 
 #: content/apps/franchisee/templates/merchant/franchisee_view.dwt.php:5
 msgid "查询审核进度 "
-msgstr ""
+msgstr "查詢審核進度 "
