@@ -51,7 +51,7 @@ namespace Ecjia\App\Api\BaseControllers;
 
 use Ecjia\App\Api\Transformers\Transformer;
 use Ecjia\System\BaseController\EcjiaController;
-use ecjia_template_fileloader;
+use Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader;
 use RC_Config;
 use RC_Hook;
 use RC_Session;
@@ -60,7 +60,7 @@ use ecjia_app;
 use RC_Loader;
 use RC_Api;
 
-abstract class EcjiaApi extends EcjiaController implements ecjia_template_fileloader
+abstract class EcjiaApi extends EcjiaController implements EcjiaTemplateFileLoader
 {
     /**
      * @var array

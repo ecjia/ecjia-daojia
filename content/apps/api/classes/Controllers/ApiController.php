@@ -46,9 +46,9 @@
 //
 namespace Ecjia\App\Api\Controllers;
 
-use Ecjia\App\Api\BaseControllers\EcjiaApi;
+use ecjia_front;
 
-class ApiController extends EcjiaApi
+class ApiController extends ecjia_front
 {
     public function __construct()
     {
