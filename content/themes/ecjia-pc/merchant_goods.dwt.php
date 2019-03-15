@@ -16,15 +16,15 @@
         <div class="goods-list-left">
             <div class="merchant-goods">
                 <ul class="merchant-header">
-                    <a href="javascript:;" class="store-header-li curr"><li>商品</li></a>
-                    <a class="store-header-li" href="{RC_Uri::url('merchant/index/comment')}&store_id={$store_id}"><li>评价</li></a>
-                    <a class="nopjax store-header-li" href="{RC_Uri::url('merchant/index/detail')}&store_id={$store_id}"><li>商家详情</li></a>
+                    <a href="javascript:;" class="store-header-li curr"><li>{t domain="ecjia-pc"}商品{/t}</li></a>
+                    <a class="store-header-li" href="{RC_Uri::url('merchant/index/comment')}&store_id={$store_id}"><li>{t domain="ecjia-pc"}评价{/t}</li></a>
+                    <a class="nopjax store-header-li" href="{RC_Uri::url('merchant/index/detail')}&store_id={$store_id}"><li>{t domain="ecjia-pc"}商家详情{/t}</li></a>
                 </ul>
                 <hr class="store-header-hr">
             </div>
             <div class="category-item-list">
-                <span class="category-item">商品分类：</span>
-                <span class="category-item {if !$cat_id}curr{/if}"><a href="{$cat_url}">全部</a></span>
+                <span class="category-item">{t domain="ecjia-pc"}商品分类：{/t}</span>
+                <span class="category-item {if !$cat_id}curr{/if}"><a href="{$cat_url}">{t domain="ecjia-pc"}全部{/t}</a></span>
 	            <!-- {foreach from=$cat_arr item=val key=key} -->
 				<span class="category-item {if $cat_id eq $val.cat_id}curr{/if}">
 					<a class="cat-ul" href="{$cat_url}&cat_id={$val.cat_id}">{$val.cat_name}</a>
@@ -37,7 +37,7 @@
 				<!-- {foreach from=$cat_arr item=val key=key} -->
 				{if $val.children}
 				<div class="sub-cat" {if $cat_id eq $val.cat_id}style="display:block;"{/if}>
-					<a class="cat-li {if $select_id eq 0}active{/if}" href="{$cat_url}&cat_id={$cat_id}">全部</a>
+					<a class="cat-li {if $select_id eq 0}active{/if}" href="{$cat_url}&cat_id={$cat_id}">{t domain="ecjia-pc"}全部{/t}</a>
 					<!-- {foreach from=$val.children item=v key=k} -->
 					<a class="cat-li {if $select_id neq 0}{if $select_id eq $v.cat_id}active{/if}{/if}" href="{$cat_url}&cat_id={$val.cat_id}&select_id={$v.cat_id}">{$v.cat_name}</a>
 					<!-- {/foreach} -->
@@ -56,14 +56,14 @@
 							<div class="goods-name">{$val.name}</div>
 							<div class="item-list">
 								<span class="goods-price">￥{$val.shop_price}</span>
-								<span class="view-detail">查看详情</span>
+								<span class="view-detail">{t domain="ecjia-pc"}查看详情{/t}</span>
 							</div>
 						</a>
 					</div>
 					<!-- {/foreach} -->
 					<!-- {$page} -->
 				<!-- {else} -->
-				<p class="no_goods">很抱歉，没有找到相关的商品</p>
+				<p class="no_goods">{t domain="ecjia-pc"}很抱歉，没有找到相关的商品{/t}</p>
 				<!-- {/if} -->
             </div>
         </div>

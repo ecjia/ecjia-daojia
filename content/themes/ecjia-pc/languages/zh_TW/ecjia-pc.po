@@ -1,0 +1,487 @@
+# Copyright (C) 2019 ECJia Team
+# This file is distributed under the same license as the ECJia到家PC模板 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: ECJia到家PC模板 1.24.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/theme/ecjia-pc\n"
+"POT-Creation-Date: 2019-03-14 13:17+0800\n"
+"PO-Revision-Date: 2019-03-14 13:25+0800\n"
+"Last-Translator: \n"
+"Language-Team: ecjia@ecjia.com\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: extras/classes/utility/merchant_function.class.php:107
+msgid "现金减免"
+msgstr "現金減免"
+
+#: extras/classes/utility/merchant_function.class.php:109
+msgid "价格折扣"
+msgstr "價格折扣"
+
+#: extras/classes/utility/merchant_function.class.php:140
+msgid "次日"
+msgstr "次日"
+
+#: extras/classes/utility/merchant_function.class.php:152
+msgid "暂未设置"
+msgstr "暫未設置"
+
+#: extras/classes/utility/merchant_function.class.php:173
+msgid "暂无公告"
+msgstr "暫無公告"
+
+#: extras/classes/utility/merchant_function.class.php:179
+msgid "暂未填写"
+msgstr "暫未填寫"
+
+#: extras/classes/utility/pc_function.class.php:268
+msgid "全部分类 "
+msgstr "全部分類"
+
+#: extras/controller/goods_controller.php:174
+msgid "商品列表"
+msgstr "商品列表"
+
+#: extras/controller/goods_controller.php:231
+#: extras/controller/goods_controller.php:236
+#: extras/controller/goods_controller.php:239
+#: extras/controller/goods_controller.php:242
+msgid "满减"
+msgstr "滿減"
+
+#: extras/controller/goods_controller.php:231
+#: extras/controller/goods_controller.php:236
+#: extras/controller/goods_controller.php:239
+#: extras/controller/goods_controller.php:242
+msgid "满折"
+msgstr "滿折"
+
+#: extras/controller/merchant_controller.php:272
+msgid "好评"
+msgstr "好評"
+
+#: extras/controller/merchant_controller.php:274
+msgid "中评"
+msgstr "中評"
+
+#: extras/controller/merchant_controller.php:276
+msgid "差评"
+msgstr "差評"
+
+#: extras/controller/merchant_controller.php:385
+msgid "商家列表"
+msgstr "商家列表"
+
+#. Template Name of the plugin/theme
+#. Description of the plugin/theme
+msgid "ECJia到家PC模板"
+msgstr "ECJia到家PC模板"
+
+#. Template URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "https://ecjia.com/"
+msgstr "https://ecjia.com/"
+
+#. Author of the plugin/theme
+msgid "ECJia Team"
+msgstr "ECJia Team"
+
+#: content/themes/ecjia-pc/merchant_detail.dwt.php:48
+#: content/themes/ecjia-pc/merchant_goods.dwt.php:19
+#: content/themes/ecjia-pc/merchant_comment.dwt.php:18
+msgid "商品"
+msgstr "商品"
+
+#: content/themes/ecjia-pc/merchant_detail.dwt.php:49
+#: content/themes/ecjia-pc/merchant_goods.dwt.php:20
+#: content/themes/ecjia-pc/merchant_comment.dwt.php:19
+msgid "评价"
+msgstr "評價"
+
+#: content/themes/ecjia-pc/merchant_detail.dwt.php:50
+#: content/themes/ecjia-pc/merchant_goods.dwt.php:21
+#: content/themes/ecjia-pc/merchant_comment.dwt.php:20
+msgid "商家详情"
+msgstr "商家詳情"
+
+#: content/themes/ecjia-pc/merchant_detail.dwt.php:61
+#: content/themes/ecjia-pc/category_list.dwt.php:80
+#: content/themes/ecjia-pc/library/merchant_header.lbi.php:21
+msgid "自营"
+msgstr "自營"
+
+#: content/themes/ecjia-pc/merchant_detail.dwt.php:65
+msgid "总体评分："
+msgstr "總體評分："
+
+#: content/themes/ecjia-pc/merchant_detail.dwt.php:68
+#: content/themes/ecjia-pc/library/merchant_header.lbi.php:26
+msgid "营业时间："
+msgstr "營業時間："
+
+#: content/themes/ecjia-pc/merchant_detail.dwt.php:70
+#: content/themes/ecjia-pc/library/merchant_header.lbi.php:28
+msgid "营业中"
+msgstr "營業中"
+
+#: content/themes/ecjia-pc/merchant_detail.dwt.php:72
+#: content/themes/ecjia-pc/library/merchant_header.lbi.php:30
+msgid "暂停营业"
+msgstr "暫停營業"
+
+#: content/themes/ecjia-pc/merchant_detail.dwt.php:81
+#: content/themes/ecjia-pc/goods_show.dwt.php:81
+#: content/themes/ecjia-pc/library/merchant_header.lbi.php:51
+msgid "成功接单"
+msgstr "成功接單"
+
+#: content/themes/ecjia-pc/merchant_detail.dwt.php:86
+#: content/themes/ecjia-pc/goods_show.dwt.php:82
+#: content/themes/ecjia-pc/library/merchant_header.lbi.php:56
+msgid "接单率"
+msgstr "接單率"
+
+#: content/themes/ecjia-pc/merchant_detail.dwt.php:91
+#: content/themes/ecjia-pc/goods_show.dwt.php:83
+#: content/themes/ecjia-pc/library/merchant_header.lbi.php:61
+msgid "好评率"
+msgstr "好評率"
+
+#: content/themes/ecjia-pc/merchant_detail.dwt.php:96
+#: content/themes/ecjia-pc/library/merchant_header.lbi.php:33
+#: content/themes/ecjia-pc/library/merchant_header.lbi.php:67
+msgid "商家公告："
+msgstr "商家公告："
+
+#: content/themes/ecjia-pc/merchant_detail.dwt.php:97
+#: content/themes/ecjia-pc/library/merchant_header.lbi.php:66
+msgid "商家电话："
+msgstr "商家電話："
+
+#: content/themes/ecjia-pc/merchant_detail.dwt.php:98
+#: content/themes/ecjia-pc/library/merchant_header.lbi.php:65
+msgid "商家地址："
+msgstr "商家地址："
+
+#: content/themes/ecjia-pc/merchant_detail.dwt.php:99
+msgid "商家简介："
+msgstr "商家簡介："
+
+#: content/themes/ecjia-pc/goods_list.dwt.php:17
+msgid "搜索结果"
+msgstr "搜索結果"
+
+#: content/themes/ecjia-pc/goods_list.dwt.php:20
+msgid "所有分类"
+msgstr "所有分類"
+
+#: content/themes/ecjia-pc/goods_list.dwt.php:41
+msgid "分类："
+msgstr "分類："
+
+#: content/themes/ecjia-pc/goods_list.dwt.php:42
+#: content/themes/ecjia-pc/goods_list.dwt.php:53
+#: content/themes/ecjia-pc/merchant_goods.dwt.php:27
+#: content/themes/ecjia-pc/merchant_goods.dwt.php:40
+msgid "全部"
+msgstr "全部"
+
+#: content/themes/ecjia-pc/goods_list.dwt.php:71
+msgid "销量"
+msgstr "銷量"
+
+#: content/themes/ecjia-pc/goods_list.dwt.php:74
+#: content/themes/ecjia-pc/goods_show.dwt.php:24
+msgid "价格"
+msgstr "價格"
+
+#: content/themes/ecjia-pc/goods_list.dwt.php:91
+#: content/themes/ecjia-pc/merchant_goods.dwt.php:59
+#: content/themes/ecjia-pc/index.dwt.php:100
+msgid "查看详情"
+msgstr "查看詳情"
+
+#: content/themes/ecjia-pc/goods_list.dwt.php:98
+#: content/themes/ecjia-pc/merchant_goods.dwt.php:66
+msgid "很抱歉，没有找到相关的商品"
+msgstr "很抱歉，沒有找到相關的商品"
+
+#: content/themes/ecjia-pc/goods_show.dwt.php:27
+#: content/themes/ecjia-pc/goods_show.dwt.php:31
+msgid "原价："
+msgstr "原價："
+
+#: content/themes/ecjia-pc/goods_show.dwt.php:36
+msgid "优惠"
+msgstr "優惠"
+
+#: content/themes/ecjia-pc/goods_show.dwt.php:43
+msgid "已售"
+msgstr "已售"
+
+#: content/themes/ecjia-pc/goods_show.dwt.php:56
+#: content/themes/ecjia-pc/goods_show.dwt.php:63
+#: content/themes/ecjia-pc/goods_show.dwt.php:117
+#: content/themes/ecjia-pc/library/merchant_header.lbi.php:39
+msgid "扫一扫"
+msgstr "掃一掃"
+
+#: content/themes/ecjia-pc/goods_show.dwt.php:56
+#: content/themes/ecjia-pc/goods_show.dwt.php:63
+msgid "手机购买"
+msgstr "手機購買"
+
+#: content/themes/ecjia-pc/goods_show.dwt.php:68
+#: content/themes/ecjia-pc/library/page_header.lbi.php:27
+msgid "商家"
+msgstr "商家"
+
+#: content/themes/ecjia-pc/goods_show.dwt.php:91
+msgid "规格参数"
+msgstr "規格參數"
+
+#: content/themes/ecjia-pc/goods_show.dwt.php:102
+msgid "商品介绍"
+msgstr "商品介紹"
+
+#: content/themes/ecjia-pc/goods_show.dwt.php:107
+msgid "暂无商品介绍"
+msgstr "暫無商品介紹"
+
+#: content/themes/ecjia-pc/goods_show.dwt.php:118
+msgid "下载APP"
+msgstr "下載APP"
+
+#: content/themes/ecjia-pc/goods_show.dwt.php:123
+msgid "该商品不存在"
+msgstr "該商品不存在"
+
+#: content/themes/ecjia-pc/category_list.dwt.php:37
+msgid "全部分类"
+msgstr "全部分類"
+
+#: content/themes/ecjia-pc/category_list.dwt.php:90
+msgid "扫一次"
+msgstr "掃一次"
+
+#: content/themes/ecjia-pc/category_list.dwt.php:90
+msgid "立即购买"
+msgstr "立即購買"
+
+#: content/themes/ecjia-pc/category_list.dwt.php:110
+msgid "满"
+msgstr "滿"
+
+#: content/themes/ecjia-pc/category_list.dwt.php:110
+#: content/themes/ecjia-pc/library/merchant_header.lbi.php:94
+msgid "折"
+msgstr "折"
+
+#: content/themes/ecjia-pc/category_list.dwt.php:119
+msgid "很抱歉，没有找到相关的商家"
+msgstr "很抱歉，沒有找到相關的商家"
+
+#: content/themes/ecjia-pc/library/choose_city.lbi.php:12
+msgid "选择城市"
+msgstr "選擇城市"
+
+#: content/themes/ecjia-pc/library/choose_city.lbi.php:18
+msgid "当前定位城市"
+msgstr "當前定位城市"
+
+#: content/themes/ecjia-pc/library/choose_city.lbi.php:51
+msgid "定位"
+msgstr "定位"
+
+#: content/themes/ecjia-pc/library/nav.lbi.php:18
+msgid "在线客服"
+msgstr "在線客服"
+
+#: content/themes/ecjia-pc/library/nav.lbi.php:19
+msgid "点击交谈"
+msgstr "點擊交談"
+
+#: content/themes/ecjia-pc/library/nav.lbi.php:30
+msgid "服务热线："
+msgstr "服務熱線："
+
+#: content/themes/ecjia-pc/library/nav.lbi.php:43
+msgid "扫一扫，微信关注EC+到家"
+msgstr "掃一掃，微信關注EC+到家"
+
+#: content/themes/ecjia-pc/library/merchant_header.lbi.php:40
+msgid "进入店铺"
+msgstr "進入店鋪"
+
+#: content/themes/ecjia-pc/library/merchant_header.lbi.php:82
+msgid "店铺优惠"
+msgstr "店鋪優惠"
+
+#: content/themes/ecjia-pc/library/page_header.lbi.php:16
+msgid "切换位置"
+msgstr "切換位置"
+
+#: content/themes/ecjia-pc/library/page_header.lbi.php:20
+msgid "搜索商品名称或商家"
+msgstr "搜索商品名稱或商家"
+
+#: content/themes/ecjia-pc/library/page_header.lbi.php:26
+msgid "首页"
+msgstr "首頁"
+
+#: content/themes/ecjia-pc/library/page_header.lbi.php:28
+msgid "会员中心"
+msgstr "會員中心"
+
+#: content/themes/ecjia-pc/library/page_header.lbi.php:30
+msgid "商家入驻"
+msgstr "商家入駐"
+
+#: content/themes/ecjia-pc/library/page_header.lbi.php:32
+msgid "商家登录"
+msgstr "商家登錄"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:10
+msgid "特色"
+msgstr "特色"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:10
+msgid "到家"
+msgstr "到家"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:10
+msgid "平台"
+msgstr "平台"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:11
+msgid "品类齐全，轻松购物，为您呈现不一样的生活服务平台"
+msgstr "品類齊全，輕鬆購物，為您呈現不一樣的生活服務平台"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:17
+msgid "正品保障"
+msgstr "正品保障"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:18
+msgid "正品行货，放心选购"
+msgstr "正品行貨，放心選購"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:27
+msgid "产地直采"
+msgstr "產地直採"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:28
+msgid "100%产地直采，放心低价"
+msgstr "100%產地直採，放心低價"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:37
+msgid "准时送达"
+msgstr "準時送達"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:38
+msgid "收货时间，自主选择"
+msgstr "收貨時間，自主選擇"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:47
+msgid "售后无忧"
+msgstr "售後無憂"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:48
+msgid "客服全年无休，用户体验至上"
+msgstr "客服全年無休，用戶體驗至上"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:55
+msgid "经营城市"
+msgstr "經營城市"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:68
+msgid "合作伙伴"
+msgstr "合作夥伴"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:103
+msgid "打开微信扫一扫关注<"
+msgstr "打開微信掃一掃關注"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:116
+msgid "版权所有"
+msgstr "版權所有"
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:117
+msgid "地址："
+msgstr "地址："
+
+#: content/themes/ecjia-pc/library/page_footer.lbi.php:117
+msgid "咨询热线："
+msgstr "諮詢熱線："
+
+#: content/themes/ecjia-pc/library/no_content.lbi.php:11
+msgid "当前选择位置："
+msgstr "當前選擇位置："
+
+#: content/themes/ecjia-pc/library/no_content.lbi.php:12
+msgid "抱歉！您切换的区域暂时还没有店铺和商品。"
+msgstr "抱歉！您切換的區域暫時還沒有店鋪和商品。"
+
+#: content/themes/ecjia-pc/library/no_content.lbi.php:13
+msgid "赶快来入驻吧"
+msgstr "趕快來入駐吧"
+
+#: content/themes/ecjia-pc/library/no_content.lbi.php:14
+msgid "去入驻"
+msgstr "去入駐"
+
+#: content/themes/ecjia-pc/library/no_content.lbi.php:15
+msgid "或者您还可以"
+msgstr "或者您還可以"
+
+#: content/themes/ecjia-pc/library/no_content.lbi.php:15
+msgid "去其他位置看看哦"
+msgstr "去其他位置看看哦"
+
+#: content/themes/ecjia-pc/merchant_goods.dwt.php:26
+msgid "商品分类："
+msgstr "商品分類："
+
+#: content/themes/ecjia-pc/index.dwt.php:89
+msgid "更多"
+msgstr "更多"
+
+#: content/themes/ecjia-pc/merchant_comment.dwt.php:26
+msgid "全部评价（%1）"
+msgstr "全部評價（%1）"
+
+#: content/themes/ecjia-pc/merchant_comment.dwt.php:29
+msgid "好评（%1）"
+msgstr "好評（%1）"
+
+#: content/themes/ecjia-pc/merchant_comment.dwt.php:32
+msgid "中评（%1）"
+msgstr "中評（%1）"
+
+#: content/themes/ecjia-pc/merchant_comment.dwt.php:35
+msgid "差评（%1）"
+msgstr "差評（%1）"
+
+#: content/themes/ecjia-pc/merchant_comment.dwt.php:38
+msgid "晒图（%1）"
+msgstr "曬圖（%1）"
+
+#: content/themes/ecjia-pc/merchant_comment.dwt.php:53
+msgid "评价时间"
+msgstr "評價時間"
+
+#: content/themes/ecjia-pc/merchant_comment.dwt.php:57
+msgid "匿名发表"
+msgstr "匿名發表"
+
+#: content/themes/ecjia-pc/merchant_comment.dwt.php:70
+msgid "商家回复："
+msgstr "商家回复："
+
+#: content/themes/ecjia-pc/merchant_comment.dwt.php:75
+msgid "暂无评论"
+msgstr "暫無評論"

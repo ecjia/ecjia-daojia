@@ -86,7 +86,7 @@
 			
 			<!-- {foreach from=$val.children item=children key=key} -->
 				{if $key eq 0}
-				<div class="more-category"><a href="{$goods_url}&cat_id={$children.id}" data-url="{$goods_url}">更多<i class="iconfont icon-jiantou-right"></i></a></div>
+				<div class="more-category"><a href="{$goods_url}&cat_id={$children.id}" data-url="{$goods_url}">{t domain="ecjia-pc"}更多{/t}<i class="iconfont icon-jiantou-right"></i></a></div>
 				{/if}
 				<!-- {if $children.goods_list} -->
 				<div class="category-goods ecjiaf-dn category-goods-{$children.id}">
@@ -97,7 +97,7 @@
 							<div class="goods-name">{$c.goods_name}</div>
 							<div class="item-list">
 								<span class="goods-price">{if $c.unformatted_promote_price neq 0}{$c.promote_price}{else}{$c.shop_price}{/if}</span>
-								<span class="view-detail">查看详情</span>
+								<span class="view-detail">{t domain="ecjia-pc"}查看详情{/t}</span>
 							</div>
 						</a>
 					</div>

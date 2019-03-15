@@ -18,7 +18,7 @@
 				<div class="swiper-wrapper">
 					<!-- {foreach from=$cycleimage item=val} -->
 					<div class="swiper-slide" style="background:url('{$val.image}') center center no-repeat;">
-						<a target="__blank" href="{$val.url}"></a>
+						<a target="_blank" href="{$val.url}"></a>
 					</div>
 					<!-- {/foreach} -->
 				</div>
@@ -34,7 +34,7 @@
 				<div id="category-swiper-web" class="swiper-container" data-url='{RC_Uri::url("merchant/store/category")}'>
 					<div class="swiper-wrapper">
 						<div class="category_name category_all swiper-slide {if !$cat_id}my-active{/if}">
-	                        <p class="text {if !$cat_id}green{/if}"><a href='{RC_Uri::url("merchant/store/category")}'>全部分类</a></p>
+	                        <p class="text {if !$cat_id}green{/if}"><a href='{RC_Uri::url("merchant/store/category")}'>{t domain="ecjia-pc"}全部分类{/t}</a></p>
 			            </div>
 			            <!--{foreach from=$category_list item=val key=key}-->
 			            <div class="category_name swiper-slide {if $cat_id eq $key}my-active{/if}" id="{$key}">
@@ -77,7 +77,7 @@
                     <div class="store_msg">
                         <div class="store_name">{$val.merchants_name}</div>
                         {if $val.manage_mode == 'self'}
-                        <p class="self">自营</p>
+                        <p class="self">{t domain="ecjia-pc"}自营{/t}</p>
                         {/if}
                         <br/>
                         <div class="store-range">
@@ -87,7 +87,7 @@
                     <div class="panel_sao">
                         <div class="panel_sao_pa">
                             <img src="{$val.store_qrcode}">
-                            <p><span>扫一次</span><span>立即购买</span></p>
+                            <p><span>{t domain="ecjia-pc"}扫一次{/t}</span><span>{t domain="ecjia-pc"}立即购买{/t}</span></p>
                         </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
 					     <span>{$val.shop_trade_time}</span>
     				</div>
     				{/if}
-                    {if $val.value}
+                    {if $val.shop_notice}
         				<div class="advertisement">
         				    <img src="{$theme_url}images/bugle_50.png"/>
         					<div class="goods-price">{$val.shop_notice}</div>
@@ -107,7 +107,7 @@
     				{if $val.activity}
                         <!--{foreach from=$val.activity item=v key=k}-->
                             {if $k < 2}
-                            <div class="favorable"><span>{if $v.act_type == '1'}满{else if $v.act_type =='2'}折{/if}</span><span>{$v.act_name}</span></div>
+                            <div class="favorable"><span>{if $v.act_type == '1'}{t domain="ecjia-pc"}满{/t}{else if $v.act_type =='2'}{t domain="ecjia-pc"}折{/t}{/if}</span><span>{$v.act_name}</span></div>
                             {/if}
                         <!-- {/foreach} -->
                     {/if}
@@ -116,7 +116,7 @@
             </a>
         <!-- {/foreach} -->
         {else}
-        <div class="no_store_desc">很抱歉，没有找到相关的商家</div>
+        <div class="no_store_desc">{t domain="ecjia-pc"}很抱歉，没有找到相关的商家{/t}</div>
         {/if}
         {$store_list.page}
     </div>

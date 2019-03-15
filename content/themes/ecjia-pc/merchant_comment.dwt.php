@@ -15,27 +15,27 @@
 <div class="ecjia-content">
 	<div class="store-comment">
         <ul class="store-header">
-            <a href='{$goods_url}' class="store-header-li"><li>商品</li></a>
-            <a href='javascript:;' class="store-header-li active"><li>评价</li></a>
-            <a href='{$detail_url}' class="nopjax store-header-li"><li>商家详情</li></a>
+            <a href='{$goods_url}' class="store-header-li"><li>{t domain="ecjia-pc"}商品{/t}</li></a>
+            <a href='javascript:;' class="store-header-li active"><li>{t domain="ecjia-pc"}评价{/t}</li></a>
+            <a href='{$detail_url}' class="nopjax store-header-li"><li>{t domain="ecjia-pc"}商家详情{/t}</li></a>
         </ul>
         <hr class="store-header-hr" />
         
         <ul class="screen-list">
 		    <li class="screen-module">
-		        <a href='{$comment_url}&level=all'><div data-type="all" class="comment1 {if $data.level eq 'all'}active{/if}">全部评价（{$data.all}）</div></a>
+		        <a href='{$comment_url}&level=all'><div data-type="all" class="comment1 {if $data.level eq 'all'}active{/if}">{t domain="ecjia-pc" 1={$data.all}}全部评价（%1）{/t}</div></a>
 		    </li>
 		    <li class="screen-module">
-		        <a href='{$comment_url}&level=good'><div data-type="good" class="comment2 {if $data.level eq 'good'}active{/if}">好评（{$data.good}）</div></a>
+		        <a href='{$comment_url}&level=good'><div data-type="good" class="comment2 {if $data.level eq 'good'}active{/if}">{t domain="ecjia-pc" 1={$data.good}}好评（%1）{/t}</div></a>
 		    </li>
 		    <li class="screen-module">
-		        <a href='{$comment_url}&level=general'><div data-type="general" class="comment3 {if $data.level eq 'general'}active{/if}">中评（{$data.general}）</div></a>
+		        <a href='{$comment_url}&level=general'><div data-type="general" class="comment3 {if $data.level eq 'general'}active{/if}">{t domain="ecjia-pc" 1={$data.general}}中评（%1）{/t}</div></a>
 		    </li>
 		    <li class="screen-module">
-		        <a href='{$comment_url}&level=low'><div data-type="low" class="comment4 {if $data.level eq 'low'}active{/if}">差评（{$data.low}）</div></a>
+		        <a href='{$comment_url}&level=low'><div data-type="low" class="comment4 {if $data.level eq 'low'}active{/if}">{t domain="ecjia-pc" 1={$data.low}}差评（%1）{/t}</div></a>
 		    </li>
 		    <li class="screen-module">
-		        <a href='{$comment_url}&level=print'><div data-type="print" class="comment5 {if $data.level eq 'print'}active{/if}">晒图（{$data.print}）</div></a>
+		        <a href='{$comment_url}&level=print'><div data-type="print" class="comment5 {if $data.level eq 'print'}active{/if}">{t domain="ecjia-pc" 1={$data.print}}晒图（%1）{/t}</div></a>
 		    </li>
 		</ul>
 		<ul class="comment-list">
@@ -50,11 +50,11 @@
 		        </div>
 		        <div class="comment-right">
 		            <div class="comment-time">
-		                <span>评价时间</span>
+		                <span>{t domain="ecjia-pc"}评价时间{/t}</span>
 		                <span>{$val.add_time}</span>
 		            </div>
 		            <div class="comment-username">
-		            {if $val.is_anonymous eq 0}{$val.user_name}{else}匿名发表{/if}
+		            {if $val.is_anonymous eq 0}{$val.user_name}{else}{t domain="ecjia-pc"}匿名发表{/t}{/if}
 		            </div><br />
 		            <span class="score-val" data-val="{$val.comment_rank}"></span>&nbsp;&nbsp;&nbsp;{$val.level}
 		            <div class="comment-content">{$val.content}</div>
@@ -67,12 +67,12 @@
                     </div>
                     <!-- {/if} -->
                     {if $val.reply_content}
-                    <div class="store-reply">商家回复：{$val.reply_content}</div>
+                    <div class="store-reply">{t domain="ecjia-pc"}商家回复：{/t}{$val.reply_content}</div>
                     {/if}
 		        </div>
 		    </li>
 		    <!-- {foreachelse} -->
-                <p class="no-comment">暂无评论</p>
+                <p class="no-comment">{t domain="ecjia-pc"}暂无评论{/t}</p>
             <!-- {/foreach} -->
 	    </ul>
 		{$data.page}

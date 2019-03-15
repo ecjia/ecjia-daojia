@@ -15,8 +15,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 				<i class="tencent-i">tencent</i>
 				<b class="tencent-b"><span class="tencent-span"><img class="tencent-qq" src="{$theme_url}images/nav/qq-tencent.png" alt=""></span></b>
 				<p class="tencent-p">
-					在线客服<br>
-					点击交谈
+                    {t domain="ecjia-pc"}在线客服{/t}<br>
+                    {t domain="ecjia-pc"}点击交谈{/t}
 				</p>
 				</a>
 			</div>
@@ -27,7 +27,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<div class="suspension-box-item">
 			<a class="a tel j-icon"><i>tel</i></a>
 			<div class="tel j-box">
-				<strong>服务热线：</strong>
+				<strong>{t domain="ecjia-pc"}服务热线：{/t}</strong>
 				<p>{$info.service_phone}</p>
 				<i></i>
 			</div>
@@ -40,7 +40,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<div class="code j-box">
 				<img src="{$info.shop_wechat_qrcode}">
 				<p>
-					扫一扫，微信关注EC+到家
+                    {t domain="ecjia-pc"}扫一扫，微信关注EC+到家{/t}
 				</p>
 				<i></i>
 			</div>

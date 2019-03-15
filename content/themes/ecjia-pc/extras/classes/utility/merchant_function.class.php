@@ -104,9 +104,9 @@ class merchant_function
             foreach ($db_favourable as $row) {
                 $row['gift'] = unserialize($row['gift']);
                 if ($row['act_type'] == 1) {
-                    $row['act_mode'] = '现金减免';
+                    $row['act_mode'] = __('现金减免', 'ecjia-pc');
                 } elseif ($row['act_type'] == 2) {
-                    $row['act_mode'] = '价格折扣';
+                    $row['act_mode'] = __('价格折扣', 'ecjia-pc');
                     $row['discount'] = round($row['act_type_ext'] / 10, 2);
                 }
                 $list[] = $row;
@@ -137,7 +137,7 @@ class merchant_function
                     $end = explode(':', $shop_hours['end']);
                     if ($end[0] > 24) {
                         $hour = $end[0] - 24;
-                        $end[0] = '次日' . ($hour);
+                        $end[0] = __('次日', 'ecjia-pc') . ($hour);
                         $end_time = $hour . ':' . $end[1];
                         $end_time = strtotime($end_time) + 24 * 3600;
                     }
@@ -149,7 +149,7 @@ class merchant_function
                         $business_status = 0;
                     }
                 } else {
-                    $shop_hours = '暂未设置';
+                    $shop_hours = __('暂未设置', 'ecjia-pc');
                 }
             }
             if ($val['code'] == 'shop_kf_mobile') {
@@ -170,13 +170,13 @@ class merchant_function
             'merchants_name' => $shop_info['merchants_name'],
             'manage_mode' => $shop_info['manage_mode'],
             'shop_close' => $shop_info['shop_close'],
-            'value' => !empty($shop_info['value']) ? $shop_info['value'] : '暂无公告',
+            'value' => !empty($shop_info['value']) ? $shop_info['value'] : __('暂无公告', 'ecjia-pc'),
             'address' => $shop_address,
             'comment_rank' => $store_rank['comment_rank'],
             'comment_percent' => $store_rank['comment_percent'],
             'shop_logo' => $outward['shop_logo'],
             'trade_time' => $shop_hours,
-            'kf_mobile' => !empty($outward['kf_mobile']) ? $outward['kf_mobile'] : '暂未填写',
+            'kf_mobile' => !empty($outward['kf_mobile']) ? $outward['kf_mobile'] : __('暂未填写', 'ecjia-pc'),
             'banner_pic' => $outward['shop_banner_pic'], 'order_amount' => $amount_info['order_amount'],
             'order_precent' => $amount_info['order_precent'],
             'activity' => $list,

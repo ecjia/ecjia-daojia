@@ -171,7 +171,7 @@ class goods_controller
                 }
                 ecjia_front::$controller->assign('goods_url', RC_Uri::url('goods/index/init'));
                 ecjia_front::$controller->assign('store_list', $store_list);
-                ecjia_front::$controller->assign_title('商品列表');
+                ecjia_front::$controller->assign_title(__('商品列表', 'ecjia-pc'));
             }
         }
         ecjia_front::$controller->display('goods_list.dwt', $cache_id);

@@ -9,15 +9,15 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="choose-city-div">
 	<div class="city-content">
 		<div class="header">
-			<div class="title">选择城市</div>
+			<div class="title">{t domain="ecjia-pc"}选择城市{/t}</div>
 			<span class="close_div">X</span>
 		</div>
 		<div class="content">
 			{if $info.location_address}
 			<div class="content-position">
-				<div class="guess-position">当前定位城市</div>
+				<div class="guess-position">{t domain="ecjia-pc"}当前定位城市{/t}</div>
 				<div class="position">
-					<li class="position-li select-city-li active" data-id="{$info.location_id}"><i class="icon-position"></i>{$info.location_address}</i>
+					<i class="position-li select-city-li active" data-id="{$info.location_id}"><i class="icon-position"></i>{$info.location_address}</i>
 				</div>
 			</div>
 			{/if}
@@ -48,7 +48,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<div class="letter">
 			<ul>
 				{if $info.location_address}
-				<li><a href="javascript:;" data-top="top">定位</a></li>
+				<li><a href="javascript:;" data-top="top">{t domain="ecjia-pc"}定位{/t}</a></li>
 				{/if}
 				<!--{foreach from=$info.region_list key=key item=val}-->
 				<li><a href="javascript:;">{$key}</a></li>

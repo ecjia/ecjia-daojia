@@ -265,7 +265,7 @@ class pc_function
         $cat_list = explode(',', $str);
 
         $i = '<i class="iconfont icon-jiantou-right"></i>';
-        $html = '全部分类 ';
+        $html = __('全部分类 ', 'ecjia-pc');
         foreach (array_reverse($cat_list) as $k => $v) {
             if ($k <= 2 && !empty($v)) {
                 $html .= $i . $v . ' ';

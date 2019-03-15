@@ -269,11 +269,11 @@ class merchant_controller
                             $row['avatar_img'] = RC_Upload::upload_url($row['avatar_img']);
                         }
                         if ($row['comment_rank'] > 3) {
-                            $row['level'] = '好评';
+                            $row['level'] = __('好评', 'ecjia-pc');
                         } elseif ($row['comment_rank'] > 1 && $row['comment_rank'] < 4) {
-                            $row['level'] = '中评';
+                            $row['level'] = __('中评', 'ecjia-pc');
                         } elseif ($row['comment_rank'] == 1) {
-                            $row['level'] = '差评';
+                            $row['level'] = __('差评', 'ecjia-pc');
                         }
                         $list[] = $row;
                     }
@@ -382,12 +382,12 @@ class merchant_controller
             ecjia_front::$controller->assign('cycleimage', $data);
             $count = count($data);
             ecjia_front::$controller->assign('count', $count);
-            ecjia_front::$controller->assign_title('商家列表');
+            ecjia_front::$controller->assign_title(__('商家列表', 'ecjia-pc'));
 
             $cat_info = RC_DB::table('store_category')->where('cat_id', $cat_id)->first();
             if (!empty($cat_info)) {
                 ecjia_front::$controller->assign('pc_keywords', $cat_info['keywords']);
-                ecjia_front::$controller->assign('pc_description', $shop_info['cat_desc']);
+                ecjia_front::$controller->assign('pc_description', $cat_info['cat_desc']);
             }
         }
         ecjia_front::$controller->display('category_list.dwt', $cache_id);
@@ -430,7 +430,7 @@ class merchant_controller
         $db_store_franchisee->leftJoin('store_category as sc', RC_DB::raw('sf.cat_id'), '=', RC_DB::raw('sc.cat_id'));
 
         if (!empty($keywords)) {
-            $where .= "merchants_name LIKE '%" . mysql_like_quote($keywords) . "%'";
+            $where = "merchants_name LIKE '%" . mysql_like_quote($keywords) . "%'";
             $db_store_franchisee->whereRaw($where);
         }
 

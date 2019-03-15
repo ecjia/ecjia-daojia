@@ -45,9 +45,9 @@ setTimeout(function(){
     <div class="ecjia-content">
         <div class="store-comment">
             <ul class="store-header">
-                <a href='{$goods_url}' class="store-header-li"><li>商品</li></a>
-                <a href='{$comment_url}' class="store-header-li"><li>评价</li></a>
-                <a href='javascript:;' class="nopjax store-header-li active"><li>商家详情</li></a>
+                <a href='{$goods_url}' class="store-header-li"><li>{t domain="ecjia-pc"}商品{/t}</li></a>
+                <a href='{$comment_url}' class="store-header-li"><li>{t domain="ecjia-pc"}评价{/t}</li></a>
+                <a href='javascript:;' class="nopjax store-header-li active"><li>{t domain="ecjia-pc"}商家详情{/t}</li></a>
             </ul>
             <hr class="store-header-hr" />
 
@@ -58,18 +58,18 @@ setTimeout(function(){
                         <div class="store-title">
                             <span class="store-name">{$shop_info.merchants_name}</span>
                             {if $shop_info.manage_mode eq self}
-                                <span class="manage-mode">自营</span>
+                                <span class="manage-mode">{t domain="ecjia-pc"}自营{/t}</span>
                             {/if}
                         </div>
                         <div class="store-range">
-                            <span>总体评分：</span><span class="score-val" data-val="{$shop_info.comment_rank}"></span>
+                            <span>{t domain="ecjia-pc"}总体评分：{/t}</span><span class="score-val" data-val="{$shop_info.comment_rank}"></span>
                         </div>
                         <div class="store-range">
-                            <span>营业时间： {$shop_info.trade_time}</span>
+                            <span>{t domain="ecjia-pc"}营业时间：{/t} {$shop_info.trade_time}</span>
                             {if $shop_info.business_status eq 1}
-                                 <div class="business-status">营业中</div>
+                                 <div class="business-status">{t domain="ecjia-pc"}营业中{/t}</div>
                             {else if $shop_info.business_status eq 0}
-                                 <div class="business-status">暂停营业</div>
+                                 <div class="business-status">{t domain="ecjia-pc"}暂停营业{/t}</div>
                             {/if}
                         </div>
                     </div>
@@ -78,25 +78,25 @@ setTimeout(function(){
                 <div class="store-option">
                     <dl>
                         <dt>{$shop_info.order_amount}</dt>
-                        <dd>成功接单</dd>
+                        <dd>{t domain="ecjia-pc"}成功接单{/t}</dd>
                     <span class="store-detail-title-border"></span>
                     </dl>
                     <dl>
                         <dt>{$shop_info.order_precent}%</dt>
-                        <dd>接单率</dd>
+                        <dd>{t domain="ecjia-pc"}接单率{/t}</dd>
                     <span class="store-detail-title-border"></span>
                     </dl>
                     <dl>
                         <dt>{$shop_info.comment_percent}%</dt>
-                        <dd>好评率</dd>
+                        <dd>{t domain="ecjia-pc"}好评率{/t}</dd>
                     </dl>
                 </div>
                 <hr class="store-detail-hr" />
                 <div class="store-info">
-                    <p class="range18">商家公告：{$shop_info.value}</p>
-                    <p class="range18">商家电话：{$shop_info.kf_mobile}</p>
-                    <p class="range18">商家地址：{$shop_info.address}</p>
-                    <p class="range18">商家简介：{$shop_info.shop_description}</p>
+                    <p class="range18">{t domain="ecjia-pc"}商家公告：{/t}{$shop_info.value}</p>
+                    <p class="range18">{t domain="ecjia-pc"}商家电话：{/t}{$shop_info.kf_mobile}</p>
+                    <p class="range18">{t domain="ecjia-pc"}商家地址：{/t}{$shop_info.address}</p>
+                    <p class="range18">{t domain="ecjia-pc"}商家简介：{/t}{$shop_info.shop_description}</p>
                 </div>
                 <div class="store-map">
                     <div id="allmap"></div>

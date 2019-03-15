@@ -14,10 +14,10 @@
 <div class="ecjia-goods-list">
 	<div class="goods-category ecjia-content">
 		{if $keywords}
-			<span class="category-item">搜索结果</span>
+			<span class="category-item">{t domain="ecjia-pc"}搜索结果{/t}</span>
 			<span class="category-item"><i class="iconfont icon-jiantou-right"></i><span class="ecjia-green">"{$keywords}"</span></span>
 		{else}
-			<span class="category-item">所有分类</span>
+			<span class="category-item">{t domain="ecjia-pc"}所有分类{/t}</span>
 			<span class="category-item"><i class="iconfont icon-jiantou-right"></i><a href="{$goods_url}&cat_id={$cat_info.cat_id}"><span class="{if $cat_id eq $cat_info.cat_id}ecjia-green{/if}">{$cat_info.cat_name}</span></a></span>
 			{if $cat_info.child_cat}
 				<!-- {foreach from=$cat_info.child_cat item=c} -->
@@ -38,8 +38,8 @@
 	{if !$keywords}
 	<div class="goods-category ecjia-content category-list">
 		<div class="category-item-list">
-			<span class="category-item">分类：</span>
-			<span class="category-item {if $cat_id eq $cat_info.cat_id}curr{/if}"><a href="{$goods_url}&cat_id={$cat_info.cat_id}">全部</a></span>
+			<span class="category-item">{t domain="ecjia-pc"}分类：{/t}</span>
+			<span class="category-item {if $cat_id eq $cat_info.cat_id}curr{/if}"><a href="{$goods_url}&cat_id={$cat_info.cat_id}">{t domain="ecjia-pc"}全部{/t}</a></span>
 			<!-- {foreach from=$cat_info.child_cat item=val key=key} -->
 			<span class="category-item {if $cat_id eq $val.cat_id}curr{/if}">
 				<a class="cat-ul" href="{$goods_url}&cat_id={$val.cat_id}">{$val.cat_name}</a>
@@ -50,7 +50,7 @@
 			<!-- {foreach from=$cat_info.child_cat item=val key=key} -->
 			{if $val.children}
 			<div class="sub-cat" {if $cat_id eq $val.cat_id}style="display:block;"{/if}>
-				<a class="cat-li {if $select_id eq 0}active{/if}" href="{$goods_url}&cat_id={$cat_id}">全部</a>
+				<a class="cat-li {if $select_id eq 0}active{/if}" href="{$goods_url}&cat_id={$cat_id}">{t domain="ecjia-pc"}全部{/t}</a>
 				<!-- {foreach from=$val.children item=v key=k} -->
 				<a class="cat-li {if $select_id neq 0}{if $select_id eq $v.cat_id}active{/if}{/if}" href="{$goods_url}&cat_id={$val.cat_id}&select_id={$v.cat_id}">{$v.cat_name}</a>
 				<!-- {/foreach} -->
@@ -68,10 +68,10 @@
 					<a href="{$goods_url}{if $keywords}&keywords={$keywords}{else}&cat_id={$cat_id}{if $select_id}&select_id={$select_id}{/if}{/if}&type=all" class="{if $type eq 'all' || (!$type && !$sort_by)}curr{/if}">全部商品</a>
                		<a href="{$goods_url}{if $keywords}&keywords={$keywords}{else}&cat_id={$cat_id}{if $select_id}&select_id={$select_id}{/if}{/if}&type=hot" class="{if $type eq 'hot'}curr{/if}">热门推荐</a>
                 	<a class="{if !$type && $sort_by eq 'sales_volume'}curr{/if}" href="{$goods_url}{if $keywords}&keywords={$keywords}{else}&cat_id={$cat_id}{if $select_id}&select_id={$select_id}{/if}{/if}&sort_by=sales_volume&sort_order=desc">
-           				销量<i class="iconfont icon-jiantou-bottom"></i>
+                        {t domain="ecjia-pc"}销量{/t}<i class="iconfont icon-jiantou-bottom"></i>
 					</a>
                    	<a class="{if !$type && $sort_by eq 'shop_price'}curr{/if}" href="{$goods_url}{if $keywords}&keywords={$keywords}{else}&cat_id={$cat_id}{if $select_id}&select_id={$select_id}{/if}{/if}&sort_by=shop_price&sort_order={if $sort_order eq desc}asc{else}desc{/if}">
-                   		价格<i class="iconfont {if $sort_order eq desc}icon-jiantou-bottom{else}icon-jiantou-top{/if}"></i>
+                        {t domain="ecjia-pc"}价格{/t}<i class="iconfont {if $sort_order eq desc}icon-jiantou-bottom{else}icon-jiantou-top{/if}"></i>
 					</a>
 				</div>
 			</div>
@@ -88,14 +88,14 @@
 							</div>
 							<div class="item-list">
 								<span class="goods-price">{if $val.unformatted_promote_price neq 0}{$val.promote_price}{else}{$val.shop_price}{/if}</span>
-								<span class="view-detail">查看详情</span>
+								<span class="view-detail">{t domain="ecjia-pc"}查看详情{/t}</span>
 							</div>
 						</a>
 					</div>
 					<!-- {/foreach} -->
 					<!-- {$page} -->
 				<!-- {else} -->
-				<p class="no_goods">很抱歉，没有找到相关的商品</p>
+				<p class="no_goods">{t domain="ecjia-pc"}很抱歉，没有找到相关的商品{/t}</p>
 				<!-- {/if} -->
 			</div>
 		</div>

@@ -7,15 +7,15 @@ defined('IN_ECJIA') or exit('No permission resources.');
 ?>
 <div class="ecjia-page-footer">
 	<div class="foot-top">
-		<p>特色<span class="ecjia-green">到家</span>平台</p>
-		<p class="">品类齐全，轻松购物，为您呈现不一样的生活服务平台</p>
+		<p>{t domain="ecjia-pc"}特色{/t}<span class="ecjia-green">{t domain="ecjia-pc"}到家{/t}</span>{t domain="ecjia-pc"}平台{/t}</p>
+		<p class="">{t domain="ecjia-pc"}品类齐全，轻松购物，为您呈现不一样的生活服务平台{/t}</p>
 		<div class="helper">
 			<div class="mod" data-spm-ab="1">
 				<div class="mod-wrap">
 			  		<h4>
 				 		<i class="icon-foot-1"></i>
-				        <div>正品保障</div>
-				        <div>正品行货，放心选购</div>
+				        <div>{t domain="ecjia-pc"}正品保障{/t}</div>
+				        <div>{t domain="ecjia-pc"}正品行货，放心选购{/t}</div>
 			      </h4>
 				</div>
 			</div>
@@ -24,8 +24,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
 				<div class="mod-wrap">
 			  		<h4>
 				 		<i class="icon-foot-2"></i>
-				        <div>产地直采</div>
-				        <div>100%产地直采，放心低价</div>
+				        <div>{t domain="ecjia-pc"}产地直采{/t}</div>
+				        <div>{t domain="ecjia-pc"}100%产地直采，放心低价{/t}</div>
 			      </h4>
 				</div>
 			</div>
@@ -34,8 +34,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
 				<div class="mod-wrap">
 			  		<h4>
 				 		<i class="icon-foot-3"></i>
-				        <div>准时送达</div>
-				        <div>收货时间，自主选择</div>
+				        <div>{t domain="ecjia-pc"}准时送达{/t}</div>
+				        <div>{t domain="ecjia-pc"}收货时间，自主选择{/t}</div>
 			      </h4>
 				</div>
 			</div>
@@ -44,15 +44,15 @@ defined('IN_ECJIA') or exit('No permission resources.');
 				<div class="mod-wrap">
 			  		<h4>
 				 		<i class="icon-foot-4"></i>
-				        <div>售后无忧</div>
-				        <div>客服全年无休，用户体验至上</div>
+				        <div>{t domain="ecjia-pc"}售后无忧{/t}</div>
+				        <div>{t domain="ecjia-pc"}客服全年无休，用户体验至上{/t}</div>
 			      </h4>
 				</div>
 			</div>
 		</div>
 		{if $info.region_list}
 		<div class="hot-city">
-			<div class="hot-city-left">经营城市</div>
+			<div class="hot-city-left">{t domain="ecjia-pc"}经营城市{/t}</div>
 			<div class="hot-city-right">
 				<!-- {foreach from=$info.region_list item=val} -->
 					<!--{foreach from=$val item=v}-->
@@ -65,7 +65,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 		
 		{if $info.link_list.has_logo || $info.link_list.no_logo}
 		<div class="friend-link">
-			<div class="friend-link-title">合作伙伴</div>
+			<div class="friend-link-title">{t domain="ecjia-pc"}合作伙伴{/t}</div>
 			<div class="friend-link-content">
 				<!-- {if $info.link_list.has_logo} -->
 				<ul class="link-content">
@@ -100,7 +100,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 		<span class="outlink-qrcode">
             <div class="wechat-code">
 				<img src="{$info.shop_wechat_qrcode}">
-				<span>打开微信扫一扫关注</span>
+				<span>{t domain="ecjia-pc"}打开微信扫一扫关注{/t}</span>
 			</div>
 			<a class="wechat" href="javascript:void(0)"></a>
 		</span>
@@ -113,8 +113,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
         </p>
     </div>
     {/if}
-    <p>{if $info.company_name}{$info.company_name} 版权所有{/if} {if ecjia::config('icp_number')}&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn" target="_blank"> {ecjia::config('icp_number')}</a>{/if}&nbsp;&nbsp;{$info.powered}</p>
-    <p>{if $info.shop_address}地址：{$info.shop_address} {/if} {if $info.service_phone} 咨询热线：{$info.service_phone}{/if}</p>
+    <p>{if $info.company_name}{$info.company_name} {t domain="ecjia-pc"}版权所有{/t}{/if} {if ecjia::config('icp_number')}&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn" target="_blank"> {ecjia::config('icp_number')}</a>{/if}&nbsp;&nbsp;{$info.powered}</p>
+    <p>{if $info.shop_address}{t domain="ecjia-pc"}地址：{/t}{$info.shop_address} {/if} {if $info.service_phone} {t domain="ecjia-pc"}咨询热线：{/t}{$info.service_phone}{/if}</p>
 </div>
 {if ecjia::config('stats_code')}
 	{stripslashes(ecjia::config('stats_code'))}
