@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App topic 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 03:59:01+00:00\n"
+"POT-Creation-Date: 2019-03-01 01:49:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,8 +12,174 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 
-#: configs/package.php:10
+#: admin.php:39 admin.php:50 admin.php:51 admin.php:70 admin.php:229
+#: admin.php:537 admin.php:611 admin.php:686
+msgid "专题列表"
+msgstr ""
+
+#: admin.php:52 admin.php:68 admin.php:69
+msgid "添加专题"
+msgstr ""
+
+#: admin.php:147 admin.php:361
+msgid "代码内容不能为空"
+msgstr ""
+
+#: admin.php:190 admin.php:414 configs/jslang.php:65
+msgid "专题开始时间不能大于或等于结束时间"
+msgstr ""
+
+#: admin.php:215
+msgid "返回专题列表"
+msgstr ""
+
+#: admin.php:216
+msgid "继续添加专题"
+msgstr ""
+
+#: admin.php:217 admin.php:674
+msgid "添加专题成功"
+msgstr ""
+
+#: admin.php:227 admin.php:228 admin.php:536
+msgid "编辑专题"
+msgstr ""
+
+#: admin.php:435
+msgid "编辑专题成功"
+msgstr ""
+
+#: admin.php:451
+msgid "删除商品分类标题图片成功"
+msgstr ""
+
+#: admin.php:467
+msgid "删除Flash文件成功"
+msgstr ""
+
+#: admin.php:484
+msgid "删除专题图片成功"
+msgstr ""
+
+#: admin.php:502
+msgid "编辑专题名称成功"
+msgstr ""
+
+#: admin.php:522
+msgid "批量删除专题操作成功"
+msgstr ""
+
+#: admin.php:533 admin.php:535
+msgid "专题预览"
+msgstr ""
+
+#: admin.php:600
+msgid "删除专题操作成功"
+msgstr ""
+
+#: admin.php:610 admin.php:612 classes/Helper.php:61
+msgid "专题分类"
+msgstr ""
+
+#: admin.php:653
+msgid "请输入专题分类名称"
+msgstr ""
+
+#: admin.php:673 admin.php:762 admin.php:805
+msgid "专题名称为"
+msgstr ""
+
+#: admin.php:684 admin.php:685
+msgid "编辑专题商品"
+msgstr ""
+
+#: admin.php:764
+msgid "成功修改专题商品"
+msgstr ""
+
+#: admin.php:807
+msgid "删除专题分类成功"
+msgstr ""
+
+#: apis/topic_admin_purview_api.class.php:14
+#: classes/hooks/admin_topic.class.php:9
+msgid "专题管理"
+msgstr ""
+
+#: apis/topic_admin_purview_api.class.php:15
+msgid "专题更新"
+msgstr ""
+
+#: apis/topic_admin_purview_api.class.php:16
+msgid "删除专题"
+msgstr ""
+
+#: apis/topic_topic_info_api.class.php:18
+msgid "调用api文件topic_info_api参数无效！"
+msgstr ""
+
+#: apis/topic_topic_list_api.class.php:18
+msgid "调用api文件topic_list_api参数无效！"
+msgstr ""
+
+#: classes/Helper.php:60 configs/package.php:10
 msgid "专题"
+msgstr ""
+
+#: classes/Helper.php:62
+msgid "专题商品"
+msgstr ""
+
+#: configs/jslang.php:57
+msgid "请输入专题名称"
+msgstr ""
+
+#: configs/jslang.php:58
+msgid "请选择专题开始时间!"
+msgstr ""
+
+#: configs/jslang.php:59
+msgid "请选择专题结束时间!"
+msgstr ""
+
+#: configs/jslang.php:60
+msgid "确定删除选中项吗?"
+msgstr ""
+
+#: configs/jslang.php:61
+msgid "该分类已经存在"
+msgstr ""
+
+#: configs/jslang.php:62
+msgid "请输入分类名称"
+msgstr ""
+
+#: configs/jslang.php:63
+msgid "已选商品已经转移到\\\"className\\\"分类下"
+msgstr ""
+
+#: configs/jslang.php:64
+msgid "每个分类下的商品不能超过50个"
+msgstr ""
+
+#: configs/jslang.php:67
+msgid "请输入主题名称！"
+msgstr ""
+
+#: configs/jslang.php:68
+msgid "请输入开始日期！"
+msgstr ""
+
+#: configs/jslang.php:69
+msgid "未搜索到商品信息"
+msgstr ""
+
+#: configs/jslang.php:71
+msgid "确定"
+msgstr ""
+
+#: configs/jslang.php:72
+msgid "取消"
 msgstr ""
 
 #: configs/package.php:11
@@ -22,6 +188,288 @@ msgid ""
 "成一个独立的专题页面，是客户更加有针对性的购买商品"
 msgstr ""
 
+#: content/apps/topic/templates/admin/topic_goods.dwt.php:23
+#: content/apps/topic/templates/admin/topic_cat.dwt.php:23
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:25
+msgid "通用信息"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_goods.dwt.php:32
+msgid "请选择专题分类："
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_goods.dwt.php:39
+#: content/apps/topic/templates/admin/preview.dwt.php:80
+#: content/apps/topic/templates/admin/preview.dwt.php:110
+msgid "未分类"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_goods.dwt.php:49
+msgid "所有分类"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_goods.dwt.php:52
+msgid "所有品牌"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_goods.dwt.php:56
+#: content/apps/topic/templates/admin/topic_list.dwt.php:33
+msgid "搜索"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_goods.dwt.php:62
+msgid "筛选搜索到的商品信息"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_goods.dwt.php:65
+msgid "暂无内容"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_goods.dwt.php:69
+msgid "已选商品"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_goods.dwt.php:90
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:251
+msgid "更新"
+msgstr ""
+
+#: content/apps/topic/templates/admin/preview.dwt.php:45
+msgid "专题信息"
+msgstr ""
+
+#: content/apps/topic/templates/admin/preview.dwt.php:52
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:147
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:162
+msgid "活动开始时间："
+msgstr ""
+
+#: content/apps/topic/templates/admin/preview.dwt.php:54
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:170
+msgid "活动结束时间："
+msgstr ""
+
+#: content/apps/topic/templates/admin/preview.dwt.php:59
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:187
+msgid "关键字："
+msgstr ""
+
+#: content/apps/topic/templates/admin/preview.dwt.php:61
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:195
+msgid "简单描述："
+msgstr ""
+
+#: content/apps/topic/templates/admin/preview.dwt.php:65
+msgid "专题介绍："
+msgstr ""
+
+#: content/apps/topic/templates/admin/preview.dwt.php:93
+#: content/apps/topic/templates/admin/preview.dwt.php:123
+msgid "元"
+msgstr ""
+
+#: content/apps/topic/templates/admin/preview.dwt.php:139
+msgid "该专题开始时间未到，敬请期待。"
+msgstr ""
+
+#: content/apps/topic/templates/admin/preview.dwt.php:145
+msgid "该专题截止日期已到，系统已下架。"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_list.dwt.php:24
+msgid "批量操作"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_list.dwt.php:28
+msgid "您确定要这么做吗？"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_list.dwt.php:28
+msgid "请先选中要删除的专题"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_list.dwt.php:44
+msgid "专题名称"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_list.dwt.php:45
+msgid "活动开始时间"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_list.dwt.php:46
+msgid "活动结束时间"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_list.dwt.php:57
+msgid "编辑专题名称"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_list.dwt.php:59
+msgid "预览"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_list.dwt.php:60
+msgid "编辑"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_list.dwt.php:63
+#: content/apps/topic/templates/admin/topic_cat.dwt.php:53
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:80
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:97
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:147
+msgid "删除"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_list.dwt.php:70
+#: content/apps/topic/templates/admin/topic_cat.dwt.php:59
+msgid "没有找到任何记录"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_cat.dwt.php:32
+msgid "添加专题分类："
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_cat.dwt.php:41
+msgid "分类名称"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_cat.dwt.php:42
+msgid "操作"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_cat.dwt.php:53
+msgid "您确定要删除专题分类吗？"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:37
+msgid "专题名称："
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:45
+msgid "专题类型："
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:48
+msgid "图片"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:49
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:104
+msgid "上传Flash文件"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:50
+msgid "代码内容"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:59
+msgid "上传图片："
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:61
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:128
+msgid "远程链接"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:62
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:129
+msgid "本地上传"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:66
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:133
+msgid ""
+"在指定远程LOGO图片时, LOGO图片的URL网址必须为http:// 或 https://开头的正确URL"
+"格式!"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:72
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:139
+msgid "图片预览"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:76
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:143
+msgid "浏览"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:77
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:144
+msgid "修改"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:80
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:97
 #: content/apps/topic/templates/admin/topic_edit.dwt.php:147
 msgid "您确定要删除此文件吗？"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:81
+msgid "此模板的图片标准宽度为：960px 标准高度为：300px"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:91
+msgid "上传Flash文件："
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:96
+msgid "文件地址："
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:98
+msgid "删除文件"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:104
+msgid "修改Flash文件"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:116
+msgid "代码内容："
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:126
+msgid "商品分类标题图片："
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:148
+msgid "此模板的图片标准宽度为：2px 标准高度为：38px"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:155
+msgid "基本风格样式："
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:181
+msgid "SEO优化"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:191
+msgid "用英文逗号分隔"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:210
+msgid "专题模板样式"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:215
+msgid "模板文件："
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:218
+msgid ""
+"填写当前专题的模板文件名,模板文件应上传到当前商城模板目录下,不填写将调用默认"
+"模板。"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:222
+msgid "样式表："
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:225
+msgid "填写当前专题的CSS样式代码,不填写将调用模板默认CSS文件"
+msgstr ""
+
+#: content/apps/topic/templates/admin/topic_edit.dwt.php:237
+msgid "专题介绍"
 msgstr ""
