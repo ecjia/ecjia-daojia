@@ -1,0 +1,242 @@
+# Copyright (C) 2019 Ecjia App customer
+# This file is distributed under the same license as the Ecjia App customer package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App customer 1.25.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-02-21 03:53:41+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-03-07 14:50+0800\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
+
+#: apis/customer_merchant_menu_api.class.php:58
+msgid "会员"
+msgstr "會員"
+
+#: apis/customer_merchant_menu_api.class.php:60
+#: apis/customer_merchant_purview_api.class.php:57 configs/package.php:9
+#: configs/package.php:10 merchant.php:77 merchant.php:78 merchant.php:121
+msgid "商家会员"
+msgstr "商家會員"
+
+#: apis/customer_merchant_menu_api.class.php:61
+#: apis/customer_merchant_purview_api.class.php:59 merchant.php:96
+#: merchant.php:97
+msgid "商家粉丝"
+msgstr "商家粉絲"
+
+#: apis/customer_merchant_purview_api.class.php:58 merchant.php:122
+#: merchant.php:123
+msgid "商家会员详情"
+msgstr "商家會員詳情"
+
+#: apis/customer_store_fans_visit_api.class.php:59 merchant.php:114
+msgid "参数无效"
+msgstr "參數無效"
+
+#: apis/customer_store_fans_visit_api.class.php:73
+msgid "用户未关注店铺"
+msgstr "用戶未關註店鋪"
+
+#: apis/customer_store_user_buy_api.class.php:93
+msgid "店铺不存在"
+msgstr "店鋪不存在"
+
+#: classes/Maintains/UpdateStoreUser.php:72
+msgid "更新商家会员数据"
+msgstr "更新商家會員數據"
+
+#: classes/Maintains/UpdateStoreUser.php:73
+msgid "商家会员功能上线后，同步历史会员信息"
+msgstr "商家會員功能上線後，同步歷史會員信息"
+
+#: configs/fans.php:12
+msgid "微信小程序"
+msgstr "微信小程序"
+
+#: merchant.php:118
+msgid "非会员不能查看详情"
+msgstr "非會員不能查看詳情"
+
+#: merchant.php:124
+msgid "返回会员列表"
+msgstr "返回會員列表"
+
+#: content/apps/customer/templates/merchant/fans_list.dwt.php:28
+#: content/apps/customer/templates/merchant/member_list.dwt.php:35
+msgid "请输入会员名"
+msgstr "請輸入會員名"
+
+#: content/apps/customer/templates/merchant/fans_list.dwt.php:29
+#: content/apps/customer/templates/merchant/member_list.dwt.php:36
+msgid "搜索"
+msgstr "搜索"
+
+#: content/apps/customer/templates/merchant/fans_list.dwt.php:37
+msgid "用户"
+msgstr "用戶"
+
+#: content/apps/customer/templates/merchant/fans_list.dwt.php:38
+msgid "进店次数"
+msgstr "進店次數"
+
+#: content/apps/customer/templates/merchant/fans_list.dwt.php:39
+msgid "最后登录地点"
+msgstr "最後登錄地點"
+
+#: content/apps/customer/templates/merchant/fans_list.dwt.php:40
+msgid "最后进店时间"
+msgstr "最後進店時間"
+
+#: content/apps/customer/templates/merchant/fans_list.dwt.php:41
+msgid "关注时间"
+msgstr "關註時間"
+
+#: content/apps/customer/templates/merchant/fans_list.dwt.php:42
+msgid "来源"
+msgstr "來源"
+
+#: content/apps/customer/templates/merchant/fans_list.dwt.php:43
+msgid "是否是会员"
+msgstr "是否是會員"
+
+#: content/apps/customer/templates/merchant/fans_list.dwt.php:62
+#: content/apps/customer/templates/merchant/member_list.dwt.php:63
+msgid "查看详情"
+msgstr "查看詳情"
+
+#: content/apps/customer/templates/merchant/fans_list.dwt.php:67
+#: content/apps/customer/templates/merchant/member_list.dwt.php:77
+msgid "没有找到任何记录"
+msgstr "沒有找到任何記錄"
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:43
+msgid "基本信息"
+msgstr "基本信息"
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:55
+msgid "会员名称："
+msgstr "會員名稱："
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:60
+#: content/apps/customer/templates/merchant/member_info.dwt.php:67
+msgid "手机号码："
+msgstr "手機號碼："
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:62
+msgid "邮箱账号："
+msgstr "郵箱賬號："
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:72
+msgid "注册时间："
+msgstr "註冊時間："
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:74
+msgid "最近购买时间："
+msgstr "最近購買時間："
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:78
+msgid "最近收货地区："
+msgstr "最近收貨地區："
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:79
+msgid "暂无"
+msgstr "暫無"
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:91
+msgid "会员资金"
+msgstr "會員資金"
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:98
+#: content/apps/customer/templates/merchant/member_info.dwt.php:101
+msgid "消费金额："
+msgstr "消費金額："
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:99
+msgid "可用金额："
+msgstr "可用金額："
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:111
+msgid "收货地址"
+msgstr "收貨地址"
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:119
+#: content/apps/customer/templates/merchant/member_info.dwt.php:157
+msgid "收货人"
+msgstr "收貨人"
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:120
+#: content/apps/customer/templates/merchant/member_list.dwt.php:45
+msgid "手机号"
+msgstr "手機號"
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:121
+msgid "地区"
+msgstr "地區"
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:122
+msgid "详细地址"
+msgstr "詳細地址"
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:128
+msgid "默认地址"
+msgstr "默認地址"
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:135
+#: content/apps/customer/templates/merchant/member_info.dwt.php:173
+msgid "暂无记录"
+msgstr "暫無記錄"
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:147
+msgid "会员订单"
+msgstr "會員訂單"
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:155
+msgid "订单号"
+msgstr "訂單號"
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:156
+msgid "下单时间"
+msgstr "下單時間"
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:158
+msgid "订单金额"
+msgstr "訂單金額"
+
+#: content/apps/customer/templates/merchant/member_info.dwt.php:159
+msgid "订单状态"
+msgstr "訂單狀態"
+
+#: content/apps/customer/templates/merchant/member_list.dwt.php:28
+msgid "全部会员等级"
+msgstr "全部會員等級"
+
+#: content/apps/customer/templates/merchant/member_list.dwt.php:33
+msgid "筛选"
+msgstr "篩選"
+
+#: content/apps/customer/templates/merchant/member_list.dwt.php:46
+msgid "购次"
+msgstr "購次"
+
+#: content/apps/customer/templates/merchant/member_list.dwt.php:47
+msgid "消费金额"
+msgstr "消費金額"
+
+#: content/apps/customer/templates/merchant/member_list.dwt.php:48
+msgid "会员等级"
+msgstr "會員等級"
+
+#: content/apps/customer/templates/merchant/member_list.dwt.php:49
+msgid "最近购买时间"
+msgstr "最近購買時間"
+
+#: content/apps/customer/templates/merchant/member_list.dwt.php:50
+msgid "开通时间"
+msgstr "開通時間"

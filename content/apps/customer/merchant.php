@@ -64,7 +64,7 @@ class merchant extends ecjia_merchant {
         RC_Script::enqueue_script('jquery-colorbox');
         RC_Style::enqueue_style('jquery-colorbox');
         
-        RC_Script::enqueue_script('merchant_list', RC_App::apps_url('statics/js/merchant_list.js', __FILE__), array(), false, true);
+        RC_Script::enqueue_script('merchant_list', RC_App::apps_url('statics/js/merchant_list.js', __FILE__), array(), false, 1);
         
     }
 
