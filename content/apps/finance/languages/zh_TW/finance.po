@@ -8,770 +8,777 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2019-03-08 16:42+0800\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
 
 #: admin_account.php:86 admin_account.php:97 admin_account.php:99
 #: admin_account.php:128 admin_account.php:430
 #: apis/finance_admin_menu_api.class.php:66
 msgid "充值订单"
-msgstr ""
+msgstr "充值訂單"
 
 #: admin_account.php:100 admin_account.php:124 admin_account.php:126
 msgid "线下充值申请"
-msgstr ""
+msgstr "線下充值申請"
 
 #: admin_account.php:159 admin_account.php:169
 msgid "请按正确的格式输入充值的金额！"
-msgstr ""
+msgstr "請按正確的格式輸入充值的金額！"
 
 #: admin_account.php:175 admin_account.php:479
 msgid "该手机号对应的会员信息不存在！"
-msgstr ""
+msgstr "該手機號對應的會員信息不存在！"
 
 #: admin_account.php:205 admin_account.php:589
 msgid "现金支付"
-msgstr ""
+msgstr "現金支付"
 
 #: admin_account.php:209 admin_account.php:265 admin_account.php:329
 #: admin_account_log.php:104 apis/finance_surplus_order_paid_api.class.php:100
 #: configs/jslang.php:68 functions/admin_user.func.php:202
 #: functions/admin_user.func.php:338
 msgid "充值"
-msgstr ""
+msgstr "充值"
 
 #: admin_account.php:209 admin_account.php:267 admin_account_log.php:105
 #: configs/jslang.php:70 functions/admin_user.func.php:202
 #: functions/admin_user.func.php:340
 msgid "提现"
-msgstr ""
+msgstr "提現"
 
 #: admin_account.php:230 admin_account.php:272
 msgid "会员名称是%s，充值金额是%s"
-msgstr ""
+msgstr "會員名稱是%s，充值金額是%s"
 
 #: admin_account.php:232
 msgid "添加成功"
-msgstr ""
+msgstr "添加成功"
 
 #: admin_account.php:274 admin_account.php:349
 msgid "返回充值订单"
-msgstr ""
+msgstr "返回充值訂單"
 
 #: admin_account.php:276
 msgid "编辑成功"
-msgstr ""
+msgstr "編輯成功"
 
 #: admin_account.php:301
 msgid "该订单已审核，请勿重复操作"
-msgstr ""
+msgstr "該訂單已審核，請勿重復操作"
 
 #: admin_account.php:314
 msgid "要提现的金额超过了此会员的帐户余额，此操作将不可进行！"
-msgstr ""
+msgstr "要提現的金額超過了此會員的帳戶余額，此操作將不可進行！"
 
 #: admin_account.php:351
 msgid "您此次操作已成功！"
-msgstr ""
+msgstr "您此次操作已成功！"
 
 #: admin_account.php:379
 msgid "匿名用户"
-msgstr ""
+msgstr "匿名用戶"
 
 #: admin_account.php:383
 msgid "删除成功"
-msgstr ""
+msgstr "刪除成功"
 
 #: admin_account.php:410 admin_account.php:412
 msgid "会员名称是%s，金额是%s"
-msgstr ""
+msgstr "會員名稱是%s，金額是%s"
 
 #: admin_account.php:415
 msgid "本次删除了 %s 条记录"
-msgstr ""
+msgstr "本次刪除了 %s 條記錄"
 
 #: admin_account.php:418
 msgid "请先选择需要操作的项"
-msgstr ""
+msgstr "請先選擇需要操作的項"
 
 #: admin_account.php:429
 msgid "充值详情"
-msgstr ""
+msgstr "充值詳情"
 
 #: admin_account.php:477
 msgid "会员手机号码不能为空！"
-msgstr ""
+msgstr "會員手機號碼不能為空！"
 
 #: admin_account.php:598 functions/admin_user.func.php:333
 msgid "已完成"
-msgstr ""
+msgstr "已完成"
 
 #: admin_account.php:598
 msgid "待审核"
-msgstr ""
+msgstr "待審核"
 
 #: admin_account.php:598
 msgid "已取消"
-msgstr ""
+msgstr "已取消"
 
 #: admin_account_log.php:78 admin_account_log.php:96
 msgid "会员列表"
-msgstr ""
+msgstr "會員列表"
 
 #: admin_account_log.php:98
 msgid "会员账户变动明细"
-msgstr ""
+msgstr "會員賬戶變動明細"
 
 #: admin_account_log.php:102 admin_account_log.php:278
 #: admin_account_log.php:299
 msgid "查看余额变动"
-msgstr ""
+msgstr "查看余額變動"
 
 #: admin_account_log.php:107 admin_account_log.php:275
 #: admin_account_log.php:277
 msgid "增加余额"
-msgstr ""
+msgstr "增加余額"
 
 #: admin_account_log.php:108 admin_account_log.php:296
 #: admin_account_log.php:298
 msgid "减少余额"
-msgstr ""
+msgstr "減少余額"
 
 #: admin_account_log.php:110
 msgid "资金明细"
-msgstr ""
+msgstr "資金明細"
 
 #: admin_account_log.php:113 admin_account_log.php:178
 #: admin_account_log.php:199
 msgid "查看积分变动"
-msgstr ""
+msgstr "查看積分變動"
 
 #: admin_account_log.php:115
 msgid "增加积分"
-msgstr ""
+msgstr "增加積分"
 
 #: admin_account_log.php:116
 msgid "减少积分"
-msgstr ""
+msgstr "減少積分"
 
 #: admin_account_log.php:118
 msgid "积分明细"
-msgstr ""
+msgstr "積分明細"
 
 #: admin_account_log.php:121 admin_account_log.php:220
 #: admin_account_log.php:249
 msgid "查看成长值变动"
-msgstr ""
+msgstr "查看成長值變動"
 
 #: admin_account_log.php:123
 msgid "增加成长值"
-msgstr ""
+msgstr "增加成長值"
 
 #: admin_account_log.php:124
 msgid "减少成长值"
-msgstr ""
+msgstr "減少成長值"
 
 #: admin_account_log.php:126
 msgid "成长值明细"
-msgstr ""
+msgstr "成長值明細"
 
 #: admin_account_log.php:142
 msgid "该会员不存在"
-msgstr ""
+msgstr "該會員不存在"
 
 #: admin_account_log.php:175 admin_account_log.php:177
 msgid "增加账户积分"
-msgstr ""
+msgstr "增加賬戶積分"
 
 #: admin_account_log.php:196 admin_account_log.php:198
 msgid "减少账户积分"
-msgstr ""
+msgstr "減少賬戶積分"
 
 #: admin_account_log.php:217 admin_account_log.php:219
 msgid "增加会员成长值"
-msgstr ""
+msgstr "增加會員成長值"
 
 #: admin_account_log.php:246 admin_account_log.php:248
 msgid "减少会员成长值"
-msgstr ""
+msgstr "減少會員成長值"
 
 #: admin_account_log.php:322
 msgid "该用户不存在"
-msgstr ""
+msgstr "該用戶不存在"
 
 #: admin_account_log.php:332
 msgid "会员积分填写有误"
-msgstr ""
+msgstr "會員積分填寫有誤"
 
 #: admin_account_log.php:339
 msgid "减少会员积分数不能大于当前账户积分"
-msgstr ""
+msgstr "減少會員積分數不能大於當前賬戶積分"
 
 #: admin_account_log.php:352
 msgid "成长值账户填写有误"
-msgstr ""
+msgstr "成長值賬戶填寫有誤"
 
 #: admin_account_log.php:361
 msgid "减少会员成长值不能大于当前账户成长值"
-msgstr ""
+msgstr "减少会员成长值不能大于当前账户成长值"
 
 #: admin_account_log.php:374
 msgid "金额填写有误"
-msgstr ""
+msgstr "金額填寫有誤"
 
 #: admin_account_log.php:382
 msgid "减少余额数不能大于当前账户余额"
-msgstr ""
+msgstr "減少余額數不能大於當前賬戶余額"
 
 #: admin_account_log.php:394
 msgid "操作成功"
-msgstr ""
+msgstr "操作成功"
 
 #: admin_account_manage.php:92 admin_account_manage.php:156
 #: admin_account_manage.php:160 apis/finance_admin_menu_api.class.php:62
 msgid "资金管理"
-msgstr ""
+msgstr "資金管理"
 
 #: admin_account_manage.php:96 apis/finance_admin_menu_api.class.php:63
 msgid "积分管理"
-msgstr ""
+msgstr "積分管理"
 
 #: admin_account_manage.php:157 admin_account_manage.php:159
 msgid "积分余额订单"
-msgstr ""
+msgstr "積分余額訂單"
 
 #: admin_invoice.php:69 admin_invoice.php:81 admin_invoice.php:83
 #: admin_invoice.php:100 apis/finance_admin_menu_api.class.php:64
 msgid "发票列表"
-msgstr ""
+msgstr "發票列表"
 
 #: admin_invoice.php:99 admin_invoice.php:101
 msgid "发票详情"
-msgstr ""
+msgstr "發票詳情"
 
 #: admin_invoice.php:138
 msgid "个人"
-msgstr ""
+msgstr "个人"
 
 #: admin_invoice.php:140
 msgid "单位"
-msgstr ""
+msgstr "單位"
 
 #: apis/finance_account_balance_change_api.class.php:68
 #: apis/finance_pay_points_change_api.class.php:69
 #: apis/finance_refund_back_pay_points_api.class.php:63
 #: apis/finance_user_remove_cleardata_api.class.php:63
 msgid "请求接口%s参数无效"
-msgstr ""
+msgstr "請求接口%s參數無效"
 
 #: apis/finance_account_change_log_api.class.php:61
 #: apis/finance_surplus_order_paid_api.class.php:68
 msgid "参数无效"
-msgstr ""
+msgstr "參數無效"
 
 #: apis/finance_account_change_log_api.class.php:159
 msgid ""
 "尊敬的%s，充值业务已受理成功，充值金额%s元资金已到账，目前可用资金%s元。"
 msgstr ""
+"尊敬的%s，充值業務已受理成功，充值金額%s元資金已到賬，目前可用資金%s元。"
 
 #: apis/finance_admin_menu_api.class.php:60
 msgid "财务管理"
-msgstr ""
+msgstr "財務管理"
 
 #: apis/finance_admin_purview_api.class.php:59
 msgid "会员账户管理"
-msgstr ""
+msgstr "會員賬戶管理"
 
 #: apis/finance_admin_purview_api.class.php:60
 msgid "会员余额管理"
-msgstr ""
+msgstr "會員余額管理"
 
 #: apis/finance_admin_purview_api.class.php:61
 msgid "发票管理"
-msgstr ""
+msgstr "發票管理"
 
 #: apis/finance_refund_back_pay_points_api.class.php:87
 msgid "订单退款，退还订单%s，下单时使用的%s"
-msgstr ""
+msgstr "訂單退款，退還訂單%s，下單時使用的%s"
 
 #: apis/finance_refund_back_pay_points_api.class.php:107
 msgid "订单退款，扣除订单%s，下单时赠送的%s"
-msgstr ""
+msgstr "訂單退款，扣除訂單%s，下單時贈送的%s"
 
 #: apis/finance_user_account_order_info_api.class.php:63
 msgid "调取api文件%s，参数错误"
-msgstr ""
+msgstr "調取api文件%s，參數錯誤"
 
 #: classes/Helper.php:59
 msgid "会员账户"
-msgstr ""
+msgstr "會員賬戶"
 
 #: classes/Helper.php:61
 msgid "提现申请"
-msgstr ""
+msgstr "提現申請"
 
 #: classes/Helper.php:62
 msgid "充值申请"
-msgstr ""
+msgstr "充值申請"
 
 #: classes/Helper.php:64
 msgid "到款审核"
-msgstr ""
+msgstr "到款審核"
 
 #: classes/Helper.php:66
 msgid "会员积分"
-msgstr ""
+msgstr "會員積分"
 
 #: classes/Helper.php:67
 msgid "成长值"
-msgstr ""
+msgstr "成長值"
 
 #: classes/Helper.php:68
 msgid "用户余额"
-msgstr ""
+msgstr "用戶余額"
 
 #: classes/PaidOrder/PaidOrderProcess.php:73
 msgid "订单支付成功！"
-msgstr ""
+msgstr "訂單支付成功！"
 
 #: classes/UserCleanHandlers/UserAccountLogClear.php:98
 #: classes/UserCleanHandlers/UserFinanceInvoiceClear.php:98
 #: classes/UserCleanHandlers/UserMoneyClear.php:104
 #: classes/UserCleanHandlers/UserTradingRecordClear.php:98
 msgid "用户名是%s"
-msgstr ""
+msgstr "用戶名是%s"
 
 #: classes/UserCleanHandlers/UserAccountLogClear.php:98
 #: classes/UserCleanHandlers/UserFinanceInvoiceClear.php:98
 #: classes/UserCleanHandlers/UserMoneyClear.php:104
 #: classes/UserCleanHandlers/UserTradingRecordClear.php:98
 msgid "用户ID是%s"
-msgstr ""
+msgstr "用戶ID是%s"
 
 #: configs/jslang.php:51 configs/jslang.php:59
 msgid "开始时间不能大于或等于结束时间"
-msgstr ""
+msgstr "開始時間不能大於或等於結束時間"
 
 #: configs/jslang.php:52 configs/jslang.php:64
 msgid "请输入关键字"
-msgstr ""
+msgstr "請輸入關鍵字"
 
 #: configs/jslang.php:53
 msgid "请输入会员名称"
-msgstr ""
+msgstr "請輸入會員名稱"
 
 #: configs/jslang.php:54
 msgid "请输入金额"
-msgstr ""
+msgstr "請輸入金額"
 
 #: configs/jslang.php:55
 msgid "开始时间不得大于结束时间！"
-msgstr ""
+msgstr "開始時間不得大於結束時間！"
 
 #: configs/jslang.php:58
 msgid "开始或结束时间不能为空"
-msgstr ""
+msgstr "開始或結束時間不能為空"
 
 #: configs/jslang.php:60
 msgid "请输入帐户变动原因"
-msgstr ""
+msgstr "請輸入帳戶變動原因"
 
 #: configs/jslang.php:63
 msgid "请选择年份"
-msgstr ""
+msgstr "請選擇年份"
 
 #: configs/jslang.php:65
 msgid "开始时间不得大于结束时间"
-msgstr ""
+msgstr "開始時間不得大於結束時間"
 
 #: configs/jslang.php:66
 msgid "（余额分布图）"
-msgstr ""
+msgstr "（余額分布圖）"
 
 #: configs/jslang.php:67
 msgid "消费"
-msgstr ""
+msgstr "消費"
 
 #: configs/jslang.php:69
 msgid "退款"
-msgstr ""
+msgstr "消費"
 
 #: configs/jslang.php:71
 msgid "冻结"
-msgstr ""
+msgstr "凍結"
 
 #: configs/jslang.php:72
 msgid "（积分分布图）"
-msgstr ""
+msgstr "（積分分布圖）"
 
 #: configs/jslang.php:73
 msgid "下单发放"
-msgstr ""
+msgstr "下單發放"
 
 #: configs/jslang.php:74
 msgid "积分抵现"
-msgstr ""
+msgstr "積分抵現"
 
 #: configs/jslang.php:75
 msgid "没有统计数据"
-msgstr ""
+msgstr "沒有統計數據"
 
 #: configs/package.php:55
 msgid "财务"
-msgstr ""
+msgstr "財務"
 
 #: configs/package.php:56
 msgid "财务管理模块，主要负责管理用户帐户资金、支付交易流水对帐等。"
-msgstr ""
+msgstr "財務管理模塊，主要負責管理用戶帳戶資金、支付交易流水對帳等。"
 
 #: functions/admin_user.func.php:330 functions/admin_user.func.php:332
 msgid "暂无"
-msgstr ""
+msgstr "暫無"
 
 #: functions/admin_user.func.php:333
 msgid "未确认"
-msgstr ""
+msgstr "未確認"
 
 #: functions/admin_user.func.php:894
 msgid "免费"
-msgstr ""
+msgstr "免費"
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:14
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:16
 msgid "温馨提示："
-msgstr ""
+msgstr "溫馨提示："
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:15
 msgid ""
 "线下充值申请：指用户已通过线下实体店或其他渠道支付相应金额后，由管理员提交申"
 "请，记录用户线下充值的数据，方便日后商城财务对账。"
 msgstr ""
+"線下充值申請：指用戶已通過線下實體店或其他渠道支付相應金額後，由管理員提交申"
+"請，記錄用戶線下充值的數據，方便日後商城財務對賬"
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:31
 msgid "会员手机号码："
-msgstr ""
+msgstr "會員手機號碼："
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:35
 msgid "输入正确手机号，查询会员基本信息。"
-msgstr ""
+msgstr "輸入正確手機號，查詢會員基本信息。"
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:40
 #: content/apps/finance/templates/admin/admin_invoice_info.dwt.php:31
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:98
 msgid "会员名称："
-msgstr ""
+msgstr "會員名稱："
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:43
 msgid ""
 "仔细查看会员手机号、名称是否正确，若正确请忽视，若不正确，请主动调整手机号。"
 msgstr ""
+"仔細查看會員手機號、名稱是否正確，若正確請忽視，若不正確，請主動調整手機號。"
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:48
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:115
 msgid "充值方式："
-msgstr ""
+msgstr "充值方式："
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:50
 msgid "固定金额"
-msgstr ""
+msgstr "固定金額"
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:51
 msgid "随机金额"
-msgstr ""
+msgstr "隨機金額"
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:56
 msgid "金额："
-msgstr ""
+msgstr "金額："
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:58
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:68
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:75
 msgid "元"
-msgstr ""
+msgstr "元"
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:60
 msgid "充值金额必须大于0"
-msgstr ""
+msgstr "充值金額必須大於0"
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:66
 msgid "最小金额："
-msgstr ""
+msgstr "最小金額："
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:73
 msgid "最大金额："
-msgstr ""
+msgstr "最大金額："
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:77
 msgid "金额最多保留2位小数"
-msgstr ""
+msgstr "金額最多保留2位小數"
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:83
 msgid "支付方式："
-msgstr ""
+msgstr "支付方式："
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:84
 msgid "现金"
-msgstr ""
+msgstr "现金"
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:88
 msgid "管理员备注："
-msgstr ""
+msgstr "管理員備註："
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:94
 #: content/apps/finance/templates/admin/account_points.dwt.php:92
 msgid "请选择管理员备注"
-msgstr ""
+msgstr "請選擇管理員備註"
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:95
 msgid "随机奖励金额"
-msgstr ""
+msgstr "隨機獎勵金額"
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:96
 msgid "管理员手动充值"
-msgstr ""
+msgstr "管理員手動充值"
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:97
 msgid "用户已在线下门店现金支付"
-msgstr ""
+msgstr "用戶已在線下門店現金支付"
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:98
 msgid "通过线下柜台、手机银行或网银将款项转账至商城账号上"
-msgstr ""
+msgstr "通過線下櫃臺、手機銀行或網銀將款項轉賬至商城賬號上"
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:100
 msgid "此备注仅限管理员查看，备注内容可使用快捷用语。"
-msgstr ""
+msgstr "此備註僅限管理員查看，備註內容可使用快捷用語。"
 
 #: content/apps/finance/templates/admin/admin_account_edit.dwt.php:106
 #: content/apps/finance/templates/admin/account_points.dwt.php:106
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:164
 msgid "确定"
-msgstr ""
+msgstr "確定"
 
 #: content/apps/finance/templates/admin/account_points.dwt.php:26
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:14
 msgid "当前会员："
-msgstr ""
+msgstr "當前會員："
 
 #: content/apps/finance/templates/admin/account_points.dwt.php:32
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:44
 msgid "当前账户积分："
-msgstr ""
+msgstr "當前賬戶積分："
 
 #: content/apps/finance/templates/admin/account_points.dwt.php:37
 msgid "会员积分："
-msgstr ""
+msgstr "會員積分："
 
 #: content/apps/finance/templates/admin/account_points.dwt.php:46
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:47
 msgid "当前账户成长值："
-msgstr ""
+msgstr "當前賬戶成長值："
 
 #: content/apps/finance/templates/admin/account_points.dwt.php:51
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:48
 msgid "所属会员等级："
-msgstr ""
+msgstr "所屬會員等級："
 
 #: content/apps/finance/templates/admin/account_points.dwt.php:56
 msgid "会员成长值："
-msgstr ""
+msgstr "會員成長值："
 
 #: content/apps/finance/templates/admin/account_points.dwt.php:65
 msgid "当前账户余额："
-msgstr ""
+msgstr "當前賬戶余額："
 
 #: content/apps/finance/templates/admin/account_points.dwt.php:72
 msgid "增加金额："
-msgstr ""
+msgstr "增加金額："
 
 #: content/apps/finance/templates/admin/account_points.dwt.php:74
 msgid "减少金额："
-msgstr ""
+msgstr "減少金額："
 
 #: content/apps/finance/templates/admin/account_points.dwt.php:84
 msgid "变动原因："
-msgstr ""
+msgstr "變動原因："
 
 #: content/apps/finance/templates/admin/account_points.dwt.php:93
 msgid "线下消费"
-msgstr ""
+msgstr "線下消費"
 
 #: content/apps/finance/templates/admin/account_points.dwt.php:94
 msgid "人工记录资金变动"
-msgstr ""
+msgstr "人工記錄資金變動"
 
 #: content/apps/finance/templates/admin/account_points.dwt.php:95
 msgid "线下门店已通过现金方式消费/充值"
-msgstr ""
+msgstr "線下門店已通過現金方式消費/充值"
 
 #: content/apps/finance/templates/admin/account_points.dwt.php:96
 msgid "退款资金返还用户账户余额"
-msgstr ""
+msgstr "退款資金返還用戶賬戶余額"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:17
 msgid "1、统计时间段内，商城积分概况；"
-msgstr ""
+msgstr "1、統計時間段內，商城積分概況；"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:17
 msgid "1、统计时间段内，商城余额概况；"
-msgstr ""
+msgstr "1、統計時間段內，商城余額概況；"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:33
 msgid "按年份查询："
-msgstr ""
+msgstr "按年份查詢："
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:41
 msgid "按月份查询："
-msgstr ""
+msgstr "按月份查詢："
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:44
 msgid "全年"
-msgstr ""
+msgstr "全年"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:49
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:56
 msgid "查询"
-msgstr ""
+msgstr "查詢"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:59
 msgid "积分统计"
-msgstr ""
+msgstr "積分統計"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:66
 msgid "用户下单使用积分抵消订单金额。"
-msgstr ""
+msgstr "用戶下單使用積分抵消訂單金額。"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:70
 msgid "总发放积分"
-msgstr ""
+msgstr "總發放積分"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:70
 msgid "管理员向用户发放的总积分数， 包括用户参与活动所获得的积分。"
-msgstr ""
+msgstr "管理員向用戶發放的總積分數， 包括用戶參與活動所獲得的積分。"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:77
 msgid "余额统计"
-msgstr ""
+msgstr "余額統計"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:80
 msgid "会员消费（元）"
-msgstr ""
+msgstr "會員消費（元）"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:84
 msgid "会员充值（元）"
-msgstr ""
+msgstr "會員充值（元）"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:88
 msgid "退款存入（元）"
-msgstr ""
+msgstr "退款存入（元）"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:92
 msgid "提现（元）"
-msgstr ""
+msgstr "提現（元）"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:96
 msgid "冻结（元）"
-msgstr ""
+msgstr "凍結（元）"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:96
 msgid "用户申请提现后，暂时还没有被审核。"
-msgstr ""
+msgstr "用戶申請提現後，暫時還沒有被審核。"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:100
 msgid "剩余总余额（元）"
-msgstr ""
+msgstr "剩余總余額（元）"
 
 #: content/apps/finance/templates/admin/admin_account_manage.dwt.php:111
 msgid "分布情况"
-msgstr ""
+msgstr "分布情況"
 
 #: content/apps/finance/templates/admin/admin_invoice_info.dwt.php:24
 msgid "发票信息"
-msgstr ""
+msgstr "發票信息"
 
 #: content/apps/finance/templates/admin/admin_invoice_info.dwt.php:33
 msgid "电话号码："
-msgstr ""
+msgstr "電話號碼："
 
 #: content/apps/finance/templates/admin/admin_invoice_info.dwt.php:37
 msgid "抬头类型："
-msgstr ""
+msgstr "擡頭類型："
 
 #: content/apps/finance/templates/admin/admin_invoice_info.dwt.php:38
 msgid "企业"
-msgstr ""
+msgstr "企業"
 
 #: content/apps/finance/templates/admin/admin_invoice_info.dwt.php:39
 msgid "抬头名称："
-msgstr ""
+msgstr "擡頭名稱："
 
 #: content/apps/finance/templates/admin/admin_invoice_info.dwt.php:43
 msgid "纳税人识别号："
-msgstr ""
+msgstr "納稅人識別號："
 
 #: content/apps/finance/templates/admin/admin_invoice_info.dwt.php:45
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:83
 msgid "状态："
-msgstr ""
+msgstr "狀態："
 
 #: content/apps/finance/templates/admin/admin_invoice_info.dwt.php:46
 msgid "审核通过"
-msgstr ""
+msgstr "審核通過"
 
 #: content/apps/finance/templates/admin/admin_invoice_info.dwt.php:49
 msgid "开户银行："
-msgstr ""
+msgstr "開戶銀行："
 
 #: content/apps/finance/templates/admin/admin_invoice_info.dwt.php:51
 msgid "银行账号："
-msgstr ""
+msgstr "銀行賬號："
 
 #: content/apps/finance/templates/admin/admin_invoice_info.dwt.php:55
 msgid "添加时间："
-msgstr ""
+msgstr "添加時間："
 
 #: content/apps/finance/templates/admin/admin_invoice_info.dwt.php:57
 msgid "更新时间："
-msgstr ""
+msgstr "更新時間："
 
 #: content/apps/finance/templates/admin/admin_invoice_info.dwt.php:61
 msgid "详细地址："
-msgstr ""
+msgstr "詳細地址："
 
 #: content/apps/finance/templates/admin/library/finance_admin_account_point_sheet.lbi.php:5
 msgid "积分变动明细"
-msgstr ""
+msgstr "積分變動明細"
 
 #: content/apps/finance/templates/admin/library/finance_admin_account_point_sheet.lbi.php:15
 #: content/apps/finance/templates/admin/library/finance_admin_account_money_sheet.lbi.php:15
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:75
 msgid "变动时间"
-msgstr ""
+msgstr "變動時間"
 
 #: content/apps/finance/templates/admin/library/finance_admin_account_point_sheet.lbi.php:16
 #: content/apps/finance/templates/admin/library/finance_admin_account_money_sheet.lbi.php:16
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:97
 #: content/apps/finance/templates/admin/admin_invoice_list.dwt.php:34
 msgid "会员名称"
-msgstr ""
+msgstr "會員名稱"
 
 #: content/apps/finance/templates/admin/library/finance_admin_account_point_sheet.lbi.php:17
 #: content/apps/finance/templates/admin/library/finance_admin_account_money_sheet.lbi.php:17
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:76
 msgid "变动原因"
-msgstr ""
+msgstr "變動原因"
 
 #: content/apps/finance/templates/admin/library/finance_admin_account_point_sheet.lbi.php:18
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:82
 msgid "积分变动"
-msgstr ""
+msgstr "積分變動"
 
 #: content/apps/finance/templates/admin/library/finance_admin_account_point_sheet.lbi.php:19
 #: content/apps/finance/templates/admin/library/finance_admin_account_money_sheet.lbi.php:20
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:87
 msgid "关联订单"
-msgstr ""
+msgstr "關聯訂單"
 
 #: content/apps/finance/templates/admin/library/finance_admin_account_point_sheet.lbi.php:41
 #: content/apps/finance/templates/admin/library/finance_admin_account_money_sheet.lbi.php:51
@@ -780,277 +787,277 @@ msgstr ""
 #: content/apps/finance/templates/admin/admin_invoice_list.dwt.php:61
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:140
 msgid "没有找到任何记录"
-msgstr ""
+msgstr "沒有找到任何記錄"
 
 #: content/apps/finance/templates/admin/library/finance_admin_account_money_sheet.lbi.php:5
 msgid "余额变动明细"
-msgstr ""
+msgstr "余額變動明細"
 
 #: content/apps/finance/templates/admin/library/finance_admin_account_money_sheet.lbi.php:18
 msgid "余额变动"
-msgstr ""
+msgstr "余額變動"
 
 #: content/apps/finance/templates/admin/library/finance_admin_account_money_sheet.lbi.php:19
 msgid "冻结余额"
-msgstr ""
+msgstr "凍結余額"
 
 #: content/apps/finance/templates/admin/user_surplus_list.dwt.php:22
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:81
 msgid "开始日期"
-msgstr ""
+msgstr "開始日期"
 
 #: content/apps/finance/templates/admin/user_surplus_list.dwt.php:23
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:82
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:55
 msgid "至"
-msgstr ""
+msgstr "至"
 
 #: content/apps/finance/templates/admin/user_surplus_list.dwt.php:24
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:83
 msgid "结束日期"
-msgstr ""
+msgstr "結束日期"
 
 #: content/apps/finance/templates/admin/user_surplus_list.dwt.php:25
 msgid "筛选"
-msgstr ""
+msgstr "篩選"
 
 #: content/apps/finance/templates/admin/user_surplus_list.dwt.php:28
 msgid "请输入会员名称或订单号"
-msgstr ""
+msgstr "請輸入會員名稱或訂單號"
 
 #: content/apps/finance/templates/admin/user_surplus_list.dwt.php:29
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:85
 #: content/apps/finance/templates/admin/admin_invoice_list.dwt.php:24
 msgid "搜索"
-msgstr ""
+msgstr "搜索"
 
 #: content/apps/finance/templates/admin/user_surplus_list.dwt.php:38
 msgid "会员名"
-msgstr ""
+msgstr "會員名"
 
 #: content/apps/finance/templates/admin/user_surplus_list.dwt.php:39
 msgid "订单号"
-msgstr ""
+msgstr "訂單號"
 
 #: content/apps/finance/templates/admin/user_surplus_list.dwt.php:40
 msgid "使用余额"
-msgstr ""
+msgstr "使用余額"
 
 #: content/apps/finance/templates/admin/user_surplus_list.dwt.php:41
 msgid "积分使用余额"
-msgstr ""
+msgstr "積分使用余額"
 
 #: content/apps/finance/templates/admin/user_surplus_list.dwt.php:42
 msgid "订单时间"
-msgstr ""
+msgstr "訂單時間"
 
 #: content/apps/finance/templates/admin/user_surplus_list.dwt.php:43
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:102
 #: content/apps/finance/templates/admin/admin_invoice_list.dwt.php:40
 msgid "操作"
-msgstr ""
+msgstr "操作"
 
 #: content/apps/finance/templates/admin/user_surplus_list.dwt.php:49
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:104
 msgid "匿名会员"
-msgstr ""
+msgstr "匿名會員"
 
 #: content/apps/finance/templates/admin/user_surplus_list.dwt.php:55
 msgid "查看订单"
-msgstr ""
+msgstr "查看訂單"
 
 #: content/apps/finance/templates/admin/user_surplus_list.dwt.php:55
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:130
 msgid "查看"
-msgstr ""
+msgstr "查看"
 
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:16
 msgid "导出Excel"
-msgstr ""
+msgstr "导出Excel"
 
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:63
 msgid "批量操作"
-msgstr ""
+msgstr "批量操作"
 
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:67
 msgid "已完成的申请无法被删除，你确定要删除选中的列表吗？"
-msgstr ""
+msgstr "已完成的申請無法被刪除，你確定要刪除選中的列表嗎？"
 
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:67
 msgid "请选中要操作的项"
-msgstr ""
+msgstr "請選中要操作的項"
 
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:67
 msgid "批量删除"
-msgstr ""
+msgstr "批量刪除"
 
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:73
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:99
 msgid "充值方式"
-msgstr ""
+msgstr "充值方式"
 
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:80
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:119
 msgid "申请时间："
-msgstr ""
+msgstr "申請時間："
 
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:84
 msgid "请输入会员手机号或名称等关键字"
-msgstr ""
+msgstr "請輸入會員手機號或名稱等關鍵字"
 
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:96
 msgid "订单编号"
-msgstr ""
+msgstr "訂單編號"
 
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:98
 msgid "充值金额"
-msgstr ""
+msgstr "充值金額"
 
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:100
 msgid "申请时间"
-msgstr ""
+msgstr "申請時間"
 
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:101
 msgid "处理状态"
-msgstr ""
+msgstr "處理狀態"
 
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:118
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:117
 msgid "银行转账"
-msgstr ""
+msgstr "銀行轉賬"
 
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:132
 msgid "您确定要删除充值提现记录吗？"
-msgstr ""
+msgstr "您確定要刪除充值提現記錄嗎？"
 
 #: content/apps/finance/templates/admin/admin_account_list.dwt.php:132
 msgid "删除"
-msgstr ""
+msgstr "刪除"
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:29
 msgid "已确认"
-msgstr ""
+msgstr "已確認"
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:42
 msgid "已付款"
-msgstr ""
+msgstr "已付款"
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:44
 msgid "未付款"
-msgstr ""
+msgstr "未付款"
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:57
 msgid "未完成"
-msgstr ""
+msgstr "未完成"
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:71
 msgid "订单信息"
-msgstr ""
+msgstr "訂單信息"
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:79
 msgid "订单编号："
-msgstr ""
+msgstr "訂單編號："
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:108
 msgid "充值金额："
-msgstr ""
+msgstr "充值金額："
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:137
 msgid "订单操作"
-msgstr ""
+msgstr "訂單操作"
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:146
 msgid "备注信息："
-msgstr ""
+msgstr "備註信息："
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:149
 msgid "请输入审核备注信息"
-msgstr ""
+msgstr "請輸入審核備註信息"
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:155
 msgid "操作："
-msgstr ""
+msgstr "操作："
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:161
 msgid "同意"
-msgstr ""
+msgstr "同意"
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:162
 msgid "取消"
-msgstr ""
+msgstr "取消"
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:177
 msgid "平台审核操作"
-msgstr ""
+msgstr "平臺審核操作"
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:185
 msgid "操作人："
-msgstr ""
+msgstr "操作人："
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:189
 msgid "审核时间："
-msgstr ""
+msgstr "審核時間："
 
 #: content/apps/finance/templates/admin/admin_account_info.dwt.php:195
 msgid "审核备注："
-msgstr ""
+msgstr "審核備註："
 
 #: content/apps/finance/templates/admin/admin_invoice_list.dwt.php:23
 msgid "请输入发票抬头关键字"
-msgstr ""
+msgstr "請輸入發票擡頭關鍵字"
 
 #: content/apps/finance/templates/admin/admin_invoice_list.dwt.php:35
 msgid "抬头名称"
-msgstr ""
+msgstr "擡頭名稱"
 
 #: content/apps/finance/templates/admin/admin_invoice_list.dwt.php:36
 msgid "抬头类型"
-msgstr ""
+msgstr "擡頭類型"
 
 #: content/apps/finance/templates/admin/admin_invoice_list.dwt.php:37
 msgid "纳税人识别号"
-msgstr ""
+msgstr "納稅人識別號"
 
 #: content/apps/finance/templates/admin/admin_invoice_list.dwt.php:38
 msgid "电话号码"
-msgstr ""
+msgstr "電話號碼"
 
 #: content/apps/finance/templates/admin/admin_invoice_list.dwt.php:39
 msgid "添加时间"
-msgstr ""
+msgstr "添加時間"
 
 #: content/apps/finance/templates/admin/admin_invoice_list.dwt.php:56
 msgid "详细信息"
-msgstr ""
+msgstr "詳細信息"
 
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:40
 msgid "当前账户可用余额："
-msgstr ""
+msgstr "當前賬戶可用余額："
 
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:41
 msgid "冻结资金："
-msgstr ""
+msgstr "凍結資金："
 
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:54
 msgid "选择日期："
-msgstr ""
+msgstr "選擇日期："
 
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:55
 msgid "请选择开始时间"
-msgstr ""
+msgstr "請選擇開始時間"
 
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:56
 msgid "请选择结束时间"
-msgstr ""
+msgstr "請選擇結束時間"
 
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:79
 msgid "资金变动"
-msgstr ""
+msgstr "資金變動"
 
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:80
 msgid "冻结资金"
-msgstr ""
+msgstr "凍結資金"
 
 #: content/apps/finance/templates/admin/account_log_list.dwt.php:84
 msgid "成长值变动"
-msgstr ""
+msgstr "成長值變動"

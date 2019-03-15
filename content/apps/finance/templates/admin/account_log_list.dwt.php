@@ -15,19 +15,19 @@
 	<a href="{$back_link.href}" class="btn plus_or_reply"><i class="fontello-icon-reply"></i>{$back_link.text}</a>
 
 	<!--{if $link2}-->
-	<a href="{$link2.href}" class="btn plus_or_reply {if $link2.pjax}data-pjax{/if}" {if !$link2.pjax}target="__blank" {/if}> <i class="{$link2.i}"></i>{$link2.text}</a>
+	<a href="{$link2.href}" class="btn plus_or_reply {if $link2.pjax}data-pjax{/if}" {if !$link2.pjax}target="_blank" {/if}> <i class="{$link2.i}"></i>{$link2.text}</a>
 	<!--{/if}-->
 
 	<!--{if $link1}-->
-	<a href="{$link1.href}" class="btn plus_or_reply {if $link1.pjax}data-pjax{/if}" {if !$link1.pjax}target="__blank" {/if}> <i class="{$link1.i}"></i>{$link1.text}</a>
+	<a href="{$link1.href}" class="btn plus_or_reply {if $link1.pjax}data-pjax{/if}" {if !$link1.pjax}target="_blank" {/if}> <i class="{$link1.i}"></i>{$link1.text}</a>
 	<!--{/if}-->
 
 	<!--{if $link4}-->
-	<a href="{$link4.href}" class="btn plus_or_reply {if $link4.pjax}data-pjax{/if}" {if !$link4.pjax}target="__blank" {/if}> <i class="{$link4.i}"></i>{$link4.text}</a>
+	<a href="{$link4.href}" class="btn plus_or_reply {if $link4.pjax}data-pjax{/if}" {if !$link4.pjax}target="_blank" {/if}> <i class="{$link4.i}"></i>{$link4.text}</a>
 	<!--{/if}-->
 
 	<!--{if $link3}-->
-	<a href="{$link3.href}" class="btn plus_or_reply {if $link3.pjax}data-pjax{/if}" {if !$link3.pjax}target="__blank" {/if}> <i class="{$link3.i}"></i>{$link3.text}</a>
+	<a href="{$link3.href}" class="btn plus_or_reply {if $link3.pjax}data-pjax{/if}" {if !$link3.pjax}target="_blank" {/if}> <i class="{$link3.i}"></i>{$link3.text}</a>
 	<!--{/if}-->
 
 </h3>
@@ -133,7 +133,7 @@
 					</td>
 					{/if}
 
-					<td><a href="{RC_Uri::url('orders/admin/info')}&order_sn={$account.from_value}" target="__blank">{$account.from_value}</td>
+					<td><a href="{RC_Uri::url('orders/admin/info')}&order_sn={$account.from_value}" target="_blank">{$account.from_value}</td>
 				</tr>
 				<!-- {foreachelse} -->
 				<tr>

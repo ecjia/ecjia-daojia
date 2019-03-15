@@ -34,7 +34,7 @@
                         {$val.rank_points}
                         <!-- {/if} -->
                     </td>
-                    <td><a href="{RC_Uri::url('orders/admin/info')}&order_sn={$val.from_value}" target="__blank">{$val.from_value}</td>
+                    <td><a href="{RC_Uri::url('orders/admin/info')}&order_sn={$val.from_value}" target="_blank">{$val.from_value}</td>
                 </tr>
                 <!-- {foreachelse}-->
                 <tr>
