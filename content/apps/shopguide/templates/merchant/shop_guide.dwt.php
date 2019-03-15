@@ -283,7 +283,7 @@
 							<div class="template-head">
 								<div class="head-left">{$list.shipping_area_name}</div>
 								<div class="head-right">
-									<a target="__blank" href='{RC_Uri::url("shipping/mh_shipping/edit_shipping_template")}&template_name={$list.shipping_area_name}'>{t domain="shopguide"}查看详情{/t}</a> &nbsp;|&nbsp;
+									<a target="_blank" href='{RC_Uri::url("shipping/mh_shipping/edit_shipping_template")}&template_name={$list.shipping_area_name}'>{t domain="shopguide"}查看详情{/t}</a> &nbsp;|&nbsp;
 									<a data-toggle="ajaxremove" class="ajaxremove ecjiafc-red" data-msg='{t domain="shopguide"}您确定要删除该运费模板吗？{/t}' href='{RC_Uri::url("shipping/mh_shipping/remove_shipping_template", "name={$list.shipping_area_name}")}' title='{t domain="shopguide"}删除{/t}'>{t domain="shopguide"}删除{/t}</a>
 								</div>
 							</div>
@@ -303,7 +303,7 @@
 							</div>
 						</div>
 						<!-- {/foreach} -->
-						<a target="__blank" href="{RC_Uri::url('shipping/mh_shipping/add_shipping_template')}">
+						<a target="_blank" href="{RC_Uri::url('shipping/mh_shipping/add_shipping_template')}">
 						<li class="step-li">{t domain="shopguide"}添加运费模板{/t}</li>
 						</a>
 					</ul>

@@ -74,9 +74,9 @@ class merchant extends ecjia_merchant
 
         // 时间区间
         RC_Style::enqueue_style('range', RC_App::apps_url('statics/css/range.css', __FILE__), array());
-        RC_Script::enqueue_script('jquery-range', RC_App::apps_url('statics/mh-js/jquery.range.js', __FILE__), array(), false, true);
-        RC_Script::enqueue_script('shopguide', RC_App::apps_url('statics/mh-js/shopguide.js', __FILE__), array(), false, false);
-        RC_Script::enqueue_script('migrate', RC_App::apps_url('statics/mh-js/migrate.js', __FILE__), array(), false, true);
+        RC_Script::enqueue_script('jquery-range', RC_App::apps_url('statics/mh-js/jquery.range.js', __FILE__), array(), false, 1);
+        RC_Script::enqueue_script('shopguide', RC_App::apps_url('statics/mh-js/shopguide.js', __FILE__), array(), false, 1);
+        RC_Script::enqueue_script('migrate', RC_App::apps_url('statics/mh-js/migrate.js', __FILE__), array(), false, 1);
         RC_Style::enqueue_style('shopguide', RC_App::apps_url('statics/mh-css/shopguide.css', __FILE__), array());
 
         RC_Script::localize_script('shopguide', 'js_lang', config('app-shopguide::jslang.shopguide_page'));

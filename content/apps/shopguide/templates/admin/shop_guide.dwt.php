@@ -146,27 +146,27 @@
 				<h2>{t domain="shopguide"}配送信息{/t}<span class="color_838383 m_l10">{t domain="shopguide"}可开启配送方式，启用之后，点击配送方式可设置配送区域，配送方式可设置多个。此项非必填项，您可选择暂时跳过此步骤。{/t}</span></h2>
 				<ul class="step-ul">
 					<!-- {foreach from=$shipping_list item=val} -->
-					<a target="__blank" href="{RC_Uri::url('shipping/admin_area_plugin/init')}&shipping_id={$val.shipping_id}&code={$val.shipping_code}">
+					<a target="_blank" href="{RC_Uri::url('shipping/admin_plugin/init')}&shipping_id={$val.shipping_id}&code={$val.shipping_code}">
 						<li class="step-li color_fff">{$val.shipping_name}
 							{if $val.enabled eq 1}<image class="check" src="{$app_url}/check.png" />{/if}
 						</li>
 					</a>
 					<!-- {/foreach} -->
-					<a target="__blank" href="{RC_Uri::url('shipping/admin_plugin/init')}"><li class="step-li">{t domain="shopguide"}安装配送方式{/t}</li></a>
+					<a target="_blank" href="{RC_Uri::url('shipping/admin_plugin/init')}"><li class="step-li">{t domain="shopguide"}安装配送方式{/t}</li></a>
 				</ul>
 				<div class="color_838383 m_b20">{t domain="shopguide"}温馨提示：配送方式安装完成后，请刷新此页面查看安装后效果。{/t}</div>
 				
 				<h2>{t domain="shopguide"}支付方式{/t}<span class="color_838383 m_l10">{t domain="shopguide"}可开启支付方式，启用之后，点击支付方式可设置支付方式信息，配送方式可设置多个。此项非必填项，您可选择暂时跳过此步骤。{/t}</span></h2>
 				<ul class="step-ul">
 					<!-- {foreach from=$payment_list item=val} -->
-					<a target="__blank" href="{RC_Uri::url('payment/admin_plugin/edit')}&code={$val.pay_code}">
+					<a target="_blank" href="{RC_Uri::url('payment/admin_plugin/edit')}&code={$val.pay_code}">
 						<li class="step-li color_fff">
 							{$val.pay_name}
 							{if $val.enabled eq 1}<image class="check" src="{$app_url}/check.png" />{/if}
 						</li>
 					</a>
 					<!-- {/foreach} -->
-					<a target="__blank" href="{RC_Uri::url('payment/admin_plugin/init')}"><li class="step-li">{t domain="shopguide"}安装支付方式{/t}</li></a>
+					<a target="_blank" href="{RC_Uri::url('payment/admin_plugin/init')}"><li class="step-li">{t domain="shopguide"}安装支付方式{/t}</li></a>
 				</ul>
 				<div class="color_838383 m_b20">{t domain="shopguide"}温馨提示：支付方式安装完成后，请刷新此页面查看安装后效果。{/t}</div>
 				

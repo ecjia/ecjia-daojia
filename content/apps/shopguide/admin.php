@@ -76,7 +76,7 @@ class admin extends ecjia_admin
         RC_Script::enqueue_script('bootstrap-placeholder', RC_Uri::admin_url('statics/lib/dropper-upload/bootstrap-placeholder.js'), array(), false, true);
         RC_Script::enqueue_script('jquery-dropper', RC_Uri::admin_url('/statics/lib/dropper-upload/jquery.fs.dropper.js'), array(), false, true);
 
-        RC_Script::enqueue_script('shopguide', RC_App::apps_url('statics/js/shopguide.js', __FILE__), array(), false, false);
+        RC_Script::enqueue_script('shopguide', RC_App::apps_url('statics/js/shopguide.js', __FILE__), array(), false, 1);
         RC_Style::enqueue_style('shopguide', RC_App::apps_url('statics/css/shopguide.css', __FILE__), array());
 
         RC_Script::localize_script('shopguide', 'js_lang', config('app-shopguide::jslang.shopguide_page'));
