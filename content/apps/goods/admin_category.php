@@ -55,10 +55,6 @@ class admin_category extends ecjia_admin {
 		
 		ini_set('memory_limit', -1);
 		
-		RC_Loader::load_app_func('admin_goods');
-		RC_Loader::load_app_func('admin_category');
-		RC_Loader::load_app_func('global');
-		
 		RC_Script::enqueue_script('jquery-chosen');
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');
@@ -68,15 +64,19 @@ class admin_category extends ecjia_admin {
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Script::enqueue_script('bootstrap-placeholder');
 		RC_Style::enqueue_style('uniform-aristo');
-		RC_Script::enqueue_script('bootstrap-editable-script', RC_Uri::admin_url() . '/statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js', array(), false, true);
+		RC_Script::enqueue_script('bootstrap-editable-script', RC_Uri::admin_url() . '/statics/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js', array(), false, 1);
 		RC_Style::enqueue_style('bootstrap-editable-css', RC_Uri::admin_url() . '/statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css');
 		// RC_Script::enqueue_script('ecjia-common');
 		
-		RC_Script::enqueue_script('goods_category_list', RC_App::apps_url('statics/js/goods_category_list.js',__FILE__), array());
+		RC_Script::enqueue_script('goods_category_list', RC_App::apps_url('statics/js/goods_category_list.js',__FILE__), array(), false, 1);
 		RC_Script::localize_script('goods_category_list', 'js_lang', config('app-goods::jslang.category_page'));
 		RC_Style::enqueue_style('goods_category', RC_App::apps_url('statics/styles/goods_category.css', __FILE__), array());
 
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品分类', 'goods'), RC_Uri::url('goods/admin_category/init')));
+
+        RC_Loader::load_app_func('admin_goods');
+        RC_Loader::load_app_func('admin_category');
+        RC_Loader::load_app_func('global');
 	}
 
 	/**

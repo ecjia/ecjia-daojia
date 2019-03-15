@@ -1544,14 +1544,15 @@ function check_goods_attr_exist($goods_attr, $goods_id, $product_id = 0) {
  * 创建像这样的查询: "IN('a','b')";
  *
  * @access public
- * @param mix $item_list
- *        	列表数组或字符串
- * @param string $field_name
- *        	字段名称
+ * @param mixed $item_list 列表数组或字符串
+ * @param string $field_name 字段名称
+ * @deprecated 1.29.0
  *
- * @return void
+ * @return
  */
 function db_create_in($item_list, $field_name = '') {
+    _deprecated_function( __FUNCTION__, '1.29.0', 'ecjia_db_create_in' );
+
 	if (empty ( $item_list )) {
 		return $field_name . " IN ('') ";
 	} else {

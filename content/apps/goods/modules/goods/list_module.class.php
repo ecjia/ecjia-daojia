@@ -190,6 +190,7 @@ class goods_list_module extends api_front implements api_interface {
                         'seller_id'                 => $val['store_id'],
                         'seller_name'               => $val['store_name'],
                         'store_logo'                => $val['store_logo'],
+                    	'manage_mode'				=> $val['manage_mode'],
                     );
                 }
             }

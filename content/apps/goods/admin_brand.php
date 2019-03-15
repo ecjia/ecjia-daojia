@@ -61,7 +61,7 @@ class admin_brand extends ecjia_admin {
 		RC_Script::enqueue_script('smoke');
 		RC_Script::enqueue_script('jquery-uniform');
 		RC_Style::enqueue_style('uniform-aristo');
-		RC_Script::enqueue_script('goods_brand', RC_Uri::home_url('content/apps/goods/statics/js/goods_brand.js'), array());
+		RC_Script::enqueue_script('goods_brand', RC_Uri::home_url('content/apps/goods/statics/js/goods_brand.js'), array(), false, 1);
         RC_Script::localize_script('goods_brand', 'js_lang', config('app-goods::jslang.brand_page'));
 		
 		RC_Loader::load_app_class('goods_brand', 'goods', false);
@@ -231,8 +231,8 @@ class admin_brand extends ecjia_admin {
 
 	    $id         = !empty($_POST['id'])    		? intval($_POST['id'])                         	: 0;
 		$brand_name = !empty($_POST['brand_name'])	? htmlspecialchars($_POST['brand_name'])		: '';
-		$site_url 	= !empty($_POST['site_url'])	? RC_Format::sanitize_url( $_POST['site_url'] ) : '';
-		$brand_desc = !empty($_POST['brand_desc'])  ? $_POST['brand_desc']							: '';
+		$site_url 	= !empty($_POST['site_url'])	? trim($_POST['site_url'])                      : '';
+		$brand_desc = !empty($_POST['brand_desc'])  ? trim($_POST['brand_desc'])				    : '';
 		$sort_order = !empty($_POST['sort_order'])	? intval($_POST['sort_order'])					: 0;
 		$is_show 	= isset($_REQUEST['is_show']) 	? intval($_REQUEST['is_show'])					: 0;
 	    
@@ -272,6 +272,12 @@ class admin_brand extends ecjia_admin {
 			/* 如果没有修改图片字段，则图片为之前的图片*/
 			$brand_logo = $old_logo;
 		}
+
+		if(!empty($site_url)) {
+            if (strpos( $site_url, 'http://' ) === false && strpos( $site_url, 'https://' ) === false) {
+                $site_url = 'http://' . $site_url;
+            }
+        }
 
 		/* 更新信息 */
 		$data = array(

@@ -66,22 +66,13 @@ class goods_detail_module extends api_front implements api_interface {
         RC_Loader::load_app_class('groupbuy_activity', 'groupbuy', false);
         
         $object_id = $this->requestData('goods_activity_id', 0);
+        
+        //判断商品是否是团购商品
+        $is_groupbuy = 0;
         if (empty($object_id)) {
         	$is_groupbuy_result = groupbuy_activity::is_groupbuy_goods($goods_id);
         	if (!empty($is_groupbuy_result)) {
         		$object_id = $is_groupbuy_result['act_id'];
-        	}
-        }
-        
-        //判断商品是否是团购商品
-        $is_groupbuy = 0;
-        if (!empty($object_id)) {
-        	$group_goods_activity_info = RC_DB::table('goods_activity')
-        									->where('goods_id', $goods_id)
-        									->where('start_time', '<=', RC_Time::gmtime())
-        									->where('end_time', '>=', RC_Time::gmtime())
-        									->where('act_type', GAT_GROUP_BUY)->first(); 
-        	if (!empty($group_goods_activity_info)) {
         		$is_groupbuy = 1;
         	}
         }
@@ -128,8 +119,8 @@ class goods_detail_module extends api_front implements api_interface {
         if ($goods === false) {
            return new ecjia_error('does_not_exist', __('不存在的信息', 'goods'));
         } 
-        //判断促销是否过期
-        if($goods['is_promote'] && $goods['promote_end_date'] > RC_Time::gmtime()) {
+        //判断促销是否过期或者商品是团购商品时，重新获取商品信息
+        if($goods['is_promote'] && $goods['promote_end_date'] > RC_Time::gmtime() || !empty($rec_type)) {
             $orm_goods_db->delete_cache_item($cache_basic_info_id);
             $goods = get_goods_info($goods_id);
             $orm_goods_db->set_cache_item($cache_basic_info_id, $goods);
@@ -175,9 +166,15 @@ class goods_detail_module extends api_front implements api_interface {
         $cache_user_rank_prices_id = sprintf('%X', crc32($cache_goods_user_rank_prices_key));
         $orm_member_price_db = RC_Model::model('goods/orm_member_price_model');
         $user_rank_prices = $orm_member_price_db->get_cache_item($cache_user_rank_prices_id);
+        
         if (empty($user_rank_prices)) {
         	$user_rank_prices = $this->get_user_rank_prices($goods_id, $shop_price);
         	$orm_member_price_db->set_cache_item($cache_user_rank_prices_id, $user_rank_prices);      	
+        }
+        //商品是团购时，重新获取会员等级价格
+        if (!empty($rec_type)) {
+        	$user_rank_prices = $this->get_user_rank_prices($goods_id, $shop_price);
+        	$orm_member_price_db->set_cache_item($cache_user_rank_prices_id, $user_rank_prices);
         }
         
         /*给商品的相册增加缓存*/
@@ -284,8 +281,7 @@ class goods_detail_module extends api_front implements api_interface {
         	}
         }
         
-        $groupbuy_info = [];
-
+        $groupbuy_info = [];        
         if ($rec_type == 'GROUPBUY_GOODS') {
         	/* 取得团购活动信息 */
         	$data['promote_price'] 			= $group_buy['cur_price'];
@@ -307,8 +303,6 @@ class goods_detail_module extends api_front implements api_interface {
         	/* 判断是否有促销价格*/
         	$price = ($data['unformatted_shop_price'] > $goods['promote_price_org'] && $goods['promote_price_org'] > 0) ? $goods['promote_price_org'] : $data['unformatted_shop_price'];
         	$activity_type = ($data['unformatted_shop_price'] > $goods['promote_price_org'] && $goods['promote_price_org'] > 0) ? 'PROMOTE_GOODS' : 'GENERAL_GOODS';
-			
-
         }
         $data['groupbuy_info'] = $groupbuy_info;
 
