@@ -21,7 +21,13 @@
     "autoload": {
         "psr-4": {
             "Royalcms\\Component\\Foundation\\": "Royalcms/Component/Foundation"
-        }
+        },
+        "files": [
+            "Royalcms/Component/Foundation/Helpers/royalcms-const.php",
+            "Royalcms/Component/Foundation/Helpers/royalcms-helpers.php",
+            "Royalcms/Component/Foundation/Helpers/foundation-helpers.php",
+            "Royalcms/Component/Foundation/Helpers/compatible.php"
+        ]
     },
     "extra": {
         "branch-alias": {
