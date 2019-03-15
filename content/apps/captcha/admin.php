@@ -97,23 +97,23 @@ class admin extends ecjia_admin {
 
 		$captcha = intval(ecjia::config('captcha'));
 		$captcha_check = array();
-		if ($captcha & CAPTCHA_REGISTER) {
+		if ($captcha & \Ecjia\App\Captcha\Enums\CaptchaEnum::CAPTCHA_REGISTER) {
 			$captcha_check['register'] = 'checked="checked"';
 		}
-		if ($captcha & CAPTCHA_LOGIN) {
+		if ($captcha & \Ecjia\App\Captcha\Enums\CaptchaEnum::CAPTCHA_LOGIN) {
 			$captcha_check['login'] = 'checked="checked"';
 		}
-		if ($captcha & CAPTCHA_COMMENT) {
+		if ($captcha & \Ecjia\App\Captcha\Enums\CaptchaEnum::CAPTCHA_COMMENT) {
 			$captcha_check['comment'] = 'checked="checked"';
 		}
-		if ($captcha & CAPTCHA_ADMIN) {
+		if ($captcha & \Ecjia\App\Captcha\Enums\CaptchaEnum::CAPTCHA_ADMIN) {
 			$captcha_check['admin'] = 'checked="checked"';
 		}
-		if ($captcha & CAPTCHA_MESSAGE) {
+		if ($captcha & \Ecjia\App\Captcha\Enums\CaptchaEnum::CAPTCHA_MESSAGE) {
 			$captcha_check['message'] = 'checked="checked"';
 		}
 
-		if ($captcha & CAPTCHA_LOGIN_FAIL) {
+		if ($captcha & \Ecjia\App\Captcha\Enums\CaptchaEnum::CAPTCHA_LOGIN_FAIL) {
 			$captcha_check['login_fail_yes'] = 'checked="checked"';
 		} else {
 			$captcha_check['login_fail_no'] = 'checked="checked"';
@@ -144,13 +144,13 @@ class admin extends ecjia_admin {
 		}
 
 		$captcha = 0;
-		$captcha = empty($_POST['captcha_register'])    ? $captcha : $captcha | CAPTCHA_REGISTER;
-		$captcha = empty($_POST['captcha_login'])       ? $captcha : $captcha | CAPTCHA_LOGIN;
-		$captcha = empty($_POST['captcha_comment'])     ? $captcha : $captcha | CAPTCHA_COMMENT;
-		$captcha = empty($_POST['captcha_tag'])         ? $captcha : $captcha | CAPTCHA_TAG;
-		$captcha = empty($_POST['captcha_admin'])       ? $captcha : $captcha | CAPTCHA_ADMIN;
-		$captcha = empty($_POST['captcha_login_fail'])  ? $captcha : $captcha | CAPTCHA_LOGIN_FAIL;
-		$captcha = empty($_POST['captcha_message'])     ? $captcha : $captcha | CAPTCHA_MESSAGE;
+		$captcha = empty($_POST['captcha_register'])    ? $captcha : $captcha | \Ecjia\App\Captcha\Enums\CaptchaEnum::CAPTCHA_REGISTER;
+		$captcha = empty($_POST['captcha_login'])       ? $captcha : $captcha | \Ecjia\App\Captcha\Enums\CaptchaEnum::CAPTCHA_LOGIN;
+		$captcha = empty($_POST['captcha_comment'])     ? $captcha : $captcha | \Ecjia\App\Captcha\Enums\CaptchaEnum::CAPTCHA_COMMENT;
+		$captcha = empty($_POST['captcha_tag'])         ? $captcha : $captcha | \Ecjia\App\Captcha\Enums\CaptchaEnum::CAPTCHA_TAG;
+		$captcha = empty($_POST['captcha_admin'])       ? $captcha : $captcha | \Ecjia\App\Captcha\Enums\CaptchaEnum::CAPTCHA_ADMIN;
+		$captcha = empty($_POST['captcha_login_fail'])  ? $captcha : $captcha | \Ecjia\App\Captcha\Enums\CaptchaEnum::CAPTCHA_LOGIN_FAIL;
+		$captcha = empty($_POST['captcha_message'])     ? $captcha : $captcha | \Ecjia\App\Captcha\Enums\CaptchaEnum::CAPTCHA_MESSAGE;
 
 		$captcha_width = empty($_POST['captcha_width'])     ? 145 : intval($_POST['captcha_width']);
 		$captcha_height = empty($_POST['captcha_height'])   ? 20 : intval($_POST['captcha_height']);

@@ -52,7 +52,7 @@ class captcha_admin_plugin {
 	
 	public static function admin_login_captcha() {
 		if (ecjia_config::has('captcha_style') && 
-			(intval(ecjia::config('captcha')) & CAPTCHA_ADMIN) && 
+			(intval(ecjia::config('captcha')) & \Ecjia\App\Captcha\Enums\CaptchaEnum::CAPTCHA_ADMIN) &&
 			RC_ENV::gd_version() > 0) {
 			$captcha = RC_Loader::load_app_class('captcha_method', 'captcha');
 			if ($captcha->check_activation_captcha()) {
@@ -139,7 +139,7 @@ EOF;
 	public static function admin_login_validate($args) {
 		if (ecjia_config::has('captcha_style') && 
 			!empty($_SESSION['captcha_word']) && 
-			(intval(ecjia::config('captcha')) & CAPTCHA_ADMIN)) {
+			(intval(ecjia::config('captcha')) & \Ecjia\App\Captcha\Enums\CaptchaEnum::CAPTCHA_ADMIN)) {
 			/* 检查验证码是否正确 */
 			RC_Loader::load_app_class('captcha_factory', 'captcha', false);
 			$validator = new captcha_factory(ecjia::config('captcha_style'));
