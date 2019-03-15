@@ -89,7 +89,7 @@
 										{if $key eq 0}
 									    <div class="article">
 									        <div class="cover">
-									            <a target="__blank" href="{$val.url}">
+									            <a target="_blank" href="{$val.url}">
 									                <img src="{$val.picurl}" />
 									            </a>
 									            <span>{$val.title}</span>
@@ -98,7 +98,7 @@
 									    {else}
 									    <div class="article_list">
 									        <div class="f_l">{$val.title}</div>
-									        <a target="__blank" href="{$val.url}">
+									        <a target="_blank" href="{$val.url}">
 									            <img src="{$val.picurl}" class="pull-right" />
 									        </a>
 									    </div>

@@ -51,7 +51,7 @@
 				{if $action_link}
 					<a class="btn btn-outline-primary data-pjax float-right" href="{$action_link.href}" id="sticky_a"><i class="ft-plus"></i>{$action_link.text}</a>
 				{/if}
-					<a class="btn btn-outline-primary float-right m_r10" href="https://mpkf.weixin.qq.com/" target="__blank"><i class="ft-link"></i>{t domain="wechat"}去微信客服中心{/t}</a>
+					<a class="btn btn-outline-primary float-right m_r10" href="https://mpkf.weixin.qq.com/" target="_blank"><i class="ft-link"></i>{t domain="wechat"}去微信客服中心{/t}</a>
                 </h4>
             </div>
 			<div class="card-body">

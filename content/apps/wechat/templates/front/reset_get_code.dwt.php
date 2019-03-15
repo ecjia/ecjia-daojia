@@ -6,7 +6,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <head lang="zh-CN">
         <title>{t domain="wechat"}重设密码{/t}</title>
-        {ecjia:hook id=front_head}
+        {ecjia:hook id=front_enqueue_scripts}
+        {ecjia:hook id=front_print_styles}
+        {ecjia:hook id=front_print_scripts}
     </head>
 
     <header class="ecjia-header">

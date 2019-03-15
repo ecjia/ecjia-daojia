@@ -70,7 +70,7 @@
 						
 						<!-- {foreach from=$list.item item=val} -->
 						<tr>
-							<td><a href="{RC_Uri::url('wechat/platform_subscribe/init')}&tag_id={$val.tag_id}" target="__blank">{$val.name}</a></td>
+							<td><a href="{RC_Uri::url('wechat/platform_subscribe/init')}&tag_id={$val.tag_id}" target="_blank">{$val.name}</a></td>
 							<td>{$val.count}</td>
 							<td>
 								{if $val['tag_id'] != 0  && $val['tag_id'] != 1 && $val['tag_id'] != 2}

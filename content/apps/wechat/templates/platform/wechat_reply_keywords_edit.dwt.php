@@ -95,7 +95,7 @@
 													<li class="thumbnail move-mod-group big grid-item">
 													    <div class="article">
 													        <div class="cover">
-													            <a target="__blank" href="javascript:;">
+													            <a target="_blank" href="javascript:;">
 													                <img src="{$data.media.file}" />
 													            </a>
 													            <span>{$data.media.title}</span>
@@ -108,7 +108,7 @@
 													    <!-- {foreach from=$data.child key=key item=val} -->
 													    <div class="article_list">
 													        <div class="f_l">{if $val.title}{$val.title}{else}{t domain="wechat"}无标题{/t}{/if}</div>
-													        <a target="__blank" href="javascript:;">
+													        <a target="_blank" href="javascript:;">
 													            <img src="{$val.file}" class="pull-right" />
 													        </a>
 													    </div>

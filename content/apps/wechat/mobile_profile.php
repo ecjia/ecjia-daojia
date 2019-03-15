@@ -58,7 +58,6 @@ class mobile_profile extends EcjiaWechatUserController
         $this->assign('front_url', RC_App::apps_url('statics/front', __FILE__));
         $this->assign('system_statics_url', RC_Uri::admin_url('statics'));
 
-        $this->load_default_script_style();
     }
 
     public function init()
@@ -192,26 +191,6 @@ class mobile_profile extends EcjiaWechatUserController
         } else {
             return ecjia_front::$controller->showmessage(__('请输入正确的手机校验码', 'wechat'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-    }
-
-    public function front_print_styles()
-    {
-        ecjia_loader::print_admin_styles();
-    }
-
-    public function front_print_head_scripts()
-    {
-        ecjia_loader::print_head_scripts();
-    }
-
-    public function front_print_footer_scripts()
-    {
-        ecjia_loader::_admin_footer_scripts();
-    }
-
-    public function _front_footer_scripts()
-    {
-        ecjia_loader::_admin_footer_scripts();
     }
 
     protected function load_default_script_style()

@@ -12,7 +12,7 @@
                     <div class="attachment-preview">
                         <div class="ecj-thumbnail">
                             <div class="centered">
-                                <a target="__blank" href="{$val.file}" title="{$val.file_name}">
+                                <a target="_blank" href="{$val.file}" title="{$val.file_name}">
                                     <img src="{$val.file}" />
                                 </a>
                             </div>

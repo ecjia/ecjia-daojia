@@ -56,9 +56,6 @@ class wechat_platform_purview_api extends Component_Event_Api
     public function call(&$options)
     {
         $purviews = array(
-            array('action_name' => __('授权登录', 'wechat'), 'action_code' => 'wechat_oauth_manage', 'relevance' => ''),
-            array('action_name' => __('编辑授权登录', 'wechat'), 'action_code' => 'wechat_oauth_update', 'relevance' => ''),
-
             array('action_name' => __('自动回复管理', 'wechat'), 'action_code' => 'wechat_response_manage', 'relevance' => ''),
             array('action_name' => __('自动回复添加', 'wechat'), 'action_code' => 'wechat_response_add', 'relevance' => ''),
             array('action_name' => __('自动回复编辑', 'wechat'), 'action_code' => 'wechat_response_update', 'relevance' => ''),
@@ -68,11 +65,6 @@ class wechat_platform_purview_api extends Component_Event_Api
             array('action_name' => __('添加菜单', 'wechat'), 'action_code' => 'wechat_menus_add', 'relevance' => ''),
             array('action_name' => __('编辑菜单', 'wechat'), 'action_code' => 'wechat_menus_update', 'relevance' => ''),
             array('action_name' => __('删除菜单', 'wechat'), 'action_code' => 'wechat_menus_delete', 'relevance' => ''),
-
-            array('action_name' => __('消息模板', 'wechat'), 'action_code' => 'message_template_manage', 'relevance' => ''),
-            array('action_name' => __('添加消息模板', 'wechat'), 'action_code' => 'message_template_add', 'relevance' => ''),
-            array('action_name' => __('编辑消息模板', 'wechat'), 'action_code' => 'message_template_update', 'relevance' => ''),
-            array('action_name' => __('删除消息模板', 'wechat'), 'action_code' => 'message_template_delete', 'relevance' => ''),
 
             array('action_name' => __('渠道二维码', 'wechat'), 'action_code' => 'wechat_qrcode_manage', 'relevance' => ''),
             array('action_name' => __('添加渠道二维码', 'wechat'), 'action_code' => 'wechat_qrcode_add', 'relevance' => ''),
