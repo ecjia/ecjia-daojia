@@ -171,7 +171,7 @@ return array(
     [
         'cfg_code' => 'integral_name',
         'cfg_name' => __('消费积分名称', 'setting'),
-        'cfg_desc' => __('您可以将消费积分重新命名。例如：烧币', 'setting'),
+        'cfg_desc' => __('您可以将消费积分重新命名。例如：烧币<br>消费积分功能本名叫“积分”，未填写直接显示本名，只影响到前台用户端的显示，不会对后台功能名称作影响', 'setting'),
         'cfg_range' => '',
     ],
 
@@ -1186,16 +1186,6 @@ return array(
     ],
 
     [
-        'cfg_code' => 'cron_method',
-        'cfg_name' => __('是否开启命令行调用计划任务', 'setting'),
-        'cfg_desc' => '',
-        'cfg_range' => array(
-            '0' => __('否', 'setting'),
-            '1' => __('是', 'setting'),
-        ),
-    ],
-
-    [
         'cfg_code' => 'timezone',
         'cfg_name' => __('默认时区', 'setting'),
         'cfg_desc' => '',
@@ -1431,17 +1421,19 @@ return array(
         ),
     ],
 
+
+
     [
         'cfg_code' => 'wap',
-        'cfg_name' => __('WAP设置', 'setting'),
+        'cfg_name' => __('H5应用设置', 'setting'),
         'cfg_desc' => '',
         'cfg_range' => '',
     ],
 
     [
         'cfg_code' => 'wap_config',
-        'cfg_name' => __('是否使用WAP功能', 'setting'),
-        'cfg_desc' => __('此功能只支持简体中文且只在中国大陆区有效', 'setting'),
+        'cfg_name' => __('是否使用H5应用功能', 'setting'),
+        'cfg_desc' => __('此功能不仅可以在APP中内嵌使用，还可以在微信公众号中作为微信商城使用。', 'setting'),
         'cfg_range' => array(
             '0' => __('关闭', 'setting'),
             '1' => __('开启', 'setting'),
@@ -1449,9 +1441,23 @@ return array(
     ],
 
     [
+        'cfg_code' => 'map_qq_referer',
+        'cfg_name' => __('腾讯地图应用名称', 'setting'),
+        'cfg_desc' => '',
+        'cfg_range' => '',
+    ],
+
+    [
+        'cfg_code' => 'map_qq_key',
+        'cfg_name' => __('腾讯地图KEY', 'setting'),
+        'cfg_desc' => __('使用QQ账号，进行<a target="_blank" href="http://lbs.qq.com/key.html">开发密钥申请</a>，填写应用名及应用描述即可申请。一个账号可以申请多个key。', 'setting'),
+        'cfg_range' => '',
+    ],
+
+    [
         'cfg_code' => 'wap_logo',
-        'cfg_name' => __('WAP LOGO上传', 'setting'),
-        'cfg_desc' => __('为了更好地兼容各种手机类型，LOGO 最好为png图片', 'setting'),
+        'cfg_name' => __('H5 LOGO上传', 'setting'),
+        'cfg_desc' => __('适用于收藏夹图标，为了更好地兼容各种手机类型，LOGO 最好为png图片', 'setting'),
         'cfg_range' => '',
     ],
 

@@ -57,7 +57,7 @@ class shop_config extends ecjia_admin {
 		RC_Package::package('app::setting')->loadClass('ecjia_admin_setting', false);
 		
 		$this->db = RC_Loader::load_model('shop_config_model');
-		RC_Script::enqueue_script('admin_shop_config', RC_App::apps_url('statics/js/admin_shop_config.js', __FILE__), array(), false, true);
+		RC_Script::enqueue_script('admin_shop_config', RC_App::apps_url('statics/js/admin_shop_config.js', __FILE__), array(), false, 1);
 		
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');

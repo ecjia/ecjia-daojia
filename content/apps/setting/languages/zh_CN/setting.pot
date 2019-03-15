@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App setting package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App setting 2.27.4\n"
+"Project-Id-Version: Ecjia App setting 2.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 03:58:14+00:00\n"
+"POT-Creation-Date: 2019-03-13 05:24:30+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -135,7 +135,7 @@ msgstr ""
 #: configs/shop_config.php:516 configs/shop_config.php:566
 #: configs/shop_config.php:576 configs/shop_config.php:983
 #: configs/shop_config.php:1077 configs/shop_config.php:1098
-#: configs/shop_config.php:1193 configs/shop_config.php:1419
+#: configs/shop_config.php:1409
 msgid "否"
 msgstr ""
 
@@ -145,7 +145,7 @@ msgstr ""
 #: configs/shop_config.php:517 configs/shop_config.php:567
 #: configs/shop_config.php:577 configs/shop_config.php:984
 #: configs/shop_config.php:1078 configs/shop_config.php:1099
-#: configs/shop_config.php:1194 configs/shop_config.php:1420
+#: configs/shop_config.php:1410
 msgid "是"
 msgstr ""
 
@@ -228,7 +228,9 @@ msgid "消费积分名称"
 msgstr ""
 
 #: configs/shop_config.php:174
-msgid "您可以将消费积分重新命名。例如：烧币"
+msgid ""
+"您可以将消费积分重新命名。例如：烧币<br>消费积分功能本名叫“积分”，未填写直接"
+"显示本名，只影响到前台用户端的显示，不会对后台功能名称作影响"
 msgstr ""
 
 #: configs/shop_config.php:180
@@ -481,14 +483,14 @@ msgstr ""
 
 #: configs/shop_config.php:496 configs/shop_config.php:526
 #: configs/shop_config.php:536 configs/shop_config.php:546
-#: configs/shop_config.php:1321 configs/shop_config.php:1331
-#: configs/shop_config.php:1446
+#: configs/shop_config.php:1311 configs/shop_config.php:1321
+#: configs/shop_config.php:1438
 msgid "关闭"
 msgstr ""
 
 #: configs/shop_config.php:497 configs/shop_config.php:527
 #: configs/shop_config.php:537 configs/shop_config.php:547
-#: configs/shop_config.php:1322 configs/shop_config.php:1447
+#: configs/shop_config.php:1312 configs/shop_config.php:1439
 msgid "开启"
 msgstr ""
 
@@ -1050,402 +1052,412 @@ msgid "文章标题的长度"
 msgstr ""
 
 #: configs/shop_config.php:1190
-msgid "是否开启命令行调用计划任务"
-msgstr ""
-
-#: configs/shop_config.php:1200
 msgid "默认时区"
 msgstr ""
 
-#: configs/shop_config.php:1203
+#: configs/shop_config.php:1193
 msgid "(GMT -12:00) 国际日期变更线西"
 msgstr ""
 
-#: configs/shop_config.php:1204
+#: configs/shop_config.php:1194
 msgid "(GMT -11:00) 中途岛萨摩亚群岛"
 msgstr ""
 
-#: configs/shop_config.php:1205
+#: configs/shop_config.php:1195
 msgid "(GMT -10:00) 夏威夷"
 msgstr ""
 
-#: configs/shop_config.php:1206
+#: configs/shop_config.php:1196
 msgid "(GMT -09:00) 阿拉斯加"
 msgstr ""
 
-#: configs/shop_config.php:1207
+#: configs/shop_config.php:1197
 msgid "(GMT -08:00) 太平洋时间 （美国和加拿大）蒂华纳"
 msgstr ""
 
-#: configs/shop_config.php:1208
+#: configs/shop_config.php:1198
 msgid "(GMT -07:00) 山地时间 （美国和加拿大）"
 msgstr ""
 
-#: configs/shop_config.php:1209
+#: configs/shop_config.php:1199
 msgid "(GMT -06:00) 中部时间 （美国和加拿大）墨西哥城"
 msgstr ""
 
-#: configs/shop_config.php:1210
+#: configs/shop_config.php:1200
 msgid "(GMT -05:00) 东部时间（美国和加拿大）, 波哥大, 利马, 基多"
 msgstr ""
 
-#: configs/shop_config.php:1211
+#: configs/shop_config.php:1201
 msgid "(GMT -04:00) 大西洋时间（加拿大），加拉加斯，拉巴斯"
 msgstr ""
 
-#: configs/shop_config.php:1212
+#: configs/shop_config.php:1202
 msgid "(GMT -03:30) 纽芬兰"
 msgstr ""
 
-#: configs/shop_config.php:1213
+#: configs/shop_config.php:1203
 msgid "(GMT -03:00) 布拉西拉，布宜诺斯艾利斯，乔治敦，福克兰群岛"
 msgstr ""
 
-#: configs/shop_config.php:1214
+#: configs/shop_config.php:1204
 msgid "(GMT -02:00) 大西洋中部，阿森松岛，圣赫勒拿岛"
 msgstr ""
 
-#: configs/shop_config.php:1215
+#: configs/shop_config.php:1205
 msgid "(GMT -01:00) 亚速尔群岛，佛得角群岛"
 msgstr ""
 
-#: configs/shop_config.php:1216
+#: configs/shop_config.php:1206
 msgid "(GMT) 卡萨布兰卡，都柏林，爱丁堡，伦敦，里斯本，蒙罗维亚"
 msgstr ""
 
-#: configs/shop_config.php:1217
+#: configs/shop_config.php:1207
 msgid "(GMT +01:00) 阿姆斯特丹，柏林，布鲁塞尔，马德里，巴黎，罗马"
 msgstr ""
 
-#: configs/shop_config.php:1218
+#: configs/shop_config.php:1208
 msgid "(GMT +02:00) 开罗，赫尔辛基，加里宁格勒，南非"
 msgstr ""
 
-#: configs/shop_config.php:1219
+#: configs/shop_config.php:1209
 msgid "(GMT +03:00) 巴格达，利雅得，莫斯科，内罗毕"
 msgstr ""
 
-#: configs/shop_config.php:1220
+#: configs/shop_config.php:1210
 msgid "(GMT +03:30) 德黑兰"
 msgstr ""
 
-#: configs/shop_config.php:1221
+#: configs/shop_config.php:1211
 msgid "(GMT +04:00) 阿布扎比，巴库，马斯喀特，第比利斯"
 msgstr ""
 
-#: configs/shop_config.php:1222
+#: configs/shop_config.php:1212
 msgid "(GMT +04:30) 喀布尔"
 msgstr ""
 
-#: configs/shop_config.php:1223
+#: configs/shop_config.php:1213
 msgid "(GMT +05:00) 叶卡捷琳堡，伊斯兰堡，卡拉奇，塔什干"
 msgstr ""
 
-#: configs/shop_config.php:1224
+#: configs/shop_config.php:1214
 msgid "(GMT +05:30) 孟买，加尔各答，马德拉斯，新德里"
 msgstr ""
 
-#: configs/shop_config.php:1225
+#: configs/shop_config.php:1215
 msgid "(GMT +05:45) 加德满都"
 msgstr ""
 
-#: configs/shop_config.php:1226
+#: configs/shop_config.php:1216
 msgid "(GMT +06:00) 阿拉木图，科伦坡，达卡，新西伯利亚"
 msgstr ""
 
-#: configs/shop_config.php:1227
+#: configs/shop_config.php:1217
 msgid "(GMT +06:30) 仰光"
 msgstr ""
 
-#: configs/shop_config.php:1228
+#: configs/shop_config.php:1218
 msgid "(GMT +07:00) 曼谷，河内，雅加达"
 msgstr ""
 
-#: configs/shop_config.php:1229
+#: configs/shop_config.php:1219
 msgid "(GMT +08:00) 北京，香港，珀斯，新加坡，台北"
 msgstr ""
 
-#: configs/shop_config.php:1230
+#: configs/shop_config.php:1220
 msgid "(GMT +09:00) 大阪，札幌，首尔，东京，雅库茨克"
 msgstr ""
 
-#: configs/shop_config.php:1231
+#: configs/shop_config.php:1221
 msgid "(GMT +09:30) 阿德莱德，达尔文"
 msgstr ""
 
-#: configs/shop_config.php:1232
+#: configs/shop_config.php:1222
 msgid "(GMT +10:00) 堪培拉，关岛，墨尔本，悉尼，符拉迪沃斯托克"
 msgstr ""
 
-#: configs/shop_config.php:1233
+#: configs/shop_config.php:1223
 msgid "(GMT +11:00) 马加丹，新喀里多尼亚，所罗门群岛"
 msgstr ""
 
-#: configs/shop_config.php:1234
+#: configs/shop_config.php:1224
 msgid "(GMT +12:00) 奥克兰，惠灵顿，斐济，马歇尔岛"
 msgstr ""
 
-#: configs/shop_config.php:1240
+#: configs/shop_config.php:1230
 msgid "附件上传大小"
 msgstr ""
 
-#: configs/shop_config.php:1243
+#: configs/shop_config.php:1233
 msgid "服务默认设置"
 msgstr ""
 
-#: configs/shop_config.php:1244
+#: configs/shop_config.php:1234
 msgid "0KB"
 msgstr ""
 
-#: configs/shop_config.php:1245
+#: configs/shop_config.php:1235
 msgid "64KB"
 msgstr ""
 
-#: configs/shop_config.php:1246
+#: configs/shop_config.php:1236
 msgid "128KB"
 msgstr ""
 
-#: configs/shop_config.php:1247
+#: configs/shop_config.php:1237
 msgid "256KB"
 msgstr ""
 
-#: configs/shop_config.php:1248
+#: configs/shop_config.php:1238
 msgid "512KB"
 msgstr ""
 
-#: configs/shop_config.php:1249
+#: configs/shop_config.php:1239
 msgid "1MB"
 msgstr ""
 
-#: configs/shop_config.php:1250
+#: configs/shop_config.php:1240
 msgid "2MB"
 msgstr ""
 
-#: configs/shop_config.php:1251
+#: configs/shop_config.php:1241
 msgid "4MB"
 msgstr ""
 
-#: configs/shop_config.php:1257
+#: configs/shop_config.php:1247
 msgid "首页搜索的关键字"
 msgstr ""
 
-#: configs/shop_config.php:1258
+#: configs/shop_config.php:1248
 msgid "首页显示的搜索关键字,请用半角逗号(,)分隔多个关键字"
 msgstr ""
 
-#: configs/shop_config.php:1264
+#: configs/shop_config.php:1254
 msgid "购物车确定提示"
 msgstr ""
 
-#: configs/shop_config.php:1265
+#: configs/shop_config.php:1255
 msgid "允许您设置用户点击“加入购物车”后是否提示以及随后的动作。"
 msgstr ""
 
-#: configs/shop_config.php:1267
+#: configs/shop_config.php:1257
 msgid "提示用户，点击“确定”进购物车"
 msgstr ""
 
-#: configs/shop_config.php:1268
+#: configs/shop_config.php:1258
 msgid "提示用户，点击“取消”进购物车"
 msgstr ""
 
-#: configs/shop_config.php:1269
+#: configs/shop_config.php:1259
 msgid "直接进入购物车"
 msgstr ""
 
-#: configs/shop_config.php:1270
+#: configs/shop_config.php:1260
 msgid "不提示并停留在当前页面"
 msgstr ""
 
-#: configs/shop_config.php:1276
+#: configs/shop_config.php:1266
 msgid "缩略图背景色"
 msgstr ""
 
-#: configs/shop_config.php:1277
+#: configs/shop_config.php:1267
 msgid "颜色请以#FFFFFF格式填写"
 msgstr ""
 
-#: configs/shop_config.php:1283
+#: configs/shop_config.php:1273
 msgid "一级配送区域名称"
 msgstr ""
 
-#: configs/shop_config.php:1290
+#: configs/shop_config.php:1280
 msgid "二级配送区域名称"
 msgstr ""
 
-#: configs/shop_config.php:1297
+#: configs/shop_config.php:1287
 msgid "三级配送区域名称"
 msgstr ""
 
-#: configs/shop_config.php:1304
+#: configs/shop_config.php:1294
 msgid "四级配送区域名称"
 msgstr ""
 
-#: configs/shop_config.php:1311
+#: configs/shop_config.php:1301
 msgid "关联商品显示数量"
 msgstr ""
 
-#: configs/shop_config.php:1318
+#: configs/shop_config.php:1308
 msgid "站点访问统计"
 msgstr ""
 
-#: configs/shop_config.php:1328
+#: configs/shop_config.php:1318
 msgid "用户帮助是否打开"
 msgstr ""
 
-#: configs/shop_config.php:1332
+#: configs/shop_config.php:1322
 msgid "打开"
 msgstr ""
 
-#: configs/shop_config.php:1338
+#: configs/shop_config.php:1328
 msgid "公司名称"
 msgstr ""
 
-#: configs/shop_config.php:1345
+#: configs/shop_config.php:1335
 msgid "微博地址"
 msgstr ""
 
-#: configs/shop_config.php:1352
+#: configs/shop_config.php:1342
 msgid "微信二维码"
 msgstr ""
 
-#: configs/shop_config.php:1361
+#: configs/shop_config.php:1351
 msgid "邮件服务"
 msgstr ""
 
-#: configs/shop_config.php:1362
+#: configs/shop_config.php:1352
 msgid "如果您选择了采用服务器内置的 Mail 服务，您不需要填写下面的内容。"
 msgstr ""
 
-#: configs/shop_config.php:1364
+#: configs/shop_config.php:1354
 msgid "采用服务器内置的 Mail 服务"
 msgstr ""
 
-#: configs/shop_config.php:1365
+#: configs/shop_config.php:1355
 msgid "采用其他的 SMTP 服务"
 msgstr ""
 
-#: configs/shop_config.php:1370
+#: configs/shop_config.php:1360
 msgid "发送邮件服务器地址(SMTP)"
 msgstr ""
 
-#: configs/shop_config.php:1371
+#: configs/shop_config.php:1361
 msgid "邮件服务器主机地址。如果本机可以发送邮件则设置为localhost"
 msgstr ""
 
-#: configs/shop_config.php:1377
+#: configs/shop_config.php:1367
 msgid "服务器端口"
 msgstr ""
 
-#: configs/shop_config.php:1384
+#: configs/shop_config.php:1374
 msgid "邮件发送帐号"
 msgstr ""
 
-#: configs/shop_config.php:1385
+#: configs/shop_config.php:1375
 msgid "发送邮件所需的认证帐号，如果没有就为空着"
 msgstr ""
 
-#: configs/shop_config.php:1391
+#: configs/shop_config.php:1381
 msgid "帐号密码"
 msgstr ""
 
-#: configs/shop_config.php:1398
+#: configs/shop_config.php:1388
 msgid "邮件回复地址"
 msgstr ""
 
-#: configs/shop_config.php:1405
+#: configs/shop_config.php:1395
 msgid "邮件编码"
 msgstr ""
 
-#: configs/shop_config.php:1408
+#: configs/shop_config.php:1398
 msgid "国际化编码（utf8）"
 msgstr ""
 
-#: configs/shop_config.php:1409
+#: configs/shop_config.php:1399
 msgid "简体中文"
 msgstr ""
 
-#: configs/shop_config.php:1410
+#: configs/shop_config.php:1400
 msgid "繁体中文"
 msgstr ""
 
-#: configs/shop_config.php:1416
+#: configs/shop_config.php:1406
 msgid "邮件服务器是否要求加密连接(SSL)"
 msgstr ""
 
-#: configs/shop_config.php:1426
+#: configs/shop_config.php:1416
 msgid "推荐商品排序"
 msgstr ""
 
-#: configs/shop_config.php:1427
+#: configs/shop_config.php:1417
 msgid "推荐排序适合少量推荐，随机显示大量推荐"
 msgstr ""
 
-#: configs/shop_config.php:1429
+#: configs/shop_config.php:1419
 msgid "推荐排序"
 msgstr ""
 
-#: configs/shop_config.php:1430
+#: configs/shop_config.php:1420
 msgid "随机显示"
 msgstr ""
 
+#: configs/shop_config.php:1428
+msgid "H5应用设置"
+msgstr ""
+
+#: configs/shop_config.php:1435
+msgid "是否使用H5应用功能"
+msgstr ""
+
 #: configs/shop_config.php:1436
-msgid "WAP设置"
+msgid "此功能不仅可以在APP中内嵌使用，还可以在微信公众号中作为微信商城使用。"
 msgstr ""
 
-#: configs/shop_config.php:1443
-msgid "是否使用WAP功能"
+#: configs/shop_config.php:1445
+msgid "腾讯地图应用名称"
 msgstr ""
 
-#: configs/shop_config.php:1444
-msgid "此功能只支持简体中文且只在中国大陆区有效"
+#: configs/shop_config.php:1452
+msgid "腾讯地图KEY"
 msgstr ""
 
 #: configs/shop_config.php:1453
-msgid "WAP LOGO上传"
+msgid ""
+"使用QQ账号，进行<a target=\"_blank\" href=\"http://lbs.qq.com/key.html\">开发"
+"密钥申请</a>，填写应用名及应用描述即可申请。一个账号可以申请多个key。"
 msgstr ""
 
-#: configs/shop_config.php:1454
-msgid "为了更好地兼容各种手机类型，LOGO 最好为png图片"
+#: configs/shop_config.php:1459
+msgid "H5 LOGO上传"
 msgstr ""
 
 #: configs/shop_config.php:1460
+msgid "适用于收藏夹图标，为了更好地兼容各种手机类型，LOGO 最好为png图片"
+msgstr ""
+
+#: configs/shop_config.php:1466
 msgid "H5 访问二维码"
 msgstr ""
 
-#: configs/shop_config.php:1467
+#: configs/shop_config.php:1473
 msgid "H5 商城URL"
 msgstr ""
 
-#: configs/shop_config.php:1474
+#: configs/shop_config.php:1480
 msgid "是否推广APP下载"
 msgstr ""
 
-#: configs/shop_config.php:1475
+#: configs/shop_config.php:1481
 msgid "在H5首页底部推广您的APP，增加下载量。"
 msgstr ""
 
-#: configs/shop_config.php:1484
+#: configs/shop_config.php:1490
 msgid "推广APP下载图片"
 msgstr ""
 
-#: configs/shop_config.php:1491
+#: configs/shop_config.php:1497
 msgid "iPhone下载地址"
 msgstr ""
 
-#: configs/shop_config.php:1498
+#: configs/shop_config.php:1504
 msgid "Android下载地址"
 msgstr ""
 
-#: configs/shop_config.php:1505
+#: configs/shop_config.php:1511
 msgid "APP图标"
 msgstr ""
 
-#: configs/shop_config.php:1512
+#: configs/shop_config.php:1518
 msgid "移动应用简介"
 msgstr ""
 
-#: configs/shop_config.php:1519
+#: configs/shop_config.php:1525
 msgid "评论设置"
 msgstr ""
 
@@ -1596,6 +1608,10 @@ msgstr ""
 
 #: content/apps/setting/templates/admin/region_list.dwt.php:62
 msgid "编辑"
+msgstr ""
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:63
+msgid "您确定要删除此地区[%1]吗？删除此地区将会同时删除此地区下的所有地区！"
 msgstr ""
 
 #: content/apps/setting/templates/admin/region_list.dwt.php:63
