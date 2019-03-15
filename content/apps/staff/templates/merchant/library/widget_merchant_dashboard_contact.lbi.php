@@ -2,7 +2,7 @@
 <!-- start:user info table -->
 <section class="panel">
     <div class="task-thumb-details">
-        <h1>联系平台</h1>
+        <h1>{t domain="staff"}联系平台{/t}</h1>
     </div>
     <table class="table table-hover personal-task">
         <tbody>

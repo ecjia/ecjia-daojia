@@ -57,7 +57,7 @@ class admin_user_account_validate_module extends api_admin implements api_interf
     	$validate_value = $this->requestData('validate_value');
 		
 		if (empty($validate_type) || empty($validate_value)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter'));
+			return new ecjia_error( 'invalid_parameter', __('参数无效', 'staff'));
 		}
 		
 		$code = rand(100000, 999999);
@@ -82,9 +82,9 @@ class admin_user_account_validate_module extends api_admin implements api_interf
 		
 		/* 判断是否发送成功*/
 		if (is_ecjia_error($response)) {
-			return new ecjia_error('send_code_error', __('验证码发送失败！'));
+			return new ecjia_error('send_code_error', __('验证码发送失败！', 'staff'));
 		} else {
-			return array('data' => '验证码发送成功！');
+			return array('data' => __('验证码发送成功！', 'staff'));
 		}
 		
 	}

@@ -38,25 +38,25 @@
 	            	
 	            	<div class="col-sm-5">
 		                <h4 class="title-real-estates">
-                            <strong>{$Manager.name}</strong> <span class="text_center"><small class="label label-warning">店长</small></span>
+                            <strong>{$Manager.name}</strong> <span class="text_center"><small class="label label-warning">{t domain="staff"}店长{/t}</small></span>
                         </h4>
 	                	<hr style="margin-top: 10px;margin-bottom: 10px;">
-	                	<p>{if $Manager.introduction}{$Manager.introduction}{else}店长有点懒哦，赶紧去个人中心完善资料吧~~{/if}</p>
+	                	<p>{if $Manager.introduction}{$Manager.introduction}{else}{t domain="staff"}店长有点懒哦，赶紧去个人中心完善资料吧~~{/t}{/if}</p>
 	                	{if $parent_id eq 0}
-	                	<p><a class="data-pjax" href='{RC_Uri::url("staff/mh_log/init", "user_id={$Manager.user_id}")}'>查看日志</a> | <a class="data-pjax" href='{RC_Uri::url("staff/merchant/edit", "user_id={$Manager.user_id}&parent_id=0")}'>编辑</a></p>
+	                	<p><a class="data-pjax" href='{RC_Uri::url("staff/mh_log/init", "user_id={$Manager.user_id}")}'>{t domain="staff"}查看日志{/t}</a> | <a class="data-pjax" href='{RC_Uri::url("staff/merchant/edit", "user_id={$Manager.user_id}&parent_id=0")}'>{t domain="staff"}编辑{/t}</a></p>
 	                	{/if}
 	            	</div>
 	            	
 	            	<div class="col-sm-4">
 		                <h4 class="title-real-estates">
-		                    <strong>店长资料</strong>
+		                    <strong>{t domain="staff"}店长资料{/t}</strong>
 		                </h4>
 	                	<hr style="margin-top: 10px;margin-bottom: 10px;">
-	                	<div><label>昵称：</label>{$Manager.nick_name}</div>
-	                	<div><label>手机账号：</label>{$Manager.mobile}</div>
-	                	<div><label>邮箱账号：</label>{$Manager.email}</div>
-	                	<div><label>加入时间：</label>{$Manager.add_time}</div>
-	                	<div><label>最后登录时间：</label>{$Manager.last_login}</div>
+	                	<div><label>{t domain="staff"}昵称：{/t}</label>{$Manager.nick_name}</div>
+	                	<div><label>{t domain="staff"}手机账号：{/t}</label>{$Manager.mobile}</div>
+	                	<div><label>{t domain="staff"}邮箱账号：{/t}</label>{$Manager.email}</div>
+	                	<div><label>{t domain="staff"}加入时间：{/t}</label>{$Manager.add_time}</div>
+	                	<div><label>{t domain="staff"}最后登录时间：{/t}</label>{$Manager.last_login}</div>
 	            	</div>
 	        	</div>
 	    	</div>
@@ -78,22 +78,22 @@
 			            	</div>
 			            	
                             <div class="task-thumb-details">
-                                 <h4><strong>未分组</strong></h4>
-                                 <span class="label label-success">已有<span class="staff-count">{$staff_count.unclassified}</span>个账号</span>
+                                 <h4><strong>{t domain="staff"}未分组{/t}</strong></h4>
+                                 <span class="label label-success">{t domain="staff"}已有{/t}<span class="staff-count">{$staff_count.unclassified}</span>{t domain="staff"}个账号{/t}</span>
                             </div>  
                             
 			                <div class="title-realestates-columns">
 			                    <hr>
-			                    <p>赶快对未进行的分组的员工进行分组吧。</p>
+			                    <p>{t domain="staff"}赶快对未进行的分组的员工进行分组吧。{/t}</p>
 			                </div>
 			                
 			                <div class="footer-realestates-columns">
 			                    <div class="row">
 			                    	<div class="col-sm-6">
-			                            <a href='{url path="staff/merchant/add" args="step=1"}' class="btn btn-primary btn-block">新增账号</a>
+			                            <a href='{url path="staff/merchant/add" args="step=1"}' class="btn btn-primary btn-block">{t domain="staff"}新增账号{/t}</a>
 			                        </div>
 			                        <div class="col-sm-6">
-			                            <a href='{url path="staff/merchant/init" args="group_id=0"}' class="btn btn-default-staff btn-block">管理账号</a>
+			                            <a href='{url path="staff/merchant/init" args="group_id=0"}' class="btn btn-default-staff btn-block">{t domain="staff"}管理账号{/t}</a>
 			                        </div>
 			                    </div>
 			                </div>
@@ -110,22 +110,22 @@
 			           		</div>
 			           		
                             <div class="task-thumb-details">
-                                 <h4><strong>配送员</strong></h4>
-                                 <span class="label label-success">已有<span class="staff-count">{$staff_count.express}</span>个账号</span>
+                                 <h4><strong>{t domain="staff"}配送员{/t}</strong></h4>
+                                 <span class="label label-success">{t domain="staff"}已有{/t}<span class="staff-count">{$staff_count.express}</span>{t domain="staff"}个账号{/t}</span>
                             </div>  
                             
 			                <div class="title-realestates-columns">
 			                    <hr>
-			                    <p>配送员具有抢单、接收派单等权限。</p>
+			                    <p>{t domain="staff"}配送员具有抢单、接收派单等权限。{/t}</p>
 			                </div>
 			                
 			                <div class="footer-realestates-columns">
 			                    <div class="row">
 			                    	<div class="col-sm-6">
-			                            <a href='{url path="staff/merchant/add" args="step=1"}' class="btn btn-primary btn-block">新增账号</a>
+			                            <a href='{url path="staff/merchant/add" args="step=1"}' class="btn btn-primary btn-block">{t domain="staff"}新增账号{/t}</a>
 			                        </div>
 			                        <div class="col-sm-6">
-			                            <a href='{url path="staff/merchant/init" args="group_id=-1"}' class="btn btn-default-staff btn-block">管理账号</a>
+			                            <a href='{url path="staff/merchant/init" args="group_id=-1"}' class="btn btn-default-staff btn-block">{t domain="staff"}管理账号{/t}</a>
 			                        </div>
 			                    </div>
 			                </div>
@@ -141,22 +141,22 @@
 			            		<img src="{$staff_cashdesk}" >
 			            	</div>
                             <div class="task-thumb-details">
-                                 <h4><strong>收银员</strong></h4>
-                                 <span class="label label-success">已有<span class="staff-count">{$staff_count.cashdesk}</span>个账号</span>
+                                 <h4><strong>{t domain="staff"}收银员{/t}</strong></h4>
+                                 <span class="label label-success">{t domain="staff"}已有{/t}<span class="staff-count">{$staff_count.cashdesk}</span>{t domain="staff"}个账号{/t}</span>
                             </div> 
                             
 			                <div class="title-realestates-columns">
 			                    <hr>
-			                    <p>收银员具有后台商家结算等各项资金操作权限，请谨慎配置。</p>
+			                    <p>{t domain="staff"}收银员具有后台商家结算等各项资金操作权限，请谨慎配置。{/t}</p>
 			                </div>
 			                
 			                <div class="footer-realestates-columns">
 			                    <div class="row">
 			                    	<div class="col-sm-6">
-			                            <a href='{url path="staff/merchant/add" args="step=1"}' class="btn btn-primary btn-block">新增账号</a>
+			                            <a href='{url path="staff/merchant/add" args="step=1"}' class="btn btn-primary btn-block">{t domain="staff"}新增账号{/t}</a>
 			                        </div>
 			                        <div class="col-sm-6">
-			                            <a href='{url path="staff/merchant/init" args="group_id=-2"}' class="btn btn-default-staff btn-block">管理账号</a>
+			                            <a href='{url path="staff/merchant/init" args="group_id=-2"}' class="btn btn-default-staff btn-block">{t domain="staff"}管理账号{/t}</a>
 			                        </div>
 			                    </div>
 			                </div>
@@ -174,7 +174,7 @@
 				            	</div>
 	                            <div class="task-thumb-details">
 	                                 <h4><strong>{$list.group_name}<a href='{url path="staff/mh_group/edit" args="group_id={$list.group_id}"}'><img src="{$staff_edit}"></a></strong></h4>
-	                                 <span class="label label-success">已有<span class="staff-count">{$list.staff_count}</span>个账号</span>
+	                                 <span class="label label-success">{t domain="staff"}已有{/t}<span class="staff-count">{$list.staff_count}</span>{t domain="staff"}个账号{/t}</span>
 	                            </div> 
 	                            
 				                <div class="title-realestates-columns">
@@ -185,10 +185,10 @@
 				                <div class="footer-realestates-columns">
 				                    <div class="row">
 				                    	<div class="col-sm-6">
-				                            <a href='{url path="staff/merchant/add" args="step=1"}' class="btn btn-primary btn-block">新增账号</a>
+				                            <a href='{url path="staff/merchant/add" args="step=1"}' class="btn btn-primary btn-block">{t domain="staff"}新增账号{/t}</a>
 				                        </div>
 				                        <div class="col-sm-6">
-				                            <a href='{url path="staff/merchant/init" args="group_id={$list.group_id}"}' class="btn btn-default-staff btn-block">管理账号</a>
+				                            <a href='{url path="staff/merchant/init" args="group_id={$list.group_id}"}' class="btn btn-default-staff btn-block">{t domain="staff"}管理账号{/t}</a>
 				                        </div>
 				                    </div>
 				                </div>
@@ -203,18 +203,18 @@
 			            <div class="panel-body">
 			            	<div class="customize-plus">
 			            		<a href="{url path='staff/mh_group/add'}"><img src="{$staff_plus}" ></a>
-			            		<h4>自定义</h4>
+			            		<h4>{t domain="staff"}自定义{/t}</h4>
 			            	</div>
 			            	
 			                <div class="title-realestates-columns">
-			                    <p>配置自定义角色，并在该角色下添加员工账号，灵活管理后台权限。</p>
+			                    <p>{t domain="staff"}配置自定义角色，并在该角色下添加员工账号，灵活管理后台权限。{/t}</p>
 			                </div>
 			            </div>
 			        </div>
 			    </div>
 	    	</div>
 	    	<div class="m_l15">
-	    		<span class="help-block">注：所有组的员工加起来最多只能添加{$max}个员工</span> 
+	    		<span class="help-block">{t domain="staff" 1={$max}}注：所有组的员工加起来最多只能添加%1个员工{/t}</span>
 	    	</div>
 		</div>
 	</div>

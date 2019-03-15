@@ -47,28 +47,28 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 商家员工管理菜单
- * @author songqianqian
+ * 移除店铺员工活动信息接口
+ *
+ * @author royalwang
  */
-class staff_merchant_menu_api extends Component_Event_Api {
+class staff_store_remove_cleardata_api extends Component_Event_Api
+{
 
-    public function call(&$options) {
-        $menus = ecjia_merchant::make_admin_menu('staff', __('员工', 'staff'), '', 6)->add_icon('fa-suitcase')->add_purview(array('staff_manage','staff_group_manage','staff_log_manage'))->add_base('staff');
-        
-        $submenus = array(
-            ecjia_merchant::make_admin_menu('01_staff_group', __('员工管理', 'staff'), RC_Uri::url('staff/mh_group/init'), 1)->add_purview('staff_group_manage')->add_icon('fa-share-alt'),
-            ecjia_merchant::make_admin_menu('01_staff_log', __('员工日志', 'staff'), RC_Uri::url('staff/mh_log/init'), 2)->add_purview('staff_log_manage')->add_icon('fa-list-alt'),
-        );
-        
-        $menus->add_submenu($submenus);
-		
-		$menus = RC_Hook::apply_filters('staff_merchant_menu_api', $menus);
-		
-		if ($menus->has_submenus()) {
-			return $menus;
-		}
-		return false;
+    public function call(& $options)
+    {
+
+        $store_id = array_get($options, 'store_id');
+
+        if (empty($store_id)) {
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'staff'), 'staff_store_remove_cleardata_api'));
+        }
+
+        return [
+            new \Ecjia\App\Staff\StoreCleanHandlers\StoreStaffClear($store_id),
+            new \Ecjia\App\Staff\StoreCleanHandlers\StoreStaffLogClear($store_id),
+        ];
     }
+
 }
 
 // end

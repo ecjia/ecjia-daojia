@@ -15,19 +15,19 @@
         <form class="form-login" action="{$form_action}" method="post" id="login_form" name="theForm">
          <div class="error-msg"></div>
          <div class="store_logo">{$logo_display}</div>
-            <h2 class="form-login-heading">商家登录</h2>
+            <h2 class="form-login-heading">{t domain="staff"}商家登录{/t}</h2>
             <div class="login-wrap">
-                <input type="text" class="form-control"  id="mobile" name="mobile" placeholder="手机号" value="" autofocus>
-                <input type="password" id="password" name="password" class="form-control"  value="" placeholder="密码">
+                <input type="text" class="form-control"  id="mobile" name="mobile" placeholder='{t domain="staff"}手机号{/t}' value="" autofocus>
+                <input type="password" id="password" name="password" class="form-control"  value="" placeholder='{t domain="staff"}密码{/t}'>
                 <!-- {ecjia:hook id=merchant_login_captcha} -->
                 <div class="checkbox">
                      <input id="remember" type="checkbox" name="remember" value="remember-me">
-                     <label for="remember">记住我</label>
+                     <label for="remember">{t domain="staff"}记住我{/t}</label>
                 </div>
                 <input type="hidden" name="act" value="signin" />
-                <button class="btn btn-lg btn-block btn-primary" type="submit">进入管理中心</button>
+                <button class="btn btn-lg btn-block btn-primary" type="submit">{t domain="staff"}进入管理中心{/t}</button>
                 <div  class="text-center" style="margin-top: 10px;">
-                    <a href="{url path='staff/get_password/forget_fast'}">忘记密码？</a>
+                    <a href="{url path='staff/get_password/forget_fast'}">{t domain="staff"}忘记密码？{/t}</a>
                 </div>
             </div>
         </form>

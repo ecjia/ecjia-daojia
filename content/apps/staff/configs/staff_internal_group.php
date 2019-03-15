@@ -47,9 +47,9 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 return array(
-	'0'	 => '未分组',
-	'-1' => '配送员',
-	'-2' => '收银员'
+	'0'	 => __('未分组', 'staff'),
+	'-1' => __('配送员', 'staff'),
+	'-2' => __('收银员', 'staff')
 );
 	
 //end

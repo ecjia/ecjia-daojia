@@ -43,25 +43,25 @@
               <div class="form">
                   <form class="cmxform form-horizontal tasi-form" name="groupForm" method="post" action="{$form_action}">
                 	 <div class="form-group">
-                          <label for="firstname" class="control-label col-lg-2">{lang key='staff::staff.group_name_lable'}</label>
+                          <label for="firstname" class="control-label col-lg-2">{t domain="staff"}员工组名称：{/t}</label>
                           <div class="col-lg-6 controls">
                               <input class="form-control" id="group_name" name="group_name" type="text" value="{$staff_group.group_name}"/>
                           </div>
-                          <span class="input-must m_l7">{lang key='system::system.require_field'}</span>
+                          <span class="input-must m_l7"><span class="require-field" style="color:#FF0000,">*</span></span>
                       </div>
                       
                       <div class="form-group">
-                        <label for="ccomment" class="control-label col-lg-2">{lang key='staff::staff.group_desc_lable'}</label>
+                        <label for="ccomment" class="control-label col-lg-2">{t domain="staff"}员工组描述：{/t}</label>
                         <div class="col-lg-6 controls">
                           <textarea class="form-control" id="groupdescribe" name="groupdescribe">{$staff_group.groupdescribe}</textarea>
                         </div>
-                        <span class="input-must m_l7">{lang key='system::system.require_field'}</span>
+                        <span class="input-must m_l7"><span class="require-field" style="color:#FF0000,">*</span></span>
                       </div>
 
 					  	<div class="row priv_list">
 							<div class="form-group checkall">
 			                     <input name="checkall" id="all" data-toggle="selectall" data-children=".checkbox" type="checkbox" value="checkbox" autocomplete="off">
-			                     <label for="all">全选</label>
+			                     <label for="all">{t domain="staff"}全选{/t}</label>
 							</div>
 							<hr>
 							
@@ -89,14 +89,14 @@
 	                      <div class="form-group">
 	                          <div class="col-lg-offset-2 col-lg-6">
 	                          	  <input type="hidden"  name="group_id" value="{$staff_group.group_id}" />
-	                              <button class="btn btn-info" type="submit">{lang key='staff::staff.sub_update'}</button>
-	                              <a class="btn btn-danger m_l10" data-toggle="ajaxremove" data-msg="您确定要删除该员工组吗？删除后该组下的员工将被移至到默认员工组" href="{RC_Uri::url('staff/mh_group/remove')}&group_id={$staff_group.group_id}">{lang key='staff::staff.sub_delete'}</a>
+	                              <button class="btn btn-info" type="submit">{t domain="staff"}更新{/t}</button>
+	                              <a class="btn btn-danger m_l10" data-toggle="ajaxremove" data-msg='{t domain="staff"}您确定要删除该员工组吗？删除后该组下的员工将被移至到默认员工组{/t}' href="{RC_Uri::url('staff/mh_group/remove')}&group_id={$staff_group.group_id}">{t domain="staff"}删除{/t}</a>
 	                          </div>
 	                      </div>
 	                    {else}
 	                      <div class="form-group">
 	                         <div class="col-lg-offset-2 col-lg-6">
-	                             <button class="btn btn-info" type="submit">{lang key='staff::staff.sub'}</button>
+	                             <button class="btn btn-info" type="submit">{t domain="staff"}确定{/t}</button>
 	                         </div>
 	                     </div>
 	                    {/if}

@@ -29,12 +29,12 @@
 		                },
 		            },
 		            messages: {
-		            	name: "请输入员工名称",
+		            	name: js_lang.employee_name,
 		                new_password: {
-		                    minlength: "您的密码必须至少为6个字符"
+		                    minlength: js_lang.password_is_at_least_6_characters
 		                },
 		                edit_confirm_password: {
-		                    equalTo: "请输入与上述相同的密码"
+		                    equalTo: js_lang.same_password
 		                },
 		            },
 
@@ -72,7 +72,7 @@
 	        		  　    curCount = count;
 	        		     $("#mobile").attr("disabled", "true");
 	        		     $("#get_code").attr("disabled", "true");
-	        		     $("#get_code").val("重新发送" + curCount + "(s)");
+	        		     $("#get_code").val(js_lang.resend + curCount + "(s)");
 	        		     InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
 					}
                     ecjia.merchant.showmessage(data);
@@ -85,11 +85,11 @@
 	                window.clearInterval(InterValObj);//停止计时器
 	                $("#mobile").removeAttr("disabled");//启用按钮
 	                $("#get_code").removeAttr("disabled");//启用按钮
-	                $("#get_code").val("重新发送验证码");
+	                $("#get_code").val(js_lang.resend_code);
 	            }
 	            else {
 	                curCount--;
-	                $("#get_code").val("重新发送" + curCount + "(s)");
+	                $("#get_code").val(js_lang.resend + curCount + "(s)");
 	            }
 	        };
         },
@@ -114,16 +114,16 @@
 		                },
 		            },
 		            messages: {
-		            	name: "请输入员工名称",
-		            	mobile: "请输入手机账号",
-		                email: "请输入正确邮件账号",
+		            	name: js_lang.employee_name,
+		            	mobile: js_lang.phone_account,
+		                email: js_lang.correct_mail_account,
 		                password: {
-		                    required: "请输入密码",
-		                    minlength: "您的密码必须至少为6个字符"
+		                    required: js_lang.enter_password,
+		                    minlength: js_lang.password_is_at_least_6_characters
 		                },
 		                confirm_password: {
-		                    required: "确认密码不能为空",
-		                    equalTo: "请输入与上述相同的密码"
+		                    required: js_lang.password_can_not_be_blank,
+		                    equalTo: js_lang.same_password
 		                },
 		                
 		            },

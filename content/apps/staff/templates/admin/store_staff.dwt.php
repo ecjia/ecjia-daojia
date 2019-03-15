@@ -24,7 +24,7 @@
             <div class="tab-pane active" style="min-height:300px;">
                 <div class="row-fluid">
                     <div class="choose_list" >
-                        <strong class="f_l">{lang key='store::store.shopowner'}{$main_staff.name}</strong>
+                        <strong class="f_l">{t domain="staff"}店长：{/t}{$main_staff.name}</strong>
                     </div>
                 </div>
 
@@ -37,17 +37,17 @@
                                 {/if}
                             </div>
                             <div class="span8">
-                                <p>{lang key='store::store.user_ident'}{$main_staff.user_ident}</p>
-                                <p>{lang key='store::store.main_name'}{$main_staff.name}{if $main_staff.nick_name}（{$main_staff.nick_name}）{/if}</p>
-                                <p>{lang key='store::store.main_email'}{$main_staff.email}</p>
-                                <p>{lang key='store::store.mobile'}{$main_staff.mobile}</p>
-                                <p>{lang key='store::store.main_add_time'}{$main_staff.add_time}</p>
-                                <p>{lang key='store::store.main_introduction'}{$main_staff.introduction}</p>
+                                <p>{t domain="staff"}编号：{/t}{$main_staff.user_ident}</p>
+                                <p>{t domain="staff"}姓名：{/t}{$main_staff.name}{if $main_staff.nick_name}（{$main_staff.nick_name}）{/if}</p>
+                                <p>{t domain="staff"}邮箱：{/t}{$main_staff.email}</p>
+                                <p>{t domain="staff"}联系方式：{/t}{$main_staff.mobile}</p>
+                                <p>{t domain="staff"}加入时间：{/t}{$main_staff.add_time}</p>
+                                <p>{t domain="staff"}介绍：{/t}{$main_staff.introduction}</p>
                             </div>
                             {if $store.manage_mode eq 'self'}
                             <div class="span2 left">
-                                 <p><a class="data-pjax btn" href='{RC_Uri::url("staff/admin_store_staff/edit", "store_id={$store.store_id}&main_staff=1")}'>编辑店长</a></p>
-                                 <p><a class="toggle_view btn" href='{RC_Uri::url("staff/admin_store_staff/reset_staff", "store_id={$store.store_id}&main_staff=1")}' data-msg="重置店长登录密码将发送新密码到店长手机短信，<br>您确定要重置吗？" data-pjax-url="{$current_url}">重置密码</a></p>
+                                 <p><a class="data-pjax btn" href='{RC_Uri::url("staff/admin_store_staff/edit", "store_id={$store.store_id}&main_staff=1")}'>{t domain="staff"}编辑店长{/t}</a></p>
+                                 <p><a class="toggle_view btn" href='{RC_Uri::url("staff/admin_store_staff/reset_staff", "store_id={$store.store_id}&main_staff=1")}' data-msg='{t domain="staff" escape=no}重置店长登录密码将发送新密码到店长手机短信，<br>您确定要重置吗？{/t}' data-pjax-url="{$current_url}">{t domain="staff"}重置密码{/t}</a></p>
                             </div>
                             {/if}
                         </div>
@@ -59,12 +59,12 @@
                         <table class="table table-striped smpl_tbl table-hide-edit">
                             <thead>
                                 <tr>
-                                    <th class="w80">{lang key='store::store.employee_number'}</th>
-                                    <th class="w80">{lang key='store::store.employee_name'}({lang key='store::store.nick_name'})</th>
-                                    <th class="w80">{lang key='store::store.lable_contact_lable'}</th>
-                                    <th class="w80">{lang key='store::store.email'}</th>
-                                    <th class="w80">{lang key='store::store.add_time'}</th>
-                                    <th class="w80">{lang key='store::store.introduction'}</th>
+                                    <th class="w80">{t domain="staff"}员工编号{/t}</th>
+                                    <th class="w80">{t domain="staff"}员工姓名{/t}({t domain="staff"}昵称{/t})</th>
+                                    <th class="w80">{t domain="staff"}联系方式{/t}</th>
+                                    <th class="w80">{t domain="staff"}邮箱{/t}</th>
+                                    <th class="w80">{t domain="staff"}加入时间{/t}</th>
+                                    <th class="w80">{t domain="staff"}描述{/t}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,7 +80,7 @@
                             </tr>
                             <!-- {/foreach} -->
                             {else}
-                            <td class="no-records" colspan="6">{t}没有找到任何记录{/t}</td>
+                            <td class="no-records" colspan="6">{t domain="staff"}没有找到任何记录{/t}</td>
                             {/if}
                             </tbody>
                         </table>

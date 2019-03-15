@@ -64,28 +64,28 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
 		//$device = array('code'=> '8001', 'udid' => '4adbe6e37384dc8f085c908f5ae2c093f5bb694f', 'client' => 'android', 'sn' => '00130136');
 		
 		if (empty($username) || empty($password)) {
-			$result = new ecjia_error('login_error', __('您输入的帐号信息不正确'));
+			$result = new ecjia_error('login_error', __('您输入的帐号信息不正确', 'staff'));
 			return $result;
 		}
 		
 		if (version_compare($api_version, '1.14', '>=')) {
 			if (empty($login_type) || !in_array($login_type, $login_type_array) || empty($username) || empty($password)) {
-				return new ecjia_error('invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+				return new ecjia_error('invalid_parameter', __('参数无效', 'staff'));
 			}
 			if ($login_type =='smslogin') {
 				$user_count = RC_DB::table('staff_user')->where('mobile', $username)->count();
 				if ($user_count > 1) {
-					return new ecjia_error('user_repeat', '用户重复，请与管理员联系！');
+					return new ecjia_error('user_repeat', __('用户重复，请与管理员联系！', 'staff'));
 				}
 				//短信验证码验证，$username手机号，$password短信验证码
 				//判断校验码是否过期
 				if (!empty($username) && (!isset($_SESSION['sms_code_lifetime']) || $_SESSION['sms_code_lifetime'] + 180 < RC_Time::gmtime())) {
 					//过期
-					return new ecjia_error('code_timeout', '验证码已过期，请重新获取！');
+					return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！', 'staff'));
 				}
 				//判断校验码是否正确
 				if (!empty($username) && (!isset($_SESSION['sms_code_lifetime']) || $password != $_SESSION['sms_code'] )) {
-					return new ecjia_error('code_error', '验证码错误，请重新填写！');
+					return new ecjia_error('code_error', __('验证码错误，请重新填写！', 'staff'));
 				}
 			}
 		}		
@@ -97,7 +97,7 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
 		if ($row_staff['store_id']) {
 			$store_status 	= Ecjia\App\Cart\StoreStatus::GetStoreStatus($row_staff['store_id']);
 			if ($store_status == Ecjia\App\Cart\StoreStatus::LOCKED) {
-				return new ecjia_error('store_locked', '对不起，该店铺已锁定，请联系平台管理员！');
+				return new ecjia_error('store_locked', __('对不起，该店铺已锁定，请联系平台管理员！', 'staff'));
 			}
 		}
 		
@@ -106,7 +106,7 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
 		    return $this->signin_merchant($username, $password, $device, $api_version, $login_type);
 		} else {
 		    //平台
-		    $result = new ecjia_error('login_error', __('此账号不是商家账号'));
+		    $result = new ecjia_error('login_error', __('此账号不是商家账号', 'staff'));
 		    return $result;
 // 		    return signin_admin($username, $password, $device);
 		}
@@ -118,14 +118,14 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
         if (!empty($device) && is_array($device) && in_array($device['code'], $codes)) {
             $staff_user_info = RC_DB::table('staff_user')->where('mobile', $username)->first();
             if (empty($staff_user_info)) {
-                $result = new ecjia_error('login_error', __('您输入的帐号信息不正确'));
+                $result = new ecjia_error('login_error', __('您输入的帐号信息不正确', 'staff'));
                 return $result;
             }
             $device_sn = trim($device['sn']); 
             //当前登录的收银设备是否是当前店铺的
             $cashier_device_info = RC_DB::table('cashier_device')->where('store_id', $staff_user_info['store_id'])->where('device_sn', $device_sn)->first();
             if (empty($cashier_device_info)) {
-            	return new ecjia_error('cashier_device_error', __('此设备不属于当前店铺设备，请使用当前店铺设备登录！'));
+            	return new ecjia_error('cashier_device_error', __('此设备不属于当前店铺设备，请使用当前店铺设备登录！', 'staff'));
             }
             $username   = $staff_user_info['mobile'];
             $salt       = $staff_user_info['salt'];
@@ -329,7 +329,7 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
          
             return $out;
         } else {
-            return new ecjia_error('login_error', __('您输入的帐号信息不正确'));
+            return new ecjia_error('login_error', __('您输入的帐号信息不正确', 'staff'));
         }
     }
 
@@ -340,9 +340,9 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
         if (!empty($device) && is_array($device) && ($device['code'] == '6001' || $device['code'] == '6002')) {
         	$count = RC_DB::table('admin_user')->where('user_name', $username)->count();
             if ($count) {
-                return new ecjia_error('login_error', __('平台管理员请登录掌柜管理'));
+                return new ecjia_error('login_error', __('平台管理员请登录掌柜管理', 'staff'));
             } else {
-                return new ecjia_error('login_error', __('您输入的帐号信息不正确'));
+                return new ecjia_error('login_error', __('您输入的帐号信息不正确', 'staff'));
             }
             
         }
@@ -352,7 +352,7 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
         if (!empty($device) && is_array($device) && in_array($device['code'], $codes)) {
             //$adviser_info = RC_Model::model('achievement/adviser_model')->find(array('username' => $username));
             // if (empty($adviser_info)) {
-            //     $result = new ecjia_error('login_error', __('您输入的帐号信息不正确'));
+            //     $result = new ecjia_error('login_error', __('您输入的帐号信息不正确', 'staff'));
             //     return $result;
             //}
             //$admin_info = $db_user->field(array('user_name', 'ec_salt'))->find(array('user_id' => $adviser_info['admin_id']));
@@ -477,7 +477,7 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
                 
             return $out;
         } else {
-            $result = new ecjia_error('login_error', __('您输入的帐号信息不正确'));
+            $result = new ecjia_error('login_error', __('您输入的帐号信息不正确', 'staff'));
             return $result;
         }
     }

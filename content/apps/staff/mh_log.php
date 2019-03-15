@@ -57,11 +57,11 @@ class mh_log extends ecjia_merchant {
 		RC_Script::enqueue_script('jquery-validate');
 		RC_Script::enqueue_script('jquery-form');
 
-		RC_Script::enqueue_script('staff_logs', RC_App::apps_url('statics/js/staff_logs.js', __FILE__), array(), false, true);
-		RC_Script::localize_script('staff_logs', 'js_lang', RC_Lang::get('staff::staff.js_lang'));
+		RC_Script::enqueue_script('staff_logs', RC_App::apps_url('statics/js/staff_logs.js', __FILE__), array(), false, 1);
+        RC_Script::localize_script('staff_logs', 'js_lang', config('app-staff::jslang.staff_page'));
 
 		ecjia_merchant_screen::get_current_screen()->set_parentage('staff', 'staff/merchant.php');
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('员工管理', RC_Uri::url('staff/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('员工管理', 'staff'), RC_Uri::url('staff/merchant/init')));
 	}
 
 
@@ -71,8 +71,8 @@ class mh_log extends ecjia_merchant {
 	public function init() {
 		$this->admin_priv('staff_log_manage');
 
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('员工日志'));
-		$this->assign('ur_here', RC_Lang::get('staff::staff.log_list'));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('员工日志', 'staff')));
+		$this->assign('ur_here', __('员工日志记录', 'staff'));
 
 		$logs = $this->get_admin_logs($_REQUEST);
 

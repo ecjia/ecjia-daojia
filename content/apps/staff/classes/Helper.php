@@ -56,11 +56,11 @@ class Helper
      */
     public static function assign_adminlog_content()
     {
-        ecjia_admin_log::instance()->add_object('staff', RC_Lang::get('staff::staff.staff'));
-        ecjia_admin_log::instance()->add_object('stafflog', RC_Lang::get('staff::staff.stafflog'));
-        ecjia_admin_log::instance()->add_object('staff_profile', '个人资料');
-        ecjia_admin_log::instance()->add_object('account_set', '个人账户');
-        ecjia_admin_log::instance()->add_object('staff_group', '员工组');
+        ecjia_admin_log::instance()->add_object('staff', __('员工', 'staff'));
+        ecjia_admin_log::instance()->add_object('stafflog', __('员工操作日志', 'staff'));
+        ecjia_admin_log::instance()->add_object('staff_profile', __('个人资料', 'staff'));
+        ecjia_admin_log::instance()->add_object('account_set', __('个人账户', 'staff'));
+        ecjia_admin_log::instance()->add_object('staff_group', __('员工组', 'staff'));
     }
 }
 

@@ -72,7 +72,7 @@ class privilege extends ecjia_merchant {
 			'ecjia-mh-page',
 		));
 
-		$this->assign('ur_here', '商家登录');
+		$this->assign('ur_here', __('商家登录', 'staff'));
 		$this->assign('shop_name', ecjia::config('shop_name'));
 		$this->assign('logo_display', RC_Hook::apply_filters('ecjia_admin_logo_display', '<div class="logo"></div>'));
 		
@@ -147,24 +147,29 @@ class privilege extends ecjia_merchant {
 				    $back_url = RC_Uri::url('merchant/dashboard/init');
 				}
 				
-				return $this->showmessage(__('登录成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $back_url));
+				return $this->showmessage(__('登录成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $back_url));
 			} else {
-				return $this->showmessage(__('该店铺已被锁定，暂无法登录'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('该店铺已被锁定，暂无法登录', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		} else {
-			return $this->showmessage(__('您输入的帐号信息不正确。'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('您输入的帐号信息不正确。', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 	
 	/**
 	 * 退出
 	 */
-	public function logout() {
+	public function logout()
+    {
+
+        RC_Hook::do_action('ecjia_merchant_logout_before');
+
 		/* 清除cookie */
 		RC_Cookie::delete('ECJAP.staff_id');
 		RC_Cookie::delete('ECJAP.staff_pass');
 		
 		RC_Session::destroy();
+
 		return $this->redirect(RC_Uri::url('staff/privilege/login'));
 	}
 	
@@ -200,22 +205,24 @@ class privilege extends ecjia_merchant {
 								$this->admin_session($store_id, $merchants_name, $staff_info['user_id'], $staff_info['mobile'], $staff_info['name'], $staff_info['action_list'], $staff_info['last_login']);
 								return $this->redirect(RC_Uri::url('merchant/dashboard/init'));
 							} else {
-								$this->assign('error_message', '获取店长信息失败。');
+								$this->assign('error_message', __('获取店长信息失败。', 'staff'));
 							}
 						} else {
-							$this->assign('error_message', '抱歉！只允许超级管理员进行登录。');
+							$this->assign('error_message', __('抱歉！只允许超级管理员进行登录。', 'staff'));
 						}
+					} else {
+						$this->assign('error_message', __('请使用正确的管理员账号从平台后台登录。', 'staff'));
 					}
 				} else {
-					$this->assign('error_message', '抱歉！请求超时。');
+					$this->assign('error_message', __('抱歉！请求超时。', 'staff'));
 				}
 			} else {
-				$this->assign('error_message', '传参出错。');
+				$this->assign('error_message', __('传参出错。', 'staff'));
 			}
 		} else {
-			$this->assign('error_message', '抱歉！数据丢失，登录失败。');
+			$this->assign('error_message', __('抱歉！数据丢失，登录失败。', 'staff'));
 		}
-		$this->assign('shop_title','商家登录');
+		$this->assign('shop_title',__('商家登录', 'staff'));
 		$this->assign('shop_title_link',RC_Uri::url('staff/privilege/login'));
 		
 		RC_Session::destroy();

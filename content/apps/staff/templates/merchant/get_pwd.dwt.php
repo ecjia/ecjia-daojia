@@ -14,15 +14,15 @@
         <form class="form-login" action="{url path='staff/get_password/reset_pwd_mail'}" method="post" id="forget_form" name="theForm">
         	<div class="error-msg"></div>
         	<div class="store_logo">{$logo_display}</div>
-            <h2 class="form-login-heading">管理员密码找回</h2>
+            <h2 class="form-login-heading">{t domain="staff"}管理员密码找回{/t}</h2>
             <div class="login-wrap">
-                <input class="form-control"  type="text"  id="name" name="name" placeholder="用户名" value="" autocomplete="off" />
-                <input class="form-control"  type="text"  id="email"    name="email" placeholder="邮箱"   value="" autocomplete="off" />
-                <button class="btn btn-lg btn-block btn-primary" type="submit">确定</button>
+                <input class="form-control"  type="text"  id="name" name="name" placeholder='{t domain="staff"}用户名{/t}' value="" autocomplete="off" />
+                <input class="form-control"  type="text"  id="email"    name="email" placeholder='{t domain="staff"}邮箱{/t}'   value="" autocomplete="off" />
+                <button class="btn btn-lg btn-block btn-primary" type="submit">{t domain="staff"}确定{/t}</button>
                 <div style="margin-top: 10px;">
-                    <a href="{url path='staff/privilege/login'}">返回登录</a>
+                    <a href="{url path='staff/privilege/login'}">{t domain="staff"}返回登录{/t}</a>
                      <span class="pull-right">
-                         <a style="" href="{url path='staff/get_password/forget_fast'}">快速找回</a>
+                         <a style="" href="{url path='staff/get_password/forget_fast'}">{t domain="staff"}快速找回{/t}</a>
                     </span>
                 </div>
             </div>
@@ -35,15 +35,15 @@
         <form class="form-login" action="{url path='staff/get_password/reset_pwd'}" method="post" id="forget_form" name="theForm">
        		<div class="error-msg"></div>
        		<div class="store_logo">{$logo_display}</div>
-            <h2 class="form-login-heading">管理员密码找回</h2>
+            <h2 class="form-login-heading">{t domain="staff"}管理员密码找回{/t}</h2>
             <div class="login-wrap">
-                <input class="form-control"  type="password"  id="password"      name="password"     placeholder="新密码"   value="" autocomplete="off" />
-                <input class="form-control"  type="password"  id="confirm_pwd"   name="confirm_pwd"  placeholder="确认密码" value="" autocomplete="off" />
+                <input class="form-control"  type="password"  id="password"      name="password"     placeholder='{t domain="staff"}新密码{/t}'   value="" autocomplete="off" />
+                <input class="form-control"  type="password"  id="confirm_pwd"   name="confirm_pwd"  placeholder='{t domain="staff"}确认密码{/t}' value="" autocomplete="off" />
                 <input type="hidden" name="adminid" value="{$adminid}" />
 				<input type="hidden" name="code" value="{$code}" />
-                <button class="btn btn-lg btn-block btn-primary" type="submit">确定</button>
+                <button class="btn btn-lg btn-block btn-primary" type="submit">{t domain="staff"}确定{/t}</button>
                 <div class="text-center" style="margin-top: 10px;">
-                    <a href="{url path='staff/privilege/login'}">返回登录</a>
+                    <a href="{url path='staff/privilege/login'}">{t domain="staff"}返回登录{/t}</a>
                 </div>
             </div>
         </form>
@@ -55,14 +55,14 @@
         <form class="form-login" action="{url path='staff/get_password/fast_reset_pwd'}" method="post" id="reset_fast_pwd" name="theForm">
         	<div class="error-msg"></div>
         	<div class="store_logo">{$logo_display}</div>
-            <h2 class="form-login-heading">手机号快速找回</h2>
+            <h2 class="form-login-heading">{t domain="staff"}手机号快速找回{/t}</h2>
             <div class="login-wrap">
-                <input class="form-control"  type="text"  id="mobile" name="mobile" placeholder="手机号" value="" autocomplete="off" />
-                <button class="btn btn-lg btn-block btn-primary" type="submit">下一步</button>
+                <input class="form-control"  type="text"  id="mobile" name="mobile" placeholder='{t domain="staff"}手机号{/t}' value="" autocomplete="off" />
+                <button class="btn btn-lg btn-block btn-primary" type="submit">{t domain="staff"}下一步{/t}</button>
                 <div style="margin-top: 10px;">
-                    <a href="{url path='staff/privilege/login'}">返回登录</a>
+                    <a href="{url path='staff/privilege/login'}">{t domain="staff"}返回登录{/t}</a>
                      <span class="pull-right">
-                         <a style="" href="{url path='staff/get_password/forget_pwd'}">邮箱找回</a>
+                         <a style="" href="{url path='staff/get_password/forget_pwd'}">{t domain="staff"}邮箱找回{/t}</a>
                     </span>
                 </div>
             </div>
@@ -75,20 +75,20 @@
         <form class="form-getcode" action="{url path='staff/get_password/get_code_form'}" method="post" id="get_code" name="theForm">
         	<div class="error-msg"></div>
         	<div class="store_logo">{$logo_display}</div>
-            <h2 class="form-login-heading">手机号密码找回</h2>
+            <h2 class="form-login-heading">{t domain="staff"}手机号密码找回{/t}</h2>
             <div class="login-wrap">
-             	<div><label for="mobile">手机号：</label>{$mobile}</div><br> 
+             	<div><label for="mobile">{t domain="staff"}手机号：{/t}</label>{$mobile}</div><br>
                 <div class="input-group">
-                   <input type="text" class="form-control" name="code" placeholder="请输入校验码">
+                   <input type="text" class="form-control" name="code" placeholder='{t domain="staff"}请输入校验码{/t}'>
                    <span class="input-group-btn">
                         <input class="btn btn-info" id="get_code_value" data-url='{RC_Uri::url("staff/get_password/get_code_value", "mobile={$mobile}")}' type="button" value="获取短信校验码">
                    </span>
                 </div>  
-                <button class="btn btn-lg btn-block btn-primary" style= "margin-top: 20px;" type="submit">提交</button>
+                <button class="btn btn-lg btn-block btn-primary" style= "margin-top: 20px;" type="submit">{t domain="staff"}提交{/t}</button>
                 <div style="margin-top: 10px;">
-                    <a href="{url path='staff/privilege/login'}">返回登录</a>
+                    <a href="{url path='staff/privilege/login'}">{t domain="staff"}返回登录{/t}</a>
                      <span class="pull-right">
-                         <a href="{url path='staff/get_password/forget_pwd'}">邮箱找回</a>
+                         <a href="{url path='staff/get_password/forget_pwd'}">{t domain="staff"}邮箱找回{/t}</a>
                     </span>
                 </div>
             </div>
@@ -101,13 +101,13 @@
         <form class="form-login" action="{url path='staff/get_password/mobile_reset_pwd'}" method="post" id="recharge" name="theForm">
        		<div class="error-msg"></div>
        		<div class="store_logo">{$logo_display}</div>
-            <h2 class="form-login-heading">重置密码</h2>
+            <h2 class="form-login-heading">{t domain="staff"}重置密码{/t}</h2>
             <div class="login-wrap">
-                <input class="form-control"  type="password"  id="password"       name="password"     placeholder="新密码"   value="" autocomplete="off" />
-                <input class="form-control"  type="password"  id="confirm_pwd"    name="confirm_pwd"  placeholder="确认密码" value="" autocomplete="off" />
-                <button class="btn btn-lg btn-block btn-primary" type="submit">确定</button>
+                <input class="form-control"  type="password"  id="password"       name="password"     placeholder='{t domain="staff"}新密码{/t}'   value="" autocomplete="off" />
+                <input class="form-control"  type="password"  id="confirm_pwd"    name="confirm_pwd"  placeholder='{t domain="staff"}确认密码{/t}' value="" autocomplete="off" />
+                <button class="btn btn-lg btn-block btn-primary" type="submit">{t domain="staff"}确定{/t}</button>
                 <div class="text-center" style="margin-top: 10px;">
-                    <a href="{url path='staff/privilege/login'}">返回登录</a>
+                    <a href="{url path='staff/privilege/login'}">{t domain="staff"}返回登录{/t}</a>
                 </div>
             </div>
         </form>

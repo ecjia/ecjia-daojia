@@ -24,8 +24,8 @@
     		            	groupdescribe: "required",
     		            },
     		            messages: {
-    		            	group_name: "请输入员工组名称",
-    		            	groupdescribe: "请输入员工组描述",
+    		            	group_name: js_lang.employee_group_name,
+    		            	groupdescribe: js_lang.employee_group_description,
     		            },
 
     					submitHandler : function() {

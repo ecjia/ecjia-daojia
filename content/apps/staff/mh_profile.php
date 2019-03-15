@@ -63,12 +63,14 @@ class mh_profile extends ecjia_merchant
 
         RC_Script::enqueue_script('bootstrap-fileupload-script', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', array());
         RC_Style::enqueue_style('bootstrap-fileupload', dirname(RC_App::app_dir_url(__FILE__)) . '/merchant/statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', array(), false, false);
-        RC_Script::enqueue_script('migrate', RC_App::apps_url('statics/js/migrate.js', __FILE__), array(), false, true);
+        RC_Script::enqueue_script('migrate', RC_App::apps_url('statics/js/migrate.js', __FILE__), array(), false, 1);
 
-        RC_Script::enqueue_script('profile', RC_App::apps_url('statics/js/profile.js', __FILE__));
+        RC_Script::enqueue_script('profile', RC_App::apps_url('statics/js/profile.js', __FILE__), array(), false, 1);
 
         RC_Style::enqueue_style('style', RC_App::apps_url('statics/css/style.css', __FILE__), array());
-        RC_Script::enqueue_script('cropbox', RC_App::apps_url('statics/js/cropbox.js', __FILE__));
+        RC_Script::enqueue_script('cropbox', RC_App::apps_url('statics/js/cropbox.js', __FILE__), array(), false, 1);
+
+        RC_Script::localize_script('profile', 'js_lang', config('app-staff::jslang.staff_page'));
     }
 
     /**
@@ -76,8 +78,8 @@ class mh_profile extends ecjia_merchant
      */
     public function init()
     {
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('个人资料')));
-        $this->assign('ur_here', __('个人资料'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('个人资料', 'staff')));
+        $this->assign('ur_here', __('个人资料', 'staff'));
 
         $user_info               = RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->first();
         $user_info['add_time']   = RC_Time::local_date(ecjia::config('date_format'), $user_info['add_time']);
@@ -102,7 +104,7 @@ class mh_profile extends ecjia_merchant
         $introduction           = !empty($_POST['introduction']) ? trim($_POST['introduction']) : '';
 
         if (RC_DB::table('staff_user')->where('name', $name)->where('user_id', '!=', $_SESSION['staff_id'])->count() > 0) {
-            return $this->showmessage('该员工名称已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该员工名称已存在', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $data = array(
@@ -114,7 +116,7 @@ class mh_profile extends ecjia_merchant
         );
         RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->update($data);
         ecjia_merchant::admin_log('', 'edit', 'staff_profile');
-        return $this->showmessage('编辑个人资料成功！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/mh_profile/init')));
+        return $this->showmessage(__('编辑个人资料成功！', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/mh_profile/init')));
     }
 
     /**
@@ -122,8 +124,8 @@ class mh_profile extends ecjia_merchant
      */
     public function setting()
     {
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('账户设置')));
-        $this->assign('ur_here', __('账户设置'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('账户设置', 'staff')));
+        $this->assign('ur_here', __('账户设置', 'staff'));
 
         $user_info               = RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->first();
         $user_info['add_time']   = RC_Time::local_date(ecjia::config('date_format'), $user_info['add_time']);
@@ -151,7 +153,7 @@ class mh_profile extends ecjia_merchant
         if ($email && $email != $admin_oldemail) {
             $is_only = RC_DB::table('staff_user')->where('email', $email)->count();
             if ($is_only != 0) {
-                return $this->showmessage(sprintf(__('该Email地址 %s 已经存在！'), stripslashes($email)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(sprintf(__('该Email地址 %s 已经存在！', 'staff'), stripslashes($email)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
         $pwd_modified = false;
@@ -160,7 +162,7 @@ class mh_profile extends ecjia_merchant
             $old_salt     = RC_DB::table('staff_user')->where('user_id', $staff_id)->pluck('salt');
 
             if (empty($_POST['old_password'])) {
-                return $this->showmessage('请输入当前密码进行核对之后才可以修改新密码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('请输入当前密码进行核对之后才可以修改新密码', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             if (empty($old_salt)) {
@@ -170,7 +172,7 @@ class mh_profile extends ecjia_merchant
             }
 
             if ($old_password != $old_ecjia_password) {
-                return $this->showmessage('输入的旧密码错误！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('输入的旧密码错误！', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
             /* 比较新密码和确认密码是否相同 */
@@ -202,9 +204,9 @@ class mh_profile extends ecjia_merchant
             /* 如果修改了密码，则需要将session中该管理员的数据清空 */
             RC_Session::session()->deleteSpecSession($_SESSION['staff_id'], 'merchant'); // 删除session中该管理员的记录
 
-            $msg = __('您已经成功的修改了密码，因此您必须重新登录！');
+            $msg = __('您已经成功的修改了密码，因此您必须重新登录！', 'staff');
         } else {
-            $msg = __('修改个人资料成功！');
+            $msg = __('修改个人资料成功！', 'staff');
         }
 
         return $this->showmessage($msg, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/mh_profile/setting')));
@@ -215,11 +217,11 @@ class mh_profile extends ecjia_merchant
     {
         $newmobile = $_GET['newmobile'];
         if (empty($newmobile)) {
-            return $this->showmessage('请输入新的手机账号', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入新的手机账号', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (RC_DB::table('staff_user')->where('mobile', $newmobile)->count() > 0) {
-            return $this->showmessage('该手机账号已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该手机账号已存在', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $code    = rand(100000, 999999);
@@ -239,7 +241,7 @@ class mh_profile extends ecjia_merchant
         if (is_ecjia_error($response)) {
             return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } else {
-            return $this->showmessage('手机验证码发送成功，请注意查收', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+            return $this->showmessage(__('手机验证码发送成功，请注意查收', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
         }
     }
 
@@ -250,7 +252,7 @@ class mh_profile extends ecjia_merchant
         $code      = $_POST['mobilecode'];
         $newmobile = $_POST['newmobile'];
         if (RC_DB::table('staff_user')->where('mobile', $newmobile)->count() > 0) {
-            return $this->showmessage('该手机账号已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该手机账号已存在', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $time = RC_Time::gmtime() - 6000 * 3;
         if (!empty($code) && $code == $_SESSION['temp_code'] && $time < $_SESSION['temp_code_time']) {
@@ -259,9 +261,9 @@ class mh_profile extends ecjia_merchant
             );
             RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->update($data);
             ecjia_merchant::admin_log('', 'edit', 'account_set');
-            return $this->showmessage('更改手机账号成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/mh_profile/setting')));
+            return $this->showmessage(__('更改手机账号成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/mh_profile/setting')));
         } else {
-            return $this->showmessage('请输入正确的手机校验码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入正确的手机校验码', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     }
 
@@ -271,11 +273,11 @@ class mh_profile extends ecjia_merchant
         $newemail = $_GET['newemail'];
 
         if (empty($newemail)) {
-            return $this->showmessage('请输入新的邮件账号', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入新的邮件账号', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (RC_DB::table('staff_user')->where('email', $newemail)->count() > 0) {
-            return $this->showmessage('该邮件账号已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该邮件账号已存在', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $code     = rand(100000, 999999);
@@ -291,9 +293,9 @@ class mh_profile extends ecjia_merchant
             if (RC_Mail::send_mail('', $newemail, $template['template_subject'], $this->fetch_string($template['template_content']), $template['is_html'])) {
                 $_SESSION['temp_code']      = $code;
                 $_SESSION['temp_code_time'] = RC_Time::gmtime();
-                return $this->showmessage('邮件验证码发送成功，请注意查收', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+                return $this->showmessage(__('邮件验证码发送成功，请注意查收', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
             } else {
-                return $this->showmessage('邮件验证码验证码发送失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('邮件验证码验证码发送失败', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
 
@@ -306,7 +308,7 @@ class mh_profile extends ecjia_merchant
         $code     = $_POST['emailcode'];
         $newemail = $_POST['newemail'];
         if (RC_DB::table('staff_user')->where('email', $newemail)->count() > 0) {
-            return $this->showmessage('该邮件账号已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该邮件账号已存在', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $time = RC_Time::gmtime() - 6000 * 3;
         if (!empty($code) && $code == $_SESSION['temp_code'] && $time < $_SESSION['temp_code_time']) {
@@ -315,9 +317,9 @@ class mh_profile extends ecjia_merchant
             );
             RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->update($data);
             ecjia_merchant::admin_log('', 'edit', 'account_set');
-            return $this->showmessage('更改邮件账号成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/mh_profile/setting')));
+            return $this->showmessage(__('更改邮件账号成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/mh_profile/setting')));
         } else {
-            return $this->showmessage('请输入正确的验证码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入正确的验证码', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     }
 
@@ -326,8 +328,8 @@ class mh_profile extends ecjia_merchant
      */
     public function avatar()
     {
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('个人资料')));
-        $this->assign('ur_here', __('个人资料'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('个人资料', 'staff')));
+        $this->assign('ur_here', __('个人资料', 'staff'));
 
         $user_info               = RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->first();
         $user_info['add_time']   = RC_Time::local_date(ecjia::config('date_format'), $user_info['add_time']);
@@ -358,7 +360,7 @@ class mh_profile extends ecjia_merchant
                 }
             }
         } else {
-            return $this->showmessage('请上传图像', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请上传图像', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $data = array(
             'avatar' => $avatar,
@@ -372,7 +374,7 @@ class mh_profile extends ecjia_merchant
 
         //更新
         RC_DB::table('staff_user')->where('user_id', $staff_id)->update($data);
-        return $this->showmessage('上传新头像成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/mh_profile/avatar')));
+        return $this->showmessage(__('上传新头像成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/mh_profile/avatar')));
     }
 }
 

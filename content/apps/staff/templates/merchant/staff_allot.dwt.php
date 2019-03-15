@@ -45,7 +45,7 @@
 					  <div class="row priv_list">
 							<div class="form-group checkall">
 			                     <input name="checkall" id="all" data-toggle="selectall" data-children=".checkbox" type="checkbox" value="checkbox" autocomplete="off">
-			                     <label for="all">全选</label>
+			                     <label for="all">{t domain="staff"}全选{/t}</label>
 							</div>
 							<hr>
 							
@@ -72,7 +72,7 @@
 	                     <div class="form-group">
 	                          <div class="col-lg-offset-2 col-lg-6">
 	                          	  <input type="hidden"  name="user_id"  value="{$user_id}" />
-	                              <button class="btn btn-info" type="submit">{lang key='staff::staff.sub_update'}</button>
+	                              <button class="btn btn-info" type="submit">{t domain="staff"}更新{/t}</button>
 	                          </div>
 	                     </div>
                   </form>

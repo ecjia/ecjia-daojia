@@ -8,7 +8,7 @@
 	            	name: "required",
 	            },
 	            messages: {
-	            	name: "请输入用户名称",
+	            	name: js_lang.user_name,
 	            },
  				submitHandler : function() {
  					$form.ajaxSubmit({
@@ -45,7 +45,7 @@
                 	if (data.state == 'success'){
 	        		  　    curCount = count;
 	        		     $("#get_mobile_code").attr("disabled", "true");
-	        		     $("#get_mobile_code").val("重新发送" + curCount + "(s)");
+	        		     $("#get_mobile_code").val(js_lang.resend + curCount + "(s)");
 	        		     InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
 	        		     var $info = $('<div class="staticalert alert alert-success ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
 						 $info.appendTo('.success-msg').delay(5000).hide(0);
@@ -61,11 +61,11 @@
 	            if (curCount == 0) {                
 	                window.clearInterval(InterValObj);//停止计时器
 	                $("#get_code_value").removeAttr("disabled");//启用按钮
-	                $("#get_code_value").val("重新发送验证码");
+	                $("#get_code_value").val(js_lang.resend_code);
 	            }
 	            else {
 	                curCount--;
-	                $("#get_mobile_code").val("重新发送" + curCount + "(s)");
+	                $("#get_mobile_code").val(js_lang.resend + curCount + "(s)");
 	            }
 	        };
         	
@@ -75,7 +75,7 @@
 		            	newmobile: "required",
 		            },
 		            messages: {
-		            	newmobile: "请输入手机账号",
+		            	newmobile: js_lang.phone_account ,
 		            },
 					submitHandler : function() {
 						$form.ajaxSubmit({
@@ -109,7 +109,7 @@
                 	if (data.state == 'success') {
 	        		  　    curCount = count;
 	        		     $("#get_email_code").attr("disabled", "true");
-	        		     $("#get_email_code").val("重新发送" + curCount + "(s)");
+	        		     $("#get_email_code").val(js_lang.resend + curCount + "(s)");
 	        		     InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
 	        		     var $info = $('<div class="staticalert alert alert-success ui_showmessage"><a data-dismiss="alert" class="close">×</a>' + data.message + '</div>');
 						 $info.appendTo('.success-msg').delay(5000).hide(0);
@@ -126,11 +126,11 @@
 	                window.clearInterval(InterValObj);//停止计时器
 //	                $("#newemail").removeAttr("disabled");//启用按钮
 	                $("#get_email_code").removeAttr("disabled");//启用按钮
-	                $("#get_email_code").val("重新发送验证码");
+	                $("#get_email_code").val(js_lang.resend_code);
 	            }
 	            else {
 	                curCount--;
-	                $("#get_email_code").val("重新发送" + curCount + "(s)");
+	                $("#get_email_code").val(js_lang.resend + curCount + "(s)");
 	            }
 	        };
 
@@ -143,7 +143,7 @@
 			            },
 		            },
 		            messages: {
-		            	newemail: "请输入正确格式的邮件地址",
+		            	newemail: js_lang.correctly_formatted_email_address,
 		            },
 					submitHandler : function() {
 						$form.ajaxSubmit({
@@ -178,10 +178,10 @@
 		            },
 		            messages: {
 		                new_password: {
-		                    minlength: "您的密码必须至少为6个字符"
+		                    minlength: js_lang.password_is_at_least_6_characters
 		                },
 		                pwd_confirm: {
-		                    equalTo: "请输入与上述相同的密码"
+		                    equalTo: js_lang.same_password
 		                },
 		            },
 					submitHandler : function() {

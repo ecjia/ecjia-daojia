@@ -1,7 +1,7 @@
 <section class="panel">
     <div class="panel-body">
 		<header class="panel-title">
-			快捷入口
+            {t domain="staff"}快捷入口{/t}
 		</header>
     </div>
     <div class="panel-body" style="padding-top:0;">

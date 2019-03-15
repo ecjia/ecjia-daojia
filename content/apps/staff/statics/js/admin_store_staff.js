@@ -30,7 +30,7 @@
 								});
 							},'json');
 						}
-					}, {ok:'确定', cancel:'取消'});
+					}, {ok:js_lang.ok, cancel:js_lang.cancel});
 				} else {
 					$.get(url, val, function(data){
 						var url = $this.attr("data-pjax-url");

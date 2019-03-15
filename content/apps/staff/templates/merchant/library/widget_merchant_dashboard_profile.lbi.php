@@ -3,7 +3,7 @@
     <div class="panel-heading">
         <header class="panel-title">
             <div class="text-center">
-                <strong>个人信息</strong>
+                <strong>{t domain="staff"}个人信息{/t}</strong>
             </div>
         </header>
     </div>
@@ -18,15 +18,15 @@
 	   		</a>
 			<h3>{$user_info.name}</h3>
             {if $user_info.parent_id eq 0}
-            <small class="label label-warning">店长</small>
+            <small class="label label-warning">{t domain="staff"}店长{/t}</small>
             {/if}
-           	<p>{if $user_info.introduction eq ''}主人你好懒，赶紧去个人中心完善资料吧~~{else}{$user_info.introduction}{/if}</p>
+           	<p>{if $user_info.introduction eq ''}{t domain="staff"}主人你好懒，赶紧去个人中心完善资料吧~~{/t}{else}{$user_info.introduction}{/if}</p>
             <div class="pull-left">
-                 <label class="">{t}上次登录IP：{/t}</label>
+                 <label class="">{t domain="staff"}上次登录IP：{/t}</label>
                  {$user_info.last_ip}
             </div>
             <div class="pull-left">
-                 <label class="">{t}上次登录时间：{/t}</label>
+                 <label class="">{t domain="staff"}上次登录时间：{/t}</label>
                  {$user_info.last_login}
             </div>
             

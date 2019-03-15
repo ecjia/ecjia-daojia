@@ -26,9 +26,9 @@
         <div class="panel">
             <div class="panel-body">
                 <ul id="myTab" class="nav nav-pills">
-                	<li class=""><a class="data-pjax" href='{url path="staff/mh_profile/init"}'>个人资料</a></li>
-                    <li class=""><a class="data-pjax" href='{url path="staff/mh_profile/setting"}'>账户设置</a></li>
-                    <li class="active"><a href="#avatar">头像设置</a></li>
+                	<li class=""><a class="data-pjax" href='{url path="staff/mh_profile/init"}'>{t domain="staff"}个人资料{/t}</a></li>
+                    <li class=""><a class="data-pjax" href='{url path="staff/mh_profile/setting"}'>{t domain="staff"}账户设置{/t}</a></li>
+                    <li class="active"><a href="#avatar">{t domain="staff"}头像设置{/t}</a></li>
                 </ul>
                 <br>
                 <div id="myTabContent" class="tab-content">
@@ -42,12 +42,12 @@
 					        <div class="action">
 					            <div class="new-contentarea tc">
 					                <a href="javascript:void(0)" class="upload-img">
-					                    <label for="upload-file">选择图像</label>
+					                    <label for="upload-file">{t domain="staff"}选择图像{/t}</label>
 					                </a>
 					                <input type="file" class="" name="avatar" id="upload-file" />
 					            </div>
-					            <input type="button" id="btnSubmit" class="Btnsty_peyton" data-url="{$form_action}" value="上传" />
-					            <input type="button" id="btnCrop" class="Btnsty_peyton" value="裁切" />
+					            <input type="button" id="btnSubmit" class="Btnsty_peyton" data-url="{$form_action}" value='{t domain="staff"}上传{/t}' />
+					            <input type="button" id="btnCrop" class="Btnsty_peyton" value='{t domain="staff"}裁切{/t}' />
 					            <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+" />
 					            <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-" />
 					        </div>

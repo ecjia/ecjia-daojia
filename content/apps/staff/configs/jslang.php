@@ -44,31 +44,38 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 商家员工管理菜单
- * @author songqianqian
+ * js语言包设置
  */
-class staff_merchant_menu_api extends Component_Event_Api {
 
-    public function call(&$options) {
-        $menus = ecjia_merchant::make_admin_menu('staff', __('员工', 'staff'), '', 6)->add_icon('fa-suitcase')->add_purview(array('staff_manage','staff_group_manage','staff_log_manage'))->add_base('staff');
-        
-        $submenus = array(
-            ecjia_merchant::make_admin_menu('01_staff_group', __('员工管理', 'staff'), RC_Uri::url('staff/mh_group/init'), 1)->add_purview('staff_group_manage')->add_icon('fa-share-alt'),
-            ecjia_merchant::make_admin_menu('01_staff_log', __('员工日志', 'staff'), RC_Uri::url('staff/mh_log/init'), 2)->add_purview('staff_log_manage')->add_icon('fa-list-alt'),
-        );
-        
-        $menus->add_submenu($submenus);
-		
-		$menus = RC_Hook::apply_filters('staff_merchant_menu_api', $menus);
-		
-		if ($menus->has_submenus()) {
-			return $menus;
-		}
-		return false;
-    }
-}
+defined('IN_ECJIA') or exit('No permission resources.');
 
-// end
+return array(
+    //staff
+    'staff_page' =>array(
+        'choose_delet_time' => __('请先选择删除日志的时间！', 'staff'),
+        'delet_ok_1' 		=> __('确定删除', 'staff'),
+        'delet_ok_2' 		=> __('的日志吗？', 'staff'),
+
+        'user_name' 		=> __('请输入用户名称', 'staff'),
+        'resend' 		=> __('重新发送', 'staff'),
+        'resend_code' 		=> __('重新发送验证码', 'staff'),
+        'phone_account' 		=> __('请输入手机账号', 'staff'),
+        'correctly_formatted_email_address' 		=> __('请输入正确格式的邮件地址', 'staff'),
+        'password_is_at_least_6_characters' 		=> __('您的密码必须至少为6个字符', 'staff'),
+        'same_password' 		=> __('请输入与上述相同的密码', 'staff'),
+        'employee_name' 		=> __('请输入员工名称', 'staff'),
+        'phone_account' 		=> __('请输入手机账号', 'staff'),
+        'correct_mail_account' 		=> __('请输入正确邮件账号', 'staff'),
+        'enter_password' 		=> __('请输入密码', 'staff'),
+        'password_can_not_be_blank' 		=> __('确认密码不能为空', 'staff'),
+        'employee_group_name' 		=> __('请输入员工组名称', 'staff'),
+        'employee_group_description' 		=> __('请输入员工组描述', 'staff'),
+
+        'ok' 				=> __('确定', 'staff'),
+        'cancel' 			=> __('取消', 'staff'),
+    ),
+
+);
+//end

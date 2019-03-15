@@ -25,44 +25,44 @@
         <div class="panel">
             <div class="panel-body">
                 <ul id="myTab" class="nav nav-pills">
-                    <li class="active"><a href="#photos">个人资料</a></li>
-                    <li class=""><a class="data-pjax" href='{url path="staff/mh_profile/setting"}'>账户设置</a></li>
-                    <li class=""><a class="data-pjax" href='{url path="staff/mh_profile/avatar"}'>头像设置</a></li>
+                    <li class="active"><a href="#photos">{t domain="staff"}个人资料{/t}</a></li>
+                    <li class=""><a class="data-pjax" href='{url path="staff/mh_profile/setting"}'>{t domain="staff"}账户设置{/t}</a></li>
+                    <li class=""><a class="data-pjax" href='{url path="staff/mh_profile/avatar"}'>{t domain="staff"}头像设置{/t}</a></li>
                 </ul>
                 <div id="myTabContent" class="tab-content">
                     <div class="tab-pane fade active in" id="photos">  
                        <form method="post" name="profileForm" id="profileForm" action="{$form_action}">
                        		<br>
                             <div class="form-group controls">
-                                <label>用户编号</label>
+                                <label>{t domain="staff"}用户编号{/t}</label>
                                 <input class="form-control" id="user_ident" name="user_ident" type="text" value="{$user_info.user_ident}" />
                             </div>
                             
                             <div class="form-group controls">
-                                <label>用户姓名</label>
+                                <label>{t domain="staff"}用户姓名{/t}</label>
                                 <input class="form-control" id="name" name="name" type="text" value="{$user_info.name}" />
                             </div>
                             
                             <div class="form-group controls">
-                                <label>用户昵称</label>
+                                <label>{t domain="staff"}用户昵称{/t}</label>
                                  <input class="form-control" id="nick_name" name="nick_name" type="text" value="{$user_info.nick_name}"/>
                             </div>
                             
                             <div class="form-group controls">
-                                <label>自我介绍</label>
+                                <label>{t domain="staff"}自我介绍{/t}</label>
                                 <textarea class="form-control" id="introduction" name="introduction">{$user_info.introduction}</textarea>
                             </div>
 
                             {if $user_info.parent_id eq 0}
                             <div class="form-group">
-                                <label>备注</label>
+                                <label>{t domain="staff"}备注{/t}</label>
                                 <textarea class="form-control" id="todolist" name="todolist">{$user_info.todolist}</textarea>
-                                <p class="help-block">该备注仅店长可见</p>
+                                <p class="help-block">{t domain="staff"}该备注仅店长可见{/t}</p>
                             </div>
                             {/if}
                             
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">提交</button>
+                                <button type="submit" class="btn btn-primary">{t domain="staff"}提交{/t}</button>
                             </div>
                         </form>
                     </div>

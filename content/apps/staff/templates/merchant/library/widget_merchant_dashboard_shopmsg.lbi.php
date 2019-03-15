@@ -1,9 +1,9 @@
 <section class="panel">
     <div class="panel-body">
 		<header class="panel-title">
-			商城消息
+            {t domain="staff"}商城消息{/t}
 			<span class="pull-right">
-				<a target="__blank" href="{RC_Uri::url('notification/mh_notification/init')}">查看更多 >></a>
+				<a target="_blank" href="{RC_Uri::url('notification/mh_notification/init')}">{t domain="staff"}查看更多{/t} >></a>
 			</span>
 		</header>
     </div>

@@ -75,15 +75,16 @@ class admin_store_staff extends ecjia_admin
         RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
         RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
 
-        RC_Script::enqueue_script('store', RC_App::apps_url('statics/js/admin_store_staff.js', __FILE__));
+        RC_Script::enqueue_script('store', RC_App::apps_url('statics/js/admin_store_staff.js', __FILE__), array(), false, 1);
         RC_Script::enqueue_script('qq_map', ecjia_location_mapjs());
+        RC_Script::localize_script('store', 'js_lang', config('app-staff::jslang.staff_page'));
 
         $store_id = intval($_GET['store_id']);
         $store_info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
-        $nav_here = '入驻商家';
+        $nav_here = __('入驻商家', 'staff');
         $url = RC_Uri::url('store/admin/join');
         if ($store_info['manage_mode'] == 'self') {
-        	$nav_here = '自营店铺';
+        	$nav_here = __('自营店铺', 'staff');
         	$url = RC_Uri::url('store/admin/init');
         }
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($nav_here, $url));
@@ -101,7 +102,7 @@ class admin_store_staff extends ecjia_admin
         $store      = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
         
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($store['merchants_name'], RC_Uri::url('store/admin/preview', array('store_id' => $store_id))));
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('store::store.view_staff')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('查看员工', 'staff')));
         
         ecjia_screen::get_current_screen()->set_sidebar_display(false);
         ecjia_screen::get_current_screen()->add_option('store_name', $store['merchants_name']);
@@ -117,11 +118,11 @@ class admin_store_staff extends ecjia_admin
         }
 
        	if ($store['manage_mode'] == 'self') {
-        	$this->assign('action_link', array('href' => RC_Uri::url('store/admin/init'), 'text' => '自营店铺列表'));
+        	$this->assign('action_link', array('href' => RC_Uri::url('store/admin/init'), 'text' => __('自营店铺列表', 'staff')));
         } else {
-        	$this->assign('action_link', array('href' => RC_Uri::url('store/admin/join'), 'text' => RC_Lang::get('store::store.store_list')));
+        	$this->assign('action_link', array('href' => RC_Uri::url('store/admin/join'), 'text' => __('入驻商家列表', 'staff')));
         }
-        $this->assign('ur_here', $store['merchants_name'] . ' - ' . RC_Lang::get('store::store.view_staff'));
+        $this->assign('ur_here', $store['merchants_name'] . ' - ' . __('查看员工', 'staff'));
         $this->assign('main_staff', $main_staff);
         $this->assign('staff_list', $staff_list);
         $this->assign('current_url', RC_Uri::current_url());
@@ -139,17 +140,17 @@ class admin_store_staff extends ecjia_admin
         $store      = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
         
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($store['merchants_name'], RC_Uri::url('store/admin/preview', array('store_id' => $store_id))));
-       	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('编辑店长'));
+       	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑店长', 'staff')));
         
         ecjia_screen::get_current_screen()->set_sidebar_display(false);
         ecjia_screen::get_current_screen()->add_option('store_name', $store['merchants_name']);
         ecjia_screen::get_current_screen()->add_option('current_code', 'store_view_staff');
         
         if (empty($store)) {
-            return $this->showmessage('店铺信息不存在！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('店铺信息不存在！', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-        $this->assign('action_link', array('href' => RC_Uri::url('staff/admin_store_staff/init', array('store_id' => $store_id)), 'text' => '查看员工'));
-        $this->assign('ur_here', $store['merchants_name'] . ' - 编辑店长');
+        $this->assign('action_link', array('href' => RC_Uri::url('staff/admin_store_staff/init', array('store_id' => $store_id)), 'text' => __('查看员工', 'staff')));
+        $this->assign('ur_here', $store['merchants_name'] . __(' - 编辑店长', 'staff'));
         $this->assign('store', $store);
 
         if ($main_staff == 1) {
@@ -176,34 +177,34 @@ class admin_store_staff extends ecjia_admin
         $introduction = trim($_POST['introduction']);
         $store        = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
         if (empty($user_name)) {
-            return $this->showmessage('店铺信息不存在！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('店铺信息不存在！', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (empty($user_name)) {
-            return $this->showmessage('姓名不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('姓名不能为空', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($mobile)) {
-            return $this->showmessage('联系手机不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('联系手机不能为空', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 //         $chars = "/^1(3|4|5|6|7|8|9)\d{9}$/";
 //         if (!preg_match($chars, $mobile)) {
-//             return $this->showmessage('手机号码格式错误', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//             return $this->showmessage(__('手机号码格式错误', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 //         }
         $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
         if (is_ecjia_error($check_mobile)) {
             return $this->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         if (empty($email)) {
-            return $this->showmessage('邮箱不能为空', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('邮箱不能为空', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $is_exist = RC_DB::table('staff_user')->where('store_id', '<>', $store_id)->where('mobile', $mobile)->get();
         if ($is_exist) {
-            return $this->showmessage('联系手机员工中已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('联系手机员工中已存在，请修改', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $is_exist = RC_DB::table('staff_user')->where('store_id', '<>', $store_id)->where('email', $email)->get();
         if ($is_exist) {
-            return $this->showmessage('邮箱员工中已存在，请修改', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('邮箱员工中已存在，请修改', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $data = array(
@@ -217,7 +218,7 @@ class admin_store_staff extends ecjia_admin
 
         $rs = RC_DB::table('staff_user')->where('store_id', $store_id)->where('user_id', $staff_id)->update($data);
 
-        return $this->showmessage('更新成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/admin_store_staff/init', array('store_id' => $store_id))));
+        return $this->showmessage(__('更新成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/admin_store_staff/init', array('store_id' => $store_id))));
     }
 
     public function reset_staff()
@@ -253,9 +254,9 @@ class admin_store_staff extends ecjia_admin
             $rs = RC_DB::table('staff_user')->where('store_id', $store_id)->where('user_id', $info['user_id'])->update($data_staff);
 
             if ($rs) {
-                return $this->showmessage('重置成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/admin_store_staff/init', array('store_id' => $store_id))));
+                return $this->showmessage(__('重置成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/admin_store_staff/init', array('store_id' => $store_id))));
             } else {
-                return $this->showmessage('重置失败', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+                return $this->showmessage(__('重置失败', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
     }
@@ -268,18 +269,18 @@ class admin_store_staff extends ecjia_admin
         $store      = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
         
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($store['merchants_name'], RC_Uri::url('store/admin/preview', array('store_id' => $store_id))));
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('员工设置'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('员工设置', 'staff')));
         
         ecjia_screen::get_current_screen()->set_sidebar_display(false);
         ecjia_screen::get_current_screen()->add_option('store_name', $store['merchants_name']);
         ecjia_screen::get_current_screen()->add_option('current_code', 'store_staff_set');
 
        	if ($store['manage_mode'] == 'self') {
-        	$this->assign('action_link', array('href' => RC_Uri::url('store/admin/init'), 'text' => '自营店铺列表'));
+        	$this->assign('action_link', array('href' => RC_Uri::url('store/admin/init'), 'text' => __('自营店铺列表', 'staff')));
         } else {
-        	$this->assign('action_link', array('href' => RC_Uri::url('store/admin/join'), 'text' => RC_Lang::get('store::store.store_list')));
+        	$this->assign('action_link', array('href' => RC_Uri::url('store/admin/join'), 'text' => __('入驻商家列表', 'staff')));
         }
-        $this->assign('ur_here', $store['merchants_name'] . ' - ' . '员工设置');
+        $this->assign('ur_here', $store['merchants_name'] . ' - ' . __('员工设置', 'staff'));
         $this->assign('form_action', RC_Uri::url('staff/admin_store_staff/set_update'));
         
         $merchant_info = get_merchant_info($store_id);
@@ -306,7 +307,7 @@ class admin_store_staff extends ecjia_admin
     	$merchant_staff_max_number = !empty($_POST['merchant_staff_max_number']) ? intval($_POST['merchant_staff_max_number']) : 0;
     	RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'merchant_staff_max_number')->update(array('value' => $merchant_staff_max_number));
      	
-    	return $this->showmessage('更新成功', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/admin_store_staff/set', array('store_id' => $store_id))));
+    	return $this->showmessage(__('更新成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/admin_store_staff/set', array('store_id' => $store_id))));
     }
 }
 

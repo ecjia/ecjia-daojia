@@ -1,6 +1,6 @@
 <section class="panel">
     <div class="task-thumb-details">
-        <h1>公告通知</h1>
+        <h1>{t domain="staff"}公告通知{/t}</h1>
     </div>
     <table class="table">
         <tbody>
@@ -11,7 +11,7 @@
         	</tr>
         	<!-- {foreachelse} -->
         	<tr>
-        	   <td class="no-records" colspan="1">暂无任何公告通知</td>
+        	   <td class="no-records" colspan="1">{t domain="staff"}暂无任何公告通知{/t}</td>
         	</tr>
         	<!-- {/foreach} -->
         </tbody>

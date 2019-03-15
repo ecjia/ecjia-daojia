@@ -59,12 +59,12 @@ class v2_admin_user_forget_request_module extends api_admin implements api_inter
 		$type_info    = $this->requestData('type_info');
 		
 		if (empty($type) || empty($type_info)) {
-		    return  new ecjia_error('empty_error', __('请填写用户相关信息！'));
+		    return  new ecjia_error('empty_error', __('请填写用户相关信息！', 'staff'));
 		}
 		if ($type == "email") {
 	        $preg = '/^([a-zA-Z0-9_\-\.])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/i';
 	        if (!preg_match($preg, $type_info)) {
-		        return new ecjia_error('email_error', __('邮箱格式不正确！'));
+		        return new ecjia_error('email_error', __('邮箱格式不正确！', 'staff'));
 		    }
 		}
 		if ($type == "mobile") {
@@ -105,7 +105,7 @@ class v2_admin_user_forget_request_module extends api_admin implements api_inter
 	            $code    = rand(111111, 999999);
 	            $content = "[".ecjia::config('shop_name')."]您的管理员账户正在变更账户信息，效验码：".$code."，打死都不能告诉别人哦！唯一热线".ecjia::config('service_phone');
 	            /* 发送确认重置密码的确认邮件 */
-	            if (RC_Mail::send_mail($admin_username, $type_info, '账户变更效验码', $content, 1)) {
+	            if (RC_Mail::send_mail($admin_username, $type_info, __('账户变更效验码', 'staff'), $content, 1)) {
 	                $_SESSION['temp_code']      = $code;
 	                $_SESSION['temp_code_time'] = RC_Time::gmtime();
 	                $data = array(
@@ -115,11 +115,11 @@ class v2_admin_user_forget_request_module extends api_admin implements api_inter
 	                 
 	                return $data;
 	            } else {
-	                return new ecjia_error('post_email_error', __('邮件发送失败！'));
+	                return new ecjia_error('post_email_error', __('邮件发送失败！', 'staff'));
 	            }
 	        } else {
 	            /* 提示信息 */
-	            return new ecjia_error('userinfo_error', __('用户不存在！'));
+	            return new ecjia_error('userinfo_error', __('用户不存在！', 'staff'));
 	        }
 	    } else if ($type == "mobile") {
 	
@@ -153,7 +153,7 @@ class v2_admin_user_forget_request_module extends api_admin implements api_inter
 	            }
 	        } else {
 	            /* 提示信息 */
-	            return new ecjia_error('userinfo_error', __('用户不存在！'));
+	            return new ecjia_error('userinfo_error', __('用户不存在！', 'staff'));
 	        }
 	    }
 	}
@@ -169,7 +169,7 @@ class v2_admin_user_forget_request_module extends api_admin implements api_inter
 	            $code    = rand(111111, 999999);
 	            $content = "[".ecjia::config('shop_name')."]您的管理员账户正在变更账户信息，效验码：".$code."，打死都不能告诉别人哦！唯一热线".ecjia::config('service_phone');
 	            /* 发送确认重置密码的确认邮件 */
-	            if (RC_Mail::send_mail($admin_username, $type_info, '账户变更效验码', $content, 1)) {
+	            if (RC_Mail::send_mail($admin_username, $type_info, __('账户变更效验码', 'staff'), $content, 1)) {
 	                $_SESSION['temp_code']      = $code;
 	                $_SESSION['temp_code_time'] = RC_Time::gmtime();
 	                $data = array(
@@ -179,11 +179,11 @@ class v2_admin_user_forget_request_module extends api_admin implements api_inter
 	                 
 	                return $data;
 	            } else {
-	                return new ecjia_error('post_email_error', __('邮件发送失败！'));
+	                return new ecjia_error('post_email_error', __('邮件发送失败！', 'staff'));
 	            }
 	        } else {
 	            /* 提示信息 */
-	            return new ecjia_error('userinfo_error', __('用户名与其信息不匹配！'));
+	            return new ecjia_error('userinfo_error', __('用户名与其信息不匹配！', 'staff'));
 	        }
 	    }
 	}

@@ -57,12 +57,12 @@ class admin_user_password_module extends api_admin implements api_interface {
 		$adminid = $this->requestData('uid', 0);
 		$admin_name = $this->requestData('user_name');
 		if (empty($new_password) || $adminid == 0 ) {
-			$result = new ecjia_error('post_error', __('提交信息有误!'));
+			$result = new ecjia_error('post_error', __('提交信息有误!', 'staff'));
 			return $result;
 		}
 		
 		if (strlen($new_password) < 6 ) {
-			$result = new ecjia_error('passwordlength_error', __('请输入至少6位数密码！'));
+			$result = new ecjia_error('passwordlength_error', __('请输入至少6位数密码！', 'staff'));
 			return $result;
 		}
 		
@@ -73,7 +73,7 @@ class admin_user_password_module extends api_admin implements api_interface {
 		$name = $db->where('user_id', $adminid)->pluck('user_name');
 		
 		if ($admin_name == $name) {
-			$result = new ecjia_error('info_error', __('信息错误！'));
+			$result = new ecjia_error('info_error', __('信息错误！', 'staff'));
 			return $result;
 		} else {
 			// 更新管理员的密码
@@ -87,10 +87,10 @@ class admin_user_password_module extends api_admin implements api_interface {
 			$result	= $db->where('user_id', $adminid)->update($data);
 			
 			if ($result) {
-				$data['data'] = __('密码修改成功!');
+				$data['data'] = __('密码修改成功!', 'staff');
 				return $data;
 			} else {
-				$result = new ecjia_error('update_error', __('密码修改失败!'));
+				$result = new ecjia_error('update_error', __('密码修改失败!', 'staff'));
 				return $result;
 			}
 		}

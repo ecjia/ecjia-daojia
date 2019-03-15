@@ -71,9 +71,11 @@ class merchant extends ecjia_merchant
         RC_Script::enqueue_script('migrate', RC_App::apps_url('statics/js/migrate.js', __FILE__), array(), false, true);
         RC_Script::enqueue_script('staff', RC_App::apps_url('statics/js/staff.js', __FILE__));
         RC_Script::enqueue_script('staff_logs', RC_App::apps_url('statics/js/staff_logs.js', __FILE__), array(), false, true);
-        RC_Script::localize_script('staff_logs', 'js_lang', RC_Lang::get('staff::staff.js_lang'));
+        RC_Script::localize_script('staff_group', 'js_lang', config('app-staff::jslang.staff_page'));
+        RC_Script::localize_script('staff', 'js_lang', config('app-staff::jslang.staff_page'));
+        RC_Script::localize_script('staff_logs', 'js_lang', config('app-staff::jslang.staff_page'));
 
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here('员工管理', RC_Uri::url('staff/merchant/init')));
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('员工管理', 'staff'), RC_Uri::url('staff/merchant/init')));
         ecjia_merchant_screen::get_current_screen()->set_parentage('staff', 'staff/merchant.php');
     }
 
@@ -84,24 +86,24 @@ class merchant extends ecjia_merchant
     {
         $this->admin_priv('staff_manage');
 
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('staff::staff.staff_list')));
-        $this->assign('ur_here', '账户列表');
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('员工列表', 'staff')));
+        $this->assign('ur_here', __('账户列表', 'staff'));
 
         $group_id = intval($_GET['group_id']);
-        $this->assign('action_link_group', array('text' => '员工管理', 'href' => RC_Uri::url('staff/mh_group/init')));
-        $this->assign('action_link', array('text' => '新增账户', 'href' => RC_Uri::url('staff/merchant/add', array('group_id' => $group_id, 'step' => 1))));
+        $this->assign('action_link_group', array('text' => __('员工管理', 'staff'), 'href' => RC_Uri::url('staff/mh_group/init')));
+        $this->assign('action_link', array('text' => __('新增账户', 'staff'), 'href' => RC_Uri::url('staff/merchant/add', array('group_id' => $group_id, 'step' => 1))));
 
         $staff_list = $this->staff_list($group_id);
         $this->assign('staff_list', $staff_list);
 
         if ($group_id == '-1') {
-            $group_name = '配送员';
+            $group_name = __('配送员', 'staff');
         } elseif ($group_id == '-2') {
-            $group_name = '收银员';
+            $group_name = __('收银员', 'staff');
         } elseif ($group_id > 0) {
             $group_name = RC_DB::table('staff_group')->where('group_id', $group_id)->pluck('group_name');
         } else {
-            $group_name = '未分组';
+            $group_name = __('未分组', 'staff');
         }
         $this->assign('group_name', $group_name);
 
@@ -117,9 +119,9 @@ class merchant extends ecjia_merchant
     {
         $this->admin_priv('staff_update');
 
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('staff::staff.staff_add')));
-        $this->assign('ur_here', RC_Lang::get('staff::staff.staff_add'));
-        $this->assign('action_link', array('href' => RC_Uri::url('staff/mh_group/init'), 'text' => '员工管理'));
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加员工', 'staff')));
+        $this->assign('ur_here', __('添加员工', 'staff'));
+        $this->assign('action_link', array('href' => RC_Uri::url('staff/mh_group/init'), 'text' => __('员工管理', 'staff')));
 
         $group_list = $this->get_group_select_list($_SESSION['store_id']);
         $this->assign('group_list', $group_list);
@@ -135,11 +137,11 @@ class merchant extends ecjia_merchant
             $staff['add_time']   = RC_Time::local_date('Y-m-d', $staff['add_time']);
             $staff['group_name'] = RC_DB::table('staff_group')->where('group_id', $staff['group_id'])->pluck('group_name');
             if ($staff['group_id'] == -1) {
-                $staff['group_name'] = '配送员';
+                $staff['group_name'] = __('配送员', 'staff');
             } elseif ($staff['group_id'] == -2) {
-                $staff['group_name'] = '收银员';
+                $staff['group_name'] = __('收银员', 'staff');
             } else {
-                $staff['group_name'] = '未分组';
+                $staff['group_name'] = __('未分组', 'staff');
             }
             $this->assign('staff', $staff);
         }
@@ -161,16 +163,16 @@ class merchant extends ecjia_merchant
         $staff_mun = RC_DB::table('shop_config')->where('code', 'merchant_staff_max_number')->pluck('value');
         $num = !empty($store_staff_mun) ? $store_staff_mun : (!empty($staff_mun) ? $staff_mun : 10);
         if ($count >= $num) {
-        	return $this->showmessage('抱歉，目前子员工数额已达到'.$num.'个，不可再添加', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        	return $this->showmessage(sprintf(__('抱歉，目前子员工数额已达到%s个，不可再添加', 'staff'), $num), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $mobile = $_GET['mobile'];
         if (empty($mobile)) {
-            return $this->showmessage('请输入员工手机号', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入员工手机号', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (RC_DB::table('staff_user')->where('mobile', $mobile)->count() > 0) {
-            return $this->showmessage('该手机号已存在，请更换手机号再进行添加员工', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该手机号已存在，请更换手机号再进行添加员工', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $code    = rand(100000, 999999);
@@ -191,7 +193,7 @@ class merchant extends ecjia_merchant
         if (is_ecjia_error($response)) {
             return $this->showmessage($response->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         } else {
-            return $this->showmessage('手机验证码发送成功，请注意查收', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+            return $this->showmessage(__('手机验证码发送成功，请注意查收', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
         }
     }
 
@@ -206,18 +208,18 @@ class merchant extends ecjia_merchant
         $staff_mun = RC_DB::table('shop_config')->where('code', 'merchant_staff_max_number')->pluck('value');
         $num = !empty($store_staff_mun) ? $store_staff_mun : (!empty($staff_mun) ? $staff_mun : 10);
         if ($count >= $num) {
-            return $this->showmessage('抱歉，目前子员工数额已达到'.$num.'个，不可再添加', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(sprintf(__('抱歉，目前子员工数额已达到%s个，不可再添加', 'staff'), $num), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (RC_DB::table('staff_user')->where('mobile', $mobile)->count() > 0) {
-            return $this->showmessage('该手机号已存在，请更换手机号再进行添加员工', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该手机号已存在，请更换手机号再进行添加员工', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $time = RC_Time::gmtime() - 6000 * 3;
         if (!empty($code) && $code == $_SESSION['temp_code'] && $time < $_SESSION['temp_code_time']) {
             return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/merchant/add', array('step' => 2))));
         } else {
-            return $this->showmessage('请输入正确的手机校验码', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('请输入正确的手机校验码', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     }
 
@@ -247,15 +249,15 @@ class merchant extends ecjia_merchant
         $staff_mun = RC_DB::table('shop_config')->where('code', 'merchant_staff_max_number')->pluck('value');
         $num = !empty($store_staff_mun) ? $store_staff_mun : (!empty($staff_mun) ? $staff_mun : 10);
         if ($count >= $num) {
-        	return $this->showmessage('抱歉，目前子员工数额已达到'.$num.'个，不可再添加', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        	return $this->showmessage(sprintf(__('抱歉，目前子员工数额已达到%s个，不可再添加', 'staff'), $num), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         
         if (RC_DB::table('staff_user')->where('name', $_POST['name'])->where('store_id', $_SESSION['store_id'])->count() > 0) {
-            return $this->showmessage('该员工名称已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该员工名称已存在', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         if (RC_DB::table('staff_user')->where('email', $_POST['email'])->count() > 0) {
-            return $this->showmessage('该邮件账号已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该邮件账号已存在', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $manager_id = RC_DB::table('staff_user')->where('store_id', $_SESSION['store_id'])->where('parent_id', 0)->pluck('user_id');
@@ -305,7 +307,7 @@ class merchant extends ecjia_merchant
         
         ecjia_merchant::admin_log($_POST['name'], 'add', 'staff');
         
-        return $this->showmessage(RC_Lang::get('staff::staff.staff_add_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/merchant/add', array('step' => 3, 'id' => $staff_id))));
+        return $this->showmessage(__('添加员工信息成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/merchant/add', array('step' => 3, 'id' => $staff_id))));
     }
 
     /**
@@ -315,9 +317,9 @@ class merchant extends ecjia_merchant
     {
         $this->admin_priv('staff_update');
 
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('staff::staff.staff_update')));
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑员工', 'staff')));
 
-        $this->assign('ur_here', RC_Lang::get('staff::staff.staff_update'));
+        $this->assign('ur_here', __('编辑员工', 'staff'));
 
         $manage_id = RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->pluck('parent_id');
         $this->assign('manage_id', $manage_id);
@@ -325,13 +327,13 @@ class merchant extends ecjia_merchant
         $user_id = intval($_GET['user_id']);
         $staff   = RC_DB::table('staff_user')->where('user_id', $user_id)->where('store_id', $_SESSION['store_id'])->first();
         if (empty($staff)) {
-            return $this->showmessage('该员工不存在', ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该员工不存在', 'staff'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }
         $return_url = RC_Uri::url('staff/merchant/init');
         if (!empty($staff['group_id'])) {
         	$return_url = RC_Uri::url('staff/merchant/init', array('group_id' => $staff['group_id']));
         }
-        $this->assign('action_link', array('href' => $return_url, 'text' => '账户列表'));
+        $this->assign('action_link', array('href' => $return_url, 'text' => __('账户列表', 'staff')));
 
         $staff['add_time'] = RC_Time::local_date('Y-m-d', $staff['add_time']);
         $this->assign('staff', $staff);
@@ -357,7 +359,7 @@ class merchant extends ecjia_merchant
         $store_id = $_SESSION['store_id'];
 
         if (RC_DB::table('staff_user')->where('name', $_POST['name'])->where('user_id', '!=', $user_id)->where('store_id', $_SESSION['store_id'])->count() > 0) {
-            return $this->showmessage('该员工名称已存在', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('该员工名称已存在', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         $user_ident = !empty($_POST['user_ident']) ? trim($_POST['user_ident']) : '';
@@ -419,7 +421,7 @@ class merchant extends ecjia_merchant
         }
         RC_DB::table('staff_user')->where('user_id', $user_id)->where('store_id', $_SESSION['store_id'])->update($data);
         ecjia_merchant::admin_log($name, 'edit', 'staff');
-        return $this->showmessage(RC_Lang::get('staff::staff.staff_edit_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/merchant/edit', array('user_id' => $user_id, 'parent_id' => $_POST['parent_id']))));
+        return $this->showmessage(__('编辑员工信息成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/merchant/edit', array('user_id' => $user_id, 'parent_id' => $_POST['parent_id']))));
     }
 
     /**
@@ -429,7 +431,7 @@ class merchant extends ecjia_merchant
     {
         $this->admin_priv('staff_allot');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here('分派权限'));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('分派权限', 'staff')));
         ecjia_screen::get_current_screen()->add_option('current_code', 'merchant_privilege_menu');
         
         $user_id = intval($_GET['user_id']);
@@ -443,18 +445,18 @@ class merchant extends ecjia_merchant
         if (!empty($group_id)) {
         	$return_href = RC_Uri::url('staff/merchant/init', array('group_id' => $group_id));
         }
-        $this->assign('action_link', array('href' => $return_href, 'text' => '账户列表'));
+        $this->assign('action_link', array('href' => $return_href, 'text' => __('账户列表', 'staff')));
         
         /* 如果被编辑的管理员拥有了all这个权限，将不能编辑 */
         if ($priv_str == 'all') {
-        	$link[] = array('text' => __('返回账户列表'), 'href' => $return_href);
-        	return $this->showmessage(__('您不能对此管理员的权限进行任何操作！'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
+        	$link[] = array('text' => __('返回账户列表', 'staff'), 'href' => $return_href);
+        	return $this->showmessage(__('您不能对此管理员的权限进行任何操作！', 'staff'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
         }
         
         $priv_group = ecjia_merchant_purview::load_purview($priv_str);
         $this->assign('priv_group', $priv_group);
 
-        $this->assign('ur_here', sprintf(__('分派商家后台权限 [ %s ] '), $user_name));
+        $this->assign('ur_here', sprintf(__('分派商家后台权限 [ %s ] ', 'staff'), $user_name));
         $this->assign('user_id', $_GET['user_id']);
 
         $this->assign('form_action', RC_Uri::url('staff/merchant/update_allot'));
@@ -497,16 +499,16 @@ class merchant extends ecjia_merchant
 
         /* 不允许删除主员工*/
         if ($user_id == $_SESSION['staff_id']) {
-            return $this->showmessage(RC_Lang::get('staff::staff.no_remove_admin'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('此员工您不能进行删除操作', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $name = $db_staff_user->pluck('name');
 
         if ($db_staff_user->delete()) {
             RC_Session::session()->deleteSpecSession($user_id, 'merchant'); // 删除session中该管理员的记录
             ecjia_merchant::admin_log($name, 'remove', 'staff');
-            return $this->showmessage(RC_Lang::get('staff::staff.delete_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/merchant/init')));
+            return $this->showmessage(__('删除成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/merchant/init')));
         } else {
-            return $this->showmessage(RC_Lang::get('staff::staff.delete_fail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return $this->showmessage(__('删除失败', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
     }
 

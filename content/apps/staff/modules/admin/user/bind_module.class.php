@@ -66,10 +66,10 @@ class admin_user_bind_module extends api_admin implements api_interface {
 		$type_array = array('mobile', 'email');
 		//判断值是否为空，且type是否是在此类型中
 		if ( empty($type) || empty($value) || !in_array($type, $type_array)) {
-			return new ecjia_error( 'invalid_parameter', RC_Lang::get ('system::system.invalid_parameter' ));
+			return new ecjia_error( 'invalid_parameter', __('参数无效', 'staff'));
 		}
 		if (empty($code)) {
-		    return new ecjia_error( 'invalid_parameter', '请填写验证码');
+		    return new ecjia_error( 'invalid_parameter', __('请填写验证码', 'staff'));
 		}
 		
 		$db_user = RC_DB::table('staff_user');
@@ -78,41 +78,41 @@ class admin_user_bind_module extends api_admin implements api_interface {
 		    
 		    $mobile = $db_user->where('mobile', $value)->where('user_id', '<>', $staff_id)->first();
 		    if (!empty($mobile)) {
-		        return new ecjia_error('registered', '该手机号已被注册');
+		        return new ecjia_error('registered', __('该手机号已被注册', 'staff'));
 		    }
 		    if (RC_Time::gmtime() > $_SESSION['captcha']['sms']['staff_modify_mobile']['lifetime']) {
-		        return new ecjia_error('code pasted', '验证码已过期');
+		        return new ecjia_error('code pasted', __('验证码已过期', 'staff'));
 		    }
 		    if ($code != $_SESSION['captcha']['sms']['staff_modify_mobile']['code']) {
-		        return new ecjia_error('code error', '验证码错误');
+		        return new ecjia_error('code error', __('验证码错误', 'staff'));
 		    }
 		    if ($value != $_SESSION['captcha']['sms']['staff_modify_mobile']['value']) {
-		        return new ecjia_error('mobile error', '接收和验证的手机号不同');
+		        return new ecjia_error('mobile error', __('接收和验证的手机号不同', 'staff'));
 		    }
 		    //替换手机号
 		    $rs = RC_DB::table('staff_user')->where('user_id', $staff_id)->update(array('mobile' => $value));
 		    if (!$rs) {
-		        return new ecjia_error('update error', '更新失败');
+		        return new ecjia_error('update error', __('更新失败', 'staff'));
 		    }
 		    $_SESSION['captcha']['sms']['staff_modify_mobile'] = array();
 		} else if ($type == 'email') {
 		    $email = RC_DB::table('staff_user')->where('email', $value)->where('user_id', '<>', $staff_id)->first();
 		    if (!empty($email)) {
-		        return new ecjia_error('registered', '该邮箱已被注册');
+		        return new ecjia_error('registered', __('该邮箱已被注册', 'staff'));
 		    }
 		    if (RC_Time::gmtime() > $_SESSION['captcha']['mail']['staff_modify_mail']['lifetime']) {
-		        return new ecjia_error('code pasted', '验证码已过期');
+		        return new ecjia_error('code pasted', __('验证码已过期', 'staff'));
 		    }
 		    if ($code != $_SESSION['captcha']['mail']['staff_modify_mail']['code']) {
-		        return new ecjia_error('code error', '验证码错误');
+		        return new ecjia_error('code error', __('验证码错误', 'staff'));
 		    }
 		    if ($value != $_SESSION['captcha']['mail']['staff_modify_mail']['value']) {
-		        return new ecjia_error('email error', '接收和验证的邮箱不同');
+		        return new ecjia_error('email error', __('接收和验证的邮箱不同', 'staff'));
 		    }
 		    //替换邮箱
 		    $rs = RC_DB::table('staff_user')->where('user_id', $staff_id)->update(array('email' => $value));
 		    if (!$rs) {
-		        return new ecjia_error('update error', '更新失败');
+		        return new ecjia_error('update error', __('更新失败', 'staff'));
 		    }
 		    $_SESSION['captcha']['mail']['staff_modify_mail'] = array();
 		}

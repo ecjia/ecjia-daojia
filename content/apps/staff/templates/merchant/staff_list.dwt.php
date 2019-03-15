@@ -36,8 +36,8 @@
 			<div class="panel-body panel-body-small">
 				<form class="form-inline pull-right" name="searchForm" method="post" action="{$search_action}">
 					<div class="form-group">
-						<input type="text" class="form-control" name="keywords" value="{$smarty.get.keywords}" placeholder="{lang key='staff::staff.staff_keywords'}"/> 
-						<button type="button" class="btn btn-primary"><i class="fa fa-search"></i> {lang key='staff::staff.search'} </button>
+						<input type="text" class="form-control" name="keywords" value="{$smarty.get.keywords}" placeholder='{t domain="staff"}请输入员工名称关键词{/t}'/>
+						<button type="button" class="btn btn-primary"><i class="fa fa-search"></i> {t domain="staff"}搜索{/t} </button>
 					</div>
 				</form>
 			</div>
@@ -46,12 +46,12 @@
 					<table class="table table-striped table-advance table-hover">
 						<thead>
 							<tr>
-								<th>{lang key='staff::staff.staff_name'}({lang key='staff::staff.staff_nick_name'})</th>
-								<th>{lang key='staff::staff.staff_id'}</th>
-								<th>{lang key='staff::staff.staff_mobile'}</th>
-								<th>{lang key='staff::staff.staff_email'}</th>
-								<th>{lang key='staff::staff.staff_lasttime'}</th>
-								<th>{lang key='staff::staff.operate'}</th>
+								<th>{t domain="staff"}名称{/t}({t domain="staff"}昵称{/t})</th>
+								<th>{t domain="staff"}员工编号{/t}</th>
+								<th>{t domain="staff"}手机账号{/t}</th>
+								<th>{t domain="staff"}邮件账号{/t}</th>
+								<th>{t domain="staff"}最后登录时间{/t}</th>
+								<th>{t domain="staff"}操作{/t}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -64,15 +64,15 @@
 								<td>{$list.last_login}</td>
 								<td>
 									{if $list.group_id neq '-1' and $list.group_id neq '-2'}
-										<a class="data-pjax" href='{RC_Uri::url("staff/merchant/allot", "user_id={$list.user_id}")}' title="分配权限"><button class="btn btn-primary btn-xs"><i class="fa fa-cog"></i></button></a>
+										<a class="data-pjax" href='{RC_Uri::url("staff/merchant/allot", "user_id={$list.user_id}")}' title='{t domain="staff"}分配权限{/t}'><button class="btn btn-primary btn-xs"><i class="fa fa-cog"></i></button></a>
 									{/if}
-									<a class="data-pjax" href='{RC_Uri::url("staff/mh_log/init", "user_id={$list.user_id}")}' title="{lang key='staff::staff.view_log'}"><button class="btn btn-primary btn-xs"><i class="fa fa-file-text-o"></i></button></a>
-									<a class="data-pjax" href='{RC_Uri::url("staff/merchant/edit", "user_id={$list.user_id}&parent_id={$list.parent_id}")}' title="{lang key='system::system.edit'}"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a>
-									<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{lang key='staff::staff.staff_confirm'}" href='{url path="staff/merchant/remove" args="user_id={$list.user_id}"}' title="{lang key='system::system.drop'}"><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a>
+									<a class="data-pjax" href='{RC_Uri::url("staff/mh_log/init", "user_id={$list.user_id}")}' title='{t domain="staff"}查看日志{/t}'><button class="btn btn-primary btn-xs"><i class="fa fa-file-text-o"></i></button></a>
+									<a class="data-pjax" href='{RC_Uri::url("staff/merchant/edit", "user_id={$list.user_id}&parent_id={$list.parent_id}")}' title='{t domain="staff"}编辑{/t}'><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a>
+									<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg='{t domain="staff"}您确定要删除该员工吗？{/t}' href='{url path="staff/merchant/remove" args="user_id={$list.user_id}"}' title='{t domain="staff"}删除{/t}'><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a>
 								</td>
 							</tr>
 							<!-- {foreachelse} -->
-							   <tr><td class="no-records" colspan="6">{lang key='system::system.no_records'}</td></tr>
+							   <tr><td class="no-records" colspan="6">{t domain="staff"}没有找到任何记录{/t}</td></tr>
 							<!-- {/foreach} -->
 						</tbody>
 					</table>

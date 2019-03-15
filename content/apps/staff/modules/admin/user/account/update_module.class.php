@@ -60,26 +60,26 @@ class admin_user_account_update_module extends api_admin implements api_interfac
     	$validate_code = $this->requestData('validate_code');
 		
 		if (empty($validate_code)) {
-			return new ecjia_error('validate_code_empty', '请输入验证码！');
+			return new ecjia_error('validate_code_empty', '请输入验证码！', 'staff');
 		}
 		
 		/* 判断code有效期*/
 		$time = RC_Time::gmtime();
 		if ($_SESSION['adminuser_validate_expiry'] < $time) {
-			return new ecjia_error('code_expiry_error', __('验证码过期，请重新获取验证码！'));
+			return new ecjia_error('code_expiry_error', __('验证码过期，请重新获取验证码！', 'staff'));
 		}
 		
 		if ($_SESSION['adminuser_validate_code'] != $validate_code) {
-			return new ecjia_error('validate_code_error', '验证码错误！');
+			return new ecjia_error('validate_code_error', __('验证码错误！', 'staff'));
 		}
 		
 		if (!empty($mobile)) {
 			if ($_SESSION['adminuser_validate_value'] != $mobile) {
-				return new ecjia_error('mobile_error', '验证手机号与提交手机号不符！');
+				return new ecjia_error('mobile_error', __('验证手机号与提交手机号不符！', 'staff'));
 			}
 			$exists_staff_mobile = RC_DB::table('staff_user')->where('user_id', '<>', $_SESSION['staff_id'])->where('mobile', $mobile)->first();
 			if ($exists_staff_mobile) {
-				return new ecjia_error('mobile_exists', '手机号已存在！');
+				return new ecjia_error('mobile_exists', __('手机号已存在！', 'staff'));
 			}
 			
 			RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->update(array('mobile' => $mobile));
