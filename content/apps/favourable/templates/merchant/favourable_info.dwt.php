@@ -38,30 +38,30 @@ table{border-collapse: separate; border-spacing: 0 3px;}
                             <div class="col-lg-7" style="padding-left:0px;">
                                 <fieldset>
                                     <div class="form-group">
-                                        <label class="control-label col-lg-2">{lang key='favourable::favourable.m_label_act_name'}</label>
+                                        <label class="control-label col-lg-2">{t domain="favourable"}活动名称：{/t}</label>
                                         <div class="controls col-lg-9">
                                             <input class="form-control" type="text" name="act_name" id="act_name" value="{$favourable.act_name}" size="40" class="w350"  />
                                         </div>
-                                        <span class="input-must">{lang key='system::system.require_field'}</span>
+                                        <span class="input-must"><span class="require-field" style="color:#FF0000,">*</span></span>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class=" control-label col-lg-2">{lang key='favourable::favourable.m_farourable_time'}</label>
+                                        <label class=" control-label col-lg-2">{t domain="favourable"}活动时间：{/t}</label>
                                         <div class="col-lg-9">
                                             <div class="controls-split">
                                                 <div class="ecjiaf-fl wright_wleft">
-                                                    <input name="start_time" class="form-control date w170" type="text" placeholder="{lang key='favourable::favourable.pls_start_time'}" value="{$favourable.start_time}"/>
+                                                    <input name="start_time" class="form-control date w170" type="text" placeholder='{t domain="favourable"}请选择活动开始时间{/t}' value="{$favourable.start_time}"/>
                                                 </div>
-                                                <div class="wmiddens ecjiaf-fl p_t5">{lang key='favourable::favourable.to'}</div>
+                                                <div class="wmiddens ecjiaf-fl p_t5">{t domain="favourable"}至{/t}</div>
                                                 <div class="ecjiaf-fl wright_wleft">
-                                                    <input name="end_time" class="form-control date w170" type="text" placeholder="{lang key='favourable::favourable.pls_end_time'}" value="{$favourable.end_time}"/>
+                                                    <input name="end_time" class="form-control date w170" type="text" placeholder="{t domain="favourable"}请选择活动结束时间{/t}" value="{$favourable.end_time}"/>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-lg-2">{lang key='favourable::favourable.m_label_user_rank'}</label>
+                                        <label class="control-label col-lg-2">{t domain="favourable"}会员等级：{/t}</label>
                                         <div class="col-lg-9 m_t5">
                                             <!-- {foreach from=$user_rank_list item=user_rank} -->
                                                 <input id="user_rank_{$user_rank.rank_id}" type="checkbox" name="user_rank[]" value="{$user_rank.rank_id}" {if $user_rank.checked}checked="true"{/if} />
@@ -71,26 +71,26 @@ table{border-collapse: separate; border-spacing: 0 3px;}
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-lg-2">{lang key='favourable::favourable.label_min_amount'}</label>
+                                        <label class="control-label col-lg-2">{t domain="favourable"}金额下限：{/t}</label>
                                           <div class="col-lg-9">
                                             <input class="form-control" name="min_amount" type="text" id="min_amount" value="{$favourable.min_amount}">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-lg-2">{lang key='favourable::favourable.label_max_amount'}</label>
+                                        <label class="control-label col-lg-2">{t domain="favourable"}金额上限：{/t}</label>
                                           <div class="col-lg-9">
                                             <input class="form-control" name="max_amount" type="text" id="max_amount" value="{$favourable.max_amount}">
-                                            <span class="help-block">{lang key='favourable::favourable.notice_max_amount'}</span>
+                                            <span class="help-block">{t domain="favourable"}0表示没有上限{/t}</span>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <div class="col-lg-offset-2 col-lg-9">
                                             {if $favourable.act_id eq ''}
-                                                <button class="btn btn-info" type="submit">{lang key='system::system.button_submit'}</button>
+                                                <button class="btn btn-info" type="submit">{t domain="favourable"}确定{/t}</button>
                                             {else}
-                                                <button class="btn btn-info" type="submit">{lang key='favourable::favourable.update'}</button>
+                                                <button class="btn btn-info" type="submit">{t domain="favourable"}更新{/t}</button>
                                             {/if}
                                             <input type="hidden" name="act" value="{$form_action}" />
                                             <input type="hidden" name="act_id" id="isok" value="{$favourable.act_id}" />
@@ -106,7 +106,7 @@ table{border-collapse: separate; border-spacing: 0 3px;}
                                             <a data-toggle="collapse" data-parent="#accordion" href="#telescopic1" class="accordion-toggle">
                                             	<span class="glyphicon"></span>
                                                 <h4 class="panel-title">
-                                                    {lang key='favourable::favourable.act_range'}
+                                                    {t domain="favourable"}优惠活动范围{/t}
                                                 </h4>
                                             </a>
                                         </div>
@@ -115,18 +115,18 @@ table{border-collapse: separate; border-spacing: 0 3px;}
                                                 <div class="form-group">
                                                     <div class="col-lg-8">
                                                         <select class="form-control"  name="act_range" id="act_range_id">
-                                                            <option value="0" selected="selected" {if $favourable.act_range eq 0}selected="selected"{/if}>{lang key='favourable::favourable.far_all'}</option>
+                                                            <option value="0" selected="selected" {if $favourable.act_range eq 0}selected="selected"{/if}>{t domain="favourable"}全部商品{/t}</option>
 <!--                                                             <option value="1" {if $favourable.act_range eq 1}selected{/if}>{lang key='favourable::favourable.far_category'}</option> -->
-                                                            <option value="3" {if $favourable.act_range eq 3}selected{/if}>{lang key='favourable::favourable.far_goods'}</option>
+                                                            <option value="3" {if $favourable.act_range eq 3}selected{/if}>{t domain="favourable"}以下商品{/t}</option>
                                                         </select>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group" id="range_search" {if $favourable.act_range eq 0} style="display:none"{/if} >
                                                     <div class="col-lg-8">
-                                                        <input name="keyword" class="form-control" type="text" id="keyword" placeholder="{lang key='favourable::favourable.keywords'}">
+                                                        <input name="keyword" class="form-control" type="text" id="keyword" placeholder='{t domain="favourable"}输入关键字进行搜索{/t}'>
                                                     </div>
-                                                    <button class="btn btn-primary" type="button" id="search" data-url='{url path="favourable/merchant/search"}'><i class='fa fa-search'></i> {lang key='system::system.button_search'}</button>
+                                                    <button class="btn btn-primary" type="button" id="search" data-url='{url path="favourable/merchant/search"}'><i class='fa fa-search'></i> {t domain="favourable"}搜索{/t}</button>
                                                 </div>
 
                                                 <ul id="range-div" {if $act_range_ext}style="display:block;"{/if}>
@@ -157,7 +157,7 @@ table{border-collapse: separate; border-spacing: 0 3px;}
                                                 <a data-toggle="collapse" data-parent="#accordion" href="#telescopic2" class="accordion-toggle">
                                                     <span class="glyphicon"></span>
                                                     <h4 class="panel-title">
-                                                        {lang key='favourable::favourable.favourable_way'}
+                                                        {t domain="favourable"}优惠活动方式是 {/t}
                                                     </h4>
                                                 </a>
                                             </div>
@@ -167,8 +167,8 @@ table{border-collapse: separate; border-spacing: 0 3px;}
                                                         <div class="col-lg-8">
                                                             <select class="form-control" name="act_type" id="act_type_id" >
 <!--                                                                 <option value="0" {if $favourable.act_type eq 0}selected="selected"{/if}>{lang key='favourable::favourable.fat_goods'}</option> -->
-                                                                <option value="1" {if $favourable.act_type eq 1}selected="selected"{/if}>{lang key='favourable::favourable.fat_price'}</option>
-                                                                <option value="2" {if $favourable.act_type eq 2}selected="selected"{/if}>{lang key='favourable::favourable.fat_discount'}</option>
+                                                                <option value="1" {if $favourable.act_type eq 1}selected="selected"{/if}>{t domain="favourable"}享受现金减免{/t}</option>
+                                                                <option value="2" {if $favourable.act_type eq 2}selected="selected"{/if}>{t domain="favourable"}享受价格折扣{/t}</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-lg-3 p_l0">
@@ -176,20 +176,20 @@ table{border-collapse: separate; border-spacing: 0 3px;}
                                                         </div>
                                                     </div>
 
-                                                    <span class="help-block m_l15 m_r15">{lang key='favourable::favourable.notice_act_type'}</span>
+                                                    <span class="help-block m_l15 m_r15">{t domain="favourable"}当优惠方式为“享受赠品（特惠品）”时，请输入允许买家选择赠品（特惠品）的最大数量，数量为0表示不限数量；当优惠方式为“享受现金减免”时，请输入现金减免的金额；当优惠方式为“享受价格折扣”时，请输入折扣（1－99），如：打9折，就输入90。{/t}</span>
 
 
                                                     <div class="form-group p_t20" id="type_search"{if $favourable.act_type neq 0} style="display:none"{/if}>
                                                         <div class="col-lg-8">
-                                                            <input class="form-control" name="keyword1" type="text" id="keyword1"  placeholder="{lang key='favourable::favourable.enter_keywords'}" />
+                                                            <input class="form-control" name="keyword1" type="text" id="keyword1"  placeholder='{t domain="favourable"}输入特惠品关键字进行搜索{/t}' />
                                                         </div>
-                                                        <button type="button" id="search1" class="btn btn-primary" data-url='{url path="favourable/merchant/search"}'>{lang key='system::system.button_search'}</button>
+                                                        <button type="button" id="search1" class="btn btn-primary" data-url='{url path="favourable/merchant/search"}'>{t domain="favourable"}搜索{/t}</button>
                                                     </div>
                                                     <div class="form-group choose-list">
                                                         <div id="gift-div" {if $favourable.gift}class="m_b15"{/if}>
                                                             <table id="gift-table" class="m_l15">
                                                                 <!-- {if $favourable.gift} -->
-                                                                <tr align="center"><td><strong>{lang key='favourable::favourable.gift'}</strong></td><td><strong>{lang key='favourable::favourable.price'}</strong></td></tr>
+                                                                <tr align="center"><td><strong>{t domain="favourable"}赠品（特惠品）{/t}</strong></td><td><strong>{t domain="favourable"}价格{/t}</strong></td></tr>
                                                                 <!-- {foreach from=$favourable.gift item=goods key=key} -->
                                                                 <tr class="m_t5" align="center">
                                                                     <td class="w100">

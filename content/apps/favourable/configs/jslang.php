@@ -44,22 +44,31 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台权限API
- * @author royalwang
+ * js语言包设置
  */
-class favourable_admin_purview_api extends Component_Event_Api {
-    
-	public function call(&$options) {
-		$purviews = array(
-			array('action_name' => __('优惠活动管理', 'favourable'), 	'action_code' => 'favourable_manage', 	'relevance' => ''),
-// 			array('action_name' => __('编辑优惠活动', 'favourable'), 	'action_code' => 'favourable_update', 	'relevance' => ''),
-			array('action_name' => __('删除优惠活动', 'favourable'), 	'action_code' => 'favourable_delete', 	'relevance' => ''),
-		);
-		return $purviews;
-	}
-}
 
-// end
+defined('IN_ECJIA') or exit('No permission resources.');
+
+return array(
+    //favourable
+    'favourable_page' =>array(
+        'batch_drop_confirm' 		=> __('您确实要删除选中的优惠活动吗？', 'favourable'),
+        'all_need_not_search' 		=> __('优惠范围是全部商品，不需要此操作', 'favourable'),
+        'range_exists' 				=> __('该选项已存在', 'favourable'),
+        'pls_search' 				=> __('请先搜索相应的数据', 'favourable'),
+        'price_need_not_search' 	=> __('优惠方式是享受价格折扣，不需要此操作', 'favourable'),
+        'gift' 						=> __('赠品（特惠品）', 'favourable'),
+        'price' 					=> __('价格', 'favourable'),
+        'act_name_not_null' 		=> __('请输入优惠活动名称', 'favourable'),
+        'min_amount_not_number' 	=> __('金额下限格式不正确（数字）', 'favourable'),
+        'max_amount_not_number' 	=> __('金额上限格式不正确（数字）', 'favourable'),
+        'act_type_ext_not_number' 	=> __('优惠方式后面的值不正确（数字）', 'favourable'),
+        'amount_invalid' 			=> __('金额上限小于金额下限。', 'favourable'),
+        'start_lt_end' 				=> __('优惠开始时间不能大于或等于结束时间', 'favourable'),
+
+    ),
+
+);
+//end

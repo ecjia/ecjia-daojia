@@ -72,7 +72,7 @@ class merchant extends ecjia_merchant {
 		RC_Style::enqueue_style('datetimepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datetimepicker.min.css'));
 
 		RC_Script::enqueue_script('favourable_list', RC_App::apps_url('statics/js/merchant_favourable_list.js', __FILE__));
-		RC_Script::localize_script('favourable_list', 'js_lang', RC_Lang::get('favourable::favourable.js_lang'));
+		RC_Script::localize_script('favourable_list', 'js_lang', config('app-favourable::jslang.favourable_page'));
 
 		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('优惠活动管理'), RC_Uri::url('favourable/merchant/init')));
 		ecjia_merchant_screen::get_current_screen()->set_parentage('promotion', 'promotion/merchant.php');
@@ -84,11 +84,11 @@ class merchant extends ecjia_merchant {
 	public function init() {
 		$this->admin_priv('favourable_manage');
 
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('favourable::favourable.favourable_list')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('优惠活动列表', 'favourable')));
 		
 
-		$this->assign('ur_here', RC_Lang::get('favourable::favourable.favourable_list'));
-		$this->assign('action_link', array('href' => RC_Uri::url('favourable/merchant/add'), 'text' => RC_Lang::get('favourable::favourable.add_favourable')));
+		$this->assign('ur_here', __('优惠活动列表', 'favourable'));
+		$this->assign('action_link', array('href' => RC_Uri::url('favourable/merchant/add'), 'text' => __('添加优惠活动', 'favourable')));
 
 		$list = $this->get_favourable_list();
 		$this->assign('favourable_list', $list);
@@ -103,9 +103,9 @@ class merchant extends ecjia_merchant {
 	public function add() {
 		$this->admin_priv('favourable_update');
 
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('favourable::favourable.add_favourable')));
-		$this->assign('ur_here', RC_Lang::get('favourable::favourable.add_favourable'));
-		$this->assign('action_link', array('text' => RC_Lang::get('favourable::favourable.favourable_list'), 'href' => RC_Uri::url('favourable/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加优惠活动', 'favourable')));
+		$this->assign('ur_here', __('添加优惠活动', 'favourable'));
+		$this->assign('action_link', array('text' => __('优惠活动列表', 'favourable'), 'href' => RC_Uri::url('favourable/merchant/init')));
 		$favourable = array (
 			'act_id'        => 0,
 			'act_name'      => '',
@@ -125,7 +125,7 @@ class merchant extends ecjia_merchant {
 		$user_rank_list   = array();
 		$user_rank_list[] = array(
     			'rank_id'   => 0,
-    			'rank_name' => RC_Lang::get('favourable::favourable.not_user'),
+    			'rank_name' => __('非会员', 'favourable'),
     			'checked'   => strpos(',' . $favourable['user_rank'] . ',', ',0,') !== false
 		);
 		$data = RC_DB::table('user_rank')->select('rank_id', 'rank_name')->get();
@@ -177,30 +177,30 @@ class merchant extends ecjia_merchant {
 		$store_id = !empty($_SESSION['store_id']) 	? intval($_SESSION['store_id']) : 0;
 		
 		if (RC_DB::table('favourable_activity')->where('act_name', $act_name)->where('store_id', $store_id)->count() > 0) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.act_name_exists'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('该优惠活动名称已存在，请您换一个', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		$start_time = !empty($_POST['start_time']) ? RC_Time::local_strtotime($_POST['start_time'])   : '';
 		$end_time   = !empty($_POST['end_time'])   ? RC_Time::local_strtotime($_POST['end_time'])     : '';
 
 		if ($start_time >= $end_time) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.start_lt_end'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('优惠开始时间不能大于或等于结束时间', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		/* 检查享受优惠的会员等级 */
 		if (!isset($_POST['user_rank']) || empty($_POST['user_rank'])) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.pls_set_user_rank'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请设置享受优惠的会员等级', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		/* 检查优惠范围扩展信息 */
 		if ($_POST['act_range'] > 0 && !isset($_POST['act_range_ext'])) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.pls_set_act_range'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请设置优惠范围', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		/* 检查金额上下限 */
 		$min_amount = floatval($_POST['min_amount']) >= 0 ? floatval($_POST['min_amount']) : 0;
 		$max_amount = floatval($_POST['max_amount']) >= 0 ? floatval($_POST['max_amount']) : 0;
 		if ($max_amount > 0 && $min_amount > $max_amount) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.amount_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('金额下限不能大于金额上限', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if ($_POST['act_type'] == 1 && $_POST['min_amount'] < $_POST['act_type_ext']) {
 		    return $this->showmessage('现金减免不能超过金额下限', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -221,9 +221,9 @@ class merchant extends ecjia_merchant {
 		);
 
         if ($favourable['act_type'] == 1) {
-			$act_type = RC_Lang::get('favourable::favourable.fat_price');
+			$act_type = __('享受现金减免', 'favourable');
         } elseif ($favourable['act_type'] == 2) {
-			$act_type = RC_Lang::get('favourable::favourable.fat_discount');
+			$act_type = __('享受价格折扣', 'favourable');
 		}
 		//$act_id = $this->db_favourable_activity->favourable_manage($favourable);
 		$act_id = Ecjia\App\Favourable\FavourableActivity::FavourableManage($favourable);
@@ -234,11 +234,11 @@ class merchant extends ecjia_merchant {
 		$cache_id               = sprintf('%X', crc32($cache_favourable_key));
 		$favourable_activity_db->delete_cache_item($cache_id);
 
-		ecjia_merchant::admin_log($favourable['act_name'].'，'.RC_Lang::get('favourable::favourable.favourable_way_is').$act_type, 'add', 'favourable');
-		$links[] = array('text' => RC_Lang::get('favourable::favourable.back_favourable_list'), 'href' => RC_Uri::url('favourable/merchant/init'));
-		$links[] = array('text' => RC_Lang::get('favourable::favourable.continue_add_favourable'), 'href' => RC_Uri::url('favourable/merchant/add'));
+		ecjia_merchant::admin_log($favourable['act_name'].'，'.__('优惠活动方式是 ', 'favourable').$act_type, 'add', 'favourable');
+		$links[] = array('text' => __('返回优惠活动列表', 'favourable'), 'href' => RC_Uri::url('favourable/merchant/init'));
+		$links[] = array('text' => __('继续添加优惠活动', 'favourable'), 'href' => RC_Uri::url('favourable/merchant/add'));
 
-		return $this->showmessage(RC_Lang::get('favourable::favourable.add_favourable_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('favourable/merchant/edit', array('act_id' => $act_id))));
+		return $this->showmessage(__('添加优惠活动成功', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links, 'pjaxurl' => RC_Uri::url('favourable/merchant/edit', array('act_id' => $act_id))));
 	}
 
 	/**
@@ -247,16 +247,16 @@ class merchant extends ecjia_merchant {
 	public function edit() {
 		$this->admin_priv('favourable_update');
 
-		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(RC_Lang::get('favourable::favourable.edit_favourable')));
-		$this->assign('ur_here', RC_Lang::get('favourable::favourable.edit_favourable'));
-		$this->assign('action_link', array('text' => RC_Lang::get('favourable::favourable.favourable_list'), 'href' => RC_Uri::url('favourable/merchant/init')));
+		ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑优惠活动', 'favourable')));
+		$this->assign('ur_here', __('编辑优惠活动', 'favourable'));
+		$this->assign('action_link', array('text' => __('优惠活动列表', 'favourable'), 'href' => RC_Uri::url('favourable/merchant/init')));
 
 		$id         = !empty($_GET['act_id']) ? intval($_GET['act_id']) : 0;
 		//$favourable = $this->db_favourable_activity->favourable_info($id);
 		$favourable = Ecjia\App\Favourable\FavourableActivity::FavourableInfo($id);
 
 		if (empty($favourable)) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.favourable_not_exist'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('您要操作的优惠活动不存在', 'favourable'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
 		}
 
 		$this->assign('favourable', $favourable);
@@ -279,35 +279,35 @@ class merchant extends ecjia_merchant {
 		$store_id 	= !empty($_SESSION['store_id']) ? intval($_SESSION['store_id']) : 0;
 		
 		if (RC_DB::table('favourable_activity')->where('act_name', $act_name)->where('act_id', '!=', $act_id)->where('store_id', $store_id)->count() > 0) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.act_name_exists'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('该优惠活动名称已存在，请您换一个', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		$start_time = !empty($_POST['start_time'])	? RC_Time::local_strtotime($_POST['start_time']) 	: '';
 		$end_time 	= !empty($_POST['end_time']) 	? RC_Time::local_strtotime($_POST['end_time']) 		: '';
 		/* 检查优惠活动时间 */
 		if ($start_time >= $end_time) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.start_lt_end'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('优惠开始时间不能大于或等于结束时间', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		/* 检查享受优惠的会员等级 */
 		if (!isset($_POST['user_rank']) || empty($_POST['user_rank'])) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.pls_set_user_rank'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请设置享受优惠的会员等级', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		/* 检查优惠范围扩展信息 */
 		if ($_POST['act_range'] > 0 && !isset($_POST['act_range_ext'])) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.pls_set_act_range'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请设置优惠范围', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		/* 判断是否在优惠范围内 */
 		if ($_POST['act_range'] != 0 && $_POST['act_range'] != 3) {
-		    return $this->showmessage(RC_Lang::get('favourable::favourable.pls_set_act_range'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+		    return $this->showmessage(__('请设置优惠范围', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		
 		/* 检查金额上下限 */
 		$min_amount = floatval($_POST['min_amount']) >= 0 ? floatval($_POST['min_amount']) : 0;
 		$max_amount = floatval($_POST['max_amount']) >= 0 ? floatval($_POST['max_amount']) : 0;
 		if ($max_amount > 0 && $min_amount > $max_amount) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.amount_error'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('金额下限不能大于金额上限', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 		if ($_POST['act_type'] == 1 && $_POST['min_amount'] < $_POST['act_type_ext']) {
 		    return $this->showmessage('现金减免不能超过金额下限', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -328,9 +328,9 @@ class merchant extends ecjia_merchant {
 			'act_type_ext'  => floatval($_POST['act_type_ext']),
 		);
         if ($favourable['act_type'] == 1) {
-			$act_type = RC_Lang::get('favourable::favourable.fat_price');
+			$act_type = __('享受现金减免', 'favourable');
         } elseif ($favourable['act_type'] == 2) {
-			$act_type = RC_Lang::get('favourable::favourable.fat_discount');
+			$act_type = __('享受价格折扣', 'favourable');
 		}
 		//$this->db_favourable_activity->favourable_manage($favourable);
 		Ecjia\App\Favourable\FavourableActivity::FavourableManage($favourable);
@@ -341,7 +341,7 @@ class merchant extends ecjia_merchant {
 		$cache_id               = sprintf('%X', crc32($cache_favourable_key));
 		$favourable_activity_db->delete_cache_item($cache_id);
 
-		ecjia_merchant::admin_log($favourable['act_name'].'，'.RC_Lang::get('favourable::favourable.favourable_way_is').$act_type, 'edit', 'favourable');
+		ecjia_merchant::admin_log($favourable['act_name'].'，'.__('优惠活动方式是 ', 'favourable').$act_type, 'edit', 'favourable');
 		return $this->showmessage(RC_Lang::get('favourable::favourable.edit_favourable_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('favourable/merchant/edit', array('act_id' => $act_id))));
 	}
 
@@ -355,18 +355,18 @@ class merchant extends ecjia_merchant {
 		//$favourable = $this->db_favourable_activity->favourable_info($id);
 		$favourable = Ecjia\App\Favourable\FavourableActivity::FavourableInfo($id);
 		if (empty($favourable)) {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.favourable_not_exist'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('您要操作的优惠活动不存在', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 
 		$name     = $favourable['act_name'];
 		$act_type = $favourable['act_type'];
 
 		if ($act_type == 0) {
-			$act_type = RC_Lang::get('favourable::favourable.fat_goods');
+			$act_type = __('享受赠品（特惠品）', 'favourable');
 		} elseif ($act_type == 1) {
-			$act_type = RC_Lang::get('favourable::favourable.fat_price');
+			$act_type = __('享受现金减免', 'favourable');
 		} else {
-			$act_type = RC_Lang::get('favourable::favourable.fat_discount');
+			$act_type = __('享受价格折扣', 'favourable');
 		}
 
 		//$this->db_favourable_activity->favourable_remove($id);
@@ -377,8 +377,8 @@ class merchant extends ecjia_merchant {
 		$cache_id               = sprintf('%X', crc32($cache_favourable_key));
 		$favourable_activity_db->delete_cache_item($cache_id);
 
-		ecjia_merchant::admin_log($name.'，'.RC_Lang::get('favourable::favourable.favourable_way_is').$act_type, 'remove', 'favourable');
-		return $this->showmessage(RC_Lang::get('favourable::favourable.remove_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+		ecjia_merchant::admin_log($name.'，'.__('优惠活动方式是 ', 'favourable').$act_type, 'remove', 'favourable');
+		return $this->showmessage(__('删除成功', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 	}
 
 	/**
@@ -396,11 +396,11 @@ class merchant extends ecjia_merchant {
 		if (!empty($info)) {
 			foreach ($info as $v) {
 				if ($v['act_type'] == 0) {
-					$act_type = RC_Lang::get('favourable::favourable.fat_goods');
+					$act_type = __('享受赠品（特惠品）', 'favourable');
 				} elseif ($v['act_type'] == 1) {
-					$act_type = RC_Lang::get('favourable::favourable.fat_price');
+					$act_type = __('享受现金减免', 'favourable');
 				} else {
-					$act_type = RC_Lang::get('favourable::favourable.fat_discount');
+					$act_type = __('享受价格折扣', 'favourable');
 				}
 				/*释放优惠活动缓存*/
 				$favourable_activity_db = RC_Model::model('favourable/orm_favourable_activity_model');
@@ -408,10 +408,10 @@ class merchant extends ecjia_merchant {
 				$cache_id               = sprintf('%X', crc32($cache_favourable_key));
 				
 				$favourable_activity_db->delete_cache_item($cache_id);
-				ecjia_merchant::admin_log($v['act_name'].'，'.RC_Lang::get('favourable::favourable.favourable_way_is').$act_type, 'batch_remove', 'favourable');
+				ecjia_merchant::admin_log($v['act_name'].'，'.__('优惠活动方式是 ', 'favourable').$act_type, 'batch_remove', 'favourable');
 			}
 		}
-		return $this->showmessage(RC_Lang::get('favourable::favourable.batch_drop_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('favourable/merchant/init')));
+		return $this->showmessage(__('批量删除成功', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('favourable/merchant/init')));
 	}
 	/**
 	 * 编辑优惠活动名称
@@ -437,12 +437,12 @@ class merchant extends ecjia_merchant {
 				$cache_id               = sprintf('%X', crc32($cache_favourable_key));
 				
 				$favourable_activity_db->delete_cache_item($cache_id);
-				return $this->showmessage(RC_Lang::get('favourable::favourable.edit_name_success'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+				return $this->showmessage(__('更新优惠活动名称成功', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 			} else {
-				return $this->showmessage(RC_Lang::get('favourable::favourable.act_name_exists'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+				return $this->showmessage(__('该优惠活动名称已存在，请您换一个', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 			}
 		} else {
-			return $this->showmessage(RC_Lang::get('favourable::favourable.pls_enter_name'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(__('请输入优惠活动名称', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	}
 
@@ -460,7 +460,7 @@ class merchant extends ecjia_merchant {
 		//$this->db_favourable_activity->favourable_manage($data);
 		Ecjia\App\Favourable\FavourableActivity::FavourableManage($data);
 
-		return $this->showmessage(RC_Lang::get('favourable::favourable.sort_edit_ok'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('favourable/merchant/init')) );
+		return $this->showmessage(__('排序操作成功', 'favourable'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_uri::url('favourable/merchant/init')) );
 	}
 
 	/**
@@ -475,7 +475,7 @@ class merchant extends ecjia_merchant {
 		if ($act_range == FAR_ALL) {//全部商品
 			$arr[0] = array(
 				'id'   => 0,
-				'name' => RC_Lang::get('favourable::favourable.all_need_not_search')
+				'name' => __('优惠范围是全部商品，不需要此操作', 'favourable')
 			);
 		} elseif ($act_range == FAR_CATEGORY) {//按分类选择
 			$db_category = RC_DB::table('merchants_category')->select(RC_DB::raw('cat_id as id'), RC_DB::raw('cat_name as name'));
@@ -512,7 +512,7 @@ class merchant extends ecjia_merchant {
 		if (empty($arr)) {
 			$arr = array(0 => array(
 				'id'   => 0,
-				'name' => RC_Lang::get('favourable::favourable.search_result_empty')
+				'name' => __('没有找到相应记录，请重新搜索', 'favourable')
 			));
 		}
 		return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('content' => $arr));

@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class favourable_admin_plugin {
 	
 	public static function favourable_admin_menu_api($menus) {
-	    $menu = ecjia_admin::make_admin_menu('08_favourable_list', RC_Lang::get('favourable::favourable.favourable'), RC_Uri::url('favourable/admin/init'), 8)->add_purview('favourable_manage');
+	    $menu = ecjia_admin::make_admin_menu('08_favourable_list', __('优惠活动', 'favourable'), RC_Uri::url('favourable/admin/init'), 8)->add_purview('favourable_manage');
 	    $menus->add_submenu($menu);
 	    return $menus;
 	}

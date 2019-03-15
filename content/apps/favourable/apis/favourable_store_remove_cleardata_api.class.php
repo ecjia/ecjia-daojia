@@ -47,19 +47,27 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 后台权限API
+ * 移除店铺优惠活动信息接口
+ *
  * @author royalwang
  */
-class favourable_admin_purview_api extends Component_Event_Api {
-    
-	public function call(&$options) {
-		$purviews = array(
-			array('action_name' => __('优惠活动管理', 'favourable'), 	'action_code' => 'favourable_manage', 	'relevance' => ''),
-// 			array('action_name' => __('编辑优惠活动', 'favourable'), 	'action_code' => 'favourable_update', 	'relevance' => ''),
-			array('action_name' => __('删除优惠活动', 'favourable'), 	'action_code' => 'favourable_delete', 	'relevance' => ''),
-		);
-		return $purviews;
-	}
+class favourable_store_remove_cleardata_api extends Component_Event_Api
+{
+
+    public function call(& $options)
+    {
+
+        $store_id = array_get($options, 'store_id');
+
+        if (empty($store_id)) {
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'favourable'), 'favourable_store_remove_cleardata_api'));
+        }
+
+        return [
+            new \Ecjia\App\Favourable\StoreCleanHandlers\StoreFavourableClear($store_id),
+        ];
+    }
+
 }
 
 // end

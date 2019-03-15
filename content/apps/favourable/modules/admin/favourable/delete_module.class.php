@@ -65,35 +65,35 @@ class admin_favourable_delete_module extends api_admin implements api_interface 
 		
 		$id = $this->requestData('act_id', 0);
 		if ($id <= 0) {
-			return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+			return new ecjia_error('invalid_parameter', __('参数无效', 'favourable'));
 		}
 		
 		//$favourable = RC_Model::model('favourable/favourable_activity_model')->favourable_info($id);
 		$favourable = Ecjia\App\Favourable\FavourableActivity::FavourableInfo($id);
 		
 		if (empty($favourable)) {
-			return new ecjia_error('not_exists_info', '不存在的信息');
+			return new ecjia_error('not_exists_info', __('不存在的信息', 'favourable'));
 		}
 		/* 多商户处理*/
 		if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0 && $favourable['store_id'] != $_SESSION['store_id']) {
-			return new ecjia_error('not_exists_info', '不存在的信息');
+			return new ecjia_error('not_exists_info', __('不存在的信息', 'favourable'));
 		}
 		
 		$name = $favourable['act_name'];
 		$act_type = $favourable['act_type'];
 		
 		if ($act_type == 0) {
-			$act_type = '享受赠品（特惠品）';
+			$act_type = __('享受赠品（特惠品）', 'favourable');
 		} elseif ($act_type == 1) {
-			$act_type = '享受现金减免';
+			$act_type = __('享受现金减免', 'favourable');
 		} else {
-			$act_type = '享受价格折扣';
+			$act_type = __('享受价格折扣', 'favourable');
 		}
 		
 		//$result = RC_Model::model('favourable/favourable_activity_model')->favourable_remove($id);
 		$result = Ecjia\App\Favourable\FavourableActivity::FavourableRemove($id);
 		if ($_SESSION['store_id'] > 0) {
-		    RC_Api::api('merchant', 'admin_log', array('text'=>$name.'，'.'优惠活动方式是 '.$act_type.'【来源掌柜】', 'action'=>'remove', 'object'=>'favourable'));
+		    RC_Api::api('merchant', 'admin_log', array('text'=>$name.'，'.__('优惠活动方式是 ', 'favourable').$act_type.__('【来源掌柜】', 'favourable'), 'action'=>'remove', 'object'=>'favourable'));
 		} 
 		
 		/* 释放缓存*/

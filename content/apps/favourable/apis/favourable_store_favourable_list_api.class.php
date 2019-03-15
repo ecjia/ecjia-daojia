@@ -54,7 +54,7 @@ class favourable_store_favourable_list_api extends Component_Event_Api {
     
     public function call(&$options) {
     	if (!is_array($options)) {
-    		return new ecjia_error('invalid_parameter', RC_Lang::get('system::system.invalid_parameter'));
+    		return new ecjia_error('invalid_parameter', __('参数无效', 'favourable'));
     	}
     	
     	//$db_favourable = RC_Model::model('favourable/favourable_activity_model');    	

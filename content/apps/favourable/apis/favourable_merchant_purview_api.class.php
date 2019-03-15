@@ -55,8 +55,8 @@ class favourable_merchant_purview_api extends Component_Event_Api {
     public function call(&$options) {
         $purviews = array(
             array('action_name' => __('优惠活动'), 'action_code' => 'favourable_manage', 'relevance'   => ''),
-            array('action_name' => RC_Lang::get('favourable::favourable.favourable_update'), 	'action_code' => 'favourable_update', 	'relevance' => ''),
-			array('action_name' => RC_Lang::get('favourable::favourable.favourable_delete'), 	'action_code' => 'favourable_delete', 	'relevance' => ''),
+            array('action_name' => __('编辑优惠活动', 'favourable'), 	'action_code' => 'favourable_update', 	'relevance' => ''),
+			array('action_name' => __('删除优惠活动', 'favourable'), 	'action_code' => 'favourable_delete', 	'relevance' => ''),
         );
 
         return $purviews;

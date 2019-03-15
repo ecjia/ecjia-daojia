@@ -20,29 +20,29 @@
 <!-- 批量操作和搜索 -->
 <div class="row-fluid batch" >
 	<ul class="nav nav-pills">
-		<li class="{if $smarty.get.type eq ''}active{/if}"><a class="data-pjax" href='{$favourable_list.quickuri.init}'>{lang key='favourable::favourable.all'} <span class="badge badge-info">{if $favourable_list.count.count}{$favourable_list.count.count}{else}0{/if}</span> </a></li>
-		<li class="{if $smarty.get.type eq 'on_going'}active{/if}"><a class="data-pjax" href='{$favourable_list.quickuri.on_going}'>{lang key='favourable::favourable.on_going'}<span class="badge badge-info">{if $favourable_list.count.on_going}{$favourable_list.count.on_going}{else}0{/if}</span> </a></li>
+		<li class="{if $smarty.get.type eq ''}active{/if}"><a class="data-pjax" href='{$favourable_list.quickuri.init}'>{t domain="favourable"}全部{/t} <span class="badge badge-info">{if $favourable_list.count.count}{$favourable_list.count.count}{else}0{/if}</span> </a></li>
+		<li class="{if $smarty.get.type eq 'on_going'}active{/if}"><a class="data-pjax" href='{$favourable_list.quickuri.on_going}'>{t domain="favourable"}正在进行中{/t}<span class="badge badge-info">{if $favourable_list.count.on_going}{$favourable_list.count.on_going}{else}0{/if}</span> </a></li>
 		<!-- {if $shop_type neq 'b2c'} -->
-		<li class="{if $smarty.get.type eq 'self'}active{/if}"><a class="data-pjax" href='{$favourable_list.quickuri.self}'>{lang key='favourable::favourable.self'}<span class="badge badge-info">{if $favourable_list.count.self}{$favourable_list.count.self}{else}0{/if}</span> </a></li>
+		<li class="{if $smarty.get.type eq 'self'}active{/if}"><a class="data-pjax" href='{$favourable_list.quickuri.self}'>{t domain="favourable"}自营{/t}<span class="badge badge-info">{if $favourable_list.count.self}{$favourable_list.count.self}{else}0{/if}</span> </a></li>
 		<!-- {/if} -->
 	</ul>
 	
 	<form method="post" action="{$search_action}{if $smarty.get.type}&type={$smarty.get.type}{/if}" name="searchForm">
 		<div class="btn-group f_l m_r5">
 			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-				<i class="fontello-icon-cog"></i>{lang key='favourable::favourable.batch_operation'}
+				<i class="fontello-icon-cog"></i>{t domain="favourable"}批量操作{/t}
 				<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu">
-				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{url path='favourable/admin/batch'}" data-msg="{lang key='favourable::favourable.batch_drop_confirm'}" data-noSelectMsg="{lang key='favourable::favourable.no_favourable_select'}" data-name="act_id" href="javascript:;"><i class="fontello-icon-trash"></i>{lang key='favourable::favourable.remove_favourable'}</a></li>
+				<li><a class="button_remove" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{url path='favourable/admin/batch'}" data-msg='{t domain="favourable"}您确实要删除选中的优惠活动吗？{/t}' data-noSelectMsg="{t domain="favourable"}请先选中要删除的优惠活动！{/t}" data-name="act_id" href="javascript:;"><i class="fontello-icon-trash"></i>{t domain="favourable"}删除优惠活动{/t}</a></li>
 			</ul>
 		</div>
 		<div class="choose_list f_r">
 			<!-- {if $shop_type neq 'b2c'} -->
-			<input type="text" name="merchant_name" value="{$smarty.get.merchant_name}" placeholder="{lang key='favourable::favourable.pls_enter_merchant_name'}"/>
+			<input type="text" name="merchant_name" value="{$smarty.get.merchant_name}" placeholder='{t domain="favourable"}请输入商家名称{/t}'/>
 			<!-- {/if} -->
-			<input type="text" name="keyword" value="{$smarty.get.keyword}" placeholder="{lang key='favourable::favourable.pls_enter_name'}"/> 
-			<button class="btn search_articles" type="button">{lang key='favourable::favourable.search'}</button>
+			<input type="text" name="keyword" value="{$smarty.get.keyword}" placeholder='{t domain="favourable"}请输入优惠活动名称{/t}'/>
+			<button class="btn search_articles" type="button">{t domain="favourable"}搜索{/t}</button>
 		</div>
 	</form>
 </div>
@@ -53,25 +53,25 @@
 			<thead>
 				<tr>
 				    <th class="table_checkbox"><input type="checkbox" name="select_rows" data-toggle="selectall" data-children=".checkbox"/></th>
-				    <th>{lang key='favourable::favourable.act_name'}</th>
+				    <th>{t domain="favourable"}优惠活动名称{/t}</th>
 				    <!-- {if $shop_type neq 'b2c'} -->
-				    <th>{lang key='favourable::favourable.merchant_name'}</th>
+				    <th>{t domain="favourable"}商家名称{/t}</th>
 				    <!-- {/if} -->
-				    <th class="w100">{lang key='favourable::favourable.start_time'}</th>
-				    <th class="w100">{lang key='favourable::favourable.end_time'}</th>
-				    <th class="w100">{lang key='favourable::favourable.min_amount'}</th>
-				    <th class="w100">{lang key='favourable::favourable.max_amount'}</th>
-				    <th class="w100">会员等级</th>
-				    <th class="w50">{lang key='favourable::favourable.sort'}</th>
+				    <th class="w100">{t domain="favourable"}开始时间{/t}</th>
+				    <th class="w100">{t domain="favourable"}结束时间{/t}</th>
+				    <th class="w100">{t domain="favourable"}金额下限{/t}</th>
+				    <th class="w100">{t domain="favourable"}金额上限{/t}</th>
+				    <th class="w100">{t domain="favourable"}会员等级{/t}</th>
+				    <th class="w50">{t domain="favourable"}排序{/t}</th>
 			  	</tr>
 			</thead>
 			<!-- {foreach from=$favourable_list.item item=favourable} -->
 		    <tr>
 		    	<td><span><input type="checkbox" class="checkbox" value="{$favourable.act_id}" name="checkboxes[]" ></span></td>
 		      	<td class="hide-edit-area">
-			      	<span class="cursor_pointer" data-trigger="editable" data-url='{url path="favourable/admin/edit_act_name" args="store_id={$favourable.store_id}"}' data-name="act_name" data-pk="{$favourable.act_id}" data-title="{lang key='favourable::favourable.edit_act_name'}">{$favourable.act_name}</span>
+			      	<span class="cursor_pointer" data-trigger="editable" data-url='{url path="favourable/admin/edit_act_name" args="store_id={$favourable.store_id}"}' data-name="act_name" data-pk="{$favourable.act_id}" data-title='{t domain="favourable"}编辑优惠活动名称{/t}'>{$favourable.act_name}</span>
 		     	  	<div class="edit-list">
-			          	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{lang key='favourable::favourable.remove_confirm'}" href='{url path="favourable/admin/remove" args="act_id={$favourable.act_id}"}' title="{lang key='system::system.drop'}">{lang key='system::system.drop'}</a>
+			          	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="favourable"}您确定要删除该优惠活动吗？{/t}' href='{url path="favourable/admin/remove" args="act_id={$favourable.act_id}"}' title='{t domain="favourable"}删除{/t}'>{t domain="favourable"}删除{/t}</a>
 		    	  	</div>
 		      	</td>
 		      	<!-- {if $shop_type neq 'b2c'} -->
@@ -82,10 +82,10 @@
 		      	<td>{$favourable.min_amount}</td>
 		      	<td>{$favourable.max_amount}</td>
 		      	<td>{$favourable.user_rank_name}</td>
-		      	<td><span class="edit_sort_order cursor_pointer" data-placement="left" data-trigger="editable" data-url="{RC_Uri::url('favourable/admin/edit_sort_order')}" data-name="sort_order" data-pk="{$favourable.act_id}"  data-title="{lang key='favourable::favourable.edit_act_sort'}">{$favourable.sort_order}</span></td>
+		      	<td><span class="edit_sort_order cursor_pointer" data-placement="left" data-trigger="editable" data-url="{RC_Uri::url('favourable/admin/edit_sort_order')}" data-name="sort_order" data-pk="{$favourable.act_id}"  data-title='{t domain="favourable"}编辑优惠活动排序{/t}'>{$favourable.sort_order}</span></td>
 		    </tr>
 		    <!-- {foreachelse} -->
-	        <tr><td class="no-records" colspan="9">{lang key='system::system.no_records'}</td></tr>
+	        <tr><td class="no-records" colspan="9">{t domain="favourable"}没有找到任何记录{/t}</td></tr>
 			<!-- {/foreach} -->
             </tbody>
          </table>

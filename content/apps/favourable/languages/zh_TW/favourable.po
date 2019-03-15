@@ -8,430 +8,442 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2019-03-12 14:13+0800\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
 
 #: admin.php:81 admin.php:91 admin.php:102 merchant.php:87 merchant.php:90
 #: merchant.php:108 merchant.php:252
 msgid "优惠活动列表"
-msgstr ""
+msgstr "優惠活動列表"
 
 #: admin.php:94
 msgid "概述"
-msgstr ""
+msgstr "概述"
 
 #: admin.php:95
 msgid ""
-"欢迎访问ECJia智能后台优惠活动列表页面，系统中所有的优惠活动都会显示在此列表"
-"中。"
+"欢迎访问ECJia智能后台优惠活动列表页面，系统中所有的优惠活动都会显示在此"
+"列表中。"
 msgstr ""
+"歡迎訪問ECJia智能後臺優惠活動列表頁面，系統中所有的優惠活動都會顯示在此"
+"列表中。"
 
 #: admin.php:98
 msgid "更多信息："
-msgstr ""
+msgstr "更多信息："
 
 #: admin.php:146 merchant.php:259 merchant.php:358
 msgid "您要操作的优惠活动不存在"
-msgstr ""
+msgstr "您要操作的優惠活動不存在"
 
 #: admin.php:153 admin.php:190 merchant.php:365 merchant.php:399
 #: modules/admin/favourable/delete_module.class.php:86
 #: modules/admin/favourable/list_module.class.php:99
 #: modules/favourable/list_module.class.php:104
 msgid "享受赠品（特惠品）"
-msgstr ""
+msgstr "享受贈品（特惠品）"
 
 #: admin.php:155 admin.php:192 merchant.php:224 merchant.php:331
 #: merchant.php:367 merchant.php:401
 #: modules/admin/favourable/delete_module.class.php:88
 msgid "享受现金减免"
-msgstr ""
+msgstr "享受現金減免"
 
 #: admin.php:157 admin.php:194 merchant.php:226 merchant.php:333
 #: merchant.php:369 merchant.php:403
 #: modules/admin/favourable/delete_module.class.php:90
 msgid "享受价格折扣"
-msgstr ""
+msgstr "享受價格折扣"
 
 #: admin.php:168 admin.php:200 merchant.php:237 merchant.php:344
 #: merchant.php:380 merchant.php:411
 #: modules/admin/favourable/delete_module.class.php:96
 msgid "优惠活动方式是 "
-msgstr ""
+msgstr "優惠活動方式是 "
 
 #: admin.php:169 merchant.php:381
 msgid "删除成功"
-msgstr ""
+msgstr "刪除成功"
 
 #: admin.php:203 merchant.php:414
 msgid "批量删除成功"
-msgstr ""
+msgstr "批量刪除成功"
 
 #: admin.php:234 merchant.php:440
 msgid "更新优惠活动名称成功"
-msgstr ""
+msgstr "更新優惠活動名稱成功"
 
 #: admin.php:236 merchant.php:180 merchant.php:282 merchant.php:442
 msgid "该优惠活动名称已存在，请您换一个"
-msgstr ""
+msgstr "該優惠活動名稱已存在，請您換一個"
 
 #: admin.php:239 configs/jslang.php:64 merchant.php:445
 msgid "请输入优惠活动名称"
-msgstr ""
+msgstr "請輸入優惠活動名稱"
 
 #: admin.php:258 merchant.php:463
 msgid "排序操作成功"
-msgstr ""
+msgstr "排序操作成功"
 
 #: admin.php:275 configs/jslang.php:58 merchant.php:478
 msgid "优惠范围是全部商品，不需要此操作"
-msgstr ""
+msgstr "優惠範圍是全部商品，不需要此操作"
 
 #: admin.php:322 merchant.php:515
 msgid "没有找到相应记录，请重新搜索"
-msgstr ""
+msgstr "沒有找到相應記錄，請重新搜索"
 
 #: apis/favourable_admin_purview_api.class.php:57 merchant.php:77
 msgid "优惠活动管理"
-msgstr ""
+msgstr "優惠活動管理"
 
 #: apis/favourable_admin_purview_api.class.php:59
 #: apis/favourable_merchant_purview_api.class.php:59
 msgid "删除优惠活动"
-msgstr ""
+msgstr "刪除優惠活動"
 
 #: apis/favourable_favourable_list_api.class.php:58
 #: apis/favourable_store_favourable_list_api.class.php:57
 #: modules/admin/favourable/delete_module.class.php:68
 #: modules/admin/favourable/info_module.class.php:68
 msgid "参数无效"
-msgstr ""
+msgstr "參數無效"
 
 #: apis/favourable_merchant_purview_api.class.php:57
 #: classes/hooks/admin_favourable.class.php:52
 #: classes/hooks/merchant_favourable.class.php:52 configs/package.php:55
 msgid "优惠活动"
-msgstr ""
+msgstr "優惠活動"
 
 #: apis/favourable_merchant_purview_api.class.php:58 merchant.php:250
 #: merchant.php:251
 msgid "编辑优惠活动"
-msgstr ""
+msgstr "編輯優惠活動"
 
 #: apis/favourable_store_remove_cleardata_api.class.php:63
 msgid "请求接口%s参数无效"
-msgstr ""
+msgstr "請求接口%s參數無效"
 
 #: classes/FavourableActivity.php:94 merchant.php:128
 #: model/favourable_activity_model.class.php:133
 #: modules/admin/favourable/list_module.class.php:89
 msgid "非会员"
-msgstr ""
+msgstr "非会员"
 
 #: classes/StoreCleanHandlers/StoreFavourableClear.php:47
 msgid "店铺优惠活动总共<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>个"
 msgstr ""
+"店鋪優惠活動總共<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>個"
 
 #: classes/StoreCleanHandlers/StoreFavourableClear.php:48
 msgid "查看全部>>>"
-msgstr ""
+msgstr "查看全部>>>"
 
 #: classes/StoreCleanHandlers/StoreFavourableClear.php:101
 msgid "店铺名是%s"
-msgstr ""
+msgstr "店鋪名是%s"
 
 #: classes/StoreCleanHandlers/StoreFavourableClear.php:101
 msgid "店铺ID是%s"
-msgstr ""
+msgstr "店鋪ID是%s"
 
 #: configs/jslang.php:57
 msgid "您确实要删除选中的优惠活动吗？"
-msgstr ""
+msgstr "您確實要刪除選中的優惠活動嗎？"
 
 #: configs/jslang.php:59
 msgid "该选项已存在"
-msgstr ""
+msgstr "該選項已存在"
 
 #: configs/jslang.php:60
 msgid "请先搜索相应的数据"
-msgstr ""
+msgstr "請先搜索相應的數據"
 
 #: configs/jslang.php:61
 msgid "优惠方式是享受价格折扣，不需要此操作"
-msgstr ""
+msgstr "優惠方式是享受價格折扣，不需要此操作"
 
 #: configs/jslang.php:62
 msgid "赠品（特惠品）"
-msgstr ""
+msgstr "贈品（特惠品）"
 
 #: configs/jslang.php:63
 msgid "价格"
-msgstr ""
+msgstr "價格"
 
 #: configs/jslang.php:65
 msgid "金额下限格式不正确（数字）"
-msgstr ""
+msgstr "金額下限格式不正確（數字）"
 
 #: configs/jslang.php:66
 msgid "金额上限格式不正确（数字）"
-msgstr ""
+msgstr "金額上限格式不正確（數字）"
 
 #: configs/jslang.php:67
 msgid "优惠方式后面的值不正确（数字）"
-msgstr ""
+msgstr "優惠方式後面的值不正確（數字）"
 
 #: configs/jslang.php:68
 msgid "金额上限小于金额下限。"
-msgstr ""
+msgstr "金額上限小於金額下限。"
 
 #: configs/jslang.php:69 merchant.php:187 merchant.php:288
 #: modules/admin/favourable/manage_module.class.php:87
 msgid "优惠开始时间不能大于或等于结束时间"
-msgstr ""
+msgstr "優惠開始時間不能大於或等於結束時間"
 
 #: configs/package.php:56
 msgid ""
 "优惠活动，主要回馈网站用户。为确保更多消费者享受到优惠，活动将分期举行。"
 msgstr ""
+"優惠活動，主要回饋網站用戶。為確保更多消費者享受到優惠，活動將分期舉行。"
 
 #: merchant.php:91 merchant.php:106 merchant.php:107
 msgid "添加优惠活动"
-msgstr ""
+msgstr "添加優惠活動"
 
 #: merchant.php:192 merchant.php:293
 #: modules/admin/favourable/manage_module.class.php:92
 msgid "请设置享受优惠的会员等级"
-msgstr ""
+msgstr "請設置享受優惠的會員等級"
 
 #: merchant.php:197 merchant.php:298 merchant.php:303
 #: modules/admin/favourable/manage_module.class.php:100
 msgid "请设置优惠范围"
-msgstr ""
+msgstr "請設置優惠範圍"
 
 #: merchant.php:203 merchant.php:310
 #: modules/admin/favourable/manage_module.class.php:106
 msgid "金额下限不能大于金额上限"
-msgstr ""
+msgstr "金額下限不能大於金額上限"
 
 #: merchant.php:238
 msgid "返回优惠活动列表"
-msgstr ""
+msgstr "返回優惠活動列表"
 
 #: merchant.php:239
 msgid "继续添加优惠活动"
-msgstr ""
+msgstr "繼續添加優惠活動"
 
 #: merchant.php:241
 msgid "添加优惠活动成功"
-msgstr ""
+msgstr "添加優惠活動成功"
 
 #: modules/admin/favourable/delete_module.class.php:75
 #: modules/admin/favourable/delete_module.class.php:79
 msgid "不存在的信息"
-msgstr ""
+msgstr "不存在的信息"
 
 #: modules/admin/favourable/delete_module.class.php:96
 msgid "【来源掌柜】"
-msgstr ""
+msgstr "【來源掌櫃】"
 
 #: modules/admin/favourable/info_module.class.php:82
 msgid "全部商品"
-msgstr ""
+msgstr "全部商品"
 
 #: modules/admin/favourable/info_module.class.php:84
 msgid "指定分类"
-msgstr ""
+msgstr "指定分類"
 
 #: modules/admin/favourable/info_module.class.php:93
 msgid "指定品牌"
-msgstr ""
+msgstr "指定品牌"
 
 #: modules/admin/favourable/info_module.class.php:108
 msgid "指定商品"
-msgstr ""
+msgstr "指定商品"
 
 #: modules/admin/favourable/info_module.class.php:124
 msgid "特惠品"
-msgstr ""
+msgstr "特惠品"
 
 #: modules/admin/favourable/info_module.class.php:145
 msgid "现金减免"
-msgstr ""
+msgstr "現金減免"
 
 #: modules/admin/favourable/info_module.class.php:147
 msgid "价格折扣"
-msgstr ""
+msgstr "價格折扣"
 
 #: modules/admin/favourable/manage_module.class.php:96
 msgid "请设置活动类型"
-msgstr ""
+msgstr "請設置活動類型"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:23
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:28
 msgid "全部"
-msgstr ""
+msgstr "全部"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:24
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:29
 msgid "正在进行中"
-msgstr ""
+msgstr "正在進行中"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:26
 msgid "自营"
-msgstr ""
+msgstr "自營"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:33
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:34
 msgid "批量操作"
-msgstr ""
+msgstr "批量操作"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:37
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:36
 msgid "请先选中要删除的优惠活动！"
-msgstr ""
+msgstr "請先選中要刪除的優惠活動！"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:42
 msgid "请输入商家名称"
-msgstr ""
+msgstr "請輸入商家名稱"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:45
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:129
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:186
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:43
 msgid "搜索"
-msgstr ""
+msgstr "搜索"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:56
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:59
 msgid "优惠活动名称"
-msgstr ""
+msgstr "優惠活動名稱"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:58
 msgid "商家名称"
-msgstr ""
+msgstr "商家名稱"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:60
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:60
 msgid "开始时间"
-msgstr ""
+msgstr "開始時間"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:61
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:61
 msgid "结束时间"
-msgstr ""
+msgstr "結束時間"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:62
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:62
 msgid "金额下限"
-msgstr ""
+msgstr "金額下限"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:63
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:63
 msgid "金额上限"
-msgstr ""
+msgstr "金額上限"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:64
 msgid "会员等级"
-msgstr ""
+msgstr "會員等級"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:65
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:64
 msgid "排序"
-msgstr ""
+msgstr "排序"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:72
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:76
 msgid "编辑优惠活动名称"
-msgstr ""
+msgstr "編輯優惠活動名稱"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:74
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:79
 msgid "您确定要删除该优惠活动吗？"
-msgstr ""
+msgstr "您確定要刪除該優惠活動嗎？"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:74
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:79
 msgid "删除"
-msgstr ""
+msgstr "刪除"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:85
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:86
 msgid "编辑优惠活动排序"
-msgstr ""
+msgstr "編輯優惠活動排序"
 
 #: content/apps/favourable/templates/admin/favourable_list.dwt.php:88
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:90
 msgid "没有找到任何记录"
-msgstr ""
+msgstr "沒有找到任何記錄"
 
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:41
 msgid "活动名称："
-msgstr ""
+msgstr "活動名稱："
 
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:49
 msgid "活动时间："
-msgstr ""
+msgstr "活動時間："
 
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:53
 msgid "请选择活动开始时间"
-msgstr ""
+msgstr "請選擇活動開始時間"
 
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:55
 msgid "至"
-msgstr ""
+msgstr "至"
 
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:57
 msgid "请选择活动结束时间"
-msgstr ""
+msgstr "請選擇活動結束時間"
 
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:64
 msgid "会员等级："
-msgstr ""
+msgstr "會員等級："
 
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:74
 msgid "金额下限："
-msgstr ""
+msgstr "金額下限："
 
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:81
 msgid "金额上限："
-msgstr ""
+msgstr "金額上限："
 
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:84
 msgid "0表示没有上限"
-msgstr ""
+msgstr "0表示没有上限"
 
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:91
 msgid "确定"
-msgstr ""
+msgstr "確定"
 
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:93
 msgid "更新"
-msgstr ""
+msgstr "更新"
 
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:109
 msgid "优惠活动范围"
-msgstr ""
+msgstr "優惠活動範圍"
 
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:120
 msgid "以下商品"
-msgstr ""
+msgstr "以下商品"
 
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:127
 msgid "输入关键字进行搜索"
-msgstr ""
+msgstr "輸入關鍵字進行搜索"
 
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:179
 msgid ""
-"当优惠方式为“享受赠品（特惠品）”时，请输入允许买家选择赠品（特惠品）的最大数"
-"量，数量为0表示不限数量；当优惠方式为“享受现金减免”时，请输入现金减免的金额；"
-"当优惠方式为“享受价格折扣”时，请输入折扣（1－99），如：打9折，就输入90。"
+"当优惠方式为“享受赠品（特惠品）”时，请输入允许买家选择赠品（特惠品）的最"
+"大数量，数量为0表示不限数量；当优惠方式为“享受现金减免”时，请输入现金减"
+"免的金额；当优惠方式为“享受价格折扣”时，请输入折扣（1－99），如：打9折，"
+"就输入90。"
 msgstr ""
+"當優惠方式為“享受贈品（特惠品）”時，請輸入允許買家選擇贈品（特惠品）的最"
+"大數量，數量為0表示不限數量；當優惠方式為“享受現金減免”時，請輸入現金減"
+"免的金額；當優惠方式為“享受價格折扣”時，請輸入折扣（1－99），如：打9折，"
+"就輸入90。"
 
 #: content/apps/favourable/templates/merchant/favourable_info.dwt.php:184
 msgid "输入特惠品关键字进行搜索"
-msgstr ""
+msgstr "輸入特惠品關鍵字進行搜索"
 
 #: content/apps/favourable/templates/merchant/favourable_list.dwt.php:78
 msgid "编辑"
-msgstr ""
+msgstr "編輯"
