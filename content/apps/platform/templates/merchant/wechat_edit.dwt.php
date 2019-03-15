@@ -10,10 +10,10 @@
 <!-- {block name="home-content"} -->
 
 <div class="staticalert alert alert-dismissable ui_showmessage panel"><a class="close" data-dismiss="alert">×</a>
-	<p><h4>{t domain="platform"}操作提示</h4></p>
+	<p><h4>{t domain="platform"}操作提示{/t}</h4></p>
 	<p>{t domain="platform"}一、配置前先需要申请一个微信服务号，并且通过微信认证。（认证服务号需要注意每年微信官方都需要重新认证，如果认证过期，接口功能将无法使用，具体请登录微信公众号平台了解详情）{/t}</p>
 	<p>{t domain="platform"}二、网站域名 需要通过ICP备案并正确解析到空间服务器，临时域名与IP地址无法配置。{/t}</p>
-	<p>{t escape=no domain="platform"}三、登录 <a href="https://mp.weixin.qq.com/" target="__blank">微信公众号平台 </a>，获取且依次填写好 公众号名称，公众号原始ID，Appid，Appsecret，token值。{/t}</p>
+	<p>{t escape=no domain="platform"}三、登录 <a href="https://mp.weixin.qq.com/" target="_blank">微信公众号平台 </a>，获取且依次填写好 公众号名称，公众号原始ID，Appid，Appsecret，token值。{/t}</p>
 	<p>{t domain="platform"}四、自定义Token值，必须为英文或数字（长度为3-32字符），如 weixintoken，并保持后台与公众号平台填写的一致。{/t}<p>
 	<p>{t domain="platform"}五、复制接口地址，填写到微信公众号平台 开发=> 基本配置，服务器配置下的 URL地址，验证提交通过后，并启用。（注意仅支持80端口）{/t}</p>
 </div>

@@ -32,7 +32,7 @@
               			<label class="item-controls">{$platformAccount->getApiUrl()}</label>
               		</div>
               		<div class="item">
-              			<a class="btn btn-success" target="__blank" href="{$platformAccount->getPlatformSettingUrl()}">{t domain="platform"}编辑配置{/t}</a>
+              			<a class="btn btn-success" target="_blank" href="{$platformAccount->getPlatformSettingUrl()}">{t domain="platform"}编辑配置{/t}</a>
               			<a class="btn btn-info m_l20" href="{$platformAccount->getPlatformListUrl()}">{t domain="platform" 1={$platformAccount->getPlatformName()}}返回%1{/t}</a>
               		</div>
               	</div>

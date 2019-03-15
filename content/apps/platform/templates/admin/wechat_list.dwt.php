@@ -70,7 +70,7 @@
 						{$val.name}<br>
 						{$val.uuid}
 						<div class="edit-list">
-							<a target="__blank" href='{RC_Uri::url("platform/admin/autologin", "id={$val.id}")}' title='{t domain="platform"}进入管理{/t}'>{t domain="platform"}进入管理{/t}</a> &nbsp;|&nbsp;
+							<a target="_blank" href='{RC_Uri::url("platform/admin/autologin", "id={$val.id}")}' title='{t domain="platform"}进入管理{/t}'>{t domain="platform"}进入管理{/t}</a> &nbsp;|&nbsp;
 					      	<a class="data-pjax" href='{RC_Uri::url("platform/admin/edit", "id={$val.id}")}' title='{t domain="platform"}编辑{/t}'>{t domain="platform"}编辑{/t}</a> &nbsp;|&nbsp;
 					     	<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="platform" 1={$val.name}}您确定要删除公众号[%1]吗？{/t}' href='{RC_Uri::url("platform/admin/remove", "id={$val.id}")}' title='{t domain="platform"}删除{/t}'>{t domain="platform"}删除{/t}</a>
 				     	</div>

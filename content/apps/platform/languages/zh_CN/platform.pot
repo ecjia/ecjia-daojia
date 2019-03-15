@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App platform 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-02-21 03:57:31+00:00\n"
+"POT-Creation-Date: 2019-03-13 05:24:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -156,7 +156,7 @@ msgid ""
 msgstr ""
 
 #: admin_plugin.php:75 apis/platform_admin_menu_api.class.php:58
-#: classes/Frameworks/EcjiaPlatform.php:328
+#: classes/Frameworks/EcjiaPlatform.php:329
 #: classes/hooks/merchant_platform.class.php:55 configs/package.php:55
 #: configs/package.php:56
 msgid "公众平台"
@@ -324,30 +324,30 @@ msgstr ""
 msgid " 页"
 msgstr ""
 
-#: classes/Frameworks/EcjiaPlatform.php:142
-#: classes/Frameworks/EcjiaPlatform.php:467
+#: classes/Frameworks/EcjiaPlatform.php:143
+#: classes/Frameworks/EcjiaPlatform.php:468
 msgid "系统提示"
 msgstr ""
 
-#: classes/Frameworks/EcjiaPlatform.php:143
-#: classes/Frameworks/EcjiaPlatform.php:147
+#: classes/Frameworks/EcjiaPlatform.php:144
+#: classes/Frameworks/EcjiaPlatform.php:148
 msgid "对不起 ,您没有执行此项操作的权限!"
 msgstr ""
 
-#: classes/Frameworks/EcjiaPlatform.php:143
+#: classes/Frameworks/EcjiaPlatform.php:144
 msgid "重新登录"
 msgstr ""
 
-#: classes/Frameworks/EcjiaPlatform.php:408
+#: classes/Frameworks/EcjiaPlatform.php:409
 msgid "操作错误"
 msgstr ""
 
-#: classes/Frameworks/EcjiaPlatform.php:463
-#: classes/Frameworks/EcjiaPlatform.php:468
+#: classes/Frameworks/EcjiaPlatform.php:464
+#: classes/Frameworks/EcjiaPlatform.php:469
 msgid "对不起，您没有执行此项操作的权限！"
 msgstr ""
 
-#: classes/Frameworks/EcjiaPlatform.php:858
+#: classes/Frameworks/EcjiaPlatform.php:859
 msgid "版权所有 © 2013-2018 上海商创网络科技有限公司，并保留所有权利。"
 msgstr ""
 
@@ -1005,8 +1005,8 @@ msgstr ""
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:17
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:16
 msgid ""
-"三、登录 <a href=\"https://mp.weixin.qq.com/\" target=\"__blank\">微信公众号"
-"平台 </a>，获取且依次填写好 公众号名称，公众号原始ID，Appid，Appsecret，token"
+"三、登录 <a href=\"https://mp.weixin.qq.com/\" target=\"_blank\">微信公众号平"
+"台 </a>，获取且依次填写好 公众号名称，公众号原始ID，Appid，Appsecret，token"
 "值。"
 msgstr ""
 

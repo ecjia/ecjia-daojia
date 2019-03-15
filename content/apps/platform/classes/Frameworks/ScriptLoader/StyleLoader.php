@@ -44,45 +44,38 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\App\Platform\Frameworks\Component;
 
+/**
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2019-03-06
+ * Time: 17:26
+ */
+
+namespace Ecjia\App\Platform\Frameworks\ScriptLoader;
+
+
+use Ecjia\System\Frameworks\ScriptLoader\StyleLoader as EcjiaStyleLoader;
 use RC_App;
-use RC_Hook;
-use RC_Script;
-use RC_Style;
 
-class Loader
+/**
+ * ecjia scripts and styles default loader.
+ *
+ * Several constants are used to manage the loading, concatenating and compression of scripts and CSS:
+ * define('SCRIPT_DEBUG', true); loads the development (non-minified) versions of all scripts and CSS, and disables compression and concatenation,
+ * define('CONCATENATE_SCRIPTS', false); disables compression and concatenation of scripts and CSS,
+ * define('COMPRESS_SCRIPTS', false); disables compression of scripts,
+ * define('COMPRESS_CSS', false); disables compression of CSS,
+ * define('ENFORCE_GZIP', true); forces gzip for compression (default is deflate).
+ *
+ * The globals $concatenate_scripts, $compress_scripts and $compress_css can be set by plugins
+ * to temporarily override the above settings. Also a compression test is run once and the result is saved
+ * as option 'can_compress_scripts' (0/1). The test will run again if that option is deleted.
+ *
+ * @package ecjia
+ */
+class StyleLoader extends EcjiaStyleLoader
 {
-
-    /**
-     * @var \Ecjia\App\Platform\Frameworks\ScriptLoader\ScriptLoader
-     */
-    protected static $script_loader;
-
-    /**
-     * @var \Ecjia\App\Platform\Frameworks\ScriptLoader\StyleLoader
-     */
-    protected static $style_loader;
-
-    /**
-     * Register all ECJia scripts.
-     *
-     * Localizes some of them.
-     * args order: $scripts->add( 'handle', 'url', 'dependencies', 'query-string', 1 );
-     * when last arg === 1 queues the script for the footer
-     *
-     * @since 1.0.0
-     *
-     * @param \Royalcms\Component\Script\HandleScripts $scripts HandleScripts object.
-     */
-    public static function default_scripts( & $scripts )
-    {
-
-        if (is_null(self::$script_loader)) {
-            self::$script_loader = new \Ecjia\App\Platform\Frameworks\ScriptLoader\ScriptLoader($scripts);
-        }
-
-    }
 
     /**
      * Assign default styles to $styles object.
@@ -97,112 +90,47 @@ class Loader
      *
      * @since 1.0.0
      *
-     * @param \Royalcms\Component\Script\HandleStyles $styles
+     * @param object $styles
      */
-    public static function default_styles( & $styles )
+    protected function default_styles()
     {
+        $develop_src = false !== strpos( \ecjia::VERSION, '-src' );
 
-        if (is_null(self::$style_loader)) {
-            self::$style_loader = new \Ecjia\App\Platform\Frameworks\ScriptLoader\StyleLoader($styles);
+        if ( ! config('system.script_debug') ) {
+            $suffix = '.min';
+        } else {
+            $suffix = '';
         }
+
+        $dev_suffix = $develop_src ? '' : '.min';
+
+        $base_url = dirname(dirname(dirname(RC_App::app_dir_url(__FILE__)))) . '/statics';
+
+        $this->styles->remove('bootstrap');
+        $this->styles->remove('bootstrap-reset');
+
+        $this->styles->add( 'ecjia-platform-ui', 					    $base_url."/platform/css/ecjia-platform.ui.css" );
+        // $styles->add( 'ecjia-platform-googleapis',			        $base_url."/platform/css/googleapis.css" );
+        $this->styles->add( 'ecjia-platform-vendors',           	    $base_url."/platform/css/vendors.css" );
+        $this->styles->add( 'ecjia-platform-jquery-jvectormap', 	    $base_url."/platform/vendors/css/charts/jquery-jvectormap-2.0.3.css" );
+        $this->styles->add( 'ecjia-platform-morris',		      	    $base_url."/platform/vendors/css/charts/morris.css" );
+        $this->styles->add( 'ecjia-platform-unslider',          	    $base_url."/platform/vendors/css/extensions/unslider.css" );
+        $this->styles->add( 'ecjia-platform-climacons',         	    $base_url."/platform/vendors/css/weather-icons/climacons.min.css" );
+        $this->styles->add( 'ecjia-platform-select',         		  	$base_url."/platform/vendors/css/forms/selects/select2.min.css" );
+        $this->styles->add( 'ecjia-platform-app',               	    $base_url."/platform/css/app.css" );
+
+        $this->styles->add( 'ecjia-platform-function',      			$base_url."/platform/css/ecjia.function.css" );
+
+        $this->styles->add( 'ecjia-platform-vertical-content-menu', 	$base_url."/platform/css/core/menu/menu-types/vertical-content-menu.css" );
+        $this->styles->add( 'ecjia-platform-palette-gradient',     	    $base_url."/platform/css/core/colors/palette-gradient.css" );
+        $this->styles->add( 'ecjia-platform-clndr',   				    $base_url."/platform/css/plugins/calendars/clndr.css" );
+        $this->styles->add( 'ecjia-platform-palette-climacon',    	    $base_url."/platform/css/core/colors/palette-climacon.css" );
+        $this->styles->add( 'ecjia-platform-users',         		  	$base_url."/platform/css/pages/users.css" );
+
+
+        $this->styles->add( 'ecjia-platform-bootstrap-fileupload-css',	$base_url.'/platform/lib/bootstrap-fileupload/bootstrap-fileupload.css');
 
     }
 
 
-	/**
-	 * Hooks to print the scripts and styles in the footer.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function admin_print_footer_scripts()
-    {
-		/**
-		 * Fires when footer scripts are printed.
-		 *
-		 * @since 1.0.0
-		 */
-		RC_Hook::do_action( 'admin_print_footer_scripts' );
-	}
-
-	/**
-	 * Wrapper for do_action('enqueue_scripts')
-	 *
-	 * Allows plugins to queue scripts for the front end using wp_enqueue_script().
-	 * Runs first in admin_head() where all is_home(), is_page(), etc. functions are available.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function admin_enqueue_scripts()
-    {
-		/**
-		 * Fires when scripts and styles are enqueued.
-		 *
-		 * @since 1.0.0
-		 */
-		RC_Hook::do_action( 'admin_enqueue_scripts' );
-	}
-
-
-	/**
-	 * Prints the script queue in the HTML head on admin pages.
-	 *
-	 * Postpones the scripts that were queued for the footer.
-	 * print_footer_scripts() is called in the footer to print these scripts.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @see admin_print_scripts()
-	 */
-	public static function print_head_scripts()
-    {
-        return self::$script_loader->print_head_scripts();
-	}
-
-
-	/**
-	 * Prints the scripts that were queued for the footer or too late for the HTML head.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function print_footer_scripts()
-    {
-        return self::$script_loader->print_footer_scripts();
-	}
-
-
-	/**
-	 * for use in *_footer_scripts hooks
-	 *
-	 * @since 1.0.0
-	 */
-	public static function _admin_footer_scripts()
-    {
-		self::print_late_styles();
-		self::print_footer_scripts();
-	}
-
-
-	/**
-	 * Prints the styles queue in the HTML head on admin pages.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function print_admin_styles()
-    {
-        return self::$style_loader->print_head_styles();
-	}
-
-
-	/**
-	 * Prints the styles that were queued too late for the HTML head.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function print_late_styles()
-    {
-        return self::$style_loader->print_late_styles();
-	}
-	
 }
-
-// end
