@@ -78,6 +78,11 @@ class connect_connect_user_bind_api extends Component_Event_Api
         $union_id         = $options['union_id'];
         $mobile           = $options['mobile'];
 
+        if(empty($connect_platform)) {
+            $connect_handle = with(new \Ecjia\App\Connect\ConnectPlugin)->channel($connect_code);
+            $connect_platform = $connect_handle->loadConfig('connect_platform');
+        }
+
         $connect_user = new \Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
         $connect_user->setConnectPlatform($connect_platform);
         $connect_user->setUnionId($union_id);
@@ -87,7 +92,7 @@ class connect_connect_user_bind_api extends Component_Event_Api
             $connect_user->bindUserByUnionId();
         }
 
-        //判断openid是否存在
+        //判断是否绑定用户
         if ($connect_user->checkUser()) {
             $user_id = $connect_user->getUserId();
             //获取远程头像，更新用户头像
@@ -99,6 +104,7 @@ class connect_connect_user_bind_api extends Component_Event_Api
             }
             return $connect_user;
         } else {
+            //判断openid是否存在
             $user_model = $connect_user->checkOpenId();
             if ($user_model) {
                 $connect_user->saveConnectProfile($user_model, null, null, serialize($profile), $expires_in);
@@ -133,6 +139,10 @@ class connect_connect_user_bind_api extends Component_Event_Api
 
             }
 
+        }
+
+        if (empty($userinfo)) {
+            return new ecjia_error('connect_no_userbind', __('请关联或注册一个会员用户！', 'connect'));
         }
 
         //获取远程头像，更新用户头像

@@ -46,12 +46,114 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
+/**
+ * Class connect_signin_module
+ * @update 190312 v1.28 增加unionid
+ */
 class connect_signin_module extends api_front implements api_interface
 {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
         $this->authSession();
         $open_id      = $this->requestData('openid');
+        $union_id     = $this->requestData('unionid');//v1.28 190312新增
+        $connect_code = $this->requestData('code');
+        $device       = $this->device;
+        $profile      = $this->requestData('profile');
+        $api_version = $this->request->header('api-version');
+
+        if (version_compare($api_version, '1.28', '<')) {
+            return $this->versionLessThan_0128();
+        }
+
+        if (empty($open_id) || empty($connect_code) || empty($profile)) {
+            return new ecjia_error('invalid_parameter', __('参数错误', 'connect'));
+        }
+
+        RC_Logger::getlogger('info')->info([
+            'file' => __FILE__,
+            'line' => __LINE__,
+            'content' => $_POST,
+            'device' => $device,
+            'api_version' => $api_version,
+            'open_id' => $open_id,
+            'union_id' => $union_id,
+        ]);
+
+        /**
+         * $code
+         * sns_qq
+         * sns_wechat sns_wechat_app sns_wechat_bbc sns_wechat_shop
+         * login_mobile
+         * login_mail
+         * login_username
+         * login_alipay
+         * login_taobao
+         */
+        //绑定会员
+        $connect_user = RC_Api::api('connect', 'connect_user_bind', [
+            'connect_code'     => $connect_code,
+            'open_id'          => $open_id,
+            'union_id'         => $union_id,
+            'profile'          => $profile,
+        ]);
+
+        if($connect_code == 'sns_wechat_app') {
+            //sns_wechat包含到家app和到家h5 兼容处理
+            $connect_handle = with(new \Ecjia\App\Connect\ConnectPlugin)->channel($connect_code);
+            $connect_user = $connect_handle->sync_before_data([
+                'connect_code'     => $connect_code,
+                'open_id'          => $open_id,
+                'union_id'         => $union_id,
+            ]);
+        }
+
+        if(is_ecjia_error($connect_user)) {
+            return $connect_user;
+        }
+
+        //判断已绑定授权登录用户 直接登录
+        if ($connect_user->checkUser()) {
+            $connect_user_id = $connect_user->getUserId();
+            $user_info = \Ecjia\App\User\UserInfoFunction::EM_user_info($connect_user_id);
+            if(is_ecjia_error($user_info)) {
+                return $user_info;
+            }
+            RC_Logger::getlogger('info')->info([
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'name' => 'connect_user_info',
+                'content' => [$user_info['id']=>$user_info['name']],
+            ]);
+            if(empty($user_info)) {
+                return new ecjia_error('empty_user_info', __('用户信息异常', 'connect'));
+            }
+
+            //会员登录后，相关信息处理
+            (new \Ecjia\App\User\UserManager())->apiLoginSuccessHook([
+                'user_id'   => $user_info['id'],
+                'user_name' => $user_info['name'],
+            ]);
+
+            $out = array(
+                'token' => RC_Session::getId(),
+                'user'  => $user_info
+            );
+            return $out;
+
+        } else {
+            return new ecjia_error('connect_no_userbind', __('请关联或注册一个会员用户！', 'connect'));
+        }
+
+    }
+
+    /**
+     * API版本小于1.28的时候
+     */
+    protected function versionLessThan_0128() {
+        $this->authSession();
+        $open_id      = $this->requestData('openid');
+        $union_id     = $this->requestData('unionid');//v1.28 190312新增
         $connect_code = $this->requestData('code');
         $device       = $this->device;
         $profile      = $this->requestData('profile');
@@ -62,23 +164,35 @@ class connect_signin_module extends api_front implements api_interface
 
         /**
          * $code
-         * login_weibo
          * sns_qq
-         * sns_wechat
+         * sns_wechat sns_wechat_app sns_wechat_bbc sns_wechat_shop
          * login_mobile
          * login_mail
          * login_username
          * login_alipay
          * login_taobao
          */
-        $connect_user = new Ecjia\App\Connect\ConnectUser($connect_code, $open_id, 'user');
+        $connect_user = new Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
+        $connect_user->setUnionId($union_id);
+        //通过union_id同步已绑定的用户信息
+        if($union_id) {
+            $connect_user->bindUserByUnionId();
+        }
+
+        if(is_ecjia_error($connect_user)) {
+            return $connect_user;
+        }
+
         //判断已绑定授权登录用户 直接登录
         if ($connect_user->checkUser()) {
             $connect_user_id = $connect_user->getUserId();
-            $user_info       = RC_Api::api('user', 'user_info', array('user_id' => $connect_user_id));
+            $user_info = \Ecjia\App\User\UserInfoFunction::EM_user_info($connect_user_id);
+            if(is_ecjia_error($user_info)) {
+                return $user_info;
+            }
 
-            ecjia_integrate::setSession($user_info['user_name']);
-            ecjia_integrate::setCookie($user_info['user_name']);
+            ecjia_integrate::setSession($user_info['name']);
+            ecjia_integrate::setCookie($user_info['name']);
 
             //当接口传入profile参数时才执行
             if (!empty($profile)) {
@@ -92,7 +206,7 @@ class connect_signin_module extends api_front implements api_interface
                     ->where('user_id', $_SESSION['user_id'])
                     ->update($data);
 
-                /* 获取远程用户头像信息*/
+                //获取远程头像，更新用户头像
                 RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['avatar_img']));
             }
 
@@ -102,38 +216,29 @@ class connect_signin_module extends api_front implements api_interface
 
         //ecjia账号同步登录用户信息更新
         $connect_options = [
-	        'connect_code'  => 'app',
-	        'user_id'       => $_SESSION['user_id'],
-	        'is_admin'      => '0',
-	        'user_type'     => 'user',
-	        'open_id'       => md5(RC_Time::gmtime() . $_SESSION['user_id']),
-	        'access_token'  => RC_Session::session_id(),
-	        'refresh_token' => md5($_SESSION['user_id'] . 'user_refresh_token'),
+            'connect_code'  => 'app',
+            'user_id'       => $_SESSION['user_id'],
+            'user_type'     => 'user',
+            'open_id'       => md5(RC_Time::gmtime() . $_SESSION['user_id']),
+            'access_token'  => RC_Session::session_id(),
+            'refresh_token' => md5($_SESSION['user_id'] . 'user_refresh_token'),
         ];
         $ecjiaAppUser = RC_Api::api('connect', 'ecjia_syncappuser_add', $connect_options);
         if (is_ecjia_error($ecjiaAppUser)) {
-        	return $ecjiaAppUser;
+            return $ecjiaAppUser;
         }
-        
-        RC_Loader::load_app_func('admin_user', 'user');
-        $user_info = EM_user_info($_SESSION['user_id']);
 
-        update_user_info(); // 更新用户信息
-        RC_Loader::load_app_func('cart', 'cart');
-        recalculate_price(); // 重新计算购物车中的商品价格
+        \Ecjia\App\User\UserInfoFunction::update_user_info(); // 更新用户信息
+        \Ecjia\App\Cart\CartFunction::recalculate_price(); // 重新计算购物车中的商品价格
 
         //修正关联设备号
-        $result = ecjia_app::validate_application('mobile');
-        if (!is_ecjia_error($result)) {
-            if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
-                RC_DB::table('mobile_device')
-                    ->where('device_udid', $device['udid'])
-                    ->where('device_client', $device['client'])
-                    ->where('device_code', $device['code'])
-                    ->where('user_type', 'user')
-                    ->update(array('user_id' => $_SESSION['user_id'], 'update_time' => RC_Time::gmtime()));
-            }
-        }
+        RC_Api::api('mobile', 'bind_device_user', array(
+            'device_udid'   => $device['udid'],
+            'device_client' => $device['client'],
+            'device_code'   => $device['code'],
+            'user_type'     => 'user',
+            'user_id'       => $_SESSION['user_id'],
+        ));
 
         $out = array(
             'token' => RC_Session::session_id(),

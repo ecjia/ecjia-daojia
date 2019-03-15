@@ -49,9 +49,13 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 第三方登录回调处理
  */
-class callback extends ecjia_front {
-    public function __construct() {
+class callback extends ecjia_front
+{
+
+    public function __construct()
+    {
         parent::__construct();
+
     }
     
     /**
@@ -59,7 +63,8 @@ class callback extends ecjia_front {
      * open_id       唯一标示
      * username     昵称
      */
-    public function init() {
+    public function init()
+    {
         $connect_code = $this->request->query('connect_code');
         if (empty($connect_code)) {
             $link[] = array('text' => __('返回上一页', 'connect'), 'href' => 'javascript:history.back(-1)');
@@ -107,7 +112,7 @@ class callback extends ecjia_front {
         }
 
         //echo 内容
-        return $this->displayContent($this->fetch_string($templateStr));
+        return $this->displayContent($templateStr);
     }
     
     /**
@@ -118,16 +123,18 @@ class callback extends ecjia_front {
         $connect_code   = $this->request->query('connect_code');
         $open_id        = $this->request->query('open_id');
         
-        $connect_user = new Ecjia\App\Connect\ConnectUser($connect_code, $open_id, $user_type);
+        $connect_user = new Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
         //判断已绑定授权登录用户 直接登录
         if ($connect_user->checkUser()) {
             $this->userBindedProcessHandle($user_type, $connect_user);
         } else {
             //新用户注册并登录
-            $username = $connect_user->getGenerateUserName();
-            $password = $connect_user->getGeneratePassword();
-            $email    = $connect_user->getGenerateEmail();
-            
+            /*创建用户*/
+            $UserGenerate = new \Ecjia\App\Connect\UserGenerate($connect_user);
+            $username = $UserGenerate->getGenerateUserName();
+            $email    = $UserGenerate->getGenerateEmail();
+            $password = $UserGenerate->getGeneratePassword();
+
             $user_id = RC_Hook::apply_filters(sprintf("connect_callback_%s_bind_signup", $connect_user->getUserType()), 0, $username, $password, $email);
             $result  = $connect_user->bindUser($user_id);
             
@@ -147,8 +154,8 @@ class callback extends ecjia_front {
         
         $action_link = RC_Uri::url('connect/callback/bind_signin', array('connect_code' => $_GET['connect_code'], 'open_id' => $_GET['open_id']));
         $this->assign('action_link', $action_link);
-        
-        $templateStr = RC_Hook::apply_filters(sprintf("connect_callback_%s_signin_template", $user_type), $templateStr);
+
+        $templateStr = RC_Hook::apply_filters(sprintf("connect_callback_%s_signin_template", $user_type), null);
         //echo 内容
         return $this->displayContent($this->fetch_string($templateStr));
     }
@@ -165,7 +172,7 @@ class callback extends ecjia_front {
         $username       = $this->request->input('username');
         $password       = $this->request->input('password');
         
-        $connect_user = new Ecjia\App\Connect\ConnectUser($connect_code, $open_id, $user_type);
+        $connect_user = new Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
 
         //判断已绑定授权登录用户 直接登录
         if ($connect_user->checkUser()) {
@@ -196,7 +203,10 @@ class callback extends ecjia_front {
     {
         /**
          * 用户登录
-         * hook名称有三个：connect_callback_user_signin、connect_callback_merchant_signin、connect_callback_admin_signin
+         * hook名称有三个：
+         * connect_callback_user_signin
+         * connect_callback_merchant_signin
+         * connect_callback_admin_signin
          */
         RC_Hook::do_action(sprintf("connect_callback_%s_signin", $user_type), $connect_user);
     }

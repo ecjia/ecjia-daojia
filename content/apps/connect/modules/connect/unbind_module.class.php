@@ -78,18 +78,44 @@ class connect_unbind_module extends api_front implements api_interface {
 		}
 		
 		//解绑关联第三方账号
-		$connect_user_info = RC_DB::table('connect_user')
-			->where('connect_code', $connect_code)
-			->where('user_type', 'user')
-			->where('user_id', $user_id)->first();
-		
-		if (!empty($connect_user_info)) {
-			RC_DB::table('connect_user')->where('id', $connect_user_info['id'])->delete();
-			return array();
-		} else {
-			return new ecjia_error('unbind_fail', __('关联账号解绑失败！', 'connect'));
-		}
-		
+		if($connect_code == 'sns_qq') {
+            RC_DB::table('connect_user')
+                ->where('connect_platform', 'qq')
+                ->where('user_type', 'user')
+                ->where('user_id', $user_id)->delete();
+            RC_DB::table('connect_user')
+                ->where('connect_code', $connect_code)
+                ->where('user_type', 'user')
+                ->where('user_id', $user_id)->delete();
+        } else if ($connect_code == 'sns_wechat') {
+            $user_info = RC_DB::table('connect_user')
+                ->where('connect_platform', 'wechat')
+                ->where('user_type', 'user')
+                ->where('user_id', $user_id)->first();
+            RC_DB::table('connect_user')
+                ->where('connect_platform', 'wechat')
+                ->where('user_type', 'user')
+                ->where('user_id', $user_id)->delete();
+            RC_DB::table('connect_user')
+                ->where('connect_code', $connect_code)
+                ->where('user_type', 'user')
+                ->where('user_id', $user_id)->delete();
+            if($user_info) {
+                RC_DB::table('wechat_user')->where('unionid', $user_info['union_id'])->where('ect_uid', $user_id)->update(['ect_uid' => 0]);
+            } else {
+                //找不到unionid 解绑平台下账号
+                $account = RC_DB::table('platform_account')->where('shop_id', 0)->get();
+                if($account) {
+                    foreach ($account as $row) {
+                        RC_DB::table('wechat_user')->where('wechat_id', $row['id'])->where('ect_uid', $user_id)->update(['ect_uid' => 0]);
+                    }
+                }
+
+            }
+        }
+
+        return array();
+
 	}
 	
 	

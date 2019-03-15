@@ -97,9 +97,12 @@ HTML;
         }
 
         RC_DB::table('connect_user')->where('user_id', $this->user_id)->where('connect_code', 'sns_qq')
-            ->where('user_type', 'user')->delete();
+            ->where('user_type', 'user')
+            ->delete();
+
         RC_DB::table('connect_user')->where('user_id', $this->user_id)->where('connect_platform', 'wechat')
-            ->where('user_type', 'user')->delete();
+            ->where('user_type', 'user')
+            ->delete();
 
         $this->handleAdminLog();
 

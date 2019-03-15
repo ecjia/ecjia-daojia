@@ -46,10 +46,15 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
+/**
+ * Class connect_bind_module
+ * @update 190312 v1.28 增加unionid
+ */
 class connect_bind_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	$this->authSession();	
 		$open_id      = $this->requestData('openid');
+        $union_id      = $this->requestData('unionid');//v1.28 190312新增
 		$connect_code = $this->requestData('code');
 		$username	  = $this->requestData('username');
 		$password	  = $this->requestData('password');
@@ -74,10 +79,13 @@ class connect_bind_module extends api_front implements api_interface {
 			return new ecjia_error('invalid_parameter', __('参数错误', 'connect'));
 		}
 		
-		$connect_user = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id, 'user');
+		$connect_user = new \Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
+        $connect_user->setUnionId($union_id);
+
 		if ($connect_user->checkUser()) {
 			return new ecjia_error('connect_userbind', __('您已绑定过会员用户！', 'connect'));
 		}
+
 		/**
 		 * $code
 		 * login_weibo
@@ -129,7 +137,7 @@ class connect_bind_module extends api_front implements api_interface {
 				$check_user = $db_user->where(array('mobile_phone' => $username))->get_field('user_name');
 				/* 获取用户名进行判断验证*/
 				if (!empty($check_user)) {
-					if ($ecjia_integrate->login($check_user)) {
+					if ($ecjia_integrate->login($check_user, null)) {
 						$is_mobile = true;
 					}
 					if ($is_mobile) {
@@ -185,61 +193,27 @@ class connect_bind_module extends api_front implements api_interface {
 			return $ecjiaAppUser;
 		}
 		
-		RC_Loader::load_app_func('admin_user', 'user');
-		$user_info = EM_user_info($_SESSION['user_id']);
-		update_user_info(); // 更新用户信息
-		RC_Loader::load_app_func('cart','cart');
-		recalculate_price(); // 重新计算购物车中的商品价格
-		
+		$user_info = \Ecjia\App\User\UserInfoFunction::EM_user_info($_SESSION['user_id']);
+        \Ecjia\App\User\UserInfoFunction::update_user_info(); // 更新用户信息
+        \Ecjia\App\Cart\CartFunction::recalculate_price(); // 重新计算购物车中的商品价格
+
+        //修正关联设备号
+        RC_Api::api('mobile', 'bind_device_user', array(
+            'device_udid'   => $request->header('device-udid'),
+            'device_client' => $request->header('device-client'),
+            'device_code'   => $request->header('device-code'),
+            'user_type'     => 'user',
+            'user_id'       => $_SESSION['user_id'],
+        ));
+
 		$out = array(
 			'token' => RC_Session::session_id(),
 			'user' => $user_info
 		);
-		
-//		$this->feedback_batch_userid($_SESSION['user_id'], $_SESSION['user_name'], $device);
-		
-		//修正关联设备号
-		$result = ecjia_app::validate_application('mobile');
-		if (!is_ecjia_error($result)) {
-			if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
-				RC_DB::table('mobile_device')
-						->where('device_udid', $device['udid'])
-						->where('device_client', $device['client'])
-						->where('device_code', $device['code'])
-						->where('user_type', 'user')
-						->update(array('user_id' => $_SESSION['user_id'], 'update_time' => RC_Time::gmtime()));
-			}
-		}
+
 		return $out;
 	}
 	
-	/**
-	 * 修正咨询信息
-	 * @param string $user_id
-	 * @param string $device
-	 */
-	private function feedback_batch_userid($user_id, $user_name, $device) {
-//		$device_udid	  = $device['udid'];
-//		$device_client	  = $device['client'];
-		
-		//$pra = array(
-		//	'object_type'	=> 'ecjia.feedback',
-		//	'object_group'	=> 'feedback',
-		//	'item_key2'		=> 'device_udid',
-		//	'item_value2'	=> $device_udid 
-		//);
-		//$object_id = Ecjia\App\User\TermRelationship::GetObjectIds($pra);
-		
-		//更新未登录用户的咨询
-		//$db_term_relation->where(array('item_key2' => 'device_udid', 'item_value2' => $device_udid))->update(array('item_key2' => '', 'item_value2' => ''));
-//		RC_DB::table('term_relationship')->where('item_key2', 'device_udid')->where('item_value2', $device_udid)->update(array('item_key2' => '', 'item_value2' => ''));
-		
-		//if (!empty($object_id)) {
-		//	$db = RC_Model::model('feedback/feedback_model');
-		//	$db->where(array('msg_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $user_id, 'user_name' => $user_name));
-		//	$db->where(array('parent_id' => $object_id, 'msg_area' => '4'))->update(array('user_id' => $user_id, 'user_name' => $user_name));
-		//}
-	}
 }
 
 // end

@@ -71,7 +71,7 @@ class connect_signup_module extends api_front implements api_interface {
 			}
 		}
 		
-		$connect_user = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id, 'user');
+		$connect_user = new \Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
 		if ($connect_user->checkUser()) {
 			return new ecjia_error('connect_userbind', __('您已绑定过会员用户！', 'connect'));
 		}
@@ -214,34 +214,29 @@ class connect_signup_module extends api_front implements api_interface {
 				return $ecjiaAppUser;
 			}
 
-			RC_Loader::load_app_func('admin_user', 'user');
-			$user_info = EM_user_info($_SESSION['user_id']);
-			update_user_info(); // 更新用户信息
-			RC_Loader::load_app_func('cart','cart');
-			recalculate_price(); // 重新计算购物车中的商品价格
+			$user_info = \Ecjia\App\User\UserInfoFunction::EM_user_info($_SESSION['user_id']);
+            \Ecjia\App\User\UserInfoFunction::update_user_info(); // 更新用户信息
+            \Ecjia\App\Cart\CartFunction::recalculate_price(); // 重新计算购物车中的商品价格
 
 			unset($_SESSION['bind_code']);
 			unset($_SESSION['bindcode_lifetime']);
 			unset($_SESSION['bind_value']);
 			unset($_SESSION['bind_type']);
 
-			//修正关联设备号
-			$result = ecjia_app::validate_application('mobile');
-			if (!is_ecjia_error($result)) {
-				if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
-					RC_DB::table('mobile_device')
-						->where('device_udid', $device['udid'])
-						->where('device_client', $device['client'])
-						->where('device_code', $device['code'])
-						->where('user_type', 'user')
-						->update(array('user_id' => $_SESSION['user_id'], 'update_time' => RC_Time::gmtime()));
-				}
-			}
+            //修正关联设备号
+            RC_Api::api('mobile', 'bind_device_user', array(
+                'device_udid'   => $request->header('device-udid'),
+                'device_client' => $request->header('device-client'),
+                'device_code'   => $request->header('device-code'),
+                'user_type'     => 'user',
+                'user_id'       => $_SESSION['user_id'],
+            ));
 
 			$out = array(
 				'token' => RC_Session::session_id(),
 				'user'	=> $user_info
 			);
+
 			return $out;
 		} else {
             return new ecjia_error(ecjia_integrate::getError(), ecjia_integrate::getErrorMessage());

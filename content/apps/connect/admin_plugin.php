@@ -74,7 +74,7 @@ class admin_plugin extends ecjia_admin {
 		
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('账号连接', 'connect'), RC_Uri::url('connect/admin_plugin/init')));
 
-        RC_Script::enqueue_script('connect', RC_App::apps_url('statics/js/connect.js', __FILE__), array(), false, true);
+        RC_Script::enqueue_script('connect', RC_App::apps_url('statics/js/connect.js', __FILE__), array(), false, 1);
         RC_Script::localize_script('connect', 'jslang', config('app-connect::jslang'));
 		ecjia_screen::get_current_screen()->set_parentage('connect', 'connect/admin_plugin.php');
 	}
