@@ -17,11 +17,11 @@
                 </div>
                 <div class="ecjia-fr">
                     <ul class="nav hover-font">
-                        <li><a class="nopjax" href="{$main_url}">首页</a></li>
-                        <li {if $active eq 'category'}class="active"{/if}><a class="nopjax" href="{$main_goods_url}">商家</a></li>
-						<li class="active"><a href="javascript:;">下载APP</a></li>
-						<li><a class="nopjax" href="{$merchant_url}" target="_blank">商家入驻</a></li>
-						<li><a class="nopjax ecjia-back-green" href="{$merchant_login}" target="_blank">商家登录</a></li>
+                        <li><a class="nopjax" href="{$main_url}">{t domain="ecjia-daojiaapp"}首页{/t}</a></li>
+                        <li {if $active eq 'category'}class="active"{/if}><a class="nopjax" href="{$main_goods_url}">{t domain="ecjia-daojiaapp"}商家{/t}</a></li>
+						<li class="active"><a href="javascript:;">{t domain="ecjia-daojiaapp"}下载APP{/t}</a></li>
+						<li><a class="nopjax" href="{$merchant_url}" target="_blank">{t domain="ecjia-daojiaapp"}商家入驻{/t}</a></li>
+						<li><a class="nopjax ecjia-back-green" href="{$merchant_login}" target="_blank">{t domain="ecjia-daojiaapp"}商家登录{/t}</a></li>
                     </ul>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                     <div class="project-view ecjia-fl m-t-50">
                     {if $mobile_touch_url}
                         <iframe src="{$mobile_touch_url}" frameborder="0" scrolling="auto"></iframe>
-                        <div class="ecjia-fl phone-tips">鼠标点击手机体验</div>
+                        <div class="ecjia-fl phone-tips">{t domain="ecjia-daojiaapp"}鼠标点击手机体验{/t}</div>
                     {else} 
                     <!-- 62 77 -->
                         <div class="swiper-container-phone">
@@ -73,18 +73,18 @@
                         <h2 class="fsize-48 ecjia-truncate"><!-- #BeginLibraryItem "/library/shop_subtitle.lbi" --><!-- #EndLibraryItem --></h2>
                         <p class="fsize-24 ecjia-truncate"><!-- #BeginLibraryItem "/library/brief_intro.lbi" --><!-- #EndLibraryItem --></p>
                         <div class="two-btn wt-30">
-                            {if $mobile_iphone_download}<a class="ecjia-btn icon-btn" href="{$mobile_iphone_download}" target="_blank"><i class="iphone icon"></i><span>iPhone端下载</span></a>{/if}
-                            {if $mobile_android_download}<a class="ecjia-btn icon-btn" href="{$mobile_android_download}" target="_blank"><i class="android icon"></i><span>Android端下载</span></a>{/if}
+                            {if $mobile_iphone_download}<a class="ecjia-btn icon-btn" href="{$mobile_iphone_download}" target="_blank"><i class="iphone icon"></i><span>{t domain="ecjia-daojiaapp"}iPhone端下载{/t}</span></a>{/if}
+                            {if $mobile_android_download}<a class="ecjia-btn icon-btn" href="{$mobile_android_download}" target="_blank"><i class="android icon"></i><span>{t domain="ecjia-daojiaapp"}Android端下载{/t}</span></a>{/if}
                         </div>
                         <div class="ecjia-code wt-50">
                             {if $mobile_iphone_qrcode}
                             <span class="mr-20">
-                                <img src="{$mobile_iphone_qrcode}" alt="" width="200" height="200">扫一扫，体验APP
+                                <img src="{$mobile_iphone_qrcode}" alt="" width="200" height="200">{t domain="ecjia-daojiaapp"}扫一扫，体验APP{/t}
                             </span>
                             {/if}
                             {if $touch_qrcode}
                             <span style="margin-right:32px;">
-                                <img src="{$touch_qrcode}" alt="" width="200" height="200">扫一扫，体验微信H5界面
+                                <img src="{$touch_qrcode}" alt="" width="200" height="200">{t domain="ecjia-daojiaapp"}扫一扫，体验微信H5界面{/t}
                             </span>
                             {/if}
                         </div>
@@ -94,12 +94,12 @@
 
             <div class="ecjia-content">
                 <div class="ecjia-title wt-80">
-                    <h1 class="fsize-36">{$mobile_app_name}简介</h1>
+                    <h1 class="fsize-36">{$mobile_app_name}{t domain="ecjia-daojiaapp"}简介{/t}</h1>
                     <p class="wt-30">{$mobile_app_description}</p>
                 </div>
 
 				{if $mobile_app_video}
-				<div class="cly-title">应用视频介绍</div>
+				<div class="cly-title">{t domain="ecjia-daojiaapp"}应用视频介绍{/t}</div>
 				<div class="video wt-30">
 					<video width="900px" controls="controls">
 						<source src="{$mobile_app_video}" type="video/mp4"></source>
@@ -109,7 +109,7 @@
 				{/if}
                 <div class="clyimges">
                     {if $screenshots}
-                    <div class="cly-title wt-30">界面精彩截图</div>
+                    <div class="cly-title wt-30">{t domain="ecjia-daojiaapp"}界面精彩截图{/t}</div>
                     <div class="wt-30">
                         <div class="swiper-container">
                             <div class="swiper-wrapper">
@@ -146,8 +146,8 @@
                     {/if}
                     <div class="wt-50 download">
                         <div class="two-btn wt-30">
-                            {if $mobile_iphone_download}<a class="ecjia-btn icon-btn blue" href="{$mobile_iphone_download}" target="_blank"><i class="iphone icon"></i>iPhone端下载</a>{/if}
-                            {if $mobile_android_download}<a class="ecjia-btn icon-btn green" href="{$mobile_android_download}" target="_blank"><i class="android icon"></i>Android端下载</a>{/if}
+                            {if $mobile_iphone_download}<a class="ecjia-btn icon-btn blue" href="{$mobile_iphone_download}" target="_blank"><i class="iphone icon"></i>{t domain="ecjia-daojiaapp"}iPhone端下载{/t}</a>{/if}
+                            {if $mobile_android_download}<a class="ecjia-btn icon-btn green" href="{$mobile_android_download}" target="_blank"><i class="android icon"></i>{t domain="ecjia-daojiaapp"}Android端下载{/t}</a>{/if}
                         </div>
                     </div>
                 </div>
@@ -163,7 +163,7 @@
 					<span class="outlink-qrcode">
                         <div class="wechat-code">
 							<img src="{$shop_wechat_qrcode}">
-							<span>打开微信扫一扫关注</span>
+							<span>{t domain="ecjia-daojiaapp"}打开微信扫一扫关注{/t}</span>
 						</div>
 						<a class="wechat" href="javascript:void(0)"></a>
 					</span>
@@ -174,8 +174,8 @@
                         {$shop_info_html}
                     </p>
                 </div>
-                <p>{if $company_name}{$company_name} 版权所有{/if} {if ecjia::config('icp_number')}&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn" target="_blank"> {ecjia::config('icp_number')}</a>{/if}&nbsp;&nbsp;{$commoninfo.powered}</p>
-                <p>{if $shop_address}地址：{$shop_address} {/if} {if $service_phone} 咨询热线：{$service_phone}{/if}</p>
+                <p>{if $company_name}{$company_name} {t domain="ecjia-daojiaapp"}版权所有{/t}{/if} {if ecjia::config('icp_number')}&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn" target="_blank"> {ecjia::config('icp_number')}</a>{/if}&nbsp;&nbsp;{$commoninfo.powered}</p>
+                <p>{if $shop_address}{t domain="ecjia-daojiaapp"}地址：{/t}{$shop_address} {/if} {if $service_phone} {t domain="ecjia-daojiaapp"}咨询热线：{/t}{$service_phone}{/if}</p>
             </div>
         </div>
 		<div style="display:none">
