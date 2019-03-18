@@ -582,6 +582,7 @@ return array(
 	'admin/cashier/orders/summary/records'			  => 'orders::admin/cashier/orders/summary/records',    	//资金流水开单/验单列表（支付完成的）
 	'admin/cashier/quickpay/summary/records'		  => 'quickpay::admin/cashier/quickpay/summary/records',    //资金流水买单列表（买单支付完成的）
 	'admin/cashier/refund/summary/records'		  	  => 'refund::admin/cashier/refund/summary/records',    	//资金流水退款列表（退款完成的）
+	'admin/cashier/user/account/deposit/records'	  => 'user::admin/cashier/user/account/deposit/records',	//收银员查看会员充值记录
 
 	
     /**
