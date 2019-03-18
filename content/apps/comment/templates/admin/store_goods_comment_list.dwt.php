@@ -94,12 +94,12 @@
 		</a>
 		<ul class="dropdown-menu">
 		<!-- {if $comment_list.filter.status neq null && $comment_list.filter.status neq 1} -->
-			<li><a class="batch-sale-btn"  data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&sel_action=allow&status={$comment_list.filter.status}&page={$smarty.get.page}" data-msg='{t domain="comment"}您确定要批量允许显示选中的评论吗？{/t}' data-noSelectMsg='{t domain="comment"}请选择需要操作的评论{/t}}' href="javascript:;"><i class="fontello-icon-eye"></i>{t domain="comment"}允许显示{/t}</a></li>
+			<li><a class="batch-sale-btn"  data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&sel_action=allow&status={$comment_list.filter.status}&page={$smarty.get.page}" data-msg='{t domain="comment"}您确定要批量允许显示选中的评论吗？{/t}' data-noSelectMsg='{t domain="comment"}请选择需要操作的评论{/t}' href="javascript:;"><i class="fontello-icon-eye"></i>{t domain="comment"}允许显示{/t}</a></li>
 		<!--{/if} -->
 		<!-- {if $comment_list.filter.status eq 1} -->
-			<li><a class="batch-notsale-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&sel_action=deny&status={$comment_list.filter.status}&page={$smarty.get.page}" data-msg='{t domain="comment"}您确定要批量禁止显示选中的评论吗？{/t}' data-noSelectMsg='{t domain="comment"}请选择需要操作的评论{/t}}'  href="javascript:;"><i class="fontello-icon-eye-off"></i>{t domain="comment"}禁止显示{/t}</a></li>
+			<li><a class="batch-notsale-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&sel_action=deny&status={$comment_list.filter.status}&page={$smarty.get.page}" data-msg='{t domain="comment"}您确定要批量禁止显示选中的评论吗？{/t}' data-noSelectMsg='{t domain="comment"}请选择需要操作的评论{/t}'  href="javascript:;"><i class="fontello-icon-eye-off"></i>{t domain="comment"}禁止显示{/t}</a></li>
 		<!-- {/if} -->
-			<li><a data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&sel_action=trashed_comment{if $comment_list.filter.status neq null}&status={$comment_list.filter.status}{/if}&page={$smarty.get.page}" data-msg='{t domain="comment"}您确定要批量将选中的评论移至回收站吗？{/t}' data-noSelectMsg='{t domain="comment"}请选择需要操作的评论{/t}}'  href="javascript:;"><i class="fontello-icon-box"></i>{t domain="comment"}移至回收站{/t}</a></li>
+			<li><a data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&sel_action=trashed_comment{if $comment_list.filter.status neq null}&status={$comment_list.filter.status}{/if}&page={$smarty.get.page}" data-msg='{t domain="comment"}您确定要批量将选中的评论移至回收站吗？{/t}' data-noSelectMsg='{t domain="comment"}请选择需要操作的评论{/t}'  href="javascript:;"><i class="fontello-icon-box"></i>{t domain="comment"}移至回收站{/t}</a></li>
 		</ul>
 	</div>
 	<div class="choose_list f_r" >
