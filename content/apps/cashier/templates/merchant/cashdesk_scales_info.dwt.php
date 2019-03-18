@@ -105,7 +105,7 @@
                         <div class="form-group">
                             <div class="col-lg-6 col-md-offset-2">
                             	<input type="hidden" name="id" value="{$scales_info.id}">
-                                <input class="btn btn-info" type="submit" value="{if $scales_info.id}{t domain="cashier"}更新{/t}{else}{t domain="cashier"}确定{/t}{/if}">
+                                <input class="btn btn-info" type="submit" value='{if $scales_info.id}{t domain="cashier"}更新{/t}{else}{t domain="cashier"}确定{/t}{/if}'>
                             </div>
                         </div>
                     </form>

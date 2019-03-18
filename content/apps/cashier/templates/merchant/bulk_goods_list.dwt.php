@@ -32,7 +32,7 @@
 						</div>
 					</div>
 					<div class="form-group t_c">
-						<a class="btn btn-primary m_l5 disabled" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=move_to&" data-msg="{t domain="cashier"}是否将选中商品转移至分类？{/t}" data-noSelectMsg="{t domain="cashier"}请选择要转移的商品{/t}" href="javascript:;" name="move_cat_ture">{t domain="cashier"}开始转移{/t}</a>
+						<a class="btn btn-primary m_l5 disabled" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=move_to&" data-msg='{t domain="cashier"}是否将选中商品转移至分类？{/t}' data-noSelectMsg='{t domain="cashier"}请选择要转移的商品{/t}' href="javascript:;" name="move_cat_ture">{t domain="cashier"}开始转移{/t}</a>
 					</div>
 				</form>
            </div>
@@ -87,9 +87,9 @@
 				<div class="btn-group f_l">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> {t domain="cashier"}批量操作{/t} <span class="caret"></span></button>
 					<ul class="dropdown-menu">
-		                <li><a class="batch-trash-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=trash&page={$smarty.get.page}" data-msg="{t domain="cashier"}您确定要把选中的商品放入回收站吗？{/t}" data-noSelectMsg="{t domain="cashier"}请选择要移至回收站的商品{/t}" href="javascript:;"><i class="fa fa-archive"></i>{t domain="cashier"}移至回收站{/t}</a></li>
-						<li><a class="batch-sale-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=on_sale&page={$smarty.get.page}" data-msg="{t domain="cashier"}您确定要把选中的商品上架吗？{/t}" data-noSelectMsg="{t domain="cashier"}请选择要上架的商品{/t}" href="javascript:;"><i class="fa fa-arrow-circle-o-up"></i>{t domain="cashier"}上架{/t}</a></li>
-						<li><a class="batch-notsale-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=not_on_sale&page={$smarty.get.page}" data-msg="{t domain="cashier"}您确定要把选中的商品下架吗？{/t}" data-noSelectMsg="{t domain="cashier"}请选择要下架的商品{/t}" href="javascript:;"><i class="fa fa-arrow-circle-o-down"></i>{t domain="cashier"}下架{/t}</a></li>
+		                <li><a class="batch-trash-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=trash&page={$smarty.get.page}" data-msg='{t domain="cashier"}您确定要把选中的商品放入回收站吗？{/t}' data-noSelectMsg='{t domain="cashier"}请选择要移至回收站的商品{/t}' href="javascript:;"><i class="fa fa-archive"></i>{t domain="cashier"}移至回收站{/t}</a></li>
+						<li><a class="batch-sale-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=on_sale&page={$smarty.get.page}" data-msg='{t domain="cashier"}您确定要把选中的商品上架吗？{/t}' data-noSelectMsg='{t domain="cashier"}请选择要上架的商品{/t}' href="javascript:;"><i class="fa fa-arrow-circle-o-up"></i>{t domain="cashier"}上架{/t}</a></li>
+						<li><a class="batch-notsale-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=not_on_sale&page={$smarty.get.page}" data-msg='{t domain="cashier"}您确定要把选中的商品下架吗？{/t}' data-noSelectMsg='{t domain="cashier"}请选择要下架的商品{/t}' href="javascript:;"><i class="fa fa-arrow-circle-o-down"></i>{t domain="cashier"}下架{/t}</a></li>
 						<li><a class="batch-move-btn" data-name="move_cat" data-move="data-operatetype" href="javascript:;"><i class="fa fa-mail-forward"></i> {t domain="cashier"}转移到分类{/t}</a></li>
 		           	</ul>
 				</div>
@@ -97,7 +97,7 @@
 				<form class="form-inline f_r" action="{RC_Uri::url('cashier/mh_bulk_goods/init')}" method="post" name="search_form">
 					<div class="screen f_r">
 						<div class="form-group">
-							<input type="text" class="form-control" style="width:250px;" name="keywords" value="{$smarty.get.keywords}" placeholder="{t domain="cashier"}请输入商品名，商品货号等关键字{/t}">
+							<input type="text" class="form-control" style="width:250px;" name="keywords" value="{$smarty.get.keywords}" placeholder='{t domain="cashier"}请输入商品名，商品货号等关键字{/t}'>
 						</div>
 						<button class="btn btn-primary screen-btn" type="submit"><i class="fa fa-search"></i> {t domain="cashier"}搜索{/t} </button>
 					</div>
@@ -134,27 +134,27 @@
 									</div>
 								</td>						
 								<td class="hide-edit-area {if $goods.is_promote}ecjiafc-red{/if}">
-									<span class="cursor_pointer ecjiaf-pre ecjiaf-wsn" data-text="textarea" data-trigger="editable" data-url="{RC_Uri::url('cashier/mh_bulk_goods/edit_goods_name')}" data-name="goods_edit_name" data-pk="{$goods.goods_id}" data-title="{t domain="cashier"}请输入商品名称{/t}">{$goods.goods_name|escape:html}</span>
+									<span class="cursor_pointer ecjiaf-pre ecjiaf-wsn" data-text="textarea" data-trigger="editable" data-url="{RC_Uri::url('cashier/mh_bulk_goods/edit_goods_name')}" data-name="goods_edit_name" data-pk="{$goods.goods_id}" data-title='{t domain="cashier"}请输入商品名称{/t}'>{$goods.goods_name|escape:html}</span>
 									<br/>
 									<div class="edit-list">
 										<a class="data-pjax" href='{url path="cashier/mh_bulk_goods/edit" args="goods_id={$goods.goods_id}"}'>{t domain="cashier"}编辑{/t}</a>&nbsp;|&nbsp;
-										<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{t domain="cashier"}您确定要把该商品放入回收站吗？{/t}" href='{url path="cashier/mh_bulk_goods/remove" args="id={$goods.goods_id}"}'>{t domain="cashier"}删除{/t}</a>
+										<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg='{t domain="cashier"}您确定要把该商品放入回收站吗？{/t}' href='{url path="cashier/mh_bulk_goods/remove" args="id={$goods.goods_id}"}'>{t domain="cashier"}删除{/t}</a>
 									</div>
 								</td>	
 								<td>
-									<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('cashier/mh_bulk_goods/edit_goods_sn')}" data-name="goods_edit_goods_sn" data-pk="{$goods.goods_id}" data-title="{t domain="cashier"}请输入商品货号{/t}">
+									<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('cashier/mh_bulk_goods/edit_goods_sn')}" data-name="goods_edit_goods_sn" data-pk="{$goods.goods_id}" data-title='{t domain="cashier"}请输入商品货号{/t}'>
 										{$goods.goods_sn} 
 									</span>
 								</td>
 								<td align="center">
-									<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('cashier/mh_bulk_goods/edit_goods_price')}" data-name="goods_price" data-pk="{$goods.goods_id}" data-title="{t domain="cashier"}请输入商品价格{/t}"> 
+									<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('cashier/mh_bulk_goods/edit_goods_price')}" data-name="goods_price" data-pk="{$goods.goods_id}" data-title='{t domain="cashier"}请输入商品价格{/t}'> 
 										{$goods.shop_price}
 									</span> 
 								</td>
 								<td align="center">{if $goods.weight_unit eq '1'}{t domain="cashier"}克{/t}{else}{t domain="cashier"}千克{/t}{/if}</td>
 								
 								<td align="center">
-									<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('cashier/mh_bulk_goods/edit_weight_stock')}" data-name="goods_number" data-pk="{$goods.goods_id}" data-title="{t domain="cashier"}请输入重量库存{/t}">
+									<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('cashier/mh_bulk_goods/edit_weight_stock')}" data-name="goods_number" data-pk="{$goods.goods_id}" data-title='{t domain="cashier"}请输入重量库存{/t}'>
 										{if $goods.weight_stock}{$goods.weight_stock}{else}0.000{/if}
 									</span>
 								</td>
@@ -164,7 +164,7 @@
 									data-id="{$goods.goods_id}"></i>
 								</td>
 								<td align="center">
-									<span class="cursor_pointer" data-trigger="editable" data-placement="left" data-url="{RC_Uri::url('cashier/mh_bulk_goods/edit_sort_order')}" data-name="sort_order" data-pk="{$goods.goods_id}" data-title="{t domain="cashier"}请输入排序序号{/t}"> 
+									<span class="cursor_pointer" data-trigger="editable" data-placement="left" data-url="{RC_Uri::url('cashier/mh_bulk_goods/edit_sort_order')}" data-name="sort_order" data-pk="{$goods.goods_id}" data-title='{t domain="cashier"}请输入排序序号{/t}'> 
 										{$goods.store_sort_order}
 									</span>
 								</td>
