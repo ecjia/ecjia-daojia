@@ -16,9 +16,9 @@ class PotExtMeta extends GettextConsoleAbstract
 
     protected $headers = array(
         'Plugin Name',
-        'Theme Name',
+        'Template Name',
         'Plugin URI',
-        'Theme URI',
+        'Template URI',
         'Description',
         'Author',
         'Author URI',
@@ -36,7 +36,7 @@ class PotExtMeta extends GettextConsoleAbstract
     public function load_from_file($ext_filename)
     {
         $makepot = new MakePOT($this->console);
-        $source = $makepot->get_first_lines($ext_filename);
+        $source = $makepot->get_first_lines($ext_filename, 80);
         $pot = '';
 
         $po = new PortableObject;

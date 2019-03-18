@@ -148,6 +148,12 @@ class MakePOT extends GettextConsoleAbstract
         return realpath(dirname($path)) . DIRECTORY_SEPARATOR . basename($path);
     }
 
+
+    public function array_map_callback($x)
+    {
+        return "{".$x."}";
+    }
+
     /**
      * @param $project
      * @param $dir
@@ -163,7 +169,7 @@ class MakePOT extends GettextConsoleAbstract
         $placeholders         = array_merge($meta, $placeholders);
         $meta['output']       = $this->realpath_missing($output_file);
         $placeholders['year'] = date('Y');
-        $placeholder_keys     = array_map(create_function('$x', 'return "{".$x."}";'), array_keys($placeholders));
+        $placeholder_keys     = array_map([$this, 'array_map_callback'], array_keys($placeholders));
         $placeholder_values   = array_values($placeholders);
         foreach ($meta as $key => $value) {
             $meta[$key] = str_replace($placeholder_keys, $placeholder_values, $value);

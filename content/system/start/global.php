@@ -198,15 +198,14 @@ RC_Event::listen('royalcms.warning.exception', function($exception) {
 /**
  * 检测是否安装
  */
-RC_Hook::add_action('init', function () {
-    $install_lock = storage_path() . '/data/install.lock';
-    if (royalcms('request')->query('m') != 'installer' && !file_exists($install_lock) && !defined('NO_CHECK_INSTALL'))
-    {
-        $url = RC_Uri::url('installer/index/init');
-        rc_redirect($url);
-        exit();
-    }
-}, 2);
+//RC_Hook::add_action('init', function () {
+//    if (! is_installed_ecjia())
+//    {
+//        $url = RC_Uri::url('installer/index/init');
+//        rc_redirect($url);
+//        exit();
+//    }
+//}, 2);
 
 
 RC_Hook::add_action('mail_init', function () {

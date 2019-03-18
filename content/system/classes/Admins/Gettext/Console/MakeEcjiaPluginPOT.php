@@ -11,6 +11,9 @@ namespace Ecjia\System\Admins\Gettext\Console;
 
 class MakeEcjiaPluginPOT extends MakePOT
 {
+    protected $max_header_lines = 80;
+
+    protected $slug;
 
     protected $meta = array(
         'description'        => 'Translation of the Ecjia plugin {name} {version} by {author}',
@@ -30,7 +33,9 @@ class MakeEcjiaPluginPOT extends MakePOT
         $placeholders = array();
         // guess plugin slug
         if (is_null($slug)) {
-            $slug = $this->guess_plugin_slug($dir);
+            $this->slug = $this->guess_plugin_slug($dir);
+        } else {
+            $this->slug = $slug;
         }
 
         $plugins_dir  = @opendir($dir);
@@ -76,17 +81,28 @@ class MakeEcjiaPluginPOT extends MakePOT
         $placeholders['name']    = $this->get_addon_header('Plugin Name', $source);
         $placeholders['slug']    = $slug;
 
-        $output = is_null($output) ? "$slug.pot" : $output;
-        $res    = $this->xgettext('wp-plugin', $dir, $output, $placeholders, $args['excludes'], $args['includes']);
+        if (is_null($output)) {
+            $output =  $dir . "/languages/zh_CN/{$this->slug}.pot";
+        }
+
+        $res    = $this->xgettext('ecjia-plugin', $dir, $output, $placeholders, $args['excludes'], $args['includes']);
         if (!$res) {
             return false;
         }
 
         $potextmeta = new PotExtMeta($this->console);
-        $res        = $potextmeta->append($main_file, $output);
+        $res        = $potextmeta->append($main_file, $output, array('Plugin Name', 'Plugin URI', 'Description', 'Author', 'Author URI'));
+        if (!$res)
+        {
+            return false;
+        }
+
         /* Adding non-gettexted strings can repeat some phrases */
         $output_shell = escapeshellarg($output);
         system("msguniq $output_shell -o $output_shell");
+
+        $this->console->info(sprintf(__("提取%sPHP中语言包成功"), $this->slug));
+
         return $res;
     }
 
