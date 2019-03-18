@@ -48,7 +48,7 @@
 						<input type="hidden" name="user_id" />
 						<input type="hidden" name="user_name" />
 						<input type="hidden" name="article_id" />
-						<input type="submit" value="{t domain="comment"}确定{/t}" class="btn btn-gebo" />
+						<input type="submit" value='{t domain="comment"}确定{/t}' class="btn btn-gebo" />
 					</div>
 				</div>
 		
