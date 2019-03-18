@@ -1073,6 +1073,13 @@
 			var count = 60; //间隔函数，1秒执行
 			var curCount; //当前剩余秒数
 
+			//优化部分手机弹出键盘后 布局错位导致弹出框按钮无法点击问题
+			$('.ecjia-invite-register input').bind('focus', function(){
+				$('.ecjia-invite-register').css('position', 'static');
+			}).bind('blur', function(){
+				$('.ecjia-invite-register').css({'position':'fixed', 'bottom':'0'});
+			});
+
 			$('.identify_code_btn').off('click').on('click', function () {
 				var $this = $(this),
 					mobile = $('input[name="mobile"]').val(),

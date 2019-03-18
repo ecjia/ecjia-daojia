@@ -83,7 +83,7 @@
 						$("#get_code").css("margin", "0");
 						$("#get_code").css("top", ".5em");
 						$("#get_code").css("height", "2.2em");
-						$("#get_code").val("重新发送" + curCount + "(s)");
+						$("#get_code").val(sprintf(js_lang.resend_second, curCount));
 						$("#get_code").attr("class", "btn btn-org login-btn settled-message btn-small");
 						InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
 					}
@@ -101,7 +101,7 @@
 					} else {
 						curCount--;
 						$("#get_code").attr("disabled", "true");
-						$("#get_code").val("重新发送" + curCount + "(s)");
+						$("#get_code").val(sprintf(js_lang.resend_second, curCount));
 					}
 				};
 			});
@@ -193,7 +193,8 @@
 			curCount = count;
 			$(".resend_sms").addClass("disabled");
 			InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
-			$(".resend_sms").html("请查收 (" + curCount + "s)");
+			$(".resend_sms").html(sprintf(js_lang.check_second, curCount));
+			
 			//timer处理函数
 			function SetRemainTime() {
 				if (curCount == 0) {
@@ -202,7 +203,7 @@
 					$(".resend_sms").html(js_lang.resend);
 				} else {
 					curCount--;
-					$(".resend_sms").html("请查收 (" + curCount + "s)");
+					$(".resend_sms").html(sprintf(js_lang.check_second, curCount));
 				}
 			};
 		},
@@ -449,10 +450,10 @@
 				toolbarTemplate: '<div class="toolbar">' +
 					'<div class="toolbar-inner">' +
 					'<div class="left">' +
-					'<a href="javascript:;" class="link close-picker external">取消</a>' +
+					'<a href="javascript:;" class="link close-picker external">'+ js_lang.cancel +'</a>' +
 					'</div>' +
 					'<div class="right">' +
-					'<a href="javascript:;" class="link save-picker external">完成</a>' +
+					'<a href="javascript:;" class="link save-picker external">'+ js_lang.finish +'</a>' +
 					'</div>' +
 					'</div>' +
 					'</div>',
@@ -496,10 +497,10 @@
 						var col1 = picker.cols[1].container.find('.picker-selected');
 						var col2 = picker.cols[2].container.find('.picker-selected');
 						var html = col0.html();
-						if (col1.html() != '暂无') {
+						if (col1.html() != js_lang.temporarily_no) {
 							html += '-' + col1.html();
 						}
-						if (col2.html() != '暂无') {
+						if (col2.html() != js_lang.temporarily_no) {
 							html += '-' + col2.html();
 						}
 						$('.ecjia-franchisee-location-pcd').html(html);
@@ -572,16 +573,16 @@
 				toolbarTemplate: '<div class="toolbar">' +
 					'<div class="toolbar-inner">' +
 					'<div class="left">' +
-					'<a href="javascript:;" class="link close-picker external">取消</a>' +
+					'<a href="javascript:;" class="link close-picker external">'+ js_lang.cancel +'</a>' +
 					'</div>' +
 					'<div class="right">' +
-					'<a href="javascript:;" class="link save-picker external">完成</a>' +
+					'<a href="javascript:;" class="link save-picker external">'+ js_lang.finish +'</a>' +
 					'</div>' +
 					'</div>' +
 					'</div>',
 				cols: [{
 					values: [''],
-					displayValues: ['请选择所在街道'],
+					displayValues: [js_lang.please_where_street],
 				}, ],
 				onOpen: function (picker) {
 					var district = $('input[name="f_district"]').val();
@@ -637,7 +638,7 @@
 			var category_list = [];
 			var category = eval('(' + $("input[name='category']").val() + ')')['data'];
 			if (category == null) {
-				$("input[name='seller_category']").val('暂无店铺分类，未能入驻');
+				$("input[name='seller_category']").val(js_lang.temporarily_cat);
 				$.cookie('franchisee_seller_category_id', '', {
 					expires: 7
 				});
@@ -647,7 +648,7 @@
 				};
 				var pickerDevice = myApp.picker({
 					input: '.ecjia-franchisee-category',
-					toolbarCloseText: '完成',
+					toolbarCloseText: js_lang.finish,
 					cols: [{
 						onChange: function (p, value) {
 							$.cookie('franchisee_seller_category', value, {
@@ -671,10 +672,10 @@
 			var category_test = $(".picker-selected").attr("data-picker-value");
 			var pickerDevice = myApp.picker({
 				input: '.ecjia-franchisee-type',
-				toolbarCloseText: '完成',
+				toolbarCloseText: js_lang.finish,
 				cols: [{
 					textAlign: 'center',
-					values: ['个人入驻', '企业入驻'],
+					values: [js_lang.individual_settlement, js_lang.enterprise_settled],
 					onChange: function (p, value) {
 						$.cookie('franchisee_validate_type', value, {
 							expires: 7
@@ -693,7 +694,7 @@
 			var mobile = $("input[name='mobile']").val();
 			var code = $("input[name='code']").val();
 			if (longitude != '' && latitude != '') {
-				$(".coordinate").html("经度：" + longitude + "；  " + "纬度：" + latitude);
+				$(".coordinate").html(sprintf(js_lang.longitude_latitude, longitude, latitude));
 			}
 
 			$(".coordinate").on('click', function (e) {
@@ -715,7 +716,7 @@
 					var url = url + '&province=' + f_province + '&city=' + f_city + '&district=' + f_district + '&street=' + f_street + '&address=' + f_address + '&mobile=' + mobile + '&code=' + code;
 					location.href = url;
 				} else {
-					alert('请选择省市区、街道并填写详细地址');
+					alert(js_lang.please_select_province_city);
 				}
 			})
 		},
@@ -741,11 +742,11 @@
 					'status': 'cancel',
 				}
 				var myApp = new Framework7({
-					modalButtonCancel: '取消',
-					modalButtonOk: '确定',
-					modalTitle: '提示'
+					modalButtonCancel: js_lang.cancel,
+					modalButtonOk: js_lang.ok,
+					modalTitle: js_lang.prompt
 				});
-				myApp.confirm('您确定要撤销申请吗？', function () {
+				myApp.confirm(js_lang.cancel_application, function () {
 					$.post(url, options, function (data) {
 						if (data.log != '') {
 							ecjia.pjax(data.cancel_url);
@@ -824,11 +825,11 @@
 		}
 		if (district_value.length == 0 || district_display_value.length == 0) {
 			district_value = [''];
-			district_display_value = ['暂无'];
+			district_display_value = [js_lang.temporarily_no];
 		}
 		if (street_value.length == 0 || street_display_value.length == 0) {
 			street_value = [''];
-			street_display_value = ['暂无'];
+			street_display_value = [js_lang.temporarily_no];
 		}
 		return [province_value, province_display_value, city_value, city_display_value, district_value, district_display_value, street_value, street_display_value];
 	}

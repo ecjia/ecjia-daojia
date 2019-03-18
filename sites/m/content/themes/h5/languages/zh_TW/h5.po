@@ -2,24 +2,208 @@
 # This file is distributed under the same license as the ECJia到家H5主题 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ECJia到家H5主题 "
-"1.29.0\n"
-"Report-Msgid-Bugs-To: https://www.ecjia."
-"com/support/theme/h5\n"
-"POT-Creation-Date: 2019-03-08 "
-"07:07:35+00:00\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; "
-"charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-03-14 "
-"14:52+0800\n"
-"Language-Team: LANGUAGE <ecjia@ecjia."
-"com>\n"
-"X-Generator: Poedit 1.8.7\n"
+"Project-Id-Version: ECJia到家H5主题 1.29.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/theme/h5\n"
+"POT-Creation-Date: 2019-03-15 13:23+0800\n"
+"PO-Revision-Date: 2019-03-15 14:33+0800\n"
 "Last-Translator: \n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: extras/configs/jslang.php:56
+msgid "确定"
+msgstr "確定"
+
+#: extras/configs/jslang.php:57
+#: extras/controller/user_account_controller.php:516
+msgid "取消"
+msgstr "取消"
+
+#: extras/configs/jslang.php:58
+msgid "您确定要删除照片？"
+msgstr "您確定要刪除照片？"
+
+#: extras/configs/jslang.php:59
+msgid "请选择星级!"
+msgstr "請選擇星級!"
+
+#: extras/configs/jslang.php:62
+msgid ""
+"<div class=\"inv_img_invoice\"><div class=\"inv_img_invoice_title\"><h2>发票"
+"税号说明</h2></div>\n"
+"\t\t                        <div class=\"inv_img_invoice_content\">\n"
+"\t\t                            <p><b>1、什么是纳税人识别号／统一社会信用代"
+"码？</b></p>\n"
+"\t\t                            <p class=\"detail\">纳税人识别号，通常简称"
+"为“税号”，就是税务登记证上的号，每个企业的识别号都是唯一的，相当于税务局颁发"
+"给企业的“身份证”号。统一社会信用代码，是一组长度为18位的用于法人和其他组织身"
+"份识别的代码。统一社会信用代码由国家标准委发布。2015年10月1日起，国家启动将企"
+"业依次申请的工商营业执照，组织机构代码和税务登记证三证合为一证，并将三证号码"
+"合并为统一社会信用代码，目前大部分企业均已完成合并，另外有少部分企业其纳税人"
+"识别号仍然有效。</p>\n"
+"\t\t                            <p><b>2、如何获取／知晓纳税人识别号／统一社会"
+"信用代码？</b></p>\n"
+"\t\t                            <p class=\"detail\">您可向贵单位的财务部门索"
+"取；另外也可以根据单位名称在国家企业信用信息公示系统（https://www.gsxt.gov."
+"cn/index.html）查询统一社会信用代码。</p>\n"
+"\t\t                            <p><b>3、为什么要填写纳税人识别号／统一社会信"
+"用代码？</b></p>\n"
+"\t\t                            <p class=\"detail\">根据国家税务总局2017年16"
+"号公告，从7月1日起企业（包括公司、非公司制企业法人、企业分支机构、个人独资企"
+"业、合伙企业和其他企业）索取票面带有“购买方纳税人识别号”栏目的发票时，应向销"
+"售方提供纳税人识别号或统一社会信用代码。因此，当您选择开具单位抬头增值税普通"
+"发票时，请根据提示准确填写贵单位号码，以免影响您的发票报销。请注意此公告并不"
+"适用于政府机构及事业单位中的非企业单位，因此，如贵单位属于这种类型，可无需填"
+"写纳税人识别号／统一社会信用代码，谨慎起见，请您与贵单位财务部门联系确认。</"
+"p>\n"
+"\t\t                        </div>\n"
+"\t\t                     </div>"
+msgstr ""
+"<div class=\"inv_img_invoice\"><div class=\"inv_img_invoice_title\"><h2>發票"
+"稅號說明</h2></div>\n"
+"\t\t <div class=\"inv_img_invoice_content\">\n"
+"\t\t <p><b>1、什麼是納稅人識別號／統一社會信用代碼？ </b></p>\n"
+"\t\t <p class=\"detail\">納稅人識別號，通常簡稱為“稅號”，就是稅務登記證上的"
+"號，每個企業的識別號都是唯一的，相當於稅務局頒發給企業的“身份證”號。統一社會"
+"信用代碼，是一組長度為18位的用於法人和其他組織身份識別的代碼。統一社會信用代"
+"碼由國家標準委發布。 2015年10月1日起，國家啟動將企業依次申請的工商營業執照，"
+"組織機構代碼和稅務登記證三證合為一證，並將三證號碼合併為統一社會信用代碼，目"
+"前大部分企業均已完成合併，另外有少部分企業其納稅人識別號仍然有效。 </p>\n"
+"\t\t <p><b>2、如何獲取／知曉納稅人識別號／統一社會信用代碼？ </b></p>\n"
+"\t\t <p class=\"detail\">您可向貴單位的財務部門索取；另外也可以根據單位名稱在"
+"國家企業信用信息公示系統（https://www.gsxt.gov.cn/index. html）查詢統一社會信"
+"用代碼。 </p>\n"
+"\t\t <p><b>3、為什麼要填寫納稅人識別號／統一社會信用代碼？ </b></p>\n"
+"\t\t <p class=\"detail\">根據國家稅務總局2017年16號公告，從7月1日起企業（包括"
+"公司、非公司製企業法人、企業分支機構、個人獨資企業、合夥企業和其他企業）索取"
+"票面帶有“購買方納稅人識別號”欄目的發票時，應向銷售方提供納稅人識別號或統一社"
+"會信用代碼。因此，當您選擇開具單位抬頭增值稅普通發票時，請根據提示準確填寫貴"
+"單位號碼，以免影響您的發票報銷。請注意此公告並不適用於政府機構及事業單位中的"
+"非企業單位，因此，如貴單位屬於這種類型，可無需填寫納稅人識別號／統一社會信用"
+"代碼，謹慎起見，請您與貴單位財務部門聯繫確認。 </p>\n"
+"\t\t </div>\n"
+"\t\t </div>"
+
+#: extras/configs/jslang.php:72
+msgid "是"
+msgstr "是"
+
+#: extras/configs/jslang.php:73
+msgid "否"
+msgstr "否"
+
+#: extras/configs/jslang.php:74
+msgid "确认支付"
+msgstr "確認支付"
+
+#: extras/configs/jslang.php:75 extras/controller/payment_controller.php:230
+#: extras/controller/user_account_controller.php:617
+msgid "请选择支付方式"
+msgstr "請選擇支付方式"
+
+#: extras/configs/jslang.php:76
+msgid "您还未设置支付密码"
+msgstr "您還未設置支付密碼"
+
+#: extras/configs/jslang.php:77
+msgid "请求中..."
+msgstr "請求中..."
+
+#: extras/configs/jslang.php:78
+msgid "去设置"
+msgstr "去設置"
+
+#: extras/configs/jslang.php:82
+msgid "请输入正确的手机号"
+msgstr "請輸入正確的手機號"
+
+#: extras/configs/jslang.php:83
+msgid "提示"
+msgstr "提示"
+
+#: extras/configs/jslang.php:84
+msgid "查看申请进度"
+msgstr "查看申請進度"
+
+#: extras/configs/jslang.php:85
+msgid "重新发送"
+msgstr "重新發送"
+
+#: extras/configs/jslang.php:86 extras/controller/franchisee_controller.php:87
+#: extras/controller/franchisee_controller.php:443
+msgid "请输入真实姓名"
+msgstr "請輸入真實姓名"
+
+#: extras/configs/jslang.php:87 extras/controller/franchisee_controller.php:90
+msgid "请输入电子邮箱"
+msgstr "請輸入電子郵箱"
+
+#: extras/configs/jslang.php:88
+msgid "请输入正确的邮箱格式 !"
+msgstr "請輸入正確的郵箱格式 !"
+
+#: extras/configs/jslang.php:89 extras/controller/franchisee_controller.php:93
+#: extras/controller/franchisee_controller.php:250
+#: extras/controller/franchisee_controller.php:449
+#: extras/controller/franchisee_controller.php:538
+msgid "请输入手机号码"
+msgstr "請輸入手機號碼"
+
+#: extras/configs/jslang.php:90 extras/controller/franchisee_controller.php:633
+#: extras/controller/user_profile_controller.php:759
+#: extras/controller/user_profile_controller.php:776
+msgid "验证码不能为空"
+msgstr "驗證碼不能為空"
+
+#: extras/configs/jslang.php:91
+msgid "请输入店铺名称"
+msgstr "請輸入店鋪名稱"
+
+#: extras/configs/jslang.php:92 extras/controller/franchisee_controller.php:458
+msgid "请选择店铺分类"
+msgstr "請選擇店鋪分類"
+
+#: extras/configs/jslang.php:93
+msgid "请选择入驻类型"
+msgstr "請選擇入駐類型"
+
+#: extras/configs/jslang.php:94
+msgid "请选择店铺所在省"
+msgstr "請選擇店鋪所在省"
+
+#: extras/configs/jslang.php:95
+msgid "请选择店铺所在市"
+msgstr "請選擇店鋪所在市"
+
+#: extras/configs/jslang.php:96
+msgid "请选择店铺所在区"
+msgstr "請選擇店鋪所在區"
+
+#: extras/configs/jslang.php:97
+msgid "请选择店铺所在街道"
+msgstr "請選擇店鋪所在街道"
+
+#: extras/configs/jslang.php:98
+msgid "请填写店铺详细地址"
+msgstr "請填寫店鋪詳細地址"
+
+#: extras/configs/jslang.php:99
+msgid "请获取店铺坐标"
+msgstr "請獲取店鋪坐標"
+
+#: extras/configs/jslang.php:100
+#: extras/controller/franchisee_controller.php:473
+msgid "请选择街道"
+msgstr "請選擇街道"
+
+#: extras/configs/jslang.php:101
+msgid "请先选择所在地区"
+msgstr "請先選擇所在地區"
 
 #: extras/configs/theme-framework.php:18
 msgid "布局"
@@ -55,8 +239,7 @@ msgstr "主題個性化"
 
 #: extras/configs/theme-settings.php:21
 msgid "主题个性化 <small>配置菜单</small>"
-msgstr ""
-"主題個性化 <small>配置菜單</small>"
+msgstr "主題個性化 <small>配置菜單</small>"
 
 #: extras/controller/affiliate_controller.php:83
 #: extras/controller/affiliate_controller.php:132
@@ -158,6 +341,18 @@ msgstr "請選擇配送方式"
 msgid "请填写完整的发票信息"
 msgstr "請填寫完整的發票信息"
 
+#: extras/controller/cart_controller.php:540
+#: extras/controller/cart_controller.php:820
+#: extras/controller/quickpay_controller.php:81
+msgid "%s使用超出订单限制"
+msgstr "%s使用超出訂單限制"
+
+#: extras/controller/cart_controller.php:542
+#: extras/controller/cart_controller.php:822
+#: extras/controller/quickpay_controller.php:83
+msgid "%s不足"
+msgstr "%s不足"
+
 #: extras/controller/cart_controller.php:611
 #: extras/controller/cart_controller.php:888
 msgid "结算"
@@ -187,12 +382,8 @@ msgid "商品清单"
 msgstr "商品清單"
 
 #: extras/controller/cart_controller.php:1003
-msgid ""
-"当前收货地址暂无可用配送方式，请重新更换"
-"其他的收货地址"
-msgstr ""
-"當前收貨地址暫無可用配送方式，請重新更換"
-"其他的收貨地址"
+msgid "当前收货地址暂无可用配送方式，请重新更换其他的收货地址"
+msgstr "當前收貨地址暫無可用配送方式，請重新更換其他的收貨地址"
 
 #: extras/controller/cart_controller.php:1007
 #: extras/controller/cart_controller.php:1088
@@ -236,10 +427,17 @@ msgstr "紅包不可用"
 msgid "使用红包"
 msgstr "使用紅包"
 
+#: extras/controller/cart_controller.php:1537
+msgid "%s不可用"
+msgstr "%s不可用"
+
+#: extras/controller/cart_controller.php:1547
+msgid "使用%s"
+msgstr "使用%s"
+
 #: extras/controller/connect_controller.php:73
 msgid "登录授权失败，请稍后再试或联系客服"
-msgstr ""
-"登錄授權失敗，請稍後再試或聯繫客服"
+msgstr "登錄授權失敗，請稍後再試或聯繫客服"
 
 #: extras/controller/connect_controller.php:106
 msgid "登录授权失败，请使用其他方式登录"
@@ -277,8 +475,7 @@ msgstr "邀請碼格式不正確"
 #: extras/controller/connect_controller.php:184
 #: extras/controller/user_privilege_controller.php:492
 msgid "该手机号已被注册，请更换其他手机号"
-msgstr ""
-"該手機號已被註冊，請更換其他手機號"
+msgstr "該手機號已被註冊，請更換其他手機號"
 
 #: extras/controller/connect_controller.php:205
 #: extras/controller/connect_controller.php:523
@@ -301,10 +498,8 @@ msgstr "驗證並關聯"
 
 #: extras/controller/connect_controller.php:258
 #: extras/controller/connect_controller.php:478
-msgid ""
-"用户验证成功，获取用户信息失败，请重试！"
-msgstr ""
-"用戶驗證成功，獲取用戶信息失敗，請重試！"
+msgid "用户验证成功，获取用户信息失败，请重试！"
+msgstr "用戶驗證成功，獲取用戶信息失敗，請重試！"
 
 #: extras/controller/connect_controller.php:262
 #: extras/controller/connect_controller.php:490
@@ -323,10 +518,8 @@ msgstr "圖形驗證碼"
 #: extras/controller/connect_controller.php:386
 #: extras/controller/user_get_password_controller.php:124
 #: extras/controller/user_privilege_controller.php:334
-msgid ""
-"规定时间1分钟以外，可重新发送验证码"
-msgstr ""
-"規定時間1分鐘以外，可重新發送驗證碼"
+msgid "规定时间1分钟以外，可重新发送验证码"
+msgstr "規定時間1分鐘以外，可重新發送驗證碼"
 
 #: extras/controller/connect_controller.php:419
 #: extras/controller/franchisee_controller.php:223
@@ -368,6 +561,10 @@ msgstr "恭喜您，綁定註冊成功"
 msgid "设置名字密码"
 msgstr "設置名字密碼"
 
+#: extras/controller/connect_controller.php:612
+msgid "未找到第三方登录插件"
+msgstr "未找到第三方登錄插件"
+
 #: extras/controller/franchisee_controller.php:63
 #: extras/controller/franchisee_controller.php:265
 #: extras/controller/franchisee_controller.php:418
@@ -379,22 +576,6 @@ msgstr "抱歉，該網站已關閉入駐商加盟！"
 #: extras/controller/franchisee_controller.php:394
 msgid "店铺入驻"
 msgstr "店鋪入駐"
-
-#: extras/controller/franchisee_controller.php:87
-#: extras/controller/franchisee_controller.php:443
-msgid "请输入真实姓名"
-msgstr "請輸入真實姓名"
-
-#: extras/controller/franchisee_controller.php:90
-msgid "请输入电子邮箱"
-msgstr "請輸入電子郵箱"
-
-#: extras/controller/franchisee_controller.php:93
-#: extras/controller/franchisee_controller.php:250
-#: extras/controller/franchisee_controller.php:449
-#: extras/controller/franchisee_controller.php:538
-msgid "请输入手机号码"
-msgstr "請輸入手機號碼"
 
 #: extras/controller/franchisee_controller.php:122
 #: extras/controller/franchisee_controller.php:528
@@ -418,6 +599,11 @@ msgstr "請輸入圖形驗證碼"
 #: extras/controller/franchisee_controller.php:647
 msgid "校验成功"
 msgstr "校驗成功"
+
+#: extras/controller/franchisee_controller.php:246
+#: extras/controller/user_privilege_controller.php:495
+msgid "短信已发送到手机%s，请注意查看"
+msgstr "短信已發送到手機%s，請注意查看"
 
 #: extras/controller/franchisee_controller.php:269
 #: extras/controller/franchisee_controller.php:301
@@ -444,10 +630,6 @@ msgstr "請輸入商店名稱"
 msgid "店铺名称不能超过17个字符"
 msgstr "店鋪名稱不能超過17個字符"
 
-#: extras/controller/franchisee_controller.php:458
-msgid "请选择店铺分类"
-msgstr "請選擇店鋪分類"
-
 #: extras/controller/franchisee_controller.php:461
 msgid "请选择店铺类型"
 msgstr "請選擇店鋪類型"
@@ -464,10 +646,6 @@ msgstr "請選擇市"
 msgid "请选择区"
 msgstr "請選擇區"
 
-#: extras/controller/franchisee_controller.php:473
-msgid "请选择街道"
-msgstr "請選擇街道"
-
 #: extras/controller/franchisee_controller.php:476
 #: extras/controller/franchisee_controller.php:479
 msgid "请填写详细地址"
@@ -476,12 +654,6 @@ msgstr "請填寫詳細地址"
 #: extras/controller/franchisee_controller.php:514
 msgid "入驻信息已提交，请耐心等耐审核"
 msgstr "入駐信息已提交，請耐心等耐審核"
-
-#: extras/controller/franchisee_controller.php:633
-#: extras/controller/user_profile_controller.php:759
-#: extras/controller/user_profile_controller.php:776
-msgid "验证码不能为空"
-msgstr "驗證碼不能為空"
 
 #: extras/controller/franchisee_controller.php:714
 msgid "申请进度"
@@ -550,6 +722,11 @@ msgstr "新品"
 msgid "店铺位置"
 msgstr "店舖位置"
 
+#: extras/controller/merchant_controller.php:586
+#: extras/controller/merchant_controller.php:587
+msgid "%s在线买单"
+msgstr "%s在線買單"
+
 #: extras/controller/merchant_controller.php:642
 msgid "关注成功"
 msgstr "關注成功"
@@ -586,11 +763,6 @@ msgstr "訂單不存在"
 #: extras/controller/quickpay_controller.php:389
 msgid "该订单已支付请勿重复支付"
 msgstr "該訂單已支付請勿重複支付"
-
-#: extras/controller/payment_controller.php:230
-#: extras/controller/user_account_controller.php:617
-msgid "请选择支付方式"
-msgstr "請選擇支付方式"
 
 #: extras/controller/quickpay_controller.php:128
 msgid "该店铺未开启优惠买单活动"
@@ -698,17 +870,22 @@ msgstr "餘額不足，請確定提現金額"
 msgid "提现金额不能为0"
 msgstr "提現金額不能為0"
 
+#: extras/controller/user_account_controller.php:287
+msgid "最低提现金额不能小于%s"
+msgstr "最低提現金額不能小於%s"
+
 #: extras/controller/user_account_controller.php:316
 msgid "交易记录"
 msgstr "交易記錄"
 
+#: extras/controller/user_account_controller.php:344
+#: extras/controller/user_account_controller.php:396
+msgid "今天%s"
+msgstr "賺%s"
+
 #: extras/controller/user_account_controller.php:498
 msgid "交易明细"
 msgstr "交易明細"
-
-#: extras/controller/user_account_controller.php:516
-msgid "取消"
-msgstr "取消"
 
 #: extras/controller/user_account_controller.php:602
 msgid "继续充值"
@@ -779,6 +956,10 @@ msgstr "我的獎勵"
 msgid "奖励明细"
 msgstr "獎勵明細"
 
+#: extras/controller/user_bonus_controller.php:218
+msgid "赚%s"
+msgstr "賺%s"
+
 #: extras/controller/user_bonus_controller.php:228
 msgid "添加红包"
 msgstr "添加紅包"
@@ -786,6 +967,10 @@ msgstr "添加紅包"
 #: extras/controller/user_controller.php:99
 msgid "个人中心"
 msgstr "個人中心"
+
+#: extras/controller/user_controller.php:125
+msgid "%s推荐这个实用的App给你~"
+msgstr "%s推薦這個實用的App給你~"
 
 #: extras/controller/user_controller.php:126
 msgid "我的推广"
@@ -953,11 +1138,11 @@ msgstr "請輸入聯繫電話"
 msgid "请输入快递单号"
 msgstr "請輸入快遞單號"
 
-#: extras/controller/user_order_controller.php:999
+#: extras/controller/user_order_controller.php:998
 msgid "订单分成"
 msgstr "訂單分成"
 
-#: extras/controller/user_order_controller.php:1042
+#: extras/controller/user_order_controller.php:1041
 msgid "分成详情"
 msgstr "分成詳情"
 
@@ -1065,8 +1250,7 @@ msgstr "該手機號與當前綁定的手機號相同"
 
 #: extras/controller/user_profile_controller.php:332
 msgid "该邮箱地址与当前绑定的邮箱地址相同"
-msgstr ""
-"該郵箱地址與當前綁定的郵箱地址相同"
+msgstr "該郵箱地址與當前綁定的郵箱地址相同"
 
 #: extras/controller/user_profile_controller.php:386
 msgid "登录密码不能少于 6 个字符"
@@ -1132,7 +1316,7 @@ msgid "请输入银行卡号"
 msgstr "請輸入銀行卡號"
 
 #: extras/controller/user_profile_controller.php:594
-#: extras/controller/user_profile_controller.php:620
+#: extras/controller/user_profile_controller.php:620 functions.php:241
 msgid "绑定成功"
 msgstr "綁定成功"
 
@@ -1168,6 +1352,30 @@ msgstr "註銷帳號"
 msgid "激活成功"
 msgstr "激活成功"
 
+#: functions.php:182
+msgid "关联用户不存在，请联系管理员"
+msgstr "關聯用戶不存在，請聯繫管理員"
+
+#: functions.php:240
+msgid "返回会员中心"
+msgstr "返回會員中心"
+
+#: functions.php:243 functions.php:250
+msgid "返回上一页"
+msgstr "返回上一頁"
+
+#: functions.php:244 functions.php:251
+msgid "绑定失败，用户名或密码错误！"
+msgstr "綁定失敗，用戶名或密碼錯誤！"
+
+#: functions.php:261
+msgid "请先购买并安装微信登录插件"
+msgstr "請先購買並安裝微信登錄插件"
+
+#: functions.php:261
+msgid "购买链接"
+msgstr "購買鏈接"
+
 #. Template Name of the plugin/theme
 msgid "ECJia到家H5主题"
 msgstr "ECJia到家H5主題"
@@ -1179,13 +1387,11 @@ msgstr "http://www.ecjia.com/"
 
 #. Description of the plugin/theme
 msgid ""
-"EC+到家App上经典的绿色皮肤。适合O2O当地"
-"平台运营为主的运营模式。招商入驻，展示多"
-"个商家。"
+"EC+到家App上经典的绿色皮肤。适合O2O当地平台运营为主的运营模式。招商入驻，展示"
+"多个商家。"
 msgstr ""
-"EC+到家App上經典的綠色皮膚。適合O2O當地"
-"平台運營為主的運營模式。招商入駐，展示多"
-"個商家。"
+"EC+到家App上經典的綠色皮膚。適合O2O當地平台運營為主的運營模式。招商入駐，展示"
+"多個商家。"
 
 #. Author of the plugin/theme
 msgid "ECJIA Team"
@@ -1196,11 +1402,11 @@ msgid "暂无买单记录"
 msgstr "暫無買單記錄"
 
 #: sites/m/content/themes/h5/quickpay_list.dwt.php:48
-#: sites/m/content/themes/h5/user_order_affiliate.dwt.php:28
+#: sites/m/content/themes/h5/user_order_affiliate.dwt.php:27
 #: sites/m/content/themes/h5/quickpay_detail.dwt.php:34
 #: sites/m/content/themes/h5/quickpay_notify.dwt.php:28
 #: sites/m/content/themes/h5/user_record_info.dwt.php:28
-#: sites/m/content/themes/h5/user_order_affiliate_detail.dwt.php:24
+#: sites/m/content/themes/h5/user_order_affiliate_detail.dwt.php:26
 msgid "订单编号"
 msgstr "訂單編號"
 
@@ -1320,12 +1526,8 @@ msgid "请设置新手机号"
 msgstr "請設置新手機號"
 
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:22
-msgid ""
-"绑定手机号后，你可以使用手机号登录，也可"
-"以通过手机号找回密码"
-msgstr ""
-"綁定手機號後，你可以使用手機號登錄，也可"
-"以通過手機號找回密碼"
+msgid "绑定手机号后，你可以使用手机号登录，也可以通过手机号找回密码"
+msgstr "綁定手機號後，你可以使用手機號登錄，也可以通過手機號找回密碼"
 
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:39
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:68
@@ -1423,27 +1625,21 @@ msgstr "綁定後，可使用微信進行餘額提現；"
 
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:121
 msgid ""
-"在提现时，微信账号必须先关注公众号后，提"
-"现才有效，若未关注公众号就操作提现，由此"
-"造成的损失需由您自行承担；"
+"在提现时，微信账号必须先关注公众号后，提现才有效，若未关注公众号就操作提现，"
+"由此造成的损失需由您自行承担；"
 msgstr ""
-"在提現時，微信賬號必須先關注公眾號後，提"
-"現才有效，若未關注公眾號就操作提現，由此"
-"造成的損失需由您自行承擔；"
+"在提現時，微信賬號必須先關注公眾號後，提現才有效，若未關注公眾號就操作提現，"
+"由此造成的損失需由您自行承擔；"
 
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:122
 msgid ""
-"微信打款平台需验证微信真实姓名，请务必填"
-"写微信实名认证时的真实姓名，确保真实有"
-"效，若填写的姓名与微信实名认证时不一致，"
-"导致提现不了或其他情况，由此造成的损失需"
-"由您自行承担。"
+"微信打款平台需验证微信真实姓名，请务必填写微信实名认证时的真实姓名，确保真实"
+"有效，若填写的姓名与微信实名认证时不一致，导致提现不了或其他情况，由此造成的"
+"损失需由您自行承担。"
 msgstr ""
-"微信打款平台需驗證微信真實姓名，請務必填"
-"寫微信實名認證時的真實姓名，確保真實有"
-"效，若填寫的姓名與微信實名認證時不一致，"
-"導致提現不了或其他情況，由此造成的損失需"
-"由您自行承擔。"
+"微信打款平台需驗證微信真實姓名，請務必填寫微信實名認證時的真實姓名，確保真實"
+"有效，若填寫的姓名與微信實名認證時不一致，導致提現不了或其他情況，由此造成的"
+"損失需由您自行承擔。"
 
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:123
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:192
@@ -1494,18 +1690,15 @@ msgstr "銀行卡號"
 
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:190
 msgid "绑定后，只能使用该卡进行余额提现；"
-msgstr ""
-"綁定後，只能使用該卡進行餘額提現；"
+msgstr "綁定後，只能使用該卡進行餘額提現；"
 
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:191
 msgid ""
-"请确保您填写的信息真实有效，若填写的信息"
-"有误，导致提现至错误账号，由此造成的损失"
-"需由您自行承担。"
+"请确保您填写的信息真实有效，若填写的信息有误，导致提现至错误账号，由此造成的"
+"损失需由您自行承担。"
 msgstr ""
-"請確保您填寫的信息真實有效，若填寫的信息"
-"有誤，導致提現至錯誤賬號，由此造成的損失"
-"需由您自行承擔。"
+"請確保您填寫的信息真實有效，若填寫的信息有誤，導致提現至錯誤賬號，由此造成的"
+"損失需由您自行承擔。"
 
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:202
 msgid "确定删除银行卡提现方式？"
@@ -1673,28 +1866,6 @@ msgstr "支付方式"
 #: sites/m/content/themes/h5/flow_checkout.dwt.php:92
 msgid "提货时间"
 msgstr "提貨時間"
-
-#: sites/m/content/themes/h5/flow_pay_pickup.dwt.php:67
-#: sites/m/content/themes/h5/user_modify_username.dwt.php:29
-#: sites/m/content/themes/h5/flow_integral.dwt.php:23
-#: sites/m/content/themes/h5/user_check_user_mobile.dwt.php:39
-#: sites/m/content/themes/h5/flow_shipping.dwt.php:40
-#: sites/m/content/themes/h5/user_cancel_account_notice.dwt.php:57
-#: sites/m/content/themes/h5/user_unbind_check_mobile.dwt.php:43
-#: sites/m/content/themes/h5/user_get_password.dwt.php:27
-#: sites/m/content/themes/h5/library/change_goods_num.lbi.php:28
-#: sites/m/content/themes/h5/flow_note.dwt.php:22
-#: sites/m/content/themes/h5/flow_pay.dwt.php:57
-#: sites/m/content/themes/h5/user_cancel_account.dwt.php:57
-#: sites/m/content/themes/h5/user_set_paypass.dwt.php:43
-#: sites/m/content/themes/h5/user_edit_password.dwt.php:36
-#: sites/m/content/themes/h5/user_set_paypass_check.dwt.php:37
-#: sites/m/content/themes/h5/flow_pay_shipping.dwt.php:80
-#: sites/m/content/themes/h5/flow_bonus.dwt.php:43
-#: sites/m/content/themes/h5/flow_shipping_date.dwt.php:72
-#: sites/m/content/themes/h5/flow_invoice.dwt.php:80
-msgid "确定"
-msgstr "確定"
 
 #: sites/m/content/themes/h5/order_return_money.dwt.php:16
 msgid "退回金额"
@@ -1992,24 +2163,16 @@ msgid "禁止修改"
 msgstr "禁止修改"
 
 #: sites/m/content/themes/h5/user_modify_username.dwt.php:24
-msgid ""
-"4-20个字符，可由中英文、数字、\"_\"、\"-"
-"\"组成"
-msgstr ""
-"4-20個字符，可由中英文、數字、\"_\"、\"-"
-"\"組成"
+msgid "4-20个字符，可由中英文、数字、\"_\"、\"-\"组成"
+msgstr "4-20個字符，可由中英文、數字、\"_\"、\"-\"組成"
 
 #: sites/m/content/themes/h5/user_modify_username.dwt.php:25
 msgid "注：用户名一个月只能修改一次"
 msgstr "注：用戶名一個月只能修改一次"
 
 #: sites/m/content/themes/h5/user_modify_username.dwt.php:25
-msgid ""
-"注：用户名一个月只能修改一次，上次修改时"
-"间为："
-msgstr ""
-"注：用戶名一個月只能修改一次，上次修改時"
-"間為："
+msgid "注：用户名一个月只能修改一次，上次修改时间为："
+msgstr "注：用戶名一個月只能修改一次，上次修改時間為："
 
 #: sites/m/content/themes/h5/user_account_withdraw.dwt.php:13
 msgid "账户余额："
@@ -2032,17 +2195,21 @@ msgstr "備註：（最長100個字）"
 msgid "提现申请"
 msgstr "提現申請"
 
-#: sites/m/content/themes/h5/user_order_affiliate.dwt.php:15
+#: sites/m/content/themes/h5/user_order_affiliate.dwt.php:14
 msgid "待分成"
 msgstr "待分成"
 
-#: sites/m/content/themes/h5/user_order_affiliate.dwt.php:16
+#: sites/m/content/themes/h5/user_order_affiliate.dwt.php:15
 msgid "已分成"
 msgstr "已分成"
 
-#: sites/m/content/themes/h5/user_order_affiliate.dwt.php:55
-msgid "暂无分成"
-msgstr "暫無分成"
+#: sites/m/content/themes/h5/user_order_affiliate.dwt.php:51
+msgid "分成："
+msgstr "分成："
+
+#: sites/m/content/themes/h5/user_order_affiliate.dwt.php:61
+msgid "暂无分成记录"
+msgstr "暫無分成記錄"
 
 #: sites/m/content/themes/h5/discover_init.dwt.php:25
 #: sites/m/content/themes/h5/user.dwt.php:296
@@ -2119,7 +2286,7 @@ msgstr "暫無商品"
 
 #: sites/m/content/themes/h5/franchisee_first.dwt.php:28
 msgid "请输入电子邮箱 "
-msgstr "請輸入電子郵箱"
+msgstr "請輸入電子郵箱 "
 
 #: sites/m/content/themes/h5/user_cancel_account_notice.dwt.php:17
 msgid "已提交注销"
@@ -2127,17 +2294,13 @@ msgstr "已提交註銷"
 
 #: sites/m/content/themes/h5/user_cancel_account_notice.dwt.php:19
 msgid ""
-"为了您的账户安全，我们将会给您30日的“后"
-"悔期”，即先将您的账户锁定30日，30日后，"
-"如您未提出异议或未重新点击下方按钮“激活"
-"账号”，我们将注销您的账户，账户一旦被注"
-"销将不可恢复。"
+"为了您的账户安全，我们将会给您30日的“后悔期”，即先将您的账户锁定30日，30日"
+"后，如您未提出异议或未重新点击下方按钮“激活账号”，我们将注销您的账户，账户一"
+"旦被注销将不可恢复。"
 msgstr ""
-"為了您的賬戶安全，我們將會給您30日的“後"
-"悔期”，即先將您的賬戶鎖定30日，30日後，"
-"如您未提出異議或未重新點擊下方按鈕“激活"
-"賬號”，我們將註銷您的賬戶，賬戶一旦被註"
-"銷將不可恢復。"
+"為了您的賬戶安全，我們將會給您30日的“後悔期”，即先將您的賬戶鎖定30日，30日"
+"後，如您未提出異議或未重新點擊下方按鈕“激活賬號”，我們將註銷您的賬戶，賬戶一"
+"旦被註銷將不可恢復。"
 
 #: sites/m/content/themes/h5/user_cancel_account_notice.dwt.php:22
 msgid "剩余时间："
@@ -2161,6 +2324,7 @@ msgid "扫码购"
 msgstr "掃碼購"
 
 #: sites/m/content/themes/h5/user_order_storebuy_detail.dwt.php:37
+#: sites/m/content/themes/h5/user_order_affiliate_detail.dwt.php:46
 msgid "货号："
 msgstr "貨號："
 
@@ -2209,6 +2373,12 @@ msgstr "下單時間："
 #: sites/m/content/themes/h5/user_order_detail.dwt.php:209
 msgid "支付方式："
 msgstr "支付方式："
+
+#: sites/m/content/themes/h5/user_order_storebuy_detail.dwt.php:60
+#: sites/m/content/themes/h5/order_return_detail.dwt.php:155
+#: sites/m/content/themes/h5/user_order_detail.dwt.php:215
+msgid "无法联系卖家"
+msgstr "無法聯繫賣家"
 
 #: sites/m/content/themes/h5/user_order_storebuy_detail.dwt.php:60
 #: sites/m/content/themes/h5/quickpay_detail.dwt.php:84
@@ -2627,6 +2797,10 @@ msgstr "請輸入長度為3 ~ 15的收貨人姓名"
 msgid "手机必填"
 msgstr "手機必填"
 
+#: sites/m/content/themes/h5/library/consignee.lbi.php:68
+msgid "您确定要删除该收货人信息吗？"
+msgstr "您確定要刪除該收貨人信息嗎？"
+
 #: sites/m/content/themes/h5/library/consignee.lbi.php:70
 msgid "配送至这个地址"
 msgstr "配送至這個地址"
@@ -2721,12 +2895,8 @@ msgid "使用红包："
 msgstr "使用紅包："
 
 #: sites/m/content/themes/h5/library/order_total.lbi.php:74
-msgid ""
-"（备注：团购如果有保证金，第一次只需支付"
-"保证金和相应的支付费用）"
-msgstr ""
-"（備註：團購如果有保證金，第一次只需支付"
-"保證金和相應的支付費用）"
+msgid "（备注：团购如果有保证金，第一次只需支付保证金和相应的支付费用）"
+msgstr "（備註：團購如果有保證金，第一次只需支付保證金和相應的支付費用）"
 
 #: sites/m/content/themes/h5/library/order_total.lbi.php:78
 msgid "积分商城商品需要消耗积分："
@@ -2835,10 +3005,8 @@ msgid "审核状态："
 msgstr "審核狀態："
 
 #: sites/m/content/themes/h5/franchisee_process.dwt.php:59
-msgid ""
-"很抱歉，审核未通过，您可以申请修改信息。"
-msgstr ""
-"很抱歉，審核未通過，您可以申請修改信息。"
+msgid "很抱歉，审核未通过，您可以申请修改信息。"
+msgstr "很抱歉，審核未通過，您可以申請修改信息。"
 
 #: sites/m/content/themes/h5/franchisee_process.dwt.php:61
 msgid "拒绝原因："
@@ -2857,20 +3025,14 @@ msgstr "撤銷申請"
 
 #: sites/m/content/themes/h5/franchisee_process.dwt.php:71
 #: sites/m/content/themes/h5/franchisee_process.dwt.php:73
-msgid ""
-"您的申请已提交成功，我们将尽快为您处理，"
-"感谢您对我们的支持！"
-msgstr ""
-"您的申請已提交成功，我們將盡快為您處理，"
-"感謝您對我們的支持！"
+msgid "您的申请已提交成功，我们将尽快为您处理，感谢您对我们的支持！"
+msgstr "您的申請已提交成功，我們將盡快為您處理，感謝您對我們的支持！"
 
 #: sites/m/content/themes/h5/franchisee_process.dwt.php:75
 msgid ""
-"您的申请已审核通过，现在您可以登录自己的"
-"商家平台管理店铺，赶快去登录吧！"
+"您的申请已审核通过，现在您可以登录自己的商家平台管理店铺，赶快去登录吧！"
 msgstr ""
-"您的申請已審核通過，現在您可以登錄自己的"
-"商家平台管理店鋪，趕快去登錄吧！"
+"您的申請已審核通過，現在您可以登錄自己的商家平台管理店鋪，趕快去登錄吧！"
 
 #: sites/m/content/themes/h5/franchisee_process.dwt.php:87
 msgid "电子邮箱"
@@ -2994,40 +3156,24 @@ msgid "买单说明"
 msgstr "買單說明"
 
 #: sites/m/content/themes/h5/quickpay_explain.dwt.php:24
-msgid ""
-"1、优惠买单仅限于到店消费后使用，请勿提"
-"前支付；"
-msgstr ""
-"1、優惠買單僅限於到店消費後使用，請勿提"
-"前支付；"
+msgid "1、优惠买单仅限于到店消费后使用，请勿提前支付；"
+msgstr "1、優惠買單僅限於到店消費後使用，請勿提前支付；"
 
 #: sites/m/content/themes/h5/quickpay_explain.dwt.php:25
-msgid ""
-"2、请在输入买单金额前与商家确认门店信息"
-"和消费金额；"
-msgstr ""
-"2、請在輸入買單金額前與商家確認門店信息"
-"和消費金額；"
+msgid "2、请在输入买单金额前与商家确认门店信息和消费金额；"
+msgstr "2、請在輸入買單金額前與商家確認門店信息和消費金額；"
 
 #: sites/m/content/themes/h5/quickpay_explain.dwt.php:26
-msgid ""
-"3、遇节假日能否享受优惠，请详细咨询商"
-"家；"
-msgstr ""
-"3、遇節假日能否享受優惠，請詳細諮詢商"
-"家；"
+msgid "3、遇节假日能否享受优惠，请详细咨询商家；"
+msgstr "3、遇節假日能否享受優惠，請詳細諮詢商家；"
 
 #: sites/m/content/themes/h5/quickpay_explain.dwt.php:27
-msgid ""
-"4、请咨询商家能否与店内其他优惠同享；"
-msgstr ""
-"4、請諮詢商家能否與店內其他優惠同享；"
+msgid "4、请咨询商家能否与店内其他优惠同享；"
+msgstr "4、請諮詢商家能否與店內其他優惠同享；"
 
 #: sites/m/content/themes/h5/quickpay_explain.dwt.php:28
-msgid ""
-"5、如需发票，请您在消费时向商家咨询；"
-msgstr ""
-"5、如需發票，請您在消費時向商家諮詢；"
+msgid "5、如需发票，请您在消费时向商家咨询；"
+msgstr "5、如需發票，請您在消費時向商家諮詢；"
 
 #: sites/m/content/themes/h5/quickpay_explain.dwt.php:36
 msgid "买单优惠"
@@ -3077,6 +3223,7 @@ msgid "退配送费"
 msgstr "退配送費"
 
 #: sites/m/content/themes/h5/order_return_detail.dwt.php:60
+#: sites/m/content/themes/h5/order_return_reply.dwt.php:50
 msgid "退"
 msgstr "退"
 
@@ -3095,12 +3242,8 @@ msgid "温馨提示:"
 msgstr "溫馨提示:"
 
 #: sites/m/content/themes/h5/order_return_detail.dwt.php:68
-msgid ""
-"退商品金额是按照您实际支付的商品金额进行"
-"退回，如有问题，请联系客服。"
-msgstr ""
-"退商品金額是按照您實際支付的商品金額進行"
-"退回，如有問題，請聯繫客服。"
+msgid "退商品金额是按照您实际支付的商品金额进行退回，如有问题，请联系客服。"
+msgstr "退商品金額是按照您實際支付的商品金額進行退回，如有問題，請聯繫客服。"
 
 #: sites/m/content/themes/h5/order_return_detail.dwt.php:72
 #: sites/m/content/themes/h5/order_return_reply.dwt.php:77
@@ -3208,10 +3351,8 @@ msgid "仅退款"
 msgstr "僅退款"
 
 #: sites/m/content/themes/h5/order_return_list.dwt.php:23
-msgid ""
-"全部商品/部分商品未收到，或商家协商同意"
-msgstr ""
-"全部商品/部分商品未收到，或商家協商同意"
+msgid "全部商品/部分商品未收到，或商家协商同意"
+msgstr "全部商品/部分商品未收到，或商家協商同意"
 
 #: sites/m/content/themes/h5/order_return_list.dwt.php:35
 msgid "退货退款"
@@ -3239,12 +3380,8 @@ msgstr "查看詳情"
 
 #: sites/m/content/themes/h5/user_account_recharge_again.dwt.php:21
 #: sites/m/content/themes/h5/pay_change.dwt.php:22
-msgid ""
-"当前订单不支持原有支付方式，请切换新的支"
-"付方式继续支付。"
-msgstr ""
-"當前訂單不支持原有支付方式，請切換新的支"
-"付方式繼續支付。"
+msgid "当前订单不支持原有支付方式，请切换新的支付方式继续支付。"
+msgstr "當前訂單不支持原有支付方式，請切換新的支付方式繼續支付。"
 
 #: sites/m/content/themes/h5/user_account_recharge_again.dwt.php:25
 msgid "为账户【%1】充值"
@@ -3260,12 +3397,11 @@ msgid "输入手机号码"
 msgstr "輸入手機號碼"
 
 #: sites/m/content/themes/h5/affiliate_invite_register.dwt.php:29
-#: sites/m/content/themes/h5/user_captcha_validate.dwt.php:22
 msgid "请输入左侧验证码"
 msgstr "請輸入左側驗證碼"
 
 #: sites/m/content/themes/h5/affiliate_invite_register.dwt.php:30
-#: sites/m/content/themes/h5/user_captcha_validate.dwt.php:27
+#: sites/m/content/themes/h5/user_captcha_validate.dwt.php:29
 msgid "验证"
 msgstr "驗證"
 
@@ -3288,17 +3424,19 @@ msgid "请再次输入新密码"
 msgstr "請再次輸入新密碼"
 
 #: sites/m/content/themes/h5/franchisee_enter_captcha.dwt.php:18
+#: sites/m/content/themes/h5/user_captcha_validate.dwt.php:19
 msgid "身份验证，请输入图中验证码"
 msgstr "身份驗證，請輸入圖中驗證碼"
 
 #: sites/m/content/themes/h5/franchisee_enter_captcha.dwt.php:21
-#: sites/m/content/themes/h5/user_captcha_validate.dwt.php:29
+#: sites/m/content/themes/h5/user_captcha_validate.dwt.php:22
 msgid "看不清，换一张"
 msgstr "看不清，換一張"
 
 #: sites/m/content/themes/h5/franchisee_enter_captcha.dwt.php:24
+#: sites/m/content/themes/h5/user_captcha_validate.dwt.php:25
 msgid "请输入图形验证码 "
-msgstr "請輸入圖形驗證碼"
+msgstr "請輸入圖形驗證碼 "
 
 #: sites/m/content/themes/h5/seller_list.dwt.php:84
 #: sites/m/content/themes/h5/store_list.dwt.php:153
@@ -3410,30 +3548,17 @@ msgstr "訂單金額："
 msgid "其它支付方式"
 msgstr "其它支付方式"
 
-#: sites/m/content/themes/h5/pay_change.dwt.php:52
-#: sites/m/content/themes/h5/pay.dwt.php:57
-#: sites/m/content/themes/h5/pay.dwt.php:67
-#: sites/m/content/themes/h5/quickpay_pay.dwt.php:63
-msgid "确认支付"
-msgstr "確認支付"
-
 #: sites/m/content/themes/h5/user_cancel_account.dwt.php:17
 msgid "将 %1 账号注销"
 msgstr "將 %1 賬號註銷"
 
 #: sites/m/content/themes/h5/user_cancel_account.dwt.php:19
-msgid ""
-"在您操作注销账号之前，请先确认以下信息，"
-"以保证您的账号、财产安全："
-msgstr ""
-"在您操作註銷賬號之前，請先確認以下信息，"
-"以保證您的賬號、財產安全："
+msgid "在您操作注销账号之前，请先确认以下信息，以保证您的账号、财产安全："
+msgstr "在您操作註銷賬號之前，請先確認以下信息，以保證您的賬號、財產安全："
 
 #: sites/m/content/themes/h5/user_cancel_account.dwt.php:22
-msgid ""
-"账号处于安全状态，未发生被盗等风险；"
-msgstr ""
-"賬號處於安全狀態，未發生被盜等風險；"
+msgid "账号处于安全状态，未发生被盗等风险；"
+msgstr "賬號處於安全狀態，未發生被盜等風險；"
 
 #: sites/m/content/themes/h5/user_cancel_account.dwt.php:23
 msgid "请确保账号内交易无未完成订单；"
@@ -3444,40 +3569,26 @@ msgid "请确保账号内无余额或已结清；"
 msgstr "請確保賬號內無餘額或已結清；"
 
 #: sites/m/content/themes/h5/user_cancel_account.dwt.php:25
-msgid ""
-"无任何纠纷，包括投诉举报或被投诉举报；"
-msgstr ""
-"無任何糾紛，包括投訴舉報或被投訴舉報；"
+msgid "无任何纠纷，包括投诉举报或被投诉举报；"
+msgstr "無任何糾紛，包括投訴舉報或被投訴舉報；"
 
 #: sites/m/content/themes/h5/user_cancel_account.dwt.php:26
-msgid ""
-"已经解除与其他网站、其他APP的授权登录或"
-"绑定关系；"
-msgstr ""
-"已經解除與其他網站、其他APP的授權登錄或"
-"綁定關係；"
+msgid "已经解除与其他网站、其他APP的授权登录或绑定关系；"
+msgstr "已經解除與其他網站、其他APP的授權登錄或綁定關係；"
 
 #: sites/m/content/themes/h5/user_cancel_account.dwt.php:27
 msgid ""
-"为了账户安全，在您操作注销后，我们将会给"
-"您30日的“后悔期”，即先将您的账户锁定30"
-"日，30日后，如您未提出异议或未重新“激活"
-"账号”，我们将注销您的账户，账户一旦被注"
-"销将不可恢复；"
+"为了账户安全，在您操作注销后，我们将会给您30日的“后悔期”，即先将您的账户锁定"
+"30日，30日后，如您未提出异议或未重新“激活账号”，我们将注销您的账户，账户一旦"
+"被注销将不可恢复；"
 msgstr ""
-"為了賬戶安全，在您操作註銷後，我們將會給"
-"您30日的“後悔期”，即先將您的賬戶鎖定30"
-"日，30日後，如您未提出異議或未重新“激活"
-"賬號”，我們將註銷您的賬戶，賬戶一旦被註"
-"銷將不可恢復；"
+"為了賬戶安全，在您操作註銷後，我們將會給您30日的“後悔期”，即先將您的賬戶鎖定"
+"30日，30日後，如您未提出異議或未重新“激活賬號”，我們將註銷您的賬戶，賬戶一旦"
+"被註銷將不可恢復；"
 
 #: sites/m/content/themes/h5/user_cancel_account.dwt.php:31
-msgid ""
-"轻按下方“注销账号”按钮，则表示您已阅读并"
-"同意"
-msgstr ""
-"輕按下方“註銷賬號”按鈕，則表示您已閱讀並"
-"同意"
+msgid "轻按下方“注销账号”按钮，则表示您已阅读并同意"
+msgstr "輕按下方“註銷賬號”按鈕，則表示您已閱讀並同意"
 
 #: sites/m/content/themes/h5/user_cancel_account.dwt.php:31
 msgid "《注销须知》"
@@ -3592,12 +3703,8 @@ msgid "提现手续费"
 msgstr "提現手續費"
 
 #: sites/m/content/themes/h5/user_account_wechat_withdraw.dwt.php:50
-msgid ""
-"申请提交后，我们将3-5个工作日审核，请您"
-"耐心等待"
-msgstr ""
-"申請提交後，我們將3-5個工作日審核，請您"
-"耐心等待"
+msgid "申请提交后，我们将3-5个工作日审核，请您耐心等待"
+msgstr "申請提交後，我們將3-5個工作日審核，請您耐心等待"
 
 #: sites/m/content/themes/h5/user_account_wechat_withdraw.dwt.php:54
 msgid "立即提现"
@@ -3620,12 +3727,8 @@ msgid "再次确认六位数字支付密码"
 msgstr "再次確認六位數字支付密碼"
 
 #: sites/m/content/themes/h5/user_set_paypass.dwt.php:37
-msgid ""
-"为提供更好的支付体验，请设置由6位数字组"
-"合的支付密码"
-msgstr ""
-"為提供更好的支付體驗，請設置由6位數字組"
-"合的支付密碼"
+msgid "为提供更好的支付体验，请设置由6位数字组合的支付密码"
+msgstr "為提供更好的支付體驗，請設置由6位數字組合的支付密碼"
 
 #: sites/m/content/themes/h5/spread.dwt.php:30
 msgid "我的邀请码"
@@ -3677,10 +3780,8 @@ msgid "退出登录"
 msgstr "退出登錄"
 
 #: sites/m/content/themes/h5/cache_set.dwt.php:23
-msgid ""
-"清除缓存后您将退出登录，确定清除缓存？"
-msgstr ""
-"清除緩存後您將退出登錄，確定清除緩存？"
+msgid "清除缓存后您将退出登录，确定清除缓存？"
+msgstr "清除緩存後您將退出登錄，確定清除緩存？"
 
 #: sites/m/content/themes/h5/cache_set.dwt.php:24
 msgid "清除本地缓存"
@@ -3700,10 +3801,8 @@ msgid "立即充值"
 msgstr "立即充值"
 
 #: sites/m/content/themes/h5/user_login.dwt.php:29
-msgid ""
-"未注册手机验证后自动注册登录，享新人好礼"
-msgstr ""
-"未註冊手機驗證後自動註冊登錄，享新人好禮"
+msgid "未注册手机验证后自动注册登录，享新人好礼"
+msgstr "未註冊手機驗證後自動註冊登錄，享新人好禮"
 
 #: sites/m/content/themes/h5/user_login.dwt.php:32
 msgid "其他账号登录"
@@ -3751,10 +3850,8 @@ msgid "门店提货"
 msgstr "門店提貨"
 
 #: sites/m/content/themes/h5/flow_checkout.dwt.php:45
-msgid ""
-"已有地址超过配送范围，请重新选择或添加"
-msgstr ""
-"已有地址超過配送範圍，請重新選擇或添加"
+msgid "已有地址超过配送范围，请重新选择或添加"
+msgstr "已有地址超過配送範圍，請重新選擇或添加"
 
 #: sites/m/content/themes/h5/flow_checkout.dwt.php:53
 msgid "支付配送"
@@ -3827,12 +3924,8 @@ msgid "提交订单（应付%1）"
 msgstr "提交訂單（應付%1）"
 
 #: sites/m/content/themes/h5/user_modify_password.dwt.php:44
-msgid ""
-"密码为6-20位，为了安全请不要使用过于简单"
-"的密码"
-msgstr ""
-"密碼為6-20位，為了安全請不要使用過於簡單"
-"的密碼"
+msgid "密码为6-20位，为了安全请不要使用过于简单的密码"
+msgstr "密碼為6-20位，為了安全請不要使用過於簡單的密碼"
 
 #: sites/m/content/themes/h5/user_bind_info.dwt.php:23
 #: sites/m/content/themes/h5/user_bind_info.dwt.php:32
@@ -3856,23 +3949,19 @@ msgstr "暫未綁定"
 msgid "解绑微信"
 msgstr "解綁微信"
 
-#: sites/m/content/themes/h5/user_order_affiliate_detail.dwt.php:25
+#: sites/m/content/themes/h5/user_order_affiliate_detail.dwt.php:27
 msgid "购买人"
 msgstr "購買人"
 
-#: sites/m/content/themes/h5/user_order_affiliate_detail.dwt.php:26
+#: sites/m/content/themes/h5/user_order_affiliate_detail.dwt.php:28
 msgid "下单时间"
 msgstr "下單時間"
 
-#: sites/m/content/themes/h5/user_order_affiliate_detail.dwt.php:47
+#: sites/m/content/themes/h5/user_order_affiliate_detail.dwt.php:56
 msgid "订单合计"
 msgstr "訂單合計"
 
-#: sites/m/content/themes/h5/user_order_affiliate_detail.dwt.php:48
-msgid "佣金比例"
-msgstr "佣金比例"
-
-#: sites/m/content/themes/h5/user_order_affiliate_detail.dwt.php:49
+#: sites/m/content/themes/h5/user_order_affiliate_detail.dwt.php:58
 msgid "获得分成"
 msgstr "獲得分成"
 
@@ -3917,10 +4006,8 @@ msgstr "請輸入支付密碼"
 
 #: sites/m/content/themes/h5/pay.dwt.php:100
 #: sites/m/content/themes/h5/quickpay_pay.dwt.php:77
-msgid ""
-"为了保证您的账户安全，请输入您的支付密码"
-msgstr ""
-"為了保證您的賬戶安全，請輸入您的支付密碼"
+msgid "为了保证您的账户安全，请输入您的支付密码"
+msgstr "為了保證您的賬戶安全，請輸入您的支付密碼"
 
 #: sites/m/content/themes/h5/pay.dwt.php:115
 #: sites/m/content/themes/h5/quickpay_pay.dwt.php:90
@@ -3954,12 +4041,8 @@ msgid "优惠说明"
 msgstr "優惠說明"
 
 #: sites/m/content/themes/h5/quickpay_checkout.dwt.php:125
-msgid ""
-"优惠买单仅限于到店支付，请确认金额后提"
-"交。"
-msgstr ""
-"優惠買單僅限於到店支付，請確認金額後提"
-"交。"
+msgid "优惠买单仅限于到店支付，请确认金额后提交。"
+msgstr "優惠買單僅限於到店支付，請確認金額後提交。"
 
 #: sites/m/content/themes/h5/quickpay_checkout.dwt.php:179
 msgid "使用"
@@ -4146,8 +4229,7 @@ msgstr "用戶："
 
 #: sites/m/content/themes/h5/user_bind_login.dwt.php:20
 msgid "为了给您更多的福利，请关联一个账号"
-msgstr ""
-"為了給您更多的福利，請關聯一個賬號"
+msgstr "為了給您更多的福利，請關聯一個賬號"
 
 #: sites/m/content/themes/h5/user_bind_login.dwt.php:23
 msgid "还没有账号？"
@@ -4166,20 +4248,12 @@ msgid "立即关联"
 msgstr "立即關聯"
 
 #: sites/m/content/themes/h5/order_return_reply.dwt.php:61
-msgid ""
-"1.退商品金额是按照您实际支付的商品金额进"
-"行退回，如有问题，请联系客服。"
-msgstr ""
-"1.退商品金額是按照您實際支付的商品金額進"
-"行退回，如有問題，請聯繫客服。"
+msgid "1.退商品金额是按照您实际支付的商品金额进行退回，如有问题，请联系客服。"
+msgstr "1.退商品金額是按照您實際支付的商品金額進行退回，如有問題，請聯繫客服。"
 
 #: sites/m/content/themes/h5/order_return_reply.dwt.php:62
-msgid ""
-"2.如需退货请准备好发票，附件等资料，与商"
-"品一并寄回。"
-msgstr ""
-"2.如需退貨請準備好發票，附件等資料，與商"
-"品一併寄回。 。"
+msgid "2.如需退货请准备好发票，附件等资料，与商品一并寄回。"
+msgstr "2.如需退貨請準備好發票，附件等資料，與商品一併寄回。"
 
 #: sites/m/content/themes/h5/order_return_reply.dwt.php:68
 msgid "售后原因"
@@ -4194,12 +4268,8 @@ msgid "请填写问题描述"
 msgstr "請填寫問題描述"
 
 #: sites/m/content/themes/h5/order_return_reply.dwt.php:97
-msgid ""
-"为了帮助我们更好的解决问题，请上传照片，"
-"最多5张。"
-msgstr ""
-"為了幫助我們更好的解決問題，請上傳照片，"
-"最多5張。"
+msgid "为了帮助我们更好的解决问题，请上传照片，最多5张。"
+msgstr "為了幫助我們更好的解決問題，請上傳照片，最多5張。"
 
 #: sites/m/content/themes/h5/user_record.dwt.php:69
 msgid "暂无明细记录"
@@ -4236,3 +4306,9 @@ msgstr "發票類型"
 #: sites/m/content/themes/h5/flow_invoice.dwt.php:83
 msgid "不开发票"
 msgstr "不開發票"
+
+#~ msgid "暂无分成"
+#~ msgstr "暫無分成"
+
+#~ msgid "佣金比例"
+#~ msgstr "佣金比例"

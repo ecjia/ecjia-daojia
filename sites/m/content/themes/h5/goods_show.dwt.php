@@ -108,7 +108,7 @@ var releated_goods = {$releated_goods};
 					<div class="ecjia-price-time">
 						<div class="time-left">
 							<span class="ecjia-promote_price-span">{$goods_info.formated_promote_price}</span>
-							<del> 原价：{$goods_info.unformatted_shop_price}</del></br>
+							<del>{t domain="h5"}原价：{/t}{$goods_info.unformatted_shop_price}</del></br>
 							{if !$goods_info.groupbuy_info}
 							<div class="ecjia-left-time">
 								<span class="detail-clock-icon"></span>

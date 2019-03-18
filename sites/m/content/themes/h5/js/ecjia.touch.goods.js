@@ -290,8 +290,8 @@
 							if ($('.minicart-goods-list').children('li').length == 0) {
 								$('.store-add-cart').removeClass('active');
 								$('.store-add-cart').children('.a4x').removeClass('light').addClass('disabled').children('.a4y').remove();
-								$('.store-add-cart').children('.a4z').children('div').addClass('a50').html('购物车是空的');
-								$('.store-add-cart').children('.a51').addClass('disabled').html('去结算');
+								$('.store-add-cart').children('.a4z').children('div').addClass('a50').html(js_lang.cart_empty);
+								$('.store-add-cart').children('.a51').addClass('disabled').html(js_lang.go_settlement);
 								ecjia.touch.category.hide_cart(true);
 							}
 							$('#goods_' + goods_id).children('.reduce').removeClass('show').addClass('hide');
@@ -378,7 +378,7 @@
 				$this.addClass('disabled');
 				if (num == 0 || isNaN(num) || num == undefined) {
 					$this.removeClass('disabled');
-					alert('数量超出范围');
+					alert(js_lang.quantity_out_range);
 					return false;
 				}
 				if (parseInt(num) == old_value) {
@@ -475,10 +475,10 @@
 						}, false);
 
 						myApp.modal({
-							title: '温馨提示',
-							text: '您还没有登录',
+							title: js_lang.tips,
+							text: js_lang.logged_yet,
 							buttons: [{
-								text: '取消',
+								text: js_lang.cancel,
 								onClick: function () {
 									$('.modal').remove();
 									$('.modal-overlay').remove();
@@ -524,13 +524,13 @@
 						}
 					} else if (div.hasClass('current_place')) {
 						if (div.parent().find('.current_place').length == 1) {
-							$('.a4u.a4u-green').after('<div class="a57"><span>当前位置购物车空空如也哦～</span></div>');
+							$('.a4u.a4u-green').after('<div class="a57"><span>' + js_lang.shop_cart_empty + '</span></div>');
 						}
 					}
 					div.remove();
 					if ($('.a57').length == 1 && $('.a4u-gray').length == 0) {
 						var index_url = $('input[name="index_url"]').val();
-						$('.ecjia-flow-cart-list').html('').html('<div class="flow-no-pro"><div class="ecjia-nolist">您还没有添加商品<a class="btn btn-small" type="button" href="' + index_url + '">去逛逛</a></div>');
+						$('.ecjia-flow-cart-list').html('').html('<div class="flow-no-pro"><div class="ecjia-nolist">' + js_lang.add_goods_yet + '<a class="btn btn-small" type="button" href="' + index_url + '">'+js_lang.go_go+'</a></div>');
 					}
 					return false;
 				}
@@ -548,7 +548,7 @@
 					$('.la-ball-atom').remove();
 					if (data.count != null) {
 						if (data.count.discount != 0) {
-							discount_html = '<label class="discount">(已减' + data.count.discount + ')<label>';
+							discount_html = '<label class="discount">' + sprintf(js_lang.reduced, data.count.discount) + '<label>';
 							$('.price_' + store_id).html(data.count.goods_price + discount_html);
 						} else {
 							$('.price_' + store_id).html(data.count.goods_price);
@@ -597,7 +597,7 @@
 					$('.ecjia-attr-modal').find('#goods_' + goods_id).children('label').html(val);
 				}
 
-				var text = $('.a51').attr('data-text') == undefined ? '去结算' : $('.a51').attr('data-text');
+				var text = $('.a51').attr('data-text') == undefined ? js_lang.go_settlement : $('.a51').attr('data-text');
 				if (data.count == null) {
 					ecjia.touch.category.hide_cart(true);
 				} else {
@@ -630,7 +630,7 @@
 						ecjia.touch.category.change_num();
 					}
 
-					$('p.a6c').html('(已选' + data.count.goods_number + '件)')
+					$('p.a6c').html(sprintf(js_lang.have_select, data.count.goods_number))
 					if (goods_number > 99) {
 						$('.a4x').html('<i class="a4y">99+</i>');
 					} else {
@@ -661,7 +661,7 @@
 					}
 					var discount_html = '';
 					if (data.count.discount != 0) {
-						discount_html = '<label>(已减' + data.count.discount + ')<label>';
+						discount_html = '<label>' + sprintf(js_lang.have_select, data.count.discount) + '<label>';
 					}
 					$('.a4z').html('<div>' + data.count.goods_price + discount_html + '</div>');
 
@@ -690,7 +690,7 @@
 							$('.check_cart').html(text);
 						}
 					} else {
-						$('.check_cart').addClass('disabled').html('还差' + count.label_short_amount + '起送');
+						$('.check_cart').addClass('disabled').html(sprintf(js_lang.deviation_pick_up, count.label_short_amount));
 					}
 				}
 			});
@@ -730,7 +730,7 @@
 			$('.minicart-content').children('.a4x').removeClass('show').attr('show', false);
 			$('.store-add-cart').children('.a4x').addClass('show').attr('show', false);
 
-			var text = $('.a51').attr('data-text') == undefined ? '去结算' : $('.a51').attr('data-text');
+			var text = $('.a51').attr('data-text') == undefined ? js_lang.go_settlement : $('.a51').attr('data-text');
 			//购物车完全清空
 			if (bool == true) {
 				$('.a57').css('display', 'none');
@@ -738,7 +738,7 @@
 				$('.a4y').remove();
 				$('.store-add-cart').children('.a4x').addClass('disabled').addClass('outcartcontent').removeClass('light').removeClass('incartcontent');
 				$('.minicart-content').children('.a4x').removeClass('light').addClass('disabled');
-				$('.store-add-cart').children('.a4z').children('div').addClass('a50').html('购物车是空的');
+				$('.store-add-cart').children('.a4z').children('div').addClass('a50').html(js_lang.cart_empty);
 				$('.store-add-cart').children('.a51').addClass('disabled').html(text);;
 				$('.minicart-goods-list').html('');
 			}
@@ -871,7 +871,7 @@
 						$('.store-option dl').removeClass('disabled'); //允许切换
 
 						if (data.list.length == 0) {
-							$('#store-comment-' + type).append('<div class="ecjia-nolist"><img src="' + theme_url + 'images/wallet/null280.png"><p class="tags_list_font">暂无商品评论</p></div>');
+							$('#store-comment-' + type).append('<div class="ecjia-nolist"><img src="' + theme_url + 'images/wallet/null280.png"><p class="tags_list_font">' + js_lang.no_goods_reviews + '</p></div>');
 						} else {
 							$('#store-comment-' + type).append(data.list);
 						}
@@ -1001,16 +1001,16 @@
 				var url = $(this).attr('data-url');
 				var myApp = new Framework7();
 				myApp.modal({
-					title: '清空购物车中所有商品？',
+					title: js_lang.empty_cart_all_goods,
 					buttons: [{
-						text: '取消',
+						text: js_lang.cancel,
 						onClick: function () {
 							$('.modal').remove();
 							$('.modal-overlay').remove();
 							return false;
 						}
 					}, {
-						text: '确定',
+						text: js_lang.ok,
 						onClick: function () {
 							$('.modal').remove();
 							$('.modal-overlay').remove();
@@ -1130,9 +1130,9 @@
 					if (val <= 0 || !ex.test(val)) {
 						var myApp = new Framework7();
 						myApp.modal({
-							title: '请输入数值大于0的整数',
+							title: js_lang.please_enter_than_0,
 							buttons: [{
-								text: '确定',
+								text: js_lang.ok,
 								onClick: function () {
 									$('.modal').remove();
 									$('.modal-overlay').remove();
@@ -1184,9 +1184,9 @@
 					}, false);
 
 					myApp.modal({
-						title: '确定删除该店铺下全部商品？',
+						title: js_lang.store_delete_all_goods,
 						buttons: [{
-							text: '取消',
+							text: js_lang.cancel,
 							onClick: function () {
 								$('.modal').remove();
 								$('.modal-overlay').remove();
@@ -1194,7 +1194,7 @@
 								return false;
 							}
 						}, {
-							text: '确定',
+							text: js_lang.ok,
 							onClick: function () {
 								$('.modal').remove();
 								$('.modal-overlay').remove();
@@ -1268,10 +1268,10 @@
 							}, false);
 
 							myApp.modal({
-								title: '温馨提示',
-								text: '您还没有登录',
+								title: js_lang.tips,
+								text: js_lang.logged_yet,
 								buttons: [{
-									text: '取消',
+									text: js_lang.cancel,
 									onClick: function () {
 										$('.modal').remove();
 										$('.modal-overlay').remove();
@@ -1282,7 +1282,7 @@
 										return false;
 									}
 								}, {
-									text: '去登录',
+									text: js_lang.go_login,
 									onClick: function () {
 										$('.modal').remove();
 										$('.modal-overlay').remove();
@@ -1332,9 +1332,9 @@
 						rec_id = $('.check_cart_' + store_id).attr('data-rec');
 						var myApp = new Framework7();
 						myApp.modal({
-							title: '确定删除该店铺下全部商品？',
+							title: js_lang.store_delete_all_goods,
 							buttons: [{
-								text: '取消',
+								text: js_lang.cancel,
 								onClick: function () {
 									$('.modal').remove();
 									$('.modal-overlay').remove();
@@ -1343,7 +1343,7 @@
 									return false;
 								}
 							}, {
-								text: '确定',
+								text: js_lang.ok,
 								onClick: function () {
 									$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
 									ecjia.touch.category.update_cart(rec_id, 0, 0, '', store_id);
@@ -1419,16 +1419,16 @@
 					data_type, text, color, button_text;
 				if (type == 'edit') {
 					data_type = 'complete';
-					text = '完成';
-					button_text = '全部删除';
+					text = js_lang.finish;
+					button_text = js_lang.all_delete;
 					$this.addClass('edit_font_color');
 					$('.check_cart_' + store_id).text(button_text).addClass('remove_all');
 					$('#store_check_' + store_id).addClass('edit');
 					$('.checkbox_' + store_id).addClass('edit');
 				} else {
 					data_type = 'edit';
-					text = '编辑';
-					button_text = '去结算';
+					text = js_lang.edit;
+					button_text = js_lang.go_settlement;
 					$this.removeClass('edit_font_color');
 					$('.check_cart_' + store_id).text(button_text).removeClass('remove_all');
 					$('#store_check_' + store_id).removeClass('edit');
@@ -1488,7 +1488,7 @@
 			$(".goods-filter .goods-filter-box-content .btns .btn-default").on("click", function (e) {
 				e.preventDefault();
 				$(".goods-filter .goods-filter-box-content .goods-filter-box-listtype .title").each(function (i) {
-					$(this).children(".range").text("全部");
+					$(this).children(".range").text(js_lang.all);
 				});
 			});
 		},
@@ -1499,7 +1499,7 @@
 				$("input[name='price_min']").val('');
 				$("input[name='price_max']").val('');
 				$("input[name='brand']").val('');
-				$(".touchweb-com_listType .range").text("全部");
+				$(".touchweb-com_listType .range").text(js_lang.all);
 				$(".touchweb-com_listType input").each(function () {
 					if ($(this).attr('class') != 'cat') {
 						$(this).val("");
@@ -1708,10 +1708,10 @@
 											}, false);
 
 											myApp.modal({
-												title: '温馨提示',
-												text: '您还没有登录',
+												title: js_lang.tips,
+												text: js_lang.logged_yet,
 												buttons: [{
-													text: '取消',
+													text: js_lang.cancel,
 													onClick: function () {
 														$('.modal').remove();
 														$('.modal-overlay').remove();
@@ -1722,7 +1722,7 @@
 														return false;
 													}
 												}, {
-													text: '去登录',
+													text: js_lang.go_login,
 													onClick: function () {
 														$('.modal').remove();
 														$('.modal-overlay').remove();
@@ -1849,7 +1849,7 @@
 				$spec_price = $spec_price.toFixed(2);
 				$spec_html += ')';
 				if ($spec_price == 0) {
-					$spec_price = '免费';
+					$spec_price = js_lang.free;
 				} else {
 					$spec_price = '￥' + $spec_price;
 				}
@@ -1879,10 +1879,10 @@
 							}, false);
 
 							myApp.modal({
-								title: '温馨提示',
-								text: '您还没有登录',
+								title: js_lang.tips,
+								text: js_lang.logged_yet,
 								buttons: [{
-									text: '取消',
+									text: js_lang.cancel,
 									onClick: function () {
 										$(".ecjia-store-goods .a1n .a1x").css({
 											overflow: "auto"
@@ -1891,7 +1891,7 @@
 										return false;
 									}
 								}, {
-									text: '去登录',
+									text: js_lang.go_login,
 									onClick: function () {
 										$(".ecjia-store-goods .a1n .a1x").css({
 											overflow: "auto"
@@ -2038,15 +2038,15 @@
 						fullscreenEl: false,
 						shareButtons: [{
 							id: 'wechat',
-							label: '分享微信',
+							label: js_lang.share_wechat,
 							url: '#'
 						}, {
 							id: 'weibo',
-							label: '新浪微博',
+							label: js_lang.sina_weibo,
 							url: '#'
 						}, {
 							id: 'download',
-							label: '保存图片',
+							label: js_lang.save_picture,
 							url: '{ { raw_image_url } }',
 							download: true
 						}],
@@ -2104,11 +2104,11 @@
 				if ($('#txt' + id).is(":hidden")) {
 					$('#p' + id).hide();
 					$('#txt' + id).show();
-					obj.innerHTML = '收起'
+					obj.innerHTML = js_lang.collapse
 				} else {
 					$('#p' + id).show();
 					$('#txt' + id).hide();
-					obj.innerHTML = '全文'
+					obj.innerHTML = js_lang.full_text
 				}
 			}
 		},
@@ -2131,9 +2131,9 @@
 					}, false);
 
 					myApp.modal({
-						title: '确定取消关注该店铺？',
+						title: js_lang.cancel_store,
 						buttons: [{
-							text: '取消',
+							text: js_lang.cancel,
 							onClick: function () {
 								$('.modal').remove();
 								$('.modal-overlay').remove();
@@ -2141,7 +2141,7 @@
 								return false;
 							}
 						}, {
-							text: '确定',
+							text: js_lang.ok,
 							onClick: function () {
 								$('.modal').remove();
 								$('.modal-overlay').remove();
@@ -2174,10 +2174,10 @@
 						}, false);
 
 						myApp.modal({
-							title: '温馨提示',
-							text: '您还没有登录',
+							title: js_lang.tips,
+							text: js_lang.logged_yet,
 							buttons: [{
-								text: '取消',
+								text: js_lang.cancel,
 								onClick: function () {
 									$('.modal').remove();
 									$('.modal-overlay').remove();
@@ -2188,7 +2188,7 @@
 									return false;
 								}
 							}, {
-								text: '去登录',
+								text: js_lang.go_login,
 								onClick: function () {
 									$('.modal').remove();
 									$('.modal-overlay').remove();
@@ -2215,14 +2215,14 @@
 							if ($.find('.ecjia-follow-list').length != 0) {
 								div.parent('.store-info').remove();
 								if ($('.ecjia-follow-list').find('.store-info').length == 0) {
-									$('.ecjia-follow-list').html('<div class="ecjia-empty-list"><div class="ecjia-nolist">暂无关注店铺</div></div>');
+									$('.ecjia-follow-list').html('<div class="ecjia-empty-list"><div class="ecjia-nolist">' + ja_lang.no_attention_store + '</div></div>');
 								}
 								return false;
 							}
 							if (type == 1) {
-								$('.follower').addClass('not').html('已关注').attr('data-type', 0);
+								$('.follower').addClass('not').html(js_lang.has_been_concerned).attr('data-type', 0);
 							} else {
-								$('.follower').removeClass('not').html('<i class="iconfont icon-add"></i>关注').attr('data-type', 1);
+								$('.follower').removeClass('not').html('<i class="iconfont icon-add"></i>'+ js_lang.attention).attr('data-type', 1);
 							}
 						}
 					});
@@ -2346,7 +2346,7 @@
 		$spec_price = $spec_price.toFixed(2);
 		$spec_html += ')';
 		if ($spec_price == 0) {
-			$spec_price = '免费';
+			$spec_price = js_lang.free;
 		} else {
 			$spec_price = '￥' + $spec_price;
 		}

@@ -92,7 +92,7 @@ class ecjia_theme_controller extends ecjia_front
         RC_Script::enqueue_script('ecjia-touch-green-check', ecjia_extra::themeUrl('js/greenCheck.js'), array(), false, 1);
         RC_Script::enqueue_script('ecjia-touch-ios-overlay', ecjia_extra::themeUrl('lib/iOSOverlay/js/iosOverlay.js'), array(), false, 1);
         RC_Script::enqueue_script('ecjia-touch-prettify', ecjia_extra::themeUrl('lib/iOSOverlay/js/prettify.js'), array(), false, 1);
-
+        RC_Script::enqueue_script('js-sprintf');
 
         RC_Script::localize_script('ecjia-touch', 'js_lang', ecjia_extra::loadJSLang());
     }

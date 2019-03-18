@@ -58,7 +58,7 @@ return array(
 		'confirm_delete'     => __('您确定要删除照片？', 'h5'),
 		'please_choose_star' => __('请选择星级!', 'h5'),
 			
-		//flow      模板：flow_invoice.dwt	  地址：cart/flow/invoice
+		//flow 下单      模板：flow_invoice.dwt	  地址：cart/flow/invoice
 		'invoice_desc' => __('<div class="inv_img_invoice"><div class="inv_img_invoice_title"><h2>发票税号说明</h2></div>
 		                        <div class="inv_img_invoice_content">
 		                            <p><b>1、什么是纳税人识别号／统一社会信用代码？</b></p>
@@ -78,7 +78,7 @@ return array(
 		'go_set'=>__('去设置', 'h5'),
 		
 		
-		//franchisee
+		//franchisee  入驻店铺
 		'please_enter_correct_tel'   => __('请输入正确的手机号', 'h5'),
 		'prompt'                     => __('提示', 'h5'),
 		'view_progress'              => __('查看申请进度', 'h5'),
@@ -99,5 +99,68 @@ return array(
 		'please_get_store_coordinates'   => __('请获取店铺坐标', 'h5'),
 		'please_street'          => __('请选择街道', 'h5'),
 		'please_street_region'   => __('请先选择所在地区', 'h5'),
+		'temporarily_no'         => __('暂无', 'h5'),
+		'temporarily_cat'        => __('暂无店铺分类，未能入驻', 'h5'),
+		'finish'                 => __('完成', 'h5'),
+		'please_select_province_city' => __('请选择省市区、街道并填写详细地址', 'h5'),
+		'cancel_application'     => __('您确定要撤销申请吗', 'h5'),
+		'check_second'           => __('请查收 (%ss)', 'h5'),
+		'resend_second'          => __('重新发送 %s(s)', 'h5'),
+		'please_where_street'    => __('请选择所在街道', 'h5'),
+		'individual_settlement'  => __('个人入驻', 'h5'),
+		'enterprise_settled'     => __('企业入驻', 'h5'),
+		'longitude_latitude'     => __('经度：%s；纬度：%s','h5'),
+		
+		
+		//goods 商品
+		'last'	=>	__('剩余', 'h5'),
+		'over'  =>  __('已结束！', 'h5'),
+		'day'   =>  __('天', 'h5'),
+		'tips'	=>	__('温馨提示', 'h5'),
+		'activity_end_time'  => __('距离活动结束还有', 'h5'),
+		'cart_empty'         => __('购物车是空的', 'h5'),
+		'go_settlement'      => __('去结算', 'h5'),
+		'quantity_out_range' => __('数量超出范围', 'h5'),
+		'logged_yet'		 => __('您还没有登录', 'h5'),
+		'shop_cart_empty'    => __('当前位置购物车空空如也哦～', 'h5'),
+		'add_goods_yet'		 => __('您还没有添加商品', 'h5'),
+		'go_go' 		     => __('去逛逛', 'h5'),
+		'reduced'		     => __('(已减%s)', 'h5'),
+		'have_select'	     => __('(已选%s件)', 'h5'),
+		'deviation_pick_up'	      => __('(还差%s起送)', 'h5'),
+		'no_goods_reviews'	      => __('暂无商品评论', 'h5'),
+		'empty_cart_all_goods'    => __('清空购物车中所有商品？', 'h5'),
+		'please_enter_than_0'     => __('请输入数值大于0的整数', 'h5'),
+		'store_delete_all_goods'  => __('确定删除该店铺下全部商品？', 'h5'),
+		'go_login'     => __('去登录', 'h5'),
+		'all_delete'   => __('全部删除', 'h5'),
+		'edit' 		   => __('编辑', 'h5'),
+		'all' 		   => __('全部', 'h5'),
+		'free'		   => __('免费', 'h5'),
+		'share_wechat' => __('分享微信', 'h5'),
+		'sina_weibo'   => __('新浪微博', 'h5'),
+		'save_picture' => __('保存图片', 'h5'),
+		'collapse'     => __('收起', 'h5'),
+		'full_text'    => __('全文', 'h5'),
+		'cancel_store' => __('确定取消关注该店铺？', 'h5'),
+		'no_attention_store' => __('暂无关注店铺', 'h5'),
+		'has_been_concerned' => __('已关注', 'h5'),
+		'attention' 		 => __('关注', 'h5'),
+		
+		
+		//touch 
+		'positioning_failed' => __('定位失败，请手动选择', 'h5'),
+		'successful_copy'    => __('复制成功！','h5'),
+		'clear_cache'		 => __('清除缓存中，请稍后...', 'h5'),
+		'history_visit_city' => __('历史访问城市', 'h5'),
+		'click_more'		 => __('点击加载更多', 'h5'),
+		'missing_parameters' => __('缺少参数！','h5'),
+		'delete_msg' 		 => __('您确定要删除此条信息吗？','h5'),
+		'address_range'		 => __('该地址超出配送范围', 'h5'),
+		'empty_search_history'    => __('确定清空搜索记录？', 'h5'),
+		'recommendations_updated' => __('热门推荐已更新', 'h5'),
+		'store_delivery_area'     => __('您的定位已超出该店配送区域', 'h5'),
+		'know'     				  => __('知道了', 'h5'),
+
 ); 
 //end

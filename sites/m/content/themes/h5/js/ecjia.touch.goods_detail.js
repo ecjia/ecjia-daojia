@@ -69,14 +69,14 @@
 
 					if (myD >= 0) {
 						if (type == 1) {
-							msg = '距离活动结束还有';
-							var str = msg + myD + '天&nbsp;<span class="end-times">' + hh + '</span>:<span class="end-times">' + mm + '</span>:<span class="end-times">' + ss + '</span>';
+							msg = js_lang.activity_end_time;
+							var str = msg + myD + js_lang.day + '&nbsp;<span class="end-times">' + hh + '</span>:<span class="end-times">' + mm + '</span>:<span class="end-times">' + ss + '</span>';
 						} else {
-							msg = '剩余';
-							var str = msg + myD + '天&nbsp;<span class="end-time">' + hh + '</span> : <span class="end-time">' + mm + '</span> : <span class="end-time">' + ss + '</span>';
+							msg = js_lang.last;
+							var str = msg + myD + js_lang.day + '&nbsp;<span class="end-time">' + hh + '</span> : <span class="end-time">' + mm + '</span> : <span class="end-time">' + ss + '</span>';
 						}
 					} else {
-						var str = "已结束！";
+						var str = js_lang.over;
 					}
 					obj.html(str);
 				});

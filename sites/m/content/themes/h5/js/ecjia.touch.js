@@ -28,7 +28,7 @@
                                     title: '',
                                     text: data.message,
                                     buttons: [{
-                                        text: '确定',
+                                        text: js_lang.ok,
                                         onClick: function () {
                                             ecjia.pjax(data.url);
                                         }
@@ -45,9 +45,9 @@
                     var myApp = new Framework7();
                     myApp.modal({
                         title: '',
-                        text: '定位失败，请手动选择',
+                        text: js_lang.positioning_failed,
                         buttons: [{
-                            text: '确定',
+                            text: js_lang.ok,
                             onClick: function () {
                                 ecjia.pjax('index.php?m=touch&c=location&a=select_location');
                             }
@@ -199,7 +199,7 @@
         copy_btn: function () {
             var clipboard = new Clipboard('.copy-btn');
             clipboard.on('success', function (e) {
-                alert("复制成功！");
+                alert(js_lang.successful_copy);
             });
         },
 
@@ -213,20 +213,20 @@
                 myApp.modal({
                     title: message,
                     buttons: [{
-                        text: '取消',
+                        text: js_lang.cancel,
                         onClick: function () {
                             $('.modal').remove();
                             $('.modal-overlay').remove();
                             return false;
                         }
                     }, {
-                        text: '确定',
+                        text: js_lang.ok,
                         onClick: function () {
                             sessionStorage.clear();
                             $.post(url, function (data) {
                                 var refresh_url = data.url;
                                 iosOverlay({
-                                    text: '清除缓存中，请稍后...',
+                                    text: js_lang.clear_cache,
                                     duration: 2e3,
                                 });
                                 setTimeout(function () {
@@ -243,7 +243,7 @@
             var history_city = $.localStorage('history_city');
             if (history_city != undefined) {
                 history_city = JSON.parse(history_city);
-                var html = '<h2 class="history-city-title"><span>历史访问城市</span></h2><ul class="history-city-list">';
+                var html = '<h2 class="history-city-title"><span>'+ js_lang.history_visit_city +'</span></h2><ul class="history-city-list">';
                 for (var i = history_city.length - 1; i >= 0; i--) {
                     html += '<li class="data-li"><p class="select-city-li" data-id=' + history_city[i].id + '>' + history_city[i].city_name + '</p></li>';
                 }
@@ -421,7 +421,7 @@
 
         alert: function (text) {
             var app = new Framework7({
-                modalButtonOk: "确定",
+                modalButtonOk: js_lang.ok,
                 modalTitle: ''
             });
             app.alert(text);
@@ -498,7 +498,7 @@
                     scroll_list();
                 });
             } else {
-                var add_more_btn = '<button id="load_more_btn" class="btn btn-default btn-lg">点击加载更多</button>';
+                var add_more_btn = '<button id="load_more_btn" class="btn btn-default btn-lg">'+ js_lang.click_more +'</button>';
                 $('[data-flag="add_load_more_btn"]').after(add_more_btn);
                 $("#load_more_btn").on("click", function () {
                     scroll_list();
@@ -514,7 +514,7 @@
          * 数据操作方法
          */
         load_list: function (options) {
-            if (!options.url) return console.log('缺少参数！');
+            if (!options.url) return console.log(js_lang.missing_parameters);
             $(options.trigger).show();
             if ($('[data-toggle="asynclist"]').attr('class') == options.areaClass) {
                 $('[data-toggle="asynclist"]').attr('data-page', parseInt(options.page) + 1);
@@ -576,12 +576,12 @@
                 e.preventDefault();
                 var $this = $(this),
                     id = $this.attr('data-id'),
-                    msg = $this.attr('data-msg') ? $this.attr('data-msg') : '您确定要删除此条信息吗？',
+                    msg = $this.attr('data-msg') ? $this.attr('data-msg') : js_lang.delete_msg,
                     url = $this.attr('data-url');
                 if (id && url) {
                     var myApp = new Framework7({
-                        modalButtonCancel: '取消',
-                        modalButtonOk: '确定',
+                        modalButtonCancel: js_lang.cancel,
+                        modalButtonOk: js_lang.ok,
                         modalTitle: ''
                     });
                     myApp.confirm(msg, function () {
@@ -681,7 +681,7 @@
                 $('[data-toggle="choose_address"]').addClass('disabled');
                 if (url == undefined) {
                     iosOverlay({
-                        text: '该地址超出配送范围',
+                        text: js_lang.address_range,
                         duration: 2e3,
                         onbeforehide: function () {
                             $('[data-toggle="choose_address"]').removeClass('disabled');
@@ -866,11 +866,11 @@
 
                 var myApp = new Framework7();
                 myApp.modal({
-                    title: '确定清空搜索记录？',
+                    title: js_lang.empty_search_history,
                     buttons: [{
-                        text: '取消',
+                        text: js_lang.cancel,
                     }, {
-                        text: '确定',
+                        text: js_lang.ok,
                         onClick: function () {
                             $.get(url, function (data) {
                                 if (data.pjaxurl != '') {
@@ -894,7 +894,7 @@
                     minute = checkTime(nowTime.getMinutes()),
                     time = hour + ':' + minute;
 
-                var html = '<i class="icon-goods-hot"></i>' + time + ' 热门推荐已更新';
+                var html = '<i class="icon-goods-hot"></i>' + time + js_lang.recommendations_updated;
                 $('.ecjia-new-goods').find('.goods-index-title').html(html);
             };
         },
@@ -982,9 +982,9 @@
                     //弹出提示
                     var myApp = new Framework7();
                     myApp.modal({
-                        title: '您的定位已超出该店配送区域',
+                        title: js_lang.store_delivery_area,
                         buttons: [{
-                            text: '知道了',
+                            text: js_lang.know,
                             //点击确定后显示购物车
                             onClick: function () {
                                 $('.modal').remove();
