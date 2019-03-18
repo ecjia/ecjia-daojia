@@ -1,0 +1,69 @@
+# Copyright (C) 2019 余额支付
+# This file is distributed under the same license as the 余额支付 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 余额支付 1.29.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-03-18 02:05:58+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: pay_balance.class.php:165
+msgid "%s的订单：%s"
+msgstr ""
+
+#: pay_balance.class.php:179 pay_balance.class.php:273
+msgid "此笔交易记录未找到"
+msgstr ""
+
+#: pay_balance.class.php:192
+msgid "%s未找到该订单信息"
+msgstr ""
+
+#: pay_balance.class.php:279
+msgid "此笔退款申请未找到"
+msgstr ""
+
+#: pay_balance.class.php:291
+msgid "积分"
+msgstr ""
+
+#: pay_balance.class.php:297
+msgid "由于订单%s退款，退还下单使用的%s，退款金额退回余额"
+msgstr ""
+
+#: pay_balance.class.php:319
+msgid "订单退款成功！"
+msgstr ""
+
+#: pay_balance.class.php:323
+msgid "退款失败!"
+msgstr ""
+
+#: pay_balance.class.php:333
+msgid "余额支付不支持退款查询对账功能"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "余额支付"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.balance/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "使用帐户余额支付。只有会员才能使用，通过设置信用额度，可以透支。"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr ""

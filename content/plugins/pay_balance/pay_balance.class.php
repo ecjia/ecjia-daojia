@@ -162,7 +162,7 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
                 ->setPayCode($this->getCode())
                 ->setPayName($this->getDisplayName())
                 ->setPayRecordId($recordId)
-                ->setSubject(ecjia::config('shop_name') . '的订单：' . $this->order_info['order_sn'])
+                ->setSubject(sprintf(__("%s的订单：%s", 'pay_balance'), ecjia::config('shop_name'), $this->order_info['order_sn']) )
                 ->setOrderTradeNo($this->getOrderTradeNo($recordId));
         
         return $output->export();
@@ -176,7 +176,7 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
     {
     	$record_model = $this->paymentRecord->getPaymentRecord($order_trade_no);
         if (empty($record_model)) {
-            return new ecjia_error('payment_record_not_found', '此笔交易记录未找到');
+            return new ecjia_error('payment_record_not_found', __('此笔交易记录未找到', 'pay_balance'));
         }
     	
     	//订单信息
@@ -189,7 +189,7 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
     	}
     	
     	if (empty($orderinfo)) {
-    		return new ecjia_error('order_dose_not_exist', $record_model->order_sn . '未找到该订单信息');
+    		return new ecjia_error('order_dose_not_exist', sprintf(__("%s未找到该订单信息", 'pay_balance'), $record_model->order_sn));
     	}
     	
     	$user_id = $_SESSION['user_id'];
@@ -270,13 +270,13 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
     	if (empty($record_model)) {
             $record_model = $this->paymentRecord->getPaymentRecordByOrderSn($order_trade_no);
             if (empty($record_model)) {
-                return new ecjia_error('payment_record_not_found', '此笔交易记录未找到');
+                return new ecjia_error('payment_record_not_found', __('此笔交易记录未找到', 'pay_balance'));
             }
     	}
     	
     	$refund_payrecord = \Ecjia\App\Refund\Models\RefundPayRecordModel::where('order_sn', $record_model->order_sn)->first();
     	if (empty($refund_payrecord)) {
-    		return new ecjia_error('payment_record_not_found', '此笔退款申请未找到');
+    		return new ecjia_error('payment_record_not_found', __('此笔退款申请未找到', 'pay_balance'));
     	}
     	
     	//退款申请单
@@ -288,13 +288,13 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
     	if (!empty($refund_order['user_id'])) {
     		$integral_name = ecjia::config('integral_name');
     		if (empty($integral_name)) {
-    			$integral_name = '积分';
+    			$integral_name = __('积分', 'pay_balance');
     		}
     		//账户余额变动记录
     		$options = array(
     				'user_id'		=> $refund_order['user_id'],
     				'user_money'	=> $refund_payrecord['back_money_total'],
-    				'change_desc'	=> '由于订单'.$refund_order['order_sn'].'退款，退还下单使用的'.$integral_name.'，退款金额退回余额',
+    				'change_desc'	=> sprintf(__("由于订单%s退款，退还下单使用的%s，退款金额退回余额", 'pay_balance'), $refund_order['order_sn'], $integral_name),
     				'change_type'	=> ACT_SAVING,
     		);
     		
@@ -316,11 +316,11 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
     		//处理成功返回
     		$refund_result = array(
     				'refund_status'	=> 'success',
-    				'desc'			=> '订单退款成功！'
+    				'desc'			=> __('订单退款成功！', 'pay_balance')
     		);
     		return $refund_result;
     	} else {
-    		return new ecjia_error('pay_balance_refund_fail', '退款失败!');
+    		return new ecjia_error('pay_balance_refund_fail', __('退款失败!', 'pay_balance'));
     	}
     }
     
@@ -330,7 +330,7 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
      */
     public function refundQuery($order_trade_no)
     {
-    	return new ecjia_error('refund_query_not_support', '余额支付不支持退款查询对账功能');
+    	return new ecjia_error('refund_query_not_support', __('余额支付不支持退款查询对账功能', 'pay_balance'));
     }
 }
 
