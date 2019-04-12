@@ -70,6 +70,15 @@ class store_bill_detail_model extends Component_Model_Model {
             return false;
         }
 
+        //判断重复记录清除队列
+        $is_exists = RC_DB::table('store_bill_detail')->where('order_type', $data['order_type'])->where('order_id', $data['order_id'])->count();
+        if($is_exists) {
+            RC_DB::table('store_bill_queue')->where('order_type', $data['order_type'])->where('order_id', $data['order_id'])->delete();
+            RC_Logger::getLogger('bill_order_error')->error('重复入账');
+            RC_Logger::getLogger('bill_order_error')->error($data);
+            return false;
+        }
+
         if($data['order_type'] == 'quickpay') {
             $order_info = RC_DB::table('quickpay_orders')->where('order_id', $data['order_id'])->first();
             $data['order_sn'] = $order_info['order_sn'];
@@ -136,21 +145,22 @@ class store_bill_detail_model extends Component_Model_Model {
             }
             
             //众包配送，运费不参与商家结算 @update 20180606
+            //支付手续费平台收取 @update 20190410
             if($order_info['shipping_code'] == 'ship_ecjia_express') {
-                if(in_array($data['pay_code'], array('pay_cod', 'pay_cash'))) {
-                    $data['brokerage_amount'] = $data['order_amount'] * (100 - $data['percent_value']) / 100 * -1;
+                if(in_array($data['pay_code'], array('pay_cod', 'pay_cash', 'pay_wxpay_merchant'))) {
+                    $data['brokerage_amount'] = $data['order_amount'] * (100 - $data['percent_value']) / 100 * -1 - $data['pay_fee'];
                     $data['platform_profit'] = $data['brokerage_amount'] * -1;
                 } else {
-                    $data['brokerage_amount'] = $data['order_amount'] * $data['percent_value'] / 100;
+                    $data['brokerage_amount'] = $data['order_amount'] * $data['percent_value'] / 100 - $data['pay_fee'];
                     $data['platform_profit'] = $data['order_amount'] - $data['brokerage_amount'];
                 }
             } else {
                 //运费不参与分佣 @update 20181210
-                if(in_array($data['pay_code'], array('pay_cod', 'pay_cash'))) {
-                    $data['brokerage_amount'] = (($data['order_amount'] - $data['shipping_fee'] - $data['insure_fee']) * (100 - $data['percent_value']) / 100 + $data['shipping_fee'] + $data['insure_fee']) * -1;
+                if(in_array($data['pay_code'], array('pay_cod', 'pay_cash', 'pay_wxpay_merchant'))) {
+                    $data['brokerage_amount'] = (($data['order_amount'] - $data['shipping_fee'] - $data['insure_fee']) * (100 - $data['percent_value']) / 100 + $data['shipping_fee'] + $data['insure_fee']) * -1 - $data['pay_fee'];
                     $data['platform_profit'] = $data['brokerage_amount'] * -1;
                 } else {
-                    $data['brokerage_amount'] = ($data['order_amount'] - $data['shipping_fee'] - $data['insure_fee']) * $data['percent_value'] / 100 + $data['shipping_fee'] + $data['insure_fee'];
+                    $data['brokerage_amount'] = ($data['order_amount'] - $data['shipping_fee'] - $data['insure_fee']) * $data['percent_value'] / 100 + $data['shipping_fee'] + $data['insure_fee'] - $data['pay_fee'];
                     $data['platform_profit'] = $data['order_amount'] - $data['brokerage_amount'];
                 }
             }
@@ -180,7 +190,14 @@ class store_bill_detail_model extends Component_Model_Model {
                 $back_money_total = $back_money_total > 0 ? $back_money_total : $back_money_total * -1;
                 $data['percent_value'] = $datail['percent_value'];
                 //退款结算：平台得-用户退=商家得
-                $data['brokerage_amount'] = $datail['platform_profit'] - $back_money_total;
+                //退款时，商家扣除退款金额 @update 20190410
+//                $data['brokerage_amount'] = $datail['platform_profit'] - $back_money_total;
+                $temp_brokerage_amount = $back_money_total * $datail['percent_value'] / 100;
+                if(abs($temp_brokerage_amount) > abs($datail['brokerage_amount'])) {
+                    $temp_brokerage_amount = abs($datail['brokerage_amount']);
+                }
+                $data['brokerage_amount'] = $temp_brokerage_amount * -1;
+
                 $data['platform_profit'] = $datail['platform_profit'] * -1;
             }
         } else if ($data['order_type'] == 'quickpay') {
@@ -190,7 +207,7 @@ class store_bill_detail_model extends Component_Model_Model {
                 RC_Logger::getLogger('bill_order_error')->error($data);
                 return false;
             }
-            if(in_array($data['pay_code'], array('pay_cod', 'pay_cash'))) {
+            if(in_array($data['pay_code'], array('pay_cod', 'pay_cash', 'pay_wxpay_merchant'))) {
                 $data['brokerage_amount'] = $data['order_amount'] * (100 - $data['percent_value']) / 100 * -1;
                 $data['platform_profit'] = $data['brokerage_amount'] * -1;
             } else {
@@ -324,7 +341,7 @@ class store_bill_detail_model extends Component_Model_Model {
 	    } else {
 	        $page = new ecjia_merchant_page($count, $page_size, 3);
 	    }
-	    $fields .= " bd.*,bd.order_amount as total_fee,s.merchants_name";
+	    $fields = " bd.*,bd.order_amount as total_fee,s.merchants_name";
 	    $row = $db_bill_detail
 		    ->select(RC_DB::raw($fields))
 		    ->take($page_size)

@@ -75,7 +75,7 @@
 					    <!-- {/if} -->
 					</tr>
 					<!-- {foreachelse} -->
-				   	<tr><td class="no-records" colspan="8">{t domain="commission"}没有找到任何记录{/t}</td></tr>
+				   	<tr><td class="no-records" colspan="10">{t domain="commission"}没有找到任何记录{/t}</td></tr>
 					<!-- {/foreach} -->
 				</table>
 				<!-- {$record_list.page} -->
