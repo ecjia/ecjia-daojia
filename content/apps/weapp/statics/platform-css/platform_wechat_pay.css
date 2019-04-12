@@ -1,0 +1,29 @@
+.highlight_box.global {
+    margin: 0 30px 0 40px;
+    border-top-width: 0;
+}
+
+.highlight_box.icon_wrap {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    overflow: hidden;
+}
+
+.highlight_box {
+    position: relative;
+    padding: 9px 30px;
+    background-color: #EEEEEE;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.highlight_box .title {
+    font-weight: 400;
+    font-style: normal;
+    padding-top: 5px;
+}
+
+.highlight_box .fonticon-wrap .icon-extend {
+    width: 60px;
+    height: 60px;
+}

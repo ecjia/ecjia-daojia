@@ -165,7 +165,7 @@ class admin extends ecjia_admin
         $this->assign('action_link', array('text' => __('小程序列表', 'weapp'), 'href' => RC_Uri::url('weapp/admin/init')));
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('编辑小程序', 'weapp')));
 
-        $wxapp_info = RC_DB::table('platform_account')->where('id', intval($_GET['id']))->first();
+        $wxapp_info = RC_DB::table('platform_account')->where('id', intval($_GET['id']))->where('shop_id', 0)->first();
         if (!empty($wxapp_info['logo'])) {
             $wxapp_info['logo'] = RC_Upload::upload_url($wxapp_info['logo']);
         }
@@ -225,7 +225,7 @@ class admin extends ecjia_admin
         $this->admin_priv('weapp_delete', ecjia::MSGTYPE_JSON);
 
         $id   = isset($_GET['id']) ? intval($_GET['id']) : 0;
-        $info = RC_DB::table('platform_account')->where('id', $id)->select('name', 'logo')->first();
+        $info = RC_DB::table('platform_account')->where('id', $id)->where('shop_id', 0)->select('name', 'logo')->first();
 
         if (!empty($info['logo'])) {
             $disk = RC_Filesystem::disk();
@@ -251,7 +251,7 @@ class admin extends ecjia_admin
 
         $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-        $info = RC_DB::table('platform_account')->where('id', $id)->select('name', 'logo')->first();
+        $info = RC_DB::table('platform_account')->where('id', $id)->where('shop_id', 0)->select('name', 'logo')->first();
 
         if (!empty($info['logo'])) {
             $disk = RC_Filesystem::disk();
@@ -325,7 +325,7 @@ class admin extends ecjia_admin
         $idArr = explode(',', $_POST['id']);
         $count = count($idArr);
 
-        $info = RC_DB::table('platform_account')->whereIn('id', $idArr)->select('name')->get();
+        $info = RC_DB::table('platform_account')->whereIn('id', $idArr)->where('shop_id', 0)->select('name')->get();
 
         foreach ($info as $v) {
             $this->admin_log($v['name'], 'batch_remove', 'weapp');
@@ -384,7 +384,7 @@ class admin extends ecjia_admin
         if ($filter['keywords']) {
             $db_platform_account->where(RC_DB::Raw('name'), 'like', '%' . mysql_like_quote($filter['keywords']) . '%');
         }
-        $db_platform_account->where('platform', 'weapp');
+        $db_platform_account->where('platform', 'weapp')->where('shop_id', 0);
 
         $count                  = $db_platform_account->count();
         $filter['record_count'] = $count;

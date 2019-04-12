@@ -63,19 +63,15 @@ class weapp_platform_menu_api extends Component_Event_Api
 
         $command_menus = ecjia_admin::make_admin_menu('02_wechat_extend', __('关键词命令', 'weapp'), RC_Uri::url('platform/platform_command/init'), 2)->add_icon('ft-command')->add_purview('platform_command_manage');
 
-        $weapp_config_menus = ecjia_admin::make_admin_menu('03_weapp_config', __('消息推送配置', 'weapp'), RC_Uri::url('weapp/platform_config/init'), 3)
-            ->add_icon('ft-settings')->add_purview('weapp_config_manage');
+        $navmenus = ecjia_admin::make_admin_menu('03_nav_header', __('微信小程序', 'weapp'), '', 3);
 
-        $navmenus = ecjia_admin::make_admin_menu('nav-header', __('微信小程序', 'weapp'), '', 10);
-
-        $message_manage = ecjia_admin::make_admin_menu('04_message_manage', __('消息管理', 'weapp'), '', 11)->add_icon('icon-bubble')->add_submenu(
+        $message_manage = ecjia_admin::make_admin_menu('04_message_manage', __('消息管理', 'weapp'), '', 4)->add_icon('icon-bubble')->add_submenu(
             array(
-                ecjia_admin::make_admin_menu('01_wechat', __('消息管理', 'weapp'), RC_Uri::url('weapp/platform_message/init'), 1)
-                    ->add_purview('weapp_subscribe_message_manage'),
+                ecjia_admin::make_admin_menu('01_wechat', __('消息管理', 'weapp'), RC_Uri::url('weapp/platform_message/init'), 1)->add_purview('weapp_subscribe_message_manage'),
             )
         );
 
-        $usermenus = ecjia_admin::make_admin_menu('05_user_manage', __('用户管理', 'weapp'), '', 12)->add_icon('icon-user')->add_submenu(
+        $usermenus = ecjia_admin::make_admin_menu('05_user_manage', __('用户管理', 'weapp'), '', 5)->add_icon('icon-user')->add_submenu(
             array(
                 ecjia_admin::make_admin_menu('01_weapp', __('用户管理', 'weapp'), RC_Uri::url('weapp/platform_user/init'), 1)->add_purview('weapp_user_manage'),
                 ecjia_admin::make_admin_menu('02_weapp', __('标签管理', 'weapp'), RC_Uri::url('weapp/platform_user/tag'), 2)->add_purview('weapp_tag_manage'),
@@ -84,7 +80,7 @@ class weapp_platform_menu_api extends Component_Event_Api
             )
         );
 
-        $replymenus = ecjia_admin::make_admin_menu('06_auto_reply', __('自动回复', 'weapp'), '', 13)->add_icon('fa fa-reply')->add_submenu(
+        $replymenus = ecjia_admin::make_admin_menu('06_auto_reply', __('自动回复', 'weapp'), '', 6)->add_icon('fa fa-reply')->add_submenu(
             array(
                 ecjia_admin::make_admin_menu('01_weapp', __('关键词回复', 'weapp'), RC_Uri::url('weapp/platform_response/reply_keywords'), 1)->add_purview('weapp_response_manage'),
                 ecjia_admin::make_admin_menu('02_weapp', __('收到消息回复', 'weapp'), RC_Uri::url('weapp/platform_response/reply_msg'), 2)->add_purview('weapp_response_manage'),
@@ -92,29 +88,40 @@ class weapp_platform_menu_api extends Component_Event_Api
             )
         );
 
-        $materialmenus = ecjia_admin::make_admin_menu('07_material_manage', __('素材管理', 'weapp'), '', 14)->add_icon('ft-inbox')->add_submenu(
+        $materialmenus = ecjia_admin::make_admin_menu('07_material_manage', __('素材管理', 'weapp'), '', 7)->add_icon('ft-inbox')->add_submenu(
             array(
                 ecjia_admin::make_admin_menu('01_weapp', __('临时素材', 'weapp'), RC_Uri::url('weapp/platform_material/init', array('type' => 'image')), 1)->add_purview('weapp_material_manage'),
             )
         );
 
-        $kefumenus = ecjia_admin::make_admin_menu('08_customer', __('客服管理', 'weapp'), '', 15)->add_icon('fa fa-headphones')->add_submenu(
+        $kefumenus = ecjia_admin::make_admin_menu('08_customer', __('客服管理', 'weapp'), '', 8)->add_icon('fa fa-headphones')->add_submenu(
             array(
                 ecjia_admin::make_admin_menu('01_weapp', __('客服账号', 'weapp'), RC_Uri::url('weapp/platform_customer/init'), 1)->add_purview('weapp_customer_manage'),
                 ecjia_admin::make_admin_menu('02_weapp', __('客服会话', 'weapp'), RC_Uri::url('weapp/platform_customer/session'), 2)->add_purview('weapp_customer_session_manage'),
             )
         );
 
+        $config_nav = ecjia_admin::make_admin_menu('09_nav_header', __('小程序配置', 'weapp'), '', 9);
+
+        $message_push = ecjia_admin::make_admin_menu('10_message_push', __('消息推送配置', 'weapp'), RC_Uri::url('weapp/platform_config/init'), 10)->add_icon('ft-settings')->add_purview('weapp_config_manage');
+
+        $wechat_pay = ecjia_admin::make_admin_menu('11_wechat_pay', __('微信支付配置', 'weapp'), RC_Uri::url('weapp/platform_wechat_pay/init'), 11)->add_icon('fa fa-money')->add_purview('weapp_config_manage');
+
+        $wechat_login = ecjia_admin::make_admin_menu('12_wechat_login', __('微信登录配置', 'weapp'), RC_Uri::url('weapp/platform_wechat_login/init'), 12)->add_icon('fa fa-user-o')->add_purview('weapp_config_manage');
+
         return array(
             $extend_menus,
             $command_menus,
-            $weapp_config_menus,
             $navmenus,
             $message_manage,
             $usermenus,
             $replymenus,
             $materialmenus,
             $kefumenus,
+            $config_nav,
+            $message_push,
+            $wechat_pay,
+            $wechat_login
         );
     }
 }

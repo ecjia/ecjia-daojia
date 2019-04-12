@@ -60,6 +60,7 @@ return array(
     ),
     'platform_config_page'   => array(
         'ok'                       => '确定',
+        'cancel'                   => '取消',
         'copy_success'             => '复制成功',
         'copy_failed'              => '复制失败，请手动复制',
         'server_url_required'      => '请输入URL(服务器地址)',

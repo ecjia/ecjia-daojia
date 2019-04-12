@@ -44,45 +44,53 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Weapp\Models;
+
+use Royalcms\Component\Database\Eloquent\Model;
 
 /**
- * 后台权限API
- * @author royalwang
+ * Class WechatOptionsModel
+ * @package Ecjia\App\Weapp\Models
+ *
+ * @method $this wechat($wechat_id) 绑定微信ID查询条件
  */
-class weapp_platform_purview_api extends Component_Event_Api
+class WechatOptionsModel extends Model
 {
+    protected $table = 'wechat_options';
 
-    public function call(&$options)
+    protected $primaryKey = 'option_id';
+
+    /**
+     * 可以被批量赋值的属性。
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'wechat_id',
+        'option_name',
+        'option_type',
+        'option_value',
+    ];
+
+    /**
+     * 该模型是否被自动维护时间戳
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * 限制查询只包括某一微信帐号的用户。
+     *
+     * @param \Royalcms\Component\Database\Eloquent\Builder $query
+     * @return \Royalcms\Component\Database\Eloquent\Builder
+     */
+    public function scopeWechat($query, $wechatId)
     {
-        $purviews = array(
-            array('action_name' => __('用户管理', 'weapp'), 'action_code' => 'weapp_user_manage', 'relevance' => ''),
-            array('action_name' => __('标签管理', 'weapp'), 'action_code' => 'weapp_tag_manage', 'relevance' => ''),
-            array('action_name' => __('标签更新', 'weapp'), 'action_code' => 'weapp_tag_update', 'relevance' => ''),
-            array('action_name' => __('标签删除', 'weapp'), 'action_code' => 'weapp_tag_delete', 'relevance' => ''),
-
-            array('action_name' => __('小程序配置管理', 'weapp'), 'action_code' => 'weapp_config_manage', 'relevance' => ''),
-            array('action_name' => __('小程序配置更新', 'weapp'), 'action_code' => 'weapp_config_update', 'relevance' => ''),
-
-            array('action_name' => __('客服会话管理', 'weapp'), 'action_code' => 'weapp_customer_session_manage', 'relevance' => ''),
-            array('action_name' => __('客服会话更新', 'weapp'), 'action_code' => 'weapp_customer_session_update', 'relevance' => ''),
-            array('action_name' => __('客服会话删除', 'weapp'), 'action_code' => 'weapp_customer_session_delete', 'relevance' => ''),
-
-            array('action_name' => __('素材管理', 'weapp'), 'action_code' => 'weapp_material_manage', 'relevance' => ''),
-            array('action_name' => __('素材添加', 'weapp'), 'action_code' => 'weapp_material_add', 'relevance' => ''),
-            array('action_name' => __('素材编辑', 'weapp'), 'action_code' => 'weapp_material_update', 'relevance' => ''),
-            array('action_name' => __('素材删除', 'weapp'), 'action_code' => 'weapp_material_delete', 'relevance' => ''),
-
-            array('action_name' => __('自动回复管理', 'weapp'), 'action_code' => 'weapp_response_manage', 'relevance' => ''),
-            array('action_name' => __('自动回复添加', 'weapp'), 'action_code' => 'weapp_response_add', 'relevance' => ''),
-            array('action_name' => __('自动回复编辑', 'weapp'), 'action_code' => 'weapp_response_update', 'relevance' => ''),
-            array('action_name' => __('自动回复删除', 'weapp'), 'action_code' => 'weapp_response_delete', 'relevance' => ''),
-
-            array('action_name' => __('用户消息管理', 'weapp'), 'action_code' => 'weapp_subscribe_message_manage', 'relevance' => ''),
-        );
-        return $purviews;
+        return $query->where('wechat_id', $wechatId);
     }
-}
 
+
+}
 
 // end

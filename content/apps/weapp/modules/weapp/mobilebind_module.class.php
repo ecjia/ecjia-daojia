@@ -46,74 +46,101 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 订单支付
- * @author royalwang
- * 16-12-09 增加支付状态
- */
-class weapp_wxpay_module extends api_front implements api_interface
+class weapp_mobilebind_module extends api_front implements api_interface
 {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
+        $this->authSession();
+        $mobile        = trim($this->requestData('mobile'));
+        $uuid          = trim($this->requestData('uuid'));
+        $smscode       = trim($this->requestData('smscode'));
 
-        $user_id = $_SESSION['user_id'];
-        if ($user_id < 1) {
-            return new ecjia_error(100, 'Invalid session');
+        if (empty($mobile) || empty($uuid) || empty($smscode)) {
+            return new ecjia_error('invalid_parameter', __(sprintf('%s参数无效', 'weapp/mobilebind'), 'weapp'));
         }
 
-        $order_id  = $this->requestData('order_id', 0);
-//        $is_mobile = $this->requestData('is_mobile', true);
-        $uuid      = trim($this->requestData('uuid', ''));
-
-        if (!$order_id) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'weapp'));
+        
+        //判断校验码是否过期
+        if ($_SESSION['captcha']['sms']['weapp_mobilebind']['lifetime'] < RC_Time::gmtime()) {
+        	return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！', 'weapp'));
         }
-
-        /* 订单详情 */
-        $order = RC_Api::api('orders', 'order_info', array('order_id' => $order_id));
-        if (is_ecjia_error($order)) {
-            return $order;
+        //判断校验码是否正确
+        if ($smscode != $_SESSION['captcha']['sms']['weapp_mobilebind']['code']) {
+        	return new ecjia_error('code_error', __('验证码错误，请重新填写！', 'weapp'));
         }
+        
+        $openid      = session('openid');
+        $unionid      = session('unionid');
+        $session_key = session('session_key');
 
-        if ($_SESSION['user_id'] != $order['user_id']) {
-            return new ecjia_error('error_order_detail', __('订单不属于该用户', 'weapp'));
-        }
 
-        //判断是否是管理员登录
-        if ($_SESSION['admin_id'] > 0) {
-            $_SESSION['user_id'] = $order['user_id'];
-        }
+        //获取小程序的weappid,即小程序自增id
+        $WeappUUID = new Ecjia\App\Weapp\WeappUUID($uuid);
+        $weappId   = $WeappUUID->getWeappID();
 
-        //支付方式信息
-        $handler = with(new Ecjia\App\Payment\PaymentPlugin)->channel(intval($order['pay_id']));
-        if (is_ecjia_error($handler)) {
-            return $handler;
-        }
+        //获取用户解密数据
+        $WeappUser = new Ecjia\App\Weapp\WeappUser($WeappUUID);
 
-        if ($handler instanceof \Ecjia\App\Weapp\Contracts\WeappMerchantPayment) {
-            $WeappUUID = new Ecjia\App\Weapp\WeappUUID($uuid);
-            $WeappAccount   = $WeappUUID->getAccount();
-            $reset_status = $handler->resetWechatPayConfig($WeappAccount);
-            if (is_ecjia_error($reset_status)) {
-                return $reset_status;
+        session(['session_wechat_mobile' => $mobile]);
+
+        if (! empty($mobile)) {
+
+            $user_info = RC_Api::api('user', 'get_local_user', array('mobile' => $mobile));
+
+            if (is_ecjia_error($user_info)) {
+
+                return $user_info;
+
             }
+
+            //如果已经有用户了，则自动绑定已有用户
+            $WechatUserRepository = new Ecjia\App\Weapp\Repositories\WechatUserRepository($weappId);
+            $data = $WechatUserRepository->findUser($openid);
+
+            //转换数据格式
+            $newdata = array(
+                'openid'     => $data['openid'],
+                'nickname'   => $data['nickname'],
+                'sex'        => $data['sex'],
+                'language'   => $data['language'],
+                'city'       => $data['city'],
+                'province'   => $data['province'],
+                'country'    => $data['country'],
+                'headimgurl' => $data['headimgurl'],
+                'privilege'  => '',
+                'unionid'    => $data['unionid'],
+            );
+
+            //绑定会员
+            $connect_user = RC_Api::api('connect', 'connect_user_bind',
+                array(
+                    'connect_code'     => 'sns_wechat_weapp',
+                    'connect_platform' => 'wechat',
+                    'open_id'          => $newdata['openid'],
+                    'union_id'         => $newdata['unionid'],
+                    'profile'          => $newdata,
+                    'mobile'           => $mobile,
+                )
+            );
+
+            //会员登录后，相关信息处理
+            (new \Ecjia\App\User\UserManager())->apiLoginSuccessHook($user_info);
+
+            //如果user_info已经存在，返回user_info信息
+            $out = array(
+                'token' => RC_Session::getId(),
+                'user' => $user_info
+            );
+
+            return $out;
+
         }
-
-        $handler->set_orderinfo($order);
-        $handler->setPaymentRecord(new Ecjia\App\Payment\Repositories\PaymentRecordRepository());
-
-        $result = $handler->get_code(\Ecjia\App\Payment\Enums\PayCodeEnum::PAYCODE_PARAM);
-        if (is_ecjia_error($result)) {
-            return $result;
-        } else {
-            $order['payment'] = $result;
-        }
-
-        //增加支付状态
-        $order['payment']['order_pay_status'] = $order['pay_status'];//0 未付款，1付款中，2已付款
-
-        return array('payment' => $order['payment']);
+        
     }
+
 }
+
+
+
 
 // end

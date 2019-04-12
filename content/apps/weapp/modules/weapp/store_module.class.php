@@ -44,45 +44,65 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+use Ecjia\App\Platform\Models\PlatformAccountModel;
+
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 后台权限API
- * @author royalwang
- */
-class weapp_platform_purview_api extends Component_Event_Api
+class weapp_store_module extends api_front implements api_interface
 {
-
-    public function call(&$options)
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
-        $purviews = array(
-            array('action_name' => __('用户管理', 'weapp'), 'action_code' => 'weapp_user_manage', 'relevance' => ''),
-            array('action_name' => __('标签管理', 'weapp'), 'action_code' => 'weapp_tag_manage', 'relevance' => ''),
-            array('action_name' => __('标签更新', 'weapp'), 'action_code' => 'weapp_tag_update', 'relevance' => ''),
-            array('action_name' => __('标签删除', 'weapp'), 'action_code' => 'weapp_tag_delete', 'relevance' => ''),
-
-            array('action_name' => __('小程序配置管理', 'weapp'), 'action_code' => 'weapp_config_manage', 'relevance' => ''),
-            array('action_name' => __('小程序配置更新', 'weapp'), 'action_code' => 'weapp_config_update', 'relevance' => ''),
-
-            array('action_name' => __('客服会话管理', 'weapp'), 'action_code' => 'weapp_customer_session_manage', 'relevance' => ''),
-            array('action_name' => __('客服会话更新', 'weapp'), 'action_code' => 'weapp_customer_session_update', 'relevance' => ''),
-            array('action_name' => __('客服会话删除', 'weapp'), 'action_code' => 'weapp_customer_session_delete', 'relevance' => ''),
-
-            array('action_name' => __('素材管理', 'weapp'), 'action_code' => 'weapp_material_manage', 'relevance' => ''),
-            array('action_name' => __('素材添加', 'weapp'), 'action_code' => 'weapp_material_add', 'relevance' => ''),
-            array('action_name' => __('素材编辑', 'weapp'), 'action_code' => 'weapp_material_update', 'relevance' => ''),
-            array('action_name' => __('素材删除', 'weapp'), 'action_code' => 'weapp_material_delete', 'relevance' => ''),
-
-            array('action_name' => __('自动回复管理', 'weapp'), 'action_code' => 'weapp_response_manage', 'relevance' => ''),
-            array('action_name' => __('自动回复添加', 'weapp'), 'action_code' => 'weapp_response_add', 'relevance' => ''),
-            array('action_name' => __('自动回复编辑', 'weapp'), 'action_code' => 'weapp_response_update', 'relevance' => ''),
-            array('action_name' => __('自动回复删除', 'weapp'), 'action_code' => 'weapp_response_delete', 'relevance' => ''),
-
-            array('action_name' => __('用户消息管理', 'weapp'), 'action_code' => 'weapp_subscribe_message_manage', 'relevance' => ''),
-        );
-        return $purviews;
+        $this->authSession();
+        $uuid          = trim($this->requestData('uuid'));
+        
+        if (empty($uuid)) {
+            return new ecjia_error('invalid_parameter', __(sprintf('%s参数无效', 'weapp/store'), 'weapp'));
+        }
+        
+        //获取小程序平台信息
+        $weapp_platform = PlatformAccountModel::where('uuid', $uuid)->where('platform', 'weapp')->first();
+        
+        RC_Loader::load_app_func('merchant_store', 'store');
+        
+        //获取店铺信息
+        $store_info = [];
+        if ($weapp_platform->shop_id > 0) {
+        	$store_info = RC_Api::api('store', 'store_info', ['store_id' => $weapp_platform->shop_id]);
+        	$store_info['shop_logo'] 				= empty($store_info['shop_logo']) ? '' : RC_Upload::upload_url($store_info['shop_logo']);
+        	$store_info['shop_nav_background'] 		= empty($store_info['shop_nav_background']) ? '' : RC_Upload::upload_url($store_info['shop_nav_background']);
+        	$store_info['shop_banner_pic'] 			= empty($store_info['shop_banner_pic']) ? '' : RC_Upload::upload_url($store_info['shop_banner_pic']);
+        	$store_info['shop_trade_time']  		= get_store_trade_time($weapp_platform->shop_id);
+        	//字段过滤展示
+        	unset($store_info['cat_id']);
+        	unset($store_info['validate_type']);
+        	unset($store_info['apply_time']);
+        	unset($store_info['confirm_time']);
+        	unset($store_info['expired_time']);
+        	unset($store_info['delete_time']);
+        	unset($store_info['activate_time']);
+        	unset($store_info['identity_type']);
+        	unset($store_info['identity_number']);
+        	unset($store_info['personhand_identity_pic']);
+        	unset($store_info['identity_pic_front']);
+        	unset($store_info['identity_pic_back']);
+        	unset($store_info['identity_status']);
+        	unset($store_info['business_licence']);
+        	unset($store_info['business_licence_pic']);
+        	unset($store_info['bank_account_name']);
+        	unset($store_info['bank_name']);
+        	unset($store_info['bank_branch_name']);
+        	unset($store_info['bank_account_number']);
+        	unset($store_info['bank_address']);
+        	unset($store_info['percent_id']);
+        	unset($store_info['remark']);
+        	unset($store_info['geohash']);
+        }
+        
+		return $store_info;
     }
 }
+
+
 
 
 // end

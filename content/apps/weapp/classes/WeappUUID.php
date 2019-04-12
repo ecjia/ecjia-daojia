@@ -99,6 +99,9 @@ class WeappUUID
         return null;
     }
 
+    /**
+     * @return \Ecjia\App\Platform\Frameworks\Platform\Account
+     */
     public function getAccount()
     {
         return $this->account;
