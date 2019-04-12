@@ -46,7 +46,7 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class article_hooks
+class article_admin_hooks
 {
 
     public static function widget_admin_dashboard_articlestats()
@@ -98,7 +98,27 @@ class article_hooks
 
         ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_articlestats.lbi', 'article'));
     }
+
+    public static function append_admin_setting_group($menus)
+    {
+        $setting = ecjia_admin_setting::singleton();
+
+        $menus[] = ecjia_admin::make_admin_menu('nav-header', __('文章', 'article'), '', 26)->add_purview(array('article_setting'));
+        $menus[] = ecjia_admin::make_admin_menu('article', __('文章设置', 'article'), RC_Uri::url('setting/shop_config/init', array('code' => 'article')), 27)->add_purview('article_setting')->add_icon('fontello-icon-gift');
+
+        return $menus;
+    }
+
+    public static function add_admin_setting_command($factories)
+    {
+        $factories['article'] = 'Ecjia\App\Article\SettingComponents\ArticleSetting';
+
+        return $factories;
+    }
 }
 
-RC_Hook::add_action('admin_dashboard_left', array('article_hooks', 'widget_admin_dashboard_articlestats'), 21);
+RC_Hook::add_action('admin_dashboard_left', array('article_admin_hooks', 'widget_admin_dashboard_articlestats'), 21);
+RC_Hook::add_action( 'append_admin_setting_group', array('article_admin_hooks', 'append_admin_setting_group') );
+RC_Hook::add_action('ecjia_setting_component_filter', array('article_admin_hooks', 'add_admin_setting_command'));
+
 // end

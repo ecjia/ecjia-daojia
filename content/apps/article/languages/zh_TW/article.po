@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App article 1.27.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-13 13:46+0800\n"
-"PO-Revision-Date: 2019-03-13 13:55+0800\n"
+"POT-Creation-Date: 2019-04-03 15:07+0800\n"
+"PO-Revision-Date: 2019-04-04 11:07+0800\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 2.2\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: admin.php:78 admin.php:88 admin.php:105 admin.php:165 admin.php:415
@@ -760,7 +760,7 @@ msgstr "系統信息"
 
 #: apis/article_admin_purview_api.class.php:57
 msgid "文章更新"
-msgstr "系統信息"
+msgstr "文章更新"
 
 #: apis/article_admin_purview_api.class.php:58
 msgid "文章删除"
@@ -814,7 +814,8 @@ msgstr "商家公告管理"
 msgid "参数无效"
 msgstr "參數無效"
 
-#: apis/article_merchant_menu_api.class.php:55 configs/package.php:55
+#: apis/article_merchant_menu_api.class.php:55
+#: classes/hooks/admin_article.class.php:106 configs/package.php:55
 msgid "文章"
 msgstr "文章"
 
@@ -854,25 +855,53 @@ msgstr "撤銷"
 msgid "更新文章评论状态"
 msgstr "更新文章評論狀態"
 
-#: classes/StoreCleanHandlers/StoreArticleClear.php:49
+#: classes/SettingComponents/ArticleSetting.php:54
+msgid "文章标题的长度"
+msgstr "文章標題的長度"
+
+#: classes/SettingComponents/ArticleSetting.php:61
+msgid "文章分类页列表的数量"
+msgstr "文章分類頁列表的數量"
+
+#: classes/SettingComponents/ArticleSetting.php:68
+msgid "用户帮助是否打开"
+msgstr "用戶幫助是否打開"
+
+#: classes/SettingComponents/ArticleSetting.php:71
+msgid "关闭"
+msgstr "關閉"
+
+#: classes/SettingComponents/ArticleSetting.php:72
+msgid "打开"
+msgstr "打開"
+
+#: classes/StoreCleanHandlers/StoreArticleClear.php:36
+msgid "店铺文章"
+msgstr "店鋪文章"
+
+#: classes/StoreCleanHandlers/StoreArticleClear.php:50
 msgid "总共有<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>篇文章"
 msgstr "總共有<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>篇文章"
 
-#: classes/StoreCleanHandlers/StoreArticleClear.php:50
+#: classes/StoreCleanHandlers/StoreArticleClear.php:51
 msgid "查看全部>>>"
 msgstr "查看全部>>>"
 
-#: classes/StoreCleanHandlers/StoreArticleClear.php:120
+#: classes/StoreCleanHandlers/StoreArticleClear.php:121
 msgid "店铺名是%s"
 msgstr "店鋪名是%s"
 
-#: classes/StoreCleanHandlers/StoreArticleClear.php:120
+#: classes/StoreCleanHandlers/StoreArticleClear.php:121
 msgid "店铺ID是%s"
 msgstr "店鋪ID是%s"
 
 #: classes/hooks/admin_article.class.php:58
 msgid "文章投稿"
 msgstr "句子帖子"
+
+#: classes/hooks/admin_article.class.php:107
+msgid "文章设置"
+msgstr "文章设置"
 
 #: configs/jslang.php:57
 msgid "请选择需要转移的文章"
@@ -1019,7 +1048,7 @@ msgstr "通過文章評論，評論內容為：%s，文章標題為：%s"
 
 #: merchant.php:938
 msgid "驳回文章评论，评论内容为：%s，文章标题为：%s"
-msgstr "通過文章評論，評論內容為：%s，文章標題為：%s"
+msgstr "驳回文章评论，评论内容为：%s，文章标题为：%s"
 
 #: merchant.php:942
 msgid "设为垃圾评论，评论内容为：%s，文章标题为：%s"
