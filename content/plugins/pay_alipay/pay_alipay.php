@@ -46,12 +46,13 @@
 //
 /*
 Plugin Name: 支付宝
-Plugin URI: http://www.ecjia.com/plugins/ecjia.alipay/
+Plugin URI: http://www.ecjia.com/plugins/ecjia.pay_alipay/
 Description: 支付宝网站(www.alipay.com) 是国内先进的网上支付平台。<br/>支付宝收款接口：在线即可开通，<font color="red"><b>零预付，免年费</b></font>，单笔阶梯费率，无流量限制。<br/><a href="https://b.alipay.com/signing/productSet.htm" target="_blank"><font color="red">立即在线申请</font></a>
 Author: ECJIA TEAM
-Version: 2.25.0
+Version: 2.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: payment
+Text Domain: pay_alipay
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 
@@ -75,6 +76,7 @@ class plugin_pay_alipay {
 }
 
 Ecjia_PluginManager::extend('pay_alipay', function() {
+    RC_Locale::loadPluginTextdomain('pay_alipay');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'pay_alipay.class.php';
     return new pay_alipay();
 });

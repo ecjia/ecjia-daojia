@@ -75,18 +75,6 @@ class pay_alipay extends PaymentAbstract implements CallbackPayment
         return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php', $key, $default);
     }
     
-    /**
-     * 加载语言包
-     *
-     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
-     */
-    public function loadLanguage($key = null, $default = null)
-    {
-        $locale = RC_Config::get('system.locale');
-    
-        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
-    }
-    
     
     public function handleApp() {
         
@@ -122,7 +110,7 @@ class pay_alipay extends PaymentAbstract implements CallbackPayment
         if ($this->is_mobile) {
             $req_id = date('Ymdhis');
             
-            $pay_parameter['subject']       = ecjia::config('shop_name') . '的订单：' . $this->order_info['order_sn'];
+            $pay_parameter['subject']       = sprintf(__('%s的订单：%s', 'pay_alipay'), ecjia::config('shop_name'), $this->order_info['order_sn']);
             $pay_parameter['partner']       = $this->config['alipay_partner'];
             $pay_parameter['order_sn']      = $this->order_info['order_sn'];
             $pay_parameter['order_logid']   = $this->order_info['log_id'];
@@ -300,11 +288,11 @@ class pay_alipay extends PaymentAbstract implements CallbackPayment
                         return 'SUCCESS';
                     }
                     else {
-                        return new ecjia_error('pay_fail', '支付宝支付失败', 'FAIL');
+                        return new ecjia_error('pay_fail', __('支付宝支付失败', 'pay_alipay'), 'FAIL');
                     }
                 
                 } else {
-                    return new ecjia_error('notify_data_fail', '通知数据获取失败', 'FAIL');
+                    return new ecjia_error('notify_data_fail', __('通知数据获取失败', 'pay_alipay'), 'FAIL');
                 }
                 
                 
@@ -323,11 +311,11 @@ class pay_alipay extends PaymentAbstract implements CallbackPayment
                     return 'SUCCESS';
                 }
                 else {
-                    return new ecjia_error('pay_fail', '支付宝交易失败', 'FAIL');
+                    return new ecjia_error('pay_fail', __('支付宝交易失败', 'pay_alipay'), 'FAIL');
                 }
             } 
         } else {
-            return new ecjia_error('sign_verify_data_fail', '签名验证失败', 'FAIL');
+            return new ecjia_error('sign_verify_data_fail', __('签名验证失败', 'pay_alipay'), 'FAIL');
         }
     }
     
@@ -349,7 +337,7 @@ class pay_alipay extends PaymentAbstract implements CallbackPayment
             $alipay_notify = new alipay_notify_web($alipay_config);
             $result_status = $_GET['trade_status']; // TRADE_FINISHED, TRADE_SUCCESS 是WEB支付时返回的GET参数
         } else {
-            return new ecjia_error('pay_cancel', '支付宝交易取消', '支付取消');
+            return new ecjia_error('pay_cancel', __('支付宝交易取消', 'pay_alipay'), __('支付取消', 'pay_alipay'));
         }
         
         $verify_result = $alipay_notify->verify_return();
@@ -358,10 +346,10 @@ class pay_alipay extends PaymentAbstract implements CallbackPayment
                 $this->parseOrderTradeNo($_GET['out_trade_no']);
                 return true;
             } else {
-                return new ecjia_error('pay_fail', '支付宝交易失败', '支付交易失败');
+                return new ecjia_error('pay_fail', __('支付宝交易失败', 'pay_alipay'), __('支付交易失败', 'pay_alipay'));
             }
         } else {
-            return new ecjia_error('sign_verify_data_fail', '签名验证失败', '签名验证失败');
+            return new ecjia_error('sign_verify_data_fail', __('签名验证失败', 'pay_alipay'), __('签名验证失败', 'pay_alipay'));
         }
     }
 

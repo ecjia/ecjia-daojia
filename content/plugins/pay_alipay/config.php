@@ -51,13 +51,33 @@ return array(
     'is_online' 	=> '1',							/* 是否支持在线支付 */
     
     'forms' => array(
-        array('name' => 'display_name',             'type' => 'text',       'value' => '支付宝'),
+        array('name' => 'display_name',             'type' => 'text',       'value' => __('支付宝', 'pay_alipay')),
         array('name' => 'alipay_account',           'type' => 'text',       'value' => ''),
         array('name' => 'alipay_key',               'type' => 'text',       'value' => ''),
         array('name' => 'alipay_partner',           'type' => 'text',       'value' => ''),
         array('name' => 'alipay_pay_method',        'type' => 'select',     'value' => ''),
         array('name' => 'private_key',		        'type' => 'textarea',   'value' => ''),
         array('name' => 'private_key_pkcs8',		'type' => 'textarea',   'value' => ''),
+    ),
+
+    'dynamic_option' => array(
+        'display_name'              => __('显示名称', 'pay_alipay'),
+        'alipay_account' 			=> __('支付宝帐户', 'pay_alipay'),
+        'alipay_key' 				=> __('交易安全校验码', 'pay_alipay'),
+        'alipay_partner' 			=> __('合作者身份ID', 'pay_alipay'),
+        'pay_button' 				=> __('立即使用支付宝支付', 'pay_alipay'),
+
+        'alipay_pay_method' 	    => __('选择接口类型', 'pay_alipay'),
+        'alipay_pay_method_desc' 	=> __('请选择您最后一次跟支付宝签订的协议里面说明的接口类型', 'pay_alipay'),
+        'alipay_pay_method_range' => array(
+            2 => __('使用即时到帐交易接口', 'pay_alipay')
+        ),
+
+
+        'private_key'               => __('RSA（私钥）', 'pay_alipay'),
+        'private_key_desc'          => __('RSA私钥密钥是给APP使用的，APP上配置支付宝支付需要配置此项。H5用户忽略此项。', 'pay_alipay'),
+        'private_key_pkcs8'         => __('RSA（PKCS8私钥）', 'pay_alipay'),
+        'private_key_pkcs8_desc'    => __('RSA私钥密钥是给APP使用的，APP上配置支付宝支付需要配置此项。H5用户忽略此项。', 'pay_alipay'),
     ),
 );
 

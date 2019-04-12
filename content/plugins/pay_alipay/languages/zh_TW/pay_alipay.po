@@ -1,0 +1,123 @@
+# Copyright (C) 2019 支付宝
+# This file is distributed under the same license as the 支付宝 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 支付宝 2.30.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-03-29 01:42:03+00:00\n"
+"PO-Revision-Date: 2019-03-29 11:35+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. Plugin Name of the plugin/theme
+#: config.php:54
+msgid "支付宝"
+msgstr "支付寶"
+
+#: config.php:64
+msgid "显示名称"
+msgstr "顯示名稱"
+
+#: config.php:65
+msgid "支付宝帐户"
+msgstr "支付寶帳戶"
+
+#: config.php:66
+msgid "交易安全校验码"
+msgstr "交易安全校驗碼"
+
+#: config.php:67
+msgid "合作者身份ID"
+msgstr "合作者身份ID"
+
+#: config.php:68
+msgid "立即使用支付宝支付"
+msgstr "立即使用支付寶支付"
+
+#: config.php:70
+msgid "选择接口类型"
+msgstr "選擇接口類型"
+
+#: config.php:71
+msgid "请选择您最后一次跟支付宝签订的协议里面说明的接口类型"
+msgstr "請選擇您最後一次跟支付寶簽訂的協議裡面說明的接口類型"
+
+#: config.php:73
+msgid "使用即时到帐交易接口"
+msgstr "使用即時到帳交易接口"
+
+#: config.php:77
+msgid "RSA（私钥）"
+msgstr "RSA（私鑰）"
+
+#: config.php:78 config.php:80
+msgid ""
+"RSA私钥密钥是给APP使用的，APP上配置支付宝支付需要配置此项。H5用户忽"
+"略此项。"
+msgstr ""
+"RSA私鑰密鑰是給APP使用的，APP上配置支付寶支付需要配置此項。 H5用戶忽"
+"略此項。"
+
+#: config.php:79
+msgid "RSA（PKCS8私钥）"
+msgstr "RSA（PKCS8私鑰）"
+
+#: pay_alipay.class.php:291
+msgid "支付宝支付失败"
+msgstr "支付寶支付失敗"
+
+#: pay_alipay.class.php:295
+msgid "通知数据获取失败"
+msgstr "通知數據獲取失敗"
+
+#: pay_alipay.class.php:314 pay_alipay.class.php:349
+msgid "支付宝交易失败"
+msgstr "支付寶交易失敗"
+
+#: pay_alipay.class.php:318 pay_alipay.class.php:352
+msgid "签名验证失败"
+msgstr "簽名驗證失敗"
+
+#: pay_alipay.class.php:340
+msgid "支付宝交易取消"
+msgstr "支付寶交易取消"
+
+#: pay_alipay.class.php:340
+msgid "支付取消"
+msgstr "支付取消"
+
+#: pay_alipay.class.php:349
+msgid "支付交易失败"
+msgstr "支付交易失敗"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.pay_alipay/"
+msgstr "http://www.ecjia.com/plugins/ecjia.pay_alipay/"
+
+#. Description of the plugin/theme
+msgid ""
+"支付宝网站(www.alipay.com) 是国内先进的网上支付平台。<br/>支付宝收款"
+"接口：在线即可开通，<font color=\"red\"><b>零预付，免年费</b></"
+"font>，单笔阶梯费率，无流量限制。<br/><a href=\"https://b.alipay."
+"com/signing/productSet.htm\" target=\"_blank\"><font color=\"red\">"
+"立即在线申请</font></a>"
+msgstr ""
+"支付寶網站(www.alipay.com) 是國內先進的網上支付平台。 <br/>支付寶收"
+"款接口：在線即可開通，<font color=\"red\"><b>零預付，免年費</b></"
+"font>，單筆階梯費率，無流量限制。 <br/><a href=\"https://b.alipay."
+"com/signing/productSet.htm\" target=\"_blank\"><font color=\"red\">"
+"立即在線申請</font></a>"
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr "ECJIA TEAM"
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr "http://www.ecjia.com/"
