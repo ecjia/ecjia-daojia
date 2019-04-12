@@ -119,8 +119,8 @@ class GoodsPriceSetting extends ComponentAbstract
                 'cfg_name'  => __('商品SKU价格模式', 'goods'),
                 'cfg_desc'  => __('选择第一种方式的时候，设置促销活动会无效，比如促销价格等；会默认按商品价格来计算促销活动', 'goods'),
                 'cfg_range' => array(
-                    'sku'       => __('SKU价格（属性货品价格）', 'goods'),
-                    'goods_sku' => __('SKU价格（商品价格 + 属性货品价格）', 'goods'),
+                    'sku'       => __('货品SKU价格', 'goods'),
+                    'goods_sku' => __('商品价格 + 属性价格', 'goods'),
                 ),
             ],
 

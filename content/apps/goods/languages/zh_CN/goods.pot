@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App goods package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App goods 1.28.0\n"
+"Project-Id-Version: Ecjia App goods 1.30.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-04 05:54:45+00:00\n"
+"POT-Creation-Date: 2019-04-12 04:02:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,407 +13,431 @@ msgstr ""
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 
 #: admin.php:149 admin.php:150 admin.php:219 admin.php:324 admin.php:343
-#: admin.php:347 admin.php:1382 admin.php:1428 admin.php:1597 admin.php:1727
-#: admin.php:1739 admin.php:1797 admin.php:1830 admin.php:1959 admin.php:1980
-#: admin.php:2028 admin.php:2048 admin_gallery.php:94 admin_gallery.php:150
+#: admin.php:347 admin.php:1394 admin.php:1440 admin.php:1609 admin.php:1739
+#: admin.php:1751 admin.php:1809 admin.php:1842 admin.php:1976 admin.php:1997
+#: admin.php:2045 admin.php:2065 admin_gallery.php:94 admin_gallery.php:150
 #: apis/goods_admin_menu_api.class.php:56
 #: apis/goods_merchant_menu_api.class.php:57 functions/global.func.php:805
-#: functions/merchant_goods.func.php:295 merchant.php:156 merchant.php:159
-#: merchant.php:225 merchant.php:320 merchant.php:341 merchant.php:342
-#: merchant.php:687 merchant.php:691 merchant.php:1107 merchant.php:1653
-#: merchant.php:1695 merchant.php:1699 merchant.php:1860 merchant.php:1990
-#: merchant.php:2005 merchant.php:2080 merchant.php:2116 merchant.php:2263
-#: merchant.php:2288 merchant.php:2345 merchant.php:2367 mh_gallery.php:101
-#: mh_gallery.php:163
+#: functions/merchant_goods.func.php:295 merchant.php:163 merchant.php:229
+#: merchant.php:324 merchant.php:345 merchant.php:346 merchant.php:691
+#: merchant.php:695 merchant.php:1111 merchant.php:1657 merchant.php:1699
+#: merchant.php:1703 merchant.php:1717 merchant.php:1892 merchant.php:2133
+#: merchant.php:2267 merchant.php:2282 merchant.php:2357 merchant.php:2393
+#: merchant.php:2535 merchant.php:2560 merchant.php:2617 merchant.php:2639
+#: mh_gallery.php:103 mh_gallery.php:165 mh_gallery_product.php:173
 msgid "商品列表"
 msgstr ""
 
-#: admin.php:153 admin.php:208 admin.php:309 admin.php:351 admin.php:1801
-#: admin.php:1963 admin.php:2032 admin_brand.php:82 admin_brand.php:109
+#: admin.php:153 admin.php:208 admin.php:309 admin.php:351 admin.php:1813
+#: admin.php:1980 admin.php:2049 admin_brand.php:82 admin_brand.php:109
 #: admin_brand.php:190 admin_category.php:94 admin_category.php:526
-#: admin_gallery.php:99 merchant.php:162 merchant.php:214 merchant.php:306
-#: merchant.php:346 merchant.php:695 merchant.php:2083 merchant.php:2266
-#: merchant.php:2348 mh_attribute.php:85 mh_attribute.php:129
+#: admin_gallery.php:99 merchant.php:166 merchant.php:218 merchant.php:310
+#: merchant.php:350 merchant.php:699 merchant.php:2360 merchant.php:2538
+#: merchant.php:2620 mh_attribute.php:85 mh_attribute.php:129
 #: mh_attribute.php:233 mh_category.php:104 mh_category.php:307
-#: mh_gallery.php:106 mh_spec.php:85 mh_spec.php:116 mh_spec.php:175
+#: mh_gallery.php:108 mh_gallery_product.php:112 mh_spec.php:85 mh_spec.php:116
+#: mh_spec.php:175
 msgid "概述"
 msgstr ""
 
-#: admin.php:154 merchant.php:163
+#: admin.php:154 merchant.php:167
 msgid "欢迎访问ECJia智能后台商品列表页面，系统中所有的商品都会显示在此列表中。"
 msgstr ""
 
-#: admin.php:158 admin.php:213 admin.php:314 admin.php:356 admin.php:1806
-#: admin.php:1968 admin.php:2037 admin_brand.php:87 admin_brand.php:113
+#: admin.php:158 admin.php:213 admin.php:314 admin.php:356 admin.php:1818
+#: admin.php:1985 admin.php:2054 admin_brand.php:87 admin_brand.php:113
 #: admin_brand.php:195 admin_category.php:99 admin_category.php:531
-#: admin_gallery.php:105 merchant.php:167 merchant.php:219 merchant.php:311
-#: merchant.php:351 merchant.php:700 merchant.php:2088 merchant.php:2271
-#: merchant.php:2353 mh_attribute.php:90 mh_attribute.php:134
+#: admin_gallery.php:105 merchant.php:171 merchant.php:223 merchant.php:315
+#: merchant.php:355 merchant.php:704 merchant.php:2365 merchant.php:2543
+#: merchant.php:2625 mh_attribute.php:90 mh_attribute.php:134
 #: mh_attribute.php:238 mh_category.php:109 mh_category.php:312
-#: mh_gallery.php:112 mh_spec.php:90 mh_spec.php:121 mh_spec.php:180
+#: mh_gallery.php:114 mh_gallery_product.php:118 mh_spec.php:90 mh_spec.php:121
+#: mh_spec.php:180
 msgid "更多信息："
 msgstr ""
 
-#: admin.php:159 merchant.php:168
+#: admin.php:159 merchant.php:172
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表\" target="
 "\"_blank\">关于商品列表帮助文档</a>"
 msgstr ""
 
-#: admin.php:200 admin.php:223 admin.php:363 admin.php:749 merchant.php:206
-#: merchant.php:230 merchant.php:708 merchant.php:1111 merchant.php:1117
-#: merchant.php:1146 merchant.php:1152 merchant.php:1664 merchant.php:2095
-#: merchant.php:2278 merchant.php:2359 mh_gallery.php:119
+#: admin.php:200 admin.php:223 admin.php:363 admin.php:761 merchant.php:210
+#: merchant.php:234 merchant.php:712 merchant.php:1115 merchant.php:1121
+#: merchant.php:1150 merchant.php:1156 merchant.php:1668 merchant.php:1730
+#: merchant.php:1905 merchant.php:1948 merchant.php:2372 merchant.php:2550
+#: merchant.php:2631 mh_gallery.php:121 mh_gallery_product.php:126
 msgid "未检测到此商品"
 msgstr ""
 
-#: admin.php:200 admin.php:223 admin.php:363 admin.php:1733
+#: admin.php:200 admin.php:223 admin.php:363 admin.php:1745
 #: admin_category.php:399 admin_category.php:408 admin_category.php:414
-#: merchant.php:206 mh_category.php:194 mh_category.php:250 mh_category.php:258
-#: mh_gallery.php:119
+#: merchant.php:210 mh_category.php:194 mh_category.php:250 mh_category.php:258
+#: mh_gallery.php:121 mh_gallery_product.php:126
 msgid "返回上一页"
 msgstr ""
 
-#: admin.php:205 admin.php:217 merchant.php:211 merchant.php:223
+#: admin.php:205 admin.php:217 merchant.php:215 merchant.php:227
 msgid "商品预览"
 msgstr ""
 
-#: admin.php:209 merchant.php:215
+#: admin.php:209 merchant.php:219
 msgid ""
 "欢迎访问ECJia智能后台商品预览页面，在此页面可以预览有关该商品的所有详细信息。"
 msgstr ""
 
-#: admin.php:214 merchant.php:220
+#: admin.php:214 merchant.php:224
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E9.A2.84.E8."
 "A7.88.E5.95.86.E5.93.81\" target=\"_blank\">关于商品预览帮助文档</a>"
 msgstr ""
 
-#: admin.php:218 merchant.php:224
+#: admin.php:218 merchant.php:228 merchant.php:1718 merchant.php:1741
+#: merchant.php:1893 merchant.php:1913 mh_gallery_product.php:95
 msgid "商品编辑"
 msgstr ""
 
 #: admin.php:306 admin.php:320 apis/goods_admin_menu_api.class.php:57
-#: apis/goods_merchant_menu_api.class.php:58 merchant.php:303 merchant.php:318
+#: apis/goods_merchant_menu_api.class.php:58 merchant.php:307 merchant.php:322
 msgid "商品回收站"
 msgstr ""
 
-#: admin.php:310 merchant.php:307
+#: admin.php:310 merchant.php:311
 msgid ""
 "欢迎访问ECJia智能后台商品回收站页面，在商品列表中进行删除的商品会放入此回收站"
 "中，在该页面可以对商品进行彻底删除或者还原操作。"
 msgstr ""
 
-#: admin.php:315 merchant.php:312
+#: admin.php:315 merchant.php:316
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品回收站\" target="
 "\"_blank\">关于商品回收站帮助文档</a>"
 msgstr ""
 
-#: admin.php:344 admin.php:346 merchant.php:688 merchant.php:690
-#: merchant.php:1121 merchant.php:1124
+#: admin.php:344 admin.php:346 merchant.php:692 merchant.php:694
+#: merchant.php:1125 merchant.php:1128
 msgid "编辑商品"
 msgstr ""
 
-#: admin.php:352 merchant.php:696
+#: admin.php:352 merchant.php:700
 msgid "欢迎访问ECJia智能后台编辑商品页面，可以在此对相应的商品进行编辑。"
 msgstr ""
 
-#: admin.php:357 merchant.php:701
+#: admin.php:357 merchant.php:705
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E5.95.86."
 "E5.93.81.E7.BC.96.E8.BE.91\" target=\"_blank\">关于编辑商品帮助文档</a>"
 msgstr ""
 
-#: admin.php:493 admin.php:765 admin.php:1081 admin.php:1087 admin.php:1118
-#: admin.php:1124 merchant.php:446 merchant.php:855 merchant.php:1342
-#: merchant.php:1348 merchant.php:1381 merchant.php:1387
+#: admin.php:418 merchant.php:769
+msgid "进行中"
+msgstr ""
+
+#: admin.php:421 merchant.php:772
+msgid "即将开始"
+msgstr ""
+
+#: admin.php:424 merchant.php:775
+msgid "已结束"
+msgstr ""
+
+#: admin.php:505 admin.php:777 admin.php:1093 admin.php:1099 admin.php:1130
+#: admin.php:1136 merchant.php:450 merchant.php:859 merchant.php:1346
+#: merchant.php:1352 merchant.php:1385 merchant.php:1391 merchant.php:1767
 msgid "您输入的货号已存在，请换一个"
 msgstr ""
 
-#: admin.php:575 modules/admin/goods/add_module.class.php:75
+#: admin.php:587 modules/admin/goods/add_module.class.php:75
 #: modules/admin/goods/update_module.class.php:80
 msgid "请选择商品分类"
 msgstr ""
 
-#: admin.php:583 admin.php:1059 merchant.php:549 merchant.php:947
-#: merchant.php:1321 modules/admin/goods/add_module.class.php:67
+#: admin.php:595 admin.php:1071 merchant.php:553 merchant.php:951
+#: merchant.php:1325 modules/admin/goods/add_module.class.php:67
 #: modules/admin/goods/update_module.class.php:72
 msgid "请输入商品名称"
 msgstr ""
 
-#: admin.php:587
+#: admin.php:599
 msgid "促销价不能大于商品价格："
 msgstr ""
 
-#: admin.php:643 merchant.php:617 merchant.php:1009
+#: admin.php:655 merchant.php:621 merchant.php:1013
 msgid "优惠数量重复！"
 msgstr ""
 
-#: admin.php:700 admin.php:1780 merchant.php:653
+#: admin.php:712 admin.php:1792 merchant.php:657
 msgid "添加虚拟卡卡密"
 msgstr ""
 
-#: admin.php:723 admin.php:1788 merchant.php:1078 merchant.php:1161
+#: admin.php:735 admin.php:1800 merchant.php:1082 merchant.php:1165
 msgid "编辑商品成功"
 msgstr ""
 
-#: admin.php:738
+#: admin.php:750
 msgid "请选择导入的商品"
 msgstr ""
 
-#: admin.php:741
+#: admin.php:753
 msgid "请填写商品名称"
 msgstr ""
 
-#: admin.php:744
+#: admin.php:756
 msgid "请填写商品价格"
 msgstr ""
 
-#: admin.php:826
+#: admin.php:838
 msgid "导入成功"
 msgstr ""
 
-#: admin.php:882 merchant.php:1099
+#: admin.php:894 merchant.php:1103
 msgid "成功切换审核状态"
 msgstr ""
 
-#: admin.php:892 merchant.php:1172
+#: admin.php:904 merchant.php:1176
 msgid "请选择操作"
 msgstr ""
 
-#: admin.php:1031 merchant.php:1292
+#: admin.php:1043 merchant.php:1296
 msgid "批量操作成功"
 msgstr ""
 
-#: admin.php:1057 admin.php:1103 admin.php:1164 admin.php:1182 admin.php:1216
-#: admin.php:1673 merchant.php:1319 merchant.php:1366 merchant.php:1427
-#: merchant.php:1445 merchant.php:1481 merchant.php:1935
+#: admin.php:1069 admin.php:1115 admin.php:1176 admin.php:1194 admin.php:1228
+#: admin.php:1685 merchant.php:1323 merchant.php:1370 merchant.php:1431
+#: merchant.php:1449 merchant.php:1485 merchant.php:2212
 msgid "修改成功"
 msgstr ""
 
-#: admin.php:1074 configs/jslang.php:103 merchant.php:1335
+#: admin.php:1086 configs/jslang.php:103 merchant.php:1339
 msgid "请输入商品货号"
 msgstr ""
 
-#: admin.php:1146 merchant.php:1408
+#: admin.php:1158 merchant.php:1412
 msgid "您输入了一个非法的市场价格。"
 msgstr ""
 
-#: admin.php:1199 merchant.php:1463
+#: admin.php:1211 merchant.php:1467
 msgid "商品库存数量错误"
 msgstr ""
 
-#: admin.php:1246 merchant.php:1513
+#: admin.php:1258 merchant.php:1517
 msgid "已成功切换上架状态"
 msgstr ""
 
-#: admin.php:1263 merchant.php:1530
+#: admin.php:1275 merchant.php:1534
 msgid "已成功切换精品推荐状态"
 msgstr ""
 
-#: admin.php:1280 merchant.php:1547
+#: admin.php:1292 merchant.php:1551
 msgid "已成功切换新品推荐状态"
 msgstr ""
 
-#: admin.php:1297 merchant.php:1564
+#: admin.php:1309 merchant.php:1568
 msgid "已成功切换热销推荐状态"
 msgstr ""
 
-#: admin.php:1324 merchant.php:1593
+#: admin.php:1336 merchant.php:1597
 msgid "放入回收站成功"
 msgstr ""
 
-#: admin.php:1355 merchant.php:1625
+#: admin.php:1367 merchant.php:1629
 msgid "还原商品成功"
 msgstr ""
 
-#: admin.php:1373 merchant.php:1644
+#: admin.php:1385 merchant.php:1648
 msgid "删除商品成功"
 msgstr ""
 
-#: admin.php:1383 admin.php:1596 admin.php:1684 merchant.php:1859
-#: merchant.php:1947
+#: admin.php:1395 admin.php:1608 admin.php:1696 merchant.php:2132
+#: merchant.php:2224
 msgid "货品列表"
 msgstr ""
 
-#: admin.php:1387 admin.php:1414 merchant.php:230 merchant.php:708
-#: merchant.php:1111 merchant.php:1117 merchant.php:1146 merchant.php:1152
-#: merchant.php:1664 merchant.php:1681 merchant.php:1996 merchant.php:2095
-#: merchant.php:2278 merchant.php:2359
+#: admin.php:1399 admin.php:1426 merchant.php:234 merchant.php:712
+#: merchant.php:1115 merchant.php:1121 merchant.php:1150 merchant.php:1156
+#: merchant.php:1668 merchant.php:1685 merchant.php:1730 merchant.php:1905
+#: merchant.php:1910 merchant.php:1948 merchant.php:1953 merchant.php:2273
+#: merchant.php:2372 merchant.php:2550 merchant.php:2631
 msgid "返回商品列表"
 msgstr ""
 
-#: admin.php:1388
+#: admin.php:1400
 msgid "缺少参数，请重试"
 msgstr ""
 
-#: admin.php:1413 apis/goods_goods_info_api.class.php:245
-#: functions/admin_goods.func.php:730 functions/global.func.php:888
-#: functions/global.func.php:902 functions/unuse.func.php:402 merchant.php:1680
-#: mh_attribute.php:82 mh_attribute.php:104 mh_attribute.php:124
-#: mh_attribute.php:146 mh_attribute.php:228
+#: admin.php:1425 apis/goods_goods_info_api.class.php:245
+#: classes/GoodsFunction.php:220 functions/admin_goods.func.php:730
+#: functions/global.func.php:888 functions/global.func.php:902
+#: functions/unuse.func.php:402 merchant.php:1684 mh_attribute.php:82
+#: mh_attribute.php:104 mh_attribute.php:124 mh_attribute.php:146
+#: mh_attribute.php:228
 msgid "商品属性"
 msgstr ""
 
-#: admin.php:1415 merchant.php:1682
+#: admin.php:1427 merchant.php:1686
 msgid "请先添加库存属性，再到货品管理中设置货品库存"
 msgstr ""
 
-#: admin.php:1422 admin.php:1571 merchant.php:1689 merchant.php:1834
+#: admin.php:1434 admin.php:1583 merchant.php:1693 merchant.php:1744
+#: merchant.php:1916 merchant.php:2107 mh_gallery_product.php:128
 msgid "商品名称：%s"
 msgstr ""
 
-#: admin.php:1423 admin.php:1572 merchant.php:1690 merchant.php:1835
+#: admin.php:1435 admin.php:1584 merchant.php:1694 merchant.php:2108
 msgid "货号：%s"
 msgstr ""
 
-#: admin.php:1434
+#: admin.php:1446
 msgid "添加货品"
 msgstr ""
 
-#: admin.php:1436 merchant.php:1654
+#: admin.php:1448
 msgid "编辑货品"
 msgstr ""
 
-#: admin.php:1457 admin.php:1469 merchant.php:1719 merchant.php:1731
+#: admin.php:1469 admin.php:1481 merchant.php:1992 merchant.php:2004
 msgid "找不到指定的商品"
 msgstr ""
 
-#: admin.php:1534 configs/jslang.php:126 merchant.php:1796
+#: admin.php:1546 configs/jslang.php:126 merchant.php:2069
 msgid "添加商品成功"
 msgstr ""
 
-#: admin.php:1546 merchant.php:1808
+#: admin.php:1558 merchant.php:2081
 msgid "保存货品成功"
 msgstr ""
 
-#: admin.php:1558 merchant.php:1821
+#: admin.php:1570 merchant.php:2094
 msgid "货品id为空"
 msgstr ""
 
-#: admin.php:1567 admin.php:1577 merchant.php:1830 merchant.php:1840
+#: admin.php:1579 admin.php:1589 merchant.php:2103 merchant.php:2113
 msgid "错误"
 msgstr ""
 
-#: admin.php:1569 merchant.php:1832
+#: admin.php:1581 merchant.php:2105
 msgid "（商品货号：%s）"
 msgstr ""
 
-#: admin.php:1570 merchant.php:1833
+#: admin.php:1582 merchant.php:2106
 msgid "（商品价格：%d）"
 msgstr ""
 
-#: admin.php:1627 merchant.php:1890
+#: admin.php:1639 merchant.php:2167
 msgid "删除成功！"
 msgstr ""
 
-#: admin.php:1642 merchant.php:1904
+#: admin.php:1654 merchant.php:2181
 msgid "货品货号重复"
 msgstr ""
 
-#: admin.php:1650 merchant.php:1912
+#: admin.php:1662 merchant.php:2189
 msgid "货品价格修改成功！"
 msgstr ""
 
-#: admin.php:1713 merchant.php:1976
+#: admin.php:1725 merchant.php:2253
 msgid "货品批量删除成功"
 msgstr ""
 
-#: admin.php:1715 merchant.php:1978
+#: admin.php:1727 merchant.php:2255
 msgid "未找到指定货品"
 msgstr ""
 
-#: admin.php:1718 merchant.php:1981
+#: admin.php:1730 merchant.php:2258
 msgid "无此操作"
 msgstr ""
 
-#: admin.php:1728 admin.php:1740 merchant.php:2006 merchant.php:2015
+#: admin.php:1740 admin.php:1752 merchant.php:2283 merchant.php:2292
 msgid "编辑商品描述"
 msgstr ""
 
-#: admin.php:1733 merchant.php:1996 merchant.php:2038
+#: admin.php:1745 merchant.php:2273 merchant.php:2315
 msgid "找不到ID为 %s 的商品！"
 msgstr ""
 
-#: admin.php:1765
+#: admin.php:1777
 msgid "找不到ID为%s的商品！"
 msgstr ""
 
-#: admin.php:1798 admin.php:1834 merchant.php:2120 merchant.php:2127
+#: admin.php:1810 admin.php:1846 merchant.php:2397 merchant.php:2404
 msgid "编辑商品属性"
 msgstr ""
 
-#: admin.php:1802 merchant.php:2084
+#: admin.php:1814 merchant.php:2361
 msgid "欢迎访问ECJia智能后台商品属性页面，可以在此对商品的有关属性进行编辑。"
 msgstr ""
 
-#: admin.php:1807 merchant.php:2089
+#: admin.php:1819 merchant.php:2366
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E5.95.86."
 "E5.93.81.E5.B1.9E.E6.80.A7\" target=\"_blank\">关于编辑商品属性帮助文档</a>"
 msgstr ""
 
-#: admin.php:1949 merchant.php:2068 merchant.php:2250
+#: admin.php:1948 merchant.php:2499
+msgid "请先删除关联的货品再修改规格属性"
+msgstr ""
+
+#: admin.php:1966 merchant.php:2345 merchant.php:2522
 msgid "编辑属性成功"
 msgstr ""
 
-#: admin.php:1960 admin.php:1981 merchant.php:2290
+#: admin.php:1977 admin.php:1998 merchant.php:2562
 msgid "编辑关联商品"
 msgstr ""
 
-#: admin.php:1964 merchant.php:2267
+#: admin.php:1981 merchant.php:2539
 msgid "欢迎访问ECJia智能后台关联商品页面，可以在此对相应的商品进行关联操作。"
 msgstr ""
 
-#: admin.php:1969 merchant.php:2272
+#: admin.php:1986 merchant.php:2544
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E5.85.B3."
 "E8.81.94.E5.95.86.E5.93.81\" target=\"_blank\">关于关联商品帮助文档</a>"
 msgstr ""
 
-#: admin.php:2029 admin.php:2033 merchant.php:2349
+#: admin.php:2046 admin.php:2050 merchant.php:2621
 msgid ""
 "欢迎访问ECJia智能后台商品关联文章页面，可以在此对相应的商品进行关联文章操作。"
 msgstr ""
 
-#: admin.php:2038 merchant.php:2354
+#: admin.php:2055 merchant.php:2626
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E5.85.B3."
 "E8.81.94.E6.96.87.E7.AB.A0\" target=\"_blank\">关于商品关联文章帮助文档</a>"
 msgstr ""
 
-#: admin.php:2040 functions/global.func.php:892 functions/global.func.php:906
-#: merchant.php:2369
+#: admin.php:2057 functions/global.func.php:892 functions/global.func.php:906
+#: merchant.php:2641
 msgid "关联文章"
 msgstr ""
 
-#: admin.php:2147 merchant.php:2490
+#: admin.php:2164 merchant.php:2762
 msgid "增加关联商品，被设置的商品名称是%s"
 msgstr ""
 
-#: admin.php:2151 admin.php:2222 admin_gallery.php:259 merchant.php:2498
-#: merchant.php:2586 mh_attribute.php:336 mh_attribute.php:361
-#: mh_gallery.php:281 mh_spec.php:271
+#: admin.php:2168 admin.php:2239 admin_gallery.php:259 merchant.php:1972
+#: merchant.php:2770 merchant.php:2858 mh_attribute.php:336
+#: mh_attribute.php:361 mh_gallery.php:283 mh_gallery_product.php:294
+#: mh_spec.php:271
 msgid "编辑成功"
 msgstr ""
 
-#: admin.php:2234 admin_brand.php:146 admin_brand.php:248 admin_brand.php:315
-#: merchant.php:2601
+#: admin.php:2251 admin_brand.php:146 admin_brand.php:248 admin_brand.php:315
+#: merchant.php:2873
 msgid "品牌 %s 已经存在！"
 msgstr ""
 
-#: admin.php:2246 admin_brand.php:178 merchant.php:2613
+#: admin.php:2263 admin_brand.php:178 merchant.php:2885
 msgid "新品牌添加成功！"
 msgstr ""
 
-#: admin.php:2260 admin_category.php:190 admin_category.php:362
-#: admin_category.php:400 merchant.php:2627 mh_category.php:153
+#: admin.php:2277 admin_category.php:190 admin_category.php:362
+#: admin_category.php:400 merchant.php:2899 mh_category.php:153
 #: mh_category.php:219 mh_category.php:251
 msgid "已存在相同的分类名称！"
 msgstr ""
 
-#: admin.php:2276 admin_category.php:267 merchant.php:2643 mh_category.php:181
+#: admin.php:2293 admin_category.php:267 merchant.php:2915 mh_category.php:181
 msgid "新商品分类添加成功！"
 msgstr ""
 
@@ -483,8 +507,8 @@ msgid "品牌 %s 修改成功！"
 msgstr ""
 
 #: admin_brand.php:385 admin_brand.php:406 admin_gallery.php:239
-#: admin_goods_auto.php:203 mh_attribute.php:291 mh_gallery.php:261
-#: mh_spec.php:249
+#: admin_goods_auto.php:203 mh_attribute.php:291 mh_gallery.php:263
+#: mh_gallery_product.php:274 mh_spec.php:249
 msgid "删除成功"
 msgstr ""
 
@@ -633,8 +657,8 @@ msgstr ""
 #: modules/admin/goods/update_module.class.php:68
 #: modules/admin/goods/updatedesc_module.class.php:67
 #: modules/admin/goods/updateprice_module.class.php:64
-#: modules/goods/desc_module.class.php:62
-#: modules/goods/detail_module.class.php:63
+#: modules/goods/desc_module.class.php:64
+#: modules/goods/detail_module.class.php:66
 #: modules/goods/filter_module.class.php:62
 #: modules/goods/suggestlist_module.class.php:66
 msgid "参数错误"
@@ -644,27 +668,27 @@ msgstr ""
 msgid "操作成功"
 msgstr ""
 
-#: admin_gallery.php:95 admin_gallery.php:96 mh_gallery.php:102
-#: mh_gallery.php:175
+#: admin_gallery.php:95 admin_gallery.php:96 mh_gallery.php:104
+#: mh_gallery.php:177
 msgid "编辑商品相册"
 msgstr ""
 
-#: admin_gallery.php:101 mh_gallery.php:108
+#: admin_gallery.php:101 mh_gallery.php:110 mh_gallery_product.php:114
 msgid ""
 "欢迎访问ECJia智能后台商品相册页面，系统中所有的商品图片都会显示在此页面。"
 msgstr ""
 
-#: admin_gallery.php:106 mh_gallery.php:113
+#: admin_gallery.php:106 mh_gallery.php:115 mh_gallery_product.php:119
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E5.95.86."
 "E5.93.81.E7.9B.B8.E5.86.8C\" target=\"_blank\">关于商品相册帮助文档</a>"
 msgstr ""
 
-#: admin_gallery.php:171 mh_gallery.php:195
+#: admin_gallery.php:171 mh_gallery.php:197 mh_gallery_product.php:207
 msgid "参数丢失"
 msgstr ""
 
-#: admin_gallery.php:284 mh_gallery.php:307
+#: admin_gallery.php:284 mh_gallery.php:309 mh_gallery_product.php:320
 msgid "保存排序成功"
 msgstr ""
 
@@ -706,8 +730,9 @@ msgstr ""
 
 #: apis/goods_admin_menu_api.class.php:54
 #: apis/goods_admin_purview_api.class.php:56
-#: apis/goods_merchant_purview_api.class.php:57 merchant.php:145
-#: mh_attribute.php:71 mh_category.php:80 mh_gallery.php:92 mh_spec.php:70
+#: apis/goods_merchant_purview_api.class.php:57 merchant.php:149
+#: mh_attribute.php:71 mh_category.php:80 mh_gallery.php:94
+#: mh_gallery_product.php:94 mh_spec.php:70
 msgid "商品管理"
 msgstr ""
 
@@ -763,7 +788,7 @@ msgstr ""
 msgid "全部"
 msgstr ""
 
-#: apis/goods_goods_info_api.class.php:159 classes/Helper.php:95
+#: apis/goods_goods_info_api.class.php:159 classes/Helper.php:96
 #: classes/goods.class.php:74 functions/admin_goods.func.php:643
 #: functions/admin_goods.func.php:1344 functions/global.func.php:1889
 #: modules/admin/goods/add_module.class.php:202
@@ -775,7 +800,7 @@ msgstr ""
 msgid "千克"
 msgstr ""
 
-#: apis/goods_goods_info_api.class.php:159 classes/Helper.php:96
+#: apis/goods_goods_info_api.class.php:159 classes/Helper.php:97
 #: classes/goods.class.php:75 functions/admin_goods.func.php:643
 #: functions/admin_goods.func.php:1344 functions/global.func.php:1886
 #: modules/admin/goods/add_module.class.php:203
@@ -792,7 +817,7 @@ msgstr ""
 msgid "商品"
 msgstr ""
 
-#: apis/goods_merchant_menu_api.class.php:61 merchant.php:157
+#: apis/goods_merchant_menu_api.class.php:61 merchant.php:161
 msgid "添加新商品"
 msgstr ""
 
@@ -872,42 +897,54 @@ msgstr ""
 msgid "从列表中选择"
 msgstr ""
 
+#: classes/GoodsSearch/Formats/GoodsApiFormatted.php:100
+#: modules/goods/detail_module.class.php:213
+#: modules/goods/mobilebuygoods_module.class.php:135
+#: modules/home/category_module.class.php:147
+#: modules/seller/list_module.class.php:208
+msgid "已省%s元"
+msgstr ""
+
 #: classes/Helper.php:61
 msgid "分类商品"
 msgstr ""
 
-#: classes/Helper.php:63
-msgid "转移"
+#: classes/Helper.php:62
+msgid "货品"
 msgstr ""
 
 #: classes/Helper.php:64
-msgid "批量上架"
+msgid "转移"
 msgstr ""
 
 #: classes/Helper.php:65
+msgid "批量上架"
+msgstr ""
+
+#: classes/Helper.php:66
 msgid "批量下架"
 msgstr ""
 
-#: classes/Helper.php:77 classes/goods.class.php:57
+#: classes/Helper.php:78 classes/goods.class.php:57
 #: modules/admin/goods/toggle/suggest_module.class.php:78
 msgid "精品"
 msgstr ""
 
-#: classes/Helper.php:78 classes/goods.class.php:58
+#: classes/Helper.php:79 classes/goods.class.php:58
 #: modules/admin/goods/toggle/suggest_module.class.php:81
 msgid "新品"
 msgstr ""
 
-#: classes/Helper.php:79 classes/goods.class.php:59
+#: classes/Helper.php:80 classes/goods.class.php:59
 #: modules/admin/goods/toggle/suggest_module.class.php:84
 msgid "热销"
 msgstr ""
 
-#: classes/Helper.php:80 classes/goods.class.php:60
+#: classes/Helper.php:81 classes/goods.class.php:60
 msgid "特价"
 msgstr ""
 
-#: classes/Helper.php:81 classes/goods.class.php:61
+#: classes/Helper.php:82 classes/goods.class.php:61
 msgid "全部推荐"
 msgstr ""
 
@@ -916,53 +953,62 @@ msgstr ""
 msgid "商品显示设置"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:111
+#: classes/SettingComponents/GoodsDisplaySetting.php:112
 msgid "商品分类页列表的数量"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:118
-msgid "相关商品数量"
+#: classes/SettingComponents/GoodsDisplaySetting.php:113
+msgid "设置商品列表页商品显示数量，如设置10，则列表只能显示10件"
 msgstr ""
 
 #: classes/SettingComponents/GoodsDisplaySetting.php:119
+msgid "相关商品数量"
+msgstr ""
+
+#: classes/SettingComponents/GoodsDisplaySetting.php:120
 msgid "显示多少个购买此商品的人还买过哪些商品"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:125
+#: classes/SettingComponents/GoodsDisplaySetting.php:126
 msgid "关联商品显示数量"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:132
+#: classes/SettingComponents/GoodsDisplaySetting.php:127
+msgid "此设置项，控制用户端商品详情关联商品模块的商品显示数量"
+msgstr ""
+
+#: classes/SettingComponents/GoodsDisplaySetting.php:133
 msgid "商品详情页相册图片数量"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:139
-msgid "推荐商品排序"
+#: classes/SettingComponents/GoodsDisplaySetting.php:134
+msgid "此设置项，控制商品详请页商品相册的显示数量"
 msgstr ""
 
 #: classes/SettingComponents/GoodsDisplaySetting.php:140
+msgid "推荐商品排序"
+msgstr ""
+
+#: classes/SettingComponents/GoodsDisplaySetting.php:141
 msgid "推荐排序适合少量推荐，随机显示大量推荐"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:142
+#: classes/SettingComponents/GoodsDisplaySetting.php:143
 msgid "推荐排序"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:143
+#: classes/SettingComponents/GoodsDisplaySetting.php:144
 msgid "随机显示"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:149
+#: classes/SettingComponents/GoodsDisplaySetting.php:150
 msgid "是否显示货号"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:152
-#: classes/SettingComponents/GoodsDisplaySetting.php:162
-#: classes/SettingComponents/GoodsDisplaySetting.php:172
-#: classes/SettingComponents/GoodsDisplaySetting.php:182
-#: classes/SettingComponents/GoodsDisplaySetting.php:192
-#: classes/SettingComponents/GoodsDisplaySetting.php:202
-msgid "不显示"
+#: classes/SettingComponents/GoodsDisplaySetting.php:151
+msgid ""
+"此设置项，控制用户端商品详情页货号显示开关，设置“不显示”，商品详情不需要显示"
+"货号"
 msgstr ""
 
 #: classes/SettingComponents/GoodsDisplaySetting.php:153
@@ -971,70 +1017,129 @@ msgstr ""
 #: classes/SettingComponents/GoodsDisplaySetting.php:183
 #: classes/SettingComponents/GoodsDisplaySetting.php:193
 #: classes/SettingComponents/GoodsDisplaySetting.php:203
+#: classes/SettingComponents/GoodsDisplaySetting.php:213
+msgid "不显示"
+msgstr ""
+
+#: classes/SettingComponents/GoodsDisplaySetting.php:154
+#: classes/SettingComponents/GoodsDisplaySetting.php:164
+#: classes/SettingComponents/GoodsDisplaySetting.php:174
+#: classes/SettingComponents/GoodsDisplaySetting.php:184
+#: classes/SettingComponents/GoodsDisplaySetting.php:194
+#: classes/SettingComponents/GoodsDisplaySetting.php:204
+#: classes/SettingComponents/GoodsDisplaySetting.php:214
 msgid "显示"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:159
+#: classes/SettingComponents/GoodsDisplaySetting.php:160
 msgid "是否显示重量"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:169
+#: classes/SettingComponents/GoodsDisplaySetting.php:161
+msgid ""
+"此设置项，控制用户端商品详情页重量显示开关，设置“不显示”，商品详情不需要显示"
+"重量"
+msgstr ""
+
+#: classes/SettingComponents/GoodsDisplaySetting.php:170
 msgid "是否显示库存"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:179
+#: classes/SettingComponents/GoodsDisplaySetting.php:171
+msgid ""
+"此设置项，控制用户端商品详情页库存显示开关，设置“不显示”，商品详情不需要显示"
+"库存"
+msgstr ""
+
+#: classes/SettingComponents/GoodsDisplaySetting.php:180
 msgid "是否显示上架时间"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:189
+#: classes/SettingComponents/GoodsDisplaySetting.php:181
+msgid ""
+"此设置项，控制用户端商品详情页上架时间显示开关，设置“不显示”，商品详情不需要"
+"显示上架时间"
+msgstr ""
+
+#: classes/SettingComponents/GoodsDisplaySetting.php:190
 msgid "是否显示市场价格"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:199
+#: classes/SettingComponents/GoodsDisplaySetting.php:191
+msgid ""
+"此设置项，控制用户端商品详情页市场价格显示开关，设置“不显示”，商品详情不需要"
+"显示市场价格"
+msgstr ""
+
+#: classes/SettingComponents/GoodsDisplaySetting.php:200
 msgid "是否显示品牌"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:209
+#: classes/SettingComponents/GoodsDisplaySetting.php:210
+msgid "商品列表是否显示货品"
+msgstr ""
+
+#: classes/SettingComponents/GoodsDisplaySetting.php:220
 msgid "精品推荐数量"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:216
+#: classes/SettingComponents/GoodsDisplaySetting.php:221
+msgid "此设置项，控制用户端精品推荐商品显示数量"
+msgstr ""
+
+#: classes/SettingComponents/GoodsDisplaySetting.php:227
 msgid "新品推荐数量"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:223
+#: classes/SettingComponents/GoodsDisplaySetting.php:228
+msgid "此设置项，控制用户端新品推荐商品显示数量"
+msgstr ""
+
+#: classes/SettingComponents/GoodsDisplaySetting.php:234
 msgid "热销商品数量"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:230
+#: classes/SettingComponents/GoodsDisplaySetting.php:235
+msgid "此设置项，控制用户端热销商品显示数量"
+msgstr ""
+
+#: classes/SettingComponents/GoodsDisplaySetting.php:241
 msgid "促销商品的数量"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:237
+#: classes/SettingComponents/GoodsDisplaySetting.php:242
+msgid "此设置项，控制用户端促销商品显示数量"
+msgstr ""
+
+#: classes/SettingComponents/GoodsDisplaySetting.php:248
 msgid "团购商品的数量"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:244
+#: classes/SettingComponents/GoodsDisplaySetting.php:249
+msgid "此设置项，控制用户端团购商品显示数量"
+msgstr ""
+
+#: classes/SettingComponents/GoodsDisplaySetting.php:255
 msgid "销量排行数量"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:251
+#: classes/SettingComponents/GoodsDisplaySetting.php:262
 msgid "浏览历史数量"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:258
+#: classes/SettingComponents/GoodsDisplaySetting.php:269
 msgid "评论数量"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:259
+#: classes/SettingComponents/GoodsDisplaySetting.php:270
 msgid "显示在商品详情页的用户评论数量。"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:265
+#: classes/SettingComponents/GoodsDisplaySetting.php:276
 msgid "属性关联的商品数量"
 msgstr ""
 
-#: classes/SettingComponents/GoodsDisplaySetting.php:266
+#: classes/SettingComponents/GoodsDisplaySetting.php:277
 msgid "在商品详情页面显示多少个属性关联的商品。"
 msgstr ""
 
@@ -1061,6 +1166,11 @@ msgstr ""
 
 #: classes/SettingComponents/GoodsPriceSetting.php:105
 msgid "商品价格显示规则"
+msgstr ""
+
+#: classes/SettingComponents/GoodsPriceSetting.php:106
+msgid ""
+"如果设置先四舍五入不保留小数的话，商品价格是 59.9元，前台显示的就会是 60元"
 msgstr ""
 
 #: classes/SettingComponents/GoodsPriceSetting.php:108
@@ -1098,11 +1208,11 @@ msgid ""
 msgstr ""
 
 #: classes/SettingComponents/GoodsPriceSetting.php:122
-msgid "SKU价格（属性货品价格）"
+msgid "货品SKU价格"
 msgstr ""
 
 #: classes/SettingComponents/GoodsPriceSetting.php:123
-msgid "SKU价格（商品价格 + 属性货品价格）"
+msgid "商品价格 + 属性价格"
 msgstr ""
 
 #: classes/SettingComponents/GoodsSetting.php:71
@@ -1137,24 +1247,47 @@ msgstr ""
 msgid "商品货号前缀"
 msgstr ""
 
+#: classes/SettingComponents/GoodsSetting.php:122
+msgid ""
+"可输入前缀，默认是ECS，你可以按自己的情况修改，之后新建的产品就会按新的前缀生"
+"成货号"
+msgstr ""
+
 #: classes/SettingComponents/GoodsSetting.php:128
-msgid "是否启用库存管理"
+msgid "是否显示库存管理"
 msgstr ""
 
 #: classes/SettingComponents/GoodsSetting.php:138
 msgid "默认库存"
 msgstr ""
 
+#: classes/SettingComponents/GoodsSetting.php:139
+msgid "添加商品的时候，商品库存会按这里输入的数值调用，避免出现缺货情况"
+msgstr ""
+
 #: classes/SettingComponents/GoodsSetting.php:145
-msgid "商品的默认图片"
+msgid "商品默认图片"
+msgstr ""
+
+#: classes/SettingComponents/GoodsSetting.php:146
+msgid "上传一张默认图片，用来表示没有上传图片的商品"
 msgstr ""
 
 #: classes/SettingComponents/GoodsSetting.php:152
 msgid "上传商品是否自动生成相册图"
 msgstr ""
 
+#: classes/SettingComponents/GoodsSetting.php:153
+msgid ""
+"选择“是”上传商品图片的时候，自动生成一张相册图，如果选择“否”，则不生成相册图"
+msgstr ""
+
 #: classes/SettingComponents/GoodsSetting.php:162
 msgid "上传商品时是否保留原图"
+msgstr ""
+
+#: classes/SettingComponents/GoodsSetting.php:163
+msgid "我们建议设置\"是\"，上传新商品后自动保留原图"
 msgstr ""
 
 #: classes/SettingComponents/GoodsSetting.php:172
@@ -1174,6 +1307,12 @@ msgstr ""
 msgid "缩略图宽度"
 msgstr ""
 
+#: classes/SettingComponents/GoodsSetting.php:187
+msgid ""
+"设置后，影响的是商品缩略图的商品尺寸，也就是首页，商品分类页，与商品搜索页的"
+"商品"
+msgstr ""
+
 #: classes/SettingComponents/GoodsSetting.php:193
 msgid "缩略图高度"
 msgstr ""
@@ -1188,6 +1327,10 @@ msgstr ""
 
 #: classes/SettingComponents/GoodsSetting.php:207
 msgid "商品名称的长度"
+msgstr ""
+
+#: classes/SettingComponents/GoodsSetting.php:208
+msgid "设置后，用户端查看商品时，商品名称长度需按照设置的长度显示"
 msgstr ""
 
 #: classes/SettingComponents/GoodsSetting.php:218
@@ -1306,14 +1449,18 @@ msgstr ""
 
 #: classes/goods_image_data.class.php:153
 #: classes/goods_image_data.class.php:241
+#: classes/product_image_data.class.php:155
+#: classes/product_image_data.class.php:239
 msgid "商品图片路径无效"
 msgstr ""
 
 #: classes/goods_image_data.class.php:184
+#: classes/product_image_data.class.php:184
 msgid "商品相册复制失败"
 msgstr ""
 
 #: classes/goods_image_data.class.php:210
+#: classes/product_image_data.class.php:210
 msgid "商品缩略图路径无效"
 msgstr ""
 
@@ -1623,7 +1770,7 @@ msgstr ""
 msgid "虚拟商品列表"
 msgstr ""
 
-#: functions/global.func.php:886 functions/global.func.php:900 merchant.php:405
+#: functions/global.func.php:886 functions/global.func.php:900 merchant.php:409
 msgid "通用信息"
 msgstr ""
 
@@ -1647,65 +1794,77 @@ msgstr ""
 msgid "属性价格"
 msgstr ""
 
-#: merchant.php:347
+#: merchant.php:160
+msgid "商品列表（SPU）"
+msgstr ""
+
+#: merchant.php:351
 msgid "欢迎访问ECJia智能后台添加商品页面，可以在此页面添加商品信息。"
 msgstr ""
 
-#: merchant.php:352
+#: merchant.php:356
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:添加商品\" target="
 "\"_blank\">关于添加商品帮助文档</a>"
 msgstr ""
 
-#: merchant.php:366
+#: merchant.php:370
 msgid "基本信息"
 msgstr ""
 
-#: merchant.php:371
+#: merchant.php:375
 msgid "选择商品分类"
 msgstr ""
 
-#: merchant.php:541
+#: merchant.php:545
 msgid "所属平台商品分类不能为空"
 msgstr ""
 
-#: merchant.php:545 merchant.php:943
+#: merchant.php:549 merchant.php:947
 msgid "请选择店铺商品分类"
 msgstr ""
 
-#: merchant.php:765
-msgid "进行中"
-msgstr ""
-
-#: merchant.php:768
-msgid "即将开始"
-msgstr ""
-
-#: merchant.php:771
-msgid "已结束"
-msgstr ""
-
-#: merchant.php:1101
+#: merchant.php:1105
 msgid "请进入入驻商后台进行操作"
 msgstr ""
 
-#: merchant.php:1120
+#: merchant.php:1124
 msgid "选择平台分类"
 msgstr ""
 
-#: merchant.php:1156
+#: merchant.php:1160
 msgid "请选择平台分类"
 msgstr ""
 
-#: merchant.php:1238
+#: merchant.php:1242
 msgid "请先选择要转移的分类"
 msgstr ""
 
-#: merchant.php:2013
+#: merchant.php:1658
+msgid "货品管理（SKU）"
+msgstr ""
+
+#: merchant.php:1719 merchant.php:1894 mh_gallery_product.php:107
+msgid "编辑货品（SKU）"
+msgstr ""
+
+#: merchant.php:1823 merchant.php:1826
+msgid "货品号已存在，请修改"
+msgstr ""
+
+#: merchant.php:1880
+msgid "编辑货品成功"
+msgstr ""
+
+#: merchant.php:1910 merchant.php:1953
+msgid "未检测到此货品"
+msgstr ""
+
+#: merchant.php:2290
 msgid "添加商品描述"
 msgstr ""
 
-#: merchant.php:2125
+#: merchant.php:2402
 msgid "添加商品属性"
 msgstr ""
 
@@ -1799,7 +1958,7 @@ msgstr ""
 msgid "从%s转移到%s"
 msgstr ""
 
-#: mh_gallery.php:172
+#: mh_gallery.php:174
 msgid "添加商品相册"
 msgstr ""
 
@@ -1954,8 +2113,8 @@ msgstr ""
 #: modules/admin/goods/desc_module.class.php:71
 #: modules/admin/goods/detail_module.class.php:84
 #: modules/admin/goods/trash_module.class.php:66
-#: modules/goods/desc_module.class.php:67
-#: modules/goods/detail_module.class.php:120
+#: modules/goods/desc_module.class.php:69
+#: modules/goods/detail_module.class.php:107
 msgid "不存在的信息"
 msgstr ""
 
@@ -2075,18 +2234,38 @@ msgstr ""
 msgid "您没权限修改此商品信息"
 msgstr ""
 
-#: modules/goods/detail_module.class.php:96
+#: modules/goods/detail_module.class.php:92
 msgid "满%d份%s元，"
 msgstr ""
 
-#: modules/goods/detail_module.class.php:209
-#: modules/goods/detail_module.class.php:219
-#: modules/goods/detail_module.class.php:228
-#: modules/goods/detail_module.class.php:237
-#: modules/goods/search_module.class.php:117
-#: modules/goods/search_module.class.php:127
-#: modules/goods/search_module.class.php:136
-#: modules/goods/search_module.class.php:145
+#: modules/goods/detail_module.class.php:291
+msgid "由%s发货并提供售后服务"
+msgstr ""
+
+#: modules/goods/detail_module.class.php:310
+msgid "商品货号"
+msgstr ""
+
+#: modules/goods/detail_module.class.php:315
+msgid "商品重量"
+msgstr ""
+
+#: modules/goods/detail_module.class.php:323
+msgid "商品库存"
+msgstr ""
+
+#: modules/goods/detail_module.class.php:328
+msgid "商品上架时间"
+msgstr ""
+
+#: modules/goods/detail_module.class.php:459
+#: modules/goods/detail_module.class.php:469
+#: modules/goods/detail_module.class.php:478
+#: modules/goods/detail_module.class.php:487
+#: modules/goods/search_module.class.php:109
+#: modules/goods/search_module.class.php:119
+#: modules/goods/search_module.class.php:128
+#: modules/goods/search_module.class.php:137
 #: modules/seller/list_module.class.php:120
 #: modules/seller/list_module.class.php:129
 #: modules/seller/list_module.class.php:136
@@ -2094,14 +2273,14 @@ msgstr ""
 msgid "满减"
 msgstr ""
 
-#: modules/goods/detail_module.class.php:209
-#: modules/goods/detail_module.class.php:219
-#: modules/goods/detail_module.class.php:228
-#: modules/goods/detail_module.class.php:237
-#: modules/goods/search_module.class.php:117
-#: modules/goods/search_module.class.php:127
-#: modules/goods/search_module.class.php:136
-#: modules/goods/search_module.class.php:145
+#: modules/goods/detail_module.class.php:459
+#: modules/goods/detail_module.class.php:469
+#: modules/goods/detail_module.class.php:478
+#: modules/goods/detail_module.class.php:487
+#: modules/goods/search_module.class.php:109
+#: modules/goods/search_module.class.php:119
+#: modules/goods/search_module.class.php:128
+#: modules/goods/search_module.class.php:137
 #: modules/seller/list_module.class.php:120
 #: modules/seller/list_module.class.php:129
 #: modules/seller/list_module.class.php:136
@@ -2109,36 +2288,8 @@ msgstr ""
 msgid "满折"
 msgstr ""
 
-#: modules/goods/detail_module.class.php:315
-#: modules/goods/detail_module.class.php:380
-#: modules/goods/list_module.class.php:165
-#: modules/goods/mobilebuygoods_module.class.php:135
-#: modules/goods/search_module.class.php:187
-#: modules/goods/search_module.class.php:290
-#: modules/goods/suggestlist_module.class.php:154
-#: modules/home/category_module.class.php:147
-#: modules/seller/list_module.class.php:208
-msgid "已省%s元"
-msgstr ""
-
-#: modules/goods/detail_module.class.php:441
-msgid "由%s发货并提供售后服务"
-msgstr ""
-
-#: modules/goods/detail_module.class.php:460
-msgid "商品货号"
-msgstr ""
-
-#: modules/goods/detail_module.class.php:465
-msgid "商品重量"
-msgstr ""
-
-#: modules/goods/detail_module.class.php:473
-msgid "商品库存"
-msgstr ""
-
-#: modules/goods/detail_module.class.php:478
-msgid "商品上架时间"
+#: modules/goods/suggestlist_module.class.php:73
+msgid "促销类型参数错误"
 msgstr ""
 
 #: content/apps/goods/templates/admin/goods_desc.dwt.php:38
@@ -2150,6 +2301,7 @@ msgstr ""
 #: content/apps/goods/templates/admin/goods_info.dwt.php:201
 #: content/apps/goods/templates/merchant/goods_desc.dwt.php:55
 #: content/apps/goods/templates/merchant/goods_attr.dwt.php:66
+#: content/apps/goods/templates/merchant/product_desc.dwt.php:67
 #: content/apps/goods/templates/merchant/link_goods.dwt.php:98
 #: content/apps/goods/templates/merchant/link_article.dwt.php:82
 #: content/apps/goods/templates/merchant/goods_cat_select.dwt.php:83
@@ -2519,9 +2671,11 @@ msgstr ""
 #: content/apps/goods/templates/admin/category_list.dwt.php:83
 #: content/apps/goods/templates/admin/brand_list.dwt.php:78
 #: content/apps/goods/templates/admin/goods_photo.dwt.php:57
-#: content/apps/goods/templates/merchant/goods_list.dwt.php:203
+#: content/apps/goods/templates/merchant/goods_list.dwt.php:204
 #: content/apps/goods/templates/merchant/category_list.dwt.php:60
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:105
 #: content/apps/goods/templates/merchant/attribute_list.dwt.php:89
+#: content/apps/goods/templates/merchant/product_info.dwt.php:74
 #: content/apps/goods/templates/merchant/goods_photo.dwt.php:85
 #: content/apps/goods/templates/merchant/goods_type_list.dwt.php:56
 msgid "编辑"
@@ -2529,18 +2683,18 @@ msgstr ""
 
 #: content/apps/goods/templates/admin/goods_list.dwt.php:294
 #: content/apps/goods/templates/admin/link_parts.dwt.php:65
-#: content/apps/goods/templates/merchant/goods_list.dwt.php:208
+#: content/apps/goods/templates/merchant/goods_list.dwt.php:209
 #: content/apps/goods/templates/merchant/link_parts.dwt.php:74
 msgid "关联配件"
 msgstr ""
 
 #: content/apps/goods/templates/admin/goods_list.dwt.php:295
-#: content/apps/goods/templates/merchant/goods_list.dwt.php:210
+#: content/apps/goods/templates/merchant/goods_list.dwt.php:211
 msgid "预览"
 msgstr ""
 
 #: content/apps/goods/templates/admin/goods_list.dwt.php:299
-#: content/apps/goods/templates/merchant/goods_list.dwt.php:212
+#: content/apps/goods/templates/merchant/goods_list.dwt.php:213
 msgid "您确定要把该商品放入回收站吗？"
 msgstr ""
 
@@ -2554,9 +2708,10 @@ msgstr ""
 #: content/apps/goods/templates/admin/goods_trash.dwt.php:110
 #: content/apps/goods/templates/admin/category_info.dwt.php:152
 #: content/apps/goods/templates/admin/category_info.dwt.php:265
-#: content/apps/goods/templates/merchant/goods_list.dwt.php:212
+#: content/apps/goods/templates/merchant/goods_list.dwt.php:213
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:103
 #: content/apps/goods/templates/merchant/attribute_list.dwt.php:90
-#: content/apps/goods/templates/merchant/product_info.dwt.php:73
+#: content/apps/goods/templates/merchant/product_info.dwt.php:75
 #: content/apps/goods/templates/merchant/goods_photo.dwt.php:83
 #: content/apps/goods/templates/merchant/goods_trash.dwt.php:27
 #: content/apps/goods/templates/merchant/goods_trash.dwt.php:81
@@ -2570,14 +2725,14 @@ msgid "请输入商品价格"
 msgstr ""
 
 #: content/apps/goods/templates/admin/goods_list.dwt.php:379
-#: content/apps/goods/templates/merchant/goods_list.dwt.php:259
+#: content/apps/goods/templates/merchant/goods_list.dwt.php:260
 msgid "请输入库存数量"
 msgstr ""
 
 #: content/apps/goods/templates/admin/goods_list.dwt.php:385
 #: content/apps/goods/templates/admin/category_list.dwt.php:74
 #: content/apps/goods/templates/admin/brand_list.dwt.php:70
-#: content/apps/goods/templates/merchant/goods_list.dwt.php:265
+#: content/apps/goods/templates/merchant/goods_list.dwt.php:266
 #: content/apps/goods/templates/merchant/category_list.dwt.php:52
 msgid "请输入排序序号"
 msgstr ""
@@ -2587,7 +2742,7 @@ msgstr ""
 #: content/apps/goods/templates/admin/goods_auto.dwt.php:102
 #: content/apps/goods/templates/admin/brand_list.dwt.php:84
 #: content/apps/goods/templates/admin/goods_trash.dwt.php:116
-#: content/apps/goods/templates/merchant/goods_list.dwt.php:272
+#: content/apps/goods/templates/merchant/goods_list.dwt.php:273
 #: content/apps/goods/templates/merchant/category_list.dwt.php:66
 #: content/apps/goods/templates/merchant/attribute_list.dwt.php:94
 #: content/apps/goods/templates/merchant/goods_trash.dwt.php:85
@@ -2873,7 +3028,7 @@ msgid "编辑货品库存"
 msgstr ""
 
 #: content/apps/goods/templates/admin/product_info.dwt.php:65
-#: content/apps/goods/templates/merchant/product_info.dwt.php:73
+#: content/apps/goods/templates/merchant/product_info.dwt.php:75
 msgid "您确定要把该货品删除吗？"
 msgstr ""
 
@@ -2882,12 +3037,15 @@ msgstr ""
 #: content/apps/goods/templates/admin/link_goods.dwt.php:89
 #: content/apps/goods/templates/admin/link_article.dwt.php:71
 #: content/apps/goods/templates/admin/link_parts.dwt.php:84
-#: content/apps/goods/templates/merchant/product_info.dwt.php:100
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:63
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:124
+#: content/apps/goods/templates/merchant/product_info.dwt.php:103
 #: content/apps/goods/templates/merchant/goods_photo.dwt.php:43
 #: content/apps/goods/templates/merchant/goods_photo.dwt.php:104
 #: content/apps/goods/templates/merchant/link_goods.dwt.php:99
 #: content/apps/goods/templates/merchant/link_article.dwt.php:83
 #: content/apps/goods/templates/merchant/link_parts.dwt.php:91
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:122
 msgid "完成"
 msgstr ""
 
@@ -2916,6 +3074,7 @@ msgid "你确认要删除选定的商品品牌吗？"
 msgstr ""
 
 #: content/apps/goods/templates/admin/goods_photo.dwt.php:35
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:74
 #: content/apps/goods/templates/merchant/goods_photo.dwt.php:54
 msgid "（编辑、排序、删除）"
 msgstr ""
@@ -2926,21 +3085,25 @@ msgid "排序后请点击“保存排序”"
 msgstr ""
 
 #: content/apps/goods/templates/admin/goods_photo.dwt.php:55
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:103
 #: content/apps/goods/templates/merchant/goods_photo.dwt.php:83
 msgid "您确定要删除这张相册图片吗？"
 msgstr ""
 
 #: content/apps/goods/templates/admin/goods_photo.dwt.php:56
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:104
 #: content/apps/goods/templates/merchant/goods_photo.dwt.php:84
 msgid "移动"
 msgstr ""
 
 #: content/apps/goods/templates/admin/goods_photo.dwt.php:58
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:106
 #: content/apps/goods/templates/merchant/goods_photo.dwt.php:86
 msgid "无标题"
 msgstr ""
 
 #: content/apps/goods/templates/admin/goods_photo.dwt.php:65
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:117
 #: content/apps/goods/templates/merchant/goods_photo.dwt.php:97
 msgid "保存排序"
 msgstr ""
@@ -3140,7 +3303,7 @@ msgid "添加自定义栏目"
 msgstr ""
 
 #: content/apps/goods/templates/admin/category_info.dwt.php:207
-#: content/apps/goods/templates/admin/goods_info.dwt.php:384
+#: content/apps/goods/templates/admin/goods_info.dwt.php:386
 #: content/apps/goods/templates/merchant/goods_info.dwt.php:363
 msgid "促销信息"
 msgstr ""
@@ -3217,18 +3380,29 @@ msgid "请先搜索再选择"
 msgstr ""
 
 #: content/apps/goods/templates/admin/goods_info.dwt.php:26
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:49
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:50
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:51
+#: content/apps/goods/templates/merchant/product_desc.dwt.php:51
+#: content/apps/goods/templates/merchant/product_desc.dwt.php:52
+#: content/apps/goods/templates/merchant/product_desc.dwt.php:53
 #: content/apps/goods/templates/merchant/goods_cat_select.dwt.php:35
 #: content/apps/goods/templates/merchant/goods_info.dwt.php:38
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:49
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:50
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:51
 msgid "是否放弃本页面修改？"
 msgstr ""
 
 #: content/apps/goods/templates/admin/goods_info.dwt.php:42
 #: content/apps/goods/templates/merchant/goods_info.dwt.php:49
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:83
 msgid "商品名称："
 msgstr ""
 
 #: content/apps/goods/templates/admin/goods_info.dwt.php:55
 #: content/apps/goods/templates/merchant/goods_info.dwt.php:57
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:91
 msgid "商品货号："
 msgstr ""
 
@@ -3248,6 +3422,7 @@ msgstr ""
 
 #: content/apps/goods/templates/admin/goods_info.dwt.php:81
 #: content/apps/goods/templates/merchant/goods_info.dwt.php:84
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:113
 msgid "库存数量："
 msgstr ""
 
@@ -3357,11 +3532,13 @@ msgstr ""
 
 #: content/apps/goods/templates/admin/goods_info.dwt.php:293
 #: content/apps/goods/templates/merchant/goods_info.dwt.php:271
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:62
 msgid "上传商品图片："
 msgstr ""
 
 #: content/apps/goods/templates/admin/goods_info.dwt.php:302
 #: content/apps/goods/templates/merchant/goods_info.dwt.php:284
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:70
 msgid "商品缩略图："
 msgstr ""
 
@@ -3407,41 +3584,48 @@ msgstr ""
 msgid "购买数量达到优惠数量时享受的优惠价格"
 msgstr ""
 
-#: content/apps/goods/templates/admin/goods_info.dwt.php:391
-msgid "促销价："
+#: content/apps/goods/templates/admin/goods_info.dwt.php:394
+#: content/apps/goods/templates/merchant/goods_info.dwt.php:371
+msgid "活动状态："
 msgstr ""
 
-#: content/apps/goods/templates/admin/goods_info.dwt.php:396
-msgid "促销日期："
+#: content/apps/goods/templates/admin/goods_info.dwt.php:402
+#: content/apps/goods/templates/merchant/goods_info.dwt.php:380
+msgid "活动时间："
 msgstr ""
 
-#: content/apps/goods/templates/admin/goods_info.dwt.php:411
+#: content/apps/goods/templates/admin/goods_info.dwt.php:409
+#: content/apps/goods/templates/merchant/goods_info.dwt.php:389
+msgid "查看促销"
+msgstr ""
+
+#: content/apps/goods/templates/admin/goods_info.dwt.php:422
 #: content/apps/goods/templates/merchant/goods_info.dwt.php:409
 msgid "积分相关"
 msgstr ""
 
-#: content/apps/goods/templates/admin/goods_info.dwt.php:418
+#: content/apps/goods/templates/admin/goods_info.dwt.php:429
 msgid "赠送消费积分数："
 msgstr ""
 
-#: content/apps/goods/templates/admin/goods_info.dwt.php:422
+#: content/apps/goods/templates/admin/goods_info.dwt.php:433
 msgid "购买该商品时赠送消费积分数,-1表示按商品价格赠送"
 msgstr ""
 
-#: content/apps/goods/templates/admin/goods_info.dwt.php:428
+#: content/apps/goods/templates/admin/goods_info.dwt.php:439
 msgid "赠送成长值："
 msgstr ""
 
-#: content/apps/goods/templates/admin/goods_info.dwt.php:431
+#: content/apps/goods/templates/admin/goods_info.dwt.php:442
 msgid "购买该商品时赠送成长值数,-1表示按商品价格赠送"
 msgstr ""
 
-#: content/apps/goods/templates/admin/goods_info.dwt.php:436
+#: content/apps/goods/templates/admin/goods_info.dwt.php:447
 #: content/apps/goods/templates/merchant/goods_info.dwt.php:415
 msgid "积分购买金额："
 msgstr ""
 
-#: content/apps/goods/templates/admin/goods_info.dwt.php:439
+#: content/apps/goods/templates/admin/goods_info.dwt.php:450
 #: content/apps/goods/templates/merchant/goods_info.dwt.php:420
 msgid "(此处需填写金额)购买该商品时最多可以使用积分的金额"
 msgstr ""
@@ -3468,6 +3652,7 @@ msgid "属性分组："
 msgstr ""
 
 #: content/apps/goods/templates/merchant/goods_desc.dwt.php:57
+#: content/apps/goods/templates/merchant/product_desc.dwt.php:69
 #: content/apps/goods/templates/merchant/goods_info.dwt.php:218
 msgid "直接完成"
 msgstr ""
@@ -3480,8 +3665,44 @@ msgstr ""
 msgid "一键导入"
 msgstr ""
 
+#: content/apps/goods/templates/merchant/goods_list.dwt.php:200
+msgid "多货品"
+msgstr ""
+
 #: content/apps/goods/templates/merchant/preview.dwt.php:124
 msgid "店铺分类"
+msgstr ""
+
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:36
+#: content/apps/goods/templates/merchant/product_desc.dwt.php:38
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:36
+msgid "货品（SKU）"
+msgstr ""
+
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:38
+#: content/apps/goods/templates/merchant/product_desc.dwt.php:40
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:38
+msgid "切换查看"
+msgstr ""
+
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:50
+#: content/apps/goods/templates/merchant/product_desc.dwt.php:52
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:50
+msgid "相册"
+msgstr ""
+
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:51
+#: content/apps/goods/templates/merchant/product_desc.dwt.php:53
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:51
+msgid "图文详情"
+msgstr ""
+
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:57
+msgid "注：相册非必填项，若不上传，默认使用主商品相册图。"
+msgstr ""
+
+#: content/apps/goods/templates/merchant/product_photo.dwt.php:86
+msgid "上传后，可左右拖拽排序，排序后，请点击“保存排序”"
 msgstr ""
 
 #: content/apps/goods/templates/merchant/attribute_list.dwt.php:36
@@ -3537,8 +3758,12 @@ msgstr ""
 msgid "促销商品数"
 msgstr ""
 
-#: content/apps/goods/templates/merchant/product_info.dwt.php:95
+#: content/apps/goods/templates/merchant/product_info.dwt.php:98
 msgid "再添加一项"
+msgstr ""
+
+#: content/apps/goods/templates/merchant/product_desc.dwt.php:58
+msgid "注：图文详情非必填项，若不设置，默认使用主商品图文详情内容。"
 msgstr ""
 
 #: content/apps/goods/templates/merchant/attribute_info.dwt.php:40
@@ -3623,18 +3848,6 @@ msgstr ""
 msgid "选择店铺商品分类"
 msgstr ""
 
-#: content/apps/goods/templates/merchant/goods_info.dwt.php:371
-msgid "活动状态："
-msgstr ""
-
-#: content/apps/goods/templates/merchant/goods_info.dwt.php:380
-msgid "活动时间："
-msgstr ""
-
-#: content/apps/goods/templates/merchant/goods_info.dwt.php:389
-msgid "查看促销"
-msgstr ""
-
 #: content/apps/goods/templates/merchant/goods_info.dwt.php:395
 msgid "添加促销"
 msgstr ""
@@ -3670,4 +3883,36 @@ msgstr ""
 
 #: content/apps/goods/templates/merchant/goods_type_list.dwt.php:62
 msgid "点击修改状态"
+msgstr ""
+
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:76
+msgid "非必填，若不上传则默认使用商品图片，点击更换。"
+msgstr ""
+
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:86
+msgid "非必填，若不填则默认使用主商品名称"
+msgstr ""
+
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:94
+msgid "非必填，系统默认自动生成"
+msgstr ""
+
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:98
+msgid "价格："
+msgstr ""
+
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:101
+msgid "非必填，若不填则默认使用主商品价格"
+msgstr ""
+
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:105
+msgid "条形码："
+msgstr ""
+
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:108
+msgid "非必填，可手动输入或修改"
+msgstr ""
+
+#: content/apps/goods/templates/merchant/product_edit.dwt.php:116
+msgid "非必填，若不设置，用户无法购买"
 msgstr ""

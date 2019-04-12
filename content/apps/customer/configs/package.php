@@ -10,7 +10,7 @@ return array(
 	'description' 	=> __('商家会员', 'customer'),
 	'author' 		=> 'ECJIA TEAM',
 	'website' 		=> 'http://www.ecjia.com',
-	'version' 		=> '1.29.0',
+	'version' 		=> '1.30.0',
     'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Customer',
     'provider'      => 'CustomerServiceProvider',

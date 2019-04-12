@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App cart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App cart 1.28.0\n"
+"Project-Id-Version: Ecjia App cart 1.30.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-04 05:54:43+00:00\n"
+"POT-Creation-Date: 2019-04-12 04:02:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -294,6 +294,10 @@ msgstr ""
 msgid "是否使用积分"
 msgstr ""
 
+#: classes/SettingComponents/ShoppingFlowSetting.php:57
+msgid "设置“使用”则表示用户在结算时，可使用积分抵扣订单金额结算"
+msgstr ""
+
 #: classes/SettingComponents/ShoppingFlowSetting.php:59
 #: classes/SettingComponents/ShoppingFlowSetting.php:69
 #: classes/SettingComponents/ShoppingFlowSetting.php:79
@@ -312,8 +316,16 @@ msgstr ""
 msgid "是否使用红包"
 msgstr ""
 
+#: classes/SettingComponents/ShoppingFlowSetting.php:67
+msgid "设置“使用”则表示用户在结算时，可使用红包抵扣订单金额结算"
+msgstr ""
+
 #: classes/SettingComponents/ShoppingFlowSetting.php:76
 msgid "是否使用余额"
+msgstr ""
+
+#: classes/SettingComponents/ShoppingFlowSetting.php:77
+msgid "设置“使用”则表示用户在结算时，可使用余额抵扣订单金额结算"
 msgstr ""
 
 #: classes/SettingComponents/ShoppingFlowSetting.php:86
@@ -326,6 +338,10 @@ msgstr ""
 
 #: classes/SettingComponents/ShoppingFlowSetting.php:96
 msgid "能否开发票"
+msgstr ""
+
+#: classes/SettingComponents/ShoppingFlowSetting.php:97
+msgid "设置“能”则表示用户在结算时，可选择开具发票"
 msgstr ""
 
 #: classes/SettingComponents/ShoppingFlowSetting.php:99
@@ -346,6 +362,10 @@ msgstr ""
 
 #: classes/SettingComponents/ShoppingFlowSetting.php:113
 msgid "发票类型及税率"
+msgstr ""
+
+#: classes/SettingComponents/ShoppingFlowSetting.php:114
+msgid "税率填写整数值，例如(税率:12，商品金额:35.70)则公式:35.70 * (12 / 100) = 4.28元"
 msgstr ""
 
 #: classes/SettingComponents/ShoppingFlowSetting.php:120
@@ -406,6 +426,10 @@ msgstr ""
 
 #: classes/SettingComponents/ShoppingFlowSetting.php:159
 msgid "减库存的时机"
+msgstr ""
+
+#: classes/SettingComponents/ShoppingFlowSetting.php:160
+msgid "例如:选择“下单时”，则表示用户购买商品时，只要下单后，就减少商品的库存"
 msgstr ""
 
 #: classes/SettingComponents/ShoppingFlowSetting.php:162
@@ -673,11 +697,11 @@ msgstr ""
 msgid "如果是团购，且保证金大于0，不能使用货到付款"
 msgstr ""
 
-#: modules/flow/checkOrder_module.class.php:437
+#: modules/flow/checkOrder_module.class.php:443
 msgid "未使用"
 msgstr ""
 
-#: modules/flow/checkOrder_module.class.php:594
+#: modules/flow/checkOrder_module.class.php:600
 #: modules/storebuy/flow/checkOrder_module.class.php:173
 #: modules/storepickup/flow/checkOrder_module.class.php:197
 msgid "满%s可使用"

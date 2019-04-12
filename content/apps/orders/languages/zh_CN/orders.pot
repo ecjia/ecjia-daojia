@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App orders package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App orders 1.28.0\n"
+"Project-Id-Version: Ecjia App orders 1.30.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-04 05:54:46+00:00\n"
+"POT-Creation-Date: 2019-04-12 04:02:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -413,7 +413,7 @@ msgstr ""
 #: modules/order/comment/detail_module.class.php:69
 #: modules/order/comment_module.class.php:68
 #: modules/order/detail_module.class.php:72
-#: modules/order/list_module.class.php:76 modules/order/pay_module.class.php:69
+#: modules/order/list_module.class.php:76
 #: modules/order/update_module.class.php:65
 msgid "参数无效"
 msgstr ""
@@ -638,6 +638,7 @@ msgstr ""
 #: modules/admin/orders/list_module.class.php:291
 #: modules/admin/orders/today_module.class.php:236
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:171
+#: modules/order/detail_module.class.php:327
 msgid "发货中"
 msgstr ""
 
@@ -679,7 +680,6 @@ msgstr ""
 #: modules/admin/orders/list_module.class.php:287
 #: modules/admin/orders/today_module.class.php:232
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:360
-#: modules/order/detail_module.class.php:327
 msgid "配货中"
 msgstr ""
 
@@ -1596,14 +1596,14 @@ msgstr ""
 #: modules/admin/orders/list_module.class.php:373
 #: modules/admin/orders/payment/history_module.class.php:239
 #: modules/admin/orders/today_module.class.php:331
-#: modules/order/detail_module.class.php:367
+#: modules/order/detail_module.class.php:370
 msgid "已完成"
 msgstr ""
 
 #: apis/orders_order_info_api.class.php:140
 #: apis/orders_order_list_api.class.php:205
 #: apis/orders_separate_order_info_api.class.php:121
-#: modules/order/detail_module.class.php:370
+#: modules/order/detail_module.class.php:373
 msgid "待收货"
 msgstr ""
 
@@ -1618,7 +1618,7 @@ msgstr ""
 #: modules/admin/orders/today_module.class.php:337
 #: modules/admin/user/merchant/order/list_module.class.php:68
 #: modules/order/detail_module.class.php:324
-#: modules/order/detail_module.class.php:373
+#: modules/order/detail_module.class.php:376
 msgid "待付款"
 msgstr ""
 
@@ -1629,7 +1629,7 @@ msgstr ""
 #: modules/admin/orders/list_module.class.php:389
 #: modules/admin/orders/payment/history_module.class.php:255
 #: modules/admin/orders/today_module.class.php:343
-#: modules/order/detail_module.class.php:376
+#: modules/order/detail_module.class.php:379
 msgid "待发货"
 msgstr ""
 
@@ -1640,15 +1640,15 @@ msgstr ""
 #: classes/OrderStatus.php:379 modules/admin/orders/list_module.class.php:295
 #: modules/admin/orders/payment/history_module.class.php:163
 #: modules/admin/orders/today_module.class.php:243
-#: modules/order/detail_module.class.php:382
-#: modules/order/detail_module.class.php:414
+#: modules/order/detail_module.class.php:385
+#: modules/order/detail_module.class.php:417
 msgid "已取消"
 msgstr ""
 
 #: apis/orders_order_info_api.class.php:156
 #: apis/orders_separate_order_info_api.class.php:137 configs/jslang.php:61
 #: configs/jslang.php:144 merchant.php:2187
-#: modules/order/detail_module.class.php:385
+#: modules/order/detail_module.class.php:388
 msgid "退款"
 msgstr ""
 
@@ -1662,7 +1662,7 @@ msgid "%s 等 %s 种商品"
 msgstr ""
 
 #: apis/orders_order_list_api.class.php:219 classes/OrderStatus.php:465
-#: modules/order/detail_module.class.php:379
+#: modules/order/detail_module.class.php:382
 msgid "部分发货"
 msgstr ""
 
@@ -1688,7 +1688,6 @@ msgstr ""
 #: apis/orders_user_account_paid_api.class.php:98
 #: functions/admin_order.func.php:1154
 #: modules/admin/orders/pay_module.class.php:85
-#: modules/order/pay_module.class.php:79
 msgid "订单不属于该用户"
 msgstr ""
 
@@ -1934,6 +1933,7 @@ msgid "申请审核未通过"
 msgstr ""
 
 #: classes/OrderStatusLog.class.php:246 classes/OrderStatusLog.php:178
+#: modules/order/detail_module.class.php:337
 msgid "订单退款申请已处理"
 msgstr ""
 
@@ -1966,6 +1966,7 @@ msgid "您的退款 %s 元，已退回至您的余额，请查收"
 msgstr ""
 
 #: classes/OrderStatusLog.class.php:319 classes/OrderStatusLog.php:221
+#: modules/order/detail_module.class.php:338
 msgid "退款到账"
 msgstr ""
 
@@ -1999,6 +2000,13 @@ msgstr ""
 
 #: classes/SettingComponents/OrderSetting.php:107
 msgid "确认订单时"
+msgstr ""
+
+#: classes/SettingComponents/OrderSetting.php:108
+#: classes/SettingComponents/OrderSetting.php:118
+#: classes/SettingComponents/OrderSetting.php:128
+#: classes/SettingComponents/OrderSetting.php:138
+msgid "控制商家对应操作之后对客户发送邮件"
 msgstr ""
 
 #: classes/SettingComponents/OrderSetting.php:110
@@ -2061,6 +2069,12 @@ msgstr ""
 
 #: classes/SettingComponents/OrderSetting.php:167
 msgid "设置订单为“已发货”时"
+msgstr ""
+
+#: classes/SettingComponents/OrderSetting.php:168
+#: classes/SettingComponents/OrderSetting.php:198
+#: classes/SettingComponents/OrderSetting.php:218
+msgid "控制商家后台管理的时候，进行这些操作是否必须要填写备注"
 msgstr ""
 
 #: classes/SettingComponents/OrderSetting.php:177
@@ -2127,6 +2141,10 @@ msgstr ""
 
 #: classes/SettingComponents/OrderSetting.php:265
 msgid "是否开启新订单提醒"
+msgstr ""
+
+#: classes/SettingComponents/OrderSetting.php:266
+msgid "开启后，后台将弹出新订单提醒"
 msgstr ""
 
 #: classes/StoreCleanHandlers/StoreOrdersClear.php:34
@@ -2721,7 +2739,7 @@ msgstr ""
 #: modules/order/comment_module.class.php:64
 #: modules/order/detail_module.class.php:63
 #: modules/order/express_module.class.php:60
-#: modules/order/list_module.class.php:59 modules/order/pay_module.class.php:62
+#: modules/order/list_module.class.php:59
 #: modules/order/update_module.class.php:60
 msgid "Invalid session"
 msgstr ""
@@ -3046,15 +3064,19 @@ msgstr ""
 msgid "配送员已取货"
 msgstr ""
 
-#: modules/order/detail_module.class.php:408
-msgid "进行中"
+#: modules/order/detail_module.class.php:336
+msgid "申请退款"
 msgstr ""
 
 #: modules/order/detail_module.class.php:411
+msgid "进行中"
+msgstr ""
+
+#: modules/order/detail_module.class.php:414
 msgid "已退款"
 msgstr ""
 
-#: modules/order/detail_module.class.php:417
+#: modules/order/detail_module.class.php:420
 msgid "退款被拒"
 msgstr ""
 

@@ -73,6 +73,8 @@ class cart_create_module extends api_front implements api_interface {
 	    $location		= $this->requestData('location', array());
 	    $seller_id		= $this->requestData('seller_id', 0);
 	    $city_id		= $this->requestData('city_id', '');
+	    $product_id		= $this->requestData('product_id', 0);  //货品id
+	    
 	    if (!$goods_id) {
             return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
 	    }
@@ -117,25 +119,13 @@ class cart_create_module extends api_front implements api_interface {
     		$result = RC_Api::api('cart', 'cart_groupbuy_manage', array('goods_id' => $goods_id, 'goods_number' => $goods_number, 'goods_spec' => $goods_spec, 'rec_type' => $rec_type, 'store_group' => $store_id_group, 'goods_activity_id' => $object_id));
     	} else {
     		$flow_type = CART_GENERAL_GOODS;
-    		$result = RC_Api::api('cart', 'cart_manage', array('goods_id' => $goods_id, 'goods_number' => $goods_number, 'goods_spec' => $goods_spec, 'rec_type' => $rec_type, 'store_group' => $store_id_group));
+    		$result = RC_Api::api('cart', 'cart_manage', array('goods_id' => $goods_id, 'goods_number' => $goods_number, 'goods_spec' => $goods_spec, 'rec_type' => $rec_type, 'store_group' => $store_id_group, 'product_id' => $product_id));
     	}
     	
 	    // 更新：添加到购物车
 	    if (is_ecjia_error($result)){
 	        return $result;
 	    } 
-	    if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude'])) {
-	        $geohash        = RC_Loader::load_app_class('geohash', 'store');
-	        $geohash_code   = $geohash->encode($location['latitude'] , $location['longitude']);
-	        $store_id_group = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
-	        if (!empty($seller_id) && !in_array($seller_id, $store_id_group)) {
-	            // return new ecjia_error('location_beyond', '店铺距离过远！');
-	        } elseif (!empty($seller_id)) {
-	            $store_id_group = array($seller_id);
-	        }
-	    } else {
-	        return new ecjia_error('location_error', __('请定位您当前所在地址！', 'cart'));
-	    }
 
 	    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => $flow_type));
 	    

@@ -4,242 +4,281 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App goodslib 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-03 16:56+0800\n"
-"PO-Revision-Date: 2019-04-08 17:25+0800\n"
+"POT-Creation-Date: 2019-04-12 13:42+0800\n"
+"PO-Revision-Date: 2019-04-12 13:50+0800\n"
 "Last-Translator: \n"
 "Language-Team: ecjia@ecjia.com\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: admin.php:111 admin.php:122 admin.php:123 admin.php:154 admin.php:419
-#: admin.php:433 admin.php:636 admin.php:918 admin.php:1137 admin.php:1196
-#: admin.php:1335 admin_gallery.php:98
-#: apis/goodslib_admin_menu_api.class.php:54 configs/package.php:55
+#: admin.php:112 admin.php:125 admin.php:156 admin.php:421 admin.php:435
+#: admin.php:638 admin.php:920 admin.php:1139 admin.php:1198 admin.php:1342
+#: admin.php:1402 admin.php:1573 admin_gallery.php:98
+#: admin_gallery_product.php:102 apis/goodslib_admin_menu_api.class.php:54
+#: configs/package.php:55
 msgid "商品库"
 msgstr "商品庫"
 
-#: admin.php:136 admin.php:155 apis/goodslib_admin_menu_api.class.php:56
+#: admin.php:113
+msgid "商品库货品"
+msgstr "商品庫貨品"
+
+#: admin.php:124
+msgid "商品库商品（SPU）"
+msgstr "商品庫商品（SPU）"
+
+#: admin.php:138 admin.php:157 apis/goodslib_admin_menu_api.class.php:56
 msgid "添加商品"
 msgstr "添加商品"
 
-#: admin.php:156
+#: admin.php:158
 msgid "添加商品库商品"
 msgstr "添加商品庫商品"
 
-#: admin.php:157 admin.php:344 admin.php:621 admin.php:640 admin.php:861
-#: admin.php:1151 admin.php:1185 admin.php:1219 admin.php:1376 admin.php:1539
+#: admin.php:159 admin.php:346 admin.php:623 admin.php:642 admin.php:863
+#: admin.php:1153 admin.php:1187 admin.php:1221 admin.php:1383 admin.php:1807
 #: admin_gallery.php:153
 msgid "商品列表"
 msgstr "商品列表"
 
-#: admin.php:174 functions/global.func.php:52
+#: admin.php:176 functions/global.func.php:52
 msgid "通用信息"
 msgstr "通用信息"
 
-#: admin.php:193 admin.php:737 admin.php:879 admin.php:885 merchant.php:223
+#: admin.php:195 admin.php:739 admin.php:881 admin.php:887 admin.php:1452
+#: merchant.php:223
 msgid "您输入的货号已存在，请换一个"
 msgstr "您輸入的貨號已存在，請換一個"
 
-#: admin.php:273
+#: admin.php:275
 msgid "商品名称不能为空！"
 msgstr "商品名稱不能為空！"
 
-#: admin.php:276 admin.php:801
+#: admin.php:278 admin.php:803
 msgid "请选择商品分类"
 msgstr "請選擇商品分類"
 
-#: admin.php:348
+#: admin.php:350
 msgid "继续添加"
 msgstr "繼續添加"
 
-#: admin.php:356 admin.php:1477 configs/jslang.php:68
+#: admin.php:358 admin.php:1745 configs/jslang.php:68
 msgid "添加商品成功"
 msgstr "添加商品成功"
 
-#: admin.php:420 admin.php:421 admin.php:434 admin.php:435
+#: admin.php:422 admin.php:423 admin.php:436 admin.php:437
 msgid "导入商品"
 msgstr "導入商品"
 
-#: admin.php:422 admin.php:927 admin.php:1340 admin.php:1362 merchant.php:391
+#: admin.php:424 admin.php:929 admin.php:1347 admin.php:1369 admin.php:1415
+#: admin.php:1586 admin.php:1591 admin.php:1629 admin.php:1634
+#: admin_gallery_product.php:124 merchant.php:391
 msgid "返回商品列表"
 msgstr "返回商品列表"
 
-#: admin.php:438
+#: admin.php:440
 msgid "请选择导入的文件"
 msgstr "請選擇導入的文件"
 
-#: admin.php:486
+#: admin.php:488
 msgid "第%s行，商品名称不能为空。"
 msgstr "第%s行，商品名稱不能為空。"
 
-#: admin.php:491
+#: admin.php:493
 msgid "第%s行，商品价格不能为空。"
 msgstr "第%s行，商品價格不能為空。"
 
-#: admin.php:499
+#: admin.php:501
 msgid "第%s行，商品【%s】货号【%s】重复。。"
 msgstr "第%s行，商品【%s】貨號【%s】重複。 。"
 
-#: admin.php:546
+#: admin.php:548
 msgid "第%s行，，商品【%s】属性【%s】不存在。"
 msgstr "第%s行，，商品【%s】屬性【%s】不存在。"
 
-#: admin.php:551
+#: admin.php:553
 msgid "第%s行，，商品【%s】规格【%s】不存在。"
 msgstr "第%s行，，商品【%s】規格【%s】不存在。"
 
-#: admin.php:577
+#: admin.php:579
 msgid "第%s行，，商品【%s】货品号【%s】不存在。"
 msgstr "第%s行，，商品【%s】貨品號【%s】不存在。"
 
-#: admin.php:593 admin.php:605
+#: admin.php:595 admin.php:607
 msgid "第%s行，，商品【%s】货品属性【%s】不存在。"
 msgstr "第%s行，，商品【%s】貨品屬性【%s】不存在。"
 
-#: admin.php:637 admin.php:639
+#: admin.php:639 admin.php:641
 msgid "编辑商品"
 msgstr "編輯商品"
 
-#: admin.php:645 admin.php:915 admin.php:927 merchant.php:252 merchant.php:378
-#: merchant.php:391
+#: admin.php:647 admin.php:917 admin.php:929 admin.php:1415 admin.php:1586
+#: admin.php:1629 merchant.php:252 merchant.php:378 merchant.php:391
 msgid "未检测到此商品"
 msgstr "未檢測到此商品"
 
-#: admin.php:645 admin.php:915 admin.php:1143 merchant.php:378
+#: admin.php:647 admin.php:917 admin.php:1145 merchant.php:378
 msgid "返回上一页"
 msgstr "返回上一頁"
 
-#: admin.php:805
+#: admin.php:807
 msgid "请输入商品名称"
 msgstr "請輸入商品名稱"
 
-#: admin.php:864 admin.php:1187
+#: admin.php:866 admin.php:1189
 msgid "编辑商品成功"
 msgstr "編輯商品成功"
 
-#: admin.php:904
+#: admin.php:906
 msgid "商品删除成功"
 msgstr "商品刪除成功"
 
-#: admin.php:919 admin.php:921 merchant.php:383 merchant.php:385
+#: admin.php:921 admin.php:923 merchant.php:383 merchant.php:385
 msgid "商品预览"
 msgstr "商品預覽"
 
-#: admin.php:922
+#: admin.php:924
 msgid "返回"
 msgstr "返回"
 
-#: admin.php:1020
+#: admin.php:1022
 msgid "请选择操作"
 msgstr "請選擇操作"
 
-#: admin.php:1070
+#: admin.php:1072
 msgid "批量操作成功"
 msgstr "批量操作成功"
 
-#: admin.php:1088
+#: admin.php:1090
 msgid "您输入了一个非法的市场价格。"
 msgstr "您輸入了一個非法的市場價格。"
 
-#: admin.php:1092 admin.php:1128
+#: admin.php:1094 admin.php:1130
 msgid "修改成功"
 msgstr "修改成功"
 
-#: admin.php:1111
+#: admin.php:1113
 msgid "已成功切换上架状态"
 msgstr "已成功切換上架狀態"
 
-#: admin.php:1138 admin.php:1152
+#: admin.php:1140 admin.php:1154
 msgid "编辑商品描述"
 msgstr "編輯商品描述"
 
-#: admin.php:1143
+#: admin.php:1145
 msgid "找不到ID为 %s 的商品！"
 msgstr "找不到ID為 %s 的商品！"
 
-#: admin.php:1170
+#: admin.php:1172
 msgid "找不到ID为%s的商品！"
 msgstr "找不到ID為%s的商品！"
 
-#: admin.php:1197 admin.php:1223
+#: admin.php:1199 admin.php:1225
 msgid "编辑商品属性"
 msgstr "編輯商品屬​​性"
 
-#: admin.php:1325
+#: admin.php:1320
+msgid "请先删除关联的货品再修改规格属性"
+msgstr "請先刪除關聯的貨品再修改規格屬性"
+
+#: admin.php:1332
 msgid "编辑属性成功"
 msgstr "編輯屬性成功"
 
-#: admin.php:1336 admin.php:1538
+#: admin.php:1343 admin.php:1403 admin.php:1574 admin.php:1806
+#: admin_gallery_product.php:103
 msgid "货品列表"
 msgstr "貨品列表"
 
-#: admin.php:1341
+#: admin.php:1348
 msgid "缺少参数，请重试"
 msgstr "缺少參數，請重試"
 
-#: admin.php:1361 admin_attribute.php:83 admin_attribute.php:100
+#: admin.php:1368 admin_attribute.php:83 admin_attribute.php:100
 #: admin_attribute.php:120 admin_attribute.php:143 admin_attribute.php:228
 #: functions/global.func.php:363
 msgid "商品属性"
 msgstr "商品屬性"
 
-#: admin.php:1363
+#: admin.php:1370
 msgid "请先添加库存属性，再到货品管理中设置货品库存"
 msgstr "請先添加庫存屬性，再到貨品管理中設置貨品庫存"
 
-#: admin.php:1370 admin.php:1514
+#: admin.php:1377 admin.php:1429 admin.php:1597 admin.php:1782
+#: admin_gallery_product.php:165
 msgid "商品名称：%s"
 msgstr "商品名稱：%s"
 
-#: admin.php:1371 admin.php:1515
+#: admin.php:1378 admin.php:1783
 msgid "货号：%s"
 msgstr "貨號：%s"
 
-#: admin.php:1382
-msgid "添加货品"
-msgstr "添加貨品"
+#: admin.php:1389
+msgid "添加货品（SKU）"
+msgstr "添加貨品（SKU）"
 
-#: admin.php:1384
-msgid "编辑货品"
-msgstr "編輯貨品"
+#: admin.php:1391 admin.php:1404 admin.php:1575 admin_gallery_product.php:104
+msgid "编辑货品（SKU）"
+msgstr "編輯貨品（SKU）"
 
-#: admin.php:1404 admin.php:1416
+#: admin.php:1426 admin.php:1594 admin_gallery_product.php:162
+msgid "商品编辑"
+msgstr "商品編輯"
+
+#: admin.php:1507 admin.php:1510
+msgid "货品号已存在，请修改"
+msgstr "貨品號已存在，請修改"
+
+#: admin.php:1560
+msgid "编辑货品成功"
+msgstr "編輯貨品成功"
+
+#: admin.php:1591 admin.php:1634 admin_gallery_product.php:124
+msgid "未检测到此货品"
+msgstr "未檢測到此貨品"
+
+#: admin.php:1653 admin_attribute.php:338 admin_attribute.php:363
+#: admin_gallery.php:242 admin_gallery_product.php:261 admin_goods_spec.php:268
+msgid "编辑成功"
+msgstr "編輯成功"
+
+#: admin.php:1672 admin.php:1684
 msgid "找不到指定的商品"
 msgstr "找不到指定的商品"
 
-#: admin.php:1489
+#: admin.php:1757
 msgid "保存货品成功"
 msgstr "保存貨品成功"
 
-#: admin.php:1501
+#: admin.php:1769
 msgid "货品id为空"
 msgstr "貨品id為空"
 
-#: admin.php:1510 admin.php:1520
+#: admin.php:1778 admin.php:1788
 msgid "错误"
 msgstr "錯誤"
 
-#: admin.php:1512
+#: admin.php:1780
 msgid "（商品货号：%s）"
 msgstr "（商品貨號：%s）"
 
-#: admin.php:1513
+#: admin.php:1781
 msgid "（商品价格：%d）"
 msgstr "（商品價格：%d）"
 
-#: admin.php:1563
+#: admin.php:1836
 msgid "删除成功！"
 msgstr "刪除成功！"
 
-#: admin.php:1578
+#: admin.php:1851
 msgid "货品货号重复"
 msgstr "貨品貨號重複"
 
-#: admin.php:1586
+#: admin.php:1859
 msgid "货品修改成功！"
 msgstr "貨品修改成功！"
 
@@ -249,8 +288,8 @@ msgid "商品库规格"
 msgstr "商品庫規格"
 
 #: admin_attribute.php:86 admin_attribute.php:125 admin_attribute.php:233
-#: admin_gallery.php:103 admin_goods_spec.php:86 admin_goods_spec.php:117
-#: admin_goods_spec.php:173
+#: admin_gallery.php:103 admin_gallery_product.php:109 admin_goods_spec.php:86
+#: admin_goods_spec.php:117 admin_goods_spec.php:173
 msgid "概述"
 msgstr "概述"
 
@@ -263,18 +302,18 @@ msgstr ""
 "中。"
 
 #: admin_attribute.php:91 admin_attribute.php:130 admin_attribute.php:238
-#: admin_gallery.php:109 admin_goods_spec.php:91 admin_goods_spec.php:122
-#: admin_goods_spec.php:178
+#: admin_gallery.php:109 admin_gallery_product.php:115 admin_goods_spec.php:91
+#: admin_goods_spec.php:122 admin_goods_spec.php:178
 msgid "更多信息："
 msgstr "更多信息："
 
 #: admin_attribute.php:92
 msgid ""
-"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E5.B1.9E."
-"E6.80.A7.E5.88.97.E8.A1.A8\" target=\"_blank\">关于商品属性列表帮助文档</a>"
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E5.B1.9E.E6.80."
+"A7.E5.88.97.E8.A1.A8\" target=\"_blank\">关于商品属性列表帮助文档</a>"
 msgstr ""
-"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E5.B1.9E."
-"E6.80.A7.E5.88.97.E8.A1.A8\" target=\"_blank\">關於商品屬性列表幫助文檔</a>"
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E5.B1.9E.E6.80."
+"A7.E5.88.97.E8.A1.A8\" target=\"_blank\">關於商品屬性列表幫助文檔</a>"
 
 #: admin_attribute.php:101 admin_attribute.php:121 admin_attribute.php:142
 #: admin_attribute.php:226 admin_attribute.php:227
@@ -291,11 +330,11 @@ msgstr "歡迎訪問ECJia智能後台添加商品屬性頁面，可以在此頁�
 
 #: admin_attribute.php:131
 msgid ""
-"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB."
-"E5.8A.A0.E5.B1.9E.E6.80.A7\" target=\"_blank\">关于添加商品属性帮助文档</a>"
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB.E5.8A."
+"A0.E5.B1.9E.E6.80.A7\" target=\"_blank\">关于添加商品属性帮助文档</a>"
 msgstr ""
-"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB."
-"E5.8A.A0.E5.B1.9E.E6.80.A7\" target=\"_blank\">关于添加商品属性帮助文档</a>"
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB.E5.8A."
+"A0.E5.B1.9E.E6.80.A7\" target=\"_blank\">关于添加商品属性帮助文档</a>"
 
 #: admin_attribute.php:159
 msgid "商品类型不能为空"
@@ -337,18 +376,14 @@ msgstr ""
 msgid "编辑属性 [%s] 成功。"
 msgstr "編輯屬性 [%s] 成功。"
 
-#: admin_attribute.php:293 admin_gallery.php:229 admin_goods_spec.php:247
+#: admin_attribute.php:293 admin_gallery.php:229 admin_gallery_product.php:248
+#: admin_goods_spec.php:247
 msgid "删除成功"
 msgstr "刪除成功"
 
 #: admin_attribute.php:313
 msgid "成功删除了 %d 条商品属性"
 msgstr "成功刪除了 %d 條商品屬性"
-
-#: admin_attribute.php:338 admin_attribute.php:363 admin_gallery.php:242
-#: admin_goods_spec.php:268
-msgid "编辑成功"
-msgstr "編輯成功"
 
 #: admin_attribute.php:341 configs/jslang.php:58
 msgid "请输入属性名称"
@@ -362,13 +397,13 @@ msgstr "請輸入大於0的整數"
 msgid "编辑商品相册"
 msgstr "編輯商品相冊"
 
-#: admin_gallery.php:105
+#: admin_gallery.php:105 admin_gallery_product.php:111
 msgid ""
 "欢迎访问ECJia智能后台商品相册页面，系统中所有的商品图片都会显示在此页面。"
 msgstr ""
 "歡迎訪問ECJia智能後台商品相冊頁面，系統中所有的商品圖片都會顯示在此頁面。"
 
-#: admin_gallery.php:110
+#: admin_gallery.php:110 admin_gallery_product.php:116
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E5.95.86."
 "E5.93.81.E7.9B.B8.E5.86.8C\" target=\"_blank\">关于商品相册帮助文档</a>"
@@ -376,11 +411,11 @@ msgstr ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E5.95.86."
 "E5.93.81.E7.9B.B8.E5.86.8C\" target=\"_blank\">關於商品相冊幫助文檔</a>"
 
-#: admin_gallery.php:174 admin_goods_spec.php:165
+#: admin_gallery.php:174 admin_gallery_product.php:192 admin_goods_spec.php:165
 msgid "参数丢失"
 msgstr "參數丟失"
 
-#: admin_gallery.php:261
+#: admin_gallery.php:261 admin_gallery_product.php:280
 msgid "保存排序成功"
 msgstr "保存排序成功"
 
@@ -395,12 +430,12 @@ msgstr ""
 #: admin_goods_spec.php:92
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E5.95.86."
-"E5.93.81.E7.B1.BB.E5.9E.8B.E5.88.97.E8.A1.A8\" target=\"_blank\">关于商品规"
-"格列表帮助文档</a>"
+"E5.93.81.E7.B1.BB.E5.9E.8B.E5.88.97.E8.A1.A8\" target=\"_blank\">关于商品规格"
+"列表帮助文档</a>"
 msgstr ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E5.95.86."
-"E5.93.81.E7.B1.BB.E5.9E.8B.E5.88.97.E8.A1.A8\" target=\"_blank\">關於商品規"
-"格列表幫助文檔</a>"
+"E5.93.81.E7.B1.BB.E5.9E.8B.E5.88.97.E8.A1.A8\" target=\"_blank\">關於商品規格"
+"列表幫助文檔</a>"
 
 #: admin_goods_spec.php:101
 msgid "商品库规格列表"
@@ -416,13 +451,13 @@ msgstr "歡迎訪問ECJia智能後台添加商品規格頁面，可以在此頁�
 
 #: admin_goods_spec.php:123
 msgid ""
-"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB."
-"E5.8A.A0.E5.95.86.E5.93.81.E7.B1.BB.E5.9E.8B\" target=\"_blank\">关于添加商"
-"品规格帮助文档</a>"
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB.E5.8A."
+"A0.E5.95.86.E5.93.81.E7.B1.BB.E5.9E.8B\" target=\"_blank\">关于添加商品规格帮"
+"助文档</a>"
 msgstr ""
-"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB."
-"E5.8A.A0.E5.95.86.E5.93.81.E7.B1.BB.E5.9E.8B\" target=\"_blank\">關於添加商"
-"品規格幫助文檔</a>"
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品类型#.E6.B7.BB.E5.8A."
+"A0.E5.95.86.E5.93.81.E7.B1.BB.E5.9E.8B\" target=\"_blank\">關於添加商品規格幫"
+"助文檔</a>"
 
 #: admin_goods_spec.php:145 admin_goods_spec.php:222 admin_goods_spec.php:270
 msgid "已经存在一个同名的商品规格。"
@@ -536,14 +571,18 @@ msgstr "商品庫導入"
 
 #: classes/goods_image_data.class.php:153
 #: classes/goods_image_data.class.php:238
+#: classes/product_image_data.class.php:155
+#: classes/product_image_data.class.php:239
 msgid "商品图片路径无效"
 msgstr "商品圖片路徑無效"
 
 #: classes/goods_image_data.class.php:183
+#: classes/product_image_data.class.php:184
 msgid "商品相册复制失败"
 msgstr "商品相冊複製失敗"
 
 #: classes/goods_image_data.class.php:209
+#: classes/product_image_data.class.php:210
 msgid "商品缩略图路径无效"
 msgstr "商品縮略圖路徑無效"
 
@@ -677,15 +716,26 @@ msgid "商品【%s】已导入，请勿重复导入"
 msgstr "商品【%s】已導入，請勿重複導入"
 
 #: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:26
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:35
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:36
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:37
+#: content/apps/goodslib/templates/admin/product_desc.dwt.php:35
+#: content/apps/goodslib/templates/admin/product_desc.dwt.php:36
+#: content/apps/goodslib/templates/admin/product_desc.dwt.php:37
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:36
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:37
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:38
 #: content/apps/goodslib/templates/merchant/goods_cat_select.dwt.php:38
 msgid "是否放弃本页面修改？"
 msgstr "是否放棄本頁面修改？"
 
 #: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:42
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:69
 msgid "商品名称："
 msgstr "商品名稱："
 
 #: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:55
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:77
 msgid "商品货号："
 msgstr "商品貨號："
 
@@ -780,14 +830,17 @@ msgid "商品图片"
 msgstr "商品圖片"
 
 #: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:194
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:46
 msgid "上传商品图片："
 msgstr "上傳商品圖片："
 
 #: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:203
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:55
 msgid "商品缩略图："
 msgstr "商品縮略圖："
 
 #: content/apps/goodslib/templates/admin/goodslib_info.dwt.php:210
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:62
 msgid "点击更换商品图片或商品缩略图。"
 msgstr "點擊更換商品圖片或商品縮略圖。"
 
@@ -823,7 +876,9 @@ msgstr "確定"
 
 #: content/apps/goodslib/templates/admin/goods_desc.dwt.php:41
 #: content/apps/goodslib/templates/admin/goods_attr.dwt.php:52
-#: content/apps/goodslib/templates/admin/product_info.dwt.php:87
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:69
+#: content/apps/goodslib/templates/admin/product_info.dwt.php:89
+#: content/apps/goodslib/templates/admin/product_desc.dwt.php:51
 #: content/apps/goodslib/templates/admin/goods_photo.dwt.php:54
 #: content/apps/goodslib/templates/merchant/goods_cat_select.dwt.php:89
 msgid "保存"
@@ -912,6 +967,84 @@ msgstr "請選擇商品規格"
 msgid "请选择商品的所属规格，进而完善此商品的属性"
 msgstr "請選擇商品的所屬規格，進而完善此商品的屬性"
 
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:24
+#: content/apps/goodslib/templates/admin/product_desc.dwt.php:24
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:25
+msgid "货品（SKU）"
+msgstr "貨品（SKU）"
+
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:26
+#: content/apps/goodslib/templates/admin/product_desc.dwt.php:26
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:27
+msgid "切换查看"
+msgstr "切換查看"
+
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:35
+#: content/apps/goodslib/templates/admin/product_desc.dwt.php:35
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:36
+msgid "基本信息"
+msgstr "基本信息"
+
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:36
+#: content/apps/goodslib/templates/admin/product_desc.dwt.php:36
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:37
+msgid "相册"
+msgstr "相冊"
+
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:37
+#: content/apps/goodslib/templates/admin/product_desc.dwt.php:37
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:38
+msgid "图文详情"
+msgstr "圖文詳情"
+
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:52
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:37
+msgid "排序后请点击“保存排序”"
+msgstr "排序後請點擊“保存排序”"
+
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:68
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:53
+msgid "取消"
+msgstr "取消"
+
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:70
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:55
+msgid "您确定要删除这张相册图片吗？"
+msgstr "您確定要刪除這張相冊圖片嗎？"
+
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:70
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:92
+#: content/apps/goodslib/templates/admin/product_info.dwt.php:61
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:55
+#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:56
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:34
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:107
+msgid "删除"
+msgstr "刪除"
+
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:71
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:56
+msgid "移动"
+msgstr "移動"
+
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:72
+#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:91
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:57
+#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:55
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:102
+msgid "编辑"
+msgstr "編輯"
+
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:73
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:58
+msgid "无标题"
+msgstr "無標題"
+
+#: content/apps/goodslib/templates/admin/product_photo.dwt.php:80
+#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:65
+msgid "保存排序"
+msgstr "保存排序"
+
 #: content/apps/goodslib/templates/admin/attribute_list.dwt.php:24
 #: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:31
 #: content/apps/goodslib/templates/merchant/goods_list.dwt.php:38
@@ -956,6 +1089,7 @@ msgid "可选值列表"
 msgstr "可選值列表"
 
 #: content/apps/goodslib/templates/admin/attribute_list.dwt.php:60
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:84
 msgid "排序"
 msgstr "排序"
 
@@ -972,24 +1106,9 @@ msgstr "屬性名稱不能為空"
 msgid "请输入排序号"
 msgstr "請輸入排序號"
 
-#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:91
-#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:57
-#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:55
-#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:102
-msgid "编辑"
-msgstr "編輯"
-
 #: content/apps/goodslib/templates/admin/attribute_list.dwt.php:92
 msgid "您确实要删除该属性吗？"
 msgstr "您確實要刪除該屬性嗎？"
-
-#: content/apps/goodslib/templates/admin/attribute_list.dwt.php:92
-#: content/apps/goodslib/templates/admin/product_info.dwt.php:59
-#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:55
-#: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:56
-#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:107
-msgid "删除"
-msgstr "刪除"
 
 #: content/apps/goodslib/templates/admin/attribute_list.dwt.php:97
 #: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:72
@@ -1037,12 +1156,21 @@ msgstr "導入成功！"
 msgid "查看商品列表"
 msgstr "查看商品列表"
 
-#: content/apps/goodslib/templates/admin/product_info.dwt.php:80
+#: content/apps/goodslib/templates/admin/product_info.dwt.php:55
+msgid "编辑货品货号"
+msgstr "編輯貨品貨號"
+
+#: content/apps/goodslib/templates/admin/product_info.dwt.php:61
+msgid "确定要删除吗？"
+msgstr "確定要刪除嗎？"
+
+#: content/apps/goodslib/templates/admin/product_info.dwt.php:82
 msgid "再添加一项"
 msgstr "再添加一項"
 
-#: content/apps/goodslib/templates/admin/product_info.dwt.php:85
+#: content/apps/goodslib/templates/admin/product_info.dwt.php:87
 #: content/apps/goodslib/templates/admin/goods_photo.dwt.php:71
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:101
 msgid "完成"
 msgstr "完成"
 
@@ -1077,30 +1205,6 @@ msgstr "目前僅支持（.xls）格式文件，文件大小請控制在20M以�
 #: content/apps/goodslib/templates/admin/goods_photo.dwt.php:35
 msgid "（编辑、排序、删除）"
 msgstr "（編輯、排序、刪除）"
-
-#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:37
-msgid "排序后请点击“保存排序”"
-msgstr "排序後請點擊“保存排序”"
-
-#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:53
-msgid "取消"
-msgstr "取消"
-
-#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:55
-msgid "您确定要删除这张相册图片吗？"
-msgstr "您確定要刪除這張相冊圖片嗎？"
-
-#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:56
-msgid "移动"
-msgstr "移動"
-
-#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:58
-msgid "无标题"
-msgstr "無標題"
-
-#: content/apps/goodslib/templates/admin/goods_photo.dwt.php:65
-msgid "保存排序"
-msgstr "保存排序"
 
 #: content/apps/goodslib/templates/admin/attribute_info.dwt.php:29
 msgid "所属商品规格："
@@ -1138,12 +1242,12 @@ msgstr "屬性是否可選："
 
 #: content/apps/goodslib/templates/admin/attribute_info.dwt.php:70
 msgid ""
-"选择\"单选/复选属性\"时，可以对商品该属性设置多个值，同时还能对不同属性值指"
-"定不同的价格加价，用户购买商品时需要选定具体的属性值。<br/>选择\"唯一属性"
-"\"时，商品的该属性值只能设置一个值，用户只能查看该值。"
+"选择\"单选/复选属性\"时，可以对商品该属性设置多个值，同时还能对不同属性值指定"
+"不同的价格加价，用户购买商品时需要选定具体的属性值。<br/>选择\"唯一属性\"时，"
+"商品的该属性值只能设置一个值，用户只能查看该值。"
 msgstr ""
-"選擇\"單選/複選屬性\"時，可以對商品該屬性設置多個值，同時還能對不同屬性值指"
-"定不同的價格加價，用戶購買商品時需要選定具體的屬性值。 <br/>選擇\"唯一屬性"
+"選擇\"單選/複選屬性\"時，可以對商品該屬性設置多個值，同時還能對不同屬性值指定"
+"不同的價格加價，用戶購買商品時需要選定具體的屬性值。 <br/>選擇\"唯一屬性"
 "\"時，商品的該屬性值只能設置一個值，用戶只能查看該值。"
 
 #: content/apps/goodslib/templates/admin/attribute_info.dwt.php:74
@@ -1197,6 +1301,14 @@ msgstr ""
 #: content/apps/goodslib/templates/admin/goods_type_list.dwt.php:66
 msgid "点击修改状态"
 msgstr "點擊修改狀態"
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:19
+msgid "批量导入"
+msgstr "批量導入"
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:23
+msgid "导出结果"
+msgstr "導出結果"
 
 #: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:34
 #: content/apps/goodslib/templates/merchant/goods_list.dwt.php:40
@@ -1270,9 +1382,49 @@ msgstr "商品名稱"
 msgid "价格"
 msgstr "價格"
 
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:99
+msgid "多货品"
+msgstr "多貨品"
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:106
+msgid "预览"
+msgstr "預覽"
+
 #: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:107
 msgid "您确定要把该商品放入回收站吗？"
 msgstr "您確定要把該商品放入回收站嗎？"
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:115
+msgid "请输入商品价格"
+msgstr "請輸入商品價格"
+
+#: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:131
+msgid "请输入排序序号"
+msgstr "請輸入排序序號"
+
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:72
+msgid "非必填，若不填则默认使用主商品名称"
+msgstr "非必填，若不填則默認使用主商品名稱"
+
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:80
+msgid "非必填，系统默认自动生成"
+msgstr "非必填，系統默認自動生成"
+
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:84
+msgid "价格："
+msgstr "價格："
+
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:87
+msgid "非必填，若不填则默认使用主商品价格"
+msgstr "非必填，若不填則默認使用主商品價格"
+
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:91
+msgid "条形码："
+msgstr "條形碼："
+
+#: content/apps/goodslib/templates/admin/product_edit.dwt.php:94
+msgid "非必填，可手动输入或修改"
+msgstr "非必填，可手動輸入或修改"
 
 #: content/apps/goodslib/templates/merchant/goods_list.dwt.php:70
 msgid "市场价"
@@ -1337,3 +1489,9 @@ msgstr ""
 #: content/apps/goodslib/templates/merchant/goods_cat_select.dwt.php:70
 msgid "请输入商品分类关键字"
 msgstr "請輸入商品分類關鍵字"
+
+#~ msgid "添加货品"
+#~ msgstr "添加貨品"
+
+#~ msgid "编辑货品"
+#~ msgstr "編輯貨品"

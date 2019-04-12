@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App staff 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-04 10:59+0800\n"
-"PO-Revision-Date: 2019-04-09 10:20+0800\n"
+"POT-Creation-Date: 2019-04-12 14:00+0800\n"
+"PO-Revision-Date: 2019-04-12 14:01+0800\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: admin_store_staff.php:84
@@ -24,66 +24,92 @@ msgid "自营店铺"
 msgstr "自營店鋪"
 
 #: admin_store_staff.php:105 admin_store_staff.php:125
-#: admin_store_staff.php:152 apis/staff_store_menu_api.class.php:60
+#: admin_store_staff.php:156 admin_store_staff.php:330
+#: apis/staff_store_menu_api.class.php:60
 msgid "查看员工"
 msgstr "查看員工"
 
-#: admin_store_staff.php:121 admin_store_staff.php:275
+#: admin_store_staff.php:121 admin_store_staff.php:279
 msgid "自营店铺列表"
 msgstr "自營店鋪列表"
 
-#: admin_store_staff.php:123 admin_store_staff.php:277
+#: admin_store_staff.php:123 admin_store_staff.php:281
 msgid "入驻商家列表"
 msgstr "入駐商家列表"
 
-#: admin_store_staff.php:143
+#: admin_store_staff.php:147
 msgid "编辑店长"
 msgstr "編輯店長"
 
-#: admin_store_staff.php:150 admin_store_staff.php:180
+#: admin_store_staff.php:154 admin_store_staff.php:184
+#: admin_store_staff.php:328
 msgid "店铺信息不存在！"
 msgstr "店鋪信息不存在！"
 
-#: admin_store_staff.php:153
+#: admin_store_staff.php:157
 msgid " - 编辑店长"
 msgstr "- 編輯店長"
 
-#: admin_store_staff.php:184
+#: admin_store_staff.php:188
 msgid "姓名不能为空"
 msgstr "姓名不能為空"
 
-#: admin_store_staff.php:187
+#: admin_store_staff.php:191
 msgid "联系手机不能为空"
 msgstr "聯繫手機不能為空"
 
-#: admin_store_staff.php:194
+#: admin_store_staff.php:198
 msgid "邮箱不能为空"
 msgstr "郵箱不能為空"
 
-#: admin_store_staff.php:199
+#: admin_store_staff.php:203
 msgid "联系手机员工中已存在，请修改"
 msgstr "聯繫手機員工中已存在，請修改"
 
-#: admin_store_staff.php:203
+#: admin_store_staff.php:207
 msgid "邮箱员工中已存在，请修改"
 msgstr "郵箱員工中已存在，請修改"
 
-#: admin_store_staff.php:217 admin_store_staff.php:306
+#: admin_store_staff.php:221 admin_store_staff.php:310
 msgid "更新成功"
 msgstr "更新成功"
 
-#: admin_store_staff.php:253
+#: admin_store_staff.php:257
 msgid "重置成功"
 msgstr "重置成功"
 
-#: admin_store_staff.php:255
+#: admin_store_staff.php:259
 msgid "重置失败"
 msgstr "重置失敗"
 
-#: admin_store_staff.php:268 admin_store_staff.php:279
+#: admin_store_staff.php:272 admin_store_staff.php:283
 #: apis/staff_store_menu_api.class.php:59
 msgid "员工设置"
 msgstr "員工設置"
+
+#: admin_store_staff.php:321 get_password.php:168
+msgid "修改密码"
+msgstr "修改密碼"
+
+#: admin_store_staff.php:331
+msgid " - 修改密码"
+msgstr "- 修改密碼"
+
+#: admin_store_staff.php:353
+msgid "没有输入确认密码。"
+msgstr "沒有輸入確認密碼。"
+
+#: admin_store_staff.php:366
+msgid "修改密码成功"
+msgstr "修改密碼成功"
+
+#: admin_store_staff.php:368
+msgid "确认密码和输入的密码不一致。"
+msgstr "確認密碼和輸入的密碼不一致。"
+
+#: admin_store_staff.php:371 configs/jslang.php:72
+msgid "请输入新密码"
+msgstr "請輸入新密碼"
 
 #: apis/staff_merchant_menu_api.class.php:56 classes/Helper.php:59
 msgid "员工"
@@ -231,23 +257,23 @@ msgstr "請輸入正確郵件賬號"
 msgid "请输入密码"
 msgstr "請輸入密碼"
 
-#: configs/jslang.php:72
+#: configs/jslang.php:73
 msgid "确认密码不能为空"
 msgstr "确认密码不能为空"
 
-#: configs/jslang.php:73
+#: configs/jslang.php:74
 msgid "请输入员工组名称"
 msgstr "請輸入員工組名稱"
 
-#: configs/jslang.php:74
+#: configs/jslang.php:75
 msgid "请输入员工组描述"
 msgstr "請輸入員工組描述"
 
-#: configs/jslang.php:76
+#: configs/jslang.php:77
 msgid "确定"
 msgstr "確定"
 
-#: configs/jslang.php:77
+#: configs/jslang.php:78
 msgid "取消"
 msgstr "取消"
 
@@ -299,10 +325,6 @@ msgstr "用戶名與Email地址不匹配,請重新輸入！"
 #: get_password.php:161 get_password.php:194
 msgid "此链接不合法!"
 msgstr "此鏈接不合法!"
-
-#: get_password.php:168
-msgid "修改密码"
-msgstr "修改密碼"
 
 #: get_password.php:197 get_password.php:306
 msgid "新密码和确认密码须保持一致"
@@ -650,10 +672,10 @@ msgid "校验码错误！"
 msgstr "校驗碼錯誤！"
 
 #: modules/v2/admin/user/signin_module.class.php:67
-#: modules/v2/admin/user/signin_module.class.php:121
-#: modules/v2/admin/user/signin_module.class.php:332
-#: modules/v2/admin/user/signin_module.class.php:345
-#: modules/v2/admin/user/signin_module.class.php:480
+#: modules/v2/admin/user/signin_module.class.php:120
+#: modules/v2/admin/user/signin_module.class.php:303
+#: modules/v2/admin/user/signin_module.class.php:316
+#: modules/v2/admin/user/signin_module.class.php:439
 msgid "您输入的帐号信息不正确"
 msgstr "您輸入的帳號信息不正確"
 
@@ -677,11 +699,11 @@ msgstr "對不起，該店鋪已鎖定，請聯繫平台管理員！"
 msgid "此账号不是商家账号"
 msgstr "此賬號不是商家賬號"
 
-#: modules/v2/admin/user/signin_module.class.php:128
+#: modules/v2/admin/user/signin_module.class.php:127
 msgid "此设备不属于当前店铺设备，请使用当前店铺设备登录！"
 msgstr "此設備不屬於當前店鋪設備，請使用當前店鋪設備登錄！"
 
-#: modules/v2/admin/user/signin_module.class.php:343
+#: modules/v2/admin/user/signin_module.class.php:314
 msgid "平台管理员请登录掌柜管理"
 msgstr "平台管理員請登錄掌櫃管理"
 
@@ -780,38 +802,38 @@ msgstr "重置店長登錄密碼將發送新密碼到店長手機短信，<br>�
 msgid "重置密码"
 msgstr "重置密碼"
 
-#: content/apps/staff/templates/admin/store_staff.dwt.php:62
+#: content/apps/staff/templates/admin/store_staff.dwt.php:65
 #: content/apps/staff/templates/merchant/staff_list.dwt.php:50
 msgid "员工编号"
 msgstr "員工編號"
 
-#: content/apps/staff/templates/admin/store_staff.dwt.php:63
+#: content/apps/staff/templates/admin/store_staff.dwt.php:66
 msgid "员工姓名"
 msgstr "員工姓名"
 
-#: content/apps/staff/templates/admin/store_staff.dwt.php:63
+#: content/apps/staff/templates/admin/store_staff.dwt.php:66
 #: content/apps/staff/templates/merchant/staff_list.dwt.php:49
 msgid "昵称"
 msgstr "暱稱"
 
-#: content/apps/staff/templates/admin/store_staff.dwt.php:64
+#: content/apps/staff/templates/admin/store_staff.dwt.php:67
 msgid "联系方式"
 msgstr "聯繫方式"
 
-#: content/apps/staff/templates/admin/store_staff.dwt.php:65
+#: content/apps/staff/templates/admin/store_staff.dwt.php:68
 #: content/apps/staff/templates/merchant/get_pwd.dwt.php:20
 msgid "邮箱"
 msgstr "郵箱"
 
-#: content/apps/staff/templates/admin/store_staff.dwt.php:66
+#: content/apps/staff/templates/admin/store_staff.dwt.php:69
 msgid "加入时间"
 msgstr "加入時間"
 
-#: content/apps/staff/templates/admin/store_staff.dwt.php:67
+#: content/apps/staff/templates/admin/store_staff.dwt.php:70
 msgid "描述"
 msgstr "描述"
 
-#: content/apps/staff/templates/admin/store_staff.dwt.php:83
+#: content/apps/staff/templates/admin/store_staff.dwt.php:86
 #: content/apps/staff/templates/merchant/staff_log_list.dwt.php:77
 #: content/apps/staff/templates/merchant/staff_list.dwt.php:75
 msgid "没有找到任何记录"
@@ -831,11 +853,27 @@ msgid "电子邮箱："
 msgstr "電子郵箱："
 
 #: content/apps/staff/templates/admin/store_staff_edit.dwt.php:73
+#: content/apps/staff/templates/admin/store_staff_change_password.dwt.php:56
 #: content/apps/staff/templates/merchant/staff_group_edit.dwt.php:92
 #: content/apps/staff/templates/merchant/staff_edit.dwt.php:119
 #: content/apps/staff/templates/merchant/staff_allot.dwt.php:75
 msgid "更新"
 msgstr "更新"
+
+#: content/apps/staff/templates/admin/store_staff_change_password.dwt.php:30
+msgid "店长名称："
+msgstr "店長名稱："
+
+#: content/apps/staff/templates/admin/store_staff_change_password.dwt.php:37
+#: content/apps/staff/templates/merchant/staff_edit.dwt.php:102
+msgid "新密码："
+msgstr "新密碼："
+
+#: content/apps/staff/templates/admin/store_staff_change_password.dwt.php:45
+#: content/apps/staff/templates/merchant/staff_info.dwt.php:156
+#: content/apps/staff/templates/merchant/staff_edit.dwt.php:109
+msgid "确认密码："
+msgstr "確認密碼："
 
 #: content/apps/staff/templates/merchant/staff_info.dwt.php:21
 msgid "该员工手机号已通过审核，请尽快完善员工资料。"
@@ -938,11 +976,6 @@ msgstr "郵件賬號："
 #: content/apps/staff/templates/merchant/staff_info.dwt.php:148
 msgid "密码："
 msgstr "密碼："
-
-#: content/apps/staff/templates/merchant/staff_info.dwt.php:156
-#: content/apps/staff/templates/merchant/staff_edit.dwt.php:109
-msgid "确认密码："
-msgstr "確認密碼："
 
 #: content/apps/staff/templates/merchant/staff_info.dwt.php:165
 #: content/apps/staff/templates/merchant/profile_info.dwt.php:65
@@ -1218,10 +1251,6 @@ msgstr "自我介紹"
 msgid "备注"
 msgstr "備註"
 
-#: content/apps/staff/templates/merchant/staff_edit.dwt.php:102
-msgid "新密码："
-msgstr "新密碼："
-
 #: content/apps/staff/templates/merchant/staff_log_list.dwt.php:29
 msgid "全部IP"
 msgstr "全部IP"
@@ -1295,10 +1324,6 @@ msgstr "請先填寫舊密碼"
 #: content/apps/staff/templates/merchant/get_pwd.dwt.php:106
 msgid "新密码"
 msgstr "新密碼"
-
-#: content/apps/staff/templates/merchant/profile_setting.dwt.php:64
-msgid "请输入新密码"
-msgstr "請輸入新密碼"
 
 #: content/apps/staff/templates/merchant/profile_setting.dwt.php:68
 #: content/apps/staff/templates/merchant/get_pwd.dwt.php:41

@@ -119,7 +119,7 @@ class goods_info {
 	 *
 	 * @return 商品最终购买价格
 	 */
-	public static function get_final_price($goods_id, $goods_num = '1', $is_spec_price = false, $spec = array())
+	public static function get_final_price($goods_id, $goods_num = '1', $is_spec_price = false, $spec = array(), $product_id = 0)
 	{
 		$db_goodsview = RC_Model::model('goods/goods_viewmodel');
 		RC_Loader::load_app_func ('goods', 'goods');
@@ -143,15 +143,37 @@ class goods_info {
 		$goods = $db_goodsview->join(array('member_price'))->field($field)->where(array('g.goods_id' => $goods_id, 'g.is_delete' => 0))->find();
 
 		/* 计算商品的促销价格 */
-		if ($goods ['promote_price'] > 0) {
+		if ($goods['promote_price'] > 0 && $goods['is_promote' == '1']) {
 			$promote_price = self::bargain_price ($goods['promote_price'], $goods ['promote_start_date'], $goods ['promote_end_date'] );
 		} else {
 			$promote_price = 0;
 		}
 
-		// 取得商品会员价格列表
+		//商品会员价格
 		$user_price = $goods['shop_price'];
-
+		
+		//是货品情况
+		if (!empty($product_id)) {
+			$product_info = RC_DB::table('products')->where('product_id', $product_id)->first();
+			//商品SKU价格模式：商品价格 + 属性货品价格
+			if (ecjia::config('sku_price_mode') == 'goods_sku') {
+				//货品促销价存在，替换商品促销价
+				if ($product_info ['promote_price'] > 0 && $product_info['is_promote'] == '1') {
+					$promote_price = self::bargain_price ($product_info['promote_price'], $goods['promote_start_date'], $goods['promote_end_date'] );
+				}else {
+					$promote_price = 0;
+				}
+			}
+			//货品会员价格存在替换商品会员等级价
+			$product_user_price = $product_info['product_shop_price'] > 0 ? $product_info['product_shop_price']*$_SESSION['discount'] : $user_price;
+			$user_price = $product_user_price; 
+		}
+		
+		//商品促销限购数量判断（有没超过用户限购数， 有没超过活动限购数）；超过限购按商品原价处理
+		//if ($promote_price > 0) {
+				
+		//}
+		
 		// 比较商品的促销价格，会员价格，优惠价格
 		if (empty ( $volume_price ) && empty ( $promote_price )) {
 			// 如果优惠价格，促销价格都为空则取会员价格
@@ -168,6 +190,7 @@ class goods_info {
 		} else {
 			$final_price = $user_price;
 		}
+		
 		/* 手机专享*/
 		$mobilebuy_db = RC_DB::table('goods_activity');
 		$mobilebuy_ext_info = array('price' => 0);
@@ -186,8 +209,13 @@ class goods_info {
 		// 如果需要加入规格价格
 		if ($is_spec_price) {
 			if (! empty ( $spec )) {
-				$spec_price = self::spec_price ( $spec );
-				$final_price += $spec_price;
+				if ($product_id > 0) {
+					//商品SKU价格模式：商品价格 + 属性货品价格
+					if (ecjia::config('sku_price_mode') == 'goods_sku') {
+						$spec_price = self::spec_price ( $spec );
+						$final_price += $spec_price;
+					}
+				}
 			}
 		}
 		// 返回商品最终购买价格

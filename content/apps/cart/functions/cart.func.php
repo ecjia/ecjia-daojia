@@ -480,7 +480,7 @@ function flow_clear_cart_alone() {
  * @param   integer $parent     基本件
  * @return  boolean
  */
-function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehouse_id = 0, $area_id = 0, $price = 0, $weight = 0, $flow_type = CART_GENERAL_GOODS) {
+function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehouse_id = 0, $area_id = 0, $price = 0, $weight = 0, $flow_type = CART_GENERAL_GOODS, $product_id = 0) {
 	$dbview 		= RC_Loader::load_app_model('sys_goods_member_viewmodel', 'goods');
 	$db_cart 		= RC_Loader::load_app_model('cart_model', 'cart');
 	$db_products 	= RC_Loader::load_app_model('products_model', 'goods');
@@ -491,25 +491,12 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
 	RC_Loader::load_app_func('global', 'goods');
 	
 	$field = "g.goods_id, g.market_price, g.goods_name, g.goods_sn, g.is_on_sale, g.is_real, g.store_id as store_id, g.model_inventory, g.model_attr, ".
-// 			"g.is_xiangou, g.xiangou_start_date, g.xiangou_end_date, g.xiangou_num, ".
-// 			"wg.w_id, wg.warehouse_price, wg.warehouse_promote_price, wg.region_number as wg_number, wag.region_price, wag.region_promote_price, wag.region_number as wag_number, ".
-// 			"IF(g.model_price < 1, g.shop_price, IF(g.model_price < 2, wg.warehouse_price, wag.region_price)) AS org_price,  ".
 			"g.model_price, g.market_price, ".
 			"g.promote_price as promote_price, ".
 			" g.promote_start_date, g.promote_end_date, g.goods_weight, g.integral, g.extension_code, g.goods_number, g.is_alone_sale, g.is_shipping, ".
 			"IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS shop_price ";
     /* 取得商品信息 */
    	$dbview->view = array(
-//    		'warehouse_goods' => array(
-//    			'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-//    			'alias' => 'wg',
-//    			'on'   	=> "g.goods_id = wg.goods_id and wg.region_id = '$warehouse_id'"
-//    		),
-//    		'warehouse_area_goods' => array(
-//    			'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-//    			'alias' => 'wag',
-//    			'on'   	=> "g.goods_id = wag.goods_id and wag.region_id = '$area_id'"
-//    		),
    		'member_price' => array(
    			'type'     => Component_Model_View::TYPE_LEFT_JOIN,
    			'alias'    => 'mp',
@@ -585,15 +572,18 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
     	}
     }
   
-    /* 计算商品的促销价格 */
-//     $warehouse_area['warehouse_id'] = $warehouse_id;
-//     $warehouse_area['area_id']      = $area_id;
     
     $spec_price             = spec_price($spec, $goods_id);
-    $goods_price            = get_final_price($goods_id, $num, true, $spec);
-//     $goods['market_price'] += $spec_price;
+    $goods_price            = get_final_price($goods_id, $num, true, $spec, $product_id);
+    $goods['market_price'] += $spec_price;
     $goods_attr             = get_goods_attr_info($spec, 'no');
     $goods_attr_id          = join(',', $spec);
+    if (!empty($product_id)) {
+    	//商品SKU价格模式：商品价格 + 属性货品价格
+    	if (ecjia::config('sku_price_mode') == 'goods_sku') {
+    		$goods['market_price'] += $spec_price;
+    	}
+    }
     
     /*收银台商品购物车类型*/
     $rec_type = !empty($flow_type) ? intval($flow_type) : CART_GENERAL_GOODS;
@@ -731,7 +721,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
                 $goods_storage=$goods['goods_number'];
             }
             if (ecjia::config('use_storage') == 0 || $num <= $goods_storage) {
-                $goods_price = get_final_price($goods_id, $num, true, $spec);
+                $goods_price = get_final_price($goods_id, $num, true, $spec, $product_id);
                 $data =  array(
                 		'goods_number' => $num,
                 		'goods_price'  => $goods_price,
@@ -748,7 +738,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
             $cart_id = $row['rec_id'];
         } else {
         	//购物车没有此物品，则插入
-            $goods_price = get_final_price($goods_id, $num, true, $spec );
+            $goods_price = get_final_price($goods_id, $num, true, $spec, $product_id);
             $parent['goods_price']  = max($goods_price, 0);
             $parent['goods_number'] = $num;
             $parent['parent_id']    = 0;

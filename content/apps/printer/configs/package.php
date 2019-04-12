@@ -56,7 +56,7 @@ return array(
 	'description' 	=> __('用来管理商家订单打印使用的小票打印机。', 'printer'),
 	'author' 		=> 'ECJIA TEAM',			    /* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	    /* 网址 */
-	'version' 		=> '1.29.0',					/* 版本号 */
+	'version' 		=> '1.30.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2013 ~ 2019.',
     'namespace'     => 'Ecjia\App\Printer',
     'provider'      => 'PrinterServiceProvider',

@@ -71,10 +71,13 @@ class bbc_cart_create_module extends api_front implements api_interface {
 	    $goods_id		= $this->requestData('goods_id', 0);
 	    $goods_number	= $this->requestData('number', 1);
 	    $location		= $this->requestData('location', array());
+	    $product_id		= $this->requestData('product_id', 0);  //货品id
+	    
 	    if (empty($goods_id) || !is_numeric($goods_id)) {
 	        return new ecjia_error('invalid_parameter', __('请求接口bbc_cart_create_module参数错误', 'cart'));
 	    }
 	    $goods_spec		= $this->requestData('spec', array());
+	    
 	    
 	    $rec_type		= trim($this->requestData('rec_type', 'GENERAL_GOODS')); 
 	    $object_id 		= $this->requestData('goods_activity_id', 0);
@@ -99,7 +102,7 @@ class bbc_cart_create_module extends api_front implements api_interface {
     		$result = RC_Api::api('cart', 'cart_groupbuy_manage', array('goods_id' => $goods_id, 'goods_number' => $goods_number, 'goods_spec' => $goods_spec, 'rec_type' => $rec_type, 'store_group' => $store_id_group, 'goods_activity_id' => $object_id));
     	} else {
     		$flow_type = CART_GENERAL_GOODS;
-    		$result = RC_Api::api('cart', 'cart_manage', array('goods_id' => $goods_id, 'goods_number' => $goods_number, 'goods_spec' => $goods_spec, 'rec_type' => $rec_type, 'store_group' => $store_id_group));
+    		$result = RC_Api::api('cart', 'cart_manage', array('goods_id' => $goods_id, 'goods_number' => $goods_number, 'goods_spec' => $goods_spec, 'rec_type' => $rec_type, 'store_group' => $store_id_group, $product_id));
     	}
 
 	    if (is_ecjia_error($result)) {

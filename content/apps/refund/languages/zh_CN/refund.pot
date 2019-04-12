@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App refund package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App refund 1.28.0\n"
+"Project-Id-Version: Ecjia App refund 1.30.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-04 05:54:48+00:00\n"
+"POT-Creation-Date: 2019-04-12 04:02:30+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -49,46 +49,50 @@ msgstr ""
 msgid "退款详情"
 msgstr ""
 
-#: admin_payrecord.php:230
+#: admin_payrecord.php:236
 msgid "请输入退款备注"
 msgstr ""
 
-#: admin_payrecord.php:236
+#: admin_payrecord.php:243
 msgid "退款单信息不存在"
 msgstr ""
 
-#: admin_payrecord.php:253
+#: admin_payrecord.php:249
+msgid "商家微信支付的订单不支持退回余额，请选择原路退回。"
+msgstr ""
+
+#: admin_payrecord.php:263
 msgid "退款操作成功"
 msgstr ""
 
-#: admin_payrecord.php:269
-msgid "退款操作成功，等待微信到款通知即可"
+#: admin_payrecord.php:279
+msgid "退款申请已提交，等待微信到款通知即可"
 msgstr ""
 
-#: admin_payrecord.php:286
+#: admin_payrecord.php:296
 msgid "与支付机构对账成功，状态正常"
 msgstr ""
 
-#: admin_payrecord.php:357
+#: admin_payrecord.php:367
 msgid "待处理"
 msgstr ""
 
-#: admin_payrecord.php:359 apis/refund_merchant_refund_order_api.class.php:74
+#: admin_payrecord.php:369 apis/refund_merchant_refund_order_api.class.php:74
 #: apis/refund_refund_order_list_api.class.php:73
 #: modules/refund/detail_module.class.php:109
-#: modules/refund/payrecord_module.class.php:117
+#: modules/refund/payrecord_module.class.php:108
 msgid "已退款"
 msgstr ""
 
-#: admin_payrecord.php:361
+#: admin_payrecord.php:371
 msgid "退款处理中"
 msgstr ""
 
-#: admin_payrecord.php:363
+#: admin_payrecord.php:373
 msgid "退款失败"
 msgstr ""
 
-#: admin_payrecord.php:365
+#: admin_payrecord.php:375
 msgid "退款关闭"
 msgstr ""
 
@@ -117,14 +121,14 @@ msgstr ""
 #: apis/refund_merchant_refund_order_api.class.php:66
 #: apis/refund_refund_order_list_api.class.php:66
 #: modules/refund/apply_module.class.php:405
-#: modules/refund/detail_module.class.php:282
+#: modules/refund/detail_module.class.php:294
 msgid "仅退款"
 msgstr ""
 
 #: apis/refund_merchant_refund_order_api.class.php:66
 #: apis/refund_refund_order_list_api.class.php:66
 #: modules/refund/apply_module.class.php:405
-#: modules/refund/detail_module.class.php:282
+#: modules/refund/detail_module.class.php:294
 msgid "退货退款"
 msgstr ""
 
@@ -196,17 +200,17 @@ msgid "已打款"
 msgstr ""
 
 #: classes/Enums/RefundShipEnum.php:42
-#: modules/refund/detail_module.class.php:319
+#: modules/refund/detail_module.class.php:331
 msgid "无需退货"
 msgstr ""
 
 #: classes/Enums/RefundShipEnum.php:43
-#: modules/refund/detail_module.class.php:322
+#: modules/refund/detail_module.class.php:334
 msgid "买家未发货"
 msgstr ""
 
 #: classes/Enums/RefundShipEnum.php:44
-#: modules/refund/detail_module.class.php:325
+#: modules/refund/detail_module.class.php:337
 msgid "买家发货"
 msgstr ""
 
@@ -421,7 +425,7 @@ msgstr ""
 
 #: modules/refund/detail_module.class.php:92
 #: modules/refund/detail_module.class.php:112
-#: modules/refund/payrecord_module.class.php:120
+#: modules/refund/payrecord_module.class.php:111
 msgid "待审核"
 msgstr ""
 
@@ -430,30 +434,63 @@ msgid "拒绝"
 msgstr ""
 
 #: modules/refund/detail_module.class.php:106
-#: modules/refund/payrecord_module.class.php:114
+#: modules/refund/payrecord_module.class.php:105
 msgid "已审核"
 msgstr ""
 
-#: modules/refund/detail_module.class.php:328
+#: modules/refund/detail_module.class.php:239
+msgid "申请退款"
+msgstr ""
+
+#: modules/refund/detail_module.class.php:240
+msgid "服务单退款申请已处理"
+msgstr ""
+
+#: modules/refund/detail_module.class.php:241
+msgid "退款到账"
+msgstr ""
+
+#: modules/refund/detail_module.class.php:242
+msgid "确认收货处理"
+msgstr ""
+
+#: modules/refund/detail_module.class.php:243
+msgid "订单退货退款已处理"
+msgstr ""
+
+#: modules/refund/detail_module.class.php:244
+msgid "撤销退款申请"
+msgstr ""
+
+#: modules/refund/detail_module.class.php:245
+msgid "无法接单"
+msgstr ""
+
+#: modules/refund/detail_module.class.php:246
+msgid "返还退货商品"
+msgstr ""
+
+#: modules/refund/detail_module.class.php:247
+msgid "订单退货退款申请已处理"
+msgstr ""
+
+#: modules/refund/detail_module.class.php:340
 msgid "商家确认收货"
 msgstr ""
 
-#: modules/refund/detail_module.class.php:331
+#: modules/refund/detail_module.class.php:343
 msgid "商家未收到货"
 msgstr ""
 
-#: modules/refund/payrecord_module.class.php:87
-#: modules/refund/payrecord_module.class.php:99
+#: modules/refund/payrecord_module.class.php:90
 msgid "退回余额"
 msgstr ""
 
-#: modules/refund/payrecord_module.class.php:89
-#: modules/refund/payrecord_module.class.php:101
+#: modules/refund/payrecord_module.class.php:92
 msgid "微信支付账户"
 msgstr ""
 
-#: modules/refund/payrecord_module.class.php:91
-#: modules/refund/payrecord_module.class.php:103
+#: modules/refund/payrecord_module.class.php:94
 msgid "支付宝账户"
 msgstr ""
 
@@ -548,7 +585,7 @@ msgstr ""
 #: content/apps/refund/templates/admin/return_detail.dwt.php:51
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:51
 #: content/apps/refund/templates/admin/payrecord_detail.dwt.php:75
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:311
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:317
 #: content/apps/refund/templates/admin/refund_list.dwt.php:53
 #: content/apps/refund/templates/admin/payrecord_list.dwt.php:35
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:100
@@ -590,7 +627,7 @@ msgstr ""
 #: content/apps/refund/templates/admin/return_detail.dwt.php:146
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:67
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:91
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:249
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:255
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:114
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:211
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:224
@@ -734,8 +771,8 @@ msgstr ""
 
 #: content/apps/refund/templates/admin/return_detail.dwt.php:160
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:105
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:127
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:182
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:130
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:188
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:232
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:108
 msgid "退款方式："
@@ -743,7 +780,7 @@ msgstr ""
 
 #: content/apps/refund/templates/admin/return_detail.dwt.php:160
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:105
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:183
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:189
 #: content/apps/refund/templates/admin/payrecord_list.dwt.php:91
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:232
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:108
@@ -752,7 +789,7 @@ msgstr ""
 
 #: content/apps/refund/templates/admin/return_detail.dwt.php:161
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:106
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:187
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:193
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:233
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:109
 msgid "应退款金额："
@@ -761,7 +798,7 @@ msgstr ""
 #: content/apps/refund/templates/admin/return_detail.dwt.php:163
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:108
 #: content/apps/refund/templates/admin/payrecord_detail.dwt.php:88
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:199
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:205
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:235
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:111
 msgid "扣除支付手续费："
@@ -769,8 +806,8 @@ msgstr ""
 
 #: content/apps/refund/templates/admin/return_detail.dwt.php:167
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:112
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:95
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:207
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:98
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:213
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:239
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:115
 msgid "扣除配送费："
@@ -778,8 +815,8 @@ msgstr ""
 
 #: content/apps/refund/templates/admin/return_detail.dwt.php:171
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:116
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:102
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:214
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:105
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:220
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:243
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:119
 msgid "扣除保价费："
@@ -787,8 +824,8 @@ msgstr ""
 
 #: content/apps/refund/templates/admin/return_detail.dwt.php:175
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:120
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:109
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:221
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:112
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:227
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:247
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:123
 msgid "退回发票费："
@@ -796,8 +833,8 @@ msgstr ""
 
 #: content/apps/refund/templates/admin/return_detail.dwt.php:178
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:123
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:115
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:227
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:118
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:233
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:250
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:126
 msgid "实际退款金额："
@@ -805,7 +842,7 @@ msgstr ""
 
 #: content/apps/refund/templates/admin/return_detail.dwt.php:180
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:125
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:233
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:239
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:252
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:128
 msgid "积分："
@@ -813,7 +850,7 @@ msgstr ""
 
 #: content/apps/refund/templates/admin/return_detail.dwt.php:182
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:127
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:244
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:250
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:254
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:130
 msgid "退款时间："
@@ -855,7 +892,7 @@ msgstr ""
 #: content/apps/refund/templates/admin/return_detail.dwt.php:301
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:190
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:246
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:267
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:273
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:280
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:336
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:155
@@ -889,7 +926,7 @@ msgstr ""
 #: content/apps/refund/templates/admin/return_detail.dwt.php:304
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:193
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:249
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:270
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:276
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:283
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:339
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:158
@@ -901,7 +938,7 @@ msgstr ""
 #: content/apps/refund/templates/admin/return_detail.dwt.php:308
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:197
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:253
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:274
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:280
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:287
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:343
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:162
@@ -913,7 +950,7 @@ msgstr ""
 #: content/apps/refund/templates/admin/return_detail.dwt.php:312
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:201
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:257
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:278
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:284
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:291
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:347
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:166
@@ -925,7 +962,7 @@ msgstr ""
 #: content/apps/refund/templates/admin/return_detail.dwt.php:316
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:205
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:261
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:282
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:288
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:295
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:351
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:170
@@ -937,7 +974,7 @@ msgstr ""
 #: content/apps/refund/templates/admin/return_detail.dwt.php:320
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:209
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:265
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:286
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:292
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:299
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:355
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:174
@@ -949,7 +986,7 @@ msgstr ""
 #: content/apps/refund/templates/admin/return_detail.dwt.php:324
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:213
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:269
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:290
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:296
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:303
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:359
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:178
@@ -961,7 +998,7 @@ msgstr ""
 #: content/apps/refund/templates/admin/return_detail.dwt.php:328
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:217
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:273
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:294
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:300
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:307
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:363
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:182
@@ -973,7 +1010,7 @@ msgstr ""
 #: content/apps/refund/templates/admin/return_detail.dwt.php:332
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:221
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:277
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:298
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:304
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:311
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:367
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:186
@@ -985,7 +1022,7 @@ msgstr ""
 #: content/apps/refund/templates/admin/return_detail.dwt.php:336
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:225
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:281
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:302
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:308
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:315
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:371
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:190
@@ -997,7 +1034,7 @@ msgstr ""
 #: content/apps/refund/templates/admin/return_detail.dwt.php:340
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:229
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:285
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:306
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:312
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:319
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:375
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:194
@@ -1009,7 +1046,7 @@ msgstr ""
 #: content/apps/refund/templates/admin/return_detail.dwt.php:344
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:233
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:289
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:266
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:272
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:323
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:379
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:198
@@ -1021,7 +1058,7 @@ msgstr ""
 #: content/apps/refund/templates/admin/return_detail.dwt.php:346
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:235
 #: content/apps/refund/templates/admin/refund_detail.dwt.php:291
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:310
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:316
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:325
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:381
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:200
@@ -1152,116 +1189,124 @@ msgid "退款操作"
 msgstr ""
 
 #: content/apps/refund/templates/admin/payrecord_detail.dwt.php:83
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:194
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:200
 msgid "退还支付手续费："
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:121
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:91
+msgid "使用余额退款时，支付手续费会被消耗掉，将不作退回"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:124
 msgid "退回积分："
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:148
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:153
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:122
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:180
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:66
 msgid "操作备注："
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:152
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:157
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:126
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:184
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:70
 msgid "请选择……"
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:153
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:158
 msgid "退款完成"
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:154
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:159
 msgid "退款金额已原路退回"
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:155
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:160
 msgid "已全额退款"
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:156
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:161
 msgid "金额已退回账户余额"
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:157
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:162
 msgid "退回商品金额及红包、积分"
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:160
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:163
+msgid "退回余额时，支付手续费金额已被扣除"
+msgstr ""
+
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:166
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:134
 #: content/apps/refund/templates/merchant/return_detail.dwt.php:192
 #: content/apps/refund/templates/merchant/refund_detail.dwt.php:78
 msgid "可使用快捷用语"
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:175
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:181
 msgid "平台退款详情"
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:177
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:183
 msgid "平台确认："
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:239
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:245
 msgid "退款备注："
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:260
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:266
 msgid "售后基本信息"
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:309
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:315
 msgid "是否配送："
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:309
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:315
 msgid "已配送"
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:309
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:315
 msgid "未配送"
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:312
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:318
 msgid "审核时间："
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:313
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:319
 msgid "点此处查看退款单详细信息 >>"
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:329
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:335
 msgid "退款流水状态："
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:332
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:338
 msgid "退款失败原因："
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:334
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:340
 msgid "退款订单流水号："
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:335
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:341
 msgid "支付公司退款流水号："
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:336
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:342
 msgid "退款创建时间："
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:337
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:343
 msgid "退款确认时间："
 msgstr ""
 
-#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:338
+#: content/apps/refund/templates/admin/payrecord_detail.dwt.php:344
 msgid "点此处查看退款流水详细信息 >>"
 msgstr ""
 

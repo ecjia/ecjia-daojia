@@ -114,7 +114,7 @@ class storebuy_cart_create_module extends api_front implements api_interface {
 			}
 		}
 		
-		$result = addto_cart($goods['goods_id'], $goods_number, $goods_spec, 0, 0, 0, 0, 0, $rec_type);
+		$result = addto_cart($goods['goods_id'], $goods_number, $goods_spec, 0, 0, 0, 0, 0, $rec_type, $products_goods['product_id']);
 		
 		if (is_ecjia_error($result)) {
 			return $result;

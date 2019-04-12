@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App cashier 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-03 15:19+0800\n"
-"PO-Revision-Date: 2019-04-04 18:08+0800\n"
+"POT-Creation-Date: 2019-04-12 13:33+0800\n"
+"PO-Revision-Date: 2019-04-12 13:34+0800\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: apis/cashier_merchant_purview_api.class.php:57 mh_bulk_goods.php:87
@@ -457,15 +457,15 @@ msgstr "條碼秤碼"
 msgid "编辑条码秤成功"
 msgstr "編輯條碼秤成功"
 
-#: modules/admin/cashier/flow/checkOrder_module.class.php:244
+#: modules/admin/cashier/flow/checkOrder_module.class.php:245
 msgid "当前账号已申请注销，不可执行此操作！"
 msgstr "當前賬號已申請註銷，不可執行此操作"
 
-#: modules/admin/cashier/flow/checkOrder_module.class.php:317
+#: modules/admin/cashier/flow/checkOrder_module.class.php:318
 msgid "该商品不存在或已下架"
 msgstr "該商品不存在或已下架"
 
-#: modules/admin/cashier/flow/checkOrder_module.class.php:324
+#: modules/admin/cashier/flow/checkOrder_module.class.php:325
 msgid "对不起，该商品所属的店铺已锁定！"
 msgstr "對不起，該商品所屬的店鋪已鎖定！"
 
@@ -473,29 +473,29 @@ msgstr "對不起，該商品所屬的店鋪已鎖定！"
 msgid "购物车中没有商品"
 msgstr "購物車中沒有商品"
 
-#: modules/admin/cashier/flow/done_module.class.php:110
+#: modules/admin/cashier/flow/done_module.class.php:115
 msgid "库存不足"
 msgstr "庫存不足"
 
-#: modules/admin/cashier/flow/done_module.class.php:118
+#: modules/admin/cashier/flow/done_module.class.php:123
 msgid "匿名用户"
 msgstr "匿名用戶"
 
-#: modules/admin/cashier/flow/done_module.class.php:193
+#: modules/admin/cashier/flow/done_module.class.php:198
 #: modules/admin/cashier/quickpay/order/pay_module.class.php:68
 msgid "请选择支付方式"
 msgstr "請選擇支付方式"
 
-#: modules/admin/cashier/flow/done_module.class.php:267
+#: modules/admin/cashier/flow/done_module.class.php:271
 msgid "无需物流"
 msgstr "無需物流"
 
-#: modules/admin/cashier/flow/done_module.class.php:349
+#: modules/admin/cashier/flow/done_module.class.php:354
 #: modules/admin/cashier/quickpay/flow/done_module.class.php:230
 msgid "支付订单 %s"
 msgstr "支付訂單 %s"
 
-#: modules/admin/cashier/flow/done_module.class.php:355
+#: modules/admin/cashier/flow/done_module.class.php:360
 msgid "处理失败"
 msgstr "處理失敗"
 
@@ -517,10 +517,10 @@ msgid "订单信息不存在！"
 msgstr "訂單信息不存在！"
 
 #: modules/admin/cashier/orders/refund/apply_module.class.php:75
-#: modules/admin/cashier/orders/refund/summary_module.class.php:34
+#: modules/admin/cashier/orders/refund/summary_module.class.php:33
 #: modules/admin/cashier/orders/search_module.class.php:27
 #: modules/admin/cashier/orders/summary_module.class.php:33
-#: modules/admin/cashier/pendorder/create_module.class.php:18
+#: modules/admin/cashier/pendorder/create_module.class.php:25
 #: modules/admin/cashier/pendorder/delete_module.class.php:19
 #: modules/admin/cashier/quickpay/order/payConfirm_module.class.php:72
 msgid "参数错误"
@@ -594,7 +594,7 @@ msgstr "僅退款"
 msgid "非收银台请求！"
 msgstr "非收銀臺請求！"
 
-#: modules/admin/cashier/pendorder/create_module.class.php:25
+#: modules/admin/cashier/pendorder/create_module.class.php:32
 msgid "指定的购物车商品不存在！"
 msgstr "指定的購物車商品不存在！"
 

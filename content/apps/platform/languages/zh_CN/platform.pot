@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App platform package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App platform 1.27.4\n"
+"Project-Id-Version: Ecjia App platform 1.30.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-04 05:54:39+00:00\n"
+"POT-Creation-Date: 2019-04-12 04:02:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -156,7 +156,7 @@ msgid ""
 msgstr ""
 
 #: admin_plugin.php:75 apis/platform_admin_menu_api.class.php:58
-#: classes/Frameworks/EcjiaPlatform.php:366
+#: classes/Frameworks/EcjiaPlatform.php:392
 #: classes/hooks/merchant_platform.class.php:55 configs/package.php:55
 #: configs/package.php:56
 msgid "公众平台"
@@ -324,30 +324,30 @@ msgstr ""
 msgid " 页"
 msgstr ""
 
-#: classes/Frameworks/EcjiaPlatform.php:153
-#: classes/Frameworks/EcjiaPlatform.php:509
+#: classes/Frameworks/EcjiaPlatform.php:154
+#: classes/Frameworks/EcjiaPlatform.php:520
 msgid "系统提示"
 msgstr ""
 
-#: classes/Frameworks/EcjiaPlatform.php:154
-#: classes/Frameworks/EcjiaPlatform.php:158
+#: classes/Frameworks/EcjiaPlatform.php:155
+#: classes/Frameworks/EcjiaPlatform.php:159
 msgid "对不起 ,您没有执行此项操作的权限!"
 msgstr ""
 
-#: classes/Frameworks/EcjiaPlatform.php:154
+#: classes/Frameworks/EcjiaPlatform.php:155
 msgid "重新登录"
 msgstr ""
 
-#: classes/Frameworks/EcjiaPlatform.php:450
+#: classes/Frameworks/EcjiaPlatform.php:461
 msgid "操作错误"
 msgstr ""
 
-#: classes/Frameworks/EcjiaPlatform.php:505
-#: classes/Frameworks/EcjiaPlatform.php:510
+#: classes/Frameworks/EcjiaPlatform.php:516
+#: classes/Frameworks/EcjiaPlatform.php:521
 msgid "对不起，您没有执行此项操作的权限！"
 msgstr ""
 
-#: classes/Frameworks/EcjiaPlatform.php:900
+#: classes/Frameworks/EcjiaPlatform.php:911
 msgid "版权所有 © 2013-2018 上海商创网络科技有限公司，并保留所有权利。"
 msgstr ""
 

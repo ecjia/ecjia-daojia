@@ -56,7 +56,7 @@ return array(
     'description'   => __('UCenter是各个产品之间信息直接传递的一个桥梁，通过UcServer无缝整合系列产品，实现用户的一站式注册、登录、退出以及社区其他数据的交互。', 'ucserver'),
     'author' 	    => 'ECJIA TEAM', 				/* 作者 */
     'website' 	    => 'http://www.ecjia.com', 	/* 网址 */
-    'version' 	    => '1.29.0', 					/* 版本号 */
+    'version' 	    => '1.30.0', 					/* 版本号 */
     'copyright'     => 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Ucserver',
     'provider'      => 'UcserverServiceProvider',

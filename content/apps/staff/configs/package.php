@@ -56,7 +56,7 @@ return array(
 	'description' 	=> __('对商家后台每个员工进行管理以及分配权限', 'staff'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.29.0',					/* 版本号 */
+	'version' 		=> '1.30.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2015 ~ 2019.',
     'namespace'     => 'Ecjia\App\Staff',
     'provider'      => 'StaffServiceProvider',

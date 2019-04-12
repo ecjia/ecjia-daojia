@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App setting package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App setting 2.28.0\n"
+"Project-Id-Version: Ecjia App setting 2.30.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-04 05:54:47+00:00\n"
+"POT-Creation-Date: 2019-04-12 04:02:30+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -92,8 +92,16 @@ msgstr ""
 msgid "系统语言"
 msgstr ""
 
+#: classes/SettingComponents/BasicSetting.php:119
+msgid "商店系统使用的语言，zh_cn是简体中文，zh_tw是繁体中文，en_us是英文"
+msgstr ""
+
 #: classes/SettingComponents/BasicSetting.php:125 configs/shop_config.php:788
 msgid "ICP证书或ICP备案证书号"
+msgstr ""
+
+#: classes/SettingComponents/BasicSetting.php:126
+msgid "ICP证书号，显示在网站前台底部"
 msgstr ""
 
 #: classes/SettingComponents/BasicSetting.php:132 configs/shop_config.php:117
@@ -116,12 +124,22 @@ msgstr ""
 msgid "四级配送区域名称"
 msgstr ""
 
+#: classes/SettingComponents/BasicSetting.php:161
+msgid ""
+"最多就支持四级配送区域，分别是国家，省，市，区。这里的区域名称也是可以修改的"
+msgstr ""
+
 #: classes/SettingComponents/BasicSetting.php:167 configs/shop_config.php:211
 msgid "日期格式"
 msgstr ""
 
 #: classes/SettingComponents/BasicSetting.php:174 configs/shop_config.php:218
 msgid "时间格式"
+msgstr ""
+
+#: classes/SettingComponents/BasicSetting.php:175
+msgid ""
+"例:Y-m-d H:i:s，分别为“年-月-日 小时:分钟:秒”，设置后，主要影响活动商品倒计时"
 msgstr ""
 
 #: classes/SettingComponents/BasicSetting.php:181 configs/shop_config.php:848
@@ -180,6 +198,10 @@ msgstr ""
 
 #: classes/SettingComponents/BasicSetting.php:216 configs/shop_config.php:1190
 msgid "默认时区"
+msgstr ""
+
+#: classes/SettingComponents/BasicSetting.php:217
+msgid "如果在中国的话建议选择 (GMT + 08:00)beijing"
 msgstr ""
 
 #: classes/SettingComponents/BasicSetting.php:219 configs/shop_config.php:1193
@@ -705,8 +727,16 @@ msgstr ""
 msgid "客服邮件地址"
 msgstr ""
 
+#: classes/SettingComponents/ServiceSetting.php:139
+msgid "设置客服邮件地址，如:开启下单发送邮件，系统会自动发送邮件给我们客服"
+msgstr ""
+
 #: classes/SettingComponents/ServiceSetting.php:145 configs/shop_config.php:452
 msgid "客服电话"
+msgstr ""
+
+#: classes/SettingComponents/ServiceSetting.php:146
+msgid "联系平台的电话"
 msgstr ""
 
 #: classes/SettingComponents/ServiceSetting.php:152
@@ -714,9 +744,17 @@ msgstr ""
 msgid "微博地址"
 msgstr ""
 
+#: classes/SettingComponents/ServiceSetting.php:153
+msgid "微博地址链接，例:商家后台底部点击微博后，跳到对应微博首页"
+msgstr ""
+
 #: classes/SettingComponents/ServiceSetting.php:159
 #: configs/shop_config.php:1342
 msgid "微信二维码"
+msgstr ""
+
+#: classes/SettingComponents/ServiceSetting.php:160
+msgid "微信公众号二维码展示，例:商家后台底部展示"
 msgstr ""
 
 #: classes/SettingComponents/ShopInfoSetting.php:76
@@ -727,6 +765,10 @@ msgstr ""
 #: classes/SettingComponents/ShopInfoSetting.php:109
 #: configs/shop_config.php:337
 msgid "商店名称"
+msgstr ""
+
+#: classes/SettingComponents/ShopInfoSetting.php:110
+msgid "网店的名称"
 msgstr ""
 
 #: classes/SettingComponents/ShopInfoSetting.php:116
@@ -744,9 +786,17 @@ msgstr ""
 msgid "商店描述"
 msgstr ""
 
+#: classes/SettingComponents/ShopInfoSetting.php:124
+msgid "商店描述内容，将显示在浏览器的Description"
+msgstr ""
+
 #: classes/SettingComponents/ShopInfoSetting.php:130
 #: configs/shop_config.php:365
 msgid "商店关键字"
+msgstr ""
+
+#: classes/SettingComponents/ShopInfoSetting.php:131
+msgid "商店的关键字，将显示在浏览器的Keywords"
 msgstr ""
 
 #: classes/SettingComponents/ShopInfoSetting.php:137
@@ -769,9 +819,18 @@ msgstr ""
 msgid "详细地址"
 msgstr ""
 
+#: classes/SettingComponents/ShopInfoSetting.php:159
+msgid "填写后可以显示在前台页面的最底下"
+msgstr ""
+
 #: classes/SettingComponents/ShopInfoSetting.php:165
 #: configs/shop_config.php:107
 msgid "暂时关闭网站"
+msgstr ""
+
+#: classes/SettingComponents/ShopInfoSetting.php:166
+#: classes/SettingComponents/UserSetting.php:60
+msgid "商店需升级或者其他原因临时关闭网站"
 msgstr ""
 
 #: classes/SettingComponents/ShopInfoSetting.php:175
@@ -798,6 +857,10 @@ msgstr ""
 #: classes/SettingComponents/ShopInfoSetting.php:189
 #: configs/shop_config.php:1328
 msgid "公司名称"
+msgstr ""
+
+#: classes/SettingComponents/ShopInfoSetting.php:190
+msgid "设置商城对应的公司名称"
 msgstr ""
 
 #: classes/SettingComponents/ShopInfoSetting.php:196
@@ -831,6 +894,10 @@ msgstr ""
 msgid "是否开启会员邮件验证"
 msgstr ""
 
+#: classes/SettingComponents/UserSetting.php:70
+msgid "开启后，会员注册时，系统会自动发送验证码到会员的邮箱"
+msgstr ""
+
 #: classes/SettingComponents/UserSetting.php:79 configs/shop_config.php:533
 msgid "用户注册时自动发送验证邮件"
 msgstr ""
@@ -841,6 +908,10 @@ msgstr ""
 
 #: classes/SettingComponents/UserSetting.php:89 configs/shop_config.php:939
 msgid "会员注册赠送积分"
+msgstr ""
+
+#: classes/SettingComponents/UserSetting.php:90
+msgid "新人注册可获得的积分奖励。"
 msgstr ""
 
 #: classes/SettingComponents/UserSetting.php:96 configs/shop_config.php:173

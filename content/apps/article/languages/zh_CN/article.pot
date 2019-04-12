@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App article package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App article 1.28.0\n"
+"Project-Id-Version: Ecjia App article 1.30.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-04 05:54:47+00:00\n"
+"POT-Creation-Date: 2019-04-12 04:02:30+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -810,12 +810,26 @@ msgstr ""
 msgid "文章标题的长度"
 msgstr ""
 
+#: classes/SettingComponents/ArticleSetting.php:49
+msgid ""
+"与商品名称长度一样的原理，例如:设置“16”，当文章列表文字的字符数超过16，则"
+"用“...”代替"
+msgstr ""
+
 #: classes/SettingComponents/ArticleSetting.php:55
 msgid "文章分类页列表的数量"
 msgstr ""
 
+#: classes/SettingComponents/ArticleSetting.php:56
+msgid "限制文章分类页文章显示数量，不填写，则代表没有限制"
+msgstr ""
+
 #: classes/SettingComponents/ArticleSetting.php:62
 msgid "用户帮助是否打开"
+msgstr ""
+
+#: classes/SettingComponents/ArticleSetting.php:63
+msgid "设置“打开”后，此帮助会在后台顶部出现帮助信息"
 msgstr ""
 
 #: classes/SettingComponents/ArticleSetting.php:65

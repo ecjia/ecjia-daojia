@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App orders 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-03 18:49+0800\n"
-"PO-Revision-Date: 2019-04-09 09:51+0800\n"
+"POT-Creation-Date: 2019-04-12 13:52+0800\n"
+"PO-Revision-Date: 2019-04-12 13:53+0800\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: admin.php:105 admin.php:260 admin.php:693 admin.php:736
@@ -170,7 +170,7 @@ msgstr ""
 #: configs/jslang.php:139 functions/global.func.php:442 merchant.php:487
 #: merchant.php:2233 merchant.php:2355 merchant.php:2504 merchant.php:2607
 #: merchant.php:2958 merchant.php:4782
-#: modules/admin/orders/detail_module.class.php:246
+#: modules/admin/orders/detail_module.class.php:248
 #: modules/admin/orders/list_module.class.php:286
 #: modules/admin/orders/today_module.class.php:231
 msgid "未发货"
@@ -429,7 +429,7 @@ msgstr "取消添加新訂單"
 #: modules/order/comment/detail_module.class.php:69
 #: modules/order/comment_module.class.php:68
 #: modules/order/detail_module.class.php:72
-#: modules/order/list_module.class.php:76 modules/order/pay_module.class.php:69
+#: modules/order/list_module.class.php:76
 #: modules/order/update_module.class.php:65
 msgid "参数无效"
 msgstr "參數無效"
@@ -514,7 +514,7 @@ msgstr "請選擇辦事處！"
 #: admin.php:2171 admin_order_delivery.php:203
 #: classes/Enums/PayStatusEnum.php:24 configs/jslang.php:54
 #: configs/jslang.php:137 functions/global.func.php:456 merchant.php:2608
-#: merchant.php:4772 modules/admin/orders/detail_module.class.php:241
+#: merchant.php:4772 modules/admin/orders/detail_module.class.php:243
 #: modules/admin/orders/list_module.class.php:281
 #: modules/admin/orders/today_module.class.php:226
 msgid "未付款"
@@ -642,7 +642,7 @@ msgstr "您的訂單%s，%s正在%s，%s"
 #: admin.php:2683 admin_order_delivery.php:198
 #: classes/Enums/OrderStatusEnum.php:33 functions/global.func.php:432
 #: merchant.php:3159 merchant.php:4417 merchant.php:4767
-#: mh_validate_order.php:603 modules/admin/orders/detail_module.class.php:237
+#: mh_validate_order.php:603 modules/admin/orders/detail_module.class.php:239
 #: modules/admin/orders/list_module.class.php:277
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:171
 msgid "已分单"
@@ -650,10 +650,11 @@ msgstr "已分單"
 
 #: admin.php:2683 admin_order_delivery.php:218 functions/global.func.php:447
 #: merchant.php:3160 merchant.php:3384 merchant.php:4418 merchant.php:4787
-#: mh_validate_order.php:603 modules/admin/orders/detail_module.class.php:251
+#: mh_validate_order.php:603 modules/admin/orders/detail_module.class.php:253
 #: modules/admin/orders/list_module.class.php:291
 #: modules/admin/orders/today_module.class.php:236
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:171
+#: modules/order/detail_module.class.php:327
 msgid "发货中"
 msgstr "發貨中"
 
@@ -691,11 +692,10 @@ msgstr "虛擬卡已缺貨"
 
 #: admin.php:2900 admin_order_delivery.php:214 functions/global.func.php:443
 #: merchant.php:4601 merchant.php:4783 mh_validate_order.php:833
-#: modules/admin/orders/detail_module.class.php:247
+#: modules/admin/orders/detail_module.class.php:249
 #: modules/admin/orders/list_module.class.php:287
 #: modules/admin/orders/today_module.class.php:232
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:360
-#: modules/order/detail_module.class.php:327
 msgid "配货中"
 msgstr "配貨中"
 
@@ -713,7 +713,7 @@ msgstr "由於退貨或未發貨操作，退回訂單 %s 贈送的積分"
 
 #: admin.php:3076 admin_order_delivery.php:216 configs/jslang.php:57
 #: configs/jslang.php:140 functions/global.func.php:445 merchant.php:3560
-#: merchant.php:4785 modules/admin/orders/detail_module.class.php:249
+#: merchant.php:4785 modules/admin/orders/detail_module.class.php:251
 #: modules/admin/orders/list_module.class.php:289
 #: modules/admin/orders/today_module.class.php:234
 msgid "收货确认"
@@ -971,7 +971,7 @@ msgstr ""
 #: admin_order_delivery.php:410 classes/Enums/ShippingStatusEnum.php:29
 #: functions/global.func.php:444 merchant.php:4784 merchant.php:4935
 #: mh_delivery.php:415 mh_validate_order.php:350
-#: modules/admin/orders/detail_module.class.php:248
+#: modules/admin/orders/detail_module.class.php:250
 #: modules/admin/orders/list_module.class.php:288
 #: modules/admin/orders/today_module.class.php:233
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:617
@@ -1018,45 +1018,45 @@ msgstr ""
 "BB.86.E4.BF.A1.E6.81.AF\" target=\"_blank\">關於發貨單詳情幫助文檔</a>"
 
 #: admin_order_delivery.php:193 functions/global.func.php:427 merchant.php:4762
-#: modules/admin/orders/detail_module.class.php:232
+#: modules/admin/orders/detail_module.class.php:234
 #: modules/admin/orders/list_module.class.php:272
 msgid "未接单"
 msgstr "未接單"
 
 #: admin_order_delivery.php:194 functions/global.func.php:428 merchant.php:4763
-#: modules/admin/orders/detail_module.class.php:233
+#: modules/admin/orders/detail_module.class.php:235
 #: modules/admin/orders/list_module.class.php:273
 msgid "已接单"
 msgstr "已接單"
 
 #: admin_order_delivery.php:195 functions/global.func.php:429 merchant.php:4764
-#: modules/admin/orders/detail_module.class.php:234
+#: modules/admin/orders/detail_module.class.php:236
 #: modules/admin/orders/list_module.class.php:274
 msgid "<font color=\"red\">取消</font>"
 msgstr "<font color=\"red\">取消</font>"
 
 #: admin_order_delivery.php:196 functions/global.func.php:430 merchant.php:4765
-#: modules/admin/orders/detail_module.class.php:235
+#: modules/admin/orders/detail_module.class.php:237
 #: modules/admin/orders/list_module.class.php:275
 msgid "<font color=\"red\">无效</font>"
 msgstr "<font color=\"red\">無效</font>"
 
 #: admin_order_delivery.php:197 functions/global.func.php:431 merchant.php:4766
-#: modules/admin/orders/detail_module.class.php:236
+#: modules/admin/orders/detail_module.class.php:238
 #: modules/admin/orders/list_module.class.php:276
 msgid "<font color=\"red\">退货</font>"
 msgstr "<font color=\"red\">退貨</font>"
 
 #: admin_order_delivery.php:199 classes/Enums/OrderStatusEnum.php:34
 #: functions/global.func.php:433 merchant.php:4768
-#: modules/admin/orders/detail_module.class.php:238
+#: modules/admin/orders/detail_module.class.php:240
 #: modules/admin/orders/list_module.class.php:278
 msgid "部分分单"
 msgstr "部分分單"
 
 #: admin_order_delivery.php:204 classes/Enums/PayStatusEnum.php:25
 #: functions/global.func.php:457 merchant.php:4773
-#: modules/admin/orders/detail_module.class.php:242
+#: modules/admin/orders/detail_module.class.php:244
 #: modules/admin/orders/list_module.class.php:282
 #: modules/admin/orders/today_module.class.php:227
 msgid "付款中"
@@ -1064,7 +1064,7 @@ msgstr "付款中"
 
 #: admin_order_delivery.php:205 classes/Enums/PayStatusEnum.php:26
 #: functions/global.func.php:458 merchant.php:4774
-#: modules/admin/orders/detail_module.class.php:243
+#: modules/admin/orders/detail_module.class.php:245
 #: modules/admin/orders/list_module.class.php:283
 #: modules/admin/orders/today_module.class.php:228
 #: modules/admin/user/merchant/order/list_module.class.php:68
@@ -1078,7 +1078,7 @@ msgstr "發貨中（前台狀態：未發貨）"
 
 #: admin_order_delivery.php:217 classes/Enums/ShippingStatusEnum.php:32
 #: classes/Enums/ShippingStatusEnum.php:34 functions/global.func.php:446
-#: merchant.php:4786 modules/admin/orders/detail_module.class.php:250
+#: merchant.php:4786 modules/admin/orders/detail_module.class.php:252
 #: modules/admin/orders/list_module.class.php:290
 #: modules/admin/orders/today_module.class.php:235
 msgid "已发货(部分商品)"
@@ -1554,6 +1554,7 @@ msgid "广告转化率"
 msgstr "广告转化率"
 
 #: apis/orders_admin_purview_api.class.php:84
+#: classes/SettingComponents/OrderSetting.php:71
 msgid "订单设置"
 msgstr "訂單設置"
 
@@ -1651,14 +1652,14 @@ msgstr "未找到相應訂單！"
 #: modules/admin/orders/list_module.class.php:373
 #: modules/admin/orders/payment/history_module.class.php:239
 #: modules/admin/orders/today_module.class.php:331
-#: modules/order/detail_module.class.php:367
+#: modules/order/detail_module.class.php:370
 msgid "已完成"
 msgstr "已完成"
 
 #: apis/orders_order_info_api.class.php:140
 #: apis/orders_order_list_api.class.php:205
 #: apis/orders_separate_order_info_api.class.php:121
-#: modules/order/detail_module.class.php:370
+#: modules/order/detail_module.class.php:373
 msgid "待收货"
 msgstr "待收貨"
 
@@ -1673,7 +1674,7 @@ msgstr "待收貨"
 #: modules/admin/orders/today_module.class.php:337
 #: modules/admin/user/merchant/order/list_module.class.php:68
 #: modules/order/detail_module.class.php:324
-#: modules/order/detail_module.class.php:373
+#: modules/order/detail_module.class.php:376
 msgid "待付款"
 msgstr "待付款"
 
@@ -1684,7 +1685,7 @@ msgstr "待付款"
 #: modules/admin/orders/list_module.class.php:389
 #: modules/admin/orders/payment/history_module.class.php:255
 #: modules/admin/orders/today_module.class.php:343
-#: modules/order/detail_module.class.php:376
+#: modules/order/detail_module.class.php:379
 msgid "待发货"
 msgstr "待發貨"
 
@@ -1695,15 +1696,15 @@ msgstr "待發貨"
 #: classes/OrderStatus.php:379 modules/admin/orders/list_module.class.php:295
 #: modules/admin/orders/payment/history_module.class.php:163
 #: modules/admin/orders/today_module.class.php:243
-#: modules/order/detail_module.class.php:382
-#: modules/order/detail_module.class.php:414
+#: modules/order/detail_module.class.php:385
+#: modules/order/detail_module.class.php:417
 msgid "已取消"
 msgstr "已取消"
 
 #: apis/orders_order_info_api.class.php:156
 #: apis/orders_separate_order_info_api.class.php:137 configs/jslang.php:61
 #: configs/jslang.php:144 merchant.php:2187
-#: modules/order/detail_module.class.php:385
+#: modules/order/detail_module.class.php:388
 msgid "退款"
 msgstr "退款"
 
@@ -1717,7 +1718,7 @@ msgid "%s 等 %s 种商品"
 msgstr "%s 等 %s 種商品"
 
 #: apis/orders_order_list_api.class.php:219 classes/OrderStatus.php:465
-#: modules/order/detail_module.class.php:379
+#: modules/order/detail_module.class.php:382
 msgid "部分发货"
 msgstr "部分發貨"
 
@@ -1743,7 +1744,6 @@ msgstr "支付訂單 %s"
 #: apis/orders_user_account_paid_api.class.php:98
 #: functions/admin_order.func.php:1154
 #: modules/admin/orders/pay_module.class.php:85
-#: modules/order/pay_module.class.php:79
 msgid "订单不属于该用户"
 msgstr "訂單不屬於該用戶"
 
@@ -1989,6 +1989,7 @@ msgid "申请审核未通过"
 msgstr "申請審核未通過"
 
 #: classes/OrderStatusLog.class.php:246 classes/OrderStatusLog.php:178
+#: modules/order/detail_module.class.php:337
 msgid "订单退款申请已处理"
 msgstr "訂單退款申請已處理"
 
@@ -2021,6 +2022,7 @@ msgid "您的退款 %s 元，已退回至您的余额，请查收"
 msgstr "您的退款 %s 元，已退回至您的餘額，請查收"
 
 #: classes/OrderStatusLog.class.php:319 classes/OrderStatusLog.php:221
+#: modules/order/detail_module.class.php:338
 msgid "退款到账"
 msgstr "退款到賬"
 
@@ -2054,42 +2056,50 @@ msgstr ""
 "尊敬的%s，您在我們網站已成功下單。訂單號：%s，收貨驗證碼為：%s。請保管好您的"
 "驗證碼，以便收貨驗證"
 
-#: classes/SettingComponents/OrderSetting.php:117
+#: classes/SettingComponents/OrderSetting.php:107
 msgid "确认订单时"
 msgstr "確認訂單時"
 
+#: classes/SettingComponents/OrderSetting.php:108
+#: classes/SettingComponents/OrderSetting.php:118
+#: classes/SettingComponents/OrderSetting.php:128
+#: classes/SettingComponents/OrderSetting.php:138
+msgid "控制商家对应操作之后对客户发送邮件"
+msgstr "控製商家對應操作之後對客戶發送郵件"
+
+#: classes/SettingComponents/OrderSetting.php:110
 #: classes/SettingComponents/OrderSetting.php:120
 #: classes/SettingComponents/OrderSetting.php:130
 #: classes/SettingComponents/OrderSetting.php:140
-#: classes/SettingComponents/OrderSetting.php:150
 msgid "不发送邮件"
 msgstr "不發送郵件"
 
+#: classes/SettingComponents/OrderSetting.php:111
 #: classes/SettingComponents/OrderSetting.php:121
 #: classes/SettingComponents/OrderSetting.php:131
 #: classes/SettingComponents/OrderSetting.php:141
-#: classes/SettingComponents/OrderSetting.php:151
 msgid "发送邮件"
 msgstr "發送郵件"
 
-#: classes/SettingComponents/OrderSetting.php:127
+#: classes/SettingComponents/OrderSetting.php:117
 msgid "发货时"
 msgstr "發貨時"
 
-#: classes/SettingComponents/OrderSetting.php:137
-#: classes/SettingComponents/OrderSetting.php:227
+#: classes/SettingComponents/OrderSetting.php:127
+#: classes/SettingComponents/OrderSetting.php:217
 msgid "取消订单时"
 msgstr "取消訂單時"
 
-#: classes/SettingComponents/OrderSetting.php:147
-#: classes/SettingComponents/OrderSetting.php:217
+#: classes/SettingComponents/OrderSetting.php:137
+#: classes/SettingComponents/OrderSetting.php:207
 msgid "把订单设为无效时"
 msgstr "把訂單設為無效時"
 
-#: classes/SettingComponents/OrderSetting.php:157
+#: classes/SettingComponents/OrderSetting.php:147
 msgid "设置订单为“已付款”时"
 msgstr "設置訂單為“已付款”時"
 
+#: classes/SettingComponents/OrderSetting.php:150
 #: classes/SettingComponents/OrderSetting.php:160
 #: classes/SettingComponents/OrderSetting.php:170
 #: classes/SettingComponents/OrderSetting.php:180
@@ -2097,10 +2107,10 @@ msgstr "設置訂單為“已付款”時"
 #: classes/SettingComponents/OrderSetting.php:200
 #: classes/SettingComponents/OrderSetting.php:210
 #: classes/SettingComponents/OrderSetting.php:220
-#: classes/SettingComponents/OrderSetting.php:230
 msgid "无需填写备注"
 msgstr "無需填寫備註"
 
+#: classes/SettingComponents/OrderSetting.php:151
 #: classes/SettingComponents/OrderSetting.php:161
 #: classes/SettingComponents/OrderSetting.php:171
 #: classes/SettingComponents/OrderSetting.php:181
@@ -2108,79 +2118,94 @@ msgstr "無需填寫備註"
 #: classes/SettingComponents/OrderSetting.php:201
 #: classes/SettingComponents/OrderSetting.php:211
 #: classes/SettingComponents/OrderSetting.php:221
-#: classes/SettingComponents/OrderSetting.php:231
 msgid "必须填写备注"
 msgstr "必須填寫備註"
 
-#: classes/SettingComponents/OrderSetting.php:167
+#: classes/SettingComponents/OrderSetting.php:157
 msgid "设置订单为“未付款”时"
 msgstr "設置訂單為“未付款”時"
 
-#: classes/SettingComponents/OrderSetting.php:177
+#: classes/SettingComponents/OrderSetting.php:167
 msgid "设置订单为“已发货”时"
 msgstr "設置訂單為“已發貨”時"
 
-#: classes/SettingComponents/OrderSetting.php:187
+#: classes/SettingComponents/OrderSetting.php:168
+#: classes/SettingComponents/OrderSetting.php:198
+#: classes/SettingComponents/OrderSetting.php:218
+msgid "控制商家后台管理的时候，进行这些操作是否必须要填写备注"
+msgstr "控製商家後台管理的時候，進行這些操作是否必須要填寫備註"
+
+#: classes/SettingComponents/OrderSetting.php:177
 msgid "设置订单为“收货确认”时"
 msgstr "設置訂單為“收貨確認”時"
 
-#: classes/SettingComponents/OrderSetting.php:197
+#: classes/SettingComponents/OrderSetting.php:187
 msgid "设置订单为“未发货”时"
 msgstr "設置訂單為“未發貨”時"
 
-#: classes/SettingComponents/OrderSetting.php:207
+#: classes/SettingComponents/OrderSetting.php:197
 msgid "退货时"
 msgstr "退貨時"
 
-#: classes/SettingComponents/OrderSetting.php:237
+#: classes/SettingComponents/OrderSetting.php:227
 msgid "下订单时是否给客服发邮件"
 msgstr "下訂單時是否給客服發郵件"
 
-#: classes/SettingComponents/OrderSetting.php:238
+#: classes/SettingComponents/OrderSetting.php:228
 msgid "网店信息中的客服邮件地址不为空时，该选项有效。"
 msgstr "網店信息中的客服郵件地址不為空時，該選項有效。"
 
-#: classes/SettingComponents/OrderSetting.php:240
-#: classes/SettingComponents/OrderSetting.php:261
+#: classes/SettingComponents/OrderSetting.php:230
+#: classes/SettingComponents/OrderSetting.php:251
+#: classes/SettingComponents/OrderSetting.php:268
 msgid "否"
 msgstr "否"
 
-#: classes/SettingComponents/OrderSetting.php:241
-#: classes/SettingComponents/OrderSetting.php:262
+#: classes/SettingComponents/OrderSetting.php:231
+#: classes/SettingComponents/OrderSetting.php:252
+#: classes/SettingComponents/OrderSetting.php:269
 msgid "是"
 msgstr "是"
 
-#: classes/SettingComponents/OrderSetting.php:247
+#: classes/SettingComponents/OrderSetting.php:237
 msgid "购物车里显示商品方式"
 msgstr "購物車裡顯示商品方式"
 
-#: classes/SettingComponents/OrderSetting.php:250
+#: classes/SettingComponents/OrderSetting.php:240
 msgid "只显示文字"
 msgstr "只顯示文字"
 
-#: classes/SettingComponents/OrderSetting.php:251
+#: classes/SettingComponents/OrderSetting.php:241
 msgid "只显示图片"
 msgstr "只顯示圖片"
 
-#: classes/SettingComponents/OrderSetting.php:252
+#: classes/SettingComponents/OrderSetting.php:242
 msgid "显示文字与图片"
 msgstr "顯示文字與圖片"
 
-#: classes/SettingComponents/OrderSetting.php:258
+#: classes/SettingComponents/OrderSetting.php:248
 msgid "购物车里是否显示商品属性"
 msgstr "購物車裡是否顯示商品屬性"
 
-#: classes/SettingComponents/OrderSetting.php:268
+#: classes/SettingComponents/OrderSetting.php:258
 msgid "未付款订单取消"
 msgstr "未付款訂單取消"
 
-#: classes/SettingComponents/OrderSetting.php:269
+#: classes/SettingComponents/OrderSetting.php:259
 msgid ""
 "会员未付款的订单，在设置时间（单位：分钟）后若还没有支付，系统将会自动取消未"
 "付款的订单，默认0代表不设置，不设置则未支付订单将不会自动取消。"
 msgstr ""
 "會員未付款的訂單，在設置時間（單位：分鐘）後若還沒有支付，系統將會自動取消未"
 "付款的訂單，默認0代表不設置，不設置則未支付訂單將不會自動取消。"
+
+#: classes/SettingComponents/OrderSetting.php:265
+msgid "是否开启新订单提醒"
+msgstr "是否開啟新訂單提醒"
+
+#: classes/SettingComponents/OrderSetting.php:266
+msgid "开启后，后台将弹出新订单提醒"
+msgstr "開啟後，後台將彈出新訂單提醒"
 
 #: classes/StoreCleanHandlers/StoreOrdersClear.php:34
 msgid "店铺订单"
@@ -2785,7 +2810,7 @@ msgstr "您的商品已被提貨，感謝您下次光顧！"
 #: modules/order/comment_module.class.php:64
 #: modules/order/detail_module.class.php:63
 #: modules/order/express_module.class.php:60
-#: modules/order/list_module.class.php:59 modules/order/pay_module.class.php:62
+#: modules/order/list_module.class.php:59
 #: modules/order/update_module.class.php:60
 msgid "Invalid session"
 msgstr "Invalid session"
@@ -2827,11 +2852,11 @@ msgstr "驗單，訂單號：%s【來源掌櫃】"
 msgid "已关闭"
 msgstr "已關閉"
 
-#: modules/admin/orders/detail_module.class.php:261
+#: modules/admin/orders/detail_module.class.php:263
 msgid "%s 操作此订单，变更状态为：%s、%s、%s，理由是 %s"
 msgstr "%s 操作此訂單，變更狀態為：%s、%s、%s，理由是 %s"
 
-#: modules/admin/orders/detail_module.class.php:262
+#: modules/admin/orders/detail_module.class.php:264
 msgid "%s 操作此订单，变更状态为：%s、%s、%s"
 msgstr "%s 操作此訂單，變更狀態為：%s、%s、%s"
 
@@ -3110,15 +3135,19 @@ msgstr "免費"
 msgid "配送员已取货"
 msgstr "配送員已取貨"
 
-#: modules/order/detail_module.class.php:408
+#: modules/order/detail_module.class.php:336
+msgid "申请退款"
+msgstr "申請退款"
+
+#: modules/order/detail_module.class.php:411
 msgid "进行中"
 msgstr "進行中"
 
-#: modules/order/detail_module.class.php:411
+#: modules/order/detail_module.class.php:414
 msgid "已退款"
 msgstr "已退款"
 
-#: modules/order/detail_module.class.php:417
+#: modules/order/detail_module.class.php:420
 msgid "退款被拒"
 msgstr "退款被拒"
 
@@ -4092,10 +4121,6 @@ msgstr "匿名會員訂單總數"
 #: content/apps/orders/templates/admin/guest_stats.dwt.php:87
 msgid "匿名会员平均订单额"
 msgstr "匿名會員平均訂單額"
-
-#: content/apps/orders/templates/admin/orders_setting.dwt.php:21
-msgid "未付款订单取消："
-msgstr "未付款訂單取消："
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:22
 #: content/apps/orders/templates/admin/sale_list.dwt.php:14
@@ -6120,6 +6145,9 @@ msgstr "有效訂單數"
 #: content/apps/orders/templates/merchant/adsense.dwt.php:25
 msgid "产生订单总数"
 msgstr "產生訂單總數"
+
+#~ msgid "未付款订单取消："
+#~ msgstr "未付款訂單取消："
 
 #~ msgid "保存成功"
 #~ msgstr "保存成功"

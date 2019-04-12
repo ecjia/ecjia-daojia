@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App cart 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-03 15:10+0800\n"
-"PO-Revision-Date: 2019-04-04 18:07+0800\n"
+"POT-Creation-Date: 2019-04-12 13:31+0800\n"
+"PO-Revision-Date: 2019-04-12 13:32+0800\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: apis/cart_bbc_flow_done_api.class.php:72
@@ -292,129 +292,162 @@ msgstr "發票擡頭和識別碼都不能為空！"
 msgid "货到付款支付不支持上门取货配送！"
 msgstr "貨到付款支付不支持上門取貨配送！"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:63
+#: classes/SettingComponents/ShoppingFlowSetting.php:25
+#: classes/hooks/admin_cart.class.php:56
+msgid "购物流程"
+msgstr "購物流程"
+
+#: classes/SettingComponents/ShoppingFlowSetting.php:56
 msgid "是否使用积分"
 msgstr "是否使用積分"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:66
-#: classes/SettingComponents/ShoppingFlowSetting.php:76
-#: classes/SettingComponents/ShoppingFlowSetting.php:86
-#: classes/SettingComponents/ShoppingFlowSetting.php:96
+#: classes/SettingComponents/ShoppingFlowSetting.php:57
+msgid "设置“使用”则表示用户在结算时，可使用积分抵扣订单金额结算"
+msgstr "設置“使用”則表示用戶在結算時，可使用積分抵扣訂單金額結算"
+
+#: classes/SettingComponents/ShoppingFlowSetting.php:59
+#: classes/SettingComponents/ShoppingFlowSetting.php:69
+#: classes/SettingComponents/ShoppingFlowSetting.php:79
+#: classes/SettingComponents/ShoppingFlowSetting.php:89
 msgid "不使用"
 msgstr "不使用"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:67
-#: classes/SettingComponents/ShoppingFlowSetting.php:77
-#: classes/SettingComponents/ShoppingFlowSetting.php:87
-#: classes/SettingComponents/ShoppingFlowSetting.php:97
+#: classes/SettingComponents/ShoppingFlowSetting.php:60
+#: classes/SettingComponents/ShoppingFlowSetting.php:70
+#: classes/SettingComponents/ShoppingFlowSetting.php:80
+#: classes/SettingComponents/ShoppingFlowSetting.php:90
 msgid "使用"
 msgstr "使用"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:73
+#: classes/SettingComponents/ShoppingFlowSetting.php:66
 msgid "是否使用红包"
 msgstr "是否使用紅包"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:83
+#: classes/SettingComponents/ShoppingFlowSetting.php:67
+msgid "设置“使用”则表示用户在结算时，可使用红包抵扣订单金额结算"
+msgstr "設置“使用”則表示用戶在結算時，可使用紅包抵扣訂單金額結算"
+
+#: classes/SettingComponents/ShoppingFlowSetting.php:76
 msgid "是否使用余额"
 msgstr "是否使用餘額"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:93
+#: classes/SettingComponents/ShoppingFlowSetting.php:77
+msgid "设置“使用”则表示用户在结算时，可使用余额抵扣订单金额结算"
+msgstr "設置“使用”則表示用戶在結算時，可使用餘額抵扣訂單金額結算"
+
+#: classes/SettingComponents/ShoppingFlowSetting.php:86
 msgid "是否使用缺货处理"
 msgstr "是否使用缺貨處理"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:94
+#: classes/SettingComponents/ShoppingFlowSetting.php:87
 msgid "使用缺货处理时前台订单确认页面允许用户选择缺货时处理方法。"
 msgstr "使用缺貨處理時前台訂單確認頁面允許用戶選擇缺貨時處理方法。"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:103
+#: classes/SettingComponents/ShoppingFlowSetting.php:96
 msgid "能否开发票"
 msgstr "能否開發票"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:106
+#: classes/SettingComponents/ShoppingFlowSetting.php:97
+msgid "设置“能”则表示用户在结算时，可选择开具发票"
+msgstr "設置“能”則表示用戶在結算時，可選擇開具發票"
+
+#: classes/SettingComponents/ShoppingFlowSetting.php:99
 msgid "不能"
 msgstr "不能"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:107
+#: classes/SettingComponents/ShoppingFlowSetting.php:100
 msgid "能"
 msgstr "能"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:113
+#: classes/SettingComponents/ShoppingFlowSetting.php:106
 msgid "发票内容"
 msgstr "發票內容"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:114
+#: classes/SettingComponents/ShoppingFlowSetting.php:107
 msgid "客户要求开发票时可以选择的内容。例如：办公用品。每一行代表一个选项。"
 msgstr "客戶要求開發票時可以選擇的內容。例如：辦公用品。每一行代表一個選項。"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:120
+#: classes/SettingComponents/ShoppingFlowSetting.php:113
 msgid "发票类型及税率"
 msgstr "發票類型及稅率"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:127
+#: classes/SettingComponents/ShoppingFlowSetting.php:114
+msgid ""
+"税率填写整数值，例如(税率:12，商品金额:35.70)则公式:35.70 * (12 / 100) = 4.28"
+"元"
+msgstr ""
+"稅率填寫整數值，例如(稅率:12，商品金額:35.70)則公式:35.70 * (12 / 100) = 4.28"
+"元"
+
+#: classes/SettingComponents/ShoppingFlowSetting.php:120
 msgid "是否一步购物"
 msgstr "是否一步購物"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:130
+#: classes/SettingComponents/ShoppingFlowSetting.php:123
 msgid "否"
 msgstr "否"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:131
+#: classes/SettingComponents/ShoppingFlowSetting.php:124
 msgid "是"
 msgstr "是"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:137
+#: classes/SettingComponents/ShoppingFlowSetting.php:130
 msgid "最小购物金额"
 msgstr "最小購物金額"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:138
+#: classes/SettingComponents/ShoppingFlowSetting.php:131
 msgid "达到此购物金额，才能提交订单。"
 msgstr "達到此購物金額，才能提交訂單。"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:144
+#: classes/SettingComponents/ShoppingFlowSetting.php:137
 msgid "是否允许未登录用户购物"
 msgstr "是否允許未登錄用戶購物"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:147
+#: classes/SettingComponents/ShoppingFlowSetting.php:140
 msgid "不允许"
 msgstr "不允許"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:148
+#: classes/SettingComponents/ShoppingFlowSetting.php:141
 msgid "允许"
 msgstr "允許"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:154
+#: classes/SettingComponents/ShoppingFlowSetting.php:147
 msgid "购物车确定提示"
 msgstr "購物車確定提示"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:155
+#: classes/SettingComponents/ShoppingFlowSetting.php:148
 msgid "允许您设置用户点击“加入购物车”后是否提示以及随后的动作。"
 msgstr "允許您設置用戶點擊“加入購物車”後是否提示以及隨後的動作。"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:157
+#: classes/SettingComponents/ShoppingFlowSetting.php:150
 msgid "提示用户，点击“确定”进购物车"
 msgstr "提示用戶，點擊“確定”進購物車"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:158
+#: classes/SettingComponents/ShoppingFlowSetting.php:151
 msgid "提示用户，点击“取消”进购物车"
 msgstr "提示用戶，點擊“取消”進購物車"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:159
+#: classes/SettingComponents/ShoppingFlowSetting.php:152
 msgid "直接进入购物车"
 msgstr "直接進入購物車"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:160
+#: classes/SettingComponents/ShoppingFlowSetting.php:153
 msgid "不提示并停留在当前页面"
 msgstr "不提示並停留在當前頁面"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:166
+#: classes/SettingComponents/ShoppingFlowSetting.php:159
 msgid "减库存的时机"
 msgstr "減庫存的時機"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:169
+#: classes/SettingComponents/ShoppingFlowSetting.php:160
+msgid "例如:选择“下单时”，则表示用户购买商品时，只要下单后，就减少商品的库存"
+msgstr "例如:選擇“下單時”，則表示用戶購買商品時，只要下單後，就減少商品的庫存"
+
+#: classes/SettingComponents/ShoppingFlowSetting.php:162
 msgid "发货时"
 msgstr "發貨時"
 
-#: classes/SettingComponents/ShoppingFlowSetting.php:170
+#: classes/SettingComponents/ShoppingFlowSetting.php:163
 msgid "下订单时"
 msgstr "下訂單時"
 
@@ -474,10 +507,6 @@ msgstr "庫存不足，請重新選擇！"
 #: classes/hooks/admin_cart.class.php:55 configs/package.php:55
 msgid "购物车"
 msgstr "購物車"
-
-#: classes/hooks/admin_cart.class.php:56
-msgid "购物流程"
-msgstr "購物流程"
 
 #: configs/package.php:56
 msgid ""
@@ -685,11 +714,11 @@ msgstr "有部分商品不在送貨範圍內！"
 msgid "如果是团购，且保证金大于0，不能使用货到付款"
 msgstr "如果是團購，且保證金大於0，不能使用貨到付款"
 
-#: modules/flow/checkOrder_module.class.php:437
+#: modules/flow/checkOrder_module.class.php:443
 msgid "未使用"
 msgstr "未使用"
 
-#: modules/flow/checkOrder_module.class.php:594
+#: modules/flow/checkOrder_module.class.php:600
 #: modules/storebuy/flow/checkOrder_module.class.php:173
 #: modules/storepickup/flow/checkOrder_module.class.php:197
 msgid "满%s可使用"

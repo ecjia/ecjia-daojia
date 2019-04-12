@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App user package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App user 1.28.0\n"
+"Project-Id-Version: Ecjia App user 1.30.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-04 05:54:40+00:00\n"
+"POT-Creation-Date: 2019-04-12 04:02:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -508,6 +508,7 @@ msgstr ""
 #: modules/address/setDefault_module.class.php:66
 #: modules/address/update_module.class.php:69
 #: modules/admin/cashier/user/account/deposit/records_module.class.php:64
+#: modules/admin/cashier/validate/integral_module.class.php:66
 #: modules/admin/merchant/user/list_module.class.php:26
 #: modules/admin/user/account/deposit_module.class.php:27
 #: modules/admin/user/add_module.class.php:28
@@ -633,19 +634,19 @@ msgstr ""
 msgid "调用接口user_account_info_api参数无效！"
 msgstr ""
 
-#: apis/user_user_bonus_list_api.class.php:114
+#: apis/user_user_bonus_list_api.class.php:117
 msgid "未开始"
 msgstr ""
 
-#: apis/user_user_bonus_list_api.class.php:118
+#: apis/user_user_bonus_list_api.class.php:121
 msgid "已过期"
 msgstr ""
 
-#: apis/user_user_bonus_list_api.class.php:121
+#: apis/user_user_bonus_list_api.class.php:124
 msgid "可使用"
 msgstr ""
 
-#: apis/user_user_bonus_list_api.class.php:125
+#: apis/user_user_bonus_list_api.class.php:128
 msgid "已使用"
 msgstr ""
 
@@ -1219,7 +1220,7 @@ msgid "校验码错误！"
 msgstr ""
 
 #: modules/admin/user/signin_module.class.php:64
-#: modules/admin/user/signin_module.class.php:189
+#: modules/admin/user/signin_module.class.php:81
 msgid "您输入的帐号信息不正确。"
 msgstr ""
 
@@ -1330,17 +1331,17 @@ msgstr ""
 msgid "您要申请提现的金额超过了您现有的余额，此操作将不可进行！"
 msgstr ""
 
-#: modules/user/account/raply_module.class.php:154
+#: modules/user/account/raply_module.class.php:146
 #: modules/user/account/withdraw_module.class.php:176
 msgid "【申请提现】"
 msgstr ""
 
-#: modules/user/account/raply_module.class.php:159
+#: modules/user/account/raply_module.class.php:151
 #: modules/user/account/withdraw_module.class.php:181
 msgid "您的提现申请已成功提交，请等待管理员的审核！"
 msgstr ""
 
-#: modules/user/account/raply_module.class.php:161
+#: modules/user/account/raply_module.class.php:153
 #: modules/user/account/withdraw_module.class.php:183
 msgid "此次操作失败，请返回重试！"
 msgstr ""

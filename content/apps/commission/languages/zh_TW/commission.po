@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App commission 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-03 15:32+0800\n"
-"PO-Revision-Date: 2019-04-03 15:32+0800\n"
+"POT-Creation-Date: 2019-04-12 13:34+0800\n"
+"PO-Revision-Date: 2019-04-12 13:35+0800\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "Language: zh_TW\n"
@@ -263,12 +263,12 @@ msgid "订单"
 msgstr "訂單"
 
 #: classes/store_account.class.php:109
-#: model/store_bill_detail_model.class.php:370
+#: model/store_bill_detail_model.class.php:387
 msgid "优惠买单"
 msgstr "優惠買單"
 
 #: classes/store_account.class.php:111
-#: model/store_bill_detail_model.class.php:367
+#: model/store_bill_detail_model.class.php:384
 msgid "退款"
 msgstr "退款"
 
@@ -369,11 +369,11 @@ msgstr "申請成功"
 msgid "申请失败"
 msgstr "申請失敗"
 
-#: model/store_bill_detail_model.class.php:365
+#: model/store_bill_detail_model.class.php:382
 msgid "购物订单"
 msgstr "购物订单"
 
-#: model/store_bill_detail_model.class.php:372
+#: model/store_bill_detail_model.class.php:389
 msgid "未知"
 msgstr "未知"
 

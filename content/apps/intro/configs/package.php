@@ -56,7 +56,7 @@ return array(
 	'description' => __('ecjia在PC端展示的App下载页面，主要是App的功能介绍，截图展示，提供二维码下载。'),
 	'author'      => 'ECJIA TEAM',				/* 作者 */
 	'website'     => 'http://www.ecjia.com',	/* 网址 */
-	'version'     => '2.27.4',					/* 版本号 */
+	'version'     => '2.30.0',					/* 版本号 */
 	'copyright'   => 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'   => 'Ecjia\App\Intro',
     'provider'    => 'IntroServiceProvider',

@@ -56,7 +56,7 @@ return array(
 	'description' 	=> __('方便快捷切换不同主题', 'theme'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.29.0',					/* 版本号 */
+	'version' 		=> '1.30.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Theme',
     'provider'      => 'ThemeServiceProvider',

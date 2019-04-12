@@ -67,7 +67,7 @@ class cart_cart_manage_api extends Component_Event_Api {
             return new ecjia_error('not_found_goods', __('请选择您所需要的商品！', 'cart'));
         }
 
-        return $this->addto_cart($options['goods_id'], $options['goods_number'], $options['goods_spec'], $options['parent_id'], $options['store_group']);
+        return $this->addto_cart($options['goods_id'], $options['goods_number'], $options['goods_spec'], $options['parent_id'], $options['store_group'], $options['product_id']);
     }
 
     /**
@@ -80,7 +80,7 @@ class cart_cart_manage_api extends Component_Event_Api {
      * @param   integer $parent     基本件
      * @return  boolean
      */
-    private function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $store_group = array()) {
+    private function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $store_group = array(), $product_id = 0) {
         RC_Loader::load_app_class('goods_info', 'goods', false);
         
         $_parent_id     = $parent;
@@ -141,14 +141,16 @@ class cart_cart_manage_api extends Component_Event_Api {
         //商品存在规格 是货品 检查该货品库存
         if (goods_info::is_spec($spec) && $prod > 0) {
             $product_info = goods_info::get_products_info($goods_id, $spec);
+            $spec = explode('|', $product_info['goods_attr']);
             $is_spec = true;
         } else {
         	$is_spec = false;
         }
+        
         if (!isset($product_info) || empty($product_info)) {
             $product_info = array('product_number' => 0, 'product_id' => 0 , 'goods_attr'=>'');
         }
-
+        
         /* 检查：库存 */
         if (ecjia::config('use_storage') == 1) {
             //检查：商品购买数量是否大于总库存
@@ -156,7 +158,6 @@ class cart_cart_manage_api extends Component_Event_Api {
                 return new ecjia_error('low_stocks', __('库存不足', 'cart'));
             }
             //商品存在规格 是货品 检查该货品库存
-//             if (goods_info::is_spec($spec) && !empty($prod)) {
 			if ($is_spec) {
                 if (!empty($spec)) {
                     /* 取规格的货品库存 */
@@ -170,10 +171,15 @@ class cart_cart_manage_api extends Component_Event_Api {
         $goods_attr_id = 0;
         if (!empty($spec)) {
             $spec_price             = goods_info::spec_price($spec);
-            $goods_price            = goods_info::get_final_price($goods_id, $num, true, $spec);
-            $goods['market_price'] += $spec_price;
+            $goods_price            = goods_info::get_final_price($goods_id, $num, true, $spec, $product_id);
             $goods_attr             = goods_info::get_goods_attr_info($spec, 'no');
             $goods_attr_id          = join(',', $spec);
+            if (!empty($product_id)) {
+            	//商品SKU价格模式：商品价格 + 属性货品价格
+            	if (ecjia::config('sku_price_mode') == 'goods_sku') {
+            		$goods['market_price'] += $spec_price;
+            	}
+            }
         }
         $goods_attr_id = empty($goods_attr_id) ? 0 : $goods_attr_id;
 
@@ -200,6 +206,8 @@ class cart_cart_manage_api extends Component_Event_Api {
             $parent['session_id'] = SESS_ID;
         }
 
+        
+        
         /* 如果该配件在添加为基本件的配件时，所设置的“配件价格”比原价低，即此配件在价格上提供了优惠， */
         /* 则按照该配件的优惠价格卖，但是每一个基本件只能购买一个优惠价格的“该配件”，多买的“该配件”不享受此优惠 */
         $basic_list = array();
@@ -332,7 +340,7 @@ class cart_cart_manage_api extends Component_Event_Api {
                     $goods_storage = $goods['goods_number'];
                 }
                 if (ecjia::config('use_storage') == 0 || $num <= $goods_storage) {
-                    $goods_price = goods_info::get_final_price($goods_id, $num, true, $spec);
+                    $goods_price = goods_info::get_final_price($goods_id, $num, true, $spec, $product_id);
                     $data =  array(
                    		'goods_number' => $num,
                     	'goods_price'  => $goods_price,
@@ -353,10 +361,11 @@ class cart_cart_manage_api extends Component_Event_Api {
                 $cart_id = $row['rec_id'];
             } else {
                 //购物车没有此物品，则插入
-                $goods_price = goods_info::get_final_price($goods_id, $num, true, $spec);
+                $goods_price = goods_info::get_final_price($goods_id, $num, true, $spec, $product_id);
                 $parent['goods_price']  = empty($goods_price) ? 0.00 : max($goods_price, 0);
                 $parent['goods_number'] = $num;
                 $parent['parent_id']    = 0;
+
                 $cart_id = RC_DB::table('cart')->insertGetId($parent);
             }
         }

@@ -55,7 +55,7 @@ return array(
 	'description' 	=> __('集成商品、文章功能，对商城发布产品发表个人看法、思想观点、使用心得和对文章进行意见发表、思想观点表述的一种应用文体，该应用了后台审核机制，对言论及广告消息起到重要的过滤作用；并以强大安全的处理机智对数据进行储存，同时以邮件形式通知用户。', 'comment'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.29.0',					/* 版本号 */
+	'version' 		=> '1.30.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Comment',
     'provider'      => 'CommentServiceProvider',

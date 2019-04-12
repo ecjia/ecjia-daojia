@@ -10,7 +10,7 @@ return array(
 	'description' 	=> __('订单物流跟踪管理。', 'track'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.27.4',					/* 版本号 */
+	'version' 		=> '1.30.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Track',
     'provider'      => 'TrackServiceProvider',

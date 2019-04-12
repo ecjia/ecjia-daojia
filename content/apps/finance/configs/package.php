@@ -56,7 +56,7 @@ return array(
 	'description' 	=> __('财务管理模块，主要负责管理用户帐户资金、支付交易流水对帐等。', 'finance'),
 	'author' 		=> 'ECJIA TEAM',			    /* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	    /* 网址 */
-	'version' 		=> '1.29.0',					/* 版本号 */
+	'version' 		=> '1.30.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Finance',
     'provider'      => 'FinanceServiceProvider',

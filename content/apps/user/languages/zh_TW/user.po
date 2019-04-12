@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App user 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-04 13:35+0800\n"
-"PO-Revision-Date: 2019-04-09 10:37+0800\n"
+"POT-Creation-Date: 2019-04-12 14:01+0800\n"
+"PO-Revision-Date: 2019-04-12 14:01+0800\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: admin.php:74 admin.php:94 admin.php:106 admin.php:147 admin.php:315
@@ -546,6 +546,7 @@ msgstr "輸入的排序權值不是有效的數字。"
 #: modules/address/setDefault_module.class.php:66
 #: modules/address/update_module.class.php:69
 #: modules/admin/cashier/user/account/deposit/records_module.class.php:64
+#: modules/admin/cashier/validate/integral_module.class.php:66
 #: modules/admin/merchant/user/list_module.class.php:26
 #: modules/admin/user/account/deposit_module.class.php:27
 #: modules/admin/user/add_module.class.php:28
@@ -671,19 +672,19 @@ msgstr "會員信息不存在"
 msgid "调用接口user_account_info_api参数无效！"
 msgstr "調用接口user_account_info_api參數無效！"
 
-#: apis/user_user_bonus_list_api.class.php:114
+#: apis/user_user_bonus_list_api.class.php:117
 msgid "未开始"
 msgstr "未開始"
 
-#: apis/user_user_bonus_list_api.class.php:118
+#: apis/user_user_bonus_list_api.class.php:121
 msgid "已过期"
 msgstr "已過期"
 
-#: apis/user_user_bonus_list_api.class.php:121
+#: apis/user_user_bonus_list_api.class.php:124
 msgid "可使用"
 msgstr "可使用"
 
-#: apis/user_user_bonus_list_api.class.php:125
+#: apis/user_user_bonus_list_api.class.php:128
 msgid "已使用"
 msgstr "已使用"
 
@@ -1132,7 +1133,8 @@ msgstr "免費"
 #: modules/user/collect/list_module.class.php:61
 #: modules/user/connect/binded/status_module.class.php:62
 #: modules/user/info/bankcard_module.class.php:63
-#: modules/user/info_module.class.php:63
+#: modules/user/info_module.class.php:65
+#: modules/user/orders/summary_module.class.php:62
 #: modules/user/password_module.class.php:63
 #: modules/user/paypassword/modify_module.class.php:61
 #: modules/user/update_module.class.php:60
@@ -1262,7 +1264,7 @@ msgid "校验码错误！"
 msgstr "校驗碼錯誤！"
 
 #: modules/admin/user/signin_module.class.php:64
-#: modules/admin/user/signin_module.class.php:189
+#: modules/admin/user/signin_module.class.php:81
 msgid "您输入的帐号信息不正确。"
 msgstr "您輸入的帳號信息不正確。"
 
@@ -1373,17 +1375,17 @@ msgstr "提現金額不可小於最小提現金額：%s元"
 msgid "您要申请提现的金额超过了您现有的余额，此操作将不可进行！"
 msgstr "您要申請提現的金額超過了您現有的餘額，此操作將不可進行！"
 
-#: modules/user/account/raply_module.class.php:154
+#: modules/user/account/raply_module.class.php:146
 #: modules/user/account/withdraw_module.class.php:176
 msgid "【申请提现】"
 msgstr "【申請提現】"
 
-#: modules/user/account/raply_module.class.php:159
+#: modules/user/account/raply_module.class.php:151
 #: modules/user/account/withdraw_module.class.php:181
 msgid "您的提现申请已成功提交，请等待管理员的审核！"
 msgstr "您的提現申請已成功提交，請等待管理員的審核！"
 
-#: modules/user/account/raply_module.class.php:161
+#: modules/user/account/raply_module.class.php:153
 #: modules/user/account/withdraw_module.class.php:183
 msgid "此次操作失败，请返回重试！"
 msgstr "此次操作失敗，請返回重試！"

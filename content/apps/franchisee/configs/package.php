@@ -53,7 +53,7 @@ return array(
 	'description' 	=> __('商家入驻', 'franchisee'),
 	'author' 		=> 'ECJIA TEAM',				/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',		/* 网址 */
-	'version' 		=> '1.29.0',						/* 版本号 */
+	'version' 		=> '1.30.0',						/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2016 ~ 2019.',
     'namespace'     => 'Ecjia\App\Franchisee',
     'provider'      => 'FranchiseeServiceProvider',

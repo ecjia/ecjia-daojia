@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App commission package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App commission 1.28.0\n"
+"Project-Id-Version: Ecjia App commission 1.30.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-06 09:04:36+00:00\n"
+"POT-Creation-Date: 2019-04-12 04:02:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -260,12 +260,12 @@ msgid "订单"
 msgstr ""
 
 #: classes/store_account.class.php:109
-#: model/store_bill_detail_model.class.php:370
+#: model/store_bill_detail_model.class.php:387
 msgid "优惠买单"
 msgstr ""
 
 #: classes/store_account.class.php:111
-#: model/store_bill_detail_model.class.php:367
+#: model/store_bill_detail_model.class.php:384
 msgid "退款"
 msgstr ""
 
@@ -364,11 +364,11 @@ msgstr ""
 msgid "申请失败"
 msgstr ""
 
-#: model/store_bill_detail_model.class.php:365
+#: model/store_bill_detail_model.class.php:382
 msgid "购物订单"
 msgstr ""
 
-#: model/store_bill_detail_model.class.php:372
+#: model/store_bill_detail_model.class.php:389
 msgid "未知"
 msgstr ""
 

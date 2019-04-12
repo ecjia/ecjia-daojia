@@ -56,7 +56,7 @@ return array(
 	'description' 	=> __('访问者点击某推荐人的网址后，在此时间段内注册、下单，均认为是该推荐人的所介绍的，进行奖励', 'affiliate'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.29.0',					/* 版本号 */
+	'version' 		=> '1.30.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2015 ~ 2019.',
     'namespace'     => 'Ecjia\App\Affiliate',
     'provider'      => 'AffiliateServiceProvider',

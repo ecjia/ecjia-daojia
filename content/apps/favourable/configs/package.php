@@ -56,7 +56,7 @@ return array(
 	'description' 	=> __('优惠活动，主要回馈网站用户。为确保更多消费者享受到优惠，活动将分期举行。', 'favourable'),
 	'author' 		=> 'ECJIA TEAM',				/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',		/* 网址 */
-	'version' 		=> '1.29.0',						/* 版本号 */
+	'version' 		=> '1.30.0',						/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Favourable',
     'provider'      => 'FavourableServiceProvider',

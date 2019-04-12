@@ -53,7 +53,7 @@ return array(
 	'description' 	=> __('用来升级ECJIA项目的升级器', 'upgrade'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.29.0',					/* 版本号 */
+	'version' 		=> '1.30.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2017 ~ 2019.',
     'namespace'     => 'Ecjia\App\Upgrade',
     'provider'      => 'UpgradeServiceProvider',

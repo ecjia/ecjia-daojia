@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia App groupbuy package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia App groupbuy 1.28.0\n"
+"Project-Id-Version: Ecjia App groupbuy 1.30.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-04 05:54:37+00:00\n"
+"POT-Creation-Date: 2019-04-12 04:02:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"

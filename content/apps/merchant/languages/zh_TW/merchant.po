@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App merchant 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-03 17:14+0800\n"
-"PO-Revision-Date: 2019-04-03 17:34+0800\n"
+"POT-Creation-Date: 2019-04-12 13:51+0800\n"
+"PO-Revision-Date: 2019-04-12 13:51+0800\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "Language: zh_TW\n"
@@ -691,14 +691,14 @@ msgstr "驗證碼發送成功！"
 #: modules/seller/list_module.class.php:167
 #: modules/seller/list_module.class.php:174
 #: modules/seller/list_module.class.php:181
-#: modules/seller/list_module.class.php:346
-#: modules/seller/list_module.class.php:355
-#: modules/seller/list_module.class.php:362
-#: modules/seller/list_module.class.php:369
-#: modules/seller/search_module.class.php:112
-#: modules/seller/search_module.class.php:121
-#: modules/seller/search_module.class.php:128
-#: modules/seller/search_module.class.php:135
+#: modules/seller/list_module.class.php:376
+#: modules/seller/list_module.class.php:385
+#: modules/seller/list_module.class.php:392
+#: modules/seller/list_module.class.php:399
+#: modules/seller/search_module.class.php:102
+#: modules/seller/search_module.class.php:111
+#: modules/seller/search_module.class.php:118
+#: modules/seller/search_module.class.php:125
 msgid "满减"
 msgstr "滿減"
 
@@ -714,30 +714,23 @@ msgstr "滿減"
 #: modules/seller/list_module.class.php:167
 #: modules/seller/list_module.class.php:174
 #: modules/seller/list_module.class.php:181
-#: modules/seller/list_module.class.php:346
-#: modules/seller/list_module.class.php:355
-#: modules/seller/list_module.class.php:362
-#: modules/seller/list_module.class.php:369
-#: modules/seller/search_module.class.php:112
-#: modules/seller/search_module.class.php:121
-#: modules/seller/search_module.class.php:128
-#: modules/seller/search_module.class.php:135
+#: modules/seller/list_module.class.php:376
+#: modules/seller/list_module.class.php:385
+#: modules/seller/list_module.class.php:392
+#: modules/seller/list_module.class.php:399
+#: modules/seller/search_module.class.php:102
+#: modules/seller/search_module.class.php:111
+#: modules/seller/search_module.class.php:118
+#: modules/seller/search_module.class.php:125
 msgid "满折"
 msgstr "滿折"
 
-#: modules/merchant/goods/list_module.class.php:134
-#: modules/merchant/goods/storebuy/list_module.class.php:135
-#: modules/merchant/goods/storebuy/suggestlist_module.class.php:140
-#: modules/merchant/goods/suggestlist_module.class.php:141
-msgid "已省"
-msgstr "已省"
-
-#: modules/merchant/goods/list_module.class.php:134
-#: modules/merchant/goods/storebuy/list_module.class.php:135
-#: modules/merchant/goods/storebuy/suggestlist_module.class.php:140
-#: modules/merchant/goods/suggestlist_module.class.php:141
-msgid "元"
-msgstr "元"
+#: modules/merchant/goods/list_module.class.php:73
+#: modules/merchant/goods/storebuy/list_module.class.php:73
+#: modules/merchant/goods/storebuy/suggestlist_module.class.php:73
+#: modules/merchant/goods/suggestlist_module.class.php:73
+msgid "促销类型参数错误"
+msgstr "促銷類型參數錯誤"
 
 #: modules/seller/collect/create_module.class.php:65
 msgid "该店铺已收藏！"
@@ -1629,6 +1622,12 @@ msgstr "優惠買單模板"
 #: content/apps/merchant/templates/merchant/merchant_template.dwt.php:87
 msgid "适用于到店支付、享受店铺优惠"
 msgstr "適用於到店支付、享受店鋪優惠"
+
+#~ msgid "已省"
+#~ msgstr "已省"
+
+#~ msgid "元"
+#~ msgstr "元"
 
 #~ msgid "您有  条新通知"
 #~ msgstr "您有  條新通知"

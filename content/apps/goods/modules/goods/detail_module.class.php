@@ -221,7 +221,8 @@ class goods_detail_module extends api_front implements api_interface {
         $data['rec_type'] = empty($rec_type) ? $activity_type : 'GROUPBUY_GOODS';
         $data['object_id'] = empty($object_id) ? 0 : $object_id;
         $data['promote_user_limited'] = $activity_type == 'PROMOTE_GOODS' ? $goods['promote_user_limited'] : 0;
-
+        $data['promote_limited'] = $activity_type == 'PROMOTE_GOODS' ? $goods['promote_limited'] : 0;
+        
         if (ecjia_config::has('mobile_touch_url')) {
         	$data['goods_url'] = ecjia::config('mobile_touch_url').'index.php?m=goods&c=index&a=show&goods_id='.$goods_id.'&hidenav=1&hidetab=1';
         } else {
@@ -594,6 +595,7 @@ class goods_detail_module extends api_front implements api_interface {
 			$data['promote_price'] 			= $product_info['promote_price'] ?: $data['shop_price'];
 			$data['formated_promote_price'] = $product_info['formatted_promote_price'] ?: $data['formated_promote_price'];
 			$data['promote_user_limited']   = $product_info['promote_user_limited'] ?: $data['promote_user_limited'];
+			$data['promote_limited']   		= $product_info['promote_limited'] ?: 	$data['promote_limited'];
 			$data['img']   					= $product_info['img'] ?: $data['img'];
 			$data['product_specification']  = $arr;
 		}

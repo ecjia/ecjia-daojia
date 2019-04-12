@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App promotion 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-04 09:55+0800\n"
-"PO-Revision-Date: 2019-04-11 09:21+0800\n"
+"POT-Creation-Date: 2019-04-12 13:54+0800\n"
+"PO-Revision-Date: 2019-04-12 13:55+0800\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: admin.php:79 admin.php:90 apis/promotion_admin_menu_api.class.php:61
@@ -21,31 +21,31 @@ msgstr ""
 msgid "促销活动"
 msgstr "促銷活動"
 
-#: admin.php:93 admin.php:119 merchant.php:88 merchant.php:90
+#: admin.php:93 admin.php:122 merchant.php:88 merchant.php:90 merchant.php:284
 msgid "促销活动列表"
 msgstr "促銷活動列表"
 
-#: admin.php:115 admin.php:118
+#: admin.php:118 admin.php:121
 msgid "查看促销活动"
 msgstr "查看促銷活動"
 
-#: admin.php:206 merchant.php:560
+#: admin.php:209 merchant.php:567
 msgid "进行中"
 msgstr "進行中"
 
-#: admin.php:209 merchant.php:563
+#: admin.php:212 merchant.php:570
 msgid "即将开始"
 msgstr "即將開始"
 
-#: admin.php:212 merchant.php:566
+#: admin.php:215 merchant.php:573
 msgid "已结束"
 msgstr "已結束"
 
-#: admin.php:362 merchant.php:657
+#: admin.php:229 admin.php:373 merchant.php:598 merchant.php:678
 msgid "货品促销"
 msgstr "貨品促銷"
 
-#: admin.php:364 merchant.php:659
+#: admin.php:231 admin.php:375 merchant.php:600 merchant.php:680
 msgid "商品促销"
 msgstr "商品促銷"
 
@@ -62,7 +62,8 @@ msgstr "促銷活動管理"
 msgid "促销"
 msgstr "促銷"
 
-#: apis/promotion_merchant_purview_api.class.php:60
+#: apis/promotion_merchant_purview_api.class.php:60 merchant.php:281
+#: merchant.php:283
 msgid "编辑促销活动"
 msgstr "編輯促銷活動"
 
@@ -79,10 +80,8 @@ msgid "促销商品"
 msgstr "促銷商品"
 
 #: classes/StoreCleanHandlers/StorePromotionClear.php:48
-msgid ""
-"店铺促销活动总共<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>个"
-msgstr ""
-"店鋪促銷活動總共<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>個"
+msgid "店铺促销活动总共<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>个"
+msgstr "店鋪促銷活動總共<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>個"
 
 #: classes/StoreCleanHandlers/StorePromotionClear.php:49
 msgid "查看全部>>>"
@@ -130,17 +129,17 @@ msgstr "確定"
 
 #: configs/package.php:56
 msgid ""
-"促销方式如执行工具，是企业商家改造市场增进业绩的得力手段；而ECJIA "
-"TEAM 抓住促销的“策略方式、针对性，时效性、具有冲击力、主动性、抗争"
-"性”等等多种特征进行全面的整合营销；应用提供的“折扣购买、购买赠送、互动"
-"抽奖、关联促销、积分、团购等功能”将销售促进（SP）的多种方式发挥的淋漓"
-"尽致从而实现商家促销的全面性、长远性。"
+"促销方式如执行工具，是企业商家改造市场增进业绩的得力手段；而ECJIA TEAM 抓住"
+"促销的“策略方式、针对性，时效性、具有冲击力、主动性、抗争性”等等多种特征进行"
+"全面的整合营销；应用提供的“折扣购买、购买赠送、互动抽奖、关联促销、积分、团"
+"购等功能”将销售促进（SP）的多种方式发挥的淋漓尽致从而实现商家促销的全面性、"
+"长远性。"
 msgstr ""
-"促銷方式如執行工具，是企業商家改造市場增進業績的得力手段；而ECJIA "
-"TEAM 抓住促銷的“策略方式、針對性，時效性、具有衝擊力、主動性、抗爭"
-"性”等等多種特徵進行全面的整合營銷；應用提供的“折扣購買、購買贈送、互動"
-"抽獎、關聯促銷、積分、團購等功能”將銷售促進（SP）的多種方式發揮的淋漓"
-"盡致從而實現商家促銷的全面性、長遠性。"
+"促銷方式如執行工具，是企業商家改造市場增進業績的得力手段；而ECJIA TEAM 抓住"
+"促銷的“策略方式、針對性，時效性、具有衝擊力、主動性、抗爭性”等等多種特徵進行"
+"全面的整合營銷；應用提供的“折扣購買、購買贈送、互動抽獎、關聯促銷、積分、團"
+"購等功能”將銷售促進（SP）的多種方式發揮的淋漓盡致從而實現商家促銷的全面性、"
+"長遠性。"
 
 #: merchant.php:113 merchant.php:115
 msgid "添加促销活动"
@@ -183,30 +182,22 @@ msgid "活动价不能为0"
 msgstr "活動價不能為0"
 
 #: merchant.php:263
-msgid "返回促销商品列表"
-msgstr "返回促銷商品列表"
+msgid "返回促销活动列表"
+msgstr "返回促銷活動列表"
 
 #: merchant.php:264
-msgid "继续添加促销商品"
-msgstr "繼續添加促銷商品"
+msgid "继续添加促销活动"
+msgstr "繼續添加促銷活動"
 
 #: merchant.php:271
-msgid "添加促销商品成功"
-msgstr "添加促銷商品成功"
-
-#: merchant.php:281 merchant.php:283
-msgid "编辑促销商品"
-msgstr "編輯促銷商品"
-
-#: merchant.php:284
-msgid "促销商品列表"
-msgstr "促銷商品列表"
+msgid "添加促销活动成功"
+msgstr "添加促銷活動成功"
 
 #: merchant.php:453
-msgid "编辑促销商品成功"
-msgstr "編輯促銷商品成功"
+msgid "编辑促销活动成功"
+msgstr "編輯促銷活動成功"
 
-#: merchant.php:491
+#: merchant.php:494 merchant.php:496
 msgid "删除成功"
 msgstr "刪除成功"
 
@@ -234,7 +225,7 @@ msgstr "請輸入商品名稱關鍵字"
 
 #: content/apps/promotion/templates/admin/promotion_list.dwt.php:42
 #: content/apps/promotion/templates/merchant/promotion_list.dwt.php:47
-#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:126
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:127
 msgid "搜索"
 msgstr "搜索"
 
@@ -254,8 +245,8 @@ msgid "限购总数"
 msgstr "限購總數"
 
 #: content/apps/promotion/templates/admin/promotion_list.dwt.php:55
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:89
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:134
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:87
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:132
 #: content/apps/promotion/templates/merchant/promotion_list.dwt.php:60
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:37
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:80
@@ -263,8 +254,8 @@ msgid "每人限购"
 msgstr "每人限購"
 
 #: content/apps/promotion/templates/admin/promotion_list.dwt.php:56
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:90
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:135
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:88
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:133
 #: content/apps/promotion/templates/merchant/promotion_list.dwt.php:61
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:38
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:81
@@ -291,8 +282,8 @@ msgid "（自营）"
 msgstr "（自營）"
 
 #: content/apps/promotion/templates/admin/promotion_list.dwt.php:73
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:67
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:238
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:65
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:236
 #: content/apps/promotion/templates/merchant/promotion_list.dwt.php:76
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:15
 msgid "多货品"
@@ -300,10 +291,10 @@ msgstr "多貨品"
 
 #: content/apps/promotion/templates/admin/promotion_list.dwt.php:75
 #: content/apps/promotion/templates/admin/promotion_list.dwt.php:125
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:69
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:108
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:151
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:242
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:67
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:106
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:149
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:240
 #: content/apps/promotion/templates/merchant/promotion_list.dwt.php:78
 #: content/apps/promotion/templates/merchant/promotion_list.dwt.php:129
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:16
@@ -333,110 +324,108 @@ msgstr "活動狀態："
 msgid "活动范围："
 msgstr "活動範圍："
 
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:39
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:37
 #: content/apps/promotion/templates/merchant/promotion_info.dwt.php:41
 msgid "活动时间："
 msgstr "活動時間："
 
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:49
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:47
 #: content/apps/promotion/templates/merchant/promotion_info.dwt.php:58
 msgid "参与活动商品："
 msgstr "參與活動商品："
 
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:54
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:52
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:3
 msgid ""
-"注：1、限购总数量：限制商品参与活动的总数量，此设置不能高于商品（SPU/"
-"SKU）总库存；"
+"注：1、限购总数量：限制商品参与活动的总数量，此设置不能高于商品（SPU/SKU）总"
+"库存；"
 msgstr ""
-"注：1、限購總數量：限製商品參與活動的總數量，此設置不能高於商品（SPU/"
-"SKU）總庫存；"
+"注：1、限購總數量：限製商品參與活動的總數量，此設置不能高於商品（SPU/SKU）總"
+"庫存；"
 
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:55
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:53
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:4
 msgid ""
-"2、每人限购：限制每个会员购买活动商品的数量，此设置不能高于限购总数"
-"量，默认0代表不设置；"
+"2、每人限购：限制每个会员购买活动商品的数量，此设置不能高于限购总数量，默认0"
+"代表不设置；"
 msgstr ""
-"2、每人限購：限制每個會員購買活動商品的數量，此設置不能高於限購總數"
-"量，默認0代表不設置；"
+"2、每人限購：限制每個會員購買活動商品的數量，此設置不能高於限購總數量，默認0"
+"代表不設置；"
 
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:56
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:54
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:5
 msgid ""
-"3、活动价：设置商品（SPU/SKU）活动价格，此设置不能高于商品（SPU/SKU）"
-"原价；"
+"3、活动价：设置商品（SPU/SKU）活动价格，此设置不能高于商品（SPU/SKU）原价；"
 msgstr ""
-"3、活動價：設置商品（SPU/SKU）活動價格，此設置不能高於商品（SPU/SKU）"
-"原價；"
+"3、活動價：設置商品（SPU/SKU）活動價格，此設置不能高於商品（SPU/SKU）原價；"
 
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:72
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:70
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:19
 #: content/apps/promotion/templates/merchant/library/goods_info.lbi.php:11
 msgid "市场价："
 msgstr "市場價："
 
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:73
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:103
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:146
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:71
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:101
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:144
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:20
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:56
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:92
 #: content/apps/promotion/templates/merchant/library/goods_info.lbi.php:12
-#: content/apps/promotion/templates/merchant/library/goods_info.lbi.php:32
+#: content/apps/promotion/templates/merchant/library/goods_info.lbi.php:34
 msgid "库存："
 msgstr "庫存："
 
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:76
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:126
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:74
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:124
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:23
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:72
 #: content/apps/promotion/templates/merchant/library/goods_info.lbi.php:14
 msgid "预览>>"
 msgstr "預覽>>"
 
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:85
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:83
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:33
 #: content/apps/promotion/templates/merchant/library/goods_info.lbi.php:21
 msgid "货品SKU"
 msgstr "貨品SKU"
 
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:86
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:131
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:84
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:129
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:34
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:77
 msgid "编号"
 msgstr "編號"
 
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:87
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:132
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:85
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:130
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:35
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:78
 msgid "限购总数量"
 msgstr "限購總數量"
 
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:109
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:152
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:107
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:150
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:62
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:98
-#: content/apps/promotion/templates/merchant/library/goods_info.lbi.php:29
+#: content/apps/promotion/templates/merchant/library/goods_info.lbi.php:30
 msgid "条形码："
 msgstr "條形碼："
 
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:130
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:128
 #: content/apps/promotion/templates/merchant/library/goods.lbi.php:76
 msgid "商品SPU"
 msgstr "商品SPU"
 
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:186
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:184
 msgid "店铺信息"
 msgstr "店鋪信息"
 
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:224
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:222
 msgid "该商户其他促销"
 msgstr "該商戶其他促銷"
 
-#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:244
+#: content/apps/promotion/templates/admin/promotion_detail.dwt.php:242
 msgid "促销价："
 msgstr "促銷價："
 
@@ -449,10 +438,12 @@ msgid "编辑"
 msgstr "編輯"
 
 #: content/apps/promotion/templates/merchant/promotion_list.dwt.php:81
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:84
 msgid "您确定要删除该促销活动吗？"
 msgstr "您確定要刪除該促銷活動嗎？"
 
 #: content/apps/promotion/templates/merchant/promotion_list.dwt.php:81
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:84
 msgid "删除"
 msgstr "刪除"
 
@@ -476,45 +467,63 @@ msgstr "更換商品"
 msgid "更新"
 msgstr "更新"
 
-#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:100
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:101
 msgid "选择活动商品"
 msgstr "選擇活動商品"
 
-#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:107
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:108
 msgid "温馨提示："
 msgstr "溫馨提示："
 
-#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:107
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:108
 msgid ""
-"1、先搜索需要参与活动的商品；2、在左侧选中参与活动商品；3、预览商品基"
-"本信息后“确定”；"
+"1、先搜索需要参与活动的商品；2、在左侧选中参与活动商品；3、预览商品基本信息"
+"后“确定”；"
 msgstr ""
-"1、先搜索需要參與活動的商品；2、在左側選中參與活動商品；3、預覽商品基"
-"本信息後“確定”；"
+"1、先搜索需要參與活動的商品；2、在左側選中參與活動商品；3、預覽商品基本信息"
+"後“確定”；"
 
-#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:115
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:116
 msgid "所有分类"
 msgstr "所有分類"
 
-#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:120
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:121
 msgid "请输入商品名称"
 msgstr "請輸入商品名稱"
 
-#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:123
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:124
 msgid "请输入商品货号"
 msgstr "請輸入商品貨號"
 
-#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:135
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:136
 msgid "筛选搜索到的商品信息"
 msgstr "篩選搜索到的商品信息"
 
-#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:139
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:140
 msgid "暂无内容"
 msgstr "暫無內容"
 
-#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:144
+#: content/apps/promotion/templates/merchant/promotion_info.dwt.php:145
 msgid "预览基本信息"
 msgstr "預覽基本信息"
+
+#~ msgid "返回促销商品列表"
+#~ msgstr "返回促銷商品列表"
+
+#~ msgid "继续添加促销商品"
+#~ msgstr "繼續添加促銷商品"
+
+#~ msgid "添加促销商品成功"
+#~ msgstr "添加促銷商品成功"
+
+#~ msgid "编辑促销商品"
+#~ msgstr "編輯促銷商品"
+
+#~ msgid "促销商品列表"
+#~ msgstr "促銷商品列表"
+
+#~ msgid "编辑促销商品成功"
+#~ msgstr "編輯促銷商品成功"
 
 #~ msgid "促销商品管理"
 #~ msgstr "促銷商品管理"
