@@ -1,0 +1,292 @@
+# Copyright (C) 2019 QQ帐号登录
+# This file is distributed under the same license as the QQ帐号登录 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: QQ帐号登录 1.30.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-03-29 01:42:03+00:00\n"
+"PO-Revision-Date: 2019-03-29 13:18+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: classes/ErrorCase.class.php:63
+msgid "缺少参数response_type或response_type非法。"
+msgstr "缺少參數response_type或response_type非法。"
+
+#: classes/ErrorCase.class.php:64
+msgid "缺少参数client_id。"
+msgstr "缺少參數client_id。"
+
+#: classes/ErrorCase.class.php:65
+msgid "缺少参数client_secret。"
+msgstr "缺少參數client_secret。"
+
+#: classes/ErrorCase.class.php:66
+msgid "http head中缺少Authorization。"
+msgstr "http head中缺少Authorization。"
+
+#: classes/ErrorCase.class.php:67
+msgid "缺少参数grant_type或grant_type非法。"
+msgstr "缺少參數grant_type或grant_type非法。"
+
+#: classes/ErrorCase.class.php:68
+msgid "缺少参数code。"
+msgstr "缺少參數code。"
+
+#: classes/ErrorCase.class.php:69
+msgid "缺少refresh token。"
+msgstr "缺少refresh token。"
+
+#: classes/ErrorCase.class.php:70
+msgid "缺少access token。"
+msgstr "缺少access token。"
+
+#: classes/ErrorCase.class.php:71
+msgid "该appid不存在。"
+msgstr "該appid不存在。"
+
+#: classes/ErrorCase.class.php:72
+msgid "client_secret（即appkey）非法。"
+msgstr "client_secret（即appkey）非法。"
+
+#: classes/ErrorCase.class.php:73
+msgid "回调地址不合法。"
+msgstr "回調地址回調地址不合法。"
+
+#: classes/ErrorCase.class.php:74
+msgid "APP不处于上线状态。"
+msgstr "APP不處於上線狀態。"
+
+#: classes/ErrorCase.class.php:75
+msgid "HTTP请求非post方式。"
+msgstr "HTTP請求非post方式。"
+
+#: classes/ErrorCase.class.php:76 classes/ErrorCase.class.php:82
+msgid "access token非法。"
+msgstr "access token非法。"
+
+#: classes/ErrorCase.class.php:77
+msgid "access token过期。 token过期时间为3个月。"
+msgstr "access token過期。 token過期時間為3個月。"
+
+#: classes/ErrorCase.class.php:78
+msgid "access token废除。 token被回收，或者被用户删除。"
+msgstr "access token廢除。 token被回收，或者被用戶刪除。"
+
+#: classes/ErrorCase.class.php:79
+msgid "access token验证失败。"
+msgstr "access token驗證失敗。"
+
+#: classes/ErrorCase.class.php:80
+msgid "获取appid失败。"
+msgstr "獲取appid失敗。"
+
+#: classes/ErrorCase.class.php:81
+msgid "获取code值失败。"
+msgstr "獲取code值失敗。"
+
+#: classes/ErrorCase.class.php:83
+msgid "code被重复使用。"
+msgstr "code被重複使用。"
+
+#: classes/ErrorCase.class.php:84
+msgid "获取access token值失败。"
+msgstr "獲取access token值失敗。"
+
+#: classes/ErrorCase.class.php:85
+msgid "获取refresh token值失败。"
+msgstr "獲取refresh token值失敗。"
+
+#: classes/ErrorCase.class.php:86
+msgid "获取app具有的权限列表失败。"
+msgstr "獲取app具有的權限列表失敗。"
+
+#: classes/ErrorCase.class.php:87
+msgid "获取某OpenID对某appid的权限列表失败。"
+msgstr "獲取某OpenID對某appid的權限列表失敗。"
+
+#: classes/ErrorCase.class.php:88
+msgid "获取全量api信息、全量分组信息。"
+msgstr "獲取全量api信息、全量分組信息。"
+
+#: classes/ErrorCase.class.php:89
+msgid "设置用户对某app授权api列表失败。"
+msgstr "設置用戶對某app授權api列表失敗。"
+
+#: classes/ErrorCase.class.php:90
+msgid "设置用户对某app授权时间失败。"
+msgstr "設置用戶對某app授權時間失敗。"
+
+#: classes/ErrorCase.class.php:91
+msgid "缺少参数which。"
+msgstr "缺少參數which。"
+
+#: classes/ErrorCase.class.php:92
+msgid "错误的http请求。"
+msgstr "錯誤的http請求。"
+
+#: classes/ErrorCase.class.php:93
+msgid ""
+"用户没有对该api进行授权，或用户在腾讯侧删除了该api的权限。请用户重"
+"新走登录、授权流程，对该api进行授权。"
+msgstr ""
+"用戶沒有對該api進行授權，或用戶在騰訊側刪除了該api的權限。請用戶重"
+"新走登錄、授權流程，對該api進行授權。"
+
+#: classes/ErrorCase.class.php:94
+msgid "第三方应用没有对该api操作的权限。"
+msgstr "第三方應用沒有對該api操作的權限。"
+
+#: classes/ErrorCase.class.php:95
+msgid "过载，一开始未细分时可以用。"
+msgstr "過載，一開始未細分時可以用。"
+
+#: classes/ErrorCase.class.php:96
+msgid "缺少UIN参数。"
+msgstr "缺少UIN參數。"
+
+#: classes/ErrorCase.class.php:97
+msgid "用户未登录。"
+msgstr "用戶未登錄。"
+
+#: classes/ErrorCase.class.php:98
+msgid "RefreshToken失效。"
+msgstr "RefreshToken失效。"
+
+#: classes/ErrorCase.class.php:99
+msgid "RefreshToken已过期"
+msgstr "RefreshToken已過期"
+
+#: classes/ErrorCase.class.php:100
+msgid "RefreshToken已废除"
+msgstr "RefreshToken已廢除"
+
+#: classes/ErrorCase.class.php:101
+msgid "RefreshToken到达调用上限。"
+msgstr "RefreshToken到達調用上限。"
+
+#: classes/ErrorCase.class.php:102
+msgid "RefreshToken的AppKey非法。"
+msgstr "RefreshToken的AppKey非法。"
+
+#: classes/ErrorCase.class.php:103
+msgid "RefreshToken,AppID非法。"
+msgstr "RefreshToken,AppID非法。"
+
+#: classes/ErrorCase.class.php:104
+msgid "RefreshToken非法。"
+msgstr "RefreshToken非法。"
+
+#: classes/ErrorCase.class.php:105
+msgid "APP处于暂停状态。"
+msgstr "APP處於暫停狀態。"
+
+#: classes/ErrorCase.class.php:106
+msgid "Md5校验失败。"
+msgstr "Md5校驗失敗。"
+
+#: classes/ErrorCase.class.php:107
+msgid "用户改密token失效。"
+msgstr "用戶改密token失效。"
+
+#: classes/ErrorCase.class.php:108
+msgid "g_tk校验失败。"
+msgstr "g_tk校驗失敗。"
+
+#: classes/ErrorCase.class.php:109
+msgid "没有设置companyID。"
+msgstr "沒有設置companyID。"
+
+#: classes/ErrorCase.class.php:110
+msgid "APPID没有权限(get_unionid)"
+msgstr "APPID沒有權限(get_unionid)"
+
+#: classes/ErrorCase.class.php:111
+msgid "OPENID解密失败，一般是openid和appid不匹配。"
+msgstr "OPENID解密失敗，一般是openid和appid不匹配。"
+
+#: classes/ErrorCase.class.php:112
+msgid "调试模式无权限。"
+msgstr "調試模式無權限。"
+
+#: classes/ErrorCase.class.php:114
+msgid "配置文件损坏或无法读取，请重新执行intall"
+msgstr "配置文件損壞或無法讀取，請重新執行intall"
+
+#: classes/ErrorCase.class.php:115
+msgid "The state does not match. You may be a victim of CSRF."
+msgstr "The state does not match. You may be a victim of CSRF."
+
+#: classes/ErrorCase.class.php:116
+msgid ""
+"<h2>可能是服务器无法请求https协议</h2>可能未开启curl支持,请尝试开"
+"启curl支持，重启web服务器，如果问题仍未解决，请联系我们"
+msgstr ""
+"<h2>可能是服務器無法請求https協議</h2>可能未開啟curl支持,請嘗試開"
+"啟curl支持，重啟web服務器，如果問題仍未解決，請聯繫我們"
+
+#: classes/QQConnect.class.php:355
+msgid "未传入参数%s"
+msgstr "未傳入參數%s"
+
+#: classes/QQConnect.class.php:374
+msgid "%s必填一个"
+msgstr "%s必填一個"
+
+#: classes/QQConnect.class.php:407
+msgid "不存在的API:%s"
+msgstr "不存在的API:%s"
+
+#: config.php:60
+msgid "AppID"
+msgstr "AppID"
+
+#: config.php:61
+msgid "AppKey"
+msgstr "AppKey"
+
+#: config.php:62
+msgid "回调地址"
+msgstr "回調地址"
+
+#: config.php:63
+msgid ""
+"(请勿修改，仅供参考)此回调地址的格式，用于填写申请QQ互联的网页应用"
+"回调域提示。"
+msgstr ""
+"(請勿修改，僅供參考)此回調地址的格式，用於填寫申請QQ互聯的網頁應用"
+"回調域提示。"
+
+#: sns_qq.class.php:206
+msgid "登录授权失败，请换其他方式登录"
+msgstr "登錄授權失敗，請換其他方式登錄"
+
+#. Plugin Name of the plugin/theme
+msgid "QQ帐号登录"
+msgstr "QQ帳號登錄"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.sns_qq/"
+msgstr "http://www.ecjia.com/plugins/ecjia.sns_qq/"
+
+#. Description of the plugin/theme
+msgid ""
+"使用QQ第三方帐号登录。<br><a href=\"http://connect.qq.com\" "
+"target=\"_blank\"><font color=\"red\">立即在线申请</font></a>。"
+msgstr ""
+"使用QQ第三方帳號登錄。 <br><a href=\"http://connect.qq.com\" "
+"target=\"_blank\"><font color=\"red\">立即在線申請</font></a>。"
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr "ECJIA TEAM"
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr "http://www.ecjia.com/"

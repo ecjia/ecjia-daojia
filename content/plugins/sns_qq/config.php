@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 return array(
     'connect_code'      => 'sns_qq',
     'connect_platform'  => 'qq', //第三方平台
@@ -54,6 +55,15 @@ return array(
 	    array('name' => 'sns_qq_appkey',      'type' => 'text',       'value' => ''),
 	    array('name' => 'sns_qq_callback',    'type' => 'text',       'value' => 'https://xxx.com/sites/m/index.php'),
 	),
+
+    'dynamic_option' => array(
+        'sns_qq_appid' 			=> __('AppID', 'sns_qq'),
+        'sns_qq_appkey' 		=> __('AppKey', 'sns_qq'),
+        'sns_qq_callback' 		=> __('回调地址', 'sns_qq'),
+        'sns_qq_callback_desc'  => __('(请勿修改，仅供参考)此回调地址的格式，用于填写申请QQ互联的网页应用回调域提示。', 'sns_qq'),
+    ),
+
+
 );
 
 // end

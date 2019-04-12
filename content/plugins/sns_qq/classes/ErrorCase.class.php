@@ -49,75 +49,74 @@
  **/
 class ErrorCase 
 {
-    protected static $errorMsg = array(
-        '100000' => '缺少参数response_type或response_type非法。',
-        '100001' => '缺少参数client_id。',
-        '100002' => '缺少参数client_secret。',
-        '100003' => 'http head中缺少Authorization。',
-        '100004' => '缺少参数grant_type或grant_type非法。',
-        '100005' => '缺少参数code。',
-        '100006' => '缺少refresh token。',
-        '100007' => '缺少access token。',
-        '100008' => '该appid不存在。',
-        '100009' => 'client_secret（即appkey）非法。',
-        '100010' => '回调地址不合法。',
-        '100011' => 'APP不处于上线状态。',
-        '100012' => 'HTTP请求非post方式。',
-        '100013' => 'access token非法。',
-        '100014' => 'access token过期。 token过期时间为3个月。',
-        '100015' => 'access token废除。 token被回收，或者被用户删除。',
-        '100016' => 'access token验证失败。',
-        '100017' => '获取appid失败。',
-        '100018' => '获取code值失败。',
-        '100019' => 'access token非法。',
-        '100015' => '用code换取access token值失败。',
-        '100020' => 'code被重复使用。',
-        '100021' => '获取access token值失败。',
-        '100022' => '获取refresh token值失败。',
-        '100023' => '获取app具有的权限列表失败。',
-        '100024' => '获取某OpenID对某appid的权限列表失败。',
-        '100025' => '获取全量api信息、全量分组信息。',
-        '100026' => '设置用户对某app授权api列表失败。',
-        '100027' => '设置用户对某app授权时间失败。',
-        '100028' => '缺少参数which。',
-        '100029' => '错误的http请求。',
-        '100030' => '用户没有对该api进行授权，或用户在腾讯侧删除了该api的权限。请用户重新走登录、授权流程，对该api进行授权。',
-        '100031' => '第三方应用没有对该api操作的权限。',
-        '100032' => '过载，一开始未细分时可以用。',
-        '100033' => '缺少UIN参数。',
-        '100034' => '100034',
-        '100035' => '用户未登录。',
-        '100036' => 'RefreshToken失效。',
-        '100037' => 'RefreshToken已过期',
-        '100038' => 'RefreshToken已废除',
-        '100038' => '获取refresh token值失败。',
-        '100039' => 'RefreshToken到达调用上限。',
-        '100040' => 'RefreshToken的AppKey非法。',
-        '100041' => 'RefreshToken,AppID非法。',
-        '100042' => 'RefreshToken非法。',
-        '100043' => 'APP处于暂停状态。',
-        '100044' => 'Md5校验失败。',
-        '100045' => '用户改密token失效。',
-        '100046' => 'g_tk校验失败。',
-        '100048' => '没有设置companyID。',
-        '100049' => 'APPID没有权限(get_unionid)',
-        '100050' => 'OPENID解密失败，一般是openid和appid不匹配。',
-        '100051' => '调试模式无权限。',
-        
-        "20001" => "配置文件损坏或无法读取，请重新执行intall",
-        "30001" => "The state does not match. You may be a victim of CSRF.",
-        "50001" => "可能是服务器无法请求https协议</h2>可能未开启curl支持,请尝试开启curl支持，重启web服务器，如果问题仍未解决，请联系我们"
-        
-    );
+	protected static $errorMsg = [];
+	
+	/**
+	 * showError
+	 * 显示错误信息
+	 * @param int $code 错误代码
+	 * @return string 描述信息
+	 */
+	public static function showError($code)
+	{
+    	self::$errorMsg = array(
+            '100000' => __('缺少参数response_type或response_type非法。', 'sns_qq'),
+            '100001' => __('缺少参数client_id。', 'sns_qq'),
+            '100002' => __('缺少参数client_secret。', 'sns_qq'),
+            '100003' => __('http head中缺少Authorization。', 'sns_qq'),
+            '100004' => __('缺少参数grant_type或grant_type非法。', 'sns_qq'),
+            '100005' => __('缺少参数code。', 'sns_qq'),
+            '100006' => __('缺少refresh token。', 'sns_qq'),
+            '100007' => __('缺少access token。', 'sns_qq'),
+            '100008' => __('该appid不存在。', 'sns_qq'),
+            '100009' => __('client_secret（即appkey）非法。', 'sns_qq'),
+            '100010' => __('回调地址不合法。', 'sns_qq'),
+            '100011' => __('APP不处于上线状态。', 'sns_qq'),
+            '100012' => __('HTTP请求非post方式。', 'sns_qq'),
+            '100013' => __('access token非法。', 'sns_qq'),
+            '100014' => __('access token过期。 token过期时间为3个月。', 'sns_qq'),
+            '100015' => __('access token废除。 token被回收，或者被用户删除。', 'sns_qq'),
+            '100016' => __('access token验证失败。', 'sns_qq'),
+            '100017' => __('获取appid失败。', 'sns_qq'),
+            '100018' => __('获取code值失败。', 'sns_qq'),
+            '100019' => __('access token非法。', 'sns_qq'),
+            '100020' => __('code被重复使用。', 'sns_qq'),
+            '100021' => __('获取access token值失败。', 'sns_qq'),
+            '100022' => __('获取refresh token值失败。', 'sns_qq'),
+            '100023' => __('获取app具有的权限列表失败。', 'sns_qq'),
+            '100024' => __('获取某OpenID对某appid的权限列表失败。', 'sns_qq'),
+            '100025' => __('获取全量api信息、全量分组信息。', 'sns_qq'),
+            '100026' => __('设置用户对某app授权api列表失败。', 'sns_qq'),
+            '100027' => __('设置用户对某app授权时间失败。', 'sns_qq'),
+            '100028' => __('缺少参数which。', 'sns_qq'),
+            '100029' => __('错误的http请求。', 'sns_qq'),
+            '100030' => __('用户没有对该api进行授权，或用户在腾讯侧删除了该api的权限。请用户重新走登录、授权流程，对该api进行授权。', 'sns_qq'),
+            '100031' => __('第三方应用没有对该api操作的权限。', 'sns_qq'),
+            '100032' => __('过载，一开始未细分时可以用。', 'sns_qq'),
+            '100033' => __('缺少UIN参数。', 'sns_qq'),
+            '100035' => __('用户未登录。', 'sns_qq'),
+            '100036' => __('RefreshToken失效。', 'sns_qq'),
+            '100037' => __('RefreshToken已过期', 'sns_qq'),
+            '100038' => __('RefreshToken已废除', 'sns_qq'),
+            '100039' => __('RefreshToken到达调用上限。', 'sns_qq'),
+            '100040' => __('RefreshToken的AppKey非法。', 'sns_qq'),
+            '100041' => __('RefreshToken,AppID非法。', 'sns_qq'),
+            '100042' => __('RefreshToken非法。', 'sns_qq'),
+            '100043' => __('APP处于暂停状态。', 'sns_qq'),
+            '100044' => __('Md5校验失败。', 'sns_qq'),
+            '100045' => __('用户改密token失效。', 'sns_qq'),
+            '100046' => __('g_tk校验失败。', 'sns_qq'),
+            '100048' => __('没有设置companyID。', 'sns_qq'),
+            '100049' => __('APPID没有权限(get_unionid)', 'sns_qq'),
+            '100050' => __('OPENID解密失败，一般是openid和appid不匹配。', 'sns_qq'),
+            '100051' => __('调试模式无权限。', 'sns_qq'),
 
-    /**
-     * showError
-     * 显示错误信息
-     * @param int $code 错误代码
-     * @return string 描述信息
-     */
-    public static function showError($code)
-    {
+            "20001" => __('配置文件损坏或无法读取，请重新执行intall', 'sns_qq'),
+            "30001" => __('The state does not match. You may be a victim of CSRF.', 'sns_qq'),
+            "50001" => __('<h2>可能是服务器无法请求https协议</h2>可能未开启curl支持,请尝试开启curl支持，重启web服务器，如果问题仍未解决，请联系我们', 'sns_qq'),
+
+        );
+
         return array_get(self::$errorMsg, $code);
     }
 

@@ -83,18 +83,6 @@ class sns_qq extends ConnectAbstract
         return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php', $key, $default);
     }
     
-    /**
-     * 加载语言包
-     *
-     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
-     */
-    public function loadLanguage($key = null, $default = null)
-    {
-        $locale = RC_Config::get('system.locale');
-    
-        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
-    }
-    
     public function setConfig(array $config) 
     {
         parent::setConfig($config);
@@ -188,12 +176,14 @@ class sns_qq extends ConnectAbstract
 
         $connect_user = new ConnectUser($this->getCode(), $this->open_id);
         $connect_user->setConnectPlatform($this->loadConfig('connect_platform'));
-        //$connect_user->setUnionId($this->union_id);
+        $connect_user->setUnionId($this->union_id);
 
-        //通过union_id同步已绑定的用户信息
-//        if($this->union_id) {
-//            $connect_user->bindUserByUnionId();
-//        }
+        //通过union_id,open_id同步已绑定的用户信息
+        if($this->union_id) {
+            $connect_user->bindUserByUnionId();
+        } else {
+            $connect_user->bindUserByOpenId();
+        }
         /*
          * 可以通过判断open_id是否，决定使用哪一种绑定方法
          * 如果记录不存在，则需创建记录 createUser()
@@ -213,7 +203,7 @@ class sns_qq extends ConnectAbstract
         if (intval($userinfo['ret']) === 0) {
             return $connect_user;
         } else {
-            return new ecjia_error('sns_qq_authorize_failure', '登录授权失败，请换其他方式登录');
+            return new ecjia_error('sns_qq_authorize_failure', __('登录授权失败，请换其他方式登录', 'sns_qq'));
         }
     }
     

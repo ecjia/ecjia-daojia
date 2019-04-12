@@ -49,9 +49,10 @@ Plugin Name: QQ帐号登录
 Plugin URI: http://www.ecjia.com/plugins/ecjia.sns_qq/
 Description: 使用QQ第三方帐号登录。<br><a href="http://connect.qq.com" target="_blank"><font color="red">立即在线申请</font></a>。
 Author: ECJIA TEAM
-Version: 1.29.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: connect
+Text Domain: sns_qq
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 class plugin_sns_qq {
@@ -72,6 +73,7 @@ class plugin_sns_qq {
 }
 
 Ecjia_PluginManager::extend('sns_qq', function() {
+    RC_Locale::loadPluginTextdomain('sns_qq');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'sns_qq.class.php';
     return new sns_qq();
 });

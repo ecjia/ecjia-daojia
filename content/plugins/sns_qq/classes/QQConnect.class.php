@@ -351,7 +351,8 @@ class QQConnect
                             move_uploaded_file($v['tmp_name'], $filename);
                             $arr[$tmpKey] = "@$filename";
                         } else {
-                            return new ecjia_error('api_call_parameter_incorrect', "未传入参数$tmpKey");
+//                             return new ecjia_error('api_call_parameter_incorrect', "未传入参数$tmpKey");
+                        	return new ecjia_error('api_call_parameter_incorrect', sprintf(__('未传入参数%s', 'sns_qq'), $tmpKey));
                         }
                     } 
             }
@@ -369,7 +370,8 @@ class QQConnect
             
             if (! $n) {
                 $str = implode(",", $val);
-                return new ecjia_error('api_call_parameter_incorrect', $str . "必填一个");
+//                 return new ecjia_error('api_call_parameter_incorrect', $str . "必填一个");
+                return new ecjia_error('api_call_parameter_incorrect', sprintf(__('%s必填一个', 'sns_qq'), $str));
             }
         }
         
@@ -401,7 +403,8 @@ class QQConnect
     {
         // 如果APIMap不存在相应的api
         if (empty($this->APIMap[$name])) {
-            return new ecjia_error('api_call_name_incorrect', "不存在的API: $name");
+//             return new ecjia_error('api_call_name_incorrect', "不存在的API: $name");
+            return new ecjia_error('api_call_name_incorrect', sprintf(__('不存在的API:%s', 'sns_qq'), $name));
         }
         
         // 从APIMap获取api相应参数
