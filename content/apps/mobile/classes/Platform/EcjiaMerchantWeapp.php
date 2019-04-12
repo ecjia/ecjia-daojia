@@ -48,95 +48,34 @@
 namespace Ecjia\App\Mobile\Platform;
 
 use Ecjia\App\Mobile\ApplicationPlatform;
-use Ecjia\App\Mobile\Contracts\HomeComponentInterface;
-use Ecjia\App\Mobile\MobileAction;
 
-class EcjiaCityo2oB2b2c extends ApplicationPlatform implements HomeComponentInterface
+class EcjiaMerchantWeapp extends ApplicationPlatform
 {
 
     /**
      * 分组
      * @var string
      */
-    protected $group = 'app';
+    protected $group = 'wechat';
     
     /**
      * 代号标识
      * @var string
      */
-    protected $code = 'ecjia-cityo2o-b2b2c';
+    protected $code = 'ecjia-merchant-weapp';
     
     /**
      * 图标
      * @var string
      */
-     protected $icon = '/statics/images/cityo2ob2b2c.png';
-    
-    /**
-     * 支持的客户端类型
-     * @var array
-     */
-    protected $clients = [
-        [
-        	'device_client' => 'iphone',
-            'device_name' => 'iPhone',
-            'device_code' => '6022',
-            'device_icon' => '/statics/images/iphone.png',
-        ],
-        [
-            'device_client' => 'android',
-            'device_name' => 'Android',
-            'device_code' => '6021',
-            'device_icon' => '/statics/images/android.png',
-        ]
-    ];
+    protected $icon = '/statics/images/wechat.png';
     
     /**
      * 支持的支付方式
      * @var array
-     */    
-    protected $payments = [
-    	'pay_balance',
-    	'pay_cod',
-    	'pay_alipay',
-    	'pay_wxpay_bbc',
-    ];
-    
-    /**
-     * 支持的opentype类型
-     * @var array
      */
-    protected $opentypes = [
-    	MobileAction::MAIN,
-    	MobileAction::SINGIN,
-    	MobileAction::SIGNUP,
-    	MobileAction::FORGET_PASSWORD,
-    	MobileAction::DISCOVER,
-    	MobileAction::QRCODE,
-    	MobileAction::QRSHARE,
-    	MobileAction::HISTORY,
-    	MobileAction::MAP,
-    	MobileAction::MESSAGE,
-    	MobileAction::WEBVIEW,
-    	MobileAction::SETTING,
-    	MobileAction::LANGUAGE,
-    	MobileAction::CART,
-    	MobileAction::SEARCH,
-    	MobileAction::HELP,
-    	MobileAction::GOODS_LIST,
-    	MobileAction::GOODS_COMMENT,
-    	MobileAction::GOODS_DETAIL,
-    	MobileAction::ORDERS_LIST,
-    	MobileAction::ORDERS_DETAIL,
-    	MobileAction::USER_CENTER,
-    	MobileAction::USER_ADDRESS,
-    	MobileAction::USER_ACCOUNT,
-    	MobileAction::USER_COLLECT,
-    	MobileAction::USER_PASSWORD,
-    	MobileAction::MERCHANT,
-    	MobileAction::MERCHANT_GOODS_LIST,
-    	MobileAction::MERCHANT_SUGGEST_LIST,
-    	MobileAction::MERCHANT_DETAIL,
+    protected $payments = [
+        'pay_wxpay_merchant',
     ];
 
     /**
@@ -147,55 +86,21 @@ class EcjiaCityo2oB2b2c extends ApplicationPlatform implements HomeComponentInte
         'config_client',
         'mobile_device',
 
-        'config_push',
         'config_pay',
     ];
 
-
     public function __construct()
     {
-        $this->name = __('ECJia到家商城', 'mobile');
-        $this->description = __('ECJia到家商城是一款全新的电商业务APP，去除了O2O定位的限制，适合跨区域的购物与配送。', 'mobile');
-    }
-
-    /**
-     * 获取首页默认模块组件
-     * @return mixed
-     */
-    public function getHomeComponent()
-    {
-        return [
-            'home_cycleimage',
-            'home_shortcut',
-            'toutiao',
-            'topic',
-            'scanqrcode_and_membercode',
-            'promote_goods',
-            'new_goods',
-            'best_goods',
-            'home_complex_adsense_one',
-            'home_complex_adsense_two',
-            'groupbuy_goods',
+        $this->name = __('ECJia到家商家小程序', 'mobile');
+        $this->description = __('ECJia到家商家小程序是一款以商家独立收款为核心的消费者购物微信小程序。', 'mobile');
+        $this->clients = [
+            [
+                'device_client' => 'weapp',
+                'device_name' => __('微信小程序', 'mobile'),
+                'device_code' => '6016',
+            ],
         ];
-    }
 
-    /**
-     * 获取首页定义允许使用的模块组件
-     * @return mixed
-     */
-    public function getDefinedHomeComponent()
-    {
-        return [
-            'home_cycleimage', //轮播图
-            'home_shortcut', //快捷菜单
-            'toutiao', //商家头条
-            'topic', //主题街
-            'home_complex_adsense_one', //广告组一
-            'home_complex_adsense_two', //广告组二
-            'promote_goods', //促销商品
-            'new_goods', //新品推荐
-            'best_goods', //店长推荐
-            'groupbuy_goods', //团购商品
-        ];
     }
+    
 }

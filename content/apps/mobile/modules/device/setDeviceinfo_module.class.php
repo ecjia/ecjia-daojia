@@ -54,7 +54,7 @@ class device_setDeviceinfo_module extends api_front implements api_interface {
 		
 		$device = $this->device;
 		
-		$device_token = $this->requestData('device_token');
+		$device_token   = $this->requestData('device_token');
 		
 		$device_name	= $this->requestData('device_name');
 		$device_os		= $this->requestData('device_os');
@@ -73,7 +73,7 @@ class device_setDeviceinfo_module extends api_front implements api_interface {
 				'device_code'	=> $device['code'],
 				'user_type'		=> $user_type,
 		);
-		$row = RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->where('user_type', $user_type)->first();
+		$row = RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->where('user_type', $user_type)->orderBy('update_time', 'desc')->first();
 		
 		if (empty($row)) {
 			$device_data['add_time']		    = RC_Time::gmtime();
@@ -92,12 +92,12 @@ class device_setDeviceinfo_module extends api_front implements api_interface {
 			RC_DB::table('mobile_device')->insert($device_data);
 		} else {
 			$data = array();
-            $data['device_token']               = $device_token;
-			$data['device_name']		        = $device_name;
-			$data['device_os']			        = $device_os;
-			$data['device_type']		        = $device_type;
-			$data['location_province']	        = $province;
-			$data['location_city']		        = $city;
+			if (!empty($device_token)) $data['device_token']    = $device_token;
+            if (!empty($device_name)) $data['device_name']		= $device_name;
+            if (!empty($device_os)) $data['device_os']			= $device_os;
+            if (!empty($device_type)) $data['device_type']		= $device_type;
+            if (!empty($province)) $data['location_province']	= $province;
+            if (!empty($city)) $data['location_city']		    = $city;
 			$data['visit_times']		        = $row['visit_times'] + 1;
 			$data['update_time']		        = RC_Time::gmtime();
             $data['user_id']		            = session('session_user_id');
