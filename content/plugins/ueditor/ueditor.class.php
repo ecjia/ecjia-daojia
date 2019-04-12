@@ -49,7 +49,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * ECJIA 文本编辑器扩展类
  */
-class ueditor extends Component_Editor_Editor {
+class ueditor extends \Royalcms\Component\Editor\Editor
+{
 
 	private $editor_id;
 	
