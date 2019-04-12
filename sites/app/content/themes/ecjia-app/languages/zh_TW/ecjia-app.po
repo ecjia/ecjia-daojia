@@ -1,283 +1,325 @@
-# Copyright (C) 2019 ECJia Team
-# This file is distributed under the same license as the ECJia店铺街APP下载 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ECJia店铺街APP下载 1.29.0\n"
-"Report-Msgid-Bugs-To: https://www.ecjia.com/support/theme/ecjia-app\n"
-"POT-Creation-Date: 2019-03-20 07:34:08+00:00\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://www."
+"ecjia.com/support/theme/ecjia-app\n"
+"POT-Creation-Date: 2019-03-21 "
+"15:14+0800\n"
+"PO-Revision-Date: 2019-03-21 "
+"15:22+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; "
+"charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. Template Name of the plugin/theme
 msgid "ECJia店铺街APP下载"
-msgstr ""
+msgstr "ECJia店鋪街APP下載"
 
-#. #-#-#-#-#  ecjia-app.pot (ECJia店铺街APP下载 1.29.0)  #-#-#-#-#
 #. Template URI of the plugin/theme
-#. #-#-#-#-#  ecjia-app.pot (ECJia店铺街APP下载 1.29.0)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "https://ecjia.com/"
-msgstr ""
+msgstr "https://ecjia.com/"
 
 #. Description of the plugin/theme
 msgid "ECJia店铺街APP下载引导模板"
-msgstr ""
+msgstr "ECJia店鋪街APP下載引導模板"
 
 #. Author of the plugin/theme
 msgid "ECJia Team"
-msgstr ""
+msgstr "ECJia Team"
 
 #: sites/app/content/themes/ecjia-app/library/shop_subtitle.lbi.php:7
 msgid "同城上门O2O解决方案"
-msgstr ""
+msgstr "同城上門O2O解決方案"
 
 #: sites/app/content/themes/ecjia-app/library/brief_intro.lbi.php:7
-msgid "发掘最后一公里，上门电商的全新机遇"
+msgid ""
+"发掘最后一公里，上门电商的全新机遇"
 msgstr ""
+"發掘最後一公里，上門電商的全新機遇"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:25
 msgid "首页"
-msgstr ""
+msgstr "首頁"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:28
 msgid "商家"
-msgstr ""
+msgstr "商家"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:31
 msgid "下载APP"
-msgstr ""
+msgstr "下載APP"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:33
 msgid "会员中心"
-msgstr ""
+msgstr "會員中心"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:35
 msgid "商家入驻"
-msgstr ""
+msgstr "商家入駐"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:38
 msgid "商家登录"
-msgstr ""
+msgstr "商家登錄"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:62
 msgid "扫码体验小程序"
-msgstr ""
+msgstr "掃碼體驗小程序"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:69
 msgid "扫码体验H5"
-msgstr ""
+msgstr "掃碼體驗H5"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:83
 msgid "商家和配送员可使用原生APP"
-msgstr ""
+msgstr "商家和配送員可使用原生APP"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:84
-msgid "与商城完美对接的原生APP，下载并安装成功后，商家可通过手机掌柜"
+msgid ""
+"与商城完美对接的原生APP，下载并安装成"
+"功后，商家可通过手机掌柜"
 msgstr ""
+"與商城完美對接的原生APP，下載並安裝成"
+"功後，商家可通過手機掌櫃"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:85
 msgid ""
-"随时随地管理店铺、商城配送员可通过配送员APP在线抢单、送单并获得相应的配送费用"
+"随时随地管理店铺、商城配送员可通过配送"
+"员APP在线抢单、送单并获得相应的配送费"
+"用"
 msgstr ""
+"隨時隨地管理店鋪、商城配送員可通過配送"
+"員APP在線搶單、送單並獲得相應的配送費"
+"用"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:94
 msgid "掌柜"
-msgstr ""
+msgstr "掌櫃"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:95
 msgid ""
-"与我们商城后台完美同步，下载此APP后，可使用入驻商家账号直接登录，使用手机随时"
-"随地高效管理自己的店铺、商品、订单等。"
+"与我们商城后台完美同步，下载此APP后，"
+"可使用入驻商家账号直接登录，使用手机随"
+"时随地高效管理自己的店铺、商品、订单"
+"等。"
 msgstr ""
+"與我們商城後台完美同步，下載此APP後，"
+"可使用入駐商家賬號直接登錄，使用手機隨"
+"時隨地高效管理自己的店鋪、商品、訂單"
+"等。"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:98
 #: sites/app/content/themes/ecjia-app/index.dwt.php:113
 #: sites/app/content/themes/ecjia-app/index.dwt.php:133
 msgid "iPhone端下载"
-msgstr ""
+msgstr "iPhone端下載"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:100
 #: sites/app/content/themes/ecjia-app/index.dwt.php:115
 #: sites/app/content/themes/ecjia-app/index.dwt.php:135
 #: sites/app/content/themes/ecjia-app/index.dwt.php:147
 msgid "Android端下载"
-msgstr ""
+msgstr "Android端下載"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:108
 msgid "配送员"
-msgstr ""
+msgstr "配送員"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:109
 msgid ""
-"适用于商城配送员使用，如果您已成为我们的配送员，你可下载安装此APP，获取周边商"
-"家的订单，随时随地在线抢单、取货、配送等。"
+"适用于商城配送员使用，如果您已成为我们"
+"的配送员，你可下载安装此APP，获取周边"
+"商家的订单，随时随地在线抢单、取货、配"
+"送等。"
 msgstr ""
+"適用於商城配送員使用，如果您已成為我們"
+"的配送員，你可下載安裝此APP，獲取周邊"
+"商家的訂單，隨時隨地在線搶單、取貨、配"
+"送等。"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:129
 #: sites/app/content/themes/ecjia-app/index.dwt.php:205
 msgid "云店"
-msgstr ""
+msgstr "雲店"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:130
 msgid ""
-"让H5手机网站免费在原生APP内运行，消费者只需下载此APP后，扫描你的店铺二维码，"
-"即可在此APP内访问H5商城，满足消费者更好的购物体验。"
+"让H5手机网站免费在原生APP内运行，消费"
+"者只需下载此APP后，扫描你的店铺二维"
+"码，即可在此APP内访问H5商城，满足消费"
+"者更好的购物体验。"
 msgstr ""
+"讓H5手機網站免費在原生APP內運行，消費"
+"者只需下載此APP後，掃描你的店鋪二維"
+"碼，即可在此APP內訪問H5商城，滿足消費"
+"者更好的購物體驗。"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:143
 #: sites/app/content/themes/ecjia-app/index.dwt.php:206
 msgid "收银通"
-msgstr ""
+msgstr "收銀通"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:144
 msgid ""
-"专门为零售商户量身打造的一款高效，便捷的收银工具，您可使用此APP快捷地进行开"
-"单、收款、验单、退款、会员、统计、小票打印等操作，同时还可使用微信、支付宝、"
-"刷卡等多种主流收款方式，为您提供一站式收银、管理、运营的金融解决方案！"
+"专门为零售商户量身打造的一款高效，便捷"
+"的收银工具，您可使用此APP快捷地进行开"
+"单、收款、验单、退款、会员、统计、小票"
+"打印等操作，同时还可使用微信、支付宝、"
+"刷卡等多种主流收款方式，为您提供一站式"
+"收银、管理、运营的金融解决方案！"
 msgstr ""
+"專門為零售商戶量身打造的一款高效，便捷"
+"的收銀工具，您可使用此APP快捷地進行開"
+"單、收款、驗單、退款、會員、統計、小票"
+"打印等操作，同時還可使用微信、支付寶、"
+"刷卡等多種主流收款方式，為您提供一站式"
+"收銀、管理、運營的金融解決方案！"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:157
 msgid "三步教你如何使用APP"
-msgstr ""
+msgstr "三步教你如何使用APP"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:161
 msgid "扫店铺二维码"
-msgstr ""
+msgstr "掃店鋪二維碼"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:174
 msgid "第一步"
-msgstr ""
+msgstr "第一步"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:175
 msgid "打开已下载的APP"
-msgstr ""
+msgstr "打開已下載的APP"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:183
 msgid "第二步"
-msgstr ""
+msgstr "第二步"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:184
 msgid "扫描店铺二维码"
-msgstr ""
+msgstr "掃描店鋪二維碼"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:192
 msgid "第三步"
-msgstr ""
+msgstr "掃店鋪二維碼"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:193
 msgid "输登录账号即可使用"
-msgstr ""
+msgstr "輸登錄賬號即可使用"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:200
 msgid "界面精彩截图"
-msgstr ""
+msgstr "界面精彩截圖"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:203
 msgid "到家掌柜"
-msgstr ""
+msgstr "到家掌櫃"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:204
 msgid "到家配送员"
-msgstr ""
+msgstr "到家配送員"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:214
 msgid "掌柜主页"
-msgstr ""
+msgstr "掌櫃主頁"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:218
 msgid "商品列表"
-msgstr ""
+msgstr "商品列表"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:222
 msgid "发货列表"
-msgstr ""
+msgstr "發貨列表"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:226
 msgid "派单列表"
-msgstr ""
+msgstr "派單列表"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:230
 msgid "活动列表"
-msgstr ""
+msgstr "活動列表"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:234
 msgid "店铺设置"
-msgstr ""
+msgstr "店鋪設置"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:245
 msgid "配送员主页"
-msgstr ""
+msgstr "配送員主頁"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:249
 msgid "待取货"
-msgstr ""
+msgstr "待取貨"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:253
 msgid "历史配送"
-msgstr ""
+msgstr "歷史配送"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:257
 msgid "消息"
-msgstr ""
+msgstr "消息"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:261
 #: sites/app/content/themes/ecjia-app/index.dwt.php:284
 msgid "用户中心"
-msgstr ""
+msgstr "用戶中心"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:272
 msgid "主页"
-msgstr ""
+msgstr "主頁"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:276
 #: sites/app/content/themes/ecjia-app/index.dwt.php:299
 msgid "店铺首页"
-msgstr ""
+msgstr "店舖首頁"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:280
 msgid "扫码购物"
-msgstr ""
+msgstr "掃碼購物"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:288
 msgid "付款码"
-msgstr ""
+msgstr "付款碼"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:303
 msgid "开单"
-msgstr ""
+msgstr "開單"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:307
 msgid "会员列表"
-msgstr ""
+msgstr "會員列表"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:311
 msgid "会员详情"
-msgstr ""
+msgstr "會員詳情"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:315
 msgid "收款"
-msgstr ""
+msgstr "收款"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:319
 msgid "资金流水"
-msgstr ""
+msgstr "資金流水"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:380
 msgid "打开微信扫一扫关注"
-msgstr ""
+msgstr "打開微信掃一掃關注"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:394
 msgid "版权所有"
-msgstr ""
+msgstr "版權所有"
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:396
 msgid "地址："
-msgstr ""
+msgstr "地址："
 
 #: sites/app/content/themes/ecjia-app/index.dwt.php:396
 msgid "咨询热线："
-msgstr ""
+msgstr "諮詢熱線："
