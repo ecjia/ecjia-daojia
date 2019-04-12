@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App captcha 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-13 05:24:22+00:00\n"
+"POT-Creation-Date: 2019-03-22 03:53:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -175,9 +175,9 @@ msgid "邮箱账号格式错误"
 msgstr ""
 
 #: modules/admin/shop/captcha/mail_module.class.php:67
-#: modules/admin/shop/captcha/sms_module.class.php:70
+#: modules/admin/shop/captcha/sms_module.class.php:66
 #: modules/shop/captcha/mail_module.class.php:67
-#: modules/shop/captcha/sms_module.class.php:70
+#: modules/shop/captcha/sms_module.class.php:66
 msgid "发送频率过高，请一分钟后再试"
 msgstr ""
 
@@ -195,13 +195,13 @@ msgstr ""
 msgid "验证码发送失败！"
 msgstr ""
 
-#: modules/admin/shop/captcha/sms/checkcode_module.class.php:77
+#: modules/admin/shop/captcha/sms/checkcode_module.class.php:71
 msgid "验证码错误"
 msgstr ""
 
-#: modules/admin/shop/captcha/sms/checkcode_module.class.php:100
-#: modules/admin/shop/captcha/sms_module.class.php:101
-#: modules/shop/captcha/sms_module.class.php:102
+#: modules/admin/shop/captcha/sms/checkcode_module.class.php:94
+#: modules/admin/shop/captcha/sms_module.class.php:97
+#: modules/shop/captcha/sms_module.class.php:98
 msgid "短信发送失败！"
 msgstr ""
 
