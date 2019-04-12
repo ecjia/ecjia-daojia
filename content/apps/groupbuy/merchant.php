@@ -563,8 +563,8 @@ class merchant extends ecjia_merchant
         $msg_count = $db_goods->select(RC_DB::raw('count(*) as count'),
             RC_DB::raw('SUM(IF(g.is_finished = 0 and g.start_time < ' . $time . ' and g.end_time > ' . $time . ', 1, 0)) as on_going'),
             RC_DB::raw('SUM(IF(g.is_finished = 0 and g.start_time < ' . $time . ' and g.end_time < ' . $time . ', 1, 0)) as uncheck'),
-            RC_DB::raw('SUM(IF(g.is_finished = 3, 1, 0)) as successed'),
-            RC_DB::raw('SUM(IF(g.is_finished = 4, 1, 0)) as failed')
+            RC_DB::raw('SUM(IF(g.is_finished = 3 || g.is_finished = 13, 1, 0)) as successed'),
+            RC_DB::raw('SUM(IF(g.is_finished = 4 || g.is_finished = 14, 1, 0)) as failed')
         )->first();
 
         $msg_count = array(
@@ -582,10 +582,14 @@ class merchant extends ecjia_merchant
             $db_goods->where(RC_DB::raw('g.is_finished'), 0)->where(RC_DB::raw('g.start_time'), '<', $time)->where(RC_DB::raw('g.end_time'), '<', $time);
         }
         if ($filter['type'] == 'successed') {
-            $db_goods->where(RC_DB::raw('g.is_finished'), 3);
+            $db_goods->where(function ($query) {
+                $query->where(RC_DB::raw('g.is_finished'), GBS_SUCCEED)->orWhere(RC_DB::raw('g.is_finished'), GBS_SUCCEED_COMPLETE);
+            });
         }
         if ($filter['type'] == 'failed') {
-            $db_goods->where(RC_DB::raw('g.is_finished'), 4);
+            $db_goods->where(function ($query) {
+                $query->where(RC_DB::raw('g.is_finished'), GBS_FAIL)->orWhere(RC_DB::raw('g.is_finished'), GBS_FAIL_COMPLETE);
+            });
         }
 
         $count = $db_goods->count();
@@ -631,7 +635,7 @@ class merchant extends ecjia_merchant
 
                 $arr['start_time']     = RC_Time::local_date('Y-m-d H:i:s', $arr['start_time']);
                 $arr['end_time']       = RC_Time::local_date('Y-m-d H:i:s', $arr['end_time']);
-                $gbs_arr = array(
+                $gbs_arr               = array(
                     GBS_PRE_START        => __('未开始', 'groupbuy'),
                     GBS_UNDER_WAY        => __('进行中', 'groupbuy'),
                     GBS_FINISHED         => __('结束未处理', 'groupbuy'),

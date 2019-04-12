@@ -124,13 +124,13 @@ class groupbuy_order_pay_module extends api_front implements api_interface {
 		}
 		
 		/* 插入支付流水记录*/
-		RC_Api::api('payment', 'save_payment_record', [
-    		'order_sn' 		 => $order['order_sn'],
-    		'total_fee'      => $order['order_amount'],
-    		'pay_code'       => $handler->getCode(),
-    		'pay_name'		 => $handler->getName(),
-    		'trade_type'	 => 'buy',
-		]);
+// 		RC_Api::api('payment', 'save_payment_record', [
+//     		'order_sn' 		 => $order['order_sn'],
+//     		'total_fee'      => $order['order_amount'],
+//     		'pay_code'       => $handler->getCode(),
+//     		'pay_name'		 => $handler->getName(),
+//     		'trade_type'	 => 'buy',
+// 		]);
 		
 		$handler->set_orderinfo($order);
 		$handler->set_mobile($is_mobile);
