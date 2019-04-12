@@ -240,6 +240,22 @@ class Account extends AbstractRepository
 
         }
     }
+
+    /**
+     * 获取登录Url
+     * @return string
+     */
+    public function getLoginUrl()
+    {
+        if ($this->getStoreId() > 0) {
+            $login_url = str_replace('sites/platform/index.php', 'sites/merchant/index.php', RC_Uri::url('staff/privilege/login'));
+        }
+        else {
+            $login_url = str_replace('sites/platform/index.php', 'index.php', RC_Uri::url('@privilege/login'));
+        }
+
+        return $login_url;
+    }
     
     /**
      * 公众平台信息设置URL，支持平台和商家

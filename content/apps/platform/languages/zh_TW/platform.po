@@ -4,13 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App platform 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-04 05:54:39+00:00\n"
+"POT-Creation-Date: 2019-04-03 18:56+0800\n"
+"PO-Revision-Date: 2019-04-09 09:55+0800\n"
+"Last-Translator: \n"
+"Language-Team: ecjia@ecjia.com\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: admin.php:82 admin.php:93 admin.php:106 admin.php:123 admin.php:136
 #: admin.php:217 apis/platform_admin_purview_api.class.php:59
@@ -18,856 +21,882 @@ msgstr ""
 #: merchant.php:89 merchant.php:102 merchant.php:122 merchant.php:140
 #: merchant.php:227
 msgid "公众号列表"
-msgstr ""
+msgstr "公眾號列表"
 
 #: admin.php:96 admin.php:126 admin.php:222 admin_command.php:87
 #: admin_plugin.php:89 admin_plugin.php:116 merchant.php:92 merchant.php:125
 #: merchant.php:232 platform_extend.php:86
 msgid "概述"
-msgstr ""
+msgstr "概述"
 
 #: admin.php:98 merchant.php:94
 msgid ""
-"欢迎访问ECJia智能后台公众号列表页面，系统中所有的公众号都会显示在此列表中。"
+"欢迎访问ECJia智能后台公众号列表页面，系统中所有的公众号都会显示在此列表"
+"中。"
 msgstr ""
+"歡迎訪問ECJia智能後台公眾號列表頁面，系統中所有的公眾號都會顯示在此列表"
+"中。"
 
 #: admin.php:102 admin_plugin.php:121 merchant.php:98 merchant.php:130
 #: merchant.php:238 platform_extend.php:92
 msgid "更多信息："
-msgstr ""
+msgstr "更多信息："
 
 #: admin.php:107 admin.php:135 apis/platform_admin_purview_api.class.php:60
 #: apis/platform_merchant_purview_api.class.php:60 merchant.php:109
 #: merchant.php:139
 msgid "添加公众号"
-msgstr ""
+msgstr "添加公眾號"
 
 #: admin.php:127 merchant.php:126
-msgid "欢迎访问ECJia智能后台添加公众号页面，在此页面可以进行添加公众号操作。"
+msgid ""
+"欢迎访问ECJia智能后台添加公众号页面，在此页面可以进行添加公众号操作。"
 msgstr ""
+"歡迎訪問ECJia智能後台添加公眾號頁面，在此頁面可以進行添加公眾號操作。"
 
 #: admin.php:131 admin.php:228 admin_command.php:92 admin_plugin.php:94
 msgid "更多信息"
-msgstr ""
+msgstr "更多信息"
 
 #: admin.php:159 admin.php:263 merchant.php:168 merchant.php:273
 msgid "请选择平台"
-msgstr ""
+msgstr "請選擇平台"
 
 #: admin.php:162 admin.php:266 merchant.php:171 merchant.php:276
 msgid "请输入公众号名称"
-msgstr ""
+msgstr "請輸入公眾號名稱"
 
 #: admin.php:165 admin.php:269 merchant.php:174 merchant.php:279
 msgid "请输入Token"
-msgstr ""
+msgstr "請輸入Token"
 
 #: admin.php:168 admin.php:272 merchant.php:177 merchant.php:282
 msgid "请输入AppID"
-msgstr ""
+msgstr "請輸入AppID"
 
 #: admin.php:171 admin.php:275 merchant.php:180 merchant.php:285
 msgid "请输入AppSecret"
-msgstr ""
+msgstr "請輸入AppSecret"
 
 #: admin.php:206 merchant.php:216
 msgid "添加公众号成功！"
-msgstr ""
+msgstr "添加公眾號成功！"
 
 #: admin.php:216 admin.php:218 apis/platform_admin_purview_api.class.php:61
 #: apis/platform_merchant_purview_api.class.php:61 merchant.php:226
 #: merchant.php:228
 msgid "编辑公众号"
-msgstr ""
+msgstr "編輯公眾號"
 
 #: admin.php:224 merchant.php:234
-msgid "欢迎访问ECJia智能后台编辑公众号页面，在此页面可以进行编辑公众号操作。"
+msgid ""
+"欢迎访问ECJia智能后台编辑公众号页面，在此页面可以进行编辑公众号操作。"
 msgstr ""
+"歡迎訪問ECJia智能後台編輯公眾號頁面，在此頁面可以進行編輯公眾號操作。"
 
 #: admin.php:312 merchant.php:322
 msgid "编辑公众号成功！"
-msgstr ""
+msgstr "編輯公眾號成功！"
 
 #: admin.php:336 merchant.php:347
 msgid "删除公众号成功！"
-msgstr ""
+msgstr "刪除公眾號成功！"
 
 #: admin.php:338 merchant.php:349
 msgid "删除公众号失败！"
-msgstr ""
+msgstr "刪除公眾號失敗！"
 
 #: admin.php:358 merchant.php:387
 msgid "公众号名称为%s"
-msgstr ""
+msgstr "公眾號名稱為%s"
 
 #: admin.php:361 merchant.php:388 platform_command.php:307
 msgid "删除成功"
-msgstr ""
+msgstr "刪除成功"
 
 #: admin.php:363
 msgid "删除失败"
-msgstr ""
+msgstr "刪除失敗"
 
 #: admin.php:385 merchant.php:409
 msgid "切换状态成功！"
-msgstr ""
+msgstr "切換狀態成功！"
 
 #: admin.php:400 merchant.php:424
 msgid "请输入数值！"
-msgstr ""
+msgstr "請輸入數值！"
 
 #: admin.php:404 merchant.php:428
 msgid "编辑排序成功！"
-msgstr ""
+msgstr "編輯排序成功！"
 
 #: admin.php:406
 msgid "编辑排序失败！"
-msgstr ""
+msgstr "編輯排序失敗！"
 
 #: admin.php:410 merchant.php:431
 msgid "公众号排序不能为空！"
-msgstr ""
+msgstr "公眾號排序不能為空！"
 
 #: admin.php:420 merchant.php:441
 msgid "该公众号不存在"
-msgstr ""
+msgstr "該公眾號不存在"
 
 #: admin.php:469
 msgid "本次删除了[%s]条记录！"
-msgstr ""
+msgstr "本次刪除了[%s]條記錄！"
 
 #: admin.php:479 merchant.php:472 platform_extend.php:317
 msgid "生成token成功"
-msgstr ""
+msgstr "生成token成功"
 
 #: admin_command.php:83 admin_command.php:100 admin_plugin.php:86
 #: admin_plugin.php:126 apis/platform_admin_menu_api.class.php:62
 #: apis/platform_admin_purview_api.class.php:69 classes/Helper.php:59
 msgid "功能扩展"
-msgstr ""
+msgstr "功能擴展"
 
 #: admin_command.php:84 admin_command.php:99
 msgid "命令列表"
-msgstr ""
+msgstr "命令列表"
 
 #: admin_command.php:89
 msgid ""
-"欢迎访问ECJia智能后台功能扩展命令页面，有关该扩展的命令都会显示在此列表中。"
+"欢迎访问ECJia智能后台功能扩展命令页面，有关该扩展的命令都会显示在此列表"
+"中。"
 msgstr ""
+"歡迎訪問ECJia智能後台功能擴展命令頁面，有關該擴展的命令都會顯示在此列表"
+"中。"
 
 #: admin_plugin.php:75 apis/platform_admin_menu_api.class.php:58
-#: classes/Frameworks/EcjiaPlatform.php:366
+#: classes/Frameworks/EcjiaPlatform.php:329
 #: classes/hooks/merchant_platform.class.php:55 configs/package.php:55
 #: configs/package.php:56
 msgid "公众平台"
-msgstr ""
+msgstr "公眾平台"
 
 #: admin_plugin.php:91
 msgid ""
-"欢迎访问ECJia智能后台功能扩展页面，系统中所有的功能扩展都会显示在此列表中。"
+"欢迎访问ECJia智能后台功能扩展页面，系统中所有的功能扩展都会显示在此列表"
+"中。"
 msgstr ""
+"歡迎訪問ECJia智能後台功能擴展頁面，系統中所有的功能擴展都會顯示在此列表"
+"中。"
 
 #: admin_plugin.php:98
 msgid "公众平台-功能扩展"
-msgstr ""
+msgstr "公眾平台-功能擴展"
 
 #: admin_plugin.php:113 admin_plugin.php:125
 msgid "编辑功能扩展"
-msgstr ""
+msgstr "編輯功能擴展"
 
 #: admin_plugin.php:117
 msgid ""
 "欢迎访问ECJia智能后台编辑功能扩展页面，在此页面可以进行编辑功能扩展操作。"
 msgstr ""
+"歡迎訪問ECJia智能後台編輯功能擴展頁面，在此頁面可以進行編輯功能擴展操作。"
 
 #: admin_plugin.php:151
 msgid "编辑功能扩展成功"
-msgstr ""
+msgstr "編輯功能擴展成功"
 
 #: admin_plugin.php:169 admin_plugin.php:188
 msgid "插件"
-msgstr ""
+msgstr "插件"
 
 #: admin_plugin.php:169
 msgid "已停用"
-msgstr ""
+msgstr "已停用"
 
 #: admin_plugin.php:188
 msgid "已启用"
-msgstr ""
+msgstr "已啟用"
 
 #: admin_privilege.php:73
 msgid "管理员管理"
-msgstr ""
+msgstr "管理員管理"
 
 #: admin_privilege.php:88 merchant_privilege.php:84
 msgid "分派权限"
-msgstr ""
+msgstr "分派權限"
 
 #: admin_privilege.php:98 admin_privilege.php:137
 msgid "返回管理员列表"
-msgstr ""
+msgstr "返回管理員列表"
 
 #: admin_privilege.php:99 merchant_privilege.php:102
 msgid "您不能对此管理员的权限进行任何操作！"
-msgstr ""
+msgstr "您不能對此管理員的權限進行任何操作！"
 
 #: admin_privilege.php:105 merchant_privilege.php:108
 msgid "分派公众平台权限 [ %s ] "
-msgstr ""
+msgstr "分派公眾平台權限 [ %s ]"
 
 #: admin_privilege.php:106
 msgid "管理员列表"
-msgstr ""
+msgstr "管理員列表"
 
 #: admin_privilege.php:140 merchant_privilege.php:139
 msgid "编辑 %s 操作成功！"
-msgstr ""
+msgstr "編輯 %s 操作成功！"
 
 #: admin_switch.php:72
 msgid "当前已在【%s】公众号中！"
-msgstr ""
+msgstr "當前已在【%s】公眾號中！"
 
 #: admin_switch.php:78
 msgid "正在切换【%s】公众号中，请稍等......"
-msgstr ""
+msgstr "正在切換【%s】公眾號中，請稍等......"
 
 #: apis/platform_admin_menu_api.class.php:61
 msgid "公众号管理"
-msgstr ""
+msgstr "公眾號管理"
 
 #: apis/platform_admin_purview_api.class.php:62
 #: apis/platform_merchant_purview_api.class.php:62
 msgid "删除公众号"
-msgstr ""
+msgstr "刪除公眾號"
 
 #: apis/platform_admin_purview_api.class.php:64
 #: apis/platform_platform_purview_api.class.php:59
 msgid "公众号扩展管理"
-msgstr ""
+msgstr "公眾號擴展管理"
 
 #: apis/platform_admin_purview_api.class.php:65
 #: apis/platform_platform_purview_api.class.php:60
 msgid "公众号扩展添加"
-msgstr ""
+msgstr "公眾號擴展添加"
 
 #: apis/platform_admin_purview_api.class.php:66
 #: apis/platform_platform_purview_api.class.php:61
 msgid "公众号扩展编辑"
-msgstr ""
+msgstr "公眾號擴展編輯"
 
 #: apis/platform_admin_purview_api.class.php:67
 #: apis/platform_platform_purview_api.class.php:62
 msgid "公众号扩展删除"
-msgstr ""
+msgstr "公眾號擴展刪除"
 
 #: apis/platform_admin_purview_api.class.php:70
 msgid "功能扩展编辑"
-msgstr ""
+msgstr "功能擴展編輯"
 
 #: apis/platform_admin_purview_api.class.php:72
 #: apis/platform_platform_purview_api.class.php:64
 msgid "命令管理"
-msgstr ""
+msgstr "命令管理"
 
 #: apis/platform_admin_purview_api.class.php:73
 #: apis/platform_platform_purview_api.class.php:65
 msgid "添加命令"
-msgstr ""
+msgstr "添加命令"
 
 #: apis/platform_admin_purview_api.class.php:74
 #: apis/platform_platform_purview_api.class.php:66
 msgid "编辑命令"
-msgstr ""
+msgstr "編輯命令"
 
 #: apis/platform_admin_purview_api.class.php:75
 #: apis/platform_platform_purview_api.class.php:67
 msgid "删除命令"
-msgstr ""
+msgstr "刪除命令"
 
 #: apis/platform_merchant_privilege_menu_api.class.php:61
 #: apis/platform_privilege_menu_api.class.php:61
 msgid "公众平台权限"
-msgstr ""
+msgstr "公眾平台權限"
 
 #: apis/platform_platform_menu_api.class.php:57 dashboard.php:54
 #: dashboard.php:56 dashboard.php:58
 msgid "仪表盘"
-msgstr ""
+msgstr "儀錶盤"
 
 #: apis/platform_plugin_install_api.class.php:77
 #: apis/platform_plugin_uninstall_api.class.php:76
 msgid "公众平台插件名称不能为空"
-msgstr ""
+msgstr "公眾平台插件名稱不能為空"
 
 #: apis/platform_plugin_install_api.class.php:83
 msgid "安装的插件已存在"
-msgstr ""
+msgstr "安裝的插件已存在"
 
 #: classes/Frameworks/Component/Page.php:63
 msgid "总计 "
-msgstr ""
+msgstr "總計"
 
 #: classes/Frameworks/Component/Page.php:64
 msgid "条记录，分为"
-msgstr ""
+msgstr "條記錄，分為"
 
 #: classes/Frameworks/Component/Page.php:65
 msgid "页当前第"
-msgstr ""
+msgstr "頁當前第"
 
 #: classes/Frameworks/Component/Page.php:66
 msgid "页，每页"
-msgstr ""
+msgstr "頁，每頁"
 
 #: classes/Frameworks/Component/Page.php:67
 msgid " 页"
-msgstr ""
+msgstr "頁"
 
-#: classes/Frameworks/EcjiaPlatform.php:153
-#: classes/Frameworks/EcjiaPlatform.php:509
+#: classes/Frameworks/EcjiaPlatform.php:143
+#: classes/Frameworks/EcjiaPlatform.php:468
 msgid "系统提示"
-msgstr ""
+msgstr "系統提示"
 
-#: classes/Frameworks/EcjiaPlatform.php:154
-#: classes/Frameworks/EcjiaPlatform.php:158
+#: classes/Frameworks/EcjiaPlatform.php:144
+#: classes/Frameworks/EcjiaPlatform.php:148
 msgid "对不起 ,您没有执行此项操作的权限!"
-msgstr ""
+msgstr "對不起 ,您沒有執行此項操作的權限!"
 
-#: classes/Frameworks/EcjiaPlatform.php:154
+#: classes/Frameworks/EcjiaPlatform.php:144
 msgid "重新登录"
-msgstr ""
+msgstr "重新登錄"
 
-#: classes/Frameworks/EcjiaPlatform.php:450
+#: classes/Frameworks/EcjiaPlatform.php:409
 msgid "操作错误"
-msgstr ""
+msgstr "操作錯誤"
 
-#: classes/Frameworks/EcjiaPlatform.php:505
-#: classes/Frameworks/EcjiaPlatform.php:510
+#: classes/Frameworks/EcjiaPlatform.php:464
+#: classes/Frameworks/EcjiaPlatform.php:469
 msgid "对不起，您没有执行此项操作的权限！"
-msgstr ""
+msgstr "對不起，您沒有執行此項操作的權限！"
 
-#: classes/Frameworks/EcjiaPlatform.php:900
+#: classes/Frameworks/EcjiaPlatform.php:859
 msgid "版权所有 © 2013-2018 上海商创网络科技有限公司，并保留所有权利。"
-msgstr ""
+msgstr "版權所有 © 2013-2018 上海商創網絡科技有限公司，並保留所有權利。"
 
 #: classes/Frameworks/Platform/Account.php:107 configs/platform_type.php:53
 msgid "微信公众平台"
-msgstr ""
+msgstr "微信公眾平台"
 
 #: classes/Frameworks/Platform/Account.php:110
 msgid "支付宝"
-msgstr ""
+msgstr "支付寶"
 
 #: classes/Frameworks/Platform/Account.php:113
 msgid "微信小程序"
-msgstr ""
+msgstr "微信小程序"
 
 #: classes/Frameworks/Platform/Account.php:116
 msgid "未知"
-msgstr ""
+msgstr "未知"
 
 #: classes/Frameworks/Platform/Account.php:149
 msgid "未认证的公众号"
-msgstr ""
+msgstr "未認證的公眾號"
 
 #: classes/Frameworks/Platform/Account.php:152
 msgid "订阅号"
-msgstr ""
+msgstr "訂閱號"
 
 #: classes/Frameworks/Platform/Account.php:155
 msgid "服务号"
-msgstr ""
+msgstr "服務號"
 
 #: classes/Frameworks/Platform/Account.php:158
 msgid "测试账号"
-msgstr ""
+msgstr "測試賬號"
 
 #: classes/Helper.php:60
 msgid "公众号"
-msgstr ""
+msgstr "公眾號"
 
 #: classes/Helper.php:61
 msgid "公众号logo"
-msgstr ""
+msgstr "公眾號logo"
 
 #: classes/Helper.php:63
 msgid "功能扩展命令"
-msgstr ""
+msgstr "功能擴展命令"
 
 #: classes/Helper.php:64
 msgid "公众号扩展"
-msgstr ""
+msgstr "公眾號擴展"
 
 #: classes/Helper.php:65
 msgid "公众平台插件"
-msgstr ""
+msgstr "公眾平台插件"
 
 #: classes/Helper.php:67
 msgid "批量添加"
-msgstr ""
+msgstr "批量添加"
 
 #: classes/Helper.php:68
 msgid "关键词"
-msgstr ""
+msgstr "關鍵詞"
 
 #: configs/jslang.php:52
 msgid "显示侧边栏"
-msgstr ""
+msgstr "顯示側邊欄"
 
 #: configs/jslang.php:53
 msgid "隐藏侧边栏"
-msgstr ""
+msgstr "隱藏側邊欄"
 
 #: configs/jslang.php:54
 msgid "请先输入搜索信息"
-msgstr ""
+msgstr "請先輸入搜索信息"
 
 #: configs/jslang.php:55
 msgid "未搜索到导航信息"
-msgstr ""
+msgstr "未搜索到導航信息"
 
 #: configs/jslang.php:56
 msgid "操作成功"
-msgstr ""
+msgstr "操作成功"
 
 #: configs/jslang.php:57
 msgid "操作失败"
-msgstr ""
+msgstr "操作失敗"
 
 #: configs/jslang.php:58
 msgid "是否确认跳转？"
-msgstr ""
+msgstr "是否確認跳轉？"
 
 #: configs/jslang.php:59 configs/jslang.php:66
 msgid "确定"
-msgstr ""
+msgstr "確定"
 
 #: configs/jslang.php:60 configs/jslang.php:67
 msgid "取消"
-msgstr ""
+msgstr "取消"
 
 #: configs/jslang.php:61
 msgid "请求失败，错误编号："
-msgstr ""
+msgstr "請求失敗，錯誤編號："
 
 #: configs/jslang.php:62
 msgid "，错误信息："
-msgstr ""
+msgstr "，錯誤信息："
 
 #: configs/jslang.php:68
 msgid "您确定要删除这条记录吗？"
-msgstr ""
+msgstr "您確定要刪除這條記錄嗎？"
 
 #: configs/jslang.php:69
 msgid "参数错误，无法删除！"
-msgstr ""
+msgstr "參數錯誤，無法刪除！"
 
 #: configs/jslang.php:70
 msgid "您确定要操作所有选中项吗？"
-msgstr ""
+msgstr "您確定要操作所有選中項嗎？"
 
 #: configs/jslang.php:71
 msgid "请先选中操作项！"
-msgstr ""
+msgstr "請先選中操作項！"
 
 #: configs/jslang.php:72
 msgid "批量操作缺少参数！"
-msgstr ""
+msgstr "批量操作缺少參數！"
 
 #: configs/jslang.php:73 configs/jslang.php:81
 msgid "参数错误，无法选择！"
-msgstr ""
+msgstr "參數錯誤，無法選擇！"
 
 #: configs/jslang.php:74
 msgid "状态修改成功！"
-msgstr ""
+msgstr "狀態修改成功！"
 
 #: configs/jslang.php:75
 msgid "clone-obj方法未设置data-parent参数。"
-msgstr ""
+msgstr "clone-obj方法未設置data-parent參數。"
 
 #: configs/jslang.php:76 configs/jslang.php:82
 msgid "缺少参数"
-msgstr ""
+msgstr "缺少參數"
 
 #: configs/jslang.php:77
 msgid "您确定要删除此文件吗？"
-msgstr ""
+msgstr "您確定要刪除此文件嗎？"
 
 #: configs/jslang.php:78
 msgid ""
 "您使用的浏览器并不能很好的支持我们的效果，请更换浏览器访问或开启浏览器"
 "history.pushState扩展。"
 msgstr ""
+"您使用的瀏覽器並不能很好的支持我們的效果，請更換瀏覽器訪問或開啟瀏覽器"
+"history.pushState擴展。"
 
 #: configs/jslang.php:79
 msgid "操作提示"
-msgstr ""
+msgstr "操作提示"
 
 #: configs/jslang.php:80
 msgid "批量操作缺少参数"
-msgstr ""
+msgstr "批量操作缺少參數"
 
 #: merchant.php:136 merchant.php:164
 msgid "每个商家只能添加一个公众号"
-msgstr ""
+msgstr "每個商家只能添加一個公眾號"
 
 #: merchant.php:367
 msgid "批量删除成功"
-msgstr ""
+msgstr "批量刪除成功"
 
 #: merchant_privilege.php:68
 msgid "员工管理"
-msgstr ""
+msgstr "員工管理"
 
 #: merchant_privilege.php:97
 msgid "账户列表"
-msgstr ""
+msgstr "賬戶列表"
 
 #: merchant_privilege.php:101
 msgid "返回账户列表"
-msgstr ""
+msgstr "返回賬戶列表"
 
 #: platform_command.php:69 platform_command.php:79 platform_command.php:80
 #: platform_command.php:98 platform_command.php:201
 msgid "关键词命令"
-msgstr ""
+msgstr "關鍵詞命令"
 
 #: platform_command.php:84 platform_command.php:102 platform_command.php:205
 msgid "关键词列表"
-msgstr ""
+msgstr "關鍵詞列表"
 
 #: platform_command.php:86 platform_command.php:99 platform_command.php:101
 msgid "添加关键词"
-msgstr ""
+msgstr "添加關鍵詞"
 
 #: platform_command.php:143 platform_command.php:263
 msgid "请选择插件"
-msgstr ""
+msgstr "請選擇插件"
 
 #: platform_command.php:153 platform_command.php:244
 msgid "关键词不能为空！"
-msgstr ""
+msgstr "關鍵詞不能為空！"
 
 #: platform_command.php:158 platform_command.php:249
 msgid "关键词[%s]已存在"
-msgstr ""
+msgstr "關鍵詞[%s]已存在"
 
 #: platform_command.php:167 platform_command.php:258
 msgid "关键词不能重复！"
-msgstr ""
+msgstr "關鍵詞不能重複！"
 
 #: platform_command.php:173
 msgid "该插件已存在"
-msgstr ""
+msgstr "該插件已存在"
 
 #: platform_command.php:191
 msgid "添加成功"
-msgstr ""
+msgstr "添加成功"
 
 #: platform_command.php:202 platform_command.php:204
 msgid "编辑关键词"
-msgstr ""
+msgstr "編輯關鍵詞"
 
 #: platform_command.php:281
 msgid "编辑成功"
-msgstr ""
+msgstr "編輯成功"
 
 #: platform_extend.php:71 platform_extend.php:81
 msgid "插件管理"
-msgstr ""
+msgstr "插件管理"
 
 #: platform_extend.php:82 platform_extend.php:187
 msgid "插件库"
-msgstr ""
+msgstr "插件庫"
 
 #: platform_extend.php:88
 msgid ""
-"欢迎访问ECJia智能后台公众号扩展页面，有关该公众号的扩展都会显示在此列表中。"
+"欢迎访问ECJia智能后台公众号扩展页面，有关该公众号的扩展都会显示在此列表"
+"中。"
 msgstr ""
+"歡迎訪問ECJia智能後台公眾號擴展頁面，有關該公眾號的擴展都會顯示在此列表"
+"中。"
 
 #: platform_extend.php:166
 msgid "扩展名称为 %s，关键词为 %s"
-msgstr ""
+msgstr "擴展名稱為 %s，關鍵詞為 %s"
 
 #: platform_extend.php:169
 msgid "开通成功"
-msgstr ""
+msgstr "開通成功"
 
 #: platform_extend.php:171
 msgid "开通成功，关键词 %s 已存在，无法添加。"
-msgstr ""
+msgstr "開通成功，關鍵詞 %s 已存在，無法添加。"
 
 #: platform_extend.php:183 platform_extend.php:189
 msgid "功能详情"
-msgstr ""
+msgstr "功能詳情"
 
 #: platform_extend.php:196
 msgid "该扩展不存在或未启用"
-msgstr ""
+msgstr "該擴展不存在或未啟用"
 
 #: platform_extend.php:196
 msgid "返回插件库"
-msgstr ""
+msgstr "返回插件庫"
 
 #: platform_extend.php:260 platform_extend.php:287
 msgid "扩展名称为 %s，公众号名称为 %s"
-msgstr ""
+msgstr "擴展名稱為 %s，公眾號名稱為 %s"
 
 #: platform_extend.php:262
 msgid "编辑公众号扩展成功"
-msgstr ""
+msgstr "編輯公眾號擴展成功"
 
 #: platform_extend.php:289
 msgid "关闭成功"
-msgstr ""
+msgstr "關閉成功"
 
 #: platform_extend.php:307
 msgid "本次删除了 [%s] 条记录！"
-msgstr ""
+msgstr "本次刪除了 [%s] 條記錄！"
 
 #: privilege.php:110 privilege.php:134
 msgid "抱歉！该用户没有分配公众平台登录权限。"
-msgstr ""
+msgstr "抱歉！該用戶沒有分配公眾平台登錄權限。"
 
 #: privilege.php:141
 msgid "抱歉！请求超时。"
-msgstr ""
+msgstr "抱歉！請求超時。"
 
 #: privilege.php:146
 msgid "传参出错。"
-msgstr ""
+msgstr "傳參出錯。"
 
 #: privilege.php:150
 msgid "抱歉！数据丢失，登录失败。"
-msgstr ""
+msgstr "抱歉！數據丟失，登錄失敗。"
 
 #: privilege.php:153
 msgid "公众平台登录"
-msgstr ""
+msgstr "公眾平台登錄"
 
 #: content/apps/platform/templates/platform/wechat_extend_view.dwt.php:25
 msgid "开通该插件将添加该插件的默认命令为关键词命令，您确定要执行该操作吗？"
 msgstr ""
+"開通該插件將添加該插件的默認命令為關鍵詞命令，您確定要執行該操作嗎？"
 
 #: content/apps/platform/templates/platform/wechat_extend_view.dwt.php:25
 msgid "开通"
-msgstr ""
+msgstr "開通"
 
 #: content/apps/platform/templates/platform/wechat_extend_view.dwt.php:27
 msgid "关闭该插件将删除该插件相关的关键词命令，您确定要执行该操作吗？"
-msgstr ""
+msgstr "關閉該插件將刪除該插件相關的關鍵詞命令，您確定要執行該操作嗎？"
 
 #: content/apps/platform/templates/platform/wechat_extend_view.dwt.php:27
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:152
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:158
 msgid "关闭"
-msgstr ""
+msgstr "關閉"
 
 #: content/apps/platform/templates/platform/wechat_extend_view.dwt.php:36
 msgid "未开通"
-msgstr ""
+msgstr "未開通"
 
 #: content/apps/platform/templates/platform/wechat_extend_view.dwt.php:36
 msgid "该功能已通过申请，可正常使用"
-msgstr ""
+msgstr "該功能已通過申請，可正常使用"
 
 #: content/apps/platform/templates/platform/wechat_extend_view.dwt.php:43
 msgid "功能介绍"
-msgstr ""
+msgstr "功能介紹"
 
 #: content/apps/platform/templates/platform/wechat_extend_view.dwt.php:55
 msgid "插件默认命令"
-msgstr ""
+msgstr "插件默認命令"
 
 #: content/apps/platform/templates/platform/wechat_extend_view.dwt.php:72
 msgid "插件子命令"
-msgstr ""
+msgstr "插件子命令"
 
 #: content/apps/platform/templates/platform/wechat_extend_view.dwt.php:95
 msgid "插件配置"
-msgstr ""
+msgstr "插件配置"
 
-#: content/apps/platform/templates/platform/wechat_extend_view.dwt.php:131
+#: content/apps/platform/templates/platform/wechat_extend_view.dwt.php:132
 msgid "该插件暂无配置"
-msgstr ""
+msgstr "該插件暫無配置"
 
-#: content/apps/platform/templates/platform/wechat_extend_view.dwt.php:136
+#: content/apps/platform/templates/platform/wechat_extend_view.dwt.php:138
 #: content/apps/platform/templates/admin/extend_edit.dwt.php:41
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:168
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:174
 msgid "更新"
-msgstr ""
+msgstr "更新"
 
 #: content/apps/platform/templates/platform/showmessage.dwt.php:17
 msgid "您可以试试下面的链接："
-msgstr ""
+msgstr "您可以試試下面的鏈接："
 
 #: content/apps/platform/templates/platform/wechat_command_add.dwt.php:28
 msgid "已选插件："
-msgstr ""
+msgstr "已選插件："
 
 #: content/apps/platform/templates/platform/wechat_command_add.dwt.php:40
 msgid "请选择插件："
-msgstr ""
+msgstr "請選擇插件："
 
 #: content/apps/platform/templates/platform/wechat_command_add.dwt.php:45
 msgid "请选择..."
-msgstr ""
+msgstr "請選擇..."
 
 #: content/apps/platform/templates/platform/wechat_command_add.dwt.php:57
 msgid "关键词："
-msgstr ""
+msgstr "關鍵詞："
 
 #: content/apps/platform/templates/platform/wechat_command_add.dwt.php:65
 #: content/apps/platform/templates/platform/wechat_command_add.dwt.php:79
 #: content/apps/platform/templates/platform/library/sub_code.lbi.php:3
 msgid "空子命令（默认）"
-msgstr ""
+msgstr "空子命令（默認）"
 
 #: content/apps/platform/templates/platform/wechat_command_add.dwt.php:70
 msgid "您确定要删除该关键词吗？"
-msgstr ""
+msgstr "您確定要刪除該關鍵詞嗎？"
 
 #: content/apps/platform/templates/platform/library/common_header_messages.lbi.php:11
 msgid "消息列表"
-msgstr ""
+msgstr "消息列表"
 
 #: content/apps/platform/templates/platform/library/common_header_messages.lbi.php:32
 msgid "全部消息"
-msgstr ""
+msgstr "全部消息"
 
 #: content/apps/platform/templates/platform/library/common_header.lbi.php:27
 msgid "简体中文"
-msgstr ""
+msgstr "簡體中文"
 
 #: content/apps/platform/templates/platform/library/common_header.lbi.php:37
 msgid "个人设置"
-msgstr ""
+msgstr "個人設置"
 
 #: content/apps/platform/templates/platform/library/common_header.lbi.php:39
 msgid "退出"
-msgstr ""
+msgstr "退出"
 
 #: content/apps/platform/templates/platform/library/common_header_mega.lbi.php:13
 #: content/apps/platform/templates/admin/extend_command_list.dwt.php:40
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:55
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:71
 msgid "平台"
-msgstr ""
+msgstr "平台"
 
 #: content/apps/platform/templates/platform/library/common_header_mega.lbi.php:19
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:56
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:72
 msgid "公众号类型"
-msgstr ""
+msgstr "公眾號類型"
 
 #: content/apps/platform/templates/platform/library/common_header_mega.lbi.php:27
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:40
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:45
 msgid "UUID："
-msgstr ""
+msgstr "UUID："
 
 #: content/apps/platform/templates/platform/library/common_header_mega.lbi.php:31
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:48
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:53
 msgid "外部访问地址："
-msgstr ""
+msgstr "外部訪問地址："
 
 #: content/apps/platform/templates/platform/library/common_header_mega.lbi.php:35
 msgid "编辑配置"
-msgstr ""
+msgstr "編輯配置"
 
 #: content/apps/platform/templates/platform/library/common_header_mega.lbi.php:36
 msgid "返回%1"
-msgstr ""
+msgstr "返回%1"
 
 #: content/apps/platform/templates/platform/library/common_header_notifications.lbi.php:6
 msgid "Notifications"
-msgstr ""
+msgstr "Notifications"
 
 #: content/apps/platform/templates/platform/library/common_header_notifications.lbi.php:7
 msgid "5 New"
-msgstr ""
+msgstr "5 New"
 
 #: content/apps/platform/templates/platform/library/common_header_notifications.lbi.php:15
 msgid "You have new order!"
-msgstr ""
+msgstr "You have new order!"
 
 #: content/apps/platform/templates/platform/library/common_header_notifications.lbi.php:16
 msgid "Lorem ipsum dolor sit amet, consectetuer elit."
-msgstr ""
+msgstr "Lorem ipsum dolor sit amet, consectetuer elit."
 
 #: content/apps/platform/templates/platform/library/common_header_notifications.lbi.php:18
 msgid "30 minutes ago"
-msgstr ""
+msgstr "30 minutes ago"
 
 #: content/apps/platform/templates/platform/library/common_header_notifications.lbi.php:28
 msgid "99% Server load"
-msgstr ""
+msgstr "99% Server load"
 
 #: content/apps/platform/templates/platform/library/common_header_notifications.lbi.php:29
 msgid "Aliquam tincidunt mauris eu risus."
-msgstr ""
+msgstr "Aliquam tincidunt mauris eu risus."
 
 #: content/apps/platform/templates/platform/library/common_header_notifications.lbi.php:31
 msgid "Five hour ago"
-msgstr ""
+msgstr "Five hour ago"
 
 #: content/apps/platform/templates/platform/library/common_header_notifications.lbi.php:41
 msgid "Warning notifixation"
-msgstr ""
+msgstr "Warning notifixation"
 
 #: content/apps/platform/templates/platform/library/common_header_notifications.lbi.php:42
 msgid "Vestibulum auctor dapibus neque."
-msgstr ""
+msgstr "Vestibulum auctor dapibus neque."
 
 #: content/apps/platform/templates/platform/library/common_header_notifications.lbi.php:44
 msgid "Today"
-msgstr ""
+msgstr "Today"
 
 #: content/apps/platform/templates/platform/library/common_header_notifications.lbi.php:54
 msgid "Complete the task"
-msgstr ""
+msgstr "Complete the task"
 
 #: content/apps/platform/templates/platform/library/common_header_notifications.lbi.php:56
 msgid "Last week"
-msgstr ""
+msgstr "Last week"
 
 #: content/apps/platform/templates/platform/library/common_header_notifications.lbi.php:65
 msgid "Generate monthly report"
-msgstr ""
+msgstr "Generate monthly report"
 
 #: content/apps/platform/templates/platform/library/common_header_notifications.lbi.php:67
 msgid "Last month"
-msgstr ""
+msgstr "Last month"
 
 #: content/apps/platform/templates/platform/library/common_header_notifications.lbi.php:74
 msgid "Read all notifications"
-msgstr ""
+msgstr "Read all notifications"
 
 #: content/apps/platform/templates/platform/wechat_extend.dwt.php:16
 msgid ""
-"插件扩展，为系统默认提供的关键词自动回复功能，结合网站商品，会员，订单等功能"
-"提供互动查询服务，配合微信自定义菜单使用。"
+"插件扩展，为系统默认提供的关键词自动回复功能，结合网站商品，会员，订单等功"
+"能提供互动查询服务，配合微信自定义菜单使用。"
 msgstr ""
+"插件擴展，為系統默認提供的關鍵詞自動回复功能，結合網站商品，會員，訂單等功"
+"能提供互動查詢服務，配合微信自定義菜單使用。"
 
 #: content/apps/platform/templates/platform/wechat_extend.dwt.php:17
 msgid ""
-"如果需要则安装并填写一下配置信息，复制对应的关键词，加入到微信自定义菜单中使"
-"用。"
+"如果需要则安装并填写一下配置信息，复制对应的关键词，加入到微信自定义菜单中"
+"使用。"
 msgstr ""
+"如果需要則安裝並填寫一下配置信息，複製對應的關鍵詞，加入到微信自定義菜單中"
+"使用。"
 
 #: content/apps/platform/templates/platform/wechat_extend.dwt.php:18
 msgid ""
-"例如，商品推荐 对应的关键词是 mp_goods（也可以使用相应的扩展词），在自定义菜"
-"单中添加一个菜单，菜单类型选择 发送消息。"
+"例如，商品推荐 对应的关键词是 mp_goods（也可以使用相应的扩展词），在自定义"
+"菜单中添加一个菜单，菜单类型选择 发送消息。"
 msgstr ""
+"例如，商品推荐 对应的关键词是 mp_goods（也可以使用相应的扩展词），在自定义"
+"菜单中添加一个菜单，菜单类型选择 发送消息。"
 
 #: content/apps/platform/templates/platform/wechat_extend.dwt.php:43
 msgid "已添加"
-msgstr ""
+msgstr "已添加"
 
 #: content/apps/platform/templates/platform/wechat_extend.dwt.php:47
 #: content/apps/platform/templates/platform/wechat_extend_command.dwt.php:66
@@ -876,43 +905,43 @@ msgstr ""
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:103
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:118
 msgid "没有找到任何记录"
-msgstr ""
+msgstr "沒有找到任何記錄"
 
 #: content/apps/platform/templates/platform/wechat_extend_command.dwt.php:27
 #: content/apps/platform/templates/admin/extend_command_list.dwt.php:28
 msgid "请输入命令关键字"
-msgstr ""
+msgstr "請輸入命令關鍵字"
 
 #: content/apps/platform/templates/platform/wechat_extend_command.dwt.php:28
 #: content/apps/platform/templates/admin/extend_command_list.dwt.php:29
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:42
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:54
 msgid "搜索"
-msgstr ""
+msgstr "搜索"
 
 #: content/apps/platform/templates/platform/wechat_extend_command.dwt.php:38
 msgid "插件名称"
-msgstr ""
+msgstr "插件名稱"
 
 #: content/apps/platform/templates/platform/wechat_extend_command.dwt.php:40
 #: content/apps/platform/templates/admin/extend_command_list.dwt.php:42
 msgid "子命令"
-msgstr ""
+msgstr "子命令"
 
 #: content/apps/platform/templates/platform/wechat_extend_command.dwt.php:41
 msgid "操作"
-msgstr ""
+msgstr "操作"
 
 #: content/apps/platform/templates/platform/wechat_extend_command.dwt.php:61
 #: content/apps/platform/templates/admin/extend_list.dwt.php:37
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:74
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:89
 msgid "编辑"
-msgstr ""
+msgstr "編輯"
 
 #: content/apps/platform/templates/platform/wechat_extend_command.dwt.php:62
 msgid "您确定要该删除命令吗？"
-msgstr ""
+msgstr "您確定要該刪除命令嗎？"
 
 #: content/apps/platform/templates/platform/wechat_extend_command.dwt.php:62
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:102
@@ -920,49 +949,49 @@ msgstr ""
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:108
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:90
 msgid "删除"
-msgstr ""
+msgstr "刪除"
 
 #: content/apps/platform/templates/platform/platform_auto_login_error.dwt.php:58
 msgid "错误报告"
-msgstr ""
+msgstr "錯誤報告"
 
 #: content/apps/platform/templates/admin/extend_list.dwt.php:23
 msgid "扩展名称"
-msgstr ""
+msgstr "擴展名稱"
 
 #: content/apps/platform/templates/admin/extend_list.dwt.php:24
 msgid "插件代号"
-msgstr ""
+msgstr "插件代號"
 
 #: content/apps/platform/templates/admin/extend_list.dwt.php:25
 msgid "描述"
-msgstr ""
+msgstr "描述"
 
 #: content/apps/platform/templates/admin/extend_list.dwt.php:36
 msgid "查看命令"
-msgstr ""
+msgstr "查看命令"
 
 #: content/apps/platform/templates/admin/extend_list.dwt.php:40
 msgid "禁用"
-msgstr ""
+msgstr "禁用"
 
 #: content/apps/platform/templates/admin/extend_list.dwt.php:46
 msgid "启用"
-msgstr ""
+msgstr "啟用"
 
 #: content/apps/platform/templates/admin/extend_edit.dwt.php:24
 msgid "名称："
-msgstr ""
+msgstr "名稱："
 
 #: content/apps/platform/templates/admin/extend_edit.dwt.php:32
 msgid "描述："
-msgstr ""
+msgstr "描述："
 
 #: content/apps/platform/templates/admin/extend_command_list.dwt.php:23
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:36
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:41
 msgid "所有平台"
-msgstr ""
+msgstr "所有平台"
 
 #: content/apps/platform/templates/admin/extend_command_list.dwt.php:24
 #: content/apps/platform/templates/admin/extend_command_list.dwt.php:51
@@ -973,27 +1002,30 @@ msgstr ""
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:42
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:95
 msgid "微信"
-msgstr ""
+msgstr "微信"
 
 #: content/apps/platform/templates/admin/extend_command_list.dwt.php:26
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:39
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:45
 msgid "筛选"
-msgstr ""
+msgstr "篩選"
 
 #: content/apps/platform/templates/admin/extend_command_list.dwt.php:39
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:54
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:70
 msgid "公众号名称"
-msgstr ""
+msgstr "公眾號名稱"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:15
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:14
 msgid ""
-"一、配置前先需要申请一个微信服务号，并且通过微信认证。（认证服务号需要注意每"
-"年微信官方都需要重新认证，如果认证过期，接口功能将无法使用，具体请登录微信公"
-"众号平台了解详情）"
+"一、配置前先需要申请一个微信服务号，并且通过微信认证。（认证服务号需要注意"
+"每年微信官方都需要重新认证，如果认证过期，接口功能将无法使用，具体请登录微"
+"信公众号平台了解详情）"
 msgstr ""
+"一、配置前先需要申請一個微信服務號，並且通過微信認證。 （認證服務號需要注"
+"意每年微信官方都需要重新認證，如果認證過期，接口功能將無法使用，具體請登錄"
+"微信公眾號平台了解詳情）"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:16
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:15
@@ -1001,202 +1033,212 @@ msgid ""
 "二、网站域名 需要通过ICP备案并正确解析到空间服务器，临时域名与IP地址无法配"
 "置。"
 msgstr ""
+"二、網站域名 需要通過ICP備案並正確解析到空間服務器，臨時域名與IP地址無法配"
+"置。"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:17
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:16
 msgid ""
-"三、登录 <a href=\"https://mp.weixin.qq.com/\" target=\"_blank\">微信公众号平"
-"台 </a>，获取且依次填写好 公众号名称，公众号原始ID，Appid，Appsecret，token"
-"值。"
+"三、登录 <a href=\"https://mp.weixin.qq.com/\" target=\"_blank\">微信公众"
+"号平台 </a>，获取且依次填写好 公众号名称，公众号原始ID，Appid，Appsecret，"
+"token值。"
 msgstr ""
+"三、登錄<a href=\"https://mp.weixin.qq.com/\" target=\"_blank\">微信公眾號"
+"平台</a>，獲取且依次填寫好公眾號名稱，公眾號原始ID， Appid，Appsecret，"
+"token值。"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:18
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:17
 msgid ""
-"四、自定义Token值，必须为英文或数字（长度为3-32字符），如 weixintoken，并保持"
-"后台与公众号平台填写的一致。"
+"四、自定义Token值，必须为英文或数字（长度为3-32字符），如 weixintoken，并"
+"保持后台与公众号平台填写的一致。"
 msgstr ""
+"四、自定義Token值，必須為英文或數字（長度為3-32字符），如 weixintoken，並"
+"保持後台與公眾號平台填寫的一致。"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:19
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:18
 msgid ""
-"五、复制接口地址，填写到微信公众号平台 开发=> 基本配置，服务器配置下的 URL地"
-"址，验证提交通过后，并启用。（注意仅支持80端口）"
+"五、复制接口地址，填写到微信公众号平台 开发=> 基本配置，服务器配置下的 URL"
+"地址，验证提交通过后，并启用。（注意仅支持80端口）"
 msgstr ""
+"五、複製接口地址，填寫到微信公眾號平台 開發=> 基本配置，服務器配置下的 URL"
+"地址，驗證提交通過後，並啟用。 （注意僅支持80端口）"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:57
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:62
 msgid "平台："
-msgstr ""
+msgstr "平台："
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:68
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:73
 msgid "公众号类型："
-msgstr ""
+msgstr "公眾號類型："
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:76
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:81
 msgid "认证服务号是指向微信官方交过300元认证费的服务号"
-msgstr ""
+msgstr "認證服務號是指向微信官方交過300元認證費的服務號"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:81
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:86
 msgid "公众号名称："
-msgstr ""
+msgstr "公眾號名稱："
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:89
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:94
 msgid "Logo："
-msgstr ""
+msgstr "Logo："
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:94
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:99
 msgid "图片预览"
-msgstr ""
+msgstr "圖片預覽"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:98
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:104
 msgid "浏览"
-msgstr ""
+msgstr "瀏覽"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:99
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:105
 msgid "修改"
-msgstr ""
+msgstr "修改"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:102
 msgid "您确定要删除吗？"
-msgstr ""
+msgstr "您確定要刪除嗎？"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:108
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:114
 msgid "Token："
-msgstr ""
+msgstr "Token："
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:111
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:119
 msgid "生成Token"
-msgstr ""
+msgstr "生成Token"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:112
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:120
 msgid "复制Token"
-msgstr ""
+msgstr "複製Token"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:114
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:117
 msgid "自定义的Token值，或者点击生成Token创建一个，复制到微信公众平台配置中"
 msgstr ""
+"自定義的Token值，或者點擊生成Token創建一個，複製到微信公眾平台配置中"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:119
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:125
 msgid "AppID："
-msgstr ""
+msgstr "AppID："
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:127
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:133
 msgid "AppSecret："
-msgstr ""
+msgstr "AppSecret："
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:135
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:141
 msgid "EncodingAESKey："
-msgstr ""
+msgstr "EncodingAESKey："
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:142
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:148
 msgid "消息加密方式："
-msgstr ""
+msgstr "消息加密方式："
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:144
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:150
 msgid "明文模式"
-msgstr ""
+msgstr "明文模式"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:144
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:150
 msgid "(不使用消息体加解密功能，安全系数较低)"
-msgstr ""
+msgstr "(不使用消息體加解密功能，安全係數較低)"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:149
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:155
 msgid "状态："
-msgstr ""
+msgstr "狀態："
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:151
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:157
 msgid "开启"
-msgstr ""
+msgstr "開啟"
 
 #: content/apps/platform/templates/admin/wechat_edit.dwt.php:157
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:163
 msgid "排序："
-msgstr ""
+msgstr "排序："
 
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:25
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:31
 msgid "批量操作"
-msgstr ""
+msgstr "批量操作"
 
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:30
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:33
 msgid "您确定要这么做吗？"
-msgstr ""
+msgstr "您確定要這麼做嗎？"
 
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:30
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:33
 msgid "请先选中要删除的公众号！"
-msgstr ""
+msgstr "請先選中要刪除的公眾號！"
 
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:41
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:52
 msgid "请输入公众号名称关键字"
-msgstr ""
+msgstr "請輸入公眾號名稱關鍵字"
 
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:53
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:69
 msgid "Logo"
-msgstr ""
+msgstr "Logo"
 
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:57
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:73
 msgid "状态"
-msgstr ""
+msgstr "狀態"
 
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:58
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:74
 msgid "排序"
-msgstr ""
+msgstr "排序"
 
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:59
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:75
 msgid "添加时间"
-msgstr ""
+msgstr "添加時間"
 
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:73
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:88
 msgid "进入管理"
-msgstr ""
+msgstr "進入管理"
 
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:75
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:90
 msgid "您确定要删除公众号[%1]吗？"
-msgstr ""
+msgstr "您確定要刪除公眾號[%1]嗎？"
 
 #: content/apps/platform/templates/admin/wechat_list.dwt.php:97
 #: content/apps/platform/templates/merchant/wechat_list.dwt.php:112
 msgid "编辑公众号排序"
-msgstr ""
+msgstr "編輯公眾號排序"
 
 #: content/apps/platform/templates/front/plugin_page_showerror.dwt.php:9
 #: content/apps/platform/templates/front/plugin_page_showerror.dwt.php:41
 msgid "错误提示"
-msgstr ""
+msgstr "錯誤提示"
 
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:57
 msgid "复制URL"
-msgstr ""
+msgstr "複製URL"
 
 #: content/apps/platform/templates/merchant/wechat_edit.dwt.php:108
 msgid "您确定要删除该logo吗？"
-msgstr ""
+msgstr "您確定要刪除該logo嗎？"

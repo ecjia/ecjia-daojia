@@ -47,6 +47,7 @@
 namespace Ecjia\App\Platform\Frameworks;
 
 use ecjia;
+use Ecjia\App\Platform\Frameworks\Exceptions\AccountException;
 use Ecjia\System\Frameworks\Contracts\EcjiaTemplateFileLoader;
 use ecjia_base;
 use ecjia_update_cache;
@@ -60,7 +61,6 @@ use admin_menu;
 use ecjia_admin_log;
 
 use RC_Loader;
-use RC_Lang;
 use RC_Config;
 use RC_Hook;
 use RC_Session;
@@ -106,6 +106,11 @@ abstract class EcjiaPlatform extends ecjia_base implements EcjiaTemplateFileLoad
 	 */
 	protected $currentUser;
 
+    protected $public_route = array(
+        'platform/privilege/autologin',
+        'weapp/privilege/autologin',
+    );
+
 	public function __construct() {
 		parent::__construct();
 
@@ -131,13 +136,19 @@ abstract class EcjiaPlatform extends ecjia_base implements EcjiaTemplateFileLoad
 
 		RC_Hook::add_action('platform_print_main_header', array(Screen::$current_screen, 'render_screen_meta'));
 
-		$this->public_route = array(
-			'platform/privilege/autologin',
-		);
 		$this->public_route = RC_Hook::apply_filters('platform_access_public_route', $this->public_route);
 
+        if (session('uuid')) {
+            try {
+                $this->platformAccount = new Account(session('uuid'));
+            }
+            catch (AccountException $e) {
+                ecjia_log_error($e->getMessage());
+            }
+        }
+
 		// 判断用户是否登录
-		if (!$this->_check_login()) {
+		if (!$this->checkLogin()) {
 		    RC_Session::destroy();
 		    if (is_pjax()) {
 		        Screen::$current_screen->add_nav_here(new admin_nav_here(__('系统提示', 'platform')));
@@ -149,11 +160,33 @@ abstract class EcjiaPlatform extends ecjia_base implements EcjiaTemplateFileLoad
                 royalcms('response')->send();
 		        exit();
 		    } else {
-		        $this->redirect(RC_Uri::url('@privilege/login'));
+		        $this->redirect($this->getPlatformLoginUrl());
                 royalcms('response')->send();
 		        exit();
 		    }
 		}
+
+        if ($this->platformAccount) {
+            if (session('session_user_type') == 'admin') {
+
+                $this->currentStore = new \Ecjia\System\Admins\Stores\AdminShop(session('store_id'));
+                $this->currentUser = new \Ecjia\System\Admins\Users\AdminUser(session('session_user_id'),
+                    '\Ecjia\App\Platform\Frameworks\Users\AdminUserAllotPurview');
+
+            }
+            elseif (session('session_user_type') == 'merchant') {
+
+                $this->currentStore = new \Ecjia\App\Merchant\Frameworks\Stores\MerchantShop(session('store_id'));
+                $this->currentUser = new \Ecjia\App\Merchant\Frameworks\Users\StaffUser(session('session_user_id'), $this->platformAccount->getStoreId(),
+                    '\Ecjia\App\Platform\Frameworks\Users\StaffUserAllotPurview');
+
+            }
+
+            $this->assign('platformAccount', $this->platformAccount);
+            $this->assign('currentStore', $this->currentStore);
+            $this->assign('ecjia_platform_cptitle', sprintf("%s的%s", $this->currentStore->getStoreName(), $this->platformAccount->getAccountName()));
+            $this->assign('currentUser', $this->currentUser);
+        }
 
 		if (RC_Config::get('system.debug')) {
 			error_reporting(E_ALL);
@@ -176,6 +209,15 @@ abstract class EcjiaPlatform extends ecjia_base implements EcjiaTemplateFileLoad
 		
 		RC_Hook::do_action('ecjia_platform_finish_launching');
 	}
+
+	public function getPlatformLoginUrl()
+    {
+        if ($this->platformAccount) {
+            return $this->platformAccount->getLoginUrl();
+        }
+
+        return RC_Uri::home_url();
+    }
 	
 	public function getPlatformAccount()
     {
@@ -296,50 +338,60 @@ abstract class EcjiaPlatform extends ecjia_base implements EcjiaTemplateFileLoad
 	    }
 	}
 
+    /**
+     * 登录session授权
+     */
+    protected function authSession()
+    {
+        /* 验证管理员身份 */
+        if (session('session_user_id') > 0 &&
+            (session('session_user_type') == 'admin' || session('session_user_type') == 'merchant')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 检测是否同一个商家
+     * @return bool
+     */
+    protected function checkSameStore()
+    {
+        if (is_null($this->platformAccount)) {
+            return false;
+        }
+
+        if (session('store_id') !== $this->platformAccount->getStoreId()) {
+            return false;
+        }
+
+        return true;
+    }
+
 	/**
 	 * 后台判断是否登录
 	 */
-	private function _check_login() {
-		$route_controller = ROUTE_M . '/' . ROUTE_C . '/' . ROUTE_A;
-		if (in_array($route_controller, $this->public_route)) {
-		    return true;
-		}
+	private function checkLogin() {
 
-		/* 验证管理员身份 */
-		if (session('session_user_id') > 0 && 
-		    (session('session_user_type') == 'admin' || session('session_user_type') == 'merchant')) {
-			
-			if (session('uuid')) {
-				$this->platformAccount = new Account(session('uuid'));
-				$this->assign('platformAccount', $this->platformAccount);
-			
-				if (session('store_id') == $this->platformAccount->getStoreId()) {
-					if (session('session_user_type') == 'admin') {
-						$this->currentStore = new \Ecjia\System\Admins\Stores\AdminShop(session('store_id'));
-					} else if (session('session_user_type') == 'merchant') {
-						$this->currentStore = new \Ecjia\App\Merchant\Frameworks\Stores\MerchantShop(session('store_id'));
-					}
-					$this->assign('currentStore', $this->currentStore);
+        /* 验证公开路由 */
+        if ($this->isVerificationPublicRoute()) {
+            return true;
+        }
 
-                    $this->assign('ecjia_platform_cptitle', sprintf("%s的%s", $this->currentStore->getStoreName(), $this->platformAccount->getAccountName()));
-				} else {
-                    return false;
-                }
-			} else {
-				$this->assign('ecjia_platform_cptitle', __('公众平台', 'platform'));
-			}
-			
-			if (session('session_user_id') && session('session_user_type')) {
-				if (session('session_user_type') == 'admin') {
-					$this->currentUser = new \Ecjia\System\Admins\Users\AdminUser(session('session_user_id'), '\Ecjia\App\Platform\Frameworks\Users\AdminUserAllotPurview');
-				} else if (session('session_user_type') == 'merchant') {
-					$this->currentUser = new \Ecjia\App\Merchant\Frameworks\Users\StaffUser(session('session_user_id'), $this->platformAccount->getStoreId(), '\Ecjia\App\Platform\Frameworks\Users\StaffUserAllotPurview');
-				}
-				$this->assign('currentUser', $this->currentUser);
-			}
-			
-		    return true;
-		}
+        /* 验证管理员身份 */
+        if ($this->authSession()) {
+            return true;
+        }
+
+        /* 检测是否同一个商家 */
+        if ($this->checkSameStore()) {
+            return true;
+        }
+
+        $this->assign('ecjia_platform_cptitle', __('公众平台', 'platform'));
+
+		return false;
 	}
 
 	/**
@@ -438,7 +490,7 @@ abstract class EcjiaPlatform extends ecjia_base implements EcjiaTemplateFileLoad
 	public function admin_session($uuid, $store_id, $user_id, $user_type, $user_name, $action_list, $last_time, $email = '') 
 	{
 	    RC_Session::set('uuid', $uuid); 
-	    RC_Session::set('store_id', $store_id);
+	    RC_Session::set('store_id', intval($store_id));
 		RC_Session::set('action_list', $action_list);
 		RC_Session::set('session_user_id', $user_id);
 		RC_Session::set('session_user_type', $user_type);
