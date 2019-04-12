@@ -19,6 +19,12 @@ class RefundManager extends PaymentManagerAbstract
 
     protected $operator;
 
+    /**
+     * 原路退回
+     * @param $total_fee
+     * @param $operator
+     * @return \Ecjia\System\Plugin\AbstractPlugin|ecjia_error|mixed
+     */
     public function refund($total_fee, $operator)
     {
         $this->total_fee = $total_fee;
@@ -26,6 +32,20 @@ class RefundManager extends PaymentManagerAbstract
 
         return $this->initPaymentRecord();
     }
+
+    /**
+     * 强制退款到余额
+     *
+     * @param $total_fee
+     * @param $operator
+     */
+    public function refundToBalance($total_fee, $operator)
+    {
+        $this->payCode = 'pay_balance';
+
+        return $this->refund($total_fee, $operator);
+    }
+
 
     /**
      * 退款插件处理

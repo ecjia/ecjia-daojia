@@ -105,7 +105,7 @@ class admin_payment_notify_cancel_module extends api_admin implements api_interf
        		}
        		
        		//退款步骤；原路退回
-       		$refund_result = $this->processOrderRefund($orderinfo, $device);
+       		$refund_result = $this->processOrderRefund($orderinfo, $device, $_SESSION['device_id'], $_SESSION['store_id'], $_SESSION['staff_id']);
        		if (is_ecjia_error($refund_result)) {
        			return $refund_result;
        		}
@@ -128,7 +128,7 @@ class admin_payment_notify_cancel_module extends api_admin implements api_interf
     /**
      * 退款步骤，原路退回
      */
-    private function processOrderRefund($order_info, $device)
+    private function processOrderRefund($order_info, $device, $device_id, $store_id, $staff_id)
     {
     	/**
     	 * 退款步骤
@@ -139,7 +139,7 @@ class admin_payment_notify_cancel_module extends api_admin implements api_interf
     	 */
     	
     	//生成退款申请单
-    	$refundOrderInfo = $this->GenerateRefundOrder($order_info, $device);
+    	$refundOrderInfo = $this->GenerateRefundOrder($order_info, $device, $device_id, $store_id, $staff_id);
     	if (is_ecjia_error($refundOrderInfo)) {
     		return $refundOrderInfo;
     	}
@@ -182,7 +182,7 @@ class admin_payment_notify_cancel_module extends api_admin implements api_interf
      * @param array $order_info
      * @return array | ecjia_error
      */
-    private function GenerateRefundOrder($order_info = array(), $device = array())
+    private function GenerateRefundOrder($order_info = array(), $device = array(), $device_id, $store_id, $staff_id)
     {
     	//生成退款申请单
     	$reasons = RC_Loader::load_app_config('refund_reasons', 'refund');
@@ -205,7 +205,8 @@ class admin_payment_notify_cancel_module extends api_admin implements api_interf
     	if (is_ecjia_error($refundOrderInfo)) {
     		return $refundOrderInfo;
     	}
-    	
+    	//收银台收银员退款操作记录
+    	$this->_cashier_record($device, $device_id, $store_id, $staff_id, $refundOrderInfo);
     	return $refundOrderInfo;
     }
     
@@ -276,6 +277,29 @@ class admin_payment_notify_cancel_module extends api_admin implements api_interf
     		$update_result = Ecjia\App\Refund\HandleRefundedUpdateData::updateRefundedData($refund_result);
     	}
     	return $update_result;
+    }
+    
+    /**
+     * 收银台收银员退款操作记录
+     */
+    private function _cashier_record($device, $device_id, $store_id, $staff_id, $refundOrderInfo)
+    {
+    	$device_type  = Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);
+    	$device_info = RC_DB::table('mobile_device')->where('id', $device_id)->first();
+    	$cashier_record = array(
+    			'store_id'          => $store_id,
+    			'staff_id'          => $staff_id,
+    			'order_id'          => $refundOrderInfo['refund_id'],
+    			'order_sn'          => $refundOrderInfo['refund_sn'],
+    			'order_type'        => 'refund',
+    			'mobile_device_id'  => empty($device_id) ? 0 : $device_id,
+    			'device_sn'         => empty($device_info['device_udid']) ? '' : $device_info['device_udid'],
+    			'device_type'       => $device_type,
+    			'action'            => 'refund', //退款
+    			'create_at'         => RC_Time::gmtime(),
+    	);
+    	RC_DB::table('cashier_record')->insert($cashier_record);
+    	return true;
     }
 }
 

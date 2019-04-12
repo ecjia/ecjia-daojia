@@ -153,6 +153,7 @@ class admin_payment_scancode_module extends api_admin implements api_interface
     		$cashier_name = RC_DB::table('cashier_record as cr')
     							->leftJoin('staff_user as su', RC_DB::raw('cr.staff_id'), '=', RC_DB::raw('su.user_id'))
     							->where(RC_DB::raw('cr.order_id'), $order_info['order_id'])
+    							->where(RC_DB::raw('cr.order_type'), 'buy')
     							->whereIn('action', array('check_order', 'billing'))
     							->pluck('name');
     		
@@ -217,6 +218,7 @@ class admin_payment_scancode_module extends api_admin implements api_interface
     		$cashier_name = RC_DB::table('cashier_record as cr')
     						->leftJoin('staff_user as su', RC_DB::raw('cr.staff_id'), '=', RC_DB::raw('su.user_id'))
     						->where(RC_DB::raw('cr.order_id'), $order_info['order_id'])
+    						->where(RC_DB::raw('cr.order_type'), 'quickpay')
     						->where('action', 'receipt')
     						->pluck('name');
     		

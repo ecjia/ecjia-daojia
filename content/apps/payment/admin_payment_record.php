@@ -114,16 +114,31 @@ class admin_payment_record extends ecjia_admin {
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('查看交易流水', 'payment')));
 		RC_Loader::load_app_func('global');
 		$id = $_GET['id'];
-		$order_sn = RC_DB::table('payment_record')->where('id', $id)->pluck('order_sn');
+		
+		/*交易流水信息*/
+		$paymentRecordRepository = new Ecjia\App\Payment\Repositories\PaymentRecordRepository();
+		$payment_record_info = $paymentRecordRepository->find($id);
+		
+		
+		$order_sn = $payment_record_info['order_sn'];
 		
 		//获取订单信息
-		$order = RC_Api::api('orders', 'order_sn_info', array('order_sn' => $order_sn));
+		if ($payment_record_info['trade_type'] == 'buy') {
+			$order = RC_Api::api('orders', 'order_sn_info', array('order_sn' => $order_sn));
+		} elseif ($payment_record_info['trade_type'] == 'separate') {
+			$order = RC_Api::api('orders', 'separate_order_info', array('order_sn' => $order_sn));
+		}
 		
-		$this->assign('os', RC_Lang::get('orders::order.os'));
-		$this->assign('ps', RC_Lang::get('orders::order.ps'));
-		$this->assign('ss', RC_Lang::get('orders::order.ss'));
 		
-		if (is_ecjia_error($order)) {
+		$order_os = config('app-orders::order_status.os');
+		$order_ps = config('app-orders::order_status.ps');
+		$order_ss = config('app-orders::order_status.ss');
+		
+		$this->assign('os', $order_os);
+		$this->assign('ps', $order_ps);
+		$this->assign('ss', $order_ss);
+		
+		if (is_ecjia_error($order) || empty($order)) {
 			$order = array();
 		}
 		$db_payment_record = RC_DB::table('payment_record')->where('id', $id)->first();
@@ -141,6 +156,8 @@ class admin_payment_record extends ecjia_admin {
 			$db_payment_record['label_trade_type'] = __('会员充值', 'payment');
 		}elseif ($db_payment_record['trade_type'] == 'quickpay') {
 			$db_payment_record['label_trade_type'] = __('优惠买单', 'payment');
+		}elseif ($db_payment_record['trade_type'] == 'separate') {
+			$db_payment_record['label_trade_type'] = __('分单支付', 'payment');
 		}
 		
 		if ($db_payment_record['pay_status'] == 0) {
@@ -158,7 +175,7 @@ class admin_payment_record extends ecjia_admin {
 		$db_payment_record['pay_time']    = RC_Time::local_date(ecjia::config('time_format'), $db_payment_record['pay_time']);
 		
 		/*会员充值订单*/
-		if (($db_payment_record['trade_type'] != 'buy') || ($db_payment_record['trade_type'] != 'refund')) {
+		if ($db_payment_record['trade_type'] == 'surplus') {
 			$user_account = RC_DB::table('user_account')->where('order_sn', $order_sn)->first();
 			$user_account['formated_order_amount'] = price_format($user_account['amount']);
 			
@@ -191,18 +208,30 @@ class admin_payment_record extends ecjia_admin {
 				$quickpay_order['formated_order_amount'] = price_format($quickpay_order['order_amount']);
 			}
 			/*买单总优惠*/
-			$quickpay_order['formated_total_discount'] = price_format($quickpay_order['discount'] + $quickpay_order['integral_money'] + $quickpay_order['bonus']);
-			$quickpay_order['formated_order_status'] = RC_Lang::get('quickpay::order.os.'.$quickpay_order['order_status']) . ',' . RC_Lang::get('quickpay::order.ps.'.$quickpay_order['pay_status']) . ',' . RC_Lang::get('quickpay::order.vs.'.$quickpay_order['verification_status']);
+			$quickpay_os = config('app-quickpay::quickpay_order_status.os');
+			$quickpay_ps = config('app-quickpay::quickpay_order_status.ps');
+			$quickpay_vs = config('app-quickpay::quickpay_order_status.vs');
+			
+			$quickpay_order['formated_total_discount'] 	= price_format($quickpay_order['discount'] + $quickpay_order['integral_money'] + $quickpay_order['bonus']);
+			$quickpay_order['formated_order_status'] 	= $quickpay_os[$quickpay_order['order_status']] . ',' . $quickpay_ps[$quickpay_order['pay_status']] . ',' . $quickpay_vs[$quickpay_order['verification_status']];
 			
 			$this->assign('quickpay_order', $quickpay_order);
 		}
 		
+		/*分单订单*/
+		if ($db_payment_record['trade_type'] == 'separate') {
+			$total_fee = $order['goods_amount'] + $order['shipping_fee'] + $order['insure_fee'] + $order['pay_fee'] + $order['tax'] - $order['discount'] - $order['integral_money'] - $order['bonus'];
+			$order['formated_order_amount'] = ecjia_price_format($total_fee, false);
+			$order['formated_order_status'] = $order_os[$order['order_status']].','.$order_ps[$order['pay_status']];
+		}
+		
+		/*订单状态是否改变处理*/
 		if ($db_payment_record['trade_type'] == 'surplus') {
 			if ($user_account['is_paid'] != '1' && $db_payment_record['pay_status'] =='1') {
 				$this->assign('change_status', 1);
 			}
 		}
-		/*订单状态是否改变处理*/
+		
 		if ($db_payment_record['trade_type'] == 'buy'){
 			if ($order['pay_status'] != PS_PAYED && $db_payment_record['pay_status'] =='1') {
 				$this->assign('change_status', 1);

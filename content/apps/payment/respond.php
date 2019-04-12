@@ -71,7 +71,7 @@ class respond extends ecjia_front
 		/* 支付方式代码 */
 		$pay_code = !empty($_GET['code']) ? trim($_GET['code']) : '';
 		unset($_GET['code']);
-		
+
 		$order_type = '';
 		
 		/* 参数是否为空 */

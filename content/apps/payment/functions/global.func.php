@@ -177,7 +177,10 @@ function get_payment_record_list($args = array()) {
             $db_payment_record[$key]['trade_type'] = __('会员充值', 'payment');
         }elseif ($db_payment_record[$key]['trade_type'] == 'quickpay') {
             $db_payment_record[$key]['trade_type'] = __('优惠买单', 'payment');
+        }elseif ($db_payment_record[$key]['trade_type'] == 'separate') {
+            $db_payment_record[$key]['trade_type'] = __('分单支付', 'payment');
         }
+        
         $db_payment_record[$key]['create_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['create_time']);
         $db_payment_record[$key]['update_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['update_time']);
         $db_payment_record[$key]['pay_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['pay_time']);

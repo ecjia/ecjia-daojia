@@ -137,7 +137,7 @@ class PaymentRecordRepository extends AbstractRepository
     /**
      * 获取交易流水记录
      * @param string $orderTradeNo
-     * @return \Royalcms\Component\Database\Eloquent\Collection
+     * @return \Royalcms\Component\Support\Collection | \Royalcms\Component\Database\Eloquent\Model
      */
     public function getPaymentRecord($orderTradeNo)
     {
@@ -148,7 +148,7 @@ class PaymentRecordRepository extends AbstractRepository
     /**
      * 获取交易流水记录
      * @param string $orderSn 订单号
-     * @return \Royalcms\Component\Database\Eloquent\Collection
+     * @return \Royalcms\Component\Support\Collection | \Royalcms\Component\Database\Eloquent\Model
      */
     public function getPaymentRecordByOrderSn($orderSn)
     {

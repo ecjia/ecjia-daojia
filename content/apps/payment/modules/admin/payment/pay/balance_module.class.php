@@ -46,7 +46,12 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-//收银台余额支付
+/**
+ * 收银台余额支付
+ * $record_id 支付交易记录id  通过admin/cashier/order/pay 获取
+ * @author zrl
+ *
+ */
 class admin_payment_pay_balance_module extends api_admin implements api_interface
 {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
@@ -55,7 +60,7 @@ class admin_payment_pay_balance_module extends api_admin implements api_interfac
     	$this->authadminSession();
     	
     	if ($_SESSION['staff_id'] <= 0) {
-    		return new ecjia_error(100, 'Invalid session');
+    		return new ecjia_error(100, __('Invalid session', 'payment'));
     	}
 		
     	$record_id 	= $this->requestData('record_id');
@@ -82,6 +87,13 @@ class admin_payment_pay_balance_module extends api_admin implements api_interfac
     	if ($record_model->trade_type == 'buy') {
     		/* 查询订单信息 */
     		$orderinfo = RC_Api::api('orders', 'order_info', array('order_sn' => $record_model->order_sn));
+    	} elseif ($record_model->trade_type == 'quickpay') {
+    		/* 查询订单信息 */
+    		$orderinfo = RC_Api::api('quickpay', 'quickpay_order_info', array('order_sn' => $record_model->order_sn));
+    	}
+    	
+    	if (is_ecjia_error($orderinfo)) {
+    		return $orderinfo;
     	}
     		
     	if (empty($orderinfo)) {
@@ -89,7 +101,7 @@ class admin_payment_pay_balance_module extends api_admin implements api_interfac
     	}
     	
     	//支付成功后更新数据
-    	$this->update_paid_data($orderinfo);
+    	$this->update_paid_data($orderinfo, $record_model);
     	
     	//支付成功返回数据
     	$payment_data = $this->get_payment_data($record_model, $orderinfo);
@@ -104,7 +116,7 @@ class admin_payment_pay_balance_module extends api_admin implements api_interfac
     /**
      * 支付成功后更新数据
      */
-    private function update_paid_data($orderinfo)
+    private function update_paid_data($orderinfo, $record_model)
     {
     	/**
     	 * 1、收银台订单默认发货
@@ -112,13 +124,16 @@ class admin_payment_pay_balance_module extends api_admin implements api_interfac
     	 * 3、会员店铺消费过，记录为店铺会员
     	 */
     	
-    	//收银台消费订单流程；默认订单自动发货，至完成状态
-    	if ($orderinfo['extension_code'] == 'cashdesk') {
-    		Ecjia\App\Orders\CashierPaidProcessOrder::processOrderDefaultship($orderinfo);
+    	//普通订单需要更新的数据
+    	if ($record_model->trade_type == Ecjia\App\Payment\Enums\PayEnum::PAY_ORDER) {
+    		//收银台消费订单流程；默认订单自动发货，至完成状态
+    		if ($orderinfo['extension_code'] == 'cashdesk') {
+    			Ecjia\App\Orders\CashierPaidProcessOrder::processOrderDefaultship($orderinfo);
+    		}
+    		 
+    		//更新结算记录
+    		RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'buy', 'order_id' => $orderinfo['order_id']));
     	}
-    	
-    	//更新结算记录
-    	RC_Api::api('commission', 'add_bill_queue', array('order_type' => 'buy', 'order_id' => $orderinfo['order_id']));
     	
     	//会员店铺消费过，记录为店铺会员
     	if (!empty($orderinfo['user_id'])) {
@@ -135,13 +150,25 @@ class admin_payment_pay_balance_module extends api_admin implements api_interfac
     private function get_payment_data($record_model, $orderinfo)
     {
     	$payment_data = [];
-    	if (!empty($orderinfo) && $record_model->trade_type == 'buy') {
+    	if (!empty($orderinfo) && $record_model->trade_type == Ecjia\App\Payment\Enums\PayEnum::PAY_ORDER) {
     		$payment_data = array(
     				'order_id' 					=> $orderinfo['order_id'],
     				'money_paid'				=> $orderinfo['money_paid'] + $orderinfo['surplus'],
     				'formatted_money_paid'		=> ecjia_price_format($orderinfo['money_paid'] + $orderinfo['surplus'], false),
     				'order_amount'				=> $orderinfo['order_amount'],
     				'formatted_order_amount' 	=> ecjia_price_format($orderinfo['order_amount'], false),
+    				'pay_code'					=> $record_model->pay_code,
+    				'pay_name'					=> $record_model->pay_name,
+    				'pay_status'				=> 'success',
+    				'desc'						=> __('订单支付成功！', 'payment')
+    		);
+    	} elseif (!empty($orderinfo) && $record_model->trade_type == Ecjia\App\Payment\Enums\PayEnum::PAY_QUICKYPAY) {
+    		$payment_data = array(
+    				'order_id' 					=> $orderinfo['order_id'],
+    				'money_paid'				=> $orderinfo['order_amount'] + $orderinfo['surplus'],
+    				'formatted_money_paid'		=> ecjia_price_format($orderinfo['order_amount'] + $orderinfo['surplus'], false),
+    				'order_amount'				=> 0.00,
+    				'formatted_order_amount' 	=> ecjia_price_format(0, false),
     				'pay_code'					=> $record_model->pay_code,
     				'pay_name'					=> $record_model->pay_name,
     				'pay_status'				=> 'success',
@@ -159,68 +186,17 @@ class admin_payment_pay_balance_module extends api_admin implements api_interfac
     private function get_print_data($record_model, $order_info)
     {
 
-    	$buy_print_data = array();
+    	$print_data = array();
     	
-    	if (!empty($order_info)) {
-    		$order_goods 			= $this->getOrderGoods($order_info['order_id']);
-    		$total_discount 		= $order_info['discount'] + $order_info['integral_money'] + $order_info['bonus'];
-    		$money_paid 			= $order_info['money_paid'] + $order_info['surplus'];
-    	
-    		//下单收银员
-    		$cashier_name = RC_DB::table('cashier_record as cr')
-    		->leftJoin('staff_user as su', RC_DB::raw('cr.staff_id'), '=', RC_DB::raw('su.user_id'))
-    		->where(RC_DB::raw('cr.order_id'), $order_info['order_id'])
-    		->whereIn('action', array('check_order', 'billing'))
-    		->pluck('name');
-    	
-    		$user_info = [];
-    		//有没用户
-    		if ($order_info['user_id'] > 0) {
-    			$userinfo = $this->getUserInfo($order_info['user_id']);
-    			if (!empty($userinfo)) {
-    				$user_info = array(
-    						'user_name' 			=> empty($userinfo['user_name']) ? '' : trim($userinfo['user_name']),
-    						'mobile'				=> empty($userinfo['mobile_phone']) ? '' : trim($userinfo['mobile_phone']),
-    						'user_points'			=> $userinfo['pay_points'],
-    						'user_money'			=> $userinfo['user_money'],
-    						'formatted_user_money'	=> $userinfo['user_money'] > 0 ? ecjia_price_format($userinfo['user_money'], false) : '',
-    				);
-    			}
-    		}
-    	
-    		$payment_account = $record_model->payer_login;
-    	
-    		$buy_print_data = array(
-    				'order_sn' 						=> $order_info['order_sn'],
-    				'trade_no'						=> $record_model->trade_no ? $record_model->trade_no : '',
-    				'order_trade_no'				=> $record_model->order_trade_no ? $record_model->order_trade_no : '',
-    				'trade_type'					=> 'buy',
-    				'pay_time'						=> empty($order_info['pay_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $order_info['pay_time']),
-    				'goods_list'					=> $order_goods['list'],
-    				'total_goods_number' 			=> $order_goods['total_goods_number'],
-    				'total_goods_amount'			=> $order_goods['taotal_goods_amount'],
-    				'formatted_total_goods_amount'	=> ecjia_price_format($order_goods['taotal_goods_amount'], false),
-    				'total_discount'				=> $total_discount,
-    				'formatted_total_discount'		=> ecjia_price_format($total_discount, false),
-    				'money_paid'					=> $money_paid,
-    				'formatted_money_paid'			=> ecjia_price_format($money_paid, false),
-    				'integral'						=> intval($order_info['integral']),
-    				'integral_money'				=> $order_info['integral_money'],
-    				'formatted_integral_money'		=> ecjia_price_format($order_info['integral_money'], false),
-    				'pay_code'						=> $record_model->pay_code ? $record_model->pay_code : '',
-    				'pay_name'						=> $record_model->pay_name ? $record_model->pay_name : '',
-    				'payment_account'				=> empty($payment_account) ? '' : $payment_account,
-    				'user_info'						=> $user_info,
-    				'refund_sn'						=> '',
-    				'refund_total_amount'			=> 0,
-    				'formatted_refund_total_amount' => '',
-    				'cashier_name'					=> empty($cashier_name) ? '' : $cashier_name,
-    				'pay_fee'						=> $order_info['pay_fee'],
-    				'formatted_pay_fee'				=> ecjia_price_format($order_info['pay_fee'], false),
-    		);
+    	if ($record_model->trade_type == Ecjia\App\Payment\Enums\PayEnum::PAY_ORDER && !empty($order_info)) {
+    		//消费订单打印数据
+    		$print_data = $this->_get_buy_print_data($record_model, $order_info);
+    	} elseif ($record_model->trade_type == Ecjia\App\Payment\Enums\PayEnum::PAY_QUICKYPAY && !empty($order_info)) {
+    		//买单订单打印数据
+    		$print_data = $this->_get_quickpay_print_data($record_model, $order_info);
     	}
     	
-    	return $buy_print_data;
+    	return $print_data;
     }
     
     
@@ -261,6 +237,158 @@ class admin_payment_pay_balance_module extends api_admin implements api_interfac
     {
     	$user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
     	return $user_info;
+    }
+    
+    /**
+     * 获取消费订单打印数据
+     */
+    private function _get_buy_print_data($record_model, $order_info)
+    {
+    	$buy_print_data = [];
+    	if (!empty($order_info)) {
+    		$order_goods 			= $this->getOrderGoods($order_info['order_id']);
+    		$total_discount 		= $order_info['discount'] + $order_info['integral_money'] + $order_info['bonus'];
+    		$money_paid 			= $order_info['money_paid'] + $order_info['surplus'];
+    		 
+    		//下单收银员
+    		$cashier_name = $this->_get_cashier_name($record_model, $order_info);
+    		 
+    		$user_info = [];
+    		//有没用户
+    		if ($order_info['user_id'] > 0) {
+    			$userinfo = $this->getUserInfo($order_info['user_id']);
+    			if (!empty($userinfo)) {
+    				$user_info = array(
+    						'user_name' 			=> empty($userinfo['user_name']) ? '' : trim($userinfo['user_name']),
+    						'mobile'				=> empty($userinfo['mobile_phone']) ? '' : trim($userinfo['mobile_phone']),
+    						'user_points'			=> $userinfo['pay_points'],
+    						'user_money'			=> $userinfo['user_money'],
+    						'formatted_user_money'	=> $userinfo['user_money'] > 0 ? ecjia_price_format($userinfo['user_money'], false) : '',
+    				);
+    			}
+    		}
+    		 
+    		$payment_account = $record_model->payer_login;
+    		 
+    		$buy_print_data = array(
+    				'order_sn' 						=> $order_info['order_sn'],
+    				'trade_no'						=> $record_model->trade_no ? $record_model->trade_no : '',
+    				'order_trade_no'				=> $record_model->order_trade_no ? $record_model->order_trade_no : '',
+    				'trade_type'					=> Ecjia\App\Payment\Enums\PayEnum::PAY_ORDER,
+    				'pay_time'						=> empty($order_info['pay_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $order_info['pay_time']),
+    				'goods_list'					=> $order_goods['list'],
+    				'total_goods_number' 			=> $order_goods['total_goods_number'],
+    				'total_goods_amount'			=> $order_goods['taotal_goods_amount'],
+    				'formatted_total_goods_amount'	=> ecjia_price_format($order_goods['taotal_goods_amount'], false),
+    				'total_discount'				=> $total_discount,
+    				'formatted_total_discount'		=> ecjia_price_format($total_discount, false),
+    				'money_paid'					=> $money_paid,
+    				'formatted_money_paid'			=> ecjia_price_format($money_paid, false),
+    				'integral'						=> intval($order_info['integral']),
+    				'integral_money'				=> $order_info['integral_money'],
+    				'formatted_integral_money'		=> ecjia_price_format($order_info['integral_money'], false),
+    				'pay_code'						=> $record_model->pay_code ? $record_model->pay_code : '',
+    				'pay_name'						=> $record_model->pay_name ? $record_model->pay_name : '',
+    				'payment_account'				=> empty($payment_account) ? '' : $payment_account,
+    				'user_info'						=> $user_info,
+    				'refund_sn'						=> '',
+    				'refund_total_amount'			=> 0,
+    				'formatted_refund_total_amount' => '',
+    				'cashier_name'					=> empty($cashier_name) ? '' : $cashier_name,
+    				'pay_fee'						=> $order_info['pay_fee'],
+    				'formatted_pay_fee'				=> ecjia_price_format($order_info['pay_fee'], false),
+    		);
+    	}
+    	
+    	return $buy_print_data;
+    }
+    
+    
+    /**
+     * 获取买单订单打印数据
+     */
+    private function _get_quickpay_print_data($record_model, $order_info)
+    {
+    	$quickpay_print_data = [];
+    	if (!empty($order_info)) {
+    		$order_goods 			= [];
+    		$total_discount 		= $order_info['discount'] + $order_info['integral_money'] + $order_info['bonus'];
+    		$money_paid 			= $order_info['order_amount'] + $order_info['surplus'];
+    		 
+    		//下单收银员
+    		$cashier_name = $this->_get_cashier_name($record_model, $order_info);
+    		 
+    		$user_info = [];
+    		//有没用户
+    		if ($order_info['user_id'] > 0) {
+    			$userinfo = $this->getUserInfo($order_info['user_id']);
+    			if (!empty($userinfo)) {
+    				$user_info = array(
+    						'user_name' 			=> empty($userinfo['user_name']) ? '' : trim($userinfo['user_name']),
+    						'mobile'				=> empty($userinfo['mobile_phone']) ? '' : trim($userinfo['mobile_phone']),
+    						'user_points'			=> $userinfo['pay_points'],
+    						'user_money'			=> $userinfo['user_money'],
+    						'formatted_user_money'	=> $userinfo['user_money'] > 0 ? ecjia_price_format($userinfo['user_money'], false) : '',
+    				);
+    			}
+    		}
+    		 
+    		$payment_account = $record_model->payer_login;
+    		 
+    		$quickpay_print_data = array(
+    				'order_sn' 						=> $order_info['order_sn'],
+    				'trade_no'						=> $record_model->trade_no ? $record_model->trade_no : '',
+    				'order_trade_no'				=> $record_model->order_trade_no ? $record_model->order_trade_no : '',
+    				'trade_type'					=> Ecjia\App\Payment\Enums\PayEnum::PAY_QUICKYPAY,
+    				'pay_time'						=> empty($order_info['pay_time']) ? '' : RC_Time::local_date(ecjia::config('time_format'), $order_info['pay_time']),
+    				'goods_list'					=> $order_goods,
+    				'total_goods_number' 			=> 0,
+    				'total_goods_amount'			=> $order_info['goods_amount'],
+    				'formatted_total_goods_amount'	=> ecjia_price_format($order_info['goods_amount'], false),
+    				'total_discount'				=> $total_discount,
+    				'formatted_total_discount'		=> ecjia_price_format($total_discount, false),
+    				'money_paid'					=> $money_paid,
+    				'formatted_money_paid'			=> ecjia_price_format($money_paid, false),
+    				'integral'						=> intval($order_info['integral']),
+    				'integral_money'				=> $order_info['integral_money'],
+    				'formatted_integral_money'		=> ecjia_price_format($order_info['integral_money'], false),
+    				'pay_code'						=> $record_model->pay_code ? $record_model->pay_code : '',
+    				'pay_name'						=> $record_model->pay_name ? $record_model->pay_name : '',
+    				'payment_account'				=> empty($payment_account) ? '' : $payment_account,
+    				'user_info'						=> $user_info,
+    				'refund_sn'						=> '',
+    				'refund_total_amount'			=> 0,
+    				'formatted_refund_total_amount' => '',
+    				'cashier_name'					=> empty($cashier_name) ? '' : $cashier_name,
+    				'pay_fee'						=> 0,
+    				'formatted_pay_fee'				=> '',
+    		);
+    	}
+    	
+    	return $quickpay_print_data;
+    }
+    
+    
+    /**
+     * 获取订单操作收银员
+     */
+    private function _get_cashier_name($record_model, $order_info)
+    {
+    	$cashier_name = '';
+    	$db = RC_DB::table('cashier_record as cr')
+    			->leftJoin('staff_user as su', RC_DB::raw('cr.staff_id'), '=', RC_DB::raw('su.user_id'));
+    	
+    	$db->where(RC_DB::raw('cr.order_id'), $order_info['order_id'])->whereIn('action', array('check_order', 'billing'));
+    	//订单类型区分
+    	if ($record_model->trade_type == Ecjia\App\Payment\Enums\PayEnum::PAY_ORDER) {
+    		$db->where(RC_DB::raw('cr.order_type'), 'buy');
+    	} elseif ($record_model->trade_type == Ecjia\App\Payment\Enums\PayEnum::PAY_QUICKYPAY) {
+    		$db->where(RC_DB::raw('cr.order_type'), 'quickpay');
+    	}
+    	
+    	$cashier_name = $db->pluck('name');
+    	
+    	return $cashier_name;
     }
 }
 

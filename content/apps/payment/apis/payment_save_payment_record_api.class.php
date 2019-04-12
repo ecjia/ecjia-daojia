@@ -57,43 +57,62 @@ class payment_save_payment_record_api extends Component_Event_Api {
      * total_fee 订单金额
      * pay_code 支付代号
      * pay_name 支付名称
-     * trade_type   交易类型： buy 购买， deposit 充值， withdraw 提现
-     * @return array
+     * trade_type   交易类型： Ecjia\App\Payment\Enums\PayEnum::PAY_ORDER 消费订单
+     *                        Ecjia\App\Payment\Enums\PayEnum::PAY_SEPARATE_ORDER 分单订单
+     *                        Ecjia\App\Payment\Enums\PayEnum::PAY_SURPLUS 会员预付款
+     *                        Ecjia\App\Payment\Enums\PayEnum::PAY_QUICKYPAY 闪付订单
+     * @return array | bool | ecjia_error
      */
 	public function call(&$options) {	
 		if (!array_get($options, 'order_sn') || !array_has($options, 'total_fee')) {
-			return new ecjia_error('invalid_parameter', __('缺少必要参数', 'payment'));
+			return new ecjia_error('invalid_parameter', __(sprintf('%s缺少必要参数', __CLASS__), 'payment'));
 		}
 		
-		$trade_type = array_get($options, 'trade_type', 'buy');
+		$trade_type = array_get($options, 'trade_type', Ecjia\App\Payment\Enums\PayEnum::PAY_ORDER);
+        $pay_code = array_get($options, 'pay_code');
+
+        if (array_has($options, 'pay_code') && array_has($options, 'pay_name')) {
+            $payment_data['pay_code'] = $pay_code;
+            $payment_data['pay_name'] = array_get($options, 'pay_name');
+        }
 		
 		/* 插入支付流水记录 */
-		$db = RC_DB::table('payment_record');
-		$payment_record = $db->where('order_sn', $options['order_sn'])->where('trade_type', $trade_type)->first();
 		$payment_data = array(
 		    'order_sn'		=> $options['order_sn'],
 		    'total_fee'     => $options['total_fee'],
 		    'trade_type'	=> $trade_type,
 		    'pay_status'	=> 0,
 		);
-		
-		$pay_code = array_get($options, 'pay_code', '');
-		
-		if (array_has($options, 'pay_code') && array_has($options, 'pay_name')) {
-		    $payment_data['pay_code'] = $pay_code;
-		    $payment_data['pay_name'] = array_get($options, 'pay_name');
-		}
-		
-		if (empty($payment_record)) 
-		{
-		    $payment_data['create_time'] = RC_Time::gmtime();
-		    $db->insert($payment_data);
-		} 
-		else if ($payment_record['pay_status'] == 0 && 
-            $payment_record['pay_code'] != $pay_code && 
-		    $options['total_fee'] != $payment_record['total_fee']) {
-		    $payment_data['update_time'] = RC_Time::gmtime();
-		    $db->where('order_sn', $options['order_sn'])->update($payment_data);
+
+		$repository = new \Ecjia\App\Payment\Repositories\PaymentRecordRepository();
+        $model = $repository->getPaymentRecordByOrderSn($options['order_sn']);
+
+        if (empty($model)) {
+
+            $payment_data['create_time'] = RC_Time::gmtime();
+
+            $repository->create($payment_data);
+        }
+		else
+        {
+            //状态不为0，正常记录，不允许修改
+		    if (intval($model['pay_status']) !== 0) {
+		        return true;
+            }
+
+		    //pay_code值未改变，不允许修改
+		    if ($model['pay_code'] == $pay_code) {
+                return true;
+            }
+
+		    //价格未改变，不允许修改
+		    if ($options['total_fee'] == $model['total_fee']) {
+                return true;
+            }
+
+            $payment_data['update_time'] = RC_Time::gmtime();
+
+		    $model->update($payment_data);
 		}
 		
 		return true;

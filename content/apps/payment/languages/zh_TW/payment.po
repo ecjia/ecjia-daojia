@@ -4,13 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App payment 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-29 01:41:53+00:00\n"
+"POT-Creation-Date: 2019-04-03 18:55+0800\n"
+"PO-Revision-Date: 2019-04-09 09:52+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: admin_payment_record.php:87 admin_payment_record.php:102
 #: admin_payment_record.php:113 admin_payment_record.php:243
@@ -18,340 +21,343 @@ msgstr ""
 #: apis/payment_tool_menu_api.class.php:59
 #: classes/hooks/admin_payment.class.php:52
 msgid "交易流水"
-msgstr ""
+msgstr "交易流水"
 
 #: admin_payment_record.php:114 admin_payment_record.php:242
 msgid "查看交易流水"
-msgstr ""
+msgstr "查看交易流水"
 
 #: admin_payment_record.php:147 admin_payment_refund.php:114
 #: functions/global.func.php:169
 msgid "消费"
-msgstr ""
+msgstr "消費"
 
 #: admin_payment_record.php:150 functions/global.func.php:171
 msgid "退款"
-msgstr ""
+msgstr "退款"
 
 #: admin_payment_record.php:152 functions/global.func.php:173
 #: functions/global.func.php:315
 msgid "充值"
-msgstr ""
+msgstr "充值"
 
 #: admin_payment_record.php:154 functions/global.func.php:175
 msgid "提现"
-msgstr ""
+msgstr "提現"
 
 #: admin_payment_record.php:156 functions/global.func.php:177
 msgid "会员充值"
-msgstr ""
+msgstr "會員充值"
 
 #: admin_payment_record.php:158 functions/global.func.php:179
 msgid "优惠买单"
-msgstr ""
+msgstr "優惠買單"
 
 #: admin_payment_record.php:160 functions/global.func.php:181
 msgid "分单支付"
-msgstr ""
+msgstr "分單支付"
 
 #: admin_payment_record.php:164 functions/global.func.php:160
 msgid "等待付款"
-msgstr ""
+msgstr "等待付款"
 
 #: admin_payment_record.php:166 functions/global.func.php:162
 msgid "付款成功"
-msgstr ""
+msgstr "付款成功"
 
 #: admin_payment_record.php:168 classes/Enums/PaymentRecordEnum.php:34
 #: functions/global.func.php:164
 msgid "订单撤消"
-msgstr ""
+msgstr "訂單撤消"
 
 #: admin_payment_record.php:170 classes/Enums/PaymentRecordEnum.php:35
 #: functions/global.func.php:166
 msgid "订单退款"
-msgstr ""
+msgstr "訂單退款"
 
 #: admin_payment_record.php:183
 msgid "未完成"
-msgstr ""
+msgstr "未完成"
 
 #: admin_payment_record.php:185
 msgid "已完成"
-msgstr ""
+msgstr "已完成"
 
 #: admin_payment_record.php:187
 msgid "已取消"
-msgstr ""
+msgstr "已取消"
 
 #: admin_payment_record.php:257
 msgid "订单支付记录信息不存在！"
-msgstr ""
+msgstr "訂單支付記錄信息不存在！"
 
 #: admin_payment_record.php:270
 msgid "修复订单状态成功！"
-msgstr ""
+msgstr "修復訂單狀態成功！"
 
 #: admin_payment_refund.php:83 admin_payment_refund.php:101
 #: admin_payment_refund.php:104 apis/payment_admin_purview_api.class.php:60
 msgid "退款流水"
-msgstr ""
+msgstr "退款流水"
 
 #: admin_payment_refund.php:102 admin_payment_refund.php:103
 msgid "查看退款流水"
-msgstr ""
+msgstr "查看退款流水"
 
 #: admin_payment_refund.php:153
 msgid "该退款流水记录不存在"
-msgstr ""
+msgstr "該退款流水記錄不存在"
 
 #: admin_payment_refund.php:162
 msgid "与支付机构对账成功，状态正常"
-msgstr ""
+msgstr "與支付機構對賬成功，狀態正常"
 
 #: admin_payment_refund.php:245
 msgid "待处理"
-msgstr ""
+msgstr "待處理"
 
 #: admin_payment_refund.php:247
 msgid "已退款"
-msgstr ""
+msgstr "已退款"
 
 #: admin_payment_refund.php:249 classes/Enums/PaymentRefundEnum.php:32
 msgid "退款处理中"
-msgstr ""
+msgstr "退款處理中"
 
 #: admin_payment_refund.php:251 classes/Enums/PaymentRefundEnum.php:33
 msgid "退款失败"
-msgstr ""
+msgstr "退款失敗"
 
 #: admin_payment_refund.php:253 classes/Enums/PaymentRefundEnum.php:34
 msgid "退款关闭"
-msgstr ""
+msgstr "退款關閉"
 
 #: admin_plugin.php:73 admin_plugin.php:84 admin_plugin.php:95
 #: admin_plugin.php:170 apis/payment_plugin_menu_api.class.php:56
 #: apis/payment_tool_menu_api.class.php:58 configs/package.php:55
 msgid "支付方式"
-msgstr ""
+msgstr "支付方式"
 
 #: admin_plugin.php:87
 msgid "概述"
-msgstr ""
+msgstr "概述"
 
 #: admin_plugin.php:88
 msgid ""
 "欢迎访问ECJia智能后台支付方式页面，系统中所有的支付方式都会显示在此列表中。"
 msgstr ""
+"歡迎訪問ECJia智能後台支付方式頁面，系統中所有的支付方式都會顯示在此列表中。"
 
 #: admin_plugin.php:92
 msgid "更多信息："
-msgstr ""
+msgstr "更多信息："
 
 #: admin_plugin.php:93
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:支付方式\" target="
 "\"_blank\">关于支付方式帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:支付方式\" target="
+"\"_blank\">關於支付方式幫助文檔</a>"
 
 #: admin_plugin.php:138 admin_plugin.php:160
 msgid "插件"
-msgstr ""
+msgstr "插件"
 
 #: admin_plugin.php:138
 msgid "已停用"
-msgstr ""
+msgstr "已停用"
 
 #: admin_plugin.php:160
 msgid "已启用"
-msgstr ""
+msgstr "已啟用"
 
 #: admin_plugin.php:169 admin_plugin.php:171
 msgid "编辑支付方式"
-msgstr ""
+msgstr "編輯支付方式"
 
 #: admin_plugin.php:176 modules/order/pay_module.class.php:68
 msgid "参数无效"
-msgstr ""
+msgstr "參數無效"
 
 #: admin_plugin.php:182 admin_plugin.php:328
 #: apis/payment_pay_info_api.class.php:76
 msgid "该支付插件不存在或尚未安装"
-msgstr ""
+msgstr "該支付插件不存在或尚未安裝"
 
 #: admin_plugin.php:221
 msgid "名称不能为空"
-msgstr ""
+msgstr "名稱不能為空"
 
 #: admin_plugin.php:226
 msgid "名称已存在"
-msgstr ""
+msgstr "名稱已存在"
 
 #: admin_plugin.php:282 admin_plugin.php:381 admin_plugin.php:402
 #: admin_plugin.php:435
 msgid "编辑成功"
-msgstr ""
+msgstr "編輯成功"
 
 #: admin_plugin.php:313
 msgid "安装成功"
-msgstr ""
+msgstr "安裝成功"
 
 #: admin_plugin.php:357
 msgid "删除成功"
-msgstr ""
+msgstr "刪除成功"
 
 #: admin_plugin.php:372
 msgid "您没有输入支付方式名称！"
-msgstr ""
+msgstr "您沒有輸入支付方式名稱！"
 
 #: admin_plugin.php:376
 msgid "该支付方式名称已存在！"
-msgstr ""
+msgstr "該支付方式名稱已存在！"
 
 #: admin_plugin.php:394
 msgid "请输入合法数字"
-msgstr ""
+msgstr "請輸入合法數字"
 
 #: admin_plugin.php:417
 msgid "支付费用不是一个合法的价格"
-msgstr ""
+msgstr "支付費用不是一個合法的價格"
 
 #: admin_plugin.php:422
 msgid "请输入合法数字或百分比%"
-msgstr ""
+msgstr "請輸入合法數字或百分比%"
 
 #: admin_plugin.php:434
 msgid "%s，修改费用为：%s"
-msgstr ""
+msgstr "%s，修改費用為：%s"
 
 #: apis/payment_admin_purview_api.class.php:57
 msgid "支付方式管理"
-msgstr ""
+msgstr "支付方式管理"
 
 #: apis/payment_admin_purview_api.class.php:58
 msgid "支付方式更新"
-msgstr ""
+msgstr "支付方式更新"
 
 #: apis/payment_batch_payment_info_api.class.php:65
 #: apis/payment_save_payment_record_api.class.php:65
 msgid "缺少必要参数"
-msgstr ""
+msgstr "缺少必要參數"
 
 #: apis/payment_pay_info_api.class.php:60
 msgid "调用pay_info_api文件参数无效"
-msgstr ""
+msgstr "調用pay_info_api文件參數無效"
 
 #: apis/payment_plugin_install_api.class.php:76
 msgid "支付方式名称或pay_code不能为空"
-msgstr ""
+msgstr "支付方式名稱或pay_code不能為空"
 
 #: apis/payment_plugin_uninstall_api.class.php:76
 msgid "支付方式名称不能为空"
-msgstr ""
+msgstr "支付方式名稱不能為空"
 
 #: apis/payment_tool_menu_api.class.php:56
 msgid "支付管理"
-msgstr ""
+msgstr "支付管理"
 
 #: apis/payment_update_payment_record_api.class.php:62
 msgid "调用update_payment_record_api文件缺少必要参数"
-msgstr ""
+msgstr "調用update_payment_record_api文件缺少必要參數"
 
 #: classes/Callback/RefundCallback.php:39
 msgid "插件未找到或已经被禁用！"
-msgstr ""
+msgstr "插件未找到或已經被禁用！"
 
 #: classes/Callback/RefundCallback.php:49
 msgid "支付方式不支持退款回调操作"
-msgstr ""
+msgstr "支付方式不支持退款回調操作"
 
 #: classes/Enums/PayCodeEnum.php:41
 msgid "表单"
-msgstr ""
+msgstr "表單"
 
 #: classes/Enums/PayCodeEnum.php:42
 msgid "链接"
-msgstr ""
+msgstr "鏈接"
 
 #: classes/Enums/PayCodeEnum.php:43 classes/Enums/PayCodeEnum.php:44
 msgid "数组"
-msgstr ""
+msgstr "數組"
 
 #: classes/Enums/PayEnum.php:50
 msgid "普通订单"
-msgstr ""
+msgstr "普通訂單"
 
 #: classes/Enums/PayEnum.php:51
 msgid "分割订单"
-msgstr ""
+msgstr "分割訂單"
 
 #: classes/Enums/PayEnum.php:52
 msgid "充值订单"
-msgstr ""
+msgstr "充值訂單"
 
 #: classes/Enums/PayEnum.php:53
 msgid "闪付订单"
-msgstr ""
+msgstr "閃付訂單"
 
 #: classes/Enums/PaymentRecordEnum.php:30
 msgid "等待支付"
-msgstr ""
+msgstr "等待支付"
 
 #: classes/Enums/PaymentRecordEnum.php:31
 msgid "支付完成"
-msgstr ""
+msgstr "支付完成"
 
 #: classes/Enums/PaymentRecordEnum.php:32
 msgid "支付进行中"
-msgstr ""
+msgstr "支付進行中"
 
 #: classes/Enums/PaymentRecordEnum.php:33
 msgid "支付失败"
-msgstr ""
+msgstr "支付失敗"
 
 #: classes/Enums/PaymentRefundEnum.php:30
 msgid "创建退款请求"
-msgstr ""
+msgstr "創建退款請求"
 
 #: classes/Enums/PaymentRefundEnum.php:31
 msgid "确认退款"
-msgstr ""
+msgstr "確認退款"
 
 #: classes/Enums/PlatformEnum.php:45
 msgid "PC平台"
-msgstr ""
+msgstr "PC平台"
 
 #: classes/Enums/PlatformEnum.php:46
 msgid "手机APP平台"
-msgstr ""
+msgstr "手機APP平台"
 
 #: classes/Enums/PlatformEnum.php:47
 msgid "H5平台"
-msgstr ""
+msgstr "H5平台"
 
 #: classes/Enums/PlatformEnum.php:48
 msgid "微信小程序平台"
-msgstr ""
+msgstr "微信小程序平台"
 
 #: classes/Pay/PayManager.php:31
 msgid "支付方式不支持付款操作"
-msgstr ""
+msgstr "支付方式不支持付款操作"
 
 #: classes/Pay/ScanManager.php:35
 msgid "支付方式不支持扫码收款操作"
-msgstr ""
+msgstr "支付方式不支持掃碼收款操作"
 
 #: classes/PayConstant.php:90 classes/PayConstant.php:102
 msgid "未知"
-msgstr ""
+msgstr "未知"
 
 #: classes/PaymentAbstract.php:247
 msgid "支付的金额有误"
-msgstr ""
+msgstr "支付的金額有誤"
 
 #: classes/PaymentAbstract.php:254
 msgid "解析订单号时失败"
-msgstr ""
+msgstr "解析訂單號時失敗"
 
 #: classes/PaymentManagerAbstract.php:67
 #: modules/admin/payment/notify/cancel_module.class.php:82
@@ -362,39 +368,39 @@ msgstr ""
 #: modules/admin/payment/scancode_module.class.php:42
 #: modules/payment/pay/balance_module.class.php:88
 msgid "此笔交易记录未找到"
-msgstr ""
+msgstr "此笔交易记录未找到"
 
 #: classes/Query/FindManager.php:31
 msgid "支付方式不支持查询操作"
-msgstr ""
+msgstr "支付方式不支持查詢操作"
 
 #: classes/Refund/CancelManager.php:31
 msgid "支付方式不支持支付撤单操作"
-msgstr ""
+msgstr "支付方式不支持支​​付撤單操作"
 
 #: classes/Refund/RefundManager.php:58 classes/Refund/RefundQueryManager.php:35
 msgid "支付方式不支持退款操作"
-msgstr ""
+msgstr "支付方式不支持退款操作"
 
 #: configs/jslang.php:52 configs/jslang.php:58 configs/jslang.php:67
 msgid "开始日期不能大于结束日期"
-msgstr ""
+msgstr "開始日期不能大於結束日期"
 
 #: configs/jslang.php:63
 msgid "请输入支付名称"
-msgstr ""
+msgstr "請輸入支付名稱"
 
 #: configs/jslang.php:64
 msgid "支付名称长度不能小于3"
-msgstr ""
+msgstr "支付名稱長度不能小於3"
 
 #: configs/jslang.php:65
 msgid "请输入支付描述"
-msgstr ""
+msgstr "請輸入支付描述"
 
 #: configs/jslang.php:66
 msgid "支付描述长度不能小于6"
-msgstr ""
+msgstr "支付描述長度不能小於6"
 
 #: configs/package.php:56
 msgid ""
@@ -403,26 +409,30 @@ msgid ""
 "（如：支付宝，财付通），商家可以点击一键安装插件，并可以对指定的支付方式进行"
 "启用、停用、费用编辑等。"
 msgstr ""
+"支付方式是指購物或消費需要付款形式的多種選擇支付捷徑；為更高效提高支付方式途"
+"徑和種類選擇，ECJIA將支付方式作為應用，而具體的每個不同支付方式則是一個插件"
+"（如：支付寶，財付通），商家可以點擊一鍵安裝插件，並可以對指定的支付方式進行"
+"啟用、停用、費用編輯等。"
 
 #: functions/global.func.php:257 functions/global.func.php:286
 msgid "买家"
-msgstr ""
+msgstr "買家"
 
 #: functions/global.func.php:292
 msgid "订单 %s赠送的积分"
-msgstr ""
+msgstr "訂單 %s贈送的積分"
 
 #: functions/global.func.php:346
 msgid "商品已发货，详情请到用户中心订单详情查看"
-msgstr ""
+msgstr "商品已發貨，詳情請到用戶中心訂單詳情查看"
 
 #: modules/admin/payment/cancelpay_module.class.php:27
 msgid "撤销订单的流水号不能为空"
-msgstr ""
+msgstr "撤銷訂單的流水號不能為空"
 
 #: modules/admin/payment/notify/cancel_module.class.php:75
 msgid "请求admin_payment_notify_cancel_module接口参数无效！"
-msgstr ""
+msgstr "請求admin_payment_notify_cancel_module接口參數無效！"
 
 #: modules/admin/payment/notify/cancel_module.class.php:104
 #: modules/admin/payment/notify/pay_module.class.php:105
@@ -431,578 +441,578 @@ msgstr ""
 #: modules/admin/payment/pay/cash_module.class.php:90
 #: modules/admin/payment/scancode_module.class.php:65
 msgid "未找到该订单信息"
-msgstr ""
+msgstr "未找到該訂單信息"
 
 #: modules/admin/payment/notify/cancel_module.class.php:255
 #: modules/admin/payment/notify/refund_module.class.php:258
 msgid "审核通过"
-msgstr ""
+msgstr "審核通過"
 
 #: modules/admin/payment/notify/pay_module.class.php:73
 msgid "admin_payment_notify_pay_module接口参数无效"
-msgstr ""
+msgstr "admin_payment_notify_pay_module接口參數無效"
 
 #: modules/admin/payment/notify/refund_module.class.php:75
 msgid "admin_payment_notify_refund_module接口参数无效"
-msgstr ""
+msgstr "admin_payment_notify_refund_module接口參數無效"
 
 #: modules/admin/payment/pay/balance_module.class.php:63
 #: modules/payment/pay/balance_module.class.php:63
 msgid "Invalid session"
-msgstr ""
+msgstr "Invalid session"
 
 #: modules/admin/payment/pay/balance_module.class.php:69
 msgid "调用接口admin_payment_pay_balance_module参数无效！"
-msgstr ""
+msgstr "調用接口admin_payment_pay_balance_module參數無效！"
 
 #: modules/admin/payment/pay/balance_module.class.php:163
 #: modules/admin/payment/pay/balance_module.class.php:175
 #: modules/admin/payment/pay/cash_module.class.php:150
 #: modules/admin/payment/pay/cash_module.class.php:162
 msgid "订单支付成功！"
-msgstr ""
+msgstr "訂單支付成功！"
 
 #: modules/admin/payment/pay/cash_module.class.php:64
 msgid "调用接口admin_payment_pay_cash_module参数无效！"
-msgstr ""
+msgstr "調用接口admin_payment_pay_cash_module參數無效！"
 
 #: modules/admin/payment/scancode_module.class.php:35
 msgid "扫码支付的二维码内容不能为空"
-msgstr ""
+msgstr "掃碼支付的二維碼內容不能為空"
 
 #: modules/admin/payment/scancode_module.class.php:382
 msgid "收银台订单发货后更新商品销量失败【订单id|"
-msgstr ""
+msgstr "收銀台訂單發貨後更新商品銷量失敗【訂單id|"
 
 #: modules/admin/payment/scancode_module.class.php:391
 msgid "收银台配货"
-msgstr ""
+msgstr "收銀台配貨"
 
 #: modules/admin/payment/scancode_module.class.php:393
 msgid "收银台订单配货【订单id|"
-msgstr ""
+msgstr "收銀台訂單配貨【訂單id|"
 
 #: modules/admin/payment/scancode_module.class.php:402
 msgid "收银台生成发货单"
-msgstr ""
+msgstr "收銀台生成發貨單"
 
 #: modules/admin/payment/scancode_module.class.php:404
 msgid "收银台订单分单【订单id|"
-msgstr ""
+msgstr "收銀台訂單分單【訂單id|"
 
 #: modules/admin/payment/scancode_module.class.php:420
 msgid "收银台发货"
-msgstr ""
+msgstr "收銀台發貨"
 
 #: modules/admin/payment/scancode_module.class.php:422
 msgid "收银台订单发货【订单id|"
-msgstr ""
+msgstr "收銀台訂單發貨【訂單id|"
 
 #: modules/admin/payment/scancode_module.class.php:436
 msgid "系统操作"
-msgstr ""
+msgstr "系統操作"
 
 #: modules/admin/payment/scancode_module.class.php:442
 msgid "收银台确认收货"
-msgstr ""
+msgstr "收銀台確認收貨"
 
 #: modules/order/pay_module.class.php:86
 msgid "订单不存在"
-msgstr ""
+msgstr "訂單不存在"
 
 #: modules/order/pay_module.class.php:102
 msgid "订单不属于该用户"
-msgstr ""
+msgstr "訂單不屬於該用戶"
 
 #: modules/payment/pay/balance_module.class.php:70
 msgid "调用接口payment_pay_balance_module参数错误！"
-msgstr ""
+msgstr "調用接口payment_pay_balance_module參數錯誤！"
 
 #: modules/payment/pay/balance_module.class.php:80
 msgid "支付密码错误！"
-msgstr ""
+msgstr "支付密碼錯誤！"
 
 #: respond.php:79 respond.php:95
 msgid "此支付方式不存在或者参数错误！"
-msgstr ""
+msgstr "此支付方式不存在或者參數錯誤！"
 
 #: respond.php:87
 msgid "此支付方式还没有被启用！"
-msgstr ""
+msgstr "此支付方式還沒有被啟用！"
 
 #: respond.php:107
 msgid "您此次的支付操作已成功！"
-msgstr ""
+msgstr "您此次的支付操作已成功！"
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:13
 msgid "温馨提示："
-msgstr ""
+msgstr "溫馨提示："
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:13
 msgid "该支付方式已经禁用，如果您需要使用，请点击"
-msgstr ""
+msgstr "該支付方式已經禁用，如果您需要使用，請點擊"
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:13
 #: content/apps/payment/templates/admin/payment_channel.dwt.php:43
 msgid "启用"
-msgstr ""
+msgstr "啟用"
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:30
 msgid "名称："
-msgstr ""
+msgstr "名稱："
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:37
 msgid "描述："
-msgstr ""
+msgstr "名稱："
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:59
 msgid "文件地址："
-msgstr ""
+msgstr "文件地址："
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:60
 msgid "您确定要删除此文件吗？"
-msgstr ""
+msgstr "您確定要刪除此文件嗎？"
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:61
 msgid "删除文件"
-msgstr ""
+msgstr "刪除文件"
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:67
 msgid "浏览"
-msgstr ""
+msgstr "瀏覽"
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:68
 msgid "修改"
-msgstr ""
+msgstr "修改"
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:86
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:87
 msgid "立即注册财付通商户号"
-msgstr ""
+msgstr "立即註冊財付通商戶號"
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:97
 msgid "支付手续费："
-msgstr ""
+msgstr "支付手續費："
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:100
 #: content/apps/payment/templates/admin/payment_channel.dwt.php:56
 msgid "配送决定"
-msgstr ""
+msgstr "配送決定"
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:106
 msgid "设置方式1：固定手续费，如：5"
-msgstr ""
+msgstr "設置方式1：固定手續費，如：5"
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:106
 msgid "设置方式2：比例手续费，如：5%"
-msgstr ""
+msgstr "設置方式2：比例手續費，如：5%"
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:110
 msgid "货到付款："
-msgstr ""
+msgstr "貨到付款："
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:112
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:119
 msgid "是"
-msgstr ""
+msgstr "是"
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:112
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:119
 msgid "否"
-msgstr ""
+msgstr "否"
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:117
 msgid "在线支付："
-msgstr ""
+msgstr "在線支付："
 
 #: content/apps/payment/templates/admin/payment_edit.dwt.php:124
 msgid "确定"
-msgstr ""
+msgstr "確定"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:24
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:24
 msgid "开始日期"
-msgstr ""
+msgstr "開始日期"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:25
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:25
 msgid "至"
-msgstr ""
+msgstr "至"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:26
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:26
 msgid "结束日期"
-msgstr ""
+msgstr "結束日期"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:27
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:27
 msgid "筛选"
-msgstr ""
+msgstr "篩選"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:31
 msgid "请输入订单号"
-msgstr ""
+msgstr "請輸入訂單號"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:32
 msgid "请输入退款流水号"
-msgstr ""
+msgstr "請輸入退款流水號"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:33
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:33
 msgid "搜索"
-msgstr ""
+msgstr "搜索"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:37
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:37
 msgid "请选择交易状态"
-msgstr ""
+msgstr "請選擇交易狀態"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:40
 msgid "处理中"
-msgstr ""
+msgstr "處理中"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:54
 msgid "订单号"
-msgstr ""
+msgstr "訂單號"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:55
 msgid "订单退款流水号 / 支付公司退款流水号"
-msgstr ""
+msgstr "訂單退款流水號 / 支付公司退款流水號"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:56
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:54
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:58
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:50
 msgid "支付名称"
-msgstr ""
+msgstr "支付名稱"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:57
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:54
 msgid "退款金额"
-msgstr ""
+msgstr "退款金額"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:58
 msgid "创建时间 / 退款时间"
-msgstr ""
+msgstr "創建時間 / 退款時間"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:59
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:35
 msgid "退款状态"
-msgstr ""
+msgstr "退款狀態"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:67
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:65
 msgid "查看"
-msgstr ""
+msgstr "查看"
 
 #: content/apps/payment/templates/admin/payment_refund_list.dwt.php:77
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:76
 #: content/apps/payment/templates/admin/payment_channel.dwt.php:64
 msgid "没有找到任何记录"
-msgstr ""
+msgstr "沒有找到任何記錄"
 
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:31
 msgid "请输入商城订单编号"
-msgstr ""
+msgstr "請輸入商城訂單編號"
 
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:32
 msgid "请输入支付订单号或流水号"
-msgstr ""
+msgstr "請輸入支付訂單號或流水號"
 
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:51
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:34
 msgid "商城订单编号"
-msgstr ""
+msgstr "商城訂單編號"
 
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:52
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:50
 msgid "交易类型"
-msgstr ""
+msgstr "交易類型"
 
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:53
 msgid "支付订单号 / 流水号"
-msgstr ""
+msgstr "支付訂單號 / 流水號"
 
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:55
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:62
 msgid "支付金额"
-msgstr ""
+msgstr "支付金額"
 
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:56
 msgid "创建时间 / 付款时间"
-msgstr ""
+msgstr "創建時間 / 付款時間"
 
 #: content/apps/payment/templates/admin/payment_record_list.dwt.php:57
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:46
 msgid "交易状态"
-msgstr ""
+msgstr "交易狀態"
 
 #: content/apps/payment/templates/admin/payment_channel.dwt.php:16
 msgid "名称"
-msgstr ""
+msgstr "名稱"
 
 #: content/apps/payment/templates/admin/payment_channel.dwt.php:17
 msgid "描述"
-msgstr ""
+msgstr "描述"
 
 #: content/apps/payment/templates/admin/payment_channel.dwt.php:18
 msgid "排序"
-msgstr ""
+msgstr "排序"
 
 #: content/apps/payment/templates/admin/payment_channel.dwt.php:19
 msgid "费用"
-msgstr ""
+msgstr "費用"
 
 #: content/apps/payment/templates/admin/payment_channel.dwt.php:28
 msgid "编辑支付方式名称"
-msgstr ""
+msgstr "編輯支付方式名稱"
 
 #: content/apps/payment/templates/admin/payment_channel.dwt.php:37
 msgid "编辑"
-msgstr ""
+msgstr "編輯"
 
 #: content/apps/payment/templates/admin/payment_channel.dwt.php:38
 msgid "禁用"
-msgstr ""
+msgstr "禁用"
 
 #: content/apps/payment/templates/admin/payment_channel.dwt.php:49
 msgid "编辑支付方式排序"
-msgstr ""
+msgstr "編輯支付方式排序"
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:18
 msgid "修复订单状态"
-msgstr ""
+msgstr "修復訂單狀態"
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:28
 msgid "资金流水记录"
-msgstr ""
+msgstr "資金流水記錄"
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:52
 msgid "流水号"
-msgstr ""
+msgstr "流水號"
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:64
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:60
 msgid "创建时间"
-msgstr ""
+msgstr "創建時間"
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:68
 msgid "修改更新时间"
-msgstr ""
+msgstr "修改更新時間"
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:70
 msgid "支付成功时间"
-msgstr ""
+msgstr "支付成功時間"
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:74
 msgid "支付订单号："
-msgstr ""
+msgstr "支付訂單號："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:84
 msgid "订单信息"
-msgstr ""
+msgstr "訂單信息"
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:92
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:99
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:133
 msgid "订单总金额："
-msgstr ""
+msgstr "訂單總金額："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:94
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:101
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:114
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:121
 msgid "订单状态："
-msgstr ""
+msgstr "訂單狀態："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:106
 msgid "买单消费总金额："
-msgstr ""
+msgstr "買單消費總金額："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:108
 msgid "买单优惠总金额："
-msgstr ""
+msgstr "買單優惠總金額："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:112
 msgid "买单实付金额："
-msgstr ""
+msgstr "買單實付金額："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:125
 msgid "商品总金额："
-msgstr ""
+msgstr "商品總金額："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:127
 msgid "折扣："
-msgstr ""
+msgstr "折扣："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:131
 msgid "发票税额："
-msgstr ""
+msgstr "發票稅額："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:137
 msgid "配送费用："
-msgstr ""
+msgstr "配送費用："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:139
 msgid "已付款金额："
-msgstr ""
+msgstr "已付款金額："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:143
 msgid "保价费用："
-msgstr ""
+msgstr "保價費用："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:145
 msgid "使用余额："
-msgstr ""
+msgstr "使用餘額："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:148
 msgid "支付费用："
-msgstr ""
+msgstr "支付費用："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:150
 msgid "贺卡费用："
-msgstr ""
+msgstr "賀卡費用："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:154
 msgid "包装费用："
-msgstr ""
+msgstr "包裝費用："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:156
 msgid "应付款金额："
-msgstr ""
+msgstr "應付款金額："
 
 #: content/apps/payment/templates/admin/payment_record_info.dwt.php:156
 msgid "应退款金额："
-msgstr ""
+msgstr "應付款金額："
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:25
 msgid "退款资金流水记录"
-msgstr ""
+msgstr "退款資金流水記錄"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:31
 msgid "订单编号"
-msgstr ""
+msgstr "訂單編號"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:38
 msgid "对账查询"
-msgstr ""
+msgstr "對賬查詢"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:42
 msgid "订单退款流水号"
-msgstr ""
+msgstr "訂單退款流水號"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:44
 msgid "支付公司退款流水号"
-msgstr ""
+msgstr "支付公司退款流水號"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:56
 msgid "订单类型"
-msgstr ""
+msgstr "訂單類型"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:62
 msgid "退款时间"
-msgstr ""
+msgstr "退款時間"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:66
 msgid "退款编号："
-msgstr ""
+msgstr "退款編號："
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:78
 msgid "退款单信息"
-msgstr ""
+msgstr "退款單信息"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:84
 msgid "退款状态："
-msgstr ""
+msgstr "退款狀態："
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:87
 msgid "无打款请求"
-msgstr ""
+msgstr "無打款請求"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:96
 msgid "商品总金额"
-msgstr ""
+msgstr "商品總金額"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:98
 msgid "折扣"
-msgstr ""
+msgstr "折扣"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:102
 msgid "发票税额"
-msgstr ""
+msgstr "發票稅額"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:104
 msgid "应退款总金额"
-msgstr ""
+msgstr "應退款總金額"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:108
 msgid "配送费用"
-msgstr ""
+msgstr "配送費用"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:110
 msgid "已付款金额"
-msgstr ""
+msgstr "已付款金額"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:114
 msgid "保价费用"
-msgstr ""
+msgstr "保價費用"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:116
 msgid "使用余额"
-msgstr ""
+msgstr "使用餘額"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:119
 msgid "支付费用"
-msgstr ""
+msgstr "支付費用"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:121
 msgid "贺卡费用"
-msgstr ""
+msgstr "賀卡費用"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:125
 msgid "包装费用"
-msgstr ""
+msgstr "包裝費用"
 
 #: content/apps/payment/templates/admin/payment_refund_info.dwt.php:127
 msgid "实际退款金额"
-msgstr ""
+msgstr "實際退款金額"
 
 #: content/apps/payment/templates/front/response_default.dwt.php:14
 msgid "支付通知"
-msgstr ""
+msgstr "支付通知"
 
 #: content/apps/payment/templates/front/response_default.dwt.php:36
 msgid "提示信息"
-msgstr ""
+msgstr "提示信息"
 
 #: content/apps/payment/templates/front/response_default.dwt.php:39
 msgid "去微商城购物"
-msgstr ""
+msgstr "去微商城購物"
 
 #: content/apps/payment/templates/front/response_default.dwt.php:40
 msgid "返回APP"
-msgstr ""
+msgstr "返回APP"
 
 #: content/apps/payment/templates/front/response.dwt.php:219
 msgid "支付提示"
-msgstr ""
+msgstr "支付提示"
 
 #: content/apps/payment/templates/front/response.dwt.php:225
 msgid "支付成功！"
-msgstr ""
+msgstr "支付成功！"
 
 #: content/apps/payment/templates/front/response.dwt.php:228
 msgid "支付方式："
-msgstr ""
+msgstr "支付方式："
 
 #: content/apps/payment/templates/front/response.dwt.php:229
 msgid "付款金额："
-msgstr ""
+msgstr "付款金額："
 
 #: content/apps/payment/templates/front/response.dwt.php:233
 msgid "返回首页"
-msgstr ""
+msgstr "返回首頁"
 
 #: content/apps/payment/templates/front/response.dwt.php:235
 msgid "查看订单"
-msgstr ""
+msgstr "查看訂單"

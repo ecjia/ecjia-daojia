@@ -60,7 +60,7 @@ class payment_pay_balance_module extends api_front implements api_interface {
     	$user_id = $_SESSION['user_id'];
     	 
     	if ($user_id < 1 ) {
-    		return new ecjia_error(100, 'Invalid session');
+    		return new ecjia_error(100, __('Invalid session', 'payment'));
     	}
 		
     	$record_id 	= $this->requestData('record_id');
