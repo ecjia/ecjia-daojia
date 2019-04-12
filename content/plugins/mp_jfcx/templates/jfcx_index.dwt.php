@@ -18,23 +18,23 @@
         <div class="info-cnt">
             <div class="info-cnt-inner">
                 <div class="info-number">
-                    <span class="info-txt">当前</span><span class="info-num">{$pay_points}</span><span class="info-txt">积分</span>
+                    <span class="info-txt">{t domain="mp_jfcx"}当前{/t}</span><span class="info-num">{$pay_points}</span><span class="info-txt">{t domain="mp_jfcx"}积分{/t}</span>
                 </div>
                 <div class="info-btn">
                     <i class="btn-icon"></i>
                     <span class="btn-text">
                         {if $today eq $lastCheckinDay}
-                            今日已签到
+                            {t domain="mp_jfcx"}今日已签到{/t}
                         {else}
-                            今日未签到
+                            {t domain="mp_jfcx"}今日未签到{/t}
                         {/if}
                     </span>
                 </div>
                 <div class="info-tips">
                     {if $count eq 0}
-                        您还未签到过哦，请在微信回复签到即可签到！
+                    {t domain="mp_jfcx"}您还未签到过哦，请在微信回复签到即可签到！{/t}
                     {else}
-                    已累计签到{$count}次，继续加油哦！
+                    {t domain="mp_jfcx" 1={$count}}已累计签到%1次，继续加油哦！{/t}
                     {/if}
                 </div>
             </div>
@@ -44,7 +44,7 @@
     <div class="details-notice">
     </div>
     <div class="details-list">
-        <div class="list-head" id="listHead"><div class="list-head-inner">积分收支明细</div></div>
+        <div class="list-head" id="listHead"><div class="list-head-inner">{t domain="mp_jfcx"}积分收支明细{/t}</div></div>
         <div class="place-holder"></div>
         <div class="list-box" id="listBox">
 

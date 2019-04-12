@@ -1,0 +1,49 @@
+# Copyright (C) 2019 积分查询
+# This file is distributed under the same license as the 积分查询 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 积分查询 1.18.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-03-22 03:53:37+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-03-25 16:23+0800\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
+
+#: init.php:83
+msgid "积分查看"
+msgstr "積分查看"
+
+#. Plugin Name of the plugin/theme
+#: mp_jfcx.class.php:117
+msgid "积分查询"
+msgstr "積分查詢"
+
+#: mp_jfcx.class.php:118
+msgid ""
+"尊敬的%s用户:\n"
+"您的消费积分：%s"
+msgstr ""
+"尊敬的%s用戶:\n"
+"您的消費積分：%s"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.mp_jfcx/"
+msgstr "http://www.ecjia.com/plugins/ecjia.mp_jfcx/"
+
+#. Description of the plugin/theme
+msgid "使用插件可以在微信上查询您的积分。"
+msgstr "使用插件可以在微信上查詢您的積分。"
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr "ECJIA TEAM"
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr "http://www.ecjia.com/"

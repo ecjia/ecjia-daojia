@@ -76,19 +76,7 @@ class mp_jfcx extends PlatformAbstract
     {
         return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php', $key, $default);
     }
-    
-    /**
-     * 加载语言包
-     *
-     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
-     */
-    public function loadLanguage($key = null, $default = null)
-    {
-        $locale = RC_Config::get('system.locale');
-        
-        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
-    }
-    
+
     /**
      * 获取iconUrl
      * {@inheritDoc}
@@ -126,8 +114,8 @@ class mp_jfcx extends PlatformAbstract
 
             $data['pay_points'] = RC_DB::table('users')->where('user_id', '=', $userid)->pluck('pay_points');
             $articles = [
-                'Title' => '积分查询',
-                'Description' => sprintf("尊敬的%s用户:\n您的消费积分：%s", ecjia::config('shop_name'), $data['pay_points']),
+                'Title' => __('积分查询', 'mp_jfcx'),
+                'Description' => sprintf(__("尊敬的%s用户:\n您的消费积分：%s", 'mp_jfcx'), ecjia::config('shop_name'), $data['pay_points']),
                 'Url'           => RC_Uri::url('platform/plugin/show', array('handle' => 'mp_jfcx/init', 'openid' => $openid, 'uuid' => $uuid)),
                 'PicUrl' => RC_Plugin::plugin_dir_url(__FILE__) . '/images/wechat_thumb_jfcx.png',
             ];

@@ -80,7 +80,7 @@ class mp_jfcx_init extends PluginPageController implements PluginPageInterface
         $wechat_user = new WechatUser($wechat_id, $openid);
         $userid = $wechat_user->getEcjiaUserId();
 
-        ecjia_front::$controller->assign('title', sprintf('%s - %s - %s', '积分查看', $platform_account->getAccountName(), ecjia::config('shop_name')));
+        ecjia_front::$controller->assign('title', sprintf('%s - %s - %s', __('积分查看', 'mp_jfcx'), $platform_account->getAccountName(), ecjia::config('shop_name')));
 
         $pay_points = RC_DB::table('users')->where('user_id', '=', $userid)->pluck('pay_points');
         $points_info = RC_DB::table('account_log')->where('user_id', '=', $userid)->orderBy('change_time', 'desc')->get();
