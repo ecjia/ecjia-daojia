@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ecjia System package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ecjia System 1.44\n"
+"Project-Id-Version: Ecjia System 1.45\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-29 01:41:50+00:00\n"
+"POT-Creation-Date: 2019-04-12 04:02:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,8 +20,8 @@ msgstr ""
 
 #: admin_application.php:99 admin_logs.php:81 admin_message.php:89
 #: admin_plugin.php:85 admin_role.php:92
-#: classes/Controllers/UpgradeController.php:84 index.php:70 index.php:115
-#: index.php:142 index.php:167 index.php:245 index.php:290 privilege.php:95
+#: classes/Controllers/UpgradeController.php:84 index.php:70 index.php:107
+#: index.php:134 index.php:159 index.php:237 index.php:282 privilege.php:95
 #: privilege.php:719
 msgid "概述"
 msgstr ""
@@ -32,8 +32,8 @@ msgstr ""
 
 #: admin_application.php:105 admin_logs.php:87 admin_message.php:95
 #: admin_plugin.php:91 admin_role.php:98
-#: classes/Controllers/UpgradeController.php:90 index.php:76 index.php:121
-#: index.php:148 index.php:173 index.php:251 index.php:296 privilege.php:101
+#: classes/Controllers/UpgradeController.php:90 index.php:76 index.php:113
+#: index.php:140 index.php:165 index.php:243 index.php:288 privilege.php:101
 #: privilege.php:725
 msgid "更多信息："
 msgstr ""
@@ -314,12 +314,12 @@ msgstr ""
 
 #: apis/system_system_menu_api.class.php:67
 #: apis/system_system_purview_api.class.php:57
-#: classes/admin/ecjia_admin_log.class.php:161 index.php:285 index.php:286
+#: classes/admin/ecjia_admin_log.class.php:161 index.php:277 index.php:278
 msgid "授权证书"
 msgstr ""
 
 #: apis/system_system_menu_api.class.php:68
-#: apis/system_system_purview_api.class.php:58 index.php:241 index.php:265
+#: apis/system_system_purview_api.class.php:58 index.php:233 index.php:257
 msgid "更新缓存"
 msgstr ""
 
@@ -340,8 +340,8 @@ msgstr ""
 msgid "目录权限检测"
 msgstr ""
 
-#: apis/system_system_menu_api.class.php:86 index.php:109 index.php:136
-#: index.php:161
+#: apis/system_system_menu_api.class.php:86 index.php:101 index.php:128
+#: index.php:153
 msgid "关于"
 msgstr ""
 
@@ -1160,7 +1160,7 @@ msgstr ""
 msgid "操作错误"
 msgstr ""
 
-#: classes/BaseController/EcjiaController.php:427 index.php:162 index.php:163
+#: classes/BaseController/EcjiaController.php:427 index.php:154 index.php:155
 msgid "系统信息"
 msgstr ""
 
@@ -2079,78 +2079,78 @@ msgid ""
 "\">关于ECJia智能后台的帮助文档</a>"
 msgstr ""
 
-#: index.php:93
+#: index.php:85
 msgid "<a target=\"_blank\" href=\"%s\">点击查看</a>。"
 msgstr ""
 
-#: index.php:110 index.php:111
+#: index.php:102 index.php:103
 msgid "关于 ECJIA"
 msgstr ""
 
-#: index.php:117 index.php:144 index.php:169
+#: index.php:109 index.php:136 index.php:161
 msgid "欢迎访问ECJia智能后台关于页面，可以更加了解ECJia。"
 msgstr ""
 
-#: index.php:122 index.php:149 index.php:174
+#: index.php:114 index.php:141 index.php:166
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:关于\" target=\"_blank\">"
 "关于ECJia帮助文档</a>"
 msgstr ""
 
-#: index.php:137 index.php:138
+#: index.php:129 index.php:130
 msgid "ECJIA团队"
 msgstr ""
 
-#: index.php:185 index.php:186 index.php:187 index.php:189
+#: index.php:177 index.php:178 index.php:179 index.php:181
 msgid "是"
 msgstr ""
 
-#: index.php:185 index.php:186 index.php:187 index.php:189
+#: index.php:177 index.php:178 index.php:179 index.php:181
 msgid "否"
 msgstr ""
 
-#: index.php:188
+#: index.php:180
 msgid "无需设置"
 msgstr ""
 
-#: index.php:247
+#: index.php:239
 msgid ""
 "欢迎访问ECJia智能后台更新缓存页面，可以在此页面进行清除系统中缓存的操作。"
 msgstr ""
 
-#: index.php:252
+#: index.php:244
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:更新缓存\" target="
 "\"_blank\">关于清除缓存帮助文档</a>"
 msgstr ""
 
-#: index.php:292
+#: index.php:284
 msgid "欢迎访问ECJia智能后台授权证书管理页面，可以在此对证书进行授权操作。"
 msgstr ""
 
-#: index.php:297
+#: index.php:289
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:授权证书\" target="
 "\"_blank\">关于授权证书管理帮助文档</a>"
 msgstr ""
 
-#: index.php:359
+#: index.php:351
 msgid "证书内容不全。请先确定证书是否正确然后重新上传！"
 msgstr ""
 
-#: index.php:370
+#: index.php:362
 msgid "授权证书上传成功。"
 msgstr ""
 
-#: index.php:375
+#: index.php:367
 msgid "授权证书连接服务器校验失败，请检查授权证书的合法性。"
 msgstr ""
 
-#: index.php:395
+#: index.php:387
 msgid "下载"
 msgstr ""
 
-#: index.php:426
+#: index.php:418
 msgid "证书已删除。"
 msgstr ""
 
