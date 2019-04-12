@@ -1,0 +1,56 @@
+# Copyright (C) 2019 商家结算帐单按月生成
+# This file is distributed under the same license as the 商家结算帐单按月生成 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 商家结算帐单按月生成 1.30.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-03-20 09:19:27+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-03-25 15:12+0800\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
+
+#: config.php:57
+msgid "每次生成数量："
+msgstr "每次生成數量："
+
+#: config.php:60
+msgid "5条"
+msgstr "5條"
+
+#: config.php:61
+msgid "10条"
+msgstr "10條"
+
+#: config.php:62
+msgid "20条"
+msgstr "20條"
+
+#: config.php:63
+msgid "50条"
+msgstr "50條"
+
+#. Plugin Name of the plugin/theme
+msgid "商家结算帐单按月生成"
+msgstr "商家結算帳單按月生成"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.cron_bill_month/"
+msgstr "http://www.ecjia.com/plugins/ecjia.cron_bill_month/"
+
+#. Description of the plugin/theme
+msgid "自动按月生成商家结算帐单"
+msgstr "自動按月生成商家結算帳單"
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr "ECJIA TEAM"
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr "http://www.ecjia.com/"

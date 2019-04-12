@@ -47,9 +47,24 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 return array(
     'cron_code'      => 'cron_bill_month',
+
 	'forms' => array(
 		array('name' => 'bill_month_count', 'type' => 'select', 'value' => '5'),
 	),
+
+    'dynamic_option' => array(
+
+        'bill_month_count'  => __('每次生成数量：', 'cron_bill_month'),
+
+        'bill_month_count_range' => array(
+            '5' 	=> __('5条', 'cron_bill_month'),
+            '10' 	=> __('10条', 'cron_bill_month'),
+            '20' 	=> __('20条', 'cron_bill_month'),
+            '50' 	=> __('50条', 'cron_bill_month'),
+        )
+
+    ),
+
     'lock_time' => true,//锁定任务时间，不可修改
 	'default_time' => array('cron_expression' => '0 4 1 */1 * *', 'expression_alias' => 'cron'),
 );

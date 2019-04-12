@@ -49,9 +49,10 @@ Plugin Name: 商家结算帐单按月生成
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cron_bill_month/
 Description: 自动按月生成商家结算帐单
 Author: ECJIA TEAM
-Version: 1.21.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: cron
+Text Domain: cron_bill_month
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 class plugin_cron_bill_month {
@@ -72,8 +73,9 @@ class plugin_cron_bill_month {
 }
 
 Ecjia_PluginManager::extend('cron_bill_month', function() {
+    RC_Locale::loadPluginTextdomain('cron_bill_month');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'cron_bill_month.class.php';
-        return new cron_bill_month();
+    return new cron_bill_month();
 });
 
 RC_Plugin::register_activation_hook(__FILE__, array('plugin_cron_bill_month', 'install'));
