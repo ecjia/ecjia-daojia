@@ -49,9 +49,10 @@ Plugin Name: 测试计划任务
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cron_testlog/
 Description: 测试计划任务，生成日志
 Author: ECJIA TEAM
-Version: 1.16.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: cron
+Text Domain: cron_testlog
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 class plugin_cron_testlog {
@@ -72,6 +73,7 @@ class plugin_cron_testlog {
 }
 
 Ecjia_PluginManager::extend('cron_testlog', function() {
+    RC_Locale::loadPluginTextdomain('cron_testlog');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'cron_testlog.class.php';
     return new cron_testlog();
 });
