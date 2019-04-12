@@ -113,7 +113,7 @@ class mp_zjd_init extends PluginPageController implements PluginPageInterface
         //获取用户剩余抽奖次数
         $prize_num = $MarketActivity->getLotteryOverCount($openid);
         if ($prize_num == -1) {
-            $prize_num = '无限次';
+            $prize_num = __('无限次', 'mp_zjd');
         }
         
         ecjia_front::$controller->assign('prize_num', $prize_num);
@@ -126,6 +126,7 @@ class mp_zjd_init extends PluginPageController implements PluginPageInterface
         $list = $MarketActivity->getActivityWinningLog()->toArray();
         ecjia_front::$controller->assign('list', $list);
 
+        ecjia_front::$controller->assign('js_lang_award', __('撒花，恭喜您获得', 'mp_zjd'));
         ecjia_front::$controller->display($this->getPluginFilePath('templates/zjd_index.dwt.php'));
     }
 }

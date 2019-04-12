@@ -56,8 +56,7 @@ return array(
 
     'support_type'          => Ecjia\App\Platform\Plugin\PlatformAbstract::TypeAdmin | Ecjia\App\Platform\Plugin\PlatformAbstract::TypeMerchant,
 			
-	'forms' => array(
-	),
+	'forms' => array(),
 );
 
 // end

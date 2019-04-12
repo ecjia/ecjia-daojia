@@ -1,0 +1,75 @@
+# Copyright (C) 2019 砸金蛋
+# This file is distributed under the same license as the 砸金蛋 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 砸金蛋 1.20.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-04-04 05:41:04+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: init.php:116
+msgid "无限次"
+msgstr ""
+
+#: init.php:129
+msgid "撒花，恭喜您获得"
+msgstr ""
+
+#: init_action.php:61
+msgid "请先登录"
+msgstr ""
+
+#: init_action.php:66
+msgid "错误的请求"
+msgstr ""
+
+#: init_action.php:99
+msgid "砸金蛋活动还未开始"
+msgstr ""
+
+#: init_action.php:103
+msgid "砸金蛋活动已经结束"
+msgstr ""
+
+#: init_action.php:110
+msgid "活动次数已用完，请稍后再试！"
+msgstr ""
+
+#: init_action.php:126 init_action.php:131
+msgid "很遗憾，未中奖！"
+msgstr ""
+
+#: init_action.php:139
+msgid "很遗憾，再接再励！"
+msgstr ""
+
+#. #-#-#-#-#  mp_zjd.pot (砸金蛋 1.20.0)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: mp_zjd.class.php:109
+msgid "砸金蛋"
+msgstr ""
+
+#: mp_zjd.class.php:110
+msgid "快来参与活动吧~~"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.mp_zjd/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "使用插件可以让微信公众平台用户参加砸金蛋活动。"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr ""

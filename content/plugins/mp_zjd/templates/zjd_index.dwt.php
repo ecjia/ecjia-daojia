@@ -49,51 +49,51 @@
         </div>
 
         <div class="block">
-            <div class="title">剩余次数</div>
+            <div class="title">{t domain="mp_zjd"}剩余次数{/t}</div>
             <div class="content">
-                <p>您当前还剩余
-                    <span class="font-size16"> {$prize_num} </span>次抽奖机会</p>
+                <p>{t domain="mp_zjd"}您当前还剩余{/t}
+                    <span class="font-size16"> {$prize_num} </span>{t domain="mp_zjd"}次抽奖机会{/t}</p>
             </div>
         </div>
         <div class="block">
-            <div class="title">活动规则</div>
+            <div class="title">{t domain="mp_zjd"}活动规则{/t}</div>
             <div class="content">
                 <p>{$description}</p>
             </div>
         </div>
         <div class="block">
-            <div class="title">奖项设置</div>
+            <div class="title">{t domain="mp_zjd"}奖项设置{/t}</div>
             {if $prize}
             <div class="content">
                 <!-- {foreach from=$prize item=val }-->
                 <p>
-                    {if $val.prize_level eq '0'} 特等奖： {elseif $val.prize_level eq '1'} 一等奖： {elseif $val.prize_level eq '2'} 二等奖： {elseif $val.prize_level
-                    eq '3'} 三等奖： {elseif $val.prize_level eq '4'} 四等奖： {elseif $val.prize_level eq '5'} 五等奖： {/if} {$val.prize_name}{if $val.prize_type eq 2}（{$val.prize_value}）{/if}（剩余奖品数量：{$val.prize_number}）
+                    {if $val.prize_level eq '0'} {t domain="mp_zjd"}特等奖：{/t} {elseif $val.prize_level eq '1'} {t domain="mp_zjd"}一等奖：{/t} {elseif $val.prize_level eq '2'} {t domain="mp_zjd"}二等奖：{/t} {elseif $val.prize_level
+                    eq '3'} {t domain="mp_zjd"}三等奖：{/t} {elseif $val.prize_level eq '4'} {t domain="mp_zjd"}四等奖：{/t} {elseif $val.prize_level eq '5'} {t domain="mp_zjd"}五等奖：{/t} {/if} {$val.prize_name}{if $val.prize_type eq 2}（{$val.prize_value}）{/if}（剩余奖品数量：{$val.prize_number}）
                 </p>
                 <!-- {/foreach} -->
             </div>
             {else}
-            <p>暂无设置</p>
+            <p>{t domain="mp_zjd"}暂无设置{/t}</p>
             {/if}
         </div>
         <div class="block">
-            <div class="title">中奖记录</div>
+            <div class="title">{t domain="mp_zjd"}中奖记录{/t}</div>
             {if $list}
             <div class="content">
                 <!-- {foreach from=$list item=val}-->
-                <p> {$val.user_name} 获得奖品 ：{$val.prize_name} {if $val.prize_type eq 2}（{$val.prize_value}）{/if}</p>
+                <p> {$val.user_name} {t domain="mp_zjd"}获得奖品 ：{/t}{$val.prize_name} {if $val.prize_type eq 2}（{$val.prize_value}）{/if}</p>
                 <!-- {/foreach} -->
             </div>
             {else}
-            <p>暂无获奖记录</p>
+            <p>{t domain="mp_zjd"}暂无获奖记录{/t}</p>
             {/if}
         </div>
     </div>
     <div id="mask"></div>
     <div id="dialog" class="yes">
         <div id="content"></div>
-        <a href="javascript:;" id="link">去看看</a>
-        <button id="close">关闭</button>
+        <a href="javascript:;" id="link">{t domain="mp_zjd"}去看看{/t}</a>
+        <button id="close">{t domain="mp_zjd"}关闭{/t}</button>
     </div>
     <!-- 我的奖品 -->
     <div class="prize-btn">
@@ -105,6 +105,7 @@
     <script type="text/javascript" src="{$jquery_js}"></script>
     <script>
         $(function () {
+            var js_lang_award = '{$js_lang_award}';
             var timer, forceStop;
             var wxch_Marquee = function (id) {
                 try {
@@ -186,7 +187,7 @@
                     $("#mask").show();
 
 					if (data.state == 'success') {
-						var success = '撒花，恭喜您获得' + '"' + data.prize_name + '"';
+						var success = js_lang_award + '"' + data.prize_name + '"';
                         $("#content").html(success);
                         $("#link").attr("href", data.link);
                         $("#dialog").attr("class", 'yes').show();

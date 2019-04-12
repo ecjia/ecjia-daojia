@@ -58,12 +58,12 @@ class mp_zjd_init_action implements PluginPageInterface
 
         ## 判断是否登陆
         if (empty($openid)) {
-            return ecjia_front::$controller->showmessage('请先登录', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            return ecjia_front::$controller->showmessage(__('请先登录', 'mp_zjd'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         $code = trim($_GET['name']);
         
         if ($code != 'mp_zjd') {
-        	return ecjia_front::$controller->showmessage('错误的请求', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        	return ecjia_front::$controller->showmessage(__('错误的请求', 'mp_zjd'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
         return $this->doAction();
@@ -96,18 +96,18 @@ class mp_zjd_init_action implements PluginPageInterface
     
     	// 判断砸金蛋时间时间是否开始
     	if ($time < $starttime) {
-    		return ecjia_front::$controller->showmessage('砸金蛋活动还未开始', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return ecjia_front::$controller->showmessage(__('砸金蛋活动还未开始', 'mp_zjd'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	//判断砸金蛋时间时间是否结束
     	if ($time > $endtime) {
-    		return ecjia_front::$controller->showmessage('砸金蛋活动已经结束', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return ecjia_front::$controller->showmessage(__('砸金蛋活动已经结束', 'mp_zjd'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     
     	//获取用户剩余抽奖次数
     	$prize_num = $MarketActivity->getLotteryOverCount($openid);
     	
     	if ($prize_num === 0) {
-    		return ecjia_front::$controller->showmessage('活动次数已用完，请稍后再试！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return ecjia_front::$controller->showmessage(__('活动次数已用完，请稍后再试！', 'mp_zjd'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	
     	/*
@@ -123,12 +123,12 @@ class mp_zjd_init_action implements PluginPageInterface
     	$prize_id = $prize_info['prize_id'];
     	
     	if (empty($prize_id)) {
-    		return ecjia_front::$controller->showmessage('很遗憾，未中奖！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return ecjia_front::$controller->showmessage(__('很遗憾，未中奖！', 'mp_zjd'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     
     	$prize_info = Ecjia\App\Market\Models\MarketActivityPrizeModel::where('activity_id', $MarketActivity->getActivityId())->find($prize_id);
     	if (empty($prize_info)) {
-    		return ecjia_front::$controller->showmessage('很遗憾，未中奖！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return ecjia_front::$controller->showmessage(__('很遗憾，未中奖！', 'mp_zjd'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     	
 
@@ -136,7 +136,7 @@ class mp_zjd_init_action implements PluginPageInterface
     	if (empty($status)) {
             //扣减未中奖的奖品数量
             $MarketActivity->subtractLotteryPrizeNum($prize_info);
-    		return ecjia_front::$controller->showmessage('很遗憾，再接再励！', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    		return ecjia_front::$controller->showmessage(__('很遗憾，再接再励！', 'mp_zjd'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
     
     	//记录中奖记录
