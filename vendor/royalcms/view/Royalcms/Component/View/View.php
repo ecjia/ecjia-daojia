@@ -8,8 +8,8 @@ use ArrayAccess;
 use BadMethodCallException;
 use Royalcms\Component\Support\Str;
 use Royalcms\Component\Support\MessageBag;
+use Royalcms\Component\Contracts\View\Engine;
 use Royalcms\Component\Contracts\Support\Arrayable;
-use Royalcms\Component\View\Engines\EngineInterface;
 use Royalcms\Component\Contracts\Support\Renderable;
 use Royalcms\Component\Contracts\Support\MessageProvider;
 use Royalcms\Component\Contracts\View\View as ViewContract;
@@ -26,7 +26,7 @@ class View implements ArrayAccess, ViewContract
     /**
      * The engine implementation.
      *
-     * @var \Royalcms\Component\View\Engines\EngineInterface
+     * @var \Royalcms\Component\Contracts\View\Engine
      */
     protected $engine;
 
@@ -55,13 +55,13 @@ class View implements ArrayAccess, ViewContract
      * Create a new view instance.
      *
      * @param  \Royalcms\Component\View\Factory  $factory
-     * @param  \Royalcms\Component\View\Engines\EngineInterface  $engine
+     * @param  \Royalcms\Component\Contracts\View\Engine  $engine
      * @param  string  $view
      * @param  string  $path
-     * @param  array   $data
+     * @param  mixed  $data
      * @return void
      */
-    public function __construct(Factory $factory, EngineInterface $engine, $view, $path, $data = [])
+    public function __construct(Factory $factory, Engine $engine, $view, $path, $data = [])
     {
         $this->view = $view;
         $this->path = $path;
@@ -76,6 +76,8 @@ class View implements ArrayAccess, ViewContract
      *
      * @param  callable|null  $callback
      * @return string
+     *
+     * @throws \Throwable
      */
     public function render(callable $callback = null)
     {
@@ -87,15 +89,15 @@ class View implements ArrayAccess, ViewContract
             // Once we have the contents of the view, we will flush the sections if we are
             // done rendering all views so that there is nothing left hanging over when
             // another view gets rendered in the future by the application developer.
-            $this->factory->flushSectionsIfDoneRendering();
+            $this->factory->flushStateIfDoneRendering();
 
             return ! is_null($response) ? $response : $contents;
         } catch (Exception $e) {
-            $this->factory->flushSections();
+            $this->factory->flushState();
 
             throw $e;
         } catch (Throwable $e) {
-            $this->factory->flushSections();
+            $this->factory->flushState();
 
             throw $e;
         }
@@ -126,18 +128,6 @@ class View implements ArrayAccess, ViewContract
     }
 
     /**
-     * Get the sections of the rendered view.
-     *
-     * @return array
-     */
-    public function renderSections()
-    {
-        return $this->render(function () {
-            return $this->factory->getSections();
-        });
-    }
-
-    /**
      * Get the evaluated contents of the view.
      *
      * @return string
@@ -163,6 +153,18 @@ class View implements ArrayAccess, ViewContract
         }
 
         return $data;
+    }
+
+    /**
+     * Get the sections of the rendered view.
+     *
+     * @return string
+     */
+    public function renderSections()
+    {
+        return $this->render(function () {
+            return $this->factory->getSections();
+        });
     }
 
     /**
@@ -204,33 +206,21 @@ class View implements ArrayAccess, ViewContract
      */
     public function withErrors($provider)
     {
-        if ($provider instanceof MessageProvider) {
-            $this->with('errors', $provider->getMessageBag());
-        } else {
-            $this->with('errors', new MessageBag((array) $provider));
-        }
+        $this->with('errors', $this->formatErrors($provider));
 
         return $this;
     }
 
     /**
-     * Get the view factory instance.
+     * Format the given message provider into a MessageBag.
      *
-     * @return \Royalcms\Component\View\Factory
+     * @param  \Royalcms\Component\Contracts\Support\MessageProvider|array  $provider
+     * @return \Royalcms\Component\Support\MessageBag
      */
-    public function getFactory()
+    protected function formatErrors($provider)
     {
-        return $this->factory;
-    }
-
-    /**
-     * Get the view's rendering engine.
-     *
-     * @return \Royalcms\Component\View\Engines\EngineInterface
-     */
-    public function getEngine()
-    {
-        return $this->engine;
+        return $provider instanceof MessageProvider
+                        ? $provider->getMessageBag() : new MessageBag((array) $provider);
     }
 
     /**
@@ -282,6 +272,26 @@ class View implements ArrayAccess, ViewContract
     public function setPath($path)
     {
         $this->path = $path;
+    }
+
+    /**
+     * Get the view factory instance.
+     *
+     * @return \Royalcms\Component\View\Factory
+     */
+    public function getFactory()
+    {
+        return $this->factory;
+    }
+
+    /**
+     * Get the view's rendering engine.
+     *
+     * @return \Royalcms\Component\Contracts\View\Engine
+     */
+    public function getEngine()
+    {
+        return $this->engine;
     }
 
     /**
@@ -385,11 +395,13 @@ class View implements ArrayAccess, ViewContract
      */
     public function __call($method, $parameters)
     {
-        if (Str::startsWith($method, 'with')) {
-            return $this->with(Str::snake(substr($method, 4)), $parameters[0]);
+        if (! Str::startsWith($method, 'with')) {
+            throw new BadMethodCallException(sprintf(
+                'Method %s::%s does not exist.', static::class, $method
+            ));
         }
 
-        throw new BadMethodCallException("Method [$method] does not exist on view.");
+        return $this->with(Str::camel(substr($method, 4)), $parameters[0]);
     }
 
     /**

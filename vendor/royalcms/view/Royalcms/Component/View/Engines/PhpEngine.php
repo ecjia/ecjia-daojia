@@ -4,9 +4,10 @@ namespace Royalcms\Component\View\Engines;
 
 use Exception;
 use Throwable;
+use Royalcms\Component\Contracts\View\Engine as EngineContract;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 
-class PhpEngine implements EngineInterface
+class PhpEngine implements EngineContract
 {
     /**
      * Get the evaluated contents of the view.
@@ -56,9 +57,9 @@ class PhpEngine implements EngineInterface
      * @param  int  $obLevel
      * @return void
      *
-     * @throws $e
+     * @throws \Exception
      */
-    protected function handleViewException($e, $obLevel)
+    protected function handleViewException(Exception $e, $obLevel)
     {
         while (ob_get_level() > $obLevel) {
             ob_end_clean();
