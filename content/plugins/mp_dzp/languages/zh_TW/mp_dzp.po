@@ -1,0 +1,129 @@
+# Copyright (C) 2019 大转盘
+# This file is distributed under the same license as the 大转盘 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 大转盘 1.20.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-04-04 05:41:05+00:00\n"
+"PO-Revision-Date: 2019-04-09 11:04+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: init.php:117
+msgid "无限次"
+msgstr "無限次"
+
+#: init.php:132
+msgid "再接再厉"
+msgstr "再接再厲"
+
+#: init.php:133
+msgid "不要灰心"
+msgstr "不要灰心"
+
+#: init.php:134 init.php:141
+msgid "没有抽中"
+msgstr "沒有抽中"
+
+#: init.php:135
+msgid "谢谢参与"
+msgstr "謝謝參與"
+
+#: init.php:136
+msgid "祝您好运"
+msgstr "祝您好運"
+
+#: init.php:137
+msgid "不要放弃"
+msgstr "不要放棄"
+
+#: init.php:138
+msgid "就差一点"
+msgstr "就差一點"
+
+#: init.php:139
+msgid "恭喜中了"
+msgstr "恭喜中了"
+
+#: init.php:140
+msgid "快去领奖吧"
+msgstr "快去領獎吧"
+
+#: init.php:142
+msgid "确定"
+msgstr "確定"
+
+#: init.php:143
+msgid "提示"
+msgstr "提示"
+
+#: init.php:144
+msgid "去领奖"
+msgstr "去領獎"
+
+#: init.php:145
+msgid "中奖啦"
+msgstr "中獎啦"
+
+#: init.php:146
+msgid "稍后再领"
+msgstr "稍後再領"
+
+#: init_action.php:61
+msgid "请先登录"
+msgstr "請先登錄"
+
+#: init_action.php:68
+msgid "错误的请求"
+msgstr "錯誤的請求"
+
+#: init_action.php:106 init_action.php:163
+msgid "大转盘活动还未开始"
+msgstr "大轉盤活動還未開始"
+
+#: init_action.php:110 init_action.php:167
+msgid "大转盘活动已经结束"
+msgstr "大轉盤活動已經結束"
+
+#: init_action.php:116 init_action.php:173
+msgid "活动次数已用完，请稍后再试！"
+msgstr "活動次數已用完，請稍後再試！"
+
+#: init_action.php:181 init_action.php:186
+msgid "很遗憾，未中奖！"
+msgstr "很遺憾，未中獎！"
+
+#: init_action.php:193
+msgid "很遗憾，再接再励！"
+msgstr "很遺憾，再接再勵！"
+
+#. Plugin Name of the plugin/theme
+#: mp_dzp.class.php:108
+msgid "大转盘"
+msgstr "大轉盤"
+
+#: mp_dzp.class.php:109
+msgid "快来参与活动吧~~"
+msgstr "快來參與活動吧~~"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.mp_dzp/"
+msgstr "http://www.ecjia.com/plugins/ecjia.mp_dzp/"
+
+#. Description of the plugin/theme
+msgid "使用插件可以让微信公众平台用户参加大转盘活动。"
+msgstr "使用插件可以讓微信公眾平台用戶參加大轉盤活動。"
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr "ECJIA TEAM"
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr "http://www.ecjia.com/"
