@@ -74,18 +74,6 @@ class withdraw_cash extends WithdrawAbstract
     }
     
     /**
-     * 加载语言包
-     *
-     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
-     */
-    public function loadLanguage($key = null, $default = null)
-    {
-        $locale = RC_Config::get('system.locale');
-    
-        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
-    }
-
-    /**
      * 获取用户绑定的提现方式
      * @return mixed
      */
@@ -117,7 +105,7 @@ class withdraw_cash extends WithdrawAbstract
      */
     public function transfersQuery($order_sn)
     {
-        return new ecjia_error('现金提现不支持查询对账功能。');
+        return new ecjia_error(__('现金提现不支持查询对账功能。', 'withdraw_cash'));
     }
     
 }

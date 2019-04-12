@@ -46,12 +46,13 @@
 //
 /*
 Plugin Name: 现金提现
-Plugin URI: http://www.ecjia.com/plugins/ecjia.withdraw_bank/
+Plugin URI: http://www.ecjia.com/plugins/ecjia.withdraw_cash/
 Description: 需要财务人员或收银人员线下现金结算给申请提现的用户。
 Author: ECJIA TEAM
-Version: 1.25.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: withdraw
+Text Domain: withdraw_cash
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 
@@ -74,6 +75,7 @@ class plugin_withdraw_cash
 }
 
 Ecjia_PluginManager::extend('withdraw_cash', function() {
+    RC_Locale::loadPluginTextdomain('withdraw_cash');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'withdraw_cash.class.php';
     return new withdraw_cash();
 });
