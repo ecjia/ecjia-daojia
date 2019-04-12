@@ -1,0 +1,239 @@
+# Copyright (C) 2019 Ecjia App ucserver
+# This file is distributed under the same license as the Ecjia App ucserver package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App ucserver "
+"1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/"
+"polyglots/\n"
+"POT-Creation-Date: 2019-04-04 13:34+0800\n"
+"PO-Revision-Date: 2019-04-09 10:32+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: admin.php:82 admin.php:121 admin.php:142
+msgid "应用列表"
+msgstr "應用列表"
+
+#: admin.php:90 admin.php:118 admin.php:120
+msgid "添加新应用"
+msgstr "添加新應用"
+
+#: admin.php:108
+msgid "通信成功"
+msgstr "通信成功"
+
+#: admin.php:110
+msgid "通信失败"
+msgstr "通信失敗"
+
+#: admin.php:139 admin.php:141
+msgid "编辑应用"
+msgstr "編輯應用"
+
+#: admin.php:175
+msgid "接口 URL 地址不合法"
+msgstr "接口 URL 地址不合法"
+
+#: admin.php:179
+msgid "IP 地址不合法"
+msgstr "IP 地址不合法"
+
+#: admin.php:195 admin.php:204
+msgid ""
+"应用名称不合法或者与其他应用重复, 请返回更换"
+msgstr ""
+"應用名稱不合法或者與其他應用重複, 請返回更換"
+
+#: admin.php:199
+msgid "添加成功"
+msgstr "添加成功"
+
+#: admin.php:208
+msgid "编辑成功"
+msgstr "編輯成功"
+
+#: admin.php:225 admin.php:242
+msgid "删除成功"
+msgstr "刪除成功"
+
+#: apis/ucserver_admin_purview_api.class.php:59
+msgid "Ucenter应用管理"
+msgstr "Ucenter應用管理"
+
+#: apis/ucserver_admin_purview_api.class.php:60
+msgid "Ucenter应用更新"
+msgstr "Ucenter應用更新"
+
+#: apis/ucserver_admin_purview_api.class.php:61
+msgid "Ucenter应用删除"
+msgstr "Ucenter應用刪除"
+
+#: configs/jslang.php:57
+msgid "正在连接..."
+msgstr "正在連接..."
+
+#: configs/jslang.php:58
+msgid "应用的主URL不能为空"
+msgstr "應用的主URL不能為空"
+
+#: configs/jslang.php:60
+msgid "确定"
+msgstr "確定"
+
+#: configs/jslang.php:61
+msgid "取消"
+msgstr "取消"
+
+#: configs/package.php:55
+msgid "UC服务端"
+msgstr "UC服務端"
+
+#: configs/package.php:56
+msgid ""
+"UCenter是各个产品之间信息直接传递的一个桥梁，"
+"通过UcServer无缝整合系列产品，实现用户的一站"
+"式注册、登录、退出以及社区其他数据的交互。"
+msgstr ""
+"UCenter是各個產品之間信息直接傳遞的一個橋樑，"
+"通過UcServer無縫整合系列產品，實現用戶的一站"
+"式註冊、登錄、退出以及社區其他數據的交互。"
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:24
+msgid "批量操作"
+msgstr "批量操作"
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:28
+msgid "您确定要删除选中的应用吗？"
+msgstr "您確定要刪除選中的應用嗎？"
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:28
+msgid "请选择要删除的应用"
+msgstr "請選擇要刪除的應用"
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:28
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:60
+msgid "删除"
+msgstr "刪除"
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:41
+msgid "ID"
+msgstr "ID"
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:42
+msgid "应用名称"
+msgstr "應用名稱"
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:43
+msgid "应用的主 URL"
+msgstr "應用的主 URL"
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:44
+msgid "通信情况"
+msgstr "通信情況"
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:59
+msgid "编辑"
+msgstr "編輯"
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:60
+msgid "您确定要删除该应用吗？"
+msgstr "您確定要刪除該應用嗎？"
+
+#: content/apps/ucserver/templates/admin/ucenter_list.dwt.php:67
+msgid "没有找到任何记录"
+msgstr "沒有找到任何記錄"
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:24
+msgid "应用类型："
+msgstr "應用類型："
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:35
+msgid "应用名称："
+msgstr "應用名稱："
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:38
+msgid "限 20 字节"
+msgstr "限 20 字節"
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:43
+msgid "应用的主URL："
+msgstr "應用的主URL："
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:48
+msgid ""
+"该应用与 UCenter 通信的接口 URL，结尾请不要"
+"加“/” ，应用的通知只发送给主 URL"
+msgstr ""
+"該應用與 UCenter 通信的接口 URL，結尾請不要"
+"加“/” ，應用的通知只發送給主 URL"
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:52
+msgid "应用IP："
+msgstr "應用IP："
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:55
+msgid ""
+"正常情况下留空即可。如果由于域名解析问题导致 "
+"UCenter 与该应用通信失败，请尝试设置为该应用"
+"所在服务器的 IP 地址"
+msgstr ""
+"正常情況下留空即可。如果由於域名解析問題導致 "
+"UCenter 與該應用通信失敗，請嘗試設置為該應用"
+"所在服務器的 IP 地址"
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:60
+msgid "通信密钥："
+msgstr "通信密鑰："
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:63
+msgid ""
+"只允许使用英文字母及数字，限 64 字节。应用端"
+"的通信密钥必须与此设置保持一致，否则该应用将"
+"无法与 UCenter 正常通信"
+msgstr ""
+"只允許使用英文字母及數字，限 64 字節。應用端"
+"的通信密鑰必須與此設置保持一致，否則該應用將"
+"無法與 UCenter 正常通信"
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:68
+msgid "应用接口文件的名称："
+msgstr "應用接口文件的名稱："
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:71
+msgid ""
+"应用接口文件名称，不含路径，默认为uc.php"
+msgstr ""
+"應用接口文件名稱，不含路徑，默認為uc.php"
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:76
+msgid "是否开启同步登陆："
+msgstr "是否開啟同步登陸："
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:78
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:87
+msgid "是"
+msgstr "是"
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:79
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:88
+msgid "否"
+msgstr "否"
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:80
+msgid ""
+"开启同步登录后，当用户在登录其他应用时，同时"
+"也会登录该应用"
+msgstr ""
+"開啟同步登錄後，當用戶在登錄其他應用時，同時"
+"也會登錄該應用"
+
+#: content/apps/ucserver/templates/admin/ucenter_edit.dwt.php:85
+msgid "是否接受通知："
+msgstr "是否接受通知："
