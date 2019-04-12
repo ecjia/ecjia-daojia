@@ -49,7 +49,7 @@ Plugin Name: 多客服转接
 Plugin URI: http://www.ecjia.com/plugins/ecjia.mp_kefu/
 Description: 使用插件可以玩转客服。
 Author: ECJIA TEAM
-Version: 1.21.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: platform
 Text Domain: mp_kefu

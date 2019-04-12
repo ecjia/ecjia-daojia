@@ -51,7 +51,7 @@ Plugin Name: 计算器
 Plugin URI: http://www.ecjia.com/plugins/ecjia.calculator/
 Description: 小巧、方便、功能强大的后台管理员使用的计算器。
 Author: ECJIA TEAM
-Version: 1.0.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: system
 */

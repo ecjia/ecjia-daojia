@@ -49,7 +49,7 @@ Plugin Name: 积分查询
 Plugin URI: http://www.ecjia.com/plugins/ecjia.mp_jfcx/
 Description: 使用插件可以在微信上查询您的积分。
 Author: ECJIA TEAM
-Version: 1.18.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: platform
 Text Domain: mp_jfcx

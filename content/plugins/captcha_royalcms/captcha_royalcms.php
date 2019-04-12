@@ -51,7 +51,7 @@ Plugin Name: ROYALCMS验证码
 Plugin URI: http://www.ecjia.com/plugins/ecjia.captcha_royalcms/
 Description: ROYALCMS的验证码风格
 Author: ECJIA TEAM
-Version: 1.0.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: captcha
 */

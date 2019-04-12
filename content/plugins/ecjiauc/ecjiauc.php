@@ -4,7 +4,7 @@ Plugin Name: ECJiaUC会员系统
 Plugin URI: http://www.ecjia.com/plugins/ecjia.ecjiauc/
 Description: ECJia UCenter会员系统
 Author: ECJIA TEAM
-Version: 1.28.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: integrate
 */

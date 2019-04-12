@@ -49,7 +49,7 @@ Plugin Name: 用户绑定
 Plugin URI: http://www.ecjia.com/plugins/ecjia.mp_userbind/
 Description: 使用插件可以将微信公众平台用户绑定到本站会员上。
 Author: ECJIA TEAM
-Version: 1.18.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: platform
 Text Domain: mp_userbind

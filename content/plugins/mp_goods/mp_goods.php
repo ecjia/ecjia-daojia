@@ -49,7 +49,7 @@ Plugin Name: 商品推荐
 Plugin URI: http://www.ecjia.com/plugins/ecjia.mp_goods/
 Description: 商品推荐，获得商城的商品信息。
 Author: ECJIA TEAM
-Version: 1.19.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: platform
 Text Domain: mp_goods
