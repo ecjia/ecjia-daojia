@@ -57,14 +57,18 @@ class Error
 	 * @param mixed $data Optional. Error data.
 	 * @return \Royalcms\Component\Error\Error
 	 */
-	public function __construct($code = '', $message = '', $data = '') {
-		if ( empty($code) )
-			return;
+	public function __construct($code = '', $message = '', $data = '')
+    {
+		if ( ! empty($code) )
+        {
+            $this->errors[$code][] = $message;
 
-		$this->errors[$code][] = $message;
+            if ( ! empty($data) )
+            {
+                $this->error_data[$code] = $data;
+            }
+        }
 
-		if ( ! empty($data) )
-			$this->error_data[$code] = $data;
 	}
 
 	/**
@@ -77,7 +81,9 @@ class Error
 	 */
 	public function get_error_codes() {
 		if ( empty($this->errors) )
-			return array();
+        {
+            return array();
+        }
 
 		return array_keys($this->errors);
 	}
@@ -94,7 +100,9 @@ class Error
 		$codes = $this->get_error_codes();
 
 		if ( empty($codes) )
-			return '';
+        {
+            return '';
+        }
 
 		return $codes[0];
 	}
@@ -107,20 +115,27 @@ class Error
 	 * @param string|int $code Optional. Retrieve messages matching code, if exists.
 	 * @return array Error strings on success, or empty array on failure (if using code parameter).
 	 */
-	public function get_error_messages($code = '') {
+	public function get_error_messages($code = '')
+    {
 		// Return all messages if no code specified.
 		if ( empty($code) ) {
 			$all_messages = array();
 			foreach ( (array) $this->errors as $code => $messages )
-				$all_messages = array_merge($all_messages, $messages);
+            {
+                $all_messages = array_merge($all_messages, $messages);
+            }
 
 			return $all_messages;
 		}
 
 		if ( isset($this->errors[$code]) )
-			return $this->errors[$code];
+        {
+            return $this->errors[$code];
+        }
 		else
-			return array();
+        {
+            return array();
+        }
 	}
 
 	/**
@@ -136,10 +151,16 @@ class Error
 	 */
 	public function get_error_message($code = '') {
 		if ( empty($code) )
-			$code = $this->get_error_code();
+        {
+            $code = $this->get_error_code();
+        }
+
 		$messages = $this->get_error_messages($code);
 		if ( empty($messages) )
-			return '';
+        {
+            return '';
+        }
+
 		return $messages[0];
 	}
 
@@ -153,10 +174,15 @@ class Error
 	 */
 	public function get_error_data($code = '') {
 		if ( empty($code) )
-			$code = $this->get_error_code();
+        {
+            $code = $this->get_error_code();
+        }
 
 		if ( isset($this->error_data[$code]) )
-			return $this->error_data[$code];
+        {
+            return $this->error_data[$code];
+        }
+
 		return null;
 	}
 
@@ -170,10 +196,13 @@ class Error
 	 * @param string $message Error message.
 	 * @param mixed $data Optional. Error data.
 	 */
-	public function add($code, $message, $data = '') {
+	public function add($code, $message, $data = '')
+    {
 		$this->errors[$code][] = $message;
 		if ( ! empty($data) )
-			$this->error_data[$code] = $data;
+        {
+            $this->error_data[$code] = $data;
+        }
 	}
 
 	/**
@@ -186,9 +215,12 @@ class Error
 	 * @param mixed $data Error data.
 	 * @param string|int $code Error code.
 	 */
-	public function add_data($data, $code = '') {
+	public function add_data($data, $code = '')
+    {
 		if ( empty($code) )
-			$code = $this->get_error_code();
+        {
+            $code = $this->get_error_code();
+        }
 
 		$this->error_data[$code] = $data;
 	}
@@ -203,9 +235,13 @@ class Error
 	 * @param mixed $thing Check if unknown variable is a RC_Error object.
 	 * @return bool True, if RC_Error. False, if not RC_Error.
 	 */
-	public static function is_error($thing) {
+	public static function is_error($thing)
+    {
 	    if ( is_object($thing) && is_a($thing, '\Royalcms\Component\Error\Error') )
-	        return true;
+        {
+            return true;
+        }
+
 	    return false;
 	}
 		
