@@ -47,31 +47,52 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 获取连接用户信息
- * @author royalwang
+ * Class connect_user_bind_module
+ * 用户绑定第三方账号
  */
-class connect_connect_user_api extends Component_Event_Api {
-    
-    /**
-     * 参数列表
-     * @param connect_code  插件代号
-     * @param open_id       第三方帐号绑定唯一值
-     * @param user_type     用户类型，选填，默认user，user:普通用户，merchant:商家，admin:管理员
-     * @see Component_Event_Api::call()
-     * @return \Ecjia\App\Connect\ConnectUser | ecjia_error
-     */
-    public function call(&$options) {
-        if (!array_get($options, 'connect_code') || !array_get($options, 'open_id')) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'connect'). ' connect_connect_user_api');
-        }
-        
-        $user_type = array_get($options, 'user_type', 'user');
-        
-        $connect_code   = $options['connect_code'];
-        $open_id        = $options['open_id'];
-        $connect_user   = new \Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
-        return $connect_user;
-    }
+class connect_user_bind_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
+    	$this->authSession();	
+		$open_id      	= $this->requestData('openid');
+        $union_id      	= $this->requestData('unionid');
+		$connect_code 	= $this->requestData('code');    //第三方平台code
+		$profile	  	= $this->requestData('profile');
+		$user_id 		= $_SESSION['user_id'];
+		
+		if (empty($open_id) || empty($connect_code)) {
+			return new ecjia_error('invalid_parameter', __('参数错误', 'connect'));
+		}
+
+		$connect_user = new \Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
+		$connect_handle = with(new \Ecjia\App\Connect\ConnectPlugin)->channel($connect_code);
+		$connect_platform = $connect_handle->loadConfig('connect_platform');
+		$connect_user->setConnectPlatform($connect_platform);
+		$connect_user->setUnionId($union_id);
+		
+		if ($connect_user->checkUser()) {
+			return new ecjia_error('connect_userbind', __('您已绑定过会员用户！', 'connect'));
+		}
+		
+		/* 用户帐号是否已被关联使用过*/
+		$connect_user_exit = RC_DB::table('connect_user')->where('connect_code', $connect_code)->where('user_type', 'user')->where('user_id', $_SESSION['user_id'])->first();
+		if (!empty($connect_user_exit)) {
+			return new ecjia_error('connect_userbind', __('您已绑定过会员用户！', 'connect'));
+		}
+		
+		$connect_user = RC_Api::api('connect', 'connect_user_bind', [
+				'connect_code'     => $connect_code,
+				'open_id'          => $open_id,
+				'union_id'         => $union_id,
+				'profile'          => $profile,
+				'user_id'		   => $user_id,		   
+				]);
+		
+		if (is_ecjia_error($connect_user)) {
+			return $connect_user;
+		}
+
+		return array();
+	}
 }
 
 // end

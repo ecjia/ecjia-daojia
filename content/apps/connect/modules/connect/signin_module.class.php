@@ -70,16 +70,6 @@ class connect_signin_module extends api_front implements api_interface
             return new ecjia_error('invalid_parameter', __('参数错误', 'connect'));
         }
 
-        RC_Logger::getlogger('info')->info([
-            'file' => __FILE__,
-            'line' => __LINE__,
-            'content' => $_POST,
-            'device' => $device,
-            'api_version' => $api_version,
-            'open_id' => $open_id,
-            'union_id' => $union_id,
-        ]);
-
         /**
          * $code
          * sns_qq
@@ -119,12 +109,7 @@ class connect_signin_module extends api_front implements api_interface
             if(is_ecjia_error($user_info)) {
                 return $user_info;
             }
-            RC_Logger::getlogger('info')->info([
-                'file' => __FILE__,
-                'line' => __LINE__,
-                'name' => 'connect_user_info',
-                'content' => [$user_info['id']=>$user_info['name']],
-            ]);
+
             if(empty($user_info)) {
                 return new ecjia_error('empty_user_info', __('用户信息异常', 'connect'));
             }
@@ -174,9 +159,12 @@ class connect_signin_module extends api_front implements api_interface
          */
         $connect_user = new Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
         $connect_user->setUnionId($union_id);
-        //通过union_id同步已绑定的用户信息
+
+        //通过union_id,open_id同步已绑定的用户信息
         if($union_id) {
             $connect_user->bindUserByUnionId();
+        } else {
+            $connect_user->bindUserByOpenId();
         }
 
         if(is_ecjia_error($connect_user)) {

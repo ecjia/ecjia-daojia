@@ -60,16 +60,14 @@ class connect_signup_module extends api_front implements api_interface {
 		$profile	  = $this->requestData('profile');
 		$api_version   = $this->request->header('api-version');
 		
-		/*兼容1.17版本*/
-		if (version_compare($api_version, '1.17', '>=')) {
-			if (empty($open_id) || empty($connect_code) || (empty($username) && empty($mobile))) {
-				return new ecjia_error('invalid_parameter', __('参数错误', 'connect'));
-			}
-		} else {
-			if (empty($open_id) || empty($password) || empty($connect_code)) {
-				return new ecjia_error('invalid_parameter', __('参数错误', 'connect'));
-			}
+		/*兼容1.17之前版本*/
+		if (version_compare($api_version, '1.17', '<')) {
+		    return $this->versionLessThan_0117();
 		}
+
+        if (empty($open_id) || empty($connect_code) || (empty($username) && empty($mobile))) {
+            return new ecjia_error('invalid_parameter', __('参数错误', 'connect'));
+        }
 		
 		$connect_user = new \Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
 		if ($connect_user->checkUser()) {
@@ -105,31 +103,29 @@ class connect_signup_module extends api_front implements api_interface {
 			}
 		}
 		
-		/*兼容1.17*/
-		if (version_compare($api_version, '1.17', '>=')) {
-			if (!empty($username) && empty($mobile)) {
-				/* 判断是否为手机号*/
-			    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($username);
-			    if($check_mobile === true) {
-// 				if (is_numeric($username) && strlen($username) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $username)) {
-					/* 生成用户名*/
-					$mobile = $username;
-					$username = substr_replace($username,'****',3,4);
-				}
-			} elseif (!empty($mobile) && empty($username)) {
-				/* 判断是否为手机号*/
-			    $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
-			    if($check_mobile === true) {
-// 				if (is_numeric($mobile) && strlen($mobile) == 11 && preg_match('/^1(3|4|5|6|7|8|9)\d{9}$/', $mobile)) {
-					/* 生成用户名*/
-					$username = substr_replace($mobile,'****',3,4);
-				}
-			}
-		} else {
-			if (ecjia_integrate::checkUser($username)) {
-				$username = $username . rc_random(4, 'abcdefghijklmnopqrstuvwxyz0123456789');
-			}
-		}
+        if (!empty($username) && empty($mobile)) {
+            /* 判断是否为手机号*/
+            $check_mobile = Ecjia\App\Sms\Helper::check_mobile($username);
+            if($check_mobile === true) {
+                /* 生成用户名*/
+                $mobile = $username;
+                $username = substr_replace($username,'****',3,4);
+                if (ecjia_integrate::checkUser($username)) {
+                    $username = $username . rand(0, 9);
+                }
+            }
+        } elseif (!empty($mobile) && empty($username)) {
+            /* 判断是否为手机号*/
+            $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
+            if($check_mobile === true) {
+                /* 生成用户名*/
+                $username = substr_replace($mobile,'****',3,4);
+                if (ecjia_integrate::checkUser($username)) {
+                    $username = $username . rand(0, 9);
+                }
+            }
+        }
+
 		
 		//新用户注册并登录
 		$email = rc_random(8, 'abcdefghijklmnopqrstuvwxyz0123456789').'@'.$connect_code.'.com';
@@ -137,9 +133,17 @@ class connect_signup_module extends api_front implements api_interface {
 		$result = ecjia_integrate::addUser($username, $password, $email, $mobile);
 
 		if ($result) {
-
             ecjia_integrate::setSession($username);
-			ecjia_integrate::setCookie($username);
+            ecjia_integrate::setCookie($username);
+
+            $connect_user->bindUser($_SESSION['user_id']);
+
+            $user_info = \Ecjia\App\User\UserInfoFunction::EM_user_info($_SESSION['user_id']);
+            //会员登录后，相关信息处理
+            (new \Ecjia\App\User\UserManager())->apiLoginSuccessHook([
+                'user_id'   => $user_info['id'],
+                'user_name' => $user_info['name'],
+            ]);
 
 			/* 注册送积分 */
 			if (ecjia_config::has('register_points')) {
@@ -149,7 +153,7 @@ class connect_signup_module extends api_front implements api_interface {
 					'pay_points'	=> ecjia::config('register_points'),
 					'change_desc'	=> __('注册送积分', 'connect')
 				);
-				$result = RC_Api::api('user', 'account_change_log',$options);
+				$result = RC_Api::api('user', 'account_change_log', $options);
 			}
 
 			if (!empty($mobile)) {
@@ -157,17 +161,6 @@ class connect_signup_module extends api_front implements api_interface {
 			}
 			RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update(array('reg_time' => RC_Time::gmtime()));
 			
-			$curr_time = RC_Time::gmtime();
-			$data = array(
-				'connect_code'	=> $connect_user->getConnectCode(),
-				'open_id'		=> $connect_user->getOpenId(),
-				'create_at'     => $curr_time,
-				'user_id'		=> $_SESSION['user_id'],
-			);
-			if (!empty($profile)) {
-				$data['profile'] = serialize($profile);
-			}
-			RC_DB::table('connect_user')->insert($data);
 			if (!empty($profile['avatar_img'])) {
 				/* 获取远程用户头像信息*/
 				RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['avatar_img']));
@@ -199,38 +192,10 @@ class connect_signup_module extends api_front implements api_interface {
 				RC_Api::api('affiliate', 'invite_bind', array('invite_code' => $invite_code, 'mobile' => $mobile));
 			}
 			
-			//ecjia账号同步登录用户信息更新
-			$connect_options = [
-				'connect_code'  => 'app',
-				'user_id'       => $_SESSION['user_id'],
-				'is_admin'      => '0',
-				'user_type'     => 'user',
-				'open_id'       => md5(RC_Time::gmtime() . $_SESSION['user_id']),
-				'access_token'  => RC_Session::session_id(),
-				'refresh_token' => md5($_SESSION['user_id'] . 'user_refresh_token'),
-			];
-			$ecjiaAppUser = RC_Api::api('connect', 'ecjia_syncappuser_add', $connect_options);
-			if (is_ecjia_error($ecjiaAppUser)) {
-				return $ecjiaAppUser;
-			}
-
-			$user_info = \Ecjia\App\User\UserInfoFunction::EM_user_info($_SESSION['user_id']);
-            \Ecjia\App\User\UserInfoFunction::update_user_info(); // 更新用户信息
-            \Ecjia\App\Cart\CartFunction::recalculate_price(); // 重新计算购物车中的商品价格
-
-			unset($_SESSION['bind_code']);
+            unset($_SESSION['bind_code']);
 			unset($_SESSION['bindcode_lifetime']);
 			unset($_SESSION['bind_value']);
 			unset($_SESSION['bind_type']);
-
-            //修正关联设备号
-            RC_Api::api('mobile', 'bind_device_user', array(
-                'device_udid'   => $request->header('device-udid'),
-                'device_client' => $request->header('device-client'),
-                'device_code'   => $request->header('device-code'),
-                'user_type'     => 'user',
-                'user_id'       => $_SESSION['user_id'],
-            ));
 
 			$out = array(
 				'token' => RC_Session::session_id(),
@@ -242,6 +207,183 @@ class connect_signup_module extends api_front implements api_interface {
             return new ecjia_error(ecjia_integrate::getError(), ecjia_integrate::getErrorMessage());
 		}
 	}
+
+    /**
+     * API版本小于1.17的时候
+     */
+    protected function versionLessThan_0117() {
+        $this->authSession();
+        $open_id      = $this->requestData('openid');
+        $connect_code = $this->requestData('code');
+        $username	  = $this->requestData('username');
+        $mobile		  = $this->requestData('mobile');
+        $password	  = $this->requestData('password', '');
+        $device       = $this->device;
+        $invite_code  = $this->requestData('invite_code');
+        $code		  = $this->requestData('validate_code');
+        $profile	  = $this->requestData('profile');
+        $api_version   = $this->request->header('api-version');
+
+        /*兼容1.17版本*/
+        if (empty($open_id) || empty($password) || empty($connect_code)) {
+            return new ecjia_error('invalid_parameter', __('参数错误', 'connect'));
+        }
+
+
+        $connect_user = new \Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
+        $connect_handle = with(new \Ecjia\App\Connect\ConnectPlugin)->channel($connect_code);
+        $connect_platform = $connect_handle->loadConfig('connect_platform');
+        $connect_user->setConnectPlatform($connect_platform);
+        if ($connect_user->checkUser()) {
+            return new ecjia_error('connect_userbind', __('您已绑定过会员用户！', 'connect'));
+        }
+
+        //判断校验码是否过期
+        if (!empty($mobile) && (!isset($_SESSION['bindcode_lifetime']) || $_SESSION['bindcode_lifetime'] + 180 < RC_Time::gmtime())) {
+            //过期
+            return new ecjia_error('code_timeout', __('验证码已过期，请重新获取！', 'connect'));
+        }
+        //判断校验码是否正确
+        if (!empty($mobile) && (!isset($_SESSION['bindcode_lifetime']) || $code != $_SESSION['bind_code'] )) {
+            return new ecjia_error('code_error', __('验证码错误，请重新填写！', 'connect'));
+        }
+
+        /**
+         * $code
+         * login_weibo
+         * sns_qq
+         * sns_wechat
+         * login_mobile
+         * login_mail
+         * login_username
+         * login_alipay
+         * login_taobao
+         **/
+        /* 如有手机号判断手机号是否被绑定过*/
+        if (!empty($mobile)) {
+            $mobile_count = RC_Model::model('user/users_model')->where(array('mobile_phone' => $mobile))->count();
+            if ($mobile_count > 0 ) {
+                return new ecjia_error('mobile_exists', __('您的手机号已使用', 'connect'));
+            }
+        }
+
+        /*兼容1.17*/
+        if (ecjia_integrate::checkUser($username)) {
+            $username = $username . rc_random(4, 'abcdefghijklmnopqrstuvwxyz0123456789');
+        }
+
+        //新用户注册并登录
+        $email = rc_random(8, 'abcdefghijklmnopqrstuvwxyz0123456789').'@'.$connect_code.'.com';
+
+        $result = ecjia_integrate::addUser($username, $password, $email, $mobile);
+
+        if ($result) {
+
+            ecjia_integrate::setSession($username);
+            ecjia_integrate::setCookie($username);
+
+            /* 注册送积分 */
+            if (ecjia_config::has('register_points')) {
+                $options = array(
+                    'user_id'		=> $_SESSION['user_id'],
+                    'rank_points'	=> ecjia::config('register_points'),
+                    'pay_points'	=> ecjia::config('register_points'),
+                    'change_desc'	=> __('注册送积分', 'connect')
+                );
+                $result = RC_Api::api('user', 'account_change_log',$options);
+            }
+
+            if (!empty($mobile)) {
+                RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update(array('mobile_phone' => $mobile));
+            }
+            RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->update(array('reg_time' => RC_Time::gmtime()));
+
+            $curr_time = RC_Time::gmtime();
+            $data = array(
+                'connect_code'	=> $connect_user->getConnectCode(),
+                'connect_platform' => $connect_user->getConnectPlatform(),
+                'open_id'		=> $connect_user->getOpenId(),
+                'create_at'     => $curr_time,
+                'user_id'		=> $_SESSION['user_id'],
+            );
+            if (!empty($profile)) {
+                $data['profile'] = serialize($profile);
+            }
+            RC_DB::table('connect_user')->insert($data);
+            if (!empty($profile['avatar_img'])) {
+                /* 获取远程用户头像信息*/
+                RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['avatar_img']));
+            }
+
+// 			/*注册送红包*/
+// 			RC_Api::api('bonus', 'send_bonus', array('type' => SEND_BY_REGISTER));
+
+            /*客户端没传invite_code时，判断手机号码有没被邀请过*/
+            if (empty($invite_code)) {
+                /*获取邀请记录信息*/
+                $is_invitedinfo = RC_DB::table('invitee_record')
+                    ->where('invitee_phone', $mobile)
+                    ->where('invite_type', 'signup')
+                    ->where('expire_time', '>', RC_Time::gmtime())
+                    ->first();
+                if (!empty($is_invitedinfo)) {
+                    /*获取邀请者的邀请码*/
+                    $invite_code = RC_DB::table('term_meta')
+                        ->where('object_type', 'ecjia.affiliate')
+                        ->where('object_group', 'user_invite_code')
+                        ->where('meta_key', 'invite_code')
+                        ->where('object_id', $is_invitedinfo['invite_id'])
+                        ->pluck('meta_value');
+                }
+            }
+            $result = ecjia_app::validate_application('affiliate');
+            if (!is_ecjia_error($result) && !empty($invite_code)) {
+                RC_Api::api('affiliate', 'invite_bind', array('invite_code' => $invite_code, 'mobile' => $mobile));
+            }
+
+            //ecjia账号同步登录用户信息更新
+            $connect_options = [
+                'connect_code'  => 'app',
+                'user_id'       => $_SESSION['user_id'],
+                'is_admin'      => '0',
+                'user_type'     => 'user',
+                'open_id'       => md5(RC_Time::gmtime() . $_SESSION['user_id']),
+                'access_token'  => RC_Session::session_id(),
+                'refresh_token' => md5($_SESSION['user_id'] . 'user_refresh_token'),
+            ];
+            $ecjiaAppUser = RC_Api::api('connect', 'ecjia_syncappuser_add', $connect_options);
+            if (is_ecjia_error($ecjiaAppUser)) {
+                return $ecjiaAppUser;
+            }
+
+            $user_info = \Ecjia\App\User\UserInfoFunction::EM_user_info($_SESSION['user_id']);
+            \Ecjia\App\User\UserInfoFunction::update_user_info(); // 更新用户信息
+            \Ecjia\App\Cart\CartFunction::recalculate_price(); // 重新计算购物车中的商品价格
+
+            unset($_SESSION['bind_code']);
+            unset($_SESSION['bindcode_lifetime']);
+            unset($_SESSION['bind_value']);
+            unset($_SESSION['bind_type']);
+
+            //修正关联设备号
+            RC_Api::api('mobile', 'bind_device_user', array(
+                'device_udid'   => $device['udid'],
+                'device_client' => $device['client'],
+                'device_code'   => $device['code'],
+                'user_type'     => 'user',
+                'user_id'       => $_SESSION['user_id'],
+            ));
+
+            $out = array(
+                'token' => RC_Session::session_id(),
+                'user'	=> $user_info
+            );
+
+            return $out;
+        } else {
+            return new ecjia_error(ecjia_integrate::getError(), ecjia_integrate::getErrorMessage());
+        }
+    }
 	
 }
 

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App connect 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-15 01:49:03+00:00\n"
+"POT-Creation-Date: 2019-04-04 05:54:48+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,11 +28,13 @@ msgstr ""
 msgid "编辑账号连接"
 msgstr ""
 
-#: admin_plugin.php:111 modules/connect/bind_module.class.php:79
+#: admin_plugin.php:111 modules/connect/bind_module.class.php:70
+#: modules/connect/bind_module.class.php:178
 #: modules/connect/signin_module.class.php:70
-#: modules/connect/signin_module.class.php:162
-#: modules/connect/signup_module.class.php:66
-#: modules/connect/signup_module.class.php:70
+#: modules/connect/signin_module.class.php:147
+#: modules/connect/signup_module.class.php:69
+#: modules/connect/signup_module.class.php:229
+#: modules/connect/user/bind_module.class.php:63
 msgid "参数错误"
 msgstr ""
 
@@ -91,17 +93,18 @@ msgstr ""
 #: apis/connect_ecjia_syncappuser_add_api.class.php:73
 #: apis/connect_update_user_avatar_api.class.php:58
 #: apis/connect_user_remove_cleardata_api.class.php:63
-#: modules/connect/unbind_module.class.php:65
+#: modules/connect/unbind_module.class.php:83
+#: modules/connect/unbind_module.class.php:156
 msgid "参数无效"
 msgstr ""
 
-#: apis/connect_connect_user_bind_api.class.php:145
-#: modules/connect/signin_module.class.php:145
-#: modules/connect/signin_module.class.php:214
+#: apis/connect_connect_user_bind_api.class.php:156
+#: modules/connect/signin_module.class.php:130
+#: modules/connect/signin_module.class.php:202
 msgid "请关联或注册一个会员用户！"
 msgstr ""
 
-#: apis/connect_connect_user_bind_api.class.php:166
+#: apis/connect_connect_user_bind_api.class.php:177
 msgid "绑定用户失败"
 msgstr ""
 
@@ -149,37 +152,37 @@ msgstr ""
 msgid "本次任务成功执行%s条数据，还剩下%s条数据未处理。"
 msgstr ""
 
-#: classes/UserCleanHandlers/UserConnectClear.php:37
+#: classes/UserCleanHandlers/UserConnectClear.php:36
 msgid "第三方账号关联"
 msgstr ""
 
-#: classes/UserCleanHandlers/UserConnectClear.php:48
+#: classes/UserCleanHandlers/UserConnectClear.php:47
 msgid "暂无绑定"
 msgstr ""
 
-#: classes/UserCleanHandlers/UserConnectClear.php:51
-#: classes/UserCleanHandlers/UserConnectClear.php:54
-#: classes/UserCleanHandlers/UserConnectClear.php:57
+#: classes/UserCleanHandlers/UserConnectClear.php:50
+#: classes/UserCleanHandlers/UserConnectClear.php:53
+#: classes/UserCleanHandlers/UserConnectClear.php:56
 msgid "已关联"
 msgstr ""
 
-#: classes/UserCleanHandlers/UserConnectClear.php:52
+#: classes/UserCleanHandlers/UserConnectClear.php:51
 msgid "QQ、微信"
 msgstr ""
 
-#: classes/UserCleanHandlers/UserConnectClear.php:55
+#: classes/UserCleanHandlers/UserConnectClear.php:54
 msgid "QQ"
 msgstr ""
 
-#: classes/UserCleanHandlers/UserConnectClear.php:58
+#: classes/UserCleanHandlers/UserConnectClear.php:57
 msgid "微信"
 msgstr ""
 
-#: classes/UserCleanHandlers/UserConnectClear.php:123
+#: classes/UserCleanHandlers/UserConnectClear.php:130
 msgid "用户名是"
 msgstr ""
 
-#: classes/UserCleanHandlers/UserConnectClear.php:123
+#: classes/UserCleanHandlers/UserConnectClear.php:130
 msgid "用户ID是"
 msgstr ""
 
@@ -199,47 +202,60 @@ msgstr ""
 msgid "使用第三方帐号登录功能，第三方登录插件管理与控制。"
 msgstr ""
 
-#: modules/connect/bind_module.class.php:70
-#: modules/connect/signup_module.class.php:82
-#: modules/connect/unbind_module.class.php:130
+#: modules/connect/bind_module.class.php:77
+#: modules/connect/signup_module.class.php:80
+#: modules/connect/signup_module.class.php:244
+#: modules/connect/unbind_module.class.php:135
 msgid "验证码已过期，请重新获取！"
 msgstr ""
 
-#: modules/connect/bind_module.class.php:74
-#: modules/connect/signup_module.class.php:86
-#: modules/connect/unbind_module.class.php:134
+#: modules/connect/bind_module.class.php:81
+#: modules/connect/signup_module.class.php:84
+#: modules/connect/signup_module.class.php:248
+#: modules/connect/unbind_module.class.php:139
 msgid "验证码错误，请重新填写！"
 msgstr ""
 
-#: modules/connect/bind_module.class.php:86
-#: modules/connect/bind_module.class.php:162
-#: modules/connect/signup_module.class.php:76
+#: modules/connect/bind_module.class.php:91
+#: modules/connect/bind_module.class.php:136
+#: modules/connect/bind_module.class.php:188
+#: modules/connect/bind_module.class.php:234
+#: modules/connect/signup_module.class.php:74
+#: modules/connect/signup_module.class.php:238
+#: modules/connect/user/bind_module.class.php:73
+#: modules/connect/user/bind_module.class.php:79
 msgid "您已绑定过会员用户！"
 msgstr ""
 
-#: modules/connect/bind_module.class.php:111
-#: modules/connect/bind_module.class.php:135
+#: modules/connect/bind_module.class.php:115
+#: modules/connect/bind_module.class.php:212
 msgid "用户重复，请与管理员联系！"
 msgstr ""
 
-#: modules/connect/bind_module.class.php:125
-#: modules/connect/bind_module.class.php:154
+#: modules/connect/bind_module.class.php:129
+#: modules/connect/bind_module.class.php:226
 msgid "密码错误！"
 msgstr ""
 
-#: modules/connect/signin_module.class.php:129
+#: modules/connect/bind_module.class.php:145
+msgid "绑定失败！"
+msgstr ""
+
+#: modules/connect/signin_module.class.php:114
 msgid "用户信息异常"
 msgstr ""
 
-#: modules/connect/signup_module.class.php:104
+#: modules/connect/signup_module.class.php:102
+#: modules/connect/signup_module.class.php:266
 msgid "您的手机号已使用"
 msgstr ""
 
-#: modules/connect/signup_module.class.php:150
+#: modules/connect/signup_module.class.php:154
+#: modules/connect/signup_module.class.php:291
 msgid "注册送积分"
 msgstr ""
 
-#: modules/connect/unbind_module.class.php:139
+#: modules/connect/unbind_module.class.php:144
 msgid "接受验证码手机号与用户绑定手机号不同！"
 msgstr ""
 

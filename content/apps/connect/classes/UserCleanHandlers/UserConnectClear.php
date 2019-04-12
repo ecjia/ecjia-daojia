@@ -41,7 +41,7 @@ class UserConnectClear extends UserCleanAbstract
      */
     public function handlePrintData()
     {
-        $count['qq'] = RC_DB::table('connect_user')->where('user_id', $this->user_id)->where('connect_code', 'sns_qq')->count();
+        $count['qq'] = RC_DB::table('connect_user')->where('user_id', $this->user_id)->where('connect_platform', 'qq')->count();
         $count['wx'] = RC_DB::table('connect_user')->where('user_id', $this->user_id)->where('connect_platform', 'wechat')->count();
 
         $html = __('暂无绑定', 'connect');
@@ -72,7 +72,7 @@ HTML;
      */
     public function handleCount()
     {
-        $bind_qq_count = RC_DB::table('connect_user')->where('user_id', $this->user_id)->where('connect_code', 'sns_qq')
+        $bind_qq_count = RC_DB::table('connect_user')->where('user_id', $this->user_id)->where('connect_platform', 'qq')
             ->where('user_type', 'user')
             ->count();
         $bind_wx_count = RC_DB::table('connect_user')->where('user_id', $this->user_id)->where('connect_platform', 'wechat')
@@ -96,6 +96,14 @@ HTML;
         }
 
         RC_DB::table('connect_user')->where('user_id', $this->user_id)->where('connect_code', 'sns_qq')
+            ->where('user_type', 'user')
+            ->delete();
+
+        RC_DB::table('connect_user')->where('user_id', $this->user_id)->where('connect_code', 'sns_wechat')
+            ->where('user_type', 'user')
+            ->delete();
+
+        RC_DB::table('connect_user')->where('user_id', $this->user_id)->where('connect_platform', 'qq')
             ->where('user_type', 'user')
             ->delete();
 

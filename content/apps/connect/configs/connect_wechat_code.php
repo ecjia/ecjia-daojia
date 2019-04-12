@@ -44,34 +44,9 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 获取连接用户信息
- * @author royalwang
- */
-class connect_connect_user_api extends Component_Event_Api {
-    
-    /**
-     * 参数列表
-     * @param connect_code  插件代号
-     * @param open_id       第三方帐号绑定唯一值
-     * @param user_type     用户类型，选填，默认user，user:普通用户，merchant:商家，admin:管理员
-     * @see Component_Event_Api::call()
-     * @return \Ecjia\App\Connect\ConnectUser | ecjia_error
-     */
-    public function call(&$options) {
-        if (!array_get($options, 'connect_code') || !array_get($options, 'open_id')) {
-            return new ecjia_error('invalid_parameter', __('参数无效', 'connect'). ' connect_connect_user_api');
-        }
-        
-        $user_type = array_get($options, 'user_type', 'user');
-        
-        $connect_code   = $options['connect_code'];
-        $open_id        = $options['open_id'];
-        $connect_user   = new \Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
-        return $connect_user;
-    }
-}
 
-// end
+//微信第三方平台code
+
+return ['sns_wechat', 'sns_wechat_shop', 'sns_wechat_bbc', 'sns_wechat_app', 'sns_wechat_weapp', 'sns_wechat_pc'];
+

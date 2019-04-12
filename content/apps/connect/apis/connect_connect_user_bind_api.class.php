@@ -77,7 +77,8 @@ class connect_connect_user_bind_api extends Component_Event_Api
         $open_id          = $options['open_id'];
         $union_id         = $options['union_id'];
         $mobile           = $options['mobile'];
-
+        $user_id		  = $options['user_id'];
+        
         if(empty($connect_platform)) {
             $connect_handle = with(new \Ecjia\App\Connect\ConnectPlugin)->channel($connect_code);
             $connect_platform = $connect_handle->loadConfig('connect_platform');
@@ -87,14 +88,20 @@ class connect_connect_user_bind_api extends Component_Event_Api
         $connect_user->setConnectPlatform($connect_platform);
         $connect_user->setUnionId($union_id);
 
-        //通过union_id同步已绑定的用户信息
-        if ($union_id) {
-            $connect_user->bindUserByUnionId();
+        //通过union_id,open_id同步已绑定的用户信息
+        if($union_id) {
+            $bind_result = $connect_user->bindUserByUnionId();
+        } else {
+            $bind_result =  $connect_user->bindUserByOpenId();
         }
-
+        
         //判断是否绑定用户
         if ($connect_user->checkUser()) {
             $user_id = $connect_user->getUserId();
+            //更新connect_user表profile
+            if (!empty($profile) && !empty($bind_result->id)) {
+            	RC_DB::table('connect_user')->where('id', $bind_result->id)->update(['profile' => serialize($profile)]);
+            }
             //获取远程头像，更新用户头像
             if (!empty($profile['headimgurl']) && !empty($user_id)) {
                 $update_avatar_img = RC_Api::api('connect', 'update_user_avatar', array('avatar_url' => $profile['headimgurl'], 'user_id' => $user_id));
@@ -121,9 +128,13 @@ class connect_connect_user_bind_api extends Component_Event_Api
          */
 //        ecjia_log_debug('connect_user', (array)$connect_user);
 
-        if (! empty($mobile)) {
+        if (! empty($mobile) || !empty($user_id)) {
 
-            $userinfo = RC_Api::api('user', 'get_local_user', array('mobile' => $mobile));
+        	if (! empty($mobile)) {
+        		$userinfo = RC_Api::api('user', 'get_local_user', array('mobile' => $mobile));
+        	} elseif (!empty($user_id)) {
+        		$userinfo = RC_Api::api('user', 'get_local_user', array('user_id' => $user_id));
+        	}
             
             if (is_ecjia_error($userinfo)) {
 

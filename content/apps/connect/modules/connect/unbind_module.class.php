@@ -54,15 +54,13 @@ class connect_unbind_module extends api_front implements api_interface {
     	$this->authSession();	
 		$connect_code = $this->requestData('connect_code'); //sns_qq是QQ，sns_wechat微信
 		$smscode	  = $this->requestData('smscode');
-		$type_arr	  = array('sns_qq', 'sns_wechat');
+		$type_arr	  = config('app-connect::connect_platform_code');
 		
+// 		$api_version = $this->request->header('api-version');
+		 
 		$user_id = $_SESSION['user_id'];
 		if ($user_id <= 0) {
 			return new ecjia_error(100, 'Invalid session');
-		}
-		
-		if (empty($connect_code) || empty($smscode) || !in_array($connect_code, $type_arr)) {
-			return new ecjia_error('invalid_parameter', __('参数无效', 'connect').' connect_unbind_module');
 		}
 		
 		//用户信息
@@ -76,43 +74,50 @@ class connect_unbind_module extends api_front implements api_interface {
 		if (is_ecjia_error($result)) {
 			return $result;
 		}
+		//1.30版本以前解绑是统一解绑
+// 		if (version_compare($api_version, '1.30', '<')) {
+// 			return $this->berforeVersion($connect_code, $smscode, $user_info);
+// 		}
 		
-		//解绑关联第三方账号
-		if($connect_code == 'sns_qq') {
-            RC_DB::table('connect_user')
-                ->where('connect_platform', 'qq')
-                ->where('user_type', 'user')
-                ->where('user_id', $user_id)->delete();
-            RC_DB::table('connect_user')
-                ->where('connect_code', $connect_code)
-                ->where('user_type', 'user')
-                ->where('user_id', $user_id)->delete();
-        } else if ($connect_code == 'sns_wechat') {
-            $user_info = RC_DB::table('connect_user')
-                ->where('connect_platform', 'wechat')
-                ->where('user_type', 'user')
-                ->where('user_id', $user_id)->first();
-            RC_DB::table('connect_user')
-                ->where('connect_platform', 'wechat')
-                ->where('user_type', 'user')
-                ->where('user_id', $user_id)->delete();
-            RC_DB::table('connect_user')
-                ->where('connect_code', $connect_code)
-                ->where('user_type', 'user')
-                ->where('user_id', $user_id)->delete();
-            if($user_info) {
-                RC_DB::table('wechat_user')->where('unionid', $user_info['union_id'])->where('ect_uid', $user_id)->update(['ect_uid' => 0]);
-            } else {
-                //找不到unionid 解绑平台下账号
-                $account = RC_DB::table('platform_account')->where('shop_id', 0)->get();
-                if($account) {
-                    foreach ($account as $row) {
-                        RC_DB::table('wechat_user')->where('wechat_id', $row['id'])->where('ect_uid', $user_id)->update(['ect_uid' => 0]);
-                    }
-                }
-
-            }
-        }
+		if (empty($connect_code) || empty($smscode) || !in_array($connect_code, $type_arr)) {
+			return new ecjia_error('invalid_parameter', __('参数无效', 'connect').' connect_unbind_module');
+		}
+		
+		$connect_user_info = RC_DB::table('connect_user')->where('connect_code', $connect_code)->where('user_type', 'user')->where('user_id', $user_id)->first();
+		
+		//解绑
+		RC_DB::table('connect_user')
+			->where('connect_code', $connect_code)
+			->where('user_type', 'user')
+			->where('user_id', $user_id)->delete();
+			
+		//微信解绑，wechat_user处理
+		$connect_wechat_code = config('app-connect::connect_wechat_code');
+		if (in_array($connect_code, $connect_wechat_code)) {
+			//当前平台是否绑定了微信钱包，是的话，删除绑定的微信钱包
+			$wechat_user_bank = RC_DB::table('withdraw_user_bank')->where('user_id', $user_id)->where('user_type', 'user')->where('bank_type', 'wechat')->first();
+			if (!empty($wechat_user_bank) && $wechat_user_bank['bank_branch_name'] == $connect_code) {
+				RC_DB::table('withdraw_user_bank')->where('id', $wechat_user_bank['id'])->delete();
+			}
+			
+			//没有绑定的微信其他平台，处理wechat_user
+			$wechat_count = RC_DB::table('connect_user')->whereIn('connect_code', $connect_wechat_code)->where('user_type', 'user')->where('user_id', $user_id)->count();
+			if ($wechat_count == 0) {
+				if($connect_user_info) {
+					RC_DB::table('wechat_user')->where('unionid', $connect_user_info['union_id'])->where('ect_uid', $connect_user_info['user_id'])->update(['ect_uid' => 0]);
+				} else {
+					//找不到unionid 解绑平台下账号
+					$account = RC_DB::table('platform_account')->where('shop_id', 0)->get();
+					if($account) {
+						foreach ($account as $row) {
+							RC_DB::table('wechat_user')->where('wechat_id', $row['id'])->where('ect_uid', $connect_user_info['user_id'])->update(['ect_uid' => 0]);
+						}
+					}
+				
+				}
+			}
+		
+		}
 
         return array();
 
@@ -139,6 +144,56 @@ class connect_unbind_module extends api_front implements api_interface {
 			return new ecjia_error('msg_error', __('接受验证码手机号与用户绑定手机号不同！', 'connect'));
 		}
 		return true;
+	}
+	
+	/**
+	 * 1.30以下第三方账号解绑，统一解绑
+	 */
+	protected function berforeVersion($connect_code, $smscode, $user_info)
+	{
+		$type_arr	  = array('sns_qq', 'sns_wechat');
+		if (empty($connect_code) || empty($smscode) || !in_array($connect_code, $type_arr)) {
+			return new ecjia_error('invalid_parameter', __('参数无效', 'connect').' connect_unbind_module');
+		}
+		
+		//解绑关联第三方账号
+		if($connect_code == 'sns_qq') {
+			RC_DB::table('connect_user')
+			->where('connect_platform', 'qq')
+			->where('user_type', 'user')
+			->where('user_id', $user_info['user_id'])->delete();
+			RC_DB::table('connect_user')
+			->where('connect_code', $connect_code)
+			->where('user_type', 'user')
+			->where('user_id', $user_info['user_id'])->delete();
+		} else if ($connect_code == 'sns_wechat') {
+			$user_info = RC_DB::table('connect_user')
+			->where('connect_platform', 'wechat')
+			->where('user_type', 'user')
+			->where('user_id', $user_info['user_id'])->first();
+			RC_DB::table('connect_user')
+			->where('connect_platform', 'wechat')
+			->where('user_type', 'user')
+			->where('user_id', $user_info['user_id'])->delete();
+			RC_DB::table('connect_user')
+			->where('connect_code', $connect_code)
+			->where('user_type', 'user')
+			->where('user_id', $user_info['user_id'])->delete();
+			if($user_info) {
+				RC_DB::table('wechat_user')->where('unionid', $user_info['union_id'])->where('ect_uid', $user_info['user_id'])->update(['ect_uid' => 0]);
+			} else {
+				//找不到unionid 解绑平台下账号
+				$account = RC_DB::table('platform_account')->where('shop_id', 0)->get();
+				if($account) {
+					foreach ($account as $row) {
+						RC_DB::table('wechat_user')->where('wechat_id', $row['id'])->where('ect_uid', $user_info['user_id'])->update(['ect_uid' => 0]);
+					}
+				}
+		
+			}
+		}
+		
+		return array();
 	}
 }
 

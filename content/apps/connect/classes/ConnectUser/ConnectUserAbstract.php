@@ -11,6 +11,7 @@ namespace Ecjia\App\Connect\ConnectUser;
 use Royalcms\Component\Repository\Repositories\AbstractRepository;
 use Ecjia\App\Connect\Models\ConnectUserModel;
 use RC_Time;
+use RC_Logger;
 use Royalcms\Component\Support\Collection;
 
 abstract class ConnectUserAbstract extends AbstractRepository
@@ -188,6 +189,19 @@ abstract class ConnectUserAbstract extends AbstractRepository
     }
 
     /**
+     * 获取用户数据模型集合，通过open_id
+     * @return Collection
+     */
+    public function getUserModelCollectionByOpenId()
+    {
+        return $this->getModel()
+            ->where('open_id', $this->open_id)
+            ->where('connect_platform', $this->connect_platform)
+            ->where('user_type', $this->user_type)
+            ->get();
+    }
+
+    /**
      * 获取用户数据模型集合，通过user_id
      * @return Collection
      */
@@ -270,6 +284,17 @@ abstract class ConnectUserAbstract extends AbstractRepository
                         $item->save();
                     }
                 });
+            } else {
+                //关联同一平台下open_id相同的用户，同时绑定
+                $collection = $this->getUserModelCollectionByOpenId();
+                if ($collection->isNotEmpty()) {
+                    $collection->each(function ($item) use ($user_id) {
+                        if (empty($item->user_id)) {
+                            $item->user_id = $user_id;
+                            $item->save();
+                        }
+                    });
+                }
             }
 
             $model->user_id   = $this->getUserId();
@@ -292,6 +317,39 @@ abstract class ConnectUserAbstract extends AbstractRepository
         $user_id = 0;
 
         $collection = $this->getUserModelCollectionByUnionId();
+
+        if ($collection->isNotEmpty()) {
+
+            $collection->each(function ($item) use (& $user_id) {
+                if (! empty($item->user_id)) {
+                    $user_id = $item->user_id;
+                }
+            });
+
+        }
+
+        if ($user_id) {
+            if (empty($model)) {
+                return $this->createUser($user_id);
+            } else {
+                return $this->bindUser($user_id);
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 绑定用户，通过open_id
+     * @return \Royalcms\Component\Database\Eloquent\Model | bool
+     */
+    public function bindUserByOpenId()
+    {
+        $model = $this->getUserModel();
+
+        $user_id = 0;
+
+        $collection = $this->getUserModelCollectionByOpenId();
 
         if ($collection->isNotEmpty()) {
 
