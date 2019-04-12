@@ -501,7 +501,6 @@ class PushManager extends RC_Object
             $content = $this->content;
             $user = $this->user;
             $devices = $this->user->getDevices();
-            dd($devices);
 
             /**
              * @var $user \Ecjia\App\Mobile\User
