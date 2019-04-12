@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App market 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-06 09:04:39+00:00\n"
+"POT-Creation-Date: 2019-03-20 07:33:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -195,15 +195,19 @@ msgstr ""
 msgid "发放"
 msgstr ""
 
-#: classes/StoreCleanHandlers/StoreMarketActivityClear.php:43
+#: classes/StoreCleanHandlers/StoreMarketActivityClear.php:34
+msgid "公众平台营销活动"
+msgstr ""
+
+#: classes/StoreCleanHandlers/StoreMarketActivityClear.php:44
 msgid "店铺内的公众平台营销活动全部删除"
 msgstr ""
 
-#: classes/StoreCleanHandlers/StoreMarketActivityClear.php:94
+#: classes/StoreCleanHandlers/StoreMarketActivityClear.php:96
 msgid "店铺名是%s"
 msgstr ""
 
-#: classes/StoreCleanHandlers/StoreMarketActivityClear.php:94
+#: classes/StoreCleanHandlers/StoreMarketActivityClear.php:96
 msgid "店铺ID是%s"
 msgstr ""
 
