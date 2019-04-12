@@ -180,10 +180,6 @@ class Uploader extends UploaderAbstract
             return false;
         }
 
-        if (! $upload_file->getError()) {
-            $this->add_error($this->getErrorCode($upload_file->getError()), $this->getErrorMessages($upload_file->getError()));
-        }
-
         /* 检查是否合法上传 */
         if (! $upload_file->isValid()) {
             $this->add_error('is_uploaded_file_by_tmp_name', __('非法上传文件！', 'royalcms'));
@@ -214,6 +210,43 @@ class Uploader extends UploaderAbstract
         return true;
     }
 
+
+    /**
+     * 批量上传文件
+     *
+     * @param array $_FILES 文件名称数组
+     * @param \callback $callback
+     */
+    public function multiUpload($files = null, $callback = null)
+    {
+        if (is_null($files)) {
+            $files = $_FILES;
+        }
+
+        foreach ($files as $key => $file) {
+            $info[$key] = $this->batchUpload($file);
+        }
+
+        return empty($info) ? false : $info;
+    }
+
+    /**
+     * 批量上传文件
+     *
+     * @param array $_FILES 文件名称数组
+     * @param \callback $callback
+     */
+    public function multiUploadByFiles($callback = null)
+    {
+        $files = $_FILES;
+
+        foreach ($files as $key => $file) {
+            $info[$key] = $this->batchUpload($file);
+        }
+
+        return empty($info) ? false : $info;
+    }
+
     /**
      * 批量上传文件
      *
@@ -223,7 +256,7 @@ class Uploader extends UploaderAbstract
      */
     public function batch_upload($files = null)
     {
-        if (null === $files) {
+        if (is_null($files)) {
             $files = $_FILES;
         }
 
@@ -237,9 +270,7 @@ class Uploader extends UploaderAbstract
                 $info = $this->batchUpload($file);
             }
         } else {
-            foreach ($files as $key => $file) {
-                $info[$key] = $this->batchUpload($file);
-            }
+            $info = $this->multiUploadByFiles();
         }
 
         return empty($info) ? false : $info;

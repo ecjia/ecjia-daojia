@@ -224,8 +224,21 @@ abstract class UploaderAbstract
      * 批量上传文件
      *
      * @param array $files 文件名称数组
+     * @param \callback $callback
      */
     abstract public function batchUpload(array $files, $callback = null);
+
+
+    /**
+     * 批量上传文件
+     *
+     * @param array $_FILES 文件名称数组
+     * @param \callback $callback
+     */
+    public function multiUploadByFiles($callback = null)
+    {
+        //...
+    }
 
 
 }

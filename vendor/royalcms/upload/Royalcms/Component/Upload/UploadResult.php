@@ -125,6 +125,14 @@ class UploadResult
     /**
      * @return mixed
      */
+    public function getSaveNameWithOutExtension()
+    {
+        return str_replace('.'.$this->extension, '', $this->save_name);
+    }
+
+    /**
+     * @return mixed
+     */
     public function getSavePath()
     {
         return $this->save_path;

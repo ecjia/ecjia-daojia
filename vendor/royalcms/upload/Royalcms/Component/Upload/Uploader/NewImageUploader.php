@@ -21,7 +21,7 @@ class NewImageUploader extends NewUploader
      * @var array
      */
     protected $default_filetypes = array(
-        'jpg'  => 'image/gif',
+        'jpg'  => 'image/jpg',
         'jpeg' => 'image/jpeg',
         'png'  => 'image/png',
         'gif'  => 'image/x-png',

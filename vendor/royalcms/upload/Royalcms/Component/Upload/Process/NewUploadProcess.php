@@ -8,10 +8,12 @@
 
 namespace Royalcms\Component\Upload\Process;
 
+use BadMethodCallException;
 use RC_Format;
 use RC_Uploader;
 use Royalcms\Component\Upload\UploadProcessAbstract;
 use Royalcms\Component\Upload\UploadResult;
+use Royalcms\Component\Uploader\InvalidFileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class NewUploadProcess extends UploadProcessAbstract
@@ -19,7 +21,7 @@ class NewUploadProcess extends UploadProcessAbstract
 
     /**
      * 单个文件上传
-     * @param string|UploadedFile $file $_FILES的key或UploadedFile
+     * @param array|string|UploadedFile $file $_FILES的key或UploadedFile
      * @return bool|array
      */
     public function upload($file, $callback = null)
@@ -67,25 +69,62 @@ class NewUploadProcess extends UploadProcessAbstract
 
         $fileinfo = $result->toCompatibleArray();
 
-        $filename = RC_Uploader::fromUpload()->toFolder($this->uploader->save_path)
-            ->setReplace($this->uploader->replace)
-            ->setUploadSaveCallback(function ($provider, $filename) use ($fileinfo) {
-
-                $saving_callback = $this->uploader->getUploadSavingCallback();
-
-                return $saving_callback($fileinfo, $filename);
-            })
-            ->renameTo($savename)
-            ->upload($upload_file, $callback);
+        $filename = $this->uploader($result, $upload_file, $callback);
 
         if ($filename) {
 
             $this->uploader->uploadedSuccessProcess($fileinfo);
 
             return $fileinfo;
+        } else {
+            return false;
         }
 
-        return false;
+    }
+
+    /**
+     * @param UploadResult $result
+     * @param UploadedFile $upload_file
+     * @param null $callback
+     * @return mixed
+     */
+    protected function uploader(UploadResult $result, UploadedFile $upload_file, $callback = null)
+    {
+        $fileinfo = $result->toCompatibleArray();
+        $savename = $result->getSaveNameWithOutExtension();
+
+        try {
+            $uploader = RC_Uploader::fromUpload()->toFolder($this->uploader->save_path)
+                ->setReplace($this->uploader->replace)
+                ->renameTo($savename);
+
+            if ($this->uploader->getUploadSavingCallback()) {
+                $uploader->setUploadSavingCallback(function ($provider, $filename) use ($fileinfo) {
+
+                    $saving_callback = $this->uploader->getUploadSavingCallback();
+
+                    return call_user_func($saving_callback, $fileinfo, $filename);
+                });
+            }
+
+            $filename = $uploader->upload($upload_file, $callback);
+
+            if ($filename === false) {
+                $this->uploader->add_error('file_upload_saving_error', __('写入文件失败！', 'royalcms'));
+                return false;
+            }
+
+            return $filename;
+        }
+        catch (InvalidFileException $e) {
+            $this->uploader->add_error('file_upload_saving_error', $e->getMessage());
+            return false;
+        }
+        catch (BadMethodCallException $e) {
+            $this->uploader->add_error('file_upload_saving_error', $e->getMessage());
+            return false;
+        }
+
     }
 
 

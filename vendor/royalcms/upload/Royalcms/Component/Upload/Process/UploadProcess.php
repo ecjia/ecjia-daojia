@@ -86,9 +86,10 @@ class UploadProcess extends UploadProcessAbstract
             $this->uploader->uploadedSuccessProcess($fileinfo);
 
             return $fileinfo;
+        } else {
+            return false;
         }
 
-        return false;
     }
 
     /**

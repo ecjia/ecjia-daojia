@@ -12,6 +12,7 @@ use Royalcms\Component\Upload\Uploader\CustomUploader;
 use Royalcms\Component\Upload\Uploader\ImageUploader;
 use Royalcms\Component\Upload\Uploader\NewImageUploader;
 use Royalcms\Component\Upload\Uploader\NewUploader;
+use Royalcms\Component\Upload\Uploader\TempImageUploader;
 use Royalcms\Component\Upload\Uploader\Uploader;
 
 /**
@@ -23,6 +24,15 @@ use Royalcms\Component\Upload\Uploader\Uploader;
 class Upload
 {
 
+    protected static $drivers = [
+        'image'     => ImageUploader::class,
+        'custom'    => CustomUploader::class,
+        'new'       => NewUploader::class,
+        'newimage'  => NewImageUploader::class,
+        'tempimage' => TempImageUploader::class,
+        'default'   => Uploader::class,
+    ];
+
     /**
      * 获取上传对象
      *
@@ -32,22 +42,12 @@ class Upload
      */
     public static function uploader($type, $options = array())
     {
-        // 实例化上传类
-        if ($type == 'image') {
-            $uploader = new ImageUploader($options);
+        $class = self::$drivers[$type];
+        if (empty($class)) {
+            $class = self::$drivers['default'];
         }
-        elseif ($type == 'custom') {
-            $uploader = new CustomUploader($options);
-        }
-        elseif ($type == 'new') {
-            $uploader = new NewUploader($options);
-        }
-        elseif ($type == 'newimage') {
-            $uploader = new NewImageUploader($options);
-        }
-        else {
-            $uploader = new Uploader($options);
-        }
+
+        $uploader = new $class($options);
 
         $uploader->add_sub_dirname_callback(array( __CLASS__, 'upload_sub_dir' ));
         $uploader->add_filename_callback(array( __CLASS__, 'random_filename' ));
