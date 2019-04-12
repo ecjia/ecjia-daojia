@@ -477,8 +477,8 @@ class merchant extends ecjia_merchant
         if (empty($mobile)) {
             return $this->showmessage(__('请输入手机号码', 'merchant'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('type' => $type));
         }
-        $code    = rand(100000, 999999);
-        $options = array(
+        $code     = rand(100000, 999999);
+        $options  = array(
             'mobile' => $mobile,
             'event'  => 'sms_get_validate',
             'value'  => array(
@@ -847,15 +847,15 @@ class merchant extends ecjia_merchant
         $time_str = '';
         $year     = intval($time['y']);
         if (!empty($year)) {
-            $time_str .= $year . '年';
+            $time_str .= $year . __('年', 'merchant');
         }
         $month = intval($time['m']);
         if (!empty($month)) {
-            $time_str .= $month . '个月';
+            $time_str .= $month . __('个月', 'merchant');
         }
         $day = intval($time['d']);
         if (!empty($day)) {
-            $time_str .= $day . '天';
+            $time_str .= $day . __('天', 'merchant');
         }
         return $time_str;
     }

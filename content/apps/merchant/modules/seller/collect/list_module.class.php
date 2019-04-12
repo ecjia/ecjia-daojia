@@ -98,66 +98,96 @@ class seller_collect_list_module extends api_front implements api_interface {
         }
 		$list = array();
 		if ( !empty ($result)) {
-			$mobilebuy_db = RC_Model::model('goods/goods_activity_model');
+// 			$mobilebuy_db = RC_Model::model('goods/goods_activity_model');
 			foreach ($result as $row) {
-				$options = array(
-						'intro'		=> 'new',
-						'seller_id' => $row['seller_id'],
-						'page'		=> 1,
-						'size'		=> 3,
-				);
-
-				$result = RC_Api::api('goods', 'goods_list', $options);
 				$goods_list = array();
-				if (!empty($result['list'])) {
-					/* 手机专享*/
-					$result_mobilebuy = ecjia_app::validate_application('mobilebuy');
-					$is_active        = ecjia_app::is_active('ecjia.mobilebuy');
-					foreach ($result['list'] as $val) {
-						/* 判断是否有促销价格*/
-						$price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_promote_price'] : $val['unformatted_shop_price'];
-						$activity_type = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? 'PROMOTE_GOODS' : 'GENERAL_GOODS';
-						/* 计算节约价格*/
-						$saving_price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_shop_price'] - $val['unformatted_promote_price'] : (($val['unformatted_market_price'] > 0 && $val['unformatted_market_price'] > $val['unformatted_shop_price']) ? $val['unformatted_market_price'] - $val['unformatted_shop_price'] : 0);
-
-						$mobilebuy_price = $object_id = 0;
-						if (!is_ecjia_error($result_mobilebuy) && $is_active) {
-							$mobilebuy = $mobilebuy_db->find(array(
-									'goods_id'	 => $val['goods_id'],
-									'start_time' => array('elt' => RC_Time::gmtime()),
-									'end_time'	 => array('egt' => RC_Time::gmtime()),
-									'act_type'	 => GAT_MOBILE_BUY,
-							));
-							if (!empty($mobilebuy)) {
-								$ext_info        = unserialize($mobilebuy['ext_info']);
-								$mobilebuy_price = $ext_info['price'];
-								if ($mobilebuy_price < $price) {
-									$val['promote_price'] = price_format($mobilebuy_price);
-									$object_id		      = $mobilebuy['act_id'];
-									$activity_type	      = 'MOBILEBUY_GOODS';
-									$saving_price         = ($val['unformatted_shop_price'] - $mobilebuy_price) > 0 ? $val['unformatted_shop_price'] - $mobilebuy_price : 0;
-								}
-							}
-						}
-
-						$goods_list[] = array(
-								'id'			=> $val['goods_id'],
-								'name'			=> $val['name'],
-								'market_price'	=> $val['market_price'],
-								'shop_price'	=> $val['shop_price'],
-								'promote_price'	=> $val['promote_price'],
-								'img' => array(
-										'thumb'	=> $val['goods_img'],
-										'url'	=> $val['original_img'],
-										'small'	=> $val['goods_thumb']
-								),
-								'activity_type' => $activity_type,
-								'object_id'		=> $object_id,
-								'saving_price'	=>	$saving_price,
-								'formatted_saving_price' => $saving_price > 0 ? '已省'.$saving_price.'元' : '',
-						);
-					}
+				//用户端商品展示基础条件
+				$filters = [
+					'store_unclosed' 		=> 0,    //店铺未关闭的
+					'is_delete'		 		=> 0,	 //未删除的
+					'is_on_sale'	 		=> 1,    //已上架的
+					'is_alone_sale'	 		=> 1,	 //单独销售的
+					'review_status'  		=> 2,    //审核通过的
+					'no_need_cashier_goods'	=> true, //不需要收银台商品和散装商品
+				];
+				//是否展示货品
+				if (ecjia::config('show_product') == 1) {
+					$filters['product'] = true;
 				}
+				//店铺id
+				if (!empty($row['seller_id'])) {
+					$filters['store_id'] = $row['seller_id'];
+				}
+				//平台新品推荐
+				$filters['is_new'] = 1;
+				//会员等级价格
+				$filters['user_rank'] = $_SESSION['user_rank'];
+				$filters['user_rank_discount'] = $_SESSION['discount'];
+				//分页信息
+				$filters['size'] = 3;
+				$filters['page'] = 1;
+				
+				$collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsApiCollection($filters))->getData();
+				$goods_list = $collection['goods_list'];
+				
+// 				$options = array(
+// 						'intro'		=> 'new',
+// 						'seller_id' => $row['seller_id'],
+// 						'page'		=> 1,
+// 						'size'		=> 3,
+// 				);
+
+// 				$result = RC_Api::api('goods', 'goods_list', $options);
+// 				$goods_list = array();
+// 				if (!empty($result['list'])) {
+// 					/* 手机专享*/
+// 					$result_mobilebuy = ecjia_app::validate_application('mobilebuy');
+// 					$is_active        = ecjia_app::is_active('ecjia.mobilebuy');
+// 					foreach ($result['list'] as $val) {
+// 						/* 判断是否有促销价格*/
+// 						$price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_promote_price'] : $val['unformatted_shop_price'];
+// 						$activity_type = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? 'PROMOTE_GOODS' : 'GENERAL_GOODS';
+// 						/* 计算节约价格*/
+// 						$saving_price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_shop_price'] - $val['unformatted_promote_price'] : (($val['unformatted_market_price'] > 0 && $val['unformatted_market_price'] > $val['unformatted_shop_price']) ? $val['unformatted_market_price'] - $val['unformatted_shop_price'] : 0);
+
+// 						$mobilebuy_price = $object_id = 0;
+// 						if (!is_ecjia_error($result_mobilebuy) && $is_active) {
+// 							$mobilebuy = $mobilebuy_db->find(array(
+// 									'goods_id'	 => $val['goods_id'],
+// 									'start_time' => array('elt' => RC_Time::gmtime()),
+// 									'end_time'	 => array('egt' => RC_Time::gmtime()),
+// 									'act_type'	 => GAT_MOBILE_BUY,
+// 							));
+// 							if (!empty($mobilebuy)) {
+// 								$ext_info        = unserialize($mobilebuy['ext_info']);
+// 								$mobilebuy_price = $ext_info['price'];
+// 								if ($mobilebuy_price < $price) {
+// 									$val['promote_price'] = price_format($mobilebuy_price);
+// 									$object_id		      = $mobilebuy['act_id'];
+// 									$activity_type	      = 'MOBILEBUY_GOODS';
+// 									$saving_price         = ($val['unformatted_shop_price'] - $mobilebuy_price) > 0 ? $val['unformatted_shop_price'] - $mobilebuy_price : 0;
+// 								}
+// 							}
+// 						}
+
+// 						$goods_list[] = array(
+// 								'id'			=> $val['goods_id'],
+// 								'name'			=> $val['name'],
+// 								'market_price'	=> $val['market_price'],
+// 								'shop_price'	=> $val['shop_price'],
+// 								'promote_price'	=> $val['promote_price'],
+// 								'img' => array(
+// 										'thumb'	=> $val['goods_img'],
+// 										'url'	=> $val['original_img'],
+// 										'small'	=> $val['goods_thumb']
+// 								),
+// 								'activity_type' => $activity_type,
+// 								'object_id'		=> $object_id,
+// 								'saving_price'	=>	$saving_price,
+// 								'formatted_saving_price' => $saving_price > 0 ? '已省'.$saving_price.'元' : '',
+// 						);
+// 					}
+// 				}
 
 				if(substr($row['shop_logo'], 0, 1) == '.') {
 					$row['shop_logo'] = str_replace('../', '/', $row['shop_logo']);

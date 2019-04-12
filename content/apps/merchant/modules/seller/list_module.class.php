@@ -217,41 +217,71 @@ class seller_list_module extends api_front implements api_interface {
 					
 					//是否需要返回商品数据
 					$goods_store_data = array();
-					$goods_options = array('store_id' => $row['id'], 'cat_id' => $goods_category, 'keywords' => $keywords, 'page' => 1, 'size' => 10);
-					/* 如有查询添加，不限制分页*/
-					if (!empty($goods_category) || !empty($keywords)) {
-						$goods_options['size'] = $goods_options['page'] = 0;
-					}
+					//$goods_options = array('store_id' => $row['id'], 'cat_id' => $goods_category, 'keywords' => $keywords, 'page' => 1, 'size' => 10);
+					
 					if (empty($no_need_goods)) {
 						$goods_list = array();
-						$goods_result = RC_Api::api('goods', 'goods_list', $goods_options);
-						if (!empty($goods_result['list'])) {
-							foreach ($goods_result['list'] as $val) {
-								/* 判断是否有促销价格*/
-								$price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_promote_price'] : $val['unformatted_shop_price'];
-								$activity_type = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? 'PROMOTE_GOODS' : 'GENERAL_GOODS';
-								/* 计算节约价格*/
-								$saving_price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_shop_price'] - $val['unformatted_promote_price'] : (($val['unformatted_market_price'] > 0 && $val['unformatted_market_price'] > $val['unformatted_shop_price']) ? $val['unformatted_market_price'] - $val['unformatted_shop_price'] : 0);
-				
-								$goods_list[] = array(
-										'goods_id'		=> $val['goods_id'],
-										'name'			=> $val['name'],
-										'market_price'	=> $val['market_price'],
-										'shop_price'	=> $val['shop_price'],
-										'promote_price'	=> $val['promote_price'],
-										'img' => array(
-												'thumb'	=> $val['goods_img'],
-												'url'	=> $val['original_img'],
-												'small'	=> $val['goods_thumb']
-										),
-										'activity_type' => $activity_type,
-										'object_id'		=> 0,
-										'saving_price'	=>	$saving_price,
-										'formatted_saving_price' => $saving_price > 0 ? '已省'.$saving_price.'元' : '',
-								);
-							}
+						
+						//用户端商品展示基础条件
+						$filters = [
+							'store_unclosed' 		=> 0,    //店铺未关闭的
+							'is_delete'		 		=> 0,	 //未删除的
+							'is_on_sale'	 		=> 1,    //已上架的
+							'is_alone_sale'	 		=> 1,	 //单独销售的
+							'review_status'  		=> 2,    //审核通过的
+							'no_need_cashier_goods'	=> true, //不需要收银台商品和散装商品
+						];
+						//是否展示货品
+						if (ecjia::config('show_product') == 1) {
+							$filters['product'] = true;
 						}
-						$goods_store_data = array('goods_list' => $goods_list, 'count' => $goods_result['page']->total_records);
+						//店铺id
+						if (!empty($row['id'])) {
+							$filters['store_id'] = $row['id'];
+						}
+						//关键字
+						if (!empty($keywords)) {
+							$filters['keywords'] = $keywords;
+						}
+						//会员等级价格
+						$filters['user_rank'] = $_SESSION['user_rank'];
+						$filters['user_rank_discount'] = $_SESSION['discount'];
+						//分页信息
+						$filters['size'] = $size;
+						$filters['page'] = $page;
+						
+						$collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsApiCollection($filters))->getData();
+						$goods_store_data = array('goods_list' => $collection['goods_list'], 'count' => $collection['pager']->total_records);
+						
+						
+// 						$goods_result = RC_Api::api('goods', 'goods_list', $goods_options);
+// 						if (!empty($goods_result['list'])) {
+// 							foreach ($goods_result['list'] as $val) {
+// 								/* 判断是否有促销价格*/
+// 								$price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_promote_price'] : $val['unformatted_shop_price'];
+// 								$activity_type = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? 'PROMOTE_GOODS' : 'GENERAL_GOODS';
+// 								/* 计算节约价格*/
+// 								$saving_price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_shop_price'] - $val['unformatted_promote_price'] : (($val['unformatted_market_price'] > 0 && $val['unformatted_market_price'] > $val['unformatted_shop_price']) ? $val['unformatted_market_price'] - $val['unformatted_shop_price'] : 0);
+				
+// 								$goods_list[] = array(
+// 										'goods_id'		=> $val['goods_id'],
+// 										'name'			=> $val['name'],
+// 										'market_price'	=> $val['market_price'],
+// 										'shop_price'	=> $val['shop_price'],
+// 										'promote_price'	=> $val['promote_price'],
+// 										'img' => array(
+// 												'thumb'	=> $val['goods_img'],
+// 												'url'	=> $val['original_img'],
+// 												'small'	=> $val['goods_thumb']
+// 										),
+// 										'activity_type' => $activity_type,
+// 										'object_id'		=> 0,
+// 										'saving_price'	=>	$saving_price,
+// 										'formatted_saving_price' => $saving_price > 0 ? '已省'.$saving_price.'元' : '',
+// 								);
+// 							}
+// 						}
+// 						$goods_store_data = array('goods_list' => $goods_list, 'count' => $goods_result['page']->total_records);
 					}
 					
 					$distance = $this->getDistance($location['latitude'], $location['longitude'], $row['location']['latitude'], $row['location']['longitude']);

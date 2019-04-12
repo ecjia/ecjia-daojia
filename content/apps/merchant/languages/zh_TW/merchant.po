@@ -4,33 +4,36 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App merchant 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-29 01:42:02+00:00\n"
+"POT-Creation-Date: 2019-04-03 17:14+0800\n"
+"PO-Revision-Date: 2019-04-03 17:34+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: admin_store_setting.php:86
 msgid "入驻商家"
-msgstr ""
+msgstr "入駐商家"
 
 #: admin_store_setting.php:89
 msgid "自营店铺"
-msgstr ""
+msgstr "自營店鋪"
 
 #: admin_store_setting.php:101
 msgid "请选择您要操作的店铺"
-msgstr ""
+msgstr "請選擇您要操作的店鋪"
 
 #: admin_store_setting.php:106
 msgid "自营店铺列表"
-msgstr ""
+msgstr "自營店鋪列表"
 
 #: admin_store_setting.php:108
 msgid "入驻商家列表"
-msgstr ""
+msgstr "入駐商家列表"
 
 #: admin_store_setting.php:111 admin_store_setting.php:130
 #: apis/merchant_merchant_menu_api.class.php:62
@@ -38,89 +41,89 @@ msgstr ""
 #: apis/merchant_store_menu_api.class.php:58 merchant.php:101 merchant.php:668
 #: merchant.php:669 merchant.php:731 merchant.php:732
 msgid "店铺设置"
-msgstr ""
+msgstr "店鋪設置"
 
 #: admin_store_setting.php:117
 msgid " - 店铺设置"
-msgstr ""
+msgstr " - 店鋪設置"
 
 #: admin_store_setting.php:136 admin_store_setting.php:149
 msgid "编辑入驻商"
-msgstr ""
+msgstr "編輯入駐商"
 
 #: admin_store_setting.php:159
 msgid "参数错误"
-msgstr ""
+msgstr "參數錯誤"
 
 #: admin_store_setting.php:193 merchant.php:216
 msgid "请上传店铺LOGO"
-msgstr ""
+msgstr "請上傳店鋪LOGO"
 
 #: admin_store_setting.php:202 merchant.php:227
 msgid "营业开始时间不能为次日"
-msgstr ""
+msgstr "營業開始時間不能為次日"
 
 #: admin_store_setting.php:205 merchant.php:230
 msgid "营业时间最多为24小时"
-msgstr ""
+msgstr "營業時間最多為24小時"
 
 #: admin_store_setting.php:208 merchant.php:233
 msgid "24小时营业请选择0-24"
-msgstr ""
+msgstr "24小時營業請選擇0-24"
 
 #: admin_store_setting.php:233
 msgid "您没有做任何修改"
-msgstr ""
+msgstr "您沒有做任何修改"
 
 #: admin_store_setting.php:247 merchant.php:272
 msgid "修改店铺基本信息"
-msgstr ""
+msgstr "修改店鋪基本信息"
 
 #: admin_store_setting.php:248 merchant.php:273 merchant.php:464
 msgid "编辑成功"
-msgstr ""
+msgstr "編輯成功"
 
 #: apis/merchant_merchant_menu_api.class.php:58 dashboard.php:53
 #: dashboard.php:56
 msgid "仪表盘"
-msgstr ""
+msgstr "儀表盤"
 
 #: apis/merchant_merchant_menu_api.class.php:60 configs/package.php:55
 msgid "店铺"
-msgstr ""
+msgstr "店鋪"
 
 #: apis/merchant_merchant_menu_api.class.php:63 mh_franchisee.php:102
 #: mh_franchisee.php:189
 msgid "入驻信息"
-msgstr ""
+msgstr "入駐信息"
 
 #: apis/merchant_merchant_menu_api.class.php:64
 #: apis/merchant_merchant_purview_api.class.php:60 mh_franchisee.php:131
 #: mh_franchisee.php:132 mh_franchisee.php:145
 msgid "收款账号"
-msgstr ""
+msgstr "收款賬號"
 
 #: apis/merchant_merchant_menu_api.class.php:65
 #: apis/merchant_merchant_purview_api.class.php:61 merchant.php:393
 #: merchant.php:462
 msgid "店铺打烊"
-msgstr ""
+msgstr "店鋪打烊"
 
 #: apis/merchant_merchant_menu_api.class.php:66
 #: apis/merchant_merchant_purview_api.class.php:62 merchant.php:583
 #: merchant.php:593
 msgid "小程序模板"
-msgstr ""
+msgstr "小程序模板"
 
 #: apis/merchant_merchant_menu_api.class.php:72 merchant.php:632
 #: merchant.php:642
 msgid "PC店铺首页模板"
-msgstr ""
+msgstr "PC店鋪首頁模板"
 
 #: apis/merchant_merchant_purview_api.class.php:58
 #: apis/merchant_merchant_purview_api.class.php:59
 msgid "店铺入驻信息"
-msgstr ""
+msgstr "店鋪入駐信息"
 
 #: apis/merchant_merchant_session_logins_api.class.php:70
 #: modules/admin/merchant/cancel_module.class.php:61
@@ -141,119 +144,119 @@ msgstr ""
 #: modules/seller/collect/create_module.class.php:61
 #: modules/seller/collect/delete_module.class.php:60
 msgid "参数无效"
-msgstr ""
+msgstr "參數無效"
 
 #: classes/ecjia_merchant.class.php:114 classes/ecjia_merchant.class.php:477
 msgid "系统提示"
-msgstr ""
+msgstr "系統提示"
 
 #: classes/ecjia_merchant.class.php:115
 msgid "重新登录"
-msgstr ""
+msgstr "重新登錄"
 
 #: classes/ecjia_merchant.class.php:408
 msgid "操作错误"
-msgstr ""
+msgstr "操作錯誤"
 
 #: classes/ecjia_merchant.class.php:473 classes/ecjia_merchant.class.php:478
 msgid "对不起，您没有执行此项操作的权限！"
-msgstr ""
+msgstr "對不起，您沒有執行此項操作的權限！"
 
 #: classes/ecjia_merchant.class.php:551
 msgid "显示侧边栏"
-msgstr ""
+msgstr "顯示側邊欄"
 
 #: classes/ecjia_merchant.class.php:552
 msgid "隐藏侧边栏"
-msgstr ""
+msgstr "隱藏側邊欄"
 
 #: classes/ecjia_merchant.class.php:553
 msgid "请先输入搜索信息"
-msgstr ""
+msgstr "請先輸入搜索信息"
 
 #: classes/ecjia_merchant.class.php:554
 msgid "未搜索到导航信息"
-msgstr ""
+msgstr "未搜索到導航信息"
 
 #: classes/ecjia_merchant.class.php:555
 msgid "操作成功"
-msgstr ""
+msgstr "操作成功"
 
 #: classes/ecjia_merchant.class.php:556
 msgid "操作失败"
-msgstr ""
+msgstr "操作失敗"
 
 #: classes/ecjia_merchant.class.php:557
 msgid "是否确认跳转？"
-msgstr ""
+msgstr "是否確認跳轉？"
 
 #: classes/ecjia_merchant.class.php:558 configs/jslang.php:63
 msgid "确定"
-msgstr ""
+msgstr "確定"
 
 #: classes/ecjia_merchant.class.php:559 configs/jslang.php:64
 msgid "取消"
-msgstr ""
+msgstr "取消"
 
 #: classes/ecjia_merchant.class.php:560
 msgid "请求失败，错误编号："
-msgstr ""
+msgstr "請求失敗，錯誤編號："
 
 #: classes/ecjia_merchant.class.php:561
 msgid "，错误信息："
-msgstr ""
+msgstr "，錯誤信息："
 
 #: classes/ecjia_merchant.class.php:792
 msgid "版权所有 © 2013-2016 上海商创网络科技有限公司，并保留所有权利。"
-msgstr ""
+msgstr "版權所有 © 2013-2016 上海商創網絡科技有限公司，並保留所有權利。"
 
 #: classes/ecjia_merchant_menu.class.php:86
 msgid "设置快捷菜单"
-msgstr ""
+msgstr "設置快捷菜單"
 
 #: classes/ecjia_merchant_page.class.php:60
 msgid "总计 "
-msgstr ""
+msgstr "總計 "
 
 #: classes/ecjia_merchant_page.class.php:61
 msgid "条记录，分为"
-msgstr ""
+msgstr "條記錄，分為"
 
 #: classes/ecjia_merchant_page.class.php:62
 msgid "页当前第"
-msgstr ""
+msgstr "頁當前第"
 
 #: classes/ecjia_merchant_page.class.php:63
 msgid "页，每页"
-msgstr ""
+msgstr "頁，每頁"
 
 #: classes/ecjia_merchant_page.class.php:64
 msgid " 页"
-msgstr ""
+msgstr " 頁"
 
 #: configs/jslang.php:57
 msgid "次日"
-msgstr ""
+msgstr "次日"
 
 #: configs/jslang.php:58
 msgid "您确定进行该操作吗？"
-msgstr ""
+msgstr "您確定進行該操作嗎？"
 
 #: configs/jslang.php:59
 msgid "参数错误！"
-msgstr ""
+msgstr "參數錯誤！"
 
 #: configs/jslang.php:60
 msgid "必须指定地址源"
-msgstr ""
+msgstr "必須指定地址源"
 
 #: configs/jslang.php:61
 msgid "重新发送"
-msgstr ""
+msgstr "重新发送"
 
 #: configs/jslang.php:62
 msgid "重新发送验证码"
-msgstr ""
+msgstr "重新發送驗證碼"
 
 #: configs/package.php:56
 msgid ""
@@ -261,417 +264,420 @@ msgid ""
 "店铺自定义设置，让店铺商家更好的展示自身风采，在橱窗中展现优质产品，以及使用"
 "导航让消费者更快找到心仪商品，是集宣传信息、优化体验与一体的强大功能。"
 msgstr ""
+"在店鋪設置中商家可以進行店鋪的基本信息設置、店鋪櫥窗設置、店鋪導航欄設置以及"
+"店鋪自定義設置，讓店鋪商家更好的展示自身風采，在櫥窗中展現優質產品，以及使用"
+"導航讓消費者更快找到心儀商品，是集宣傳信息、優化體驗與一體的強大功能。"
 
 #: merchant.php:90 mh_franchisee.php:90
 msgid "我的店铺"
-msgstr ""
+msgstr "我的店鋪"
 
 #: merchant.php:104
 msgid "设置店铺信息"
-msgstr ""
+msgstr "設置店鋪信息"
 
 #: merchant.php:159 merchant.php:685
 msgid "注销店铺"
-msgstr ""
+msgstr "註銷店鋪"
 
 #: merchant.php:262
 msgid "请编辑要修改的内容"
-msgstr ""
+msgstr "請編輯要修改的內容"
 
 #: merchant.php:289
 msgid "店铺导航背景图"
-msgstr ""
+msgstr "店鋪導航背景圖"
 
 #: merchant.php:291
 msgid "店铺LOGO"
-msgstr ""
+msgstr "店鋪LOGO"
 
 #: merchant.php:293
 msgid "店铺顶部Banner图"
-msgstr ""
+msgstr "店鋪頂部Banner圖"
 
 #: merchant.php:299
 msgid "删除"
-msgstr ""
+msgstr "刪除"
 
 #: merchant.php:300
 msgid "成功删除"
-msgstr ""
+msgstr "成功刪除"
 
 #: merchant.php:309 merchant.php:311 merchant.php:312
 msgid "网店信息"
-msgstr ""
+msgstr "網店信息"
 
 #: merchant.php:318
 msgid "该网店信息不存在"
-msgstr ""
+msgstr "網店信息"
 
 #: merchant.php:351 merchant.php:353
 msgid "公告通知"
-msgstr ""
+msgstr "公告通知"
 
 #: merchant.php:390
 msgid "店铺开关"
-msgstr ""
+msgstr "店鋪開關"
 
 #: merchant.php:436 merchant.php:818
 msgid "请输入正确的手机验证码"
-msgstr ""
+msgstr "請輸入正確的手機驗證碼"
 
 #: merchant.php:460
 msgid "店铺营业"
-msgstr ""
+msgstr "店鋪營業"
 
 #: merchant.php:466
 msgid "您未做任何修改"
-msgstr ""
+msgstr "您未做任何修改"
 
 #: merchant.php:468
 msgid "修改失败，请重试！"
-msgstr ""
+msgstr "修改失敗，請重試！"
 
 #: merchant.php:478
 msgid "请输入手机号码"
-msgstr ""
+msgstr "請輸入手機號碼"
 
 #: merchant.php:498
 msgid "手机验证码发送成功，请注意查收"
-msgstr ""
+msgstr "手機驗證碼發送成功，請註意查收"
 
 #: merchant.php:514
 msgid "刷新店铺二维码"
-msgstr ""
+msgstr "刷新店鋪二維碼"
 
 #: merchant.php:520 merchant.php:541
 msgid "刷新成功"
-msgstr ""
+msgstr "刷新成功"
 
 #: merchant.php:535
 msgid "刷新店铺小程序二维码"
-msgstr ""
+msgstr "刷新店鋪小程序二維碼"
 
 #: merchant.php:605 merchant.php:660
 msgid "保存成功"
-msgstr ""
+msgstr "保存成功"
 
 #: merchant.php:614
 msgid "生成APP Banner缩略图成功"
-msgstr ""
+msgstr "生成APP Banner縮略圖成功"
 
 #: merchant.php:616
 msgid "重新生成APP Banner缩略图成功"
-msgstr ""
+msgstr "重新生成APP Banner縮略圖成功"
 
 #: merchant.php:648
 msgid "预览效果"
-msgstr ""
+msgstr "預覽效果"
 
 #: merchant.php:688 merchant.php:735
 msgid "激活店铺"
-msgstr ""
+msgstr "激活店鋪"
 
 #: merchant.php:755
 msgid "您店铺内还有商品，请将店内商品删除后再注销，避免出现新的交易！"
-msgstr ""
+msgstr "您店舖內還有商品，請將店內商品刪除後再註銷，避免出現新的交易！"
 
 #: merchant.php:775
 msgid "您店铺内还有正在交易的订单，请等待订单完成15天后再来注销！"
-msgstr ""
+msgstr "您店舖內還有正在交易的訂單，請等待訂單完成15天后再來註銷！"
 
 #: merchant.php:786
 msgid "您的店铺还有未完成的售后订单，请等待售后流程完成后再来注销！"
-msgstr ""
+msgstr "您的店鋪還有未完成的售後訂單，請等待售後流程完成後再來註銷！"
 
 #: merchant.php:796
 msgid "当前您的店铺资金还没有结清，请您结清后再来注销！"
-msgstr ""
+msgstr "當前您的店鋪資金還沒有結清，請您結清後再來註銷！"
 
 #: merchant.php:799
 msgid "当前您的店铺资金还没有全部取出，请您将资金全部取出后再来注销！"
-msgstr ""
+msgstr "當前您的店鋪資金還沒有全部取出，請您將資金全部取出後再來註銷！"
 
 #: merchant.php:850
 msgid "年"
-msgstr ""
+msgstr "年"
 
 #: merchant.php:854
 msgid "个月"
-msgstr ""
+msgstr "個月"
 
 #: merchant.php:858
 msgid "天"
-msgstr ""
+msgstr "天"
 
 #: mh_franchisee.php:103
 msgid "商家入驻信息"
-msgstr ""
+msgstr "商家入駐信息"
 
 #: mh_franchisee.php:142 mh_franchisee.php:144
 msgid "编辑收款账号"
-msgstr ""
+msgstr "編輯收款賬號"
 
 #: mh_franchisee.php:166
 msgid "请不要提交空值"
-msgstr ""
+msgstr "請不要提交空值"
 
 #: mh_franchisee.php:177
 msgid "修改收款账号"
-msgstr ""
+msgstr "修改收款賬號"
 
 #: mh_franchisee.php:178
 msgid "成功修改收款账号"
-msgstr ""
+msgstr "成功修改收款賬號"
 
 #: mh_franchisee.php:187 mh_franchisee.php:188
 msgid "提交申请"
-msgstr ""
+msgstr "提交申請"
 
 #: mh_franchisee.php:200
 msgid "修改申请"
-msgstr ""
+msgstr "修改申請"
 
 #: mh_franchisee.php:204 mh_franchisee.php:205
 msgid "审核状态"
-msgstr ""
+msgstr "審核狀態"
 
 #: mh_franchisee.php:252
 msgid "店铺名称"
-msgstr ""
+msgstr "店鋪名稱"
 
 #: mh_franchisee.php:253
 msgid "公司名称"
-msgstr ""
+msgstr "公司名稱"
 
 #: mh_franchisee.php:254
 msgid "店铺关键字"
-msgstr ""
+msgstr "店鋪關鍵字"
 
 #: mh_franchisee.php:255
 msgid "店铺分类"
-msgstr ""
+msgstr "店鋪分類"
 
 #: mh_franchisee.php:256
 msgid "负责人"
-msgstr ""
+msgstr "負責人"
 
 #: mh_franchisee.php:257
 msgid "电子邮箱"
-msgstr ""
+msgstr "電子郵箱"
 
 #: mh_franchisee.php:258
 msgid "联系方式"
-msgstr ""
+msgstr "聯系方式"
 
 #: mh_franchisee.php:259
 msgid "省"
-msgstr ""
+msgstr "省"
 
 #: mh_franchisee.php:260
 msgid "市"
-msgstr ""
+msgstr "市"
 
 #: mh_franchisee.php:261
 msgid "区"
-msgstr ""
+msgstr "區"
 
 #: mh_franchisee.php:262
 msgid "街道"
-msgstr ""
+msgstr "街道"
 
 #: mh_franchisee.php:263
 msgid "详细地址"
-msgstr ""
+msgstr "詳細地址"
 
 #: mh_franchisee.php:264
 msgid "证件类型"
-msgstr ""
+msgstr "證件類型"
 
 #: mh_franchisee.php:265
 msgid "证件号码"
-msgstr ""
+msgstr "證件號碼"
 
 #: mh_franchisee.php:266
 msgid "营业执照注册号"
-msgstr ""
+msgstr "營業執照註冊號"
 
 #: mh_franchisee.php:267
 msgid "证件正面"
-msgstr ""
+msgstr "證件正面"
 
 #: mh_franchisee.php:268
 msgid "证件反面"
-msgstr ""
+msgstr "證件反面"
 
 #: mh_franchisee.php:269
 msgid "手持证件照"
-msgstr ""
+msgstr "手持證件照"
 
 #: mh_franchisee.php:270
 msgid "营业执照电子版"
-msgstr ""
+msgstr "營業執照電子版"
 
 #: mh_franchisee.php:271
 msgid "经度"
-msgstr ""
+msgstr "經度"
 
 #: mh_franchisee.php:272
 msgid "纬度"
-msgstr ""
+msgstr "緯度"
 
 #: mh_franchisee.php:302
 msgid "该邮箱已经使用，请填写其他邮箱地址"
-msgstr ""
+msgstr "該郵箱已經使用，請填寫其他郵箱地址"
 
 #: mh_franchisee.php:308
 msgid "该手机号已经使用，请填写其他联系方式"
-msgstr ""
+msgstr "該手機號已經使用，請填寫其他聯系方式"
 
 #: mh_franchisee.php:312
 msgid "请点击获取精准坐标获取店铺经纬度"
-msgstr ""
+msgstr "請點擊獲取精準坐標獲取店鋪經緯度"
 
 #: mh_franchisee.php:355
 msgid "不能为空"
-msgstr ""
+msgstr "不能為空"
 
 #: mh_franchisee.php:402 mh_franchisee.php:403
 msgid "身份证"
-msgstr ""
+msgstr "身份證"
 
 #: mh_franchisee.php:402 mh_franchisee.php:403
 msgid "护照"
-msgstr ""
+msgstr "護照"
 
 #: mh_franchisee.php:402 mh_franchisee.php:403
 msgid "港澳身份证"
-msgstr ""
+msgstr "港澳身份證"
 
 #: mh_franchisee.php:422
 msgid "申请修改入驻信息"
-msgstr ""
+msgstr "申請修改入駐信息"
 
 #: mh_franchisee.php:427
 msgid "申请修改店铺入驻信息"
-msgstr ""
+msgstr "申請修改店鋪入駐信息"
 
 #: mh_franchisee.php:428
 msgid "成功提交申请"
-msgstr ""
+msgstr "成功提交申請"
 
 #: mh_franchisee.php:430
 msgid "提交失败"
-msgstr ""
+msgstr "提交失敗"
 
 #: mh_franchisee.php:444
 msgid "撤销修改入驻信息"
-msgstr ""
+msgstr "撤銷修改入駐信息"
 
 #: mh_franchisee.php:450
 msgid "撤销申请修改店铺入驻信息"
-msgstr ""
+msgstr "撤銷申請修改店鋪入駐信息"
 
 #: mh_franchisee.php:451
 msgid "成功撤销修改"
-msgstr ""
+msgstr "成功撤銷修改"
 
 #: mh_franchisee.php:464
 msgid "请选择省份"
-msgstr ""
+msgstr "請選擇省份"
 
 #: mh_franchisee.php:467
 msgid "请选择城市"
-msgstr ""
+msgstr "請選擇城市"
 
 #: mh_franchisee.php:470
 msgid "请选择地区"
-msgstr ""
+msgstr "請選擇地區"
 
 #: mh_franchisee.php:473
 msgid "请选择街道"
-msgstr ""
+msgstr "請選擇街道"
 
 #: mh_franchisee.php:476
 msgid "请填写详细地址"
-msgstr ""
+msgstr "請填寫詳細地址"
 
 #: mh_franchisee.php:480
 msgid "腾讯地图key不能为空"
-msgstr ""
+msgstr "騰訊地圖key不能為空"
 
 #: modules/admin/merchant/process_module.class.php:64
 #: modules/admin/merchant/signup_module.class.php:85
 #: modules/admin/merchant/validate_module.class.php:105
 msgid "校验码错误！"
-msgstr ""
+msgstr "校驗碼錯誤！"
 
 #: modules/admin/merchant/process_module.class.php:66
 #: modules/admin/merchant/signup_module.class.php:87
 #: modules/admin/merchant/validate_module.class.php:107
 msgid "校验码已过期！"
-msgstr ""
+msgstr "校驗碼已過期！"
 
 #: modules/admin/merchant/process_module.class.php:73
 msgid "您还未申请商家入驻！"
-msgstr ""
+msgstr "您還未申請商家入駐！"
 
 #: modules/admin/merchant/signup_module.class.php:80
 msgid "邮箱地址已经被使用，请填写其他邮箱地址"
-msgstr ""
+msgstr "郵箱地址已經被使用，請填寫其他郵箱地址"
 
 #: modules/admin/merchant/signup_module.class.php:89
 msgid "手机号码已经更改请重新获取验证码"
-msgstr ""
+msgstr "手機號碼已經更改請重新獲取驗證碼"
 
 #: modules/admin/merchant/signup_module.class.php:93
 msgid "店铺名称已存在，请修改"
-msgstr ""
+msgstr "店鋪名稱已存在，請修改"
 
 #: modules/admin/merchant/signup_module.class.php:110
 msgid "您已申请请勿重复申请！"
-msgstr ""
+msgstr "您已申請請勿重復申請！"
 
 #: modules/admin/merchant/signup_module.class.php:113
 msgid "该手机号码已被注册为店铺员工"
-msgstr ""
+msgstr "該手機號碼已被註冊為店鋪員工"
 
 #: modules/admin/merchant/validate_module.class.php:74
 msgid "验证码错误"
-msgstr ""
+msgstr "驗證碼錯誤"
 
 #: modules/admin/merchant/validate_module.class.php:83
 msgid "您还未申请入驻！"
-msgstr ""
+msgstr "您還未申請入駐！"
 
 #: modules/admin/merchant/validate_module.class.php:93
 #: modules/admin/merchant/validate_module.class.php:95
 #: modules/admin/merchant/validate_module.class.php:98
 msgid "手机号"
-msgstr ""
+msgstr "手機號"
 
 #: modules/admin/merchant/validate_module.class.php:93
 #: modules/admin/merchant/validate_module.class.php:95
 msgid "已被申请，请确认该账号是否为本人所有"
-msgstr ""
+msgstr "已被申請，請確認該賬號是否為本人所有"
 
 #: modules/admin/merchant/validate_module.class.php:98
 msgid "已被注册为店铺员工"
-msgstr ""
+msgstr "已被註冊為店鋪員工"
 
 #: modules/admin/merchant/validate_module.class.php:109
 msgid "校验成功！"
-msgstr ""
+msgstr "校驗成功！"
 
 #: modules/admin/merchant/validate_module.class.php:113
 msgid "您发送验证码的频率过高，请稍等一分钟！"
-msgstr ""
+msgstr "您發送驗證碼的頻率過高，請稍等一分鐘！"
 
 #: modules/admin/merchant/validate_module.class.php:136
 msgid "验证码发送失败！"
-msgstr ""
+msgstr "驗證碼發送失敗！"
 
 #: modules/admin/merchant/validate_module.class.php:138
 msgid "验证码发送成功！"
-msgstr ""
+msgstr "驗證碼發送成功！"
 
 #: modules/merchant/config_module.class.php:142
 #: modules/merchant/config_module.class.php:151
@@ -694,7 +700,7 @@ msgstr ""
 #: modules/seller/search_module.class.php:128
 #: modules/seller/search_module.class.php:135
 msgid "满减"
-msgstr ""
+msgstr "滿減"
 
 #: modules/merchant/config_module.class.php:142
 #: modules/merchant/config_module.class.php:151
@@ -717,41 +723,41 @@ msgstr ""
 #: modules/seller/search_module.class.php:128
 #: modules/seller/search_module.class.php:135
 msgid "满折"
-msgstr ""
+msgstr "滿折"
 
 #: modules/merchant/goods/list_module.class.php:134
 #: modules/merchant/goods/storebuy/list_module.class.php:135
 #: modules/merchant/goods/storebuy/suggestlist_module.class.php:140
 #: modules/merchant/goods/suggestlist_module.class.php:141
 msgid "已省"
-msgstr ""
+msgstr "已省"
 
 #: modules/merchant/goods/list_module.class.php:134
 #: modules/merchant/goods/storebuy/list_module.class.php:135
 #: modules/merchant/goods/storebuy/suggestlist_module.class.php:140
 #: modules/merchant/goods/suggestlist_module.class.php:141
 msgid "元"
-msgstr ""
+msgstr "元"
 
 #: modules/seller/collect/create_module.class.php:65
 msgid "该店铺已收藏！"
-msgstr ""
+msgstr "該店鋪已收藏！"
 
 #: modules/seller/collect/create_module.class.php:71
 msgid "店铺不存在！"
-msgstr ""
+msgstr "店鋪不存在！"
 
 #: content/apps/merchant/templates/admin/store_setting_edit.dwt.php:35
 #: content/apps/merchant/templates/admin/store_setting.dwt.php:42
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:66
 msgid "店铺LOGO："
-msgstr ""
+msgstr "店鋪LOGO："
 
 #: content/apps/merchant/templates/admin/store_setting_edit.dwt.php:44
 #: content/apps/merchant/templates/admin/store_setting_edit.dwt.php:65
 #: content/apps/merchant/templates/admin/store_setting_edit.dwt.php:86
 msgid "更换图片"
-msgstr ""
+msgstr "更換圖片"
 
 #: content/apps/merchant/templates/admin/store_setting_edit.dwt.php:46
 #: content/apps/merchant/templates/admin/store_setting_edit.dwt.php:67
@@ -764,7 +770,7 @@ msgstr ""
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:76
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:98
 msgid "浏览"
-msgstr ""
+msgstr "瀏覽"
 
 #: content/apps/merchant/templates/admin/store_setting_edit.dwt.php:48
 #: content/apps/merchant/templates/admin/store_setting_edit.dwt.php:69
@@ -777,67 +783,67 @@ msgstr ""
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:77
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:99
 msgid "修改"
-msgstr ""
+msgstr "修改"
 
 #: content/apps/merchant/templates/admin/store_setting_edit.dwt.php:56
 #: content/apps/merchant/templates/admin/store_setting.dwt.php:46
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:88
 msgid "店铺顶部Banner图："
-msgstr ""
+msgstr "店鋪頂部Banner圖："
 
 #: content/apps/merchant/templates/admin/store_setting_edit.dwt.php:77
 #: content/apps/merchant/templates/admin/store_setting.dwt.php:50
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:45
 msgid "店铺导航背景图："
-msgstr ""
+msgstr "店鋪導航背景圖："
 
 #: content/apps/merchant/templates/admin/store_setting_edit.dwt.php:99
 msgid "店铺营业时间："
-msgstr ""
+msgstr "店鋪營業時間："
 
 #: content/apps/merchant/templates/admin/store_setting_edit.dwt.php:103
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:169
 msgid "拖拽选取营业时间段"
-msgstr ""
+msgstr "拖拽選取營業時間段"
 
 #: content/apps/merchant/templates/admin/store_setting_edit.dwt.php:107
 #: content/apps/merchant/templates/admin/store_setting.dwt.php:56
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:174
 msgid "客服电话："
-msgstr ""
+msgstr "客服電話："
 
 #: content/apps/merchant/templates/admin/store_setting_edit.dwt.php:114
 #: content/apps/merchant/templates/admin/store_setting.dwt.php:60
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:188
 msgid "店铺简介："
-msgstr ""
+msgstr "店鋪簡介："
 
 #: content/apps/merchant/templates/admin/store_setting_edit.dwt.php:121
 #: content/apps/merchant/templates/admin/store_setting.dwt.php:64
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:181
 msgid "店铺公告："
-msgstr ""
+msgstr "店鋪公告："
 
 #: content/apps/merchant/templates/admin/store_setting_edit.dwt.php:131
 #: content/apps/merchant/templates/merchant/merchant_receipt_edit.dwt.php:105
 msgid "更新"
-msgstr ""
+msgstr "更新"
 
 #: content/apps/merchant/templates/admin/store_setting.dwt.php:19
 #: content/apps/merchant/templates/merchant/merchant_receipt.dwt.php:83
 msgid "编辑"
-msgstr ""
+msgstr "編輯"
 
 #: content/apps/merchant/templates/admin/store_setting.dwt.php:54
 #: content/apps/merchant/templates/merchant/mh_switch.dwt.php:51
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:164
 msgid "营业时间："
-msgstr ""
+msgstr "營業時間："
 
 #: content/apps/merchant/templates/merchant/merchant_receipt.dwt.php:31
 #: content/apps/merchant/templates/merchant/merchant_receipt_edit.dwt.php:38
 msgid "收款银行："
-msgstr ""
+msgstr "收款銀行："
 
 #: content/apps/merchant/templates/merchant/merchant_receipt.dwt.php:36
 #: content/apps/merchant/templates/merchant/merchant_receipt.dwt.php:46
@@ -851,40 +857,40 @@ msgstr ""
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:135
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:159
 msgid "还未填写"
-msgstr ""
+msgstr "還未填寫"
 
 #: content/apps/merchant/templates/merchant/merchant_receipt.dwt.php:41
 #: content/apps/merchant/templates/merchant/merchant_receipt_edit.dwt.php:51
 msgid "银行账号："
-msgstr ""
+msgstr "銀行賬號："
 
 #: content/apps/merchant/templates/merchant/merchant_receipt.dwt.php:51
 #: content/apps/merchant/templates/merchant/merchant_receipt_edit.dwt.php:64
 msgid "账户名称："
-msgstr ""
+msgstr "賬戶名稱："
 
 #: content/apps/merchant/templates/merchant/merchant_receipt.dwt.php:61
 #: content/apps/merchant/templates/merchant/merchant_receipt_edit.dwt.php:77
 msgid "开户银行支行名称："
-msgstr ""
+msgstr "開戶銀行支行名稱："
 
 #: content/apps/merchant/templates/merchant/merchant_receipt.dwt.php:71
 #: content/apps/merchant/templates/merchant/merchant_receipt_edit.dwt.php:90
 msgid "开户银行支行地址："
-msgstr ""
+msgstr "開戶銀行支行地址："
 
 #: content/apps/merchant/templates/merchant/showmessage.dwt.php:16
 msgid "您可以试试下面的链接："
-msgstr ""
+msgstr "您可以試試下面的鏈接："
 
 #: content/apps/merchant/templates/merchant/merchant_index_template.dwt.php:29
 #: content/apps/merchant/templates/merchant/merchant_template.dwt.php:31
 msgid "选择模板："
-msgstr ""
+msgstr "選擇模板："
 
 #: content/apps/merchant/templates/merchant/merchant_index_template.dwt.php:31
 msgid "此模板只适用于PC端店铺首页（点击图片可查看模板大图）"
-msgstr ""
+msgstr "此模板只適用於PC端店鋪首頁（點擊圖片可查看模板大圖）"
 
 #: content/apps/merchant/templates/merchant/merchant_index_template.dwt.php:40
 #: content/apps/merchant/templates/merchant/merchant_index_template.dwt.php:45
@@ -897,56 +903,57 @@ msgstr ""
 #: content/apps/merchant/templates/merchant/merchant_template.dwt.php:53
 #: content/apps/merchant/templates/merchant/merchant_template.dwt.php:79
 msgid "点击放大"
-msgstr ""
+msgstr "點擊放大"
 
 #: content/apps/merchant/templates/merchant/merchant_index_template.dwt.php:58
 msgid "模板一"
-msgstr ""
+msgstr "模板一"
 
 #: content/apps/merchant/templates/merchant/merchant_index_template.dwt.php:62
 msgid "模板二"
-msgstr ""
+msgstr "模板二"
 
 #: content/apps/merchant/templates/merchant/merchant_index_template.dwt.php:66
 msgid "模板三"
-msgstr ""
+msgstr "模板二"
 
 #: content/apps/merchant/templates/merchant/merchant_index_template.dwt.php:94
 msgid "模板四"
-msgstr ""
+msgstr "模板四"
 
 #: content/apps/merchant/templates/merchant/merchant_index_template.dwt.php:98
 msgid "模板五"
-msgstr ""
+msgstr "模板五"
 
 #: content/apps/merchant/templates/merchant/merchant_index_template.dwt.php:102
 msgid "模板六"
-msgstr ""
+msgstr "模板六"
 
 #: content/apps/merchant/templates/merchant/merchant_index_template.dwt.php:109
 msgid "保存"
-msgstr ""
+msgstr "保存"
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:54
 msgid ""
 "入驻信息已经提交，不可更改，商家正在进行审核，请等待3-5工作日查看审核状态。"
 msgstr ""
+"入駐信息已經提交，不可更改，商家正在進行審核，請等待3-5工作日查看審核狀態。"
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:87
 #: content/apps/merchant/templates/merchant/merchant_status.dwt.php:32
 msgid "等待审核"
-msgstr ""
+msgstr "等待審核"
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:101
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:38
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:69
 msgid "店铺名称："
-msgstr ""
+msgstr "店鋪名稱："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:111
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:73
 msgid "店铺分类："
-msgstr ""
+msgstr "店鋪分類："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:114
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:140
@@ -954,349 +961,353 @@ msgstr ""
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:158
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:167
 msgid "请选择..."
-msgstr ""
+msgstr "請選擇..."
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:126
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:77
 msgid "店铺关键字："
-msgstr ""
+msgstr "店鋪關鍵字："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:129
 msgid "精确填写店铺关键字有利于店铺搜索"
-msgstr ""
+msgstr "精確填寫店鋪關鍵字有利於店鋪搜索"
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:137
 msgid "省份："
-msgstr ""
+msgstr "省份："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:180
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:81
 msgid "详细地址："
-msgstr ""
+msgstr "詳細地址："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:183
 msgid "点击获取精确位置显示地图坐标"
-msgstr ""
+msgstr "點擊獲取精確位置顯示地圖坐標"
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:189
 msgid "获取精准坐标"
-msgstr ""
+msgstr "獲取精準坐標"
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:194
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:91
 msgid "店铺精确位置："
-msgstr ""
+msgstr "店鋪精確位置："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:197
 msgid "点击选择店铺精确位置，双击放大地图，拖动查看地图其他区域"
-msgstr ""
+msgstr "點擊選擇店鋪精確位置，雙擊放大地圖，拖動查看地圖其他區域"
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:199
 msgid "经纬度："
-msgstr ""
+msgstr "經緯度："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:207
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:67
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:110
 msgid "负责人："
-msgstr ""
+msgstr "負責人："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:210
 msgid "必须和证件上名称保持一致"
-msgstr ""
+msgstr "必須和證件上名稱保持一致"
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:218
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:120
 msgid "联系邮箱："
-msgstr ""
+msgstr "聯系郵箱："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:228
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:130
 msgid "联系手机："
-msgstr ""
+msgstr "聯系手機："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:238
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:150
 msgid "证件类型："
-msgstr ""
+msgstr "證件類型："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:252
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:158
 msgid "证件号码："
-msgstr ""
+msgstr "證件號碼："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:262
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:162
 msgid "证件正面："
-msgstr ""
+msgstr "證件正面："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:282
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:166
 msgid "证件反面："
-msgstr ""
+msgstr "證件反面："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:302
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:170
 msgid "手持证件拍照："
-msgstr ""
+msgstr "手持證件拍照："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:307
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:171
 msgid "手持证件拍照"
-msgstr ""
+msgstr "手持證件拍照"
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:323
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:185
 msgid "公司名称："
-msgstr ""
+msgstr "公司名稱："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:333
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:189
 msgid "营业执照注册号："
-msgstr ""
+msgstr "營業執照註冊號："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:343
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:193
 msgid "营业执照电子版："
-msgstr ""
+msgstr "營業執照電子版："
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:348
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:194
 msgid "营业执照"
-msgstr ""
+msgstr "營業執照"
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:366
 msgid "提交修改"
-msgstr ""
+msgstr "提交修改"
 
 #: content/apps/merchant/templates/merchant/merchant_edit.dwt.php:367
 msgid "撤销修改申请"
-msgstr ""
+msgstr "撤銷修改申請"
 
 #: content/apps/merchant/templates/merchant/merchant_status.dwt.php:50
 msgid "审核未通过"
-msgstr ""
+msgstr "審核未通過"
 
 #: content/apps/merchant/templates/merchant/merchant_status.dwt.php:52
 msgid "查看审核日志"
-msgstr ""
+msgstr "查看審核日誌"
 
 #: content/apps/merchant/templates/merchant/merchant_status.dwt.php:53
 msgid "再次申请修改"
-msgstr ""
+msgstr "再次申請修改"
 
 #: content/apps/merchant/templates/merchant/merchant_status.dwt.php:63
 msgid "审核日志"
-msgstr ""
+msgstr "審核日誌"
 
 #: content/apps/merchant/templates/merchant/merchant_status.dwt.php:73
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:200
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:239
 msgid "关闭"
-msgstr ""
+msgstr "關閉"
 
 #: content/apps/merchant/templates/merchant/library/common_header.lbi.php:9
 msgid "商家入驻"
-msgstr ""
+msgstr "商家入駐"
 
 #: content/apps/merchant/templates/merchant/library/common_header.lbi.php:17
 #: content/apps/merchant/templates/merchant/library/common_nologin_header.lbi.php:16
 msgid "网站首页"
-msgstr ""
+msgstr "網站首頁"
 
 #: content/apps/merchant/templates/merchant/library/common_header.lbi.php:66
 msgid "您有 %1 条新通知"
-msgstr ""
+msgstr "您有 %1 條新通知"
 
 #: content/apps/merchant/templates/merchant/library/common_header.lbi.php:94
 msgid "暂无新通知"
-msgstr ""
+msgstr "暫無新通知"
 
 #: content/apps/merchant/templates/merchant/library/common_header.lbi.php:101
 msgid "查看所有通知"
-msgstr ""
+msgstr "查看所有通知"
 
 #: content/apps/merchant/templates/merchant/library/common_header.lbi.php:109
 #: content/apps/merchant/templates/merchant/library/common_sidebar.lbi.php:9
 msgid "搜索导航"
-msgstr ""
+msgstr "搜索導航"
 
 #: content/apps/merchant/templates/merchant/library/common_header.lbi.php:128
 msgid "个人设置"
-msgstr ""
+msgstr "個人設置"
 
 #: content/apps/merchant/templates/merchant/library/common_header.lbi.php:129
 msgid "通知"
-msgstr ""
+msgstr "通知"
 
 #: content/apps/merchant/templates/merchant/library/common_header.lbi.php:131
 msgid "退出"
-msgstr ""
+msgstr "退出"
 
 #: content/apps/merchant/templates/merchant/library/common_header.lbi.php:164
 msgid "订单快速处理"
-msgstr ""
+msgstr "訂單快速處理"
 
 #: content/apps/merchant/templates/merchant/library/common_sidebar.lbi.php:2
 msgid "侧边栏开关"
-msgstr ""
+msgstr "側邊欄開關"
 
 #: content/apps/merchant/templates/merchant/library/common_sidebar.lbi.php:15
 msgid "快速搜索"
-msgstr ""
+msgstr "快速搜索"
 
 #: content/apps/merchant/templates/merchant/library/common_footer.lbi.php:16
 msgid "新浪微博"
-msgstr ""
+msgstr "新浪微博"
 
 #: content/apps/merchant/templates/merchant/library/common_footer.lbi.php:20
 msgid "腾讯QQ"
-msgstr ""
+msgstr "騰訊QQ"
 
 #: content/apps/merchant/templates/merchant/library/common_footer.lbi.php:24
 msgid "打开手机微信扫一扫"
-msgstr ""
+msgstr "打開手機微信掃一掃"
 
 #: content/apps/merchant/templates/merchant/library/common_footer.lbi.php:32
 #: content/apps/merchant/templates/merchant/library/common_footer.lbi.php:36
 msgid "打开手机扫描二维码下载"
-msgstr ""
+msgstr "打開手機掃描二維碼下載"
 
 #: content/apps/merchant/templates/merchant/mh_switch.dwt.php:13
 msgid "温馨提示："
-msgstr ""
+msgstr "溫馨提示："
 
 #: content/apps/merchant/templates/merchant/mh_switch.dwt.php:13
 msgid ""
 "当您的店铺还未完善店铺信息、未完整上架商品以及您临时有事不能正常运营时可暂时"
 "下线店铺。"
 msgstr ""
+"當您的店鋪還未完善店鋪信息、未完整上架商品以及您臨時有事不能正常運營時可暫時"
+"下線店鋪。"
 
 #: content/apps/merchant/templates/merchant/mh_switch.dwt.php:55
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:62
 msgid "休息中"
-msgstr ""
+msgstr "休息中"
 
 #: content/apps/merchant/templates/merchant/mh_switch.dwt.php:57
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:64
 msgid "营业中"
-msgstr ""
+msgstr "營業中"
 
 #: content/apps/merchant/templates/merchant/mh_switch.dwt.php:63
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:124
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:208
 msgid "手机号码："
-msgstr ""
+msgstr "手機號碼："
 
 #: content/apps/merchant/templates/merchant/mh_switch.dwt.php:70
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:132
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:216
 msgid "短信验证码："
-msgstr ""
+msgstr "短信驗證碼："
 
 #: content/apps/merchant/templates/merchant/mh_switch.dwt.php:72
 msgid "请输入手机短信验证码"
-msgstr ""
+msgstr "請輸入手機短信驗證碼"
 
 #: content/apps/merchant/templates/merchant/mh_switch.dwt.php:74
 msgid "获取短信验证码"
-msgstr ""
+msgstr "獲取短信驗證碼"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store_notice.dwt.php:25
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:169
 msgid "已成功激活！可继续使用您的店铺"
-msgstr ""
+msgstr "已成功激活！可繼續使用您的店鋪"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store_notice.dwt.php:27
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:171
 msgid "完成"
-msgstr ""
+msgstr "完成"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:33
 msgid "申请注销"
-msgstr ""
+msgstr "申請註銷"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:35
 msgid "确保必须满足以下条件"
-msgstr ""
+msgstr "確保必須滿足以下條件"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:39
 msgid "验证手机号"
-msgstr ""
+msgstr "驗證手機號"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:41
 msgid "验证店铺已绑定的手机号码"
-msgstr ""
+msgstr "驗證店鋪已綁定的手機號碼"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:45
 msgid "提交成功"
-msgstr ""
+msgstr "提交成功"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:47
 msgid "申请已提交，默认30日等待期"
-msgstr ""
+msgstr "申請已提交，默認30日等待期"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:68
 msgid "开店时间："
-msgstr ""
+msgstr "開店時間："
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:70
 msgid "开店时长："
-msgstr ""
+msgstr "開店時長："
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:73
 msgid "店铺详细信息 >>"
-msgstr ""
+msgstr "店鋪詳細信息 >>"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:82
 msgid "注销之前，请先确认以下信息，以保证您的账号、财产安全："
-msgstr ""
+msgstr "註銷之前，請先確認以下信息，以保證您的賬號、財產安全："
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:84
 msgid "1、"
-msgstr ""
+msgstr "1、"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:85
 msgid "确保店铺内所有商品已全部删除，避免出现新的交易；"
-msgstr ""
+msgstr "確保店鋪內所有商品已全部刪除，避免出現新的交易；"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:88
 msgid "2、"
-msgstr ""
+msgstr "2、"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:89
 msgid ""
 "确保没有进行中的交易，且最后一笔订单完成时间大于15天，若有，建议等待交易完成"
 "后再注销；"
 msgstr ""
+"確保沒有進行中的交易，且最後一筆訂單完成時間大於15天，若有，建議等待交易完成"
+"後再註銷；"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:92
 msgid "3、"
-msgstr ""
+msgstr "3、"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:93
 msgid "确保没有进行中的退货退款订单，若有，建议等待售后完成后再注销；"
-msgstr ""
+msgstr "確保沒有進行中的退貨退款訂單，若有，建議等待售後完成後再註銷；"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:96
 msgid "4、"
-msgstr ""
+msgstr "4、"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:97
 msgid "店铺没有被处罚或违规过记录，包括被举报、被投诉等，若有，则无法注销；"
-msgstr ""
+msgstr "店鋪沒有被處罰或違規過記錄，包括被舉報、被投訴等，若有，則無法註銷；"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:100
 msgid "5、"
-msgstr ""
+msgstr "5、"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:101
 msgid "确保店铺内所有资金已全部提取出，方可申请注销；"
-msgstr ""
+msgstr "確保店鋪內所有資金已全部提取出，方可申請註銷；"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:104
 msgid "6、"
-msgstr ""
+msgstr "6、"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:105
 msgid ""
@@ -1304,66 +1315,69 @@ msgid ""
 "日，30日后，如您未提出异议或未重新“激活账号”，我们将注销您的店铺及账号，一旦"
 "被注销将不可恢复；"
 msgstr ""
+"為了賬戶安全，申請提交後，我們將會給您30日的“後悔期”，即先將您的店鋪鎖定30"
+"日，30日後，如您未提出異議或未重新“激活賬號”，我們將註銷您的店鋪及賬號，一旦"
+"被註銷將不可恢復；"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:108
 msgid "请先阅读并同意《店铺注销须知》"
-msgstr ""
+msgstr "請先閱讀並同意《店鋪註銷須知》"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:109
 msgid "已阅读并同意"
-msgstr ""
+msgstr "已閱讀並同意"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:109
 msgid "《店铺注销须知》"
-msgstr ""
+msgstr "《店鋪註銷須知》"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:112
 msgid "注销"
-msgstr ""
+msgstr "註銷"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:113
 msgid "您确定要注销当前店铺吗？"
-msgstr ""
+msgstr "您確定要註銷當前店鋪嗎？"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:121
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:205
 msgid "请使用店铺已绑定的手机号获取短信验证码"
-msgstr ""
+msgstr "請使用店鋪已綁定的手機號獲取短信驗證碼"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:128
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:212
 msgid "获取验证码"
-msgstr ""
+msgstr "獲取驗證碼"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:134
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:218
 msgid "请输入验证码"
-msgstr ""
+msgstr "請輸入驗證碼"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:141
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:225
 msgid "确认"
-msgstr ""
+msgstr "確認"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:151
 msgid "已提交注销！"
-msgstr ""
+msgstr "已提交註銷！"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:153
 msgid "倒计时："
-msgstr ""
+msgstr "倒計時："
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:155
 msgid "时"
-msgstr ""
+msgstr "時"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:156
 msgid "分"
-msgstr ""
+msgstr "分"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:157
 msgid "秒"
-msgstr ""
+msgstr "秒"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:160
 msgid ""
@@ -1373,227 +1387,248 @@ msgid ""
 "您的店铺及账户，账户一旦\n"
 "                    被注销将不可恢复。"
 msgstr ""
+"為了您的賬戶安全，我們將會給您30日的“後悔期”，即先將您的店鋪鎖定30日，30日"
+"後，\n"
+"                    如您未提出異議或未重新點擊下方按鈕“激活賬號”，我們將註銷"
+"您的店鋪及賬戶，賬戶一旦\n"
+"                    被註銷將不可恢復。"
 
 #: content/apps/merchant/templates/merchant/merchant_cancel_store.dwt.php:165
 msgid "您确定要激活当前店铺吗？"
-msgstr ""
+msgstr "您確定要激活當前店鋪嗎？"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:61
 msgid "推荐图片的尺寸为：2000x1500px，大小不超过2M"
-msgstr ""
+msgstr "推薦圖片的尺寸為：2000x1500px，大小不超過2M"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:83
 msgid "推荐图片的尺寸为：512x512px"
-msgstr ""
+msgstr "推薦圖片的尺寸為：512x512px"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:93
 msgid "banner图"
-msgstr ""
+msgstr "banner圖"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:104
 msgid "推荐图片的尺寸为：3:1（1200x400px）"
-msgstr ""
+msgstr "推薦圖片的尺寸為：3:1（1200x400px）"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:108
 msgid "缩略图："
-msgstr ""
+msgstr "縮略圖："
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:117
 msgid "生成后，图片内存将变小，缩略图可以减小存放内存，提高访问效率"
-msgstr ""
+msgstr "生成後，圖片內存將變小，縮略圖可以減小存放內存，提高訪問效率"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:125
 msgid "店铺二维码："
-msgstr ""
+msgstr "店鋪二維碼："
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:130
 msgid "店铺二维码"
-msgstr ""
+msgstr "店鋪二維碼"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:133
 msgid ""
 "<p>该二维码是您店铺的手机网址；</p>\n"
-"                                        <p>您可以将此二维码通过网上或线下宣传"
-"展示给您的用户；用户使用手机扫描该二维码，就可以访问您的店铺网页并下单哦！</"
-"p>\n"
-"                                        <p>上传店铺logo后，点击刷新按钮可生成"
-"店铺二维码。删除店铺logo后，需手动刷新才可删除店铺二维码。</p>"
+"                                        <p>您可以将此二维码通过网上或线下宣"
+"传展示给您的用户；用户使用手机扫描该二维码，就可以访问您的店铺网页并下单哦！"
+"</p>\n"
+"                                        <p>上传店铺logo后，点击刷新按钮可生"
+"成店铺二维码。删除店铺logo后，需手动刷新才可删除店铺二维码。</p>"
 msgstr ""
+"<p>該二維碼是您店鋪的手機網址；</p>\n"
+"                                        <p>您可以將此二維碼通過網上或線下宣"
+"傳展示給您的用戶；用戶使用手機掃描該二維碼，就可以訪問您的店鋪網頁並下單哦！"
+"</p>\n"
+"                                        <p>上傳店鋪logo後，點擊刷新按鈕可生"
+"成店鋪二維碼。刪除店鋪logo後，需手動刷新才可刪除店鋪二維碼。</p>"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:137
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:141
 msgid "刷新"
-msgstr ""
+msgstr "刷新"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:138
 msgid "下载二维码"
-msgstr ""
+msgstr "下載二維碼"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:147
 msgid "店铺小程序二维码："
-msgstr ""
+msgstr "店鋪小程序二維碼："
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:195
 msgid "自动派单："
-msgstr ""
+msgstr "自動派單："
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:198
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:237
 msgid "开启"
-msgstr ""
+msgstr "開啟"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:201
 msgid ""
 "（订单使用商家配送方式时。当发货未选择配送员时，系统将自动优先分派配送单，再"
 "进入抢单模式，否则进入抢单模式）"
 msgstr ""
+"（訂單使用商家配送方式時。當發貨未選擇配送員時，系統將自動優先分派配送單，再"
+"進入搶單模式，否則進入搶單模式）"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:207
 msgid "最小购物金额："
-msgstr ""
+msgstr "最小購物金額："
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:210
 msgid "用户下单时达到此购物金额，才能提交订单"
-msgstr ""
+msgstr "用戶下單時達到此購物金額，才能提交訂單"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:215
 msgid "接单类型："
-msgstr ""
+msgstr "接單類型："
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:218
 msgid "自动接单"
-msgstr ""
+msgstr "自動接單"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:220
 msgid "手动接单"
-msgstr ""
+msgstr "手動接單"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:221
 msgid ""
 "启用自动接单后，所有订单将无需人工处理接单，自动由系统接单，您可以随时切回手"
 "动接单模式"
 msgstr ""
+"啟用自動接單後，所有訂單將無需人工處理接單，自動由系統接單，您可以隨時切回手"
+"動接單模式"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:226
 msgid "拒绝接单时间："
-msgstr ""
+msgstr "拒絕接單時間："
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:229
 msgid ""
-"若管理员未操作手动接单，系统将会在设置时间（单位：分钟）后自动拒绝接单，<br/>"
-"默认0代表不设置，不设置则需要管理员手动拒单"
+"若管理员未操作手动接单，系统将会在设置时间（单位：分钟）后自动拒绝接单，<br/"
+">默认0代表不设置，不设置则需要管理员手动拒单"
 msgstr ""
+"若管理員未操作手動接單，系統將會在設置時間（單位：分鐘）後自動拒絕接單，<br/"
+">默認0代表不設置，不設置則需要管理員手動拒單"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:234
 msgid "小票离线打印："
-msgstr ""
+msgstr "小票離線打印："
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:240
 msgid "开启后，已支付的订单自动加入打印队列，只要小票机在线后，将自动打印订单"
 msgstr ""
+"開啟後，已支付的訂單自動加入打印隊列，只要小票機在線後，將自動打印訂單"
 
 #: content/apps/merchant/templates/merchant/merchant_basic_info.dwt.php:246
 msgid "提交信息"
-msgstr ""
+msgstr "提交信息"
 
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:60
 msgid "店铺信息"
-msgstr ""
+msgstr "店鋪信息"
 
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:65
 msgid "入驻类型："
-msgstr ""
+msgstr "入駐類型："
 
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:66
 msgid "个人"
-msgstr ""
+msgstr "個人"
 
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:66
 msgid "企业"
-msgstr ""
+msgstr "企業"
 
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:66
 msgid "入驻"
-msgstr ""
+msgstr "入駐"
 
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:70
 msgid "自营"
-msgstr ""
+msgstr "自營"
 
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:74
 msgid "还未选择"
-msgstr ""
+msgstr "還未選擇"
 
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:94
 msgid "双击放大地图，拖动查看地图其他区域"
-msgstr ""
+msgstr "雙擊放大地圖，拖動查看地圖其他區域"
 
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:95
 msgid "当前经纬度："
-msgstr ""
+msgstr "當前經緯度："
 
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:105
 msgid "联系人信息"
-msgstr ""
+msgstr "聯系人信息"
 
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:145
 msgid "资质信息"
-msgstr ""
+msgstr "資質信息"
 
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:163
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:167
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:171
 msgid "还未上传"
-msgstr ""
+msgstr "還未上傳"
 
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:180
 msgid "公司信息"
-msgstr ""
+msgstr "公司信息"
 
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:207
 msgid "申请修改"
-msgstr ""
+msgstr "申請修改"
 
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:209
 msgid "您确定要升级为企业入驻吗？升级成功后不可修改为个人入驻！"
-msgstr ""
+msgstr "您確定要升級為企業入駐嗎？升級成功後不可修改為個人入駐！"
 
 #: content/apps/merchant/templates/merchant/merchant_info.dwt.php:209
 msgid "升级企业入驻"
-msgstr ""
+msgstr "升級企業入駐"
 
 #: content/apps/merchant/templates/merchant/merchant_template.dwt.php:33
 msgid "此模板只适用于门店小程序（点击图片可查看模板大图）"
-msgstr ""
+msgstr "此模板只適用於門店小程序（點擊圖片可查看模板大圖）"
 
 #: content/apps/merchant/templates/merchant/merchant_template.dwt.php:61
 msgid "普通商城类模板"
-msgstr ""
+msgstr "普通商城類模板"
 
 #: content/apps/merchant/templates/merchant/merchant_template.dwt.php:61
 msgid "适用于普通电商购物"
-msgstr ""
+msgstr "適用於普通電商購物"
 
 #: content/apps/merchant/templates/merchant/merchant_template.dwt.php:65
 msgid "外卖类模板"
-msgstr ""
+msgstr "外賣類模板"
 
 #: content/apps/merchant/templates/merchant/merchant_template.dwt.php:65
 msgid "适用于同城餐饮外卖"
-msgstr ""
+msgstr "適用於同城餐飲外賣"
 
 #: content/apps/merchant/templates/merchant/merchant_template.dwt.php:69
 msgid "自助购物模板"
-msgstr ""
+msgstr "自助購物模板"
 
 #: content/apps/merchant/templates/merchant/merchant_template.dwt.php:69
 msgid "适用于自助买单、到店消费"
-msgstr ""
+msgstr "適用於自助買單、到店消費"
 
 #: content/apps/merchant/templates/merchant/merchant_template.dwt.php:87
 msgid "优惠买单模板"
-msgstr ""
+msgstr "優惠買單模板"
 
 #: content/apps/merchant/templates/merchant/merchant_template.dwt.php:87
 msgid "适用于到店支付、享受店铺优惠"
-msgstr ""
+msgstr "適用於到店支付、享受店鋪優惠"
+
+#~ msgid "您有  条新通知"
+#~ msgstr "您有  條新通知"

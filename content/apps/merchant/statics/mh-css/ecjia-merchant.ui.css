@@ -5669,3 +5669,14 @@ table tr th.sorting-desc{
     height: 30px;
     margin-right: 10px;
 }
+
+.label-orange {
+	border-radius: 5px;
+	padding: 3px 5px;
+	background-color: #FFDFCA;
+	color: #FE9550;
+	font-size: 14px;
+	font-weight: normal;
+	border: 1px solid #FE9550;
+	margin-right: 5px;
+}

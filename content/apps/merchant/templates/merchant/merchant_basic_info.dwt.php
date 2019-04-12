@@ -226,7 +226,7 @@ label + div.col-lg-6, label + div.col-lg-2 {
                             <label class="control-label col-lg-2">{t domain="merchant"}拒绝接单时间：{/t}</label>
                             <div class="col-lg-6">
                                 <input class="form-control" name="orders_auto_rejection_time" type="text" value="{$data.orders_auto_rejection_time}"/>
-                                <span class="help-block">{t domain="merchant"}若管理员未操作手动接单，系统将会在设置时间（单位：分钟）后自动拒绝接单，<br/>默认0代表不设置，不设置则需要管理员手动拒单{/t}</span>
+                                <span class="help-block">{t domain="merchant" escape=no}若管理员未操作手动接单，系统将会在设置时间（单位：分钟）后自动拒绝接单，<br/>默认0代表不设置，不设置则需要管理员手动拒单{/t}</span>
                             </div>
                         </div>
 						

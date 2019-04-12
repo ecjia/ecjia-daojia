@@ -7,6 +7,7 @@ use Ecjia\App\Merchant\Frameworks\Users\StaffUserDefaultAllotPurview;
 use Royalcms\Component\Repository\Repositories\AbstractRepository;
 use RC_Uri;
 use RC_Upload;
+use RC_App;
 
 class StaffUser extends AbstractRepository implements UserInterface
 {
@@ -158,7 +159,13 @@ class StaffUser extends AbstractRepository implements UserInterface
      */
     public function getAvatarUrl()
     {
-        return RC_Upload::upload_url($this->user->avatar);
+        if ($this->user->avatar) {
+            $avatar = RC_Upload::upload_url($this->user->avatar);
+        } else {
+            $avatar = RC_App::apps_url('statics/img/ecjia_avatar.jpg', dirname(dirname(dirname(__FILE__))));
+        }
+
+        return $avatar;
     }
     
     
