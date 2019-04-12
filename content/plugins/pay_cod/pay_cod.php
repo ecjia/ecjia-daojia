@@ -46,12 +46,13 @@
 //
 /*
 Plugin Name: 货到付款
-Plugin URI: http://www.ecjia.com/plugins/ecjia.cod/
+Plugin URI: http://www.ecjia.com/plugins/ecjia.pay_cod/
 Description: 开通城市：×××<br>货到付款区域：×××
 Author: ECJIA TEAM
-Version: 1.25.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: payment
+Text Domain: pay_cod
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 class plugin_pay_cod {
@@ -72,6 +73,7 @@ class plugin_pay_cod {
 }
 
 Ecjia_PluginManager::extend('pay_cod', function() {
+    RC_Locale::loadPluginTextdomain('pay_cod');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'pay_cod.class.php';
     return new pay_cod();
 });
