@@ -49,9 +49,10 @@ Plugin Name: 银行转账提现
 Plugin URI: http://www.ecjia.com/plugins/ecjia.withdraw_bank/
 Description: 需要财务人员线下打款给申请提现的用户。
 Author: ECJIA TEAM
-Version: 1.25.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: withdraw
+Text Domain: withdraw_bank
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 class plugin_withdraw_bank {
@@ -72,6 +73,7 @@ class plugin_withdraw_bank {
 }
 
 Ecjia_PluginManager::extend('withdraw_bank', function() {
+    RC_Locale::loadPluginTextdomain('withdraw_bank');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'withdraw_bank.class.php';
     return new withdraw_bank();
 });

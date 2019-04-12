@@ -49,8 +49,7 @@ return array(
     'withdraw_code'     => 'withdraw_bank',
 	'is_online' 	    => '0', 	/* 是否支持在线提现 */
 
-	'forms' => array(
-	),
+	'forms' => array(),
 );
 
 // end
