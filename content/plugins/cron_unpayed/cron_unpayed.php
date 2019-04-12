@@ -49,9 +49,10 @@ Plugin Name: 自动关闭未付款订单
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cron_unpayed/
 Description: 计划任务-自动关闭未付款订单
 Author: ECJIA TEAM
-Version: 1.25.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: cron
+Text Domain: cron_unpayed
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 class plugin_cron_unpayed {
@@ -72,8 +73,9 @@ class plugin_cron_unpayed {
 }
 
 Ecjia_PluginManager::extend('cron_unpayed', function() {
+    RC_Locale::loadPluginTextdomain('cron_unpayed');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'cron_unpayed.class.php';
-        return new cron_unpayed();
+    return new cron_unpayed();
 });
 
 RC_Plugin::register_activation_hook(__FILE__, array('plugin_cron_unpayed', 'install'));

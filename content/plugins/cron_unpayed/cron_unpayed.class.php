@@ -85,7 +85,7 @@ class cron_unpayed extends CronAbstract
         	->get();
         	
         	foreach ($rows as $order) {
-        		$order_operate->operate($order, 'cancel', array('action_note' => '订单超时未支付，已自动取消'));
+        		$order_operate->operate($order, 'cancel', array('action_note' => __('订单超时未支付，已自动取消', 'cron_unpayed')));
         		//记录订单状态日志
         		OrderStatusLog::order_auto_cancel(array('order_id' => $order['order_id']));
         	}
@@ -112,18 +112,7 @@ class cron_unpayed extends CronAbstract
     {
         return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php', $key, $default);
     }
-    
-    /**
-     * 加载语言包
-     *
-     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
-     */
-    public function loadLanguage($key = null, $default = null)
-    {
-        $locale = RC_Config::get('system.locale');
-    
-        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
-    }
+
 }
 
 // end

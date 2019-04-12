@@ -1,0 +1,96 @@
+# Copyright (C) 2019 自动关闭未付款订单
+# This file is distributed under the same license as the 自动关闭未付款订单 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 自动关闭未付款订单 1.30.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-03-29 01:42:03+00:00\n"
+"PO-Revision-Date: 2019-03-29 11:32+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: config.php:57
+msgid "关闭多久未付款的订单："
+msgstr "關閉多久未付款的訂單："
+
+#: config.php:59
+msgid "1小时"
+msgstr "1小時"
+
+#: config.php:60
+msgid "3小时"
+msgstr "3小時"
+
+#: config.php:61
+msgid "6小时"
+msgstr "6小時"
+
+#: config.php:62
+msgid "12小时"
+msgstr "12小時"
+
+#: config.php:63
+msgid "1天"
+msgstr "1天"
+
+#: config.php:64
+msgid "2天"
+msgstr "2天"
+
+#: config.php:65
+msgid "3天"
+msgstr "3天"
+
+#: config.php:68
+msgid "每次关闭的个数："
+msgstr "每次關閉的個數："
+
+#: config.php:70
+msgid "10个"
+msgstr "10個"
+
+#: config.php:71
+msgid "20个"
+msgstr "20個"
+
+#: config.php:72
+msgid "50个"
+msgstr "50個"
+
+#: config.php:73
+msgid "100个"
+msgstr "100個"
+
+#: config.php:74
+msgid "200个"
+msgstr "200個"
+
+#: cron_unpayed.class.php:88
+msgid "订单超时未支付，已自动取消"
+msgstr "訂單超時未支付，已自動取消"
+
+#. Plugin Name of the plugin/theme
+msgid "自动关闭未付款订单"
+msgstr "自動關閉未付款訂單"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.cron_unpayed/"
+msgstr "http://www.ecjia.com/plugins/ecjia.cron_unpayed/"
+
+#. Description of the plugin/theme
+msgid "计划任务-自动关闭未付款订单"
+msgstr "計劃任務-自動關閉未付款訂單"
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr "ECJIA TEAM"
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr "http://www.ecjia.com/"

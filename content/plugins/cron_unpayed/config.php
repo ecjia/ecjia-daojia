@@ -47,10 +47,34 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 return array(
     'cron_code'      => 'cron_unpayed',
+
 	'forms' => array(
 	    array('name' => 'unpayed_hours', 'type' => 'select', 'value' => '24'),
 		array('name' => 'unpayed_count', 'type' => 'select', 'value' => '100'),
 	),
+
+    'dynamic_option' => array(
+        'unpayed_hours'  => __('关闭多久未付款的订单：', 'cron_unpayed'),
+        'unpayed_hours_range' => array(
+            '1' 	=> __('1小时', 'cron_unpayed'),
+            '3' 	=> __('3小时', 'cron_unpayed'),
+            '6' 	=> __('6小时', 'cron_unpayed'),
+            '12' 	=> __('12小时', 'cron_unpayed'),
+            '24' 	=> __('1天', 'cron_unpayed'),
+            '48' 	=> __('2天', 'cron_unpayed'),
+            '72' 	=> __('3天', 'cron_unpayed'),
+        ),
+
+        'unpayed_count' => __('每次关闭的个数：', 'cron_unpayed'),
+        'unpayed_count_range' => array(
+            '10' 	=> __('10个', 'cron_unpayed'),
+            '20' 	=> __('20个', 'cron_unpayed'),
+            '50' 	=> __('50个', 'cron_unpayed'),
+            '100' 	=> __('100个', 'cron_unpayed'),
+            '200' 	=> __('200个', 'cron_unpayed'),
+        ),
+    ),
+
 );
 
 // end
