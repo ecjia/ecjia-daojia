@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 设置api session id
  * @param string $session_id session id
- * @return session_id
+ * @return string session_id
  */
 function set_api_session_id($session_id) {
 	$request = royalcms('request');

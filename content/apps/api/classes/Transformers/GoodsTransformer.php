@@ -111,9 +111,10 @@ class GoodsTransformer extends Transformer
 
         foreach ($data['pictures'] as $key => $value) {
             $outData['pictures'][] = array(
-                "small"     => $photoTransformer->transformer($value['thumb_url']),
-                "thumb"     => $photoTransformer->transformer($value['thumb_url']),
-                "url"       => $photoTransformer->transformer($value['img_url'])
+                "small"     	=> $photoTransformer->transformer($value['thumb_url']),
+                "thumb"     	=> $photoTransformer->transformer($value['thumb_url']),
+                "url"       	=> $photoTransformer->transformer($value['img_url']),
+            	"product_id"    => $value['product_id'],
             );
         }
 

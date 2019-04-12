@@ -104,19 +104,40 @@ abstract class EcjiaApiAdminController extends EcjiaApi
      * 判断管理员对某一个操作是否有权限。
      * 根据当前对应的action_code，然后再和用户session里面的action_list做匹配，以此来决定是否可以继续执行。
      * @param     string    $priv_str    操作对应的priv_str
-     * @return true/false
+     * @return bool | ecjia_error
      */
     public function admin_priv($priv_str) {
-        if ($_SESSION['action_list'] == 'all') {
+        if (session('action_list') == 'all') {
             return true;
         }
 
-        if (strpos(',' . $_SESSION['action_list'] . ',', ',' . $priv_str . ',') === false) {
-// 			return false;
+        if (strpos(',' . session('action_list') . ',', ',' . $priv_str . ',') === false) {
             return new ecjia_error('priv_error', '您无权对此分类进行操作！');
         } else {
             return true;
         }
+    }
+
+    /**
+     * 设置管理员的session内容
+     *
+     * @param   integer $user_id        管理员编号
+     * @param   string  $user_name       管理员姓名
+     * @param   string  $action_list    权限列表
+     * @param   string  $last_time      最后登录时间
+     * @return  void
+     */
+    public function admin_session($user_id, $username, $action_list, $last_time, $mobile = '', $email = '')
+    {
+        RC_Session::set('staff_id', $user_id);
+        RC_Session::set('staff_name', $username);
+        RC_Session::set('action_list', $action_list);
+        RC_Session::set('staff_email', $email);
+        RC_Session::set('staff_mobile', $mobile);
+        RC_Session::set('last_ip', \RC_Ip::client_ip());
+        RC_Session::set('last_login', $last_time); // 用于保存最后一次检查订单的时间
+        RC_Session::set('session_user_id', $user_id);
+        RC_Session::set('session_user_type', 'merchant');
     }
 	
 }
