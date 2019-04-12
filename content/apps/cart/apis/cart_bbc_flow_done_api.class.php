@@ -55,12 +55,23 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class cart_bbc_flow_done_api extends Component_Event_Api {
 
     /**
-     * @param
+     * @param int $user_id  下单用户id 必传
+     * @param array $cart_id  指定结算的购物车ids 必传
+     * @param array $order    订单初始化信息     必传
+     * @param int $flow_type    购物车类型     必传
+     * @param array $store_ids  结算购物车对应的所有店铺ids     必传
+     * @param int $is_separate_order  是否是分单结算      必传  
+     * @param array $device  device信息      必传
+     * @param int $address_id   收货地址id
      *
      * @return array
      */
 	public function call(&$options) {
 
+		if (empty($options['user_id']) || empty($options['cart_id']) || empty($options['order']) || empty($options['store_ids']) || !isset($options['flow_type']) || !isset($options['is_separate_order'])) {
+			return new ecjia_error('invalid_parameter', __('请求cart_bbc_flow_done_api文件参数无效！', 'cart'));
+		}
+		
 		RC_Loader::load_app_class('cart', 'cart', false);
 
 		$order = $options['order'];
@@ -70,11 +81,11 @@ class cart_bbc_flow_done_api extends Component_Event_Api {
 		
 		/* 获取用户收货地址*/
 		if ($options['address_id'] == 0) {
-			$consignee = cart::get_consignee($_SESSION['user_id']);
+			$consignee = cart::get_consignee($options['user_id']);
 		} else {
 			$consignee = RC_DB::table('user_address')
 			->where('address_id', $options['address_id'])
-			->where('user_id', $_SESSION['user_id'])
+			->where('user_id', $options['user_id'])
 			->first();
 		}
 		if (!cart::check_consignee_info($consignee, $flow_type)) {
@@ -82,20 +93,14 @@ class cart_bbc_flow_done_api extends Component_Event_Api {
 			return new ecjia_error('pls_fill_in_consinee_info', __('请完善收货人信息！', 'cart'));
 		}
 
-		/* 检查购物车中是否有商品 */
-		$get_cart_goods = RC_Api::api('cart', 'cart_list', array('cart_id' => $options['cart_id'], 'flow_type' => $options['flow_type'], 'store_group' => ''));
+		$get_cart_goods = Ecjia\App\Cart\CartFunction::cart_list($options['flow_type'], $options['user_id'], $options['cart_id']);
 		
-		if (is_ecjia_error($get_cart_goods)) {
-		    return $get_cart_goods;
-		}
-		if (count($get_cart_goods['goods_list']) == 0) {
+		if (count($get_cart_goods) == 0) {
 			return new ecjia_error('not_found_cart_goods', __('购物车中没有您选择的商品', 'cart'));
 		}
-
-		$cart_goods = $get_cart_goods['goods_list'];
 		
 		/* 判断是不是实体商品*/
-		foreach ($cart_goods as $val) {
+		foreach ($get_cart_goods as $val) {
 			/* 统计实体商品的个数 */
 			if ($val['is_real']) {
 				$is_real_good = 1;
@@ -111,6 +116,10 @@ class cart_bbc_flow_done_api extends Component_Event_Api {
 						if (empty($ship_val)) {
 							return new ecjia_error('pls_choose_ship_way', __('请选择配送方式！', 'cart'));
 						}
+						$ship_val_str = explode('-', $ship_val);
+						if (empty($ship_val_str['0']) || empty($ship_val_str['1'])) {
+							return new ecjia_error('pls_choose_ship_way', __('请选择配送方式！', 'cart'));
+						}
 					}
 				}
 			}
@@ -123,45 +132,23 @@ class cart_bbc_flow_done_api extends Component_Event_Api {
 
 		/* 如果使用库存,检查商品库存是否足够 */
 		if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_PLACE) {
-			$cart_goods_stock = $get_cart_goods['goods_list'];
-			$_cart_goods_stock = array();
-			if (!empty($cart_goods_stock['goods_list'])) {
-				foreach ($cart_goods_stock['goods_list'] as $value) {
-					$_cart_goods_stock[$value['rec_id']] = $value['goods_number'];
-				}
-				$result = cart::flow_cart_stock($_cart_goods_stock);
-				if (is_ecjia_error($result)) {
-					return $result;
-				}
-				unset($cart_goods_stock, $_cart_goods_stock);
+			$check_stock_result = $this->_check_goods_stock($get_cart_goods);
+			if (is_ecjia_error($check_stock_result)) {
+				return $check_stock_result;
 			}
 		}
 
 		/* 扩展信息 */
-		if (isset($flow_type) && intval($flow_type) != CART_GENERAL_GOODS) {
-			if ($flow_type == '1') {
-				$order['extension_code'] = 'group_buy';
-				if (!empty($cart_goods)) {
-					$goods_id = $cart_goods['0']['goods_id'];
-				}
-				$extension_id = RC_DB::table('goods_activity')->where('store_id', $cart_goods['0']['store_id'])->where('goods_id', $goods_id)->where('act_type', GAT_GROUP_BUY)->orderBy('act_id', 'desc')->pluck('act_id');
-				$order['extension_id'] = empty($extension_id) ? 0 : intval($extension_id);
-			} else {
-				$order['extension_code'] = '';
-				$order['extension_id']   = 0;
-			}
-		} else {
-			$order['extension_code'] = '';
-			$order['extension_id']   = 0;
-		}
+		list($extension_code, $extension_id) = $this->_get_extension_info($flow_type, $get_cart_goods);
+		$order['extension_code'] = $extension_code;
+		$order['extension_id']   = $extension_id;
 		
-
 		/* 检查积分余额是否合法 */
-		$user_id = $_SESSION['user_id'];
+		$user_id = $options['user_id'];
 		if ($user_id > 0) {
 			$user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
 			// 查询用户有多少积分
-			$flow_points = cart::flow_available_points($options['cart_id']); // 该订单允许使用的积分
+			$flow_points = cart::flow_available_points($options['cart_id']); // 该订单总共允许使用的积分
 			$user_points = $user_info['pay_points']; // 用户的积分总数
 
 			$order['integral'] = min($order['integral'], $user_points, $flow_points); //使用积分数不可超过订单可用积分数
@@ -180,25 +167,33 @@ class cart_bbc_flow_done_api extends Component_Event_Api {
 				$order['address'] = $order['address'].$order[$key];
 			}
 		}
-
-		//购物车处理，获取各店铺优惠活动
-		$format_cart_list = cart_bbc::formated_bbc_cart_list($get_cart_goods, $_SESSION['user_rank'], $_SESSION['user_id']);
+		
+		$store_ids = $options['store_ids'];
+		$cart_multi = with(new Ecjia\App\Cart\CartFlow\MultiCart());
+		foreach ($store_ids as $val) {
+			//单店购物车
+			$cart_single = with(new \Ecjia\App\Cart\CartFlow\Cart($user_id, $val, $flow_type, $cart_id_array));
+			
+			//多店购物车
+			$cart_multi->addCart($cart_single);
+		}
+		
+		$format_cart_list = $cart_multi->getGoodsCollection();
 		
 		//多店铺商品列表划分,含配送方式
-		$cart_goods_list = cart_bbc::store_cart_goods_discount($format_cart_list, $consignee); // 取得商品列表，计算合计
+		$cart_goods_list = Ecjia\App\Cart\CartFlow\CartStoreShipping::store_cart_goods_discount($format_cart_list, $consignee); // 取得商品列表，计算合计
 		
 		/* 检查红包是否存在 */
 		if ($order['bonus_id'] > 0) {
-			RC_Loader::load_app_class('bonus', 'bonus', false);
-			$bonus = bonus::bonus_info($order['bonus_id']);
+			$bonus = Ecjia\App\Bonus\UserAvaliableBonus::bonusInfo($order['bonus_id']);
 			if (empty($bonus) || $bonus['user_id'] != $user_id || $bonus['order_id'] > 0 || $bonus['min_goods_amount'] > cart::cart_amount(true, $options['flow_type'])) {
 				$order['bonus_id'] = 0;
 			}
 			//根据红包所属的店铺，判断店铺购物车金额是否满足使用红包
 			if ($order['bonus_id'] > 0) {
-				foreach ($cart_goods_list as $v) {
+				foreach ($cart_goods_list['cart_list'] as $v) {
 					if ($bonus['store_id'] == $v['store_id']) {
-						$temp_amout = $v['goods_amount'] - $v['total']['discount'];
+						$temp_amout = $v['goods_amount'] - $v['total']['discount']; //除去优惠活动抵扣，剩下可以用红包抵扣的商品金额
 						if ($temp_amout <= 0) {
 							$order['bonus_id'] = 0;
 							$temp_amout = 0;
@@ -210,7 +205,7 @@ class cart_bbc_flow_done_api extends Component_Event_Api {
 		}
 		
 		/* 订单中的总额 */
-		$total = cart_bbc::order_fee_multiple_store($order, $cart_goods, $consignee, $options['cart_id'], $cart_goods_list, $options['store_ids'], $format_cart_list);
+		$total = Ecjia\App\Cart\CartFlow\MultiStoreOrderFee::multiple_store_order_fee($order, $consignee, $options['cart_id'], $cart_goods_list, $options['store_ids']);
 		
 		$order['bonus']			= $total['bonus']; 
 		$order['goods_amount']	= $total['goods_price'];
@@ -218,20 +213,19 @@ class cart_bbc_flow_done_api extends Component_Event_Api {
 		$order['surplus']		= $total['surplus'];
 		$order['tax']			= $total['tax'];
 
-		$order['shipping_fee'] = $total['shipping_fee'];
-		$order['insure_fee'] = $total['shipping_insure'];
+		$order['shipping_fee'] 	= $total['shipping_fee'];
+		$order['insure_fee'] 	= $total['shipping_insure'];
 
-		$payment_method = RC_Loader::load_app_class('payment_method','payment');
 		/* 支付方式 */
 		$is_pay_cod = false;
 		if ($order['pay_id'] > 0) {
-			$payment = $payment_method->payment_info_by_id($order['pay_id']);
+			$payment = with(new Ecjia\App\Payment\PaymentPlugin)->getPluginDataById(intval($order['pay_id']));
 			$order['pay_name'] = addslashes($payment['pay_name']);
 			//如果是货到付款，状态设置为已确认。
 			if($payment['pay_code'] == 'pay_cod') {
 				$is_pay_cod = true;
 				$order['order_status'] = 1;
-				$store_manage_modes = RC_DB::table('store_franchisee')->whereIn('store_id', $format_cart_list['cart_store_ids'])->lists('manage_mode');
+				$store_manage_modes = RC_DB::table('store_franchisee')->whereIn('store_id', $options['store_ids'])->lists('manage_mode');
 				/* 货到付款判断是否是自营*/
 				if (in_array('join', $store_manage_modes)) {
 					return new ecjia_error('pay_not_support', __('货到付款不支持非自营商家！', 'cart'));
@@ -273,17 +267,15 @@ class cart_bbc_flow_done_api extends Component_Event_Api {
 		//生成订单
 		$is_separate_order = $options['is_separate_order'];
 		if(!$is_separate_order) {
-			$create_order = cart_bbc::generate_order($cart_goods_list, $order);
+			$create_order = Ecjia\App\Cart\CartFlow\CreateOrder::generate_order($cart_goods_list, $order);
 		} else {
 			//分单
-			$create_order = cart_bbc::generate_separate_order($cart_goods_list, $order, $flow_points);
+			$create_order = Ecjia\App\Cart\CartFlow\CreateOrder::generate_separate_order($cart_goods_list, $order, $flow_points);
 		}
 		
 		if (is_ecjia_error($create_order)) {
 			return $create_order;
 		}
-
-		$payment_info = $payment_method->payment_info_by_id($order['pay_id']);
 
 		/* 订单信息 */
 		unset($_SESSION['flow_consignee']); // 清除session中保存的收货人信息
@@ -291,7 +283,7 @@ class cart_bbc_flow_done_api extends Component_Event_Api {
 		
 		/* 清空购物车 */
 		if (!is_ecjia_error($create_order)) {
-			cart::clear_cart($flow_type, $cart_id_array);
+			cart::clear_cart($flow_type, $cart_id_array, $options['user_id']);
 		}
 		
 		$order_info = array(
@@ -300,7 +292,7 @@ class cart_bbc_flow_done_api extends Component_Event_Api {
 			'extension_code'=> $create_order['extension_code'],
 			'extension_id'  => $create_order['extension_id'],
 			'order_info' => array(
-				'pay_code'               => $payment_info['pay_code'],
+				'pay_code'               => $payment['pay_code'],
 				'order_amount'           => $create_order['order_amount'],
 		        'formatted_order_amount' => ecjia_price_format($create_order['order_amount'], false),
 				'order_id'               => $create_order['order_id'],
@@ -309,6 +301,53 @@ class cart_bbc_flow_done_api extends Component_Event_Api {
 		);
 		
 		return $order_info;
+	}
+	
+	/**
+	 * 检查商品库存
+	 * @param array $get_cart_goods 
+	 * @return ecjia_error | bool
+	 */
+	private function _check_goods_stock($get_cart_goods)
+	{
+		$cart_goods_stock = $get_cart_goods;
+		$_cart_goods_stock = array();
+		if (!empty($cart_goods_stock)) {
+			foreach ($cart_goods_stock as $value) {
+				$_cart_goods_stock[$value['rec_id']] = $value['goods_number'];
+			}
+			$result = cart::flow_cart_stock($_cart_goods_stock);
+			if (is_ecjia_error($result)) {
+				return $result;
+			}
+			unset($cart_goods_stock, $_cart_goods_stock);
+			return true;
+		}
+	}
+	
+	/**
+	 * 获取订单扩展信息
+	 */
+	private function _get_extension_info($flow_type, $cart_goods)
+	{
+		if (isset($flow_type) && intval($flow_type) != CART_GENERAL_GOODS) {
+			if ($flow_type == CART_GROUP_BUY_GOODS) {
+				$extension_code = 'group_buy';
+				if (!empty($cart_goods)) {
+					$goods_id = $cart_goods['0']['goods_id'];
+				}
+				$extension_id = RC_DB::table('goods_activity')->where('store_id', $cart_goods['0']['store_id'])->where('goods_id', $goods_id)->where('act_type', GAT_GROUP_BUY)->orderBy('act_id', 'desc')->pluck('act_id');
+				$extension_id = empty($extension_id) ? 0 : intval($extension_id);
+			} else {
+				$extension_code = '';
+				$extension_id   = 0;
+			}
+		} else {
+			$extension_code = '';
+			$extension_id   = 0;
+		}
+		
+		return [$extension_code, $extension_id];
 	}
 }
 

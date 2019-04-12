@@ -46,7 +46,7 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class bbc_flow_done_module extends api_front implements api_interface {
+class bbc_test_flow_done_module extends api_front implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 		/**
          * bonus_id 0 //红包

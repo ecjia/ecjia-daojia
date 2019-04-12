@@ -423,28 +423,26 @@ class cart {
 			if ($val <= 0 || !is_numeric($key)) {
 				continue;
 			}
-			$cart_where = array('rec_id' => $key , 'user_id' => $_SESSION['user_id']);
-// 			if (defined($name)) {
-// 				$cart_where['session_id'] = SESS_ID;
-// 			}
-			$goods = RC_Model::model('cart/cart_model')->field('goods_id, goods_attr_id, extension_code, product_id')->find($cart_where);
-
-			$row   = RC_Model::model('goods/goods_cart_viewmodel')->field('c.product_id')->join('cart')->find(array('c.rec_id' => $key));
+			
+			$cart = RC_DB::table('cart')->where('rec_id', $key)->select('goods_id', 'goods_attr_id', 'extension_code', 'product_id')->first();
+			
+			$goods = RC_DB::table('goods')->select('goods_number')->where('goods_id', $cart['goods_id'])->first();
+			
 			//系统启用了库存，检查输入的商品数量是否有效
-			if (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] != 'package_buy') {
-				if ($row['goods_number'] < $val) {
+			if (intval(ecjia::config('use_storage')) > 0 && $cart['extension_code'] != 'package_buy') {
+				if ($goods['goods_number'] < $val) {
 					return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 				}
 				/* 是货品 */
-				$row['product_id'] = trim($row['product_id']);
-				if (!empty($row['product_id'])) {
-					$product_number = RC_Model::model('goods/products_model')->where(array('goods_id' => $goods['goods_id'] , 'product_id' => $goods['product_id']))->get_field('product_number');
+				$cart['product_id'] = trim($cart['product_id']);
+				if (!empty($cart['product_id'])) {
+					$product_number = RC_DB::table('products')->where('goods_id', $cart['goods_id'])->where('product_id', $cart['product_id'])->pluck('product_number');
 					if ($product_number < $val) {
 						return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 					}
 				}
-			} elseif (intval(ecjia::config('use_storage')) > 0 && $goods['extension_code'] == 'package_buy') {
-				if (self::judge_package_stock($goods['goods_id'], $val)) {
+			} elseif (intval(ecjia::config('use_storage')) > 0 && $cart['extension_code'] == 'package_buy') {
+				if (self::judge_package_stock($cart['goods_id'], $val)) {
 					return new ecjia_error('low_stocks', __('库存不足', 'cart'));
 				}
 			}
@@ -683,7 +681,7 @@ class cart {
 					/* ===== 计算收件人距离 END ===== */
 					$total['shipping_fee'] = ($shipping_count == 0 AND $weight_price['free_shipping'] == 1) ? 0 : ecjia_shipping::fee($shipping_info['shipping_area_id'], $distance, $total['goods_price'], $weight_price['number']);
 				} else {
-					$total['shipping_fee'] = ($shipping_count == 0 AND $weight_price['free_shipping'] == 1) ? 0 : ecjia_shipping::fee($shipping_info['shipping_area_id'], $weight_price['weight'], $total['goods_price'], $weight_price['number']);
+					$total['shipping_fee'] = ($shipping_count == 0 AND $weight_price['free_shipping'] == 1) ? 0 : ecjia_shipping::fee($shipping_info['shipping_area_id'], $weight_price['weight'], $weight_price['amount'], $weight_price['number']);
 				}
 
 				if (!empty($order['need_insure']) && $shipping_info['insure'] > 0) {
@@ -1441,22 +1439,13 @@ class cart {
 	 * 清空购物车
 	 * @param   int	 $type   类型：默认普通商品
 	 */
-	public static function clear_cart($type = CART_GENERAL_GOODS, $cart_id = array()) {
-		$db_cart = RC_Model::model('cart/cart_model');
-
-		$cart_w = array(
-				'user_id'	=> $_SESSION['user_id'],
-				'rec_type'	=> $type,
-		);
-		if (!empty($cart_id)) {
-			$cart_w['rec_id'] = $cart_id;
+	public static function clear_cart($type = CART_GENERAL_GOODS, $cart_id = array(), $user_id = 0) {
+		$db_cart = RC_DB::table('cart');
+		$db_cart->where('user_id', $user_id)->where('rec_type', $type);
+		if (!empty($cart_id) && is_array($cart_id)) {
+			$db_cart->whereIn('rec_id', $cart_id);
 		}
-
-// 		if (defined('SESS_ID')) {
-// 			$cart_w['session_id'] = SESS_ID;
-// 		}
-
-		$db_cart->where($cart_w)->delete();
+		$db_cart->delete();
 	}
 
 	/**
@@ -1646,17 +1635,20 @@ class cart {
 	 * @param   bool	$storage	 减库存的时机，1，下订单时；0，发货时；
 	 */
 	public static function change_order_goods_storage($order_id, $is_dec = true, $storage = 0) {
-		$db			= RC_Model::model('orders/order_goods_model');
-		$db_package	= RC_Model::model('goods/package_goods_model');
-		$db_goods	= RC_Model::model('goods/goods_model');
+		$db 		= RC_DB::table('order_goods');
+		$db_package = RC_DB::table('package_goods');
+		$db_goods	= RC_DB::table('goods');
+		
 		/* 查询订单商品信息  */
 		switch ($storage) {
 			case 0 :
-				$data = $db->field('goods_id, SUM(send_number) as num, MAX(extension_code) as extension_code, product_id')->where(array('order_id' => $order_id , 'is_real' => 1))->group(array('goods_id' , 'product_id'))->select();
+				$data = $db->select(RC_DB::raw('goods_id, SUM(send_number) as num, MAX(extension_code) as extension_code, product_id'))
+							->where('order_id', $order_id)->where('is_real', 1)->groupBy('goods_id')->groupBy('product_id')->get();
 				break;
 
 			case 1 :
-				$data = $db->field('goods_id, SUM(goods_number) as num, MAX(extension_code) as extension_code, product_id')->where(array('order_id' => $order_id , 'is_real' => 1))->group(array('goods_id', 'product_id'))->select();
+				$data = $db->select(RC_DB::raw('goods_id, SUM(goods_number) as num, MAX(extension_code) as extension_code, product_id'))
+							->where('order_id', $order_id)->where('is_real', 1)->groupBy('goods_id')->groupBy('product_id')->get();
 				break;
 		}
 
@@ -1669,11 +1661,10 @@ class cart {
 						$result = self::change_goods_storage($row['goods_id'], $row['product_id'], $row['num']);
 					}
 				} else {
-					$data = $db_package->field('goods_id, goods_number')->where('package_id = "' . $row['goods_id'] . '"')->select();
+					$data = $db_package->select('goods_id', 'goods_number')->where('package_id', $row['goods_id'])->get();
 					if (!empty($data)) {
 						foreach ($data as $row_goods) {
-							$is_goods = $db_goods->field('is_real')->find('goods_id = "'. $row_goods['goods_id'] .'"');
-
+							$is_goods	= $db_goods->select('is_real')->where('goods_id', $row_goods['goods_id'])->first();
 							if ($is_dec) {
 								$result = self::change_goods_storage($row_goods['goods_id'], $row['product_id'], - ($row['num'] * $row_goods['goods_number']));
 							} elseif ($is_goods['is_real']) {

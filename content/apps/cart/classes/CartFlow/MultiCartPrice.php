@@ -63,10 +63,8 @@ class MultiCartPrice
         $total['goods_amount'] = sprintf("%.2f", $goods_price);
         $total['goods_number'] = $goods_quantity;
         
-        $total['saving']       = ecjia_price_format($market_price - $goods_price, false);
-        if ($market_price > 0) {
-            $total['save_rate'] = $market_price ? round(($market_price - $goods_price) * 100 / $market_price).'%' : 0;
-        }
+        $total['saving']    = ecjia_price_format($discount, false);
+        $total['save_rate'] = $discount > 0 ? round($discount * 100 / $goods_price).'%' : 0;
         $total['unformatted_goods_price']  	= sprintf("%.2f", $goods_price);
         $total['goods_price']  				= ecjia_price_format($goods_price, false);
         $total['unformatted_market_price'] 	= sprintf("%.2f", $market_price);

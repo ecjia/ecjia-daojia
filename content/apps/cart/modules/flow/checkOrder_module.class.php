@@ -62,7 +62,6 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		$rec_id		= $this->requestData('rec_id');
 		$location 	= $this->requestData('location', array());
 		
-// 		if (empty($address_id) || empty($rec_id)) {
 		if (empty($rec_id)) {
             return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));
 		}
@@ -73,7 +72,6 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		RC_Loader::load_app_class('cart', 'cart', false);
 
 		/* 取得购物类型 */
-		//$flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
 		$rec_type = RC_DB::table('cart')->whereIn('rec_id', $cart_id)->lists('rec_type');
 		$rec_type = array_unique($rec_type);
 		if (count($rec_type) > 1) {
@@ -100,7 +98,6 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		}
 		
 		/* 检查购物车中是否有商品 */
-		// 		$get_cart_goods = RC_Api::api('cart', 'cart_list', array('cart_id' => $cart_id, 'flow_type' => $flow_type, 'store_group' => $store_id_group));
 		$get_cart_goods = RC_Api::api('cart', 'cart_list', array('cart_id' => $cart_id, 'flow_type' => $flow_type, 'store_group' => ''));
 		
 		if(is_ecjia_error($get_cart_goods)) {
@@ -135,35 +132,13 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		
 		//检查该地址是否在该店铺配送范围内 
 		if (!empty($consignee)) {
-// 			$geohash = RC_Loader::load_app_class('geohash', 'store');
-// 			$geohash_code = $geohash->encode($consignee['latitude'], $consignee['longitude']);
-			
-// 			$geohash_store_code = $geohash->encode($location['latitude'], $location['longitude']);
-// 			$local = RC_Api::api('user', 'neighbors_address', array('geohash' => $geohash_code, 'geohash_store' => $geohash_store_code, 'city_id' => $consignee['city']));
 		    $local = RC_Api::api('user', 'neighbors_address_store', array('address' => $consignee, 'store_id' => $get_cart_goods['goods_list'][0]['store_id']));
 			if (!$local) {
 				$consignee = array();
 			}
 		}
-		
-		/* 检查收货人信息是否完整 */
-// 		if (!cart::check_consignee_info($consignee, $flow_type)) {
-			/* 如果不完整则转向到收货人信息填写界面 */
-// 			return new ecjia_error('pls_fill_in_consinee_info_', '请完善收货人信息！');
-// 		}
 
 		$store_id_group = array();
-		/* 根据经纬度查询附近店铺id*/
-// 		if (!empty($consignee['latitude']) && !empty($consignee['longitude'])) {
-// 			$geohash         = RC_Loader::load_app_class('geohash', 'store');
-// 			$geohash_code    = $geohash->encode($consignee['latitude'] , $consignee['longitude']);
-// 			$geohash_code    = substr($geohash_code, 0, 5);
-// 			$store_id_group  = RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $consignee['city']));
-// 		}
-		
-// 		if (empty($store_id_group)) {
-// 			$store_id_group = array(0);
-// 		}
 
 		/* 取得订单信息*/
 		$order = cart::flow_order_info();
@@ -175,7 +150,6 @@ class flow_checkOrder_module extends api_front implements api_interface {
 			if (!empty($row['goods_attr'])) {
 				$goods_attr = explode("\n", $row['goods_attr']);
 				$goods_attr = array_filter($goods_attr);
-// 				$out['goods_list'][$key]['goods_attr'] = array();
 				foreach ($goods_attr as  $v) {
 					$a = explode(':',$v);
 					if (!empty($a[0]) && !empty($a[1])) {
@@ -219,12 +193,6 @@ class flow_checkOrder_module extends api_front implements api_interface {
 			$store_id =  $store_group[0];
 		}
 
-		/* 计算折扣 */
-		// 暂无用处
-		/* if ($flow_type != CART_EXCHANGE_GOODS && $flow_type != CART_GROUP_BUY_GOODS) {
-			$discount = cart::compute_discount($cart_id);
-			$favour_name = empty($discount['name']) ? '' : join(',', $discount['name']);
-		} */
 		/* 计算订单的费用 */
 		$cod_fee    = 0;
 		$total = cart::order_fee($order, $cart_goods, $consignee, $cart_id);
@@ -277,7 +245,6 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		        }
 		        $ck[$val['shipping_id']] = $val['shipping_id'];
 		    
-// 		        $shipping_cfg = $shipping_method->unserialize_config($val['configure']);
 		        $shipping_cfg = ecjia_shipping::unserializeConfig($val['configure']);
 		    
 		        // O2O的配送费用计算传参调整
@@ -342,7 +309,6 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		        $cod        = true;
 		        $cod_fee    = 0;
 		    } else {
-// 		        $shipping = $shipping_method->shipping_info($order['shipping_id']);
 		        $shipping = ecjia_shipping::pluginData($order['shipping_id']);
 		        
 		        $cod      = $shipping['support_cod'];
@@ -366,7 +332,6 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		                }
 		            }
 		            if ($cod) {
-// 		                $shipping_area_info = $shipping_method->shipping_area_info($order['shipping_id'], $region, $order['store_id']);
 		                $shipping_area_info = ecjia_shipping::shippingArea($order['shipping_id'], $region, $order['store_id']);
 		                
 		                $cod_fee            = $shipping_area_info['pay_fee'];
@@ -378,16 +343,6 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		}
 		
 		/* 取得支付列表 */
-// 		$payment_method = RC_Loader::load_app_class('payment_method', 'payment');
-
-// 		// 给货到付款的手续费加<span id>，以便改变配送的时候动态显示
-// 		$store_info = RC_DB::table('store_franchisee')->where('store_id', $order['store_id'])->first();
-// 		if ($store_info['manage_mode'] == 'self') {
-// 			$payment_list = $payment_method->available_payment_list(1, $cod_fee);
-// 		} else {
-// 			$payment_list = $payment_method->available_payment_list(false, $cod_fee);
-// 		}
-
 		$payment_list = RC_Api::api('payment', 'available_payments', array('store_id' => $order['store_id'], 'cod_fee' => $cod_fee));
 		
 		$user_info = RC_Api::api('user', 'user_info', array('user_id' => $_SESSION['user_id']));
@@ -410,7 +365,6 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		
 		if (!empty($shipping_area_list)) {
 			foreach ($shipping_area_list as $key => $val) {
-				//$shipping_area_list[$key]['shipping_code'] = RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->pluck('shipping_code');
 				$shipping_code[] =  RC_DB::table('shipping')->where('shipping_id', $val['shipping_id'])->pluck('shipping_code');
 			}
 			
@@ -465,20 +419,19 @@ class flow_checkOrder_module extends api_front implements api_interface {
 			// 取得用户可用红包
 			$pra = array(
 				'user_id' 			=> $_SESSION['user_id'],
-				'store_id' 			=> array($order['store_id'], 0),
+				//'store_id' 			=> array($order['store_id'], 0),
 				'min_goods_amount'	=> $total['goods_price']
 			);
+			//商家小程序只能使用商家红包
+			if ($this->device['code'] == '6016') {
+				$pra['store_id'] = [$order['store_id']];
+			} else {
+				$pra['store_id'] = [$order['store_id'], 0];
+			}
 			$user_bonus = Ecjia\App\Bonus\UserAvaliableBonus::GetUserBonus($pra);
 			$user_bonus_list = array();
 			if (!empty($user_bonus)) {
 				foreach ($user_bonus AS $key => $val) {
-// 					/*app2.13 判断优惠券是否可用*/
-// 					if ($val['send_type'] == SEND_COUPON) {
-// 						$check_use_coupon = RC_Model::Model('bonus/bonus_type_viewmodel')->check_use_coupon($val['type_id'], $goods_id_group);
-// 						if (!$check_use_coupon) {
-// 							continue;
-// 						}
-// 					}
 					/*app 2.8新增字段处理*/
 					$user_bonus_list[$key]['bonus_id']                 = $val['bonus_id'];
 					$user_bonus_list[$key]['bonus_name']               = $val['type_name'];
@@ -526,7 +479,6 @@ class flow_checkOrder_module extends api_front implements api_interface {
 		$out['inv_content_list']	= empty($inv_content_list) ? null : $inv_content_list;//发票内容项
 		$out['inv_type_list']		= $inv_type_list;//发票类型及税率
 		$out['your_integral']		= $user_info['pay_points'] > 0 ? $user_info['pay_points'] : 0;//用户可用积分
-// 		$out['your_discount']		= $your_discount;//用户享受折扣说明
 		$out['discount']			= number_format($total['discount'], 2, '.', '');//用户享受折扣数
 		$out['discount_formated']	= $total['discount_formated'];
 
@@ -663,6 +615,7 @@ class flow_checkOrder_module extends api_front implements api_interface {
 			
 			return $out_new;
 		} 
+		
 		//去掉系统使用的字段
 		if (!empty($out['shipping_list'])) {
 			foreach ($out['shipping_list'] as $key => $value) {
@@ -671,26 +624,6 @@ class flow_checkOrder_module extends api_front implements api_interface {
 			}
 		}
 		
-// 		$device		 = $this->device;
-// 		$device_code = $device['code'];
-// 		if (!empty($out['payment_list'])) {
-// 			foreach ($out['payment_list'] as $key => $value) {
-// 				if ($device_code != '8001') {
-// 					if ($value['pay_code'] == 'pay_koolyun' || $value['pay_code'] == 'pay_cash') {
-// 						unset($out['payment_list'][$key]);
-// 						continue;
-// 					}
-// 				}
-// 				unset($out['payment_list'][$key]['pay_config']);
-// 				unset($out['payment_list'][$key]['pay_desc']);
-// 				$out['payment_list'][$key]['pay_name'] = strip_tags($value['pay_name']);
-// 				// cod 货到付款，alipay支付宝，bank银行转账
-// 				if (in_array($value['pay_code'], array('post', 'balance'))) {
-// 					unset($out['payment_list'][$key]);
-// 				}
-// 			}
-// 			$out['payment_list'] = array_values($out['payment_list']);
-// 		}
 		return $out;
 	}
 }

@@ -48,19 +48,16 @@ namespace Ecjia\App\Cart\CartFlow;
 
 use RC_DB;
 use ecjia_shipping;
-use RC_Loader;
 use RC_Time;
 use Ecjia\App\User\Location;
-use cart;
 
 /**
- * 购物车商品格式处理
- *
+ *获取商家配送方式及配送费用
  */
-class CartGoodsFormate
+class CartStoreShipping
 {
   	/**
-     * 商家购物车划分，含配送方式
+     * 商家配送方式及配送费用
      */
     public static function store_cart_goods($cart_goods = array(), $consignee = array())
     {
@@ -75,6 +72,23 @@ class CartGoodsFormate
     		}
     	}
     	return $store_cart_goods;
+    }
+    
+    /**
+     *商家配送方式及配送费用，优惠活动
+     */
+    public static function store_cart_goods_discount($cart_goods = array(), $consignee = array())
+    {
+    	if (!empty($cart_goods['cart_list'])) {
+    		foreach ($cart_goods['cart_list'] as $key => $val) {
+    			$store_shipping_list = self::store_shipping_list($val['goods_list'], $consignee, $val['store_id']);
+    			$val['shipping'] = $store_shipping_list;
+    			$val['goods_amount'] = sprintf("%.2f", $val['total']['goods_amount']);
+    			$store_cart_goods [] = $val;
+    		}
+    	}
+    	$result = array('cart_list' => $store_cart_goods, 'total' => $cart_goods['total']);
+    	return $result;
     }
     
     /**
@@ -155,7 +169,7 @@ class CartGoodsFormate
     			}
     			//上门取货 自提插件 获得提货时间
     			if($row['shipping_code'] == 'ship_cac') {
-    				$shipping_list[$key]['expect_pickup_date'] = cart::get_ship_cac_date_by_store($store_id, $row['shipping_id']);
+    				$shipping_list[$key]['expect_pickup_date'] =\Ecjia\App\Cart\CartFunction::get_ship_cac_date_by_store($store_id, $row['shipping_id']);
     				$shipping_list[$key]['expect_pickup_date_default'] = $shipping_list[$key]['expect_pickup_date'][0]['date'] . ' ' . $shipping_list[$key]['expect_pickup_date'][0]['time'][0]['start_time'] . '-' . $shipping_list[$key]['expect_pickup_date'][0]['time'][0]['end_time'];
     			}
     			 

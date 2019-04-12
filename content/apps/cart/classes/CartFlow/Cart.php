@@ -28,6 +28,8 @@ class Cart
 
     ];
 
+    protected $item = [];
+
     protected $model;
 
     public function __construct($user_id, $store_id, $cart_type, $cart_id = [])
@@ -38,6 +40,18 @@ class Cart
         $this->cart_id	 = $cart_id;
 
         $this->model = new CartModel();
+    }
+
+    public function setCartData($key, $value)
+    {
+        $this->item[$key] = $value;
+
+        return $this;
+    }
+
+    public function getCartData($key)
+    {
+        return array($this->item, $key);
     }
 
     /**
@@ -103,7 +117,8 @@ class Cart
         $res['store_id'] 	= $store_info['store_id'];
         $res['store_name'] 	= $store_info['merchants_name'];
         $res['manage_mode'] = $store_info['manage_mode'];
-        
+        $res['user_id'] 	= $this->user_id;
+
         $res['goods_list'] = $result;
         $res['favourable_activity'] = empty($fav_list['store_fav_activity']) ? [] : $fav_list['store_fav_activity'];
         $res['total']	   = $total;

@@ -59,10 +59,6 @@ class CartPrice
     	$this->total['goods_number'] = $this->model->goods_number;
     	
     	$this->total['goods_amount'] = $this->total['goods_price'];
-    	$this->total['saving']       = ecjia_price_format($this->total['market_price'] - $this->total['goods_price'], false);
-    	if ($this->total['market_price'] > 0) {
-    		$this->total['save_rate'] = $this->total['market_price'] ? round(($this->total['market_price'] - $this->total['goods_price']) * 100 / $this->total['market_price']).'%' : 0;
-    	}
     	
     	$this->total['goods_price'] 			= sprintf("%.2f", $this->total['goods_price']);
     	$this->total['formatted_goods_price']  	= ecjia_price_format($this->total['goods_price'], false);

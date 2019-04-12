@@ -46,37 +46,27 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class flow_hooks {
-	/**
-	 * 清除购物车中过期的数据
-	 * @deprecated 1.12.0 已经废弃了
-	 */
-	public static function clear_cart() {
-	    $lasttime = RC_Cache::app_cache_get('clean_cart_session', 'cart');
-	    if (! $lasttime) {
-	        $db_view = RC_Model::model('cart/cart_sessions_viewmodel');
-	        $db = RC_Model::model('cart/cart_model');
-	        /* 取得有效的session */
-	        $valid_sess = $db_view->join('sessions')->select();
-	        
-	        if (!empty($valid_sess)) {
-	            $sess_arr = array();
-	            foreach ($valid_sess as $sess) {
-	            	if (!empty($sess['session_id'])){
-	            		$sess_arr[] = $sess['session_id'];
-	            	}
-	            }
-	        
-	            // 删除cart中无效的数据
-	            if (!empty($sess_arr)) {
-	            	$db->in(array('session_id' => $sess_arr), true)->delete();
-	            }
-	        }
-	        RC_Cache::app_cache_set('clean_cart_session', 'clean_cart_session', 'cart', 1440);
-	    }
-	}
+class cart_admin_hooks {
+
+    public static function append_admin_setting_group($menus)
+    {
+        $setting = ecjia_admin_setting::singleton();
+
+        $menus[] = ecjia_admin::make_admin_menu('nav-header', __('购物车', 'cart'), '', 40)->add_purview(array('cart_setting'));
+        $menus[] = ecjia_admin::make_admin_menu('shopping_flow', __('购物流程', 'cart'), RC_Uri::url('setting/shop_config/init', array('code' => 'shopping_flow')), 41)->add_purview('cart_setting')->add_icon('fontello-icon-gift');
+
+        return $menus;
+    }
+
+    public static function add_admin_setting_command($factories)
+    {
+        $factories['shopping_flow'] = 'Ecjia\App\Cart\SettingComponents\ShoppingFlowSetting';
+
+        return $factories;
+    }
 }
 
-// RC_Hook::add_action( 'ecjia_admin_finish_launching', array('flow_hooks', 'clear_cart') );
+RC_Hook::add_action( 'append_admin_setting_group', array('cart_admin_hooks', 'append_admin_setting_group') );
+RC_Hook::add_action('ecjia_setting_component_filter', array('cart_admin_hooks', 'add_admin_setting_command'));
 
 // end

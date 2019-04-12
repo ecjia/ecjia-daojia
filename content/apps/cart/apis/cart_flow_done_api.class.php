@@ -593,7 +593,7 @@ class cart_flow_done_api extends Component_Event_Api {
 		}
 
 		/* 清空购物车 */
-		cart::clear_cart($flow_type, $cart_id_array);
+		cart::clear_cart($flow_type, $cart_id_array, $_SESSION['user_id']);
 
 		/* 插入支付日志 */
 		$order['log_id'] = $payment_method->insert_pay_log($new_order_id, $order['order_amount'], PAY_ORDER);

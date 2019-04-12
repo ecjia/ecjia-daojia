@@ -265,15 +265,15 @@ class CartStoreFavourable
     {
     	//店铺优惠活动
     	$favourable_list = [];
-    	$now = RC_Time::gmtime();
-    	$user_rank = ',' . $user_rank . ',';
-    	$favourable_list = FavourableActivityModel::where('store_id', $this->store_id)
-    	->where('start_time', '<=', $now)
-    	->where('end_time', '>=', $now)
-    	->whereRaw('CONCAT(",", user_rank, ",") LIKE "%' . $user_rank . '%"')
-    	->whereIn('act_type', array(FAT_DISCOUNT, FAT_PRICE))
-    	->get()->toArray();
-    	return $favourable_list;
+        $now = RC_Time::gmtime();
+        $user_rank = ',' . $user_rank . ',';
+        $favourable_list = FavourableActivityModel::where('store_id', $this->store_id)
+            ->where('start_time', '<=', $now)
+            ->where('end_time', '>=', $now)
+            ->whereRaw('CONCAT(",", user_rank, ",") LIKE "%' . $user_rank . '%"')
+            ->whereIn('act_type', array(FAT_DISCOUNT, FAT_PRICE))
+            ->get()->toArray();
+        return $favourable_list;
     }
     
     /**
