@@ -51,8 +51,6 @@ class printer_admin_hooks
 
     public static function append_admin_setting_group($menus)
     {
-        $setting = ecjia_admin_setting::singleton();
-
         $menus[] = ecjia_admin::make_admin_menu('nav-header', __('小票打印', 'printer'), '', 50)->add_purview(array('printer_manage'));
         $menus[] = ecjia_admin::make_admin_menu('printer_setting', __('打印机设置', 'printer'), RC_Uri::url('printer/admin_config/init'), 51)->add_purview('printer_manage')->add_icon('fontello-icon-chat-empty');
 
