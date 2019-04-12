@@ -4,16 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App goodslib 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-13 11:38+0800\n"
+"POT-Creation-Date: 2019-04-03 16:56+0800\n"
+"PO-Revision-Date: 2019-04-08 17:25+0800\n"
+"Last-Translator: \n"
+"Language-Team: ecjia@ecjia.com\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-03-14 17:49+0800\n"
-"Language-Team: ecjia@ecjia.com\n"
-"X-Generator: Poedit 1.8.7\n"
-"Last-Translator: \n"
+"X-Generator: Poedit 2.2\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language: zh_TW\n"
 
 #: admin.php:111 admin.php:122 admin.php:123 admin.php:154 admin.php:419
 #: admin.php:433 admin.php:636 admin.php:918 admin.php:1137 admin.php:1196
@@ -1257,7 +1257,7 @@ msgstr "請輸入商品關鍵字"
 #: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:79
 #: content/apps/goodslib/templates/merchant/goods_list.dwt.php:66
 msgid "缩略图"
-msgstr "商品名稱"
+msgstr "縮略圖"
 
 #: content/apps/goodslib/templates/admin/goodslib_list.dwt.php:80
 #: content/apps/goodslib/templates/merchant/goods_list.dwt.php:67

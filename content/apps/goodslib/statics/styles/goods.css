@@ -350,3 +350,14 @@
 .admin_detail #detail, .admin_detail .tm-detail-meta {
 	width:100%!important;
 }
+
+.fileupload-btn-product, .fileupload-btn-product:hover, .fileupload-btn-product:after{
+	width: 220px;
+	height: 220px;
+	margin-left: 0;
+}
+.fileupload-btn-product .fileupload-exists {
+	top:31%;
+}
+.product-edit .form-horizontal .control-group-small .controls {
+ margin-left: 100px}

@@ -52,11 +52,13 @@
                                     <td>{$goods_attr}</td>
                                     {/foreach}
                                     <td class="product_sn">
-	                                    <span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goodslib/admin/edit_product_sn')}" data-name="edit_product_sn" data-pk="{$product.product_id}" data-title="{lang key='goods::goods.edit_product_sn'}">
+	                                    <span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goodslib/admin/edit_product_sn')}" data-name="edit_product_sn" data-pk="{$product.product_id}" data-title="{t domain="goodslib"}编辑货品货号{/t}">
 	                                    {$product.product_sn}
 	                                    </span>
                                     </td>
-                                    <td><a class="ecjiafc-red ajax-remove" data-toggle="ajaxremove" data-msg="{lang key='goods::goods.trash_product_confirm'}" href='{url path="goodslib/admin/product_remove" args="id={$product.product_id}"}' title="{t domain="goodslib"}删除{/t}"><i class="fontello-icon-trash ecjiafc-red"></i></a></td>
+                                    <td>
+                                        <a class="data-pjax" href="{url path="goodslib/admin/product_edit" args="id={$product.product_id}&goods_id={$goods_id}"}"><i class="fontello-icon-edit"></i></a>
+                                        <a class="ecjiafc-red ajax-remove" data-toggle="ajaxremove" data-msg="{t domain="goodslib"}确定要删除吗？{/t}" href='{url path="goodslib/admin/product_remove" args="id={$product.product_id}"}' title="{t domain="goodslib"}删除{/t}"><i class="fontello-icon-trash ecjiafc-red"></i></a></td>
                                 </tr>
                                 {/foreach}
                                 

@@ -16,11 +16,11 @@
 			<i class="fontello-icon-plus"></i>{$action_link.text}
 		</a>{/if}
 		<a href="{url path='goodslib/admin/import'}" class="btn data-pjax plus_or_reply" id="">
-			<i class="splashy-upload"></i> 批量导入
+			<i class="splashy-upload"></i> {t domain="goodslib"}批量导入{/t}
 		</a>
 		<a href="{url path='goodslib/admin/export' args="{if $smarty.get.cat_id}&cat_id={$smarty.get.cat_id}{/if}{if $smarty.get.brand_id}&brand_id={$smarty.get.brand_id}{/if}{if $smarty.get.keywords}&keywords={$smarty.get.keywords}{/if}"}" 
 			class="btn plus_or_reply goodslib_download" id="">
-			<i class="splashy-download"></i> 导出结果
+			<i class="splashy-download"></i> {t domain="goodslib"}导出结果{/t}
 		</a>
 	</h3>
 </div>
@@ -31,7 +31,7 @@
 			<i class="fontello-icon-cog"></i>{t domain="goodslib"}批量操作{/t}<span class="caret"></span>
 		</a>
 		<ul class="dropdown-menu batch-move" data-url="{RC_Uri::url('goodslib/admin/batch')}">
-			<li><a class="batch-trash-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=trash&page={$smarty.get.page}" data-msg="{t domain="goodslib"}您确定要把选中的商品放入回收站吗？{/t}" data-noSelectMsg="{t domain="goodslib"}请选择要移至回收站的商品{/t}" href="javascript:;"> <i class="fontello-icon-box"></i>删除</a></li>
+			<li><a class="batch-trash-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=trash&page={$smarty.get.page}" data-msg="{t domain="goodslib"}您确定要把选中的商品放入回收站吗？{/t}" data-noSelectMsg="{t domain="goodslib"}请选择要移至回收站的商品{/t}" href="javascript:;"> <i class="fontello-icon-box"></i>{t domain="goodslib"}删除{/t}</a></li>
 			<li><a class="batch-sale-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=on_sale&page={$smarty.get.page}" data-msg="{t domain="goodslib"}您确定要把选中的商品上架吗？{/t}" data-noSelectMsg="{t domain="goodslib"}请选择要上架的商品{/t}" href="javascript:;"> <i class="fontello-icon-up-circled2"></i>{t domain="goodslib"}上架{/t}</a></li>
 			<li><a class="batch-notsale-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url="{$form_action}&type=not_on_sale&page={$smarty.get.page}" data-msg="{t domain="goodslib"}您确定要把选中的商品下架吗？{/t}" data-noSelectMsg="{t domain="goodslib"}请选择要下架的商品{/t}" href="javascript:;"> <i class="fontello-icon-down-circled2"></i>{t domain="goodslib"}下架{/t}</a></li>
 		</ul>
@@ -81,7 +81,7 @@
 					<th class="w80" data-toggle="sortby" data-sortby="goods_sn">{t domain="goodslib"}货号{/t}</th>
 					<th class="w70" data-toggle="sortby" data-sortby="shop_price">{t domain="goodslib"}价格{/t}</th>
 					<th class="w35"> {t domain="goodslib"}上架{/t} </th>
-					<th class="w35" data-toggle="sortby" data-sortby="sort_order">排序</th>
+					<th class="w35" data-toggle="sortby" data-sortby="sort_order">{t domain="goodslib"}排序{/t}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -96,14 +96,14 @@
 						</a>
 					</td>
 					<td class="hide-edit-area ">
-						{$goods.goods_name|escape:html}
+                        {if $specifications[$goods.goods_type] neq ''}<span class="label-orange">{t domain="goodslib"}多货品{/t}{/if}</span>{$goods.goods_name|escape:html}
 						<br/>
 						<div class="edit-list">
 							<a class="data-pjax" href='{url path="goodslib/admin/edit" args="goods_id={$goods.goods_id}"}'>{t domain="goodslib"}编辑{/t}</a>&nbsp;|&nbsp;
 							<a class="data-pjax" href='{url path="goodslib/admin_gallery/init" args="goods_id={$goods.goods_id}"}'>{t domain="goodslib"}商品相册{/t}</a>&nbsp;|&nbsp;
 							<a class="data-pjax" href='{url path="goodslib/admin/edit_goods_attr" args="goods_id={$goods.goods_id}"}'>{t domain="goodslib"}商品属性{/t}</a>&nbsp;|&nbsp;
 							{if $specifications[$goods.goods_type] neq ''}<a target="_blank" href='{url path="goodslib/admin/product_list" args="goods_id={$goods.goods_id}"}'>{t domain="goodslib"}货品列表{/t}</a>&nbsp;|&nbsp;{/if}
-							<a target="_blank" href='{url path="goodslib/admin/preview" args="goods_id={$goods.goods_id}"}'>预览</a>&nbsp;|&nbsp;
+							<a target="_blank" href='{url path="goodslib/admin/preview" args="goods_id={$goods.goods_id}"}'>{t domain="goodslib"}预览{/t}</a>&nbsp;|&nbsp;
 							<a class="ajaxremove ecjiafc-red" data-toggle="ajaxremove" data-msg="{t domain="goodslib"}您确定要把该商品放入回收站吗？{/t}" href='{url path="goodslib/admin/remove" args="id={$goods.goods_id}"}'>{t domain="goodslib"}删除{/t}</a>
 						</div>
 					</td>	
@@ -112,7 +112,7 @@
 						{$goods.goods_sn} 
 					</td>
 					<td align="right">
-						<span  class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goodslib/admin/edit_goods_price')}{if $smarty.get.page}&page={$smarty.get.page}{/if}" data-name="goods_price" data-pk="{$goods.goods_id}" data-title="请输入商品价格"> 
+						<span  class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goodslib/admin/edit_goods_price')}{if $smarty.get.page}&page={$smarty.get.page}{/if}" data-name="goods_price" data-pk="{$goods.goods_id}" data-title="{t domain="goodslib"}请输入商品价格{/t}">
 							{$goods.shop_price}
 						</span> 
 					</td>
@@ -128,7 +128,7 @@
 						</i>
 					</td>
 					<td align="center">
-						<span class="cursor_pointer" data-placement="left" data-trigger="editable" data-url="{RC_Uri::url('goodslib/admin/edit_sort_order')}" data-name="sort_order" data-pk="{$goods.goods_id}" data-title="请输入排序序号"> 
+						<span class="cursor_pointer" data-placement="left" data-trigger="editable" data-url="{RC_Uri::url('goodslib/admin/edit_sort_order')}" data-name="sort_order" data-pk="{$goods.goods_id}" data-title="{t domain="goodslib"}请输入排序序号{/t}">
 							{$goods.sort_order}
 						</span>
 					</td>
