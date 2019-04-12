@@ -2,7 +2,7 @@
 <div class="accordion-group">
 	<div class="accordion-heading">
 		<a href="#collapse101" data-parent="#side_accordion" data-toggle="collapse" class="accordion-toggle">
-		   <i class="icon-th"></i> {t}计算器{/t}
+		   <i class="icon-th"></i> {t domain="calculator"}计算器{/t}
 		</a>
 	</div>
 	<div class="accordion-body collapse" id="collapse101">
