@@ -385,6 +385,8 @@ return array(
 	'weapp/wxauthorize'				=> 'weapp::weapp/wxauthorize',	//小程序授权用户
 	'weapp/wxbind'					=> 'weapp::weapp/wxbind',	//小程序绑定用户
 	'weapp/wxpay'					=> 'weapp::weapp/wxpay',	//小程序微信支付
+	'weapp/mobilebind'				=> 'weapp::weapp/mobilebind',	//小程序微信绑定手机号
+	'weapp/store'					=> 'weapp::weapp/store',	//通过小程序获取店铺基本信息
 
 	'admin/merchant/refreshQrcode'	=> 'merchant::admin/merchant/refreshQrcode',	//1.7 掌柜店铺刷新二维码
 	'market/shake'                  => 'market::market/shake',        //1.6增加 摇一摇
@@ -583,6 +585,16 @@ return array(
 	'admin/cashier/quickpay/summary/records'		  => 'quickpay::admin/cashier/quickpay/summary/records',    //资金流水买单列表（买单支付完成的）
 	'admin/cashier/refund/summary/records'		  	  => 'refund::admin/cashier/refund/summary/records',    	//资金流水退款列表（退款完成的）
 	'admin/cashier/user/account/deposit/records'	  => 'user::admin/cashier/user/account/deposit/records',	//收银员查看会员充值记录
+	'admin/cashier/validate/integral'             	  => 'user::admin/cashier/validate/integral',               //收银台验证积分
+		
+	//1.30小程序
+	'medialibrary/image/temp/upload'                  => 'setting::medialibrary/image/temp/upload',             //图片临时上传，通用接口
+	'connect/user/bind'								  => 'connect::connect/user/bind',             				//用户绑定第三方账号	
+	'user/connect/binded/status'					  => 'user::user/connect/binded/status',             		//用户绑定的第三方账号
+	'user/orders/summary'					  		  => 'user::user/orders/summary',             				//用户订单数量统计概况
+		
+
+	'bbc/test/flow/done'							  => 'cart::bbc/test/flow/done',							//到家商城，购物流订单结算提交测试接口
 
 	
     /**
