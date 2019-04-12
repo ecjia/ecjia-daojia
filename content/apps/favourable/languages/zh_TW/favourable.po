@@ -4,16 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App favourable 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-06 09:04:37+00:00\n"
+"POT-Creation-Date: 2019-04-03 15:36+0800\n"
+"PO-Revision-Date: 2019-04-03 15:36+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-03-12 14:13+0800\n"
-"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
-"X-Generator: Poedit 2.2\n"
-"Last-Translator: \n"
+"X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language: zh_TW\n"
 
 #: admin.php:81 admin.php:91 admin.php:102 merchant.php:87 merchant.php:90
 #: merchant.php:108 merchant.php:252
@@ -114,6 +114,7 @@ msgid "参数无效"
 msgstr "參數無效"
 
 #: apis/favourable_merchant_purview_api.class.php:57
+#: classes/StoreCleanHandlers/StoreFavourableClear.php:34
 #: classes/hooks/admin_favourable.class.php:52
 #: classes/hooks/merchant_favourable.class.php:52 configs/package.php:55
 msgid "优惠活动"
@@ -134,20 +135,20 @@ msgstr "請求接口%s參數無效"
 msgid "非会员"
 msgstr "非会员"
 
-#: classes/StoreCleanHandlers/StoreFavourableClear.php:47
+#: classes/StoreCleanHandlers/StoreFavourableClear.php:48
 msgid "店铺优惠活动总共<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>个"
 msgstr ""
 "店鋪優惠活動總共<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>個"
 
-#: classes/StoreCleanHandlers/StoreFavourableClear.php:48
+#: classes/StoreCleanHandlers/StoreFavourableClear.php:49
 msgid "查看全部>>>"
 msgstr "查看全部>>>"
 
-#: classes/StoreCleanHandlers/StoreFavourableClear.php:101
+#: classes/StoreCleanHandlers/StoreFavourableClear.php:102
 msgid "店铺名是%s"
 msgstr "店鋪名是%s"
 
-#: classes/StoreCleanHandlers/StoreFavourableClear.php:101
+#: classes/StoreCleanHandlers/StoreFavourableClear.php:102
 msgid "店铺ID是%s"
 msgstr "店鋪ID是%s"
 
