@@ -4,18 +4,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App installer 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-01 01:44:22+00:00\n"
+"POT-Creation-Date: 2019-04-03 16:57+0800\n"
+"PO-Revision-Date: 2019-04-03 16:57+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-03-15 13:18+0800\n"
-"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "X-Generator: Poedit 1.8.7\n"
-"Last-Translator: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language: zh_TW\n"
 
-#: classes/Controllers/IndexController.php:167
+#: classes/Controllers/IndexController.php:142
 msgid ""
 "抱歉，当前程序运行在 %s 目录下，ECJia到家程序必须运行在网站根目录下/，请您"
 "更换目录后再重新运行安装程序。"
@@ -23,65 +23,65 @@ msgstr ""
 "抱歉，當前程序運行在 %s 目錄下，ECJia到家程序必須運行在網站根目錄下/，請您"
 "更換目錄後再重新運行安裝程序。"
 
-#: classes/Controllers/IndexController.php:205
+#: classes/Controllers/IndexController.php:180
 msgid "是"
 msgstr "是"
 
-#: classes/Controllers/IndexController.php:205
+#: classes/Controllers/IndexController.php:180
 msgid "否"
 msgstr "否"
 
-#: classes/Controllers/IndexController.php:207
+#: classes/Controllers/IndexController.php:182
 msgid "无需设置"
 msgstr "無需設置"
 
-#: classes/Controllers/IndexController.php:238
+#: classes/Controllers/IndexController.php:213
 msgid "支持（%s）"
 msgstr "支持（%s）"
 
-#: classes/Controllers/IndexController.php:386
+#: classes/Controllers/IndexController.php:361
 msgid "恭喜您，安装成功!"
 msgstr "恭喜您，安裝成功!"
 
-#: classes/Controllers/IndexController.php:404
+#: classes/Controllers/IndexController.php:379
 msgid "安装程序已经被锁定。"
 msgstr "安裝程序已經被鎖定。"
 
-#: classes/Controllers/IndexController.php:405
+#: classes/Controllers/IndexController.php:380
 msgid "如果您确定要重新安装ECJia到家，请删除%s目录下的%s。"
 msgstr "如果您確定要重新安裝ECJia到家，請刪除%s目錄下的%s。"
 
-#: classes/Controllers/IndexController.php:442
-#: classes/Controllers/IndexController.php:446
-#: classes/Controllers/IndexController.php:455
-#: classes/Controllers/IndexController.php:479 classes/Helper.php:113
+#: classes/Controllers/IndexController.php:417
+#: classes/Controllers/IndexController.php:421
+#: classes/Controllers/IndexController.php:430
+#: classes/Controllers/IndexController.php:454 classes/Helper.php:113
 #: classes/Helper.php:179 classes/Helper.php:200 classes/Helper.php:547
 #: classes/Helper.php:560
 msgid "连接数据库失败，请检查您输入的数据库帐号是否正确。"
 msgstr "連接數據庫失敗，請檢查您輸入的數據庫帳號是否正確。"
 
-#: classes/Controllers/IndexController.php:450
+#: classes/Controllers/IndexController.php:425
 msgid "MySQL数据库版本过低，请使用5.5以上版本。"
 msgstr "MySQL數據庫版本過低，請使用5.5以上版本。"
 
-#: classes/Controllers/IndexController.php:460
+#: classes/Controllers/IndexController.php:435
 msgid "当前MySQL数据库不支持InnoDB引擎，请检查后再进行安装。"
 msgstr "當前MySQL數據庫不支持InnoDB引擎，請檢查後再進行安裝。"
 
-#: classes/Controllers/IndexController.php:617
+#: classes/Controllers/IndexController.php:592
 msgid "管理员名称不能为空"
 msgstr "管理員名稱不能為空"
 
-#: classes/Controllers/IndexController.php:621
+#: classes/Controllers/IndexController.php:596
 msgid "密码不能为空"
 msgstr "密碼不能為空"
 
-#: classes/Controllers/IndexController.php:625
-#: classes/Controllers/IndexController.php:629 configs/jslang.php:68
+#: classes/Controllers/IndexController.php:600
+#: classes/Controllers/IndexController.php:604 configs/jslang.php:68
 msgid "密码必须同时包含字母及数字"
 msgstr "密碼必須同時包含字母及數字"
 
-#: classes/Controllers/IndexController.php:633 configs/jslang.php:69
+#: classes/Controllers/IndexController.php:608 configs/jslang.php:69
 msgid "密码不相同"
 msgstr "密碼不相同"
 
@@ -486,7 +486,7 @@ msgstr "請填寫您的用戶名"
 
 #: content/apps/installer/templates/front/deploy.dwt.php:63
 msgid "登录密码"
-msgstr "登录密码"
+msgstr "登錄密碼"
 
 #: content/apps/installer/templates/front/deploy.dwt.php:69
 msgid "确认密码"
