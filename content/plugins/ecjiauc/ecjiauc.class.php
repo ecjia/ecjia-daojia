@@ -66,7 +66,7 @@ class ecjiauc extends UserIntegrateAbstract
      */
     public function loadLanguage($key = null, $default = null)
     {
-        $locale = RC_Config::get('system.locale');
+        $locale = 'zh_CN';
 
         return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
     }
@@ -156,7 +156,7 @@ class ecjiauc extends UserIntegrateAbstract
             $count = RC_DB::table('users')->where('email', $username)->count();
 			if ($count > 1) {
 
-				$this->error = '邮箱有重复，请使用用户名登录！';
+				$this->error = __('邮箱有重复，请使用用户名登录！', 'ecjiauc');
 
 				return false;
 
@@ -164,7 +164,7 @@ class ecjiauc extends UserIntegrateAbstract
                 $username = RC_DB::table('users')->select('user_name')->where('email', $username)->pluck('user_name');
 
 				if (! $username) {
-					$this->error = '邮箱或密码错误！';
+					$this->error = __('邮箱或密码错误！', 'ecjiauc');
 
 					return false;	
 				}
