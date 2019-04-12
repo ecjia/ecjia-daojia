@@ -206,6 +206,7 @@ class goods_controller
                             $product_info = $v;
                             $product_info['product_goods_attr_arr'] = explode('|', $v['product_goods_attr']);
                             $dwt = 'goods_promotion_detail.dwt';
+                            break;
                         }
                     }
                 }

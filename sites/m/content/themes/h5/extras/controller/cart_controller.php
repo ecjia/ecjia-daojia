@@ -288,6 +288,7 @@ class cart_controller
                     $goods_attr = implode(',', $goods_attr);
                     if ($spec == $goods_attr && !empty($value['product_id'])) {
                         $product_id = $value['product_id'];
+                        break;
                     }
                 }
             }
