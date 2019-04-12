@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App user 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-15 03:30:53+00:00\n"
+"POT-Creation-Date: 2019-04-04 05:54:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,18 +13,18 @@ msgstr ""
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 
 #: admin.php:74 admin.php:94 admin.php:106 admin.php:147 admin.php:315
-#: admin.php:570 admin.php:732 admin.php:883
+#: admin.php:570 admin.php:747 admin.php:898
 #: apis/user_admin_menu_api.class.php:59
 msgid "会员列表"
 msgstr ""
 
-#: admin.php:97 admin.php:130 admin.php:304 admin.php:560 admin.php:872
+#: admin.php:97 admin.php:130 admin.php:304 admin.php:560 admin.php:887
 #: admin_rank.php:91 admin_rank.php:118 admin_rank.php:210
 #: admin_reg_fields.php:89 admin_reg_fields.php:117 admin_reg_fields.php:180
 msgid "概述"
 msgstr ""
 
-#: admin.php:102 admin.php:135 admin.php:310 admin.php:566 admin.php:878
+#: admin.php:102 admin.php:135 admin.php:310 admin.php:566 admin.php:893
 #: admin_rank.php:96 admin_rank.php:123 admin_rank.php:215
 #: admin_reg_fields.php:94 admin_reg_fields.php:122 admin_reg_fields.php:185
 msgid "更多信息："
@@ -63,7 +63,7 @@ msgstr ""
 msgid "女"
 msgstr ""
 
-#: admin.php:200 admin.php:447 admin.php:703
+#: admin.php:200 admin.php:447 admin.php:718
 msgid "没有输入邮件地址或者输入了一个无效的邮件地址。"
 msgstr ""
 
@@ -126,11 +126,11 @@ msgid ""
 "E5.91.98.E7.BC.96.E8.BE.91\" target=\"_blank\">关于编辑会员帮助文档</a>"
 msgstr ""
 
-#: admin.php:547 admin.php:713
+#: admin.php:547 admin.php:728
 msgid "编辑成功！"
 msgstr ""
 
-#: admin.php:557 admin.php:569 admin.php:738 admin.php:742
+#: admin.php:557 admin.php:569 admin.php:753 admin.php:757
 msgid "会员详情"
 msgstr ""
 
@@ -161,73 +161,101 @@ msgstr ""
 msgid "新用户还未登录"
 msgstr ""
 
-#: admin.php:711
+#: admin.php:673
+msgid "已绑定"
+msgstr ""
+
+#: admin.php:726
 msgid "%s邮箱信息"
 msgstr ""
 
-#: admin.php:716 classes/integrate_abstract.class.php:208
+#: admin.php:731 classes/integrate_abstract.class.php:208
 msgid "该邮件地址已经存在。"
 msgstr ""
 
-#: admin.php:719 configs/jslang.php:53 configs/jslang.php:79
+#: admin.php:734 configs/jslang.php:53 configs/jslang.php:79
 #: configs/jslang.php:101
 msgid "请输入邮箱地址！"
 msgstr ""
 
-#: admin.php:733
+#: admin.php:748
 msgid "该用户不存在"
 msgstr ""
 
-#: admin.php:739 admin.php:741
+#: admin.php:754 admin.php:756
 msgid "删除帐号数据"
 msgstr ""
 
-#: admin.php:782
+#: admin.php:797
 msgid "当前还有用户数据未清除，请先清除后再执行删除会员操作"
 msgstr ""
 
-#: admin.php:787
+#: admin.php:802
 msgid "删除会员成功"
 msgstr ""
 
-#: admin.php:806
+#: admin.php:821
 msgid "操作失败，当前code无效"
 msgstr ""
 
-#: admin.php:811
+#: admin.php:826
 msgid "%s删除成功"
 msgstr ""
 
-#: admin.php:813
+#: admin.php:828
 msgid "%s删除失败"
 msgstr ""
 
-#: admin.php:847
+#: admin.php:862
 msgid "%s删除失败；<br>"
 msgstr ""
 
-#: admin.php:854 admin.php:856
+#: admin.php:869 admin.php:871
 msgid "一键删除会员成功"
 msgstr ""
 
-#: admin.php:859
+#: admin.php:874
 msgid "操作失败"
 msgstr ""
 
-#: admin.php:869 admin.php:882
+#: admin.php:884 admin.php:897
 msgid "收货地址"
 msgstr ""
 
-#: admin.php:874
+#: admin.php:889
 msgid ""
 "欢迎访问ECJia智能后台会员收获地址列表页面，系统中所有的会员收获地址都会显示在"
 "此列表中。"
 msgstr ""
 
-#: admin.php:879
+#: admin.php:894
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:会员列表#.E6.94.B6.E8.B4."
 "A7.E5.9C.B0.E5.9D.80\" target=\"_blank\">关于会员收获地址列表帮助文档</a>"
+msgstr ""
+
+#: admin.php:957 admin.php:959 apis/user_admin_menu_api.class.php:61
+msgid "注销申请"
+msgstr ""
+
+#: admin.php:1029
+msgid "1天内"
+msgstr ""
+
+#: admin.php:1051
+msgid "年"
+msgstr ""
+
+#: admin.php:1055
+msgid "个月"
+msgstr ""
+
+#: admin.php:1059
+msgid "天"
+msgstr ""
+
+#: admin.php:1063
+msgid "小时"
 msgstr ""
 
 #: admin_config.php:69 classes/hooks/admin_user.class.php:54
@@ -251,7 +279,7 @@ msgid "会员排行榜"
 msgstr ""
 
 #: admin_rank.php:77 admin_rank.php:88 admin_rank.php:99 admin_rank.php:128
-#: admin_rank.php:219 apis/user_admin_menu_api.class.php:61
+#: admin_rank.php:219 apis/user_admin_menu_api.class.php:62
 msgid "会员等级"
 msgstr ""
 
@@ -386,7 +414,7 @@ msgstr ""
 
 #: admin_reg_fields.php:75 admin_reg_fields.php:86 admin_reg_fields.php:98
 #: admin_reg_fields.php:127 admin_reg_fields.php:190
-#: apis/user_admin_menu_api.class.php:63
+#: apis/user_admin_menu_api.class.php:64
 #: apis/user_admin_purview_api.class.php:64
 msgid "会员注册项设置"
 msgstr ""
@@ -479,6 +507,7 @@ msgstr ""
 #: modules/address/info_module.class.php:66
 #: modules/address/setDefault_module.class.php:66
 #: modules/address/update_module.class.php:69
+#: modules/admin/cashier/user/account/deposit/records_module.class.php:64
 #: modules/admin/merchant/user/list_module.class.php:26
 #: modules/admin/user/account/deposit_module.class.php:27
 #: modules/admin/user/add_module.class.php:28
@@ -494,15 +523,16 @@ msgstr ""
 #: modules/user/account/switchPayment_module.class.php:67
 #: modules/user/bind_module.class.php:79
 #: modules/user/collect/delete_module.class.php:66
+#: modules/user/connect/binded/status_module.class.php:69
 #: modules/user/forget_password_module.class.php:65
-#: modules/user/forget_password_module.class.php:85
+#: modules/user/forget_password_module.class.php:81
 #: modules/user/password_module.class.php:120
 #: modules/user/paypassword/modify_module.class.php:68
 #: modules/user/reset_password_module.class.php:62
 #: modules/user/signin_module.class.php:66
 #: modules/user/signup_module.class.php:90
 #: modules/user/userbind_module.class.php:65
-#: modules/user/userbind_module.class.php:82
+#: modules/user/userbind_module.class.php:78
 #: modules/validate/bind_module.class.php:66
 #: modules/validate/forget_password_module.class.php:63
 #: modules/validate/get_module.class.php:59
@@ -550,7 +580,7 @@ msgstr ""
 msgid "会员管理"
 msgstr ""
 
-#: apis/user_admin_menu_api.class.php:62
+#: apis/user_admin_menu_api.class.php:63
 msgid "会员排行"
 msgstr ""
 
@@ -671,7 +701,7 @@ msgstr ""
 msgid "用户第三方关联"
 msgstr ""
 
-#: classes/Helper.php:83
+#: classes/Helper.php:83 classes/UserCleanHandlers/UserLogClear.php:34
 msgid "账户日志"
 msgstr ""
 
@@ -707,7 +737,7 @@ msgstr ""
 msgid "用户积分记录"
 msgstr ""
 
-#: classes/Helper.php:101
+#: classes/Helper.php:101 classes/UserCleanHandlers/UserParentIdClear.php:34
 msgid "会员父级ID"
 msgstr ""
 
@@ -719,32 +749,76 @@ msgstr ""
 msgid "清空"
 msgstr ""
 
-#: classes/UserCleanHandlers/UserAddressClear.php:47
+#: classes/UserCleanHandlers/UserAddressClear.php:34
+msgid "账户收货地址"
+msgstr ""
+
+#: classes/UserCleanHandlers/UserAddressClear.php:48
 msgid "总共有<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>个收货地址"
 msgstr ""
 
-#: classes/UserCleanHandlers/UserAddressClear.php:49
+#: classes/UserCleanHandlers/UserAddressClear.php:50
 msgid "查看全部>>>"
 msgstr ""
 
-#: classes/UserCleanHandlers/UserAddressClear.php:106
-#: classes/UserCleanHandlers/UserBonusClear.php:108
-#: classes/UserCleanHandlers/UserCollectGoodsClear.php:98
-#: classes/UserCleanHandlers/UserCollectStoreClear.php:98
-#: classes/UserCleanHandlers/UserInviteeRecordClear.php:96
-#: classes/UserCleanHandlers/UserLogClear.php:135
-#: classes/UserCleanHandlers/UserParentIdClear.php:96
+#: classes/UserCleanHandlers/UserAddressClear.php:107
+#: classes/UserCleanHandlers/UserBonusClear.php:111
+#: classes/UserCleanHandlers/UserCollectGoodsClear.php:101
+#: classes/UserCleanHandlers/UserCollectStoreClear.php:102
+#: classes/UserCleanHandlers/UserInviteeRecordClear.php:99
+#: classes/UserCleanHandlers/UserLogClear.php:138
+#: classes/UserCleanHandlers/UserParentIdClear.php:99
 msgid "用户名是%s"
 msgstr ""
 
-#: classes/UserCleanHandlers/UserAddressClear.php:106
-#: classes/UserCleanHandlers/UserBonusClear.php:108
-#: classes/UserCleanHandlers/UserCollectGoodsClear.php:98
-#: classes/UserCleanHandlers/UserCollectStoreClear.php:98
-#: classes/UserCleanHandlers/UserInviteeRecordClear.php:96
-#: classes/UserCleanHandlers/UserLogClear.php:135
-#: classes/UserCleanHandlers/UserParentIdClear.php:96
+#: classes/UserCleanHandlers/UserAddressClear.php:107
+#: classes/UserCleanHandlers/UserBonusClear.php:111
+#: classes/UserCleanHandlers/UserCollectGoodsClear.php:101
+#: classes/UserCleanHandlers/UserCollectStoreClear.php:102
+#: classes/UserCleanHandlers/UserInviteeRecordClear.php:99
+#: classes/UserCleanHandlers/UserLogClear.php:138
+#: classes/UserCleanHandlers/UserParentIdClear.php:99
 msgid "用户ID是%s"
+msgstr ""
+
+#: classes/UserCleanHandlers/UserBonusClear.php:34
+msgid "账户红包"
+msgstr ""
+
+#: classes/UserCleanHandlers/UserBonusClear.php:46
+msgid "账户内可用红包<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>个"
+msgstr ""
+
+#: classes/UserCleanHandlers/UserCollectGoodsClear.php:34
+msgid "账户收藏商品"
+msgstr ""
+
+#: classes/UserCleanHandlers/UserCollectGoodsClear.php:46
+msgid "账户共收藏<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>件商品"
+msgstr ""
+
+#: classes/UserCleanHandlers/UserCollectStoreClear.php:34
+msgid "账户收藏店铺"
+msgstr ""
+
+#: classes/UserCleanHandlers/UserCollectStoreClear.php:47
+msgid "账户共收藏<span class=\"ecjiafc-red ecjiaf-fs3\">%s</span>家店铺"
+msgstr ""
+
+#: classes/UserCleanHandlers/UserInviteeRecordClear.php:34
+msgid "会员邀请记录"
+msgstr ""
+
+#: classes/UserCleanHandlers/UserInviteeRecordClear.php:44
+msgid "会员推荐邀请的所有记录"
+msgstr ""
+
+#: classes/UserCleanHandlers/UserLogClear.php:44
+msgid "与账号有关的所有日志记录"
+msgstr ""
+
+#: classes/UserCleanHandlers/UserParentIdClear.php:44
+msgid "会员推荐注册时绑定的会员父级ID"
 msgstr ""
 
 #: classes/UserManager.php:97 classes/integrate.class.php:225
@@ -943,21 +1017,25 @@ msgid "提现"
 msgstr ""
 
 #: functions/admin_user.func.php:191 functions/admin_user.func.php:347
+#: modules/admin/cashier/user/account/deposit/records_module.class.php:120
 #: modules/user/account/record/detail_module.class.php:122
 msgid "充值"
 msgstr ""
 
 #: functions/admin_user.func.php:325
+#: modules/admin/cashier/user/account/deposit/records_module.class.php:105
 #: modules/user/account/record/detail_module.class.php:97
 msgid "已完成"
 msgstr ""
 
 #: functions/admin_user.func.php:327
+#: modules/admin/cashier/user/account/deposit/records_module.class.php:107
 #: modules/user/account/record/detail_module.class.php:99
 msgid "已取消"
 msgstr ""
 
 #: functions/admin_user.func.php:329
+#: modules/admin/cashier/user/account/deposit/records_module.class.php:109
 #: modules/user/account/record/detail_module.class.php:101
 msgid "未确认"
 msgstr ""
@@ -980,6 +1058,7 @@ msgstr ""
 #: modules/address/list_module.class.php:62
 #: modules/address/setDefault_module.class.php:62
 #: modules/address/update_module.class.php:62
+#: modules/admin/cashier/user/account/deposit/records_module.class.php:58
 #: modules/admin/merchant/user/list_module.class.php:15
 #: modules/admin/user/account/deposit_module.class.php:16
 #: modules/admin/user/account/payConfirm_module.class.php:60
@@ -1009,8 +1088,10 @@ msgstr ""
 #: modules/user/collect/create_module.class.php:61
 #: modules/user/collect/delete_module.class.php:61
 #: modules/user/collect/list_module.class.php:61
+#: modules/user/connect/binded/status_module.class.php:62
 #: modules/user/info/bankcard_module.class.php:63
-#: modules/user/info_module.class.php:63
+#: modules/user/info_module.class.php:65
+#: modules/user/orders/summary_module.class.php:62
 #: modules/user/password_module.class.php:63
 #: modules/user/paypassword/modify_module.class.php:61
 #: modules/user/update_module.class.php:60
@@ -1024,6 +1105,7 @@ msgid "删除失败！"
 msgstr ""
 
 #: modules/address/list_module.class.php:70
+#: modules/admin/cashier/user/account/deposit/records_module.class.php:72
 #: modules/store/collect/list_module.class.php:69
 #: modules/user/account/record_module.class.php:68
 #: modules/user/bonus_module.class.php:69
@@ -1141,32 +1223,32 @@ msgstr ""
 msgid "您输入的帐号信息不正确。"
 msgstr ""
 
-#: modules/admin/validate/get_module.class.php:73
-#: modules/admin/validate/get_module.class.php:106
+#: modules/admin/validate/get_module.class.php:69
+#: modules/admin/validate/get_module.class.php:102
 msgid "发送频率过高，请一分钟后再试"
 msgstr ""
 
-#: modules/admin/validate/get_module.class.php:93
-#: modules/user/userbind_module.class.php:122
+#: modules/admin/validate/get_module.class.php:89
+#: modules/user/userbind_module.class.php:118
 msgid "短信发送失败！"
 msgstr ""
 
-#: modules/admin/validate/get_module.class.php:103
+#: modules/admin/validate/get_module.class.php:99
 msgid "邮箱账号格式错误"
 msgstr ""
 
-#: modules/admin/validate/get_module.class.php:121
+#: modules/admin/validate/get_module.class.php:117
 #: modules/validate/get_module.class.php:119
 msgid "请检查短信模板send_validate"
 msgstr ""
 
-#: modules/admin/validate/get_module.class.php:133
-#: modules/user/forget_password_module.class.php:143
+#: modules/admin/validate/get_module.class.php:129
+#: modules/user/forget_password_module.class.php:139
 msgid "验证码发送成功！"
 msgstr ""
 
-#: modules/admin/validate/get_module.class.php:135
-#: modules/user/forget_password_module.class.php:145
+#: modules/admin/validate/get_module.class.php:131
+#: modules/user/forget_password_module.class.php:141
 #: modules/validate/get_module.class.php:133
 msgid "验证码发送失败！"
 msgstr ""
@@ -1314,9 +1396,9 @@ msgid "验证码已过期"
 msgstr ""
 
 #: modules/user/bind_module.class.php:97 modules/user/bind_module.class.php:114
-#: modules/user/forget_password_module.class.php:89
+#: modules/user/forget_password_module.class.php:85
 #: modules/user/password_module.class.php:134
-#: modules/user/userbind_module.class.php:86
+#: modules/user/userbind_module.class.php:82
 msgid "验证码错误"
 msgstr ""
 
@@ -1341,19 +1423,19 @@ msgstr ""
 msgid "已省%s元"
 msgstr ""
 
-#: modules/user/forget_password_module.class.php:96
+#: modules/user/forget_password_module.class.php:92
 #: modules/user/reset_password_module.class.php:71
 #: modules/validate/forget_password_module.class.php:70
 msgid "手机号重复，请与管理员联系！"
 msgstr ""
 
-#: modules/user/forget_password_module.class.php:105
+#: modules/user/forget_password_module.class.php:101
 #: modules/user/reset_password_module.class.php:80
 #: modules/validate/forget_password_module.class.php:78
 msgid "用户信息错误！"
 msgstr ""
 
-#: modules/user/forget_password_module.class.php:133
+#: modules/user/forget_password_module.class.php:129
 msgid "通过短信找回密码"
 msgstr ""
 
@@ -1468,7 +1550,7 @@ msgid "默认地址"
 msgstr ""
 
 #: content/apps/user/templates/admin/user_address_list.dwt.php:29
-#: content/apps/user/templates/admin/user_info.dwt.php:204
+#: content/apps/user/templates/admin/user_info.dwt.php:214
 msgid "收货人"
 msgstr ""
 
@@ -1481,7 +1563,7 @@ msgid "详细地址"
 msgstr ""
 
 #: content/apps/user/templates/admin/user_address_list.dwt.php:32
-#: content/apps/user/templates/admin/user_info.dwt.php:175
+#: content/apps/user/templates/admin/user_info.dwt.php:185
 msgid "邮编"
 msgstr ""
 
@@ -1498,7 +1580,7 @@ msgid "手机："
 msgstr ""
 
 #: content/apps/user/templates/admin/user_address_list.dwt.php:52
-#: content/apps/user/templates/admin/user_info.dwt.php:183
+#: content/apps/user/templates/admin/user_info.dwt.php:193
 msgid "该用户暂无收货地址"
 msgstr ""
 
@@ -1535,7 +1617,7 @@ msgstr ""
 
 #: content/apps/user/templates/admin/user_rank_edit.dwt.php:24
 #: content/apps/user/templates/admin/user_edit.dwt.php:79
-#: content/apps/user/templates/admin/user_info.dwt.php:86
+#: content/apps/user/templates/admin/user_info.dwt.php:96
 msgid "会员等级："
 msgstr ""
 
@@ -1573,39 +1655,46 @@ msgid "筛选"
 msgstr ""
 
 #: content/apps/user/templates/admin/user_list.dwt.php:30
-#: content/apps/user/templates/admin/user_info.dwt.php:24
+#: content/apps/user/templates/admin/user_info.dwt.php:34
 msgid "请输入会员名称／邮箱／手机"
 msgstr ""
 
 #: content/apps/user/templates/admin/user_list.dwt.php:31
+#: content/apps/user/templates/admin/user_cancel_list.dwt.php:33
 #: content/apps/user/templates/admin/user_level_list.dwt.php:66
 msgid "搜索"
 msgstr ""
 
 #: content/apps/user/templates/admin/user_list.dwt.php:42
+#: content/apps/user/templates/admin/user_cancel_list.dwt.php:42
 #: content/apps/user/templates/admin/user_level_list.dwt.php:79
 msgid "会员名称"
 msgstr ""
 
 #: content/apps/user/templates/admin/user_list.dwt.php:43
+#: content/apps/user/templates/admin/user_cancel_list.dwt.php:43
 msgid "邮件地址"
 msgstr ""
 
 #: content/apps/user/templates/admin/user_list.dwt.php:44
+#: content/apps/user/templates/admin/user_cancel_list.dwt.php:44
 msgid "手机号码"
 msgstr ""
 
 #: content/apps/user/templates/admin/user_list.dwt.php:45
+#: content/apps/user/templates/admin/user_cancel_list.dwt.php:45
 #: content/apps/user/templates/admin/user_level_list.dwt.php:80
 msgid "可用资金"
 msgstr ""
 
 #: content/apps/user/templates/admin/user_list.dwt.php:46
+#: content/apps/user/templates/admin/user_cancel_list.dwt.php:46
 #: content/apps/user/templates/admin/user_level_list.dwt.php:81
 msgid "积分"
 msgstr ""
 
 #: content/apps/user/templates/admin/user_list.dwt.php:47
+#: content/apps/user/templates/admin/user_cancel_list.dwt.php:47
 msgid "所属等级"
 msgstr ""
 
@@ -1616,7 +1705,7 @@ msgstr ""
 #: content/apps/user/templates/admin/user_list.dwt.php:62
 #: content/apps/user/templates/admin/user_rank_list.dwt.php:58
 #: content/apps/user/templates/admin/reg_fields_list.dwt.php:42
-#: content/apps/user/templates/admin/user_info.dwt.php:40
+#: content/apps/user/templates/admin/user_info.dwt.php:50
 msgid "编辑"
 msgstr ""
 
@@ -1625,7 +1714,7 @@ msgid "详细信息"
 msgstr ""
 
 #: content/apps/user/templates/admin/user_list.dwt.php:65
-#: content/apps/user/templates/admin/user_info.dwt.php:212
+#: content/apps/user/templates/admin/user_info.dwt.php:222
 msgid "查看订单"
 msgstr ""
 
@@ -1649,6 +1738,35 @@ msgstr ""
 msgid "（已验证）"
 msgstr ""
 
+#: content/apps/user/templates/admin/user_cancel_list.dwt.php:20
+msgid "到期等待处理"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_cancel_list.dwt.php:26
+msgid "未到期"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_cancel_list.dwt.php:32
+msgid "请输入商家名称或手机号"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_cancel_list.dwt.php:50
+msgid "倒计时"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_cancel_list.dwt.php:53
+msgid "申请时间"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_cancel_list.dwt.php:62
+#: content/apps/user/templates/admin/user_level_list.dwt.php:95
+msgid "查看详情"
+msgstr ""
+
+#: content/apps/user/templates/admin/user_cancel_list.dwt.php:65
+msgid "删除"
+msgstr ""
+
 #: content/apps/user/templates/admin/user_config.dwt.php:16
 msgid "是否开启会员中心："
 msgstr ""
@@ -1666,6 +1784,7 @@ msgid "开启则显示PC会员中心，关闭则隐藏"
 msgstr ""
 
 #: content/apps/user/templates/admin/user_delete.dwt.php:29
+#: content/apps/user/templates/admin/user_info.dwt.php:16
 msgid "温馨提示"
 msgstr ""
 
@@ -1704,12 +1823,12 @@ msgid "删除会员：点击后，将当前会员账号彻底删除。"
 msgstr ""
 
 #: content/apps/user/templates/admin/user_edit.dwt.php:26
-#: content/apps/user/templates/admin/user_info.dwt.php:48
+#: content/apps/user/templates/admin/user_info.dwt.php:58
 msgid "会员名称："
 msgstr ""
 
 #: content/apps/user/templates/admin/user_edit.dwt.php:39
-#: content/apps/user/templates/admin/user_info.dwt.php:70
+#: content/apps/user/templates/admin/user_info.dwt.php:80
 msgid "手机号码："
 msgstr ""
 
@@ -1734,12 +1853,12 @@ msgid "会员基础信息"
 msgstr ""
 
 #: content/apps/user/templates/admin/user_edit.dwt.php:104
-#: content/apps/user/templates/admin/user_info.dwt.php:59
+#: content/apps/user/templates/admin/user_info.dwt.php:69
 msgid "性别："
 msgstr ""
 
 #: content/apps/user/templates/admin/user_edit.dwt.php:112
-#: content/apps/user/templates/admin/user_info.dwt.php:63
+#: content/apps/user/templates/admin/user_info.dwt.php:73
 msgid "出生日期："
 msgstr ""
 
@@ -1748,7 +1867,7 @@ msgid "选择日期"
 msgstr ""
 
 #: content/apps/user/templates/admin/user_edit.dwt.php:118
-#: content/apps/user/templates/admin/user_info.dwt.php:93
+#: content/apps/user/templates/admin/user_info.dwt.php:103
 msgid "信用额度："
 msgstr ""
 
@@ -1882,118 +2001,114 @@ msgstr ""
 msgid "请输入会员名称关键字"
 msgstr ""
 
-#: content/apps/user/templates/admin/user_level_list.dwt.php:95
-msgid "查看详情"
+#: content/apps/user/templates/admin/user_info.dwt.php:18
+msgid "当前会员注销申请到期未处理，等待您删除账号数据。"
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:25
-#: content/apps/user/templates/admin/user_info.dwt.php:141
-#: content/apps/user/templates/admin/user_info.dwt.php:148
-#: content/apps/user/templates/admin/user_info.dwt.php:152
+#: content/apps/user/templates/admin/user_info.dwt.php:35
+#: content/apps/user/templates/admin/user_info.dwt.php:151
+#: content/apps/user/templates/admin/user_info.dwt.php:158
+#: content/apps/user/templates/admin/user_info.dwt.php:162
 msgid "查看"
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:39
+#: content/apps/user/templates/admin/user_info.dwt.php:49
 msgid "基本信息"
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:52
+#: content/apps/user/templates/admin/user_info.dwt.php:62
 msgid "邮箱账号："
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:74
+#: content/apps/user/templates/admin/user_info.dwt.php:84
 msgid "微信："
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:77
-#: content/apps/user/templates/admin/user_info.dwt.php:84
+#: content/apps/user/templates/admin/user_info.dwt.php:87
+#: content/apps/user/templates/admin/user_info.dwt.php:94
 msgid "未绑定"
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:84
-msgid "已绑定"
-msgstr ""
-
-#: content/apps/user/templates/admin/user_info.dwt.php:97
+#: content/apps/user/templates/admin/user_info.dwt.php:107
 msgid "推荐人："
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:104
+#: content/apps/user/templates/admin/user_info.dwt.php:114
 msgid "注册时间："
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:108
+#: content/apps/user/templates/admin/user_info.dwt.php:118
 msgid "最后登录时间："
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:115
+#: content/apps/user/templates/admin/user_info.dwt.php:125
 msgid "最后登录IP："
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:122
+#: content/apps/user/templates/admin/user_info.dwt.php:132
 msgid "删除会员："
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:124
+#: content/apps/user/templates/admin/user_info.dwt.php:134
 msgid "去删除账号数据"
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:134
+#: content/apps/user/templates/admin/user_info.dwt.php:144
 msgid "会员资金"
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:140
+#: content/apps/user/templates/admin/user_info.dwt.php:150
 msgid "可用资金："
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:144
+#: content/apps/user/templates/admin/user_info.dwt.php:154
 msgid "冻结资金："
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:147
+#: content/apps/user/templates/admin/user_info.dwt.php:157
 msgid "积分："
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:151
+#: content/apps/user/templates/admin/user_info.dwt.php:161
 msgid "成长值："
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:161
+#: content/apps/user/templates/admin/user_info.dwt.php:171
 msgid "更多"
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:170
+#: content/apps/user/templates/admin/user_info.dwt.php:180
 msgid "（默认地址）"
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:173
+#: content/apps/user/templates/admin/user_info.dwt.php:183
 msgid "电话"
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:174
+#: content/apps/user/templates/admin/user_info.dwt.php:184
 msgid "手机"
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:193
+#: content/apps/user/templates/admin/user_info.dwt.php:203
 msgid "会员订单"
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:202
+#: content/apps/user/templates/admin/user_info.dwt.php:212
 msgid "订单号"
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:203
+#: content/apps/user/templates/admin/user_info.dwt.php:213
 msgid "下单时间"
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:205
+#: content/apps/user/templates/admin/user_info.dwt.php:215
 msgid "总金额"
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:206
+#: content/apps/user/templates/admin/user_info.dwt.php:216
 msgid "订单状态"
 msgstr ""
 
-#: content/apps/user/templates/admin/user_info.dwt.php:229
+#: content/apps/user/templates/admin/user_info.dwt.php:239
 msgid "该会员暂无订单信息"
 msgstr ""

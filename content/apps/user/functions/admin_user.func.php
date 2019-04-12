@@ -69,7 +69,7 @@ function get_user_list($args = array())
         $db_user->where('user_rank', $filter['rank']);
     }
 
-    $count = $db_user->count();
+    $count = $db_user->where('account_status', 'normal')->count();
 
     if ($count != 0) {
         /* 实例化分页 */

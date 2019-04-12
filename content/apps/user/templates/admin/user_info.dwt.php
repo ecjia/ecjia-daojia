@@ -8,6 +8,17 @@
 <!-- {/block} -->
 
 <!-- {block name="main_content"} -->
+
+{if $is_expired eq 1}
+<div class="alert alert-danger">
+    <a class="close" data-dismiss="alert">×</a>
+    <strong>
+        <p>{t domain="store"}温馨提示{/t}</p>
+    </strong>
+    <p>{t domain="store"}当前会员注销申请到期未处理，等待您删除账号数据。{/t}</p>
+</div>
+{/if}
+
 <div>
 	<h3 class="heading">
 		<!-- {if $ur_here}{$ur_here}{/if} -->
@@ -16,7 +27,6 @@
 		<!-- {/if} -->
 	</h3>
 </div>
-
 
 <div class="row-fluid">
 	<div class="choose_list">
@@ -81,7 +91,7 @@
 									<td>
 										<div align="right"><strong>QQ：</strong></div>
 									</td>
-									<td>{if $qq_info}{t domain="user"}已绑定{/t}{else}{t domain="user"}未绑定{/t}{/if}</td>
+									<td>{if $qq_info}{$qq_info.nickname}{else}{t domain="user"}未绑定{/t}{/if}</td>
 									<td>
 										<div align="right"><strong>{t domain="user"}会员等级：{/t}</strong></div>
 									</td>

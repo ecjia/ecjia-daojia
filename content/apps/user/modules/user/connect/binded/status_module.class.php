@@ -47,25 +47,68 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 后台会员菜单API
- * @author royalwang
+ * 用户绑定的第三方平台
+ * @author zrl
+ * @add 1.30
+ * @lastupdate 1.30
  */
-class user_admin_menu_api extends Component_Event_Api
+class user_connect_binded_status_module extends api_front implements api_interface
 {
-    public function call(&$options)
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
-        $menus    = ecjia_admin::make_admin_menu('06_members', __('会员管理', 'user'), '', 6);
-        $submenus = array(
-            ecjia_admin::make_admin_menu('01_users_list', __('会员列表', 'user'), RC_Uri::url('user/admin/init'), 1)->add_purview('user_manage'),
-            ecjia_admin::make_admin_menu('02_users_add', __('添加会员', 'user'), RC_Uri::url('user/admin/add'), 2)->add_purview('user_update'),
-            ecjia_admin::make_admin_menu('03_users_add', __('注销申请', 'user'), RC_Uri::url('user/admin/cancel'), 3)->add_purview('user_manage'),
-            ecjia_admin::make_admin_menu('04_user_rank_list', __('会员等级', 'user'), RC_Uri::url('user/admin_rank/init'), 4)->add_purview('user_rank'),
-            ecjia_admin::make_admin_menu('05_users_level', __('会员排行', 'user'), RC_Uri::url('user/admin_level/init'), 5)->add_purview('user_manage'),
-            ecjia_admin::make_admin_menu('06_reg_fields', __('会员注册项设置', 'user'), RC_Uri::url('user/admin_reg_fields/init'), 6)->add_purview('reg_fields'),
-        );
 
-        $menus->add_submenu($submenus);
-        return RC_Hook::apply_filters('user_admin_menu_api', $menus);
+        $user_id = $_SESSION['user_id'];
+        if ($user_id <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+
+        $platform = $this->requestData('platform', 'wechat');
+        $platform_arr = ['wechat', 'qq', 'alipay'];
+        
+        if (empty($platform) || !in_array($platform, $platform_arr)) {
+        	return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+        }
+        
+        if ($platform == 'wechat') {
+        	$wechat_platform = config('app-connect::connect_platform.wechat');
+        	//用户已绑定的平台code
+        	$connect_wechat_code = config('app-connect::connect_wechat_code');
+        	
+        	$binded_platform = RC_DB::table('connect_user')->where('user_id', $user_id)->whereIn('connect_code', $connect_wechat_code)->lists('connect_code');
+        	
+        	$collect = collect($wechat_platform);
+        	
+        	$platform_list = $collect->map(function ($value) use ($binded_platform, $user_id) {
+        		$value['status'] = 0;
+        		$value['selected_status'] = 0;
+        		if (in_array($value['connect_code'], $binded_platform)) {
+        			$value['status'] = 1;
+        		} 
+        		//微信提现方式当前绑定的平台
+        		if ($this->is_wechat_withdraw_bank($value['connect_code'], $user_id, 'wechat')) {
+        			$value['selected_status'] = 1;
+        		}
+        		return $value;
+        	});
+        }
+        
+        $platform_list = $platform_list->toArray();
+       	
+        return $platform_list;
+    }
+    
+    /**
+     * 当前平台有没绑定微信提现方式
+     */
+    private function is_wechat_withdraw_bank($connect_code, $user_id, $bank_type)
+    {
+    	
+    	$withdraw_user_bank = RC_DB::table('withdraw_user_bank')->where('user_id', $user_id)->where('user_type', 'user')->where('bank_type', $bank_type)->where('bank_branch_name', $connect_code)->first();
+		
+		if (!empty($withdraw_user_bank)) {
+			return true;
+		}
+		return false;
     }
 }
 

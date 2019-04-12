@@ -44,29 +44,24 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\User\Models;
+
+use Royalcms\Component\Database\Eloquent\Model;
 
 /**
- * ECJIA 后台会员菜单API
- * @author royalwang
+ * Class Users
  */
-class user_admin_menu_api extends Component_Event_Api
+class MemberPriceModel extends Model
 {
-    public function call(&$options)
-    {
-        $menus    = ecjia_admin::make_admin_menu('06_members', __('会员管理', 'user'), '', 6);
-        $submenus = array(
-            ecjia_admin::make_admin_menu('01_users_list', __('会员列表', 'user'), RC_Uri::url('user/admin/init'), 1)->add_purview('user_manage'),
-            ecjia_admin::make_admin_menu('02_users_add', __('添加会员', 'user'), RC_Uri::url('user/admin/add'), 2)->add_purview('user_update'),
-            ecjia_admin::make_admin_menu('03_users_add', __('注销申请', 'user'), RC_Uri::url('user/admin/cancel'), 3)->add_purview('user_manage'),
-            ecjia_admin::make_admin_menu('04_user_rank_list', __('会员等级', 'user'), RC_Uri::url('user/admin_rank/init'), 4)->add_purview('user_rank'),
-            ecjia_admin::make_admin_menu('05_users_level', __('会员排行', 'user'), RC_Uri::url('user/admin_level/init'), 5)->add_purview('user_manage'),
-            ecjia_admin::make_admin_menu('06_reg_fields', __('会员注册项设置', 'user'), RC_Uri::url('user/admin_reg_fields/init'), 6)->add_purview('reg_fields'),
-        );
-
-        $menus->add_submenu($submenus);
-        return RC_Hook::apply_filters('user_admin_menu_api', $menus);
-    }
+    protected $table = 'member_price';
+    
+    protected $primaryKey = 'price_id';
+    
+    public $timestamps = false;
+    
+    protected $fillable = [
+        'goods_id',
+        'user_rank',
+        'user_price'
+    ];
 }
-
-// end

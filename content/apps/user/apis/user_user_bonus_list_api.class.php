@@ -63,11 +63,14 @@ class user_user_bonus_list_api extends Component_Event_Api
         $cur_date = RC_Time::gmtime();
 
         $db->where(RC_DB::raw('ub.user_id'), $_SESSION['user_id']);
+        if (!empty($options['store_id'])) {
+        	$db->where(RC_DB::raw('bt.store_id'), $options['store_id']);
+        }
 
         if ($options['bonus_type'] == 'allow_use') {
             $db->where(RC_DB::raw('bt.use_end_date'), '>=', $cur_date)->where(RC_DB::raw('ub.order_id'), 0);
         } elseif ($options['bonus_type'] == 'expired') {
-            $db->where(RC_DB::raw('bt.use_end_date'), '<=', $cur_date);
+            $db->where(RC_DB::raw('bt.use_end_date'), '<=', $cur_date)->where(RC_DB::raw('ub.order_id'), 0);
         } elseif ($options['bonus_type'] == 'is_used') {
             $where['ub.order_id'] = array('gt' => 0);
             $db->where(RC_DB::raw('ub.order_id'), '>', 0);
@@ -91,7 +94,7 @@ class user_user_bonus_list_api extends Component_Event_Api
         if (!empty($rows)) {
             foreach ($rows as $key => $row) {
                 $bonus_list[$key] = array(
-                    'seller_id'                => $row['store_id'] > 0 ? $row['store_id'] > 0 : 0,
+                    'seller_id'                => $row['store_id'] > 0 ? $row['store_id'] : 0,
                     'seller_name'              => $row['store_id'] > 0 ? $row['merchants_name'] : '自营',
                     'manage_mode'              => $row['store_id'] > 0 ? $row['manage_mode'] : 'self',
                     'bonus_id'                 => $row['bonus_id'],

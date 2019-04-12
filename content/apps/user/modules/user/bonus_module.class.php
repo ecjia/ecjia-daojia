@@ -71,11 +71,13 @@ class user_bonus_module extends api_front implements api_interface
         }
 
         $bonus_type = $this->requestData('bonus_type');
+        $store_id	= $this->requestData('store_id' ,0);
         $size       = $this->requestData('pagination.count', 15);
         $page       = $this->requestData('pagination.page', 1);
 
         $filter = array(
             'bonus_type' => $bonus_type,
+        	'store_id'	 => $store_id,
             'size'       => !empty($size) ? intval($size) : 15,
             'page'       => !empty($page) ? intval($page) : 1,
         );

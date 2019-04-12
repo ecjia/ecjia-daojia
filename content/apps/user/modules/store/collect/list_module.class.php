@@ -137,7 +137,7 @@ class store_collect_list_module extends api_front implements api_interface
     {
         $goods_list = [];
         $db_goods   = RC_DB::table('goods')
-            ->where('review_status', '>', 3)
+            ->where('review_status', '>', 2)
             ->where('is_delete', 0)
             ->where('is_on_sale', 1)
             ->where('is_alone_sale', 1);

@@ -47,25 +47,37 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 后台会员菜单API
+ * 验证积分
  * @author royalwang
  */
-class user_admin_menu_api extends Component_Event_Api
+class admin_cashier_validate_integral_module extends api_admin implements api_interface
 {
-    public function call(&$options)
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
-        $menus    = ecjia_admin::make_admin_menu('06_members', __('会员管理', 'user'), '', 6);
-        $submenus = array(
-            ecjia_admin::make_admin_menu('01_users_list', __('会员列表', 'user'), RC_Uri::url('user/admin/init'), 1)->add_purview('user_manage'),
-            ecjia_admin::make_admin_menu('02_users_add', __('添加会员', 'user'), RC_Uri::url('user/admin/add'), 2)->add_purview('user_update'),
-            ecjia_admin::make_admin_menu('03_users_add', __('注销申请', 'user'), RC_Uri::url('user/admin/cancel'), 3)->add_purview('user_manage'),
-            ecjia_admin::make_admin_menu('04_user_rank_list', __('会员等级', 'user'), RC_Uri::url('user/admin_rank/init'), 4)->add_purview('user_rank'),
-            ecjia_admin::make_admin_menu('05_users_level', __('会员排行', 'user'), RC_Uri::url('user/admin_level/init'), 5)->add_purview('user_manage'),
-            ecjia_admin::make_admin_menu('06_reg_fields', __('会员注册项设置', 'user'), RC_Uri::url('user/admin_reg_fields/init'), 6)->add_purview('reg_fields'),
-        );
+    	$this->authadminSession();
+        if ($_SESSION['staff_id'] <= 0) {
+            return new ecjia_error(100, 'Invalid session');
+        }
+        
+        $user_id = $this->requestData('user_id', 0);
+        $integral = $this->requestData('integral', 0);
+        
+        if ($integral <= 0 || empty($user_id)) {
+            return new ecjia_error('invalid_parameter', __('参数无效', 'user'));
+        }
 
-        $menus->add_submenu($submenus);
-        return RC_Hook::apply_filters('user_admin_menu_api', $menus);
+        $user_info = Ecjia\App\User\UserInfoFunction::user_info($user_id);
+        if (is_ecjia_error($user_info)) {
+        	return $user_info;
+        }
+        
+        RC_Loader::load_app_func('admin_order', 'orders');
+
+        $integral_to_money = value_of_integral($integral);
+        return array(
+            "bonus"          => $integral_to_money,
+            "bonus_formated" => ecjia_price_format($integral_to_money, false)
+        );
     }
 }
 

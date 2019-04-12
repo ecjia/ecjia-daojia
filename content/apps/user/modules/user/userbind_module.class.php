@@ -67,10 +67,6 @@ class user_userbind_module extends api_front implements api_interface
 
         //手机号码格式判断
         if ($type == 'mobile') {
-// 			$str = '/^1[345678]{1}\d{9}$/';
-// 			if(!preg_match($str, $value)){
-// 				new ecjia_error('mobile_wrong', '手机号码格式不正确！');
-// 			}
             $check_mobile = Ecjia\App\Sms\Helper::check_mobile($value);
             if (is_ecjia_error($check_mobile)) {
                 return $check_mobile;

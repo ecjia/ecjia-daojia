@@ -134,14 +134,6 @@ class user_account_raply_module extends api_front implements api_interface
 
         /* 如果成功提交 */
         if ($surplus['account_id'] > 0) {
-
-            /* 插入支付流水记录*/
-            RC_Api::api('payment', 'save_payment_record', [
-                'order_sn'   => $surplus['order_sn'],
-                'total_fee'  => $amount,
-                'trade_type' => 'withdraw',
-            ]);
-
             //提现申请成功，记录account_log；从余额中冻结提现金额
             $frozen_money = $amount;
             $user_money   = '-' . $amount;

@@ -47,25 +47,40 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA 后台会员菜单API
+ * 用户订单数量统计概况
  * @author royalwang
+ * @lastupdate 1.25
  */
-class user_admin_menu_api extends Component_Event_Api
+class user_orders_summary_module extends api_front implements api_interface
 {
-    public function call(&$options)
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
-        $menus    = ecjia_admin::make_admin_menu('06_members', __('会员管理', 'user'), '', 6);
-        $submenus = array(
-            ecjia_admin::make_admin_menu('01_users_list', __('会员列表', 'user'), RC_Uri::url('user/admin/init'), 1)->add_purview('user_manage'),
-            ecjia_admin::make_admin_menu('02_users_add', __('添加会员', 'user'), RC_Uri::url('user/admin/add'), 2)->add_purview('user_update'),
-            ecjia_admin::make_admin_menu('03_users_add', __('注销申请', 'user'), RC_Uri::url('user/admin/cancel'), 3)->add_purview('user_manage'),
-            ecjia_admin::make_admin_menu('04_user_rank_list', __('会员等级', 'user'), RC_Uri::url('user/admin_rank/init'), 4)->add_purview('user_rank'),
-            ecjia_admin::make_admin_menu('05_users_level', __('会员排行', 'user'), RC_Uri::url('user/admin_level/init'), 5)->add_purview('user_manage'),
-            ecjia_admin::make_admin_menu('06_reg_fields', __('会员注册项设置', 'user'), RC_Uri::url('user/admin_reg_fields/init'), 6)->add_purview('reg_fields'),
-        );
+        //如果用户登录获取其session
+        $user_id     = $_SESSION['user_id'];
+        
+        if ($user_id <= 0) {
+            return new ecjia_error(100, __('Invalid session', 'user'));
+        }
+        
+        $store_id = $this->requestData('store_id');
 
-        $menus->add_submenu($submenus);
-        return RC_Hook::apply_filters('user_admin_menu_api', $menus);
+        $await_pay 			= Ecjia\App\User\UserInfoFunction::await_pay_num($user_id, $store_id);
+        $await_ship 		= Ecjia\App\User\UserInfoFunction::await_ship_num($user_id, $store_id);
+        $shipped			= Ecjia\App\User\UserInfoFunction::shipped_num($user_id, $store_id);
+        $finished			= Ecjia\App\User\UserInfoFunction::finished_num($user_id, $store_id);
+        $allow_comment_count= Ecjia\App\User\UserInfoFunction::allow_comment_num($user_id, $store_id);
+        $refund_order 		= Ecjia\App\User\UserInfoFunction::refund_order_num($user_id, $store_id);
+        
+        $order_num = [
+	        'await_pay'     => $await_pay,
+	        'await_ship'    => $await_ship,
+	        'shipped'       => $shipped,
+	        'finished'      => $finished,
+	        'allow_comment' => $allow_comment_count,
+	        'refund_order'  => $refund_order
+        ];
+        
+        return $order_num;
     }
 }
 

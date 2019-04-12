@@ -624,6 +624,8 @@ class admin extends ecjia_admin
             $user['is_validated']          = $row['is_validated'] == 0 ? __('未验证', 'user') : __('已验证', 'user');
             $user['last_time']             = $row['last_login'] == '0' ? __('新用户还未登录', 'user') : RC_Time::local_date(ecjia::config('time_format'), $row['last_login']);
             $user['last_ip']               = $row['last_ip'];
+            $user['account_status']        = $row['account_status'];
+            $user['delete_time']           = $row['delete_time'];
 
             $row['address_id'] = !empty($row['address_id']) ? intval($row['address_id']) : 0;
             /* 用户地址列表*/
@@ -664,8 +666,12 @@ class admin extends ecjia_admin
         $this->assign('order_list', $order);
         $this->assign('address_list', $address_list);
 
-        $qq_info = RC_DB::table('connect_user')->where('connect_code', 'sns_qq')->where('user_id', $id)->where('user_type', 'user')->first();
+        $qq_info = RC_DB::table('connect_user')->where('connect_platform', 'qq')->where('user_id', $id)->where('user_type', 'user')->first();
         if (!empty($qq_info)) {
+            if (!empty($qq_info['profile'])) {
+                $profile             = unserialize($qq_info['profile']);
+                $qq_info['nickname'] = empty($profile['nickname']) ? __('已绑定', 'user') : $profile['nickname'];
+            }
             $this->assign('qq_info', $qq_info);
         }
 
@@ -684,6 +690,15 @@ class admin extends ecjia_admin
 
             $this->assign('wechat_info', $wechat_info);
         }
+
+        $is_expired = 0;
+        if ($user['account_status'] == 'wait_delete' && !empty($user['delete_time'])) {
+            //判断店铺注销申请是否到期
+            if ($user['delete_time'] + 30 * 24 * 3600 <= RC_Time::gmtime()) {
+                $is_expired = 1; //已到期
+            }
+        }
+        $this->assign('is_expired', $is_expired);
 
         $this->display('user_info.dwt');
     }
@@ -933,6 +948,122 @@ class admin extends ecjia_admin
         $this->display('user_address_list.dwt');
     }
 
+    //注销申请
+    public function cancel()
+    {
+        $this->admin_priv('user_manage');
+
+        ecjia_screen::get_current_screen()->remove_last_nav_here();
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('注销申请', 'user')));
+
+        $this->assign('ur_here', __('注销申请', 'user'));
+
+        $user_list = $this->get_user_list();
+        $this->assign('user_list', $user_list);
+
+        $this->assign('search_action', RC_Uri::url('user/admin/cancel'));
+
+        $action = $_SESSION['action_list'] == 'all' ? true : false;
+        $this->assign('action', $action);
+
+        $this->display('user_cancel_list.dwt');
+    }
+
+    private function get_user_list()
+    {
+        $db_users     = RC_DB::table('users');
+        $db_users_two = RC_DB::table('users');
+
+        $filter['keywords'] = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
+        $filter['type']     = empty($_GET['type']) ? '' : trim($_GET['type']);
+
+        if ($filter['keywords']) {
+            $db_users->where(function ($query) use ($filter) {
+                $query->where('user_name', 'like', '%' . mysql_like_quote($filter['keywords']) . '%')
+                    ->orWhere('mobile_phone', 'like', '%' . mysql_like_quote($filter['keywords']) . '%');
+            });
+
+            $db_users_two->where(function ($query) use ($filter) {
+                $query->where('user_name', 'like', '%' . mysql_like_quote($filter['keywords']) . '%')
+                    ->orWhere('mobile_phone', 'like', '%' . mysql_like_quote($filter['keywords']) . '%');
+            });
+        }
+
+        $filter['expire'] = $db_users
+            ->where('account_status', 'wait_delete')
+            ->whereRaw("FROM_UNIXTIME(delete_time, '%Y-%m-%d') <= DATE_SUB(CURDATE(), INTERVAL 30 DAY)")
+            ->count();
+
+        $filter['unexpired'] = $db_users_two
+            ->where('account_status', 'wait_delete')
+            ->whereRaw("FROM_UNIXTIME(delete_time, '%Y-%m-%d') > DATE_SUB(CURDATE(), INTERVAL 30 DAY)")
+            ->count();
+
+        $count = empty($filter['type']) ? $filter['expire'] : $filter['unexpired'];
+        $db    = empty($filter['type']) ? $db_users : $db_users_two;
+        $page  = new ecjia_page($count, 15, 5);
+        $data  = $db
+            ->select('user_id', 'user_name', 'email', 'mobile_phone', 'user_money', 'pay_points', 'user_rank', 'delete_time')
+            ->orderby('delete_time', 'desc')
+            ->take($page->page_size)
+            ->skip($page->start_id - 1)
+            ->get();
+
+        $rank_list = RC_DB::table('user_rank')->select('rank_id', 'rank_name')->get();
+        $result    = [];
+
+        if (!empty($rank_list)) {
+            foreach ($rank_list as $k => $v) {
+                $result[$v['rank_id']] = $v['rank_name'];
+            }
+        }
+
+        $res = array();
+        if (!empty($data)) {
+            $curtime = RC_Time::local_date('Y-m-d H:i:s', RC_Time::gmtime());
+            foreach ($data as $row) {
+                $expire_time        = RC_Time::local_date('Y-m-d H:i:s', $row['delete_time'] + 30 * 24 * 3600);
+                $row['delete_time'] = RC_Time::local_date('Y-m-d H:i:s', $row['delete_time']);
+
+                $diff        = $this->diffDate($curtime, $expire_time);
+                $row['diff'] = empty($diff) ? __('1天内', 'user') : $diff;
+
+                $row['rank_name'] = $result[$row['user_rank']];
+                $res[]            = $row;
+            }
+        }
+        return array('item' => $res, 'filter' => $filter, 'page' => $page->show(2), 'desc' => $page->page_desc());
+    }
+
+    private function diffDate($date1, $date2)
+    {
+        $datetime1 = new \DateTime($date1);
+        $datetime2 = new \DateTime($date2);
+        $interval  = $datetime1->diff($datetime2);
+        $time['y'] = $interval->format('%Y');
+        $time['m'] = $interval->format('%m');
+        $time['d'] = $interval->format('%d');
+        $time['h'] = $interval->format('%h');
+
+        $time_str = '';
+        $year     = intval($time['y']);
+        if (!empty($year)) {
+            $time_str .= $year . __('年', 'user');
+        }
+        $month = intval($time['m']);
+        if (!empty($month)) {
+            $time_str .= $month . __('个月', 'user');
+        }
+        $day = intval($time['d']);
+        if (!empty($day)) {
+            $time_str .= $day . __('天', 'user');
+        }
+        $hour = intval($time['h']);
+        if (!empty($day)) {
+            $time_str .= $hour . __('小时', 'user');
+        }
+        return $time_str;
+    }
 }
 
 // end
