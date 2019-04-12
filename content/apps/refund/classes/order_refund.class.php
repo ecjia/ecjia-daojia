@@ -135,7 +135,12 @@ class order_refund {
 		   		'log_time'			=> RC_Time::gmtime()
          );
 		
-		$action_id = RC_DB::table('refund_order_action')->insertGetId($data);
+		$refund_order_action_info = RC_DB::table('refund_order_action')->where('refund_id', $options['refund_id'])->where('action_user_type', $options['action_user_type'])->where('action_user_id', $options['action_user_id'])->where('action_user_name', $options['action_user_name'])->where('status', $options['status'])->where('refund_status', $options['refund_status'])->where('return_status', $options['return_status'])->where('action_note', $options['action_note'])->first();
+		if (empty($refund_order_action_info)) {
+			$action_id = RC_DB::table('refund_order_action')->insertGetId($data);
+		} else {
+			$action_id = $refund_order_action_info['action_id'];
+		}
 		
 		return $action_id;
 	}
@@ -229,7 +234,10 @@ class order_refund {
 				'action_note'        => $note,
 				'log_time'           => RC_Time::gmtime()
 		);
-		RC_DB::table('order_action')->insert($data);
+		$order_action_info = RC_DB::table('order_action')->where('order_id', $order_id)->where('action_user', $username)->where('order_status', $order_status)->where('shipping_status', $shipping_status)->where('pay_status', $pay_status)->where('action_place', $place)->where('action_note', $note)->first();
+		if (empty($order_action_info)) {
+			RC_DB::table('order_action')->insert($data);
+		}
 	}
 	
 	/**

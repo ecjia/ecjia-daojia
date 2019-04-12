@@ -61,12 +61,14 @@ class refund_list_module extends api_front implements api_interface {
 		$size 		= $this->requestData('pagination.count', 15);
 		$page 		= $this->requestData('pagination.page', 1);
 		$order_id 	= $this->requestData('order_id', 0);
+		$store_id 	= $this->requestData('store_id', 0);
 		
 		$options = array(
 			'size'			=> $size,
 			'page'			=> $page,
 			'user_id'		=> $_SESSION['user_id'],
-			'order_id'		=> $order_id
+			'order_id'		=> $order_id,
+			'store_id'		=> $store_id,
 		);
 		
 		$refund_order_data = RC_Api::api('refund', 'refund_order_list', $options);

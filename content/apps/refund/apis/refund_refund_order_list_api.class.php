@@ -33,6 +33,10 @@ class refund_refund_order_list_api extends Component_Event_Api {
 			$db->where('order_id', $options['order_id']);
 		}
 		
+		if (!empty($options['store_id'])) {
+			$db->where('store_id', $options['store_id']);
+		}
+		
 		$size  	  = empty($options['size']) 		? 15 : intval($options['size']);
 		$page 	  = empty($options['page']) 		? 1 : intval($options['page']);
 		

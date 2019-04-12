@@ -69,7 +69,11 @@ class RefundStatusLog
     		'refund_id' => $options['refund_id'],
     		'add_time'  => RC_Time::gmtime(),
     	);
-    	RC_DB::table('refund_status_log')->insert($data);
+    	/*相同条件的数据不存在时录入*/
+    	$refund_status_log_info = RC_DB::table('refund_status_log')->where('status', $data['status'])->where('message', $message)->where('refund_id', $options['refund_id'])->first();
+    	if (empty($refund_status_log_info)) {
+    		RC_DB::table('refund_status_log')->insert($data);
+    	}
     	return true;
     }
     
@@ -90,7 +94,11 @@ class RefundStatusLog
     		'refund_id' => $options['refund_id'],
     		'add_time'  => RC_Time::gmtime(),
     	);
-    	RC_DB::table('refund_status_log')->insert($data);
+    	$refund_status_log_info = RC_DB::table('refund_status_log')->where('status', $data['status'])->where('message', $message)->where('refund_id', $options['refund_id'])->first();
+    	if (empty($refund_status_log_info)) {
+    		RC_DB::table('refund_status_log')->insert($data);
+    	}
+    	
     	return true;
     }
     
@@ -111,7 +119,11 @@ class RefundStatusLog
     		'refund_id'    	=> $options['refund_id'],
     		'add_time'    	=> RC_Time::gmtime(),
     	);
-    	RC_DB::table('refund_status_log')->insert($data);
+    	$refund_status_log_info = RC_DB::table('refund_status_log')->where('status', $data['status'])->where('message', $message)->where('refund_id', $options['refund_id'])->first();
+    	if (empty($refund_status_log_info)) {
+    		RC_DB::table('refund_status_log')->insert($data);
+    	}
+    	
     	return true;
     }
     

@@ -63,6 +63,7 @@ class refund_apply_module extends api_front implements api_interface {
 		$reason_id			= $this->requestData('reason_id', '');
 		$refund_description = $this->requestData('refund_description');
 		$device 			=  $this->device;
+		$refund_images      = $this->requestData('refund_images', array()); //兼容表单提交上传
 		
 		if (empty($order_id) || empty($refund_type) || empty($reason_id)) {
 			return new ecjia_error('invalid_parameter', _('参数错误', 'refund'));
@@ -115,69 +116,78 @@ class refund_apply_module extends api_front implements api_interface {
 				
 				//售后申请图片处理
 				$image_info = null;
-				if (!empty($_FILES)) {
-					$save_path = 'data/refund/'.RC_Time::local_date('Ym');
-					$upload = RC_Upload::uploader('image', array('save_path' => $save_path, 'auto_sub_dirs' => true));
-					
-					//删除原来的售后图片
+				$save_path = 'data/refund/'.RC_Time::local_date('Ym');
+				
+				if (!empty($_FILES) || !empty($refund_images)) {
+					//原来的售后图片
 					$old_refund_imgs = RC_DB::table('term_attachment')->where('object_app', 'ecjia.refund')
-								->where('object_group', 'refund')
-								->where('object_id', $order_refund_info['refund_id'])
-								->lists('file_path');
+						->where('object_group', 'refund')
+						->where('object_id', $order_refund_info['refund_id'])
+						->lists('file_path');
+				}
+				if (!empty($_FILES)) {
+					$upload = RC_Upload::uploader('image', array('save_path' => $save_path, 'auto_sub_dirs' => true));
+					//删除原来的售后图片
 					if (!empty($old_refund_imgs)) {
 						RC_DB::table('term_attachment')->where('object_app', 'ecjia.refund')->where('object_group', 'refund')->where('object_id', $order_refund_info['refund_id'])->delete();
 						foreach ($old_refund_imgs as $row) {
 							$upload->remove($row);
 						}
 					}
-					
 					//新传的售后图片处理
 					$count = count($_FILES['refund_images']['name']);
 					//最多可传5张图片
 					if ($count > 5) {
 						return new ecjia_error('refund_img_error', __('申请图片最多可传5张哦！', 'refund'));
 					}
-					for ($i = 0; $i < $count; $i++) {
-						$refund_images = array(
-								'name' 		=> 	$_FILES['refund_images']['name'][$i],
-								'type' 		=> 	$_FILES['refund_images']['type'][$i],
-								'tmp_name' 	=> 	$_FILES['refund_images']['tmp_name'][$i],
-								'error'		=> 	$_FILES['refund_images']['error'][$i],
-								'size'		=> 	$_FILES['refund_images']['size'][$i],
-						);
-						if (!empty($refund_images['name'])) {
-							if (!$upload->check_upload_file($refund_images)) {
-								return new ecjia_error('picture_error', $upload->error());
-							}
+					$refund_images = $_FILES['refund_images'];
+					$image_info	= $upload->batchUpload($refund_images);
+					
+				} elseif (!empty($refund_images)) {
+					$upload = RC_Upload::uploader('tempimage', array('save_path' => $save_path, 'auto_sub_dirs' => true));
+					if (!empty($old_refund_imgs)) {
+						RC_DB::table('term_attachment')->where('object_app', 'ecjia.refund')->where('object_group', 'refund')->where('object_id', $order_refund_info['refund_id'])->delete();
+						foreach ($old_refund_imgs as $row) {
+							$upload->remove($row);
 						}
 					}
-				
-					$image_info	= $upload->batch_upload($_FILES);
-					if (!empty($image_info)) {
-						foreach ($image_info as $image) {
-							if (!empty($image)) {
-								$image_url	= $upload->get_position($image);
-								$data = array(
-										'object_app'		=> 'ecjia.refund',
-										'object_group'		=> 'refund',
-										'object_id'			=> $order_refund_info['refund_id'],
-										'attach_label'  	=> $image['name'],
-										'attach_description'=> '退款图片',
-										'file_name'     	=> $image['name'],
-										'file_path'			=> $image_url,
-										'file_size'     	=> $image['size'] / 1000,
-										'file_ext'      	=> $image['ext'],
-										'file_hash'     	=> $image['sha1'],
-										'file_mime'     	=> $image['type'],
-										'is_image'			=> 1,
-										'user_id'			=> $_SESSION['user_id'],
-										'user_type'     	=> 'user',
-										'add_time'			=> RC_Time::gmtime(),
-										'add_ip'			=> RC_Ip::client_ip(),
-										'in_status'     	=> 0
-								);
-								$attach = RC_DB::table('term_attachment')->insert($data);
-							}
+						
+					//新传的售后图片处理
+					$count = count($refund_images);
+					//最多可传5张图片
+					if ($count > 5) {
+						return new ecjia_error('refund_img_error', __('申请图片最多可传5张哦！', 'refund'));
+					}
+					$refund_images = json_decode($refund_images, true);
+					if (is_array($refund_images)) {
+						$image_info	= $upload->batchUpload($refund_images);
+					}
+				}
+				//录入附件term_attachment数据表
+				if (!empty($image_info)) {
+					foreach ($image_info as $image) {
+						if (!empty($image)) {
+							$image_url	= $upload->get_position($image);
+							$data = array(
+									'object_app'		=> 'ecjia.refund',
+									'object_group'		=> 'refund',
+									'object_id'			=> $order_refund_info['refund_id'],
+									'attach_label'  	=> $image['name'],
+									'attach_description'=> '退款图片',
+									'file_name'     	=> $image['name'],
+									'file_path'			=> $image_url,
+									'file_size'     	=> $image['size'] / 1000,
+									'file_ext'      	=> $image['ext'],
+									'file_hash'     	=> $image['sha1'],
+									'file_mime'     	=> $image['type'],
+									'is_image'			=> 1,
+									'user_id'			=> $_SESSION['user_id'],
+									'user_type'     	=> 'user',
+									'add_time'			=> RC_Time::gmtime(),
+									'add_ip'			=> RC_Ip::client_ip(),
+									'in_status'     	=> 0
+							);
+							$attach = RC_DB::table('term_attachment')->insert($data);
 						}
 					}
 				}
@@ -262,8 +272,9 @@ class refund_apply_module extends api_front implements api_interface {
 			if ($refund_id) {
 				//售后申请图片处理
 				$image_info = null;
+				$save_path = 'data/refund/'.RC_Time::local_date('Ym');
+				
 				if (!empty($_FILES)) {
-					$save_path = 'data/refund/'.RC_Time::local_date('Ym');
 					$upload = RC_Upload::uploader('image', array('save_path' => $save_path, 'auto_sub_dirs' => true));
 						
 					$count = count($_FILES['refund_images']['name']);
@@ -271,47 +282,46 @@ class refund_apply_module extends api_front implements api_interface {
 					if ($count > 5) {
 						return new ecjia_error('refund_img_error', __('申请图片最多可传5张哦！', 'refund'));
 					}
-					for ($i = 0; $i < $count; $i++) {
-						$refund_images = array(
-								'name' 		=> 	$_FILES['refund_images']['name'][$i],
-								'type' 		=> 	$_FILES['refund_images']['type'][$i],
-								'tmp_name' 	=> 	$_FILES['refund_images']['tmp_name'][$i],
-								'error'		=> 	$_FILES['refund_images']['error'][$i],
-								'size'		=> 	$_FILES['refund_images']['size'][$i],
-						);
-						if (!empty($refund_images['name'])) {
-							if (!$upload->check_upload_file($refund_images)) {
-								return new ecjia_error('picture_error', $upload->error());
-							}
-						}
+					
+					$refund_images = $_FILES['refund_images'];
+					$image_info	= $upload->batchUpload($refund_images);
+				} elseif (!empty($refund_images)) {
+					$upload = RC_Upload::uploader('tempimage', array('save_path' => $save_path, 'auto_sub_dirs' => true));
+					$count = count($refund_images);
+					//最多可传5张图片
+					if ($count > 5) {
+						return new ecjia_error('refund_img_error', __('申请图片最多可传5张哦！', 'refund'));
 					}
-						
-					$image_info	= $upload->batch_upload($_FILES);
-					if (!empty($image_info)) {
-						foreach ($image_info as $image) {
-							if (!empty($image)) {
-								$image_url	= $upload->get_position($image);
-								$data = array(
-										'object_app'		=> 'ecjia.refund',
-										'object_group'		=> 'refund',
-										'object_id'			=> $refund_id,
-										'attach_label'  	=> $image['name'],
-										'attach_description'=> '退款图片',
-										'file_name'     	=> $image['name'],
-										'file_path'			=> $image_url,
-										'file_size'     	=> $image['size'] / 1000,
-										'file_ext'      	=> $image['ext'],
-										'file_hash'     	=> $image['sha1'],
-										'file_mime'     	=> $image['type'],
-										'is_image'			=> 1,
-										'user_id'			=> $_SESSION['user_id'],
-										'user_type'     	=> 'user',
-										'add_time'			=> RC_Time::gmtime(),
-										'add_ip'			=> RC_Ip::client_ip(),
-										'in_status'     	=> 0
-								);
-								$attach = RC_DB::table('term_attachment')->insert($data);
-							}
+					$refund_images = json_decode($refund_images, true);
+					if (is_array($refund_images)) {
+						$image_info	= $upload->batchUpload($refund_images);
+					}
+				}
+				
+				if (!empty($image_info)) {
+					foreach ($image_info as $image) {
+						if (!empty($image)) {
+							$image_url	= $upload->get_position($image);
+							$data = array(
+									'object_app'		=> 'ecjia.refund',
+									'object_group'		=> 'refund',
+									'object_id'			=> $refund_id,
+									'attach_label'  	=> $image['name'],
+									'attach_description'=> '退款图片',
+									'file_name'     	=> $image['name'],
+									'file_path'			=> $image_url,
+									'file_size'     	=> $image['size'] / 1000,
+									'file_ext'      	=> $image['ext'],
+									'file_hash'     	=> $image['sha1'],
+									'file_mime'     	=> $image['type'],
+									'is_image'			=> 1,
+									'user_id'			=> $_SESSION['user_id'],
+									'user_type'     	=> 'user',
+									'add_time'			=> RC_Time::gmtime(),
+									'add_ip'			=> RC_Ip::client_ip(),
+									'in_status'     	=> 0
+							);
+							$attach = RC_DB::table('term_attachment')->insert($data);
 						}
 					}
 				}

@@ -55,7 +55,7 @@
 				<div class="mer_check">
 					<p>{t domain="refund"}处理状态：{/t}{if $refund_info.status eq '1'}{t domain="refund"}同意{/t}{elseif $refund_info.status eq '11'}{t domain="refund"}不同意{/t}{/if}</p>
 					<p>{t domain="refund"}商家备注：{/t}{$action_mer_msg.action_note}</p>
-					<p>{t domain="refund"}操作人：{/t}{$action_mer_msg.action_user_name}}</p>
+					<p>{t domain="refund"}操作人：{/t}{$action_mer_msg.action_user_name}</p>
 					<p>{t domain="refund"}处理时间：{/t}{$action_mer_msg.log_time}</p>
 				</div>
 	        </section>

@@ -160,7 +160,12 @@ class admin_payrecord extends ecjia_admin
         if (in_array($payrecord_info['back_pay_code'], $pay_original)) {
             $payrecord_info['back_pay_type'] = 'original'; //原路退回
         } else {
-            $payrecord_info['back_pay_type'] = 'surplus';
+        	if ($payrecord_info['back_pay_code'] == 'pay_wxpay_merchant') {
+        		$payrecord_info['back_pay_type'] = 'original';//商家微信支付的只能原路退回
+        	} else {
+        		$payrecord_info['back_pay_type'] = 'surplus';
+        	}
+            
         }
 
         //原路退回，支付手续费退还
@@ -180,6 +185,7 @@ class admin_payrecord extends ecjia_admin
         $payrecord_info['back_shipping_fee_type'] = price_format($payrecord_info['back_shipping_fee']);
         $payrecord_info['back_insure_fee_type']   = price_format($payrecord_info['back_insure_fee']);
         $payrecord_info['back_inv_tax_type']      = price_format($payrecord_info['back_inv_tax']);
+        
         $this->assign('payrecord_info', $payrecord_info);
 
         //售后订单信息
@@ -232,13 +238,17 @@ class admin_payrecord extends ecjia_admin
 
         //用户表和资金变动表变动
         $refund_order = RC_DB::table('refund_order')->where('refund_id', $refund_id)->first();
+        
         if (empty($refund_order)) {
             return $this->showmessage(__('退款单信息不存在', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         
         if ($back_type == 'surplus') {
-
-        	$result = (new Ecjia\App\Payment\Refund\RefundManager($refund_order['order_sn'], null, null))->refund($back_money_total, $_SESSION['admin_name']);
+			//商家小程序微信支付的，不支持退回余额
+			if ($refund_order['pay_code'] == 'pay_wxpay_merchant') {
+				return $this->showmessage(__('商家微信支付的订单不支持退回余额，请选择原路退回。', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			}
+        	$result = (new Ecjia\App\Payment\Refund\RefundManager($refund_order['order_sn'], null, null))->refundToBalance($back_money_total, $_SESSION['admin_name']);
         	if (is_ecjia_error($result)) {
         		return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         	}
@@ -266,7 +276,7 @@ class admin_payrecord extends ecjia_admin
             (new \Ecjia\App\Refund\Models\RefundPayRecordModel)->updateRefundPayrecord($id, 'original', $back_content, $_SESSION['admin_id'], $_SESSION['admin_name']);
 
             ecjia_admin::admin_log('[' . $refund_order['refund_sn'] . ']', 'payrecord', 'refund_order');
-            return $this->showmessage(__('退款操作成功，等待微信到款通知即可', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/admin_payrecord/detail', array('refund_id' => $refund_id))));
+            return $this->showmessage(__('退款申请已提交，等待微信到款通知即可', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/admin_payrecord/detail', array('refund_id' => $refund_id))));
         }
 
     }

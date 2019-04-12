@@ -74,27 +74,31 @@ class admin_cashier_refund_summary_records_module extends api_admin implements a
         $start_date = $this->requestData('start_date');
         $end_date   = $this->requestData('end_date');
        
-        //日期筛选条件
-        if (!empty($start_date) && !empty($end_date)) {
-            $start_date = RC_Time::local_strtotime($start_date);
-            $end_date   = RC_Time::local_strtotime($end_date) + 86399;
-        }
-
-		$db = RC_DB::table('refund_order');
+		$db = RC_DB::table('refund_order as ro')->leftJoin('cashier_record as cr', RC_DB::raw('ro.refund_id'), '=', RC_DB::raw('cr.order_id'));
 		
-		
+		//日期筛选条件
 		if (!empty($start_date) && !empty($end_date)) {
 			$start_time = RC_Time::local_strtotime($start_date);
 			$end_time   = RC_Time::local_strtotime($end_date) + 86399;
-			$db->where('refund_time', '>=', $start_time)->where('refund_time', '<=', $end_time);
+			$db->where(RC_DB::raw('ro.add_time'), '>=', $start_time)->where(RC_DB::raw('ro.add_time'), '<=', $end_time);
 		}
 
-		//退款成功的
-		$result  = $db->where('store_id', $_SESSION['store_id'])
-			->where('refund_time', '!=', '0')
-			->where('refund_status', \Ecjia\App\Refund\Enums\RefundPayEnum::PAY_TRANSFERED)
-			->where('status', \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_AGREE)
-			->where('referer', 'ecjia-cashdesk');
+		//统计条件，收银通不区分设备，收银台和POS区分设备
+		$device_type  = Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);
+		if ($device['code'] == Ecjia\App\Cashier\CashierDevice::CASHIERCODE) {
+			$db->where(RC_DB::raw('cr.device_type'), $device_type);
+		} else {
+			$db->where(RC_DB::raw('cr.mobile_device_id'), $_SESSION['device_id']);
+		}
+		
+		//当前设备上申请的退款，且已退款成功的
+		$result  = $db->where(RC_DB::raw('ro.store_id'), $_SESSION['store_id'])
+			->where(RC_DB::raw('cr.order_type'), 'refund')
+			->where(RC_DB::raw('cr.action'), 'refund')
+			->where(RC_DB::raw('ro.refund_time'), '!=', 0)
+			->where(RC_DB::raw('ro.refund_status'), \Ecjia\App\Refund\Enums\RefundPayEnum::PAY_TRANSFERED)
+			->where(RC_DB::raw('ro.status'), \Ecjia\App\Refund\Enums\RefundOrderEnum::ORDER_AGREE)
+			->where(RC_DB::raw('ro.referer'), 'ecjia-cashdesk');
 		
 
         $record_count = $db->count();
@@ -102,7 +106,8 @@ class admin_cashier_refund_summary_records_module extends api_admin implements a
         $page_row     = new ecjia_page($record_count, $size, 6, '', $page);
         
         $order_list = [];
-        $data = $db->take($size)->skip($page_row->start_id - 1)->select('order_id', 'order_sn', 'refund_id', 'refund_sn', 'pay_name', 'add_time', 'refund_time', RC_DB::raw('(surplus + money_paid) AS total_fee'))->orderBy('add_time', 'desc')->get();
+        $field = 'ro.order_id, ro.order_sn, ro.refund_id, ro.refund_sn, ro.pay_name, ro.add_time, ro.refund_time, (ro.surplus + ro.money_paid) AS total_fee';
+        $data = $db->take($size)->skip($page_row->start_id - 1)->select(RC_DB::raw($field))->orderBy(RC_DB::raw('ro.add_time'), 'desc')->get();
 
         $data       = $this->formated_refund_order_list($data);
         $order_list = $data;

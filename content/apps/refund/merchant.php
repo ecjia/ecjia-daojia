@@ -217,35 +217,39 @@ class merchant extends ecjia_merchant {
 				$back_shipping_fee = 0;
 				$back_insure_fee   = 0;
 			}
-			$data = array(
-				'store_id'	=>	$_SESSION['store_id'],
-				'order_id'	=>	$refund_info['order_id'],
-				'order_sn'	=>	$refund_info['order_sn'],
-				'refund_id'	=>	$refund_info['refund_id'],
-				'refund_sn'	=>	$refund_info['refund_sn'],
-				'refund_type'		=>	$refund_info['refund_type'],
-				'goods_amount'		=>	$refund_info['goods_amount'],
-				'back_pay_code'		=>	$refund_info['pay_code'],
-				'back_pay_name'		=>	$refund_info['pay_name'],
-				'back_pay_fee'		=>	$refund_info['pay_fee'],
-				'back_shipping_fee'	=>	$back_shipping_fee,
-				'back_insure_fee'	=>	$back_insure_fee,
-				'back_pack_id'	=>	$refund_info['pack_id'],
-				'back_pack_fee'	=>	$refund_info['pack_fee'],
-				'back_card_id'	=>	$refund_info['card_id'],
-				'back_card_fee'	=>	$refund_info['card_fee'],
-				'back_bonus_id'	=>	$refund_info['bonus_id'],
-				'back_bonus'	=>	$refund_info['bonus'],
-				'back_surplus'	=>  $refund_info['surplus'],
-				'back_integral'	=>  $refund_info['integral'],
-				'back_integral_money'	=> $refund_info['integral_money'],
-				'back_inv_tax'			=> $refund_info['inv_tax'],
-				'order_money_paid'		=> $order_money_paid,
-				'back_money_total'		=> $back_money_total,
-				'payment_record_id'		=> empty($payment_record_id) ? 0 : $payment_record_id,
-				'add_time'	=> RC_Time::gmtime()
-			);
-			RC_DB::table('refund_payrecord')->insertGetId($data);
+			/*refund_payrecord表不存在打款交易记录时录入*/
+			$refund_payrecord_info = order_refund::get_refund_payrecord($refund_id);
+			if (empty($refund_payrecord_info)) {
+				$data = array(
+						'store_id'	=>	$_SESSION['store_id'],
+						'order_id'	=>	$refund_info['order_id'],
+						'order_sn'	=>	$refund_info['order_sn'],
+						'refund_id'	=>	$refund_info['refund_id'],
+						'refund_sn'	=>	$refund_info['refund_sn'],
+						'refund_type'		=>	$refund_info['refund_type'],
+						'goods_amount'		=>	$refund_info['goods_amount'],
+						'back_pay_code'		=>	$refund_info['pay_code'],
+						'back_pay_name'		=>	$refund_info['pay_name'],
+						'back_pay_fee'		=>	$refund_info['pay_fee'],
+						'back_shipping_fee'	=>	$back_shipping_fee,
+						'back_insure_fee'	=>	$back_insure_fee,
+						'back_pack_id'	=>	$refund_info['pack_id'],
+						'back_pack_fee'	=>	$refund_info['pack_fee'],
+						'back_card_id'	=>	$refund_info['card_id'],
+						'back_card_fee'	=>	$refund_info['card_fee'],
+						'back_bonus_id'	=>	$refund_info['bonus_id'],
+						'back_bonus'	=>	$refund_info['bonus'],
+						'back_surplus'	=>  $refund_info['surplus'],
+						'back_integral'	=>  $refund_info['integral'],
+						'back_integral_money'	=> $refund_info['integral_money'],
+						'back_inv_tax'			=> $refund_info['inv_tax'],
+						'order_money_paid'		=> $order_money_paid,
+						'back_money_total'		=> $back_money_total,
+						'payment_record_id'		=> empty($payment_record_id) ? 0 : $payment_record_id,
+						'add_time'	=> RC_Time::gmtime()
+				);
+				RC_DB::table('refund_payrecord')->insertGetId($data);
+			}
 			$log_msg = __('同意', 'refund');
 			/*如果订单是众包或商家配送的话；找出对应的配送单更改配送单状态为取消配送*/
 			if ($refund_info['shipping_code'] == 'ship_o2o_express' || $refund_info['shipping_code'] == 'ship_ecjia_express') {
@@ -259,20 +263,21 @@ class merchant extends ecjia_merchant {
 			$refund_status = 0;
 			$log_msg = __('不同意', 'refund');
 		}
+		
 		RC_DB::table('refund_order')->where('refund_id', $refund_id)->update(array('status' => $status,'refund_status' => $refund_status));
 		
-		//录入退款操作日志表
+		/*相同条件的退款操作不存在时，录入退款操作日志表*/
 		$data = array(
-			'refund_id' 		=> $refund_id,
-			'action_user_type'	=>	'merchant',
-			'action_user_id'	=>  $_SESSION['staff_id'],
-			'action_user_name'	=>	$_SESSION['staff_name'],
-			'status'		    =>  $status,
-			'refund_status'		=>  $refund_status,
-			'action_note'		=>  $action_note,
-			'log_time'			=>  RC_Time::gmtime(),
+				'refund_id' 		=>  $refund_id,
+				'action_user_type'	=>	'merchant',
+				'action_user_id'	=>  $_SESSION['staff_id'],
+				'action_user_name'	=>	$_SESSION['staff_name'],
+				'status'		    =>  $status,
+				'refund_status'		=>  $refund_status,
+				'return_status'		=>  $refund_info['return_status'],
+				'action_note'		=>  $action_note,
 		);
-		RC_DB::table('refund_order_action')->insertGetId($data);
+		order_refund::refund_order_action($data);
 		
 		//售后订单状态变动日志表
 		RefundStatusLog::refund_order_process(array('refund_id' => $refund_id, 'status' => $status));
@@ -463,10 +468,10 @@ class merchant extends ecjia_merchant {
 			'action_user_name'	=>	$_SESSION['staff_name'],
 			'status'		    =>  $status,
 			'return_status'		=>  1,
+			'refund_status'		=>  1,
 			'action_note'		=>  $action_note,
-			'log_time'			=>  RC_Time::gmtime(),
 		);
-		RC_DB::table('refund_order_action')->insertGetId($data);
+		order_refund::refund_order_action($data);
 		
 		//售后订单状态变动日志表
 		RefundStatusLog::return_order_process(array('refund_id' => $refund_id, 'status' => $status));
@@ -517,35 +522,39 @@ class merchant extends ecjia_merchant {
 				$back_shipping_fee = 0;
 				$back_insure_fee   = 0;
 			}
-			$data = array(
-					'store_id'	=>	$_SESSION['store_id'],
-					'order_id'	=>	$refund_info['order_id'],
-					'order_sn'	=>	$refund_info['order_sn'],
-					'refund_id'	=>	$refund_info['refund_id'],
-					'refund_sn'	=>	$refund_info['refund_sn'],
-					'refund_type'		=>	$refund_info['refund_type'],
-					'goods_amount'		=>	$refund_info['goods_amount'],
-					'back_pay_code'		=>	$refund_info['pay_code'],
-					'back_pay_name'		=>	$refund_info['pay_name'],
-					'back_pay_fee'		=>	$refund_info['pay_fee'],
-					'back_shipping_fee'	=>	$refund_info['shipping_fee'],
-					'back_insure_fee'	=>	$refund_info['insure_fee'],
-					'back_pack_id'	=>	$refund_info['pack_id'],
-					'back_pack_fee'	=>	$refund_info['pack_fee'],
-					'back_card_id'	=>	$refund_info['card_id'],
-					'back_card_fee'	=>	$refund_info['card_fee'],
-					'back_bonus_id'	=>	$refund_info['bonus_id'],
-					'back_bonus'	=>	$refund_info['bonus'],
-					'back_surplus'	=>  $refund_info['surplus'],
-					'back_integral'	=>  $refund_info['integral'],
-					'back_integral_money'	=> $refund_info['integral_money'],
-					'back_inv_tax'			=> $refund_info['inv_tax'],
-					'order_money_paid'		=> $order_money_paid,
-					'back_money_total'		=> $back_money_total,
-					'payment_record_id'		=> $payment_record_id,
-					'add_time'	=> RC_Time::gmtime()
-			);
-			RC_DB::table('refund_payrecord')->insertGetId($data);
+			/*refund_payrecord表不存在打款交易记录时录入*/
+			$refund_payrecord_info = order_refund::get_refund_payrecord($refund_id);
+			if (empty($refund_payrecord_info)) {
+				$data = array(
+						'store_id'	=>	$_SESSION['store_id'],
+						'order_id'	=>	$refund_info['order_id'],
+						'order_sn'	=>	$refund_info['order_sn'],
+						'refund_id'	=>	$refund_info['refund_id'],
+						'refund_sn'	=>	$refund_info['refund_sn'],
+						'refund_type'		=>	$refund_info['refund_type'],
+						'goods_amount'		=>	$refund_info['goods_amount'],
+						'back_pay_code'		=>	$refund_info['pay_code'],
+						'back_pay_name'		=>	$refund_info['pay_name'],
+						'back_pay_fee'		=>	$refund_info['pay_fee'],
+						'back_shipping_fee'	=>	$refund_info['shipping_fee'],
+						'back_insure_fee'	=>	$refund_info['insure_fee'],
+						'back_pack_id'	=>	$refund_info['pack_id'],
+						'back_pack_fee'	=>	$refund_info['pack_fee'],
+						'back_card_id'	=>	$refund_info['card_id'],
+						'back_card_fee'	=>	$refund_info['card_fee'],
+						'back_bonus_id'	=>	$refund_info['bonus_id'],
+						'back_bonus'	=>	$refund_info['bonus'],
+						'back_surplus'	=>  $refund_info['surplus'],
+						'back_integral'	=>  $refund_info['integral'],
+						'back_integral_money'	=> $refund_info['integral_money'],
+						'back_inv_tax'			=> $refund_info['inv_tax'],
+						'order_money_paid'		=> $order_money_paid,
+						'back_money_total'		=> $back_money_total,
+						'payment_record_id'		=> $payment_record_id,
+						'add_time'	=> RC_Time::gmtime()
+				);
+				RC_DB::table('refund_payrecord')->insertGetId($data);
+			}
 			$log_msg = __('确认收货', 'refund');
 		} else {
 			$return_status = 11;
@@ -566,7 +575,7 @@ class merchant extends ecjia_merchant {
 			'action_note'		=>  $action_note,
 			'log_time'			=>  RC_Time::gmtime(),
 		);
-		RC_DB::table('refund_order_action')->insertGetId($data);
+		order_refund::refund_order_action($data);
 		
 		//售后订单状态变动日志表
 		RefundStatusLog::return_confirm_receive(array('refund_id' => $refund_id, 'status' => $return_status));

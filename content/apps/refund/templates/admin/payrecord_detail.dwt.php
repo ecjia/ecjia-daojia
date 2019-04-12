@@ -86,7 +86,10 @@
 				
 						<div class="control-group refund-balance {if $payrecord_info.back_pay_type eq 'original'}refund-pay-fee{/if}">
 							<label class="control-label">{t domain="refund"}扣除支付手续费：{/t}</label>
-							<div class="controls l_h30">-{$payrecord_info.back_pay_fee_type}</div>
+							<div class="controls l_h30">
+								-{$payrecord_info.back_pay_fee_type}
+								<div class="help-block">{t domain="refund"}使用余额退款时，支付手续费会被消耗掉，将不作退回{/t}</div>
+							</div>
 						</div>
 					{/if}
 					
@@ -129,16 +132,18 @@
 						     <ul>
 
                                  <!--{if $payrecord_info.back_pay_type eq 'original'}-->
-                                 <li class="back-logo active" data-type="original" back_money_total="{$payrecord_info.back_money_total}" back_pay_fee="{$payrecord_info.back_pay_fee}">
-                                     <img src="{$original_img}">
-                                     <img class="back-logo-select" src="{$selected_img}">
-                                 </li>
+	                                 <li class="back-logo active" data-type="original" back_money_total="{$payrecord_info.back_money_total}" back_pay_fee="{$payrecord_info.back_pay_fee}">
+	                                     <img src="{$original_img}">
+	                                     <img class="back-logo-select" src="{$selected_img}">
+	                                 </li>
                                 <!--{/if}-->
-
-						         <li class="back-logo {if $payrecord_info.back_pay_type neq 'original'}active{/if}" data-type="surplus" back_money_total="{$payrecord_info.back_money_total}" back_pay_fee="{$payrecord_info.back_pay_fee}">
-						             <img src="{$surplus_img}">
-						             <img class="back-logo-select" src="{$selected_img}">
-						         </li>
+								
+								 <!--{if $payrecord_info.back_pay_code neq 'pay_wxpay_merchant'}-->
+							         <li class="back-logo {if $payrecord_info.back_pay_type neq 'original'}active{/if}" data-type="surplus" back_money_total="{$payrecord_info.back_money_total}" back_pay_fee="{$payrecord_info.back_pay_fee}">
+							             <img src="{$surplus_img}">
+							             <img class="back-logo-select" src="{$selected_img}">
+							         </li>
+						         <!--{/if}-->
 						     </ul>
 						     <input name="back_type" value="{if $payrecord_info.back_pay_type eq 'original'}original{else}surplus{/if}" type="hidden">
 						</div>
@@ -155,6 +160,7 @@
 								<option value="3">{t domain="refund"}已全额退款{/t}</option>
 								<option value="4">{t domain="refund"}金额已退回账户余额{/t}</option>
 								<option value="5">{t domain="refund"}退回商品金额及红包、积分{/t}</option>
+								<option value="6">{t domain="refund"}退回余额时，支付手续费金额已被扣除{/t}</option>
 							</select>
 							<span class="input-must">*</span>
 							<span class="help-block">{t domain="refund"}可使用快捷用语{/t}</span>
