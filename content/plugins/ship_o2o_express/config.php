@@ -59,6 +59,14 @@ return array(
 		array('name' => 'free_money', 'type' => 'text', 'value' => 0), /* 免费额度  */
 		array('name' => 'pay_fee', 'type' => 'text', 'value' => 0), /* 货到付款支付费用  */
 	),
+
+    'dynamic_option' => array(
+        'item_fee' 		=> __('单件商品费用：', 'ship_o2o_express'),
+        'base_fee' 		=> __('首重费用：', 'ship_o2o_express'),
+        'step_fee' 		=> __('续重费用：', 'ship_o2o_express'),
+        'pay_fee'       => __('货到付款支付费用：', 'ship_o2o_express'),
+        'free_money'    => __('免费额度：', 'ship_o2o_express'),
+    ),
 );
 
 // end

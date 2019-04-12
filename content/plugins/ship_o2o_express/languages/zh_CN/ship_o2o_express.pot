@@ -1,0 +1,53 @@
+# Copyright (C) 2019 商家配送
+# This file is distributed under the same license as the 商家配送 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 商家配送 2.30.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-03-20 09:19:26+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: config.php:64
+msgid "单件商品费用："
+msgstr ""
+
+#: config.php:65
+msgid "首重费用："
+msgstr ""
+
+#: config.php:66
+msgid "续重费用："
+msgstr ""
+
+#: config.php:67
+msgid "货到付款支付费用："
+msgstr ""
+
+#: config.php:68
+msgid "免费额度："
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "商家配送"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.ship_o2o_express/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "商家配送，适用于商家自己组建配送团队，方便管理与灵活派遣。"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr ""
