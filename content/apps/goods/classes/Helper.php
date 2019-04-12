@@ -59,6 +59,7 @@ class Helper
     public static function assign_adminlog_content()
     {
         ecjia_admin_log::instance()->add_object('category_goods', __('分类商品', 'goods'));
+        ecjia_admin_log::instance()->add_object('product', __('货品', 'goods'));
         
 	    ecjia_admin_log::instance()->add_action('move', __('转移', 'goods'));
 	    ecjia_admin_log::instance()->add_action('batch_start', __('批量上架', 'goods'));

@@ -73,7 +73,9 @@ class mh_gallery extends ecjia_merchant {
         RC_Script::enqueue_script('jq_quicksearch', RC_Uri::admin_url() . '/statics/lib/multi-select/js/jquery.quicksearch.js', array('jquery'), false, 1);
         
         RC_Script::enqueue_script('ecjia-region',RC_Uri::admin_url('statics/ecjia.js/ecjia.region.js'), array('jquery'), false, 1);
-        
+
+        RC_Script::enqueue_script('product', RC_App::apps_url('statics/js/merchant_product.js', __FILE__), array(), false, 1);
+        RC_Style::enqueue_style('mh-product', RC_App::apps_url('statics/styles/mh-product.css', __FILE__), array());
         RC_Script::localize_script('goods_list', 'js_lang', config('app-goods::jslang.goods_list_page'));
         
         RC_Loader::load_app_class('goods', 'goods');
@@ -124,7 +126,7 @@ class mh_gallery extends ecjia_merchant {
         $this->tags = get_merchant_goods_info_nav($goods_id, $extension_code);
         $this->tags['edit_goods_photo']['active'] = 1;
         /* 图片列表 */
-        $img_list = RC_DB::table('goods_gallery')->where('goods_id', $goods_id)->get();
+        $img_list = RC_DB::table('goods_gallery')->where('goods_id', $goods_id)->where('product_id', 0)->get();
         
         $img_list_sort = $img_list_id = array();
         $no_picture = RC_Uri::admin_url('statics/images/nopic.png');

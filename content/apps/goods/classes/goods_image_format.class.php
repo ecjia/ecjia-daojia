@@ -101,6 +101,9 @@ class goods_image_format {
     
     const GOODS_IMAGE = 'goods';
     const GOODS_GALLERY = 'gallery';
+
+    const PRODUCT_IMAGE = 'product';
+    const PRODUCT_GALLERY = 'product_gallery';
 	
 	/**
 	 * 构造函数
@@ -111,10 +114,10 @@ class goods_image_format {
         $this->goods_ext_name = '.' . $img_ext;
         $this->goods_random_name = goods_imageutils::generateRandomName();
         
-        if ($type == self::GOODS_IMAGE) {
+        if ($type == self::GOODS_IMAGE || $type == self::PRODUCT_IMAGE ) {
             $this->goods_separator = '_G_';
             $this->goods_thumb_separator = '_thumb_G_';
-        } elseif ($type == self::GOODS_GALLERY) {
+        } elseif ($type == self::GOODS_GALLERY || $type == self::PRODUCT_GALLERY) {
             $this->goods_separator = '_P_';
             $this->goods_thumb_separator = '_thumb_P_';
         }
@@ -122,6 +125,12 @@ class goods_image_format {
         $this->goods_source_postion = $this->filePathPrefix() . 'source_img/' . $this->spliceFileName();
         $this->goods_img_postion = $this->filePathPrefix() . 'goods_img/' . $this->spliceFileName();
         $this->goods_thumb_postion = $this->filePathPrefix() . 'thumb_img/' . $this->spliceFileName();
+
+        if ($type == self::PRODUCT_IMAGE || $type == self::PRODUCT_GALLERY ) {
+            $this->goods_source_postion = $this->filePathPrefix() . 'product_source_img/' . $this->spliceFileName();
+            $this->goods_img_postion = $this->filePathPrefix() . 'product_img/' . $this->spliceFileName();
+            $this->goods_thumb_postion = $this->filePathPrefix() . 'product_thumb_img/' . $this->spliceFileName();
+        }
 	}
 	
 	/**

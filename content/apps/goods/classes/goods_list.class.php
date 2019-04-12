@@ -374,10 +374,10 @@ class goods_list {
 		}
 		$goods_db = RC_Model::model('goods/orm_goods_model');
 		/* 储存商品列表缓存key*/
-		$fomated_cache_key = $goods_db->create_cache_key_array($cache_key, 2880);
+		//$fomated_cache_key = $goods_db->create_cache_key_array($cache_key, 2880);
 		
-		$goods_result = $goods_db->get_cache_item($fomated_cache_key);
-		
+		//$goods_result = $goods_db->get_cache_item($fomated_cache_key);
+		$goods_result['list'] = [];
 		if (empty($goods_result['list'])) {
 			/* 返回商品总数 */
 			$count = $dbview->join(array('store_franchisee'))->where($where)->count();
@@ -450,7 +450,7 @@ class goods_list {
 			}
 		
 			$goods_result = array('list' => $arr, 'page' => $page_row);
-			$goods_db->set_cache_item($fomated_cache_key, $goods_result, 2880);
+			//$goods_db->set_cache_item($fomated_cache_key, $goods_result, 2880);
 		}
 		
 		return $goods_result;
@@ -664,10 +664,10 @@ class goods_list {
 	    }
 	    $goods_db = RC_Model::model('goods/orm_goods_model');
 	    /* 储存商品列表缓存key*/
-	    $fomated_cache_key = $goods_db->create_cache_key_array($cache_key, 2880);
+	    //$fomated_cache_key = $goods_db->create_cache_key_array($cache_key, 2880);
 	
-	    $goods_result = $goods_db->get_cache_item($fomated_cache_key);
-	
+	    //$goods_result = $goods_db->get_cache_item($fomated_cache_key);
+	    $goods_result['list'] = [];
 	    if (empty($goods_result['list'])) {
 	        /* 返回商品总数 */
 	        $count = $dbview->join(array('store_franchisee'))->where($where)->count();
@@ -748,7 +748,7 @@ class goods_list {
 	            }
 	        }
 	        $goods_result = array('list' => $arr, 'page' => $page_row);
-	        $goods_db->set_cache_item($fomated_cache_key, $goods_result, 2880);
+	        //$goods_db->set_cache_item($fomated_cache_key, $goods_result, 2880);
 	    }
 	
 	    return $goods_result;

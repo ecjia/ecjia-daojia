@@ -377,6 +377,8 @@
 												</div>
 											</div>
 										</div>
+
+										{if $goods.is_promote eq 1}
 										<div class="foldable-list move-mod-group" id="goods_info_sort_promote">
 											<div class="accordion-group">
 												<div class="accordion-heading">
@@ -386,23 +388,32 @@
 												</div>
 												<div class="accordion-body collapse" id="goods_info_area_promote">
 													<div class="accordion-inner">
+
 														<div class="control-group control-group-small">
-															<input class="toggle_promote" type="checkbox" name="is_promote" value="1" {if $goods.is_promote}checked="checked"{/if}/>
-															<span>{t domain="goods"}促销价：{/t}</span>
-															<input class="span4" type="text" id="promote_1" name="promote_price" value="{$goods.promote_price}" size="20"{if !$goods.is_promote} disabled{/if}/>
+															<div class="control-label p_r5">
+                                                   	 			<label><span class="ecjiaf-fs2">{t domain="goods"}活动状态：{/t}</span></label>
+															</div>
+															<div class="col-lg-8 p_l0 l_h30">
+																<span class="promote-status {$goods.promote_status}">{$goods.promote_status_label}</span>
+															</div>
 														</div>
 														<div class="control-group control-group-small">
-															<div class="w300">
-																<span class="m_l5 l_h30">{t domain="goods"}促销日期：{/t}</span>
-																<input class="date span4" type="text" name="promote_start_date" size="12" value="{$goods.promote_start_date}"/>
-																<span class="l_h30">-</span>
-																<input class="date span4" type="text" name="promote_end_date" size="12" value="{$goods.promote_end_date}"/>
+															<div class="control-label p_r5">
+																<label><span class="ecjiaf-fs2">{t domain="goods"}活动时间：{/t}</span></label>
 															</div>
+															<div class="col-lg-8 p_l0 l_h30">
+																{$goods.promote_start_date} ~ {$goods.promote_end_date}
+															</div>
+														</div>
+														<div class="control-group">
+															<a target="_blank" class="btn" href="{RC_Uri::url('promotion/admin/detail')}&id={$goods.goods_id}">{t domain="goods"}查看促销{/t}</a>
 														</div>
 													</div>
 												</div>
 											</div>
 										</div>
+										{/if}
+
 										<!-- 积分相关 -->
 										<div class="foldable-list move-mod-group" id="goods_info_sort_integral">
 											<div class="accordion-group">

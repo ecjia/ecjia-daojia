@@ -44,6 +44,8 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+use \Ecjia\App\Goods\Models\GoodsModel;
+
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
@@ -57,28 +59,22 @@ class goods_detail_module extends api_front implements api_interface {
         //如果用户登录获取其session
 		
         $goods_id = $this->requestData('goods_id', 0);
-        $goods_id = intval($goods_id);
+      
+        $product_id = $this->requestData('product_id', 0);
         
-        if ($goods_id <= 0) {
+        if (empty($goods_id)) {
         	return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
         }
-
+		
         RC_Loader::load_app_class('groupbuy_activity', 'groupbuy', false);
         
         $object_id = $this->requestData('goods_activity_id', 0);
         
         //判断商品是否是团购商品
-        $is_groupbuy = 0;
-        if (empty($object_id)) {
-        	$is_groupbuy_result = groupbuy_activity::is_groupbuy_goods($goods_id);
-        	if (!empty($is_groupbuy_result)) {
-        		$object_id = $is_groupbuy_result['act_id'];
-        		$is_groupbuy = 1;
-        	}
-        }
-
+        
+        list($is_groupbuy, $object_id) = $this->_is_groupbuy($object_id, $goods_id);
+        
         /* 获得商品的信息 */
-        RC_Loader::load_app_func('admin_category', 'goods');
         RC_Loader::load_app_func('admin_goods', 'goods');
         
         $groupbuy_activity_desc = '';
@@ -105,26 +101,11 @@ class goods_detail_module extends api_front implements api_interface {
         	$rec_type = '';
         }
         
-        /*增加商品基本信息缓存*/
-        $cache_goods_basic_info_key = 'goods_basic_info_'.$goods_id;
-        $cache_basic_info_id = sprintf('%X', crc32($cache_goods_basic_info_key));
-        $orm_goods_db = RC_Model::model('goods/orm_goods_model');
-        $goods = $orm_goods_db->get_cache_item($cache_basic_info_id);
-        
-        if (empty($goods)) {
-        	$goods = get_goods_info($goods_id);
-        	$orm_goods_db->set_cache_item($cache_basic_info_id, $goods);
-        }
-        
+        /*商品基本信息*/
+        $goods = get_goods_info($goods_id);
         if ($goods === false) {
            return new ecjia_error('does_not_exist', __('不存在的信息', 'goods'));
         } 
-        //判断促销是否过期或者商品是团购商品时，重新获取商品信息
-        if($goods['is_promote'] && $goods['promote_end_date'] > RC_Time::gmtime() || !empty($rec_type)) {
-            $orm_goods_db->delete_cache_item($cache_basic_info_id);
-            $goods = get_goods_info($goods_id);
-            $orm_goods_db->set_cache_item($cache_basic_info_id, $goods);
-        }
         
         if ($goods['brand_id'] > 0) {
         	$goods['goods_brand_url'] = build_uri('brand', array('bid' => $goods['brand_id']), $goods['goods_brand']);
@@ -133,131 +114,48 @@ class goods_detail_module extends api_front implements api_interface {
         $shop_price = $goods['shop_price'];
         $linked_goods = array();
         
-        $goods['goods_style_name'] = add_style($goods['goods_name'], $goods['goods_name_style']);
-        
-        /* 购买该商品可以得到多少钱的红包 */
-        if ($goods['bonus_type_id'] > 0) {
-        	$time = RC_Time::gmtime();
-        	$bonus_money = RC_DB::table('bonus_type')->where('type_id', $goods['bonus_type_id'])->where('send_type', SEND_BY_GOODS)->where('send_start_date', '<=', $time)->where('send_end_date', '>=', $time)->pluck('type_money');
-        	$goods['bonus_money'] = $bonus_money;
-        	if ($goods['bonus_money'] > 0) {
-        		$goods['bonus_money'] = price_format($goods['bonus_money']);
-        	}
-        }
-        	
-        /*增加商品的规格和属性缓存*/
-        $cache_goods_properties_key = 'goods_properties_'.$goods_id;
-        $cache_goods_properties_id = sprintf('%X', crc32($cache_goods_properties_key));
-        $goods_type_db = RC_Model::model('goods/orm_goods_type_model');
-        $properties = $goods_type_db->get_cache_item($cache_goods_properties_id);
-        if (empty($properties)) {
-        	$properties = get_goods_properties($goods_id); // 获得商品的规格和属性
-        	$goods_type_db->set_cache_item($cache_goods_properties_id, $properties);
-        }
+        /*获得商品的规格和属性*/
+        $properties = Ecjia\App\Goods\GoodsFunction::get_goods_properties($goods_id); 
         
         /* 更新点击次数 */
-        $db_goods = RC_Model::model('goods/goods_model');
-        $db_goods->inc('click_count', 'goods_id='.$goods_id, 1);
+		$this->update_goods_click_count($goods_id);
 
         $data = $goods;
-         
-		/*给指定商品的各会员等级对应价格增加缓存*/
-        $cache_goods_user_rank_prices_key = 'goods_user_rank_prices_'.$goods_id. '-' . $shop_price;
-        $cache_user_rank_prices_id = sprintf('%X', crc32($cache_goods_user_rank_prices_key));
-        $orm_member_price_db = RC_Model::model('goods/orm_member_price_model');
-        $user_rank_prices = $orm_member_price_db->get_cache_item($cache_user_rank_prices_id);
         
-        if (empty($user_rank_prices)) {
-        	$user_rank_prices = $this->get_user_rank_prices($goods_id, $shop_price);
-        	$orm_member_price_db->set_cache_item($cache_user_rank_prices_id, $user_rank_prices);      	
-        }
-        //商品是团购时，重新获取会员等级价格
-        if (!empty($rec_type)) {
-        	$user_rank_prices = $this->get_user_rank_prices($goods_id, $shop_price);
-        	$orm_member_price_db->set_cache_item($cache_user_rank_prices_id, $user_rank_prices);
-        }
+        //商品会员等级价
+        $user_rank_prices = $this->get_user_rank_prices($goods_id, $shop_price);
         
-        /*给商品的相册增加缓存*/
-        $cache_goods_gallery_key = 'goods_gallery_'.$goods_id;
-        $cache_goods_gallery_id = sprintf('%X', crc32($cache_goods_gallery_key));
-        $orm_goods_gallery_db = RC_Model::model('goods/orm_goods_gallery_model');
-        $goods_gallery = $orm_goods_gallery_db->get_cache_item($cache_goods_gallery_id);
-        if (empty($goods_gallery)) {
-        	$goods_gallery = $this->EM_get_goods_gallery($goods_id);
-        	$orm_goods_gallery_db->set_cache_item($cache_goods_gallery_id, $goods_gallery);
-        }
+        /*商品的相册*/
+        $goods_gallery = $this->_getGoodsGallery($goods_id, $product_id);
         
         $data['rank_prices']     = !empty($shop_price) ? $user_rank_prices : 0;
         $data['pictures']        = $goods_gallery;
         $data['properties']      = $properties['pro'];
         $data['specification']   = $properties['spe'];
-        $data['collected']       = 0;
+        //用户登录的话，有没收藏此商品
+        $data['collected']       = $this->is_collect_goods($goods_id, $_SESSION['user_id']);
         
-       	/*增加优惠活动缓存*/
-		$store_options = array(
-				'store_id' => $goods['store_id']
-		);
-		$favourable_result = RC_Api::api('favourable', 'store_favourable_list', $store_options);
-        $favourable_list = array();
-        if (empty($rec_type)) {
-        	if (!empty($favourable_result)) {
-        		foreach ($favourable_result as $val) {
-        			if ($val['act_range'] == '0') {
-        				$favourable_list[] = array(
-        						'name' => $val['act_name'],
-        						'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-        						'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
-        				);
-        			} else {
-        				$act_range_ext = explode(',', $val['act_range_ext']);
-        				switch ($val['act_range']) {
-        					case 1 :
-        						if (in_array($goods['cat_id'], $act_range_ext)) {
-        							$favourable_list[] = array(
-        								'name' => $val['act_name'],
-        								'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-        								'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
-        							);
-        						}
-        						break;
-        					case 2 :
-        						if (in_array($goods['brand_id'], $act_range_ext)) {
-        							$favourable_list[] = array(
-        								'name' => $val['act_name'],
-        								'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-        								'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
-        							);
-        						}
-        						break;
-        					case 3 :
-        						if (in_array($goods['goods_id'], $act_range_ext)) {
-        							$favourable_list[] = array(
-        								'name' => $val['act_name'],
-        								'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
-        								'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
-        							);
-        						}
-        						break;
-        					default:
-        						break;
-        				}
-        			}
-        		}
-        	}
-        }
+       	/*优惠活动获取*/
+        $favourable_list = $this->get_favourable_list($goods, $rec_type);
 
-        if ($_SESSION['user_id']) {
-            // 查询收藏夹状态
-            $db_collect_goods = RC_Model::model('goods/collect_goods_model');
-            $count = $db_collect_goods->where(array('user_id' => $_SESSION['user_id'] , 'goods_id' => $goods_id))->count();
-
-            if ($count > 0) {
-                $data['collected'] = 1;
-            }
-        }
-		
-        
         $data = ecjia_api::transformerData('GOODS', $data);
+        //商品货品信息
+        if (!empty($data['specification'])) {
+        	$GoodsProductPrice = new \Ecjia\App\Goods\Product\GoodsProductPrice($goods_id);
+        	
+        	$GoodsProductPrice->setUserRank($_SESSION['user_rank']);
+        	$GoodsProductPrice->setUserRankDiscount($_SESSION['discount']);
+        	$GoodsProductPrice->setGoodsSpecification($data['specification']);
+        	$GoodsProductPrice->setGoodsInfo();
+        	$GoodsProductPrice->getGoodsProducts();
+        	
+        	$product_specification = $GoodsProductPrice->getData();
+        	 
+        	$data['product_specification'] = $product_specification;
+        	
+        } else {
+        	$data['product_specification'] = [];
+        }
         
         $data['unformatted_shop_price'] = $goods['shop_price'];
         
@@ -322,6 +220,7 @@ class goods_detail_module extends api_front implements api_interface {
 
         $data['rec_type'] = empty($rec_type) ? $activity_type : 'GROUPBUY_GOODS';
         $data['object_id'] = empty($object_id) ? 0 : $object_id;
+        $data['promote_user_limited'] = $activity_type == 'PROMOTE_GOODS' ? $goods['promote_user_limited'] : 0;
 
         if (ecjia_config::has('mobile_touch_url')) {
         	$data['goods_url'] = ecjia::config('mobile_touch_url').'index.php?m=goods&c=index&a=show&goods_id='.$goods_id.'&hidenav=1&hidetab=1';
@@ -331,56 +230,15 @@ class goods_detail_module extends api_front implements api_interface {
         
         $data['favourable_list'] = $favourable_list;
 
-        $location = $this->requestData('location', array());
+       //商品详情页猜你喜欢 
         $options = array(
-       		'cat_id'	=> $data['cat_id'],
-        	'intro'		=> 'hot',
-       		'page'		=> 1,
-       		'size'		=> 8,
-        	'store_id'	=> $goods['store_id'],
-       		'location'	=> $location,
-       	);
-
-        //商品详情页猜你喜欢  api2.4功能
-    	$result = RC_Api::api('goods', 'goods_list', $options);
-
-        $data['related_goods'] = array();
-		if (!empty($result['list'])) {
-			foreach ($result['list'] as $val) {
-				/* 判断是否有促销价格*/
-				$price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_promote_price'] : $val['unformatted_shop_price'];
-				$activity_type = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? 'PROMOTE_GOODS' : 'GENERAL_GOODS';
-				 /* 计算节约价格*/
-				$saving_price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_shop_price'] - $val['unformatted_promote_price'] : (($val['unformatted_market_price'] > 0 && $val['unformatted_market_price'] > $val['unformatted_shop_price']) ? $val['unformatted_market_price'] - $val['unformatted_shop_price'] : 0);
-				/*增加商品的规格和属性缓存*/
-				$cache_related_goods_properties_key = 'goods_related_properties_'.$val['goods_id'];
-				$cache_related_goods_properties_id = sprintf('%X', crc32($cache_related_goods_properties_key));
-				$goods_type_db = RC_Model::model('goods/orm_goods_type_model');
-				$properties = $goods_type_db->get_cache_item($cache_related_goods_properties_id);
-				if (empty($properties)) {
-				    $properties = get_goods_properties($val['goods_id']); // 获得商品的规格和属性
-				    $goods_type_db->set_cache_item($cache_related_goods_properties_id, $properties);
-				}
-				
-				$data['related_goods'][] = array(
-					'goods_id'		=> $val['goods_id'],
-					'name'			=> $val['name'],
-					'market_price'	=> $val['market_price'],
-					'shop_price'	=> $val['shop_price'],
-					'promote_price'	=> $val['promote_price'],
-					'img' => array(
-						'thumb'	=> $val['goods_img'],
-						'url'	=> $val['original_img'],
-						'small'	=> $val['goods_thumb'],
-					),
-				    'specification'     => array_values($properties['spe']),
-					'activity_type' 	=> $activity_type,
-					'object_id'			=> 0,
-					'saving_price'		=>	$saving_price,
-					'formatted_saving_price' => $saving_price > 0 ? sprintf(__('已省%s元', 'goods'), $saving_price) : '',
-				);
-			}
-		}
+        		'cat_id'	=> $data['cat_id'],
+        		'intro'		=> 'hot',
+        		'page'		=> 1,
+        		'size'		=> 8,
+        		'store_id'	=> $goods['store_id'],
+        );
+        $data['related_goods'] = $this->_related_goods($options);
 
         //多店铺的内容
         $data['seller_id'] = $goods['store_id'];
@@ -391,10 +249,6 @@ class goods_detail_module extends api_front implements api_interface {
             
             $store_config = array(
                 'shop_kf_mobile'            => '', // 客服手机号码
-//                 'shop_kf_email'             => '', // 客服邮件地址
-//                 'shop_kf_qq'                => '', // 客服QQ号码
-//                 'shop_kf_ww'                => '', // 客服淘宝旺旺
-//                 'shop_kf_type'              => '', // 客服样式
                 'shop_logo'                 => '', // 默认店铺页头部LOGO
                 'shop_banner_pic'           => '', // banner图
                 'shop_trade_time'           => '', // 营业时间
@@ -429,13 +283,9 @@ class goods_detail_module extends api_front implements api_interface {
         			'comment_goods' 	=> '100%',
         			'comment_server'	=> '100%',
         			'comment_delivery'	=> '100%',
-// 					'comment_goods'		=> $comment['count'] > 0 && $comment['comment_rank'] > 0 ? round($comment['comment_rank']/$comment['count']*100).'%' : '100%',
-//         			'comment_server'	=> $comment['count'] > 0 && $comment['comment_server'] > 0  ? round($comment['comment_server']/$comment['count']*100).'%' : '100%',
-//         			'comment_delivery'	=> $comment['count'] > 0 && $comment['comment_delivery'] > 0  ? round($comment['comment_delivery']/$comment['count']*100).'%' : '100%',
         		)
         	);
         }
-        // $data['is_warehouse'] = null;
         $data['seller_name'] = $info['merchants_name'];
         $shop_name = empty($info['merchants_name']) ? ecjia::config('shop_name') : $info['merchants_name'];
         $data['server_desc'] = sprintf(__('由%s发货并提供售后服务', 'goods'), $shop_name);
@@ -481,32 +331,16 @@ class goods_detail_module extends api_front implements api_interface {
 		} else {
 			$data['add_time'] = '';
 		}
-
+		
+		//判断货品，是货品，替换部分基本信息字段
+		if ($product_id > 0) {
+			$data = $this->_formate_data($product_id, $data);
+		}
+		
+		
+		
         return $data;
     }
-    
-    private function EM_get_goods_gallery($goods_id) {
-	    $db_goods_gallery = RC_Model::model('goods/goods_gallery_model');
-	    $row = $db_goods_gallery->field('img_id, img_url, thumb_url, img_desc, img_original')->where(array('goods_id' => $goods_id))->limit(ecjia::config('goods_gallery_number'))->select();
-	    /* 格式化相册图片路径 */
-	    RC_Loader::load_app_class('goods_imageutils', 'goods', false);
-	    $img_list_sort = $img_list_id = array();
-	    if (!empty($row)) {
-	        foreach ($row as $key => $gallery_img) {
-	        	$desc_index = intval(strrpos($gallery_img['img_original'], '?')) + 1;
-	        	!empty($desc_index) && $row[$key]['desc'] = substr($gallery_img['img_original'], $desc_index);
-	        	$row[$key]['img_url'] = empty($gallery_img ['img_original']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($gallery_img ['img_original']);
-	        	$row[$key]['thumb_url'] = empty($gallery_img ['img_url']) ? RC_Uri::admin_url('statics/images/nopic.png') : goods_imageutils::getAbsoluteUrl($gallery_img ['img_url']);
-	        	$img_list_sort[$key] = $row[$key]['desc'];
-	        	$img_list_id[$key] = $gallery_img['img_id'];
-	        }
-	        //先使用sort排序，再使用id排序。
-	        if ($row) {
-	        	array_multisort($img_list_sort, $img_list_id, $row);
-	        }
-	    }
-	    return $row;
-	}
 	
 	/**
 	 * 获得指定商品的各会员等级对应的价格
@@ -516,102 +350,254 @@ class goods_detail_module extends api_front implements api_interface {
 	 * @return array
 	 */
 	private function get_user_rank_prices($goods_id, $shop_price) {
-		$dbview = RC_Model::model('user/user_rank_member_price_viewmodel');
-		$dbview->view =array(
-				'member_price' 	=> array(
-						'type' 		=> Component_Model_View::TYPE_LEFT_JOIN,
-						'alias' 	=> 'mp',
-						'on' 		=> "mp.goods_id = '$goods_id' and mp.user_rank = r.rank_id "
-				),
-		);
-	
-		$res = $dbview->join(array('member_price'))->field("rank_id, IFNULL(mp.user_price, r.discount * $shop_price / 100) AS price, r.rank_name, r.discount")->where("r.show_price = 1 OR r.rank_id = '$_SESSION[user_rank]'")->select();
-	
+		$dbview = RC_DB::table('user_rank as ur')->leftJoin('member_price as mp', function ($join) use ($goods_id) {
+			$join->where(RC_DB::raw('mp.user_rank'), '=', RC_DB::raw('ur.rank_id'))
+			->where(RC_DB::raw('mp.goods_id'), '=', $goods_id);
+		});
+		
+		$user_rank = $_SESSION['user_rank'];
+		
+		$res = $dbview->selectRaw("ur.rank_id, IFNULL(mp.user_price, ur.discount * $shop_price / 100) AS price, ur.rank_name, ur.discount")->whereRaw("ur.show_price = 1 OR ur.rank_id = $user_rank")->get();
+			
 		$arr = array();
 		foreach ($res as $row) {
 			$arr[$row['rank_id']] = array(
 					'rank_name' => htmlspecialchars($row['rank_name']),
-					'price' => price_format($row['price']),
+					'price' => ecjia_price_format($row['price'], false),
 					'unformatted_price' => number_format( $row['price'], 2, '.', '')
 			);
 		}
+		
 		return $arr;
 	}
 	
 	/**
-	 * 取得跟商品关联的礼包列表
-	 *
-	 * @param string $goods_id
-	 *            商品编号
-	 *
-	 * @return 礼包列表
+	 * 商品基本信息
+	 * @param int $goods_id
+	 * @return array
 	 */
-	private function get_package_goods_list($goods_id) {
-		$dbview = RC_Model::model('goods/goods_activity_package_goods_viewmodel');
-		$db_view = RC_Model::model('goods/goods_attr_attribute_viewmodel');
-		$now = RC_Time::gmtime();
+	private function _get_goods_info($goods_id)
+	{
+		$goods = [];
+		if (ecjia::config('review_goods') == '1') {
+			$goods = GoodsModel::where('goods_id', $goods_id)->where('review_status', '>', 2)->first();
+			$goods = $goods->toArray();
+		} else {
+			$goods = GoodsModel::where('goods_id', $goods_id)->first();
+			$goods = $goods->toArray();
+		}
+		return $goods;
+	}
 	
-		$res = array();
-		$data = RC_DB::table('goods_activity')->where('start_time', '<=', $now)->where('end_time', '>=', $now)->groupBy('act_id')->get();
-		if (!empty($data)) {
-			foreach ($data as $k => $v) {
-				if ($v['goods_id'] == $goods_id) {
-					$res[] = $v;
-				}
+	/**
+	 * 判断是否是团购商品，团购活动id
+	 * @param int $object_id
+	 * @param int $goods_id
+	 * @return array
+	 */
+	private function _is_groupbuy($object_id, $goods_id)
+	{
+		$is_groupbuy = 0;
+		if (empty($object_id)) {
+			$is_groupbuy_result = groupbuy_activity::is_groupbuy_goods($goods_id);
+			if (!empty($is_groupbuy_result)) {
+				$object_id = $is_groupbuy_result['act_id'];
+				$is_groupbuy = 1;
 			}
 		}
-
-		foreach ($res as $tempkey => $value) {
-			$subtotal = 0;
-			$row = unserialize($value['ext_info']);
-			unset($value['ext_info']);
-			if ($row) {
-				foreach ($row as $key => $val) {
-					$res[$tempkey][$key] = $val;
-				}
+		return [$is_groupbuy, $object_id];
+	}
+	
+	/**
+	 * 更新商品点击数
+	 */
+	private function update_goods_click_count($goods_id)
+	{
+		GoodsModel::where('goods_id', $goods_id)->increment('click_count', 1);
+	}
+	
+	/**
+	 * 用户有没收藏此商品
+	 * @param int $goods_id
+	 * @param int $user_id
+	 * @return int
+	 */
+	private function is_collect_goods($goods_id, $user_id)
+	{
+		$collected = 0;
+		if ($user_id > 0) {
+			// 查询收藏夹状态
+			$db_collect_goods = RC_DB::table('collect_goods');
+			$count = $db_collect_goods->where('user_id', $user_id)->where('goods_id', $goods_id)->count();
+			if ($count > 0) {
+				$collected = 1;
 			}
+		}
+		return $collected;
+	}
 	
-			$goods_res = $dbview
-			->join(array('goods','products','member_price'))
-			->where(array('pg.package_id' => $value['act_id']))
-			->order(array('pg.package_id' => 'asc', 'pg.goods_id' => 'asc'))
-			->select();
-	
-			foreach ($goods_res as $key => $val) {
-				$goods_id_array[] = $val['goods_id'];
-				$goods_res[$key]['goods_thumb'] = get_image_path($val['goods_id'], $val['goods_thumb'], true);
-				$goods_res[$key]['market_price'] = price_format($val['market_price']);
-				$goods_res[$key]['rank_price'] = price_format($val['rank_price']);
-				$subtotal += $val['rank_price'] * $val['goods_number'];
-			}
-	
-			/* 取商品属性 */
-			$result_goods_attr = $db_view->where(array('a.attr_type' => 1))->in(array('goods_id' => $goods_id_array))->select();
-	
-			$_goods_attr = array();
-			foreach ($result_goods_attr as $value) {
-				$_goods_attr[$value['goods_attr_id']] = $value['attr_value'];
-			}
-	
-			/* 处理货品 */
-			$format = '[%s]';
-			foreach ($goods_res as $key => $val) {
-				if ($val['goods_attr'] != '') {
-					$goods_attr_array = explode('|', $val['goods_attr']);
-					$goods_attr = array();
-					foreach ($goods_attr_array as $_attr) {
-						$goods_attr[] = $_goods_attr[$_attr];
+	/**
+	 * 获取优惠活动
+	 * @param array $goods
+	 * @param string $rec_type
+	 * @return array
+	 */
+	private function get_favourable_list($goods, $rec_type)
+	{
+		$store_options = array(
+				'store_id' => $goods['store_id']
+		);
+		$favourable_result = RC_Api::api('favourable', 'store_favourable_list', $store_options);
+		$favourable_list = []; 
+		if (empty($rec_type)) {
+			if (!empty($favourable_result)) {
+				foreach ($favourable_result as $val) {
+					if ($val['act_range'] == '0') {
+						$favourable_list[] = array(
+								'name' => $val['act_name'],
+								'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
+								'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
+						);
+					} else {
+						$act_range_ext = explode(',', $val['act_range_ext']);
+						switch ($val['act_range']) {
+							case 1 :
+								if (in_array($goods['cat_id'], $act_range_ext)) {
+									$favourable_list[] = array(
+											'name' => $val['act_name'],
+											'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
+											'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
+									);
+								}
+								break;
+							case 2 :
+								if (in_array($goods['brand_id'], $act_range_ext)) {
+									$favourable_list[] = array(
+											'name' => $val['act_name'],
+											'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
+											'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
+									);
+								}
+								break;
+							case 3 :
+								if (in_array($goods['goods_id'], $act_range_ext)) {
+									$favourable_list[] = array(
+											'name' => $val['act_name'],
+											'type' => $val['act_type'] == '1' ? 'price_reduction' : 'price_discount',
+											'type_label' => $val['act_type'] == '1' ? __('满减', 'goods') : __('满折', 'goods'),
+									);
+								}
+								break;
+							default:
+								break;
+						}
 					}
-					$goods_res[$key]['goods_attr_str'] = sprintf($format, implode(',', $goods_attr));
 				}
 			}
-			$res[$tempkey]['goods_list'] = $goods_res;
-			$res[$tempkey]['subtotal'] = price_format($subtotal);
-			$res[$tempkey]['saving'] = price_format(($subtotal - $res[$tempkey]['package_price']));
-			$res[$tempkey]['package_price'] = price_format($res[$tempkey]['package_price']);
 		}
+		
+		return $favourable_list;
+	}
 	
-		return $res;
+	
+	private function _related_goods($options)
+	{
+		$goods_list = [];
+		
+		//用户端商品展示基础条件
+		$filters = [
+			'store_unclosed' 		=> 0,    //店铺未关闭的
+			'is_delete'		 		=> 0,	 //未删除的
+			'is_on_sale'	 		=> 1,    //已上架的
+			'is_alone_sale'	 		=> 1,	 //单独销售的
+			'review_status'  		=> 2,    //审核通过的
+			'no_need_cashier_goods'	=> true, //不需要收银台商品
+		];
+		//是否展示货品
+		if (ecjia::config('show_product') == 1) {
+			$filters['product'] = true;
+		}
+		//定位附近店铺id
+		if (!empty($options['store_id'])) {
+			$filters['store_id'] = $options['store_id'];
+		}
+		//平台分类id
+		if (!empty($options['cat_id'])) {
+			$filters['cat_id'] = $options['cat_id'];
+		}
+		$filters['is_hot'] = 1;
+		//会员等级价格
+		$filters['user_rank'] = $_SESSION['user_rank'];
+		$filters['user_rank_discount'] = $_SESSION['discount'];
+		
+		$filters['size'] = 8;
+		$filters['page'] = 1;
+		
+		$collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsApiCollection($filters))->getData();
+		
+		$goods_list = $collection['goods_list'];
+		
+		return $goods_list;
+	}
+	
+	
+	private function _getGoodsGallery($goods_id, $product_id = 0)
+	{
+		if (!empty($product_id)) {
+			$p_row = RC_DB::table('goods_gallery')->where('goods_id', $goods_id)->where('product_id', $product_id)->select('img_id', 'img_url', 'thumb_url', 'img_desc', 'img_original', 'product_id')->where('goods_id', $goods_id)->take(ecjia::config('goods_gallery_number'))->get();
+		}
+		
+		$g_row = RC_DB::table('goods_gallery')->where('product_id', 0)->select('img_id', 'img_url', 'thumb_url', 'img_desc', 'img_original', 'product_id')->where('goods_id', $goods_id)->take(ecjia::config('goods_gallery_number'))->get();
+		
+		$row = $g_row;
+		
+		if (!empty($p_row)) {
+			$row = $p_row;
+		} 
+		
+		$img_list_sort = $img_list_id = array();
+		if (!empty($row)) {
+			foreach ($row as $key => $gallery_img) {
+				$desc_index = intval(strrpos($gallery_img['img_original'], '?')) + 1;
+				!empty($desc_index) && $row[$key]['desc'] = substr($gallery_img['img_original'], $desc_index);
+				$row[$key]['img_url'] = empty($gallery_img ['img_original']) ? RC_Uri::admin_url('statics/images/nopic.png') : RC_Upload::upload_url($gallery_img ['img_original']);
+				$row[$key]['thumb_url'] = empty($gallery_img ['img_url']) ? RC_Uri::admin_url('statics/images/nopic.png') : RC_Upload::upload_url($gallery_img ['img_url']);
+				$img_list_sort[$key] = $row[$key]['desc'];
+				$img_list_id[$key] = $gallery_img['img_id'];
+			}
+			//先使用sort排序，再使用id排序。
+			if ($row) {
+				array_multisort($img_list_sort, $img_list_id, $row);
+			}
+		}
+		return $row;
+	}
+	
+	private function _formate_data($product_id, $data)
+	{
+		$product_specification = $data['product_specification'];
+		if (!empty($product_specification)) {
+			foreach ($product_specification as $val) {
+				if ($product_id == $val['product_id']) {
+					$product_info = $val;
+				}
+				unset($val['img']);
+				unset($val['product_name']);
+				$arr[] = $val;
+			}
+			$data['goods_sn'] 				= $product_info['product_sn'] ?: $data['goods_sn'];
+			$data['goods_name'] 			= $product_info['product_name'] ?: $data['goods_name'];
+			$data['goods_number'] 			= $product_info['product_number'] ?: $data['goods_number'];
+			$data['shop_price'] 			= $product_info['formatted_product_shop_price'] ?: $data['shop_price'];
+			$data['unformatted_shop_price'] = $product_info['product_shop_price'] ?: $data['unformatted_shop_price'];
+			$data['promote_user_limited']   = $product_info['promote_user_limited'] ?: $data['promote_user_limited'];
+			$data['promote_price'] 			= $product_info['promote_price'] ?: $data['shop_price'];
+			$data['formated_promote_price'] = $product_info['formatted_promote_price'] ?: $data['formated_promote_price'];
+			$data['promote_user_limited']   = $product_info['promote_user_limited'] ?: $data['promote_user_limited'];
+			$data['img']   					= $product_info['img'] ?: $data['img'];
+			$data['product_specification']  = $arr;
+		}
+		return $data;
 	}
 }
 

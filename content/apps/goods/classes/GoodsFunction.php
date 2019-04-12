@@ -183,4 +183,65 @@ class GoodsFunction
 
         return $price;
     }
+    
+    
+    /**
+     * 获得商品的属性和规格
+     *
+     * @access public
+     * @param integer $goods_id
+     * @return array
+     */
+    public static function get_goods_properties($goods_id) {
+    	/* 对属性进行重新排序和分组 */
+    	$db_good_type = RC_DB::table('goods_type as gt')->leftJoin('goods as g', RC_DB::raw('gt.cat_id'), '=', RC_DB::raw('g.goods_type'));
+    	$grp = $db_good_type->select(RC_DB::raw('gt.attr_group'))->where(RC_DB::raw('g.goods_id'), $goods_id)->first();
+    	
+    	$grp = $grp['attr_group'];
+    	if (! empty ( $grp )) {
+    		$groups = explode ( "\n", strtr ( $grp, "\r", '' ) );
+    	}
+    
+    	$field = 'a.attr_id, a.attr_name, a.attr_group, a.is_linked, a.attr_type, ga.goods_attr_id, ga.attr_value, ga.attr_price';
+    	/* 获得商品的规格 */
+    	$db_good_attr = RC_DB::table('goods_attr as ga')->leftJoin('attribute as a', RC_DB::raw('ga.attr_id'), '=', RC_DB::raw('a.attr_id'));
+    	
+    	$res = $db_good_attr->select(RC_DB::raw($field))->where(RC_DB::raw('ga.goods_id'), $goods_id)->orderBy(RC_DB::raw('a.sort_order'), 'ASC')->orderBy(RC_DB::raw('ga.attr_price'), 'ASC')->orderBy(RC_DB::raw('ga.goods_attr_id'), 'ASC')->get();
+    	
+    	$arr ['pro'] = array (); // 属性
+    	$arr ['spe'] = array (); // 规格
+    	$arr ['lnk'] = array (); // 关联的属性
+    
+    	if (! empty ( $res )) {
+    		foreach ( $res as $row ) {
+    			$row ['attr_value'] = str_replace ( "\n", '<br />', $row ['attr_value'] );
+    
+    			if ($row ['attr_type'] == 0) {
+    				$group = (isset ( $groups [$row ['attr_group']] )) ? $groups [$row ['attr_group']] : __('商品属性', 'goods');
+    
+    				$arr ['pro'] [$group] [$row ['attr_id']] ['name'] = $row ['attr_name'];
+    				$arr ['pro'] [$group] [$row ['attr_id']] ['value'] = $row ['attr_value'];
+    			} else {
+    				$attr_price = $row['attr_price'];
+    
+    				$arr ['spe'] [$row ['attr_id']] ['attr_type'] = $row ['attr_type'];
+    				$arr ['spe'] [$row ['attr_id']] ['name'] = $row ['attr_name'];
+    				$arr ['spe'] [$row ['attr_id']] ['value'] [] = array (
+    						'label' => $row ['attr_value'],
+    						'price' => $row ['attr_price'],
+    						'format_price' => price_format ( abs ( $row ['attr_price'] ), false ),
+    						'id' => $row ['goods_attr_id']
+    				);
+    			}
+    
+    			if ($row ['is_linked'] == 1) {
+    				/* 如果该属性需要关联，先保存下来 */
+    				$arr ['lnk'] [$row ['attr_id']] ['name'] = $row ['attr_name'];
+    				$arr ['lnk'] [$row ['attr_id']] ['value'] = $row ['attr_value'];
+    			}
+    		}
+    	}
+    	return $arr;
+    }
+    
 }

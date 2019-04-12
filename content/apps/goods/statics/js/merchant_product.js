@@ -13,6 +13,7 @@
 					}
 				});
 			});
+			app.product_info.previewImage();
 		},
 
 		/**
@@ -31,6 +32,36 @@
 				'id': ''
 			}).chosen();
 		}
+	};
+	app.product_info = {
+		init: function() {
+			app.product_info.previewImage();
+			app.product_info.fileupload();
+		},
+
+		fileupload: function() {
+			$(".fileupload-btn").on('click', function(e) {
+				e.preventDefault();
+				$(this).parent().find("input").trigger('click');
+			})
+		},
+
+		previewImage: function(file) {
+			if (file == undefined) {
+				return false;
+			}
+			if (file.files && file.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(evt) {
+					$(file).siblings('.fileupload-btn').addClass('preview-img').css("backgroundImage", "url(" + evt.target.result + ")");
+					$('.thumb_img').removeClass('hide').find('.fileupload-btn').addClass('preview-img').css("backgroundImage", "url(" + evt.target.result + ")");
+				}
+				reader.readAsDataURL(file.files[0]);
+			} else {
+				$(file).prev('.fileupload-exists').remove();
+				$(file).siblings('.fileupload-btn').addClass('preview-img').css("filter", "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src='" + file.value + "'");
+			}
+		},
 	};
 
 	/**

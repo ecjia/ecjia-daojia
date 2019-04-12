@@ -46,7 +46,7 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class goods_hooks
+class goods_admin_hooks
 {
 
     public static function widget_admin_dashboard_goodsstat()
@@ -101,8 +101,31 @@ class goods_hooks
         ecjia_admin::$controller->assign_lang();
         ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_goodsstat.lbi', 'goods'));
     }
+
+    public static function append_admin_setting_group($menus)
+    {
+        $setting = ecjia_admin_setting::singleton();
+
+        $menus[] = ecjia_admin::make_admin_menu('nav-header', __('商品', 'goods'), '', 20)->add_purview(array('goods_setting'));
+        $menus[] = ecjia_admin::make_admin_menu('goods', __('商品基本设置', 'goods'), RC_Uri::url('setting/shop_config/init', array('code' => 'goods')), 21)->add_purview('goods_setting')->add_icon('fontello-icon-gift');
+        $menus[] = ecjia_admin::make_admin_menu('goods_display', __('商品显示设置', 'goods'), RC_Uri::url('setting/shop_config/init', array('code' => 'goods_display')), 22)->add_purview('goods_setting')->add_icon('fontello-icon-desktop');
+        $menus[] = ecjia_admin::make_admin_menu('goods_price', __('商品价格设置', 'goods'), RC_Uri::url('setting/shop_config/init', array('code' => 'goods_price')), 23)->add_purview('goods_setting')->add_icon('fontello-icon-gift');
+
+        return $menus;
+    }
+
+    public static function add_admin_setting_command($factories)
+    {
+        $factories['goods'] = 'Ecjia\App\Goods\SettingComponents\GoodsSetting';
+        $factories['goods_display'] = 'Ecjia\App\Goods\SettingComponents\GoodsDisplaySetting';
+        $factories['goods_price'] = 'Ecjia\App\Goods\SettingComponents\GoodsPriceSetting';
+
+        return $factories;
+    }
 }
 
-RC_Hook::add_action('admin_dashboard_left', array('goods_hooks', 'widget_admin_dashboard_goodsstat'), 20);
+RC_Hook::add_action('admin_dashboard_left', array('goods_admin_hooks', 'widget_admin_dashboard_goodsstat'), 20);
+RC_Hook::add_action( 'append_admin_setting_group', array('goods_admin_hooks', 'append_admin_setting_group') );
+RC_Hook::add_action('ecjia_setting_component_filter', array('goods_admin_hooks', 'add_admin_setting_command'));
 
 // end

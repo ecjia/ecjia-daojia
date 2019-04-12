@@ -365,30 +365,37 @@
 					                </div>
 					                <div id="collapseEight" class="panel-collapse collapse">
 				              			<div class="panel-body mt_15">
-	                                        <div class="form-group">
-					              				<div class="control-label col-lg-4 p_r5">
-					              					<input id="is_promote" class="toggle_promote l_h30" type="checkbox" name="is_promote" value="1" {if $goods.is_promote}checked{/if} />
-					              					<label for="is_promote"><span class="ecjiaf-fs2">{t domain="goods"}促销价：{/t}</span></label>
-					              				</div>
-					              				<div class="col-lg-6 p_l0">
-					                          		<input class="form-control" type="text" id="promote_1" name="promote_price" value="{$goods.promote_price}" size="20"{if !$goods.is_promote} disabled{/if} />
-					                          	</div>
-					              			</div>
-					              			
-					              			<div class="form-group">
-					              				<label class="control-label col-lg-4">{t domain="goods"}促销日期：{/t}</label>
-					              				<div class="col-lg-8 p_l0">
-					              					<div class="col-lg-5 p_l0 p_r0">
-					                          			<input class="form-control date" type="text" name="promote_start_date" size="12" value="{$goods.promote_start_date}" />
-					                          		</div>
-					                          		<div class="col-lg-1">
-														<span class="l_h30">-</span>
-													</div>
-													<div class="col-lg-5 p_l0 p_r0">
-														<input class="form-control date" type="text" name="promote_end_date" size="12" value="{$goods.promote_end_date}" />
-													</div>
-												</div>
-					              			</div>
+                                            {if $goods.is_promote eq 1}
+                                            <div class="form-group">
+                                                <div class="control-label col-lg-3 p_r5">
+                                                    <label><span class="ecjiaf-fs2">{t domain="goods"}活动状态：{/t}</span></label>
+                                                </div>
+                                                <div class="col-lg-8 p_l0 checkbox">
+                                                    <span class="promote-status {$goods.promote_status}">{$goods.promote_status_label}</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="control-label col-lg-3 p_r5">
+                                                    <label><span class="ecjiaf-fs2">{t domain="goods"}活动时间：{/t}</span></label>
+                                                </div>
+                                                <div class="col-lg-8 p_l0 checkbox">
+                                                    {$goods.promote_start_date} ~ {$goods.promote_end_date}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group m_b0">
+                                                <div class="control-label col-lg-3 p_r5">
+                                                    <a target="_blank" class="btn btn-info" href="{RC_Uri::url('promotion/merchant/edit')}&id={$goods.goods_id}">{t domain="goods"}查看促销{/t}</a>
+                                                </div>
+                                            </div>
+                                            {else}
+                                            <div class="form-group m_b0">
+                                                <div class="control-label col-lg-3 p_r5">
+                                                    <a target="_blank" class="btn btn-info" href="{RC_Uri::url('promotion/merchant/add')}{if $goods.goods_id}&id={$goods.goods_id}{/if}">{t domain="goods"}添加促销{/t}</a>
+                                                </div>
+                                            </div>
+                                            {/if}
 	                                    </div>
 			              			</div>
 				        		</div>

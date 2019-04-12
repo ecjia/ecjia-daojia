@@ -57,6 +57,8 @@ class goods_desc_module extends api_front implements api_interface {
      	$this->authSession();
     	$goods_id = $this->requestData('goods_id', 0);
     	
+    	$product_id = $this->requestData('product_id', 0);
+    	
 		RC_Loader::load_app_func('admin_goods', 'goods');
 		if ($goods_id < 1) {
 		    return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
@@ -68,6 +70,17 @@ class goods_desc_module extends api_front implements api_interface {
         } else {
         	$goods = str_replace('\\"', '"', $goods);
         	$data = $goods;
+        	
+        	if (!empty($product_id)) {
+        		$product_info = RC_DB::table('products')->where('product_id', $product_id)->first();
+        		if (!empty($product_info['product_name'])) {
+        			$data['goods_name'] = $product_info['product_name'];
+        		}
+        		if (!empty($product_info['product_desc'])) {
+        			$data['goods_desc'] = $product_info['product_desc'];
+        		}
+        	}
+        	
         	$base = sprintf('<base href="%s/" />', dirname(SITE_URL));
         	$style = RC_App::apps_url('goods/statics/styles/goodsapi.css');
         	$html = '<!DOCTYPE html><html><head><title>' . $data['goods_name'] . '</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="viewport" content="initial-scale=1.0"><meta name="viewport" content="initial-scale = 1.0 , minimum-scale = 1.0 , maximum-scale = 1.0" /><link href="'.$style.'" rel="stylesheet">' . $base . '</head><body>' . $data['goods_desc'] . '</body></html>';

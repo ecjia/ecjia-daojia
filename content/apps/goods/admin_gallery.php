@@ -112,7 +112,7 @@ class admin_gallery extends ecjia_admin {
         $this->tags = get_goods_info_nav($goods_id, $extension_code);
         $this->tags['edit_goods_photo']['active'] = 1;
         /* 图片列表 */
-        $img_list = RC_DB::table('goods_gallery')->where('goods_id', $goods_id)->get();
+        $img_list = RC_DB::table('goods_gallery')->where('goods_id', $goods_id)->where('product_id', 0)->get();
         
         $img_list_sort = $img_list_id = array();
       	$no_picture = RC_Uri::admin_url('statics/images/nopic.png');

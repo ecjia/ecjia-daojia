@@ -70,7 +70,10 @@
 	                                    	{$product.product_number}
 	                                    	</span>
 	                                    </td>
-	                                    <td><a class="btn btn-danger btn-xs" data-toggle="ajaxremove" data-msg="{t domain="goods"}您确定要把该货品删除吗？{/t}" href='{url path="goods/merchant/product_remove" args="id={$product.product_id}"}' title="{t domain="goods"}删除{/t}"><i class="fa fa-trash-o"></i></a></td>
+	                                    <td>
+                                            <a class="data-pjax btn btn-primary btn-xs" href='{url path="goods/merchant/product_edit" args="id={$product.product_id}&goods_id={$goods_id}"}' title="{t domain="goods"}编辑{/t}"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-danger btn-xs" data-toggle="ajaxremove" data-msg="{t domain="goods"}您确定要把该货品删除吗？{/t}" href='{url path="goods/merchant/product_remove" args="id={$product.product_id}"}' title="{t domain="goods"}删除{/t}"><i class="fa fa-trash-o"></i></a>
+                                        </td>
 	                                </tr>
 	                                <!-- {/foreach} -->
 	                                

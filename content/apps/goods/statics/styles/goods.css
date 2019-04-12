@@ -320,3 +320,21 @@
 }
 
 #insertGoods .control-label {margin-right:10px;}
+
+.promote-status {
+	color: #fff;
+	border-radius: 5px;
+	padding: 6px 12px;
+}
+
+.promote-status.on_sale {
+	background-color: #F1635F;
+}
+
+.promote-status.coming {
+	background-color: #1A8EC1;
+}
+
+.promote-status.finished {
+	background-color: #04AA04;
+}

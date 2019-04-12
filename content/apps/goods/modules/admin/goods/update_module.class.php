@@ -206,7 +206,9 @@ class admin_goods_update_module extends api_admin implements api_interface {
     	$goods_detail['user_rank'] = array();
     		
     	$discount_price = get_member_price_list($goods_id);
-    	$user_rank = get_user_rank_list();
+    	//$user_rank = get_user_rank_list();
+    	$user_rank = RC_DB::table('user_rank')->get();
+    	
     	if(!empty($user_rank)){
     		foreach ($user_rank as $key => $value){
     			$goods_detail['user_rank'][] = array(

@@ -141,14 +141,14 @@ class admin_goods_desc_module extends api_admin implements api_interface {
 		if (empty($count)) {
 			return false;
 		}
-	
+		RC_Loader::load_app_func('admin_goods', 'goods');
 		if (!empty($row)) {
 			$row['goods_id'] = $goods_id;
 			/* 用户评论级别取整 */
 			$row ['comment_rank'] = ceil ( $row ['comment_rank'] ) == 0 ? 5 : ceil ( $row ['comment_rank'] );
 			/* 获得商品的销售价格 */
 			$row ['market_price'] = $row ['market_price'];
-			$row ['shop_price_formated'] = price_format ($row ['shop_price'] );
+			$row ['shop_price_formated'] = ecjia_price_format ($row ['shop_price'], false);
 	
 			/* 修正促销价格 */
 			if ($row ['promote_price'] > 0) {

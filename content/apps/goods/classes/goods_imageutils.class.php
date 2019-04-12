@@ -63,6 +63,9 @@ class goods_imageutils {
 	    RC_Filesystem::disk()->mkdir($path . 'source_img');
 	    RC_Filesystem::disk()->mkdir($path . 'goods_img');
 	    RC_Filesystem::disk()->mkdir($path . 'thumb_img');
+        RC_Filesystem::disk()->mkdir($path . 'product_source_img');
+        RC_Filesystem::disk()->mkdir($path . 'product_img');
+        RC_Filesystem::disk()->mkdir($path . 'product_thumb_img');
 	}
 	
 	/**

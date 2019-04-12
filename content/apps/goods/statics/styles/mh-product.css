@@ -1,0 +1,71 @@
+.setting-group-title {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    color: #555;
+    font-weight: 400;
+    font-size: 15px;
+    background: #e7e7e7;
+    border-radius: 4px
+}
+
+.setting-group-item {
+    position: relative;
+    display: block;
+    padding: 5px 15px;
+    color: #555;
+    border-radius: 4px
+}
+
+.setting-group-item.llv-active, .setting-group-item.llv-active:focus, .setting-group-item.llv-active:hover {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+    padding: 5px 15px;
+}
+
+.setting-group .nav > li > a {
+    padding: 5px 15px;
+}
+
+.setting-group .nav li + .nav-header {
+    margin-top: 12px;
+}
+
+.setting-group a:hover {
+    color: #555;
+    text-decoration: inherit;
+    background-color: #f2f2f2;
+    border-radius: 4px
+}
+.change > li > a {
+    display: block;
+    padding: 5px 15px;
+    position: relative
+}
+
+.nav > li > a:hover {
+    background-color: #e7e7e7
+}
+
+.nav-list-title {
+    margin: 5px 0;
+    padding-left: 15px;
+    color: #999
+}
+
+.setting-group .nav-header {
+    margin: 5px 0;
+    padding-left: 15px;
+    color: #999;
+    font-size: 13px;
+}
+.goods_img .fileupload-btn ,
+.goods_img .fileupload-btn-product:hover,
+.goods_img .fileupload-btn-product:after {
+    width:217px;
+    height:220px;
+    margin-left:0;
+}
+.goods_img .fileupload-btn .fileupload-exists { top:31%}
