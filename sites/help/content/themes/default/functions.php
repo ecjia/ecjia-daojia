@@ -60,8 +60,11 @@ ecjia_extra::autoload();
  */
 ecjia_extra::routeDispacth();
 
-// ......
-
+/**
+ * step:3
+ * 默认加载
+ */
+ecjia_extra::defaultLoading();
 /**
  * step:5
  * 这个方法在前台控制器加载后执行，这个时候环境初始化完毕，这里开始正式进入主题框架的流程
