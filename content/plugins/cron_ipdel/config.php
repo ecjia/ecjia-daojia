@@ -47,7 +47,24 @@
 
 return array(
     'cron_code'      => 'cron_ipdel',
+
 	'forms' => array(
 			array('name' => 'ipdel_day', 'type' => 'select', 'value' => '30'),
 	),
+
+    'dynamic_option' => array(
+
+        'ipdel_day' 	=> __('删除几天前浏览日志：', 'cron_ipdel'),
+
+        'ipdel_day_range' => array(
+            '7' 	=> __('7天', 'cron_ipdel'),
+            '15' 	=> __('15天', 'cron_ipdel'),
+            '30' 	=> __('30天', 'cron_ipdel'),
+            '90' 	=> __('90天', 'cron_ipdel'),
+            '180' 	=> __('180天', 'cron_ipdel'),
+            '240' 	=> __('240天', 'cron_ipdel'),
+            '360' 	=> __('360天', 'cron_ipdel')
+        )
+
+    ),
 );

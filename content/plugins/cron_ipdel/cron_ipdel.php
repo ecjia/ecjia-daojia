@@ -49,9 +49,10 @@ Plugin Name: 浏览日志删除
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cron_ipdel/
 Description: 删除浏览日志
 Author: ECJIA TEAM
-Version: 1.21.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: cron
+Text Domain: cron_ipdel
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 class plugin_cron_ipdel {
@@ -72,6 +73,7 @@ class plugin_cron_ipdel {
 }
 
 Ecjia_PluginManager::extend('cron_ipdel', function() {
+    RC_Locale::loadPluginTextdomain('cron_ipdel');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'cron_ipdel.class.php';
     return new cron_ipdel();
 });

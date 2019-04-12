@@ -1,0 +1,65 @@
+# Copyright (C) 2019 浏览日志删除
+# This file is distributed under the same license as the 浏览日志删除 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 浏览日志删除 1.30.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-03-20 09:19:27+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: config.php:57
+msgid "删除几天前浏览日志："
+msgstr ""
+
+#: config.php:60
+msgid "7天"
+msgstr ""
+
+#: config.php:61
+msgid "15天"
+msgstr ""
+
+#: config.php:62
+msgid "30天"
+msgstr ""
+
+#: config.php:63
+msgid "90天"
+msgstr ""
+
+#: config.php:64
+msgid "180天"
+msgstr ""
+
+#: config.php:65
+msgid "240天"
+msgstr ""
+
+#: config.php:66
+msgid "360天"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "浏览日志删除"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.cron_ipdel/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "删除浏览日志"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr ""
