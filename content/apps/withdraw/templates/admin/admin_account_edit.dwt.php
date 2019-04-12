@@ -34,6 +34,7 @@
 						<div class="controls">
 							<input class="w350 user-mobile" name="user_mobile" action='{url path="withdraw/admin/validate_acount"}' type="text" value="{if $user.mobile_phone}{$user.mobile_phone}{/if}" />
 							<span class="input-must">*</span>
+                            <a class="btn btn-info btn-clear" href="javascript:;">清除重新输入</a>
 							<div class="help-block">{t domain="withdraw"}输入正确手机号，查询会员基本信息。{/t}</div>
 						</div>
 					</div>

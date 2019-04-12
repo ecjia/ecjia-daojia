@@ -46,6 +46,7 @@
             app.account_edit.submit();
             app.account_edit.select_note();
             app.account_edit.select_payment();
+            app.account_edit.btn_clear();
         },
 
         validate: function () {
@@ -78,6 +79,8 @@
 
                             var content = data.content;
                             $('.withdraw_card_content').html(content);
+
+                            $('input[name="user_mobile"]').prop('disabled', true);
                         }
                     }, 'json');
                 }
@@ -170,7 +173,22 @@
                     $('.user_bank_card').html(data.content);
                 });
             });
-        }
+        },
+
+        btn_clear: function () {
+            $('.btn-clear').off('click').on('click', function () {
+                //移除已经选中的提现方式
+                $('input[name="payment"]').each(function () {
+                    $(this).prop('checked', false).parent().removeClass('uni-checked');
+                });
+                $('input[name="user_id"]').val('');
+
+                $('.withdraw_card_content').html('');
+                $('input[name="user_mobile"]').val('');
+
+                $('input[name="user_mobile"]').prop('disabled', false);
+            });
+        },
     };
 
     app.account_check = {

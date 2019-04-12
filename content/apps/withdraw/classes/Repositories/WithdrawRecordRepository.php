@@ -37,6 +37,7 @@ class WithdrawRecordRepository extends AbstractRepository
             $insertData['create_time']        = RC_Time::gmtime();
             $insertData['transfer_bank_no']   = array_get($data, 'transfer_bank_no');
             $insertData['transfer_true_name'] = array_get($data, 'transfer_true_name');
+            $insertData['transfer_bank_code'] = array_get($data, 'transfer_bank_code');
 
             $model = $this->getModel()->create($insertData);
         }

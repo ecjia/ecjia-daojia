@@ -32,6 +32,7 @@ class WithdrawRecordModel extends Model
         'success_result',
         'last_error_message',
         'last_error_time',
+        'transfer_bank_code',
     ];
 
     /**

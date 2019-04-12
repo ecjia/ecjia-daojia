@@ -380,6 +380,7 @@ class admin extends ecjia_admin
                     'withdraw_amount'    => $account['real_amount'],
                     'transfer_bank_no'   => $account['bank_card'],
                     'transfer_true_name' => $account['cardholder'],
+                	'transfer_bank_code' => $account['bank_branch_name'],
                 ]);
 
                 $result = (new \Ecjia\App\Withdraw\Transfers\TransferManager($account['order_sn']))->transfer();

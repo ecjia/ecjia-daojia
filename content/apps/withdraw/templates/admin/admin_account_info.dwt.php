@@ -127,7 +127,7 @@
 							<td>
 								<div align="right"><strong>{t domain="withdraw"}到账金额：{/t}</strong></div>
 							</td>
-							<td><strong class="ecjiafc-red ecjiaf-fs3">{$account_info.formated_real_amount}</strong></td>
+							<td><strong class="ecjiafc-red ecjiaf-fs2">{$account_info.formated_real_amount}</strong></td>
 						</tr>
 
 						<tr>
@@ -141,7 +141,7 @@
                                 <div align="right"><strong>{t domain="withdraw"}收款人姓名：{/t}</strong></div>
                             </td>
                             <td>
-                                <strong class="ecjiafc-red ecjiaf-fs3">{$account_info.cardholder}</strong>
+                                <strong class="ecjiafc-red ecjiaf-fs2">{$account_info.cardholder}</strong>
                             </td>
 						</tr>
 
@@ -154,7 +154,7 @@
                                 <div align="right"><strong>{t domain="withdraw"}提现账户：{/t}</strong></div>
                             </td>
                             <td>
-                                <strong class="ecjiafc-red ecjiaf-fs3">{$account_info.formated_payment_name}</strong>
+                                <strong class="ecjiafc-red ecjiaf-fs2">{$account_info.formated_payment_name}</strong>
                             </td>
 						</tr>
 
