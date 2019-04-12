@@ -76,24 +76,12 @@ class ship_cac extends ShippingAbstract
     }
     
     /**
-     * 加载语言包
-     *
-     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
-     */
-    public function loadLanguage($key = null, $default = null)
-    {
-        $locale = RC_Config::get('system.locale');
-    
-        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
-    }
-    
-     /**
      * 计算订单的配送费用的函数
      *
      * @param   float   $goods_weight   商品重量
      * @param   float   $goods_amount   商品金额
      * @param   float   $goods_number   商品件数
-     * @return  decimal
+     * @return  float | integer
      */
     public function calculate($goods_weight, $goods_amount, $goods_number)
     {
