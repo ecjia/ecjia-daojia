@@ -3,13 +3,13 @@
 namespace Royalcms\Component\SmartyView\Engines;
 
 use Smarty;
-use Royalcms\Component\View\Engines\EngineInterface;
+use Royalcms\Component\Contracts\View\Engine;
 
 /**
  * Class SmartyEngine
  *
  */
-class SmartyEngine implements EngineInterface
+class SmartyEngine implements Engine
 {
     /** @var Smarty $smarty */
     protected $smarty;

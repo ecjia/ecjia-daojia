@@ -56,7 +56,7 @@ class SmartyServiceProvider extends ServiceProvider
     {
         $me = $this;
     
-        $this->royalcms->bindShared('view.engine.resolver', function($royalcms) use ($me)
+        $this->royalcms->singleton('view.engine.resolver', function($royalcms) use ($me)
         {
             $resolver = new EngineResolver;
     

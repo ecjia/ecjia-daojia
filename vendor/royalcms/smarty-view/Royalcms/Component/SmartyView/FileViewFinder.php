@@ -26,24 +26,12 @@ class FileViewFinder extends ViewFileViewFinder
 
 		if (strpos($name, '::') !== false)
 		{
-			return $this->views[$name] = $this->findNamedPathView($name);
+			return $this->views[$name] = $this->findNamespacedView($name);
 		}
 
 		return $this->views[$name] = $this->findInPaths($name, $this->paths);
 	}
 
-	/**
-	 * Get the path to a template with a named path.
-	 *
-	 * @param  string  $name
-	 * @return string
-	 */
-	protected function findNamedPathView($name)
-	{
-		list($namespace, $view) = $this->getNamespaceSegments($name);
-        
-		return $this->findInPaths($view, $this->hints[$namespace]);
-	}
 
 	/**
 	 * Find the given view in the list of paths.
@@ -85,5 +73,27 @@ class FileViewFinder extends ViewFileViewFinder
 
 		}, $this->extensions);
 	}
+
+    /**
+     * Flush the cache of located views.
+     *
+     * @return void
+     */
+    public function flush()
+    {
+        parent::flush();
+    }
+
+    /**
+     * Replace the namespace hints for the given namespace.
+     *
+     * @param  string  $namespace
+     * @param  string|array  $hints
+     * @return void
+     */
+    public function replaceNamespace($namespace, $hints)
+    {
+        parent::replaceNamespace($namespace, $hints);
+    }
 
 }
