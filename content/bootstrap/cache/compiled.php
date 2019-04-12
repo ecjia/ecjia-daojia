@@ -5954,6 +5954,7 @@ interface Factory
     public function composer($views, $callback, $priority = null);
     public function creator($views, $callback);
     public function addNamespace($namespace, $hints);
+    public function replaceNamespace($namespace, $hints);
 }
 }
 
@@ -5963,6 +5964,13 @@ interface View extends Renderable
 {
     public function name();
     public function with($key, $value = null);
+}
+}
+
+namespace Royalcms\Component\Contracts\View {
+interface Engine
+{
+    public function get($path, array $data = []);
 }
 }
 
@@ -6584,8 +6592,8 @@ use Royalcms\Component\Contracts\Foundation\Royalcms as RoyalcmsContract;
 use Royalcms\Component\Contracts\Debug\ExceptionHandler;
 class Royalcms extends Container implements RoyalcmsContract, HttpKernelInterface
 {
-    const VERSION = '5.8.0';
-    const RELEASE = '2019-02-28';
+    const VERSION = '5.10.0';
+    const RELEASE = '2019-04-12';
     protected $basePath;
     protected $hasBeenBootstrapped = false;
     protected $booted = false;
@@ -15967,6 +15975,10 @@ class Dispatcher implements DispatcherContract
     }
     public function fire($event, $payload = [], $halt = false)
     {
+        return $this->dispatch($event, $payload, $halt);
+    }
+    public function dispatch($event, $payload = [], $halt = false)
+    {
         if (is_object($event)) {
             list($payload, $event) = [[$event], get_class($event)];
         }
@@ -17604,7 +17616,7 @@ class ShareErrorsFromSession
     }
     public function handle($request, Closure $next)
     {
-        $this->view->share('errors', $request->session()->get('errors', new ViewErrorBag()));
+        $this->view->share('errors', $request->session()->get('errors') ?: new ViewErrorBag());
         return $next($request);
     }
 }
@@ -17630,257 +17642,162 @@ class EngineResolver
         if (isset($this->resolvers[$engine])) {
             return $this->resolved[$engine] = call_user_func($this->resolvers[$engine]);
         }
-        throw new InvalidArgumentException("Engine {$engine} not found.");
+        throw new InvalidArgumentException("Engine [{$engine}] not found.");
     }
 }
 }
 
-namespace Royalcms\Component\View {
-interface ViewFinderInterface
+namespace Royalcms\Component\View\Engines {
+abstract class Engine
 {
-    const HINT_PATH_DELIMITER = '::';
-    public function find($view);
-    public function addLocation($location);
-    public function addNamespace($namespace, $hints);
-    public function prependNamespace($namespace, $hints);
-    public function addExtension($extension);
-}
-}
-
-namespace Royalcms\Component\View {
-use InvalidArgumentException;
-use Royalcms\Component\Filesystem\Filesystem;
-class FileViewFinder implements ViewFinderInterface
-{
-    protected $files;
-    protected $paths;
-    protected $views = [];
-    protected $hints = [];
-    protected $extensions = ['blade.php', 'php'];
-    public function __construct(Filesystem $files, array $paths, array $extensions = null)
+    protected $lastRendered;
+    public function getLastRendered()
     {
-        $this->files = $files;
-        $this->paths = $paths;
-        if (isset($extensions)) {
-            $this->extensions = $extensions;
-        }
-    }
-    public function find($name)
-    {
-        if (isset($this->views[$name])) {
-            return $this->views[$name];
-        }
-        if ($this->hasHintInformation($name = trim($name))) {
-            return $this->views[$name] = $this->findNamedPathView($name);
-        }
-        return $this->views[$name] = $this->findInPaths($name, $this->paths);
-    }
-    protected function findNamedPathView($name)
-    {
-        list($namespace, $view) = $this->getNamespaceSegments($name);
-        return $this->findInPaths($view, $this->hints[$namespace]);
-    }
-    protected function getNamespaceSegments($name)
-    {
-        $segments = explode(static::HINT_PATH_DELIMITER, $name);
-        if (count($segments) != 2) {
-            throw new InvalidArgumentException("View [{$name}] has an invalid name.");
-        }
-        if (!isset($this->hints[$segments[0]])) {
-            throw new InvalidArgumentException("No hint path defined for [{$segments[0]}].");
-        }
-        return $segments;
-    }
-    protected function findInPaths($name, $paths)
-    {
-        foreach ((array) $paths as $path) {
-            foreach ($this->getPossibleViewFiles($name) as $file) {
-                if ($this->files->exists($viewPath = $path . '/' . $file)) {
-                    return $viewPath;
-                }
-            }
-        }
-        throw new InvalidArgumentException("View [{$name}] not found.");
-    }
-    protected function getPossibleViewFiles($name)
-    {
-        return array_map(function ($extension) use($name) {
-            return str_replace('.', '/', $name) . '.' . $extension;
-        }, $this->extensions);
-    }
-    public function addLocation($location)
-    {
-        $this->paths[] = $location;
-    }
-    public function addNamespace($namespace, $hints)
-    {
-        $hints = (array) $hints;
-        if (isset($this->hints[$namespace])) {
-            $hints = array_merge($this->hints[$namespace], $hints);
-        }
-        $this->hints[$namespace] = $hints;
-    }
-    public function prependNamespace($namespace, $hints)
-    {
-        $hints = (array) $hints;
-        if (isset($this->hints[$namespace])) {
-            $hints = array_merge($hints, $this->hints[$namespace]);
-        }
-        $this->hints[$namespace] = $hints;
-    }
-    public function addExtension($extension)
-    {
-        if (($index = array_search($extension, $this->extensions)) !== false) {
-            unset($this->extensions[$index]);
-        }
-        array_unshift($this->extensions, $extension);
-    }
-    public function hasHintInformation($name)
-    {
-        return strpos($name, static::HINT_PATH_DELIMITER) > 0;
-    }
-    public function getFilesystem()
-    {
-        return $this->files;
-    }
-    public function getPaths()
-    {
-        return $this->paths;
-    }
-    public function getHints()
-    {
-        return $this->hints;
-    }
-    public function getExtensions()
-    {
-        return $this->extensions;
+        return $this->lastRendered;
     }
 }
 }
 
-namespace Royalcms\Component\View {
-use Closure;
-use Royalcms\Component\Support\Arr;
-use Royalcms\Component\Support\Str;
-use InvalidArgumentException;
-use Royalcms\Component\Contracts\Support\Arrayable;
-use Royalcms\Component\View\Engines\EngineResolver;
-use Royalcms\Component\Contracts\Events\Dispatcher;
-use Royalcms\Component\Contracts\Container\Container;
-use Royalcms\Component\Contracts\View\Factory as FactoryContract;
-class Factory implements FactoryContract
+namespace Royalcms\Component\View\Engines {
+use Exception;
+use Throwable;
+use Royalcms\Component\Contracts\View\Engine as EngineContract;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
+class PhpEngine implements EngineContract
 {
-    protected $engines;
-    protected $finder;
-    protected $events;
-    protected $container;
-    protected $shared = [];
-    protected $aliases = [];
-    protected $names = [];
-    protected $extensions = ['blade.php' => 'blade', 'php' => 'php'];
-    protected $composers = [];
-    protected $sections = [];
-    protected $sectionStack = [];
-    protected $renderCount = 0;
-    public function __construct(EngineResolver $engines, ViewFinderInterface $finder, Dispatcher $events)
+    public function get($path, array $data = [])
     {
-        $this->finder = $finder;
-        $this->events = $events;
-        $this->engines = $engines;
-        $this->share('__env', $this);
+        return $this->evaluatePath($path, $data);
     }
-    public function file($path, $data = [], $mergeData = [])
+    protected function evaluatePath($__path, $__data)
     {
-        $data = array_merge($mergeData, $this->parseData($data));
-        $this->callCreator($view = new View($this, $this->getEngineFromPath($path), $path, $path, $data));
-        return $view;
-    }
-    public function make($view, $data = [], $mergeData = [])
-    {
-        if (isset($this->aliases[$view])) {
-            $view = $this->aliases[$view];
-        }
-        $view = $this->normalizeName($view);
-        $path = $this->finder->find($view);
-        $data = array_merge($mergeData, $this->parseData($data));
-        $this->callCreator($view = new View($this, $this->getEngineFromPath($path), $view, $path, $data));
-        return $view;
-    }
-    protected function normalizeName($name)
-    {
-        $delimiter = ViewFinderInterface::HINT_PATH_DELIMITER;
-        if (strpos($name, $delimiter) === false) {
-            return str_replace('/', '.', $name);
-        }
-        list($namespace, $name) = explode($delimiter, $name);
-        return $namespace . $delimiter . str_replace('/', '.', $name);
-    }
-    protected function parseData($data)
-    {
-        return $data instanceof Arrayable ? $data->toArray() : $data;
-    }
-    public function of($view, $data = [])
-    {
-        return $this->make($this->names[$view], $data);
-    }
-    public function name($view, $name)
-    {
-        $this->names[$name] = $view;
-    }
-    public function alias($view, $alias)
-    {
-        $this->aliases[$alias] = $view;
-    }
-    public function exists($view)
-    {
+        $obLevel = ob_get_level();
+        ob_start();
+        extract($__data, EXTR_SKIP);
         try {
-            $this->finder->find($view);
-        } catch (InvalidArgumentException $e) {
-            return false;
+            include $__path;
+        } catch (Exception $e) {
+            $this->handleViewException($e, $obLevel);
+        } catch (Throwable $e) {
+            $this->handleViewException(new FatalThrowableError($e), $obLevel);
         }
-        return true;
+        return ltrim(ob_get_clean());
     }
-    public function renderEach($view, $data, $iterator, $empty = 'raw|')
+    protected function handleViewException(Exception $e, $obLevel)
     {
-        $result = '';
-        if (count($data) > 0) {
-            foreach ($data as $key => $value) {
-                $data = ['key' => $key, $iterator => $value];
-                $result .= $this->make($view, $data)->render();
-            }
+        while (ob_get_level() > $obLevel) {
+            ob_end_clean();
+        }
+        throw $e;
+    }
+}
+}
+
+namespace Royalcms\Component\View\Engines {
+use Royalcms\Component\Contracts\View\Engine as EngineContract;
+class FileEngine implements EngineContract
+{
+    public function get($path, array $data = [])
+    {
+        return file_get_contents($path);
+    }
+}
+}
+
+namespace Royalcms\Component\View\Engines {
+use Exception;
+use ErrorException;
+use Royalcms\Component\View\Compilers\CompilerInterface;
+class CompilerEngine extends PhpEngine
+{
+    protected $compiler;
+    protected $lastCompiled = [];
+    public function __construct(CompilerInterface $compiler)
+    {
+        $this->compiler = $compiler;
+    }
+    public function get($path, array $data = [])
+    {
+        $this->lastCompiled[] = $path;
+        if ($this->compiler->isExpired($path)) {
+            $this->compiler->compile($path);
+        }
+        $compiled = $this->compiler->getCompiledPath($path);
+        $results = $this->evaluatePath($compiled, $data);
+        array_pop($this->lastCompiled);
+        return $results;
+    }
+    protected function handleViewException(Exception $e, $obLevel)
+    {
+        $e = new ErrorException($this->getMessage($e), 0, 1, $e->getFile(), $e->getLine(), $e);
+        parent::handleViewException($e, $obLevel);
+    }
+    protected function getMessage(Exception $e)
+    {
+        return $e->getMessage() . ' (View: ' . realpath(last($this->lastCompiled)) . ')';
+    }
+    public function getCompiler()
+    {
+        return $this->compiler;
+    }
+}
+}
+
+namespace Royalcms\Component\View\Concerns {
+use Royalcms\Component\Support\HtmlString;
+trait ManagesComponents
+{
+    protected $componentStack = [];
+    protected $componentData = [];
+    protected $slots = [];
+    protected $slotStack = [];
+    public function startComponent($name, array $data = [])
+    {
+        if (ob_start()) {
+            $this->componentStack[] = $name;
+            $this->componentData[$this->currentComponent()] = $data;
+            $this->slots[$this->currentComponent()] = [];
+        }
+    }
+    public function renderComponent()
+    {
+        $name = array_pop($this->componentStack);
+        return $this->make($name, $this->componentData($name))->render();
+    }
+    protected function componentData($name)
+    {
+        return array_merge($this->componentData[count($this->componentStack)], ['slot' => new HtmlString(trim(ob_get_clean()))], $this->slots[count($this->componentStack)]);
+    }
+    public function slot($name, $content = null)
+    {
+        if (count(func_get_args()) == 2) {
+            $this->slots[$this->currentComponent()][$name] = $content;
         } else {
-            if (Str::startsWith($empty, 'raw|')) {
-                $result = substr($empty, 4);
-            } else {
-                $result = $this->make($empty)->render();
+            if (ob_start()) {
+                $this->slots[$this->currentComponent()][$name] = '';
+                $this->slotStack[$this->currentComponent()][] = $name;
             }
         }
-        return $result;
     }
-    public function getEngineFromPath($path)
+    public function endSlot()
     {
-        if (!($extension = $this->getExtension($path))) {
-            throw new InvalidArgumentException("Unrecognized extension in file: {$path}");
-        }
-        $engine = $this->extensions[$extension];
-        return $this->engines->resolve($engine);
+        last($this->componentStack);
+        $currentSlot = array_pop($this->slotStack[$this->currentComponent()]);
+        $this->slots[$this->currentComponent()][$currentSlot] = new HtmlString(trim(ob_get_clean()));
     }
-    protected function getExtension($path)
+    protected function currentComponent()
     {
-        $extensions = array_keys($this->extensions);
-        return Arr::first($extensions, function ($value, $key) use($path) {
-            return Str::endsWith($path, '.' . $value);
-        });
+        return count($this->componentStack) - 1;
     }
-    public function share($key, $value = null)
-    {
-        if (!is_array($key)) {
-            return $this->shared[$key] = $value;
-        }
-        foreach ($key as $innerKey => $innerValue) {
-            $this->share($innerKey, $innerValue);
-        }
-    }
+}
+}
+
+namespace Royalcms\Component\View\Concerns {
+use Closure;
+use Royalcms\Component\Support\Str;
+use Royalcms\Component\Contracts\View\View as ViewContract;
+trait ManagesEvents
+{
     public function creator($views, $callback)
     {
         $creators = [];
@@ -17901,72 +17818,83 @@ class Factory implements FactoryContract
     {
         $composers = [];
         foreach ((array) $views as $view) {
-            $composers[] = $this->addViewEvent($view, $callback, 'composing: ', $priority);
+            $composers[] = $this->addViewEvent($view, $callback, 'composing: ');
         }
         return $composers;
     }
-    protected function addViewEvent($view, $callback, $prefix = 'composing: ', $priority = null)
+    protected function addViewEvent($view, $callback, $prefix = 'composing: ')
     {
         $view = $this->normalizeName($view);
         if ($callback instanceof Closure) {
-            $this->addEventListener($prefix . $view, $callback, $priority);
+            $this->addEventListener($prefix . $view, $callback);
             return $callback;
         } elseif (is_string($callback)) {
-            return $this->addClassEvent($view, $callback, $prefix, $priority);
+            return $this->addClassEvent($view, $callback, $prefix);
         }
     }
-    protected function addClassEvent($view, $class, $prefix, $priority = null)
+    protected function addClassEvent($view, $class, $prefix)
     {
         $name = $prefix . $view;
         $callback = $this->buildClassEventCallback($class, $prefix);
-        $this->addEventListener($name, $callback, $priority);
+        $this->addEventListener($name, $callback);
         return $callback;
-    }
-    protected function addEventListener($name, $callback, $priority = null)
-    {
-        if (is_null($priority)) {
-            $this->events->listen($name, $callback);
-        } else {
-            $this->events->listen($name, $callback, $priority);
-        }
     }
     protected function buildClassEventCallback($class, $prefix)
     {
         list($class, $method) = $this->parseClassEvent($class, $prefix);
         return function () use($class, $method) {
-            $callable = [$this->container->make($class), $method];
-            return call_user_func_array($callable, func_get_args());
+            return call_user_func_array([$this->container->make($class), $method], func_get_args());
         };
     }
     protected function parseClassEvent($class, $prefix)
     {
-        if (Str::contains($class, '@')) {
-            return explode('@', $class);
+        return Str::parseCallback($class, $this->classEventMethodForPrefix($prefix));
+    }
+    protected function classEventMethodForPrefix($prefix)
+    {
+        return Str::contains($prefix, 'composing') ? 'compose' : 'create';
+    }
+    protected function addEventListener($name, $callback)
+    {
+        if (Str::contains($name, '*')) {
+            $callback = function ($payload) use($callback) {
+                return $callback($payload);
+            };
         }
-        $method = Str::contains($prefix, 'composing') ? 'compose' : 'create';
-        return [$class, $method];
+        $this->events->listen($name, $callback);
     }
-    public function callComposer(View $view)
+    public function callComposer(ViewContract $view)
     {
-        $this->events->fire('composing: ' . $view->getName(), [$view]);
+        $this->events->dispatch('composing: ' . $view->name(), [$view]);
     }
-    public function callCreator(View $view)
+    public function callCreator(ViewContract $view)
     {
-        $this->events->fire('creating: ' . $view->getName(), [$view]);
+        $this->events->dispatch('creating: ' . $view->name(), [$view]);
     }
-    public function startSection($section, $content = '')
+}
+}
+
+namespace Royalcms\Component\View\Concerns {
+use InvalidArgumentException;
+use Royalcms\Component\Contracts\View\View;
+trait ManagesLayouts
+{
+    protected $sections = [];
+    protected $sectionStack = [];
+    protected static $parentPlaceholder = [];
+    public function startSection($section, $content = null)
     {
-        if ($content === '') {
+        if ($content === null) {
             if (ob_start()) {
                 $this->sectionStack[] = $section;
             }
         } else {
-            $this->extendSection($section, $content);
+            $this->extendSection($section, $content instanceof View ? $content : e($content));
         }
     }
     public function inject($section, $content)
     {
-        return $this->startSection($section, $content);
+        $this->startSection($section, $content);
     }
     public function yieldSection()
     {
@@ -18004,30 +17932,1147 @@ class Factory implements FactoryContract
     protected function extendSection($section, $content)
     {
         if (isset($this->sections[$section])) {
-            $content = str_replace('@parent', $content, $this->sections[$section]);
+            $content = str_replace(static::parentPlaceholder($section), $content, $this->sections[$section]);
         }
         $this->sections[$section] = $content;
     }
     public function yieldContent($section, $default = '')
     {
-        $sectionContent = $default;
+        $sectionContent = $default instanceof View ? $default : e($default);
         if (isset($this->sections[$section])) {
             $sectionContent = $this->sections[$section];
         }
         $sectionContent = str_replace('@@parent', '--parent--holder--', $sectionContent);
-        return str_replace('--parent--holder--', '@parent', str_replace('@parent', '', $sectionContent));
+        return str_replace('--parent--holder--', '@parent', str_replace(static::parentPlaceholder($section), '', $sectionContent));
+    }
+    public static function parentPlaceholder($section = '')
+    {
+        if (!isset(static::$parentPlaceholder[$section])) {
+            static::$parentPlaceholder[$section] = '##parent-placeholder-' . sha1($section) . '##';
+        }
+        return static::$parentPlaceholder[$section];
+    }
+    public function hasSection($name)
+    {
+        return array_key_exists($name, $this->sections);
+    }
+    public function getSection($name, $default = null)
+    {
+        return $this->getSections()[$name] ? $this->getSections()[$name] : $default;
+    }
+    public function getSections()
+    {
+        return $this->sections;
     }
     public function flushSections()
     {
-        $this->renderCount = 0;
         $this->sections = [];
         $this->sectionStack = [];
     }
-    public function flushSectionsIfDoneRendering()
+}
+}
+
+namespace Royalcms\Component\View\Concerns {
+use Countable;
+use Royalcms\Component\Support\Arr;
+trait ManagesLoops
+{
+    protected $loopsStack = [];
+    public function addLoop($data)
     {
-        if ($this->doneRendering()) {
-            $this->flushSections();
+        $length = is_array($data) || $data instanceof Countable ? count($data) : null;
+        $parent = Arr::last($this->loopsStack);
+        $this->loopsStack[] = ['iteration' => 0, 'index' => 0, 'remaining' => $length ? $length : null, 'count' => $length, 'first' => true, 'last' => isset($length) ? $length == 1 : null, 'depth' => count($this->loopsStack) + 1, 'parent' => $parent ? (object) $parent : null];
+    }
+    public function incrementLoopIndices()
+    {
+        $loop = $this->loopsStack[$index = count($this->loopsStack) - 1];
+        $this->loopsStack[$index] = array_merge($this->loopsStack[$index], ['iteration' => $loop['iteration'] + 1, 'index' => $loop['iteration'], 'first' => $loop['iteration'] == 0, 'remaining' => isset($loop['count']) ? $loop['remaining'] - 1 : null, 'last' => isset($loop['count']) ? $loop['iteration'] == $loop['count'] - 1 : null]);
+    }
+    public function popLoop()
+    {
+        array_pop($this->loopsStack);
+    }
+    public function getLastLoop()
+    {
+        if ($last = Arr::last($this->loopsStack)) {
+            return (object) $last;
         }
+    }
+    public function getLoopStack()
+    {
+        return $this->loopsStack;
+    }
+}
+}
+
+namespace Royalcms\Component\View\Concerns {
+use InvalidArgumentException;
+trait ManagesStacks
+{
+    protected $pushes = [];
+    protected $prepends = [];
+    protected $pushStack = [];
+    public function startPush($section, $content = '')
+    {
+        if ($content === '') {
+            if (ob_start()) {
+                $this->pushStack[] = $section;
+            }
+        } else {
+            $this->extendPush($section, $content);
+        }
+    }
+    public function stopPush()
+    {
+        if (empty($this->pushStack)) {
+            throw new InvalidArgumentException('Cannot end a push stack without first starting one.');
+        }
+        return tap(array_pop($this->pushStack), function ($last) {
+            $this->extendPush($last, ob_get_clean());
+        });
+    }
+    protected function extendPush($section, $content)
+    {
+        if (!isset($this->pushes[$section])) {
+            $this->pushes[$section] = [];
+        }
+        if (!isset($this->pushes[$section][$this->renderCount])) {
+            $this->pushes[$section][$this->renderCount] = $content;
+        } else {
+            $this->pushes[$section][$this->renderCount] .= $content;
+        }
+    }
+    public function startPrepend($section, $content = '')
+    {
+        if ($content === '') {
+            if (ob_start()) {
+                $this->pushStack[] = $section;
+            }
+        } else {
+            $this->extendPrepend($section, $content);
+        }
+    }
+    public function stopPrepend()
+    {
+        if (empty($this->pushStack)) {
+            throw new InvalidArgumentException('Cannot end a prepend operation without first starting one.');
+        }
+        return tap(array_pop($this->pushStack), function ($last) {
+            $this->extendPrepend($last, ob_get_clean());
+        });
+    }
+    protected function extendPrepend($section, $content)
+    {
+        if (!isset($this->prepends[$section])) {
+            $this->prepends[$section] = [];
+        }
+        if (!isset($this->prepends[$section][$this->renderCount])) {
+            $this->prepends[$section][$this->renderCount] = $content;
+        } else {
+            $this->prepends[$section][$this->renderCount] = $content . $this->prepends[$section][$this->renderCount];
+        }
+    }
+    public function yieldPushContent($section, $default = '')
+    {
+        if (!isset($this->pushes[$section]) && !isset($this->prepends[$section])) {
+            return $default;
+        }
+        $output = '';
+        if (isset($this->prepends[$section])) {
+            $output .= implode(array_reverse($this->prepends[$section]));
+        }
+        if (isset($this->pushes[$section])) {
+            $output .= implode($this->pushes[$section]);
+        }
+        return $output;
+    }
+    public function flushStacks()
+    {
+        $this->pushes = [];
+        $this->prepends = [];
+        $this->pushStack = [];
+    }
+}
+}
+
+namespace Royalcms\Component\View\Concerns {
+trait ManagesTranslations
+{
+    protected $translationReplacements = [];
+    public function startTranslation($replacements = [])
+    {
+        ob_start();
+        $this->translationReplacements = $replacements;
+    }
+    public function renderTranslation()
+    {
+        return $this->container->make('translator')->getFromJson(trim(ob_get_clean()), $this->translationReplacements);
+    }
+}
+}
+
+namespace Royalcms\Component\View\Compilers {
+interface CompilerInterface
+{
+    public function getCompiledPath($path);
+    public function isExpired($path);
+    public function compile($path);
+}
+}
+
+namespace Royalcms\Component\View\Compilers {
+use InvalidArgumentException;
+use Royalcms\Component\Filesystem\Filesystem;
+abstract class Compiler
+{
+    protected $files;
+    protected $cachePath;
+    public function __construct(Filesystem $files, $cachePath)
+    {
+        if (!$cachePath) {
+            throw new InvalidArgumentException('Please provide a valid cache path.');
+        }
+        $this->files = $files;
+        $this->cachePath = $cachePath;
+        if (!$this->files->isDirectory($this->cachePath)) {
+            $this->files->makeDirectory($this->cachePath, 0755, true, true);
+        }
+    }
+    public function getCompiledPath($path)
+    {
+        return $this->cachePath . '/' . sha1($path) . '.php';
+    }
+    public function isExpired($path)
+    {
+        $compiled = $this->getCompiledPath($path);
+        if (!$this->files->exists($compiled)) {
+            return true;
+        }
+        return $this->files->lastModified($path) >= $this->files->lastModified($compiled);
+    }
+}
+}
+
+namespace Royalcms\Component\View\Compilers {
+use Royalcms\Component\Support\Arr;
+use Royalcms\Component\Support\Str;
+class BladeCompiler extends Compiler implements CompilerInterface
+{
+    use Concerns\CompilesAuthorizations, Concerns\CompilesComments, Concerns\CompilesComponents, Concerns\CompilesConditionals, Concerns\CompilesEchos, Concerns\CompilesHelpers, Concerns\CompilesIncludes, Concerns\CompilesInjections, Concerns\CompilesJson, Concerns\CompilesLayouts, Concerns\CompilesLoops, Concerns\CompilesRawPhp, Concerns\CompilesStacks, Concerns\CompilesTranslations;
+    protected $extensions = [];
+    protected $customDirectives = [];
+    protected $conditions = [];
+    protected $path;
+    protected $compilers = ['Comments', 'Extensions', 'Statements', 'Echos'];
+    protected $rawTags = ['{!!', '!!}'];
+    protected $contentTags = ['{{', '}}'];
+    protected $escapedTags = ['{{{', '}}}'];
+    protected $echoFormat = 'e(%s)';
+    protected $footer = [];
+    protected $rawBlocks = [];
+    public function compile($path = null)
+    {
+        if ($path) {
+            $this->setPath($path);
+        }
+        if (!is_null($this->cachePath)) {
+            $contents = $this->compileString($this->files->get($this->getPath()));
+            $this->files->put($this->getCompiledPath($this->getPath()), $contents);
+        }
+    }
+    public function getPath()
+    {
+        return $this->path;
+    }
+    public function setPath($path)
+    {
+        $this->path = $path;
+    }
+    public function compileString($value)
+    {
+        if (strpos($value, '@verbatim') !== false) {
+            $value = $this->storeVerbatimBlocks($value);
+        }
+        $this->footer = [];
+        if (strpos($value, '@php') !== false) {
+            $value = $this->storePhpBlocks($value);
+        }
+        $result = '';
+        foreach (token_get_all($value) as $token) {
+            $result .= is_array($token) ? $this->parseToken($token) : $token;
+        }
+        if (!empty($this->rawBlocks)) {
+            $result = $this->restoreRawContent($result);
+        }
+        if (count($this->footer) > 0) {
+            $result = $this->addFooters($result);
+        }
+        return $result;
+    }
+    protected function storeVerbatimBlocks($value)
+    {
+        return preg_replace_callback('/(?<!@)@verbatim(.*?)@endverbatim/s', function ($matches) {
+            return $this->storeRawBlock($matches[1]);
+        }, $value);
+    }
+    protected function storePhpBlocks($value)
+    {
+        return preg_replace_callback('/(?<!@)@php(.*?)@endphp/s', function ($matches) {
+            return $this->storeRawBlock("<?php{$matches[1]}?>");
+        }, $value);
+    }
+    protected function storeRawBlock($value)
+    {
+        return $this->getRawPlaceholder(array_push($this->rawBlocks, $value) - 1);
+    }
+    protected function restoreRawContent($result)
+    {
+        $result = preg_replace_callback('/' . $this->getRawPlaceholder('(\\d+)') . '/', function ($matches) {
+            return $this->rawBlocks[$matches[1]];
+        }, $result);
+        $this->rawBlocks = [];
+        return $result;
+    }
+    protected function getRawPlaceholder($replace)
+    {
+        return str_replace('#', $replace, '@__raw_block_#__@');
+    }
+    protected function addFooters($result)
+    {
+        return ltrim($result, PHP_EOL) . PHP_EOL . implode(PHP_EOL, array_reverse($this->footer));
+    }
+    protected function parseToken($token)
+    {
+        list($id, $content) = $token;
+        if ($id == T_INLINE_HTML) {
+            foreach ($this->compilers as $type) {
+                $content = $this->{"compile{$type}"}($content);
+            }
+        }
+        return $content;
+    }
+    protected function compileExtensions($value)
+    {
+        foreach ($this->extensions as $compiler) {
+            $value = call_user_func($compiler, $value, $this);
+        }
+        return $value;
+    }
+    protected function compileStatements($value)
+    {
+        return preg_replace_callback('/\\B@(@?\\w+(?:::\\w+)?)([ \\t]*)(\\( ( (?>[^()]+) | (?3) )* \\))?/x', function ($match) {
+            return $this->compileStatement($match);
+        }, $value);
+    }
+    protected function compileStatement($match)
+    {
+        if (Str::contains($match[1], '@')) {
+            $match[0] = isset($match[3]) ? $match[1] . $match[3] : $match[1];
+        } elseif (isset($this->customDirectives[$match[1]])) {
+            $match[0] = $this->callCustomDirective($match[1], Arr::get($match, 3));
+        } elseif (method_exists($this, $method = 'compile' . ucfirst($match[1]))) {
+            $match[0] = $this->{$method}(Arr::get($match, 3));
+        }
+        return isset($match[3]) ? $match[0] : $match[0] . $match[2];
+    }
+    protected function callCustomDirective($name, $value)
+    {
+        if (Str::startsWith($value, '(') && Str::endsWith($value, ')')) {
+            $value = Str::substr($value, 1, -1);
+        }
+        return call_user_func($this->customDirectives[$name], trim($value));
+    }
+    public function stripParentheses($expression)
+    {
+        if (Str::startsWith($expression, '(')) {
+            $expression = substr($expression, 1, -1);
+        }
+        return $expression;
+    }
+    public function extend(callable $compiler)
+    {
+        $this->extensions[] = $compiler;
+    }
+    public function getExtensions()
+    {
+        return $this->extensions;
+    }
+    public function directiveIf($name, callable $callback)
+    {
+        $this->conditions[$name] = $callback;
+        $this->directive($name, function ($expression) use($name) {
+            return $expression ? "<?php if (\\Royalcms\\Component\\Support\\Facades\\Blade::check('{$name}', {$expression})): ?>" : "<?php if (\\Royalcms\\Component\\Support\\Facades\\Blade::check('{$name}')): ?>";
+        });
+        $this->directive('else' . $name, function ($expression) use($name) {
+            return $expression ? "<?php elseif (\\Royalcms\\Component\\Support\\Facades\\Blade::check('{$name}', {$expression})): ?>" : "<?php elseif (\\Royalcms\\Component\\Support\\Facades\\Blade::check('{$name}')): ?>";
+        });
+        $this->directive('end' . $name, function () {
+            return '<?php endif; ?>';
+        });
+    }
+    public function check($name)
+    {
+        $parameters = func_get_args();
+        array_shift($parameters);
+        return call_user_func_array($this->conditions[$name], $parameters);
+    }
+    public function component($path, $alias = null)
+    {
+        $alias = $alias ?: array_last(explode('.', $path));
+        $this->directive($alias, function ($expression) use($path) {
+            return $expression ? "<?php \$__env->startComponent('{$path}', {$expression}); ?>" : "<?php \$__env->startComponent('{$path}'); ?>";
+        });
+        $this->directive('end' . $alias, function ($expression) {
+            return '<?php echo $__env->renderComponent(); ?>';
+        });
+    }
+    public function directiveInclude($path, $alias = null)
+    {
+        $alias = $alias ?: array_last(explode('.', $path));
+        $this->directive($alias, function ($expression) use($path) {
+            $expression = $this->stripParentheses($expression) ?: '[]';
+            return "<?php echo \$__env->make('{$path}', {$expression}, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>";
+        });
+    }
+    public function directive($name, callable $handler)
+    {
+        $this->customDirectives[$name] = $handler;
+    }
+    public function getCustomDirectives()
+    {
+        return $this->customDirectives;
+    }
+    public function setEchoFormat($format)
+    {
+        $this->echoFormat = $format;
+    }
+    public function withDoubleEncoding()
+    {
+        $this->setEchoFormat('e(%s, true)');
+    }
+    public function withoutDoubleEncoding()
+    {
+        $this->setEchoFormat('e(%s, false)');
+    }
+}
+}
+
+namespace Royalcms\Component\View\Compilers\Concerns {
+trait CompilesAuthorizations
+{
+    protected function compileCan($expression)
+    {
+        return "<?php if (app(\\Royalcms\\Component\\Contracts\\Auth\\Access\\Gate::class)->check{$expression}): ?>";
+    }
+    protected function compileCannot($expression)
+    {
+        return "<?php if (app(\\Royalcms\\Component\\Contracts\\Auth\\Access\\Gate::class)->denies{$expression}): ?>";
+    }
+    protected function compileElsecan($expression)
+    {
+        return "<?php elseif (app(\\Royalcms\\Component\\Contracts\\Auth\\Access\\Gate::class)->check{$expression}): ?>";
+    }
+    protected function compileElsecannot($expression)
+    {
+        return "<?php elseif (app(\\Royalcms\\Component\\Contracts\\Auth\\Access\\Gate::class)->denies{$expression}): ?>";
+    }
+    protected function compileEndcan()
+    {
+        return '<?php endif; ?>';
+    }
+    protected function compileEndcannot()
+    {
+        return '<?php endif; ?>';
+    }
+}
+}
+
+namespace Royalcms\Component\View\Compilers\Concerns {
+trait CompilesComments
+{
+    protected function compileComments($value)
+    {
+        $pattern = sprintf('/%s--(.*?)--%s/s', $this->contentTags[0], $this->contentTags[1]);
+        return preg_replace($pattern, '', $value);
+    }
+}
+}
+
+namespace Royalcms\Component\View\Compilers\Concerns {
+trait CompilesComponents
+{
+    protected function compileComponent($expression)
+    {
+        return "<?php \$__env->startComponent{$expression}; ?>";
+    }
+    protected function compileEndComponent()
+    {
+        return '<?php echo $__env->renderComponent(); ?>';
+    }
+    protected function compileSlot($expression)
+    {
+        return "<?php \$__env->slot{$expression}; ?>";
+    }
+    protected function compileEndSlot()
+    {
+        return '<?php $__env->endSlot(); ?>';
+    }
+}
+}
+
+namespace Royalcms\Component\View\Compilers\Concerns {
+trait CompilesConditionals
+{
+    protected $firstCaseInSwitch = true;
+    protected function compileAuth($guard = null)
+    {
+        $guard = is_null($guard) ? '()' : $guard;
+        return "<?php if(auth()->guard{$guard}->check()): ?>";
+    }
+    protected function compileEndAuth()
+    {
+        return '<?php endif; ?>';
+    }
+    protected function compileGuest($guard = null)
+    {
+        $guard = is_null($guard) ? '()' : $guard;
+        return "<?php if(auth()->guard{$guard}->guest()): ?>";
+    }
+    protected function compileEndGuest()
+    {
+        return '<?php endif; ?>';
+    }
+    protected function compileHasSection($expression)
+    {
+        return "<?php if (! empty(trim(\$__env->yieldContent{$expression}))): ?>";
+    }
+    protected function compileIf($expression)
+    {
+        return "<?php if{$expression}: ?>";
+    }
+    protected function compileUnless($expression)
+    {
+        return "<?php if (! {$expression}): ?>";
+    }
+    protected function compileElseif($expression)
+    {
+        return "<?php elseif{$expression}: ?>";
+    }
+    protected function compileElse()
+    {
+        return '<?php else: ?>';
+    }
+    protected function compileEndif()
+    {
+        return '<?php endif; ?>';
+    }
+    protected function compileEndunless()
+    {
+        return '<?php endif; ?>';
+    }
+    protected function compileIsset($expression)
+    {
+        return "<?php if(isset{$expression}): ?>";
+    }
+    protected function compileEndIsset()
+    {
+        return '<?php endif; ?>';
+    }
+    protected function compileSwitch($expression)
+    {
+        $this->firstCaseInSwitch = true;
+        return "<?php switch{$expression}:";
+    }
+    protected function compileCase($expression)
+    {
+        if ($this->firstCaseInSwitch) {
+            $this->firstCaseInSwitch = false;
+            return "case {$expression}: ?>";
+        }
+        return "<?php case {$expression}: ?>";
+    }
+    protected function compileDefault()
+    {
+        return '<?php default: ?>';
+    }
+    protected function compileEndSwitch()
+    {
+        return '<?php endswitch; ?>';
+    }
+}
+}
+
+namespace Royalcms\Component\View\Compilers\Concerns {
+trait CompilesEchos
+{
+    protected function compileEchos($value)
+    {
+        foreach ($this->getEchoMethods() as $method) {
+            $value = $this->{$method}($value);
+        }
+        return $value;
+    }
+    protected function getEchoMethods()
+    {
+        return ['compileRawEchos', 'compileEscapedEchos', 'compileRegularEchos'];
+    }
+    protected function compileRawEchos($value)
+    {
+        $pattern = sprintf('/(@)?%s\\s*(.+?)\\s*%s(\\r?\\n)?/s', $this->rawTags[0], $this->rawTags[1]);
+        $callback = function ($matches) {
+            $whitespace = empty($matches[3]) ? '' : $matches[3] . $matches[3];
+            return $matches[1] ? substr($matches[0], 1) : "<?php echo {$this->compileEchoDefaults($matches[2])}; ?>{$whitespace}";
+        };
+        return preg_replace_callback($pattern, $callback, $value);
+    }
+    protected function compileRegularEchos($value)
+    {
+        $pattern = sprintf('/(@)?%s\\s*(.+?)\\s*%s(\\r?\\n)?/s', $this->contentTags[0], $this->contentTags[1]);
+        $callback = function ($matches) {
+            $whitespace = empty($matches[3]) ? '' : $matches[3] . $matches[3];
+            $wrapped = sprintf($this->echoFormat, $this->compileEchoDefaults($matches[2]));
+            return $matches[1] ? substr($matches[0], 1) : "<?php echo {$wrapped}; ?>{$whitespace}";
+        };
+        return preg_replace_callback($pattern, $callback, $value);
+    }
+    protected function compileEscapedEchos($value)
+    {
+        $pattern = sprintf('/(@)?%s\\s*(.+?)\\s*%s(\\r?\\n)?/s', $this->escapedTags[0], $this->escapedTags[1]);
+        $callback = function ($matches) {
+            $whitespace = empty($matches[3]) ? '' : $matches[3] . $matches[3];
+            return $matches[1] ? $matches[0] : "<?php echo e({$this->compileEchoDefaults($matches[2])}); ?>{$whitespace}";
+        };
+        return preg_replace_callback($pattern, $callback, $value);
+    }
+    public function compileEchoDefaults($value)
+    {
+        return preg_replace('/^(?=\\$)(.+?)(?:\\s+or\\s+)(.+?)$/si', 'isset($1) ? $1 : $2', $value);
+    }
+}
+}
+
+namespace Royalcms\Component\View\Compilers\Concerns {
+trait CompilesHelpers
+{
+    protected function compileCsrf()
+    {
+        return '<?php echo csrf_field(); ?>';
+    }
+    protected function compileDd($arguments)
+    {
+        return "<?php dd{$arguments}; ?>";
+    }
+    protected function compileMethod($method)
+    {
+        return "<?php echo method_field{$method}; ?>";
+    }
+}
+}
+
+namespace Royalcms\Component\View\Compilers\Concerns {
+trait CompilesIncludes
+{
+    protected function compileEach($expression)
+    {
+        return "<?php echo \$__env->renderEach{$expression}; ?>";
+    }
+    protected function compileInclude($expression)
+    {
+        $expression = $this->stripParentheses($expression);
+        return "<?php echo \$__env->make({$expression}, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>";
+    }
+    protected function compileIncludeIf($expression)
+    {
+        $expression = $this->stripParentheses($expression);
+        return "<?php if (\$__env->exists({$expression})) echo \$__env->make({$expression}, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>";
+    }
+    protected function compileIncludeWhen($expression)
+    {
+        $expression = $this->stripParentheses($expression);
+        return "<?php echo \$__env->renderWhen({$expression}, array_except(get_defined_vars(), array('__data', '__path'))); ?>";
+    }
+    protected function compileIncludeFirst($expression)
+    {
+        $expression = $this->stripParentheses($expression);
+        return "<?php echo \$__env->first({$expression}, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>";
+    }
+}
+}
+
+namespace Royalcms\Component\View\Compilers\Concerns {
+trait CompilesInjections
+{
+    protected function compileInject($expression)
+    {
+        $segments = explode(',', preg_replace("/[\\(\\)\\\"\\']/", '', $expression));
+        $variable = trim($segments[0]);
+        $service = trim($segments[1]);
+        return "<?php \${$variable} = app('{$service}'); ?>";
+    }
+}
+}
+
+namespace Royalcms\Component\View\Compilers\Concerns {
+trait CompilesJson
+{
+    private $encodingOptions;
+    protected function compileJson($expression)
+    {
+        if (is_null($this->encodingOptions)) {
+            $this->encodingOptions = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT;
+        }
+        $parts = explode(',', $this->stripParentheses($expression));
+        $options = isset($parts[1]) ? trim($parts[1]) : $this->encodingOptions;
+        $depth = isset($parts[2]) ? trim($parts[2]) : 512;
+        return "<?php echo json_encode({$parts['0']}, {$options}, {$depth}) ?>";
+    }
+}
+}
+
+namespace Royalcms\Component\View\Compilers\Concerns {
+use Royalcms\Component\View\Factory as ViewFactory;
+trait CompilesLayouts
+{
+    protected $lastSection;
+    protected function compileExtends($expression)
+    {
+        $expression = $this->stripParentheses($expression);
+        $echo = "<?php echo \$__env->make({$expression}, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>";
+        $this->footer[] = $echo;
+        return '';
+    }
+    protected function compileSection($expression)
+    {
+        $this->lastSection = trim($expression, "()'\" ");
+        return "<?php \$__env->startSection{$expression}; ?>";
+    }
+    protected function compileParent()
+    {
+        return ViewFactory::parentPlaceholder($this->lastSection ?: '');
+    }
+    protected function compileYield($expression)
+    {
+        return "<?php echo \$__env->yieldContent{$expression}; ?>";
+    }
+    protected function compileShow()
+    {
+        return '<?php echo $__env->yieldSection(); ?>';
+    }
+    protected function compileAppend()
+    {
+        return '<?php $__env->appendSection(); ?>';
+    }
+    protected function compileOverwrite()
+    {
+        return '<?php $__env->stopSection(true); ?>';
+    }
+    protected function compileStop()
+    {
+        return '<?php $__env->stopSection(); ?>';
+    }
+    protected function compileEndsection()
+    {
+        return '<?php $__env->stopSection(); ?>';
+    }
+}
+}
+
+namespace Royalcms\Component\View\Compilers\Concerns {
+trait CompilesLoops
+{
+    protected $forElseCounter = 0;
+    protected function compileForelse($expression)
+    {
+        $empty = '$__empty_' . ++$this->forElseCounter;
+        preg_match('/\\( *(.*) +as *(.*)\\)$/is', $expression, $matches);
+        $iteratee = trim($matches[1]);
+        $iteration = trim($matches[2]);
+        $initLoop = "\$__currentLoopData = {$iteratee}; \$__env->addLoop(\$__currentLoopData);";
+        $iterateLoop = '$__env->incrementLoopIndices(); $loop = $__env->getLastLoop();';
+        return "<?php {$empty} = true; {$initLoop} foreach(\$__currentLoopData as {$iteration}): {$iterateLoop} {$empty} = false; ?>";
+    }
+    protected function compileEmpty($expression)
+    {
+        if ($expression) {
+            return "<?php if(empty{$expression}): ?>";
+        }
+        $empty = '$__empty_' . $this->forElseCounter--;
+        return "<?php endforeach; \$__env->popLoop(); \$loop = \$__env->getLastLoop(); if ({$empty}): ?>";
+    }
+    protected function compileEndforelse()
+    {
+        return '<?php endif; ?>';
+    }
+    protected function compileEndEmpty()
+    {
+        return '<?php endif; ?>';
+    }
+    protected function compileFor($expression)
+    {
+        return "<?php for{$expression}: ?>";
+    }
+    protected function compileForeach($expression)
+    {
+        preg_match('/\\( *(.*) +as *(.*)\\)$/is', $expression, $matches);
+        $iteratee = trim($matches[1]);
+        $iteration = trim($matches[2]);
+        $initLoop = "\$__currentLoopData = {$iteratee}; \$__env->addLoop(\$__currentLoopData);";
+        $iterateLoop = '$__env->incrementLoopIndices(); $loop = $__env->getLastLoop();';
+        return "<?php {$initLoop} foreach(\$__currentLoopData as {$iteration}): {$iterateLoop} ?>";
+    }
+    protected function compileBreak($expression)
+    {
+        if ($expression) {
+            preg_match('/\\(\\s*(-?\\d+)\\s*\\)$/', $expression, $matches);
+            return $matches ? '<?php break ' . max(1, $matches[1]) . '; ?>' : "<?php if{$expression} break; ?>";
+        }
+        return '<?php break; ?>';
+    }
+    protected function compileContinue($expression)
+    {
+        if ($expression) {
+            preg_match('/\\(\\s*(-?\\d+)\\s*\\)$/', $expression, $matches);
+            return $matches ? '<?php continue ' . max(1, $matches[1]) . '; ?>' : "<?php if{$expression} continue; ?>";
+        }
+        return '<?php continue; ?>';
+    }
+    protected function compileEndfor()
+    {
+        return '<?php endfor; ?>';
+    }
+    protected function compileEndforeach()
+    {
+        return '<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>';
+    }
+    protected function compileWhile($expression)
+    {
+        return "<?php while{$expression}: ?>";
+    }
+    protected function compileEndwhile()
+    {
+        return '<?php endwhile; ?>';
+    }
+}
+}
+
+namespace Royalcms\Component\View\Compilers\Concerns {
+trait CompilesRawPhp
+{
+    protected function compilePhp($expression)
+    {
+        if ($expression) {
+            return "<?php {$expression}; ?>";
+        }
+        return '@php';
+    }
+    protected function compileUnset($expression)
+    {
+        return "<?php unset{$expression}; ?>";
+    }
+}
+}
+
+namespace Royalcms\Component\View\Compilers\Concerns {
+trait CompilesStacks
+{
+    protected function compileStack($expression)
+    {
+        return "<?php echo \$__env->yieldPushContent{$expression}; ?>";
+    }
+    protected function compilePush($expression)
+    {
+        return "<?php \$__env->startPush{$expression}; ?>";
+    }
+    protected function compileEndpush()
+    {
+        return '<?php $__env->stopPush(); ?>';
+    }
+    protected function compilePrepend($expression)
+    {
+        return "<?php \$__env->startPrepend{$expression}; ?>";
+    }
+    protected function compileEndprepend()
+    {
+        return '<?php $__env->stopPrepend(); ?>';
+    }
+}
+}
+
+namespace Royalcms\Component\View\Compilers\Concerns {
+trait CompilesTranslations
+{
+    protected function compileLang($expression)
+    {
+        if (is_null($expression)) {
+            return '<?php $__env->startTranslation(); ?>';
+        } elseif ($expression[1] === '[') {
+            return "<?php \$__env->startTranslation{$expression}; ?>";
+        }
+        return "<?php echo app('translator')->getFromJson{$expression}; ?>";
+    }
+    protected function compileEndlang()
+    {
+        return '<?php echo $__env->renderTranslation(); ?>';
+    }
+    protected function compileChoice($expression)
+    {
+        return "<?php echo app('translator')->choice{$expression}; ?>";
+    }
+}
+}
+
+namespace Royalcms\Component\View {
+interface ViewFinderInterface
+{
+    const HINT_PATH_DELIMITER = '::';
+    public function find($view);
+    public function addLocation($location);
+    public function addNamespace($namespace, $hints);
+    public function prependNamespace($namespace, $hints);
+    public function replaceNamespace($namespace, $hints);
+    public function addExtension($extension);
+    public function flush();
+}
+}
+
+namespace Royalcms\Component\View {
+use InvalidArgumentException;
+use Royalcms\Component\Filesystem\Filesystem;
+class FileViewFinder implements ViewFinderInterface
+{
+    protected $files;
+    protected $paths;
+    protected $views = [];
+    protected $hints = [];
+    protected $extensions = ['blade.php', 'php', 'css'];
+    public function __construct(Filesystem $files, array $paths, array $extensions = null)
+    {
+        $this->files = $files;
+        $this->paths = $paths;
+        if (isset($extensions)) {
+            $this->extensions = $extensions;
+        }
+    }
+    public function find($name)
+    {
+        if (isset($this->views[$name])) {
+            return $this->views[$name];
+        }
+        if ($this->hasHintInformation($name = trim($name))) {
+            return $this->views[$name] = $this->findNamespacedView($name);
+        }
+        return $this->views[$name] = $this->findInPaths($name, $this->paths);
+    }
+    protected function findNamespacedView($name)
+    {
+        list($namespace, $view) = $this->parseNamespaceSegments($name);
+        return $this->findInPaths($view, $this->hints[$namespace]);
+    }
+    protected function parseNamespaceSegments($name)
+    {
+        $segments = explode(static::HINT_PATH_DELIMITER, $name);
+        if (count($segments) != 2) {
+            throw new InvalidArgumentException("View [{$name}] has an invalid name.");
+        }
+        if (!isset($this->hints[$segments[0]])) {
+            throw new InvalidArgumentException("No hint path defined for [{$segments[0]}].");
+        }
+        return $segments;
+    }
+    protected function findInPaths($name, $paths)
+    {
+        foreach ((array) $paths as $path) {
+            foreach ($this->getPossibleViewFiles($name) as $file) {
+                if ($this->files->exists($viewPath = $path . '/' . $file)) {
+                    return $viewPath;
+                }
+            }
+        }
+        throw new InvalidArgumentException("View [{$name}] not found.");
+    }
+    protected function getPossibleViewFiles($name)
+    {
+        return array_map(function ($extension) use($name) {
+            return str_replace('.', '/', $name) . '.' . $extension;
+        }, $this->extensions);
+    }
+    public function addLocation($location)
+    {
+        $this->paths[] = $location;
+    }
+    public function prependLocation($location)
+    {
+        array_unshift($this->paths, $location);
+    }
+    public function addNamespace($namespace, $hints)
+    {
+        $hints = (array) $hints;
+        if (isset($this->hints[$namespace])) {
+            $hints = array_merge($this->hints[$namespace], $hints);
+        }
+        $this->hints[$namespace] = $hints;
+    }
+    public function prependNamespace($namespace, $hints)
+    {
+        $hints = (array) $hints;
+        if (isset($this->hints[$namespace])) {
+            $hints = array_merge($hints, $this->hints[$namespace]);
+        }
+        $this->hints[$namespace] = $hints;
+    }
+    public function replaceNamespace($namespace, $hints)
+    {
+        $this->hints[$namespace] = (array) $hints;
+    }
+    public function addExtension($extension)
+    {
+        if (($index = array_search($extension, $this->extensions)) !== false) {
+            unset($this->extensions[$index]);
+        }
+        array_unshift($this->extensions, $extension);
+    }
+    public function hasHintInformation($name)
+    {
+        return strpos($name, static::HINT_PATH_DELIMITER) > 0;
+    }
+    public function flush()
+    {
+        $this->views = [];
+    }
+    public function getFilesystem()
+    {
+        return $this->files;
+    }
+    public function getPaths()
+    {
+        return $this->paths;
+    }
+    public function getHints()
+    {
+        return $this->hints;
+    }
+    public function getExtensions()
+    {
+        return $this->extensions;
+    }
+}
+}
+
+namespace Royalcms\Component\View {
+use Royalcms\Component\Support\Arr;
+use Royalcms\Component\Support\Str;
+use InvalidArgumentException;
+use Royalcms\Component\Contracts\Events\Dispatcher;
+use Royalcms\Component\Contracts\Support\Arrayable;
+use Royalcms\Component\View\Engines\EngineResolver;
+use Royalcms\Component\Contracts\Container\Container;
+use Royalcms\Component\Contracts\View\Factory as FactoryContract;
+class Factory implements FactoryContract
+{
+    use Concerns\ManagesComponents, Concerns\ManagesEvents, Concerns\ManagesLayouts, Concerns\ManagesLoops, Concerns\ManagesStacks, Concerns\ManagesTranslations;
+    protected $engines;
+    protected $finder;
+    protected $events;
+    protected $container;
+    protected $shared = [];
+    protected $extensions = ['blade.php' => 'blade', 'php' => 'php', 'css' => 'file'];
+    protected $composers = [];
+    protected $renderCount = 0;
+    public function __construct(EngineResolver $engines, ViewFinderInterface $finder, Dispatcher $events)
+    {
+        $this->finder = $finder;
+        $this->events = $events;
+        $this->engines = $engines;
+        $this->share('__env', $this);
+    }
+    public function file($path, $data = [], $mergeData = [])
+    {
+        $data = array_merge($mergeData, $this->parseData($data));
+        return tap($this->viewInstance($path, $path, $data), function ($view) {
+            $this->callCreator($view);
+        });
+    }
+    public function make($view, $data = [], $mergeData = [])
+    {
+        $path = $this->finder->find($view = $this->normalizeName($view));
+        $data = array_merge($mergeData, $this->parseData($data));
+        return tap($this->viewInstance($view, $path, $data), function ($view) {
+            $this->callCreator($view);
+        });
+    }
+    public function first(array $views, $data = [], $mergeData = [])
+    {
+        $view = collect($views)->first(function ($view) {
+            return $this->exists($view);
+        });
+        if (!$view) {
+            throw new InvalidArgumentException('None of the views in the given array exist.');
+        }
+        return $this->make($view, $data, $mergeData);
+    }
+    public function renderWhen($condition, $view, $data = [], $mergeData = [])
+    {
+        if (!$condition) {
+            return '';
+        }
+        return $this->make($view, $this->parseData($data), $mergeData)->render();
+    }
+    public function renderEach($view, $data, $iterator, $empty = 'raw|')
+    {
+        $result = '';
+        if (count($data) > 0) {
+            foreach ($data as $key => $value) {
+                $result .= $this->make($view, ['key' => $key, $iterator => $value])->render();
+            }
+        } else {
+            $result = Str::startsWith($empty, 'raw|') ? substr($empty, 4) : $this->make($empty)->render();
+        }
+        return $result;
+    }
+    protected function normalizeName($name)
+    {
+        return ViewName::normalize($name);
+    }
+    protected function parseData($data)
+    {
+        return $data instanceof Arrayable ? $data->toArray() : $data;
+    }
+    protected function viewInstance($view, $path, $data)
+    {
+        return new View($this, $this->getEngineFromPath($path), $view, $path, $data);
+    }
+    public function exists($view)
+    {
+        try {
+            $this->finder->find($view);
+        } catch (InvalidArgumentException $e) {
+            return false;
+        }
+        return true;
+    }
+    public function getEngineFromPath($path)
+    {
+        if (!($extension = $this->getExtension($path))) {
+            throw new InvalidArgumentException("Unrecognized extension in file: {$path}");
+        }
+        $engine = $this->extensions[$extension];
+        return $this->engines->resolve($engine);
+    }
+    protected function getExtension($path)
+    {
+        $extensions = array_keys($this->extensions);
+        return Arr::first($extensions, function ($value) use($path) {
+            return Str::endsWith($path, '.' . $value);
+        });
+    }
+    public function share($key, $value = null)
+    {
+        $keys = is_array($key) ? $key : [$key => $value];
+        foreach ($keys as $key => $value) {
+            $this->shared[$key] = $value;
+        }
+        return $value;
     }
     public function incrementRender()
     {
@@ -18048,10 +19093,17 @@ class Factory implements FactoryContract
     public function addNamespace($namespace, $hints)
     {
         $this->finder->addNamespace($namespace, $hints);
+        return $this;
     }
     public function prependNamespace($namespace, $hints)
     {
         $this->finder->prependNamespace($namespace, $hints);
+        return $this;
+    }
+    public function replaceNamespace($namespace, $hints)
+    {
+        $this->finder->replaceNamespace($namespace, $hints);
+        return $this;
     }
     public function addExtension($extension, $engine, $resolver = null)
     {
@@ -18061,6 +19113,18 @@ class Factory implements FactoryContract
         }
         unset($this->extensions[$extension]);
         $this->extensions = array_merge([$extension => $engine], $this->extensions);
+    }
+    public function flushState()
+    {
+        $this->renderCount = 0;
+        $this->flushSections();
+        $this->flushStacks();
+    }
+    public function flushStateIfDoneRendering()
+    {
+        if ($this->doneRendering()) {
+            $this->flushState();
+        }
     }
     public function getExtensions()
     {
@@ -18077,6 +19141,10 @@ class Factory implements FactoryContract
     public function setFinder(ViewFinderInterface $finder)
     {
         $this->finder = $finder;
+    }
+    public function flushFinderCache()
+    {
+        $this->getFinder()->flush();
     }
     public function getDispatcher()
     {
@@ -18102,18 +19170,6 @@ class Factory implements FactoryContract
     {
         return $this->shared;
     }
-    public function hasSection($name)
-    {
-        return array_key_exists($name, $this->sections);
-    }
-    public function getSections()
-    {
-        return $this->sections;
-    }
-    public function getNames()
-    {
-        return $this->names;
-    }
 }
 }
 
@@ -18124,8 +19180,8 @@ use ArrayAccess;
 use BadMethodCallException;
 use Royalcms\Component\Support\Str;
 use Royalcms\Component\Support\MessageBag;
+use Royalcms\Component\Contracts\View\Engine;
 use Royalcms\Component\Contracts\Support\Arrayable;
-use Royalcms\Component\View\Engines\EngineInterface;
 use Royalcms\Component\Contracts\Support\Renderable;
 use Royalcms\Component\Contracts\Support\MessageProvider;
 use Royalcms\Component\Contracts\View\View as ViewContract;
@@ -18136,7 +19192,7 @@ class View implements ArrayAccess, ViewContract
     protected $view;
     protected $data;
     protected $path;
-    public function __construct(Factory $factory, EngineInterface $engine, $view, $path, $data = [])
+    public function __construct(Factory $factory, Engine $engine, $view, $path, $data = [])
     {
         $this->view = $view;
         $this->path = $path;
@@ -18149,13 +19205,13 @@ class View implements ArrayAccess, ViewContract
         try {
             $contents = $this->renderContents();
             $response = isset($callback) ? call_user_func($callback, $this, $contents) : null;
-            $this->factory->flushSectionsIfDoneRendering();
+            $this->factory->flushStateIfDoneRendering();
             return !is_null($response) ? $response : $contents;
         } catch (Exception $e) {
-            $this->factory->flushSections();
+            $this->factory->flushState();
             throw $e;
         } catch (Throwable $e) {
-            $this->factory->flushSections();
+            $this->factory->flushState();
             throw $e;
         }
     }
@@ -18166,12 +19222,6 @@ class View implements ArrayAccess, ViewContract
         $contents = $this->getContents();
         $this->factory->decrementRender();
         return $contents;
-    }
-    public function renderSections()
-    {
-        return $this->render(function () {
-            return $this->factory->getSections();
-        });
     }
     protected function getContents()
     {
@@ -18186,6 +19236,12 @@ class View implements ArrayAccess, ViewContract
             }
         }
         return $data;
+    }
+    public function renderSections()
+    {
+        return $this->render(function () {
+            return $this->factory->getSections();
+        });
     }
     public function with($key, $value = null)
     {
@@ -18202,20 +19258,12 @@ class View implements ArrayAccess, ViewContract
     }
     public function withErrors($provider)
     {
-        if ($provider instanceof MessageProvider) {
-            $this->with('errors', $provider->getMessageBag());
-        } else {
-            $this->with('errors', new MessageBag((array) $provider));
-        }
+        $this->with('errors', $this->formatErrors($provider));
         return $this;
     }
-    public function getFactory()
+    protected function formatErrors($provider)
     {
-        return $this->factory;
-    }
-    public function getEngine()
-    {
-        return $this->engine;
+        return $provider instanceof MessageProvider ? $provider->getMessageBag() : new MessageBag((array) $provider);
     }
     public function name()
     {
@@ -18236,6 +19284,14 @@ class View implements ArrayAccess, ViewContract
     public function setPath($path)
     {
         $this->path = $path;
+    }
+    public function getFactory()
+    {
+        return $this->factory;
+    }
+    public function getEngine()
+    {
+        return $this->engine;
     }
     public function offsetExists($key)
     {
@@ -18271,10 +19327,10 @@ class View implements ArrayAccess, ViewContract
     }
     public function __call($method, $parameters)
     {
-        if (Str::startsWith($method, 'with')) {
-            return $this->with(Str::snake(substr($method, 4)), $parameters[0]);
+        if (!Str::startsWith($method, 'with')) {
+            throw new BadMethodCallException(sprintf('Method %s::%s does not exist.', static::class, $method));
         }
-        throw new BadMethodCallException("Method [{$method}] does not exist on view.");
+        return $this->with(Str::camel(substr($method, 4)), $parameters[0]);
     }
     public function __toString()
     {
@@ -18283,471 +19339,17 @@ class View implements ArrayAccess, ViewContract
 }
 }
 
-namespace Royalcms\Component\View\Engines {
-interface EngineInterface
+namespace Royalcms\Component\View {
+class ViewName
 {
-    public function get($path, array $data = []);
-}
-}
-
-namespace Royalcms\Component\View\Engines {
-use Exception;
-use Throwable;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
-class PhpEngine implements EngineInterface
-{
-    public function get($path, array $data = [])
+    public static function normalize($name)
     {
-        return $this->evaluatePath($path, $data);
-    }
-    protected function evaluatePath($__path, $__data)
-    {
-        $obLevel = ob_get_level();
-        ob_start();
-        extract($__data, EXTR_SKIP);
-        try {
-            include $__path;
-        } catch (Exception $e) {
-            $this->handleViewException($e, $obLevel);
-        } catch (Throwable $e) {
-            $this->handleViewException(new FatalThrowableError($e), $obLevel);
+        $delimiter = ViewFinderInterface::HINT_PATH_DELIMITER;
+        if (strpos($name, $delimiter) === false) {
+            return str_replace('/', '.', $name);
         }
-        return ltrim(ob_get_clean());
-    }
-    protected function handleViewException($e, $obLevel)
-    {
-        while (ob_get_level() > $obLevel) {
-            ob_end_clean();
-        }
-        throw $e;
-    }
-}
-}
-
-namespace Royalcms\Component\View\Engines {
-use ErrorException;
-use Royalcms\Component\View\Compilers\CompilerInterface;
-class CompilerEngine extends PhpEngine
-{
-    protected $compiler;
-    protected $lastCompiled = [];
-    public function __construct(CompilerInterface $compiler)
-    {
-        $this->compiler = $compiler;
-    }
-    public function get($path, array $data = [])
-    {
-        $this->lastCompiled[] = $path;
-        if ($this->compiler->isExpired($path)) {
-            $this->compiler->compile($path);
-        }
-        $compiled = $this->compiler->getCompiledPath($path);
-        $results = $this->evaluatePath($compiled, $data);
-        array_pop($this->lastCompiled);
-        return $results;
-    }
-    protected function handleViewException($e, $obLevel)
-    {
-        $e = new ErrorException($this->getMessage($e), 0, 1, $e->getFile(), $e->getLine(), $e);
-        parent::handleViewException($e, $obLevel);
-    }
-    protected function getMessage($e)
-    {
-        return $e->getMessage() . ' (View: ' . realpath(last($this->lastCompiled)) . ')';
-    }
-    public function getCompiler()
-    {
-        return $this->compiler;
-    }
-}
-}
-
-namespace Royalcms\Component\View\Compilers {
-interface CompilerInterface
-{
-    public function getCompiledPath($path);
-    public function isExpired($path);
-    public function compile($path);
-}
-}
-
-namespace Royalcms\Component\View\Compilers {
-use InvalidArgumentException;
-use Royalcms\Component\Filesystem\Filesystem;
-abstract class Compiler
-{
-    protected $files;
-    protected $cachePath;
-    public function __construct(Filesystem $files, $cachePath)
-    {
-        if (!$cachePath) {
-            throw new InvalidArgumentException('Please provide a valid cache path.');
-        }
-        $this->files = $files;
-        $this->cachePath = $cachePath;
-        if (!$this->files->isDirectory($this->cachePath)) {
-            $this->files->makeDirectory($this->cachePath, 0755, true, true);
-        }
-    }
-    public function getCompiledPath($path)
-    {
-        return $this->cachePath . '/' . md5($path);
-    }
-    public function isExpired($path)
-    {
-        $compiled = $this->getCompiledPath($path);
-        if (!$this->files->exists($compiled)) {
-            return true;
-        }
-        $lastModified = $this->files->lastModified($path);
-        return $lastModified >= $this->files->lastModified($compiled);
-    }
-}
-}
-
-namespace Royalcms\Component\View\Compilers {
-use Royalcms\Component\Support\Arr;
-use Royalcms\Component\Support\Str;
-class BladeCompiler extends Compiler implements CompilerInterface
-{
-    protected $extensions = [];
-    protected $customDirectives = [];
-    protected $path;
-    protected $compilers = ['Extensions', 'Statements', 'Comments', 'Echos'];
-    protected $rawTags = ['{!!', '!!}'];
-    protected $contentTags = ['{{', '}}'];
-    protected $escapedTags = ['{{{', '}}}'];
-    protected $echoFormat = 'e(%s)';
-    protected $footer = [];
-    protected $forelseCounter = 0;
-    public function compile($path = null)
-    {
-        if ($path) {
-            $this->setPath($path);
-        }
-        $contents = $this->compileString($this->files->get($this->getPath()));
-        if (!is_null($this->cachePath)) {
-            $this->files->put($this->getCompiledPath($this->getPath()), $contents);
-        }
-    }
-    public function getPath()
-    {
-        return $this->path;
-    }
-    public function setPath($path)
-    {
-        $this->path = $path;
-    }
-    public function compileString($value)
-    {
-        $result = '';
-        $this->footer = [];
-        foreach (token_get_all($value) as $token) {
-            $result .= is_array($token) ? $this->parseToken($token) : $token;
-        }
-        if (count($this->footer) > 0) {
-            $result = ltrim($result, PHP_EOL) . PHP_EOL . implode(PHP_EOL, array_reverse($this->footer));
-        }
-        return $result;
-    }
-    protected function parseToken($token)
-    {
-        list($id, $content) = $token;
-        if ($id == T_INLINE_HTML) {
-            foreach ($this->compilers as $type) {
-                $content = $this->{"compile{$type}"}($content);
-            }
-        }
-        return $content;
-    }
-    protected function compileExtensions($value)
-    {
-        foreach ($this->extensions as $compiler) {
-            $value = call_user_func($compiler, $value, $this);
-        }
-        return $value;
-    }
-    protected function compileComments($value)
-    {
-        $pattern = sprintf('/%s--(.*?)--%s/s', $this->contentTags[0], $this->contentTags[1]);
-        return preg_replace($pattern, '<?php /*$1*/ ?>', $value);
-    }
-    protected function compileEchos($value)
-    {
-        foreach ($this->getEchoMethods() as $method => $length) {
-            $value = $this->{$method}($value);
-        }
-        return $value;
-    }
-    protected function getEchoMethods()
-    {
-        $methods = ['compileRawEchos' => strlen(stripcslashes($this->rawTags[0])), 'compileEscapedEchos' => strlen(stripcslashes($this->escapedTags[0])), 'compileRegularEchos' => strlen(stripcslashes($this->contentTags[0]))];
-        uksort($methods, function ($method1, $method2) use($methods) {
-            if ($methods[$method1] > $methods[$method2]) {
-                return -1;
-            }
-            if ($methods[$method1] < $methods[$method2]) {
-                return 1;
-            }
-            if ($method1 === 'compileRawEchos') {
-                return -1;
-            }
-            if ($method2 === 'compileRawEchos') {
-                return 1;
-            }
-            if ($method1 === 'compileEscapedEchos') {
-                return -1;
-            }
-            if ($method2 === 'compileEscapedEchos') {
-                return 1;
-            }
-        });
-        return $methods;
-    }
-    protected function compileStatements($value)
-    {
-        $callback = function ($match) {
-            if (method_exists($this, $method = 'compile' . ucfirst($match[1]))) {
-                $match[0] = $this->{$method}(Arr::get($match, 3));
-            } elseif (isset($this->customDirectives[$match[1]])) {
-                $match[0] = call_user_func($this->customDirectives[$match[1]], Arr::get($match, 3));
-            }
-            return isset($match[3]) ? $match[0] : $match[0] . $match[2];
-        };
-        return preg_replace_callback('/\\B@(\\w+)([ \\t]*)(\\( ( (?>[^()]+) | (?3) )* \\))?/x', $callback, $value);
-    }
-    protected function compileRawEchos($value)
-    {
-        $pattern = sprintf('/(@)?%s\\s*(.+?)\\s*%s(\\r?\\n)?/s', $this->rawTags[0], $this->rawTags[1]);
-        $callback = function ($matches) {
-            $whitespace = empty($matches[3]) ? '' : $matches[3] . $matches[3];
-            return $matches[1] ? substr($matches[0], 1) : '<?php echo ' . $this->compileEchoDefaults($matches[2]) . '; ?>' . $whitespace;
-        };
-        return preg_replace_callback($pattern, $callback, $value);
-    }
-    protected function compileRegularEchos($value)
-    {
-        $pattern = sprintf('/(@)?%s\\s*(.+?)\\s*%s(\\r?\\n)?/s', $this->contentTags[0], $this->contentTags[1]);
-        $callback = function ($matches) {
-            $whitespace = empty($matches[3]) ? '' : $matches[3] . $matches[3];
-            $wrapped = sprintf($this->echoFormat, $this->compileEchoDefaults($matches[2]));
-            return $matches[1] ? substr($matches[0], 1) : '<?php echo ' . $wrapped . '; ?>' . $whitespace;
-        };
-        return preg_replace_callback($pattern, $callback, $value);
-    }
-    protected function compileEscapedEchos($value)
-    {
-        $pattern = sprintf('/(@)?%s\\s*(.+?)\\s*%s(\\r?\\n)?/s', $this->escapedTags[0], $this->escapedTags[1]);
-        $callback = function ($matches) {
-            $whitespace = empty($matches[3]) ? '' : $matches[3] . $matches[3];
-            return $matches[1] ? $matches[0] : '<?php echo e(' . $this->compileEchoDefaults($matches[2]) . '); ?>' . $whitespace;
-        };
-        return preg_replace_callback($pattern, $callback, $value);
-    }
-    public function compileEchoDefaults($value)
-    {
-        return preg_replace('/^(?=\\$)(.+?)(?:\\s+or\\s+)(.+?)$/s', 'isset($1) ? $1 : $2', $value);
-    }
-    protected function compileEach($expression)
-    {
-        return "<?php echo \$__env->renderEach{$expression}; ?>";
-    }
-    protected function compileInject($expression)
-    {
-        $segments = explode(',', preg_replace("/[\\(\\)\\\"\\']/", '', $expression));
-        return '<?php $' . trim($segments[0]) . " = royalcms('" . trim($segments[1]) . "'); ?>";
-    }
-    protected function compileYield($expression)
-    {
-        return "<?php echo \$__env->yieldContent{$expression}; ?>";
-    }
-    protected function compileShow($expression)
-    {
-        return '<?php echo $__env->yieldSection(); ?>';
-    }
-    protected function compileSection($expression)
-    {
-        return "<?php \$__env->startSection{$expression}; ?>";
-    }
-    protected function compileAppend($expression)
-    {
-        return '<?php $__env->appendSection(); ?>';
-    }
-    protected function compileEndsection($expression)
-    {
-        return '<?php $__env->stopSection(); ?>';
-    }
-    protected function compileStop($expression)
-    {
-        return '<?php $__env->stopSection(); ?>';
-    }
-    protected function compileOverwrite($expression)
-    {
-        return '<?php $__env->stopSection(true); ?>';
-    }
-    protected function compileUnless($expression)
-    {
-        return "<?php if ( ! {$expression}): ?>";
-    }
-    protected function compileEndunless($expression)
-    {
-        return '<?php endif; ?>';
-    }
-    protected function compileLang($expression)
-    {
-        return "<?php echo royalcms('translator')->get{$expression}; ?>";
-    }
-    protected function compileChoice($expression)
-    {
-        return "<?php echo royalcms('translator')->choice{$expression}; ?>";
-    }
-    protected function compileElse($expression)
-    {
-        return '<?php else: ?>';
-    }
-    protected function compileFor($expression)
-    {
-        return "<?php for{$expression}: ?>";
-    }
-    protected function compileForeach($expression)
-    {
-        return "<?php foreach{$expression}: ?>";
-    }
-    protected function compileForelse($expression)
-    {
-        $empty = '$__empty_' . ++$this->forelseCounter;
-        return "<?php {$empty} = true; foreach{$expression}: {$empty} = false; ?>";
-    }
-    protected function compileCan($expression)
-    {
-        return "<?php if (royalcms('Royalcms\\Component\\Contracts\\Auth\\Access\\Gate')->check{$expression}): ?>";
-    }
-    protected function compileCannot($expression)
-    {
-        return "<?php if (royalcms('Royalcms\\Component\\Contracts\\Auth\\Access\\Gate')->denies{$expression}): ?>";
-    }
-    protected function compileIf($expression)
-    {
-        return "<?php if{$expression}: ?>";
-    }
-    protected function compileElseif($expression)
-    {
-        return "<?php elseif{$expression}: ?>";
-    }
-    protected function compileEmpty($expression)
-    {
-        $empty = '$__empty_' . $this->forelseCounter--;
-        return "<?php endforeach; if ({$empty}): ?>";
-    }
-    protected function compileWhile($expression)
-    {
-        return "<?php while{$expression}: ?>";
-    }
-    protected function compileEndwhile($expression)
-    {
-        return '<?php endwhile; ?>';
-    }
-    protected function compileEndfor($expression)
-    {
-        return '<?php endfor; ?>';
-    }
-    protected function compileEndforeach($expression)
-    {
-        return '<?php endforeach; ?>';
-    }
-    protected function compileEndcan($expression)
-    {
-        return '<?php endif; ?>';
-    }
-    protected function compileEndcannot($expression)
-    {
-        return '<?php endif; ?>';
-    }
-    protected function compileEndif($expression)
-    {
-        return '<?php endif; ?>';
-    }
-    protected function compileEndforelse($expression)
-    {
-        return '<?php endif; ?>';
-    }
-    protected function compileExtends($expression)
-    {
-        if (Str::startsWith($expression, '(')) {
-            $expression = substr($expression, 1, -1);
-        }
-        $data = "<?php echo \$__env->make({$expression}, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>";
-        $this->footer[] = $data;
-        return '';
-    }
-    protected function compileInclude($expression)
-    {
-        if (Str::startsWith($expression, '(')) {
-            $expression = substr($expression, 1, -1);
-        }
-        return "<?php echo \$__env->make({$expression}, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>";
-    }
-    protected function compileStack($expression)
-    {
-        return "<?php echo \$__env->yieldContent{$expression}; ?>";
-    }
-    protected function compilePush($expression)
-    {
-        return "<?php \$__env->startSection{$expression}; ?>";
-    }
-    protected function compileEndpush($expression)
-    {
-        return '<?php $__env->appendSection(); ?>';
-    }
-    public function getExtensions()
-    {
-        return $this->extensions;
-    }
-    public function extend(callable $compiler)
-    {
-        $this->extensions[] = $compiler;
-    }
-    public function directive($name, callable $handler)
-    {
-        $this->customDirectives[$name] = $handler;
-    }
-    public function getCustomDirectives()
-    {
-        return $this->customDirectives;
-    }
-    public function getRawTags()
-    {
-        return $this->rawTags;
-    }
-    public function setRawTags($openTag, $closeTag)
-    {
-        $this->rawTags = [preg_quote($openTag), preg_quote($closeTag)];
-    }
-    public function setContentTags($openTag, $closeTag, $escaped = false)
-    {
-        $property = $escaped === true ? 'escapedTags' : 'contentTags';
-        $this->{$property} = [preg_quote($openTag), preg_quote($closeTag)];
-    }
-    public function setEscapedContentTags($openTag, $closeTag)
-    {
-        $this->setContentTags($openTag, $closeTag, true);
-    }
-    public function getContentTags()
-    {
-        return $this->getTags();
-    }
-    public function getEscapedContentTags()
-    {
-        return $this->getTags(true);
-    }
-    protected function getTags($escaped = false)
-    {
-        $tags = $escaped ? $this->escapedTags : $this->contentTags;
-        return array_map('stripcslashes', $tags);
-    }
-    public function setEchoFormat($format)
-    {
-        $this->echoFormat = $format;
+        list($namespace, $name) = explode($delimiter, $name);
+        return $namespace . $delimiter . str_replace('/', '.', $name);
     }
 }
 }
@@ -18755,6 +19357,7 @@ class BladeCompiler extends Compiler implements CompilerInterface
 namespace Royalcms\Component\View {
 use Royalcms\Component\View\Engines\PhpEngine;
 use Royalcms\Component\Support\ServiceProvider;
+use Royalcms\Component\View\Engines\FileEngine;
 use Royalcms\Component\View\Engines\CompilerEngine;
 use Royalcms\Component\View\Engines\EngineResolver;
 use Royalcms\Component\View\Compilers\BladeCompiler;
@@ -18766,14 +19369,41 @@ class ViewServiceProvider extends ServiceProvider
         $this->registerViewFinder();
         $this->registerFactory();
     }
+    public function registerFactory()
+    {
+        $this->royalcms->singleton('view', function ($royalcms) {
+            $resolver = $royalcms['view.engine.resolver'];
+            $finder = $royalcms['view.finder'];
+            $factory = $this->createFactory($resolver, $finder, $royalcms['events']);
+            $factory->setContainer($royalcms);
+            $factory->share('royalcms', $royalcms);
+            return $factory;
+        });
+    }
+    protected function createFactory($resolver, $finder, $events)
+    {
+        return new Factory($resolver, $finder, $events);
+    }
+    public function registerViewFinder()
+    {
+        $this->royalcms->bind('view.finder', function ($royalcms) {
+            return new FileViewFinder($royalcms['files'], $royalcms['config']['view.paths']);
+        });
+    }
     public function registerEngineResolver()
     {
         $this->royalcms->singleton('view.engine.resolver', function () {
             $resolver = new EngineResolver();
-            foreach (['php', 'blade'] as $engine) {
+            foreach (['file', 'php', 'blade'] as $engine) {
                 $this->{'register' . ucfirst($engine) . 'Engine'}($resolver);
             }
             return $resolver;
+        });
+    }
+    public function registerFileEngine($resolver)
+    {
+        $resolver->register('file', function () {
+            return new FileEngine();
         });
     }
     public function registerPhpEngine($resolver)
@@ -18784,31 +19414,11 @@ class ViewServiceProvider extends ServiceProvider
     }
     public function registerBladeEngine($resolver)
     {
-        $royalcms = $this->royalcms;
-        $royalcms->singleton('blade.compiler', function ($royalcms) {
-            $cache = $royalcms['config']['view.compiled'];
-            return new BladeCompiler($royalcms['files'], $cache);
+        $this->royalcms->singleton('blade.compiler', function () {
+            return new BladeCompiler($this->royalcms['files'], $this->royalcms['config']['view.compiled']);
         });
-        $resolver->register('blade', function () use($royalcms) {
-            return new CompilerEngine($royalcms['blade.compiler']);
-        });
-    }
-    public function registerViewFinder()
-    {
-        $this->royalcms->bind('view.finder', function ($royalcms) {
-            $paths = $royalcms['config']['view.paths'];
-            return new FileViewFinder($royalcms['files'], $paths);
-        });
-    }
-    public function registerFactory()
-    {
-        $this->royalcms->singleton('view', function ($royalcms) {
-            $resolver = $royalcms['view.engine.resolver'];
-            $finder = $royalcms['view.finder'];
-            $env = new Factory($resolver, $finder, $royalcms['events']);
-            $env->setContainer($royalcms);
-            $env->share('royalcms', $royalcms);
-            return $env;
+        $resolver->register('blade', function () {
+            return new CompilerEngine($this->royalcms['blade.compiler']);
         });
     }
 }
@@ -27403,7 +28013,7 @@ class TextdomainManager
         if ($loaded) {
             return $loaded;
         }
-        $mofile = SITE_LANG_PATH . "themes/{$domain}-{$locale}.mo";
+        $mofile = $this->royalcms->langPath() . "themes/{$domain}-{$locale}.mo";
         return $this->loadTextdomain($domain, $mofile);
     }
     public function loadChildThemeTextdomain($domain, $path = false)
@@ -27435,16 +28045,16 @@ class TextdomainManager
         $locale = $this->locale->getLocale();
         $locale = RC_Hook::apply_filters('plugin_locale', $locale, $domain);
         if (false !== $plugin_rel_path) {
-            $path = SITE_PLUGIN_PATH . trim($plugin_rel_path, '/');
+            $path = $this->royalcms->pluginPath() . trim($plugin_rel_path, '/');
         } else {
-            $path = trim(SITE_PLUGIN_PATH, '/');
+            $path = rtrim($this->royalcms->pluginPath(), '/');
         }
         $mofile = "{$domain}/languages/{$locale}/{$domain}.mo";
         $loaded = $this->loadTextdomain($domain, $path . '/' . $mofile);
         if ($loaded) {
             return $loaded;
         }
-        $mofile = SITE_LANG_PATH . '/plugins/' . $domain . '-' . $locale . '.mo';
+        $mofile = $this->royalcms->langPath() . '/plugins/' . $domain . '-' . $locale . '.mo';
         return $this->loadTextdomain($domain, $mofile);
     }
     public function getAvailableLanguages($dir = null)
@@ -29939,14 +30549,9 @@ class FileViewFinder extends ViewFileViewFinder
             return $this->views[$name];
         }
         if (strpos($name, '::') !== false) {
-            return $this->views[$name] = $this->findNamedPathView($name);
+            return $this->views[$name] = $this->findNamespacedView($name);
         }
         return $this->views[$name] = $this->findInPaths($name, $this->paths);
-    }
-    protected function findNamedPathView($name)
-    {
-        list($namespace, $view) = $this->getNamespaceSegments($name);
-        return $this->findInPaths($view, $this->hints[$namespace]);
     }
     protected function findInPaths($name, $paths)
     {
@@ -29966,13 +30571,21 @@ class FileViewFinder extends ViewFileViewFinder
             return $name . '.' . $extension;
         }, $this->extensions);
     }
+    public function flush()
+    {
+        parent::flush();
+    }
+    public function replaceNamespace($namespace, $hints)
+    {
+        parent::replaceNamespace($namespace, $hints);
+    }
 }
 }
 
 namespace Royalcms\Component\SmartyView\Engines {
 use Smarty;
-use Royalcms\Component\View\Engines\EngineInterface;
-class SmartyEngine implements EngineInterface
+use Royalcms\Component\Contracts\View\Engine;
+class SmartyEngine implements Engine
 {
     protected $smarty;
     public function __construct(Smarty $smarty)
@@ -30033,7 +30646,7 @@ class SmartyServiceProvider extends ServiceProvider
     public function registerEngineResolver()
     {
         $me = $this;
-        $this->royalcms->bindShared('view.engine.resolver', function ($royalcms) use($me) {
+        $this->royalcms->singleton('view.engine.resolver', function ($royalcms) use($me) {
             $resolver = new EngineResolver();
             $me->registerSmartyEngine($resolver);
             return $resolver;
@@ -30728,12 +31341,11 @@ class Error
     private $error_data = array();
     public function __construct($code = '', $message = '', $data = '')
     {
-        if (empty($code)) {
-            return;
-        }
-        $this->errors[$code][] = $message;
-        if (!empty($data)) {
-            $this->error_data[$code] = $data;
+        if (!empty($code)) {
+            $this->errors[$code][] = $message;
+            if (!empty($data)) {
+                $this->error_data[$code] = $data;
+            }
         }
     }
     public function get_error_codes()
