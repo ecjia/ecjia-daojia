@@ -48,9 +48,21 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 return array(
     'cron_code' => 'cron_auto_manage',
+
 	'forms' => array(
 		array('name' => 'auto_manage_count', 'type' => 'select', 'value' => '5'),
 	),
+
+    'dynamic_option' => array(
+        'auto_manage_count' => __('每次处理记录个数：', 'cron_auto_manage'),
+
+        'auto_manage_count_range' => array(
+            '5' 	=> __('5条', 'cron_auto_manage'),
+            '10' 	=> __('10条', 'cron_auto_manage'),
+            '20' 	=> __('20条', 'cron_auto_manage'),
+            '50' 	=> __('50条', 'cron_auto_manage'),
+        )
+    ),
 );
 
 // end

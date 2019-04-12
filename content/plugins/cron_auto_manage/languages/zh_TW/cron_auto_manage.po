@@ -1,0 +1,56 @@
+# Copyright (C) 2019 自动处理
+# This file is distributed under the same license as the 自动处理 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 自动处理 1.21.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-03-19 15:26+0800\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-03-19 16:13+0800\n"
+"Language-Team: ecjia@ecjia.com\n"
+"X-Generator: Poedit 1.8.7\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
+
+#: config.php:57
+msgid "每次处理记录个数："
+msgstr "每次處理記錄個數："
+
+#: config.php:60
+msgid "5条"
+msgstr "5條"
+
+#: config.php:61
+msgid "10条"
+msgstr "10條"
+
+#: config.php:62
+msgid "20条"
+msgstr "20條"
+
+#: config.php:63
+msgid "50条"
+msgstr "50條"
+
+#. Plugin Name of the plugin/theme
+msgid "自动处理"
+msgstr "自動處理"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.cron_auto_manage/"
+msgstr "http://www.ecjia.com/plugins/ecjia.cron_auto_manage/"
+
+#. Description of the plugin/theme
+msgid "自动处理商品的上架下架,和文章的发布取消"
+msgstr "自動處理商品的上架下架，和文章的發布取消"
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr "ECJIA TEAM"
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr "http://www.ecjia.com/"

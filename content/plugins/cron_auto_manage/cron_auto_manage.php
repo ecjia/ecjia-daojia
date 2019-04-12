@@ -51,9 +51,10 @@ Plugin Name: 自动处理
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cron_auto_manage/
 Description: 自动处理商品的上架下架,和文章的发布取消
 Author: ECJIA TEAM
-Version: 1.21.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: cron
+Text Domain: cron_auto_manage
 */
 class plugin_cron_auto_manage {
 
@@ -73,8 +74,9 @@ class plugin_cron_auto_manage {
 }
 
 Ecjia_PluginManager::extend('cron_auto_manage', function() {
+    RC_Locale::loadPluginTextdomain('cron_auto_manage');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'cron_auto_manage.class.php';
-        return new cron_auto_manage();
+    return new cron_auto_manage();
 });
 
 RC_Plugin::register_activation_hook(__FILE__, array('plugin_cron_auto_manage', 'install'));
