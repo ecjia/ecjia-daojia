@@ -1,0 +1,626 @@
+# Copyright (C) 2019 Ecjia App shopguide
+# This file is distributed under the same license as the Ecjia App shopguide package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App shopguide 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-04-04 10:23+0800\n"
+"PO-Revision-Date: 2019-04-09 10:15+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: admin.php:92 admin.php:94 admin.php:157
+#: apis/shopguide_setting_menu_api.class.php:58 configs/package.php:55
+#: configs/package.php:56 merchant.php:95 merchant.php:98 merchant.php:100
+msgid "开店向导"
+msgstr "開店嚮導"
+
+#: admin.php:194 configs/jslang.php:58
+msgid "请输入商店名称"
+msgstr "請輸入商店名稱"
+
+#: admin.php:252 configs/jslang.php:60
+msgid "请输入商品分类"
+msgstr "請輸入商品分類"
+
+#: admin.php:256 configs/jslang.php:62
+msgid "请输入店铺分类"
+msgstr "請輸入店鋪分類"
+
+#: admin.php:261
+msgid "该商品分类名称已存在"
+msgstr "該商品分類名稱已存在"
+
+#: admin.php:265
+msgid "该店铺分类名称已存在"
+msgstr "該店鋪分類名稱已存在"
+
+#: admin.php:298 merchant.php:352
+msgid "完成向导"
+msgstr "完成嚮導"
+
+#: admin.php:310
+msgid "删除成功"
+msgstr "刪除成功"
+
+#: admin.php:330
+msgid "当前版本已是最新版本，上次更新时间是（%s）"
+msgstr "當前版本已是最新版本，上次更新時間是（%s）"
+
+#: admin.php:372
+msgid "已经获取 %s 条地区数据，因数量较多，请耐心等待..."
+msgstr "已經獲取 %s 條地區數據，因數量較多，請耐心等待..."
+
+#: admin.php:377
+msgid "获取地区信息成功"
+msgstr "獲取地區信息成功"
+
+#: apis/shopguide_admin_purview_api.class.php:59
+#: apis/shopguide_merchant_purview_api.class.php:59
+msgid "开店向导设置"
+msgstr "開店嚮導設置"
+
+#: classes/hooks/merchant_shopguide.class.php:56
+msgid "店铺向导"
+msgstr "店鋪嚮導"
+
+#: configs/jslang.php:57
+msgid "下一步"
+msgstr "下一步"
+
+#: configs/jslang.php:59
+msgid "请输入配送区域名称"
+msgstr "請輸入配送區域名稱"
+
+#: configs/jslang.php:61 merchant.php:269
+msgid "请输入商品名称"
+msgstr "請輸入商品名稱"
+
+#: configs/jslang.php:63
+msgid "请选择..."
+msgstr "請選擇..."
+
+#: merchant.php:212
+msgid "营业开始时间不能为次日"
+msgstr "營業開始時間不能為次日"
+
+#: merchant.php:215
+msgid "营业时间最多为24小时"
+msgstr "營業時間最多為24小時"
+
+#: merchant.php:218
+msgid "24小时营业请选择0-24"
+msgstr "24小時營業請選擇0-24"
+
+#: merchant.php:266
+msgid "请选择商品分类"
+msgstr "請選擇商品分類"
+
+#: merchant.php:391 merchant.php:407
+msgid "成功删除"
+msgstr "成功刪除"
+
+#: merchant.php:399
+msgid "店铺导航背景图"
+msgstr "店鋪導航背景圖"
+
+#: merchant.php:401
+msgid "店铺LOGO"
+msgstr "店鋪LOGO"
+
+#: merchant.php:403
+msgid "店铺顶部Banner图"
+msgstr "店鋪頂部Banner圖"
+
+#: merchant.php:406
+msgid "删除"
+msgstr "刪除"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:20
+msgid "设置商店的一些基本信息"
+msgstr "設置商店的一些基本信息"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:20
+msgid "商店的名称、标题、地区等"
+msgstr "商店的名稱、標題、地區等"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:21
+msgid "添加分类"
+msgstr "添加分類"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:21
+msgid "添加商品分类、店铺分类"
+msgstr "添加商品分類、店鋪分類"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:22
+msgid "插件设置"
+msgstr "插件設置"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:22
+msgid "设置配送方式、支付方式"
+msgstr "設置配送方式、支付方式"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:23
+msgid "恭喜您！网店可以使用了"
+msgstr "恭喜您！網店可以使用了"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:28
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:199
+msgid "地区管理"
+msgstr "地區管理"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:30
+msgid "地区同步："
+msgstr "地區同步："
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:30
+msgid "点以下按钮可获取四级地区信息到本地。"
+msgstr "點以下按鈕可獲取四級地區信息到本地。"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:30
+msgid "请务必先同步地区，才可进行其他操作。"
+msgstr "請務必先同步地區，才可進行其他操作。"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:31
+msgid "你确定执行此操作吗？"
+msgstr "你確定執行此操作嗎？"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:31
+msgid "同步地区表信息"
+msgstr "同步地區表信息"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:34
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:44
+msgid "基本信息"
+msgstr "基本信息"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:36
+msgid "商店名称："
+msgstr "商店名稱："
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:45
+msgid "请在上传前将文件名命名为logo.gif"
+msgstr "請在上傳前將文件名命名為logo.gif"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:47
+msgid "上传logo"
+msgstr "上傳logo"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:48
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:66
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:87
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:229
+msgid "修改"
+msgstr "修改"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:51
+msgid "您确定要删除该logo吗？"
+msgstr "您確定要刪除該logo嗎？"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:56
+msgid "商店标题："
+msgstr "商店標題："
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:56
+msgid "商店的标题将显示在浏览器的标题栏"
+msgstr "商店的標題將顯示在瀏覽器的標題欄"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:57
+msgid "请输入商店标题"
+msgstr "請輸入商店標題"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:61
+msgid "所在地区"
+msgstr "所在地區"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:64
+msgid "请选择国家..."
+msgstr "請選擇國家..."
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:71
+msgid "请选择省份..."
+msgstr "請選擇省份..."
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:80
+msgid "请选择城市..."
+msgstr "請選擇城市..."
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:89
+msgid "请输入详细地址"
+msgstr "請輸入詳細地址"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:93
+msgid "公司名称："
+msgstr "公司名稱："
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:94
+msgid "请输入公司名称"
+msgstr "請輸入公司名稱"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:98
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:104
+msgid "客服电话："
+msgstr "客服電話："
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:99
+msgid "请输入客服电话"
+msgstr "請輸入客服電話"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:103
+msgid "客服账号："
+msgstr "客服賬號："
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:103
+msgid ""
+"除邮件之外，如果您有多个客服的号码，请在每个号码之间使用半角逗号（,）分"
+"隔"
+msgstr ""
+"除郵件之外，如果您有多個客服的號碼，請在每個號碼之間使用半角逗號（,）分"
+"隔"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:104
+msgid "请输入qq号码"
+msgstr "請輸入qq號碼"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:105
+msgid "请输入微信号码"
+msgstr "請輸入微信號碼"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:106
+msgid "请输入微博号码"
+msgstr "請輸入微博號碼"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:107
+msgid "请输入电子邮件地址"
+msgstr "請輸入電子郵件地址"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:116
+msgid "添加商品分类"
+msgstr "添加商品分類"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:118
+msgid "商品分类："
+msgstr "商品分類："
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:125
+msgid "新网站必须添加至少一个商品分类，方便添加新商品。"
+msgstr "新網站必須添加至少一個商品分類，方便添加新商品。"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:128
+msgid "添加店铺分类"
+msgstr "添加店铺分类"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:130
+msgid "店铺分类："
+msgstr "店鋪分類："
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:136
+msgid "新网站必须添加至少一个店铺分类，方便商家入驻。"
+msgstr "新網站必須添加至少一個店鋪分類，方便商家入駐。"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:140
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:174
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:270
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:315
+msgid "上一步"
+msgstr "上一步"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:146
+msgid "配送信息"
+msgstr "配送信息"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:146
+msgid ""
+"可开启配送方式，启用之后，点击配送方式可设置配送区域，配送方式可设置多"
+"个。此项非必填项，您可选择暂时跳过此步骤。"
+msgstr ""
+"可開啟配送方式，啟用之後，點擊配送方式可設置配送區域，配送方式可設置多"
+"個。此項非必填項，您可選擇暫時跳過此步驟。"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:155
+msgid "安装配送方式"
+msgstr "安裝配送方式"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:157
+msgid "温馨提示：配送方式安装完成后，请刷新此页面查看安装后效果。"
+msgstr "溫馨提示：配送方式安裝完成後，請刷新此頁面查看安裝後效果。"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:159
+msgid "支付方式"
+msgstr "支付方式"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:159
+msgid ""
+"可开启支付方式，启用之后，点击支付方式可设置支付方式信息，配送方式可设置"
+"多个。此项非必填项，您可选择暂时跳过此步骤。"
+msgstr ""
+"可開啟支付方式，啟用之後，點擊支付方式可設置支付方式信息，配送方式可設置"
+"多個。此項非必填項，您可選擇暫時跳過此步驟。"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:169
+msgid "安装支付方式"
+msgstr "安裝支付方式"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:171
+msgid "温馨提示：支付方式安装完成后，请刷新此页面查看安装后效果。"
+msgstr "溫馨提示：支付方式安裝完成後，請刷新此頁面查看安裝後效果。"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:175
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:316
+msgid "跳过"
+msgstr "跳過"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:184
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:327
+msgid "恭喜您！网店可以使用了！"
+msgstr "恭喜您！網店可以使用了！"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:186
+msgid ""
+"以下是部分常用功能的链接，您关闭本页面后，依然可以在左侧或顶部菜单中找到"
+msgstr ""
+"以下是部分常用功能的鏈接，您關閉本頁面後，依然可以在左側或頂部菜單中找到"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:189
+msgid "主题选择"
+msgstr "主題選擇"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:190
+msgid "商店设置"
+msgstr "商店設置"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:191
+msgid "邮件设置"
+msgstr "郵件設置"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:193
+msgid "轮播图"
+msgstr "輪播圖"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:194
+msgid "快捷菜单"
+msgstr "快捷菜單"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:195
+msgid "友情链接"
+msgstr "友情鏈接"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:197
+msgid "公众号管理"
+msgstr "公眾號管理"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:198
+msgid "小程序管理"
+msgstr "小程序管理"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:201
+msgid "提现方式"
+msgstr "提現方式"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:202
+msgid "短信渠道"
+msgstr "短信渠道"
+
+#: content/apps/shopguide/templates/admin/shop_guide.dwt.php:203
+msgid "计划任务"
+msgstr "計劃任務"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:21
+msgid "设置基本信息"
+msgstr "設置基本信息"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:23
+msgid "店铺名称、店铺信息等"
+msgstr "店鋪名稱、店鋪信息等"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:26
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:207
+msgid "添加商品"
+msgstr "添加商品"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:28
+msgid "选择平台分类、添加商品"
+msgstr "選擇平台分類、添加商品"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:31
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:278
+msgid "运费模板"
+msgstr "運費模板"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:33
+msgid "设置店铺运费模板"
+msgstr "設置店鋪運費模板"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:38
+msgid "恭喜您！店铺可以使用了"
+msgstr "恭喜您！店鋪可以使用了"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:47
+msgid "店铺名称："
+msgstr "店鋪名稱："
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:54
+msgid "店铺LOGO："
+msgstr "店鋪LOGO："
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:54
+msgid "推荐图片的尺寸为：512x512px"
+msgstr "推薦圖片的尺寸為：512x512px"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:65
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:86
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:228
+msgid "浏览"
+msgstr "瀏覽"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:69
+msgid "您确定要删除该店铺logo吗？"
+msgstr "您確定要刪除該店鋪logo嗎？"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:75
+msgid "店铺顶部Banner图："
+msgstr "店鋪頂部Banner圖："
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:75
+msgid "推荐图片的尺寸为：3:1（600x200px）"
+msgstr "推薦圖片的尺寸為：3:1（600x200px）"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:80
+msgid "banner图"
+msgstr "banner圖"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:90
+msgid "您确定要删除该图吗？"
+msgstr "您確定要刪除該圖嗎？"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:95
+msgid "营业时间："
+msgstr "營業時間："
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:100
+msgid "拖拽选取营业时间段"
+msgstr "拖拽選取營業時間段"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:110
+msgid "店铺公告："
+msgstr "店鋪公告："
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:119
+msgid "店铺简介："
+msgstr "店鋪簡介："
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:136
+msgid "选择平台商品分类"
+msgstr "選擇平台商品分類"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:145
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:167
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:186
+msgid "请输入商品分类关键字"
+msgstr "請輸入商品分類關鍵字"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:161
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:180
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:196
+msgid "暂无内容"
+msgstr "暫無內容"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:210
+msgid "商品名称："
+msgstr "商品名稱："
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:217
+msgid "商品图片："
+msgstr "商品圖片："
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:217
+msgid "推荐图片的尺寸为：800，点击浏览按钮进行上传"
+msgstr "推薦圖片的尺寸為：800，點擊瀏覽按鈕進行上傳"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:232
+msgid "您确定要删除该商品图片吗？"
+msgstr "您確定要刪除該商品圖片嗎？"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:237
+msgid "商品价格："
+msgstr "商品價格："
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:243
+msgid "商品库存："
+msgstr "商品庫存："
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:249
+msgid "简单描述："
+msgstr "簡單描述："
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:255
+msgid "加入推荐："
+msgstr "加入推薦："
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:259
+msgid "精品"
+msgstr "精品"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:261
+msgid "新品"
+msgstr "新品"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:263
+msgid "热卖"
+msgstr "熱賣"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:278
+msgid ""
+"点击添加运费模板，运费模板添加好后即可开启配送方式，可添加多个运费模板。"
+"此项非必填项，您可选择暂时跳过此步骤。"
+msgstr ""
+"點擊添加運費模板，運費模板添加好後即可開啟配送方式，可添加多個運費模板。"
+"此項非必填項，您可選擇暫時跳過此步驟。"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:286
+msgid "查看详情"
+msgstr "查看詳情"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:287
+msgid "您确定要删除该运费模板吗？"
+msgstr "您確定要刪除該運費模板嗎？"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:292
+msgid "物流快递："
+msgstr "物流快遞："
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:298
+msgid "配送区域："
+msgstr "配送區域："
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:307
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:343
+msgid "添加运费模板"
+msgstr "添加運費模板"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:311
+msgid "温馨提示：运费模板添加完成后，请刷新此页面查看安装后效果。"
+msgstr "溫馨提示：運費模板添加完成後，請刷新此頁面查看安裝後效果。"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:331
+msgid "以下是部分常用功能的链接，您关闭本页面后，依然可以在左侧菜单中找到"
+msgstr ""
+"以下是部分常用功能的鏈接，您關閉本頁面後，依然可以在左側菜單中找到"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:335
+msgid "商品分类"
+msgstr "商品分類"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:336
+msgid "商品列表"
+msgstr "商品列表"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:337
+msgid "商品类型"
+msgstr "商品類型"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:338
+msgid "添加员工组"
+msgstr "添加員工組"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:339
+msgid "添加员工"
+msgstr "添加員工"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:340
+msgid "添加优惠活动"
+msgstr "添加優惠活動"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:341
+msgid "个人设置"
+msgstr "個人設置"
+
+#: content/apps/shopguide/templates/merchant/shop_guide.dwt.php:342
+msgid "店铺设置"
+msgstr "店鋪設置"
