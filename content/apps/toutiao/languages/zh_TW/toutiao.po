@@ -4,674 +4,677 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App toutiao 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-20 07:33:57+00:00\n"
+"POT-Creation-Date: 2019-04-04 13:33+0800\n"
+"PO-Revision-Date: 2019-04-04 13:33+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: apis/toutiao_merchant_menu_api.class.php:54 configs/package.php:55
 #: merchant.php:72 mh_menu.php:65
 msgid "头条"
-msgstr ""
+msgstr "頭條"
 
 #: apis/toutiao_merchant_menu_api.class.php:57
 #: classes/StoreCleanHandlers/StoreToutiaoMenuClear.php:34 mh_menu.php:73
 msgid "自定义菜单"
-msgstr ""
+msgstr "自定義菜單"
 
 #: apis/toutiao_merchant_menu_api.class.php:58 merchant.php:80 merchant.php:102
 #: merchant.php:184
 msgid "今日热点"
-msgstr ""
+msgstr "今日熱點"
 
 #: apis/toutiao_merchant_purview_api.class.php:55
 msgid "头条管理"
-msgstr ""
+msgstr "頭條管理"
 
 #: apis/toutiao_merchant_purview_api.class.php:56
 msgid "头条更新"
-msgstr ""
+msgstr "頭條更新"
 
 #: apis/toutiao_merchant_purview_api.class.php:57
 msgid "头条删除"
-msgstr ""
+msgstr "頭條刪除"
 
 #: apis/toutiao_store_remove_cleardata_api.class.php:63
 msgid "请求接口%s参数无效"
-msgstr ""
+msgstr "請求接口%s參數無效"
 
 #: classes/StoreCleanHandlers/StoreToutiaoClear.php:36
 msgid "今日头条"
-msgstr ""
+msgstr "今日頭條"
 
 #: classes/StoreCleanHandlers/StoreToutiaoClear.php:46
 msgid "店铺所有今日头条数据全部删除"
-msgstr ""
+msgstr "店鋪所有今日頭條數據全部刪除"
 
 #: classes/StoreCleanHandlers/StoreToutiaoClear.php:105
 #: classes/StoreCleanHandlers/StoreToutiaoMenuClear.php:98
 msgid "店铺名是%s"
-msgstr ""
+msgstr "店鋪名是%s"
 
 #: classes/StoreCleanHandlers/StoreToutiaoClear.php:105
 #: classes/StoreCleanHandlers/StoreToutiaoMenuClear.php:98
 msgid "店铺ID是%s"
-msgstr ""
+msgstr "店鋪ID是%s"
 
 #: classes/StoreCleanHandlers/StoreToutiaoMenuClear.php:44
 msgid "店铺内所有自定义菜单全部删除"
-msgstr ""
+msgstr "店舖內所有自定義菜單全部刪除"
 
 #: configs/jslang.php:57
 msgid "首页"
-msgstr ""
+msgstr "首頁"
 
 #: configs/jslang.php:58
 msgid "尾页"
-msgstr ""
+msgstr "尾頁"
 
 #: configs/jslang.php:59
 msgid "上一页"
-msgstr ""
+msgstr "上一頁"
 
 #: configs/jslang.php:60
 msgid "下一页"
-msgstr ""
+msgstr "下一頁"
 
 #: configs/jslang.php:61
 msgid "共_TOTAL_条记录 第_START_条到第_END_条"
-msgstr ""
+msgstr "共_TOTAL_條記錄 第_START_條到第_END_條"
 
 #: configs/jslang.php:62 configs/jslang.php:63 configs/jslang.php:109
 msgid "没有找到任何记录"
-msgstr ""
+msgstr "沒有找到任何記錄"
 
 #: configs/jslang.php:64
 msgid "共0条记录"
-msgstr ""
+msgstr "共0條記錄"
 
 #: configs/jslang.php:65
 msgid "（从_MAX_条数据中检索）"
-msgstr ""
+msgstr "（從_MAX_條數據中檢索）"
 
 #: configs/jslang.php:66
 msgid "消息模板名称不能为空"
-msgstr ""
+msgstr "消息模板名稱不能為空"
 
 #: configs/jslang.php:67
 msgid "消息主题不能为空"
-msgstr ""
+msgstr "消息主題不能為空"
 
 #: configs/jslang.php:68
 msgid "消息内容不能为空"
-msgstr ""
+msgstr "消息內容不能為空"
 
 #: configs/jslang.php:70 configs/jslang.php:149
 msgid "确定"
-msgstr ""
+msgstr "確定"
 
 #: configs/jslang.php:71 configs/jslang.php:150
 msgid "取消"
-msgstr ""
+msgstr "取消"
 
 #: configs/jslang.php:72
 msgid "状态修改成功"
-msgstr ""
+msgstr "狀態修改成功"
 
 #: configs/jslang.php:73
 msgid "请输入客服账号"
-msgstr ""
+msgstr "請輸入客服賬號"
 
 #: configs/jslang.php:74
 msgid "请输入客服昵称"
-msgstr ""
+msgstr "請輸入客服暱稱"
 
 #: configs/jslang.php:75
 msgid "请输入客服密码"
-msgstr ""
+msgstr "請輸入客服密碼"
 
 #: configs/jslang.php:76
 msgid "请输入需要绑定的微信账号"
-msgstr ""
+msgstr "請輸入需要綁定的微信賬號"
 
 #: configs/jslang.php:78
 msgid "请填写规则名称"
-msgstr ""
+msgstr "請填寫規則名稱"
 
 #: configs/jslang.php:79
 msgid "请至少填写1个关键词"
-msgstr ""
+msgstr "請至少填寫1個關鍵詞"
 
 #: configs/jslang.php:80
 msgid "请先选择素材"
-msgstr ""
+msgstr "請先選擇素材"
 
 #: configs/jslang.php:81
 msgid "无标题"
-msgstr ""
+msgstr "無標題"
 
 #: configs/jslang.php:82
 msgid "没有素材可以选择"
-msgstr ""
+msgstr "沒有素材可以選擇"
 
 #: configs/jslang.php:84
 msgid "男"
-msgstr ""
+msgstr "男"
 
 #: configs/jslang.php:85
 msgid "女"
-msgstr ""
+msgstr "女"
 
 #: configs/jslang.php:86
 msgid "暂未绑定"
-msgstr ""
+msgstr "暫未綁定"
 
 #: configs/jslang.php:87
 msgid "昵称："
-msgstr ""
+msgstr "暱稱："
 
 #: configs/jslang.php:88
 msgid "备注名："
-msgstr ""
+msgstr "備註名："
 
 #: configs/jslang.php:89
 msgid "性别："
-msgstr ""
+msgstr "性別："
 
 #: configs/jslang.php:90
 msgid "省-市："
-msgstr ""
+msgstr "省-市："
 
 #: configs/jslang.php:91
 msgid "用户标签："
-msgstr ""
+msgstr "用戶標籤："
 
 #: configs/jslang.php:92
 msgid "关注时间："
-msgstr ""
+msgstr "關注時間："
 
 #: configs/jslang.php:93
 msgid "绑定用户："
-msgstr ""
+msgstr "綁定用戶："
 
 #: configs/jslang.php:95
 msgid "正在获取中..."
-msgstr ""
+msgstr "正在獲取中..."
 
 #: configs/jslang.php:96
 msgid "获取用户标签"
-msgstr ""
+msgstr "獲取用戶標籤"
 
 #: configs/jslang.php:97
 msgid "获取用户信息"
-msgstr ""
+msgstr "獲取用戶信息"
 
 #: configs/jslang.php:98
 msgid "请输入标签名称"
-msgstr ""
+msgstr "請輸入標籤名稱"
 
 #: configs/jslang.php:99
 msgid "不得超过6个汉字或6个字符"
-msgstr ""
+msgstr "不得超過6個漢字或6個字符"
 
 #: configs/jslang.php:100
 msgid "请先选择用户"
-msgstr ""
+msgstr "請先選擇用戶"
 
 #: configs/jslang.php:102
 msgid "请填写推荐人"
-msgstr ""
+msgstr "請填寫推薦人"
 
 #: configs/jslang.php:103
 msgid "请填写推荐人ID"
-msgstr ""
+msgstr "請填寫推薦人ID"
 
 #: configs/jslang.php:104
 msgid "请填写功能"
-msgstr ""
+msgstr "請填寫功能"
 
 #: configs/jslang.php:105
 msgid "请填写应用场景"
-msgstr ""
+msgstr "請填寫應用場景"
 
 #: configs/jslang.php:106
 msgid "请选择或填写关键词"
-msgstr ""
+msgstr "請選擇或填寫關鍵詞"
 
 #: configs/jslang.php:108
 msgid "请先选择素材！"
-msgstr ""
+msgstr "請先選擇素材！"
 
 #: configs/jslang.php:110
 msgid "星期一"
-msgstr ""
+msgstr "星期一"
 
 #: configs/jslang.php:111
 msgid "星期二"
-msgstr ""
+msgstr "星期二"
 
 #: configs/jslang.php:112
 msgid "星期三"
-msgstr ""
+msgstr "星期三"
 
 #: configs/jslang.php:113
 msgid "星期四"
-msgstr ""
+msgstr "星期四"
 
 #: configs/jslang.php:114
 msgid "星期五"
-msgstr ""
+msgstr "星期五"
 
 #: configs/jslang.php:115
 msgid "星期六"
-msgstr ""
+msgstr "星期六"
 
 #: configs/jslang.php:116
 msgid "星期日"
-msgstr ""
+msgstr "星期日"
 
 #: configs/jslang.php:117
 msgid "次"
-msgstr ""
+msgstr "次"
 
 #: configs/jslang.php:118
 msgid "次数"
-msgstr ""
+msgstr "次數"
 
 #: configs/jslang.php:119
 msgid "获取客服聊天记录"
-msgstr ""
+msgstr "獲取客服聊天記錄"
 
 #: configs/jslang.php:121
 msgid "请填写菜单名称"
-msgstr ""
+msgstr "请填写菜单名称"
 
 #: configs/jslang.php:122
 msgid "请输入外链URL"
-msgstr ""
+msgstr "請輸入外鏈URL"
 
 #: configs/jslang.php:123
 msgid "图片链接地址需要以http://开头"
-msgstr ""
+msgstr "圖片鏈接地址需要以http://開頭"
 
 #: configs/jslang.php:125
 msgid "请填写微信OAuth回调地址！"
-msgstr ""
+msgstr "請填寫微信OAuth回調地址！"
 
 #: configs/jslang.php:128
 msgid "将图片拖动至此处上传"
-msgstr ""
+msgstr "將圖片拖動至此處上傳"
 
 #: configs/jslang.php:129
 msgid "将语音拖动至此处上传（格式：mp3）"
-msgstr ""
+msgstr "將語音拖動至此處上傳（格式：mp3）"
 
 #: configs/jslang.php:130 merchant.php:130
 msgid "请输入标题"
-msgstr ""
+msgstr "请输入标题"
 
 #: configs/jslang.php:131
 msgid "请输入视频标题"
-msgstr ""
+msgstr "請輸入視頻標題"
 
 #: configs/jslang.php:132
 msgid "图文"
-msgstr ""
+msgstr "圖文"
 
 #: configs/jslang.php:133
 msgid "clone-obj方法未设置data-parent参数。"
-msgstr ""
+msgstr "clone-obj方法未設置data-parent參數。"
 
 #: configs/jslang.php:134
 msgid "标题"
-msgstr ""
+msgstr "標題"
 
 #: configs/jslang.php:135
 msgid "缩略图"
-msgstr ""
+msgstr "縮略圖"
 
 #: configs/jslang.php:136
 msgid "批量操作缺少参数！"
-msgstr ""
+msgstr "批量操作缺少參數！"
 
 #: configs/jslang.php:137
 msgid "图文最多只能添加8条"
-msgstr ""
+msgstr "圖文最多只能添加8條"
 
 #: configs/jslang.php:138
 msgid "图片预览"
-msgstr ""
+msgstr "圖片預覽"
 
 #: configs/jslang.php:139
 msgid "您确定要删除该封面素材吗？"
-msgstr ""
+msgstr "您確定要刪除該封面素材嗎？"
 
 #: configs/jslang.php:140 merchant.php:241 merchant.php:282
 msgid "请输入图文标题"
-msgstr ""
+msgstr "請輸入圖文標題"
 
 #: configs/jslang.php:142
 msgid "图文素材"
-msgstr ""
+msgstr "圖文素材"
 
 #: configs/jslang.php:147
 msgid "添加子菜单后，一级菜单的内容将被清除。确定添加子菜单？"
-msgstr ""
+msgstr "添加子菜單後，一級菜單的內容將被清除。確定添加子菜單？"
 
 #: configs/jslang.php:148
 msgid "您确定要删除该菜单吗？"
-msgstr ""
+msgstr "您確定要刪除該菜單嗎？"
 
 #: configs/package.php:56
 msgid "头条是商家的服务器的简称，商家可以针对自己的关注粉丝每日推送动态。"
-msgstr ""
+msgstr "頭條是商家的服務器的簡稱，商家可以針對自己的關注粉絲每日推送動態。"
 
 #: merchant.php:81 merchant.php:106 merchant.php:158 merchant.php:190
 msgid "今日热点列表"
-msgstr ""
+msgstr "今日熱點列表"
 
 #: merchant.php:82 merchant.php:103 merchant.php:105
 msgid "添加图文素材"
-msgstr ""
+msgstr "添加圖文素材"
 
 #: merchant.php:159
 msgid "继续添加素材"
-msgstr ""
+msgstr "繼續添加素材"
 
 #: merchant.php:160 merchant.php:306
 msgid "添加成功"
-msgstr ""
+msgstr "添加成功"
 
 #: merchant.php:175 merchant.php:424
 msgid "该素材不存在"
-msgstr ""
+msgstr "該素材不存在"
 
 #: merchant.php:185 merchant.php:188
 msgid "图文编辑"
-msgstr ""
+msgstr "圖文編輯"
 
 #: merchant.php:237 merchant.php:318
 msgid "图文素材ID不存在。"
-msgstr ""
+msgstr "圖文素材ID不存在。"
 
 #: merchant.php:264
 msgid "编辑成功"
-msgstr ""
+msgstr "編輯成功"
 
 #: merchant.php:326
 msgid "移除%s图文素材成功"
-msgstr ""
+msgstr "移除%s圖文素材成功"
 
 #: merchant.php:342 merchant.php:361 mh_menu.php:217
 msgid "删除成功"
-msgstr ""
+msgstr "刪除成功"
 
 #: merchant.php:384
 msgid "请上传封面"
-msgstr ""
+msgstr "請上傳封面"
 
 #: merchant.php:434
 msgid "发送成功"
-msgstr ""
+msgstr "發送成功"
 
 #: mh_menu.php:74
 msgid "店铺自定义菜单"
-msgstr ""
+msgstr "店鋪自定義菜單"
 
 #: mh_menu.php:99
 msgid "子菜单名称"
-msgstr ""
+msgstr "子菜單名稱"
 
 #: mh_menu.php:99
 msgid "菜单名称"
-msgstr ""
+msgstr "菜单名称"
 
 #: mh_menu.php:156
 msgid "菜单名称不能为空"
-msgstr ""
+msgstr "菜單名稱不能為空"
 
 #: mh_menu.php:160
 msgid "请输入外链url"
-msgstr ""
+msgstr "請輸入外鏈url"
 
 #: mh_menu.php:196
 msgid "保存成功"
-msgstr ""
+msgstr "保存成功"
 
 #: mh_menu.php:271
 msgid "请添加自定义菜单或者检查菜单是否是开启状态"
-msgstr ""
+msgstr "請添加自定義菜單或者檢查菜單是否是開啟狀態"
 
 #: mh_menu.php:303
 msgid "生成菜单成功"
-msgstr ""
+msgstr "生成菜單成功"
 
 #: modules/merchant/mobile/toutiao_module.class.php:19
 msgid "参数无效"
-msgstr ""
+msgstr "參數無效"
 
 #: content/apps/toutiao/templates/front/preview.dwt.php:51
 msgid "微信扫一扫"
-msgstr ""
+msgstr "微信掃一掃"
 
 #: content/apps/toutiao/templates/front/preview.dwt.php:53
 msgid "访问该店铺"
-msgstr ""
+msgstr "訪問該店鋪"
 
 #: content/apps/toutiao/templates/merchant/toutiao_list.dwt.php:24
 msgid "今日发送"
-msgstr ""
+msgstr "今日發送"
 
 #: content/apps/toutiao/templates/merchant/toutiao_list.dwt.php:27
 msgid "历史发送"
-msgstr ""
+msgstr "歷史發送"
 
 #: content/apps/toutiao/templates/merchant/toutiao_list.dwt.php:39
 msgid "今日热点主图"
-msgstr ""
+msgstr "今日熱點主圖"
 
 #: content/apps/toutiao/templates/merchant/toutiao_list.dwt.php:40
 msgid "内容标题"
-msgstr ""
+msgstr "内容标题"
 
 #: content/apps/toutiao/templates/merchant/toutiao_list.dwt.php:41
 msgid "发布时间"
-msgstr ""
+msgstr "發佈時間"
 
 #: content/apps/toutiao/templates/merchant/toutiao_list.dwt.php:63
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:123
 msgid "您确定要发送该图文素材吗？"
-msgstr ""
+msgstr "您確定要發送該圖文素材嗎？"
 
 #: content/apps/toutiao/templates/merchant/toutiao_list.dwt.php:63
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:123
 msgid "发送"
-msgstr ""
+msgstr "發送"
 
 #: content/apps/toutiao/templates/merchant/toutiao_list.dwt.php:64
 msgid "编辑"
-msgstr ""
+msgstr "編輯"
 
 #: content/apps/toutiao/templates/merchant/toutiao_list.dwt.php:66
 msgid "您确定要删除该图文素材吗？"
-msgstr ""
+msgstr "您確定要刪除該圖文素材嗎？"
 
 #: content/apps/toutiao/templates/merchant/toutiao_list.dwt.php:66
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:82
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:84
 #: content/apps/toutiao/templates/merchant/toutiao_add.dwt.php:58
 msgid "删除"
-msgstr ""
+msgstr "刪除"
 
 #: content/apps/toutiao/templates/merchant/toutiao_list.dwt.php:75
 #: content/apps/toutiao/templates/merchant/toutiao_list.dwt.php:88
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:127
 msgid "你今日还可群发 %1 次消息"
-msgstr ""
+msgstr "你今日還可群發 %1 次消息"
 
 #: content/apps/toutiao/templates/merchant/toutiao_list.dwt.php:76
 msgid "去发布"
-msgstr ""
+msgstr "去发布"
 
 #: content/apps/toutiao/templates/merchant/toutiao_list.dwt.php:77
 msgid "去图文素材"
-msgstr ""
+msgstr "去圖文素材"
 
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:31
 #: content/apps/toutiao/templates/merchant/toutiao_add.dwt.php:28
 msgid "封面图片"
-msgstr ""
+msgstr "封面图片"
 
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:60
 #: content/apps/toutiao/templates/merchant/toutiao_add.dwt.php:42
 msgid "标题："
-msgstr ""
+msgstr "標題："
 
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:67
 #: content/apps/toutiao/templates/merchant/toutiao_add.dwt.php:49
 msgid "封面："
-msgstr ""
+msgstr "封面："
 
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:77
 #: content/apps/toutiao/templates/merchant/toutiao_add.dwt.php:54
 msgid "浏览"
-msgstr ""
+msgstr "瀏覽"
 
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:78
 #: content/apps/toutiao/templates/merchant/toutiao_add.dwt.php:55
 msgid "修改"
-msgstr ""
+msgstr "修改"
 
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:82
 msgid "您确定要删除封面吗？"
-msgstr ""
+msgstr "您確定要刪除封面嗎？"
 
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:88
 #: content/apps/toutiao/templates/merchant/toutiao_add.dwt.php:61
 msgid "（大图片建议尺寸：900像素 * 500像素）"
-msgstr ""
+msgstr "（大圖片建議尺寸：900像素 * 500像素）"
 
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:92
 #: content/apps/toutiao/templates/merchant/toutiao_add.dwt.php:65
 msgid "摘要："
-msgstr ""
+msgstr "摘要："
 
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:98
 #: content/apps/toutiao/templates/merchant/toutiao_add.dwt.php:72
 msgid "原文链接："
-msgstr ""
+msgstr "原文鏈接："
 
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:104
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_second.lbi.php:28
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_sub.lbi.php:38
 #: content/apps/toutiao/templates/merchant/toutiao_add.dwt.php:78
 msgid "排序："
-msgstr ""
+msgstr "排序："
 
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:107
 msgid "排序从小到大"
-msgstr ""
+msgstr "排序從小到大"
 
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:112
 #: content/apps/toutiao/templates/merchant/toutiao_add.dwt.php:84
 msgid "正文"
-msgstr ""
+msgstr "正文"
 
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:125
 msgid "预览"
-msgstr ""
+msgstr "預覽"
 
 #: content/apps/toutiao/templates/merchant/toutiao_edit.dwt.php:126
 #: content/apps/toutiao/templates/merchant/toutiao_add.dwt.php:92
 msgid "存入素材库"
-msgstr ""
+msgstr "存入素材庫"
 
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_second.lbi.php:8
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_sub.lbi.php:8
 msgid "菜单名称："
-msgstr ""
+msgstr "菜單名稱："
 
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_second.lbi.php:10
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_sub.lbi.php:10
 msgid "请输入菜单名称"
-msgstr ""
+msgstr "請輸入菜單名稱"
 
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_second.lbi.php:12
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_sub.lbi.php:12
 msgid "字数超过上限"
-msgstr ""
+msgstr "字數超過上限"
 
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_second.lbi.php:15
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_sub.lbi.php:15
 msgid "字数不超过6个汉字或16个字母"
-msgstr ""
+msgstr "字數不超過6個漢字或16個字母"
 
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_second.lbi.php:21
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_sub.lbi.php:31
 msgid "是否开启："
-msgstr ""
+msgstr "是否開啟："
 
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_second.lbi.php:23
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_sub.lbi.php:33
 msgid "是"
-msgstr ""
+msgstr "是"
 
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_second.lbi.php:24
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_sub.lbi.php:34
 msgid "否"
-msgstr ""
+msgstr "否"
 
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_second.lbi.php:37
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_sub.lbi.php:46
 msgid "保存"
-msgstr ""
+msgstr "保存"
 
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_sub.lbi.php:22
 msgid "外链url："
-msgstr ""
+msgstr "外鏈url："
 
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_sub.lbi.php:25
 msgid "请设置外联url"
-msgstr ""
+msgstr "請設置外聯url"
 
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_menu.lbi.php:19
 #: content/apps/toutiao/templates/merchant/toutiao_menu_list.dwt.php:54
 msgid "最多添加5个子菜单"
-msgstr ""
+msgstr "最多添加5個子菜單"
 
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_menu.lbi.php:29
 #: content/apps/toutiao/templates/merchant/toutiao_menu_list.dwt.php:64
 msgid "最多添加3个一级菜单"
-msgstr ""
+msgstr "最多添加3個一級菜單"
 
 #: content/apps/toutiao/templates/merchant/library/toutiao_menu_menu.lbi.php:29
 #: content/apps/toutiao/templates/merchant/toutiao_menu_list.dwt.php:64
 msgid "添加菜单"
-msgstr ""
+msgstr "添加菜單"
 
 #: content/apps/toutiao/templates/merchant/toutiao_add.dwt.php:68
 msgid "选填，如果不填写会默认抓取正文前54个字"
-msgstr ""
+msgstr "選填，如果不填寫會默認抓取正文前54個字"
 
 #: content/apps/toutiao/templates/merchant/toutiao_add.dwt.php:74
 msgid "http://"
-msgstr ""
+msgstr "http://"
 
 #: content/apps/toutiao/templates/merchant/toutiao_menu_list.dwt.php:19
 msgid "店铺菜单列表"
-msgstr ""
+msgstr "店鋪菜單列表"
 
 #: content/apps/toutiao/templates/merchant/toutiao_menu_list.dwt.php:25
 msgid "点击左侧菜单进行编辑操作"
-msgstr ""
+msgstr "点击左侧菜单进行编辑操作"
 
 #: content/apps/toutiao/templates/merchant/toutiao_menu_list.dwt.php:73
 msgid "发布成功后会覆盖原版本，且将在24小时内对所有用户生效，确认发布？"
-msgstr ""
+msgstr "發布成功後會覆蓋原版本，且將在24小時內對所有用戶生效，確認發布？"
 
 #: content/apps/toutiao/templates/merchant/toutiao_menu_list.dwt.php:73
 msgid "发布"
-msgstr ""
+msgstr "發布"
