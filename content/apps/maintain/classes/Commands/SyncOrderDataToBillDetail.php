@@ -3,6 +3,7 @@
 namespace Ecjia\App\Maintain\Commands;
 
 use Ecjia\App\Maintain\AbstractCommand;
+use Ecjia\App\Maintain\CommandOutput;
 use RC_DB;
 use RC_Loader;
 
@@ -34,8 +35,11 @@ class SyncOrderDataToBillDetail extends AbstractCommand
         RC_DB::table('store_bill_detail')->where('order_type', '1')->update(array('order_type' => 'buy'));
         RC_DB::table('store_bill_detail')->where('order_type', '11')->update(array('order_type' => 'quickpay'));
         RC_DB::table('store_bill_detail')->where('order_type', '2')->update(array('order_type' => 'refund'));
-        
-        $list = RC_DB::table('store_bill_detail')->where('order_sn', '')->get();
+
+
+        $size = 1000;
+
+        $list = RC_DB::table('store_bill_detail')->where('order_sn', '')->take($size)->get();
         if($list) {
             foreach ($list as $row) {
                 $data = $this->getBillOrderData($row['order_type'], $row['order_id']);
@@ -43,6 +47,11 @@ class SyncOrderDataToBillDetail extends AbstractCommand
                     RC_DB::table('store_bill_detail')->where('order_id', $row['order_id'])->where('order_type', $row['order_type'])->update($data);
                 }
             }
+            $count_undo = RC_DB::table('store_bill_detail')->where('order_sn', '')->count();
+            if($count_undo) {
+                return new CommandOutput(sprintf(__('本次任务成功执行%s条数据，还剩下%s条数据未处理，请继续点击运行继续处理，直至完成。', 'maintain'), count($list), $count_undo));
+            }
+            return new CommandOutput(sprintf(__('本次任务成功执行%s条数据，还剩下%s条数据未处理。', 'maintain'), count($list), $count_undo));
         }
         
         return true;
@@ -63,8 +72,10 @@ class SyncOrderDataToBillDetail extends AbstractCommand
             $data['order_sn'] = $order_info['order_sn'];
         }
         
-        if (empty($order_info)) {
-            return false;
+        if (empty($order_info) || empty($order_info['order_sn'])) {
+            //异常订单
+            $data['order_sn'] = __('未找到关联订单：', 'maintain') . $order_id;
+            return $data;
         }
              
         $data['goods_amount'] = $order_info['goods_amount'];
