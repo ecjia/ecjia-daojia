@@ -53,14 +53,15 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 return array(
     //promotion
-    'promotion_page' =>array(
-        'product_information_not_found'		        => __('未搜索到商品信息', 'promotion'),
-        'select_active_products'			    => __('请先选择活动商品', 'promotion'),
-        'select_event_start_time'				=> __('请选择活动开始时间', 'promotion'),
-        'select_event_end_time'            => __('请选择活动结束时间', 'promotion'),
-        'fill_event_price'             =>  __('请填写活动价格', 'promotion'),
-        'activity_price_is_at_least_1_cent '    =>  __('活动价格最低为1分钱', 'promotion'),
-
+    'promotion_page' => array(
+        'product_information_not_found'      => __('未搜索到商品信息', 'promotion'),
+        'select_active_products'             => __('请先选择活动商品', 'promotion'),
+        'select_event_start_time'            => __('请选择活动开始时间', 'promotion'),
+        'select_event_end_time'              => __('请选择活动结束时间', 'promotion'),
+        'fill_event_price'                   => __('请填写活动价格', 'promotion'),
+        'activity_price_is_at_least_1_cent ' => __('活动价格最低为1分钱', 'promotion'),
+        'pls_select_goods'                   => __('请先选择商品', 'promotion'),
+        'ok'                                 => __('确定', 'promotion'),
     ),
 
 );

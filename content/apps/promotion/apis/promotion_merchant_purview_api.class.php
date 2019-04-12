@@ -50,13 +50,15 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 后台权限API
  * @author royalwang
  */
-class promotion_merchant_purview_api extends Component_Event_Api {
-    
-    public function call(&$options) {
+class promotion_merchant_purview_api extends Component_Event_Api
+{
+
+    public function call(&$options)
+    {
         $purviews = array(
-        	array('action_name' => __('促销商品管理', 'promotion'), 'action_code' => 'promotion_manage',	'relevance'   => ''),
-        	array('action_name' => __('编辑促销商品', 'promotion'), 'action_code' => 'promotion_update', 	'relevance'   => ''),
-        	array('action_name' => __('删除促销商品', 'promotion'), 'action_code' => 'promotion_delete', 	'relevance'   => ''),
+            array('action_name' => __('促销活动管理', 'promotion'), 'action_code' => 'promotion_manage', 'relevance' => ''),
+            array('action_name' => __('编辑促销活动', 'promotion'), 'action_code' => 'promotion_update', 'relevance' => ''),
+            array('action_name' => __('删除促销活动', 'promotion'), 'action_code' => 'promotion_delete', 'relevance' => ''),
         );
         return $purviews;
     }
