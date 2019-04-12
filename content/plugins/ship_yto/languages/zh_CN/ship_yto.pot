@@ -1,0 +1,172 @@
+# Copyright (C) 2019 圆通速递
+# This file is distributed under the same license as the 圆通速递 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 圆通速递 2.30.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-03-29 01:42:03+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: config.php:94
+msgid "单件商品费用："
+msgstr ""
+
+#: config.php:95
+msgid "首重费用："
+msgstr ""
+
+#: config.php:96
+msgid "续重费用："
+msgstr ""
+
+#: config.php:97
+msgid "货到付款支付费用："
+msgstr ""
+
+#: config.php:98
+msgid "免费额度："
+msgstr ""
+
+#: config.php:99
+msgid "费用计算方式："
+msgstr ""
+
+#: config.php:101
+msgid "按重量"
+msgstr ""
+
+#: config.php:102
+msgid "按件数"
+msgstr ""
+
+#: config.php:108
+msgid "--选择插入标签--"
+msgstr ""
+
+#: config.php:111
+msgid "网店-名称"
+msgstr ""
+
+#: config.php:112
+msgid "网店-联系电话"
+msgstr ""
+
+#: config.php:113
+msgid "网店-国家"
+msgstr ""
+
+#: config.php:114
+msgid "网店-省份"
+msgstr ""
+
+#: config.php:115
+msgid "网店-城市"
+msgstr ""
+
+#: config.php:116
+msgid "网店-区/县"
+msgstr ""
+
+#: config.php:117
+msgid "网店-街道"
+msgstr ""
+
+#: config.php:118
+msgid "网店-地址"
+msgstr ""
+
+#: config.php:120
+msgid "收件人-姓名"
+msgstr ""
+
+#: config.php:121
+msgid "收件人-电话"
+msgstr ""
+
+#: config.php:122
+msgid "收件人-手机"
+msgstr ""
+
+#: config.php:123
+msgid "收件人-邮编"
+msgstr ""
+
+#: config.php:124
+msgid "收件人-国家"
+msgstr ""
+
+#: config.php:125
+msgid "收件人-省份"
+msgstr ""
+
+#: config.php:126
+msgid "收件人-城市"
+msgstr ""
+
+#: config.php:127
+msgid "收件人-区/县"
+msgstr ""
+
+#: config.php:128
+msgid "收件人-街道"
+msgstr ""
+
+#: config.php:129
+msgid "收件人-详细地址"
+msgstr ""
+
+#: config.php:132
+msgid "年-当日日期"
+msgstr ""
+
+#: config.php:133
+msgid "月-当日日期"
+msgstr ""
+
+#: config.php:134
+msgid "日-当日日期"
+msgstr ""
+
+#: config.php:136
+msgid "订单号-订单"
+msgstr ""
+
+#: config.php:137
+msgid "备注-订单"
+msgstr ""
+
+#: config.php:138
+msgid "送货时间-订单"
+msgstr ""
+
+#: config.php:140
+msgid "√-对号"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "圆通速递"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.ship_yto/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"上海圆通物流（速递）有限公司经过多年的网络快速发展，在中国速递行业中一直处于"
+"领先地位。为了能更好的发展国际快件市场，加快与国际市场的接轨，强化圆通的整体"
+"实力，圆通已在东南亚、欧美、中东、北美洲、非洲等许多城市运作国际快件业务"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr ""

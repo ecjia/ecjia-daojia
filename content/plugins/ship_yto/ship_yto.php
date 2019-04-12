@@ -46,12 +46,13 @@
 //
 /*
 Plugin Name: 圆通速递
-Plugin URI: http://www.ecjia.com/plugins/ecjia.yto/
+Plugin URI: http://www.ecjia.com/plugins/ecjia.ship_yto/
 Description: 上海圆通物流（速递）有限公司经过多年的网络快速发展，在中国速递行业中一直处于领先地位。为了能更好的发展国际快件市场，加快与国际市场的接轨，强化圆通的整体实力，圆通已在东南亚、欧美、中东、北美洲、非洲等许多城市运作国际快件业务
 Author: ECJIA TEAM
-Version: 2.0.0
+Version: 2.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: shipping
+Text Domain: ship_yto
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 class plugin_ship_yto {
@@ -80,6 +81,7 @@ class plugin_ship_yto {
 }
 
 Ecjia_PluginManager::extend('ship_yto', function() {
+    RC_Locale::loadPluginTextdomain('ship_yto');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'ship_yto.class.php';
     return new ship_yto();
 });

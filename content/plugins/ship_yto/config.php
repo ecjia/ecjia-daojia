@@ -53,8 +53,34 @@ return array(
     'print_support' => true,
     'print_model'   => 2, /* 模式编辑器 */
     'print_bg' 		=> 'images/dly_yto.jpg', /* 打印单背景 */
-    'config_lable'  => 't_shop_province,shop_province,132,24,279.6,105.7,b_shop_province||,||t_shop_name,shop_name,268,29,142.95,133.85,b_shop_name||,||t_shop_address,shop_address,346,40,67.3,199.95,b_shop_address||,||t_shop_city,shop_city,64,35,223.8,163.95,b_shop_city||,||t_shop_district,shop_district,56,35,314.9,164.25,b_shop_district||,||t_pigeon,pigeon,21,21,143.1,263.2,b_pigeon||,||t_customer_name,customer_name,89,25,488.65,121.05,b_customer_name||,||t_customer_tel,customer_tel,136,21,656,110.6,b_customer_tel||,||t_customer_mobel,customer_mobel,137,21,655.6,132.8,b_customer_mobel||,||t_customer_province,customer_province,115,24,480.2,173.5,b_customer_province||,||t_customer_city,customer_city,60,27,609.3,172.5,b_customer_city||,||t_customer_district,customer_district,58,28,696.8,173.25,b_customer_district||,||t_customer_post,customer_post,93,21,701.1,240.25,b_customer_post||,||', /* 打印快递单标签位置信息 */
-
+		
+	/**
+	 * 打印快递单标签位置信息
+	 * 使用 ||,|| 合并连接
+	 */
+	'config_lable'  => array(
+		't_shop_province,shop_province,72,27,139,171,b_shop_province',
+		't_shop_name,shop_name,278,28,160,136,b_shop_name',
+		't_shop_address,shop_address,259,30,181,206,b_shop_address',
+		't_shop_city,shop_city,61,27,241,171,b_shop_city',
+		't_shop_district,shop_district,54,25,340,172,b_shop_district',
+		't_customer_name,customer_name,108,25,526,127,b_customer_name',
+		't_customer_tel,customer_tel,113,26,738,246,b_customer_tel',
+		't_customer_mobel,customer_mobel,132,24,559,243,b_customer_mobel',
+		't_customer_province,customer_province,115,24,521,181,b_customer_province',
+		't_customer_city,customer_city,63,25,656,181,b_customer_city',
+		't_customer_district,customer_district,57,21,753,182,b_customer_district',
+		't_shop_street,shop_street,97,29,85,207,b_shop_street',
+		't_year,year,40,31,90,424,b_year',
+		't_months,months,27,28,143,425,b_months',
+		't_day,day,26,27,183,427,b_day',
+		't_shop_tel,shop_tel,111,28,181,242,b_shop_tel',
+		't_customer_street,customer_street,114,29,466,208,b_customer_street',
+		't_customer_address,customer_address,267,30,582,208,b_customer_address',
+		't_order_postscript,order_postscript,347,23,492,433,b_order_postscript',
+		''
+	),
+		
     'forms' => array(
         array('name' => 'fee_compute_mode', 'type' => 'radiobox', 'value' => 'by_weight'), /* 费用计算方式  */
         array('name' => 'item_fee', 'type' => 'text', 'value' => 10), /* 单件商品的配送价格 */
@@ -62,6 +88,61 @@ return array(
         array('name' => 'step_fee', 'type' => 'text', 'value' => 5), /* 续重每1000克增加的价格 */
         array('name' => 'free_money', 'type' => 'text', 'value' => 0), /* 免费额度  */
         array('name' => 'pay_fee', 'type' => 'text', 'value' => 0), /* 货到付款支付费用  */
+    ),
+
+    'dynamic_option' => array(
+        'item_fee'               => __('单件商品费用：', 'ship_yto'),
+        'base_fee'               => __('首重费用：', 'ship_yto'),
+        'step_fee'               => __('续重费用：', 'ship_yto'),
+        'pay_fee'                => __('货到付款支付费用：', 'ship_yto'),
+        'free_money'             => __('免费额度：', 'ship_yto'),
+        'fee_compute_mode'       => __('费用计算方式：', 'ship_yto'),
+        'fee_compute_mode_range' => array(
+            'by_weight' => __('按重量', 'ship_yto'),
+            'by_number' => __('按件数', 'ship_yto')
+        ),
+    ),
+
+    'print_option' => array(
+        /* 快递单部分 */
+        'lable_select_notice' => __('--选择插入标签--', 'ship_yto'),
+
+        'lable_box' => array(
+        	'shop_name'             => __('网店-名称', 'ship_yto'),
+        	'shop_tel'              => __('网店-联系电话', 'ship_yto'),
+            'shop_country'          => __('网店-国家', 'ship_yto'),
+            'shop_province'         => __('网店-省份', 'ship_yto'),
+            'shop_city'             => __('网店-城市', 'ship_yto'),
+            'shop_district'         => __('网店-区/县', 'ship_yto'),
+        	'shop_street'         	=> __('网店-街道', 'ship_yto'),
+            'shop_address'          => __('网店-地址', 'ship_yto'),
+        		
+        	'customer_name'         => __('收件人-姓名', 'ship_yto'),
+        	'customer_tel'          => __('收件人-电话', 'ship_yto'),
+        	'customer_mobel'        => __('收件人-手机', 'ship_yto'),
+        	'customer_post'         => __('收件人-邮编', 'ship_yto'),
+            'customer_country'      => __('收件人-国家', 'ship_yto'),
+            'customer_province'     => __('收件人-省份', 'ship_yto'),
+            'customer_city'         => __('收件人-城市', 'ship_yto'),
+            'customer_district'     => __('收件人-区/县', 'ship_yto'),
+        	'customer_street'     	=> __('收件人-街道', 'ship_yto'),
+            'customer_address'      => __('收件人-详细地址', 'ship_yto'),
+           
+        		
+            'year'                  => __('年-当日日期', 'ship_yto'),
+            'months'                => __('月-当日日期', 'ship_yto'),
+            'day'                   => __('日-当日日期', 'ship_yto'),
+        		
+            'order_no'              => __('订单号-订单', 'ship_yto'),
+            'order_postscript'      => __('备注-订单', 'ship_yto'),
+            'order_best_time'       => __('送货时间-订单', 'ship_yto'),
+        		
+            'pigeon'                => __('√-对号', 'ship_yto'),
+            //'custom_content' => '自定义内容',
+        ),
+
+        //模板文件
+        'shipping_print' 		=> __DIR__ . '/templates/shipping_print.lbi.php',
     ),
 );
 
