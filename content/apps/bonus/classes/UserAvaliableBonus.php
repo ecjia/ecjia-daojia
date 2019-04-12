@@ -88,4 +88,21 @@ class UserAvaliableBonus
     						 ->selectRaw($field)->get();
     	return $user_bonus;
     }
+    
+    /**
+     * 取得红包信息
+     * @param   int	 $bonus_id   红包id
+     * @param   string  $bonus_sn   红包序列号
+     * @param   array   红包信息
+     */
+    public static function bonusInfo($bonus_id, $bonus_sn = '') {
+    	$db_view = RC_DB::table('user_bonus')->leftJoin('bonus_type', 'bonus_type.type_id', '=', 'user_bonus.bonus_type_id');
+    	$db_view->select('user_bonus.*', 'bonus_type.*');
+    
+    	if ($bonus_id > 0) {
+    		return $db_view->where('user_bonus.bonus_id', $bonus_id)->first();
+    	} else {
+    		return $db_view->where('user_bonus.bonus_sn', $bonus_sn)->first();
+    	}
+    }
 }
