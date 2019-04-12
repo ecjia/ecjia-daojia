@@ -194,19 +194,6 @@ RC_Event::listen('royalcms.warning.exception', function($exception) {
         RC_Logger::getLogger(RC_Logger::LOG_WARNING)->info($exception->getMessage(), $err);
     }
 });
-    
-/**
- * 检测是否安装
- */
-//RC_Hook::add_action('init', function () {
-//    if (! is_installed_ecjia())
-//    {
-//        $url = RC_Uri::url('installer/index/init');
-//        rc_redirect($url);
-//        exit();
-//    }
-//}, 2);
-
 
 RC_Hook::add_action('mail_init', function () {
     RC_Mail::macro('send_mail', function ($name, $email, $subject, $content, $type = 0, $notification = false) {

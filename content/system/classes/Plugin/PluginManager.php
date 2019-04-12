@@ -47,7 +47,6 @@
 namespace Ecjia\System\Plugin;
 
 use Royalcms\Component\Support\Manager;
-use Royalcms\Component\Support\Arr;
 
 class PluginManager extends Manager
 {

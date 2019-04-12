@@ -136,7 +136,7 @@ abstract class AbstractPlugin implements PluginInterface
      * 
      * @param array $languages
      */
-    protected function getArrayData(array $data, $key, $default)
+    protected function getArrayData(array $data, $key, $default = null)
     {
         if ($key === null) {
             return $data;
@@ -152,7 +152,8 @@ abstract class AbstractPlugin implements PluginInterface
      * @param string $file
      * @return array
      */
-    protected function loadPluginData($file, $key, $default) {
+    protected function loadPluginData($file, $key, $default = null)
+    {
         if (!file_exists($file)) {
             return array();
         }
@@ -163,6 +164,32 @@ abstract class AbstractPlugin implements PluginInterface
         }
         
         return $this->getArrayData($data, $key, $default);
+    }
+
+    /**
+     * 加载插件动态选项数据
+     * 供配置文件、语言包使用
+     *
+     * @param null $key
+     * @param null $default
+     * @return array|mixed
+     */
+    protected function loadDynamicOption($key = null, $default = null)
+    {
+        $option = $this->loadConfig('dynamic_option', []);
+
+        return $this->getArrayData($option, $key, $default);
+    }
+
+
+    /**
+     * 加载语言包
+     *
+     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
+     */
+    public function loadLanguage($key = null, $default = null)
+    {
+        return $this->loadDynamicOption($key, $default);
     }
     
 }

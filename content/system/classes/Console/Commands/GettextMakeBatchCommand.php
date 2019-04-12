@@ -9,6 +9,7 @@
 namespace Ecjia\System\Console\Commands;
 
 use Royalcms\Component\Console\Command;
+use Symfony\Component\Console\Input\InputArgument;
 
 // run the CLI only if the file
 // wasn't included
@@ -37,90 +38,127 @@ class GettextMakeBatchCommand extends Command
      */
     public function fire()
     {
+        $type = $this->argument('type');
 
-        $commands = [
-            'ecjia:gettext-makepot ecjia-system content/system/',
+        if ($type == 'system') {
+            $commands = [
+                'ecjia:gettext-makepot ecjia-system content/system/',
+            ];
+        }
+        elseif ($type == 'app') {
+            $commands = $this->fetchAppDirs();
+        }
+        elseif ($type == 'plugin') {
+            $commands = $this->fetchPluginDirs();
+        }
+        elseif ($type == 'theme') {
+            $commands = $this->fetchThemeDirs();
+        }
+        else {
+            $apps = $this->fetchAppDirs();
+            $plugins = $this->fetchPluginDirs();
+            $themes = $this->fetchThemeDirs();
 
-            'ecjia:gettext-makepot ecjia-app content/apps/adsense/',
-            'ecjia:gettext-makepot ecjia-app content/apps/affiliate/',
-            'ecjia:gettext-makepot ecjia-app content/apps/agent/',
-            'ecjia:gettext-makepot ecjia-app content/apps/api/',
-            'ecjia:gettext-makepot ecjia-app content/apps/article/',
-            'ecjia:gettext-makepot ecjia-app content/apps/attach/',
-            'ecjia:gettext-makepot ecjia-app content/apps/bonus/',
-            'ecjia:gettext-makepot ecjia-app content/apps/captcha/',
-            'ecjia:gettext-makepot ecjia-app content/apps/cart/',
-            'ecjia:gettext-makepot ecjia-app content/apps/cashier/',
-            'ecjia:gettext-makepot ecjia-app content/apps/comment/',
-            'ecjia:gettext-makepot ecjia-app content/apps/commission/',
-            'ecjia:gettext-makepot ecjia-app content/apps/connect/',
-            'ecjia:gettext-makepot ecjia-app content/apps/cron/',
-            'ecjia:gettext-makepot ecjia-app content/apps/customer/',
-            'ecjia:gettext-makepot ecjia-app content/apps/express/',
-            'ecjia:gettext-makepot ecjia-app content/apps/favourable/',
-            'ecjia:gettext-makepot ecjia-app content/apps/finance/',
-            'ecjia:gettext-makepot ecjia-app content/apps/franchisee/',
-            'ecjia:gettext-makepot ecjia-app content/apps/friendlink/',
-            'ecjia:gettext-makepot ecjia-app content/apps/goods/',
-            'ecjia:gettext-makepot ecjia-app content/apps/goodslib/',
-            'ecjia:gettext-makepot ecjia-app content/apps/groupbuy/',
-            'ecjia:gettext-makepot ecjia-app content/apps/installer/',
-            'ecjia:gettext-makepot ecjia-app content/apps/integrate/',
-            'ecjia:gettext-makepot ecjia-app content/apps/intro/',
-            'ecjia:gettext-makepot ecjia-app content/apps/logviewer/',
-            'ecjia:gettext-makepot ecjia-app content/apps/mail/',
-            'ecjia:gettext-makepot ecjia-app content/apps/main/',
-            'ecjia:gettext-makepot ecjia-app content/apps/maintain/',
-            'ecjia:gettext-makepot ecjia-app content/apps/market/',
-            'ecjia:gettext-makepot ecjia-app content/apps/memadmin/',
-            'ecjia:gettext-makepot ecjia-app content/apps/merchant/',
-            'ecjia:gettext-makepot ecjia-app content/apps/mobile/',
-            'ecjia:gettext-makepot ecjia-app content/apps/notification/',
-            'ecjia:gettext-makepot ecjia-app content/apps/orders/',
-            'ecjia:gettext-makepot ecjia-app content/apps/payment/',
-            'ecjia:gettext-makepot ecjia-app content/apps/platform/',
-            'ecjia:gettext-makepot ecjia-app content/apps/printer/',
-            'ecjia:gettext-makepot ecjia-app content/apps/promotion/',
-            'ecjia:gettext-makepot ecjia-app content/apps/push/',
-            'ecjia:gettext-makepot ecjia-app content/apps/quickpay/',
-            'ecjia:gettext-makepot ecjia-app content/apps/refund/',
-            'ecjia:gettext-makepot ecjia-app content/apps/setting/',
-            'ecjia:gettext-makepot ecjia-app content/apps/shipping/',
-            'ecjia:gettext-makepot ecjia-app content/apps/shopguide/',
-            'ecjia:gettext-makepot ecjia-app content/apps/sms/',
-            'ecjia:gettext-makepot ecjia-app content/apps/staff/',
-            'ecjia:gettext-makepot ecjia-app content/apps/stats/',
-            'ecjia:gettext-makepot ecjia-app content/apps/store/',
-            'ecjia:gettext-makepot ecjia-app content/apps/theme/',
-            'ecjia:gettext-makepot ecjia-app content/apps/topic/',
-            'ecjia:gettext-makepot ecjia-app content/apps/touch/',
-            'ecjia:gettext-makepot ecjia-app content/apps/toutiao/',
-            'ecjia:gettext-makepot ecjia-app content/apps/track/',
-            'ecjia:gettext-makepot ecjia-app content/apps/ucclient/',
-            'ecjia:gettext-makepot ecjia-app content/apps/ucserver/',
-            'ecjia:gettext-makepot ecjia-app content/apps/upgrade/',
-            'ecjia:gettext-makepot ecjia-app content/apps/user/',
-            'ecjia:gettext-makepot ecjia-app content/apps/weapp/',
-            'ecjia:gettext-makepot ecjia-app content/apps/wechat/',
-            'ecjia:gettext-makepot ecjia-app content/apps/withdraw/',
+            $commands = [
+                'ecjia:gettext-makepot ecjia-system content/system/',
+            ];
 
-            'ecjia:gettext-makepot ecjia-theme content/themes/dscmall/',
-            'ecjia:gettext-makepot ecjia-theme content/themes/ecjia-intro/',
-            'ecjia:gettext-makepot ecjia-theme content/themes/ecjia-pc/',
-            'ecjia:gettext-makepot ecjia-theme sites/m/content/themes/h5/',
-            'ecjia:gettext-makepot ecjia-theme sites/m/content/themes/mendian/',
-            'ecjia:gettext-makepot ecjia-theme sites/member/content/themes/default/',
-            'ecjia:gettext-makepot ecjia-theme sites/help/content/themes/default/',
-            'ecjia:gettext-makepot ecjia-theme sites/cityadmin/content/themes/default/',
-            'ecjia:gettext-makepot ecjia-theme sites/app/content/themes/ecjia-app/',
-            'ecjia:gettext-makepot ecjia-theme sites/app/content/themes/ecjia-daojiaapp/',
-        ];
+            $commands = array_merge($commands, $apps);
+            $commands = array_merge($commands, $plugins);
+            $commands = array_merge($commands, $themes);
+        }
 
         collect($commands)->each(function($item) {
             list($cmd, $project, $directory) = explode(' ', $item);
             $this->call($cmd, ['project' => $project, 'directory' => base_path($directory)]);
         });
 
+    }
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return [
+            ['type', InputArgument::OPTIONAL, 'Available types: all, system, app, theme, plugin', 'all'],
+        ];
+    }
+
+    /**
+     * 获取所有的应用目录
+     * @return mixed
+     */
+    protected function fetchAppDirs()
+    {
+        $dirs = [
+            'content/apps',
+        ];
+
+        $items = collect($dirs)->map(function($item) {
+            $items = \RC_File::directories($item);
+            return $items;
+        })
+            ->collapse()
+            ->map(function($item) {
+                return 'ecjia:gettext-makepot ecjia-app ' . $item;
+            })
+            ->all();
+
+        return $items;
+    }
+
+    /**
+     * 获取所有的插件目录
+     * @return mixed
+     */
+    protected function fetchPluginDirs()
+    {
+        $dirs = [
+            'content/plugins',
+        ];
+
+        $items = collect($dirs)->map(function($item) {
+            $items = \RC_File::directories($item);
+            return $items;
+        })
+            ->collapse()
+            ->map(function($item) {
+            return 'ecjia:gettext-makepot ecjia-plugin ' . $item;
+        })
+            ->all();
+
+        return $items;
+    }
+
+    /**
+     * 获取所有的插件目录
+     * @return mixed
+     */
+    protected function fetchThemeDirs()
+    {
+        $dirs = [
+            'content/themes',
+            'sites/m/content/themes',
+            'sites/member/content/themes',
+            'sites/help/content/themes',
+            'sites/cityadmin/content/themes',
+            'sites/app/content/themes',
+        ];
+
+        $items = collect($dirs)->map(function($item) {
+            $items = \RC_File::directories($item);
+            return $items;
+        })
+            ->collapse()
+            ->map(function($item) {
+                return 'ecjia:gettext-makepot ecjia-theme ' . $item;
+            })
+            ->all();
+
+        return $items;
     }
 
 

@@ -50,7 +50,7 @@ use ReflectionClass;
 use Royalcms\Component\App\AppParentServiceProvider;
 use Ecjia\System\Plugin\PluginManager;
 use Ecjia\System\Theme\ThemeManager;
-use Ecjia\System\Site\SiteManager;
+use Ecjia\System\Frameworks\Site\SiteManager;
 use Ecjia\System\Version\VersionManager;
 use Ecjia\System\Config\Config;
 use Ecjia\System\Config\ConfigModel;

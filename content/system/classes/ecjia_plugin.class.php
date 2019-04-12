@@ -323,8 +323,8 @@ class ecjia_plugin {
             $realdir = RC_PLUGIN_PATH;
         }
     
-        $tpl_path = $realdir . $plugin . DS . $path;
-    
+        $tpl_path = $realdir . $plugin . DS . 'templates' . DS . $path;
+
         return str_replace('/', DS, $tpl_path);
     }
     

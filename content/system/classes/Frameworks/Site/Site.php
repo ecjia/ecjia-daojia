@@ -44,7 +44,7 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\System\Site;
+namespace Ecjia\System\Frameworks\Site;
 
 use RC_Config;
 
@@ -101,6 +101,135 @@ class Site
         
         
     }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     * @return Site
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param mixed $code
+     * @return Site
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFolder()
+    {
+        return $this->folder;
+    }
+
+    /**
+     * @param string $folder
+     * @return Site
+     */
+    public function setFolder($folder)
+    {
+        $this->folder = $folder;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShopType()
+    {
+        return $this->shopType;
+    }
+
+    /**
+     * @param string $shopType
+     * @return Site
+     */
+    public function setShopType($shopType)
+    {
+        $this->shopType = $shopType;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMainApp()
+    {
+        return $this->mainApp;
+    }
+
+    /**
+     * @param string $mainApp
+     * @return Site
+     */
+    public function setMainApp($mainApp)
+    {
+        $this->mainApp = $mainApp;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUseSubDomain()
+    {
+        return $this->useSubDomain;
+    }
+
+    /**
+     * @param bool $useSubDomain
+     * @return Site
+     */
+    public function setUseSubDomain($useSubDomain)
+    {
+        $this->useSubDomain = $useSubDomain;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWebPath()
+    {
+        return $this->webPath;
+    }
+
+    /**
+     * @param string $webPath
+     * @return Site
+     */
+    public function setWebPath($webPath)
+    {
+        $this->webPath = $webPath;
+        return $this;
+    }
+
+
+
     
     
 }

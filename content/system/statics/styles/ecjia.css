@@ -125,6 +125,7 @@
 		.label-success,.badge-success {background: #70A415}
 		.label-warning,.badge-warning {background: #F5AA1A}
 		.label-info,.badge-info {background: #058DC7}
+		.label-orange,.badge-orange {border-radius: 5px; padding: 3px 5px;background-color: #FFDFCA; color: #FE9550; font-size: 14px; font-weight: normal; border: 1px solid #FE9550; margin-right: 5px;}
 
 		/*.alert .close {top:0}*/
 		.alert-block p + p,.alert-block ul + p,.alert-block p + ul {margin-top:10px}

@@ -44,22 +44,99 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-namespace Ecjia\System\Site;
+namespace Ecjia\System\Frameworks\Site;
 
-class Site
+use ecjia;
+use RC_Hook;
+use Royalcms\Component\Support\Manager;
+
+class SiteManager extends Manager
 {
     
-    protected $name;
+    private $availableSites = array();
     
-    protected $code;
-    
-    protected $shopType;
-    
-    public function __construct()
+    /**
+     * Create a new manager instance.
+     *
+     * @param  \Royalcms\Component\Foundation\Royalcms  $royalcms
+     * @return void
+     */
+    public function __construct($royalcms)
     {
-
-        $this->code = 'base';
+        parent::__construct($royalcms);
+        
+        $this->loadAvailableSites();
     }
+    
+    
+    public function hasDriver($driver)
+    {
+        return isset($this->drivers[$driver]) ? true : false;
+    }
+    
+    /**
+     * Get the default driver name.
+     *
+     * @return string
+     */
+    public function getDefaultDriver()
+    {
+        return RC_SITE;
+//         return 'merchant';
+    }
+    
+    
+    public function getBaseSite()
+    {
+        
+    }
+    
+    public function getAvailableSites()
+    {
+        $availableThemes = array();
+        
+        foreach ($this->availableThemes as $theme) 
+        {
+            $availableThemes[$theme] = new Site($theme);
+        }
+        
+        return $availableThemes;
+    }
+    
+    protected function loadAvailableSites()
+    {
+        $sitesPath = SITE_ROOT . 'sites' . DS;
+
+        if (is_dir($sitesPath)) {
+            $theme_dir = opendir($sitesPath);
+            
+            while (false != ($file = readdir($theme_dir))) {
+                if ($file != '.' &&
+                    $file != '..' &&
+                    $file != '.svn' &&
+                    $file != '.git' &&
+                    $file != 'index.htm' &&
+                    $file != 'index.html' &&
+                    is_dir($sitesPath . $file)) {
+                        
+                        if (file_exists($sitesPath . $file . '/content/configs/site.php')) {
+                            $this->availableSites[] = $file;
+                            
+                            $this->extend($file, function ($royalcms) use ($file) {
+                                return new Site($file);
+                            });
+                        }
+                        
+                    }
+            }
+    
+            closedir($theme_dir);
+        }
+        
+    }
+    
+    
+    
     
     
 }
