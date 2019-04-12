@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * 商品控制器
  */
@@ -91,8 +92,8 @@ class goods_controller
 
                 $goods_options['page'] = $page;
                 $goods_options['size'] = 9;
-                $sort_by = !empty($_GET['sort_by']) ? trim($_GET['sort_by']) : '';
-                $sort_order = !empty($_GET['sort_order']) ? trim($_GET['sort_order']) : 'desc';
+                $sort_by               = !empty($_GET['sort_by']) ? trim($_GET['sort_by']) : '';
+                $sort_order            = !empty($_GET['sort_order']) ? trim($_GET['sort_order']) : 'desc';
 
                 if (!empty($sort_by)) {
                     $goods_options['sort'] = array($sort_by => $sort_order);
@@ -113,7 +114,7 @@ class goods_controller
                 }
 
                 $goods_result = RC_Api::api('goods', 'goods_list', $goods_options);
-                $pages = $goods_result['page']->show(2);
+                $pages        = $goods_result['page']->show(2);
 
                 ecjia_front::$controller->assign('type', $type);
                 ecjia_front::$controller->assign('keywords', $keywords);
@@ -123,9 +124,9 @@ class goods_controller
                 ecjia_front::$controller->assign('goods_info_url', RC_Uri::url('goods/index/show'));
 
                 RC_Loader::load_app_class('goods_category', 'goods', false);
-                $children = goods_category::get_children($cat_id);
+                $children           = goods_category::get_children($cat_id);
                 $seller_group_where = array("(" . $children . " OR " . goods_category::get_extension_goods($children, 'goods_id') . ")", 'is_on_sale' => 1, 'is_alone_sale' => 1, 'is_delete' => 0, 'review_status' => array('gt' => 2));
-                $seller_group = RC_Model::model('goods/goods_viewmodel')->join(null)->where($seller_group_where)->get_field('store_id', true);
+                $seller_group       = RC_Model::model('goods/goods_viewmodel')->join(null)->where($seller_group_where)->get_field('store_id', true);
 
                 $db_goods_data = RC_DB::table('goods_data');
                 if (!empty($seller_group)) {
@@ -133,7 +134,7 @@ class goods_controller
                     $seller_group = array_unique($seller_group);
                     $db_goods_data->whereIn('store_id', $seller_group);
                 }
-                $disk = RC_Filesystem::disk();
+                $disk       = RC_Filesystem::disk();
                 $store_list = $db_goods_data->select('store_id', RC_DB::raw('AVG(goods_rank) as "goods_rank"'))->groupBy('store_id')->orderBy('goods_rank', 'desc')->take(3)->get();
                 if (!empty($store_list)) {
                     foreach ($store_list as $k => $v) {
@@ -141,10 +142,10 @@ class goods_controller
                             $v['goods_rank'] = 10000;
                         }
 
-                        $store_list[$k]['store_id'] = $v['store_id'];
+                        $store_list[$k]['store_id']        = $v['store_id'];
                         $store_list[$k]['comment_percent'] = round($v['goods_rank'] / 100);
-                        $store_list[$k]['comment_rank'] = $v['goods_rank'] / 100 / 20;
-                        $config = RC_DB::table('merchants_config')->where('store_id', $v['store_id'])->select('code', 'value')->get();
+                        $store_list[$k]['comment_rank']    = $v['goods_rank'] / 100 / 20;
+                        $config                            = RC_DB::table('merchants_config')->where('store_id', $v['store_id'])->select('code', 'value')->get();
 
                         $db_store = RC_DB::table('store_franchisee')->where('status', 1);
                         if (!empty($_COOKIE['city_id'])) {
@@ -160,10 +161,10 @@ class goods_controller
                         }
 
                         if (!empty($info)) {
-                            $info = array_merge($info, $store_config);
-                            $info['seller_logo'] = empty($info['shop_logo']) || !$disk->exists($info['shop_logo']) ? '' : RC_Upload::upload_url($info['shop_logo']);
+                            $info                           = array_merge($info, $store_config);
+                            $info['seller_logo']            = empty($info['shop_logo']) || !$disk->exists($info['shop_logo']) ? '' : RC_Upload::upload_url($info['shop_logo']);
                             $store_list[$k]['order_amount'] = RC_DB::table('order_info')->where('store_id', $v['store_id'])->where('order_status', 5)->where('shipping_status', 2)->where('pay_status', 2)->count();
-                            $store_list[$k]['store_info'] = $info;
+                            $store_list[$k]['store_info']   = $info;
                         } else {
                             $store_list = array();
                         }
@@ -185,7 +186,7 @@ class goods_controller
         ecjia_front::$controller->assign('info', $general_info);
 
         if (!ecjia_front::$controller->is_cached('goods_show.dwt', $cache_id)) {
-            $goods_id = !empty($_GET['goods_id']) ? intval($_GET['goods_id']) : 0;
+            $goods_id   = !empty($_GET['goods_id']) ? intval($_GET['goods_id']) : 0;
             $goods_info = RC_DB::table('goods')->where('goods_id', $goods_id)->select('goods_id', 'store_id', 'goods_name', 'market_price', 'shop_price', 'promote_price', 'goods_thumb', 'goods_desc', 'cat_id', 'keywords', 'goods_brief')->first();
 
             $has_store = pc_function::has_store();
@@ -196,10 +197,10 @@ class goods_controller
                 $properties = get_goods_properties($goods_id);
                 // 获得商品的规格和属性
                 $goods_info['specification'] = $properties['spe'];
-                $f_price = $goods_info['promote_price'] == 0 | $goods_info['promote_price'] == '' ? $goods_info['shop_price'] : $goods_info['promote_price'];
+                $f_price                     = $goods_info['promote_price'] == 0 | $goods_info['promote_price'] == '' ? $goods_info['shop_price'] : $goods_info['promote_price'];
                 foreach ($properties['spe'] as $key => $val) {
                     if (!empty($val['value']) && is_array($val['value'])) {
-                        $price = isset($val['value'][0]['price']) ? $val['value'][0]['price'] : 0;
+                        $price   = isset($val['value'][0]['price']) ? $val['value'][0]['price'] : 0;
                         $f_price += $price;
                     }
                 }
@@ -209,10 +210,10 @@ class goods_controller
                     foreach ($properties['pro'] as $key => $val) {
                         foreach ($val as $v => $k) {
                             if ($num % 2 != 0) {
-                                $goods_info['properties'][$num - 1]['name1'] = $k['name'];
+                                $goods_info['properties'][$num - 1]['name1']  = $k['name'];
                                 $goods_info['properties'][$num - 1]['value1'] = $k['value'];
                             } else {
-                                $goods_info['properties'][$num - 2]['name2'] = $k['name'];
+                                $goods_info['properties'][$num - 2]['name2']  = $k['name'];
                                 $goods_info['properties'][$num - 2]['value2'] = $k['value'];
                             }
                             $num += 1;
@@ -221,7 +222,7 @@ class goods_controller
                 }
 
                 $goods_info['f_price'] = $f_price;
-                $store_id = $goods_info['store_id'];
+                $store_id              = $goods_info['store_id'];
 
                 $favourable_result = RC_Api::api('favourable', 'store_favourable_list', array('store_id' => $store_id));
                 if (!empty($favourable_result)) {
@@ -249,25 +250,25 @@ class goods_controller
                     $goods_info['favourable_list'] = $favourable_list;
                 }
 
-                $disk = RC_Filesystem::disk();
-                $default_image = RC_Theme::get_template_directory_uri() . '/images/mobile_app_icon.png';
-                $goods_logo = !empty($goods_info['goods_thumb']) && $disk->exists(RC_Upload::upload_path($goods_info['goods_thumb'])) ? RC_Upload::upload_path($goods_info['goods_thumb']) : $default_image;
+                $disk              = RC_Filesystem::disk();
+                $default_image     = RC_Theme::get_template_directory_uri() . '/images/mobile_app_icon.png';
+                $goods_logo        = !empty($goods_info['goods_thumb']) && $disk->exists(RC_Upload::upload_path($goods_info['goods_thumb'])) ? RC_Upload::upload_path($goods_info['goods_thumb']) : $default_image;
                 $goods_info['url'] = with(new Ecjia\App\Mobile\Qrcode\GenerateGoods($goods_id, $goods_logo))->getQrcodeUrl();
 
-                $shop_info = merchant_function::get_merchant_info($store_id);
+                $shop_info                 = merchant_function::get_merchant_info($store_id);
                 $goods_info['goods_thumb'] = !empty($goods_info['goods_thumb']) ? RC_Upload::upload_url($goods_info['goods_thumb']) : '';
 
-                $mobile_iphone_qrcode = ecjia::config('mobile_iphone_qrcode');
+                $mobile_iphone_qrcode               = ecjia::config('mobile_iphone_qrcode');
                 $goods_info['mobile_iphone_qrcode'] = !empty($mobile_iphone_qrcode) ? RC_Upload::upload_url() . '/' . $mobile_iphone_qrcode : '';
 
                 if (!empty($goods_info['goods_desc'])) {
                     $goods_info['goods_desc'] = stripslashes($goods_info['goods_desc']);
                 }
-                $level = pc_function::get_cat_level($goods_info['cat_id']);
-                $cat_str = pc_function::get_cat_str($goods_info['cat_id'], $level);
+                $level                  = pc_function::get_cat_level($goods_info['cat_id']);
+                $cat_str                = pc_function::get_cat_str($goods_info['cat_id'], $level);
                 $goods_info['cat_html'] = pc_function::get_cat_html($cat_str);
 
-                $sale_num = RC_DB::table('order_goods as og')
+                $sale_num                   = RC_DB::table('order_goods as og')
                     ->leftJoin('order_info as oi', RC_DB::raw('oi.order_id'), '=', RC_DB::raw('og.order_id'))
                     ->where(RC_DB::raw('oi.store_id'), $store_id)
                     ->whereIn(RC_DB::raw('oi.order_status'), array(OS_CONFIRMED, OS_SPLITED))

@@ -62,20 +62,20 @@ class merchant_controller
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'] . '-' . $_COOKIE['city_id'] . '-' . $_COOKIE['city_name']));
 
         if (!ecjia_front::$controller->is_cached('merchant_goods.dwt', $cache_id)) {
-            $store_id = !empty($_GET['store_id']) ? intval($_GET['store_id']) : 0;
+            $store_id  = !empty($_GET['store_id']) ? intval($_GET['store_id']) : 0;
             $shop_info = merchant_function::get_merchant_info($store_id);
 
             if (!empty($shop_info)) {
                 //店铺二维码
-                $default_image = RC_Theme::get_template_directory_uri() . '/images/mobile_app_icon.png';
+                $default_image     = RC_Theme::get_template_directory_uri() . '/images/mobile_app_icon.png';
                 $default_shop_logo = RC_Theme::get_template_directory_uri() . '/images/default_store.png';
 
                 $disk = RC_Filesystem::disk();
                 if (!empty($shop_info['shop_logo']) && $disk->exists(RC_Upload::upload_path($shop_info['shop_logo']))) {
-                    $store_logo = RC_Upload::upload_path($shop_info['shop_logo']);
+                    $store_logo             = RC_Upload::upload_path($shop_info['shop_logo']);
                     $shop_info['shop_logo'] = RC_Upload::upload_url($shop_info['shop_logo']);
                 } else {
-                    $store_logo = $default_image;
+                    $store_logo             = $default_image;
                     $shop_info['shop_logo'] = $default_shop_logo;
                 }
                 $shop_info['store_qrcode'] = with(new Ecjia\App\Mobile\Qrcode\GenerateMerchant($store_id, $store_logo))->getQrcodeUrl();
@@ -88,7 +88,7 @@ class merchant_controller
                 ecjia_front::$controller->assign('cat_id', $cat_id);
 
                 $category = !empty($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
-                $page = !empty($_GET['page']) ? intval($_GET['page']) : 1;
+                $page     = !empty($_GET['page']) ? intval($_GET['page']) : 1;
                 $order_by = array('g.store_sort_order' => 'asc', 'goods_id' => 'desc');
 
                 $select_id = !empty($_GET['select_id']) ? intval($_GET['select_id']) : 0;
@@ -99,24 +99,24 @@ class merchant_controller
                 if (!empty($store_id)) {
                     $goods_options = array(
                         'merchant_cat_id' => $category,
-                        'store_id' => $store_id,
-                        'sort' => $order_by,
-                        'page' => $page,
-                        'size' => 12,
-                        'city_id' => $_COOKIE['city_id'],
+                        'store_id'        => $store_id,
+                        'sort'            => $order_by,
+                        'page'            => $page,
+                        'size'            => 12,
+                        'city_id'         => $_COOKIE['city_id'],
                     );
-                    $goods_result = RC_Api::api('goods', 'goods_list', $goods_options);
-                    $pages = $goods_result['page']->show(2);
+                    $goods_result  = RC_Api::api('goods', 'goods_list', $goods_options);
+                    $pages         = $goods_result['page']->show(2);
 
                     if ($goods_result['list']) {
                         foreach ($goods_result['list'] as $val) {
                             /* 判断是否有促销价格*/
-                            $price = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_promote_price'] : $val['unformatted_shop_price'];
+                            $price  = ($val['unformatted_shop_price'] > $val['unformatted_promote_price'] && $val['unformatted_promote_price'] > 0) ? $val['unformatted_promote_price'] : $val['unformatted_shop_price'];
                             $data[] = array(
-                                'id' => $val['goods_id'],
-                                'name' => $val['name'],
+                                'id'         => $val['goods_id'],
+                                'name'       => $val['name'],
                                 'shop_price' => $price,
-                                'goods_img' => $val['goods_img'],
+                                'goods_img'  => $val['goods_img'],
                             );
                         }
                     }
@@ -150,7 +150,7 @@ class merchant_controller
                     if (!empty($cat_list)) {
                         foreach ($cat_list as $key => $val) {
                             $cat_arr[] = array(
-                                'cat_id' => $val['cat_id'],
+                                'cat_id'   => $val['cat_id'],
                                 'cat_name' => $val['cat_name'],
                                 'children' => pc_function::get_child_tree($val['cat_id']),
                             );
@@ -182,19 +182,19 @@ class merchant_controller
 
         $disk = RC_Filesystem::disk();
         if (!ecjia_front::$controller->is_cached('merchant_comment.dwt', $cache_id)) {
-            $store_id = !empty($_GET['store_id']) ? intval($_GET['store_id']) : 0;
+            $store_id  = !empty($_GET['store_id']) ? intval($_GET['store_id']) : 0;
             $shop_info = merchant_function::get_merchant_info($store_id);
 
             if (!empty($shop_info)) {
                 //店铺二维码
-                $default_image = RC_Theme::get_template_directory_uri() . '/images/mobile_app_icon.png';
+                $default_image     = RC_Theme::get_template_directory_uri() . '/images/mobile_app_icon.png';
                 $default_shop_logo = RC_Theme::get_template_directory_uri() . '/images/default_store.png';
 
                 if (!empty($shop_info['shop_logo']) && $disk->exists(RC_Upload::upload_path($shop_info['shop_logo']))) {
-                    $store_logo = RC_Upload::upload_path($shop_info['shop_logo']);
+                    $store_logo             = RC_Upload::upload_path($shop_info['shop_logo']);
                     $shop_info['shop_logo'] = RC_Upload::upload_url($shop_info['shop_logo']);
                 } else {
-                    $store_logo = $default_image;
+                    $store_logo             = $default_image;
                     $shop_info['shop_logo'] = $default_shop_logo;
                 }
                 $shop_info['store_qrcode'] = with(new Ecjia\App\Mobile\Qrcode\GenerateMerchant($store_id, $store_logo))->getQrcodeUrl();
@@ -239,13 +239,13 @@ class merchant_controller
                 $list = array();
                 if (!empty($data)) {
                     foreach ($data as $row) {
-                        $row['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $row['add_time']);
-                        $row['content'] = str_replace('\r\n', '<br />', htmlspecialchars($row['content']));
-                        $row['content'] = nl2br(str_replace('\n', '<br />', $row['content']));
+                        $row['add_time']   = RC_Time::local_date(ecjia::config('time_format'), $row['add_time']);
+                        $row['content']    = str_replace('\r\n', '<br />', htmlspecialchars($row['content']));
+                        $row['content']    = nl2br(str_replace('\n', '<br />', $row['content']));
                         $row['goods_attr'] = str_replace('\n', '&nbsp;&nbsp;', $row['goods_attr']);
                         $row['goods_attr'] = str_replace('\r\n', '&nbsp;&nbsp;', $row['goods_attr']);
                         $row['goods_attr'] = preg_replace("/\s/", "&nbsp;&nbsp;", $row['goods_attr']);
-                        $row['picture'] = array();
+                        $row['picture']    = array();
 
                         if ($row['has_image'] == 1) {
                             $picture_list = RC_DB::table('term_attachment')
@@ -262,8 +262,8 @@ class merchant_controller
                                 }
                             }
                         }
-                        $reply = RC_DB::table('comment_reply')->where('comment_id', $row['comment_id'])->whereIn('user_type', array('admin', 'merchant'))->first();
-                        $row['reply_content'] = nl2br(str_replace('\n', '<br />', htmlspecialchars($reply['content'])));
+                        $reply                 = RC_DB::table('comment_reply')->where('comment_id', $row['comment_id'])->whereIn('user_type', array('admin', 'merchant'))->first();
+                        $row['reply_content']  = nl2br(str_replace('\n', '<br />', htmlspecialchars($reply['content'])));
                         $row['reply_add_time'] = RC_Time::local_date(ecjia::config('time_format'), $reply['add_time']);
                         if ($row['avatar_img']) {
                             $row['avatar_img'] = RC_Upload::upload_url($row['avatar_img']);
@@ -279,18 +279,18 @@ class merchant_controller
                     }
                 }
 
-                $comment_list = array(
-                    'item' => $list,
-                    'page' => $page->show(2),
-                    'desc' => $page->page_desc(),
+                $comment_list            = array(
+                    'item'  => $list,
+                    'page'  => $page->show(2),
+                    'desc'  => $page->page_desc(),
                     'level' => $level,
                     'count' => $count,
                 );
-                $comment_list['all'] = !empty($level_amount['level_all']) ? $level_amount['level_all'] : 0;
-                $comment_list['good'] = !empty($level_amount['level_good']) ? $level_amount['level_good'] : 0;
+                $comment_list['all']     = !empty($level_amount['level_all']) ? $level_amount['level_all'] : 0;
+                $comment_list['good']    = !empty($level_amount['level_good']) ? $level_amount['level_good'] : 0;
                 $comment_list['general'] = !empty($level_amount['level_general']) ? $level_amount['level_general'] : 0;
-                $comment_list['low'] = !empty($level_amount['level_low']) ? $level_amount['level_low'] : 0;
-                $comment_list['print'] = !empty($level_amount['level_print']) ? $level_amount['level_print'] : 0;
+                $comment_list['low']     = !empty($level_amount['level_low']) ? $level_amount['level_low'] : 0;
+                $comment_list['print']   = !empty($level_amount['level_print']) ? $level_amount['level_print'] : 0;
                 ecjia_front::$controller->assign('data', $comment_list);
                 ecjia_front::$controller->assign('detail_url', RC_Uri::url('merchant/index/detail', array('store_id' => $store_id)));
                 ecjia_front::$controller->assign('goods_url', RC_Uri::url('merchant/goods/init', array('store_id' => $store_id)));
@@ -312,19 +312,19 @@ class merchant_controller
         $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'] . '-' . $_COOKIE['city_id'] . '-' . $_COOKIE['city_name']));
 
         if (!ecjia_front::$controller->is_cached('merchant_detail.dwt', $cache_id)) {
-            $store_id = !empty($_GET['store_id']) ? intval($_GET['store_id']) : 0;
+            $store_id  = !empty($_GET['store_id']) ? intval($_GET['store_id']) : 0;
             $shop_info = merchant_function::get_merchant_info($store_id);
 
             $disk = RC_Filesystem::disk();
             if (!empty($shop_info)) {
                 //店铺二维码
-                $default_image = RC_Theme::get_template_directory_uri() . '/images/mobile_app_icon.png';
+                $default_image     = RC_Theme::get_template_directory_uri() . '/images/mobile_app_icon.png';
                 $default_shop_logo = RC_Theme::get_template_directory_uri() . '/images/default_store.png';
                 if (!empty($shop_info['shop_logo']) && $disk->exists(RC_Upload::upload_path($shop_info['shop_logo']))) {
-                    $store_logo = RC_Upload::upload_path($shop_info['shop_logo']);
+                    $store_logo             = RC_Upload::upload_path($shop_info['shop_logo']);
                     $shop_info['shop_logo'] = RC_Upload::upload_url($shop_info['shop_logo']);
                 } else {
-                    $store_logo = $default_image;
+                    $store_logo             = $default_image;
                     $shop_info['shop_logo'] = $default_shop_logo;
                 }
                 $shop_info['store_qrcode'] = with(new Ecjia\App\Mobile\Qrcode\GenerateMerchant($store_id, $store_logo))->getQrcodeUrl();
@@ -356,16 +356,16 @@ class merchant_controller
             $has_store = pc_function::has_store();
             ecjia_front::$controller->assign('has_store', $has_store);
 
-            $cat_id = !empty($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
+            $cat_id        = !empty($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
             $category_list = self::category_list();
-            $store_list = self::store_lists($cat_id);
+            $store_list    = self::store_lists($cat_id);
 
             $store_list['cat_name'] = '全部分类';
             if (!empty($cat_id)) {
                 $store_list['now_cat'] = array_get($category_list, $cat_id);
                 if (!empty($store_list['now_cat'])) {
                     $store_list['cat_name'] = $store_list['now_cat']['cat_name'];
-                    $store_list['cat_img'] = $store_list['now_cat']['cat_image'];
+                    $store_list['cat_img']  = $store_list['now_cat']['cat_image'];
                 }
             }
             ecjia_front::$controller->assign('store_list', $store_list);
@@ -375,9 +375,9 @@ class merchant_controller
 
             //商家列表轮播图
             $data = RC_Api::api('adsense', 'cycleimage', array(
-                'code' => 'merchant_cycleimage',
+                'code'   => 'merchant_cycleimage',
                 'client' => Ecjia\App\Adsense\Client::PC,
-                'city' => $general_info['city_id'],
+                'city'   => $general_info['city_id'],
             ));
             ecjia_front::$controller->assign('cycleimage', $data);
             $count = count($data);
@@ -398,7 +398,7 @@ class merchant_controller
      */
     private static function category_list()
     {
-        $data = RC_DB::table('store_category')
+        $data          = RC_DB::table('store_category')
             ->select('cat_id', 'cat_name', 'cat_image')
             ->orderBy('parent_id', 'asc')
             ->orderBy('sort_order', 'asc')
@@ -409,7 +409,7 @@ class merchant_controller
         if (!empty($data)) {
             foreach ($data as $key => $val) {
                 $category_list[$val['cat_id']] = array(
-                    'cat_name' => $val['cat_name'],
+                    'cat_name'  => $val['cat_name'],
                     'cat_image' => !empty($val['cat_image']) ? RC_Upload::upload_url($val['cat_image']) : '',
                 );
             }
@@ -422,7 +422,7 @@ class merchant_controller
      */
     private static function store_lists($cat_id = 0)
     {
-        $keywords = !empty($_GET['keywords']) ? trim($_GET['keywords']) : '';
+        $keywords            = !empty($_GET['keywords']) ? trim($_GET['keywords']) : '';
         $db_store_franchisee = RC_DB::table('store_franchisee as sf')->where(RC_DB::raw('sf.status'), 1);
         if (!empty($cat_id)) {
             $db_store_franchisee->whereRaw('sf.cat_id=' . $cat_id);
@@ -449,7 +449,7 @@ class merchant_controller
             ->where(RC_DB::raw('sf.status'), 1)
             ->where(RC_DB::raw('sf.shop_close'), 0)
             ->count();
-        $page = new ecjia_page($count, 9, 5);
+        $page  = new ecjia_page($count, 9, 5);
 
         $data = $db_store_franchisee
             ->select(RC_DB::raw('sf.store_id'), RC_DB::raw('sf.merchants_name'), RC_DB::raw('sf.manage_mode'), RC_DB::raw('sf.contact_mobile'), RC_DB::raw('sf.responsible_person'), RC_DB::raw('sf.confirm_time'), RC_DB::raw('sf.company_name'), RC_DB::raw('sf.sort_order'), RC_DB::raw('sc.cat_name'), RC_DB::raw('sf.status'))
@@ -461,7 +461,7 @@ class merchant_controller
         $store_list = array();
         if (!empty($data)) {
             foreach ($data as $key => $val) {
-                $store_id = $val['store_id'];
+                $store_id         = $val['store_id'];
                 $store_list[$key] = merchant_function::get_merchant_info($store_id);
                 if (!empty($store_list[$key])) {
                     $store_list[$key]['store_id'] = $store_id;
@@ -469,9 +469,9 @@ class merchant_controller
             }
             if (!empty($store_list)) {
                 foreach ($store_list as $key => $val) {
-                    $store_id = $val['store_id'];
+                    $store_id   = $val['store_id'];
                     $store_logo = $val['shop_logo'];
-                    $config = RC_DB::table('merchants_config')->where('store_id', $store_id)->select('code', 'value')->get();
+                    $config     = RC_DB::table('merchants_config')->where('store_id', $store_id)->select('code', 'value')->get();
                     foreach ($config as $keys => $vals) {
                         if ($vals['code'] == 'shop_notice') {
                             if (!empty($vals['value'])) {
@@ -484,7 +484,7 @@ class merchant_controller
 
                                 //处理营业时间格式例：7:00--次日5:30
                                 $start = $shop_time['start'];
-                                $end = explode(':', $shop_time['end']);
+                                $end   = explode(':', $shop_time['end']);
                                 if ($end[0] > 24) {
                                     $end[0] = '次日' . ($end[0] - 24);
                                 }

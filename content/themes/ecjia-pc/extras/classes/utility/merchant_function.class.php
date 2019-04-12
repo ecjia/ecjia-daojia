@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 class merchant_function
 {
     /*
@@ -75,11 +76,11 @@ class merchant_function
         if (empty($shop_info)) {
             return array();
         }
-        $info = RC_DB::table('store_franchisee')->where('store_id', $store_id)->select('province', 'city', 'district', 'street', 'address')->first();
+        $info          = RC_DB::table('store_franchisee')->where('store_id', $store_id)->select('province', 'city', 'district', 'street', 'address')->first();
         $province_name = ecjia_region::getRegionName($info['province']);
-        $city_name = ecjia_region::getRegionName($info['city']);
+        $city_name     = ecjia_region::getRegionName($info['city']);
         $district_name = ecjia_region::getRegionName($info['district']);
-        $street_name = ecjia_region::getRegionName($info['street']);
+        $street_name   = ecjia_region::getRegionName($info['street']);
 
         $shop_address = $province_name . $city_name . $district_name . $street_name . ' ' . $info['address'];
         $outward_info = RC_DB::table('merchants_config')->where('store_id', $store_id)->where(function ($query) {
@@ -91,7 +92,7 @@ class merchant_function
         })->get();
 
         //优惠活动
-        $time = RC_Time::gmtime();
+        $time          = RC_Time::gmtime();
         $db_favourable = RC_DB::table('favourable_activity')
             ->select('act_name', 'act_id', 'act_type', 'act_type_ext', 'gift', 'start_time', 'end_time')
             ->where('store_id', $store_id)
@@ -118,26 +119,26 @@ class merchant_function
             $store_rank['goods_rank'] = 10000;
         }
         $store_rank['comment_percent'] = round($store_rank['goods_rank'] / 100);
-        $store_rank['comment_rank'] = $store_rank['goods_rank'] / 100 / 20;
+        $store_rank['comment_rank']    = $store_rank['goods_rank'] / 100 / 20;
         //接单数、接单率
-        $amount_info['list_amount'] = RC_DB::table('order_info')->where('store_id', $store_id)->count();
-        $amount_info['order_amount'] = RC_DB::table('order_info')->where('store_id', $store_id)->where('order_status', 5)->where('shipping_status', 2)->where('pay_status', 2)->count();
+        $amount_info['list_amount']   = RC_DB::table('order_info')->where('store_id', $store_id)->count();
+        $amount_info['order_amount']  = RC_DB::table('order_info')->where('store_id', $store_id)->where('order_status', 5)->where('shipping_status', 2)->where('pay_status', 2)->count();
         $amount_info['order_precent'] = $amount_info['list_amount'] == 0 ? 0 : round($amount_info['order_amount'] / $amount_info['list_amount'] * 100, 2);
         foreach ($outward_info as $key => $val) {
             if ($val['code'] == 'shop_trade_time') {
                 //判断营业时间
                 $outward['trade_time'] = $val['value'];
-                $shop_hours = unserialize($outward['trade_time']);
-                $now_time = time();
+                $shop_hours            = unserialize($outward['trade_time']);
+                $now_time              = time();
                 if (!empty($shop_hours)) {
                     $start_time = strtotime($shop_hours['start']);
-                    $end_time = strtotime($shop_hours['end']);
+                    $end_time   = strtotime($shop_hours['end']);
                     //处理营业时间格式例：7:00--次日5:30
                     $start = $shop_hours['start'];
-                    $end = explode(':', $shop_hours['end']);
+                    $end   = explode(':', $shop_hours['end']);
                     if ($end[0] > 24) {
-                        $hour = $end[0] - 24;
-                        $end[0] = __('次日', 'ecjia-pc') . ($hour);
+                        $hour     = $end[0] - 24;
+                        $end[0]   = __('次日', 'ecjia-pc') . ($hour);
                         $end_time = $hour . ':' . $end[1];
                         $end_time = strtotime($end_time) + 24 * 3600;
                     }
@@ -167,24 +168,24 @@ class merchant_function
         }
 
         $data = array(
-            'merchants_name' => $shop_info['merchants_name'],
-            'manage_mode' => $shop_info['manage_mode'],
-            'shop_close' => $shop_info['shop_close'],
-            'value' => !empty($shop_info['value']) ? $shop_info['value'] : __('暂无公告', 'ecjia-pc'),
-            'address' => $shop_address,
-            'comment_rank' => $store_rank['comment_rank'],
-            'comment_percent' => $store_rank['comment_percent'],
-            'shop_logo' => $outward['shop_logo'],
-            'trade_time' => $shop_hours,
-            'kf_mobile' => !empty($outward['kf_mobile']) ? $outward['kf_mobile'] : __('暂未填写', 'ecjia-pc'),
-            'banner_pic' => $outward['shop_banner_pic'], 'order_amount' => $amount_info['order_amount'],
-            'order_precent' => $amount_info['order_precent'],
-            'activity' => $list,
-            'business_status' => $business_status,
-            'shop_keyword' => $shop_info['shop_keyword'],
+            'merchants_name'   => $shop_info['merchants_name'],
+            'manage_mode'      => $shop_info['manage_mode'],
+            'shop_close'       => $shop_info['shop_close'],
+            'value'            => !empty($shop_info['value']) ? $shop_info['value'] : __('暂无公告', 'ecjia-pc'),
+            'address'          => $shop_address,
+            'comment_rank'     => $store_rank['comment_rank'],
+            'comment_percent'  => $store_rank['comment_percent'],
+            'shop_logo'        => $outward['shop_logo'],
+            'trade_time'       => $shop_hours,
+            'kf_mobile'        => !empty($outward['kf_mobile']) ? $outward['kf_mobile'] : __('暂未填写', 'ecjia-pc'),
+            'banner_pic'       => $outward['shop_banner_pic'], 'order_amount' => $amount_info['order_amount'],
+            'order_precent'    => $amount_info['order_precent'],
+            'activity'         => $list,
+            'business_status'  => $business_status,
+            'shop_keyword'     => $shop_info['shop_keyword'],
             'shop_description' => $outward['shop_description'],
-            'longitude' => $shop_info['longitude'],
-            'latitude' => $shop_info['latitude']
+            'longitude'        => $shop_info['longitude'],
+            'latitude'         => $shop_info['latitude']
         );
         return $data;
     }

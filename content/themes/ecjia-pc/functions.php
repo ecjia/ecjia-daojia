@@ -46,6 +46,8 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
+RC_Locale::loadThemeTextdomain('ecjia-pc');
+
 RC_Loader::load_theme('extras/controller/pc_controller.php');
 RC_Hook::add_action('main/index/init', array('pc_controller', 'init'));//首页
 RC_Hook::add_action('main/index/search', array('pc_controller', 'search'));//搜索

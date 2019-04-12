@@ -45,26 +45,27 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 class pc_function
 {
     //获取头部和尾部信息
     public static function get_general_info()
     {
         $shop_logo_url = '';
-        $shop_logo = ecjia::config('shop_logo');
+        $shop_logo     = ecjia::config('shop_logo');
 
         $disk = RC_Filesystem::disk();
         if (!empty($shop_logo) && $disk->exists(RC_Upload::upload_path($shop_logo))) {
             $shop_logo_url = RC_Upload::upload_url($shop_logo);
         }
-        $merchant_url = RC_Uri::url('franchisee/merchant/init');
-        $merchant_url = str_replace('index.php', 'sites/merchant/index.php', $merchant_url);
+        $merchant_url   = RC_Uri::url('franchisee/merchant/init');
+        $merchant_url   = str_replace('index.php', 'sites/merchant/index.php', $merchant_url);
         $merchant_login = RC_Uri::url('staff/privilege/login');
         $merchant_login = str_replace('index.php', 'sites/merchant/index.php', $merchant_login);
-        $company_name = ecjia::config('company_name');
-        $shop_address = ecjia::config('shop_address');
+        $company_name   = ecjia::config('company_name');
+        $shop_address   = ecjia::config('shop_address');
 
-        $regions = array();
+        $regions     = array();
         $region_list = RC_DB::table('store_business_city')->select('*')->orderBy('index_letter', 'asc')->get();
         if (!empty($region_list)) {
             foreach ($region_list as $key => $val) {
@@ -72,25 +73,25 @@ class pc_function
             }
         }
 
-        $shop_info_html = (new Ecjia\App\Article\ShopInfoArticleList)->outputHtml();
+        $shop_info_html     = (new Ecjia\App\Article\ShopInfoArticleList)->outputHtml();
         $shop_wechat_qrcode = ecjia::config('shop_wechat_qrcode');
         $shop_wechat_qrcode = !empty($shop_wechat_qrcode) ? RC_Upload::upload_url() . '/' . $shop_wechat_qrcode : '';
 
         if (empty($_COOKIE['city_id'])) {
-            $adcode = self::GetIpLookup();
-            $region_id = $adcode ? $adcode : '';
+            $adcode      = self::GetIpLookup();
+            $region_id   = $adcode ? $adcode : '';
             $city_detail = RC_DB::table('regions')
                 ->where('region_id', $region_id)
                 ->first();
 
             setcookie("city_id", $city_detail['region_id'], RC_Time::gmtime() + 3600 * 24 * 7);
             setcookie("city_name", $city_detail['region_name'], RC_Time::gmtime() + 3600 * 24 * 7);
-            $_COOKIE['city_id'] = $city_detail['region_id'];
+            $_COOKIE['city_id']   = $city_detail['region_id'];
             $_COOKIE['city_name'] = $city_detail['region_name'];
 
             setcookie("location_id", $city_detail['region_id'], RC_Time::gmtime() + 3600 * 24 * 7);
             setcookie("location_address", $city_detail['region_name'], RC_Time::gmtime() + 3600 * 24 * 7);
-            $_COOKIE['location_id'] = $city_detail['region_id'];
+            $_COOKIE['location_id']      = $city_detail['region_id'];
             $_COOKIE['location_address'] = $city_detail['region_name'];
         }
 
@@ -109,25 +110,25 @@ class pc_function
         }
 
         $data = array(
-            'shop_logo' => $shop_logo_url,
-            'merchant_url' => $merchant_url,
-            'merchant_login' => $merchant_login,
-            'company_name' => $company_name,
-            'shop_address' => $shop_address,
-            'region_list' => $regions,
-            'shop_weibo_url' => ecjia::config('shop_weibo_url'),
+            'shop_logo'          => $shop_logo_url,
+            'merchant_url'       => $merchant_url,
+            'merchant_login'     => $merchant_login,
+            'company_name'       => $company_name,
+            'shop_address'       => $shop_address,
+            'region_list'        => $regions,
+            'shop_weibo_url'     => ecjia::config('shop_weibo_url'),
             'shop_wechat_qrcode' => $shop_wechat_qrcode,
-            'shop_info_html' => $shop_info_html,
-            'company_name' => ecjia::config('company_name'),
-            'powered' => 'Powered&nbsp;by&nbsp;<a href="https:\\/\\/ecjia.com" target="_blank">ECJia</a>',
-            'service_phone' => ecjia::config('service_phone'),
-            'city_id' => !empty($_COOKIE['city_id']) ? trim($_COOKIE['city_id']) : '',
-            'city_name' => !empty($_COOKIE['city_name']) ? trim($_COOKIE['city_name']) : '',
-            'http_host' => isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
-            'kf_qq' => $kf_qq,
-            'location_id' => $_COOKIE['location_id'],
-            'location_address' => $_COOKIE['location_address'],
-            'link_list' => array('has_logo' => $has_logo_arr, 'no_logo' => $no_logo_arr),
+            'shop_info_html'     => $shop_info_html,
+            'company_name'       => ecjia::config('company_name'),
+            'powered'            => 'Powered&nbsp;by&nbsp;<a href="https:\\/\\/ecjia.com" target="_blank">ECJia</a>',
+            'service_phone'      => ecjia::config('service_phone'),
+            'city_id'            => !empty($_COOKIE['city_id']) ? trim($_COOKIE['city_id']) : '',
+            'city_name'          => !empty($_COOKIE['city_name']) ? trim($_COOKIE['city_name']) : '',
+            'http_host'          => isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
+            'kf_qq'              => $kf_qq,
+            'location_id'        => $_COOKIE['location_id'],
+            'location_address'   => $_COOKIE['location_address'],
+            'link_list'          => array('has_logo' => $has_logo_arr, 'no_logo' => $no_logo_arr),
         );
 
         $data['close_choose_city'] = 0;
@@ -141,7 +142,7 @@ class pc_function
     public static function get_child_tree($cat_id)
     {
         $cat_list = RC_DB::table('merchants_category')->select('cat_id', 'cat_name', 'parent_id')->where('parent_id', $cat_id)->where('is_show', 1)->orderBy('sort_order', 'asc')->get();
-        $cat_arr = array();
+        $cat_arr  = array();
         if (!empty($cat_list)) {
             foreach ($cat_list as $key => $val) {
                 $cat_arr[] = array('cat_id' => $val['cat_id'], 'cat_name' => $val['cat_name']);
@@ -152,7 +153,7 @@ class pc_function
 
     public static function GetIp()
     {
-        $realip = '';
+        $realip  = '';
         $unknown = 'unknown';
         if (isset($_SERVER)) {
             if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']) && strcasecmp($_SERVER['HTTP_X_FORWARDED_FOR'], $unknown)) {
@@ -208,7 +209,7 @@ class pc_function
         }
         $shop_country = ecjia::config('shop_country');
         $shop_country = !empty($shop_country) ? $shop_country : 'CN';
-        $adcode = $shop_country . $json['result']['ad_info']['adcode'];
+        $adcode       = $shop_country . $json['result']['ad_info']['adcode'];
 
         return $adcode;
     }
@@ -241,7 +242,7 @@ class pc_function
         }
         $cat_info = RC_DB::table('category')->where('cat_id', $cat_id)->select('parent_id', 'cat_name', 'cat_id')->first();
         if ($i == 2) {
-            $arr['cat_id'] = $cat_info['parent_id'];
+            $arr['cat_id']    = $cat_info['parent_id'];
             $arr['select_id'] = $cat_id;
         } else {
             $arr['cat_id'] = $cat_id;
@@ -264,7 +265,7 @@ class pc_function
     {
         $cat_list = explode(',', $str);
 
-        $i = '<i class="iconfont icon-jiantou-right"></i>';
+        $i    = '<i class="iconfont icon-jiantou-right"></i>';
         $html = __('全部分类 ', 'ecjia-pc');
         foreach (array_reverse($cat_list) as $k => $v) {
             if ($k <= 2 && !empty($v)) {
@@ -289,7 +290,7 @@ class pc_function
     public static function search_count($is_delete = 0, $real_goods = 1, $conditions = '', $keywords)
     {
         /* 过滤条件 */
-        $param_str = '-' . $is_delete . '-' . $real_goods;
+        $param_str          = '-' . $is_delete . '-' . $real_goods;
         $filter['keywords'] = $keywords;
 
         $where = $filter['cat_id'] > 0 ? " AND " . get_children($filter['cat_id']) : '';
@@ -353,7 +354,7 @@ class pc_function
     public static function has_store()
     {
         $db_store_franchisee = RC_DB::table('store_franchisee');
-        $store = array();
+        $store               = array();
         if (!empty($_COOKIE['city_id'])) {
             $length = strlen($_COOKIE['city_id']);
             if ($length == 4) {
@@ -366,7 +367,7 @@ class pc_function
                 $db_store_franchisee->where('street', $_COOKIE['city_id']);
             }
         }
-        $store = $db_store_franchisee->where('shop_close', 0)->where('status', 1)->get();
+        $store     = $db_store_franchisee->where('shop_close', 0)->where('status', 1)->get();
         $has_store = !empty($store) ? true : false;
         return $has_store;
     }

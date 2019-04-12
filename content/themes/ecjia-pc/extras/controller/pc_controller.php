@@ -45,6 +45,7 @@
 //  ---------------------------------------------------------------------------------
 //
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * pc主控制器
  */
@@ -70,11 +71,11 @@ class pc_controller
             RC_Loader::load_app_class('goods_category', 'goods', false);
             $category = goods_category::get_categories_tree();
             $category = array_merge($category);
-            $arr = array();
+            $arr      = array();
             if (!empty($category)) {
                 foreach ($category as $key => $val) {
-                    $categoryGoods[$key]['id'] = $val['id'];
-                    $categoryGoods[$key]['name'] = $val['name'];
+                    $categoryGoods[$key]['id']    = $val['id'];
+                    $categoryGoods[$key]['name']  = $val['name'];
                     $categoryGoods[$key]['image'] = $val['img'];
 
                     if (!empty($val['cat_id'])) {
@@ -127,9 +128,9 @@ class pc_controller
 
             //首页轮播图
             $data = RC_Api::api('adsense', 'cycleimage', array(
-                'code' => 'home_cycleimage',
+                'code'   => 'home_cycleimage',
                 'client' => Ecjia\App\Adsense\Client::PC,
-                'city' => $general_info['city_id'],
+                'city'   => $general_info['city_id'],
             ));
             ecjia_front::$controller->assign('cycleimage', $data);
             $count = count($data);
@@ -144,7 +145,7 @@ class pc_controller
     {
         $keywords = !empty($_POST['keywords']) ? trim($_POST['keywords']) : '';
         if (!empty($keywords)) {
-            $count = pc_function::search_count(0, 1, '', $keywords);
+            $count            = pc_function::search_count(0, 1, '', $keywords);
             $url['goods_url'] = RC_Uri::url('goods/index/init', array('keywords' => $keywords));
             $url['store_url'] = RC_Uri::url('merchant/store/category', array('keywords' => $keywords));
 

@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the ECJia到家PC模板 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ECJia到家PC模板 1.24.0\n"
+"Project-Id-Version: ECJia到家PC模板 1.29.0\n"
 "Report-Msgid-Bugs-To: https://www.ecjia.com/support/theme/ecjia-pc\n"
-"POT-Creation-Date: 2019-03-15 01:49:15+00:00\n"
+"POT-Creation-Date: 2019-03-20 07:34:01+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,49 +12,49 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 
-#: extras/classes/utility/merchant_function.class.php:107
+#: extras/classes/utility/merchant_function.class.php:108
 msgid "现金减免"
 msgstr ""
 
-#: extras/classes/utility/merchant_function.class.php:109
+#: extras/classes/utility/merchant_function.class.php:110
 msgid "价格折扣"
 msgstr ""
 
-#: extras/classes/utility/merchant_function.class.php:140
+#: extras/classes/utility/merchant_function.class.php:141
 msgid "次日"
 msgstr ""
 
-#: extras/classes/utility/merchant_function.class.php:152
+#: extras/classes/utility/merchant_function.class.php:153
 msgid "暂未设置"
 msgstr ""
 
-#: extras/classes/utility/merchant_function.class.php:173
+#: extras/classes/utility/merchant_function.class.php:174
 msgid "暂无公告"
 msgstr ""
 
-#: extras/classes/utility/merchant_function.class.php:179
+#: extras/classes/utility/merchant_function.class.php:180
 msgid "暂未填写"
 msgstr ""
 
-#: extras/classes/utility/pc_function.class.php:268
+#: extras/classes/utility/pc_function.class.php:269
 msgid "全部分类 "
 msgstr ""
 
-#: extras/controller/goods_controller.php:174
+#: extras/controller/goods_controller.php:175
 msgid "商品列表"
 msgstr ""
 
-#: extras/controller/goods_controller.php:231
-#: extras/controller/goods_controller.php:236
-#: extras/controller/goods_controller.php:239
-#: extras/controller/goods_controller.php:242
+#: extras/controller/goods_controller.php:232
+#: extras/controller/goods_controller.php:237
+#: extras/controller/goods_controller.php:240
+#: extras/controller/goods_controller.php:243
 msgid "满减"
 msgstr ""
 
-#: extras/controller/goods_controller.php:231
-#: extras/controller/goods_controller.php:236
-#: extras/controller/goods_controller.php:239
-#: extras/controller/goods_controller.php:242
+#: extras/controller/goods_controller.php:232
+#: extras/controller/goods_controller.php:237
+#: extras/controller/goods_controller.php:240
+#: extras/controller/goods_controller.php:243
 msgid "满折"
 msgstr ""
 
@@ -74,16 +74,16 @@ msgstr ""
 msgid "商家列表"
 msgstr ""
 
-#. #-#-#-#-#  ecjia-pc.pot (ECJia到家PC模板 1.24.0)  #-#-#-#-#
+#. #-#-#-#-#  ecjia-pc.pot (ECJia到家PC模板 1.29.0)  #-#-#-#-#
 #. Template Name of the plugin/theme
-#. #-#-#-#-#  ecjia-pc.pot (ECJia到家PC模板 1.24.0)  #-#-#-#-#
+#. #-#-#-#-#  ecjia-pc.pot (ECJia到家PC模板 1.29.0)  #-#-#-#-#
 #. Description of the plugin/theme
 msgid "ECJia到家PC模板"
 msgstr ""
 
-#. #-#-#-#-#  ecjia-pc.pot (ECJia到家PC模板 1.24.0)  #-#-#-#-#
+#. #-#-#-#-#  ecjia-pc.pot (ECJia到家PC模板 1.29.0)  #-#-#-#-#
 #. Template URI of the plugin/theme
-#. #-#-#-#-#  ecjia-pc.pot (ECJia到家PC模板 1.24.0)  #-#-#-#-#
+#. #-#-#-#-#  ecjia-pc.pot (ECJia到家PC模板 1.29.0)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "https://ecjia.com/"
 msgstr ""
@@ -255,6 +255,7 @@ msgid "暂无商品介绍"
 msgstr ""
 
 #: content/themes/ecjia-pc/goods_show.dwt.php:118
+#: content/themes/ecjia-pc/library/page_header.lbi.php:28
 msgid "下载APP"
 msgstr ""
 
@@ -335,15 +336,15 @@ msgstr ""
 msgid "首页"
 msgstr ""
 
-#: content/themes/ecjia-pc/library/page_header.lbi.php:28
+#: content/themes/ecjia-pc/library/page_header.lbi.php:29
 msgid "会员中心"
 msgstr ""
 
-#: content/themes/ecjia-pc/library/page_header.lbi.php:30
+#: content/themes/ecjia-pc/library/page_header.lbi.php:31
 msgid "商家入驻"
 msgstr ""
 
-#: content/themes/ecjia-pc/library/page_header.lbi.php:32
+#: content/themes/ecjia-pc/library/page_header.lbi.php:33
 msgid "商家登录"
 msgstr ""
 
