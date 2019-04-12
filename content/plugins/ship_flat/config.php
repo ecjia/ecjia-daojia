@@ -56,10 +56,16 @@ return array(
 	'config_lable'	=> '',			/* 打印快递单标签位置信息 */
 		
 	'forms' => array(
-			array('name' => 'base_fee', 'value' => 10),
-			array('name' => 'free_money', 'type' => 'text', 'value' => 0), /* 免费额度  */
-			array('name' => 'pay_fee', 'type' => 'text', 'value' => 0), /* 货到付款支付费用  */
+        array('name' => 'base_fee', 'value' => 10),
+        array('name' => 'free_money', 'type' => 'text', 'value' => 0), /* 免费额度  */
+        array('name' => 'pay_fee', 'type' => 'text', 'value' => 0), /* 货到付款支付费用  */
 	),
+
+    'dynamic_option' => array(
+        'base_fee'      => __('基本费用：', 'ship_flat'),
+        'pay_fee'       => __('货到付款支付费用：', 'ship_flat'),
+        'free_money'    => __('免费额度：', 'ship_flat'),
+    ),
 );
 
 // end
