@@ -97,6 +97,11 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
 		if (empty($cart_goods) || count($cart_goods) == 0) {
 			return new ecjia_error('no_goods_in_cart', __('购物车中没有商品', 'cashier'));
 		}
+		if (!empty($cart_goods)) {
+			foreach ($cart_goods as $row) {
+				$cart_ids[] = $row['rec_id'];
+			}
+		}
 		
         /* 如果使用库存，且下订单时减库存，检查库存*/
         if (ecjia::config('use_storage') == '1' && ecjia::config('stock_dec_time') == SDT_PLACE) {
@@ -239,7 +244,7 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
         }
         
         /* 订单中的总额 */
-        $total = cart_cashdesk::cashdesk_order_fee($order, $cart_goods, $consignee, $cart_id, CART_CASHDESK_GOODS, 0, $_SESSION['store_id']);
+        $total = cart_cashdesk::cashdesk_order_fee($order, $cart_goods, $consignee, $cart_ids, CART_CASHDESK_GOODS, $pendorder_id, $_SESSION['store_id']);
         
         $order['bonus']			= $total['bonus'];
         $order['goods_amount']	= $total['goods_price'];
@@ -248,10 +253,9 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
         $order['tax']			= $total['tax'];
         
         // 购物车中的商品能享受红包支付的总额
-        $discount_amout = cart_cashdesk::compute_discount_amount($cart_id, CART_CASHDESK_GOODS, $_SESSION['store_id']);
 
         // 红包和积分最多能支付的金额为商品总额
-        $temp_amout = $order['goods_amount'] - $discount_amout;
+        $temp_amout = $order['goods_amount'] - $total['discount'];
         if ($temp_amout <= 0) {
             $order['bonus_id'] = 0;
             $order['bonus'] = 0;
@@ -311,6 +315,7 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
         /* 插入订单表 */
         $order['order_sn'] = ecjia_order_buy_sn(); // 获取新订单号
         $new_order_id	= RC_DB::table('order_info')->insertGetId($order);
+        
         $order['order_id'] = $new_order_id;
         
         /* 插入订单商品 */
@@ -444,7 +449,8 @@ class admin_cashier_flow_done_module extends api_admin implements api_interface
         		'store_id' 			=> $_SESSION['store_id'],
         		'staff_id'			=> $_SESSION['staff_id'],
         		'order_id'	 		=> $order_id,
-        		'order_type' 		=> 'ecjia-cashdesk',
+        		'order_sn'	 		=> $order['order_sn'],
+        		'order_type' 		=> 'buy',
         		'mobile_device_id'	=> empty($_SESSION['device_id']) ? 0 : $_SESSION['device_id'],
         		'device_sn'			=> empty($device_info['device_udid']) ? '' : $device_info['device_udid'],
         		'device_type'		=> $device_type,

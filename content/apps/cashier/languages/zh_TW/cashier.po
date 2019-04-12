@@ -4,16 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App cashier 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-01 01:42:23+00:00\n"
+"POT-Creation-Date: 2019-04-03 15:19+0800\n"
+"PO-Revision-Date: 2019-04-04 18:08+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-03-08 13:34+0800\n"
-"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
-"X-Generator: Poedit 1.8.7\n"
-"Last-Translator: \n"
+"X-Generator: Poedit 2.2\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language: zh_TW\n"
 
 #: apis/cashier_merchant_purview_api.class.php:57 mh_bulk_goods.php:87
 msgid "散装商品管理"
@@ -50,6 +50,10 @@ msgstr "收銀設備更新"
 #: apis/cashier_merchant_purview_api.class.php:68
 msgid "收银设备删除"
 msgstr "收銀設備刪除"
+
+#: apis/cashier_store_remove_cleardata_api.class.php:63
+msgid "请求接口%s参数无效"
+msgstr "請求接口%s參數無效"
 
 #: classes/BulkGoods.php:49
 msgid "克"
@@ -106,6 +110,54 @@ msgstr "批量下架"
 #: classes/Helper.php:67
 msgid "批量移至回收站"
 msgstr "批量移至回收站"
+
+#: classes/Maintains/UpdateCashierRecordOrderType.php:76
+msgid "更新收银员订单操作记录的订单类型"
+msgstr "更新收銀員訂單操作記錄的訂單類型"
+
+#: classes/Maintains/UpdateCashierRecordOrderType.php:77
+msgid ""
+"更新收银台收银员订单操作记录的订单类型order_type（普通订单为buy,收款既买单为"
+"quickpay，退款为refund）"
+msgstr ""
+"更新收銀台收銀員訂單操作記錄的訂單類型order_type（普通訂單為buy,收款既買單為"
+"quickpay，退款為refund）"
+
+#: classes/StoreCleanHandlers/StoreCashierDeviceClear.php:34
+msgid "店铺收银设备"
+msgstr "店鋪收銀設備"
+
+#: classes/StoreCleanHandlers/StoreCashierDeviceClear.php:44
+msgid "店铺内所有添加的收银设备全部删除"
+msgstr "店舖內所有添加的收銀設備全部刪除"
+
+#: classes/StoreCleanHandlers/StoreCashierDeviceClear.php:96
+#: classes/StoreCleanHandlers/StoreCashierPendorderClear.php:96
+#: classes/StoreCleanHandlers/StoreCashierScalesClear.php:96
+msgid "店铺名是%s"
+msgstr "店鋪名是%s"
+
+#: classes/StoreCleanHandlers/StoreCashierDeviceClear.php:96
+#: classes/StoreCleanHandlers/StoreCashierPendorderClear.php:96
+#: classes/StoreCleanHandlers/StoreCashierScalesClear.php:96
+msgid "店铺ID是%s"
+msgstr "店鋪ID是%s"
+
+#: classes/StoreCleanHandlers/StoreCashierPendorderClear.php:34
+msgid "收银台挂单"
+msgstr "收銀台掛單"
+
+#: classes/StoreCleanHandlers/StoreCashierPendorderClear.php:44
+msgid "将当前店铺内，收银台上的挂单数据全部删除"
+msgstr "將當前店舖內，收銀台上的掛單數據全部刪除"
+
+#: classes/StoreCleanHandlers/StoreCashierScalesClear.php:34
+msgid "店铺电子秤设备"
+msgstr "店鋪電子秤設備"
+
+#: classes/StoreCleanHandlers/StoreCashierScalesClear.php:44
+msgid "店铺内所有添加的电子秤设备全部删除"
+msgstr "店舖內所有添加的電子秤設備全部刪除"
 
 #: configs/jslang.php:57 configs/jslang.php:88
 msgid "未计算"
@@ -203,7 +255,7 @@ msgstr "添加散裝商品"
 
 #: mh_bulk_goods.php:117 mh_cashier_goods.php:117
 msgid "请选择操作"
-msgstr "添加散裝商品"
+msgstr "請選擇操作"
 
 #: mh_bulk_goods.php:150 mh_cashier_goods.php:150
 msgid "请先选择要转移的分类"
@@ -405,15 +457,15 @@ msgstr "條碼秤碼"
 msgid "编辑条码秤成功"
 msgstr "編輯條碼秤成功"
 
-#: modules/admin/cashier/flow/checkOrder_module.class.php:252
+#: modules/admin/cashier/flow/checkOrder_module.class.php:244
 msgid "当前账号已申请注销，不可执行此操作！"
 msgstr "當前賬號已申請註銷，不可執行此操作"
 
-#: modules/admin/cashier/flow/checkOrder_module.class.php:325
+#: modules/admin/cashier/flow/checkOrder_module.class.php:317
 msgid "该商品不存在或已下架"
 msgstr "該商品不存在或已下架"
 
-#: modules/admin/cashier/flow/checkOrder_module.class.php:332
+#: modules/admin/cashier/flow/checkOrder_module.class.php:324
 msgid "对不起，该商品所属的店铺已锁定！"
 msgstr "對不起，該商品所屬的店鋪已鎖定！"
 
@@ -434,22 +486,23 @@ msgstr "匿名用戶"
 msgid "请选择支付方式"
 msgstr "請選擇支付方式"
 
-#: modules/admin/cashier/flow/done_module.class.php:265
+#: modules/admin/cashier/flow/done_module.class.php:267
 msgid "无需物流"
 msgstr "無需物流"
 
-#: modules/admin/cashier/flow/done_module.class.php:347
+#: modules/admin/cashier/flow/done_module.class.php:349
+#: modules/admin/cashier/quickpay/flow/done_module.class.php:230
 msgid "支付订单 %s"
 msgstr "支付訂單 %s"
 
-#: modules/admin/cashier/flow/done_module.class.php:353
+#: modules/admin/cashier/flow/done_module.class.php:355
 msgid "处理失败"
 msgstr "處理失敗"
 
 #: modules/admin/cashier/merchant/goods/list_module.class.php:66
 #: modules/admin/cashier/orders/refund/detail_module.class.php:61
 #: modules/admin/cashier/quickpay/flow/checkOrder_module.class.php:79
-#: modules/admin/cashier/quickpay/flow/done_module.class.php:88
+#: modules/admin/cashier/quickpay/flow/done_module.class.php:90
 msgid "参数无效"
 msgstr "參數無效"
 
@@ -466,7 +519,7 @@ msgstr "訂單信息不存在！"
 #: modules/admin/cashier/orders/refund/apply_module.class.php:75
 #: modules/admin/cashier/orders/refund/summary_module.class.php:34
 #: modules/admin/cashier/orders/search_module.class.php:27
-#: modules/admin/cashier/orders/summary_module.class.php:34
+#: modules/admin/cashier/orders/summary_module.class.php:33
 #: modules/admin/cashier/pendorder/create_module.class.php:18
 #: modules/admin/cashier/pendorder/delete_module.class.php:19
 #: modules/admin/cashier/quickpay/order/payConfirm_module.class.php:72
@@ -489,19 +542,19 @@ msgstr "余額支付的訂單只支持退回余額或退現金！"
 msgid "该订单未添加会员，不支持退回余额！"
 msgstr "該訂單未添加會員，不支持退回余額！"
 
-#: modules/admin/cashier/orders/refund/apply_module.class.php:157
+#: modules/admin/cashier/orders/refund/apply_module.class.php:160
 msgid "审核通过"
 msgstr "審核通過"
 
-#: modules/admin/cashier/orders/refund/apply_module.class.php:187
+#: modules/admin/cashier/orders/refund/apply_module.class.php:190
 msgid "退款审核中"
 msgstr "退款審核中"
 
-#: modules/admin/cashier/orders/refund/apply_module.class.php:322
+#: modules/admin/cashier/orders/refund/apply_module.class.php:325
 msgid "收银台申请退款，现金退款成功"
 msgstr "收銀臺申請退款，現金退款成功"
 
-#: modules/admin/cashier/orders/refund/apply_module.class.php:324
+#: modules/admin/cashier/orders/refund/apply_module.class.php:327
 msgid "收银台申请退款，原路退回成功"
 msgstr "收銀臺申請退款，原路退回成功"
 
@@ -535,7 +588,7 @@ msgstr "僅退款"
 
 #: modules/admin/cashier/orders/refund/summary_module.class.php:24
 #: modules/admin/cashier/orders/search_module.class.php:23
-#: modules/admin/cashier/orders/summary_module.class.php:24
+#: modules/admin/cashier/orders/summary_module.class.php:23
 #: modules/admin/cashier/quickpay/order/list_module.class.php:70
 #: modules/admin/cashier/quickpay/order/payConfirm_module.class.php:66
 msgid "非收银台请求！"
@@ -554,7 +607,7 @@ msgid "您没权限执行此操作！"
 msgstr "您沒權限執行此操作！"
 
 #: modules/admin/cashier/quickpay/flow/checkOrder_module.class.php:70
-#: modules/admin/cashier/quickpay/flow/done_module.class.php:80
+#: modules/admin/cashier/quickpay/flow/done_module.class.php:82
 msgid "不可参与活动金额不能大于消费金额！"
 msgstr "不可參與活動金額不能大於消費金額！"
 
@@ -562,17 +615,29 @@ msgstr "不可參與活動金額不能大於消費金額！"
 msgid "对不起，该店铺已锁定！"
 msgstr "對不起，該店鋪已鎖定！"
 
-#: modules/admin/cashier/quickpay/flow/done_module.class.php:106
+#: modules/admin/cashier/quickpay/flow/done_module.class.php:116
 msgid "活动信息不存在"
 msgstr "活動信息不存在"
 
-#: modules/admin/cashier/quickpay/flow/done_module.class.php:110
+#: modules/admin/cashier/quickpay/flow/done_module.class.php:120
 msgid "此活动已关闭！"
 msgstr "此活動已關閉！"
 
-#: modules/admin/cashier/quickpay/flow/done_module.class.php:119
+#: modules/admin/cashier/quickpay/flow/done_module.class.php:129
 msgid "活动还未开始或已结束"
 msgstr "活動還未開始或已結束"
+
+#: modules/admin/cashier/quickpay/flow/done_module.class.php:139
+msgid "红包信息不存在！"
+msgstr "紅包信息不存在！"
+
+#: modules/admin/cashier/quickpay/flow/done_module.class.php:156
+msgid "使用积分不可超过会员总积分数！"
+msgstr "使用積分不可超過會員總積分數！"
+
+#: modules/admin/cashier/quickpay/flow/done_module.class.php:236
+msgid "积分使用失败！"
+msgstr "積分使用失敗！"
 
 #: modules/admin/cashier/quickpay/order/detail_module.class.php:64
 #: modules/admin/cashier/quickpay/order/pay_module.class.php:72

@@ -75,8 +75,6 @@ class list_module extends api_admin implements api_interface {
 			$end_date = RC_Time::local_strtotime($end_date) + 86399;
 		}
 		
-		
-		
 		$options = array(
 			'size'				=> $size,
 			'page'				=> $page,
@@ -135,6 +133,7 @@ class list_module extends api_admin implements api_interface {
 		if (!empty($order)) {
 			$staff_id = RC_DB::table('cashier_record')
 			->where('order_id', $order['order_id'])
+			->where('order_type', 'quickpay')
 			->where('store_id', $order['store_id'])
 			->where('action', 'receipt')->pluck('staff_id');
 			if ($staff_id) {

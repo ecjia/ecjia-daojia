@@ -128,6 +128,9 @@ class admin_cashier_orders_refund_apply_module extends api_admin implements api_
 		if (is_ecjia_error($refundOrderInfo)) {
 			return $refundOrderInfo;
 		}
+		
+		//收银台收银员退款操作记录
+		$this->_cashier_record($device, $_SESSION['device_id'], $_SESSION['store_id'], $_SESSION['staff_id'], $refundOrderInfo);
 
         if (!empty($refundOrderInfo)) {
             //商家同意退款申请
@@ -556,6 +559,29 @@ class admin_cashier_orders_refund_apply_module extends api_admin implements api_
     		$payment_revord_info = RC_DB::table('payment_record')->where('order_sn', $order_sn)->where('trade_type', $trade_type)->first();
     	}
     	return $payment_revord_info;
+    }
+    
+    /**
+     * 收银台收银员操作记录
+     */
+    private function _cashier_record($device, $device_id, $store_id, $staff_id, $refundOrderInfo)
+    {
+    	$device_type  = Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);
+    	$device_info = RC_DB::table('mobile_device')->where('id', $device_id)->first();
+    	$cashier_record = array(
+    			'store_id'          => $store_id,
+    			'staff_id'          => $staff_id,
+    			'order_id'          => $refundOrderInfo['refund_id'],
+    			'order_sn'          => $refundOrderInfo['refund_sn'],
+    			'order_type'        => 'refund',
+    			'mobile_device_id'  => empty($device_id) ? 0 : $device_id,
+    			'device_sn'         => empty($device_info['device_udid']) ? '' : $device_info['device_udid'],
+    			'device_type'       => $device_type,
+    			'action'            => 'refund', //退款
+    			'create_at'         => RC_Time::gmtime(),
+    	);
+    	RC_DB::table('cashier_record')->insert($cashier_record);
+    	return true;
     }
 }
 // end

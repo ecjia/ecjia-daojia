@@ -68,11 +68,13 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
             return new ecjia_error(100, 'Invalid session');
         }
     	
-    	RC_Loader::load_app_class('cashdesk_quickpay_activity', 'quickpay', false);
+    	RC_Loader::load_app_class('quickpay_activity', 'quickpay', false);
     	
     	$activity_id		= $this->requestData('activity_id', 0);
     	$goods_amount 		= $this->requestData('goods_amount', '0.00');
     	$exclude_amount 	= $this->requestData('exclude_amount', '0.00');
+    	$bonus_id		= $this->requestData('bonus_id', '0');
+    	$integral		= $this->requestData('integral', '0');
     	$store_id			= $this->requestData('store_id', 0);
     	
     	if ($goods_amount > 0 && $exclude_amount > 0) {
@@ -88,13 +90,21 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
 			return new ecjia_error( 'invalid_parameter', __('参数无效', 'cashier'));
 		}
 		$goods_amount = sprintf("%.2f", $goods_amount);
+		
+		/*admin/cashier/quickpay/flow/checkOrder有没添加会员*/
+		$user_id = 0;
+		if ($_SESSION['temp_quickpay_user_id'] > 0) {
+			$user_id = $_SESSION['temp_quickpay_user_id'];
+		}
     	
 		/*初始化订单信息*/
 		$order = array();
 		$order = array(
 				'goods_amount'		=> $goods_amount,
 				'surplus'   		=> $this->requestData('surplus', 0.00),
-				'user_id'      		=> 0,
+				'user_id'      		=> $user_id,
+				'integral'     		=> $integral,
+				'bonus_id'     		=> $bonus_id,
 				'add_time'     		=> RC_Time::gmtime(),
 				'order_status'  	=> \Ecjia\App\Quickpay\Enums\QuickpayOrderEnum::UNCONFIRMED,
 		);
@@ -119,49 +129,47 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
 				return new ecjia_error('activity_error', __('活动还未开始或已结束', 'cashier'));
 			}
 			
+			/*红包是否可用*/
+			if ($bonus_id > 0) {
+				$bonus_info = RC_Api::api('bonus', 'bonus_info', array('bonus_id' => $bonus_id));
+				if (is_ecjia_error($bonus_info)) {
+					return $bonus_info;
+				}
+				if (empty($bonus_info)){
+					return new ecjia_error('bonus_error', __('红包信息不存在！', 'cashier'));
+				}
+				$time = RC_Time::gmtime();
+				if (($time < $bonus_info['use_start_date']) || ($bonus_info['use_end_date'] < $time) || ($bonus_info['store_id'] != 0 && $bonus_info['store_id'] != $quickpay_activity_info['store_id']) || $bonus_info['user_id'] != $user_id || $bonus_info['order_id'] > 0) {
+					$order['bonus_id'] = 0;
+					$order['bonus'] = 0.00;
+				} else{
+					$order['bonus_id'] = $bonus_id;
+					$order['bonus'] = $bonus_info['type_money'];
+				}
+					
+			}
+				
+			if ($integral > 0) {
+				/*会员可用积分数*/
+				$user_integral = RC_DB::table('users')->where('user_id', $user_id)->pluck('pay_points');
+				if ($integral > $user_integral) {
+					return new ecjia_error('integral_error', __('使用积分不可超过会员总积分数！', 'cashier'));
+				}
+				$order['integral_money'] = quickpay_activity::integral_of_value($integral);
+			}
+			
 			/*活动可优惠金额获取*/
-			$discount = cashdesk_quickpay_activity::get_quickpay_discount(array('activity_type' => $quickpay_activity_info['activity_type'], 'activity_value' => $quickpay_activity_info['activity_value'], 'goods_amount' => $goods_amount, 'exclude_amount' => $exclude_amount));
+			$discount = quickpay_activity::get_quickpay_discount(array('activity_type' => $quickpay_activity_info['activity_type'], 'activity_value' => $quickpay_activity_info['activity_value'], 'goods_amount' => $goods_amount, 'exclude_amount' => $exclude_amount));
 			
 			/*自定义时间限制处理，当前时间不可用时，订单可正常提交,只是优惠金额是0；红包和积分也为0*/
 			if ($quickpay_activity_info['limit_time_type'] == 'customize') {
-				/*每周限制时间*/
-				if (!empty($quickpay_activity_info['limit_time_weekly'])){
-					$w = date('w');
-					$current_week = quickpay_activity::current_week($w);
-					$limit_time_weekly = Ecjia\App\Quickpay\Weekly::weeks($quickpay_activity_info['limit_time_weekly']);
-					$weeks_str = cashdesk_quickpay_activity::get_weeks_str($limit_time_weekly);
-						
-					if (!in_array($current_week, $limit_time_weekly)){
-						$discount = 0.00;
-						$order['integral_money'] = 0.00;
-						$order['bonus'] = 0.00;
-					}
+				if (!quickpay_activity::customize_activity_is_available($quickpay_activity_info)) {
+					$discount = 0.00;
+					$order['integral'] = 0;
+					$order['integral_money'] = 0.00;
+					$order['bonus_id'] = 0;
+					$order['bonus'] = 0.00;
 				}
-			
-				/*每天限制时间段*/
-				if (!empty($quickpay_activity_info['limit_time_daily'])) {
-					$limit_time_daily = unserialize($quickpay_activity_info['limit_time_daily']);
-					foreach ($limit_time_daily as $val) {
-						$arr[] = cashdesk_quickpay_activity::is_in_timelimit(array('start' => $val['start'], 'end' => $val['end']));
-					}
-					if (!in_array(0, $arr)) {
-						$discount = 0.00;
-						$order['integral_money'] = 0.00;
-						$order['bonus'] = 0.00;
-					}
-				}
-				/*活动限制日期*/
-				if (!empty($quickpay_activity_info['limit_time_exclude'])) {
-					$limit_time_exclude = explode(',', $quickpay_activity_info['limit_time_exclude']);
-					$current_date = RC_Time::local_date(ecjia::config('date_format'), time);
-					$current_date = array($current_date);
-					if (in_array($current_date, $limit_time_exclude) || $current_date == $limit_time_exclude) {
-						$discount = 0.00;
-						$order['integral_money'] = 0.00;
-						$order['bonus'] = 0.00;
-					}
-				}
-			
 			}
 		} else {
 			$order['activity_type'] = 'normal';
@@ -179,9 +187,20 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
 		$order['store_id'] = $store_id;
 		/*订单编号*/
 		$order['order_sn'] = ecjia_order_quickpay_sn();
-		$order['order_type'] = 'cashdesk-receipt';//收银台收款
+		$order['order_type'] = 'quickpay';//收银台收款
 		
 		$order['user_type'] 	= 'merchant';
+		
+		/*会员信息*/
+		if ($user_id > 0){
+			$user_info = RC_Api::api('user', 'user_info', array('user_id' => $user_id));
+			if (is_ecjia_error($user_info)) {
+				return $user_info;
+			}
+			$order['user_name'] 	= $user_info['user_name'];
+			$order['user_mobile'] 	= $user_info['mobile_phone'];
+			$order['user_type'] 	= 'user';
+		}
 		
 		/*订单来源*/
 		$order['from_ad'] = ! empty($_SESSION['from_ad']) ? $_SESSION['from_ad'] : '0';
@@ -203,6 +222,28 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
     	
     	$order['order_id'] = $new_order_id;
     	
+    	/* 处理积分、红包 */
+    	if ($order['user_id'] > 0 && $order['integral'] > 0) {
+    		$params = array(
+    				'user_id'		=> $order['user_id'],
+    				'pay_points'	=> $order['integral'] * (- 1),
+    				'change_desc'	=> sprintf(__('支付订单 %s', 'cashier'), $order['order_sn']),
+    				'from_type'		=> 'order_use_integral',
+    				'from_value'	=> $order['order_sn']
+    		);
+    		$result = RC_Api::api('user', 'account_change_log', $params);
+    		if (is_ecjia_error($result)) {
+    			return new ecjia_error('integral_error', __('积分使用失败！', 'cashier'));
+    		}
+    	}
+    	 
+    	if ($order['bonus_id'] > 0 && $order['bonus'] > 0) {
+    		RC_Api::api('bonus', 'use_bonus', array('bonus_id' => $order['bonus_id'], 'order_id' => $new_order_id, 'order_sn' => $order['order_sn']));
+    	}
+    	
+    	//清除买单结算添加的会员
+    	unset($_SESSION['temp_quickpay_user_id']);
+    	
     	/*收银员订单操作记录*/
     	$device_info = RC_DB::table('mobile_device')->where('id', $_SESSION['device_id'])->first();
     	$device		  = $this->device;
@@ -211,7 +252,8 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
     			'store_id' 			=> $_SESSION['store_id'],
     			'staff_id'			=> $_SESSION['staff_id'],
     			'order_id'	 		=> $new_order_id,
-    			'order_type' 		=> 'ecjia-cashdesk',
+    			'order_sn'			=> $order['order_sn'],
+    			'order_type' 		=> 'quickpay',
     			'mobile_device_id'	=> empty($_SESSION['device_id']) ? 0 : $_SESSION['device_id'],
     			'device_sn'			=> empty($device_info['device_udid']) ? '' : $device_info['device_udid'],
     			'device_type'		=> $device_type,

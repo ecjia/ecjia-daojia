@@ -212,6 +212,7 @@ class admin_cashier_flow_checkOrder_module extends api_admin implements api_inte
 				}
 			}
 		}
+		
 		return $out;
 	}	
 	

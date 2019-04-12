@@ -64,7 +64,7 @@ class admin_cashier_orders_refund_record_module extends api_admin implements api
 		$end_date	= $this->requestData('end_date', '');
 		
 		$time			= RC_Time::gmtime();
-		$format_time	= RC_Time::local_date(ecjia::config('date_format'), $time);
+		$format_time	= RC_Time::local_date('Y-m-d', $time);
 		
 		if (empty($start_date) && empty($end_date)) {
 			$start_date = $format_time;

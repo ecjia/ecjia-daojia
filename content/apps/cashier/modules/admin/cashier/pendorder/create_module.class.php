@@ -14,6 +14,13 @@ class admin_cashier_pendorder_create_module extends api_admin implements api_int
         }
 		
 	    $rec_id = $this->requestData('rec_id', '0');
+	    $pendorder_id = $this->requestData('pendorder_id', '0');
+	    
+	    //$pendorder_id兼容客户端，已挂单数据继续添加商品挂单操作
+	    if (!empty($pendorder_id)) {
+	    	return []; //pendorder表数据无需再操作
+	    }
+	    
 	    if (empty($rec_id)) {
 	        return new ecjia_error('invalid_parameter', __('参数错误', 'cashier'));
 	    }

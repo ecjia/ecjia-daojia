@@ -44,54 +44,73 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Cashier\Maintains;
 
-/**
- * 商家收银台副屏广告
- * @author zrl
- */
-class admin_cashier_secondscreen_adsense_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+use Ecjia\App\Maintain\AbstractCommand;
+use RC_DB;
 
-		$this->authadminSession();
-        if ($_SESSION['staff_id'] <= 0) {
-            return new ecjia_error(100, 'Invalid session');
-        }
-		$store_id = $_SESSION['store_id'];
-		$response = [];
-		$time = RC_Time::gmtime();
-		$merchant_positon_info = RC_DB::table('merchants_ad_position')
-								->where('store_id', $store_id)
-								->where('type', 'adsense')
-								->where('position_code', 'cashier_screen_adsense')->first();
+class UpdateCashierRecordOrderType extends AbstractCommand
+{
+    
+    
+    /**
+     * 代号标识
+     * @var string
+     */
+    protected $code = 'update_cashier_record_order_type';
+    
+    /**
+     * 图标
+     * @var string
+     */
+    protected $icon = '/statics/images/setting_shop.png';
+    
+    /**
+     * 名称
+     * @var string
+     * 描述
+     * @var string
+     */
+    public function __construct()
+    {
+    	$this->name = __('更新收银员订单操作记录的订单类型', 'cashier');
+    	$this->description = __('更新收银台收银员订单操作记录的订单类型order_type（普通订单为buy,收款既买单为quickpay，退款为refund）', 'cashier');
+    }
+
+    /**
+     * 更新收银台收银员订单操作记录的订单类型order_type（普通订单为buy,收款既买单为quickpay，退款为refund）
+     *
+     * @return bool
+     */
+    public function run() {
+        
+		//更新开单/验单记录的订单类型为buy
+		$dbview = RC_DB::table('cashier_record as cr')->leftJoin('order_info as oi', RC_DB::raw('cr.order_id'), '=', RC_DB::raw('oi.order_id'));
+		$buy_order_list = $dbview->select(RC_DB::raw('oi.order_sn, cr.id'))->groupBy(RC_DB::raw('oi.order_id'))->get();
+		if (!empty($buy_order_list)) {
+			foreach ($buy_order_list as $value) {
+				if ($value['id']) {
+					RC_DB::table('cashier_record')->where('id', $value['id'])->whereIn('action', ['billing', 'check_order'])->update(['order_type' => 'buy', 'order_sn' => $value['order_sn']]);
+				}
+			}
+		}
 		
-     	if (!empty($merchant_positon_info['position_id'])) {
-     		$ad = RC_DB::table('merchants_ad');
-     		if (!empty($merchant_positon_info['max_number'])) {
-     			$ad->take($merchant_positon_info['max_number']);
-     		}
-     		$list = $ad->where('start_time', '<=', $time)
-     				   ->where('end_time', '>=', $time)
-     				   ->where('enabled', 1)
-     				   ->where('position_id', $merchant_positon_info['position_id'])
-     				   ->orderBy('sort_order', 'asc')
-     				   ->get();
-     		
-     		if (!empty($list)) {
-     			foreach ($list as $row) {
-     				$response[] = array(
-     						'ad_id' 		=> intval($row['ad_id']),
-     						'ad_name'		=> trim($row['ad_name']),
-     						'ad_link'		=> !empty($row['ad_link']) ? trim($row['ad_link']) : '',
-     						'ad_img'		=> !empty($row['ad_code']) ? RC_Upload::upload_url($row['ad_code']) : '',
-     						'start_time'	=> !empty($row['start_time']) ? RC_Time::local_date(ecjia::config('date_format'), $row['start_time']) : '',
-     						'end_time'		=> !empty($row['end_time']) ? RC_Time::local_date(ecjia::config('date_format'), $row['end_time']) : '',
-     				);
-     			}
-     		}
-     	}
-        return $response;
-	}
+        //查询收款买单记录，并更新记录的订单类型为quickpay
+        $list = RC_DB::table('quickpay_orders as qo')
+        			->leftJoin('cashier_record as cr', RC_DB::raw('qo.order_id'), '=', RC_DB::raw('cr.order_id'))
+        			->where(RC_DB::raw('cr.action'), 'receipt')
+        			->select(RC_DB::raw('qo.*, cr.id'))
+        			->get();
+        if (!empty($list)) {
+        	foreach ($list as $row) {
+        		if ($row['id']) {
+        			RC_DB::table('cashier_record')->where('id', $row['id'])->update(['order_type' => 'quickpay', 'order_sn' => $row['order_sn']]);
+        		}
+        	}
+        }
+        return true;
+    }
+    
 }
 
 // end

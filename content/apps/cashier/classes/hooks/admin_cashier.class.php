@@ -46,52 +46,15 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 商家收银台副屏广告
- * @author zrl
- */
-class admin_cashier_secondscreen_adsense_module extends api_admin implements api_interface {
-    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
-
-		$this->authadminSession();
-        if ($_SESSION['staff_id'] <= 0) {
-            return new ecjia_error(100, 'Invalid session');
-        }
-		$store_id = $_SESSION['store_id'];
-		$response = [];
-		$time = RC_Time::gmtime();
-		$merchant_positon_info = RC_DB::table('merchants_ad_position')
-								->where('store_id', $store_id)
-								->where('type', 'adsense')
-								->where('position_code', 'cashier_screen_adsense')->first();
-		
-     	if (!empty($merchant_positon_info['position_id'])) {
-     		$ad = RC_DB::table('merchants_ad');
-     		if (!empty($merchant_positon_info['max_number'])) {
-     			$ad->take($merchant_positon_info['max_number']);
-     		}
-     		$list = $ad->where('start_time', '<=', $time)
-     				   ->where('end_time', '>=', $time)
-     				   ->where('enabled', 1)
-     				   ->where('position_id', $merchant_positon_info['position_id'])
-     				   ->orderBy('sort_order', 'asc')
-     				   ->get();
-     		
-     		if (!empty($list)) {
-     			foreach ($list as $row) {
-     				$response[] = array(
-     						'ad_id' 		=> intval($row['ad_id']),
-     						'ad_name'		=> trim($row['ad_name']),
-     						'ad_link'		=> !empty($row['ad_link']) ? trim($row['ad_link']) : '',
-     						'ad_img'		=> !empty($row['ad_code']) ? RC_Upload::upload_url($row['ad_code']) : '',
-     						'start_time'	=> !empty($row['start_time']) ? RC_Time::local_date(ecjia::config('date_format'), $row['start_time']) : '',
-     						'end_time'		=> !empty($row['end_time']) ? RC_Time::local_date(ecjia::config('date_format'), $row['end_time']) : '',
-     				);
-     			}
-     		}
-     	}
-        return $response;
-	}
+class cashier_admin_hooks {
+    
+   public static function add_maintain_command($factories)
+   {
+   	$factories['update_cashier_record_order_type'] = 'Ecjia\App\Cashier\Maintains\UpdateCashierRecordOrderType';
+   	return $factories;
+   }
 }
+
+RC_Hook::add_action('ecjia_maintain_command_filter', array('cashier_admin_hooks', 'add_maintain_command'));
 
 // end

@@ -118,6 +118,22 @@ class admin_cashier_quickpay_order_detail_module extends api_admin implements ap
 		
 		$payment_record_info 	= $this->paymentRecordInfo($order['order_sn'], 'quickpay');
 		
+		
+		$user_info = [];
+		//有没用户
+		if ($order['user_id'] > 0) {
+			$userinfo = RC_DB::table('users')->where('user_id', $order['user_id'])->first();
+			if (!empty($userinfo)) {
+				$user_info = array(
+						'user_name'            => empty($userinfo['user_name']) ? '' : trim($userinfo['user_name']),
+						'mobile'               => empty($userinfo['mobile_phone']) ? '' : trim($userinfo['mobile_phone']),
+						'user_points'          => $userinfo['pay_points'],
+						'user_money'           => $userinfo['user_money'],
+						'formatted_user_money' => ecjia_price_format($userinfo['user_money'], false),
+				);
+			}
+		}
+		
 		$quickpay_print_data = array(
 				'order_sn' 						=> $order['order_sn'],
 				'trade_no'						=> empty($payment_record_info['trade_no']) ? '' : $payment_record_info['trade_no'],
@@ -137,12 +153,12 @@ class admin_cashier_quickpay_order_detail_module extends api_admin implements ap
 				'formatted_integral_money'		=> price_format($order['integral_money'], false),
 				'pay_name'						=> !empty($order['pay_name']) ? $order['pay_name'] : '',
 				'payment_account'				=> '',
-				'user_info'						=> [],
+				'user_info'						=> $user_info,
 				'refund_sn'						=> '',
 				'refund_total_amount'			=> 0,
 				'formatted_refund_total_amount' => '',
 				'cashier_name'					=> $this->get_cashier_name($order),
-				'pay_fee'						=> '',
+				'pay_fee'						=> 0,
 				'formatted_pay_fee'				=> '',
 		);
 		
@@ -158,6 +174,7 @@ class admin_cashier_quickpay_order_detail_module extends api_admin implements ap
 		if (!empty($order)) {
 			$staff_id = RC_DB::table('cashier_record')
 									->where('order_id', $order['order_id'])
+									->where('order_type', 'quickpay')
 									->where('store_id', $order['store_id'])
 									->where('action', 'receipt')->pluck('staff_id');
 			if ($staff_id) {

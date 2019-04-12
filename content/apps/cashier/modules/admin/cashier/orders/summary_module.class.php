@@ -78,6 +78,7 @@ class admin_cashier_orders_summary_module  extends api_admin implements api_inte
 		
 		$dbview_billing->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id'])
 			->where(RC_DB::raw('cr.action'), 'billing')
+			->where(RC_DB::raw('cr.order_type'), 'buy')
 			->where(RC_DB::raw('oi.order_status'), '!=', OS_RETURNED) //不包含已申请退款订单
 			->where(RC_DB::raw('oi.pay_status'), PS_PAYED);
 		
@@ -91,7 +92,7 @@ class admin_cashier_orders_summary_module  extends api_admin implements api_inte
 		if (!empty($start_date) && !empty($end_date)) {
 			$start_time = RC_Time::local_strtotime($start_date);
 			$end_time   = RC_Time::local_strtotime($end_date) + 86399;
-			$dbview_billing->where(RC_DB::raw('cr.create_at'), '>=', $start_time)->where(RC_DB::raw('cr.create_at'), '<=', $end_time);
+			$dbview_billing->where(RC_DB::raw('oi.add_time'), '>=', $start_time)->where(RC_DB::raw('oi.add_time'), '<=', $end_time);
 		}
 		
 		$result_billing 	= $dbview_billing->select(RC_DB::raw($field))->first();
@@ -112,6 +113,7 @@ class admin_cashier_orders_summary_module  extends api_admin implements api_inte
 	
 		$dbview_checkorder->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id'])
 		->where(RC_DB::raw('cr.action'), 'check_order')
+		->where(RC_DB::raw('cr.order_type'), 'buy')
 		->where(RC_DB::raw('oi.order_status'), '!=', OS_RETURNED) //不包含已申请退款订单
 		->where(RC_DB::raw('oi.pay_status'), PS_PAYED);
 	
@@ -125,7 +127,7 @@ class admin_cashier_orders_summary_module  extends api_admin implements api_inte
 		if (!empty($start_date) && !empty($end_date)) {
 			$start_time = RC_Time::local_strtotime($start_date);
 			$end_time   = RC_Time::local_strtotime($end_date) + 86399;
-			$dbview_checkorder->where(RC_DB::raw('cr.create_at'), '>=', $start_time)->where(RC_DB::raw('cr.create_at'), '<=', $end_time);
+			$dbview_checkorder->where(RC_DB::raw('oi.add_time'), '>=', $start_time)->where(RC_DB::raw('oi.add_time'), '<=', $end_time);
 		}
 	
 		$result_checkorder 	= $dbview_checkorder->select(RC_DB::raw($field))->first();
@@ -146,7 +148,7 @@ class admin_cashier_orders_summary_module  extends api_admin implements api_inte
 		
 		$dbview_receipt->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id'])
 			->where(RC_DB::raw('cr.action'), '=', 'receipt')
-			->where(RC_DB::raw('qo.order_type'), '=', 'cashdesk-receipt')
+			->where(RC_DB::raw('qo.order_type'), '=', 'quickpay')
 			->where(RC_DB::raw('qo.referer'), '=', 'ecjia-cashdesk')
 			->where(RC_DB::raw('qo.pay_status'), \Ecjia\App\Quickpay\Enums\QuickpayPayEnum::PAID);
 		
@@ -161,7 +163,7 @@ class admin_cashier_orders_summary_module  extends api_admin implements api_inte
 		if (!empty($start_date) && !empty($end_date)) {
 			$start_time = RC_Time::local_strtotime($start_date);
 			$end_time   = RC_Time::local_strtotime($end_date) + 86399;
-			$dbview_receipt->where(RC_DB::raw('cr.create_at'), '>=', $start_time)->where(RC_DB::raw('cr.create_at'), '<=', $end_time);
+			$dbview_receipt->where(RC_DB::raw('qo.add_time'), '>=', $start_time)->where(RC_DB::raw('qo.add_time'), '<=', $end_time);
 		}
 		
 		$result_receipt		= $dbview_receipt->select(RC_DB::raw($field_receipt))->first();
