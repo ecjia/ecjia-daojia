@@ -1,0 +1,43 @@
+# Copyright (C) 2019 订单查询
+# This file is distributed under the same license as the 订单查询 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 订单查询 1.18.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-03-22 03:53:36+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#. #-#-#-#-#  mp_orders.pot (订单查询 1.18.0)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: mp_orders.class.php:114
+msgid "订单查询"
+msgstr ""
+
+#: mp_orders.class.php:115
+msgid "您目前还没有消费过哦"
+msgstr ""
+
+#: mp_orders.class.php:127
+msgid "【%s】订单号：%s"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.mp_orders/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "使用插件可以在微信上查询您的订单信息。"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr ""

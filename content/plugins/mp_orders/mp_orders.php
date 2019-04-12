@@ -52,6 +52,7 @@ Author: ECJIA TEAM
 Version: 1.18.0
 Author URI: http://www.ecjia.com/
 Plugin App: platform
+Text Domain: mp_orders
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 class plugin_mp_orders {
@@ -72,6 +73,7 @@ class plugin_mp_orders {
 }
 
 Ecjia_PluginManager::extend('mp_orders', function() {
+    RC_Locale::loadPluginTextdomain('mp_orders');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_orders.class.php';
     return new mp_orders();
 });
