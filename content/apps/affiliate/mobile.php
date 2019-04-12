@@ -129,6 +129,11 @@ class mobile extends ecjia_front {
 		if (isset($affiliate['on']) && $affiliate['on'] == 1) {
 			$invite_code = isset($_POST['invite_code']) ? trim($_POST['invite_code']) : '';
 			$mobile_phone = isset($_POST['mobile_phone']) ? trim($_POST['mobile_phone']) : '';
+
+            $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile_phone);
+            if (is_ecjia_error($check_mobile)) {
+                return $this->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
 			
 			$count = RC_DB::table('users')->where('mobile_phone', $mobile_phone)->count();
 			if (!empty($invite_code) && !empty($mobile_phone) && $count <= 0) {

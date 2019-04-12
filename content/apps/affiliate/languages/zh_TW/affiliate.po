@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App affiliate 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-13 13:44+0800\n"
-"PO-Revision-Date: 2019-03-13 13:45+0800\n"
+"POT-Creation-Date: 2019-04-03 15:04+0800\n"
+"PO-Revision-Date: 2019-04-03 15:05+0800\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "Language: zh_TW\n"
@@ -148,10 +148,12 @@ msgid "已撤销"
 msgstr "已撤銷"
 
 #: admin_separate.php:113 admin_separate.php:115
+#: classes/Enums/AffiliateLogEnum.php:38
 msgid "推荐注册分成"
 msgstr "推薦註冊分成"
 
 #: admin_separate.php:114 admin_separate.php:116
+#: classes/Enums/AffiliateLogEnum.php:40
 msgid "推荐订单分成"
 msgstr "推薦訂單分成"
 
@@ -250,6 +252,26 @@ msgstr "邀請送余額"
 msgid "调用affiliate_user_invite_code_api参数无效"
 msgstr "調用affiliate_user_invite_code_api參數無效"
 
+#: classes/Enums/AffiliateLogEnum.php:39
+msgid "推荐注册分成撤销了分成"
+msgstr "推薦註冊分成撤銷了分成"
+
+#: classes/Enums/AffiliateLogEnum.php:41
+msgid "推荐订单分成撤销了分成"
+msgstr "推薦訂單分成撤銷了分成"
+
+#: classes/Enums/AffiliateOrderEnum.php:39
+msgid "未参与分成"
+msgstr "未參與分成"
+
+#: classes/Enums/AffiliateOrderEnum.php:40
+msgid "已参与分成"
+msgstr "已參與分成"
+
+#: classes/Enums/AffiliateOrderEnum.php:41
+msgid "取消可参与分成"
+msgstr "取消可參與分成"
+
 #: classes/Helper.php:60 configs/package.php:55
 msgid "推荐分成"
 msgstr "推薦分成"
@@ -322,15 +344,15 @@ msgstr "%s為您推薦[%s]移動商城"
 msgid "%s向您推荐一款购物应用【%s】"
 msgstr "%s向您推薦一款購物應用【%s】"
 
-#: mobile.php:188 modules/affiliate/user/invite_module.class.php:97
+#: mobile.php:193 modules/affiliate/user/invite_module.class.php:93
 msgid "该手机号已注册！"
 msgstr "該手機號已註冊！"
 
-#: mobile.php:192 modules/affiliate/user/invite_module.class.php:125
+#: mobile.php:197 modules/affiliate/user/invite_module.class.php:121
 msgid "您已被邀请过，请勿重复提交！"
 msgstr "您已被邀請過，請勿重復提交！"
 
-#: mobile.php:195
+#: mobile.php:200
 msgid "提交成功！"
 msgstr "提交成功！"
 
@@ -345,19 +367,19 @@ msgstr "參數無效"
 msgid "分成订单不存在"
 msgstr "分成訂單不存在"
 
-#: modules/affiliate/user/invite_module.class.php:78
+#: modules/affiliate/user/invite_module.class.php:74
 msgid "验证码已过期，请重新获取！"
 msgstr "驗證碼已過期，請重新獲取！"
 
-#: modules/affiliate/user/invite_module.class.php:83
+#: modules/affiliate/user/invite_module.class.php:79
 msgid "验证码错误，请重新填写！"
 msgstr "驗證碼錯誤，請重新填寫！"
 
-#: modules/affiliate/user/invite_module.class.php:89
+#: modules/affiliate/user/invite_module.class.php:85
 msgid "信息错误，请重新获取验证码"
 msgstr "信息錯誤，請重新獲取驗證碼"
 
-#: modules/affiliate/user/invite_module.class.php:145
+#: modules/affiliate/user/invite_module.class.php:141
 msgid "未开启推荐奖励！"
 msgstr "未開啟推薦獎勵！"
 

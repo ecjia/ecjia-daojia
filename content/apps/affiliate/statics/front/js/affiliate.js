@@ -21,13 +21,7 @@
         		var mobile_phone = $("input[name='mobile_phone']").val();
         		var invite_code	= $("input[name='invite_code']").val();
         		
-        		
-        		var phoneReg = /^1[34578]\d{9}$/; 
-        		if (phoneReg.test(mobile_phone) == false) {
-        			alert('填写的手机号码格式不正确');
-        			return false;
-        		} 
-        		
+
         		$.ajax({
 					type: "POST",
 					url: url,
@@ -39,6 +33,7 @@
 					success: function (data) {
 						if (data.state == 'error') {
 							alert(data.message);
+							if(data.url)
 							location.href = data.url;
 						} else {
 //							location.href = data.app;
