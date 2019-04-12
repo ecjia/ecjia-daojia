@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 支付宝 2.30.0\n"
 "Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
-"POT-Creation-Date: 2019-03-29 01:42:03+00:00\n"
-"PO-Revision-Date: 2019-03-29 11:35+0800\n"
+"POT-Creation-Date: 2019-04-12 04:02:33+00:00\n"
+"PO-Revision-Date: 2019-04-12 14:49+0800\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "Language: zh_TW\n"
@@ -67,6 +67,10 @@ msgstr ""
 #: config.php:79
 msgid "RSA（PKCS8私钥）"
 msgstr "RSA（PKCS8私鑰）"
+
+#: pay_alipay.class.php:113
+msgid "%s的订单：%s"
+msgstr "%s的訂單：%s"
 
 #: pay_alipay.class.php:291
 msgid "支付宝支付失败"
