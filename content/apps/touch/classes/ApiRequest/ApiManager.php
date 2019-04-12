@@ -73,7 +73,7 @@ class ApiManager extends BaseApiManager
             'device-udid'     => RC_Session::getId(),
             'device-client'   => 'h5',    //h5
             'device-code'     => '6004',  //6004
-            'api-version'     => '1.28',
+            'api-version'     => '1.30',
             'api-driver'      => 'local',
         ));
     }

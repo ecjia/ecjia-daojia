@@ -172,6 +172,8 @@ class ApiConst
 
     const USER_INFO_BANKCARD        = 'user/info/bankcard';//获取用户绑定的银行卡信息
 
+    const USER_CONNECT_BINDED_STATUS = 'user/connect/binded/status';//获取用户绑定的第三方平台
+
     //提现
     const WITHDRAW_BANKCARD_BIND        = 'withdraw/bankcard/bind';//会员绑定/更新提现银行卡
     const WITHDRAW_BANKS                = 'withdraw/banks';//用户提现所支持的银行
