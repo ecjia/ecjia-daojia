@@ -33,6 +33,7 @@ class Product implements FilterInterface
                 'products.product_id',
                 'products.product_sn',
                 'products.product_number',
+            	'products.product_shop_price',
             	'products.promote_price as product_promote_price',
             	'products.product_name',
             	'products.product_thumb',

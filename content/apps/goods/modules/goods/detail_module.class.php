@@ -338,8 +338,6 @@ class goods_detail_module extends api_front implements api_interface {
 			$data = $this->_formate_data($product_id, $data);
 		}
 		
-		
-		
         return $data;
     }
 	

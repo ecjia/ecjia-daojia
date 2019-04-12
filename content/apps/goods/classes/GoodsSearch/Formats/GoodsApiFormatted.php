@@ -44,6 +44,9 @@ class GoodsApiFormatted
     	if (\ecjia::config('sku_price_mode') == 'goods_sku') {
     		$total_attr_price = 0;
     		if ($this->model->product_id > 0) {
+    			//货品有自己价格的话，替换商品价格
+    			$shop_price = $this->model->product_shop_price > 0 ? $this->model->product_shop_price*$this->user_rank_discount : $shop_price;
+    			
     			$product_goods_attr = explode('|', $this->model->product_goods_attr);
     			$attr_list = \RC_DB::table('goods_attr')->select('attr_value', 'attr_price')->whereIn('goods_attr_id', $product_goods_attr)->get();
     			foreach ($attr_list AS $attr) {
@@ -52,7 +55,7 @@ class GoodsApiFormatted
     			if ($total_attr_price > 0) {
     				$market_price += $total_attr_price;
     				$shop_price += $total_attr_price;
-    				$promote_price = ($promote_price > 0) ? ($promote_price+$total_attr_price) : 0;
+    				$promote_price = ($promote_price > 0) ? ($promote_price + $total_attr_price) : 0;
     			}
     		}
     	}
@@ -102,15 +105,38 @@ class GoodsApiFormatted
 			'specification'				=> $this->model->product_id > 0 ? [] : array_values($properties['spe']),
 			
             //picture info
-	        'img' => array(
-	        		'thumb'   => $this->model->goods_thumb ? \RC_Upload::upload_url($this->model->goods_thumb) : '',
-	        		'url'     => $this->model->original_img ? \RC_Upload::upload_url($this->model->original_img) : '',
-	        		'small'   => $this->model->goods_img ? \RC_Upload::upload_url($this->model->goods_img) : '',
-	        ),
+	        'img' 						=> $this->filterGoodsImg($this->model->product_id),
 			
         ];
     }
 
+    /**
+     * 商品主图信息处理
+     * @param int $product_id
+     * @return array
+     */
+    protected function filterGoodsImg($product_id)
+    {
+    	$img = [
+    		'thumb' => $this->model->goods_thumb ? \RC_Upload::upload_url($this->model->goods_thumb) : '',
+    		'url'     => $this->model->original_img ? \RC_Upload::upload_url($this->model->original_img) : '',
+    		'small'   => $this->model->goods_img ? \RC_Upload::upload_url($this->model->goods_img) : '',
+    	];
+    	if ($product_id > 0) {
+    		if (!empty($this->model->product_thumb)) {
+    			$img['thumb'] = \RC_Upload::upload_url($this->model->product_thumb);
+    		}
+    		if (!empty($this->model->product_original_img)) {
+    			$img['url'] = \RC_Upload::upload_url($this->model->product_original_img);
+    		}
+    		if (!empty($this->model->product_img)) {
+    			$img['small'] = \RC_Upload::upload_url($this->model->product_img);
+    		}
+    	}
+    	
+    	return $img;
+    }
+    
 	/**
 	 * 促销价处理
 	 * @param unknown $promote_price

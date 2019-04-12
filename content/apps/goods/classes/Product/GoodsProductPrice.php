@@ -139,15 +139,21 @@ class GoodsProductPrice
     	//商品会员等级价格
     	$user_price = \RC_DB::table('member_price')->where('goods_id', $this->model->goods_id)->where('user_rank', $this->getUserRank())->pluck('user_price');
 		
+    	//商品促销价格
+    	$goods_promote_price = $this->filterPromotePrice($this->goods_info->shop_price, $this->goods_info->is_promote);
+    	
 		if (in_array($attr_id, $product_attr_ids)) { //有货品情况
 			//获取货品信息
 			$product_info = $this->products_model->where('goods_id', $this->goods_id)->where('goods_attr', $attr_id)->first();
 			
 			$product_shop_price = $product_info->product_shop_price;
-			//会员等级价格
-			$product_shop_price = $user_price > 0 ? $user_price : $product_shop_price*$this->user_rank_discount;
-			//促销价
-			$promote_price = $this->filterPromotePrice($product_info->promote_price);
+			//货品会员等级价格
+			$product_shop_price = $product_shop_price > 0 ? $product_shop_price*$this->user_rank_discount : $user_price;
+			
+			//货品促销价
+			$product_promote_price = $this->filterPromotePrice($product_info->promote_price, $product_info->is_promote);
+			//货品促销价格存在，替换商品促销价格
+			$promote_price = $product_promote_price > 0 ? $product_promote_price : $goods_promote_price;
 			
 			//商品设置是SKU价格（商品价格 + 属性货品价格）
 			if (\ecjia::config('sku_price_mode') == 'goods_sku') {
@@ -188,7 +194,7 @@ class GoodsProductPrice
 			$product_shop_price = $user_price > 0 ? $user_price : $product_shop_price*$this->user_rank_discount;
 			
 			//促销价
-			$promote_price = $this->filterPromotePrice($this->goods_info->shop_price);
+			$promote_price = $goods_promote_price;
 			
 			//商品设置是SKU价格（商品价格 + 属性货品价格）
 			if (\ecjia::config('sku_price_mode') == 'goods_sku') {
@@ -216,11 +222,7 @@ class GoodsProductPrice
 				'formatted_product_shop_price'	=> ecjia_price_format($product_shop_price, false),	
 				'promote_price'					=> $promote_price,
 				'formatted_promote_price'		=> $promote_price > 0 ? ecjia_price_format($promote_price, false) : '',
-				'img'							=> [
-														'thumb' => '',
-														'small' => '',
-														'url'	=> ''
-												   ],
+				'img'							=> [],
 			];
 		}
     	
@@ -267,9 +269,9 @@ class GoodsProductPrice
 	 * @param unknown $promote_price
 	 * @return Ambigous <number, float>
 	 */
-    protected function filterPromotePrice($promote_price)
+    protected function filterPromotePrice($promote_price, $is_promote = 0)
     {
-    	if ($promote_price > 0) {
+    	if ($promote_price > 0 && $is_promote == 1) {
     		$promote_price = \Ecjia\App\Goods\BargainPrice::bargain_price($promote_price, $this->goods_info->promote_start_date, $this->goods_info->promote_end_date);
     	} else {
     		$promote_price = 0;
