@@ -1,0 +1,52 @@
+# Copyright (C) 2019 用户绑定
+# This file is distributed under the same license as the 用户绑定 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 用户绑定 1.18.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-03-29 01:42:03+00:00\n"
+"PO-Revision-Date: 2019-03-29 11:34+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: mp_userbind.class.php:137 mp_userbind.class.php:189
+msgid "已绑定"
+msgstr "已綁定"
+
+#: mp_userbind.class.php:138 mp_userbind.class.php:190
+msgid "您已拥有帐号，用户名为【%s】点击该链接可进入用户中心哦"
+msgstr "您已擁有帳號，用戶名為【%s】點擊該鏈接可進入用戶中心哦"
+
+#: mp_userbind.class.php:146 mp_userbind.class.php:198
+msgid "未绑定"
+msgstr "未綁定"
+
+#: mp_userbind.class.php:147 mp_userbind.class.php:199
+msgid "抱歉，目前您还未进行账号绑定，需点击该链接进行绑定操作"
+msgstr "抱歉，目前您還未進行賬號綁定，需點擊該鏈接進行綁定操作"
+
+#. Plugin Name of the plugin/theme
+msgid "用户绑定"
+msgstr "用戶綁定"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.mp_userbind/"
+msgstr "http://www.ecjia.com/plugins/ecjia.mp_userbind/"
+
+#. Description of the plugin/theme
+msgid "使用插件可以将微信公众平台用户绑定到本站会员上。"
+msgstr "使用插件可以將微信公眾平台用戶綁定到本站會員上。"
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr "ECJIA TEAM"
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr "http://www.ecjia.com/"
