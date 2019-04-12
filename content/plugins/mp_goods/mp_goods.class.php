@@ -54,7 +54,10 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 
 class mp_goods extends PlatformAbstract
-{   
+{
+
+    protected $news_count = 1;
+
     /**
      * 获取插件代号
      *
@@ -75,18 +78,6 @@ class mp_goods extends PlatformAbstract
         return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php', $key, $default);
     }
     
-    /**
-     * 加载语言包
-     *
-     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
-     */
-    public function loadLanguage($key = null, $default = null)
-    {
-        $locale = RC_Config::get('system.locale');
-        
-        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
-    }
-	
     /**
      * 获取iconUrl
      * {@inheritDoc}
@@ -124,7 +115,7 @@ class mp_goods extends PlatformAbstract
             ->where('is_on_sale', 1)
             ->where('is_alone_sale', 1)
             ->where('review_status', '>', 2)
-            ->orderBy('sort_order', 'ASC')->take(5)->get();
+            ->orderBy('sort_order', 'ASC')->take($this->news_count)->get();
         }
         else if ($type == self::TypeMerchant) {
             $data = RC_DB::table('goods')
@@ -134,7 +125,7 @@ class mp_goods extends PlatformAbstract
             ->where('is_alone_sale', 1)
             ->where('review_status', '>', 2)  
             ->where('store_id', $this->getStoreId())
-            ->orderBy('sort_order', 'ASC')->take(5)->get();
+            ->orderBy('sort_order', 'ASC')->take($this->news_count)->get();
         }
         
         return $data;
@@ -168,7 +159,7 @@ class mp_goods extends PlatformAbstract
     
     protected function defaultEmptyReply()
     {
-        return WechatRecord::Text_reply($this->getMessage(), '暂无商品');
+        return WechatRecord::Text_reply($this->getMessage(), __('暂无商品', 'mp_goods'));
     }
     
     protected function getCommandInstance()

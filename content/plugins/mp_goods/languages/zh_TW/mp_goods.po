@@ -1,0 +1,40 @@
+# Copyright (C) 2019 商品推荐
+# This file is distributed under the same license as the 商品推荐 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 商品推荐 1.19.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-04-04 05:41:04+00:00\n"
+"PO-Revision-Date: 2019-04-09 11:06+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: mp_goods.class.php:162
+msgid "暂无商品"
+msgstr "暫無商品"
+
+#. Plugin Name of the plugin/theme
+msgid "商品推荐"
+msgstr "商品推薦"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.mp_goods/"
+msgstr "http://www.ecjia.com/plugins/ecjia.mp_goods/"
+
+#. Description of the plugin/theme
+msgid "商品推荐，获得商城的商品信息。"
+msgstr "商品推薦，獲得商城的商品信息。"
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr "ECJIA TEAM"
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr "http://www.ecjia.com/"

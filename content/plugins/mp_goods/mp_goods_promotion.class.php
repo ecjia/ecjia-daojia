@@ -72,7 +72,7 @@ class mp_goods_promotion extends mp_goods
             ->where('promote_start_date', '<=', $time)
             ->where('promote_end_date', '>=', $time)
             ->select('goods_id', 'goods_name', 'promote_price', 'promote_start_date', 'promote_end_date', 'goods_img')
-            ->orderBy('sort_order', 'ASC')->take(5)->get();
+            ->orderBy('sort_order', 'ASC')->take($this->news_count)->get();
         }
         else if ($type == self::TypeMerchant) {
             $data = RC_DB::table('goods')
@@ -86,7 +86,7 @@ class mp_goods_promotion extends mp_goods
             ->where('promote_start_date', '<=', $time)
             ->where('promote_end_date', '>=', $time)
             ->select('goods_id', 'goods_name', 'promote_price', 'promote_start_date', 'promote_end_date', 'goods_img')
-            ->orderBy('sort_order', 'ASC')->take(5)->get();
+            ->orderBy('sort_order', 'ASC')->take($this->news_count)->get();
         }
         
         return $data;
