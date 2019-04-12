@@ -46,7 +46,7 @@
 												</div>
 											</div>
 											<div class="assign-div">
-				                       			 <a class="btn btn-warning" type="button" data-toggle="ajax_assign" data-msg='{t domain="express" 1={$list.name}}是否确定让  【%1】  去配送？{/t}" href='{url path="express/merchant/assign_express_order" args="staff_id={$list.user_id}&type={$type}"}'>{t domain="express"}指派给他{/t}</a>
+				                       			 <a class="btn btn-warning" type="button" data-toggle="ajax_assign" data-msg='{t domain="express" 1={$list.name}}是否确定让  【%1】  去配送？{/t}' href='{url path="express/merchant/assign_express_order" args="staff_id={$list.user_id}&type={$type}"}'>{t domain="express"}指派给他{/t}</a>
 											</div>
 											
 											<input type="hidden" class="ex-u-id" value=""/>

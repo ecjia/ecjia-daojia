@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App express 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-13 05:24:23+00:00\n"
+"POT-Creation-Date: 2019-03-22 03:53:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -89,7 +89,7 @@ msgstr ""
 msgid "配送员管理"
 msgstr ""
 
-#: admin_express.php:88 admin_express.php:110 admin_express.php:212
+#: admin_express.php:88 admin_express.php:110 admin_express.php:209
 #: mh_express.php:150 mh_express.php:204
 msgid "配送员列表"
 msgstr ""
@@ -99,35 +99,35 @@ msgstr ""
 msgid "添加配送员"
 msgstr ""
 
-#: admin_express.php:142
+#: admin_express.php:139
 msgid "手机号已存在，请修改"
 msgstr ""
 
-#: admin_express.php:146
+#: admin_express.php:143
 msgid "email地址格式错误"
 msgstr ""
 
-#: admin_express.php:151
+#: admin_express.php:148
 msgid "邮箱已存在，请修改"
 msgstr ""
 
-#: admin_express.php:155
+#: admin_express.php:152
 msgid "请选择配送员所在地区"
 msgstr ""
 
-#: admin_express.php:159
+#: admin_express.php:156
 msgid "请输入详细地址"
 msgstr ""
 
-#: admin_express.php:195
+#: admin_express.php:192
 msgid "添加配送员成功"
 msgstr ""
 
-#: admin_express.php:197 admin_express.php:200
+#: admin_express.php:194 admin_express.php:197
 msgid "添加配送员失败"
 msgstr ""
 
-#: admin_express.php:210 admin_express.php:211
+#: admin_express.php:207 admin_express.php:208
 msgid "编辑配送员"
 msgstr ""
 

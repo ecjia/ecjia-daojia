@@ -143,7 +143,7 @@ ecjia.admin.admin_ship_ecjia_express.init();
 				
 				<div class="control-group">
 					<div class="controls">
-						<input type="submit" value=''{t domain="express"}确定{/t}' class="btn btn-gebo" />
+						<input type="submit" value='{t domain="express"}确定{/t}' class="btn btn-gebo" />
 					</div>
 				</div>
 			</fieldset>
