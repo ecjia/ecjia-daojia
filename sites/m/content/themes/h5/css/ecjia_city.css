@@ -14,8 +14,8 @@ html {
     color: #555
 }
 
-[type=radio]+label:after,
-[type=radio]+label:before {
+[type=radio] + label:after,
+[type=radio] + label:before {
     margin: 0 4px
 }
 
@@ -109,7 +109,7 @@ a.ecjia-color-green {
 }
 
 .ecjia-list li,
-.ecjia-list.list-short li+li::before {
+.ecjia-list.list-short li + li::before {
     border-color: #eee
 }
 
@@ -642,7 +642,7 @@ a.ecjia-color-green {
     transform: translateZ(0)
 }
 
-.picker-modal .toolbar+.picker-modal-inner {
+.picker-modal .toolbar + .picker-modal-inner {
     height: -webkit-calc(100% - 44px);
     height: -moz-calc(100% - 44px);
     height: calc(100% - 44px)
@@ -1510,6 +1510,91 @@ ul {
     max-width: 250px
 }
 
+/* 首页促销商品start */
+.swiper-promotion-goods {
+    overflow: hidden;
+    background: #fff;
+    border-bottom-left-radius: .8rem;
+    border-bottom-right-radius: .8rem;
+}
+.swiper-promotion-goods .swiper-slide {
+    position: relative;
+    border-bottom: none;
+    background: #fff;
+    padding: 10px;
+}
+.swiper-promotion-goods .swiper-slide .goods-image {
+    float: left;
+    width: 9em;
+    height: 9em;
+    position: relative;
+}
+.swiper-promotion-goods .swiper-slide .goods-image img {
+    width: 9em;
+    height: 9em;
+}
+.swiper-promotion-goods .swiper-slide .goods-image img.sales-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2.5em;
+    height: 2.5em;
+}
+.swiper-promotion-goods .swiper-slide .list-page-box {
+    margin-left: 9.5em;
+}
+.ecjia-promotion-model .swiper-promotion-goods .list-page-goods-price span del {
+    display: inline-block;
+    margin-left: 10px;
+}
+.ecjia-promotion-model .swiper-slide .promote-time.time {
+    position: relative;
+    display: block;
+    width: 100%;
+    font-size: .8em;
+    color: #555;
+    line-height: 2em;
+    height: 2em;
+    background-color: #fff;
+    bottom: 0;
+    text-align: left;
+    padding-left: .5em;
+}
+.ecjia-promotion-model .swiper-slide .promote-time.time .end-time {
+    background-color: #fce8e7;
+    color: #e73938;
+    padding: 5px;
+    font-weight: normal;
+}
+.ecjia-promotion-model .swiper-promotion-goods .list-page-goods-img .goods-name {
+    font-size: 1em;
+    color: #555;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-left: .5em;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    -ms-box-orient: vertical;
+    -moz-box-orient: vertical;
+    display: -webkit-box;
+    display: -ms-box;
+    display: -moz-box;
+    font-weight: 400;
+    height: auto;
+    white-space: pre-line;
+}
+.ecjia-promotion-model .swiper-promotion-goods .list-page-box .list-page-goods-price {
+    padding-top: .5em;
+}
+.ecjia-mod .swiper-promotion-goods.swiper-container-horizontal>.swiper-pagination {
+    bottom: 5px;
+}
+/* 首页促销商品end */
+
+.ecjia .swiper-pagination-bullet-active {
+    background: #47aa4d;
+}
+
 .ecjia-promotion-model img.sales-icon {
     position: absolute;
     width: 20%;
@@ -1544,9 +1629,11 @@ ul {
 .end-times {
     color: #fff;
     border-radius: 4px;
-    font-weight: bold;
     font-size: 1em;
-    background: #333;
+    background-color: #fce8e7;
+    color: #e73938;
+    margin: 0 3px;
+    padding: 0 3px;
 }
 
 .ecjia-new-model .swiper-slide .list-page-goods-img .goods-img {
@@ -1637,16 +1724,19 @@ ul {
 /*促销商品 更多*/
 .ecjia-promotion-list {
     overflow: hidden;
-    padding: .5em 1em
+    padding: .5em;
+    margin-top: 3.2em;
 }
 
 .ecjia-promotion-list li {
     background: #fff;
     position: relative;
     border-radius: .3em;
-    width: 50%;
-    float: left;
-    padding: 1px;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    padding: .5em;
+    border-bottom: 1px solid #eee;
 }
 
 .ecjia-promotion-list li:first-child {
@@ -1654,16 +1744,29 @@ ul {
 }
 
 .ecjia-promotion-list img.sales-icon {
-    width: 20%
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2.5em;
+    height: 2.5em;
 }
 
 .ecjia-promotion-list .list-page-goods-img .goods-img {
-    display: block;
-    height: 0;
-    overflow: hidden;
-    margin: 0 auto;
     position: relative;
-    padding-bottom: 100%;
+    float: left;
+    width: 11em;
+    height: 11em;
+}
+
+.ecjia-promotion-list .list-page-goods-img .goods-img .img {
+    width: 11em;
+    height: 11em;
+}
+
+.ecjia-promotion-list .list-page-goods-img .list-page-box {
+    margin-left: 11em;
+    position: relative;
+    height: 11em;
 }
 
 .ecjia-promotion-list .promote-time {
@@ -1672,10 +1775,10 @@ ul {
     width: 100%;
     font-size: .9em;
     text-align: center;
-    color: #e73938;
+    color: #fff;
     height: 2.8em;
     line-height: 2.8em;
-    background-color: #fce8e7;
+    background-color: rgba(0, 0, 0, .3);
     bottom: 0
 }
 
@@ -1688,10 +1791,22 @@ ul {
     line-height: 1.4em
 }
 
-.ecjia-promotion-list .list-page-goods-img .goods-img img {
-    width: 100%;
-    border-top-left-radius: .3em;
-    border-top-right-radius: .3em;
+.ecjia-promotion-list li .list-page-box .store-name {
+    padding-left: .5em;
+    margin: .5em 0 .3em 0;
+}
+
+.ecjia-promotion-list li .list-page-box .store-name .name {
+    position: relative;
+    padding-left: 1.2em;
+}
+
+.ecjia-promotion-list li .list-page-box .store-name .name .logo {
+    width: 1em;
+    height: 1em;
+    position: absolute;
+    top: .2em;
+    left: 0;
 }
 
 .ecjia-promotion-list .promote-time .end-time {
@@ -1700,6 +1815,79 @@ ul {
     font-weight: bold;
     font-size: 1.2em;
     background: #fff;
+}
+
+.ecjia-promotion-list .list-page-goods-price{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+.ecjia-promotion-list .list-page-goods-price .left {
+    float: left;
+}
+
+
+.ecjia-promotion-list .list-page-goods-price .left p {
+    color: #ff3434;
+}
+
+.ecjia-promotion-list .btn.go-buy {
+    width: auto;
+    line-height: 1.5em;
+    font-size: 1em;
+    padding: 4px 10px;
+    margin: 0;
+    position: absolute;
+    right: 0;
+    top: .5em;
+}
+
+.ecjia-promotion-list .list-page-goods-img .goods-name {
+    color: #555;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-left: .5em;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    -ms-box-orient: vertical;
+    -moz-box-orient: vertical;
+    display: -webkit-box;
+    display: -ms-box;
+    display: -moz-box;
+    font-weight: 400;
+    height: auto;
+    white-space: pre-line;
+}
+
+.ecjia-promotion-model .ecjia-promotion-list .list-page-goods-price {
+    padding-bottom: 0;
+}
+
+.ecjia-promotion-tab {
+    position: fixed;
+    height: 3em;
+    width: 100%;
+    top: 0;
+    background-color: #fff;
+    border-bottom: .1em solid #eee;
+    line-height: 3em;
+    font-size: 1.1em;
+    z-index: 1;
+}
+
+.ecjia-promotion-tab li {
+    float: left;
+    width: 25%;
+    text-align: center;
+    height: 2.9em;
+}
+
+.ecjia-promotion-tab li.active span {
+    color: #47aa4d;
+    border-bottom: 2px solid #47aa4d;
+    height: 2.9em;
+    display: inline-block;
 }
 
 /*新品推荐 更多*/
@@ -2298,7 +2486,7 @@ footer {
     overflow: hidden;
 }
 
-.ecjia-store-detail .store-other-info li+li:before {
+.ecjia-store-detail .store-other-info li + li:before {
     content: '';
     position: absolute;
     display: block;
@@ -3434,7 +3622,7 @@ footer {
     color: #333
 }
 
-.flow-address .address-info span+span {
+.flow-address .address-info span + span {
     margin-left: 2em
 }
 
@@ -3910,7 +4098,7 @@ footer {
     border-bottom: 1px solid #eee
 }
 
-.ecjia .ecjia-checkout .checklist+.checklist::before {
+.ecjia .ecjia-checkout .checklist + .checklist::before {
     content: '';
     position: absolute;
     top: 0;
@@ -3923,7 +4111,7 @@ footer {
     border-top: none
 }
 
-.ecjia .ecjia-select .ecjia-list .select-item+.select-item::before {
+.ecjia .ecjia-select .ecjia-list .select-item + .select-item::before {
     content: '';
     position: absolute;
     border: 0;
@@ -4312,40 +4500,67 @@ footer {
 }
 
 /*========================  结算完成 ===========================*/
-.ecjia-flow-done .flow-success {
-    margin: 2em 0
+.ecjia-flow-done .flow-success, .ecjia-flow-done .flow-fail {
+    margin: 2em 0;
 }
 
-.ecjia-flow-done .flow-success p {
-    padding-left: 4.5em;
-    width: 15.5em;
-    height: 4em;
-    line-height: 4em;
-    margin: 0 auto;
-    position: relative
+.ecjia-flow-done .flow-success p, .ecjia-flow-done .flow-fail p {
+    text-align: center;
 }
 
-.ecjia-flow-done .flow-success p::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    display: inline-block;
+.ecjia-flow-done .icon-status-text {
+    position: relative;
+    top: -2em;
+    left: .4em;
+}
+
+.ecjia-flow-done .icon-status {
     width: 3em;
     height: 3em;
-    top: .5em;
-    border-radius: 100%
+    padding: 0;
+    background-color: #47AA4D;
+    border-radius: 50%;
+    margin: 2em auto 1em;
+    position: relative;
+    display: inline-block;
 }
 
-.ecjia-flow-done .flow-success p::after {
+.ecjia-flow-done .flow-success .icon-status::after {
     content: '';
     position: absolute;
     left: 1.1em;
-    top: 1em;
+    top: 0.5em;
     width: .8em;
     height: 1.8em;
     border-right: 2px solid #fff;
     border-bottom: 2px solid #fff;
     border-radius: 0 0 5px 0;
+    transform: rotate(45deg)
+}
+
+.ecjia-flow-done .flow-fail .icon-status {
+    background-color: #ef3030;
+}
+
+.ecjia-flow-done .flow-fail .icon-status::before {
+    content: '';
+    position: absolute;
+    left: 1.2em;
+    top: 1.3em;
+    width: 1.8em;
+    height: 1.8em;
+    border-top: 2px solid #fff;
+    transform: rotate(-45deg)
+}
+
+.ecjia-flow-done .flow-fail .icon-status::after {
+    content: '';
+    position: absolute;
+    left: 0em;
+    top: 1.3em;
+    width: 1.8em;
+    height: 1.8em;
+    border-top: 2px solid #fff;
     transform: rotate(45deg)
 }
 
@@ -4391,7 +4606,7 @@ footer {
     color: #000 !important
 }
 
-.ecjia-flow-done .ecjia-list.list-short li+li::before {
+.ecjia-flow-done .ecjia-list.list-short li + li::before {
     width: 100%;
     left: 8%
 }
@@ -4717,7 +4932,7 @@ footer {
     display: block
 }
 
-.ecjia-user .ecjia-list.list-short li a>.icon-jiantou-right {
+.ecjia-user .ecjia-list.list-short li a > .icon-jiantou-right {
     right: 1%
 }
 
@@ -4791,7 +5006,7 @@ footer {
     top: -1px;
 }
 
-.ecjia-user .ecjia-list.list-short li+li::before {
+.ecjia-user .ecjia-list.list-short li + li::before {
     left: 3.1em;
     border-bottom: 1px solid #eee
 }
@@ -5065,7 +5280,7 @@ footer {
     padding: .5em 0 .5em 1em
 }
 
-.ecjia-user .d_bind .ecjia-list.list-short li+li::before {
+.ecjia-user .d_bind .ecjia-list.list-short li + li::before {
     width: 97%;
     left: 3%;
     border-bottom: 1px solid #eee
@@ -5150,7 +5365,7 @@ footer {
     padding: 1em
 }
 
-.ecjia-account.ecjia-pay.ecjia-flow-done .ecjia-list.list-short li+li::before {
+.ecjia-account.ecjia-pay.ecjia-flow-done .ecjia-list.list-short li + li::before {
     width: 100%;
     left: 3.8em
 }
@@ -5403,11 +5618,22 @@ footer {
     font-size: 1.5em
 }
 
+.ecjia-account .title {
+    font-size: 1.1em;
+    font-weight: 700;
+    padding-left: 1em;
+    line-height: 2.5em;
+    background-color: #F7F7F7;
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+}
+
 .ecjia-account .ecjia-list.list-short {
     border-bottom: 1px solid #eee
 }
 
-.ecjia-account .ecjia-list.list-short li+li::before {
+.ecjia-account .ecjia-list.list-short li + li::before {
     width: 97%;
     left: 3%
 }
@@ -5618,7 +5844,7 @@ footer {
     border-bottom: 1px solid #eee
 }
 
-.ecjia-account-record.ecjia-list.list-short li+li::before {
+.ecjia-account-record.ecjia-list.list-short li + li::before {
     content: '';
     position: absolute;
     display: block;
@@ -5636,14 +5862,14 @@ footer {
     display: none
 }
 
-.ecjia-list.ecjia-account-record>.ecjia-nolist>p {
+.ecjia-list.ecjia-account-record > .ecjia-nolist > p {
     margin: 40% 0 0 2%;
     position: absolute
 }
 
-.ecjia-account-record .ecjia-nolist>span,
-.ecjia-bonus .ecjia-nolist>span,
-.ecjia-spread-detail .ecjia-nolist>span {
+.ecjia-account-record .ecjia-nolist > span,
+.ecjia-bonus .ecjia-nolist > span,
+.ecjia-spread-detail .ecjia-nolist > span {
     position: relative;
     text-align: center;
     size: 16px;
@@ -5651,7 +5877,7 @@ footer {
 }
 
 .ecjia-account-record li.record-list {
-    padding-right: :0 !important
+    padding-right:: 0 !important
 }
 
 .ecjia-account-record .record-l {
@@ -6389,8 +6615,8 @@ footer {
 
 .goods-info .attr-number {
     position: absolute;
-    right: .5em;
-    bottom: 2em;
+    right: .2em;
+    bottom: 2.3em;
     color: #fff;
     border-radius: 10px;
     background-color: #ff3434;
@@ -6579,6 +6805,10 @@ footer {
 .groupbuy-left.two-line {
     align-items: flex-start;
     flex-direction: column
+}
+
+.groupbuy-right .text-left {
+    text-align: left;
 }
 
 .goods-info .goods-info-property .goods-price-new {
@@ -8179,33 +8409,37 @@ footer {
 
 /*========================  企业发票说明-sqq ===========================*/
 .inv_img_invoice {
-	height: 100%;
+    height: 100%;
 }
-.inv_img_invoice_title{
-	position:fixed;
-	background: #FFF;
-	width: 100%;
-	height: 3em;
-	border-bottom: 1px solid #eee;
-	z-index: 100;
+
+.inv_img_invoice_title {
+    position: fixed;
+    background: #FFF;
+    width: 100%;
+    height: 3em;
+    border-bottom: 1px solid #eee;
+    z-index: 100;
 }
-.inv_img_invoice_title h2{
-	line-height: 2em;
-	position: absolute;
-	right: 0;
-	left: 0;
-	height: 2em;
+
+.inv_img_invoice_title h2 {
+    line-height: 2em;
+    position: absolute;
+    right: 0;
+    left: 0;
+    height: 2em;
 }
-.inv_img_invoice_content{
-	padding:15px;
-	overflow-y: scroll;
-	padding-top: 3em;
-	text-align: left;
-	width: 100%;
-	height: 100%;
+
+.inv_img_invoice_content {
+    padding: 15px;
+    overflow-y: scroll;
+    padding-top: 3em;
+    text-align: left;
+    width: 100%;
+    height: 100%;
 }
-.inv_img_invoice_content .detail{
-	color:#838383;
+
+.inv_img_invoice_content .detail {
+    color: #838383;
 }
 
 /*========================  分类店铺 ===========================*/
@@ -8442,7 +8676,7 @@ footer {
     overflow: hidden
 }
 
-.ecjia-store-list ul>li.view-more {
+.ecjia-store-list ul > li.view-more {
     text-align: center;
     line-height: 3em;
     color: #47aa4d;
@@ -9050,7 +9284,7 @@ footer {
     z-index: 998
 }
 
-.ecjia-spread .ecjia-margin-b>a img {
+.ecjia-spread .ecjia-margin-b > a img {
     position: relative;
     width: 100%;
     padding: 0 .8em;
@@ -9102,7 +9336,7 @@ footer {
     height: 14em
 }
 
-.ecjia-spread .ecjia-list.list-short li+li::before {
+.ecjia-spread .ecjia-list.list-short li + li::before {
     content: '';
     position: relative;
     display: block;
@@ -9258,7 +9492,7 @@ footer {
     font-weight: bold
 }
 
-.ecjia-spread-detail .ecjia-list.list-short li+li::before {
+.ecjia-spread-detail .ecjia-list.list-short li + li::before {
     content: '';
     position: absolute;
     display: block;
@@ -9340,27 +9574,27 @@ footer {
     }
 }
 
-.load-list .loader .ball-pulse>div:nth-child(0) {
+.load-list .loader .ball-pulse > div:nth-child(0) {
     -webkit-animation: scale .75s 0s infinite cubic-bezier(.2, .68, .18, 1.08);
     animation: scale .75s 0s infinite cubic-bezier(.2, .68, .18, 1.08)
 }
 
-.load-list .loader .ball-pulse>div:nth-child(1) {
+.load-list .loader .ball-pulse > div:nth-child(1) {
     -webkit-animation: scale .75s .12s infinite cubic-bezier(.2, .68, .18, 1.08);
     animation: scale .75s .12s infinite cubic-bezier(.2, .68, .18, 1.08)
 }
 
-.load-list .loader .ball-pulse>div:nth-child(2) {
+.load-list .loader .ball-pulse > div:nth-child(2) {
     -webkit-animation: scale .75s .24s infinite cubic-bezier(.2, .68, .18, 1.08);
     animation: scale .75s .24s infinite cubic-bezier(.2, .68, .18, 1.08)
 }
 
-.load-list .loader .ball-pulse>div:nth-child(3) {
+.load-list .loader .ball-pulse > div:nth-child(3) {
     -webkit-animation: scale .75s .36s infinite cubic-bezier(.2, .68, .18, 1.08);
     animation: scale .75s .36s infinite cubic-bezier(.2, .68, .18, 1.08)
 }
 
-.load-list .loader .ball-pulse>div {
+.load-list .loader .ball-pulse > div {
     background-color: #47aa4d;
     width: 10px;
     height: 10px;
@@ -9902,6 +10136,7 @@ footer {
     overflow: hidden;
     width: 120px;
     height: 20px;
+    line-height: 20px;
     margin-left: 10px
 }
 
@@ -10324,8 +10559,8 @@ footer {
     min-height: 2em
 }
 
-.ecjia-attr-static .goods-attr-list ul>li,
-.ecjia-goodsAttr-modal .goods-attr-list ul>li {
+.ecjia-attr-static .goods-attr-list ul > li,
+.ecjia-goodsAttr-modal .goods-attr-list ul > li {
     float: left;
     border: 1px solid #aaa;
     border-radius: 50px;
@@ -10338,8 +10573,8 @@ footer {
     text-align: center
 }
 
-.ecjia-attr-static .goods-attr-list ul>li.active,
-.ecjia-goodsAttr-modal .goods-attr-list ul>li.active {
+.ecjia-attr-static .goods-attr-list ul > li.active,
+.ecjia-goodsAttr-modal .goods-attr-list ul > li.active {
     background-color: #47aa4d;
     color: #fff;
     border: 1px solid #fff
@@ -10770,7 +11005,7 @@ footer {
     margin-bottom: .5em
 }
 
-.ecjia-discover-cycleimage .swiper-container-horizontal>.swiper-pagination {
+.ecjia-discover-cycleimage .swiper-container-horizontal > .swiper-pagination {
     bottom: 0
 }
 
@@ -11723,7 +11958,7 @@ footer {
     padding-top: .8em
 }
 
-.quickpay .checkout .quickpay_div+.quickpay_div::before {
+.quickpay .checkout .quickpay_div + .quickpay_div::before {
     content: '';
     position: absolute;
     display: block;
@@ -11732,7 +11967,7 @@ footer {
     border-bottom: none
 }
 
-.quickpay .checkout .quickpay_div.content+.quickpay_div.content::before {
+.quickpay .checkout .quickpay_div.content + .quickpay_div.content::before {
     border-bottom: 1px solid #eee
 }
 
@@ -11771,7 +12006,7 @@ footer {
     color: #999
 }
 
-.quickpay .checkout .before_two li+li::before {
+.quickpay .checkout .before_two li + li::before {
     content: '';
     position: absolute;
     display: block;
@@ -11780,11 +12015,11 @@ footer {
     width: 100%
 }
 
-.quickpay .checkout .before_two.line li+li::before {
+.quickpay .checkout .before_two.line li + li::before {
     border-bottom: 1px solid #eee
 }
 
-.quickpay .checkout .before_two .quickpay_div.content li+li::before {
+.quickpay .checkout .before_two .quickpay_div.content li + li::before {
     border-bottom: 1px solid #eee
 }
 
@@ -12377,7 +12612,7 @@ footer {
     position: relative
 }
 
-.ecjia-return-list li+li::before {
+.ecjia-return-list li + li::before {
     content: '';
     position: absolute;
     display: block;
@@ -12705,7 +12940,7 @@ footer {
     position: relative
 }
 
-.ecjia-return-way-list li+li::before {
+.ecjia-return-way-list li + li::before {
     content: '';
     position: absolute;
     display: block;
@@ -14538,7 +14773,7 @@ body,
 
 .franchisee-search-title {
     text-align: center;
-    width: 100%;
+    /* width: 100%; */
     font-size: 1.3em;
     font-weight: bold
 }

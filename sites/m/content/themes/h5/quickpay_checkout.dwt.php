@@ -161,7 +161,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	        <a class="nopjax external" href='{url path="user/quickpay/bonus" args="store_id={$store_id}"}'>
 	            <div class="icon-wallet"></div>
 	            <span class="icon-name">{t domain="h5"}使用红包{/t}</span>
-	            <span class="fav_info">{t domain="h5" 1={count($arr.bonus_list)}}个可用{/t}</span>
+	            <span class="fav_info">{t domain="h5" 1={count($arr.bonus_list)}}%1个可用{/t}</span>
+	            
 	            <i class="iconfont icon-jiantou-right"></i>
 	            <input type="hidden" name="bonus" value="{$temp.bonus}">
 				{if $temp.bonus}
@@ -181,7 +182,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	            <span class="fav_info">{$temp.integral}{$integral_name}</span>
 	            <input type="hidden" name="integral" value="{$temp.integral}" />
 	            {else}
-	            <span class="fav_info">{if $data.user_integral lt $arr.order_max_integral }{$data.user_integral}{else}{$arr.order_max_integral}{/if}{$integral_name}可用</span>
+	            <span class="fav_info">{if $data.user_integral lt $arr.order_max_integral }{$data.user_integral}{else}{$arr.order_max_integral}{/if}{t domain="h5" 1={$integral_name}}%1可用{/t}</span>
 	            {/if}
 	            <i class="iconfont icon-jiantou-right"></i>
 				{if $temp.integral && $temp.integral_bonus}

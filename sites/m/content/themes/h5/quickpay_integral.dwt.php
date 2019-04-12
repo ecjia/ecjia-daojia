@@ -20,7 +20,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="quickpay">
 	    <div class="checkout">
 	        <p class="intergal_title">{t domain="h5" 1={$data.user_integral} 2={$integral_name}}您总共有%1个%2{/t}</p>
-	        <input class="intergal_input before_two" placeholder='{t domain="h5"}最多可使用{/t}{if $data.user_integral lt $activity.order_max_integral }{$data.user_integral}{else}{$activity.order_max_integral}{/if}个{$integral_name}" name="integral" value="{$temp.integral}">
+	        <input class="intergal_input before_two" placeholder='{t domain="h5"}最多可使用{/t}{if $data.user_integral lt $activity.order_max_integral }{$data.user_integral}{else}{$activity.order_max_integral}{/if}{t domain="h5"}个{/t}{$integral_name}' name="integral" value="{$temp.integral}">
 	    </div>
 	    
 	     <div class="save_discard">

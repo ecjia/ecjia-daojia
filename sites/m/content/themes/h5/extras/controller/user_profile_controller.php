@@ -67,6 +67,15 @@ class user_profile_controller
             if (!empty($user['avatar_img'])) {
                 $user_img_login = $user['avatar_img'];
             }
+
+            if (!empty($user['binded_wechat_platform'])) {
+                foreach ($user['binded_wechat_platform'] as $k => $v) {
+                    if ($v['connect_code'] == 'sns_wechat') {
+                        $user['wechat_is_bind'] = 1;
+                        $user['wechat_nickname'] = $v['wechat_nickname'];
+                    }
+                }
+            }
             ecjia_front::$controller->assign('user', $user);
             ecjia_front::$controller->assign('user_img', $user_img_login);
         } else {
@@ -238,6 +247,14 @@ class user_profile_controller
         $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
         $user = is_ecjia_error($user) ? [] : $user;
 
+        if (!empty($user['binded_wechat_platform'])) {
+            foreach ($user['binded_wechat_platform'] as $k => $v) {
+                if ($v['connect_code'] == 'sns_wechat') {
+                    $user['wechat_is_bind'] = 1;
+                    $user['wechat_nickname'] = $v['wechat_nickname'];
+                }
+            }
+        }
         ecjia_front::$controller->assign('user', $user);
 
         $type   = !empty($_GET['type']) ? trim($_GET['type']) : '';
@@ -283,6 +300,9 @@ class user_profile_controller
 
         ecjia_front::$controller->assign_title($title);
         ecjia_front::$controller->assign('form_url', $form_url);
+
+        $connect_code = trim($_GET['code']);
+        ecjia_front::$controller->assign('connect_code', $connect_code);
 
         if (!empty($status)) {
             ecjia_front::$controller->assign('status', $status);
@@ -445,12 +465,19 @@ class user_profile_controller
      */
     public static function bind_info()
     {
-        $token    = ecjia_touch_user::singleton()->getToken();
-        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING'] . '-' . $token));
+        $token = ecjia_touch_user::singleton()->getToken();
 
         $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
         $user = !is_ecjia_error($user) ? $user : array();
 
+        if (!empty($user['binded_wechat_platform'])) {
+            foreach ($user['binded_wechat_platform'] as $k => $v) {
+                if ($v['connect_code'] == 'sns_wechat') {
+                    $user['wechat_is_bind'] = 1;
+                    $user['wechat_nickname'] = $v['wechat_nickname'];
+                }
+            }
+        }
         ecjia_front::$controller->assign('user', $user);
 
         $type = !empty($_GET['type']) ? trim($_GET['type']) : '';
@@ -476,6 +503,67 @@ class user_profile_controller
 
         ecjia_front::$controller->display('user_bind_info.dwt');
     }
+
+    public static function wx_bind_status()
+    {
+        $token = ecjia_touch_user::singleton()->getToken();
+
+        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_CONNECT_BINDED_STATUS)->data(array('token' => $token, 'platform' => 'wechat'))->run();
+        $data = !is_ecjia_error($data) ? $data : array();
+
+        $cur_platform   = [];
+        $other_platform = [];
+
+        if (!empty($data)) {
+            foreach ($data as $k => $v) {
+                if ($v['connect_code'] == 'sns_wechat') {
+                    $cur_platform = $v;
+                } else {
+                    if ($v['status'] == 1) {
+                        $other_platform[] = $v;
+                    }
+                }
+            }
+        }
+        ecjia_front::$controller->assign('cur_platform', $cur_platform);
+        ecjia_front::$controller->assign('other_platform', $other_platform);
+
+        $title = __('绑定微信', 'h5');
+        ecjia_front::$controller->assign_title($title);
+
+        ecjia_front::$controller->display('user_wx_bind_status.dwt');
+    }
+
+    public static function choose_wechat()
+    {
+        $token = ecjia_touch_user::singleton()->getToken();
+
+        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_CONNECT_BINDED_STATUS)->data(array('token' => $token, 'platform' => 'wechat'))->run();
+        $data = !is_ecjia_error($data) ? $data : array();
+
+        $cur_platform   = [];
+        $other_platform = [];
+
+        if (!empty($data)) {
+            foreach ($data as $k => $v) {
+                if ($v['connect_code'] == 'sns_wechat') {
+                    $cur_platform = $v;
+                } else {
+                    if ($v['status'] == 1) {
+                        $other_platform[] = $v;
+                    }
+                }
+            }
+        }
+        ecjia_front::$controller->assign('cur_platform', $cur_platform);
+        ecjia_front::$controller->assign('other_platform', $other_platform);
+
+        $title = __('选择微信', 'h5');
+        ecjia_front::$controller->assign_title($title);
+
+        ecjia_front::$controller->display('user_wx_choose_wechat.dwt');
+    }
+
 
     //解绑验证手机号
     public static function unbind_check_mobile()
@@ -525,7 +613,7 @@ class user_profile_controller
                 return ecjia_front::$controller->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
 
-            return ecjia_front::$controller->showmessage(__('删除成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/profile/account_bind', array('type' => $type))));
+            return ecjia_front::$controller->showmessage(__('删除成功', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('user/profile/account_bind', array('type' => $type))));
         }
     }
 
@@ -596,7 +684,13 @@ class user_profile_controller
 
         //绑定微信真实姓名
         if ($type == 'wechat') {
-            $real_name = trim($_POST['real_name']);
+            $real_name    = trim($_POST['real_name']);
+            $connect_code = trim($_POST['connect_code']);
+
+            $code_list = array('sns_wechat', 'sns_wechat_shop', 'sns_wechat_bbc', 'sns_wechat_app', 'sns_wechat_weapp', 'sns_wechat_pc');
+            if (empty($connect_code) || !in_array($connect_code, $code_list)) {
+                return ecjia_front::$controller->showmessage(__('请点击微信钱包选择平台', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
 
             if (empty($real_name)) {
                 return ecjia_front::$controller->showmessage(__('请输入微信认证的真实姓名', 'h5'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -607,9 +701,10 @@ class user_profile_controller
             }
 
             $param = array(
-                'token'     => $token,
-                'real_name' => $real_name,
-                'smscode'   => $smscode
+                'token'        => $token,
+                'real_name'    => $real_name,
+                'smscode'      => $smscode,
+                'connect_code' => $connect_code
             );
 
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::WITHDRAW_WECHAT_WALLET_BIND)->data($param)->run();

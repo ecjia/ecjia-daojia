@@ -55,7 +55,7 @@
 			$('input[name="activity_id"]').off('click').on('click', function () {
 				var order_money = $("input[name='order_money']").val();
 				if (order_money == '' || order_money == undefined) {
-					alert('请输入消费金额');
+					alert(js_lang.please_enter_amount);
 					return false;
 				}
 				ecjia.touch.quickpay.checkout('change_amount', 'change_activity');
@@ -95,19 +95,19 @@
 					var order_money = $("input[name='order_money']").val();
 					if (order_money == '' || order_money == undefined) {
 						$this.prop('disabled', false);
-						alert('消费金额不能为空');
+						alert(js_lang.amount_cannot_empty);
 						return false;
 					}
 					if (order_money == 0) {
 						$this.prop('disabled', false);
-						alert('消费金额不能为0');
+						alert(js_lang.amount_cannot_0);
 						return false;
 					}
 					var drop_out_money = $("input[name='drop_out_money']").val();
 
 					if (show_exclude_amount == 1 && parseFloat(drop_out_money) > parseFloat(order_money)) {
 						$this.prop('disabled', false);
-						alert('不参与优惠金额不能大于消费总金额');
+						alert(js_lang.not_greater_than);
 						return false;
 					}
 				}
@@ -124,12 +124,12 @@
 						var myApp = new Framework7();
 						if (data.referer_url || data.message == 'Invalid session') {
 							myApp.modal({
-								title: '温馨提示',
-								text: '您还没有登录',
+								title: js_lang.tips,
+								text: js_lang.logged_yet,
 								buttons: [{
-									text: '取消',
+									text: js_lang.cancel,
 								}, {
-									text: '去登录',
+									text: js_lang.go_login,
 									onClick: function () {
 										location.href = data.referer_url;
 										return false;
@@ -169,9 +169,9 @@
 				myApp.modal({
 					title: message,
 					buttons: [{
-						text: '取消',
+						text: js_lang.cancel,
 					}, {
-						text: '确定',
+						text: js_lang.ok,
 						onClick: function () {
 							$.post(url, function (data) {
 								ecjia.touch.showmessage(data);
@@ -197,13 +197,12 @@
 					'activity_id': activity_id,
 				};
 				var url = $('input[name="quickpay_done_url"]').val();
-				$this.addClass('disabled').html('请求中...');
+				$this.addClass('disabled').html(js_lang.requesting);
 
 				var order_id = 0;
 				$.post(url, info, function (result) {
 					if (result.status == 'error') {
 						alert(result.message);
-						$this.removeClass('disabled').html('确认买单');
 						return false;
 					}
 					order_id = result.order_id;
@@ -212,7 +211,7 @@
 							order_id: order_id,
 							pay_code: pay_code
 						}, function (data) {
-							$this.removeClass('disabled').html('确认买单');
+							$this.removeClass('disabled').html(js_lang.confirm_order);
 							if (data.state == 'error') {
 								alert(data.message);
 								return false;
@@ -282,9 +281,9 @@
 				// $('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
 				var bool = $this.hasClass('external');
 				if (bool) {
-					$this.val("请求中");
+					$this.val(js_lang.requesting);
 				} else {
-					$this.val("支付请求中，请稍后");
+					$this.val(js_lang.payment_request);
 				}
 
 				$this.attr("disabled", true);
@@ -296,11 +295,11 @@
                     $('.la-ball-atom').remove();
                     $('.quick_pay_btn').removeAttr("disabled");
                     if (bool) {
-                        $this.val("去支付");
+                        $this.val(js_lang.to_pay);
                     } else {
-                        $this.val("确认支付");
+                        $this.val(js_lang.confirm_payment);
                     }
-                    alert('请选择支付方式');
+                    alert(js_lang.please_select_payment);
                     return false;
 				}
                 //余额支付
@@ -315,16 +314,16 @@
                         var url = $('.set_paypass_url').attr('data-url');
                         myApp.modal({
                             title: '',
-                            text: '您还未设置支付密码',
+                            text: js_lang.payment_password,
                             buttons: [{
-                                text: '取消',
+                                text: js_lang.cancel,
                                 onClick: function () {
                                     $('.modal').remove();
                                     $('.modal-overlay').remove();
                                     return false;
                                 }
                             }, {
-                                text: '去设置',
+                                text: js_lang.go_set,
                                 onClick: function () {
                                     window.location.href = url;
                                 }
@@ -344,9 +343,9 @@
 						$('.la-ball-atom').remove();
 						$('.quick_pay_btn').removeAttr("disabled");
 						if (bool) {
-							$this.val("去支付");
+							$this.val(js_lang.to_pay);
 						} else {
-                            $this.val("确认支付");
+                            $this.val(js_lang.confirm_payment);
 						}
 
 						if (data.state == 'error') {
@@ -356,7 +355,7 @@
 						if (data.redirect_url) {
 							location.href = data.redirect_url;
 						} else if (data.weixin_data) {
-							$this.val("去支付");
+							$this.val(js_lang.to_pay);
 							$('.wei-xin-pay').html("");
 							$('.wei-xin-pay').html(data.weixin_data);
 							callpay();
@@ -371,9 +370,9 @@
 
                 var bool = $('.quick_pay_btn').hasClass('external');
 				if (bool) {
-                    $('.quick_pay_btn').val("去支付");
+                    $('.quick_pay_btn').val(js_lang.to_pay);
 				} else {
-                    $('.quick_pay_btn').val("确认支付");
+                    $('.quick_pay_btn').val(js_lang.confirm_payment);
 				}
 
                 $('.quick_pay_btn').attr("disabled", false);
@@ -433,9 +432,9 @@
 
                         var bool = $('.quick_pay_btn').hasClass('external');
                         if (bool) {
-                            $('.quick_pay_btn').val("去支付");
+                            $('.quick_pay_btn').val(js_lang.to_pay);
                         } else {
-                            $('.quick_pay_btn').val("确认支付");
+                            $('.quick_pay_btn').val(js_lang.confirm_payment);
                         }
 
                         $('.quick_pay_btn').attr("disabled", false);

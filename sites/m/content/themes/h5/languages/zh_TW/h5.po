@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ECJia到家H5主题 1.29.0\n"
 "Report-Msgid-Bugs-To: https://www.ecjia.com/support/theme/h5\n"
-"POT-Creation-Date: 2019-03-15 13:23+0800\n"
-"PO-Revision-Date: 2019-03-15 14:33+0800\n"
+"POT-Creation-Date: 2019-04-04 15:27+0800\n"
+"PO-Revision-Date: 2019-04-04 15:42+0800\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "Language: zh_TW\n"
@@ -101,7 +101,7 @@ msgstr "否"
 msgid "确认支付"
 msgstr "確認支付"
 
-#: extras/configs/jslang.php:75 extras/controller/payment_controller.php:230
+#: extras/configs/jslang.php:75 extras/controller/payment_controller.php:238
 #: extras/controller/user_account_controller.php:617
 msgid "请选择支付方式"
 msgstr "請選擇支付方式"
@@ -155,8 +155,8 @@ msgid "请输入手机号码"
 msgstr "請輸入手機號碼"
 
 #: extras/configs/jslang.php:90 extras/controller/franchisee_controller.php:633
-#: extras/controller/user_profile_controller.php:759
-#: extras/controller/user_profile_controller.php:776
+#: extras/controller/user_profile_controller.php:854
+#: extras/controller/user_profile_controller.php:871
 msgid "验证码不能为空"
 msgstr "驗證碼不能為空"
 
@@ -205,6 +205,408 @@ msgstr "請選擇街道"
 msgid "请先选择所在地区"
 msgstr "請先選擇所在地區"
 
+#: extras/configs/jslang.php:102
+msgid "暂无"
+msgstr "暫無"
+
+#: extras/configs/jslang.php:103
+msgid "暂无店铺分类，未能入驻"
+msgstr "暫無店鋪分類，未能入駐"
+
+#: extras/configs/jslang.php:104
+msgid "完成"
+msgstr "完成"
+
+#: extras/configs/jslang.php:105
+msgid "请选择省市区、街道并填写详细地址"
+msgstr "請選擇省市區、街道並填寫詳細地址"
+
+#: extras/configs/jslang.php:106
+msgid "您确定要撤销申请吗"
+msgstr "您確定要撤銷申請嗎"
+
+#: extras/configs/jslang.php:107
+msgid "请查收 (%ss)"
+msgstr "請查收 (%ss)"
+
+#: extras/configs/jslang.php:108
+msgid "重新发送 %s(s)"
+msgstr "重新發送 %s(s)"
+
+#: extras/configs/jslang.php:109
+msgid "请选择所在街道"
+msgstr "請選擇所在街道"
+
+#: extras/configs/jslang.php:110
+#: extras/controller/franchisee_controller.php:315
+msgid "个人入驻"
+msgstr "個人入駐"
+
+#: extras/configs/jslang.php:111
+#: extras/controller/franchisee_controller.php:313
+msgid "企业入驻"
+msgstr "企業入駐"
+
+#: extras/configs/jslang.php:112
+msgid "经度：%s；纬度：%s"
+msgstr "經度：%s；緯度：%s"
+
+#: extras/configs/jslang.php:116 extras/configs/jslang.php:167
+msgid "剩余"
+msgstr "剩餘"
+
+#: extras/configs/jslang.php:117
+msgid "已结束！"
+msgstr "已結束！"
+
+#: extras/configs/jslang.php:118
+msgid "天"
+msgstr "天"
+
+#: extras/configs/jslang.php:119
+msgid "温馨提示"
+msgstr "溫馨提示"
+
+#: extras/configs/jslang.php:120
+msgid "距离活动结束还有"
+msgstr "距離活動結束還有"
+
+#: extras/configs/jslang.php:121
+msgid "购物车是空的"
+msgstr "購物車是空的"
+
+#: extras/configs/jslang.php:122
+msgid "去结算"
+msgstr "去結算"
+
+#: extras/configs/jslang.php:123
+msgid "数量超出范围"
+msgstr "數量超出範圍"
+
+#: extras/configs/jslang.php:124
+msgid "您还没有登录"
+msgstr "您還沒有登錄"
+
+#: extras/configs/jslang.php:125
+msgid "当前位置购物车空空如也哦～"
+msgstr "當前位置購物車空空如也哦～"
+
+#: extras/configs/jslang.php:126
+msgid "您还没有添加商品"
+msgstr "您還沒有添加商品"
+
+#: extras/configs/jslang.php:127
+msgid "去逛逛"
+msgstr "去逛逛"
+
+#: extras/configs/jslang.php:128
+msgid "(已减%s)"
+msgstr "(已減%s)"
+
+#: extras/configs/jslang.php:129
+msgid "(已选%s件)"
+msgstr "(已選%s件)"
+
+#: extras/configs/jslang.php:130
+msgid "(还差%s起送)"
+msgstr "(還差%s起送)"
+
+#: extras/configs/jslang.php:131
+msgid "暂无商品评论"
+msgstr "暫無商品評論"
+
+#: extras/configs/jslang.php:132
+msgid "清空购物车中所有商品？"
+msgstr "清空購物車中所有商品？"
+
+#: extras/configs/jslang.php:133
+msgid "请输入数值大于0的整数"
+msgstr "請輸入數值大於0的整數"
+
+#: extras/configs/jslang.php:134
+msgid "确定删除该店铺下全部商品？"
+msgstr "確定刪除該店鋪下全部商品？"
+
+#: extras/configs/jslang.php:135
+msgid "去登录"
+msgstr "去登錄"
+
+#: extras/configs/jslang.php:136
+msgid "全部删除"
+msgstr "全部刪除"
+
+#: extras/configs/jslang.php:137
+msgid "编辑"
+msgstr "編輯"
+
+#: extras/configs/jslang.php:138 extras/controller/merchant_controller.php:115
+#: extras/controller/merchant_controller.php:187
+#: extras/controller/merchant_controller.php:401
+msgid "全部"
+msgstr "全部"
+
+#: extras/configs/jslang.php:139 extras/controller/goods_controller.php:273
+#: extras/controller/merchant_controller.php:467
+msgid "免费"
+msgstr "免費"
+
+#: extras/configs/jslang.php:140
+msgid "分享微信"
+msgstr "分享微信"
+
+#: extras/configs/jslang.php:141
+msgid "新浪微博"
+msgstr "新浪微博"
+
+#: extras/configs/jslang.php:142
+msgid "保存图片"
+msgstr "保存圖片"
+
+#: extras/configs/jslang.php:143
+msgid "收起"
+msgstr "收起"
+
+#: extras/configs/jslang.php:144
+msgid "全文"
+msgstr "全文"
+
+#: extras/configs/jslang.php:145
+msgid "确定取消关注该店铺？"
+msgstr "確定取消關注該店鋪？"
+
+#: extras/configs/jslang.php:146
+msgid "暂无关注店铺"
+msgstr "暫無關注店鋪"
+
+#: extras/configs/jslang.php:147
+msgid "已关注"
+msgstr "已關注"
+
+#: extras/configs/jslang.php:148
+msgid "关注"
+msgstr "關注"
+
+#: extras/configs/jslang.php:152 extras/controller/touch_controller.php:457
+#: extras/controller/touch_controller.php:470
+msgid "定位失败，请手动选择"
+msgstr "定位失敗，請手動選擇"
+
+#: extras/configs/jslang.php:153
+msgid "复制成功！"
+msgstr "複製成功！"
+
+#: extras/configs/jslang.php:154
+msgid "清除缓存中，请稍后..."
+msgstr "清除緩存中，請稍後..."
+
+#: extras/configs/jslang.php:155
+msgid "历史访问城市"
+msgstr "歷史訪問城市"
+
+#: extras/configs/jslang.php:156
+msgid "点击加载更多"
+msgstr "點擊加載更多"
+
+#: extras/configs/jslang.php:157
+msgid "缺少参数！"
+msgstr "缺少參數！"
+
+#: extras/configs/jslang.php:158
+msgid "您确定要删除此条信息吗？"
+msgstr "您確定要刪除此條信息嗎？"
+
+#: extras/configs/jslang.php:159
+msgid "该地址超出配送范围"
+msgstr "該地址超出配送範圍"
+
+#: extras/configs/jslang.php:160
+msgid "确定清空搜索记录？"
+msgstr "確定清空搜索記錄？"
+
+#: extras/configs/jslang.php:161
+msgid "热门推荐已更新"
+msgstr "熱門推薦已更新"
+
+#: extras/configs/jslang.php:162
+msgid "您的定位已超出该店配送区域"
+msgstr "您的定位已超出該店配送區域"
+
+#: extras/configs/jslang.php:163
+msgid "知道了"
+msgstr "知道了"
+
+#: extras/configs/jslang.php:168
+msgid "取消点赞"
+msgstr "取消點贊"
+
+#: extras/configs/jslang.php:169
+msgid "点赞成功！"
+msgstr "點贊成功！"
+
+#: extras/configs/jslang.php:170
+msgid "发表成功！"
+msgstr "發表成功！"
+
+#: extras/configs/jslang.php:171
+msgid "请输入消费金额"
+msgstr "請輸入消費金額"
+
+#: extras/configs/jslang.php:172 extras/controller/quickpay_controller.php:328
+msgid "消费金额不能为空"
+msgstr "消費金額不能為空"
+
+#: extras/configs/jslang.php:173
+msgid "消费金额不能为0"
+msgstr "消費金額不能為0"
+
+#: extras/configs/jslang.php:174
+msgid "参与优惠金额不能大于消费总金额"
+msgstr "參與優惠金額不能大於消費總金額"
+
+#: extras/configs/jslang.php:175
+msgid "确认买单"
+msgstr "確認買單"
+
+#: extras/configs/jslang.php:176
+msgid "支付请求中，请稍后"
+msgstr "支付請求中，請稍後"
+
+#: extras/configs/jslang.php:177
+msgid "去支付"
+msgstr "去支付"
+
+#: extras/configs/jslang.php:178
+msgid "请在微信客户端打开链接"
+msgstr "請在微信客戶端打開鏈接"
+
+#: extras/configs/jslang.php:179
+msgid "暂无奖励"
+msgstr "暫無獎勵"
+
+#: extras/configs/jslang.php:180
+#: extras/controller/user_account_controller.php:214
+msgid "金额不能为空"
+msgstr "金額不能為空"
+
+#: extras/configs/jslang.php:181
+msgid "请输入号码"
+msgstr "請輸入號碼"
+
+#: extras/configs/jslang.php:182
+msgid "该红包不存在"
+msgstr "該紅包不存在"
+
+#: extras/configs/jslang.php:183
+msgid "立即提现"
+msgstr "立即提現"
+
+#: extras/configs/jslang.php:184
+msgid "没有可支持的提现方式"
+msgstr "沒有可支持的提現方式"
+
+#: extras/configs/jslang.php:185
+msgid "您还未设置提现账号，请设置好再提现"
+msgstr "您還未設置提現賬號，請設置好再提現"
+
+#: extras/configs/jslang.php:186
+msgid "您确定要删除吗？"
+msgstr "您確定要刪除嗎？"
+
+#: extras/configs/jslang.php:187
+msgid "暂无数据"
+msgstr "暫無數據"
+
+#: extras/configs/jslang.php:188
+msgid "删除失败"
+msgstr "刪除失敗"
+
+#: extras/configs/jslang.php:189
+msgid "是否确认退出？"
+msgstr "是否確認退出？"
+
+#: extras/configs/jslang.php:190
+msgid "你确定要清除浏览历史记录吗？"
+msgstr "你確定要清除瀏覽歷史記錄嗎？"
+
+#: extras/configs/jslang.php:191 extras/controller/affiliate_controller.php:87
+#: extras/controller/connect_controller.php:383
+#: extras/controller/user_get_password_controller.php:121
+#: extras/controller/user_privilege_controller.php:331
+#: extras/controller/user_profile_controller.php:400
+#: extras/controller/user_profile_controller.php:627
+msgid "请输入验证码"
+msgstr "請輸入驗證碼"
+
+#: extras/configs/jslang.php:192
+msgid "你确定要取消吗？"
+msgstr "你確定要取消嗎？"
+
+#: extras/configs/jslang.php:193
+#: extras/controller/user_account_controller.php:170
+#: extras/controller/user_account_controller.php:522
+msgid "充值"
+msgstr "充值"
+
+#: extras/configs/jslang.php:194
+msgid "请填写完整信息!"
+msgstr "請填寫完整信息!"
+
+#: extras/configs/jslang.php:195
+msgid "您确定要取消该订单吗？"
+msgstr "您確定要取消該訂單嗎？"
+
+#: extras/configs/jslang.php:196
+msgid "您确定要确认收货吗？"
+msgstr "您確定要確認收貨嗎？"
+
+#: extras/configs/jslang.php:197
+msgid "订单取消原因"
+msgstr "訂單取消原因"
+
+#: extras/configs/jslang.php:198
+msgid "您确定要撤销申请？"
+msgstr "您確定要撤銷申請？"
+
+#: extras/configs/jslang.php:199
+msgid "验证"
+msgstr "驗證"
+
+#: extras/configs/jslang.php:200
+msgid "您确定要注销当前账号吗？"
+msgstr "您確定要註銷當前賬號嗎？"
+
+#: extras/configs/jslang.php:201
+msgid "邀请成功即可获得%s奖励<br>%s可在购买商品时使用"
+msgstr "邀請成功即可獲得%s獎勵<br>%s可在購買商品時使用"
+
+#: extras/configs/jslang.php:202
+msgid "邀请成功即可获得红包奖励<br>红包可在购买商品时使用"
+msgstr "邀請成功即可獲得紅包獎勵<br>紅包可在購買商品時使用"
+
+#: extras/configs/jslang.php:203
+msgid "邀请成功即可获得现金奖励<br>现金可在购买商品时使用"
+msgstr "邀請成功即可獲得現金獎勵<br>現金可在購買商品時使用"
+
+#: extras/configs/jslang.php:204
+msgid "暂无文章"
+msgstr "暫無文章"
+
+#: extras/configs/jslang.php:205
+msgid "<span></span>重新发送"
+msgstr "<span></span>重新發送"
+
+#: extras/configs/jslang.php:206
+msgid "暂无浏览记录，点击"
+msgstr "暫無瀏覽記錄，點擊"
+
+#: extras/configs/jslang.php:207
+msgid "进入"
+msgstr "進入"
+
+#: extras/configs/jslang.php:208
+msgid "浏览商品"
+msgstr "瀏覽商品"
+
 #: extras/configs/theme-framework.php:18
 msgid "布局"
 msgstr "佈局"
@@ -248,15 +650,6 @@ msgstr "主題個性化 <small>配置菜單</small>"
 msgid "请输入手机号"
 msgstr "請輸入手機號"
 
-#: extras/controller/affiliate_controller.php:87
-#: extras/controller/connect_controller.php:383
-#: extras/controller/user_get_password_controller.php:121
-#: extras/controller/user_privilege_controller.php:331
-#: extras/controller/user_profile_controller.php:380
-#: extras/controller/user_profile_controller.php:539
-msgid "请输入验证码"
-msgstr "請輸入驗證碼"
-
 #: extras/controller/affiliate_controller.php:103
 msgid "您已经是老用户，可以直接去登陆"
 msgstr "您已經是老用戶，可以直接去登陸"
@@ -299,36 +692,36 @@ msgid "购物车列表"
 msgstr "購物車列表"
 
 #: extras/controller/cart_controller.php:307
-#: extras/controller/cart_controller.php:652
-#: extras/controller/cart_controller.php:918
-#: extras/controller/cart_controller.php:966
-#: extras/controller/cart_controller.php:1058
-#: extras/controller/cart_controller.php:1135
-#: extras/controller/cart_controller.php:1197
-#: extras/controller/cart_controller.php:1229
-#: extras/controller/cart_controller.php:1310
-#: extras/controller/cart_controller.php:1367
-#: extras/controller/cart_controller.php:1403
-#: extras/controller/cart_controller.php:1445
-#: extras/controller/cart_controller.php:1477
-#: extras/controller/cart_controller.php:1517
+#: extras/controller/cart_controller.php:653
+#: extras/controller/cart_controller.php:919
+#: extras/controller/cart_controller.php:967
+#: extras/controller/cart_controller.php:1059
+#: extras/controller/cart_controller.php:1136
+#: extras/controller/cart_controller.php:1198
+#: extras/controller/cart_controller.php:1230
+#: extras/controller/cart_controller.php:1311
+#: extras/controller/cart_controller.php:1368
+#: extras/controller/cart_controller.php:1404
+#: extras/controller/cart_controller.php:1446
+#: extras/controller/cart_controller.php:1478
+#: extras/controller/cart_controller.php:1518
 msgid "请先登录再继续操作"
 msgstr "請先登錄再繼續操作"
 
 #: extras/controller/cart_controller.php:322
-#: extras/controller/cart_controller.php:667
-#: extras/controller/cart_controller.php:925
-#: extras/controller/cart_controller.php:989
-#: extras/controller/cart_controller.php:1079
-#: extras/controller/cart_controller.php:1142
-#: extras/controller/cart_controller.php:1205
-#: extras/controller/cart_controller.php:1236
-#: extras/controller/cart_controller.php:1317
-#: extras/controller/cart_controller.php:1373
-#: extras/controller/cart_controller.php:1411
-#: extras/controller/cart_controller.php:1453
-#: extras/controller/cart_controller.php:1484
-#: extras/controller/cart_controller.php:1524
+#: extras/controller/cart_controller.php:668
+#: extras/controller/cart_controller.php:926
+#: extras/controller/cart_controller.php:990
+#: extras/controller/cart_controller.php:1080
+#: extras/controller/cart_controller.php:1143
+#: extras/controller/cart_controller.php:1206
+#: extras/controller/cart_controller.php:1237
+#: extras/controller/cart_controller.php:1318
+#: extras/controller/cart_controller.php:1374
+#: extras/controller/cart_controller.php:1412
+#: extras/controller/cart_controller.php:1454
+#: extras/controller/cart_controller.php:1485
+#: extras/controller/cart_controller.php:1525
 msgid "请选择商品再进行结算"
 msgstr "請選擇商品再進行結算"
 
@@ -337,101 +730,101 @@ msgid "请选择配送方式"
 msgstr "請選擇配送方式"
 
 #: extras/controller/cart_controller.php:503
-#: extras/controller/cart_controller.php:783
+#: extras/controller/cart_controller.php:784
 msgid "请填写完整的发票信息"
 msgstr "請填寫完整的發票信息"
 
 #: extras/controller/cart_controller.php:540
-#: extras/controller/cart_controller.php:820
+#: extras/controller/cart_controller.php:821
 #: extras/controller/quickpay_controller.php:81
 msgid "%s使用超出订单限制"
 msgstr "%s使用超出訂單限制"
 
 #: extras/controller/cart_controller.php:542
-#: extras/controller/cart_controller.php:822
+#: extras/controller/cart_controller.php:823
 #: extras/controller/quickpay_controller.php:83
 msgid "%s不足"
 msgstr "%s不足"
 
-#: extras/controller/cart_controller.php:611
-#: extras/controller/cart_controller.php:888
+#: extras/controller/cart_controller.php:612
+#: extras/controller/cart_controller.php:889
 msgid "结算"
 msgstr "結算"
 
-#: extras/controller/cart_controller.php:816
-#: extras/controller/cart_controller.php:1531
+#: extras/controller/cart_controller.php:817
+#: extras/controller/cart_controller.php:1532
 #: extras/controller/quickpay_controller.php:74
 msgid "积分"
 msgstr "積分"
 
-#: extras/controller/cart_controller.php:929
-#: extras/controller/cart_controller.php:994
-#: extras/controller/cart_controller.php:1146
-#: extras/controller/cart_controller.php:1209
-#: extras/controller/cart_controller.php:1240
-#: extras/controller/cart_controller.php:1377
-#: extras/controller/cart_controller.php:1415
-#: extras/controller/cart_controller.php:1457
-#: extras/controller/cart_controller.php:1488
-#: extras/controller/cart_controller.php:1528
+#: extras/controller/cart_controller.php:930
+#: extras/controller/cart_controller.php:995
+#: extras/controller/cart_controller.php:1147
+#: extras/controller/cart_controller.php:1210
+#: extras/controller/cart_controller.php:1241
+#: extras/controller/cart_controller.php:1378
+#: extras/controller/cart_controller.php:1416
+#: extras/controller/cart_controller.php:1458
+#: extras/controller/cart_controller.php:1489
+#: extras/controller/cart_controller.php:1529
 msgid "请先选择收货地址"
 msgstr "請先選擇收貨地址"
 
-#: extras/controller/cart_controller.php:955
+#: extras/controller/cart_controller.php:956
 msgid "商品清单"
 msgstr "商品清單"
 
-#: extras/controller/cart_controller.php:1003
+#: extras/controller/cart_controller.php:1004
 msgid "当前收货地址暂无可用配送方式，请重新更换其他的收货地址"
 msgstr "當前收貨地址暫無可用配送方式，請重新更換其他的收貨地址"
 
-#: extras/controller/cart_controller.php:1007
-#: extras/controller/cart_controller.php:1088
+#: extras/controller/cart_controller.php:1008
+#: extras/controller/cart_controller.php:1089
 msgid "请选择一个支付方式"
 msgstr "請選擇一個支付方式"
 
-#: extras/controller/cart_controller.php:1037
+#: extras/controller/cart_controller.php:1038
 msgid "当前配送方式不支持货到付款"
 msgstr "當前配送方式不支持貨到付款"
 
-#: extras/controller/cart_controller.php:1092
+#: extras/controller/cart_controller.php:1093
 msgid "请选择提货时间"
 msgstr "請選擇提貨時間"
 
-#: extras/controller/cart_controller.php:1218
+#: extras/controller/cart_controller.php:1219
 msgid "配送方式"
 msgstr "配送方式"
 
-#: extras/controller/cart_controller.php:1302
-#: extras/controller/cart_controller.php:1359
+#: extras/controller/cart_controller.php:1303
+#: extras/controller/cart_controller.php:1360
 msgid "选择支付配送方式"
 msgstr "選擇支付配送方式"
 
-#: extras/controller/cart_controller.php:1392
+#: extras/controller/cart_controller.php:1393
 msgid "配送时间"
 msgstr "配送時間"
 
-#: extras/controller/cart_controller.php:1434
+#: extras/controller/cart_controller.php:1435
 msgid "开发票"
 msgstr "開發票"
 
-#: extras/controller/cart_controller.php:1466
+#: extras/controller/cart_controller.php:1467
 msgid "备注留言"
 msgstr "備註留言"
 
-#: extras/controller/cart_controller.php:1496
+#: extras/controller/cart_controller.php:1497
 msgid "红包不可用"
 msgstr "紅包不可用"
 
-#: extras/controller/cart_controller.php:1506
+#: extras/controller/cart_controller.php:1507
 msgid "使用红包"
 msgstr "使用紅包"
 
-#: extras/controller/cart_controller.php:1537
+#: extras/controller/cart_controller.php:1538
 msgid "%s不可用"
 msgstr "%s不可用"
 
-#: extras/controller/cart_controller.php:1547
+#: extras/controller/cart_controller.php:1548
 msgid "使用%s"
 msgstr "使用%s"
 
@@ -548,7 +941,7 @@ msgstr "請設置用戶名"
 
 #: extras/controller/connect_controller.php:556
 #: extras/controller/user_privilege_controller.php:542
-#: extras/controller/user_profile_controller.php:383
+#: extras/controller/user_profile_controller.php:403
 msgid "请设置密码"
 msgstr "請設置密碼"
 
@@ -585,8 +978,8 @@ msgstr "進度查詢"
 
 #: extras/controller/franchisee_controller.php:131
 #: extras/controller/franchisee_controller.php:573
-#: extras/controller/user_profile_controller.php:355
-#: extras/controller/user_profile_controller.php:377
+#: extras/controller/user_profile_controller.php:375
+#: extras/controller/user_profile_controller.php:397
 msgid "手机号码不能为空"
 msgstr "手機號碼不能為空"
 
@@ -609,14 +1002,6 @@ msgstr "短信已發送到手機%s，請注意查看"
 #: extras/controller/franchisee_controller.php:301
 msgid "请先填写基本信息"
 msgstr "請先填寫基本信息"
-
-#: extras/controller/franchisee_controller.php:313
-msgid "企业入驻"
-msgstr "企業入駐"
-
-#: extras/controller/franchisee_controller.php:315
-msgid "个人入驻"
-msgstr "個人入駐"
 
 #: extras/controller/franchisee_controller.php:446
 msgid "请输入邮箱地址"
@@ -667,11 +1052,6 @@ msgstr "店鋪精確位置"
 msgid "所有分类"
 msgstr "所有分類"
 
-#: extras/controller/goods_controller.php:273
-#: extras/controller/merchant_controller.php:467
-msgid "免费"
-msgstr "免費"
-
 #: extras/controller/goods_controller.php:411
 msgid "促销商品"
 msgstr "促銷商品"
@@ -696,12 +1076,6 @@ msgstr "商品列表"
 #: extras/controller/merchant_controller.php:566
 msgid "店铺列表"
 msgstr "店鋪列表"
-
-#: extras/controller/merchant_controller.php:115
-#: extras/controller/merchant_controller.php:187
-#: extras/controller/merchant_controller.php:401
-msgid "全部"
-msgstr "全部"
 
 #: extras/controller/merchant_controller.php:117
 #: extras/controller/merchant_controller.php:361
@@ -764,13 +1138,18 @@ msgstr "訂單不存在"
 msgid "该订单已支付请勿重复支付"
 msgstr "該訂單已支付請勿重複支付"
 
+#: extras/controller/payment_controller.php:206
+#: extras/controller/quickpay_controller.php:551
+msgid "支付成功"
+msgstr "支付成功"
+
+#: extras/controller/payment_controller.php:209
+msgid "支付失败"
+msgstr "支付失敗"
+
 #: extras/controller/quickpay_controller.php:128
 msgid "该店铺未开启优惠买单活动"
 msgstr "該店鋪未開啟優惠買單活動"
-
-#: extras/controller/quickpay_controller.php:328
-msgid "消费金额不能为空"
-msgstr "消費金額不能為空"
 
 #: extras/controller/quickpay_controller.php:501
 #: extras/controller/user_account_controller.php:521
@@ -779,13 +1158,9 @@ msgstr "取消成功"
 
 #: extras/controller/quickpay_controller.php:522
 #: extras/controller/user_address_controller.php:600
-#: extras/controller/user_profile_controller.php:528
+#: extras/controller/user_profile_controller.php:616
 msgid "删除成功"
 msgstr "刪除成功"
-
-#: extras/controller/quickpay_controller.php:551
-msgid "支付成功"
-msgstr "支付成功"
 
 #: extras/controller/quickpay_controller.php:567
 msgid "我的买单"
@@ -824,11 +1199,6 @@ msgstr "定位"
 msgid "选择城市"
 msgstr "選擇城市"
 
-#: extras/controller/touch_controller.php:457
-#: extras/controller/touch_controller.php:470
-msgid "定位失败，请手动选择"
-msgstr "定位失敗，請手動選擇"
-
 #: extras/controller/user_account_controller.php:71
 msgid "我的钱包"
 msgstr "我的錢包"
@@ -836,15 +1206,6 @@ msgstr "我的錢包"
 #: extras/controller/user_account_controller.php:86
 msgid "账户余额"
 msgstr "賬戶餘額"
-
-#: extras/controller/user_account_controller.php:170
-#: extras/controller/user_account_controller.php:522
-msgid "充值"
-msgstr "充值"
-
-#: extras/controller/user_account_controller.php:214
-msgid "金额不能为空"
-msgstr "金額不能為空"
 
 #: extras/controller/user_account_controller.php:241
 msgid "提现"
@@ -932,7 +1293,7 @@ msgid "该地址为默认的收货地址，不能删除"
 msgstr "該地址為默認的收貨地址，不能刪除"
 
 #: extras/controller/user_address_controller.php:631
-#: extras/controller/user_profile_controller.php:687
+#: extras/controller/user_profile_controller.php:782
 msgid "设置成功"
 msgstr "設置成功"
 
@@ -990,7 +1351,7 @@ msgid "找回密码"
 msgstr "找回密碼"
 
 #: extras/controller/user_get_password_controller.php:201
-#: extras/controller/user_profile_controller.php:159
+#: extras/controller/user_profile_controller.php:168
 msgid "请输入新密码"
 msgstr "請輸入新密碼"
 
@@ -1178,177 +1539,186 @@ msgstr "手機快速註冊"
 msgid "注册"
 msgstr "註冊"
 
-#: extras/controller/user_profile_controller.php:77
+#: extras/controller/user_profile_controller.php:86
 msgid "个人资料"
 msgstr "個人資料"
 
-#: extras/controller/user_profile_controller.php:115
+#: extras/controller/user_profile_controller.php:124
 msgid "修改用户名"
 msgstr "修改用戶名"
 
-#: extras/controller/user_profile_controller.php:128
+#: extras/controller/user_profile_controller.php:137
 msgid "修改失败，请输入正确的用户名格式"
 msgstr "修改失敗，請輸入正確的用戶名格式"
 
-#: extras/controller/user_profile_controller.php:133
+#: extras/controller/user_profile_controller.php:142
 msgid "修改成功"
 msgstr "修改成功"
 
-#: extras/controller/user_profile_controller.php:155
+#: extras/controller/user_profile_controller.php:164
 msgid "请输入旧密码"
 msgstr "請輸入舊密碼"
 
-#: extras/controller/user_profile_controller.php:163
+#: extras/controller/user_profile_controller.php:172
 msgid "请输入确认新密码"
 msgstr "請輸入確認新密碼"
 
-#: extras/controller/user_profile_controller.php:169
+#: extras/controller/user_profile_controller.php:178
 msgid "新密码不能旧密码相同"
 msgstr "新密碼不能舊密碼相同"
 
-#: extras/controller/user_profile_controller.php:173
+#: extras/controller/user_profile_controller.php:182
 msgid "修改密码成功"
 msgstr "修改密碼成功"
 
-#: extras/controller/user_profile_controller.php:178
+#: extras/controller/user_profile_controller.php:187
 msgid "两次输入的密码不同，请重新输入"
 msgstr "兩次輸入的密碼不同，請重新輸入"
 
-#: extras/controller/user_profile_controller.php:186
-#: extras/controller/user_profile_controller.php:738
+#: extras/controller/user_profile_controller.php:195
+#: extras/controller/user_profile_controller.php:833
 msgid "请先绑定手机号码"
 msgstr "請先綁定手機號碼"
 
-#: extras/controller/user_profile_controller.php:189
-#: extras/controller/user_profile_controller.php:190
+#: extras/controller/user_profile_controller.php:198
+#: extras/controller/user_profile_controller.php:199
 msgid "修改密码"
 msgstr "修改密碼"
 
-#: extras/controller/user_profile_controller.php:226
+#: extras/controller/user_profile_controller.php:235
 msgid "提现账户"
 msgstr "提現賬戶"
 
-#: extras/controller/user_profile_controller.php:249
+#: extras/controller/user_profile_controller.php:266
 msgid "绑定手机"
 msgstr "綁定手機"
 
-#: extras/controller/user_profile_controller.php:251
+#: extras/controller/user_profile_controller.php:268
 msgid "绑定邮箱"
 msgstr "綁定郵箱"
 
-#: extras/controller/user_profile_controller.php:255
+#: extras/controller/user_profile_controller.php:272
 msgid "绑定银行卡"
 msgstr "綁定銀行卡"
 
-#: extras/controller/user_profile_controller.php:257
+#: extras/controller/user_profile_controller.php:274
 msgid "绑定微信钱包提现"
 msgstr "綁定微信錢包提現"
 
-#: extras/controller/user_profile_controller.php:327
+#: extras/controller/user_profile_controller.php:347
 msgid "该手机号与当前绑定的手机号相同"
 msgstr "該手機號與當前綁定的手機號相同"
 
-#: extras/controller/user_profile_controller.php:332
+#: extras/controller/user_profile_controller.php:352
 msgid "该邮箱地址与当前绑定的邮箱地址相同"
 msgstr "該郵箱地址與當前綁定的郵箱地址相同"
 
-#: extras/controller/user_profile_controller.php:386
+#: extras/controller/user_profile_controller.php:406
 msgid "登录密码不能少于 6 个字符"
 msgstr "登錄密碼不能少於 6 個字符"
 
-#: extras/controller/user_profile_controller.php:395
+#: extras/controller/user_profile_controller.php:415
 msgid "修改成功，请重新登录"
 msgstr "修改成功，請重新登錄"
 
-#: extras/controller/user_profile_controller.php:461
+#: extras/controller/user_profile_controller.php:488
 msgid "更换手机号"
 msgstr "更換手機號"
 
-#: extras/controller/user_profile_controller.php:463
+#: extras/controller/user_profile_controller.php:490
 msgid "更换邮箱"
 msgstr "更換郵箱"
 
-#: extras/controller/user_profile_controller.php:465
+#: extras/controller/user_profile_controller.php:492
+#: extras/controller/user_profile_controller.php:531
 msgid "绑定微信"
 msgstr "綁定微信"
 
-#: extras/controller/user_profile_controller.php:467
+#: extras/controller/user_profile_controller.php:494
 msgid "解除绑定"
 msgstr "解除綁定"
 
-#: extras/controller/user_profile_controller.php:471
+#: extras/controller/user_profile_controller.php:498
 msgid "编辑银行卡"
 msgstr "編輯銀行卡"
 
-#: extras/controller/user_profile_controller.php:497
-#: extras/controller/user_profile_controller.php:800
+#: extras/controller/user_profile_controller.php:561
+msgid "选择微信"
+msgstr "選擇微信"
+
+#: extras/controller/user_profile_controller.php:585
+#: extras/controller/user_profile_controller.php:895
 msgid "验证手机号"
 msgstr "編輯銀行卡"
 
-#: extras/controller/user_profile_controller.php:515
+#: extras/controller/user_profile_controller.php:603
 msgid "该提现方式不存在"
 msgstr "該提現方式不存在"
 
-#: extras/controller/user_profile_controller.php:519
-#: extras/controller/user_profile_controller.php:577
-#: extras/controller/user_profile_controller.php:606
+#: extras/controller/user_profile_controller.php:607
+#: extras/controller/user_profile_controller.php:665
+#: extras/controller/user_profile_controller.php:700
 msgid "请输入手机验证码"
 msgstr "請輸入手機驗證碼"
 
-#: extras/controller/user_profile_controller.php:547
+#: extras/controller/user_profile_controller.php:635
 msgid "解绑成功"
 msgstr "解綁成功"
 
-#: extras/controller/user_profile_controller.php:565
+#: extras/controller/user_profile_controller.php:653
 msgid "请输入持卡人姓名"
 msgstr "請輸入持卡人姓名"
 
-#: extras/controller/user_profile_controller.php:568
+#: extras/controller/user_profile_controller.php:656
 msgid "请选择所属银行"
 msgstr "請選擇所屬銀行"
 
-#: extras/controller/user_profile_controller.php:571
+#: extras/controller/user_profile_controller.php:659
 msgid "请输入开户行"
 msgstr "請輸入開戶行"
 
-#: extras/controller/user_profile_controller.php:574
+#: extras/controller/user_profile_controller.php:662
 msgid "请输入银行卡号"
 msgstr "請輸入銀行卡號"
 
-#: extras/controller/user_profile_controller.php:594
-#: extras/controller/user_profile_controller.php:620 functions.php:241
+#: extras/controller/user_profile_controller.php:682
+#: extras/controller/user_profile_controller.php:715 functions.php:241
 msgid "绑定成功"
 msgstr "綁定成功"
 
-#: extras/controller/user_profile_controller.php:602
+#: extras/controller/user_profile_controller.php:692
+msgid "请点击微信钱包选择平台"
+msgstr "請點擊微信錢包選擇平台"
+
+#: extras/controller/user_profile_controller.php:696
 msgid "请输入微信认证的真实姓名"
 msgstr "請輸入微信認證的真實姓名"
 
-#: extras/controller/user_profile_controller.php:637
+#: extras/controller/user_profile_controller.php:732
 msgid "支付密码"
 msgstr "支付密碼"
 
-#: extras/controller/user_profile_controller.php:653
+#: extras/controller/user_profile_controller.php:748
 msgid "请设置支付密码"
 msgstr "請設置支付密碼"
 
-#: extras/controller/user_profile_controller.php:656
+#: extras/controller/user_profile_controller.php:751
 msgid "再次确认支付密码"
 msgstr "再次確認支付密碼"
 
-#: extras/controller/user_profile_controller.php:689
+#: extras/controller/user_profile_controller.php:784
 msgid "两次密码输入不一致，请重试"
 msgstr "兩次密碼輸入不一致，請重試"
 
-#: extras/controller/user_profile_controller.php:718
+#: extras/controller/user_profile_controller.php:813
 msgid "注销账号"
 msgstr "註銷賬號"
 
-#: extras/controller/user_profile_controller.php:722
+#: extras/controller/user_profile_controller.php:817
 msgid "激活账号"
 msgstr "註銷帳號"
 
-#: extras/controller/user_profile_controller.php:784
+#: extras/controller/user_profile_controller.php:879
 msgid "激活成功"
 msgstr "激活成功"
 
@@ -1422,7 +1792,7 @@ msgstr "優惠金額"
 #: sites/m/content/themes/h5/quickpay_detail.dwt.php:52
 #: sites/m/content/themes/h5/quickpay_notify.dwt.php:46
 #: sites/m/content/themes/h5/quickpay_checkout.dwt.php:112
-#: sites/m/content/themes/h5/quickpay_checkout.dwt.php:199
+#: sites/m/content/themes/h5/quickpay_checkout.dwt.php:200
 msgid "实付金额"
 msgstr "實付金額"
 
@@ -1459,6 +1829,24 @@ msgstr "獲取精準坐標"
 msgid "提交"
 msgstr "提交"
 
+#: sites/m/content/themes/h5/user_wx_bind_status.dwt.php:26
+#: sites/m/content/themes/h5/user_wx_bind_status.dwt.php:38
+#: sites/m/content/themes/h5/user_wx_choose_wechat.dwt.php:26
+#: sites/m/content/themes/h5/user_wx_choose_wechat.dwt.php:41
+#: sites/m/content/themes/h5/user_bind_info.dwt.php:48
+msgid "已绑定"
+msgstr "已綁定"
+
+#: sites/m/content/themes/h5/user_wx_bind_status.dwt.php:26
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:86
+#: sites/m/content/themes/h5/user_wx_choose_wechat.dwt.php:26
+#: sites/m/content/themes/h5/user_wx_choose_wechat.dwt.php:41
+#: sites/m/content/themes/h5/user_profile.dwt.php:49
+#: sites/m/content/themes/h5/user_profile.dwt.php:56
+#: sites/m/content/themes/h5/user_profile.dwt.php:63
+msgid "未绑定"
+msgstr "未綁定"
+
 #: sites/m/content/themes/h5/quickpay_collectmoney.dwt.php:38
 #: sites/m/content/themes/h5/quickpay_checkout.dwt.php:21
 msgid "商家打烊中，优惠买单尚未开始~"
@@ -1491,11 +1879,6 @@ msgstr "確認付款"
 #: sites/m/content/themes/h5/quickpay_notify.dwt.php:38
 msgid "消费金额"
 msgstr "消費金額"
-
-#: sites/m/content/themes/h5/quickpay_collectmoney.dwt.php:82
-#: sites/m/content/themes/h5/quickpay_checkout.dwt.php:124
-msgid "确认买单"
-msgstr "確認買單"
 
 #: sites/m/content/themes/h5/user_order_express.dwt.php:24
 msgid "物流公司："
@@ -1532,7 +1915,7 @@ msgstr "綁定手機號後，你可以使用手機號登錄，也可以通過手
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:39
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:68
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:104
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:174
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:175
 #: sites/m/content/themes/h5/user_bind_signup.dwt.php:38
 #: sites/m/content/themes/h5/user_mobile_register.dwt.php:34
 #: sites/m/content/themes/h5/user_check_user_mobile.dwt.php:33
@@ -1565,13 +1948,6 @@ msgstr "請輸入郵箱帳號"
 msgid "微信钱包"
 msgstr "微信錢包"
 
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:86
-#: sites/m/content/themes/h5/user_profile.dwt.php:49
-#: sites/m/content/themes/h5/user_profile.dwt.php:56
-#: sites/m/content/themes/h5/user_profile.dwt.php:63
-msgid "未绑定"
-msgstr "未綁定"
-
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:94
 #: sites/m/content/themes/h5/franchisee_process.dwt.php:83
 msgid "真实姓名"
@@ -1579,8 +1955,8 @@ msgstr "真實姓名"
 
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:102
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:107
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:172
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:177
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:173
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:178
 #: sites/m/content/themes/h5/user_unbind_check_mobile.dwt.php:23
 #: sites/m/content/themes/h5/user_unbind_check_mobile.dwt.php:28
 #: sites/m/content/themes/h5/franchisee_process.dwt.php:91
@@ -1590,14 +1966,14 @@ msgid "手机号码"
 msgstr "手機號碼"
 
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:108
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:178
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:179
 #: sites/m/content/themes/h5/user_unbind_check_mobile.dwt.php:29
 #: sites/m/content/themes/h5/user_bind_info.dwt.php:66
 msgid "请先去绑定手机号"
 msgstr "請先去綁定手機號"
 
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:109
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:179
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:180
 #: sites/m/content/themes/h5/user_unbind_check_mobile.dwt.php:30
 #: sites/m/content/themes/h5/user_bind_info.dwt.php:67
 #: sites/m/content/themes/h5/user_bind_info.dwt.php:82
@@ -1605,7 +1981,7 @@ msgid "去绑定"
 msgstr "去綁定"
 
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:114
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:184
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:185
 #: sites/m/content/themes/h5/user_unbind_check_mobile.dwt.php:35
 #: sites/m/content/themes/h5/user_bind_info.dwt.php:72
 #: sites/m/content/themes/h5/user_bind_signin.dwt.php:39
@@ -1613,7 +1989,7 @@ msgid "验证码"
 msgstr "驗證碼"
 
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:119
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:189
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:190
 #: sites/m/content/themes/h5/franchisee_process.dwt.php:68
 #: sites/m/content/themes/h5/order_return_reply.dwt.php:59
 msgid "温馨提示："
@@ -1642,36 +2018,36 @@ msgstr ""
 "損失需由您自行承擔。"
 
 #: sites/m/content/themes/h5/user_account_bind.dwt.php:123
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:192
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:193
 msgid "若有疑问，请拨打客服热线；"
 msgstr "若有疑問，請撥打客服熱線；"
 
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:128
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:197
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:129
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:198
 #: sites/m/content/themes/h5/quickpay_integral.dwt.php:27
 #: sites/m/content/themes/h5/user_address_edit.dwt.php:85
 #: sites/m/content/themes/h5/quickpay_bonus.dwt.php:43
 msgid "保存"
 msgstr "保存"
 
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:133
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:134
 msgid "确定删除微信钱包提现方式？"
 msgstr "確定刪除微信錢包提現方式？"
 
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:133
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:202
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:134
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:203
 msgid "删除此提现方式"
 msgstr "刪除此提現方式"
 
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:142
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:143
 msgid "持卡人"
 msgstr "持卡人"
 
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:146
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:147
 msgid "所属银行"
 msgstr "所屬銀行"
 
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:152
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:153
 #: sites/m/content/themes/h5/select_location.dwt.php:22
 #: sites/m/content/themes/h5/library/consignee.lbi.php:24
 #: sites/m/content/themes/h5/library/consignee.lbi.php:32
@@ -1680,19 +2056,19 @@ msgstr "所屬銀行"
 msgid "请选择"
 msgstr "請選擇"
 
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:160
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:161
 msgid "开户行"
 msgstr "開戶行"
 
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:164
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:165
 msgid "银行卡号"
 msgstr "銀行卡號"
 
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:190
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:191
 msgid "绑定后，只能使用该卡进行余额提现；"
 msgstr "綁定後，只能使用該卡進行餘額提現；"
 
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:191
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:192
 msgid ""
 "请确保您填写的信息真实有效，若填写的信息有误，导致提现至错误账号，由此造成的"
 "损失需由您自行承担。"
@@ -1700,7 +2076,7 @@ msgstr ""
 "請確保您填寫的信息真實有效，若填寫的信息有誤，導致提現至錯誤賬號，由此造成的"
 "損失需由您自行承擔。"
 
-#: sites/m/content/themes/h5/user_account_bind.dwt.php:202
+#: sites/m/content/themes/h5/user_account_bind.dwt.php:203
 msgid "确定删除银行卡提现方式？"
 msgstr "確定刪除銀行卡提現方式？"
 
@@ -1769,6 +2145,7 @@ msgstr "您還沒有搜索記錄"
 #: sites/m/content/themes/h5/franchisee_process_enter_code.dwt.php:23
 #: sites/m/content/themes/h5/user_wechat_login.dwt.php:30
 #: sites/m/content/themes/h5/user_address_edit.dwt.php:79
+#: sites/m/content/themes/h5/user_get_password.dwt.php:22
 #: sites/m/content/themes/h5/user_bind_mobile.dwt.php:23
 #: sites/m/content/themes/h5/user_login.dwt.php:22
 #: sites/m/content/themes/h5/franchisee_enter_code.dwt.php:22
@@ -1837,12 +2214,6 @@ msgstr "您確定要刪除此收貨地址嗎？"
 #: sites/m/content/themes/h5/follow_list.dwt.php:94
 msgid "删除"
 msgstr "刪除"
-
-#: sites/m/content/themes/h5/user_address_list.dwt.php:60
-#: sites/m/content/themes/h5/user_address_list.dwt.php:86
-#: sites/m/content/themes/h5/user_address_list.dwt.php:110
-msgid "编辑"
-msgstr "編輯"
 
 #: sites/m/content/themes/h5/user_address_list.dwt.php:68
 #: sites/m/content/themes/h5/choose_address_list.dwt.php:45
@@ -1920,11 +2291,6 @@ msgstr "請輸入手機號碼 "
 msgid "下一步"
 msgstr "下一步"
 
-#: sites/m/content/themes/h5/user_reward_detail.dwt.php:43
-#: sites/m/content/themes/h5/user_reward_detail.dwt.php:59
-msgid "暂无奖励"
-msgstr "暫無獎勵"
-
 #: sites/m/content/themes/h5/user_mobile_register.dwt.php:26
 #: sites/m/content/themes/h5/user_register.dwt.php:39
 msgid "请输入收到的短信验证码"
@@ -1939,14 +2305,6 @@ msgstr "商品名稱/訂單號"
 #: sites/m/content/themes/h5/user_order_detail.dwt.php:222
 msgid "支付余额"
 msgstr "支付餘額"
-
-#: sites/m/content/themes/h5/user_groupbuy_order_list.dwt.php:83
-#: sites/m/content/themes/h5/quickpay_detail.dwt.php:74
-#: sites/m/content/themes/h5/quickpay_detail.dwt.php:76
-#: sites/m/content/themes/h5/user_order_list.dwt.php:79
-#: sites/m/content/themes/h5/user_order_detail.dwt.php:222
-msgid "去支付"
-msgstr "去支付"
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:29
 msgid "商品"
@@ -2001,6 +2359,11 @@ msgstr "保證金："
 #: sites/m/content/themes/h5/goods_show.dwt.php:97
 msgid "距离团购结束"
 msgstr "距離團購結束"
+
+#: sites/m/content/themes/h5/goods_show.dwt.php:111
+#: sites/m/content/themes/h5/goods_promotion.dwt.php:45
+msgid "原价："
+msgstr "原價："
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:123
 #: sites/m/content/themes/h5/goods_show.dwt.php:148
@@ -2100,12 +2463,6 @@ msgstr "商家打烊了"
 msgid "营业时间"
 msgstr "營業時間"
 
-#: sites/m/content/themes/h5/goods_show.dwt.php:377
-#: sites/m/content/themes/h5/store_list.dwt.php:175
-#: sites/m/content/themes/h5/merchant.dwt.php:110
-msgid "购物车是空的"
-msgstr "購物車是空的"
-
 #: sites/m/content/themes/h5/goods_show.dwt.php:380
 #: sites/m/content/themes/h5/store_list.dwt.php:178
 #: sites/m/content/themes/h5/merchant.dwt.php:113
@@ -2116,13 +2473,6 @@ msgstr "(已減%1)"
 #: sites/m/content/themes/h5/goods_show.dwt.php:389
 msgid "立即购买"
 msgstr "立即購買"
-
-#: sites/m/content/themes/h5/goods_show.dwt.php:388
-#: sites/m/content/themes/h5/goods_show.dwt.php:389
-#: sites/m/content/themes/h5/store_list.dwt.php:183
-#: sites/m/content/themes/h5/merchant.dwt.php:118
-msgid "去结算"
-msgstr "去結算"
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:389
 #: sites/m/content/themes/h5/store_list.dwt.php:183
@@ -2151,6 +2501,10 @@ msgstr "清空購物車"
 #: sites/m/content/themes/h5/quickpay_integral.dwt.php:23
 msgid "最多可使用"
 msgstr "最多可使用"
+
+#: sites/m/content/themes/h5/quickpay_integral.dwt.php:23
+msgid "个"
+msgstr "個"
 
 #: sites/m/content/themes/h5/quickpay_integral.dwt.php:29
 #: sites/m/content/themes/h5/quickpay_bonus.dwt.php:44
@@ -2306,11 +2660,8 @@ msgstr ""
 msgid "剩余时间："
 msgstr "剩餘時間："
 
-#: sites/m/content/themes/h5/user_cancel_account_notice.dwt.php:23
-msgid "天"
-msgstr "天"
-
 #: sites/m/content/themes/h5/user_cancel_account_notice.dwt.php:42
+#: sites/m/content/themes/h5/user_cancel_account.dwt.php:42
 msgid "请输入手机%1收到的验证码"
 msgstr "請輸入手機%1收到的驗證碼"
 
@@ -2459,12 +2810,6 @@ msgstr "我有邀請碼"
 msgid "请输入邀请码"
 msgstr "請輸入邀請碼"
 
-#: sites/m/content/themes/h5/user_set_password.dwt.php:67
-#: sites/m/content/themes/h5/user_account_wechat_withdraw_notice.dwt.php:27
-#: sites/m/content/themes/h5/user_reset_password.dwt.php:32
-msgid "完成"
-msgstr "完成"
-
 #: sites/m/content/themes/h5/user_address_edit.dwt.php:21
 msgid "这个地址超过该门店的配送范围"
 msgstr "這個地址超過該門店的配送範圍"
@@ -2582,11 +2927,6 @@ msgstr "差評"
 msgid "晒图"
 msgstr "曬圖"
 
-#: sites/m/content/themes/h5/library/goods_comment.lbi.php:63
-#: sites/m/content/themes/h5/merchant_comment.dwt.php:109
-msgid "暂无商品评论"
-msgstr "暫無商品評論"
-
 #: sites/m/content/themes/h5/library/merchant_detail.lbi.php:13
 msgid "全部商品"
 msgstr "全部商品"
@@ -2633,26 +2973,6 @@ msgstr "優惠買單"
 #: sites/m/content/themes/h5/library/merchant_detail.lbi.php:70
 msgid "商家电话"
 msgstr "商家電話"
-
-#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:71
-#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:77
-#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:82
-#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:88
-#: sites/m/content/themes/h5/library/merchant_detail.lbi.php:92
-#: sites/m/content/themes/h5/franchisee_process.dwt.php:62
-#: sites/m/content/themes/h5/order_return_detail.dwt.php:75
-#: sites/m/content/themes/h5/user_order_detail.dwt.php:156
-#: sites/m/content/themes/h5/user_order_detail.dwt.php:157
-#: sites/m/content/themes/h5/user_order_detail.dwt.php:187
-#: sites/m/content/themes/h5/user_order_detail.dwt.php:191
-#: sites/m/content/themes/h5/user_order_detail.dwt.php:210
-#: sites/m/content/themes/h5/user_order_detail.dwt.php:211
-#: sites/m/content/themes/h5/user_order_detail.dwt.php:212
-#: sites/m/content/themes/h5/flow_invoice.dwt.php:54
-#: sites/m/content/themes/h5/flow_invoice.dwt.php:72
-#: sites/m/content/themes/h5/user_address_city.dwt.php:46
-msgid "暂无"
-msgstr "暫無"
 
 #: sites/m/content/themes/h5/library/merchant_detail.lbi.php:76
 msgid "公司名称"
@@ -2725,14 +3045,6 @@ msgstr "確認添加"
 #: sites/m/content/themes/h5/library/ecjia_bonus_modal.lbi.php:48
 msgid "取消添加"
 msgstr "取消添加"
-
-#: sites/m/content/themes/h5/library/merchant_head.lbi.php:22
-msgid "已关注"
-msgstr "已關注"
-
-#: sites/m/content/themes/h5/library/merchant_head.lbi.php:24
-msgid "关注"
-msgstr "關注"
 
 #: sites/m/content/themes/h5/library/merchant_head.lbi.php:48
 msgid "共 %1 个活动"
@@ -2830,10 +3142,6 @@ msgstr "搜索（%1 條記錄）"
 msgid "修改数量"
 msgstr "修改數量"
 
-#: sites/m/content/themes/h5/library/article_list.lbi.php:32
-msgid "暂无文章"
-msgstr "暫無文章"
-
 #: sites/m/content/themes/h5/library/order_total.lbi.php:12
 msgid "获得%1："
 msgstr "獲得%1："
@@ -2917,11 +3225,6 @@ msgstr "微信“掃一掃”瀏覽"
 #: sites/m/content/themes/h5/library/store_list.lbi.php:85
 msgid "查看更多（%1）"
 msgstr "查看更多（%1）"
-
-#: sites/m/content/themes/h5/library/store_list.lbi.php:88
-#: sites/m/content/themes/h5/store_list.dwt.php:105
-msgid "收起"
-msgstr "收起"
 
 #: sites/m/content/themes/h5/quickpay_bonus.dwt.php:35
 #: sites/m/content/themes/h5/flow_bonus.dwt.php:34
@@ -3130,10 +3433,6 @@ msgstr "查看訂單"
 #: sites/m/content/themes/h5/quickpay_notify.dwt.php:33
 msgid "优惠名称"
 msgstr "優惠名稱"
-
-#: sites/m/content/themes/h5/quickpay_detail.dwt.php:72
-msgid "您确定要取消该订单吗？"
-msgstr "您確定要取消該訂單嗎？"
 
 #: sites/m/content/themes/h5/quickpay_detail.dwt.php:82
 msgid "您确定要删除该订单吗？"
@@ -3400,11 +3699,6 @@ msgstr "輸入手機號碼"
 msgid "请输入左侧验证码"
 msgstr "請輸入左側驗證碼"
 
-#: sites/m/content/themes/h5/affiliate_invite_register.dwt.php:30
-#: sites/m/content/themes/h5/user_captcha_validate.dwt.php:29
-msgid "验证"
-msgstr "驗證"
-
 #: sites/m/content/themes/h5/affiliate_invite_register.dwt.php:33
 msgid "输入短信验证码"
 msgstr "輸入短信驗證碼"
@@ -3481,10 +3775,6 @@ msgstr "充值時間"
 msgid "已申请"
 msgstr "已申請"
 
-#: sites/m/content/themes/h5/cart_list.dwt.php:20
-msgid "您还没有登录"
-msgstr "您還沒有登錄"
-
 #: sites/m/content/themes/h5/cart_list.dwt.php:21
 msgid "点击登录"
 msgstr "點擊登錄"
@@ -3498,21 +3788,9 @@ msgstr "（當前位置）"
 msgid "共 %1 件"
 msgstr "共 %1 件"
 
-#: sites/m/content/themes/h5/cart_list.dwt.php:70
-msgid "当前位置购物车空空如也哦～"
-msgstr "當前位置購物車空空如也哦～"
-
 #: sites/m/content/themes/h5/cart_list.dwt.php:74
 msgid "其他位置"
 msgstr "其他位置"
-
-#: sites/m/content/themes/h5/cart_list.dwt.php:112
-msgid "您还没有添加商品"
-msgstr "您還沒有添加商品"
-
-#: sites/m/content/themes/h5/cart_list.dwt.php:113
-msgid "去逛逛"
-msgstr "去逛逛"
 
 #: sites/m/content/themes/h5/flow_pay.dwt.php:23
 msgid "线上支付"
@@ -3690,6 +3968,10 @@ msgstr "店鋪入駐申請"
 msgid "店铺入驻查询"
 msgstr "店鋪入駐查詢"
 
+#: sites/m/content/themes/h5/user_account_wechat_withdraw.dwt.php:36
+msgid "可提现金额 "
+msgstr "可提現金額"
+
 #: sites/m/content/themes/h5/user_account_wechat_withdraw.dwt.php:37
 msgid "全部提现"
 msgstr "全部提現"
@@ -3705,10 +3987,6 @@ msgstr "提現手續費"
 #: sites/m/content/themes/h5/user_account_wechat_withdraw.dwt.php:50
 msgid "申请提交后，我们将3-5个工作日审核，请您耐心等待"
 msgstr "申請提交後，我們將3-5個工作日審核，請您耐心等待"
-
-#: sites/m/content/themes/h5/user_account_wechat_withdraw.dwt.php:54
-msgid "立即提现"
-msgstr "立即提現"
 
 #: sites/m/content/themes/h5/application.dwt.php:20
 msgid "功能管理"
@@ -3892,6 +4170,7 @@ msgid "个人"
 msgstr "個人"
 
 #: sites/m/content/themes/h5/flow_checkout.dwt.php:175
+#: sites/m/content/themes/h5/quickpay_checkout.dwt.php:164
 msgid "%1个可用"
 msgstr "%1個可用"
 
@@ -3936,10 +4215,6 @@ msgstr "已綁："
 #: sites/m/content/themes/h5/user_bind_info.dwt.php:35
 msgid "更换邮箱号"
 msgstr "更換郵箱號"
-
-#: sites/m/content/themes/h5/user_bind_info.dwt.php:48
-msgid "已绑定"
-msgstr "已綁定"
 
 #: sites/m/content/themes/h5/user_bind_info.dwt.php:51
 msgid "暂未绑定"
@@ -4027,12 +4302,11 @@ msgid "不参与优惠金额 (元)"
 msgstr "不參與優惠金額 (元)"
 
 #: sites/m/content/themes/h5/quickpay_checkout.dwt.php:78
-#: sites/m/content/themes/h5/quickpay_checkout.dwt.php:164
 msgid "个可用"
 msgstr "個可用"
 
 #: sites/m/content/themes/h5/quickpay_checkout.dwt.php:101
-#: sites/m/content/themes/h5/quickpay_checkout.dwt.php:188
+#: sites/m/content/themes/h5/quickpay_checkout.dwt.php:189
 msgid "抵%1元"
 msgstr "抵%1元"
 
@@ -4044,9 +4318,13 @@ msgstr "優惠說明"
 msgid "优惠买单仅限于到店支付，请确认金额后提交。"
 msgstr "優惠買單僅限於到店支付，請確認金額後提交。"
 
-#: sites/m/content/themes/h5/quickpay_checkout.dwt.php:179
+#: sites/m/content/themes/h5/quickpay_checkout.dwt.php:180
 msgid "使用"
 msgstr "使用"
+
+#: sites/m/content/themes/h5/quickpay_checkout.dwt.php:185
+msgid "%1可用"
+msgstr "%1可用"
 
 #: sites/m/content/themes/h5/user_order_detail.dwt.php:118
 msgid "商品保证金："
@@ -4170,14 +4448,6 @@ msgstr "選擇日期"
 msgid "选择时间段"
 msgstr "選擇時間段"
 
-#: sites/m/content/themes/h5/follow_list.dwt.php:94
-msgid "确定取消关注该店铺？"
-msgstr "確定取消關注該店鋪？"
-
-#: sites/m/content/themes/h5/follow_list.dwt.php:99
-msgid "暂无关注店铺"
-msgstr "暫無關注店鋪"
-
 #: sites/m/content/themes/h5/store_list.dwt.php:102
 msgid "查看更多"
 msgstr "查看更多"
@@ -4193,11 +4463,6 @@ msgstr "綜合"
 #: sites/m/content/themes/h5/store_goods_list.dwt.php:34
 msgid "价格"
 msgstr "價格"
-
-#: sites/m/content/themes/h5/user_add_bonus.dwt.php:26
-#: sites/m/content/themes/h5/user_add_bonus.dwt.php:29
-msgid "请输入号码"
-msgstr "請輸入號碼"
 
 #: sites/m/content/themes/h5/user_add_bonus.dwt.php:32
 msgid "添加"

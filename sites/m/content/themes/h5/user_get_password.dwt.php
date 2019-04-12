@@ -19,7 +19,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	<div class="form-group margin-right-left">
 		<label class="input">
 			<span class="roaming">+86</span>
-			<input placeholder="手机号" name="mobile_phone" class="mobile_phone">
+			<input placeholder='{t domain="h5"}手机号{/t}' name="mobile_phone" class="mobile_phone">
 		</label>
 	</div>
     <div class="around">

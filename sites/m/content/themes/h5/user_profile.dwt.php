@@ -44,23 +44,23 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 
     <div class="ecjia-list list-short">
         <li>
-            <a href="{url path="user/profile/{if $user.mobile_phone}bind_info{else}account_bind{/if}" args='type=mobile'}">
-                <span class="icon-name margin-no-l">{t domain="h5"}绑定手机{/t}</span>
-                <span class="icon-price">{if $user.mobile_phone}{$user.mobile_phone}{else}{t domain="h5"}未绑定{/t}{/if}</span>
+            <a href='{url path="user/profile/{if $user.mobile_phone}bind_info{else}account_bind{/if}" args="type=mobile"}'>
+                <span class="icon-name margin-no-l">{t domain='h5'}绑定手机{/t}</span>
+                <span class="icon-price">{if $user.mobile_phone}{$user.mobile_phone}{else}{t domain='h5'}未绑定{/t}{/if}</span>
                 <i class="iconfont icon-jiantou-right margin-r-icon"></i>
             </a>
         </li>
         <li>
-            <a href="{url path="user/profile/{if $user.email}bind_info{else}account_bind{/if}" args='type=email'}">
-                <span class="icon-name margin-no-l">{t domain="h5"}绑定邮箱{/t}</span>
-                <span class="icon-price">{if $user.email}{$user.email}{else}{t domain="h5"}未绑定{/t}{/if}</span>
+            <a href='{url path="user/profile/{if $user.email}bind_info{else}account_bind{/if}" args="type=email"}'>
+                <span class="icon-name margin-no-l">{t domain='h5'}绑定邮箱{/t}</span>
+                <span class="icon-price">{if $user.email}{$user.email}{else}{t domain='h5'}未绑定{/t}{/if}</span>
                 <i class="iconfont icon-jiantou-right margin-r-icon"></i>
             </a>
         </li>
         <li>
-            <a href="{url path="user/profile/bind_info" args='type=wechat'}">
-                <span class="icon-name margin-no-l">{t domain="h5"}绑定微信{/t}</span>
-                <span class="icon-price">{if $user.wechat_is_bind eq 1}{$user.wechat_nickname}{else}{t domain="h5"}未绑定{/t}{/if}</span>
+            <a href='{url path="user/profile/wx_bind_status"}'>
+                <span class="icon-name margin-no-l">{t domain='h5'}绑定微信{/t}</span>
+                <span class="icon-price">{if $user.wechat_is_bind eq 1}{$user.wechat_nickname}{else}{t domain='h5'}未绑定{/t}{/if}</span>
                 <i class="iconfont icon-jiantou-right margin-r-icon"></i>
             </a>
         </li>

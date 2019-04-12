@@ -137,6 +137,9 @@ class goods_controller
 
         $rec_type  = isset($_GET['rec_type']) ? $_GET['rec_type'] : 0;
         $object_id = isset($_GET['object_id']) ? $_GET['object_id'] : 0;
+        $product_id = isset($_GET['product_id']) ? intval($_GET['product_id']) : 0; //货品id
+
+        RC_Cache::app_cache_delete(sprintf('%X', crc32('goods_product_specification_' . $goods_id)), 'goods');
 
         $par = array(
             'goods_id'  => $goods_id,
@@ -144,10 +147,17 @@ class goods_controller
             'object_id' => $object_id,
         );
 
+        //货品id参数 1.30.1新增
+        if (!empty($product_id)) {
+            $par['product_id'] = $product_id;
+        }
+
         $goods_activity_id = intval($_GET['act_id']);
         if (!empty($goods_activity_id)) {
             $par['goods_activity_id'] = $goods_activity_id;
         }
+        $cache_id = sprintf('%X', crc32($_SERVER['QUERY_STRING']));
+
         /*商品基本信息*/
         $goods_info = ecjia_touch_manager::make()->api(ecjia_touch_api::GOODS_DETAIL)->data($par)->run();
 
@@ -183,7 +193,24 @@ class goods_controller
             $goods_info['shop_closed']      = $store_info['shop_closed'];
             $goods_info['label_trade_time'] = $store_info['label_trade_time'];
 
+            $dwt = 'goods_show.dwt';
             if ($store_info['shop_closed'] != 1) {
+                
+                $product_info = [];
+                if (!empty($goods_info['product_specification'])) {
+    
+                    RC_Cache::app_cache_set(sprintf('%X', crc32('goods_product_specification_' . $goods_id)), $goods_info['product_specification'], 'goods');
+    
+                    foreach ($goods_info['product_specification'] as $k => $v) {
+                        if (!empty($product_id) && $v['product_id'] == $product_id) {
+                            $product_info = $v;
+                            $product_info['product_goods_attr_arr'] = explode('|', $v['product_goods_attr']);
+                            $dwt = 'goods_promotion_detail.dwt';
+                        }
+                    }
+                }
+                $goods_info['last_spec'] = $product_info['product_goods_attr_arr'];
+
                 /*商品所属店铺购物车列表*/
                 $token   = ecjia_touch_user::singleton()->getToken();
                 $options = array(
@@ -236,7 +263,7 @@ class goods_controller
                                 $cart_goods['current_goods']['goods_attr_num'] += $val['goods_number'];
                             }
 
-                            if ($val['goods_id'] == $goods_id && !isset($goods_info['last_spec'])) {
+                            if ($val['goods_id'] == $goods_id && (!isset($goods_info['last_spec']) || $goods_info['last_spec'] == $goods_attr_id)) {
                                 $goods_info['last_spec']                     = explode(',', $val['goods_attr_id']);
                                 $cart_goods['current_goods']['rec_id']       = $val['rec_id'];
                                 $cart_goods['current_goods']['goods_number'] = $val['goods_number'];
@@ -250,21 +277,31 @@ class goods_controller
                 }
             }
 
+            $product_goods_attr_html = '';
             $goods_info['has_spec'] = 0;
             if (!empty($goods_info['specification'])) {
                 foreach ($goods_info['specification'] as $k => $v) {
                     if (!empty($v['value'])) {
                         foreach ($v['value'] as $key => $val) {
+
                             if (!empty($goods_info['last_spec'])) {
                                 if (in_array($val['id'], $goods_info['last_spec'])) {
                                     $goods_info['has_spec']                                   = 1;
                                     $goods_info['specification'][$k]['value'][$key]['active'] = 1;
                                 }
                             }
+
+                            if (!empty($product_info['product_goods_attr_arr']) && in_array($val['id'], $product_info['product_goods_attr_arr'])) {
+                                $product_goods_attr_html .= $val['label'] . '/';
+                            }
                         }
                     }
                 }
             }
+            $product_info['product_goods_attr_html'] = !empty($product_goods_attr_html) ? rtrim($product_goods_attr_html, '/') : '';
+            
+
+            ecjia_front::$controller->assign('product_info', $product_info);
 
             $spec_releated_goods = $related_goods_list = array();
             if (!empty($goods_info['related_goods'])) {
@@ -301,11 +338,12 @@ class goods_controller
             if (!empty($goods_info['groupbuy_info']['price_ladder'])) {
                 $goods_info['groupbuy_info']['price_ladder'] = json_encode($goods_info['groupbuy_info']['price_ladder']);
             }
+
             ecjia_front::$controller->assign('goods_info', $goods_info);
         }
 
         /*商品描述*/
-        $goods_desc = ecjia_touch_manager::make()->api(ecjia_touch_api::GOODS_DESC)->data(array('goods_id' => $goods_id))->run();
+        $goods_desc = ecjia_touch_manager::make()->api(ecjia_touch_api::GOODS_DESC)->data(array('goods_id' => $goods_id, 'product_id' => $product_id))->run();
         if (!is_ecjia_error($goods_desc) && !empty($goods_desc)) {
             $res = array();
             preg_match('/<body>([\s\S]*?)<\/body>/', $goods_desc, $res);
@@ -363,14 +401,14 @@ class goods_controller
         if (user_function::is_weixin()) {
             $protocol   = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
             $spread_url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-            $spread_url = substr($spread_url, 0, strrpos($spread_url, "&_pjax"));
+            $spread_url = strrpos($spread_url, "&_pjax") ? substr($spread_url, 0, strrpos($spread_url, "&_pjax")) : $spread_url;
             ecjia_front::$controller->assign('share_link', $spread_url);
 
             $config = user_function::get_wechat_config($spread_url);
             ecjia_front::$controller->assign('config', $config);
         }
-
-        ecjia_front::$controller->display('goods_show.dwt');
+        
+        ecjia_front::$controller->display($dwt);
     }
 
     public static function ajax_goods_comment()
@@ -408,7 +446,10 @@ class goods_controller
      */
     public static function promotion()
     {
-        ecjia_front::$controller->assign_title(__('促销商品', 'h5'));
+        $promotion_type = !empty($_GET['promotion_type']) ? trim($_GET['promotion_type']) : 'today';
+        ecjia_front::$controller->assign('promotion_type', $promotion_type);
+
+        ecjia_front::$controller->assign_title(__('限时促销', 'h5'));
         ecjia_front::$controller->display('goods_promotion.dwt');
     }
 
@@ -442,6 +483,10 @@ class goods_controller
         $api = ecjia_touch_api::GOODS_SUGGESTLIST;
         if ($type == 'promotion') {
             $dwt = 'goods_promotion.dwt';
+            //促销类型 today今日促销，tomorrow明日促销，aftertheday后日促销
+            $promotion_type = !empty($_GET['promotion_type']) ? (trim($_GET['promotion_type']) == 'all' ? '' : trim($_GET['promotion_type'])) : 'today';
+            $paramater['promotion_type'] = $promotion_type;
+
         } elseif ($type == 'new') {
             $dwt = 'goods_new.dwt';
         } elseif ($type == 'best') {

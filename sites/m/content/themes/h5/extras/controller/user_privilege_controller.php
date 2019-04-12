@@ -421,10 +421,10 @@ class user_privilege_controller
             }
             unset($_SESSION['user_temp']);
         } else {
-//             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_BIND)->data(array('type' => 'mobile', 'value' => $mobile, 'code' => $password, 'token' => $token))->run();
-            //             if (is_ecjia_error($data)) {
-            //                 return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-            //             }
+            $data = ecjia_touch_manager::make()->api(ecjia_touch_api::VALIDATE_BIND)->data(array('type' => 'mobile', 'value' => $mobile, 'code' => $password, 'token' => $token))->run();
+            if (is_ecjia_error($data)) {
+                return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
             //未注册 走注册接口
             $_SESSION['user_temp']['mobile']          = $mobile;
             $_SESSION['user_temp']['register_status'] = 'succeed';

@@ -21,7 +21,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <div class="ecjia-flow-done ecjia-pay">
     {if $tips_show}
     <div class="flow-success">
-        <p>{t domain="h5"}恭喜您，订单已经生成~{/t}</p>
+        <p><i class="icon-status"></i><span class="icon-status-text">{t domain="h5"}恭喜您，订单已经生成~{/t}</span></p>
     </div>
     {/if}
     <ul class="ecjia-list">
@@ -64,7 +64,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
             <input name="order_id" type="hidden" value="{$detail.order_id}" />
             <input name="pay_id" type="hidden" value="{$detail.pay_id}" />
             <input name="has_set_paypass" type="hidden" value="{if $user.has_paypassword eq 1}1{else}0{/if}" />
-            <input class="btn confirm-payment payment-balance" type="button" value="{t}确认支付{/t}" />
+            <input class="btn confirm-payment payment-balance" type="button" value='{t domain="h5"}确认支付{/t}' />
             <input name="extension_code" type="hidden" value="{$detail.extension_code}" />
             <input type="hidden" class="set_paypass_url" data-url="{url path='user/profile/set_pay_password'}" />
         </div>
@@ -110,7 +110,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
                     </div>
                 </div>
                 <input name="order_id" type="hidden" value="{$detail.order_id}" />
-                <input name="pay_id" type="hidden" value="{$detail.pay_id}" />
+                <input name="pay_balance_id" type="hidden" value="{$pay_balance_id}" />
                 <input name="url" type="hidden" value="{url path='payment/pay/pay_order'}" />
                 <a class="ecjiaf-fr blue forget_paypass" href="{RC_Uri::url('user/profile/set_pay_password')}" style="padding-right:2em;color:#337ab7;">{t domain="h5"}忘记支付密码{/t}</a>
             </div>

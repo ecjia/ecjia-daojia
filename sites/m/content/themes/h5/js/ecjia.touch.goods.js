@@ -433,6 +433,7 @@
 
 			var url = $('input[name="update_cart_url"]').val();
 			var store_id = $('input[name="store_id"]').val();
+			var product_id = $('input[name="product_id"]').val();
 
 			var response;
 			if (store_id == undefined) {
@@ -447,7 +448,8 @@
 				'checked': checked == undefined ? '' : checked,
 				'response': response,
 				'spec': spec,
-				'act_id': act_id
+				'act_id': act_id,
+				'product_id': product_id
 			};
 
 			//更新购物车中商品
@@ -489,7 +491,7 @@
 									return false;
 								}
 							}, {
-								text: '去登录',
+								text: js_lang.go_login,
 								onClick: function () {
 									$('.modal').remove();
 									$('.modal-overlay').remove();
@@ -530,7 +532,7 @@
 					div.remove();
 					if ($('.a57').length == 1 && $('.a4u-gray').length == 0) {
 						var index_url = $('input[name="index_url"]').val();
-						$('.ecjia-flow-cart-list').html('').html('<div class="flow-no-pro"><div class="ecjia-nolist">' + js_lang.add_goods_yet + '<a class="btn btn-small" type="button" href="' + index_url + '">'+js_lang.go_go+'</a></div>');
+						$('.ecjia-flow-cart-list').html('').html('<div class="flow-no-pro"><div class="ecjia-nolist">' + js_lang.add_goods_yet + '<a class="btn btn-small" type="button" href="' + index_url + '">' + js_lang.go_go + '</a></div>');
 					}
 					return false;
 				}
@@ -1793,6 +1795,12 @@
 					$(".ecjia-store-goods .a1n .a1x").css({
 						overflow: "auto"
 					}); //启用滚动条
+					var product_id = $('input[name="product_id"]').val();
+					if (product_id != 0) {
+						var url = $('input[name="product_id"]').attr('data-url');
+						url += '&product_id=' + product_id;
+						location.href = url;
+					}
 				});
 
 				$(overlay).off('click').on('click', function (e) {
@@ -1820,6 +1828,9 @@
 				var $this = $(this);
 
 				if (!$this.hasClass('multi-select')) {
+					if ($this.hasClass('active')) {
+						return false;
+					}
 					$this.addClass('active').siblings('li').removeClass('active');
 				} else {
 					if (!$this.hasClass('active')) {
@@ -1906,6 +1917,7 @@
 							ecjia.touch.showmessage(data);
 						}
 					} else {
+						$('input[name="product_id"]').val(data.product_id);
 						if (data.info) {
 							$(modal).find('.ecjia-choose-attr-box.box').removeClass('hide').addClass('show').children('label').html(data.info.goods_number);
 							$(modal).find('.ecjia-choose-attr-box.box').children('span').attr('rec_id', data.info.rec_id);
@@ -2215,7 +2227,7 @@
 							if ($.find('.ecjia-follow-list').length != 0) {
 								div.parent('.store-info').remove();
 								if ($('.ecjia-follow-list').find('.store-info').length == 0) {
-									$('.ecjia-follow-list').html('<div class="ecjia-empty-list"><div class="ecjia-nolist">' + ja_lang.no_attention_store + '</div></div>');
+									$('.ecjia-follow-list').html('<div class="ecjia-empty-list"><div class="ecjia-nolist">' + js_lang.no_attention_store + '</div></div>');
 								}
 								return false;
 							}

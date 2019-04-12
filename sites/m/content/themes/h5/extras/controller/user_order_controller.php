@@ -973,7 +973,7 @@ class user_order_controller
 
                 if (!empty($store_info)) {
                     $map_url   = 'https://3gimg.qq.com/lightmap/v1/marker/index.html?type=0&marker=coord:';
-                    $url_param = '' . $store_info['location']['latitude'] . ',' . $store_info['location']['longitude'] . ';title:' . $store_info['seller_name'] . ';addr:' . $store_info['shop_address'];
+                    $url_param = $store_info['location']['latitude'] . ',' . $store_info['location']['longitude'] . ';title:' . $store_info['seller_name'] . ';addr:' . $store_info['shop_address'];
                     $url_param = urlencode($url_param);
                     $map_url   .= $url_param;
                     ecjia_front::$controller->assign('location_url', $map_url);

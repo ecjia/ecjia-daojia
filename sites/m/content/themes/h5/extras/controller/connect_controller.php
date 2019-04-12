@@ -84,7 +84,7 @@ class connect_controller
             $user  = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
             $user  = is_ecjia_error($user) ? array() : $user;
 
-            $connect_user = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id);
+            $connect_user = new \Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
             $result       = false;
             if ($user) {
                 $result = $connect_user->bindUser($user['id']);
@@ -193,7 +193,7 @@ class connect_controller
         //绑定第三方
         $user_id = $response['user']['id'];
 
-        $connect_user = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id);
+        $connect_user = new \Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
         $result       = false;
         if ($user_id) {
             $result = $connect_user->bindUser($user_id);
@@ -251,7 +251,7 @@ class connect_controller
         } else {
             $referer_url = !empty($_POST['referer']) ? urlencode($_POST['referer']) : RC_Uri::url('touch/my/init');
 
-            $connect_user = new \Ecjia\App\Connect\ConnectUser($connect_code, $open_id);
+            $connect_user = new \Ecjia\App\Connect\ConnectUser\ConnectUser($connect_code, $open_id);
             if ($data['id']) {
                 $result = $connect_user->bindUser($data['id']);
             } else {

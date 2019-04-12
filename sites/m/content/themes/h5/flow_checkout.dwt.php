@@ -189,7 +189,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		{if $data.allow_use_integral}
 		<section class="checklist ecjia-margin-b">
 			{if $data.order_max_integral eq 0}
-				<a href='javascript:;' title='{t}不可用{/t}'>
+				<a href='javascript:;' title='{t domain="h5"}不可用{/t}'>
 				    <span class="ecjia-color-999">{t domain="h5" 1={$integral_name}}使用%1{/t}</span>
 				    <span class="ecjia-tag ecjia-tag-disable">{t domain="h5"}不可用{/t}</span>
 				</a>

@@ -33,7 +33,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			</li>
 			<li class="height-5">
 				<span class="icon-name margin-no-l">￥</span>
-				<input placeholder="可提现金额 {$user.formated_user_money}" name="amount" />
+				<input placeholder='{t domain="h5"}可提现金额 {/t}{$user.formated_user_money}' name="amount" />
 				<span class="withdraw_all_span" data-price="{$user.user_money}">{t domain="h5"}全部提现{/t}</span>
 			</li>
 			<li class="height-3">

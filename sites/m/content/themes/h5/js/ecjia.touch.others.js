@@ -60,7 +60,7 @@
 				slidesPerView: 1,
 				loop: true,
 				//自动播放
-				autoplay: 2500,
+				autoplay: 3500,
 				autoplayDisableOnInteraction: false,
 			});
 			sessionStorage.setItem("swiper", 1);
@@ -75,6 +75,26 @@
 				spaceBetween: 10,
 				freeMode: true,
 				freeModeMomentumVelocityRatio: 5,
+			});
+
+			var promotion_swiper = new Swiper('.swiper-promotion-goods', {
+				pagination: '.swiper-pagination',
+				speed: 800,
+				grabCursor: true,
+				centeredSlides: true,
+				coverflow: {
+					rotate: 50,
+					stretch: 0,
+					depth: 100,
+					modifier: 1,
+					slideShadows: true
+				},
+				//无限滚动
+				slidesPerView: 1,
+				loop: true,
+				//自动播放
+				autoplay: 3500,
+				autoplayDisableOnInteraction: false,
 			});
 		},
 		promote_time: function () {
@@ -101,18 +121,25 @@
 					var ss = checkTime(myS);
 
 					if (myD >= 0) {
+						//示例 剩余27天 04:09:34
 						if (type == 1) {
-							msg = '剩余';
-							var str = msg + myD + '天&nbsp;<span class="end-time">' + hh + '</span> : <span class="end-time">' + mm + '</span> : <span class="end-time">' + ss + '</span>';
+							msg = js_lang.remaining;
+							var str = msg + myD + js_lang.day + '&nbsp;<span class="end-time">' + hh + '</span> : <span class="end-time">' + mm + '</span> : <span class="end-time">' + ss + '</span>';
+						//示例 27天 04:09:34
 						} else if (type == 2) {
 							msg = '  ';
-							var str = msg + myD + '天&nbsp;<span class="end-time">' + hh + '</span> : <span class="end-time">' + mm + '</span> : <span class="end-time">' + ss + '</span>';
+							var str = msg + myD + js_lang.day + '&nbsp;<span class="end-time">' + hh + '</span> : <span class="end-time">' + mm + '</span> : <span class="end-time">' + ss + '</span>';
+						//首页促销倒计时 只显示时分 示例  剩余27天 04 时 34 分
+						} else if (type == 3) {
+							msg = js_lang.remaining;
+							var str = msg + '&nbsp;' + myD + '&nbsp;' + js_lang.day + '&nbsp;<span class="end-time">' + hh + '</span> '+ js_lang.hour +' <span class="end-time">' + mm + '</span> ' + js_lang.minute;
+						//同type 1
 						} else {
-							msg = '剩余';
-							var str = msg + myD + '天&nbsp;<span class="end-time">' + hh + '</span> : <span class="end-time">' + mm + '</span> : <span class="end-time">' + ss + '</span>';
+							msg = js_lang.remaining;
+							var str = msg + myD + js_lang.day + '&nbsp;<span class="end-time">' + hh + '</span> : <span class="end-time">' + mm + '</span> : <span class="end-time">' + ss + '</span>';
 						}
 					} else {
-						var str = "已结束！";
+						var str = js_lang.over;
 					}
 					obj.html(str);
 				});
@@ -210,7 +237,7 @@
 				slidesPerView: 1,
 				loop: true,
 				//自动播放
-				autoplay: 2500,
+				autoplay: 3500,
 				autoplayDisableOnInteraction: false,
 			});
 			sessionStorage.setItem("discover_cycleimage", 1);
@@ -295,7 +322,7 @@
 							$this.removeClass('active');
 							$this.find('span').text(val - 1);
 							iosOverlay({
-								text: '取消点赞',
+								text: js_lang.cancel_like,
 								duration: 2e3,
 								onhide: function () {
 									$this.removeClass('disabled');
@@ -305,7 +332,7 @@
 							$this.addClass('active');
 							$this.find('span').text(val + 1);
 							iosOverlay({
-								text: '点赞成功！',
+								text: js_lang.like_success,
 								duration: 2e3,
 								onhide: function () {
 									$this.removeClass('disabled');
@@ -362,7 +389,7 @@
 				$.post(url, info, function (data) {
 					if (data.state == 'success') {
 						iosOverlay({
-							text: '发表成功！',
+							text: js_lang.published_successfully,
 							duration: 2e3,
 						});
 						textarea.val('');
@@ -443,7 +470,7 @@
 						$('.ecjia-discover-article .swiper-slide').removeClass('disabled'); //允许切换
 
 						if (data.list.length == 0) {
-							$('#discover-article-' + type).append('<div class="ecjia-nolist"><img src="' + theme_url + 'images/wallet/null280.png"><p class="tags_list_font">暂无文章</p></div>');
+							$('#discover-article-' + type).append('<div class="ecjia-nolist"><img src="' + theme_url + 'images/wallet/null280.png"><p class="tags_list_font">'+ js_lang.no_article_yet +'</p></div>');
 						} else {
 							$('#discover-article-' + type).append(data.list);
 						}
@@ -467,16 +494,16 @@
 			}, false);
 
 			myApp.modal({
-				title: '温馨提示',
-				text: '您还没有登录',
+				title: js_lang.tips,
+				text: js_lang.logged_yet,
 				buttons: [{
-					text: '取消',
+					text: js_lang.cancel,
 					onClick: function () {
 						$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
 						return false;
 					}
 				}, {
-					text: '去登录',
+					text: js_lang.go_login,
 					onClick: function () {
 						$('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
 						location.href = referer_url;

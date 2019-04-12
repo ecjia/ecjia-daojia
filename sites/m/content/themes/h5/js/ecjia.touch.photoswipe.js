@@ -144,9 +144,9 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
           }, 
 		   fullscreenEl : false,
 			shareButtons: [
-			{ id:'wechat', label:'分享微信', url:'#' },
-			{ id:'weibo', label:'新浪微博', url:'#' },
-			{ id:'download', label:'保存图片', url:'{ { raw_image_url } }', download:true }
+			{ id:'wechat', label:js_lang.share_wechat, url:'#' },
+			{ id:'weibo', label:js_lang.sina_weibo, url:'#' },
+			{ id:'download', label:js_lang.save_picture, url:'{ { raw_image_url } }', download:true }
 			],
 
             // define gallery index (for URL)
@@ -221,10 +221,10 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
  		if ($('#txt'+id).is(":hidden")) {
  			$('#p'+id).hide();
  	 		$('#txt'+id).show();
- 	 		obj.innerHTML='收起';
+ 	 		obj.innerHTML=js_lang.collapse;
  		} else {
  			$('#p'+id).show();
  	 		$('#txt'+id).hide();
- 	 		obj.innerHTML='全文';
+ 	 		obj.innerHTML=js_lang.full_text;
  		}
  	}

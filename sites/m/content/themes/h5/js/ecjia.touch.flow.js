@@ -41,7 +41,7 @@
 
 		inv_img: function () {
 			$('.inv_img').on('click', function () {
-			    alert(js_lang.invoice_desc);
+				alert(js_lang.invoice_desc)
 				$(".modal-overlay").css('transition-duration', "0ms");
 				$(".modal-in").css("position", "fixed");
 				$(".modal-in").css("top", "30%");
@@ -508,44 +508,24 @@
 			$('.confirm-payment').off('click').on('click', function (e) {
 				e.preventDefault();
 
+				var pay_id = $("input[name='pay_id']:checked").val();
+				var pay_balance_id = $("input[name='pay_balance_id']").val();
+				
 				if (!$(this).hasClass('payment-balance')) {
-					if ($("input[name='pay_id']:checked").val() == null) {
+					if (pay_id == null || pay_id == undefined) {
 						alert(js_lang.please_select_payment);
 						return false;
 					}
-				} else {
-					//支付时输入支付密码
-					var has_set_paypass = $('input[name="has_set_paypass"]').val();
-					if (has_set_paypass == 1) {
-						$(this).val(js_lang.requesting);
-						$(this).attr("disabled", true);
-						$(this).addClass("payment-bottom");
-
-						$('.mod_address_slide').addClass('show');
-						$(".pass_container input").eq(0).focus();
-					} else {
-                        var myApp = new Framework7();
-                        var url = $('.set_paypass_url').attr('data-url');
-                        myApp.modal({
-                            title: '',
-                            text: js_lang.payment_password,
-                            buttons: [{
-                                text: js_lang.cancel,
-                                onClick: function () {
-                                    $('.modal').remove();
-                                    $('.modal-overlay').remove();
-                                    return false;
-                                }
-                            }, {
-                                text: js_lang.go_set,
-                                onClick: function () {
-                                    window.location.href = url;
-                                }
-                            }, ]
-                        });
+					if (pay_id == pay_balance_id) {
+						ecjia.touch.flow.check_paypass();
+						return false;
 					}
+				} else {
+					ecjia.touch.flow.check_paypass();
 					return false;
 				}
+				console.log(11);
+				return false;
 
 				$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
 				var alipay_btn_html = $(this).val();
@@ -579,6 +559,41 @@
 			});
 		},
 
+		check_paypass: function() {
+			//支付时输入支付密码
+			var has_set_paypass = $('input[name="has_set_paypass"]').val();
+
+			if (has_set_paypass == 1) {
+				$(this).val(js_lang.requesting);
+				$(this).attr("disabled", true);
+				$(this).addClass("payment-bottom");
+
+				$('.mod_address_slide').addClass('show');
+				$(".pass_container input").eq(0).focus();
+			} else {
+				var myApp = new Framework7();
+				var url = $('.set_paypass_url').attr('data-url');
+				myApp.modal({
+					title: '',
+					text: js_lang.payment_password,
+					buttons: [{
+						text: js_lang.cancel,
+						onClick: function () {
+							$('.modal').remove();
+							$('.modal-overlay').remove();
+							return false;
+						}
+					}, {
+						text: js_lang.go_set,
+						onClick: function () {
+							window.location.href = url;
+						}
+					}, ]
+				});
+			}
+			return false;
+		},
+
 		//模拟键盘初始化
 		boardInit: function () {
 			var firstResultAry = []; //记录输入结果
@@ -609,7 +624,7 @@
 				if (firstResultAry.length == keyLength) {
 					autoRequest = 1;
 					var order_id = $('input[name="order_id"]').val();
-					var pay_id = $('input[name="pay_id"]').val();
+					var pay_id = $('input[name="pay_balance_id"]').val();
 					var url = $('input[name="url"]').val();
                     var extension_code = $('input[name="extension_code"]').val();
 					var value = '';

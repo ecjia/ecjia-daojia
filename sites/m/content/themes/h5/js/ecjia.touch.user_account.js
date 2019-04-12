@@ -25,12 +25,12 @@
 
 				if (amount == '') {
 					$('.la-ball-atom').remove();
-					alert("金额不能为空");
+					alert(js_lang.money_not_empty);
 					return false;
 				}
 				var alipay_btn_html = $(this).val();
 				if (record != 1) {
-					$(this).val("请求中...");
+					$(this).val(js_lang.requesting);
 				}
 				$(this).attr("disabled", true);
 				$(this).addClass("payment-bottom");
@@ -72,12 +72,12 @@
 				var amount = $('input[name="amount"]').val();
 				if (amount == '') {
 					$('.la-ball-atom').remove();
-					alert("金额不能为空");
+					alert(js_lang.money_not_empty);
 					return false;
 				}
 				var alipay_btn_html = $(this).val();
 
-				$(this).val("请求中...");
+				$(this).val(js_lang.requesting);
 				$(this).attr("disabled", true);
 				$(this).addClass("payment-bottom");
 
@@ -108,13 +108,13 @@
 				e.preventDefault();
 
 				if ($("input[name='pay_id']:checked").val() == null) {
-					alert("请选择支付方式");
+					alert(js_lang.please_select_payment);
 					return false;
 				}
 
 				$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
 				var alipay_btn_html = $(this).val();
-				$(this).val("请求中...");
+				$(this).val(js_lang.requesting);
 				$(this).attr("disabled", true);
 				$(this).addClass("payment-bottom");
 
@@ -151,7 +151,7 @@
 				var bonus_number = $(".bonus_number_input").val();
 
 				if (bonus_number == '' || bonus_number == undefined || bonus_number == null) {
-					alert("请输入号码");
+					alert(js_lang.please_enter_number);
 					return false;
 				}
 				$('.bonus_number_input').blur();
@@ -159,7 +159,7 @@
 
 				$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
 				var html = $this.val();
-				$this.val("请求中...");
+				$this.val(js_lang.requesting);
 				$this.attr("disabled", true);
 
 				var url = $("form[name='addBonusForm']").attr('action');
@@ -204,12 +204,12 @@
 					url = $this.attr('data-href');
 				var bonus_number = $('input[name="bonus_number"]').val();
 				if (bonus_number == '' || bonus_number == undefined) {
-					alert('该红包不存在');
+					alert(js_lang.bonus_not_exist);
 					return false;
 				}
 				$('body').append('<div class="la-ball-atom"><div></div><div></div><div></div><div></div></div>');
 				var html = $this.html();
-				$this.val("请求中...");
+				$this.val(js_lang.requesting);
 				$this.attr("disabled", true);
 
 				$.post(url, {
@@ -263,7 +263,7 @@
 
 		widthDrawFormSubmit: function () {
 			$("form[name='widthDrawForm']").on('submit', function (e) {
-				$('input[name="submit"]').val('请求中...').prop('disabled', true);
+				$('input[name="submit"]').val(js_lang.requesting).prop('disabled', true);
 				e.preventDefault();
 				return false;
 			}).Validform({
@@ -271,7 +271,7 @@
 				ajaxPost: true,
 				callback: function (data) {
 					if (data.state == 'error') {
-						$('input[name="submit"]').val('立即提现').prop('disabled', false);
+						$('input[name="submit"]').val(js_lang.withdraw_immediately).prop('disabled', false);
 
 						if (data.url) {
                             var myApp = new Framework7();
@@ -279,14 +279,14 @@
                                 title: '',
                                 text: data.message,
                                 buttons: [{
-                                    text: '取消',
+                                    text: js_lang.cancel,
                                     onClick: function () {
                                         $('.modal').remove();
                                         $('.modal-overlay').remove();
                                         return false;
                                     }
                                 }, {
-                                    text: '去设置',
+                                    text: js_lang.go_set,
                                     onClick: function () {
                                         window.location.href = data.url;
                                     }
@@ -313,13 +313,13 @@
 				var $this = $(this),
 					url = $this.attr('data-url'),
                 	redirect_url = url != '' ? url : '',
-					message = redirect_url == '' ? '没有可支持的提现方式' : '您还未设置提现账号，请设置好再提现',
-					ok_btn_text = redirect_url == '' ? '确定' : '去设置';
+					message = redirect_url == '' ? js_lang.no_supportable_withdrawal_method : js_lang.please_set_withdraw,
+					ok_btn_text = redirect_url == '' ? js_lang.ok : js_lang.go_set;
 				myApp.modal({
 					title: '',
 					text: message,
 					buttons: [{
-						text: '取消',
+						text: js_lang.cancel,
 						onClick: function () {
 							$('.modal').remove();
 							$('.modal-overlay').remove();
@@ -361,10 +361,10 @@
                 toolbarTemplate: '<div class="toolbar">' +
                     '<div class="toolbar-inner">' +
                     '<div class="left">' +
-                    '<a href="javascript:;" class="link close-picker external">取消</a>' +
+                    '<a href="javascript:;" class="link close-picker external">'+ js_lang.cancel +'</a>' +
                     '</div>' +
                     '<div class="right">' +
-                    '<a href="javascript:;" class="link save-picker external">确定</a>' +
+                    '<a href="javascript:;" class="link save-picker external">'+ js_lang.ok +'</a>' +
                     '</div>' +
                     '</div>' +
                     '</div>',

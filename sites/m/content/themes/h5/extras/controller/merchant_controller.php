@@ -269,7 +269,7 @@ class merchant_controller
         if (user_function::is_weixin()) {
             $protocol   = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
             $spread_url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-            $spread_url = substr($spread_url, 0, strrpos($spread_url, "&_pjax"));
+            $spread_url = strrpos($spread_url, "&_pjax") ? substr($spread_url, 0, strrpos($spread_url, "&_pjax")) : $spread_url;
             ecjia_front::$controller->assign('share_link', $spread_url);
 
             $config = user_function::get_wechat_config($spread_url);

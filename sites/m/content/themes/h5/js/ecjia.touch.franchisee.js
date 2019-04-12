@@ -497,10 +497,10 @@
 						var col1 = picker.cols[1].container.find('.picker-selected');
 						var col2 = picker.cols[2].container.find('.picker-selected');
 						var html = col0.html();
-						if (col1.html() != js_lang.temporarily_no) {
+						if (col1.html() != '暂无') {
 							html += '-' + col1.html();
 						}
-						if (col2.html() != js_lang.temporarily_no) {
+						if (col2.html() != '暂无') {
 							html += '-' + col2.html();
 						}
 						$('.ecjia-franchisee-location-pcd').html(html);

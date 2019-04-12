@@ -69,7 +69,7 @@ $(function(){
         <div class="ecjia-margin-t ecjia-margin-b">
             <input type="hidden" name="address_id" value="{$address_id}">
             <input type="hidden" name="rec_id" value="{$rec_id}" />
-			<input class="btn btn-info" name="shipping_date_update" type="submit" value='{t domain="h5"}确定{/t}/>
+			<input class="btn btn-info" name="shipping_date_update" type="submit" value='{t domain="h5"}确定{/t}' />
         </div>
     </div>
 </form>

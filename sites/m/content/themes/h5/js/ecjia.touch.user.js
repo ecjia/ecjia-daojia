@@ -33,7 +33,7 @@
 
 			$(function () {
 				$(".del").click(function () {
-					if (!confirm('您确定要删除吗？')) {
+					if (!confirm(js_lang.want_delete)) {
 						return false;
 					}
 					var obj = $(this);
@@ -41,16 +41,16 @@
 					$.get(url, '', function (data) {
 						if ('success' == data.state) {
 							if (obj.hasClass("history_clear")) {
-								obj.closest(".ect-pro-list").html("<p class='text-center  ect-margin-tb ect-padding-tb'>暂无浏览记录，点击<a class='ect-color ect-margin-lr' href={url path='category/index')}>进入</a>浏览商品</p>");
+								obj.closest(".ect-pro-list").html("<p class='text-center  ect-margin-tb ect-padding-tb'>" + js_lang.click_enter + "<a class='ect-color ect-margin-lr' href={url path='category/index')}>" + js_lang.enter_browse + "</a>" + js_lang.browse_products + "</p>");
 								obj.parent().siblings("ul").remove();
 							} else {
 								if (obj.closest("li").siblings("li").length == 0) {
-									obj.closest("ul").html("<p class='text-center  ect-margin-tb ect-padding-tb'>暂无数据</p>");
+									obj.closest("ul").html("<p class='text-center  ect-margin-tb ect-padding-tb'>"+ js_lang.no_data +"</p>");
 								}
 								obj.closest("li").remove();
 							}
 						} else {
-							alert("删除失败");
+							alert(js_lang.failed_delete);
 						}
 					}, 'json');
 					return false;
@@ -97,7 +97,7 @@
 					$('.la-ball-atom').remove();
 					if (data.state == 'error') {
 						var myApp = new Framework7({
-							modalButtonOk: '确定',
+							modalButtonOk: js_lang.ok,
 							modalTitle: ''
 						});
 						myApp.alert(data.message);
@@ -255,11 +255,11 @@
 					'status': 'logout',
 				}
 				var myApp = new Framework7({
-					modalButtonCancel: '取消',
-					modalButtonOk: '确定',
+					modalButtonCancel: js_lang.cancel,
+					modalButtonOk: js_lang.ok,
 					modalTitle: ''
 				});
-				myApp.confirm('是否确认退出？', function () {
+				myApp.confirm(js_lang.opt_out, function () {
 					$.post(url, options, function (data) {
 						if (data.log != '') {
 							ecjia.pjax(data.logout_url);
@@ -317,7 +317,7 @@
 			$('.clear_history').on('click', function (e) {
 				e.preventDefault();
 				var url = $(this).attr('href');
-				if (confirm('你确定要清除浏览历史记录吗？')) {
+				if (confirm(js_lang.history_msg)) {
 					$.get(url, '', function (data) {
 						ecjia.touch.showmessage(data);
 					})
@@ -343,11 +343,11 @@
 					if (mobile.length == 11) {
 						url += '&mobile=' + mobile;
 					} else {
-						alert('请输入正确的手机号');
+						alert(js_lang.please_enter_correct_tel);
 					}
 				} else if (email || email == '') {
 					if (!search_str.test(email)) {
-						alert("请输入正确的邮箱格式");
+						alert(js_lang.please_enter_correct_email);
 					} else {
 						url += '&email=' + email;
 					}
@@ -357,7 +357,7 @@
 						curCount = count;
 						$("#mobile").attr("readonly", "true");
 						$("#get_code").attr("disabled", "true");
-						$("#get_code").val("重新发送" + curCount + "(s)");
+						$("#get_code").val(sprintf(js_lang.resend_second, curCount));
 						$("input[name='get_code']").attr("class", "btn btn-org login-btn");
 						InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
 					}
@@ -371,12 +371,12 @@
 					window.clearInterval(InterValObj); //停止计时器
 					$("#mobile").removeAttr("readonly"); //启用按钮
 					$("#get_code").removeAttr("disabled"); //启用按钮
-					$("#get_code").val("重新发送");
+					$("#get_code").val(js_lang.resend);
 					$("input[name='get_code']").attr("class", "btn btn-info login-btn");
 				} else {
 					curCount--;
 					$("#get_code").attr("disabled", "true");
-					$("#get_code").val("重新发送" + curCount + "(s)");
+					$("#get_code").val(sprintf(js_lang.resend_second, curCount));
 				}
 			};
 		},
@@ -390,11 +390,11 @@
 					verification = $("input[name='verification']").val(),
 					code = $("input[name='code']").val().trim();
 				if (code == '') {
-					alert('请输入验证码');
+					alert(js_lang.please_enter_code);
 					return false;
 				}
 				if (mobile == '') {
-					alert('请输入手机号');
+					alert(js_lang.please_enter_tel);
 					return false;
 				}
 				var info = {
@@ -512,14 +512,14 @@
 					'record_type': record_type,
 					'account_id': account_id,
 					'payment_id': payment_id,
-					'submit': '取消'
+					'submit': js_lang.cancel
 				}
 				var myApp = new Framework7({
-					modalButtonCancel: '取消',
-					modalButtonOk: '确定',
+					modalButtonCancel: js_lang.cancel,
+					modalButtonOk: js_lang.ok,
 					modalTitle: ''
 				});
-				myApp.confirm('你确定要取消吗？', function () {
+				myApp.confirm(js_lang.want_cancel, function () {
 					$.post(url, options, function (data) {
 						ecjia.touch.showmessage(data);
 					})
@@ -538,7 +538,7 @@
 					'amount': amount,
 					'account_id': account_id,
 					'payment_id': payment_id,
-					'submit': '充值',
+					'submit': js_lang.recharge,
 					'brownser_other': brownser_other,
 					'brownser_wx': brownser_wx,
 				}
@@ -587,7 +587,7 @@
 					} else {
 						if (!data.message) {
 							iosOverlay({
-								text: '请填写完整信息!',
+								text: js_lang.complete_information,
 								duration: 2e3,
 							});
 						} else {
@@ -613,7 +613,7 @@
 					} else {
 						if (!data.message) {
 							iosOverlay({
-								text: '请输入验证码！',
+								text: js_lang.please_enter_code,
 								duration: 2e3,
 							});
 						} else {
@@ -638,11 +638,11 @@
 				var myApp = new Framework7();
 				var url = $(this).attr('href');
 				myApp.modal({
-					title: '您确定要取消该订单吗？',
+					title: js_lang.cancel_order,
 					buttons: [{
-						text: '取消',
+						text: js_lang.cancel,
 					}, {
-						text: '确定',
+						text: js_lang.ok,
 						onClick: function () {
 							$.post(url, function (data) {
 								ecjia.touch.showmessage(data);
@@ -657,11 +657,11 @@
 				var myApp = new Framework7();
 				var url = $(this).attr('href');
 				myApp.modal({
-					title: '您确定要确认收货吗？',
+					title: js_lang.confirm_receipt,
 					buttons: [{
-						text: '取消',
+						text: js_lang.cancel,
 					}, {
-						text: '确定',
+						text: js_lang.ok,
 						onClick: function () {
 							$.post(url, function (data) {
 								ecjia.touch.showmessage(data);
@@ -693,11 +693,11 @@
 				toolbarTemplate: '<div class="toolbar">' +
 					'<div class="toolbar-inner">' +
 					'<div class="left">' +
-					'<a href="javascript:;" class="link close-picker external">取消</a>' +
+					'<a href="javascript:;" class="link close-picker external">'+ js_lang.cancel +'</a>' +
 					'</div>' +
-					'<div class="center">' + '订单取消原因' + '</div>' +
+					'<div class="center">' + js_lang.order_cancellation_reason + '</div>' +
 					'<div class="right">' +
-					'<a href="javascript:;" class="link save-picker external">确定</a>' +
+					'<a href="javascript:;" class="link save-picker external">'+ js_lang.ok +'</a>' +
 					'</div>' +
 					'</div>' +
 					'</div>',
@@ -747,9 +747,9 @@
                 myApp.modal({
                     title: msg,
                     buttons: [{
-                        text: '取消',
+                        text: js_lang.cancel,
                     }, {
-                        text: '确定',
+                        text: js_lang.ok,
                         onClick: function () {
                             ecjia.pjax(url, function () {}, {
                                 replace: true
@@ -842,11 +842,11 @@
 
 				var path = $(this).parent();
 				var myApp = new Framework7({
-					modalButtonCancel: '取消',
-					modalButtonOk: '确定',
+					modalButtonCancel: js_lang.cancel,
+					modalButtonOk: js_lang.ok,
 					modalTitle: ''
 				});
-				myApp.confirm('您确定要删除照片？', function () {
+				myApp.confirm(js_lang.confirm_delete, function () {
 					if ($(".push_photo_img img").length <= 5) {
 						$(".push_photo").show();
 					}
@@ -888,10 +888,10 @@
 				toolbarTemplate: '<div class="toolbar">' +
 					'<div class="toolbar-inner">' +
 					'<div class="left">' +
-					'<a href="javascript:;" class="link close-picker external">取消</a>' +
+					'<a href="javascript:;" class="link close-picker external">'+ js_lang.cancel +'</a>' +
 					'</div>' +
 					'<div class="right">' +
-					'<a href="javascript:;" class="link save-picker external">确定</a>' +
+					'<a href="javascript:;" class="link save-picker external">'+ js_lang.ok +'</a>' +
 					'</div>' +
 					'</div>' +
 					'</div>',
@@ -935,11 +935,11 @@
 				var myApp = new Framework7();
 				var url = $(this).attr('href');
 				myApp.modal({
-					title: '您确定要撤销申请？',
+					title: js_lang.cancel_your_application,
 					buttons: [{
-						text: '取消',
+						text: js_lang.cancel,
 					}, {
-						text: '确定',
+						text: js_lang.ok,
 						onClick: function () {
 							$.post(url, function (data) {
 								ecjia.touch.showmessage(data);
@@ -953,7 +953,7 @@
 		copy_btn: function () {
 			var clipboard = new Clipboard('.copy-btn');
 			clipboard.on('success', function (e) {
-				alert("复制成功！");
+				alert(js_lang.successful_copy);
 			});
 		},
 
@@ -1092,14 +1092,14 @@
 					if (mobile.length == 11) {
 						url += '&mobile=' + mobile;
 					} else {
-						alert('请输入正确的手机号');
+						alert(js_lang.please_enter_correct_tel);
 						return false;
 					}
 				}
 
 				if (code_captcha || code_captcha == '') {
 					if (code_captcha == '') {
-						alert("请输入验证码");
+						alert(js_lang.please_enter_code);
 						return false;
 					} else {
 						url += '&code_captcha=' + code_captcha;
@@ -1117,8 +1117,8 @@
 					}
 					if (data.registered == 1) {
 						var myApp = new Framework7({
-							modalButtonCancel: '取消',
-							modalButtonOk: '确定',
+							modalButtonCancel: js_lang.cancel,
+							modalButtonOk: js_lang.ok,
 							modalTitle: ''
 						});
 						var url = data.url;
@@ -1152,7 +1152,7 @@
 					window.clearInterval(InterValObj); //停止计时器
 					$("#mobile").removeAttr("readonly"); //启用按钮
 					$(".identify_code_btn").removeAttr("disabled"); //启用按钮
-					$(".identify_code_btn").html("验证");
+					$(".identify_code_btn").html(js_lang.verification);
 					$('.identify_code').removeClass('disabled');
 				} else {
 					curCount--;
@@ -1187,16 +1187,16 @@
 				var myApp = new Framework7();
 				myApp.modal({
 					title: '',
-					text: '您确定要注销当前账号吗？',
+					text: js_lang.cancel_your_current_account,
 					buttons: [{
-						text: '取消',
+						text: js_lang.cancel,
 						onClick: function () {
 							$('.modal').remove();
 							$('.modal-overlay').remove();
 							return false;
 						}
 					}, {
-						text: '确定',
+						text: js_lang.ok,
 						onClick: function () {
 							resend_cancel_sms();
 						}
@@ -1254,7 +1254,7 @@
 			function SetTime() {
 				if (curCount_s == 1) {
 					window.clearInterval(InterObj); //停止计时器
-					$(".pass-notice").html("<span></span>重新发送");
+					$(".pass-notice").html(js_lang.resend_css);
 					$('.pass-notice').removeClass('disabled');
 				} else {
 					curCount_s--;
@@ -1334,10 +1334,10 @@
                 toolbarTemplate: '<div class="toolbar">' +
                     '<div class="toolbar-inner">' +
                     '<div class="left">' +
-                    '<a href="javascript:;" class="link close-picker external">取消</a>' +
+                    '<a href="javascript:;" class="link close-picker external">'+ js_lang.cancel +'</a>' +
                     '</div>' +
                     '<div class="right">' +
-                    '<a href="javascript:;" class="link save-picker external">确定</a>' +
+                    '<a href="javascript:;" class="link save-picker external">'+ js_lang.ok +'</a>' +
                     '</div>' +
                     '</div>' +
                     '</div>',
@@ -1517,10 +1517,10 @@
 				toolbarTemplate: '<div class="toolbar">' +
 					'<div class="toolbar-inner">' +
 					'<div class="left">' +
-					'<a href="javascript:;" class="link close-picker external">取消</a>' +
+					'<a href="javascript:;" class="link close-picker external">'+ js_lang.cancel +'</a>' +
 					'</div>' +
 					'<div class="right">' +
-					'<a href="javascript:;" class="link save-picker external">完成</a>' +
+					'<a href="javascript:;" class="link save-picker external">'+ js_lang.finish +'</a>' +
 					'</div>' +
 					'</div>' +
 					'</div>',
@@ -1590,7 +1590,7 @@
 						$('input[name="district"]').val(col2Value);
 
 						if (district_value != col2Value) {
-							$('.ecjia_user_address_street_picker').html('请选择街道');
+							$('.ecjia_user_address_street_picker').html(js_lang.please_street);
 							$('input[name="street"]').val('');
 						}
 
@@ -1632,7 +1632,7 @@
 				var city = $('input[name="city"]').val();
 				var district = $('input[name="district"]').val();
 				if (province == '' || city == '' || district == '') {
-					alert('请先选择所在地区');
+					alert(js_lang.please_street_region);
 					return false;
 				}
 			});
@@ -1646,16 +1646,16 @@
 				toolbarTemplate: '<div class="toolbar">' +
 					'<div class="toolbar-inner">' +
 					'<div class="left">' +
-					'<a href="javascript:;" class="link close-picker external">取消</a>' +
+					'<a href="javascript:;" class="link close-picker external">'+ js_lang.cancel +'</a>' +
 					'</div>' +
 					'<div class="right">' +
-					'<a href="javascript:;" class="link save-picker external">完成</a>' +
+					'<a href="javascript:;" class="link save-picker external">'+ js_lang.finish +'</a>' +
 					'</div>' +
 					'</div>' +
 					'</div>',
 				cols: [{
 					values: [''],
-					displayValues: ['请选择所在街道'],
+					displayValues: [js_lang.please_where_street],
 				}, ],
 				onOpen: function (picker) {
 					var $pick_overlay = '<div class="picker-modal-overlay"></div>';
@@ -1776,11 +1776,11 @@
 		}
 		if (district_value.length == 0 || district_display_value.length == 0) {
 			district_value = [''];
-			district_display_value = ['暂无'];
+			district_display_value = [js_lang.temporarily_no];
 		}
 		if (street_value.length == 0 || street_display_value.length == 0) {
 			street_value = [''];
-			street_display_value = ['暂无'];
+			street_display_value = [js_lang.temporarily_no];
 		}
 		return [province_value, province_display_value, city_value, city_display_value, district_value, district_display_value, street_value, street_display_value];
 	}

@@ -208,14 +208,18 @@ class user_function
         }
 
         $change_payment = true;
+        $pay_balance_id = 0;
         if (!empty($pay['payment'])) {
             foreach ($pay['payment'] as $key => $value) {
                 if ($value['pay_code'] == $pay_code) {
                     $change_payment = false;
                 }
+                if ($value['pay_code'] == 'pay_balance') {
+                    $pay_balance_id = $value['pay_id'];
+                }
             }
         }
-        return array('change' => $change_payment, 'payment' => $pay['payment'], 'open_id' => $open_id);
+        return array('change' => $change_payment, 'payment' => $pay['payment'], 'open_id' => $open_id, 'pay_balance_id' => $pay_balance_id);
     }
 
     public static function get_payment_list($pay_code = '', $manage_mode = '')
@@ -338,7 +342,7 @@ class user_function
         if (empty($wechat)) {
             return [];
         }
-
+        
         $apis = array('onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ');
 
         $wechat->js->setUrl($url);

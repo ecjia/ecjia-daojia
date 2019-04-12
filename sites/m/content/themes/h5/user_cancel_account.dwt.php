@@ -39,7 +39,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
     <div class="modal-inners">
         <span class="ecjia-close-modal-icon"><i class="iconfont icon-close"></i></span>
         <div class="modal-title">{t domain="h5"}验证手机号{/t}</div>
-        <div class="modal-title-notice">{t domain="h5"}请输入手机{$user.str_mobile_phone}收到的验证码{/t}</div>
+        <div class="modal-title-notice">{t domain="h5" 1={$user.str_mobile_phone}}请输入手机%1收到的验证码{/t}</div>
         <div id="payPassword_container">
             <div class="pass_container">
                 <input class="input" type="tel" maxlength="1" tableindex=0 />

@@ -25,7 +25,7 @@
                         $('body').css('overflow-y', 'auto').off("touchmove"); //启用滚动条
                     })
                 } else {
-                    alert('请在微信客户端打开链接');
+                    alert(js_lang.please_open_link);
                 }
             });
         },
@@ -88,21 +88,21 @@
 
             $('.alert-text1').on('click', function () {
                 var integral_name = $(this).attr('data-integralname');
-                alert('邀请成功即可获得'+integral_name+'奖励' + '<br>' + integral_name + '可在购买商品时使用');
+                alert(sprintf(js_lang.point_reward, integral_name, integral_name));
                 $(".modal-overlay").css('transition-duration', "0ms");
                 $(".modal-in").css("position", "absolute");
                 $(".modal-inner").css("background-color", "#FFF");
                 $(".modal-button-bold").css("background-color", "#FFF");
             });
             $('.alert-text2').on('click', function () {
-                alert('邀请成功即可获得红包奖励' + '<br>' + '红包可在购买商品时使用');
+                alert(js_lang.bonus_reward);
                 $(".modal-overlay").css('transition-duration', "0ms");
                 $(".modal-in").css("position", "absolute");
                 $(".modal-inner").css("background-color", "#FFF");
                 $(".modal-button-bold").css("background-color", "#FFF");
             });
             $('.alert-text3').on('click', function () {
-                alert('邀请成功即可获得现金奖励' + '<br>' + '现金可在购买商品时使用');
+                alert(js_lang.money_reward);
                 $(".modal-overlay").css('transition-duration', "0ms");
                 $(".modal-in").css("position", "absolute");
                 $(".modal-inner").css("background-color", "#FFF");
@@ -131,7 +131,7 @@
 
                 if (data.list == null && parseInt($('.detail-list').children('li').length) == 0) {
                     var empty = '<div class="ecjia-nolist">' +
-                        '<div class="img-nolist">' + '<div class="img-noreward">暂无奖励</div>' + '</div>' +
+                        '<div class="img-nolist">' + '<div class="img-noreward">' + js_lang.no_reward + '</div>' + '</div>' +
                         '</div>';
                     $(".detail-list").html(empty);
                 }
