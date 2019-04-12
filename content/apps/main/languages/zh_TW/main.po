@@ -1,0 +1,98 @@
+# Copyright (C) 2019 Ecjia App main
+# This file is distributed under the same license as the Ecjia App main package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App main 2.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-04-03 17:01+0800\n"
+"PO-Revision-Date: 2019-04-03 17:01+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: classes/hooks/admin_main.class.php:54
+msgid "产品地址"
+msgstr "產品地址"
+
+#: classes/hooks/admin_main.class.php:97 classes/hooks/admin_main.class.php:161
+msgid "欢迎使用ECJia到家"
+msgstr "歡迎使用ECJia到家"
+
+#: classes/hooks/admin_main.class.php:98
+msgid ""
+"EC+（ecjia）到家是由上海商创网络科技有限公司推出的，一款可开展O2O业务的移动电"
+"商系统。\n"
+"\t            它包含：移动端APP，采用原生模式开发，覆盖使用iOS 及Android系统"
+"的移动终端；后台系统，针对平台日常运营维护\n"
+"\t            的平台后台，针对入驻店铺管理的商家后台，独立并行；移动端H5，能"
+"够灵活部署于微信及其他APP、网页等。\n"
+"\t            ECJia到家是一款符合当下及未来发展的新电商系统，主打三个新：新模"
+"式，新框架，新技术。"
+msgstr ""
+"EC+（ecjia）到家是由上海商創網絡科技有限公司推出的，一款可開展O2O業務的移動電"
+"商系統。\n"
+"\t            它包含：移動端APP，采用原生模式開發，覆蓋使用iOS 及Android系統"
+"的移動終端；後臺系統，針對平臺日常運營維護\n"
+"\t            的平臺後臺，針對入駐店鋪管理的商家後臺，獨立並行；移動端H5，能"
+"夠靈活部署於微信及其他APP、網頁等。\n"
+"\t            ECJia到家是一款符合當下及未來發展的新電商系統，主打三個新：新模"
+"式，新框架，新技術。"
+
+#: classes/hooks/admin_main.class.php:102
+msgid "了解更多 »"
+msgstr "了解更多 »"
+
+#: classes/hooks/admin_main.class.php:126
+msgid "终身商业授权"
+msgstr "終身商業授權"
+
+#: classes/hooks/admin_main.class.php:127
+msgid "授权域名："
+msgstr "授權域名："
+
+#: classes/hooks/admin_main.class.php:128
+msgid "恭喜您，您正在使用商业授权版本，享有该系统进行商业运营的合法权利。"
+msgstr "恭喜您，您正在使用商業授權版本，享有該系統進行商業運營的合法權利。"
+
+#: classes/hooks/admin_main.class.php:129
+msgid "查看授权证书 »"
+msgstr "查看授權證書 »"
+
+#: classes/hooks/admin_main.class.php:162
+msgid ""
+"EC+（ecjia）到家是由上海商创网路科技有限公司推出的，一款可开展O2O业务的移动电"
+"商系统。\n"
+"\t            它包含：移动端APP，采用原生模式开发，覆盖使用iOS 及Android系统"
+"的移动终端；后台系统，针对平台日常运营维护\n"
+"\t            的平台后台，针对入驻店铺管理的商家后台，独立并行；移动端H5，能"
+"够灵活部署于微信及其他APP、网页等。\n"
+"\t            ECJia到家是一款符合当下及未来发展的新电商系统，主打三个新：新模"
+"式，新框架，新技术。"
+msgstr ""
+"EC+（ecjia）到家是由上海商創網路科技有限公司推出的，一款可開展O2O業務的移動電"
+"商系統。\n"
+"\t            它包含：移動端APP，采用原生模式開發，覆蓋使用iOS 及Android系統"
+"的移動終端；後臺系統，針對平臺日常運營維護\n"
+"\t            的平臺後臺，針對入駐店鋪管理的商家後臺，獨立並行；移動端H5，能"
+"夠靈活部署於微信及其他APP、網頁等。\n"
+"\t            ECJia到家是一款符合當下及未來發展的新電商系統，主打三個新：新模"
+"式，新框架，新技術。"
+
+#: classes/hooks/admin_main.class.php:166
+msgid "进入官网 »"
+msgstr "進入官網 »"
+
+#: configs/package.php:55
+msgid "PC站入口"
+msgstr "PC站入口"
+
+#: configs/package.php:56
+msgid ""
+"ecjia在PC端展示的主应用，主要是App的功能介绍，截图展示，提供二维码下载。"
+msgstr ""
+"ecjia在PC端展示的主應用，主要是App的功能介紹，截圖展示，提供二維碼下載。"
