@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the ECJia到家H5主题 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ECJia到家H5主题 1.29.0\n"
+"Project-Id-Version: ECJia到家H5主题 1.30.0\n"
 "Report-Msgid-Bugs-To: https://www.ecjia.com/support/theme/h5\n"
-"POT-Creation-Date: 2019-04-04 05:38:47+00:00\n"
+"POT-Creation-Date: 2019-04-12 04:02:36+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -74,7 +74,7 @@ msgstr ""
 msgid "确认支付"
 msgstr ""
 
-#: extras/configs/jslang.php:75 extras/controller/payment_controller.php:238
+#: extras/configs/jslang.php:75 extras/controller/payment_controller.php:240
 #: extras/controller/user_account_controller.php:617
 msgid "请选择支付方式"
 msgstr ""
@@ -318,7 +318,7 @@ msgstr ""
 msgid "全部"
 msgstr ""
 
-#: extras/configs/jslang.php:139 extras/controller/goods_controller.php:273
+#: extras/configs/jslang.php:139 extras/controller/goods_controller.php:310
 #: extras/controller/merchant_controller.php:467
 msgid "免费"
 msgstr ""
@@ -409,99 +409,107 @@ msgid "知道了"
 msgstr ""
 
 #: extras/configs/jslang.php:168
-msgid "取消点赞"
+msgid "时"
 msgstr ""
 
 #: extras/configs/jslang.php:169
-msgid "点赞成功！"
+msgid "分"
 msgstr ""
 
 #: extras/configs/jslang.php:170
-msgid "发表成功！"
+msgid "取消点赞"
 msgstr ""
 
 #: extras/configs/jslang.php:171
-msgid "请输入消费金额"
+msgid "点赞成功！"
 msgstr ""
 
-#: extras/configs/jslang.php:172 extras/controller/quickpay_controller.php:328
-msgid "消费金额不能为空"
+#: extras/configs/jslang.php:172
+msgid "发表成功！"
 msgstr ""
 
 #: extras/configs/jslang.php:173
-msgid "消费金额不能为0"
+msgid "请输入消费金额"
 msgstr ""
 
-#: extras/configs/jslang.php:174
-msgid "参与优惠金额不能大于消费总金额"
+#: extras/configs/jslang.php:174 extras/controller/quickpay_controller.php:328
+msgid "消费金额不能为空"
 msgstr ""
 
 #: extras/configs/jslang.php:175
-msgid "确认买单"
+msgid "消费金额不能为0"
 msgstr ""
 
 #: extras/configs/jslang.php:176
-msgid "支付请求中，请稍后"
+msgid "参与优惠金额不能大于消费总金额"
 msgstr ""
 
 #: extras/configs/jslang.php:177
-msgid "去支付"
+msgid "确认买单"
 msgstr ""
 
 #: extras/configs/jslang.php:178
-msgid "请在微信客户端打开链接"
+msgid "支付请求中，请稍后"
 msgstr ""
 
 #: extras/configs/jslang.php:179
-msgid "暂无奖励"
+msgid "去支付"
 msgstr ""
 
 #: extras/configs/jslang.php:180
+msgid "请在微信客户端打开链接"
+msgstr ""
+
+#: extras/configs/jslang.php:181
+msgid "暂无奖励"
+msgstr ""
+
+#: extras/configs/jslang.php:182
 #: extras/controller/user_account_controller.php:214
 msgid "金额不能为空"
 msgstr ""
 
-#: extras/configs/jslang.php:181
+#: extras/configs/jslang.php:183
 msgid "请输入号码"
 msgstr ""
 
-#: extras/configs/jslang.php:182
+#: extras/configs/jslang.php:184
 msgid "该红包不存在"
 msgstr ""
 
-#: extras/configs/jslang.php:183
+#: extras/configs/jslang.php:185
 msgid "立即提现"
 msgstr ""
 
-#: extras/configs/jslang.php:184
+#: extras/configs/jslang.php:186
 msgid "没有可支持的提现方式"
 msgstr ""
 
-#: extras/configs/jslang.php:185
+#: extras/configs/jslang.php:187
 msgid "您还未设置提现账号，请设置好再提现"
 msgstr ""
 
-#: extras/configs/jslang.php:186
+#: extras/configs/jslang.php:188
 msgid "您确定要删除吗？"
 msgstr ""
 
-#: extras/configs/jslang.php:187
+#: extras/configs/jslang.php:189
 msgid "暂无数据"
 msgstr ""
 
-#: extras/configs/jslang.php:188
+#: extras/configs/jslang.php:190
 msgid "删除失败"
 msgstr ""
 
-#: extras/configs/jslang.php:189
+#: extras/configs/jslang.php:191
 msgid "是否确认退出？"
 msgstr ""
 
-#: extras/configs/jslang.php:190
+#: extras/configs/jslang.php:192
 msgid "你确定要清除浏览历史记录吗？"
 msgstr ""
 
-#: extras/configs/jslang.php:191 extras/controller/affiliate_controller.php:87
+#: extras/configs/jslang.php:193 extras/controller/affiliate_controller.php:87
 #: extras/controller/connect_controller.php:383
 #: extras/controller/user_get_password_controller.php:121
 #: extras/controller/user_privilege_controller.php:331
@@ -510,73 +518,73 @@ msgstr ""
 msgid "请输入验证码"
 msgstr ""
 
-#: extras/configs/jslang.php:192
+#: extras/configs/jslang.php:194
 msgid "你确定要取消吗？"
 msgstr ""
 
-#: extras/configs/jslang.php:193
+#: extras/configs/jslang.php:195
 #: extras/controller/user_account_controller.php:170
 #: extras/controller/user_account_controller.php:522
 msgid "充值"
 msgstr ""
 
-#: extras/configs/jslang.php:194
+#: extras/configs/jslang.php:196
 msgid "请填写完整信息!"
 msgstr ""
 
-#: extras/configs/jslang.php:195
+#: extras/configs/jslang.php:197
 msgid "您确定要取消该订单吗？"
 msgstr ""
 
-#: extras/configs/jslang.php:196
+#: extras/configs/jslang.php:198
 msgid "您确定要确认收货吗？"
 msgstr ""
 
-#: extras/configs/jslang.php:197
+#: extras/configs/jslang.php:199
 msgid "订单取消原因"
 msgstr ""
 
-#: extras/configs/jslang.php:198
+#: extras/configs/jslang.php:200
 msgid "您确定要撤销申请？"
 msgstr ""
 
-#: extras/configs/jslang.php:199
+#: extras/configs/jslang.php:201
 msgid "验证"
 msgstr ""
 
-#: extras/configs/jslang.php:200
+#: extras/configs/jslang.php:202
 msgid "您确定要注销当前账号吗？"
 msgstr ""
 
-#: extras/configs/jslang.php:201
+#: extras/configs/jslang.php:203
 msgid "邀请成功即可获得%s奖励<br>%s可在购买商品时使用"
 msgstr ""
 
-#: extras/configs/jslang.php:202
+#: extras/configs/jslang.php:204
 msgid "邀请成功即可获得红包奖励<br>红包可在购买商品时使用"
 msgstr ""
 
-#: extras/configs/jslang.php:203
+#: extras/configs/jslang.php:205
 msgid "邀请成功即可获得现金奖励<br>现金可在购买商品时使用"
 msgstr ""
 
-#: extras/configs/jslang.php:204
+#: extras/configs/jslang.php:206
 msgid "暂无文章"
 msgstr ""
 
-#: extras/configs/jslang.php:205
+#: extras/configs/jslang.php:207
 msgid "<span></span>重新发送"
 msgstr ""
 
-#: extras/configs/jslang.php:206
+#: extras/configs/jslang.php:208
 msgid "暂无浏览记录，点击"
 msgstr ""
 
-#: extras/configs/jslang.php:207
+#: extras/configs/jslang.php:209
 msgid "进入"
 msgstr ""
 
-#: extras/configs/jslang.php:208
+#: extras/configs/jslang.php:210
 msgid "浏览商品"
 msgstr ""
 
@@ -664,140 +672,140 @@ msgstr ""
 msgid "购物车列表"
 msgstr ""
 
-#: extras/controller/cart_controller.php:307
-#: extras/controller/cart_controller.php:653
-#: extras/controller/cart_controller.php:919
-#: extras/controller/cart_controller.php:967
-#: extras/controller/cart_controller.php:1059
-#: extras/controller/cart_controller.php:1136
-#: extras/controller/cart_controller.php:1198
-#: extras/controller/cart_controller.php:1230
-#: extras/controller/cart_controller.php:1311
-#: extras/controller/cart_controller.php:1368
-#: extras/controller/cart_controller.php:1404
-#: extras/controller/cart_controller.php:1446
-#: extras/controller/cart_controller.php:1478
-#: extras/controller/cart_controller.php:1518
+#: extras/controller/cart_controller.php:325
+#: extras/controller/cart_controller.php:671
+#: extras/controller/cart_controller.php:937
+#: extras/controller/cart_controller.php:985
+#: extras/controller/cart_controller.php:1077
+#: extras/controller/cart_controller.php:1154
+#: extras/controller/cart_controller.php:1216
+#: extras/controller/cart_controller.php:1248
+#: extras/controller/cart_controller.php:1329
+#: extras/controller/cart_controller.php:1386
+#: extras/controller/cart_controller.php:1422
+#: extras/controller/cart_controller.php:1464
+#: extras/controller/cart_controller.php:1496
+#: extras/controller/cart_controller.php:1536
 msgid "请先登录再继续操作"
 msgstr ""
 
-#: extras/controller/cart_controller.php:322
-#: extras/controller/cart_controller.php:668
-#: extras/controller/cart_controller.php:926
-#: extras/controller/cart_controller.php:990
-#: extras/controller/cart_controller.php:1080
-#: extras/controller/cart_controller.php:1143
-#: extras/controller/cart_controller.php:1206
-#: extras/controller/cart_controller.php:1237
-#: extras/controller/cart_controller.php:1318
-#: extras/controller/cart_controller.php:1374
-#: extras/controller/cart_controller.php:1412
-#: extras/controller/cart_controller.php:1454
-#: extras/controller/cart_controller.php:1485
-#: extras/controller/cart_controller.php:1525
+#: extras/controller/cart_controller.php:340
+#: extras/controller/cart_controller.php:686
+#: extras/controller/cart_controller.php:944
+#: extras/controller/cart_controller.php:1008
+#: extras/controller/cart_controller.php:1098
+#: extras/controller/cart_controller.php:1161
+#: extras/controller/cart_controller.php:1224
+#: extras/controller/cart_controller.php:1255
+#: extras/controller/cart_controller.php:1336
+#: extras/controller/cart_controller.php:1392
+#: extras/controller/cart_controller.php:1430
+#: extras/controller/cart_controller.php:1472
+#: extras/controller/cart_controller.php:1503
+#: extras/controller/cart_controller.php:1543
 msgid "请选择商品再进行结算"
 msgstr ""
 
-#: extras/controller/cart_controller.php:470
+#: extras/controller/cart_controller.php:488
 msgid "请选择配送方式"
 msgstr ""
 
-#: extras/controller/cart_controller.php:503
-#: extras/controller/cart_controller.php:784
+#: extras/controller/cart_controller.php:521
+#: extras/controller/cart_controller.php:802
 msgid "请填写完整的发票信息"
 msgstr ""
 
-#: extras/controller/cart_controller.php:540
-#: extras/controller/cart_controller.php:821
+#: extras/controller/cart_controller.php:558
+#: extras/controller/cart_controller.php:839
 #: extras/controller/quickpay_controller.php:81
 msgid "%s使用超出订单限制"
 msgstr ""
 
-#: extras/controller/cart_controller.php:542
-#: extras/controller/cart_controller.php:823
+#: extras/controller/cart_controller.php:560
+#: extras/controller/cart_controller.php:841
 #: extras/controller/quickpay_controller.php:83
 msgid "%s不足"
 msgstr ""
 
-#: extras/controller/cart_controller.php:612
-#: extras/controller/cart_controller.php:889
+#: extras/controller/cart_controller.php:630
+#: extras/controller/cart_controller.php:907
 msgid "结算"
 msgstr ""
 
-#: extras/controller/cart_controller.php:817
-#: extras/controller/cart_controller.php:1532
+#: extras/controller/cart_controller.php:835
+#: extras/controller/cart_controller.php:1550
 #: extras/controller/quickpay_controller.php:74
 msgid "积分"
 msgstr ""
 
-#: extras/controller/cart_controller.php:930
-#: extras/controller/cart_controller.php:995
-#: extras/controller/cart_controller.php:1147
-#: extras/controller/cart_controller.php:1210
-#: extras/controller/cart_controller.php:1241
-#: extras/controller/cart_controller.php:1378
-#: extras/controller/cart_controller.php:1416
-#: extras/controller/cart_controller.php:1458
-#: extras/controller/cart_controller.php:1489
-#: extras/controller/cart_controller.php:1529
+#: extras/controller/cart_controller.php:948
+#: extras/controller/cart_controller.php:1013
+#: extras/controller/cart_controller.php:1165
+#: extras/controller/cart_controller.php:1228
+#: extras/controller/cart_controller.php:1259
+#: extras/controller/cart_controller.php:1396
+#: extras/controller/cart_controller.php:1434
+#: extras/controller/cart_controller.php:1476
+#: extras/controller/cart_controller.php:1507
+#: extras/controller/cart_controller.php:1547
 msgid "请先选择收货地址"
 msgstr ""
 
-#: extras/controller/cart_controller.php:956
+#: extras/controller/cart_controller.php:974
 msgid "商品清单"
 msgstr ""
 
-#: extras/controller/cart_controller.php:1004
+#: extras/controller/cart_controller.php:1022
 msgid "当前收货地址暂无可用配送方式，请重新更换其他的收货地址"
 msgstr ""
 
-#: extras/controller/cart_controller.php:1008
-#: extras/controller/cart_controller.php:1089
+#: extras/controller/cart_controller.php:1026
+#: extras/controller/cart_controller.php:1107
 msgid "请选择一个支付方式"
 msgstr ""
 
-#: extras/controller/cart_controller.php:1038
+#: extras/controller/cart_controller.php:1056
 msgid "当前配送方式不支持货到付款"
 msgstr ""
 
-#: extras/controller/cart_controller.php:1093
+#: extras/controller/cart_controller.php:1111
 msgid "请选择提货时间"
 msgstr ""
 
-#: extras/controller/cart_controller.php:1219
+#: extras/controller/cart_controller.php:1237
 msgid "配送方式"
 msgstr ""
 
-#: extras/controller/cart_controller.php:1303
-#: extras/controller/cart_controller.php:1360
+#: extras/controller/cart_controller.php:1321
+#: extras/controller/cart_controller.php:1378
 msgid "选择支付配送方式"
 msgstr ""
 
-#: extras/controller/cart_controller.php:1393
+#: extras/controller/cart_controller.php:1411
 msgid "配送时间"
 msgstr ""
 
-#: extras/controller/cart_controller.php:1435
+#: extras/controller/cart_controller.php:1453
 msgid "开发票"
 msgstr ""
 
-#: extras/controller/cart_controller.php:1467
+#: extras/controller/cart_controller.php:1485
 msgid "备注留言"
 msgstr ""
 
-#: extras/controller/cart_controller.php:1497
+#: extras/controller/cart_controller.php:1515
 msgid "红包不可用"
 msgstr ""
 
-#: extras/controller/cart_controller.php:1507
+#: extras/controller/cart_controller.php:1525
 msgid "使用红包"
 msgstr ""
 
-#: extras/controller/cart_controller.php:1538
+#: extras/controller/cart_controller.php:1556
 msgid "%s不可用"
 msgstr ""
 
-#: extras/controller/cart_controller.php:1548
+#: extras/controller/cart_controller.php:1566
 msgid "使用%s"
 msgstr ""
 
@@ -1025,27 +1033,27 @@ msgstr ""
 msgid "所有分类"
 msgstr ""
 
-#: extras/controller/goods_controller.php:411
-msgid "促销商品"
+#: extras/controller/goods_controller.php:452
+msgid "限时促销"
 msgstr ""
 
-#: extras/controller/goods_controller.php:420
+#: extras/controller/goods_controller.php:461
 msgid "团购商品"
 msgstr ""
 
-#: extras/controller/goods_controller.php:481
+#: extras/controller/goods_controller.php:526
 msgid "新品首发"
 msgstr ""
 
-#: extras/controller/goods_controller.php:490
+#: extras/controller/goods_controller.php:535
 msgid "店长推荐"
 msgstr ""
 
-#: extras/controller/goods_controller.php:529
+#: extras/controller/goods_controller.php:574
 msgid "商品列表"
 msgstr ""
 
-#: extras/controller/goods_controller.php:710
+#: extras/controller/goods_controller.php:755
 #: extras/controller/merchant_controller.php:566
 msgid "店铺列表"
 msgstr ""
@@ -1111,12 +1119,12 @@ msgstr ""
 msgid "该订单已支付请勿重复支付"
 msgstr ""
 
-#: extras/controller/payment_controller.php:206
+#: extras/controller/payment_controller.php:208
 #: extras/controller/quickpay_controller.php:551
 msgid "支付成功"
 msgstr ""
 
-#: extras/controller/payment_controller.php:209
+#: extras/controller/payment_controller.php:211
 msgid "支付失败"
 msgstr ""
 
@@ -1723,9 +1731,9 @@ msgstr ""
 msgid "ECJia到家H5主题"
 msgstr ""
 
-#. #-#-#-#-#  h5.pot (ECJia到家H5主题 1.29.0)  #-#-#-#-#
+#. #-#-#-#-#  h5.pot (ECJia到家H5主题 1.30.0)  #-#-#-#-#
 #. Template URI of the plugin/theme
-#. #-#-#-#-#  h5.pot (ECJia到家H5主题 1.29.0)  #-#-#-#-#
+#. #-#-#-#-#  h5.pot (ECJia到家H5主题 1.30.0)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "http://www.ecjia.com/"
 msgstr ""
@@ -2273,20 +2281,24 @@ msgid "支付余额"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:29
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:29
 msgid "商品"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:30
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:30
 msgid "详情"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:31
 #: sites/m/content/themes/h5/merchant_comment.dwt.php:27
 #: sites/m/content/themes/h5/merchant.dwt.php:31
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:31
 msgid "评价"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:35
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:35
 msgid "不存在的信息"
 msgstr ""
 
@@ -2300,7 +2312,6 @@ msgstr ""
 #: sites/m/content/themes/h5/library/model_new_goods.lbi.php:22
 #: sites/m/content/themes/h5/library/suggest_store.lbi.php:18
 #: sites/m/content/themes/h5/library/model_suggest_goods.lbi.php:22
-#: sites/m/content/themes/h5/library/model_promotions.lbi.php:25
 #: sites/m/content/themes/h5/library/model_store.lbi.php:31
 #: sites/m/content/themes/h5/library/store_list.lbi.php:31
 #: sites/m/content/themes/h5/seller_list.dwt.php:35
@@ -2308,6 +2319,7 @@ msgstr ""
 #: sites/m/content/themes/h5/cart_list.dwt.php:80
 #: sites/m/content/themes/h5/goods_groupbuy.dwt.php:36
 #: sites/m/content/themes/h5/goods_best.dwt.php:38
+#: sites/m/content/themes/h5/goods_promotion.dwt.php:70
 #: sites/m/content/themes/h5/follow_list.dwt.php:40
 #: sites/m/content/themes/h5/store_list.dwt.php:42
 #: sites/m/content/themes/h5/store_goods_list.dwt.php:68
@@ -2327,7 +2339,7 @@ msgid "距离团购结束"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:111
-#: sites/m/content/themes/h5/goods_promotion.dwt.php:45
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:103
 msgid "原价："
 msgstr ""
 
@@ -2337,6 +2349,9 @@ msgstr ""
 #: sites/m/content/themes/h5/library/merchant_goods.lbi.php:23
 #: sites/m/content/themes/h5/store_list.dwt.php:123
 #: sites/m/content/themes/h5/store_list.dwt.php:271
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:109
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:134
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:265
 msgid "选规格"
 msgstr ""
 
@@ -2344,6 +2359,8 @@ msgstr ""
 #: sites/m/content/themes/h5/goods_show.dwt.php:153
 #: sites/m/content/themes/h5/library/goods_attr_static_modal.lbi.php:25
 #: sites/m/content/themes/h5/library/goods_attr_modal.lbi.php:47
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:113
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:139
 msgid "加入购物车"
 msgstr ""
 
@@ -2352,6 +2369,8 @@ msgstr ""
 #: sites/m/content/themes/h5/library/merchant_goods.lbi.php:28
 #: sites/m/content/themes/h5/store_list.dwt.php:127
 #: sites/m/content/themes/h5/store_list.dwt.php:275
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:115
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:141
 msgid "减"
 msgstr ""
 
@@ -2360,11 +2379,14 @@ msgstr ""
 #: sites/m/content/themes/h5/library/merchant_goods.lbi.php:30
 #: sites/m/content/themes/h5/store_list.dwt.php:129
 #: sites/m/content/themes/h5/store_list.dwt.php:277
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:118
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:144
 msgid "加"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:142
 #: sites/m/content/themes/h5/goods_groupbuy.dwt.php:44
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:128
 msgid "市场价："
 msgstr ""
 
@@ -2377,48 +2399,58 @@ msgid "活动说明"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:215
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:192
 msgid "商品评价(%1人评价)"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:217
 #: sites/m/content/themes/h5/library/goods_comment.lbi.php:14
 #: sites/m/content/themes/h5/merchant_comment.dwt.php:47
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:194
 msgid "好评"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:219
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:196
 msgid "商品评价"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:251
 #: sites/m/content/themes/h5/library/goods_comment.lbi.php:54
 #: sites/m/content/themes/h5/merchant_comment.dwt.php:101
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:228
 msgid "商家回复："
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:264
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:241
 msgid "猜你喜欢"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:318
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:295
 msgid "图文详情"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:321
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:298
 msgid "规格参数"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:330
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:307
 msgid "暂无任何商品详情"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:347
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:324
 msgid "暂无任何规格参数"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:373
 #: sites/m/content/themes/h5/store_list.dwt.php:171
 #: sites/m/content/themes/h5/merchant.dwt.php:106
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:348
 msgid "商家打烊了"
 msgstr ""
 
@@ -2426,12 +2458,14 @@ msgstr ""
 #: sites/m/content/themes/h5/library/merchant_detail.lbi.php:87
 #: sites/m/content/themes/h5/store_list.dwt.php:172
 #: sites/m/content/themes/h5/merchant.dwt.php:107
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:349
 msgid "营业时间"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:380
 #: sites/m/content/themes/h5/store_list.dwt.php:178
 #: sites/m/content/themes/h5/merchant.dwt.php:113
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:355
 msgid "(已减%1)"
 msgstr ""
 
@@ -2443,24 +2477,28 @@ msgstr ""
 #: sites/m/content/themes/h5/goods_show.dwt.php:389
 #: sites/m/content/themes/h5/store_list.dwt.php:183
 #: sites/m/content/themes/h5/merchant.dwt.php:118
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:363
 msgid "还差%1起送"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:403
 #: sites/m/content/themes/h5/store_list.dwt.php:194
 #: sites/m/content/themes/h5/merchant.dwt.php:129
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:377
 msgid "全选"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:404
 #: sites/m/content/themes/h5/store_list.dwt.php:195
 #: sites/m/content/themes/h5/merchant.dwt.php:130
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:378
 msgid "(已选%1件)"
 msgstr ""
 
 #: sites/m/content/themes/h5/goods_show.dwt.php:405
 #: sites/m/content/themes/h5/store_list.dwt.php:196
 #: sites/m/content/themes/h5/merchant.dwt.php:131
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:379
 msgid "清空购物车"
 msgstr ""
 
@@ -2547,6 +2585,11 @@ msgstr ""
 msgid "新品推荐"
 msgstr ""
 
+#: sites/m/content/themes/h5/discover_init.dwt.php:28
+#: sites/m/content/themes/h5/application.dwt.php:52
+msgid "促销商品"
+msgstr ""
+
 #: sites/m/content/themes/h5/user_check_user_mobile.dwt.php:22
 #: sites/m/content/themes/h5/user_set_paypass_check.dwt.php:20
 msgid "请输入%1收到的短信验证码"
@@ -2599,7 +2642,6 @@ msgstr ""
 #: sites/m/content/themes/h5/goods_new.dwt.php:55
 #: sites/m/content/themes/h5/goods_groupbuy.dwt.php:56
 #: sites/m/content/themes/h5/goods_best.dwt.php:56
-#: sites/m/content/themes/h5/goods_promotion.dwt.php:57
 #: sites/m/content/themes/h5/store_goods_list.dwt.php:85
 msgid "暂无商品"
 msgstr ""
@@ -3788,6 +3830,24 @@ msgstr ""
 msgid "其它支付方式"
 msgstr ""
 
+#: sites/m/content/themes/h5/pay_change.dwt.php:62
+#: sites/m/content/themes/h5/pay.dwt.php:96
+#: sites/m/content/themes/h5/quickpay_pay.dwt.php:73
+msgid "请输入支付密码"
+msgstr ""
+
+#: sites/m/content/themes/h5/pay_change.dwt.php:66
+#: sites/m/content/themes/h5/pay.dwt.php:100
+#: sites/m/content/themes/h5/quickpay_pay.dwt.php:77
+msgid "为了保证您的账户安全，请输入您的支付密码"
+msgstr ""
+
+#: sites/m/content/themes/h5/pay_change.dwt.php:81
+#: sites/m/content/themes/h5/pay.dwt.php:115
+#: sites/m/content/themes/h5/quickpay_pay.dwt.php:90
+msgid "忘记支付密码"
+msgstr ""
+
 #: sites/m/content/themes/h5/user_cancel_account.dwt.php:17
 msgid "将 %1 账号注销"
 msgstr ""
@@ -4207,6 +4267,10 @@ msgstr ""
 msgid "送货时间"
 msgstr ""
 
+#: sites/m/content/themes/h5/goods_promotion.dwt.php:94
+msgid "暂无促销"
+msgstr ""
+
 #: sites/m/content/themes/h5/merchant_comment.dwt.php:26
 #: sites/m/content/themes/h5/merchant.dwt.php:30
 msgid "购物"
@@ -4231,21 +4295,6 @@ msgstr ""
 
 #: sites/m/content/themes/h5/pay.dwt.php:80
 msgid "下单成功，请货到后付款"
-msgstr ""
-
-#: sites/m/content/themes/h5/pay.dwt.php:96
-#: sites/m/content/themes/h5/quickpay_pay.dwt.php:73
-msgid "请输入支付密码"
-msgstr ""
-
-#: sites/m/content/themes/h5/pay.dwt.php:100
-#: sites/m/content/themes/h5/quickpay_pay.dwt.php:77
-msgid "为了保证您的账户安全，请输入您的支付密码"
-msgstr ""
-
-#: sites/m/content/themes/h5/pay.dwt.php:115
-#: sites/m/content/themes/h5/quickpay_pay.dwt.php:90
-msgid "忘记支付密码"
 msgstr ""
 
 #: sites/m/content/themes/h5/quickpay_checkout.dwt.php:27
@@ -4529,4 +4578,20 @@ msgstr ""
 
 #: sites/m/content/themes/h5/flow_invoice.dwt.php:83
 msgid "不开发票"
+msgstr ""
+
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:77
+msgid "促"
+msgstr ""
+
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:85
+msgid "限购总数：%1 件"
+msgstr ""
+
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:90
+msgid "距离促销结束"
+msgstr ""
+
+#: sites/m/content/themes/h5/goods_promotion_detail.dwt.php:153
+msgid "已选"
 msgstr ""

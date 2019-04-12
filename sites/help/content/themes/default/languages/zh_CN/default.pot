@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the 通用帮助中心模板 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: 通用帮助中心模板 1.29.0\n"
+"Project-Id-Version: 通用帮助中心模板 1.30.0\n"
 "Report-Msgid-Bugs-To: https://www.ecjia.com/support/theme/default\n"
-"POT-Creation-Date: 2019-03-20 07:34:08+00:00\n"
+"POT-Creation-Date: 2019-04-12 04:02:42+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,16 +26,16 @@ msgstr ""
 msgid "商家公告"
 msgstr ""
 
-#. #-#-#-#-#  default.pot (通用帮助中心模板 1.29.0)  #-#-#-#-#
+#. #-#-#-#-#  default.pot (通用帮助中心模板 1.30.0)  #-#-#-#-#
 #. Template Name of the plugin/theme
-#. #-#-#-#-#  default.pot (通用帮助中心模板 1.29.0)  #-#-#-#-#
+#. #-#-#-#-#  default.pot (通用帮助中心模板 1.30.0)  #-#-#-#-#
 #. Description of the plugin/theme
 msgid "通用帮助中心模板"
 msgstr ""
 
-#. #-#-#-#-#  default.pot (通用帮助中心模板 1.29.0)  #-#-#-#-#
+#. #-#-#-#-#  default.pot (通用帮助中心模板 1.30.0)  #-#-#-#-#
 #. Template URI of the plugin/theme
-#. #-#-#-#-#  default.pot (通用帮助中心模板 1.29.0)  #-#-#-#-#
+#. #-#-#-#-#  default.pot (通用帮助中心模板 1.30.0)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "https://ecjia.com/"
 msgstr ""

@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the ECJia到家APP下载 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ECJia到家APP下载 1.29.0\n"
+"Project-Id-Version: ECJia到家APP下载 1.30.0\n"
 "Report-Msgid-Bugs-To: https://www.ecjia.com/support/theme/ecjia-daojiaapp\n"
-"POT-Creation-Date: 2019-03-20 07:34:08+00:00\n"
+"POT-Creation-Date: 2019-04-12 04:02:43+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,9 +16,9 @@ msgstr ""
 msgid "ECJia到家APP下载"
 msgstr ""
 
-#. #-#-#-#-#  ecjia-daojiaapp.pot (ECJia到家APP下载 1.29.0)  #-#-#-#-#
+#. #-#-#-#-#  ecjia-daojiaapp.pot (ECJia到家APP下载 1.30.0)  #-#-#-#-#
 #. Template URI of the plugin/theme
-#. #-#-#-#-#  ecjia-daojiaapp.pot (ECJia到家APP下载 1.29.0)  #-#-#-#-#
+#. #-#-#-#-#  ecjia-daojiaapp.pot (ECJia到家APP下载 1.30.0)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "https://ecjia.com/"
 msgstr ""

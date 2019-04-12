@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the ECJia店铺街APP下载 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ECJia店铺街APP下载 1.29.0\n"
+"Project-Id-Version: ECJia店铺街APP下载 1.30.0\n"
 "Report-Msgid-Bugs-To: https://www.ecjia.com/support/theme/ecjia-app\n"
-"POT-Creation-Date: 2019-03-20 07:34:08+00:00\n"
+"POT-Creation-Date: 2019-04-12 04:02:43+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,9 +16,9 @@ msgstr ""
 msgid "ECJia店铺街APP下载"
 msgstr ""
 
-#. #-#-#-#-#  ecjia-app.pot (ECJia店铺街APP下载 1.29.0)  #-#-#-#-#
+#. #-#-#-#-#  ecjia-app.pot (ECJia店铺街APP下载 1.30.0)  #-#-#-#-#
 #. Template URI of the plugin/theme
-#. #-#-#-#-#  ecjia-app.pot (ECJia店铺街APP下载 1.29.0)  #-#-#-#-#
+#. #-#-#-#-#  ecjia-app.pot (ECJia店铺街APP下载 1.30.0)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "https://ecjia.com/"
 msgstr ""

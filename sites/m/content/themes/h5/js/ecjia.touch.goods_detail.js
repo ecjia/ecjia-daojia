@@ -70,7 +70,7 @@
 					if (myD >= 0) {
 						if (type == 1) {
 							msg = js_lang.activity_end_time;
-							var str = msg + myD + js_lang.day + '&nbsp;<span class="end-times">' + hh + '</span>:<span class="end-times">' + mm + '</span>:<span class="end-times">' + ss + '</span>';
+							var str = msg + myD + js_lang.day + '&nbsp;<span class="end-times">' + hh + '</span>:<span class="end-times">' + mm + '</span>';
 						} else {
 							msg = js_lang.last;
 							var str = msg + myD + js_lang.day + '&nbsp;<span class="end-time">' + hh + '</span> : <span class="end-time">' + mm + '</span> : <span class="end-time">' + ss + '</span>';
