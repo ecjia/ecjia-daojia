@@ -1,0 +1,178 @@
+# Copyright (C) 2019 申通快递
+# This file is distributed under the same license as the 申通快递 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 申通快递 2.30.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/"
+"plugin/\n"
+"POT-Creation-Date: 2019-03-22 03:53:37+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-03-26 13:57+0800\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
+
+#: config.php:68
+msgid "单件商品费用："
+msgstr "單件商品費用："
+
+#: config.php:69
+msgid "1000克以内费用："
+msgstr "1000克以內費用："
+
+#: config.php:70
+msgid "续重每1000克或其零数的费用："
+msgstr "續重每1000克或其零數的費用："
+
+#: config.php:71
+msgid "货到付款支付费用："
+msgstr "貨到付款支付費用："
+
+#: config.php:72
+msgid "免费额度："
+msgstr "免費額度："
+
+#: config.php:73
+msgid "费用计算方式："
+msgstr "費用計算方式："
+
+#: config.php:75
+msgid "按重量"
+msgstr "按重量"
+
+#: config.php:76
+msgid "按件数"
+msgstr "按件數"
+
+#: config.php:82
+msgid "--选择插入标签--"
+msgstr "--選擇插入標籤--"
+
+#: config.php:85
+msgid "网店-名称"
+msgstr "網店-名稱"
+
+#: config.php:86
+msgid "网店-联系电话"
+msgstr "網店-聯繫電話"
+
+#: config.php:87
+msgid "网店-国家"
+msgstr "網店-國家"
+
+#: config.php:88
+msgid "网店-省份"
+msgstr "網店-省份"
+
+#: config.php:89
+msgid "网店-城市"
+msgstr "網店-城市"
+
+#: config.php:90
+msgid "网店-区/县"
+msgstr "網店-區/縣"
+
+#: config.php:91
+msgid "网店-街道"
+msgstr "網店-街道"
+
+#: config.php:92
+msgid "网店-地址"
+msgstr "網店-地址"
+
+#: config.php:94
+msgid "收件人-姓名"
+msgstr "收件人-姓名"
+
+#: config.php:95
+msgid "收件人-电话"
+msgstr "收件人-電話"
+
+#: config.php:96
+msgid "收件人-手机"
+msgstr "收件人-手機"
+
+#: config.php:97
+msgid "收件人-邮编"
+msgstr "收件人-郵編"
+
+#: config.php:98
+msgid "收件人-国家"
+msgstr "收件人-國家"
+
+#: config.php:99
+msgid "收件人-省份"
+msgstr "收件人-省份"
+
+#: config.php:100
+msgid "收件人-城市"
+msgstr "收件人-城市"
+
+#: config.php:101
+msgid "收件人-区/县"
+msgstr "收件人-區/縣"
+
+#: config.php:102
+msgid "收件人-街道"
+msgstr "收件人-街道"
+
+#: config.php:103
+msgid "收件人-详细地址"
+msgstr "收件人-詳細地址"
+
+#: config.php:105
+msgid "年-当日日期"
+msgstr "年-當日日期"
+
+#: config.php:106
+msgid "月-当日日期"
+msgstr "月-當日日期"
+
+#: config.php:107
+msgid "日-当日日期"
+msgstr "日-當日日期"
+
+#: config.php:109
+msgid "订单号-订单"
+msgstr "訂單號-訂單"
+
+#: config.php:110
+msgid "备注-订单"
+msgstr "備註-訂單"
+
+#: config.php:111
+msgid "送货时间-订单"
+msgstr "送貨時間-訂單"
+
+#: config.php:113
+msgid "√-对号"
+msgstr "√-對號"
+
+#. Plugin Name of the plugin/theme
+msgid "申通快递"
+msgstr "申通快遞"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.ship_sto_express/"
+msgstr ""
+"http://www.ecjia.com/plugins/ecjia.ship_sto_express/"
+
+#. Description of the plugin/theme
+msgid ""
+"江、浙、沪地区首重为15元/KG，其他地区18元/KG， 续重均为5-6"
+"元/KG， 云南地区为8元"
+msgstr ""
+"江、浙、滬地區首重為15元/KG，其他地區18元/KG， 續重均為5-6"
+"元/KG， 雲南地區為8元"
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr "ECJIA TEAM"
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr "http://www.ecjia.com/"
