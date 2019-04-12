@@ -331,6 +331,14 @@ return array(
     //1.29
     'CreateSessionLoginsTable' => $contentDir . '/database/migrations/2019_03_13_090805_create_session_logins_table.php',
     'AddAccountStatusAndDeleteTimeToStoreFranchiseeTable' => $contentDir . '/database/migrations/2019_03_13_091518_add_account_status_and_delete_time_to_store_franchisee_table.php',
+    //1.30
+    'AddOrderSnToCashierRecordTable' => $contentDir . '/database/migrations/2019_04_10_133950_add_order_sn_to_cashier_record_table.php',
+    'AddPromoteLimitedToGoodsTable' => $contentDir . '/database/migrations/2019_04_11_105026_add_promote_limited_to_goods_table.php',
+    'AddPromoteLimitedToProductsTable' => $contentDir . '/database/migrations/2019_04_11_105416_add_promote_limited_to_products_table.php',
+    'AddProductIdToGoodsGalleryTable' => $contentDir . '/database/migrations/2019_04_11_111651_add_product_id_to_goods_gallery_table.php',
+    'AddProductIdToGoodslibGalleryTable' => $contentDir . '/database/migrations/2019_04_11_111846_add_product_id_to_goodslib_gallery_table.php',
+    'AddProductNameToGoodslibProductsTable' => $contentDir . '/database/migrations/2019_04_11_111938_add_product_name_to_goodslib_products_table.php',
+    'CreateWechatOptionsTable' => $contentDir . '/database/migrations/2019_04_11_114310_create_wechat_options_table.php',
 
     // seeder
     'DatabaseSeeder' => $contentDir . '/database/seeds/DatabaseSeeder.php',
