@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App adsense 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-13 05:24:21+00:00\n"
+"POT-Creation-Date: 2019-03-20 07:33:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,141 +12,141 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 
-#: admin.php:83 admin.php:100 admin.php:115 admin.php:184 admin.php:313
+#: admin.php:82 admin.php:99 admin.php:114 admin.php:183 admin.php:312
 #: mh_ad.php:85 mh_ad.php:87 mh_ad.php:161 mh_ad.php:269
 msgid "广告列表"
 msgstr ""
 
-#: admin.php:94 mh_ad.php:92
+#: admin.php:93 mh_ad.php:92
 msgid "丢失广告位参数【position_id】"
 msgstr ""
 
-#: admin.php:103 admin.php:174 admin.php:302 admin_cycleimage.php:86
+#: admin.php:102 admin.php:173 admin.php:301 admin_cycleimage.php:86
 #: admin_cycleimage.php:154 admin_cycleimage.php:218 admin_cycleimage.php:388
-#: admin_cycleimage.php:471 admin_position.php:98 admin_position.php:141
-#: admin_position.php:209
+#: admin_cycleimage.php:471 admin_position.php:93 admin_position.php:136
+#: admin_position.php:204
 msgid "概述"
 msgstr ""
 
-#: admin.php:104
+#: admin.php:103
 msgid "欢迎访问ECJia智能后台广告列表页面，系统中所有的广告都会显示在此列表中"
 msgstr ""
 
-#: admin.php:106 admin.php:177 admin.php:305 admin_position.php:101
-#: admin_position.php:144 admin_position.php:212
+#: admin.php:105 admin.php:176 admin.php:304 admin_position.php:96
+#: admin_position.php:139 admin_position.php:207
 msgid "更多信息："
 msgstr ""
 
-#: admin.php:106
+#: admin.php:105
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:广告列表\" target="
 "\"_blank\">关于广告列表帮助文档</a>"
 msgstr ""
 
-#: admin.php:116 admin_position.php:147 mh_position.php:106 mh_position.php:150
+#: admin.php:115 admin_position.php:142 mh_position.php:105 mh_position.php:149
 msgid "广告位列表"
 msgstr ""
 
-#: admin.php:117 admin.php:171 admin.php:183 mh_ad.php:99 mh_ad.php:154
+#: admin.php:116 admin.php:170 admin.php:182 mh_ad.php:99 mh_ad.php:154
 #: mh_ad.php:160
 msgid "添加广告"
 msgstr ""
 
-#: admin.php:175
+#: admin.php:174
 msgid "欢迎访问ECJia智能后台添加广告页面，在此页面可以进行添加广告操作。"
 msgstr ""
 
-#: admin.php:177
+#: admin.php:176
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:广告列表#.E6.B7.BB.E5.8A."
 "A0.E5.B9.BF.E5.91.8A\" target=\"_blank\">关于添加广告帮助文档</a>"
 msgstr ""
 
-#: admin.php:230 admin.php:386 admin.php:526
+#: admin.php:229 admin.php:385 admin.php:525
 msgid "该广告名称已经存在！"
 msgstr ""
 
-#: admin.php:233 admin.php:389 admin.php:536 mh_ad.php:489
+#: admin.php:232 admin.php:388 admin.php:535 mh_ad.php:489
 msgid "请输入广告名称"
 msgstr ""
 
-#: admin.php:250 admin.php:416
+#: admin.php:249 admin.php:415
 msgid "广告的代码不能为空！"
 msgstr ""
 
-#: admin.php:256 admin.php:422
+#: admin.php:255 admin.php:421
 msgid "广告的内容不能为空！"
 msgstr ""
 
-#: admin.php:262 admin.php:428 admin_cycleimage.php:443
+#: admin.php:261 admin.php:427 admin_cycleimage.php:443
 #: admin_cycleimage.php:527 admin_shortcut.php:430 admin_shortcut.php:505
-#: mh_ad.php:234 mh_ad.php:386 mh_cycleimage.php:281 mh_cycleimage.php:352
+#: mh_ad.php:234 mh_ad.php:386 mh_cycleimage.php:282 mh_cycleimage.php:353
 #: mh_shortcut.php:277 mh_shortcut.php:348
 msgid "请选择投放平台"
 msgstr ""
 
-#: admin.php:290 mh_ad.php:263
+#: admin.php:289 mh_ad.php:263
 msgid "添加广告成功"
 msgstr ""
 
-#: admin.php:299 admin.php:312 apis/adsense_admin_purview_api.class.php:57
+#: admin.php:298 admin.php:311 apis/adsense_admin_purview_api.class.php:57
 #: mh_ad.php:275
 msgid "编辑广告"
 msgstr ""
 
-#: admin.php:303
+#: admin.php:302
 msgid "欢迎访问ECJia智能后台编辑广告页面，在此页面可以进行编辑广告操作。"
 msgstr ""
 
-#: admin.php:305
+#: admin.php:304
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:广告列表#.E7.BC.96.E8."
 "BE.91.E5.B9.BF.E5.91.8A\" target=\"_blank\">关于编辑广告帮助文档</a>"
 msgstr ""
 
-#: admin.php:341 mh_ad.php:306
+#: admin.php:340 mh_ad.php:306
 msgid "图片"
 msgstr ""
 
-#: admin.php:343 mh_ad.php:308
+#: admin.php:342 mh_ad.php:308
 msgid "代码"
 msgstr ""
 
-#: admin.php:345 mh_ad.php:310
+#: admin.php:344 mh_ad.php:310
 msgid "文字"
 msgstr ""
 
-#: admin.php:441 admin.php:554 mh_ad.php:399 mh_ad.php:507
+#: admin.php:440 admin.php:553 mh_ad.php:399 mh_ad.php:507
 msgid "该广告已过期暂无法进行开启/关闭操作"
 msgstr ""
 
-#: admin.php:467 admin.php:533 admin_position.php:359
+#: admin.php:466 admin.php:532 admin_position.php:354
 msgid "编辑成功"
 msgstr ""
 
-#: admin.php:491 admin.php:513 admin_position.php:296
+#: admin.php:490 admin.php:512 admin_position.php:291
 msgid "删除成功"
 msgstr ""
 
-#: admin.php:557 admin_cycleimage.php:575 admin_shortcut.php:553 mh_ad.php:510
-#: mh_cycleimage.php:396 mh_shortcut.php:392
+#: admin.php:556 admin_cycleimage.php:575 admin_shortcut.php:553 mh_ad.php:510
+#: mh_cycleimage.php:397 mh_shortcut.php:392
 msgid "切换成功"
 msgstr ""
 
-#: admin.php:573 admin_cycleimage.php:591 admin_position.php:378
-#: admin_position.php:380 admin_shortcut.php:569 mh_ad.php:526
-#: mh_cycleimage.php:411 mh_position.php:232 mh_position.php:234
+#: admin.php:572 admin_cycleimage.php:591 admin_position.php:373
+#: admin_position.php:375 admin_shortcut.php:569 mh_ad.php:526
+#: mh_cycleimage.php:412 mh_position.php:231 mh_position.php:233
 #: mh_shortcut.php:407
 msgid "编辑排序成功"
 msgstr ""
 
 #: admin_cycleimage.php:71 admin_cycleimage.php:81
-#: apis/adsense_admin_purview_api.class.php:68 mh_cycleimage.php:76
+#: apis/adsense_admin_purview_api.class.php:68 mh_cycleimage.php:77
 msgid "轮播图管理"
 msgstr ""
 
 #: admin_cycleimage.php:82 admin_cycleimage.php:404 admin_cycleimage.php:492
-#: mh_cycleimage.php:77 mh_cycleimage.php:241 mh_cycleimage.php:316
+#: mh_cycleimage.php:78 mh_cycleimage.php:242 mh_cycleimage.php:317
 msgid "轮播图列表"
 msgstr ""
 
@@ -185,8 +185,8 @@ msgid ""
 msgstr ""
 
 #: admin_cycleimage.php:186 admin_cycleimage.php:266 admin_cycleimage.php:327
-#: admin_group.php:136 admin_group.php:193 admin_group.php:226
-#: admin_position.php:176 admin_position.php:258 admin_position.php:316
+#: admin_group.php:135 admin_group.php:192 admin_group.php:225
+#: admin_position.php:171 admin_position.php:253 admin_position.php:311
 #: admin_shortcut.php:193 admin_shortcut.php:262 admin_shortcut.php:323
 msgid "默认"
 msgstr ""
@@ -235,7 +235,7 @@ msgstr ""
 msgid "请重新选择城市，该轮播组代号在当前城市中已存在"
 msgstr ""
 
-#: admin_cycleimage.php:349 admin_group.php:245 admin_position.php:339
+#: admin_cycleimage.php:349 admin_group.php:244 admin_position.php:334
 #: admin_shortcut.php:346
 msgid "复制成功"
 msgstr ""
@@ -251,21 +251,21 @@ msgid ""
 "\"_blank\">关于添加轮播图帮助文档</a>"
 msgstr ""
 
-#: admin_cycleimage.php:402 admin_cycleimage.php:403 mh_cycleimage.php:239
-#: mh_cycleimage.php:240
+#: admin_cycleimage.php:402 admin_cycleimage.php:403 mh_cycleimage.php:240
+#: mh_cycleimage.php:241
 msgid "添加轮播图"
 msgstr ""
 
-#: admin_cycleimage.php:439 mh_cycleimage.php:277
+#: admin_cycleimage.php:439 mh_cycleimage.php:278
 msgid "请上传轮播图片"
 msgstr ""
 
-#: admin_cycleimage.php:460 mh_cycleimage.php:297
+#: admin_cycleimage.php:460 mh_cycleimage.php:298
 msgid "添加轮播图成功"
 msgstr ""
 
-#: admin_cycleimage.php:466 admin_cycleimage.php:467 mh_cycleimage.php:303
-#: mh_cycleimage.php:304
+#: admin_cycleimage.php:466 admin_cycleimage.php:467 mh_cycleimage.php:304
+#: mh_cycleimage.php:305
 msgid "编辑轮播图"
 msgstr ""
 
@@ -281,137 +281,137 @@ msgid ""
 "\"_blank\">关于编辑轮播图帮助文档</a>"
 msgstr ""
 
-#: admin_cycleimage.php:544 mh_cycleimage.php:368
+#: admin_cycleimage.php:544 mh_cycleimage.php:369
 msgid "编辑轮播图成功"
 msgstr ""
 
-#: admin_cycleimage.php:559 mh_cycleimage.php:381
+#: admin_cycleimage.php:559 mh_cycleimage.php:382
 msgid "成功删除轮播图"
 msgstr ""
 
-#: admin_group.php:77 admin_group.php:85 admin_group.php:86 admin_group.php:114
-#: mh_group.php:231
+#: admin_group.php:76 admin_group.php:84 admin_group.php:85 admin_group.php:113
+#: mh_group.php:230
 msgid "广告组"
 msgstr ""
 
-#: admin_group.php:112 admin_group.php:113
+#: admin_group.php:111 admin_group.php:112
 msgid "添加广告组"
 msgstr ""
 
-#: admin_group.php:140 admin_group.php:198
+#: admin_group.php:139 admin_group.php:197
 msgid "该广告组代号在当前城市中已存在"
 msgstr ""
 
-#: admin_group.php:155
+#: admin_group.php:154
 msgid "添加广告组成功"
 msgstr ""
 
-#: admin_group.php:161 admin_group.php:162
+#: admin_group.php:160 admin_group.php:161
 msgid "编辑广告组"
 msgstr ""
 
-#: admin_group.php:211
+#: admin_group.php:210
 msgid "编辑广告组成功"
 msgstr ""
 
-#: admin_group.php:230
+#: admin_group.php:229
 msgid "请重新选择城市，该广告组代号在当前城市中已存在"
 msgstr ""
 
-#: admin_group.php:258 admin_group.php:260
+#: admin_group.php:257 admin_group.php:259
 msgid "该广告组已进行广告位编排，不能删除！"
 msgstr ""
 
-#: admin_group.php:266 mh_group.php:125
+#: admin_group.php:265 mh_group.php:124
 msgid "删除广告组成功"
 msgstr ""
 
-#: admin_group.php:273 admin_group.php:274
+#: admin_group.php:272 admin_group.php:273
 msgid "组合广告组"
 msgstr ""
 
-#: admin_group.php:331 mh_group.php:282
+#: admin_group.php:330 mh_group.php:281
 msgid "编排广告位成功"
 msgstr ""
 
-#: admin_group.php:351 admin_group.php:352
+#: admin_group.php:350 admin_group.php:351
 msgid "组合列表"
 msgstr ""
 
-#: admin_position.php:85 admin_position.php:95
-#: apis/adsense_merchant_menu_api.class.php:60 mh_position.php:78
+#: admin_position.php:80 admin_position.php:90
+#: apis/adsense_merchant_menu_api.class.php:60 mh_position.php:77
 msgid "广告位管理"
 msgstr ""
 
-#: admin_position.php:99
+#: admin_position.php:94
 msgid ""
 "欢迎访问ECJia智能后台广告位置列表页面，系统中所有的广告位置都会显示在此列表"
 "中。"
 msgstr ""
 
-#: admin_position.php:103 admin_position.php:216
+#: admin_position.php:98 admin_position.php:211
 msgid "广告位置列表"
 msgstr ""
 
-#: admin_position.php:104 admin_position.php:138 admin_position.php:146
-#: mh_position.php:81 mh_position.php:104
+#: admin_position.php:99 admin_position.php:133 admin_position.php:141
+#: mh_position.php:80 mh_position.php:103
 msgid "添加广告位"
 msgstr ""
 
-#: admin_position.php:142
+#: admin_position.php:137
 msgid ""
 "欢迎访问ECJia智能后台添加广告位置页面，在此页面可以进行添加广告位置操作。"
 msgstr ""
 
-#: admin_position.php:144
+#: admin_position.php:139
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:广告位置#.E6.B7.BB.E5.8A."
 "A0.E5.B9.BF.E5.91.8A.E4.BD.8D.E7.BD.AE\" target=\"_blank\">关于添加广告位置帮"
 "助文档</a>"
 msgstr ""
 
-#: admin_position.php:180 admin_position.php:263
+#: admin_position.php:175 admin_position.php:258
 msgid "该广告位代号在当前城市中已存在"
 msgstr ""
 
-#: admin_position.php:197 mh_position.php:142
+#: admin_position.php:192 mh_position.php:141
 msgid "添加广告位成功"
 msgstr ""
 
-#: admin_position.php:206 admin_position.php:213 mh_position.php:148
-#: mh_position.php:149
+#: admin_position.php:201 admin_position.php:208 mh_position.php:147
+#: mh_position.php:148
 msgid "编辑广告位"
 msgstr ""
 
-#: admin_position.php:210
+#: admin_position.php:205
 msgid ""
 "欢迎访问ECJia智能后台编辑广告位置页面，在此页面可以进行编辑广告位置操作。"
 msgstr ""
 
-#: admin_position.php:212
+#: admin_position.php:207
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:广告位置#.E7.BC.96.E8."
 "BE.91.E5.B9.BF.E5.91.8A.E4.BD.8D.E7.BD.AE\" target=\"_blank\">关于编辑广告位"
 "置帮助文档</a>"
 msgstr ""
 
-#: admin_position.php:280 mh_position.php:184
+#: admin_position.php:275 mh_position.php:183
 msgid "编辑广告位成功"
 msgstr ""
 
-#: admin_position.php:291 mh_position.php:192
+#: admin_position.php:286 mh_position.php:191
 msgid "该广告位已经有广告存在，不能删除！"
 msgstr ""
 
-#: admin_position.php:321
+#: admin_position.php:316
 msgid "请重新选择城市，该广告位代号在当前城市中已存在"
 msgstr ""
 
-#: admin_position.php:352
+#: admin_position.php:347
 msgid "此广告位已经存在了！"
 msgstr ""
 
-#: admin_position.php:362 configs/jslang.php:60 mh_position.php:216
+#: admin_position.php:357 configs/jslang.php:60 mh_position.php:215
 msgid "请输入广告位名称"
 msgstr ""
 
@@ -654,21 +654,29 @@ msgstr ""
 msgid "小程序"
 msgstr ""
 
-#: classes/StoreCleanHandlers/StoreAdsenseClear.php:45
+#: classes/StoreCleanHandlers/StoreAdsenseClear.php:36
+msgid "店铺广告"
+msgstr ""
+
+#: classes/StoreCleanHandlers/StoreAdsenseClear.php:46
 msgid "店铺内所有有关广告数据（含广告、快捷菜单、轮播图等）全部删除"
 msgstr ""
 
-#: classes/StoreCleanHandlers/StoreAdsenseClear.php:105
-#: classes/StoreCleanHandlers/StoreAdsensePositionClear.php:95
+#: classes/StoreCleanHandlers/StoreAdsenseClear.php:107
+#: classes/StoreCleanHandlers/StoreAdsensePositionClear.php:97
 msgid "店铺名是%s"
 msgstr ""
 
-#: classes/StoreCleanHandlers/StoreAdsenseClear.php:105
-#: classes/StoreCleanHandlers/StoreAdsensePositionClear.php:95
+#: classes/StoreCleanHandlers/StoreAdsenseClear.php:107
+#: classes/StoreCleanHandlers/StoreAdsensePositionClear.php:97
 msgid "店铺ID是%s"
 msgstr ""
 
-#: classes/StoreCleanHandlers/StoreAdsensePositionClear.php:43
+#: classes/StoreCleanHandlers/StoreAdsensePositionClear.php:34
+msgid "店铺广告位"
+msgstr ""
+
+#: classes/StoreCleanHandlers/StoreAdsensePositionClear.php:44
 msgid "店铺内所有广告位数据全部删除"
 msgstr ""
 
@@ -762,51 +770,51 @@ msgstr ""
 msgid "编辑广告名称成功"
 msgstr ""
 
-#: mh_cycleimage.php:166
+#: mh_cycleimage.php:167
 msgid "启用轮播组成功"
 msgstr ""
 
-#: mh_cycleimage.php:176
+#: mh_cycleimage.php:177
 msgid "该轮播组已存在轮播图，暂不能关闭！"
 msgstr ""
 
-#: mh_cycleimage.php:180
+#: mh_cycleimage.php:181
 msgid "关闭轮播组成功"
 msgstr ""
 
-#: mh_group.php:80 mh_group.php:81
+#: mh_group.php:79 mh_group.php:80
 msgid "编排列表"
 msgstr ""
 
-#: mh_group.php:120
+#: mh_group.php:119
 msgid "该广告组已进行广告位编排，不能关闭！"
 msgstr ""
 
-#: mh_group.php:166
+#: mh_group.php:165
 msgid "启用广告组成功"
 msgstr ""
 
-#: mh_group.php:226 mh_group.php:227
+#: mh_group.php:225 mh_group.php:226
 msgid "广告位编排"
 msgstr ""
 
-#: mh_position.php:80
+#: mh_position.php:79
 msgid "广告位置列表 "
 msgstr ""
 
-#: mh_position.php:105
+#: mh_position.php:104
 msgid "添加广告位置"
 msgstr ""
 
-#: mh_position.php:126
+#: mh_position.php:125
 msgid "该广告位代号在当前店铺中已存在"
 msgstr ""
 
-#: mh_position.php:197
+#: mh_position.php:196
 msgid "删除广告位成功"
 msgstr ""
 
-#: mh_position.php:214
+#: mh_position.php:213
 msgid "编辑广告位名称成功"
 msgstr ""
 
