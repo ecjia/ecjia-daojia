@@ -79,18 +79,6 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
     }
     
     /**
-     * 加载语言包
-     *
-     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
-     */
-    public function loadLanguage($key = null, $default = null)
-    {
-        $locale = RC_Config::get('system.locale');
-    
-        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
-    }
-
-    /**
      * 统一下单方法
      */
     public function unifiedOrder()
@@ -162,7 +150,7 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
                 ->setPayCode($this->getCode())
                 ->setPayName($this->getDisplayName())
                 ->setPayRecordId($recordId)
-                ->setSubject(sprintf(__("%s的订单：%s", 'pay_balance'), ecjia::config('shop_name'), $this->order_info['order_sn']) )
+                ->setSubject(sprintf(__('%s的订单：%s', 'pay_balance'), ecjia::config('shop_name'), $this->order_info['order_sn']))
                 ->setOrderTradeNo($this->getOrderTradeNo($recordId));
         
         return $output->export();
@@ -294,7 +282,7 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
     		$options = array(
     				'user_id'		=> $refund_order['user_id'],
     				'user_money'	=> $refund_payrecord['back_money_total'],
-    				'change_desc'	=> sprintf(__("由于订单%s退款，退还下单使用的%s，退款金额退回余额", 'pay_balance'), $refund_order['order_sn'], $integral_name),
+    				'change_desc'	=> sprintf(__('由于订单%s退款，退还下单使用的%s，退款金额退回余额', 'pay_balance'), $refund_order['order_sn'], $integral_name),
     				'change_type'	=> ACT_SAVING,
     		);
     		

@@ -8,62 +8,65 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2019-03-25 16:58+0800\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
 
 #: pay_balance.class.php:153
 msgid "%s的订单：%s"
-msgstr ""
+msgstr "%s的訂單：%s"
 
 #: pay_balance.class.php:167 pay_balance.class.php:261
 msgid "此笔交易记录未找到"
-msgstr ""
+msgstr "此筆交易記錄未找到"
 
 #: pay_balance.class.php:180
 msgid "%s未找到该订单信息"
-msgstr ""
+msgstr "%s未找到該訂單信息"
 
 #: pay_balance.class.php:267
 msgid "此笔退款申请未找到"
-msgstr ""
+msgstr "此筆退款申請未找到"
 
 #: pay_balance.class.php:279
 msgid "积分"
-msgstr ""
+msgstr "積分"
 
 #: pay_balance.class.php:285
 msgid "由于订单%s退款，退还下单使用的%s，退款金额退回余额"
-msgstr ""
+msgstr "由於訂單%s退款，退還下單使用的%s，退款金額退回餘額"
 
 #: pay_balance.class.php:307
 msgid "订单退款成功！"
-msgstr ""
+msgstr "訂單退款成功！"
 
 #: pay_balance.class.php:311
 msgid "退款失败!"
-msgstr ""
+msgstr "退款失敗!"
 
 #: pay_balance.class.php:321
 msgid "余额支付不支持退款查询对账功能"
-msgstr ""
+msgstr "餘額支付不支持退款查詢對賬功能"
 
 #. Plugin Name of the plugin/theme
 msgid "余额支付"
-msgstr ""
+msgstr "餘額支付"
 
 #. Plugin URI of the plugin/theme
 msgid "http://www.ecjia.com/plugins/ecjia.pay_balance/"
-msgstr ""
+msgstr "http://www.ecjia.com/plugins/ecjia.pay_balance/"
 
 #. Description of the plugin/theme
 msgid "使用帐户余额支付。只有会员才能使用，通过设置信用额度，可以透支。"
-msgstr ""
+msgstr "使用帳戶餘額支付。只有會員才能使用，通過設置信用額度，可以透支。"
 
 #. Author of the plugin/theme
 msgid "ECJIA TEAM"
-msgstr ""
+msgstr "ECJIA TEAM"
 
 #. Author URI of the plugin/theme
 msgid "http://www.ecjia.com/"
-msgstr ""
+msgstr "http://www.ecjia.com/"

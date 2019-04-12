@@ -46,10 +46,10 @@
 //
 /*
 Plugin Name: 余额支付
-Plugin URI: http://www.ecjia.com/plugins/ecjia.balance/
+Plugin URI: http://www.ecjia.com/plugins/ecjia.pay_balance/
 Description: 使用帐户余额支付。只有会员才能使用，通过设置信用额度，可以透支。
 Author: ECJIA TEAM
-Version: 1.29.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: payment
 Text Domain: pay_balance
@@ -73,6 +73,7 @@ class plugin_pay_balance {
 }
 
 Ecjia_PluginManager::extend('pay_balance', function() {
+    RC_Locale::loadPluginTextdomain('pay_balance');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'pay_balance.class.php';
     return new pay_balance();
 });
