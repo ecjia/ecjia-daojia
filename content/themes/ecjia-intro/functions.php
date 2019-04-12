@@ -44,6 +44,9 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+
+RC_Locale::loadThemeTextdomain('ecjia-intro');
+
 RC_Hook::add_action('main/index/init', function () {
 	
     //判断是否手机访问，如果手机访问，自动跳到H5页面
