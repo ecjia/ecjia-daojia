@@ -8,103 +8,104 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2019-03-21 11:44+0800\n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
 
 #. Template Name of the plugin/theme
 msgid "ECJia到家APP下载"
-msgstr ""
+msgstr "ECJia到家APP下載"
 
-#. #-#-#-#-#  ecjia-daojiaapp.pot (ECJia到家APP下载 1.29.0)  #-#-#-#-#
 #. Template URI of the plugin/theme
-#. #-#-#-#-#  ecjia-daojiaapp.pot (ECJia到家APP下载 1.29.0)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "https://ecjia.com/"
-msgstr ""
+msgstr "https://ecjia.com/"
 
 #. Description of the plugin/theme
 msgid "ECJia到家APP下载引导模板"
-msgstr ""
+msgstr "ECJia到家APP下載引導模板"
 
 #. Author of the plugin/theme
 msgid "ECJia Team"
-msgstr ""
+msgstr "ECJia Team"
 
 #: sites/app/content/themes/ecjia-daojiaapp/library/shop_subtitle.lbi.php:7
 msgid "同城上门O2O解决方案"
-msgstr ""
+msgstr "同城上門O2O解決方案"
 
 #: sites/app/content/themes/ecjia-daojiaapp/library/brief_intro.lbi.php:7
 msgid "发掘最后一公里，上门电商的全新机遇"
-msgstr ""
+msgstr "發掘最後一公里，上門電商的全新機遇"
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:20
 msgid "首页"
-msgstr ""
+msgstr "首頁"
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:21
 msgid "商家"
-msgstr ""
+msgstr "商家"
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:22
 msgid "下载APP"
-msgstr ""
+msgstr "下載APP"
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:23
 msgid "商家入驻"
-msgstr ""
+msgstr "商家入駐"
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:24
 msgid "商家登录"
-msgstr ""
+msgstr "商家登錄"
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:35
 msgid "鼠标点击手机体验"
-msgstr ""
+msgstr "鼠標點擊手機體驗"
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:76
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:149
 msgid "iPhone端下载"
-msgstr ""
+msgstr "iPhone端下載"
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:77
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:150
 msgid "Android端下载"
-msgstr ""
+msgstr "Android端下載"
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:82
 msgid "扫一扫，体验APP"
-msgstr ""
+msgstr "掃一掃，體驗APP"
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:87
 msgid "扫一扫，体验微信H5界面"
-msgstr ""
+msgstr "掃一掃，體驗微信H5界面"
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:97
 msgid "简介"
-msgstr ""
+msgstr "簡介"
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:102
 msgid "应用视频介绍"
-msgstr ""
+msgstr "應用視頻介紹"
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:112
 msgid "界面精彩截图"
-msgstr ""
+msgstr "界面精彩截圖"
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:166
 msgid "打开微信扫一扫关注"
-msgstr ""
+msgstr "打開微信掃一掃關注"
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:177
 msgid "版权所有"
-msgstr ""
+msgstr "版權所有"
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:178
 msgid "地址："
-msgstr ""
+msgstr "地址："
 
 #: sites/app/content/themes/ecjia-daojiaapp/index.dwt.php:178
 msgid "咨询热线："
-msgstr ""
+msgstr "諮詢熱線："
