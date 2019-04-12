@@ -46,12 +46,13 @@
 //
 /*
 Plugin Name: 银行转账
-Plugin URI: http://www.ecjia.com/plugins/ecjia.bank/
+Plugin URI: http://www.ecjia.com/plugins/ecjia.pay_bank/
 Description: 银行名称<br/>收款人信息：全称 ××× ；帐号或地址 ××× ；开户行 ×××。<br>注意事项：办理电汇时，请在电汇单“汇款用途”一栏处注明您的订单号。
 Author: ECJIA TEAM
-Version: 2.25.0
+Version: 2.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: payment
+Text Domain: pay_bank
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 class plugin_pay_bank {
@@ -72,6 +73,7 @@ class plugin_pay_bank {
 }
 
 Ecjia_PluginManager::extend('pay_bank', function() {
+    RC_Locale::loadPluginTextdomain('pay_bank');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'pay_bank.class.php';
     return new pay_bank();
 });

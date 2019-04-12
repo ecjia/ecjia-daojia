@@ -1,0 +1,39 @@
+# Copyright (C) 2019 银行转账
+# This file is distributed under the same license as the 银行转账 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 银行转账 2.30.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-03-20 09:19:26+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+
+#: config.php:58
+msgid "银行汇款帐户"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "银行转账"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.pay_bank/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"银行名称<br/>收款人信息：全称 ××× ；帐号或地址 ××× ；开户行 ×××。<br>注意事"
+"项：办理电汇时，请在电汇单“汇款用途”一栏处注明您的订单号。"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr ""

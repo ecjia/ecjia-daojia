@@ -53,6 +53,10 @@ return array(
 	'forms' => array(
 	    array('name' => 'bank_account_info', 'type' => 'textarea', 'value' => ''),
 	),
+
+    'dynamic_option' => array(
+        'bank_account_info' => __('银行汇款帐户', 'pay_bank'),
+    ),
 );
 
 // end
