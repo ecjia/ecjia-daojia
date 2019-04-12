@@ -44,52 +44,34 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-class admin_config extends ecjia_admin
-{
-    public function __construct()
-    {
-        parent::__construct();
 
-        //全局JS和CSS
-        RC_Script::enqueue_script('jquery-validate');
-        RC_Script::enqueue_script('jquery-form');
-        RC_Script::enqueue_script('smoke');
-        RC_Script::enqueue_script('jquery-chosen');
-        RC_Style::enqueue_style('chosen');
-        RC_Script::enqueue_script('jquery-uniform');
-        RC_Style::enqueue_style('uniform-aristo');
-        RC_Script::enqueue_script('bootstrap-placeholder', RC_Uri::admin_url('statics/lib/dropper-upload/bootstrap-placeholder.js'), array(), false, true);
+//订单状态，订单配送状态，订单支付状态
+return array(
+		/* 订单状态 */
+		'os' => array(
+			OS_UNCONFIRMED   => '未接单',
+			OS_CONFIRMED     => '已接单',
+			OS_CANCELED      => '<font color="red">取消</font>',
+			OS_INVALID       => '<font color="red">无效</font>',
+			OS_RETURNED      => '<font color="red">退货</font>',
+			OS_SPLITED       => '已分单',
+			OS_SPLITING_PART => '部分分单',
+		),
+		/* 订单配送状态 */
+		'ss' => array(
+				SS_UNSHIPPED    => '未发货',
+				SS_PREPARING    => '配货中',
+				SS_SHIPPED      => '已发货',
+				SS_RECEIVED     => '收货确认',
+				SS_SHIPPED_PART => '已发货(部分商品)',
+				SS_SHIPPED_ING  => '发货中',
+		),
+		/* 订单支付状态 */
+		 'ps' => array(
+	        PS_UNPAYED => '未付款',
+	        PS_PAYING  => '付款中',
+	        PS_PAYED   => '已付款',
+	    ),
+);
 
-        RC_Script::enqueue_script('admin_config', RC_App::apps_url('statics/js/admin_config.js', __FILE__), array(), false, false);
-    }
-
-    public function init()
-    {
-        $this->admin_priv('order_manage');
-
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('订单设置', 'orders')));
-
-        $this->assign('ur_here', __('订单设置', 'orders'));
-        $this->assign('form_action', RC_Uri::url('orders/admin_config/update'));
-
-        $this->assign('orders_auto_cancel_time', ecjia::config('orders_auto_cancel_time'));
-
-        $this->assign('current_code', 'orders_setting');
-        $this->display('orders_setting.dwt');
-    }
-
-    public function update()
-    {
-        $this->admin_priv('order_manage', ecjia::MSGTYPE_JSON);
-
-        $orders_auto_cancel_time = !empty($_POST['orders_auto_cancel_time']) ? intval($_POST['orders_auto_cancel_time']) : 0;
-
-        ecjia_config::instance()->write_config('orders_auto_cancel_time', $orders_auto_cancel_time);
-
-        return $this->showmessage(__('保存成功', 'orders'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('orders/admin_config/init')));
-    }
-
-}
-//end

@@ -324,7 +324,7 @@ class order_detail_module extends api_front implements api_interface
                     'unpay'                => __('待付款', 'orders'),
                     'payed'                => __('已付款', 'orders'),
                     'merchant_process'     => __('等待商家接单', 'orders'), //等待接单
-                    'shipping'             => __('配货中', 'orders'),
+                    'shipping'             => __('发货中', 'orders'),
                     'shipped'              => __('已发货', 'orders'),
                     'express_user_pickup'  => __('配送员已取货', 'orders'),
                     'cancel'               => __('订单已取消', 'orders'),
@@ -333,6 +333,9 @@ class order_detail_module extends api_front implements api_interface
                     'pickup_success'       => __('已提货', 'orders'),
                     'merchant_confirmed'   => __('商家已接单', 'orders'),
                     'merchant_unconfirmed' => __('无法接单', 'orders'),
+                	'refund_apply' 	   	   => __('申请退款', 'orders'),
+                	'refund_agree' 		   => __('订单退款申请已处理', 'orders'),
+                	'refund_success' 	   => __('退款到账', 'orders'),
                 );
 
                 foreach ($order_status_log as $val) {

@@ -26,7 +26,7 @@
 					<label class="control-label col-lg-2">{t domain="orders"}订单状态：{/t}</label>
 					<div class="controls">
 						<select name="composite_status" class="w180 form-control">
-							<option value="">>{t domain="orders"}请选择订单状态{/t}</option>
+							<option value="">{t domain="orders"}请选择订单状态{/t}</option>
 							<!-- {html_options options=$status_list selected=$filter.composite_status} -->
 						</select>
 					</div>
@@ -38,7 +38,7 @@
 					<label class="control-label col-lg-2">{t domain="orders"}配送方式：{/t}</label>
 					<div class="controls">
 						<select name="shipping_id" class="w180 form-control">
-							<option value="">>{t domain="orders"}请选择配送方式{/t}</option>
+							<option value="">{t domain="orders"}请选择配送方式{/t}</option>
 							{foreach from=$shipping_list item=val}
 							<option value="{$val.shipping_id}" {if $filter.shipping_id eq $val.shipping_id}selected{/if}>{$val.shipping_name}</option>
 							{/foreach}
@@ -52,7 +52,7 @@
 					<label class="control-label col-lg-2">{t domain="orders"}支付方式：{/t}</label>
 					<div class="controls">
 						<select name="pay_id" class="w180 form-control">
-							<option value="">>{t domain="orders"}请选择支付方式{/t}</option>
+							<option value="">{t domain="orders"}请选择支付方式{/t}</option>
 							{foreach from=$pay_list item=val}
 							<option value="{$val.pay_id}" {if $filter.pay_id eq $val.pay_id}selected{/if}>{$val.pay_name}</option>
 							{/foreach}
@@ -69,7 +69,7 @@
 					<label class="control-label col-lg-2">{t domain="orders"}下单渠道：{/t}</label>
 					<div class="controls">
 						<select name="referer" class="w180 form-control">
-							<option value="">>{t domain="orders"}请选择下单渠道{/t}</option>
+							<option value="">{t domain="orders"}请选择下单渠道{/t}</option>
 							{foreach from=$referer_list key=key item=val}
 							<option value="{$key}" {if $filter.referer eq $key}selected{/if}>{$val}</option>
 							{/foreach}

@@ -91,6 +91,7 @@ class admin_cashier_orders_summary_records_module extends api_admin implements a
         $order_list = [];
 
         $dbview->where(RC_DB::raw('oi.pay_status'), PS_PAYED)
+        	->where(RC_DB::raw('cr.order_type'), 'buy')
         	->where(RC_DB::raw('oi.order_status'), '!=', OS_RETURNED); //不包含已申请退款订单;
 
         $device_type = Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);
@@ -108,9 +109,8 @@ class admin_cashier_orders_summary_records_module extends api_admin implements a
             $dbview->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id']);
         }
         if (!empty($start_date) && !empty($end_date)) {
-            $where['cr.create_at'] = array('egt' => $start_date, 'elt' => $end_date);
-            $dbview->where(RC_DB::raw('cr.create_at'), '>=', $start_date);
-            $dbview->where(RC_DB::raw('cr.create_at'), '<=', $end_date);
+            $dbview->where(RC_DB::raw('oi.add_time'), '>=', $start_date);
+            $dbview->where(RC_DB::raw('oi.add_time'), '<=', $end_date);
         }
 
         $record_count = $dbview->count(RC_DB::raw('DISTINCT oi.order_id'));

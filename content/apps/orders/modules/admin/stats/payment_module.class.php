@@ -126,6 +126,7 @@ class admin_stats_payment_module extends api_admin implements api_interface
                     ->where(RC_DB::raw('oi.pay_time'), '>=', $start_date)
                     ->where(RC_DB::raw('oi.pay_time'), '<=', $end_date)
                     ->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id'])
+                    ->where(RC_DB::raw('cr.order_type'), 'buy')
                     ->where('pay_id', $pay_id_group_new[$val]['pay_id']);
 
                 //收银通不区分设备；收银台和POS机区分设备

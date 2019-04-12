@@ -248,7 +248,11 @@ class OrderStatusLog
             'order_id'     => $options['order_id'],
             'add_time'     => RC_Time::gmtime(),
         );
-        RC_DB::table('order_status_log')->insert($data);
+        /*相同条件的数据不存在时录入*/
+        $order_status_log_info = RC_DB::table('order_status_log')->where('order_status', $data['order_status'])->where('message', $message)->where('order_id', $options['order_id'])->first();
+		if (empty($order_status_log_info)) {
+			RC_DB::table('order_status_log')->insert($data);
+		}
         return true;
     }
 
@@ -292,7 +296,10 @@ class OrderStatusLog
             'order_id'     => $options['order_id'],
             'add_time'     => RC_Time::gmtime(),
         );
-        RC_DB::table('order_status_log')->insert($data);
+        $order_status_log_info = RC_DB::table('order_status_log')->where('order_status', $data['order_status'])->where('message', $message)->where('order_id', $options['order_id'])->first();
+        if (empty($order_status_log_info)) {
+        	RC_DB::table('order_status_log')->insert($data);
+        }
         return true;
     }
 

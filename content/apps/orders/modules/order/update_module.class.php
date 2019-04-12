@@ -112,7 +112,7 @@ class order_update_module extends api_front implements api_interface
         $order_result = [
             'order_id'     => $order_id,
             'pay_fee'      => $payment_info['pay_fee'],
-            'order_amount' => $order_amount
+            'order_amount' => sprintf("%.2f", $order_amount),
         ];
         return $order_result;
     }

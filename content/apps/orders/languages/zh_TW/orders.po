@@ -4,13 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App orders 1.28.0\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-04-04 05:54:46+00:00\n"
+"POT-Creation-Date: 2019-04-03 18:49+0800\n"
+"PO-Revision-Date: 2019-04-09 09:51+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: admin.php:105 admin.php:260 admin.php:693 admin.php:736
 #: admin_guest_stats.php:82 admin_order_back.php:92 admin_order_delivery.php:90
@@ -20,40 +23,43 @@ msgstr ""
 #: admin_sale_general.php:110 admin_sale_list.php:88 admin_sale_order.php:85
 #: admin_users_order.php:88 mh_reminder.php:84
 msgid "概述"
-msgstr ""
+msgstr "概述"
 
 #: admin.php:106
 msgid "欢迎访问ECJia智能后台订单列表页面，系统中所有的订单都会显示在此列表中。"
 msgstr ""
+"歡迎訪問ECJia智能後臺訂單列表頁面，系統中所有的訂單都會顯示在此列表中。"
 
 #: admin.php:110 admin.php:265 admin.php:698 admin.php:741
 #: admin_order_back.php:97 admin_order_delivery.php:95
 #: admin_order_delivery.php:145 mh_reminder.php:89
 msgid "更多信息"
-msgstr ""
+msgstr "更多信息"
 
 #: admin.php:111
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:订单列表#.E8.AE.A2."
 "E5.8D.95.E5.88.97.E8.A1.A8\" target=\"_blank\">关于订单列表帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:订单列表#.E8.AE.A2."
+"E5.8D.95.E5.88.97.E8.A1.A8\" target=\"_blank\">關於訂單列表幫助文檔</a>"
 
 #: admin.php:126 admin.php:254 apis/orders_admin_menu_api.class.php:60
 #: apis/orders_merchant_menu_api.class.php:65 classes/OrderExtensionCode.php:59
 #: classes/OrderExtensionCode.php:67 merchant.php:160 merchant.php:403
 msgid "配送订单"
-msgstr ""
+msgstr "配送訂單"
 
 #: admin.php:131 admin.php:719 merchant.php:172 merchant.php:261
 #: merchant.php:1063 merchant.php:1085
 msgid "订单查询"
-msgstr ""
+msgstr "訂單查詢"
 
 #: admin.php:170 admin.php:624 admin_order_stats.php:545 configs/jslang.php:99
 #: configs/jslang.php:185 merchant.php:220 merchant.php:792
 #: mh_order_stats.php:491
 msgid "到店"
-msgstr ""
+msgstr "到店"
 
 #: admin.php:171 admin.php:625 admin_order_stats.php:546
 #: classes/CustomizeOrderList.php:63 classes/CustomizeOrderList.php:177
@@ -61,75 +67,75 @@ msgstr ""
 #: configs/jslang.php:186 merchant.php:221 merchant.php:793
 #: mh_order_stats.php:492
 msgid "自提"
-msgstr ""
+msgstr "自提"
 
 #: admin.php:172 admin.php:626 admin_order_stats.php:547
 #: classes/CustomizeOrderList.php:174 classes/CustomizeOrderList.php:263
 #: configs/jslang.php:101 configs/jslang.php:187 merchant.php:222
 #: merchant.php:794 mh_order_stats.php:493
 msgid "收银台"
-msgstr ""
+msgstr "收銀臺"
 
 #: admin.php:173 admin.php:627 merchant.php:223 merchant.php:795
 msgid "邀请码"
-msgstr ""
+msgstr "邀請碼"
 
 #: admin.php:174 admin.php:628 merchant.php:224 merchant.php:796
 msgid "手机端"
-msgstr ""
+msgstr "手機端"
 
 #: admin.php:175 admin.php:629 merchant.php:225 merchant.php:797
 msgid "H5"
-msgstr ""
+msgstr "H5"
 
 #: admin.php:176 admin.php:630 merchant.php:226 merchant.php:798
 msgid "小程序"
-msgstr ""
+msgstr "小程序"
 
 #: admin.php:177 merchant.php:227
 msgid "Andriod端"
-msgstr ""
+msgstr "Andriod端"
 
 #: admin.php:178 admin.php:632 merchant.php:228 merchant.php:800
 msgid "iPhone端"
-msgstr ""
+msgstr "iPhone端"
 
 #: admin.php:205 admin.php:1811 admin.php:3367 admin.php:3377 admin.php:3399
 #: admin.php:3409 merchant.php:3872
 #: modules/order/affirmReceived_module.class.php:101
 msgid "该订单不存在"
-msgstr ""
+msgstr "該訂單不存在"
 
 #: admin.php:205 merchant.php:1181 merchant.php:1185 merchant.php:5273
 #: merchant.php:5277
 msgid "返回订单列表"
-msgstr ""
+msgstr "返回訂單列表"
 
 #: admin.php:230 merchant.php:384
 msgid "到店订单信息"
-msgstr ""
+msgstr "到店訂單信息"
 
 #: admin.php:233 merchant.php:387
 msgid "收银台订单信息"
-msgstr ""
+msgstr "收銀臺訂單信息"
 
 #: admin.php:236 merchant.php:390
 msgid "自提订单信息"
-msgstr ""
+msgstr "自提訂單信息"
 
 #: admin.php:239 merchant.php:393
 msgid "团购订单信息"
-msgstr ""
+msgstr "團購訂單信息"
 
 #: admin.php:242 merchant.php:396
 msgid "配送订单信息"
-msgstr ""
+msgstr "配送訂單信息"
 
 #: admin.php:248 admin.php:720 admin.php:758 admin.php:2122 merchant.php:280
 #: merchant.php:775 merchant.php:777 merchant.php:1086 merchant.php:1130
 #: merchant.php:2560 mh_validate_order.php:105
 msgid "订单列表"
-msgstr ""
+msgstr "訂單列表"
 
 #: admin.php:257 admin.php:2682 admin.php:2746 admin.php:2754 admin.php:2765
 #: admin.php:2781 admin.php:2800 admin.php:2823 admin.php:2960
@@ -143,17 +149,20 @@ msgstr ""
 #: merchant.php:4880 merchant.php:5267 mh_delivery.php:332 mh_delivery.php:358
 #: mh_validate_order.php:705
 msgid "订单信息"
-msgstr ""
+msgstr "訂單信息"
 
 #: admin.php:261
 msgid "欢迎访问ECJia智能后台订单详情页面，在此页面可以查看有关订单的所有信息。"
 msgstr ""
+"歡迎訪問ECJia智能後臺訂單詳情頁面，在此頁面可以查看有關訂單的所有信息。"
 
 #: admin.php:266
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:订单列表#.E6.9F.A5."
 "E7.9C.8B.E8.AF.A6.E6.83.85\" target=\"_blank\">关于订单详情帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:订单列表#.E6.9F.A5."
+"E7.9C.8B.E8.AF.A6.E6.83.85\" target=\"_blank\">關於訂單詳情幫助文檔</a>"
 
 #: admin.php:337 admin.php:1835 admin.php:1951 admin.php:2073 admin.php:2173
 #: admin.php:2180 admin.php:2488 admin_order_delivery.php:213
@@ -161,71 +170,77 @@ msgstr ""
 #: configs/jslang.php:139 functions/global.func.php:442 merchant.php:487
 #: merchant.php:2233 merchant.php:2355 merchant.php:2504 merchant.php:2607
 #: merchant.php:2958 merchant.php:4782
-#: modules/admin/orders/detail_module.class.php:248
+#: modules/admin/orders/detail_module.class.php:246
 #: modules/admin/orders/list_module.class.php:286
 #: modules/admin/orders/today_module.class.php:231
 msgid "未发货"
-msgstr ""
+msgstr "未發貨"
 
 #: admin.php:345 merchant.php:495
 msgid "来自本站"
-msgstr ""
+msgstr "來自本站"
 
 #: admin.php:347
 msgid "商品站外JS投放，来自站点：%s"
-msgstr ""
+msgstr "商品站外JS投放，來自站點：%s"
 
 #: admin.php:468 merchant.php:623
 msgid "暂无"
-msgstr ""
+msgstr "暫無"
 
 #: admin.php:470 merchant.php:625
 msgid "<span class=\"ecjiafc-red\">未提货</span>"
-msgstr ""
+msgstr "<span class=\"ecjiafc-red\">未提貨</span>"
 
 #: admin.php:478 merchant.php:633 mh_validate_order.php:965
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:793
 #: modules/order/detail_module.class.php:333
 msgid "已提货"
-msgstr ""
+msgstr "已提貨"
 
 #: admin.php:605 merchant.php:770 merchant.php:1026
 msgid "很抱歉，目前您还没有设置打印快递单模板，不能进行打印。"
-msgstr ""
+msgstr "很抱歉，目前您還沒有設置打印快遞單模板，不能進行打印。"
 
 #: admin.php:631 merchant.php:799
 msgid "安卓端"
-msgstr ""
+msgstr "安卓端"
 
 #: admin.php:676
 msgid "订单不存在请重新搜索"
-msgstr ""
+msgstr "訂單不存在請重新搜索"
 
 #: admin.php:694
 msgid ""
 "欢迎访问ECJia智能后台订单查询页面，在此页面输入订单有关信息可以对该订单进行查"
 "询操作。"
 msgstr ""
+"歡迎訪問ECJia智能後臺訂單查詢頁面，在此頁面輸入訂單有關信息可以對該訂單進行查"
+"詢操作。"
 
 #: admin.php:699
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:订单查询\" target="
 "\"_blank\">关于订单查询帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:订单查询\" target="
+"\"_blank\">關於訂單查詢幫助文檔</a>"
 
 #: admin.php:733 admin.php:757 merchant.php:1099 merchant.php:1129
 msgid "合并订单"
-msgstr ""
+msgstr "合併訂單"
 
 #: admin.php:737
 msgid "欢迎访问ECJia智能后台合并订单页面，在此页面可以对订单进行合并。"
-msgstr ""
+msgstr "歡迎訪問ECJia智能後台合併訂單頁面，在此頁面可以對訂單進行合併。"
 
 #: admin.php:742
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:合并订单\" target="
 "\"_blank\">关于合并订单帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:合并订单\" target="
+"\"_blank\">關於合併訂單幫助文檔</a>"
 
 #: admin.php:779 admin.php:1741 admin.php:2123 admin.php:2254 admin.php:2566
 #: admin.php:3005 admin.php:3208 admin_order_delivery.php:520
@@ -233,7 +248,7 @@ msgstr ""
 #: merchant.php:2561 merchant.php:3488 merchant.php:3693 merchant.php:4182
 #: merchant.php:4320 merchant.php:5237 mh_delivery.php:713 mh_delivery.php:841
 msgid "操作成功"
-msgstr ""
+msgstr "操作成功"
 
 #: admin.php:781 admin.php:2961 admin_order_delivery.php:419
 #: admin_order_delivery.php:564
@@ -246,147 +261,148 @@ msgstr ""
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:418
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:625
 msgid "操作失败"
-msgstr ""
+msgstr "操作失敗"
 
 #: admin.php:793 merchant.php:1176 merchant.php:5268
 msgid "编辑订单"
-msgstr ""
+msgstr "編輯訂單"
 
 #: admin.php:817
 msgid "订单已发货！无法修改订单了（配送方式和发货单号除外）"
-msgstr ""
+msgstr "訂單已發貨！無法修改訂單了（配送方式和發貨單號除外）"
 
 #: admin.php:832 merchant.php:1222
 msgid "编辑订单商品信息"
-msgstr ""
+msgstr "編輯訂單商品信息"
 
 #: admin.php:851 merchant.php:1242
 msgid "编辑订单收货人信息"
-msgstr ""
+msgstr "編輯訂單收貨人信息"
 
 #: admin.php:895 merchant.php:1287 merchant.php:5292
 msgid "编辑订单配送方式"
-msgstr ""
+msgstr "編輯訂單配送方式"
 
 #: admin.php:920 merchant.php:1311
 msgid "编辑订单支付方式"
-msgstr ""
+msgstr "編輯訂單支付方式"
 
 #: admin.php:948 merchant.php:1339
 msgid "编辑订单其他信息"
-msgstr ""
+msgstr "編輯訂單其他信息"
 
 #: admin.php:954 merchant.php:1345
 msgid "编辑订单费用信息"
-msgstr ""
+msgstr "編輯訂單費用信息"
 
 #: admin.php:977 merchant.php:1368
 msgid "编辑订单发货单号"
-msgstr ""
+msgstr "編輯訂單發貨單號"
 
 #: admin.php:1039 merchant.php:1431
 msgid "管理员添加"
-msgstr ""
+msgstr "管理員添加"
 
 #: admin.php:1046
 msgid "订单生成失败，请重新尝试"
-msgstr ""
+msgstr "訂單生成失敗，請重新嘗試"
 
 #: admin.php:1085 admin.php:1183 admin.php:1189 merchant.php:1474
 #: merchant.php:1571 merchant.php:1577
 msgid "库存不足，请重新选择！"
-msgstr ""
+msgstr "庫存不足，請重新選擇！"
 
 #: admin.php:1098
 msgid "编辑商品，"
-msgstr ""
+msgstr "編輯商品，"
 
 #: admin.php:1101 admin.php:1264 admin.php:1398 admin.php:1436 admin.php:1606
 #: merchant.php:1490 merchant.php:1650 merchant.php:1768 merchant.php:1854
 #: merchant.php:2018 merchant.php:5400 merchant.php:5487
 #: modules/admin/orders/operate/money_module.class.php:124
 msgid "订单总金额由 %s 变为 %s"
-msgstr ""
+msgstr "訂單總金額由 %s 變為 %s"
 
 #: admin.php:1103
 msgid "订单号是%s"
-msgstr ""
+msgstr "訂單號是%s"
 
 #: admin.php:1135
 msgid "您还没有选择商品，请搜索后加入订单哦！"
-msgstr ""
+msgstr "您還沒有選擇商品，請搜索後加入訂單哦！"
 
 #: admin.php:1199 merchant.php:1588
 msgid "该商品或货品已存在该订单中，请编辑商品数量"
-msgstr ""
+msgstr "該商品或貨品已存在該訂單中，請編輯商品數量"
 
 #: admin.php:1261
 msgid "添加商品，"
-msgstr ""
+msgstr "添加商品，"
 
 #: admin.php:1266 admin.php:3293 merchant.php:3776
 #: modules/admin/orders/operate/consignee_module.class.php:123
 #: modules/admin/orders/operate/money_module.class.php:126
 #: modules/admin/orders/operate/shipping_module.class.php:157
 msgid "订单号是 %s"
-msgstr ""
+msgstr "訂單號是 %s"
 
 #: admin.php:1270
 msgid "商品成功加入订单"
-msgstr ""
+msgstr "商品成功加入訂單"
 
 #: admin.php:1322
 msgid "编辑收货人，订单号是 %s"
-msgstr ""
+msgstr "編輯收貨人，訂單號是 %s"
 
 #: admin.php:1359 merchant.php:1727
 msgid "选择配送方式"
-msgstr ""
+msgstr "選擇配送方式"
 
 #: admin.php:1360 merchant.php:1728
 msgid ""
 "由于您修改了收货人所在地区，导致原来的配送方式不再可用，请重新选择配送方式"
 msgstr ""
+"由於您修改了收貨人所在地區，導致原來的配送方式不再可用，請重新選擇配送方式"
 
 #: admin.php:1395 modules/admin/orders/operate/shipping_module.class.php:152
 msgid "编辑配送方式，"
-msgstr ""
+msgstr "編輯配送方式，"
 
 #: admin.php:1400
 msgid "编辑配送方式，%s"
-msgstr ""
+msgstr "編輯配送方式，%s"
 
 #: admin.php:1432
 msgid "编辑支付方式，"
-msgstr ""
+msgstr "編輯支付方式，"
 
 #: admin.php:1561 admin.php:1567 merchant.php:1972 merchant.php:1978
 msgid "用户积分不足"
-msgstr ""
+msgstr "用戶積分不足"
 
 #: admin.php:1576 merchant.php:1987
 msgid "用户余额不足"
-msgstr ""
+msgstr "用戶餘額不足"
 
 #: admin.php:1603 modules/admin/orders/operate/money_module.class.php:121
 msgid "编辑费用信息，"
-msgstr ""
+msgstr "編輯費用信息，"
 
 #: admin.php:1618 merchant.php:2029
 msgid "编辑订单 %s ，改变使用预付款支付的金额"
-msgstr ""
+msgstr "編輯訂單 %s ，改變使用預付款支付的金額"
 
 #: admin.php:1628 merchant.php:2039
 msgid "编辑订单 %s ，改变使用积分支付的数量"
-msgstr ""
+msgstr "編輯訂單 %s ，改變使用積分支付的數量"
 
 #: admin.php:1682
 msgid "该订单不存在商品"
-msgstr ""
+msgstr "該訂單不存在商品"
 
 #: admin.php:1751
 msgid "取消添加新订单"
-msgstr ""
+msgstr "取消添加新訂單"
 
 #: admin.php:1790 apis/orders_buy_order_paid_api.class.php:67
 #: apis/orders_merchant_order_info_api.class.php:66
@@ -416,11 +432,11 @@ msgstr ""
 #: modules/order/list_module.class.php:76 modules/order/pay_module.class.php:69
 #: modules/order/update_module.class.php:65
 msgid "参数无效"
-msgstr ""
+msgstr "參數無效"
 
 #: admin.php:1800 admin.php:1901 merchant.php:2199 merchant.php:2300
 msgid "订单操作：生成发货单"
-msgstr ""
+msgstr "訂單操作：生成發貨單"
 
 #: admin.php:1864 admin.php:1879 classes/order_ship.class.php:107
 #: classes/order_ship.class.php:132 merchant.php:2262 merchant.php:2277
@@ -429,44 +445,44 @@ msgstr ""
 #: modules/admin/orders/payConfirm_module.class.php:328
 #: modules/admin/orders/payConfirm_module.class.php:363
 msgid "商品已缺货"
-msgstr ""
+msgstr "商品已缺貨"
 
 #: admin.php:1868 admin.php:1882 merchant.php:2266 merchant.php:2280
 #: merchant.php:4365
 msgid "货已发完"
-msgstr ""
+msgstr "貨已發完"
 
 #: admin.php:1926 admin.php:2032 admin.php:2480 configs/jslang.php:52
 #: configs/jslang.php:135 merchant.php:2330 merchant.php:2467 merchant.php:2950
 msgid "确认"
-msgstr ""
+msgstr "確認"
 
 #: admin.php:1931 admin.php:2039 admin.php:2481 configs/jslang.php:53
 #: configs/jslang.php:136 merchant.php:2335 merchant.php:2474 merchant.php:2951
 msgid "付款"
-msgstr ""
+msgstr "付款"
 
 #: admin.php:1941 admin.php:2053 admin.php:2487 merchant.php:2345
 #: merchant.php:2487 merchant.php:2957
 msgid "设为未付款"
-msgstr ""
+msgstr "設為未付款"
 
 #: admin.php:1946 admin.php:2061 admin.php:2482 configs/jslang.php:55
 #: configs/jslang.php:138 merchant.php:2350 merchant.php:2492 merchant.php:2952
 msgid "配货"
-msgstr ""
+msgstr "配貨"
 
 #: admin.php:1956 admin.php:2078 admin.php:2491
 #: classes/Enums/ShippingStatusEnum.php:30 merchant.php:2360 merchant.php:2510
 #: merchant.php:2961
 msgid "已收货"
-msgstr ""
+msgstr "已收貨"
 
 #: admin.php:1961 admin.php:2083 admin.php:2484 classes/OrderStatus.php:463
 #: configs/jslang.php:62 configs/jslang.php:145 merchant.php:2365
 #: merchant.php:2515 merchant.php:2954
 msgid "取消"
-msgstr ""
+msgstr "取消"
 
 #: admin.php:1972 admin.php:2094 admin.php:2485
 #: classes/Enums/OrderStatusEnum.php:31 configs/jslang.php:58
@@ -475,12 +491,12 @@ msgstr ""
 #: modules/admin/orders/payment/history_module.class.php:164
 #: modules/admin/orders/today_module.class.php:244
 msgid "无效"
-msgstr ""
+msgstr "無效"
 
 #: admin.php:1977 admin.php:2099 admin.php:2493 configs/jslang.php:59
 #: configs/jslang.php:142 merchant.php:2381 merchant.php:2531 merchant.php:2963
 msgid "售后"
-msgstr ""
+msgstr "售後"
 
 #: admin.php:1987 admin.php:2109 admin.php:2486 admin_order_delivery.php:112
 #: classes/Enums/OrderStatusEnum.php:32 classes/OrderStatus.php:464
@@ -489,157 +505,157 @@ msgstr ""
 #: functions/merchant_order.func.php:329 functions/merchant_order.func.php:425
 #: merchant.php:2395 merchant.php:2546 merchant.php:2956
 msgid "退货"
-msgstr ""
+msgstr "退貨"
 
 #: admin.php:2117 merchant.php:2553
 msgid "请选择办事处！"
-msgstr ""
+msgstr "請選擇辦事處！"
 
 #: admin.php:2171 admin_order_delivery.php:203
 #: classes/Enums/PayStatusEnum.php:24 configs/jslang.php:54
 #: configs/jslang.php:137 functions/global.func.php:456 merchant.php:2608
-#: merchant.php:4772 modules/admin/orders/detail_module.class.php:243
+#: merchant.php:4772 modules/admin/orders/detail_module.class.php:241
 #: modules/admin/orders/list_module.class.php:281
 #: modules/admin/orders/today_module.class.php:226
 msgid "未付款"
-msgstr ""
+msgstr "未付款"
 
 #: admin.php:2232 admin.php:2241 admin.php:2572 admin.php:3010 admin.php:3061
 #: admin.php:3167 admin_order_delivery.php:297 admin_order_delivery.php:542
 #: merchant.php:2676 merchant.php:2685 merchant.php:3493 merchant.php:3545
 #: merchant.php:3651 mh_delivery.php:291 mh_delivery.php:734
 msgid "请填写备注信息！"
-msgstr ""
+msgstr "請填寫備註信息！"
 
 #: admin.php:2324 merchant.php:2788
 msgid "有订单无法设置为确认状态"
-msgstr ""
+msgstr "有訂單無法設置為確認狀態"
 
 #: admin.php:2325 merchant.php:2789
 msgid "确认成功的订单："
-msgstr ""
+msgstr "確認成功的訂單："
 
 #: admin.php:2374 merchant.php:2841
 msgid "有订单无法设置为无效"
-msgstr ""
+msgstr "有訂單無法設置為無效"
 
 #: admin.php:2375 merchant.php:2842
 msgid "无效成功的订单："
-msgstr ""
+msgstr "無效成功的訂單："
 
 #: admin.php:2391 merchant.php:2858
 msgid "查看详情"
-msgstr ""
+msgstr "查看詳情"
 
 #: admin.php:2392 admin.php:2431 merchant.php:2859 merchant.php:2900
 msgid "有订单无法取消"
-msgstr ""
+msgstr "有訂單無法取消"
 
 #: admin.php:2419 admin.php:2563 admin.php:3159 admin.php:3194
 #: admin_order_delivery.php:494
 #: apis/orders_order_delivery_ship_api.class.php:255 mh_validate_order.php:418
 msgid "发送邮件失败"
-msgstr ""
+msgstr "發送郵件失敗"
 
 #: admin.php:2432 merchant.php:2901
 msgid "取消成功的订单："
-msgstr ""
+msgstr "取消成功的訂單："
 
 #: admin.php:2458 merchant.php:2927
 msgid "有订单无法被移除"
-msgstr ""
+msgstr "有訂單無法被移除"
 
 #: admin.php:2459 merchant.php:2928
 msgid "删除成功的订单："
-msgstr ""
+msgstr "刪除成功的訂單："
 
 #: admin.php:2476
 msgid "订单号："
-msgstr ""
+msgstr "訂單號："
 
 #: admin.php:2483 merchant.php:2953
 msgid "发货"
-msgstr ""
+msgstr "發貨"
 
 #: admin.php:2489 merchant.php:2959
 msgid "确认付款"
-msgstr ""
+msgstr "確認付款"
 
 #: admin.php:2490 merchant.php:2960
 msgid "取消发货"
-msgstr ""
+msgstr "取消發貨"
 
 #: admin.php:2492 merchant.php:2962
 msgid "指派给"
-msgstr ""
+msgstr "指派給"
 
 #: admin.php:2494 merchant.php:2385 merchant.php:2536 merchant.php:2964
 msgid "退货确认"
-msgstr ""
+msgstr "退貨確認"
 
 #: admin.php:2495 merchant.php:2965
 msgid "删除"
-msgstr ""
+msgstr "刪除"
 
 #: admin.php:2496 merchant.php:2966
 msgid "您可进行的操作"
-msgstr ""
+msgstr "您可進行的操作"
 
 #: admin.php:2497 merchant.php:2967
 msgid "生成发货单"
-msgstr ""
+msgstr "生成發貨單"
 
 #: admin.php:2498 merchant.php:2968
 msgid "去发货"
-msgstr ""
+msgstr "去發貨"
 
 #: admin.php:2505 merchant.php:2975
 msgid "您可进行的操作："
-msgstr ""
+msgstr "您可進行的操作："
 
 #: admin.php:2531 admin.php:3278 apis/orders_order_operate_api.class.php:76
 #: merchant.php:3004 merchant.php:3764 merchant.php:3948 merchant.php:4137
 msgid "无法对订单执行该操作"
-msgstr ""
+msgstr "無法對訂單執行該操作"
 
 #: admin.php:2541
 msgid "已接单，订单号是 %s"
-msgstr ""
+msgstr "已接單，訂單號是 %s"
 
 #: admin.php:2604 admin.php:3094 merchant.php:3580
 msgid "请填写操作备注！"
-msgstr ""
+msgstr "請填寫操作備註！"
 
 #: admin.php:2631
 msgid "设为未付款，订单号是 %s"
-msgstr ""
+msgstr "設為未付款，訂單號是 %s"
 
 #: admin.php:2644
 msgid "配货中，订单号是 %s"
-msgstr ""
+msgstr "配貨中，訂單號是 %s"
 
 #: admin.php:2683 merchant.php:3161 merchant.php:4419 mh_validate_order.php:603
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:171
 msgid "您的订单%s，%s正在%s，%s"
-msgstr ""
+msgstr "您的訂單%s，%s正在%s，%s"
 
 #: admin.php:2683 admin_order_delivery.php:198
 #: classes/Enums/OrderStatusEnum.php:33 functions/global.func.php:432
 #: merchant.php:3159 merchant.php:4417 merchant.php:4767
-#: mh_validate_order.php:603 modules/admin/orders/detail_module.class.php:239
+#: mh_validate_order.php:603 modules/admin/orders/detail_module.class.php:237
 #: modules/admin/orders/list_module.class.php:277
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:171
 msgid "已分单"
-msgstr ""
+msgstr "已分單"
 
 #: admin.php:2683 admin_order_delivery.php:218 functions/global.func.php:447
 #: merchant.php:3160 merchant.php:3384 merchant.php:4418 merchant.php:4787
-#: mh_validate_order.php:603 modules/admin/orders/detail_module.class.php:253
+#: mh_validate_order.php:603 modules/admin/orders/detail_module.class.php:251
 #: modules/admin/orders/list_module.class.php:291
 #: modules/admin/orders/today_module.class.php:236
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:171
 msgid "发货中"
-msgstr ""
+msgstr "發貨中"
 
 #: admin.php:2747 admin.php:2755 merchant.php:3224 merchant.php:3233
 #: merchant.php:4478 merchant.php:4487 mh_validate_order.php:670
@@ -647,12 +663,12 @@ msgstr ""
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:238
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:244
 msgid "此单发货数量不能超出订单商品数量"
-msgstr ""
+msgstr "此單發貨數量不能超出訂單商品數量"
 
 #: admin.php:2766 merchant.php:3244 merchant.php:4498 mh_validate_order.php:690
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:254
 msgid "发货数量或商品不能为空"
-msgstr ""
+msgstr "發貨數量或商品不能為空"
 
 #: admin.php:2782 admin.php:2824 admin_order_delivery.php:331
 #: admin_order_delivery.php:357
@@ -667,45 +683,45 @@ msgstr ""
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:520
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:557
 msgid "商品 %s 已缺货"
-msgstr ""
+msgstr "商品 %s 已缺貨"
 
 #: admin.php:2801 merchant.php:3279 mh_validate_order.php:726
 msgid "虚拟卡已缺货"
-msgstr ""
+msgstr "虛擬卡已缺貨"
 
 #: admin.php:2900 admin_order_delivery.php:214 functions/global.func.php:443
 #: merchant.php:4601 merchant.php:4783 mh_validate_order.php:833
-#: modules/admin/orders/detail_module.class.php:249
+#: modules/admin/orders/detail_module.class.php:247
 #: modules/admin/orders/list_module.class.php:287
 #: modules/admin/orders/today_module.class.php:232
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:360
 #: modules/order/detail_module.class.php:327
 msgid "配货中"
-msgstr ""
+msgstr "配貨中"
 
 #: admin.php:2902 classes/OrderStatusLog.class.php:144
 #: classes/OrderStatusLog.php:123 merchant.php:3386 merchant.php:4605
 #: mh_validate_order.php:835
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:362
 msgid "订单号为 %s 的商品正在备货中，请您耐心等待"
-msgstr ""
+msgstr "訂單號為 %s 的商品正在備貨中，請您耐心等待"
 
 #: admin.php:3034 admin_order_delivery.php:640 merchant.php:3519
 #: mh_delivery.php:825
 msgid "由于退货或未发货操作，退回订单 %s 赠送的积分"
-msgstr ""
+msgstr "由於退貨或未發貨操作，退回訂單 %s 贈送的積分"
 
 #: admin.php:3076 admin_order_delivery.php:216 configs/jslang.php:57
 #: configs/jslang.php:140 functions/global.func.php:445 merchant.php:3560
-#: merchant.php:4785 modules/admin/orders/detail_module.class.php:251
+#: merchant.php:4785 modules/admin/orders/detail_module.class.php:249
 #: modules/admin/orders/list_module.class.php:289
 #: modules/admin/orders/today_module.class.php:234
 msgid "收货确认"
-msgstr ""
+msgstr "收貨確認"
 
 #: admin.php:3078 merchant.php:3562
 msgid "商品已送达，请签收，感谢您下次光顾！"
-msgstr ""
+msgstr "商品已送達，請簽收，感謝您下次光顧！"
 
 #: admin.php:3130 apis/orders_order_auto_refuse_api.class.php:85
 #: classes/OrderStatus.php:416 classes/OrderStatusLog.class.php:209
@@ -713,13 +729,13 @@ msgstr ""
 #: modules/order/cancel_module.class.php:178
 #: modules/order/detail_module.class.php:330
 msgid "订单已取消"
-msgstr ""
+msgstr "訂單已取消"
 
 #: admin.php:3132 classes/OrderStatusLog.class.php:211
 #: classes/OrderStatusLog.php:161 merchant.php:3618
 #: modules/order/cancel_module.class.php:180
 msgid "您的订单已取消成功！"
-msgstr ""
+msgstr "您的訂單已取消成功！"
 
 #: admin.php:3203 merchant.php:2930
 #: modules/admin/orders/cancel_module.class.php:75
@@ -750,132 +766,136 @@ msgstr ""
 #: modules/admin/user/merchant/order/list_module.class.php:33
 #: modules/order/express_module.class.php:70
 msgid "参数错误"
-msgstr ""
+msgstr "參數錯誤"
 
 #: admin.php:3207 merchant.php:3692
 msgid "返回订单详情！"
-msgstr ""
+msgstr "返回訂單詳情！"
 
 #: admin.php:3294 merchant.php:3778
 msgid "订单删除成功"
-msgstr ""
+msgstr "訂單刪除成功"
 
 #: admin.php:3317
 msgid "%s [会员邮箱：%s]"
-msgstr ""
+msgstr "%s [會員郵箱：%s]"
 
 #: admin.php:3382 admin.php:3414
 msgid "更新失败"
-msgstr ""
+msgstr "更新失敗"
 
 #: admin.php:3431 merchant.php:3904
 msgid "非特殊等级"
-msgstr ""
+msgstr "非特殊等級"
 
 #: admin.php:3439 merchant.php:3912
 msgid "暂无手机号"
-msgstr ""
+msgstr "暫無手機號"
 
 #: admin.php:3440 merchant.php:3913
 #: modules/admin/shopkeeper/order/checking/record_module.class.php:101
 msgid "未验证"
-msgstr ""
+msgstr "未驗證"
 
 #: admin.php:3440 merchant.php:3913
 #: modules/admin/shopkeeper/order/checking/record_module.class.php:98
 msgid "已验证"
-msgstr ""
+msgstr "已驗證"
 
 #: admin.php:3446 merchant.php:3919
 msgid "未找到相关会员信息"
-msgstr ""
+msgstr "未找到相關會員信息"
 
 #: admin.php:3550 merchant.php:5585 merchant.php:5606
 msgid "（需退款：%s）"
-msgstr ""
+msgstr "（需退款：%s）"
 
 #: admin.php:3555 merchant.php:5590
 msgid "（等待团购活动结束）"
-msgstr ""
+msgstr "（等待團購活動結束）"
 
 #: admin.php:3571
 msgid "（需退款：%s)"
-msgstr ""
+msgstr "（需退款：%s)"
 
 #: admin.php:3577 merchant.php:5612
 msgid "（需支付尾款：%s）"
-msgstr ""
+msgstr "（需支付尾款：%s）"
 
 #: admin_guest_stats.php:79 admin_guest_stats.php:91
 #: apis/orders_admin_purview_api.class.php:74
 #: classes/hooks/admin_orders.class.php:300
 msgid "客户统计"
-msgstr ""
+msgstr "客戶統計"
 
 #: admin_guest_stats.php:83
 msgid ""
 "欢迎访问ECJia智能后台客户统计页面，系统中所有的客户统计信息都会显示在此页面"
 "中。"
 msgstr ""
+"歡迎訪問ECJia智能後台客戶統計頁面，系統中所有的客戶統計信息都會顯示在此頁面"
+"中。"
 
 #: admin_guest_stats.php:87 admin_order_stats.php:101 admin_order_stats.php:135
 #: admin_order_stats.php:195 admin_order_stats.php:255
 #: admin_sale_general.php:86 admin_sale_general.php:111 admin_sale_list.php:93
 #: admin_sale_order.php:90 admin_users_order.php:93
 msgid "更多信息："
-msgstr ""
+msgstr "更多信息："
 
 #: admin_guest_stats.php:88
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:客户统计\" target="
 "\"_blank\">关于客户统计帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:客户统计\" target="
+"\"_blank\">關於客戶統計幫助文檔</a>"
 
 #: admin_guest_stats.php:92
 msgid "客户统计报表下载"
-msgstr ""
+msgstr "客戶統計報表下載"
 
 #: admin_guest_stats.php:151
 msgid "客户统计报表"
-msgstr ""
+msgstr "客戶統計報表"
 
 #: admin_guest_stats.php:156 admin_guest_stats.php:157
 msgid "会员购买率"
-msgstr ""
+msgstr "會員購買率"
 
 #: admin_guest_stats.php:157
 msgid "会员总数"
-msgstr ""
+msgstr "會員總數"
 
 #: admin_guest_stats.php:157
 msgid "有订单会员数"
-msgstr ""
+msgstr "有訂單會員數"
 
 #: admin_guest_stats.php:157
 msgid "会员订单总数"
-msgstr ""
+msgstr "會員訂單總數"
 
 #: admin_guest_stats.php:162
 msgid "每会员平均订单数及购物额"
-msgstr ""
+msgstr "每會員平均訂單數及購物額"
 
 #: admin_guest_stats.php:163
 msgid "会员购物总额"
-msgstr ""
+msgstr "會員購物總額"
 
 #: admin_guest_stats.php:163
 msgid "每会员订单数"
-msgstr ""
+msgstr "每會員訂單數"
 
 #: admin_guest_stats.php:163
 msgid "每会员购物额"
-msgstr ""
+msgstr "每會員購物額"
 
 #: admin_order_back.php:73 admin_order_back.php:89 admin_order_back.php:106
 #: admin_order_back.php:184 mh_back.php:71 mh_back.php:87 mh_back.php:94
 #: mh_back.php:166
 msgid "退货单列表"
-msgstr ""
+msgstr "退貨單列表"
 
 #: admin_order_back.php:76 mh_back.php:74
 msgid ""
@@ -883,39 +903,45 @@ msgid ""
 "v1.14.0 版本起请进入售后列表体验新的退货退款功能。<br><br><a href=\"%s\">进入"
 "售后列表 >></a>"
 msgstr ""
+"溫馨提示：當前退貨單功能已廢棄，退貨單列表以及詳情頁僅支持歷史數據查看。從 "
+"v1.14.0 版本起請進入售後列表體驗新的退貨退款功能。 <br><br><a href=\"%s\">進"
+"入售後列表 >></a>"
 
 #: admin_order_back.php:93
 msgid ""
 "欢迎访问ECJia智能后台退货单列表页面，系统中所有的退货单都会显示在此列表中。"
 msgstr ""
+"歡迎訪問ECJia智能後台退貨單列表頁面，系統中所有的退貨單都會顯示在此列表中。"
 
 #: admin_order_back.php:98
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:退货单列表\" target="
 "\"_blank\">关于退货单列表帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:退货单列表\" target="
+"\"_blank\">關於退貨單列表幫助文檔/a>"
 
 #: admin_order_back.php:126 admin_order_back.php:183 mh_back.php:114
 #: mh_back.php:160
 msgid "退货单操作：查看"
-msgstr ""
+msgstr "退貨單操作：查看"
 
 #: admin_order_back.php:135 admin_order_back.php:138 mh_back.php:128
 #: mh_back.php:131
 msgid "无法找到对应退货单"
-msgstr ""
+msgstr "無法找到對應退貨單"
 
 #: admin_order_back.php:202 mh_back.php:191 mh_reminder.php:140
 msgid "退货单删除成功！"
-msgstr ""
+msgstr "退貨單刪除成功！"
 
 #: admin_order_back.php:225 mh_back.php:213
 msgid "无法找到响应的发货单收货人"
-msgstr ""
+msgstr "無法找到響應的發貨單收貨人"
 
 #: admin_order_back.php:228 mh_back.php:216
 msgid "操作有误"
-msgstr ""
+msgstr "操作有誤"
 
 #: admin_order_delivery.php:75 admin_order_delivery.php:87
 #: admin_order_delivery.php:103 admin_order_delivery.php:256
@@ -925,34 +951,37 @@ msgstr ""
 #: mh_delivery.php:93 mh_delivery.php:105 mh_delivery.php:110
 #: mh_delivery.php:250 mh_delivery.php:710
 msgid "发货单列表"
-msgstr ""
+msgstr "發貨單列表"
 
 #: admin_order_delivery.php:91
 msgid ""
 "欢迎访问ECJia智能后台发货单列表页面，系统中所有的发货单都会显示在此列表中。"
 msgstr ""
+"歡迎訪問ECJia智能後台發貨單列表頁面，系統中所有的發貨單都會顯示在此列表中。"
 
 #: admin_order_delivery.php:96
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:发货单列表\" target="
 "\"_blank\">关于发货单列表帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:发货单列表\" target="
+"\"_blank\">關於發貨單列表幫助文檔</a>"
 
 #: admin_order_delivery.php:112 admin_order_delivery.php:215
 #: admin_order_delivery.php:410 classes/Enums/ShippingStatusEnum.php:29
 #: functions/global.func.php:444 merchant.php:4784 merchant.php:4935
 #: mh_delivery.php:415 mh_validate_order.php:350
-#: modules/admin/orders/detail_module.class.php:250
+#: modules/admin/orders/detail_module.class.php:248
 #: modules/admin/orders/list_module.class.php:288
 #: modules/admin/orders/today_module.class.php:233
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:617
 #: modules/order/detail_module.class.php:328
 msgid "已发货"
-msgstr ""
+msgstr "已發貨"
 
 #: admin_order_delivery.php:112
 msgid "正常"
-msgstr ""
+msgstr "正常"
 
 #: admin_order_delivery.php:131 admin_order_delivery.php:134
 #: admin_order_delivery.php:303 admin_order_delivery.php:306
@@ -968,116 +997,119 @@ msgstr ""
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:486
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:490
 msgid "无法找到对应发货单！"
-msgstr ""
+msgstr "無法找到對應發貨單！"
 
 #: admin_order_delivery.php:137 admin_order_delivery.php:255
 msgid "发货单操作：查看"
-msgstr ""
+msgstr "發貨單操作：查看"
 
 #: admin_order_delivery.php:141
 msgid ""
 "欢迎访问ECJia智能后台发货单详情页面，在此页面可以查看有关发货单的详情信息。"
 msgstr ""
+"歡迎訪問ECJia智能後台發貨單詳情頁面，在此頁面可以查看有關發貨單的詳情信息。"
 
 #: admin_order_delivery.php:146
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:发货单列表#.E8.AF.A6.E7."
 "BB.86.E4.BF.A1.E6.81.AF\" target=\"_blank\">关于发货单详情帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:发货单列表#.E8.AF.A6.E7."
+"BB.86.E4.BF.A1.E6.81.AF\" target=\"_blank\">關於發貨單詳情幫助文檔</a>"
 
 #: admin_order_delivery.php:193 functions/global.func.php:427 merchant.php:4762
-#: modules/admin/orders/detail_module.class.php:234
+#: modules/admin/orders/detail_module.class.php:232
 #: modules/admin/orders/list_module.class.php:272
 msgid "未接单"
-msgstr ""
+msgstr "未接單"
 
 #: admin_order_delivery.php:194 functions/global.func.php:428 merchant.php:4763
-#: modules/admin/orders/detail_module.class.php:235
+#: modules/admin/orders/detail_module.class.php:233
 #: modules/admin/orders/list_module.class.php:273
 msgid "已接单"
-msgstr ""
+msgstr "已接單"
 
 #: admin_order_delivery.php:195 functions/global.func.php:429 merchant.php:4764
-#: modules/admin/orders/detail_module.class.php:236
+#: modules/admin/orders/detail_module.class.php:234
 #: modules/admin/orders/list_module.class.php:274
 msgid "<font color=\"red\">取消</font>"
-msgstr ""
+msgstr "<font color=\"red\">取消</font>"
 
 #: admin_order_delivery.php:196 functions/global.func.php:430 merchant.php:4765
-#: modules/admin/orders/detail_module.class.php:237
+#: modules/admin/orders/detail_module.class.php:235
 #: modules/admin/orders/list_module.class.php:275
 msgid "<font color=\"red\">无效</font>"
-msgstr ""
+msgstr "<font color=\"red\">無效</font>"
 
 #: admin_order_delivery.php:197 functions/global.func.php:431 merchant.php:4766
-#: modules/admin/orders/detail_module.class.php:238
+#: modules/admin/orders/detail_module.class.php:236
 #: modules/admin/orders/list_module.class.php:276
 msgid "<font color=\"red\">退货</font>"
-msgstr ""
+msgstr "<font color=\"red\">退貨</font>"
 
 #: admin_order_delivery.php:199 classes/Enums/OrderStatusEnum.php:34
 #: functions/global.func.php:433 merchant.php:4768
-#: modules/admin/orders/detail_module.class.php:240
+#: modules/admin/orders/detail_module.class.php:238
 #: modules/admin/orders/list_module.class.php:278
 msgid "部分分单"
-msgstr ""
+msgstr "部分分單"
 
 #: admin_order_delivery.php:204 classes/Enums/PayStatusEnum.php:25
 #: functions/global.func.php:457 merchant.php:4773
-#: modules/admin/orders/detail_module.class.php:244
+#: modules/admin/orders/detail_module.class.php:242
 #: modules/admin/orders/list_module.class.php:282
 #: modules/admin/orders/today_module.class.php:227
 msgid "付款中"
-msgstr ""
+msgstr "付款中"
 
 #: admin_order_delivery.php:205 classes/Enums/PayStatusEnum.php:26
 #: functions/global.func.php:458 merchant.php:4774
-#: modules/admin/orders/detail_module.class.php:245
+#: modules/admin/orders/detail_module.class.php:243
 #: modules/admin/orders/list_module.class.php:283
 #: modules/admin/orders/today_module.class.php:228
 #: modules/admin/user/merchant/order/list_module.class.php:68
 #: modules/order/detail_module.class.php:325
 msgid "已付款"
-msgstr ""
+msgstr "已付款"
 
 #: admin_order_delivery.php:209 merchant.php:4778
 msgid "发货中（前台状态：未发货）"
-msgstr ""
+msgstr "發貨中（前台狀態：未發貨）"
 
 #: admin_order_delivery.php:217 classes/Enums/ShippingStatusEnum.php:32
 #: classes/Enums/ShippingStatusEnum.php:34 functions/global.func.php:446
-#: merchant.php:4786 modules/admin/orders/detail_module.class.php:252
+#: merchant.php:4786 modules/admin/orders/detail_module.class.php:250
 #: modules/admin/orders/list_module.class.php:290
 #: modules/admin/orders/today_module.class.php:235
 msgid "已发货(部分商品)"
-msgstr ""
+msgstr "已發貨(部分商品)"
 
 #: admin_order_delivery.php:287 merchant.php:4829 mh_delivery.php:281
 msgid "此订单包含的商品已被删除，请核对后再发货！"
-msgstr ""
+msgstr "此訂單包含的商品已被刪除，請核對後再發貨！"
 
 #: admin_order_delivery.php:290 merchant.php:4832
 msgid "此订单包含的商品【%s】已被移除到了回收站，请核对后再发货！"
-msgstr ""
+msgstr "此訂單包含的商品【%s】已被移除到了回收站，請核對後再發貨！"
 
 #: admin_order_delivery.php:411 classes/OrderStatusLog.class.php:168
 #: classes/OrderStatusLog.php:135 merchant.php:4936 mh_delivery.php:416
 #: mh_validate_order.php:351
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:618
 msgid "订单号为 %s 的商品已发货，请您耐心等待"
-msgstr ""
+msgstr "訂單號為 %s 的商品已發貨，請您耐心等待"
 
 #: admin_order_delivery.php:418 admin_order_delivery.php:563
 #: apis/orders_order_delivery_ship_api.class.php:198 merchant.php:4942
 #: merchant.php:5235 mh_delivery.php:422 mh_delivery.php:711
 #: mh_delivery.php:754 mh_delivery.php:840
 msgid "发货单查看"
-msgstr ""
+msgstr "發貨單查看"
 
 #: admin_order_delivery.php:439 merchant.php:5125 mh_delivery.php:601
 #: modules/admin/orders/operate/delivery_module.class.php:574
 msgid "您的订单已配备好，等待配送员取货"
-msgstr ""
+msgstr "您的訂單已配備好，等待配送員取貨"
 
 #: admin_order_delivery.php:459
 #: apis/orders_order_delivery_ship_api.class.php:225 merchant.php:5140
@@ -1087,30 +1119,30 @@ msgstr ""
 #: modules/admin/orders/payConfirm_module.class.php:450
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:653
 msgid "积分"
-msgstr ""
+msgstr "積分"
 
 #: admin_order_delivery.php:466 mh_delivery.php:622
 #: modules/admin/orders/check_module.class.php:345
 #: modules/admin/orders/payConfirm_module.class.php:456
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:659
 msgid "订单%s赠送的%s"
-msgstr ""
+msgstr "訂單%s贈送的%s"
 
 #: admin_order_delivery.php:695 classes/Helper.php:63 mh_delivery.php:883
 msgid "发货单"
-msgstr ""
+msgstr "發貨單"
 
 #: admin_order_delivery.php:708 mh_delivery.php:898
 msgid "发货单删除成功！"
-msgstr ""
+msgstr "發貨單刪除成功！"
 
 #: admin_order_delivery.php:733 mh_delivery.php:922
 msgid "无法找到相应的发货单收货人！"
-msgstr ""
+msgstr "無法找到相應的發貨單收貨人！"
 
 #: admin_order_delivery.php:736 mh_delivery.php:925
 msgid "操作有误！"
-msgstr ""
+msgstr "操作有誤！"
 
 #: admin_order_stats.php:93 admin_order_stats.php:105 admin_order_stats.php:127
 #: admin_order_stats.php:142 admin_order_stats.php:187
@@ -1120,7 +1152,7 @@ msgstr ""
 #: apis/orders_merchant_purview_api.class.php:70
 #: classes/hooks/merchant_orders.class.php:253 mh_order_stats.php:99
 msgid "订单统计"
-msgstr ""
+msgstr "訂單統計"
 
 #: admin_order_stats.php:97 admin_order_stats.php:131 admin_order_stats.php:191
 #: admin_order_stats.php:251
@@ -1128,104 +1160,112 @@ msgid ""
 "欢迎访问ECJia智能后台订单统计页面，系统中所有的订单统计信息都会显示在此页面"
 "中。"
 msgstr ""
+"歡迎訪問ECJia智能後台訂單統計頁面，系統中所有的訂單統計信息都會顯示在此頁面"
+"中。"
 
 #: admin_order_stats.php:102 admin_order_stats.php:136
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E8.AE.A2."
 "E5.8D.95.E6.A6.82.E5.86.B5\" target=\"_blank\">关于订单统计帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E8.AE.A2."
+"E5.8D.95.E6.A6.82.E5.86.B5\" target=\"_blank\">關於訂單統計幫助文檔</a>"
 
 #: admin_order_stats.php:106 admin_order_stats.php:146
 #: admin_order_stats.php:206
 msgid "订单统计报表下载"
-msgstr ""
+msgstr "訂單統計報表下載"
 
 #: admin_order_stats.php:142 admin_order_stats.php:202
 #: admin_order_stats.php:262
 msgid "该店铺不存在"
-msgstr ""
+msgstr "該店鋪不存在"
 
 #: admin_order_stats.php:196
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E9.85.8D."
 "E9.80.81.E6.96.B9.E5.BC.8F\" target=\"_blank\">关于订单统计帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E9.85.8D."
+"E9.80.81.E6.96.B9.E5.BC.8F\" target=\"_blank\">關於訂單統計幫助文檔</a>"
 
 #: admin_order_stats.php:256
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E6.94.AF.E4."
 "BB.98.E6.96.B9.E5.BC.8F\" target=\"_blank\">关于订单统计帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:订单统计#.E6.94.AF.E4."
+"BB.98.E6.96.B9.E5.BC.8F\" target=\"_blank\">關於訂單統計幫助文檔</a>"
 
 #: admin_order_stats.php:328 mh_order_stats.php:274
 msgid "订单统计报表"
-msgstr ""
+msgstr "訂單統計報表"
 
 #: admin_order_stats.php:330 mh_order_stats.php:276
 msgid "至"
-msgstr ""
+msgstr "至"
 
 #: admin_order_stats.php:337 mh_order_stats.php:283
 msgid "配送型订单"
-msgstr ""
+msgstr "配送型訂單"
 
 #: admin_order_stats.php:338 mh_order_stats.php:284
 msgid "团购型订单"
-msgstr ""
+msgstr "團購型訂單"
 
 #: admin_order_stats.php:339 mh_order_stats.php:285
 msgid "到店型订单"
-msgstr ""
+msgstr "到店型訂單"
 
 #: admin_order_stats.php:340 mh_order_stats.php:286 mh_order_stats.php:287
 msgid "自提型订单"
-msgstr ""
+msgstr "自提型訂單"
 
 #: admin_order_stats.php:341
 msgid "收银台型订单"
-msgstr ""
+msgstr "收銀台型訂單"
 
 #: admin_order_stats.php:543 classes/CustomizeOrderList.php:69
 #: classes/CustomizeOrderList.php:183 classes/CustomizeOrderList.php:272
 #: configs/jslang.php:97 configs/jslang.php:183 mh_order_stats.php:489
 msgid "配送"
-msgstr ""
+msgstr "配送"
 
 #: admin_order_stats.php:544 classes/CustomizeOrderList.php:66
 #: classes/CustomizeOrderList.php:180 classes/CustomizeOrderList.php:269
 #: configs/jslang.php:98 configs/jslang.php:184 mh_order_stats.php:490
 msgid "团购"
-msgstr ""
+msgstr "團購"
 
 #: admin_order_stats.php:580 admin_order_stats.php:610 configs/jslang.php:90
 #: configs/jslang.php:176 mh_order_stats.php:526 mh_order_stats.php:556
 msgid "待付款订单"
-msgstr ""
+msgstr "待付款訂單"
 
 #: admin_order_stats.php:585 admin_order_stats.php:610 configs/jslang.php:91
 #: configs/jslang.php:177 mh_order_stats.php:531 mh_order_stats.php:556
 msgid "待发货订单"
-msgstr ""
+msgstr "待發貨訂單"
 
 #: admin_order_stats.php:590 admin_order_stats.php:611 configs/jslang.php:92
 #: configs/jslang.php:178 mh_order_stats.php:536 mh_order_stats.php:557
 msgid "已发货订单"
-msgstr ""
+msgstr "已發貨訂單"
 
 #: admin_order_stats.php:595 admin_order_stats.php:611 configs/jslang.php:93
 #: configs/jslang.php:179 mh_order_stats.php:541 mh_order_stats.php:557
 msgid "退货订单"
-msgstr ""
+msgstr "退貨訂單"
 
 #: admin_order_stats.php:599 admin_order_stats.php:612 configs/jslang.php:94
 #: configs/jslang.php:180 mh_order_stats.php:545 mh_order_stats.php:558
 msgid "已取消订单"
-msgstr ""
+msgstr "已取消訂單"
 
 #: admin_order_stats.php:603 admin_order_stats.php:612 mh_order_stats.php:549
 #: mh_order_stats.php:558
 msgid "已完成订单"
-msgstr ""
+msgstr "已完成訂單"
 
 #: admin_sale_general.php:84 admin_sale_general.php:88
 #: admin_sale_general.php:109 admin_sale_general.php:112
@@ -1235,40 +1275,44 @@ msgstr ""
 #: classes/hooks/merchant_orders.class.php:254 mh_sale_general.php:95
 #: mh_sale_general.php:97 mh_sale_general.php:121 mh_sale_general.php:123
 msgid "销售概况"
-msgstr ""
+msgstr "銷售概況"
 
 #: admin_sale_general.php:85 admin_sale_general.php:110
 msgid ""
 "欢迎访问ECJia智能后台销售概况页面，系统中所有的销售概况信息都会显示在此页面"
 "中。"
 msgstr ""
+"歡迎訪問ECJia智能後台銷售概況頁面，系統中所有的銷售概況信息都會顯示在此頁面"
+"中。"
 
 #: admin_sale_general.php:86 admin_sale_general.php:111
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:销售概况\" target="
 "\"_blank\">关于销售概况帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:销售概况\" target="
+"\"_blank\">關於銷售概況幫助文檔</a>"
 
 #: admin_sale_general.php:89 admin_sale_general.php:113 mh_sale_general.php:98
 #: mh_sale_general.php:124
 msgid "销售概况报表下载"
-msgstr ""
+msgstr "銷售概況報表下載"
 
 #: admin_sale_general.php:232
 msgid "销售统计"
-msgstr ""
+msgstr "銷售統計"
 
 #: admin_sale_general.php:234 mh_sale_general.php:285
 msgid "时间段"
-msgstr ""
+msgstr "時間段"
 
 #: admin_sale_general.php:235 admin_users_order.php:146 mh_sale_general.php:286
 msgid "订单数(单位：个)"
-msgstr ""
+msgstr "訂單數(單位：個)"
 
 #: admin_sale_general.php:236 mh_sale_general.php:287
 msgid "营业额(单位：元)"
-msgstr ""
+msgstr "營業額(單位：元)"
 
 #: admin_sale_list.php:85 admin_sale_list.php:96
 #: apis/orders_admin_purview_api.class.php:78
@@ -1277,48 +1321,52 @@ msgstr ""
 #: classes/hooks/merchant_orders.class.php:255 mh_sale_list.php:92
 #: mh_sale_list.php:94 mh_sale_list.php:127
 msgid "销售明细"
-msgstr ""
+msgstr "銷售明細"
 
 #: admin_sale_list.php:89
 msgid ""
 "欢迎访问ECJia智能后台销售明细页面，系统中所有的销售明细信息都会显示在此列表"
 "中。"
 msgstr ""
+"歡迎訪問ECJia智能後台銷售明細頁面，系統中所有的銷售明細信息都會顯示在此列表"
+"中。"
 
 #: admin_sale_list.php:94
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:销售明细\" target="
 "\"_blank\">关于销售明细帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:销售明细\" target="
+"\"_blank\">關於銷售明細幫助文檔</a>"
 
 #: admin_sale_list.php:97
 msgid "下载销售明细报表"
-msgstr ""
+msgstr "下載銷售明細報表"
 
 #: admin_sale_list.php:158 admin_sale_order.php:170 mh_sale_list.php:134
 #: mh_sale_order.php:140
 msgid "商品名称"
-msgstr ""
+msgstr "商品名稱"
 
 #: admin_sale_list.php:158
 msgid "\t商家名称\t"
-msgstr ""
+msgstr "\t商家名稱\t"
 
 #: admin_sale_list.php:158 mh_sale_list.php:134
 msgid "订单号"
-msgstr ""
+msgstr "訂單號"
 
 #: admin_sale_list.php:158 mh_sale_list.php:134
 msgid "数量"
-msgstr ""
+msgstr "數量"
 
 #: admin_sale_list.php:158 mh_sale_list.php:134
 msgid "售价"
-msgstr ""
+msgstr "售價"
 
 #: admin_sale_list.php:158 mh_sale_list.php:134
 msgid "售出日期"
-msgstr ""
+msgstr "售出日期"
 
 #: admin_sale_order.php:82 admin_sale_order.php:95
 #: apis/orders_admin_purview_api.class.php:79
@@ -1327,185 +1375,192 @@ msgstr ""
 #: classes/hooks/merchant_orders.class.php:256 mh_sale_order.php:88
 #: mh_sale_order.php:91
 msgid "销售排行"
-msgstr ""
+msgstr "銷售排行"
 
 #: admin_sale_order.php:86
 msgid ""
 "欢迎访问ECJia智能后台销售排行页面，系统中所有的销售排行信息都会显示在此页面"
 "中。"
 msgstr ""
+"歡迎訪問ECJia智能後台銷售排行頁面，系統中所有的銷售排行信息都會顯示在此頁面"
+"中。"
 
 #: admin_sale_order.php:91
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:销售排行\" target="
 "\"_blank\">关于销售排行帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:销售排行\" target="
+"\"_blank\">關於銷售排行幫助文檔</a>"
 
 #: admin_sale_order.php:96 mh_sale_order.php:92
 msgid "销售排行报表下载"
-msgstr ""
+msgstr "銷售排行報表下載"
 
 #: admin_sale_order.php:127
 msgid "%s - 销售排行"
-msgstr ""
+msgstr "%s - 銷售排行"
 
 #: admin_sale_order.php:170 admin_users_order.php:146 mh_sale_order.php:140
 msgid "排行"
-msgstr ""
+msgstr "排行"
 
 #: admin_sale_order.php:170
 msgid "商家名称"
-msgstr ""
+msgstr "商家名稱"
 
 #: admin_sale_order.php:170 mh_sale_order.php:140
 msgid "货号"
-msgstr ""
+msgstr "貨號"
 
 #: admin_sale_order.php:170 mh_sale_order.php:140
 msgid "销售量"
-msgstr ""
+msgstr "銷售量"
 
 #: admin_sale_order.php:170 configs/jslang.php:112 configs/jslang.php:198
 #: mh_sale_order.php:140
 msgid "销售额"
-msgstr ""
+msgstr "銷售額"
 
 #: admin_sale_order.php:170 mh_sale_order.php:140
 msgid "均价"
-msgstr ""
+msgstr "均價"
 
 #: admin_users_order.php:85 admin_users_order.php:97
 #: apis/orders_admin_purview_api.class.php:77
 msgid "会员排行"
-msgstr ""
+msgstr "會員排行"
 
 #: admin_users_order.php:89
 msgid ""
 "欢迎访问ECJia智能后台会员排行页面，系统中所有的会员排行信息都会显示在此列表"
 "中。"
 msgstr ""
+"歡迎訪問ECJia智能後台會員排行頁面，系統中所有的會員排行信息都會顯示在此列表"
+"中。"
 
 #: admin_users_order.php:94
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:会员排行\" target="
 "\"_blank\">关于会员排行帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:会员排行\" target="
+"\"_blank\">關於會員排行幫助文檔</a>"
 
 #: admin_users_order.php:98
 msgid "下载会员排行报表"
-msgstr ""
+msgstr "下載會員排行報表"
 
 #: admin_users_order.php:139
 msgid "会员排行报表_%s至%s"
-msgstr ""
+msgstr "會員排行報表_%s至%s"
 
 #: admin_users_order.php:146
 msgid "会员名"
-msgstr ""
+msgstr "會員名"
 
 #: admin_users_order.php:146
 msgid "购物金额"
-msgstr ""
+msgstr "購物金額"
 
 #: apis/orders_admin_menu_api.class.php:58
 #: apis/orders_admin_purview_api.class.php:63 merchant.php:124 mh_back.php:70
 #: mh_delivery.php:92 mh_reminder.php:68 mh_validate_order.php:86
 msgid "订单管理"
-msgstr ""
+msgstr "訂單管理"
 
 #: apis/orders_admin_menu_api.class.php:61
 #: apis/orders_merchant_menu_api.class.php:66 classes/OrderExtensionCode.php:60
 #: merchant.php:145
 msgid "到店订单"
-msgstr ""
+msgstr "到店訂單"
 
 #: apis/orders_admin_menu_api.class.php:62
 #: apis/orders_merchant_menu_api.class.php:67 classes/OrderExtensionCode.php:61
 #: merchant.php:153
 msgid "自提订单"
-msgstr ""
+msgstr "自提訂單"
 
 #: apis/orders_admin_menu_api.class.php:63
 #: apis/orders_merchant_menu_api.class.php:68 classes/OrderExtensionCode.php:62
 #: merchant.php:157
 msgid "团购订单"
-msgstr ""
+msgstr "團購訂單"
 
 #: apis/orders_admin_menu_api.class.php:64
 #: apis/orders_merchant_menu_api.class.php:69 classes/OrderExtensionCode.php:63
 #: merchant.php:149
 msgid "收银台订单"
-msgstr ""
+msgstr "收銀台訂單"
 
 #: apis/orders_admin_purview_api.class.php:59
 #: apis/orders_merchant_purview_api.class.php:62
 msgid "编辑发货状态"
-msgstr ""
+msgstr "編輯發貨狀態"
 
 #: apis/orders_admin_purview_api.class.php:60
 #: apis/orders_merchant_purview_api.class.php:63
 msgid "编辑付款状态"
-msgstr ""
+msgstr "編輯付款狀態"
 
 #: apis/orders_admin_purview_api.class.php:61
 #: apis/orders_merchant_purview_api.class.php:64
 msgid "编辑订单状态"
-msgstr ""
+msgstr "編輯訂單狀態"
 
 #: apis/orders_admin_purview_api.class.php:62
 #: apis/orders_merchant_purview_api.class.php:60
 msgid "添加编辑订单"
-msgstr ""
+msgstr "添加編輯訂單"
 
 #: apis/orders_admin_purview_api.class.php:65
 msgid "查看已完成订单"
-msgstr ""
+msgstr "查看已完成訂單"
 
 #: apis/orders_admin_purview_api.class.php:66
 msgid "退款申请管理"
-msgstr ""
+msgstr "退款申請管理"
 
 #: apis/orders_admin_purview_api.class.php:67
 msgid "缺货登记管理"
-msgstr ""
+msgstr "缺貨登記管理"
 
 #: apis/orders_admin_purview_api.class.php:69
 msgid "客户流量统计"
-msgstr ""
+msgstr "客戶流量統計"
 
 #: apis/orders_admin_purview_api.class.php:70
 #: apis/orders_merchant_purview_api.class.php:66 mh_delivery.php:146
 #: mh_delivery.php:249
 msgid "查看发货单"
-msgstr ""
+msgstr "查看發貨單"
 
 #: apis/orders_admin_purview_api.class.php:71
 #: apis/orders_merchant_purview_api.class.php:67
 msgid "查看退货单"
-msgstr ""
+msgstr "查看退貨單"
 
 #: apis/orders_admin_purview_api.class.php:72
 #: apis/orders_merchant_purview_api.class.php:68
 msgid "催单列表"
-msgstr ""
+msgstr "催單列表"
 
 #: apis/orders_admin_purview_api.class.php:81
 msgid "访问购买率"
-msgstr ""
+msgstr "訪問購買率"
 
 #: apis/orders_admin_purview_api.class.php:82
 msgid "广告转化率"
-msgstr ""
+msgstr "广告转化率"
 
 #: apis/orders_admin_purview_api.class.php:84
-#: classes/SettingComponents/OrderSetting.php:71
 msgid "订单设置"
-msgstr ""
+msgstr "訂單設置"
 
 #: apis/orders_buy_order_paid_api.class.php:76
 #: apis/orders_separate_order_paid_api.class.php:85
 msgid "订单已经支付了"
-msgstr ""
+msgstr "訂單已經支付了"
 
 #: apis/orders_buy_order_paid_api.class.php:117
 #: apis/orders_buy_order_paid_api.class.php:145
@@ -1516,78 +1571,78 @@ msgstr ""
 #: apis/orders_user_account_paid_api.class.php:159
 #: modules/order/affirmReceived_module.class.php:144
 msgid "买家"
-msgstr ""
+msgstr "買家"
 
 #: apis/orders_buy_order_paid_api.class.php:234
 #: apis/orders_order_paid_api.class.php:206
 #: apis/orders_separate_order_paid_api.class.php:277
 #: apis/orders_user_account_paid_api.class.php:275
 msgid "客户付款"
-msgstr ""
+msgstr "客戶付款"
 
 #: apis/orders_buy_order_paid_api.class.php:235
 #: apis/orders_order_paid_api.class.php:207
 #: apis/orders_separate_order_paid_api.class.php:278
 #: apis/orders_user_account_paid_api.class.php:276 merchant.php:5215
 msgid "您有一笔新订单，订单号为：%s"
-msgstr ""
+msgstr "您有一筆新訂單，訂單號為：%s"
 
 #: apis/orders_merchant_menu_api.class.php:58
 #: classes/hooks/admin_orders.class.php:335 configs/package.php:55
 msgid "订单"
-msgstr ""
+msgstr "訂單"
 
 #: apis/orders_merchant_menu_api.class.php:60 merchant.php:245 merchant.php:259
 msgid "当天订单"
-msgstr ""
+msgstr "當天訂單"
 
 #: apis/orders_merchant_menu_api.class.php:61
 msgid "催单提醒"
-msgstr ""
+msgstr "催單提醒"
 
 #: apis/orders_merchant_menu_api.class.php:62
 #: apis/orders_merchant_purview_api.class.php:76 mh_validate_order.php:87
 #: mh_validate_order.php:100 mh_validate_order.php:103
 msgid "验单查询"
-msgstr ""
+msgstr "驗單查詢"
 
 #: apis/orders_merchant_menu_api.class.php:76
 msgid "评论列表"
-msgstr ""
+msgstr "評論列表"
 
 #: apis/orders_merchant_menu_api.class.php:77
 msgid "申诉列表"
-msgstr ""
+msgstr "申訴列表"
 
 #: apis/orders_merchant_purview_api.class.php:59
 msgid "查看未完成订单"
-msgstr ""
+msgstr "查看未完成訂單"
 
 #: apis/orders_merchant_purview_api.class.php:75
 msgid "订单打印"
-msgstr ""
+msgstr "訂單打印"
 
 #: apis/orders_order_auto_confirm_api.class.php:62
 msgid "调用api文件order_auto_confirm参数错误"
-msgstr ""
+msgstr "調用api文件order_auto_confirm參數錯誤"
 
 #: apis/orders_order_auto_refuse_api.class.php:61
 msgid "调用api文件order_auto_refuse参数错误"
-msgstr ""
+msgstr "調用api文件order_auto_refuse參數錯誤"
 
 #: apis/orders_order_auto_refuse_api.class.php:87 merchant.php:4177
 msgid "订单已取消！"
-msgstr ""
+msgstr "訂單已取消！"
 
 #: apis/orders_order_delivery_ship_api.class.php:213
 #: modules/admin/orders/check_module.class.php:327
 msgid "发货，订单号是 %s"
-msgstr ""
+msgstr "發貨，訂單號是 %s"
 
 #: apis/orders_order_info_api.class.php:123
 #: apis/orders_separate_order_info_api.class.php:105
 msgid "未找到相应订单！"
-msgstr ""
+msgstr "未找到相應訂單！"
 
 #: apis/orders_order_info_api.class.php:137
 #: apis/orders_order_list_api.class.php:202
@@ -1598,14 +1653,14 @@ msgstr ""
 #: modules/admin/orders/today_module.class.php:331
 #: modules/order/detail_module.class.php:367
 msgid "已完成"
-msgstr ""
+msgstr "已完成"
 
 #: apis/orders_order_info_api.class.php:140
 #: apis/orders_order_list_api.class.php:205
 #: apis/orders_separate_order_info_api.class.php:121
 #: modules/order/detail_module.class.php:370
 msgid "待收货"
-msgstr ""
+msgstr "待收貨"
 
 #: apis/orders_order_info_api.class.php:145
 #: apis/orders_order_list_api.class.php:210
@@ -1620,7 +1675,7 @@ msgstr ""
 #: modules/order/detail_module.class.php:324
 #: modules/order/detail_module.class.php:373
 msgid "待付款"
-msgstr ""
+msgstr "待付款"
 
 #: apis/orders_order_info_api.class.php:150
 #: apis/orders_order_list_api.class.php:215
@@ -1631,7 +1686,7 @@ msgstr ""
 #: modules/admin/orders/today_module.class.php:343
 #: modules/order/detail_module.class.php:376
 msgid "待发货"
-msgstr ""
+msgstr "待發貨"
 
 #: apis/orders_order_info_api.class.php:153
 #: apis/orders_order_list_api.class.php:222
@@ -1643,46 +1698,46 @@ msgstr ""
 #: modules/order/detail_module.class.php:382
 #: modules/order/detail_module.class.php:414
 msgid "已取消"
-msgstr ""
+msgstr "已取消"
 
 #: apis/orders_order_info_api.class.php:156
 #: apis/orders_separate_order_info_api.class.php:137 configs/jslang.php:61
 #: configs/jslang.php:144 merchant.php:2187
 #: modules/order/detail_module.class.php:385
 msgid "退款"
-msgstr ""
+msgstr "退款"
 
 #: apis/orders_order_info_api.class.php:189
 msgid "无需使用配送方式"
-msgstr ""
+msgstr "無需使用配送方式"
 
 #: apis/orders_order_list_api.class.php:195
 #: apis/orders_order_list_api.class.php:318
 msgid "%s 等 %s 种商品"
-msgstr ""
+msgstr "%s 等 %s 種商品"
 
 #: apis/orders_order_list_api.class.php:219 classes/OrderStatus.php:465
 #: modules/order/detail_module.class.php:379
 msgid "部分发货"
-msgstr ""
+msgstr "部分發貨"
 
 #: apis/orders_order_paid_api.class.php:79
 msgid "支付的金额有误"
-msgstr ""
+msgstr "支付的金額有誤"
 
 #: apis/orders_order_paid_api.class.php:260
 msgid "充值"
-msgstr ""
+msgstr "充值"
 
 #: apis/orders_separate_order_paid_api.class.php:82
 #: modules/order/update_module.class.php:88
 msgid "订单不存在"
-msgstr ""
+msgstr "訂單不存在"
 
 #: apis/orders_separate_order_paid_api.class.php:193
 #: apis/orders_user_account_paid_api.class.php:167
 msgid "支付订单 %s"
-msgstr ""
+msgstr "支付訂單 %s"
 
 #: apis/orders_separate_user_account_paid_api.class.php:95
 #: apis/orders_user_account_paid_api.class.php:98
@@ -1690,21 +1745,21 @@ msgstr ""
 #: modules/admin/orders/pay_module.class.php:85
 #: modules/order/pay_module.class.php:79
 msgid "订单不属于该用户"
-msgstr ""
+msgstr "訂單不屬於該用戶"
 
 #: apis/orders_separate_user_account_paid_api.class.php:103
 #: apis/orders_user_account_paid_api.class.php:105
 msgid "该订单已经支付，请勿重复支付。"
-msgstr ""
+msgstr "該訂單已經支付，請勿重複支付。"
 
 #: apis/orders_separate_user_account_paid_api.class.php:108
 #: apis/orders_user_account_paid_api.class.php:110
 msgid "您的余额不足以支付整个订单，请选择其他支付方式。"
-msgstr ""
+msgstr "您的餘額不足以支付整個訂單，請選擇其他支付方式。"
 
 #: apis/orders_store_remove_cleardata_api.class.php:63
 msgid "请求接口%s参数无效"
-msgstr ""
+msgstr "請求接口%s參數無效"
 
 #: classes/CashPaidUpdateBuyOrder.php:29
 #: modules/admin/orders/operate/shipping_detail_module.class.php:99
@@ -1712,29 +1767,29 @@ msgstr ""
 #: modules/order/comment/detail_module.class.php:87
 #: modules/order/comment_module.class.php:121
 msgid "订单信息不存在！"
-msgstr ""
+msgstr "訂單信息不存在！"
 
 #: classes/CashPaidUpdateBuyOrder.php:83 classes/OrderAutoRefuse.php:202
 #: classes/order_operate.class.php:514
 msgid "系统"
-msgstr ""
+msgstr "系統"
 
 #: classes/CashierPaidProcessOrder.php:45
 #: modules/admin/orders/payConfirm_module.class.php:128
 #: modules/admin/orders/payConfirm_module.class.php:196
 msgid "收银台配货"
-msgstr ""
+msgstr "收銀台配貨"
 
 #: classes/CashierPaidProcessOrder.php:56
 #: modules/admin/orders/payConfirm_module.class.php:133
 #: modules/admin/orders/payConfirm_module.class.php:201
 msgid "收银台生成发货单"
-msgstr ""
+msgstr "收銀台生成發貨單"
 
 #: classes/CashierPaidProcessOrder.php:74
 #: modules/admin/orders/payConfirm_module.class.php:429
 msgid "收银台发货"
-msgstr ""
+msgstr "收銀台發貨"
 
 #: classes/CashierPaidProcessOrder.php:90
 #: classes/Process_storebuyOrder_autoShip.class.php:67
@@ -1742,298 +1797,299 @@ msgstr ""
 #: classes/Process_storebuyOrder_autoShip.class.php:86
 #: classes/Process_storebuyOrder_autoShip.class.php:97
 msgid "系统操作"
-msgstr ""
+msgstr "系統操作"
 
 #: classes/CashierPaidProcessOrder.php:96
 #: modules/admin/orders/payConfirm_module.class.php:168
 #: modules/admin/orders/payConfirm_module.class.php:235
 msgid "收银台确认收货"
-msgstr ""
+msgstr "收銀台確認收貨"
 
 #: classes/CustomizeOrderList.php:60 classes/CustomizeOrderList.php:171
 #: classes/CustomizeOrderList.php:260
 msgid "扫码购"
-msgstr ""
+msgstr "掃碼購"
 
 #: classes/Enums/OrderStatusEnum.php:28
 msgid "未确认"
-msgstr ""
+msgstr "未確認"
 
 #: classes/Enums/OrderStatusEnum.php:29
 msgid "已确认"
-msgstr ""
+msgstr "已確認"
 
 #: classes/Enums/ShippingStatusEnum.php:31 classes/OrderStatus.php:104
 #: classes/OrderStatus.php:365
 msgid "备货中"
-msgstr ""
+msgstr "備貨中"
 
 #: classes/Enums/ShippingStatusEnum.php:33 classes/OrderStatus.php:440
 msgid "发货中(处理分单)"
-msgstr ""
+msgstr "發貨中(處理分單)"
 
 #: classes/Helper.php:60
 msgid "生成"
-msgstr ""
+msgstr "生成"
 
 #: classes/Helper.php:61
 msgid "批量设置"
-msgstr ""
+msgstr "批量設置"
 
 #: classes/Helper.php:64 mh_back.php:179
 msgid "退货单"
-msgstr ""
+msgstr "退貨單"
 
 #: classes/Helper.php:65
 msgid "订单支付方式"
-msgstr ""
+msgstr "訂單支付方式"
 
 #: classes/Helper.php:66
 msgid "订单状态"
-msgstr ""
+msgstr "訂單狀態"
 
 #: classes/Helper.php:67
 msgid "订单收货人"
-msgstr ""
+msgstr "訂單收貨人"
 
 #: classes/OrderAutoRefuse.php:201
 msgid "系统自动退款"
-msgstr ""
+msgstr "系統自動退款"
 
 #: classes/OrderAutoRefuse.php:205 classes/OrderAutoRefuse.php:209
 #: merchant.php:4242 merchant.php:4246
 #: modules/order/detail_module.class.php:335
 msgid "无法接单"
-msgstr ""
+msgstr "無法接單"
 
 #: classes/OrderAutoRefuse.php:205 classes/OrderAutoRefuse.php:209
 #: merchant.php:4242 merchant.php:4246
 msgid "等待商家退款！"
-msgstr ""
+msgstr "等待商家退款！"
 
 #: classes/OrderAutoRefuse.php:308
 msgid "系统自动拒单自动退款"
-msgstr ""
+msgstr "系統自動拒單自動退款"
 
 #: classes/OrderAutoRefuse.php:312
 msgid "系统自动拒单自动退款至余额"
-msgstr ""
+msgstr "系統自動拒單自動退款至餘額"
 
 #: classes/OrderStatus.php:116 classes/OrderStatus.php:376
 msgid "已发货（部分商品）"
-msgstr ""
+msgstr "已發貨（部分商品）"
 
 #: classes/OrderStatus.php:122 classes/OrderStatus.php:382
 msgid "已申请退货"
-msgstr ""
+msgstr "已申請退貨"
 
 #: classes/OrderStatus.php:127 classes/OrderStatus.php:387
 msgid "交易完成"
-msgstr ""
+msgstr "交易完成"
 
 #: classes/OrderStatus.php:396 classes/OrderStatus.php:403
 msgid "买家未付款"
-msgstr ""
+msgstr "買家未付款"
 
 #: classes/OrderStatus.php:397
 msgid "商家未接单"
-msgstr ""
+msgstr "商家未接單"
 
 #: classes/OrderStatus.php:398
 msgid "商家未发货"
-msgstr ""
+msgstr "商家未發貨"
 
 #: classes/OrderStatus.php:407 classes/OrderStatus.php:423
 msgid "货到付款"
-msgstr ""
+msgstr "貨到付款"
 
 #: classes/OrderStatus.php:411 classes/OrderStatus.php:425
 msgid "买家已付款"
-msgstr ""
+msgstr "買家已付款"
 
 #: classes/OrderStatus.php:419 classes/OrderStatus.php:428
 #: classes/OrderStatusLog.class.php:359 merchant.php:3018
 #: modules/order/detail_module.class.php:334
 msgid "商家已接单"
-msgstr ""
+msgstr "商家已接單"
 
 #: classes/OrderStatus.php:432 classes/OrderStatus.php:444
 msgid "商家已发货"
-msgstr ""
+msgstr "商家已發貨"
 
 #: classes/OrderStatus.php:436
 msgid "商家已发货（部分商品）"
-msgstr ""
+msgstr "商家已發貨（部分商品）"
 
 #: classes/OrderStatus.php:459
 msgid "待接单"
-msgstr ""
+msgstr "待接單"
 
 #: classes/OrderStatusLog.class.php:63 classes/OrderStatusLog.php:77
 #: modules/order/detail_module.class.php:323
 msgid "订单提交成功"
-msgstr ""
+msgstr "訂單提交成功"
 
 #: classes/OrderStatusLog.class.php:65 classes/OrderStatusLog.php:78
 msgid "下单成功，订单号：%s"
-msgstr ""
+msgstr "下單成功，訂單號：%s"
 
 #: classes/OrderStatusLog.class.php:82 classes/OrderStatusLog.php:89
 msgid "请尽快支付该订单，超时将会自动取消订单"
-msgstr ""
+msgstr "請盡快支付該訂單，超時將會自動取消訂單"
 
 #: classes/OrderStatusLog.class.php:103 classes/OrderStatusLog.php:100
 msgid "已通知商家处理，请耐心等待"
-msgstr ""
+msgstr "已通知商家處理，請耐心等待"
 
 #: classes/OrderStatusLog.class.php:118 classes/OrderStatusLog.php:110
 #: modules/order/detail_module.class.php:326
 msgid "等待商家接单"
-msgstr ""
+msgstr "等待商家接單"
 
 #: classes/OrderStatusLog.class.php:120 classes/OrderStatusLog.php:111
 msgid "订单已通知商家，等待商家处理"
-msgstr ""
+msgstr "訂單已通知商家，等待商家處理"
 
 #: classes/OrderStatusLog.class.php:184 classes/OrderStatusLog.php:145
 #: modules/order/affirmReceived_module.class.php:126
 #: modules/order/detail_module.class.php:331
 msgid "已确认收货"
-msgstr ""
+msgstr "已確認收貨"
 
 #: classes/OrderStatusLog.class.php:186 classes/OrderStatusLog.php:146
 #: modules/order/affirmReceived_module.class.php:128
 msgid "宝贝已签收，购物愉快！"
-msgstr ""
+msgstr "寶貝已簽收，購物愉快！"
 
 #: classes/OrderStatusLog.class.php:192 classes/OrderStatusLog.php:149
 #: modules/order/affirmReceived_module.class.php:135
 #: modules/order/detail_module.class.php:332
 msgid "订单已完成"
-msgstr ""
+msgstr "訂單已完成"
 
 #: classes/OrderStatusLog.class.php:194 classes/OrderStatusLog.php:150
 msgid "感谢您在 %s 购物，欢迎您再次光临！"
-msgstr ""
+msgstr "感謝您在 %s 購物，歡迎您再次光臨！"
 
 #: classes/OrderStatusLog.class.php:225
 msgid "超时未支付取消"
-msgstr ""
+msgstr "超時未支付取消"
 
 #: classes/OrderStatusLog.class.php:227
 msgid "订单超时未支付，已自动取消！"
-msgstr ""
+msgstr "訂單超時未支付，已自動取消！"
 
 #: classes/OrderStatusLog.class.php:241 classes/OrderStatusLog.php:173
 msgid "申请审核已通过"
-msgstr ""
+msgstr "申請審核已通過"
 
 #: classes/OrderStatusLog.class.php:243 classes/OrderStatusLog.class.php:269
 #: classes/OrderStatusLog.php:175 classes/OrderStatusLog.php:193
 msgid "申请审核未通过"
-msgstr ""
+msgstr "申請審核未通過"
 
 #: classes/OrderStatusLog.class.php:246 classes/OrderStatusLog.php:178
 msgid "订单退款申请已处理"
-msgstr ""
+msgstr "訂單退款申請已處理"
 
 #: classes/OrderStatusLog.class.php:267 classes/OrderStatusLog.php:191
 msgid "申请审核已通过，请选择返回方式"
-msgstr ""
+msgstr "申請審核已通過，請選擇返回方式"
 
 #: classes/OrderStatusLog.class.php:272 classes/OrderStatusLog.php:189
 msgid "订单退货退款申请已处理"
-msgstr ""
+msgstr "訂單退貨退款申請已處理"
 
 #: classes/OrderStatusLog.class.php:289 classes/OrderStatusLog.php:207
 msgid "商家已确认收货，等价商家退款"
-msgstr ""
+msgstr "商家已確認收貨，等價商家退款"
 
 #: classes/OrderStatusLog.class.php:291
 msgid "商家未收到货"
-msgstr ""
+msgstr "商家未收到貨"
 
 #: classes/OrderStatusLog.class.php:294 classes/OrderStatusLog.php:205
 msgid "确认收货处理"
-msgstr ""
+msgstr "確認收貨處理"
 
 #: classes/OrderStatusLog.class.php:314
 msgid "您的退款 %s 元，已退回至您的 %s 账户，请查收"
-msgstr ""
+msgstr "您的退款 %s 元，已退回至您的 %s 賬戶，請查收"
 
 #: classes/OrderStatusLog.class.php:316 classes/OrderStatusLog.php:222
 msgid "您的退款 %s 元，已退回至您的余额，请查收"
-msgstr ""
+msgstr "您的退款 %s 元，已退回至您的餘額，請查收"
 
 #: classes/OrderStatusLog.class.php:319 classes/OrderStatusLog.php:221
 msgid "退款到账"
-msgstr ""
+msgstr "退款到賬"
 
 #: classes/OrderStatusLog.class.php:343
 msgid "保证金支付成功，等活动成功结束后尽快支付商品部分余款！"
-msgstr ""
+msgstr "保證金支付成功，等活動成功結束後儘快支付商品部分餘款！"
 
 #: classes/OrderStatusLog.class.php:361 merchant.php:3018
 msgid "已被商家接单，订单正在备货中"
-msgstr ""
+msgstr "已被商家接單，訂單正在備貨中"
 
 #: classes/OrderStatusLog.php:209
 msgid "商家拒绝确认收货，理由：商品没有问题"
-msgstr ""
+msgstr "商家拒絕確認收貨，理由：商品沒有問題"
 
 #: classes/PaidOrder/PaidOrderProcess.php:74
 #: modules/admin/orders/payConfirm_module.class.php:183
 #: modules/admin/orders/payConfirm_module.class.php:257
 msgid "订单支付成功！"
-msgstr ""
+msgstr "订单支付成功！"
 
 #: classes/SendPickupCode.php:71
 msgid "订单收货验证码"
-msgstr ""
+msgstr "訂單收貨驗證碼"
 
 #: classes/SendPickupCode.php:72
 msgid ""
 "尊敬的%s，您在我们网站已成功下单。订单号：%s，收货验证码为：%s。请保管好您的"
 "验证码，以便收货验证"
 msgstr ""
+"尊敬的%s，您在我們網站已成功下單。訂單號：%s，收貨驗證碼為：%s。請保管好您的"
+"驗證碼，以便收貨驗證"
 
-#: classes/SettingComponents/OrderSetting.php:107
+#: classes/SettingComponents/OrderSetting.php:117
 msgid "确认订单时"
-msgstr ""
+msgstr "確認訂單時"
 
-#: classes/SettingComponents/OrderSetting.php:110
 #: classes/SettingComponents/OrderSetting.php:120
 #: classes/SettingComponents/OrderSetting.php:130
 #: classes/SettingComponents/OrderSetting.php:140
+#: classes/SettingComponents/OrderSetting.php:150
 msgid "不发送邮件"
-msgstr ""
+msgstr "不發送郵件"
 
-#: classes/SettingComponents/OrderSetting.php:111
 #: classes/SettingComponents/OrderSetting.php:121
 #: classes/SettingComponents/OrderSetting.php:131
 #: classes/SettingComponents/OrderSetting.php:141
+#: classes/SettingComponents/OrderSetting.php:151
 msgid "发送邮件"
-msgstr ""
-
-#: classes/SettingComponents/OrderSetting.php:117
-msgid "发货时"
-msgstr ""
+msgstr "發送郵件"
 
 #: classes/SettingComponents/OrderSetting.php:127
-#: classes/SettingComponents/OrderSetting.php:217
-msgid "取消订单时"
-msgstr ""
+msgid "发货时"
+msgstr "發貨時"
 
 #: classes/SettingComponents/OrderSetting.php:137
-#: classes/SettingComponents/OrderSetting.php:207
-msgid "把订单设为无效时"
-msgstr ""
+#: classes/SettingComponents/OrderSetting.php:227
+msgid "取消订单时"
+msgstr "取消訂單時"
 
 #: classes/SettingComponents/OrderSetting.php:147
-msgid "设置订单为“已付款”时"
-msgstr ""
+#: classes/SettingComponents/OrderSetting.php:217
+msgid "把订单设为无效时"
+msgstr "把訂單設為無效時"
 
-#: classes/SettingComponents/OrderSetting.php:150
+#: classes/SettingComponents/OrderSetting.php:157
+msgid "设置订单为“已付款”时"
+msgstr "設置訂單為“已付款”時"
+
 #: classes/SettingComponents/OrderSetting.php:160
 #: classes/SettingComponents/OrderSetting.php:170
 #: classes/SettingComponents/OrderSetting.php:180
@@ -2041,10 +2097,10 @@ msgstr ""
 #: classes/SettingComponents/OrderSetting.php:200
 #: classes/SettingComponents/OrderSetting.php:210
 #: classes/SettingComponents/OrderSetting.php:220
+#: classes/SettingComponents/OrderSetting.php:230
 msgid "无需填写备注"
-msgstr ""
+msgstr "無需填寫備註"
 
-#: classes/SettingComponents/OrderSetting.php:151
 #: classes/SettingComponents/OrderSetting.php:161
 #: classes/SettingComponents/OrderSetting.php:171
 #: classes/SettingComponents/OrderSetting.php:181
@@ -2052,340 +2108,339 @@ msgstr ""
 #: classes/SettingComponents/OrderSetting.php:201
 #: classes/SettingComponents/OrderSetting.php:211
 #: classes/SettingComponents/OrderSetting.php:221
+#: classes/SettingComponents/OrderSetting.php:231
 msgid "必须填写备注"
-msgstr ""
-
-#: classes/SettingComponents/OrderSetting.php:157
-msgid "设置订单为“未付款”时"
-msgstr ""
+msgstr "必須填寫備註"
 
 #: classes/SettingComponents/OrderSetting.php:167
-msgid "设置订单为“已发货”时"
-msgstr ""
+msgid "设置订单为“未付款”时"
+msgstr "設置訂單為“未付款”時"
 
 #: classes/SettingComponents/OrderSetting.php:177
-msgid "设置订单为“收货确认”时"
-msgstr ""
+msgid "设置订单为“已发货”时"
+msgstr "設置訂單為“已發貨”時"
 
 #: classes/SettingComponents/OrderSetting.php:187
-msgid "设置订单为“未发货”时"
-msgstr ""
+msgid "设置订单为“收货确认”时"
+msgstr "設置訂單為“收貨確認”時"
 
 #: classes/SettingComponents/OrderSetting.php:197
+msgid "设置订单为“未发货”时"
+msgstr "設置訂單為“未發貨”時"
+
+#: classes/SettingComponents/OrderSetting.php:207
 msgid "退货时"
-msgstr ""
-
-#: classes/SettingComponents/OrderSetting.php:227
-msgid "下订单时是否给客服发邮件"
-msgstr ""
-
-#: classes/SettingComponents/OrderSetting.php:228
-msgid "网店信息中的客服邮件地址不为空时，该选项有效。"
-msgstr ""
-
-#: classes/SettingComponents/OrderSetting.php:230
-#: classes/SettingComponents/OrderSetting.php:251
-#: classes/SettingComponents/OrderSetting.php:268
-msgid "否"
-msgstr ""
-
-#: classes/SettingComponents/OrderSetting.php:231
-#: classes/SettingComponents/OrderSetting.php:252
-#: classes/SettingComponents/OrderSetting.php:269
-msgid "是"
-msgstr ""
+msgstr "退貨時"
 
 #: classes/SettingComponents/OrderSetting.php:237
-msgid "购物车里显示商品方式"
-msgstr ""
+msgid "下订单时是否给客服发邮件"
+msgstr "下訂單時是否給客服發郵件"
+
+#: classes/SettingComponents/OrderSetting.php:238
+msgid "网店信息中的客服邮件地址不为空时，该选项有效。"
+msgstr "網店信息中的客服郵件地址不為空時，該選項有效。"
 
 #: classes/SettingComponents/OrderSetting.php:240
-msgid "只显示文字"
-msgstr ""
+#: classes/SettingComponents/OrderSetting.php:261
+msgid "否"
+msgstr "否"
 
 #: classes/SettingComponents/OrderSetting.php:241
+#: classes/SettingComponents/OrderSetting.php:262
+msgid "是"
+msgstr "是"
+
+#: classes/SettingComponents/OrderSetting.php:247
+msgid "购物车里显示商品方式"
+msgstr "購物車裡顯示商品方式"
+
+#: classes/SettingComponents/OrderSetting.php:250
+msgid "只显示文字"
+msgstr "只顯示文字"
+
+#: classes/SettingComponents/OrderSetting.php:251
 msgid "只显示图片"
-msgstr ""
+msgstr "只顯示圖片"
 
-#: classes/SettingComponents/OrderSetting.php:242
+#: classes/SettingComponents/OrderSetting.php:252
 msgid "显示文字与图片"
-msgstr ""
-
-#: classes/SettingComponents/OrderSetting.php:248
-msgid "购物车里是否显示商品属性"
-msgstr ""
+msgstr "顯示文字與圖片"
 
 #: classes/SettingComponents/OrderSetting.php:258
-msgid "未付款订单取消"
-msgstr ""
+msgid "购物车里是否显示商品属性"
+msgstr "購物車裡是否顯示商品屬性"
 
-#: classes/SettingComponents/OrderSetting.php:259
+#: classes/SettingComponents/OrderSetting.php:268
+msgid "未付款订单取消"
+msgstr "未付款訂單取消"
+
+#: classes/SettingComponents/OrderSetting.php:269
 msgid ""
 "会员未付款的订单，在设置时间（单位：分钟）后若还没有支付，系统将会自动取消未"
 "付款的订单，默认0代表不设置，不设置则未支付订单将不会自动取消。"
 msgstr ""
-
-#: classes/SettingComponents/OrderSetting.php:265
-msgid "是否开启新订单提醒"
-msgstr ""
+"會員未付款的訂單，在設置時間（單位：分鐘）後若還沒有支付，系統將會自動取消未"
+"付款的訂單，默認0代表不設置，不設置則未支付訂單將不會自動取消。"
 
 #: classes/StoreCleanHandlers/StoreOrdersClear.php:34
 msgid "店铺订单"
-msgstr ""
+msgstr "店鋪訂單"
 
 #: classes/StoreCleanHandlers/StoreOrdersClear.php:44
 msgid ""
 "将店铺内所有订单（包含配送、自提、到店、收银台订单、团购、买单订单）、售后、"
 "发货单、结算全部删除"
 msgstr ""
+"將店舖內所有訂單（包含配送、自提、到店、收銀台訂單、團購、買單訂單）、售後、"
+"發貨單、結算全部刪除"
 
 #: classes/StoreCleanHandlers/StoreOrdersClear.php:110
 msgid "店铺名是%s"
-msgstr ""
+msgstr "店鋪名是%s"
 
 #: classes/StoreCleanHandlers/StoreOrdersClear.php:110
 msgid "店铺ID是%s"
-msgstr ""
+msgstr "店鋪ID是%s"
 
 #: classes/hooks/admin_orders.class.php:64
 msgid "最新订单"
-msgstr ""
+msgstr "最新訂單"
 
 #: classes/hooks/admin_orders.class.php:336
 msgid "订单处理"
-msgstr ""
+msgstr "訂單處理"
 
 #: classes/hooks/api_orders.class.php:62
 #: classes/hooks/front_orders.class.php:62
 msgid "到店购订单 %s 发货失败"
-msgstr ""
+msgstr "到店購訂單 %s 發貨失敗"
 
 #: classes/order_operate.class.php:182
 msgid "您的订单%s,已分单，正在发货中"
-msgstr ""
+msgstr "您的訂單%s,已分單，正在發貨中"
 
 #: classes/order_operate.class.php:243 classes/order_operate.class.php:249
 #: modules/admin/orders/operate/delivery_module.class.php:177
 #: modules/admin/orders/operate/delivery_module.class.php:183
 msgid "此单发货数量不能超出订单商品数量！"
-msgstr ""
+msgstr "此單發貨數量不能超出訂單商品數量！"
 
 #: classes/order_operate.class.php:258 classes/order_operate.class.php:397
 msgid "操作失败！"
-msgstr ""
+msgstr "操作失敗！"
 
 #: classes/order_operate.class.php:272 classes/order_operate.class.php:308
 #: modules/admin/orders/operate/delivery_module.class.php:206
 #: modules/admin/orders/operate/delivery_module.class.php:244
 msgid "商品已缺货！"
-msgstr ""
+msgstr "商品已缺貨！"
 
 #: classes/order_operate.class.php:289
 #: modules/admin/orders/operate/delivery_module.class.php:223
 msgid "虚拟卡已缺货！"
-msgstr ""
+msgstr "虛擬卡已缺貨！"
 
 #: classes/order_ship.class.php:61
 #: modules/admin/orders/payConfirm_module.class.php:267
 msgid "订单发货处理【订单id|%s】"
-msgstr ""
+msgstr "訂單發貨處理【訂單id|%s】"
 
 #: classes/order_ship.class.php:106
 #: modules/admin/orders/payConfirm_module.class.php:327
 msgid "缺货处理a"
-msgstr ""
+msgstr "缺貨處理a"
 
 #: classes/order_ship.class.php:131
 #: modules/admin/orders/payConfirm_module.class.php:362
 msgid "缺货处理b"
-msgstr ""
+msgstr "缺貨處理b"
 
 #: classes/order_ship.class.php:197
 #: modules/admin/orders/payConfirm_module.class.php:434
 msgid "判断是否全部发货%s"
-msgstr ""
+msgstr "判斷是否全部發貨%s"
 
 #: classes/order_ship.class.php:201
 #: modules/admin/orders/payConfirm_module.class.php:439
 msgid "订单发货，积分红包处理"
-msgstr ""
+msgstr "訂單發貨，積分紅包處理"
 
 #: configs/jslang.php:51 configs/jslang.php:132
 msgid "下单开始时间不能大于或等于结束时间"
-msgstr ""
+msgstr "下單開始時間不能大於或等於結束時間"
 
 #: configs/jslang.php:63 configs/jslang.php:133
 msgid "请选择需要操作的订单！"
-msgstr ""
+msgstr "請選擇需要操作的訂單！"
 
 #: configs/jslang.php:64
 msgid "未搜索到会员信息"
-msgstr ""
+msgstr "未搜索到會員信息"
 
 #: configs/jslang.php:65
 msgid "请搜索并选择会员"
-msgstr ""
+msgstr "請搜索並選擇會員"
 
 #: configs/jslang.php:66 configs/jslang.php:156
 msgid "未搜索到商品信息"
-msgstr ""
+msgstr "未搜索到商品信息"
 
 #: configs/jslang.php:67 configs/jslang.php:134
 msgid "删除订单将清除该订单的所有信息。您确定要这么做吗？"
-msgstr ""
+msgstr "刪除訂單將清除該訂單的所有信息。您確定要這麼做嗎？"
 
 #: configs/jslang.php:68 configs/jslang.php:148
 msgid "确定"
-msgstr ""
+msgstr "確定"
 
 #: configs/jslang.php:69 configs/jslang.php:147
 msgid "请填写退款说明！"
-msgstr ""
+msgstr "請填寫退款說明！"
 
 #: configs/jslang.php:70 configs/jslang.php:149
 msgid "请输入取消原因！"
-msgstr ""
+msgstr "請輸入取消原因！"
 
 #: configs/jslang.php:71 configs/jslang.php:163
 msgid "请填写收货人！"
-msgstr ""
+msgstr "請填寫收貨人！"
 
 #: configs/jslang.php:72 configs/jslang.php:164
 msgid "请输入电子邮件！"
-msgstr ""
+msgstr "請輸入電子郵件！"
 
 #: configs/jslang.php:73 configs/jslang.php:165
 msgid "请输入电话号码！"
-msgstr ""
+msgstr "請輸入電話號碼！"
 
 #: configs/jslang.php:74 configs/jslang.php:166
 msgid "请输入详细地址！"
-msgstr ""
+msgstr "請輸入詳細地址！"
 
 #: configs/jslang.php:75 configs/jslang.php:167
 msgid "请选择所在地区！"
-msgstr ""
+msgstr "請選擇所在地區！"
 
 #: configs/jslang.php:76 configs/jslang.php:153
 msgid "请选择配送方式！"
-msgstr ""
+msgstr "請選擇配送方式！"
 
 #: configs/jslang.php:77 configs/jslang.php:154
 msgid "请选择支付方式！"
-msgstr ""
+msgstr "請選擇支付方式！"
 
 #: configs/jslang.php:78 configs/jslang.php:157
 msgid "无品牌"
-msgstr ""
+msgstr "無品牌"
 
 #: configs/jslang.php:79 configs/jslang.php:158
 msgid "市场价"
-msgstr ""
+msgstr "市場價"
 
 #: configs/jslang.php:80 configs/jslang.php:159
 msgid "本店价"
-msgstr ""
+msgstr "本店價"
 
 #: configs/jslang.php:81 configs/jslang.php:160
 msgid "自定义价格"
-msgstr ""
+msgstr "自定義價格"
 
 #: configs/jslang.php:82 configs/jslang.php:161
 msgid "暂无其他属性"
-msgstr ""
+msgstr "暫無其他屬性"
 
 #: configs/jslang.php:83 configs/jslang.php:162
 msgid "还没有添加商品哦！请搜索后加入订单！"
-msgstr ""
+msgstr "還沒有添加商品哦！請搜索後加入訂單！"
 
 #: configs/jslang.php:86 configs/jslang.php:172
 msgid "请选择年份"
-msgstr ""
+msgstr "請選擇年份"
 
 #: configs/jslang.php:87
 msgid "%s：%s单"
-msgstr ""
+msgstr "%s：%s單"
 
 #: configs/jslang.php:95 configs/jslang.php:113 configs/jslang.php:181
 #: configs/jslang.php:199
 msgid "没有统计数据"
-msgstr ""
+msgstr "沒有統計數據"
 
 #: configs/jslang.php:96 configs/jslang.php:182
 msgid "订单数量：%s"
-msgstr ""
+msgstr "訂單數量：%s"
 
 #: configs/jslang.php:104 configs/jslang.php:190
 msgid "查询的开始年份不能为空！"
-msgstr ""
+msgstr "查詢的開始年份不能為空！"
 
 #: configs/jslang.php:105 configs/jslang.php:191
 msgid "查询的结束年份不能为空！"
-msgstr ""
+msgstr "查詢的結束年份不能為空！"
 
 #: configs/jslang.php:106 configs/jslang.php:118 configs/jslang.php:123
 #: configs/jslang.php:128 configs/jslang.php:192 configs/jslang.php:204
 #: configs/jslang.php:209
 msgid "查询的开始时间不能超于结束时间！"
-msgstr ""
+msgstr "查詢的開始時間不能超於結束時間！"
 
 #: configs/jslang.php:109 configs/jslang.php:195
 msgid "单"
-msgstr ""
+msgstr "單"
 
 #: configs/jslang.php:110 configs/jslang.php:196
 msgid "订单数量"
-msgstr ""
+msgstr "訂單數量"
 
 #: configs/jslang.php:111 configs/jslang.php:197
 msgid "元"
-msgstr ""
+msgstr "元"
 
 #: configs/jslang.php:116 configs/jslang.php:121 configs/jslang.php:126
 #: configs/jslang.php:202 configs/jslang.php:207
 msgid "查询的开始时间不能为空！"
-msgstr ""
+msgstr "查詢的開始時間不能為空！"
 
 #: configs/jslang.php:117 configs/jslang.php:122 configs/jslang.php:127
 #: configs/jslang.php:203 configs/jslang.php:208
 msgid "查询的结束时间不能为空！"
-msgstr ""
+msgstr "查詢的結束時間不能為空！"
 
 #: configs/jslang.php:146
 msgid "订单操作"
-msgstr ""
+msgstr "訂單操作"
 
 #: configs/jslang.php:150
 msgid "请选择退款方式"
-msgstr ""
+msgstr "請選擇退款方式"
 
 #: configs/jslang.php:151
 msgid "请选择退款原因"
-msgstr ""
+msgstr "請選擇退款原因"
 
 #: configs/jslang.php:152
 msgid "请填写拒绝原因"
-msgstr ""
+msgstr "請填寫拒絕原因"
 
 #: configs/jslang.php:155 mh_delivery.php:308
 msgid "请填写运单编号"
-msgstr ""
+msgstr "請填寫運單編號"
 
 #: configs/jslang.php:168
 msgid "20秒自动刷新"
-msgstr ""
+msgstr "20秒自動刷新"
 
 #: configs/jslang.php:169
 msgid "%s秒自动刷新"
-msgstr ""
+msgstr "%s秒自動刷新"
 
 #: configs/jslang.php:173
 msgid "查询的时间不能为空！"
-msgstr ""
+msgstr "查詢的時間不能為空！"
 
 #: configs/jslang.php:212
 msgid "请输入取货验证码！"
-msgstr ""
+msgstr "請輸入取貨驗證碼！"
 
 #: configs/package.php:56
 msgid ""
@@ -2397,282 +2452,291 @@ msgid ""
 "提示功能，订单管理同时与会员管理相连接，可查询历史订单情况以及订单的执行情"
 "况。该应用是商城系统必不可少的应用。"
 msgstr ""
+"訂單管理應用是ECJIA團隊傾力打造的核心應用，是對用戶訂單下達的各種指令進行管"
+"理、查詢、修改、打印等功能，同時將業務部門處理信息反饋至用戶。訂單管理應用包"
+"括：訂單處理，訂單確認，訂單添加，訂單狀態管理（包括取消、付款、合併、發貨等"
+"多種狀態，以及訂單出庫和訂單查詢）等；應用可實現單次及批量訂單，對訂單缺貨、"
+"發貨、退貨進行登記管理，訂單管理與庫存管理相連接，並且在下訂單時有庫存預警及"
+"提示功能，訂單管理同時與會員管理相連接，可查詢歷史訂單情況以及訂單的執行情"
+"況。該應用是商城系統必不可少的應用。"
 
 #: merchant.php:369 merchant.php:1045 merchant.php:1182 merchant.php:2210
 #: merchant.php:2315 merchant.php:2453 merchant.php:2456 merchant.php:4333
 #: merchant.php:5274 mh_back.php:187 mh_delivery.php:144
 msgid "无法找到对应的订单！"
-msgstr ""
+msgstr "無法找到對應的訂單！"
 
 #: merchant.php:497
 msgid "商品站外JS投放(来自站点：%s)"
-msgstr ""
+msgstr "商品站外JS投放(來自站點：%s)"
 
 #: merchant.php:1051
 msgid "订单不存在请重新搜索！"
-msgstr ""
+msgstr "訂單不存在請重新搜索！"
 
 #: merchant.php:1186 merchant.php:5278
 msgid "该订单已失效无法操作！"
-msgstr ""
+msgstr "該訂單已失效無法操作！"
 
 #: merchant.php:1207
 msgid "订单已发货！无法修改订单了（配送方式和发货单号除外）！"
-msgstr ""
+msgstr "訂單已發貨！無法修改訂單了（配送方式和發貨單號除外）！"
 
 #: merchant.php:1436
 msgid "订单生成失败！请重新尝试！"
-msgstr ""
+msgstr "訂單生成失敗！請重新嘗試！"
 
 #: merchant.php:1492
 msgid "编辑商品，订单号是%s"
-msgstr ""
+msgstr "編輯商品，訂單號是%s"
 
 #: merchant.php:1523
 msgid "您还没有选择商品,请搜索后加入订单哦！"
-msgstr ""
+msgstr "您還沒有選擇商品,請搜索後加入訂單哦！"
 
 #: merchant.php:1655
 msgid "商品成功加入订单！"
-msgstr ""
+msgstr "商品成功加入訂單！"
 
 #: merchant.php:1704
 msgid "编辑收货人信息，订单编号是%s"
-msgstr ""
+msgstr "編輯收貨人信息，訂單編號是%s"
 
 #: merchant.php:1770
 msgid "编辑支付方式与配送方式，订单是%s"
-msgstr ""
+msgstr "編輯支付方式與配送方式，訂單是%s"
 
 #: merchant.php:1856
 msgid "编辑支付方式与配送方式，订单号是%s"
-msgstr ""
+msgstr "編輯支付方式與配送方式，訂單號是%s"
 
 #: merchant.php:1912
 msgid "其他信息，订单号是%s"
-msgstr ""
+msgstr "其他信息，訂單號是%s"
 
 #: merchant.php:2020
 msgid "费用信息，订单编是%s"
-msgstr ""
+msgstr "費用信息，訂單編是%s"
 
 #: merchant.php:2747
 msgid "设为确认, 订单号是%s"
-msgstr ""
+msgstr "設為確認, 訂單號是%s"
 
 #: merchant.php:2812
 msgid "设为无效, 订单号是%s"
-msgstr ""
+msgstr "設為無效, 訂單號是%s"
 
 #: merchant.php:2868
 msgid "设为取消, 订单号是%s"
-msgstr ""
+msgstr "設為取消, 訂單號是%s"
 
 #: merchant.php:3013
 msgid "设为确认，订单号是%s"
-msgstr ""
+msgstr "設為確認，訂單號是%s"
 
 #: merchant.php:3110
 msgid "设为未付款，订单号是%s"
-msgstr ""
+msgstr "設為未付款，訂單號是%s"
 
 #: merchant.php:3504
 msgid "取消发货，订单号是%s"
-msgstr ""
+msgstr "取消發貨，訂單號是%s"
 
 #: merchant.php:3623
 msgid "设为取消，订单号是%s"
-msgstr ""
+msgstr "設為取消，訂單號是%s"
 
 #: merchant.php:3658
 msgid "设为无效，订单号是%s"
-msgstr ""
+msgstr "設為無效，訂單號是%s"
 
 #: merchant.php:3684
 msgid "添加售后，订单号是%s"
-msgstr ""
+msgstr "添加售後，訂單號是%s"
 
 #: merchant.php:3797
 msgid "%s [ 邮箱地址：%s ]"
-msgstr ""
+msgstr "%s [ 郵箱地址：%s ]"
 
 #: merchant.php:3855 merchant.php:3886
 msgid "更新失败！"
-msgstr ""
+msgstr "更新失敗！"
 
 #: merchant.php:4113
 msgid "申请操作成功"
-msgstr ""
+msgstr "申請操作成功"
 
 #: merchant.php:4127
 msgid "该订单商品已售完"
-msgstr ""
+msgstr "該訂單商品已售完"
 
 #: merchant.php:4128
 msgid "由于天气原因，本店铺暂不接单"
-msgstr ""
+msgstr "由於天氣原因，本店鋪暫不接單"
 
 #: merchant.php:4129
 msgid "商家忙碌，暂时无法接单"
-msgstr ""
+msgstr "商家忙碌，暫時無法接單"
 
 #: merchant.php:4401
 msgid "一键发货"
-msgstr ""
+msgstr "一鍵發貨"
 
 #: merchant.php:4956 mh_validate_order.php:371
 msgid "发货，订单号是%s"
-msgstr ""
+msgstr "發貨，訂單號是%s"
 
 #: merchant.php:5085 merchant.php:5091 mh_delivery.php:561 mh_delivery.php:567
 #: modules/order/affirmReceived_module.class.php:206
 msgid "系统派单"
-msgstr ""
+msgstr "系統派單"
 
 #: merchant.php:5086 mh_delivery.php:562
 msgid "有单啦！系统已分配配送单到您账户，赶快行动起来吧！"
-msgstr ""
+msgstr "有單啦！系統已分配配送單到您賬戶，趕快行動起來吧！"
 
 #: merchant.php:5091 mh_delivery.php:567
 #: modules/order/affirmReceived_module.class.php:206
 msgid "抢单"
-msgstr ""
+msgstr "搶單"
 
 #: merchant.php:5214
 msgid "客户下单"
-msgstr ""
+msgstr "客戶下單"
 
 #: merchant.php:5402
 msgid "编辑配送方式，订单是%s"
-msgstr ""
+msgstr "編輯配送方式，訂單是%s"
 
 #: merchant.php:5489
 msgid "编辑配送方式，订单号是%s"
-msgstr ""
+msgstr "編輯配送方式，訂單號是%s"
 
 #: mh_delivery.php:690 mh_validate_order.php:480
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:747
 msgid "商家发货"
-msgstr ""
+msgstr "商家發貨"
 
 #: mh_delivery.php:691
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:748
 msgid "您的订单已发货，订单号为：%s"
-msgstr ""
+msgstr "您的訂單已發貨，訂單號為：%s"
 
 #: mh_print.php:65
 msgid "打印已发送"
-msgstr ""
+msgstr "打印已發送"
 
 #: mh_reminder.php:69 mh_reminder.php:81 mh_reminder.php:121
 msgid "发货提醒列表"
-msgstr ""
+msgstr "發貨提醒列表"
 
 #: mh_reminder.php:85
 msgid "欢迎访问ECJia智能后台发货提醒列表页面，显示买家催款情况。"
-msgstr ""
+msgstr "歡迎訪問ECJia智能後台發貨提醒列表頁面，顯示買家催款情況。"
 
 #: mh_reminder.php:90
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:发货提醒列表\" target="
 "\"_blank\">关于发货提醒列表帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:发货提醒列表\" target="
+"\"_blank\">關於發貨提醒列表幫助文檔</a>"
 
 #: mh_reminder.php:115
 msgid "已处理"
-msgstr ""
+msgstr "已處理"
 
 #: mh_reminder.php:115
 msgid "未处理"
-msgstr ""
+msgstr "未處理"
 
 #: mh_sale_general.php:94 mh_sale_list.php:91 mh_sale_order.php:87
 msgid "报表统计"
-msgstr ""
+msgstr "報表統計"
 
 #: mh_sale_general.php:276
 msgid "销售概况报表"
-msgstr ""
+msgstr "銷售概況報表"
 
 #: mh_sale_general.php:282
 msgid "%s销售统计"
-msgstr ""
+msgstr "%s銷售統計"
 
 #: mh_sale_list.php:95
 msgid "下载销售明细"
-msgstr ""
+msgstr "下載銷售明細"
 
 #: mh_sale_list.php:133
 msgid "%s销售明细报表"
-msgstr ""
+msgstr "%s銷售明細報表"
 
 #: mh_sale_order.php:134
 msgid "销售排行报表"
-msgstr ""
+msgstr "銷售排行報表"
 
 #: mh_sale_order.php:139
 msgid "%s销售排行报表"
-msgstr ""
+msgstr "%s銷售排行報表"
 
 #: mh_validate_order.php:119
 msgid "取货验证码不能为空！"
-msgstr ""
+msgstr "取貨驗證碼不能為空！"
 
 #: mh_validate_order.php:126 modules/admin/orders/check_module.class.php:88
 #: modules/admin/shopkeeper/order/checking/detail_module.class.php:76
 msgid "验证码重复，请与管理员联系！"
-msgstr ""
+msgstr "驗證碼重複，請與管理員聯繫！"
 
 #: mh_validate_order.php:133 modules/admin/orders/check_module.class.php:93
 #: modules/admin/orders/check_module.class.php:100
 #: modules/admin/shopkeeper/order/checking/detail_module.class.php:82
 msgid "验证码错误！"
-msgstr ""
+msgstr "驗證碼錯誤！"
 
 #: mh_validate_order.php:139
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:89
 #: modules/admin/shopkeeper/order/checking/detail_module.class.php:95
 msgid "该验证码对应的订单不属于当前商家！"
-msgstr ""
+msgstr "該驗證碼對應的訂單不屬於當前商家！"
 
 #: mh_validate_order.php:144
 msgid "该验证码对应的订单已发货！"
-msgstr ""
+msgstr "該驗證碼對應的訂單已發貨！"
 
 #: mh_validate_order.php:148
 msgid "该验证码对应的订单已取消或是无效订单！"
-msgstr ""
+msgstr "該驗證碼對應的訂單已取消或是無效訂單！"
 
 #: mh_validate_order.php:177
 msgid "该订单还未付款！"
-msgstr ""
+msgstr "該訂單還未付款！"
 
 #: mh_validate_order.php:181
 msgid "订单不属于当前商家！"
-msgstr ""
+msgstr "訂單不屬於當前商家！"
 
 #: mh_validate_order.php:186
 msgid "订单已发货！"
-msgstr ""
+msgstr "訂單已發貨！"
 
 #: mh_validate_order.php:204
 msgid "取货成功！"
-msgstr ""
+msgstr "取貨成功！"
 
 #: mh_validate_order.php:441
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:708
 msgid "订单提货成功"
-msgstr ""
+msgstr "訂單提貨成功"
 
 #: mh_validate_order.php:442
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:709
 msgid "尊敬的%s，您的订单%s已提货成功，期待您下次光顾！"
-msgstr ""
+msgstr "尊敬的%s，您的訂單%s已提貨成功，期待您下次光顧！"
 
 #: mh_validate_order.php:967
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:795
 msgid "您的商品已被提货，感谢您下次光顾！"
-msgstr ""
+msgstr "您的商品已被提貨，感謝您下次光顧！"
 
 #: modules/admin/cashier/orders/summary/records_module.class.php:60
 #: modules/admin/orders/cancel_module.class.php:60
@@ -2724,86 +2788,86 @@ msgstr ""
 #: modules/order/list_module.class.php:59 modules/order/pay_module.class.php:62
 #: modules/order/update_module.class.php:60
 msgid "Invalid session"
-msgstr ""
+msgstr "Invalid session"
 
 #: modules/admin/cashier/orders/summary/records_module.class.php:68
 #: modules/admin/orders/payment/history_module.class.php:70
 #: modules/admin/stats/payment_module.class.php:102
 msgid "非收银台请求！"
-msgstr ""
+msgstr "非收銀台請求！"
 
 #: modules/admin/cashier/orders/summary/records_module.class.php:80
 msgid "参数无效！"
-msgstr ""
+msgstr "參數無效！"
 
 #: modules/admin/orders/cancel_module.class.php:106
 msgid "取消订单，订单号：%s【来源掌柜】"
-msgstr ""
+msgstr "取消訂單，訂單號：%s【來源掌櫃】"
 
 #: modules/admin/orders/check_module.class.php:105
 msgid "验证码所对应的订单不属于当前店铺！"
-msgstr ""
+msgstr "驗證碼所對應的訂單不屬於當前店鋪！"
 
 #: modules/admin/orders/check_module.class.php:109
 msgid "该订单已发货！无法进行此操作"
-msgstr ""
+msgstr "該訂單已發貨！無法進行此操作"
 
 #: modules/admin/orders/check_module.class.php:111
 msgid "验单"
-msgstr ""
+msgstr "驗單"
 
 #: modules/admin/orders/check_module.class.php:155
 msgid "验单，订单号：%s【来源掌柜】"
-msgstr ""
+msgstr "驗單，訂單號：%s【來源掌櫃】"
 
 #: modules/admin/orders/detail_module.class.php:188
 #: modules/admin/orders/list_module.class.php:392
 #: modules/admin/orders/payment/history_module.class.php:258
 #: modules/admin/orders/today_module.class.php:346
 msgid "已关闭"
-msgstr ""
+msgstr "已關閉"
 
-#: modules/admin/orders/detail_module.class.php:263
+#: modules/admin/orders/detail_module.class.php:261
 msgid "%s 操作此订单，变更状态为：%s、%s、%s，理由是 %s"
-msgstr ""
+msgstr "%s 操作此訂單，變更狀態為：%s、%s、%s，理由是 %s"
 
-#: modules/admin/orders/detail_module.class.php:264
+#: modules/admin/orders/detail_module.class.php:262
 msgid "%s 操作此订单，变更状态为：%s、%s、%s"
-msgstr ""
+msgstr "%s 操作此訂單，變更狀態為：%s、%s、%s"
 
 #: modules/admin/orders/express_module.class.php:76
 msgid "对不起，您没权限查看此订单相关信息！"
-msgstr ""
+msgstr "對不起，您沒權限查看此訂單相關信息！"
 
 #: modules/admin/orders/express_module.class.php:161
 #: modules/order/express_module.class.php:159
 msgid "物流跟踪未配置"
-msgstr ""
+msgstr "物流跟踪未配置"
 
 #: modules/admin/orders/express_module.class.php:187
 #: modules/order/express_module.class.php:185
 msgid "您当前选择的物流为【无需物流】，因此该订单暂无运单编号和物流状态"
-msgstr ""
+msgstr "您當前選擇的物流為【無需物流】，因此該訂單暫無運單編號和物流狀態"
 
 #: modules/admin/orders/express_module.class.php:189
 #: modules/order/express_module.class.php:187
 msgid "暂无物流信息"
-msgstr ""
+msgstr "暫無物流信息"
 
 #: modules/admin/orders/list_module.class.php:361
 #: modules/admin/orders/payment/history_module.class.php:226
 msgid "已撤销"
-msgstr ""
+msgstr "已撤銷"
 
 #: modules/admin/orders/list_module.class.php:364
 #: modules/admin/orders/payment/history_module.class.php:229
 msgid "已支付"
-msgstr ""
+msgstr "已支付"
 
 #: modules/admin/orders/list_module.class.php:367
 #: modules/admin/orders/payment/history_module.class.php:232
 msgid "未支付"
-msgstr ""
+msgstr "未支付"
 
 #: modules/admin/orders/operate/cancel_module.class.php:80
 #: modules/admin/orders/operate/cancelgrab_module.class.php:74
@@ -2815,256 +2879,256 @@ msgstr ""
 #: modules/admin/orders/operate/shipping_module.class.php:87
 #: modules/admin/orders/shipping/list_module.class.php:80
 msgid "对不起，您没权限对此订单进行操作！"
-msgstr ""
+msgstr "對不起，您沒權限對此訂單進行操作！"
 
 #: modules/admin/orders/operate/cancel_module.class.php:86
 #: modules/admin/orders/operate/consignee_module.class.php:96
 #: modules/admin/orders/operate/pay_module.class.php:87
 msgid "订单信息不存在"
-msgstr ""
+msgstr "訂單信息不存在"
 
 #: modules/admin/orders/operate/consignee_module.class.php:125
 #: modules/admin/orders/operate/money_module.class.php:128
 #: modules/admin/orders/operate/shipping_module.class.php:160
 msgid "%s【来源掌柜】"
-msgstr ""
+msgstr "%s【來源掌櫃】"
 
 #: modules/admin/orders/operate/delivery_module.class.php:110
 msgid "订单已全部发货！"
-msgstr ""
+msgstr "訂單已全部發貨！"
 
 #: modules/admin/orders/operate/delivery_module.class.php:192
 msgid "没有可发货的商品！"
-msgstr ""
+msgstr "沒有可發貨的商品！"
 
 #: modules/admin/orders/operate/delivery_module.class.php:319
 msgid "订单号是 %s【来源掌柜】"
-msgstr ""
+msgstr "訂單號是 %s【來源掌櫃】"
 
 #: modules/admin/orders/operate/delivery_module.class.php:371
 #: modules/admin/orders/operate/delivery_module.class.php:545
 msgid "发货失败！"
-msgstr ""
+msgstr "發貨失敗！"
 
 #: modules/admin/orders/operate/delivery_module.class.php:582
 msgid "发货，订单号是 %s【来源掌柜】"
-msgstr ""
+msgstr "發貨，訂單號是 %s【來源掌櫃】"
 
 #: modules/admin/orders/operate/money_module.class.php:114
 msgid "订单金额过小，将产生退款费用！"
-msgstr ""
+msgstr "訂單金額過小，將產生退款費用！"
 
 #: modules/admin/orders/operate/pay_module.class.php:110
 msgid "已付款，订单号是 %s【来源掌柜】"
-msgstr ""
+msgstr "已付款，訂單號是 %s【來源掌櫃】"
 
 #: modules/admin/orders/operate/shipping_module.class.php:121
 msgid "配送方式获取失败"
-msgstr ""
+msgstr "配送方式獲取失敗"
 
 #: modules/admin/orders/operate/shipping_module.class.php:133
 msgid "无需物流"
-msgstr ""
+msgstr "無需物流"
 
 #: modules/admin/orders/payConfirm_module.class.php:85
 #: modules/admin/orders/refundConfirm_module.class.php:80
 msgid "不存在的信息"
-msgstr ""
+msgstr "不存在的信息"
 
 #: modules/admin/orders/payConfirm_module.class.php:102
 msgid "收银台订单确认"
-msgstr ""
+msgstr "收銀台訂單確認"
 
 #: modules/admin/orders/payConfirm_module.class.php:104
 msgid "订单确认【订单id|%s】：%s"
-msgstr ""
+msgstr "訂單確認【訂單id|%s】：%s"
 
 #: modules/admin/orders/payConfirm_module.class.php:109
 msgid "收银台现金收款"
-msgstr ""
+msgstr "收銀台現金收款"
 
 #: modules/admin/orders/payConfirm_module.class.php:130
 msgid "订单配货【订单id|%s】：%s"
-msgstr ""
+msgstr "訂單配貨【訂單id|%s】：%s"
 
 #: modules/admin/orders/payConfirm_module.class.php:135
 msgid "订单分单【订单id|%s】：%s"
-msgstr ""
+msgstr "訂單分單【訂單id|%s】：%s"
 
 #: modules/admin/orders/payConfirm_module.class.php:148
 #: modules/admin/orders/payConfirm_module.class.php:215
 msgid "订单发货【订单id|%s】：%s"
-msgstr ""
+msgstr "訂單發貨【訂單id|%s】：%s"
 
 #: modules/admin/orders/payConfirm_module.class.php:432
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:638
 msgid "发货，订单号是%s【来源掌柜】"
-msgstr ""
+msgstr "發貨，訂單號是%s【來源掌櫃】"
 
 #: modules/admin/orders/quickpay_module.class.php:78
 #: modules/admin/orders/quickpay_module.class.php:162
 msgid "错误的参数提交"
-msgstr ""
+msgstr "錯誤的參數提交"
 
 #: modules/admin/orders/quickpay_module.class.php:96
 msgid "匿名用户"
-msgstr ""
+msgstr "匿名用戶"
 
 #: modules/admin/orders/quickpay_module.class.php:184
 msgid "收银台快捷收款"
-msgstr ""
+msgstr "收銀台快捷收款"
 
 #: modules/admin/orders/refundConfirm_module.class.php:90
 #: modules/admin/orders/update_module.class.php:73
 #: modules/admin/orders/update_module.class.php:97
 msgid "处理失败"
-msgstr ""
+msgstr "處理失敗"
 
 #: modules/admin/orders/refundConfirm_module.class.php:113
 #: modules/admin/orders/refundConfirm_module.class.php:134
 #: modules/admin/orders/refundConfirm_module.class.php:176
 msgid "订单支付撤销成功！"
-msgstr ""
+msgstr "訂單支付撤銷成功！"
 
 #: modules/admin/orders/refundConfirm_module.class.php:155
 msgid "收银台付款撤销"
-msgstr ""
+msgstr "收銀台付款撤銷"
 
 #: modules/admin/orders/refundConfirm_module.class.php:158
 msgid "未付款，订单号是 %s【来源掌柜】"
-msgstr ""
+msgstr "未付款，訂單號是 %s【來源掌櫃】"
 
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:81
 #: modules/admin/shopkeeper/order/checking/detail_module.class.php:89
 msgid "该验证码对应的订单信息不存在！"
-msgstr ""
+msgstr "該驗證碼對應的訂單信息不存在！"
 
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:85
 msgid "该验证码对应的订单还未付款！"
-msgstr ""
+msgstr "該驗證碼對應的訂單還​​未付款！"
 
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:94
 msgid "该验证码对应的订单已验证提货了！"
-msgstr ""
+msgstr "該驗證碼對應的訂單已驗證提貨了！"
 
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:98
 #: modules/admin/shopkeeper/order/checking/detail_module.class.php:104
 msgid "验证码对应的订单已取消或是无效订单！"
-msgstr ""
+msgstr "驗證碼對應的訂單已取消或是無效訂單！"
 
 #: modules/admin/shopkeeper/order/checking/confirm_module.class.php:286
 msgid "虚拟卡 %s 已缺货"
-msgstr ""
+msgstr "虛擬卡 %s 已缺貨"
 
 #: modules/admin/shopkeeper/order/checking/detail_module.class.php:169
 #: modules/order/detail_module.class.php:240
 msgid "已提取"
-msgstr ""
+msgstr "已提取"
 
 #: modules/admin/shopkeeper/order/checking/detail_module.class.php:169
 #: modules/order/detail_module.class.php:244
 msgid "未提取"
-msgstr ""
+msgstr "未提取"
 
 #: modules/order/affirmReceived_module.class.php:104
 msgid "此订单已经确认过了，感谢您在本站购物，欢迎再次光临。"
-msgstr ""
+msgstr "此訂單已經確認過了，感謝您在本站購物，歡迎再次光臨。"
 
 #: modules/order/affirmReceived_module.class.php:106
 msgid "您提交的订单不正确。"
-msgstr ""
+msgstr "您提交的訂單不正確。"
 
 #: modules/order/affirmReceived_module.class.php:137
 msgid "感谢您在%s购物，欢迎您再次光临！"
-msgstr ""
+msgstr "感謝您在%s購物，歡迎您再次光臨！"
 
 #: modules/order/affirmReceived_module.class.php:200
 msgid "配送成功"
-msgstr ""
+msgstr "配送成功"
 
 #: modules/order/affirmReceived_module.class.php:201
 msgid "买家已成功确认收货！配送单号为：%s"
-msgstr ""
+msgstr "買家已成功確認收貨！配送單號為：%s"
 
 #: modules/order/affirmReceived_module.class.php:248
 msgid "配送订单%s所得的配送费用"
-msgstr ""
+msgstr "配送訂單%s所得的配送費用"
 
 #: modules/order/affirmReceived_module.class.php:263
 msgid "买家已成功确认收货！"
-msgstr ""
+msgstr "買家已成功確認收貨！"
 
 #: modules/order/cancel_module.class.php:93
 msgid "该订单不存在！"
-msgstr ""
+msgstr "該訂單不存在！"
 
 #: modules/order/cancel_module.class.php:98
 msgid "你没有权限操作他人订单"
-msgstr ""
+msgstr "你沒有權限操作他人訂單"
 
 #: modules/order/cancel_module.class.php:103
 msgid "只有在未发货状态下才能取消，你可以与店主联系。"
-msgstr ""
+msgstr "只有在未發貨狀態下才能取消，你可以與店主聯繫。"
 
 #: modules/order/cancel_module.class.php:108
 msgid "只有未付款状态才能取消，要取消请联系店主。"
-msgstr ""
+msgstr "只有未付款狀態才能取消，要取消請聯繫店主。"
 
 #: modules/order/cancel_module.class.php:112
 msgid "该订单已取消过了！"
-msgstr ""
+msgstr "該訂單已取消過了！"
 
 #: modules/order/cancel_module.class.php:132
 msgid "用户取消"
-msgstr ""
+msgstr "用戶取消"
 
 #: modules/order/cancel_module.class.php:138
 msgid "取消订单 %s，退回支付订单时使用的预付款"
-msgstr ""
+msgstr "取消訂單 %s，退回支付訂單時使用的預付款"
 
 #: modules/order/cancel_module.class.php:149
 msgid "取消订单 %s，退回下订单时使用的积分"
-msgstr ""
+msgstr "取消訂單 %s，退回下訂單時使用的積分"
 
 #: modules/order/detail_module.class.php:81
 msgid "不存在的信息！"
-msgstr ""
+msgstr "不存在的信息！"
 
 #: modules/order/detail_module.class.php:135
 msgid "仅退款"
-msgstr ""
+msgstr "僅退款"
 
 #: modules/order/detail_module.class.php:135
 msgid "退货退款"
-msgstr ""
+msgstr "退貨退款"
 
 #: modules/order/detail_module.class.php:301
 msgid "免费"
-msgstr ""
+msgstr "免費"
 
 #: modules/order/detail_module.class.php:329
 msgid "配送员已取货"
-msgstr ""
+msgstr "配送員已取貨"
 
 #: modules/order/detail_module.class.php:408
 msgid "进行中"
-msgstr ""
+msgstr "進行中"
 
 #: modules/order/detail_module.class.php:411
 msgid "已退款"
-msgstr ""
+msgstr "已退款"
 
 #: modules/order/detail_module.class.php:417
 msgid "退款被拒"
-msgstr ""
+msgstr "退款被拒"
 
 #: modules/order/express_module.class.php:75
 msgid "订单无发货信息"
-msgstr ""
+msgstr "訂單無發貨信息"
 
 #: modules/order/list_module.class.php:69
 msgid "当前账号已申请注销，不可执行此操作！"
-msgstr ""
+msgstr "當前賬號已申請註銷，不可執行此操作！"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:26
 #: content/apps/orders/templates/admin/order_info.dwt.php:90
@@ -3072,7 +3136,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:31
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:32
 msgid "提交订单"
-msgstr ""
+msgstr "提交訂單"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:59
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:25
@@ -3087,7 +3151,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:77
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:24
 msgid "基本信息"
-msgstr ""
+msgstr "基本信息"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:68
 #: content/apps/orders/templates/admin/order_print.dwt.php:14
@@ -3097,12 +3161,12 @@ msgstr ""
 #: content/apps/orders/templates/merchant/validate_order.dwt.php:53
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:85
 msgid "订单编号："
-msgstr ""
+msgstr "訂單編號："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:73
 #: content/apps/orders/templates/admin/other_order_list.dwt.php:115
 msgid "团"
-msgstr ""
+msgstr "團"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:78
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:39
@@ -3114,7 +3178,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:88
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:89
 msgid "订单状态："
-msgstr ""
+msgstr "訂單狀態："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:86
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:107
@@ -3124,13 +3188,13 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:338
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:93
 msgid "购买人："
-msgstr ""
+msgstr "購買人："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:94
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:96
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:97
 msgid "购买人手机号："
-msgstr ""
+msgstr "購買人手機號："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:102
 #: content/apps/orders/templates/admin/order_print.dwt.php:13
@@ -3145,7 +3209,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/validate_order.dwt.php:47
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:101
 msgid "支付方式："
-msgstr ""
+msgstr "支付方式："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:110
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:46
@@ -3166,7 +3230,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:105
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:35
 msgid "下单时间："
-msgstr ""
+msgstr "下單時間："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:119
 #: content/apps/orders/templates/admin/order_print.dwt.php:17
@@ -3176,7 +3240,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:104
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:113
 msgid "付款时间："
-msgstr ""
+msgstr "付款時間："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:125
 #: content/apps/orders/templates/admin/order_info.dwt.php:281
@@ -3184,25 +3248,25 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:111
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:117
 msgid "订单来源："
-msgstr ""
+msgstr "訂單來源："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:140
 msgid "店铺信息"
-msgstr ""
+msgstr "店鋪信息"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:149
 #: content/apps/orders/templates/admin/order_info.dwt.php:318
 #: content/apps/orders/templates/merchant/order_info.dwt.php:70
 msgid "店铺名称："
-msgstr ""
+msgstr "店鋪名稱："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:157
 msgid "负责人："
-msgstr ""
+msgstr "負責人："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:165
 msgid "联系方式："
-msgstr ""
+msgstr "聯繫方式："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:171
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:92
@@ -3216,39 +3280,39 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_step.dwt.php:306
 #: content/apps/orders/templates/merchant/order_query.dwt.php:77
 msgid "电子邮件："
-msgstr ""
+msgstr "電子郵件："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:180
 msgid "公司名称："
-msgstr ""
+msgstr "公司名稱："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:197
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:129
 msgid "自提信息"
-msgstr ""
+msgstr "自提信息"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:206
 #: content/apps/orders/templates/merchant/order_info.dwt.php:361
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:137
 msgid "提货码："
-msgstr ""
+msgstr "提貨碼："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:219
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:146
 msgid "提货状态："
-msgstr ""
+msgstr "提貨狀態："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:227
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:150
 msgid "预约提货时间："
-msgstr ""
+msgstr "預約提貨時間："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:246
 #: content/apps/orders/templates/admin/order_info.dwt.php:370
 #: content/apps/orders/templates/merchant/order_info.dwt.php:464
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:164
 msgid "发票信息"
-msgstr ""
+msgstr "發票信息"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:255
 #: content/apps/orders/templates/admin/order_step.dwt.php:545
@@ -3257,14 +3321,14 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:475
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:175
 msgid "发票类型："
-msgstr ""
+msgstr "發票類型："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:261
 #: content/apps/orders/templates/admin/order_info.dwt.php:385
 #: content/apps/orders/templates/merchant/order_info.dwt.php:477
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:177
 msgid "纳税人识别码："
-msgstr ""
+msgstr "纳税人识别码："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:269
 #: content/apps/orders/templates/admin/order_print.dwt.php:70
@@ -3275,7 +3339,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:481
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:181
 msgid "发票抬头："
-msgstr ""
+msgstr "發票抬頭："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:275
 #: content/apps/orders/templates/admin/order_print.dwt.php:71
@@ -3286,7 +3350,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:483
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:183
 msgid "发票内容："
-msgstr ""
+msgstr "發票內容："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:288
 #: content/apps/orders/templates/admin/order_step.dwt.php:56
@@ -3294,7 +3358,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:494
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:195
 msgid "其他信息"
-msgstr ""
+msgstr "其他信息"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:297
 #: content/apps/orders/templates/admin/order_info.dwt.php:421
@@ -3303,7 +3367,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:206
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:104
 msgid "订单备注："
-msgstr ""
+msgstr "訂單備註："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:311
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:129
@@ -3319,7 +3383,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:218
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:115
 msgid "商品信息"
-msgstr ""
+msgstr "商品信息"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:318
 #: content/apps/orders/templates/admin/order_info.dwt.php:493
@@ -3327,7 +3391,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:140
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:226
 msgid "商品缩略图"
-msgstr ""
+msgstr "商品縮略圖"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:319
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:135
@@ -3341,7 +3405,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:227
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:123
 msgid "商品名称 [ 品牌 ]"
-msgstr ""
+msgstr "商品名稱 [ 品牌 ]"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:321
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:137
@@ -3355,7 +3419,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:229
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:125
 msgid "货品号"
-msgstr ""
+msgstr "貨品號"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:322
 #: content/apps/orders/templates/admin/order_print.dwt.php:45
@@ -3367,7 +3431,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:144
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:230
 msgid "价格"
-msgstr ""
+msgstr "價格"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:324
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:138
@@ -3385,7 +3449,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:232
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:126
 msgid "属性"
-msgstr ""
+msgstr "屬性"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:325
 #: content/apps/orders/templates/admin/order_info.dwt.php:500
@@ -3395,7 +3459,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:233
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:130
 msgid "库存"
-msgstr ""
+msgstr "庫存"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:326
 #: content/apps/orders/templates/admin/order_print.dwt.php:47
@@ -3407,7 +3471,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:148
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:234
 msgid "小计"
-msgstr ""
+msgstr "小計"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:344
 #: content/apps/orders/templates/admin/order_print.dwt.php:52
@@ -3417,7 +3481,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:580
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:174
 msgid "（特惠品）"
-msgstr ""
+msgstr "（特惠品）"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:346
 #: content/apps/orders/templates/admin/order_print.dwt.php:52
@@ -3427,7 +3491,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:580
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:174
 msgid "（赠品）"
-msgstr ""
+msgstr "（贈品）"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:349
 #: content/apps/orders/templates/admin/order_print.dwt.php:53
@@ -3437,7 +3501,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:580
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:174
 msgid "（配件）"
-msgstr ""
+msgstr "（配件）"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:372
 #: content/apps/orders/templates/admin/order_info.dwt.php:549
@@ -3445,7 +3509,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:169
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:255
 msgid "该订单暂无商品"
-msgstr ""
+msgstr "該訂單暫無商品"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:378
 #: content/apps/orders/templates/admin/order_step.dwt.php:236
@@ -3455,7 +3519,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:173
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:259
 msgid "合计："
-msgstr ""
+msgstr "合計："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:392
 #: content/apps/orders/templates/admin/order_info.dwt.php:584
@@ -3463,7 +3527,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:184
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:270
 msgid "费用信息"
-msgstr ""
+msgstr "費用信息"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:400
 #: content/apps/orders/templates/admin/order_print.dwt.php:75
@@ -3475,7 +3539,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:196
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:282
 msgid "商品总金额："
-msgstr ""
+msgstr "商品總金額："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:402
 #: content/apps/orders/templates/admin/order_print.dwt.php:81
@@ -3487,7 +3551,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:197
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:283
 msgid "折扣："
-msgstr ""
+msgstr "折扣："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:404
 #: content/apps/orders/templates/admin/order_print.dwt.php:108
@@ -3499,7 +3563,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:198
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:284
 msgid "使用积分："
-msgstr ""
+msgstr "使用積分："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:406
 #: content/apps/orders/templates/admin/order_print.dwt.php:110
@@ -3511,11 +3575,11 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:199
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:285
 msgid "使用红包："
-msgstr ""
+msgstr "使用紅包："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:414
 msgid "买单实付金额："
-msgstr ""
+msgstr "買單實付金額："
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:426
 #: content/apps/orders/templates/admin/order_info.dwt.php:651
@@ -3523,7 +3587,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:219
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:305
 msgid "操作记录"
-msgstr ""
+msgstr "操作記錄"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:434
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:164
@@ -3535,7 +3599,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:72
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:313
 msgid "操作者"
-msgstr ""
+msgstr "操作者"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:437
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:165
@@ -3545,12 +3609,12 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:228
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:314
 msgid "操作时间"
-msgstr ""
+msgstr "操作時間"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:443
 #: content/apps/orders/templates/admin/order_info.dwt.php:668
 msgid "操作备注"
-msgstr ""
+msgstr "操作備註"
 
 #: content/apps/orders/templates/admin/other_order_info.dwt.php:457
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:184
@@ -3560,7 +3624,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:243
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:329
 msgid "该订单暂无操作记录"
-msgstr ""
+msgstr "該訂單暫無操作記錄"
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:31
 #: content/apps/orders/templates/admin/back_info.dwt.php:29
@@ -3569,7 +3633,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/back_info.dwt.php:42
 #: content/apps/orders/templates/merchant/order_info.dwt.php:451
 msgid "发货单流水号："
-msgstr ""
+msgstr "發貨單流水號："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:33
 #: content/apps/orders/templates/admin/back_info.dwt.php:31
@@ -3580,7 +3644,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_print.dwt.php:19
 #: content/apps/orders/templates/merchant/order_info.dwt.php:379
 msgid "发货时间："
-msgstr ""
+msgstr "發貨時間："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:50
 #: content/apps/orders/templates/admin/back_info.dwt.php:48
@@ -3592,7 +3656,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_query.dwt.php:85
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:39
 msgid "购货人："
-msgstr ""
+msgstr "購貨人："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:52
 #: content/apps/orders/templates/admin/back_info.dwt.php:50
@@ -3605,7 +3669,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:509
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:41
 msgid "缺货处理："
-msgstr ""
+msgstr "缺貨處理："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:56
 #: content/apps/orders/templates/admin/back_info.dwt.php:54
@@ -3624,7 +3688,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:109
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:45
 msgid "配送方式："
-msgstr ""
+msgstr "配送方式："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:57
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:64
@@ -3645,7 +3709,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:646
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:66
 msgid "保价费用："
-msgstr ""
+msgstr "保價費用："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:58
 #: content/apps/orders/templates/admin/back_info.dwt.php:67
@@ -3660,7 +3724,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:645
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:60
 msgid "配送费用："
-msgstr ""
+msgstr "配送費用："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:62
 #: content/apps/orders/templates/admin/back_info.dwt.php:71
@@ -3669,7 +3733,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/back_info.dwt.php:88
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:64
 msgid "是否保价："
-msgstr ""
+msgstr "是否保價："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:68
 #: content/apps/orders/templates/admin/back_info.dwt.php:83
@@ -3685,7 +3749,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:180
 #: content/apps/orders/templates/merchant/order_info.dwt.php:382
 msgid "运单编号："
-msgstr ""
+msgstr "運單編號："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:84
 #: content/apps/orders/templates/admin/back_info.dwt.php:92
@@ -3698,7 +3762,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:524
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:77
 msgid "收货人信息"
-msgstr ""
+msgstr "收貨人信息"
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:90
 #: content/apps/orders/templates/admin/back_info.dwt.php:98
@@ -3718,7 +3782,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:535
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:84
 msgid "收货人："
-msgstr ""
+msgstr "收貨人："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:96
 #: content/apps/orders/templates/admin/back_info.dwt.php:104
@@ -3737,7 +3801,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:541
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:90
 msgid "地址："
-msgstr ""
+msgstr "地址："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:98
 #: content/apps/orders/templates/admin/back_info.dwt.php:106
@@ -3750,7 +3814,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_step.dwt.php:293
 #: content/apps/orders/templates/merchant/order_query.dwt.php:173
 msgid "邮编："
-msgstr ""
+msgstr "郵編："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:102
 #: content/apps/orders/templates/admin/back_info.dwt.php:110
@@ -3769,7 +3833,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_query.dwt.php:99
 #: content/apps/orders/templates/merchant/order_info.dwt.php:70
 msgid "电话："
-msgstr ""
+msgstr "電話："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:104
 #: content/apps/orders/templates/admin/back_info.dwt.php:112
@@ -3789,7 +3853,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:537
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:86
 msgid "手机："
-msgstr ""
+msgstr "手機："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:108
 #: content/apps/orders/templates/admin/back_info.dwt.php:116
@@ -3798,7 +3862,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/back_info.dwt.php:128
 #: content/apps/orders/templates/merchant/library/order_consignee.lbi.php:20
 msgid "标志性建筑："
-msgstr ""
+msgstr "標誌性建築："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:110
 #: content/apps/orders/templates/admin/back_info.dwt.php:118
@@ -3809,7 +3873,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/library/order_consignee.lbi.php:21
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:92
 msgid "最佳送货时间："
-msgstr ""
+msgstr "最佳送貨時間："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:120
 #: content/apps/orders/templates/admin/back_info.dwt.php:122
@@ -3818,29 +3882,29 @@ msgstr ""
 #: content/apps/orders/templates/merchant/back_info.dwt.php:134
 #: content/apps/orders/templates/merchant/order_step.dwt.php:459
 msgid "客户给商家的留言："
-msgstr ""
+msgstr "客戶給商家的留言："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:139
 #: content/apps/orders/templates/admin/back_info.dwt.php:141
 #: content/apps/orders/templates/merchant/delivery_info.dwt.php:170
 #: content/apps/orders/templates/merchant/back_info.dwt.php:158
 msgid "发货数量"
-msgstr ""
+msgstr "發貨數量"
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:158
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:193
 #: content/apps/orders/templates/merchant/delivery_info.dwt.php:191
 #: content/apps/orders/templates/merchant/delivery_info.dwt.php:224
 msgid "发货操作信息"
-msgstr ""
+msgstr "發貨操作信息"
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:167
 msgid "付款状态"
-msgstr ""
+msgstr "付款狀態"
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:168
 msgid "发货状态"
-msgstr ""
+msgstr "發貨狀態"
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:169
 #: content/apps/orders/templates/merchant/delivery_info.dwt.php:202
@@ -3848,14 +3912,14 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:230
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:316
 msgid "备注"
-msgstr ""
+msgstr "備註"
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:199
 #: content/apps/orders/templates/admin/order_print.dwt.php:140
 #: content/apps/orders/templates/merchant/back_info.dwt.php:189
 #: content/apps/orders/templates/merchant/order_print.dwt.php:141
 msgid "操作者："
-msgstr ""
+msgstr "操作者："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:204
 #: content/apps/orders/templates/admin/library/order_operate.lbi.php:13
@@ -3869,7 +3933,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:385
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:220
 msgid "操作备注："
-msgstr ""
+msgstr "操作備註："
 
 #: content/apps/orders/templates/admin/delivery_info.dwt.php:208
 #: content/apps/orders/templates/admin/order_delivery_info.dwt.php:228
@@ -3880,12 +3944,12 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:389
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:226
 msgid "当前可执行操作："
-msgstr ""
+msgstr "當前可執行操作："
 
 #: content/apps/orders/templates/admin/back_info.dwt.php:25
 #: content/apps/orders/templates/merchant/back_info.dwt.php:35
 msgid "退货时间："
-msgstr ""
+msgstr "退貨時間："
 
 #: content/apps/orders/templates/admin/back_info.dwt.php:162
 #: content/apps/orders/templates/admin/back_info.dwt.php:169
@@ -3893,12 +3957,12 @@ msgstr ""
 #: content/apps/orders/templates/merchant/back_info.dwt.php:181
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:199
 msgid "操作信息"
-msgstr ""
+msgstr "操作信息"
 
 #: content/apps/orders/templates/admin/order_print.dwt.php:23
 #: content/apps/orders/templates/merchant/order_print.dwt.php:24
 msgid "收货地址："
-msgstr ""
+msgstr "收貨地址："
 
 #: content/apps/orders/templates/admin/order_print.dwt.php:33
 #: content/apps/orders/templates/admin/order_info.dwt.php:265
@@ -3906,7 +3970,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_info.dwt.php:392
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:117
 msgid "配送员："
-msgstr ""
+msgstr "配送員："
 
 #: content/apps/orders/templates/admin/order_print.dwt.php:83
 #: content/apps/orders/templates/admin/order_step.dwt.php:730
@@ -3915,7 +3979,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_step.dwt.php:542
 #: content/apps/orders/templates/merchant/order_info.dwt.php:648
 msgid "包装费用："
-msgstr ""
+msgstr "包裝費用："
 
 #: content/apps/orders/templates/admin/order_print.dwt.php:86
 #: content/apps/orders/templates/admin/order_step.dwt.php:749
@@ -3924,7 +3988,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_step.dwt.php:559
 #: content/apps/orders/templates/merchant/order_info.dwt.php:649
 msgid "贺卡费用："
-msgstr ""
+msgstr "賀卡費用："
 
 #: content/apps/orders/templates/admin/order_print.dwt.php:89
 #: content/apps/orders/templates/admin/order_step.dwt.php:719
@@ -3933,7 +3997,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_step.dwt.php:532
 #: content/apps/orders/templates/merchant/order_info.dwt.php:647
 msgid "支付费用："
-msgstr ""
+msgstr "支付費用："
 
 #: content/apps/orders/templates/admin/order_print.dwt.php:98
 #: content/apps/orders/templates/admin/order_step.dwt.php:698
@@ -3942,7 +4006,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_step.dwt.php:511
 #: content/apps/orders/templates/merchant/order_info.dwt.php:654
 msgid "订单总金额："
-msgstr ""
+msgstr "訂單總金額："
 
 #: content/apps/orders/templates/admin/order_print.dwt.php:104
 #: content/apps/orders/templates/admin/order_step.dwt.php:704
@@ -3951,7 +4015,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_step.dwt.php:517
 #: content/apps/orders/templates/merchant/order_info.dwt.php:659
 msgid "已付款金额："
-msgstr ""
+msgstr "已付款金額："
 
 #: content/apps/orders/templates/admin/order_print.dwt.php:106
 #: content/apps/orders/templates/admin/order_step.dwt.php:710
@@ -3960,7 +4024,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_step.dwt.php:523
 #: content/apps/orders/templates/merchant/order_info.dwt.php:660
 msgid "使用余额："
-msgstr ""
+msgstr "使用餘額："
 
 #: content/apps/orders/templates/admin/order_print.dwt.php:112
 #: content/apps/orders/templates/admin/order_step.dwt.php:755
@@ -3971,7 +4035,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:207
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:293
 msgid "应付款金额："
-msgstr ""
+msgstr "應付款金額："
 
 #: content/apps/orders/templates/admin/order_print.dwt.php:119
 #: content/apps/orders/templates/admin/order_step.dwt.php:581
@@ -3980,50 +4044,58 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_step.dwt.php:471
 #: content/apps/orders/templates/merchant/order_info.dwt.php:513
 msgid "商家给客户的留言："
-msgstr ""
+msgstr "商家給客戶的留言："
 
 #: content/apps/orders/templates/admin/order_print.dwt.php:124
 #: content/apps/orders/templates/merchant/order_print.dwt.php:125
 msgid "发货备注："
-msgstr ""
+msgstr "發貨備註："
 
 #: content/apps/orders/templates/admin/order_print.dwt.php:129
 #: content/apps/orders/templates/merchant/order_print.dwt.php:130
 msgid "支付备注："
-msgstr ""
+msgstr "支付備註："
 
 #: content/apps/orders/templates/admin/order_print.dwt.php:140
 #: content/apps/orders/templates/merchant/order_print.dwt.php:141
 msgid "打印时间："
-msgstr ""
+msgstr "打印時間："
 
 #: content/apps/orders/templates/admin/guest_stats.dwt.php:19
 msgid "会员购买率（会员购买率 = 有订单会员数 ÷ 会员总数）"
-msgstr ""
+msgstr "會員購買率（會員購買率 = 有訂單會員數 ÷ 會員總數）"
 
 #: content/apps/orders/templates/admin/guest_stats.dwt.php:47
 msgid ""
 "每会员平均订单数及购物额（每会员订单数 = 会员订单总数 ÷ 会员总数）（每会员购"
 "物额 = 会员购物总额 ÷ 会员总数）"
 msgstr ""
+"每會員平均訂單數及購物額（每會員訂單數 = 會員訂單總數 ÷ 會員總數）（每會員購"
+"物額 = 會員購物總額 ÷ 會員總數）"
 
 #: content/apps/orders/templates/admin/guest_stats.dwt.php:74
 msgid ""
 "匿名会员平均订单额及购物总额（匿名会员平均订单额 =  匿名会员购物总额 ÷ 匿名会"
 "员订单总数）"
 msgstr ""
+"匿名會員平均訂單額及購物總額（匿名會員平均訂單額 = 匿名會員購物總額 ÷ 匿名會"
+"員訂單總數）"
 
 #: content/apps/orders/templates/admin/guest_stats.dwt.php:81
 msgid "匿名会员购物总额"
-msgstr ""
+msgstr "匿名會員購物總額"
 
 #: content/apps/orders/templates/admin/guest_stats.dwt.php:83
 msgid "匿名会员订单总数"
-msgstr ""
+msgstr "匿名會員訂單總數"
 
 #: content/apps/orders/templates/admin/guest_stats.dwt.php:87
 msgid "匿名会员平均订单额"
-msgstr ""
+msgstr "匿名會員平均訂單額"
+
+#: content/apps/orders/templates/admin/orders_setting.dwt.php:21
+msgid "未付款订单取消："
+msgstr "未付款訂單取消："
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:22
 #: content/apps/orders/templates/admin/sale_list.dwt.php:14
@@ -4036,27 +4108,27 @@ msgstr ""
 #: content/apps/orders/templates/merchant/sale_general.dwt.php:18
 #: content/apps/orders/templates/merchant/sale_order.dwt.php:13
 msgid "温馨提示："
-msgstr ""
+msgstr "溫馨提示："
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:22
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:24
 msgid "订单统计数据默认显示当年全年统计数据"
-msgstr ""
+msgstr "訂單統計數據默認顯示當年全年統計數據"
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:39
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:44
 msgid "选择年份："
-msgstr ""
+msgstr "選擇年份："
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:48
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:53
 msgid "选择月份："
-msgstr ""
+msgstr "選擇月份："
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:51
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:56
 msgid "全年"
-msgstr ""
+msgstr "全年"
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:57
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:128
@@ -4067,143 +4139,143 @@ msgstr ""
 #: content/apps/orders/templates/merchant/sale_general.dwt.php:49
 #: content/apps/orders/templates/merchant/sale_general.dwt.php:60
 msgid "查询"
-msgstr ""
+msgstr "查詢"
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:66
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:73
 msgid "待付款订单（元）"
-msgstr ""
+msgstr "待付款訂單（元）"
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:71
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:78
 msgid "待发货订单（元）"
-msgstr ""
+msgstr "待發貨訂單（元）"
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:76
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:83
 msgid "已发货订单（元）"
-msgstr ""
+msgstr "已發貨訂單（元）"
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:81
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:88
 msgid "退货订单（元）"
-msgstr ""
+msgstr "退貨訂單（元）"
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:86
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:93
 msgid "已取消订单（元）"
-msgstr ""
+msgstr "已取消訂單（元）"
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:91
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:98
 msgid "已完成订单（元）"
-msgstr ""
+msgstr "已完成訂單（元）"
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:98
 #: content/apps/orders/templates/admin/order_stats.dwt.php:117
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:107
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:127
 msgid "订单类型"
-msgstr ""
+msgstr "訂單類型"
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:118
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:128
 msgid "总订单数"
-msgstr ""
+msgstr "總訂單數"
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:119
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:129
 msgid "总金额数"
-msgstr ""
+msgstr "總金額數"
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:170
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:172
 msgid "订单概况"
-msgstr ""
+msgstr "订单概况"
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:173
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:175
 msgid "配送方式"
-msgstr ""
+msgstr "配送方式"
 
 #: content/apps/orders/templates/admin/order_stats.dwt.php:176
 #: content/apps/orders/templates/merchant/order_stats.dwt.php:178
 msgid "支付方式"
-msgstr ""
+msgstr "支付方式"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_left.lbi.php:3
 msgid "订单类型统计"
-msgstr ""
+msgstr "訂單類型統計"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_left.lbi.php:7
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:42
 msgid "配送订单（单）"
-msgstr ""
+msgstr "配送訂單（單）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_left.lbi.php:11
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:54
 msgid "到店订单（单）"
-msgstr ""
+msgstr "到店訂單（單）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_left.lbi.php:15
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:48
 msgid "自提订单（单）"
-msgstr ""
+msgstr "自提訂單（單）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_left.lbi.php:19
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:60
 msgid "团购订单（单）"
-msgstr ""
+msgstr "團購訂單（單）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_left.lbi.php:26
 msgid "会员统计"
-msgstr ""
+msgstr "會員統計"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_left.lbi.php:30
 msgid "今日新增（个）"
-msgstr ""
+msgstr "今日新增（個）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_left.lbi.php:34
 msgid "7日新增（个）"
-msgstr ""
+msgstr "7日新增（個）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_left.lbi.php:38
 msgid "30天新增（个）"
-msgstr ""
+msgstr "30天新增（個）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_left.lbi.php:42
 msgid "总会员数（个）"
-msgstr ""
+msgstr "總會員數（個）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_left.lbi.php:49
 msgid "待处理财务统计"
-msgstr ""
+msgstr "待處理財務統計"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_left.lbi.php:53
 msgid "会员充值（单）"
-msgstr ""
+msgstr "會員充值（單）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_left.lbi.php:57
 msgid "会员提现（单）"
-msgstr ""
+msgstr "會員提現（單）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_left.lbi.php:61
 msgid "会员退款（单）"
-msgstr ""
+msgstr "會員退款（​​單）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_left.lbi.php:65
 msgid "商家提现（单）"
-msgstr ""
+msgstr "商家提現（單）"
 
 #: content/apps/orders/templates/admin/library/order_refund.lbi.php:5
 #: content/apps/orders/templates/merchant/library/order_refund.lbi.php:7
 msgid "订单操作：退款"
-msgstr ""
+msgstr "訂單操作：退款"
 
 #: content/apps/orders/templates/admin/library/order_refund.lbi.php:13
 #: content/apps/orders/templates/merchant/library/order_refund.lbi.php:13
 msgid "退款金额："
-msgstr ""
+msgstr "退款金額："
 
 #: content/apps/orders/templates/admin/library/order_refund.lbi.php:19
 #: content/apps/orders/templates/admin/library/order_operate.lbi.php:32
@@ -4211,28 +4283,28 @@ msgstr ""
 #: content/apps/orders/templates/merchant/library/order_operate.lbi.php:31
 #: content/apps/orders/templates/merchant/order_info.dwt.php:41
 msgid "退款方式："
-msgstr ""
+msgstr "退款方式："
 
 #: content/apps/orders/templates/admin/library/order_refund.lbi.php:22
 #: content/apps/orders/templates/admin/library/order_operate.lbi.php:34
 #: content/apps/orders/templates/merchant/library/order_refund.lbi.php:22
 #: content/apps/orders/templates/merchant/library/order_operate.lbi.php:35
 msgid "退回用户余额"
-msgstr ""
+msgstr "退回用戶餘額"
 
 #: content/apps/orders/templates/admin/library/order_refund.lbi.php:23
 #: content/apps/orders/templates/admin/library/order_operate.lbi.php:35
 #: content/apps/orders/templates/merchant/library/order_refund.lbi.php:26
 #: content/apps/orders/templates/merchant/library/order_operate.lbi.php:39
 msgid "生成退款申请"
-msgstr ""
+msgstr "生成退款申請"
 
 #: content/apps/orders/templates/admin/library/order_refund.lbi.php:24
 #: content/apps/orders/templates/admin/library/order_operate.lbi.php:36
 #: content/apps/orders/templates/merchant/library/order_refund.lbi.php:30
 #: content/apps/orders/templates/merchant/library/order_operate.lbi.php:43
 msgid "不处理，误操作时选择此项"
-msgstr ""
+msgstr "不處理，誤操作時選擇此項"
 
 #: content/apps/orders/templates/admin/library/order_refund.lbi.php:29
 #: content/apps/orders/templates/admin/library/order_operate.lbi.php:40
@@ -4240,160 +4312,160 @@ msgstr ""
 #: content/apps/orders/templates/merchant/library/order_operate.lbi.php:48
 #: content/apps/orders/templates/merchant/order_info.dwt.php:94
 msgid "退款说明："
-msgstr ""
+msgstr "退款說明："
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_top.lbi.php:4
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats.lbi.php:4
 msgid "件"
-msgstr ""
+msgstr "件"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_top.lbi.php:7
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats.lbi.php:8
 msgid "30天新增商品"
-msgstr ""
+msgstr "30天新增商品"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_top.lbi.php:11
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_top.lbi.php:25
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats.lbi.php:13
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats.lbi.php:31
 msgid "个"
-msgstr ""
+msgstr "個"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_top.lbi.php:14
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats.lbi.php:17
 msgid "30天新增会员"
-msgstr ""
+msgstr "30天新增會員"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_top.lbi.php:21
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats.lbi.php:26
 msgid "30天新增订单"
-msgstr ""
+msgstr "30天新增訂單"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_top.lbi.php:28
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats.lbi.php:35
 msgid "30天新增入驻商"
-msgstr ""
+msgstr "30天新增入駐商"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopchart.lbi.php:6
 msgid "本月订单总额"
-msgstr ""
+msgstr "本月訂單總額"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopchart.lbi.php:12
 msgid "本月订单数量"
-msgstr ""
+msgstr "本月訂單數量"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopchart.lbi.php:18
 msgid "今日待确认订单"
-msgstr ""
+msgstr "今日待確認訂單"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopchart.lbi.php:24
 msgid "今日待发货订单"
-msgstr ""
+msgstr "今日待發貨訂單"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopchart.lbi.php:28
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_orderslist.lbi.php:30
 msgid "查看更多"
-msgstr ""
+msgstr "查看更多"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_ordersstat.lbi.php:11
 msgid "订单统计信息"
-msgstr ""
+msgstr "訂單統計信息"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_ordersstat.lbi.php:18
 msgid "未接单订单"
-msgstr ""
+msgstr "未接單訂單"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_ordersstat.lbi.php:22
 msgid "待支付订单"
-msgstr ""
+msgstr "待支付訂單"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_ordersstat.lbi.php:24
 msgid "已成交订单数"
-msgstr ""
+msgstr "已成交訂單數"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_ordersstat.lbi.php:28
 msgid "部分发货订单"
-msgstr ""
+msgstr "部分發貨訂單"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_ordersstat.lbi.php:30
 msgid "退款申请"
-msgstr ""
+msgstr "退款申請"
 
 #: content/apps/orders/templates/admin/library/order_operate.lbi.php:5
 #: content/apps/orders/templates/merchant/library/order_operate.lbi.php:7
 msgid "订单操作："
-msgstr ""
+msgstr "訂單操作："
 
 #: content/apps/orders/templates/admin/library/order_operate.lbi.php:19
 #: content/apps/orders/templates/merchant/library/order_operate.lbi.php:18
 msgid "取消原因："
-msgstr ""
+msgstr "取消原因："
 
 #: content/apps/orders/templates/admin/library/order_operate.lbi.php:22
 #: content/apps/orders/templates/merchant/library/order_operate.lbi.php:21
 msgid "（会记录在商家给客户的留言中）"
-msgstr ""
+msgstr "（會記錄在商家給客戶的留言中）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_right.lbi.php:3
 msgid "配送调度统计"
-msgstr ""
+msgstr "配送調度統計"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_right.lbi.php:7
 msgid "待派单（单）"
-msgstr ""
+msgstr "待派單（單）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_right.lbi.php:11
 msgid "待取货（单）"
-msgstr ""
+msgstr "待取貨（單）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_right.lbi.php:15
 msgid "配送中（单）"
-msgstr ""
+msgstr "配送中（單）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_right.lbi.php:19
 msgid "总配送单（单）"
-msgstr ""
+msgstr "總配送單（單）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_right.lbi.php:26
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:145
 msgid "促销活动"
-msgstr ""
+msgstr "促銷活動"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_right.lbi.php:30
 msgid "促销（个）"
-msgstr ""
+msgstr "促銷（個）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_right.lbi.php:34
 msgid "优惠（个）"
-msgstr ""
+msgstr "優惠（個）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_right.lbi.php:38
 msgid "团购（个）"
-msgstr ""
+msgstr "團購（個）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_right.lbi.php:42
 msgid "买单（个）"
-msgstr ""
+msgstr "買單（個）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_right.lbi.php:49
 msgid "文章统计情况"
-msgstr ""
+msgstr "文章統計情況"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_right.lbi.php:53
 msgid "今日新增（篇）"
-msgstr ""
+msgstr "今日新增（篇）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_right.lbi.php:57
 msgid "待审核文章（篇）"
-msgstr ""
+msgstr "待審核文章（篇）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_right.lbi.php:61
 msgid "待审核评论（条）"
-msgstr ""
+msgstr "待審核評論（條）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_shopstats_right.lbi.php:65
 msgid "总文章数（篇）"
-msgstr ""
+msgstr "總文章數（篇）"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_orderslist.lbi.php:12
 #: content/apps/orders/templates/admin/order_list.dwt.php:83
@@ -4406,7 +4478,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/back_list.dwt.php:49
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:68
 msgid "下单时间"
-msgstr ""
+msgstr "下單時間"
 
 #: content/apps/orders/templates/admin/library/widget_admin_dashboard_orderslist.lbi.php:13
 #: content/apps/orders/templates/admin/order_list.dwt.php:85
@@ -4415,108 +4487,108 @@ msgstr ""
 #: content/apps/orders/templates/merchant/mh_order_list.dwt.php:177
 #: content/apps/orders/templates/merchant/today_order_list.dwt.php:124
 msgid "总金额"
-msgstr ""
+msgstr "總金額"
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:8
 #: content/apps/orders/templates/merchant/library/order_search.lbi.php:8
 msgid "请输入订单编号关键字"
-msgstr ""
+msgstr "請輸入訂單編號關鍵字"
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:16
 #: content/apps/orders/templates/merchant/library/order_search.lbi.php:16
 msgid "请选择开始时间"
-msgstr ""
+msgstr "請選擇開始時間"
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:17
 #: content/apps/orders/templates/merchant/library/order_search.lbi.php:17
 msgid "请选择结束时间"
-msgstr ""
+msgstr "請選擇結束時間"
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:26
 msgid "商家："
-msgstr ""
+msgstr "商家："
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:29
 msgid "请选择商家"
-msgstr ""
+msgstr "請選擇商家"
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:42
 #: content/apps/orders/templates/merchant/library/order_search.lbi.php:29
 msgid "请选择订单状态"
-msgstr ""
+msgstr "請選擇訂單狀態"
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:54
 #: content/apps/orders/templates/merchant/library/order_search.lbi.php:41
 msgid "请选择配送方式"
-msgstr ""
+msgstr "請選擇配送方式"
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:71
 #: content/apps/orders/templates/merchant/library/order_search.lbi.php:55
 msgid "请选择支付方式"
-msgstr ""
+msgstr "請選擇支付方式"
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:82
 #: content/apps/orders/templates/merchant/library/order_search.lbi.php:69
 msgid "下单渠道："
-msgstr ""
+msgstr "下單渠道："
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:85
 #: content/apps/orders/templates/merchant/library/order_search.lbi.php:72
 msgid "请选择下单渠道"
-msgstr ""
+msgstr "請選擇下單渠道"
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:96
 #: content/apps/orders/templates/merchant/library/order_search.lbi.php:83
 msgid "商品名称："
-msgstr ""
+msgstr "商品名稱："
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:98
 #: content/apps/orders/templates/merchant/library/order_search.lbi.php:85
 msgid "请输入商品名称关键字"
-msgstr ""
+msgstr "請輸入商品名稱關鍵字"
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:109
 #: content/apps/orders/templates/merchant/library/order_search.lbi.php:93
 msgid "请输入购买人关键字"
-msgstr ""
+msgstr "請輸入購買人關鍵字"
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:115
 #: content/apps/orders/templates/admin/order_info.dwt.php:465
 #: content/apps/orders/templates/merchant/library/order_search.lbi.php:102
 msgid "手机号："
-msgstr ""
+msgstr "手機號："
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:117
 #: content/apps/orders/templates/merchant/library/order_search.lbi.php:104
 msgid "请输入手机号"
-msgstr ""
+msgstr "請輸入手機號"
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:129
 #: content/apps/orders/templates/admin/order_query.dwt.php:114
 #: content/apps/orders/templates/merchant/library/order_search.lbi.php:116
 #: content/apps/orders/templates/merchant/order_query.dwt.php:116
 msgid "重置"
-msgstr ""
+msgstr "重置"
 
 #: content/apps/orders/templates/admin/library/order_search.lbi.php:131
 #: content/apps/orders/templates/merchant/library/order_search.lbi.php:118
 msgid "导出报表"
-msgstr ""
+msgstr "導出報表"
 
 #: content/apps/orders/templates/admin/sale_list.dwt.php:14
 #: content/apps/orders/templates/merchant/sale_list.dwt.php:13
 msgid "没有完成的订单不计入销售明细"
-msgstr ""
+msgstr "沒有完成的訂單不計入銷售明細"
 
 #: content/apps/orders/templates/admin/sale_list.dwt.php:21
 #: content/apps/orders/templates/admin/sale_order.dwt.php:24
 msgid "返回全部"
-msgstr ""
+msgstr "返回全部"
 
 #: content/apps/orders/templates/admin/sale_list.dwt.php:28
 #: content/apps/orders/templates/admin/sale_order.dwt.php:32
 msgid "请输入商家关键字"
-msgstr ""
+msgstr "請輸入商家關鍵字"
 
 #: content/apps/orders/templates/admin/sale_list.dwt.php:29
 #: content/apps/orders/templates/admin/users_order.dwt.php:26
@@ -4524,19 +4596,19 @@ msgstr ""
 #: content/apps/orders/templates/merchant/sale_list.dwt.php:33
 #: content/apps/orders/templates/merchant/sale_order.dwt.php:33
 msgid "按时间段查询："
-msgstr ""
+msgstr "按時間段查詢："
 
 #: content/apps/orders/templates/admin/sale_list.dwt.php:30
 #: content/apps/orders/templates/admin/users_order.dwt.php:27
 #: content/apps/orders/templates/admin/sale_order.dwt.php:34
 msgid "开始日期"
-msgstr ""
+msgstr "開始日期"
 
 #: content/apps/orders/templates/admin/sale_list.dwt.php:32
 #: content/apps/orders/templates/admin/users_order.dwt.php:29
 #: content/apps/orders/templates/admin/sale_order.dwt.php:36
 msgid "结束日期"
-msgstr ""
+msgstr "結束日期"
 
 #: content/apps/orders/templates/admin/sale_list.dwt.php:33
 #: content/apps/orders/templates/admin/order_step.dwt.php:102
@@ -4561,16 +4633,16 @@ msgstr ""
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:51
 #: content/apps/orders/templates/merchant/sale_order.dwt.php:37
 msgid "搜索"
-msgstr ""
+msgstr "搜索"
 
 #: content/apps/orders/templates/admin/sale_list.dwt.php:56
 msgid "查看此商家明细"
-msgstr ""
+msgstr "查看此商家明細"
 
 #: content/apps/orders/templates/admin/sale_list.dwt.php:56
 #: content/apps/orders/templates/admin/sale_order.dwt.php:63
 msgid "查看商家资料"
-msgstr ""
+msgstr "查看商家資料"
 
 #: content/apps/orders/templates/admin/sale_list.dwt.php:63
 #: content/apps/orders/templates/admin/order_step.dwt.php:488
@@ -4597,18 +4669,18 @@ msgstr ""
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:100
 #: content/apps/orders/templates/merchant/sale_order.dwt.php:91
 msgid "没有找到任何记录"
-msgstr ""
+msgstr "沒有找到任何記錄"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:13
 #: content/apps/orders/templates/merchant/order_edit_shipping.dwt.php:13
 #: content/apps/orders/templates/merchant/order_step.dwt.php:13
 msgid "您可能没有添加配送插件或填写收货人地址信息！暂无对应的配送方式！"
-msgstr ""
+msgstr "您可能沒有添加配送插件或填寫收貨人地址信息！暫無對應的配送方式！"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:18
 #: content/apps/orders/templates/merchant/order_step.dwt.php:18
 msgid "说明：因为订单已发货，修改配送方式将不会改变配送费和保价费。"
-msgstr ""
+msgstr "說明：因為訂單已發貨，修改配送方式將不會改變配送費和保價費。"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:23
 #: content/apps/orders/templates/merchant/order_step.dwt.php:23
@@ -4616,93 +4688,97 @@ msgid ""
 "注意：搜索结果只显示前50条记录，如果没有找到相应会员，请更精确地查找。另外，"
 "如果该会员是从论坛注册的且没有在商城登录过，也无法找到，需要先在商城登录。"
 msgstr ""
+"注意：搜索結果只顯示前50條記錄，如果沒有找到相應會員，請更精確地查找。另外，"
+"如果該會員是從論壇註冊的且沒有在商城登錄過，也無法找到，需要先在商城登錄。"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:32
 msgid "选择购买用户"
-msgstr ""
+msgstr "選擇購買用戶"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:38
 msgid "选择订单商品"
-msgstr ""
+msgstr "選擇訂單商品"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:44
 msgid "确认收货地址"
-msgstr ""
+msgstr "確認收貨地址"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:50
 msgid "支付方式/配送方式"
-msgstr ""
+msgstr "支付方式/配送方式"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:62
 msgid "确认费用"
-msgstr ""
+msgstr "確認費用"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:85
 msgid "会员用户"
-msgstr ""
+msgstr "會員用戶"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:98
 msgid "按会员邮箱或会员名搜索："
-msgstr ""
+msgstr "按會員郵箱或會員名搜索："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:101
 #: content/apps/orders/templates/admin/order_step.dwt.php:258
 #: content/apps/orders/templates/merchant/order_step.dwt.php:109
 msgid "请输入关键字"
-msgstr ""
+msgstr "請輸入關鍵字"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:106
 msgid ""
 "搜索会员，搜到的会员将展示在下方列表框中。点击列表中选项，背景变蓝即为选中状"
 "态。"
 msgstr ""
+"搜索會員，搜到的會員將展示在下方列錶框中。點擊列表中選項，背景變藍即為選中狀"
+"態。"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:111
 msgid "筛选搜索到的会员信息"
-msgstr ""
+msgstr "篩選搜索到的會員信息"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:114
 #: content/apps/orders/templates/admin/order_step.dwt.php:269
 #: content/apps/orders/templates/merchant/order_step.dwt.php:121
 msgid "暂无内容"
-msgstr ""
+msgstr "暫無內容"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:118
 msgid "会员信息"
-msgstr ""
+msgstr "會員信息"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:124
 msgid "会员名称："
-msgstr ""
+msgstr "會員名稱："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:131
 msgid "会员邮箱："
-msgstr ""
+msgstr "會員郵箱："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:138
 msgid "会员手机："
-msgstr ""
+msgstr "會員手機："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:145
 msgid "会员等级："
-msgstr ""
+msgstr "會員等級："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:152
 #: content/apps/orders/templates/admin/order_info.dwt.php:36
 msgid "注册时间："
-msgstr ""
+msgstr "註冊時間："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:159
 msgid "邮箱验证："
-msgstr ""
+msgstr "郵箱驗證："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:166
 msgid "最后登录时间："
-msgstr ""
+msgstr "最後登錄時間："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:173
 msgid "最后登录IP："
-msgstr ""
+msgstr "最後登錄IP："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:184
 #: content/apps/orders/templates/admin/order_step.dwt.php:243
@@ -4714,76 +4790,76 @@ msgstr ""
 #: content/apps/orders/templates/admin/order_step.dwt.php:672
 #: content/apps/orders/templates/admin/order_step.dwt.php:674
 msgid "下一步"
-msgstr ""
+msgstr "下一步"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:201
 #: content/apps/orders/templates/merchant/order_step.dwt.php:49
 msgid "操作"
-msgstr ""
+msgstr "操作"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:230
 msgid "您确定要删除订单商品吗？"
-msgstr ""
+msgstr "您確定要刪除訂單商品嗎？"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:235
 #: content/apps/orders/templates/merchant/order_step.dwt.php:83
 msgid "备注：商品价格中已包含属性加价"
-msgstr ""
+msgstr "備註：商品價格中已包含屬性加價"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:243
 #: content/apps/orders/templates/merchant/order_step.dwt.php:88
 #: content/apps/orders/templates/merchant/order_step.dwt.php:91
 msgid "更新商品"
-msgstr ""
+msgstr "更新商品"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:257
 msgid "按商品编号、名称或货号搜索："
-msgstr ""
+msgstr "按商品編號、名稱或貨號搜索："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:266
 #: content/apps/orders/templates/merchant/order_step.dwt.php:118
 msgid "筛选搜索到的商品信息"
-msgstr ""
+msgstr "篩選搜索到的商品信息"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:277
 #: content/apps/orders/templates/merchant/order_step.dwt.php:129
 msgid "加入订单"
-msgstr ""
+msgstr "加入訂單"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:286
 #: content/apps/orders/templates/merchant/order_step.dwt.php:138
 msgid "货号："
-msgstr ""
+msgstr "貨號："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:287
 #: content/apps/orders/templates/merchant/order_step.dwt.php:139
 msgid "品牌"
-msgstr ""
+msgstr "品牌"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:288
 #: content/apps/orders/templates/merchant/order_step.dwt.php:140
 msgid "分类："
-msgstr ""
+msgstr "分類："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:290
 #: content/apps/orders/templates/merchant/order_step.dwt.php:141
 msgid "商品库存："
-msgstr ""
+msgstr "商品庫存："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:298
 #: content/apps/orders/templates/merchant/order_step.dwt.php:147
 msgid "商品价格："
-msgstr ""
+msgstr "商品價格："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:306
 #: content/apps/orders/templates/merchant/order_step.dwt.php:156
 msgid "商品数量："
-msgstr ""
+msgstr "商品數量："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:313
 #: content/apps/orders/templates/merchant/order_step.dwt.php:166
 msgid "商品属性"
-msgstr ""
+msgstr "商品屬性"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:333
 #: content/apps/orders/templates/admin/back_list.dwt.php:49
@@ -4793,46 +4869,46 @@ msgstr ""
 #: content/apps/orders/templates/merchant/back_list.dwt.php:50
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:69
 msgid "收货人"
-msgstr ""
+msgstr "收貨人"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:334
 #: content/apps/orders/templates/merchant/order_step.dwt.php:189
 msgid "所在地区"
-msgstr ""
+msgstr "所在地區"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:335
 #: content/apps/orders/templates/merchant/order_step.dwt.php:190
 msgid "详细地址"
-msgstr ""
+msgstr "詳細地址"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:336
 #: content/apps/orders/templates/merchant/order_step.dwt.php:191
 #: content/apps/orders/templates/merchant/order_info.dwt.php:225
 msgid "邮编"
-msgstr ""
+msgstr "郵編"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:337
 #: content/apps/orders/templates/merchant/order_step.dwt.php:192
 msgid "电话/手机"
-msgstr ""
+msgstr "電話/手機"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:344
 msgid "（默认收货地址）"
-msgstr ""
+msgstr "（默認收貨地址）"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:361
 #: content/apps/orders/templates/merchant/order_step.dwt.php:224
 msgid "填写收货地址"
-msgstr ""
+msgstr "填寫收貨地址"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:377
 #: content/apps/orders/templates/merchant/order_step.dwt.php:246
 msgid "详细地址："
-msgstr ""
+msgstr "詳細地址："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:384
 msgid "所在地区："
-msgstr ""
+msgstr "所在地區："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:387
 #: content/apps/orders/templates/admin/order_step.dwt.php:393
@@ -4872,14 +4948,14 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_merge.dwt.php:33
 #: content/apps/orders/templates/merchant/order_merge.dwt.php:52
 msgid "请选择..."
-msgstr ""
+msgstr "請選擇..."
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:455
 #: content/apps/orders/templates/admin/order_step.dwt.php:526
 #: content/apps/orders/templates/admin/order_step.dwt.php:671
 #: content/apps/orders/templates/admin/order_step.dwt.php:768
 msgid "上一步"
-msgstr ""
+msgstr "上一步"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:470
 #: content/apps/orders/templates/admin/order_step.dwt.php:508
@@ -4892,7 +4968,7 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_step.dwt.php:383
 #: content/apps/orders/templates/merchant/order_step.dwt.php:597
 msgid "名称"
-msgstr ""
+msgstr "名稱"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:471
 #: content/apps/orders/templates/admin/order_step.dwt.php:509
@@ -4903,13 +4979,13 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_step.dwt.php:384
 #: content/apps/orders/templates/merchant/order_step.dwt.php:598
 msgid "描述"
-msgstr ""
+msgstr "描述"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:472
 #: content/apps/orders/templates/merchant/order_edit_shipping.dwt.php:35
 #: content/apps/orders/templates/merchant/order_step.dwt.php:337
 msgid "配送费"
-msgstr ""
+msgstr "配送費"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:473
 #: content/apps/orders/templates/admin/order_step.dwt.php:604
@@ -4917,30 +4993,30 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_edit_shipping.dwt.php:36
 #: content/apps/orders/templates/merchant/order_step.dwt.php:338
 msgid "免费额度"
-msgstr ""
+msgstr "免費額度"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:474
 #: content/apps/orders/templates/merchant/order_edit_shipping.dwt.php:37
 #: content/apps/orders/templates/merchant/order_step.dwt.php:339
 msgid "保价费"
-msgstr ""
+msgstr "保價費"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:494
 #: content/apps/orders/templates/merchant/order_edit_shipping.dwt.php:63
 #: content/apps/orders/templates/merchant/order_step.dwt.php:365
 msgid "我要保价"
-msgstr ""
+msgstr "我要保價"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:510
 #: content/apps/orders/templates/merchant/order_edit_shipping.dwt.php:83
 #: content/apps/orders/templates/merchant/order_step.dwt.php:385
 msgid "手续费"
-msgstr ""
+msgstr "手續費"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:540
 #: content/apps/orders/templates/merchant/order_step.dwt.php:421
 msgid "发票相关"
-msgstr ""
+msgstr "發票相關"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:553
 #: content/apps/orders/templates/merchant/order_step.dwt.php:436
@@ -4948,63 +5024,65 @@ msgid ""
 "发票抬头及发票识别码，请用英文逗号（“,”）隔开，例：抬头,识别码。如没有英文逗"
 "号，则默认为发票抬头。"
 msgstr ""
+"發票抬頭及發票識別碼，請用英文逗號（“,”）隔開，例：抬頭,識別碼。如沒有英文逗"
+"號，則默認為發票抬頭。"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:568
 #: content/apps/orders/templates/merchant/order_step.dwt.php:453
 msgid "留言/备注"
-msgstr ""
+msgstr "留言/備註"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:595
 msgid "选择包装"
-msgstr ""
+msgstr "選擇包裝"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:603
 msgid "包装费"
-msgstr ""
+msgstr "包裝費"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:608
 msgid "不要包装"
-msgstr ""
+msgstr "不要包裝"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:630
 msgid "选择贺卡"
-msgstr ""
+msgstr "選擇賀卡"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:638
 msgid "贺卡费"
-msgstr ""
+msgstr "賀卡費"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:643
 msgid "不要贺卡"
-msgstr ""
+msgstr "不要賀卡"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:656
 msgid "贺卡祝福语："
-msgstr ""
+msgstr "賀卡祝福語："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:696
 #: content/apps/orders/templates/admin/order_info.dwt.php:596
 #: content/apps/orders/templates/merchant/order_step.dwt.php:509
 #: content/apps/orders/templates/merchant/order_info.dwt.php:644
 msgid "发票税额："
-msgstr ""
+msgstr "發票稅額："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:715
 #: content/apps/orders/templates/merchant/order_step.dwt.php:528
 msgid "可用余额："
-msgstr ""
+msgstr "可用餘額："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:726
 #: content/apps/orders/templates/merchant/order_step.dwt.php:538
 msgid "可用积分："
-msgstr ""
+msgstr "可用積分："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:755
 #: content/apps/orders/templates/admin/order_info.dwt.php:637
 #: content/apps/orders/templates/merchant/order_step.dwt.php:565
 #: content/apps/orders/templates/merchant/order_info.dwt.php:672
 msgid "应退款金额："
-msgstr ""
+msgstr "應退款金額："
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:769
 #: content/apps/orders/templates/admin/order_step.dwt.php:771
@@ -5013,19 +5091,19 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_step.dwt.php:575
 #: content/apps/orders/templates/merchant/order_step.dwt.php:621
 msgid "完成"
-msgstr ""
+msgstr "完成"
 
 #: content/apps/orders/templates/admin/order_step.dwt.php:779
 #: content/apps/orders/templates/merchant/order_step.dwt.php:588
 msgid "多个发货单号，请用英文逗号（“,”）隔开。"
-msgstr ""
+msgstr "多個發貨單號，請用英文逗號（“,”）隔開。"
 
 #: content/apps/orders/templates/admin/order_list.dwt.php:15
 #: content/apps/orders/templates/admin/other_order_list.dwt.php:18
 #: content/apps/orders/templates/merchant/mh_groupbuy_order_list.dwt.php:20
 #: content/apps/orders/templates/merchant/mh_order_list.dwt.php:28
 msgid "高级查询"
-msgstr ""
+msgstr "高級查詢"
 
 #: content/apps/orders/templates/admin/order_list.dwt.php:26
 #: content/apps/orders/templates/admin/other_order_list.dwt.php:36
@@ -5033,27 +5111,27 @@ msgstr ""
 #: content/apps/orders/templates/merchant/mh_order_list.dwt.php:47
 #: content/apps/orders/templates/merchant/today_order_list.dwt.php:62
 msgid "全部"
-msgstr ""
+msgstr "全部"
 
 #: content/apps/orders/templates/admin/order_list.dwt.php:65
 #: content/apps/orders/templates/admin/delivery_list.dwt.php:33
 #: content/apps/orders/templates/merchant/mh_groupbuy_order_list.dwt.php:120
 #: content/apps/orders/templates/merchant/mh_order_list.dwt.php:150
 msgid "筛选"
-msgstr ""
+msgstr "篩選"
 
 #: content/apps/orders/templates/admin/order_list.dwt.php:68
 #: content/apps/orders/templates/admin/order_stats_list.dwt.php:55
 #: content/apps/orders/templates/admin/other_order_list.dwt.php:89
 msgid "请输入商家名称关键字"
-msgstr ""
+msgstr "請輸入商家名稱關鍵字"
 
 #: content/apps/orders/templates/admin/order_list.dwt.php:69
 #: content/apps/orders/templates/merchant/mh_groupbuy_order_list.dwt.php:125
 #: content/apps/orders/templates/merchant/mh_order_list.dwt.php:155
 #: content/apps/orders/templates/merchant/today_order_list.dwt.php:108
 msgid "请输入订单编号或购买者信息"
-msgstr ""
+msgstr "請輸入訂單編號或購買者信息"
 
 #: content/apps/orders/templates/admin/order_list.dwt.php:81
 #: content/apps/orders/templates/admin/other_order_list.dwt.php:102
@@ -5061,19 +5139,19 @@ msgstr ""
 #: content/apps/orders/templates/merchant/mh_order_list.dwt.php:174
 #: content/apps/orders/templates/merchant/remind_list.dwt.php:51
 msgid "订单编号"
-msgstr ""
+msgstr "訂單編號"
 
 #: content/apps/orders/templates/admin/order_list.dwt.php:84
 #: content/apps/orders/templates/admin/other_order_list.dwt.php:105
 #: content/apps/orders/templates/merchant/mh_groupbuy_order_list.dwt.php:146
 #: content/apps/orders/templates/merchant/mh_order_list.dwt.php:176
 msgid "购买者信息"
-msgstr ""
+msgstr "購買者信息"
 
 #: content/apps/orders/templates/admin/order_list.dwt.php:87
 #: content/apps/orders/templates/merchant/mh_groupbuy_order_list.dwt.php:148
 msgid "保证金"
-msgstr ""
+msgstr "保證金"
 
 #: content/apps/orders/templates/admin/order_list.dwt.php:89
 #: content/apps/orders/templates/admin/other_order_list.dwt.php:107
@@ -5081,12 +5159,12 @@ msgstr ""
 #: content/apps/orders/templates/merchant/mh_order_list.dwt.php:178
 #: content/apps/orders/templates/merchant/today_order_list.dwt.php:125
 msgid "应付金额"
-msgstr ""
+msgstr "應付金額"
 
 #: content/apps/orders/templates/admin/order_list.dwt.php:91
 #: content/apps/orders/templates/merchant/mh_groupbuy_order_list.dwt.php:150
 msgid "团购状态"
-msgstr ""
+msgstr "團購狀態"
 
 #: content/apps/orders/templates/admin/order_list.dwt.php:102
 #: content/apps/orders/templates/admin/back_list.dwt.php:62
@@ -5099,233 +5177,233 @@ msgstr ""
 #: content/apps/orders/templates/merchant/back_list.dwt.php:69
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:87
 msgid "查看"
-msgstr ""
+msgstr "查看"
 
 #: content/apps/orders/templates/admin/order_list.dwt.php:104
 msgid "您确定要删除该订单么？'"
-msgstr ""
+msgstr "您確定要刪除該訂單麼？ '"
 
 #: content/apps/orders/templates/admin/order_list.dwt.php:111
 #: content/apps/orders/templates/admin/other_order_list.dwt.php:125
 msgid "（自营）"
-msgstr ""
+msgstr "（自營）"
 
 #: content/apps/orders/templates/admin/order_query.dwt.php:35
 #: content/apps/orders/templates/merchant/sale_list.dwt.php:34
 #: content/apps/orders/templates/merchant/order_query.dwt.php:39
 #: content/apps/orders/templates/merchant/sale_order.dwt.php:34
 msgid "开始时间"
-msgstr ""
+msgstr "開始時間"
 
 #: content/apps/orders/templates/admin/order_query.dwt.php:39
 #: content/apps/orders/templates/merchant/sale_list.dwt.php:36
 #: content/apps/orders/templates/merchant/order_query.dwt.php:43
 #: content/apps/orders/templates/merchant/sale_order.dwt.php:36
 msgid "结束时间"
-msgstr ""
+msgstr "結束時間"
 
 #: content/apps/orders/templates/admin/order_query.dwt.php:56
 #: content/apps/orders/templates/merchant/order_query.dwt.php:59
 msgid "付款状态："
-msgstr ""
+msgstr "付款狀態："
 
 #: content/apps/orders/templates/admin/order_query.dwt.php:65
 #: content/apps/orders/templates/merchant/order_query.dwt.php:68
 msgid "发货状态："
-msgstr ""
+msgstr "發貨狀態："
 
 #: content/apps/orders/templates/admin/order_query.dwt.php:106
 msgid "商家名称："
-msgstr ""
+msgstr "商家名稱："
 
 #: content/apps/orders/templates/admin/order_query.dwt.php:122
 #: content/apps/orders/templates/merchant/order_query.dwt.php:126
 #: content/apps/orders/templates/merchant/order_query.dwt.php:185
 msgid "收货地址信息"
-msgstr ""
+msgstr "收貨地址信息"
 
 #: content/apps/orders/templates/admin/order_query.dwt.php:134
 #: content/apps/orders/templates/merchant/order_query.dwt.php:138
 msgid "省："
-msgstr ""
+msgstr "省："
 
 #: content/apps/orders/templates/admin/order_query.dwt.php:145
 #: content/apps/orders/templates/merchant/order_query.dwt.php:149
 msgid "市："
-msgstr ""
+msgstr "市："
 
 #: content/apps/orders/templates/admin/order_query.dwt.php:153
 #: content/apps/orders/templates/merchant/order_query.dwt.php:157
 msgid "区/县："
-msgstr ""
+msgstr "區/縣："
 
 #: content/apps/orders/templates/admin/order_query.dwt.php:161
 #: content/apps/orders/templates/merchant/order_query.dwt.php:165
 msgid "街道/镇："
-msgstr ""
+msgstr "街道/鎮："
 
 #: content/apps/orders/templates/admin/order_query.dwt.php:181
 msgid "配送/支付方式"
-msgstr ""
+msgstr "配送/支付方式"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:24
 #: content/apps/orders/templates/merchant/back_info.dwt.php:102
 #: content/apps/orders/templates/merchant/order_info.dwt.php:206
 #: content/apps/orders/templates/merchant/order_info.dwt.php:212
 msgid "购货人信息"
-msgstr ""
+msgstr "購貨人信息"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:38
 msgid "查看详细信息 >>"
-msgstr ""
+msgstr "查看詳細信息 >>"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:42
 #: content/apps/orders/templates/merchant/order_info.dwt.php:214
 msgid "账户余额"
-msgstr ""
+msgstr "賬戶餘額"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:46
 #: content/apps/orders/templates/merchant/order_info.dwt.php:215
 msgid "消费积分"
-msgstr ""
+msgstr "消費積分"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:50
 #: content/apps/orders/templates/merchant/order_info.dwt.php:216
 msgid "成长值"
-msgstr ""
+msgstr "成長值"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:53
 #: content/apps/orders/templates/merchant/order_info.dwt.php:218
 msgid "红包数量"
-msgstr ""
+msgstr "紅包數量"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:58
 #: content/apps/orders/templates/merchant/remind_list.dwt.php:53
 msgid "收货地址"
-msgstr ""
+msgstr "收貨地址"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:75
 msgid "暂无收货地址"
-msgstr ""
+msgstr "暫無收貨地址"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:131
 #: content/apps/orders/templates/merchant/order_info.dwt.php:283
 msgid "请输入订单号或者订单id"
-msgstr ""
+msgstr "請輸入訂單號或者訂單id"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:138
 #: content/apps/orders/templates/merchant/order_info.dwt.php:291
 msgid "前一个订单"
-msgstr ""
+msgstr "前一個訂單"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:146
 #: content/apps/orders/templates/merchant/order_info.dwt.php:298
 msgid "后一个订单"
-msgstr ""
+msgstr "後一個訂單"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:195
 msgid "显示购货人信息"
-msgstr ""
+msgstr "顯示購貨人信息"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:236
 #: content/apps/orders/templates/merchant/order_info.dwt.php:374
 msgid "期望送达时间："
-msgstr ""
+msgstr "期望送達時間："
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:271
 #: content/apps/orders/templates/merchant/order_info.dwt.php:394
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:119
 msgid "配送员电话："
-msgstr ""
+msgstr "配送員電話："
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:295
 #: content/apps/orders/templates/merchant/order_info.dwt.php:413
 msgid "参与活动"
-msgstr ""
+msgstr "參與活動"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:304
 #: content/apps/orders/templates/merchant/order_info.dwt.php:421
 msgid "活动类型："
-msgstr ""
+msgstr "活動類型："
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:310
 #: content/apps/orders/templates/merchant/order_info.dwt.php:423
 msgid "活动状态："
-msgstr ""
+msgstr "活動狀態："
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:324
 #: content/apps/orders/templates/merchant/order_info.dwt.php:427
 msgid "活动商品："
-msgstr ""
+msgstr "活動商品："
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:327
 #: content/apps/orders/templates/merchant/order_info.dwt.php:428
 msgid "[ 活动详情 ]"
-msgstr ""
+msgstr "[ 活動詳情 ]"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:332
 #: content/apps/orders/templates/merchant/order_info.dwt.php:429
 msgid "保证金："
-msgstr ""
+msgstr "保證金："
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:347
 #: content/apps/orders/templates/merchant/order_info.dwt.php:443
 msgid "发货单信息"
-msgstr ""
+msgstr "發貨單信息"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:396
 #: content/apps/orders/templates/merchant/order_info.dwt.php:482
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:182
 msgid "个人"
-msgstr ""
+msgstr "個人"
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:556
 #: content/apps/orders/templates/merchant/order_info.dwt.php:607
 msgid "商品总重量："
-msgstr ""
+msgstr "商品總重量："
 
 #: content/apps/orders/templates/admin/order_info.dwt.php:640
 #: content/apps/orders/templates/merchant/order_info.dwt.php:676
 msgid "（备注：团购如果有保证金，第一次只需支付保证金和相应的支付费用）"
-msgstr ""
+msgstr "（備註：團購如果有保證金，第一次只需支付保證金和相應的支付費用）"
 
 #: content/apps/orders/templates/admin/users_order.dwt.php:14
 msgid "没有完成过订单交易的会员不计入会员排行"
-msgstr ""
+msgstr "沒有完成過訂單交易的會員不計入會員排行"
 
 #: content/apps/orders/templates/admin/order_stats_list.dwt.php:21
 msgid "统计店铺排名前30的销量以及成交金额对比"
-msgstr ""
+msgstr "統計店鋪排名前30的銷量以及成交金額對比"
 
 #: content/apps/orders/templates/admin/order_stats_list.dwt.php:31
 #: content/apps/orders/templates/admin/order_stats_list.dwt.php:72
 msgid "成交总金额"
-msgstr ""
+msgstr "成交總金額"
 
 #: content/apps/orders/templates/admin/order_stats_list.dwt.php:32
 #: content/apps/orders/templates/admin/order_stats_list.dwt.php:71
 msgid "成交订单数"
-msgstr ""
+msgstr "成交訂單數"
 
 #: content/apps/orders/templates/admin/order_stats_list.dwt.php:47
 msgid "店铺排行榜"
-msgstr ""
+msgstr "店鋪排行榜"
 
 #: content/apps/orders/templates/admin/order_stats_list.dwt.php:67
 msgid "店铺排行"
-msgstr ""
+msgstr "店鋪排行"
 
 #: content/apps/orders/templates/admin/order_stats_list.dwt.php:69
 msgid "下单总数"
-msgstr ""
+msgstr "下單總數"
 
 #: content/apps/orders/templates/admin/order_stats_list.dwt.php:70
 msgid "下单总金额"
-msgstr ""
+msgstr "下單總金額"
 
 #: content/apps/orders/templates/admin/order_stats_list.dwt.php:82
 msgid "查看统计"
-msgstr ""
+msgstr "查看統計"
 
 #: content/apps/orders/templates/admin/order_merge.dwt.php:12
 #: content/apps/orders/templates/admin/order_merge.dwt.php:38
@@ -5335,55 +5413,57 @@ msgid ""
 "当两个订单不一致时，合并后的订单信息（如：支付方式、配送方式、包装、贺卡、红"
 "包等）以主订单为准。"
 msgstr ""
+"當兩個訂單不一致時，合併後的訂單信息（如：支付方式、配送方式、包裝、賀卡、紅"
+"包等）以主訂單為準。"
 
 #: content/apps/orders/templates/admin/order_merge.dwt.php:28
 #: content/apps/orders/templates/merchant/order_merge.dwt.php:28
 msgid "主订单："
-msgstr ""
+msgstr "主訂單："
 
 #: content/apps/orders/templates/admin/order_merge.dwt.php:34
 #: content/apps/orders/templates/admin/order_merge.dwt.php:48
 #: content/apps/orders/templates/merchant/order_merge.dwt.php:35
 #: content/apps/orders/templates/merchant/order_merge.dwt.php:54
 msgid "[匿名]"
-msgstr ""
+msgstr "[匿名]"
 
 #: content/apps/orders/templates/admin/order_merge.dwt.php:42
 #: content/apps/orders/templates/merchant/order_merge.dwt.php:47
 msgid "从订单："
-msgstr ""
+msgstr "從訂單："
 
 #: content/apps/orders/templates/admin/order_merge.dwt.php:56
 #: content/apps/orders/templates/merchant/order_merge.dwt.php:65
 msgid "合并"
-msgstr ""
+msgstr "合併"
 
 #: content/apps/orders/templates/admin/sale_general.dwt.php:19
 #: content/apps/orders/templates/merchant/sale_general.dwt.php:18
 msgid "没有完成的订单不计入销售概况，默认为月走势"
-msgstr ""
+msgstr "沒有完成的訂單不計入銷售概況，默認為月走勢"
 
 #: content/apps/orders/templates/admin/sale_general.dwt.php:33
 #: content/apps/orders/templates/merchant/sale_general.dwt.php:45
 msgid "年走势："
-msgstr ""
+msgstr "年走勢："
 
 #: content/apps/orders/templates/admin/sale_general.dwt.php:43
 #: content/apps/orders/templates/merchant/sale_general.dwt.php:56
 msgid "月走势："
-msgstr ""
+msgstr "月走勢："
 
 #: content/apps/orders/templates/admin/sale_general.dwt.php:56
 #: content/apps/orders/templates/merchant/sale_general.dwt.php:73
 msgid "订单走势"
-msgstr ""
+msgstr "訂單走勢"
 
 #: content/apps/orders/templates/admin/sale_general.dwt.php:57
 #: content/apps/orders/templates/merchant/sale_general.dwt.php:77
 #: content/apps/orders/templates/merchant/sale_general.dwt.php:79
 #: content/apps/orders/templates/merchant/sale_general.dwt.php:81
 msgid "销售额走势"
-msgstr ""
+msgstr "銷售額走勢"
 
 #: content/apps/orders/templates/admin/back_list.dwt.php:25
 #: content/apps/orders/templates/admin/delivery_list.dwt.php:22
@@ -5393,22 +5473,22 @@ msgstr ""
 #: content/apps/orders/templates/merchant/back_list.dwt.php:24
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:40
 msgid "批量操作"
-msgstr ""
+msgstr "批量操作"
 
 #: content/apps/orders/templates/admin/back_list.dwt.php:29
 msgid "您确定需要删除这些退货单吗？"
-msgstr ""
+msgstr "您確定需要刪除這些退貨單嗎？"
 
 #: content/apps/orders/templates/admin/back_list.dwt.php:29
 msgid "请选择需要操作的退货单！"
-msgstr ""
+msgstr "請選擇需要操作的退貨單！"
 
 #: content/apps/orders/templates/admin/back_list.dwt.php:33
 #: content/apps/orders/templates/admin/delivery_list.dwt.php:35
 #: content/apps/orders/templates/merchant/back_list.dwt.php:29
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:48
 msgid "请输入发货单流水号"
-msgstr ""
+msgstr "請輸入發貨單流水號"
 
 #: content/apps/orders/templates/admin/back_list.dwt.php:34
 #: content/apps/orders/templates/admin/delivery_list.dwt.php:36
@@ -5416,148 +5496,148 @@ msgstr ""
 #: content/apps/orders/templates/merchant/back_list.dwt.php:30
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:49
 msgid "请输入订单号或者收货人"
-msgstr ""
+msgstr "請輸入訂單號或者收貨人"
 
 #: content/apps/orders/templates/admin/back_list.dwt.php:46
 #: content/apps/orders/templates/admin/delivery_list.dwt.php:49
 #: content/apps/orders/templates/merchant/back_list.dwt.php:47
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:66
 msgid "发货单流水号"
-msgstr ""
+msgstr "發貨單流水號"
 
 #: content/apps/orders/templates/admin/back_list.dwt.php:50
 #: content/apps/orders/templates/admin/delivery_list.dwt.php:53
 #: content/apps/orders/templates/merchant/back_list.dwt.php:51
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:70
 msgid "发货时间"
-msgstr ""
+msgstr "發貨時間"
 
 #: content/apps/orders/templates/admin/back_list.dwt.php:51
 #: content/apps/orders/templates/merchant/back_list.dwt.php:52
 msgid "退货时间"
-msgstr ""
+msgstr "退貨時間"
 
 #: content/apps/orders/templates/admin/back_list.dwt.php:52
 #: content/apps/orders/templates/admin/delivery_list.dwt.php:56
 msgid "操作人"
-msgstr ""
+msgstr "操作人"
 
 #: content/apps/orders/templates/admin/back_list.dwt.php:63
 #: content/apps/orders/templates/admin/delivery_list.dwt.php:67
 msgid "您确定需要删除该退货单吗？"
-msgstr ""
+msgstr "您確定需要刪除該退貨單嗎？"
 
 #: content/apps/orders/templates/admin/back_list.dwt.php:66
 #: content/apps/orders/templates/admin/delivery_list.dwt.php:70
 #: content/apps/orders/templates/merchant/back_list.dwt.php:73
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:92
 msgid "查看订单"
-msgstr ""
+msgstr "查看訂單"
 
 #: content/apps/orders/templates/admin/back_list.dwt.php:68
 #: content/apps/orders/templates/admin/delivery_list.dwt.php:72
 #: content/apps/orders/templates/merchant/back_list.dwt.php:75
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:94
 msgid "显示收货人信息"
-msgstr ""
+msgstr "顯示收貨人信息"
 
 #: content/apps/orders/templates/admin/delivery_list.dwt.php:26
 #: content/apps/orders/templates/merchant/remind_list.dwt.php:27
 #: content/apps/orders/templates/merchant/back_list.dwt.php:25
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:42
 msgid "您确定需要删除这些发货单吗？"
-msgstr ""
+msgstr "您確定需要刪除這些發貨單嗎？"
 
 #: content/apps/orders/templates/admin/delivery_list.dwt.php:26
 #: content/apps/orders/templates/merchant/remind_list.dwt.php:27
 #: content/apps/orders/templates/merchant/back_list.dwt.php:25
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:43
 msgid "请选择需要操作的发货单！"
-msgstr ""
+msgstr "請選擇需要操作的發貨單！"
 
 #: content/apps/orders/templates/admin/delivery_list.dwt.php:55
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:71
 msgid "发货单状态"
-msgstr ""
+msgstr "發貨單狀態"
 
 #: content/apps/orders/templates/admin/order_delivery_info.dwt.php:55
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:56
 msgid "（保价费用：%1）"
-msgstr ""
+msgstr "（保價費用：%1）"
 
 #: content/apps/orders/templates/admin/order_delivery_info.dwt.php:135
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:128
 msgid "供货商"
-msgstr ""
+msgstr "供貨商"
 
 #: content/apps/orders/templates/admin/order_delivery_info.dwt.php:139
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:132
 msgid "已发货数量"
-msgstr ""
+msgstr "已發貨數量"
 
 #: content/apps/orders/templates/admin/order_delivery_info.dwt.php:140
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:133
 msgid "此单发货数量"
-msgstr ""
+msgstr "此單發貨數量"
 
 #: content/apps/orders/templates/admin/order_delivery_info.dwt.php:148
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:141
 msgid "（礼包）"
-msgstr ""
+msgstr "（禮包）"
 
 #: content/apps/orders/templates/admin/order_delivery_info.dwt.php:210
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:208
 msgid "选择供货商："
-msgstr ""
+msgstr "選擇供貨商："
 
 #: content/apps/orders/templates/admin/order_delivery_info.dwt.php:213
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:211
 msgid "不指定供货商本店自行处理"
-msgstr ""
+msgstr "不指定供貨商本店自行處理"
 
 #: content/apps/orders/templates/admin/order_delivery_info.dwt.php:230
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:228
 msgid "确认生成发货单"
-msgstr ""
+msgstr "確認生成發貨單"
 
 #: content/apps/orders/templates/admin/sale_order.dwt.php:14
 #: content/apps/orders/templates/merchant/sale_order.dwt.php:13
 msgid "没有完成的订单不计入销售排行"
-msgstr ""
+msgstr "沒有完成的訂單不計入銷售排行"
 
 #: content/apps/orders/templates/admin/other_order_list.dwt.php:60
 #: content/apps/orders/templates/merchant/mh_order_list.dwt.php:93
 msgid "未提货"
-msgstr ""
+msgstr "未提貨"
 
 #: content/apps/orders/templates/admin/other_order_list.dwt.php:90
 msgid "请输入订单编号或购买者姓名"
-msgstr ""
+msgstr "請輸入訂單編號或購買者姓名"
 
 #: content/apps/orders/templates/admin/other_order_list.dwt.php:115
 msgid "（积分兑换）"
-msgstr ""
+msgstr "（積分兌換）"
 
 #: content/apps/orders/templates/admin/other_order_list.dwt.php:120
 msgid "您确定要删除该订单么？"
-msgstr ""
+msgstr "您確定要刪除該訂單麼？"
 
 #: content/apps/orders/templates/merchant/delivery_info.dwt.php:75
 msgid "配送人员："
-msgstr ""
+msgstr "配送人員："
 
 #: content/apps/orders/templates/merchant/delivery_info.dwt.php:79
 msgid "自动选择"
-msgstr ""
+msgstr "自動選擇"
 
 #: content/apps/orders/templates/merchant/delivery_info.dwt.php:85
 msgid "注：非必填，未选择默认自动派单"
-msgstr ""
+msgstr "注：非必填，未選擇默認自動派單"
 
 #: content/apps/orders/templates/merchant/delivery_info.dwt.php:127
 #: content/apps/orders/templates/merchant/validate_order.dwt.php:35
 msgid "手机号码："
-msgstr ""
+msgstr "手機號碼："
 
 #: content/apps/orders/templates/merchant/delivery_info.dwt.php:250
 #: content/apps/orders/templates/merchant/order_info.dwt.php:792
@@ -5566,42 +5646,42 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:397
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:265
 msgid "操作说明："
-msgstr ""
+msgstr "操作说明："
 
 #: content/apps/orders/templates/merchant/delivery_info.dwt.php:253
 msgid "【发货】标记订单为已发货状态"
-msgstr ""
+msgstr "【發貨】標記訂單為已發貨狀態"
 
 #: content/apps/orders/templates/merchant/delivery_info.dwt.php:257
 msgid "【取消发货】标记订单为未发货状态"
-msgstr ""
+msgstr "【取消發貨】標記訂單為未發貨狀態"
 
 #: content/apps/orders/templates/merchant/mh_groupbuy_order_list.dwt.php:93
 #: content/apps/orders/templates/merchant/mh_order_list.dwt.php:121
 msgid "您确定要审批这些订单吗？"
-msgstr ""
+msgstr "您確定要審批這些訂單嗎？"
 
 #: content/apps/orders/templates/merchant/mh_groupbuy_order_list.dwt.php:93
 #: content/apps/orders/templates/merchant/mh_order_list.dwt.php:121
 msgid "请选择需要操作的订单"
-msgstr ""
+msgstr "請選擇需要操作的訂單"
 
 #: content/apps/orders/templates/merchant/mh_groupbuy_order_list.dwt.php:98
 #: content/apps/orders/templates/merchant/mh_order_list.dwt.php:132
 msgid "您确定要取消这些订单吗？"
-msgstr ""
+msgstr "您確定要取消這些訂單嗎？"
 
 #: content/apps/orders/templates/merchant/mh_groupbuy_order_list.dwt.php:109
 #: content/apps/orders/templates/merchant/mh_order_list.dwt.php:138
 #: content/apps/orders/templates/merchant/order_print.dwt.php:3
 msgid "打印订单"
-msgstr ""
+msgstr "打印訂單"
 
 #: content/apps/orders/templates/merchant/mh_groupbuy_order_list.dwt.php:168
 #: content/apps/orders/templates/merchant/mh_order_list.dwt.php:196
 #: content/apps/orders/templates/merchant/today_order_list.dwt.php:138
 msgid "\"}您确定要删除订单[ %1 ]吗？"
-msgstr ""
+msgstr "\"}您確定要刪除訂單[ %1 ]嗎？"
 
 #: content/apps/orders/templates/merchant/mh_groupbuy_order_list.dwt.php:169
 #: content/apps/orders/templates/merchant/mh_order_list.dwt.php:197
@@ -5614,257 +5694,257 @@ msgstr ""
 #: content/apps/orders/templates/merchant/back_list.dwt.php:70
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:89
 msgid "移除"
-msgstr ""
+msgstr "移除"
 
 #: content/apps/orders/templates/merchant/mh_order_list.dwt.php:123
 msgid "接单"
-msgstr ""
+msgstr "接單"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:6
 msgid "店铺资金"
-msgstr ""
+msgstr "店鋪資金"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:8
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:37
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:185
 msgid "查看更多 >>"
-msgstr ""
+msgstr "查看更多 >>"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:13
 msgid "账户余额（元）"
-msgstr ""
+msgstr "賬戶餘額（元）"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:17
 msgid "冻结资金（元）"
-msgstr ""
+msgstr "凍結資金（元）"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:21
 msgid "保证金（元）"
-msgstr ""
+msgstr "保證金（元）"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:25
 msgid "可用余额（元）"
-msgstr ""
+msgstr "可用餘額（元）"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:35
 msgid "订单统计类型"
-msgstr ""
+msgstr "訂單統計類型"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:71
 msgid "平台配送"
-msgstr ""
+msgstr "平台配送"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:76
 msgid "提醒派单"
-msgstr ""
+msgstr "提醒派單"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:83
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:120
 msgid "待取货"
-msgstr ""
+msgstr "待取貨"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:90
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:127
 msgid "配送中"
-msgstr ""
+msgstr "配送中"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:108
 msgid "商家配送"
-msgstr ""
+msgstr "商家配送"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:113
 msgid "待派单"
-msgstr ""
+msgstr "待派單"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:150
 msgid "促销"
-msgstr ""
+msgstr "促銷"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:157
 msgid "优惠"
-msgstr ""
+msgstr "優惠"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:171
 msgid "买单"
-msgstr ""
+msgstr "買單"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:183
 msgid "商品热卖榜"
-msgstr ""
+msgstr "商品熱賣榜"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_commission.lbi.php:196
 msgid "单价"
-msgstr ""
+msgstr "單價"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_overview.lbi.php:9
 msgid "待接单订单（单）"
-msgstr ""
+msgstr "待接單訂單（單）"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_overview.lbi.php:20
 msgid "待发货订单（单）"
-msgstr ""
+msgstr "待發貨訂單（單）"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_overview.lbi.php:31
 msgid "待收货订单（单）"
-msgstr ""
+msgstr "待收貨訂單（單）"
 
 #: content/apps/orders/templates/merchant/library/widget_merchant_dashboard_overview.lbi.php:42
 msgid "退款/售后订单（单）"
-msgstr ""
+msgstr "退款/售後訂單（單）"
 
 #: content/apps/orders/templates/merchant/order_edit_shipping.dwt.php:19
 #: content/apps/orders/templates/merchant/order_step.dwt.php:29
 msgid "（当前用户：%1）"
-msgstr ""
+msgstr "（當前用戶：%1）"
 
 #: content/apps/orders/templates/merchant/order_step.dwt.php:78
 msgid "\"}您确定要删除订单商品[ %1 ]吗？"
-msgstr ""
+msgstr "\"}您確定要刪除訂單商品[ %1 ]嗎？"
 
 #: content/apps/orders/templates/merchant/order_step.dwt.php:108
 msgid "按商品编号或商品名称或商品货号搜索："
-msgstr ""
+msgstr "按商品編號或商品名稱或商品貨號搜索："
 
 #: content/apps/orders/templates/merchant/order_step.dwt.php:202
 msgid "(默认收货地址)"
-msgstr ""
+msgstr "(默認收貨地址)"
 
 #: content/apps/orders/templates/merchant/order_step.dwt.php:253
 msgid "省份："
-msgstr ""
+msgstr "省份："
 
 #: content/apps/orders/templates/merchant/today_order_list.dwt.php:42
 msgid "手动刷新"
-msgstr ""
+msgstr "手動刷新"
 
 #: content/apps/orders/templates/merchant/today_order_list.dwt.php:43
 msgid "下单铃声"
-msgstr ""
+msgstr "下單鈴聲"
 
 #: content/apps/orders/templates/merchant/today_order_list.dwt.php:110
 msgid "搜索订单"
-msgstr ""
+msgstr "搜索訂單"
 
 #: content/apps/orders/templates/merchant/today_order_list.dwt.php:123
 msgid "购买用户信息"
-msgstr ""
+msgstr "購買用戶信息"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:32
 msgid "订单操作：退款/退货"
-msgstr ""
+msgstr "訂單操作：退款/退貨"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:53
 msgid "返还方式："
-msgstr ""
+msgstr "返還方式："
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:56
 msgid "上门取件"
-msgstr ""
+msgstr "上門取件"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:56
 msgid "（由商家联系配送员上门取件）"
-msgstr ""
+msgstr "（由商家聯繫配送員上門取件）"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:60
 msgid "自选快递"
-msgstr ""
+msgstr "自選快遞"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:60
 msgid "（由用户自选第三方快递公司配送）"
-msgstr ""
+msgstr "（由用戶自選第三方快遞公司配送）"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:62
 msgid "收件人："
-msgstr ""
+msgstr "收件人："
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:68
 msgid "到店退货"
-msgstr ""
+msgstr "到店退貨"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:68
 msgid "（由用户到门店线下退货）"
-msgstr ""
+msgstr "（由用戶到門店線下退貨）"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:78
 msgid "退款原因："
-msgstr ""
+msgstr "退款原因："
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:82
 msgid "暂不想购买了"
-msgstr ""
+msgstr "暫不想購買了"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:83
 msgid "信息填写有误，重新购买"
-msgstr ""
+msgstr "信息填寫有誤，重新購買"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:84
 msgid "外表损伤（包装，商品等）"
-msgstr ""
+msgstr "外表損傷（包裝，商品等）"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:85
 msgid "商品质量问题"
-msgstr ""
+msgstr "商品質量問題"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:86
 msgid "发错货"
-msgstr ""
+msgstr "發錯貨"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:87
 msgid "未在时效内送达"
-msgstr ""
+msgstr "未在時效內送達"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:88
 msgid "服务态度问题"
-msgstr ""
+msgstr "服務態度問題"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:122
 msgid "拒绝接单"
-msgstr ""
+msgstr "拒絕接單"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:130
 msgid "拒绝原因："
-msgstr ""
+msgstr "拒絕原因："
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:182
 msgid "请输入此订单的运单编号"
-msgstr ""
+msgstr "請輸入此訂單的運單編號"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:213
 #: content/apps/orders/templates/merchant/order_info.dwt.php:223
 msgid "电子邮件"
-msgstr ""
+msgstr "電子郵件"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:217
 msgid "会员等级"
-msgstr ""
+msgstr "會員等級"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:224
 msgid "地址"
-msgstr ""
+msgstr "地址"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:226
 msgid "电话"
-msgstr ""
+msgstr "電話"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:227
 msgid "备用电话"
-msgstr ""
+msgstr "備用電話"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:303
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:57
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:58
 msgid "打印"
-msgstr ""
+msgstr "打印"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:307
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:61
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:62
 msgid "小票打印"
-msgstr ""
+msgstr "小票打印"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:366
 msgid "打印快递单"
-msgstr ""
+msgstr "打印快遞單"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:468
 #: content/apps/orders/templates/merchant/order_info.dwt.php:498
@@ -5877,166 +5957,169 @@ msgstr ""
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:273
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:50
 msgid "编辑"
-msgstr ""
+msgstr "編輯"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:742
 msgid "确认接单"
-msgstr ""
+msgstr "確認接單"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:762
 msgid "拒单"
-msgstr ""
+msgstr "拒單"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:770
 msgid "退款/退货"
-msgstr ""
+msgstr "退款/退貨"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:774
 msgid "确认退货"
-msgstr ""
+msgstr "確認退貨"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:778
 msgid "添加备注"
-msgstr ""
+msgstr "添加備註"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:786
 msgid "备注：团购活动未处理为成功前，不能发货"
-msgstr ""
+msgstr "備註：團購活動未處理為成功前，不能發貨"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:794
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:399
 msgid "【取消】设置该订单为无效/作废订单；"
-msgstr ""
+msgstr "【取消】設置該訂單為無效/作廢訂單；"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:795
 msgid "【确认接单】标记订单为已接单状态；"
-msgstr ""
+msgstr "【確認接單】標記訂單為已接單狀態；"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:796
 msgid "【拒单】标记订单为取消状态，取消后，系统自动将款项退回给用户；"
-msgstr ""
+msgstr "【拒單】標記訂單為取消狀態，取消後，系統自動將款項退回給用戶；"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:798
 msgid "【一键发货】标记订单为已发货状态；"
-msgstr ""
+msgstr "【一鍵發貨】標記訂單為已發貨狀態；"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:799
 msgid "【配货】标记订单为配货状态，对订单商品进行配货；"
-msgstr ""
+msgstr "【配貨】標記訂單為配貨狀態，對訂單商品進行配貨；"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:800
 msgid "【生成发货单】对已经配货完成的订单进行发货，并且生成发货单详细信息；"
-msgstr ""
+msgstr "【生成發貨單】對已經配貨完成的訂單進行發貨，並且生成發貨單詳細信息；"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:801
 msgid "【退款/退货】设置该订单进入售后处理流程；"
-msgstr ""
+msgstr "【退款/退貨】設置該訂單進入售後處理流程；"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:802
 msgid "【添加备注】对该订单的补充说明；"
-msgstr ""
+msgstr "【添加備註】對該訂單的補充說明；"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:804
 msgid "【确认退货】操作人员对该订单的确认退货操作记录；"
-msgstr ""
+msgstr "【確認退貨】操作人員對該訂單的確認退貨操作記錄；"
 
 #: content/apps/orders/templates/merchant/order_info.dwt.php:805
 msgid "【移除】对已经标记取消或无效的订单删除"
-msgstr ""
+msgstr "【移除】對已經標記取消或無效的訂單刪除"
 
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:92
 msgid "购买人姓名："
-msgstr ""
+msgstr "購買人姓名："
 
 #: content/apps/orders/templates/merchant/order_storebuy_info.dwt.php:280
 msgid "【取消】设置该订单为无效/作废订单"
-msgstr ""
+msgstr "【取消】設置該訂單為無效/作廢訂單"
 
 #: content/apps/orders/templates/merchant/remind_list.dwt.php:54
 msgid "审核状态"
-msgstr ""
+msgstr "審核狀態"
 
 #: content/apps/orders/templates/merchant/remind_list.dwt.php:55
 msgid "催单时间"
-msgstr ""
+msgstr "催單時間"
 
 #: content/apps/orders/templates/merchant/remind_list.dwt.php:70
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:87
 msgid "详细信息"
-msgstr ""
+msgstr "詳細信息"
 
 #: content/apps/orders/templates/merchant/remind_list.dwt.php:71
 #: content/apps/orders/templates/merchant/back_list.dwt.php:70
 msgid "\"}您确定要删除退货单[ %1 ]吗？"
-msgstr ""
+msgstr "\"}您確定要刪除退貨單[ %1 ]嗎？"
 
 #: content/apps/orders/templates/merchant/sale_general.dwt.php:92
 #: content/apps/orders/templates/merchant/sale_general.dwt.php:103
 msgid "加载中..."
-msgstr ""
+msgstr "加載中..."
 
 #: content/apps/orders/templates/merchant/validate_order.dwt.php:22
 #: content/apps/orders/templates/merchant/validate_order.dwt.php:96
 msgid "验证码："
-msgstr ""
+msgstr "驗證碼："
 
 #: content/apps/orders/templates/merchant/validate_order.dwt.php:26
 msgid "未验单"
-msgstr ""
+msgstr "未驗單"
 
 #: content/apps/orders/templates/merchant/validate_order.dwt.php:29
 msgid "姓名："
-msgstr ""
+msgstr "姓名："
 
 #: content/apps/orders/templates/merchant/validate_order.dwt.php:41
 msgid "支付金额："
-msgstr ""
+msgstr "支付金額："
 
 #: content/apps/orders/templates/merchant/validate_order.dwt.php:66
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:356
 msgid "确认验证"
-msgstr ""
+msgstr "確認驗證"
 
 #: content/apps/orders/templates/merchant/validate_order.dwt.php:99
 msgid "请输入用户手机收到的提货验证码"
-msgstr ""
+msgstr "請輸入用戶手機收到的提貨驗證碼"
 
 #: content/apps/orders/templates/merchant/delivery_list.dwt.php:89
 msgid "\"}您确定要删除发货单[ %1 ]吗？"
-msgstr ""
+msgstr "\"}您確定要刪除發貨單[ %1 ]嗎？"
 
 #: content/apps/orders/templates/merchant/order_storepickup_info.dwt.php:363
 msgid "【确认验证】设置该笔订单的商品已被买家取走；"
-msgstr ""
+msgstr "【確認驗證】設置該筆訂單的商品已被買家取走；"
 
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:51
 msgid "注：修改配送方式，额外产生的配送费用不做修改"
-msgstr ""
+msgstr "注：修改配送方式，額外產生的配送費用不做修改"
 
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:267
 msgid "【确认生成发货单】确认生成该订单的发货单；"
-msgstr ""
+msgstr "【確認生成發貨單】確認生成該訂單的發貨單；"
 
 #: content/apps/orders/templates/merchant/order_delivery_info.dwt.php:268
 msgid "【取消】取消生成发货单操作，返回到上一步；"
-msgstr ""
+msgstr "【取消】取消生成發貨單操作，返回到上一步；"
 
 #: content/apps/orders/templates/merchant/adsense.dwt.php:21
 msgid "投放的名称"
-msgstr ""
+msgstr "投放的名稱"
 
 #: content/apps/orders/templates/merchant/adsense.dwt.php:22
 msgid "点击来源"
-msgstr ""
+msgstr "點擊來源"
 
 #: content/apps/orders/templates/merchant/adsense.dwt.php:23
 msgid "点击次数"
-msgstr ""
+msgstr "點擊次數"
 
 #: content/apps/orders/templates/merchant/adsense.dwt.php:24
 msgid "有效订单数"
-msgstr ""
+msgstr "有效訂單數"
 
 #: content/apps/orders/templates/merchant/adsense.dwt.php:25
 msgid "产生订单总数"
-msgstr ""
+msgstr "產生訂單總數"
+
+#~ msgid "保存成功"
+#~ msgstr "保存成功"

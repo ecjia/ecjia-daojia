@@ -79,7 +79,9 @@ class orders_admin_purview_api extends Component_Event_Api
             array('action_name' => __('销售排行', 'orders'), 'action_code' => 'sale_order_stats', 'relevance' => ''),
 
             array('action_name' => __('访问购买率', 'orders'), 'action_code' => 'visit_sold_stats', 'relevance' => ''),
-            array('action_name' => __('广告转化率', 'orders'), 'action_code' => 'adsense_conversion_stats', 'relevance' => '')
+            array('action_name' => __('广告转化率', 'orders'), 'action_code' => 'adsense_conversion_stats', 'relevance' => ''),
+        		
+        	array('action_name' => __('订单设置', 'orders'), 'action_code' => 'order_setting', 'relevance' => ''),
         );
 
         return $purviews;

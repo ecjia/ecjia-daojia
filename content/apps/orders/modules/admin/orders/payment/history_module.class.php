@@ -87,6 +87,7 @@ class history_module extends api_admin implements api_interface
         $order_list = [];
 
         $dbview->where(RC_DB::raw('oi.pay_status'), PS_PAYED)
+        	->where(RC_DB::raw('cr.order_type'), 'buy')
             ->whereIn(RC_DB::raw('cr.action'), array('billing', 'check_order'));//开单和验单的
 
         $device_type = Ecjia\App\Cashier\CashierDevice::get_device_type($device['code']);
@@ -104,9 +105,8 @@ class history_module extends api_admin implements api_interface
             $dbview->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id']);
         }
         if (!empty($start_date) && !empty($end_date)) {
-            $where['cr.create_at'] = array('egt' => $start_date, 'elt' => $end_date);
-            $dbview->where(RC_DB::raw('cr.create_at'), '>=', $start_date);
-            $dbview->where(RC_DB::raw('cr.create_at'), '<=', $end_date);
+            $dbview->where(RC_DB::raw('oi.add_time'), '>=', $start_date);
+            $dbview->where(RC_DB::raw('oi.add_time'), '<=', $end_date);
         }
 
         $record_count = $dbview->count(RC_DB::raw('DISTINCT oi.order_id'));
@@ -114,7 +114,7 @@ class history_module extends api_admin implements api_interface
         $total_fee    = "(oi.goods_amount + oi.tax + oi.shipping_fee + oi.insure_fee + oi.pay_fee + oi.pack_fee + oi.card_fee) as total_fee";
         $field        = 'oi.order_id, oi.surplus, oi.money_paid, oi.order_amount, oi.store_id, oi.integral, oi.order_sn, oi.consignee, oi.mobile, oi.tel, oi.order_status, oi.pay_status, oi.shipping_status, oi.pay_id, oi.pay_name, ' . $total_fee . ', oi.integral_money, oi.bonus, oi.shipping_fee, oi.discount, oi.add_time';
 
-        $data = $dbview->take($size)->skip($page_row->start_id - 1)->select(RC_DB::raw($field))->orderBy(RC_DB::raw('cr.create_at'), 'desc')->groupBy(RC_DB::raw('oi.order_id'))->get();
+        $data = $dbview->take($size)->skip($page_row->start_id - 1)->select(RC_DB::raw($field))->orderBy(RC_DB::raw('oi.add_time'), 'desc')->groupBy(RC_DB::raw('oi.order_id'))->get();
 
         $data       = $this->formated_admin_order_list($data, $device_code);
         $order_list = $data;
