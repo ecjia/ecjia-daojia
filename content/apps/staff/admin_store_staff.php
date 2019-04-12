@@ -128,6 +128,10 @@ class admin_store_staff extends ecjia_admin
         $this->assign('current_url', RC_Uri::current_url());
 
         $this->assign('store', $store);
+        
+        $action_list = RC_DB::TABLE('admin_user')->where('user_id', $_SESSION['admin_id'])->pluck('action_list');
+        $this->assign('action_list', $action_list);
+        
         $this->display('store_staff.dwt');
     }
 
@@ -186,10 +190,6 @@ class admin_store_staff extends ecjia_admin
         if (empty($mobile)) {
             return $this->showmessage(__('联系手机不能为空', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-//         $chars = "/^1(3|4|5|6|7|8|9)\d{9}$/";
-//         if (!preg_match($chars, $mobile)) {
-//             return $this->showmessage(__('手机号码格式错误', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-//         }
         $check_mobile = Ecjia\App\Sms\Helper::check_mobile($mobile);
         if (is_ecjia_error($check_mobile)) {
             return $this->showmessage($check_mobile->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -308,6 +308,68 @@ class admin_store_staff extends ecjia_admin
     	RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'merchant_staff_max_number')->update(array('value' => $merchant_staff_max_number));
      	
     	return $this->showmessage(__('更新成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/admin_store_staff/set', array('store_id' => $store_id))));
+    }
+    
+    public function change_password() {
+    	$this->admin_priv('store_staff_manage');
+    
+    	$store_id   = intval($_GET['store_id']);
+    	$main_staff = intval($_GET['main_staff']);
+    	$store      = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
+    
+    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here($store['merchants_name'], RC_Uri::url('store/admin/preview', array('store_id' => $store_id))));
+    	ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('修改密码', 'staff')));
+    
+    	ecjia_screen::get_current_screen()->set_sidebar_display(false);
+    	ecjia_screen::get_current_screen()->add_option('store_name', $store['merchants_name']);
+    	ecjia_screen::get_current_screen()->add_option('current_code', 'store_view_staff');
+    
+    	if (empty($store)) {
+    		return $this->showmessage(__('店铺信息不存在！', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+    	}
+    	$this->assign('action_link', array('href' => RC_Uri::url('staff/admin_store_staff/init', array('store_id' => $store_id)), 'text' => __('查看员工', 'staff')));
+    	$this->assign('ur_here', $store['merchants_name'] . __(' - 修改密码', 'staff'));
+    	$this->assign('store', $store);
+    
+    	if ($main_staff == 1) {
+    		//店长
+    		$info = RC_DB::table('staff_user')->where('store_id', $store_id)->where('parent_id', 0)->first();
+    	}
+    	$this->assign('info', $info);
+    	
+    	$this->assign('form_action', RC_Uri::url('staff/admin_store_staff/change_password_action'));
+    
+    	$this->display('store_staff_change_password.dwt');
+    }
+    
+    public function change_password_action() {
+    	$store_id     = intval($_POST['store_id']);
+    	$staff_id     = intval($_POST['staff_id']);
+    	$password 	  = trim($_POST['new_password']);
+    	$confirm_password = trim($_POST['confirm_password']);
+    	
+        if (!empty($password)) {
+        	if (empty($confirm_password)) {
+        		return $this->showmessage(__('没有输入确认密码。', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        	}
+        	
+        	if ($password == $confirm_password) {
+        		$salt     = rand(1, 9999);
+        		$password = md5(md5($_POST['new_password']) . $salt);
+        		 
+        		$data = array(
+        				'salt'     => $salt,
+        				'password' => $password,
+        		);
+        		RC_DB::table('staff_user')->where('user_id', $staff_id)->update($data);
+        		RC_Session::session()->deleteSpecSession($staff_id, 'merchant'); // 删除session中该管理员的记录
+        		return $this->showmessage(__('修改密码成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('staff/admin_store_staff/init', array('store_id' => $store_id))));
+        	} else {
+        		return $this->showmessage(__('确认密码和输入的密码不一致。', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        	}
+        } else {
+        	return $this->showmessage(__('请输入新密码', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
     }
 }
 

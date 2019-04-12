@@ -48,6 +48,9 @@
                             <div class="span2 left">
                                  <p><a class="data-pjax btn" href='{RC_Uri::url("staff/admin_store_staff/edit", "store_id={$store.store_id}&main_staff=1")}'>{t domain="staff"}编辑店长{/t}</a></p>
                                  <p><a class="toggle_view btn" href='{RC_Uri::url("staff/admin_store_staff/reset_staff", "store_id={$store.store_id}&main_staff=1")}' data-msg='{t domain="staff" escape=no}重置店长登录密码将发送新密码到店长手机短信，<br>您确定要重置吗？{/t}' data-pjax-url="{$current_url}">{t domain="staff"}重置密码{/t}</a></p>
+                                 {if $action_list eq 'all'}
+                                 	<p><a class="data-pjax btn" href='{RC_Uri::url("staff/admin_store_staff/change_password", "store_id={$store.store_id}&main_staff=1")}'>{t domain="staff"}修改密码{/t}</a></p>
+                                 {/if}
                             </div>
                             {/if}
                         </div>

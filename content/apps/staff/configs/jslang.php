@@ -69,6 +69,7 @@ return array(
         'phone_account' 		=> __('请输入手机账号', 'staff'),
         'correct_mail_account' 		=> __('请输入正确邮件账号', 'staff'),
         'enter_password' 		=> __('请输入密码', 'staff'),
+    	'enter_new_password' 	=> __('请输入新密码', 'staff'),
         'password_can_not_be_blank' 		=> __('确认密码不能为空', 'staff'),
         'employee_group_name' 		=> __('请输入员工组名称', 'staff'),
         'employee_group_description' 		=> __('请输入员工组描述', 'staff'),

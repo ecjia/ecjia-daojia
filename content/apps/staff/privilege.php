@@ -49,185 +49,198 @@ defined('IN_ECJIA') or exit('No permission resources.');
 /**
  * 员工登录、退出、找回密码
  */
-class privilege extends ecjia_merchant {
-	public function __construct() {
-		parent::__construct();
+class privilege extends ecjia_merchant
+{
+    public function __construct()
+    {
+        parent::__construct();
 
-		RC_Script::enqueue_script('smoke');
-		RC_Script::enqueue_script('jquery-form');		
-	}
+        RC_Script::enqueue_script('smoke');
+        RC_Script::enqueue_script('jquery-form');
+    }
 
-	/**
-	 * 登录
-	 */
-	public function login() {
-		
-		//禁止以下css加载
-		RC_Style::dequeue_style(array(
-			'ecjia-mh-owl-theme',
-			'ecjia-mh-owl-transitions',
-			'ecjia-mh-table-responsive',
-			'ecjia-mh-jquery-easy-pie-chart',
-			'ecjia-mh-function',
-			'ecjia-mh-page',
-		));
+    /**
+     * 登录
+     */
+    public function login()
+    {
 
-		$this->assign('ur_here', __('商家登录', 'staff'));
-		$this->assign('shop_name', ecjia::config('shop_name'));
-		$this->assign('logo_display', RC_Hook::apply_filters('ecjia_admin_logo_display', '<div class="logo"></div>'));
-		
-		$this->assign('form_action',RC_Uri::url('staff/privilege/signin'));
-		
-		$this->display('login.dwt');
-	}
-	
-	/**
-	 * 验证登录信息
-	 */
-	public function signin() {
-		$validate_error = RC_Hook::apply_filters('merchant_login_validate', $_POST);
-		if (!empty($validate_error) && is_string($validate_error)) {
-			return $this->showmessage($validate_error, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-	
-		$mobile = isset($_POST['mobile']) ? trim($_POST['mobile']) : '';
-		$password= isset($_POST['password']) ? trim($_POST['password']) : '';
-		$row = RC_DB::table('staff_user')->where('mobile', $mobile)->first();
-		if (!empty($row['salt'])) {
-			if (!($row['mobile'] == $mobile && $row['password'] == md5(md5($password) . $row['salt']))) {
-				$row = null;
-			}
-		} else {
-			if (!($row['mobile'] == $mobile && $row['password'] == md5($password))) {
-				$row = null;
-			}
-		}
-		RC_Hook::do_action('ecjia_merchant_login_before', $row);
-		if ($row) {
-			$status = RC_DB::table('store_franchisee')->where('store_id', $row['store_id'])->pluck('status');
-			if ($status == 1) {
-				$row['merchants_name'] = RC_DB::table('store_franchisee')->where('store_id', $row['store_id'])->pluck('merchants_name');
-				$this->admin_session($row['store_id'], $row['merchants_name'], $row['user_id'], $row['mobile'], $row['name'], $row['action_list'], $row['last_login']);
-				if (empty($row['salt'])) {
-					$salt = rand(1, 9999);
-					$new_possword = md5(md5($password) . $salt);
-					$data = array(
-							'salt'	=> $salt,
-							'password'	=> $new_possword
-					);
-					RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->update($data);
-				
-					$row['salt'] = $data['salt'];
-					$row['password'] = $data['password'];
-				}
-				
-				if ($row['action_list'] == 'all' && empty($row['last_login'])) {
-						$_SESSION['shop_guide'] = true; //商家开店导航设置开关
-				}
-				
-				$data = array(
-						'last_login' 	=> RC_Time::gmtime(),
-						'last_ip'		=> RC_Ip::client_ip(),
-				);
-				RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->update($data);
-				$row['last_login'] = $data['last_login'];
-				$row['last_ip'] = $data['last_ip'];
-				
-				if (isset($_POST['remember'])) {
-					$time = 3600 * 24 * 7;
-					RC_Cookie::set('ECJAP.staff_id', $row['user_id'], array('expire' => $time));
-					RC_Cookie::set('ECJAP.staff_pass', md5($row['password'] . ecjia::config('hash_code')), array('expire' => $time));
-				}
-				
-				RC_Hook::do_action('ecjia_merchant_login_after', $row);
-				
-				if (array_get($_SESSION, 'shop_guide')) {
-					$back_url = RC_Uri::url('shopguide/merchant/init');
-				} else {
-				    $back_url = RC_Uri::url('merchant/dashboard/init');
-				}
-				
-				return $this->showmessage(__('登录成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $back_url));
-			} else {
-				return $this->showmessage(__('该店铺已被锁定，暂无法登录', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-			}
-		} else {
-			return $this->showmessage(__('您输入的帐号信息不正确。', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-		}
-	}
-	
-	/**
-	 * 退出
-	 */
-	public function logout()
+        //禁止以下css加载
+        RC_Style::dequeue_style(array(
+            'ecjia-mh-owl-theme',
+            'ecjia-mh-owl-transitions',
+            'ecjia-mh-table-responsive',
+            'ecjia-mh-jquery-easy-pie-chart',
+            'ecjia-mh-function',
+            'ecjia-mh-page',
+        ));
+
+        $this->assign('ur_here', __('商家登录', 'staff'));
+        $this->assign('shop_name', ecjia::config('shop_name'));
+        $this->assign('logo_display', RC_Hook::apply_filters('ecjia_admin_logo_display', '<div class="logo"></div>'));
+
+        $this->assign('form_action', RC_Uri::url('staff/privilege/signin'));
+
+        $this->display('login.dwt');
+    }
+
+    /**
+     * 验证登录信息
+     */
+    public function signin()
+    {
+        $validate_error = RC_Hook::apply_filters('merchant_login_validate', $_POST);
+        if (!empty($validate_error) && is_string($validate_error)) {
+            return $this->showmessage($validate_error, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        $mobile   = isset($_POST['mobile']) ? trim($_POST['mobile']) : '';
+        $password = isset($_POST['password']) ? trim($_POST['password']) : '';
+        $row      = RC_DB::table('staff_user')->where('mobile', $mobile)->first();
+        if (!empty($row['salt'])) {
+            if (!($row['mobile'] == $mobile && $row['password'] == md5(md5($password) . $row['salt']))) {
+                $row = null;
+            }
+        } else {
+            if (!($row['mobile'] == $mobile && $row['password'] == md5($password))) {
+                $row = null;
+            }
+        }
+        RC_Hook::do_action('ecjia_merchant_login_before', $row);
+        if ($row) {
+            $status = RC_DB::table('store_franchisee')->where('store_id', $row['store_id'])->pluck('status');
+            if ($status == 1) {
+                $row['merchants_name'] = RC_DB::table('store_franchisee')->where('store_id', $row['store_id'])->pluck('merchants_name');
+                $this->admin_session($row['store_id'], $row['merchants_name'], $row['user_id'], $row['mobile'], $row['name'], $row['action_list'], $row['last_login']);
+                if (empty($row['salt'])) {
+                    $salt         = rand(1, 9999);
+                    $new_possword = md5(md5($password) . $salt);
+                    $data         = array(
+                        'salt'     => $salt,
+                        'password' => $new_possword
+                    );
+                    RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->update($data);
+
+                    $row['salt']     = $data['salt'];
+                    $row['password'] = $data['password'];
+                }
+
+                if ($row['action_list'] == 'all' && empty($row['last_login'])) {
+                    $_SESSION['shop_guide'] = true; //商家开店导航设置开关
+                }
+
+                $data = array(
+                    'last_login' => RC_Time::gmtime(),
+                    'last_ip'    => RC_Ip::client_ip(),
+                );
+                RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->update($data);
+                $row['last_login'] = $data['last_login'];
+                $row['last_ip']    = $data['last_ip'];
+
+                if (isset($_POST['remember'])) {
+                    $time = 3600 * 24 * 7;
+                    RC_Cookie::set('ECJAP.staff_id', $row['user_id'], array('expire' => $time));
+                    RC_Cookie::set('ECJAP.staff_pass', md5($row['password'] . ecjia::config('hash_code')), array('expire' => $time));
+                }
+
+                RC_Hook::do_action('ecjia_merchant_login_after', $row);
+
+                if (array_get($_SESSION, 'shop_guide')) {
+                    $back_url = RC_Uri::url('shopguide/merchant/init');
+                } else {
+                    $back_url = RC_Uri::url('merchant/dashboard/init');
+                }
+
+                return $this->showmessage(__('登录成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $back_url));
+            } else {
+                return $this->showmessage(__('该店铺已被锁定，暂无法登录', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+            }
+        } else {
+            return $this->showmessage(__('您输入的帐号信息不正确。', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+    }
+
+    /**
+     * 退出
+     */
+    public function logout()
     {
 
         RC_Hook::do_action('ecjia_merchant_logout_before');
 
-		/* 清除cookie */
-		RC_Cookie::delete('ECJAP.staff_id');
-		RC_Cookie::delete('ECJAP.staff_pass');
-		
-		RC_Session::destroy();
+        /* 清除cookie */
+        RC_Cookie::delete('ECJAP.staff_id');
+        RC_Cookie::delete('ECJAP.staff_pass');
 
-		return $this->redirect(RC_Uri::url('staff/privilege/login'));
-	}
-	
-	
-	/**
-	 *  自营商家快速登录
-	 */
-	public function autologin() {
-		$authcode = trim($_GET['authcode']);
-		if ($authcode) {
-			$authcode_decrypt= RC_Crypt::decrypt($authcode);
-			$authcode_array = array();
-			parse_str($authcode_decrypt, $authcode_array);
+        RC_Session::destroy();
 
-			if(array_key_exists("time", $authcode_array) && array_key_exists("store_id", $authcode_array) && array_key_exists("admin_token", $authcode_array)){
-				$start_time  = $authcode_array['time'];
-				$store_id    = $authcode_array['store_id'];
-				$session_id  = $authcode_array['admin_token'];
-					
-				$time = RC_Time::gmtime();
-				$time_gap = $time - $start_time;
-					
-				if (intval($time_gap) < 30) {
-					$cookie_name = RC_Config::get('session.session_admin_name');
-					$ecjia_admin_token = $_COOKIE[$cookie_name];
-					if ($session_id == $ecjia_admin_token) {
-						$session_data = RC_Session::session()->getSessionData($session_id);
-						if ($session_data['action_list'] == 'all') {
-							$staff_info = RC_DB::table('staff_user')->where('store_id', $store_id)->where('parent_id', 0)->where('action_list', 'all')->first();
-							if (!empty($staff_info)) {
-								$merchants_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
-								$_SESSION = array();
-								$this->admin_session($store_id, $merchants_name, $staff_info['user_id'], $staff_info['mobile'], $staff_info['name'], $staff_info['action_list'], $staff_info['last_login']);
-								return $this->redirect(RC_Uri::url('merchant/dashboard/init'));
-							} else {
-								$this->assign('error_message', __('获取店长信息失败。', 'staff'));
-							}
-						} else {
-							$this->assign('error_message', __('抱歉！只允许超级管理员进行登录。', 'staff'));
-						}
-					} else {
-						$this->assign('error_message', __('请使用正确的管理员账号从平台后台登录。', 'staff'));
-					}
-				} else {
-					$this->assign('error_message', __('抱歉！请求超时。', 'staff'));
-				}
-			} else {
-				$this->assign('error_message', __('传参出错。', 'staff'));
-			}
-		} else {
-			$this->assign('error_message', __('抱歉！数据丢失，登录失败。', 'staff'));
-		}
-		$this->assign('shop_title',__('商家登录', 'staff'));
-		$this->assign('shop_title_link',RC_Uri::url('staff/privilege/login'));
-		
-		RC_Session::destroy();
-		$this->display('staff_auto_login_error.dwt');
-	}
+        return $this->redirect(RC_Uri::url('staff/privilege/login'));
+    }
+
+
+    /**
+     *  自营商家快速登录
+     */
+    public function autologin()
+    {
+        $authcode     = trim($_GET['authcode']);
+        $redirect_url = trim($_GET['redirect_url']);
+
+        if ($authcode) {
+            $authcode_decrypt = RC_Crypt::decrypt($authcode);
+            $authcode_array   = array();
+
+            parse_str($authcode_decrypt, $authcode_array);
+
+            if (array_key_exists("time", $authcode_array) && array_key_exists("store_id", $authcode_array) && array_key_exists("admin_token", $authcode_array)) {
+                $start_time = $authcode_array['time'];
+                $store_id   = $authcode_array['store_id'];
+                $session_id = $authcode_array['admin_token'];
+
+                $time     = RC_Time::gmtime();
+                $time_gap = $time - $start_time;
+
+                if (intval($time_gap) < 30) {
+                    $cookie_name       = RC_Config::get('session.session_admin_name');
+                    $ecjia_admin_token = $_COOKIE[$cookie_name];
+
+                    if ($session_id == $ecjia_admin_token) {
+                        $session_data = RC_Session::session()->getSessionData($session_id);
+
+                        if ($session_data['action_list'] == 'all') {
+                            $staff_info = RC_DB::table('staff_user')->where('store_id', $store_id)->where('parent_id', 0)->where('action_list', 'all')->first();
+
+                            if (!empty($staff_info)) {
+                                $merchants_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
+                                $_SESSION       = array();
+                                $this->admin_session($store_id, $merchants_name, $staff_info['user_id'], $staff_info['mobile'], $staff_info['name'], $staff_info['action_list'], $staff_info['last_login']);
+
+                                $redirect_url = !empty($redirect_url) ? $redirect_url : RC_Uri::url('merchant/dashboard/init');
+                                return $this->redirect($redirect_url);
+                            } else {
+                                $this->assign('error_message', __('获取店长信息失败。', 'staff'));
+                            }
+                        } else {
+                            $this->assign('error_message', __('抱歉！只允许超级管理员进行登录。', 'staff'));
+                        }
+                    } else {
+                        $this->assign('error_message', __('请使用正确的管理员账号从平台后台登录。', 'staff'));
+                    }
+                } else {
+                    $this->assign('error_message', __('抱歉！请求超时。', 'staff'));
+                }
+            } else {
+                $this->assign('error_message', __('传参出错。', 'staff'));
+            }
+        } else {
+            $this->assign('error_message', __('抱歉！数据丢失，登录失败。', 'staff'));
+        }
+        $this->assign('shop_title', __('商家登录', 'staff'));
+        $this->assign('shop_title_link', RC_Uri::url('staff/privilege/login'));
+
+        RC_Session::destroy();
+        $this->display('staff_auto_login_error.dwt');
+    }
 }
 
 //end

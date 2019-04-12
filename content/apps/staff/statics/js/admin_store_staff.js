@@ -43,6 +43,45 @@
 		},
 	};
 
+	app.change_password = {
+		init: function () {
+			var $form = $("form[name='theForm']");
+			var option = {
+					 rules: {
+						new_password: {
+							required: true,
+		                    minlength: 6
+		                },
+		                confirm_password: {
+		                	required: true,
+		                    equalTo: "#new_password"
+		                },
+		            },
+		            messages: {
+		            	new_password: {
+		            		required: js_lang.enter_new_password,
+		                    minlength: js_lang.password_is_at_least_6_characters
+		                },
+		                confirm_password: {
+		                	required: js_lang.password_can_not_be_blank,
+		                    equalTo: js_lang.same_password
+		                },
+		            },
+	                submitHandler: function () {
+	                	$form.ajaxSubmit({
+	                        dataType: "json",
+	                        success: function (data) {
+	                            ecjia.admin.showmessage(data);
+	                        }
+	                    });
+	                }
+	            }
+			var options = $.extend(ecjia.admin.defaultOptions.validate, option);
+			$form.validate(options);
+		
+		}
+	};
+	
 	app.store_edit = {
 		init: function () {
 			app.store_edit.get_longitude();
@@ -165,6 +204,7 @@
 			}
 		}
 	};
+	
 	app.store_lock = {
 		init: function () {
 			var $form = $("form[name='theForm']");

@@ -103,16 +103,15 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
 		
 		if ($row_staff) {
 		    //商家
-		    return $this->signin_merchant($username, $password, $device, $api_version, $login_type);
+		    return $this->signin_merchant($username, $password, $device, $api_version, $login_type, $request);
 		} else {
 		    //平台
 		    $result = new ecjia_error('login_error', __('此账号不是商家账号', 'staff'));
 		    return $result;
-// 		    return signin_admin($username, $password, $device);
 		}
 	}
 
-    private function signin_merchant($username, $password, $device, $api_version, $login_type = '') {
+    private function signin_merchant($username, $password, $device, $api_version, $login_type = '', $request = null) {
         /* 收银台请求判断处理*/
         $codes = array('8001', '8011');
         if (!empty($device) && is_array($device) && in_array($device['code'], $codes)) {
@@ -183,21 +182,15 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
              [device_id]
              [ip] => 0.0.0.0
               */
-        
+
+            $this->admin_session($row['user_id'], $row['name'], $row['action_list'], $row['mobile'], $row['email']);
         
             $_SESSION['admin_id']       = 0;
             $_SESSION['admin_name']     = null;
-            $_SESSION['action_list']    = $row['action_list'];
-             
+
             $_SESSION['store_id']       = $row['store_id'];
             $_SESSION['store_name']     = RC_DB::table('store_franchisee')->where('store_id', $row['store_id'])->pluck('merchants_name');
-            $_SESSION['staff_id']       = $row['user_id'];
-            $_SESSION['staff_mobile']   = $row['mobile'];
-            $_SESSION['staff_name']     = $row['name'];
-            $_SESSION['staff_email']    = $row['email'];
-            
-            $_SESSION['last_login']     = $row['last_login'];
-            $_SESSION['last_ip']        = $row['last_ip'];
+
             
             /* 获取device_id*/
             $device_id = RC_DB::table('mobile_device')
@@ -207,16 +200,6 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
                             ->pluck('id');
             
             $_SESSION['device_id'] = $device_id;
-           
-//             if (empty($row['salt'])) {
-//                 $salt = rand(1, 9999);
-//                 $new_possword = md5(md5($password) . $salt);
-//                 $data = array(
-//                     'salt'  => $salt,
-//                     'password'  => $new_possword
-//                 );
-//                 RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->update($data);
-//             }
         
             if ($row['action_list'] == 'all' && empty($row['last_login'])) {
                 $_SESSION['shop_guide'] = true;
@@ -307,25 +290,13 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
             $out['userinfo']['user_type']		= 'merchant';
                     
             //修正关联设备号
-            $result = ecjia_app::validate_application('mobile');
-            if (!is_ecjia_error($result)) {
-                if (!empty($device['udid']) && !empty($device['client']) && !empty($device['code'])) {
-                    $device_data = array(
-                            'device_udid'   => $device['udid'],
-                            'device_client' => $device['client'],
-                            'device_code'   => $device['code'],
-                            'user_type'     => 'merchant',
-                    );
-                    $device_info = RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->where('user_type', 'merchant')->first();
-                    $time = RC_Time::gmtime();
-                    if (empty($device_info)) {
-                        $device_data['add_time'] = $time;
-                        RC_DB::table('mobile_device')->insert($device_data);
-                    } else {
-                        RC_DB::table('mobile_device')->where('device_udid', $device['udid'])->where('device_client', $device['client'])->where('device_code', $device['code'])->where('user_type', 'merchant')->update(array('user_id' => $_SESSION['staff_id'], 'update_time' => $time));
-                    }
-                }
-            }
+            RC_Api::api('mobile', 'bind_device_user', array(
+                'device_udid'   => $request->header('device-udid'),
+                'device_client' => $request->header('device-client'),
+                'device_code'   => $request->header('device-code'),
+                'user_type'     => 'merchant',
+                'user_id'       => session('session_user_id'),
+            ));
          
             return $out;
         } else {
@@ -393,7 +364,6 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
             $_SESSION['last_ip']        = $row['last_ip'];
                 
             /* 获取device_id*/
-            //$device_id = RC_Model::model('mobile/mobile_device_model')->where(array('device_udid' => $device['udid'], 'device_client' => $device['client'], 'device_code' => $device['code']))->get_field('id');
             $device_id = RC_DB::table('mobile_device')
 				            ->where('device_udid', $device['udid'])
 				            ->where('device_client', $device['client'])
@@ -406,16 +376,6 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
                 $_SESSION['adviser_id'] = $row['id'];
                 $_SESSION['admin_name'] = $row['username'];
             }
-                
-//             if (empty($row['ec_salt'])) {
-//                 $ec_salt = rand(1, 9999);
-//                 $new_possword = md5(md5($password) . $ec_salt);
-//                 $data = array(
-//                     'ec_salt'   => $ec_salt,
-//                     'password'  => $new_possword
-//                 );
-//                 $db_user->where(array('user_id' => $_SESSION['admin_id']))->update($data);
-//             }
         
             if ($row['action_list'] == 'all' && empty($row['last_login'])) {
                 $_SESSION['shop_guide'] = true;
@@ -425,7 +385,6 @@ class v2_admin_user_signin_module extends api_admin implements api_interface {
                 'last_login'    => RC_Time::gmtime(),
                 'last_ip'       => RC_Ip::client_ip(),
             );
-            //$db_user->where(array('user_id' => $_SESSION['admin_id']))->update($data);
         	RC_DB::table('admin_user')->where('user_id', $_SESSION['admin_id'])->update($data);
             
             $out = array(

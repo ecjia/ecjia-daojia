@@ -125,11 +125,32 @@ class admin_user_search_module extends api_admin implements api_interface {
 					'address'		=>	$address,
 					'avatar_img'	=>	$v['avatar_img'] ? RC_Upload::upload_url($v['avatar_img']) : '',
 					'reg_time'		=>   RC_Time::local_date(ecjia::config('time_format'), $v['reg_time']),
+					'bonus_count'	=> 	$this->user_bonus_count($v['user_id'])
 				);
 			}
 		}
 		
 		return $user_search;
+	}
+	
+	
+	/**
+	 * 用户未使用的线上红包
+	 */
+	private function user_bonus_count($user_id)
+	{
+		$bonus_count = 0;
+		if (!empty($user_id)) {
+			$dbview = RC_DB::table('bonus_type as bt')->leftJoin('user_bonus as ub', RC_DB::raw('bt.type_id'), '=', RC_DB::raw('ub.bonus_type_id'));
+			$time   = RC_Time::gmtime();
+			$bonus_count = $dbview->where(RC_DB::raw('ub.user_id'), $user_id)
+			->where(RC_DB::raw('use_start_date'), '<', $time)
+			->where(RC_DB::raw('use_end_date'), '>', $time)
+			->where(RC_DB::raw('ub.order_id'), 0)
+			->count(RC_DB::raw('ub.bonus_id'));
+		}
+		
+	    return $bonus_count;
 	}
 }
 
