@@ -45,13 +45,14 @@
 //  ---------------------------------------------------------------------------------
 //
 /*
-Plugin Name: 自动拒单
+Plugin Name: 计划任务-订单自动拒单
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cron_order_auto_refuse/
-Description: 计划任务-订单自动拒单
+Description: 订单自动拒单，设置支付后多长时间后未接单的自动拒单
 Author: ECJIA TEAM
-Version: 1.0.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: cron
+Text Domain: cron_order_auto_refuse
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 class plugin_cron_order_auto_refuse {
@@ -72,6 +73,7 @@ class plugin_cron_order_auto_refuse {
 }
 
 Ecjia_PluginManager::extend('cron_order_auto_refuse', function() {
+    RC_Locale::loadPluginTextdomain('cron_order_auto_refuse');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'cron_order_auto_refuse.class.php';
     return new cron_order_auto_refuse();
 });
