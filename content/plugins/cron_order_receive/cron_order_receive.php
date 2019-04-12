@@ -45,13 +45,14 @@
 //  ---------------------------------------------------------------------------------
 //
 /*
-Plugin Name: 自动确认收货
+Plugin Name: 计划任务-订单自动确认收货
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cron_order_receive/
-Description: 计划任务-订单自动确认收货
+Description: 订单自动确认收货，设置发货后多少天自动确认收货
 Author: ECJIA TEAM
-Version: 1.23.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: cron
+Text Domain: cron_order_receive
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 class plugin_cron_order_receive {
@@ -72,6 +73,7 @@ class plugin_cron_order_receive {
 }
 
 Ecjia_PluginManager::extend('cron_order_receive', function() {
+    RC_Locale::loadPluginTextdomain('cron_order_receive');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'cron_order_receive.class.php';
     return new cron_order_receive();
 });

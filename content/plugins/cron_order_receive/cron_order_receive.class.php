@@ -73,7 +73,7 @@ class cron_order_receive extends CronAbstract
             ->get();
         
         foreach ($rows as $order) {
-            $order_operate->operate($order, 'receive', array('action_note' => '自动确认收货'));
+            $order_operate->operate($order, 'receive', array('action_note' => __('自动确认收货', 'cron_order_receive')));
         }
         unset($rows);
     }
@@ -98,17 +98,6 @@ class cron_order_receive extends CronAbstract
         return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . 'config.php', $key, $default);
     }
 
-	/** 
-	 * 加载语言包
-	 * 
-     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
-     */
-    public function loadLanguage($key = null, $default = null)
-    {
-        $locale = RC_Config::get('system.locale');
-                
-        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
-    }
 
 }
 

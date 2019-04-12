@@ -47,7 +47,18 @@
 
 return array(
     'cron_code' => 'cron_order_receive',
+
 	'forms' => array(
 			array('name' => 'order_receive_day', 'type' => 'select', 'value' => '15'),
 	),
+
+    'dynamic_option' => array(
+        'order_receive_day' 	=> __('自动收货时间间隔：', 'cron_order_receive'),
+
+        'order_receive_day_range' => array(
+            '7' 	=> __('7天', 'cron_order_receive'),
+            '15' 	=> __('15天', 'cron_order_receive'),
+            '30' 	=> __('30天', 'cron_order_receive'),
+        )
+    ),
 );
