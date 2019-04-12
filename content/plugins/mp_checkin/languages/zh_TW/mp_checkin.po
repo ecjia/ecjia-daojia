@@ -1,0 +1,96 @@
+# Copyright (C) 2019 签到
+# This file is distributed under the same license as the 签到 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 签到 1.24.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-03-22 03:53:37+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-03-25 16:09+0800\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
+
+#: config.php:69
+msgid "积分赠送："
+msgstr "積分贈送："
+
+#: config.php:70
+msgid "关闭"
+msgstr "關閉"
+
+#: config.php:70
+msgid "开启"
+msgstr "開啟"
+
+#: config.php:71
+msgid "积分值："
+msgstr "積分值："
+
+#: config.php:72
+msgid "有效次数："
+msgstr "有效次數："
+
+#: config.php:73
+msgid "时间间隔："
+msgstr "時間間隔："
+
+#: config.php:75
+msgid "24小时"
+msgstr "24小時"
+
+#: config.php:76
+msgid "12小时"
+msgstr "12小時"
+
+#: config.php:77
+msgid "1小时"
+msgstr "1小時"
+
+#: mp_checkin.class.php:119
+msgid "签到成功"
+msgstr "簽到成功"
+
+#: mp_checkin.class.php:120
+msgid "获取%s积分~~"
+msgstr "獲取%s積分~~"
+
+#: mp_checkin.class.php:126
+msgid "签到次数已完"
+msgstr "簽到次數已完"
+
+#: mp_checkin.class.php:127
+msgid "明天再来签到吧~~"
+msgstr "明天再來簽到吧~~"
+
+#: mp_checkin.class.php:167
+msgid "积分"
+msgstr "積分"
+
+#: mp_checkin.class.php:173
+msgid "赠送-微信签到"
+msgstr "贈送-微信簽到"
+
+#. Plugin Name of the plugin/theme
+msgid "签到"
+msgstr "簽到"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.mp_checkin/"
+msgstr "http://www.ecjia.com/plugins/ecjia.mp_checkin/"
+
+#. Description of the plugin/theme
+msgid "使用插件可以让微信公众平台用户签到获取积分。"
+msgstr "使用插件可以让微信公众平台用户签到获取积分。"
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr "ECJIA TEAM"
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr "http://www.ecjia.com/"

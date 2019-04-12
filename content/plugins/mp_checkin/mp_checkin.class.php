@@ -75,18 +75,6 @@ class mp_checkin extends PlatformAbstract
     }
 
     /**
-     * 加载语言包
-     *
-     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
-     */
-    public function loadLanguage($key = null, $default = null)
-    {
-        $locale = RC_Config::get('system.locale');
-
-        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
-    }
-
-    /**
      * 获取iconUrl
      * {@inheritDoc}
      * @see \Ecjia\App\Platform\Plugin\PlatformAbstract::getPluginIconUrl()
@@ -128,15 +116,15 @@ class mp_checkin extends PlatformAbstract
 
             if ($bool) {
                 $articles = array(
-                    'Title'         => '签到成功',
-                    'Description'   => sprintf("获取%s积分~~", $point_value),
+                    'Title'         => __('签到成功', 'mp_checkin'),
+                    'Description'   => sprintf(__("获取%s积分~~", 'mp_checkin'), $point_value),
                     'Url'           => RC_Uri::url('platform/plugin/show', array('handle' => 'mp_jfcx/init', 'openid' => $openid, 'uuid' => $uuid)),
                     'PicUrl'        => RC_Plugin::plugin_dir_url(__FILE__) . '/images/wechat_thumb_pic_success.png',
                 );
             } else {
                 $articles = array(
-                    'Title'         => '签到次数已完',
-                    'Description'   => '明天再来签到吧~~',
+                    'Title'         => __('签到次数已完', 'mp_checkin'),
+                    'Description'   => __('明天再来签到吧~~', 'mp_checkin'),
                     'Url'           => RC_Uri::url('platform/plugin/show', array('handle' => 'mp_jfcx/init', 'openid' => $openid, 'uuid' => $uuid)),
                     'PicUrl'        => RC_Plugin::plugin_dir_url(__FILE__) . '/images/wechat_thumb_pic.png',
                 );
@@ -176,13 +164,13 @@ class mp_checkin extends PlatformAbstract
 
         $integral_name = ecjia::config('integral_name');
         if (empty($integral_name)) {
-        	$integral_name = '积分';
+        	$integral_name = __('积分', 'mp_checkin');
         }
         
     	$log_id = RC_Api::api('finance', 'pay_points_change', [
     	    'user_id' => $user_id,
     	    'point' => $point_value,
-    	    'change_desc' => $integral_name.'赠送-微信签到',
+    	    'change_desc' => $integral_name.__('赠送-微信签到', 'mp_checkin'),
         ]);
 
     	if (! is_ecjia_error($log_id)) {

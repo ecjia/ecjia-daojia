@@ -64,6 +64,19 @@ return array(
 		array('name' => 'point_num',          'type' => 'text',        'value' => ''),
 		array('name' => 'point_interval',     'type' => 'select',      'value' => ''),
 	),
+
+    'dynamic_option' => array(
+        'point_status' 			=> __('积分赠送：', 'mp_checkin'),
+        'point_status_range' 	=> array(__('关闭', 'mp_checkin'), __('开启', 'mp_checkin')),
+        'point_value' 			=> __('积分值：', 'mp_checkin'),
+        'point_num' 			=> __('有效次数：', 'mp_checkin'),
+        'point_interval' 		=> __('时间间隔：', 'mp_checkin'),
+        'point_interval_range' 	=> array(
+            '86400' 			=> __('24小时', 'mp_checkin'),
+            '43200' 			=> __('12小时', 'mp_checkin'),
+            '3600'  			=> __('1小时', 'mp_checkin')
+        )
+    ),
 );
 
 // end

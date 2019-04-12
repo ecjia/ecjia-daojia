@@ -52,6 +52,7 @@ Author: ECJIA TEAM
 Version: 1.24.0
 Author URI: http://www.ecjia.com/
 Plugin App: platform
+Text Domain: mp_checkin
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 class plugin_mp_checkin {
@@ -73,6 +74,7 @@ class plugin_mp_checkin {
 }
 
 Ecjia_PluginManager::extend('mp_checkin', function() {
+    RC_Locale::loadPluginTextdomain('mp_checkin');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_checkin.class.php';
     return new mp_checkin();
 });
