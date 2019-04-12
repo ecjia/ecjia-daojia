@@ -46,12 +46,13 @@
 //
 /*
 Plugin Name: 顺丰速运
-Plugin URI: http://www.ecjia.com/plugins/ecjia.sf_express/
+Plugin URI: http://www.ecjia.com/plugins/ecjia.ship_sf_express/
 Description: 江、浙、沪地区首重15元/KG，续重2元/KG，其余城市首重20元/KG
 Author: ECJIA TEAM
-Version: 2.0.0
+Version: 2.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: shipping
+Text Domain: ship_sf_express
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 class plugin_ship_sf_express {
@@ -80,6 +81,7 @@ class plugin_ship_sf_express {
 }
 
 Ecjia_PluginManager::extend('ship_sf_express', function() {
+    RC_Locale::loadPluginTextdomain('ship_sf_express');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'ship_sf_express.class.php';
     return new ship_sf_express();
 });

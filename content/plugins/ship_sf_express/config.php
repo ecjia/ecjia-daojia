@@ -53,16 +53,99 @@ return array(
     'print_support' => true,
 	'print_model'	=> 2,			/* 模式编辑器 */
 	'print_bg'		=> 'images/dly_sf_express.jpg',			/* 打印单背景 */
-	'config_lable'	=> 't_shop_name,shop_name,150,29,112,137,b_shop_name||,||t_shop_address,shop_address,268,55,105,168,b_shop_address||,||t_shop_tel,shop_tel,55,25,177,224,b_shop_tel||,||t_customer_name,customer_name,78,23,299,265,b_customer_name||,||t_customer_address,customer_address,271,94,104,293,b_customer_address||,||',			/* 打印快递单标签位置信息 */
+		
+	/**
+	 * 打印快递单标签位置信息
+	 * 使用 ||,|| 合并连接
+	 */
+
+	'config_lable'  => array(
+		't_shop_name,shop_name,167,29,121,169,b_shop_name',
+		't_shop_address,shop_address,230,27,179,229,b_shop_address',
+		't_shop_tel,shop_tel,159,23,201,263,b_shop_tel',
+		't_customer_name,customer_name,78,23,331,309,b_customer_name',
+		't_customer_address,customer_address,228,36,183,361,b_customer_address',
+		't_customer_mobel,customer_mobel,189,21,218,434,b_customer_mobel',
+		't_customer_country,customer_country,60,21,120,337,b_customer_country',
+		't_customer_province,customer_province,70,21,180,337,b_customer_province',
+		't_customer_city,customer_city,71,21,250,337,b_customer_city',
+		't_customer_street,customer_street,101,36,81,361,b_customer_street',
+		't_shop_street,shop_street,97,27,81,229,b_shop_street',
+		't_shop_country,shop_country,57,27,121,200,b_shop_country',
+		't_shop_city,shop_city,70,27,256,200,b_shop_city',
+		't_shop_province,shop_province,78,27,178,200,b_shop_province',
+		't_shop_district,shop_district,82,27,327,200,b_shop_district',
+		't_customer_district,customer_district,89,21,322,337,b_customer_district',
+		't_customer_tel,customer_tel,190,21,218,412,b_customer_tel',
+		't_order_postscript,order_postscript,205,47,643,541,b_order_postscript',
+		't_order_best_time,order_best_time,143,21,706,524,b_order_best_time',
+		't_months,months,37,21,661,400,b_months',
+		't_day,day,36,21,709,401,b_day',
+		''
+	),
 		
 	'forms' => array(
-			array('name' => 'fee_compute_mode', 'type' => 'radiobox', 'value' => 'by_weight'), /* 费用计算方式  */
-			array('name' => 'item_fee',     'value' => 20),/* 单件商品的配送费用 */
-			array('name' => 'base_fee',    	'value' => 15), /* 1000克以内的价格   */
-			array('name' => 'step_fee',     'value' => 2),  /* 续重每1000克增加的价格 */
-			array('name' => 'free_money', 'type' => 'text', 'value' => 0), /* 免费额度  */
-			array('name' => 'pay_fee', 'type' => 'text', 'value' => 0), /* 货到付款支付费用  */
+		array('name' => 'fee_compute_mode', 'type' => 'radiobox', 'value' => 'by_weight'), /* 费用计算方式  */
+		array('name' => 'item_fee',     'value' => 20),/* 单件商品的配送费用 */
+		array('name' => 'base_fee',    	'value' => 15), /* 1000克以内的价格   */
+		array('name' => 'step_fee',     'value' => 2),  /* 续重每1000克增加的价格 */
+		array('name' => 'free_money', 'type' => 'text', 'value' => 0), /* 免费额度  */
+		array('name' => 'pay_fee', 'type' => 'text', 'value' => 0), /* 货到付款支付费用  */
 	),
+
+    'dynamic_option' => array(
+        'item_fee'                  => __('单件商品费用：', 'ship_sf_express'),
+        'base_fee'                  => __('1000克以内费用：', 'ship_sf_express'),
+        'step_fee'                  => __('续重每1000克或其零数的费用：', 'ship_sf_express'),
+        'pay_fee'                   => __('货到付款支付费用：', 'ship_sf_express'),
+        'free_money'                => __('免费额度：', 'ship_sf_express'),
+        'fee_compute_mode'          => __('费用计算方式：', 'ship_sf_express'),
+        'fee_compute_mode_range'    => array(
+            'by_weight' => __('按重量', 'ship_sf_express'),
+            'by_number' => __('按件数', 'ship_sf_express')
+        ),
+    ),
+
+    'print_option' => array(
+        /* 快递单部分 */
+        'lable_select_notice' => __('--选择插入标签--', 'ship_sf_express'),
+
+        'lable_box' => array(
+        	'shop_name'             => __('网店-名称', 'ship_sf_express'),
+        	'shop_tel'              => __('网店-联系电话', 'ship_sf_express'),
+            'shop_country'          => __('网店-国家', 'ship_sf_express'),
+            'shop_province'         => __('网店-省份', 'ship_sf_express'),
+            'shop_city'             => __('网店-城市', 'ship_sf_express'),
+            'shop_district'         => __('网店-区/县', 'ship_sf_express'),
+        	'shop_street'         	=> __('网店-街道', 'ship_sf_express'),
+            'shop_address'          => __('网店-地址', 'ship_sf_express'),
+        		
+        	'customer_name'         => __('收件人-姓名', 'ship_sf_express'),
+        	'customer_tel'          => __('收件人-电话', 'ship_sf_express'),
+        	'customer_mobel'        => __('收件人-手机', 'ship_sf_express'),
+        	'customer_post'         => __('收件人-邮编', 'ship_sf_express'),
+            'customer_country'      => __('收件人-国家', 'ship_sf_express'),
+            'customer_province'     => __('收件人-省份', 'ship_sf_express'),
+            'customer_city'         => __('收件人-城市', 'ship_sf_express'),
+            'customer_district'     => __('收件人-区/县', 'ship_sf_express'),
+        	'customer_street'     	=> __('收件人-街道', 'ship_sf_express'),
+            'customer_address'      => __('收件人-详细地址', 'ship_sf_express'),
+
+            'year'                  => __('年-当日日期', 'ship_sf_express'),
+            'months'                => __('月-当日日期', 'ship_sf_express'),
+            'day'                   => __('日-当日日期', 'ship_sf_express'),
+        		
+            'order_no'              => __('订单号-订单', 'ship_sf_express'),
+            'order_postscript'      => __('备注-订单', 'ship_sf_express'),
+            'order_best_time'       => __('送货时间-订单', 'ship_sf_express'),
+        		
+            'pigeon'                => __('√-对号', 'ship_sf_express'),
+            //'custom_content' => '自定义内容',
+        ),
+
+        //模板文件
+        'shipping_print' 		=> __DIR__ . '/templates/shipping_print.lbi.php',
+    ),
 );
 
 // end

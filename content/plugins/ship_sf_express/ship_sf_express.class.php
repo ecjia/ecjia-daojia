@@ -85,18 +85,6 @@ class ship_sf_express extends ShippingAbstract
     }
     
     /**
-     * 加载语言包
-     *
-     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
-     */
-    public function loadLanguage($key = null, $default = null)
-    {
-        $locale = RC_Config::get('system.locale');
-    
-        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
-    }
-    
-    /**
      * 返回快递单打印背景图片
      * @return NULL|string
      */
@@ -120,7 +108,7 @@ class ship_sf_express extends ShippingAbstract
      * @param   float   $goods_weight   商品重量
      * @param   float   $goods_amount   商品金额
      * @param   float   $goods_number   商品件数
-     * @return  decimal
+     * @return  float
      */
     public function calculate($goods_weight, $goods_amount, $goods_number)
     {
