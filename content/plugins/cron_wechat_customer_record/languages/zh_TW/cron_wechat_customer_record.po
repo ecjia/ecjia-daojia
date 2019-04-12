@@ -1,0 +1,36 @@
+# Copyright (C) 2019 同步微信客服聊天记录
+# This file is distributed under the same license as the 同步微信客服聊天记录 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 同步微信客服聊天记录 1.30.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-03-20 09:19:27+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-03-25 16:00+0800\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
+
+#. Plugin Name of the plugin/theme
+msgid "同步微信客服聊天记录"
+msgstr "同步微信客服聊天記錄"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.cron_wechat_customer_record/"
+msgstr "http://www.ecjia.com/plugins/ecjia.cron_wechat_customer_record/"
+
+#. Description of the plugin/theme
+msgid "自动更新微信客服聊天记录，如果聊天记录过多，可设置一天同步多次。"
+msgstr "自動更新微信客服聊天記錄，如果聊天記錄過多，可設置一天同步多次。"
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr "ECJIA TEAM"
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr "http://www.ecjia.com/"

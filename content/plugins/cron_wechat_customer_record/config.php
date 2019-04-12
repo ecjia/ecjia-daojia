@@ -47,6 +47,5 @@
 
 return array(
     'cron_code'      => 'cron_wechat_customer_record',
-	'forms' => array(
-	),
+	'forms' => array(),
 );
