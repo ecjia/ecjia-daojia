@@ -51,12 +51,12 @@
  * Time: 11:56 AM
  */
 
-namespace Ecjia\App\Setting\Components;
+namespace Ecjia\App\Setting\SettingComponents;
 
 
 use Ecjia\App\Setting\ComponentAbstract;
 
-class G01ShopInfo extends ComponentAbstract
+class ShopInfoSetting extends ComponentAbstract
 {
 
     /**
@@ -66,22 +66,15 @@ class G01ShopInfo extends ComponentAbstract
     protected $code = 'shop_info';
 
     /**
-     * 名称
-     * @var string
+     * 排序
+     * @var int
      */
-    protected $name = '网店信息';
+    protected $sort = 1;
 
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = '';
-
-    /**
-     * 缩略图
-     * @var string
-     */
-    protected $thumb = null; //图片未添加
+    public function __construct()
+    {
+        $this->name = __('网店信息', 'setting');
+    }
 
 
     public function handle()
@@ -95,30 +88,129 @@ class G01ShopInfo extends ComponentAbstract
             ['code' => 'shop_province', 'value' => 'CN31', 'options' => ['type' => 'manual']],
             ['code' => 'shop_city', 'value' => 'CN3101', 'options' => ['type' => 'manual']],
             ['code' => 'shop_address', 'value' => '上海市中山北路3553号伸大厦301', 'options' => ['type' => 'text']],
-            ['code' => 'qq', 'value' => '', 'options' => ['type' => 'text']],
-            ['code' => 'ww', 'value' => '', 'options' => ['type' => 'text']],
-            ['code' => 'skype', 'value' => '', 'options' => ['type' => 'text']],
-            ['code' => 'ym', 'value' => '', 'options' => ['type' => 'text']],
-            ['code' => 'msn', 'value' => '', 'options' => ['type' => 'text']],
-            ['code' => 'service_email', 'value' => 'ecjia@ecjia.com ', 'options' => ['type' => 'text']],
-            ['code' => 'service_phone', 'value' => '4001-021-758', 'options' => ['type' => 'text']],
             ['code' => 'shop_closed', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
             ['code' => 'close_comment', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'shop_logo', 'value' => 'data/assets/ecjia-intro/shop_logo.gif', 'options' => ['type' => 'file', 'store_dir' => 'content/themes/{$template}/images/']],
-            ['code' => 'licensed', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '0,1']],
-            ['code' => 'user_notice', 'value' => '用户中心公告！', 'options' => ['type' => 'textarea']],
             ['code' => 'shop_notice', 'value' => 'ecjia系统，追求极致体验', 'options' => ['type' => 'textarea']],
-            ['code' => 'shop_reg_closed', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
             ['code' => 'company_name', 'value' => '上海商创网络科技有限公司', 'options' => ['type' => 'text']],
-            ['code' => 'shop_weibo_url', 'value' => 'http://weibo.com/ECMBT', 'options' => ['type' => 'text']],
-            ['code' => 'shop_wechat_qrcode', 'value' => 'data/assets/ecjia-intro/shop_wechat_qrcode.jpg', 'options' => ['type' => 'file', 'store_dir' => 'data/assets/']],
+            ['code' => 'licensed', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '0,1']],
+
         ];
 
         return $data;
     }
 
 
+    public function getConfigs()
+    {
+        $config = [
+            [
+                'cfg_code' => 'shop_name',
+                'cfg_name' => __('商店名称', 'setting'),
+                'cfg_desc' => __('网店的名称', 'setting'),
+                'cfg_range' => '',
+            ],
 
+            [
+                'cfg_code' => 'shop_title',
+                'cfg_name' => __('商店标题', 'setting'),
+                'cfg_desc' => __('商店的标题将显示在浏览器的标题栏', 'setting'),
+                'cfg_range' => '',
+            ],
 
+            [
+                'cfg_code' => 'shop_desc',
+                'cfg_name' => __('商店描述', 'setting'),
+                'cfg_desc' => __('商店描述内容，将显示在浏览器的Description', 'setting'),
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'shop_keywords',
+                'cfg_name' => __('商店关键字', 'setting'),
+                'cfg_desc' => __('商店的关键字，将显示在浏览器的Keywords', 'setting'),
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'shop_country',
+                'cfg_name' => __('指定运营国家', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'shop_province',
+                'cfg_name' => __('所在省份', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'shop_city',
+                'cfg_name' => __('所在城市', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'shop_address',
+                'cfg_name' => __('详细地址', 'setting'),
+                'cfg_desc' => __('填写后可以显示在前台页面的最底下', 'setting'),
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'shop_closed',
+                'cfg_name' => __('暂时关闭网站', 'setting'),
+                'cfg_desc' => __('商店需升级或者其他原因临时关闭网站', 'setting'),
+                'cfg_range' => array(
+                    '0' => __('否', 'setting'),
+                    '1' => __('是', 'setting'),
+                ),
+            ],
+
+            [
+                'cfg_code' => 'shop_logo',
+                'cfg_name' => __('商店 Logo', 'setting'),
+                'cfg_desc' => __('请在上传前将图片的文件名命名为logo.gif', 'setting'),
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'shop_notice',
+                'cfg_name' => __('商店公告', 'setting'),
+                'cfg_desc' => __('以上内容将显示在首页商店公告中,注意控制公告内容长度不要超过公告显示区域大小。', 'setting'),
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'company_name',
+                'cfg_name' => __('公司名称', 'setting'),
+                'cfg_desc' => __('设置商城对应的公司名称', 'setting'),
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'licensed',
+                'cfg_name' => __('是否显示 Licensed', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => array(
+                    '0' => __('否', 'setting'),
+                    '1' => __('是', 'setting'),
+                ),
+            ],
+
+            [
+                'cfg_code' => 'close_comment',
+                'cfg_name' => __('关闭网店的原因', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+        ];
+
+        return $config;
+    }
 
 }

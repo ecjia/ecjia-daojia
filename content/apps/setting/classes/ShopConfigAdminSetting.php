@@ -53,6 +53,7 @@ use RC_DB;
 use RC_Hook;
 use RC_Uri;
 use ecjia_admin;
+use admin_menu;
 
 class ShopConfigAdminSetting extends RC_Object
 {
@@ -73,21 +74,83 @@ class ShopConfigAdminSetting extends RC_Object
     public function load_groups()
     {
         $menus = array(
-            ecjia_admin::make_admin_menu('shop_info', $this->cfg_name_langs('shop_info'), RC_Uri::url('setting/shop_config/init', array('code' => 'shop_info')), 1)->add_purview('shop_config')->add_icon('fontello-icon-wrench'),
-            ecjia_admin::make_admin_menu('basic', $this->cfg_name_langs('basic'), RC_Uri::url('setting/shop_config/init', array('code' => 'basic')), 2)->add_purview('shop_config')->add_icon('fontello-icon-info'),
-            ecjia_admin::make_admin_menu('display', $this->cfg_name_langs('display'), RC_Uri::url('setting/shop_config/init', array('code' => 'display')), 3)->add_purview('shop_config')->add_icon('fontello-icon-desktop'),
-            ecjia_admin::make_admin_menu('shopping_flow', $this->cfg_name_langs('shopping_flow'), RC_Uri::url('setting/shop_config/init', array('code' => 'shopping_flow')), 4)->add_purview('shop_config')->add_icon('fontello-icon-truck'),
-            ecjia_admin::make_admin_menu('goods', $this->cfg_name_langs('goods'), RC_Uri::url('setting/shop_config/init', array('code' => 'goods')), 5)->add_purview('shop_config')->add_icon('fontello-icon-gift'),
+            ecjia_admin::make_admin_menu('shop_info', __('网店信息', 'setting'), RC_Uri::url('setting/shop_config/init', array('code' => 'shop_info')), 1)->add_purview('shop_config')->add_icon('fontello-icon-wrench'),
+            ecjia_admin::make_admin_menu('basic', __('基本设置', 'setting'), RC_Uri::url('setting/shop_config/init', array('code' => 'basic')), 2)->add_purview('shop_config')->add_icon('fontello-icon-info'),
+            ecjia_admin::make_admin_menu('service', __('客服设置', 'setting'), RC_Uri::url('setting/shop_config/init', array('code' => 'service')), 3)->add_purview('shop_config')->add_icon('fontello-icon-desktop'),
+            ecjia_admin::make_admin_menu('user', __('会员设置', 'setting'), RC_Uri::url('setting/shop_config/init', array('code' => 'user')), 4)->add_purview('shop_config')->add_icon('fontello-icon-desktop'),
         );
 
         $menus = RC_Hook::apply_filters('append_admin_setting_group', $menus);
+
+        foreach ($menus as $key => $admin_menu) {
+            if ($this->checkAdminMenuPrivilege($admin_menu)) {
+                if ($admin_menu->has_submenus) {
+                    foreach ($admin_menu->submenus() as $sub_id => $sub_menu) {
+                        if ($this->checkAdminMenuPrivilege($sub_menu)) {
+                            continue;
+                        }
+                        $admin_menu->remove_submenu($sub_menu);
+                    }
+                }
+                if ($admin_menu->has_submenus && !$admin_menu->has_submenus()) {
+                    unset($menus[$key]);
+                }
+                continue;
+            }
+            unset($menus[$key]);
+        }
+
+        return $menus;
 
         usort($menus, array('ecjia_utility', 'admin_menu_by_sort'));
 
         return $menus;
     }
-    
-    
+
+    /**
+     * 检查管理员菜单权限
+     */
+    protected function checkAdminMenuPrivilege(admin_menu $admin_menu) {
+        if ($admin_menu->has_purview()) {
+            if (is_array($admin_menu->purview())) {
+                $boole = false;
+                foreach ($admin_menu->purview() as $action) {
+                    $boole = $boole || $this->checkAdminSinglePrivilege($action, '', false);
+                }
+
+                return $boole;
+            } else {
+                if ($this->checkAdminSinglePrivilege($admin_menu->purview(), '', false)) {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 判断管理员对某一个操作是否有权限。
+     *
+     * 根据当前对应的action_code，然后再和用户session里面的action_list做匹配，以此来决定是否可以继续执行。
+     * @param     string    $priv_str    操作对应的priv_str
+     * @return true/false
+     */
+    public function checkAdminSinglePrivilege($priv_str) {
+        if ($_SESSION['action_list'] == 'all') {
+            return true;
+        }
+
+        if (strpos(',' . $_SESSION['action_list'] . ',', ',' . $priv_str . ',') === false) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+
     public function load_items($group)
     {
         $parent_id = $this->get_parent_id($group);
@@ -97,9 +160,11 @@ class ShopConfigAdminSetting extends RC_Object
                     ->where('type', '<>', 'hidden')
                     ->orderBy('sort_order', 'asc')->orderBy('id', 'asc')->get();
 
+        $configs = $this->getSettingComponentConfigs($group);
+
         foreach ($item_list AS $key => & $item) {
-            $item['name'] = $this->cfg_name_langs($item['code'], $item['code']);
-            $item['desc'] = $this->cfg_desc_langs($item['code'], '');
+            $item['name'] = $this->cfg_name_langs($item['code'], $item['code'], $configs);
+            $item['desc'] = $this->cfg_desc_langs($item['code'], '', $configs);
             
             if ($item['type']=='file' && !empty($item['value'])) {
                 if ($item['code'] == 'icp_file') {
@@ -117,7 +182,7 @@ class ShopConfigAdminSetting extends RC_Object
                 $item['store_options'] = explode(',', $item['store_range']);
 
                 foreach ($item['store_options'] AS $k => $v) {
-                    $item['display_options'][$k] = $this->cfg_range_langs($item['code'], $v, $v);
+                    $item['display_options'][$k] = $this->cfg_range_langs($item['code'], $v, $v, $configs);
                 }
             }
         }
@@ -138,26 +203,95 @@ class ShopConfigAdminSetting extends RC_Object
         $id = RC_DB::table('shop_config')->where('parent_id', 0)->where('type', 'group')->where('code', $code)->pluck('id');
         return $id;
     }
-    
-    public function cfg_name_langs($key, $default = null)
-    {
-        $cfg = $this->config->where('cfg_code', $key)->first();
 
-        return array_get($cfg, 'cfg_name', $default);
+    /**
+     * @param \Royalcms\Component\Support\Collection $configs
+     * @param $key
+     * @param null $default
+     * @return mixed
+     */
+    public function cfg_name_langs($key, $default = null, $configs = null)
+    {
+        if (is_null($configs)) {
+            $configs = $this->config;
+        }
+
+        if ($configs->isEmpty()) {
+            $configs = $this->config;
+        }
+
+        $configs = $configs->where('cfg_code', $key)->first();
+
+        return array_get($configs, 'cfg_name', $default);
     }
-    
-    public function cfg_desc_langs($key, $default = null)
-    {
-        $cfg = $this->config->where('cfg_code', $key)->first();
 
-        return array_get($cfg, 'cfg_desc', $default);
+    /**
+     * @param \Royalcms\Component\Support\Collection $configs
+     * @param $key
+     * @param null $default
+     * @return mixed
+     */
+    public function cfg_desc_langs($key, $default = null, $configs = null)
+    {
+        if (is_null($configs)) {
+            $configs = $this->config;
+        }
+
+        if ($configs->isEmpty()) {
+            $configs = $this->config;
+        }
+
+        $configs = $configs->where('cfg_code', $key)->first();
+
+        return array_get($configs, 'cfg_desc', $default);
     }
-    
-    public function cfg_range_langs($key, $subkey = null, $default = null)
-    {
-        $cfg = $this->config->where('cfg_code', $key)->first();
 
-        return array_get($cfg, 'cfg_range'.'.'.$subkey, $default);
+    /**
+     * @param \Royalcms\Component\Support\Collection $configs
+     * @param $key
+     * @param null $subkey
+     * @param null $default
+     * @return mixed
+     */
+    public function cfg_range_langs($key, $subkey = null, $default = null, $configs = null)
+    {
+        if (is_null($configs)) {
+            $configs = $this->config;
+        }
+
+        if ($configs->isEmpty()) {
+            $configs = $this->config;
+        }
+
+        $configs = $configs->where('cfg_code', $key)->first();
+
+        return array_get($configs, 'cfg_range'.'.'.$subkey, $default);
+    }
+
+    public function getSettingComponentGroup($gorup)
+    {
+        $handler = (new Factory)->component($gorup);
+
+        return $handler;
+    }
+
+    public function getSettingComponentConfigs($gorup)
+    {
+        $handler = (new Factory)->component($gorup);
+        $configs = $handler->getConfigs();
+
+        return collect($configs);
+    }
+
+    public function getSettingRangesByGroup($group)
+    {
+        $configs = $this->getSettingComponentConfigs($group);
+
+        $rangs = $configs->mapWithKeys(function($item) {
+            return [$item['cfg_code'] => $item['cfg_range']];
+        })->all();
+
+        return $rangs;
     }
     
     /**

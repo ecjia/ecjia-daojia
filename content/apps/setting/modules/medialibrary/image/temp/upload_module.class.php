@@ -44,63 +44,46 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
- * Created by PhpStorm.
- * User: royalwang
- * Date: 2018/7/23
- * Time: 11:56 AM
+ * 图片临时上传
+ * @author zrl
+ *
  */
+class medialibrary_image_temp_upload_module extends api_front implements api_interface {
+    public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
+		
+    	$user_id = $_SESSION['user_id'];
+    	if ($user_id < 1) {
+    		return new ecjia_error(100, 'Invalid session');
+    	}
+		$picture = [];
+		if (!empty($_FILES['tempimage'])) {
+			$picture = $_FILES['tempimage'];
+			
+			$upload = RC_Upload::uploader('image', array('auto_sub_dirs' => true));
+			if (!empty($picture['name'])) {
+				if (!$upload->check_upload_file($picture)) {
+					return new ecjia_error('picture_error', $upload->error());
+				}
+			}
+			
+			$dir = storage_path('temp/tempupload');
+            if (!RC_File::isDirectory($dir)) {
+                RC_File::makeDirectory($dir, 0755, true);
+            }
 
-namespace Ecjia\App\Setting\Components;
+			$filename = basename($picture['tmp_name']);
+            $new_tmp_name = $dir.'/'.$filename;
 
+            RC_File::move_file($picture['tmp_name'], $new_tmp_name);
 
-use Ecjia\App\Setting\ComponentAbstract;
+			$picture['tmp_name'] = $new_tmp_name;
 
-class G12Printer extends ComponentAbstract
-{
-
-    /**
-     * 代号标识
-     * @var string
-     */
-    protected $code = 'printer';
-
-    /**
-     * 名称
-     * @var string
-     */
-    protected $name = '打印设置';
-
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = '';
-
-    /**
-     * 缩略图
-     * @var string
-     */
-    protected $thumb = null; //图片未添加
-
-
-    public function handle()
-    {
-        $data = [
-            //v1.11.0新增
-            ['code' => 'printer_key', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'printer_secret', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'printer_print_push', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'printer_status_push', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'printer_order_push', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'printer_display_platform', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
-        ];
-
-        return $data;
-    }
-
-
-
-
-
+		}
+		return $picture;
+	}
 }
+
+// end

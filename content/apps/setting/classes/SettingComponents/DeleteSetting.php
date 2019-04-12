@@ -51,49 +51,44 @@
  * Time: 11:56 AM
  */
 
-namespace Ecjia\App\Setting\Components;
+namespace Ecjia\App\Setting\SettingComponents;
 
 
 use Ecjia\App\Setting\ComponentAbstract;
+use ecjia_config;
 
-class G08Sms extends ComponentAbstract
+class DeleteSetting extends ComponentAbstract
 {
 
     /**
      * 代号标识
      * @var string
      */
-    protected $code = 'sms';
+    protected $code = 'delete';
 
     /**
-     * 名称
-     * @var string
+     * 排序
+     * @var int
      */
-    protected $name = '短信设置';
+    protected $sort = 9;
 
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = '';
-
-    /**
-     * 缩略图
-     * @var string
-     */
-    protected $thumb = null; //图片未添加
+    public function __construct()
+    {
+        $this->name = __('删除设置项', 'setting');
+    }
 
 
     public function handle()
     {
-        $data = [
-            ['code' => 'sms_shop_mobile', 'value' => '', 'options' => ['type' => 'text']],
-        ];
+        ecjia_config::delete('send_mail_on');
 
-        return $data;
+        return [];
     }
 
-
+    public function getConfigs()
+    {
+        return [];
+    }
 
 
 

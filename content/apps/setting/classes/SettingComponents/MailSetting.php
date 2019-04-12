@@ -51,12 +51,12 @@
  * Time: 11:56 AM
  */
 
-namespace Ecjia\App\Setting\Components;
+namespace Ecjia\App\Setting\SettingComponents;
 
 
 use Ecjia\App\Setting\ComponentAbstract;
 
-class G05Smtp extends ComponentAbstract
+class MailSetting extends ComponentAbstract
 {
 
     /**
@@ -66,27 +66,20 @@ class G05Smtp extends ComponentAbstract
     protected $code = 'smtp';
 
     /**
-     * 名称
-     * @var string
+     * 排序
+     * @var int
      */
-    protected $name = '邮件设置';
+    protected $sort = 5;
 
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = '';
-
-    /**
-     * 缩略图
-     * @var string
-     */
-    protected $thumb = null; //图片未添加
-
+    public function __construct()
+    {
+        $this->name = __('邮件设置', 'setting');
+    }
 
     public function handle()
     {
         $data = [
+
             ['code' => 'smtp_host', 'value' => 'smtp.qq.com', 'options' => ['type' => 'text']],
             ['code' => 'smtp_port', 'value' => '25', 'options' => ['type' => 'text']],
             ['code' => 'smtp_user', 'value' => '', 'options' => ['type' => 'text']],
@@ -95,13 +88,123 @@ class G05Smtp extends ComponentAbstract
             ['code' => 'mail_charset', 'value' => 'UTF8', 'options' => ['type' => 'select', 'store_range' => 'UTF8,GB2312,BIG5']],
             ['code' => 'mail_service', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '0,1']],
             ['code' => 'smtp_ssl', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
+
+//            ['code' => 'send_mail_on', 'value' => 'off', 'options' => ['type' => 'select', 'store_range' => 'on,off']],
+
         ];
 
         return $data;
     }
 
 
+    public function getConfigs()
+    {
+        $config = [
 
+            [
+                'cfg_code' => 'mail_service',
+                'cfg_name' => __('邮件服务', 'setting'),
+                'cfg_desc' => __('如果您选择了采用服务器内置的 Mail 服务，您不需要填写下面的内容。', 'setting'),
+                'cfg_range' => array(
+                    '0' => __('采用服务器内置的 Mail 服务', 'setting'),
+                    '1' => __('采用其他的 SMTP 服务', 'setting'),
+                ),    ],
+
+            [
+                'cfg_code' => 'smtp_host',
+                'cfg_name' => __('发送邮件服务器地址(SMTP)', 'setting'),
+                'cfg_desc' => __('邮件服务器主机地址。如果本机可以发送邮件则设置为localhost', 'setting'),
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'smtp_port',
+                'cfg_name' => __('服务器端口', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'smtp_user',
+                'cfg_name' => __('邮件发送帐号', 'setting'),
+                'cfg_desc' => __('发送邮件所需的认证帐号，如果没有就为空着', 'setting'),
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'smtp_pass',
+                'cfg_name' => __('帐号密码', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'smtp_mail',
+                'cfg_name' => __('邮件回复地址', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'mail_charset',
+                'cfg_name' => __('邮件编码', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => array(
+                    'UTF8' => __('国际化编码（utf8）', 'setting'),
+                    'GB2312' => __('简体中文', 'setting'),
+                    'BIG5' => __('繁体中文', 'setting'),
+                ),
+            ],
+
+            [
+                'cfg_code' => 'smtp_ssl',
+                'cfg_name' => __('邮件服务器是否要求加密连接(SSL)', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => array(
+                    '0' => __('否', 'setting'),
+                    '1' => __('是', 'setting'),
+                ),
+            ],
+
+
+
+            [
+                'cfg_code' => 'test_mail_address',
+                'cfg_name' => __('邮件地址', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'send',
+                'cfg_name' => __('发送测试邮件', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+
+            [
+                'cfg_code' => 'email_content',
+                'cfg_name' => __('您好！这是一封检测邮件服务器设置的测试邮件。收到此邮件，意味着您的邮件服务器设置正确！您可以进行其它邮件发送的操作了！', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'send_mail_on',
+                'cfg_name' => __('是否开启自动发送邮件', 'setting'),
+                'cfg_desc' => __('启用该选项登录后台时，会自动发送邮件队列中尚未发送的邮件', 'setting'),
+                'cfg_range' => array(
+                    '0' => __('关闭', 'setting'),
+                    '1' => __('开启', 'setting'),
+                ),
+            ],
+
+
+        ];
+
+        return $config;
+    }
 
 
 }

@@ -121,9 +121,9 @@ class shop_config extends ecjia_admin {
 			    break;
 		}
 
-		$this->assign('cfg_range_lang', RC_Lang::get('setting::shop_config.cfg_range'));
+		$this->assign('cfg_range_lang', \Ecjia\App\Setting\ShopConfigAdminSetting::singleton()->getSettingRangesByGroup($code));
 		
-		$item_list = ecjia_admin_setting::singleton()->load_items($code);
+		$item_list = \Ecjia\App\Setting\ShopConfigAdminSetting::singleton()->load_items($code);
 
 		$item_list = RC_Hook::apply_filters('shop_config_filter_items', $item_list, $code);
 
@@ -133,7 +133,9 @@ class shop_config extends ecjia_admin {
 		$this->assign('ecjia_config', $ecjia_config);
 		$this->assign('item_list', $item_list);
 		$this->assign('current_code', $code);
-		$this->assign('group', array('code' => $code, 'name' => ecjia_admin_setting::singleton()->cfg_name_langs($code)));
+
+        $group_handler = \Ecjia\App\Setting\ShopConfigAdminSetting::singleton()->getSettingComponentGroup($code);
+		$this->assign('group', array('code' => $group_handler->getCode(), 'name' => $group_handler->getName()));
 		
 		$this->assign('form_action', RC_Uri::url('setting/shop_config/update'));
 		

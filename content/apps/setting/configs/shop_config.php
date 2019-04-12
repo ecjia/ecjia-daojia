@@ -1308,8 +1308,8 @@ return array(
         'cfg_name' => __('站点访问统计', 'setting'),
         'cfg_desc' => '',
         'cfg_range' => array(
-            '0' => __('关闭', 'setting'),
-            '1' => __('开启', 'setting'),
+            'on' => __('关闭', 'setting'),
+            'off' => __('开启', 'setting'),
         ),
     ],
 

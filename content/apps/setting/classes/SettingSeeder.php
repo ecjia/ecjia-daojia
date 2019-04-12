@@ -34,7 +34,7 @@ class SettingSeeder
 
         });
 
-
+        ecjia_config::clearCache();
     }
 
 }

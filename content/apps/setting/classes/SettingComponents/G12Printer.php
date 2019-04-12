@@ -51,56 +51,49 @@
  * Time: 11:56 AM
  */
 
-namespace Ecjia\App\Setting\Components;
+namespace Ecjia\App\Setting\SettingComponents;
 
 
 use Ecjia\App\Setting\ComponentAbstract;
 
-class G07Goods extends ComponentAbstract
+class G12Printer extends ComponentAbstract
 {
 
     /**
      * 代号标识
      * @var string
      */
-    protected $code = 'goods';
+    protected $code = 'printer';
 
-    /**
-     * 名称
-     * @var string
-     */
-    protected $name = '商品显示设置';
-
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = '';
-
-    /**
-     * 缩略图
-     * @var string
-     */
-    protected $thumb = null; //图片未添加
+    public function __construct()
+    {
+        $this->name = __('打印设置', 'setting');
+    }
 
 
     public function handle()
     {
-        $data= [
-            ['code' => 'show_goodssn', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'show_brand', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'show_goodsweight', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'show_goodsnumber', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'show_addtime', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'goodsattr_style', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'show_marketprice', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0']],
+        $data = [
+            //v1.11.0新增
+            ['code' => 'printer_key', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'printer_secret', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'printer_print_push', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'printer_status_push', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'printer_order_push', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'printer_display_platform', 'value' => '0', 'options' => ['type' => 'select', 'store_range' => '0,1']],
         ];
 
         return $data;
     }
 
 
+    public function getConfigs()
+    {
+        $config = [
+        ];
 
+        return $config;
+    }
 
 
 }

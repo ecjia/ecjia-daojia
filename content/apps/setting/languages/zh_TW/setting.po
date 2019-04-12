@@ -1,0 +1,1778 @@
+# Copyright (C) 2019 Ecjia App setting
+# This file is distributed under the same license as the Ecjia App setting package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App setting 2.28.0\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-04-04 10:03+0800\n"
+"PO-Revision-Date: 2019-04-09 10:10+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: admin_region.php:77 admin_region.php:142
+msgid "地区列表"
+msgstr "地區列表"
+
+#: admin_region.php:150
+msgid "返回上级"
+msgstr "返回上級"
+
+#: admin_region.php:173
+msgid "当前级地区码只能填3位数字！"
+msgstr "當前級地區碼只能填3位數字！"
+
+#: admin_region.php:177
+msgid "当前级地区码只能填2位数字！"
+msgstr "當前級地區碼只能填2位數字！"
+
+#: admin_region.php:184 admin_region.php:236
+msgid "区域名称不能为空！"
+msgstr "區域名稱不能為空！"
+
+#: admin_region.php:190
+msgid "抱歉，当前级已经有相同的地区码存在！"
+msgstr "抱歉，當前級已經有相同的地區碼存在！"
+
+#: admin_region.php:213 admin_region.php:215
+msgid "添加新地区成功！"
+msgstr "添加新地區成功！"
+
+#: admin_region.php:219
+msgid "添加新地区失败！"
+msgstr "添加新地區失敗！"
+
+#: admin_region.php:251
+msgid "更新地区名称为 %s"
+msgstr "更新地區名稱為 %s"
+
+#: admin_region.php:260
+msgid "修改名称成功！"
+msgstr "修改名稱成功！"
+
+#: admin_region.php:262
+msgid "修改名称失败！"
+msgstr "修改名稱失敗！"
+
+#: admin_region.php:294
+msgid "成功删除地区 %s"
+msgstr "成功刪除地區 %s"
+
+#: admin_region.php:359
+msgid ""
+"当前版本已是最新版本，同步更新时间间隔不能小于7天，上次更新时"
+"间是（%s）"
+msgstr ""
+"當前版本已是最新版本，同步更新時間間隔不能小於7天，上次更新時"
+"間是（%s）"
+
+#: admin_region.php:381 admin_region.php:386
+msgid "获取地区信息成功"
+msgstr "獲取地區信息成功"
+
+#: apis/setting_admin_purview_api.class.php:57
+#: apis/setting_setting_menu_api.class.php:56 shop_config.php:75
+#: shop_config.php:85 shop_config.php:86
+msgid "商店设置"
+msgstr "商店設置"
+
+#: apis/setting_admin_purview_api.class.php:58
+msgid "地区设置"
+msgstr "地區設置"
+
+#: apis/setting_admin_purview_api.class.php:59
+#: apis/setting_setting_menu_api.class.php:57
+msgid "地区管理"
+msgstr "地區管理"
+
+#: configs/package.php:55
+msgid "设置"
+msgstr "設置"
+
+#: configs/package.php:56
+msgid ""
+"我们可以完成商店的几乎所有的设置，包括的设置有网店信息基本设"
+"置、显示设置、购物流程、商品显示设置 等，这个部分可以说是网店"
+"系统的核心配置。"
+msgstr ""
+"我們可以完成商店的幾乎所有的設置，包括的設置有網店信息基本設"
+"置、顯示設置、購物流程、商品顯示設置 等，這個部分可以說是網店"
+"系統的核心配置。"
+
+#: configs/shop_config.php:58
+msgid "基本设置"
+msgstr "基本設置"
+
+#: configs/shop_config.php:65
+msgid "显示设置"
+msgstr "顯示設置"
+
+#: configs/shop_config.php:72
+msgid "网店信息"
+msgstr "網店信息"
+
+#: configs/shop_config.php:79
+msgid "购物流程"
+msgstr "購物流程"
+
+#: configs/shop_config.php:86
+msgid "邮件服务器设置"
+msgstr "郵件服務器設置"
+
+#: configs/shop_config.php:87
+msgid "设置邮件服务器基本参数"
+msgstr "設置郵件服務器基本參數"
+
+#: configs/shop_config.php:93
+msgid "商品显示设置"
+msgstr "商品顯示設置"
+
+#: configs/shop_config.php:100
+msgid "系统语言"
+msgstr "系統語言"
+
+#: configs/shop_config.php:107
+msgid "暂时关闭网站"
+msgstr "暫時關閉網站"
+
+#: configs/shop_config.php:110 configs/shop_config.php:148
+#: configs/shop_config.php:197 configs/shop_config.php:403
+#: configs/shop_config.php:486 configs/shop_config.php:506
+#: configs/shop_config.php:516 configs/shop_config.php:566
+#: configs/shop_config.php:576 configs/shop_config.php:983
+#: configs/shop_config.php:1077 configs/shop_config.php:1098
+#: configs/shop_config.php:1409
+msgid "否"
+msgstr "否"
+
+#: configs/shop_config.php:111 configs/shop_config.php:149
+#: configs/shop_config.php:198 configs/shop_config.php:404
+#: configs/shop_config.php:487 configs/shop_config.php:507
+#: configs/shop_config.php:517 configs/shop_config.php:567
+#: configs/shop_config.php:577 configs/shop_config.php:984
+#: configs/shop_config.php:1078 configs/shop_config.php:1099
+#: configs/shop_config.php:1410
+msgid "是"
+msgstr "是"
+
+#: configs/shop_config.php:117
+msgid "ICP 备案证书文件"
+msgstr "ICP 備案證書文件"
+
+#: configs/shop_config.php:124
+msgid "水印文件"
+msgstr "水印文件"
+
+#: configs/shop_config.php:125
+msgid "水印文件须为gif格式才可支持透明度设置。"
+msgstr "水印文件須為gif格式才可支持透明度設置。"
+
+#: configs/shop_config.php:131
+msgid "水印位置"
+msgstr "水印位置"
+
+#: configs/shop_config.php:134
+msgid "无"
+msgstr "無"
+
+#: configs/shop_config.php:135
+msgid "左上"
+msgstr "左上"
+
+#: configs/shop_config.php:136
+msgid "右上"
+msgstr "右上"
+
+#: configs/shop_config.php:137
+msgid "居中"
+msgstr "居中"
+
+#: configs/shop_config.php:138
+msgid "左下"
+msgstr "左下"
+
+#: configs/shop_config.php:139
+msgid "右下"
+msgstr "右下"
+
+#: configs/shop_config.php:145
+msgid "是否启用库存管理"
+msgstr "是否啟用庫存管理"
+
+#: configs/shop_config.php:155
+msgid "市场价格比例"
+msgstr "市場價格比例"
+
+#: configs/shop_config.php:156
+msgid "输入商品售价时将自动根据该比例计算市场价格"
+msgstr "輸入商品售價時將自動根據該比例計算市場價格"
+
+#: configs/shop_config.php:162
+msgid "URL重写"
+msgstr "URL重寫"
+
+#: configs/shop_config.php:163
+msgid ""
+"URL重写是一种搜索引擎优化技术，可以将动态的地址模拟成静态的"
+"HTML文件。需要Apache的支持。"
+msgstr ""
+"URL重寫是一種搜索引擎優化技術，可以將動態的地址模擬成靜態的"
+"HTML文件。需要Apache的支持。"
+
+#: configs/shop_config.php:165 configs/shop_config.php:956
+msgid "禁用"
+msgstr "禁用"
+
+#: configs/shop_config.php:166
+msgid "简单重写"
+msgstr "簡單重寫"
+
+#: configs/shop_config.php:167
+msgid "复杂重写"
+msgstr "複雜重寫"
+
+#: configs/shop_config.php:173
+msgid "消费积分名称"
+msgstr "消費積分名稱"
+
+#: configs/shop_config.php:174
+msgid ""
+"您可以将消费积分重新命名。例如：烧币<br>消费积分功能本名叫“积"
+"分”，未填写直接显示本名，只影响到前台用户端的显示，不会对后台"
+"功能名称作影响"
+msgstr ""
+"您可以將消費積分重新命名。例如：燒幣<br>消費積分功能本名叫“積"
+"分”，未填寫直接顯示本名，只影響到前台用戶端的顯示，不會對後台"
+"功能名稱作影響"
+
+#: configs/shop_config.php:180
+msgid "积分换算比例"
+msgstr "積分換算比例"
+
+#: configs/shop_config.php:181
+msgid "每100积分可抵多少元现金"
+msgstr "每100積分可抵多少元現金"
+
+#: configs/shop_config.php:187
+msgid "积分支付比例"
+msgstr "積分支付比例"
+
+#: configs/shop_config.php:188
+msgid "每100元商品最多可以使用多少元积分"
+msgstr "每100元商品最多可以使用多少元積分"
+
+#: configs/shop_config.php:194
+msgid "是否开启新订单提醒"
+msgstr "是否開啟新訂單提醒"
+
+#: configs/shop_config.php:204
+msgid "默认库存"
+msgstr "默認庫存"
+
+#: configs/shop_config.php:211
+msgid "日期格式"
+msgstr "日期格式"
+
+#: configs/shop_config.php:218
+msgid "时间格式"
+msgstr "時間格式"
+
+#: configs/shop_config.php:225
+msgid "货币格式"
+msgstr "貨幣格式"
+
+#: configs/shop_config.php:226
+msgid "显示商品价格的格式，%s将被替换为相应的价格数字。"
+msgstr "顯示商品價格的格式，%s將被替換為相應的價格數字。"
+
+#: configs/shop_config.php:232
+msgid "缩略图宽度"
+msgstr "縮略圖寬度"
+
+#: configs/shop_config.php:239
+msgid "缩略图高度"
+msgstr "縮略圖高度"
+
+#: configs/shop_config.php:246
+msgid "商品图片宽度"
+msgstr "商品圖片寬度"
+
+#: configs/shop_config.php:253
+msgid "商品图片高度"
+msgstr "商品圖片高度"
+
+#: configs/shop_config.php:254
+msgid ""
+"如果您的服务器支持GD，在您上传商品图片的时候将自动将图片缩小到"
+"指定的尺寸。"
+msgstr ""
+"如果您的服務器支持GD，在您上傳商品圖片的時候將自動將圖片縮小到"
+"指定的尺寸。"
+
+#: configs/shop_config.php:260
+msgid "精品推荐数量"
+msgstr "精品推薦數量"
+
+#: configs/shop_config.php:267
+msgid "新品推荐数量"
+msgstr "新品推薦數量"
+
+#: configs/shop_config.php:274
+msgid "热销商品数量"
+msgstr "熱銷商品數量"
+
+#: configs/shop_config.php:281
+msgid "特价商品的数量"
+msgstr "特價商品的數量"
+
+#: configs/shop_config.php:288
+msgid "团购商品的数量"
+msgstr "團購商品的數量"
+
+#: configs/shop_config.php:295
+msgid "销量排行数量"
+msgstr "銷量排行數量"
+
+#: configs/shop_config.php:302
+msgid "浏览历史数量"
+msgstr "瀏覽歷史數量"
+
+#: configs/shop_config.php:309
+msgid "评论数量"
+msgstr "評論數量"
+
+#: configs/shop_config.php:310
+msgid "显示在商品详情页的用户评论数量。"
+msgstr "顯示在商品詳情頁的用戶評論數量。"
+
+#: configs/shop_config.php:316
+msgid "相关商品数量"
+msgstr "相關商品數量"
+
+#: configs/shop_config.php:317
+msgid "显示多少个购买此商品的人还买过哪些商品"
+msgstr "顯示多少個購買此商品的人還買過哪些商品"
+
+#: configs/shop_config.php:323
+msgid "最新文章显示数量"
+msgstr "最新文章顯示數量"
+
+#: configs/shop_config.php:330
+msgid "订单显示数量"
+msgstr "訂單顯示數量"
+
+#: configs/shop_config.php:337
+msgid "商店名称"
+msgstr "商店名稱"
+
+#: configs/shop_config.php:344
+msgid "商店标题"
+msgstr "商店標題"
+
+#: configs/shop_config.php:345
+msgid "商店的标题将显示在浏览器的标题栏"
+msgstr "商店的標題將顯示在瀏覽器的標題欄"
+
+#: configs/shop_config.php:351
+msgid "商店网址"
+msgstr "商店網址"
+
+#: configs/shop_config.php:358
+msgid "商店描述"
+msgstr "商店描述"
+
+#: configs/shop_config.php:365
+msgid "商店关键字"
+msgstr "商店關鍵字"
+
+#: configs/shop_config.php:372
+msgid "指定运营国家"
+msgstr "指定運營國家"
+
+#: configs/shop_config.php:379
+msgid "所在省份"
+msgstr "所在省份"
+
+#: configs/shop_config.php:386
+msgid "所在城市"
+msgstr "所在城市"
+
+#: configs/shop_config.php:393
+msgid "详细地址"
+msgstr "詳細地址"
+
+#: configs/shop_config.php:400
+msgid "是否显示 Licensed"
+msgstr "是否顯示 Licensed"
+
+#: configs/shop_config.php:410
+msgid "客服QQ号码"
+msgstr "客服QQ號碼"
+
+#: configs/shop_config.php:411
+msgid ""
+"如果您有多个客服的QQ号码，请在每个号码之间使用半角逗号（,）分"
+"隔。"
+msgstr ""
+"如果您有多個客服的QQ號碼，請在每個號碼之間使用半角逗號（,）分"
+"隔。"
+
+#: configs/shop_config.php:417
+msgid "淘宝旺旺"
+msgstr "淘寶旺旺"
+
+#: configs/shop_config.php:418
+msgid ""
+"如果您有多个客服的淘宝旺旺号码，请在每个号码之间使用半角逗号"
+"（,）分隔。"
+msgstr ""
+"如果您有多個客服的淘寶旺旺號碼，請在每個號碼之間使用半角逗號"
+"（,）分隔。"
+
+#: configs/shop_config.php:424
+msgid "Skype"
+msgstr "Skype"
+
+#: configs/shop_config.php:425
+msgid ""
+"如果您有多个客服的Skype号码，请在每个号码之间使用半角逗号（,）"
+"分隔。提示：你需要在你的Skype隐私设置中启用状态显示功能"
+msgstr ""
+"如果您有多個客服的Skype號碼，請在每個號碼之間使用半角逗號（,）"
+"分隔。提示：你需要在你的Skype隱私設置中啟用狀態顯示功能"
+
+#: configs/shop_config.php:431
+msgid "微信号码"
+msgstr "微信號碼"
+
+#: configs/shop_config.php:432
+msgid ""
+"如果您有多个客服的微信码，请在每个号码之间使用半角逗号（,）分"
+"隔。"
+msgstr ""
+"如果您有多個客服的微信碼，請在每個號碼之間使用半角逗號（,）分"
+"隔"
+
+#: configs/shop_config.php:438
+msgid "微博号码"
+msgstr "微博號碼"
+
+#: configs/shop_config.php:439
+msgid ""
+"如果您有多个客服的微博号码，请在每个号码之间使用半角逗号（,）"
+"分隔。"
+msgstr ""
+"如果您有多個客服的微博號碼，請在每個號碼之間使用半角逗號（,）"
+"分隔。"
+
+#: configs/shop_config.php:445
+msgid "客服邮件地址"
+msgstr "客服郵件地址"
+
+#: configs/shop_config.php:452
+msgid "客服电话"
+msgstr "客服電話"
+
+#: configs/shop_config.php:459
+msgid "能否开发票"
+msgstr "能否開發票"
+
+#: configs/shop_config.php:462
+msgid "不能"
+msgstr "不能"
+
+#: configs/shop_config.php:463
+msgid "能"
+msgstr "能"
+
+#: configs/shop_config.php:469
+msgid "用户中心公告"
+msgstr "用戶中心公告"
+
+#: configs/shop_config.php:470
+msgid "该信息将在用户中心欢迎页面显示"
+msgstr "該信息將在用戶中心歡迎頁面顯示"
+
+#: configs/shop_config.php:476
+msgid "商店公告"
+msgstr "商店公告"
+
+#: configs/shop_config.php:477
+msgid ""
+"以上内容将显示在首页商店公告中,注意控制公告内容长度不要超过公"
+"告显示区域大小。"
+msgstr ""
+"以上內容將顯示在首頁商店公告中,注意控制公告內容長度不要超過公"
+"告顯示區域大小。"
+
+#: configs/shop_config.php:483
+msgid "是否关闭注册"
+msgstr "是否關閉註冊"
+
+#: configs/shop_config.php:493
+msgid "是否开启自动发送邮件"
+msgstr "是否開啟自動發送郵件"
+
+#: configs/shop_config.php:494
+msgid "启用该选项登录后台时，会自动发送邮件队列中尚未发送的邮件"
+msgstr ""
+"啟用該選項登錄後台時，會自動發送郵件隊列中尚未發送的郵件"
+
+#: configs/shop_config.php:496 configs/shop_config.php:526
+#: configs/shop_config.php:536 configs/shop_config.php:546
+#: configs/shop_config.php:1311 configs/shop_config.php:1321
+#: configs/shop_config.php:1438
+msgid "关闭"
+msgstr "关闭"
+
+#: configs/shop_config.php:497 configs/shop_config.php:527
+#: configs/shop_config.php:537 configs/shop_config.php:547
+#: configs/shop_config.php:1312 configs/shop_config.php:1439
+msgid "开启"
+msgstr "開啟"
+
+#: configs/shop_config.php:503
+msgid "上传商品是否自动生成相册图"
+msgstr "上傳商品是否自動生成相冊圖"
+
+#: configs/shop_config.php:513
+msgid "上传商品时是否保留原图"
+msgstr "上傳商品時是否保留原圖"
+
+#: configs/shop_config.php:523
+msgid "是否开启会员邮件验证"
+msgstr "是否開啟會員郵件驗證"
+
+#: configs/shop_config.php:533
+msgid "用户注册时自动发送验证邮件"
+msgstr "用戶註冊時自動發送驗證郵件"
+
+#: configs/shop_config.php:534
+msgid "“是否开启会员邮件验证”设为开启时才可使用此功能"
+msgstr "“是否開啟會員郵件驗證”設為開啟時才可使用此功能"
+
+#: configs/shop_config.php:543
+msgid "是否启用留言板功能"
+msgstr "是否啟用留言板功能"
+
+#: configs/shop_config.php:553
+msgid "用户留言是否需要审核"
+msgstr "用戶留言是否需要審核"
+
+#: configs/shop_config.php:556 configs/shop_config.php:822
+msgid "不需要"
+msgstr "不需要"
+
+#: configs/shop_config.php:557 configs/shop_config.php:823
+msgid "需要"
+msgstr "需要"
+
+#: configs/shop_config.php:563
+msgid "审核商家商品"
+msgstr "審核商家商品"
+
+#: configs/shop_config.php:564
+msgid ""
+"设置是否需要审核商家添加的商品，如果开启则所有商家添加的商品都"
+"需要审核之后才能显示"
+msgstr ""
+"設置是否需要審核商家添加的商品，如果開啟則所有商家添加的商品都"
+"需要審核之後才能顯示"
+
+#: configs/shop_config.php:573
+msgid "商家强制认证"
+msgstr "商家強制認證"
+
+#: configs/shop_config.php:574
+msgid ""
+"设置是否需要认证商家资质，如果开启则认证通过后的商家才能开店和"
+"显示"
+msgstr ""
+"設置是否需要認證商家資質，如果開啟則認證通過後的商家才能開店和"
+"顯示"
+
+#: configs/shop_config.php:597
+msgid "是否使用积分"
+msgstr "是否使用積分"
+
+#: configs/shop_config.php:600 configs/shop_config.php:610
+#: configs/shop_config.php:620 configs/shop_config.php:630
+msgid "不使用"
+msgstr "不使用"
+
+#: configs/shop_config.php:601 configs/shop_config.php:611
+#: configs/shop_config.php:621 configs/shop_config.php:631
+msgid "使用"
+msgstr "使用"
+
+#: configs/shop_config.php:607
+msgid "是否使用红包"
+msgstr "是否使用紅包"
+
+#: configs/shop_config.php:617
+msgid "是否使用余额"
+msgstr "是否使用餘額"
+
+#: configs/shop_config.php:627
+msgid "是否使用缺货处理"
+msgstr "是否使用缺貨處理"
+
+#: configs/shop_config.php:628
+msgid ""
+"使用缺货处理时前台订单确认页面允许用户选择缺货时处理方法。"
+msgstr ""
+"使用缺貨處理時前台訂單確認頁面允許用戶選擇缺貨時處理方法。"
+
+#: configs/shop_config.php:637
+msgid "确认订单时"
+msgstr "確認訂單時"
+
+#: configs/shop_config.php:640 configs/shop_config.php:700
+#: configs/shop_config.php:730 configs/shop_config.php:760
+msgid "不发送邮件"
+msgstr "不發送郵件"
+
+#: configs/shop_config.php:641 configs/shop_config.php:701
+#: configs/shop_config.php:731 configs/shop_config.php:761
+msgid "发送邮件"
+msgstr "發送郵件"
+
+#: configs/shop_config.php:647
+msgid "设置订单为“已付款”时"
+msgstr "設置訂單為“已付款”時"
+
+#: configs/shop_config.php:650 configs/shop_config.php:660
+#: configs/shop_config.php:670 configs/shop_config.php:680
+#: configs/shop_config.php:710 configs/shop_config.php:720
+#: configs/shop_config.php:740 configs/shop_config.php:750
+msgid "无需填写备注"
+msgstr "無需填寫備註"
+
+#: configs/shop_config.php:651 configs/shop_config.php:661
+#: configs/shop_config.php:671 configs/shop_config.php:681
+#: configs/shop_config.php:711 configs/shop_config.php:721
+#: configs/shop_config.php:741 configs/shop_config.php:751
+msgid "必须填写备注"
+msgstr "必須填寫備註"
+
+#: configs/shop_config.php:657
+msgid "设置订单为“未付款”时"
+msgstr "設置訂單為“未付款”時"
+
+#: configs/shop_config.php:667
+msgid "设置订单为“已发货”时"
+msgstr "設置訂單為“已發貨”時"
+
+#: configs/shop_config.php:677
+msgid "设置订单为“未发货”时"
+msgstr "設置訂單為“未發貨”時"
+
+#: configs/shop_config.php:687
+msgid "什么时候减少库存"
+msgstr "什麼時候減少庫存"
+
+#: configs/shop_config.php:690
+msgid "下定单时"
+msgstr "下定單時"
+
+#: configs/shop_config.php:691 configs/shop_config.php:697
+#: configs/shop_config.php:812
+msgid "发货时"
+msgstr "發貨時"
+
+#: configs/shop_config.php:707
+msgid "设置订单为“收货确认”时"
+msgstr "設置訂單為“收貨確認”時"
+
+#: configs/shop_config.php:717 configs/shop_config.php:727
+msgid "取消订单时"
+msgstr "取消訂單時"
+
+#: configs/shop_config.php:737
+msgid "退货时"
+msgstr "退貨時"
+
+#: configs/shop_config.php:747 configs/shop_config.php:757
+msgid "把订单设为无效时"
+msgstr "把訂單設為無效時"
+
+#: configs/shop_config.php:767
+msgid "商品货号前缀"
+msgstr "商品貨號前綴"
+
+#: configs/shop_config.php:774
+msgid "关闭网店的原因"
+msgstr "關閉網店的原因"
+
+#: configs/shop_config.php:781
+msgid "水印透明度"
+msgstr "水印透明度"
+
+#: configs/shop_config.php:782
+msgid "水印的透明度，可选值为0-100。当设置为100时则为不透明。"
+msgstr "水印的透明度，可選值為0-100。當設置為100時則為不透明。"
+
+#: configs/shop_config.php:788
+msgid "ICP证书或ICP备案证书号"
+msgstr "ICP證書或ICP備案證書號"
+
+#: configs/shop_config.php:795
+msgid "发票内容"
+msgstr "發票內容"
+
+#: configs/shop_config.php:796
+msgid ""
+"客户要求开发票时可以选择的内容。例如：办公用品。每一行代表一个"
+"选项。"
+msgstr ""
+"客戶要求開發票時可以選擇的內容。例如：辦公用品。每一行代表一個"
+"選項。"
+
+#: configs/shop_config.php:802
+msgid "发票类型及税率"
+msgstr "發票類型及稅率"
+
+#: configs/shop_config.php:809
+msgid "减库存的时机"
+msgstr "減庫存的時機"
+
+#: configs/shop_config.php:813
+msgid "下订单时"
+msgstr "下訂單時"
+
+#: configs/shop_config.php:819
+msgid "用户评论是否需要审核"
+msgstr "用戶評論是否需要審核"
+
+#: configs/shop_config.php:829
+msgid "商品评论的条件"
+msgstr "商品評論的條件"
+
+#: configs/shop_config.php:830
+msgid ""
+"选取较高的评论条件可以有效的减少垃圾评论的产生。只有用户订单完"
+"成后才认为该用户有购买行为"
+msgstr ""
+"選取較高的評論條件可以有效的減少垃圾評論的產生。只有用戶訂單完"
+"成後才認為該用戶有購買行為"
+
+#: configs/shop_config.php:832
+msgid "所有用户"
+msgstr "所有用戶"
+
+#: configs/shop_config.php:833
+msgid "仅登录用户"
+msgstr "僅登錄用戶"
+
+#: configs/shop_config.php:834
+msgid "有过一次以上购买行为用户"
+msgstr "有過一次以上購買行為用戶"
+
+#: configs/shop_config.php:835
+msgid "仅购买过该商品用户"
+msgstr "僅購買過該商品用戶"
+
+#: configs/shop_config.php:841
+msgid "商品的默认图片"
+msgstr "商品的默認圖片"
+
+#: configs/shop_config.php:848
+msgid "统计代码"
+msgstr "統計代碼"
+
+#: configs/shop_config.php:849
+msgid "您可以将其他访问统计服务商提供的代码添加到每一个页面。"
+msgstr "您可以將其他訪問統計服務商提供的代碼添加到每一個頁面。"
+
+#: configs/shop_config.php:855
+msgid "缓存存活时间（秒）"
+msgstr "緩存存活時間（秒）"
+
+#: configs/shop_config.php:856
+msgid "前台页面缓存的存活时间，以秒为单位。"
+msgstr "前台頁面緩存的存活時間，以秒為單位。"
+
+#: configs/shop_config.php:862
+msgid "商品分类页列表的数量"
+msgstr "商品分類頁列表的數量"
+
+#: configs/shop_config.php:869
+msgid "文章分类页列表的数量"
+msgstr "文章分類頁列表的數量"
+
+#: configs/shop_config.php:876
+msgid "分页样式"
+msgstr "分頁樣式"
+
+#: configs/shop_config.php:879
+msgid "默认经典"
+msgstr "默認經典"
+
+#: configs/shop_config.php:880
+msgid "流行页码"
+msgstr "流行頁碼"
+
+#: configs/shop_config.php:886
+msgid "商品分类页默认排序类型"
+msgstr "商品分類頁默認排序類型"
+
+#: configs/shop_config.php:889
+msgid "按上架时间"
+msgstr "按上架時間"
+
+#: configs/shop_config.php:890
+msgid "按商品价格"
+msgstr "按商品價格"
+
+#: configs/shop_config.php:891
+msgid "按最后更新时间"
+msgstr "按最後更新​​時間"
+
+#: configs/shop_config.php:897
+msgid "商品分类页默认排序方式"
+msgstr "商品分類頁默認排序方式"
+
+#: configs/shop_config.php:900
+msgid "降序排列"
+msgstr "降序排列"
+
+#: configs/shop_config.php:901
+msgid "升序排列"
+msgstr "升序排列"
+
+#: configs/shop_config.php:907
+msgid "商品分类页默认显示方式"
+msgstr "商品分類頁默認顯示方式"
+
+#: configs/shop_config.php:910
+msgid "列表显示"
+msgstr "列表顯示"
+
+#: configs/shop_config.php:911
+msgid "表格显示"
+msgstr "表格顯示"
+
+#: configs/shop_config.php:912
+msgid "文本显示"
+msgstr "文本顯示"
+
+#: configs/shop_config.php:918
+msgid "商品名称的长度"
+msgstr "商品名稱的長度"
+
+#: configs/shop_config.php:925
+msgid "商品价格显示规则"
+msgstr "商品價格顯示規則"
+
+#: configs/shop_config.php:928
+msgid "不处理"
+msgstr "不處理"
+
+#: configs/shop_config.php:929
+msgid "保留不为 0 的尾数"
+msgstr "保留不為 0 的尾數"
+
+#: configs/shop_config.php:930
+msgid "不四舍五入，保留一位小数"
+msgstr "不四捨五入，保留一位小數"
+
+#: configs/shop_config.php:931
+msgid "不四舍五入，不保留小数"
+msgstr "不四捨五入，不保留小數"
+
+#: configs/shop_config.php:932
+msgid "先四舍五入，保留一位小数"
+msgstr "先四捨五入，保留一位小數"
+
+#: configs/shop_config.php:933
+msgid "先四舍五入，不保留小数 "
+msgstr "先四捨五入，不保留小數"
+
+#: configs/shop_config.php:939
+msgid "会员注册赠送积分"
+msgstr "會員註冊贈送積分"
+
+#: configs/shop_config.php:946
+msgid "商店 Logo"
+msgstr "商店 Logo"
+
+#: configs/shop_config.php:947
+msgid "请在上传前将图片的文件名命名为logo.gif"
+msgstr "請在上傳前將圖片的文件名命名為logo.gif"
+
+#: configs/shop_config.php:953
+msgid "是否启用Gzip模式"
+msgstr "是否啟用Gzip模式"
+
+#: configs/shop_config.php:954
+msgid ""
+"启用Gzip模式可压缩发送页面大小，加快网页传输。需要php支持"
+"Gzip。如果已经用Apache等对页面进行Gzip压缩，请禁止该功能。"
+msgstr ""
+"啟用Gzip模式可壓縮發送頁面大小，加快網頁傳輸。需要php支持"
+"Gzip。如果已經用Apache等對頁面進行Gzip壓縮，請禁止該功能。"
+
+#: configs/shop_config.php:957
+msgid "启用"
+msgstr "啟用"
+
+#: configs/shop_config.php:963
+msgid "是否允许未登录用户购物"
+msgstr "是否允許未登錄用戶購物"
+
+#: configs/shop_config.php:966
+msgid "不允许"
+msgstr "不允許"
+
+#: configs/shop_config.php:967
+msgid "允许"
+msgstr "允許"
+
+#: configs/shop_config.php:973
+msgid "最小购物金额"
+msgstr "最小購物金額"
+
+#: configs/shop_config.php:974
+msgid "达到此购物金额，才能提交订单。"
+msgstr "達到此購物金額，才能提交訂單。"
+
+#: configs/shop_config.php:980
+msgid "是否一步购物"
+msgstr "是否一步購物"
+
+#: configs/shop_config.php:990
+msgid "是否显示货号"
+msgstr "是否顯示貨號"
+
+#: configs/shop_config.php:993 configs/shop_config.php:1003
+#: configs/shop_config.php:1013 configs/shop_config.php:1023
+#: configs/shop_config.php:1033 configs/shop_config.php:1043
+msgid "不显示"
+msgstr "不顯示"
+
+#: configs/shop_config.php:994 configs/shop_config.php:1004
+#: configs/shop_config.php:1014 configs/shop_config.php:1024
+#: configs/shop_config.php:1034 configs/shop_config.php:1044
+msgid "显示"
+msgstr "顯示"
+
+#: configs/shop_config.php:1000
+msgid "是否显示品牌"
+msgstr "是否顯示品牌"
+
+#: configs/shop_config.php:1010
+msgid "是否显示重量"
+msgstr "是否顯示重量"
+
+#: configs/shop_config.php:1020
+msgid "是否显示库存"
+msgstr "是否顯示庫存"
+
+#: configs/shop_config.php:1030
+msgid "是否显示上架时间"
+msgstr "是否顯示上架時間"
+
+#: configs/shop_config.php:1040
+msgid "是否显示市场价格"
+msgstr "是否顯示市場價格"
+
+#: configs/shop_config.php:1050
+msgid "商品属性显示样式"
+msgstr "商品屬性顯示樣式"
+
+#: configs/shop_config.php:1053
+msgid "下拉列表"
+msgstr "下拉列表"
+
+#: configs/shop_config.php:1054
+msgid "单选按钮"
+msgstr "單選按鈕"
+
+#: configs/shop_config.php:1060
+msgid "邮件地址"
+msgstr "郵件地址"
+
+#: configs/shop_config.php:1067
+msgid "发送测试邮件"
+msgstr "發送測試郵件"
+
+#: configs/shop_config.php:1074
+msgid "下订单时是否给客服发邮件"
+msgstr "下訂單時是否給客服發郵件"
+
+#: configs/shop_config.php:1075
+msgid "网店信息中的客服邮件地址不为空时，该选项有效。"
+msgstr "網店信息中的客服郵件地址不為空時，該選項有效。"
+
+#: configs/shop_config.php:1084
+msgid "购物车里显示商品方式"
+msgstr "購物車裡顯示商品方式"
+
+#: configs/shop_config.php:1087
+msgid "只显示文字"
+msgstr "只顯示文字"
+
+#: configs/shop_config.php:1088
+msgid "只显示图片"
+msgstr "只顯示圖片"
+
+#: configs/shop_config.php:1089
+msgid "显示文字与图片"
+msgstr "顯示文字與圖片"
+
+#: configs/shop_config.php:1095
+msgid "购物车里是否显示商品属性"
+msgstr "購物車裡是否顯示商品屬性"
+
+#: configs/shop_config.php:1105
+msgid ""
+"您好！这是一封检测邮件服务器设置的测试邮件。收到此邮件，意味着"
+"您的邮件服务器设置正确！您可以进行其它邮件发送的操作了！"
+msgstr ""
+"您好！這是一封檢測郵件服務器設置的測試郵件。收到此郵件，意味著"
+"您的郵件服務器設置正確！您可以進行其它郵件發送的操作了！"
+
+#: configs/shop_config.php:1112
+msgid "短信通知"
+msgstr "短信通知"
+
+#: configs/shop_config.php:1119
+msgid "商家的手机号码"
+msgstr "商家的手機號碼"
+
+#: configs/shop_config.php:1120
+msgid "请先注册手机短信服务再填写手机号码"
+msgstr "請先註冊手機短信服務再填寫手機號碼"
+
+#: configs/shop_config.php:1126
+msgid "客户下订单时是否给商家发短信"
+msgstr "客戶下訂單時是否給商家發短信"
+
+#: configs/shop_config.php:1129 configs/shop_config.php:1139
+#: configs/shop_config.php:1149
+msgid "不发短信"
+msgstr "不發短信"
+
+#: configs/shop_config.php:1130 configs/shop_config.php:1140
+#: configs/shop_config.php:1150
+msgid "发短信"
+msgstr "發短信"
+
+#: configs/shop_config.php:1136
+msgid "客户付款时是否给商家发短信"
+msgstr "客戶付款時是否給商家發短信"
+
+#: configs/shop_config.php:1146
+msgid "商家发货时是否给客户发短信"
+msgstr "商家發貨時是否給客戶發短信"
+
+#: configs/shop_config.php:1156
+msgid "属性关联的商品数量"
+msgstr "屬性關聯的商品數量"
+
+#: configs/shop_config.php:1157
+msgid "在商品详情页面显示多少个属性关联的商品。"
+msgstr "在商品詳情頁面顯示多少個屬性關聯的商品。"
+
+#: configs/shop_config.php:1163
+msgid "排行统计的时间"
+msgstr "排行統計的時間"
+
+#: configs/shop_config.php:1166
+msgid "所有"
+msgstr "所有"
+
+#: configs/shop_config.php:1167
+msgid "一年"
+msgstr "一年"
+
+#: configs/shop_config.php:1168
+msgid "半年"
+msgstr "半年"
+
+#: configs/shop_config.php:1169
+msgid "三个月"
+msgstr "三個月"
+
+#: configs/shop_config.php:1170
+msgid "一个月"
+msgstr "一個月"
+
+#: configs/shop_config.php:1176
+msgid "商品详情页相册图片数量"
+msgstr "商品詳情頁相冊圖片數量"
+
+#: configs/shop_config.php:1183
+msgid "文章标题的长度"
+msgstr "文章標題的長度"
+
+#: configs/shop_config.php:1190
+msgid "默认时区"
+msgstr "默認時區"
+
+#: configs/shop_config.php:1193
+msgid "(GMT -12:00) 国际日期变更线西"
+msgstr "(GMT -12:00) 國際日期變更線西"
+
+#: configs/shop_config.php:1194
+msgid "(GMT -11:00) 中途岛萨摩亚群岛"
+msgstr "(GMT -11:00) 中途島薩摩亞群島"
+
+#: configs/shop_config.php:1195
+msgid "(GMT -10:00) 夏威夷"
+msgstr "(GMT -10:00) 夏威夷"
+
+#: configs/shop_config.php:1196
+msgid "(GMT -09:00) 阿拉斯加"
+msgstr "(GMT -09:00) 阿拉斯加"
+
+#: configs/shop_config.php:1197
+msgid "(GMT -08:00) 太平洋时间 （美国和加拿大）蒂华纳"
+msgstr "(GMT -08:00) 太平洋時間 （美國和加拿大）蒂華納"
+
+#: configs/shop_config.php:1198
+msgid "(GMT -07:00) 山地时间 （美国和加拿大）"
+msgstr "(GMT -07:00) 山地時間 （美國和加拿大）"
+
+#: configs/shop_config.php:1199
+msgid "(GMT -06:00) 中部时间 （美国和加拿大）墨西哥城"
+msgstr "(GMT -06:00) 中部時間 （美國和加拿大）墨西哥城"
+
+#: configs/shop_config.php:1200
+msgid ""
+"(GMT -05:00) 东部时间（美国和加拿大）, 波哥大, 利马, 基多"
+msgstr ""
+"(GMT -05:00) 東部時間（美國和加拿大）, 波哥大, 利馬, 基多"
+
+#: configs/shop_config.php:1201
+msgid "(GMT -04:00) 大西洋时间（加拿大），加拉加斯，拉巴斯"
+msgstr "(GMT -04:00) 大西洋時間（加拿大），加拉加斯，拉巴斯"
+
+#: configs/shop_config.php:1202
+msgid "(GMT -03:30) 纽芬兰"
+msgstr "(GMT -03:30) 紐芬蘭"
+
+#: configs/shop_config.php:1203
+msgid ""
+"(GMT -03:00) 布拉西拉，布宜诺斯艾利斯，乔治敦，福克兰群岛"
+msgstr ""
+"(GMT -03:00) 布拉西拉，布宜諾斯艾利斯，喬治敦，福克蘭群島"
+
+#: configs/shop_config.php:1204
+msgid "(GMT -02:00) 大西洋中部，阿森松岛，圣赫勒拿岛"
+msgstr "(GMT -02:00) 大西洋中部，阿森松島，聖赫勒拿島"
+
+#: configs/shop_config.php:1205
+msgid "(GMT -01:00) 亚速尔群岛，佛得角群岛"
+msgstr "(GMT -01:00) 亞速爾群島，佛得角群島"
+
+#: configs/shop_config.php:1206
+msgid "(GMT) 卡萨布兰卡，都柏林，爱丁堡，伦敦，里斯本，蒙罗维亚"
+msgstr ""
+"(GMT) 卡薩布蘭卡，都柏林，愛丁堡，倫敦，里斯本，蒙羅維亞"
+
+#: configs/shop_config.php:1207
+msgid ""
+"(GMT +01:00) 阿姆斯特丹，柏林，布鲁塞尔，马德里，巴黎，罗马"
+msgstr ""
+"(GMT +01:00) 阿姆斯特丹，柏林，布魯塞爾，馬德里，巴黎，羅馬"
+
+#: configs/shop_config.php:1208
+msgid "(GMT +02:00) 开罗，赫尔辛基，加里宁格勒，南非"
+msgstr "(GMT +02:00) 開羅，赫爾辛基，加里寧格勒，南非"
+
+#: configs/shop_config.php:1209
+msgid "(GMT +03:00) 巴格达，利雅得，莫斯科，内罗毕"
+msgstr "(GMT +03:00) 巴格達，利雅得，莫斯科，內羅畢"
+
+#: configs/shop_config.php:1210
+msgid "(GMT +03:30) 德黑兰"
+msgstr "(GMT +03:30) 德黑蘭"
+
+#: configs/shop_config.php:1211
+msgid "(GMT +04:00) 阿布扎比，巴库，马斯喀特，第比利斯"
+msgstr "(GMT +04:00) 阿布扎比，巴庫，馬斯喀特，第比利斯"
+
+#: configs/shop_config.php:1212
+msgid "(GMT +04:30) 喀布尔"
+msgstr "(GMT +04:30) 喀布爾"
+
+#: configs/shop_config.php:1213
+msgid "(GMT +05:00) 叶卡捷琳堡，伊斯兰堡，卡拉奇，塔什干"
+msgstr "(GMT +05:00) 葉卡捷琳堡，伊斯蘭堡，卡拉奇，塔什幹"
+
+#: configs/shop_config.php:1214
+msgid "(GMT +05:30) 孟买，加尔各答，马德拉斯，新德里"
+msgstr "(GMT +05:30) 孟買，加爾各答，馬德拉斯，新德里"
+
+#: configs/shop_config.php:1215
+msgid "(GMT +05:45) 加德满都"
+msgstr "(GMT +05:45) 加德滿都"
+
+#: configs/shop_config.php:1216
+msgid "(GMT +06:00) 阿拉木图，科伦坡，达卡，新西伯利亚"
+msgstr "(GMT +06:00) 阿拉木圖，科倫坡，達卡，新西伯利亞"
+
+#: configs/shop_config.php:1217
+msgid "(GMT +06:30) 仰光"
+msgstr "(GMT +06:30) 仰光"
+
+#: configs/shop_config.php:1218
+msgid "(GMT +07:00) 曼谷，河内，雅加达"
+msgstr "(GMT +07:00) 曼谷，河內，雅加達"
+
+#: configs/shop_config.php:1219
+msgid "(GMT +08:00) 北京，香港，珀斯，新加坡，台北"
+msgstr "(GMT +08:00) 北京，香港，珀斯，新加坡，台北"
+
+#: configs/shop_config.php:1220
+msgid "(GMT +09:00) 大阪，札幌，首尔，东京，雅库茨克"
+msgstr "(GMT +09:00) 大阪，札幌，首爾，東京，雅庫茨克"
+
+#: configs/shop_config.php:1221
+msgid "(GMT +09:30) 阿德莱德，达尔文"
+msgstr "(GMT +09:30) 阿德萊德，達爾文"
+
+#: configs/shop_config.php:1222
+msgid "(GMT +10:00) 堪培拉，关岛，墨尔本，悉尼，符拉迪沃斯托克"
+msgstr "(GMT +10:00) 堪培拉，關島，墨爾本，悉尼，符拉迪沃斯托克"
+
+#: configs/shop_config.php:1223
+msgid "(GMT +11:00) 马加丹，新喀里多尼亚，所罗门群岛"
+msgstr "(GMT +11:00) 馬加丹，新喀裡多尼亞，所羅門群島"
+
+#: configs/shop_config.php:1224
+msgid "(GMT +12:00) 奥克兰，惠灵顿，斐济，马歇尔岛"
+msgstr "(GMT +12:00) 奧克蘭，惠靈頓，斐濟，馬歇爾島"
+
+#: configs/shop_config.php:1230
+msgid "附件上传大小"
+msgstr "附件上傳大小"
+
+#: configs/shop_config.php:1233
+msgid "服务默认设置"
+msgstr "服務默認設置"
+
+#: configs/shop_config.php:1234
+msgid "0KB"
+msgstr "0KB"
+
+#: configs/shop_config.php:1235
+msgid "64KB"
+msgstr "64KB"
+
+#: configs/shop_config.php:1236
+msgid "128KB"
+msgstr "128KB"
+
+#: configs/shop_config.php:1237
+msgid "256KB"
+msgstr "256KB"
+
+#: configs/shop_config.php:1238
+msgid "512KB"
+msgstr "512KB"
+
+#: configs/shop_config.php:1239
+msgid "1MB"
+msgstr "1MB"
+
+#: configs/shop_config.php:1240
+msgid "2MB"
+msgstr "2MB"
+
+#: configs/shop_config.php:1241
+msgid "4MB"
+msgstr "4MB"
+
+#: configs/shop_config.php:1247
+msgid "首页搜索的关键字"
+msgstr "首頁搜索的關鍵字"
+
+#: configs/shop_config.php:1248
+msgid "首页显示的搜索关键字,请用半角逗号(,)分隔多个关键字"
+msgstr "首頁顯示的搜索關鍵字,請用半角逗號(,)分隔多個關鍵字"
+
+#: configs/shop_config.php:1254
+msgid "购物车确定提示"
+msgstr "購物車確定提示"
+
+#: configs/shop_config.php:1255
+msgid "允许您设置用户点击“加入购物车”后是否提示以及随后的动作。"
+msgstr ""
+"允許您設置用戶點擊“加入購物車”後是否提示以及隨後的動作。"
+
+#: configs/shop_config.php:1257
+msgid "提示用户，点击“确定”进购物车"
+msgstr "提示用戶，點擊“確定”進購物車"
+
+#: configs/shop_config.php:1258
+msgid "提示用户，点击“取消”进购物车"
+msgstr "提示用戶，點擊“取消”進購物車"
+
+#: configs/shop_config.php:1259
+msgid "直接进入购物车"
+msgstr "直接進入購物車"
+
+#: configs/shop_config.php:1260
+msgid "不提示并停留在当前页面"
+msgstr "不提示並停留在當前頁面"
+
+#: configs/shop_config.php:1266
+msgid "缩略图背景色"
+msgstr "縮略圖背景色"
+
+#: configs/shop_config.php:1267
+msgid "颜色请以#FFFFFF格式填写"
+msgstr "顏色請以#FFFFFF格式填寫"
+
+#: configs/shop_config.php:1273
+msgid "一级配送区域名称"
+msgstr "一級配送區域名稱"
+
+#: configs/shop_config.php:1280
+msgid "二级配送区域名称"
+msgstr "二級配送區域名稱"
+
+#: configs/shop_config.php:1287
+msgid "三级配送区域名称"
+msgstr "三級配送區域名稱"
+
+#: configs/shop_config.php:1294
+msgid "四级配送区域名称"
+msgstr "四級配送區域名稱"
+
+#: configs/shop_config.php:1301
+msgid "关联商品显示数量"
+msgstr "關聯商品顯示數量"
+
+#: configs/shop_config.php:1308
+msgid "站点访问统计"
+msgstr "站點訪問統計"
+
+#: configs/shop_config.php:1318
+msgid "用户帮助是否打开"
+msgstr "用戶幫助是否打開"
+
+#: configs/shop_config.php:1322
+msgid "打开"
+msgstr "打開"
+
+#: configs/shop_config.php:1328
+msgid "公司名称"
+msgstr "公司名稱"
+
+#: configs/shop_config.php:1335
+msgid "微博地址"
+msgstr "微博地址"
+
+#: configs/shop_config.php:1342
+msgid "微信二维码"
+msgstr "微信二維碼"
+
+#: configs/shop_config.php:1351
+msgid "邮件服务"
+msgstr "郵件服務"
+
+#: configs/shop_config.php:1352
+msgid ""
+"如果您选择了采用服务器内置的 Mail 服务，您不需要填写下面的内"
+"容。"
+msgstr ""
+"如果您選擇了採用服務器內置的 Mail 服務，您不需要填寫下面的內"
+"容。"
+
+#: configs/shop_config.php:1354
+msgid "采用服务器内置的 Mail 服务"
+msgstr "採用服務器內置的 Mail 服務"
+
+#: configs/shop_config.php:1355
+msgid "采用其他的 SMTP 服务"
+msgstr "採用其他的 SMTP 服務"
+
+#: configs/shop_config.php:1360
+msgid "发送邮件服务器地址(SMTP)"
+msgstr "發送郵件服務器地址(SMTP)"
+
+#: configs/shop_config.php:1361
+msgid ""
+"邮件服务器主机地址。如果本机可以发送邮件则设置为localhost"
+msgstr ""
+"郵件服務器主機地址。如果本機可以發送郵件則設置為localhost"
+
+#: configs/shop_config.php:1367
+msgid "服务器端口"
+msgstr "服務器端口"
+
+#: configs/shop_config.php:1374
+msgid "邮件发送帐号"
+msgstr "郵件發送帳號"
+
+#: configs/shop_config.php:1375
+msgid "发送邮件所需的认证帐号，如果没有就为空着"
+msgstr "發送郵件所需的認證帳號，如果沒有就為空著"
+
+#: configs/shop_config.php:1381
+msgid "帐号密码"
+msgstr "帳號密碼"
+
+#: configs/shop_config.php:1388
+msgid "邮件回复地址"
+msgstr "郵件回复地址"
+
+#: configs/shop_config.php:1395
+msgid "邮件编码"
+msgstr "郵件編碼"
+
+#: configs/shop_config.php:1398
+msgid "国际化编码（utf8）"
+msgstr "國際化編碼（utf8）"
+
+#: configs/shop_config.php:1399
+msgid "简体中文"
+msgstr "簡體中文"
+
+#: configs/shop_config.php:1400
+msgid "繁体中文"
+msgstr "繁體中文"
+
+#: configs/shop_config.php:1406
+msgid "邮件服务器是否要求加密连接(SSL)"
+msgstr "郵件服務器是否要求加密連接(SSL)"
+
+#: configs/shop_config.php:1416
+msgid "推荐商品排序"
+msgstr "推薦商品排序"
+
+#: configs/shop_config.php:1417
+msgid "推荐排序适合少量推荐，随机显示大量推荐"
+msgstr "推薦排序適合少量推薦，隨機顯示大量推薦"
+
+#: configs/shop_config.php:1419
+msgid "推荐排序"
+msgstr "推薦排序"
+
+#: configs/shop_config.php:1420
+msgid "随机显示"
+msgstr "隨機顯示"
+
+#: configs/shop_config.php:1428
+msgid "H5应用设置"
+msgstr "H5應用設置"
+
+#: configs/shop_config.php:1435
+msgid "是否使用H5应用功能"
+msgstr "是否使用H5應用功能"
+
+#: configs/shop_config.php:1436
+msgid ""
+"此功能不仅可以在APP中内嵌使用，还可以在微信公众号中作为微信商"
+"城使用。"
+msgstr ""
+"此功能不僅可以在APP中內嵌使用，還可以在微信公眾號中作為微信商"
+"城使用。"
+
+#: configs/shop_config.php:1445
+msgid "腾讯地图应用名称"
+msgstr "騰訊地圖應用名稱"
+
+#: configs/shop_config.php:1452
+msgid "腾讯地图KEY"
+msgstr "騰訊地圖KEY"
+
+#: configs/shop_config.php:1453
+msgid ""
+"使用QQ账号，进行<a target=\"_blank\" href=\"http://lbs.qq.com/"
+"key.html\">开发密钥申请</a>，填写应用名及应用描述即可申请。一"
+"个账号可以申请多个key。"
+msgstr ""
+"使用QQ賬號，進行<a target=\"_blank\" href=\"http://lbs.qq.com/"
+"key.html\">开发密钥申请</a>，填寫應用名及應用描述即可申請。一"
+"個賬號可以申請多個key。"
+
+#: configs/shop_config.php:1459
+msgid "H5 LOGO上传"
+msgstr "H5 LOGO上傳"
+
+#: configs/shop_config.php:1460
+msgid ""
+"适用于收藏夹图标，为了更好地兼容各种手机类型，LOGO 最好为png图"
+"片"
+msgstr ""
+"適用於收藏夾圖標，為了更好地兼容各種手機類型，LOGO 最好為png圖"
+"片"
+
+#: configs/shop_config.php:1466
+msgid "H5 访问二维码"
+msgstr "H5 訪問二維碼"
+
+#: configs/shop_config.php:1473
+msgid "H5 商城URL"
+msgstr "H5 商城URL"
+
+#: configs/shop_config.php:1480
+msgid "是否推广APP下载"
+msgstr "是否推廣APP下載"
+
+#: configs/shop_config.php:1481
+msgid "在H5首页底部推广您的APP，增加下载量。"
+msgstr "在H5首頁底部推廣您的APP，增加下載量。"
+
+#: configs/shop_config.php:1490
+msgid "推广APP下载图片"
+msgstr "推廣APP下載圖片"
+
+#: configs/shop_config.php:1497
+msgid "iPhone下载地址"
+msgstr "iPhone下載地址"
+
+#: configs/shop_config.php:1504
+msgid "Android下载地址"
+msgstr "Android下載地址"
+
+#: configs/shop_config.php:1511
+msgid "APP图标"
+msgstr "APP圖標"
+
+#: configs/shop_config.php:1518
+msgid "移动应用简介"
+msgstr "移動應用簡介"
+
+#: configs/shop_config.php:1525
+msgid "评论设置"
+msgstr "評論設置"
+
+#: shop_config.php:90
+msgid "概述"
+msgstr "概述"
+
+#: shop_config.php:91
+msgid ""
+"欢迎访问ECJia智能后台商店设置页面，在此页面可对商店有关信息进"
+"行配置，同时可根据右侧栏漂浮的快捷导航，快速的进入相应区域。"
+msgstr ""
+"歡迎訪問ECJia智能後台商店設置頁面，在此頁面可對商店有關信息進"
+"行配置，同時可根據右側欄漂浮的快捷導航，快速的進入相應區域。"
+
+#: shop_config.php:95
+msgid "更多信息："
+msgstr "更多信息："
+
+#: shop_config.php:96
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#."
+"E5.95.86.E5.BA.97.E8.AE.BE.E7.BD.AE\" target=\"_blank\">关于商"
+"店设置帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:系统设置#."
+"E5.95.86.E5.BA.97.E8.AE.BE.E7.BD.AE\" target=\"_blank\">關於商"
+"店設置幫助文檔</a>"
+
+#: shop_config.php:105
+msgid ""
+"URL Rewrite 功能要求您的 Web Server 必须安装IIS，并且起用了 "
+"ISAPI Rewrite 模块。如果您使用的是ISAPI Rewrite商业版，请您确"
+"认是否已经将httpd.txt文件重命名为httpd.ini。如果您使用的是"
+"ISAPI Rewrite免费版，请您确认是否已经将httpd.txt文件内的内容复"
+"制到ISAPI Rewrite安装目录中httpd.ini里。"
+msgstr ""
+"URL Rewrite 功能要求您的 Web Server 必須安裝IIS，並且起用了 "
+"ISAPI Rewrite 模塊。如果您使用的是ISAPI Rewrite商業版，請您確"
+"認是否已經將httpd.txt文件重命名為httpd.ini。如果您使用的是"
+"ISAPI Rewrite免費版，請您確認是否已經將httpd.txt文件內的內容複"
+"製到ISAPI Rewrite安裝目錄中httpd.ini裡。"
+
+#: shop_config.php:109
+msgid ""
+"URL Rewrite 功能要求您的 Web Server 必须是 Apache，并且起用了 "
+"rewrite 模块。同时请您确认是否已经将htaccess.txt文件重命名为."
+"htaccess。如果服务器上还有其他的重写规则请去掉注释,请将"
+"RewriteBase行的注释去掉,并将路径设置为服务器请求的绝对路径"
+msgstr ""
+"URL Rewrite 功能要求您的 Web Server 必須是 Apache，並且起用了 "
+"rewrite 模塊。同時請您確認是否已經將htaccess.txt文件重命名為."
+"htaccess。如果服務器上還有其他的重寫規則請去掉註釋,請將"
+"RewriteBase行的註釋去掉,並將路徑設置為服務器請求的絕對路徑"
+
+#: shop_config.php:113
+msgid ""
+"GZip 功能需要您的服务器支持 zlib 扩展库。如果您发现开启Gzip后"
+"页面出现乱码，可能是您的服务器已经开启了Gzip，您不需要在 "
+"ECJia 中再次开启。"
+msgstr ""
+"GZip 功能需要您的服務器支持 zlib 擴展庫。如果您發現開啟Gzip後"
+"頁面出現亂碼，可能是您的服務器已經開啟了Gzip，您不需要在 "
+"ECJia 中再次開啟。"
+
+#: shop_config.php:114
+msgid ""
+"如果您不保留商品原图，在“图片批量处理”的时候，\n"
+"将不会重新生成不包含原图的商品图片。请慎重使用该功能！"
+msgstr ""
+"如果您不保留商品原圖，在“圖片批量處理”的時候，\n"
+"將不會重新生成不包含原圖的商品圖片。請慎重使用該功能！"
+
+#: shop_config.php:115
+msgid ""
+"此功能要求您的php必须支持OpenSSL模块, 如果您要使用此功能，请联"
+"系您的空间商确认支持此模块"
+msgstr ""
+"此功能要求您的php必須支持OpenSSL模塊, 如果您要使用此功能，請聯"
+"繫您的空間商確認支持此模塊"
+
+#: shop_config.php:218
+msgid "邮件服务器设置成功。"
+msgstr "郵件服務器設置成功。"
+
+#: shop_config.php:220
+msgid "邮件服务器"
+msgstr "郵件服務器"
+
+#: shop_config.php:221
+msgid "修改邮件服务器设置"
+msgstr "修改郵件服務器設置"
+
+#: shop_config.php:223 shop_config.php:245
+msgid "保存商店设置成功。"
+msgstr "保存商店設置成功。"
+
+#: shop_config.php:224
+msgid "修改商店设置"
+msgstr "修改商店設置"
+
+#: shop_config.php:243
+msgid "删除上传文件"
+msgstr "刪除上傳文件"
+
+#: content/apps/setting/templates/admin/library/widget_config_region_select.lbi.php:7
+#: content/apps/setting/templates/admin/library/widget_config_region_select.lbi.php:14
+#: content/apps/setting/templates/admin/library/widget_config_region_select.lbi.php:21
+msgid "请选择..."
+msgstr "請選擇..."
+
+#: content/apps/setting/templates/admin/library/setting_form.lbi.php:41
+msgid "暂无图片"
+msgstr "暫無圖片"
+
+#: content/apps/setting/templates/admin/library/setting_form.lbi.php:45
+msgid "浏览"
+msgstr "瀏覽"
+
+#: content/apps/setting/templates/admin/library/setting_form.lbi.php:46
+msgid "修改"
+msgstr "修改"
+
+#: content/apps/setting/templates/admin/library/setting_form.lbi.php:49
+msgid "您确定要删除此文件吗？"
+msgstr "您确定要删除此文件吗？"
+
+#: content/apps/setting/templates/admin/library/setting_form.lbi.php:49
+msgid "删除"
+msgstr "刪除"
+
+#: content/apps/setting/templates/admin/library/widget_config_invoice_type.lbi.php:7
+msgid "类型"
+msgstr "類型"
+
+#: content/apps/setting/templates/admin/library/widget_config_invoice_type.lbi.php:8
+msgid "税率（％）"
+msgstr "稅率（％）"
+
+#: content/apps/setting/templates/admin/setting.dwt.php:33
+#: content/apps/setting/templates/admin/region_list.dwt.php:110
+#: content/apps/setting/templates/admin/region_list.dwt.php:159
+msgid "确定"
+msgstr "確定"
+
+#: content/apps/setting/templates/admin/setting.dwt.php:34
+msgid "重置"
+msgstr "重置"
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:20
+msgid "地区云同步 "
+msgstr "地區云同步"
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:28
+msgid "你确定执行此操作吗？"
+msgstr "你確定執行此操作嗎？"
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:28
+msgid "同步地区表信息"
+msgstr "同步地區表信息"
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:30
+msgid ""
+"通过点击该按钮可以获取云平台地区信息到本地。<br/>\n"
+"                    执行该同步操作，会先<strong>清空本地地区表"
+"数据</strong>后再同步，同步时间较久，请确认好之后再操作。"
+msgstr ""
+"通過點擊該按鈕可以獲取雲平台地區信息到本地。 <br/>\n"
+"                    執行該同步操作，會先<strong>清空本地地區表"
+"數據</strong>後再同步，同步時間較久，請確認好之後再操作。"
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:60
+msgid "进入"
+msgstr "進入"
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:62
+msgid "编辑"
+msgstr "編輯"
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:63
+msgid ""
+"您确定要删除此地区[%1]吗？删除此地区将会同时删除此地区下的所有"
+"地区！"
+msgstr ""
+"您確定要刪除此地區[%1]嗎？刪除此地區將會同時刪除此地區下的所有"
+"地區！"
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:63
+msgid "删除一级地区"
+msgstr "刪除一級地區"
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:82
+msgid "编辑地区"
+msgstr "編輯地區"
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:90
+msgid "原地区名："
+msgstr "原地區名："
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:96
+msgid "新地区名："
+msgstr "新地區名："
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:103
+#: content/apps/setting/templates/admin/region_list.dwt.php:152
+msgid "索引首字母："
+msgstr "索引首字母："
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:106
+#: content/apps/setting/templates/admin/region_list.dwt.php:155
+msgid "地区名第一个字的首字母"
+msgstr "地區名第一個字的首字母"
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:124
+msgid "新增地区"
+msgstr "新增地區"
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:132
+msgid "新增地区名："
+msgstr "新增地區名："
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:139
+msgid "地区码："
+msgstr "地區碼："
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:145
+msgid "当前级地区码只能填写3位数字，且不可与同级其他地区码相同"
+msgstr "當前級地區碼只能填寫3位數字，且不可與同級其他地區碼相同"
+
+#: content/apps/setting/templates/admin/region_list.dwt.php:147
+msgid "当前级地区码只能填写2位数字，且不可与同级其他地区码相同"
+msgstr "當前級地區碼只能填寫2位數字，且不可與同級其他地區碼相同"

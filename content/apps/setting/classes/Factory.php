@@ -66,7 +66,7 @@ class Factory
         $factories = ecjia_cache('setting')->get($cache_key);
         if (empty($factories)) {
     
-            $dir = __DIR__ . '/Components';
+            $dir = __DIR__ . '/SettingComponents';
     
             $platforms = royalcms('files')->files($dir);
 
@@ -75,7 +75,7 @@ class Factory
             foreach ($platforms as $key => $value) {
                 $value = str_replace($dir . '/', '', $value);
                 $value = str_replace('.php', '', $value);
-                $className = __NAMESPACE__ . '\Components\\' . $value;
+                $className = __NAMESPACE__ . '\SettingComponents\\' . $value;
                 
                 $key = with(new $className)->getCode();
                 $factories[$key] = $className;

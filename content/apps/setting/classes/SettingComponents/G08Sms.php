@@ -51,54 +51,55 @@
  * Time: 11:56 AM
  */
 
-namespace Ecjia\App\Setting\Components;
+namespace Ecjia\App\Setting\SettingComponents;
 
 
 use Ecjia\App\Setting\ComponentAbstract;
 
-class G09Wap extends ComponentAbstract
+class G08Sms extends ComponentAbstract
 {
 
     /**
      * 代号标识
      * @var string
      */
-    protected $code = 'wap';
+    protected $code = 'sms';
 
     /**
-     * 名称
-     * @var string
+     * 排序
+     * @var int
      */
-    protected $name = 'H5设置';
+    protected $sort = 8;
 
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = '';
-
-    /**
-     * 缩略图
-     * @var string
-     */
-    protected $thumb = null; //图片未添加
-
+    public function __construct()
+    {
+        $this->name = __('短信设置', 'setting');
+    }
 
     public function handle()
     {
         $data = [
-            ['code' => 'wap_config', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0']],
-            ['code' => 'wap_logo', 'value' => 'data/assets/ecjia-intro/wap_logo.png', 'options' => ['type' => 'file', 'store_dir' => 'data/assets/']],
-            ['code' => 'map_qq_key', 'value' => 'HVNBZ-HHR3P-HVBDP-LID55-D2YM3-2AF2W', 'options' => ['type' => 'text', 'sort_order' => '2']],
-            ['code' => 'map_qq_referer', 'value' => 'ecjiaapp', 'options' => ['type' => 'text', 'sort_order' => '3']],
-            ['code' => 'wap_app_download_show', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0', 'sort_order' => '11']],
-            ['code' => 'wap_app_download_img', 'value' => 'data/assets/ecjia-intro/wap_app_download_img.png', 'options' => ['type' => 'file', 'store_range' => 'data/assets/', 'sort_order' => '12']],
+            ['code' => 'sms_shop_mobile', 'value' => '', 'options' => ['type' => 'text']],
         ];
 
         return $data;
     }
 
+    public function getConfigs()
+    {
+        $config = [
+            [
+                'cfg_code' => 'sms_shop_mobile',
+                'cfg_name' => __('商家的手机号码', 'setting'),
+                'cfg_desc' => __('请先注册手机短信服务再填写手机号码', 'setting'),
+                'cfg_range' => '',
+            ],
 
+
+        ];
+
+        return $config;
+    }
 
 
 

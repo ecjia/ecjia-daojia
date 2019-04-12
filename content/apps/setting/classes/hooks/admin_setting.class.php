@@ -102,7 +102,7 @@ class setting_admin_hooks {
         RC_Package::package('app::setting')->loadClass('ecjia_admin_setting', false);
         
         /* 可选语言 */
-        ecjia_admin::$controller->assign('lang_list', ecjia_admin_setting::singleton()->get_lang_list());
+        ecjia_admin::$controller->assign('lang_list', Ecjia\App\Setting\ShopConfigAdminSetting::singleton()->get_lang_list());
         ecjia_admin::$controller->assign('var', $item);
         
         ecjia_admin::$controller->display(

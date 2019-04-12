@@ -51,7 +51,7 @@
  * Time: 11:56 AM
  */
 
-namespace Ecjia\App\Setting\Components;
+namespace Ecjia\App\Setting\SettingComponents;
 
 
 use Ecjia\App\Setting\ComponentAbstract;
@@ -65,23 +65,10 @@ class G06Hidden extends ComponentAbstract
      */
     protected $code = 'hidden';
 
-    /**
-     * 名称
-     * @var string
-     */
-    protected $name = '自定义组';
-
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = '';
-
-    /**
-     * 缩略图
-     * @var string
-     */
-    protected $thumb = null; //图片未添加
+    public function __construct()
+    {
+        $this->name = __('自定义组', 'setting');
+    }
 
 
     public function handle()
@@ -119,6 +106,14 @@ class G06Hidden extends ComponentAbstract
             ['code' => 'merchant_admin_cpname', 'value' => 'ECJia商家后台管理', 'options' => ['type' => 'hidden']],
             ['code' => 'merchant_admin_login_logo', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'mobile_seller_home_adsense', 'value' => '94', 'options' => ['type' => 'hidden']],
+            ['code' => 'index_ad', 'value' => 'sys', 'options' => ['type' => 'hidden']],
+            ['code' => 'certificate_id', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'certi', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'token', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'ent_id', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'ent_ac', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'ent_sign', 'value' => '', 'options' => ['type' => 'hidden']],
+            ['code' => 'ent_email', 'value' => '', 'options' => ['type' => 'hidden']],
             ['code' => 'invite_template', 'value' => '你的好友（{$user_name}）向您推荐了一款购物应用【{$shop_name}】，优惠活动多多，新人注册还有红包奖励，赶紧下载体验吧！', 'options' => ['type' => 'hidden']],
             ['code' => 'invite_explain', 'value' => "1、通过推广页面把属于自己的二维码通过第三方平台分享给新人好友；\r\n2、新人好友通过您的邀请，打开链接，在活动页输入自己的手机号，并通过指定渠道下载客户端完成注册，即可获得奖励；\r\n3、每邀请一位新人好友并完成注册都可获得相应奖励；\r\n4、奖励一经领取后，不可删除，不可提现，不可转赠；\r\n5、新用户领取的奖励查看方式：【App-我的－我的钱包】查看，也可通过【我的推广—奖励明细】查看；\r\n6、如有任何的疑问请咨询官网客服人员。", 'options' => ['type' => 'hidden']],
             //v1.5.0新增
@@ -151,16 +146,23 @@ class G06Hidden extends ComponentAbstract
             ['code' => 'withdraw_fee', 'value' => '0', 'options' => ['type' => 'text']],
             ['code' => 'withdraw_min_amount', 'value' => '100', 'options' => ['type' => 'text']],
             //v1.25.0新增
-            ['code' => 'orders_auto_cancel_time', 'value' => '', 'options' => ['type' => 'text']],
+//            ['code' => 'orders_auto_cancel_time', 'value' => '', 'options' => ['type' => 'text']],
             ['code' => 'withdraw_support_banks', 'value' => '', 'options' => ['type' => 'text']],
             //v1.27.0新增
             ['code' => 'agent_rank', 'value' => '', 'options' => ['type' => 'text']],
+
         ];
 
         return $data;
     }
 
+    public function getConfigs()
+    {
+        $config = [
+        ];
 
+        return $config;
+    }
 
 
 

@@ -51,12 +51,12 @@
  * Time: 11:56 AM
  */
 
-namespace Ecjia\App\Setting\Components;
+namespace Ecjia\App\Setting\SettingComponents;
 
 
 use Ecjia\App\Setting\ComponentAbstract;
 
-class G10Mobile extends ComponentAbstract
+class MobileSetting extends ComponentAbstract
 {
 
     /**
@@ -66,22 +66,15 @@ class G10Mobile extends ComponentAbstract
     protected $code = 'mobile';
 
     /**
-     * 名称
-     * @var string
+     * 排序
+     * @var int
      */
-    protected $name = '手机设置';
+    protected $sort = 10;
 
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = '';
-
-    /**
-     * 缩略图
-     * @var string
-     */
-    protected $thumb = null; //图片未添加
+    public function __construct()
+    {
+        $this->name = __('手机设置', 'setting');
+    }
 
 
     public function handle()
@@ -128,7 +121,55 @@ class G10Mobile extends ComponentAbstract
     }
 
 
+    public function getConfigs()
+    {
+        $config = [
+            [
+                'cfg_code' => 'mobile_touch_qrcode',
+                'cfg_name' => __('H5 访问二维码', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
 
+            [
+                'cfg_code' => 'mobile_touch_url',
+                'cfg_name' => __('H5 商城URL', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'mobile_iphone_download',
+                'cfg_name' => __('iPhone下载地址', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'mobile_android_download',
+                'cfg_name' => __('Android下载地址', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'shop_app_icon',
+                'cfg_name' => __('APP图标', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'mobile_app_description',
+                'cfg_name' => __('移动应用简介', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+        ];
+
+        return $config;
+    }
 
 
 }

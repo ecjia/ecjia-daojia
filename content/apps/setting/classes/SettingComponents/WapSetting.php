@@ -51,64 +51,101 @@
  * Time: 11:56 AM
  */
 
-namespace Ecjia\App\Setting\Components;
+namespace Ecjia\App\Setting\SettingComponents;
 
 
 use Ecjia\App\Setting\ComponentAbstract;
 
-class G11Addon extends ComponentAbstract
+class WapSetting extends ComponentAbstract
 {
 
     /**
      * 代号标识
      * @var string
      */
-    protected $code = 'addon';
+    protected $code = 'wap';
 
     /**
-     * 名称
-     * @var string
+     * 排序
+     * @var int
      */
-    protected $name = '插件设置';
+    protected $sort = 9;
 
-    /**
-     * 描述
-     * @var string
-     */
-    protected $description = '';
-
-    /**
-     * 缩略图
-     * @var string
-     */
-    protected $thumb = null; //图片未添加
+    public function __construct()
+    {
+        $this->name = __('H5设置', 'setting');
+    }
 
 
     public function handle()
     {
         $data = [
-            ['code' => 'addon_active_applications', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_active_plugins', 'value' => 'a:16:{i:0;s:25:"calculator/calculator.php";i:1;s:37:"captcha_royalcms/captcha_royalcms.php";i:2;s:25:"mp_checkin/mp_checkin.php";i:3;s:17:"mp_dzp/mp_dzp.php";i:4;s:17:"mp_ggk/mp_ggk.php";i:5;s:21:"mp_goods/mp_goods.php";i:6;s:19:"mp_jfcx/mp_jfcx.php";i:7;s:19:"mp_kefu/mp_kefu.php";i:8;s:23:"mp_orders/mp_orders.php";i:9;s:27:"mp_userbind/mp_userbind.php";i:10;s:17:"mp_zjd/mp_zjd.php";i:11;s:25:"pay_alipay/pay_alipay.php";i:12;s:27:"pay_balance/pay_balance.php";i:13;s:19:"pay_cod/pay_cod.php";i:14;s:17:"sns_qq/sns_qq.php";i:15;s:19:"ueditor/ueditor.php";}', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_system_plugins', 'value' => 'a:2:{s:7:"ueditor";s:19:"ueditor/ueditor.php";s:10:"calculator";s:25:"calculator/calculator.php";}', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_widget_nav_menu', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_widget_cat_articles', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_widget_cat_goods', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_widget_brand_goods', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_widget_ad_position', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_user_integrate_plugins', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_mobile_payment_plugins', 'value' => 'a:2:{s:11:"pay_balance";s:27:"pay_balance/pay_balance.php";s:10:"pay_alipay";s:25:"pay_alipay/pay_alipay.php";}', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_shipping_plugins', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_captcha_plugins', 'value' => 'a:1:{s:16:"captcha_royalcms";s:37:"captcha_royalcms/captcha_royalcms.php";}', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_platform_plugins', 'value' => 'a:9:{s:7:"mp_jfcx";s:19:"mp_jfcx/mp_jfcx.php";s:9:"mp_orders";s:23:"mp_orders/mp_orders.php";s:6:"mp_ggk";s:17:"mp_ggk/mp_ggk.php";s:10:"mp_checkin";s:25:"mp_checkin/mp_checkin.php";s:6:"mp_dzp";s:17:"mp_dzp/mp_dzp.php";s:6:"mp_zjd";s:17:"mp_zjd/mp_zjd.php";s:7:"mp_kefu";s:19:"mp_kefu/mp_kefu.php";s:11:"mp_userbind";s:27:"mp_userbind/mp_userbind.php";s:8:"mp_goods";s:21:"mp_goods/mp_goods.php";}', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_merchant_plugins', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_cron_plugins', 'value' => '', 'options' => ['type' => 'hidden']],
-            ['code' => 'addon_connect_plugins', 'value' => 'a:1:{s:6:"sns_qq";s:17:"sns_qq/sns_qq.php";}', 'options' => ['type' => 'hidden']],
+            ['code' => 'wap_config', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0']],
+            ['code' => 'wap_logo', 'value' => 'data/assets/ecjia-intro/wap_logo.png', 'options' => ['type' => 'file', 'store_dir' => 'data/assets/']],
+            ['code' => 'map_qq_key', 'value' => 'HVNBZ-HHR3P-HVBDP-LID55-D2YM3-2AF2W', 'options' => ['type' => 'text', 'sort_order' => '2']],
+            ['code' => 'map_qq_referer', 'value' => 'ecjiaapp', 'options' => ['type' => 'text', 'sort_order' => '3']],
+            ['code' => 'wap_app_download_show', 'value' => '1', 'options' => ['type' => 'select', 'store_range' => '1,0', 'sort_order' => '11']],
+            ['code' => 'wap_app_download_img', 'value' => 'data/assets/ecjia-intro/wap_app_download_img.png', 'options' => ['type' => 'file', 'store_range' => 'data/assets/', 'sort_order' => '12']],
         ];
 
         return $data;
     }
 
+    public function getConfigs()
+    {
+        $config = [
+            [
+                'cfg_code' => 'wap_config',
+                'cfg_name' => __('是否使用H5应用功能', 'setting'),
+                'cfg_desc' => __('此功能不仅可以在APP中内嵌使用，还可以在微信公众号中作为微信商城使用。', 'setting'),
+                'cfg_range' => array(
+                    '0' => __('关闭', 'setting'),
+                    '1' => __('开启', 'setting'),
+                ),
+            ],
 
+            [
+                'cfg_code' => 'wap_logo',
+                'cfg_name' => __('H5 LOGO上传', 'setting'),
+                'cfg_desc' => __('适用于收藏夹图标，为了更好地兼容各种手机类型，LOGO 最好为png图片', 'setting'),
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'wap_app_download_show',
+                'cfg_name' => __('是否推广APP下载', 'setting'),
+                'cfg_desc' => __('在H5首页底部推广您的APP，增加下载量。', 'setting'),
+                'cfg_range' => array(
+                    '0' => '关闭',
+                    '1' => '开启',
+                ),
+            ],
+
+            [
+                'cfg_code' => 'wap_app_download_img',
+                'cfg_name' => __('推广APP下载图片', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'map_qq_referer',
+                'cfg_name' => __('腾讯地图应用名称', 'setting'),
+                'cfg_desc' => '',
+                'cfg_range' => '',
+            ],
+
+            [
+                'cfg_code' => 'map_qq_key',
+                'cfg_name' => __('腾讯地图KEY', 'setting'),
+                'cfg_desc' => __('使用QQ账号，进行<a target="_blank" href="http://lbs.qq.com/key.html">开发密钥申请</a>，填写应用名及应用描述即可申请。一个账号可以申请多个key。', 'setting'),
+                'cfg_range' => '',
+            ],
+
+        ];
+
+        return $config;
+    }
 
 
 

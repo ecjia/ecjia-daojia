@@ -122,4 +122,10 @@ abstract class ComponentAbstract
     abstract public function handle();
 
 
+    public function getConfigs()
+    {
+
+    }
+
+
 }
