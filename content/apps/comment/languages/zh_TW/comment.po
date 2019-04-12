@@ -4,34 +4,34 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App comment 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-13 14:03+0800\n"
-"PO-Revision-Date: 2019-03-13 14:04+0800\n"
+"POT-Creation-Date: 2019-04-03 15:32+0800\n"
+"PO-Revision-Date: 2019-04-08 09:11+0800\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 2.2\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: admin.php:92
+#: admin.php:91
 msgid "商品评论列表"
 msgstr "商品評論列表"
 
-#: admin.php:93 apis/comment_admin_menu_api.class.php:58
+#: admin.php:92 apis/comment_admin_menu_api.class.php:58
 msgid "商品评价"
 msgstr "商品評價"
 
-#: admin.php:95
+#: admin.php:94
 msgid "查看回收站"
 msgstr "查看回收站"
 
-#: admin.php:99 admin.php:563
+#: admin.php:98 admin.php:562
 msgid "概述"
 msgstr "概述"
 
-#: admin.php:100 admin.php:564
+#: admin.php:99 admin.php:563
 msgid ""
 "欢迎访问ECJia智能后台商品评论列表页面，系统中有关商品的评论都会显示在此列表"
 "中。"
@@ -39,84 +39,84 @@ msgstr ""
 "歡迎訪問ECJia智能後臺商品評論列表頁面，系統中有關商品的評論都會顯示在此列表"
 "中。"
 
-#: admin.php:104 admin.php:567
+#: admin.php:103 admin.php:566
 msgid "更多信息："
 msgstr "更多信息："
 
-#: admin.php:105 admin.php:568
+#: admin.php:104 admin.php:567
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品评论\" target="
 "\"_blank\">关于商品评论列表帮助文档</a>"
 msgstr ""
-"<a href=\"https://ecjia.com/wiki/幫助:ECJia智能後臺:商品評論\" target="
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:商品评论\" target="
 "\"_blank\">關於商品評論列表幫助文檔</a>"
 
-#: admin.php:133 mh_comment.php:119
+#: admin.php:132 mh_comment.php:121
 msgid "感谢您对本店的支持！我们会更加的努力，为您提供更优质的服务。"
 msgstr "感謝您對本店的支持！我們會更加的努力，為您提供更優質的服務。"
 
-#: admin.php:144 admin.php:320 admin.php:336 admin.php:416 admin.php:418
+#: admin.php:143 admin.php:319 admin.php:335 admin.php:415 admin.php:417
 msgid "评论ID："
 msgstr "評論ID："
 
-#: admin.php:158 admin.php:338 mh_comment.php:141 mh_comment.php:253
+#: admin.php:157 admin.php:337 mh_comment.php:143 mh_comment.php:255
 msgid "回复成功"
 msgstr "回復成功"
 
-#: admin.php:171
+#: admin.php:170
 msgid "没有找到相应的评论信息"
 msgstr "沒有找到相應的評論信息"
 
-#: admin.php:265 admin.php:559 apis/comment_merchant_purview_api.class.php:58
-#: mh_comment.php:87 mh_comment.php:88 mh_comment.php:153
+#: admin.php:264 admin.php:558 apis/comment_merchant_purview_api.class.php:58
+#: mh_comment.php:89 mh_comment.php:90 mh_comment.php:155
 msgid "评论列表"
 msgstr "評論列表"
 
-#: admin.php:278 admin.php:280 mh_comment.php:150 mh_comment.php:151
+#: admin.php:277 admin.php:279 mh_comment.php:152 mh_comment.php:153
 msgid "评论详情"
-msgstr "評論列表"
+msgstr "評論詳情"
 
-#: admin.php:299 mh_comment.php:205
+#: admin.php:298 mh_comment.php:207
 msgid "请输入回复内容"
 msgstr "請輸入回復內容"
 
-#: admin.php:332 mh_comment.php:237
+#: admin.php:331 mh_comment.php:239
 msgid "请输入邮件地址"
-msgstr "請輸入回復內容"
+msgstr "請輸入郵件地址"
 
-#: admin.php:393
+#: admin.php:392
 msgid "批准成功"
 msgstr "批準成功"
 
-#: admin.php:412
+#: admin.php:411
 msgid "已成功将评论移至回收站"
 msgstr "已成功將評論移至回收站"
 
-#: admin.php:432
+#: admin.php:431
 msgid "删除成功"
 msgstr "刪除成功"
 
-#: admin.php:524
+#: admin.php:523
 msgid "操作成功"
 msgstr "操作成功"
 
-#: admin.php:527
+#: admin.php:526
 msgid "没有选择消息"
 msgstr "沒有選擇消息"
 
-#: admin.php:540 admin.php:541 apis/comment_admin_menu_api.class.php:59
+#: admin.php:539 admin.php:540 apis/comment_admin_menu_api.class.php:59
 msgid "评论回收站"
 msgstr "評論回收站"
 
-#: admin.php:556
+#: admin.php:555
 msgid "店铺商品评论列表"
 msgstr "店鋪商品評論列表"
 
-#: admin.php:557
+#: admin.php:556
 msgid "店铺商品评论"
 msgstr "店鋪商品評論"
 
-#: admin.php:692
+#: admin.php:691
 msgid "匿名用户"
 msgstr "匿名用戶"
 
@@ -139,8 +139,8 @@ msgid "评价晒单"
 msgstr "評價曬單"
 
 #: apis/comment_admin_menu_api.class.php:60
-#: apis/comment_merchant_purview_api.class.php:61 appeal.php:89 appeal.php:90
-#: appeal.php:160 mh_appeal.php:79 mh_appeal.php:80
+#: apis/comment_merchant_purview_api.class.php:61 appeal.php:88 appeal.php:89
+#: appeal.php:159 mh_appeal.php:79 mh_appeal.php:80
 msgid "申诉列表"
 msgstr "申訴列表"
 
@@ -203,65 +203,73 @@ msgstr "請求接口%s參數無效"
 msgid "商品信息不存在"
 msgstr "商品信息不存在"
 
-#: appeal.php:108
+#: appeal.php:107
 msgid "不存在的信息"
 msgstr "不存在的信息"
 
-#: appeal.php:146 mh_appeal.php:201 mh_appeal.php:202
+#: appeal.php:145 mh_appeal.php:201 mh_appeal.php:202
 msgid "申诉详情"
 msgstr "申訴詳情"
 
-#: appeal.php:148
+#: appeal.php:147
 msgid "申诉详情（审核中）"
 msgstr "申诉详情（审核中）"
 
-#: appeal.php:150
+#: appeal.php:149
 msgid "申诉详情（申诉成功）"
 msgstr "申訴詳情（申訴成功）"
 
-#: appeal.php:152
+#: appeal.php:151
 msgid "申诉详情（申诉失败）"
 msgstr "申訴詳情（申訴失敗）"
 
-#: appeal.php:179
+#: appeal.php:178
 msgid "审核申诉备注不可为空"
 msgstr "審核申訴備註不可為空"
 
-#: appeal.php:189
+#: appeal.php:188
 msgid "申诉ID："
 msgstr "申訴ID："
 
-#: appeal.php:193
+#: appeal.php:192
 msgid "审核申诉成功"
 msgstr "審核申訴成功"
 
-#: appeal.php:253 mh_appeal.php:280
+#: appeal.php:252 mh_appeal.php:280
 msgid "待处理"
 msgstr "待處理"
 
-#: appeal.php:255 mh_appeal.php:282
+#: appeal.php:254 mh_appeal.php:282
 msgid "通过"
 msgstr "通過"
 
-#: appeal.php:257 mh_appeal.php:284
+#: appeal.php:256 mh_appeal.php:284
 msgid "驳回"
 msgstr "駁回"
 
-#: classes/StoreCleanHandlers/StoreArticleCommentClear.php:43
+#: classes/StoreCleanHandlers/StoreArticleCommentClear.php:34
+msgid "文章评论"
+msgstr "文章評論"
+
+#: classes/StoreCleanHandlers/StoreArticleCommentClear.php:44
 msgid "店铺内，文章的所有评论"
 msgstr "店舖內，文章的所有評論"
 
-#: classes/StoreCleanHandlers/StoreArticleCommentClear.php:94
-#: classes/StoreCleanHandlers/StoreGoodsCommentClear.php:111
+#: classes/StoreCleanHandlers/StoreArticleCommentClear.php:96
+#: classes/StoreCleanHandlers/StoreGoodsCommentClear.php:113
 msgid "店铺名是%s"
 msgstr "店鋪名是%s"
 
-#: classes/StoreCleanHandlers/StoreArticleCommentClear.php:94
-#: classes/StoreCleanHandlers/StoreGoodsCommentClear.php:111
+#: classes/StoreCleanHandlers/StoreArticleCommentClear.php:96
+#: classes/StoreCleanHandlers/StoreGoodsCommentClear.php:113
 msgid "店铺ID是%s"
 msgstr "店鋪ID是%s"
 
-#: classes/StoreCleanHandlers/StoreGoodsCommentClear.php:45
+#: classes/StoreCleanHandlers/StoreGoodsCommentClear.php:36
+msgid "商品评论"
+msgstr "商品評論"
+
+#: classes/StoreCleanHandlers/StoreGoodsCommentClear.php:46
 msgid "将店铺内所有商品评论全部删除"
 msgstr "將店舖內所有商品評論全部刪除"
 
@@ -389,13 +397,17 @@ msgstr "撤銷序號:"
 msgid "申诉撤销成功"
 msgstr "申訴撤銷成功"
 
-#: mh_comment.php:76
+#: mh_comment.php:78
 msgid "评论管理"
 msgstr "評論管理"
 
-#: mh_comment.php:140 mh_comment.php:225 mh_comment.php:241
+#: mh_comment.php:142 mh_comment.php:227 mh_comment.php:243
 msgid "评论ID:"
 msgstr "評論ID:"
+
+#: modules/medialibrary/image/temp/upload_module.class.php:60
+msgid "参数错误！"
+msgstr "參數錯誤！"
 
 #: content/apps/comment/templates/admin/appeal_list.dwt.php:18
 #: content/apps/comment/templates/admin/comment_list.dwt.php:18
@@ -757,6 +769,7 @@ msgid "批准"
 msgstr "批準"
 
 #: content/apps/comment/templates/admin/comment_list.dwt.php:142
+#: content/apps/comment/templates/admin/comment_info.dwt.php:184
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:153
 msgid "查看及回复"
 msgstr "查看及回復"
@@ -789,18 +802,84 @@ msgstr "匿名發表"
 msgid "商品评分："
 msgstr "商品評分："
 
+#: content/apps/comment/templates/admin/comment_info.dwt.php:74
+msgid "回复评价"
+msgstr "回複評價"
+
+#: content/apps/comment/templates/admin/comment_info.dwt.php:84
+#: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:95
+msgid "商家管理员"
+msgstr "商家管理員"
+
+#: content/apps/comment/templates/admin/comment_info.dwt.php:89
+#: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:93
+msgid "平台管理员"
+msgstr "平臺管理員"
+
+#: content/apps/comment/templates/admin/comment_info.dwt.php:103
+#: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:103
+msgid "管理员暂时还未回复任何消息"
+msgstr "管理員暫時還未回復任何消息"
+
+#: content/apps/comment/templates/admin/comment_info.dwt.php:111
+msgid "回复："
+msgstr "回复："
+
+#: content/apps/comment/templates/admin/comment_info.dwt.php:112
+msgid "回复内容"
+msgstr "回复內容"
+
+#: content/apps/comment/templates/admin/comment_info.dwt.php:114
+#: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:123
+msgid "邮件通知"
+msgstr "郵件通知"
+
+#: content/apps/comment/templates/admin/comment_info.dwt.php:115
+msgid "电子邮箱"
+msgstr "電子郵箱"
+
+#: content/apps/comment/templates/admin/comment_info.dwt.php:121
+#: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:175
+#: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:127
+#: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:130
+msgid "回复"
+msgstr "回復"
+
+#: content/apps/comment/templates/admin/comment_info.dwt.php:131
+msgid "店铺信息"
+msgstr "店鋪信息"
+
+#: content/apps/comment/templates/admin/comment_info.dwt.php:148
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:28
 msgid "综合评分："
 msgstr "綜合評分："
 
+#: content/apps/comment/templates/admin/comment_info.dwt.php:155
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:31
 msgid "全部评论："
 msgstr "全部評論："
 
+#: content/apps/comment/templates/admin/comment_info.dwt.php:159
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:32
 #: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:37
 msgid "好评率："
 msgstr "好評率："
+
+#: content/apps/comment/templates/admin/comment_info.dwt.php:164
+msgid "进入店铺评价"
+msgstr "進入店鋪評價"
+
+#: content/apps/comment/templates/admin/comment_info.dwt.php:175
+msgid "该商户其他待审核评价"
+msgstr "該商戶其他待審核評價"
+
+#: content/apps/comment/templates/admin/comment_info.dwt.php:193
+msgid "暂无其他相关评论"
+msgstr "暫無其他相關評論"
+
+#: content/apps/comment/templates/admin/comment_info.dwt.php:197
+msgid "查看更多"
+msgstr "查看更多"
 
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:61
 msgid "共"
@@ -817,12 +896,6 @@ msgstr "評級"
 #: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:155
 msgid "\"}您确定要将该用户[]的评论移至回收站吗？"
 msgstr "\"}您確定要將該用戶[]的評論移至回收站嗎？"
-
-#: content/apps/comment/templates/admin/store_goods_comment_list.dwt.php:175
-#: content/apps/comment/templates/merchant/mh_comment_list.dwt.php:127
-#: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:130
-msgid "回复"
-msgstr "回復"
 
 #: content/apps/comment/templates/admin/appeal_detail.dwt.php:30
 msgid "评价内容"
@@ -948,18 +1021,6 @@ msgstr "申訴中"
 msgid "管理员回复内容"
 msgstr "管理員回復內容"
 
-#: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:93
-msgid "平台管理员"
-msgstr "平臺管理員"
-
-#: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:95
-msgid "商家管理员"
-msgstr "商家管理員"
-
-#: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:103
-msgid "管理员暂时还未回复任何消息"
-msgstr "管理員暫時還未回復任何消息"
-
 #: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:113
 msgid "回复评论"
 msgstr "回復評論"
@@ -967,10 +1028,6 @@ msgstr "回復評論"
 #: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:116
 msgid "回复内容："
 msgstr "回復內容："
-
-#: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:123
-msgid "邮件通知"
-msgstr "郵件通知"
 
 #: content/apps/comment/templates/merchant/mh_comment_detail.dwt.php:125
 msgid "请输入电子邮箱"

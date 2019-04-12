@@ -65,6 +65,7 @@ class goods_create_module extends api_front implements api_interface {
 		$content 		= $this->requestData('content');
 		$rank 			= $this->requestData('rank', 5);
 		$is_anonymous 	= $this->requestData('is_anonymous', 1);
+		$picture		= $this->requestData('picture', array()); //兼容表单提交图片上传
 		
 		if ( empty($rec_id)) {
 			return new ecjia_error('invalid_parameter', '参数错误！');
@@ -147,29 +148,21 @@ class goods_create_module extends api_front implements api_interface {
 		if ((!empty($comment_info) && $comment_info['has_image'] == 0) || empty($comment_info)) {
 		    
 		    $save_path = 'data/comment/'.RC_Time::local_date('Ym');
-		    $upload = RC_Upload::uploader('image', array('save_path' => $save_path, 'auto_sub_dirs' => true));
+		    
 		    
 		    $image_info = null;
 		    if (!empty($_FILES)) {
-		        $count = count($_FILES['picture']['name']);
-		        for ($i = 0; $i < $count; $i++) {
-		            $picture = array(
-		                'name' 		=> 	$_FILES['picture']['name'][$i],
-		                'type' 		=> 	$_FILES['picture']['type'][$i],
-		                'tmp_name' 	=> 	$_FILES['picture']['tmp_name'][$i],
-		                'error'		=> 	$_FILES['picture']['error'][$i],
-		                'size'		=> 	$_FILES['picture']['size'][$i],
-		            );
-		            if (!empty($picture['name'])) {
-		                if (!$upload->check_upload_file($picture)) {
-		                    return new ecjia_error('picture_error', $upload->error());
-		                }
-		            }
-		        }
-		        
-		        $image_info	= $upload->batch_upload($_FILES);
+		    	$upload = RC_Upload::uploader('image', array('save_path' => $save_path, 'auto_sub_dirs' => true));
+		        $picture = $_FILES['picture'];
+		        $image_info	= $upload->batchUpload($picture);
+		    } elseif (!empty($picture)) { //表单提交上传
+		    	$upload = RC_Upload::uploader('tempimage', array('save_path' => $save_path, 'auto_sub_dirs' => true));
+		    	$picture = json_decode($picture, true);
+		    	if (is_array($picture)) {
+		    		$image_info	= $upload->batchUpload($picture);
+		    	}
 		    }
-		    
+
 		    if (!empty($image_info)) {
 		        if (!empty($comment_info) && $comment_info['has_image'] == 0) {
 		            $comment_id = $comment_info['comment_id'];

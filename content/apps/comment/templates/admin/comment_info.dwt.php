@@ -71,7 +71,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#goods_info_area_seo">
-							<strong>回复评价</strong>
+							<strong>{t domain="comment"}回复评价{/t}</strong>
 						</a>
 					</div>
 					<div class="accordion-body in collapse" id="goods_info_area_seo">
@@ -81,12 +81,12 @@
                                     <div class="text-right admin-reply">
         								 {if $list.user_type eq 'merchant'}
 	        								 <div class="comment-thumb-details">
-	        									<h1><span><small class="label label-warning-admin">商家管理员</small></span>&nbsp;&nbsp;{$list.staff_name}</h1>
+	        									<h1><span><small class="label label-warning-admin">{t domain="comment"}商家管理员{/t}</small></span>&nbsp;&nbsp;{$list.staff_name}</h1>
 	        									<p>{$list.add_time}</p><br>
 	        								 </div>
         								 {elseif $list.user_type eq 'admin'}
 	        								 <div class="comment-thumb-details">
-	        									<h1><span><small class="label label-warning-admin">平台管理员</small></span>&nbsp;&nbsp;{$list.admin_name}</h1>
+	        									<h1><span><small class="label label-warning-admin">{t domain="comment"}平台管理员{/t}</small></span>&nbsp;&nbsp;{$list.admin_name}</h1>
 	        									<p>{$list.add_time}</p><br>
 	        								 </div>
         								 {/if}
@@ -100,7 +100,7 @@
     									 </div>
                                     </div>
                                   <!-- {foreachelse} -->
-                                    <div class="text-center">管理员暂时还未回复任何消息</div>
+                                    <div class="text-center">{t domain="comment"}管理员暂时还未回复任何消息{/t}</div>
                                   <!-- {/foreach} -->
                             </div>
 						</div>
@@ -108,17 +108,17 @@
 				</div>
 			</div>
 			<div class="control-group">
-			    <div class="reply-title">回复： </div>
-    			<textarea class="span12 form-control" name="reply_content" rows="6" cols="48" placeholder="回复内容"></textarea>
+			    <div class="reply-title">{t domain="comment"}回复：{/t} </div>
+    			<textarea class="span12 form-control" name="reply_content" rows="6" cols="48" placeholder='{t domain="comment"}回复内容{/t}'></textarea>
     			<div class="text-right" style="margin: 10px 0">
-					<input type="checkbox" name="is_ok" id="is_ok" value="1" /><span>邮件通知</span>
-    			    <input type="text" style="margin-left: 20px;" name="reply_email" value="{$comment_info.email}" placeholder="电子邮箱" />
+					<input type="checkbox" name="is_ok" id="is_ok" value="1" /><span>{t domain="comment"}邮件通知{/t}</span>
+    			    <input type="text" style="margin-left: 20px;" name="reply_email" value="{$comment_info.email}" placeholder='{t domain="comment"}电子邮箱{/t}' />
     			</div>
 			</div>
 			<input type="hidden" name="comment_id" value="{$comment_info.comment_id}" />
 			{if $comment_info.status neq '3'}
 				<div class="control-group control-group-small">
-					<button class="btn btn-gebo" type="submit">回复</button>
+					<button class="btn btn-gebo" type="submit">{t domain="comment"}回复{/t}</button>
 				</div>
 			{/if}
 		</div>
@@ -128,7 +128,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#goods_info_area_brand">
-							<strong>店铺信息</strong>
+							<strong>{t domain="comment"}店铺信息{/t}</strong>
 						</a>
 					</div>
 					<div class="accordion-body in in_visable collapse" id="goods_info_area_brand">
@@ -145,23 +145,23 @@
         					</div>
         					<div class="comment-goods" style="font-size: 17px;">
         					   <div class="goods_type">
-    					  	       <label class="control-label store-attr">综合评分：</label>
+    					  	       <label class="control-label store-attr">{t domain="comment"}综合评分：{/t}</label>
     					  	       <span class="store-grade">
     					  	       	{section name=loop loop=$shop_info.composite}<i class="fontello-icon-star" style="color:#FF9933;"></i>{/section}
     					  	       	{section name=loop loop=5-$shop_info.composite}<i class="fontello-icon-star" style="color:#bbb;"></i>{/section}
     					  	       </span>
         					   </div>
         					   <div class="goods_type">
-        					       <label class="control-label store-attr">全部评论： </label>
+        					       <label class="control-label store-attr">{t domain="comment"}全部评论：{/t} </label>
         					       <span class="store-grade all-comment">{$shop_info.amount}</span>
         					   </div>
         					   <div class="goods_type">
-        					       <label class="control-label store-attr">好评率： </label>
+        					       <label class="control-label store-attr">{t domain="comment"}好评率：{/t} </label>
         					       <span class="store-grade">{$shop_info.comment_percent}%</span>
         					   </div>
         					</div>
         					{if $comment_info.store_id neq 0}
-						          <a class="data-pjax btn btn-gebo" href="{$store_url}" class="btn btn-gebo" type="submit">进入店铺评价</a>
+						          <a class="data-pjax btn btn-gebo" href="{$store_url}" class="btn btn-gebo" type="submit">{t domain="comment"}进入店铺评价{/t}</a>
 						    {/if}
 						</div>
 					</div>
@@ -172,7 +172,7 @@
 				<div class="accordion-group">
 					<div class="accordion-heading">
 						<a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#goods_info_area_tvimg">
-							<strong>该商户其他待审核评价<span class="badge badge-info">{$nochecked}</span></strong>
+							<strong>{t domain="comment"}该商户其他待审核评价{/t}<span class="badge badge-info">{$nochecked}</span></strong>
 						</a>
 					</div>
 					<div class="accordion-body in collapse reply_admin_list" id="goods_info_area_tvimg">
@@ -181,7 +181,7 @@
     						          <div class="formSep">
                     		          <p>{$list.user_name}
                     		              <span style="float: right">
-                    		                  <a href='{url path="comment/admin/reply" args="comment_id={$list.comment_id}"}'>查看及回复</a>
+                    		                  <a href='{url path="comment/admin/reply" args="comment_id={$list.comment_id}"}'>{t domain="comment"}查看及回复{/t}</a>
                     		              </span>
                     		          </p>
                     		          <p>{$list.content}</p>
@@ -190,11 +190,11 @@
                     		          </div>
             		          <!-- {foreachelse} -->
                 		          <div class="text-center">
-                		          		暂无其他相关评论
+                                      {t domain="comment"}暂无其他相关评论{/t}
                 		          </div>
                 	          <!-- {/foreach} -->
                 	          {if $other_comment|@count neq 0}
-                	           	  <p class="text-right"><a href='{$store_url}'>查看更多</a></p>
+                	           	  <p class="text-right"><a href='{$store_url}'>{t domain="comment"}查看更多{/t}</a></p>
                 			  {/if} 
 						</div>
 					</div>
