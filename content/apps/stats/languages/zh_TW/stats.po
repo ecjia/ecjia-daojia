@@ -1,0 +1,241 @@
+# Copyright (C) 2019 Ecjia App stats
+# This file is distributed under the same license as the Ecjia App stats package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App stats 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-03-01 01:48:57+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-04-09 10:21+0800\n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
+
+#: admin_keywords_stats.php:81 admin_keywords_stats.php:92
+#: apis/stats_admin_menu_api.class.php:59
+#: apis/stats_admin_purview_api.class.php:59
+#: apis/stats_merchant_menu_api.class.php:60
+#: apis/stats_merchant_purview_api.class.php:57 mh_keywords_stats.php:84
+#: mh_keywords_stats.php:94
+msgid "搜索关键字"
+msgstr "搜索關鍵字"
+
+#: admin_keywords_stats.php:84 mh_keywords_stats.php:87
+msgid "概述"
+msgstr "概述"
+
+#: admin_keywords_stats.php:85 mh_keywords_stats.php:88
+msgid ""
+"欢迎访问ECJia智能后台搜索引擎页面，系统上所有的搜索引擎信息都会显示在"
+"此页面上。"
+msgstr ""
+"歡迎訪問ECJia智能後台搜索引擎頁面，系統上所有的搜索引擎信息都會顯示在"
+"此頁面上。"
+
+#: admin_keywords_stats.php:88 mh_keywords_stats.php:91
+msgid "更多信息："
+msgstr "更多信息："
+
+#: admin_keywords_stats.php:89 mh_keywords_stats.php:92
+msgid "关于搜索关键字帮助文档"
+msgstr "關於搜索關鍵字幫助文檔"
+
+#: admin_keywords_stats.php:93 mh_keywords_stats.php:95
+msgid "下载搜索关键字报表"
+msgstr "下載搜索關鍵字報表"
+
+#: admin_keywords_stats.php:112 mh_keywords_stats.php:114
+msgid "关键字统计"
+msgstr "關鍵字統計"
+
+#: admin_keywords_stats.php:119 mh_keywords_stats.php:119
+msgid "关键词"
+msgstr "關鍵詞"
+
+#: admin_keywords_stats.php:119 mh_keywords_stats.php:119
+msgid "搜索次数"
+msgstr "搜索次數"
+
+#: admin_keywords_stats.php:119 mh_keywords_stats.php:119
+msgid "日期"
+msgstr "日期"
+
+#: apis/stats_admin_menu_api.class.php:56 configs/package.php:55
+#: mh_keywords_stats.php:83
+msgid "报表统计"
+msgstr "報表統計"
+
+#: apis/stats_admin_purview_api.class.php:57
+msgid "流量分析"
+msgstr "流量分析"
+
+#: apis/stats_admin_purview_api.class.php:58 mh_keywords_stats.php:119
+msgid "搜索引擎"
+msgstr "搜索引擎"
+
+#: apis/stats_merchant_menu_api.class.php:57
+msgid "报表"
+msgstr "報表"
+
+#: apis/stats_statsapi_api.class.php:57
+msgid "参数无效"
+msgstr "參數無效"
+
+#: configs/jslang.php:57 configs/jslang.php:84
+msgid "查询的开始时间不能为空！"
+msgstr "查詢的開始時間不能為空！"
+
+#: configs/jslang.php:58 configs/jslang.php:85
+msgid "查询的结束时间不能为空！"
+msgstr "查詢的結束時間不能為空！"
+
+#: configs/jslang.php:59 configs/jslang.php:86
+msgid "查询的开始时间不能超于结束时间！"
+msgstr "查詢的開始時間不能超於結束時間！"
+
+#: configs/jslang.php:60
+msgid "非常抱歉，时间查询范围不能超出90天！"
+msgstr "非常抱歉，時間查詢範圍不能超出90天！"
+
+#: configs/jslang.php:61 configs/jslang.php:87
+msgid "没有找到任何记录"
+msgstr "沒有找到任何記錄"
+
+#: configs/jslang.php:63
+msgid "一月"
+msgstr "一月"
+
+#: configs/jslang.php:64
+msgid "二月"
+msgstr "二月"
+
+#: configs/jslang.php:65
+msgid "三月"
+msgstr "三月"
+
+#: configs/jslang.php:66
+msgid "四月"
+msgstr "四月"
+
+#: configs/jslang.php:67
+msgid "五月"
+msgstr "五月"
+
+#: configs/jslang.php:68
+msgid "六月"
+msgstr "六月"
+
+#: configs/jslang.php:69
+msgid "七月"
+msgstr "七月"
+
+#: configs/jslang.php:70
+msgid "八月"
+msgstr "七月"
+
+#: configs/jslang.php:71
+msgid "九月"
+msgstr "七月"
+
+#: configs/jslang.php:72
+msgid "十月"
+msgstr "十月"
+
+#: configs/jslang.php:73
+msgid "十一月"
+msgstr "十一月"
+
+#: configs/jslang.php:74
+msgid "十二月"
+msgstr "十二月"
+
+#: configs/jslang.php:76 configs/jslang.php:97
+msgid "次"
+msgstr "次"
+
+#: configs/jslang.php:77
+msgid "地区分布百分比"
+msgstr "地區分佈百分比"
+
+#: configs/jslang.php:78
+msgid "来源网站百分比"
+msgstr "來源網站百分比"
+
+#: configs/jslang.php:79
+msgid "请选择来源类型！"
+msgstr "請選擇來源類型！"
+
+#: configs/jslang.php:80
+msgid "查询的时间不能为空！"
+msgstr "查詢的時間不能為空！"
+
+#: configs/jslang.php:89
+msgid "星期一"
+msgstr "星期一"
+
+#: configs/jslang.php:90
+msgid "星期二"
+msgstr "星期二"
+
+#: configs/jslang.php:91
+msgid "星期三"
+msgstr "星期三"
+
+#: configs/jslang.php:92
+msgid "星期四"
+msgstr "星期三"
+
+#: configs/jslang.php:93
+msgid "星期五"
+msgstr "星期五"
+
+#: configs/jslang.php:94
+msgid "星期六"
+msgstr "星期五"
+
+#: configs/jslang.php:95
+msgid "星期日"
+msgstr "星期日"
+
+#: configs/package.php:56
+msgid ""
+"报表统计是商城的管理、发展分析中重要的功能，不仅可以进行流量分析，客"
+"户、订单统计，还可以进行销售概况、会员排行、销售明细、销售排行、访问购"
+"买率、广告转化率的查看，为商城的规划、建设提供数据依据。"
+msgstr ""
+"報表統計是商城的管理、發展分析中重要的功能，不僅可以進行流量分析，客"
+"戶、訂單統計，還可以進行銷售概況、會員排行、銷售明細、銷售排行、訪問購"
+"買率、廣告轉化率的查看，為商城的規劃、建設提供數據依據。"
+
+#: content/apps/stats/templates/admin/keywords_stats.dwt.php:22
+msgid "过滤结果："
+msgstr "過濾結果："
+
+#: content/apps/stats/templates/admin/keywords_stats.dwt.php:33
+#: content/apps/stats/templates/merchant/keywords_stats.dwt.php:26
+msgid "开始日期："
+msgstr "開始日期："
+
+#: content/apps/stats/templates/admin/keywords_stats.dwt.php:34
+#: content/apps/stats/templates/merchant/keywords_stats.dwt.php:27
+msgid "开始日期"
+msgstr "開始日期"
+
+#: content/apps/stats/templates/admin/keywords_stats.dwt.php:35
+#: content/apps/stats/templates/merchant/keywords_stats.dwt.php:28
+msgid "结束日期："
+msgstr "結束日期："
+
+#: content/apps/stats/templates/admin/keywords_stats.dwt.php:36
+#: content/apps/stats/templates/merchant/keywords_stats.dwt.php:29
+msgid "结束时间"
+msgstr "結束時間"
+
+#: content/apps/stats/templates/admin/keywords_stats.dwt.php:37
+#: content/apps/stats/templates/merchant/keywords_stats.dwt.php:30
+msgid "搜索"
+msgstr "搜索"
