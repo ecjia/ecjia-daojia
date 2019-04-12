@@ -1,0 +1,1125 @@
+# Copyright (C) 2019 Ecjia App sms
+# This file is distributed under the same license as the Ecjia App sms package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App sms 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-04-04 10:23+0800\n"
+"PO-Revision-Date: 2019-04-09 10:17+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: admin.php:79 admin.php:103
+msgid "短信记录列表"
+msgstr "短信記錄列表"
+
+#: admin.php:90 apis/sms_service_menu_api.class.php:59 classes/Helper.php:64
+msgid "短信记录"
+msgstr "短信記錄"
+
+#: admin.php:93 admin_config.php:82 admin_template.php:134
+#: admin_template.php:248
+msgid "概述"
+msgstr "概述"
+
+#: admin.php:94
+msgid ""
+"欢迎访问ECJia智能后台短信记录列表页面，系统中所有的短信记录都会显示在此列表"
+"中。"
+msgstr ""
+"歡迎訪問ECJia智能後台短信記錄列表頁面，系統中所有的短信記錄都會顯示在此列表"
+"中。"
+
+#: admin.php:98 admin_config.php:87 admin_template.php:138
+#: admin_template.php:253
+msgid "更多信息："
+msgstr "更多信息："
+
+#: admin.php:99
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:短信记录\" target="
+"\"_blank\">关于短信记录列表帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:短信记录\" target="
+"\"_blank\">關於短信記錄列表幫助文檔</a>"
+
+#: admin.php:102
+msgid "添加短信发送"
+msgstr "添加短信發送"
+
+#: admin.php:123
+msgid "短信编号为%s的再次进行发送短信"
+msgstr "短信編號為%s的再次進行發送短信"
+
+#: admin.php:127
+msgid "发送成功"
+msgstr "發送成功"
+
+#: admin.php:147
+msgid "已批量发送完毕"
+msgstr "已批量發送完畢"
+
+#: admin_config.php:79 classes/Helper.php:63
+msgid "短信配置"
+msgstr "短信配置"
+
+#: admin_config.php:83
+msgid "欢迎访问ECJia智能后台短信配置页面，系统中有关短信配置信息显示在此页面。"
+msgstr ""
+"歡迎訪問ECJia智能後台短信配置頁面，系統中有關短信配置信息顯示在此頁面。"
+
+#: admin_config.php:88
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:短信配置\" target="
+"\"_blank\">关于短信配置帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:短信配置\" target="
+"\"_blank\">關於短信配置幫助文檔</a>"
+
+#: admin_config.php:91
+msgid "短信通知"
+msgstr "短信通知"
+
+#: admin_config.php:109
+msgid "短信管理>短信配置"
+msgstr "短信管理>短信配置"
+
+#: admin_config.php:110
+msgid "更新短信配置成功！"
+msgstr "更新短信配置成功！"
+
+#: admin_events.php:94 apis/sms_service_menu_api.class.php:61
+#: classes/Helper.php:68
+msgid "短信事件"
+msgstr "短信事件"
+
+#: admin_events.php:95 admin_template.php:117
+msgid "短信事件列表"
+msgstr "短信事件列表"
+
+#: admin_events.php:96 admin_template.php:97 admin_template.php:142
+#: admin_template.php:258 admin_template.php:351
+msgid "短信模板列表"
+msgstr "短信模板列表"
+
+#: admin_events.php:132
+msgid "开启成功"
+msgstr "開啟成功"
+
+#: admin_events.php:162
+msgid "全部开启成功"
+msgstr "全部開啟成功"
+
+#: admin_events.php:169
+msgid "关闭成功"
+msgstr "關閉成功"
+
+#: admin_events.php:177
+msgid "全部关闭成功"
+msgstr "全部關閉成功"
+
+#: admin_plugin.php:71 admin_plugin.php:82 admin_plugin.php:84
+#: admin_plugin.php:124 apis/sms_plugin_menu_api.class.php:56
+#: apis/sms_service_menu_api.class.php:62 classes/Helper.php:65
+msgid "短信渠道"
+msgstr "短信渠道"
+
+#: admin_plugin.php:107
+msgid "您当前短信还剩余 %s 条"
+msgstr "您當前短信還剩餘 %s 條"
+
+#: admin_plugin.php:108
+msgid "查询成功"
+msgstr "查詢成功"
+
+#: admin_plugin.php:111
+msgid "抱歉，该插件暂且还不支持余额查询"
+msgstr "抱歉，該插件暫且還不支持餘額查詢"
+
+#: admin_plugin.php:122 admin_plugin.php:125
+msgid "编辑短信渠道"
+msgstr "編輯短信渠道"
+
+#: admin_plugin.php:164 admin_plugin.php:270 configs/jslang.php:86
+msgid "请输入短信渠道名称"
+msgstr "請輸入短信渠道名稱"
+
+#: admin_plugin.php:169 admin_plugin.php:274
+msgid "该短信渠道名称已存在"
+msgstr "該短信渠道名稱已存在"
+
+#: admin_plugin.php:196 admin_plugin.php:279 admin_plugin.php:302
+msgid "编辑成功"
+msgstr "編輯成功"
+
+#: admin_plugin.php:224
+msgid "安装成功"
+msgstr "安裝成功"
+
+#: admin_plugin.php:246
+msgid "已启用"
+msgstr "已啟用"
+
+#: admin_plugin.php:249
+msgid "已停用"
+msgstr "已停用"
+
+#: admin_plugin.php:254
+msgid "插件%s"
+msgstr "插件%s"
+
+#: admin_plugin.php:292
+msgid "请输入数字类型的排序值"
+msgstr "請輸入數字類型的排序值"
+
+#: admin_plugin.php:301
+msgid "%s，排序值为%s"
+msgstr "%s，排序值為%s"
+
+#: admin_template.php:85 admin_template.php:96
+#: apis/sms_service_menu_api.class.php:60 classes/Helper.php:62
+msgid "短信模板"
+msgstr "短信模板"
+
+#: admin_template.php:116 admin_template.php:131 admin_template.php:141
+msgid "添加短信模板"
+msgstr "添加短信模板"
+
+#: admin_template.php:135
+msgid "欢迎访问ECJia智能后台添加短信模板页面，可以在此添加短信模板。"
+msgstr "歡迎訪問ECJia智能後台添加短信模板頁面，可以在此添加短信模板。"
+
+#: admin_template.php:139
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:短信模板#.E6.B7.BB.E5.8A."
+"A0.E7.9F.AD.E4.BF.A1.E6.A8.A1.E6.9D.BF\" target=\"_blank\">关于添加短信模板帮"
+"助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:短信模板#.E6.B7.BB.E5.8A."
+"A0.E7.9F.AD.E4.BF.A1.E6.A8.A1.E6.9D.BF\" target=\"_blank\">關於添加短信模板幫"
+"助文檔</a>"
+
+#: admin_template.php:183 admin_template.php:293
+msgid "可用变量：%s"
+msgstr "可用變量：%s"
+
+#: admin_template.php:185 admin_template.php:295
+msgid ""
+"变量使用说明：变量不限位置摆放，可自由摆放，但变量不可自定义名称，需保持与以"
+"上名称一致。"
+msgstr ""
+"變量使用說明：變量不限位置擺放，可自由擺放，但變量不可自定義名稱，需保持與以"
+"上名稱一致。"
+
+#: admin_template.php:188 admin_template.php:298
+msgid ""
+"注明：个人和企业区分为阿里大于的账户类型，限制个人变量15个字符，企业无限制。"
+msgstr ""
+"註明：個人和企業區分為阿里大於的賬戶類型，限制個人變量15個字符，企業無限制"
+
+#: admin_template.php:210 admin_template.php:323
+msgid "请选择短信事件"
+msgstr "請選擇短信事件"
+
+#: admin_template.php:215 admin_template.php:328
+msgid "该短信模板代号在该渠道下已存在"
+msgstr "該短信模板代號在該渠道下已存在"
+
+#: admin_template.php:231 admin_template.php:340 admin_template.php:408
+msgid "模板名是 %s，短信主题是 %s"
+msgstr "模板名是 %s，短信主題是 %s"
+
+#: admin_template.php:233
+msgid "返回短信模板"
+msgstr "返回短信模板"
+
+#: admin_template.php:234
+msgid "继续添加短信模板"
+msgstr "繼續添加短信模板"
+
+#: admin_template.php:235
+msgid "添加短信模板成功"
+msgstr "添加短信模板成功"
+
+#: admin_template.php:245 admin_template.php:257
+msgid "编辑短信模板"
+msgstr "編輯短信模板"
+
+#: admin_template.php:249
+msgid "欢迎访问ECJia智能后台编辑短信模板页面，可以在此编辑相应的短信模板信息。"
+msgstr ""
+"歡迎訪問ECJia智能後台編輯短信模板頁面，可以在此編輯相應的短信模板信息。"
+
+#: admin_template.php:254
+msgid ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:短信模板#.E7.BC.96.E8."
+"BE.91.E7.9F.AD.E4.BF.A1.E6.A8.A1.E6.9D.BF\" target=\"_blank\">关于编辑短信模"
+"板帮助文档</a>"
+msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:短信模板#.E7.BC.96.E8."
+"BE.91.E7.9F.AD.E4.BF.A1.E6.A8.A1.E6.9D.BF\" target=\"_blank\">關於編輯短信模"
+"板幫助文檔</a>"
+
+#: admin_template.php:341
+msgid "编辑短信模板成功"
+msgstr "編輯短信模板成功"
+
+#: admin_template.php:350
+msgid "测试短信模板"
+msgstr "測試短信模板"
+
+#: admin_template.php:378
+msgid "模板变量不能为空"
+msgstr "模板變量不能為空"
+
+#: admin_template.php:392
+msgid "短信模板测试成功，请注意查收"
+msgstr "短信模板測試成功，請注意查收"
+
+#: admin_template.php:409
+msgid "删除短信模板成功"
+msgstr "刪除短信模板成功"
+
+#: apis/sms_admin_purview_api.class.php:57
+msgid "短信发送管理"
+msgstr "短信發送管理"
+
+#: apis/sms_admin_purview_api.class.php:58
+msgid "短信历史记录管理"
+msgstr "短信歷史記錄管理"
+
+#: apis/sms_admin_purview_api.class.php:59
+msgid "短信模板管理"
+msgstr "短信模板管理"
+
+#: apis/sms_admin_purview_api.class.php:60
+msgid "短信模板更新"
+msgstr "短信模板更新"
+
+#: apis/sms_admin_purview_api.class.php:61
+msgid "短信模板删除"
+msgstr "短信模板刪除"
+
+#: apis/sms_admin_purview_api.class.php:63
+msgid "短信配置管理"
+msgstr "短信配置管理"
+
+#: apis/sms_admin_purview_api.class.php:64
+msgid "更新短信配置"
+msgstr "更新短信配置"
+
+#: apis/sms_admin_purview_api.class.php:66
+msgid "短信事件管理"
+msgstr "短信事件管理"
+
+#: apis/sms_admin_purview_api.class.php:68
+msgid "短信渠道管理"
+msgstr "短信渠道管理"
+
+#: apis/sms_admin_purview_api.class.php:69
+msgid "短信渠道更新"
+msgstr "短信渠道更新"
+
+#: apis/sms_plugin_install_api.class.php:77
+#: apis/sms_plugin_uninstall_api.class.php:77
+msgid "短信插件名称不能为空"
+msgstr "短信插件名稱不能為空"
+
+#: apis/sms_plugin_install_api.class.php:83
+msgid "安装的插件已存在"
+msgstr "安裝的插件已存在"
+
+#: apis/sms_send_event_sms_api.class.php:67
+msgid "无效参数"
+msgstr "無效參數"
+
+#: apis/sms_send_event_sms_api.class.php:79
+msgid "请先开启短信%s事件"
+msgstr "請先開啟短信%s事件"
+
+#: apis/sms_service_menu_api.class.php:56
+msgid "短信管理"
+msgstr "短信管理"
+
+#: classes/Events/SmsExpressCancel.php:60
+msgid "配送单撤销配送"
+msgstr "配送單撤銷配送"
+
+#: classes/Events/SmsExpressCancel.php:62
+msgid "商家同意用户退款申请时通知配送员撤销配送"
+msgstr "商家同意用戶退款申請時通知配送員撤銷配送"
+
+#: classes/Events/SmsExpressCancel.php:65
+#: classes/Events/SmsExpressConfirm.php:65 classes/Events/SmsExpressGrab.php:66
+#: classes/Events/SmsExpressPickup.php:65
+#: classes/Events/SmsExpressSystemAssign.php:65
+msgid "配送单号"
+msgstr "配送單號"
+
+#: classes/Events/SmsExpressConfirm.php:60
+msgid "确认收货"
+msgstr "確認收貨"
+
+#: classes/Events/SmsExpressConfirm.php:62
+msgid "买家确认收货时及时通知商家"
+msgstr "買家確認收貨時及時通知商家"
+
+#: classes/Events/SmsExpressConfirm.php:66 classes/Events/SmsExpressGrab.php:67
+#: classes/Events/SmsGetValidate.php:66 classes/Events/SmsJoinMerchant.php:69
+#: classes/Events/SmsJoinMerchantFail.php:68
+#: classes/Events/SmsOrderPayed.php:69 classes/Events/SmsOrderPickup.php:68
+#: classes/Events/SmsOrderPlaced.php:69 classes/Events/SmsOrderShipped.php:68
+#: classes/Events/SmsRegisterValidate.php:66
+#: classes/Events/SmsSelfMerchant.php:68
+#: classes/Events/SmsStaffResetPassword.php:68
+#: classes/Events/SmsUserAccountChange.php:68
+#: classes/Events/SmsWithdrawFail.php:68
+#: classes/Events/SmsWithdrawSuccess.php:68
+msgid "客服电话"
+msgstr "客服電話"
+
+#: classes/Events/SmsExpressGrab.php:61
+msgid "抢单成功"
+msgstr "搶單成功"
+
+#: classes/Events/SmsExpressGrab.php:63
+msgid "通知用户抢单成功"
+msgstr "通知用戶搶單成功"
+
+#: classes/Events/SmsExpressOrderReminder.php:60
+msgid "派单提醒"
+msgstr "派單提醒"
+
+#: classes/Events/SmsExpressOrderReminder.php:62
+msgid "商家提醒平台派单"
+msgstr "商家提醒平台派單"
+
+#: classes/Events/SmsExpressOrderReminder.php:65
+msgid "配送单编号"
+msgstr "配送單編號"
+
+#: classes/Events/SmsExpressOrderReminder.php:66
+msgid "商家名"
+msgstr "商家名"
+
+#: classes/Events/SmsExpressPickup.php:60
+msgid "取货成功"
+msgstr "取貨成功"
+
+#: classes/Events/SmsExpressPickup.php:62
+msgid "通知用户取货成功"
+msgstr "通知用戶取貨成功"
+
+#: classes/Events/SmsExpressSystemAssign.php:60
+msgid "系统派单"
+msgstr "系統派單"
+
+#: classes/Events/SmsExpressSystemAssign.php:62
+msgid "系统分配配送单通知"
+msgstr "系統分配配送單通知"
+
+#: classes/Events/SmsGetValidate.php:60
+msgid "获取验证码"
+msgstr "獲取驗證碼"
+
+#: classes/Events/SmsGetValidate.php:62
+msgid "是否让用户获取验证码"
+msgstr "是否讓用戶獲取驗證碼"
+
+#: classes/Events/SmsGetValidate.php:65
+#: classes/Events/SmsRegisterValidate.php:65
+msgid "验证码"
+msgstr "驗證碼"
+
+#: classes/Events/SmsGoodsStockWarning.php:60
+msgid "商品库存警告"
+msgstr "商品庫存警告"
+
+#: classes/Events/SmsGoodsStockWarning.php:62
+msgid "库存数据达到商家设置的警告数量时进行短信通知"
+msgstr "庫存數據達到商家設置的警告數量時進行短信通知"
+
+#: classes/Events/SmsGoodsStockWarning.php:65
+#: classes/Events/SmsGroupbuyActivityFailed.php:66
+#: classes/Events/SmsGroupbuyActivitySucceed.php:66
+#: classes/Events/SmsJoinMerchantFail.php:66
+#: classes/Events/SmsJoinMerchantFail.php:67
+#: classes/Events/SmsQuickpayOrderPayed.php:66
+#: classes/Events/SmsStoreExpressAdded.php:66
+msgid "店铺名称"
+msgstr "店鋪名稱"
+
+#: classes/Events/SmsGoodsStockWarning.php:66
+#: classes/Events/SmsGroupbuyActivityFailed.php:67
+#: classes/Events/SmsGroupbuyActivitySucceed.php:67
+msgid "商品名称"
+msgstr "商品名稱"
+
+#: classes/Events/SmsGoodsStockWarning.php:67
+msgid "商品库存"
+msgstr "商品庫存"
+
+#: classes/Events/SmsGroupbuyActivityFailed.php:60
+msgid "团购活动失败"
+msgstr "團購活動失敗"
+
+#: classes/Events/SmsGroupbuyActivityFailed.php:62
+msgid "通知用户此次团购活动失败"
+msgstr "通知用戶此次團購活動失敗"
+
+#: classes/Events/SmsGroupbuyActivityFailed.php:65
+#: classes/Events/SmsGroupbuyActivitySucceed.php:65
+#: classes/Events/SmsRefundBalanceArrived.php:65
+#: classes/Events/SmsRefundOriginalArrived.php:65
+#: classes/Events/SmsUserAccountChange.php:65
+#: classes/Events/SmsWithdrawFail.php:65
+#: classes/Events/SmsWithdrawSuccess.php:65
+msgid "用户名称"
+msgstr "用戶名稱"
+
+#: classes/Events/SmsGroupbuyActivitySucceed.php:60
+msgid "团购活动成功结束"
+msgstr "團購活動成功結束"
+
+#: classes/Events/SmsGroupbuyActivitySucceed.php:62
+msgid "通知用户支付有保证金团购订单的余款"
+msgstr "通知用戶支付有保證金團購訂單的餘款"
+
+#: classes/Events/SmsJoinMerchant.php:60
+msgid "商家入驻审核"
+msgstr "商家入駐審核"
+
+#: classes/Events/SmsJoinMerchant.php:62
+msgid "商家入驻，审核通过是否给商家发送短信告知"
+msgstr "商家入駐，審核通過是否給商家發送短信告知"
+
+#: classes/Events/SmsJoinMerchant.php:65
+#: classes/Events/SmsJoinMerchantFail.php:65
+msgid "商家名称"
+msgstr "商家名稱"
+
+#: classes/Events/SmsJoinMerchant.php:66 classes/Events/SmsSelfMerchant.php:65
+msgid "平台名称"
+msgstr "平台名稱"
+
+#: classes/Events/SmsJoinMerchant.php:67 classes/Events/SmsSelfMerchant.php:66
+msgid "商家账号"
+msgstr "商家賬號"
+
+#: classes/Events/SmsJoinMerchant.php:68 classes/Events/SmsSelfMerchant.php:67
+msgid "商家密码"
+msgstr "商家密碼"
+
+#: classes/Events/SmsJoinMerchantFail.php:60
+msgid "商家入驻审核失败"
+msgstr "商家入駐審核失敗"
+
+#: classes/Events/SmsJoinMerchantFail.php:62
+msgid "商家入驻审核失败通过是否给商家发送短信告知"
+msgstr "商家入駐審核失敗通過是否給商家發送短信告知"
+
+#: classes/Events/SmsOrderConfirmed.php:60
+msgid "订单已接单"
+msgstr "訂單已接單"
+
+#: classes/Events/SmsOrderConfirmed.php:62
+msgid "当订单已接单时是否发送短信"
+msgstr "當訂單已接單時是否發送短信"
+
+#: classes/Events/SmsOrderConfirmed.php:65 classes/Events/SmsOrderPickup.php:65
+#: classes/Events/SmsOrderPickupSuccess.php:65
+#: classes/Events/SmsOrderRefused.php:65 classes/Events/SmsOrderShipped.php:65
+msgid "会员名称"
+msgstr "會員名稱"
+
+#: classes/Events/SmsOrderConfirmed.php:66 classes/Events/SmsOrderPayed.php:65
+#: classes/Events/SmsOrderPlaced.php:65 classes/Events/SmsOrderRefused.php:66
+#: classes/Events/SmsOrderShipped.php:66
+#: classes/Events/SmsQuickpayOrderPayed.php:65
+msgid "订单编号"
+msgstr "訂單編號"
+
+#: classes/Events/SmsOrderPayed.php:60
+msgid "客户付款时"
+msgstr "客戶付款時"
+
+#: classes/Events/SmsOrderPayed.php:62
+msgid "当客户付款时是否发送短信"
+msgstr "當客戶付款時是否發送短信"
+
+#: classes/Events/SmsOrderPayed.php:66 classes/Events/SmsOrderPlaced.php:66
+#: classes/Events/SmsOrderShipped.php:67
+msgid "收货人"
+msgstr "收貨人"
+
+#: classes/Events/SmsOrderPayed.php:67
+#: classes/Events/SmsQuickpayOrderPayed.php:71
+msgid "联系方式"
+msgstr "聯繫方式"
+
+#: classes/Events/SmsOrderPayed.php:68 classes/Events/SmsOrderPlaced.php:68
+msgid "订单金额"
+msgstr "訂單金額"
+
+#: classes/Events/SmsOrderPickup.php:60
+msgid "订单收货验证码"
+msgstr "訂單收貨驗證碼"
+
+#: classes/Events/SmsOrderPickup.php:62
+msgid "订单收货验证码是否发送短信"
+msgstr "訂單收貨驗證碼是否發送短信"
+
+#: classes/Events/SmsOrderPickup.php:66
+#: classes/Events/SmsOrderPickupSuccess.php:66
+msgid "订单号"
+msgstr "訂單號"
+
+#: classes/Events/SmsOrderPickup.php:67
+msgid "提货码"
+msgstr "提貨碼"
+
+#: classes/Events/SmsOrderPickupSuccess.php:60
+msgid "订单提货成功"
+msgstr "訂單提貨成功"
+
+#: classes/Events/SmsOrderPickupSuccess.php:62
+msgid "订单提货成功是否发送短信"
+msgstr "訂單提貨成功是否發送短信"
+
+#: classes/Events/SmsOrderPlaced.php:60
+msgid "客户下单时"
+msgstr "客戶下單時"
+
+#: classes/Events/SmsOrderPlaced.php:62
+msgid "当客户下单时是否发送短信"
+msgstr "當客戶下單時是否發送短信"
+
+#: classes/Events/SmsOrderPlaced.php:67
+msgid "联系电话"
+msgstr "聯繫電話"
+
+#: classes/Events/SmsOrderRefused.php:60
+msgid "订单被拒单"
+msgstr "訂單被拒單"
+
+#: classes/Events/SmsOrderRefused.php:62
+msgid "当订单拒绝接单时是否发送短信"
+msgstr "當訂單拒絕接單時是否發送短信"
+
+#: classes/Events/SmsOrderShipped.php:60
+msgid "订单发货时"
+msgstr "訂單發貨時"
+
+#: classes/Events/SmsOrderShipped.php:62
+msgid "当商家发货时是否发送短信"
+msgstr "當商家發貨時是否發送短信"
+
+#: classes/Events/SmsQuickpayOrderPayed.php:60
+msgid "客户进行优惠买单付款时"
+msgstr "客戶進行優惠買單付款時"
+
+#: classes/Events/SmsQuickpayOrderPayed.php:62
+msgid "当客户进行优惠买单付款时是否发送短信通知店长"
+msgstr "當客戶進行優惠買單付款時是否發送短信通知店長"
+
+#: classes/Events/SmsQuickpayOrderPayed.php:67
+msgid "购买者"
+msgstr "購買者"
+
+#: classes/Events/SmsQuickpayOrderPayed.php:68
+msgid "消费金额"
+msgstr "消費金額"
+
+#: classes/Events/SmsQuickpayOrderPayed.php:69
+msgid "闪惠金额"
+msgstr "閃惠金額"
+
+#: classes/Events/SmsQuickpayOrderPayed.php:70
+msgid "实付金额"
+msgstr "實付金額"
+
+#: classes/Events/SmsRefundBalanceArrived.php:60
+msgid "退款到余额"
+msgstr "退款到餘額"
+
+#: classes/Events/SmsRefundBalanceArrived.php:62
+msgid "通知用户退款到余额"
+msgstr "通知用戶退款到餘額"
+
+#: classes/Events/SmsRefundBalanceArrived.php:66
+msgid "退款金额"
+msgstr "退款金額"
+
+#: classes/Events/SmsRefundBalanceArrived.php:67
+msgid "可用余额"
+msgstr "可用餘額"
+
+#: classes/Events/SmsRefundOriginalArrived.php:60
+msgid "退款原路退回"
+msgstr "退款原路退回"
+
+#: classes/Events/SmsRefundOriginalArrived.php:62
+msgid "通知用户退款原路退回"
+msgstr "通知用戶退款原路退回"
+
+#: classes/Events/SmsRefundOriginalArrived.php:66
+msgid "退款方式名称"
+msgstr "退款方式名稱"
+
+#: classes/Events/SmsRegisterValidate.php:60
+msgid "注册验证"
+msgstr "註冊驗證"
+
+#: classes/Events/SmsRegisterValidate.php:62
+msgid "用户手机注册时是否给用户发短信"
+msgstr "用戶手機註冊時是否給用戶發短信"
+
+#: classes/Events/SmsSelfMerchant.php:60
+msgid "添加自营商家"
+msgstr "添加自營商家"
+
+#: classes/Events/SmsSelfMerchant.php:62
+msgid "添加商家自营，发送短信告知"
+msgstr "添加商家自營，發送短信告知"
+
+#: classes/Events/SmsStaffResetPassword.php:60
+msgid "员工重置密码"
+msgstr "員工重置密碼"
+
+#: classes/Events/SmsStaffResetPassword.php:62
+msgid "商家员工重置密码，发送新密码到手机短信"
+msgstr "商家員工重置密碼，發送新密碼到手機短信"
+
+#: classes/Events/SmsStaffResetPassword.php:65
+msgid "员工姓名"
+msgstr "員工姓名"
+
+#: classes/Events/SmsStaffResetPassword.php:66
+msgid "商家员工账号"
+msgstr "商家員工賬號"
+
+#: classes/Events/SmsStaffResetPassword.php:67
+msgid "商家员工密码"
+msgstr "商家員工密碼"
+
+#: classes/Events/SmsStoreExpressAdded.php:60
+msgid "添加店铺配送员"
+msgstr "添加店鋪配送員"
+
+#: classes/Events/SmsStoreExpressAdded.php:62
+msgid "商家添加店铺配送员时，发送帐号密码信息给配送员"
+msgstr "商家添加店鋪配送員時，發送帳號密碼信息給配送員"
+
+#: classes/Events/SmsStoreExpressAdded.php:65
+msgid "配送员名称"
+msgstr "配送員名稱"
+
+#: classes/Events/SmsStoreExpressAdded.php:67
+msgid "登录账号"
+msgstr "登錄賬號"
+
+#: classes/Events/SmsStoreExpressAdded.php:68
+msgid "登录密码"
+msgstr "登錄密碼"
+
+#: classes/Events/SmsUserAccountChange.php:60
+msgid "用户充值到账"
+msgstr "用戶充值到賬"
+
+#: classes/Events/SmsUserAccountChange.php:62
+msgid "通知用户的账户充值信息"
+msgstr "通知用戶的賬戶充值信息"
+
+#: classes/Events/SmsUserAccountChange.php:66
+msgid "充值金额"
+msgstr "充值金額"
+
+#: classes/Events/SmsUserAccountChange.php:67
+#: classes/Events/SmsWithdrawFail.php:67
+#: classes/Events/SmsWithdrawSuccess.php:67
+msgid "可用资金"
+msgstr "可用資金"
+
+#: classes/Events/SmsWithdrawFail.php:60
+msgid "用户提现失败/取消"
+msgstr "用戶提現失敗/取消"
+
+#: classes/Events/SmsWithdrawFail.php:62
+msgid "通知用户提现失败/取消"
+msgstr "通知用戶提現失敗/取消"
+
+#: classes/Events/SmsWithdrawFail.php:66
+#: classes/Events/SmsWithdrawSuccess.php:66
+msgid "提现金额"
+msgstr "提現金額"
+
+#: classes/Events/SmsWithdrawSuccess.php:60
+msgid "用户提现成功"
+msgstr "用戶提現成功"
+
+#: classes/Events/SmsWithdrawSuccess.php:62
+msgid "通知用户提现成功"
+msgstr "通知用戶提現成功"
+
+#: classes/Helper.php:66
+msgid "短信渠道排序"
+msgstr "短信渠道排序"
+
+#: classes/Helper.php:67 classes/hooks/admin_sms.class.php:54
+#: configs/package.php:55
+msgid "短信"
+msgstr "短信"
+
+#: classes/Helper.php:70
+msgid "批量设置"
+msgstr "批量設置"
+
+#: classes/Helper.php:71
+msgid "关闭"
+msgstr "關閉"
+
+#: classes/Helper.php:88
+msgid "手机号不能为空"
+msgstr "手機號不能為空"
+
+#: classes/Helper.php:92
+msgid "手机号码格式错误"
+msgstr "手機號碼格式錯誤"
+
+#: classes/SmsManager.php:152
+msgid "短信模板不存在"
+msgstr "短信模板不存在"
+
+#: classes/SmsManager.php:206
+msgid "没有找到此短信记录"
+msgstr "沒有找到此短信記錄"
+
+#: configs/jslang.php:61 configs/jslang.php:84
+msgid "确定"
+msgstr "確定"
+
+#: configs/jslang.php:62 configs/jslang.php:85
+msgid "取消"
+msgstr "取消"
+
+#: configs/jslang.php:67
+msgid "首页"
+msgstr "首頁"
+
+#: configs/jslang.php:68
+msgid "尾页"
+msgstr "尾頁"
+
+#: configs/jslang.php:69
+msgid "上一页"
+msgstr "上一頁"
+
+#: configs/jslang.php:70
+msgid "下一页"
+msgstr "下一頁"
+
+#: configs/jslang.php:71
+msgid "共_TOTAL_条记录 第_START_条到第_END_条"
+msgstr "共_TOTAL_條記錄 第_START_條到第_END_條"
+
+#: configs/jslang.php:72 configs/jslang.php:73
+msgid "没有找到任何记录"
+msgstr "沒有找到任何記錄"
+
+#: configs/jslang.php:74
+msgid "共0条记录"
+msgstr "共0條記錄"
+
+#: configs/jslang.php:75
+msgid "（从_MAX_条数据中检索）"
+msgstr "（從_MAX_條數據中檢索）"
+
+#: configs/jslang.php:76
+msgid "短信主题不能为空！"
+msgstr "短信主題不能為空！"
+
+#: configs/jslang.php:77
+msgid "模板内容不能为空！"
+msgstr "模板內容不能為空！"
+
+#: configs/jslang.php:78
+msgid "请输入短信模板ID"
+msgstr "請輸入短信模板ID"
+
+#: configs/jslang.php:79
+msgid "请输入签名"
+msgstr "請輸入簽名"
+
+#: configs/jslang.php:87
+msgid "请输入描述"
+msgstr "請輸入描述"
+
+#: configs/jslang.php:88
+msgid "描述长度不能小于6"
+msgstr "描述長度不能小於6"
+
+#: configs/package.php:56
+msgid ""
+"短信是信息推送最直接却又不会过分影响消费者的优秀途径，在短信记录中，商家可以"
+"查看、管理所有发送成功、不成功的短信；短信模板让推送短信的编辑更加简单便捷，"
+"而短信配置允许商家设置短信平台账号和商家电话已经不同情况是否发送短信，为商家"
+"提供一套完善的短信解决方案，使得短信管理的易用性、可操作性都大大提高。"
+msgstr ""
+"短信是信息推送最直接卻又不會過分影響消費者的優秀途徑，在短信記錄中，商家可以"
+"查看、管理所有發送成功、不成功的短信；短信模板讓推送短信的編輯更加簡單便捷，"
+"而短信配置允許商家設置短信平台賬號和商家電話已經不同情況是否發送短信，為商家"
+"提供一套完善的短信解決方案，使得短信管理的易用性、可操作性都大大提高。"
+
+#: content/apps/sms/templates/admin/sms_template_list.dwt.php:14
+#: content/apps/sms/templates/admin/sms_template_info.dwt.php:14
+msgid "温馨提示："
+msgstr "溫馨提示："
+
+#: content/apps/sms/templates/admin/sms_template_list.dwt.php:14
+msgid "请您先前往 \"控制面板\" -> \"插件管理\" 中安装短信渠道。"
+msgstr "請您先前往 \"控制面板\" -> \"插件管理\" 中安裝短信渠道。"
+
+#: content/apps/sms/templates/admin/sms_template_list.dwt.php:47
+msgid "模板代号"
+msgstr "模板代號"
+
+#: content/apps/sms/templates/admin/sms_template_list.dwt.php:48
+msgid "短信主题"
+msgstr "短信主題"
+
+#: content/apps/sms/templates/admin/sms_template_list.dwt.php:49
+msgid "模板内容"
+msgstr "模板內容"
+
+#: content/apps/sms/templates/admin/sms_template_list.dwt.php:57
+#: content/apps/sms/templates/admin/sms_channel.dwt.php:37
+msgid "编辑"
+msgstr "編輯"
+
+#: content/apps/sms/templates/admin/sms_template_list.dwt.php:58
+msgid "您确认要删除这条记录吗?"
+msgstr "您確認要刪除這條記錄嗎?"
+
+#: content/apps/sms/templates/admin/sms_template_list.dwt.php:58
+msgid "删除"
+msgstr "刪除"
+
+#: content/apps/sms/templates/admin/sms_template_list.dwt.php:59
+msgid "短信测试"
+msgstr "短信測試"
+
+#: content/apps/sms/templates/admin/sms_config.dwt.php:22
+msgid "平台通知电话："
+msgstr "平台通知電話："
+
+#: content/apps/sms/templates/admin/sms_channel.dwt.php:16
+msgid "名称"
+msgstr "名稱"
+
+#: content/apps/sms/templates/admin/sms_channel.dwt.php:17
+msgid "描述"
+msgstr "描述"
+
+#: content/apps/sms/templates/admin/sms_channel.dwt.php:18
+msgid "排序"
+msgstr "排序"
+
+#: content/apps/sms/templates/admin/sms_channel.dwt.php:19
+msgid "是否开启"
+msgstr "是否開啟"
+
+#: content/apps/sms/templates/admin/sms_channel.dwt.php:27
+msgid "编辑名称"
+msgstr "編輯名稱"
+
+#: content/apps/sms/templates/admin/sms_channel.dwt.php:38
+msgid "禁用"
+msgstr "禁用"
+
+#: content/apps/sms/templates/admin/sms_channel.dwt.php:39
+msgid "查看余额"
+msgstr "查看餘額"
+
+#: content/apps/sms/templates/admin/sms_channel.dwt.php:43
+msgid "启用"
+msgstr "啟用"
+
+#: content/apps/sms/templates/admin/sms_channel.dwt.php:49
+msgid "编辑排序"
+msgstr "編輯排序"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:18
+msgid "全部"
+msgstr "全部"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:19
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:84
+msgid "待发送"
+msgstr "待發送"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:21
+msgid "发送失败"
+msgstr "發送失敗"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:29
+msgid "批量操作"
+msgstr "批量操作"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:33
+msgid "您确定要再次发送选中的短信记录吗？"
+msgstr "您確定要再次發送選中的短信記錄嗎？"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:33
+msgid "请先选中要再次发送的短信记录！"
+msgstr "請先選中要再次發送的短信記錄！"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:33
+msgid "再次发送短信"
+msgstr "再次發送短信"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:38
+msgid "开始时间"
+msgstr "開始時間"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:39
+msgid "至"
+msgstr "至"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:40
+msgid "截止时间"
+msgstr "截止時間"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:41
+msgid "筛选"
+msgstr "篩選"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:45
+msgid "请输入短信接收号码或内容关键字"
+msgstr "請輸入短信接收號碼或內容關鍵字"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:46
+msgid "搜索"
+msgstr "搜索"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:58
+msgid "接收短信号码"
+msgstr "接收短信號碼"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:59
+msgid "短信内容"
+msgstr "短信內容"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:60
+msgid "发送时间"
+msgstr "發送時間"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:61
+msgid "发送状态"
+msgstr "發送狀態"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:86
+msgid "次发送错误"
+msgstr "次發送錯誤"
+
+#: content/apps/sms/templates/admin/sms_send_history.dwt.php:88
+msgid "再次发送"
+msgstr "再次發送"
+
+#: content/apps/sms/templates/admin/sms_template_test.dwt.php:25
+#: content/apps/sms/templates/admin/sms_template_info.dwt.php:42
+msgid "短信主题："
+msgstr "短信主題："
+
+#: content/apps/sms/templates/admin/sms_template_test.dwt.php:30
+msgid "手机号码："
+msgstr "手機號碼："
+
+#: content/apps/sms/templates/admin/sms_template_test.dwt.php:38
+msgid "短信模板内容："
+msgstr "短信模板內容："
+
+#: content/apps/sms/templates/admin/sms_template_test.dwt.php:56
+msgid "提交测试"
+msgstr "提交測試"
+
+#: content/apps/sms/templates/admin/sms_events_list.dwt.php:17
+msgid "您确定要关闭全部短信事件吗？"
+msgstr "您確定要關閉全部短信事件嗎？"
+
+#: content/apps/sms/templates/admin/sms_events_list.dwt.php:17
+msgid "全部关闭"
+msgstr "全部關閉"
+
+#: content/apps/sms/templates/admin/sms_events_list.dwt.php:18
+msgid "您确定要开启全部短信事件吗？"
+msgstr "您確定要開啟全部短信事件嗎？"
+
+#: content/apps/sms/templates/admin/sms_events_list.dwt.php:18
+msgid "全部开启"
+msgstr "全部開啟"
+
+#: content/apps/sms/templates/admin/sms_events_list.dwt.php:28
+msgid "您确定要关闭该短信事件吗？"
+msgstr "您確定要關閉該短信事件嗎？"
+
+#: content/apps/sms/templates/admin/sms_events_list.dwt.php:28
+msgid "您确定要开启该短信事件吗？"
+msgstr "您確定要開啟該短信事件嗎？"
+
+#: content/apps/sms/templates/admin/sms_events_list.dwt.php:30
+msgid "点击关闭"
+msgstr "點擊關閉"
+
+#: content/apps/sms/templates/admin/sms_events_list.dwt.php:32
+msgid "点击开启"
+msgstr "點擊開啟"
+
+#: content/apps/sms/templates/admin/sms_events_list.dwt.php:39
+msgid "开启中"
+msgstr "開啟中"
+
+#: content/apps/sms/templates/admin/sms_events_list.dwt.php:39
+msgid "已关闭"
+msgstr "已關閉"
+
+#: content/apps/sms/templates/admin/sms_channel_edit.dwt.php:24
+msgid "名称："
+msgstr "名稱："
+
+#: content/apps/sms/templates/admin/sms_channel_edit.dwt.php:31
+msgid "描述："
+msgstr "描述："
+
+#: content/apps/sms/templates/admin/sms_template_info.dwt.php:14
+msgid "暂时未有短信模板可添加。"
+msgstr "暫時未有短信模板可添加。"
+
+#: content/apps/sms/templates/admin/sms_template_info.dwt.php:32
+msgid "短信事件："
+msgstr "短信事件："
+
+#: content/apps/sms/templates/admin/sms_template_info.dwt.php:35
+msgid "请选择"
+msgstr "請選擇"
+
+#: content/apps/sms/templates/admin/sms_template_info.dwt.php:50
+msgid "模板内容："
+msgstr "模板內容："
+
+#: content/apps/sms/templates/admin/sms_template_info.dwt.php:66
+msgid "短信模板ID："
+msgstr "短信模板ID："
+
+#: content/apps/sms/templates/admin/sms_template_info.dwt.php:76
+msgid "签名："
+msgstr "簽名："
+
+#: content/apps/sms/templates/admin/sms_template_info.dwt.php:92
+msgid "更新"
+msgstr "更新"
