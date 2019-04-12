@@ -1,0 +1,60 @@
+# Copyright (C) 2019 多客服转接
+# This file is distributed under the same license as the 多客服转接 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 多客服转接 1.21.0\n"
+"Report-Msgid-Bugs-To: https://www.ecjia.com/support/plugin/\n"
+"POT-Creation-Date: 2019-03-29 01:42:03+00:00\n"
+"PO-Revision-Date: 2019-03-29 11:33+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: config.php:67
+msgid "状态："
+msgstr "狀態："
+
+#: config.php:68
+msgid "关闭"
+msgstr "關閉"
+
+#: config.php:68
+msgid "开启"
+msgstr "開啟"
+
+#: config.php:69
+msgid "转到客服："
+msgstr "轉到客服："
+
+#: mp_kefu.class.php:122 mp_kefu.class.php:147
+msgid "欢迎进入客服系统"
+msgstr "歡迎進入客服系統"
+
+#: mp_kefu.php:95
+msgid "默认自动转接"
+msgstr "默認自動轉接"
+
+#. Plugin Name of the plugin/theme
+msgid "多客服转接"
+msgstr "多客服轉接"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.ecjia.com/plugins/ecjia.mp_kefu/"
+msgstr "http://www.ecjia.com/plugins/ecjia.mp_kefu/"
+
+#. Description of the plugin/theme
+msgid "使用插件可以玩转客服。"
+msgstr "使用插件可以玩轉客服。"
+
+#. Author of the plugin/theme
+msgid "ECJIA TEAM"
+msgstr "ECJIA TEAM"
+
+#. Author URI of the plugin/theme
+msgid "http://www.ecjia.com/"
+msgstr "http://www.ecjia.com/"

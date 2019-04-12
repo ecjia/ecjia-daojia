@@ -52,6 +52,7 @@ Author: ECJIA TEAM
 Version: 1.21.0
 Author URI: http://www.ecjia.com/
 Plugin App: platform
+Text Domain: mp_kefu
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 class plugin_mp_kefu {
@@ -72,6 +73,7 @@ class plugin_mp_kefu {
 }
 
 Ecjia_PluginManager::extend('mp_kefu', function() {
+    RC_Locale::loadPluginTextdomain('mp_kefu');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_kefu.class.php';
     return new mp_kefu();
 });
@@ -90,7 +92,7 @@ RC_Hook::add_filter('plugin_form_mp_kefu', function($data) {
             return [$item->kf_account => $item->kf_nick];
         })->collapse()->toArray();
 
-        $newdResult = ['0' => '默认自动转接'] + $newdResult;
+        $newdResult = ['0' => __('默认自动转接', 'mp_kefu')] + $newdResult;
         $data[1]['range'] = $newdResult;
     }
 

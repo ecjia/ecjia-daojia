@@ -75,18 +75,6 @@ class mp_kefu extends PlatformAbstract
     }
     
     /**
-     * 加载语言包
-     *
-     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
-     */
-    public function loadLanguage($key = null, $default = null)
-    {
-        $locale = RC_Config::get('system.locale');
-        
-        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
-    }
-    
-    /**
      * 获取iconUrl
      * {@inheritDoc}
      * @see \Ecjia\App\Platform\Plugin\PlatformAbstract::getPluginIconUrl()
@@ -131,7 +119,7 @@ class mp_kefu extends PlatformAbstract
 
 
         $articles = [
-            'Title'         => '欢迎进入客服系统',
+            'Title'         => __('欢迎进入客服系统', 'mp_kefu'),
             'Description'   => '',
             'Url'           => '',
             'PicUrl'      => RC_Plugin::plugin_dir_url(__FILE__) . '/images/wechat_banner_pic.png',
@@ -156,7 +144,7 @@ class mp_kefu extends PlatformAbstract
         $openid = $this->getMessage()->get('FromUserName');
 
         $articles = [
-            'Title'         => '欢迎进入客服系统',
+            'Title'         => __('欢迎进入客服系统', 'mp_kefu'),
             'Description'   => '',
             'Url'           => '',
             'PicUrl'      => RC_Plugin::plugin_dir_url(__FILE__) . '/images/wechat_banner_pic.png',
