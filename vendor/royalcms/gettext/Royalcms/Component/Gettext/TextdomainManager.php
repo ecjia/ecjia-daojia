@@ -138,7 +138,7 @@ class TextdomainManager
          * @param string $domain Text domain. Unique identifier for retrieving translated strings.
         */
         $mofile = RC_Hook::apply_filters('load_textdomain_mofile', $mofile, $domain);
-    
+
         if (! is_readable($mofile)) {
             return false;
         }
@@ -240,7 +240,7 @@ class TextdomainManager
         }
     
         // Otherwise, load from the languages directory
-        $mofile = SITE_LANG_PATH . "themes/{$domain}-{$locale}.mo";
+        $mofile = $this->royalcms->langPath() . "themes/{$domain}-{$locale}.mo";
         return $this->loadTextdomain($domain, $mofile);
     }
     
@@ -337,13 +337,13 @@ class TextdomainManager
          *            Text domain. Unique identifier for retrieving translated strings.
         */
         $locale = RC_Hook::apply_filters('plugin_locale', $locale, $domain);
-    
+
         if (false !== $plugin_rel_path) {
-            $path = SITE_PLUGIN_PATH . trim($plugin_rel_path, '/');
+            $path = $this->royalcms->pluginPath() . trim($plugin_rel_path, '/');
         } else {
-            $path = trim(SITE_PLUGIN_PATH, '/');
+            $path = rtrim($this->royalcms->pluginPath(), '/');
         }
-        
+
         // Load the textdomain according to the plugin first
         $mofile = "{$domain}/languages/{$locale}/{$domain}.mo";
         $loaded = $this->loadTextdomain($domain, $path . '/' . $mofile);
@@ -352,7 +352,7 @@ class TextdomainManager
         }
 
         // Otherwise, load from the languages directory
-        $mofile = SITE_LANG_PATH . '/plugins/' . $domain . '-' . $locale . '.mo';
+        $mofile = $this->royalcms->langPath() . '/plugins/' . $domain . '-' . $locale . '.mo';
         return $this->loadTextdomain($domain, $mofile);
     }
     
