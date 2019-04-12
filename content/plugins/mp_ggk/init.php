@@ -112,7 +112,7 @@ class mp_ggk_init extends PluginPageController implements PluginPageInterface
         //获取用户剩余抽奖次数
         $prize_num = $MarketActivity->getLotteryOverCount($openid);
         if ($prize_num == -1) {
-            $prize_num = '无限次';
+            $prize_num = __('无限次', 'mp_ggk');
         }
         ecjia_front::$controller->assign('prize_num', $prize_num);
 
@@ -123,6 +123,17 @@ class mp_ggk_init extends PluginPageController implements PluginPageInterface
         //当前活动的中奖记录
         $list = $MarketActivity->getActivityWinningLog()->toArray();
         ecjia_front::$controller->assign('list', $list);
+        
+        $js_lang_array = array(
+        		'congratulations'	=> __('恭喜中了', 'mp_ggk'),
+        		'get_award'			=> __('快去领奖吧', 'mp_ggk'),
+        		'ok'				=> __('确定', 'mp_ggk'),
+        		'tip'				=> __('提示', 'mp_ggk'),
+        		'go_to_award'		=> __('去领奖', 'mp_ggk'),
+        		'winning'			=> __('中奖啦', 'mp_ggk'),
+        		'recollect_later'	=> __('稍后再领', 'mp_ggk'),
+        );
+        ecjia_front::$controller->assign('js_lang', json_encode($js_lang_array));
 
         ecjia_front::$controller->display($this->getPluginFilePath('templates/ggk_index.dwt.php'));
     }

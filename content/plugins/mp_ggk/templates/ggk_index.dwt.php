@@ -25,26 +25,26 @@
         <div class="content">
             <div class="boxcontent boxwhite">
                 <div class="box">
-                    <div class="title-brown">奖项设置</div>
+                    <div class="title-brown">{t domain="mp_ggk"}奖项设置{/t}</div>
                     {if $prize}
                     <div class="Detail">
                         <!-- {foreach from=$prize item=val }-->
                             <p>
-                                {if $val.prize_level eq '0'} 特等奖： {elseif $val.prize_level eq '1'} 一等奖： {elseif $val.prize_level eq '2'} 二等奖： {elseif $val.prize_level
-                                eq '3'} 三等奖： {elseif $val.prize_level eq '4'} 四等奖： {elseif $val.prize_level eq '5'} 五等奖： {/if} {$val.prize_name}{if $val.prize_type eq 2}（{$val.prize_value}）{/if}（剩余奖品数量：{$val.prize_number}）
+                                {if $val.prize_level eq '0'} {t domain="mp_ggk"}特等奖：{/t} {elseif $val.prize_level eq '1'} {t domain="mp_ggk"}一等奖：{/t} {elseif $val.prize_level eq '2'} {t domain="mp_ggk"}二等奖：{/t} {elseif $val.prize_level
+                                eq '3'} {t domain="mp_ggk"}三等奖：{/t} {elseif $val.prize_level eq '4'} {t domain="mp_ggk"}四等奖：{/t} {elseif $val.prize_level eq '5'} {t domain="mp_ggk"}五等奖：{/t} {/if} {$val.prize_name}{if $val.prize_type eq 2}（{$val.prize_value}）{/if}{t domain="mp_ggk" 1={$val.prize_number}}（剩余奖品数量：%1）{/t}
                             </p>
 	                        <!-- {/foreach} -->
                     </div>
                     {else}
-                    <p class="Detail">暂无设置</p>
+                    <p class="Detail">{t domain="mp_ggk"}暂无设置{/t}</p>
                     {/if}
                 </div>
             </div>
             <div class="boxcontent boxwhite">
                 <div class="box">
-                    <div class="title-brown">活动说明</div>
+                    <div class="title-brown">{t domain="mp_ggk"}活动说明{/t}</div>
                     <div class="Detail">
-                        <p>剩余抽奖次数：
+                        <p>{t domain="mp_ggk"}剩余抽奖次数：{/t}
                             <span id="num"> {$prize_num} </span>
                         </p>
                         <p>{$description}</p>
@@ -53,16 +53,16 @@
             </div>
             <div class="boxcontent boxwhite">
                 <div class="box">
-                    <div class="title-brown">中奖记录</div>
+                    <div class="title-brown">{t domain="mp_ggk"}中奖记录{/t}</div>
                     <div class="Detail">
                         {if $list}
                         <div class="content">
                             <!-- {foreach from=$list item=val}-->
-                            <p> {$val.user_name} 获得奖品 ：{$val.prize_name} {if $val.prize_type eq 2}（{$val.prize_value}）{/if}</p>
+                            <p> {$val.user_name} {t domain="mp_ggk"}获得奖品 ：{/t}{$val.prize_name} {if $val.prize_type eq 2}（{$val.prize_value}）{/if}</p>
                             <!-- {/foreach} -->
                         </div>
                         {else}
-                        <p>暂无获奖记录</p>
+                        <p>{t domain="mp_ggk"}暂无获奖记录{/t}</p>
                         {/if}
                     </div>
                 </div>
@@ -82,6 +82,8 @@
     
     <script type="text/javascript">
         $(function () {
+        	var js_lang = {$js_lang};
+        	
             $.get('{$form_action}', {
                 	act: 'draw'
                 }, function (result) {
@@ -106,8 +108,8 @@
                                 act: 'do',
                             }, function (data) {
                                 if (data.state == 'success') {
-                                    var msg = "恭喜中了" + data.prize_name + "\r\n" +
-                                        "快去领奖吧";
+                                    var msg = js_lang.congratulations + data.prize_name + "\r\n" +
+                                        js_lang.get_award;
 									confirm(msg, function() {
 										location.href = data.link;
                                         return false;
@@ -128,17 +130,17 @@
             });
             function alert(text, callback) {
                 var app = new Framework7({
-                    modalButtonOk: "确定",
-                    modalTitle: '提示'
+                    modalButtonOk: js_lang.ok,
+                    modalTitle: js_lang.tip
                 });
                 app.alert(text, '', callback);
             }
 
             function confirm(text, callbackOk, callbackCancel) {
                 var app = new Framework7({
-                    modalButtonOk: "去领奖",
-                    modalTitle: '中奖啦',
-                    modalButtonCancel: '稍后再领'
+                    modalButtonOk: js_lang.go_to_award,
+                    modalTitle: js_lang.winning,
+                    modalButtonCancel: js_lang.recollect_later
                 });
                 app.confirm(text, '', callbackOk, callbackCancel);
             }

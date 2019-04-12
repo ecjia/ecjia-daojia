@@ -52,6 +52,7 @@ Author: ECJIA TEAM
 Version: 1.20.0
 Author URI: http://www.ecjia.com/
 Plugin App: platform
+Text Domain: mp_ggk
  */
 
 defined('IN_ECJIA') or exit('No permission resources.');
@@ -74,6 +75,7 @@ class plugin_mp_ggk {
 }
 
 Ecjia_PluginManager::extend('mp_ggk', function () {
+    RC_Locale::loadPluginTextdomain('mp_ggk');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'mp_ggk.class.php';
     return new mp_ggk();
 });

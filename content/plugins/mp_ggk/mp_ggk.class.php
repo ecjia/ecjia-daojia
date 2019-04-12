@@ -77,18 +77,6 @@ class mp_ggk extends PlatformAbstract
     }
     
     /**
-     * 加载语言包
-     *
-     * @see \Ecjia\System\Plugin\PluginInterface::loadLanguage()
-     */
-    public function loadLanguage($key = null, $default = null)
-    {
-        $locale = RC_Config::get('system.locale');
-        
-        return $this->loadPluginData(RC_Plugin::plugin_dir_path(__FILE__) . '/languages/'.$locale.'/plugin.lang.php', $key, $default);
-    }
-    
-    /**
      * 获取iconUrl
      * {@inheritDoc}
      * @see \Ecjia\App\Platform\Plugin\PlatformAbstract::getPluginIconUrl()
@@ -119,8 +107,8 @@ class mp_ggk extends PlatformAbstract
             $uuid   = $wechatUUID->getUUID();
 
             $articles = [
-                'Title'         => '刮刮乐',
-                'Description'   => '快来参与活动吧~~',
+                'Title'         => __('刮刮乐', 'mp_ggk'),
+                'Description'   => __('快来参与活动吧~~', 'mp_ggk'),
                 'Url'           => RC_Uri::url('platform/plugin/show', array('handle' => 'mp_ggk/init', 'openid' => $openid, 'uuid' => $uuid)),
                 'PicUrl'        => RC_Plugin::plugin_dir_url(__FILE__) . '/images/wechat_thumb_pic.jpg',
             ];
