@@ -35,9 +35,9 @@ class quickpay_cashier_quickpay_order_list_api extends Component_Event_Api {
 		
 		if (!empty($options['order_type'])) {
 			if ($options['order_type'] == 'user') {
-				$dbview->where((RC_DB::raw('qo.order_type')), 'quickpay');
+				$dbview->where((RC_DB::raw('qo.referer')), '!=', 'ecjia-cashdesk');
 			} elseif ($options['order_type'] == 'cashdesk') {
-				$dbview->where(RC_DB::raw('qo.order_type'), 'cashdesk-receipt');
+				$dbview->where(RC_DB::raw('qo.referer'), 'ecjia-cashdesk');
 			}
 		}
 		
@@ -49,11 +49,11 @@ class quickpay_cashier_quickpay_order_list_api extends Component_Event_Api {
 		
 		$dbview->where(RC_DB::raw('qo.order_status'), '<>', $deleted_status);
 		$dbview->where(RC_DB::raw('qo.order_status'), '<>', $canceled_status);
-		$dbview->where(RC_DB::raw('cr.action'), 'receipt');
+		$dbview->where(RC_DB::raw('cr.order_type'), 'quickpay')->where(RC_DB::raw('cr.action'), 'receipt');
 		
 		if (!empty($options['start_date']) && !empty($options['end_date'])) {
-			$dbview->where(RC_DB::raw('cr.create_at'), '>=', $options['start_date']);
-			$dbview->where(RC_DB::raw('cr.create_at'), '<=', $options['end_date']);
+			$dbview->where(RC_DB::raw('qo.add_time'), '>=', $options['start_date']);
+			$dbview->where(RC_DB::raw('qo.add_time'), '<=', $options['end_date']);
 		}
 		//收银台和pos机区分设备；店铺某个设备的订单
 		if (!empty($options['mobile_device_id'])) {
@@ -64,6 +64,7 @@ class quickpay_cashier_quickpay_order_list_api extends Component_Event_Api {
 			$dbview->where(RC_DB::raw('cr.device_type'), $options['device_type']);
 		}
 		$count = $dbview->count(RC_DB::raw('DISTINCT cr.order_id'));
+		
 		$page_row = new ecjia_page($count, $size, 6, '', $page);
 		
 		$list = $dbview->take($size)->skip($page_row->start_id - 1)->select(RC_DB::raw('qo.*, cr.action, cr.create_at, cr.mobile_device_id, cr.order_type'))->orderBy(RC_DB::raw('cr.create_at'), 'desc')->get();

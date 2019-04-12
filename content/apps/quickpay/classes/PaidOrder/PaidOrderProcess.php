@@ -93,6 +93,7 @@ class PaidOrderProcess implements PaidOrderProcessInterface
             $cashier_name = RC_DB::table('cashier_record as cr')
                 ->leftJoin('staff_user as su', RC_DB::raw('cr.staff_id'), '=', RC_DB::raw('su.user_id'))
                 ->where(RC_DB::raw('cr.order_id'), $order_info['order_id'])
+                ->where(RC_DB::raw('cr.order_type'), 'quickpay')
                 ->where('action', 'receipt')
                 ->pluck('name');
 

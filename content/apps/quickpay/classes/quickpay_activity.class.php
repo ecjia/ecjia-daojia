@@ -300,6 +300,8 @@ class quickpay_activity {
 		$quickpay_activity_list  = RC_Api::api('quickpay', 'quickpay_activity_list', $options);
 		$list = $quickpay_activity_list['list'];
 		
+		$user_id = $options['user_id'];
+		
 		if (!empty($list)) {
 			foreach ($list as $key => $val) {
 				$list[$key]['total_act_discount'] = self::get_quickpay_discount(array('activity_type' => $val['activity_type'],'goods_amount' => $options['goods_amount'], 'exclude_amount' => $options['exclude_amount'], 'activity_value' => $val['activity_value']));
@@ -335,12 +337,14 @@ class quickpay_activity {
 						//无限制红包；获取用户可用红包
 						// 取得用户可用红包
 						$real_amount = $options['goods_amount'] - $options['exclude_amount'];
-						$user_bonus = self::user_bonus($_SESSION['user_id'], $real_amount, $options['store_id']);
-						if (!empty($user_bonus)) {
-							foreach ($user_bonus AS $arr1 => $res1) {
-								$user_bonus[$arr1]['bonus_money_formated'] = price_format($res1['type_money'], false);
+						if (!empty($user_id)) {
+							$user_bonus = self::user_bonus($user_id, $real_amount, $options['store_id']);
+							if (!empty($user_bonus)) {
+								foreach ($user_bonus AS $arr1 => $res1) {
+									$user_bonus[$arr1]['bonus_money_formated'] = price_format($res1['type_money'], false);
+								}
+								$bonus_list = $user_bonus;
 							}
-							$bonus_list = $user_bonus;
 						}
 						$allow_use_bonus = 1;
 						// 能使用红包
@@ -374,6 +378,161 @@ class quickpay_activity {
 		$allow_use_quickpay = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'quickpay_enabled')->pluck('value');
 		return $allow_use_quickpay;
 	}
+	
+	/**
+	 * 活动有无优惠判断，给标识字段is_allow_use
+	 */
+	public static function mark_activitys($activitys = [])
+	{
+		if (!empty($activitys)) {
+			foreach ($activitys as $k1 => $v1) {
+				/*无优惠过滤*/
+				if ($v1['activity_type'] == 'normal') {
+					$activitys[$k1]['is_allow_use'] = 0;
+				}
+				if ($v1['total_act_discount'] == '0') {
+					$activitys[$k1]['is_allow_use'] = 0;
+				}
+					
+				/*自定义时间的活动，当前时间段不可用的过滤掉*/
+				if ($v1['limit_time_type'] == 'customize') {
+					/*每周限制时间*/
+					if (!empty($v1['limit_time_weekly'])){
+						$w = date('w');
+						$current_week = self::current_week($w);
+						$limit_time_weekly = Ecjia\App\Quickpay\Weekly::weeks($v1['limit_time_weekly']);
+						$weeks_str = self::get_weeks_str($limit_time_weekly);
+						if (!in_array($current_week, $limit_time_weekly)){
+							$activitys[$k1]['is_allow_use'] = 0;
+						}
+					}
+					/*每天限制时间段*/
+					if (!empty($v1['limit_time_daily'])) {
+						$limit_time_daily = unserialize($v1['limit_time_daily']);
+						foreach ($limit_time_daily as $val1) {
+							$arr[] = self::is_in_timelimit(array('start' => $val1['start'], 'end' => $val1['end']));
+						}
+						if (!in_array(0, $arr)) {
+							$activitys[$k1]['is_allow_use'] = 0;
+						}
+					}
+					/*活动限制日期*/
+					if (!empty($v1['limit_time_exclude'])) {
+						$limit_time_exclude = explode(',', $v1['limit_time_exclude']);
+						$current_date = RC_Time::local_date(ecjia::config('date_format'), RC_Time::gmtime());
+						$current_date = array($current_date);
+						if (in_array($current_date, $limit_time_exclude) || $current_date == $limit_time_exclude) {
+							$activitys[$k1]['is_allow_use'] = 0;
+						}
+					}
+				}
+					
+			}
+		}
+		
+		return $activitys;
+	}
+	
+	
+	/**
+	 * 获取一组活动中最优惠的活动id
+	 */
+	public static function get_favorable_activity_id($activitys)
+	{
+		$favorable_activity_id = 0;
+		if (!empty($activitys)) {
+			$final = array();
+			foreach ($activitys as $k2 => $v2) {
+				$final[$v2['id']] = array(
+						'id'	=> $v2['id'],
+						'final_discount' => $v2['total_act_discount'],
+				);
+			}
+				
+			$final_discounts = array();
+			foreach ($final as $kk => $vv) {
+				$final_discounts[$vv['id']] = $vv['final_discount'];
+			}
+				
+			if (!empty($final_discounts)) {
+				/*获取最优惠的活动id*/
+				if (count($final_discounts) > 1) {
+					$favorable_activity_id = array_keys($final_discounts, max($final_discounts));
+					$favorable_activity_id = $favorable_activity_id['0'];
+				} else {
+					foreach ($final_discounts as $a2 => $b2) {
+						$favorable_activity_id = $a2;
+					}
+				}
+			}
+		}
+		
+		return $favorable_activity_id;
+	}
+	
+	
+	/**
+	 * 标识活动是否是最优惠的
+	 */
+	public static function mark_is_favorable($activitys = [], $favorable_activity_id)
+	{
+		if (!empty($activitys) && !empty($favorable_activity_id)) {
+			foreach ($activitys as $k3 => $v3) {
+				if ($favorable_activity_id == $v3['id']) {
+					$activitys[$k3]['is_favorable'] = 1;
+					if ($v3['total_act_discount'] == '0') {
+						$activitys[$k3]['is_favorable'] = 0;
+					}
+				} else{
+					$activitys[$k3]['is_favorable'] = 0;
+				}
+			}
+		}
+		
+		return $activitys;
+	}
+	
+	/**
+	 * 判断自定义活动当前时间段是否可用
+	 */
+	public static function customize_activity_is_available($quickpay_activity_info)
+	{
+		/*每周限制时间*/
+		if (!empty($quickpay_activity_info['limit_time_weekly'])){
+			$w = date('w');
+			$current_week = quickpay_activity::current_week($w);
+			$limit_time_weekly = Ecjia\App\Quickpay\Weekly::weeks($quickpay_activity_info['limit_time_weekly']);
+			$weeks_str = self::get_weeks_str($limit_time_weekly);
+		
+			if (!in_array($current_week, $limit_time_weekly)){
+				return false;
+			}
+		}
+		
+		/*每天限制时间段*/
+		if (!empty($quickpay_activity_info['limit_time_daily'])) {
+			$limit_time_daily = unserialize($quickpay_activity_info['limit_time_daily']);
+			foreach ($limit_time_daily as $val) {
+				$arr[] = self::is_in_timelimit(array('start' => $val['start'], 'end' => $val['end']));
+			}
+			if (!in_array(0, $arr)) {
+				return false;
+			}
+		}
+		
+		/*活动限制日期*/
+		if (!empty($quickpay_activity_info['limit_time_exclude'])) {
+			$time = RC_Time::gmtime();
+			$limit_time_exclude = explode(',', $quickpay_activity_info['limit_time_exclude']);
+			$current_date = RC_Time::local_date('Y-m-d', $time);
+			if (in_array($current_date, $limit_time_exclude) || $current_date == $quickpay_activity_info['limit_time_exclude']) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 }	
 
 

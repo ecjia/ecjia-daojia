@@ -44,53 +44,51 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Quickpay\Maintains;
 
-/**
- * 买单订单详情
- * @author 
- */
-class quickpay_quickpay_order_info_api extends Component_Event_Api {
+use Ecjia\App\Maintain\AbstractCommand;
+use RC_DB;
+
+class UpdateQuickpayOrderType extends AbstractCommand
+{
+    
+    
+    /**
+     * 代号标识
+     * @var string
+     */
+    protected $code = 'update_quickpay_order_type';
+    
+    /**
+     * 图标
+     * @var string
+     */
+    protected $icon = '/statics/images/setting_shop.png';
 	
     /**
-     * @param  array $options	条件参数
-     * @return array
+     * 名称
+     * @var string
+     * 描述
+     * @var string
      */
-	public function call(&$options) {
-		if (!is_array($options)
-		|| (!isset($options['order_id']) && !isset($options['order_sn']))) {
-			return new ecjia_error('invalid_parameter', __('调取api文件，quickpay_order_info，参数错误', 'quickpay'));
-		}
-		
-		return $this->order_info($options);
-	}
-	
-	/**
-	 * 取得买单订单信息
-	 * @param   array $options	条件参数
-	 * @return  array   买单订单信息
-	 */
-	
-	private function order_info($options) {
-		$order_id = intval(array_get($options, 'order_id'));
-		$order_sn = trim(array_get($options, 'order_sn'));
-		$info = [];
-		$db = RC_DB::table('quickpay_orders');
-		if (!empty($options['store_id'])) {
-			$db->where('store_id', $options['store_id']);
-		}
-		if ($order_sn) {
-            $info = $db->where('order_sn', $order_sn)->first();
-        } else {
-            $info = $db->where('order_id', $order_id)->first();
-        }
+    public function __construct()
+    {
+    	$this->name = __('更新收银台收款订单的订单类型', 'quickpay');
+    	$this->description = __('更新收银台收款订单的订单类型cashdesk-receipt为quickpay', 'quickpay');
+    }
+
+    /**
+     * 一键更新收银台收款订单订单类型cashdesk-receipt为quickpay
+     *
+     * @return bool
+     */
+    public function run() {
         
-		if ($info) {
-			$info['formated_add_time']		= empty($info['add_time']) ? '' : RC_Time::local_date('Y-m-d H:i:s', $info['add_time']);
-		}
-		
-		return $info;
-	}
+        RC_DB::table('quickpay_orders')->where('order_type', 'cashdesk-receipt')->update([ 'order_type' => 'quickpay' ]);
+        
+        return true;
+    }
+    
 }
 
 // end

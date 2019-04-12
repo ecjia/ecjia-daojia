@@ -57,8 +57,14 @@ class quickpay_admin_hooks {
        return $menus;
    }
     
+   public static function add_maintain_command($factories)
+   {
+   	$factories['update_quickpay_order_type'] = 'Ecjia\App\Quickpay\Maintains\UpdateQuickpayOrderType';
+   	return $factories;
+   }
 }
 
-RC_Hook::add_action('append_admin_setting_group', array('quickpay_admin_hooks', 'append_admin_setting_group') );
+RC_Hook::add_action('append_admin_setting_group', array('quickpay_admin_hooks', 'append_admin_setting_group'));
+RC_Hook::add_action('ecjia_maintain_command_filter', array('quickpay_admin_hooks', 'add_maintain_command'));
 
 // end

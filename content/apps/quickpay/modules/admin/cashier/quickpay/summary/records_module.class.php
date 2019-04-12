@@ -87,7 +87,7 @@ class admin_cashier_quickpay_summary_records_module extends api_admin implements
 
         $dbview->where(RC_DB::raw('cr.store_id'), $_SESSION['store_id'])
         		->where(RC_DB::raw('cr.action'), 'receipt')
-        		->where(RC_DB::raw('qo.order_type'), 'cashdesk-receipt')
+        		->where(RC_DB::raw('qo.order_type'), 'quickpay')
         		->where(RC_DB::raw('qo.referer'), '=', 'ecjia-cashdesk')
 				->where(RC_DB::raw('qo.pay_status'), \Ecjia\App\Quickpay\Enums\QuickpayPayEnum::PAID);
 
@@ -100,12 +100,12 @@ class admin_cashier_quickpay_summary_records_module extends api_admin implements
         }
 
         if (!empty($start_date) && !empty($end_date)) {
-            $where['cr.create_at'] = array('egt' => $start_date, 'elt' => $end_date);
-            $dbview->where(RC_DB::raw('cr.create_at'), '>=', $start_date);
-            $dbview->where(RC_DB::raw('cr.create_at'), '<=', $end_date);
+            $dbview->where(RC_DB::raw('qo.add_time'), '>=', $start_date);
+            $dbview->where(RC_DB::raw('qo.add_time'), '<=', $end_date);
         }
 
         $record_count = $dbview->count(RC_DB::raw('DISTINCT qo.order_id'));
+       
         $page_row     = new ecjia_page($record_count, $size, 6, '', $page);
         $total_fee    = "(qo.goods_amount - qo.discount - qo.integral_money - qo.bonus) as total_fee";
         $field        = 'qo.order_id, qo.surplus, qo.goods_amount, qo.order_amount, qo.store_id, qo.integral, qo.integral_money, qo.bonus, qo.order_sn, qo.pay_name, ' . $total_fee . ', qo.discount, qo.add_time';
@@ -113,6 +113,7 @@ class admin_cashier_quickpay_summary_records_module extends api_admin implements
         $order_list = [];
         $data = $dbview->take($size)->skip($page_row->start_id - 1)->select(RC_DB::raw($field))->orderBy(RC_DB::raw('qo.add_time'), 'desc')->groupBy(RC_DB::raw('qo.order_id'))->get();
 
+        
         $data       = $this->formated_order_list($data);
         $order_list = $data;
 

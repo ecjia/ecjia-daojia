@@ -73,17 +73,11 @@ class quickpay_flow_done_module extends api_front implements api_interface {
     	$device = $this->device;
     	
     	$activity_id	= $this->requestData('activity_id', 0);
-    	$goods_amount 	= $this->requestData('goods_amount', '0.00');
-    	$is_exclude_amount  = $this->requestData('is_exclude_amount', 0);
-    	$exclude_amount = $this->requestData('exclude_amount', '0.00');
-    	$bonus_id		= $this->requestData('bonus_id', 0);
-    	$integral		= $this->requestData('integral', 0);
-    	//$pay_id			= $this->requestData('pay_id', 0);
-    	$store_id		= $this->requestData('store_id', 0);
-    	
-    	//if (empty($is_exclude_amount)) {
-    	//	$exclude_amount = '0.00';
-    	//}
+    	$goods_amount 	= $this->requestData('goods_amount', '0.00');   //消费金额
+    	$exclude_amount = $this->requestData('exclude_amount', '0.00'); //不可参与优惠的金额
+    	$bonus_id		= $this->requestData('bonus_id', 0);			//红包id
+    	$integral		= $this->requestData('integral', 0);			//积分数
+    	$store_id		= $this->requestData('store_id', 0);			//店铺id
     	
     	if ($goods_amount > 0 && $exclude_amount > 0) {
     		if ($exclude_amount > $goods_amount) {
@@ -167,53 +161,20 @@ class quickpay_flow_done_module extends api_front implements api_interface {
 			
 			/*自定义时间限制处理，当前时间不可用时，订单可正常提交,只是优惠金额是0；红包和积分也为0*/
 			if ($quickpay_activity_info['limit_time_type'] == 'customize') {
-				/*每周限制时间*/
-				if (!empty($quickpay_activity_info['limit_time_weekly'])){
-					$w = date('w');
-					$current_week = quickpay_activity::current_week($w);
-					$limit_time_weekly = Ecjia\App\Quickpay\Weekly::weeks($quickpay_activity_info['limit_time_weekly']);
-					$weeks_str = quickpay_activity::get_weeks_str($limit_time_weekly);
-						
-					if (!in_array($current_week, $limit_time_weekly)){
-						//return new ecjia_error('limit_time_weekly_error', '此活动只限'.$weeks_str.'可使用');
-						$discount = 0.00;
-						$order['integral_money'] = 0.00;
-						$order['bonus'] = 0.00;
-					}
+				if (!quickpay_activity::customize_activity_is_available($quickpay_activity_info)) {
+					$discount = 0.00;
+					$order['integral'] = 0;
+					$order['integral_money'] = 0.00;
+					$order['bonus_id'] = 0;
+					$order['bonus'] = 0.00;
 				}
-			
-				/*每天限制时间段*/
-				if (!empty($quickpay_activity_info['limit_time_daily'])) {
-					$limit_time_daily = unserialize($quickpay_activity_info['limit_time_daily']);
-					foreach ($limit_time_daily as $val) {
-						$arr[] = quickpay_activity::is_in_timelimit(array('start' => $val['start'], 'end' => $val['end']));
-					}
-					if (!in_array(0, $arr)) {
-						//return new ecjia_error('limit_time_daily_error', '此活动当前时间段不可用');
-						$discount = 0.00;
-						$order['integral_money'] = 0.00;
-						$order['bonus'] = 0.00;
-					}
-				}
-				/*活动限制日期*/
-				if (!empty($quickpay_activity_info['limit_time_exclude'])) {
-					$limit_time_exclude = explode(',', $quickpay_activity_info['limit_time_exclude']);
-					$current_date = RC_Time::local_date(ecjia::config('date_format'), time);
-					$current_date = array($current_date);
-					if (in_array($current_date, $limit_time_exclude) || $current_date == $limit_time_exclude) {
-						//return new ecjia_error('limit_time_daily_error', '此活动当前日期不可用！');
-						$discount = 0.00;
-						$order['integral_money'] = 0.00;
-						$order['bonus'] = 0.00;
-					}
-				}
-			
 			}
 		} else {
 			$order['activity_type'] = 'normal';
 			$order['activity_id'] = 0;
 			$order['bonus_id'] = 0;
 			$order['bonus'] = 0.00;
+			$order['integral'] = 0;
 			$order['integral_money'] = 0.00;
 			$discount = 0.00;
 		}
@@ -226,14 +187,6 @@ class quickpay_flow_done_module extends api_front implements api_interface {
 		/*订单编号*/
 		$order['order_sn'] = ecjia_order_quickpay_sn();
 		$order['order_type'] = 'quickpay';
-		
-		/*支付方式信息*/
-		//if ($pay_id > 0) {
-		//	$payment_method = RC_Loader::load_app_class('payment_method','payment');
-		//	$payment_info = $payment_method->payment_info_by_id($pay_id);
-		//	$order['pay_code'] = $payment_info['pay_code'];
-		//	$order['pay_name'] = $payment_info['pay_name'];
-		//}
 		
 		/*会员信息*/
 		$user_id = $_SESSION['user_id'];
@@ -272,7 +225,7 @@ class quickpay_flow_done_module extends api_front implements api_interface {
     		$params = array(
     				'user_id'		=> $order['user_id'],
     				'pay_points'	=> $order['integral'] * (- 1),
-    				'change_desc'	=> sprintf(RC_Lang::get('cart::shopping_flow.pay_order'), $order['order_sn']),
+    				'change_desc'	=> sprintf(__('支付订单 %s', 'quickpay'), $order['order_sn']),
     				'from_type'		=> 'order_use_integral',
     				'from_value'	=> $order['order_sn']
     		);
@@ -301,15 +254,6 @@ class quickpay_flow_done_module extends api_front implements api_interface {
     		RC_Mail::send_mail(ecjia::config('shop_name'), ecjia::config('service_email'), $tpl['template_subject'], $content, $tpl['is_html']);
     	}
     	
-    	/* 插入支付日志 */
-    	//$order['log_id'] = $payment_method->insert_pay_log($new_order_id, $order['order_amount'], PAY_ORDER);
-    	
-    	//$payment_info = $payment_method->payment_info_by_id($pay_id);
-    	//支付方式列表
-    	//$payment_list = RC_Api::api('payment', 'available_payments');
-    	//if (is_ecjia_error($payment_list)) {
-    	//	return $payment_list;
-    	//}
     	$store_name = RC_DB::table('store_franchisee')->where('store_id', $store_id)->pluck('merchants_name');
     	$shop_logo = RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'shop_logo')->pluck('value');
     	
@@ -320,50 +264,12 @@ class quickpay_flow_done_module extends api_front implements api_interface {
     			'store_name' => $store_name,
     			'store_logo' =>  !empty($shop_logo) ? RC_Upload::upload_url($shop_logo) : '',
     			'order_info' => array(
-    					//'pay_code'               => $payment_info['pay_code'],
     					'order_amount'           => $order['order_amount'],
     					'formatted_order_amount' => price_format($order['order_amount']),
     					'order_id'               => $order['order_id'],
     					'order_sn'               => $order['order_sn']
     			)
     	);
-    	
-    	$message = sprintf(__('下单成功，订单号：%s', 'quickpay'), $order['order_sn']);
-    	RC_DB::table('order_status_log')->insert(array(
-    	'order_status'	=> __('订单提交成功', 'quickpay'),
-    	'order_id'		=> $order['order_id'],
-    	'message'		=> $message,
-    	'add_time'		=> RC_Time::gmtime(),
-    	));
-    	
-    	if (!$payment_info['is_cod'] && $order['order_amount'] > 0) {
-    		RC_DB::table('order_status_log')->insert(array(
-    		'order_status'	=> __('待付款', 'quickpay'),
-    		'order_id'		=> $order['order_id'],
-    		'message'		=> __('请尽快支付该订单，超时将会自动取消订单', 'quickpay'),
-    		'add_time'		=> RC_Time::gmtime(),
-    		));
-    	}
-    	
-    	if (!empty($staff_user)) {
-    		//新的推送消息方法
-    		$options = array(
-    		'user_id'   => $staff_user['user_id'],
-    		'user_type' => 'merchant',
-    		'event'     => 'order_placed',
-	    	'value' 	=> array(
-					    		'order_sn'     => $order['order_sn'],
-					    		'consignee'    => $order['user_name'],
-					    		'telephone'    => $order['user_mobile'],
-					    		'order_amount' => $order['order_amount'],
-					    		'service_phone'=> ecjia::config('service_phone'),
-	    					),
-	    	'field' 	=> array(
-				    			'open_type' => 'admin_message',
-				    		),
-    		);
-    		RC_Api::api('push', 'push_event_send', $options);
-    	}
     	
     	return $order_info;
     }

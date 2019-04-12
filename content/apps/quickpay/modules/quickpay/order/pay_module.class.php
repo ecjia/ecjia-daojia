@@ -103,13 +103,13 @@ class quickpay_order_pay_module extends api_front implements api_interface {
 		RC_DB::table('quickpay_orders')->where('order_id', $order_id)->update(array('pay_code' => $pay_code, 'pay_name' => $payment_info['pay_name']));
 		
 		/* 插入支付流水记录*/
-		RC_Api::api('payment', 'save_payment_record', [
-    		'order_sn' 		 => $order['order_sn'],
-    		'total_fee'      => $order['order_amount'],
-    		'pay_code'       => $handler->getCode(),
-    		'pay_name'		 => $handler->getName(),
-    		'trade_type'	 => \Ecjia\App\Payment\Enums\PayEnum::PAY_QUICKYPAY,
-		]);
+// 		RC_Api::api('payment', 'save_payment_record', [
+//     		'order_sn' 		 => $order['order_sn'],
+//     		'total_fee'      => $order['order_amount'],
+//     		'pay_code'       => $handler->getCode(),
+//     		'pay_name'		 => $handler->getName(),
+//     		'trade_type'	 => \Ecjia\App\Payment\Enums\PayEnum::PAY_QUICKYPAY,
+// 		]);
 
 		$handler->set_orderinfo($order);
 		$handler->set_mobile($is_mobile);

@@ -44,53 +44,25 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
 
-/**
- * 买单订单详情
- * @author 
- */
-class quickpay_quickpay_order_info_api extends Component_Event_Api {
-	
-    /**
-     * @param  array $options	条件参数
-     * @return array
-     */
-	public function call(&$options) {
-		if (!is_array($options)
-		|| (!isset($options['order_id']) && !isset($options['order_sn']))) {
-			return new ecjia_error('invalid_parameter', __('调取api文件，quickpay_order_info，参数错误', 'quickpay'));
-		}
-		
-		return $this->order_info($options);
-	}
-	
-	/**
-	 * 取得买单订单信息
-	 * @param   array $options	条件参数
-	 * @return  array   买单订单信息
-	 */
-	
-	private function order_info($options) {
-		$order_id = intval(array_get($options, 'order_id'));
-		$order_sn = trim(array_get($options, 'order_sn'));
-		$info = [];
-		$db = RC_DB::table('quickpay_orders');
-		if (!empty($options['store_id'])) {
-			$db->where('store_id', $options['store_id']);
-		}
-		if ($order_sn) {
-            $info = $db->where('order_sn', $order_sn)->first();
-        } else {
-            $info = $db->where('order_id', $order_id)->first();
-        }
-        
-		if ($info) {
-			$info['formated_add_time']		= empty($info['add_time']) ? '' : RC_Time::local_date('Y-m-d H:i:s', $info['add_time']);
-		}
-		
-		return $info;
-	}
-}
 
-// end
+//订单状态，支付状态，核销状态
+return array(
+	/* 订单状态 */
+	'os' => array(
+		0 	=> '未确认',
+		1 	=> '已确认',
+		9   => '已取消',
+		99  => '已删除'
+	),	
+	'ps' => array(
+		0 	=> '未付款',
+		1 	=> '已付款',
+	),
+	'vs' => array(
+		0 	=> '未核销',
+		1 	=> '已核销',
+	
+	),
+);
+
