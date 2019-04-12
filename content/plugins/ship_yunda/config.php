@@ -53,17 +53,98 @@ return array(
     'print_support' => true,
 	'print_model'	=> 2,			/* 模式编辑器 */
 	'print_bg'		=> 'images/dly_yunda.jpg',			/* 打印单背景 */
-	'config_lable'	=> 
-    't_shop_province,shop_province,116,30,296.55,117.2,b_shop_province||,||t_customer_province,customer_province,114,32,649.95,114.3,b_customer_province||,||t_shop_address,shop_address,260,57,151.75,152.05,b_shop_address||,||t_shop_name,shop_name,259,28,152.65,212.4,b_shop_name||,||t_shop_tel,shop_tel,131,37,138.65,246.5,b_shop_tel||,||t_customer_post,customer_post,104,39,659.2,242.2,b_customer_post||,||t_customer_tel,customer_tel,158,22,461.9,241.9,b_customer_tel||,||t_customer_mobel,customer_mobel,159,21,463.25,265.4,b_customer_mobel||,||t_customer_name,customer_name,109,32,498.9,115.8,b_customer_name||,||t_customer_address,customer_address,264,58,499.6,150.1,b_customer_address||,||t_months,months,35,23,135.85,392.8,b_months||,||t_day,day,24,23,180.1,392.8,b_day||,||',
-    
-	'forms' => array(
-			array('name' => 'fee_compute_mode', 'type' => 'radiobox', 'value' => 'by_weight'), /* 费用计算方式  */
-			array('name' => 'item_fee',      'value' => 15),    /* 单件商品配送的价格 */
-			array('name' => 'base_fee',      'value' => 10),    /* 1000克以内的价格 */
-			array('name' => 'step_fee',      'value' => 5),    /* 续重每1000克增加的价格 */
-			array('name' => 'free_money', 'type' => 'text', 'value' => 0), /* 免费额度  */
-			array('name' => 'pay_fee', 'type' => 'text', 'value' => 0), /* 货到付款支付费用  */
+		
+	/**
+	 * 打印快递单标签位置信息
+	 * 使用 ||,|| 合并连接
+	 */
+	'config_lable'  => array(
+		't_shop_province,shop_province,77,36,201,141,b_shop_province',
+		't_customer_province,customer_province,79,39,559,140,b_customer_province',
+		't_shop_address,shop_address,224,56,201,183,b_shop_address',
+		't_shop_name,shop_name,282,21,143,116,b_shop_name',
+		't_shop_tel,shop_tel,118,32,152,244,b_shop_tel',
+		't_customer_post,customer_post,109,21,712,250,b_customer_post',
+		't_customer_tel,customer_tel,127,25,693,92,b_customer_tel',
+		't_customer_mobel,customer_mobel,129,25,693,116,b_customer_mobel',
+		't_customer_name,customer_name,156,22,498,249,b_customer_name',
+		't_customer_address,customer_address,264,58,558,181,b_customer_address',
+		't_months,months,35,26,122,403,b_months',
+		't_day,day,28,26,160,403,b_day',
+		't_shop_city,shop_city,74,35,280,141,b_shop_city',
+		't_shop_district,shop_district,71,35,356,142,b_shop_district',
+		't_shop_street,shop_street,118,55,82,183,b_shop_street',
+		't_shop_country,shop_country,77,36,121,140,b_shop_country',
+		't_year,year,41,27,77,403,b_year',
+		't_customer_street,customer_street,110,58,448,181,b_customer_street',
+		't_customer_country,customer_country,78,38,481,141,b_customer_country',
+		't_customer_city,customer_city,80,39,639,141,b_customer_city',
+		't_customer_district,customer_district,100,39,720,142,b_customer_district',
+		''
 	),
+		
+	'forms' => array(
+		array('name' => 'fee_compute_mode', 'type' => 'radiobox', 'value' => 'by_weight'), /* 费用计算方式  */
+		array('name' => 'item_fee',      'value' => 15),    /* 单件商品配送的价格 */
+		array('name' => 'base_fee',      'value' => 10),    /* 1000克以内的价格 */
+		array('name' => 'step_fee',      'value' => 5),    /* 续重每1000克增加的价格 */
+		array('name' => 'free_money', 'type' => 'text', 'value' => 0), /* 免费额度  */
+		array('name' => 'pay_fee', 'type' => 'text', 'value' => 0), /* 货到付款支付费用  */
+	),
+
+    'dynamic_option' => array(
+        'item_fee' 		            => __('单件商品费用：', 'ship_yunda'),
+        'base_fee' 		            => __('首重费用：', 'ship_yunda'),
+        'step_fee' 		            => __('续重每1000克或其零数的费用：', 'ship_yunda'),
+        'pay_fee'                   => __('货到付款支付费用：', 'ship_yunda'),
+        'free_money'                => __('免费额度：', 'ship_yunda'),
+        'fee_compute_mode'          => __('费用计算方式：', 'ship_yunda'),
+        'fee_compute_mode_range'    => array(
+            'by_weight' => __('按重量', 'ship_yunda'),
+            'by_number' => __('按件数', 'ship_yunda')
+        ),
+    ),
+
+    'print_option' => array(
+        /* 快递单部分 */
+        'lable_select_notice' => __('--选择插入标签--', 'ship_yunda'),
+
+        'lable_box' => array(
+        	'shop_name'             => __('网店-名称', 'ship_yunda'),
+        	'shop_tel'              => __('网店-联系电话', 'ship_yunda'),
+            'shop_country'          => __('网店-国家', 'ship_yunda'),
+            'shop_province'         => __('网店-省份', 'ship_yunda'),
+            'shop_city'             => __('网店-城市', 'ship_yunda'),
+            'shop_district'         => __('网店-区/县', 'ship_yunda'),
+        	'shop_street'         	=> __('网店-街道', 'ship_yunda'),
+            'shop_address'          => __('网店-地址', 'ship_yunda'),
+        		
+        	'customer_name'         => __('收件人-姓名', 'ship_yunda'),
+        	'customer_tel'          => __('收件人-电话', 'ship_yunda'),
+        	'customer_mobel'        => __('收件人-手机', 'ship_yunda'),
+        	'customer_post'         => __('收件人-邮编', 'ship_yunda'),
+            'customer_country'      => __('收件人-国家', 'ship_yunda'),
+            'customer_province'     => __('收件人-省份', 'ship_yunda'),
+            'customer_city'         => __('收件人-城市', 'ship_yunda'),
+            'customer_district'     => __('收件人-区/县', 'ship_yunda'),
+        	'customer_street'     	=> __('收件人-街道', 'ship_yunda'),
+            'customer_address'      => __('收件人-详细地址', 'ship_yunda'),
+           
+            'year'                  => __('年-当日日期', 'ship_yunda'),
+            'months'                => __('月-当日日期', 'ship_yunda'),
+            'day'                   => __('日-当日日期', 'ship_yunda'),
+        		
+            'order_no'              => __('订单号-订单', 'ship_yunda'),
+            'order_postscript'      => __('备注-订单', 'ship_yunda'),
+            'order_best_time'       => __('送货时间-订单', 'ship_yunda'),
+        		
+            'pigeon'                => __('√-对号', 'ship_yunda'),
+            //'custom_content' => '自定义内容',
+        ),
+
+        //模板文件
+        'shipping_print' 		=> __DIR__ . '/templates/shipping_print.lbi.php',
+    ),
 );
 
 // end
