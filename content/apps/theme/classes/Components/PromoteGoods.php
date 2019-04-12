@@ -119,6 +119,8 @@ HTML;
         $location 	= $request->input('location', array());
         $city_id	= $request->input('city_id', 0);
         $city_id	= empty($city_id) ? 0 : $city_id;
+        $start_date = $request->input('start_date', '');
+        $end_date 	= $request->input('end_date', '');
 
         if (is_array($location) && isset($location['latitude']) && isset($location['longitude'])) {
         	$request                     = array('location' => $location);
@@ -127,47 +129,83 @@ HTML;
         	$store_id_group   			 = \RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
         
         	if (empty($store_id_group)) {
-        		$store_id_group = array(0);
+        		$store_id_group = [];
         	}
+        } else {
+        	return [];
         }
         
         $promote_goods_data = array();
-        $order_sort         = array('g.sort_order' => 'ASC', 'goods_id' => 'DESC');
-        $filter = array(
-        		'intro'	  => 'promotion',
-        		'sort'	  => $order_sort,
-        		'page'	  => 1,
-        		'size'	  => 6,
-        		'store_id' => $store_id_group,
-        );
-        
-        $result = \RC_Api::api('goods', 'goods_list', $filter);
-        
-        $promote_goods_data = [];
-        if ( !empty($result['list']) ) {
-        	foreach ( $result['list'] as $key => $val ) {
-        		$promote_goods_data[] = array(
-        				'id'		                => intval($val['goods_id']),
-        				'goods_id'	                => intval($val['goods_id']),           //多商铺中不用，后期删除
-        				'name'		                => $val['goods_name'],
-        				'market_price'	            => $val['market_price'],
-        				'shop_price'	            => $val['shop_price'],
-        				'promote_price'	            => $val['promote_price'],
-        				'manage_mode'               => $val['manage_mode'],
-        				'unformatted_promote_price' => $val['unformatted_promote_price'],
-        				'promote_start_date'        => $val['promote_start_date'],
-        				'promote_end_date'          => $val['promote_end_date'],
-        				'img'                       => array(
-        						'small' => $val['goods_thumb'],
-        						'thumb' => $val['goods_img'],
-        						'url'	=> $val['original_img'],
-        				),
-        				'store_id'					=> $val['store_id'],
-        				'store_name'				=> $val['store_name'],
-        				'store_logo'				=> $val['store_logo']
-        		);
-        	}
+        //用户端商品展示基础条件
+        $filters = [
+	        'store_unclosed' 		=> 0,    //店铺未关闭的
+	        'is_delete'		 		=> 0,	 //未删除的
+	        'is_on_sale'	 		=> 1,    //已上架的
+	        'is_alone_sale'	 		=> 1,	 //单独销售的
+	        'review_status'  		=> 2,    //审核通过的
+	        'no_need_cashier_goods'	=> true, //不需要收银台商品
+        ];
+        //是否展示货品
+        if (\ecjia::config('show_product') == 1) {
+        	$filters['product'] = true;
         }
+        //定位附近店铺id
+        if (!empty($store_id_group)) {
+        	$filters['store_id'] = $store_id_group;
+        }
+        //促销商品
+    	if (array_key_exists('product', $filters)) { //列表显示货品，促销条件调整（货品促销条件和商品商品促销条件）
+			$filters['goods_and_product_promotion'] = true;
+		} else {
+			$filters['goods_promotion'] = true;
+		}
+        //排序
+        $order_sort         = array('sort_order' => 'ASC', 'goods_id' => 'DESC');
+        $filters['sort_by'] = $order_sort;
+        //分页信息
+        $filters['size'] = 6;
+        $filters['page'] = 1;
+        
+        $collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsApiCollection($filters))->getData();
+        $promote_goods_data = $collection['goods_list'];
+        
+        //1.30以前逻辑
+//         $order_sort         = array('g.sort_order' => 'ASC', 'goods_id' => 'DESC');
+//         $filter = array(
+//         		'intro'	  => 'promotion',
+//         		'sort'	  => $order_sort,
+//         		'page'	  => 1,
+//         		'size'	  => 6,
+//         		'store_id' => $store_id_group,
+//         );
+        
+//         $result = \RC_Api::api('goods', 'goods_list', $filter);
+        
+//         $promote_goods_data = [];
+//         if ( !empty($result['list']) ) {
+//         	foreach ( $result['list'] as $key => $val ) {
+//         		$promote_goods_data[] = array(
+//         				'id'		                => intval($val['goods_id']),
+//         				'goods_id'	                => intval($val['goods_id']),           //多商铺中不用，后期删除
+//         				'name'		                => $val['goods_name'],
+//         				'market_price'	            => $val['market_price'],
+//         				'shop_price'	            => $val['shop_price'],
+//         				'promote_price'	            => $val['promote_price'],
+//         				'manage_mode'               => $val['manage_mode'],
+//         				'unformatted_promote_price' => $val['unformatted_promote_price'],
+//         				'promote_start_date'        => $val['promote_start_date'],
+//         				'promote_end_date'          => $val['promote_end_date'],
+//         				'img'                       => array(
+//         						'small' => $val['goods_thumb'],
+//         						'thumb' => $val['goods_img'],
+//         						'url'	=> $val['original_img'],
+//         				),
+//         				'store_id'					=> $val['store_id'],
+//         				'store_name'				=> $val['store_name'],
+//         				'store_logo'				=> $val['store_logo']
+//         		);
+//         	}
+//         }
 
         return $promote_goods_data;
     }

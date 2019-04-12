@@ -126,43 +126,75 @@ HTML;
         	$geohash_code                = $geohash->encode($location['latitude'] , $location['longitude']);
         	$store_id_group   			 = \RC_Api::api('store', 'neighbors_store_id', array('geohash' => $geohash_code, 'city_id' => $city_id));
         	if (empty($store_id_group)) {
-        		$store_id_group = array(0);
+        		$store_id_group = [];
         	}
+        } else {
+        	return [];
         }
         
         $best_goods_data = array();
         
-        $order_sort = array('g.sort_order' => 'ASC', 'goods_id' => 'DESC');
-        $filter     = array(
-        		'intro'	=> 'best',
-        		'sort'	=> $order_sort,
-        		'page'	=> 1,
-        		'size'	=> 6,
-        		'store_id' => $store_id_group,
-        );
-        
-        $result = \RC_Api::api('goods', 'goods_list', $filter);
-        if ( !empty($result['list']) ) {
-        	foreach ( $result['list'] as $key => $val ) {
-        		$best_goods_data[] = array(
-        				'id'            => intval($val['goods_id']),
-        				'goods_id'      => intval($val['goods_id']),           //多商铺中不用，后期删除
-        				'name'          => $val['goods_name'],
-        				'manage_mode'   => $val['manage_mode'],
-        				'market_price'	=> $val['market_price'],
-        				'shop_price'	=> $val['shop_price'],
-        				'promote_price'	=> $val['promote_price'],
-        				'img'           => array(
-        						'small' => $val['goods_thumb'],
-        						'thumb' => $val['goods_img'],
-        						'url'	=> $val['original_img'],
-        				),
-        				'store_id'		=> $val['store_id'],
-        				'store_name'	=> $val['store_name'],
-        				'store_logo'	=> $val['store_logo']
-        		);
-        	}
+        //用户端商品展示基础条件
+        $filters = [
+	        'store_unclosed' 		=> 0,    //店铺未关闭的
+	        'is_delete'		 		=> 0,	 //未删除的
+	        'is_on_sale'	 		=> 1,    //已上架的
+	        'is_alone_sale'	 		=> 1,	 //单独销售的
+	        'review_status'  		=> 2,    //审核通过的
+	        'no_need_cashier_goods'	=> true, //不需要收银台商品
+        ];
+        //是否展示货品
+        if (\ecjia::config('show_product') == 1) {
+        	$filters['product'] = true;
         }
+        //定位附近店铺id
+        if (!empty($store_id_group)) {
+        	$filters['store_id'] = $store_id_group;
+        }
+        //平台推荐商品
+        $filters['is_best'] = 1;
+        //排序
+        $order_sort         = array('sort_order' => 'ASC', 'goods_id' => 'DESC');
+        $filters['sort_by'] = $order_sort;
+        //分页信息
+        $filters['size'] = 6;
+        $filters['page'] = 1;
+        
+        $collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsApiCollection($filters))->getData();
+        $best_goods_data = $collection['goods_list'];
+        
+        //1.30以前逻辑
+//         $order_sort = array('g.sort_order' => 'ASC', 'goods_id' => 'DESC');
+//         $filter     = array(
+//         		'intro'	=> 'best',
+//         		'sort'	=> $order_sort,
+//         		'page'	=> 1,
+//         		'size'	=> 6,
+//         		'store_id' => $store_id_group,
+//         );
+        
+//         $result = \RC_Api::api('goods', 'goods_list', $filter);
+//         if ( !empty($result['list']) ) {
+//         	foreach ( $result['list'] as $key => $val ) {
+//         		$best_goods_data[] = array(
+//         				'id'            => intval($val['goods_id']),
+//         				'goods_id'      => intval($val['goods_id']),           //多商铺中不用，后期删除
+//         				'name'          => $val['goods_name'],
+//         				'manage_mode'   => $val['manage_mode'],
+//         				'market_price'	=> $val['market_price'],
+//         				'shop_price'	=> $val['shop_price'],
+//         				'promote_price'	=> $val['promote_price'],
+//         				'img'           => array(
+//         						'small' => $val['goods_thumb'],
+//         						'thumb' => $val['goods_img'],
+//         						'url'	=> $val['original_img'],
+//         				),
+//         				'store_id'		=> $val['store_id'],
+//         				'store_name'	=> $val['store_name'],
+//         				'store_logo'	=> $val['store_logo']
+//         		);
+//         	}
+//         }
         
         return $best_goods_data;
     }
