@@ -5,6 +5,7 @@
     app.shipTemplate = {
         /*** 切换编辑模式*/
         template_radio_click: function(type) {
+        	var upgrade_url = $('input[name="upgrade_url"]').val();
             //获取表单对象
             switch (type) {
                 case '1':
@@ -15,6 +16,7 @@
                     document.getElementById('visual').style.display = 'none';
                     document.getElementById("model_1").setAttribute("class","btn btn-gebo");
                     document.getElementById("model_2").setAttribute("class","btn");
+                    $('.alert').html('当前属于代码模式，保存设置即可<a href="'+ upgrade_url +'" target="_blank">点击预览</a>快递单模板。');
                     break;
                 case '2':
                     //所见即所得模式
@@ -24,6 +26,7 @@
                     document.getElementById('visual').style.display = 'block';
                     document.getElementById("model_2").setAttribute("class","btn btn-gebo");
                     document.getElementById("model_1").setAttribute("class","btn");
+                    $('.alert').html('当前属于所见即所得模式，保存设置即可<a href="'+ upgrade_url +'" target="_blank">点击预览</a>快递单模板。');
                     break;
             }
             return true;
@@ -43,11 +46,9 @@
                 dataType: "json",
                 success: function(data) {
                     if (data.state == "success") {
-                        if (data.refresh_url != undefined) {
-                            var url = data.refresh_url;
-                            ecjia.pjax(url, function() {
-                                ecjia.admin.showmessage(data);
-                            });
+                        if (data.url) {
+                            ecjia.admin.showmessage(data);
+                            location.href = data.url;
                         } else {
                             ecjia.admin.showmessage(data);
                         }

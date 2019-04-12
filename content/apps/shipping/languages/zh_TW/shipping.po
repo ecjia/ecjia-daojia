@@ -4,13 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ecjia App shipping 1.27.4\n"
 "Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
-"POT-Creation-Date: 2019-03-29 01:41:54+00:00\n"
+"POT-Creation-Date: 2019-04-04 10:04+0800\n"
+"PO-Revision-Date: 2019-04-09 10:13+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: admin.php:90 admin.php:199 admin_plugin.php:91 admin_plugin.php:103
 #: admin_plugin.php:114 admin_plugin.php:166
@@ -19,260 +22,268 @@ msgstr ""
 #: apis/shipping_tool_menu_api.class.php:59
 #: classes/hooks/admin_shipping.class.php:56 configs/package.php:55
 msgid "配送方式"
-msgstr ""
+msgstr "配送方式"
 
 #: admin.php:107
 msgid "错误：文件类型不正确。请上传%s类型的文件！"
-msgstr ""
+msgstr "錯誤：文件類型不正確。請上傳%s類型的文件！"
 
 #: admin.php:120
 msgid "上传打印单图片成功"
-msgstr ""
+msgstr "上傳打印單圖片成功"
 
 #: admin.php:122
 msgid "上传打印单图片操作失败"
-msgstr ""
+msgstr "上傳打印單圖片操作失敗"
 
 #: admin.php:126
 msgid "您还没有选择打印单图片。请使用“选择图片”按钮进行选择！"
-msgstr ""
+msgstr "您還沒有選擇打印單圖片。請使用“選擇圖片”按鈕進行選擇！"
 
 #: admin.php:146
 msgid "要删除的图片是默认图片，恢复模板可再次使用"
-msgstr ""
+msgstr "要刪除的圖片是默認圖片，恢復模板可再次使用"
 
 #: admin.php:151
 msgid "打印单图片删除成功"
-msgstr ""
+msgstr "打印單圖片刪除成功"
 
 #: admin.php:154
 msgid "暂无打印单图片可删除"
-msgstr ""
+msgstr "暫無打印單圖片可刪除"
 
 #: admin.php:170 admin_plugin.php:106
 msgid "概述"
-msgstr ""
+msgstr "概述"
 
 #: admin.php:171
 msgid ""
 "欢迎访问ECJia智能后台快递单模板编辑页面，可以在此编辑相应的快递单模板信息。"
 msgstr ""
+"歡迎訪問ECJia智能後台快遞單模板編輯頁面，可以在此編輯相應的快遞單模板信息。"
 
 #: admin.php:175 admin_plugin.php:111
 msgid "更多信息："
-msgstr ""
+msgstr "更多信息："
 
 #: admin.php:176
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:配送方式\" target="
 "\"_blank\">关于快递单模板编辑帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:配送方式\" target="
+"\"_blank\">關於快遞單模板編輯幫助文檔</a>"
 
 #: admin.php:182
 msgid "代码模式"
-msgstr ""
+msgstr "代碼模式"
 
 #: admin.php:184
 msgid "所见即所得模式"
-msgstr ""
+msgstr "所見即所得模式"
 
 #: admin.php:188
 msgid ""
-"当前属于%s，保存设置即可<a href=\"%s\" target=\"_blank\">点击预览</a>快递单模"
-"板。"
+"当前属于%s，保存设置即可<a href=\"%s\" target=\"_blank\">点击预览</a>快递单"
+"模板。"
 msgstr ""
+"當前屬於%s，保存設置即可<a href=\"%s\" target=\"_blank\">點擊預覽</a>快遞單"
+"模板。"
 
 #: admin.php:196 admin.php:198
 msgid "快递单模板编辑"
-msgstr ""
+msgstr "快遞單模板編輯"
 
 #: admin.php:243
 msgid "您的配送方式尚未安装，暂不能编辑模板"
-msgstr ""
+msgstr "您的配送方式尚未安裝，暫不能編輯模板"
 
 #: admin.php:275
 msgid "快递单模板编辑成功"
-msgstr ""
+msgstr "快遞單模板編輯成功"
 
 #: admin.php:305
 msgid "恢复默认设置成功"
-msgstr ""
+msgstr "恢復默認設置成功"
 
 #: admin.php:307
 msgid "恢复默认设置失败"
-msgstr ""
+msgstr "恢復默認設置失敗"
 
 #: admin_config.php:82 admin_config.php:84
 #: classes/hooks/admin_shipping.class.php:57
 msgid "物流跟踪设置"
-msgstr ""
+msgstr "物流跟踪設置"
 
 #: admin_config.php:108 apis/shipping_admin_purview_api.class.php:69
 msgid "物流跟踪配置"
-msgstr ""
+msgstr "物流跟踪配置"
 
 #: admin_config.php:109
 msgid "操作成功"
-msgstr ""
+msgstr "操作成功"
 
 #: admin_express_order.php:74 admin_express_order.php:85
 #: admin_express_order.php:86 admin_express_order.php:173
 #: apis/shipping_admin_purview_api.class.php:68
 #: apis/shipping_tool_menu_api.class.php:60 mh_shipping.php:758
 msgid "配送列表"
-msgstr ""
+msgstr "配送列表"
 
 #: admin_express_order.php:100 admin_express_order.php:172 mh_shipping.php:681
 #: mh_shipping.php:757
 msgid "配送详情"
-msgstr ""
+msgstr "配送詳情"
 
 #: admin_express_order.php:115 admin_express_order.php:209 mh_shipping.php:637
 #: mh_shipping.php:697
 msgid "派单"
-msgstr ""
+msgstr "派單"
 
 #: admin_express_order.php:117 admin_express_order.php:211 mh_shipping.php:639
 #: mh_shipping.php:699
 msgid "抢单"
-msgstr ""
+msgstr "搶單"
 
 #: admin_express_order.php:119 admin_express_order.php:213 mh_shipping.php:641
 #: mh_shipping.php:701
 msgid "待派单"
-msgstr ""
+msgstr "待派單"
 
 #: admin_express_order.php:124 admin_express_order.php:217 mh_shipping.php:646
 #: mh_shipping.php:706
 msgid "未分派运单"
-msgstr ""
+msgstr "未分派運單"
 
 #: admin_express_order.php:127 admin_express_order.php:220 mh_shipping.php:649
 #: mh_shipping.php:709
 msgid "已接派单待取货"
-msgstr ""
+msgstr "已接派單待取貨"
 
 #: admin_express_order.php:130 admin_express_order.php:223 mh_shipping.php:652
 #: mh_shipping.php:712
 msgid "已取货派送中"
-msgstr ""
+msgstr "已取貨派送中"
 
 #: admin_express_order.php:133 admin_express_order.php:226 mh_shipping.php:655
 #: mh_shipping.php:715
 msgid "退货中"
-msgstr ""
+msgstr "退貨中"
 
 #: admin_express_order.php:136 admin_express_order.php:229 mh_shipping.php:658
 #: mh_shipping.php:718
 msgid "拒收"
-msgstr ""
+msgstr "拒收"
 
 #: admin_express_order.php:139 admin_express_order.php:232 mh_shipping.php:661
 #: mh_shipping.php:721
 msgid "已签收"
-msgstr ""
+msgstr "已簽收"
 
 #: admin_express_order.php:142 admin_express_order.php:235 mh_shipping.php:664
 #: mh_shipping.php:724
 msgid "已退回"
-msgstr ""
+msgstr "已退回"
 
 #: admin_plugin.php:107
 msgid ""
 "欢迎访问ECJia智能后台配送方式页面，系统中所有的配送方式都会显示在此列表中。"
 msgstr ""
+"歡迎訪問ECJia智能後台配送方式頁面，系統中所有的配送方式都會顯示在此列表中。"
 
 #: admin_plugin.php:112
 msgid ""
 "<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:配送方式\" target="
 "\"_blank\">关于配送方式帮助文档</a>"
 msgstr ""
+"<a href=\"https://ecjia.com/wiki/帮助:ECJia智能后台:配送方式\" target="
+"\"_blank\">關於配送方式幫助文檔</a>"
 
 #: admin_plugin.php:165 admin_plugin.php:167
 #: apis/shipping_admin_purview_api.class.php:60
 msgid "编辑配送方式"
-msgstr ""
+msgstr "編輯配送方式"
 
 #: admin_plugin.php:172
 msgid "参数无效"
-msgstr ""
+msgstr "參數無效"
 
 #: admin_plugin.php:178
 msgid "该配送插件不存在或尚未安装"
-msgstr ""
+msgstr "該配送插件不存在或尚未安裝"
 
 #: admin_plugin.php:197
 msgid "名称不能为空"
-msgstr ""
+msgstr "名稱不能為空"
 
 #: admin_plugin.php:202
 msgid "名称已存在"
-msgstr ""
+msgstr "名稱已存在"
 
 #: admin_plugin.php:213 mh_shipping.php:517 mh_shipping.php:611
 msgid "编辑成功"
-msgstr ""
+msgstr "編輯成功"
 
 #: admin_plugin.php:230 admin_plugin.php:247
 msgid "插件"
-msgstr ""
+msgstr "插件"
 
 #: admin_plugin.php:230
 msgid "已停用"
-msgstr ""
+msgstr "已停用"
 
 #: admin_plugin.php:247
 msgid "已启用"
-msgstr ""
+msgstr "已啟用"
 
 #: admin_plugin.php:262 apis/shipping_plugin_install_api.class.php:79
 #: apis/shipping_plugin_uninstall_api.class.php:78
 msgid "配送方式名称不能为空。"
-msgstr ""
+msgstr "配送方式名稱不能為空。"
 
 #: admin_plugin.php:269 admin_plugin.php:274
 msgid "已经存在一个同名的配送方式。"
-msgstr ""
+msgstr "已經存在一個同名的配送方式。"
 
 #: admin_plugin.php:279 admin_plugin.php:311 admin_plugin.php:330
 msgid "操作成功!"
-msgstr ""
+msgstr "操作成功!"
 
 #: admin_plugin.php:296
 msgid "保价费用不能为空，不想使用请将其设置为0"
-msgstr ""
+msgstr "保價費用不能為空，不想使用請將其設置為0"
 
 #: admin_plugin.php:301
 msgid "请输入合法数字或百分比%"
-msgstr ""
+msgstr "請輸入合法數字或百分比%"
 
 #: admin_plugin.php:323
 msgid "输入格式不正确"
-msgstr ""
+msgstr "輸入格式不正確"
 
 #: admin_store_shipping.php:84
 msgid "入驻商家"
-msgstr ""
+msgstr "入駐商家"
 
 #: admin_store_shipping.php:87
 msgid "自营店铺"
-msgstr ""
+msgstr "自營店鋪"
 
 #: admin_store_shipping.php:100 admin_store_shipping.php:131
 msgid "请选择您要操作的店铺"
-msgstr ""
+msgstr "請選擇您要操作的店鋪"
 
 #: admin_store_shipping.php:105
 msgid "自营店铺列表"
-msgstr ""
+msgstr "自營店鋪列表"
 
 #: admin_store_shipping.php:107
 msgid "入驻商家列表"
-msgstr ""
+msgstr "入駐商家列表"
 
 #: admin_store_shipping.php:109 admin_store_shipping.php:137
 msgid " - 运费模板"
-msgstr ""
+msgstr " - 運費模板"
 
 #: admin_store_shipping.php:112 admin_store_shipping.php:140
 #: admin_store_shipping.php:146 apis/shipping_merchant_menu_api.class.php:61
@@ -280,531 +291,537 @@ msgstr ""
 #: mh_shipping.php:86 mh_shipping.php:87 mh_shipping.php:100
 #: mh_shipping.php:102 mh_shipping.php:123 mh_shipping.php:125
 msgid "运费模板"
-msgstr ""
+msgstr "運費模板"
 
 #: apis/shipping_admin_purview_api.class.php:59
 msgid "配送方式管理"
-msgstr ""
+msgstr "配送方式管理"
 
 #: apis/shipping_admin_purview_api.class.php:62
 msgid "配送区域管理"
-msgstr ""
+msgstr "配送區域管理"
 
 #: apis/shipping_admin_purview_api.class.php:63
 msgid "新建配送区域"
-msgstr ""
+msgstr "新建配送區域"
 
 #: apis/shipping_admin_purview_api.class.php:64
 msgid "编辑配送区域"
-msgstr ""
+msgstr "編輯配送區域"
 
 #: apis/shipping_admin_purview_api.class.php:65
 msgid "删除配送区域"
-msgstr ""
+msgstr "刪除配送區域"
 
 #: apis/shipping_merchant_menu_api.class.php:58
 msgid "配送"
-msgstr ""
+msgstr "配送"
 
 #: apis/shipping_merchant_purview_api.class.php:59
 msgid "我的配送"
-msgstr ""
+msgstr "我的配送"
 
 #: apis/shipping_merchant_purview_api.class.php:60
 msgid "配送编辑"
-msgstr ""
+msgstr "配送編輯"
 
 #: apis/shipping_merchant_purview_api.class.php:61
 msgid "删除配送"
-msgstr ""
+msgstr "刪除配送"
 
 #: apis/shipping_shipping_area_info_api.class.php:74
 msgid "缺少必要参数"
-msgstr ""
+msgstr "缺少必要參數"
 
 #: apis/shipping_store_remove_cleardata_api.class.php:63
 msgid "请求接口%s参数无效"
-msgstr ""
+msgstr "請求接口%s參數無效"
 
 #: classes/Helper.php:58 mh_shipping.php:793 mh_shipping.php:794
 msgid "快递单模板"
-msgstr ""
+msgstr "快遞單模板"
 
 #: classes/Helper.php:61
 msgid "快递方式"
-msgstr ""
+msgstr "快遞方式"
 
 #: classes/Plugins/ShipNoExpress.php:86 classes/ShippingPlugin.php:113
 msgid "无需物流"
-msgstr ""
+msgstr "無需物流"
 
 #: classes/Plugins/ShipNoExpress.php:87
 msgid "不需要物流时选择此插件（本配送方式只支持商家发货时使用）"
-msgstr ""
+msgstr "不需要物流時選擇此插件（本配送方式只支持商家發貨時使用）"
 
 #: classes/ShippingTemplate.php:19 configs/shipping_template_info.php:54
 msgid "表示网店名称"
-msgstr ""
+msgstr "表示網店名稱"
 
 #: classes/ShippingTemplate.php:20 configs/shipping_template_info.php:70
 msgid "表示网店联系电话"
-msgstr ""
+msgstr "表示網店聯繫電話"
 
 #: classes/ShippingTemplate.php:21
 msgid "表示网店所属国家"
-msgstr ""
+msgstr "表示網店所屬國家"
 
 #: classes/ShippingTemplate.php:22 configs/shipping_template_info.php:58
 msgid "表示网店所属省份"
-msgstr ""
+msgstr "表示網店所屬省份"
 
 #: classes/ShippingTemplate.php:23 configs/shipping_template_info.php:62
 msgid "表示网店所属城市"
-msgstr ""
+msgstr "表示網店所屬城市"
 
 #: classes/ShippingTemplate.php:24
 msgid "表示网店所属区/县"
-msgstr ""
+msgstr "表示網店所屬區/縣"
 
 #: classes/ShippingTemplate.php:25
 msgid "表示网店所属街道"
-msgstr ""
+msgstr "表示網店所屬街道"
 
 #: classes/ShippingTemplate.php:26 configs/shipping_template_info.php:66
 msgid "表示网店地址"
-msgstr ""
+msgstr "表示網店地址"
 
 #: classes/ShippingTemplate.php:28
 msgid "表示收件人姓名"
-msgstr ""
+msgstr "表示收件人姓名"
 
 #: classes/ShippingTemplate.php:29 configs/shipping_template_info.php:82
 msgid "表示收件人电话"
-msgstr ""
+msgstr "表示收件人電話"
 
 #: classes/ShippingTemplate.php:30 configs/shipping_template_info.php:86
 msgid "表示收件人手机"
-msgstr ""
+msgstr "表示收件人手機"
 
 #: classes/ShippingTemplate.php:31 configs/shipping_template_info.php:90
 msgid "表示收件人邮编"
-msgstr ""
+msgstr "表示收件人郵編"
 
 #: classes/ShippingTemplate.php:32
 msgid "表示收件人所属国家"
-msgstr ""
+msgstr "表示收件人所屬國家"
 
 #: classes/ShippingTemplate.php:33
 msgid "表示收件人所属省份"
-msgstr ""
+msgstr "表示收件人所屬省份"
 
 #: classes/ShippingTemplate.php:34
 msgid "表示收件人所属城市"
-msgstr ""
+msgstr "表示收件人所屬城市"
 
 #: classes/ShippingTemplate.php:35
 msgid "表示收件人所属区/县"
-msgstr ""
+msgstr "表示收件人所屬區/縣"
 
 #: classes/ShippingTemplate.php:36
 msgid "表示收件人所属街道"
-msgstr ""
+msgstr "表示收件人所屬街道"
 
 #: classes/ShippingTemplate.php:37 configs/shipping_template_info.php:94
 msgid "表示收件人详细地址"
-msgstr ""
+msgstr "表示收件人詳細地址"
 
 #: classes/ShippingTemplate.php:39 configs/shipping_template_info.php:102
 msgid "表示订单号"
-msgstr ""
+msgstr "表示訂單號"
 
 #: classes/ShippingTemplate.php:40 configs/shipping_template_info.php:74
 msgid "表示订单金额"
-msgstr ""
+msgstr "表示訂單金額"
 
 #: classes/ShippingTemplate.php:41
 msgid "表示订单备注"
-msgstr ""
+msgstr "表示訂單備註"
 
 #: classes/ShippingTemplate.php:42
 msgid "表示最佳送货时间"
-msgstr ""
+msgstr "表示最佳送貨時間"
 
 #: classes/ShippingTemplate.php:43 classes/ShippingTemplateBox.php:46
 msgid "年-当日日期"
-msgstr ""
+msgstr "年-當日日期"
 
 #: classes/ShippingTemplate.php:44 classes/ShippingTemplateBox.php:47
 msgid "月-当日日期"
-msgstr ""
+msgstr "月-當日日期"
 
 #: classes/ShippingTemplate.php:45 classes/ShippingTemplateBox.php:48
 msgid "日-当日日期"
-msgstr ""
+msgstr "日-當日日期"
 
 #: classes/ShippingTemplateBox.php:22
 msgid "网店-名称"
-msgstr ""
+msgstr "網店-名稱"
 
 #: classes/ShippingTemplateBox.php:23
 msgid "网店-联系电话"
-msgstr ""
+msgstr "網店-聯繫電話"
 
 #: classes/ShippingTemplateBox.php:24
 msgid "网店-国家"
-msgstr ""
+msgstr "網店-國家"
 
 #: classes/ShippingTemplateBox.php:25
 msgid "网店-省份"
-msgstr ""
+msgstr "網店-省份"
 
 #: classes/ShippingTemplateBox.php:26
 msgid "网店-城市"
-msgstr ""
+msgstr "網店-城市"
 
 #: classes/ShippingTemplateBox.php:27
 msgid "网店-区/县"
-msgstr ""
+msgstr "網店-區/縣"
 
 #: classes/ShippingTemplateBox.php:28
 msgid "网店-街道"
-msgstr ""
+msgstr "網店-街道"
 
 #: classes/ShippingTemplateBox.php:29
 msgid "网店-地址"
-msgstr ""
+msgstr "網店-地址"
 
 #: classes/ShippingTemplateBox.php:31
 msgid "收件人-姓名"
-msgstr ""
+msgstr "收件人-姓名"
 
 #: classes/ShippingTemplateBox.php:32
 msgid "收件人-电话"
-msgstr ""
+msgstr "收件人-電話"
 
 #: classes/ShippingTemplateBox.php:33
 msgid "收件人-手机"
-msgstr ""
+msgstr "收件人-手機"
 
 #: classes/ShippingTemplateBox.php:34
 msgid "收件人-邮编"
-msgstr ""
+msgstr "收件人-郵編"
 
 #: classes/ShippingTemplateBox.php:35
 msgid "收件人-国家"
-msgstr ""
+msgstr "收件人-國家"
 
 #: classes/ShippingTemplateBox.php:36
 msgid "收件人-省份"
-msgstr ""
+msgstr "收件人-省份"
 
 #: classes/ShippingTemplateBox.php:37
 msgid "收件人-城市"
-msgstr ""
+msgstr "收件人-城市"
 
 #: classes/ShippingTemplateBox.php:38
 msgid "收件人-区/县"
-msgstr ""
+msgstr "收件人-區/縣"
 
 #: classes/ShippingTemplateBox.php:39
 msgid "收件人-街道"
-msgstr ""
+msgstr "收件人-街道"
 
 #: classes/ShippingTemplateBox.php:40
 msgid "收件人-详细地址"
-msgstr ""
+msgstr "收件人-詳細地址"
 
 #: classes/ShippingTemplateBox.php:42
 msgid "订单号-订单"
-msgstr ""
+msgstr "訂單號-訂單"
 
 #: classes/ShippingTemplateBox.php:43
 msgid "订单金额-订单"
-msgstr ""
+msgstr "訂單金額-訂單"
 
 #: classes/ShippingTemplateBox.php:44
 msgid "备注-订单"
-msgstr ""
+msgstr "備註-訂單"
 
 #: classes/ShippingTemplateBox.php:45
 msgid "送货时间-订单"
-msgstr ""
+msgstr "送貨時間-訂單"
 
 #: classes/ShippingTemplateBox.php:50
 msgid "√-对号"
-msgstr ""
+msgstr "√-對號"
 
 #: classes/ShippingTemplateBox.php:51
 msgid "自定义内容"
-msgstr ""
+msgstr "自定義內容"
 
 #: classes/StoreCleanHandlers/StoreShippingAreaClear.php:34
 msgid "店铺配送区域、运费模板"
-msgstr ""
+msgstr "店鋪配送區域、運費模板"
 
 #: classes/StoreCleanHandlers/StoreShippingAreaClear.php:44
 msgid "将店铺设置的配送区域、运费模版数据全部删除"
-msgstr ""
+msgstr "將店鋪設置的配送區域、運費模版數據全部刪除"
 
 #: classes/StoreCleanHandlers/StoreShippingAreaClear.php:96
 msgid "店铺名是%s"
-msgstr ""
+msgstr "店鋪名是%s"
 
 #: classes/StoreCleanHandlers/StoreShippingAreaClear.php:96
 msgid "店铺ID是%s"
-msgstr ""
+msgstr "店鋪ID是%s"
 
 #: configs/jslang.php:52 configs/jslang.php:71
 msgid "请输入配送方式名称"
-msgstr ""
+msgstr "請輸入配送方式名稱"
 
 #: configs/jslang.php:53 configs/jslang.php:72
 msgid "配送方式名称长度不能小于3"
-msgstr ""
+msgstr "配送方式名稱長度不能小於3"
 
 #: configs/jslang.php:54 configs/jslang.php:73
 msgid "请输入配送方式描述"
-msgstr ""
+msgstr "請輸入配送方式描述"
 
 #: configs/jslang.php:55 configs/jslang.php:74
 msgid "配送方式描述长度不能小于6"
-msgstr ""
+msgstr "配送方式描述長度不能小於6"
 
 #: configs/jslang.php:56 configs/jslang.php:75
 msgid "您确定要保存编辑内容吗？"
-msgstr ""
+msgstr "您確定要保存編輯內容嗎？"
 
 #: configs/jslang.php:57 configs/jslang.php:76
 msgid "使用这个模板"
-msgstr ""
+msgstr "使用這個模板"
 
 #: configs/jslang.php:58 configs/jslang.php:77
 msgid "使用这个模板风格"
-msgstr ""
+msgstr "使用這個模板風格"
 
 #: configs/jslang.php:59 configs/jslang.php:78
 msgid "您确定要放弃本次修改吗？"
-msgstr ""
+msgstr "您確定要放棄本次修改嗎？"
 
 #: configs/jslang.php:60 configs/jslang.php:79
 msgid "请先输入内容！"
-msgstr ""
+msgstr "請先輸入內容！"
 
 #: configs/jslang.php:61 configs/jslang.php:80 configs/jslang.php:94
 msgid "确定"
-msgstr ""
+msgstr "確定"
 
 #: configs/jslang.php:62 configs/jslang.php:81 configs/jslang.php:95
 msgid "取消"
-msgstr ""
+msgstr "取消"
 
 #: configs/jslang.php:63 configs/jslang.php:82
 msgid "您的修改内容还没有保存，您确定离开吗？"
-msgstr ""
+msgstr "您的修改內容還沒有保存，您確定離開嗎？"
 
 #: configs/jslang.php:64 configs/jslang.php:83
 msgid "连接错误，请重新选择!"
-msgstr ""
+msgstr "連接錯誤，請重新選擇!"
 
 #: configs/jslang.php:65 configs/jslang.php:84
 msgid ""
 "修改库项目是危险的高级操作，修改错误可能会导致前台无法正常显示。您依然确定要"
 "修改库项目吗？"
 msgstr ""
+"修改庫項目是危險的高級操作，修改錯誤可能會導致前台無法正常顯示。您依然確定要"
+"修改庫項目嗎？"
 
 #: configs/jslang.php:89
 msgid "请填写模板名称"
-msgstr ""
+msgstr "請填寫模板名稱"
 
 #: configs/jslang.php:90
 msgid "没有可选择的地区"
-msgstr ""
+msgstr "沒有可選擇的地區"
 
 #: configs/jslang.php:91
 msgid "添加"
-msgstr ""
+msgstr "添加"
 
 #: configs/jslang.php:92
 msgid "请选择地区"
-msgstr ""
+msgstr "請選擇地區"
 
 #: configs/jslang.php:93
 msgid "您确定要删除该快递方式吗？"
-msgstr ""
+msgstr "您確定要刪除該快遞方式嗎？"
 
 #: configs/jslang.php:96
 msgid "请选择快递方式"
-msgstr ""
+msgstr "請選擇快遞方式"
 
 #: configs/jslang.php:97
 msgid "请输入正确的价格格式"
-msgstr ""
+msgstr "請輸入正確的價格格式"
 
 #: configs/jslang.php:98
 msgid "该快递方式已存在"
-msgstr ""
+msgstr "該快遞方式已存在"
 
 #: configs/jslang.php:105
 msgid "请填写App Key"
-msgstr ""
+msgstr "請填寫App Key"
 
 #: configs/jslang.php:106
 msgid "请填写App Secret"
-msgstr ""
+msgstr "請填寫App Secret"
 
 #: configs/package.php:56
 msgid ""
 "商品配送是商家与顾客交付产品的重要物流传输方式，与当今电商时代的现代物流密不"
-"可分，ECJIA团队开发配送方式插件实现多元化功能，少步骤操作，为商家带来更便捷操"
-"作，商家可直接在配送方式列表对物流公司经行快捷编辑，报价费用，并可一键切换是"
-"否启用该物流公司，打印等，且可以对配送区域进行配置和添加。"
+"可分，ECJIA团队开发配送方式插件实现多元化功能，少步骤操作，为商家带来更便捷"
+"操作，商家可直接在配送方式列表对物流公司经行快捷编辑，报价费用，并可一键切换"
+"是否启用该物流公司，打印等，且可以对配送区域进行配置和添加。"
 msgstr ""
+"商品配送是商家與顧客交付產品的重要物流傳輸方式，與當今電商時代的現代物流密不"
+"可分，ECJIA團隊開發配送方式插件實現多元化功能，少步驟操作，為商家帶來更便捷"
+"操作，商家可直接在配送方式列表對物流公司經行快捷編輯，報價費用，並可一鍵切換"
+"是否啟用該物流公司，打印等，且可以對配送區域進行配置和添加。"
 
 #: configs/shipping_template_info.php:78
 msgid "表示收件人地区"
-msgstr ""
+msgstr "表示收件人地區"
 
 #: configs/shipping_template_info.php:98
 msgid "表示收件人名称"
-msgstr ""
+msgstr "表示收件人名稱"
 
 #: configs/track_status.php:8
 msgid "圆通速递"
-msgstr ""
+msgstr "圓通速遞"
 
 #: configs/track_status.php:9
 msgid "中通速递"
-msgstr ""
+msgstr "中通速遞"
 
 #: configs/track_status.php:10
 msgid "韵达快运"
-msgstr ""
+msgstr "韻達快運"
 
 #: configs/track_status.php:11
 msgid "顺丰速运"
-msgstr ""
+msgstr "順豐速運"
 
 #: configs/track_status.php:12
 msgid "申通快递"
-msgstr ""
+msgstr "申通快遞"
 
 #: configs/track_status.php:13
 msgid "国内邮政特快专递"
-msgstr ""
+msgstr "國內郵政特快專遞"
 
 #: mh_shipping.php:78
 msgid "配送管理"
-msgstr ""
+msgstr "配送管理"
 
 #: mh_shipping.php:98 mh_shipping.php:101
 msgid "添加运费模板"
-msgstr ""
+msgstr "添加運費模板"
 
 #: mh_shipping.php:122 mh_shipping.php:124
 msgid "编辑运费模板"
-msgstr ""
+msgstr "編輯運費模板"
 
 #: mh_shipping.php:369 mh_shipping.php:380 mh_shipping.php:586
 msgid "该模板名称已存在"
-msgstr ""
+msgstr "該模板名稱已存在"
 
 #: mh_shipping.php:394
 msgid "该配送方式已存在"
-msgstr ""
+msgstr "該配送方式已存在"
 
 #: mh_shipping.php:420
 msgid "配送开始时间不能为空"
-msgstr ""
+msgstr "配送開始時間不能為空"
 
 #: mh_shipping.php:424
 msgid "配送结束时间不能为空"
-msgstr ""
+msgstr "配送結束時間不能為空"
 
 #: mh_shipping.php:433
 msgid "配送距离只能为数值且不能为空"
-msgstr ""
+msgstr "配送距離只能為數值且不能為空"
 
 #: mh_shipping.php:437
 msgid "配送费只能为数值且不能为空"
-msgstr ""
+msgstr "配送費只能為數值且不能為空"
 
 #: mh_shipping.php:460
 msgid "取货开始时间不能为空"
-msgstr ""
+msgstr "取貨開始時間不能為空"
 
 #: mh_shipping.php:464
 msgid "取货结束时间不能为空"
-msgstr ""
+msgstr "取貨結束時間不能為空"
 
 #: mh_shipping.php:519
 msgid "运费模板名称为:%s，快递方式名称为：%s"
-msgstr ""
+msgstr "運費模板名稱為:%s，快遞方式名稱為：%s"
 
 #: mh_shipping.php:520
 msgid "添加成功"
-msgstr ""
+msgstr "添加成功"
 
 #: mh_shipping.php:540 mh_shipping.php:543 mh_shipping.php:556
 msgid "删除成功"
-msgstr ""
+msgstr "刪除成功"
 
 #: mh_shipping.php:542
 msgid "运费模板名称为：%s，快递名称为：%s"
-msgstr ""
+msgstr "運費模板名稱為：%s，快遞名稱為：%s"
 
 #: mh_shipping.php:568
 msgid "请添加配送地区"
-msgstr ""
+msgstr "請添加配送地區"
 
 #: mh_shipping.php:576
 msgid "请添加快递方式"
-msgstr ""
+msgstr "請添加快遞方式"
 
 #: mh_shipping.php:621 mh_shipping.php:622
 msgid "配送记录"
-msgstr ""
+msgstr "配送記錄"
 
 #: mh_shipping.php:774
 msgid "没有相应的配送单！"
-msgstr ""
+msgstr "沒有相應的配送單！"
 
 #: mh_shipping.php:779
 msgid "请选择相应配送员！"
-msgstr ""
+msgstr "請選擇相應配送員！"
 
 #: mh_shipping.php:785
 msgid "配送单派单成功！"
-msgstr ""
+msgstr "配送單派單成功！"
 
 #: content/apps/shipping/templates/admin/shipping_list.dwt.php:18
 #: content/apps/shipping/templates/admin/shipping_channel.dwt.php:21
 msgid "名称"
-msgstr ""
+msgstr "名稱"
 
 #: content/apps/shipping/templates/admin/shipping_list.dwt.php:19
 #: content/apps/shipping/templates/admin/shipping_channel.dwt.php:22
 msgid "描述"
-msgstr ""
+msgstr "描述"
 
 #: content/apps/shipping/templates/admin/shipping_list.dwt.php:20
 #: content/apps/shipping/templates/admin/shipping_channel.dwt.php:23
 msgid "排序"
-msgstr ""
+msgstr "排序"
 
 #: content/apps/shipping/templates/admin/shipping_list.dwt.php:21
 #: content/apps/shipping/templates/admin/shipping_channel.dwt.php:24
 msgid "保价费用"
-msgstr ""
+msgstr "保價費用"
 
 #: content/apps/shipping/templates/admin/shipping_list.dwt.php:22
 #: content/apps/shipping/templates/admin/shipping_channel.dwt.php:25
 msgid "货到付款"
-msgstr ""
+msgstr "貨到付款"
 
 #: content/apps/shipping/templates/admin/shipping_list.dwt.php:30
 #: content/apps/shipping/templates/admin/shipping_channel.dwt.php:33
 msgid "编辑配送方式名称"
-msgstr ""
+msgstr "編輯配送方式名稱"
 
 #: content/apps/shipping/templates/admin/shipping_list.dwt.php:39
 #: content/apps/shipping/templates/admin/shipping_channel.dwt.php:42
@@ -812,45 +829,45 @@ msgstr ""
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:93
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:94
 msgid "编辑"
-msgstr ""
+msgstr "編輯"
 
 #: content/apps/shipping/templates/admin/shipping_list.dwt.php:41
 #: content/apps/shipping/templates/admin/shipping_channel.dwt.php:44
 msgid "编辑打印模板"
-msgstr ""
+msgstr "編輯打印模板"
 
 #: content/apps/shipping/templates/admin/shipping_list.dwt.php:43
 #: content/apps/shipping/templates/admin/shipping_channel.dwt.php:46
 msgid "禁用"
-msgstr ""
+msgstr "禁用"
 
 #: content/apps/shipping/templates/admin/shipping_list.dwt.php:48
 #: content/apps/shipping/templates/admin/shipping_channel.dwt.php:51
 msgid "启用"
-msgstr ""
+msgstr "啟用"
 
 #: content/apps/shipping/templates/admin/shipping_list.dwt.php:55
 #: content/apps/shipping/templates/admin/shipping_channel.dwt.php:58
 msgid "编辑配送方式排序"
-msgstr ""
+msgstr "編輯配送方式排序"
 
 #: content/apps/shipping/templates/admin/shipping_list.dwt.php:64
 #: content/apps/shipping/templates/admin/shipping_edit.dwt.php:41
 #: content/apps/shipping/templates/admin/shipping_channel.dwt.php:67
 msgid "不支持"
-msgstr ""
+msgstr "不支持"
 
 #: content/apps/shipping/templates/admin/shipping_list.dwt.php:69
 #: content/apps/shipping/templates/admin/shipping_edit.dwt.php:48
 #: content/apps/shipping/templates/admin/shipping_channel.dwt.php:72
 msgid "是"
-msgstr ""
+msgstr "是"
 
 #: content/apps/shipping/templates/admin/shipping_list.dwt.php:71
 #: content/apps/shipping/templates/admin/shipping_edit.dwt.php:48
 #: content/apps/shipping/templates/admin/shipping_channel.dwt.php:74
 msgid "否"
-msgstr ""
+msgstr "否"
 
 #: content/apps/shipping/templates/admin/shipping_list.dwt.php:76
 #: content/apps/shipping/templates/admin/store_shipping.dwt.php:46
@@ -859,412 +876,414 @@ msgstr ""
 #: content/apps/shipping/templates/merchant/shipping_template_list.dwt.php:70
 #: content/apps/shipping/templates/merchant/shipping_record_list.dwt.php:67
 msgid "没有找到任何记录"
-msgstr ""
+msgstr "沒有找到任何記錄"
 
 #: content/apps/shipping/templates/admin/store_shipping_info.dwt.php:24
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:28
 msgid "模板名称："
-msgstr ""
+msgstr "模板名稱："
 
 #: content/apps/shipping/templates/admin/store_shipping_info.dwt.php:27
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:31
 msgid "该名称只在运费模板列表显示，便于管理员查找模板"
-msgstr ""
+msgstr "該名稱只在運費模板列表顯示，便於管理員查找模板"
 
 #: content/apps/shipping/templates/admin/store_shipping_info.dwt.php:31
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:37
 msgid "地区设置："
-msgstr ""
+msgstr "地區設置："
 
 #: content/apps/shipping/templates/admin/store_shipping_info.dwt.php:35
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:41
 msgid "配送至"
-msgstr ""
+msgstr "配送至"
 
 #: content/apps/shipping/templates/admin/store_shipping_info.dwt.php:52
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:65
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:191
 msgid "快递方式："
-msgstr ""
+msgstr "快遞方式："
 
 #: content/apps/shipping/templates/admin/store_shipping.dwt.php:25
 #: content/apps/shipping/templates/admin/express_order_list.dwt.php:54
 #: content/apps/shipping/templates/merchant/shipping_template_list.dwt.php:48
 #: content/apps/shipping/templates/merchant/shipping_record_list.dwt.php:54
 msgid "查看详情"
-msgstr ""
+msgstr "查看詳情"
 
 #: content/apps/shipping/templates/admin/store_shipping.dwt.php:30
 #: content/apps/shipping/templates/merchant/shipping_template_list.dwt.php:54
 msgid "物流快递："
-msgstr ""
+msgstr "物流快遞："
 
 #: content/apps/shipping/templates/admin/store_shipping.dwt.php:36
 #: content/apps/shipping/templates/merchant/shipping_template_list.dwt.php:60
 msgid "配送区域："
-msgstr ""
+msgstr "配送區域："
 
 #: content/apps/shipping/templates/admin/shipping_edit.dwt.php:24
 msgid "名称："
-msgstr ""
+msgstr "名稱："
 
 #: content/apps/shipping/templates/admin/shipping_edit.dwt.php:31
 msgid "描述："
-msgstr ""
+msgstr "描述："
 
 #: content/apps/shipping/templates/admin/shipping_edit.dwt.php:39
 msgid "保价费用："
-msgstr ""
+msgstr "保價費用："
 
 #: content/apps/shipping/templates/admin/shipping_edit.dwt.php:46
 msgid "是否支持货到付款："
-msgstr ""
+msgstr "是否支持貨到付款："
 
 #: content/apps/shipping/templates/admin/express_order_list.dwt.php:23
 msgid "输入商家名称关键字"
-msgstr ""
+msgstr "輸入商家名稱關鍵字"
 
 #: content/apps/shipping/templates/admin/express_order_list.dwt.php:24
 msgid "输入配送流水号等关键字"
-msgstr ""
+msgstr "輸入配送流水號等關鍵字"
 
 #: content/apps/shipping/templates/admin/express_order_list.dwt.php:25
 msgid "搜索"
-msgstr ""
+msgstr "搜索"
 
 #: content/apps/shipping/templates/admin/express_order_list.dwt.php:36
 msgid "配送流水号"
-msgstr ""
+msgstr "配送流水號"
 
 #: content/apps/shipping/templates/admin/express_order_list.dwt.php:37
 msgid "发货单流水号"
-msgstr ""
+msgstr "發貨單流水號"
 
 #: content/apps/shipping/templates/admin/express_order_list.dwt.php:38
 msgid "商家名称"
-msgstr ""
+msgstr "商家名稱"
 
 #: content/apps/shipping/templates/admin/express_order_list.dwt.php:39
 #: content/apps/shipping/templates/merchant/shipping_record_list.dwt.php:40
 msgid "收货人名称"
-msgstr ""
+msgstr "收貨人名稱"
 
 #: content/apps/shipping/templates/admin/express_order_list.dwt.php:40
 msgid "联系方式"
-msgstr ""
+msgstr "聯繫方式"
 
 #: content/apps/shipping/templates/admin/express_order_list.dwt.php:41
 #: content/apps/shipping/templates/merchant/shipping_record_list.dwt.php:41
 msgid "收货地址"
-msgstr ""
+msgstr "收貨地址"
 
 #: content/apps/shipping/templates/admin/express_order_list.dwt.php:42
 #: content/apps/shipping/templates/merchant/shipping_record_list.dwt.php:42
 msgid "创建时间"
-msgstr ""
+msgstr "創建時間"
 
 #: content/apps/shipping/templates/admin/express_order_list.dwt.php:43
 #: content/apps/shipping/templates/merchant/shipping_record_list.dwt.php:43
 msgid "配送来源"
-msgstr ""
+msgstr "配送來源"
 
 #: content/apps/shipping/templates/admin/express_order_list.dwt.php:44
 #: content/apps/shipping/templates/merchant/shipping_record_list.dwt.php:44
 msgid "配送状态"
-msgstr ""
+msgstr "配送狀態"
 
 #: content/apps/shipping/templates/admin/shipping_template.dwt.php:417
 msgid "--- 选择插入标签 ---"
-msgstr ""
+msgstr "--- 選擇插入標籤 ---"
 
 #: content/apps/shipping/templates/admin/shipping_template.dwt.php:419
 msgid "选择插入标签"
-msgstr ""
+msgstr "選擇插入標籤"
 
 #: content/apps/shipping/templates/admin/shipping_template.dwt.php:445
 #: content/apps/shipping/templates/admin/shipping_template.dwt.php:456
 msgid "模板底图："
-msgstr ""
+msgstr "模板底圖："
 
 #: content/apps/shipping/templates/admin/shipping_template.dwt.php:448
 msgid "上传打印单图片,未选中文件"
-msgstr ""
+msgstr "上傳打印單圖片,未選中文件"
 
 #: content/apps/shipping/templates/admin/shipping_template.dwt.php:449
 msgid "选择图片"
-msgstr ""
+msgstr "選擇圖片"
 
 #: content/apps/shipping/templates/admin/shipping_template.dwt.php:450
 msgid "上传"
-msgstr ""
+msgstr "上傳"
 
 #: content/apps/shipping/templates/admin/shipping_template.dwt.php:457
 msgid "删除打印单图片"
-msgstr ""
+msgstr "刪除打印單圖片"
 
 #: content/apps/shipping/templates/admin/shipping_template.dwt.php:462
 msgid "删除标签"
-msgstr ""
+msgstr "刪除標籤"
 
 #: content/apps/shipping/templates/admin/shipping_template.dwt.php:463
 msgid "注：需选中标签才可进行删除"
-msgstr ""
+msgstr "注：需選中標籤才可進行刪除"
 
 #: content/apps/shipping/templates/admin/shipping_template.dwt.php:493
 msgid "设置打印内容"
-msgstr ""
+msgstr "設置打印內容"
 
 #: content/apps/shipping/templates/admin/shipping_template.dwt.php:524
 #: content/apps/shipping/templates/admin/shipping_template.dwt.php:566
 msgid "保存设置"
-msgstr ""
+msgstr "保存設置"
 
 #: content/apps/shipping/templates/admin/shipping_template.dwt.php:525
 msgid "恢复默认"
-msgstr ""
+msgstr "恢復默認"
 
 #: content/apps/shipping/templates/admin/shipping_template.dwt.php:544
 msgid ""
-"温馨提示：请复制右侧区域变量进行自定义模板设置 ；若未进行设置，系统将会默认插"
-"件中的快递单模板；"
+"温馨提示：请复制右侧区域变量进行自定义模板设置 ；若未进行设置，系统将会默认"
+"插件中的快递单模板；"
 msgstr ""
+"溫馨提示：請複制右側區域變量進行自定義模板設置 ；若未進行設置，系統將會默認"
+"插件中的快遞單模板；"
 
 #: content/apps/shipping/templates/admin/shipping_template.dwt.php:551
 msgid "订单模板变量说明"
-msgstr ""
+msgstr "訂單模板變量說明"
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:26
 msgid "基本信息："
-msgstr ""
+msgstr "基本信息："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:32
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:41
 msgid "配送流水号："
-msgstr ""
+msgstr "配送流水號："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:34
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:43
 msgid "创建时间："
-msgstr ""
+msgstr "創建時間："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:38
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:47
 msgid "订单编号："
-msgstr ""
+msgstr "訂單編號："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:42
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:51
 msgid "发货单流水号："
-msgstr ""
+msgstr "發貨單流水號："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:46
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:55
 msgid "配送来源："
-msgstr ""
+msgstr "配送來源："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:48
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:57
 msgid "配送状态："
-msgstr ""
+msgstr "配送狀態："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:52
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:61
 msgid "配送员："
-msgstr ""
+msgstr "配送員："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:54
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:63
 msgid "接单时间："
-msgstr ""
+msgstr "接單時間："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:58
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:67
 msgid "取货配送时间："
-msgstr ""
+msgstr "取貨配送時間："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:60
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:69
 msgid "签收时间："
-msgstr ""
+msgstr "簽收時間："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:64
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:73
 msgid "更新时间："
-msgstr ""
+msgstr "更新時間："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:74
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:83
 msgid "收货人信息"
-msgstr ""
+msgstr "收貨人信息"
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:81
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:90
 msgid "收货人名称："
-msgstr ""
+msgstr "收貨人名稱："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:83
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:92
 msgid "邮箱地址："
-msgstr ""
+msgstr "郵箱地址："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:87
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:96
 msgid "收货地址："
-msgstr ""
+msgstr "收貨地址："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:89
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:98
 msgid "联系方式："
-msgstr ""
+msgstr "聯繫方式："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:93
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:102
 msgid "送货距离："
-msgstr ""
+msgstr "送貨距離："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:95
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:104
 msgid "期望送货时间："
-msgstr ""
+msgstr "期望送貨時間："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:99
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:108
 msgid "客户给商家的留言："
-msgstr ""
+msgstr "客戶給商家的留言："
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:109
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:119
 msgid "商品信息"
-msgstr ""
+msgstr "商品信息"
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:116
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:127
 msgid "商品名称 [品牌 ]"
-msgstr ""
+msgstr "商品名稱 [品牌 ]"
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:117
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:128
 msgid "货号"
-msgstr ""
+msgstr "貨號"
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:118
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:129
 msgid "货品号"
-msgstr ""
+msgstr "貨品號"
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:119
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:130
 msgid "属性"
-msgstr ""
+msgstr "屬性"
 
 #: content/apps/shipping/templates/admin/express_info.dwt.php:120
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:131
 msgid "发货数量"
-msgstr ""
+msgstr "發貨數量"
 
 #: content/apps/shipping/templates/merchant/shipping_template_list.dwt.php:27
 #: content/apps/shipping/templates/merchant/shipping_record_list.dwt.php:24
 msgid "配送任务"
-msgstr ""
+msgstr "配送任務"
 
 #: content/apps/shipping/templates/merchant/shipping_template_list.dwt.php:28
 #: content/apps/shipping/templates/merchant/shipping_record_list.dwt.php:25
 msgid "历史配送"
-msgstr ""
+msgstr "歷史配送"
 
 #: content/apps/shipping/templates/merchant/shipping_template_list.dwt.php:49
 msgid "您确定要删除该运费模板吗？"
-msgstr ""
+msgstr "您確定要刪除該運費模板嗎？"
 
 #: content/apps/shipping/templates/merchant/shipping_template_list.dwt.php:49
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:94
 msgid "删除"
-msgstr ""
+msgstr "刪除"
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:8
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:8
 msgid "按重量"
-msgstr ""
+msgstr "按重量"
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:10
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:10
 msgid "按件数"
-msgstr ""
+msgstr "按件數"
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:64
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:64
 msgid "下单后几天内配送："
-msgstr ""
+msgstr "下單後幾天內配送："
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:66
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:125
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:66
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:137
 msgid "请填写有效天数，最小单位为1"
-msgstr ""
+msgstr "請填寫有效天數，最小單位為1"
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:70
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:70
 msgid "默认7天以内配送（用户可选择的时间）"
-msgstr ""
+msgstr "默認7天以內配送（用戶可選擇的時間）"
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:74
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:74
 msgid "提前下单时间："
-msgstr ""
+msgstr "提前下單時間："
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:76
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:76
 msgid "最小单位为分钟；如30"
-msgstr ""
+msgstr "最小單位為分鐘；如30"
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:81
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:81
 msgid "需比配送时间提前多久下单才能配送，否则匹配至下个配送时间"
-msgstr ""
+msgstr "需比配送時間提前多久下單才能配送，否則匹配至下個配送時間"
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:86
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:86
 msgid "配送时间："
-msgstr ""
+msgstr "配送時間："
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:99
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:105
 msgid "可设置多个配送时间段"
-msgstr ""
+msgstr "可設置多個配送時間段"
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:104
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:110
 msgid "配送费："
-msgstr ""
+msgstr "配送費："
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:108
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:113
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:114
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:124
 msgid "距离"
-msgstr ""
+msgstr "距離"
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:108
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:113
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:114
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:124
 msgid "公里"
-msgstr ""
+msgstr "公里"
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:109
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:114
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:115
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:125
 msgid "配送费"
-msgstr ""
+msgstr "配送費"
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:109
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:114
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:115
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:125
 msgid "元"
-msgstr ""
+msgstr "元"
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:117
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:129
@@ -1273,21 +1292,24 @@ msgid ""
 "增距离阶梯时必须大于上一个距离，比如上一个距离是10，再次增加时，填写的公里数"
 "必须大于10"
 msgstr ""
+"如首個距離設10公里，配送費設5元，表示在10公里內，用戶需支付配送費5元，後面新"
+"增距離階梯時必須大於上一個距離，比如上一個距離是10，再次增加時，填寫的公里數"
+"必須大於10"
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:123
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:135
 msgid "下单后几天内取货："
-msgstr ""
+msgstr "下單後幾天內取貨："
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:129
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:141
 msgid "默认7天以内取货（用户可选择的时间）"
-msgstr ""
+msgstr "默認7天以內取貨（用戶可選擇的時間）"
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:133
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:145
 msgid "取货时间："
-msgstr ""
+msgstr "取貨時間："
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:137
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:90
@@ -1295,7 +1317,7 @@ msgstr ""
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:156
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:163
 msgid "从"
-msgstr ""
+msgstr "從"
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:138
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:143
@@ -1305,106 +1327,109 @@ msgstr ""
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:157
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:164
 msgid "至"
-msgstr ""
+msgstr "至"
 
 #: content/apps/shipping/templates/merchant/library/shipping_info_unwrite.lbi.php:146
 #: content/apps/shipping/templates/merchant/library/shipping_info.lbi.php:168
 msgid "可设置多个取货时间段"
-msgstr ""
+msgstr "可設置多個取貨時間段"
 
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:33
 msgid "基本信息"
-msgstr ""
+msgstr "基本信息"
 
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:153
 msgid "配送操作信息"
-msgstr ""
+msgstr "配送操作信息"
 
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:161
 msgid "配送人员："
-msgstr ""
+msgstr "配送人員："
 
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:164
 msgid "请选择"
-msgstr ""
+msgstr "請選擇"
 
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:172
 msgid "当前可执行操作："
-msgstr ""
+msgstr "當前可執行操作："
 
 #: content/apps/shipping/templates/merchant/shipping_record_info.dwt.php:174
 msgid "变更配送人员"
-msgstr ""
+msgstr "變更配送人員"
 
 #: content/apps/shipping/templates/merchant/shipping_record_list.dwt.php:39
 msgid "流水号"
-msgstr ""
+msgstr "流水號"
 
 #: content/apps/shipping/templates/merchant/shipping_record_list.dwt.php:51
 msgid "配送单："
-msgstr ""
+msgstr "配送單："
 
 #: content/apps/shipping/templates/merchant/shipping_record_list.dwt.php:52
 msgid "发货单："
-msgstr ""
+msgstr "發貨單："
 
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:42
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:70
 msgid "操作"
-msgstr ""
+msgstr "操作"
 
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:54
 msgid "移除"
-msgstr ""
+msgstr "移除"
 
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:57
 msgid "添加地区"
-msgstr ""
+msgstr "添加地區"
 
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:100
 msgid "添加快递"
-msgstr ""
+msgstr "添加快遞"
 
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:125
 msgid "选择地区"
-msgstr ""
+msgstr "選擇地區"
 
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:134
 msgid "搜索省份"
-msgstr ""
+msgstr "搜索省份"
 
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:140
 msgid "没有可选的省份地区……"
-msgstr ""
+msgstr "沒有可選的省份地區……"
 
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:147
 msgid "搜索市"
-msgstr ""
+msgstr "搜索市"
 
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:150
 msgid "请选择市"
-msgstr ""
+msgstr "請選擇市"
 
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:156
 msgid "搜索区/县"
-msgstr ""
+msgstr "搜索區/縣"
 
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:159
 msgid "请先选择市/区名称..."
-msgstr ""
+msgstr "請先選擇市/區名稱..."
 
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:165
 msgid "搜索街道镇"
-msgstr ""
+msgstr "搜索街道鎮"
 
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:168
 msgid "请选择街道/镇"
-msgstr ""
+msgstr "請選擇街道/鎮"
 
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:186
 msgid "选择快递"
-msgstr ""
+msgstr "選擇快遞"
 
 #: content/apps/shipping/templates/merchant/shipping_template_info.dwt.php:194
 msgid "请选择快递方式..."
-msgstr ""
+msgstr "請選擇快遞方式..."
+
+#~ msgid "温馨提示：请复制右侧区域变量放入以下输入框中"
+#~ msgstr "溫馨提示：請複制右側區域變量放入以下輸入框中"

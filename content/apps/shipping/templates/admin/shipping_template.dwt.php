@@ -5,7 +5,7 @@
 <script type="text/javascript">
 	ecjia.admin.admin_template.library();
 
-	ecjia.admin.shipTemplate.init_template_1();
+	ecjia.admin.shipTemplate.init_template_1(); //代码模式js提交处理
 	
 	// 这里把JS用到的所有语言都赋值到这里
 	{foreach from=$lang_js_languages key=key item=item}
@@ -217,6 +217,9 @@
 							callback();
 						}
 						ecjia.admin.showmessage(data);
+						if(data.url) {
+							location.href = data.url;
+						}
 					}
 				});
 				return true;
@@ -420,7 +423,7 @@
 			</ul>
 		</div> 
 	</div>
-			
+	<input type="hidden" name="upgrade_url" value="{$upgrade_url}" />
 	<!--模板模式-->
 	<div id="visual" {if $shipping.print_model == 1}style="display:none"{else} style="display:block"{/if}>
 		<form action="{$post_links.print_img_upload}" enctype="multipart/form-data" method="post" name="theForm"  id="theForm">
@@ -538,7 +541,7 @@
 			                        </div>
 			                        
 				  					<div class="text-box">
-				  						<span class="help-block">{t domain="shipping"}温馨提示：请复制右侧区域变量放入以下输入框中{/t}</span>
+				  						<span class="help-block">{t domain="shipping"}温馨提示：请复制右侧区域变量进行自定义模板设置 ；若未进行设置，系统将会默认插件中的快递单模板；{/t}</span>
 					       				<textarea class="text-con" id="shipping_print" name="shipping_print" rows="40" cols="3" >{$shipping.shipping_print|escape:html}</textarea>
 					                </div>
 				                </div>
@@ -551,7 +554,7 @@
 				                        <div class="template_list" id="ms-custom-navigation" style="height: 518px;">
 				                            <ul class="unstyled" style="height: 527px;">
 				                                <!-- {foreach from=$shipping_template_info item=val} -->
-				                                <li class="ms-elem-selectable">{$val.variable}&nbsp;{$val.name}</li>
+				                                <li class="ms-elem-selectable">{$val}</li>
 				                                <!-- {/foreach} -->
 				                            </ul>
 				                        </div>

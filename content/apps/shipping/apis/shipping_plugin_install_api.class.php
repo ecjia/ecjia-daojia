@@ -82,7 +82,7 @@ class shipping_plugin_install_api extends Component_Event_Api
             $insure = empty($options['config']['insure']) ? 0 : $options['config']['insure'];
 
             $shipping_data = RC_DB::table('shipping')->where('shipping_code', $options['config']['shipping_code'])->select('shipping_id', 'print_bg')->first();
-
+            
             if ($shipping_data['shipping_id'] > 0) {
                 /* 该配送方式已经安装过, 将该配送方式的状态设置为 enable */
                 $data = array(

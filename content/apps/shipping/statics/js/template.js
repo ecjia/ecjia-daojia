@@ -291,7 +291,16 @@
 					$form.ajaxSubmit({
 						dataType : "json",
 						success : function(data) {
-							ecjia.admin.showmessage(data);
+							if (data.state == "success") {
+		                        if (data.url) {
+		                            ecjia.admin.showmessage(data);
+		                            location.href = data.url;
+		                        } else {
+		                            ecjia.admin.showmessage(data);
+		                        }
+		                    } else {
+		                        ecjia.admin.showmessage(data);
+		                    }
 						}
 					});
 				}

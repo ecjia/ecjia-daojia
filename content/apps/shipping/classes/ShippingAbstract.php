@@ -125,7 +125,21 @@ abstract class ShippingAbstract extends AbstractPlugin
         }
         return null;
     }
-    
+
+
+    /**
+     * 加载插件打印选项数据
+     *
+     * @param null $key
+     * @param null $default
+     * @return array|mixed
+     */
+    public function loadPrintOption($key = null, $default = null)
+    {
+        $option = $this->loadConfig('print_option', []);
+
+        return $this->getArrayData($option, $key, $default);
+    }
 
 }
 
