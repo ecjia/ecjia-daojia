@@ -49,9 +49,10 @@ Plugin Name: 团购活动失败自动发送短信
 Plugin URI: http://www.ecjia.com/plugins/ecjia.cron_group_buy_failed/
 Description: 计划任务-团购活动失败自动发送短信
 Author: ECJIA TEAM
-Version: 1.25.0
+Version: 1.30.0
 Author URI: http://www.ecjia.com/
 Plugin App: cron
+Text Domain: cron_group_buy_failed
 */
 defined('IN_ECJIA') or exit('No permission resources.');
 class plugin_cron_group_buy_failed {
@@ -72,6 +73,7 @@ class plugin_cron_group_buy_failed {
 }
 
 Ecjia_PluginManager::extend('cron_group_buy_failed', function() {
+    RC_Locale::loadPluginTextdomain('cron_group_buy_failed');
     require_once RC_Plugin::plugin_dir_path(__FILE__) . 'cron_group_buy_failed.class.php';
     return new cron_group_buy_failed();
 });
