@@ -643,6 +643,15 @@ class admin extends ecjia_admin
 
         $this->assign('store', $store);
 
+        $is_expired = 0;
+        if ($store['account_status'] == 'wait_delete' && $store['shop_close'] == 1 && !empty($store['delete_time'])) {
+            //判断店铺注销申请是否到期
+            if ($store['delete_time'] + 30 * 24 * 3600 <= RC_Time::gmtime()) {
+                $is_expired = 1; //已到期
+            }
+        }
+        $this->assign('is_expired', $is_expired);
+
         $this->display('store_preview.dwt');
     }
 
@@ -824,7 +833,7 @@ class admin extends ecjia_admin
         $filter['type']     = empty($_GET['type']) ? '' : trim($_GET['type']);
         $filter['cat']      = empty($_GET['cat']) ? null : trim($_GET['cat']);
 
-        $db_store_franchisee->where('manage_mode', $manage_mode);
+        $db_store_franchisee->where('manage_mode', $manage_mode)->where('account_status', 'normal');
 
         if ($filter['keywords']) {
             $db_store_franchisee->where(function ($query) use ($filter) {

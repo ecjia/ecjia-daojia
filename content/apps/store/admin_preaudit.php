@@ -646,7 +646,13 @@ class admin_preaudit extends ecjia_admin
     //获取入驻商列表信息
     private function store_preaudit_list($page_size = 15)
     {
-        $db_store_franchisee = RC_DB::table('store_preaudit as sp');
+        $wait_delete_list = RC_DB::table('store_franchisee')
+            ->where('account_status', 'wait_delete')
+            ->where('shop_close', 1)
+            ->where('delete_time', '!=', 0)
+            ->lists('store_id');
+
+        $db_store_franchisee = RC_DB::table('store_preaudit as sp')->whereNotIn(RC_DB::raw('sp.store_id'), $wait_delete_list);
 
         $filter['keywords'] = empty($_GET['keywords']) ? '' : trim($_GET['keywords']);
         $filter['type']     = empty($_GET['type']) ? 'join' : trim($_GET['type']);

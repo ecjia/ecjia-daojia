@@ -50,20 +50,23 @@ defined('IN_ECJIA') or exit('No permission resources.');
  * 后台入驻商管理
  * @author songqian
  */
-class store_admin_menu_api extends Component_Event_Api {
+class store_admin_menu_api extends Component_Event_Api
+{
 
-    public function call(&$options) {
+    public function call(&$options)
+    {
         $menus = ecjia_admin::make_admin_menu('06_store', __('商家管理', 'store'), '', 1);
-        
+
         $submenus = array(
-        	ecjia_admin::make_admin_menu('01', __('自营店铺', 'store'), RC_Uri::url('store/admin/init'), 1)->add_purview('store_self_manage'),
+            ecjia_admin::make_admin_menu('01', __('自营店铺', 'store'), RC_Uri::url('store/admin/init'), 1)->add_purview('store_self_manage'),
             ecjia_admin::make_admin_menu('02', __('入驻商家', 'store'), RC_Uri::url('store/admin/join'), 2)->add_purview('store_affiliate_manage'),
-        	ecjia_admin::make_admin_menu('03', __('待审核商家', 'store'), RC_Uri::url('store/admin_preaudit/init'), 3)->add_purview('store_preaudit_manage'),
-        	ecjia_admin::make_admin_menu('04', __('商家分类', 'store'), RC_Uri::url('store/admin_store_category/init'), 4)->add_purview('store_category_manage'),
-        	ecjia_admin::make_admin_menu('05', __('佣金比例', 'store'), RC_Uri::url('store/admin_percent/init'), 5)->add_purview('store_percent_manage'),
-        	ecjia_admin::make_admin_menu('06', __('经营城市', 'store'), RC_Uri::url('store/admin_store_business_city/init'), 6)->add_purview('store_business_city_manage'),
+            ecjia_admin::make_admin_menu('03', __('待审核商家', 'store'), RC_Uri::url('store/admin_preaudit/init'), 3)->add_purview('store_preaudit_manage'),
+            ecjia_admin::make_admin_menu('04', __('注销申请', 'store'), RC_Uri::url('store/admin_cancel/init'), 4)->add_purview('store_cancel_manage'),
+            ecjia_admin::make_admin_menu('05', __('商家分类', 'store'), RC_Uri::url('store/admin_store_category/init'), 5)->add_purview('store_category_manage'),
+            ecjia_admin::make_admin_menu('06', __('佣金比例', 'store'), RC_Uri::url('store/admin_percent/init'), 6)->add_purview('store_percent_manage'),
+            ecjia_admin::make_admin_menu('07', __('经营城市', 'store'), RC_Uri::url('store/admin_store_business_city/init'), 7)->add_purview('store_business_city_manage'),
         );
-        
+
         $menus->add_submenu($submenus);
         return $menus;
     }

@@ -13,6 +13,17 @@
 <style>
 .heading .btn { margin-top:-3px;}
 </style>
+
+{if $is_expired eq 1}
+<div class="alert alert-danger">
+    <a class="close" data-dismiss="alert">×</a>
+    <strong>
+        <p>{t domain="store"}温馨提示{/t}</p>
+    </strong>
+    <p>{t domain="store"}当前店铺注销申请到期还未处理，等待您删除店铺数据。{/t}</p>
+</div>
+{/if}
+
 <div>
 	<h3 class="heading">
 		<!-- {if $ur_here}{$ur_here}{/if} -->
