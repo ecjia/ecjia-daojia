@@ -67,6 +67,10 @@ class admin extends ecjia_admin
         RC_Style::enqueue_style('uniform-aristo');
         RC_Script::enqueue_script('jquery-uniform');
 
+        //时间控件
+        RC_Script::enqueue_script('bootstrap-datepicker');
+        RC_Style::enqueue_style('bootstrap-datepicker');
+
         RC_Script::enqueue_script('user_info', RC_App::apps_url('statics/js/user_info.js', __FILE__));
         RC_Style::enqueue_style('user_info_css', RC_App::apps_url('statics/css/user_info.css', __FILE__));
         RC_Script::localize_script('user_info', 'js_lang', config('app-user::jslang.admin_page'));
