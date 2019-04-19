@@ -61,14 +61,12 @@ class Version_13000 extends Version
         $migrate = new Migrate();
         $migrate->fire();
 
-
-        ecjia_update_cache::make()->clean('system_app_cache');
-
         // 更新shop_config数据填充
         $seeder = new Seeder('InitShopConfigTableSeeder');
         $seeder->fire();
 
         // 清除缓存
+        ecjia_update_cache::make()->clean('system_app_cache');
         ecjia_update_cache::make()->clean('system_userdata_cache');
         ecjia_update_cache::make()->clean('front_template_cache');
 
