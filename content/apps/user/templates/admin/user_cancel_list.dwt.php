@@ -29,7 +29,7 @@
     </li>
 
     <form class="f_r form-inline" action="{$search_action}{if $smarty.get.type}&type={$smarty.get.type}{/if}" name="searchForm" method="post">
-        <input type="text" name="keywords" placeholder='{t domain="user"}请输入商家名称或手机号{/t}' value="{$user_list.filter.keywords}"/>
+        <input type="text" name="keywords" placeholder='{t domain="user"}请输入会员名称或手机号{/t}' value="{$user_list.filter.keywords}"/>
         <input class="btn search_user" type="submit" value='{t domain="user"}搜索{/t}'/>
     </form>
 </div>

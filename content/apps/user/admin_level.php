@@ -124,15 +124,6 @@ class admin_level extends ecjia_admin
         $table_users      = RC_DB::getTableFullName('users');
         $table_order_info = RC_DB::getTableFullName('order_info');
 
-        $sql = "select u.user_id, u.user_name, u.user_money as avaliable_money, u.pay_points as integral, order_count, order_money
-from " . $table_users . " as u
-
-INNER JOIN (select user_id, count(order_id) as order_count from " . $table_order_info . " where is_delete = 0 and order_status in (1, 5) and shipping_status = 2 and pay_status in (2, 1) GROUP BY user_id)
-as c on c.user_id = u.user_id
-
-INNER JOIN (select user_id, sum(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - integral_money - bonus - discount) as order_money from " . $table_order_info . " where is_delete = 0 and order_status in (1, 5) and shipping_status = 2 and pay_status in (2, 1) GROUP BY user_id)
-as d on d.user_id = u.user_id";
-
         $pagenum    = isset($_GET['page']) ? intval($_GET['page']) : 1;
         $sort_by    = isset($_GET['sort_by']) && $_GET['sort_by'] != 'level' ? trim($_GET['sort_by']) : 'order_money';
         $sort_order = isset($_GET['sort_order']) ? trim($_GET['sort_order']) : 'desc';
@@ -144,16 +135,18 @@ as d on d.user_id = u.user_id";
         $start_date = RC_Time::local_mktime(0, 0, 0, $m, $d - 30, $y); //30天前 开始时间
         $end_date   = RC_Time::gmtime(); //当前时间
 
-        $filter['start_date'] = empty($_GET['start_date']) ? '' : $_GET['start_date'];
-        $filter['end_date']   = empty($_GET['end_date']) ? '' : $_GET['end_date'];
+        $filter['start_date'] = empty($_GET['start_date']) ? RC_Time::local_date('Y-m-d', $start_date) : $_GET['start_date'];
+        $filter['end_date']   = empty($_GET['end_date']) ? RC_Time::local_date('Y-m-d', $end_date) : $_GET['end_date'];
 
-        if (!empty($filter['start_date']) && !empty($filter['end_date'])) {
-            $start_date = RC_Time::local_strtotime($filter['start_date']);
-            $end_date   = RC_Time::local_strtotime($filter['end_date']);
-        }
-        $sql .= "
+        $start_date = RC_Time::local_strtotime($filter['start_date']);
+        $end_date = RC_Time::local_strtotime($filter['end_date']);
 
-INNER JOIN (select user_id from " . $table_order_info . " where add_time >=" . $start_date . " and add_time <=" . $end_date . " GROUP BY user_id) as o on o.user_id = u.user_id";
+
+        $sql = "select u.user_id, u.user_name, u.user_money as avaliable_money, u.pay_points as integral, order_count, order_money
+from " . $table_users . " as u
+
+INNER JOIN (select user_id, count(order_id) as order_count, sum(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - integral_money - bonus - discount) as order_money from " . $table_order_info . " where is_delete = 0 and order_status in (1, 5) and shipping_status = 2 and pay_status in (2, 1) and  add_time >=" . $start_date . " and add_time <=" . $end_date . " GROUP BY user_id)
+as c on c.user_id = u.user_id";
 
         //图表数据 根据按钮状态切换显示 start
         $stats = !empty($_GET['stats']) ? trim($_GET['stats']) : 'order_money';
@@ -170,10 +163,11 @@ INNER JOIN (select user_id from " . $table_order_info . " where add_time >=" . $
         //列表数据 start
         $data = [];
         if (!empty($keywords)) {
-            $sql .= ' and u.user_name like "' . '%' . $keywords . '%"';
+            $sql .= ' where u.user_name like "' . '%' . $keywords . '%"';
         }
         $sql  .= " ORDER BY " . $sort_by . ' ' . $sort_order;
         $data = RC_DB::select($sql);
+
         //列表数据 end
 
         //店铺排行 不受分页/关键字影响 start
@@ -223,7 +217,7 @@ INNER JOIN (select user_id from " . $table_order_info . " where add_time >=" . $
                 $result = $arr;
             }
         }
-        return array('item' => $result, 'page' => $page->show(2), 'stats_data' => $stats_data);
+        return array('item' => $result, 'page' => $page->show(2), 'stats_data' => $stats_data, 'filter' => $filter);
     }
 
     private function array_sort($arr, $keys, $type = 'asc')

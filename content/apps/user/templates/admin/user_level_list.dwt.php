@@ -59,9 +59,9 @@
 	 name="searchForm" method="post">
 		<div class="choose_list f_r">
 			<div>
-			<input class="date f_l w150" name="start_date" type="text" value="{$smarty.get.start_date}" placeholder='{t domain="user"}开始日期{/t}'>
+			<input class="date f_l w150" name="start_date" type="text" value="{$list.filter.start_date}" placeholder='{t domain="user"}开始日期{/t}'>
 			<span class="f_l">{t domain="user"}至{/t}</span>
-			<input class="date f_l w150" name="end_date" type="text" value="{$smarty.get.end_date}" placeholder='{t domain="user"}结束日期{/t}'>
+			<input class="date f_l w150" name="end_date" type="text" value="{$list.filter.end_date}" placeholder='{t domain="user"}结束日期{/t}'>
 			<input type="text" name="keywords" value="{$smarty.get.keywords}" placeholder='{t domain="user"}请输入会员名称关键字{/t}' />
 			<button class="btn search-btn" type="button">{t domain="user"}搜索{/t}</button>
 			</div>
