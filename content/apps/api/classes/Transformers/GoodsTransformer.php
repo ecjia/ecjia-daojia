@@ -67,6 +67,7 @@ class GoodsTransformer extends Transformer
 
         $outData = array(
             "id"            => $data['goods_id'],
+        	'goods_id'		=> $data['goods_id'],
             "cat_id"        => $data['cat_id'],
             "goods_sn"      => $data['goods_sn'],
             "goods_name"    => $data['goods_name'],
@@ -82,7 +83,7 @@ class GoodsTransformer extends Transformer
             "goods_number"  => is_numeric($data['goods_number']) ? $data['goods_number'] : 65535,
             "goods_weight"  =>  $data['goods_weight'],
             "promote_price" => $data['promote_price_org'],
-            "formated_promote_price"    => ecjia_price_format($data['promote_price_org'], false),//$data['promote_price'],
+            "formated_promote_price"    => $data['promote_price_org'] > 0 ? ecjia_price_format($data['promote_price_org'], false) : '',
             "promote_start_date"        => $this->bjTime($data['promote_start_date']),
             "promote_end_date"          => $this->bjTime($data['promote_end_date']),
             "is_shipping"   => $data['is_shipping'],
