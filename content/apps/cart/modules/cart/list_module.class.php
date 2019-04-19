@@ -75,6 +75,13 @@ class cart_list_module extends api_front implements api_interface {
 		$seller_id	= $this->requestData('seller_id', 0);
 		$city_id	= $this->requestData('city_id', '');
 		
+		$rec_type		= trim($this->requestData('rec_type', 'GENERAL_GOODS'));
+		
+		if ($rec_type == 'GROUPBUY_GOODS') {
+			$flow_type = CART_GROUP_BUY_GOODS;
+		} else {
+			$flow_type = CART_GENERAL_GOODS;
+		}
 		
 		if (isset($location['latitude']) && !empty($location['latitude']) && isset($location['longitude']) && !empty($location['longitude'])) {
 			$geohash         = RC_Loader::load_app_class('geohash', 'store');
@@ -91,9 +98,9 @@ class cart_list_module extends api_front implements api_interface {
 		}
 
 		if ($seller_id) {
-		    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => array($seller_id), 'flow_type' => CART_GENERAL_GOODS));
+		    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => array($seller_id), 'flow_type' => $flow_type));
 		} else {
-		    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => CART_GENERAL_GOODS));
+		    $cart_result = RC_Api::api('cart', 'cart_list', array('store_group' => '', 'flow_type' => $flow_type));
 		}
 		
 		return formated_cart_list($cart_result, $store_id_group);

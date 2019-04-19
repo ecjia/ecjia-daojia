@@ -83,6 +83,11 @@ class cart_cart_manage_api extends Component_Event_Api {
     private function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $store_group = array(), $product_id = 0) {
         RC_Loader::load_app_class('goods_info', 'goods', false);
         
+        if ($product_id > 0) {
+        	$product_info = RC_DB::table('products')->where('product_id', $product_id)->first();
+        	$spec = explode('|', $product_info['goods_attr']);
+        }
+        
         $_parent_id     = $parent;
         if (is_array($spec)) {
             sort($spec);
@@ -139,8 +144,13 @@ class cart_cart_manage_api extends Component_Event_Api {
         $prod = RC_DB::table('products')->where('goods_id', $goods_id)->count();
 
         //商品存在规格 是货品 检查该货品库存
-        if (goods_info::is_spec($spec) && $prod > 0) {
-            $product_info = goods_info::get_products_info($goods_id, $spec);
+        if (goods_info::is_spec($spec)) {
+            //$product_info = goods_info::get_products_info($goods_id, $spec);
+        	$goods_attr = implode ( '|', $spec);
+        	$product_info = RC_DB::table('products')->where('goods_id', $goods_id)->where('goods_attr', $goods_attr)->first();
+            if (empty($product_info)) {
+            	return new ecjia_error('low_stocks', __('暂无此货品！', 'cart'));
+            }
             $spec = explode('|', $product_info['goods_attr']);
             $is_spec = true;
         } else {
@@ -175,8 +185,8 @@ class cart_cart_manage_api extends Component_Event_Api {
             $goods_attr             = goods_info::get_goods_attr_info($spec, 'no');
             $goods_attr_id          = join(',', $spec);
             if (!empty($product_id)) {
-            	//商品SKU价格模式：商品价格 + 属性货品价格
-            	if (ecjia::config('sku_price_mode') == 'goods_sku') {
+            	//商品SKU价格模式：商品价格 + 属性货品价格；货品未设置自定义价格
+            	if ($product_info['product_shop_price'] <= 0) {
             		$goods['market_price'] += $spec_price;
             	}
             }
@@ -201,13 +211,15 @@ class cart_cart_manage_api extends Component_Event_Api {
 	        'store_id'      => $goods['store_id'],
 	        'add_time'      => RC_Time::gmtime(),
         );
+        //货品自定义名称
+        if (!empty($product_info['product_name'])) {
+        	$parent['goods_name'] = addslashes($product_info['product_name']);
+        }
 
         if (defined('SESS_ID')) {
             $parent['session_id'] = SESS_ID;
         }
 
-        
-        
         /* 如果该配件在添加为基本件的配件时，所设置的“配件价格”比原价低，即此配件在价格上提供了优惠， */
         /* 则按照该配件的优惠价格卖，但是每一个基本件只能购买一个优惠价格的“该配件”，多买的“该配件”不享受此优惠 */
         $basic_list = array();
@@ -365,7 +377,6 @@ class cart_cart_manage_api extends Component_Event_Api {
                 $parent['goods_price']  = empty($goods_price) ? 0.00 : max($goods_price, 0);
                 $parent['goods_number'] = $num;
                 $parent['parent_id']    = 0;
-
                 $cart_id = RC_DB::table('cart')->insertGetId($parent);
             }
         }

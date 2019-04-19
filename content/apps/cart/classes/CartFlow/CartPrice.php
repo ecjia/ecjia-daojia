@@ -52,6 +52,7 @@ class CartPrice
     	$this->total['real_goods_count'] 	= $real_goods_count;
     	$this->total['virtual_goods_count'] = $virtual_goods_count;
     	
+    	$this->total['goods_price'] = '0.00';
     	if ($this->model->is_checked == 1) {
     		$this->total['goods_price']  += $this->model->goods_price * $this->model->goods_number;
     		$this->total['market_price'] += $this->model->market_price * $this->model->goods_number;

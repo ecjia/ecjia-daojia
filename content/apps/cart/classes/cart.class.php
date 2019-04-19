@@ -144,7 +144,7 @@ class cart {
 					$attr_id    = empty($goods['goods_attr_id']) ? array() : explode(',', $goods['goods_attr_id']);
 					
 					RC_Loader::load_app_class('goods_info', 'goods', false);
-					$goods_price = goods_info::get_final_price($goods['goods_id'], $val, true, $attr_id);
+					$goods_price = goods_info::get_final_price($goods['goods_id'], $val, true, $attr_id, $goods['product_id']);
 
 					$db_cart->where(array('rec_id' => $key , 'user_id' => $_SESSION['user_id'] ))->update(array('goods_number' => $val , 'goods_price' => $goods_price));
 

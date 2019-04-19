@@ -1763,6 +1763,7 @@ function formated_cart_list($cart_result, $store_id_group = array()) {
                 'formated_market_price' => $row['formatted_market_price'],
                 'goods_number'	        => intval($row['goods_number']),
                 'subtotal'		        => $row['subtotal'],
+            	'product_id'			=> intval($row['product_id']),
                 'attr'			        => $row['goods_attr'],
                 'goods_attr_id'         => $row['goods_attr_id'],
                 'goods_attr'	        => $goods_attrs,

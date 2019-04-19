@@ -72,6 +72,7 @@ class CartGoods
 
         /* 返回未格式化价格*/
         $this->output['rec_id']					= intval($this->model->rec_id);
+        $this->output['product_id']				= intval($this->model->product_id);
         $this->output['goods_id']				= intval($this->model->goods_id);
         $this->output['goods_sn']				= trim($this->model->goods_sn);
         $this->output['goods_name'] 			= rc_stripslashes($this->model->goods_name);

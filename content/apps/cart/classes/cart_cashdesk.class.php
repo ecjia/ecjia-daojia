@@ -321,7 +321,7 @@ class cart_cashdesk {
 	
 		/* 计算商品的促销价格 */
 		$spec_price             = spec_price($spec, $goods_id);
-		$goods_price            = get_final_price($goods_id, $num, true, $spec);
+		$goods_price            = get_final_price($goods_id, $num, true, $spec, $product_info['product_id']);
 		$goods_attr             = get_goods_attr_info($spec, 'pice');
 		$goods_attr_id          = join(',', $spec);
 	
@@ -475,7 +475,7 @@ class cart_cashdesk {
 							if ($row['pendorder_id'] == $pendorder_id) { //当前挂单id与此数据挂单id相同，直接更新
 								$num += $row['goods_number'];
 								if (ecjia::config('use_storage') == 0 || $num <= $goods_storage) {
-									$goods_price = get_final_price($goods_id, $num, true, $spec);
+									$goods_price = get_final_price($goods_id, $num, true, $spec, $row['product_id']);
 									$data =  array(
 											'goods_number' => $num,
 											'goods_price'  => $goods_price,
@@ -503,7 +503,7 @@ class cart_cashdesk {
 								}
 							} 
 						} else { //当前操作为非挂单添加
-							$goods_price = get_final_price($goods_id, $num, true, $spec );
+							$goods_price = get_final_price($goods_id, $num, true, $spec, $row['product_id']);
 							$parent['goods_price']  = max($goods_price, 0);
 							$parent['goods_number'] = $num;
 							$parent['parent_id']    = 0;
@@ -511,7 +511,7 @@ class cart_cashdesk {
 						}
 					} else { //当前数据为非挂单数据
 						if (!empty($pendorder_id)) { //当前操作为挂单继续添加
-							$goods_price = get_final_price($goods_id, $num, true, $spec );
+							$goods_price = get_final_price($goods_id, $num, true, $spec, $row['product_id']);
 							$parent['goods_price']  = max($goods_price, 0);
 							$parent['goods_number'] = $num;
 							$parent['parent_id']    = 0;
@@ -521,7 +521,7 @@ class cart_cashdesk {
 							
 							if ($row['pendorder_id'] == $pendorder_id) { //当前挂单id与此数据挂单id相同，直接更新
 								if (ecjia::config('use_storage') == 0 || $num <= $goods_storage) {
-									$goods_price = get_final_price($goods_id, $num, true, $spec);
+									$goods_price = get_final_price($goods_id, $num, true, $spec, $row['product_id']);
 									$data =  array(
 											'goods_number' => $num,
 											'goods_price'  => $goods_price,
@@ -583,7 +583,7 @@ class cart_cashdesk {
 				}
 			} else {
 				//购物车没有此物品，则插入
-				$goods_price = get_final_price($goods_id, $num, true, $spec );
+				$goods_price = get_final_price($goods_id, $num, true, $spec, $product_info['product_id']);
 				$parent['goods_price']  = max($goods_price, 0);
 				$parent['goods_number'] = $num;
 				$parent['parent_id']    = 0;
@@ -754,7 +754,7 @@ class cart_cashdesk {
 				}  else {
 					/* 处理普通商品或非优惠的配件 */
 					$attr_id = empty($goods['goods_attr_id']) ? array() : explode(',', $goods['goods_attr_id']);
-					$goods_price = get_final_price($goods['goods_id'], $val, true, $attr_id);
+					$goods_price = get_final_price($goods['goods_id'], $val, true, $attr_id, $goods['product_id']);
 	
 					//更新购物车中的商品数量
 					if ($_SESSION['user_id']) {

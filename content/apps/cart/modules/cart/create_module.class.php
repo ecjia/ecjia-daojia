@@ -82,7 +82,8 @@ class cart_create_module extends api_front implements api_interface {
 	    
 	    $rec_type		= trim($this->requestData('rec_type', 'GENERAL_GOODS')); 
 	    $object_id 		= $this->requestData('goods_activity_id', 0);
-
+	    
+	    
 	    RC_Loader::load_app_func('cart', 'cart');
 
 	    unset($_SESSION['flow_type']);
@@ -91,6 +92,11 @@ class cart_create_module extends api_front implements api_interface {
 	    
     	if (!$goods_id) {
     		return new ecjia_error('not_found_goods', __('请选择您所需要购买的商品！', 'cart'));
+    	}
+    	
+    	if ($product_id > 0) {
+    		$goods_attr = RC_DB::table('products')->where('product_id', $product_id)->pluck('goods_attr');
+    		$goods_spec = explode('|', $goods_attr);
     	}
     	
     	//该商品对应店铺是否被锁定
