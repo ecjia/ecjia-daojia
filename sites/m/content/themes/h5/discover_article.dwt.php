@@ -79,7 +79,7 @@ ecjia.touch.index.init();
 						<!--{foreach from=$data.recommend_goods item=goods name=goods}-->
 						<!-- {if $smarty.foreach.goods.index < 6 } -->
 						<li>
-							<a class="nopjax external" href='{url path="goods/index/show" args="goods_id={$goods.goods_id}"}'>
+							<a class="nopjax external" href='{url path="goods/index/show" args="goods_id={$goods.goods_id}&product_id={$goods.product_id}"}'>
 								<img src="{$goods.img.url}" alt="{$goods.name}" title="{$goods.name}"/>
 							</a>
 							<p class="link-goods-name ecjia-goods-name-new">{$goods.name}</p>

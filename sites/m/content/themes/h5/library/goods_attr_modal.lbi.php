@@ -36,18 +36,18 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	</div>
 	<div class="modal-buttons modal-buttons-2 modal-buttons-vertical">
 		<div class="modal-left">
-			<span class="goods-attr-price">{if $current_spec.goods_price}{$current_spec.goods_price}{else}￥{$goods_info.spec_price}{/if}</span>
-			<span class="goods-attr-name">{$current_spec.attr}</span>
+			<span class="goods-attr-price">{if $current_spec.goods_price}￥{$current_spec.goods_price}{else}{$goods_info.default_product_spec.product_shop_price_label}{/if}</span>
+			<span class="goods-attr-name">{if $current_spec.attr}{$current_spec.attr}{else}{$goods_info.default_product_spec.product_goods_attr_label}{/if}</span>
 		</div>
 		<div class="ecjia-choose-attr-box box {if $current_spec.rec_id}show{else}hide{/if}" id="goods_{$goods_info.id}">
 			<span class="add add_spec" data-toggle="add-to-cart" goods_id="{$goods_info.id}" rec_id="{$current_spec.rec_id}"></span>
 		    <label>{$current_spec.goods_number}</label>
 		    <span class="reduce remove_spec" data-toggle="remove-to-cart" goods_id="{$goods_info.id}" rec_id="{$current_spec.rec_id}"></span>
 		</div>           
-		<a class="add-tocart add_spec {if $current_spec.rec_id}hide{else}show{/if}" data-toggle="add-to-cart" goods_id="{$goods_info.id}">{t domain="h5"}加入购物车{/t}</a>
-		<input type="hidden" name="goods_price" value="{if $goods_info.promote_price}{$goods_info.promote_price}{else}{$goods_info.unformatted_shop_price}{/if}" />
+		<a class="add-tocart add_spec {if $current_spec.rec_id}hide{else}show{/if}" data-toggle="add-to-cart" data-url="{RC_Uri::url('goods/index/show')}&goods_id={$goods_info.goods_id}" goods_id="{$goods_info.id}" product_id="{$goods_info.product_id}">{t domain="h5"}加入购物车{/t}</a>
+		<input type="hidden" name="goods_price_label" value="{if $goods_info.promote_price}{$goods_info.formated_promote_price}{else}{$goods_info.shop_price}{/if}" />
+		<input type="hidden" name="goods_attr_label" value="{$goods_info.product_goods_attr_label}" />
 		<input type="hidden" name="check_spec" value="{RC_Uri::url('cart/index/check_spec')}&store_id={$goods_info.seller_id}" />
-		<input type="hidden" name="product_id" data-url="{RC_Uri::url('goods/index/show')}&goods_id={$goods_info.id}"  value="{if $current_spec.product_id}{$current_spec.product_id}{else}0{/if}" />
 	</div>
 </div>
 <div class="ecjia-goodsAttr-overlay ecjia-goodsAttr-overlay-visible"></div>

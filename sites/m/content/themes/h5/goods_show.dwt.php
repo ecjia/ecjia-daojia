@@ -121,7 +121,7 @@ var releated_goods = {$releated_goods};
 						<div class="cart-plus-right goods_spec_{$goods_info.id}" goods_id="{$goods_info.id}">
 							{if $goods_info.specification}
 							<span class="goods-add-cart choose_attr {if $goods_info.in_related_goods eq 1}spec_goods{/if}" goods_id="{$goods_info.id}">{t domain="h5"}选规格{/t}</span>
-							{if $goods_attr_num}<i class="attr-number">{$goods_attr_num}</i>{/if}
+							{if $goods_attr_num}<i class="attr-number" style="right: 0.2em;top: 0.2em;">{$goods_attr_num}</i>{/if}
 							{else}
 							<span class="goods-add-cart add-cart-a {if $rec_id}hide{/if}" data-toggle="{if !$goods_info.groupbuy_info}add-to-cart{else}add-goods{/if}"
 							 goods_id="{$goods_info.id}" act_id="{$goods_info.goods_activity_id}">{t domain="h5"}加入购物车{/t}</span>
@@ -136,8 +136,12 @@ var releated_goods = {$releated_goods};
 						{/if}
 					</div>
 					<!--{else}-->
-					<span class="ecjia-price-span">{if $goods_info.promote_price gt
-						0}{$goods_info.formated_promote_price}{else}{$goods_info.shop_price}{/if}</span>
+					{if $goods_info.default_product_spec.product_shop_price_label neq ''}
+					<span class="ecjia-price-span">{$goods_info.default_product_spec.product_shop_price_label}</span>
+					{else}
+					<span class="ecjia-price-span">{$goods_info.shop_price}</span>
+					{/if}	
+						
 					{if $goods_info.market_price}
                     <del>{t domain="h5"}市场价：{/t}{$goods_info.market_price}</del>
                     {/if}
@@ -177,7 +181,14 @@ var releated_goods = {$releated_goods};
 						{/if}
 					</div>
 					{/if}
-
+					{if $goods_info.default_product_spec.product_goods_attr_label neq ''}
+					<div class="groupbuy_notice">
+						<div class="item">
+							<div class="left" style="width:3em;">{t domain="h5"}已选{/t}</div>
+							<div class="right" style="margin-left:3em;">{$goods_info.default_product_spec.product_goods_attr_label}</div>
+						</div>
+					</div>
+					{/if}
 				</div>
 				<!-- {if $goods_info.favourable_list} -->
 				<div class="ecjia-favourable-goods-list">
@@ -283,14 +294,14 @@ var releated_goods = {$releated_goods};
 
 									{if $goods_info.shop_closed neq 1}
 										{if $goods.specification}
-										<div class="goods_attr goods_spec_{$goods.goods_id}" goods_id="{$goods_info.id}">
-											<span class="choose_attr spec_goods" rec_id="{$goods.rec_id}" goods_id="{$goods.goods_id}" data-num="{$goods.num}"
+										<div class="goods_attr goods_spec_{$goods.id}" goods_id="{$goods_info.id}">
+											<span class="choose_attr spec_goods" rec_id="{$goods.rec_id}" goods_id="{$goods.id}" data-num="{$goods.num}"
 											data-spec="{$goods.default_spec}" data-url="{RC_Uri::url('cart/index/check_spec')}" data-store="{$store_id}">{t domain="h5"}选规格{/t}</span>
 											{if $goods.num}<i class="attr-number">{$goods.num}</i>{/if}
 										</div>
 										{else}
-										<span class="goods-price-plus may_like_{$goods.goods_id}" data-toggle="add-to-cart" rec_id="{$goods.rec_id}"
-										goods_id="{$goods.goods_id}" data-num="{$goods.num}"></span>
+										<span class="goods-price-plus may_like_{$goods.id}" data-toggle="add-to-cart" rec_id="{$goods.rec_id}"
+										goods_id="{$goods.id}" data-num="{$goods.num}"></span>
 										{/if}
 									{/if}
 								</div>
@@ -441,13 +452,13 @@ var releated_goods = {$releated_goods};
 								</tr>
 							</tbody>
 						</table>
-						<div class="box" id="goods_cart_{$cart.goods_id}">
+						<div class="box" id="goods_cart_{$cart.id}">
 							<span class="a5u reduce {if $cart.is_disabled eq 1}disabled{/if} {if $cart.attr}attr_spec{/if}" data-toggle="remove-to-cart"
-							 rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}"></span>
+							 rec_id="{$cart.rec_id}" goods_id="{$cart.id}"></span>
 							<lable class="a5x" {if $cart.is_disabled neq 1}data-toggle="change-number" {/if} rec_id="{$cart.rec_id}"
 							 goods_id="{$cart.goods_id}" goods_num="{$cart.goods_number}">{$cart.goods_number}</lable>
 							<span class="a5v {if $cart.is_disabled eq 1}disabled{/if} {if $cart.attr}attr_spec{/if}" data-toggle="add-to-cart"
-							 rec_id="{$cart.rec_id}" goods_id="{$cart.goods_id}"></span>
+							 rec_id="{$cart.rec_id}" goods_id="{$cart.id}"></span>
 						</div>
 					</li>
 					<input type="hidden" name="rec_id" value="{$cart.rec_id}" />

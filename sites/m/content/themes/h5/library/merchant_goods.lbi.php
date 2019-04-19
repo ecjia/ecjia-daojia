@@ -10,7 +10,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {block name="ajaxinfo"} -->
 <!-- {foreach from=$goods_list item=goods} -->
 <li>
-	<a class="linksGoods w nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$goods.id}">
+	<a class="linksGoods w nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$goods.goods_id}&product_id={$goods.product_id}">
 		<img class="pic" src="{$goods.img.small}">
 		<dl>
 			<dt>{$goods.name}</dt>
@@ -20,7 +20,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	{if $shop_closed neq 1}
 		{if $goods.specification}
 		<div class="goods_attr goods_spec_{$goods.id}">
-			<span class="choose_attr spec_goods" rec_id="{$goods.rec_id}" goods_id="{$goods.id}" data-num="{$goods.num}" data-spec="{$goods.default_spec}" data-url="{RC_Uri::url('cart/index/check_spec')}&store_id={$goods.store_id}">{t domain="h5"}选规格{/t}</span>
+			<span class="choose_attr spec_goods" rec_id="{$goods.rec_id}" goods_id="{$goods.id}" data-store="{$goods.store_id}" data-num="{$goods.num}" data-spec="{$goods.default_spec}" data-url="{RC_Uri::url('cart/index/check_spec')}&store_id={$goods.store_id}">{t domain="h5"}选规格{/t}</span>
 			{if $goods.num}<i class="attr-number">{$goods.num}</i>{/if}
 		</div>
 		{else}

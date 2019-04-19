@@ -1874,6 +1874,7 @@ ul {
     line-height: 3em;
     font-size: 1.1em;
     z-index: 1;
+	max-width: 640px;
 }
 
 .ecjia-promotion-tab li {
@@ -3017,7 +3018,9 @@ footer {
     display: -webkit-box;
     display: -ms-box;
     display: -moz-box;
-    font-weight: 400
+    font-weight: 400;
+    word-wrap: break-word;
+    -webkit-box-pack: center;
 }
 
 .ecjia-store-goods .r2 li label {
@@ -7018,7 +7021,7 @@ footer {
     display: inline-block;
     padding: 0;
     height: auto;
-    margin: .5em 0 .3em 1.1%;
+    margin: .5em 0 .3em 1.0%;
     border: none
 }
 
@@ -7341,7 +7344,7 @@ footer {
 }
 
 .ecjia-order-list .order-ft span {
-    width: 50%
+    width: 52%
 }
 
 .ecjia-order-list .order-ft span span {

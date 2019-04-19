@@ -95,7 +95,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			<ul class="goods-item">
 				<!-- {foreach from=$order.goods_list item=goods} -->
 				<li>
-				    <a class="nopjax external" href='{url path="goods/index/show" args="goods_id={$goods.goods_id}"}'>
+				    <a class="nopjax external" href='{url path="goods/index/show" args="goods_id={$goods.goods_id}&product_id={$goods.product_id}"}'>
 					<div class="ecjiaf-fl goods-img">
 						<img src="{$goods.img.thumb}" alt="{$goods.name}" title="{$goods.name}" />
 					</div>

@@ -88,7 +88,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			            	<div class="push_photo" id="result{$k}">
 			            	   <div class="push_result_img">
 			            	       <img src="{$theme_url}images/photograph.png">
-			            	       <input type="file" class="push_img_btn" id="filechooser{$k}" name="refund_images[]" accept="image/jpeg,image/jpg,image/png,image/bmp,image/gif">
+			            	       <input type="file" class="push_img_btn" id="filechooser{$k}" name="refund_images[]" accept="image/*">
 			            	   </div>
 			            	</div>
 			            	<!-- {/foreach} -->

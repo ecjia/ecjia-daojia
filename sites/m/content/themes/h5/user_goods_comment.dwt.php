@@ -60,31 +60,31 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
             	<div class="push_photo" id="result0">
             	   <div class="push_result_img">
             	       <img src="{$theme_url}images/photograph.png">
-            	       <input type="file" class="push_img_btn" id="filechooser0" name="picture[]" accept="image/jpeg,image/jpg,image/png,image/bmp,image/gif">
+            	       <input type="file" class="push_img_btn" id="filechooser0" name="picture[]" accept="image/*">
             	   </div>
             	</div>
             	<div class="push_photo" id="result1">
             	   <div class="push_result_img">
             	       <img src="{$theme_url}images/photograph.png">
-            	       <input type="file" class="push_img_btn" id="filechooser1" name="picture[]" accept="image/jpeg,image/jpg,image/png,image/bmp,image/gif">
+            	       <input type="file" class="push_img_btn" id="filechooser1" name="picture[]" accept="image/*">
             	   </div>
             	</div>
             	<div class="push_photo" id="result2">
             	   <div class="push_result_img">
             	       <img src="{$theme_url}images/photograph.png">
-            	       <input type="file" class="push_img_btn" id="filechooser2" name="picture[]" accept="image/jpeg,image/jpg,image/png,image/bmp,image/gif">
+            	       <input type="file" class="push_img_btn" id="filechooser2" name="picture[]" accept="image/*">
             	   </div>
             	</div>
             	<div class="push_photo" id="result3">
             	   <div class="push_result_img">
             	       <img src="{$theme_url}images/photograph.png">
-            	       <input type="file" class="push_img_btn" id="filechooser3" name="picture[]" accept="image/jpeg,image/jpg,image/png,image/bmp,image/gif">
+            	       <input type="file" class="push_img_btn" id="filechooser3" name="picture[]" accept="image/*">
             	   </div>
             	</div>
             	<div class="push_photo" id="result4">
             	   <div class="push_result_img">
             	       <img src="{$theme_url}images/photograph.png">
-            	       <input type="file" class="push_img_btn" id="filechooser4" name="picture[]" accept="image/jpeg,image/jpg,image/png,image/bmp,image/gif">
+            	       <input type="file" class="push_img_btn" id="filechooser4" name="picture[]" accept="image/*">
             	   </div>
             	</div>
                 <p class="push_img_fonz" >{t domain="h5"}请上传图片 (最多5张){/t}</p>

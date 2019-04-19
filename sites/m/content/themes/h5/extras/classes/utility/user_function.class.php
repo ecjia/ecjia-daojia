@@ -171,6 +171,23 @@ class user_function
         return $str;
     }
 
+    /**
+     * Build登录地址
+     * @param null $referer_url
+     * @return string
+     */
+    public static function build_login_url($referer_url = null)
+    {
+        $route = 'user/privilege/login';
+        if (user_function::is_weixin()) {
+            $route = 'user/privilege/wechat_login';
+        }
+
+        $url = RC_Uri::url($route, array('referer_url' => urlencode($referer_url)));
+
+        return $url;
+    }
+
     public static function is_change_payment($pay_code = '', $manage_mode = '')
     {
         $pay = ecjia_touch_manager::make()->api(ecjia_touch_api::SHOP_PAYMENT)->run();

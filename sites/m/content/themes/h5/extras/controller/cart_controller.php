@@ -98,12 +98,235 @@ class cart_controller
         ecjia_front::$controller->display('cart_list.dwt');
     }
 
+    /**
+     * 添加商品进购物车
+     * POST:    store_id
+     *          spec
+     *          val
+     *          goods_id
+     * @return mixed|\Royalcms\Component\Foundation\Royalcms|\Royalcms\Component\Http\Response|string
+     */
+    public static function create_cart()
+    {
+        $url         = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
+        $referer_url = user_function::build_login_url($url);
+        if (!ecjia_touch_user::singleton()->isSignin()) {
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
+        }
+
+        $store_id   = intval($_POST['store_id']);
+        $spec       = isset($_POST['spec']) ? $_POST['spec'] : '';
+        $new_number = intval($_POST['val']);
+
+        list($goods_id, $product_id) = explode('_', trim($_POST['goods_id']));
+        $goods_id   = intval($goods_id);
+        $product_id = intval($product_id);
+
+        $ecjia_cart = new ecjia_cart($store_id);
+        $ecjia_cart->deleteLocalStorage();
+
+        $result = $ecjia_cart->createCart($goods_id, $product_id, $spec, $new_number);
+
+        if (is_ecjia_error($result)) {
+            // Invalid session
+            if ($result->get_error_code() == 100) {
+                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
+            }
+            return ecjia_front::$controller->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        $ecjia_cart->saveLocalStorage($result);
+
+        //处理购物车返回数据
+        list($cart_goods_list, $data_rec, $current, $cart_count) = $ecjia_cart->formattedCartGoodsList($result);
+
+        ecjia_front::$controller->assign('list', $cart_goods_list);
+        $sayList = ecjia_front::$controller->fetch('merchant.dwt');
+
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('say_list' => $sayList, 'list' => $cart_goods_list, 'count' => $cart_count, 'data_rec' => $data_rec, 'current' => $current));
+    }
+
+    /**
+     * 创建团购商品进购物车
+     * POST:    store_id
+     *          spec
+     *          val
+     *          goods_id
+     *          act_id
+     * @return mixed|\Royalcms\Component\Foundation\Royalcms|\Royalcms\Component\Http\Response|string
+     */
+    public static function create_groupbuy_cart()
+    {
+        $url         = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
+        $referer_url = user_function::build_login_url($url);
+        if (!ecjia_touch_user::singleton()->isSignin()) {
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
+        }
+
+        $store_id   = intval($_POST['store_id']);
+        $spec       = isset($_POST['spec']) ? $_POST['spec'] : '';
+        $new_number = intval($_POST['val']);
+        $goods_activity_id = intval($_POST['act_id']);
+
+        list($goods_id, $product_id) = explode('_', trim($_POST['goods_id']));
+        $goods_id   = intval($goods_id);
+        $product_id = intval($product_id);
+
+        $ecjia_cart = new ecjia_cart_groupbuy($store_id);
+        $ecjia_cart->deleteLocalStorage();
+
+        $result = $ecjia_cart->createCartWithGroupBuy($goods_activity_id, $goods_id, $product_id, $spec, $new_number);
+
+        if (is_ecjia_error($result)) {
+            // Invalid session
+            if ($result->get_error_code() == 100) {
+                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
+            }
+            return ecjia_front::$controller->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        $ecjia_cart->saveLocalStorage($result);
+
+        //处理购物车返回数据
+        list($cart_goods_list, $data_rec, $current, $cart_count) = $ecjia_cart->formattedCartGoodsList($result);
+
+        ecjia_front::$controller->assign('list', $cart_goods_list);
+        $sayList = ecjia_front::$controller->fetch('merchant.dwt');
+
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('say_list' => $sayList, 'list' => $cart_goods_list, 'count' => $cart_count, 'data_rec' => $data_rec, 'current' => $current));
+    }
+
+    /**
+     * 从购物车中删除商品
+     * POST:    store_id
+     *          rec_id
+     * @return mixed|\Royalcms\Component\Foundation\Royalcms|\Royalcms\Component\Http\Response|string
+     */
+    public static function delete_cart()
+    {
+        $url         = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
+        $referer_url = user_function::build_login_url($url);
+        if (!ecjia_touch_user::singleton()->isSignin()) {
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
+        }
+
+        $store_id = intval($_POST['store_id']);
+        $rec_id   = $_POST['rec_id'];
+
+        $ecjia_cart = new ecjia_cart($store_id);
+        $ecjia_cart->deleteLocalStorage();
+
+        if (is_array($rec_id)) {
+            $result = $ecjia_cart->clearCart($rec_id);
+        } else {
+            $result = $ecjia_cart->deleteCart($rec_id);
+        }
+
+        if (is_ecjia_error($result)) {
+            // Invalid session
+            if ($result->get_error_code() == 100) {
+                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
+            }
+            return ecjia_front::$controller->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        $ecjia_cart->saveLocalStorage($result);
+
+        //处理购物车返回数据
+        list($cart_goods_list, $data_rec, $current, $cart_count) = $ecjia_cart->formattedCartGoodsList($result);
+
+        ecjia_front::$controller->assign('list', $cart_goods_list);
+        $sayList = ecjia_front::$controller->fetch('merchant.dwt');
+
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('say_list' => $sayList, 'list' => $cart_goods_list, 'count' => $cart_count, 'data_rec' => $data_rec, 'current' => $current));
+    }
+
+    /**
+     * 修改购物车中商品的选中状态
+     * @return mixed|\Royalcms\Component\Foundation\Royalcms|\Royalcms\Component\Http\Response|string
+     */
+    public static function checked_cart()
+    {
+        $url         = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
+        $referer_url = user_function::build_login_url($url);
+        if (!ecjia_touch_user::singleton()->isSignin()) {
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
+        }
+
+        $store_id = intval($_POST['store_id']);
+        $rec_id   = $_POST['rec_id'];
+        $checked  = !empty($_POST['checked']) ? 1 : 0;
+
+        $ecjia_cart = new ecjia_cart($store_id);
+        $ecjia_cart->deleteLocalStorage();
+
+        $result = $ecjia_cart->checkedCart($rec_id, $checked);
+
+        if (is_ecjia_error($result)) {
+            // Invalid session
+            /**
+             * @var ecjia_error $result
+             */
+            if ($result->get_error_code() == 100) {
+                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
+            }
+            return ecjia_front::$controller->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        $ecjia_cart->saveLocalStorage($result);
+
+        //处理购物车返回数据
+        list($cart_goods_list, $data_rec, $current, $cart_count) = $ecjia_cart->formattedCartGoodsList($result);
+
+        ecjia_front::$controller->assign('list', $cart_goods_list);
+        $sayList = ecjia_front::$controller->fetch('merchant.dwt');
+
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('say_list' => $sayList, 'list' => $cart_goods_list, 'count' => $cart_count, 'data_rec' => $data_rec, 'current' => $current));
+    }
+
+    public static function update_cart2()
+    {
+        $url         = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
+        $referer_url = user_function::build_login_url($url);
+        if (!ecjia_touch_user::singleton()->isSignin()) {
+            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
+        }
+
+        $store_id   = intval($_POST['store_id']);
+        $rec_id     = intval($_POST['rec_id']);
+        $new_number = intval($_POST['val']);
+
+        $ecjia_cart = new ecjia_cart($store_id);
+        $ecjia_cart->deleteLocalStorage();
+
+        $result = $ecjia_cart->updateCart($rec_id, $new_number);
+
+        if (is_ecjia_error($result)) {
+            // Invalid session
+            /**
+             * @var ecjia_error $result
+             */
+            if ($result->get_error_code() == 100) {
+                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
+            }
+            return ecjia_front::$controller->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+        $ecjia_cart->saveLocalStorage($result);
+
+        //处理购物车返回数据
+        list($cart_goods_list, $data_rec, $current, $cart_count) = $ecjia_cart->formattedCartGoodsList($result);
+
+        ecjia_front::$controller->assign('list', $cart_goods_list);
+        $sayList = ecjia_front::$controller->fetch('merchant.dwt');
+
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('say_list' => $sayList, 'list' => $cart_goods_list, 'count' => $cart_count, 'data_rec' => $data_rec, 'current' => $current));
+    }
+
     public static function update_cart()
     {
-        $url       = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
-        $login_str = user_function::return_login_str();
-
-        $referer_url = RC_Uri::url($login_str, array('referer_url' => urlencode($url)));
+        $url         = RC_Uri::site_url() . substr($_SERVER['HTTP_REFERER'], strripos($_SERVER['HTTP_REFERER'], '/'));
+        $referer_url = user_function::build_login_url($url);
         if (!ecjia_touch_user::singleton()->isSignin()) {
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('referer_url' => $referer_url));
         }
@@ -111,12 +334,21 @@ class cart_controller
         $rec_id            = is_array(($_POST['rec_id'])) ? $_POST['rec_id'] : $_POST['rec_id'];
         $new_number        = intval($_POST['val']);
         $store_id          = intval($_POST['store_id']);
-        $goods_id          = intval($_POST['goods_id']);
         $checked           = isset($_POST['checked']) ? $_POST['checked'] : '';
         $response          = isset($_POST['response']) ? true : false;
         $spec              = isset($_POST['spec']) ? $_POST['spec'] : '';
+
+        /**
+         * 如果是团购活动，转到新方法，专门处理团购
+         */
         $goods_activity_id = isset($_POST['act_id']) ? $_POST['act_id'] : '';
-        $product_id        = intval($_POST['product_id']);
+        if (!empty($goods_activity_id)) {
+            return self::create_groupbuy_cart();
+        }
+
+        list($goods_id, $product_id) = explode('_', trim($_POST['goods_id']));
+        $goods_id   = intval($goods_id);
+        $product_id = intval($product_id);
 
         $token = ecjia_touch_user::singleton()->getToken();
         $arr   = array(
@@ -128,7 +360,9 @@ class cart_controller
             $arr['seller_id'] = $store_id;
         }
 
-        RC_Cache::app_cache_delete('cart_goods' . $token . $store_id . $_COOKIE['longitude'] . $_COOKIE['latitude'] . $_COOKIE['city_id'], 'cart');
+        $ecjia_cart = new ecjia_cart($store_id);
+        $ecjia_cart->deleteLocalStorage();
+//        RC_Cache::app_cache_delete('cart_goods' . $token . $store_id . $_COOKIE['longitude'] . $_COOKIE['latitude'] . $_COOKIE['city_id'], 'cart');
         //修改购物车中商品选中状态
         if ($checked !== '') {
             if (is_array($rec_id)) {
@@ -152,26 +386,44 @@ class cart_controller
                 if (is_ecjia_error($data)) {
                     return ecjia_front::$controller->showmessage($data->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
                 }
-                RC_Cache::app_cache_delete('cart_goods' . $token . $store_id . $_COOKIE['longitude'] . $_COOKIE['latitude'] . $_COOKIE['city_id'], 'cart');
+                $ecjia_cart->deleteLocalStorage();
+//                RC_Cache::app_cache_delete('cart_goods' . $token . $store_id . $_COOKIE['longitude'] . $_COOKIE['latitude'] . $_COOKIE['city_id'], 'cart');
                 return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('empty' => true, 'store_id' => $store_id));
             } else {
                 if (!empty($new_number)) {
-                    $arr['new_number'] = $new_number;
+//                    $arr['new_number'] = $new_number;
                     if (!empty($rec_id)) {
                         //更新购物车中商品
-                        $arr['rec_id'] = $rec_id;
-                        $data          = ecjia_touch_manager::make()->api(ecjia_touch_api::CART_UPDATE)->data($arr)->run();
+//                        $arr['rec_id'] = $rec_id;
+//                        $data          = ecjia_touch_manager::make()->api(ecjia_touch_api::CART_UPDATE)->data($arr)->run();
+                        $data = $ecjia_cart->updateCart($rec_id, $new_number);
                     } elseif (!empty($goods_id)) {
-                        //添加商品到购物车
-                        $arr['goods_id'] = $goods_id;
-                        if ($spec != 'false' && !empty($spec)) {
-                            $arr['spec'] = $spec;
-                        }
-                        if (!empty($goods_activity_id)) {
-                            $arr['goods_activity_id'] = $goods_activity_id;
-                        }
-                        $arr['product_id'] = $product_id;
-                        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::CART_CREATE)->data($arr)->run();
+
+//                        $arr['goods_id'] = $goods_id;
+//                        if ($spec != 'false' && !empty($spec)) {
+//                            $arr['spec'] = $spec;
+//                        }
+
+//                            $arr['goods_activity_id'] = $goods_activity_id;
+
+//                        //添加团购商品到购物车
+//                        if (!empty($goods_activity_id)) {
+//                            $ecjia_cart_groupbuy = new ecjia_cart_groupbuy($store_id);
+//                            $data = $ecjia_cart_groupbuy->createCartWithGroupBuy($goods_activity_id, $goods_id, $product_id, $spec, $new_number);
+//                        }
+//
+//                        else {
+//
+//                        }
+
+                        //添加普通商品到购物车
+                        $data = $ecjia_cart->createCart($goods_id, $product_id, $spec, $new_number);
+
+//                        $arr['product_id'] = $product_id;
+
+//                        $data = ecjia_touch_manager::make()->api(ecjia_touch_api::CART_CREATE)->data($arr)->run();
+
+
                     }
                 } else {
                     if (!empty($rec_id)) {
@@ -198,42 +450,48 @@ class cart_controller
                 }
             }
         }
-        RC_Cache::app_cache_set('cart_goods' . $token . $store_id . $_COOKIE['longitude'] . $_COOKIE['latitude'] . $_COOKIE['city_id'], $cart_list, 'cart');
-        $cart_goods_list = $cart_list['cart_list'][0]['goods_list'];
 
-        $data_rec = '';
-        $current  = array();
-        if (!empty($cart_goods_list)) {
-            foreach ($cart_goods_list as $k => $v) {
-                if ($v['is_disabled'] == 0 && $v['is_checked'] == 1) {
-                    if ($k == 0) {
-                        $data_rec = $v['rec_id'];
-                    } else {
-                        $data_rec .= ',' . $v['rec_id'];
-                    }
-                } elseif ($v['is_checked'] == 0) {
-                    $cart_list['cart_list'][0]['total']['check_all']    = false; //全部选择
-                    $cart_list['cart_list'][0]['total']['goods_number'] -= $v['goods_number'];
-                }
-                $goods_attr = explode(',', $v['goods_attr_id']);
-                if (!empty($spec) && !empty($goods_attr)) {
-                    asort($spec);
-                    asort($goods_attr);
-                    if ($goods_attr == $spec) {
-                        $current['rec_id']       = $v['rec_id'];
-                        $current['goods_number'] = $v['goods_number'];
-                    }
-                }
-            }
-            $data_rec = trim($data_rec, ',');
-        }
-        $cart_count = $cart_list['cart_list'][0]['total'];
+        $ecjia_cart->saveLocalStorage($cart_list);
+        list($cart_goods_list, $data_rec, $current, $cart_count) = $ecjia_cart->formattedCartGoodsList($cart_list);
+
+//        RC_Cache::app_cache_set('cart_goods' . $token . $store_id . $_COOKIE['longitude'] . $_COOKIE['latitude'] . $_COOKIE['city_id'], $cart_list, 'cart');
+//        $cart_goods_list = $cart_list['cart_list'][0]['goods_list'];
+//
+//        $data_rec = '';
+//        $current  = array();
+//        if (!empty($cart_goods_list)) {
+//            foreach ($cart_goods_list as $k => & $v) {
+//                if ($v['is_disabled'] == 0 && $v['is_checked'] == 1) {
+//                    if ($k == 0) {
+//                        $data_rec = $v['rec_id'];
+//                    } else {
+//                        $data_rec .= ',' . $v['rec_id'];
+//                    }
+//                } elseif ($v['is_checked'] == 0) {
+//                    $cart_list['cart_list'][0]['total']['check_all']    = false; //全部选择
+//                    $cart_list['cart_list'][0]['total']['goods_number'] -= $v['goods_number'];
+//                }
+//                $goods_attr = explode(',', $v['goods_attr_id']);
+//                if (!empty($spec) && !empty($goods_attr)) {
+//                    asort($spec);
+//                    asort($goods_attr);
+//                    if ($goods_attr == $spec) {
+//                        $current['rec_id']       = $v['rec_id'];
+//                        $current['goods_number'] = $v['goods_number'];
+//                    }
+//                }
+//
+//                $v['id'] = $v['goods_id'] . '_' . $v['product_id'];
+//            }
+//            $data_rec = trim($data_rec, ',');
+//        }
+//        $cart_count = $cart_list['cart_list'][0]['total'];
 
         //购物车列表 切换状态直接返回
         if ($response) {
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('count' => $cart_count, 'response' => $response, 'data_rec' => $data_rec));
         }
-        $sayList = '';
+
         ecjia_front::$controller->assign('list', $cart_goods_list);
         $sayList = ecjia_front::$controller->fetch('merchant.dwt');
 
@@ -246,73 +504,72 @@ class cart_controller
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
         }
 
-        $spec = !empty($_POST['spec']) ? $_POST['spec'] : '';
+        /**
+         * @var \Royalcms\Component\Http\Request $request
+         */
+        $request = royalcms('request');
+        $spec    = $request->input('spec');
+        $goods_id = trim($request->input('goods_id', 0));
+        $store_id = $request->input('store_id', 0);
+
+        if (empty($spec)) {
+            $ecjia_goods_specification = new ecjia_goods_specification($goods_id);
+            $spec = $ecjia_goods_specification->findDefaultProductGoodsAttrId();
+        }
+
         if (!is_array($spec)) {
-            $spec = ltrim($spec, ',');
             $spec = explode(',', $spec);
         }
+
         if (!empty($spec)) {
             asort($spec);
-            $spec = implode(',', $spec);
+            $spec = implode('|', $spec);
         }
-        $goods_id  = !empty($_POST['goods_id']) ? intval($_POST['goods_id']) : 0;
-        $seller_id = !empty($_POST['store_id']) ? intval($_POST['store_id']) : (!empty($_GET['store_id']) ? intval($_GET['store_id']) : 0);
 
-        $token = ecjia_touch_user::singleton()->getToken();
-        $arr   = array(
-            'token'     => $token,
-            'seller_id' => $seller_id,
-            'location'  => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
-            'city_id'   => $_COOKIE['city_id'],
+        list($goods_id, $product_id) = explode('_', $goods_id);
+        $goods_id   = intval($goods_id);
+
+        $ecjia_goods_specification = new ecjia_goods_specification($goods_id);
+
+        $product_spec = $ecjia_goods_specification->findProductSpecificationBySpec($spec);
+        
+        $product_id = $product_spec['product_id'];
+        $id = $goods_id . '_' . $product_id;
+
+        $data = array(
+            'product_id'   => $product_id,
+            'product_spec' => $product_spec,
+            'goods_id'     => $goods_id,
+            'id'           => $id,
         );
 
-        //店铺购物车商品
-        $cart_list = RC_Cache::app_cache_get('cart_goods' . $token . $seller_id . $_COOKIE['longitude'] . $_COOKIE['latitude'] . $_COOKIE['city_id'], 'cart');
+        $ecjia_cart = new ecjia_cart($store_id);
+        $cart_list = $ecjia_cart->getLocalStorage();
+        $goods_list = $cart_list['cart_list'][0]['goods_list'];
 
-        if (empty($cart_list['cart_list'])) {
-            $cart_list = ecjia_touch_manager::make()->api(ecjia_touch_api::CART_LIST)->data($arr)->run();
-            if (is_ecjia_error($cart_list)) {
-                return ecjia_front::$controller->showmessage($cart_list->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-            }
-            RC_Cache::app_cache_set('cart_goods' . $token . $seller_id . $_COOKIE['longitude'] . $_COOKIE['latitude'] . $_COOKIE['city_id'], $cart_list, 'cart');
-        }
-        
-        $product_specification = RC_Cache::app_cache_get(sprintf('%X', crc32('goods_product_specification_' . $goods_id)), 'goods');
-
-        $product_id = 0;
-        if (!empty($product_specification)) {
-            foreach ($product_specification as $key => $value) {
-                if (!empty($value['product_goods_attr'])) {
-                    $goods_attr = explode('|', $value['product_goods_attr']);
-                    asort($goods_attr);
-                    $goods_attr = implode(',', $goods_attr);
-                    if ($spec == $goods_attr && !empty($value['product_id'])) {
-                        $product_id = $value['product_id'];
-                        break;
-                    }
-                }
-            }
-        }
-
-        if (!empty($cart_list['cart_list'][0]['goods_list'])) {
-            foreach ($cart_list['cart_list'][0]['goods_list'] as $key => $val) {
+        if (!empty($goods_list)) {
+            foreach ($goods_list as $key => $val) {
                 if ($goods_id == $val['goods_id']) {
                     if (empty($val['goods_attr_id']) && empty($spec)) {
-                        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('info' => $val, 'product_id' => $product_id));
+
+                        $data['info'] = $val;
+//                        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('info' => $val, 'product_id' => $product_id));
                     } else {
                         $goods_attr = explode(',', $val['goods_attr_id']);
                         if (!empty($goods_attr)) {
                             asort($goods_attr);
-                            $goods_attr = implode(',', $goods_attr);
+                            $goods_attr = implode('|', $goods_attr);
                             if ($spec == $goods_attr) {
-                                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('info' => $val, 'product_id' => $product_id));
+                                $data['info'] = $val;
+//                                return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('info' => $val, 'product_id' => $product_id));
                             }
                         }
                     }
                 }
             }
         }
-        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('product_id' => $product_id));
+
+        return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, $data);
     }
 
     /**
@@ -590,7 +847,7 @@ class cart_controller
         $total['discount']          = $rs['discount'] + $total['discount_bonus'] + $total['discount_integral']; //优惠金额 -红包 -积分
         $total['discount_formated'] = price_format($total['discount']);
 
-        $total['amount']            = $total['goods_price'] - $total['discount'];
+        $total['amount'] = $total['goods_price'] - $total['discount'];
 
         if ($total['amount'] < 0) {
             $total['amount'] = 0;
@@ -611,7 +868,7 @@ class cart_controller
         }
         $total['tax_fee_formated'] = price_format($total['tax_fee']);
         $total['amount']           += $total['tax_fee'];
-        
+
         RC_Loader::load_app_class('cart', 'cart', false);
         $total['pay_fee']          = cart::pay_fee($selected_payment['pay_id'], $total['amount']);
         $total['pay_fee_formated'] = price_format($total['pay_fee']);
@@ -852,7 +1109,7 @@ class cart_controller
             $total['goods_number'] += $item['goods_number'];
             $total['goods_price']  += $item['subtotal'];
         }
-        $total['goods_price_formated']  = price_format($total['goods_price']);
+        $total['goods_price_formated'] = price_format($total['goods_price']);
 //        $total['shipping_fee']          = $selected_shipping['shipping_fee']; //$rs['shipping_list'];
         $total['shipping_fee_formated'] = price_format($total['shipping_fee']);
         $total['discount_bonus']        = 0;
@@ -1597,7 +1854,10 @@ class cart_controller
             $arr['seller_id'] = $store_id;
         }
 
-        RC_Cache::app_cache_delete('cart_goods' . $token . $store_id . $_COOKIE['longitude'] . $_COOKIE['latitude'] . $_COOKIE['city_id'], 'cart');
+        $ecjia_cart = new ecjia_cart($store_id);
+        $ecjia_cart->deleteLocalStorage();
+
+//        RC_Cache::app_cache_delete('cart_goods' . $token . $store_id . $_COOKIE['longitude'] . $_COOKIE['latitude'] . $_COOKIE['city_id'], 'cart');
 
         //添加商品到购物车
         $arr['goods_id'] = $goods_id;
@@ -1625,7 +1885,9 @@ class cart_controller
             }
         }
 
-        RC_Cache::app_cache_set('cart_goods' . $token . $store_id . $_COOKIE['longitude'] . $_COOKIE['latitude'] . $_COOKIE['city_id'], $cart_list, 'cart');
+//        RC_Cache::app_cache_set('cart_goods' . $token . $store_id . $_COOKIE['longitude'] . $_COOKIE['latitude'] . $_COOKIE['city_id'], $cart_list, 'cart');
+        $ecjia_cart->saveLocalStorage($cart_list);
+
         $cart_goods_list = $cart_list['cart_list'][0]['goods_list'];
 
         $rec_id = 0;

@@ -27,12 +27,14 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		<li>
 			<div class="list-page-goods-img">
 				<span class="goods-img">
+					<a class="nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}&act_id={$val.goods_activity_id}">
                     <img src="{$val.img.thumb}">
+                    </a>
                     <span class="promote-time" data-type="2" value="{$val.promote_end_date}"></span>
                     <img class="groupbuy-icon" src="{$theme_url}images/icon-groupbuy.png"> 
                 </span>
 				<div class="list-page-box">
-					<div class="goods-name">{$val.name}</div>
+					<a class="nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}&act_id={$val.goods_activity_id}"><span class="goods-name">{$val.name}</span></a>
 					<div class="merchants-name"><i class="iconfont icon-shop"></i>{$val.seller_name}{if $val.manage_mode eq 'self'}<span class="manage_mode">{t domain="h5"}自营{/t}</span>{/if}</div>
 					<div class="list-page-goods-price">
 						<!--{if $val.promote_price}-->

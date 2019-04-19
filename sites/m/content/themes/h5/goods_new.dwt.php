@@ -30,7 +30,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!-- {if $goods_list} -->
 <!-- {foreach from=$goods_list item=goods} 循环商品 -->
 <li class="single_item">
-	<a class="list-page-goods-img nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$goods.id}">
+	<a class="list-page-goods-img nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$goods.id}&product_id={$goods.product_id}">
 		<span class="goods-img">
 			<img src="{$goods.img.thumb}" alt="{$goods.name}">
 		</span>

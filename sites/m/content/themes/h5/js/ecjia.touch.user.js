@@ -774,6 +774,7 @@
 
 		//评价晒单上传图片，并且不能超过5张。
 		photo: function () {
+
 			$('.push_photo').hide();
 			var length = $('.push_photo_img').children().length;
 			if (length != 0 && length != undefined) {

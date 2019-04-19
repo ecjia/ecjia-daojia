@@ -82,7 +82,7 @@ var releated_goods = {$releated_goods};
 					{if $val.seller_goods}
 					<ul class="store-goods">
 						<!-- {foreach from=$val.seller_goods key=key item=goods} -->
-							<a class="nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$goods.goods_id}">
+							<a class="nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$goods.goods_id}&product_id={$goods.product_id}">
 							<li class="goods-info {if $key gt 2}goods-hide-list{/if}">
 								<span class="goods-image"><img src="{$goods.img.small}"></span>
 								<p>
@@ -109,7 +109,7 @@ var releated_goods = {$releated_goods};
 		</li>
 		<!-- {else} -->
 		<li class="search-goods-list">
-			<a class="linksGoods w nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}">
+			<a class="linksGoods w nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}&product_id={$val.product_id}">
 				<img class="pic" src="{$val.img.small}">
 				<dl>
 					<dt>{$val.name}</dt>
@@ -256,7 +256,7 @@ var releated_goods = {$releated_goods};
 <!-- {block name="ajaxinfo"} -->
 	<!-- {foreach from=$goods_list item=val} -->
 	<li class="search-goods-list">
-		<a class="linksGoods w nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}">
+		<a class="linksGoods w nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}&product_id={$val.product_id}">
 			<img class="pic" src="{$val.img.small}">
 			<dl>
 				<dt>{$val.name}</dt>

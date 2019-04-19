@@ -55,6 +55,7 @@
 
 		//评价晒单上传图片，并且不能超过5张。
 		photo: function () {
+
 			$('.push_photo').hide();
 			$('#result0').show();
 			$(".push_img_btn").on('change', function () {
