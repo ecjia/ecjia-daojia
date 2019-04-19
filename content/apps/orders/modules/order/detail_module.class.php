@@ -294,6 +294,7 @@ class order_detail_module extends api_front implements api_interface
                         'goods_id'            => $v['goods_id'],
                         'goods_sn'            => $v['goods_sn'],
                         'name'                => $v['goods_name'],
+                    	'product_id'       	  => $v['product_id'] > 0 ? $v['product_id'] : 0,
                         'goods_attr_id'       => $v['goods_attr_id'],
                         'goods_attr'          => $attr,
                         'goods_number'        => $v['goods_number'],
