@@ -383,7 +383,7 @@ function get_merchant_where_sql($filter) {
 	/*商家条件*/
 	$where .= isset($filter->store_id) ? ' AND store_id = '.intval($filter->store_id) : '';
 
-    $where .= isset($filter->extension_code) ? " AND extension_code = '".trim($filter->extension_code)."'" : '';
+    $where .= isset($filter->extension_code) ? " AND extension_code = '".trim($filter->extension_code)."'" : " AND ( extension_code = '' OR extension_code is NUll)";
 	return $where;
 }
 
