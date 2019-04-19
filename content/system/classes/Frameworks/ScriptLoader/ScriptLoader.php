@@ -227,6 +227,8 @@ class ScriptLoader implements ScriptLoaderInterface
 
         $this->scripts->add( 'jquery-quicksearch',			"/lib/multi-select/js/jquery.quicksearch.js", array(), false, 1);
 
+        $this->scripts->add( 'bootstrap-datepicker',		"/lib/datepicker/bootstrap-datepicker.min.js", array(), false, 1);
+
 
         // 添加vendor
         $this->scripts->add( 'tinymce',	                    RC_Uri::vendor_url('tinymce/tinymce/tinymce') . "$suffix.js", array(), false, 1 );

@@ -157,6 +157,8 @@ class StyleLoader implements StyleLoaderInterface
 
         $this->styles->add( 'jquery-stepy',				    "/lib/stepy/css/jquery.stepy.css" );
 
+        $this->styles->add( 'bootstrap-datepicker',         "/lib/datepicker/datepicker.css" );
+
 
     }
 
