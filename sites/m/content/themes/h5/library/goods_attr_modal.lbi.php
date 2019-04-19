@@ -45,7 +45,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		    <span class="reduce remove_spec" data-toggle="remove-to-cart" goods_id="{$goods_info.id}" rec_id="{$current_spec.rec_id}"></span>
 		</div>           
 		<a class="add-tocart add_spec {if $current_spec.rec_id}hide{else}show{/if}" data-toggle="add-to-cart" data-url="{RC_Uri::url('goods/index/show')}&goods_id={$goods_info.goods_id}" goods_id="{$goods_info.id}" product_id="{$goods_info.product_id}">{t domain="h5"}加入购物车{/t}</a>
-		<input type="hidden" name="goods_price_label" value="{if $goods_info.promote_price}{$goods_info.formated_promote_price}{else}{$goods_info.shop_price}{/if}" />
+		<input type="hidden" name="goods_price_label" value="{$goods_info.shop_price}" />
 		<input type="hidden" name="goods_attr_label" value="{$goods_info.product_goods_attr_label}" />
 		<input type="hidden" name="check_spec" value="{RC_Uri::url('cart/index/check_spec')}&store_id={$goods_info.seller_id}" />
 	</div>

@@ -71,14 +71,10 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 			</p>
 			<div class="list-page-goods-price">
 				<div class="left">
-					<!--{if $val.promote_price}-->
-					<p>{$val.promote_price}</p>
-					<!--{else}-->
 					<p>{$val.shop_price}</p>
-					<!--{/if}-->
 
-					<!--{if $val.shop_price}-->
-					<del>{$val.shop_price}</del>
+					<!--{if $val.market_price}-->
+					<del>{$val.market_price}</del>
 					<!--{/if}-->
 				</div>
 				<a class="btn go-buy nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}{if $val.product_id neq 0}&product_id={$val.product_id}{/if}">立即购买</a>
