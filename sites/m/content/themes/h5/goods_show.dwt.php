@@ -150,7 +150,7 @@ var releated_goods = {$releated_goods};
 					{if $goods_info.specification}
 					<span class="goods_spec_{$goods_info.id}">
 						<span class="goods-add-cart choose_attr {if $goods_info.in_related_goods eq 1}spec_goods{/if}" goods_id="{$goods_info.id}">{t domain="h5"}选规格{/t}</span>
-						{if $goods_attr_num}<i class="attr-number">{$goods_attr_num}</i>{/if}
+						{if $goods_attr_num}<i class="attr-number" style="right: 0.2em;top: 0.2em;">{$goods_attr_num}</i>{/if}
 					</span>
 					{else}
 					<span class="goods-add-cart market-goods-add-cart add-cart-a {if $rec_id}hide{/if}" data-toggle="{if !$goods_info.groupbuy_info}add-to-cart{else}add-goods{/if}"
@@ -297,7 +297,7 @@ var releated_goods = {$releated_goods};
 										<div class="goods_attr goods_spec_{$goods.id}" goods_id="{$goods_info.id}">
 											<span class="choose_attr spec_goods" rec_id="{$goods.rec_id}" goods_id="{$goods.id}" data-num="{$goods.num}"
 											data-spec="{$goods.default_spec}" data-url="{RC_Uri::url('cart/index/check_spec')}" data-store="{$store_id}">{t domain="h5"}选规格{/t}</span>
-											{if $goods.num}<i class="attr-number">{$goods.num}</i>{/if}
+											{if $goods.num}<i class="attr-number" style="right: 0.2em;top: 0.2em;">{$goods.num}</i>{/if}
 										</div>
 										{else}
 										<span class="goods-price-plus may_like_{$goods.id}" data-toggle="add-to-cart" rec_id="{$goods.rec_id}"

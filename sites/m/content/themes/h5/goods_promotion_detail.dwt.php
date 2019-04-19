@@ -134,7 +134,7 @@ var releated_goods = {$releated_goods};
 					{if $goods_info.specification}
 					<span class="goods_spec_{$goods_info.id}">
 						<span class="goods-add-cart choose_attr {if $goods_info.in_related_goods eq 1}spec_goods{/if}" goods_id="{$goods_info.id}">{t domain="h5"}选规格{/t}</span>
-						{if $goods_attr_num}<i class="attr-number">{$goods_attr_num}</i>{/if}
+						{if $goods_attr_num}<i class="attr-number" style="right: 0.2em;top: 0.2em;">{$goods_attr_num}</i>{/if}
 					</span>
 					{else}
 					<span class="goods-add-cart market-goods-add-cart add-cart-a {if $rec_id}hide{/if}" data-toggle="add-to-cart"

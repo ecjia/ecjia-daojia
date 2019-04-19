@@ -581,7 +581,7 @@
 							n = 1;
 						}
 						if ($('.goods_spec_' + goods_id).find('.attr-number').length == 0) {
-							$('.goods_spec_' + goods_id).append('<i class="attr-number">' + n + '</i>');
+							$('.goods_spec_' + goods_id).append('<i class="attr-number" style="right: 0.2em;top: 0.2em;">' + n + '</i>');
 						} else {
 							$('.goods_spec_' + goods_id).find('.attr-number').html(n);
 						}
