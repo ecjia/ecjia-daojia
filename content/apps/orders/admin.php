@@ -81,8 +81,8 @@ class admin extends ecjia_admin
         RC_Script::enqueue_script('jquery-uniform');
 
         //时间控件
-        RC_Script::enqueue_script('bootstrap-datepicker', RC_Uri::admin_url('statics/lib/datepicker/bootstrap-datepicker.min.js'));
-        RC_Style::enqueue_style('datepicker', RC_Uri::admin_url('statics/lib/datepicker/datepicker.css'));
+        RC_Script::enqueue_script('bootstrap-datepicker');
+        RC_Style::enqueue_style('bootstrap-datepicker');
 
         RC_Script::enqueue_script('orders', RC_App::apps_url('statics/js/orders.js', __FILE__));
         RC_Script::enqueue_script('order_delivery', RC_App::apps_url('statics/js/order_delivery.js', __FILE__));
