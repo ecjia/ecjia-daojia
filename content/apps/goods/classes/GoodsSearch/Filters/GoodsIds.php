@@ -17,7 +17,7 @@ use Royalcms\Component\Database\Eloquent\Builder;
  * @author Administrator
  *
  */
-class GoodsId implements FilterInterface
+class GoodsIds implements FilterInterface
 {
 
     /**
