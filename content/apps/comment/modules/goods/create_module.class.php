@@ -155,11 +155,21 @@ class goods_create_module extends api_front implements api_interface {
 		    	$upload = RC_Upload::uploader('image', array('save_path' => $save_path, 'auto_sub_dirs' => true));
 		        $picture = $_FILES['picture'];
 		        $image_info	= $upload->batchUpload($picture);
+		        foreach ($image_info as $image_row) {
+		        	if(empty($image_row)) {
+		        		return new ecjia_error('upload_error', $upload->error());
+		        	}
+		        }
 		    } elseif (!empty($picture)) { //表单提交上传
 		    	$upload = RC_Upload::uploader('tempimage', array('save_path' => $save_path, 'auto_sub_dirs' => true));
 		    	$picture = json_decode($picture, true);
 		    	if (is_array($picture)) {
 		    		$image_info	= $upload->batchUpload($picture);
+		    		foreach ($image_info as $image_row) {
+		    			if(empty($image_row)) {
+		    				return new ecjia_error('upload_error', $upload->error());
+		    			}
+		    		}
 		    	}
 		    }
 
