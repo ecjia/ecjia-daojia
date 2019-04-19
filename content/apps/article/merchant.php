@@ -607,7 +607,7 @@ class merchant extends ecjia_merchant {
 				$data[] = array(
 					'article_id'   => $article_id,
 					'goods_id'     => $val['goods_id'],
-					'admin_id'     => $_SESSION['admin_id'],
+					'admin_id'     => $_SESSION['staff_id'],
 				);
 			}
 		}
@@ -865,6 +865,7 @@ class merchant extends ecjia_merchant {
 		}
 		$filter['is_on_sale'] = 1;
 		$filter['is_delete'] = 0;
+        $filter['extension_code'] = '';
 		$arr = get_merchant_goods_list($filter);
 		$opt = array();
 		if (!empty($arr)) {

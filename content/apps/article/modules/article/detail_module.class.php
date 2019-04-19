@@ -88,32 +88,66 @@ class article_detail_module extends api_front implements api_interface {
 				$article_related_goods = RC_DB::table('goods')->whereIn('goods_id', $article_related_goods_ids)->select(RC_DB::raw('goods_id, goods_name, market_price, shop_price, goods_thumb, goods_img, original_img'))->get();
 			}
 			$list = array();
-			if (!empty($article_related_goods)) {
-				foreach ($article_related_goods as $row) {
-					$list[] = array(
-							'goods_id' 		=> intval($row['goods_id']),
-							'name'	   		=> empty($row['goods_name']) ? '' : trim($row['goods_name']),
-							'market_price'	=> $row['market_price'] > 0 ? price_format($row['market_price']) : '0.00￥',
-							'shop_price'	=> $row['shop_price'] > 0 	? price_format($row['shop_price']) : '0.00￥',
-							'img'			=> array(
-													'thumb' => empty($row['goods_thumb']) ? RC_Uri::admin_url('statics/images/nopic.png') : RC_Upload::upload_url($row['goods_thumb']),
-													'url'	=> empty($row['original_img'])? RC_Uri::admin_url('statics/images/nopic.png') : RC_Upload::upload_url($row['original_img']),
-													'small'	=> empty($row['goods_img'])	  ? RC_Uri::admin_url('statics/images/nopic.png') : RC_Upload::upload_url($row['goods_img'])
-												)
-					);
-				}
-			}
+
+			//用户端商品展示基础条件
+			$filters = [
+				'goods_ids' 		=> [$article_related_goods_ids],    //文章关联的商品id
+			];
+			//会员等级价格
+			$filters['user_rank'] = $_SESSION['user_rank'];
+			$filters['user_rank_discount'] = $_SESSION['discount'];
+			//分页信息
+			$filters['size'] = count($article_related_goods_ids);
+			$filters['page'] = 1;
+			
+			$collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsApiCollection($filters))->getData();
+			
+			$list = $collection['goods_list'];
+			
 			/*推荐商品*/
 			$recommend_goods = array();
 			$goods_list = array();
-			$recommend_goods = $db = RC_DB::table('goods')
-								->where('store_id', $article_info['store_id'])
-								->where('is_on_sale', 1)
-								->where('is_alone_sale', 1)
-								->where('is_delete', 0)
-								->whereIn('review_status', array(4,5))
-								->whereRaw('(is_best=1 or is_hot=1 or is_new=1)')
-								->select(RC_DB::raw('goods_id, goods_name, market_price, shop_price, goods_thumb, goods_img, original_img'))->limit(6)->orderBy('add_time', 'DESC')->get();
+			
+			
+			//用户端商品展示基础条件
+			$filters = [
+				'store_unclosed' 		=> 0,    //店铺未关闭的
+				'is_delete'		 		=> 0,	 //未删除的
+				'is_on_sale'	 		=> 1,    //已上架的
+				'is_alone_sale'	 		=> 1,	 //单独销售的
+				'review_status'  		=> 2,    //审核通过的
+				'no_need_cashier_goods'	=> true, //不需要收银台商品和散装商品
+			];
+			
+			//是否展示货品
+			if (ecjia::config('show_product') == 1) {
+				$filters['product'] = true;
+			}
+			//定位附近店铺id
+			$filters['store_id'] = $article_info['store_id'];
+			
+			//平台推荐
+			$filters['is_best'] = 1;
+			
+			//排序
+			$order_by = array('sort_order' => 'asc', 'goods_id' => 'desc');
+			if (!empty($order_by)) {
+				$filters['sort_by'] = $order_by;
+			}
+			
+			//会员等级价格
+			$filters['user_rank'] = $_SESSION['user_rank'];
+			$filters['user_rank_discount'] = $_SESSION['discount'];
+			//分页信息
+			$filters['size'] = 6;
+			$filters['page'] = 1;
+			
+			$recommend_collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsApiCollection($filters))->getData();
+			
+			$recommend_goods = $recommend_collection['goods_list'];
+			
+			
+			
 			/*店铺是否关闭*/
 			if ($article_info['store_id'] > 0) {
 				$shop_close = RC_DB::table('store_franchisee')->where('store_id', $article_info['store_id'])->pluck('shop_close');
@@ -122,21 +156,7 @@ class article_detail_module extends api_front implements api_interface {
 				}
 			}
 			$platform = RC_Uri::admin_url('statics/images/platform_logo.png');//平台默认logo
-			if (!empty($recommend_goods)) {
-				foreach ($recommend_goods as $val) {
-					$goods_list[] = array(
-							'goods_id' 	=> intval($val['goods_id']),
-							'name'		=> empty($val['goods_name']) ? '' : trim($val['goods_name']),
-							'market_price'	=> $val['market_price'] > 0 ? price_format($val['market_price']) : '0.00￥',
-							'shop_price'	=> $val['shop_price'] > 0 	? price_format($val['shop_price']) : '0.00￥',
-							'img'			=> array(
-									'thumb' => empty($val['goods_thumb']) ? RC_Uri::admin_url('statics/images/nopic.png') : RC_Upload::upload_url($val['goods_thumb']),
-									'url'	=> empty($val['original_img'])? RC_Uri::admin_url('statics/images/nopic.png') : RC_Upload::upload_url($val['original_img']),
-									'small'	=> empty($val['goods_img'])	  ? RC_Uri::admin_url('statics/images/nopic.png') : RC_Upload::upload_url($val['goods_img'])
-							)
-					);
-				}
-			}
+			
 			/*文章内容*/
 			$base = sprintf('<base href="%s/" />', dirname(SITE_URL));
 			$article_info['content'] = preg_replace('/\\\"/', '"', $article_info['content']);
@@ -154,7 +174,7 @@ class article_detail_module extends api_front implements api_interface {
 					'comment_count'			=> $article_info['comment_count'],
 					'is_like'				=> !empty($discuss_likes_info) ? 1 : 0,
 					'article_related_goods' => $list,
-					'recommend_goods'		=> $goods_list,
+					'recommend_goods'		=> $recommend_goods,
 					'content'				=> $content,
 					'article_type'			=> $article_info['article_type'],
 					'link_url'				=> !empty($article_info['link']) ? $article_info['link'] : ''
