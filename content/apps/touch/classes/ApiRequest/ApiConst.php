@@ -114,6 +114,7 @@ class ApiConst
     const GOODS_DETAIL		        = 'goods/detail';//单个商品的信息
     const GOODS_DESC		        = 'goods/desc';//单个商品的详情
     const GOODS_FILTER		        = 'goods/filter';//某一分类的属性列表
+    const GOODS_PRODUCT_SPECIFICATION = 'goods/product/specification';//获取商品的货品规格信息
 
     //==============================================
     // 订单
