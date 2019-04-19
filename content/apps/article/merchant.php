@@ -865,7 +865,6 @@ class merchant extends ecjia_merchant {
 		}
 		$filter['is_on_sale'] = 1;
 		$filter['is_delete'] = 0;
-        $filter['extension_code'] = '';
 		$arr = get_merchant_goods_list($filter);
 		$opt = array();
 		if (!empty($arr)) {

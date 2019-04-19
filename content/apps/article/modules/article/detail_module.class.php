@@ -58,17 +58,16 @@ class article_detail_module extends api_front implements api_interface {
 			return new ecjia_error('invalid_parameter', __('参数无效', 'article'));
 		}
 		
-		$article_info = $this->get_article_info($id);
-		if (empty($article_info)) {
-			return new ecjia_error('does not exist', __('不存在的信息', 'article'));
-		}
-		
 		$cache_article_key = 'article_info_'.$id;
 		$cache_id = sprintf('%X', crc32($cache_article_key));
 		$article_db = RC_Model::model('article/orm_article_model');
     	$article_detail = $article_db->get_cache_item($cache_id);
     	
 		if (empty($article_detail)) {
+			$article_info = $this->get_article_info($id);
+			if (empty($article_info)) {
+				return new ecjia_error('does not exist', __('不存在的信息', 'article'));
+			}
 			if ($article_info['store_id'] > 0) {
 				$store_name = RC_DB::table('store_franchisee')->where('store_id', $article_info['store_id'])->pluck('merchants_name');
 				$store_logo = RC_DB::table('merchants_config')->where('store_id', $article_info['store_id'])->where('code', 'shop_logo')->pluck('value');
@@ -84,22 +83,21 @@ class article_detail_module extends api_front implements api_interface {
 			
 			/*关联商品*/
 			$article_related_goods_ids = RC_DB::table('goods_article')->where('article_id', $id)->lists('goods_id');
-			$article_related_goods = array();
-			if (!empty($article_related_goods_ids)) {
-				$article_related_goods = RC_DB::table('goods')->whereIn('goods_id', $article_related_goods_ids)->select(RC_DB::raw('goods_id, goods_name, market_price, shop_price, goods_thumb, goods_img, original_img'))->get();
-			}
+			
+			
 			$list = array();
 
 			if (!empty($article_related_goods_ids)) {
 				//用户端商品展示基础条件
 				$filters = [
-				'goods_ids' 		=> [$article_related_goods_ids],    //文章关联的商品id
+					'goods_ids' 		=> $article_related_goods_ids   //文章关联的商品id
 				];
+				
 				//会员等级价格
 				$filters['user_rank'] = $_SESSION['user_rank'];
 				$filters['user_rank_discount'] = $_SESSION['discount'];
 				//分页信息
-				$filters['size'] = count($article_related_goods_ids);
+				$filters['size'] = 6;
 				$filters['page'] = 1;
 					
 				$collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsApiCollection($filters))->getData();
