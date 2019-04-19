@@ -155,6 +155,7 @@ class goodslib {
         		} else {
         		    $rows[$k]['goods_thumb'] = RC_Uri::admin_url('statics/images/nopic.png');
         		}
+                $rows[$k]['product_list'] = RC_DB::table('goodslib_products')->where('goods_id', $v['goods_id'])->get();
         	}
         }
         return array(
@@ -269,7 +270,8 @@ class goodslib {
                                     'goods_attr' => $goods_pro[$k_p]['goods_attr_name'],
                                     'product_sn' => $r_p['product_sn'],
                                 ];
-                                $rows[$k]['goods_product_export'] .= $goods_pro[$k_p]['goods_attr_name'].';'.$r_p['product_sn']."\r\n";
+                                $r_p['goods_product'] = $goods_pro[$k_p]['goods_attr_name']."\r\n";
+                                $rows[$k]['goods_product_export'][] = $r_p;
                             }
                         }
                     }
@@ -281,6 +283,7 @@ class goodslib {
             foreach ($rows as $row) {
                 $goods[] = array(
                     'goods_sn' => $row['goods_sn'],
+                    'product_sn' => NULL,
                     'goods_name' => $row['goods_name'],
                     'shop_price' => $row['shop_price'],
                     'market_price' => $row['market_price'],
@@ -293,14 +296,32 @@ class goodslib {
                     'cat_id' => $row['cat_id'],
                     'cat_name' => $row['cat_name'],
                     'goods_attr' => $row['goods_attr_export'],
-                    'goods_product' => $row['goods_product_export'],
                 );
+
+                if(isset($row['goods_product_export'])) {
+                    foreach ($row['goods_product_export'] as $product) {
+                        $goods[] = array(
+                            'goods_sn' => $row['goods_sn'],
+                            'product_sn' => $product['product_sn'],
+                            'goods_name' => $product['product_name'],
+                            'shop_price' => $product['product_shop_price'],
+                            'market_price' => NULL,
+                            'goods_weight' => NULL,
+                            'keywords' => NULL,
+                            'goods_brief' => NULL,
+                            'goods_desc' => $product['product_desc'],
+                            'brand_id' => NULL,
+                            'brand_name' => NULL,
+                            'cat_id' => NULL,
+                            'cat_name' => NULL,
+                            'goods_attr' => NULL,
+                            'goods_product' => $product['goods_product'],
+                        );
+                    }
+                }
             }
         }
-        
-        
-        
-        
+
         return array(
             'goods'		=> $goods,
             'filter'	=> $filter,

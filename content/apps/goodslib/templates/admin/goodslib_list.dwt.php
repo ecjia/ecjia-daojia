@@ -96,7 +96,7 @@
 						</a>
 					</td>
 					<td class="hide-edit-area ">
-                        {if $specifications[$goods.goods_type] neq ''}<span class="label-orange">{t domain="goodslib"}多货品{/t}{/if}</span>{$goods.goods_name|escape:html}
+                        {if $goods.product_list}<span class="label-orange">{t domain="goodslib"}多货品{/t}{/if}</span>{$goods.goods_name|escape:html}
 						<br/>
 						<div class="edit-list">
 							<a class="data-pjax" href='{url path="goodslib/admin/edit" args="goods_id={$goods.goods_id}"}'>{t domain="goodslib"}编辑{/t}</a>&nbsp;|&nbsp;

@@ -37,9 +37,9 @@
                         <table class="table table-striped table-hide-edit product_list">
                             <thead>
                                 <tr>
-                                    <!-- {foreach from=$attribute item=attribute_value} -->
-                                    <th class="w150">{$attribute_value.attr_name}</th>
-                                    <!--  {/foreach} -->
+                                    <th><!-- {foreach from=$attribute item=attribute_value} -->
+                                    {$attribute_value.attr_name} {if $attribute_value@last}{else}/{/if}
+                                    <!--  {/foreach} --></th>
                                     <th class="product_sn">{t domain="goodslib"}货号{/t}</th>
                                     <th class="w100">{t domain="goodslib"}操作{/t}</td>
                                 </tr>
@@ -48,9 +48,9 @@
                             <tbody>
                                 {foreach from=$product_list item=product}
                                 <tr>
-                                    {foreach from=$product.goods_attr item=goods_attr}
-                                    <td>{$goods_attr}</td>
-                                    {/foreach}
+                                    <td>{foreach from=$product.goods_attr item=goods_attr}
+                                    {$goods_attr} {if $goods_attr@last}{else}/{/if}
+                                    {/foreach}</td>
                                     <td class="product_sn">
 	                                    <span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goodslib/admin/edit_product_sn')}" data-name="edit_product_sn" data-pk="{$product.product_id}" data-title="{t domain="goodslib"}编辑货品货号{/t}">
 	                                    {$product.product_sn}
@@ -63,16 +63,16 @@
                                 {/foreach}
                                 
                                 <tr class="attr_row">
-                                    <!-- {foreach from=$attribute item=attribute_value key=attribute_key} -->
-                                    <td>
+                                    <td><!-- {foreach from=$attribute item=attribute_value key=attribute_key} -->
+                                        <div class="f_l m_r5">
                                         <select name="attr[{$attribute_value.attr_id}][]" class="w150">
                                             <option value="0" selected>{t domain="goodslib"}请选择...{/t}</option>
                                             <!-- {foreach from=$attribute_value.attr_values item=value} -->
                                                 <option value="{$value}">{$value}</option>
                                             <!-- {/foreach} -->
                                         </select>
-                                    </td>
-                                    <!-- {/foreach} -->
+                                        </div>
+                                    <!-- {/foreach} --></td>
                                     <td><input class="w150" type="text" name="product_sn[]" value="" size="20"/></td>
                                     <td><a class="no-underline ecjiafc-red" data-toggle="remove_product" data-parent=".attr_row" href="javascript:;"><i class="fontello-icon-minus"></i></a></td>
                                 </tr>
@@ -97,16 +97,16 @@
         <div class="hide">
             <table class="clone_div">
                 <tr class="attr_row">
-                    <!-- {foreach from=$attribute item=attribute_value key=attribute_key} -->
-                    <td>
+                    <td><!-- {foreach from=$attribute item=attribute_value key=attribute_key} -->
+                        <div class="f_l m_r5">
                         <select name="attr[{$attribute_value.attr_id}][]" class="w150">
                             <option value="0" selected>{t domain="goodslib"}请选择...{/t}</option>
                             <!-- {foreach from=$attribute_value.attr_values item=value} -->
                                 <option value="{$value}">{$value}</option>
                             <!-- {/foreach} -->
                         </select>
-                    </td>
-                    <!-- {/foreach} -->
+                        </div>
+                    <!-- {/foreach} --></td>
                     <td><input class="w150" type="text" name="product_sn[]" value="" size="20"/></td>
                     <td><a class="no-underline" data-toggle="clone_product" data-parent=".attr_row" href="javascript:;"><i class="fontello-icon-plus"></i></a> </td>
                 </tr>
