@@ -595,8 +595,10 @@ return array(
 		
 
 	'bbc/test/flow/done'							  => 'cart::bbc/test/flow/done',							//到家商城，购物流订单结算提交测试接口
-
 	
+	'goods/product/specification'					  => 'goods::goods/product/specification',					//获取商品的货品和规格信息
+	
+		
     /**
      * 1.0 已经废弃
      *
