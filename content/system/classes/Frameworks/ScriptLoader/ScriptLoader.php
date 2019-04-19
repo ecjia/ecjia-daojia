@@ -133,6 +133,8 @@ class ScriptLoader implements ScriptLoaderInterface
         $this->scripts->add( 'ecjia-region', 			'/lib/ecjia-js/ecjia.region.js', array('ecjia') );
         $this->scripts->add( 'ecjia-ui', 				'/lib/ecjia-js/ecjia.ui.js', array('ecjia') );
         $this->scripts->add( 'ecjia-utils', 			'/lib/ecjia-js/ecjia.utils.js', array('ecjia') );
+        $this->scripts->add( 'ecjia-collect', 		    '/lib/ecjia-js/ecjia.collect.js', array('ecjia'), false, 1 );
+        $this->scripts->add( 'ecjia-hook', 		        '/lib/ecjia-js/ecjia.hook.js', array('ecjia'), false, 1 );
 
         // 添加jquery
         $this->scripts->add( 'jquery', 				    "/js/jquery$suffix.js", array(), '2.1.0' );

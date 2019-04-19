@@ -1,25 +1,18 @@
 /**
 * Created by royalwang on 14-3-20.
 */
-(function(window, jQuery) {
+(function(window) {
 	var class2type = {};
 	var toString = class2type.toString;
 	var hasOwn = class2type.hasOwnProperty;
-	var
-		document = window.document,
-
-		version = "1.0.0",
-
-		ecjia = function() {
-			return new ecjia.fn.init();
-		};
-
+	var document = window.document;
+	var version = "1.0.0";
+	var ecjia = function() {
+		return new ecjia.fn.init();
+	};
 
 	ecjia.fn = ecjia.prototype = {
 		ver: version,
-
-		jquery: jQuery,
-
 		constructor: ecjia
 	};
 
@@ -37,7 +30,7 @@
 			i++;
 		}
 
-		if (typeof  target != "object" && !ecjia.isFunction(target)) {
+		if (typeof target !== "object" && !ecjia.isFunction(target)) {
 			target = {};
 		}
 
@@ -47,7 +40,7 @@
 		}
 
 		for ( ; i < length; i++) {
-			if ((options = arguments[i]) != null) {
+			if ((options = arguments[i]) !== null) {
 				for (name in options) {
 					src = target[name];
 					copy = options[name];
@@ -67,7 +60,7 @@
 
 						target[name] = ecjia.extend(deep, clone, copy);
 					}
-					else if (copy != undefined) {
+					else if (copy !== undefined) {
 						target[name] = copy;
 					}
 				}
@@ -78,19 +71,19 @@
 	};
 
 	ecjia.extend({
-		isFunction: function(obj) {
-			return ecjia.type(obj) === "function";
+		isFunction: function(object) {
+			return ecjia.type(object) === "function";
 		},
 
 		isArray: Array.isArray,
 
-		isPlainObject: function(obj) {
-			if (ecjia.type(obj) != "object" || ecjia.isWindow(obj)) {
+		isPlainObject: function(object) {
+			if (ecjia.type(object) !== "object" || ecjia.isWindow(object)) {
 				return false;
 			}
 
 			try {
-				if (obj.constructor && !hasOwn.call(obj.constructor.prototype, "isPrototypeOf")) {
+				if (obj.constructor && !hasOwn.call(object.constructor.prototype, "isPrototypeOf")) {
 					return false;
 				}
 			} catch (e) {
@@ -100,19 +93,105 @@
 			return true;
 		},
 
-		type: function(obj) {
-			if (obj == null) {
-				return obj + "";
+		type: function(object) {
+			if (object === null) {
+				return object + "";
 			}
 
-			return typeof obj === "object" || typeof obj === "function" ?
-			class2type[toString.call(obj)] || "object" :
-			typeof obj;
+			return typeof object === "object" || typeof object === "function" ?
+			class2type[toString.call(object)] || "object" :
+			typeof object;
 		},
 
-		alert: function(obj) {
-			alert(obj);
+		alert: function(object) {
+			alert(object);
+		},
+
+        modules: function(start, modules) { // webpackBootstrap
+
+            // The module cache
+            var installedModules = {};
+
+            // The require function
+            function __webpack_require__(moduleId) {
+
+                // Check if module is in cache
+                if(installedModules[moduleId]) {
+                    return installedModules[moduleId].exports;
+                }
+                // Create a new module (and put it into the cache)
+                var module = installedModules[moduleId] = {
+                    id: moduleId,
+                    loaded: false,
+                    exports: {}
+                };
+
+                // Execute the module function
+                modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+                // Flag the module as loaded
+                module.loaded = true;
+
+                // Return the exports of the module
+                return module.exports;
+            };
+
+			// expose the modules object (__webpack_modules__)
+			__webpack_require__.modules = modules;
+
+			// expose the module cache
+			__webpack_require__.cache = installedModules;
+
+			// define getter function for harmony exports
+            __webpack_require__.define = function(exports, name, getter) {
+				if(!__webpack_require__.object(exports, name)) {
+					Object.defineProperty(exports, name, {
+						configurable: false,
+						enumerable: true,
+						get: getter
+					});
+				}
+			};
+
+			// getDefaultExport function for compatibility with non-harmony modules
+            __webpack_require__.non_harmony = function(module) {
+				var getter = module && module.__esModule ?
+					function getDefault() { return module['default']; } :
+					function getModuleExports() { return module; };
+                __webpack_require__.define(getter, 'a', getter);
+				return getter;
+			};
+
+			// Object.prototype.hasOwnProperty.call
+            __webpack_require__.object = function(object, property) {
+				return Object.prototype.hasOwnProperty.call(object, property);
+			};
+
+			// __webpack_public_path__
+            __webpack_require__.path = "";
+
+			// Load entry module and return exports
+			return __webpack_require__(__webpack_require__.start = start);
+		},
+
+		_default: function($value, $default) {
+			return (typeof $value !== 'undefined') ?  $value : $default;
+		},
+
+		version: function(isalert) {
+
+			if (typeof isalert === "undefined") {
+				isalert = false;
+			}
+
+			if (isalert) {
+				alert(this.prototype.ver);
+			}
+			else {
+				console.log(this.prototype.ver);
+			}
 		}
+
 	});
 
 // function
@@ -122,32 +201,14 @@ init = ecjia.fn.init = function() {
 
 init.prototype = ecjia.fn;
 
-
-ecjia.version = function(isalert) {
-
-	if (typeof isalert === "undefined") {
-		isalert = false;
-	}
-
-	if (isalert) {
-		alert(this.prototype.ver);
-	}
-	else {
-		console.log(this.prototype.ver);
-	}
-};
-
-// jquery
-ecjia.$ = ecjia.jquery = ecjia.prototype.jquery;
-
 var _ecjia = window.ecjia;
 
 if (window.ecjia === ecjia) {
 	window.ecjia = _ecjia;
+} else {
+    window.ecjia = ecjia;
 }
-
-window.ecjia = ecjia;
 
 return ecjia;
 
-})(window, jQuery);
+})(window);

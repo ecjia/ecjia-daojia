@@ -1,5 +1,5 @@
 <?php
-//  
+//
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//   
+//
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -45,83 +45,54 @@
 //  ---------------------------------------------------------------------------------
 //
 /**
- * ecjia 清除缓存类
- * @author royalwang
- *
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/7/23
+ * Time: 11:56 AM
  */
-class ecjia_update_cache
+
+namespace Ecjia\System\Admins\CleanCache\Components;
+
+
+use Ecjia\System\Admins\CleanCache\CacheComponentAbstract;
+
+class SystemAppCache extends CacheComponentAbstract
 {
-    /**
-     * @var admin_cache[]
-     */
-    protected $registered;
-    
-    protected static $instance;
-    
-    /**
-     * Create instance
-     *
-     * @return  static
-     */
-    public static function make()
-    {
-        if (static::$instance === null) {
-            static::$instance = new static();
-        }
-        return static::$instance;
-    }
-    
-    /**
-     * register an item;
-     *
-     * @param string $handle Unique item name.
-     * @param admin_cache $cache
-     * @return boolean | admin_cache
-     */
-    public function register($handle, admin_cache $cache)
-    {
-        if (isset($this->registered[$handle]))
-        {
-            return false;
-        }
 
-        $this->registered[$handle] = $cache;
+    /**
+     * 代号标识
+     * @var string
+     */
+    protected $code = 'system_app_cache';
 
-        return $this->registered[$handle];
+    /**
+     * 排序
+     * @var int
+     */
+    protected $sort = 2;
+
+    public function __construct()
+    {
+        $this->name = __('应用数据缓存');
+        $this->description = __('应用数据缓存是应用处理逻辑后的数据缓存。若要在更新文件及功能后立即看到变化，则需要更新应用数据缓存后才可以查看最新效果。');
     }
 
-    /**
-     * @param $handle
-     * @return bool
-     */
-    public function clean($handle)
+    public function handle()
     {
-        if (! isset($this->registered[$handle])) 
-        {
-            return true;
-        }
-        
-        $cache_handel = $this->registered[$handle];
-        if ($cache_handel->hasRelevance()) {
-            foreach ($cache_handel->getRelevance() as $handel) {
-                $this->clean($handle);
+        $files = royalcms('files');
+
+        try {
+            if ($files->isDirectory(SITE_CACHE_PATH . 'cache'))
+            {
+                $files->deleteDirectory(SITE_CACHE_PATH . 'cache');
+
+                return true;
             }
         }
-        else {
-            RC_Api::api($cache_handel->getApp(), 'update_cache', array($cache_handel->getCode()));
+        catch (\UnexpectedValueException $e) {
+            ecjia_log_notice($e->getMessage());
         }
 
-        return true;
-    }
-
-    /**
-     * @return admin_cache[]
-     */
-    public function allCacheHandles()
-    {
-        return $this->registered;
     }
 
 }
-
-// end

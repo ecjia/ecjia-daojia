@@ -56,8 +56,10 @@ use RC_Uri;
 use RC_Response;
 use RC_Hook;
 use RC_Theme;
+use RC_Api;
 use ecjia_app;
 use ecjia_loader;
+use ecjia_update_cache;
 
 class SimpleController extends EcjiaController implements EcjiaTemplateFileLoader
 {
@@ -80,6 +82,7 @@ class SimpleController extends EcjiaController implements EcjiaTemplateFileLoade
             error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
         }
 
+        $this->load_cachekey();
         $this->load_default_script_style();
     
         RC_Hook::do_action('ecjia_simple_finish_launching');
@@ -267,7 +270,20 @@ class SimpleController extends EcjiaController implements EcjiaTemplateFileLoade
         $title_suffix = RC_Hook::apply_filters('page_title_suffix', ' - Powered by ECJia');
         $this->assign('page_title', $title . $title_suffix);
     }
-    
+
+
+    /**
+     * 加载缓存key
+     */
+    protected function load_cachekey()
+    {
+        $res = RC_Api::api('system', 'system_cache');
+        if (! empty($res)) {
+            foreach ($res as $cache_handle) {
+                ecjia_update_cache::make()->register($cache_handle->getCode(), $cache_handle);
+            }
+        }
+    }
     
     protected function load_hooks()
     {

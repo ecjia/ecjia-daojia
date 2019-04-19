@@ -1,5 +1,5 @@
 <?php
-//  
+//
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//   
+//
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,84 +44,73 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-/**
- * ecjia 清除缓存类
- * @author royalwang
- *
- */
-class ecjia_update_cache
+namespace Ecjia\System\Admins\CleanCache;
+
+use RC_Hook;
+use InvalidArgumentException;
+
+class CacheFactory
 {
-    /**
-     * @var admin_cache[]
-     */
-    protected $registered;
     
-    protected static $instance;
+    protected static $factories;
     
-    /**
-     * Create instance
-     *
-     * @return  static
-     */
-    public static function make()
+    public function __construct()
     {
-        if (static::$instance === null) {
-            static::$instance = new static();
-        }
-        return static::$instance;
+        self::$factories = $this->getFactories();
     }
     
-    /**
-     * register an item;
-     *
-     * @param string $handle Unique item name.
-     * @param admin_cache $cache
-     * @return boolean | admin_cache
-     */
-    public function register($handle, admin_cache $cache)
+    public function getFactories()
     {
-        if (isset($this->registered[$handle]))
-        {
-            return false;
-        }
+        $cache_key = 'clean_cache_component_factories';
+    
+        $factories = ecjia_cache('system')->get($cache_key);
+        if (empty($factories)) {
+    
+            $dir = __DIR__ . '/Components';
+    
+            $platforms = royalcms('files')->files($dir);
 
-        $this->registered[$handle] = $cache;
-
-        return $this->registered[$handle];
-    }
-
-    /**
-     * @param $handle
-     * @return bool
-     */
-    public function clean($handle)
-    {
-        if (! isset($this->registered[$handle])) 
-        {
-            return true;
-        }
-        
-        $cache_handel = $this->registered[$handle];
-        if ($cache_handel->hasRelevance()) {
-            foreach ($cache_handel->getRelevance() as $handel) {
-                $this->clean($handle);
+            $factories = [];
+    
+            foreach ($platforms as $key => $value) {
+                $value = str_replace($dir . '/', '', $value);
+                $value = str_replace('.php', '', $value);
+                $className = __NAMESPACE__ . '\Components\\' . $value;
+                
+                $key = with(new $className)->getCode();
+                $factories[$key] = $className;
             }
+    
+            ecjia_cache('system')->put($cache_key, $factories, 10080);
         }
-        else {
-            RC_Api::api($cache_handel->getApp(), 'update_cache', array($cache_handel->getCode()));
-        }
-
-        return true;
+    
+        return RC_Hook::apply_filters('ecjia_clean_cache_component_filter', $factories);
     }
-
-    /**
-     * @return admin_cache[]
-     */
-    public function allCacheHandles()
+    
+    
+    public function getComponents()
     {
-        return $this->registered;
+        $events = [];
+    
+        foreach (self::$factories as $key => $value) {
+            $inst = new $value;
+            $events[$key] = $inst;
+        }
+    
+        return $events;
     }
+    
+    
+    public function component($code)
+    {
+        if (!array_key_exists($code, self::$factories)) {
+            throw new InvalidArgumentException("Component '$code' is not supported.");
+        }
+    
+        $className = self::$factories[$code];
 
+        return new $className();
+    }
+    
+    
 }
-
-// end

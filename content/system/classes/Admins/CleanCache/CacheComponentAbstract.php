@@ -1,5 +1,5 @@
 <?php
-//  
+//
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//   
+//
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,84 +44,66 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-/**
- * ecjia 清除缓存类
- * @author royalwang
- *
- */
-class ecjia_update_cache
+namespace Ecjia\System\Admins\CleanCache;
+
+abstract class CacheComponentAbstract
 {
+
     /**
-     * @var admin_cache[]
+     * 代号标识
+     * @var string
      */
-    protected $registered;
-    
-    protected static $instance;
+    protected $code;
     
     /**
-     * Create instance
+     * 名称
+     * @var string
+     */
+    protected $name;
+    
+    /**
+     * 描述
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * 排序
+     * @var int
+     */
+    protected $sort = 99;
+    
+    public function getCode()
+    {
+        return $this->code;
+    }
+    
+    public function getName()
+    {
+        return $this->name;
+    }
+    
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    
+    public function getSort()
+    {
+    	return $this->sort;
+    }
+    
+    public function setSort($sort)
+    {
+    	$this->sort = $sort;
+    	return $this;
+    }
+
+    /**
+     * 组件执行方法
      *
-     * @return  static
+     * @return mixed
      */
-    public static function make()
-    {
-        if (static::$instance === null) {
-            static::$instance = new static();
-        }
-        return static::$instance;
-    }
-    
-    /**
-     * register an item;
-     *
-     * @param string $handle Unique item name.
-     * @param admin_cache $cache
-     * @return boolean | admin_cache
-     */
-    public function register($handle, admin_cache $cache)
-    {
-        if (isset($this->registered[$handle]))
-        {
-            return false;
-        }
-
-        $this->registered[$handle] = $cache;
-
-        return $this->registered[$handle];
-    }
-
-    /**
-     * @param $handle
-     * @return bool
-     */
-    public function clean($handle)
-    {
-        if (! isset($this->registered[$handle])) 
-        {
-            return true;
-        }
-        
-        $cache_handel = $this->registered[$handle];
-        if ($cache_handel->hasRelevance()) {
-            foreach ($cache_handel->getRelevance() as $handel) {
-                $this->clean($handle);
-            }
-        }
-        else {
-            RC_Api::api($cache_handel->getApp(), 'update_cache', array($cache_handel->getCode()));
-        }
-
-        return true;
-    }
-
-    /**
-     * @return admin_cache[]
-     */
-    public function allCacheHandles()
-    {
-        return $this->registered;
-    }
+    abstract public function handle();
 
 }
-
-// end
