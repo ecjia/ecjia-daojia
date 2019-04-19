@@ -179,7 +179,15 @@ class admin_payrecord extends ecjia_admin
             $payrecord_info['real_back_money_total'] = $payrecord_info['back_money_total'];
         }
 
-        $payrecord_info['order_money_paid_type']  = price_format($payrecord_info['order_money_paid']);
+        //退款金额
+        if (in_array($payrecord_info['back_pay_code'], ['pay_balance', 'pay_cash'])) {
+        	//余额支付和现金支付不退还支付手续费
+        	$refund_total_amount = ecjia_price_format(($payrecord_info['order_money_paid'] - $payrecord_info['back_pay_fee']), false);
+        } else {
+        	$refund_total_amount = ecjia_price_format($payrecord_info['order_money_paid'], false);
+        }
+        
+        $payrecord_info['order_money_paid_type']  = $refund_total_amount;
         $payrecord_info['back_money_total_type']  = ecjia_price_format($payrecord_info['real_back_money_total'], false);
         $payrecord_info['back_pay_fee_type']      = price_format($payrecord_info['back_pay_fee']);
         $payrecord_info['back_shipping_fee_type'] = price_format($payrecord_info['back_shipping_fee']);
@@ -338,7 +346,7 @@ class admin_payrecord extends ecjia_admin
         $count = $db_refund_view->count();
         $page  = new ecjia_page($count, 10, 5);
         $data  = $db_refund_view
-            ->select('id', 'order_sn', 'order_id', 'refund_sn', 'back_pay_name', 'back_pay_code', 'refund_id', 'refund_type', 'order_money_paid', 'back_surplus', 'action_back_time', 'action_back_type', 'add_time', RC_DB::raw('s.merchants_name'))
+            ->select('id', 'order_sn', 'order_id', 'refund_sn', 'back_pay_name', 'back_pay_code', 'refund_id', 'refund_type', 'order_money_paid', 'back_pay_fee', 'back_surplus', 'action_back_time', 'action_back_type', 'add_time', RC_DB::raw('s.merchants_name'))
             ->orderby('id', 'DESC')
             ->take(10)
             ->skip($page->start_id - 1)
@@ -349,7 +357,15 @@ class admin_payrecord extends ecjia_admin
                 $row['action_back_time'] = RC_Time::local_date('Y-m-d H:i:s', $row['action_back_time']);
                 $row['add_time']         = RC_Time::local_date('Y-m-d H:i:s', $row['add_time']);
                 $row['shipping_status']  = RC_DB::table('order_info')->where('order_id', $row['order_id'])->pluck('shipping_status');
-                $row['order_money_paid'] = price_format($row['order_money_paid']);
+                //退款金额
+                if (in_array($row['back_pay_code'], ['pay_balance', 'pay_cash'])) {
+                	//余额支付和现金支付不退还支付手续费
+                	$refund_total_amount = ecjia_price_format(($row['order_money_paid'] - $row['back_pay_fee']), false);
+                } else {
+                	$refund_total_amount = ecjia_price_format($row['order_money_paid'], false);
+                }
+                $row['order_money_paid'] = $refund_total_amount;
+                
                 $list[]                  = $row;
             }
         }

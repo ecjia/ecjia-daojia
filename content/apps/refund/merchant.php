@@ -145,8 +145,12 @@ class merchant extends ecjia_merchant {
 			$this->assign('order_data', 'order_data');
 		} 
 	
-		//退费计算
-		$refund_total_amount  = price_format($refund_info['money_paid'] + $refund_info['surplus']);
+		//退费计算；余额和现金支付的不退换支付手续费
+		if (in_array($refund_info['pay_code'], ['pay_balance', 'pay_cash'])) {
+			$refund_total_amount  = ecjia_price_format(($refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee']), false);
+		} else {
+			$refund_total_amount  = ecjia_price_format(($refund_info['money_paid'] + $refund_info['surplus']), false);
+		}
 		$this->assign('refund_total_amount', $refund_total_amount);
 
 		//送货商品信息
@@ -351,8 +355,12 @@ class merchant extends ecjia_merchant {
 			$this->assign('order_data', 'order_data');
 		}
 		
-		//退费计算
-		$refund_total_amount  = price_format($refund_info['money_paid'] + $refund_info['surplus']);
+		//退费计算；余额和现金支付的不退换支付手续费
+		if (in_array($refund_info['pay_code'], ['pay_balance', 'pay_cash'])) {
+			$refund_total_amount  = ecjia_price_format(($refund_info['money_paid'] + $refund_info['surplus'] - $refund_info['pay_fee']), false);
+		} else {
+			$refund_total_amount  = ecjia_price_format(($refund_info['money_paid'] + $refund_info['surplus']), false);
+		}
 		$this->assign('refund_total_amount', $refund_total_amount);
 		
 		//送货商品信息
@@ -636,7 +644,7 @@ class merchant extends ecjia_merchant {
 		$count = $db_refund_view->count();
 		$page = new ecjia_merchant_page($count, 10, 5);
 		$data = $db_refund_view
-		->select('refund_id', 'refund_sn', 'refund_type', 'order_id', 'order_sn', 'money_paid', 'surplus', 'add_time', 'shipping_fee', 'pack_fee', 'status', 'refund_status')
+		->select('refund_id', 'refund_sn', 'refund_type', 'order_id', 'order_sn', 'money_paid', 'surplus', 'add_time', 'pay_code', 'pay_fee', 'shipping_fee', 'pack_fee', 'status', 'refund_status')
 		->orderby($filter['sort_by'], $filter['sort_order'])
 		->take(10)
 		->skip($page->start_id-1)
@@ -647,7 +655,12 @@ class merchant extends ecjia_merchant {
 			foreach ($data as $row) {
 				$row['add_time']  = RC_Time::local_date('Y-m-d H:i:s', $row['add_time']);
 				$row['shipping_status'] = RC_DB::table('order_info')->where('order_id', $row['order_id'])->pluck('shipping_status');
-				$row['refund_total_amount']  = price_format($row['money_paid'] + $row['surplus']);
+				if (in_array($row['pay_code'], array('pay_balance', 'pay_cash'))) {
+					$row['refund_total_amount']  = ecjia_price_format(($row['money_paid'] + $row['surplus'] - $row['pay_fee']), false);
+				} else {
+					$row['refund_total_amount']  = price_format($row['money_paid'] + $row['surplus']);
+				}
+				
 				$list[] = $row;
 			}
 		}
