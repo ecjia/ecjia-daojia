@@ -220,7 +220,7 @@ class pay_alipay extends PaymentAbstract implements CallbackPayment
 
             $alipay_config['sign_type'] = 'MD5';
             $alipay_request = new alipay_request_web($alipay_config);
-            $button_attr = $alipay_request->build_request_param($parameter);;
+            $button_attr = $alipay_request->build_request_param($parameter);
 
             $button_attr['pay_online'] = $alipay_request->build_request_param_toLink($parameter);
             
