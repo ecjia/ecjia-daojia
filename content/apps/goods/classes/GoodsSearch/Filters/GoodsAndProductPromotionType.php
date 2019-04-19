@@ -31,8 +31,7 @@ class GoodsAndProductPromotionType implements FilterInterface
     {
     	if ($value) {
     		if ($value == 'today') {
-    			$date = \RC_Time::local_date('Y-m-d', \RC_Time::gmtime());
-    			$time_start = \RC_Time::local_strtotime($date);
+    			$time = \RC_Time::gmtime();
     		} elseif ($value == 'tomorrow') {
     			$date = \RC_Time::local_date("Y-m-d",\RC_Time::local_strtotime("+1 day"));
     			$time_start = \RC_Time::local_strtotime($date);
@@ -40,17 +39,36 @@ class GoodsAndProductPromotionType implements FilterInterface
     			$date = \RC_Time::local_date("Y-m-d",\RC_Time::local_strtotime("+2 day"));
     			$time_start = \RC_Time::local_strtotime($date);
     		}
+    		
     		$time_end   = $time_start + 86399;
     		
-    		$subQuery = $builder
+    		if ($value == 'today') {
+    			$subQuery = $builder
+    			->where('goods.promote_start_date', '<=', $time)
+    			->where('goods.promote_end_date', '>=', $time)
+    			->where(function ($query) {
+    				$query->where(function ($query) {
+    					$query->where('products.is_promote', 1)
+    					->orWhere(function ($query) {
+    						$query->where('goods.is_promote', 1)
+    							  ->whereRaw("(product_id is null)");
+    					});
+    				});
+    			});
+    		} else {
+    			$subQuery = $builder
     			->where('goods.promote_start_date', '>=', $time_start)
     			->where('goods.promote_start_date', '<=', $time_end)
     			->where(function ($query) {
-	    			$query->where(function ($query) {
-	    				$query->where('products.is_promote', 1)
-	    				->orWhere('goods.promote_price', '>', 0);
-	    			});
+    				$query->where(function ($query) {
+    					$query->where('products.is_promote', 1)
+    					->orWhere(function ($query) {
+    						$query->where('goods.is_promote', 1)
+    							  ->whereRaw("(product_id is null)");
+    					});
+    				});
     			});
+    		}
     		
     		return $subQuery;
     	}

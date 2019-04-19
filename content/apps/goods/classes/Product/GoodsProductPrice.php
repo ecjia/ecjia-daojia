@@ -136,39 +136,50 @@ class GoodsProductPrice
     
     public function mapGoodsProductCollection($attr_id, $product_attr_ids)
     {
+        //属性价格总和
+        $product_goods_attr = explode('|', $attr_id);
+        $attr_list = \RC_DB::table('goods_attr')->select('attr_value', 'attr_price')->whereIn('goods_attr_id', $product_goods_attr)->get();
+        $total_attr_price = 0;
+        foreach ($attr_list AS $attr) {
+            $total_attr_price += $attr['attr_price'];
+        }
+
+        //市场价
+        $market_price = $this->goods_info->market_price;
+
     	//商品会员等级价格
-    	$user_price = \RC_DB::table('member_price')->where('goods_id', $this->model->goods_id)->where('user_rank', $this->getUserRank())->pluck('user_price');
-		
+    	$user_price = \RC_DB::table('member_price')->where('goods_id', $this->goods_id)->where('user_rank', $this->getUserRank())->pluck('user_price');
+        
+    	$shop_price = $user_price > 0 ? $user_price : $this->goods_info->shop_price*$this->user_rank_discount;
+
     	//商品促销价格
-    	$goods_promote_price = $this->filterPromotePrice($this->goods_info->shop_price, $this->goods_info->is_promote);
+    	$promote_price = $this->filterPromotePrice($this->goods_info->shop_price, $this->goods_info->is_promote);
+    	
+    	//市场价最终价
+    	$final_shop_price = $promote_price > 0 ? min($shop_price, $promote_price) : $shop_price;
     	
 		if (in_array($attr_id, $product_attr_ids)) { //有货品情况
 			//获取货品信息
 			$product_info = $this->products_model->where('goods_id', $this->goods_id)->where('goods_attr', $attr_id)->first();
 			
-			$product_shop_price = $product_info->product_shop_price;
 			//货品会员等级价格
-			$product_shop_price = $product_shop_price > 0 ? $product_shop_price*$this->user_rank_discount : $user_price;
+			$product_shop_price = $product_info->product_shop_price*$this->user_rank_discount;
 			
 			//货品促销价
 			$product_promote_price = $this->filterPromotePrice($product_info->promote_price, $product_info->is_promote);
-			//货品促销价格存在，替换商品促销价格
-			$promote_price = $product_promote_price > 0 ? $product_promote_price : $goods_promote_price;
-			
-			//商品设置是SKU价格（商品价格 + 属性货品价格）
-			if (\ecjia::config('sku_price_mode') == 'goods_sku') {
-				$product_goods_attr = explode('|', $attr_id);
-				$attr_list = \RC_DB::table('goods_attr')->select('attr_value', 'attr_price')->whereIn('goods_attr_id', $product_goods_attr)->get();
-				$total_attr_price = 0;
-				foreach ($attr_list AS $attr) {
-					$total_attr_price += $attr['attr_price'];
-				}
-				if ($total_attr_price > 0) {
-					$product_shop_price += $total_attr_price;
-					$promote_price = ($promote_price > 0) ? ($promote_price + $total_attr_price) : 0;
-				}
-			}
-			
+            $market_price += $total_attr_price;
+
+            //货品有设置自定义价格
+            if ($product_info->product_shop_price > 0) {
+            	$shop_price = $product_shop_price;
+            } else {
+            	$shop_price += $total_attr_price;
+            }
+
+            $promote_price = $product_promote_price;
+
+            $final_shop_price = $promote_price > 0 ? min($shop_price, $promote_price) : $shop_price;
+            
 			$data = [
 				'product_id' 					=> $product_info->product_id,
 				'product_name' 					=> $product_info->product_name ? $product_info->product_name : '',
@@ -177,9 +188,10 @@ class GoodsProductPrice
 				'product_number'				=> $product_info->product_number,
 				'promote_user_limited'			=> $promote_price > 0 ? $product_info->promote_user_limited : 0,
 				'promote_limited'				=> $promote_price > 0 ? $product_info->promote_limited : 0,
-				'product_shop_price'			=> sprintf("%.2f", $product_shop_price),
-				'formatted_product_shop_price'	=> ecjia_price_format($product_shop_price, false),
-				'promote_price'					=> $promote_price,
+				'product_shop_price'			=> sprintf("%.2f", $final_shop_price),
+				'formatted_product_shop_price'	=> ecjia_price_format($final_shop_price, false),
+				'promote_price'					=> $promote_price > 0 ? sprintf("%.2f", $promote_price) : 0,
+				'is_promote'					=> $promote_price > 0 ? 1 : 0,
 				'formatted_promote_price'		=> $promote_price > 0 ? ecjia_price_format($promote_price, false) : '',
 				'img'							=> [
 														'thumb' =>  $product_info->product_thumb ? \RC_Upload::upload_url($product_info->product_thumb) : '',
@@ -189,27 +201,11 @@ class GoodsProductPrice
 			];
 		} else {
 			//没有货品，但有规格情况，价格处理
-			$product_shop_price = $this->goods_info->shop_price;
-			//会员等级价格
-			$product_shop_price = $user_price > 0 ? $user_price : $product_shop_price*$this->user_rank_discount;
-			
-			//促销价
-			$promote_price = $goods_promote_price;
-			
-			//商品设置是SKU价格（商品价格 + 属性货品价格）
-			if (\ecjia::config('sku_price_mode') == 'goods_sku') {
-				$product_goods_attr = explode('|', $attr_id);
-				$attr_list = \RC_DB::table('goods_attr')->select('attr_value', 'attr_price')->whereIn('goods_attr_id', $product_goods_attr)->get();
-				$total_attr_price = 0;
-				foreach ($attr_list AS $attr) {
-					$total_attr_price += $attr['attr_price'];
-				}
-				if ($total_attr_price > 0) {
-					$product_shop_price += $total_attr_price;
-					$promote_price = ($promote_price > 0) ? ($promote_price + $total_attr_price) : 0;
-				}
-			}
-			
+            if ($total_attr_price > 0) {
+                $shop_price += $total_attr_price;
+                $promote_price = ($promote_price > 0) ? ($promote_price + $total_attr_price) : 0;
+            }
+            
 			$data = [
 				'product_id' 					=> 0,
 				'product_name'					=> '',
@@ -218,17 +214,24 @@ class GoodsProductPrice
 				'product_number'				=> 0,
 				'promote_user_limited'			=> $promote_price > 0 ? $this->goods_info->promote_user_limited : 0,
 				'promote_limited'				=> $promote_price > 0 ? $this->goods_info->promote_limited : 0,
-				'product_shop_price'			=> sprintf("%.2f", $product_shop_price),
-				'formatted_product_shop_price'	=> ecjia_price_format($product_shop_price, false),	
-				'promote_price'					=> $promote_price,
+				'product_shop_price'			=> sprintf("%.2f", $final_shop_price),
+				'formatted_product_shop_price'	=> ecjia_price_format($final_shop_price, false),	
+				'promote_price'					=> $promote_price > 0 ? sprintf("%.2f", $promote_price) : 0,
+				'is_promote'					=> $promote_price > 0 ? 1 : 0,
 				'formatted_promote_price'		=> $promote_price > 0 ? ecjia_price_format($promote_price, false) : '',
 				'img'							=> [],
 			];
+			
 		}
     	
 		return $data;
     }
     
+    /**
+     * 商品规格重组集合
+     * @param array $options
+     * @return array
+     */
     public function _combination(array $options)
     {
     	$rows = [];
@@ -264,7 +267,7 @@ class GoodsProductPrice
     }
     
     
-/**
+	/**
 	 * 促销价处理
 	 * @param unknown $promote_price
 	 * @return Ambigous <number, float>

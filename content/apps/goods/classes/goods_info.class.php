@@ -138,12 +138,12 @@ class goods_info {
 				}
 			}
 		}
-		$field = "g.promote_price, g.promote_start_date, g.promote_end_date,IFNULL(mp.user_price, g.shop_price * '" . $_SESSION['discount'] . "') AS shop_price";
+		$field = "g.promote_price, g.is_promote, g.promote_start_date, g.promote_end_date,IFNULL(mp.user_price, g.shop_price * '" . $_SESSION['discount'] . "') AS shop_price";
 		// 取得商品促销价格列表
 		$goods = $db_goodsview->join(array('member_price'))->field($field)->where(array('g.goods_id' => $goods_id, 'g.is_delete' => 0))->find();
 
 		/* 计算商品的促销价格 */
-		if ($goods['promote_price'] > 0 && $goods['is_promote' == '1']) {
+		if ($goods['promote_price'] > 0 && $goods['is_promote']  == '1') {
 			$promote_price = self::bargain_price ($goods['promote_price'], $goods ['promote_start_date'], $goods ['promote_end_date'] );
 		} else {
 			$promote_price = 0;
@@ -155,14 +155,11 @@ class goods_info {
 		//是货品情况
 		if (!empty($product_id)) {
 			$product_info = RC_DB::table('products')->where('product_id', $product_id)->first();
-			//商品SKU价格模式：商品价格 + 属性货品价格
-			if (ecjia::config('sku_price_mode') == 'goods_sku') {
-				//货品促销价存在，替换商品促销价
-				if ($product_info ['promote_price'] > 0 && $product_info['is_promote'] == '1') {
-					$promote_price = self::bargain_price ($product_info['promote_price'], $goods['promote_start_date'], $goods['promote_end_date'] );
-				}else {
-					$promote_price = 0;
-				}
+			//货品促销价存在，替换商品促销价
+			if ($product_info ['promote_price'] > 0 && $product_info['is_promote'] == '1') {
+				$promote_price = self::bargain_price ($product_info['promote_price'], $goods['promote_start_date'], $goods['promote_end_date'] );
+			}else {
+				$promote_price = 0;
 			}
 			//货品会员价格存在替换商品会员等级价
 			$product_user_price = $product_info['product_shop_price'] > 0 ? $product_info['product_shop_price']*$_SESSION['discount'] : $user_price;
@@ -210,8 +207,8 @@ class goods_info {
 		if ($is_spec_price) {
 			if (! empty ( $spec )) {
 				if ($product_id > 0) {
-					//商品SKU价格模式：商品价格 + 属性货品价格
-					if (ecjia::config('sku_price_mode') == 'goods_sku') {
+					//货品未设置自定义价格的话，按商品价格加上属性价格;商品价格 + 属性货品价格
+					if ($product_user_price < 0) {
 						$spec_price = self::spec_price ( $spec );
 						$final_price += $spec_price;
 					}

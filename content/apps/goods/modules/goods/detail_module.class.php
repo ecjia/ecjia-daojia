@@ -139,6 +139,7 @@ class goods_detail_module extends api_front implements api_interface {
         $favourable_list = $this->get_favourable_list($goods, $rec_type);
 
         $data = ecjia_api::transformerData('GOODS', $data);
+        $data['product_id'] = 0;
         //商品货品信息
         if (!empty($data['specification'])) {
         	$GoodsProductPrice = new \Ecjia\App\Goods\Product\GoodsProductPrice($goods_id);
@@ -159,9 +160,12 @@ class goods_detail_module extends api_front implements api_interface {
         
         $data['unformatted_shop_price'] = $goods['shop_price'];
         
+        
+        
         /*如果用户登录，获取该会员的等级对应的商品的shop_price*/
         if ($_SESSION['user_id'] > 0 && !empty($user_rank_prices)) {
         	$user_info = RC_DB::table('users')->where('user_id', $_SESSION['user_id'])->first();
+        	
         	/* 取得用户等级 */
         	if ($user_info['user_rank'] == 0) {
         		// 非特殊等级，根据成长值计算用户等级（注意：不包括特殊等级）
@@ -170,11 +174,19 @@ class goods_detail_module extends api_front implements api_interface {
         		// 特殊等级
         		$user_rank_info = RC_DB::table('user_rank')->where('rank_id', $user_info['user_rank'])->first();
         	}
-        	foreach ($user_rank_prices as $key => $val) {
-        		if ($key == $user_rank_info['rank_id']) {
-        			$data['shop_price'] = $val['price'];
-        			$data['unformatted_shop_price'] = $val['unformatted_price'];
-        			break;
+        	
+        	$user_member_price = RC_DB::table('member_price')->where('goods_id', $goods_id)->where('user_rank', $user_rank_info['rank_id'])->pluck('user_price');
+        	
+        	if ($user_member_price > 0) {
+        		$data['shop_price'] = ecjia_price_format($user_member_price, false);
+        		$data['unformatted_shop_price'] = $user_member_price;
+        	} else {
+        		foreach ($user_rank_prices as $key => $val) {
+        			if ($key == $user_rank_info['rank_id']) {
+        				$data['shop_price'] = $val['price'];
+        				$data['unformatted_shop_price'] = $val['unformatted_price'];
+        				break;
+        			}
         		}
         	}
         }
@@ -200,7 +212,7 @@ class goods_detail_module extends api_front implements api_interface {
         } else {
         	/* 判断是否有促销价格*/
         	$price = ($data['unformatted_shop_price'] > $goods['promote_price_org'] && $goods['promote_price_org'] > 0) ? $goods['promote_price_org'] : $data['unformatted_shop_price'];
-        	$activity_type = ($data['unformatted_shop_price'] > $goods['promote_price_org'] && $goods['promote_price_org'] > 0) ? 'PROMOTE_GOODS' : 'GENERAL_GOODS';
+        	$activity_type = ($goods['promote_price_org'] > 0) ? 'PROMOTE_GOODS' : 'GENERAL_GOODS';
         }
         $data['groupbuy_info'] = $groupbuy_info;
 
@@ -211,6 +223,7 @@ class goods_detail_module extends api_front implements api_interface {
         $data['goods_activity_id'] = empty($object_id) ? 0 : intval($object_id);
         $data['saving_price']	= $saving_price;
         $data['formatted_saving_price'] = sprintf(__('已省%s元', 'goods'), $saving_price);
+	
         if ($price < $data['unformatted_shop_price'] && isset($price)) {
         	$data['promote_price'] = $price;
         	$data['formated_promote_price'] = price_format($price);
@@ -222,6 +235,9 @@ class goods_detail_module extends api_front implements api_interface {
         $data['object_id'] = empty($object_id) ? 0 : $object_id;
         $data['promote_user_limited'] = $activity_type == 'PROMOTE_GOODS' ? $goods['promote_user_limited'] : 0;
         $data['promote_limited'] = $activity_type == 'PROMOTE_GOODS' ? $goods['promote_limited'] : 0;
+        //会员价和促销价对比；促销价高于会员价时促销价覆盖会员价
+        $data['unformatted_shop_price'] = $data['promote_price'] > 0 ? min($data['promote_price'], $data['unformatted_shop_price']) : $data['unformatted_shop_price'];
+        $data['shop_price']				= ecjia_price_format($data['unformatted_shop_price'], false);
         
         if (ecjia_config::has('mobile_touch_url')) {
         	$data['goods_url'] = ecjia::config('mobile_touch_url').'index.php?m=goods&c=index&a=show&goods_id='.$goods_id.'&hidenav=1&hidetab=1';
@@ -332,6 +348,7 @@ class goods_detail_module extends api_front implements api_interface {
 		} else {
 			$data['add_time'] = '';
 		}
+		$data['product_goods_attr'] = '';
 		
 		//判断货品，是货品，替换部分基本信息字段
 		if ($product_id > 0) {
@@ -584,18 +601,28 @@ class goods_detail_module extends api_front implements api_interface {
 				unset($val['product_name']);
 				$arr[] = $val;
 			}
+			
+			if ($product_info['promote_price'] > 0) {
+				$activity_type =  'PROMOTE_GOODS';
+			} else {
+				$activity_type = 'GENERAL_GOODS';
+			}
 			$data['goods_sn'] 				= $product_info['product_sn'] ?: $data['goods_sn'];
+			$data['product_id'] 			= $product_info['product_id'] ?: 0;
 			$data['goods_name'] 			= $product_info['product_name'] ?: $data['goods_name'];
 			$data['goods_number'] 			= $product_info['product_number'] ?: $data['goods_number'];
 			$data['shop_price'] 			= $product_info['formatted_product_shop_price'] ?: $data['shop_price'];
 			$data['unformatted_shop_price'] = $product_info['product_shop_price'] ?: $data['unformatted_shop_price'];
-			$data['promote_user_limited']   = $product_info['promote_user_limited'] ?: $data['promote_user_limited'];
-			$data['promote_price'] 			= $product_info['promote_price'] ?: $data['shop_price'];
-			$data['formated_promote_price'] = $product_info['formatted_promote_price'] ?: $data['formated_promote_price'];
-			$data['promote_user_limited']   = $product_info['promote_user_limited'] ?: $data['promote_user_limited'];
-			$data['promote_limited']   		= $product_info['promote_limited'] ?: 	$data['promote_limited'];
+			$data['promote_price'] 			= $product_info['promote_price'];
+			$data['is_promote']				= $product_info['is_promote'];
+			$data['formated_promote_price'] = $product_info['formatted_promote_price'];
+			$data['promote_user_limited']   = $product_info['promote_user_limited'];
+			$data['promote_limited']   		= $product_info['promote_limited'];
+			$data['product_goods_attr']		= $product_info['product_goods_attr'] ?: $data['product_goods_attr'];
 			$data['img']   					= $product_info['img'] ?: $data['img'];
 			$data['product_specification']  = $arr;
+			$data['rec_type'] 				= $activity_type;
+			$data['activity_type'] 			= $activity_type;
 		}
 		return $data;
 	}

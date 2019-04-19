@@ -30,8 +30,13 @@ class GoodsPromotion implements FilterInterface
     public static function apply(Builder $builder, $value)
     {
     	if ($value) {
-    		$time = \RC_Time::gmtime();
-    		return $builder->where('goods.promote_price', '>', 0)->where('goods.promote_start_date', '<=', $time)->where('goods.promote_end_date', '>=', $time);
+    		$time_start = \RC_Time::gmtime();
+    		
+    		$one_month = \RC_Time::local_date("Y-m-d",\RC_Time::local_strtotime("+1months"));
+    	
+    		$time_end = \RC_Time::local_strtotime($one_month) + 86399;
+    		
+    		return $builder->where('goods.promote_price', '>', 0)->where('goods.is_promote', '=', 1)->where('goods.promote_start_date', '>', $time_start)->where('goods.promote_start_date', '<=', $time_end);
     	}
     	return $builder;
     }

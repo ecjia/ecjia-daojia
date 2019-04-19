@@ -84,7 +84,9 @@ class GoodsKeywords
 
     public function buildQuery()
     {
-
+		//搜索关键词记录
+    	$this->saveSearchLog();
+    	
         if ($this->operator == self::WHERE_OR) {
 
             $query = function ($query) {
@@ -140,11 +142,18 @@ class GoodsKeywords
      */
     public function saveSearchLog()
     {
-
-
-
-
-
+    	$count = \RC_DB::table('keywords')->where('date', \RC_Time::local_date('Y-m-d'))->where('searchengine', 'ecjia')->where('keyword', addslashes(str_replace('%', '', $this->keyword_input)))->pluck('count');
+    		
+    	if (!empty($count) && $count > 0) {
+    		\RC_DB::table('keywords')->where('date', \RC_Time::local_date('Y-m-d'))->where('searchengine', 'ecjia')->where('keyword', addslashes(str_replace('%', '', $this->keyword_input)))->update(array('count' => $count + 1));
+    	} else {
+    		$data = array(
+    				'date' => \RC_Time::local_date('Y-m-d'),
+    				'searchengine' => 'ecjia',
+    				'count'=> '1',
+    				'keyword' => addslashes(str_replace('%', '', $this->keyword_input)));
+    		\RC_DB::table('keywords')->insert($data);
+    	}
     }
 
 }

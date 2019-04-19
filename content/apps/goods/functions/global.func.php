@@ -1659,9 +1659,9 @@ function sort_goods_attr_id_array($goods_attr_id_array, $sort = 'asc') {
 		})
 		->select(RC_DB::raw('a.attr_type, v.attr_value, v.goods_attr_id'))
 		->whereIn(RC_DB::raw('v.goods_attr_id'), $goods_attr_id_array)
-		->orderby(RC_DB::raw('a.attr_id'), $sort)
+		->orderby(RC_DB::raw('v.goods_attr_id'), $sort)
 		->get();
-	 
+		
 	$return_arr = array();
 	if (! empty($row)) {
 		foreach ($row as $value) {
@@ -1795,7 +1795,7 @@ function is_spec($goods_attr_id_array, $sort = 'asc') {
  *
  * @return 商品最终购买价格
  */
-function get_final_price($goods_id, $goods_num = '1', $is_spec_price = false, $spec = array(), $product_id) {
+function get_final_price($goods_id, $goods_num = '1', $is_spec_price = false, $spec = array(), $product_id = 0) {
 	$dbview = RC_Model::model('goods/sys_goods_member_viewmodel');
 	RC_Loader::load_app_func('admin_goods', 'goods');
 

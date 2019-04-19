@@ -235,6 +235,7 @@ class goods {
         		} else {
         			$sql[$k]['goods_thumb'] = RC_Uri::admin_url('statics/images/nopic.png');
         		}
+                $sql[$k]['product_list'] = RC_DB::table('products')->where('goods_id', $v['goods_id'])->get();
         	}
         }
         $row = $sql;
@@ -397,6 +398,7 @@ class goods {
     			} else {
     				$sql[$k]['goods_thumb'] = RC_Uri::admin_url('statics/images/nopic.png');
     			}
+                $sql[$k]['product_list'] = RC_DB::table('products')->where('goods_id', $v['goods_id'])->get();
     		}
     	}
     	$row = $sql;

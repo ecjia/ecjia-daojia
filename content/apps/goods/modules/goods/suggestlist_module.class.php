@@ -120,6 +120,7 @@ class goods_suggestlist_module extends api_front implements api_interface {
 		if (ecjia::config('show_product') == 1) {
 			$filters['product'] = true;
 		}
+		
 		//定位附近店铺id
 		if (!empty($store_ids)) {
 			$filters['store_id'] = $store_ids;
@@ -133,19 +134,27 @@ class goods_suggestlist_module extends api_front implements api_interface {
 			} elseif ($action_type == 'hot') {
 				$filters['is_hot'] = 1;
 			} elseif ($action_type == 'promotion') {
-				if (array_key_exists('product', $filters)) { //列表显示货品，促销条件调整（货品促销条件和商品商品促销条件）
-					if (!empty($promotion_type)) {
-						$filters['goods_and_product_promotion_type'] = $promotion_type;
-					} else {
-						$filters['goods_and_product_promotion'] = true;
-					}
+// 				if (array_key_exists('product', $filters)) { //列表显示货品，促销条件调整（货品促销条件和商品商品促销条件）
+// 					if (!empty($promotion_type)) {
+// 						$filters['goods_and_product_promotion_type'] = $promotion_type;
+// 					} else {
+// 						$filters['goods_and_product_promotion'] = true;
+// 					}
+// 				} else {
+// 					if (!empty($promotion_type)) {
+// 						$filters['goods_promotion_type'] = $promotion_type;
+// 					} else {
+// 						$filters['goods_promotion'] = true;
+// 					}
+// 				}
+				$filters['product'] = true;
+				if (!empty($promotion_type)) {
+					$filters['goods_and_product_promotion_type'] = $promotion_type;
 				} else {
-					if (!empty($promotion_type)) {
-						$filters['goods_promotion_type'] = $promotion_type;
-					} else {
-						$filters['goods_promotion'] = true;
-					}
+					$filters['goods_and_product_promotion'] = true;
 				}
+				//促销，排序默认结束时间升序
+				$order_by = array('goods.promote_end_date' => 'asc', 'goods.sort_order' => 'asc', 'goods_id' => 'desc');
 			}
 		}
 		//排序

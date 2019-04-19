@@ -1667,6 +1667,14 @@ class merchant extends ecjia_merchant {
         if (empty($goods)) {
         	return $this->showmessage(__('未检测到此商品', 'goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('返回商品列表', 'goods'), 'href' => RC_Uri::url('goods/merchant/init')))));
         }
+        
+        //商品当前有没选择规格；
+        if ($goods['goods_type'] > 0) {
+        	$this->assign('has_goods_type', 1);
+        } else {
+        	$this->assign('has_goods_type', 0);
+        }
+        
 		//获得商品已经添加的规格列表
 		$attribute = get_goods_specifications_list($goods_id);
 
@@ -1679,15 +1687,64 @@ class merchant extends ecjia_merchant {
 			}
 		}
 		$attribute_count = count($_attribute);
-
-        if (empty($attribute_count)) {
-        	$links[] = array('text' => __('商品属性', 'goods'), 'href' => RC_Uri::url('goods/merchant/edit_goods_attr', array('goods_id' => $goods_id)));
-        	$links[] = array('text' => __('返回商品列表', 'goods'), 'href' => RC_Uri::url('goods/merchant/init'));
-            return $this->showmessage(__('请先添加库存属性，再到货品管理中设置货品库存', 'goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $links));
-        }
+		//商品规格对应的属性数量
+		if (empty($attribute_count)) {
+			$this->assign('goods_attribute', 'no');
+		} else {
+			$this->assign('goods_attribute', 'yes');
+		}
+		
+		
+//         if (empty($attribute_count)) {
+//         	$links[] = array('text' => __('商品属性', 'goods'), 'href' => RC_Uri::url('goods/merchant/edit_goods_attr', array('goods_id' => $goods_id)));
+//         	$links[] = array('text' => __('返回商品列表', 'goods'), 'href' => RC_Uri::url('goods/merchant/init'));
+//             return $this->showmessage(__('请先添加库存属性，再到货品管理中设置货品库存', 'goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $links));
+//         }
 
 		/* 取商品的货品 */
 		$product = product_list($goods_id, '');
+		
+		/*获得商品的规格和属性*/
+		$properties = Ecjia\App\Goods\GoodsFunction::get_goods_properties($goods_id);
+		$properties = Ecjia\App\Goods\GoodsFunction::handle_spec($properties);
+		
+		//商品规格
+		$product_goods_attrs = [];
+		$specification = $properties['spe'];
+		if (!empty($specification)) {
+			//商品规格分组
+			foreach ($specification as $key => $val)  {
+				if ($val['value']) {
+					foreach ($val['value'] as $spec) {
+						$arr[$key][] = $spec['id'];
+					}
+				}
+			}
+			//商品规格属性id重组处理
+			$spec_combine_arr = $this->_combination($arr);
+			foreach ($spec_combine_arr as $goods_attr) {
+				$goods_attr_string = implode('|', $goods_attr);
+				$product_goods_attrs[] = $goods_attr_string;
+			}
+		}
+		//货品是否有效
+		if (!empty($product['product'])) {
+			foreach ($product['product'] as $key => $val) {
+				if (empty($product_goods_attrs)) {
+					$val['product_is_avaliable'] = 'no';
+				} else {
+					$goods_attr_str_arr = explode('|', $val['goods_attr_str']);
+					if (in_array($val['goods_attr_str'], $product_goods_attrs)) {
+						$val['product_is_avaliable'] = 'yes';
+					} else {
+						$val['product_is_avaliable'] = 'no';
+					}
+				}
+				$product_arr[] = $val;
+			}
+		}
+		
+		$product['product'] = $product_arr;
 		
 		$this->assign('tags',              	$this->tags);
 		$this->assign('goods_name', 		sprintf(__('商品名称：%s', 'goods'), $goods['goods_name']));
@@ -2021,9 +2078,13 @@ class merchant extends ecjia_merchant {
     		        $id_list[$attr_key] = $attr_key;
     		    }
     		    $goods_attr_id = handle_goods_attr($product['goods_id'], $id_list, $is_spec_list, $value_price_list);
-    		
+    			
+    		    //排序
+    		    sort($goods_attr_id);
+    		    
     		    /* 是否为重复规格的货品 */
     		    $goods_attr = sort_goods_attr_id_array($goods_attr_id);
+    		    
     		    $goods_attr = implode('|', $goods_attr['sort']);
     		    
     		    if (check_goods_attr_exist($goods_attr, $product['goods_id'])) {
@@ -2372,6 +2433,48 @@ class merchant extends ecjia_merchant {
 			return $this->showmessage(__('未检测到此商品', 'goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('返回商品列表', 'goods'), 'href' => RC_Uri::url('goods/merchant/init')))));
 		}
 		
+		//查询商品规格对应属性；只按商品id查
+		$goods_attr_list = RC_DB::table('goods_attr')->where('goods_id', $goods_id)->get();
+		if (!empty($goods_attr_list)) {
+			foreach ($goods_attr_list as $val) {
+				$goods_attr_all_ids[] =  $val['goods_attr_id'];
+			}
+			//当前商品有属性数据且有规格，判断商品全部的属性除去当前规格对应的属性外的视为无效属性
+			if ($goods['goods_type'] > 0) {
+				//当前规格对应的属性id
+				$attr_ids = RC_DB::table('attribute')->where('cat_id', $goods['goods_type'])->lists('attr_id');
+				if (!empty($attr_ids)) {
+					$carrent_goods_type_attr_list = RC_DB::table('goods_attr')->where('goods_id', $goods_id)->whereIn('attr_id', $attr_ids)->get();
+					if ($carrent_goods_type_attr_list) {
+						foreach ($carrent_goods_type_attr_list as $v) {
+							$carrent_goods_type_attr_ids[] = $v['goods_attr_id'];
+						}
+						//全部和当前的差集
+						$diff = array_diff($goods_attr_all_ids, $carrent_goods_type_attr_ids);
+		
+						if (!empty($diff)) {
+							foreach ($goods_attr_list as $attr) {
+								if (in_array($attr['goods_attr_id'], $diff)) {
+									$invaliable_goods_attr_list[] = $attr;
+								}
+							}
+							$this->assign('goods_attr_list', $invaliable_goods_attr_list);
+							$this->assign('invaliable_goods_attr_list', true);
+						}
+		
+					}
+				}
+			} else {
+				//当前商品有属性数据且没有规格；这些商品属性均为无效属性
+				if (!empty($goods_attr_list)) {
+					$this->assign('goods_attr_list', $goods_attr_list);
+					$this->assign('invaliable_goods_attr_list', true);
+				}
+			}
+		} else {
+			$this->assign('invaliable_goods_attr_list', false);
+		}
+		
 		if (empty($goods) === true) {
 			$goods = array('goods_type' => 0); 	// 商品类型
 		}
@@ -2385,6 +2488,14 @@ class merchant extends ecjia_merchant {
 		$_attribute = get_goods_specifications_list($goods['goods_id']);
 		$goods['_attribute'] = empty($_attribute) ? '' : 1;
 
+		//商品当前有没选择规格；如果已经选择设置过规格，不允许再切换规格
+		if ($goods['goods_type'] > 0) {
+			$this->assign('has_goods_type', 1);
+			$this->assign('goods_type', $goods['goods_type']);
+			$goods_type_name = RC_DB::table('goods_type')->where('cat_id', $goods['goods_type'])->pluck('cat_name');
+			$this->assign('goods_type_name', $goods_type_name);
+		}
+		
 		//设置选中状态,并分配标签导航
 		$this->tags['edit_goods_attr']['active'] = 1;
 		$this->assign('tags', $this->tags);
@@ -2526,6 +2637,20 @@ class merchant extends ecjia_merchant {
 		}
 	}
 
+	
+	/**
+	 * 删除无效属性
+	 */
+	public function remove_goods_attr()
+	{
+		$goods_attr_id = intval($_GET['goods_attr_id']);
+	
+		RC_DB::table('goods_attr')->where('goods_attr_id', $goods_attr_id)->delete();
+	
+		return $this->showmessage(__('成功移除无效属性', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+	}
+	
+	
 	/**
 	 * 关联商品
 	 */
@@ -2929,6 +3054,45 @@ class merchant extends ecjia_merchant {
 			$url .= '&'.$k.'='.$v;
 		}
 		return $url;
+	}
+	
+	/**
+	 * 商品规格重组集合
+	 * @param array $options
+	 * @return array
+	 */
+	private function _combination(array $options)
+	{
+		$rows = [];
+	
+		foreach ($options as $option => $items) {
+			if (count($rows) > 0) {
+				// 2、将第一列作为模板
+				$clone = $rows;
+	
+				// 3、置空当前列表，因为只有第一列的数据，组合是不完整的
+				$rows = [];
+	
+				// 4、遍历当前列，追加到模板中，使模板中的组合变得完整
+				foreach ($items as $item) {
+					$tmp = $clone;
+					foreach ($tmp as $index => $value) {
+						$value[$option] = $item;
+						$tmp[$index] = $value;
+					}
+	
+					// 5、将完整的组合拼回原列表中
+					$rows = array_merge($rows, $tmp);
+				}
+			} else {
+				// 1、先计算出第一列
+				foreach ($items as $item) {
+					$rows[][$option] = $item;
+				}
+			}
+		}
+	
+		return $rows;
 	}
 }
 

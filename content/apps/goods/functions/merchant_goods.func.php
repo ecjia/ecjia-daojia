@@ -382,6 +382,8 @@ function get_merchant_where_sql($filter) {
 	$where .= isset($filter->stock_warning) ? ' AND goods_number <= warn_number' : '';
 	/*商家条件*/
 	$where .= isset($filter->store_id) ? ' AND store_id = '.intval($filter->store_id) : '';
+
+    $where .= isset($filter->extension_code) ? " AND extension_code = '".trim($filter->extension_code)."'" : '';
 	return $where;
 }
 

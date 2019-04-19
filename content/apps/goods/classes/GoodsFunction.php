@@ -244,4 +244,31 @@ class GoodsFunction
     	return $arr;
     }
     
+    /**
+     * 商品的规格和属性数据处理
+     * @param array $properties
+     * @return array
+     */
+    public static function handle_spec($properties)
+    {
+    	if (!empty($properties['pro'])) {
+    		foreach ($properties['pro'] as $key => $value) {
+    			// 处理分组
+    			foreach ($value as $k => $v) {
+    				$v['value']                 = strip_tags($v['value']);
+    				$outData['pro'][]    = $v;
+    			}
+    		}
+    	}
+    
+    	foreach ($properties['spe'] as $key => $value) {
+    		if (!empty($value['values'])) {
+    			$value['value'] = $value['values'];
+    			unset($value['values']);
+    		}
+    		$outData['spe'][] = $value;
+    	}
+    	return $outData;
+    }
+    
 }

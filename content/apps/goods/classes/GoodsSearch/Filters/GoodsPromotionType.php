@@ -31,8 +31,7 @@ class GoodsPromotionType implements FilterInterface
     {
     	if ($value) {
     		if ($value == 'today') {
-    			$date = \RC_Time::local_date('Y-m-d', \RC_Time::gmtime());
-    			$time_start = \RC_Time::local_strtotime($date);
+    			$time_start = \RC_Time::gmtime();
     		} elseif ($value == 'tomorrow') {
     			$date = \RC_Time::local_date("Y-m-d",\RC_Time::local_strtotime("+1 day"));
     			$time_start = \RC_Time::local_strtotime($date);
@@ -41,7 +40,13 @@ class GoodsPromotionType implements FilterInterface
     			$time_start = \RC_Time::local_strtotime($date);
     		}
     		$time_end   = $time_start + 86399;
-    		return $builder->where('goods.promote_start_date', '>=', $time_start)->where('goods.promote_start_date', '<=', $time_end);
+    		
+    		if ($value == 'today') {
+    			return $builder->where('goods.promote_start_date', '<=', $time_start)->where('goods.promote_end_date', '>=', $time_end);
+    		} else {
+    			return $builder->where('goods.promote_start_date', '>=', $time_start)->where('goods.promote_start_date', '<=', $time_end);
+    		}
+    		
     	}
     	return $builder;
     }

@@ -197,7 +197,7 @@
 									</a>
 								</td>
 								<td class="hide-edit-area {if $goods.is_promote}ecjiafc-red{/if}">
-                                    {if $specifications[$goods.goods_type] neq ''}<span class="label-orange">{t domain="goods"}多货品{/t}</span>{/if}
+                                    {if $goods.product_list}<span class="label-orange">{t domain="goods"}多货品{/t}</span>{/if}
                                     <span class="cursor_pointer ecjiaf-pre ecjiaf-wsn" data-text="textarea" data-trigger="editable" data-url="{RC_Uri::url('goods/merchant/edit_goods_name')}" data-name="goods_edit_name" data-pk="{$goods.goods_id}" data-title="{t domain="goods"}请输入商品名称{/t}">{$goods.goods_name|escape:html}</span>
 									<br/>
 									<div class="edit-list">
