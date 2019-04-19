@@ -91,11 +91,13 @@
 3.	【新增】商品列表，按货品显示，一个货品对应单独的一个商品；
 4.	【新增】促销列表，点击货品商品进详情后，自动选择当前货品的规格属性功能；
 5.	【新增】商品详情选择不同规格属性，显示不同的详情内容；
-6.	【优化】促销商品更名为“限时促销”；
-7.	【优化】首页显示促销显示样式；
-8.	【优化】限时促销列表显示样式；
-9.	【优化】限时促销详情，倒计时显示样式；
-10.	【修复】添加线下红包页面无法添加红包问题；
+6.	【新增】商品支持2种价格模式，货品SKU价格、商品原价+属性价格模式；
+7.	【优化】促销商品更名为“限时促销”；
+8.	【优化】首页显示促销显示样式；
+9.	【优化】限时促销列表显示样式；
+10.	【优化】限时促销详情，倒计时显示样式；
+11.	【修复】添加线下红包页面无法添加红包问题；
+12.	【修复】文章详情，调用相同关联商品的问题；
 
 【接口】
 1.	【新增】admin/cashier/flow/checkOrde  新增返回用户可用红包bonus_list；
@@ -110,27 +112,28 @@
 10.	【新增】user/orders/summary  用户订单数量概况统计；
 11.	【新增】user/connect/binded/status  获取用户绑定的第三方平台；
 12.	【新增】connect/user/bind  用户绑定第三方平台；
-13.	【优化】admin/cashier/quickpay/flow/done  增加传参bonus_id和integral；
-14.	【优化】admin/cashier/quickpay/flow/checkOrder  新增返回红包/积分是否可用及用户红包和积分信息；
-15.	【优化】user/info  增加返回用户已绑定的微信平台；
-16.	【优化】withdraw/wechat/wallet/bind 新增传参connect_code；
-17.	【优化】connect/unbind会员解除绑定的第三方关联账号（微信，QQ等），统一解绑改为按connect_code具体解绑了；
-18.	【优化】refund/list增加store_id可获取店铺退款列表；
-19.	【优化】storebuy/merchant/goods/list  增加返回值product_id货品id，product_goods_attr货品属性id；
-20.	【优化】storebuy/merchant/goods/suggestlist  增加返回值product_id货品id，product_goods_attr货品属性id；
-21.	【优化】merchant/goods/list  增加返回值product_id货品id，product_goods_attr货品属性id；
-22.	【优化】merchant/goods/suggestlist  增加返回值product_id货品id，product_goods_attr货品属性id；
-23.	【优化】goods/suggestlist  增加返回值product_id货品id，product_goods_attr货品属性id；
-24.	【优化】seller/list  增加返回值product_id货品id，product_goods_attr货品属性id；
-25.	【优化】seller/search  增加返回值product_id货品id，product_goods_attr货品属性id；
-26.	【优化】goods/search  增加返回值product_id货品id，product_goods_attr货品属性id；
-27.	【优化】storebuy/merchant/goods/list；
-28.	【优化】storebuy/merchant/goods/suggestlist  增加传参promotion_type促销类型（today今日促销，tomorrow明日促销,aftertheday后日促销）；
-29.	【优化】merchant/goods/list  增加传参promotion_type促销类型（today今日促销，tomorrow明日促销,aftertheday后日促销）；
-30.	【优化】merchant/goods/suggestlist  增加传参promotion_type促销类型（today今日促销，tomorrow明日促销,aftertheday后日促销）；
-31.	【优化】goods/suggestlist  增加传参promotion_type促销类型（today今日促销，tomorrow明日促销,aftertheday后日促销）；
-32.	【优化】storebuy/cart/create  增加传参product_id货品id；
-33.	【优化】bbc/cart/create  增加传参product_id货品id；
-34.	【优化】cart/create  增加传参product_id货品id；
-35.	【优化】goods/detail  增加返回货品信息；
-36.	【优化】goods/desc  增加传参product_id,可获取货品相册，主图等信息；
+13.	【新增】goods/product/specification 获取单个商品的货品和规格信息；
+14.	【优化】admin/cashier/quickpay/flow/done  增加传参bonus_id和integral；
+15.	【优化】admin/cashier/quickpay/flow/checkOrder  新增返回红包/积分是否可用及用户红包和积分信息；
+16.	【优化】user/info  增加返回用户已绑定的微信平台；
+17.	【优化】withdraw/wechat/wallet/bind 新增传参connect_code；
+18.	【优化】connect/unbind会员解除绑定的第三方关联账号（微信，QQ等），统一解绑改为按connect_code具体解绑了；
+19.	【优化】refund/list增加store_id可获取店铺退款列表；
+20.	【优化】storebuy/merchant/goods/list  增加返回值product_id货品id，product_goods_attr货品属性id；
+21.	【优化】storebuy/merchant/goods/suggestlist  增加返回值product_id货品id，product_goods_attr货品属性id；
+22.	【优化】merchant/goods/list  增加返回值product_id货品id，product_goods_attr货品属性id；
+23.	【优化】merchant/goods/suggestlist  增加返回值product_id货品id，product_goods_attr货品属性id；
+24.	【优化】goods/suggestlist  增加返回值product_id货品id，product_goods_attr货品属性id；
+25.	【优化】seller/list  增加返回值product_id货品id，product_goods_attr货品属性id；
+26.	【优化】seller/search  增加返回值product_id货品id，product_goods_attr货品属性id；
+27.	【优化】goods/search  增加返回值product_id货品id，product_goods_attr货品属性id；
+28.	【优化】storebuy/merchant/goods/list；
+29.	【优化】storebuy/merchant/goods/suggestlist  增加传参promotion_type促销类型（today今日促销，tomorrow明日促销,aftertheday后日促销）；
+30.	【优化】merchant/goods/list  增加传参promotion_type促销类型（today今日促销，tomorrow明日促销,aftertheday后日促销）；
+31.	【优化】merchant/goods/suggestlist  增加传参promotion_type促销类型（today今日促销，tomorrow明日促销,aftertheday后日促销）；
+32.	【优化】goods/suggestlist  增加传参promotion_type促销类型（today今日促销，tomorrow明日促销,aftertheday后日促销）；
+33.	【优化】storebuy/cart/create  增加传参product_id货品id；
+34.	【优化】bbc/cart/create  增加传参product_id货品id；
+35.	【优化】cart/create  增加传参product_id货品id；
+36.	【优化】goods/detail  增加返回货品信息；
+37.	【优化】goods/desc  增加传参product_id,可获取货品相册，主图等信息；
