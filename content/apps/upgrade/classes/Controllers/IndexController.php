@@ -59,6 +59,7 @@ use ecjia;
 use RC_Script;
 use RC_Style;
 use PDOException;
+use ecjia_update_cache;
 
 class IndexController extends SimpleController
 {
@@ -81,7 +82,6 @@ class IndexController extends SimpleController
         $this->assign('logo_pic', RC_App::apps_url('statics/front/images/logo_pic.png', $this->__FILE__));
         $this->assign('version', RC_Config::get('release.version'));
         $this->assign('build', RC_Config::get('release.build'));
-        
     }
     
     protected function load_default_script_style()
@@ -126,6 +126,11 @@ class IndexController extends SimpleController
         if ($version_current == $version_last) {
             return $this->redirect(RC_Uri::url('upgrade/index/upgraded'));
         }
+
+        // 清除缓存
+        ecjia_update_cache::make()->clean('system_app_cache');
+        ecjia_update_cache::make()->clean('system_userdata_cache');
+        ecjia_update_cache::make()->clean('front_template_cache');
 
         // 获取两个版本之前的可用升级版本
         $version_list = VersionUtility::getUpgradeVersionList($version_current, $version_last);
