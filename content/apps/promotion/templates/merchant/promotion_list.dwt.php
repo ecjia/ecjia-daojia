@@ -51,7 +51,7 @@
             </div>
             <div class="panel-body panel-body-small">
                 <section class="panel">
-                    <table class="table table-striped table-hover table-hide-edit">
+                    <table class="table table-hover table-hide-edit">
                         <thead>
                             <tr>
                                 <th>{t domain="promotion"}活动商品（SPU/SKU）{/t}</th>
@@ -65,7 +65,7 @@
                                 <th class="w150">{t domain="promotion"}结束时间{/t}</th>
                                 {/if}
                                 <th class="w100">{t domain="promotion"}活动状态{/t}</th>
-                                <th class="w50"></th>
+                                <th class="w70"></th>
                             </tr>
                         </thead>
                         <!-- {foreach from=$promotion_list.item item=item key=key} -->
@@ -113,7 +113,7 @@
 
                             <td>
                                 {if $item.products}
-                                <i class="fa fa-caret-down cursor_pointer" data-toggle="show_products" data-id="{$item.goods_id}"></i>
+                                <a data-toggle="show_products" data-id="{$item.goods_id}"><i class="fa fa-caret-down"></i> <span>{t domain="promotion"}展开{/t}</span></a>
                                 {/if}
                             </td>
                         </tr>

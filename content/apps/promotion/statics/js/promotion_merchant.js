@@ -26,14 +26,17 @@
             $('[data-toggle="show_products"]').off('click').on('click', function () {
                 var $this = $(this),
                     id = $this.attr('data-id'),
-                    td = $('.td-product-' + id);
+                    td = $('.td-product-' + id),
+                    icon = $this.children("i");
 
                 if (td.hasClass('hide')) {
                     td.removeClass('hide');
-                    $this.removeClass('fa-caret-down').addClass('fa-caret-up');
+                    $this.children("span").text(js_lang.hide);
+                    icon.removeClass('fa-caret-down').addClass('fa-caret-up');
                 } else {
                     td.addClass('hide');
-                    $this.removeClass('fa-caret-up').addClass('fa-caret-down');
+                    $this.children("span").text(js_lang.show);
+                    icon.removeClass('fa-caret-up').addClass('fa-caret-down');
                 }
             });
         }

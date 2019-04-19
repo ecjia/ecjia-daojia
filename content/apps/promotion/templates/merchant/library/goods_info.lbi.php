@@ -26,8 +26,9 @@
             </div>
             <div class="right">
                 <div class="name">{$val.product_name} {$val.attr_value}</div>
-                <div class="goods_sn">{t domain="promotion"}货号：{/t}{$val.product_sn}<br>
-                    <span class="goods_number">{t domain="promotion"}条形码：{/t}{if $val.product_bar_code}{$val.product_bar_code}{else}暂无{/if}</span>
+                <div class="goods_sn">
+                	{t domain="promotion"}货号：{/t}{$val.product_sn}
+                    {if $val.product_bar_code}<br><span class="goods_number">{t domain="promotion"}条形码：{/t}{$val.product_bar_code}</span>{/if}
                 </div>
                 <div class="info">
                     <span class="price">{$val.formated_attr_price}</span>

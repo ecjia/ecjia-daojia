@@ -62,6 +62,8 @@ return array(
         'activity_price_is_at_least_1_cent ' => __('活动价格最低为1分钱', 'promotion'),
         'pls_select_goods'                   => __('请先选择商品', 'promotion'),
         'ok'                                 => __('确定', 'promotion'),
+        'show'                               => __('展开', 'promotion'),
+        'hide'                               => __('关闭', 'promotion'),
     ),
 
 );

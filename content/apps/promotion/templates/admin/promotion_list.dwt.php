@@ -9,6 +9,17 @@
 <!-- {/block} -->
 
 <!-- {block name="main_content"} -->
+<style>
+
+  .table  .fontello-icon-sort-down{
+    position: relative;
+    display: inline-block;
+    top: -3px;}
+  .table  .fontello-icon-sort-up{
+      position: relative;
+      display: inline-block;
+      top: 4px;}
+</style>
 <div>
     <h3 class="heading">
         <!-- {if $ur_here}{$ur_here}{/if} -->
@@ -46,7 +57,7 @@
 </ul>
 <div class="row-fluid list-page">
     <div class="span12">
-        <table class="table table-striped table-hide-edit">
+        <table class="table table-hover table-hide-edit">
             <thead>
                 <tr>
                     <th class="w250">{t domain="promotion"}活动商品（SPU/SKU）{/t}</th>
@@ -60,7 +71,7 @@
                     <th class="w130">{t domain="promotion"}结束时间{/t}</th>
                     {/if}
                     <th class="w80">{t domain="promotion"}活动状态{/t}</th>
-                    <th class="w30"></th>
+                    <th class="w50"></th>
                 </tr>
             </thead>
             <!-- {foreach from=$promotion_list.item item=item key=key} -->
@@ -109,7 +120,7 @@
 
                 <td>
                     {if $item.products}
-                    <i class="fontello-icon-sort-down cursor_pointer" data-toggle="show_products" data-id="{$item.goods_id}"></i>
+                    <a data-toggle="show_products" data-id="{$item.goods_id}"><i class="fontello-icon-sort-down"></i><span>{t domain="promotion"}展开{/t}</span></a>
                     {/if}
                 </td>
             </tr>

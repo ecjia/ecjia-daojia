@@ -121,7 +121,7 @@
                                     <!-- {/foreach} -->
                                 </table>
                                 <!-- {else} -->
-                                <p class="m_t10"><a href="">{t domain="promotion"}预览>>{/t}</a></p>
+                                <p class="m_t10"><a target="_blank" href='{url path="goods/admin/preview" args="id={$goods.goods_id}"}'>{t domain="promotion"}预览>>{/t}</a></p>
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
@@ -228,14 +228,14 @@
                                 {foreach from=$result item=val}
                                 <div class="goods-info m_b10 border-bottom">
                                     <div class="left">
-                                        <a target="_blank" href="{RC_Uri::url('promotion/admin/detail')}&id={$val.goods_id}"><img src="{$val.goods_thumb}" alt=""></a>
+                                        <a href="{RC_Uri::url('promotion/admin/detail')}&id={$val.goods_id}"><img src="{$val.goods_thumb}" alt=""></a>
                                     </div>
                                     <div class="right">
                                         <div class="name p_t5">
                                             {if $val.products}
                                             <span class="spec-label">{t domain="promotion"}多货品{/t}</span>
                                             {/if}
-                                            <a target="_blank" href="{RC_Uri::url('promotion/admin/detail')}&id={$val.goods_id}">{$val.goods_name}</a>
+                                            <a href="{RC_Uri::url('promotion/admin/detail')}&id={$val.goods_id}">{$val.goods_name}</a>
                                         </div>
                                         <div class="goods_sn m_t15">{t domain="promotion"}货号：{/t}{$val.goods_sn}</div>
                                         <div class="info">

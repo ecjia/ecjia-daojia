@@ -336,7 +336,8 @@ class admin extends ecjia_admin
         }
 
         if ($type == 'finished') {
-            $db_goods->where(RC_DB::raw('g.promote_end_date'), '<=', $time);
+            $db_goods->where(RC_DB::raw('g.promote_end_date'), '<=', $time)
+                ->orderBy('promote_end_date', 'desc');
         }
 
         $count = $db_goods->count();
