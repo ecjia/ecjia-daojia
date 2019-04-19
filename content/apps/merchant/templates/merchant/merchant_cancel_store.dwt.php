@@ -65,7 +65,7 @@
                                 {/if}
                             </p>
                             <p>{t domain="merchant"}负责人：{/t}{$store_info.responsible_person} {if $store_info.contact_mobile}&nbsp;({$store_info.contact_mobile}){/if}</p>
-                            <p>{t domain="merchant"}开店时间：{/t}{$store_info.confirm_time}</p>
+                            <p>{t domain="merchant"}开店时间：{/t}{if $store_info.confirm_time}{$store_info.confirm_time}{else}{t domain="merchant"}未知{/t}{/if}</p>
                             {if $diff}
                             <p>{t domain="merchant"}开店时长：{/t}{$diff}</p>
                             {/if}

@@ -57,7 +57,7 @@ class merchant_goods_suggestlist_module extends api_front implements api_interfa
     	$filter = $this->requestData('filter', array());
 		$type = array('new', 'best', 'hot', 'promotion');//推荐类型
 		$keyword = RC_String::unicode2string($filter['keywords']);
-		$category = !empty($filter['category_id']) ? $filter['category_id'] : 0;
+		$category = !empty($filter['category_id']) ? $filter['category_id'] : 0; //商家商品分类
 		$sort_type = $filter['sort_by'];
 		$store_id = $this->requestData('seller_id');
 		$action_type = $this->requestData('action_type', '');
@@ -114,9 +114,9 @@ class merchant_goods_suggestlist_module extends api_front implements api_interfa
 		if (!empty($store_id)) {
 			$filters['store_id'] = $store_id;
 		}
-		//平台分类
-		if ($category > 0) {
-			$filters['cat_id'] = $category;
+		//商家商品分类
+		if ($category > 0 && $store_id > 0) {
+			$filters['store_id_and_merchant_cat_id'] = [[$category], $store_id];
 		}
 		//店铺推荐，新品，热销
 		if (!empty($action_type)) {

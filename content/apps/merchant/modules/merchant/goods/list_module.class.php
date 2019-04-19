@@ -56,7 +56,7 @@ class merchant_goods_list_module extends api_front implements api_interface {
 		$filter = $this->requestData('filter', array());
 		
 		$keyword = RC_String::unicode2string($filter['keywords']);
-		$category = $filter['category_id'];
+		$category = $filter['category_id'];  //商家商品分类id
 		$sort_type = $filter['sort_by'];
 		$store_id = $this->requestData('seller_id');
 		$action_type = $this->requestData('action_type', '');
@@ -114,9 +114,9 @@ class merchant_goods_list_module extends api_front implements api_interface {
 		if (!empty($store_id)) {
 			$filters['store_id'] = $store_id;
 		}
-		//平台分类
-		if ($category > 0) {
-			$filters['cat_id'] = $category;
+		//商家商品分类
+		if ($category > 0 && !empty($store_id)) {
+			$filters['store_id_and_merchant_cat_id'] = [[$category], $store_id];
 		}
 		//店铺推荐，新品，热销
 		if (!empty($action_type)) {

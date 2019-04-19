@@ -701,6 +701,9 @@ class merchant extends ecjia_merchant
 
         //当前时间
         $time = RC_Time::local_date('Y-m-d H:i:s', RC_Time::gmtime());
+        if(empty($data['confirm_time'])) {
+            $data['confirm_time'] = empty($data['apply_time']) ? 0 : RC_Time::local_date('Y-m-d H:i:s', $data['apply_time']);
+        }
         $diff = $this->diffDate($data['confirm_time'], $time);
         $this->assign('diff', $diff); //开店时长
 
@@ -837,6 +840,9 @@ class merchant extends ecjia_merchant
 
     private function diffDate($date1, $date2)
     {
+        if(empty($date1)) {
+            return 0;
+        }
         $datetime1 = new \DateTime($date1);
         $datetime2 = new \DateTime($date2);
         $interval  = $datetime1->diff($datetime2);
