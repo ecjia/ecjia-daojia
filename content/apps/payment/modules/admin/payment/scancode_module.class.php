@@ -167,7 +167,7 @@ class admin_payment_scancode_module extends api_admin implements api_interface
     						'mobile'				=> empty($userinfo['mobile_phone']) ? '' : trim($userinfo['mobile_phone']),
     						'user_points'			=> $userinfo['pay_points'],
     						'user_money'			=> $userinfo['user_money'],
-    						'formatted_user_money'	=> $userinfo['user_money'] > 0 ? price_format($userinfo['user_money'], false) : '',
+    						'formatted_user_money'	=> $userinfo['user_money'] > 0 ? ecjia_price_format($userinfo['user_money'], false) : '',
     				);
     			}
     		}
@@ -232,7 +232,7 @@ class admin_payment_scancode_module extends api_admin implements api_interface
     						'mobile'				=> empty($userinfo['mobile_phone']) ? '' : trim($userinfo['mobile_phone']),
     						'user_points'			=> $userinfo['pay_points'],
     						'user_money'			=> $userinfo['user_money'],
-    						'formatted_user_money'	=> price_format($userinfo['user_money'], false),
+    						'formatted_user_money'	=> ecjia_price_format($userinfo['user_money'], false),
     				);
     			}
     		}
@@ -246,14 +246,14 @@ class admin_payment_scancode_module extends api_admin implements api_interface
     			'goods_list'					=> [],
     			'total_goods_number' 			=> 0,
     			'total_goods_amount'			=> $order_info['goods_amount'],
-    			'formatted_total_goods_amount'	=> price_format($order_info['goods_amount'], false),
+    			'formatted_total_goods_amount'	=> ecjia_price_format($order_info['goods_amount'], false),
     			'total_discount'				=> $total_discount,
-    			'formatted_total_discount'		=> price_format($total_discount, false),
+    			'formatted_total_discount'		=> ecjia_price_format($total_discount, false),
     			'money_paid'					=> $money_paid,
-    			'formatted_money_paid'			=> price_format($money_paid, false),
+    			'formatted_money_paid'			=> ecjia_price_format($money_paid, false),
     			'integral'						=> intval($order_info['integral']),
     			'integral_money'				=> $order_info['integral_money'],
-    			'formatted_integral_money'		=> price_format($order_info['integral_money'], false),
+    			'formatted_integral_money'		=> ecjia_price_format($order_info['integral_money'], false),
     			'pay_name'						=> !empty($order_info['pay_name']) ? $order_info['pay_name'] : '',
     			'payment_account'				=> $result['data']['payer_login'] ? $result['data']['payer_login'] : '',
     			'user_info'						=> $user_info,
@@ -288,7 +288,7 @@ class admin_payment_scancode_module extends api_admin implements api_interface
     						'mobile'				=> empty($userinfo['mobile_phone']) ? '' : trim($userinfo['mobile_phone']),
     						'user_points'			=> $userinfo['pay_points'],
     						'user_money'			=> $userinfo['user_money'],
-    						'formatted_user_money'	=> price_format($userinfo['user_money'], false),
+    						'formatted_user_money'	=> ecjia_price_format($userinfo['user_money'], false),
     				);
     			}
     		}
@@ -305,11 +305,11 @@ class admin_payment_scancode_module extends api_admin implements api_interface
     				'goods_list'					=> [],
     				'total_goods_number' 			=> 0,
     				'total_goods_amount'			=> $order_info['amount'],
-    				'formatted_total_goods_amount'	=> price_format($order_info['amount'], false),
+    				'formatted_total_goods_amount'	=> ecjia_price_format($order_info['amount'], false),
     				'total_discount'				=> 0,
     				'formatted_total_discount'		=> '',
     				'money_paid'					=> $order_info['amount'],
-    				'formatted_money_paid'			=> price_format($order_info['amount'], false),
+    				'formatted_money_paid'			=> ecjia_price_format($order_info['amount'], false),
     				'integral'						=> 0,
     				'integral_money'				=> '',
     				'formatted_integral_money'		=> '',
@@ -346,7 +346,7 @@ class admin_payment_scancode_module extends api_admin implements api_interface
     					'goods_name'		=> $row['goods_name'],
     					'goods_number'		=> $row['goods_number'],
     					'subtotal'			=> $row['subtotal'],
-    					'formatted_subtotal'=> price_format($row['subtotal'], false),
+    					'formatted_subtotal'=> ecjia_price_format($row['subtotal'], false),
     			);
     		}
     	}

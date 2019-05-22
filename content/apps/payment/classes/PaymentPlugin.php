@@ -168,7 +168,7 @@ class PaymentPlugin extends PluginModel
                 }
                 
                 if (in_array($item['pay_code'], $available_plugins)) {
-                    $item['format_pay_fee'] = strpos($item['pay_fee'], '%') !== false ? $item['pay_fee'] : price_format($item['pay_fee'], false);
+                    $item['format_pay_fee'] = strpos($item['pay_fee'], '%') !== false ? $item['pay_fee'] : ecjia_price_format($item['pay_fee'], false);
                     return array($item);
                 } else {
                     return array();
@@ -218,7 +218,7 @@ class PaymentPlugin extends PluginModel
                     }
                     
                     $item['pay_name'] = $this->channel($item['pay_code'])->getDisplayName();
-                    $item['format_pay_fee'] = strpos($item['pay_fee'], '%') !== false ? $item['pay_fee'] : price_format($item['pay_fee'], false);
+                    $item['format_pay_fee'] = strpos($item['pay_fee'], '%') !== false ? $item['pay_fee'] : ecjia_price_format($item['pay_fee'], false);
                     return array($item);
                 } else {
                     return array();

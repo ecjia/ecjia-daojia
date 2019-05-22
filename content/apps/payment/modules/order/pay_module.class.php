@@ -94,7 +94,7 @@ class order_pay_module extends api_front implements api_interface {
 		}
 		
 		//判断是否是管理员登录
-		if ($_SESSION['store_id'] > 0) {
+		if (isset($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
 			$_SESSION['user_id'] = $order['user_id'];
 		}
 		
