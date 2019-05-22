@@ -108,7 +108,7 @@ class SmartyServiceProvider extends ServiceProvider
     public function registerFactory()
     {
         require_once $this->royalcms['path.vendor'] . '/smarty/smarty/Smarty.class.php';
-        
+
         $this->royalcms->singleton('view', function ($royalcms) {
             $factory = new SmartyFactory(
                 $royalcms['view.engine.resolver'],
