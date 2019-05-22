@@ -70,8 +70,8 @@
 			
 			<div class="order_desc">
 				<ul>
-		         	<li><h3>{t domain="express"}订单备注</h3></li>
-		            <li>{if $content.postscript}{$content.postscript}{else}{t domain="express"}此用户没有填写备注内容{/if}</li>
+		         	<li><h3>{t domain="express"}订单备注{/t}</h3></li>
+		            <li>{if $content.postscript}{$content.postscript}{else}{t domain="express"}此用户没有填写备注内容{/t}{/if}</li>
 		        </ul>
 			</div>
 		</div>
