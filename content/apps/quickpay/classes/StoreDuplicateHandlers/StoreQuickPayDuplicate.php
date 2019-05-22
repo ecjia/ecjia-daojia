@@ -10,13 +10,12 @@ namespace Ecjia\App\Quickpay\StoreDuplicateHandlers;
 
 use Ecjia\App\Store\StoreDuplicate\StoreDuplicateAbstract;
 use ecjia_error;
-use RC_Uri;
 use RC_DB;
 use RC_Api;
 use ecjia_admin;
 
 /**
- * 复制店铺中的买单规则
+ * 复制店铺中的优惠买单规则
  *
  * Class StoreQuickPayDuplicate
  * @package Ecjia\App\Quickpay\StoreDuplicateHandlers
@@ -29,20 +28,14 @@ class StoreQuickPayDuplicate extends StoreDuplicateAbstract
      */
     protected $code = 'store_quick_pay_duplicate';
 
-    /**
-     * 排序
-     * @var int
-     */
-    protected $sort = 41;
-
     protected $dependents = [
         'store_bonus_duplicate',
     ];
 
-    public function __construct($store_id, $source_store_id)
+    public function __construct($store_id, $source_store_id, $sort = 41)
     {
         $this->name = __('优惠买单规则', 'quickpay');
-        parent::__construct($store_id, $source_store_id);
+        parent::__construct($store_id, $source_store_id, $sort);
     }
 
     /**
@@ -58,8 +51,7 @@ class StoreQuickPayDuplicate extends StoreDuplicateAbstract
      */
     public function handlePrintData()
     {
-        $count = $this->handleCount();
-        $text = sprintf(__('店铺买单活动总共<span class="ecjiafc-red ecjiaf-fs3">%s</span>个', 'quickpay'), $count);
+        $text = sprintf(__('店铺买单活动总共<span class="ecjiafc-red ecjiaf-fs3">%s</span>个', 'quickpay'), $this->handleCount());
 
         return <<<HTML
 <span class="controls-info w300">{$text}</span>
@@ -162,8 +154,6 @@ HTML;
         } catch (\Royalcms\Component\Repository\Exceptions\RepositoryException $e) {
             return new ecjia_error('duplicate_data_error', $e->getMessage());
         }
-
-
     }
 
     /**
