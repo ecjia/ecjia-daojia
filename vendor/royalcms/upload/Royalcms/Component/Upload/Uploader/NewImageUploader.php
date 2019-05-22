@@ -24,8 +24,11 @@ class NewImageUploader extends NewUploader
         'jpg'  => 'image/jpg',
         'jpeg' => 'image/jpeg',
         'png'  => 'image/png',
-        'gif'  => 'image/x-png',
-        'bmp'  => 'image/pjpeg',
+        'gif'  => 'image/gif',
+        'bmp'  => 'image/bmp',
+        'wbmp' => 'image/vnd.wap.wbmp',
+        'svg'  => 'image/svg+xml',
+        'svgz' => 'image/svg+xml',
     );
 
 

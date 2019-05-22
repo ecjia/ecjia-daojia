@@ -5,7 +5,7 @@ namespace Royalcms\Component\Upload\Uploader;
 use RC_Format;
 use RC_Storage;
 use Royalcms\Component\Upload\UploaderAbstract;
-use Royalcms\Component\Upload\Upload;
+use Royalcms\Component\Upload\Facades\Upload;
 use Royalcms\Component\Upload\Process\UploadProcess;
 use Royalcms\Component\Upload\Process\NewUploadProcess;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -61,19 +61,15 @@ class Uploader extends UploaderAbstract
      * @param array $config 配置
      * @param string $driver 要使用的上传驱动 LOCAL-本地上传驱动，FTP-FTP上传驱动
      */
-    public function __construct($config = array())
+    public function __construct()
     {
         parent::__construct();
 
         $this->options['root_path'] = Upload::upload_path();
 
-        $this->options['max_size'] = config('filesystems.upload.max_size');
-
-        /* 获取配置 */
-        $this->options = array_merge($this->options, $config);
+        $this->options['max_size'] = config('upload.max_size');
 
         $this->settingUploadConfig();
-
     }
 
     /**
@@ -101,7 +97,7 @@ class Uploader extends UploaderAbstract
      */
     protected function settingUploadConfig()
     {
-        $default_file_types = config('filesystems.upload.default_file_types');
+        $default_file_types = config('upload.default_file_types');
 
         $file_ext = array_keys($default_file_types);
         $this->allowed_type($file_ext);
@@ -128,7 +124,7 @@ class Uploader extends UploaderAbstract
     public function upload($file, $callback = null)
     {
         if (empty($file)) {
-            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms'));
+            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms-upload'));
             return false;
         }
 
@@ -152,7 +148,7 @@ class Uploader extends UploaderAbstract
     public function batchUpload(array $files, $callback = null)
     {
         if (empty($files)) {
-            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms'));
+            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms-upload'));
             return false;
         }
 
@@ -176,25 +172,25 @@ class Uploader extends UploaderAbstract
     public function checkedUploadFile($upload_file)
     {
         if (! ($upload_file instanceof UploadedFile)) {
-            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms'));
+            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms-upload'));
             return false;
         }
 
         /* 检查是否合法上传 */
         if (! $upload_file->isValid()) {
-            $this->add_error('is_uploaded_file_by_tmp_name', __('非法上传文件！', 'royalcms'));
+            $this->add_error('is_uploaded_file_by_tmp_name', __('非法上传文件！', 'royalcms-upload'));
             return false;
         }
 
         /* 检查文件大小 */
         if (! $this->check_size($upload_file->getClientSize())) {
-            $this->add_error('upload_file_size_not_match', __('上传文件大小不符！', 'royalcms'));
+            $this->add_error('upload_file_size_not_match', __('上传文件大小不符！', 'royalcms-upload'));
             return false;
         }
 
         /* 检查文件Mime类型 */
         if (! $this->check_mime($upload_file->getClientMimeType())) {
-            $this->add_error('upload_file_mime_not_match', __('上传文件MIME类型不允许！', 'royalcms'));
+            $this->add_error('upload_file_mime_not_match', __('上传文件MIME类型不允许！', 'royalcms-upload'));
             return false;
         }
 
@@ -202,7 +198,7 @@ class Uploader extends UploaderAbstract
         /* 获取上传文件后缀，允许上传无后缀文件 */
         /* 检查文件后缀 */
         if (! $this->check_ext($upload_file->getClientOriginalExtension())) {
-            $this->add_error('upload_file_ext_not_match', __('上传文件后缀不允许！', 'royalcms'));
+            $this->add_error('upload_file_ext_not_match', __('上传文件后缀不允许！', 'royalcms-upload'));
             return false;
         }
 
@@ -316,7 +312,7 @@ class Uploader extends UploaderAbstract
 
     /**
      * 删除指定文件
-     * @param array $file 上传目录的文件相对路径
+     * @param string $file 上传目录的文件相对路径
      */
     public function remove($file)
     {

@@ -131,14 +131,14 @@ class UploadHandle
             // Courtesy of php.net, the strings that describe the error indicated in $_FILES[{form field}]['error'].
             $upload_error_strings = array(
                 false,
-                __( 'The uploaded file exceeds the upload_max_filesize directive in php.ini.', 'royalcms' ),
-                __( 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.', 'royalcms' ),
-                __( 'The uploaded file was only partially uploaded.', 'royalcms' ),
-                __( 'No file was uploaded.', 'royalcms' ),
+                __( 'The uploaded file exceeds the upload_max_filesize directive in php.ini.', 'royalcms-upload' ),
+                __( 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.', 'royalcms-upload' ),
+                __( 'The uploaded file was only partially uploaded.', 'royalcms-upload' ),
+                __( 'No file was uploaded.', 'royalcms-upload' ),
                 '',
-                __( 'Missing a temporary folder.', 'royalcms' ),
-                __( 'Failed to write file to disk.', 'royalcms' ),
-                __( 'File upload stopped by extension.', 'royalcms' )
+                __( 'Missing a temporary folder.', 'royalcms-upload' ),
+                __( 'Failed to write file to disk.', 'royalcms-upload' ),
+                __( 'File upload stopped by extension.', 'royalcms-upload' )
             );
         }
 
@@ -165,9 +165,9 @@ class UploadHandle
         // A non-empty file will pass this test.
         if ( $test_size && ! ( $test_file_size > 0 ) ) {
             if ( is_multisite() ) {
-                $error_msg = __( 'File is empty. Please upload something more substantial.', 'royalcms' );
+                $error_msg = __( 'File is empty. Please upload something more substantial.', 'royalcms-upload' );
             } else {
-                $error_msg = __( 'File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your php.ini or by post_max_size being defined as smaller than upload_max_filesize in php.ini.', 'royalcms' );
+                $error_msg = __( 'File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your php.ini or by post_max_size being defined as smaller than upload_max_filesize in php.ini.', 'royalcms-upload' );
             }
             return call_user_func( $upload_error_handler, $file, $error_msg );
         }
@@ -175,7 +175,7 @@ class UploadHandle
         // A properly uploaded file will pass this test. There should be no reason to override this one.
         $test_uploaded_file = 'wp_handle_upload' === $action ? @ is_uploaded_file( $file['tmp_name'] ) : @ is_file( $file['tmp_name'] );
         if ( $test_upload && ! $test_uploaded_file ) {
-            return call_user_func( $upload_error_handler, $file, __( 'Specified file failed upload test.', 'royalcms' ) );
+            return call_user_func( $upload_error_handler, $file, __( 'Specified file failed upload test.', 'royalcms-upload' ) );
         }
 
         // A correct MIME type will pass this test. Override $mimes or use the upload_mimes filter.
@@ -190,7 +190,7 @@ class UploadHandle
                 $file['name'] = $proper_filename;
             }
             if ( ( ! $type || !$ext ) && ! current_user_can( 'unfiltered_upload' ) ) {
-                return call_user_func( $upload_error_handler, $file, __( 'Sorry, this file type is not permitted for security reasons.', 'royalcms' ) );
+                return call_user_func( $upload_error_handler, $file, __( 'Sorry, this file type is not permitted for security reasons.', 'royalcms-upload' ) );
             }
             if ( ! $type ) {
                 $type = $file['type'];
@@ -223,7 +223,7 @@ class UploadHandle
             } else {
                 $error_path = basename( $uploads['basedir'] ) . $uploads['subdir'];
             }
-            return $upload_error_handler( $file, sprintf( __('The uploaded file could not be moved to %s.', 'royalcms' ), $error_path ) );
+            return $upload_error_handler( $file, sprintf( __('The uploaded file could not be moved to %s.', 'royalcms-upload' ), $error_path ) );
         }
 
         // Set correct file permissions.

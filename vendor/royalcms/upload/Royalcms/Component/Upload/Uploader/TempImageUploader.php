@@ -27,7 +27,7 @@ class TempImageUploader extends NewImageUploader
     public function upload($file, $callback = null)
     {
         if (empty($file)) {
-            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms'));
+            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms-upload'));
             return false;
         }
 
@@ -45,7 +45,7 @@ class TempImageUploader extends NewImageUploader
     public function batchUpload(array $files, $callback = null)
     {
         if (empty($files)) {
-            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms'));
+            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms-upload'));
             return false;
         }
 

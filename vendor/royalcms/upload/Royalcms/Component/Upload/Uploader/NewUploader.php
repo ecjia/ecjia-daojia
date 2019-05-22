@@ -14,15 +14,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class NewUploader extends Uploader
 {
 
-    protected $uploader;
-
-    public function __construct(array $config = array())
-    {
-        parent::__construct($config);
-
-        $this->uploader = royalcms('uploader');
-    }
-
     /**
      * 上传单个文件
      *
@@ -33,7 +24,7 @@ class NewUploader extends Uploader
     {
 
         if (! $this->getRequest()->hasFile($file)) {
-            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms'));
+            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms-upload'));
             return false;
         }
 
@@ -51,7 +42,7 @@ class NewUploader extends Uploader
     public function batchUpload(array $files, $callback = null)
     {
         if (empty($files)) {
-            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms'));
+            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms-upload'));
             return false;
         }
 

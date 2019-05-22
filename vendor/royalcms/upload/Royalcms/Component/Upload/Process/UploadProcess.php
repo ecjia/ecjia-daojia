@@ -9,7 +9,6 @@
 namespace Royalcms\Component\Upload\Process;
 
 use RC_Format;
-use RC_Storage;
 use Royalcms\Component\Upload\Uploader\Uploader;
 use Royalcms\Component\Upload\UploadProcessAbstract;
 use Royalcms\Component\Upload\UploadResult;
@@ -17,18 +16,9 @@ use Royalcms\Component\Upload\UploadResult;
 class UploadProcess extends UploadProcessAbstract
 {
 
-    /**
-     * 文件存储系统对象
-     * @var \Royalcms\Component\Storage\Facades\Storage
-     */
-    protected $filesystem;
-
-
     public function __construct(Uploader $uploader)
     {
         parent::__construct($uploader);
-
-        $this->filesystem = RC_Storage::disk();
     }
 
     /**
@@ -118,15 +108,15 @@ class UploadProcess extends UploadProcessAbstract
 
         /* 不覆盖同名文件 */
         if (! $replace) {
-            if ($this->filesystem->exists($filename)) {
-                $this->uploader->add_error('a_file_with_the_same_name', sprintf(__('存在同名文件%s', 'royalcms'), $file['savename']));
+            if ($this->uploader->getStorageDisk()->exists($filename)) {
+                $this->uploader->add_error('a_file_with_the_same_name', sprintf(__('存在同名文件%s', 'royalcms-upload'), $file['savename']));
                 return false;
             }
         }
 
         /* 判断目录是否存在，不存在就创建 */
-        if (!$this->filesystem->is_dir(dirname($filename))) {
-            $this->filesystem->mkdir(dirname($filename));
+        if (!$this->uploader->getStorageDisk()->is_dir(dirname($filename))) {
+            $this->uploader->getStorageDisk()->mkdir(dirname($filename));
         }
 
         /* 移动文件 */
@@ -138,8 +128,8 @@ class UploadProcess extends UploadProcessAbstract
         }
         else {
 
-            if (! $this->filesystem->move_uploaded_file($file['tmpname'], $filename)) {
-                $this->uploader->add_error('file_upload_saving_error', __('文件上传保存错误！', 'royalcms'));
+            if (! $this->uploader->getStorageDisk()->move_uploaded_file($file['tmpname'], $filename)) {
+                $this->uploader->add_error('file_upload_saving_error', __('文件上传保存错误！', 'royalcms-upload'));
                 return false;
             }
 

@@ -24,8 +24,11 @@ class ImageUploader extends Uploader
         'jpg'  => 'image/jpg',
         'jpeg' => 'image/jpeg',
         'png'  => 'image/png',
-        'gif'  => 'image/x-png',
-        'bmp'  => 'image/pjpeg',
+        'gif'  => 'image/gif',
+        'bmp'  => 'image/bmp',
+        'wbmp' => 'image/vnd.wap.wbmp',
+        'svg'  => 'image/svg+xml',
+        'svgz' => 'image/svg+xml',
     );
 
 
@@ -40,9 +43,6 @@ class ImageUploader extends Uploader
         $file_mime = array_values($this->default_filetypes);
         $this->allowed_mime($file_mime);
     }
-
-
-
 
 
 }

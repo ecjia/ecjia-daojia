@@ -8,8 +8,8 @@
 
 namespace Royalcms\Component\Upload;
 
-
 use Royalcms\Component\Error\Error;
+use Royalcms\Component\Contracts\Filesystem\Filesystem as FilesystemContract;
 
 /**
  * 文件上传抽象类
@@ -69,9 +69,17 @@ abstract class UploaderAbstract
         'mimes'             => array(),
     );
 
+    /**
+     * 文件存储系统对象
+     * @var \Royalcms\Component\Contracts\Filesystem\Filesystem
+     */
+    protected $disk;
+
     public function __construct()
     {
         $this->rc_error = new Error();
+
+        $this->disk = \RC_Storage::disk();
     }
 
     public function __get($name)
@@ -89,6 +97,31 @@ abstract class UploaderAbstract
         return isset($this->options[$name]);
     }
 
+    public function setOptions(array $options)
+    {
+        $this->options = array_merge($this->options, $options);
+
+        return $this;
+    }
+
+    /**
+     * @param \Royalcms\Component\Contracts\Filesystem\Filesystem $disk
+     */
+    public function setStorageDisk(FilesystemContract $disk)
+    {
+        $this->disk = $disk;
+
+        return $this;
+    }
+
+    /**
+     * @return \Royalcms\Component\Contracts\Filesystem\Filesystem
+     */
+    public function getStorageDisk()
+    {
+        return $this->disk;
+    }
+
     /**
      * 获取错误信息，参数为null，返回全部
      * @param null $error
@@ -97,13 +130,13 @@ abstract class UploaderAbstract
     public function getErrorMessages($error = null)
     {
         $errors_message = array(
-            UPLOAD_ERR_INI_SIZE     => __('上传文件超过PHP.ini配置文件允许的大小', 'royalcms'),
-            UPLOAD_ERR_FORM_SIZE    => __('文件超过表单限制大小', 'royalcms'),
-            UPLOAD_ERR_PARTIAL      => __('文件只有部分上传', 'royalcms'),
-            UPLOAD_ERR_NO_FILE      => __('没有上传文件', 'royalcms'),
-            UPLOAD_ERR_NO_TMP_DIR   => __('没有上传临时文件夹', 'royalcms'),
-            UPLOAD_ERR_CANT_WRITE   => __('写入临时文件夹出错', 'royalcms'),
-            UPLOAD_ERR_EXTENSION    => __('非法的文件扩展名', 'royalcms'),
+            UPLOAD_ERR_INI_SIZE     => __('上传文件超过PHP.ini配置文件允许的大小', 'royalcms-upload'),
+            UPLOAD_ERR_FORM_SIZE    => __('文件超过表单限制大小', 'royalcms-upload'),
+            UPLOAD_ERR_PARTIAL      => __('文件只有部分上传', 'royalcms-upload'),
+            UPLOAD_ERR_NO_FILE      => __('没有上传文件', 'royalcms-upload'),
+            UPLOAD_ERR_NO_TMP_DIR   => __('没有上传临时文件夹', 'royalcms-upload'),
+            UPLOAD_ERR_CANT_WRITE   => __('写入临时文件夹出错', 'royalcms-upload'),
+            UPLOAD_ERR_EXTENSION    => __('非法的文件扩展名', 'royalcms-upload'),
         );
 
         if (is_null($error)) {

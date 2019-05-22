@@ -11,6 +11,7 @@ namespace Royalcms\Component\Upload\Process;
 use BadMethodCallException;
 use RC_Format;
 use RC_Uploader;
+use Royalcms\Component\Upload\Events\UploadFileSucceeded;
 use Royalcms\Component\Upload\UploadProcessAbstract;
 use Royalcms\Component\Upload\UploadResult;
 use Royalcms\Component\Uploader\InvalidFileException;
@@ -75,6 +76,8 @@ class NewUploadProcess extends UploadProcessAbstract
 
             $this->uploader->uploadedSuccessProcess($fileinfo);
 
+            event(new UploadFileSucceeded($result));
+
             return $fileinfo;
         } else {
             return false;
@@ -110,7 +113,7 @@ class NewUploadProcess extends UploadProcessAbstract
             $filename = $uploader->upload($upload_file, $callback);
 
             if ($filename === false) {
-                $this->uploader->add_error('file_upload_saving_error', __('写入文件失败！', 'royalcms'));
+                $this->uploader->add_error('file_upload_saving_error', __('写入文件失败！', 'royalcms-upload'));
                 return false;
             }
 
