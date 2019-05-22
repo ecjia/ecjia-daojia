@@ -13,7 +13,7 @@ use Royalcms\Component\Pay\Contracts\GatewayInterface;
 use Royalcms\Component\Pay\Support\Config;
 use Royalcms\Component\Shouqianba\PayVendor\Shouqianba\Support;
 
-class ActivateGateway implements GatewayInterface
+class CheckinGateway implements GatewayInterface
 {
 
     /**

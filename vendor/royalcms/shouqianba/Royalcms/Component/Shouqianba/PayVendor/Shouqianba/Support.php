@@ -166,6 +166,7 @@ class Support
 
         $postdata = [
             'headers' => $header,
+            'timeout' => 30,
             'body' => $body
         ];
 
