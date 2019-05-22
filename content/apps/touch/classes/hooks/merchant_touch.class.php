@@ -49,11 +49,27 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class merchant_touch_hooks {
    
    public static function goods_merchant_priview_handler($goods_id)
+	{
+		$url = RC_Uri::url('goods/index/show', array('goods_id' => $goods_id));
+		$url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url) ;
+		ecjia_merchant::$controller->redirect($url);
+		ecjia_merchant::$controller->exited();
+	}
+	
+   public static function goods_merchant_h5_priview_handler($goods_id)
    {
        $url = RC_Uri::url('goods/index/show', array('goods_id' => $goods_id));
        $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url) ;
        ecjia_merchant::$controller->redirect($url);
        ecjia_merchant::$controller->exited();
+   }
+   
+   public static function goods_merchant_pc_priview_handler($goods_id)
+   {
+	   $url = RC_Uri::url('goods/index/show', array('goods_id' => $goods_id));
+	   $url = str_replace(RC_Uri::site_url(), RC_Uri::home_url(), $url) ;
+	   ecjia_merchant::$controller->redirect($url);
+	   ecjia_merchant::$controller->exited();
    }
    
    public static function article_merchant_priview_handler($article_id)
@@ -65,6 +81,8 @@ class merchant_touch_hooks {
    }
 }
 
+RC_Hook::add_action( 'goods_merchant_h5_priview_handler', array('merchant_touch_hooks', 'goods_merchant_h5_priview_handler') );
+RC_Hook::add_action( 'goods_merchant_pc_priview_handler', array('merchant_touch_hooks', 'goods_merchant_pc_priview_handler') );
 RC_Hook::add_action( 'goods_merchant_priview_handler', array('merchant_touch_hooks', 'goods_merchant_priview_handler') );
 RC_Hook::add_action( 'article_merchant_priview_handler', array('merchant_touch_hooks', 'article_merchant_priview_handler') );
 

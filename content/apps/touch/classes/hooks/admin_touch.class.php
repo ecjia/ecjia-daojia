@@ -65,6 +65,20 @@ class admin_touch_hooks {
        ecjia_admin::$controller->redirect($url);
    }
    
+   public static function goods_admin_h5_priview_handler($goods_id)
+   {
+   	$url = RC_Uri::url('goods/index/show', array('goods_id' => $goods_id));
+   	$url = str_replace(RC_Uri::site_url(), RC_Uri::home_url().'/sites/m', $url) ;
+   	ecjia_admin::$controller->redirect($url);
+   }
+   
+   public static function goods_admin_pc_priview_handler($goods_id)
+   {
+   	$url = RC_Uri::url('goods/index/show', array('goods_id' => $goods_id));
+   	$url = str_replace(RC_Uri::site_url(), RC_Uri::home_url(), $url) ;
+   	ecjia_admin::$controller->redirect($url);
+   }
+   
    public static function article_admin_priview_handler($article_id)
    {
        $url = RC_Uri::url('article/index/detail', array('article_id' => $article_id));
@@ -75,6 +89,8 @@ class admin_touch_hooks {
 
 RC_Hook::add_action( 'append_admin_setting_group', array('admin_touch_hooks', 'append_admin_setting_group') );
 RC_Hook::add_action( 'goods_admin_priview_handler', array('admin_touch_hooks', 'goods_admin_priview_handler') );
+RC_Hook::add_action( 'goods_admin_h5_priview_handler', array('admin_touch_hooks', 'goods_admin_h5_priview_handler') );
+RC_Hook::add_action( 'goods_admin_pc_priview_handler', array('admin_touch_hooks', 'goods_admin_pc_priview_handler') );
 RC_Hook::add_action( 'article_admin_priview_handler', array('admin_touch_hooks', 'article_admin_priview_handler') );
 
 // end
