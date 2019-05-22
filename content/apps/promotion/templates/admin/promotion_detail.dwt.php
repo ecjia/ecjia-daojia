@@ -218,11 +218,11 @@
             <div class="foldable-list move-mod-group" id="other_promotion_sort_cat">
                 <div class="accordion-group">
                     <div class="accordion-heading">
-                        <a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#area_one">
+                        <a class="accordion-toggle collapsed move-mod-head" data-toggle="collapse" data-target="#area_one_other">
                             <strong>{t domain="promotion"}该商户其他促销{/t}</strong>
                         </a>
                     </div>
-                    <div class="accordion-body in in_visable collapse" id="area_one">
+                    <div class="accordion-body in in_visable collapse" id="area_one_other">
                         <div class="accordion-inner">
                             <div class="goods-content">
                                 {foreach from=$result item=val}

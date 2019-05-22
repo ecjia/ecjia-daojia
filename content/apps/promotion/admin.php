@@ -231,7 +231,7 @@ class admin extends ecjia_admin
             $goods['range_label'] = __('商品促销', 'promotion');
         }
 
-        $shop_info = RC_api::api('store', 'store_info', array('store_id' => $goods['store_id']));
+        $shop_info = RC_Api::api('store', 'store_info', array('store_id' => $goods['store_id']));
 
         $trade_time = '暂未设置';
 
