@@ -38,19 +38,19 @@
 				var option = {};
 				var options = $.extend(ecjia.admin.defaultOptions.validate, option);
 				$("form[name='theForm']").validate(options);
-				$("input[name='value[501]']").rules('add', {
+				$('[data-code="smtp_host"]').rules('add', {
 					required: true,
 					messages:{
 						required : mail_settings.pls_select_smtp 
 					},
 				});
-				$("input[name='value[502]']").rules('add', {
+				$('[data-code="smtp_port"]').rules('add', {
 					required: true,
 					messages:{
 						required : mail_settings.required_port 
 					},
 				});
-				$("input[name='value[503]']").rules('add', {
+				$('[data-code="smtp_user"]').rules('add', {
 					required: true,
 					email :  true,
 					messages: {
@@ -58,13 +58,13 @@
 						email: mail_settings.check_account
 					},
 				});
-				$("input[name='value[504]']").rules('add', {
+				$('[data-code="smtp_pass"]').rules('add', {
 					required: true,
 					messages:{
 						required: mail_settings.required_password
 					},
 				});
-				$("input[name='value[505]']").rules('add', {
+				$('[data-code="smtp_mail"]').rules('add', {
 					required: true,
 					email :  true,
 					messages:{
@@ -81,15 +81,15 @@
 					},
 				}); 
 				if($("form[name='theForm']").validate(options).form()){
-					var smtp_host         = $("input[name='value[501]']").val();
-					var smtp_port         = $("input[name='value[502]']").val();
-					var smtp_user         = $("input[name='value[503]']").val();
-					var smtp_pass         = $("input[name='value[504]']").val();
-					var reply_email       = $("input[name='value[505]']").val();
+					var smtp_host         = $('[data-code="smtp_host"]').val();
+					var smtp_port         = $('[data-code="smtp_port"]').val();
+					var smtp_user         = $('[data-code="smtp_user"]').val();
+					var smtp_pass         = $('[data-code="smtp_pass"]').val();
+					var reply_email       = $('[data-code="smtp_mail"]').val();
 					var test_mail_address = $("input[name='test_mail_address']").val();
-					var mail_charset      = $("input[name='value[506]']:checked").val();
-					var mail_service      = $("input[name='value[507]']:checked").val();
-					var smtp_ssl          = $("input[name='value[508]']:checked").val();
+					var mail_charset      = $("input[data-code='mail_charset']:checked").val();
+					var mail_service      = $("input[data-code='mail_service']:checked").val();
+					var smtp_ssl          = $("input[data-code='smtp_ssl']:checked").val();
 					var datahref 		  = $(".test_mail").attr("data-href");
 					$("form[name='theForm']").ajaxSubmit({
 						dataType:"json",
@@ -111,11 +111,11 @@
 					});
 				}
 
-				$("input[name='value[501]']").rules("remove"); 
-				$("input[name='value[502]']").rules("remove"); 
-				$("input[name='value[503]']").rules("remove"); 
-				$("input[name='value[504]']").rules("remove"); 
-				$("input[name='value[505]']").rules("remove"); 
+				$('[data-code="smtp_host"]').rules("remove");
+				$('[data-code="smtp_port"]').rules("remove");
+				$('[data-code="smtp_user"]').rules("remove");
+				$('[data-code="smtp_pass"]').rules("remove");
+				$('[data-code="smtp_mail"]').rules("remove");
 				$("input[name='test_mail_address']").rules("remove"); 
 				e.preventDefault();
 
