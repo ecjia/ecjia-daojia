@@ -43,6 +43,12 @@ abstract class ConnectUserAbstract extends AbstractRepository
 
     protected $user_type;
 
+    /**
+     * ConnectUserAbstract constructor.
+     * @param $open_id
+     * @param string $user_type
+     * @throws \Royalcms\Component\Repository\Exceptions\RepositoryException
+     */
     public function __construct($open_id, $user_type = self::USER)
     {
         parent::__construct();
@@ -181,11 +187,15 @@ abstract class ConnectUserAbstract extends AbstractRepository
      */
     public function getUserModelCollectionByUnionId()
     {
-        return $this->getModel()
-            ->where('union_id', $this->union_id)
-            ->where('connect_platform', $this->connect_platform)
-            ->where('user_type', $this->user_type)
-            ->get();
+        if ($this->union_id) {
+            return $this->getModel()
+                ->where('union_id', $this->union_id)
+                ->where('connect_platform', $this->connect_platform)
+                ->where('user_type', $this->user_type)
+                ->get();
+        }
+
+        return collect();
     }
 
     /**

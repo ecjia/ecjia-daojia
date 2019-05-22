@@ -86,6 +86,10 @@ class connect_update_user_avatar_api extends Component_Event_Api {
             'filename'      => $avatar_path
         ));
 
+        if(is_ecjia_error($result)) {
+            return $result;
+        }
+
         if (!empty($result['filename'])) {
 
             $rs = RC_DB::table('users')->where('user_id', $user_id)->update(array('avatar_img' => $relative_path));
