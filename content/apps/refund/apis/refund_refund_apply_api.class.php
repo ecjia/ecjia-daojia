@@ -149,6 +149,10 @@ class refund_refund_apply_api extends Component_Event_Api {
 				$this->gernate_refund_goods($refund_id, $order_id);
 				//退款还原订单商品库存
 				Ecjia\App\Refund\RefundBackGoodsStock::refund_back_stock($refund_id);
+				
+				//退款还原促销限购数量；用户购买记录减少
+				$updateData = new \Ecjia\App\Refund\Goods\Promotion\UpdateGoodsPromotion($refund_id, $order_id, 'refund_apply');
+				$updateData->updateGoodsPromotionLimitNum();
 			}
 			
 			//更改订单状态

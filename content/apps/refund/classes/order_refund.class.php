@@ -169,7 +169,8 @@ class order_refund {
 		if (!empty($order_id)) {
 			$list = RC_DB::table('order_goods as og')
 			->leftJoin('goods as g', RC_DB::raw('og.goods_id'), '=', RC_DB::raw('g.goods_id'))
-			->select(RC_DB::raw('og.*'), RC_DB::raw('g.goods_thumb'), RC_DB::raw('g.goods_img'), RC_DB::raw('g.original_img'))
+			->leftJoin('products as p', RC_DB::raw('og.product_id'), '=', RC_DB::raw('p.product_id'))
+			->selectRaw('og.*, g.goods_thumb, g.goods_img, g.original_img, p.product_thumb, p.product_img, p.product_original_img')
 			->where(RC_DB::raw('og.order_id'), $order_id)->get();
 		}
 	
@@ -420,7 +421,8 @@ class order_refund {
 		if (!empty($order_id)) {
 			$list = RC_DB::table('order_goods as og')
 			->leftJoin('goods as g', RC_DB::raw('og.goods_id'), '=', RC_DB::raw('g.goods_id'))
-			->select(RC_DB::raw('og.*'), RC_DB::raw('g.goods_thumb'), RC_DB::raw('g.goods_img'), RC_DB::raw('g.original_img'))
+			->leftJoin('products as p', RC_DB::raw('og.product_id'), '=', RC_DB::raw('p.product_id'))
+			->selectRaw('og.*, g.goods_thumb, g.goods_img, g.original_img, p.product_thumb, p.product_img, p.product_original_img')
 			->where(RC_DB::raw('og.order_id'), $order_id)->get();
 			if (!empty($list)) {
 				foreach ($list as $res) {
@@ -437,9 +439,9 @@ class order_refund {
 							'formated_total_goods_price' 	=> price_format($res['goods_number']*$res['goods_price'], false),
 							'goods_number'					=> $res['goods_number'],
 							'img' 							=> array(
-																	'small'	=> !empty($res['goods_thumb']) ? RC_Upload::upload_url($res['goods_thumb']) : '',
-																	'thumb'	=> !empty($res['goods_img']) ? RC_Upload::upload_url($res['goods_img']) : '',
-																	'url' 	=> !empty($res['original_img']) ? RC_Upload::upload_url($res['original_img']) : '',
+																	'small'	=> !empty($res['product_img']) ? RC_Upload::upload_url($res['product_img']) : RC_Upload::upload_url($res['goods_img']),
+																	'thumb'	=> !empty($res['product_thumb']) ? RC_Upload::upload_url($res['product_thumb']) : RC_Upload::upload_url($res['goods_thumb']),
+																	'url' 	=> !empty($res['product_original_img']) ? RC_Upload::upload_url($res['product_original_img']) : RC_Upload::upload_url($res['original_img']),
 																),
 					);
 				}

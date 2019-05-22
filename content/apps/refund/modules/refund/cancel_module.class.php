@@ -85,6 +85,10 @@ class refund_cancel_module extends api_front implements api_interface {
         //退款撤销，退款申请时还原的库存相应再减掉，refund_goods表退货商品删除
         $this->_reduceOrderGoodsStock($order_info, $refund_info);
         
+        //退款撤销还原减少促销限购剩余数；用户购买记录增加
+        $updateData = new \Ecjia\App\Refund\Goods\Promotion\UpdateGoodsPromotion($refund_info['refund_id'], $refund_info['order_id'], 'refund_cancel');
+        $updateData->updateGoodsPromotionLimitNum();
+        
         RC_Loader::load_app_class('order_refund', 'refund', false);
         //撤销退款申请操作记录
         $refund_order_action = array(

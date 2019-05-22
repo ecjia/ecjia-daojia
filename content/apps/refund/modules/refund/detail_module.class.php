@@ -268,11 +268,7 @@ class refund_detail_module extends api_front implements api_interface {
 						'formated_goods_price' 	=> price_format($res['goods_price']),
 						'goods_attr'			=> !empty($res['goods_attr']) ? $res['goods_attr'] : '',
 						'goods_number'			=> $res['goods_number'],
-						'img' 			=> array(
-								'small'	=> !empty($res['goods_thumb']) ? RC_Upload::upload_url($res['goods_thumb']) : '',
-								'thumb'	=> !empty($res['goods_img']) ? RC_Upload::upload_url($res['goods_img']) : '',
-								'url' 	=> !empty($res['original_img']) ? RC_Upload::upload_url($res['original_img']) : '',
-						),
+						'img' 					=> $this->_imgHandle($res),
 				);
 			}
 		}
@@ -359,6 +355,26 @@ class refund_detail_module extends api_front implements api_interface {
 									->pluck('action_note');
 		}
 		return $refuse_receive_note;
+	}
+	
+	private function _imgHandle($res)
+	{
+		$arr = array(
+				'small'	=> !empty($res['goods_img']) ? RC_Upload::upload_url($res['goods_img']) : '',
+				'thumb'	=> !empty($res['goods_thumb']) ? RC_Upload::upload_url($res['goods_thumb']) : '',
+				'url' 	=> !empty($res['original_img']) ? RC_Upload::upload_url($res['original_img']) : '',
+		);
+	
+		if (!empty($res['product_thumb'])) {
+			$arr['thumb'] = RC_Upload::upload_url($res['product_thumb']);
+		}
+		if (!empty($res['product_img'])) {
+			$arr['small'] = RC_Upload::upload_url($res['product_img']);
+		}
+		if (!empty($res['product_original_img'])) {
+			$arr['url'] = RC_Upload::upload_url($res['product_original_img']);
+		}
+		return $arr;
 	}
 }
 

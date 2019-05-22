@@ -48,5 +48,15 @@
 
 //支持原路退回的支付插件
 return [
-    'pay_code' => ['pay_wxpay', 'pay_wxpay_app', 'pay_wxpay_shop', 'pay_wxpay_weapp', 'pay_wxpay_pc', 'pay_wxpay_bbc', 'pay_wxpay_merchant', 'pay_koolyun_wxpay', 'pay_shouqianba']
+    'pay_code' => [
+        'pay_wxpay',
+        'pay_wxpay_app',
+        'pay_wxpay_shop',
+        'pay_wxpay_weapp',
+        'pay_wxpay_pc',
+        'pay_wxpay_bbc',
+        'pay_wxpay_merchant',
+        'pay_koolyun_wxpay',
+        'pay_shouqianba'
+    ],
 ];

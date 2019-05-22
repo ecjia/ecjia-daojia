@@ -284,7 +284,7 @@ class admin_payrecord extends ecjia_admin
             (new \Ecjia\App\Refund\Models\RefundPayRecordModel)->updateRefundPayrecord($id, 'original', $back_content, $_SESSION['admin_id'], $_SESSION['admin_name']);
 
             ecjia_admin::admin_log('[' . $refund_order['refund_sn'] . ']', 'payrecord', 'refund_order');
-            return $this->showmessage(__('退款申请已提交，等待微信到款通知即可', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/admin_payrecord/detail', array('refund_id' => $refund_id))));
+            return $this->showmessage(__('退款申请已提交，等待到款通知即可', 'refund'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('refund/admin_payrecord/detail', array('refund_id' => $refund_id))));
         }
 
     }
