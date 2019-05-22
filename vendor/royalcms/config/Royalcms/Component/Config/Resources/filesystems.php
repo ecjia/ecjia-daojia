@@ -53,6 +53,11 @@ return array(
 	        'root'   => SITE_UPLOAD_PATH,
 	    ),
 
+        'data-export' => array(
+            'driver' => 'local',
+            'root'   => storage_path('app/data-exports'),
+        ),
+
 		'aliyunoss' => array(
 			'driver' => 'aliyunoss',
 			'key'    => '',
