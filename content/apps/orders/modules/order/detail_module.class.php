@@ -115,7 +115,7 @@ class order_detail_module extends api_front implements api_interface
             $refund_shipping_fee = 0;
         } else {
             $refund_total_amount = $order['money_paid'] + $order['surplus'] - $order['pay_fee'];
-            $refund_shipping_fee = $order['shipping_fee'] > 0 ? price_format($order['shipping_fee']) : 0;
+            $refund_shipping_fee = $order['shipping_fee'] > 0 ? ecjia_price_format($order['shipping_fee'], false) : 0;
         }
 
         /*订单有没申请退款*/
@@ -137,10 +137,10 @@ class order_detail_module extends api_front implements api_interface
                 'refund_sn'            => $refund_info['refund_sn'],
                 'refund_status'        => empty($refund_status_info['refund_status_code']) ? '' : $refund_status_info['refund_status_code'],
                 'label_refund_status'  => empty($refund_status_info['label_refund_status']) ? '' : $refund_status_info['label_refund_status'],
-                'refund_goods_amount'  => price_format($refund_info['goods_amount']),
-                'refund_inv_tax'       => price_format($refund_info['inv_tax']),
+                'refund_goods_amount'  => ecjia_price_format($refund_info['goods_amount'], false),
+                'refund_inv_tax'       => ecjia_price_format($refund_info['inv_tax'], false),
                 'refund_integral'      => intval($refund_info['integral']),
-                'refund_total_amount ' => price_format($refund_total_amount),
+                'refund_total_amount ' => ecjia_price_format($refund_total_amount, false),
                 'reason_id'            => intval($refund_info['refund_reason']),
                 'reason'               => order_refund::get_reason(array('reason_id' => $refund_info['refund_reason'])),
                 'refund_desc'          => $refund_info['refund_content'],
@@ -160,11 +160,11 @@ class order_detail_module extends api_front implements api_interface
 
 
         $refund_fee_info          = array(
-            'refund_goods_amount' => price_format($order['goods_amount']),
+            'refund_goods_amount' => ecjia_price_format($order['goods_amount'], false),
             'refund_shipping_fee' => $refund_shipping_fee,
-            'refund_inv_tax'      => $order['tax'] > 0 ? price_format($order['tax']) : 0,
+            'refund_inv_tax'      => $order['tax'] > 0 ? ecjia_price_format($order['tax'], false) : 0,
             'refund_integral'     => intval($order['integral']),
-            'refund_total_amount' => price_format($refund_total_amount)
+            'refund_total_amount' => ecjia_price_format($refund_total_amount, false)
         );
         $order['refund_fee_info'] = $refund_fee_info;
 
@@ -298,8 +298,8 @@ class order_detail_module extends api_front implements api_interface
                         'goods_attr_id'       => $v['goods_attr_id'],
                         'goods_attr'          => $attr,
                         'goods_number'        => $v['goods_number'],
-                        'subtotal'            => price_format($v['subtotal'], false),
-                        'formated_shop_price' => $v['goods_price'] > 0 ? price_format($v['goods_price'], false) : __('免费', 'orders'),
+                        'subtotal'            => ecjia_price_format($v['subtotal'], false),
+                        'formated_shop_price' => $v['goods_price'] > 0 ? ecjia_price_format($v['goods_price'], false) : __('免费', 'orders'),
                         'is_commented'        => $v['is_commented'],
                         'comment_rank'        => empty($v['comment_rank']) ? 0 : intval($v['comment_rank']),
                         'comment_content'     => empty($v['comment_content']) ? '' : $v['comment_content'],

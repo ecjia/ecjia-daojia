@@ -63,7 +63,14 @@ class orders_order_info_api extends Component_Event_Api
         if (!is_array($options) || (!isset($options['order_id']) && !isset($options['order_sn']))) {
             return new ecjia_error('invalid_parameter', __('参数无效', 'orders'));
         }
-        return $this->order_info($options['order_id'], $options['order_sn'], $options['store_id'], $options['user_id'], $options['extension_code'], $options['referer']);
+        $order_id		= isset($options['order_id']) ? $options['order_id'] : 0;
+        $order_sn 		= isset($options['order_sn']) ? $options['order_sn'] : '';
+        $store_id 		= isset($options['store_id']) ? $options['store_id'] : 0;
+        $user_id  		= isset($options['user_id']) ? $options['user_id'] : 0;
+        $extension_code = isset($options['extension_code']) ? $options['extension_code'] : '';
+        $referer		= isset($options['referer']) ? $options['referer'] : '';
+        
+        return $this->order_info($order_id, $order_sn, $store_id, $user_id, $extension_code, $referer);
     }
 
     /**
@@ -72,7 +79,7 @@ class orders_order_info_api extends Component_Event_Api
      * @param   string $order_sn 订单号
      * @return  array   订单信息（金额都有相应格式化的字段，前缀是formated_）
      */
-    private function order_info($order_id, $order_sn = '', $store_id = 0, $user_id = 0, $extension_code = '', $referer = '')
+    private function order_info($order_id = 0, $order_sn = '', $store_id = 0, $user_id = 0, $extension_code = '', $referer = '')
     {
         $db_order_info = RC_DB::table('order_info');
         /* 计算订单各种费用之和的语句 */

@@ -82,29 +82,20 @@ class orders_front_plugin
     	}
     	$order_sn   = $order['order_sn'];
     	$order_info = RC_DB::table('order_info')->where('order_sn', $order_sn)->first();
-    
     	if (empty($order_info)) {
     		return false;
     	}
-    
     	//促销商品购买成功，减少促销剩余限购数；增加用户购买数
     	$order_goods = RC_DB::table('order_goods')->where('order_id', $order_info['order_id'])->get();
     	if ($order_goods) {
     		foreach ($order_goods as $val) {
     			$promotion = new \Ecjia\App\Goods\GoodsActivity\GoodsPromotion($val['goods_id'], $val['product_id'], $order_info['user_id']);
     			$is_promote = $promotion->isPromote();
-    			$promotionInfo = $promotion->getGoodsPromotionInfo();
-    			$goodsActivityRecordsInfo = $promotion->goodsActivityRecordsInfo();//用户购买记录
-    			if ($val['product_id'] > 0) {
-    				$promotionInfo = $promotion->getProductPromotion();
-    			}
+    			
+    			$goodsPromotionInfo = $promotion->getGoodsPromotionInfo();
     			if ($is_promote) {
     				//商品在促销且订单下单时间在促销时间内
-    				if (
-    					($promotionInfo->promote_start_date < $order_info['add_time'] && $order_info['add_time'] < $promotionInfo->promote_end_date)
-    					&& ($promotionInfo->promote_user_limited > 0 && $goodsActivityRecordsInfo->buy_num < $promotionInfo->promote_user_limited)
-    				) {
-    					//且用户购买限购数有效；未超过限购数
+    				if ($goodsPromotionInfo->promote_start_date < $order_info['add_time'] && $order_info['add_time'] < $goodsPromotionInfo->promote_end_date) {
     					$promotion->updatePromotionBuyNum($val);
     				}
     			}

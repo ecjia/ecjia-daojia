@@ -280,7 +280,7 @@ class orders_separate_order_paid_api extends Component_Event_Api
                                 'order_id'               => $order['order_id'],
                                 'order_sn'               => $order['order_sn'],
                                 'order_amount'           => $order['order_amount'],
-                                'formatted_order_amount' => price_format($order['order_amount']),
+                                'formatted_order_amount' => ecjia_price_format($order['order_amount'], false),
                                 'consignee'              => $order['consignee'],
                                 'mobile'                 => $order['mobile'],
                                 'address'                => isset($order['address']) ? $order['address'] : '',
