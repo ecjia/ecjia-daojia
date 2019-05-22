@@ -22,23 +22,16 @@ use ecjia_admin;
  */
 class StoreBonusDuplicate extends StoreDuplicateAbstract
 {
-
     /**
      * 代号标识
      * @var string
      */
     protected $code = 'store_bonus_duplicate';
 
-    /**
-     * 排序
-     * @var int
-     */
-    protected $sort = 31;
-
-    public function __construct($store_id, $source_store_id)
+    public function __construct($store_id, $source_store_id, $sort = 31)
     {
         $this->name = __('店铺红包', 'bonus');
-        parent::__construct($store_id, $source_store_id);
+        parent::__construct($store_id, $source_store_id, $sort);
     }
 
     /**
@@ -47,7 +40,7 @@ class StoreBonusDuplicate extends StoreDuplicateAbstract
     public function getSourceStoreDataHandler()
     {
         return RC_DB::table('bonus_type')
-            ->leftJoin('user_bonus', 'bonus_type.type_id', '=', 'user_bonus.bonus_type_id')
+            ->rightJoin('user_bonus', 'bonus_type.type_id', '=', 'user_bonus.bonus_type_id')
             ->where('bonus_type.store_id', $this->source_store_id);
     }
 
@@ -56,24 +49,10 @@ class StoreBonusDuplicate extends StoreDuplicateAbstract
      */
     public function handlePrintData()
     {
-        $count = $this->handleCount();
-        $text = sprintf(__('店铺红包总共<span class="ecjiafc-red ecjiaf-fs3">%s</span>个', 'bonus'), $count);
-
+        $text = sprintf(__('店铺红包总共<span class="ecjiafc-red ecjiaf-fs3">%s</span>个', 'bonus'), $this->handleCount());
         return <<<HTML
 <span class="controls-info w300">{$text}</span>
 HTML;
-    }
-
-    /**
-     * 获取数据统计条数
-     *
-     * @return mixed
-     */
-    public function handleCountOld()
-    {
-        $bonus_type_list = RC_DB::table('bonus_type')->where('store_id', $this->source_store_id)->lists('type_id');
-        return RC_DB::table('user_bonus')->whereIn('bonus_type_id', $bonus_type_list)->count();
-
     }
 
     /**
@@ -92,7 +71,6 @@ HTML;
         $this->count = $this->getSourceStoreDataHandler()->count();
         return $this->count;
     }
-
 
     /**
      * 执行复制操作
@@ -151,9 +129,7 @@ HTML;
                     $new_type_id = RC_DB::table('bonus_type')->insertGetId($item);
 
                     $replacement_bonus_type[$type_id] = $new_type_id;
-
                 }
-
             });
 
             $this->setReplacementData($this->getCode(), $replacement_bonus_type);
