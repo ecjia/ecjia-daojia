@@ -102,9 +102,11 @@ class respond extends ecjia_front
 				    if (is_ecjia_error($result)) {
 				        RC_Logger::getLogger('pay')->debug('pay_fail: ' . $result->get_error_message());
 				        $msg = $result->get_error_data();
+				        $pay_status = false;
 				    } else {
 				        RC_Logger::getLogger('pay')->debug('pay_success_response');
 				        $msg = __('您此次的支付操作已成功！', 'payment');
+                        $pay_status = true;
 				    }
 				    
 				}
@@ -124,8 +126,9 @@ class respond extends ecjia_front
 		    'amount'   => '',
 		    'order_id' => $pay_code == 'pay_alipay' ? $_GET['out_trade_no'] : '',
 		    'order_type' => $order_type,
+		    'pay_status' => $pay_status,
 		);
-		
+
 		$function = RC_Hook::apply_filters( 'payment_respond_template', array($this, '_default_response_template') );
 		
 		$respondContent = '';
