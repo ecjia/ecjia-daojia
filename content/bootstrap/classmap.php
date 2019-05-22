@@ -339,6 +339,20 @@ return array(
     'AddProductIdToGoodslibGalleryTable' => $contentDir . '/database/migrations/2019_04_11_111846_add_product_id_to_goodslib_gallery_table.php',
     'AddProductNameToGoodslibProductsTable' => $contentDir . '/database/migrations/2019_04_11_111938_add_product_name_to_goodslib_products_table.php',
     'CreateWechatOptionsTable' => $contentDir . '/database/migrations/2019_04_11_114310_create_wechat_options_table.php',
+    //1.31
+    'CreateGoodsActivityRecordsTable' => $contentDir . '/database/migrations/2019_05_22_093159_create_goods_activity_records_table.php',
+    'AddGoodsBarcodeToGoodslibTable' => $contentDir . '/database/migrations/2019_05_22_093253_add_goods_barcode_to_goodslib_table.php',
+    'AddCatTypeToGoodsTypeTable' => $contentDir . '/database/migrations/2019_05_22_093350_add_cat_type_to_goods_type_table.php',
+    'CreateGoodsReviewLogTable' => $contentDir . '/database/migrations/2019_05_22_093414_create_goods_review_log_table.php',
+    'AddSpecificationIdAndParameterIdToCategoryTable' => $contentDir . '/database/migrations/2019_05_22_093454_add_specification_id_and_parameter_id_to_category_table.php',
+    'AddSpecificationIdAndParameterIdToMerchantsCategoryTable' => $contentDir . '/database/migrations/2019_05_22_093511_add_specification_id_and_parameter_id_to_merchants_category_table.php',
+    'AddSpecificationIdAndParameterIdToGoodsTable' => $contentDir . '/database/migrations/2019_05_22_093529_add_specification_id_and_parameter_id_to_goods_table.php',
+    'AddCatTypeToGoodsAttrTable' => $contentDir . '/database/migrations/2019_05_22_093612_add_cat_type_to_goods_attr_table.php',
+    'AddCatTypeToGoodslibAttrTable' => $contentDir . '/database/migrations/2019_05_22_093630_add_cat_type_to_goodslib_attr_table.php',
+    'AlterProcessTypeToStoreAccountOrderTable' => $contentDir . '/database/migrations/2019_05_22_132900_alter_process_type_to_store_account_order_table.php',
+    'AlterChangeTypeToStoreAccountLogTable' => $contentDir . '/database/migrations/2019_05_22_132930_alter_change_type_to_store_account_log_table.php',
+    'AlterLimitNumToMarketActivityTable' => $contentDir . '/database/migrations/2019_05_22_133300_alter_limit_num_to_market_activity_table.php',
+    'AlterPrizeNumberAndPrizeProbToMarketActivityPrizeTable' => $contentDir . '/database/migrations/2019_05_22_133332_alter_prize_number_and_prize_prob_to_market_activity_prize_table.php',
 
     // seeder
     'DatabaseSeeder' => $contentDir . '/database/seeds/DatabaseSeeder.php',
