@@ -46,15 +46,32 @@
 //
 defined('IN_ECJIA') or exit('No permission resources.');
 
-class bonus_merchant_hook {
-	
-	public static function bonus_merchant_menu_api($menus) {
-	    $menu = ecjia_merchant::make_admin_menu('02_bonustype_list', __('红包类型', 'bonus'), RC_Uri::url('bonus/merchant/init'), 2)->add_purview('bonus_type_manage')->add_icon('fa-ticket');
-	    $menus->add_submenu($menu);
-	    return $menus;
-	}
-}
+/**
+ * 移除店铺信息接口
+ *
+ * @author royalwang
+ */
+class bonus_store_duplicate_storedata_api extends Component_Event_Api
+{
 
-RC_Hook::add_filter( 'promotion_merchant_menu_api', array('bonus_merchant_hook', 'bonus_merchant_menu_api') );
+    public function call(& $options)
+    {
+
+        $store_id = array_get($options, 'store_id');
+        $source_store_id = array_get($options, 'source_store_id');
+
+        if (empty($store_id) || empty($source_store_id)) {
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'store'), __CLASS__));
+        }
+
+        return [
+
+            //bonus
+            new \Ecjia\App\Bonus\StoreDuplicateHandlers\StoreBonusDuplicate($store_id, $source_store_id),
+
+        ];
+    }
+
+}
 
 // end
