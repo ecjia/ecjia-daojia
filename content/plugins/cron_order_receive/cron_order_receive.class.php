@@ -70,6 +70,7 @@ class cron_order_receive extends CronAbstract
     //         ->where(RC_DB::raw('shipping_time'), '>', $time - 31 * 86400)
             ->where(RC_DB::raw('shipping_status'), SS_SHIPPED)
             ->where(RC_DB::raw('shipping_time + '.$limit_time), '<=', $time)
+            ->where(RC_DB::raw('order_status'), '<>', OS_RETURNED)//退货订单不自动确认
             ->get();
         
         foreach ($rows as $order) {
