@@ -69,6 +69,7 @@
 		init: function() {
 			app.product_spec.select_spec();
 			app.product_spec.spec_add_product();
+			app.product_spec.clear_data();
 			app.product_spec.spec_submint();
 		},
 
@@ -245,6 +246,34 @@
 					 }
    	            });
 	    	})
+		},
+		
+		clear_data: function() { 
+			$('[data-toggle="clear_data"]').on('click', function(e) {
+				e.preventDefault();
+				
+				var url = $(this).attr('data-href');
+				var goods_id = $(this).attr('goods-id');
+				smoke.confirm(js_lang.tip_msg, function(e) {
+					if (e) {
+						$.ajax({
+							type: "POST",
+							url:  url,
+							data: {
+								goods_id: goods_id,
+							},
+							dataType: "json",
+							success: function(data) {
+								ecjia.admin.showmessage(data);
+								window.location.href = data.url;
+							}
+						});
+					}
+				}, {
+					ok: js_lang.ok,
+					cancel: js_lang.cancel
+				});
+			});
 		},
 
 		spec_submint: function() {

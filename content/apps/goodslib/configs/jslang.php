@@ -58,6 +58,13 @@ return array(
         'attr_name_required'	=> __('请输入属性名称', 'goodslib'),
         'cat_id_select'			=> __('请选择所属商品类型', 'goodslib'),
     ),
+		
+	'spec_product_page' => array(
+		'tip_msg' => __('清除后，会将之前已添加的相关规格属性以及货品进行清除，请谨慎操作，您确定要【清除】吗？', 'goods'),
+		'ok'      => __('确定', 'goods'),
+		'cancel'  => __('取消', 'goods'),
+	),
+		
     'goods_list_page' => array(
         'pls_select'			=> __('请选择...', 'goodslib'),
         'brand_name_empty'		=> __('品牌名称不能为空', 'goodslib'),

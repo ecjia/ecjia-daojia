@@ -13,6 +13,7 @@
 		
 		<div class="control-group">
 			<div class="controls">
+			 	<input  type="hidden" name="template_id" value="{$template_id}">
  				<input  type="hidden" name="goods_id" value="{$goods_id}">
 		        <a class="btn btn-gebo insertSubmit" href="javascript:;" {if $has_product}disabled="disabled"{/if}>{t domain="goodslib"}确定{/t}</a>
 			</div>
