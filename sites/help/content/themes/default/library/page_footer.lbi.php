@@ -28,7 +28,7 @@
         </div>
         <div class="copyright">
             {if ecjia::config('company_name')}{ecjia::config('company_name')}{t domain="default"}版权所有{/t}{/if}
-            {if ecjia::config('icp_number')}<a href="http://www.miibeian.gov.cn" target="_blank">{ecjia::config('icp_number')}</a>{/if}&nbsp;&nbsp;{$commoninfo.powered}
+            {if ecjia::config('icp_number')}<a href="http://beian.miit.gov.cn" target="_blank">{ecjia::config('icp_number')}</a>{/if}&nbsp;&nbsp;{$commoninfo.powered}
         </div>
         <div class="police">
         </div>
