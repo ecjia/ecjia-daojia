@@ -426,19 +426,10 @@ class CreateOrder
 	
 			$row['order_amount'] = number_format($row['order_amount'], 2, '.', ''); //格式化价格为一个数字
 	
-			/* 如果订单金额为0（使用余额或积分或红包支付），修改订单状态为已确认、已付款 */
-			if ($row['order_amount'] <= 0) {
-				$row['order_amount'] = 0;
-				$row['order_status'] = OS_CONFIRMED;
-				$row['confirm_time'] = RC_Time::gmtime();
-				$row['pay_status'] = PS_PAYED;
-				$row['pay_time'] = RC_Time::gmtime();
-			} else {
-				$row['order_status'] = OS_UNCONFIRMED;
-				$row['confirm_time'] = 0;
-				$row['pay_status'] = PS_UNPAYED;
-				$row['pay_time'] = 0;
-			}
+			$row['order_status'] = OS_UNCONFIRMED;
+			$row['confirm_time'] = 0;
+			$row['pay_status'] = PS_UNPAYED;
+			$row['pay_time'] = 0;
 	
 			//判断订单类型
 			if(empty($row['extension_code']) && $row['shipping_id']) {

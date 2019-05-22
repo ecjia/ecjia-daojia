@@ -167,15 +167,31 @@ class cart_cart_list_api extends Component_Event_Api {
 // 					}
 				}
 				
+				//货品图片兼容处理
+				if($row['product_id'] > 0) {
+					 $product_info = RC_DB::table('products')
+				        ->where('goods_id', $row['goods_id'])
+				        ->where('product_id', $row['product_id'])
+				        ->first();
+
+				  	 if (!empty($product_info['product_thumb'])) {
+				  	 	$row['goods_thumb'] = $product_info['product_thumb'];
+				  	 }
+				  	 if (!empty($product_info['product_img'])) {
+				  	 	$row['goods_img'] = $product_info['product_img'];
+				  	 }
+				  	 if (!empty($product_info['product_original_img'])) {
+				  	 	$row['original_img'] = $product_info['product_original_img'];
+				  	 }
+				} else {
+					$product_info = [];
+				}
+				
 				//库存 181023 add
 				$row['attr_number'] = 1;//有货
 				if (ecjia::config('use_storage') == 1) {
 				    if($row['product_id']) {
 				        //product_id变动TODO
-				        $product_info = RC_DB::table('products')
-				        ->where('goods_id', $row['goods_id'])
-				        ->where('product_id', $row['product_id'])
-				        ->first();
 				        if ($product_info && $row['goods_number'] > $product_info['product_number']) {
 				            $row['attr_number'] = 0;
 				        }

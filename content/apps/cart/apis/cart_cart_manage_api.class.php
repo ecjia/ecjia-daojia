@@ -86,6 +86,8 @@ class cart_cart_manage_api extends Component_Event_Api {
         if ($product_id > 0) {
         	$product_info = RC_DB::table('products')->where('product_id', $product_id)->first();
         	$spec = explode('|', $product_info['goods_attr']);
+        } else {
+        	$product_id = 0;
         }
         
         $_parent_id     = $parent;
@@ -151,6 +153,7 @@ class cart_cart_manage_api extends Component_Event_Api {
             if (empty($product_info)) {
             	return new ecjia_error('low_stocks', __('暂无此货品！', 'cart'));
             }
+            $product_id = $product_info['product_id'];
             $spec = explode('|', $product_info['goods_attr']);
             $is_spec = true;
         } else {
@@ -380,7 +383,26 @@ class cart_cart_manage_api extends Component_Event_Api {
                 $cart_id = RC_DB::table('cart')->insertGetId($parent);
             }
         }
-
+        
+        /**
+         * 判断添加的商品有没在促销，在促销的话，判断促销限购数量
+         * （有没超过用户限购数， 有没超过活动限购数）；
+         * 更新购买记录；更新购物车价格
+         */
+        if ($_SESSION['user_id'] > 0) {
+        	$promotion = new \Ecjia\App\Goods\GoodsActivity\GoodsPromotion($goods_id, $product_id, $_SESSION['user_id']);
+        	$is_promote = $promotion->isPromote();
+        	if ($is_promote) {
+        		$left_num = $promotion->getLimitOverCount($num); //用户可购买的限购剩余数
+        		if ($left_num >= 0) {
+        			//购买数量大于限购可购买数量或者限购可购买数量等于0
+        			if ($num > $left_num || $left_num == 0) {
+        				$promotion->updateCartGoodsPrice($cart_id, $goods_id, $num, true, $spec, $product_id);
+        			}
+        		}
+        	}
+        }
+       
         /* 把赠品删除 */
         //$delete_w = '';
         $db_delete_w = RC_DB::table('cart');

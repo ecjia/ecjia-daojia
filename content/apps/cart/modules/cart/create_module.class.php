@@ -73,7 +73,7 @@ class cart_create_module extends api_front implements api_interface {
 	    $location		= $this->requestData('location', array());
 	    $seller_id		= $this->requestData('seller_id', 0);
 	    $city_id		= $this->requestData('city_id', '');
-	    $product_id		= $this->requestData('product_id', 0);  //货品id
+	    $product_id		= $this->requestData('product_id', '0');  //货品id
 	    
 	    if (!$goods_id) {
             return new ecjia_error('invalid_parameter', __('参数错误', 'cart'));

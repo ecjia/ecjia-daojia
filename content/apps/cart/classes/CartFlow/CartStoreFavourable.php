@@ -201,10 +201,10 @@ class CartStoreFavourable
     		if ($total_amount && $discount > $total_amount) {
     			$cart_discount = $total_amount;
     		}
-    		 
-    		if (!empty($amount_sort) && !empty($favourable_group)) {
-    			array_multisort($amount_sort, SORT_ASC, $favourable_group);
-    		}
+    		
+//     		if (!empty($amount_sort) && !empty($favourable_group)) {
+//     			array_multisort($amount_sort, SORT_ASC, $favourable_group);
+//     		}
     		 
     		//获取最优惠的活动信息
     		//$best_fav_key = array_search(max($cart_discount_temp),$cart_discount_temp);

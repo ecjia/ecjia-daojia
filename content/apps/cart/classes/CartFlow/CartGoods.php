@@ -87,11 +87,7 @@ class CartGoods
         $this->output['is_shipping'] 			= $this->model->is_shipping;
         $this->output['is_real'] 				= $this->model->is_real;
         $this->output['extension_code'] 		= $this->model->extension_code;
-        $this->output['img']					= array(
-        											 'thumb' => empty($this->model->goods->goods_img) ? '' : RC_Upload::upload_url($this->model->goods->goods_img),
-        											 'url'	 => empty($this->model->goods->original_img) ? '' : RC_Upload::upload_url($this->model->goods->original_img),
-        											 'small' => empty($this->model->goods->goods_thumb) ? '' : RC_Upload::upload_url($this->model->goods->goods_thumb),
-        										  );
+        $this->output['img']					= $this->handleImg();
         $this->output['attr'] 					= !empty($this->model->goods_attr) ? addslashes(str_replace('\n', '', $this->model->goods_attr)) : '';
         /* 统计实体商品和虚拟商品的个数 */
 
@@ -105,6 +101,30 @@ class CartGoods
         
 
         return $this->output;
+    }
+    
+    protected function handleImg()
+    {
+    	$arr = array(
+    			'thumb' => empty($this->model->goods->goods_thumb) ? '' : RC_Upload::upload_url($this->model->goods->goods_thumb),
+    			'url'	 => empty($this->model->goods->original_img) ? '' : RC_Upload::upload_url($this->model->goods->original_img),
+    			'small' => empty($this->model->goods->goods_img) ? '' : RC_Upload::upload_url($this->model->goods->goods_img),
+    	);
+		if ($this->model->product_id > 0) {
+			if ($this->model->products) {
+				$product_info = $this->model->products;
+				if (!empty($product_info->product_thumb)) {
+					$arr['thumb'] = RC_Upload::upload_url($product_info->product_thumb);
+				}
+				if (!empty($product_info->product_original_img)) {
+					$arr['url'] = RC_Upload::upload_url($product_info->product_original_img);
+				}
+				if (!empty($product_info->product_img)) {
+					$arr['small'] = RC_Upload::upload_url($product_info->product_img);
+				}
+			}
+		}
+    	return $arr;
     }
 
     /**

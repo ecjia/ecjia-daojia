@@ -348,14 +348,6 @@ class storepickup_flow_done_module extends api_front implements api_interface
         
         $order['order_amount'] = number_format($total['amount'], 2, '.', '');
         
-        /* 如果订单金额为0（使用余额或积分或红包支付），修改订单状态为已确认、已付款 */
-        if ($order['order_amount'] <= 0) {
-            $order['order_status']	= OS_CONFIRMED;
-            $order['confirm_time']	= RC_Time::gmtime();
-            $order['pay_status']	= PS_PAYED;
-            $order['pay_time']		= RC_Time::gmtime();
-            $order['order_amount']	= 0;
-        }
         
         $order['integral_money'] = $total['integral_money'];
         $order['integral'] = $total['integral'];

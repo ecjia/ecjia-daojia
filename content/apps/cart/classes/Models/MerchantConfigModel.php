@@ -48,11 +48,11 @@ namespace Ecjia\App\Cart\Models;
 
 use Royalcms\Component\Database\Eloquent\Model;
 
-class CartModel extends Model
+class MerchantConfigModel extends Model
 {
-	protected $table = 'cart';
+	protected $table = 'merchants_config';
 	
-	protected $primaryKey = 'rec_id';
+	protected $primaryKey = 'id';
 	
 	/**
 	 * 可以被批量赋值的属性。
@@ -60,33 +60,15 @@ class CartModel extends Model
 	 * @var array
 	 */
 	protected $fillable = [
-	    'user_id',
 	    'store_id',
-	    'session_id',
-	    'goods_id',
-	    'goods_sn',
-	    'product_id',
-	    'group_id',
-	    'goods_name',
-	    'market_price',
-	    'goods_price',
-	    'goods_number',
-	    'goods_buy_weight',
-	    'goods_attr',
-	    'is_real',
-	    'extension_code',
-	    'parent_id',
-	    'rec_type',
-	    'is_gift',
-	    'is_shipping',
-	    'can_handsel',
-	    'mark_changed',
-	    'goods_attr_id',
-	    'shopping_fee',
-	    'is_checked',
-	    'pendorder_id',
-	    'add_time'
-    ];
+	    'group',
+	    'code',
+	    'type',
+	    'store_range',
+	    'store_dir',
+	    'value',
+	    'sort_order',
+	];
 	
 	/**
 	 * 该模型是否被自动维护时间戳
@@ -94,28 +76,7 @@ class CartModel extends Model
 	 * @var bool
 	 */
 	public $timestamps = false;
-
-
-    public function goods()
-    {
-        return $this->belongsTo('Ecjia\App\Cart\Models\GoodsModel', 'goods_id', 'goods_id');
-    }
 	
-    /**
-     * 获取购物车店铺信息
-     */
-    public function store_franchisee()
-    {
-    	return $this->belongsTo('Ecjia\App\Cart\Models\StoreFranchiseeModel', 'store_id', 'store_id');
-    }
-    
-    /**
-     * 获取购物车对应货品信息
-     */
-    public function products()
-    {
-    	return $this->belongsTo('Ecjia\App\Cart\Models\ProductsModel', 'product_id', 'product_id');
-    }
 
 }
 

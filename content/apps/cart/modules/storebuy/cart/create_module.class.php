@@ -89,6 +89,7 @@ class storebuy_cart_create_module extends api_front implements api_interface {
 		$goods_db = RC_Loader::load_app_model('goods_model', 'goods');
 		$goods_spec = array();
 		
+		$product_id = 0;
 		$products_goods = $products_db->where(array('product_sn' => $goods_sn))->find();
 		if (!empty($products_goods)) {
 			$goods_spec = explode('|', $products_goods['goods_attr']);
@@ -96,6 +97,7 @@ class storebuy_cart_create_module extends api_front implements api_interface {
 			if (isset($store_id) && $store_id > 0) {
 				$where['store_id'] = $store_id;
 			}
+			$product_id = $products_goods['product_id'];
 		} else {
 			$where = array('goods_sn' => $goods_sn);
 		    if (isset($store_id) && $store_id > 0) {
@@ -114,7 +116,7 @@ class storebuy_cart_create_module extends api_front implements api_interface {
 			}
 		}
 		
-		$result = addto_cart($goods['goods_id'], $goods_number, $goods_spec, 0, 0, 0, 0, 0, $rec_type, $products_goods['product_id']);
+		$result = addto_cart($goods['goods_id'], $goods_number, $goods_spec, 0, 0, 0, 0, 0, $rec_type, $product_id);
 		
 		if (is_ecjia_error($result)) {
 			return $result;

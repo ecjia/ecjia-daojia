@@ -112,6 +112,23 @@ class cart_cashdesk {
 				$arr[$key]['goods_buy_weight'] 	= $value['goods_buy_weight'] > 0 ? $value['goods_buy_weight'] : '';
 			
 				RC_Loader::load_app_func('global', 'goods');
+				//货品图片兼容处理
+				if($value['product_id'] > 0) {
+					$product_info = RC_DB::table('products')
+					->where('goods_id', $value['goods_id'])
+					->where('product_id', $value['product_id'])
+					->first();
+				
+					if (!empty($product_info['product_thumb'])) {
+						$value['goods_thumb'] = $product_info['product_thumb'];
+					}
+					if (!empty($product_info['product_img'])) {
+						$value['goods_img'] = $product_info['product_img'];
+					}
+					if (!empty($product_info['product_original_img'])) {
+						$value['original_img'] = $product_info['product_original_img'];
+					}
+				} 
 				$arr[$key]['img'] = array(
 						'thumb'	=> get_image_path($value['goods_id'], $value['goods_img'], true),
 						'url'	=> get_image_path($value['goods_id'], $value['original_img'], true),
@@ -296,7 +313,12 @@ class cart_cashdesk {
 		/* 如果商品有规格则取规格商品信息 配件除外 */
 		$prod = RC_DB::table('products')->where('goods_id', $goods_id)->count();
 		if (is_spec($spec) && $prod > 0) {
-			$product_info = get_products_info($goods_id, $spec);
+			//$product_info = get_products_info($goods_id, $spec);
+			$goods_attr = implode ( '|', $spec);
+			$product_info = RC_DB::table('products')->where('goods_id', $goods_id)->where('goods_attr', $goods_attr)->first();
+			if (empty($product_info)) {
+				return new ecjia_error('low_stocks', __('暂无此货品！', 'cart'));
+			}
 		}
 		if (empty($product_info)) {
 			$product_info = array('product_number' => 0, 'product_id' => 0 , 'goods_attr'=>'');
@@ -313,7 +335,7 @@ class cart_cashdesk {
 				if (!empty($spec)) {
 					/* 取规格的货品库存 */
 					if ($num > $product_info['product_number']) {
-						return new ecjia_error('low_stocks', __('库存不足', 'cart'));
+						return new ecjia_error('low_stocks', __('货品库存不足', 'cart'));
 					}
 				}
 			}
@@ -348,7 +370,11 @@ class cart_cashdesk {
 				'add_time'      => RC_Time::gmtime()
 		);
 	
-	
+		//货品自定义名称
+		if (!empty($product_info['product_name'])) {
+			$parent['goods_name'] = addslashes($product_info['product_name']);
+		}
+		
 		/* 如果该配件在添加为基本件的配件时，所设置的“配件价格”比原价低，即此配件在价格上提供了优惠， */
 		/* 则按照该配件的优惠价格卖，但是每一个基本件只能购买一个优惠价格的“该配件”，多买的“该配件”不享受此优惠 */
 		$basic_list = array();
@@ -460,7 +486,10 @@ class cart_cashdesk {
 			}
 			$row = $db_cart->first();
 			
+			$product_id = 0;
+			
 			if($row) {
+				$product_id = $row['product_id'];
 				if (empty($price) && empty($weight)) {
 					//非散装商品
 					if(is_spec($spec) && !empty($prod) ) {
@@ -583,7 +612,8 @@ class cart_cashdesk {
 				}
 			} else {
 				//购物车没有此物品，则插入
-				$goods_price = get_final_price($goods_id, $num, true, $spec, $product_info['product_id']);
+				$product_id = !empty($product_info['product_id']) ? $product_info['product_id'] : 0;
+				$goods_price = get_final_price($goods_id, $num, true, $spec, $product_id);
 				$parent['goods_price']  = max($goods_price, 0);
 				$parent['goods_number'] = $num;
 				$parent['parent_id']    = 0;
@@ -614,6 +644,38 @@ class cart_cashdesk {
 				}
 				
 				$cart_id = RC_DB::table('cart')->insertGetId($parent);
+			}
+			
+			/**
+			 * 判断添加的商品有没在促销，在促销的话，判断促销限购数量
+			 * （有没超过用户限购数， 有没超过活动限购数）；
+			 * 更新购买记录；更新购物车价格
+			 */
+			if ($goods['extension_code'] != 'bulk') {
+				$promotion = new \Ecjia\App\Goods\GoodsActivity\GoodsPromotion($goods_id, $product_id, $_SESSION['user_id']);
+				$is_promote = $promotion->isPromote();
+				if ($is_promote) {
+					//收银台添加商品有添加会员时，限购总数和用户限购数判断
+					if ($_SESSION['user_id'] > 0) {
+						$left_num = $promotion->getLimitOverCount($num); //用户可购买的限购剩余数
+						if ($left_num >= 0) {
+							//购买数量大于限购可购买数量或者限购可购买数量等于0
+							if ($num > $left_num || $left_num == 0) {
+								$promotion->updateCartGoodsPrice($cart_id, $goods_id, $num, true, $spec, $product_id);
+							}
+						}
+					} else {
+						//收银台添加商品未添加会员时，限购总数判断
+						if ($goods['product_id'] > 0) {
+							$promotionInfo = $promotion->getProductPromotion();
+						} else {
+							$promotionInfo = $promotion->getGoodsPromotionInfo();
+						}
+						if ($num > $promotionInfo->promote_limited) {
+							$promotion->updateCartGoodsPrice($cart_id, $goods_id, $num, true, $spec, $product_id);
+						}
+					}
+				}
 			}
 		}
 	
@@ -762,6 +824,37 @@ class cart_cashdesk {
 						->where('user_id', $_SESSION['user_id'])
 						->where('rec_id', $key)
 						->update(array('goods_number' => $val , 'goods_price' => $goods_price));
+						
+						/**
+						 * 判断添加的商品有没在促销，在促销的话，判断促销限购数量
+						 * （有没超过用户限购数， 有没超过活动限购数）；
+						 * 更新购买记录；更新购物车价格
+						 */
+						$promotion = new \Ecjia\App\Goods\GoodsActivity\GoodsPromotion($goods['goods_id'], $goods['product_id'], $_SESSION['user_id']);
+						$is_promote = $promotion->isPromote();
+						if ($is_promote) {
+							//收银台添加商品有添加会员时，限购总数和用户限购数判断
+							if ($_SESSION['user_id'] > 0) {
+								$left_num = $promotion->getLimitOverCount($val); //用户可购买的限购剩余数
+								if ($left_num >= 0) {
+									//购买数量大于限购可购买数量或者限购可购买数量等于0
+									if ($val > $left_num || $left_num == 0) {
+										$spec = $attr_id;
+										$promotion->updateCartGoodsPrice($key, $goods_id, $val, true, $spec, $goods['product_id']);
+									}
+								}
+							} else {
+								//收银台添加商品未添加会员时，限购总数判断
+								if ($goods['product_id'] > 0) {
+									$promotionInfo = $promotion->getProductPromotion();
+								} else {
+									$promotionInfo = $promotion->getGoodsPromotionInfo();
+								}
+								if ($val > $promotionInfo->promote_limited) {
+									$promotion->updateCartGoodsPrice($key, $goods_id, $val, true, $spec, $goods['product_id']);
+								}
+							}
+						}
 					} else {
 						RC_DB::table('cart')
 						->where('rec_id', $key)

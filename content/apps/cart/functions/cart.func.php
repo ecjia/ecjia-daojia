@@ -481,6 +481,7 @@ function flow_clear_cart_alone() {
  * @return  boolean
  */
 function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehouse_id = 0, $area_id = 0, $price = 0, $weight = 0, $flow_type = CART_GENERAL_GOODS, $product_id = 0) {
+	$product_id = empty($product_id) ? 0 : $product_id;
 	$dbview 		= RC_Loader::load_app_model('sys_goods_member_viewmodel', 'goods');
 	$db_cart 		= RC_Loader::load_app_model('cart_model', 'cart');
 	$db_products 	= RC_Loader::load_app_model('products_model', 'goods');
@@ -743,6 +744,25 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $warehous
             $parent['goods_number'] = $num;
             $parent['parent_id']    = 0;
 			$cart_id = $db_cart->insert($parent);
+        }
+        
+        /**
+         * 判断添加的商品有没在促销，在促销的话，判断促销限购数量
+         * （有没超过用户限购数， 有没超过活动限购数）；
+         * 更新购买记录；更新购物车价格
+         */
+        if ($_SESSION['user_id'] > 0) {
+        	$promotion = new \Ecjia\App\Goods\GoodsActivity\GoodsPromotion($goods_id, $product_id, $_SESSION['user_id']);
+        	$is_promote = $promotion->isPromote();
+        	if ($is_promote) {
+        		$left_num = $promotion->getLimitOverCount($num); //用户可购买的限购剩余数
+        		if ($left_num >= 0) {
+        			//购买数量大于限购可购买数量或者限购可购买数量等于0
+        			if ($num > $left_num || $left_num == 0) {
+        				$promotion->updateCartGoodsPrice($cart_id, $goods_id, $num, true, $spec, $product_id);
+        			}
+        		}
+        	}
         }
     }
 

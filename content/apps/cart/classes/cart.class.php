@@ -147,7 +147,27 @@ class cart {
 					$goods_price = goods_info::get_final_price($goods['goods_id'], $val, true, $attr_id, $goods['product_id']);
 
 					$db_cart->where(array('rec_id' => $key , 'user_id' => $_SESSION['user_id'] ))->update(array('goods_number' => $val , 'goods_price' => $goods_price));
-
+					
+					/**
+					 * 判断添加的商品有没在促销，在促销的话，判断促销限购数量
+					 * （有没超过用户限购数， 有没超过活动限购数）；
+					 * 更新购买记录；更新购物车价格
+					 */
+					if ($_SESSION['user_id'] > 0) {
+						$promotion = new \Ecjia\App\Goods\GoodsActivity\GoodsPromotion($goods['goods_id'], $goods['product_id'], $_SESSION['user_id']);
+						$is_promote = $promotion->isPromote();
+						if ($is_promote) {
+							$left_num = $promotion->getLimitOverCount($val); //用户可购买的限购剩余数
+							if ($left_num >= 0) {
+								//购买数量大于限购可购买数量或者限购可购买数量等于0
+								if ($val > $left_num || $left_num == 0) {
+									$spec = $attr_id;
+									$promotion->updateCartGoodsPrice($key, $goods_id, $val, true, $spec, $goods['product_id']);
+								}
+							}
+						}
+					}
+					
 				}
 			} else {
 				//订货数量等于0
