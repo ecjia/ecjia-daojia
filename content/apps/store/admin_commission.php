@@ -149,7 +149,7 @@ class admin_commission extends ecjia_admin {
 	 * 订单佣金结算页面
 	 */
 	public function edit()	{
-		$this->admin_priv('store_commission_update');
+		$this->admin_priv('store_commission_manage');
 		$this->assign('form_action', RC_Uri::url('store/admin_commission/update'));
 
 		$store_id = $_GET['store_id'];
@@ -200,7 +200,7 @@ class admin_commission extends ecjia_admin {
 	 * 订单佣金结算页面
 	 */
 	public function update() {
-		$this->admin_priv('store_commission_update', ecjia::MSGTYPE_JSON);
+		$this->admin_priv('store_commission_manage', ecjia::MSGTYPE_JSON);
 
 		$id       = $_POST['id'];
 		$store_id = $_POST['store_id'];
@@ -298,7 +298,7 @@ class admin_commission extends ecjia_admin {
 	 * 修改结算状态
 	 */
 	public function toggle_state() {
-		$this->admin_priv('store_commission_update', ecjia::MSGTYPE_JSON);
+		$this->admin_priv('store_commission_manage', ecjia::MSGTYPE_JSON);
 		
 		$order_id             = intval($_POST['id']);
 		$order_sn             = $_GET['order_sn'];

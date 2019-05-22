@@ -92,6 +92,16 @@
                     }
                 }, {ok: store_js_lang.ok, cancel: store_js_lang.cancel});
             });
+
+            $('[data-toggle="store_ajaxduplicate"]').off('click').on('click', function (e) {
+                e.preventDefault();
+                var $this = $(this),
+                    url = $this.attr('href');
+
+                $.post(url, function (data) {
+                    ecjia.admin.showmessage(data);
+                });
+            });
         },
     };
 

@@ -44,37 +44,87 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Store\StoreDuplicate;
 
-/**
- * 店铺祥情及配置接口
- * @author
- * RC_Api::api('store', 'store_info', ['store_id' = 1]);
- */
-class store_store_info_api extends Component_Event_Api {
-	/**
-	 *
-	 * @param array $options
-     *  store_id 店铺ID
-	 * @return  array | ecjia_error
-	 */
-	public function call (&$options) {
-		if (!array_key_exists('store_id', $options)) {
-			return new ecjia_error('invalid_parameter', sprintf(__('调用%s文件，参数无效', 'store'), __CLASS__));
-		}
-		
-		$store_id = $options['store_id'];
+use RC_Hook;
+use RC_Api;
+use InvalidArgumentException;
+use ecjia_app;
 
-		$store_info     = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
-		$store_config   = RC_DB::table('merchants_config')->where('store_id', $store_id)->get();
-		
-		collect($store_config)->map(function ($item) use (& $store_info) {
-		    $store_info[$item['code']] = $item['value'];
-		});
-		
-		return $store_info;
-	}
+class StoreDuplicateManager
+{
+
+    protected $api_name = 'store_duplicate_storedata';
+
+    protected $factories;
+
+    protected $store_id;
+
+    protected $source_store_id;
+
+    public function __construct($store_id, $source_store_id)
+    {
+        $this->store_id = $store_id;
+        $this->source_store_id = $source_store_id;
+
+        $this->factories = $this->fetchStoreCleanHandlers();
+    }
+
+    private function fetchStoreCleanHandlers()
+    {
+        $apps     = ecjia_app::installed_app_floders();
+        $handlers = RC_Api::apis($apps, $this->api_name, ['store_id' => $this->store_id, 'source_store_id' => $this->source_store_id]);
+
+        $factories = [];
+        foreach ($handlers as $values) {
+            foreach ($values as $item) {
+                $factories[$item->getCode()] = $item;
+            }
+        }
+
+        $factories = RC_Hook::apply_filters('ecjia_store_duplicate_component_filter', $factories, $this->store_id, $this->source_store_id);
+
+        usort($factories, array($this, 'listMenuBySort'));
+
+        $new_factories = [];
+        foreach ($factories as $item) {
+            $new_factories[$item->getCode()] = $item;
+        }
+
+        $this->factories = $new_factories;
+
+        return $new_factories;
+    }
+
+    public function getFactories()
+    {
+        return $this->factories;
+    }
+
+    public function handler($code)
+    {
+        if (!array_key_exists($code, $this->factories)) {
+            throw new InvalidArgumentException("Handler '$code' is not supported.");
+        }
+
+        return $this->factories[$code];
+    }
+
+
+    /**
+     * 列表排序
+     *
+     * @param StoreDuplicateAbstract $a
+     * @param StoreDuplicateAbstract $b
+     * @return number
+     */
+    protected function listMenuBySort(StoreDuplicateAbstract $a, StoreDuplicateAbstract $b)
+    {
+        if ($a->getSort() == $b->getSort()) {
+            return 0;
+        } else {
+            return ($a->getSort() > $b->getSort()) ? 1 : -1;
+        }
+    }
 
 }
-
-// end

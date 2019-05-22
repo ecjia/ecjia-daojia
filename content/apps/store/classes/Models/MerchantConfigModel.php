@@ -44,37 +44,46 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
+namespace Ecjia\App\Store\Models;
 
-/**
- * 店铺祥情及配置接口
- * @author
- * RC_Api::api('store', 'store_info', ['store_id' = 1]);
- */
-class store_store_info_api extends Component_Event_Api {
+use Ecjia\System\Frameworks\Model\Model;
+
+class MerchantConfigModel extends Model
+{
+	protected $table = 'merchants_config';
+	
+	protected $primaryKey = 'id';
+	
 	/**
+	 * 可以被批量赋值的属性。
 	 *
-	 * @param array $options
-     *  store_id 店铺ID
-	 * @return  array | ecjia_error
+	 * @var array
 	 */
-	public function call (&$options) {
-		if (!array_key_exists('store_id', $options)) {
-			return new ecjia_error('invalid_parameter', sprintf(__('调用%s文件，参数无效', 'store'), __CLASS__));
-		}
-		
-		$store_id = $options['store_id'];
-
-		$store_info     = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
-		$store_config   = RC_DB::table('merchants_config')->where('store_id', $store_id)->get();
-		
-		collect($store_config)->map(function ($item) use (& $store_info) {
-		    $store_info[$item['code']] = $item['value'];
-		});
-		
-		return $store_info;
+	protected $fillable = [
+	    'store_id',
+	    'group',
+	    'code',
+	    'type',
+	    'store_range',
+	    'store_dir',
+	    'value',
+	    'sort_order',
+    ];
+	
+	/**
+	 * 该模型是否被自动维护时间戳
+	 *
+	 * @var bool
+	 */
+	public $timestamps = false;
+	
+	/**
+	 * 设置项所属店铺
+	 */
+	public function store()
+	{
+		return $this->belongsTo('Ecjia\App\Store\Models\StoreFranchiseeModel', 'store_id', 'store_id');
 	}
-
 }
 
 // end

@@ -68,7 +68,7 @@ class admin_preaudit extends ecjia_admin
         RC_Style::enqueue_style('chosen');
 
         RC_Script::enqueue_script('store', RC_App::apps_url('statics/js/store.js', __FILE__), array(), false, 1);
-        RC_Script::enqueue_script('region', RC_Uri::admin_url('statics/lib/ecjia-js/ecjia.region.js'));
+        RC_Script::enqueue_script('region', RC_Uri::admin_url('statics/lib/ecjia_js/ecjia.region.js'));
         RC_Script::enqueue_script('qq_map', ecjia_location_mapjs());
 
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('待审核入驻商', 'store'), RC_Uri::url('store/admin_preaudit/init')));

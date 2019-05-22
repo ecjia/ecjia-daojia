@@ -63,11 +63,12 @@ class StoreCleanManager
     public function __construct($store_id)
     {
         $this->store_id = $store_id;
+
+        $this->factories = $this->fetchStoreCleanHandlers();
     }
 
-    public function getFactories()
+    private function fetchStoreCleanHandlers()
     {
-
         $apps     = ecjia_app::installed_app_floders();
         $handlers = RC_Api::apis($apps, $this->api_name, ['store_id' => $this->store_id]);
 
@@ -88,6 +89,11 @@ class StoreCleanManager
         }
 
         return $new_factories;
+    }
+
+    public function getFactories()
+    {
+        return $this->factories;
     }
 
     public function handler($code)

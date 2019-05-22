@@ -47,33 +47,27 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * 店铺祥情及配置接口
- * @author
- * RC_Api::api('store', 'store_info', ['store_id' = 1]);
+ * 移除店铺信息接口
+ *
+ * @author royalwang
  */
-class store_store_info_api extends Component_Event_Api {
-	/**
-	 *
-	 * @param array $options
-     *  store_id 店铺ID
-	 * @return  array | ecjia_error
-	 */
-	public function call (&$options) {
-		if (!array_key_exists('store_id', $options)) {
-			return new ecjia_error('invalid_parameter', sprintf(__('调用%s文件，参数无效', 'store'), __CLASS__));
-		}
-		
-		$store_id = $options['store_id'];
+class store_store_duplicate_storedata_api extends Component_Event_Api
+{
 
-		$store_info     = RC_DB::table('store_franchisee')->where('store_id', $store_id)->first();
-		$store_config   = RC_DB::table('merchants_config')->where('store_id', $store_id)->get();
-		
-		collect($store_config)->map(function ($item) use (& $store_info) {
-		    $store_info[$item['code']] = $item['value'];
-		});
-		
-		return $store_info;
-	}
+    public function call(& $options)
+    {
+
+        $store_id = array_get($options, 'store_id');
+        $source_store_id = array_get($options, 'source_store_id');
+
+        if (empty($store_id) || empty($source_store_id)) {
+            return new ecjia_error('invalid_parameter', sprintf(__('请求接口%s参数无效', 'store'), __CLASS__));
+        }
+
+        return [
+            new \Ecjia\App\Store\StoreDuplicateHandlers\MerchantConfigDuplicate($store_id, $source_store_id),
+        ];
+    }
 
 }
 

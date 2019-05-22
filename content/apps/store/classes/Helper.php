@@ -116,7 +116,9 @@ class Helper
         ecjia_admin_log::instance()->add_object('store_goods_comment', __('商品评论', 'store'));
         ecjia_admin_log::instance()->add_object('store_shipping_template', __('运费模版', 'store'));
 
+        //日志动作
         ecjia_admin_log::instance()->add_action('clean', __('一键删除', 'store'));
+        ecjia_admin_log::instance()->add_action('duplicate', __('一键复制', 'store'));
     }
 
 }

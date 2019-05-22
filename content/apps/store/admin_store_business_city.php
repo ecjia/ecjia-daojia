@@ -70,7 +70,7 @@ class admin_store_business_city extends ecjia_admin {
 		
 		RC_Script::enqueue_script('bootstrap-placeholder');
 		
-		RC_Script::enqueue_script('region', RC_Uri::admin_url('statics/lib/ecjia-js/ecjia.region.js'));
+		RC_Script::enqueue_script('region', RC_Uri::admin_url('statics/lib/ecjia_js/ecjia.region.js'));
 		
 		RC_Script::enqueue_script('store_business_city', RC_App::apps_url('statics/js/store_business_city.js', __FILE__), array(), false, 1);
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商家经营城市', 'store'), RC_Uri::url('store/admin_store_business_city/init')));
