@@ -73,9 +73,9 @@ class orders_order_list_api extends Component_Event_Api
         $extension_code = empty($options['extension_code']) ? null : $options['extension_code'];
 
 //         $orders = $this->user_orders_list($user_id, $type, $page, $size, $keywords, $store_id);
-        $with   = ['orderGoods', 'orderGoods.goods', 'store', 'payment', 'orderGoods.comment' => function ($query) {
+        $with   = ['order_goods_collection', 'order_goods_collection.goods_model', 'store_franchisee_model', 'payment_model', 'order_goods_collection.products_model', 'order_goods_collection.comment_model' /*=> function ($query) {
             $query->select('comment_id', 'has_image')->where('comment_type', 0)->where('parent_id', 0);
-        }];
+        }*/];
         $orders = with(new Ecjia\App\Orders\Repositories\OrdersRepository())
             ->getUserOrdersList($user_id, $type, $page, $size, $keywords, $store_id, $with, ['Ecjia\App\Orders\CustomizeOrderList', 'exportOrderListApi'], $extension_code);
 

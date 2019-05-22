@@ -74,27 +74,39 @@ class OrderGoodsModel extends Model
 
 
     /**
-     * 获取拥有此商品的订单。
+     * 一对一
+     * 获取订单商品关联的订单模型信息。
      */
-    public function orders()
+    public function orders_model()
     {
         return $this->belongsTo('Ecjia\App\Orders\Models\OrdersModel', 'order_id', 'order_id');
     }
 
     /**
-     * 获取拥有此商品的订单。
+     * 一对一
+     * 订单商品的商品模型信息。
      */
-    public function goods()
+    public function goods_model()
     {
         return $this->belongsTo('Ecjia\App\Orders\Models\GoodsModel', 'goods_id', 'goods_id');
     }
 
     /**
-     * 获取订单的评价。
+     * 一对一
+     * 获取订单商品的评价模型信息。
      */
-    public function comment()
+    public function comment_model()
     {
         return $this->belongsTo('Ecjia\App\Orders\Models\CommentModel', 'rec_id', 'rec_id');
+    }
+    
+    /**
+     * 一对一
+     * 获取订单商品的货品模型信息。
+     */
+    public function products_model()
+    {
+    	return $this->belongsTo('Ecjia\App\Goods\Models\ProductsModel', 'product_id', 'product_id');
     }
 
 }

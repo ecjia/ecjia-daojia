@@ -336,9 +336,9 @@ class admin_orders_list_module extends api_admin implements api_interface
                             'is_bulk'                    => $v['extension_code'] == 'bulk' ? 1 : 0,
                             'goods_buy_weight'           => $v['goods_buy_weight'] > 0 ? $v['goods_buy_weight'] : '',
                             'img'                        => array(
-                                'thumb' => (!empty($v['goods_img'])) ? RC_Upload::upload_url($v['goods_img']) : '',
-                                'url'   => (!empty($v['original_img'])) ? RC_Upload::upload_url($v['original_img']) : '',
-                                'small' => (!empty($v['goods_thumb'])) ? RC_Upload::upload_url($v['goods_thumb']) : ''
+                                'thumb' => (!empty($v['product_img'])) ? RC_Upload::upload_url($v['product_img']) :  RC_Upload::upload_url($v['goods_img']),
+                                'url'   => (!empty($v['product_original_img'])) ? RC_Upload::upload_url($v['product_original_img']) : RC_Upload::upload_url($v['original_img']),
+                                'small' => (!empty($v['product_img'])) ? RC_Upload::upload_url($v['product_img']) :  RC_Upload::upload_url($v['goods_thumb'])
                             )
                         );
                     }
@@ -373,7 +373,7 @@ class admin_orders_list_module extends api_admin implements api_interface
                 $label_order_status = __('已完成', 'orders');
                 $status_code        = 'finished';
             } elseif (in_array($shipping_status, array(SS_SHIPPED))) {
-                $label_order_status = __(__('已发货', 'orders'), 'orders');
+                $label_order_status = __('已发货', 'orders');
                 $status_code        = 'shipped';
             } elseif (in_array($order_status, array(OS_CONFIRMED, OS_SPLITED, OS_UNCONFIRMED)) &&
                 in_array($pay_status, array(PS_UNPAYED)) &&
@@ -415,8 +415,11 @@ class admin_orders_list_module extends api_admin implements api_interface
         //og.goods_number, og.goods_id, og.goods_name, og.goods_price, og.extension_code, og.goods_buy_weight,g.goods_thumb, g.goods_img, g.original_img,
         $result = [];
         if (!empty($order_id)) {
-            $field  = 'og.goods_number, og.goods_id, og.goods_name, og.goods_price, og.extension_code, og.goods_buy_weight,g.goods_thumb, g.goods_img, g.original_img';
-            $dbview = RC_DB::table('order_goods as og')->leftJoin('goods as g', RC_DB::raw('og.goods_id'), '=', RC_DB::raw('g.goods_id'));
+            $field  = 'og.goods_number, og.goods_id, og.goods_name, og.goods_price, og.extension_code, og.goods_buy_weight,g.goods_thumb, g.goods_img, g.original_img, p.product_thumb, p.product_img, p.product_original_img';
+            $dbview = RC_DB::table('order_goods as og')
+            				->leftJoin('goods as g', RC_DB::raw('og.goods_id'), '=', RC_DB::raw('g.goods_id'))
+            				->leftJoin('products as p', RC_DB::raw('og.product_id'), '=', RC_DB::raw('p.product_id'));
+            
             $result = $dbview->where(RC_DB::raw('og.order_id'), $order_id)->select(RC_DB::raw($field))->get();
             if (!empty($result)) {
                 foreach ($result as $key => $val) {

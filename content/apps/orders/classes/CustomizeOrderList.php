@@ -17,12 +17,12 @@ class CustomizeOrderList
             //计算订单总价格
             $total_fee    = $item->goods_amount + $item->shipping_fee + $item->insure_fee + $item->pay_fee + $item->pack_fee + $item->card_fee + $item->tax - $item->integral_money - $item->bonus - $item->discount;
             $goods_number = 0;
-            list($label_order_status, $status_code) = OrderStatus::getOrderStatusLabel($item->order_status, $item->shipping_status, $item->pay_status, $item->payment->is_cod);
+            list($label_order_status, $status_code) = OrderStatus::getOrderStatusLabel($item->order_status, $item->shipping_status, $item->pay_status, $item->payment_model->is_cod);
 
             $data = [
-                'seller_id'   => $item->store->store_id,
-                'seller_name' => $item->store->merchants_name,
-                'manage_mode' => $item->store->manage_mode,
+                'seller_id'   => $item->store_franchisee_model->store_id,
+                'seller_name' => $item->store_franchisee_model->merchants_name,
+                'manage_mode' => $item->store_franchisee_model->manage_mode,
 
                 'order_id'                => $item->order_id,
                 'order_sn'                => $item->order_sn,
@@ -33,8 +33,8 @@ class CustomizeOrderList
                 'order_status'            => $item->order_status,
                 'shipping_status'         => $item->shipping_status,
                 'pay_status'              => $item->pay_status,
-                'pay_code'                => $item->payment->pay_code,
-                'is_cod'                  => $item->payment->is_cod,
+                'pay_code'                => $item->payment_model->pay_code,
+                'is_cod'                  => $item->payment_model->is_cod,
                 'label_order_status'      => $label_order_status,
                 'order_status_code'       => $status_code,
                 'order_time'              => ecjia_time_format($item->add_time),
@@ -48,7 +48,7 @@ class CustomizeOrderList
                 'formated_discount'       => ecjia_price_format($item->discount, false),
 
                 'order_info' => [
-                    'pay_code'     => $item->payment->pay_code,
+                    'pay_code'     => $item->payment_model->pay_code,
                     'order_amount' => $item->order_amount,
                     'order_id'     => $item->order_id,
                     'order_sn'     => $item->order_sn,
@@ -69,11 +69,23 @@ class CustomizeOrderList
                 $data['label_order_mode'] = __('配送', 'orders');
             }
 
-            $data['goods_list'] = $item->orderGoods->map(function ($item) use (&$goods_number) {
+            $data['goods_list'] = $item->order_goods_collection->map(function ($item) use (&$goods_number) {
                 $attr         = GoodsAttr::decodeGoodsAttr($item->goods_attr);
                 $subtotal     = $item->goods_price * $item->goods_number;
                 $goods_number += $item->goods_number;
-
+                
+                if ($item->product_id > 0) {
+                	if (!empty($item->products_model->product_thumb)) {
+                		$goods_thumb = $item->products_model->product_thumb;
+                	}
+                	if (!empty($item->products_model->product_img)) {
+                		$goods_img = $item->products_model->product_img;
+                	}
+                	if (!empty($item->products_model->product_original_img)) {
+                		$original_img = $item->products_model->product_original_img;
+                	}
+                }
+                
                 $data = [
                     'goods_id'            => $item->goods_id,
                     'name'                => $item->goods_name,
@@ -83,12 +95,12 @@ class CustomizeOrderList
                     'subtotal'            => ecjia_price_format($subtotal, false),
                     'formated_shop_price' => ecjia_price_format($item->goods_price, false),
                     'img'                 => [
-                        'small' => ecjia_upload_url($item->goods->goods_thumb),
-                        'thumb' => ecjia_upload_url($item->goods->goods_img),
-                        'url'   => ecjia_upload_url($item->goods->original_img),
-                    ],
-                    'is_commented'        => empty($item->orderGoods->comment->comment_id) ? 0 : 1,
-                    'is_showorder'        => empty($item->orderGoods->comment->has_image) ? 0 : 1,
+						                        'small' => !empty($goods_thumb) ? ecjia_upload_url($goods_thumb) : ecjia_upload_url($item->goods_model->goods_img),
+						                        'thumb' => !empty($goods_img) ? ecjia_upload_url($goods_img) : ecjia_upload_url($item->goods_model->goods_thumb),
+						                        'url'   => !empty($original_img) ?  ecjia_upload_url($original_img) : ecjia_upload_url($item->goods_model->original_img),
+						                    ],
+                    'is_commented'        => empty($item->comment_model->comment_id) ? 0 : 1,
+                    'is_showorder'        => empty($item->comment_model->has_image) ? 0 : 1,
                 ];
 
                 return $data;
@@ -109,10 +121,10 @@ class CustomizeOrderList
             //计算订单总价格
             $total_fee = $item->goods_amount + $item->shipping_fee + $item->insure_fee + $item->pay_fee + $item->pack_fee + $item->card_fee + $item->tax - $item->integral_money - $item->bonus - $item->discount;
 
-            list($label_order_status, $status_code) = OrderStatus::getAdminOrderStatusLabel($item->order_status, $item->shipping_status, $item->pay_status, $item->payment->is_cod);
+            list($label_order_status, $status_code) = OrderStatus::getAdminOrderStatusLabel($item->order_status, $item->shipping_status, $item->pay_status, $item->payment_model->is_cod);
 
             $goods_number = 0;
-            $goods_number = $item->orderGoods->map(function ($item) use (&$goods_number) {
+            $goods_number = $item->order_goods_collection->map(function ($item) use (&$goods_number) {
                 $goods_number += $item->goods_number;
                 return $goods_number;
             })->toArray();
@@ -124,9 +136,9 @@ class CustomizeOrderList
             }
 
             $data = [
-                'seller_id'   => $item->store->store_id,
-                'seller_name' => $item->store->merchants_name,
-                'manage_mode' => $item->store->manage_mode,
+                'seller_id'   => $item->store_franchisee_model->store_id,
+                'seller_name' => $item->store_franchisee_model->merchants_name,
+                'manage_mode' => $item->store_franchisee_model->manage_mode,
 
                 'order_id'                => $item->order_id,
                 'order_sn'                => $item->order_sn,
@@ -137,8 +149,8 @@ class CustomizeOrderList
                 'order_status'            => $item->order_status,
                 'shipping_status'         => $item->shipping_status,
                 'pay_status'              => $item->pay_status,
-                'pay_code'                => $item->payment->pay_code,
-                'is_cod'                  => $item->payment->is_cod,
+                'pay_code'                => $item->payment_model->pay_code,
+                'is_cod'                  => $item->payment_model->is_cod,
                 'label_order_status'      => $label_order_status,
                 'order_status_code'       => $status_code,
                 'order_time'              => ecjia_time_format($item->add_time),
@@ -153,7 +165,7 @@ class CustomizeOrderList
                 'formated_order_amount'   => ecjia_price_format($item->order_amount, false),
 
                 'order_info' => [
-                    'pay_code'     => $item->payment->pay_code,
+                    'pay_code'     => $item->payment_model->pay_code,
                     'order_amount' => $item->order_amount,
                     'order_id'     => $item->order_id,
                     'order_sn'     => $item->order_sn,
@@ -198,10 +210,10 @@ class CustomizeOrderList
             //计算订单总价格
             $total_fee = $item->goods_amount + $item->shipping_fee + $item->insure_fee + $item->pay_fee + $item->pack_fee + $item->card_fee + $item->tax - $item->integral_money - $item->bonus - $item->discount;
 
-            list($label_order_status, $status_code) = OrderStatus::getAdminOrderStatusLabel($item->order_status, $item->shipping_status, $item->pay_status, $item->payment->is_cod);
+            list($label_order_status, $status_code) = OrderStatus::getAdminOrderStatusLabel($item->order_status, $item->shipping_status, $item->pay_status, $item->payment_model->is_cod);
 
             $goods_number = 0;
-            $goods_number = $item->orderGoods->map(function ($item) use (&$goods_number) {
+            $goods_number = $item->order_goods_collection->map(function ($item) use (&$goods_number) {
                 $goods_number += $item->goods_number;
                 return $goods_number;
             })->toArray();
@@ -213,9 +225,9 @@ class CustomizeOrderList
             }
 
             $data = [
-                'seller_id'   => $item->store->store_id,
-                'seller_name' => $item->store->merchants_name,
-                'manage_mode' => $item->store->manage_mode,
+                'seller_id'   => $item->store_franchisee_model->store_id,
+                'seller_name' => $item->store_franchisee_model->merchants_name,
+                'manage_mode' => $item->store_franchisee_model->manage_mode,
 
                 'order_id'                => $item->order_id,
                 'order_sn'                => $item->order_sn,
@@ -226,8 +238,8 @@ class CustomizeOrderList
                 'order_status'            => $item->order_status,
                 'shipping_status'         => $item->shipping_status,
                 'pay_status'              => $item->pay_status,
-                'pay_code'                => $item->payment->pay_code,
-                'is_cod'                  => $item->payment->is_cod,
+                'pay_code'                => $item->payment_model->pay_code,
+                'is_cod'                  => $item->payment_model->is_cod,
                 'label_order_status'      => $label_order_status,
                 'order_status_code'       => $status_code,
                 'order_time'              => ecjia_time_format($item->add_time),
@@ -242,7 +254,7 @@ class CustomizeOrderList
                 'formated_order_amount'   => ecjia_price_format($item->order_amount, false),
 
                 'order_info' => [
-                    'pay_code'     => $item->payment->pay_code,
+                    'pay_code'     => $item->payment_model->pay_code,
                     'order_amount' => $item->order_amount,
                     'order_id'     => $item->order_id,
                     'order_sn'     => $item->order_sn,
@@ -284,10 +296,10 @@ class CustomizeOrderList
             //计算订单总价格
             $total_fee = $item->goods_amount + $item->shipping_fee + $item->insure_fee + $item->pay_fee + $item->pack_fee + $item->card_fee + $item->tax - $item->integral_money - $item->bonus - $item->discount;
 
-            list($label_order_status, $status_code) = OrderStatus::getAdminOrderStatusLabel($item->order_status, $item->shipping_status, $item->pay_status, $item->payment->is_cod);
+            list($label_order_status, $status_code) = OrderStatus::getAdminOrderStatusLabel($item->order_status, $item->shipping_status, $item->pay_status, $item->payment_model->is_cod);
             $data = [
                 'order_sn'              => $item->order_sn,
-                'seller_name'           => $item->store->merchants_name,
+                'seller_name'           => $item->store_franchisee_model->merchants_name,
                 'order_time'            => ecjia_time_format($item->add_time),
                 'consignee'             => $item->consignee,
                 'formated_total_fee'    => ecjia_price_format($total_fee, false),
@@ -307,7 +319,7 @@ class CustomizeOrderList
             //计算订单总价格
             $total_fee = $item->goods_amount + $item->shipping_fee + $item->insure_fee + $item->pay_fee + $item->pack_fee + $item->card_fee + $item->tax - $item->integral_money - $item->bonus - $item->discount;
 
-            list($label_order_status, $status_code) = OrderStatus::getAdminOrderStatusLabel($item->order_status, $item->shipping_status, $item->pay_status, $item->payment->is_cod);
+            list($label_order_status, $status_code) = OrderStatus::getAdminOrderStatusLabel($item->order_status, $item->shipping_status, $item->pay_status, $item->payment_model->is_cod);
             $data = [
                 'order_sn'              => $item->order_sn,
                 'order_time'            => ecjia_time_format($item->add_time),

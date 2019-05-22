@@ -32,7 +32,7 @@
 </div>
 <style type="text/css">
 	ul.list-mod-stats {
-		margin: 0;
+		margin-bottom: 10px;
 		overflow: hidden;
 	}
 

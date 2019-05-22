@@ -100,20 +100,20 @@ class orders_order_info_api extends Component_Event_Api
         /* 格式化金额字段 */
         if ($order) {
             $order['expect_shipping_time']    = empty($order['expect_shipping_time']) ? '' : $order['expect_shipping_time'];
-            $order['formated_goods_amount']   = price_format($order['goods_amount'], false);
-            $order['formated_discount']       = price_format($order['discount'], false);
-            $order['formated_tax']            = price_format($order['tax'], false);
-            $order['formated_shipping_fee']   = price_format($order['shipping_fee'], false);
-            $order['formated_insure_fee']     = price_format($order['insure_fee'], false);
-            $order['formated_pay_fee']        = price_format($order['pay_fee'], false);
-            $order['formated_pack_fee']       = price_format($order['pack_fee'], false);
-            $order['formated_card_fee']       = price_format($order['card_fee'], false);
-            $order['formated_total_fee']      = price_format($order['total_fee'], false);
-            $order['formated_money_paid']     = price_format($order['money_paid'], false);
-            $order['formated_bonus']          = price_format($order['bonus'], false);
-            $order['formated_integral_money'] = price_format($order['integral_money'], false);
-            $order['formated_surplus']        = price_format($order['surplus'], false);
-            $order['formated_order_amount']   = price_format(abs($order['order_amount']), false);
+            $order['formated_goods_amount']   = ecjia_price_format($order['goods_amount'], false);
+            $order['formated_discount']       = ecjia_price_format($order['discount'], false);
+            $order['formated_tax']            = ecjia_price_format($order['tax'], false);
+            $order['formated_shipping_fee']   = ecjia_price_format($order['shipping_fee'], false);
+            $order['formated_insure_fee']     = ecjia_price_format($order['insure_fee'], false);
+            $order['formated_pay_fee']        = ecjia_price_format($order['pay_fee'], false);
+            $order['formated_pack_fee']       = ecjia_price_format($order['pack_fee'], false);
+            $order['formated_card_fee']       = ecjia_price_format($order['card_fee'], false);
+            $order['formated_total_fee']      = ecjia_price_format($order['total_fee'], false);
+            $order['formated_money_paid']     = ecjia_price_format($order['money_paid'], false);
+            $order['formated_bonus']          = ecjia_price_format($order['bonus'], false);
+            $order['formated_integral_money'] = ecjia_price_format($order['integral_money'], false);
+            $order['formated_surplus']        = ecjia_price_format($order['surplus'], false);
+            $order['formated_order_amount']   = ecjia_price_format(abs($order['order_amount']), false);
             $order['formated_add_time']       = RC_Time::local_date(ecjia::config('time_format'), $order['add_time']);
             $order['formated_pay_time']       = !empty($order['pay_time']) ? RC_Time::local_date(ecjia::config('time_format'), $order['pay_time']) : '';
             $order['formated_shipping_time']  = !empty($order['shipping_time']) ? RC_Time::local_date(ecjia::config('time_format'), $order['shipping_time']) : '';

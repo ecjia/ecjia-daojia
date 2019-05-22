@@ -183,6 +183,9 @@ class OrderAutoRefuse
 
         if ($refund_id) {
             RefundBackGoodsStock::refund_back_stock($refund_id);
+            //退款还原促销限购数量；用户购买记录减少
+            $updateData = new \Ecjia\App\Refund\Goods\Promotion\UpdateGoodsPromotion($refund_id, $order['order_id'], 'refund_apply');
+            $updateData->updateGoodsPromotionLimitNum();
         }
 
         return $refund_id;

@@ -304,8 +304,8 @@ class order_detail_module extends api_front implements api_interface
                         'comment_rank'        => empty($v['comment_rank']) ? 0 : intval($v['comment_rank']),
                         'comment_content'     => empty($v['comment_content']) ? '' : $v['comment_content'],
                         'img'                 => array(
-                            'small' => !empty($v['goods_thumb']) ? RC_Upload::upload_url($v['goods_thumb']) : '',
-                            'thumb' => !empty($v['goods_img']) ? RC_Upload::upload_url($v['goods_img']) : '',
+                            'small' => !empty($v['goods_img']) ? RC_Upload::upload_url($v['goods_img']) : '',
+                            'thumb' => !empty($v['goods_thumb']) ? RC_Upload::upload_url($v['goods_thumb']) : '',
                             'url'   => !empty($v['original_img']) ? RC_Upload::upload_url($v['original_img']) : '',
                         )
                     );

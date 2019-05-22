@@ -197,30 +197,7 @@ class admin_orders_detail_module extends api_admin implements api_interface
         $db_orderinfo_view   = RC_Model::model('orders/order_info_viewmodel');
         $total_fee           = "(oi.goods_amount + oi.tax + oi.shipping_fee + oi.insure_fee + oi.pay_fee + oi.pack_fee + oi.card_fee) as total_fee";
 
-        $ordergoods_viewdb = RC_Model::model('orders/order_goods_goods_viewmodel');
-        $goods_list        = $ordergoods_viewdb->where(array('order_id' => $order['order_id']))->select();
-        $goods_number = 0;
-        if (!empty($goods_list)) {
-            foreach ($goods_list as $k => $v) {
-            	$goods_number += $v['goods_number'];
-                $goods_list[$k] = array(
-                    'id'                  => $v['goods_id'],
-                    'name'                => $v['goods_name'],
-                    'goods_sn'            => $v['goods_sn'],
-                    'goods_number'        => $v['goods_number'],
-                    'subtotal'            => price_format($v['subtotal'], false),
-                    'goods_attr'          => trim($v['goods_attr']),
-                    'formated_shop_price' => price_format($v['goods_price'], false),
-                    'is_bulk'             => $v['extension_code'] == 'bulk' ? 1 : 0,
-                    'goods_buy_weight'    => $v['goods_buy_weight'] > 0 ? $v['goods_buy_weight'] : '',
-                    'img'                 => array(
-                        'thumb' => !empty($v['goods_img']) ? RC_Upload::upload_url($v['goods_img']) : '',
-                        'url'   => !empty($v['original_img']) ? RC_Upload::upload_url($v['original_img']) : '',
-                        'small' => !empty($v['goods_thumb']) ? RC_Upload::upload_url($v['goods_thumb']) : '',
-                    )
-                );
-            }
-        }
+        list($goods_list, $goods_number) = $this->_order_goods($order['order_id']); 
         $order['goods_number'] = $goods_number;
         $order['goods_items']  = $goods_list;
 
@@ -391,7 +368,50 @@ class admin_orders_detail_module extends api_admin implements api_interface
 
         return array('list' => $list, 'total_goods_number' => $total_goods_number, 'taotal_goods_amount' => $taotal_goods_amount);
     }
-
+    
+    
+    /**
+     * 取得订单商品
+     * @param   int $order_id 订单id
+     * @return  array   订单商品数组
+     */
+    private function _order_goods($order_id)
+    {
+    	$field = 'og.*, p.product_thumb, p.product_img, p.product_original_img, og.goods_price * og.goods_number AS subtotal, g.goods_thumb, g.original_img, g.goods_img, g.store_id, c.comment_id, c.comment_rank, c.content as comment_content';
+    
+    	$db_view = RC_DB::table('order_goods as og')
+    	->leftJoin('goods as g', RC_DB::raw('og.goods_id'), '=', RC_DB::raw('g.goods_id'))
+    	->leftJoin('products as p', RC_DB::raw('og.product_id'), '=', RC_DB::raw('p.product_id'))
+    	->leftJoin('comment as c', RC_DB::raw('og.rec_id'), '=', RC_DB::raw('c.rec_id'));
+    
+    	$res = $db_view->selectRaw($field)->where(RC_DB::raw('og.order_id'), $order_id)->groupBy(RC_DB::raw('og.rec_id'))->get();
+    
+    	$goods_list = array();
+    	$goods_number = 0;
+    	
+    	if (!empty($res)) {
+    		foreach ($res as $k => $v) {
+    			$goods_number += $v['goods_number'];
+    			$goods_list[$k] = array(
+    					'id'                  => $v['goods_id'],
+    					'name'                => $v['goods_name'],
+    					'goods_sn'            => $v['goods_sn'],
+    					'goods_number'        => $v['goods_number'],
+    					'subtotal'            => price_format($v['subtotal'], false),
+    					'goods_attr'          => trim($v['goods_attr']),
+    					'formated_shop_price' => price_format($v['goods_price'], false),
+    					'is_bulk'             => $v['extension_code'] == 'bulk' ? 1 : 0,
+    					'goods_buy_weight'    => $v['goods_buy_weight'] > 0 ? $v['goods_buy_weight'] : '',
+    					'img'                 => array(
+					    							'thumb' => !empty($v['product_img']) ? RC_Upload::upload_url($v['product_img']) : RC_Upload::upload_url($v['goods_img']),
+					    							'url'   => !empty($v['product_original_img']) ? RC_Upload::upload_url($v['product_original_img']) : RC_Upload::upload_url($v['original_img']),
+					    							'small' => !empty($v['product_thumb']) ? RC_Upload::upload_url($v['product_thumb']) : RC_Upload::upload_url($v['goods_thumb']),
+					    						)
+    			);
+    		}
+    	}
+    	return array($goods_list, $goods_number);
+    }
 }
 
 // end

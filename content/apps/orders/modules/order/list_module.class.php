@@ -82,22 +82,53 @@ class order_list_module extends api_front implements api_interface
         $keywords = trim($keywords);
 
         $type    = $type == 'whole' ? '' : $type;
-        $options = array('type' => $type, 'store_id' => $store_id, 'page' => $page, 'size' => $size, 'keywords' => $keywords);
-        $result  = RC_Api::api('orders', 'order_list', $options);
 
-        if (is_ecjia_error($result)) {
-            return $result;
+        //用户端普通订单（不包含团购订单）展示基础条件
+        $filters = [
+	        'is_delete' 		=> 0,    //订单未删除
+	        'extension_id'		=> 0,
+        ];
+        if ($user_id > 0) {
+        	$filters['user_id']= $user_id;
         }
+        if ($store_id > 0) {
+        	$filters['store_id'] = $store_id;
+        }
+        if (!empty($keywords)) {
+        	$filters['keywords'] = $keywords;
+        }
+        if (!empty($type)) {
+        	$filters['api_composite_status'] = $type;
+        }
+        //排序
+        $order_sort = ['order_info.add_time' => 'desc'];
+        if ($order_sort) {
+        	$filters['sort_by'] = $order_sort;
+        }
+        //分页信息
+        $filters['size'] = $size;
+        $filters['page'] = $page;
+        
+        
+        $collection = (new \Ecjia\App\Orders\OrdersSearch\OrdersApiCollection($filters))->getData();
+        
+        return array('data' => $collection['order_list'], 'pager' => $collection['pager']);
+        
+//         $options = array('type' => $type, 'store_id' => $store_id, 'page' => $page, 'size' => $size, 'keywords' => $keywords);
+//         $result  = RC_Api::api('orders', 'order_list', $options);
 
-        $page_row = new ecjia_page($result['count'], $size, 6, '', $page);
+//         if (is_ecjia_error($result)) {
+//             return $result;
+//         }
 
+//         $page_row = new ecjia_page($result['count'], $size, 6, '', $page);
 
-        $pager = array(
-            'total' => $page_row->total_records,
-            'count' => $page_row->total_records,
-            'more'  => $page_row->total_pages <= $page ? 0 : 1,
-        );
-        return array('data' => $result['order_list'], 'pager' => $pager);
+//         $pager = array(
+//             'total' => $page_row->total_records,
+//             'count' => $page_row->total_records,
+//             'more'  => $page_row->total_pages <= $page ? 0 : 1,
+//         );
+//         return array('data' => $result['order_list'], 'pager' => $pager);
     }
 }
 

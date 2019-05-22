@@ -147,7 +147,7 @@ class admin_users_order extends ecjia_admin
         if (!empty($users_order_data['item'])) {
             foreach ($users_order_data['item'] as $k => $v) {
                 $order_by = $k + 1;
-                $data     .= $order_by . "\t" . $v['user_name'] . "\t" . $v['order_num'] . "\t" . $v['turnover'] . "\n";
+                $data     .= $order_by . "\t" . RC_Format::filterEmoji($v['user_name']) . "\t" . $v['order_num'] . "\t" . $v['turnover'] . "\n";
             }
         }
 

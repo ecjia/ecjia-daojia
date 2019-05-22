@@ -1294,13 +1294,14 @@ function deleteRepeat($array)
 function EM_order_goods($order_id)
 {
 
-    $field = 'og.*, og.goods_price * og.goods_number AS subtotal, g.goods_thumb, g.original_img, g.goods_img, g.store_id, c.comment_id, c.comment_rank, c.content as comment_content';
+    $field = 'og.*, p.product_thumb, p.product_img, p.product_original_img, og.goods_price * og.goods_number AS subtotal, g.goods_thumb, g.original_img, g.goods_img, g.store_id, c.comment_id, c.comment_rank, c.content as comment_content';
 
     $db_view = RC_DB::table('order_goods as og')
         ->leftJoin('goods as g', RC_DB::raw('og.goods_id'), '=', RC_DB::raw('g.goods_id'))
+        ->leftJoin('products as p', RC_DB::raw('og.product_id'), '=', RC_DB::raw('p.product_id'))
         ->leftJoin('comment as c', RC_DB::raw('og.rec_id'), '=', RC_DB::raw('c.rec_id'));
 
-    $res = $db_view->select(RC_DB::raw('og.*'), RC_DB::raw('og.goods_price * og.goods_number AS subtotal'), RC_DB::raw('g.goods_thumb'), RC_DB::raw('g.original_img'), RC_DB::raw('g.goods_img'), RC_DB::raw('g.store_id'), RC_DB::raw('c.comment_id'), RC_DB::raw('c.comment_rank'), RC_DB::raw('c.content as comment_content'))->where(RC_DB::raw('og.order_id'), $order_id)->groupBy(RC_DB::raw('og.rec_id'))->get();
+    $res = $db_view->selectRaw($field)->where(RC_DB::raw('og.order_id'), $order_id)->groupBy(RC_DB::raw('og.rec_id'))->get();
 
     $goods_list = array();
     if (!empty($res)) {
@@ -1310,6 +1311,16 @@ function EM_order_goods($order_id)
                 $row['package_goods_list'] = get_package_goods($row['goods_id']);
             }
             $row['is_commented'] = empty($row['comment_id']) ? 0 : 1;
+            //货品图片兼容处理
+            if (!empty($row['product_thumb'])) {
+            	$row['goods_thumb'] = $row['product_thumb'];
+            }
+        	if (!empty($row['product_original_img'])) {
+            	$row['original_img'] = $row['product_original_img'];
+            }
+            if (!empty($row['product_img'])) {
+            	$row['goods_img'] = $row['product_img'];
+            }
             $goods_list[]        = $row;
         }
     }

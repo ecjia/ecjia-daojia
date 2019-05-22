@@ -74,37 +74,49 @@ class OrdersModel extends Model
 
 
     /**
-     * 获取订单的商品。
+     * 一对多
+     * 获取订单的商品集合
      */
-    public function orderGoods()
+    public function order_goods_collection()
     {
         return $this->hasMany('Ecjia\App\Orders\Models\OrderGoodsModel', 'order_id', 'order_id');
     }
 
     /**
-     * 获取订单的所属的商家。
+     * 一对一
+     * 获取订单的所属的商家模型信息。
      */
-    public function store()
+    public function store_franchisee_model()
     {
         return $this->belongsTo('Ecjia\App\Orders\Models\StoreFranchiseeModel', 'store_id', 'store_id');
     }
 
     /**
-     * 获取订单的支付方式。
+     * 一对一
+     * 获取订单所属的支付方式模型信息。
      */
-    public function payment()
+    public function payment_model()
     {
         return $this->belongsTo('Ecjia\App\Payment\PaymentPlugin', 'pay_id', 'pay_id');
     }
 
     /**
-     * 获取订单的评价。
+     * 一对多
+     * 获取订单关联的评价集合。
      */
-    public function comment()
+    public function comment_collection()
     {
-        return $this->belongsTo('Ecjia\App\Orders\Models\CommentModel', 'order_id', 'order_id');
+        return $this->hasMany('Ecjia\App\Orders\Models\CommentModel', 'order_id', 'order_id');
     }
 
+    /**
+     * 一对一
+     * 获取订单参与的（团购）活动模型信息。
+     */
+    public function goods_activity_model()
+    {
+    	return $this->belongsTo('Ecjia\App\Goods\Models\GoodsActivityModel', 'extension_id', 'act_id');
+    }
 }
 
 // end
