@@ -153,6 +153,10 @@ return [
     $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/Collection.php',
     $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/ViewErrorBag.php',
     $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/MessageBag.php',
+    $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/ArrayHelperTrait.php',
+    $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/StrHelperTrait.php',
+    $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/Format.php',
+
     $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/Facades/Facade.php',
     $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/Facades/Royalcms.php',
     $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/Facades/Route.php',
@@ -167,9 +171,6 @@ return [
     $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/Facades/Cache.php',
     $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/Facades/Event.php',
     $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/Facades/File.php',
-    $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/ArrayHelperTrait.php',
-    $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/StrHelperTrait.php',
-    $basePath.'/vendor/royalcms/support/Royalcms/Component/Support/Format.php',
 
     $basePath.'/vendor/royalcms/validation/Royalcms/Component/Validation/ValidationServiceProvider.php',
     $basePath.'/vendor/royalcms/validation/Royalcms/Component/Validation/ValidatesWhenResolvedTrait.php',

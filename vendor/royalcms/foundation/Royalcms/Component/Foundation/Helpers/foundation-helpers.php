@@ -291,6 +291,20 @@ if (! function_exists('dispatch')) {
     }
 }
 
+if (! function_exists('dispatch_now')) {
+    /**
+     * Dispatch a command to its appropriate handler in the current process.
+     *
+     * @param  mixed  $job
+     * @param  mixed  $handler
+     * @return mixed
+     */
+    function dispatch_now($job, $handler = null)
+    {
+        return royalcms(Dispatcher::class)->dispatchNow($job, $handler);
+    }
+}
+
 if (! function_exists('elixir')) {
     /**
      * Get the path to a versioned Elixir file.
@@ -449,6 +463,19 @@ if (! function_exists('method_field')) {
     function method_field($method)
     {
         return new Expression('<input type="hidden" name="_method" value="'.$method.'">');
+    }
+}
+
+if (! function_exists('now')) {
+    /**
+     * Create a new Carbon instance for the current time.
+     *
+     * @param  \DateTimeZone|string|null $tz
+     * @return \Royalcms\Component\Support\Carbon
+     */
+    function now($tz = null)
+    {
+        return \Royalcms\Component\Support\Carbon::now($tz);
     }
 }
 

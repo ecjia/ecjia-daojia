@@ -846,7 +846,7 @@ if ( ! function_exists('is_ajax'))
      */
     function is_ajax()
     {
-        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        if (array_key_exists('HTTP_X_REQUESTED_WITH', $_SERVER) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
             return true;
         } else {
             return false;
@@ -865,6 +865,23 @@ if ( ! function_exists('is_rtl'))
     function is_rtl() {
         // 'ltr'
         return false;
+    }
+}
+
+if ( ! function_exists('is_rc_error'))
+{
+    /**
+     * Check whether variable is a \Royalcms\Component\Error\Error.
+     *
+     * Returns true if $thing is an object of the ecjia_error class.
+     *
+     * @since 1.0.0
+     *
+     * @param mixed $thing Check if unknown variable is a RC_Error object.
+     * @return bool True, if RC_Error. False, if not RC_Error.
+     */
+    function is_rc_error($thing) {
+        return RC_Error::is_error($thing);
     }
 }
 
