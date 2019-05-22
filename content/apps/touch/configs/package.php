@@ -56,7 +56,7 @@ return array(
     'description'   => __('采用APP方式设计，标准通用标记语言下的一个应用超文本标记语言(HTML)重大突破。 ', 'touch'),
 	'author'        => 'ECJIA TEAM',			/* 作者 */
 	'website'       => 'http://www.ecjia.com',	/* 网址 */
-	'version'       => '1.30.0',					/* 版本号 */
+	'version'       => '1.31.0',					/* 版本号 */
 	'copyright'     => 'ECJIA Copyright 2015 ~ 2019.',
     'namespace'     => 'Ecjia\App\Touch',
     'provider'      => 'TouchServiceProvider',

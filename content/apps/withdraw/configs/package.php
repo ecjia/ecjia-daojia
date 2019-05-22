@@ -56,7 +56,7 @@ return array(
     'description' => __('提现模块是提现方式的汇总，可以对接多种提现方式。', 'withdraw'),
     'author'      => 'ECJIA TEAM',                  /* 作者 */
     'website'     => 'http://www.ecjia.com',        /* 网址 */
-    'version'     => '1.30.0',                      /* 版本号 */
+    'version'     => '1.31.0',                      /* 版本号 */
     'copyright'   => 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'   => 'Ecjia\App\Withdraw',
     'provider'    => 'WithdrawServiceProvider',

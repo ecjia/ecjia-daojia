@@ -56,7 +56,7 @@ return array(
 	'description'   => __('使用第三方帐号登录功能，第三方登录插件管理与控制。', 'connect'),
 	'author'        => 'ECJIA TEAM',				/* 作者 */
 	'website'       => 'http://www.ecjia.com',	/* 网址 */
-	'version'       => '1.30.0',					/* 版本号 */
+	'version'       => '1.31.0',					/* 版本号 */
 	'copyright'     => 'ECJIA Copyright 2014 ~ 2019.',
     'namespace'     => 'Ecjia\App\Connect',
     'provider'      => 'ConnectServiceProvider',

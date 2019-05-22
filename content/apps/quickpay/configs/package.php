@@ -56,7 +56,7 @@ return array(
 	'description' 	=> __('新一款闪付优惠活动', 'quickpay'),
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
-	'version' 		=> '1.30.0',					/* 版本号 */
+	'version' 		=> '1.31.0',					/* 版本号 */
 	'copyright' 	=> 'ECJIA Copyright 2015 ~ 2019.',
     'namespace'     => 'Ecjia\App\Quickpay',
     'provider'      => 'QuickpayServiceProvider',
