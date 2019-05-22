@@ -117,6 +117,7 @@ return array(
     'Ecjia\App\Customer'        => $contentDir . '/apps/customer/classes',
     'Ecjia\App\Withdraw'        => $contentDir . '/apps/withdraw/classes',
     'Ecjia\App\Topic'           => $contentDir . '/apps/topic/classes',
+    'Ecjia\App\Supplier'        => $contentDir . '/apps/supplier/classes',
     
     'Royalcms\Component\HttpKernel' => $contentDir . '/apps/api/classes/Royalcms/Component/HttpKernel',
     'Royalcms\Component\Cron' => $contentDir . '/apps/cron/classes/Royalcms/Component/Cron',
