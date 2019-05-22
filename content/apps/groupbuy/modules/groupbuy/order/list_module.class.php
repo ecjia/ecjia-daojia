@@ -81,50 +81,82 @@ class groupbuy_order_list_module extends api_front implements api_interface {
 		
 		//$type = $type == 'whole' ? '' : $type;
 		$type = empty($type) ? '' : $type;
-		$options = array('type' => $type, 'store_id' => $store_id, 'page' => $page, 'size' => $size, 'keywords'=> $keywords, 'extension_code' => 'group_buy');
-		$result = RC_Api::api('orders', 'order_list', $options);
 		
-		if (is_ecjia_error($result)) {
-			return $result;
+		//用户端团购订单展示基础条件
+		$filters = [
+			'is_delete' 		=> 0,    //订单未删除
+			'extension_code'	=> 'group_buy',
+		];
+		if ($user_id > 0) {
+			$filters['user_id']= $user_id;
 		}
-		RC_Loader::load_app_func('admin_goods', 'goods');
-		$has_deposit = 0;
-		$order_deposit = 0;
-		if (!empty($result['order_list'])) {
-			foreach ($result['order_list'] as $key => $val) {
-				$val['store_id'] = $val['seller_id'];
-				$val['store_name'] = $val['seller_name'];
-				unset($val['seller_id']);
-				unset($val['seller_name']);
+		if ($store_id > 0) {
+			$filters['store_id'] = $store_id;
+		}
+		if (!empty($keywords)) {
+			$filters['keywords'] = $keywords;
+		}
+		if (!empty($type)) {
+			$filters['api_composite_status'] = $type;
+		}
+		 //排序
+        $order_sort = ['order_info.add_time' => 'desc'];
+		if ($order_sort) {
+			$filters['sort_by'] = $order_sort;
+		}
+		//分页信息
+		$filters['size'] = $size;
+		$filters['page'] = $page;
+		
+		$collection = (new \Ecjia\App\Orders\OrdersSearch\OrdersApiCollection($filters))->getData();
+		
+		return array('data' => $collection['order_list'], 'pager' => $collection['pager']);
+		
+		
+// 		$options = array('type' => $type, 'store_id' => $store_id, 'page' => $page, 'size' => $size, 'keywords'=> $keywords, 'extension_code' => 'group_buy');
+// 		$result = RC_Api::api('orders', 'order_list', $options);
+		
+// 		if (is_ecjia_error($result)) {
+// 			return $result;
+// 		}
+// 		RC_Loader::load_app_func('admin_goods', 'goods');
+// 		$has_deposit = 0;
+// 		$order_deposit = 0;
+// 		if (!empty($result['order_list'])) {
+// 			foreach ($result['order_list'] as $key => $val) {
+// 				$val['store_id'] = $val['seller_id'];
+// 				$val['store_name'] = $val['seller_name'];
+// 				unset($val['seller_id']);
+// 				unset($val['seller_name']);
 			
-				if ($val['extension_code'] == 'group_buy' && $val['extension_id'] > 0) {
-					$group_buy = group_buy_info($val['extension_id']);
-					if ($group_buy['deposit'] > 0) {
-						if ($group_buy['is_finished'] == GBS_SUCCEED) {
-							$has_deposit = 1;
-						}
-						$order_deposit = $val['goods_number']*$group_buy['deposit'];
-					}
-				} 
-				$val['has_deposit'] = $has_deposit;
-				$val['order_deposit'] = $order_deposit;
-				$val['formated_order_deposit'] = price_format($order_deposit, false);
-				$val['formated_order_amount'] = price_format($val['order_amount'], false);
-				$row[] = $val;
-			}
-		} else {
-			$row = [];
-		}
+// 				if ($val['extension_code'] == 'group_buy' && $val['extension_id'] > 0) {
+// 					$group_buy = group_buy_info($val['extension_id']);
+// 					if ($group_buy['deposit'] > 0) {
+// 						if ($group_buy['is_finished'] == GBS_SUCCEED) {
+// 							$has_deposit = 1;
+// 						}
+// 						$order_deposit = $val['goods_number']*$group_buy['deposit'];
+// 					}
+// 				} 
+// 				$val['has_deposit'] = $has_deposit;
+// 				$val['order_deposit'] = $order_deposit;
+// 				$val['formated_order_deposit'] = price_format($order_deposit, false);
+// 				$val['formated_order_amount'] = price_format($val['order_amount'], false);
+// 				$row[] = $val;
+// 			}
+// 		} else {
+// 			$row = [];
+// 		}
 		
-		$page_row = new ecjia_page($result['count'], $size, 6, '', $page);
+// 		$page_row = new ecjia_page($result['count'], $size, 6, '', $page);
 		
 		
-		$pager = array(
-			'total' => $page_row->total_records,
-			'count' => $page_row->total_records,
-			'more'	=> $page_row->total_pages <= $page ? 0 : 1,
-		);
-		return array('data' => $row, 'pager' => $pager);
+// 		$pager = array(
+// 			'total' => $page_row->total_records,
+// 			'count' => $page_row->total_records,
+// 			'more'	=> $page_row->total_pages <= $page ? 0 : 1,
+// 		);
+// 		return array('data' => $row, 'pager' => $pager);
 	 }	
 }
 

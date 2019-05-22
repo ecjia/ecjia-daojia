@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class groupbuy_merchant_hook {
 	
 	public static function groupbuy_merchant_menu_api($menus) {
-	    $menu = ecjia_merchant::make_admin_menu('04_groupbuy_list', __('团购活动', 'groupbuy'), RC_Uri::url('groupbuy/merchant/init'), 4)->add_purview('groupbuy_manage')->add_icon('fa-table');
+	    $menu = ecjia_merchant::make_admin_menu('04_groupbuy_list', __('团购活动', 'groupbuy'), RC_Uri::url('groupbuy/merchant/init'), 4)->add_purview('groupbuy_manage')->add_icon('fa-star-half-full');
 	    $menus->add_submenu($menu);
 	    return $menus;
 	}
