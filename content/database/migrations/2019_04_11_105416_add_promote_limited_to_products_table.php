@@ -19,7 +19,7 @@ class AddPromoteLimitedToProductsTable extends Migration
             $table->string('product_thumb', 255)->nullable()->comment('货品缩略图')->after('product_bar_code');
             $table->string('product_img', 255)->nullable()->comment('货品大图')->after('product_thumb');
             $table->string('product_original_img', 255)->nullable()->comment('货品原图')->after('product_img');
-            $table->text('product_desc')->nullable()->comment('促销限制')->after('product_original_img');
+            $table->text('product_desc')->nullable()->comment('货品描述')->after('product_original_img');
             $table->tinyInteger('is_promote')->unsigned()->default('0')->comment('是否设置促销')->after('product_desc');
             $table->decimal('promote_price', 10, 2)->unsigned()->nullable()->comment('促销价格')->after('is_promote');
             $table->integer('promote_start_date')->unsigned()->default('0')->comment('促销开始时间')->after('promote_price');

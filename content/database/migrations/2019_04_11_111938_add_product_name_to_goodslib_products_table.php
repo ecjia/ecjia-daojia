@@ -19,7 +19,7 @@ class AddProductNameToGoodslibProductsTable extends Migration
             $table->string('product_thumb', 255)->nullable()->comment('货品缩略图')->after('product_bar_code');
             $table->string('product_img', 255)->nullable()->comment('货品大图')->after('product_thumb');
             $table->string('product_original_img', 255)->nullable()->comment('货品原图')->after('product_img');
-            $table->text('product_desc')->nullable()->comment('促销限制')->after('product_original_img');
+            $table->text('product_desc')->nullable()->comment('货品描述')->after('product_original_img');
         });
     }
 
