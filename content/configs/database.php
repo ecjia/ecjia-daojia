@@ -68,23 +68,44 @@ return array (
 	),
     
     'redis' => array(
-    
+
+        'client' => 'predis', //phpredis, predis
+
         'cluster' => false,
-    
+
+        // 这是redis的默认连接，保留即可
         'default' => array(
             'host'     => env('REDIS_HOST', 'localhost'),
             'password' => env('REDIS_PASSWORD', null),
             'port'     => env('REDIS_PORT', 6379),
-            'database' => 0,
-            ),
-    
+            'database' => env('REDIS_DEFAULT_DB', 0),
+        ),
+
+        // 新建名为cache的连接，用于保存缓存
+        'cache' => array(
+            'host'      => env('REDIS_HOST', '127.0.0.1'),
+            'password'  => env('REDIS_PASSWORD', null),
+            'port'      => env('REDIS_PORT', 6379),
+            'database'  => env('REDIS_CACHE_DB', 1),
+        ),
+
+        // 新建名为session的连接，用于保存session
         'session' => array(
             'host'     => env('REDIS_HOST', 'localhost'),
             'password' => env('REDIS_PASSWORD', null),
             'port'     => env('REDIS_PORT', 6379),
-            'database' => 1,
-            ),
+            'database' => env('REDIS_SESSION_DB', 2),
         ),
+
+        // 新建名为queue的连接，用于保存队列
+        'queue' => array(
+            'host'      => env('REDIS_HOST', '127.0.0.1'),
+            'password'  => env('REDIS_PASSWORD', null),
+            'port'      => env('REDIS_PORT', 6379),
+            'database'  => env('REDIS_QUEUE_DB', 3),
+        ),
+
+    ),
 );
 
 // end
