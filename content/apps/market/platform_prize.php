@@ -195,7 +195,7 @@ class platform_prize extends ecjia_platform
     		foreach ($list['list'] as $v) {
     			$data .= $v['prize_name'] . "\t";
     			$data .= $v['label_issue_status'] . "\t";
-    			$data .= $v['user_name'] . "\t";
+    			$data .= RC_Format::filterEmoji($v['user_name']) . "\t";
     			$data .= $v['issue_extend_name'] . "\t";
     			$data .= $v['issue_extend_mobile'] . "\t";
     			$data .= $v['issue_extend_address'] . "\t\n";

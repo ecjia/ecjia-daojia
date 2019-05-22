@@ -76,7 +76,7 @@
 			</div> 
 		{/if}
 		<script src="{$system_statics_url}/js/jquery.min.js" type="text/javascript"></script>
-        <script src="{$system_statics_url}/lib/ecjia-js/ecjia.js" type="text/javascript"></script>
+        <script src="{$system_statics_url}/lib/ecjia_js/ecjia.js" type="text/javascript"></script>
         
         <script src="{$front_url}/js/user_info.js" type="text/javascript"></script>
         

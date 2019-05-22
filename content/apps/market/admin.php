@@ -263,6 +263,10 @@ class admin extends ecjia_admin
         if ($start_time >= $end_time) {
             return $this->showmessage(__('活动开始时间不能大于结束时间', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
+        if ($limit_num < 0) {
+        	return $this->showmessage(__('活动限购次数不可小于0', 'market'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        
         $activity_name = RC_DB::table('market_activity')->where('activity_id', $id)->pluck('activity_name');
 
         $data = array(
