@@ -78,22 +78,22 @@ class merchant_goods_suggestlist_module extends api_front implements api_interfa
 
 		switch ($sort_type) {
 			case 'new' :
-				$order_by = array('sort_order' => 'asc', 'goods_id' => 'desc');
+				$order_by = array('goods.sort_order' => 'asc', 'goods.goods_id' => 'desc');
 				break;
 			case 'price_desc' :
-				$order_by = array('shop_price' => 'desc', 'sort_order' => 'asc');
+				$order_by = array('goods.shop_price' => 'desc', 'goods.sort_order' => 'asc');
 				break;
 			case 'price_asc' :
-				$order_by = array('shop_price' => 'asc', 'sort_order' => 'asc');
+				$order_by = array('goods.shop_price' => 'asc', 'goods.sort_order' => 'asc');
 				break;
 			case 'last_update' :
-				$order_by = array('last_update' => 'desc');
+				$order_by = array('goods.last_update' => 'desc');
 				break;
 			case 'hot' :
-				$order_by = array('click_count' => 'desc', 'sort_order' => 'asc');
+				$order_by = array('goods.click_count' => 'desc', 'goods.sort_order' => 'asc');
 				break;
 			default :
-				$order_by = array('sort_order' => 'asc', 'goods_id' => 'desc');
+				$order_by = array('goods.sort_order' => 'asc', 'goods.goods_id' => 'desc');
 				break;
 		}
 
@@ -115,8 +115,9 @@ class merchant_goods_suggestlist_module extends api_front implements api_interfa
 			$filters['store_id'] = $store_id;
 		}
 		//商家商品分类
-		if ($category > 0 && $store_id > 0) {
-			$filters['store_id_and_merchant_cat_id'] = [[$category], $store_id];
+    	if ($category > 0 && !empty($store_id)) {
+		    $children_cat = Ecjia\App\Goods\GoodsSearch\MerchantGoodsCategory::getChildrenCategoryId($category, $store_id);
+		    $filters['store_id_and_merchant_cat_id'] = [$children_cat, $store_id];
 		}
 		//店铺推荐，新品，热销
 		if (!empty($action_type)) {
@@ -127,19 +128,14 @@ class merchant_goods_suggestlist_module extends api_front implements api_interfa
 			} elseif ($action_type == 'hot') {
 				$filters['store_hot'] = 1;
 			} elseif ($action_type == 'promotion') {
-				if (array_key_exists('product', $filters)) { //列表显示货品，促销条件调整（货品促销条件和商品商品促销条件）
-					if (!empty($promotion_type)) {
-						$filters['goods_and_product_promotion_type'] = $promotion_type;
-					} else {
-						$filters['goods_and_product_promotion'] = true;
-					}
+				$filters['product'] = true;
+				if (!empty($promotion_type)) {
+					$filters['goods_and_product_promotion_type'] = $promotion_type;
 				} else {
-					if (!empty($promotion_type)) {
-						$filters['goods_promotion_type'] = $promotion_type;
-					} else {
-						$filters['goods_promotion'] = true;
-					}
+					$filters['goods_and_product_promotion'] = true;
 				}
+				//促销，排序默认结束时间升序
+				$order_by = array('goods.promote_end_date' => 'asc', 'goods.sort_order' => 'asc', 'goods.goods_id' => 'desc');
 			}
 		}
 		//关键字
@@ -226,7 +222,7 @@ class merchant_goods_suggestlist_module extends api_front implements api_interfa
 // 			);
 // 		}
 
-		return array('data' => $data['list'], 'pager' => $data['pager']);
+// 		return array('data' => $data['list'], 'pager' => $data['pager']);
 	}
 }
 

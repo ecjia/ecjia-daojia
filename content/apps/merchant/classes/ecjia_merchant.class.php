@@ -137,7 +137,7 @@ abstract class ecjia_merchant extends ecjia_base implements \Ecjia\System\Framew
 		ecjia_merchant_loader::default_scripts($rc_script);
 		ecjia_merchant_loader::default_styles($rc_style);
 
-		$this->load_cachekey();
+//		$this->load_cachekey();
 
 		$this->load_default_script_style();
 		$staff_avatar = RC_DB::table('staff_user')->where('user_id', RC_Session::get('staff_id'))->pluck('avatar');
@@ -180,6 +180,11 @@ abstract class ecjia_merchant extends ecjia_base implements \Ecjia\System\Framew
 		
 		RC_Hook::do_action('ecjia_merchant_finish_launching');
 	}
+
+    protected function registerServiceProvider()
+    {
+        royalcms()->forgeRegister('Ecjia\System\Providers\EcjiaAdminServiceProvider');
+    }
 
 	protected function session_start()
 	{
@@ -278,17 +283,17 @@ abstract class ecjia_merchant extends ecjia_base implements \Ecjia\System\Framew
 	    }
 	}
 
-	/**
-	 * 加载缓存key
-	 */
-	protected function load_cachekey() {
-	    $res = RC_Api::api('system', 'system_cache');
-	    if (! empty($res)) {
-	        foreach ($res as $cache_handle) {
-	            ecjia_update_cache::make()->register($cache_handle->getCode(), $cache_handle);
-	        }
-	    }
-	}
+//	/**
+//	 * 加载缓存key
+//	 */
+//	protected function load_cachekey() {
+//	    $res = RC_Api::api('system', 'system_cache');
+//	    if (! empty($res)) {
+//	        foreach ($res as $cache_handle) {
+//	            ecjia_update_cache::make()->register($cache_handle->getCode(), $cache_handle);
+//	        }
+//	    }
+//	}
 
 	/**
 	 * 后台判断是否登录
