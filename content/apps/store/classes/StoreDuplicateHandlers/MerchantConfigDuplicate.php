@@ -32,16 +32,10 @@ class MerchantConfigDuplicate extends StoreDuplicateAbstract
      */
     protected $code = 'merchant_config_duplicate';
 
-    /**
-     * 排序
-     * @var int
-     */
-    protected $sort = 1;
-
-    public function __construct($store_id, $source_store_id)
+    public function __construct($store_id, $source_store_id, $sort = 1)
     {
         $this->name = __('店铺基本信息', 'store');
-        parent::__construct($store_id, $source_store_id);
+        parent::__construct($store_id, $source_store_id, $sort);
     }
 
     /**
@@ -50,7 +44,6 @@ class MerchantConfigDuplicate extends StoreDuplicateAbstract
     public function handlePrintData()
     {
         $text = __('复制店铺内基本信息（店铺Logo、Banner、营业时间、客服电话、公告、简介等）', 'store');
-
         return <<<HTML
 <span class="controls-info">{$text}</span>
 HTML;
@@ -138,7 +131,7 @@ HTML;
                 }
 
                 //setp2. 复制图片
-                $this->copyImage($item);
+                //$this->copyImage($item);
 
                 //setp3. 复制数据
                 return $repository->addOption($item['code'], $item['value'], [
@@ -171,14 +164,19 @@ HTML;
      */
     protected function copyImage(& $item)
     {
-        //setp2. 复制图片
-        if (in_array($item['code'], [
-            'shop_thumb_logo',
-            'shop_nav_background',
-            'shop_logo',
-            'shop_banner_pic',
-        ])) {
-            $item['value'] = (new StoreCopyImage($this->store_id, $this->source_store_id))->copyMerchantConfigImage($item['value']);
+        try {
+            //setp2. 复制图片
+            if (in_array($item['code'], [
+                'shop_thumb_logo',
+                'shop_nav_background',
+                'shop_logo',
+                'shop_banner_pic',
+            ])) {
+                $item['value'] = (new StoreCopyImage($this->store_id, $this->source_store_id))->copyMerchantConfigImage($item['value']);
+            }
+        }
+        catch (\League\Flysystem\FileNotFoundException $e) {
+            ecjia_log_warning($e->getMessage());
         }
     }
 

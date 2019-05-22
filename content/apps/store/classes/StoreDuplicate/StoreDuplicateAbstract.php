@@ -59,10 +59,13 @@ abstract class StoreDuplicateAbstract
      */
     protected $count = 0;
 
-    public function __construct($store_id, $source_store_id)
+    public function __construct($store_id, $source_store_id, $sort = 0)
     {
         $this->store_id = $store_id;
         $this->source_store_id = $source_store_id;
+        if ($sort > 0){
+            $this->sort = $sort;
+        }
     }
 
     public function getCode()
@@ -89,11 +92,6 @@ abstract class StoreDuplicateAbstract
     {
         $this->sort = $sort;
         return $this;
-    }
-
-    public function getSourceStoreDataHandler()
-    {
-        return $this->source_store_data_handler;
     }
 
     /**
