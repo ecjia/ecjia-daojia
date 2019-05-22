@@ -684,7 +684,7 @@ class admin extends ecjia_admin
                     $value['formated_amount']  = ecjia_price_format($real_amount);
 
                     $arr[$key]['order_sn']         = $value['order_sn'];
-                    $arr[$key]['user_name']        = !empty($value['user_name']) ? $value['user_name'] : __('匿名购买', 'withdraw');
+                    $arr[$key]['user_name']        = !empty($value['user_name']) ? RC_Format::filterEmoji($value['user_name']) : __('匿名购买', 'withdraw');
                     $arr[$key]['apply_amount']     = $value['apply_amount'];
                     $arr[$key]['formated_pay_fee'] = $value['formated_pay_fee'];
                     $arr[$key]['formated_amount']  = $value['formated_amount'];
