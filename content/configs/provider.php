@@ -69,7 +69,8 @@ return array(
     'Royalcms\Component\Pay\PayServiceProvider',
     'Royalcms\Component\Shouqianba\ShouqianbaServiceProvider',
 	'Royalcms\Component\Pinyin\PinyinServiceProvider',
-	'Royalcms\Component\Uploader\UploaderServiceProvider',
+    'Royalcms\Component\Uploader\UploaderServiceProvider',
+    'Royalcms\Component\Upload\UploadServiceProvider',
 	'Royalcms\Component\Metable\MetableServiceProvider',
 
     'Ecjia\System\Providers\SystemServiceProvider',
@@ -139,6 +140,7 @@ return array(
     'Ecjia\App\Customer\CustomerServiceProvider',
     'Ecjia\App\Withdraw\WithdrawServiceProvider',
     'Ecjia\App\Topic\TopicServiceProvider',
+    'Ecjia\App\Supplier\SupplierServiceProvider',
 );
 
 //end
