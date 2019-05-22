@@ -31,10 +31,10 @@ class NewsMaterialStorage
         $this->data = $data;
         $this->wechat = $wechat;
 
-        $this->save_dir = \RC_Upload::upload_path('data/material/wechat_thumb');
-
-        if (! RC_File::isDirectory($this->save_dir)) {
-            RC_File::makeDirectory($this->save_dir, 0777, true, true);
+        $this->save_dir = \RC_Upload::local_upload_path('data/material/wechat_thumb');
+        $disk = \RC_Storage::disk('local');
+        if (! $disk->is_dir($this->save_dir)) {
+            $disk->mkdir($this->save_dir, 0777, true, true);
         }
     }
 

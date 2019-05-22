@@ -51,7 +51,7 @@ class WechatMediaReply
      */
     protected function Image_reply(WechatMediaModel $data, $message)
     {
-        $content = WechatRecord::Image_reply($message, $data->thumb);
+        $content = WechatRecord::Image_reply($message, $data->media_id);
         return $content;
     }
 

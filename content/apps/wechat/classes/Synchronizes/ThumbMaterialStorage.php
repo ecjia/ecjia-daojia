@@ -30,10 +30,10 @@ class ThumbMaterialStorage
         $this->data = $data;
         $this->wechat = $wechat;
 
-        $this->save_dir = \RC_Upload::upload_path('data/material/wechat_thumb');
-
-        if (! RC_File::isDirectory($this->save_dir)) {
-            RC_File::makeDirectory($this->save_dir, 0777, true, true);
+        $this->save_dir = \RC_Upload::local_upload_path('data/material/wechat_thumb');
+        $disk = \RC_Storage::disk('local');
+        if (! $disk->is_dir($this->save_dir)) {
+            $disk->mkdir($this->save_dir, 0777, true, true);
         }
     }
 
@@ -79,7 +79,7 @@ class ThumbMaterialStorage
     {
         $file_ext = '.jpg';
         $filename = \RC_Upload::random_filename() . $file_ext;
-        $file = str_replace(\RC_Upload::upload_path(), '', $this->save_dir . '/' . $filename);
+        $file = str_replace(\RC_Upload::local_upload_path(), '', $this->save_dir . '/' . $filename);
         $this->wechat->material->download($item['thumb_media_id'], $this->save_dir, $filename);
 
         $data = [

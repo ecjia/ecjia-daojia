@@ -55,6 +55,7 @@ namespace Ecjia\App\Wechat\Sends;
 
 use Ecjia\App\Wechat\Models\WechatMassHistoryModel;
 use Ecjia\App\Wechat\Models\WechatMediaModel;
+use RC_Upload;
 
 class BroadcastSendMessage
 {
@@ -176,7 +177,7 @@ class BroadcastSendMessage
         $result = $this->wechat->broadcast->sendImage($media_id, $tagid);
 
         if (! is_null($model)) {
-            $content['img_url'] = \RC_Upload::upload_url($model->file);
+            $content['img_url'] = RC_Upload::local_upload_url($model->file);
         }
 
         WechatMassHistoryModel::massSendRecord($this->wechat_id, $model->id, 'image', $content, $result);
@@ -199,7 +200,7 @@ class BroadcastSendMessage
         $result = $this->wechat->broadcast->sendVoice($media_id, $tagid);
 
         if (! is_null($model)) {
-            $content['voice_url'] = \RC_Upload::upload_url($model->file);
+            $content['voice_url'] = RC_Upload::local_upload_url($model->file);
         }
 
         WechatMassHistoryModel::massSendRecord($this->wechat_id, $model->id, 'voice', $content, $result);
@@ -228,7 +229,7 @@ class BroadcastSendMessage
         $result = $this->wechat->broadcast->sendVideo($media_id, $tagid);
 
         if (! is_null($model)) {
-            $content['video_url'] = \RC_Upload::upload_url($model->file);
+            $content['video_url'] = RC_Upload::local_upload_url($model->file);
         }
 
         WechatMassHistoryModel::massSendRecord($this->wechat_id, $model->id, 'mpvideo', $content, $result);
@@ -271,7 +272,7 @@ class BroadcastSendMessage
 
                     } else {
 
-                        $item->file = \RC_Upload::upload_url($item->file);
+                        $item->file = RC_Upload::local_upload_url($item->file);
 
                     }
 
@@ -293,7 +294,7 @@ class BroadcastSendMessage
                 'title' => $model->title,
                 'description' => $model->digest,
                 'url' => $model->media_url,
-                'picurl' => \RC_Upload::upload_url($model->file),
+                'picurl' => RC_Upload::local_upload_url($model->file),
             ]);
         }
 

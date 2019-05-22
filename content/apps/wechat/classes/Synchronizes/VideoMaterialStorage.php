@@ -30,10 +30,10 @@ class VideoMaterialStorage
         $this->data = $data;
         $this->wechat = $wechat;
 
-        $this->save_dir = \RC_Upload::upload_path('data/material/wechat_video');
-
-        if (! RC_File::isDirectory($this->save_dir)) {
-            RC_File::makeDirectory($this->save_dir, 0777, true, true);
+        $this->save_dir = \RC_Upload::local_upload_path('data/material/wechat_video');
+        $disk = \RC_Storage::disk('local');
+        if (! $disk->is_dir($this->save_dir)) {
+            $disk->mkdir($this->save_dir, 0777, true, true);
         }
     }
 
@@ -95,7 +95,7 @@ class VideoMaterialStorage
 
         $file_ext = RC_File::file_ext($down_url[0]) ? '.' . RC_File::file_ext($down_url[0]) : '.mp4';
         $filename = \RC_Upload::random_filename() . $file_ext;
-        $file = str_replace(\RC_Upload::upload_path(), '', $this->save_dir . '/' . $filename);
+        $file = str_replace(\RC_Upload::local_upload_path(), '', $this->save_dir . '/' . $filename);
 
         if ($body['down_url']) {
             \RC_Http::remote_get($body['down_url'], array(

@@ -64,6 +64,7 @@ use Royalcms\Component\WeChat\Message\News;
 use Royalcms\Component\WeChat\Message\Music;
 use Royalcms\Component\WeChat\Message\Material;
 use Ecjia\App\Wechat\Models\WechatMediaModel;
+use RC_Upload;
 
 class SendCustomMessage
 {
@@ -140,7 +141,7 @@ class SendCustomMessage
         $result = $this->wechat->staff->message($message)->to($this->openid)->send();
 
         if (! is_null($model)) {
-            $content['img_url'] = \RC_Upload::upload_url($model->file);
+            $content['img_url'] = RC_Upload::local_upload_url($model->file);
         }
 
         WechatRecord::replyMsg($this->openid, '发送图片消息', 'image', $content);
@@ -161,7 +162,7 @@ class SendCustomMessage
         $result = $this->wechat->staff->message($message)->to($this->openid)->send();
 
         if (! is_null($model)) {
-            $content['voice_url'] = \RC_Upload::upload_url($model->file);
+            $content['voice_url'] = RC_Upload::local_upload_url($model->file);
         }
 
         WechatRecord::replyMsg($this->openid, '发送语音消息', 'voice', $content);
@@ -187,7 +188,7 @@ class SendCustomMessage
         $result = $this->wechat->staff->message($message)->to($this->openid)->send();
 
         if (! is_null($model)) {
-            $content['video_url'] = \RC_Upload::upload_url($model->file);
+            $content['video_url'] = RC_Upload::local_upload_url($model->file);
         }
 
         WechatRecord::replyMsg($this->openid, '发送视频消息', 'video', $content);
@@ -260,7 +261,7 @@ class SendCustomMessage
 
                     } else {
 
-                        $item->file = \RC_Upload::upload_url($item->file);
+                        $item->file = RC_Upload::local_upload_url($item->file);
 
                     }
 
@@ -282,7 +283,7 @@ class SendCustomMessage
                 'title' => $model->title,
                 'description' => $model->digest,
                 'url' => $model->media_url,
-                'picurl' => \RC_Upload::upload_url($model->file),
+                'picurl' => RC_Upload::local_upload_url($model->file),
             ]);
         }
 

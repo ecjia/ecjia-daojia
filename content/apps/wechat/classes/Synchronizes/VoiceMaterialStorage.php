@@ -30,10 +30,11 @@ class VoiceMaterialStorage
         $this->data = $data;
         $this->wechat = $wechat;
 
-        $this->save_dir = \RC_Upload::upload_path('data/material/wechat_voice');
+        $this->save_dir = \RC_Upload::local_upload_path('data/material/wechat_voice');
 
-        if (! RC_File::isDirectory($this->save_dir)) {
-            RC_File::makeDirectory($this->save_dir, 0777, true, true);
+        $disk = \RC_Storage::disk('local');
+        if (! $disk->is_dir($this->save_dir)) {
+            $disk->mkdir($this->save_dir, 0777, true, true);
         }
     }
 
@@ -92,7 +93,7 @@ class VoiceMaterialStorage
     {
         $file_ext = RC_File::file_ext($item['name']) ? '.' . RC_File::file_ext($item['name']) : '.png';
         $filename = \RC_Upload::random_filename() . $file_ext;
-        $file = str_replace(\RC_Upload::upload_path(), '', $this->save_dir . '/' . $filename);
+        $file = str_replace(\RC_Upload::local_upload_path(), '', $this->save_dir . '/' . $filename);
         $this->wechat->material->download($item['media_id'], $this->save_dir, $filename);
   
         $data = [
