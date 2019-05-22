@@ -6,7 +6,7 @@
  * Time: 10:21 AM
  */
 
-class RC_Upload extends Royalcms\Component\Upload\Upload
+class RC_Upload extends Royalcms\Component\Upload\Facades\Upload
 {
 
 }

@@ -6,7 +6,7 @@
  * Time: 10:19 AM
  */
 
-class RC_Filesystem extends Royalcms\Component\Support\Facades\Storage
+class RC_Filesystem extends Royalcms\Component\Storage\Facades\Storage
 {
 
 }
