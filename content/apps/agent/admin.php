@@ -79,7 +79,7 @@ class admin extends ecjia_admin
 
         RC_Script::enqueue_script('bootstrap-placeholder', RC_Uri::admin_url('statics/lib/dropper-upload/bootstrap-placeholder.js'), array(), false, true);
 
-        RC_Script::enqueue_script('region', RC_Uri::admin_url('statics/lib/ecjia-js/ecjia.region.js'));
+        RC_Script::enqueue_script('region', RC_Uri::admin_url('statics/lib/ecjia_js/ecjia.region.js'));
         RC_Script::enqueue_script('agent', RC_App::apps_url('statics/js/agent.js', __FILE__), array(), false, 1);
         RC_Style::enqueue_style('agent', RC_App::apps_url('statics/css/agent.css', __FILE__));
 
