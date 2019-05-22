@@ -49,7 +49,7 @@ namespace Ecjia\System\BaseController;
 
 use ecjia;
 use ecjia_utility;
-use RC_Lang;
+use RC_DB;
 use RC_Redirect;
 use RC_Response;
 use RC_Package;
@@ -132,11 +132,16 @@ abstract class EcjiaController extends RoyalcmsController
         $this->request = royalcms('request');
         
         $this->session_start();
-        
+
+        $this->registerServiceProvider();
         $this->registerViewServiceProvider();
         
         static::$controller = & $this;
         static::$view_object = & $this->view;
+
+        if (ecjia::is_debug_display() && config('system.debug_display_query') === true) {
+            RC_DB::enableQueryLog();
+        }
 
         $this->load_hooks();
 
@@ -159,7 +164,12 @@ abstract class EcjiaController extends RoyalcmsController
         return $this->request;
     }
 
-    public function registerViewServiceProvider()
+    protected function registerServiceProvider()
+    {
+        //sub class to do...
+    }
+
+    protected function registerViewServiceProvider()
     {
         royalcms()->forgeRegister('Royalcms\Component\SmartyView\SmartyServiceProvider');
 

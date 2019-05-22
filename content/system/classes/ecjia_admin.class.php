@@ -108,7 +108,7 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 			error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 		}
         
-		$this->load_cachekey();
+//		$this->load_cachekey();
 
 		$this->load_default_script_style();
 		
@@ -123,9 +123,14 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 		} else {
 		    ob_start();
 		}
-		
+
 		RC_Hook::do_action('ecjia_admin_finish_launching');
 	}
+
+	protected function registerServiceProvider()
+    {
+        royalcms()->forgeRegister('Ecjia\System\Providers\EcjiaAdminServiceProvider');
+    }
 	
 	protected function session_start()
 	{
@@ -164,17 +169,17 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 	}
 
 	
-	/**
-	 * 加载缓存key
-	 */
-	protected function load_cachekey() {
-	    $res = RC_Api::api('system', 'system_cache');
-	    if (! empty($res)) {
-	        foreach ($res as $cache_handle) {
-	            ecjia_update_cache::make()->register($cache_handle->getCode(), $cache_handle);
-	        }
-	    }
-	}
+//	/**
+//	 * 加载缓存key
+//	 */
+//	protected function load_cachekey() {
+//	    $res = RC_Api::api('system', 'system_cache');
+//	    if (! empty($res)) {
+//	        foreach ($res as $cache_handle) {
+//	            ecjia_update_cache::make()->register($cache_handle->getCode(), $cache_handle);
+//	        }
+//	    }
+//	}
 
     /**
      * 登录session授权
@@ -506,7 +511,8 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 	 * @param   string      $content    操作的内容
 	 * @return  void
 	 */
-	public final static function admin_log($sn, $action, $content) {
+	public final static function admin_log($sn, $action, $content)
+    {
 	    $log_info = ecjia_admin_log::instance()->get_message($sn, $action, $content);
 	    
 	    $db = RC_Loader::load_model('admin_log_model');

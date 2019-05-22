@@ -44,88 +44,97 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-use Royalcms\Component\ClassLoader\ClassManager;
+namespace Ecjia\System\Controllers;
 
-/*
- |--------------------------------------------------------------------------
- | Register The Class Loader
- |--------------------------------------------------------------------------
- |
- | In addition to using Composer, you may use the Laravel class loader to
- | load your controllers and models. This is useful for keeping all of
- | your classes in the "global" namespace without Composer updating.
- |
+use ecjia_admin;
+use RC_Script;
+use RC_Style;
+use RC_Uri;
+use ecjia_screen;
+use ecjia_update_cache;
+use ecjia;
+use admin_nav_here;
+
+/**
+ * ECJIA 更新缓存控制器
  */
+class AdminCacheController extends ecjia_admin
+{
 
-//ClassManager::addNamespaces(array());
+	public function __construct()
+    {
+		parent::__construct();
 
-//注册Session驱动
-RC_Session::extend('mysql', function ($royalcms) {
-    $getDatabaseConnection = function ($royalcms)
+        RC_Style::enqueue_style('jquery-stepy');
+        RC_Style::enqueue_style('uniform-aristo');
+        RC_Script::enqueue_script('jquery-uniform');
+        RC_Script::enqueue_script('jquery-stepy');
+        RC_Script::enqueue_script('smoke');
+	}
+
+
+	/**
+	 * 更新缓存
+	 */
+	public function init()
     {
-        $connection = $royalcms['config']['session.connection'];
-    
-        return $royalcms['db']->connection($connection);
-    };
-    
-    $getDatabaseOptions = function ($table, $royalcms)
-    {
-        return array(
-            'db_table' => $table, 
-            'db_id_col' => 'id', 
-            'db_data_col' => 'payload', 
-            'db_time_col' => 'last_activity',
-            'db_userid_col' => 'user_id',
-            'db_usertype_col' => 'user_type',
+        $this->admin_priv('admin_cache');
+
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('更新缓存')));
+
+        ecjia_screen::get_current_screen()->add_help_tab( array(
+            'id'        => 'overview',
+            'title'     => __('概述'),
+            'content'   =>
+                '<p>' . __('欢迎访问ECJia智能后台更新缓存页面，可以在此页面进行清除系统中缓存的操作。') . '</p>'
+        ) );
+
+        ecjia_screen::get_current_screen()->set_help_sidebar(
+            '<p><strong>' . __('更多信息：') . '</strong></p>' .
+            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:更新缓存" target="_blank">关于清除缓存帮助文档</a>') . '</p>'
         );
-    };
 
-    $connection = $getDatabaseConnection($royalcms);
-    
-    $table = $connection->getTablePrefix().$royalcms['config']['session.table'];
-    
-    return new Ecjia\System\Frameworks\Sessions\Handler\MysqlSessionHandler($connection->getPdo(), $getDatabaseOptions($table, $royalcms));
-});
-RC_Session::extend('memcache', function () {
-    $getPrefix = function () {
-        $defaultconnection = config('database.default');
-        $connection = array_get(config('database.connections'), $defaultconnection);
-        if (array_get($connection, 'database')) {
-            $prefix = $connection['database'] . ':';
+        RC_Script::enqueue_script('ecjia-admin_cache');
+        RC_Style::enqueue_style('chosen');
+        RC_Script::enqueue_script('jquery-chosen');
+
+        $this->assign('ur_here',    __('更新缓存'));
+
+        //js语言包调用
+        RC_Script::localize_script('ecjia-admin_cache', 'admin_cache_lang', config('system::jslang.cache_page'));
+
+        $res = ecjia_update_cache::loadGroupCache();
+
+        $this->assign('form_action', RC_Uri::url('@admin_cache/update_cache'));
+        $this->assign('cache_list', $res);
+        $this->display('admin_cache.dwt');
+	}
+
+    /**
+     * 更新缓存
+     */
+    public function update_cache()
+    {
+        $this->admin_priv('admin_cache');
+
+        $cachekey = trim($_POST['cachekey']);
+
+        $result = ecjia_update_cache::clean($cachekey);
+
+        if (!empty($result)) {
+            if (is_ecjia_error($result[$cachekey])) {
+                //返回错误
+                return $this->showmessage($result->get_error_message(), ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, ['error' => 1]);
+            }
+            else {
+                //返回成功
+                return $this->showmessage('', ecjia::MSGSTAT_SUCCESS | ecjia::MSGTYPE_JSON, ['error' => 0]);
+            }
         }
-        else {
-            $prefix = 'ecjia_session:';
-        }
 
-        return $prefix;
-    };
-    
-    $options = [
-        'prefix' => $getPrefix(),
-        'expiretime' => config('session.lifetime', 1440) * 60
-    ];
-//    dd(royalcms('memcache'));
-    return new Ecjia\System\Frameworks\Sessions\Handler\MemcacheSessionHandler(royalcms('memcache'), $options);
-});
-RC_Session::extend('ecjiaredis', function () {
-    $getPrefix = function () {
-        $defaultconnection = config('database.default');
-        $connection = array_get(config('database.connections'), $defaultconnection);
-        if (array_get($connection, 'database')) {
-            $prefix = $connection['database'] . ':';
-        }
-        else {
-            $prefix = 'ecjia_session:';
-        }
+        return $this->showmessage('', ecjia::MSGSTAT_ERROR | ecjia::MSGTYPE_JSON, ['error' => 1]);
+    }
 
-        return $prefix;
-    };
+}
 
-    $options = [
-        'prefix' => $getPrefix(),
-        'expiretime' => config('session.lifetime', 1440) * 60,
-    ];
-
-    return new Ecjia\System\Frameworks\Sessions\Handler\RedisSessionHandler(royalcms('redis')->connection('session'), $options);
-});
-
+// end

@@ -303,40 +303,51 @@ class ecjia {
             }
         }
     }
-	
+
+    /**
+     * @return bool
+     */
+    public static function is_debug_display()
+    {
+        return (config('system.debug') === true && config('system.debug_display') === true);
+    }
     
     /**
      * 获得查询时间和次数，内存占用
      */
     public static function echo_query_info() {
-        if (RC_Config::get('system.debug') === false || RC_Config::get('system.debug_display') === false) {
+        if (! self::is_debug_display()) {
             return false;
         }
 
-    	$query_info = $memory_info = $gzip_enabled = '';
+    	$memory_info = $gzip_enabled = '';
+        $queries = RC_DB::getQueryLog();
+
+        $sql_count = RC_Model::sql_count() + count($queries);
 
     	/* 数据库查询情况 */
         $timer = RC_Timer::formatTimer(RC_Timer::getLoadTime());
-    	$query_info = sprintf(__('共执行 %d 个查询，程序运行用时 %s 秒'), RC_Model::sql_count(), $timer);
+    	$query_info = sprintf(__('共执行 %d 个查询，程序运行用时 %s 秒'), $sql_count, $timer);
     
     	/* 内存占用情况 */
-    	if (RC_Lang::get('system::system.memory_info') && function_exists('memory_get_usage')) {
-    		$memory_info = sprintf(RC_Lang::get('system::system.memory_info'), memory_get_usage() / 1048576);
+    	if (function_exists('memory_get_usage')) {
+    		$memory_info = sprintf(__('，内存占用 %0.3f MB'), memory_get_usage() / 1048576);
     	}
     	 
     	/* 是否启用了 gzip */
-    	$gzip_enabled = ecjia_utility::gzip_enabled(RC_ENV::gzip_enabled()) ? RC_Lang::get('system::system.gzip_enabled') : RC_Lang::get('system::system.gzip_disabled');
+    	$gzip_enabled = ecjia_utility::gzip_enabled(RC_ENV::gzip_enabled()) ? __('，Gzip 已启用') : __('，Gzip 已禁用');
 
     	echo '<div class="main_content_bottom">' . rc_user_crlf();
     	echo '<hr />' . rc_user_crlf();
     	echo "{$query_info}{$gzip_enabled}{$memory_info} <br />";
     	
-    	if (RC_Config::get('system.debug_display_query') == true) {
+    	if (config('system.debug_display_query') === true) {
         	echo "<br />";
         	echo "SQL查询清单 <br />";
         	
-        	foreach ($queries = RC_DB::getQueryLog() as $query) {
-        	    echo vsprintf(str_replace('?', '%s', $query["query"]), $query['bindings']). " (time: " . $query['time'] ."ms)" . "<br />";
+        	foreach ($queries as $key => $query) {
+        	    ++$key;
+        	    echo '<strong>' . $key . '</strong>. ' . vsprintf(str_replace('?', '%s', $query["query"]), $query['bindings']). " (time: " . $query['time'] ."ms)" . "<br />";
         	}
         	
         	foreach (RC_Model::sql_all() as $sql) {
@@ -344,7 +355,7 @@ class ecjia {
         	}
     	}
     	
-    	if (RC_Config::get('system.debug_display_included') == true) {
+    	if (RC_Config::get('system.debug_display_included') === true) {
     	    /* 加载文件顺序 */
     	    $load_files = get_included_files();
     	    

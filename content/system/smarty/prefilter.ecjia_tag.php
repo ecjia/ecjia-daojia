@@ -53,14 +53,14 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 function smarty_prefilter_ecjia_tag($source, $smarty) {
 	/* 解析ecjia标签 */
-	$pattern = '/{ecjia:(\w+)\s+([^}]+)}/ie';
+	$pattern = '/{ecjia:(\w+)\s+([^}]+)}/is';
 	if (preg_match_all($pattern, $source, $reg_match)) {
 		foreach ($reg_match[0] as $key => $value) {
 			$source = ecjia_tag_replace($reg_match[0][$key], $reg_match[1][$key], $reg_match[2][$key], $source, $smarty);
 		}
 	}
 	
-	$pattern = '/{ecjia:(\w+)}/ie';
+	$pattern = '/{ecjia:(\w+)}/is';
 	if (preg_match_all($pattern, $source, $reg_match)) {
 		foreach ($reg_match[0] as $key => $value) {
 			$source = ecjia_tag_replace($reg_match[0][$key], $reg_match[1][$key], null, $source, $smarty);

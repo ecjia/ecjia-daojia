@@ -24,6 +24,10 @@ class NotInstallScreen extends AllScreen
 
         parent::loading();
 
+        if (defined('RC_SITE') && RC_SITE == 'api') {
+            RC_Loader::load_app_func('functions', 'api');
+        }
+
         RC_Hook::add_action('init', [__CLASS__, 'load_theme_function']);
         RC_Hook::add_filter('app_scan_bundles', [__CLASS__, 'app_scan_bundles']);
         RC_Hook::add_action('royalcms_default_controller', [__CLASS__, 'royalcms_default_controller']);
@@ -48,33 +52,53 @@ class NotInstallScreen extends AllScreen
      */
     public static function load_theme_function()
     {
-        RC_Loader::load_app_func('functions', 'api');
-        $app = config('site.main_app');
-        if ($app) {
-            RC_Loader::load_app_func('functions', $app);
+        if (config('system.tpl_force_specify')) {
+            self::_load_default_style();
+        }
+        else {
 
-            RC_Hook::add_filter('template', function () {
-                $template_code = RC_Hook::apply_filters('ecjia_theme_template_code', 'template');
-                return ecjia::config($template_code);
-            });
-        } else {
-            $request = royalcms('request');
-            if ($request->getBasePath() != '' || config('system.tpl_force_specify')) {
-                RC_Hook::add_filter('template', function () {
-                    return config('system.tpl_style');
-                });
-            } else {
-                RC_Hook::add_filter('template', function () {
-                    $template_code = RC_Hook::apply_filters('ecjia_theme_template_code', 'template');
-                    return ecjia::config($template_code);
-                });
+            $app = config('site.main_app');
+            if ($app) {
+                RC_Loader::load_app_func('functions', $app);
+                self::_load_custom_handle_style();
             }
+            else {
+                $request = royalcms('request');
+                if ($request->getBasePath() != '') {
+                    self::_load_default_style();
+                }
+                else {
+                    self::_load_custom_handle_style();
+                }
+            }
+
         }
 
         $dir = RC_Theme::get_template_directory();
         if (file_exists($dir . DS . 'functions.php')) {
             include_once $dir . DS . 'functions.php';
         }
+    }
+
+    /**
+     * 加载自定义的Handle主题模板
+     */
+    protected static function _load_custom_handle_style()
+    {
+        RC_Hook::add_filter('template', function () {
+            $template_code = RC_Hook::apply_filters('ecjia_theme_template_code', 'template');
+            return ecjia::config($template_code);
+        });
+    }
+
+    /**
+     * 加载默认配置中的主题模板
+     */
+    protected static function _load_default_style()
+    {
+        RC_Hook::add_filter('template', function () {
+            return config('system.tpl_style');
+        });
     }
 
     public static function app_scan_bundles()

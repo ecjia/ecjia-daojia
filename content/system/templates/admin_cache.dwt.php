@@ -15,7 +15,7 @@
 </div>
 <div class="row-fluid">
     <div class="clear_cache span12">
-        <form class="stepy-wizzard form-horizontal" id="validate_wizard" action="{url path='@index/update_cache'}" method="post">
+        <form class="stepy-wizzard form-horizontal" id="validate_wizard" action="{$form_action}" method="post">
             <fieldset title="{t}选择清除{/t}">
                 <div class="control-group formSep">
                     <label class="check">

@@ -52,69 +52,21 @@ defined('IN_ECJIA') or exit('No permission resources.');
  */
 class system_update_cache_api extends Component_Event_Api {
     
-    private $files;
-    
-    public function __construct()
+    public function call(&$options)
     {
-        $this->files = royalcms('files');
-    }
-    
-    public function call(&$options) {
 
-        try {
-            
-            in_array('system_tablestruct_cache', $options) and $this->clean_system_tablestruct_cache();
+        $factory = new \Ecjia\System\Frameworks\CleanCache\CacheFactory();
 
-            in_array('system_query_cache', $options) and $this->clean_system_query_cache();
+        $caches = array(
+            $factory->component('system_app_cache'),
+            $factory->component('system_userdata_cache'),
+            $factory->component('system_tablestruct_cache'),
+            $factory->component('system_query_cache'),
+            $factory->component('front_template_cache'),
+            $factory->component('admin_template_cache'),
+        );
 
-            in_array('system_userdata_cache', $options) and $this->clean_system_userdata_cache();
-
-            in_array('system_app_cache', $options) and $this->clean_system_app_cache();
-
-            in_array('front_template_cache', $options) and $this->clean_front_template_cache();
-
-            in_array('admin_template_cache', $options) and $this->clean_admin_template_cache();
-
-        } catch (UnexpectedValueException $e) {
-            ecjia_log_notice($e->getMessage());
-        }
-    }
-    
-    
-    protected function clean_system_tablestruct_cache() {
-        if ($this->files->isDirectory(SITE_CACHE_PATH . 'temp' . DS . 'table_caches'))
-            $this->files->deleteDirectory(SITE_CACHE_PATH . 'temp' . DS . 'table_caches');
-    }
-    
-    protected function clean_system_query_cache() {
-        if ($this->files->isDirectory(SITE_CACHE_PATH . 'temp' . DS . 'query_caches'))
-            $this->files->deleteDirectory(SITE_CACHE_PATH . 'temp' . DS . 'query_caches');
-    }
-    
-    protected function clean_system_userdata_cache() {
-        if ($this->files->isDirectory(SITE_CACHE_PATH . 'userdata'))
-            $this->files->deleteDirectory(SITE_CACHE_PATH . 'userdata');
-    }
-    
-    protected function clean_system_app_cache() {
-        if ($this->files->isDirectory(SITE_CACHE_PATH . 'cache'))
-            $this->files->deleteDirectory(SITE_CACHE_PATH . 'cache');
-    }
-    
-    protected function clean_front_template_cache() {
-        if ($this->files->isDirectory(SITE_CACHE_PATH . 'template' . DS . 'compiled' . DS . 'front'))
-            $this->files->deleteDirectory(SITE_CACHE_PATH . 'template' . DS . 'compiled' . DS . 'front');
-        
-        if ($this->files->isDirectory(SITE_CACHE_PATH . 'template' . DS . 'caches'))
-            $this->files->deleteDirectory(SITE_CACHE_PATH . 'template' . DS . 'caches');
-    }
-    
-    protected function clean_admin_template_cache() {
-        if ($this->files->isDirectory(SITE_CACHE_PATH . 'template' . DS . 'compiled' . DS . 'admin'))
-            $this->files->deleteDirectory(SITE_CACHE_PATH . 'template' . DS . 'compiled' . DS . 'admin');
-        
-        if ($this->files->isDirectory(SITE_CACHE_PATH . 'template' . DS . 'caches'))
-            $this->files->deleteDirectory(SITE_CACHE_PATH . 'template' . DS . 'caches');
+        return $caches;
     }
     
 }

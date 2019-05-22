@@ -52,8 +52,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
 return array(
 	'identifier' 	=> 'ecjia.system',
 	'directory' 	=> 'system',
-	'name'			=> 'system',
-	'description' 	=> 'system_desc',		/* 描述对应的语言项 */
+	'name'			=> __('系统'),
+	'description' 	=> __('ECJia系统框架'),		/* 描述对应的语言项 */
 	'author' 		=> 'ECJIA TEAM',			/* 作者 */
 	'website' 		=> 'http://www.ecjia.com',	/* 网址 */
 	'version' 		=> '1.18.0',					/* 版本号 */

@@ -725,14 +725,13 @@ if ( ! function_exists('ecjia_mysql_like_quote'))
 if ( ! function_exists('is_ecjia_error'))
 {
     /**
-     * Check whether variable is a ecjia Error.
+     * Check whether variable is a Royalcms Error.
      *
-     * Returns true if $thing is an object of the ecjia_error class.
+     * Returns true if $thing is an object of the RC_Error class.
      *
      * @since 1.0.0
      *
-     * @param mixed $thing
-     *            Check if unknown variable is a ecjia_error object.
+     * @param mixed $thing Check if unknown variable is a ecjia_error object.
      * @return bool True, if ecjia_error. False, if not ecjia_error.
      */
     function is_ecjia_error($thing)
@@ -1084,6 +1083,21 @@ if (! function_exists('ecjia_is_super_admin'))
         } else {
             return false;
         }
+    }
+}
+
+if (! function_exists('ecjia_alert_links'))
+{
+    /**
+     * 提示页面多链接转换，参数格式
+     * ['href'=>'','text'=>''], ['href'=>'','text'=>'']....
+     * @return array
+     */
+    function ecjia_alert_links()
+    {
+        $links = func_get_args();
+
+        return $links;
     }
 }
 

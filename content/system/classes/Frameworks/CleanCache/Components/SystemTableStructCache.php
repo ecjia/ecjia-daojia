@@ -44,88 +44,57 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-use Royalcms\Component\ClassLoader\ClassManager;
-
-/*
- |--------------------------------------------------------------------------
- | Register The Class Loader
- |--------------------------------------------------------------------------
- |
- | In addition to using Composer, you may use the Laravel class loader to
- | load your controllers and models. This is useful for keeping all of
- | your classes in the "global" namespace without Composer updating.
- |
+/**
+ * Created by PhpStorm.
+ * User: royalwang
+ * Date: 2018/7/23
+ * Time: 11:56 AM
  */
 
-//ClassManager::addNamespaces(array());
+namespace Ecjia\System\Frameworks\CleanCache\Components;
 
-//注册Session驱动
-RC_Session::extend('mysql', function ($royalcms) {
-    $getDatabaseConnection = function ($royalcms)
+
+use Ecjia\System\Frameworks\CleanCache\CacheComponentAbstract;
+
+class SystemTableStructCache extends CacheComponentAbstract
+{
+
+    /**
+     * 代号标识
+     * @var string
+     */
+    protected $code = 'system_tablestruct_cache';
+
+    protected $app = 'system';
+
+    /**
+     * 排序
+     * @var int
+     */
+    protected $sort = 3;
+
+    public function __construct()
     {
-        $connection = $royalcms['config']['session.connection'];
-    
-        return $royalcms['db']->connection($connection);
-    };
-    
-    $getDatabaseOptions = function ($table, $royalcms)
+        $this->name = __('数据表结构缓存');
+        $this->description = __('数据表结构缓存是数据库表结构的缓存文件。若数据库表结构有变动，则需要更新数据库表结构缓存才可以查看最新数据。');
+    }
+
+    public function handle()
     {
-        return array(
-            'db_table' => $table, 
-            'db_id_col' => 'id', 
-            'db_data_col' => 'payload', 
-            'db_time_col' => 'last_activity',
-            'db_userid_col' => 'user_id',
-            'db_usertype_col' => 'user_type',
-        );
-    };
+        $files = royalcms('files');
 
-    $connection = $getDatabaseConnection($royalcms);
-    
-    $table = $connection->getTablePrefix().$royalcms['config']['session.table'];
-    
-    return new Ecjia\System\Frameworks\Sessions\Handler\MysqlSessionHandler($connection->getPdo(), $getDatabaseOptions($table, $royalcms));
-});
-RC_Session::extend('memcache', function () {
-    $getPrefix = function () {
-        $defaultconnection = config('database.default');
-        $connection = array_get(config('database.connections'), $defaultconnection);
-        if (array_get($connection, 'database')) {
-            $prefix = $connection['database'] . ':';
+        try {
+            if ($files->isDirectory(SITE_CACHE_PATH . 'temp' . DS . 'table_caches'))
+            {
+                $files->deleteDirectory(SITE_CACHE_PATH . 'temp' . DS . 'table_caches');
+
+                return true;
+            }
         }
-        else {
-            $prefix = 'ecjia_session:';
+        catch (\UnexpectedValueException $e) {
+            ecjia_log_notice($e->getMessage());
         }
 
-        return $prefix;
-    };
-    
-    $options = [
-        'prefix' => $getPrefix(),
-        'expiretime' => config('session.lifetime', 1440) * 60
-    ];
-//    dd(royalcms('memcache'));
-    return new Ecjia\System\Frameworks\Sessions\Handler\MemcacheSessionHandler(royalcms('memcache'), $options);
-});
-RC_Session::extend('ecjiaredis', function () {
-    $getPrefix = function () {
-        $defaultconnection = config('database.default');
-        $connection = array_get(config('database.connections'), $defaultconnection);
-        if (array_get($connection, 'database')) {
-            $prefix = $connection['database'] . ':';
-        }
-        else {
-            $prefix = 'ecjia_session:';
-        }
+    }
 
-        return $prefix;
-    };
-
-    $options = [
-        'prefix' => $getPrefix(),
-        'expiretime' => config('session.lifetime', 1440) * 60,
-    ];
-
-    return new Ecjia\System\Frameworks\Sessions\Handler\RedisSessionHandler(royalcms('redis')->connection('session'), $options);
-});
-
+}

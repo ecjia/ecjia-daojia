@@ -129,38 +129,38 @@ class ScriptLoader implements ScriptLoaderInterface
         $dev_suffix = $develop_src ? '' : '.min';
 
         // 添加 ecjia-js
-        $this->scripts->add( 'ecjia', 				    '/lib/ecjia-js/ecjia.js', array('jquery') );
-        $this->scripts->add( 'ecjia-region', 			'/lib/ecjia-js/ecjia.region.js', array('ecjia') );
-        $this->scripts->add( 'ecjia-ui', 				'/lib/ecjia-js/ecjia.ui.js', array('ecjia') );
-        $this->scripts->add( 'ecjia-utils', 			'/lib/ecjia-js/ecjia.utils.js', array('ecjia') );
-        $this->scripts->add( 'ecjia-collect', 		    '/lib/ecjia-js/ecjia.collect.js', array('ecjia'), false, 1 );
-        $this->scripts->add( 'ecjia-hook', 		        '/lib/ecjia-js/ecjia.hook.js', array('ecjia'), false, 1 );
+        $this->scripts->add( 'ecjia', 				        "/lib/ecjia_js/ecjia$suffix.js", array('jquery') );
+        $this->scripts->add( 'ecjia-ui', 				    "/lib/ecjia_js/ecjia.ui$suffix.js", array('ecjia') );
+        $this->scripts->add( 'ecjia-collect', 		        "/lib/ecjia_js/ecjia.collect.js", array('ecjia'), false, 1 );
+        $this->scripts->add( 'ecjia-hook', 		            "/lib/ecjia_js/ecjia.hook$suffix.js", array('ecjia'), false, 1 );
+        $this->scripts->add( 'ecjia-utils', 			    "/lib/ecjia_js/ecjia.utils$suffix.js", array('ecjia'), false, 1 );
+        $this->scripts->add( 'ecjia-region', 			    "/lib/ecjia_js/ecjia.region$suffix.js", array('ecjia'), false, 1 );
 
         // 添加jquery
-        $this->scripts->add( 'jquery', 				    "/js/jquery$suffix.js", array(), '2.1.0' );
-        $this->scripts->add( 'jquery-pjax', 			"/js/jquery-pjax.js", array('jquery') );
-        $this->scripts->add( 'jquery-peity', 			"/js/jquery-peity$suffix.js", array('jquery'), '0.6.0', 1  );
-        $this->scripts->add( 'jquery-mockjax', 		    "/js/jquery-mockjax$suffix.js", array('jquery'), '1.5.1', 1 );
-        $this->scripts->add( 'jquery-wookmark', 		"/js/jquery-wookmark$suffix.js", array('jquery'), false, 1 );
-        $this->scripts->add( 'jquery-migrate', 		    "/js/jquery-migrate$suffix.js", array('jquery'), '1.0.0', 1 );
-        $this->scripts->add( 'jquery-cookie', 		    "/js/jquery-cookie$suffix.js", array('jquery'), true, 1 );
-        $this->scripts->add( 'jquery-actual', 		    "/js/jquery-actual$suffix.js", array('jquery'), '1.0.6', 1 );
-        $this->scripts->add( 'jquery-debouncedresize',  "/js/jquery-debouncedresize$suffix.js", array('jquery'), false, 1 );
-        $this->scripts->add( 'jquery-easing', 		    "/js/jquery-easing$suffix.js", array('jquery'), '1.3', 1 );
-        $this->scripts->add( 'jquery-mediaTable', 	    "/js/jquery-mediaTable$suffix.js", array('jquery'), false, 1 );
-        $this->scripts->add( 'jquery-imagesloaded', 	"/js/jquery-imagesloaded$suffix.js", array('jquery'), '2.0.1', 1 );
-        $this->scripts->add( 'jquery-gmap3', 			"/js/jquery-gmap3$suffix.js", array('jquery'), false, 1 );
-        $this->scripts->add( 'jquery-autosize', 		"/js/jquery-autosize$suffix.js", array('jquery'), '1.7', 1 );
-        $this->scripts->add( 'jquery-counter', 		    "/js/jquery-counter$suffix.js", array('jquery'), '2.1', 1 );
-        $this->scripts->add( 'jquery-inputmask', 		"/js/jquery-inputmask$suffix.js", array('jquery'), false, 1 );
-        $this->scripts->add( 'jquery-progressbar',	    "/js/jquery-anim_progressbar$suffix.js", array('jquery'), false, 1 );
+        $this->scripts->add( 'jquery', 				        "/js/jquery$suffix.js", array(), '2.1.0' );
+        $this->scripts->add( 'jquery-pjax', 			    "/js/jquery-pjax.js", array('jquery') );
+        $this->scripts->add( 'jquery-peity', 			    "/js/jquery-peity$suffix.js", array('jquery'), '0.6.0', 1  );
+        $this->scripts->add( 'jquery-mockjax', 		        "/js/jquery-mockjax$suffix.js", array('jquery'), '1.5.1', 1 );
+        $this->scripts->add( 'jquery-wookmark', 		    "/js/jquery-wookmark$suffix.js", array('jquery'), false, 1 );
+        $this->scripts->add( 'jquery-migrate', 		        "/js/jquery-migrate$suffix.js", array('jquery'), '1.0.0', 1 );
+        $this->scripts->add( 'jquery-cookie', 		        "/js/jquery-cookie$suffix.js", array('jquery'), true, 1 );
+        $this->scripts->add( 'jquery-actual', 		        "/js/jquery-actual$suffix.js", array('jquery'), '1.0.6', 1 );
+        $this->scripts->add( 'jquery-debouncedresize',      "/js/jquery-debouncedresize$suffix.js", array('jquery'), false, 1 );
+        $this->scripts->add( 'jquery-easing', 		        "/js/jquery-easing$suffix.js", array('jquery'), '1.3', 1 );
+        $this->scripts->add( 'jquery-mediaTable', 	        "/js/jquery-mediaTable$suffix.js", array('jquery'), false, 1 );
+        $this->scripts->add( 'jquery-imagesloaded', 	    "/js/jquery-imagesloaded$suffix.js", array('jquery'), '2.0.1', 1 );
+        $this->scripts->add( 'jquery-gmap3', 			    "/js/jquery-gmap3$suffix.js", array('jquery'), false, 1 );
+        $this->scripts->add( 'jquery-autosize', 		    "/js/jquery-autosize$suffix.js", array('jquery'), '1.7', 1 );
+        $this->scripts->add( 'jquery-counter', 		        "/js/jquery-counter$suffix.js", array('jquery'), '2.1', 1 );
+        $this->scripts->add( 'jquery-inputmask', 		    "/js/jquery-inputmask$suffix.js", array('jquery'), false, 1 );
+        $this->scripts->add( 'jquery-progressbar',	        "/js/jquery-anim_progressbar$suffix.js", array('jquery'), false, 1 );
 
-        $this->scripts->add( 'js-json', 				"/js/json2.js", array(), false, 1 );
-        $this->scripts->add( 'js-sprintf', 			    "/lib/sprintf_js/sprintf$suffix.js", array(), '1.1.2', 1 );
+        $this->scripts->add( 'js-json', 				    "/js/json2.js", array(), false, 1 );
+        $this->scripts->add( 'js-sprintf', 			        "/lib/sprintf_js/sprintf$suffix.js", array(), '1.1.2', 1 );
 
         // 添加jquery-ui
-        $this->scripts->add( 'jquery-ui-touchpunch',	"/js/ui/jquery-ui-touchpunch$suffix.js", array('jquery-ui'), false, 1 );
-        $this->scripts->add( 'jquery-ui-totop',		    "/js/ui/jquery-ui-totop$suffix.js", array('jquery-ui'), false, 1 );
+        $this->scripts->add( 'jquery-ui-touchpunch',	    "/js/ui/jquery-ui-touchpunch$suffix.js", array('jquery-ui'), false, 1 );
+        $this->scripts->add( 'jquery-ui-totop',		        "/js/ui/jquery-ui-totop$suffix.js", array(), false, 1 );
 
 
         // 添加ecjia-admin

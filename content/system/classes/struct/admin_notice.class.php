@@ -45,9 +45,23 @@
 //  ---------------------------------------------------------------------------------
 //
 class admin_notice {
-    private $content;
-    private $type;
-    private $allow_close = true;
+
+    protected $content;
+
+    /**
+     * @var string
+     * 默认为空 黄色条
+     * alert-error 红色条
+     * alert-success 绿色条
+     * alert-info 蓝色条
+     */
+    protected $type;
+
+    /**
+     * 是否允许关闭
+     * @var bool
+     */
+    protected $allow_close = true;
     
     public function __construct($content, $type = '', $allow_close = true) {
         $this->content      = $content;

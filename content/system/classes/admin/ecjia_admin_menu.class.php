@@ -112,7 +112,7 @@ class ecjia_admin_menu extends RC_Object {
     public function admin_navlist() {
         $admin_id = $_SESSION['admin_id'];
         $shortcut = RC_Cache::userdata_cache_get('admin_navlist', $admin_id, true);
-        if (empty($shortcut2)) {
+        if (empty($shortcut)) {
             $admin_navlist = RC_Model::model('admin_user_model')->get_nav_list();
             $shortcut = array();
             $i = 0;

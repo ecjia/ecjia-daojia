@@ -94,5 +94,22 @@ class SessionLogins
         return SessionLoginsModel::where('user_id', $this->user_id)->where('user_type', $this->user_type)->delete();
     }
 
+    /**
+     * 通过user_id获取数据
+     * @return \Royalcms\Component\Support\Collection
+     */
+    public function getByUserId()
+    {
+        return SessionLoginsModel::where('user_id', $this->user_id)->where('user_type', $this->user_type)->get();
+    }
+
+    /**
+     * 获取当前在线用户总数
+     * @return int
+     */
+    public function getUserCount()
+    {
+        return SessionLoginsModel::where('user_type', $this->user_type)->count();
+    }
 
 }

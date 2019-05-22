@@ -219,52 +219,6 @@ class index extends ecjia_admin {
     	$this->display('about_system.dwt');
     }
 
-
-    /**
-     * 更新缓存
-     */
-    public function update_cache() {
-        RC_Style::enqueue_style('jquery-stepy');
-        RC_Style::enqueue_style('uniform-aristo');
-        RC_Script::enqueue_script('jquery-uniform');
-        RC_Script::enqueue_script('jquery-stepy');
-        RC_Script::enqueue_script('smoke');
-
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('更新缓存')));
-
-        ecjia_screen::get_current_screen()->add_help_tab( array(
-        'id'        => 'overview',
-        'title'     => __('概述'),
-        'content'   =>
-        '<p>' . __('欢迎访问ECJia智能后台更新缓存页面，可以在此页面进行清除系统中缓存的操作。') . '</p>'
-        ) );
-         
-        ecjia_screen::get_current_screen()->set_help_sidebar(
-        '<p><strong>' . __('更多信息：') . '</strong></p>' .
-        '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:更新缓存" target="_blank">关于清除缓存帮助文档</a>') . '</p>'
-        );
-         
-        
-        if (IS_POST) {
-            $cachekey = $_POST['cachekey'];
-            ecjia_update_cache::make()->clean($cachekey);
-        } else {
-            RC_Script::enqueue_script('ecjia-admin_cache');
-            RC_Style::enqueue_style('chosen');
-            RC_Script::enqueue_script('jquery-chosen');
-
-            $res = ecjia_cache::make()->load_cache();
-            $this->assign('ur_here',    __('更新缓存'));
-
-            //js语言包调用
-            RC_Script::localize_script('ecjia-admin_cache', 'admin_cache_lang', config('system::jslang.cache_page'));
-            
-            $this->assign('cache_list', $res);
-            $this->display('admin_cache.dwt');
-        }
-    }
-
-
     /**
      * 证书编辑页
      */

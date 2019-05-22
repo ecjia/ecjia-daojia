@@ -1,5 +1,5 @@
 <?php
-//
+//  
 //    ______         ______           __         __         ______
 //   /\  ___\       /\  ___\         /\_\       /\_\       /\  __ \
 //   \/\  __\       \/\ \____        \/\_\      \/\_\      \/\ \_\ \
@@ -7,7 +7,7 @@
 //     \/_____/       \/_____/     \/__\/_/       \/_/       \/_/ /_/
 //
 //   上海商创网络科技有限公司
-//
+//   
 //  ---------------------------------------------------------------------------------
 //
 //   一、协议的许可和权利
@@ -44,88 +44,103 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-use Royalcms\Component\ClassLoader\ClassManager;
+namespace Ecjia\System\Admins\AdminLog;
 
-/*
- |--------------------------------------------------------------------------
- | Register The Class Loader
- |--------------------------------------------------------------------------
- |
- | In addition to using Composer, you may use the Laravel class loader to
- | load your controllers and models. This is useful for keeping all of
- | your classes in the "global" namespace without Composer updating.
- |
+/**
+ * ECJia 后台日志管理类
+ * @author royalwang
+ *
  */
+class AdminLog
+{
+    use CompatibleTrait;
 
-//ClassManager::addNamespaces(array());
+    /**
+     * 日志动作
+     * @var AdminLogAction
+     */
+    protected $log_action;
 
-//注册Session驱动
-RC_Session::extend('mysql', function ($royalcms) {
-    $getDatabaseConnection = function ($royalcms)
+    /**
+     * 日志对象
+     * @var AdminLogObject
+     */
+    protected $log_object;
+
+    /**
+     * AdminLog constructor.
+     * @param AdminLogAction $log_action
+     * @param AdminLogObject $log_object
+     */
+    public function __construct(AdminLogAction $log_action, AdminLogObject $log_object)
     {
-        $connection = $royalcms['config']['session.connection'];
-    
-        return $royalcms['db']->connection($connection);
-    };
-    
-    $getDatabaseOptions = function ($table, $royalcms)
+        $this->log_action = $log_action;
+
+        $this->log_object = $log_object;
+
+    }
+
+    /**
+     * @return AdminLogAction
+     */
+    public function getLogAction()
     {
-        return array(
-            'db_table' => $table, 
-            'db_id_col' => 'id', 
-            'db_data_col' => 'payload', 
-            'db_time_col' => 'last_activity',
-            'db_userid_col' => 'user_id',
-            'db_usertype_col' => 'user_type',
-        );
-    };
+        return $this->log_action;
+    }
 
-    $connection = $getDatabaseConnection($royalcms);
+    /**
+     * @return AdminLogObject
+     */
+    public function getLogObject()
+    {
+        return $this->log_object;
+    }
     
-    $table = $connection->getTablePrefix().$royalcms['config']['session.table'];
-    
-    return new Ecjia\System\Frameworks\Sessions\Handler\MysqlSessionHandler($connection->getPdo(), $getDatabaseOptions($table, $royalcms));
-});
-RC_Session::extend('memcache', function () {
-    $getPrefix = function () {
-        $defaultconnection = config('database.default');
-        $connection = array_get(config('database.connections'), $defaultconnection);
-        if (array_get($connection, 'database')) {
-            $prefix = $connection['database'] . ':';
+    /**
+     * 记录管理员的操作内容
+     *
+     * @param   string      $sn         数据的唯一值
+     * @param   string      $action     操作的动作
+     * @param   string      $object     操作的对象
+     * @return  string
+     */
+    public function getMessage($sn, $action, $object, $callback = null)
+    {
+        if (is_callable($callback)) {
+            $callback($this);
         }
-        else {
-            $prefix = 'ecjia_session:';
-        }
-
-        return $prefix;
-    };
-    
-    $options = [
-        'prefix' => $getPrefix(),
-        'expiretime' => config('session.lifetime', 1440) * 60
-    ];
-//    dd(royalcms('memcache'));
-    return new Ecjia\System\Frameworks\Sessions\Handler\MemcacheSessionHandler(royalcms('memcache'), $options);
-});
-RC_Session::extend('ecjiaredis', function () {
-    $getPrefix = function () {
-        $defaultconnection = config('database.default');
-        $connection = array_get(config('database.connections'), $defaultconnection);
-        if (array_get($connection, 'database')) {
-            $prefix = $connection['database'] . ':';
-        }
-        else {
-            $prefix = 'ecjia_session:';
+        elseif (is_array($callback)) {
+            $this->log_action->addActions(array_get($callback, 'action', []));
+            $this->log_object->addObjects(array_get($callback, 'object', []));
         }
 
-        return $prefix;
-    };
+        if ($this->log_action->hasAction($action) && $this->log_object->hasObject($object)) {
+            $log_info = $this->log_action->getAction($action) .' '. $this->log_object->getObject($object) .': '. addslashes($sn);
+        } else {
+            $log_info = addslashes($sn);
+        }
 
-    $options = [
-        'prefix' => $getPrefix(),
-        'expiretime' => config('session.lifetime', 1440) * 60,
-    ];
+        return $log_info;
+    }
 
-    return new Ecjia\System\Frameworks\Sessions\Handler\RedisSessionHandler(royalcms('redis')->connection('session'), $options);
-});
 
+    /**
+     * 返回当前终级类对象的实例
+     *
+     * @return static
+     */
+    public static function instance()
+    {
+        static $instance;
+
+        if (is_null($instance)) {
+            $instance = new static(new AdminLogAction(), new AdminLogObject());
+        }
+
+        return $instance;
+    }
+
+
+}
+
+// end

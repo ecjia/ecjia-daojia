@@ -55,6 +55,7 @@ use Ecjia\System\Version\VersionManager;
 use Ecjia\System\Config\Config;
 use Ecjia\System\Config\ConfigModel;
 use Ecjia\System\Config\DatabaseConfigRepository;
+use Ecjia\System\Frameworks\CleanCache\CacheManger;
 
 class SystemServiceProvider extends AppParentServiceProvider 
 {
@@ -97,6 +98,8 @@ class SystemServiceProvider extends AppParentServiceProvider
 	    $this->registerConfigRepository();
 	    
 	    $this->registerConfig();
+
+	    $this->registerCache();
 	    
 	    $this->loadAlias();
 
@@ -152,6 +155,18 @@ class SystemServiceProvider extends AppParentServiceProvider
 	        return new VersionManager($royalcms);
 	    });
 	}
+
+    /**
+     * Register the Cache service
+     * @return \Ecjia\System\Admins\CleanCache\CacheManger
+     */
+    public function registerCache()
+    {
+        $this->royalcms->bindShared('ecjia.cache', function($royalcms)
+        {
+            return new CacheManger();
+        });
+    }
 	
 	
 	/**
@@ -194,6 +209,8 @@ class SystemServiceProvider extends AppParentServiceProvider
 	        $loader->alias('Ecjia_SiteManager', 'Ecjia\System\Facades\SiteManager');
 	        $loader->alias('Ecjia_VersionManager', 'Ecjia\System\Facades\VersionManager');
 	        $loader->alias('ecjia_config', 'Ecjia\System\Facades\Config');
+	        $loader->alias('ecjia_update_cache', 'Ecjia\System\Facades\Cache');
+            $loader->alias('ecjia_admin_log', 'Ecjia\System\Facades\AdminLog');
 
 	        //compatible
 	        $loader->alias('ecjia_base', 'Ecjia\System\BaseController\EcjiaController');
@@ -210,6 +227,7 @@ class SystemServiceProvider extends AppParentServiceProvider
 	{
 	    return array(
 	        'ecjia.config',
+	        'ecjia.cache',
 	    );
 	}
 
@@ -220,12 +238,10 @@ class SystemServiceProvider extends AppParentServiceProvider
      */
     public static function compiles()
     {
-        $dir = __DIR__ . '/../';
+        $dir = __DIR__ . '/..';
         return [
             $dir . "/Http/Kernel.php",
             $dir . "/Exceptions/Handler.php",
-            $dir . "/Sessions/Handler/MysqlSessionHandler.php",
-            $dir . "/Sessions/EcjiaSessionInterface.php",
 
             $dir . "/Facades/Config.php",
             $dir . "/Facades/ThemeManager.php",
@@ -233,6 +249,7 @@ class SystemServiceProvider extends AppParentServiceProvider
             $dir . "/Facades/SiteManager.php",
             $dir . "/Facades/VersionManager.php",
 
+            $dir . "/Frameworks/Contracts/EcjiaSessionInterface.php",
             $dir . "/Frameworks/Contracts/EcjiaTemplateFileLoader.php",
             $dir . "/Frameworks/Contracts/PaidOrderProcessInterface.php",
             $dir . "/Frameworks/Contracts/ScriptLoaderInterface.php",
@@ -241,17 +258,20 @@ class SystemServiceProvider extends AppParentServiceProvider
             $dir . "/Frameworks/Contracts/UserInterface.php",
             $dir . "/Frameworks/Contracts/ShopInterface.php",
 
+            $dir . "/Frameworks/Sessions/Traits/EcjiaSessionSpecTrait.php",
+            $dir . "/Frameworks/Sessions/Handler/MysqlSessionHandler.php",
+
             $dir . "/Config/DatabaseConfigRepository.php",
             $dir . "/Config/ConfigRepositoryInterface.php",
             $dir . "/Config/ConfigModel.php",
             $dir . "/Config/Config.php",
             $dir . "/Config/CompatibleTrait.php",
+
             $dir . "/Theme/ThemeManager.php",
             $dir . "/Theme/Theme.php",
             $dir . "/Theme/ParseThemeStyle.php",
 
             $dir . "/BaseController/EcjiaController.php",
-
 
             $dir . "/ecjia_view.class.php",
             $dir . "/ecjia_notification.class.php",

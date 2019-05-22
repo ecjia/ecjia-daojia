@@ -1144,7 +1144,7 @@ class ecjia_screen {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return WP_Screen Current screen object
+	 * @return self Current screen object
 	 */
 	public static function get_current_screen() {
 	    if ( ! isset( self::$current_screen ) )
