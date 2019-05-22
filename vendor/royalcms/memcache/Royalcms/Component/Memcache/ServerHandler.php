@@ -52,7 +52,7 @@ class ServerHandler implements CommandInterface
 
         /* Getting first line */
         $buffer = fgets($handle);
-        
+
         /* Checking if result is valid */
         if ($this->end($buffer, $command))
         {
@@ -62,7 +62,7 @@ class ServerHandler implements CommandInterface
             /* Adding error to log */
             self::$_log = $buffer;
 
-            return false;
+            return $buffer;
         }
 
         /* Reading Results */
