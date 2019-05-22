@@ -74,6 +74,7 @@ class GoodsTransformer extends Transformer
             // "goods_desc" =>$data['goods_desc'],
             "collected"     => $data['collected'],
             "market_price"  => $data['market_price'] > 0 ? ecjia_price_format($data['market_price']) : ecjia_price_format($data['shop_price']),
+        	"unformatted_market_price"  => $data['market_price'] > 0 ? $data['market_price'] : ecjia_price_format($data['shop_price']),
             "shop_price"    => $data['shop_price'] > 0 ? ecjia_price_format($data['shop_price']) : __('免费'),
             "integral"      => $data['integral'],
             "click_count"   => $data['click_count'],
