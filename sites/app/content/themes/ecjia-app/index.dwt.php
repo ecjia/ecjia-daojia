@@ -392,7 +392,7 @@
                 </p>
             </div>
             <p>{if $company_name}{$company_name} {t domain="ecjia-app"}版权所有{/t}{/if} {if ecjia::config('icp_number')}&nbsp;&nbsp;
-                <a href="http://www.miibeian.gov.cn" target="_blank"> {ecjia::config('icp_number')}</a>{/if}&nbsp;&nbsp;{$commoninfo.powered}</p>
+                <a href="http://beian.miit.gov.cn" target="_blank"> {ecjia::config('icp_number')}</a>{/if}&nbsp;&nbsp;{$commoninfo.powered}</p>
             <p>{if $shop_address}{t domain="ecjia-app"}地址：{/t}{$shop_address} {/if} {if $service_phone} {t domain="ecjia-app"}咨询热线：{/t}{$service_phone}{/if}</p>
         </div>
     </div>
