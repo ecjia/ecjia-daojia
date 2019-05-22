@@ -1,6 +1,6 @@
 <?php
 
-namespace Royalcms\Component\TemporaryDirectory\TemporaryDirectory;
+namespace Royalcms\Component\TemporaryDirectory;
 
 use Exception;
 use InvalidArgumentException;
