@@ -131,7 +131,7 @@ class article_detail_module extends api_front implements api_interface {
 			$filters['is_best'] = 1;
 			
 			//排序
-			$order_by = array('sort_order' => 'asc', 'goods_id' => 'desc');
+			$order_by = array('goods.sort_order' => 'asc', 'goods.goods_id' => 'desc');
 			if (!empty($order_by)) {
 				$filters['sort_by'] = $order_by;
 			}
