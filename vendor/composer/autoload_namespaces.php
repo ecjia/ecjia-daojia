@@ -30,6 +30,7 @@ return array(
     'Royalcms\\Component\\Debugbar\\' => array($vendorDir . '/royalcms/debugbar'),
     'Royalcms\\Component\\DefaultRoute\\' => array($vendorDir . '/royalcms/default-route'),
     'Royalcms\\Component\\DirectoryHasher\\' => array($vendorDir . '/royalcms/directory-hasher'),
+    'Royalcms\\Component\\DataExport\\' => array($vendorDir . '/royalcms/data-export'),
     'Royalcms\\Component\\Editor\\' => array($vendorDir . '/royalcms/editor'),
     'Royalcms\\Component\\Encryption\\' => array($vendorDir . '/royalcms/encryption'),
     'Royalcms\\Component\\Enum\\' => array($vendorDir . '/royalcms/enum'),
