@@ -3,15 +3,15 @@
 	<label class="control-label">{$var.name}：</label>
 	<div class="controls">
 		<!-- {if $var.type eq "text"} -->
-		<input class="w350" type="text" name="value[{$var.id}]" id="value[{$var.id}]" value="{$var.value}" />
+		<input class="w350" type="text" name="value[{$var.id}]" id="value[{$var.id}]" value="{$var.value}" data-code="{$var.code}" />
 		<!-- {elseif $var.type eq "password"} -->
-		<input class="w350" type="password" name="value[{$var.id}]" value="{$var.value}" />
+		<input class="w350" type="password" name="value[{$var.id}]" value="{$var.value}" data-code="{$var.code}" />
 		<!-- {elseif $var.type eq "textarea"} -->
-		<textarea class="w350" name="value[{$var.id}]" cols="40" rows="5">{$var.value}</textarea>
+		<textarea class="w350" name="value[{$var.id}]" cols="40" rows="5" data-code="{$var.code}">{$var.value}</textarea>
 		<!-- {elseif $var.type eq "select"} -->
 		<!-- {foreach from=$var.store_options key=k item=opt} -->
 		<label class="p_r10 ecjiafd-inline" for="value_{$var.id}_{$k}">
-			<input type="radio" name="value[{$var.id}]" id="value_{$var.code}_{$k}" value="{$opt}" {if $var.value eq $opt}checked="checked"{/if} />{$var.display_options[$k]}
+			<input type="radio" name="value[{$var.id}]" id="value_{$var.code}_{$k}" value="{$opt}" {if $var.value eq $opt}checked="checked"{/if}  data-code="{$var.code}"/>{$var.display_options[$k]}
 		</label>
 		<!-- {/foreach} -->
 		<!-- {elseif $var.type eq "open_radio"} -->
@@ -29,7 +29,7 @@
 			<input type="hidden" {if $var.value neq '1'}name="value[{$var.id}]"{/if} value="0" />
 		</div>
 		<!-- {elseif $var.type eq "options"} -->
-		<select class="w350" name="value[{$var.id}]" id="value_{$var.id}_{$key}">
+		<select class="w350" name="value[{$var.id}]" id="value_{$var.id}_{$key}" data-code="{$var.code}">
 			<!-- {html_options options=$cfg_range_lang[$var.code] selected=$var.value} -->
 		</select>
 		<!-- {elseif $var.type eq "file"} -->
