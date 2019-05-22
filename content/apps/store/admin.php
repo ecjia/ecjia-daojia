@@ -1896,6 +1896,29 @@ class admin extends ecjia_admin
 
     }
 
+    /**
+     * 通过request组装数据
+     *
+     * @param array $raw_data
+     * @param $keys
+     * @param string $default
+     */
+    private function prepareData(array &$raw_data, $keys, $default = '')
+    {
+        if (is_string($keys)) {
+            $keys = explode(',', $keys);
+        }
+
+        if (is_array($keys)) {
+            foreach ($keys as $key) {
+                if (!isset($raw_data[$key])) {
+                    $val = $this->request->input($key);
+                    $raw_data[$key] = is_null($val) ? $default : $val;
+                }
+            }
+        }
+    }
+
 }
 
 //end
