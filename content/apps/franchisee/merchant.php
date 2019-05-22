@@ -67,7 +67,7 @@ class merchant extends ecjia_merchant
         RC_Style::enqueue_style('mh_franchisee', RC_App::apps_url('statics/css/mh_franchisee.css', __FILE__), array());
 
         RC_Script::enqueue_script('migrate', RC_App::apps_url('statics/js/migrate.js', __FILE__), array(), false, 1);
-        RC_Script::enqueue_script('region', RC_Uri::admin_url('statics/lib/ecjia-js/ecjia.region.js'));
+        RC_Script::enqueue_script('region', RC_Uri::admin_url('statics/lib/ecjia_js/ecjia.region.js'));
         RC_Script::enqueue_script('qq_map', ecjia_location_mapjs());
 		//js语言包
         RC_Script::localize_script('franchisee', 'js_lang', config('app-franchisee::jslang.merchant_franchisee_page'));
