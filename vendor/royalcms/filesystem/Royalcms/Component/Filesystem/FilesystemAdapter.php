@@ -2,14 +2,17 @@
 
 namespace Royalcms\Component\Filesystem;
 
+use RuntimeException;
 use InvalidArgumentException;
 use Royalcms\Component\Support\Collection;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\FileNotFoundException;
+use League\Flysystem\Adapter\Local as LocalAdapter;
 use Royalcms\Component\Contracts\Filesystem\Filesystem as FilesystemContract;
 use Royalcms\Component\Contracts\Filesystem\Cloud as CloudFilesystemContract;
 use Royalcms\Component\Contracts\Filesystem\FileNotFoundException as ContractFileNotFoundException;
+use Royalcms\Component\Support\Str;
 
 class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
 {
@@ -24,7 +27,6 @@ class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
      * Create a new filesystem adapter instance.
      *
      * @param  \League\Flysystem\FilesystemInterface  $driver
-     * @return void
      */
     public function __construct(FilesystemInterface $driver)
     {
@@ -40,6 +42,17 @@ class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
     public function exists($path)
     {
         return $this->driver->has($path);
+    }
+
+    /**
+     * Get the full path for the file at the given "short" path.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    public function path($path)
+    {
+        return $this->driver->getAdapter()->getPathPrefix().$path;
     }
 
     /**
@@ -83,6 +96,46 @@ class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
     }
 
     /**
+     * Store the uploaded file on the disk.
+     *
+     * @param  string  $path
+     * @param  \Royalcms\Component\Http\File|\Royalcms\Component\Http\UploadedFile  $file
+     * @param  array  $options
+     * @return string|false
+     */
+    public function putFile($path, $file, $options = [])
+    {
+        return $this->putFileAs($path, $file, $file->hashName(), $options);
+    }
+
+    /**
+     * Store the uploaded file on the disk with a given name.
+     *
+     * @param  string  $path
+     * @param  \Royalcms\Component\Http\File|\Royalcms\Component\Http\UploadedFile  $file
+     * @param  string  $name
+     * @param  array  $options
+     * @return string|false
+     */
+    public function putFileAs($path, $file, $name, $options = [])
+    {
+        $stream = fopen($file->getRealPath(), 'r+');
+
+        // Next, we will format the path of the file and store the file using a stream since
+        // they provide better performance than alternatives. Once we write the file this
+        // stream will get closed automatically by us so the developer doesn't have to.
+        $result = $this->put(
+            $path = trim($path.'/'.$name, '/'), $stream, $options
+        );
+
+        if (is_resource($stream)) {
+            fclose($stream);
+        }
+
+        return $result ? $path : false;
+    }
+
+    /**
      * Get the visibility for the given path.
      *
      * @param  string  $path
@@ -102,7 +155,7 @@ class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
      *
      * @param  string  $path
      * @param  string  $visibility
-     * @return void
+     * @return
      */
     public function setVisibility($path, $visibility)
     {
@@ -116,10 +169,10 @@ class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
      * @param  string  $data
      * @return int
      */
-    public function prepend($path, $data)
+    public function prepend($path, $data, $separator = PHP_EOL)
     {
         if ($this->exists($path)) {
-            return $this->put($path, $data.PHP_EOL.$this->get($path));
+            return $this->put($path, $data.$separator.$this->get($path));
         }
 
         return $this->put($path, $data);
@@ -132,10 +185,10 @@ class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
      * @param  string  $data
      * @return int
      */
-    public function append($path, $data)
+    public function append($path, $data, $separator = PHP_EOL)
     {
         if ($this->exists($path)) {
-            return $this->put($path, $this->get($path).PHP_EOL.$data);
+            return $this->put($path, $this->get($path).$separator.$data);
         }
 
         return $this->put($path, $data);
@@ -151,11 +204,19 @@ class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
     {
         $paths = is_array($paths) ? $paths : func_get_args();
 
+        $success = true;
+
         foreach ($paths as $path) {
-            $this->driver->delete($path);
+            try {
+                if (! $this->driver->delete($path)) {
+                    $success = false;
+                }
+            } catch (FileNotFoundException $e) {
+                $success = false;
+            }
         }
 
-        return true;
+        return $success;
     }
 
     /**
@@ -213,6 +274,73 @@ class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
     public function lastModified($path)
     {
         return $this->driver->getTimestamp($path);
+    }
+
+    /**
+     * Get the URL for the file at the given path.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    public function url($path)
+    {
+        $adapter = $this->driver->getAdapter();
+
+        if (method_exists($adapter, 'getUrl')) {
+            return $adapter->getUrl($path);
+        } elseif ($adapter instanceof LocalAdapter) {
+            return $this->getLocalUrl($path);
+        } else {
+            throw new RuntimeException('This driver does not support retrieving URLs.');
+        }
+    }
+
+    /**
+     * Get the URL for the file at the given path.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    protected function getLocalUrl($path)
+    {
+        $config = $this->driver->getConfig();
+
+        // If an explicit base URL has been set on the disk configuration then we will use
+        // it as the base URL instead of the default path. This allows the developer to
+        // have full control over the base path for this filesystem's generated URLs.
+        if ($config->has('url')) {
+            return rtrim($config->get('url'), '/').'/'.ltrim($path, '/');
+        }
+
+        $path = SITE_UPLOAD_URL . '/' . $path;
+
+        // If the path contains "content/uploads/public", it probably means the developer is using
+        // the default disk to generate the path instead of the "public" disk like they
+        // are really supposed to use. We will remove the public from this path here.
+        if (Str::contains($path, '/content/uploads/public/')) {
+            return Str::replaceFirst('/public/', '/', $path);
+        } else {
+            return $path;
+        }
+    }
+
+    /**
+     * Get a temporary URL for the file at the given path.
+     *
+     * @param  string  $path
+     * @param  \DateTimeInterface  $expiration
+     * @param  array  $options
+     * @return string
+     */
+    public function temporaryUrl($path, $expiration, array $options = [])
+    {
+        $adapter = $this->driver->getAdapter();
+
+        if (method_exists($adapter, 'getTemporaryUrl')) {
+            return $adapter->getTemporaryUrl($path, $expiration, $options);
+        } else {
+            throw new RuntimeException('This driver does not support creating temporary URLs.');
+        }
     }
 
     /**
@@ -323,7 +451,7 @@ class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
     protected function parseVisibility($visibility)
     {
         if (is_null($visibility)) {
-            return;
+            return null;
         }
 
         switch ($visibility) {

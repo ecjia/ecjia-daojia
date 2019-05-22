@@ -3,17 +3,13 @@
 namespace Royalcms\Component\Filesystem;
 
 use Closure;
-use Aws\S3\S3Client;
-use OpenCloud\Rackspace;
 use Royalcms\Component\Support\Arr;
 use InvalidArgumentException;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\Filesystem as Flysystem;
 use League\Flysystem\Adapter\Ftp as FtpAdapter;
-use League\Flysystem\Rackspace\RackspaceAdapter;
 use League\Flysystem\Adapter\Local as LocalAdapter;
-use League\Flysystem\AwsS3v3\AwsS3Adapter as S3Adapter;
 use Royalcms\Component\Contracts\Filesystem\Factory as FactoryContract;
 
 class FilesystemManager implements FactoryContract
@@ -161,73 +157,6 @@ class FilesystemManager implements FactoryContract
         return $this->adapt($this->createFlysystem(
             new FtpAdapter($ftpConfig), $config
         ));
-    }
-
-    /**
-     * Create an instance of the Amazon S3 driver.
-     *
-     * @param  array  $config
-     * @return \Royalcms\Component\Contracts\Filesystem\Cloud
-     */
-    public function createS3Driver(array $config)
-    {
-        $s3Config = $this->formatS3Config($config);
-
-        $root = isset($s3Config['root']) ? $s3Config['root'] : null;
-
-        return $this->adapt($this->createFlysystem(
-            new S3Adapter(new S3Client($s3Config), $s3Config['bucket'], $root), $config
-        ));
-    }
-
-    /**
-     * Format the given S3 configuration with the default options.
-     *
-     * @param  array  $config
-     * @return array
-     */
-    protected function formatS3Config(array $config)
-    {
-        $config += ['version' => 'latest'];
-
-        if ($config['key'] && $config['secret']) {
-            $config['credentials'] = Arr::only($config, ['key', 'secret']);
-        }
-
-        return $config;
-    }
-
-    /**
-     * Create an instance of the Rackspace driver.
-     *
-     * @param  array  $config
-     * @return \Royalcms\Component\Contracts\Filesystem\Cloud
-     */
-    public function createRackspaceDriver(array $config)
-    {
-        $client = new Rackspace($config['endpoint'], [
-            'username' => $config['username'], 'apiKey' => $config['key'],
-        ]);
-
-        return $this->adapt($this->createFlysystem(
-            new RackspaceAdapter($this->getRackspaceContainer($client, $config)), $config
-        ));
-    }
-
-    /**
-     * Get the Rackspace Cloud Files container.
-     *
-     * @param  \OpenCloud\Rackspace  $client
-     * @param  array  $config
-     * @return \OpenCloud\ObjectStore\Resource\Container
-     */
-    protected function getRackspaceContainer(Rackspace $client, array $config)
-    {
-        $urlType = Arr::get($config, 'url_type');
-
-        $store = $client->objectStoreService('cloudFiles', $config['region'], $urlType);
-
-        return $store->getContainer($config['container']);
     }
 
     /**

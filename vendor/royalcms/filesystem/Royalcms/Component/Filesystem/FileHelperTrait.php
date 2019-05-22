@@ -12,11 +12,15 @@ use finfo;
 use RC_Hook;
 use RC_Format;
 use RC_Config;
+use Royalcms\Component\Support\Str;
 
 /**
  * @todo royalcms
  * Trait FileHelperTrait
  * @package Royalcms\Component\Filesystem
+ *
+ * @method static string extension($path) Extract the file extension from a file path.
+ *
  */
 trait FileHelperTrait
 {
@@ -128,6 +132,28 @@ trait FileHelperTrait
         return '';
     }
 
+    /**
+     * 取得文件扩展名
+     *
+     * @param string $filename 文件名
+     * @return string 扩展名
+     */
+    public static function getFileNameExtension($filename)
+    {
+        return self::extension($filename);
+    }
+
+    /**
+     * 取得文件扩展名
+     *
+     * @param string $filename 文件名
+     * @return string 扩展名
+     */
+    public static function file_ext($filename)
+    {
+        return strtolower(trim(substr(strrchr($filename, '.'), 1, 10)));
+    }
+
 
     /**
      * 文件下载
@@ -148,7 +174,7 @@ trait FileHelperTrait
         $filetype = self::file_ext($filename);
         $filesize = sprintf("%u", filesize($filepath));
         if (ob_get_length() !== false) {
-            @ob_end_clean();
+            ob_end_clean();
         }
 
         header('Pragma: public');
@@ -166,23 +192,11 @@ trait FileHelperTrait
 
 
     /**
-     * 取得文件扩展名
-     *
-     * @param $filename 文件名
-     * @return 扩展名
-     */
-    public static function file_ext($filename)
-    {
-        return strtolower(trim(substr(strrchr($filename, '.'), 1, 10)));
-    }
-
-
-    /**
      * 获取文件后缀名,并判断是否合法
      *
      * @param string $file_name
      * @param array $allow_type
-     * @return blob
+     * @return bool
      */
     public static function file_suffix($file_name, $allow_type = array())
     {
@@ -554,10 +568,10 @@ trait FileHelperTrait
 
         $str = $format = '';
 
-        $file = @fopen($filename, 'rb');
+        $file = fopen($filename, 'rb');
         if ($file) {
-            $str = @fread($file, 0x400); // 读取前 1024 个字节
-            @fclose($file);
+            $str = fread($file, 0x400); // 读取前 1024 个字节
+            fclose($file);
         } else {
             if (stristr($filename, SITE_ROOT) === false) {
                 if ($extname == 'jpg' || $extname == 'jpeg' || $extname == 'gif' || $extname == 'png' || $extname == 'doc' ||
@@ -694,8 +708,8 @@ trait FileHelperTrait
      */
     public static function move_file($source, $dest)
     {
-        if (@copy($source, $dest)) {
-            @unlink($source);
+        if (copy($source, $dest)) {
+            unlink($source);
             return true;
         } else {
             return false;
