@@ -120,7 +120,7 @@ class mh_keywords_stats extends ecjia_merchant {
 		
 		if (!empty($keywords_list['item'])) {
 			foreach ($keywords_list['item'] as $v) {
-				$data .= $v['keyword'] . "\t";
+				$data .= RC_Format::filterEmoji($v['keyword']) . "\t";
 				$data .= $v['searchengine'] . "\t";
 				$data .= $v['count'] . "\t";
 				$data .= $v['date'] . "\t\n";
