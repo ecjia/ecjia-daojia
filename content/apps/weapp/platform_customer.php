@@ -139,7 +139,7 @@ class platform_customer extends ecjia_platform
             if (!$arr[count($arr) - 1] == "") {
                 $list['kf_headimgurl'] = $list['kf_headimgurl'];
             } else {
-                $list['kf_headimgurl'] = RC_Upload::upload_url() . '/' . $list['kf_headimgurl'];
+                $list['kf_headimgurl'] = RC_Upload::local_upload_url() . '/' . $list['kf_headimgurl'];
             }
         }
         $this->assign('list', $list);
@@ -184,7 +184,7 @@ class platform_customer extends ecjia_platform
 
                     if (!empty($old_kfimgurl)) {
                         //微信端添加客服头像
-                        $imgurl = RC_Upload::upload_path() . $old_kfimgurl;
+                        $imgurl = RC_Upload::local_upload_path() . $old_kfimgurl;
                         $wechat->staff->avatar($kf_account, $imgurl);
                     }
                 }
@@ -206,7 +206,7 @@ class platform_customer extends ecjia_platform
                     if ($status == 1) {
                         if ($info['status'] == 1) {
                             //微信端添加客服头像
-                            $imgurl = RC_Upload::upload_path() . $kf_headimgurl;
+                            $imgurl = RC_Upload::local_upload_path() . $kf_headimgurl;
                             $wechat->staff->avatar($kf_account, $imgurl);
                         }
                     }
@@ -255,8 +255,8 @@ class platform_customer extends ecjia_platform
                 return $this->showmessage(\Ecjia\App\Wechat\WechatErrorCodes::getError($e->getCode(), $e->getMessage()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
             }
         }
-        $disk = RC_Filesystem::disk();
-        $disk->delete(RC_Upload::upload_path() . $info['kf_headimgurl']);
+        $disk = RC_Storage::disk('local');
+        $disk->delete(RC_Upload::local_upload_path() . $info['kf_headimgurl']);
 
         RC_DB::table('wechat_customer')->where('id', $id)->where('wechat_id', $wechat_id)->delete();
 
@@ -607,7 +607,7 @@ class platform_customer extends ecjia_platform
             foreach ($list as $k => $v) {
                 if (!empty($v['kf_headimgurl'])) {
                     if ((strpos($v['kf_headimgurl'], 'http://') === false) && (strpos($v['kf_headimgurl'], 'https://') === false)) {
-                        $list[$k]['kf_headimgurl'] = RC_Upload::upload_url() . '/' . $v['kf_headimgurl'];
+                        $list[$k]['kf_headimgurl'] = RC_Upload::local_upload_url() . '/' . $v['kf_headimgurl'];
                     } else {
                         $list[$k]['kf_headimgurl'] = is_ssl() ? str_replace('http://', 'https://', $v['kf_headimgurl']) : $v['kf_headimgurl'];
                     }
@@ -641,7 +641,6 @@ class platform_customer extends ecjia_platform
             $list = $wechat->staff->lists();
         } catch (\Royalcms\Component\WeChat\Core\Exceptions\HttpException $e) {
             return $this->showmessage(\Ecjia\App\Wechat\WechatErrorCodes::getError($e->getCode(), $e->getMessage()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-            die();
         }
 
         if (!empty($list)) {
@@ -679,8 +678,8 @@ class platform_customer extends ecjia_platform
 
                         if (!empty($info['kf_headimgurl'])) {
                             if ((strpos($info['kf_headimgurl'], 'http://') === false) && (strpos($info['kf_headimgurl'], 'https://') === false)) {
-                                $disk = RC_Filesystem::disk();
-                                $disk->delete(RC_Upload::upload_path() . $info['kf_headimgurl']);
+                                $disk = RC_Storage::disk('local');
+                                $disk->delete(RC_Upload::local_upload_path() . $info['kf_headimgurl']);
                             }
                         }
                     }

@@ -129,7 +129,7 @@ class SendCustomMessage
         $result = $this->wechat->staff->message($message)->to($this->openid)->send();
 
         if (!is_null($model)) {
-            $content['img_url'] = \RC_Upload::upload_url($model->file);
+            $content['img_url'] = \RC_Upload::local_upload_url($model->file);
         }
 
         WeappRecord::replyMsg($this->openid, __('发送图片消息', 'weapp'), 'image', $content);
@@ -194,7 +194,7 @@ class SendCustomMessage
 
                     } else {
 
-                        $item->file = \RC_Upload::upload_url($item->file);
+                        $item->file = \RC_Upload::local_upload_url($item->file);
 
                     }
 
@@ -216,7 +216,7 @@ class SendCustomMessage
                 'title'       => $model->title,
                 'description' => $model->digest,
                 'url'         => $model->media_url,
-                'picurl'      => \RC_Upload::upload_url($model->file),
+                'picurl'      => \RC_Upload::local_upload_url($model->file),
             ]);
         }
 

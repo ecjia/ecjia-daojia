@@ -150,6 +150,8 @@ class platform_wechat_pay extends ecjia_platform
                     $upload = RC_Upload::uploader('image', array('save_path' => 'data/weapp/cert/pay_wxpay_weapp', 'auto_sub_dirs' => false));
                     $upload->allowed_type(['cer', 'pem']);
                     $upload->allowed_mime(['application/x-x509-ca-cert', 'application/octet-stream']);
+                    $upload->setStorageDisk(RC_Storage::disk('local'));
+
                     $image_info = $upload->upload($_FILES['wxpay_cert_client']);
 
                     if (!empty($image_info)) {
@@ -157,8 +159,8 @@ class platform_wechat_pay extends ecjia_platform
 
                         //删除旧的证书
                         if (!empty($old_option_value['wxpay_cert_client'])) {
-                            $disk = RC_Storage::disk();
-                            $disk->delete(RC_Upload::upload_path($old_option_value['wxpay_cert_client']));
+                            $disk = RC_Storage::disk('local');
+                            $disk->delete(RC_Upload::local_upload_path($old_option_value['wxpay_cert_client']));
                         }
                     } else {
                         return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -170,14 +172,16 @@ class platform_wechat_pay extends ecjia_platform
                     $upload = RC_Upload::uploader('image', array('save_path' => 'data/weapp/cert/pay_wxpay_weapp', 'auto_sub_dirs' => false));
                     $upload->allowed_type(['cer', 'pem']);
                     $upload->allowed_mime(['application/x-x509-ca-cert', 'application/octet-stream']);
+                    $upload->setStorageDisk(RC_Storage::disk('local'));
+
                     $image_info = $upload->upload($_FILES['wxpay_cert_key']);
 
                     if (!empty($image_info)) {
                         $image_url = $upload->get_position($image_info);
                         //删除旧的证书
                         if (!empty($old_option_value['wxpay_cert_key'])) {
-                            $disk = RC_Storage::disk();
-                            $disk->delete(RC_Upload::upload_path($old_option_value['wxpay_cert_key']));
+                            $disk = RC_Storage::disk('local');
+                            $disk->delete(RC_Upload::local_upload_path($old_option_value['wxpay_cert_key']));
                         }
                     } else {
                         return $this->showmessage($upload->error(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -259,8 +263,8 @@ class platform_wechat_pay extends ecjia_platform
         $option_value = unserialize($result['option_value']);
 
         if (!empty($option_value[$type])) {
-            $disk = RC_Storage::disk();
-            $disk->delete(RC_Upload::upload_path($option_value[$type]));
+            $disk = RC_Storage::disk('local');
+            $disk->delete(RC_Upload::local_upload_path($option_value[$type]));
         }
 
         $option_value[$type] = '';

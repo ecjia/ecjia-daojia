@@ -228,7 +228,7 @@ class admin extends ecjia_admin
         $info = RC_DB::table('platform_account')->where('id', $id)->where('shop_id', 0)->select('name', 'logo')->first();
 
         if (!empty($info['logo'])) {
-            $disk = RC_Filesystem::disk();
+            $disk = RC_Storage::disk();
             $disk->delete(RC_Upload::upload_path() . $info['logo']);
         }
 
@@ -254,7 +254,7 @@ class admin extends ecjia_admin
         $info = RC_DB::table('platform_account')->where('id', $id)->where('shop_id', 0)->select('name', 'logo')->first();
 
         if (!empty($info['logo'])) {
-            $disk = RC_Filesystem::disk();
+            $disk = RC_Storage::disk();
             $disk->delete(RC_Upload::upload_path() . $info['logo']);
         }
         $data = array('logo' => '');
