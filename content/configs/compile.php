@@ -41,7 +41,7 @@ return [
         $contentDir . '/apps/affiliate/classes/AffiliateServiceProvider.php',
         $contentDir . '/apps/api/classes/ApiServiceProvider.php',
         $contentDir . '/apps/article/classes/ArticleServiceProvider.php',
-        $contentDir . '/apps/attach/classes/AttachServiceProvider.php',
+//        $contentDir . '/apps/attach/classes/AttachServiceProvider.php',
         $contentDir . '/apps/agent/classes/AgentServiceProvider.php',
         $contentDir . '/apps/bonus/classes/BonusServiceProvider.php',
         $contentDir . '/apps/captcha/classes/CaptchaServiceProvider.php',
@@ -85,7 +85,7 @@ return [
         $contentDir . '/apps/stats/classes/StatsServiceProvider.php',
         $contentDir . '/apps/store/classes/StoreServiceProvider.php',
         $contentDir . '/apps/theme/classes/ThemeServiceProvider.php',
-        $contentDir . '/apps/tmplmsg/classes/TmplmsgServiceProvider.php',
+//        $contentDir . '/apps/tmplmsg/classes/TmplmsgServiceProvider.php',
         $contentDir . '/apps/touch/classes/TouchServiceProvider.php',
         $contentDir . '/apps/upgrade/classes/UpgradeServiceProvider.php',
         $contentDir . '/apps/user/classes/UserServiceProvider.php',
@@ -124,32 +124,36 @@ return [
         'Royalcms\Component\Agent\AgentServiceProvider',
         'Royalcms\Component\Storage\StorageServiceProvider',
         'Royalcms\Component\Environment\EnvironmentServiceProvider',
+        'Royalcms\Component\Upload\UploadServiceProvider',
 
         'Ecjia\System\Providers\SystemServiceProvider',
 
     ],
 
     /*
-        |--------------------------------------------------------------------------
-        | Compiled Config files, Excludes other config files.
-        |--------------------------------------------------------------------------
-        |
-        | Here you may list service providers which define a "compiles" function
-        | that returns additional files that should be compiled, providing an
-        | easy way to get common files from any packages you are utilizing.
-        |
-        */
+    |--------------------------------------------------------------------------
+    | Compiled Config files, Excludes other config files.
+    |--------------------------------------------------------------------------
+    |
+    | Here you may list service providers which define a "compiles" function
+    | that returns additional files that should be compiled, providing an
+    | easy way to get common files from any packages you are utilizing.
+    |
+    */
     'exclude_configs' => [
         '*::system',
         '*::namespaces',
         '*::provider',
+        '*::facade',
         '*::cache',
         '*::app',
         '*::session',
         '*::view',
+        '*::storage',
         'smarty-view::smarty',
         'excel::export',
         '*::pay',
+        '*::upload',
     ],
 
 ];
