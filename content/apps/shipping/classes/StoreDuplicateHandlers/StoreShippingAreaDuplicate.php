@@ -29,17 +29,11 @@ class StoreShippingAreaDuplicate extends StoreDuplicateAbstract
      */
     protected $code = 'store_shipping_area_duplicate';
 
-    /**
-     * 排序
-     * @var int
-     */
-    protected $sort = 51;
-
-    public function __construct($store_id, $source_store_id)
+    public function __construct($store_id, $source_store_id, $sort = 51)
     {
         $this->name = __('店铺配送区域、运费模板', 'shipping');
 
-        parent::__construct($store_id, $source_store_id);
+        parent::__construct($store_id, $source_store_id, $sort);
     }
 
     /**
@@ -55,8 +49,7 @@ class StoreShippingAreaDuplicate extends StoreDuplicateAbstract
      */
     public function handlePrintData()
     {
-        $count = $this->handleCount();
-        $text = sprintf(__('店铺内运费模板总共<span class="ecjiafc-red ecjiaf-fs3">%s</span>个', 'shipping'), $count);
+        $text = sprintf(__('店铺内运费模板总共<span class="ecjiafc-red ecjiaf-fs3">%s</span>个', 'shipping'), $this->handleCount());
         return <<<HTML
 <span class="controls-info w400">{$text}</span>
 HTML;
