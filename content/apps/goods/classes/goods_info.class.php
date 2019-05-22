@@ -127,7 +127,7 @@ class goods_info {
 		$volume_price	= 0; // 商品优惠价格
 		$promote_price	= 0; // 商品促销价格
 		$user_price		= 0; // 商品会员价格
-
+		
 		// 取得商品优惠价格列表
 		$price_list = self::get_volume_price_list ($goods_id, '1');
 
@@ -138,13 +138,13 @@ class goods_info {
 				}
 			}
 		}
-		$field = "g.promote_price, g.is_promote, g.promote_start_date, g.promote_end_date,IFNULL(mp.user_price, g.shop_price * '" . $_SESSION['discount'] . "') AS shop_price";
+		$field = "g.promote_limited, g.promote_price, g.is_promote, g.promote_start_date, g.promote_end_date,IFNULL(mp.user_price, g.shop_price * '" . $_SESSION['discount'] . "') AS shop_price";
 		// 取得商品促销价格列表
 		$goods = $db_goodsview->join(array('member_price'))->field($field)->where(array('g.goods_id' => $goods_id, 'g.is_delete' => 0))->find();
 
 		/* 计算商品的促销价格 */
-		if ($goods['promote_price'] > 0 && $goods['is_promote']  == '1') {
-			$promote_price = self::bargain_price ($goods['promote_price'], $goods ['promote_start_date'], $goods ['promote_end_date'] );
+		if ($goods['promote_price'] > 0 && $goods['is_promote']  == '1' && $goods['promote_limited'] > 0) {
+			$promote_price = self::bargain_price ($goods['promote_price'], $goods ['promote_start_date'], $goods ['promote_end_date'], $goods['promote_limited']);
 		} else {
 			$promote_price = 0;
 		}
@@ -156,20 +156,17 @@ class goods_info {
 		if (!empty($product_id)) {
 			$product_info = RC_DB::table('products')->where('product_id', $product_id)->first();
 			//货品促销价存在，替换商品促销价
-			if ($product_info ['promote_price'] > 0 && $product_info['is_promote'] == '1') {
-				$promote_price = self::bargain_price ($product_info['promote_price'], $goods['promote_start_date'], $goods['promote_end_date'] );
+			if ($product_info ['promote_price'] > 0 && $product_info['is_promote'] == '1' && $product_info['promote_limited'] > 0) {
+				$promote_price = self::bargain_price ($product_info['promote_price'], $goods['promote_start_date'], $goods['promote_end_date'], $product_info['promote_limited']);
 			}else {
 				$promote_price = 0;
 			}
+			
+			$product_shop_price = $product_info['product_shop_price'] > 0 ? $product_info['product_shop_price']*$_SESSION['discount'] : 0;
 			//货品会员价格存在替换商品会员等级价
-			$product_user_price = $product_info['product_shop_price'] > 0 ? $product_info['product_shop_price']*$_SESSION['discount'] : $user_price;
+			$product_user_price = $product_shop_price > 0 ? $product_shop_price : $user_price;
 			$user_price = $product_user_price; 
 		}
-		
-		//商品促销限购数量判断（有没超过用户限购数， 有没超过活动限购数）；超过限购按商品原价处理
-		//if ($promote_price > 0) {
-				
-		//}
 		
 		// 比较商品的促销价格，会员价格，优惠价格
 		if (empty ( $volume_price ) && empty ( $promote_price )) {
@@ -208,7 +205,7 @@ class goods_info {
 			if (! empty ( $spec )) {
 				if ($product_id > 0) {
 					//货品未设置自定义价格的话，按商品价格加上属性价格;商品价格 + 属性货品价格
-					if ($product_user_price < 0) {
+					if ($product_shop_price <= 0) {
 						$spec_price = self::spec_price ( $spec );
 						$final_price += $spec_price;
 					}
@@ -333,12 +330,12 @@ class goods_info {
 	 *        	促销结束日期
 	 * @return float 如果还在促销期则返回促销价，否则返回0
 	 */
-	private static function bargain_price($price, $start, $end) {
+	private static function bargain_price($price, $start, $end, $promote_limited = 0) {
 		if ($price == 0) {
 			return 0;
 		} else {
 			$time = RC_Time::gmtime ();
-			if ($time >= $start && $time <= $end) {
+			if ($time >= $start && $time <= $end && $promote_limited > 0) {
 				return $price;
 			} else {
 				return 0;

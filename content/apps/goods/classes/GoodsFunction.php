@@ -26,7 +26,7 @@ class GoodsFunction
      *
      * @return 商品最终购买价格
      */
-    public static function get_final_price($goods_id, $goods_num = '1', $is_spec_price = false, $spec = array())
+    public static function get_final_price($goods_id, $goods_num = '1', $is_spec_price = false, $spec = array(), $product_id = 0)
     {
         $dbview = RC_Model::model('goods/sys_goods_member_viewmodel');
         RC_Loader::load_app_func('admin_goods', 'goods');
@@ -48,12 +48,12 @@ class GoodsFunction
         }
         // 取得商品促销价格列表
         //$goods = $dbview->join ('member_price')->find (array('g.goods_id' => $goods_id, 'g.is_delete' => 0));
-        $field = "g.promote_price, g.promote_start_date, g.promote_end_date,IFNULL(mp.user_price, g.shop_price * '" . $_SESSION['discount'] . "') AS shop_price";
+        $field = "g.promote_price, g.is_promote, g.promote_start_date, g.promote_end_date,IFNULL(mp.user_price, g.shop_price * '" . $_SESSION['discount'] . "') AS shop_price";
         // 取得商品促销价格列表
         $goods = $dbview->join(array('member_price'))->field($field)->where(array('g.goods_id' => $goods_id, 'g.is_delete' => 0))->find();
 
         /* 计算商品的促销价格 */
-        if ($goods ['promote_price'] > 0) {
+        if ($goods ['promote_price'] > 0 && $goods['is_promote'] == '1') {
             $promote_price = self::bargain_price( $goods ['promote_price'], $goods ['promote_start_date'], $goods ['promote_end_date'] );
         } else {
             $promote_price = 0;
@@ -61,6 +61,22 @@ class GoodsFunction
 
         // 取得商品会员价格列表
         $user_price = $goods ['shop_price'];
+        
+        //是货品情况
+        if (!empty($product_id)) {
+        	$product_info = RC_DB::table('products')->where('product_id', $product_id)->first();
+        	//货品促销价存在，替换商品促销价
+        	if ($product_info ['promote_price'] > 0 && $product_info['is_promote'] == '1' && $product_info['promote_limited'] > 0) {
+        		$promote_price = self::bargain_price ($product_info['promote_price'], $goods['promote_start_date'], $goods['promote_end_date'], $product_info['promote_limited']);
+        	}else {
+        		$promote_price = 0;
+        	}
+        		
+        	$product_shop_price = $product_info['product_shop_price'] > 0 ? $product_info['product_shop_price']*$_SESSION['discount'] : 0;
+        	//货品会员价格存在替换商品会员等级价
+        	$product_user_price = $product_shop_price > 0 ? $product_shop_price : $user_price;
+        	$user_price = $product_user_price;
+        }
 
         // 比较商品的促销价格，会员价格，优惠价格
         if (empty ( $volume_price ) && empty ( $promote_price )) {
@@ -91,12 +107,16 @@ class GoodsFunction
             $mobilebuy_ext_info = unserialize($mobilebuy['ext_info']);
         }
         $final_price =  ($final_price > $mobilebuy_ext_info['price'] && !empty($mobilebuy_ext_info['price'])) ? $mobilebuy_ext_info['price'] : $final_price;
-
         // 如果需要加入规格价格
         if ($is_spec_price) {
             if (! empty ( $spec )) {
-                $spec_price = self::spec_price( $spec );
-                $final_price += $spec_price;
+                if ($product_id > 0) {
+                	//货品未设置自定义价格的话，按商品价格加上属性价格;商品价格 + 属性货品价格
+                	if ($product_shop_price <= 0) {
+                		$spec_price = self::spec_price ( $spec );
+                		$final_price += $spec_price;
+                	}
+                }
             }
         }
         // 返回商品最终购买价格
@@ -144,13 +164,13 @@ class GoodsFunction
      * @param string $end 促销结束日期
      * @return float 如果还在促销期则返回促销价，否则返回0
      */
-    public static function bargain_price($price, $start, $end)
+    public static function bargain_price($price, $start, $end, $promote_limited = 0)
     {
         if ($price == 0) {
             return 0;
         } else {
             $time = RC_Time::gmtime();
-            if ($time >= $start && $time <= $end) {
+            if ($time >= $start && $time <= $end && $promote_limited > 0) {
                 return $price;
             } else {
                 return 0;
@@ -162,26 +182,27 @@ class GoodsFunction
      * 获得指定的规格的价格
      *
      * @access public
-     * @param mixed $spec 规格ID的数组或者逗号分隔的字符串
-     * @return float
+     * @param mix $spec
+     *        	规格ID的数组或者逗号分隔的字符串
+     * @return void
      */
-    public static function spec_price($spec, $goods_id = 0) {
-        $db_goods = RC_Model::model('goods/goods_model');
-        $db = RC_Model::model('goods/goods_attr_model');
-        if (! empty ( $spec )) {
-            if (is_array ( $spec )) {
-                foreach ( $spec as $key => $val ) {
-                    $spec [$key] = addslashes ( $val );
-                }
-            } else {
-                $spec = addslashes ( $spec );
-            }
-            $price = $db->in(array('goods_attr_id' => $spec))->sum('`attr_price`|attr_price');
-        } else {
-            $price = 0;
-        }
-
-        return $price;
+    public static function spec_price($spec) {
+    	if (! empty ( $spec )) {
+    		if (is_array ( $spec )) {
+    			foreach ( $spec as $key => $val ) {
+    				$spec [$key] = addslashes ( $val );
+    			}
+    		} else {
+    			$spec = addslashes ( $spec );
+    		}
+    		$db = RC_DB::table('goods_attr');
+    		$rs = $db->whereIn('goods_attr_id', $spec)->select(RC_DB::raw('sum(attr_price) as attr_price'))->first();
+    		$price = $rs['attr_price'];
+    	} else {
+    		$price = 0;
+    	}
+    
+    	return $price;
     }
     
     

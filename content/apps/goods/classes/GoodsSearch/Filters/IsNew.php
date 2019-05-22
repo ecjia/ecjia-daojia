@@ -9,7 +9,7 @@
 namespace Ecjia\App\Goods\GoodsSearch\Filters;
 
 
-use Ecjia\App\Goods\GoodsSearch\FilterInterface;
+use Ecjia\System\Frameworks\SuperSearch\FilterInterface;
 use Royalcms\Component\Database\Eloquent\Builder;
 
 /**
@@ -29,7 +29,7 @@ class IsNew implements FilterInterface
      */
     public static function apply(Builder $builder, $value)
     {
-    	return $builder->where('is_new', $value);
+    	return $builder->where('goods.is_new', $value);
     }
 
 }

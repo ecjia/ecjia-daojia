@@ -69,7 +69,8 @@ class mh_category extends ecjia_merchant
         // input file 长传
         RC_Style::enqueue_style('bootstrap-fileupload', RC_App::apps_url('statics/assets/bootstrap-fileupload/bootstrap-fileupload.css', __FILE__), array());
         RC_Script::enqueue_script('bootstrap-fileupload', RC_App::apps_url('statics/assets/bootstrap-fileupload/bootstrap-fileupload.js', __FILE__), array(), false, 1);
-
+        
+        RC_Script::enqueue_script('clipboard.min', RC_App::apps_url('statics/js/clipboard.min.js', __FILE__), array(), false, 1);
 
         RC_Script::enqueue_script('goods_category', RC_App::apps_url('statics/js/merchant_goods_category.js', __FILE__), array(), false, 1);
         RC_Script::localize_script('goods_category', 'js_lang', config('app-goods::jslang.category_page'));
@@ -99,25 +100,13 @@ class mh_category extends ecjia_merchant
         $this->assign('action_link1', array('href' => RC_Uri::url('goods/mh_category/move'), 'text' => __('转移商品', 'goods')));
         $this->assign('cat_info', $cat_list);
 
-        ecjia_merchant_screen::get_current_screen()->add_help_tab(array(
-            'id'      => 'overview',
-            'title'   => __('概述', 'goods'),
-            'content' => '<p>' . __('欢迎访问ECJia智能后台商品分类列表页面，系统中所有的商品分类都会显示在此列表中，列表中切换分类是否显示可切换前台商品分类的显示与隐藏。', 'goods') . '</p>'
-        ));
-
-        ecjia_merchant_screen::get_current_screen()->set_help_sidebar(
-            '<p><strong>' . __('更多信息：', 'goods') . '</strong></p>' .
-            '<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品分类#.E5.95.86.E5.93.81.E5.88.86.E7.B1.BB.E5.88.97.E8.A1.A8" target="_blank">关于商品分类列表帮助文档</a>', 'goods') . '</p>'
-        );
-
         $this->display('category_list.dwt');
     }
 
     /**
      * 添加商品分类
      */
-    public function add()
-    {
+    public function add() {
         $this->admin_priv('merchant_category_update');
 
         ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加商品分类', 'goods')));
@@ -131,14 +120,18 @@ class mh_category extends ecjia_merchant
         $this->assign('cat_info', array('is_show' => 1));
         $this->assign('form_action', RC_Uri::url('goods/mh_category/insert'));
 
+        $specification_template_list = Ecjia\App\Goods\MerchantGoodsAttr::category_bind(0, 'specification');
+        $parameter_template_list     = Ecjia\App\Goods\MerchantGoodsAttr::category_bind(0, 'parameter');
+        $this->assign('specification_template_list', $specification_template_list);
+        $this->assign('parameter_template_list', $parameter_template_list);
+
         $this->display('category_info.dwt');
     }
 
     /**
      * 商品分类添加时的处理
      */
-    public function insert()
-    {
+    public function insert() {
         $this->admin_priv('merchant_category_update', ecjia::MSGTYPE_JSON);
 
         $cat['cat_id']     = !empty($_POST['cat_id']) ? intval($_POST['cat_id']) : 0;
@@ -148,7 +141,9 @@ class mh_category extends ecjia_merchant
         $cat['cat_name']   = !empty($_POST['cat_name']) ? trim($_POST['cat_name']) : '';
         $cat['is_show']    = !empty($_POST['is_show']) ? intval($_POST['is_show']) : 0;
         $cat['store_id']   = !empty($_SESSION['store_id']) ? $_SESSION['store_id'] : 0;
-
+        $cat['specification_id']    = !empty($_POST['specification_id']) ? intval($_POST['specification_id']) : 0;
+        $cat['parameter_id']        = !empty($_POST['parameter_id'])     ? intval($_POST['parameter_id'])     : 0;
+        
         if (merchant_cat_exists($cat['cat_name'], $cat['parent_id'])) {
             return $this->showmessage(__('已存在相同的分类名称！', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -184,8 +179,7 @@ class mh_category extends ecjia_merchant
     /**
      * 编辑商品分类信息
      */
-    public function edit()
-    {
+    public function edit() {
         $this->admin_priv('merchant_category_update');
 
         $cat_id   = intval($_GET['cat_id']);
@@ -204,6 +198,11 @@ class mh_category extends ecjia_merchant
 
         $category_ad = $this->get_category_ad($cat_info['cat_id']);
         $this->assign('category_ad', $category_ad);
+        
+        $specification_template_list = Ecjia\App\Goods\MerchantGoodsAttr::category_bind($cat_info['specification_id'], 'specification');
+        $parameter_template_list     = Ecjia\App\Goods\MerchantGoodsAttr::category_bind($cat_info['parameter_id'], 'parameter');
+        $this->assign('specification_template_list', $specification_template_list);
+        $this->assign('parameter_template_list', $parameter_template_list);
 
         $this->display('category_info.dwt');
     }
@@ -244,7 +243,9 @@ class mh_category extends ecjia_merchant
         $cat['cat_name']   = !empty($_POST['cat_name']) ? trim($_POST['cat_name']) : '';
         $cat['is_show']    = !empty($_POST['is_show']) ? intval($_POST['is_show']) : 0;
         $cat['store_id']   = !empty($_SESSION['store_id']) ? $_SESSION['store_id'] : 0;
-
+        $cat['specification_id']    = !empty($_POST['specification_id']) ? intval($_POST['specification_id']) : 0;
+        $cat['parameter_id']        = !empty($_POST['parameter_id'])     ? intval($_POST['parameter_id'])     : 0;
+        
         /* 判断分类名是否重复 */
         if (merchant_cat_exists($cat['cat_name'], $cat['parent_id'], $cat_id)) {
             $link[] = array('text' => __('返回上一页', 'goods'), 'href' => 'javascript:history.back(-1)');

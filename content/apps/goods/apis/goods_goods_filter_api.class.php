@@ -55,7 +55,7 @@ class goods_goods_filter_api extends Component_Event_Api {
 	private $cat = array();
     /**
      * @param  $options['cat_id'] 分类id
-     * @return array
+     * @return array | ecjia_error
      */
 	public function call(&$options) {
 	    if (!is_array($options)

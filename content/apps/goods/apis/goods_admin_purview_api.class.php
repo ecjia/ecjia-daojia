@@ -66,6 +66,14 @@ class goods_admin_purview_api extends Component_Event_Api {
         	array('action_name' => __('品牌管理', 'goods'), 'action_code' => 'brand_manage', 'relevance' => ''),
         	array('action_name' => __('更新品牌', 'goods'), 'action_code' => 'brand_update', 'relevance' => ''),
         	array('action_name' => __('删除品牌', 'goods'), 'action_code' => 'brand_delete', 'relevance' => ''),
+
+    		array('action_name' => __('商品规格', 'goods'), 'action_code' => 'goods_spec_attr_manage', 'relevance' => ''),
+    		array('action_name' => __('更新商品规格', 'goods'), 'action_code' => 'goods_spec_attr_update', 'relevance' => ''),
+    		array('action_name' => __('删除商品规格', 'goods'), 'action_code' => 'goods_spec_attr_delete', 'relevance' => ''),
+
+    		array('action_name' => __('商品参数', 'goods'), 'action_code' => 'goods_parameter_attr_manage', 'relevance' => ''),
+    		array('action_name' => __('更新商品参数', 'goods'), 'action_code' => 'goods_parameter_attr_update', 'relevance' => ''),
+    		array('action_name' => __('删除商品参数', 'goods'), 'action_code' => 'goods_parameter_attr_delete', 'relevance' => ''),
         		
         );
         return $purviews;

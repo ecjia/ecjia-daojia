@@ -9,7 +9,7 @@
 namespace Ecjia\App\Goods\GoodsSearch\Filters;
 
 
-use Ecjia\App\Goods\GoodsSearch\FilterInterface;
+use Ecjia\System\Frameworks\SuperSearch\FilterInterface;
 use Royalcms\Component\Database\Eloquent\Builder;
 
 /**
@@ -32,9 +32,9 @@ class StoreIdAndMerchantCatId implements FilterInterface
     	if (is_array($value) && !empty($value)) {
     		list($merchant_cat_id, $store_id) = $value;
     		if (!empty($merchant_cat_id) && is_array($merchant_cat_id) && !empty($store_id)) {
-    			return	$builder->whereIn('merchant_cat_id', $merchant_cat_id);
+    			return	$builder->whereIn('goods.merchant_cat_id', $merchant_cat_id);
     		}elseif ($merchant_cat_id == 0 && !empty($store_id)) {
-    			return	$builder->where('merchant_cat_id', $merchant_cat_id);
+    			return	$builder->where('goods.merchant_cat_id', $merchant_cat_id);
     		}
     	} 
     	

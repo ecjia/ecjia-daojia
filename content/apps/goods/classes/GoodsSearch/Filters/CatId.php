@@ -9,7 +9,7 @@
 namespace Ecjia\App\Goods\GoodsSearch\Filters;
 
 
-use Ecjia\App\Goods\GoodsSearch\FilterInterface;
+use Ecjia\System\Frameworks\SuperSearch\FilterInterface;
 use Royalcms\Component\Database\Eloquent\Builder;
 use Ecjia\App\Goods\GoodsSearch\GoodsCategory;
 

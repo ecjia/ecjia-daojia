@@ -43,7 +43,7 @@ class GoodsCollection
     public function isPromote()
     {
         $day 		= getdate();
-        $today 		= RC_Time::local_mktime(23, 59, 59, $day ['mon'], $day ['mday'], $day ['year']);
+        $today 		= \RC_Time::local_mktime(23, 59, 59, $day ['mon'], $day ['mday'], $day ['year']);
 
         return function ($query) use ($today) {
             $query->where('is_promote', 1)
@@ -110,7 +110,7 @@ class GoodsCollection
         /* 过滤条件 */
         $param_str 	= '-' . $is_delete . '-' . $real_goods;
         $day 		= getdate();
-        $today 		= RC_Time::local_mktime(23, 59, 59, $day ['mon'], $day ['mday'], $day ['year']);
+        $today 		= \RC_Time::local_mktime(23, 59, 59, $day ['mon'], $day ['mday'], $day ['year']);
 
         $filter ['cat_id'] 			= empty ($_REQUEST ['cat_id']) 			? 0 	: intval($_REQUEST ['cat_id']);
         $filter ['intro_type'] 		= empty ($_REQUEST ['intro_type']) 		? '' 	: trim($_REQUEST ['intro_type']);
@@ -191,19 +191,19 @@ class GoodsCollection
             $where .= " AND is_real='$real_goods'";
         }
 
-        $db_goods1 = RC_DB::table('goods as g')
-            ->leftJoin('store_franchisee as s', RC_DB::raw('g.store_id'), '=', RC_DB::raw('s.store_id'));
+        $db_goods1 = \RC_DB::table('goods as g')
+            ->leftJoin('store_franchisee as s', \RC_DB::raw('g.store_id'), '=', \RC_DB::raw('s.store_id'));
 
         //筛选全部 已上架 未上架 商家
 
         $where .= $conditions;
 
         $filter_count = $db_goods1
-            ->select(RC_DB::raw('count(*) as count_goods_num'),
-                RC_DB::raw('SUM(IF(is_on_sale = 1, 1, 0)) as count_on_sale'),
-                RC_DB::raw('SUM(IF(is_on_sale = 0, 1, 0)) as count_not_sale'),
-                RC_DB::raw('SUM(IF(is_on_sale = 0, 1, 0)) as count_not_sale'),
-                RC_DB::raw('SUM(IF(s.manage_mode = "self", 1, 0)) as self'))
+            ->select(\RC_DB::raw('count(*) as count_goods_num'),
+                \RC_DB::raw('SUM(IF(is_on_sale = 1, 1, 0)) as count_on_sale'),
+                \RC_DB::raw('SUM(IF(is_on_sale = 0, 1, 0)) as count_not_sale'),
+                \RC_DB::raw('SUM(IF(is_on_sale = 0, 1, 0)) as count_not_sale'),
+                \RC_DB::raw('SUM(IF(s.manage_mode = "self", 1, 0)) as self'))
             ->whereRaw('is_delete = ' . $is_delete . '' . $where)
             ->first();
 
@@ -222,11 +222,11 @@ class GoodsCollection
         }
         //$where .= $conditions;
 
-        $db_goods2 = RC_DB::table('goods as g')
-            ->leftJoin('store_franchisee as s', RC_DB::raw('g.store_id'), '=', RC_DB::raw('s.store_id'));
+        $db_goods2 = \RC_DB::table('goods as g')
+            ->leftJoin('store_franchisee as s', \RC_DB::raw('g.store_id'), '=', \RC_DB::raw('s.store_id'));
         /* 记录总数 */
         $count = $db_goods2->whereRaw('is_delete = ' . $is_delete . '' . $where)->count('goods_id');
-        $page = new ecjia_page ($count, 10, 5);
+        $page = new \ecjia_page ($count, 10, 5);
         $filter ['record_count'] 	= $count;
         $filter ['count_goods_num'] = $filter_count['count_goods_num'] > 0 ? $filter_count['count_goods_num'] : 0;
         $filter ['count_on_sale'] 	= $filter_count['count_on_sale'] > 0 ? $filter_count['count_on_sale'] : 0;
@@ -234,7 +234,7 @@ class GoodsCollection
         $filter ['self'] 			= $filter_count['self'] > 0 ? $filter_count['self'] : 0;
 
         $sql = $db_goods2
-            ->select(RC_DB::raw('g.goods_id, g.goods_name, g.goods_type, g.goods_sn, g.shop_price, g.market_price, g.goods_thumb, g.is_on_sale, g.is_best, g.is_new, g.is_hot, g.sort_order, g.goods_number, g.integral, (g.promote_price > 0 AND g.promote_start_date <= ' . $today . ' AND g.promote_end_date >= ' . $today . ') as is_promote, g.review_status, s.merchants_name'))
+            ->select(\RC_DB::raw('g.goods_id, g.goods_name, g.goods_type, g.goods_sn, g.shop_price, g.market_price, g.goods_thumb, g.is_on_sale, g.is_best, g.is_new, g.is_hot, g.sort_order, g.goods_number, g.integral, (g.promote_price > 0 AND g.promote_start_date <= ' . $today . ' AND g.promote_end_date >= ' . $today . ') as is_promote, g.review_status, s.merchants_name'))
             ->whereRaw('is_delete = ' . $is_delete . '' . $where)
             ->orderBy($filter ['sort_by'], $filter['sort_order'])
             ->take(10)
@@ -243,13 +243,13 @@ class GoodsCollection
 
         $filter ['keyword'] = stripslashes($filter ['keyword']);
         $filter ['count'] 	= $count;
-        $disk = RC_Filesystem::disk();
+        $disk = \RC_Filesystem::disk();
         if (!empty($sql)) {
             foreach ($sql as $k => $v) {
-                if (!empty($v['goods_thumb']) && $disk->exists(RC_Upload::upload_path($v['goods_thumb']))) {
-                    $sql[$k]['goods_thumb'] = RC_Upload::upload_url($v['goods_thumb']);
+                if (!empty($v['goods_thumb']) && $disk->exists(\RC_Upload::upload_path($v['goods_thumb']))) {
+                    $sql[$k]['goods_thumb'] = \RC_Upload::upload_url($v['goods_thumb']);
                 } else {
-                    $sql[$k]['goods_thumb'] = RC_Uri::admin_url('statics/images/nopic.png');
+                    $sql[$k]['goods_thumb'] = \RC_Uri::admin_url('statics/images/nopic.png');
                 }
             }
         }

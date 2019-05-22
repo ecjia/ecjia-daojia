@@ -53,13 +53,27 @@ class goods_admin_menu_api extends Component_Event_Api {
 	public function call(&$options) {
 		$menus = ecjia_admin::make_admin_menu('02_cat_and_goods',__('商品管理', 'goods'), '', 2);
 		$submenus = array(
-			ecjia_admin::make_admin_menu('01_goods_list', __('商品列表', 'goods'), RC_Uri::url('goods/admin/init'), 1)->add_purview(array('goods_manage')),
-		    ecjia_admin::make_admin_menu('05_goods_trash', __('商品回收站', 'goods'), RC_Uri::url('goods/admin/trash'), 2)->add_purview(array('goods_manage')),
-		    
-		    ecjia_admin::make_admin_menu('divider', '', '', 6)->add_purview(array('category_manage', 'brand_manage', 'attr_manage'), 11),
-		    ecjia_admin::make_admin_menu('02_category_list', __('商品分类', 'goods'), RC_Uri::url('goods/admin_category/init'), 12)->add_purview(array('category_manage')),
-		    ecjia_admin::make_admin_menu('03_goods_brand_list', __('商品品牌', 'goods'), RC_Uri::url('goods/admin_brand/init'), 13)->add_purview('brand_manage'),
-			
+				
+			ecjia_admin::make_admin_menu('01_goods_list', __('在售商品', 'goods'), RC_Uri::url('goods/admin/init'), 1)->add_purview(array('goods_manage')),
+			ecjia_admin::make_admin_menu('02_goods_list', __('售罄商品', 'goods'), RC_Uri::url('goods/admin/finish'), 2)->add_purview(array('goods_manage')),
+			ecjia_admin::make_admin_menu('03_goods_list', __('下架商品', 'goods'), RC_Uri::url('goods/admin/obtained'), 3)->add_purview(array('goods_manage')),
+			ecjia_admin::make_admin_menu('04_goods_list', __('审核商品', 'goods'), RC_Uri::url('goods/admin/check'), 4)->add_purview(array('goods_manage')),
+				
+			ecjia_admin::make_admin_menu('divider', '', '', 5)->add_purview(array('goods_manage'), 5),
+				
+			ecjia_admin::make_admin_menu('06_goods_list', __('散装商品', 'goods'), RC_Uri::url('goods/admin/bulk'), 6)->add_purview(array('goods_manage')),
+			ecjia_admin::make_admin_menu('07_goods_list', __('收银台商品', 'goods'), RC_Uri::url('goods/admin/cashier'), 7)->add_purview(array('goods_manage')),
+				
+			ecjia_admin::make_admin_menu('divider', '', '', 8)->add_purview(array('goods_manage'), 8),
+				
+			ecjia_admin::make_admin_menu('09_goods_trash', __('商品回收站', 'goods'), RC_Uri::url('goods/admin/trash'), 9)->add_purview(array('goods_manage')),
+				
+			ecjia_admin::make_admin_menu('divider', '', '', 10)->add_purview(array('brand_manage', 'category_manage', 'goods_spec_attr_manage', 'goods_parameter_attr_manage'), 10),
+				
+			ecjia_admin::make_admin_menu('11_goods_brand_list', __('商品品牌', 'goods'), RC_Uri::url('goods/admin_brand/init'), 11)->add_purview('brand_manage'),
+		    ecjia_admin::make_admin_menu('12_goods_category_list', __('商品分类', 'goods'), RC_Uri::url('goods/admin_category/init'), 12)->add_purview(array('category_manage')),
+			ecjia_admin::make_admin_menu('13_goods_spec', __('商品规格', 'goods'), RC_Uri::url('goods/admin_spec/init'), 13)->add_purview('goods_spec_attr_manage'),
+			ecjia_admin::make_admin_menu('14_goods_parameter', __('商品参数', 'goods'), RC_Uri::url('goods/admin_parameter/init'), 14)->add_purview('goods_parameter_attr_manage'),
 		);
         $menus->add_submenu($submenus);
         return $menus;

@@ -75,19 +75,19 @@ class goods_suggestlist_module extends api_front implements api_interface {
     	
 		switch ($sort_type) {
 			case 'goods_id' :
-				$order_by = array('goods_id' => 'desc');
+				$order_by = array('goods.goods_id' => 'desc');
 				break;
 			case 'shop_price_desc' :
-				$order_by = array('shop_price' => 'desc', 'sort_order' => 'asc');
+				$order_by = array('goods.shop_price' => 'desc', 'goods.sort_order' => 'asc');
 				break;
 			case 'shop_price_asc' :
-				$order_by = array('shop_price' => 'asc', 'sort_order' => 'asc');
+				$order_by = array('goods.shop_price' => 'asc', 'goods.sort_order' => 'asc');
 	    		break;
 			case 'last_update' :
-				$order_by = array('last_update' => 'desc');
+				$order_by = array('goods.last_update' => 'desc');
 				break;
 			default :
-				$order_by = array('sort_order' => 'asc', 'goods_id' => 'desc');
+				$order_by = array('goods.sort_order' => 'asc', 'goods.goods_id' => 'desc');
 				break;
 		}
 		
@@ -134,19 +134,6 @@ class goods_suggestlist_module extends api_front implements api_interface {
 			} elseif ($action_type == 'hot') {
 				$filters['is_hot'] = 1;
 			} elseif ($action_type == 'promotion') {
-// 				if (array_key_exists('product', $filters)) { //列表显示货品，促销条件调整（货品促销条件和商品商品促销条件）
-// 					if (!empty($promotion_type)) {
-// 						$filters['goods_and_product_promotion_type'] = $promotion_type;
-// 					} else {
-// 						$filters['goods_and_product_promotion'] = true;
-// 					}
-// 				} else {
-// 					if (!empty($promotion_type)) {
-// 						$filters['goods_promotion_type'] = $promotion_type;
-// 					} else {
-// 						$filters['goods_promotion'] = true;
-// 					}
-// 				}
 				$filters['product'] = true;
 				if (!empty($promotion_type)) {
 					$filters['goods_and_product_promotion_type'] = $promotion_type;
@@ -154,7 +141,7 @@ class goods_suggestlist_module extends api_front implements api_interface {
 					$filters['goods_and_product_promotion'] = true;
 				}
 				//促销，排序默认结束时间升序
-				$order_by = array('goods.promote_end_date' => 'asc', 'goods.sort_order' => 'asc', 'goods_id' => 'desc');
+				$order_by = array('goods.promote_end_date' => 'asc', 'goods.sort_order' => 'asc', 'goods.goods_id' => 'desc');
 			}
 		}
 		//排序

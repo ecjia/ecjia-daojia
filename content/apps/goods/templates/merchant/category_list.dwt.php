@@ -1,6 +1,12 @@
 <?php defined('IN_ECJIA') or exit('No permission resources.');?>
 <!--{extends file="ecjia-merchant.dwt.php"} -->
 
+<!-- {block name="footer"} -->
+<script type="text/javascript">
+ecjia.merchant.goods_category_list.init();
+</script>
+<!-- {/block} -->
+
 <!-- {block name="home-content"} -->
 
 <div class="page-header">
@@ -24,6 +30,24 @@
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel">
+		   <div id="actionmodal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+	                    <div class="modal-header">
+		                    <button data-dismiss="modal" class="close" type="button">×</button>
+		                    <h4 class="modal-title">{t domain="goods"}内部链接{/t}</h4>
+	                    </div>
+	                    
+	                    <div class="modal-body">
+		                   <div class="success-msg"></div>
+		                   <div class="error-msg"></div>
+	                       <textarea class="form-control" id="link_value"  name="link_value" disabled="disabled"></textarea>
+	                       <button id="copy_btn" class="btn btn-info m_t10">{t domain="goods"}复制{/t}</button>
+	                    </div>
+                    </div>
+                 </div>
+            </div>
+           
 			<div class="panel-body panel-body-small">
 				<section class="panel">
 					<table class="table table-striped table-advance table-hover" id="list-table">
@@ -57,8 +81,9 @@
 								<i class="cursor_pointer fa {if $cat.is_show eq '1'}fa-check {else}fa-times {/if}" data-trigger="toggleState" data-url="{url path='goods/mh_category/toggle_is_show'}" data-id="{$cat.cat_id}"></i>
 							</td>
 							<td>
-								<a class="data-pjax no-underline" href='{url path="goods/mh_category/edit" args="cat_id={$cat.cat_id}"}' title="{t domain="goods"}编辑{/t}"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a>
-								<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{t domain="goods"}您确定要删除该分类吗？{/t}" href='{url path="goods/mh_category/remove" args="id={$cat.cat_id}"}'><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></button></a>
+								<a href="#actionmodal" data-toggle="modal" id="modal" copy-url="ecjiaopen://app?open_type=merchant&category_id={$cat.cat_id}"><button class="btn btn-primary btn-xs"><i class="fa fa-link"></i></button></a>
+								<a class="data-pjax no-underline" href='{url path="goods/mh_category/edit" args="cat_id={$cat.cat_id}"}' title="{t domain='goods'}编辑{/t}"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a>
+								<a class="ajaxremove no-underline" data-toggle="ajaxremove" data-msg="{t domain='goods'}您确定要删除该分类吗？{/t}" href='{url path="goods/mh_category/remove" args="id={$cat.cat_id}"}'><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></button></a>
 							</td>
 						</tr>
 						<!-- {foreachelse}-->

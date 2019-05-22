@@ -335,7 +335,7 @@ class goods_search_module extends api_front implements api_interface {
         		$filters['keywords'] = $keywords;
         	}
         	//排序
-        	$order_sort = array('sort_order' => 'ASC', 'goods_id' => 'DESC');
+        	$order_sort = array('goods.sort_order' => 'ASC', 'goods.goods_id' => 'DESC');
         	if ($order_sort) {
         		$filters['sort_by'] = $order_sort;
         	}

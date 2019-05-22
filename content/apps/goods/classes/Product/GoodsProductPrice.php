@@ -24,7 +24,7 @@ class GoodsProductPrice
 
     protected $model;
     
-    protected $products_model;
+    protected $productsModel;
     
     protected $user_rank;
     
@@ -38,7 +38,7 @@ class GoodsProductPrice
     {
         $this->goods_id = $goods_id;
         $this->model = new GoodsModel();
-        $this->products_model = new ProductsModel();
+        $this->productsModel = new ProductsModel();
     }
     
     
@@ -75,7 +75,7 @@ class GoodsProductPrice
     
     public function getGoodsProducts()
     {
-    	$goods_product = $this->products_model->where('goods_id', $this->goods_id)->get();
+    	$goods_product = $this->productsModel->where('goods_id', $this->goods_id)->get();
     	
     	$this->goods_products = !empty($goods_product) ? $goods_product : [];
     	
@@ -153,20 +153,20 @@ class GoodsProductPrice
     	$shop_price = $user_price > 0 ? $user_price : $this->goods_info->shop_price*$this->user_rank_discount;
 
     	//商品促销价格
-    	$promote_price = $this->filterPromotePrice($this->goods_info->shop_price, $this->goods_info->is_promote);
+    	$promote_price = $this->filterPromotePrice($this->goods_info->shop_price, $this->goods_info->is_promote, $this->goods_info->promote_limited);
     	
     	//市场价最终价
     	$final_shop_price = $promote_price > 0 ? min($shop_price, $promote_price) : $shop_price;
     	
 		if (in_array($attr_id, $product_attr_ids)) { //有货品情况
 			//获取货品信息
-			$product_info = $this->products_model->where('goods_id', $this->goods_id)->where('goods_attr', $attr_id)->first();
+			$product_info = $this->productsModel->where('goods_id', $this->goods_id)->where('goods_attr', $attr_id)->first();
 			
 			//货品会员等级价格
 			$product_shop_price = $product_info->product_shop_price*$this->user_rank_discount;
 			
 			//货品促销价
-			$product_promote_price = $this->filterPromotePrice($product_info->promote_price, $product_info->is_promote);
+			$product_promote_price = $this->filterPromotePrice($product_info->promote_price, $product_info->is_promote, $product_info->promote_limited);
             $market_price += $total_attr_price;
 
             //货品有设置自定义价格
@@ -189,6 +189,8 @@ class GoodsProductPrice
 				'promote_user_limited'			=> $promote_price > 0 ? $product_info->promote_user_limited : 0,
 				'promote_limited'				=> $promote_price > 0 ? $product_info->promote_limited : 0,
 				'product_shop_price'			=> sprintf("%.2f", $final_shop_price),
+				'product_market_price'			=> sprintf("%.2f", $market_price),
+				'formatted_product_market_price'=>  ecjia_price_format($market_price, false),
 				'formatted_product_shop_price'	=> ecjia_price_format($final_shop_price, false),
 				'promote_price'					=> $promote_price > 0 ? sprintf("%.2f", $promote_price) : 0,
 				'is_promote'					=> $promote_price > 0 ? 1 : 0,
@@ -215,7 +217,9 @@ class GoodsProductPrice
 				'promote_user_limited'			=> $promote_price > 0 ? $this->goods_info->promote_user_limited : 0,
 				'promote_limited'				=> $promote_price > 0 ? $this->goods_info->promote_limited : 0,
 				'product_shop_price'			=> sprintf("%.2f", $final_shop_price),
-				'formatted_product_shop_price'	=> ecjia_price_format($final_shop_price, false),	
+				'formatted_product_shop_price'	=> ecjia_price_format($final_shop_price, false),
+				'product_market_price'			=> sprintf("%.2f", $market_price),
+				'formatted_product_market_price'=>  ecjia_price_format($market_price, false),
 				'promote_price'					=> $promote_price > 0 ? sprintf("%.2f", $promote_price) : 0,
 				'is_promote'					=> $promote_price > 0 ? 1 : 0,
 				'formatted_promote_price'		=> $promote_price > 0 ? ecjia_price_format($promote_price, false) : '',
@@ -272,15 +276,15 @@ class GoodsProductPrice
 	 * @param unknown $promote_price
 	 * @return Ambigous <number, float>
 	 */
-    protected function filterPromotePrice($promote_price, $is_promote = 0)
+    protected function filterPromotePrice($promote_price, $is_promote = 0, $promote_limited)
     {
-    	if ($promote_price > 0 && $is_promote == 1) {
-    		$promote_price = \Ecjia\App\Goods\BargainPrice::bargain_price($promote_price, $this->goods_info->promote_start_date, $this->goods_info->promote_end_date);
+    	if ($promote_price > 0 && $is_promote == 1 && $promote_limited > 0) {
+    		$promote_price = \Ecjia\App\Goods\BargainPrice::bargain_price($promote_price, $this->goods_info->promote_start_date, $this->goods_info->promote_end_date, $promote_limited);
     	} else {
     		$promote_price = 0;
     	}
     	
     	return $promote_price;
     }
-
+    
 }

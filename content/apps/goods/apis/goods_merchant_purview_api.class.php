@@ -62,15 +62,14 @@ class goods_merchant_purview_api extends Component_Event_Api {
         	array('action_name' => __('更新分类', 'goods'), 'action_code' => 'merchant_category_update', 'relevance' => ''),
             array('action_name' => __('分类转移', 'goods'), 'action_code' => 'merchant_category_move', 'relevance' => ''),
         	array('action_name' => __('分类删除', 'goods'), 'action_code' => 'merchant_category_delete', 'relevance' => ''),
-        		
-            array('action_name' => __('商品属性管理', 'goods'), 'action_code' => 'attr_manage', 'relevance' => ''),
-        	array('action_name' => __('商品属性更新', 'goods'), 'action_code' => 'attr_update', 'relevance' => ''),
-        	array('action_name' => __('商品属性删除', 'goods'), 'action_code' => 'attr_delete', 'relevance' => ''),
-        		
-        		
-            array('action_name' => __('商品类型', 'goods'), 'action_code' => 'goods_type', 'relevance' => ''),
-        	array('action_name' => __('更新商品类型', 'goods'), 'action_code' => 'goods_type_update', 'relevance' => ''),
-        	array('action_name' => __('删除商品类型', 'goods'), 'action_code' => 'goods_type_delete', 'relevance' => ''),
+
+        	array('action_name' => __('商品规格属性', 'goods'), 'action_code' => 'goods_spec_attr_manage', 'relevance' => ''),
+        	array('action_name' => __('更新商品规格属性', 'goods'), 'action_code' => 'goods_spec_attr_update', 'relevance' => ''),
+        	array('action_name' => __('删除商品规格属性', 'goods'), 'action_code' => 'goods_spec_attr_delete', 'relevance' => ''),
+
+        	array('action_name' => __('商品参数', 'goods'), 'action_code' => 'goods_parameter_attr_manage', 'relevance' => ''),
+        	array('action_name' => __('更新商品参数', 'goods'), 'action_code' => 'goods_parameter_attr_update', 'relevance' => ''),
+        	array('action_name' => __('删除商品参数', 'goods'), 'action_code' => 'goods_parameter_attr_delete', 'relevance' => ''),
         );
         return $purviews;
     }

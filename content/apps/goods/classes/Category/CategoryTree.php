@@ -10,20 +10,59 @@ namespace Ecjia\App\Goods\Category;
 
 
 use Ecjia\App\Goods\Models\CategoryModel;
+use Royalcms\Component\Database\Eloquent\Builder;
 
 class CategoryTree
 {
     protected $category_id;
 
+    /**
+     * @var \Royalcms\Component\Database\Eloquent\Builder
+     */
+    protected $category_builder;
+
+    /**
+     * @var \Royalcms\Component\Database\Eloquent\Builder
+     */
+    protected $parent_builder;
+
     protected $model;
 
-
-    public function __construct($category_id)
+    /**
+     * CategoryTree constructor.
+     * Default $category_id = 0 root categroy
+     * @param int $category_id
+     */
+    public function __construct($category_id = 0)
     {
         $this->category_id = $category_id;
 
-        $this->model = new CategoryModel();
+        if ($this->category_id > 0) {
+            $this->category_builder = CategoryModel::where('cat_id', $this->category_id);
+        }
 
+        $this->parent_builder = CategoryModel::where('parent_id', $this->category_id);
+
+    }
+
+    /**
+     * @return \Ecjia\App\Goods\Models\CategoryModel
+     */
+    public function getModel()
+    {
+        if (is_null($this->model) && $this->category_id > 0) {
+            $this->model = $this->category_builder->first();
+        }
+
+        return $this->model;
+    }
+
+    /**
+     * @return \Royalcms\Component\Database\Eloquent\Collection
+     */
+    public function getQueryModels()
+    {
+        return $this->parent_builder->get();
     }
 
     /**
@@ -33,7 +72,7 @@ class CategoryTree
      */
     public function getCategoryId()
     {
-        return $this->category_id;
+        return $this->getModel()->cat_id;
     }
 
     /**
@@ -42,7 +81,7 @@ class CategoryTree
      */
     public function getCategoryName()
     {
-        return $this->model->cate_name;
+        return $this->getModel()->cat_name;
     }
 
     /**
@@ -50,7 +89,7 @@ class CategoryTree
      */
     public function getParentCategoryId()
     {
-
+        return $this->getModel()->parent_id;
     }
 
     /**
@@ -66,7 +105,7 @@ class CategoryTree
      */
     public function getChildCategories()
     {
-
+        return $this->getQueryModels()->toArray();
     }
 
 

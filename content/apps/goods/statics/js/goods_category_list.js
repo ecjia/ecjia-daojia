@@ -2,7 +2,30 @@
 ;
 (function(app, $) {
 	app.goods_category_list = {
-		init: function() {},
+		init: function() {
+            //列表内部链接
+            $('[data-toggle="modal"]').on('click', function (e) {
+                 var $this = $(this);
+                 var copy_url = $this.attr('copy-url');
+                 $("textarea[name='link_value']").val(copy_url);
+                 
+                 var clipboard = new Clipboard('#copy_btn', {
+                     text: function() {
+                         return copy_url;
+                     }
+                 });
+                 clipboard.on('success',function(e) {
+                	 $('#alert_msg').remove();
+                     var $info = $('<div id="alert_msg" class="staticalert alert alert-success ui_showmessage"><a data-dismiss="alert" class="close">×</a>复制成功</div>');
+					 $info.appendTo('.success-msg').delay(2000).hide(0);
+                 });
+                 clipboard.on('error',function(e) {
+                	 $('#alert_msg').remove();
+                	 var $info = $('<div id="alert_msg" class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>复制失败</div>');
+					 $info.appendTo('.error-msg').delay(2000).hide(0);
+                 });
+ 			});
+		},
 	};
 
 	app.goods_category_info = {

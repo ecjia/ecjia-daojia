@@ -54,7 +54,7 @@ class admin_goods_product_search_module extends api_admin implements api_interfa
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
-		if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+		if ($_SESSION['store_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
 			return new ecjia_error(100, 'Invalid session');
 		}
 
@@ -68,52 +68,95 @@ class admin_goods_product_search_module extends api_admin implements api_interfa
 		$device		  = $this->device;
     	$device_code = $device['code'];
 		
-		$db_goods = RC_Model::model('goods/goods_viewmodel');
-
-		$db_goods->view = array(
-			'products' => array(
-				'type'		=> Component_Model_View::TYPE_LEFT_JOIN,
-				'alias'		=> 'p',
-				'on'		=> 'g.goods_sn=p.product_sn'
-			)
-		);
-
-		$field = 'g.goods_id, g.goods_name, g.shop_price, g.shop_price, g.goods_sn, g.goods_img, g.original_img, g.goods_thumb, p.goods_attr, p.product_sn';
-
-    	$where[] = "(goods_sn like '%".$goods_sn."%' OR  product_sn like '%".$goods_sn."%')";
-    	//散装商品不支持搜索；只能扫码
-    	$where[] = $where[] = "(g.extension_code is null or g.extension_code ='')";
     	
-        if(!empty($_SESSION['store_id'])){
-            $where['store_id'] = $_SESSION['store_id'];
-        }
-        $codes = config('app-cashier::cashier_device_code');
-    	if (in_array($device_code, $codes)) {
-    		$where = array_merge($where, array('is_delete' => 0, 'is_on_sale' => 1, 'is_alone_sale' => 1));
-    		if (ecjia::config('review_goods')) {
-    			$where['review_status'] = array('gt' => 2);
+    	//用户端商品展示基础条件
+    	$filters = [
+	    	'is_delete'		 		=> 0,	 //未删除的
+	    	'is_on_sale'	 		=> 1,    //已上架的
+	    	'is_alone_sale'	 		=> 1,	 //单独销售的
+	    	'review_status'  		=> 2,    //审核通过的
+	    	'no_need_cashier_goods'	=> true, //不需要收银台商品和散装商品
+    	];
+    	
+    	//是否展示货品
+    	if (ecjia::config('show_product') == 1) {
+    		$filters['product'] = true;
+    	}
+    	//店铺id
+    	if(!empty($_SESSION['store_id'])){
+    		$filters['store_id'] = $_SESSION['store_id'];
+    	}
+    	//商品货号或货品号
+    	$filters['goods_sn_or_product_sn'] = $goods_sn;
+    	
+    	//会员等级价格
+    	$filters['user_rank'] = $_SESSION['user_rank'];
+    	$filters['user_rank_discount'] = $_SESSION['discount'];
+    	
+    	//分页信息
+    	$filters['size'] = $size;
+    	$filters['page'] = $page;
+    	
+    	$collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsApiCollection($filters))->getData();
+    	
+    	//字段处理
+    	$goods_list=[];
+    	if (!empty($collection['goods_list'])) {
+    		foreach ($collection['goods_list'] as $row) {
+    			$row['shop_price'] 			= $row['unformatted_shop_price'];
+    			$row['formatted_shop_price']= $row['shop_price'];
+    			$goods_list[] = $row;
     		}
     	}
+    	
+    	return array('data' => $goods_list, 'pager' => $collection['pager']);
+    	
+// 		$db_goods = RC_Model::model('goods/goods_viewmodel');
 
-    	$arr = $db_goods->field($field)->join(array('products'))->where($where)->select();
-    	$product_search = array();
-		if (!empty($arr)) {
-			foreach ($arr as $k => $v){
-				$product_search[] = array(
-					'id'					=> $v['goods_id'],
-					'name'					=> $v['goods_name'],
-					'shop_price'			=> $v['shop_price'],
-					'formatted_shop_price'	=> price_format($v['shop_price']),
-					'goods_sn'				=> empty($v['product_sn']) ? $v['goods_sn'] : $v['product_sn'],
-					'attribute'				=> $v['goods_attr'],
-					'img' => array(
-						'thumb'	=> !empty($v['goods_img']) ? RC_Upload::upload_url($v['goods_img']) : '',
-						'url'	=> !empty($v['original_img']) ? RC_Upload::upload_url($v['original_img']) : '',
-						'small'	=> !empty($v['goods_thumb']) ? RC_Upload::upload_url($v['goods_thumb']) : ''
-					),
-	    	 	);
-			}
-		}
-		return $product_search;
+// 		$db_goods->view = array(
+// 			'products' => array(
+// 				'type'		=> Component_Model_View::TYPE_LEFT_JOIN,
+// 				'alias'		=> 'p',
+// 				'on'		=> 'g.goods_sn=p.product_sn'
+// 			)
+// 		);
+
+// 		$field = 'g.goods_id, g.goods_name, g.shop_price, g.shop_price, g.goods_sn, g.goods_img, g.original_img, g.goods_thumb, p.goods_attr, p.product_sn';
+
+//     	$where[] = "(goods_sn like '%".$goods_sn."%' OR  product_sn like '%".$goods_sn."%')";
+//     	//散装商品不支持搜索；只能扫码
+//     	$where[] = "(g.extension_code is null or g.extension_code ='')";
+    	
+//         if(!empty($_SESSION['store_id'])){
+//             $where['store_id'] = $_SESSION['store_id'];
+//         }
+//         $codes = config('app-cashier::cashier_device_code');
+//     	if (in_array($device_code, $codes)) {
+//     		$where = array_merge($where, array('is_delete' => 0, 'is_on_sale' => 1, 'is_alone_sale' => 1));
+//     		if (ecjia::config('review_goods')) {
+//     			$where['review_status'] = array('gt' => 2);
+//     		}
+//     	}
+
+//     	$arr = $db_goods->field($field)->join(array('products'))->where($where)->select();
+//     	$product_search = array();
+// 		if (!empty($arr)) {
+// 			foreach ($arr as $k => $v){
+// 				$product_search[] = array(
+// 					'id'					=> $v['goods_id'],
+// 					'name'					=> $v['goods_name'],
+// 					'shop_price'			=> $v['shop_price'],
+// 					'formatted_shop_price'	=> price_format($v['shop_price']),
+// 					'goods_sn'				=> empty($v['product_sn']) ? $v['goods_sn'] : $v['product_sn'],
+// 					'attribute'				=> $v['goods_attr'],
+// 					'img' => array(
+// 						'thumb'	=> !empty($v['goods_img']) ? RC_Upload::upload_url($v['goods_img']) : '',
+// 						'url'	=> !empty($v['original_img']) ? RC_Upload::upload_url($v['original_img']) : '',
+// 						'small'	=> !empty($v['goods_thumb']) ? RC_Upload::upload_url($v['goods_thumb']) : ''
+// 					),
+// 	    	 	);
+// 			}
+// 		}
+// 		return $product_search;
     }
 }

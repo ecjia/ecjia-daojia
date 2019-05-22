@@ -9,12 +9,38 @@
 				disable_search: true
 			});
 			bath_url = $("a[name=move_cat_ture]").attr("data-url");
+
+			 //列表内部链接
+            $('[data-toggle="modal"]').on('click', function (e) {
+                 var $this = $(this);
+                 var copy_url = $this.attr('copy-url');
+                 $("textarea[name='link_value']").val(copy_url);
+                 
+                 var clipboard = new Clipboard('#copy_btn', {
+                     text: function() {
+                         return copy_url;
+                     }
+                 });
+                 clipboard.on('success',function(e) {
+                	 $('#alert_msg').remove();
+                     var $info = $('<div id="alert_msg" class="staticalert alert alert-success ui_showmessage"><a data-dismiss="alert" class="close">×</a>复制成功</div>');
+					 $info.appendTo('.success-msg').delay(2000).hide(0);
+                 });
+                 clipboard.on('error',function(e) {
+                	 $('#alert_msg').remove();
+                	 var $info = $('<div id="alert_msg" class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>复制失败</div>');
+					 $info.appendTo('.error-msg').delay(2000).hide(0);
+                 });
+ 			});
+
 			app.goods_list.list_search();
 			app.goods_list.filter();
 			app.goods_list.batch_move_cat();
 			app.goods_list.review_static();
 			app.goods_list.toggle_on_sale();
 			app.goods_list.insertGoods();
+			app.goods_list.checkGoods();
+			app.goods_list.viewReview();
 		},
 		review_static: function() {
 			$('.review_static').each(function() {
@@ -143,17 +169,12 @@
 
 			$('.filter-btn').on('click', function(e) {
 				e.preventDefault();
-				var review_status = $("select[name='review_status']").val(); //分类
-				var store_id = $("select[name='store_id']").val(); //品牌
+				var store_id = $("select[name='store_id']").val(); //商家
 
 				var url = $("form[name='filterForm']").attr('action');
 
-				if (review_status == 'undefind' || review_status == 0) review_status = '';
 				if (store_id == 'undefind' || store_id == 0) store_id = '';
 
-				if (review_status != '') {
-					url += '&review_status=' + review_status;
-				}
 				if (store_id != '') {
 					url += '&store_id=' + store_id;
 				}
@@ -228,15 +249,15 @@
 				var $this = $(this);
 				var goods_id = $this.attr('data-id');
 				var goods_name = $this.attr('data-name');
-				var goods_sn = $this.attr('data-sn');
 				var shop_price = $this.attr('data-shopprice');
 				var market_price = $this.attr('data-marketprice');
+				var cost_price = $this.attr('data-costprice');
 				
 				$("input[name=goods_id]").val(goods_id);
 				$("input[name=goods_name]").val(goods_name);
-				$("input[name=goods_sn]").val(goods_sn);
 				$("input[name=shop_price]").val(shop_price);
 				$("input[name=market_price]").val(market_price);
+				$("input[name=cost_price]").val(cost_price);
 				
 				$('#insertGoods').modal('show');
 			});
@@ -311,6 +332,51 @@
 			var options = $.extend(ecjia.admin.defaultOptions.validate, option);
 			$this.validate(options);
 			
+		},
+		
+		checkGoods: function() {
+			 $('[data-toggle="modal"]').on('click', function (e) {
+		           var $this = $(this);
+		           var goods_id = $this.attr('goods-id');
+		           $('#check_review_log').change(function () {
+		        	   var subject_text = $("#check_review_log option:selected").text();
+		       		   var subject_val  = $("#check_review_log option:selected").val();
+				       if (subject_val != 0){
+			           		$('#review_content').val(subject_text);
+			       	   } else {
+			       		    $('#review_content').val('');
+			       	   } 
+		           })
+		           
+		           $(".change_status").on('click', function (e) {
+		        	   e.preventDefault();
+		        	   var review_status = $(this).attr('review_status');
+		               var url = $("form[name='checkForm']").attr('action');
+		               var review_content = $("textarea[name='review_content']").val();
+		               var option = {
+			               	'review_content' : review_content,
+			               	'goods_id' : goods_id,
+			            	'review_status' : review_status
+		               };
+		               $.post(url, option, function (data) {
+		                    ecjia.admin.showmessage(data);
+		                    location.href = data.url;
+		               }, 'json');
+		           });
+			 });
+		},
+		
+		viewReview: function() {
+ 			$('[data-toggle="modal"][data-type="log"]').off('click').on('click', function (e) {
+				 e.preventDefault();
+		         var $this = $(this);
+		         var goods_id = $this.attr('goods-id');
+		         var url = $this.attr('attr-url');
+	             $.post(url, {'goods_id': goods_id}, function (data) {
+	            	 $('#review_log').html(data.data);
+	             }, 'json');
+			 });
+       
 		}
 	};
 

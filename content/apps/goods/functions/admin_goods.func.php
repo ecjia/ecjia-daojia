@@ -1583,7 +1583,7 @@ function get_merchant_goods_type() {
 	$db_goods_type = RC_DB::table('goods_type as gt')
 		->leftJoin('store_franchisee as s', RC_DB::raw('s.store_id'), '=', RC_DB::raw('gt.store_id'))
 		->where(RC_DB::raw('gt.store_id'), $_SESSION['store_id']);
-
+	
 	if (!empty($filter['keywords'])) {
 		$db_goods_type->where(RC_DB::raw('gt.cat_name'), 'like', '%'.mysql_like_quote($filter['keywords']).'%');
 	}

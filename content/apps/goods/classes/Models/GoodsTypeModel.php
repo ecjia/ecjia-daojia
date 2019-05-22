@@ -28,7 +28,21 @@ class GoodsTypeModel extends Model
 		'enabled',
 		'attr_group',
 	];
+
+    /**
+     * 该模型是否被自动维护时间戳
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 	
-	
+	/**
+	 * 一对多
+	 * 规格/参数的属性集合
+	 */
+	public function attribute_collection()
+	{
+		return $this->hasMany('Ecjia\App\Goods\Models\AttributeModel', 'cat_id', 'cat_id');
+	}
 	
 }

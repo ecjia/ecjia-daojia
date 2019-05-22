@@ -8,6 +8,7 @@
 
 namespace Ecjia\App\Goods\GoodsSearch;
 
+use Ecjia\App\Goods\Category\CategoryCollection;
 use Ecjia\App\Goods\Models\GoodsCatModel;
 
 class GoodsCategory
@@ -15,13 +16,24 @@ class GoodsCategory
 
     public static function getChildrenCategoryId($cat_id)
     {
-    	\RC_Loader::load_app_class('goods_category', 'goods', false);
-    	
-    	$children = \goods_category::cat_list($cat_id, 0, false );
-    	$children = array_keys($children);
-    	$children = array_merge(array($cat_id),$children);
-    	
-    	return $children;
+//    	\RC_Loader::load_app_class('goods_category', 'goods', false);
+//dd($cat_id);
+
+//    	$children = $collection->getCategories()->pluck('children_ids');
+//    	$cat_ids = $collection->getCategories()->pluck('cat_id');
+//        $cat_ids = array_merge($cat_ids->all(), $children->collapse()->all());
+
+//    	dd($cat_ids);
+//    	dd();
+
+//    	$children = \goods_category::cat_list($cat_id, 0, false );
+//    	$children = array_keys($children);
+//    	$children = array_merge(array($cat_id),$children);
+
+        $collection = new CategoryCollection($cat_id);
+        $cat_ids = $collection->getChildrenCategoryIds();
+
+    	return $cat_ids;
     	
     }
     

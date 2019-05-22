@@ -24,12 +24,12 @@ class BargainPrice
 	 *        	促销结束日期
 	 * @return float 如果还在促销期则返回促销价，否则返回0
 	 */
-	public static function bargain_price($price, $start, $end) {
+	public static function bargain_price($price, $start, $end, $promote_limited = 0) {
 		if ($price == 0) {
 			return 0;
 		} else {
 			$time = RC_Time::gmtime ();
-			if ($time >= $start && $time <= $end) {
+			if ($time >= $start && $time <= $end && $promote_limited > 0) {
 				return $price;
 			} else {
 				return 0;

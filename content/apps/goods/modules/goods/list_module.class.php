@@ -74,15 +74,15 @@ class goods_list_module extends api_front implements api_interface {
         /* 排序*/
         $sort_by = !empty($filter['sort_by']) ? $filter['sort_by'] : '';
         if ($sort_by == 'is_hot') {
-            $order_sort = array('is_hot' => 'DESC', 'sort_order' => 'ASC', 'goods_id' => 'DESC');
+            $order_sort = array('goods.is_hot' => 'DESC', 'goods.sort_order' => 'ASC', 'goods.goods_id' => 'DESC');
         } elseif ($sort_by == 'price_desc') {
-            $order_sort = array('shop_price' => 'DESC', 'sort_order' => 'ASC', 'goods_id' => 'DESC');
+            $order_sort = array('goods.shop_price' => 'DESC', 'goods.sort_order' => 'ASC', 'goods.goods_id' => 'DESC');
         } elseif ($sort_by == 'price_asc') {
-            $order_sort = array('shop_price' => 'ASC', 'sort_order' => 'ASC', 'goods_id' => 'DESC');
+            $order_sort = array('goods.shop_price' => 'ASC', 'goods.sort_order' => 'ASC', 'goods.goods_id' => 'DESC');
         } elseif ($sort_by == 'is_new') {
-            $order_sort = array('is_new' => 'DESC', 'sort_order' => 'ASC', 'goods_id' => 'DESC');
+            $order_sort = array('goods.is_new' => 'DESC', 'goods.sort_order' => 'ASC', 'goods.goods_id' => 'DESC');
         } else {
-        	$order_sort = array('store_sort_order' => 'ASC');
+        	$order_sort = array('goods.store_sort_order' => 'ASC');
         }
 
         $size = $this->requestData('pagination.count', 20);

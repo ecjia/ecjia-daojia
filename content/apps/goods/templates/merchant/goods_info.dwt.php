@@ -54,12 +54,6 @@
 		              		</div>
 		              		
 	              			<div class="form-group">
-	              				<label class="control-label col-lg-2">{t domain="goods"}商品货号：{/t}</label>
-	              				<div class="col-lg-7">
-	                            	<input class="form-control" name="goods_sn" type="text" value="{$goods.goods_sn|escape}" />
-	                          	</div>
-	              			</div>
-	              			<div class="form-group">
 	              				<label class="control-label col-lg-2">{t domain="goods"}本店售价：{/t}</label>
 	              				<div class="controls col-lg-7">
 	                            	<input class="form-control" name="shop_price" type="text" value="{$goods.shop_price}" />
@@ -79,15 +73,15 @@
 		                          	<button class="btn btn-primary" type="button" data-toggle="integral_market_price">{t domain="goods"}取整数{/t}</button>
 								</div>
 	              			</div>
-		              			
+	              			
 	              			<div class="form-group">
-	              				<label class="control-label col-lg-2">{t domain="goods"}库存数量：{/t}</label>
-	              				<div class="controls col-lg-7">
-	                            	<input class="form-control" name="goods_number" type="text" value="{$goods.goods_number}" />
+	              				<label class="control-label col-lg-2">{t domain="goods"}成本价：{/t}</label>
+	              				<div class="col-lg-7">
+	                            	<input class="form-control" name="cost_price" type="text" value="{$goods.cost_price}" />
+	                            	<span class="help-block">设置单品的销售成本，作为统计利润的依据，单位（元）</span>
 	                          	</div>
-	                          	<span class="input-must">*</span>
 	              			</div>
-		              			
+	              			
 	              			<div class="form-group">
 	              				<label class="control-label col-lg-2">{t domain="goods"}警告数量：{/t}</label>
 	              				<div class="col-lg-7">
@@ -168,6 +162,7 @@
 					              				<label class="control-label col-lg-2 p_l0">{t domain="goods"}商家备注：{/t}</label>
 					              				<div class="col-lg-9 p_l0">
 					                            	<textarea class="form-control" name="seller_note" cols="40" rows="3">{$goods.seller_note}</textarea>
+					                            	<span class="help-block">此备注仅限商家管理员可见，主要用于记录特殊商品信息，方便管理员管理</span>
 					                          	</div>
 					              			</div>
 				              			</div>

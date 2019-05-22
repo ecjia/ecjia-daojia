@@ -885,26 +885,24 @@ function get_goods_info_nav($goods_id = 0, $extension_code = '') {
 	return array(
 		'edit'                  => array('name' => __('通用信息', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit', "goods_id=$goods_id".$extension_code)),
 		'edit_goods_desc'       => array('name' => __('商品描述', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_goods_desc', "goods_id=$goods_id".$extension_code)),
-		'edit_goods_attr'       => array('name' => __('商品属性', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_goods_attr', "goods_id=$goods_id".$extension_code)),
 		'edit_goods_photo'      => array('name' => __('商品相册', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin_gallery/init', "goods_id=$goods_id".$extension_code)),
 		'edit_link_goods'       => array('name' => __('关联商品', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_link_goods', "goods_id=$goods_id".$extension_code)),
 // 		'edit_link_parts'       => array('name' => __('关联配件', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_link_parts', "goods_id=$goods_id".$extension_code)),
 		'edit_link_article'     => array('name' => __('关联文章', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/edit_link_article', "goods_id=$goods_id".$extension_code)),
-		'product_list'          => array('name' => __('货品管理', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/admin/product_list', "goods_id=$goods_id".$extension_code)),
 	);
 }
 
 /*返回商家商品详情页面的导航条数组*/
 function get_merchant_goods_info_nav($goods_id  =0, $extension_code = '') {
 	return array(
-		'edit'                  => array('name' => __('通用信息', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit', "goods_id=$goods_id".$extension_code)),
-		'edit_goods_desc'       => array('name' => __('商品描述', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_goods_desc', "goods_id=$goods_id".$extension_code)),
-		'edit_goods_attr'       => array('name' => __('商品属性', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_goods_attr', "goods_id=$goods_id".$extension_code)),
-		'edit_goods_photo'      => array('name' => __('商品相册', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/mh_gallery/init', "goods_id=$goods_id".$extension_code)),
-		'edit_link_goods'       => array('name' => __('关联商品', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_link_goods', "goods_id=$goods_id".$extension_code)),
-// 		'edit_link_parts'       => array('name' => __('关联配件', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_link_parts', "goods_id=$goods_id".$extension_code)),
-		'edit_link_article'     => array('name' => __('关联文章', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_link_article', "goods_id=$goods_id".$extension_code)),
-		'product_list'          => array('name' => __('货品管理', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/product_list', "goods_id=$goods_id".$extension_code)),
+		'edit'                       => array('name' => __('通用信息', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit', "goods_id=$goods_id".$extension_code)),
+		'edit_goods_desc'            => array('name' => __('商品描述', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_goods_desc', "goods_id=$goods_id".$extension_code)),
+		'edit_goods_parameter'       => array('name' => __('商品参数', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_goods_parameter', "goods_id=$goods_id".$extension_code)),
+		'edit_goods_specification'   => array('name' => __('规格/货品', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_goods_specification', "goods_id=$goods_id".$extension_code)),
+		'edit_goods_photo'           => array('name' => __('商品相册', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/mh_gallery/init', "goods_id=$goods_id".$extension_code)),
+		'edit_link_goods'            => array('name' => __('关联商品', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_link_goods', "goods_id=$goods_id".$extension_code)),
+// 		'edit_link_parts'            => array('name' => __('关联配件', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_link_parts', "goods_id=$goods_id".$extension_code)),
+		'edit_link_article'          => array('name' => __('关联文章', 'goods'), 'pjax' => 1, 'href' => RC_Uri::url('goods/merchant/edit_link_article', "goods_id=$goods_id".$extension_code)),
 	);
 }
 
@@ -1816,13 +1814,13 @@ function get_final_price($goods_id, $goods_num = '1', $is_spec_price = false, $s
 	}
 	// 取得商品促销价格列表
 	//$goods = $dbview->join ('member_price')->find (array('g.goods_id' => $goods_id, 'g.is_delete' => 0));
-	$field = "g.promote_price, g.promote_start_date, g.promote_end_date,IFNULL(mp.user_price, g.shop_price * '" . $_SESSION['discount'] . "') AS shop_price";
+	$field = "g.promote_price, g.is_promote, g.promote_limited, g.promote_start_date, g.promote_end_date,IFNULL(mp.user_price, g.shop_price * '" . $_SESSION['discount'] . "') AS shop_price";
 	// 取得商品促销价格列表
 	$goods = $dbview->join(array('member_price'))->field($field)->where(array('g.goods_id' => $goods_id, 'g.is_delete' => 0))->find();
 	
 	/* 计算商品的促销价格 */
-	if ($goods ['promote_price'] > 0) {
-		$promote_price = bargain_price ( $goods ['promote_price'], $goods ['promote_start_date'], $goods ['promote_end_date'] );
+	if ($goods ['promote_price'] > 0 && $goods['is_promote'] == '1' && $goods['promote_limited'] > 0) {
+		$promote_price = bargain_price ( $goods ['promote_price'], $goods ['promote_start_date'], $goods ['promote_end_date'], $goods['promote_limited']);
 	} else {
 		$promote_price = 0;
 	}
@@ -1837,15 +1835,17 @@ function get_final_price($goods_id, $goods_num = '1', $is_spec_price = false, $s
 		//商品SKU价格模式：商品价格 + 属性货品价格
 		if (ecjia::config('sku_price_mode') == 'goods_sku') {
 			//货品促销价存在，替换商品促销价
-			if ($product_info ['promote_price'] > 0 && $product_info['is_promote'] == '1') {
-				$promote_price = Ecjia\App\Goods\GoodsFunction::bargain_price ($product_info['promote_price'], $goods['promote_start_date'], $goods['promote_end_date'] );
+			if ($product_info ['promote_price'] > 0 && $product_info['is_promote'] == '1' && $product_info['promote_limited'] > 0) {
+				$promote_price = Ecjia\App\Goods\GoodsFunction::bargain_price ($product_info['promote_price'], $goods['promote_start_date'], $goods['promote_end_date'], $product_info['promote_limited']);
 			}else {
 				$promote_price = 0;
 			}
 		}
+		$product_shop_price = $product_info['product_shop_price'] > 0 ? $product_info['product_shop_price']*$_SESSION['discount'] : 0;
 		//货品会员价格存在替换商品会员等级价
-		$product_user_price = $product_info['product_shop_price'] > 0 ? $product_info['product_shop_price']*$_SESSION['discount'] : $user_price;
+		$product_user_price = $product_shop_price > 0 ? $product_shop_price : $user_price;
 		$user_price = $product_user_price;
+		
 	}
 	
 	//商品促销限购数量判断（有没超过用户限购数， 有没超过活动限购数）；超过限购按商品原价处理
@@ -1888,8 +1888,8 @@ function get_final_price($goods_id, $goods_num = '1', $is_spec_price = false, $s
 	if ($is_spec_price) {
 		if (! empty ( $spec )) {
 			if ($product_id > 0) {
-				//商品SKU价格模式：商品价格 + 属性货品价格
-				if (ecjia::config('sku_price_mode') == 'goods_sku') {
+				//货品未设置自定义价格的话，按商品价格加上属性价格;商品价格 + 属性货品价格
+				if ($product_shop_price <= 0) {
 					$spec_price = spec_price ( $spec );
 					$final_price += $spec_price;
 				}

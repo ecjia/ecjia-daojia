@@ -9,7 +9,7 @@
 namespace Ecjia\App\Goods\GoodsSearch\Filters;
 
 
-use Ecjia\App\Goods\GoodsSearch\FilterInterface;
+use Ecjia\System\Frameworks\SuperSearch\FilterInterface;
 use Royalcms\Component\Database\Eloquent\Builder;
 
 /**
@@ -31,9 +31,10 @@ class SortBy implements FilterInterface
     {
     	if (!empty($value) && is_array($value)) {
     		foreach ($value as $by => $sort) {
-    			return $builder->orderBy($by, $sort);
+    		    $builder->orderBy($by, $sort);
     		}
     	}
+
     	return $builder;
     }
 

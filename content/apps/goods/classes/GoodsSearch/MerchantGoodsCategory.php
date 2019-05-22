@@ -27,4 +27,21 @@ class MerchantGoodsCategory
     	return $children_cat;
     	
     }
+    
+    public static function getAdminChildrenCategoryId($merchant_cat_id, $store_id)
+    {
+    	$children_cat = MerchantCategoryModel::where('store_id', $store_id)->where('parent_id', $merchant_cat_id)->lists('cat_id');
+    	 
+    	if (!empty($children_cat)) {
+    		$children_cat = $children_cat->toArray();
+    		$children_cat = array_merge([$merchant_cat_id], $children_cat);
+    	} else {
+    		$children_cat = [$merchant_cat_id];
+    	}
+    	 
+    	return $children_cat;
+    	 
+    }
+    
+    
 }

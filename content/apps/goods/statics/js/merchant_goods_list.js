@@ -8,11 +8,49 @@
 				allow_single_deselect: false,
 				disable_search: true
 			});
+
+			//列表内部链接
+            $('[data-toggle="modal"]').on('click', function (e) {
+                 var $this = $(this);
+                 var copy_url = $this.attr('copy-url');
+                 $("textarea[name='link_value']").val(copy_url);
+                 
+                 var clipboard = new Clipboard('#copy_btn', {
+                     text: function() {
+                         return copy_url;
+                     }
+                 });
+                 clipboard.on('success',function(e) {
+                	 $('#alert_msg').remove();
+                     var $info = $('<div id="alert_msg" class="staticalert alert alert-success ui_showmessage"><a data-dismiss="alert" class="close">×</a>复制成功</div>');
+					 $info.appendTo('.success-msg').delay(2000).hide(0);
+                 });
+                 clipboard.on('error',function(e) {
+                	 $('#alert_msg').remove();
+                	 var $info = $('<div id="alert_msg" class="staticalert alert alert-danger ui_showmessage"><a data-dismiss="alert" class="close">×</a>复制失败</div>');
+					 $info.appendTo('.error-msg').delay(2000).hide(0);
+                 });
+ 			});
+
 			bath_url = $("a[name=move_cat_ture]").attr("data-url");
 			app.goods_list.search();
 			app.goods_list.batch_move_cat();
 			app.goods_info.previewImage();
 			app.goods_list.toggle_on_sale();
+			app.goods_list.view_review();
+		},
+
+		view_review: function() {
+ 			$('[data-toggle="modal"][data-type="log"]').off('click').on('click', function (e) {
+				 e.preventDefault();
+		         var $this = $(this);
+		         var goods_id = $this.attr('goods-id');
+		         var url = $this.attr('attr-url');
+	             $.post(url, {'goods_id': goods_id}, function (data) {
+	            	 $('#review_log').html(data.data);
+	             }, 'json');
+			 });
+        
 		},
 
 		search: function() {
@@ -594,6 +632,7 @@
 	app.preview = {
 		init: function() {
 			app.preview.goods_search();
+			app.preview.goods_on_sale();
 
 			var browse = window.navigator.appName.toLowerCase();
 			var MyMar;
@@ -681,7 +720,44 @@
 					id = $this.find('[name="keywords"]').val();
 				ecjia.pjax(url + '&id=' + id);
 			});
+		},
+		
+		goods_on_sale: function() {
+			$('[data-trigger="goods_on_sale"]').on('click', function(e) {
+				e.preventDefault();
+				var $this = $(this);
+				var url = $this.attr('data-url');
+				var id = $this.attr('data-id');
+				var val = $this.hasClass('off-sale') ? 0 : 1;
+				var type = $this.attr('data-type') ? $this.attr('data-type') : "POST";
+				var pjaxurl = $this.attr('refresh-url');
+
+				var option = {
+					obj: $this,
+					url: url,
+					id: id,
+					val: val,
+					type: type
+				};
+
+				$.ajax({
+					url: option.url,
+					data: {
+						id: option.id,
+						val: option.val
+					},
+					type: option.type,
+					dataType: "json",
+					success: function(data) {
+						data.content ? option.obj.removeClass('off-sale').addClass('on-sale') : option.obj.removeClass('on-sale').addClass('off-sale');
+						ecjia.pjax(pjaxurl, function() {
+							ecjia.merchant.showmessage(data);
+						});
+					}
+				});
+			})
 		}
+		
 	};
 
 	/* 货品列表 */

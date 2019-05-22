@@ -15,8 +15,6 @@ class GoodsCatModel extends Model
 	
 	protected $table = 'goods_cat';
 	
-// 	protected $primaryKey = 'cat_id';
-	
 	/**
 	 * 可以被批量赋值的属性。
 	 *
@@ -26,7 +24,13 @@ class GoodsCatModel extends Model
 		'goods_id',
 		'cat_id',
 	];
-	
+
+    /**
+     * 该模型是否被自动维护时间戳
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 	
 	
 }

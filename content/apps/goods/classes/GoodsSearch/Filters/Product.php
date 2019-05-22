@@ -9,7 +9,7 @@
 namespace Ecjia\App\Goods\GoodsSearch\Filters;
 
 
-use Ecjia\App\Goods\GoodsSearch\FilterInterface;
+use Ecjia\System\Frameworks\SuperSearch\FilterInterface;
 use Royalcms\Component\Database\Eloquent\Builder;
 
 class Product implements FilterInterface
@@ -39,7 +39,9 @@ class Product implements FilterInterface
             	'products.product_name',
             	'products.product_thumb',
             	'products.product_img',
-            	'products.product_original_img'
+            	'products.product_original_img',
+            	'products.promote_limited as product_promote_limited',
+            	'products.product_bar_code'
             );
         }
 

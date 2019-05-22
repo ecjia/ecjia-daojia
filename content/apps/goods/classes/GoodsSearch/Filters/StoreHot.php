@@ -9,7 +9,7 @@
 namespace Ecjia\App\Goods\GoodsSearch\Filters;
 
 
-use Ecjia\App\Goods\GoodsSearch\FilterInterface;
+use Ecjia\System\Frameworks\SuperSearch\FilterInterface;
 use Royalcms\Component\Database\Eloquent\Builder;
 
 /**
@@ -29,7 +29,7 @@ class StoreHot implements FilterInterface
      */
     public static function apply(Builder $builder, $value)
     {
-    	return $builder->where('store_hot', $value);
+    	return $builder->where('goods.store_hot', $value);
     }
 
 }

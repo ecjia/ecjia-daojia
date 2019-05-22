@@ -68,6 +68,8 @@ class admin_category extends ecjia_admin {
 		RC_Style::enqueue_style('bootstrap-editable-css', RC_Uri::admin_url() . '/statics/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css');
 		// RC_Script::enqueue_script('ecjia-common');
 		
+		RC_Script::enqueue_script('clipboard.min', RC_App::apps_url('statics/js/clipboard.min.js', __FILE__), array(), false, 1);
+		
 		RC_Script::enqueue_script('goods_category_list', RC_App::apps_url('statics/js/goods_category_list.js',__FILE__), array(), false, 1);
 		RC_Script::localize_script('goods_category_list', 'js_lang', config('app-goods::jslang.category_page'));
 		RC_Style::enqueue_style('goods_category', RC_App::apps_url('statics/styles/goods_category.css', __FILE__), array());
@@ -100,11 +102,12 @@ class admin_category extends ecjia_admin {
 			'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品分类#.E5.95.86.E5.93.81.E5.88.86.E7.B1.BB.E5.88.97.E8.A1.A8" target="_blank">关于商品分类列表帮助文档</a>', 'goods') . '</p>'
 		);
 		
-		$cat_id = !empty($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
+		$cat_id = intval($this->request->input('cat_id', 0));
 		$this->assign('cat_id', $cat_id);
-		
-		$cat_list = cat_list($cat_id, 0, false);
-		unset($cat_list[$cat_id]);
+
+        $cat_list = (new \Ecjia\App\Goods\Category\CategoryCollection($cat_id))->getCategories();
+		$cat_list = $cat_list->all();
+
 		$this->assign('cat_list', $cat_list);
 		
 		$cat_info = get_cat_info($cat_id);
@@ -163,6 +166,11 @@ class admin_category extends ecjia_admin {
 		$this->assign('cat_select', cat_list(0, $parent_id, true));
 		$this->assign('cat_info', array('is_show' => 1));
 		$this->assign('form_action', RC_Uri::url('goods/admin_category/insert'));
+		
+		$specification_template_list = Ecjia\App\Goods\GoodsAttr::goods_type_select_list(0, 'specification', 1);
+		$parameter_template_list     = Ecjia\App\Goods\GoodsAttr::goods_type_select_list(0, 'parameter', 1);
+		$this->assign('specification_template_list', $specification_template_list);
+		$this->assign('parameter_template_list', $parameter_template_list);
 
 		$this->display('category_info.dwt');
 	}
@@ -185,7 +193,8 @@ class admin_category extends ecjia_admin {
 		$cat['is_show']      = !empty($_POST['is_show'])      ? intval($_POST['is_show'])    : 0;
 		$cat['grade']        = !empty($_POST['grade'])        ? intval($_POST['grade'])      : 0;
 		$cat['filter_attr']  = !empty($_POST['filter_attr'])  ? implode(',', array_unique(array_diff($_POST['filter_attr'], array(0)))) : 0;
-
+		$cat['specification_id']      = !empty($_POST['specification_id'])      ? intval($_POST['specification_id'])    : 0;
+		$cat['parameter_id']      = !empty($_POST['parameter_id'])      ? intval($_POST['parameter_id'])    : 0;
 		if (cat_exists($cat['cat_name'], $cat['parent_id'])) {
 		    return $this->showmessage(__('已存在相同的分类名称！', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
@@ -344,6 +353,13 @@ class admin_category extends ecjia_admin {
 		$this->assign('goods_type_list', goods_type_list(0)); // 取得商品类型
 		$this->assign('form_action', RC_Uri::url('goods/admin_category/update'));
 
+		
+		$specification_template_list = Ecjia\App\Goods\GoodsAttr::goods_type_select_list($cat_info['specification_id'], 'specification', 1);
+		$parameter_template_list     = Ecjia\App\Goods\GoodsAttr::goods_type_select_list($cat_info['parameter_id'], 'parameter', 1);
+		$this->assign('specification_template_list', $specification_template_list);
+		$this->assign('parameter_template_list', $parameter_template_list);
+		
+		
 		$this->display('category_info.dwt');
 	}
 	
@@ -392,6 +408,8 @@ class admin_category extends ecjia_admin {
 		//$cat['style']        	= !empty($_POST['style'])        ? trim($_POST['style'])        : '';
 		$cat['grade']       	= !empty($_POST['grade'])        ? intval($_POST['grade'])      : 0;
 		$cat['filter_attr']		= !empty($_POST['filter_attr'])  ? implode(',', array_unique(array_diff($_POST['filter_attr'], array(0)))) : 0;
+		$cat['specification_id']    = !empty($_POST['specification_id'])      ? intval($_POST['specification_id'])    : 0;
+		$cat['parameter_id']      	= !empty($_POST['parameter_id'])      ? intval($_POST['parameter_id'])    : 0;
 
 		/* 判断分类名是否重复 */
 		if ($cat['cat_name'] != $old_cat_name) {

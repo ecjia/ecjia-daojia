@@ -56,49 +56,52 @@ class goods_admin_hooks
             return false;
         }
 
-        $title = __('商品统计信息', 'goods');
+        $title = __('商品统计', 'goods');
 
+        $static_url = RC_App::apps_url('goods/statics/images/goodsstats_images/');
+        ecjia_admin::$controller->assign('static_url', $static_url);
+        
         $goods = RC_Cache::app_cache_get('admin_dashboard_goods', 'goods');
         if (!$goods) {
-            $time = RC_Time::gmtime();
-
-            $fields = "SUM(IF(goods_id > 0, 1, 0)) as total,
-            SUM(IF(is_new = 1, 1, 0)) as new,
-            SUM(IF(is_best = 1, 1, 0)) as best,
-            SUM(IF(is_hot = 1, 1, 0)) as hot,
-            SUM(IF(goods_number <= warn_number, 1, 0)) as warn_goods,
-            SUM(IF(promote_price > 0 and promote_start_date <= " . $time . " and promote_end_date >= " . $time . ", 1, 0)) as promote_goods,
-            SUM(IF(review_status = 1, 1, 0)) as wait_check";
-
+            $fields = "SUM(IF(goods_id > 0, 1, 0)) as total, SUM(IF(is_new = 1, 1, 0)) as new, SUM(IF(is_best = 1, 1, 0)) as best, SUM(IF(is_hot = 1, 1, 0)) as hot";
+            
             $row = RC_DB::table('goods')->select(RC_DB::raw($fields))->where('is_delete', 0)->where('is_real', 1)->get();
 
-            $goods['total'] = $row[0]['total'];
-            $goods['new_goods'] = $row[0]['new'];
-            $goods['new_goods_url'] = RC_Uri::url('goods/admin/init', 'intro_type=is_new');
-            $goods['best_goods'] = $row[0]['best'];
-            $goods['best_goods_url'] = RC_Uri::url('goods/admin/init', 'intro_type=is_best');
-            $goods['hot_goods'] = $row[0]['hot'];
-            $goods['hot_goods_url'] = RC_Uri::url('goods/admin/init', 'intro_type=is_hot');
-            $goods['promote_goods'] = $row[0]['promote_goods'];
-            $goods['promote_goods_url'] = RC_Uri::url('goods/admin/init', 'intro_type=is_promote');
-
-            $goods['wait_check'] = $row[0]['wait_check'];
-            $goods['wait_check_url'] = RC_Uri::url('goods/admin/init', 'review_status=1');
-
-            /* 缺货商品 */
-            if (ecjia::config('use_storage')) {
-                $goods['warn_goods'] = $row[0]['warn_goods'];
-            } else {
-                $goods['warn_goods'] = 0;
-            }
-            $goods['warn_goods_url'] = RC_Uri::url('goods/admin/init', 'stock_warning=1');
-
+            $goods['total'] = $row[0]['total'];  	//总数
+            $goods['new_goods'] = $row[0]['new'];	//新品
+            $goods['best_goods'] = $row[0]['best']; //精品
+            $goods['hot_goods'] = $row[0]['hot'];   //热销
+            
+            //在售商品
+            $goods['selling'] 			= RC_DB::table('goods')->where('is_real', 1)->where('is_on_sale', 1)->whereIn('review_status', [3, 5])->where('is_delete', 0)->count();
+            $goods['selling_goods_url'] = RC_Uri::url('goods/admin/init');
+        	//售罄商品
+            $goods['finish']  			= RC_DB::table('goods')->where('goods_number', 0)->where('is_on_sale', 0)->whereIn('review_status', [3,5])->where('is_delete', 0)->where('is_real', 1)->count();
+            $goods['finish_goods_url'] 	= RC_Uri::url('goods/admin/finish');
+            //下架商品
+            $goods['obtained'] 			= RC_DB::table('goods')->where('goods_number', '>', 0)->where('is_on_sale', 0)->whereIn('review_status', [3, 5])->where('is_delete', 0)->where('is_real', 1)->count();
+            $goods['obtained_goods_url']= RC_Uri::url('goods/admin/obtained');
+            //待审核商品
+            $goods['await_check'] 	= RC_DB::table('goods')->where('review_status', 1)->where('is_delete', 0)->where('is_real', 1)->count();
+            $goods['obtained_goods_url']= RC_Uri::url('goods/admin/check');
+			//散装商品
+			$goods['bulk']			= RC_DB::table('goods')->where('is_delete', 0)->where('extension_code', 'bulk')->count();
+            //收银台商品
+            $goods['cashier']		= RC_DB::table('goods')->where('is_delete', 0)->where('extension_code', 'cashier')->count();
+            
+            //新品首发百分比
+            $goods['new_percent'] = intval($goods['new_goods']/$goods['total']*100);
+            //精品推荐
+            $goods['best_percent'] = intval($goods['best_goods']/$goods['total']*100);
+            //热销商品
+            $goods['hot_percent']  = intval($goods['hot_goods']/$goods['total']*100);
+            
+            
             RC_Cache::app_cache_set('admin_dashboard_goods', $goods, 'goods', 120);
         }
 
         ecjia_admin::$controller->assign('title', $title);
         ecjia_admin::$controller->assign('goods', $goods);
-        ecjia_admin::$controller->assign_lang();
         ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_goodsstat.lbi', 'goods'));
     }
 
@@ -124,7 +127,7 @@ class goods_admin_hooks
     }
 }
 
-RC_Hook::add_action('admin_dashboard_left', array('goods_admin_hooks', 'widget_admin_dashboard_goodsstat'), 20);
+RC_Hook::add_action('admin_dashboard_top', array('goods_admin_hooks', 'widget_admin_dashboard_goodsstat'), 11);
 RC_Hook::add_action( 'append_admin_setting_group', array('goods_admin_hooks', 'append_admin_setting_group') );
 RC_Hook::add_action('ecjia_setting_component_filter', array('goods_admin_hooks', 'add_admin_setting_command'));
 

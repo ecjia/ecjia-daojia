@@ -61,7 +61,7 @@ class CategoryCollection
 	 * @return  mix
 	 */
 	public static function get_cat_info($cat_id) {
-		$db = RC_Loader::load_app_model('category_model', 'goods');
+		$db = \RC_Loader::load_app_model('category_model', 'goods');
 		return $db->find(array('cat_id' => $cat_id));
 	}
 	
@@ -87,7 +87,7 @@ class CategoryCollection
      * @return string
      */
     public static function get_extension_goods($cats) {
-    	$db_goods_cat = RC_Loader::load_app_model('cat_viewmodel', 'goods');
+    	$db_goods_cat = \RC_Loader::load_app_model('cat_viewmodel', 'goods');
     	$extension_goods_array = array();
     	$data = $db_goods_cat->field('goods_id')->where($cats)->select();
     	if (!empty($data)) {
@@ -108,7 +108,7 @@ class CategoryCollection
 	 * @return int
 	 */
 	public static function get_parent_grade($cat_id) {
-		$db = RC_Loader::load_app_model('category_model', 'goods');
+		$db = \RC_Loader::load_app_model('category_model', 'goods');
 		static $res = NULL;
 		if ($res === NULL) {
 			$data = false;
@@ -156,7 +156,7 @@ class CategoryCollection
      */
     public static function cat_list($cat_id = 0, $selected = 0, $re_type = true, $level = 0, $is_show_all = true) {
     	// 加载方法
-    	RC_Loader::load_app_func('global', 'goods');
+    	\RC_Loader::load_app_func('global', 'goods');
     	static $res = NULL;
     
     	if ($res === NULL) {

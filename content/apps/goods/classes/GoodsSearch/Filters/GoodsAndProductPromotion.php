@@ -9,7 +9,7 @@
 namespace Ecjia\App\Goods\GoodsSearch\Filters;
 
 
-use Ecjia\App\Goods\GoodsSearch\FilterInterface;
+use Ecjia\System\Frameworks\SuperSearch\FilterInterface;
 use Royalcms\Component\Database\Eloquent\Builder;
 
 /**
@@ -41,13 +41,14 @@ class GoodsAndProductPromotion implements FilterInterface
 	    		->where('goods.promote_start_date', '>', $time_start)
 	    		->where('goods.promote_start_date', '<=', $time_end)
     			->where(function ($query){
-    				$query->where(function ($query) {
-    					$query->where('products.is_promote', 1)
-    					->orWhere(function ($query) {
+    					$query->where(function ($query) {
+    						$query->where('products.is_promote', 1)
+    							  ->where('products.promote_limited', '>', 0);
+    					})->orWhere(function ($query) {
     						$query->where('goods.is_promote', 1)
-    							  ->whereRaw("(product_id is null)");
+    						      ->where('goods.promote_limited', '>', 0)
+    							  ->whereRaw("product_id is null");
     					});
-    				});
     			});
     		return $subQuery;
     	}

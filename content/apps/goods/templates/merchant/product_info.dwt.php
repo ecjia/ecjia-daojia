@@ -50,10 +50,10 @@
 	                                    {$attribute_value.attr_name} {if $attribute_value@last}{else}/{/if}
 	                                    <!--  {/foreach} -->
                                         </th>
-	                                    <th class="product_sn">{t domain="goods"}货号{/t}</th>
-	                                    <th>{t domain="goods"}库存{/t}</th>
-	                                    <th>{t domain="goods"}货品是否有效{/t}</th>
-	                                    <th class="w100">{t domain="goods"}操作{/t}</th>
+	                                    <th class="product_sn">{t domain='goods'}货号{/t}</th>
+	                                    <th>{t domain='goods'}库存{/t}</th>
+	                                    <th>{t domain='goods'}货品是否有效{/t}</th>
+	                                    <th class="w100">{t domain='goods'}操作{/t}</th>
 	                                </tr>
 	                            </thead>
 	                            
@@ -64,12 +64,12 @@
 	                                    {$goods_attr} {if $goods_attr@last}{else}/{/if}
 	                                    <!-- {/foreach} --></td>
 	                                    <td class="product_sn">
-		                                    <span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/merchant/edit_product_sn')}" data-name="edit_product_sn" data-pk="{$product.product_id}" data-title="{t domain="goods"}编辑货品货号{/t}">
+		                                    <span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/merchant/edit_product_sn')}" data-name="edit_product_sn" data-pk="{$product.product_id}" data-title="{t domain='goods'}编辑货品货号{/t}">
 		                                    {$product.product_sn}
 		                                    </span>
 	                                    </td>
 	                                    <td>
-	                                    	<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/merchant/edit_product_number')}" data-name="edit_product_number" data-pk="{$product.product_id}" data-title="{t domain="goods"}编辑货品库存{/t}">
+	                                    	<span class="cursor_pointer" data-trigger="editable" data-url="{RC_Uri::url('goods/merchant/edit_product_number')}" data-name="edit_product_number" data-pk="{$product.product_id}" data-title="{t domain='goods'}编辑货品库存{/t}">
 	                                    	{$product.product_number}
 	                                    	</span>
 	                                    </td>
@@ -77,8 +77,8 @@
 	                                    	{if $product.product_is_avaliable eq 'no'}<span class="ecjiafc-red">无效</span>{else}有效{/if}
 	                                    </td>
 	                                    <td>
-                                            <a class="data-pjax btn btn-primary btn-xs" href='{url path="goods/merchant/product_edit" args="id={$product.product_id}&goods_id={$goods_id}"}' title="{t domain="goods"}编辑{/t}"><i class="fa fa-pencil"></i></a>
-                                            <a class="btn btn-danger btn-xs" data-toggle="ajaxremove" data-msg="{t domain="goods"}您确定要把该货品删除吗？{/t}" href='{url path="goods/merchant/product_remove" args="id={$product.product_id}"}' title="{t domain="goods"}删除{/t}"><i class="fa fa-trash-o"></i></a>
+                                            <a class="data-pjax btn btn-primary btn-xs" href='{url path="goods/merchant/product_edit" args="id={$product.product_id}&goods_id={$goods_id}"}' title="{t domain='goods'}编辑{/t}"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-danger btn-xs" data-toggle="ajaxremove" data-msg="{t domain='goods'}您确定要把该货品删除吗？{/t}" href='{url path="goods/merchant/product_remove" args="id={$product.product_id}"}' title="{t domain='goods'}删除{/t}"><i class="fa fa-trash-o"></i></a>
                                         </td>
 	                                </tr>
 	                                <!-- {/foreach} -->
@@ -86,7 +86,7 @@
                                         <td><!-- {foreach from=$attribute item=attribute_value key=attribute_key} -->
 			                                <div class="f_l m_r5">
 				                                <select name="attr[{$attribute_value.attr_id}][]" class="form-control">
-				                                    <option value="0" selected>{t domain="goods"}请选择...{/t}</option>
+				                                    <option value="0" selected>{t domain='goods'}请选择...{/t}</option>
 				                                    <!-- {foreach from=$attribute_value.attr_values item=value} -->
 				                                         <option value="{$value}">{$value}</option>
 				                                     <!-- {/foreach} -->
@@ -101,15 +101,15 @@
 	                            </tbody>
 	                        </table>
 	                    </div>
-	                   	<a class="m_l5 l_h30 add_item" href="javascript:;">{t domain="goods"}再添加一项{/t}</a>
+	                   	<a class="m_l5 l_h30 add_item" href="javascript:;">{t domain='goods'}再添加一项{/t}</a>
 	                </div>
 	                <div class="t_c">
 	                	{if $step}
 	                	<input type="hidden" name="step" value="{$step}" />
-	                	<input type="submit" name="submit" value="{t domain="goods"}完成{/t}" class="btn btn-info" />
+	                	<input type="submit" name="submit" value="{t domain='goods'}完成{/t}" class="btn btn-info" />
 	                	{else}
 	                	{if $goods_attribute eq 'yes' && $has_goods_type eq '1'}
-	                		<input type="submit" name="submit" value="{t domain="goods"}保存{/t}" class="btn btn-info" />
+	                		<input type="submit" name="submit" value="{t domain='goods'}保存{/t}" class="btn btn-info" />
 	                	{/if}
 	                	{/if}
 	                	<input type="hidden" name="goods_id" value="{$goods_id}" />
@@ -125,7 +125,7 @@
                     <td><!-- {foreach from=$attribute item=attribute_value key=attribute_key} -->
                         <div class="f_l m_r5">
                             <select name="attr[{$attribute_value.attr_id}][]" class="form-control">
-                                <option value="0" selected>{t domain="goods"}请选择...{/t}</option>
+                                <option value="0" selected>{t domain='goods'}请选择...{/t}</option>
                                 <!-- {foreach from=$attribute_value.attr_values item=value} -->
                                 <option value="{$value}">{$value}</option>
                                 <!-- {/foreach} -->

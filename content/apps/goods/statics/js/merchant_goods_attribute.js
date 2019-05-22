@@ -54,7 +54,9 @@
 
 	app.goods_arrt = {
 		init: function() {
+		
 			app.goods_arrt.change_attr();
+			app.goods_arrt.color_values();
 		},
 
 		change_attr: function() {
@@ -63,6 +65,56 @@
 					url = $this.attr('data-url') + $this.val();
 				ecjia.pjax(url);
 			});
+		},
+		
+		color_values: function() {
+            $("a[data-toggle='modal']").off('click').on('click', function (e) {
+            	e.preventDefault();
+            	
+                var $this = $(this);
+                var attr_id = $this.attr('attr-id');
+                var url = $this.attr('attr-url');
+                $.post(url, {'attr_id': attr_id}, function (data) {
+                	$('.modal').html(data.data);
+                	$('.colorpicker-default').colorpicker({
+                		showOn: "button",
+        			    format: 'hex'
+        			})
+        			.on("changeColor", function(ev){
+//        				$(this).prev().css('color', ev.color.toHex());
+        				$(this).css('color', ev.color.toHex());
+                	});
+                	$('.colorpicker').css('z-index', 2000);
+                	
+                	$(".insertSubmit").on('click', function(e) {
+        				$("form[name='insertForm']").submit();
+        			});	
+                	
+        			$("form[name='insertForm']").on('submit', function(e) {
+        				e.preventDefault();
+        			});
+        			
+        			var $this = $('form[name="insertForm"]');
+        			var option = {
+        				submitHandler: function() {
+        					$this.ajaxSubmit({
+        						dataType: "json",
+        						success: function(data) {
+        							$('#insertGoods').modal('hide');
+        							$(".modal-backdrop").remove();
+        							ecjia.pjax(data.url, function() {
+        								ecjia.merchant.showmessage(data);
+        							})
+        						}
+        					});
+        				},
+        			};
+
+        			var options = $.extend(ecjia.merchant.defaultOptions.validate, option);
+        			$this.validate(options);
+                }, 'json');
+			})
+        
 		}
 	};
 
@@ -94,8 +146,21 @@
 					}
 				})
 			});
-
+			app.edit_arrt.radio_click();
 			app.edit_arrt.edit_type_attr();
+		},
+		
+		radio_click: function() {
+			$(":radio[name=attr_type]").click(function() {
+			    if($(this).val() == 2) {
+			    	 $(".attr_input_type").hide();
+			    	 $(".attr_values").show();
+			    } else {
+			    	 $("#attr_input_type_0").attr('checked',true);
+			    	 $(".attr_input_type").show();
+			    	 $(".attr_values").hide();
+			    }
+			});
 		},
 
 		edit_type_attr: function() {

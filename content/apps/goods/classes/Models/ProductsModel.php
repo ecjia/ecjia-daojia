@@ -35,5 +35,14 @@ class ProductsModel extends Model
      * @var bool
      */
     public $timestamps = false;
+    
+    /**
+     * 一对多
+     * 货品相册集合
+     */
+    public function goods_gallery_collection()
+    {
+    	return $this->hasMany('Ecjia\App\Goods\Models\GoodsGalleryModel', 'product_id', 'product_id');
+    }
 
 }

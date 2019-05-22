@@ -9,7 +9,7 @@
 namespace Ecjia\App\Goods\GoodsSearch\Filters;
 
 
-use Ecjia\App\Goods\GoodsSearch\FilterInterface;
+use Ecjia\System\Frameworks\SuperSearch\FilterInterface;
 use Royalcms\Component\Database\Eloquent\Builder;
 
 /**
@@ -29,7 +29,7 @@ class StoreUnclosed implements FilterInterface
      */
     public static function apply(Builder $builder, $value)
     {
-    	return $builder->whereHas('store', function($query) use ($value) {
+    	return $builder->whereHas('store_franchisee_model', function($query) use ($value) {
     		$query->where('shop_close', $value);
     	});
     	

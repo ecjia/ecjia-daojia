@@ -168,9 +168,40 @@
 	font-size: 20px;
 }
 
+#detail .goods-products{
+	clear: both;
+	font-size: 20px;
+}
+#detail .goods-pra{
+	clear: both;
+}
+#detail .goods-pra .pra{
+	font-size: 18px;
+}
+#detail .goods-pra .pra .pra-handle{
+	float:right;
+}
+#detail .goods-pra .pra .pra-edit{
+	display:inline-block;
+	font-size:15px;
+	padding-right:15px;
+}
+#detail .product-goods-name-style{
+	height: 40px;
+	line-height: 20px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+#detail .goods-name-style{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size:22px;
+}
+
 #tbody {
 	width: 460px;
-	margin: 0 auto;
+	/*margin: 0 auto;*/
+	margin-bottom:10px;
 }
 
 #mainbody {

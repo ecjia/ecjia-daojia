@@ -55,29 +55,6 @@
                     <div class="panel-body panel-body-small">
                         <div class="form">
                             <form class="form-horizontal" enctype="multipart/form-data" action="{$form_action}" method="post" name="theForm">
-                                <div class="col-lg-4 pull-left">
-                                    <div class="accordion-inner">
-                                        <div class="control-group">
-                                            <div class="ecjiaf-db">
-                                                <label>{t domain="goods"}上传商品图片：{/t}</label>
-                                                <div class="goods_img">
-                                                    <span {if $info.product_img}class="btn fileupload-btn fileupload-btn-product preview-img" style="background-image: url({$info.product_img});"{else}class="btn fileupload-btn"{/if}>
-                                                    <span class="fileupload-exists"><i class="glyphicon glyphicon-plus"></i></span>
-                                                    </span>
-                                                    <input class="hide" type="file" name="goods_img" onchange="ecjia.merchant.goods_info.previewImage(this)" />
-                                                </div>
-                                                <div class="thumb_img{if !$info.product_thumb} hide{/if}">
-                                                    <label class="ecjiaf-db">{t domain="goods"}商品缩略图：{/t}</label>
-                                                    <span {if $info.product_thumb}class="btn fileupload-btn fileupload-btn-product preview-img" style="background-image: url({$info.product_thumb});"{else}class="btn fileupload-btn"{/if}>
-                                                    <span class="fileupload-exists"><i class="fontello-icon-plus"></i></span>
-                                                    </span>
-                                                    <input class="hide" type="file" name="thumb_img" onchange="ecjia.merchant.goods_info.previewImage(this)" />
-                                                </div>
-                                                <div><span class="help-block">{t domain="goods"}非必填，若不上传则默认使用商品图片，点击更换。{/t}</span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="col-lg-7 pull-left">
                                     <div class="form-group m_t10">
                                         <label class="control-label col-lg-3">{t domain="goods"}商品名称：{/t}</label>
@@ -120,6 +97,48 @@
                                         <input name="product_id" type="hidden" value="{$info.product_id}">
                                         <label class="control-label col-lg-3"> </label>
                                     <input type="submit" name="submit" value="{t domain="goods"}完成{/t}" class="btn btn-info" />
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-5 pull-left">
+                                    <div class="panel-group">
+                                        <div class="panel panel-info">
+                                            <div class="panel-heading">
+                                                <a data-toggle="collapse" data-parent="#accordionTwo" href="#collapseSix" class="accordion-toggle">
+                                                    <span class="glyphicon"></span>
+                                                    <h4 class="panel-title">{t domain="goods"}商品图片{/t}</h4>
+                                                </a>
+                                            </div>
+                                            <div id="collapseSix" class="panel-collapse collapse in">
+                                                <div class="panel-body">
+                                                    <label>{t domain="goods"}上传商品图片：{/t}</label>
+                                                    <div class="accordion-group">
+                                                        <div class="accordion-body in collapse" id="goods_info_area_img">
+                                                            <div class="accordion-inner">
+                                                                <div class="control-group">
+                                                                    <div class="ecjiaf-db">
+                                                                        <div class="goods_img">
+                                                                            <span {if $info.product_img}class="btn fileupload-btn fileupload-btn-product preview-img" style="background-image: url({$info.product_img});"{else}class="btn fileupload-btn"{/if}>
+                                                                            <span class="fileupload-exists"><i class="glyphicon glyphicon-plus"></i></span>
+                                                                            </span>
+                                                                            <input class="hide" type="file" name="goods_img" onchange="ecjia.merchant.goods_info.previewImage(this)" />
+                                                                        </div>
+                                                                        <div class="thumb_img{if !$info.product_thumb} hide{/if}">
+                                                                            <label class="ecjiaf-db">{t domain="goods"}商品缩略图：{/t}</label>
+                                                                            <span {if $info.product_thumb}class="btn fileupload-btn fileupload-btn-product preview-img" style="background-image: url({$info.product_thumb});"{else}class="btn fileupload-btn"{/if}>
+                                                                            <span class="fileupload-exists"><i class="fontello-icon-plus"></i></span>
+                                                                            </span>
+                                                                            <input class="hide" type="file" name="thumb_img" onchange="ecjia.merchant.goods_info.previewImage(this)" />
+                                                                        </div>
+                                                                        <div><span class="help-block">{t domain="goods"}非必填，若不上传则默认使用商品图片，点击更换。{/t}</span></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </form>

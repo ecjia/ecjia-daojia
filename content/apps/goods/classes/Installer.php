@@ -6,7 +6,7 @@
  * Time: 10:26 AM
  */
 
-namespace Ecjia\App\Groupbuy;
+namespace Ecjia\App\Goods;
 
 use ecjia_installer;
 
@@ -19,7 +19,8 @@ class Installer extends ecjia_installer
 
     public function __construct()
     {
-        $id = 'ecjia.groupbuy';
+        $id = 'ecjia.goods';
+
         parent::__construct($id);
     }
 
