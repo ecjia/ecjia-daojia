@@ -208,7 +208,7 @@ as c on c.user_id = u.user_id";
                 foreach ($result as $k => $v) {
                     //店铺排行
                     $arr[$k]['level']                    = $v['level'];
-                    $arr[$k]['user_name']                = $v['user_name'];
+                    $arr[$k]['user_name']                = RC_Format::filterEmoji($v['user_name']);
                     $arr[$k]['formated_avaliable_money'] = $v['formated_avaliable_money'];
                     $arr[$k]['integral']                 = $v['integral'];
                     $arr[$k]['order_count']              = $v['order_count'];

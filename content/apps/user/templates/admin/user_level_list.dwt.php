@@ -44,7 +44,7 @@
 <div>
 	<h3 class="heading">
 		{$ur_here}
-		<a class="btn plus_or_reply" href='{RC_Uri::url("user/admin_level/download")}'><i class="fontello-icon-download"></i>{t domain="user"}导出Excel{/t}</a>
+		<a class="btn plus_or_reply" href='{RC_Uri::url("user/admin_level/download")}{if $smarty.get.start_date}&start_date={$smarty.get.start_date}{/if}{if $smarty.get.end_date}&end_date={$smarty.get.end_date}{/if}'><i class="fontello-icon-download"></i>{t domain="user"}导出Excel{/t}</a>
 	</h3>
 </div>
 
