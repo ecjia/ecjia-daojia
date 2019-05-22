@@ -49,7 +49,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class favourable_merchant_hook {
 	
 	public static function favourable_merchant_menu_api($menus) {
-	    $menu = ecjia_merchant::make_admin_menu('03_favourable_list', __('优惠活动'), RC_Uri::url('favourable/merchant/init'), 3)->add_purview('favourable_manage')->add_icon('fa-table');
+	    $menu = ecjia_merchant::make_admin_menu('03_favourable_list', __('优惠活动'), RC_Uri::url('favourable/merchant/init'), 3)->add_purview('favourable_manage')->add_icon('fa-bookmark');
 	    $menus->add_submenu($menu);
 	    return $menus;
 	}
