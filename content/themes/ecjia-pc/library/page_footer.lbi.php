@@ -113,7 +113,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
         </p>
     </div>
     {/if}
-    <p>{if $info.company_name}{$info.company_name} {t domain="ecjia-pc"}版权所有{/t}{/if} {if ecjia::config('icp_number')}&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn" target="_blank"> {ecjia::config('icp_number')}</a>{/if}&nbsp;&nbsp;{$info.powered}</p>
+    <p>{if $info.company_name}{$info.company_name} {t domain="ecjia-pc"}版权所有{/t}{/if} {if ecjia::config('icp_number')}&nbsp;&nbsp;<a href="http://beian.miit.gov.cn" target="_blank"> {ecjia::config('icp_number')}</a>{/if}&nbsp;&nbsp;{$info.powered}</p>
     <p>{if $info.shop_address}{t domain="ecjia-pc"}地址：{/t}{$info.shop_address} {/if} {if $info.service_phone} {t domain="ecjia-pc"}咨询热线：{/t}{$info.service_phone}{/if}</p>
 </div>
 {if ecjia::config('stats_code')}
