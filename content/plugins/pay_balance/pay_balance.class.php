@@ -108,8 +108,8 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
     		/* 支付失败返回信息*/
     		$error_predata = array(
     				'order_id'      => $this->order_info['order_id'],
-    				'order_surplus' => price_format($this->order_info['surplus'], false),
-    				'order_amount'  => price_format($this->order_info['order_amount'], false),
+    				'order_surplus' => ecjia_price_format($this->order_info['surplus'], false),
+    				'order_amount'  => ecjia_price_format($this->order_info['order_amount'], false),
     				'pay_code'      => $this->getCode(),
     				'pay_name'      => $this->getDisplayName(),
     				'pay_status'    => 'error',
@@ -128,9 +128,9 @@ class pay_balance extends PaymentAbstract implements CancelPayment, RefundPaymen
     		/* 支付成功返回信息*/
     		$predata = array(
     				'order_id'      => $this->order_info['order_id'],
-    				'order_surplus' => price_format($this->order_info['order_amount'], false),
-    				'order_amount'  => price_format(0, false),
-    				'user_money'    => price_format($user_info['user_money'] - $this->order_info['order_amount'], false),
+    				'order_surplus' => ecjia_price_format($this->order_info['order_amount'], false),
+    				'order_amount'  => ecjia_price_format(0, false),
+    				'user_money'    => ecjia_price_format($user_info['user_money'] - $this->order_info['order_amount'], false),
     				'pay_code'      => $this->getCode(),
     				'pay_name'      => $this->getDisplayName(),
     				'pay_status'    => 'success',
