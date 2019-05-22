@@ -186,7 +186,7 @@ class mobile extends ecjia_front {
 		$app_url = $urlscheme."app?open_type=signup&invite_code=".$invite_code;
 		
 		if (empty($url)) {
-			$url = RC_Uri::url('user/privilege/register');
+			$url = RC_Uri::url('user/privilege/login');
 		}
 		
 		if ( $count > 0) {
