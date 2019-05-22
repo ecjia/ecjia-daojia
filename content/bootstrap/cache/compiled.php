@@ -11002,269 +11002,6 @@ class MessageBag implements Arrayable, Countable, Jsonable, JsonSerializable, Me
 }
 }
 
-namespace Royalcms\Component\Support\Facades {
-use Mockery;
-use RuntimeException;
-use Mockery\MockInterface;
-abstract class Facade
-{
-    protected static $royalcms;
-    protected static $resolvedInstance;
-    public static function swap($instance)
-    {
-        static::$resolvedInstance[static::getFacadeAccessor()] = $instance;
-        static::$royalcms->instance(static::getFacadeAccessor(), $instance);
-    }
-    public static function shouldReceive()
-    {
-        $name = static::getFacadeAccessor();
-        if (static::isMock()) {
-            $mock = static::$resolvedInstance[$name];
-        } else {
-            $mock = static::createFreshMockInstance($name);
-        }
-        return call_user_func_array([$mock, 'shouldReceive'], func_get_args());
-    }
-    protected static function createFreshMockInstance($name)
-    {
-        static::$resolvedInstance[$name] = $mock = static::createMockByName($name);
-        $mock->shouldAllowMockingProtectedMethods();
-        if (isset(static::$royalcms)) {
-            static::$royalcms->instance($name, $mock);
-        }
-        return $mock;
-    }
-    protected static function createMockByName($name)
-    {
-        $class = static::getMockableClass($name);
-        return $class ? Mockery::mock($class) : Mockery::mock();
-    }
-    protected static function isMock()
-    {
-        $name = static::getFacadeAccessor();
-        return isset(static::$resolvedInstance[$name]) && static::$resolvedInstance[$name] instanceof MockInterface;
-    }
-    protected static function getMockableClass()
-    {
-        if ($root = static::getFacadeRoot()) {
-            return get_class($root);
-        }
-    }
-    public static function getFacadeRoot()
-    {
-        return static::resolveFacadeInstance(static::getFacadeAccessor());
-    }
-    protected static function getFacadeAccessor()
-    {
-        throw new RuntimeException('Facade does not implement getFacadeAccessor method.');
-    }
-    protected static function resolveFacadeInstance($name)
-    {
-        if (is_object($name)) {
-            return $name;
-        }
-        if (isset(static::$resolvedInstance[$name])) {
-            return static::$resolvedInstance[$name];
-        }
-        return static::$resolvedInstance[$name] = static::$royalcms[$name];
-    }
-    public static function clearResolvedInstance($name)
-    {
-        unset(static::$resolvedInstance[$name]);
-    }
-    public static function clearResolvedInstances()
-    {
-        static::$resolvedInstance = [];
-    }
-    public static function getFacadeRoyalcms()
-    {
-        return static::$royalcms;
-    }
-    public static function setFacadeRoyalcms($royalcms)
-    {
-        static::$royalcms = $royalcms;
-    }
-    public static function __callStatic($method, $args)
-    {
-        $instance = static::getFacadeRoot();
-        if (!$instance) {
-            throw new RuntimeException('A facade root has not been set.');
-        }
-        switch (count($args)) {
-            case 0:
-                return $instance->{$method}();
-            case 1:
-                return $instance->{$method}($args[0]);
-            case 2:
-                return $instance->{$method}($args[0], $args[1]);
-            case 3:
-                return $instance->{$method}($args[0], $args[1], $args[2]);
-            case 4:
-                return $instance->{$method}($args[0], $args[1], $args[2], $args[3]);
-            default:
-                return call_user_func_array([$instance, $method], $args);
-        }
-    }
-}
-}
-
-namespace Royalcms\Component\Support\Facades {
-class Royalcms extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'royalcms';
-    }
-}
-}
-
-namespace Royalcms\Component\Support\Facades {
-class Route extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'router';
-    }
-    public static function is($name)
-    {
-        return static::$royalcms['router']->currentRouteNamed($name);
-    }
-    public static function uses($action)
-    {
-        return static::$royalcms['router']->currentRouteUses($action);
-    }
-}
-}
-
-namespace Royalcms\Component\Support\Facades {
-class View extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'view';
-    }
-}
-}
-
-namespace Royalcms\Component\Support\Facades {
-class Log extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'log';
-    }
-}
-}
-
-namespace Royalcms\Component\Support\Facades {
-class DB extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'db';
-    }
-}
-}
-
-namespace Royalcms\Component\Support\Facades {
-class Request extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'request';
-    }
-}
-}
-
-namespace Royalcms\Component\Support\Facades {
-use Royalcms\Component\Support\Traits\Macroable;
-class Response extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'Royalcms\\Component\\Contracts\\Routing\\ResponseFactory';
-    }
-}
-}
-
-namespace Royalcms\Component\Support\Facades {
-class Config extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'config';
-    }
-}
-}
-
-namespace Royalcms\Component\Support\Facades {
-class Session extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'session';
-    }
-    public static function start()
-    {
-        return royalcms('session.start')->start(royalcms('request'));
-    }
-    public static function close()
-    {
-        return royalcms('session.start')->close();
-    }
-}
-}
-
-namespace Royalcms\Component\Support\Facades {
-use Royalcms\Component\Translation\CompatibleTrait;
-class Lang extends Facade
-{
-    use CompatibleTrait;
-    protected static function getFacadeAccessor()
-    {
-        return 'translator';
-    }
-}
-}
-
-namespace Royalcms\Component\Support\Facades {
-use Royalcms\Component\Cache\SpecialStores\AppCache;
-use Royalcms\Component\Cache\SpecialStores\UserDataCache;
-use Royalcms\Component\Cache\SpecialStores\TableCache;
-use Royalcms\Component\Cache\SpecialStores\QueryCache;
-use Royalcms\Component\Cache\SpecialStores\MemoryCache;
-class Cache extends Facade
-{
-    use AppCache, UserDataCache, TableCache, QueryCache, MemoryCache;
-    protected static function getFacadeAccessor()
-    {
-        return 'cache';
-    }
-}
-}
-
-namespace Royalcms\Component\Support\Facades {
-class Event extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'events';
-    }
-}
-}
-
-namespace Royalcms\Component\Support\Facades {
-use Royalcms\Component\Filesystem\FileHelperTrait;
-class File extends Facade
-{
-    use FileHelperTrait;
-    protected static function getFacadeAccessor()
-    {
-        return 'files';
-    }
-}
-}
-
 namespace Royalcms\Component\Support {
 trait ArrayHelperTrait
 {
@@ -12145,6 +11882,269 @@ class Format
 }
 }
 
+namespace Royalcms\Component\Support\Facades {
+use Mockery;
+use RuntimeException;
+use Mockery\MockInterface;
+abstract class Facade
+{
+    protected static $royalcms;
+    protected static $resolvedInstance;
+    public static function swap($instance)
+    {
+        static::$resolvedInstance[static::getFacadeAccessor()] = $instance;
+        static::$royalcms->instance(static::getFacadeAccessor(), $instance);
+    }
+    public static function shouldReceive()
+    {
+        $name = static::getFacadeAccessor();
+        if (static::isMock()) {
+            $mock = static::$resolvedInstance[$name];
+        } else {
+            $mock = static::createFreshMockInstance($name);
+        }
+        return call_user_func_array([$mock, 'shouldReceive'], func_get_args());
+    }
+    protected static function createFreshMockInstance($name)
+    {
+        static::$resolvedInstance[$name] = $mock = static::createMockByName($name);
+        $mock->shouldAllowMockingProtectedMethods();
+        if (isset(static::$royalcms)) {
+            static::$royalcms->instance($name, $mock);
+        }
+        return $mock;
+    }
+    protected static function createMockByName($name)
+    {
+        $class = static::getMockableClass($name);
+        return $class ? Mockery::mock($class) : Mockery::mock();
+    }
+    protected static function isMock()
+    {
+        $name = static::getFacadeAccessor();
+        return isset(static::$resolvedInstance[$name]) && static::$resolvedInstance[$name] instanceof MockInterface;
+    }
+    protected static function getMockableClass()
+    {
+        if ($root = static::getFacadeRoot()) {
+            return get_class($root);
+        }
+    }
+    public static function getFacadeRoot()
+    {
+        return static::resolveFacadeInstance(static::getFacadeAccessor());
+    }
+    protected static function getFacadeAccessor()
+    {
+        throw new RuntimeException('Facade does not implement getFacadeAccessor method.');
+    }
+    protected static function resolveFacadeInstance($name)
+    {
+        if (is_object($name)) {
+            return $name;
+        }
+        if (isset(static::$resolvedInstance[$name])) {
+            return static::$resolvedInstance[$name];
+        }
+        return static::$resolvedInstance[$name] = static::$royalcms[$name];
+    }
+    public static function clearResolvedInstance($name)
+    {
+        unset(static::$resolvedInstance[$name]);
+    }
+    public static function clearResolvedInstances()
+    {
+        static::$resolvedInstance = [];
+    }
+    public static function getFacadeRoyalcms()
+    {
+        return static::$royalcms;
+    }
+    public static function setFacadeRoyalcms($royalcms)
+    {
+        static::$royalcms = $royalcms;
+    }
+    public static function __callStatic($method, $args)
+    {
+        $instance = static::getFacadeRoot();
+        if (!$instance) {
+            throw new RuntimeException('A facade root has not been set.');
+        }
+        switch (count($args)) {
+            case 0:
+                return $instance->{$method}();
+            case 1:
+                return $instance->{$method}($args[0]);
+            case 2:
+                return $instance->{$method}($args[0], $args[1]);
+            case 3:
+                return $instance->{$method}($args[0], $args[1], $args[2]);
+            case 4:
+                return $instance->{$method}($args[0], $args[1], $args[2], $args[3]);
+            default:
+                return call_user_func_array([$instance, $method], $args);
+        }
+    }
+}
+}
+
+namespace Royalcms\Component\Support\Facades {
+class Royalcms extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'royalcms';
+    }
+}
+}
+
+namespace Royalcms\Component\Support\Facades {
+class Route extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'router';
+    }
+    public static function is($name)
+    {
+        return static::$royalcms['router']->currentRouteNamed($name);
+    }
+    public static function uses($action)
+    {
+        return static::$royalcms['router']->currentRouteUses($action);
+    }
+}
+}
+
+namespace Royalcms\Component\Support\Facades {
+class View extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'view';
+    }
+}
+}
+
+namespace Royalcms\Component\Support\Facades {
+class Log extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'log';
+    }
+}
+}
+
+namespace Royalcms\Component\Support\Facades {
+class DB extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'db';
+    }
+}
+}
+
+namespace Royalcms\Component\Support\Facades {
+class Request extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'request';
+    }
+}
+}
+
+namespace Royalcms\Component\Support\Facades {
+use Royalcms\Component\Support\Traits\Macroable;
+class Response extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'Royalcms\\Component\\Contracts\\Routing\\ResponseFactory';
+    }
+}
+}
+
+namespace Royalcms\Component\Support\Facades {
+class Config extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'config';
+    }
+}
+}
+
+namespace Royalcms\Component\Support\Facades {
+class Session extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'session';
+    }
+    public static function start()
+    {
+        return royalcms('session.start')->start(royalcms('request'));
+    }
+    public static function close()
+    {
+        return royalcms('session.start')->close();
+    }
+}
+}
+
+namespace Royalcms\Component\Support\Facades {
+use Royalcms\Component\Translation\CompatibleTrait;
+class Lang extends Facade
+{
+    use CompatibleTrait;
+    protected static function getFacadeAccessor()
+    {
+        return 'translator';
+    }
+}
+}
+
+namespace Royalcms\Component\Support\Facades {
+use Royalcms\Component\Cache\SpecialStores\AppCache;
+use Royalcms\Component\Cache\SpecialStores\UserDataCache;
+use Royalcms\Component\Cache\SpecialStores\TableCache;
+use Royalcms\Component\Cache\SpecialStores\QueryCache;
+use Royalcms\Component\Cache\SpecialStores\MemoryCache;
+class Cache extends Facade
+{
+    use AppCache, UserDataCache, TableCache, QueryCache, MemoryCache;
+    protected static function getFacadeAccessor()
+    {
+        return 'cache';
+    }
+}
+}
+
+namespace Royalcms\Component\Support\Facades {
+class Event extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'events';
+    }
+}
+}
+
+namespace Royalcms\Component\Support\Facades {
+use Royalcms\Component\Filesystem\FileHelperTrait;
+class File extends Facade
+{
+    use FileHelperTrait;
+    protected static function getFacadeAccessor()
+    {
+        return 'files';
+    }
+}
+}
+
 namespace Royalcms\Component\Validation {
 use Royalcms\Component\Support\ServiceProvider;
 use Royalcms\Component\Contracts\Validation\ValidatesWhenResolved;
@@ -12967,6 +12967,7 @@ use finfo;
 use RC_Hook;
 use RC_Format;
 use RC_Config;
+use Royalcms\Component\Support\Str;
 trait FileHelperTrait
 {
     protected static $extensionMap = ['audio/wav' => '.wav', 'audio/x-ms-wma' => '.wma', 'video/x-ms-wmv' => '.wmv', 'video/mp4' => '.mp4', 'audio/mpeg' => '.mp3', 'audio/amr' => '.amr', 'application/vnd.rn-realmedia' => '.rm', 'audio/mid' => '.mid', 'image/bmp' => '.bmp', 'image/gif' => '.gif', 'image/png' => '.png', 'image/tiff' => '.tiff', 'image/jpeg' => '.jpg', 'application/msword' => '.doc', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => '.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.template' => '.dotx', 'application/vnd.ms-word.document.macroEnabled.12' => '.docm', 'application/vnd.ms-word.template.macroEnabled.12' => '.dotm', 'application/vnd.ms-excel' => '.xls', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => '.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.template' => '.xltx', 'application/vnd.ms-excel.sheet.macroEnabled.12' => '.xlsm', 'application/vnd.ms-excel.template.macroEnabled.12' => '.xltm', 'application/vnd.ms-excel.addin.macroEnabled.12' => '.xlam', 'application/vnd.ms-excel.sheet.binary.macroEnabled.12' => '.xlsb', 'application/vnd.ms-powerpoint' => '.ppt', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' => '.pptx', 'application/vnd.openxmlformats-officedocument.presentationml.template' => '.potx', 'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => '.ppsx', 'application/vnd.ms-powerpoint.addin.macroEnabled.12' => '.ppam'];
@@ -12990,6 +12991,14 @@ trait FileHelperTrait
         }
         return '';
     }
+    public static function getFileNameExtension($filename)
+    {
+        return self::extension($filename);
+    }
+    public static function file_ext($filename)
+    {
+        return strtolower(trim(substr(strrchr($filename, '.'), 1, 10)));
+    }
     public static function download($filepath, $filename = '')
     {
         if (!$filename) {
@@ -13001,7 +13010,7 @@ trait FileHelperTrait
         $filetype = self::file_ext($filename);
         $filesize = sprintf("%u", filesize($filepath));
         if (ob_get_length() !== false) {
-            @ob_end_clean();
+            ob_end_clean();
         }
         header('Pragma: public');
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
@@ -13014,10 +13023,6 @@ trait FileHelperTrait
         header('Content-length: ' . $filesize);
         readfile($filepath);
         exit;
-    }
-    public static function file_ext($filename)
-    {
-        return strtolower(trim(substr(strrchr($filename, '.'), 1, 10)));
     }
     public static function file_suffix($file_name, $allow_type = array())
     {
@@ -13245,10 +13250,10 @@ trait FileHelperTrait
             return '';
         }
         $str = $format = '';
-        $file = @fopen($filename, 'rb');
+        $file = fopen($filename, 'rb');
         if ($file) {
-            $str = @fread($file, 0x400);
-            @fclose($file);
+            $str = fread($file, 0x400);
+            fclose($file);
         } else {
             if (stristr($filename, SITE_ROOT) === false) {
                 if ($extname == 'jpg' || $extname == 'jpeg' || $extname == 'gif' || $extname == 'png' || $extname == 'doc' || $extname == 'xls' || $extname == 'txt' || $extname == 'zip' || $extname == 'rar' || $extname == 'ppt' || $extname == 'pdf' || $extname == 'rm' || $extname == 'mid' || $extname == 'wav' || $extname == 'bmp' || $extname == 'swf' || $extname == 'chm' || $extname == 'sql' || $extname == 'cert' || $extname == 'pptx' || $extname == 'xlsx' || $extname == 'docx') {
@@ -13330,8 +13335,8 @@ trait FileHelperTrait
     }
     public static function move_file($source, $dest)
     {
-        if (@copy($source, $dest)) {
-            @unlink($source);
+        if (copy($source, $dest)) {
+            unlink($source);
             return true;
         } else {
             return false;
@@ -22620,20 +22625,6 @@ class ArticleServiceProvider extends AppParentServiceProvider
 }
 }
 
-namespace Ecjia\App\Attach {
-use Royalcms\Component\App\AppParentServiceProvider;
-class AttachServiceProvider extends AppParentServiceProvider
-{
-    public function boot()
-    {
-        $this->package('ecjia/app-attach');
-    }
-    public function register()
-    {
-    }
-}
-}
-
 namespace Ecjia\App\Agent {
 use Royalcms\Component\App\AppParentServiceProvider;
 class AgentServiceProvider extends AppParentServiceProvider
@@ -23335,20 +23326,6 @@ class ThemeServiceProvider extends AppParentServiceProvider
             $loader->alias('ecjia_theme_transient', 'Ecjia\\App\\Theme\\Facades\\EcjiaThemeTransient');
             $loader->alias('ecjia_theme_framework', 'Ecjia\\App\\Theme\\Facades\\EcjiaThemeFramework');
         });
-    }
-}
-}
-
-namespace Ecjia\App\Tmplmsg {
-use Royalcms\Component\App\AppParentServiceProvider;
-class TmplmsgServiceProvider extends AppParentServiceProvider
-{
-    public function boot()
-    {
-        $this->package('ecjia/app-tmplmsg');
-    }
-    public function register()
-    {
     }
 }
 }
@@ -32724,44 +32701,88 @@ class AgentServiceProvider extends ServiceProvider
 }
 }
 
-namespace Royalcms\Component\Storage\Facades {
-use Royalcms\Component\Support\Facades\Facade;
-class Storage extends Facade
+namespace Royalcms\Component\Storage\Contracts {
+interface StorageInterface
 {
-    protected static function getFacadeAccessor()
-    {
-        return 'storage';
-    }
+    public function chown($file, $owner, $recursive = false);
+    public function connect();
+    public function move_uploaded_file($filename, $destination);
+    public function get_contents($file);
+    public function get_contents_array($file);
+    public function put_contents($file, $contents, $mode = 0644);
+    public function cwd();
+    public function chdir($dir);
+    public function chgrp($file, $group, $recursive = false);
+    public function chmod($file, $mode = 0644, $recursive = false);
+    public function owner($file);
+    public function group($file);
+    public function copy_file($source, $destination, $overwrite = false, $mode = 0644);
+    public function move_file($source, $destination, $overwrite = false, $mode = 0644);
+    public function delete_all($file, $recursive = false, $type = false);
+    public function exists($file);
+    public function is_file($file);
+    public function is_dir($path);
+    public function is_readable($file);
+    public function is_writable($file);
+    public function atime($file);
+    public function mtime($file);
+    public function size($file);
+    public function touch($file, $time = 0, $atime = 0);
+    public function mkdir($path, $chmod = false, $chown = false, $chgrp = false);
+    public function rmdir($path, $recursive = false);
+    public function dirlist($path, $include_hidden = true, $recursive = false);
+    public function filelist($path, $allowFiles, $start, $size);
 }
 }
 
-namespace Royalcms\Component\Storage {
+namespace Royalcms\Component\Storage\Adapter {
+use Royalcms\Component\Storage\Contracts\StorageInterface;
+use Royalcms\Component\Storage\FilesystemBaseTrait;
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\Error\Error;
-use Royalcms\Component\Upload\Upload;
 use Royalcms\Component\Aliyun\OSS\Exceptions\OSSException;
 use Royalcms\Component\Aliyun\AliyunOSS as OSS;
-class Aliyunoss extends FilesystemBase
+use League\Flysystem\Config;
+use League\Flysystem\Adapter\AbstractAdapter;
+class Aliyunoss extends AbstractAdapter implements StorageInterface
 {
+    use FilesystemBaseTrait;
+    protected $errors;
     protected $options = array();
-    protected $link = false;
+    private $aliyunClient;
+    private $bucket;
+    private $acl;
     public function __construct($arg)
     {
-        $this->method = 'aliyunoss';
         $this->options = $arg;
+        $this->method = 'aliyunoss';
         $this->errors = new Error();
+        $this->bucket = $this->options['bucket'];
+        $this->acl = $this->options['acl'] ? $this->options['acl'] : 'public-read';
+        $this->connect();
     }
-    protected function filterOsskey($file)
+    public function connect()
     {
-        $file = str_replace(Upload::upload_path(), '', $file);
-        $file = str_replace(DS, '/', $file);
-        return $file;
+        $serverAddress = $this->options['is_internal'] ? $this->options['server_internal'] : $this->options['server'];
+        $this->aliyunClient = OSS::boot($serverAddress, $this->options['key'], $this->options['secret']);
+        $this->aliyunClient->setBucket($this->options['bucket']);
+        return true;
     }
-    protected function getMetadata($file)
+    public function getBucket()
     {
-        $file = $this->filterOsskey($file);
+        return $this->bucket;
+    }
+    public function getUrl($path)
+    {
+        if ($path) {
+            $path = '/' . ltrim($path, '\\/');
+        }
+        return $this->options['url'] . $path;
+    }
+    private function getHeader($path)
+    {
         try {
-            $object = $this->link->getObjectMetadata($file);
+            $object = $this->aliyunClient->getObjectMetadata($path);
             $metadata = $object->getMetadata();
             return $metadata;
         } catch (OSSException $e) {
@@ -32769,11 +32790,181 @@ class Aliyunoss extends FilesystemBase
             return false;
         }
     }
-    protected function getBucketAcl($file)
+    public function write($path, $contents, Config $config)
     {
-        $file = $this->filterOsskey($file);
         try {
-            $objectacl = $this->link->getBucketAcl($file);
+            $this->aliyunClient->uploadContent($path, $contents);
+            return true;
+        } catch (OSSException $e) {
+            $this->errors->add($e->getCode(), $e->getMessage());
+            return false;
+        }
+    }
+    public function writeStream($path, $resource, Config $config)
+    {
+        $contents = stream_get_contents($resource);
+        try {
+            $this->aliyunClient->uploadContent($path, $contents);
+        } catch (OSSException $e) {
+            $this->errors->add($e->getCode(), $e->getMessage());
+            return false;
+        }
+        if (is_resource($resource)) {
+            fclose($resource);
+        }
+        return true;
+    }
+    public function update($path, $contents, Config $config)
+    {
+        try {
+            $this->aliyunClient->uploadContent($path, $contents);
+        } catch (OSSException $e) {
+            $this->errors->add($e->getCode(), $e->getMessage());
+            return false;
+        }
+        return true;
+    }
+    public function updateStream($path, $resource, Config $config)
+    {
+        $contents = stream_get_contents($resource);
+        try {
+            $this->aliyunClient->uploadContent($path, $contents);
+        } catch (OSSException $e) {
+            $this->errors->add($e->getCode(), $e->getMessage());
+            return false;
+        }
+        return true;
+    }
+    public function rename($path, $newPath)
+    {
+        try {
+            $this->aliyunClient->copyObject($this->bucket, $path, $this->bucket, $newPath);
+            $this->aliyunClient->deleteObject($path);
+            return true;
+        } catch (OSSException $e) {
+            $this->errors->add($e->getCode(), $e->getMessage());
+            return false;
+        }
+    }
+    public function copy($path, $newPath)
+    {
+        $path = $this->filterOsskey($path);
+        $newPath = $this->filterOsskey($newPath);
+        try {
+            $this->aliyunClient->copyObject($this->bucket, $path, $this->bucket, $newPath);
+            return true;
+        } catch (OSSException $e) {
+            $this->errors->add($e->getCode(), $e->getMessage());
+            return false;
+        }
+    }
+    public function delete($path)
+    {
+        $path = $this->filterOsskey($path);
+        try {
+            $this->aliyunClient->deleteObject($path);
+            return true;
+        } catch (OSSException $e) {
+            $this->errors->add($e->getCode(), $e->getMessage());
+            return false;
+        }
+    }
+    public function deleteDir($dirname)
+    {
+        return false;
+    }
+    public function createDir($dirName, Config $config)
+    {
+        return true;
+    }
+    public function setVisibility($path, $visibility)
+    {
+        return false;
+    }
+    public function has($path)
+    {
+        $metadata = $this->getMetadata($path);
+        if ($metadata) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function read($path)
+    {
+        try {
+            $res = $this->aliyunClient->getObject($path);
+            return ['contents' => $res->getObjectContent()];
+        } catch (OSSException $e) {
+            $this->errors->add($e->getCode(), $e->getMessage());
+            return false;
+        }
+    }
+    public function readStream($path)
+    {
+        try {
+            $res = $this->aliyunClient->getObject($path);
+            $url = $res->getHeader('oss-request-url');
+            $handle = fopen($url, 'r');
+            return ['stream' => $handle];
+        } catch (OSSException $e) {
+            $this->errors->add($e->getCode(), $e->getMessage());
+            return false;
+        }
+    }
+    public function listContents($directory = '', $recursive = false)
+    {
+        if ($recursive) {
+            $delimiter = '';
+        } else {
+            $delimiter = '/';
+        }
+        $prefix = $directory . '/';
+        $next_marker = '';
+        $maxkeys = 100;
+        try {
+            $object = $this->aliyunClient->listObjects($prefix, $next_marker, $maxkeys, $delimiter);
+            $list = $object->getObjectSummarys();
+            return $list;
+        } catch (OSSException $e) {
+            $this->errors->add($e->getCode(), $e->getMessage());
+            return false;
+        }
+    }
+    public function getMetadata($path)
+    {
+        $response = $this->getHeader($path);
+        return $response;
+    }
+    public function getSize($path)
+    {
+        $response = $this->getHeader($path);
+        return ['size' => $response['Content-Length']];
+    }
+    public function getMimetype($path)
+    {
+        $response = $this->getHeader($path);
+        return ['mimetype' => $response['Content-Type']];
+    }
+    public function getTimestamp($path)
+    {
+        $response = $this->getHeader($path);
+        return ['timestamp' => $response['Last-Modified']];
+    }
+    public function getVisibility($path)
+    {
+        return ['visibility' => $this->acl];
+    }
+    protected function filterOsskey($file)
+    {
+        $file = str_replace(\RC_Upload::upload_path(), '', $file);
+        $file = str_replace(DS, '/', $file);
+        return $file;
+    }
+    public function getBucketAcl()
+    {
+        try {
+            $objectacl = $this->aliyunClient->getBucketAcl();
             return $objectacl;
         } catch (OSSException $e) {
             $this->errors->add($e->getCode(), $e->getMessage());
@@ -32784,7 +32975,7 @@ class Aliyunoss extends FilesystemBase
     {
         try {
             $path = $this->filterOsskey($path);
-            $object = $this->link->listObjects($path);
+            $object = $this->aliyunClient->listObjects($path);
             $list = $object->getObjectSummarys();
             return $list;
         } catch (OSSException $e) {
@@ -32792,17 +32983,10 @@ class Aliyunoss extends FilesystemBase
             return false;
         }
     }
-    public function connect()
-    {
-        $serverAddress = $this->options['is_internal'] ? $this->options['server_internal'] : $this->options['server'];
-        $this->link = OSS::boot($serverAddress, $this->options['key'], $this->options['secret']);
-        $this->link->setBucket($this->options['bucket']);
-        return true;
-    }
     public function move_uploaded_file($filename, $destination)
     {
         try {
-            return $this->link->uploadFile($this->filterOsskey($destination), $filename);
+            return $this->aliyunClient->uploadFile($this->filterOsskey($destination), $filename);
         } catch (OSSException $e) {
             $this->errors->add($e->getCode(), $e->getMessage());
             return false;
@@ -32812,7 +32996,7 @@ class Aliyunoss extends FilesystemBase
     {
         $file = $this->filterOsskey($file);
         try {
-            return $this->link->getObject($file)->getObjectContent();
+            return $this->aliyunClient->getObject($file)->getObjectContent();
         } catch (OSSException $e) {
             $this->errors->add($e->getCode(), $e->getMessage());
             return false;
@@ -32822,7 +33006,7 @@ class Aliyunoss extends FilesystemBase
     {
         $file = $this->filterOsskey($file);
         try {
-            $object = $this->link->getObject($file);
+            $object = $this->aliyunClient->getObject($file);
             return $object;
         } catch (OSSException $e) {
             $this->errors->add($e->getCode(), $e->getMessage());
@@ -32831,8 +33015,9 @@ class Aliyunoss extends FilesystemBase
     }
     public function put_contents($file, $contents, $mode = false)
     {
+        $file = $this->filterOsskey($file);
         try {
-            return $this->link->uploadContent($this->filterOsskey($file), $contents);
+            return $this->aliyunClient->uploadContent($file, $contents);
         } catch (OSSException $e) {
             $this->errors->add($e->getCode(), $e->getMessage());
             return false;
@@ -32840,11 +33025,11 @@ class Aliyunoss extends FilesystemBase
     }
     public function cwd()
     {
-        return @getcwd();
+        return getcwd();
     }
     public function chdir($dir)
     {
-        return @chdir($dir);
+        return true;
     }
     public function chgrp($file, $group, $recursive = false)
     {
@@ -32860,7 +33045,7 @@ class Aliyunoss extends FilesystemBase
     }
     public function owner($file)
     {
-        $objectacl = $this->getBucketAcl($file);
+        $objectacl = $this->getBucketAcl();
         if ($objectacl) {
             $name = $objectacl->getOwner()->getDisplayName();
             return $name;
@@ -32870,17 +33055,20 @@ class Aliyunoss extends FilesystemBase
     }
     protected function getchmod($file)
     {
-        $objectacl = $this->getBucketAcl($file);
+        $objectacl = $this->getBucketAcl();
         if ($objectacl) {
             $grants = $objectacl->getGrants();
-            return $grants[0];
+            if (in_array('public-read', $grants)) {
+                return false;
+            }
+            return 755;
         } else {
             return false;
         }
     }
     public function group($file)
     {
-        $objectacl = $this->getBucketAcl($file);
+        $objectacl = $this->getBucketAcl();
         if ($objectacl) {
             $name = $objectacl->getOwner()->getDisplayName();
             return $name;
@@ -32888,7 +33076,7 @@ class Aliyunoss extends FilesystemBase
             return false;
         }
     }
-    public function copy($source, $destination, $overwrite = false, $mode = false)
+    public function copy_file($source, $destination, $overwrite = false, $mode = false)
     {
         if (!$overwrite && $this->exists($destination)) {
             return false;
@@ -32897,9 +33085,9 @@ class Aliyunoss extends FilesystemBase
         $destination = $this->filterOsskey($destination);
         try {
             if ($this->exists($source)) {
-                $rtval = $this->link->copyObject(null, $source, null, $destination);
+                $rtval = $this->aliyunClient->copyObject(null, $source, null, $destination);
             } else {
-                $rtval = $this->link->uploadFile($destination, $source);
+                $rtval = $this->aliyunClient->uploadFile($destination, $source);
             }
             return $rtval;
         } catch (OSSException $e) {
@@ -32907,7 +33095,7 @@ class Aliyunoss extends FilesystemBase
             return false;
         }
     }
-    public function move($source, $destination, $overwrite = false, $mode = false)
+    public function move_file($source, $destination, $overwrite = false, $mode = false)
     {
         if (!$overwrite && $this->exists($destination)) {
             return false;
@@ -32916,9 +33104,9 @@ class Aliyunoss extends FilesystemBase
         $destination = $this->filterOsskey($destination);
         try {
             if ($this->exists($source)) {
-                $rtval = $this->link->moveObject(null, $source, null, $destination);
+                $rtval = $this->aliyunClient->moveObject(null, $source, null, $destination);
             } else {
-                $rtval = $this->link->uploadFile($destination, $source);
+                $rtval = $this->aliyunClient->uploadFile($destination, $source);
             }
             return $rtval;
         } catch (OSSException $e) {
@@ -32926,14 +33114,14 @@ class Aliyunoss extends FilesystemBase
             return false;
         }
     }
-    public function delete($file, $recursive = false, $type = false)
+    public function delete_all($file, $recursive = false, $type = false)
     {
         if (empty($file)) {
             return false;
         }
         try {
             if ($this->exists($file)) {
-                return $this->link->deleteObject($this->filterOsskey($file));
+                return $this->aliyunClient->deleteObject($this->filterOsskey($file));
             }
             return false;
         } catch (OSSException $e) {
@@ -32941,17 +33129,14 @@ class Aliyunoss extends FilesystemBase
             return false;
         }
     }
-    public function exists($file)
+    public function exists($path)
     {
-        $metadata = $this->getMetadata($file);
-        if ($metadata) {
-            return true;
-        } else {
-            return false;
-        }
+        $path = $this->filterOsskey($path);
+        return $this->has($path);
     }
     public function is_file($file)
     {
+        $file = $this->filterOsskey($file);
         $metadata = $this->getMetadata($file);
         if ($metadata) {
             return true;
@@ -32961,12 +33146,7 @@ class Aliyunoss extends FilesystemBase
     }
     public function is_dir($path)
     {
-        $list = $this->getListObjects($path);
-        if (!empty($list) && count($list) > 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return true;
     }
     public function is_readable($file)
     {
@@ -32974,10 +33154,18 @@ class Aliyunoss extends FilesystemBase
     }
     public function is_writable($file)
     {
-        return true;
+        $objectacl = $this->getBucketAcl();
+        if ($objectacl) {
+            $grants = $objectacl->getGrants();
+            if (in_array('private', $grants)) {
+                return true;
+            }
+        }
+        return false;
     }
     public function atime($file)
     {
+        $file = $this->filterOsskey($file);
         $metadata = $this->getMetadata($file);
         if ($metadata) {
             $datetime = $metadata['Last-Modified'];
@@ -32989,6 +33177,7 @@ class Aliyunoss extends FilesystemBase
     }
     public function mtime($file)
     {
+        $file = $this->filterOsskey($file);
         $metadata = $this->getMetadata($file);
         if ($metadata) {
             $datetime = $metadata['Last-Modified'];
@@ -33000,6 +33189,7 @@ class Aliyunoss extends FilesystemBase
     }
     public function size($file)
     {
+        $file = $this->filterOsskey($file);
         $metadata = $this->getMetadata($file);
         if ($metadata) {
             $filesize = $metadata['Content-Length'];
@@ -33014,10 +33204,6 @@ class Aliyunoss extends FilesystemBase
     }
     public function mkdir($path, $chmod = false, $chown = false, $chgrp = false)
     {
-        $path = Format::untrailingslashit($path);
-        if (empty($path)) {
-            return false;
-        }
         return true;
     }
     public function rmdir($path, $recursive = false)
@@ -33032,7 +33218,7 @@ class Aliyunoss extends FilesystemBase
             $all_keys = array();
             foreach ($list as $object) {
                 $all_keys[] = $object->getKey();
-                $this->delete($object->getKey());
+                $this->delete_all($object->getKey());
             }
             return true;
         } catch (OSSException $e) {
@@ -33138,15 +33324,39 @@ class Aliyunoss extends FilesystemBase
 }
 }
 
-namespace Royalcms\Component\Storage {
-use Royalcms\Component\Support\Format;
-use Royalcms\Component\Error\Error;
-class Direct extends FilesystemBase
+namespace Royalcms\Component\Storage\Adapter {
+use League\Flysystem\Util;
+use Royalcms\Component\Storage\Contracts\StorageInterface;
+use Royalcms\Component\Storage\FilesystemBaseTrait;
+use Royalcms\Component\Support\Format as RC_Format;
+use Royalcms\Component\Error\Error as RC_Error;
+use League\Flysystem\Adapter\Local as LocalAdapter;
+class Direct extends LocalAdapter implements StorageInterface
 {
-    public function __construct($arg)
+    use FilesystemBaseTrait;
+    protected $errors;
+    public function __construct($root, $writeFlags = LOCK_EX, $linkHandling = self::DISALLOW_LINKS, array $permissions = [])
     {
+        parent::__construct($root, $writeFlags, $linkHandling, $permissions);
         $this->method = 'direct';
-        $this->errors = new Error();
+        $this->errors = new RC_Error();
+        if (!defined('FS_CHMOD_DIR')) {
+            define('FS_CHMOD_DIR', fileperms(SITE_ROOT) & 0777 | 0755);
+        }
+        if (!defined('FS_CHMOD_FILE')) {
+            define('FS_CHMOD_FILE', fileperms(SITE_ROOT . 'index.php') & 0777 | 0644);
+        }
+    }
+    public function delete($path)
+    {
+        $path = str_replace($this->getPathPrefix(), '', $path);
+        return parent::delete($path);
+    }
+    public function copy($path, $newpath)
+    {
+        $path = str_replace($this->getPathPrefix(), '', $path);
+        $newpath = str_replace($this->getPathPrefix(), '', $newpath);
+        return parent::copy($path, $newpath);
     }
     public function connect()
     {
@@ -33154,22 +33364,23 @@ class Direct extends FilesystemBase
     }
     public function move_uploaded_file($filename, $destination)
     {
-        return @move_uploaded_file($filename, $destination);
+        return move_uploaded_file($filename, $destination);
     }
     public function get_contents($file)
     {
-        return @file_get_contents($file);
+        return file_get_contents($file);
     }
     public function get_contents_array($file)
     {
-        return @file($file);
+        return file($file);
     }
     public function put_contents($file, $contents, $mode = false)
     {
-        $fp = @fopen($file, 'wb');
+        $fp = fopen($file, 'wb');
         if (!$fp) {
             return false;
         }
+        $this->ensureDirectory(dirname($file));
         mbstring_binary_safe_encoding();
         $data_length = strlen($contents);
         $bytes_written = fwrite($fp, $contents);
@@ -33183,11 +33394,11 @@ class Direct extends FilesystemBase
     }
     public function cwd()
     {
-        return @getcwd();
+        return getcwd();
     }
     public function chdir($dir)
     {
-        return @chdir($dir);
+        return chdir($dir);
     }
     public function chgrp($file, $group, $recursive = false)
     {
@@ -33195,12 +33406,12 @@ class Direct extends FilesystemBase
             return false;
         }
         if (!$recursive) {
-            return @chgrp($file, $group);
+            return chgrp($file, $group);
         }
         if (!$this->is_dir($file)) {
-            return @chgrp($file, $group);
+            return chgrp($file, $group);
         }
-        $file = Format::trailingslashit($file);
+        $file = RC_Format::trailingslashit($file);
         $filelist = $this->dirlist($file);
         foreach ($filelist as $filename) {
             $this->chgrp($file . $filename, $group, $recursive);
@@ -33219,9 +33430,9 @@ class Direct extends FilesystemBase
             }
         }
         if (!$recursive || !$this->is_dir($file)) {
-            return @chmod($file, $mode);
+            return chmod($file, $mode);
         }
-        $file = Format::trailingslashit($file);
+        $file = RC_Format::trailingslashit($file);
         $filelist = $this->dirlist($file);
         foreach ((array) $filelist as $filename => $filemeta) {
             $this->chmod($file . $filename, $mode, $recursive);
@@ -33234,10 +33445,10 @@ class Direct extends FilesystemBase
             return false;
         }
         if (!$recursive) {
-            return @chown($file, $owner);
+            return chown($file, $owner);
         }
         if (!$this->is_dir($file)) {
-            return @chown($file, $owner);
+            return chown($file, $owner);
         }
         $filelist = $this->dirlist($file);
         foreach ($filelist as $filename) {
@@ -33247,7 +33458,7 @@ class Direct extends FilesystemBase
     }
     public function owner($file)
     {
-        $owneruid = @fileowner($file);
+        $owneruid = fileowner($file);
         if (!$owneruid) {
             return false;
         }
@@ -33259,11 +33470,11 @@ class Direct extends FilesystemBase
     }
     protected function getchmod($file)
     {
-        return substr(decoct(@fileperms($file)), -3);
+        return substr(decoct(fileperms($file)), -3);
     }
     public function group($file)
     {
-        $gid = @filegroup($file);
+        $gid = filegroup($file);
         if (!$gid) {
             return false;
         }
@@ -33273,9 +33484,9 @@ class Direct extends FilesystemBase
         $grouparray = posix_getgrgid($gid);
         return $grouparray['name'];
     }
-    public function copy($source, $destination, $overwrite = false, $mode = false)
+    public function copy_file($source, $destination, $overwrite = false, $mode = false)
     {
-        if (!$overwrite && $this->exists($destination)) {
+        if (!$overwrite && $this->has($destination)) {
             return false;
         }
         $rtval = copy($source, $destination);
@@ -33284,84 +33495,88 @@ class Direct extends FilesystemBase
         }
         return $rtval;
     }
-    public function move($source, $destination, $overwrite = false, $mode = false)
+    public function move_file($source, $destination, $overwrite = false, $mode = false)
     {
-        if (!$overwrite && $this->exists($destination)) {
+        if (!$overwrite && $this->has($destination)) {
             return false;
         }
-        if (@rename($source, $destination)) {
+        if ($this->rename($source, $destination)) {
             if ($mode) {
                 $this->chmod($destination, $mode);
             }
             return true;
         }
-        if ($this->copy($source, $destination, $overwrite, $mode) && $this->exists($destination)) {
+        if ($this->copy_file($source, $destination, $overwrite, $mode) && $this->has($destination)) {
             $this->delete($source);
             return true;
         } else {
             return false;
         }
     }
-    public function delete($file, $recursive = false, $type = false)
+    public function delete_all($file, $recursive = false, $type = false)
     {
         if (empty($file)) {
             return false;
         }
         $file = str_replace('\\', '/', $file);
         if ('f' == $type || $this->is_file($file)) {
-            return @unlink($file);
+            return unlink($file);
         }
         if (!$recursive && $this->is_dir($file)) {
-            return @rmdir($file);
+            return rmdir($file);
         }
-        $file = Format::trailingslashit($file);
+        $file = RC_Format::trailingslashit($file);
         $filelist = $this->dirlist($file, true);
         $retval = true;
         if (is_array($filelist)) {
             foreach ($filelist as $filename => $fileinfo) {
-                if (!$this->delete($file . $filename, $recursive, $fileinfo['type'])) {
+                if (!$this->delete_all($file . $filename, $recursive, $fileinfo['type'])) {
                     $retval = false;
                 }
             }
         }
-        if (file_exists($file) && !@rmdir($file)) {
+        if (file_exists($file) && !rmdir($file)) {
             $retval = false;
         }
         return $retval;
     }
-    public function exists($file)
+    public function exists($path)
     {
-        return @file_exists($file);
+        return $this->has($path);
     }
-    public function is_file($file)
+    public function has($path)
     {
-        return @is_file($file);
+        return file_exists($path);
+    }
+    public function is_file($path)
+    {
+        return is_file($path);
     }
     public function is_dir($path)
     {
-        return @is_dir($path);
+        return is_dir($path);
     }
-    public function is_readable($file)
+    public function is_readable($path)
     {
-        return @is_readable($file);
+        return is_readable($path);
     }
-    public function is_writable($file)
+    public function is_writable($path)
     {
-        return @is_writable($file);
+        return is_writable($path);
     }
-    public function atime($file)
+    public function atime($path)
     {
-        return @fileatime($file);
+        return fileatime($path);
     }
-    public function mtime($file)
+    public function mtime($path)
     {
-        return @filemtime($file);
+        return filemtime($path);
     }
-    public function size($file)
+    public function size($path)
     {
-        return @filesize($file);
+        return filesize($path);
     }
-    public function touch($file, $time = 0, $atime = 0)
+    public function touch($path, $time = 0, $atime = 0)
     {
         if ($time == 0) {
             $time = time();
@@ -33369,18 +33584,18 @@ class Direct extends FilesystemBase
         if ($atime == 0) {
             $atime = time();
         }
-        return @touch($file, $time, $atime);
+        return touch($path, $time, $atime);
     }
     public function mkdir($path, $chmod = false, $chown = false, $chgrp = false)
     {
-        $path = Format::untrailingslashit($path);
+        $path = RC_Format::untrailingslashit($path);
         if (empty($path)) {
             return false;
         }
         if (!$chmod) {
             $chmod = FS_CHMOD_DIR;
         }
-        if (!@mkdir($path, $chmod, true)) {
+        if (!mkdir($path, $chmod, true)) {
             return false;
         }
         $this->chmod($path, $chmod);
@@ -33394,7 +33609,7 @@ class Direct extends FilesystemBase
     }
     public function rmdir($path, $recursive = false)
     {
-        return $this->delete($path, $recursive);
+        return $this->delete_all($path, $recursive);
     }
     public function dirlist($path, $include_hidden = true, $recursive = false)
     {
@@ -33407,7 +33622,7 @@ class Direct extends FilesystemBase
         if (!$this->is_dir($path)) {
             return false;
         }
-        $dir = @dir($path);
+        $dir = dir($path);
         if (!$dir) {
             return false;
         }
@@ -33486,454 +33701,353 @@ class Direct extends FilesystemBase
 }
 }
 
-namespace Royalcms\Component\Storage {
-use Closure;
-use BadMethodCallException;
-use RC_Hook;
-use Royalcms\Component\Support\Format;
-use Royalcms\Component\Error\Error;
-class Filesystem
+namespace Royalcms\Component\Storage\Adapter {
+class Local extends Direct
 {
-    protected $driver;
-    public function __construct($args = false, $context = false)
+}
+}
+
+namespace Royalcms\Component\Storage {
+use InvalidArgumentException;
+use League\Flysystem\Directory;
+use League\Flysystem\File;
+use League\Flysystem\FileNotFoundException;
+use League\Flysystem\Filesystem as BaseFilesystem;
+use League\Flysystem\Handler;
+use League\Flysystem\RootViolationException;
+use League\Flysystem\Util;
+use League\Flysystem\Util\ContentListingFormatter;
+use RC_Log;
+use Royalcms\Component\Storage\Contracts\StorageInterface;
+use Royalcms\Component\Storage\Exceptions\AdapterNotStorageInterfaceException;
+class Filesystem extends BaseFilesystem
+{
+    public function has($path)
     {
-        $method = self::get_filesystem_method($args, $context);
-        if (!$method) {
+        return strlen($path) === 0 ? false : (bool) $this->getAdapter()->has($path);
+    }
+    public function write($path, $contents, array $config = [])
+    {
+        $this->assertAbsent($path);
+        $config = $this->prepareConfig($config);
+        return (bool) $this->getAdapter()->write($path, $contents, $config);
+    }
+    public function writeStream($path, $resource, array $config = [])
+    {
+        if (!is_resource($resource)) {
+            throw new InvalidArgumentException(__METHOD__ . ' expects argument #2 to be a valid resource.');
+        }
+        $this->assertAbsent($path);
+        $config = $this->prepareConfig($config);
+        Util::rewindStream($resource);
+        return (bool) $this->getAdapter()->writeStream($path, $resource, $config);
+    }
+    public function put($path, $contents, array $config = [])
+    {
+        $config = $this->prepareConfig($config);
+        if ($this->has($path)) {
+            return (bool) $this->getAdapter()->update($path, $contents, $config);
+        }
+        return (bool) $this->getAdapter()->write($path, $contents, $config);
+    }
+    public function putStream($path, $resource, array $config = [])
+    {
+        if (!is_resource($resource)) {
+            throw new InvalidArgumentException(__METHOD__ . ' expects argument #2 to be a valid resource.');
+        }
+        $config = $this->prepareConfig($config);
+        Util::rewindStream($resource);
+        if ($this->has($path)) {
+            return (bool) $this->getAdapter()->updateStream($path, $resource, $config);
+        }
+        return (bool) $this->getAdapter()->writeStream($path, $resource, $config);
+    }
+    public function readAndDelete($path)
+    {
+        $this->assertPresent($path);
+        $contents = $this->read($path);
+        if ($contents === false) {
             return false;
         }
-        $method = "\\Royalcms\\Component\\Storage\\" . ucfirst($method);
-        $this->driver = new $method($args);
-        if (!defined('FS_CONNECT_TIMEOUT')) {
-            define('FS_CONNECT_TIMEOUT', 30);
+        $this->delete($path);
+        return $contents;
+    }
+    public function update($path, $contents, array $config = [])
+    {
+        $config = $this->prepareConfig($config);
+        $this->assertPresent($path);
+        return (bool) $this->getAdapter()->update($path, $contents, $config);
+    }
+    public function updateStream($path, $resource, array $config = [])
+    {
+        if (!is_resource($resource)) {
+            throw new InvalidArgumentException(__METHOD__ . ' expects argument #2 to be a valid resource.');
         }
-        if (!defined('FS_TIMEOUT')) {
-            define('FS_TIMEOUT', 30);
-        }
-        if (Error::is_error($rc_filesystem->errors) && $this->driver->errors->get_error_code()) {
+        $config = $this->prepareConfig($config);
+        $this->assertPresent($path);
+        Util::rewindStream($resource);
+        return (bool) $this->getAdapter()->updateStream($path, $resource, $config);
+    }
+    public function read($path)
+    {
+        $this->assertPresent($path);
+        if (!($object = $this->getAdapter()->read($path))) {
             return false;
         }
-        if (!$this->driver->connect()) {
+        return $object['contents'];
+    }
+    public function readStream($path)
+    {
+        $this->assertPresent($path);
+        if (!($object = $this->getAdapter()->readStream($path))) {
             return false;
         }
-        if (!defined('FS_CHMOD_DIR')) {
-            define('FS_CHMOD_DIR', fileperms(SITE_ROOT) & 0777 | 0755);
-        }
-        if (!defined('FS_CHMOD_FILE')) {
-            define('FS_CHMOD_FILE', fileperms(SITE_ROOT . 'index.php') & 0777 | 0644);
-        }
-        return true;
+        return $object['stream'];
     }
-    public function getDriver()
+    public function rename($path, $newpath)
     {
-        return $this->driver;
+        $this->assertPresent($path);
+        $this->assertAbsent($newpath);
+        return (bool) $this->getAdapter()->rename($path, $newpath);
     }
-    protected static $macros = array();
-    public static function macro($name, callable $macro)
+    public function copy($path, $newpath)
     {
-        static::$macros[$name] = $macro;
+        $this->assertPresent($path);
+        $this->assertAbsent($newpath);
+        return $this->getAdapter()->copy($path, $newpath);
     }
-    public static function hasMacro($name)
+    public function delete($path)
     {
-        return isset(static::$macros[$name]);
+        try {
+            $this->assertPresent($path);
+            return $this->getAdapter()->delete($path);
+        } catch (FileNotFoundException $e) {
+            RC_Log::warning($e);
+        }
     }
-    public static function __callStatic($method, $parameters)
+    public function deleteDir($dirname)
     {
-        if (static::hasMacro($method)) {
-            if (static::$macros[$method] instanceof Closure) {
-                return call_user_func_array(Closure::bind(static::$macros[$method], null, get_called_class()), $parameters);
-            } else {
-                return call_user_func_array(static::$macros[$method], $parameters);
-            }
+        if ($dirname === '') {
+            throw new RootViolationException('Root directories can not be deleted.');
         }
-        throw new BadMethodCallException("Method {$method} does not exist.");
+        return (bool) $this->getAdapter()->deleteDir($dirname);
     }
-    public function __call($method, $parameters)
+    public function createDir($dirname, array $config = [])
     {
-        if (static::hasMacro($method)) {
-            if (static::$macros[$method] instanceof Closure) {
-                return call_user_func_array(static::$macros[$method]->bindTo($this, get_class($this)), $parameters);
-            } else {
-                return call_user_func_array(static::$macros[$method], $parameters);
-            }
-        } elseif (method_exists($this->driver, $method)) {
-            return call_user_func_array(array($this->driver, $method), $parameters);
-        }
-        throw new BadMethodCallException("Method {$method} does not exist.");
+        $config = $this->prepareConfig($config);
+        return (bool) $this->getAdapter()->createDir($dirname, $config);
     }
-    public static function get_filesystem_method($args = array(), $context = false)
+    public function listContents($directory = '', $recursive = false)
     {
-        $method = defined('FS_METHOD') ? FS_METHOD : false;
-        if (!$method && function_exists('getmyuid') && function_exists('fileowner')) {
-            if (!$context) {
-                $context = RC_CONTENT_PATH;
-            }
-            if (WP_LANG_DIR == $context && !is_dir($context)) {
-                $context = dirname($context);
-            }
-            $context = Format::trailingslashit($context);
-            $temp_file_name = $context . 'temp-write-test-' . time();
-            $temp_handle = @fopen($temp_file_name, 'w');
-            if ($temp_handle) {
-                if (getmyuid() == @fileowner($temp_file_name)) {
-                    $method = 'direct';
-                }
-                @fclose($temp_handle);
-                @unlink($temp_file_name);
-            }
-        }
-        if (!$method && isset($args['connection_type']) && 'ssh' == $args['connection_type'] && extension_loaded('ssh2') && function_exists('stream_get_contents')) {
-            $method = 'ssh2';
-        }
-        if (!$method && extension_loaded('ftp')) {
-            $method = 'ftpext';
-        }
-        if (!$method && (extension_loaded('sockets') || function_exists('fsockopen'))) {
-            $method = 'ftpsockets';
-        }
-        return RC_Hook::apply_filters('filesystem_method', $method, $args);
+        $contents = $this->getAdapter()->listContents($directory, $recursive);
+        return (new ContentListingFormatter($directory, $recursive))->formatListing($contents);
     }
-    public static function request_filesystem_credentials($form_post, $type = '', $error = false, $context = false, $extra_fields = null)
+    public function getMimetype($path)
     {
-        $req_cred = RC_Hook::apply_filters('request_filesystem_credentials', '', $form_post, $type, $error, $context, $extra_fields);
-        if ('' !== $req_cred) {
-            return $req_cred;
+        $this->assertPresent($path);
+        if (!($object = $this->getAdapter()->getMimetype($path))) {
+            return false;
         }
-        if (empty($type)) {
-            $type = self::get_filesystem_method(array(), $context);
+        return $object['mimetype'];
+    }
+    public function getTimestamp($path)
+    {
+        $this->assertPresent($path);
+        if (!($object = $this->getAdapter()->getTimestamp($path))) {
+            return false;
         }
-        if ('direct' == $type) {
-            return true;
+        return $object['timestamp'];
+    }
+    public function getVisibility($path)
+    {
+        $this->assertPresent($path);
+        if (($object = $this->getAdapter()->getVisibility($path)) === false) {
+            return false;
         }
-        if (is_null($extra_fields)) {
-            $extra_fields = array('version', 'locale');
+        return $object['visibility'];
+    }
+    public function getSize($path)
+    {
+        if (($object = $this->getAdapter()->getSize($path)) === false || !isset($object['size'])) {
+            return false;
         }
-        $credentials = array('hostname' => '', 'username' => '');
-        $credentials['hostname'] = defined('FTP_HOST') ? FTP_HOST : (!empty($_POST['hostname']) ? rc_unslash($_POST['hostname']) : $credentials['hostname']);
-        $credentials['username'] = defined('FTP_USER') ? FTP_USER : (!empty($_POST['username']) ? rc_unslash($_POST['username']) : $credentials['username']);
-        $credentials['password'] = defined('FTP_PASS') ? FTP_PASS : (!empty($_POST['password']) ? rc_unslash($_POST['password']) : '');
-        $credentials['public_key'] = defined('FTP_PUBKEY') ? FTP_PUBKEY : (!empty($_POST['public_key']) ? rc_unslash($_POST['public_key']) : '');
-        $credentials['private_key'] = defined('FTP_PRIKEY') ? FTP_PRIKEY : (!empty($_POST['private_key']) ? rc_unslash($_POST['private_key']) : '');
-        $credentials['hostname'] = preg_replace('|\\w+://|', '', $credentials['hostname']);
-        if (strpos($credentials['hostname'], ':')) {
-            list($credentials['hostname'], $credentials['port']) = explode(':', $credentials['hostname'], 2);
-            if (!is_numeric($credentials['port'])) {
-                unset($credentials['port']);
-            }
-        } else {
-            unset($credentials['port']);
+        return (int) $object['size'];
+    }
+    public function setVisibility($path, $visibility)
+    {
+        return (bool) $this->getAdapter()->setVisibility($path, $visibility);
+    }
+    public function getMetadata($path)
+    {
+        $this->assertPresent($path);
+        return $this->getAdapter()->getMetadata($path);
+    }
+    public function get($path, Handler $handler = null)
+    {
+        if (!$handler) {
+            $metadata = $this->getMetadata($path);
+            $handler = $metadata['type'] === 'file' ? new File($this, $path) : new Directory($this, $path);
         }
-        if (defined('FTP_SSH') && FTP_SSH || defined('FS_METHOD') && 'ssh2' == FS_METHOD) {
-            $credentials['connection_type'] = 'ssh';
-        } else {
-            if (defined('FTP_SSL') && FTP_SSL && 'ftpext' == $type) {
-                $credentials['connection_type'] = 'ftps';
-            } else {
-                if (!empty($_POST['connection_type'])) {
-                    $credentials['connection_type'] = rc_unslash($_POST['connection_type']);
-                } else {
-                    if (!isset($credentials['connection_type'])) {
-                        $credentials['connection_type'] = 'ftp';
-                    }
-                }
-            }
+        $handler->setPath($path);
+        $handler->setFilesystem($this);
+        return $handler;
+    }
+    public function assertStorageInterface()
+    {
+        if (!$this->getAdapter() instanceof StorageInterface) {
+            throw new AdapterNotStorageInterfaceException('This adapter not `StorageInterface` instance.');
         }
-        if (!$error && (!empty($credentials['password']) && !empty($credentials['username']) && !empty($credentials['hostname']) || 'ssh' == $credentials['connection_type'] && !empty($credentials['public_key']) && !empty($credentials['private_key']))) {
-            $stored_credentials = $credentials;
-            if (!empty($stored_credentials['port'])) {
-                $stored_credentials['hostname'] .= ':' . $stored_credentials['port'];
-            }
-            unset($stored_credentials['password'], $stored_credentials['port'], $stored_credentials['private_key'], $stored_credentials['public_key']);
-            update_option('ftp_credentials', $stored_credentials);
-            return $credentials;
-        }
-        $hostname = isset($credentials['hostname']) ? $credentials['hostname'] : '';
-        $username = isset($credentials['username']) ? $credentials['username'] : '';
-        $public_key = isset($credentials['public_key']) ? $credentials['public_key'] : '';
-        $private_key = isset($credentials['private_key']) ? $credentials['private_key'] : '';
-        $port = isset($credentials['port']) ? $credentials['port'] : '';
-        $connection_type = isset($credentials['connection_type']) ? $credentials['connection_type'] : '';
-        if ($error) {
-            $error_string = __('<strong>ERROR:</strong> There was an error connecting to the server, Please verify the settings are correct.');
-            if (Error::is_error($error)) {
-                $error_string = Format::esc_html($error->get_error_message());
-            }
-            echo '<div id="message" class="error"><p>' . $error_string . '</p></div>';
-        }
-        $types = array();
-        if (extension_loaded('ftp') || extension_loaded('sockets') || function_exists('fsockopen')) {
-            $types['ftp'] = __('FTP');
-        }
-        if (extension_loaded('ftp')) {
-            $types['ftps'] = __('FTPS (SSL)');
-        }
-        if (extension_loaded('ssh2') && function_exists('stream_get_contents')) {
-            $types['ssh'] = __('SSH2');
-        }
-        $types = RC_Hook::apply_filters('fs_ftp_connection_types', $types, $credentials, $type, $error, $context);
-        ?>
-        <script type="text/javascript">
-        <!--
-        jQuery(function($){
-        	jQuery("#ssh").click(function () {
-        		jQuery("#ssh_keys").show();
-        	});
-        	jQuery("#ftp, #ftps").click(function () {
-        		jQuery("#ssh_keys").hide();
-        	});
-        	jQuery('form input[value=""]:first').focus();
-        });
-        -->
-        </script>
-        <form action="<?php 
-        echo Format::esc_url($form_post);
-        ?>
-" method="post">
-        <div>
-        <h3><?php 
-        _e('Connection Information');
-        ?>
-</h3>
-        <p><?php 
-        $label_user = __('Username');
-        $label_pass = __('Password');
-        _e('To perform the requested action, WordPress needs to access your web server.');
-        echo ' ';
-        if (isset($types['ftp']) || isset($types['ftps'])) {
-            if (isset($types['ssh'])) {
-                _e('Please enter your FTP or SSH credentials to proceed.');
-                $label_user = __('FTP/SSH Username');
-                $label_pass = __('FTP/SSH Password');
-            } else {
-                _e('Please enter your FTP credentials to proceed.');
-                $label_user = __('FTP Username');
-                $label_pass = __('FTP Password');
-            }
-            echo ' ';
-        }
-        _e('If you do not remember your credentials, you should contact your web host.');
-        ?>
-</p>
-        <table class="form-table">
-        <tr>
-        <th scope="row"><label for="hostname"><?php 
-        _e('Hostname');
-        ?>
-</label></th>
-        <td><input name="hostname" type="text" id="hostname" value="<?php 
-        echo Format::esc_attr($hostname);
-        if (!empty($port)) {
-            echo ":{$port}";
-        }
-        ?>
-"<?php 
-        disabled(defined('FTP_HOST'));
-        ?>
- size="40" /></td>
-        </tr>
-        
-        <tr>
-        <th scope="row"><label for="username"><?php 
-        echo $label_user;
-        ?>
-</label></th>
-        <td><input name="username" type="text" id="username" value="<?php 
-        echo Format::esc_attr($username);
-        ?>
-"<?php 
-        disabled(defined('FTP_USER'));
-        ?>
- size="40" /></td>
-        </tr>
-        
-        <tr>
-        <th scope="row"><label for="password"><?php 
-        echo $label_pass;
-        ?>
-</label></th>
-        <td><div><input name="password" type="password" id="password" value="<?php 
-        if (defined('FTP_PASS')) {
-            echo '*****';
-        }
-        ?>
-"<?php 
-        disabled(defined('FTP_PASS'));
-        ?>
- size="40" /></div>
-        <div><em><?php 
-        if (!defined('FTP_PASS')) {
-            _e('This password will not be stored on the server.');
-        }
-        ?>
-</em></div></td>
-        </tr>
-        
-        <?php 
-        if (isset($types['ssh'])) {
-            ?>
-        <tr id="ssh_keys" style="<?php 
-            if ('ssh' != $connection_type) {
-                echo 'display:none';
-            }
-            ?>
-">
-        <th scope="row"><?php 
-            _e('Authentication Keys');
-            ?>
-        <div class="key-labels textright">
-        <label for="public_key"><?php 
-            _e('Public Key:');
-            ?>
-</label ><br />
-        <label for="private_key"><?php 
-            _e('Private Key:');
-            ?>
-</label>
-        </div></th>
-        <td><br /><input name="public_key" type="text" id="public_key" value="<?php 
-            echo Format::esc_attr($public_key);
-            ?>
-"<?php 
-            disabled(defined('FTP_PUBKEY'));
-            ?>
- size="40" />
-        	<br /><input name="private_key" type="text" id="private_key" value="<?php 
-            echo Format::esc_attr($private_key);
-            ?>
-"<?php 
-            disabled(defined('FTP_PRIKEY'));
-            ?>
- size="40" />
-        <div><?php 
-            _e('Enter the location on the server where the keys are located. If a passphrase is needed, enter that in the password field above.');
-            ?>
-</div></td>
-        </tr>
-        <?php 
-        }
-        ?>
-        
-        <tr>
-        <th scope="row"><?php 
-        _e('Connection Type');
-        ?>
-</th>
-        <td>
-        <fieldset><legend class="screen-reader-text"><span><?php 
-        _e('Connection Type');
-        ?>
-</span></legend>
-        <?php 
-        $disabled = disabled(defined('FTP_SSL') && FTP_SSL || defined('FTP_SSH') && FTP_SSH, true, false);
-        foreach ($types as $name => $text) {
-            ?>
-        	<label for="<?php 
-            echo Format::esc_attr($name);
-            ?>
-">
-        		<input type="radio" name="connection_type" id="<?php 
-            echo Format::esc_attr($name);
-            ?>
-" value="<?php 
-            echo Format::esc_attr($name);
-            ?>
-"<?php 
-            checked($name, $connection_type);
-            echo $disabled;
-            ?>
- />
-        		<?php 
-            echo $text;
-            ?>
-        	</label>
-        	<?php 
-        }
-        ?>
-        </fieldset>
-        </td>
-        </tr>
-        </table>
-        
-        <?php 
-        foreach ((array) $extra_fields as $field) {
-            if (isset($_POST[$field])) {
-                echo '<input type="hidden" name="' . Format::esc_attr($field) . '" value="' . Format::esc_attr(rc_unslash($_POST[$field])) . '" />';
-            }
-        }
-        \ecjia_form::submit_button(__('Proceed'), 'button', 'upgrade');
-        ?>
-        </div>
-        </form>
-        <?php 
-        return false;
+    }
+    public function move_uploaded_file($filename, $destination)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->move_uploaded_file($filename, $destination);
+    }
+    public function get_contents($file)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->get_contents($file);
+    }
+    public function get_contents_array($file)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->get_contents_array($file);
+    }
+    public function put_contents($file, $contents, $mode = false)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->put_contents($file, $contents, $mode);
+    }
+    public function cwd()
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->cwd();
+    }
+    public function chdir($dir)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->chdir($dir);
+    }
+    public function chgrp($file, $group, $recursive = false)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->chgrp($file, $group, $recursive);
+    }
+    public function chmod($file, $mode = false, $recursive = false)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->chmod($file, $mode, $recursive);
+    }
+    public function chown($file, $owner, $recursive = false)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->chmod($file, $owner, $recursive);
+    }
+    public function owner($file)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->owner($file);
+    }
+    public function group($file)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->group($file);
+    }
+    public function move($source, $destination, $overwrite = false, $mode = false)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->move($source, $destination, $overwrite, $mode);
+    }
+    public function exists($path)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->exists($path);
+    }
+    public function is_file($path)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->is_file($path);
+    }
+    public function is_dir($path)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->is_dir($path);
+    }
+    public function is_readable($path)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->is_readable($path);
+    }
+    public function is_writable($path)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->is_writable($path);
+    }
+    public function atime($path)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->atime($path);
+    }
+    public function mtime($path)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->mtime($path);
+    }
+    public function size($path)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->size($path);
+    }
+    public function touch($path, $time = 0, $atime = 0)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->touch($path, $time, $atime);
+    }
+    public function mkdir($path, $chmod = false, $chown = false, $chgrp = false)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->mkdir($path, $chmod, $chown, $chgrp);
+    }
+    public function rmdir($path, $recursive = false)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->rmdir($path, $recursive);
+    }
+    public function dirlist($path, $include_hidden = true, $recursive = false)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->dirlist($path, $include_hidden, $recursive);
+    }
+    public function filelist($path, $allowFiles, $start, $size)
+    {
+        $this->assertStorageInterface();
+        return $this->getAdapter()->filelist($path, $allowFiles, $start, $size);
     }
 }
 }
 
 namespace Royalcms\Component\Storage {
-use Closure;
-use BadMethodCallException;
-use Royalcms\Component\Error\Facades\Error as RC_Error;
-class FilesystemAdapter
+use Royalcms\Component\Support\Traits\Macroable;
+use Royalcms\Component\Filesystem\FilesystemAdapter as BaseFilesystemAdapter;
+class FilesystemAdapter extends BaseFilesystemAdapter
 {
-    protected $driver;
-    public function __construct(FilesystemBase $driver)
-    {
-        $this->driver = $driver;
-        if (!defined('FS_CONNECT_TIMEOUT')) {
-            define('FS_CONNECT_TIMEOUT', 30);
-        }
-        if (!defined('FS_TIMEOUT')) {
-            define('FS_TIMEOUT', 30);
-        }
-        if (RC_Error::is_error($this->driver->errors) && $this->driver->errors->get_error_code()) {
-            return false;
-        }
-        if (!$this->driver->connect()) {
-            return false;
-        }
-        if (!defined('FS_CHMOD_DIR')) {
-            define('FS_CHMOD_DIR', fileperms(SITE_ROOT) & 0777 | 0755);
-        }
-        if (!defined('FS_CHMOD_FILE')) {
-            define('FS_CHMOD_FILE', fileperms(SITE_ROOT . 'index.php') & 0777 | 0644);
-        }
+    use Macroable {
+        __call as private __macroableCall;
     }
-    public function getDriver()
+    public function exists($path)
     {
-        return $this->driver;
+        return $this->driver->exists($path);
     }
-    protected static $macros = array();
-    public static function macro($name, callable $macro)
+    public function __call($method, array $parameters)
     {
-        static::$macros[$name] = $macro;
-    }
-    public static function hasMacro($name)
-    {
-        return isset(static::$macros[$name]);
-    }
-    public static function __callStatic($method, $parameters)
-    {
-        if (static::hasMacro($method)) {
-            if (static::$macros[$method] instanceof Closure) {
-                return call_user_func_array(Closure::bind(static::$macros[$method], null, get_called_class()), $parameters);
+        if (!static::hasMacro($method)) {
+            if (method_exists($this->driver, $method)) {
+                return call_user_func_array([$this->driver, $method], $parameters);
             } else {
-                return call_user_func_array(static::$macros[$method], $parameters);
+                return parent::__call($method, $parameters);
             }
         }
-        throw new BadMethodCallException("Method {$method} does not exist.");
-    }
-    public function __call($method, $parameters)
-    {
-        if (static::hasMacro($method)) {
-            if (static::$macros[$method] instanceof Closure) {
-                return call_user_func_array(static::$macros[$method]->bindTo($this, get_class($this)), $parameters);
-            } else {
-                return call_user_func_array(static::$macros[$method], $parameters);
-            }
-        } elseif (method_exists($this->driver, $method)) {
-            return call_user_func_array(array($this->driver, $method), $parameters);
-        }
-        throw new BadMethodCallException("Method {$method} does not exist.");
+        return $this->__macroableCall($method, $parameters);
     }
 }
 }
@@ -33941,12 +34055,11 @@ class FilesystemAdapter
 namespace Royalcms\Component\Storage {
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\Foundation\Theme;
-abstract class FilesystemBase
+trait FilesystemBaseTrait
 {
     public $verbose = false;
     private $cache = array();
-    public $method = '';
-    public $errors = null;
+    protected $method = '';
     public function abspath()
     {
         $folder = $this->find_folder(ABSPATH);
@@ -34128,110 +34241,63 @@ abstract class FilesystemBase
     {
         return (bool) preg_match('|[^\\x20-\\x7E]|', $text);
     }
-    public abstract function chown($file, $owner, $recursive = false);
-    public abstract function connect();
-    public abstract function move_uploaded_file($filename, $destination);
-    public abstract function get_contents($file);
-    public abstract function get_contents_array($file);
-    public abstract function put_contents($file, $contents, $mode = false);
-    public abstract function cwd();
-    public abstract function chdir($dir);
-    public abstract function chgrp($file, $group, $recursive = false);
-    public abstract function chmod($file, $mode = false, $recursive = false);
-    public abstract function owner($file);
-    public abstract function group($file);
-    public abstract function copy($source, $destination, $overwrite = false, $mode = false);
-    public abstract function move($source, $destination, $overwrite = false, $mode = false);
-    public abstract function delete($file, $recursive = false, $type = false);
-    public abstract function exists($file);
-    public abstract function is_file($file);
-    public abstract function is_dir($path);
-    public abstract function is_readable($file);
-    public abstract function is_writable($file);
-    public abstract function atime($file);
-    public abstract function mtime($file);
-    public abstract function size($file);
-    public abstract function touch($file, $time = 0, $atime = 0);
-    public abstract function mkdir($path, $chmod = false, $chown = false, $chgrp = false);
-    public abstract function rmdir($path, $recursive = false);
-    public abstract function dirlist($path, $include_hidden = true, $recursive = false);
-    public abstract function filelist($path, $allowFiles, $start, $size);
 }
 }
 
 namespace Royalcms\Component\Storage {
-use Closure;
-class FilesystemManager
+use Royalcms\Component\Storage\Adapter\Local;
+use Royalcms\Component\Storage\Adapter\Direct;
+use Royalcms\Component\Storage\Adapter\Aliyunoss;
+use League\Flysystem\FilesystemInterface;
+use League\Flysystem\Adapter\AbstractAdapter;
+use Royalcms\Component\Support\Arr;
+use Royalcms\Component\Filesystem\FilesystemManager as BaseFilesystemManager;
+class FilesystemManager extends BaseFilesystemManager
 {
-    protected $royalcms;
-    protected $disks = array();
-    protected $customCreators = array();
-    public function __construct($royalcms)
-    {
-        $this->royalcms = $royalcms;
-    }
-    public function drive($name = null)
-    {
-        return $this->disk($name);
-    }
-    public function disk($name = null)
-    {
-        $name = $name ?: $this->getDefaultDriver();
-        return $this->disks[$name] = $this->get($name);
-    }
-    protected function get($name)
-    {
-        return isset($this->disks[$name]) ? $this->disks[$name] : $this->resolve($name);
-    }
-    protected function resolve($name)
-    {
-        $config = $this->getConfig($name);
-        if (isset($this->customCreators[$config['driver']])) {
-            return $this->callCustomCreator($config);
-        }
-        return $this->{"create" . ucfirst($config['driver']) . "Driver"}($config);
-    }
-    protected function callCustomCreator(array $config)
-    {
-        $driver = $this->customCreators[$config['driver']]($this->royalcms, $config);
-        if ($driver instanceof FilesystemBase) {
-            return $this->adapt($driver);
-        }
-        return $driver;
-    }
     public function createDirectDriver(array $config)
     {
-        return $this->adapt(new Direct($config['root']));
+        $links = Arr::get($config, 'links') === 'skip' ? Direct::SKIP_LINKS : Direct::DISALLOW_LINKS;
+        $permissions = isset($config['permissions']) ? $config['permissions'] : [];
+        return $this->adapt($this->createFilesystem(new Direct($config['root'], LOCK_EX, $links, $permissions), $config));
     }
     public function createLocalDriver(array $config)
     {
-        return $this->adapt(new Local($config['root']));
+        $links = Arr::get($config, 'links') === 'skip' ? Local::SKIP_LINKS : Local::DISALLOW_LINKS;
+        $permissions = isset($config['permissions']) ? $config['permissions'] : [];
+        return $this->adapt($this->createFilesystem(new Local($config['root'], LOCK_EX, $links, $permissions), $config));
     }
     public function createAliyunossDriver(array $config)
     {
-        $ossConfig = array_only($config, array('key', 'secret', 'bucket', 'server', 'server_internal', 'is_internal'));
-        return $this->adapt(new Aliyunoss($ossConfig));
+        $ossConfig = array_only($config, array('key', 'secret', 'bucket', 'server', 'server_internal', 'is_internal', 'url'));
+        return $this->adapt($this->createFilesystem(new Aliyunoss($ossConfig), $ossConfig));
     }
-    protected function adapt(FilesystemBase $filesystem)
+    protected function createFilesystem(AbstractAdapter $adapter, array $config)
+    {
+        $config = Arr::only($config, ['visibility', 'disable_asserts']);
+        return new Filesystem($adapter, count($config) > 0 ? $config : null);
+    }
+    protected function adapt(FilesystemInterface $filesystem)
     {
         return new FilesystemAdapter($filesystem);
     }
     protected function getConfig($name)
     {
-        return $this->royalcms['config']["filesystems.disks.{$name}"];
+        return $this->royalcms['config']["storage.disks.{$name}"];
     }
     public function getDefaultDriver()
     {
-        return $this->royalcms['config']['filesystems.default'];
+        return $this->royalcms['config']['storage.default'];
     }
-    public function extend($driver, Closure $callback)
+}
+}
+
+namespace Royalcms\Component\Storage\Facades {
+use Royalcms\Component\Support\Facades\Facade;
+class Storage extends Facade
+{
+    protected static function getFacadeAccessor()
     {
-        $this->customCreators[$driver] = $callback;
-        return $this;
-    }
-    public function __call($method, $parameters)
-    {
-        return call_user_func_array(array($this->disk(), $method), $parameters);
+        return 'storage';
     }
 }
 }
@@ -34243,6 +34309,7 @@ class StorageServiceProvider extends ServiceProvider
     protected $defer = true;
     public function register()
     {
+        $this->mergeConfigFrom($this->guessPackagePath('royalcms/storage') . '/config/storage.php', 'storage');
         $this->registerManager();
         $this->royalcms->bindShared('storage.disk', function ($royalcms) {
             return $royalcms['storage']->disk($this->getDefaultDriver());
@@ -34272,7 +34339,7 @@ class StorageServiceProvider extends ServiceProvider
     public static function compiles()
     {
         $dir = static::guessPackageClassPath('royalcms/storage');
-        return [$dir . "/Facades/Storage.php", $dir . "/Aliyunoss.php", $dir . "/Direct.php", $dir . "/Filesystem.php", $dir . "/FilesystemAdapter.php", $dir . "/FilesystemBase.php", $dir . "/FilesystemManager.php", $dir . "/StorageServiceProvider.php"];
+        return [$dir . "/Contracts/StorageInterface.php", $dir . "/Adapter/Aliyunoss.php", $dir . "/Adapter/Direct.php", $dir . "/Adapter/Local.php", $dir . "/Filesystem.php", $dir . "/FilesystemAdapter.php", $dir . "/FilesystemBaseTrait.php", $dir . "/FilesystemManager.php", $dir . "/Facades/Storage.php", $dir . "/StorageServiceProvider.php"];
     }
 }
 }
@@ -34425,6 +34492,985 @@ class EnvironmentServiceProvider extends ServiceProvider
 }
 }
 
+namespace Royalcms\Component\Upload\Uploader {
+use RC_Format;
+use RC_Storage;
+use Royalcms\Component\Upload\UploaderAbstract;
+use Royalcms\Component\Upload\Facades\Upload;
+use Royalcms\Component\Upload\Process\UploadProcess;
+use Royalcms\Component\Upload\Process\NewUploadProcess;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Royalcms\Component\Http\Request;
+class Uploader extends UploaderAbstract
+{
+    protected $filename_callback;
+    protected $sub_dirname_callback;
+    protected $upload_success_callback;
+    protected $upload_saving_callback;
+    protected $default_filetypes = array();
+    protected $request;
+    public function __construct()
+    {
+        parent::__construct();
+        $this->options['root_path'] = Upload::upload_path();
+        $this->options['max_size'] = config('upload.max_size');
+        $this->settingUploadConfig();
+    }
+    public function setRequest(Request $request)
+    {
+        $this->request = $request;
+    }
+    public function getRequest()
+    {
+        if (is_null($this->request)) {
+            $this->request = royalcms('request');
+        }
+        return $this->request;
+    }
+    protected function settingUploadConfig()
+    {
+        $default_file_types = config('upload.default_file_types');
+        $file_ext = array_keys($default_file_types);
+        $this->allowed_type($file_ext);
+        $file_mime = array_values($default_file_types);
+        $this->allowed_mime($file_mime);
+        if (!empty($this->mimes)) {
+            $this->mimes = array_map('strtolower', $this->mimes);
+        }
+        if (!empty($this->exts)) {
+            $this->exts = array_map('strtolower', $this->exts);
+        }
+    }
+    public function upload($file, $callback = null)
+    {
+        if (empty($file)) {
+            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms-upload'));
+            return false;
+        }
+        $file = $this->fixPhpFilesArray($file);
+        if (isset($file['name'])) {
+            $info = (new UploadProcess($this))->upload($file, $callback);
+        } else {
+            $info = $this->batchUpload($file, $callback);
+        }
+        return empty($info) ? false : $info;
+    }
+    public function batchUpload(array $files, $callback = null)
+    {
+        if (empty($files)) {
+            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms-upload'));
+            return false;
+        }
+        $info = array();
+        $files = $this->fixPhpFilesArray($files);
+        foreach ($files as $key => $file) {
+            $info[$key] = (new UploadProcess($this))->upload($file, $callback);
+        }
+        return empty($info) ? false : $info;
+    }
+    public function checkedUploadFile($upload_file)
+    {
+        if (!$upload_file instanceof UploadedFile) {
+            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms-upload'));
+            return false;
+        }
+        if (!$upload_file->isValid()) {
+            $this->add_error('is_uploaded_file_by_tmp_name', __('非法上传文件！', 'royalcms-upload'));
+            return false;
+        }
+        if (!$this->check_size($upload_file->getClientSize())) {
+            $this->add_error('upload_file_size_not_match', __('上传文件大小不符！', 'royalcms-upload'));
+            return false;
+        }
+        if (!$this->check_mime($upload_file->getClientMimeType())) {
+            $this->add_error('upload_file_mime_not_match', __('上传文件MIME类型不允许！', 'royalcms-upload'));
+            return false;
+        }
+        if (!$this->check_ext($upload_file->getClientOriginalExtension())) {
+            $this->add_error('upload_file_ext_not_match', __('上传文件后缀不允许！', 'royalcms-upload'));
+            return false;
+        }
+        return true;
+    }
+    public function multiUpload($files = null, $callback = null)
+    {
+        if (is_null($files)) {
+            $files = $_FILES;
+        }
+        foreach ($files as $key => $file) {
+            $info[$key] = $this->batchUpload($file);
+        }
+        return empty($info) ? false : $info;
+    }
+    public function multiUploadByFiles($callback = null)
+    {
+        $files = $_FILES;
+        foreach ($files as $key => $file) {
+            $info[$key] = $this->batchUpload($file);
+        }
+        return empty($info) ? false : $info;
+    }
+    public function batch_upload($files = null)
+    {
+        if (is_null($files)) {
+            $files = $_FILES;
+        }
+        $count = count($files);
+        $info = array();
+        if ($count === 1) {
+            foreach ($files as $key => $file) {
+                $info = $this->batchUpload($file);
+            }
+        } else {
+            $info = $this->multiUploadByFiles();
+        }
+        return empty($info) ? false : $info;
+    }
+    public function check_upload_file($file)
+    {
+        if ($file instanceof UploadedFile) {
+            $upload_file = $file;
+        } elseif (is_array($file) && isset($file['name'])) {
+            $upload_file = new UploadedFile($file['tmp_name'], $file['name'], $file['type'], $file['size'], $file['error']);
+        } else {
+            $upload_file = $this->getRequest()->file($file);
+        }
+        return $this->checkedUploadFile($upload_file);
+    }
+    public function get_position($info, $relative = true)
+    {
+        $position = RC_Format::trailingslashit($info['savepath']) . $info['savename'];
+        if (!$relative) {
+            return RC_Format::trailingslashit($this->root_path) . $position;
+        } else {
+            return $position;
+        }
+    }
+    public function remove($file)
+    {
+        $file_path = RC_Format::path_join(RC_Format::trailingslashit($this->root_path), $file);
+        return RC_Storage::disk()->delete($file_path);
+    }
+    private static $fileKeys = array('error', 'name', 'size', 'tmp_name', 'type');
+    protected function fixPhpFilesArray($data)
+    {
+        if (!is_array($data)) {
+            return $data;
+        }
+        $keys = array_keys($data);
+        sort($keys);
+        if (self::$fileKeys != $keys || !isset($data['name']) || !is_array($data['name'])) {
+            return $data;
+        }
+        $files = $data;
+        foreach (self::$fileKeys as $k) {
+            unset($files[$k]);
+        }
+        foreach ($data['name'] as $key => $name) {
+            $files[$key] = $this->fixPhpFilesArray(array('error' => $data['error'][$key], 'name' => $name, 'type' => $data['type'][$key], 'tmp_name' => $data['tmp_name'][$key], 'size' => $data['size'][$key]));
+        }
+        return $files;
+    }
+    protected function format_files($files)
+    {
+        $file_arr = array();
+        $n = 0;
+        foreach ($files as $key => $file) {
+            if (is_array($file['name'])) {
+                $keys = array_keys($file);
+                $count = count($file['name']);
+                for ($i = 0; $i < $count; $i++) {
+                    $file_arr[$n]['key'] = $key;
+                    foreach ($keys as $_key) {
+                        $file_arr[$n][$_key] = $file[$_key][$i];
+                    }
+                    $n++;
+                }
+            } else {
+                $file_arr = $files;
+                break;
+            }
+        }
+        return $file_arr;
+    }
+    public function add_filename_callback($callback)
+    {
+        if (is_callable($callback)) {
+            $this->filename_callback = $callback;
+        }
+    }
+    public function add_sub_dirname_callback($callback)
+    {
+        if (is_callable($callback)) {
+            $this->sub_dirname_callback = $callback;
+        }
+    }
+    public function add_upload_success_callback($callback)
+    {
+        if (is_callable($callback)) {
+            $this->upload_success_callback = $callback;
+        }
+    }
+    public function add_saving_callback($callback)
+    {
+        if (is_callable($callback)) {
+            $this->upload_saving_callback = $callback;
+        }
+    }
+    public function generateFilename($filename, $extname = null)
+    {
+        if (is_callable($this->filename_callback)) {
+            $savename = call_user_func($this->filename_callback, $filename);
+        } else {
+            $savename = substr(pathinfo("_{$filename}", PATHINFO_FILENAME), 1);
+        }
+        $extname = empty($this->save_ext) ? $extname : $this->save_ext;
+        if (empty($extname)) {
+            return $savename;
+        }
+        return $savename . '.' . $extname;
+    }
+    public function generateSubDirname($filename)
+    {
+        if ($this->auto_sub_dirs && is_callable($this->sub_dirname_callback)) {
+            return call_user_func($this->sub_dirname_callback, $filename);
+        } else {
+            return '';
+        }
+    }
+    public function uploadedSuccessProcess($file)
+    {
+        if (is_callable($this->upload_success_callback)) {
+            return call_user_func($this->upload_success_callback, $file);
+        }
+        return false;
+    }
+    public function getUploadSavingCallback()
+    {
+        return $this->upload_saving_callback;
+    }
+}
+}
+
+namespace Royalcms\Component\Upload\Uploader {
+use Royalcms\Component\Upload\Process\NewUploadProcess;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+class NewUploader extends Uploader
+{
+    public function upload($file, $callback = null)
+    {
+        if (!$this->getRequest()->hasFile($file)) {
+            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms-upload'));
+            return false;
+        }
+        $info = (new NewUploadProcess($this))->upload($file, $callback);
+        return empty($info) ? false : $info;
+    }
+    public function batchUpload(array $files, $callback = null)
+    {
+        if (empty($files)) {
+            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms-upload'));
+            return false;
+        }
+        $info = array();
+        foreach ($files as $key => $file) {
+            $info[$key] = (new NewUploadProcess($this))->upload($file, $callback);
+        }
+        return empty($info) ? false : $info;
+    }
+    public function batch_upload($files = null)
+    {
+        $files = array_keys($_FILES);
+        return $this->batchUpload($files);
+    }
+}
+}
+
+namespace Royalcms\Component\Upload\Process {
+use RC_Format;
+use Royalcms\Component\Upload\Uploader\Uploader;
+use Royalcms\Component\Upload\UploadProcessAbstract;
+use Royalcms\Component\Upload\UploadResult;
+class UploadProcess extends UploadProcessAbstract
+{
+    public function __construct(Uploader $uploader)
+    {
+        parent::__construct($uploader);
+    }
+    public function upload($file, $callback = null)
+    {
+        $upload_file = $this->getUploadFile($file);
+        if (!$this->uploader->checkedUploadFile($upload_file)) {
+            return false;
+        }
+        $name = $upload_file->getClientOriginalName();
+        $ext = $upload_file->getClientOriginalExtension();
+        $tmp_name = $upload_file->getRealPath();
+        $savename = $this->uploader->generateFilename($name, '');
+        if (false == $savename) {
+            return false;
+        }
+        $subpath = $this->uploader->generateSubDirname($name);
+        if (false !== $subpath) {
+            $save_path = RC_Format::path_join(ltrim($this->uploader->save_path, '/'), $subpath);
+        } else {
+            $save_path = $this->uploader->save_path;
+        }
+        $result = new UploadResult();
+        $result->setType($upload_file->getClientMimeType())->setSize($upload_file->getClientSize());
+        $result->setName($name)->setSavePath($save_path);
+        $result->setTmpName($tmp_name);
+        if (!empty($ext)) {
+            $result->setExtension($ext)->setSaveName($savename . '.' . $ext);
+        }
+        if ($this->uploader->hash) {
+            $result->setHashMd5(md5_file($tmp_name))->setHashSha1(sha1_file($tmp_name));
+        }
+        $fileinfo = $result->toCompatibleArray();
+        if ($this->save($fileinfo, $this->uploader->replace)) {
+            $this->uploader->uploadedSuccessProcess($fileinfo);
+            return $fileinfo;
+        } else {
+            return false;
+        }
+    }
+    protected function getFullFileName($file)
+    {
+        $filename = RC_Format::path_join(RC_Format::trailingslashit($this->uploader->root_path) . ltrim($file['savepath'], '/'), $file['savename']);
+        return $filename;
+    }
+    protected function save($file, $replace = true)
+    {
+        $filename = $this->getFullFileName($file);
+        if (!$replace) {
+            if ($this->uploader->getStorageDisk()->exists($filename)) {
+                $this->uploader->add_error('a_file_with_the_same_name', sprintf(__('存在同名文件%s', 'royalcms-upload'), $file['savename']));
+                return false;
+            }
+        }
+        if (!$this->uploader->getStorageDisk()->is_dir(dirname($filename))) {
+            $this->uploader->getStorageDisk()->mkdir(dirname($filename));
+        }
+        if (is_callable($this->uploader->getUploadSavingCallback())) {
+            $saving_callback = $this->uploader->getUploadSavingCallback();
+            return $saving_callback($file, $filename);
+        } else {
+            if (!$this->uploader->getStorageDisk()->move_uploaded_file($file['tmpname'], $filename)) {
+                $this->uploader->add_error('file_upload_saving_error', __('文件上传保存错误！', 'royalcms-upload'));
+                return false;
+            }
+            return true;
+        }
+    }
+}
+}
+
+namespace Royalcms\Component\Upload\Process {
+use BadMethodCallException;
+use RC_Format;
+use RC_Uploader;
+use Royalcms\Component\Upload\Events\UploadFileSucceeded;
+use Royalcms\Component\Upload\UploadProcessAbstract;
+use Royalcms\Component\Upload\UploadResult;
+use Royalcms\Component\Uploader\InvalidFileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+class NewUploadProcess extends UploadProcessAbstract
+{
+    public function upload($file, $callback = null)
+    {
+        $upload_file = $this->getUploadFile($file);
+        if (!$this->uploader->checkedUploadFile($upload_file)) {
+            return false;
+        }
+        $name = $upload_file->getClientOriginalName();
+        $ext = $upload_file->getClientOriginalExtension();
+        $tmp_name = $upload_file->getRealPath();
+        $savename = $this->uploader->generateFilename($name, '');
+        if (empty($savename)) {
+            return false;
+        }
+        $subpath = $this->uploader->generateSubDirname($name);
+        if (false !== $subpath) {
+            $save_path = RC_Format::path_join(ltrim($this->uploader->save_path, '/'), $subpath);
+        } else {
+            $save_path = $this->uploader->save_path;
+        }
+        $result = new UploadResult();
+        $result->setType($upload_file->getClientMimeType())->setSize($upload_file->getClientSize());
+        $result->setName($name)->setSavePath($save_path);
+        $result->setTmpName($tmp_name);
+        if (!empty($ext)) {
+            $result->setExtension($ext)->setSaveName($savename . '.' . $ext);
+        }
+        if ($this->uploader->hash) {
+            $result->setHashMd5(md5_file($tmp_name))->setHashSha1(sha1_file($tmp_name));
+        }
+        $fileinfo = $result->toCompatibleArray();
+        $filename = $this->uploader($result, $upload_file, $callback);
+        if ($filename) {
+            $this->uploader->uploadedSuccessProcess($fileinfo);
+            event(new UploadFileSucceeded($result));
+            return $fileinfo;
+        } else {
+            return false;
+        }
+    }
+    protected function uploader(UploadResult $result, UploadedFile $upload_file, $callback = null)
+    {
+        $fileinfo = $result->toCompatibleArray();
+        $savename = $result->getSaveNameWithOutExtension();
+        try {
+            $uploader = RC_Uploader::fromUpload()->toFolder($this->uploader->save_path)->setReplace($this->uploader->replace)->renameTo($savename);
+            if ($this->uploader->getUploadSavingCallback()) {
+                $uploader->setUploadSavingCallback(function ($provider, $filename) use($fileinfo) {
+                    $saving_callback = $this->uploader->getUploadSavingCallback();
+                    return call_user_func($saving_callback, $fileinfo, $filename);
+                });
+            }
+            $filename = $uploader->upload($upload_file, $callback);
+            if ($filename === false) {
+                $this->uploader->add_error('file_upload_saving_error', __('写入文件失败！', 'royalcms-upload'));
+                return false;
+            }
+            return $filename;
+        } catch (InvalidFileException $e) {
+            $this->uploader->add_error('file_upload_saving_error', $e->getMessage());
+            return false;
+        } catch (BadMethodCallException $e) {
+            $this->uploader->add_error('file_upload_saving_error', $e->getMessage());
+            return false;
+        }
+    }
+}
+}
+
+namespace Royalcms\Component\Upload\Uploader {
+class CustomUploader extends NewUploader
+{
+    protected function settingUploadConfig()
+    {
+    }
+}
+}
+
+namespace Royalcms\Component\Upload\Uploader {
+class ImageUploader extends Uploader
+{
+    protected $default_filetypes = array('jpg' => 'image/jpg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif', 'bmp' => 'image/bmp', 'wbmp' => 'image/vnd.wap.wbmp', 'svg' => 'image/svg+xml', 'svgz' => 'image/svg+xml');
+    protected function settingUploadConfig()
+    {
+        $file_ext = array_keys($this->default_filetypes);
+        $this->allowed_type($file_ext);
+        $file_mime = array_values($this->default_filetypes);
+        $this->allowed_mime($file_mime);
+    }
+}
+}
+
+namespace Royalcms\Component\Upload\Uploader {
+class NewImageUploader extends NewUploader
+{
+    protected $default_filetypes = array('jpg' => 'image/jpg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif', 'bmp' => 'image/bmp', 'wbmp' => 'image/vnd.wap.wbmp', 'svg' => 'image/svg+xml', 'svgz' => 'image/svg+xml');
+    protected function settingUploadConfig()
+    {
+        $file_ext = array_keys($this->default_filetypes);
+        $this->allowed_type($file_ext);
+        $file_mime = array_values($this->default_filetypes);
+        $this->allowed_mime($file_mime);
+    }
+}
+}
+
+namespace Royalcms\Component\Upload\Uploader {
+use Royalcms\Component\Upload\Process\NewUploadProcess;
+class TempImageUploader extends NewImageUploader
+{
+    public function upload($file, $callback = null)
+    {
+        if (empty($file)) {
+            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms-upload'));
+            return false;
+        }
+        $file['test'] = true;
+        $info = (new NewUploadProcess($this))->upload($file, $callback);
+        return empty($info) ? false : $info;
+    }
+    public function batchUpload(array $files, $callback = null)
+    {
+        if (empty($files)) {
+            $this->add_error('not_found_file', __('没有上传的文件！', 'royalcms-upload'));
+            return false;
+        }
+        $info = array();
+        foreach ($files as $key => $file) {
+            $file['test'] = true;
+            $info[$key] = (new NewUploadProcess($this))->upload($file, $callback);
+        }
+        return empty($info) ? false : $info;
+    }
+}
+}
+
+namespace Royalcms\Component\Upload {
+use Royalcms\Component\Error\Error;
+use Royalcms\Component\Contracts\Filesystem\Filesystem as FilesystemContract;
+abstract class UploaderAbstract
+{
+    protected $rc_error;
+    protected $error_codes = array(UPLOAD_ERR_INI_SIZE => 'upload_err_ini_size', UPLOAD_ERR_FORM_SIZE => 'upload_err_form_size', UPLOAD_ERR_PARTIAL => 'upload_err_partial', UPLOAD_ERR_NO_FILE => 'upload_err_no_file', UPLOAD_ERR_NO_TMP_DIR => 'upload_err_no_tmp_dir', UPLOAD_ERR_CANT_WRITE => 'upload_err_cant_write', UPLOAD_ERR_EXTENSION => 'upload_err_extension');
+    protected $options = array('save_ext' => null, 'replace' => false, 'hash' => true, 'auto_sub_dirs' => true, 'max_size' => 0, 'root_path' => null, 'save_path' => null, 'exts' => array(), 'mimes' => array());
+    protected $disk;
+    public function __construct()
+    {
+        $this->rc_error = new Error();
+        $this->disk = \RC_Storage::disk();
+    }
+    public function __get($name)
+    {
+        return $this->options[$name];
+    }
+    public function __set($name, $value)
+    {
+        $this->options[$name] = $value;
+    }
+    public function __isset($name)
+    {
+        return isset($this->options[$name]);
+    }
+    public function setOptions(array $options)
+    {
+        $this->options = array_merge($this->options, $options);
+        return $this;
+    }
+    public function setStorageDisk(FilesystemContract $disk)
+    {
+        $this->disk = $disk;
+        return $this;
+    }
+    public function getStorageDisk()
+    {
+        return $this->disk;
+    }
+    public function getErrorMessages($error = null)
+    {
+        $errors_message = array(UPLOAD_ERR_INI_SIZE => __('上传文件超过PHP.ini配置文件允许的大小', 'royalcms-upload'), UPLOAD_ERR_FORM_SIZE => __('文件超过表单限制大小', 'royalcms-upload'), UPLOAD_ERR_PARTIAL => __('文件只有部分上传', 'royalcms-upload'), UPLOAD_ERR_NO_FILE => __('没有上传文件', 'royalcms-upload'), UPLOAD_ERR_NO_TMP_DIR => __('没有上传临时文件夹', 'royalcms-upload'), UPLOAD_ERR_CANT_WRITE => __('写入临时文件夹出错', 'royalcms-upload'), UPLOAD_ERR_EXTENSION => __('非法的文件扩展名', 'royalcms-upload'));
+        if (is_null($error)) {
+            return $errors_message;
+        }
+        return array_get($errors_message, $error);
+    }
+    public function getErrorCode($error)
+    {
+        return array_get($this->error_codes, $error);
+    }
+    public function error()
+    {
+        return $this->rc_error->get_error_message();
+    }
+    public function add_error($error_code, $error_message)
+    {
+        $this->rc_error->add($error_code, $error_message);
+    }
+    public function errors()
+    {
+        return $this->rc_error;
+    }
+    public function allowed_type($type)
+    {
+        if (is_array($type)) {
+            $this->exts = $type;
+        } elseif (is_string($type)) {
+            $this->exts = explode(',', $type);
+        }
+    }
+    public function allowed_mime($mime)
+    {
+        if (is_array($mime)) {
+            $this->mimes = $mime;
+        } elseif (is_string($mime)) {
+            $this->mimes = explode(',', $mime);
+        }
+    }
+    public function allowed_size($size)
+    {
+        $this->max_size = $size;
+    }
+    public function check_ext($ext)
+    {
+        return empty($this->exts) ? true : in_array(strtolower($ext), $this->exts);
+    }
+    public function check_size($size)
+    {
+        return !($size > $this->max_size) || 0 == $this->max_size;
+    }
+    public function check_mime($mime)
+    {
+        return empty($this->mimes) ? true : in_array(strtolower($mime), $this->mimes);
+    }
+    public abstract function upload($file);
+    public abstract function batchUpload(array $files, $callback = null);
+    public function multiUploadByFiles($callback = null)
+    {
+    }
+}
+}
+
+namespace Royalcms\Component\Upload {
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+abstract class UploadProcessAbstract
+{
+    protected $uploader;
+    public function __construct($uploader)
+    {
+        $this->uploader = $uploader;
+    }
+    public function getUploadFile($file)
+    {
+        if ($file instanceof UploadedFile) {
+            $upload_file = $file;
+        } elseif (is_array($file) && isset($file['name'])) {
+            $upload_file = new UploadedFile($file['tmp_name'], $file['name'], $file['type'], $file['size'], $file['error'], $file['test']);
+        } else {
+            $upload_file = $this->uploader->getRequest()->file($file);
+        }
+        return $upload_file;
+    }
+    public abstract function upload($file, $callback = null);
+}
+}
+
+namespace Royalcms\Component\Upload {
+class UploadResult
+{
+    protected $name;
+    protected $type;
+    protected $size;
+    protected $extension;
+    protected $save_name;
+    protected $save_path;
+    protected $tmp_name;
+    protected $file_name;
+    protected $hash_md5;
+    protected $hash_sha1;
+    public function getName()
+    {
+        return $this->name;
+    }
+    public function getType()
+    {
+        return $this->type;
+    }
+    public function setType($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+    public function getSize()
+    {
+        return $this->size;
+    }
+    public function setSize($size)
+    {
+        $this->size = $size;
+        return $this;
+    }
+    public function setName($name)
+    {
+        $this->name = strip_tags($name);
+        return $this;
+    }
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+        return $this;
+    }
+    public function getSaveName()
+    {
+        return $this->save_name;
+    }
+    public function setSaveName($save_name)
+    {
+        $this->save_name = $save_name;
+        return $this;
+    }
+    public function getSaveNameWithOutExtension()
+    {
+        return str_replace('.' . $this->extension, '', $this->save_name);
+    }
+    public function getSavePath()
+    {
+        return $this->save_path;
+    }
+    public function setSavePath($save_path)
+    {
+        $this->save_path = $save_path;
+        return $this;
+    }
+    public function getTmpName()
+    {
+        return $this->tmp_name;
+    }
+    public function setTmpName($tmp_name)
+    {
+        $this->tmp_name = $tmp_name;
+        return $this;
+    }
+    public function getFileName()
+    {
+        if (is_null($this->file_name)) {
+            $this->file_name = $this->save_path . $this->save_name;
+        }
+        return $this->file_name;
+    }
+    public function setFileName($file_name)
+    {
+        $this->file_name = $file_name;
+        return $this;
+    }
+    public function getHashMd5()
+    {
+        return $this->hash_md5;
+    }
+    public function setHashMd5($hash_md5)
+    {
+        $this->hash_md5 = $hash_md5;
+        return $this;
+    }
+    public function getHashSha1()
+    {
+        return $this->hash_sha1;
+    }
+    public function setHashSha1($hash_sha1)
+    {
+        $this->hash_sha1 = $hash_sha1;
+        return $this;
+    }
+    public function toCompatibleArray()
+    {
+        $result = ['name' => $this->getName(), 'ext' => $this->getExtension(), 'type' => $this->getType(), 'size' => $this->getSize(), 'savename' => $this->getSaveName(), 'savepath' => $this->getSavePath(), 'tmpname' => $this->getTmpName(), 'filename' => $this->getFileName(), 'md5' => $this->getHashMd5(), 'sha1' => $this->getHashSha1()];
+        $result = array_filter($result, function ($value) {
+            return $value == '' || is_null($value) ? false : true;
+        });
+        return $result;
+    }
+    public function toArray()
+    {
+        $result = ['name' => $this->getName(), 'extension' => $this->getExtension(), 'type' => $this->getType(), 'size' => $this->getSize(), 'save_name' => $this->getSaveName(), 'save_path' => $this->getSavePath(), 'tmp_name' => $this->getTmpName(), 'file_name' => $this->getFileName(), 'hash_md5' => $this->getHashMd5(), 'hash_sha1' => $this->getHashSha1()];
+        $result = array_filter($result, function ($value) {
+            return $value == '' || is_null($value) ? false : true;
+        });
+        return $result;
+    }
+}
+}
+
+namespace Royalcms\Component\Upload {
+use Royalcms\Component\Support\Manager;
+use Royalcms\Component\Upload\Uploader\CustomUploader;
+use Royalcms\Component\Upload\Uploader\ImageUploader;
+use Royalcms\Component\Upload\Uploader\NewImageUploader;
+use Royalcms\Component\Upload\Uploader\NewUploader;
+use Royalcms\Component\Upload\Uploader\TempImageUploader;
+use Royalcms\Component\Upload\Uploader\Uploader;
+class UploadManager extends Manager
+{
+    public function uploader($driver, $options = array())
+    {
+        $uploader = $this->driver($driver);
+        $uploader->setOptions($options);
+        return $uploader;
+    }
+    public function getDefaultDriver()
+    {
+        return 'default';
+    }
+    public function createImageDriver()
+    {
+        return $this->adapt(new ImageUploader());
+    }
+    public function createCustomDriver()
+    {
+        return $this->adapt(new CustomUploader());
+    }
+    public function createNewDriver()
+    {
+        return $this->adapt(new NewUploader());
+    }
+    public function createNewimageDriver()
+    {
+        return $this->adapt(new NewImageUploader());
+    }
+    public function createTempimageDriver()
+    {
+        return $this->adapt(new TempImageUploader());
+    }
+    public function createDefaultDriver()
+    {
+        return $this->adapt(new Uploader());
+    }
+    public function createFileDriver()
+    {
+        return $this->createDefaultDriver();
+    }
+    protected function adapt($uploader)
+    {
+        $uploader->add_sub_dirname_callback(array('Royalcms\\Component\\Upload\\Facades\\Upload', 'upload_sub_dir'));
+        $uploader->add_filename_callback(array('Royalcms\\Component\\Upload\\Facades\\Upload', 'random_filename'));
+        return $uploader;
+    }
+}
+}
+
+namespace Royalcms\Component\Upload\Facades {
+use Royalcms\Component\Support\Facades\Facade;
+use RC_Hook;
+use Royalcms\Component\Foundation\Uri;
+use Royalcms\Component\Support\Format;
+use Royalcms\Component\DateTime\Time;
+use Royalcms\Component\Support\Facades\Config;
+use Royalcms\Component\Support\Facades\File;
+class Upload extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'upload';
+    }
+    public static function local_upload_path($path = '')
+    {
+        return self::upload_path($path, 'local');
+    }
+    public static function local_upload_url($path = '')
+    {
+        return self::upload_url($path, 'local');
+    }
+    public static function upload_path($path = '', $disk = null)
+    {
+        $upload_root = \RC_Storage::disk($disk)->path('');
+        if ($path && is_string($path)) {
+            $upload_root = rtrim($upload_root, DIRECTORY_SEPARATOR);
+            $upload_root .= DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
+        }
+        return RC_Hook::apply_filters('upload_path', $upload_root, $path);
+    }
+    public static function upload_url($path = '', $disk = null)
+    {
+        $url = \RC_Storage::disk($disk)->url('');
+        $url = rtrim($url, '/');
+        if ($path && is_string($path)) {
+            $url .= '/' . ltrim($path, '/');
+        }
+        return RC_Hook::apply_filters('upload_url', $url, $path);
+    }
+    public static function relative_upload_path($path)
+    {
+        $new_path = $path;
+        $uploads = self::upload_dir();
+        if (0 === strpos($new_path, $uploads['basedir'])) {
+            $new_path = str_replace($uploads['basedir'], '', $new_path);
+            $new_path = ltrim($new_path, '/');
+        }
+        return RC_Hook::apply_filters('relative_upload_path', $new_path, $path);
+    }
+    public static function upload_dir($type = '', $time = null)
+    {
+        $siteurl = Uri::site_url();
+        $upload_path = trim(Config::get('upload.path'));
+        if (empty($upload_path) || 'content/uploads' == $upload_path) {
+            $dir = Format::untrailingslashit(self::upload_path());
+        } elseif (0 !== strpos($upload_path, SITE_PATH)) {
+            $dir = Format::path_join(SITE_PATH, $upload_path);
+        } else {
+            $dir = $upload_path;
+        }
+        if (!($url = Config::get('upload.url_path'))) {
+            if (empty($upload_path) || 'content/uploads' == $upload_path || $upload_path == $dir) {
+                $url = SITE_UPLOAD_URL;
+            } else {
+                $url = Format::trailingslashit($siteurl) . $upload_path;
+            }
+        }
+        $basedir = $dir;
+        $baseurl = $url;
+        if ($type) {
+            $type = trim($type, "/\\");
+            $basedir = $dir = $dir . DIRECTORY_SEPARATOR . $type;
+            $baseurl = $url = $url . "/{$type}";
+        }
+        $subdir = self::upload_sub_dir($time);
+        $dir .= $subdir;
+        $url .= $subdir;
+        $uploads = RC_Hook::apply_filters('upload_dir', array('path' => $dir, 'url' => $url, 'subdir' => $subdir, 'basedir' => $basedir, 'baseurl' => $baseurl, 'error' => false));
+        if (!File::makeDirectory($uploads['path'])) {
+            if (0 === strpos($uploads['basedir'], SITE_PATH)) {
+                $error_path = str_replace(SITE_PATH, '', $uploads['basedir']) . $uploads['subdir'];
+            } else {
+                $error_path = basename($uploads['basedir']) . $uploads['subdir'];
+            }
+            $message = sprintf('Unable to create directory %s. Is its parent directory writable by the server?', $error_path);
+            $uploads['error'] = $message;
+        }
+        return $uploads;
+    }
+    public static function upload_sub_dir($time = null)
+    {
+        $subdir = '';
+        if (Config::get('upload.use_yearmonth_folders')) {
+            if (!$time) {
+                $time = Time::local_date('Y-m-d', SYS_TIME);
+            }
+            $y = substr($time, 0, 4);
+            $m = substr($time, 5, 2);
+            $subdir = Format::untrailingslashit(DIRECTORY_SEPARATOR . $y . DIRECTORY_SEPARATOR . $m);
+        }
+        return RC_Hook::apply_filters('upload_sub_dir', $subdir, $time);
+    }
+    public static function random_filename()
+    {
+        $value = RC_Hook::apply_filters('upload_default_random_filename', '');
+        if (!$value) {
+            $seedstr = explode(" ", microtime(), 5);
+            $seed = $seedstr[0] * 10000;
+            srand($seed);
+            $random = rand(1000, 10000);
+            $value = date("YmdHis", time()) . $random;
+        }
+        return $value;
+    }
+}
+}
+
+namespace Royalcms\Component\Upload {
+use Royalcms\Component\Support\ServiceProvider;
+class UploadServiceProvider extends ServiceProvider
+{
+    protected $defer = true;
+    public function register()
+    {
+        $this->mergeConfigFrom($this->guessPackagePath('royalcms/upload') . '/config/upload.php', 'upload');
+        $this->registerManager();
+    }
+    protected function registerManager()
+    {
+        $this->royalcms->bindShared('upload', function ($royalcms) {
+            return new UploadManager($royalcms);
+        });
+    }
+    public function provides()
+    {
+        return ['upload'];
+    }
+    public static function compiles()
+    {
+        $dir = static::guessPackageClassPath('royalcms/upload');
+        return [$dir . "/Uploader/Uploader.php", $dir . "/Uploader/NewUploader.php", $dir . "/Process/UploadProcess.php", $dir . "/Process/NewUploadProcess.php", $dir . "/Uploader/CustomUploader.php", $dir . "/Uploader/ImageUploader.php", $dir . "/Uploader/NewImageUploader.php", $dir . "/Uploader/TempImageUploader.php", $dir . "/UploaderAbstract.php", $dir . "/UploadProcessAbstract.php", $dir . "/UploadResult.php", $dir . "/UploadManager.php", $dir . "/Facades/Upload.php", $dir . "/UploadServiceProvider.php"];
+    }
+}
+}
+
 namespace Ecjia\System\Http {
 use Royalcms\Component\Foundation\Http\Kernel as HttpKernel;
 class Kernel extends HttpKernel
@@ -34451,11 +35497,196 @@ class Handler extends ExceptionHandler
 }
 }
 
-namespace Ecjia\System\Sessions\Handler {
-use Ecjia\System\Sessions\EcjiaSessionInterface;
+namespace Ecjia\System\Facades {
+use Royalcms\Component\Support\Facades\Facade;
+class Config extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'ecjia.config';
+    }
+}
+}
+
+namespace Ecjia\System\Facades {
+use Royalcms\Component\Support\Facades\Facade;
+class ThemeManager extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'ecjia.theme.manager';
+    }
+}
+}
+
+namespace Ecjia\System\Facades {
+use Royalcms\Component\Support\Facades\Facade;
+class PluginManager extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'ecjia.plugin.manager';
+    }
+}
+}
+
+namespace Ecjia\System\Facades {
+use Royalcms\Component\Support\Facades\Facade;
+class SiteManager extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'ecjia.site.manager';
+    }
+}
+}
+
+namespace Ecjia\System\Facades {
+use Royalcms\Component\Support\Facades\Facade;
+class VersionManager extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        return 'ecjia.version.manager';
+    }
+}
+}
+
+namespace Ecjia\System\Frameworks\Contracts {
+interface EcjiaSessionInterface
+{
+    public function deleteSpecSession($userId, $userType);
+    public function getUserCount($userType);
+    public function getSessionData($sessionId);
+}
+}
+
+namespace Ecjia\System\Frameworks\Contracts {
+interface EcjiaTemplateFileLoader
+{
+    public function get_template_dir();
+    public function get_template_file($file);
+}
+}
+
+namespace Ecjia\System\Frameworks\Contracts {
+interface PaidOrderProcessInterface
+{
+    public function getOrderInfo();
+    public function getPaymentData();
+    public function getPrintData();
+}
+}
+
+namespace Ecjia\System\Frameworks\Contracts {
+interface ScriptLoaderInterface
+{
+    public function print_head_scripts();
+    public function print_footer_scripts();
+}
+}
+
+namespace Ecjia\System\Frameworks\Contracts {
+interface StyleLoaderInterface
+{
+    public function print_head_styles();
+    public function print_late_styles();
+}
+}
+
+namespace Ecjia\System\Frameworks\Contracts {
+interface UserAllotPurview
+{
+    public function getUserId();
+    public function save($value);
+    public function get();
+}
+}
+
+namespace Ecjia\System\Frameworks\Contracts {
+interface UserInterface
+{
+    public function getUserName();
+    public function getUserId();
+    public function getUserType();
+    public function getEmail();
+    public function getLastLogin();
+    public function getLastIp();
+    public function getActionList();
+    public function setActionList($purview);
+    public function getLangType();
+    public function getRoleId();
+    public function getAddTime();
+}
+}
+
+namespace Ecjia\System\Frameworks\Contracts {
+interface ShopInterface
+{
+    public function getStoreName();
+    public function getSotreId();
+}
+}
+
+namespace Ecjia\System\Frameworks\Sessions\Traits {
+use Ecjia\System\Admins\SessionLogins\AdminSessionLogins;
+use Ecjia\System\Admins\SessionLogins\MerchantSessionLogins;
+use Ecjia\System\Admins\SessionLogins\UserSessionLogins;
+use Royalcms\Component\NativeSession\Serialize;
+trait EcjiaSessionSpecTrait
+{
+    public function deleteSpecSession($userId, $userType)
+    {
+        if ($userType == 'admin') {
+            $session_login = new AdminSessionLogins(null, $userId);
+        } else {
+            if ($userType == 'merchant') {
+                $session_login = new MerchantSessionLogins(null, $userId);
+            } else {
+                $session_login = new UserSessionLogins(null, $userId);
+            }
+        }
+        $sessions = $session_login->getByUserId();
+        $result = $sessions->map(function ($model) {
+            return $this->destroy($model->id);
+        });
+        return $result;
+    }
+    public function getUserCount($userType)
+    {
+        if ($userType == 'admin') {
+            $session_login = new AdminSessionLogins(null, null);
+        } else {
+            if ($userType == 'merchant') {
+                $session_login = new MerchantSessionLogins(null, null);
+            } else {
+                $session_login = new UserSessionLogins(null, null);
+            }
+        }
+        $count = $session_login->getUserCount();
+        return $count;
+    }
+    public function getSessionData($sessionId)
+    {
+        try {
+            $data = $this->read($sessionId);
+            $sessionData = Serialize::unserialize($data);
+            return $sessionData;
+        } catch (\Exception $e) {
+            ecjia_log_error($e->getMessage());
+            return [];
+        }
+    }
+}
+}
+
+namespace Ecjia\System\Frameworks\Sessions\Handler {
+use Ecjia\System\Frameworks\Contracts\EcjiaSessionInterface;
+use Ecjia\System\Frameworks\Sessions\Traits\EcjiaSessionSpecTrait;
 use Royalcms\Component\NativeSession\Serialize;
 class MysqlSessionHandler implements \SessionHandlerInterface, EcjiaSessionInterface
 {
+    use EcjiaSessionSpecTrait;
     private $pdo;
     private $table;
     private $idCol;
@@ -34587,172 +35818,6 @@ class MysqlSessionHandler implements \SessionHandlerInterface, EcjiaSessionInter
     {
         return $this->pdo;
     }
-    public function deleteSpecSession($userId, $userType)
-    {
-        $sql = "DELETE FROM {$this->table} WHERE {$this->useridCol} = :user_id AND {$this->usertypeCol} = :user_type";
-        try {
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(':user_id', $userId, \PDO::PARAM_INT);
-            $stmt->bindParam(':user_type', $userType, \PDO::PARAM_STR);
-            $stmt->execute();
-        } catch (\PDOException $e) {
-            throw new \RuntimeException(sprintf('PDOException was thrown when trying to delete a session: %s', $e->getMessage()), 0, $e);
-        }
-        return true;
-    }
-    public function getUserCount($userType)
-    {
-        $sql = "SELECT COUNT({$this->idCol}) AS COUNT FROM {$this->table} WHERE {$this->usertypeCol} = :user_type";
-        try {
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(':user_type', $userType, \PDO::PARAM_STR);
-            $stmt->execute();
-            $sessionRows = $stmt->fetchAll(\PDO::FETCH_NUM);
-            if ($sessionRows) {
-                return $sessionRows[0][0];
-            }
-            return '';
-        } catch (\PDOException $e) {
-            throw new \RuntimeException(sprintf('PDOException was thrown when trying to read the session data: %s', $e->getMessage()), 0, $e);
-        }
-    }
-    public function getSessionData($sessionId)
-    {
-        $data = $this->read($sessionId);
-        $sessionData = Serialize::unserialize($data);
-        return $sessionData;
-    }
-}
-}
-
-namespace Ecjia\System\Sessions {
-interface EcjiaSessionInterface
-{
-    public function deleteSpecSession($userId, $userType);
-    public function getUserCount($userType);
-    public function getSessionData($sessionId);
-}
-}
-
-namespace Ecjia\System\Facades {
-use Royalcms\Component\Support\Facades\Facade;
-class Config extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'ecjia.config';
-    }
-}
-}
-
-namespace Ecjia\System\Facades {
-use Royalcms\Component\Support\Facades\Facade;
-class ThemeManager extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'ecjia.theme.manager';
-    }
-}
-}
-
-namespace Ecjia\System\Facades {
-use Royalcms\Component\Support\Facades\Facade;
-class PluginManager extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'ecjia.plugin.manager';
-    }
-}
-}
-
-namespace Ecjia\System\Facades {
-use Royalcms\Component\Support\Facades\Facade;
-class SiteManager extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'ecjia.site.manager';
-    }
-}
-}
-
-namespace Ecjia\System\Facades {
-use Royalcms\Component\Support\Facades\Facade;
-class VersionManager extends Facade
-{
-    protected static function getFacadeAccessor()
-    {
-        return 'ecjia.version.manager';
-    }
-}
-}
-
-namespace Ecjia\System\Frameworks\Contracts {
-interface EcjiaTemplateFileLoader
-{
-    public function get_template_dir();
-    public function get_template_file($file);
-}
-}
-
-namespace Ecjia\System\Frameworks\Contracts {
-interface PaidOrderProcessInterface
-{
-    public function getOrderInfo();
-    public function getPaymentData();
-    public function getPrintData();
-}
-}
-
-namespace Ecjia\System\Frameworks\Contracts {
-interface ScriptLoaderInterface
-{
-    public function print_head_scripts();
-    public function print_footer_scripts();
-}
-}
-
-namespace Ecjia\System\Frameworks\Contracts {
-interface StyleLoaderInterface
-{
-    public function print_head_styles();
-    public function print_late_styles();
-}
-}
-
-namespace Ecjia\System\Frameworks\Contracts {
-interface UserAllotPurview
-{
-    public function getUserId();
-    public function save($value);
-    public function get();
-}
-}
-
-namespace Ecjia\System\Frameworks\Contracts {
-interface UserInterface
-{
-    public function getUserName();
-    public function getUserId();
-    public function getUserType();
-    public function getEmail();
-    public function getLastLogin();
-    public function getLastIp();
-    public function getActionList();
-    public function setActionList($purview);
-    public function getLangType();
-    public function getRoleId();
-    public function getAddTime();
-}
-}
-
-namespace Ecjia\System\Frameworks\Contracts {
-interface ShopInterface
-{
-    public function getStoreName();
-    public function getSotreId();
 }
 }
 
@@ -35673,7 +36738,7 @@ class ParseThemeStyle
 namespace Ecjia\System\BaseController {
 use ecjia;
 use ecjia_utility;
-use RC_Lang;
+use RC_DB;
 use RC_Redirect;
 use RC_Response;
 use RC_Package;
@@ -35691,9 +36756,13 @@ abstract class EcjiaController extends RoyalcmsController
     {
         $this->request = royalcms('request');
         $this->session_start();
+        $this->registerServiceProvider();
         $this->registerViewServiceProvider();
         static::$controller =& $this;
         static::$view_object =& $this->view;
+        if (ecjia::is_debug_display() && config('system.debug_display_query') === true) {
+            RC_DB::enableQueryLog();
+        }
         $this->load_hooks();
         RC_Response::header('X-XSS-Protection', '1; mode=block');
         RC_Response::header('X-Frame-Options', 'SAMEORIGIN');
@@ -35709,7 +36778,10 @@ abstract class EcjiaController extends RoyalcmsController
     {
         return $this->request;
     }
-    public function registerViewServiceProvider()
+    protected function registerServiceProvider()
+    {
+    }
+    protected function registerViewServiceProvider()
     {
         royalcms()->forgeRegister('Royalcms\\Component\\SmartyView\\SmartyServiceProvider');
         $this->view = $this->create_view();
