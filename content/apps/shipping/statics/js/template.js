@@ -217,7 +217,7 @@
                     StyleCode = '';
                 }
                 smoke.confirm(admin_template_lang.choosetemplate,function(e){
-                    e && ecjia.$.get('index.php?m=theme&c=admin_template&is_ajax=1&a=install', 'tpl_name=' + tpl + '&tpl_fg='+ StyleCode, function(data){
+                    e && $.get('index.php?m=theme&c=admin_template&is_ajax=1&a=install', 'tpl_name=' + tpl + '&tpl_fg='+ StyleCode, function(data){
                             ecjia.admin.showmessage(data);
                         }, 'JSON');
                 }, {ok:admin_template_lang.ok, cancel:admin_template_lang.cancel});
@@ -225,7 +225,7 @@
 
             function backupTemplate(tpl)
             {
-                ecjia.$.get('index.php?m=theme&c=admin_template&is_ajax=1&a=backup', 'tpl_name=' + tpl, function(data){
+                $.get('index.php?m=theme&c=admin_template&is_ajax=1&a=backup', 'tpl_name=' + tpl, function(data){
                     backupTemplateResponse(data);
                 }, "JSON");
             }
@@ -275,7 +275,7 @@
                 T = 1;
                 smoke.confirm(admin_template_lang.choosetemplateFG,function(e){
                     if (e){
-                        ecjia.$.get('index.php?m=theme&c=admin_template&is_ajax=1&a=install', 'tpl_name=' + tplNO + '&tpl_fg=' + TplFG, function(data){
+                        $.get('index.php?m=theme&c=admin_template&is_ajax=1&a=install', 'tpl_name=' + tplNO + '&tpl_fg=' + TplFG, function(data){
                             ecjia.admin.showmessage(data);
                         }, 'JSON');
                     }
