@@ -17,12 +17,6 @@
                       	<span class="input-must m_l15">*</span>
           			</div>
           			<div class="form-group">
-          				<label class="control-label col-lg-2">{t domain="goodslib"}商品货号{/t}</label>
-          				<div class="controls col-lg-7">
-                        	<input class="form-control" name="goods_sn" type="text" value="" />
-                      	</div>
-          			</div>
-          			<div class="form-group">
           				<label class="control-label col-lg-2">{t domain="goodslib"}本店售价{/t}</label>
           				<div class="controls col-lg-7">
                         	<input class="form-control" name="shop_price" type="text" value="" />
@@ -42,6 +36,13 @@
                           	<button class="btn btn-primary" type="button" data-toggle="integral_market_price">{t domain="goodslib"}取整数{/t}</button>
 						</div>
           			</div>
+
+                    <div class="form-group">
+                        <label class="control-label col-lg-2">{t domain="goodslib"}成本价{/t}</label>
+                        <div class="col-lg-7">
+                            <input class="form-control" name="cost_price" type="text" value="" />
+                        </div>
+                    </div>
               			
           			<div class="form-group">
           				<label class="control-label col-lg-2">{t domain="goodslib"}库存数量{/t}</label>

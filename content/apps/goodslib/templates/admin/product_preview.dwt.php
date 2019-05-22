@@ -22,7 +22,7 @@
 			<div class="span7">
 				<div class="tb-property">
 				  	<div class="">
-				    	<div data-spm="1000983" class="goods-name-style"><strong>{$goods.goods_name}</strong></div>
+				    	<div data-spm="1000983" class="goods-name-style"><strong>{$product.product_name}</strong></div>
 				    	<div class="tb-detail-sellpoint"></div>
 				 	</div>
 				  	<div class="tm-fcs-panel">
@@ -33,53 +33,34 @@
 				    			<span class="tm-price">{$goods.market_price}</span>
 				    		</dd>
 				    	</dl>
-				    	<dl class="{if $goods.is_promote_now}tm-tagPrice-panel{else}tm-promo-price{/if}">
+				    	<dl class="tm-promo-price">
 					     	<dt class="tb-metatit">{t domain="goods"}本店售价{/t}</dt>
 					      	<dd>
-					          	<em class="tm-yen">¥</em>
-					          	<span class="tm-price">{$goods.shop_price}</span>&nbsp;&nbsp;
+					          	<span class="tm-price">{$product.product_shop_price}</span>&nbsp;&nbsp;
 					      	</dd>
 				    	</dl>
 				  	</div>
 				  	<div class="tb-key">
 				    	<div class="tb-skin">
 				      		<div class="tb-sku">
-				      			<!-- {if $goods.cost_price gt 0} -->
-					      			<dl class="tb-amount tm-clear">
-					          			<dt class="tb-metatit">{t domain="goods"}成本价{/t}</dt>
-					          			<dd id="J_Amount">
-								            <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$goods.format_cost_price}</em>
-								            <span id="J_StockTips"></span>
-					          			</dd>
-					        		</dl>
-					        	<!-- {/if} -->
 				      			<dl class="tb-amount tm-clear">
 				          			<dt class="tb-metatit">{t domain="goods"}商品货号{/t}</dt>
 				          			<dd id="J_Amount">
-							            <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$goods.goods_sn}</em>
+							            <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$product.product_sn}</em>
 							            <span id="J_StockTips"></span>
 				          			</dd>
 				        		</dl>
-				        		<!-- {if $goods.goods_barcode} -->
+				        		<!-- {if $product.product_bar_code} -->
 					        		<dl class="tb-amount tm-clear">
 					          			<dt class="tb-metatit">{t domain="goods"}商品条形码{/t}</dt>
 					          			<dd id="J_Amount">
-								            <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$goods.goods_barcode}</em>
+								            <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$product.product_bar_code}</em>
 								            <span id="J_StockTips"></span>
 					          			</dd>
 					        		</dl>
 					        	<!-- {/if} -->
-					        	<!-- {if $goods.goods_weight gt 0} -->
-						        	<dl class="tb-amount tm-clear">
-									    <dt class="tb-metatit">{t domain="goods"}商品重量{/t}</dt>
-									    <dd id="J_Amount">
-									        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$goods.goods_weight}{if $goods.weight_unit eq 1}克{else}千克{/if}</em>
-									        <span id="J_StockTips"></span>
-									    </dd>
-									</dl>
-								<!-- {/if} -->
 								<dl class="tb-amount tm-clear">
-								    <dt class="tb-metatit">{t domain="goods"}平台分类{/t}</dt>
+								    <dt class="tb-metatit">{t domain="goods"}商品分类{/t}</dt>
 								    <dd id="J_Amount">
 								        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{if $goods.category_model}{$goods.category_model.cat_name}{/if}</em>
 								        <span id="J_StockTips"></span>
@@ -111,11 +92,7 @@
 								    </dd>
 								</dl>
 								<dl class="tb-amount tm-clear">
-								    <dt class="tb-metatit">{t domain="goods"}更新时间{/t}</dt>
-								    <dd id="J_Amount">
-								        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$goods.last_update}</em>
-								        <span id="J_StockTips"></span>
-								    </dd>
+								    <a class="btn btn-gebo" target="_blank" href="{RC_Uri::url('goodslib/admin/product_edit')}&id={$product.product_id}&goods_id={$goods.goods_id}">去编辑</a>
 								</dl>
 							</div>
 				    	</div>
@@ -124,9 +101,9 @@
 			</div>
 			<div class="span5">
 				<div id="tbody">
-					{if $goods_photo_list}
+					{if $product_photo_list}
 				    <div id="mainbody">
-				    	<!-- {foreach from=$goods_photo_list key=k item=val} -->
+				    	<!-- {foreach from=$product_photo_list key=k item=val} -->
 				    	{if $k eq 0}
 				      	<img src="{$val.img_url}" id="mainphoto" />
 				      	{/if}
@@ -137,7 +114,7 @@
 				    <div id="photos">
 				    	<div id="showArea">
 					        <!-- SRC: 缩略图地址 REL: 大图地址  NAME: 网址 -->
-					        <!-- {foreach from=$goods_photo_list key=k item=val} -->
+					        <!-- {foreach from=$product_photo_list key=k item=val} -->
 					        <img src="{$val.thumb_url}" rel="{$val.img_url}" />
 					        <!-- {/foreach} -->
 				      	</div>
@@ -150,10 +127,6 @@
 				</div>
 			</div>
 		</div>
-		
-		{if $product_list}
-			<!-- #BeginLibraryItem "/library/goods_products.lbi" --><!-- #EndLibraryItem -->
-		{/if}
 		
 		<!-- {if $common_parameter_list OR $group_parameter_list}-->
 			<div>
@@ -174,7 +147,7 @@
 			<h3 class="heading">{t domain="goods"}图文详情{/t}
 				<a class="pra-handle" "target="_blank" href='{url path="goodslib/admin/edit_goods_desc" args="goods_id={$goods.goods_id}"}'><span class="pra-edit">{t domain='goodslib'}编辑{/t}>></span></a>
 			</h3>
-			<div class="t_c clear">{$goods.goods_desc}</div>
+			<div class="t_c clear">{$product.product_desc}</div>
 		</div>
 	</div>
 </div>	

@@ -1,0 +1,23 @@
+.template_box{
+	 background-color: #f9f9f9;
+	 border-radius: 4px;
+	 margin-top: 15px;
+}
+.box_content {
+	 padding-top: 35px;
+	 padding-bottom: 5px;
+}
+
+
+.check-box {
+    float: left;
+    padding-left: 10px;
+    width: 80px;
+    border-left: 1px solid #eee;
+    overflow: hidden;
+}
+
+.product_sn_msg{
+	color:#1abc9c;
+}
+

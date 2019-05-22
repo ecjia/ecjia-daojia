@@ -88,7 +88,7 @@
 									<br/>
 									<div class="edit-list">
 										<a class="insert-goods-btn" href="javascript:;" data-href='{url path="goodslib/merchant/insert" args="goods_id={$goods.goods_id}"}' 
-										data-id="{$goods.goods_id}" data-name="{$goods.goods_name}" data-sn="{$goods.goods_sn}" data-shopprice="{$goods.shop_price}" data-marketprice="{$goods.market_price}">导入商品</a>&nbsp;|&nbsp;
+										data-id="{$goods.goods_id}" data-name="{$goods.goods_name}" data-sn="{$goods.goods_sn}" data-shopprice="{$goods.shop_price}" data-marketprice="{$goods.market_price}" data-costprice="{$goods.cost_price}">导入商品</a>&nbsp;|&nbsp;
 										<a target="_blank" href='{url path="goodslib/merchant/preview" args="id={$goods.goods_id}&cat_id={$smarty.get.cat_id}"}'>预览商品</a>
 									</div>
 								</td>	

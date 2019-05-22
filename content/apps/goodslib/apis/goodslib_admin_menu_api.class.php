@@ -47,7 +47,7 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
- * ECJIA后台商品菜单API
+ * ECJIA后台商品库菜单API
  */
 class goodslib_admin_menu_api extends Component_Event_Api {
 	public function call(&$options) {
@@ -55,8 +55,6 @@ class goodslib_admin_menu_api extends Component_Event_Api {
 		$submenus = array(
 		    ecjia_admin::make_admin_menu('01_goodslib_add', __('添加商品', 'goodslib'), RC_Uri::url('goodslib/admin/add'), 1)->add_purview(array('goodslib_update')),
 			ecjia_admin::make_admin_menu('02_goodslib_list', __('商品库商品', 'goodslib'), RC_Uri::url('goodslib/admin/init'), 2)->add_purview(array('goodslib_manage')),
-		    ecjia_admin::make_admin_menu('03_goodslib_type', __('商品库规格', 'goodslib'), RC_Uri::url('goodslib/admin_goods_spec/init'), 3)->add_purview('attr_manage'),
-		    
 		    
 		);
         $menus->add_submenu($submenus);

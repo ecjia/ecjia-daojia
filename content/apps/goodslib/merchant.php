@@ -192,6 +192,7 @@ class merchant extends ecjia_merchant {
 	        $goods_sn = isset($_POST['goods_sn']) 		? $_POST['goods_sn'] 		: '';
 	        $shop_price = isset($_POST['shop_price']) 		? $_POST['shop_price'] 		: 0;
 	        $market_price = isset($_POST['market_price']) 		? $_POST['market_price'] 		: 0;
+            $cost_price = isset($_POST['cost_price']) 		? $_POST['cost_price'] 		: 0;
 	        $goods_number = isset($_POST['goods_number']) 		? intval($_POST['goods_number']) : ecjia::config('default_storage');
 	        $merchant_cat_id = isset($_POST['merchant_cat_id']) 	? intval($_POST['merchant_cat_id']) : 0;
 	        if(empty($id)) {
@@ -264,13 +265,15 @@ class merchant extends ecjia_merchant {
 	        $goods['goods_sn'] = '';
 	        //return new ecjia_error('goods_sn_exists', __('您输入的货号已存在，请换一个', 'goodslib'));
 	    }
-	    unset($goods['goods_id']);unset($goods['is_display']);unset($goods['used_count']);unset($goods['is_delete']);unset($goods['goods_rank']);
+	    unset($goods['goods_id']);unset($goods['is_display']);unset($goods['used_count']);unset($goods['is_delete']);unset($goods['goods_rank']);;
 	    $goods['store_id'] = $_SESSION['store_id'];
+	    
 	    if(!empty($ext_info)) {
 	        $goods_name = isset($ext_info['goods_name']) 		? $ext_info['goods_name'] 		: '';
 	        $goods_sn = isset($ext_info['goods_sn']) 		? $ext_info['goods_sn'] 		: '';
 	        $shop_price = isset($ext_info['shop_price']) 		? $ext_info['shop_price'] 		: 0;
 	        $market_price = isset($ext_info['market_price']) 		? $ext_info['market_price'] 		: 0;
+            $cost_price = isset($ext_info['cost_price']) 		? $ext_info['cost_price'] 		: 0;
 	        $goods_number = isset($ext_info['goods_number']) 		? intval($ext_info['goods_number']) : ecjia::config('default_storage');
 	        $is_best = isset($ext_info['is_best']) 		? intval($ext_info['is_best']) 		: 0;
 	        $is_new = isset($ext_info['is_new']) 		? intval($ext_info['is_new']) 		: 0;
@@ -278,11 +281,14 @@ class merchant extends ecjia_merchant {
 	        $is_shipping = isset($ext_info['is_shipping']) 		? intval($ext_info['is_shipping']) 		: 0;
 	        $is_on_sale = isset($ext_info['is_on_sale']) 		? intval($ext_info['is_on_sale']) 		: 0;
 	        $merchant_cat_id = isset($ext_info['merchant_cat_id']) 	? intval($ext_info['merchant_cat_id']) 		: 0;
-	        
+
+            $goods['goods_barcode'] = '';
+            $goods['limit_days'] = '';
 	        $goods['goods_name'] = $goods_name;
 	        $goods['goods_sn'] = $goods_sn;
 	        $goods['shop_price'] = $shop_price;
 	        $goods['market_price'] = $market_price;
+            $goods['cost_price'] = $cost_price;
 	        $goods['goods_number'] = $goods_number;
 	        $goods['store_best'] = $is_best;
 	        $goods['store_new'] = $is_new;
@@ -309,6 +315,8 @@ class merchant extends ecjia_merchant {
 	    $goods['last_update'] = $time;
 	    $goods['goodslib_id'] = $id;//关联id
 	    $goods['goodslib_update_time'] = $time;//同步时间
+        $goods['review_status']        = get_merchant_review_status();
+        $goods['is_on_sale'] = $is_on_sale == 1 ? 1 : 0;//默认下架状态
 	    
 	    $new_id = RC_DB::table('goods')->insertGetId($goods);
 	    RC_DB::table('goodslib')->where('goods_id', $id)->increment('used_count');
@@ -378,32 +386,24 @@ class merchant extends ecjia_merchant {
 	        return $this->showmessage(__('未检测到此商品', 'goodslib'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text' => __('返回上一页', 'goodslib'), 'href' => 'javascript:history.go(-1)'))));
 	    }
 	    
-	    //RC_Hook::do_action('goods_merchant_priview_handler', $goods_id);
-	    
 	    ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品预览', 'goodslib')));
 	    
 	    $this->assign('ur_here', __('商品预览', 'goodslib'));
 	    $this->assign('action_link', array('text' => '返回', 'href' => RC_Uri::url('goodslib/merchant/add', array('cat_id' => $_GET['cat_id']))));
 	    
-	    $goods = RC_DB::table('goodslib')->where('goods_id', $goods_id)->where('is_display', 1)->where('is_delete', 0)->first();
+	    $GoodslibBasicInFo = new Ecjia\App\Goodslib\Goodslib\GoodslibBasicInFo($goods_id);
+	    
+	    $goods = $GoodslibBasicInFo->goodsLibInFo();
 	    
 	    if (empty($goods)) {
 	        return $this->showmessage(__('未检测到此商品', 'goodslib'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text'=> __('返回商品列表', 'goodslib'),'href'=>RC_Uri::url('goods/merchant/init')))));
 	    }
+	    if ($goods->is_display != '1' || $goods->is_delete != '0') {
+	    	return $this->showmessage(__('未检测到此商品', 'goodslib'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text'=> __('返回商品列表', 'goodslib'),'href'=>RC_Uri::url('goods/merchant/init')))));
+	    }
 	    
 	    if (!empty($goods['goods_desc'])) {
 	        $goods['goods_desc'] = stripslashes($goods['goods_desc']);
-	    }
-	    
-	    $cat_name = RC_DB::table('category')->where('cat_id', $goods['cat_id'])->pluck('cat_name');
-	    $brand_name = RC_DB::table('brand')->where('brand_id', $goods['brand_id'])->pluck('brand_name');
-	    $disk = RC_Filesystem::disk();
-	    if (!$disk->exists(RC_Upload::upload_path($goods['goods_thumb'])) || empty($goods['goods_thumb'])) {
-	        $goods['goods_thumb'] = RC_Uri::admin_url('statics/images/nopic.png');
-	        $goods['goods_img'] = RC_Uri::admin_url('statics/images/nopic.png');
-	    } else {
-	        $goods['goods_thumb'] = RC_Upload::upload_url($goods['goods_thumb']);
-	        $goods['goods_img'] = RC_Upload::upload_url($goods['goods_img']);
 	    }
 	    if (!empty($goods['add_time'])) {
 	        $goods['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $goods['add_time']);
@@ -411,60 +411,38 @@ class merchant extends ecjia_merchant {
 	    if (!empty($goods['last_update'])) {
 	        $goods['last_update'] = RC_Time::local_date(ecjia::config('time_format'), $goods['last_update']);
 	    }
+	    $goods['format_cost_price'] = ecjia_price_format($goods['cost_price'], false);
 	    
 	    $images_url = RC_App::apps_url('statics/images', __FILE__);
 	    $this->assign('images_url', $images_url);
 	    
-	    /* 根据商品重量的单位重新计算 */
-	    if ($goods['goods_weight'] > 0) {
-	        $goods['goods_weight_by_unit'] = ($goods['goods_weight'] >= 1) ? $goods['goods_weight'] : ($goods['goods_weight'] / 0.001);
-	    }
-	    $unit = $goods['goods_weight'] >= 1 ? '1' : '0.001';
-	    $unit_list = goods::unit_list();
-	    $goods['goods_weight_unit'] = $unit_list[$unit];
-	    
-	    $merchant_cat = merchant_cat_list(0, 0, true, 2, false);		//店铺分类
-	    $this->assign('merchant_cat', $merchant_cat);
+	    $merchant_cat_list_option = \Ecjia\App\Goods\Category\MerchantCategoryFormSelectOption::buildTopCategorySelectOption($_SESSION['store_id'])->render();
+	    $this->assign('merchant_cat', $merchant_cat_list_option);
 	    
 	    //商品相册
-	    $goods_photo_list = RC_DB::table('goodslib_gallery')->where('goods_id', $goods['goods_id'])->where('product_id', 0)->get();
-	    if (!empty($goods_photo_list)) {
-	        $disk = RC_Filesystem::disk();
-	        foreach ($goods_photo_list as $k => $v) {
-	            if (!$disk->exists(RC_Upload::upload_path($v['img_url'])) || empty($v['img_url'])) {
-	                $goods_photo_list[$k]['img_url'] = RC_Uri::admin_url('statics/images/nopic.png');
-	            } else {
-	                $goods_photo_list[$k]['img_url'] = RC_Upload::upload_url($v['img_url']);
-	            }
-	            
-	            if (!$disk->exists(RC_Upload::upload_path($v['thumb_url'])) || empty($v['thumb_url'])) {
-	                $goods_photo_list[$k]['thumb_url'] = RC_Uri::admin_url('statics/images/nopic.png');
-	            } else {
-	                $goods_photo_list[$k]['thumb_url'] = RC_Upload::upload_url($v['thumb_url']);
-	            }
-	        }
-	    }
+	    $goods_photo_list = $GoodslibBasicInFo->getGoodsLibGallery();
 	    $this->assign('goods_photo_list', $goods_photo_list);
 	    
-	    // 获得商品的规格和属性
-	    $properties = get_goodslib_properties($goods_id);
-	    $this->assign('specification', $properties['spe']);
+	    //商品属性（既商品货品）
+	    $product_list = $GoodslibBasicInFo->goodslibProducts();
+	    $this->assign('product_list', $product_list);
 	    
-	    //商品属性
-	    $attr_list = get_goodslib_attr_list($goods_id);
-	    $this->assign('attr_list', $attr_list);
+	    //商品参数
+	    $attr_group = $GoodslibBasicInFo->attrGroup();
+	    if (count($attr_group) > 0) {
+	    	$group_parameter_list = $GoodslibBasicInFo->getGoodsGroupParameter();
+	    	$this->assign('group_parameter_list', $group_parameter_list);
+	    } else {
+	    	$common_parameter_list = $GoodslibBasicInFo->getGoodsCommonParameter();
+	    	$this->assign('common_parameter_list', $common_parameter_list);
+	    }
 	    
-	    //货品
-	    $product = goodslib_product_list($goods_id, '');
-	    $this->assign('products', $product);
 	    
 	    $this->assign('no_picture', RC_Uri::admin_url('statics/images/nopic.png'));
 	    /* 取得分类、品牌 */
 	    $this->assign('goods', $goods);
-	    $this->assign('cat_name', $cat_name);
-	    $this->assign('brand_name', $brand_name);
-	    $this->assign('form_action', RC_Uri::url('goodslib/merchant/insert'));
 	    
+	    $this->assign('form_action', RC_Uri::url('goodslib/merchant/insert'));
 	    $this->display('preview.dwt');
 	}
 	

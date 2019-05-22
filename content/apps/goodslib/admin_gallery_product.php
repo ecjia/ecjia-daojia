@@ -233,13 +233,13 @@ class admin_gallery_product extends ecjia_admin {
 
 		RC_Loader::load_app_class('goods_imageutils', 'goodslib', false);
 		if ($row['img_url']) {
-			RC_Filesystem::disk()->delete(goods_imageutils::getAbsolutePath($row['img_url']));
+            RC_Storage::disk()->delete($row['img_url']);
 		}
 		if ($row['thumb_url']) {
-			RC_Filesystem::disk()->delete(goods_imageutils::getAbsolutePath($row['thumb_url']));
+            RC_Storage::disk()->delete($row['thumb_url']);
 		}
 		if ($row['img_original']) {
-			RC_Filesystem::disk()->delete(goods_imageutils::getAbsolutePath($row['img_original']));
+            RC_Storage::disk()->delete($row['img_original']);
 		}
 
 		/* 删除数据 */

@@ -53,15 +53,15 @@
 				var $this = $(this);
 				var goods_id = $this.attr('data-id');
 				var goods_name = $this.attr('data-name');
-				var goods_sn = $this.attr('data-sn');
 				var shop_price = $this.attr('data-shopprice');
 				var market_price = $this.attr('data-marketprice');
+				var cost_price = $this.attr('data-costprice');
 				
 				$("input[name=goods_id]").val(goods_id);
 				$("input[name=goods_name]").val(goods_name);
-				$("input[name=goods_sn]").val(goods_sn);
 				$("input[name=shop_price]").val(shop_price);
 				$("input[name=market_price]").val(market_price);
+				$("input[name=cost_price]").val(cost_price);
 				
 				$('#insertGoods').modal('show');
 			});

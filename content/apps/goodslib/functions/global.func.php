@@ -52,8 +52,8 @@ function goodslib_get_goods_info_nav($goods_id = 0, $extension_code = '') {
         'edit'                  => array('name' => __('通用信息', 'goodslib'), 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin/edit', "goods_id=$goods_id".$extension_code)),
         'edit_goods_desc'       => array('name' => __('商品描述', 'goodslib'), 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin/edit_goods_desc', "goods_id=$goods_id".$extension_code)),
         'edit_goods_photo'      => array('name' => __('商品相册', 'goodslib'), 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin_gallery/init', "goods_id=$goods_id".$extension_code)),
-        'edit_goods_attr'       => array('name' => __('规格属性', 'goodslib'), 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin/edit_goods_attr', "goods_id=$goods_id".$extension_code)),
-        'product_list'          => array('name' => __('货品管理', 'goodslib'), 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin/product_list', "goods_id=$goods_id".$extension_code)),
+    	'edit_goods_parameter'      => array('name' => __('商品参数', 'goodslib'), 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin/edit_goods_parameter', "goods_id=$goods_id".$extension_code)),
+    	'edit_goods_specification'  => array('name' => __('商品规格', 'goodslib'), 'pjax' => 1, 'href' => RC_Uri::url('goodslib/admin/edit_goods_specification', "goods_id=$goods_id".$extension_code)),
     );
 }
 

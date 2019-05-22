@@ -51,7 +51,7 @@ class goodslib_merchant_hooks {
     public static function goodslib_merchant_menu_api($menus) {
         //在父级菜单里添加权限值
         $menus->add_purview('goodslib_manage');
-    	$menu = ecjia_merchant::make_admin_menu('02_goodslib_add', __('一键导入', 'goodslib'), RC_Uri::url('goodslib/merchant/init'), 12)->add_purview('goodslib_manage')->add_icon('fa-plus-square-o');
+    	$menu = ecjia_merchant::make_admin_menu('10_goodslib_add', __('一键导入', 'goodslib'), RC_Uri::url('goodslib/merchant/init'), 10)->add_purview('goodslib_manage')->add_icon('fa-mail-reply-all');
     	 
     	$menus->add_submenu($menu);
 

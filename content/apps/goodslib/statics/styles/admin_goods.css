@@ -174,21 +174,13 @@
 
 #detail .goods-products{
 	clear: both;
-	font-size: 18px;
+	font-size: 20px;
+	color:#666;
 }
-#detail .goods-pra{
-	clear: both;
-}
-#detail .goods-pra .pra{
-	font-size: 18px;
-}
-#detail .goods-pra .pra .pra-handle{
+.heading .pra-handle{
 	float:right;
-}
-#detail .goods-pra .pra .pra-edit{
-	display:inline-block;
-	font-size:17px;
-	padding-right:15px;
+	clear: both;
+	text-decoration:none;
 }
 #detail .product-goods-name-style{
 	height: 40px;
@@ -205,14 +197,12 @@
 }
 
 #tbody {
-	width: 460px;
-	/*margin: 0 auto;*/
 	margin-bottom:10px;
 }
 
 #mainbody {
-	width: 418px;
-	height: 418px;
+	/*width: 418px;
+	height: 418px;*/
 	border: 1px solid rgba(0,0,0,.05);
 	border-radius: 4px;
 	display: table-cell;
@@ -236,14 +226,15 @@
 #goright {
 	float: right;
 	clear: right;
-	margin: 6px 40px 0 0px;
+	margin: 6px 0px 0 0px;
 }
 
 #photos {
-	/* width: 377px; */
-	height: 68px;
-	/* line-height: 64px; */
+	height: 70px;
+	line-height: 64px;
+	margin: 0;
 	overflow: hidden;
+	margin-bottom: 20px;
 }
 
 #showArea {
@@ -317,16 +308,16 @@
 
 #detail {
 	border: none;
-	width: 980px!important;
+	/*width: 980px!important;*/
 	margin: 20px auto;
 }
-#detail .tm-clear {overflow:hidden;}
+/*#detail .tm-clear {overflow:hidden;}*/
 
 .tm-detail-meta {
-	width: 980px;
+	/*width: 980px;
 	position: relative;
 	z-index: 100;
-	min-height: 600px;
+	min-height: 600px;*/
 }
 
 .goods-promote {

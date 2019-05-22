@@ -44,24 +44,66 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-defined('IN_ECJIA') or exit('No permission resources.');
-
 /**
- * 后台权限API
- * @author royalwang
+ * 商品库货品基本信息类
  */
-class goodslib_admin_purview_api extends Component_Event_Api {
-    public function call(&$options) {
-        $purviews = array(
-            array('action_name' => __('商品库商品列表', 'goodslib'), 'action_code' => 'goodslib_manage', 'relevance' => ''),
-            array('action_name' => __('商品库商品更新', 'goodslib'), 'action_code' => 'goodslib_update', 'relevance' => ''),
-        	array('action_name' => __('商品库商品删除', 'goodslib'), 'action_code' => 'goodslib_delete', 'relevance' => ''),
-            array('action_name' => __('商品库商品导入', 'goodslib'), 'action_code' => 'goodslib_import', 'relevance' => ''),
-            array('action_name' => __('商品库商品导出', 'goodslib'), 'action_code' => 'goodslib_export', 'relevance' => ''),
-            
-        );
-        return $purviews;
+
+namespace Ecjia\App\Goodslib\Goodslib;
+
+use \Ecjia\App\Goodslib\Models\GoodslibProductsModel;
+
+class GoodslibProductsBasicInFo
+{
+
+    protected $model;
+    
+    protected $product_id;
+
+    protected $goods_id;
+
+    public function __construct($product_id, $goods_id = 0)
+    {
+    	$this->product_id = $product_id;
+    	
+        $this->goods_id = $goods_id;
+
+        $this->model = $this->goodslibProductInFo();
+    }
+    
+    /**
+     * 获取货品信息
+     */
+    public function goodslibProductInFo()
+    {
+    	$data = GoodslibProductsModel::where('product_id', $this->product_id)->first();
+    	return $data;
+    }
+
+    /**
+     * 货品相册
+     * @return array
+     */
+    public function getProductGallery()
+    {
+    	$gallery = [];
+    	if ($this->model->goodslib_gallery_collection) {
+    		$disk = \RC_Filesystem::disk();
+    		$gallery = $this->model->goodslib_gallery_collection->map(function ($item) use ($disk) {
+    			if (!$disk->exists(\RC_Upload::upload_path($item['img_url'])) || empty($item['img_url'])) {
+    				$item['img_url'] = \RC_Uri::admin_url('statics/images/nopic.png');
+    			} else {
+    				$item['img_url'] = \RC_Upload::upload_url($item['img_url']);
+    			}
+    			
+    			if (!$disk->exists(\RC_Upload::upload_path($item['thumb_url'])) || empty($item['thumb_url'])) {
+    				$item['thumb_url'] = \RC_Uri::admin_url('statics/images/nopic.png');
+    			} else {
+    				$item['thumb_url'] = \RC_Upload::upload_url($item['thumb_url']);
+    			}
+    			return $item;
+    		});
+    		$gallery = $gallery->toArray();
+    	}
+    	return $gallery;
     }
 }
-
-// end

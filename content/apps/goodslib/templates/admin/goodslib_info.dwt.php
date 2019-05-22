@@ -27,6 +27,7 @@
 				<!-- {/foreach} -->
 			</ul>
 			{/if}
+			
 			<form class="form-horizontal" enctype="multipart/form-data" action="{$form_action}" method="post" name="theForm">
 				<div>
 					<!--通用信息  -->
@@ -51,14 +52,7 @@
 													<span class="input-must">*</span>
 												</div>
 											</div>
-											<div class="control-group control-group-small formSep">
-												<label class="control-label">{t domain="goodslib"}商品货号：{/t}</label>
-												<div class="controls">
-													<input class="w330" type="text" name="goods_sn" value="{$goods.goods_sn|escape}" size="20" data-toggle="checkGoodsSn" data-id="{$goods.goods_id}" data-url="{url path='goodslib/admin/check_goods_sn'}"/>
-													<label id="goods_sn_notice" class="error"></label>
-													<span class="help-block" id="noticeGoodsSN">{t domain="goodslib"}如果您不输入商品货号，系统将自动生成一个唯一的货号。{/t}</span>
-												</div>
-											</div>
+											
 											<!--本店售价-->
 											<div class="control-group control-group-small formSep">
 												<label class="control-label">{t domain="goodslib"}本店售价：{/t}</label>
@@ -68,6 +62,7 @@
 													<span class="input-must">*</span>
 												</div>
 											</div>
+											
 											<!--市场售价-->
 											<div class="control-group control-group-small formSep">
 												<label class="control-label">{t domain="goodslib"}市场售价：{/t}</label>
@@ -76,6 +71,15 @@
 													<button class="btn" type="button" data-toggle="integral_market_price">{t domain="goodslib"}取整数{/t}</button>
 												</div>
 											</div>
+											
+											<div class="control-group control-group-small formSep">
+												<label class="control-label">{t domain="goodslib"}成本价：{/t}</label>
+												<div class="controls">
+													<input class="w330" type="text" name="cost_price" value="{$goods.cost_price}" size="20"/>
+													<span class="help-block" >{t domain="goodslib"}设置单品的销售成本，作为统计利润的依据，单位（元）{/t}</span>
+												</div>
+											</div>
+											
 											<div class="control-group control-group-small formSep">
 												<label class="control-label">{t domain="goodslib"}商品重量：{/t}</label>
 												<div class="controls">
