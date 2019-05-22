@@ -174,6 +174,8 @@ return array(
    'customer'       => 'customer',
     /* 提现 */
     'withdraw'      => 'withdraw',
+    /* 供货 */
+    'supplier'      => 'supplier',
 );
 
 // end
