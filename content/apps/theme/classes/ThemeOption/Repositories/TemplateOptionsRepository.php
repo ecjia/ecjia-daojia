@@ -67,6 +67,11 @@ class TemplateOptionsRepository extends AbstractRepository
 	
 	protected $orderBy = ['option_id' => 'asc'];
 
+    /**
+     * Create a new Repository instance
+     *
+     * @throws \Royalcms\Component\Repository\Exceptions\RepositoryException
+     */
 	public function __construct()
     {
         parent::__construct();
