@@ -591,7 +591,7 @@ class admin_account extends ecjia_admin
                     $list[$key]['payment'] = empty($pay_name[$value['payment']]) ? strip_tags($value['payment']) : strip_tags($pay_name[$value['payment']]);
                 }
                 $arr[$key]['order_sn']       = $list[$key]['order_sn'];
-                $arr[$key]['user_name']      = $list[$key]['user_name'];
+                $arr[$key]['user_name']      = RC_Format::filterEmoji($list[$key]['user_name']);
                 $arr[$key]['surplus_amount'] = $list[$key]['surplus_amount'];
                 $arr[$key]['payment']        = $list[$key]['payment'];
                 $arr[$key]['add_date']       = $list[$key]['add_date'];

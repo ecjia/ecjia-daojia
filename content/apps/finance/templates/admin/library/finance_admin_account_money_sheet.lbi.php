@@ -48,7 +48,7 @@
                 </tr>
                 <!-- {foreachelse}-->
                 <tr>
-                    <td class="no-records" colspan="5">{t domain="finance"}没有找到任何记录{/t}</td>
+                    <td class="no-records" colspan="6">{t domain="finance"}没有找到任何记录{/t}</td>
                 </tr>
                 <!-- {/foreach} -->
                 </tbody>
