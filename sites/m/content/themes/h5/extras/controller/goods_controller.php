@@ -512,7 +512,7 @@ class goods_controller
             $say_list = '';
             if (!empty($data['list'])) {
                 ecjia_front::$controller->assign('comment', $data['list']);
-                $say_list = ecjia_front::$controller->fetch('merchant_comment.dwt');
+                $say_list = ecjia_front::$controller->fetch('merchant_comment_ajax.dwt');
             }
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
         }
@@ -559,17 +559,17 @@ class goods_controller
 
         $api = ecjia_touch_api::GOODS_SUGGESTLIST;
         if ($type == 'promotion') {
-            $dwt = 'goods_promotion.dwt';
+            $dwt = 'goods_promotion_ajax.dwt';
             //促销类型 today今日促销，tomorrow明日促销，aftertheday后日促销
             $promotion_type = !empty($_GET['promotion_type']) ? (trim($_GET['promotion_type']) == 'all' ? '' : trim($_GET['promotion_type'])) : 'today';
             $paramater['promotion_type'] = $promotion_type;
 
         } elseif ($type == 'new') {
-            $dwt = 'goods_new.dwt';
+            $dwt = 'goods_new_ajax.dwt';
         } elseif ($type == 'best') {
-            $dwt = 'goods_best.dwt';
+            $dwt = 'goods_best_ajax.dwt';
         } elseif ($type == 'groupbuy') {
-            $dwt = 'goods_groupbuy.dwt';
+            $dwt = 'goods_groupbuy_ajax.dwt';
             $api = ecjia_touch_api::GROUPBUY_GOODS_LIST;
         }
 
@@ -773,7 +773,7 @@ class goods_controller
                 }
                 if ($type == 'ajax_get') {
                     ecjia_front::$controller->assign('goods_list', $arr_list);
-                    $say_list = ecjia_front::$controller->fetch('store_list.dwt');
+                    $say_list = ecjia_front::$controller->fetch('store_list_ajax.dwt');
                 } else {
                     user_function::insert_search($keywords, $store_id); //记录搜索
                 }
@@ -788,7 +788,7 @@ class goods_controller
                     if ($type == 'ajax_get') {
                         $arr_list = merchant_function::format_distance($arr_list);
                         ecjia_front::$controller->assign('data', $arr_list);
-                        $say_list = ecjia_front::$controller->fetch('library/store_list.lbi', $cache_id);
+                        $say_list = ecjia_front::$controller->fetch('library/ajax/store_list_ajax.lbi', $cache_id);
                     } else {
                         user_function::insert_search($keywords, $store_id); //记录搜索
                     }
@@ -806,7 +806,7 @@ class goods_controller
                 if ($type == 'ajax_get') {
                     $arr_list = merchant_function::format_distance($arr_list);
                     ecjia_front::$controller->assign('data', $arr_list);
-                    $say_list = ecjia_front::$controller->fetch('library/store_list.lbi', $cache_id);
+                    $say_list = ecjia_front::$controller->fetch('library/ajax/store_list_ajax.lbi', $cache_id);
                 }
             }
         }
@@ -875,7 +875,7 @@ class goods_controller
             ecjia_front::$controller->assign('goods_list', $goods_list);
             ecjia_front::$controller->assign_lang();
 
-            $sayList = ecjia_front::$controller->fetch('store_goods_list.dwt');
+            $sayList = ecjia_front::$controller->fetch('store_goods_list_ajax.dwt');
 
             if (isset($page['more']) && $page['more'] == 0) {
                 $goods_list['is_last'] = 1;

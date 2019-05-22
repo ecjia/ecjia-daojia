@@ -87,7 +87,7 @@ var releated_goods = {$releated_goods};
 								<span class="goods-image"><img src="{$goods.img.small}"></span>
 								<p>
 									{$goods.name}
-									<label class="price">{if $goods.promote_price}{$goods.promote_price}{else}{$goods.shop_price}{/if}</label>
+									<label class="price">{$goods.shop_price}</label>
 								</p>
 							</li>
 							</a>
@@ -113,7 +113,7 @@ var releated_goods = {$releated_goods};
 				<img class="pic" src="{$val.img.small}">
 				<dl>
 					<dt>{$val.name}</dt>
-					<dd><label>{if $val.unformatted_promote_price neq 0 && $val.unformatted_promote_price lt $val.unformatted_shop_price}{$val.promote_price}{else}{$val.shop_price}{/if}</label></dd>
+					<dd><label>{$val.shop_price}</label></dd>
 				</dl>
 			</a>
 			{if $store_info.shop_closed neq 1}
@@ -253,32 +253,4 @@ var releated_goods = {$releated_goods};
 <!-- #BeginLibraryItem "/library/change_goods_num.lbi" --><!-- #EndLibraryItem -->
 <!-- {/block} -->
 
-<!-- {block name="ajaxinfo"} -->
-	<!-- {foreach from=$goods_list item=val} -->
-	<li class="search-goods-list">
-		<a class="linksGoods w nopjax external" href="{RC_Uri::url('goods/index/show')}&goods_id={$val.id}&product_id={$val.product_id}">
-			<img class="pic" src="{$val.img.small}">
-			<dl>
-				<dt>{$val.name}</dt>
-				<dd></dd>
-				<dd><label>{if $val.unformatted_promote_price neq 0 && $val.unformatted_promote_price lt $val.unformatted_shop_price}{$val.promote_price}{else}{$val.shop_price}{/if}</label></dd>
-			</dl>
-		</a>
-		{if $store_info.shop_closed neq 1}
-		<div class="box" id="goods_{$val.id}">
-			<!-- {if $val.specification} -->
-			<div class="goods_attr goods_spec_{$val.id}">
-				<span class="choose_attr spec_goods" rec_id="{$val.rec_id}" goods_id="{$val.id}" data-num="{$val.num}" data-spec="{$val.default_spec}" data-url="{RC_Uri::url('cart/index/check_spec')}&store_id={$val.store_id}">{t domain="h5"}选规格{/t}</span>
-				{if $val.num}<i class="attr-number">{$val.num}</i>{/if}
-			</div>
-			<!-- {else} -->
-			<span class="reduce {if $val.num}show{else}hide{/if}" data-toggle="remove-to-cart" rec_id="{$val.rec_id}">{t domain="h5"}减{/t}</span>
-			<label class="{if $val.num}show{else}hide{/if}">{$val.num}</label>
-			<span class="add" data-toggle="add-to-cart" rec_id="{$val.rec_id}" goods_id="{$val.id}">{t domain="h5"}加{/t}</span>
-			<!-- {/if} -->
-		</div>
-		{/if}
-	</li>
-	<!-- {/foreach} -->
-<!-- {/block} -->
 {/nocache}

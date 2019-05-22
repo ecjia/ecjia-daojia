@@ -212,7 +212,7 @@ class user_controller
 
             ecjia_front::$controller->assign('data', $data);
             ecjia_front::$controller->assign_lang();
-            $sayList = ecjia_front::$controller->fetch('follow_list.dwt');
+            $sayList = ecjia_front::$controller->fetch('follow_list_ajax.dwt');
 
             if (isset($paginated['more']) && $paginated['more'] == 0) {
                 $data['is_last'] = 1;
@@ -268,7 +268,7 @@ class user_controller
             if (!empty($data)) {
                 ecjia_front::$controller->assign('list', $data);
             }
-            $say_list = ecjia_front::$controller->fetch('personal_reward_team.dwt');
+            $say_list = ecjia_front::$controller->fetch('personal_reward_team_ajax.dwt');
 
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
         }

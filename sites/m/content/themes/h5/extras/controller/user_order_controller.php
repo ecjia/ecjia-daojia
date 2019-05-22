@@ -279,10 +279,11 @@ class user_order_controller
         if (isset($data['goods_list'])) {
             foreach ($data['goods_list'] as $goods) {
                 $params_cart = array(
-                    'token'    => ecjia_touch_user::singleton()->getToken(),
-                    'goods_id' => $goods['goods_id'],
-                    'number'   => $goods['goods_number'],
-                    'location' => array(
+                    'token'      => ecjia_touch_user::singleton()->getToken(),
+                    'goods_id'   => $goods['goods_id'],
+                	'product_id' => $goods['product_id'],
+                    'number'     => $goods['goods_number'],
+                    'location'   => array(
                         'longitude' => $_COOKIE['longitude'],
                         'latitude'  => $_COOKIE['latitude'],
                     ),
@@ -332,7 +333,7 @@ class user_order_controller
                 ecjia_front::$controller->assign('order_list', $orders);
                 ecjia_front::$controller->assign('type', $type);
                 ecjia_front::$controller->assign_lang();
-                $say_list = ecjia_front::$controller->fetch('user_order_list.dwt');
+                $say_list = ecjia_front::$controller->fetch('user_order_list_ajax.dwt');
             }
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
         }
@@ -369,9 +370,9 @@ class user_order_controller
                 ecjia_front::$controller->assign('order_list', $orders);
                 ecjia_front::$controller->assign_lang();
                 if (!empty($order_id)) {
-                    $say_list = ecjia_front::$controller->fetch('order_return_list.dwt');
+                    $say_list = ecjia_front::$controller->fetch('order_return_list_ajax.dwt');
                 } else {
-                    $say_list = ecjia_front::$controller->fetch('user_order_return_list.dwt');
+                    $say_list = ecjia_front::$controller->fetch('user_order_return_list_ajax.dwt');
                 }
             }
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
@@ -923,7 +924,7 @@ class user_order_controller
             if (!empty($orders)) {
                 ecjia_front::$controller->assign('order_list', $orders);
                 ecjia_front::$controller->assign_lang();
-                $say_list = ecjia_front::$controller->fetch('user_groupbuy_order_list.dwt');
+                $say_list = ecjia_front::$controller->fetch('user_groupbuy_order_list_ajax.dwt');
             }
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
         }
@@ -1042,7 +1043,7 @@ class user_order_controller
             if (!empty($data)) {
                 ecjia_front::$controller->assign('list', $data);
             }
-            $say_list = ecjia_front::$controller->fetch('user_order_affiliate.dwt');
+            $say_list = ecjia_front::$controller->fetch('user_order_affiliate_ajax.dwt');
 
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
         }

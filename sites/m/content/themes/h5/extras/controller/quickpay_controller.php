@@ -249,7 +249,7 @@ class quickpay_controller
                 ecjia_front::$controller->assign('total_fee', $total_fee);
                 ecjia_front::$controller->assign('store_id', $store_id);
 
-                $say_list = ecjia_front::$controller->fetch('quickpay_checkout.dwt');
+                $say_list = ecjia_front::$controller->fetch('quickpay_checkout_ajax.dwt');
                 return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'content' => $data, 'activity_id' => $auto_activity_id));
             }
         } elseif (empty($order_money)) {
@@ -588,7 +588,7 @@ class quickpay_controller
             if (!empty($orders)) {
                 ecjia_front::$controller->assign('data', $orders);
                 ecjia_front::$controller->assign_lang();
-                $say_list = ecjia_front::$controller->fetch('quickpay_list.dwt');
+                $say_list = ecjia_front::$controller->fetch('quickpay_list_ajax.dwt');
             }
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
         }

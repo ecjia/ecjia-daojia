@@ -189,7 +189,7 @@ class ecjia_open_handler
      */
     public static function open_sign_up($querys)
     {
-        return RC_Uri::url('user/privilege/register');
+        return RC_Uri::url('user/privilege/login');
     }
 
     /**

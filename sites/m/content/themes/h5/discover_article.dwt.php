@@ -84,11 +84,7 @@ ecjia.touch.index.init();
 							</a>
 							<p class="link-goods-name ecjia-goods-name-new">{$goods.name}</p>
 							<div class="link-goods-price">
-								<!--{if $goods.promote_price}-->
-								<span class="goods-price">{$goods.promote_price}</span>
-								<!--{else}-->
 								<span class="goods-price">{$goods.shop_price}</span>
-								<!--{/if}-->
 							</div>
 						</li>
 						<!--{/if}-->

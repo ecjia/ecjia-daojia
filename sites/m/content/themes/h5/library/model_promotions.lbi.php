@@ -22,14 +22,8 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 					<div class="list-page-box">
 						<div class="goods-name">{$val.name}</div>
 						<div class="list-page-goods-price">
-							<!--{if $val.unformatted_promote_price neq 0}-->
-							<span>{$val.promote_price}</span>
-							<!--{else}-->
 							<span>{$val.shop_price}</span>
-							<!--{/if}-->
-							<!--{if $val.shop_price}-->
-							<span><del>{$val.shop_price}</del></span>
-							<!--{/if}-->
+							<span><del>{$val.market_price}</del></span>
 						</div>
 						<div class="promote-time time" value="{$val.promote_end_date}" data-type="3"></div>
 					</div>

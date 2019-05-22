@@ -358,7 +358,7 @@ class user_account_controller
             ecjia_front::$controller->assign('sur_amount', $arr);
             ecjia_front::$controller->assign('pages', $pages);
             ecjia_front::$controller->assign_lang();
-            $say_list = ecjia_front::$controller->fetch('user_record.dwt');
+            $say_list = ecjia_front::$controller->fetch('user_record_ajax.dwt');
             if ((isset($page['more']) && $page['more'] == 0) || empty($arr)) {
                 $is_last = 1;
             }
@@ -411,7 +411,7 @@ class user_account_controller
             ecjia_front::$controller->assign('pages', $pages);
             ecjia_front::$controller->assign_lang();
 
-            $say_list = ecjia_front::$controller->fetch('user_record.dwt');
+            $say_list = ecjia_front::$controller->fetch('user_record_ajax.dwt');
             if ((isset($page['more']) && $page['more'] == 0) || empty($arr)) {
                 $is_last = 1;
             }
@@ -463,7 +463,7 @@ class user_account_controller
             ecjia_front::$controller->assign('sur_amount', $arr);
             ecjia_front::$controller->assign('pages', $pages);
             ecjia_front::$controller->assign_lang();
-            $say_list = ecjia_front::$controller->fetch('user_record.dwt');
+            $say_list = ecjia_front::$controller->fetch('user_record_ajax.dwt');
 
             if ((isset($page['more']) && $page['more'] == 0) || empty($arr)) {
                 $is_last = 1;

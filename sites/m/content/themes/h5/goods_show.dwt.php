@@ -290,12 +290,7 @@ var releated_goods = {$releated_goods};
 								</a>
 								<p class="link-goods-name ecjia-goods-name-new">{$goods.name}</p>
 								<div class="link-goods-price">
-									<!--{if $goods.promote_price}-->
-									<span class="goods-price">{$goods.promote_price}</span>
-									<!--{else}-->
 									<span class="goods-price">{$goods.shop_price}</span>
-									<!--{/if}-->
-
 									{if $goods_info.shop_closed neq 1}
 										{if $goods.specification}
 										<div class="goods_attr goods_spec_{$goods.id}" goods_id="{$goods_info.id}">

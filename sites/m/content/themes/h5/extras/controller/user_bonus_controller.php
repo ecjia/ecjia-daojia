@@ -78,7 +78,7 @@ class user_bonus_controller
             }
 
             ecjia_front::$controller->assign('bonus', $data);
-            $say_list = ecjia_front::$controller->fetch('user_bonus.dwt');
+            $say_list = ecjia_front::$controller->fetch('user_bonus_ajax.dwt');
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
         }
     }
@@ -99,7 +99,7 @@ class user_bonus_controller
             }
 
             ecjia_front::$controller->assign('bonus', $data);
-            $say_list = ecjia_front::$controller->fetch('user_bonus.dwt');
+            $say_list = ecjia_front::$controller->fetch('user_bonus_ajax.dwt');
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
         }
     }
@@ -119,7 +119,7 @@ class user_bonus_controller
             }
 
             ecjia_front::$controller->assign('bonus', $data);
-            $say_list = ecjia_front::$controller->fetch('user_bonus.dwt');
+            $say_list = ecjia_front::$controller->fetch('user_bonus_ajax.dwt');
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
         }
     }
@@ -201,7 +201,7 @@ class user_bonus_controller
                 $res['url']         = RC_Uri::url('user/bonus/async_reward_detail', array('date' => $arr['date']));
             }
             ecjia_front::$controller->assign('data', $reward);
-            $say_list = ecjia_front::$controller->fetch('user_reward_detail.dwt');
+            $say_list = ecjia_front::$controller->fetch('user_reward_detail_ajax.dwt');
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $res['is_last'], 'data' => $res));
         }
     }

@@ -76,7 +76,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 							<!-- {if $key < 4} -->
 							<a class="nopjax external" href="{RC_Uri::url('merchant/index/init')}&store_id={$val.id}">
 								<img src="{$goods.img.small}">
-								<span class="goods_price">{if $goods.promote_price}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span>
+								<span class="goods_price">{$goods.shop_price}</span>
 							</a>
 							<!-- {/if} -->
 							<!-- {/foreach} -->

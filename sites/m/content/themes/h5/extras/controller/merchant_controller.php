@@ -330,7 +330,7 @@ class merchant_controller
             }
 
             ecjia_front::$controller->assign('comment', $data['list']);
-            $say_list = ecjia_front::$controller->fetch('merchant_comment.dwt');
+            $say_list = ecjia_front::$controller->fetch('merchant_comment_ajax.dwt');
             return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('list' => $say_list, 'is_last' => $is_last));
         } else {
             return ecjia_front::$controller->showmessage($comments->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -524,7 +524,7 @@ class merchant_controller
         ecjia_front::$controller->assign('goods_list', $goods_list);
         ecjia_front::$controller->assign('shop_closed', $store_info['shop_closed']);
 
-        $say_list = ecjia_front::$controller->fetch('library/merchant_goods.lbi');
+        $say_list = ecjia_front::$controller->fetch('library/ajax/merchant_goods_ajax.lbi');
         if (isset($page['more']) && $page['more'] == 0) {
             $data['is_last'] = 1;
         }
@@ -579,7 +579,7 @@ class merchant_controller
                 $arr_list          = merchant_function::format_distance($data);
 
                 ecjia_front::$controller->assign('data', $arr_list);
-                $say_list = ecjia_front::$controller->fetch('seller_list.dwt');
+                $say_list = ecjia_front::$controller->fetch('seller_list_ajax.dwt');
 
                 if (isset($page['more']) && $page['more'] == 0) {
                     $data['is_last'] = 1;

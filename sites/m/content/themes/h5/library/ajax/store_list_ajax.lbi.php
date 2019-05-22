@@ -6,11 +6,7 @@ Libraries: store_list
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
-<!-- {extends file="ecjia-touch.dwt.php"} -->
-
-<!-- {block name="footer"} -->
-<script type="text/javascript">ecjia.touch.category.init();</script>
-<!-- {/block} -->
+<!-- {extends file="ecjia-touch-ajax.dwt.php"} -->
 
 <!-- {block name="ajaxinfo"} -->
 <!-- {foreach from=$data item=val} -->
@@ -70,7 +66,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 	                        <span class="goods-image"><img src="{$goods.img.small}"></span>
 	                        <p>
 	                            {$goods.name}
-	                            <label class="price">{if $goods.promote_price}{$goods.promote_price}{else}{$goods.shop_price}{/if}</label>
+	                            <label class="price">{$goods.shop_price}</label>
 	                        </p>
 	                    </li>
                     </a>

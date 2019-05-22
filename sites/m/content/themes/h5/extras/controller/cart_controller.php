@@ -141,7 +141,7 @@ class cart_controller
         list($cart_goods_list, $data_rec, $current, $cart_count) = $ecjia_cart->formattedCartGoodsList($result);
 
         ecjia_front::$controller->assign('list', $cart_goods_list);
-        $sayList = ecjia_front::$controller->fetch('merchant.dwt');
+        $sayList = ecjia_front::$controller->fetch('merchant_ajax.dwt');
 
         return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('say_list' => $sayList, 'list' => $cart_goods_list, 'count' => $cart_count, 'data_rec' => $data_rec, 'current' => $current));
     }
@@ -191,7 +191,7 @@ class cart_controller
         list($cart_goods_list, $data_rec, $current, $cart_count) = $ecjia_cart->formattedCartGoodsList($result);
 
         ecjia_front::$controller->assign('list', $cart_goods_list);
-        $sayList = ecjia_front::$controller->fetch('merchant.dwt');
+        $sayList = ecjia_front::$controller->fetch('merchant_ajax.dwt');
 
         return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('say_list' => $sayList, 'list' => $cart_goods_list, 'count' => $cart_count, 'data_rec' => $data_rec, 'current' => $current));
     }
@@ -236,7 +236,7 @@ class cart_controller
         list($cart_goods_list, $data_rec, $current, $cart_count) = $ecjia_cart->formattedCartGoodsList($result);
 
         ecjia_front::$controller->assign('list', $cart_goods_list);
-        $sayList = ecjia_front::$controller->fetch('merchant.dwt');
+        $sayList = ecjia_front::$controller->fetch('merchant_ajax.dwt');
 
         return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('say_list' => $sayList, 'list' => $cart_goods_list, 'count' => $cart_count, 'data_rec' => $data_rec, 'current' => $current));
     }
@@ -279,7 +279,7 @@ class cart_controller
         list($cart_goods_list, $data_rec, $current, $cart_count) = $ecjia_cart->formattedCartGoodsList($result);
 
         ecjia_front::$controller->assign('list', $cart_goods_list);
-        $sayList = ecjia_front::$controller->fetch('merchant.dwt');
+        $sayList = ecjia_front::$controller->fetch('merchant_ajax.dwt');
 
         return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('say_list' => $sayList, 'list' => $cart_goods_list, 'count' => $cart_count, 'data_rec' => $data_rec, 'current' => $current));
     }
@@ -318,7 +318,7 @@ class cart_controller
         list($cart_goods_list, $data_rec, $current, $cart_count) = $ecjia_cart->formattedCartGoodsList($result);
 
         ecjia_front::$controller->assign('list', $cart_goods_list);
-        $sayList = ecjia_front::$controller->fetch('merchant.dwt');
+        $sayList = ecjia_front::$controller->fetch('merchant_ajax.dwt');
 
         return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('say_list' => $sayList, 'list' => $cart_goods_list, 'count' => $cart_count, 'data_rec' => $data_rec, 'current' => $current));
     }
@@ -493,17 +493,13 @@ class cart_controller
         }
 
         ecjia_front::$controller->assign('list', $cart_goods_list);
-        $sayList = ecjia_front::$controller->fetch('merchant.dwt');
+        $sayList = ecjia_front::$controller->fetch('merchant_ajax.dwt');
 
         return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('say_list' => $sayList, 'list' => $cart_goods_list, 'count' => $cart_count, 'data_rec' => $data_rec, 'current' => $current));
     }
 
     public static function check_spec()
     {
-        if (!ecjia_touch_user::singleton()->isSignin()) {
-            return ecjia_front::$controller->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
-        }
-
         /**
          * @var \Royalcms\Component\Http\Request $request
          */

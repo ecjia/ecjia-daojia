@@ -1,10 +1,8 @@
 <?php
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
+{nocache}
 <!-- {if not is_pjax()} -->
-<!-- {if is_ajax()} -->
-<!-- {block name="ajaxinfo"} --><!-- {/block} -->
-<!-- {else} -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 	<head>
@@ -52,7 +50,6 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 		</script>
 	</body>
 </html>
-<!-- {/if} -->
 <!-- {else} -->
 <title>{block name="title"}{$page_title}{/block}</title>
 <!-- {block name="meta"} --><!-- {/block} -->
@@ -63,3 +60,4 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 <!--{/if}-->
 <!-- {block name="footer"} --><!-- {/block} -->
 <!-- {/if} -->
+{/nocache}

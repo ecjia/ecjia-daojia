@@ -84,12 +84,17 @@ class touch_controller
         if (isset($_COOKIE['close_download'])) {
             ecjia_front::$controller->assign('close_download', $_COOKIE['close_download']);
         }
+        $token = ecjia_touch_user::singleton()->getToken();
+        
         $arr = array(
             'location' => array('longitude' => $_COOKIE['longitude'], 'latitude' => $_COOKIE['latitude']),
             'city_id'  => $_COOKIE['city_id'],
+        	'token'   => $token,
         );
+        
+        
         $home_data = ecjia_touch_manager::make()->api(ecjia_touch_api::HOME_DATA)->data($arr)->run();
-
+        
         //处理ecjiaopen url
         if (!is_ecjia_error($home_data) && !empty($home_data)) {
             foreach ($home_data as $k => $v) {
@@ -180,7 +185,7 @@ class touch_controller
 
             ecjia_front::$controller->assign('goods_list', $data);
             ecjia_front::$controller->assign_lang();
-            $sayList = ecjia_front::$controller->fetch('index.dwt');
+            $sayList = ecjia_front::$controller->fetch('index_ajax.dwt');
 
             if (isset($paginated['more']) && $paginated['more'] == 0) {
                 $data['is_last'] = 1;
@@ -214,7 +219,7 @@ class touch_controller
 
             $sayList = '';
             if (!empty($data)) {
-                $sayList = ecjia_front::$controller->fetch('library/suggest_store.lbi', $cache_id);
+                $sayList = ecjia_front::$controller->fetch('library/ajax/suggest_store_ajax.lbi', $cache_id);
             }
             if (isset($paginated['more']) && $paginated['more'] == 0) {
                 $data['is_last'] = 1;

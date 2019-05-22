@@ -24,11 +24,7 @@ defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 							<span class="name-label">{$val.name}</span>
 						</span>
 						<span class="list-page-goods-price">
-							<!--{if $val.promote_price}-->
-							<span>{$val.promote_price}</span>
-							<!--{else}-->
 							<span>{$val.shop_price}</span>
-							<!--{/if}-->
 						</span>
 					</span>
 				</a>

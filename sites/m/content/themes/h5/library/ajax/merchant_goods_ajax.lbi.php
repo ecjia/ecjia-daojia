@@ -1,12 +1,13 @@
-<?php
+<?php 
 /*
 Name: 店铺商品模版
-Description: 这是店铺商品
-Libraries: merchant_goods
+Description: 店铺商品列表页
 */
 defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
 ?>
 {nocache}
+<!-- {extends file="ecjia-touch-ajax.dwt.php"} -->
+
 <!-- {block name="ajaxinfo"} -->
 <!-- {foreach from=$goods_list item=goods} -->
 <li>

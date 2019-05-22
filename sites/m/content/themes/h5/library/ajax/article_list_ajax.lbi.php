@@ -1,4 +1,13 @@
+<?php 
+/*
+Name: 文章评论列表模版
+Description: 文章评论列表页
+*/
+defined('IN_ECJIA') or header("HTTP/1.0 404 Not Found");exit('404 Not Found');
+?>
 {nocache}
+<!-- {extends file="ecjia-touch-ajax.dwt.php"} -->
+
 <!-- {block name="ajaxinfo"} -->
 	<!-- {foreach from=$data item=val key=key} -->
 	<div class="article-item"> 
