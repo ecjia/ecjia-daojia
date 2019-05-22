@@ -21,6 +21,8 @@ class StorageServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
+        $this->mergeConfigFrom($this->guessPackagePath('royalcms/storage') . '/config/storage.php', 'storage');
+
 		$this->registerManager();
 
 		$this->royalcms->bindShared('storage.disk', function($royalcms)
@@ -87,13 +89,15 @@ class StorageServiceProvider extends ServiceProvider
         $dir = static::guessPackageClassPath('royalcms/storage');
 
         return [
-            $dir . "/Facades/Storage.php",
-            $dir . "/Aliyunoss.php",
-            $dir . "/Direct.php",
+            $dir . "/Contracts/StorageInterface.php",
+            $dir . "/Adapter/Aliyunoss.php",
+            $dir . "/Adapter/Direct.php",
+            $dir . "/Adapter/Local.php",
             $dir . "/Filesystem.php",
             $dir . "/FilesystemAdapter.php",
-            $dir . "/FilesystemBase.php",
+            $dir . "/FilesystemBaseTrait.php",
             $dir . "/FilesystemManager.php",
+            $dir . "/Facades/Storage.php",
             $dir . "/StorageServiceProvider.php",
         ];
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Royalcms\Component\Storage;
+namespace Royalcms\Component\Storage\Adapter;
 
 /**
  * Royalcms Direct Filesystem.
@@ -15,7 +15,6 @@ namespace Royalcms\Component\Storage;
  * @since 2.5.0
  * @package Royalcms
  * @subpackage Filesystem
- * @uses \Royalcms\Component\Storage\FilesystemBase Extends class
  */
 class Local extends Direct
 {

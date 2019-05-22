@@ -1,8 +1,10 @@
 <?php
 
-namespace Royalcms\Component\Storage;
+namespace Royalcms\Component\Storage\Adapter;
 
 use Royalcms\Component\Error\Error;
+use Royalcms\Component\Storage\Contracts\StorageInterface;
+use Royalcms\Component\Storage\FilesystemBaseTrait;
 use Royalcms\Component\Support\Format;
 
 /**
@@ -39,18 +41,26 @@ use Royalcms\Component\Support\Format;
  * @package Royalcms
  * @subpackage Filesystem
  */
-class Ssh2 extends FilesystemBase
+class Ssh2 implements StorageInterface
 {
 
-    var $link = false;
+    use FilesystemBaseTrait;
 
-    var $sftp_link = false;
+    /**
+     * The Access error of the current connection, Set automatically.
+     *
+     * @since 2.5.0
+     * @var \RC_Error
+     */
+    protected $errors;
 
-    var $keys = false;
+    protected $link = false;
 
-    var $errors = null;
+    protected $sftp_link = false;
 
-    var $options = array();
+    protected $keys = false;
+
+    protected $options = array();
 
     function __construct($opt = '')
     {
@@ -69,17 +79,27 @@ class Ssh2 extends FilesystemBase
         
         // Set defaults:
         if (empty($opt['port']))
+        {
             $this->options['port'] = 22;
+        }
         else
+        {
             $this->options['port'] = $opt['port'];
+        }
         
         if (empty($opt['hostname']))
+        {
             $this->errors->add('empty_hostname', __('SSH2 hostname is required'));
+        }
         else
+        {
             $this->options['hostname'] = $opt['hostname'];
+        }
         
         if (! empty($opt['base']))
+        {
             $this->wp_base = $opt['base'];
+        }
             
             // Check if the options provided are OK.
         if (! empty($opt['public_key']) && ! empty($opt['private_key'])) {
@@ -96,11 +116,15 @@ class Ssh2 extends FilesystemBase
         }
         
         if (! empty($opt['username']))
+        {
             $this->options['username'] = $opt['username'];
+        }
         
         if (empty($opt['password'])) {
             if (! $this->keys) // password can be blank if we are using keys
+            {
                 $this->errors->add('empty_password', __('SSH2 password is required'));
+            }
         } else {
             $this->options['password'] = $opt['password'];
         }
@@ -120,12 +144,12 @@ class Ssh2 extends FilesystemBase
         }
         
         if (! $this->keys) {
-            if (! @ssh2_auth_password($this->link, $this->options['username'], $this->options['password'])) {
+            if (! ssh2_auth_password($this->link, $this->options['username'], $this->options['password'])) {
                 $this->errors->add('auth', sprintf(__('Username/Password incorrect for %s'), $this->options['username']));
                 return false;
             }
         } else {
-            if (! @ssh2_auth_pubkey_file($this->link, $this->options['username'], $this->options['public_key'], $this->options['private_key'], $this->options['password'])) {
+            if (! ssh2_auth_pubkey_file($this->link, $this->options['username'], $this->options['public_key'], $this->options['private_key'], $this->options['password'])) {
                 $this->errors->add('auth', sprintf(__('Public and Private keys incorrect for %s'), $this->options['username']));
                 return false;
             }
@@ -136,14 +160,17 @@ class Ssh2 extends FilesystemBase
         return true;
     }
     
-    public function move_uploaded_file($filename, $destination) {
+    public function move_uploaded_file($filename, $destination)
+    {
         return false;
     }
 
     function run_command($command, $returnbool = false)
     {
         if (! $this->link)
+        {
             return false;
+        }
         
         if (! ($stream = ssh2_exec($this->link, $command))) {
             $this->errors->add('command', sprintf(__('Unable to perform command: %s'), $command));
@@ -154,9 +181,13 @@ class Ssh2 extends FilesystemBase
             fclose($stream);
             
             if ($returnbool)
+            {
                 return ($data === false) ? false : '' != trim($data);
+            }
             else
+            {
                 return $data;
+            }
         }
         return false;
     }
@@ -178,7 +209,9 @@ class Ssh2 extends FilesystemBase
         $ret = file_put_contents('ssh2.sftp://' . $this->sftp_link . '/' . ltrim($file, '/'), $contents);
         
         if ($ret !== strlen($contents))
+        {
             return false;
+        }
         
         $this->chmod($file, $mode);
         
@@ -189,7 +222,10 @@ class Ssh2 extends FilesystemBase
     {
         $cwd = $this->run_command('pwd');
         if ($cwd)
+        {
             $cwd = Format::trailingslashit($cwd);
+        }
+
         return $cwd;
     }
 
@@ -201,28 +237,45 @@ class Ssh2 extends FilesystemBase
     public function chgrp($file, $group, $recursive = false)
     {
         if (! $this->exists($file))
+        {
             return false;
+        }
+
         if (! $recursive || ! $this->is_dir($file))
+        {
             return $this->run_command(sprintf('chgrp %s %s', escapeshellarg($group), escapeshellarg($file)), true);
+        }
+
         return $this->run_command(sprintf('chgrp -R %s %s', escapeshellarg($group), escapeshellarg($file)), true);
     }
 
     public function chmod($file, $mode = false, $recursive = false)
     {
         if (! $this->exists($file))
+        {
             return false;
+        }
         
         if (! $mode) {
             if ($this->is_file($file))
+            {
                 $mode = FS_CHMOD_FILE;
+            }
             elseif ($this->is_dir($file))
+            {
                 $mode = FS_CHMOD_DIR;
+            }
             else
+            {
                 return false;
+            }
         }
         
         if (! $recursive || ! $this->is_dir($file))
+        {
             return $this->run_command(sprintf('chmod %o %s', $mode, escapeshellarg($file)), true);
+        }
+
         return $this->run_command(sprintf('chmod -R %o %s', $mode, escapeshellarg($file)), true);
     }
 
@@ -242,19 +295,30 @@ class Ssh2 extends FilesystemBase
     public function chown($file, $owner, $recursive = false)
     {
         if (! $this->exists($file))
+        {
             return false;
+        }
         if (! $recursive || ! $this->is_dir($file))
+        {
             return $this->run_command(sprintf('chown %s %s', escapeshellarg($owner), escapeshellarg($file)), true);
+        }
+
         return $this->run_command(sprintf('chown -R %s %s', escapeshellarg($owner), escapeshellarg($file)), true);
     }
 
     public function owner($file)
     {
-        $owneruid = @fileowner('ssh2.sftp://' . $this->sftp_link . '/' . ltrim($file, '/'));
+        $owneruid = fileowner('ssh2.sftp://' . $this->sftp_link . '/' . ltrim($file, '/'));
         if (! $owneruid)
+        {
             return false;
+        }
+
         if (! function_exists('posix_getpwuid'))
+        {
             return $owneruid;
+        }
+
         $ownerarray = posix_getpwuid($owneruid);
         return $ownerarray['name'];
     }
@@ -266,36 +330,54 @@ class Ssh2 extends FilesystemBase
 
     public function group($file)
     {
-        $gid = @filegroup('ssh2.sftp://' . $this->sftp_link . '/' . ltrim($file, '/'));
+        $gid = filegroup('ssh2.sftp://' . $this->sftp_link . '/' . ltrim($file, '/'));
         if (! $gid)
+        {
             return false;
+        }
+
         if (! function_exists('posix_getgrgid'))
+        {
             return $gid;
+        }
+
         $grouparray = posix_getgrgid($gid);
         return $grouparray['name'];
     }
 
-    public function copy($source, $destination, $overwrite = false, $mode = false)
+    public function copy_file($source, $destination, $overwrite = false, $mode = false)
     {
         if (! $overwrite && $this->exists($destination))
+        {
             return false;
+        }
+
         $content = $this->get_contents($source);
         if (false === $content)
+        {
             return false;
+        }
+
         return $this->put_contents($destination, $content, $mode);
     }
 
-    public function move($source, $destination, $overwrite = false, $mode = false)
+    public function move_file($source, $destination, $overwrite = false, $mode = false)
     {
-        return @ssh2_sftp_rename($this->link, $source, $destination);
+        return ssh2_sftp_rename($this->link, $source, $destination);
     }
 
-    public function delete($file, $recursive = false, $type = false)
+    public function delete_all($file, $recursive = false, $type = false)
     {
         if ('f' == $type || $this->is_file($file))
+        {
             return ssh2_sftp_unlink($this->sftp_link, $file);
+        }
+
         if (! $recursive)
+        {
             return ssh2_sftp_rmdir($this->sftp_link, $file);
+        }
+
         $filelist = $this->dirlist($file);
         if (is_array($filelist)) {
             foreach ($filelist as $filename => $fileinfo) {
@@ -362,16 +444,30 @@ class Ssh2 extends FilesystemBase
     {
         $path = Format::untrailingslashit($path);
         if (empty($path))
+        {
             return false;
+        }
         
         if (! $chmod)
+        {
             $chmod = FS_CHMOD_DIR;
+        }
+
         if (! ssh2_sftp_mkdir($this->sftp_link, $path, $chmod, true))
+        {
             return false;
+        }
+
         if ($chown)
+        {
             $this->chown($path, $chown);
+        }
+
         if ($chgrp)
+        {
             $this->chgrp($path, $chgrp);
+        }
+
         return true;
     }
 
@@ -390,26 +486,36 @@ class Ssh2 extends FilesystemBase
         }
         
         if (! $this->is_dir($path))
+        {
             return false;
+        }
         
         $ret = array();
         $dir = @dir('ssh2.sftp://' . $this->sftp_link . '/' . ltrim($path, '/'));
         
         if (! $dir)
+        {
             return false;
+        }
         
         while (false !== ($entry = $dir->read())) {
             $struc = array();
             $struc['name'] = $entry;
             
             if ('.' == $struc['name'] || '..' == $struc['name'])
-                continue; // Do not care about these folders.
+            {
+                continue;
+            } // Do not care about these folders.
             
             if (! $include_hidden && '.' == $struc['name'][0])
+            {
                 continue;
+            }
             
             if ($limit_file && $struc['name'] != $limit_file)
+            {
                 continue;
+            }
             
             $struc['perms'] = $this->gethchmod($path . '/' . $entry);
             $struc['permsn'] = $this->getnumchmodfromh($struc['perms']);
@@ -424,9 +530,13 @@ class Ssh2 extends FilesystemBase
             
             if ('d' == $struc['type']) {
                 if ($recursive)
+                {
                     $struc['files'] = $this->dirlist($path . '/' . $struc['name'], $include_hidden, $recursive);
+                }
                 else
+                {
                     $struc['files'] = array();
+                }
             }
             
             $ret[$struc['name']] = $struc;
@@ -444,6 +554,6 @@ class Ssh2 extends FilesystemBase
      */
     public function filelist($path, $allowFiles, $start, $size)
     {
-        return false;
+        return [];
     }
 }

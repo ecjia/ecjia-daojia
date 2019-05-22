@@ -1,7 +1,9 @@
 <?php
 
-namespace Royalcms\Component\Storage;
+namespace Royalcms\Component\Storage\Adapter;
 
+use Royalcms\Component\Storage\Contracts\StorageInterface;
+use Royalcms\Component\Storage\FilesystemBaseTrait;
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\Error\Error;
 
@@ -20,14 +22,23 @@ use Royalcms\Component\Error\Error;
  * @subpackage Filesystem
  * @uses \Royalcms\Component\Storage\FilesystemBase Extends class
  */
-class Ftpext extends FilesystemBase
+class Ftpext implements StorageInterface
 {
 
-    private $link;
+    use FilesystemBaseTrait;
 
-    private $errors = null;
+    /**
+     * The Access error of the current connection, Set automatically.
+     *
+     * @access public
+     * @since 2.5.0
+     * @var \RC_Error
+     */
+    protected $errors;
 
-    private $options = array();
+    protected $link;
+
+    protected $options = array();
 
     public function __construct($opt = '')
     {
@@ -43,43 +54,69 @@ class Ftpext extends FilesystemBase
         // This Class uses the timeout on a per-connection basis, Others use it on a per-action basis.
         
         if (! defined('FS_TIMEOUT'))
+        {
             define('FS_TIMEOUT', 240);
+        }
         
         if (empty($opt['port']))
+        {
             $this->options['port'] = 21;
+        }
         else
+        {
             $this->options['port'] = $opt['port'];
+        }
         
         if (empty($opt['hostname']))
+        {
             $this->errors->add('empty_hostname', __('FTP hostname is required'));
+        }
         else
+        {
             $this->options['hostname'] = $opt['hostname'];
+        }
         
         if (! empty($opt['base']))
+        {
             $this->wp_base = $opt['base'];
+        }
             
             // Check if the options provided are OK.
         if (empty($opt['username']))
+        {
             $this->errors->add('empty_username', __('FTP username is required'));
+        }
         else
+        {
             $this->options['username'] = $opt['username'];
+        }
         
         if (empty($opt['password']))
+        {
             $this->errors->add('empty_password', __('FTP password is required'));
+        }
         else
+        {
             $this->options['password'] = $opt['password'];
+        }
         
         $this->options['ssl'] = false;
         if (isset($opt['connection_type']) && 'ftps' == $opt['connection_type'])
+        {
             $this->options['ssl'] = true;
+        }
     }
 
     public function connect()
     {
         if (isset($this->options['ssl']) && $this->options['ssl'] && function_exists('ftp_ssl_connect'))
-            $this->link = @ftp_ssl_connect($this->options['hostname'], $this->options['port'], FS_CONNECT_TIMEOUT);
+        {
+            $this->link = ftp_ssl_connect($this->options['hostname'], $this->options['port'], FS_CONNECT_TIMEOUT);
+        }
         else
-            $this->link = @ftp_connect($this->options['hostname'], $this->options['port'], FS_CONNECT_TIMEOUT);
+        {
+            $this->link = ftp_connect($this->options['hostname'], $this->options['port'], FS_CONNECT_TIMEOUT);
+        }
         
         if (! $this->link) {
             $this->errors->add('connect', sprintf(__('Failed to connect to FTP Server %1$s:%2$s'), $this->options['hostname'], $this->options['port']));
@@ -92,14 +129,17 @@ class Ftpext extends FilesystemBase
         }
         
         // Set the Connection to use Passive FTP
-        @ftp_pasv($this->link, true);
-        if (@ftp_get_option($this->link, FTP_TIMEOUT_SEC) < FS_TIMEOUT)
-            @ftp_set_option($this->link, FTP_TIMEOUT_SEC, FS_TIMEOUT);
+        ftp_pasv($this->link, true);
+        if (ftp_get_option($this->link, FTP_TIMEOUT_SEC) < FS_TIMEOUT)
+        {
+            ftp_set_option($this->link, FTP_TIMEOUT_SEC, FS_TIMEOUT);
+        }
         
         return true;
     }
     
-    public function move_uploaded_file($filename, $destination) {
+    public function move_uploaded_file($filename, $destination)
+    {
         return false;
     }
 
@@ -109,16 +149,22 @@ class Ftpext extends FilesystemBase
         $temp = fopen($tempfile, 'w+');
         
         if (! $temp)
+        {
             return false;
+        }
         
         if (! @ftp_fget($this->link, $temp, $file, FTP_BINARY))
+        {
             return false;
+        }
         
         fseek($temp, 0); // Skip back to the start of the file being written to
         $contents = '';
         
         while (! feof($temp))
+        {
             $contents .= fread($temp, 8192);
+        }
         
         fclose($temp);
         unlink($tempfile);
@@ -135,7 +181,9 @@ class Ftpext extends FilesystemBase
         $tempfile = rc_tempnam($file);
         $temp = fopen($tempfile, 'wb+');
         if (! $temp)
+        {
             return false;
+        }
         
         mbstring_binary_safe_encoding();
         
@@ -152,7 +200,7 @@ class Ftpext extends FilesystemBase
         
         fseek($temp, 0); // Skip back to the start of the file being written to
         
-        $ret = @ftp_fput($this->link, $file, $temp, FTP_BINARY);
+        $ret = ftp_fput($this->link, $file, $temp, FTP_BINARY);
         
         fclose($temp);
         unlink($tempfile);
@@ -164,15 +212,18 @@ class Ftpext extends FilesystemBase
 
     public function cwd()
     {
-        $cwd = @ftp_pwd($this->link);
+        $cwd = ftp_pwd($this->link);
         if ($cwd)
+        {
             $cwd = Format::trailingslashit($cwd);
+        }
+
         return $cwd;
     }
 
     public function chdir($dir)
     {
-        return @ftp_chdir($this->link, $dir);
+        return ftp_chdir($this->link, $dir);
     }
 
     public function chgrp($file, $group, $recursive = false)
@@ -184,24 +235,35 @@ class Ftpext extends FilesystemBase
     {
         if (! $mode) {
             if ($this->is_file($file))
+            {
                 $mode = FS_CHMOD_FILE;
+            }
             elseif ($this->is_dir($file))
+            {
                 $mode = FS_CHMOD_DIR;
+            }
             else
+            {
                 return false;
+            }
         }
         
         // chmod any sub-objects if recursive.
         if ($recursive && $this->is_dir($file)) {
             $filelist = $this->dirlist($file);
             foreach ((array) $filelist as $filename => $filemeta)
+            {
                 $this->chmod($file . '/' . $filename, $mode, $recursive);
+            }
         }
         
         // chmod the file or directory
         if (! function_exists('ftp_chmod'))
-            return (bool) @ftp_site($this->link, sprintf('CHMOD %o %s', $mode, $file));
-        return (bool) @ftp_chmod($this->link, $mode, $file);
+        {
+            return (bool) ftp_site($this->link, sprintf('CHMOD %o %s', $mode, $file));
+        }
+
+        return (bool) ftp_chmod($this->link, $mode, $file);
     }
     
     /**
@@ -216,7 +278,8 @@ class Ftpext extends FilesystemBase
      * @param bool   $recursive Optional. If set True changes file owner recursivly. Defaults to False.
      * @return bool Returns true on success or false on failure.
      */
-    public function chown( $file, $owner, $recursive = false ) {
+    public function chown( $file, $owner, $recursive = false )
+    {
         return false;
     }
 
@@ -238,40 +301,59 @@ class Ftpext extends FilesystemBase
         return $dir[$file]['group'];
     }
 
-    public function copy($source, $destination, $overwrite = false, $mode = false)
+    public function copy_file($source, $destination, $overwrite = false, $mode = false)
     {
         if (! $overwrite && $this->exists($destination))
+        {
             return false;
+        }
+
         $content = $this->get_contents($source);
         if (false === $content)
+        {
             return false;
+        }
+
         return $this->put_contents($destination, $content, $mode);
     }
 
-    public function move($source, $destination, $overwrite = false, $mode = false)
+    public function move_file($source, $destination, $overwrite = false, $mode = false)
     {
         return ftp_rename($this->link, $source, $destination);
     }
 
-    public function delete($file, $recursive = false, $type = false)
+    public function delete_all($file, $recursive = false, $type = false)
     {
         if (empty($file))
+        {
             return false;
+        }
+
         if ('f' == $type || $this->is_file($file))
-            return @ftp_delete($this->link, $file);
+        {
+            return ftp_delete($this->link, $file);
+        }
+
         if (! $recursive)
-            return @ftp_rmdir($this->link, $file);
+        {
+            return ftp_rmdir($this->link, $file);
+        }
         
         $filelist = $this->dirlist(Format::trailingslashit($file));
         if (! empty($filelist))
+        {
             foreach ($filelist as $delete_file)
+            {
                 $this->delete(Format::trailingslashit($file) . $delete_file['name'], $recursive, $delete_file['type']);
-        return @ftp_rmdir($this->link, $file);
+            }
+        }
+
+        return ftp_rmdir($this->link, $file);
     }
 
     public function exists($file)
     {
-        $list = @ftp_nlist($this->link, $file);
+        $list = ftp_nlist($this->link, $file);
         return ! empty($list); // empty list = no file, so invert.
     }
 
@@ -283,9 +365,9 @@ class Ftpext extends FilesystemBase
     public function is_dir($path)
     {
         $cwd = $this->cwd();
-        $result = @ftp_chdir($this->link, Format::trailingslashit($path));
+        $result = ftp_chdir($this->link, Format::trailingslashit($path));
         if ($result && $path == $this->cwd() || $this->cwd() != $cwd) {
-            @ftp_chdir($this->link, $cwd);
+            ftp_chdir($this->link, $cwd);
             return true;
         }
         return false;
@@ -325,15 +407,26 @@ class Ftpext extends FilesystemBase
     {
         $path = Format::untrailingslashit($path);
         if (empty($path))
+        {
             return false;
+        }
         
-        if (! @ftp_mkdir($this->link, $path))
+        if (! ftp_mkdir($this->link, $path))
+        {
             return false;
+        }
+
         $this->chmod($path, $chmod);
         if ($chown)
+        {
             $this->chown($path, $chown);
+        }
+
         if ($chgrp)
+        {
             $this->chgrp($path, $chgrp);
+        }
+
         return true;
     }
 
@@ -346,42 +439,65 @@ class Ftpext extends FilesystemBase
     {
         static $is_windows;
         if (is_null($is_windows))
+        {
             $is_windows = stripos(ftp_systype($this->link), 'win') !== false;
+        }
         
         if ($is_windows && preg_match('/([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)/', $line, $lucifer)) {
             $b = array();
             if ($lucifer[3] < 70)
+            {
                 $lucifer[3] += 2000;
+            }
             else
-                $lucifer[3] += 1900; // 4digit year fix
+            {
+                $lucifer[3] += 1900;
+            }
+
+            // 4digit year fix
             $b['isdir'] = ($lucifer[7] == '<DIR>');
             if ($b['isdir'])
+            {
                 $b['type'] = 'd';
+            }
             else
+            {
                 $b['type'] = 'f';
+            }
+
             $b['size'] = $lucifer[7];
             $b['month'] = $lucifer[1];
             $b['day'] = $lucifer[2];
             $b['year'] = $lucifer[3];
             $b['hour'] = $lucifer[4];
             $b['minute'] = $lucifer[5];
-            $b['time'] = @mktime($lucifer[4] + (strcasecmp($lucifer[6], "PM") == 0 ? 12 : 0), $lucifer[5], 0, $lucifer[1], $lucifer[2], $lucifer[3]);
+            $b['time'] = mktime($lucifer[4] + (strcasecmp($lucifer[6], "PM") == 0 ? 12 : 0), $lucifer[5], 0, $lucifer[1], $lucifer[2], $lucifer[3]);
             $b['am/pm'] = $lucifer[6];
             $b['name'] = $lucifer[8];
         } elseif (! $is_windows && $lucifer = preg_split('/[ ]/', $line, 9, PREG_SPLIT_NO_EMPTY)) {
             // echo $line."\n";
             $lcount = count($lucifer);
             if ($lcount < 8)
+            {
                 return '';
+            }
+
             $b = array();
             $b['isdir'] = $lucifer[0]{0} === 'd';
             $b['islink'] = $lucifer[0]{0} === 'l';
             if ($b['isdir'])
+            {
                 $b['type'] = 'd';
+            }
             elseif ($b['islink'])
+            {
                 $b['type'] = 'l';
+            }
             else
+            {
                 $b['type'] = 'f';
+            }
+
             $b['perms'] = $lucifer[0];
             $b['number'] = $lucifer[1];
             $b['owner'] = $lucifer[2];
@@ -411,7 +527,9 @@ class Ftpext extends FilesystemBase
         
         // Replace symlinks formatted as "source -> target" with just the source name
         if ($b['islink'])
+        {
             $b['name'] = preg_replace('/(\s*->\s*.*)$/', '', $b['name']);
+        }
         
         return $b;
     }
@@ -425,29 +543,42 @@ class Ftpext extends FilesystemBase
             $limit_file = false;
         }
         
-        $pwd = @ftp_pwd($this->link);
-        if (! @ftp_chdir($this->link, $path)) // Cant change to folder = folder doesn't exist
+        $pwd = ftp_pwd($this->link);
+        if (! ftp_chdir($this->link, $path)) // Cant change to folder = folder doesn't exist
+        {
             return false;
-        $list = @ftp_rawlist($this->link, '-a', false);
-        @ftp_chdir($this->link, $pwd);
+        }
+
+        $list = ftp_rawlist($this->link, '-a', false);
+        ftp_chdir($this->link, $pwd);
         
         if (empty($list)) // Empty array = non-existent folder (real folder will show . at least)
+        {
             return false;
+        }
         
         $dirlist = array();
         foreach ($list as $k => $v) {
             $entry = $this->parselisting($v);
             if (empty($entry))
+            {
                 continue;
+            }
             
             if ('.' == $entry['name'] || '..' == $entry['name'])
+            {
                 continue;
+            }
             
             if (! $include_hidden && '.' == $entry['name'][0])
+            {
                 continue;
+            }
             
             if ($limit_file && $entry['name'] != $limit_file)
+            {
                 continue;
+            }
             
             $dirlist[$entry['name']] = $entry;
         }
@@ -456,9 +587,13 @@ class Ftpext extends FilesystemBase
         foreach ((array) $dirlist as $struc) {
             if ('d' == $struc['type']) {
                 if ($recursive)
+                {
                     $struc['files'] = $this->dirlist($path . '/' . $struc['name'], $include_hidden, $recursive);
+                }
                 else
+                {
                     $struc['files'] = array();
+                }
             }
             
             $ret[$struc['name']] = $struc;
@@ -474,12 +609,14 @@ class Ftpext extends FilesystemBase
      */
     public function filelist($path, $allowFiles, $start, $size)
     {
-        return false;
+        return [];
     }
 
     public function __destruct()
     {
         if ($this->link)
+        {
             ftp_close($this->link);
+        }
     }
 }

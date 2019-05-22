@@ -1,7 +1,9 @@
 <?php
 
-namespace Royalcms\Component\Storage;
+namespace Royalcms\Component\Storage\Adapter;
 
+use Royalcms\Component\Storage\Contracts\StorageInterface;
+use Royalcms\Component\Storage\FilesystemBaseTrait;
 use Royalcms\Component\Support\Format;
 use Royalcms\Component\Error\Error;
 
@@ -20,14 +22,23 @@ use Royalcms\Component\Error\Error;
  * @subpackage Filesystem
  * @uses \Royalcms\Component\Storage\FilesystemBase Extends class
  */
-class Ftpsockets extends FilesystemBase
+class Ftpsockets implements StorageInterface
 {
 
-    private $ftp = false;
+    use FilesystemBaseTrait;
 
-    private $errors = null;
+    /**
+     * The Access error of the current connection, Set automatically.
+     *
+     * @access public
+     * @since 2.5.0
+     * @var \RC_Error
+     */
+    protected $errors;
 
-    private $options = array();
+    protected $ftp = false;
+
+    protected $options = array();
 
     public function __construct($opt = '')
     {
@@ -35,39 +46,62 @@ class Ftpsockets extends FilesystemBase
         $this->errors = new Error();
         
         // Check if possible to use ftp functions.
-        if (! @include_once ABSPATH . 'wp-admin/includes/class-ftp.php')
+        if (! include_once ABSPATH . 'admin/includes/class-ftp.php')
+        {
             return false;
+        }
+
         $this->ftp = new ftp();
         
         if (empty($opt['port']))
+        {
             $this->options['port'] = 21;
+        }
         else
+        {
             $this->options['port'] = $opt['port'];
+        }
         
         if (empty($opt['hostname']))
+        {
             $this->errors->add('empty_hostname', __('FTP hostname is required'));
+        }
         else
+        {
             $this->options['hostname'] = $opt['hostname'];
+        }
         
         if (! empty($opt['base']))
+        {
             $this->wp_base = $opt['base'];
+        }
             
             // Check if the options provided are OK.
         if (empty($opt['username']))
+        {
             $this->errors->add('empty_username', __('FTP username is required'));
+        }
         else
+        {
             $this->options['username'] = $opt['username'];
+        }
         
         if (empty($opt['password']))
+        {
             $this->errors->add('empty_password', __('FTP password is required'));
+        }
         else
+        {
             $this->options['password'] = $opt['password'];
+        }
     }
 
     public function connect()
     {
         if (! $this->ftp)
+        {
             return false;
+        }
         
         $this->ftp->setTimeout(FS_CONNECT_TIMEOUT);
         
@@ -92,19 +126,24 @@ class Ftpsockets extends FilesystemBase
         return true;
     }
     
-    public function move_uploaded_file($filename, $destination) {
+    public function move_uploaded_file($filename, $destination)
+    {
         return false;
     }
 
     public function get_contents($file)
     {
         if (! $this->exists($file))
+        {
             return false;
+        }
         
         $temp = rc_tempnam($file);
         
         if (! $temphandle = fopen($temp, 'w+'))
+        {
             return false;
+        }
         
         mbstring_binary_safe_encoding();
         
@@ -123,7 +162,9 @@ class Ftpsockets extends FilesystemBase
         $contents = '';
         
         while (! feof($temphandle))
+        {
             $contents .= fread($temphandle, 8192);
+        }
         
         fclose($temphandle);
         unlink($temp);
@@ -174,7 +215,9 @@ class Ftpsockets extends FilesystemBase
     {
         $cwd = $this->ftp->pwd();
         if ($cwd)
+        {
             $cwd = Format::trailingslashit($cwd);
+        }
         return $cwd;
     }
 
@@ -192,18 +235,26 @@ class Ftpsockets extends FilesystemBase
     {
         if (! $mode) {
             if ($this->is_file($file))
+            {
                 $mode = FS_CHMOD_FILE;
+            }
             elseif ($this->is_dir($file))
+            {
                 $mode = FS_CHMOD_DIR;
+            }
             else
+            {
                 return false;
+            }
         }
         
         // chmod any sub-objects if recursive.
         if ($recursive && $this->is_dir($file)) {
             $filelist = $this->dirlist($file);
             foreach ((array) $filelist as $filename => $filemeta)
+            {
                 $this->chmod($file . '/' . $filename, $mode, $recursive);
+            }
         }
         
         // chmod the file or directory
@@ -222,7 +273,8 @@ class Ftpsockets extends FilesystemBase
      * @param bool   $recursive Optional. If set True changes file owner recursivly. Defaults to False.
      * @return bool Returns true on success or false on failure.
      */
-    public function chown( $file, $owner, $recursive = false ) {
+    public function chown( $file, $owner, $recursive = false )
+    {
         return false;
     }
 
@@ -244,31 +296,43 @@ class Ftpsockets extends FilesystemBase
         return $dir[$file]['group'];
     }
 
-    public function copy($source, $destination, $overwrite = false, $mode = false)
+    public function copy_file($source, $destination, $overwrite = false, $mode = false)
     {
         if (! $overwrite && $this->exists($destination))
+        {
             return false;
+        }
         
         $content = $this->get_contents($source);
         if (false === $content)
+        {
             return false;
+        }
         
         return $this->put_contents($destination, $content, $mode);
     }
 
-    public function move($source, $destination, $overwrite = false, $mode = false)
+    public function move_file($source, $destination, $overwrite = false, $mode = false)
     {
         return $this->ftp->rename($source, $destination);
     }
 
-    public function delete($file, $recursive = false, $type = false)
+    public function delete_all($file, $recursive = false, $type = false)
     {
         if (empty($file))
+        {
             return false;
+        }
+
         if ('f' == $type || $this->is_file($file))
+        {
             return $this->ftp->delete($file);
+        }
+
         if (! $recursive)
+        {
             return $this->ftp->rmdir($file);
+        }
         
         return $this->ftp->mdel($file);
     }
@@ -283,9 +347,15 @@ class Ftpsockets extends FilesystemBase
     public function is_file($file)
     {
         if ($this->is_dir($file))
+        {
             return false;
+        }
+
         if ($this->exists($file))
+        {
             return true;
+        }
+
         return false;
     }
 
@@ -333,17 +403,31 @@ class Ftpsockets extends FilesystemBase
     {
         $path = Format::untrailingslashit($path);
         if (empty($path))
+        {
             return false;
+        }
         
         if (! $this->ftp->mkdir($path))
+        {
             return false;
+        }
+
         if (! $chmod)
+        {
             $chmod = FS_CHMOD_DIR;
+        }
+
         $this->chmod($path, $chmod);
         if ($chown)
+        {
             $this->chown($path, $chown);
+        }
+
         if ($chgrp)
+        {
             $this->chgrp($path, $chgrp);
+        }
+
         return true;
     }
 
@@ -375,24 +459,36 @@ class Ftpsockets extends FilesystemBase
         foreach ($list as $struc) {
             
             if ('.' == $struc['name'] || '..' == $struc['name'])
+            {
                 continue;
+            }
             
             if (! $include_hidden && '.' == $struc['name'][0])
+            {
                 continue;
+            }
             
             if ($limit_file && $struc['name'] != $limit_file)
+            {
                 continue;
+            }
             
             if ('d' == $struc['type']) {
                 if ($recursive)
+                {
                     $struc['files'] = $this->dirlist($path . '/' . $struc['name'], $include_hidden, $recursive);
+                }
                 else
+                {
                     $struc['files'] = array();
+                }
             }
             
             // Replace symlinks formatted as "source -> target" with just the source name
             if ($struc['islink'])
+            {
                 $struc['name'] = preg_replace('/(\s*->\s*.*)$/', '', $struc['name']);
+            }
             
             $ret[$struc['name']] = $struc;
         }
@@ -410,7 +506,7 @@ class Ftpsockets extends FilesystemBase
      */
     public function filelist($path, $allowFiles, $start, $size)
     {
-        return false;
+        return [];
     }
 
     public function __destruct()
