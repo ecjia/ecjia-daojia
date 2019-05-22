@@ -58,6 +58,12 @@ return array(
         'attr_name_required' => __('请输入属性名称', 'goods'),
         'cat_id_select'      => __('请选择所属商品类型！', 'goods'),
     ),
+		
+	'spec_product_page' => array(
+		'tip_msg' => __('更换模板，会将之前已添加的相关规格属性以及货品进行清除，请谨慎操作，您确定要【清除】吗？', 'goods'),
+		'ok'      => __('确定', 'goods'),
+        'cancel'  => __('取消', 'goods'),
+	),
 
     'auto_page' => array(
         'editable_miss_parameters' => __('editable缺少参数', 'goods'),

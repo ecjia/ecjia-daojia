@@ -27,7 +27,7 @@ class StoreGoodsGalleryDuplicate extends StoreProcessAfterDuplicateGoodsAbstract
 
     private $table = 'goods_gallery';
 
-    public function __construct($store_id, $source_store_id, $sort = 20)
+    public function __construct($store_id, $source_store_id, $sort = 17)
     {
         parent::__construct($store_id, $source_store_id, '商品相册', $sort);
     }
@@ -93,8 +93,8 @@ class StoreGoodsGalleryDuplicate extends StoreProcessAfterDuplicateGoodsAbstract
      */
     private function duplicateGoodsGallery($old_goods_id, $replacement_products)
     {
-        RC_DB::table($this->table)->whereIn('goods_id', $old_goods_id)->chunk(50, function ($items) use ($replacement_products) {
-            foreach ($items as $item) {
+        RC_DB::table($this->table)->whereIn('goods_id', $old_goods_id)->chunk(20, function ($items) use ($replacement_products) {
+            foreach ($items as &$item) {
                 $img_id = $item['img_id'];
                 unset($item['img_id']);
 
@@ -118,7 +118,7 @@ class StoreGoodsGalleryDuplicate extends StoreProcessAfterDuplicateGoodsAbstract
                 //存储替换记录
                 $this->replacement_goods_gallery[$img_id] = $new_img_id;
             }
-            //dd($replacement_goods_gallery, $items);
+            //dd($this->replacement_goods_gallery, $replacement_products, $items);
         });
     }
 

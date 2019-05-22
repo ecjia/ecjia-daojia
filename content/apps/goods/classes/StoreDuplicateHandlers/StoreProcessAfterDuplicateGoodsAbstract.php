@@ -16,7 +16,8 @@ abstract class StoreProcessAfterDuplicateGoodsAbstract extends StoreDuplicateAbs
 {
     protected $dependents = [
         'store_selling_goods_duplicate',
-        'store_cashier_goods_duplicate'
+        'store_cashier_goods_duplicate',
+        'store_bulk_goods_duplicate'
     ];
 
     /**
@@ -31,11 +32,10 @@ abstract class StoreProcessAfterDuplicateGoodsAbstract extends StoreDuplicateAbs
      */
     protected $replacement_goods = [];
 
-    public function __construct($store_id, $source_store_id, $name, $sort = 0)
+    public function __construct($store_id, $source_store_id, $name, $sort = 15)
     {
+        parent::__construct($store_id, $source_store_id, $sort);
         $this->name = __($name, 'goods');
-        $this->sort = $sort;
-        parent::__construct($store_id, $source_store_id);
     }
 
     /**
@@ -51,7 +51,7 @@ abstract class StoreProcessAfterDuplicateGoodsAbstract extends StoreDuplicateAbs
      */
     public function handlePrintData()
     {
-        $text = sprintf(__('店铺内总共有<span class="ecjiafc-red ecjiaf-fs3">%s</span>%s', 'goods'), $this->handleCount(), $this->name);
+        $text = sprintf(__('店铺内总共有<span class="ecjiafc-red ecjiaf-fs3">%s</span>个%s', 'goods'), $this->handleCount(), $this->name);
         return <<<HTML
 <span class="controls-info">{$text}</span>
 HTML;
@@ -94,6 +94,7 @@ HTML;
     }
 
     abstract protected function startDuplicateProcedure();
+
     /**
      * 设置 goods 替换数据
      * @return $this
@@ -103,7 +104,7 @@ HTML;
         if (empty($this->replacement_goods)) {
             //获取当前依赖下所有商品替换数据
             foreach ($this->dependents as $code) {
-                $this->replacement_goods += $this->progress_data->getReplacementDataByCode($code);
+                $this->replacement_goods += $this->progress_data->getReplacementDataByCode($code . '.goods');
             }
         }
         return $this;
@@ -129,6 +130,7 @@ HTML;
     protected function getOldGoodsId()
     {
         if (empty($this->replacement_goods)) {
+
             return $this->getSourceStoreDataHandler()->lists('goods_id');
         }
         return array_keys($this->replacement_goods);

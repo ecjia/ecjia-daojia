@@ -36,7 +36,7 @@
 	                   <input type="hidden" name="good_id" value="{$goods_id}"/>
 	                   <input type="hidden" name="ajax_select_radio_url" value='{url path="goods/merchant/ajax_select_radio"}'/>
 	                   <button type="button" class="add_pro_submint btn btn-info" goods-id="{$goods_id}" data-url='{url path="goods/merchant/spec_add_product_insert"}'>添加</button></a>
-	                   <button type="button" class="del_pro_submint btn btn-danger" goods-id="{$goods_id}" data-url='{url path="goods/merchant/spec_del_product"}'>移除</button></a>
+	                   <button type="button" class="del_pro_submint btn btn-default" goods-id="{$goods_id}" data-url='{url path="goods/merchant/spec_del_product"}'>移除</button></a>
 	             </div>
 	           </div>
 		   </form>

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: royalwang
- * Date: 2018/12/12
- * Time: 14:04
- */
 
 namespace Ecjia\App\Goods\StoreDuplicateHandlers;
 
@@ -18,7 +12,7 @@ use RC_Time;
 /**
  * 复制店铺中的在售商品
  *
- * @todo goods_attr 表的图片字段的处理 attr_img_file attr_img_site attr_gallery_flie
+ * @todo goods_attr 表的图片字段的处理 attr_img_flie attr_img_site attr_gallery_flie
  * @todo products 表的图片字段的处理 product_thumb product_img product_original_img product_desc
  *
  * Class StoreSellingGoodsDuplicate
@@ -32,12 +26,6 @@ class StoreSellingGoodsDuplicate extends StoreDuplicateAbstract
      */
     protected $code = 'store_selling_goods_duplicate';
 
-    /**
-     * 排序RC_Hook::apply_filters(
-     * @var int
-     */
-    protected $sort = 14;
-
     protected $dependents = [
         'store_goods_merchant_category_duplicate',
     ];
@@ -46,44 +34,93 @@ class StoreSellingGoodsDuplicate extends StoreDuplicateAbstract
      * goods 表中的替换数据
      * @var array
      */
-    private $replacement_goods = [];
+    protected $replacement_goods = [];
 
     /**
      * goods_attr 表中的替换数据
      * @var array
      */
-    private $replacement_goods_attr = [];
+    protected $replacement_goods_attr = [];
 
     /**
      * products 表中的替换数据
      * @var array
      */
-    private $replacement_products = [];
+    protected $replacement_products = [];
 
     /**
      * goods_gallery 表中的替换数据
      * @var array
      */
-    private $replacement_goods_gallery = [];
+    protected $replacement_goods_gallery = [];
 
     /**
      * member_price 表中的替换数据
      * @var array
      */
-    private $replacement_member_price = [];
+    protected $replacement_member_price = [];
 
-    public function __construct($store_id, $source_store_id)
+
+    protected $progress_data;
+
+    /**
+     * merchant_category 表中的替换数据
+     * @var array|mixed
+     */
+    protected $merchant_category_replacement = [];
+
+    /**
+     * bonus_type 表中的替换数据
+     * @var array|mixed
+     */
+    protected $store_bonus_replacement = [];
+
+    /**
+     * goods_type 表中商品规格的替换数据
+     * @var array|mixed
+     */
+    protected $goods_specification_replacement = [];
+
+    /**
+     * goods_type 表中商品参数的替换数据
+     * @var array|mixed
+     */
+    protected $goods_parameter_duplicate_replacement = [];
+
+    /**
+     * goods_type 表中商品参数、规格合并后的替换数据
+     * @var array|mixed
+     */
+    protected $goods_type_replacement = [];
+
+    public function __construct($store_id, $source_store_id, $name = '在售普通商品', $sort = 14)
     {
-        $this->name = __('在售普通商品', 'goods');
-        parent::__construct($store_id, $source_store_id);
+        parent::__construct($store_id, $source_store_id, $sort);
+        $this->name = __($name, 'goods');
+    }
+
+    /**
+     * 设置过程数据对象
+     */
+    protected function setProgressData()
+    {
+        if (empty($this->progress_data)) {
+            $this->progress_data = (new \Ecjia\App\Store\StoreDuplicate\ProgressDataStorage($this->store_id))->getDuplicateProgressData();
+        }
+        return $this;
     }
 
     /**
      * 获取源店铺数据操作对象
+     * @return mixed
      */
     public function getSourceStoreDataHandler()
     {
-        return RC_DB::table('goods')->where('store_id', $this->source_store_id)->where('is_on_sale', 1)->where('is_delete', '!=', 1);
+        return RC_DB::table('goods')->where('store_id', $this->source_store_id)->where('is_on_sale', 1)->where('is_delete', '!=', 1)->where(function ($query) {
+            $query
+                ->whereNull('extension_code')
+                ->orWhere('extension_code', '');
+        });
         //->select('goods_id', 'store_id', 'merchant_cat_id', 'bonus_type_id', 'goods_type', 'specification_id', 'parameter_id');
     }
 
@@ -92,8 +129,7 @@ class StoreSellingGoodsDuplicate extends StoreDuplicateAbstract
      */
     public function handlePrintData()
     {
-        $count = $this->handleCount();
-        $text = sprintf(__('店铺内总共有<span class="ecjiafc-red ecjiaf-fs3">%s</span>件在售商品', 'goods'), $count);
+        $text = sprintf(__('店铺内总共有<span class="ecjiafc-red ecjiaf-fs3">%s</span>件%s', 'goods'), $this->handleCount(), $this->name);
 
         return <<<HTML
 <span class="controls-info">{$text}</span>
@@ -174,44 +210,29 @@ HTML;
 //            });
 
         try {
-            //从过程数据中提取需要用到的替换数据
-            $progress_data = (new \Ecjia\App\Store\StoreDuplicate\ProgressDataStorage($this->store_id))->getDuplicateProgressData();
-
-            //获取商家商品分类的替换数据
-            $merchant_category_replacement = $progress_data->getReplacementDataByCode('store_goods_merchant_category_duplicate');
-
-            //获取店铺红包的替换数据
-            $store_bonus_replacement = $progress_data->getReplacementDataByCode('store_bonus_duplicate');
-
-            //获取商品规格中商品类型的替换数据
-            $goods_specification_replacement = $progress_data->getReplacementDataByCode('store_goods_specification_duplicate.goods_type');
-
-            //获取商品参数中商品类型的替换数据
-            $goods_parameter_duplicate_replacement = $progress_data->getReplacementDataByCode('store_goods_parameter_duplicate.goods_type');
-
-            //获取合并商品参数、规格中的 goods_type 替换数据
-            $goods_type_replacement = $goods_specification_replacement + $goods_parameter_duplicate_replacement;
+            //初始化过程数据中该复制操作需要用到的依赖数据
+            $this->initRelationDataFromProgressData();
 
             //用于存储替换数据的关联关系
             $replacement_data = [];
 
             //将数据复制到 goods
-            $this->duplicateGoods($merchant_category_replacement, $store_bonus_replacement, $goods_specification_replacement, $goods_parameter_duplicate_replacement, $goods_type_replacement);
+            $this->duplicateGoods();
             //存储 goods 相关替换数据
             $replacement_data['goods'] = $this->replacement_goods;
 
             //取出源店铺 goods_id
             $old_goods_id = array_keys($this->replacement_goods);
-            //dump($replacement_goods);
 
             if (!empty($old_goods_id)) {
                 //获取商品规格、参数中的 attribute 替换数据
-                $replacement_attribute = $progress_data->getReplacementDataByCode('store_goods_specification_duplicate.attribute') + $progress_data->getReplacementDataByCode('store_goods_parameter_duplicate.attribute');
+                $replacement_attribute = $this->progress_data->getReplacementDataByCode('store_goods_specification_duplicate.attribute') + $this->progress_data->getReplacementDataByCode('store_goods_parameter_duplicate.attribute');
 
                 //将数据同步到 goods_attr
                 $this->duplicateGoodsAttr($old_goods_id, $replacement_attribute);
                 // 存储 goods_attr 相关替换数据
                 $replacement_data['goods_attr'] = $this->replacement_goods_attr;
+
 
                 //将数据同步到 products
                 $this->duplicateProducts($old_goods_id);
@@ -240,6 +261,7 @@ HTML;
                 //$this->duplicateLinkGOods($old_goods_id);
             }
 
+            //dd($replacement_data);
             $this->setReplacementData($this->getCode(), $replacement_data);
 
             return true;
@@ -250,21 +272,10 @@ HTML;
 
     /**
      * 复制 goods 数据
-     * @param $merchant_category_replacement
-     * @param $store_bonus_replacement
-     * @param $goods_specification_replacement
-     * @param $goods_parameter_duplicate_replacement
-     * @param $goods_type_replacement
      */
-    private function duplicateGoods($merchant_category_replacement, $store_bonus_replacement, $goods_specification_replacement, $goods_parameter_duplicate_replacement, $goods_type_replacement)
+    protected function duplicateGoods()
     {
-        $this->getSourceStoreDataHandler()->chunk(50, function ($items) use (
-            $merchant_category_replacement,
-            $store_bonus_replacement,
-            $goods_specification_replacement,
-            $goods_parameter_duplicate_replacement,
-            $goods_type_replacement
-        ) {
+        $this->getSourceStoreDataHandler()->chunk(50, function ($items) {
             $time = RC_Time::gmtime();
             foreach ($items as $item) {
                 $goods_id = $item['goods_id'];
@@ -274,25 +285,25 @@ HTML;
                 $item['store_id'] = $this->store_id;
 
                 //设置新店铺 merchat_cat_level1_id
-                $item['merchat_cat_level1_id'] = array_get($merchant_category_replacement, $item['merchat_cat_level1_id'], $item['merchat_cat_level1_id']);
+                $item['merchat_cat_level1_id'] = array_get($this->merchant_category_replacement, $item['merchat_cat_level1_id'], $item['merchat_cat_level1_id']);
 
                 //设置新店铺 merchat_cat_level2_id
-                $item['merchat_cat_level2_id'] = array_get($merchant_category_replacement, $item['merchat_cat_level2_id'], $item['merchat_cat_level2_id']);
+                $item['merchat_cat_level2_id'] = array_get($this->merchant_category_replacement, $item['merchat_cat_level2_id'], $item['merchat_cat_level2_id']);
 
                 //设置新店铺 merchant_cat_id
-                $item['merchant_cat_id'] = array_get($merchant_category_replacement, $item['merchant_cat_id'], $item['merchant_cat_id']);
+                $item['merchant_cat_id'] = array_get($this->merchant_category_replacement, $item['merchant_cat_id'], $item['merchant_cat_id']);
 
                 //设置新店铺 bonus_type_id
-                $item['bonus_type_id'] = array_get($store_bonus_replacement, $item['bonus_type_id'], $item['bonus_type_id']);
+                $item['bonus_type_id'] = array_get($this->store_bonus_replacement, $item['bonus_type_id'], $item['bonus_type_id']);
 
                 //设置新店铺 goods_type
-                $item['goods_type'] = array_get($goods_type_replacement, $item['goods_type'], $item['goods_type']);
+                $item['goods_type'] = array_get($this->goods_type_replacement, $item['goods_type'], $item['goods_type']);
 
                 //设置新店铺 specification_id
-                $item['specification_id'] = array_get($goods_specification_replacement, $item['specification_id'], $item['specification_id']);
+                $item['specification_id'] = array_get($this->goods_specification_replacement, $item['specification_id'], $item['specification_id']);
 
                 //设置新店铺 parameter_id
-                $item['parameter_id'] = array_get($goods_parameter_duplicate_replacement, $item['parameter_id'], $item['parameter_id']);
+                $item['parameter_id'] = array_get($this->goods_parameter_duplicate_replacement, $item['parameter_id'], $item['parameter_id']);
 
                 //click_count，商品点击数设为0
                 $item['click_count'] = 0;
@@ -314,6 +325,7 @@ HTML;
 
                 //goods_sn，商品唯一货号需要重新生成（暂未实现）
                 //$item['goods_sn'] = generate_goods_sn($goods_id);
+                $item['goods_sn'] = bin2hex(random_bytes(8));
 
                 //@todo 图片字段的处理  goods_desc goods_thumb goods_img original_img
                 $item['goods_desc'] = $this->copyImage($item['goods_desc']);
@@ -325,9 +337,12 @@ HTML;
                 //插入数据到新店铺
                 //$new_goods_id = $goods_id + 1;
                 $new_goods_id = RC_DB::table('goods')->insertGetId($item);
+
+                //存储替换记录
                 $this->replacement_goods[$goods_id] = $new_goods_id;
             }
         });
+        //dd($this->getCode(), $this->replacement_goods);
     }
 
     /**
@@ -335,9 +350,8 @@ HTML;
      * @param $old_goods_id
      * @param $replacement_attribute
      */
-    private function duplicateGoodsAttr($old_goods_id, $replacement_attribute)
+    protected function duplicateGoodsAttr($old_goods_id, $replacement_attribute)
     {
-
         //将数据同步到 goods_attr
         RC_DB::table('goods_attr')->whereIn('goods_id', $old_goods_id)->chunk(50, function ($items) use ($replacement_attribute) {
             foreach ($items as $item) {
@@ -350,8 +364,8 @@ HTML;
                 //通过 attribute 替换数据设置新店铺 attr_id
                 $item['attr_id'] = array_get($replacement_attribute, $item['attr_id'], $item['attr_id']);
 
-                //@todo 图片字段的处理 attr_img_file attr_img_site attr_gallery_flie
-                $item['attr_img_file'] = $this->copyImage($item['attr_img_file']);
+                //@todo 图片字段的处理 attr_img_flie attr_img_site attr_gallery_flie
+                $item['attr_img_flie'] = $this->copyImage($item['attr_img_flie']);
                 $item['attr_img_site'] = $this->copyImage($item['attr_img_site']);
                 $item['attr_gallery_flie'] = $this->copyImage($item['attr_gallery_flie']);
 
@@ -370,16 +384,16 @@ HTML;
      * @param $old_goods_id
      * @param $merchant_category_replacement
      */
-    private function duplicateGoodsCat($old_goods_id, $merchant_category_replacement)
+    protected function duplicateGoodsCat($old_goods_id)
     {
-        RC_DB::table('goods_cat')->whereIn('goods_id', $old_goods_id)->chunk(50, function ($items) use ($merchant_category_replacement) {
+        RC_DB::table('goods_cat')->whereIn('goods_id', $old_goods_id)->chunk(50, function ($items) {
             foreach ($items as &$item) {
 
                 //通过 goods 替换数据设置新店铺的 goods_id
                 $item['goods_id'] = array_get($this->replacement_goods, $item['goods_id'], $item['goods_id']);
 
                 //通过 merchant_category 替换数据设置新店铺的 cat_id
-                $item['cat_id'] = array_get($merchant_category_replacement, $item['cat_id'], $item['cat_id']);
+                $item['cat_id'] = array_get($this->merchant_category_replacement, $item['cat_id'], $item['cat_id']);
             }
 
             //将数据插入到新店铺
@@ -391,7 +405,7 @@ HTML;
      * 复制 products 数据
      * @param $old_goods_id
      */
-    private function duplicateProducts($old_goods_id)
+    protected function duplicateProducts($old_goods_id)
     {
         RC_DB::table('products')->whereIn('goods_id', $old_goods_id)->chunk(50, function ($items) {
             foreach ($items as $item) {
@@ -431,7 +445,6 @@ HTML;
                 //建立替换数据的关联关系
                 $this->replacement_products[$product_id] = $new_product_id;
             }
-            //dd($replacement_products,$items);
         });
     }
 
@@ -439,7 +452,7 @@ HTML;
      * 复制 goods_gallery 数据
      * @param $old_goods_id
      */
-    private function duplicateGoodsGallery($old_goods_id)
+    protected function duplicateGoodsGallery($old_goods_id)
     {
         RC_DB::table('goods_gallery')->whereIn('goods_id', $old_goods_id)->chunk(50, function ($items) {
             foreach ($items as $item) {
@@ -474,7 +487,7 @@ HTML;
      * 复制 member_price 数据
      * @param $old_goods_id
      */
-    private function duplicateMemberPrice($old_goods_id)
+    protected function duplicateMemberPrice($old_goods_id)
     {
         RC_DB::table('member_price')->whereIn('goods_id', $old_goods_id)->chunk(50, function ($items) {
             foreach ($items as $item) {
@@ -491,7 +504,7 @@ HTML;
                 //存储替换记录
                 $this->replacement_member_price[$price_id] = $new_price_id;
             }
-            //dd($replacement_member_price, $items);
+            //dd($this->replacement_member_price, $items);
         });
     }
 
@@ -503,7 +516,6 @@ HTML;
     {
         RC_DB::table('volume_price')->whereIn('goods_id', $old_goods_id)->chunk(50, function ($items) {
             foreach ($items as &$item) {
-                //price_type取值是什么暂时不清楚
 
                 //通过 goods 替换数据设置新店铺的 goods_id
                 $item['goods_id'] = array_get($this->replacement_goods, $item['goods_id'], $item['goods_id']);
@@ -563,6 +575,57 @@ HTML;
     }
 
     /**
+     * 初始化过程数据中的关联数据，赋给对应属性
+     * @param bool $debug
+     */
+    protected function initRelationDataFromProgressData($debug = FALSE)
+    {
+        //设置过程数据对象
+        $this->setProgressData();
+
+        //获取商家商品分类的替换数据
+        $this->merchant_category_replacement = $this->progress_data->getReplacementDataByCode('store_goods_merchant_category_duplicate');
+
+        //获取店铺红包的替换数据 goods表中的bonus_type_id是否在商品入表的时候就要设置？还是插入以后，有需要再更新设置
+        $this->store_bonus_replacement = $this->progress_data->getReplacementDataByCode('store_bonus_duplicate');
+
+        //获取商品规格中商品类型的替换数据
+        $this->goods_specification_replacement = $this->progress_data->getReplacementDataByCode('store_goods_specification_duplicate.goods_type');
+
+        //获取商品参数中商品类型的替换数据
+        $this->goods_parameter_duplicate_replacement = $this->progress_data->getReplacementDataByCode('store_goods_parameter_duplicate.goods_type');
+
+        //获取合并商品参数、规格中的 goods_type 替换数据
+        $this->goods_type_replacement = $this->goods_specification_replacement + $this->goods_parameter_duplicate_replacement;
+
+        if ($debug) {
+            $this->showValueOfAttrs();
+        }
+    }
+
+    private function showValueOfAttrs($attr_name = null)
+    {
+        if (is_string($attr_name)) {
+            $attr_name = explode(',', $attr_name);
+        }
+        if (!is_array($attr_name)) {
+            $attr_name = [
+                //'progress_data',
+                'merchant_category_replacement',
+                'store_bonus_replacement',
+                'goods_specification_replacement',
+                'goods_parameter_duplicate_replacement',
+                'goods_type_replacement',
+            ];
+        }
+        $tmp = [];
+        foreach ($attr_name as $name) {
+            $tmp[$name] = $this->{$name};
+        }
+        dd($tmp);
+    }
+
+    /**
      * 返回操作日志编写
      *
      * @return mixed
@@ -571,7 +634,7 @@ HTML;
     {
         \Ecjia\App\Store\Helper::assign_adminlog_content();
 
-        $store_info = RC_Api::api('store', 'store_info', array('store_id' => $this->store_id));
+        $store_info = RC_Api::api('store', 'store_info', ['store_id' => $this->store_id]);
 
         $merchants_name = !empty($store_info) ? sprintf(__('店铺名是%s', 'goods'), $store_info['merchants_name']) : sprintf(__('店铺ID是%s', 'goods'), $this->store_id);
 

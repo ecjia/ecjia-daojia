@@ -2,7 +2,6 @@
 
 namespace Ecjia\App\Goods\StoreDuplicateHandlers;
 
-//use Ecjia\App\Store\StoreDuplicate\StoreDuplicateAbstract;
 use ecjia_error;
 use RC_DB;
 use RC_Api;
@@ -24,7 +23,7 @@ class StoreGoodsCatDuplicate extends StoreProcessAfterDuplicateGoodsAbstract
 
     private $table = 'goods_cat';
 
-    public function __construct($store_id, $source_store_id, $sort = 16)
+    public function __construct($store_id, $source_store_id, $sort = 21)
     {
         parent::__construct($store_id, $source_store_id, '商品扩展分类', $sort);
     }

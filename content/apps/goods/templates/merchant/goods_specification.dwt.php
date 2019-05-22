@@ -18,7 +18,13 @@
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
             <i class="fa fa-times" data-original-title="" title=""></i>
       </button>
-      <strong>{t domain="goods"}温馨提示：{/t}</strong><br>{t domain="goods"}1、请先设置商品规格属性，才可以进行货品添加。{/t}</br>{t domain="goods"}2、如果该商品存在货品，那么货品相关设置项优先使用。{/t}
+      <strong>{t domain="goods"}温馨提示：{/t}</strong>
+      <br>
+      {t domain="goods"}1、请先设置商品规格属性，才可以进行货品添加。{/t}
+      </br>
+      {t domain="goods"}2、如果该商品存在货品，那么货品相关设置项优先使用。{/t}<br>
+      {t domain="goods"}3、如需更换规格模板，请先点击【清除数据】按钮然后在重新绑定即可。{/t}<br>
+      {t domain="goods"}4、清除后会将之前设置的规格属性以及添加的货品清除，请谨慎操作。{/t}
 </div>
 {/if}
 
@@ -92,13 +98,18 @@
 												<label class="control-label col-lg-2 ">{t domain="goods"}规格模板：{/t}</label>
 												<div class="col-lg-6 l_h35">
 													{$template_info.cat_name}
-													<span class="m_l10">
-														<a href='{url path="goods/mh_category/edit" args="cat_id={$goods_info.merchant_cat_id}"}'><button type="button" class="btn btn-info" >{t domain="goods"}更换模板{/t}</button></a>
-													</span>
-													<a  data-toggle="modal" data-backdrop="static" href="#myModal1" goods-id="{$goods_info.goods_id}" attr-url="{RC_Uri::url('goods/merchant/select_spec_values')}" ><button class="btn btn-info"><i class="fa fa-cog"></i> {t domain="goods"}设置规格属性{/t}</button></a>
+													
+													{if $goods_info.specification_id}
+	                                                	<a data-toggle="clear_data" data-href='{url path="goods/merchant/clear_spec_data"}' goods-id="{$goods_info.goods_id}" ><button type="button" class="btn btn-default" >{t domain="goods"}更换模板{/t}</button></a>
+                                                    {else}
+                                                        <a href='{url path="goods/mh_category/edit" args="cat_id={$goods_info.merchant_cat_id}"}'><button type="button" class="btn btn-default" >{t domain="goods"}更换模板{/t}</button></a>
+                                                    {/if} 
+                                                    
+													<a data-toggle="modal" data-backdrop="static" href="#myModal1" goods-id="{$goods_info.goods_id}" attr-url="{RC_Uri::url('goods/merchant/select_spec_values')}" ><button class="btn btn-info"><i class="fa fa-cog"></i> {t domain="goods"}设置规格属性{/t}</button></a>
+													
 													{if $has_spec}
-                                                     <a data-type="add-pro" data-toggle="modal" data-backdrop="static" href="#myModal2" goods-id="{$goods_info.goods_id}" attr-url="{RC_Uri::url('goods/merchant/spec_add_product')}" ><button class="btn btn-info"><i class="fa fa-plus"></i> {t domain="goods"}添加货品{/t}</button></a>
-                                                    {/if}                 
+	                                                    <a data-type="add-pro" data-toggle="modal" data-backdrop="static" href="#myModal2" goods-id="{$goods_info.goods_id}" attr-url="{RC_Uri::url('goods/merchant/spec_add_product')}" ><button class="btn btn-info"><i class="fa fa-plus"></i> {t domain="goods"}添加货品{/t}</button></a>
+	                                                {/if} 
 												</div>
 											</div>
 											
