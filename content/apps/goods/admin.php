@@ -1654,7 +1654,8 @@ class admin extends ecjia_admin {
 		
 		return $this->showmessage(__('编辑商品成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $link, 'pjaxurl' => RC_Uri::url('goods/admin/edit', array('goods_id' => $goods_id))));
     }
-    
+
+    //导入商品到商品库
     public function insert_goodslib() {
         $this->admin_priv('goods_insert_goodslib');
         
@@ -1707,20 +1708,23 @@ class admin extends ecjia_admin {
         $goods['is_display'] = $is_display;
         $goods['brand_id'] = $goods_info['brand_id'];
         $goods['goods_weight'] = $goods_info['goods_weight'];
+        $goods['weight_unit'] = $goods_info['weight_unit'];
         $goods['keywords'] = $goods_info['keywords'];
         $goods['goods_brief'] = $goods_info['goods_brief'];
         $goods['goods_desc'] = $goods_info['goods_desc'];
+        $goods['goods_barcode'] = $goods_info['goods_barcode'];
         $time = RC_Time::gmtime();
         $goods['add_time'] = $time;
         $goods['last_update'] = $time;
         $goods['cat_id'] = $goods_info['cat_id'];
-        if($goods_info['goods_type']) {
-            $goods_type = RC_DB::table('goods_type')->where('cat_id', $goods_info['goods_type'])->where('store_id', 0)->first();
-            if ($goods_type) {
-                $goods['goods_type'] = $goods_info['goods_type'];
-            }
-        }
-        
+//        if($goods_info['goods_type']) {
+//            $goods_type = RC_DB::table('goods_type')->where('cat_id', $goods_info['goods_type'])->where('store_id', 0)->first();
+//            if ($goods_type) {
+//                $goods['goods_type'] = $goods_info['goods_type'];
+//            }
+//        }
+//        _dump($goods_info,1);
+
         $new_id = RC_DB::table('goodslib')->insertGetId($goods);
         if(!empty($goods_info['goods_img'])) {
             //复制图片-重命名
@@ -1740,24 +1744,60 @@ class admin extends ecjia_admin {
             //复制图片-重命名
             copy_goods_gallery($id, $new_id, $goods_gallery);
         }
-        
-        if ($goods['goods_type']) {
-            $cat_id = $goods['goods_type'];
-            $goods_attr = RC_DB::table('goods_attr')->where('goods_id', $id)->get();
-            if($goods_attr) {
-                //goods_attr attr_id
-                foreach ($goods_attr as $row) {
-                    unset($row['goods_attr_id']);
-                    $row['goods_id'] = $new_id;
-                    RC_DB::table('goodslib_attr')->insert($row);
-                }
-                
-                //product
-                $this->copy_goods_product($id, $goods_attr, array('goods_id' => $new_id, 'goods_sn' => $goods['goods_sn'], 'cat_id' => $cat_id));
-            }
+
+        //优先使用规格模板specification_id
+        if ($goods_info['specification_id']) {
+            $this->copy_goods_attr($id, $new_id, $goods_info['specification_id'], $goods, 'specification');
         }
-        
+        if ($goods_info['goods_type'] && empty($goods_info['specification_id'])) {
+            $this->copy_goods_attr($id, $new_id, $goods_info['goods_type'], $goods);
+        }
+
+        //参数模板
+        if ($goods_info['parameter_id']) {
+            $this->copy_goods_attr($id, $new_id, $goods_info['parameter_id'], $goods, 'parameter');
+        }
+
         return $this->showmessage(__('导入成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goods/admin/init')));
+    }
+
+    //复制商品规格属性
+    private function copy_goods_attr($goods_id, $new_id, $cat_id, $goods = [], $cat_type = '') {
+        $cat_info = RC_DB::table('goods_type')->where('cat_id', $cat_id)->first();
+        if($cat_info['store_id'] != 0) {
+            //非平台规格，先复制
+
+        }
+        $db_goods_attr = RC_DB::table('goods_attr')->where('goods_id', $goods_id);
+        if($cat_type) {
+            $db_goods_attr->where('cat_type', $cat_type);
+        } else {
+            $db_goods_attr->whereNull('cat_type');
+        }
+        $goods_attr = $db_goods_attr->get();
+        if($goods_attr) {
+            //goods_attr attr_id
+            foreach ($goods_attr as $row) {
+                unset($row['goods_attr_id']);
+                $row['goods_id'] = $new_id;
+                RC_DB::table('goodslib_attr')->insert($row);
+            }
+
+            if($cat_type == 'specification') {
+                //product
+                $this->copy_goods_product($goods_id, $goods_attr, array('goods_id' => $new_id, 'goods_sn' => $goods['goods_sn'], 'cat_id' => $cat_id));
+                $data = ['specification_id' => $cat_id];
+            } else if($cat_type == 'parameter') {
+                $data = ['parameter_id' => $cat_id];
+            } else {
+                //product
+                $this->copy_goods_product($goods_id, $goods_attr, array('goods_id' => $new_id, 'goods_sn' => $goods['goods_sn'], 'cat_id' => $cat_id));
+                $data = ['goods_type' => $cat_id];
+            }
+            RC_DB::table('goodslib')->where('goods_id', $new_id)->update($data);
+        }
+
+        return true;
     }
     
     /**
