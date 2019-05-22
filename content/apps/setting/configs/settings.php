@@ -12,9 +12,9 @@ return [
      * 禁用的设置项
      */
     'disabled' => [
-        'watermark',
-        'watermark_place',
-        'watermark_alpha',
+//        'watermark',
+//        'watermark_place',
+//        'watermark_alpha',
         'rewrite',
         'top10_time',
         'licensed',

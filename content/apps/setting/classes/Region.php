@@ -193,6 +193,28 @@ class Region
         	return !is_null($item);
         })->all();
     }
+
+    /**
+     * 获取地区显示标签
+     */
+    public function getDisplayLabel($province, $city = null, $district = null, $street = null)
+    {
+        if (!empty($street)) {
+            $regions = $this->getRegionsWithRecursivelyUpwards($street);
+        }
+        elseif (!empty($district)) {
+            $regions = $this->getRegionsWithRecursivelyUpwards($district);
+        }
+        elseif (!empty($city)) {
+            $regions = $this->getRegionsWithRecursivelyUpwards($city);
+        }
+        elseif (!empty($province)) {
+            $regions = $this->getRegionsWithRecursivelyUpwards($province);
+        } else {
+            $regions = [];
+        }
+        return collect($regions)->pluck('region_id')->toArray();
+    }
     
 }
 
