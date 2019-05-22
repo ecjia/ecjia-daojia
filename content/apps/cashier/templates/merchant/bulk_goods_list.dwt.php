@@ -120,7 +120,7 @@
 								<th class="sorting text-center" data-toggle="sortby" data-sortby="shop_price">{t domain="cashier"}价格{/t}</th>
 								<th class="text-center">{t domain="cashier"}单位{/t}</th>
 								<th class="text-center" data-toggle="sortby" data-sortby="goods_number"> {t domain="cashier"}库存{/t} </th>
-								<th class="text-center"> {t domain="cashier"}上架{/t} </th>
+								<th class="text-center"> {t domain="cashier"}是否上架{/t} </th>
 								<th class="sorting text-center" data-toggle="sortby" data-sortby="store_sort_order">{t domain="cashier"}排序{/t}</th>
 							</tr>
 						</thead>

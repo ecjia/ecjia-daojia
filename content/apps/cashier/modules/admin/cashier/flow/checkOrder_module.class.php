@@ -103,7 +103,7 @@ class admin_cashier_flow_checkOrder_module extends api_admin implements api_inte
 // 		);
 		
 		//有添加用户
-		if ($user['user_id'] > 0) {
+		if (isset($user['user_id'])) {
 			$result = $this->_processAddUser($user, $api_version, $pendorder_id, $device, $_SESSION['store_id']);
 		}
 		
@@ -234,7 +234,7 @@ class admin_cashier_flow_checkOrder_module extends api_admin implements api_inte
 	 */
 	private function _processAddUser($user = array(), $api_version = '', $pendorder_id = 0, $device = array(), $store_id = 0)
 	{
-		if (!empty($user['user_id'])) {
+		if (isset($user['user_id'])) {
 			$pendorder_id = empty($pendorder_id) ? 0 : $pendorder_id;
 			$user_id = (empty($user['user_id']) || !isset($user['user_id'])) ? 0 : $user['user_id'];
 			if ($user_id > 0) {

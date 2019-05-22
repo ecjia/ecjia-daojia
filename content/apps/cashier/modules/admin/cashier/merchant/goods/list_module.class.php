@@ -56,7 +56,7 @@ class admin_cashier_merchant_goods_list_module extends api_admin implements api_
 		$filter = $this->requestData('filter', array());
 		
 		$keyword 		= RC_String::unicode2string($filter['keywords']);
-		$category 		= !empty($filter['category_id']) ? $filter['category_id'] : 0;
+		$category 		= !empty($filter['category_id']) ? $filter['category_id'] : 0;  //商家商品分类
 		$sort_type 		= $filter['sort_by'];
 		$store_id 		= $this->requestData('seller_id');
 		$action_type	= $this->requestData('action_type', '');
@@ -68,22 +68,22 @@ class admin_cashier_merchant_goods_list_module extends api_admin implements api_
 		
 		switch ($sort_type) {
 			case 'new' :
-				$order_by = array('sort_order' => 'asc', 'goods_id' => 'desc');
+				$order_by = array('goods.sort_order' => 'asc', 'goods.goods_id' => 'desc');
 				break;
 			case 'price_desc' :
-				$order_by = array('shop_price' => 'desc', 'sort_order' => 'asc');
+				$order_by = array('goods.shop_price' => 'desc', 'goods.sort_order' => 'asc');
 				break;
 			case 'price_asc' :
-				$order_by = array('shop_price' => 'asc', 'sort_order' => 'asc');
+				$order_by = array('goods.shop_price' => 'asc', 'goods.sort_order' => 'asc');
 				break;
 			case 'last_update' :
-				$order_by = array('last_update' => 'desc');
+				$order_by = array('goods.last_update' => 'desc');
 				break;
 			case 'hot' :
-				$order_by = array('is_hot' => 'desc', 'click_count' => 'desc', 'sort_order' => 'asc');
+				$order_by = array('goods.is_hot' => 'desc', 'goods.click_count' => 'desc', 'goods.sort_order' => 'asc');
 				break;
 			default :
-				$order_by = array('store_sort_order' => 'asc');
+				$order_by = array('goods.store_sort_order' => 'asc');
 				break;
 		}
 		
@@ -107,9 +107,10 @@ class admin_cashier_merchant_goods_list_module extends api_admin implements api_
 		if (!empty($store_id)) {
 			$filters['store_id'] = $store_id;
 		}
-		//平台分类
-		if ($category > 0) {
-			$filters['cat_id'] = $category;
+		//商家商品分类
+		if ($category > 0 && !empty($store_id)) {
+		    $children_cat = Ecjia\App\Goods\GoodsSearch\MerchantGoodsCategory::getChildrenCategoryId($category, $store_id);
+		    $filters['store_id_and_merchant_cat_id'] = [$children_cat, $store_id];
 		}
 		//关键字
 		if (!empty($keyword)) {

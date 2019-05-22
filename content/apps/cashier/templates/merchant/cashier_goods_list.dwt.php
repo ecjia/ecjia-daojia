@@ -119,9 +119,9 @@
 								<th class="w100 sorting" data-toggle="sortby" data-sortby="goods_sn">{lang key='goods::goods.goods_sn'}</th>
 								<th class="sorting text-center" data-toggle="sortby" data-sortby="shop_price">{lang key='goods::goods.shop_price'}</th>
 								<th class="text-center" data-toggle="sortby" data-sortby="goods_number"> {lang key='goods::goods.goods_number'} </th>
-								<th class="text-center" data-toggle="sortby" data-sortby="sales_volume"> 销量 </th>
-								<th class="text-center"> {lang key='goods::goods.is_on_sale'} </th>
-								<th class="sorting text-center" data-toggle="sortby" data-sortby="store_sort_order">排序</th>
+								<th class="text-center" data-toggle="sortby" data-sortby="sales_volume"> {t domain="cashier"}销量 {/t}</th>
+								<th class="text-center">{t domain="cashier"}是否上架 {/t}</th>
+								<th class="sorting text-center" data-toggle="sortby" data-sortby="store_sort_order">{t domain="cashier"}排序{/t}</th>
 							</tr>
 						</thead>
 						<tbody>

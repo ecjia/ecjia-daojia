@@ -209,12 +209,6 @@ class admin_cashier_quickpay_flow_done_module extends api_admin implements api_i
     	/*实付金额*/
 		$order['order_amount'] = $goods_amount - ($discount + $order['integral_money'] + $order['bonus']);
     	
-    	/* 如果订单金额为0（使用余额或积分或红包支付），修改订单状态为已确认、已付款 */
-    	if ($order['order_amount'] <= 0) {
-    		$order['order_status']	= \Ecjia\App\Quickpay\Enums\QuickpayPayEnum::PAID;
-    		$order['pay_time']		= RC_Time::gmtime();
-    		$order['order_amount']	= 0;
-    	}
     	$order['order_amount'] = number_format($order['order_amount'], 2, '.', '');
     	/*插入订单数据*/
     	$db_order_info = RC_DB::table('quickpay_orders');
