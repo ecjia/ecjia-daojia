@@ -13,7 +13,7 @@ trait AppCache
      * @since 3.4
      *
      * @param string $name
-     * @param string $data
+     * @param string|array $data
      * @param string $app
      */
     public static function app_cache_set($name, $data, $app, $expire = null)
@@ -30,7 +30,7 @@ trait AppCache
      * @since 3.4
      *
      * @param string $name
-     * @param string $data
+     * @param string|array $data
      * @param string $app
      */
     public static function app_cache_add($name, $data, $app, $expire = null)
