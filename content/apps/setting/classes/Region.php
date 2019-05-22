@@ -213,7 +213,8 @@ class Region
         } else {
             $regions = [];
         }
-        return collect($regions)->pluck('region_id')->toArray();
+
+        return collect($regions)->pluck('region_name')->toArray();
     }
     
 }
