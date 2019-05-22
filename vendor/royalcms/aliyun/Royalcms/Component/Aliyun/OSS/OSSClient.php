@@ -91,7 +91,7 @@ class OSSClient {
      * @param array $options 请求参数，可以包含以下Key:
      * <li>Bucket(string, 必选) - 所要删除的Bucket的名称</li>
      *
-     * @return void
+     * @return
      */
     public function deleteBucket(array $options) {
         return $this->execute(__FUNCTION__, $options);
@@ -116,7 +116,7 @@ class OSSClient {
      * <li>Bucket(string, 必选) - 指定的Bucket的名称</li>
      * <li>ACL(string, 必选) - Bucket的访问权限，可以为下面几个权限之一： private | public-read | public-read-write </li>
      *
-     * @return void
+     * @return
      */
     public function setBucketAcl(array $options) {
         return $this->execute(__FUNCTION__, $options);
@@ -210,7 +210,7 @@ class OSSClient {
      * <li>Bucket(string, 必选) - 要删除的Object所在的Bucket</li>
      * <li>Key(string, 必选) - 要删除的Object的Key</li>
      *
-     * @return void
+     * @return
      */
     public function deleteObject(array $options) {
         return $this->execute(__FUNCTION__, $options);
@@ -224,7 +224,7 @@ class OSSClient {
      * <li>Keys(array, 必选) - 要删除的Object的Keys</li>
      * <li>Quiet(bool, 可选) - 打开“简单”响应模式的开关</li>
      *
-     * @return void
+     * @return
      */
     public function deleteMultipleObjects(array $options) {
         return $this->execute(__FUNCTION__, $options);
@@ -342,7 +342,7 @@ class OSSClient {
      * <li>Key(string, 必选) - 上传事件的Object的Key </li>
      * <li>UploadId(string, 必选) - 标识Multipart上传事件的Upload ID。 </li>
      *
-     * @return void
+     * @return
      */
     public function abortMultipartUpload(array $options) {
         return $this->execute(__FUNCTION__, $options);
