@@ -23,6 +23,7 @@
         <p>{t domain="store"}温馨提示{/t}</p>
     </strong>
     <p>{t domain="store"}以下所有数据，为了避免复制错误导致店铺出现异常，请按显示顺序逐一复制。{/t}</p>
+    <p>{t domain="store"}若出现复制错误导致店铺出现异常，请删除该店铺所有数据后重新复制。{/t}</p>
 </div>
 
 <div>
@@ -48,9 +49,7 @@
                     {$val->handlePrintData()}
                     <span class="controls-info-right f_r">
                         {if $val->handleCount() > 0}
-                            <!--<a class="btn btn-gebo" data-toggle="store_ajaxduplicate" {if $val->mark_finished} disabled href="javascript:;" {else}  href="{$duplicate_item_link.href}&handle={$val->getCode()}" {/if}>{$duplicate_item_link.text}</a>-->
-                            <a class="btn btn-gebo" {if $val->getCode()|in_array:$duplicate_finished_items} disabled href="javascript:;" {else} data-toggle="store_ajaxduplicate" href="{$duplicate_item_link.href}&handle={$val->getCode()}" {/if}>{$duplicate_item_link.text}</a>
-                            <!--<a class="btn btn-gebo" {if $val->isCheckFinished()} disabled href="javascript:;" {else} data-toggle="store_ajaxduplicate" href="{$duplicate_item_link.href}&handle={$val->getCode()}" {/if}>{$duplicate_item_link.text}</a>-->
+                            <a class="btn btn-gebo" {if $val->isCheckFinished()} disabled href="javascript:;" {else} data-toggle="store_ajaxduplicate" href="{$duplicate_item_link.href}&handle={$val->getCode()}" {/if}>{if $val->isCheckFinished()} 已复制 {else} {$duplicate_item_link.text}{/if}</a>
                         {/if}
                     </span>
                 </div>

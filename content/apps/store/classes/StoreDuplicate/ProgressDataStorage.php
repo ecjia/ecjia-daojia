@@ -20,6 +20,8 @@ class ProgressDataStorage
 
     const STORAGE_CODE = 'duplicate_progress_data';
 
+    static $instance;
+
     public function __construct($store_id, StoreDuplicateProgressData $data = NULL)
     {
         $this->store_id = $store_id;
@@ -71,6 +73,15 @@ class ProgressDataStorage
         }
 
         return $this->duplicate_progress_data;
+    }
+
+    public static function makeStaticInstance($store_id)
+    {
+        if (is_null(self::$instance)) {
+            self::$instance = new static($store_id);
+        }
+
+        return self::$instance;
     }
 
 }

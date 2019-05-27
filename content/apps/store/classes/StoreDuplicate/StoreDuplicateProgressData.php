@@ -21,9 +21,20 @@ class StoreDuplicateProgressData
      */
     protected $duplicate_finished_items = [];
 
+    /**
+     * 存储复制任务的状态
+     * @var array
+     */
+    protected $duplicating_items = [];
+
+    /**
+     * 复制过程的临时转换数据存储
+     * @var array
+     */
     protected $replacement_data = [];
 
     /**
+     * Don't Modify
      * @return array
      */
     public function getDuplicateFinishedItems()
@@ -32,6 +43,7 @@ class StoreDuplicateProgressData
     }
 
     /**
+     * Don't Modify
      * @param $finished_items
      * @return $this
      */
@@ -41,12 +53,72 @@ class StoreDuplicateProgressData
         return $this;
     }
 
+    /**
+     * @param $code
+     */
     public function addDuplicateFinishedItem($code)
     {
         $this->duplicate_finished_items[] = $code;
     }
 
+
     /**
+     * Don't Modify
+     * @return array
+     */
+    public function getDuplicatingItems()
+    {
+        return $this->duplicating_items;
+    }
+
+    /**
+     * Don't Modify
+     * @param array $duplicating_items
+     * @return StoreDuplicateProgressData
+     */
+    public function setDuplicatingItems($duplicating_items)
+    {
+        $this->duplicating_items = $duplicating_items;
+        return $this;
+    }
+
+    /**
+     * 添加正在进行中项目
+     * @param $code
+     * @return $this
+     */
+    public function addDuplicatingItem($code)
+    {
+        $this->duplicating_items[$code] = 'copying';
+        return $this;
+    }
+
+    /**
+     * 查看正在进行中项目
+     * @param $code
+     * @return bool
+     */
+    public function hasDuplicatingItem($code)
+    {
+        return isset($this->duplicating_items[$code]);
+    }
+
+    /**
+     * 移除正在进行中项目
+     * @param $code
+     * @return $this
+     */
+    public function removeDuplicatingItem($code)
+    {
+        if (isset($this->duplicating_items[$code])) {
+            unset($this->duplicating_items[$code]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Don't Modify
      * @return array
      */
     public function getReplacementData()
@@ -55,6 +127,7 @@ class StoreDuplicateProgressData
     }
 
     /**
+     * Don't Modify
      * @param array $replacement_data
      * @return StoreDuplicateProgressData
      */
@@ -95,6 +168,7 @@ class StoreDuplicateProgressData
     {
         return [
             'duplicate_finished_items' => $this->duplicate_finished_items,
+            'duplicating_items' => $this->duplicating_items,
             'replacement_data' => $this->replacement_data,
         ];
 

@@ -8,7 +8,6 @@
 
 namespace Ecjia\App\Store\StoreDuplicate;
 
-
 abstract class StoreDuplicateAbstract
 {
     /**
@@ -54,18 +53,14 @@ abstract class StoreDuplicateAbstract
     protected $dependents = [];
 
     /**
-     * 复制对象关联的数据条目
-     * @var int
+     * StoreDuplicateAbstract constructor.
+     * @param $store_id
+     * @param $source_store_id
      */
-    protected $count = 0;
-
-    public function __construct($store_id, $source_store_id, $sort = 0)
+    public function __construct($store_id, $source_store_id)
     {
         $this->store_id = $store_id;
         $this->source_store_id = $source_store_id;
-        if ($sort > 0){
-            $this->sort = $sort;
-        }
     }
 
     public function getCode()
@@ -121,26 +116,49 @@ abstract class StoreDuplicateAbstract
     abstract public function handleAdminLog();
 
     /**
+     * @return ProgressDataStorage
+     */
+    protected function handleProgressDataStorage()
+    {
+        return ProgressDataStorage::makeStaticInstance($this->store_id);
+    }
+
+    /**
+     * @return StoreDuplicateProgressData
+     */
+    public function handleDuplicateProgressData()
+    {
+        return $duplicate_progress_data = $this->handleProgressDataStorage()->getDuplicateProgressData();
+    }
+
+    /**
+     * 标记开始复制
+     */
+    public function markStartingDuplicate()
+    {
+        $this->handleDuplicateProgressData()->addDuplicatingItem($this->getCode());
+
+        $this->handleProgressDataStorage()->save();
+    }
+
+    /**
      * 标记操作完成
      */
     public function markDuplicateFinished()
     {
-        $storage = new ProgressDataStorage($this->store_id);
+        $this->handleDuplicateProgressData()->removeDuplicatingItem($this->getCode());
+        $this->handleDuplicateProgressData()->addDuplicateFinishedItem($this->getCode());
 
-        $duplicate_progress_data = $storage->getDuplicateProgressData();
-
-        $duplicate_progress_data->addDuplicateFinishedItem($this->getCode());
-
-        $storage->save();
+        $this->handleProgressDataStorage()->save();
     }
 
     /**
-     * 依赖检测
-     * 返回依赖未完成的项
+     * 依赖检测，返回依赖未完成的项
+     * @return mixed
      */
     public function dependentCheck()
     {
-        $items = (new ProgressDataStorage($this->store_id))->getDuplicateProgressData()->getDuplicateFinishedItems();
+        $items = $this->handleDuplicateProgressData()->getDuplicateFinishedItems();
 
         $factory = new StoreDuplicateManager($this->store_id, $this->source_store_id);
 
@@ -155,50 +173,45 @@ abstract class StoreDuplicateAbstract
     }
 
     /**
+     * 检查当前复制项是否开始
+     * @return bool
+     */
+    public function isCheckStarting()
+    {
+        return $this->handleDuplicateProgressData()->hasDuplicatingItem($this->getCode());
+    }
+
+    /**
      * 检查当前复制项是否完成
+     * @return bool
      */
     public function isCheckFinished()
     {
-        $storage = new ProgressDataStorage($this->store_id);
-
-        $duplicate_progress_data = $storage->getDuplicateProgressData();
-
-        $items = $duplicate_progress_data->getDuplicateFinishedItems();
-
-        if (in_array($this->getCode(), $items)) {
+        if (in_array($this->getCode(), $this->handleDuplicateProgressData()->getDuplicateFinishedItems())) {
             return true;
         }
-
         return false;
     }
 
     /**
+     * @param $code
      * @return array
      */
     public function getReplacementData($code)
     {
-        $storage = new ProgressDataStorage($this->store_id);
-
-        $duplicate_progress_data = $storage->getDuplicateProgressData();
-
-        $data = $duplicate_progress_data->getReplacementData($code);
-
-        return $data;
+        return $this->handleDuplicateProgressData()->getReplacementDataByCode($code);
     }
 
     /**
-     * @param array $replacement_data
+     * @param $code
+     * @param $replacement_data
      * @return bool
      */
     public function setReplacementData($code, $replacement_data)
     {
-        $storage = new ProgressDataStorage($this->store_id);
+        $this->handleDuplicateProgressData()->setReplacementDataByCode($code, $replacement_data);
 
-        $duplicate_progress_data = $storage->getDuplicateProgressData();
-
-        $duplicate_progress_data->setReplacementDataByCode($code, $replacement_data);
-
-        $storage->save();
+        $this->handleProgressDataStorage()->save();
 
         return true;
     }

@@ -11,11 +11,9 @@ namespace Ecjia\App\Store\StoreDuplicateHandlers;
 use Ecjia\App\Store\Repositories\MerchantConfigRepository;
 use Ecjia\App\Store\StoreDuplicate\StoreCopyImage;
 use Ecjia\App\Store\StoreDuplicate\StoreDuplicateAbstract;
-use RC_Uri;
-use RC_DB;
-use RC_Api;
 use ecjia_admin;
 use ecjia_error;
+use RC_Api;
 
 /**
  * 店铺基本信息复制
@@ -32,10 +30,12 @@ class MerchantConfigDuplicate extends StoreDuplicateAbstract
      */
     protected $code = 'merchant_config_duplicate';
 
-    public function __construct($store_id, $source_store_id, $sort = 1)
+    protected $sort = 1;
+
+    public function __construct($store_id, $source_store_id)
     {
+        parent::__construct($store_id, $source_store_id);
         $this->name = __('店铺基本信息', 'store');
-        parent::__construct($store_id, $source_store_id, $sort);
     }
 
     /**
@@ -57,7 +57,6 @@ HTML;
     public function handleCount()
     {
         static $count;
-
         if (is_null($count)) {
             try {
                 $source_repository = new MerchantConfigRepository($this->source_store_id);
@@ -68,10 +67,8 @@ HTML;
                 return new ecjia_error('duplicate_data_error', $e->getMessage());
             }
         }
-
         return $count;
     }
-
 
     /**
      * 执行复制操作
@@ -85,6 +82,10 @@ HTML;
             return true;
         }
 
+        if ($this->isCheckStarting()){
+            return new ecjia_error('duplicate_started_error', sprintf(__('%s复制已开始，请耐心等待！', 'store'), $this->getName()));
+        }
+
         //如果当前对象复制前仍存在依赖，则需要先复制依赖对象才能继续复制
         if (!empty($this->dependents)) { //如果设有依赖对象
             //检测依赖
@@ -93,6 +94,9 @@ HTML;
                 return new ecjia_error('handle_duplicate_error', __('复制依赖检测失败！', 'store'), $items);
             }
         }
+
+        //标记复制正在进行中
+        $this->markStartingDuplicate();
 
         //执行具体任务
         $result = $this->startDuplicateProcedure();
@@ -130,18 +134,17 @@ HTML;
                     return false;
                 }
 
-                //setp2. 复制图片
-                //$this->copyImage($item);
-
-                //setp3. 复制数据
+                //setp2. 复制数据
                 return $repository->addOption($item['code'], $item['value'], [
-                    'type'          => $item['type'],
-                    'group'         => $item['group'],
-                    'store_range'   => $item['store_range'],
-                    'store_dir'     => $item['store_dir'],
-                    'sort_order'    => $item['sort_order'],
+                    'type' => $item['type'],
+                    'group' => $item['group'],
+                    'store_range' => $item['store_range'],
+                    'store_dir' => $item['store_dir'],
+                    'sort_order' => $item['sort_order'],
                 ]);
 
+                //setp3. 复制图片
+                $this->copyImage($item);
             });
 
             return true;
@@ -164,19 +167,17 @@ HTML;
      */
     protected function copyImage(& $item)
     {
-        try {
-            //setp2. 复制图片
-            if (in_array($item['code'], [
-                'shop_thumb_logo',
-                'shop_nav_background',
-                'shop_logo',
-                'shop_banner_pic',
-            ])) {
-                $item['value'] = (new StoreCopyImage($this->store_id, $this->source_store_id))->copyMerchantConfigImage($item['value']);
-            }
-        }
-        catch (\League\Flysystem\FileNotFoundException $e) {
-            ecjia_log_warning($e->getMessage());
+        /**
+         * 数据样式：
+         * merchant/60/data/shop_banner/1498438839098780345.png
+         */
+        if (in_array($item['code'], [
+            'shop_thumb_logo',
+            'shop_nav_background',
+            'shop_logo',
+            'shop_banner_pic',
+        ])) {
+            $item['value'] = (new StoreCopyImage($this->store_id, $this->source_store_id))->copyMerchantImage($item['value']);
         }
     }
 
@@ -187,14 +188,20 @@ HTML;
      */
     public function handleAdminLog()
     {
+        static $store_merchant_name, $source_store_merchant_name;
+
+        if (empty($store_merchant_name)) {
+            $store_info = RC_Api::api('store', 'store_info', ['store_id' => $this->store_id]);
+            $store_merchant_name = array_get(empty($store_info) ? [] : $store_info, 'merchants_name');
+        }
+
+        if (empty($source_store_merchant_name)) {
+            $source_store_info = RC_Api::api('store', 'store_info', ['store_id' => $this->source_store_id]);
+            $source_store_merchant_name = array_get(empty($source_store_info) ? [] : $source_store_info, 'merchants_name');
+        }
+
         \Ecjia\App\Store\Helper::assign_adminlog_content();
-
-        $store_info = RC_Api::api('store', 'store_info', array('store_id' => $this->store_id));
-
-        $merchants_name = !empty($store_info) ? sprintf(__('店铺名是%s', 'goods'), $store_info['merchants_name']) : sprintf(__('店铺ID是%s', 'goods'), $this->store_id);
-
-        ecjia_admin::admin_log($merchants_name, 'duplicate', 'config');
+        $content = sprintf(__('将【%s】店铺基本信息复制到【%s】店铺中', 'goods'), $source_store_merchant_name, $store_merchant_name);
+        ecjia_admin::admin_log($content, 'clear', 'store_goodsww');
     }
-
-
 }

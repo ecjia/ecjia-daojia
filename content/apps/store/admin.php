@@ -44,6 +44,8 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+use Royalcms\Component\Database\QueryException;
+
 defined('IN_ECJIA') or exit('No permission resources.');
 
 /**
@@ -1253,7 +1255,7 @@ class admin extends ecjia_admin
                 <strong>
                     <p>删除店铺开启风险警告</p>
                 </strong>
-                <p>当前配置中已经开启删除店铺功能，如果您现在不需要清理店铺，且删除店铺并非常用功能，为了安全起见，请在配置文件【%s】中，将删除店铺的设置项关闭，如需要删除，可再次开启。<br />如何关闭？<a href="%s">请点击此处 >></a></p>
+                <p>当前配置中已经开启删除店铺功能，如果您现在不需要清理店铺，且删除店铺并非常用功能，为了安全起见，请在配置文件【%s】中，将删除店铺的设置项关闭，如需要删除，可再次开启。<br />如何关闭？<a href="%s" target="_blank">请点击此处 >></a></p>
             ', 'store'), $config_path, $help_url);
             ecjia_screen::get_current_screen()->add_admin_notice(new admin_notice($warning, 'alert-error'));
         } else {
@@ -1535,7 +1537,6 @@ class admin extends ecjia_admin
 
         $store = $this->store_info;
         $data = [
-            'cat_id' => 0,
             'status' => 2,
             'shop_close' => 1,
             'confirm_time' => RC_Time::gmtime(),
@@ -1546,30 +1547,28 @@ class admin extends ecjia_admin
             'percent_id' => $store['percent_id']
         ];
         $data['apply_time'] = $data['confirm_time'];
+        $data['cat_id'] = $this->request->input('store_cat');
+        $data['merchants_name'] = $this->request->input('merchants_name');
+        $data['email'] = $this->request->input('email');
+        $data['contact_mobile'] = $this->request->input('contact_mobile');
+        $data['address'] = $this->request->input('address');
+        $data['province'] = $this->request->input('province');
+        $data['city'] = $this->request->input('city');
+        $data['district'] = $this->request->input('district');
+        $data['street'] = $this->request->input('street');
+        $data['longitude'] = $this->request->input('longitude');
+        $data['latitude'] = $this->request->input('latitude');
+        $data['responsible_person'] = $this->request->input('responsible_person');
 
-        $this->prepareData($data, [
-            'merchants_name',
-            'email',
-            'contact_mobile',
-            'address',
-            'province',
-            'city',
-            'district',
-            'street',
-            'longitude',
-            'latitude',
-            'responsible_person'
-        ]);
-
-        if (empty($data['cat_id'])) {
+        if (empty($data['cat_id'])) { //不填商家分类则取源店铺的商家分类
             $data['cat_id'] = $store['cat_id'];
         }
 
-        if (empty($data['email'])) {
-            $data['email'] = $store['email'];
+        if (empty($data['email'])) { //不填邮箱则置为null
+            $data['email'] = null;
         }
 
-        if ($data['manage_mode'] == 'self') { //自营店铺不区分入驻类型
+        if ($data['manage_mode'] == 'self' OR intval($data['validate_type']) === 0) { //自营店铺不区分入驻类型
             $data['validate_type'] = 2;
         }
 
@@ -1614,11 +1613,11 @@ class admin extends ecjia_admin
             return $this->showmessage(__('联系手机员工中已存在，请修改', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        if (RC_DB::table('store_franchisee')->where('email', $data['email'])->get()) {
+        if ($data['email'] && RC_DB::table('store_franchisee')->where('email', $data['email'])->get()) {
             return $this->showmessage(__('邮箱已存在，请修改', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
-        if (RC_DB::table('staff_user')->where('email', $data['email'])->get()) {
+        if ($data['email'] && RC_DB::table('staff_user')->where('email', $data['email'])->get()) {
             return $this->showmessage(__('邮箱员工中已存在，请修改', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
 
@@ -1798,10 +1797,6 @@ class admin extends ecjia_admin
         ]);
 
         $handles = (new \Ecjia\App\Store\StoreDuplicate\StoreDuplicateManager($store_id, $source_store_id))->getFactories();
-        //dd($handles);
-        $finished_items = (new \Ecjia\App\Store\StoreDuplicate\ProgressDataStorage($this->store_id))->getDuplicateProgressData()->getDuplicateFinishedItems();
-
-        $this->assign('duplicate_finished_items', $finished_items);
 
         $this->assign('handles', $handles);
 
@@ -1818,28 +1813,31 @@ class admin extends ecjia_admin
         $this->admin_priv('store_duplicate', ecjia::MSGTYPE_JSON);
 
         $store_id = $this->store_id;
-        $this->finish_duplication($store_id);
-
-        return $this->showmessage(__('操作成功', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array(
-                'pjaxurl' => RC_Uri::url('store/admin/init', ['store_id' => $store_id]),
-                //'pjaxurl' => RC_Uri::url('store/admin/duplicate_processing', ['store_id' => $store_id, 'source_store_id' => $this->store_info['duplicate_source_store_id'])
-            )
-        );
+        if ($this->finish_duplication($store_id)) {
+            return $this->showmessage(__('操作成功', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, ['pjaxurl' => RC_Uri::url('store/admin/init', ['store_id' => $store_id])]);
+        }
+        return $this->showmessage(__('操作失败', 'store'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, ['pjaxurl' => RC_Uri::url('store/admin/init', ['store_id' => $store_id])]);
     }
 
     /**
-     * 直接完成复制
      * @param $store_id
+     * @return bool
      */
     private function finish_duplication($store_id)
     {
-        //修改店铺状态
-        RC_DB::table('store_franchisee')->where('store_id', $store_id)->update([
-            'status' => 1, //不锁定
-            'shop_close' => 1 //关闭店铺
-        ]);
-        //将复制状态改为已完成
-        RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'duplicate_store_status')->update(['value' => 'finished']);
+        try {
+            //修改店铺状态
+            RC_DB::table('store_franchisee')->where('store_id', $store_id)->update([
+                'status' => 1, //不锁定
+                'shop_close' => 1 //关闭店铺
+            ]);
+            //将复制状态改为已完成
+            RC_DB::table('merchants_config')->where('store_id', $store_id)->where('code', 'duplicate_store_status')->update(['value' => 'finished']);
+            return true;
+        } catch (QueryException $e) {
+            ecjia_log_error($e->getMessage());
+            return false;
+        }
     }
 
     /**
@@ -1855,6 +1853,7 @@ class admin extends ecjia_admin
         $source_store_id = $this->store_info['duplicate_source_store_id'];
 
         $handlers = (new \Ecjia\App\Store\StoreDuplicate\StoreDuplicateManager($store_id, $source_store_id));
+
         $handle = $handlers->handler($code);
 
         if (empty($handle)) {
@@ -1869,55 +1868,43 @@ class admin extends ecjia_admin
 
         $result = $handle->handleDuplicate();
 
+        //检测复制过程中是否发生错误
         if (is_ecjia_error($result)) {
-            $dependents = $result->get_error_data();
+            $code = $result->get_error_code();
 
-            $names = [];
-            foreach ($dependents as $v) {
-                $names[] = $handlers->handler($v)->getName();
+            //当前复制正在进行中
+            if ($code == 'duplicate_started_error') {
+                return $this->showmessage($result->get_error_message(), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, ['pjaxurl' => $pjaxurl]);
             }
-            return $this->showmessage(sprintf(__('复制%s前，您还需要先复制：%s', 'store'), $handle->getName(), implode('、', $names)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, ['pjaxurl' => $pjaxurl]);
+
+            //当前复制操作存在未完成的依赖项
+            if ($code == 'handle_duplicate_error') {
+                $names = [];
+                $dependents = $result->get_error_data();
+                foreach ($dependents as $v) {
+                    $names[] = $handlers->handler($v)->getName();
+                }
+                return $this->showmessage(sprintf(__('复制%s前，您还需要先复制：%s', 'store'), $handle->getName(), implode('、', $names)), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, ['pjaxurl' => $pjaxurl]);
+            }
+
+            //当前复制处理数据时发生数据库异常
+            if ($code == 'duplicate_data_error') {
+                return $this->showmessage(sprintf(__('%s复制失败', 'store'), $handle->getName()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, ['pjaxurl' => $pjaxurl]);
+            }
         }
 
-        if (is_ecjia_error($result)) {
-            return $this->showmessage(sprintf(__('%s复制失败', 'store'), $handle->getName()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, ['pjaxurl' => $pjaxurl]);
-        }
-
-        $finished_items = (new \Ecjia\App\Store\StoreDuplicate\ProgressDataStorage($this->store_id))->getDuplicateProgressData()->getDuplicateFinishedItems();
+        $finished_items = $handle->handleDuplicateProgressData()->getDuplicateFinishedItems();
         $codes = array_keys($handlers->getFactories());
         $diff = collect($codes)->diff($finished_items);
 
         if (empty($diff->all())) {
-            $this->finish_duplication($store_id);
-            $pjaxurl = RC_Uri::url('store/admin/preview', ['store_id' => $store_id]);
-        }
-
-        return $this->showmessage(sprintf(__('%s复制成功', 'store'), $handle->getName()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, ['pjaxurl' => $pjaxurl]);
-
-    }
-
-    /**
-     * 通过request组装数据
-     *
-     * @param array $raw_data
-     * @param $keys
-     * @param string $default
-     */
-    private function prepareData(array &$raw_data, $keys, $default = '')
-    {
-        if (is_string($keys)) {
-            $keys = explode(',', $keys);
-        }
-
-        if (is_array($keys)) {
-            foreach ($keys as $key) {
-                if (!isset($raw_data[$key])) {
-                    $val = $this->request->input($key);
-                    $raw_data[$key] = is_null($val) ? $default : $val;
-                }
+            if ($this->finish_duplication($store_id)) {
+                $pjaxurl = RC_Uri::url('store/admin/preview', ['store_id' => $store_id]);
             }
         }
+        return $this->showmessage(sprintf(__('%s复制成功', 'store'), $handle->getName()), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, ['pjaxurl' => $pjaxurl]);
     }
+
 
 }
 
