@@ -417,9 +417,9 @@ class merchant extends ecjia_merchant {
 	    $this->assign('ur_here', __('商品预览', 'goodslib'));
 	    $this->assign('action_link', array('text' => '返回', 'href' => RC_Uri::url('goodslib/merchant/add', array('cat_id' => $_GET['cat_id']))));
 	    
-	    $GoodslibBasicInFo = new Ecjia\App\Goodslib\Goodslib\GoodslibBasicInFo($goods_id);
+	    $GoodslibBasicInfo = new Ecjia\App\Goodslib\Goodslib\GoodslibBasicInfo($goods_id);
 	    
-	    $goods = $GoodslibBasicInFo->goodsLibInFo();
+	    $goods = $GoodslibBasicInfo->goodsLibInFo();
 	    
 	    if (empty($goods)) {
 	        return $this->showmessage(__('未检测到此商品', 'goodslib'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text'=> __('返回商品列表', 'goodslib'),'href'=>RC_Uri::url('goods/merchant/init')))));
@@ -446,20 +446,20 @@ class merchant extends ecjia_merchant {
 	    $this->assign('merchant_cat', $merchant_cat_list_option);
 	    
 	    //商品相册
-	    $goods_photo_list = $GoodslibBasicInFo->getGoodsLibGallery();
+	    $goods_photo_list = $GoodslibBasicInfo->getGoodsLibGallery();
 	    $this->assign('goods_photo_list', $goods_photo_list);
 	    
 	    //商品属性（既商品货品）
-	    $product_list = $GoodslibBasicInFo->goodslibProducts();
+	    $product_list = $GoodslibBasicInfo->goodslibProducts();
 	    $this->assign('product_list', $product_list);
 	    
 	    //商品参数
-	    $attr_group = $GoodslibBasicInFo->attrGroup();
+	    $attr_group = $GoodslibBasicInfo->attrGroup();
 	    if (count($attr_group) > 0) {
-	    	$group_parameter_list = $GoodslibBasicInFo->getGoodsGroupParameter();
+	    	$group_parameter_list = $GoodslibBasicInfo->getGoodsGroupParameter();
 	    	$this->assign('group_parameter_list', $group_parameter_list);
 	    } else {
-	    	$common_parameter_list = $GoodslibBasicInFo->getGoodsCommonParameter();
+	    	$common_parameter_list = $GoodslibBasicInfo->getGoodsCommonParameter();
 	    	$this->assign('common_parameter_list', $common_parameter_list);
 	    }
 	    

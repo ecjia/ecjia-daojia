@@ -1007,8 +1007,8 @@ class admin extends ecjia_admin {
         $this->assign('ur_here', __('商品预览', 'goodslib'));
         $this->assign('action_link', array('text' => __('返回', 'goodslib'), 'href' => RC_Uri::url('goodslib/admin/init')));
         
-        $GoodslibBasicInFo = new Ecjia\App\Goodslib\Goodslib\GoodslibBasicInFo($goods_id);
-        $goods = $GoodslibBasicInFo->goodsLibInFo();
+        $GoodslibBasicInfo = new Ecjia\App\Goodslib\Goodslib\GoodslibBasicInfo($goods_id);
+        $goods = $GoodslibBasicInfo->goodsLibInFo();
         
         if (empty($goods)) {
             return $this->showmessage(__('未检测到此商品', 'goodslib'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text'=> __('返回商品列表', 'goodslib'),'href'=>RC_Uri::url('goodslib/admin/init')))));
@@ -1030,20 +1030,20 @@ class admin extends ecjia_admin {
         $this->assign('images_url', $images_url);
         
 		//商品相册
-        $goods_photo_list = $GoodslibBasicInFo->getGoodsLibGallery();
+        $goods_photo_list = $GoodslibBasicInfo->getGoodsLibGallery();
         $this->assign('goods_photo_list', $goods_photo_list);
 
         //商品货品
-        $product_list = $GoodslibBasicInFo->goodslibProducts();
+        $product_list = $GoodslibBasicInfo->goodslibProducts();
         $this->assign('product_list', $product_list);
          
         //商品参数
-        $attr_group = $GoodslibBasicInFo->attrGroup();
+        $attr_group = $GoodslibBasicInfo->attrGroup();
         if (count($attr_group) > 0) {
-        	$group_parameter_list = $GoodslibBasicInFo->getGoodsGroupParameter();
+        	$group_parameter_list = $GoodslibBasicInfo->getGoodsGroupParameter();
         	$this->assign('group_parameter_list', $group_parameter_list);
         } else {
-        	$common_parameter_list = $GoodslibBasicInFo->getGoodsCommonParameter();
+        	$common_parameter_list = $GoodslibBasicInfo->getGoodsCommonParameter();
         	$this->assign('common_parameter_list', $common_parameter_list);
         }
         
@@ -1074,15 +1074,15 @@ class admin extends ecjia_admin {
     	$this->assign('action_link', array('text' => __('返回', 'goodslib'), 'href' => RC_Uri::url('goodslib/admin/preview', array('goods_id' => $goods_id))));
     	
     	//商品库货品信息
-    	$GoodslibProductsBasicInFo =  new Ecjia\App\Goodslib\Goodslib\GoodslibProductsBasicInFo($product_id);
-        $goodslib_product = $GoodslibProductsBasicInFo->goodslibProductInFo();
+    	$GoodslibProductsBasicInfo =  new Ecjia\App\Goodslib\Goodslib\GoodslibProductsBasicInfo($product_id);
+        $goodslib_product = $GoodslibProductsBasicInfo->goodslibProductInFo();
         if (empty($goodslib_product)) {
         	return $this->showmessage(__('未检测到此货品', 'goodslib'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text'=> __('返回商品预览', 'goodslib'),'href'=>RC_Uri::url('goodslib/admin/preview', array('goods_id' => $goods_id))))));
         }
        
         //商品库商品
-    	$GoodslibBasicInFo = new Ecjia\App\Goodslib\Goodslib\GoodslibBasicInFo($goodslib_product->goods_id);
-        $goods = $GoodslibBasicInFo->goodsLibInFo();
+    	$GoodslibBasicInfo = new Ecjia\App\Goodslib\Goodslib\GoodslibBasicInfo($goodslib_product->goods_id);
+        $goods = $GoodslibBasicInfo->goodsLibInFo();
     	
         //名称处理
         $goodslib_product['product_attr_value'] = '';
@@ -1118,19 +1118,19 @@ class admin extends ecjia_admin {
         	}
         }
         //货品相册
-        $product_photo_list = $GoodslibProductsBasicInFo->getProductGallery();
+        $product_photo_list = $GoodslibProductsBasicInfo->getProductGallery();
         if (empty($product_photo_list)) {
-        	$product_photo_list = $GoodslibBasicInFo->getGoodsLibGallery();
+        	$product_photo_list = $GoodslibBasicInfo->getGoodsLibGallery();
         }
         $this->assign('product_photo_list', $product_photo_list);
         
         //商品参数
-        $attr_group = $GoodslibBasicInFo->attrGroup();
+        $attr_group = $GoodslibBasicInfo->attrGroup();
         if (count($attr_group) > 0) {
-        	$group_parameter_list = $GoodslibBasicInFo->getGoodsGroupParameter();
+        	$group_parameter_list = $GoodslibBasicInfo->getGoodsGroupParameter();
         	$this->assign('group_parameter_list', $group_parameter_list);
         } else {
-        	$common_parameter_list = $GoodslibBasicInFo->getGoodsCommonParameter();
+        	$common_parameter_list = $GoodslibBasicInfo->getGoodsCommonParameter();
         	$this->assign('common_parameter_list', $common_parameter_list);
         }
         
