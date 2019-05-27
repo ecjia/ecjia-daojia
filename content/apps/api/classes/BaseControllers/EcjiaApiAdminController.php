@@ -66,6 +66,11 @@ abstract class EcjiaApiAdminController extends EcjiaApi
         
 	}
 
+    protected function registerServiceProvider()
+    {
+        royalcms()->forgeRegister('Ecjia\System\Providers\EcjiaAdminServiceProvider');
+    }
+
 
 	protected function session_start()
     {
