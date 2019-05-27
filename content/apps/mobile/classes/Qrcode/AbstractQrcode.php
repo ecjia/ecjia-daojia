@@ -77,7 +77,7 @@ abstract class AbstractQrcode extends RC_Object
         if (! RC_Storage::disk()->is_dir($this->storeDir())) {
             RC_Storage::disk()->mkdir($this->storeDir(), FS_CHMOD_DIR);
         }
-    
+
         if (! RC_Storage::disk()->exists($this->getQrcodePath())) {
             $this->createQrcode();
         }
@@ -95,7 +95,7 @@ abstract class AbstractQrcode extends RC_Object
     
     /**
      * 二维码生成文件名
-     * @param 生成的二维码大小，默认430px
+     * @param int 生成的二维码大小，默认430px
      */
     abstract public function fileName($size = 430);
     
@@ -120,9 +120,11 @@ abstract class AbstractQrcode extends RC_Object
                     ->merge($this->logo, 0.2, true)
                     ->errorCorrection('L')
                     ->generate($this->content(), $tempPath);
-                    
+
+        $content = file_get_contents($tempPath);
+
         //上传临时文件到指定目录            
-        RC_Storage::disk()->move($tempPath, $this->getQrcodePath($size), true, FS_CHMOD_FILE);
+        RC_Storage::disk()->put_contents($this->getQrcodePath($size), $content);
 
         //删除临时文件
         RC_File::delete($tempPath);
