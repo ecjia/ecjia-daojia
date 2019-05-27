@@ -3067,3 +3067,16 @@ table tr th.sorting-desc{
 	border-radius: 4px; 
 }
 /* 设置菜单 样式 END */
+
+/* 商品新的快捷切换开关 样式 START */
+.label.toggleOff, .label.toggleOn{
+    font-size: 14px;
+    padding: 4px 6px;
+}
+.label.toggleOff {
+    background-color:#fff;
+    color: #333;
+    border:1px solid #ddd;
+    padding: 3px 5px;
+}
+/* 商品新的快捷切换开关 样式 END */
