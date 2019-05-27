@@ -9,10 +9,11 @@
 namespace Ecjia\App\Quickpay\StoreDuplicateHandlers;
 
 use Ecjia\App\Store\StoreDuplicate\StoreDuplicateAbstract;
-use ecjia_error;
-use RC_DB;
-use RC_Api;
 use ecjia_admin;
+use ecjia_error;
+use RC_Api;
+use RC_DB;
+use Royalcms\Component\Database\QueryException;
 
 /**
  * 复制店铺中的优惠买单规则
@@ -32,10 +33,12 @@ class StoreQuickPayDuplicate extends StoreDuplicateAbstract
         'store_bonus_duplicate',
     ];
 
-    public function __construct($store_id, $source_store_id, $sort = 41)
+    protected $sort = 41;
+
+    public function __construct($store_id, $source_store_id)
     {
         $this->name = __('优惠买单规则', 'quickpay');
-        parent::__construct($store_id, $source_store_id, $sort);
+        parent::__construct($store_id, $source_store_id);
     }
 
     /**
@@ -52,7 +55,6 @@ class StoreQuickPayDuplicate extends StoreDuplicateAbstract
     public function handlePrintData()
     {
         $text = sprintf(__('店铺买单活动总共<span class="ecjiafc-red ecjiaf-fs3">%s</span>个', 'quickpay'), $this->handleCount());
-
         return <<<HTML
 <span class="controls-info w300">{$text}</span>
 HTML;
@@ -65,14 +67,16 @@ HTML;
      */
     public function handleCount()
     {
-        //如果已经统计过，直接返回统计过的条数
-        if ($this->count) {
-            return $this->count;
+        static $count;
+        if (is_null($count)) {
+            // 统计数据条数
+            try {
+                $count = $this->getSourceStoreDataHandler()->count();
+            } catch (QueryException $e) {
+                ecjia_log_warning($e->getMessage());
+            }
         }
-
-        // 统计数据条数
-        $this->count = $this->getSourceStoreDataHandler()->count();
-        return $this->count;
+        return $count;
     }
 
     /**
@@ -87,6 +91,10 @@ HTML;
             return true;
         }
 
+        if ($this->isCheckStarting()){
+            return new ecjia_error('duplicate_started_error', sprintf(__('%s复制已开始，请耐心等待！', 'store'), $this->getName()));
+        }
+
         //如果当前对象复制前仍存在依赖，则需要先复制依赖对象才能继续复制
         if (!empty($this->dependents)) { //如果设有依赖对象
             //检测依赖
@@ -95,6 +103,9 @@ HTML;
                 return new ecjia_error('handle_duplicate_error', __('复制依赖检测失败！', 'store'), $items);
             }
         }
+
+        //标记复制正在进行中
+        $this->markStartingDuplicate();
 
         //执行具体任务
         $result = $this->startDuplicateProcedure();
@@ -116,11 +127,9 @@ HTML;
      */
     protected function startDuplicateProcedure()
     {
+        $replacement_bonus_type = $this->handleDuplicateProgressData()->getReplacementDataByCode('store_bonus_duplicate');
         try {
-            $replacement_bonus_type = (new \Ecjia\App\Store\StoreDuplicate\ProgressDataStorage($this->store_id))->getDuplicateProgressData()->getReplacementDataByCode('store_bonus_duplicate');
-
             $this->getSourceStoreDataHandler()->chunk(50, function ($items) use ($replacement_bonus_type) {
-
                 //构造可用于复制的数据
                 foreach ($items as &$item) {
                     unset($item['id']);
@@ -151,7 +160,8 @@ HTML;
             });
 
             return true;
-        } catch (\Royalcms\Component\Repository\Exceptions\RepositoryException $e) {
+        } catch (QueryException $e) {
+            ecjia_log_warning($e->getMessage());
             return new ecjia_error('duplicate_data_error', $e->getMessage());
         }
     }
@@ -163,15 +173,20 @@ HTML;
      */
     public function handleAdminLog()
     {
+        static $store_merchant_name, $source_store_merchant_name;
+
+        if (empty($store_merchant_name)) {
+            $store_info = RC_Api::api('store', 'store_info', ['store_id' => $this->store_id]);
+            $store_merchant_name = array_get(empty($store_info) ? [] : $store_info, 'merchants_name');
+        }
+
+        if (empty($source_store_merchant_name)) {
+            $source_store_info = RC_Api::api('store', 'store_info', ['store_id' => $this->source_store_id]);
+            $source_store_merchant_name = array_get(empty($source_store_info) ? [] : $source_store_info, 'merchants_name');
+        }
 
         \Ecjia\App\Store\Helper::assign_adminlog_content();
-
-        $store_info = RC_Api::api('store', 'store_info', array('store_id' => $this->store_id));
-
-        $merchants_name = !empty($store_info) ? sprintf(__('店铺名是%s', 'quickpay'), $store_info['merchants_name']) : sprintf(__('店铺ID是%s', 'quickpay'), $this->store_id);
-
-        ecjia_admin::admin_log($merchants_name, 'duplicate', 'store_quickpay_activity');
+        $content = sprintf(__('将【%s】店铺所有优惠买单规则复制到【%s】店铺中', 'goods'), $source_store_merchant_name, $store_merchant_name);
+        ecjia_admin::admin_log($content, 'duplicate', 'store_goods');
     }
-
-
 }

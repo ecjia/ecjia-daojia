@@ -237,7 +237,7 @@ class quickpay_quickpay_user_account_paid_api extends Component_Event_Api {
 		
 		$order_data = array(
 			'title'	=> '客户付款',
-			'body'	=> '您有一笔新订单，订单号为：'.$order_info['order_sn'],
+			'body'	=> '您有一笔订单客户已支付，订单号为：'.$order_info['order_sn'],
 			'data'	=> array(
 				'order_id'		=> $order_info['order_id'],
 				'order_sn'		=> $order_info['order_sn'],
