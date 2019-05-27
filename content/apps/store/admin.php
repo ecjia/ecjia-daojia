@@ -1767,8 +1767,8 @@ class admin extends ecjia_admin
         $store_info = $this->store_info; //新店铺信息
         $source_store_id = $store_info['duplicate_source_store_id']; //源店铺ID
 
-        if (empty($store_info['duplicate_store_status'])) {
-            return $this->showmessage(__('您不能进行这样的操作', 'store'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+        if (empty($store_info['duplicate_store_status']) OR empty($store_info['duplicate_source_store_id'])) {
+            return $this->showmessage(__('您不能进行这样的操作！', 'store'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
         }
 
         //dd($this->store_info,unserialize($this->store_info['duplicate_progress_data']),strlen($this->store_info['duplicate_progress_data']));
