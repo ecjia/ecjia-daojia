@@ -62,21 +62,21 @@
 					<li class="{if !$smarty.get.type}active{/if}">
 						<a class="data-pjax" href="{RC_Uri::url('cashier/mh_bulk_goods/init')}
 							{if $filter.keywords}&keywords={$filter.keywords}{/if}">{t domain="cashier"}全部{/t} 
-							<span class="badge badge-info">{$filter.count.count_goods_num}</span>
+							<span class="badge badge-info">{if $filter.count.count_goods_num}{$filter.count.count_goods_num}{else}0{/if}</span>
 						</a>
 					</li>
 					
 					<li class="{if $smarty.get.type eq 1}active{/if}">
 						<a class="data-pjax" href='{RC_Uri::url("cashier/mh_bulk_goods/init", "type=1
 							{if $filter.keywords}&keywords={$filter.keywords}{/if}")}'>{t domain="cashier"}已上架{/t}
-							<span class="badge badge-info use-plugins-num">{$filter.count.count_on_sale}</span>
+							<span class="badge badge-info use-plugins-num">{if $filter.count.count_on_sale}{$filter.count.count_on_sale}{else}0{/if}</span>
 						</a>
 					</li>
 					
 					<li class="{if $smarty.get.type eq 2}active{/if}">	
 						<a class="data-pjax" href='{RC_Uri::url("cashier/mh_bulk_goods/init", "type=2
 							{if $filter.keywords}&keywords={$filter.keywords}{/if}")}'>{t domain="cashier"}未上架{/t}
-							<span class="badge badge-info unuse-plugins-num">{$filter.count.count_not_sale}</span>
+							<span class="badge badge-info unuse-plugins-num">{if $filter.count.count_not_sale}{$filter.count.count_not_sale}{else}0{/if}</span>
 						</a>
 					</li>
 				</ul>	
