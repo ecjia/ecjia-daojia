@@ -275,11 +275,13 @@ class GoodsPromotion
     				->where('goods_id', $this->goods_id)
     				->where('product_id', $this->product_id)
     				->update($data);
-    			}
-    			//用户购买限购数有效；未超过限购数
-    			if ($new_num <= $this->model->promote_user_limited) {
+    				//用户购买限购数有效；未超过限购数
     				$this->model->decrement('promote_limited', $order_goods['goods_number']);
     			}
+    			//用户购买限购数有效；未超过限购数
+//     			if ($new_num <= $this->model->promote_user_limited) {
+//     				$this->model->decrement('promote_limited', $order_goods['goods_number']);
+//     			}
     		} else {
     			//更新限购总数剩余数量（用户不限购时，直接减）
     			if ($this->model->promote_limited >= $order_goods['goods_number']) {
@@ -315,11 +317,13 @@ class GoodsPromotion
     				->where('goods_id', $this->goods_id)
     				->where('product_id', $this->product_id)
     				->update($data);
-    			}
-    			//用户购买限购数有效；未超过限购数
-    			if ($new_num <= $this->products->promote_user_limited) {
+    				//用户购买限购数有效；未超过限购数
     				$this->products->decrement('promote_limited', $order_goods['goods_number']);
     			}
+    			//用户购买限购数有效；未超过限购数
+//     			if ($new_num <= $this->products->promote_user_limited) {
+//     				$this->products->decrement('promote_limited', $order_goods['goods_number']);
+//     			}
     		} else {
     			//更新限购总数剩余数量（用户不限购时，直接减）
     			if ($this->products->promote_limited >= $order_goods['goods_number']) {
@@ -465,6 +469,33 @@ class GoodsPromotion
     			);
     		}
     	}
+    }
+    
+    /**
+     * 获得指定的规格的价格
+     *
+     * @access public
+     * @param mix $spec
+     *        	规格ID的数组或者逗号分隔的字符串
+     * @return void
+     */
+    private function spec_price($spec) {
+    	if (! empty ( $spec )) {
+    		if (is_array ( $spec )) {
+    			foreach ( $spec as $key => $val ) {
+    				$spec [$key] = addslashes ( $val );
+    			}
+    		} else {
+    			$spec = addslashes ( $spec );
+    		}
+    		$db = \RC_DB::table('goods_attr');
+    		$rs = $db->whereIn('goods_attr_id', $spec)->select(\RC_DB::raw('sum(attr_price) as attr_price'))->first();
+    		$price = $rs['attr_price'];
+    	} else {
+    		$price = 0;
+    	}
+    
+    	return $price;
     }
     
     /**

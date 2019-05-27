@@ -94,6 +94,7 @@ class MerchantGoodsCollection
         return [
             'goods'     => $data,
             'filter'	=> $this->request->all(),
+            'total' 	=> $this->ecjia_merchant_page->total_records,
             'page'		=> $this->ecjia_merchant_page->show(2),
             'desc'		=> $this->ecjia_merchant_page->page_desc()
         ];

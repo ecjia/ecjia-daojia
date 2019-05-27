@@ -683,9 +683,9 @@ class admin_category extends ecjia_admin {
 		$info = RC_DB::table('category')->where('cat_id', $cat_id)->first();
 		$cat_name = $info['cat_name'];
 		$cat_count = RC_DB::table('category')->where('parent_id', $cat_id)->count();
-		$goods_count = RC_DB::table('goods')->where('cat_id', $cat_id)->count();
-
-		if ($cat_count == 0 && $goods_count == 0) {
+		$goods_count = RC_DB::table('goods')->where('cat_id', $cat_id)->where('is_delete', 0)->count();
+		
+		if (empty($cat_count) && empty($goods_count)) {
 			$old_logo = $info['category_img'];
 			
 			if (!empty($old_logo)) {

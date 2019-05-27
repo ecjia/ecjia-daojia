@@ -5,6 +5,7 @@ namespace Ecjia\App\Goods\StoreDuplicateHandlers;
 use Ecjia\App\Store\StoreDuplicate\StoreDuplicateAbstract;
 use ecjia_error;
 use RC_DB;
+use Royalcms\Component\Database\QueryException;
 
 /**
  * 主商品数据复制后的后续操作行为抽象
@@ -22,7 +23,7 @@ abstract class StoreProcessAfterDuplicateGoodsAbstract extends StoreDuplicateAbs
 
     /**
      * 过程数据对象
-     * @var null|object
+     * @var \Ecjia\App\Store\StoreDuplicate\StoreDuplicateProgressData
      */
     protected $progress_data;
 
@@ -32,10 +33,25 @@ abstract class StoreProcessAfterDuplicateGoodsAbstract extends StoreDuplicateAbs
      */
     protected $replacement_goods = [];
 
-    public function __construct($store_id, $source_store_id, $name, $sort = 15)
+    protected $rank_order = 1;
+
+    protected $rank_total = 11;
+
+    protected static $old_goods_ids;
+
+    public function __construct($store_id, $source_store_id, $name)
     {
-        parent::__construct($store_id, $source_store_id, $sort);
+        parent::__construct($store_id, $source_store_id);
         $this->name = __($name, 'goods');
+    }
+
+    abstract protected function getTableName();
+
+    abstract protected function startDuplicateProcedure();
+
+    public function getName()
+    {
+        return $this->name . sprintf('(%d/%d)', $this->rank_order, $this->rank_total);
     }
 
     /**
@@ -69,6 +85,10 @@ HTML;
             return true;
         }
 
+        if ($this->isCheckStarting()){
+            return new ecjia_error('duplicate_started_error', sprintf(__('%s复制已开始，请耐心等待！', 'store'), $this->getName()));
+        }
+
         //如果当前对象复制前仍存在依赖，则需要先复制依赖对象才能继续复制
         if (!empty($this->dependents)) { //如果设有依赖对象
             //检测依赖
@@ -77,6 +97,9 @@ HTML;
                 return new ecjia_error('handle_duplicate_error', __('复制依赖检测失败！', 'store'), $items);
             }
         }
+
+        //标记复制正在进行中
+        $this->markStartingDuplicate();
 
         //执行具体任务
         $result = $this->startDuplicateProcedure();
@@ -92,8 +115,6 @@ HTML;
 
         return true;
     }
-
-    abstract protected function startDuplicateProcedure();
 
     /**
      * 设置 goods 替换数据
@@ -117,8 +138,7 @@ HTML;
     protected function setProgressData()
     {
         if (empty($this->progress_data)) {
-            //从过程数据中提取需要用到的替换数据
-            $this->progress_data = (new \Ecjia\App\Store\StoreDuplicate\ProgressDataStorage($this->store_id))->getDuplicateProgressData();
+            $this->progress_data = $this->handleDuplicateProgressData();
         }
         return $this;
     }
@@ -129,12 +149,44 @@ HTML;
      */
     protected function getOldGoodsId()
     {
+
         if (empty($this->replacement_goods)) {
 
-            return $this->getSourceStoreDataHandler()->lists('goods_id');
+            if (is_null(static::$old_goods_ids)) {
+                try {
+                    static::$old_goods_ids = $this->getSourceStoreDataHandler()->lists('goods_id');
+                    return static::$old_goods_ids;
+                } catch (QueryException $e) {
+                    ecjia_log_warning($e->getMessage());
+                }
+            }
+            else {
+                return static::$old_goods_ids;
+            }
         }
+
         return array_keys($this->replacement_goods);
     }
 
-
+    /**
+     * 统计数据条数并获取
+     *
+     * @return mixed
+     */
+    public function handleCount()
+    {
+        static $count;
+        if (is_null($count)) {
+            // 统计数据条数
+            $old_goods_id = $this->getOldGoodsId();
+            if (!empty($old_goods_id)) {
+                try {
+                    $count = RC_DB::table($this->getTableName())->whereIn('goods_id', $old_goods_id)->count();
+                } catch (QueryException $e) {
+                    ecjia_log_warning($e->getMessage());
+                }
+            }
+        }
+        return $count;
+    }
 }

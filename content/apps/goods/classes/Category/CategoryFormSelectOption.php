@@ -65,6 +65,10 @@ class CategoryFormSelectOption
     {
         $cat_list = (new \Ecjia\App\Goods\Category\CategoryCollection())->getTopCategories();
 
+        if (empty($cat_list)) {
+            $cat_list = collect();
+        }
+
         return new static($cat_list);
     }
 

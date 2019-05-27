@@ -257,7 +257,7 @@ class admin extends ecjia_admin {
 		            'label' => __('出售中', 'goods'),
 		            'link' => RC_Uri::url('goods/admin/init', array_merge($input, ['type' => 0])),
 		            'type' => 0,
-		            'count'=> $goods_count['count_on_sale']
+		            'count'=> empty($goods_count['count_on_sale']) ? 0 : $goods_count['count_on_sale'],
 	            ],
 	            'count_activity' => [
 		            'label' => __('参与活动', 'goods'),
@@ -466,7 +466,7 @@ class admin extends ecjia_admin {
 	public function check() {
 		$this->admin_priv('goods_manage');
 		
-		$this->assign('list_url', RC_Uri::url('goods/admin/obtained'));
+		$this->assign('list_url', RC_Uri::url('goods/admin/check'));
 
 		$this->assign('ur_here', __('审核商品列表', 'goods'));
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('审核商品列表', 'goods')));
@@ -559,13 +559,13 @@ class admin extends ecjia_admin {
 					'label' => __('待审核', 'goods'),
 					'link' => RC_Uri::url('goods/admin/check', array_merge($input, ['type' => 0])),
 					'type' => 0,
-					'count'=> $goods_count['check_pending']
+					'count'=> empty($goods_count['check_pending']) ? 0 : $goods_count['check_pending']
 				],
 				'check_no_pass' => [
 					'label' => __('审核未通过', 'goods'),
 					'link' => RC_Uri::url('goods/admin/check', array_merge($input, ['type' => 1])),
 					'type' => 1,
-					'count'=> $goods_count['check_no_pass']
+					'count'=> empty($goods_count['check_no_pass']) ? 0 : $goods_count['check_no_pass']
 				]
 			];
 	
@@ -587,6 +587,7 @@ class admin extends ecjia_admin {
 		$this->assign('form_action_insert', RC_Uri::url('goods/admin/insert_goodslib'));
 	
 		$this->assign('action', 'check');
+		$this->assign('page', $page);
 		
 		$this->display('goods_list.dwt');
 	}
@@ -602,7 +603,7 @@ class admin extends ecjia_admin {
 		
 		$this->assign('ur_here', __('散装商品列表', 'goods'));
 		ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('散装商品列表', 'goods')));
-		
+		$cat_id     = intval($this->request->input('cat_id', 0));
 		$store_id   = intval($this->request->input('store_id', 0));
 		$list_type  = intval($this->request->input('type', 0));
 		$page       = intval($this->request->input('page', 1));
@@ -670,7 +671,6 @@ class admin extends ecjia_admin {
 			$input['is_on_sale'] = 1;
 		}
 		$goods_list = (new \Ecjia\App\Goods\GoodsSearch\GoodsCollection($input))->getData();
-	
 		$count_link_func = function ($input, $where, $goods_count) {
 			$input = collect($input)->except(array_keys($where))->all();
 			unset($input['check_review_status']);
@@ -685,13 +685,13 @@ class admin extends ecjia_admin {
 					'label' => __('已上架', 'goods'),
 					'link' => RC_Uri::url('goods/admin/bulk', array_merge($input, ['type' => 0])),
 					'type' => 0,
-					'count'=> $goods_count['is_on_sale']
+					'count'=> empty($goods_count['is_on_sale']) ? 0 : $goods_count['is_on_sale']
 				],
 				'check_no_pass' => [
 					'label' => __('未上架', 'goods'),
 					'link' => RC_Uri::url('goods/admin/bulk', array_merge($input, ['type' => 1])),
 					'type' => 1,
-					'count'=> $goods_count['is_not_sale']
+					'count'=> empty($goods_count['is_not_sale']) ? 0 : $goods_count['is_not_sale']
 				]
 			];
 	
@@ -812,13 +812,13 @@ class admin extends ecjia_admin {
 					'label' => __('已上架', 'goods'),
 					'link' => RC_Uri::url('goods/admin/cashier', array_merge($input, ['type' => 0])),
 					'type' => 0,
-					'count'=> $goods_count['is_on_sale']
+					'count'=> empty($goods_count['is_on_sale']) ? 0 : $goods_count['is_on_sale']
 				],
 				'check_no_pass' => [
 					'label' => __('未上架', 'goods'),
 					'link' => RC_Uri::url('goods/admin/cashier', array_merge($input, ['type' => 1])),
 					'type' => 1,
-					'count'=> $goods_count['is_not_sale']
+					'count'=> empty($goods_count['is_not_sale']) ? 0 : $goods_count['is_not_sale']
 				]
 			];
 
@@ -935,8 +935,10 @@ class admin extends ecjia_admin {
 			$action_link = array('text' => __('商品列表', 'goods'), 'href' => RC_Uri::url('goods/admin/finish'));
 		} elseif ($preview_type == 'obtained') {
 			$action_link = array('text' => __('商品列表', 'goods'), 'href' => RC_Uri::url('goods/admin/obtained'));
-		} else {
+		} elseif ($preview_type == 'refused_check' || $preview_type == 'await_check') {
 			$action_link = array('text' => __('商品列表', 'goods'), 'href' => RC_Uri::url('goods/admin/check'));
+		} else {
+			$action_link = array('text' => __('商品列表', 'goods'), 'href' => RC_Uri::url('goods/admin/init'));
 		}
 		
 		$this->assign('action_link', $action_link);
@@ -1657,7 +1659,7 @@ class admin extends ecjia_admin {
 
     //导入商品到商品库
     public function insert_goodslib() {
-        $this->admin_priv('goods_insert_goodslib');
+        $this->admin_priv('goods_insert_goodslib', ecjia::MSGTYPE_JSON);
         
         //单个导入
         $id = isset($_POST['goods_id']) 		? intval($_POST['goods_id']) 		: 0;
@@ -1683,22 +1685,22 @@ class admin extends ecjia_admin {
             return new ecjia_error('no_goods', __('未检测到此商品', 'goods'));
         }
         /* 如果没有输入商品货号则自动生成一个商品货号 */
-        if (empty($goods_sn)) {
-            $max_id = $this->db_goods->goods_find('', 'MAX(goods_id) + 1|max');
+//        if (empty($goods_sn)) {
+        $max_id = RC_DB::table('goodslib')->select(RC_DB::raw('MAX(goods_id) + 1 as max'))->first();
             if (empty($max_id['max'])) {
                 $goods_sn_bool = true;
                 $goods_sn = '';
             } else {
-                $goods_sn = generate_goods_sn($max_id['max']);
+                $goods_sn = generate_goodslib_goods_sn($max_id['max']);
             }
-            $_POST['goods_sn'] = $goods_sn;
-        } else {
-            /* 检查货号是否重复 */
-            $count = $this->db_goods->is_only(array('goods_sn' => $goods_sn, 'is_delete' => 0));
-            if ($count > 0) {
-                return $this->showmessage(__('您输入的货号已存在，请换一个', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-            }
-        }
+//            $_POST['goods_sn'] = $goods_sn;
+//        } else {
+//            /* 检查货号是否重复 */
+//            $count = $this->db_goods->is_only(array('goods_sn' => $goods_sn, 'is_delete' => 0));
+//            if ($count > 0) {
+//                return $this->showmessage(__('您输入的货号已存在，请换一个', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+//            }
+//        }
         
         $goods['goods_name'] = $goods_name;
         $goods['goods_sn'] = $goods_sn;
@@ -1711,7 +1713,7 @@ class admin extends ecjia_admin {
         $goods['weight_unit'] = $goods_info['weight_unit'];
         $goods['keywords'] = $goods_info['keywords'];
         $goods['goods_brief'] = $goods_info['goods_brief'];
-        $goods['goods_desc'] = $goods_info['goods_desc'];
+        $goods['goods_desc'] = empty($goods_info['goods_desc']) ? '' : $goods_info['goods_desc'];
         $goods['goods_barcode'] = $goods_info['goods_barcode'];
         $time = RC_Time::gmtime();
         $goods['add_time'] = $time;
@@ -1723,7 +1725,7 @@ class admin extends ecjia_admin {
 //                $goods['goods_type'] = $goods_info['goods_type'];
 //            }
 //        }
-//        _dump($goods_info,1);
+//        _dump($goods,1);
 
         $new_id = RC_DB::table('goodslib')->insertGetId($goods);
         if(!empty($goods_info['goods_img'])) {
@@ -1766,7 +1768,7 @@ class admin extends ecjia_admin {
         $cat_info = RC_DB::table('goods_type')->where('cat_id', $cat_id)->first();
         if($cat_info['store_id'] != 0) {
             //非平台规格，先复制
-
+            return ;
         }
         $db_goods_attr = RC_DB::table('goods_attr')->where('goods_id', $goods_id);
         if($cat_type) {
@@ -1826,6 +1828,7 @@ class admin extends ecjia_admin {
                     $attr_value = $goods_attr_formate[$goods_attr_id]['attr_value'];
                     $new_attr_id[] = $goods_attr_lib_formate[$goods['goods_id'].'_'.$attr_id.'_'.$attr_value]['goods_attr_id'];
                 }
+                asort($new_attr_id);
                 $new_product['goods_attr'] = implode('|', $new_attr_id);
                 $new_product['product_sn'] = '';
                 if($product['product_name']) {
@@ -3435,9 +3438,10 @@ class admin extends ecjia_admin {
 		$goods_id       = intval($_POST['goods_id']);
 		$review_content = trim($_POST['review_content']);
 		$review_status  = intval($_POST['review_status']);
+		$current_page 	= empty($_GET['curr_page']) ? 1 : intval($_GET['curr_page']); 
 		
 		if (empty($review_content)) {
-			return $this->showmessage(__('操作备注不能为空', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR,array('url' => RC_Uri::url('goods/admin/check')));
+			return $this->showmessage(__('操作备注不能为空', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		}
 	
 		$data = array(
@@ -3460,11 +3464,7 @@ class admin extends ecjia_admin {
 		//商品审核消息通知
 		$this->send_notifications($goods_id, $review_status);
 		
-		if($review_status === 3) {//审核通过
-			return $this->showmessage(__('审核操作成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('goods/admin/init')));
-		} else {//审核被拒
-			return $this->showmessage(__('审核操作成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('goods/admin/check', array('type'=>1))));
-		}
+		return $this->showmessage(__('审核操作成功', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('goods/admin/check', array('page' => $current_page))));
 	}
 	
 	/**

@@ -88,7 +88,7 @@ class mh_spec extends ecjia_merchant {
 		
 		$spec_template_list = Ecjia\App\Goods\MerchantGoodsAttr::get_merchant_goods_type_list('specification');
 		$this->assign('spec_template_list',	$spec_template_list);
-		
+		$this->assign('type_count', $spec_template_list['type_count']);
 		$this->assign('filter',	$spec_template_list['filter']);
 
 		$this->display('spec_template_list.dwt');

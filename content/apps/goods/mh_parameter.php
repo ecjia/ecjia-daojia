@@ -82,7 +82,7 @@ class mh_parameter extends ecjia_merchant {
 		
 		$parameter_template_list = Ecjia\App\Goods\MerchantGoodsAttr::get_merchant_goods_type_list('parameter');
 		$this->assign('parameter_template_list',	$parameter_template_list);
-		
+		$this->assign('type_count', $parameter_template_list['type_count']);
 		$this->assign('filter',	$parameter_template_list['filter']);
 
 		$this->assign('form_search', RC_Uri::url('goods/mh_parameter/init'));

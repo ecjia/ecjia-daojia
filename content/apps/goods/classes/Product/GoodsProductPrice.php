@@ -105,8 +105,10 @@ class GoodsProductPrice
     		}
     	}
     	//商品规格属性id重组处理
-    	$spec_combine_arr = $this->_combination($arr); 
+    	$spec_combine_arr = $this->_combination($arr);
     	foreach ($spec_combine_arr as $goods_attr) {
+    	    //asort($goods_attr);
+            ////TODO goods_attr 顺序影响页面价格选择，正常情况无异常，如goods_attr 顺序交叉，h5和app会有一端不正常
     		$goods_attr_string = implode('|', $goods_attr);
     		$product_goods_attrs[] = $goods_attr_string;
     	}
@@ -207,6 +209,7 @@ class GoodsProductPrice
                 $shop_price += $total_attr_price;
                 $promote_price = ($promote_price > 0) ? ($promote_price + $total_attr_price) : 0;
             }
+            $final_shop_price =  $promote_price > 0 ? min($shop_price, $promote_price) : $shop_price;
             
 			$data = [
 				'product_id' 					=> 0,

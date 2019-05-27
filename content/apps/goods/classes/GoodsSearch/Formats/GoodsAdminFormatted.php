@@ -61,10 +61,13 @@ class GoodsAdminFormatted
             'store_hot'              	=> $this->model->store_hot,
             'sort_order'                => $this->model->sort_order,
             'goods_number'              => $this->model->goods_number,
+            'sales_volume'              => $this->model->sales_volume,
+            'weight_unit'               => $this->model->weight_unit,
             'integral'                  => $this->model->integral,
             'is_promote'                => $this->model->is_promote,
             'review_status'             => $this->model->review_status,
-            'add_time'             		=> \RC_Time::local_date(ecjia::config('time_format'), $this->model->add_time)
+            'add_time'             		=> \RC_Time::local_date(ecjia::config('time_format'), $this->model->add_time),
+            'has_product'               => count($this->model->products_collection) > 1 ? 1 : 0,
         ];
     }
 

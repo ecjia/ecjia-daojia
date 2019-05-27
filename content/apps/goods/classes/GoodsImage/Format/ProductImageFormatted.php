@@ -9,12 +9,14 @@
 namespace Ecjia\App\Goods\GoodsImage\Format;
 
 
+use Ecjia\App\Goods\GoodsImage\GoodsImageFormattedInterface;
+
 class ProductImageFormatted extends GoodsImageFormatted
 {
 
     protected $type = 'product';
 
-    public function __construct($goods_image, $root_dir = null)
+    public function __construct(GoodsImageFormattedInterface $goods_image, $root_dir = null)
     {
         parent::__construct($goods_image, $root_dir);
 

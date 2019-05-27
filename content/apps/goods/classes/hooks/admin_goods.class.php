@@ -56,7 +56,8 @@ class goods_admin_hooks
             return false;
         }
 
-        $title = __('商品统计', 'goods');
+        $title1 = __('商品推荐统计', 'goods');
+        $title2 = __('商品统计', 'goods');
 
         $static_url = RC_App::apps_url('goods/statics/images/goodsstats_images/');
         ecjia_admin::$controller->assign('static_url', $static_url);
@@ -65,7 +66,7 @@ class goods_admin_hooks
         if (!$goods) {
             $fields = "SUM(IF(goods_id > 0, 1, 0)) as total, SUM(IF(is_new = 1, 1, 0)) as new, SUM(IF(is_best = 1, 1, 0)) as best, SUM(IF(is_hot = 1, 1, 0)) as hot";
             
-            $row = RC_DB::table('goods')->select(RC_DB::raw($fields))->where('is_delete', 0)->where('is_real', 1)->get();
+            $row = RC_DB::table('goods')->select(RC_DB::raw($fields))->where('is_delete', 0)->where('is_real', 1)->whereRaw("(extension_code is null or extension_code ='')")->get();
 
             $goods['total'] = $row[0]['total'];  	//总数
             $goods['new_goods'] = $row[0]['new'];	//新品
@@ -73,16 +74,16 @@ class goods_admin_hooks
             $goods['hot_goods'] = $row[0]['hot'];   //热销
             
             //在售商品
-            $goods['selling'] 			= RC_DB::table('goods')->where('is_real', 1)->where('is_on_sale', 1)->whereIn('review_status', [3, 5])->where('is_delete', 0)->count();
+            $goods['selling'] 			= RC_DB::table('goods')->where('is_real', 1)->where('is_on_sale', 1)->whereIn('review_status', [3, 5])->where('is_delete', 0)->whereRaw("(extension_code is null or extension_code ='')")->count();
             $goods['selling_goods_url'] = RC_Uri::url('goods/admin/init');
         	//售罄商品
-            $goods['finish']  			= RC_DB::table('goods')->where('goods_number', 0)->where('is_on_sale', 0)->whereIn('review_status', [3,5])->where('is_delete', 0)->where('is_real', 1)->count();
+            $goods['finish']  			= RC_DB::table('goods')->where('goods_number', 0)->where('is_on_sale', 0)->whereIn('review_status', [3,5])->where('is_delete', 0)->where('is_real', 1)->whereRaw("(extension_code is null or extension_code ='')")->count();
             $goods['finish_goods_url'] 	= RC_Uri::url('goods/admin/finish');
             //下架商品
-            $goods['obtained'] 			= RC_DB::table('goods')->where('goods_number', '>', 0)->where('is_on_sale', 0)->whereIn('review_status', [3, 5])->where('is_delete', 0)->where('is_real', 1)->count();
+            $goods['obtained'] 			= RC_DB::table('goods')->where('goods_number', '>', 0)->where('is_on_sale', 0)->whereIn('review_status', [3, 5])->where('is_delete', 0)->where('is_real', 1)->whereRaw("(extension_code is null or extension_code ='')")->count();
             $goods['obtained_goods_url']= RC_Uri::url('goods/admin/obtained');
             //待审核商品
-            $goods['await_check'] 	= RC_DB::table('goods')->where('review_status', 1)->where('is_delete', 0)->where('is_real', 1)->count();
+            $goods['await_check'] 	= RC_DB::table('goods')->where('review_status', 1)->where('is_delete', 0)->where('is_real', 1)->whereRaw("(extension_code is null or extension_code ='')")->count();
             $goods['obtained_goods_url']= RC_Uri::url('goods/admin/check');
 			//散装商品
 			$goods['bulk']			= RC_DB::table('goods')->where('is_delete', 0)->where('extension_code', 'bulk')->count();
@@ -100,7 +101,8 @@ class goods_admin_hooks
             RC_Cache::app_cache_set('admin_dashboard_goods', $goods, 'goods', 120);
         }
 
-        ecjia_admin::$controller->assign('title', $title);
+        ecjia_admin::$controller->assign('title1', $title1);
+        ecjia_admin::$controller->assign('title2', $title2);
         ecjia_admin::$controller->assign('goods', $goods);
         ecjia_admin::$controller->display(ecjia_app::get_app_template('library/widget_admin_dashboard_goodsstat.lbi', 'goods'));
     }
@@ -125,10 +127,18 @@ class goods_admin_hooks
 
         return $factories;
     }
+
+    public static function add_maintain_command($factories)
+    {
+        $factories['goods_spec_parameter_compatible'] = 'Ecjia\App\Goods\Maintains\GoodsSpecParameterCompatible';
+        $factories['goods_up_levels_catid_compatible'] = 'Ecjia\App\Goods\Maintains\GoodsUpLevelsCatidCompatible';
+        return $factories;
+    }
 }
 
 RC_Hook::add_action('admin_dashboard_top', array('goods_admin_hooks', 'widget_admin_dashboard_goodsstat'), 11);
 RC_Hook::add_action( 'append_admin_setting_group', array('goods_admin_hooks', 'append_admin_setting_group') );
 RC_Hook::add_action('ecjia_setting_component_filter', array('goods_admin_hooks', 'add_admin_setting_command'));
+RC_Hook::add_action('ecjia_maintain_command_filter', array('goods_admin_hooks', 'add_maintain_command'));
 
 // end

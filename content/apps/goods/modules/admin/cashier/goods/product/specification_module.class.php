@@ -63,13 +63,17 @@ class admin_cashier_goods_product_specification_module extends api_admin impleme
     		return new ecjia_error('invalid_parameter', __('参数错误', 'goods'));
     	}
     	/*获得商品的规格和属性*/
-    	$properties = Ecjia\App\Goods\GoodsFunction::get_goods_properties($goods_id);
+    	//$properties = Ecjia\App\Goods\GoodsFunction::get_goods_properties($goods_id);
     	 
     	$specification = [];
     	$product_specification = [];
     	
-    	$data = $this->handle_spec($properties);
-    	$specification =  $data['spe'];
+    	//$data = $this->handle_spec($properties);
+    	//$specification =  $data['spe'];
+    	
+    	/*获得商品的规格和属性*/
+    	$goodsBasicInFo = new \Ecjia\App\Goods\Goods\GoodsBasicInFo($goods_id);
+    	list($properties, $specification) = $goodsBasicInFo->getGoodsSpecPra();
     	
     	if (!empty($specification)) {
     		if (!empty($specification)) {

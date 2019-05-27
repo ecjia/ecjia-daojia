@@ -6,6 +6,7 @@ use ecjia_error;
 use RC_DB;
 use RC_Api;
 use ecjia_admin;
+use Royalcms\Component\Database\QueryException;
 
 /**
  * 复制店铺中商品阶梯价格数据（无图片字段）
@@ -21,31 +22,18 @@ class StoreVolumePriceDuplicate extends StoreProcessAfterDuplicateGoodsAbstract
      */
     protected $code = 'store_volume_price_duplicate';
 
-    private $table = 'volume_price';
+    protected $rank_order = 10;
 
-    public function __construct($store_id, $source_store_id, $sort = 20)
+    protected $sort = 20;
+
+    public function __construct($store_id, $source_store_id)
     {
-        parent::__construct($store_id, $source_store_id, '商品阶梯价格', $sort);
+        parent::__construct($store_id, $source_store_id, '商品阶梯价格');
     }
 
-    /**
-     * 统计数据条数并获取
-     *
-     * @return mixed
-     */
-    public function handleCount()
+    protected function getTableName()
     {
-        //如果已经统计过，直接返回统计过的条数
-        if ($this->count) {
-            return $this->count;
-        }
-
-        // 统计数据条数
-        $old_goods_id = $this->getOldGoodsId();
-        if (!empty($old_goods_id)) {
-            $this->count = RC_DB::table($this->table)->whereIn('goods_id', $old_goods_id)->count();
-        }
-        return $this->count;
+        return 'volume_price';
     }
 
     /**
@@ -69,7 +57,8 @@ class StoreVolumePriceDuplicate extends StoreProcessAfterDuplicateGoodsAbstract
             }
 
             return true;
-        } catch (\Royalcms\Component\Repository\Exceptions\RepositoryException $e) {
+        } catch (QueryException $e) {
+            ecjia_log_warning($e->getMessage());
             return new ecjia_error('duplicate_data_error', $e->getMessage());
         }
     }
@@ -80,32 +69,35 @@ class StoreVolumePriceDuplicate extends StoreProcessAfterDuplicateGoodsAbstract
      */
     private function duplicateVolumePrice($old_goods_id)
     {
-        RC_DB::table($this->table)->whereIn('goods_id', $old_goods_id)->chunk(50, function ($items) {
+        RC_DB::table($this->getTableName())->whereIn('goods_id', $old_goods_id)->chunk(50, function ($items) {
             foreach ($items as &$item) {
                 //通过 goods 替换数据设置新店铺的 goods_id
                 $item['goods_id'] = array_get($this->replacement_goods, $item['goods_id'], $item['goods_id']);
             }
 
             //将数据插入到新店铺
-            RC_DB::table($this->table)->insert($items);
+            RC_DB::table($this->getTableName())->insert($items);
             //dd($items);
         });
     }
 
-    /**
-     * 返回操作日志编写
-     *
-     * @return mixed
-     */
     public function handleAdminLog()
     {
+        static $store_merchant_name, $source_store_merchant_name;
+
+        if (empty($store_merchant_name)) {
+            $store_info = RC_Api::api('store', 'store_info', ['store_id' => $this->store_id]);
+            $store_merchant_name = array_get(empty($store_info) ? [] : $store_info, 'merchants_name');
+        }
+
+        if (empty($source_store_merchant_name)) {
+            $source_store_info = RC_Api::api('store', 'store_info', ['store_id' => $this->source_store_id]);
+            $source_store_merchant_name = array_get(empty($source_store_info) ? [] : $source_store_info, 'merchants_name');
+        }
+
         \Ecjia\App\Store\Helper::assign_adminlog_content();
-
-        $store_info = RC_Api::api('store', 'store_info', array('store_id' => $this->store_id));
-
-        $merchants_name = !empty($store_info) ? sprintf(__('店铺名是%s', 'goods'), $store_info['merchants_name']) : sprintf(__('店铺ID是%s', 'goods'), $this->store_id);
-
-        ecjia_admin::admin_log($merchants_name, 'duplicate', 'store_goods');
+        $content = sprintf(__('将【%s】店铺所有商品阶梯价格复制到【%s】店铺中', 'goods'), $source_store_merchant_name, $store_merchant_name);
+        ecjia_admin::admin_log($content, 'duplicate', 'store_goods');
     }
 
 }

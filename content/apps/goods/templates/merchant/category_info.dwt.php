@@ -53,7 +53,6 @@
                                     </div>
                                     <span class="help-block">{t domain='goods'}推荐图片的尺寸为：顶级分类为3:1（900x300px），子集分类为1:1（200x200px）{/t}</span>
                                 </div>
-                                <span class="input-must">*</span>
                             </div>
 
                             <div class="form-group">

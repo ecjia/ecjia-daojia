@@ -107,13 +107,17 @@
 								          			</dd>
 								        		</dl>
 							        		{/if}
-											<dl class="tb-amount tm-clear">
-											    <dt class="tb-metatit">{t domain="goods"}平台分类{/t}</dt>
-											    <dd id="J_Amount">
-											        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{if $goods->category_model}{$goods->category_model->cat_name}{/if}</em>
-											        <span id="J_StockTips"></span>
-											    </dd>
-											</dl>
+							        		{if $goods->category_model}
+							        			{if $goods->category_model->cat_name}
+												<dl class="tb-amount tm-clear">
+												    <dt class="tb-metatit">{t domain="goods"}平台分类{/t}</dt>
+												    <dd id="J_Amount">
+												        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{if $goods->category_model}{$goods->category_model->cat_name}{/if}</em>
+												        <span id="J_StockTips"></span>
+												    </dd>
+												</dl>
+												{/if}
+											{/if}
 											<dl class="tb-amount tm-clear">
 											    <dt class="tb-metatit">{t domain="goods"}店铺分类{/t}</dt>
 											    <dd id="J_Amount">
@@ -145,8 +149,10 @@
 											<dl class="tb-amount tm-clear">
 												{if $goods.is_on_sale eq '1'}
 													<a class="btn btn-info off-sale" data-trigger="goods_on_sale" data-url="{RC_Uri::url('goods/merchant/toggle_on_sale')}" data-id="{$goods.goods_id}" refresh-url="{RC_Uri::url('goods/merchant/preview')}&id={$goods.goods_id}">{t domain="goods"}商品下架{/t}</a>
-													<a target="_blank" class="btn btn-info" href='{url path="goods/merchant/pc_preview" args="id={$goods.goods_id}"}'>{t domain='goods'}PC效果{/t}</a>
-													<a target="_blank" class="btn btn-info" href='{url path="goods/merchant/h5_preview" args="id={$goods.goods_id}"}'>{t domain='goods'}手机端效果{/t}</a>
+													{if $preview_type eq 'selling'}
+														<a target="_blank" class="btn btn-info" href='{url path="goods/merchant/pc_preview" args="id={$goods.goods_id}"}'>{t domain='goods'}PC效果{/t}</a>
+														<a target="_blank" class="btn btn-info" href='{url path="goods/merchant/h5_preview" args="id={$goods.goods_id}"}'>{t domain='goods'}手机端效果{/t}</a>
+													{/if}
 												{else}
 													<a class="btn btn-info on-sale" data-trigger="goods_on_sale" data-url="{RC_Uri::url('goods/merchant/toggle_on_sale')}" data-id="{$goods.goods_id}" refresh-url="{RC_Uri::url('goods/merchant/preview')}&id={$goods.goods_id}">{t domain="goods"}商品上架{/t}</a>
 												{/if}
@@ -204,6 +210,7 @@
 					{if $group_parameter_list}
 						<!-- #BeginLibraryItem "/library/goods_group_parameter.lbi" --><!-- #EndLibraryItem -->
 					{/if}
+					{if $goods.goods_desc}
 					<div class="goods-pra">
 						<div class="pra">{t domain="goods"}图文详情{/t}
 							<div class="pra-handle">
@@ -213,6 +220,7 @@
 						<hr style="margin-top:0px;">
 					</div>
 					<div class="t_c clear">{$goods.goods_desc}</div>
+					{/if}
 				</div>
 			</div>
 		</div>

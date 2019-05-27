@@ -40,7 +40,7 @@
 						</td>
 						<td>{$list.product_number}</td>
 						<td>
-    						<a target="_blank" href='{url path="goods/admin/product_preview" args="product_id={$list.product_id}&goods_id={$list.goods_id}&preview_type={$preview_type}"}'>{t domain='goods'}预览{/t}</a>		
+    						<a target="_blank" href='{url path="goods/admin/product_preview" args="product_id={$list.product_id}&goods_id={$list.goods_id}&preview_type={$preview_type}"}'>{t domain='goods'}预览{/t}</a>        
 						</td>
 					</tr>
 					<!-- {foreachelse}-->

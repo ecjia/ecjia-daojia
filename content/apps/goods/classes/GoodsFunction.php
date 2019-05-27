@@ -148,7 +148,7 @@ class GoodsFunction
                 $volume_price[$temp_index] 					= array();
                 $volume_price[$temp_index]['number'] 		= $v['volume_number'];
                 $volume_price[$temp_index]['price'] 		= $v['volume_price'];
-                $volume_price[$temp_index]['format_price'] 	= ecjia_price_format($v['volume_price']);
+                $volume_price[$temp_index]['format_price'] 	= ecjia_price_format($v['volume_price'], false);
                 $temp_index ++;
             }
         }

@@ -252,7 +252,6 @@
 		clear_data: function() { 
 			$('[data-toggle="clear_data"]').on('click', function(e) {
 				e.preventDefault();
-				
 				var url = $(this).attr('data-href');
 				var goods_id = $(this).attr('goods-id');
 				smoke.confirm(js_lang.tip_msg, function(e) {
@@ -266,7 +265,6 @@
 							dataType: "json",
 							success: function(data) {
 								ecjia.merchant.showmessage(data);
-								window.location.href = data.url;
 							}
 						});
 					}

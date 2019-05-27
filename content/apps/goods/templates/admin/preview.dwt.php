@@ -110,20 +110,28 @@
 				            			<span id="J_StockTips"></span>
 				          			</dd>
 				        		</dl>
-								<dl class="tb-amount tm-clear">
-								    <dt class="tb-metatit">{t domain="goods"}平台分类{/t}</dt>
-								    <dd id="J_Amount">
-								        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{if $goods.category_model}{$goods.category_model.cat_name}{/if}</em>
-								        <span id="J_StockTips"></span>
-								    </dd>
-								</dl>
-								<dl class="tb-amount tm-clear">
-								    <dt class="tb-metatit">{t domain="goods"}店铺分类{/t}</dt>
-								    <dd id="J_Amount">
-								        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{if $goods->merchants_category_model}{$goods->merchants_category_model->cat_name}{/if}</em>
-								        <span id="J_StockTips"></span>
-								    </dd>
-								</dl>
+				        		<!-- {if $goods.category_model} -->
+				        		{if $goods.category_model.cat_name}
+									<dl class="tb-amount tm-clear">
+									    <dt class="tb-metatit">{t domain="goods"}平台分类{/t}</dt>
+									    <dd id="J_Amount">
+									        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{if $goods.category_model}{$goods.category_model.cat_name}{/if}</em>
+									        <span id="J_StockTips"></span>
+									    </dd>
+									</dl>
+								{/if}
+								<!-- {/if} -->
+								{if $goods->merchants_category_model}
+									{if $goods->merchants_category_model->cat_name}
+										<dl class="tb-amount tm-clear">
+										    <dt class="tb-metatit">{t domain="goods"}店铺分类{/t}</dt>
+										    <dd id="J_Amount">
+										        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{if $goods->merchants_category_model}{$goods->merchants_category_model->cat_name}{/if}</em>
+										        <span id="J_StockTips"></span>
+										    </dd>
+										</dl>
+									{/if}
+								{/if}
 								<!-- {if $goods->brand_model} -->
 									<!-- {if $goods->brand_model->brand_name} -->
 										<dl class="tb-amount tm-clear">
@@ -149,13 +157,15 @@
 								        <span id="J_StockTips"></span>
 								    </dd>
 								</dl>
-								<dl class="tb-amount tm-clear">
-								    <dt class="tb-metatit">{t domain="goods"}更新时间{/t}</dt>
-								    <dd id="J_Amount">
-								        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$goods.last_update}</em>
-								        <span id="J_StockTips"></span>
-								    </dd>
-								</dl>
+								{if $goods.last_update}
+									<dl class="tb-amount tm-clear">
+									    <dt class="tb-metatit">{t domain="goods"}更新时间{/t}</dt>
+									    <dd id="J_Amount">
+									        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$goods.last_update}</em>
+									        <span id="J_StockTips"></span>
+									    </dd>
+									</dl>
+								{/if}
 								<dl class="tb-amount tm-clear">
 								    <dt class="tb-metatit">{t domain="goods"}库存{/t}</dt>
 								    <dd id="J_Amount">
@@ -223,10 +233,12 @@
 		{if $group_parameter_list}
 			<!-- #BeginLibraryItem "/library/goods_group_prameter.lbi" --><!-- #EndLibraryItem -->
 		{/if}
+		{if $goods.goods_desc}
 		<div>
 			<h3 class="heading">{t domain="goods"}图文详情{/t}</h3>
 			<div class="t_c clear">{$goods.goods_desc}</div>
 		</div>
+		{/if}
 	</div>
 </div>
 <!-- {/block} -->

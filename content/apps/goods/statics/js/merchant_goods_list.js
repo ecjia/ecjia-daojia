@@ -246,8 +246,8 @@
 					price = $this.val() || $('[name="market_price"]').val();
 				options = {
 					price: price,
-					marketRate: admin_goodsList_lang.marketPriceRate,
-					integralPercent: admin_goodsList_lang.integralPercent,
+					marketRate: js_lang.marketPriceRate,
+					integralPercent: js_lang.integralPercent,
 					marketPriceObj: $('[name="market_price"]'),
 					integralObj: $('[name="integral"]')
 				};
@@ -263,8 +263,8 @@
 					price = $('[name="market_price"]').val(),
 					options = {
 						price: price,
-						marketRate: 1 / admin_goodsList_lang.marketPriceRate,
-						integralPercent: admin_goodsList_lang.integralPercent,
+						marketRate: 1 / js_lang.marketPriceRate,
+						integralPercent: js_lang.integralPercent,
 						shopPriceObj: $('[name="shop_price"]'),
 						integralObj: $('[name="integral"]')
 					};
@@ -293,12 +293,12 @@
 		},
 
 		set_allprice_note: function() {
-			if (admin_goodsList_lang.user_rank_list) {
-				for (var i = admin_goodsList_lang.user_rank_list.length - 1; i >= 0; i--) {
+			if (js_lang.user_rank_list) {
+				for (var i = js_lang.user_rank_list.length - 1; i >= 0; i--) {
 					var options = {
 						shop_price: $('[name="shop_price"]').val() || $('[name="market_price"]').val(),
-						discount: admin_goodsList_lang.user_rank_list[i].discount || 100,
-						rank_id: admin_goodsList_lang.user_rank_list[i].rank_id,
+						discount: js_lang.user_rank_list[i].discount || 100,
+						rank_id: js_lang.user_rank_list[i].rank_id,
 					};
 					app.goods_info.set_price_note(options);
 				};

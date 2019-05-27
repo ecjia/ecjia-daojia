@@ -101,8 +101,8 @@ class MerchantCategoryCollection
 
         $top_levels = $collection->get($this->category_id);
 
-        $goods_num = CategoryGoodsNumber::getGoodsNumberWithCatId();
-
+        $goods_num = MerchantCategoryGoodsNumber::getGoodsNumberWithCatId($this->store_id);
+        
         $top_levels = $this->recursiveCategroy($top_levels, $allcollection, $goods_num);
 
         return $top_levels;
@@ -119,7 +119,7 @@ class MerchantCategoryCollection
 
         $top_levels = $collection->get($this->category_id);
 
-        $goods_num = CategoryGoodsNumber::getGoodsNumberWithCatId();
+        $goods_num = MerchantCategoryGoodsNumber::getGoodsNumberWithCatId($this->store_id);
 
         $top_levels = $this->recursiveCategroy($top_levels, $allcollection, $goods_num);
 

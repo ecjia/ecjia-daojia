@@ -67,7 +67,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-lg-3">{t domain="goods"}商品货号：{/t}</label>
                                         <div class="controls col-lg-9">
-                                            <input class="form-control" name="product_sn" type="text" value="{$info.product_sn|escape}" />
+                                            <input class="form-control" name="product_sn" type="text" value="{$info.product_sn|escape}" disabled="disabled" />
                                             <span class="help-block">{t domain="goods"}非必填，系统默认自动生成{/t}</span>
                                         </div>
                                     </div>
@@ -97,6 +97,7 @@
                                         <input name="product_id" type="hidden" value="{$info.product_id}">
                                         <label class="control-label col-lg-3"> </label>
                                     <input type="submit" name="submit" value="{t domain="goods"}完成{/t}" class="btn btn-info" />
+                                    <a target="_blank" class="btn btn-info" href='{url path="goods/merchant/product_preview" args="product_id={$info.product_id}&goods_id={$info.goods_id}"}'>{t domain='goods'}预览{/t}</a>
                                     </div>
                                 </div>
 

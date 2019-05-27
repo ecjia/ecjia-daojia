@@ -9,15 +9,17 @@
 namespace Ecjia\App\Goods\StoreDuplicateHandlers;
 
 use Ecjia\App\Goods\Models\MerchantCategoryModel;
+use Ecjia\App\Store\StoreDuplicate\StoreCopyImage;
 use Ecjia\App\Store\StoreDuplicate\StoreDuplicateAbstract;
 use RC_DB;
 use RC_Api;
 use ecjia_admin;
 use ecjia_error;
+use Royalcms\Component\Database\QueryException;
 use Royalcms\Component\Support\Collection;
 
 /**
- * 复制店铺中的商品分类（无图片字段）
+ * 复制店铺中的商品分类（有图片字段）
  *
  * Class StoreGoodsCategoryDuplicate
  * @package Ecjia\App\Goods\StoreDuplicateHandlers
@@ -30,12 +32,6 @@ class StoreGoodsMerchantCategoryDuplicate extends StoreDuplicateAbstract
      */
     protected $code = 'store_goods_merchant_category_duplicate';
 
-    /**
-     * 排序
-     * @var int
-     */
-    protected $sort = 13;
-
     protected $dependents = [
         'store_goods_parameter_duplicate',
         'store_goods_specification_duplicate',
@@ -47,11 +43,21 @@ class StoreGoodsMerchantCategoryDuplicate extends StoreDuplicateAbstract
      */
     private $merchant_category_replacement = [];
 
+    protected $rank_order = 3;
+
+    protected $rank_total = 11;
+
+    protected $sort = 13;
+
     public function __construct($store_id, $source_store_id)
     {
-        $this->name = __('店铺商品分类', 'goods');
-
         parent::__construct($store_id, $source_store_id);
+        $this->name = __('店铺商品分类', 'goods');
+    }
+
+    public function getName()
+    {
+        return $this->name . sprintf('(%d/%d)', $this->rank_order, $this->rank_total);
     }
 
     /**
@@ -67,8 +73,7 @@ class StoreGoodsMerchantCategoryDuplicate extends StoreDuplicateAbstract
      */
     public function handlePrintData()
     {
-        $count = $this->handleCount();
-        $text = sprintf(__('店铺内总共有<span class="ecjiafc-red ecjiaf-fs3">%s</span>大分类', 'goods'), $count);
+        $text = sprintf(__('店铺内总共有<span class="ecjiafc-red ecjiaf-fs3">%s</span>大分类', 'goods'), $this->handleCount());
 
         return <<<HTML
 <span class="controls-info">{$text}</span>
@@ -82,14 +87,16 @@ HTML;
      */
     public function handleCount()
     {
-        //如果已经统计过，直接返回统计过的条数
-        if ($this->count) {
-            return $this->count;
+        static $count;
+        if (is_null($count)) {
+            // 统计数据条数
+            try {
+                $count = $this->getSourceStoreDataHandler()->count();
+            } catch (QueryException $e) {
+                ecjia_log_warning($e->getMessage());
+            }
         }
-
-        // 统计数据条数
-        $this->count = $this->getSourceStoreDataHandler()->count();
-        return $this->count;
+        return $count;
     }
 
 
@@ -131,64 +138,16 @@ HTML;
      */
     protected function startDuplicateProcedure()
     {
-        $progress_data = (new \Ecjia\App\Store\StoreDuplicate\ProgressDataStorage($this->store_id))->getDuplicateProgressData();
+        $progress_data = $this->handleDuplicateProgressData();
 
         $specification_replacement = $progress_data->getReplacementDataByCode('store_goods_specification_duplicate.goods_type');
         $parameter_replacement = $progress_data->getReplacementDataByCode('store_goods_parameter_duplicate.goods_type');
-
 
         $all_categories = MerchantCategoryModel::where('store_id', $this->source_store_id)->get();
 
         $top_categories = $all_categories->where('parent_id', 0);
 
         $this->recursiveCategroy($top_categories, $all_categories, $specification_replacement, $parameter_replacement);
-
-        //@todo cat_image 未复制
-
-
-//        $merchant_category_replacement = [];
-//        $this->source_store_data_handler->orderBy('parent_id', 'asc')->chunk(50, function ($items) use (& $merchant_category_replacement, $specification_replacement, $parameter_replacement) {
-//
-//            //构造可用于复制的数据
-//            //$this->buildDuplicateData($items);
-//
-//            foreach ($items as &$item) {
-//                $merchant_cat_id = $item['cat_id'];
-//                unset($item['cat_id']);
-//
-//                //将源店铺ID设为新店铺的ID
-//                $item['store_id'] = $this->store_id;
-//
-//                //设置新店铺规则ID
-//                if (isset($specification_replacement[$item['specification_id']])) {
-//                    $item['specification_id'] = $specification_replacement[$item['specification_id']];
-//                }
-//
-//                //设置新店铺参数ID
-//                if (isset($parameter_replacement[$item['parameter_id']])) {
-//                    $item['parameter_id'] = $parameter_replacement[$item['parameter_id']];
-//                }
-//
-//                //插入数据到新店铺并获取主键ID
-//                //$new_merchant_cat_id = $merchant_cat_id + 1;
-//                $new_merchant_cat_id = RC_DB::table('merchants_category')->insertGetId($item);
-//                $merchant_category_replacement[$merchant_cat_id] = $new_merchant_cat_id;
-//
-//                //如果该数据不是顶级分类
-//                if ((int)$item['parent_id'] !== 0 && isset($merchant_category_replacement[$item['parent_id']])) {
-//
-//                    //用parent_id找到替换ID，将新插入的数据执行更新，完成parent_id替换
-//                    RC_DB::table('merchants_category')
-//                        ->where('cat_id', $new_merchant_cat_id)
-//                        ->update(['parent_id' => $merchant_category_replacement[$item['parent_id']]]);
-//                }
-//
-//
-//                //图片数据的处理
-//
-//            }
-//
-//        });
 
         $this->setReplacementData($this->getCode(), $this->merchant_category_replacement);
     }
@@ -209,7 +168,6 @@ HTML;
 
         $categories = $categories->map(function ($model) use ($collection, $specification_replacement, $parameter_replacement) {
 
-
             $new_model = $model->replicate();
 
             $new_model->store_id = $this->store_id;
@@ -220,6 +178,9 @@ HTML;
 
             //取出原parent_id数据
             $new_model->parent_id = array_get($this->merchant_category_replacement, $model->parent_id, $model->parent_id);
+
+            //设置新店铺 cat_image
+            $new_model->cat_image = $this->copyImage($new_model->cat_image);
 
             $new_model->save();
 
@@ -239,23 +200,19 @@ HTML;
         return $categories;
     }
 
-
-    protected function buildDuplicateData(&$items)
+    /**
+     * @param $path
+     * @return bool|string
+     */
+    protected function copyImage($path)
     {
-        foreach ($items as &$item) {
+        /**
+         * 数据样式：
+         * merchant/62/data/category/1497203993901325255.png
+         */
+        $path = (new StoreCopyImage($this->store_id, $this->source_store_id))->copyMerchantImage($path);
 
-            unset($item['cat_id']);
-
-            //将源店铺ID设为新店铺的ID
-            $item['store_id'] = $this->store_id;
-
-
-        }
-
-
-        //解决外键带来的问题数据
-
-
+        return $path;
     }
 
     /**
@@ -265,14 +222,21 @@ HTML;
      */
     public function handleAdminLog()
     {
+        static $store_merchant_name, $source_store_merchant_name;
+
+        if (empty($store_merchant_name)) {
+            $store_info = RC_Api::api('store', 'store_info', ['store_id' => $this->store_id]);
+            $store_merchant_name = array_get(empty($store_info) ? [] : $store_info, 'merchants_name');
+        }
+
+        if (empty($source_store_merchant_name)) {
+            $source_store_info = RC_Api::api('store', 'store_info', ['store_id' => $this->source_store_id]);
+            $source_store_merchant_name = array_get(empty($source_store_info) ? [] : $source_store_info, 'merchants_name');
+        }
+
         \Ecjia\App\Store\Helper::assign_adminlog_content();
-
-        $store_info = RC_Api::api('store', 'store_info', array('store_id' => $this->store_id));
-
-        $merchants_name = !empty($store_info) ? sprintf(__('店铺名是%s', 'goods'), $store_info['merchants_name']) : sprintf(__('店铺ID是%s', 'goods'), $this->store_id);
-
-        ecjia_admin::admin_log($merchants_name, 'duplicate', 'store_goods');
+        $content = sprintf(__('将【%s】店铺所有的店铺商品分类复制到【%s】店铺中', 'goods'), $source_store_merchant_name, $store_merchant_name);
+        ecjia_admin::admin_log($content, 'duplicate', 'store_goods');
     }
-
 
 }

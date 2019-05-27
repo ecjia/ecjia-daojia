@@ -9,6 +9,7 @@
 namespace Ecjia\App\Goods\GoodsImage\Format;
 
 use RC_Time;
+use Ecjia\App\Goods\GoodsImage\GoodsImageFormattedInterface;
 
 class GoodsImageFormatted
 {
@@ -16,7 +17,7 @@ class GoodsImageFormatted
     protected $root_dir = 'images/';
 
     /**
-     * @var \Ecjia\App\Goods\GoodsImage\Goods\GoodsImage
+     * @var \Ecjia\App\Goods\GoodsImage\GoodsImageFormattedInterface
      */
     protected $goods_image;
 
@@ -58,7 +59,7 @@ class GoodsImageFormatted
      */
     protected $random_name;
 
-    public function __construct($goods_image, $root_dir = null)
+    public function __construct(GoodsImageFormattedInterface $goods_image, $root_dir = null)
     {
         $this->goods_image = $goods_image;
 

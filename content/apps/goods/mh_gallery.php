@@ -54,8 +54,14 @@ class mh_gallery extends ecjia_merchant {
 	public function __construct() {
         parent::__construct();
         
-        RC_Script::enqueue_script('goods_list', RC_App::apps_url('statics/js/merchant_goods_list.js', __FILE__), array(), false, 1);
-        RC_Style::enqueue_style('goods', RC_App::apps_url('statics/styles/goods.css', __FILE__), array());
+        RC_Loader::load_app_class('goods', 'goods');
+        
+        RC_Loader::load_app_func('admin_category');
+        RC_Loader::load_app_func('global');
+        
+        RC_Loader::load_app_func('admin_user', 'user');
+        
+      
         
         RC_Script::enqueue_script('jquery-dropper', RC_Uri::admin_url() . '/statics/lib/dropper-upload/jquery.fs.dropper.js', array(), false, 1);
         RC_Script::enqueue_script('jquery-imagesloaded');
@@ -71,25 +77,22 @@ class mh_gallery extends ecjia_merchant {
         RC_Script::enqueue_script('smoke');
         RC_Style::enqueue_style('uniform-aristo');
         RC_Script::enqueue_script('jq_quicksearch', RC_Uri::admin_url() . '/statics/lib/multi-select/js/jquery.quicksearch.js', array('jquery'), false, 1);
-        
+       
         RC_Script::enqueue_script('ecjia-region',RC_Uri::admin_url('statics/ecjia.js/ecjia.region.js'), array('jquery'), false, 1);
-
-        RC_Script::enqueue_script('product', RC_App::apps_url('statics/js/merchant_product.js', __FILE__), array(), false, 1);
+        RC_Style::enqueue_style('goods', RC_App::apps_url('statics/styles/goods.css', __FILE__), array());
         RC_Style::enqueue_style('mh-product', RC_App::apps_url('statics/styles/mh-product.css', __FILE__), array());
-        RC_Script::localize_script('goods_list', 'js_lang', config('app-goods::jslang.goods_list_page'));
         
-        RC_Loader::load_app_class('goods', 'goods');
-        
-        RC_Loader::load_app_func('admin_category');
-        RC_Loader::load_app_func('global');
-        
-        RC_Loader::load_app_func('admin_user', 'user');
+        RC_Script::enqueue_script('merchant_goods_list', RC_App::apps_url('statics/js/merchant_goods_list.js', __FILE__), array(), false, 1);
+        RC_Script::enqueue_script('merchant_product', RC_App::apps_url('statics/js/merchant_product.js', __FILE__), array(), false, 1);
+
         $goods_list_jslang = array(
         	'user_rank_list'	=> get_rank_list(),
         	'marketPriceRate'	=> ecjia::config('market_price_rate'),
         	'integralPercent'	=> ecjia::config('integral_percent'),
         );
-        RC_Script::localize_script('goods_list', 'admin_goodsList_lang', $goods_list_jslang );
+    	$js_lang_arr = array_merge($goods_list_jslang, config('app-goods::jslang.goods_list_page'), config('app-goods::jslang.spec_product_page'));
+		RC_Script::localize_script('merchant_goods_list', 'js_lang', $js_lang_arr);
+        
         ecjia_merchant_screen::get_current_screen()->set_parentage('goods', 'goods/mh_gallery.php');
         ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品管理', 'goods'), RC_Uri::url('goods/merchant/init')));
 	}
@@ -100,20 +103,12 @@ class mh_gallery extends ecjia_merchant {
     public function init() {
         $this->admin_priv('goods_update');
         
-        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品列表', 'goods'), RC_Uri::url('goods/merchant/init')));
-        $this->assign('ur_here', __('编辑商品相册', 'goods'));
-
-        ecjia_merchant_screen::get_current_screen()->add_help_tab(array(
-	        'id'		=> 'overview',
-	        'title'		=> __('概述', 'goods'),
-	        'content'	=>
-	        '<p>' . __('欢迎访问ECJia智能后台商品相册页面，系统中所有的商品图片都会显示在此页面。', 'goods') . '</p>'
-        ));
+        $action_type = trim($_GET['action_type']);
+        $href_url = Ecjia\App\Goods\MerchantGoodsAttr::goods_back_goods_url($action_type);
         
-        ecjia_merchant_screen::get_current_screen()->set_help_sidebar(
-       	 	'<p><strong>' . __('更多信息：', 'goods') . '</strong></p>' .
-        	'<p>' . __('<a href="https://ecjia.com/wiki/帮助:ECJia智能后台:商品列表#.E5.95.86.E5.93.81.E7.9B.B8.E5.86.8C" target="_blank">关于商品相册帮助文档</a>', 'goods') . '</p>'
-        );
+        ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('商品列表', 'goods'), $href_url));
+        $this->assign('ur_here', __('编辑商品相册', 'goods'));
+        $this->assign('action_link', array('href' => $href_url, 'text' => __('商品列表', 'goods')));
         
         $goods_id = intval($_GET['goods_id']);
         $goods = RC_DB::table('goods')->where('goods_id', $goods_id)->where('store_id', $_SESSION['store_id'])->first();
@@ -123,7 +118,7 @@ class mh_gallery extends ecjia_merchant {
         
         $extension_code = isset($_GET['extension_code']) ? '&extension_code='.$_GET['extension_code'] : '';
         
-        $this->tags = get_merchant_goods_info_nav($goods_id, $extension_code);
+        $this->tags = get_merchant_goods_info_nav($goods_id, $action_type, $extension_code);
         $this->tags['edit_goods_photo']['active'] = 1;
         /* 图片列表 */
         $img_list = RC_DB::table('goods_gallery')->where('goods_id', $goods_id)->where('product_id', 0)->get();
@@ -162,7 +157,6 @@ class mh_gallery extends ecjia_merchant {
 		
         //设置选中状态,并分配标签导航
         $this->assign('tags', $this->tags);
-        $this->assign('action_link', array('href' => RC_Uri::url('goods/merchant/init'), 'text' => __('商品列表', 'goods')));
         
         $this->assign('goods_id', $goods_id);
         $this->assign('img_list', $img_list);

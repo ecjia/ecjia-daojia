@@ -59,15 +59,17 @@ class goods_merchant_menu_api extends Component_Event_Api {
         	ecjia_merchant::make_admin_menu('02_goods_list', __('售罄商品', 'goods'), RC_Uri::url('goods/merchant/finish'), 2)->add_purview('goods_manage')->add_icon('fa-inbox'), //array('goods_manage')
         	ecjia_merchant::make_admin_menu('03_goods_list', __('下架商品', 'goods'), RC_Uri::url('goods/merchant/obtained'), 3)->add_purview('goods_manage')->add_icon('fa-arrow-down'), //array('goods_manage')
         	ecjia_merchant::make_admin_menu('04_goods_list', __('审核商品', 'goods'), RC_Uri::url('goods/merchant/check'), 4)->add_purview('goods_manage')->add_icon('fa-history'), //array('goods_manage')
-        	
-        	ecjia_merchant::make_admin_menu('07_goods_trash', __('商品回收站', 'goods'), RC_Uri::url('goods/merchant/trash'), 7)->add_purview('goods_manage')->add_icon('fa-recycle'), //array('goods_manage')
-            ecjia_merchant::make_admin_menu('divider', '', '', 8)->add_purview(array('goods_update')),
-            ecjia_merchant::make_admin_menu('08_goods_add', __('添加新商品', 'goods'), RC_Uri::url('goods/merchant/add'), 9)->add_purview('goods_update')->add_icon('fa-plus-square-o'), //array('goods_update')
-            ecjia_merchant::make_admin_menu('divider', '', '', 11)->add_purview(array('goods_type', 'merchant_category_manage', 'goods_spec_attr_manage', 'goods_parameter_attr_manage')),
+            ecjia_merchant::make_admin_menu('divider', '', '', 5)->add_purview(array('goods_update')),
+              ecjia_merchant::make_admin_menu('divider', '', '', 8)->add_purview(array('goods_update')),
+
+        	ecjia_merchant::make_admin_menu('09_goods_trash', __('商品回收站', 'goods'), RC_Uri::url('goods/merchant/trash'), 9)->add_purview('goods_manage')->add_icon('fa-recycle'), //array('goods_manage')
+            ecjia_merchant::make_admin_menu('divider', '', '', 10)->add_purview(array('goods_update')),
+            ecjia_merchant::make_admin_menu('11_goods_add', __('添加新商品', 'goods'), RC_Uri::url('goods/merchant/add'), 11)->add_purview('goods_update')->add_icon('fa-plus-square-o'), //array('goods_update')
+            ecjia_merchant::make_admin_menu('divider', '', '', 12)->add_purview(array('goods_type', 'merchant_category_manage', 'goods_spec_attr_manage', 'goods_parameter_attr_manage')),
         		
-            ecjia_merchant::make_admin_menu('12_category_list', __('商品分类', 'goods'), RC_Uri::url('goods/mh_category/init'), 12)->add_purview('merchant_category_manage')->add_icon('fa-th-large'), //array('merchant_category_manage')
-            ecjia_merchant::make_admin_menu('13_goods_spec', __('商品规格', 'goods'), RC_Uri::url('goods/mh_spec/init'), 13)->add_purview('goods_spec_attr_manage')->add_icon('fa-delicious'),
-        	ecjia_merchant::make_admin_menu('14_goods_parameter', __('商品参数', 'goods'), RC_Uri::url('goods/mh_parameter/init'), 14)->add_purview('goods_parameter_attr_manage')->add_icon('fa-thumb-tack'),
+            ecjia_merchant::make_admin_menu('13_category_list', __('商品分类', 'goods'), RC_Uri::url('goods/mh_category/init'), 13)->add_purview('merchant_category_manage')->add_icon('fa-th-large'), //array('merchant_category_manage')
+            ecjia_merchant::make_admin_menu('14_goods_spec', __('商品规格', 'goods'), RC_Uri::url('goods/mh_spec/init'), 14)->add_purview('goods_spec_attr_manage')->add_icon('fa-delicious'),
+        	ecjia_merchant::make_admin_menu('15_goods_parameter', __('商品参数', 'goods'), RC_Uri::url('goods/mh_parameter/init'), 15)->add_purview('goods_parameter_attr_manage')->add_icon('fa-thumb-tack'),
         );
 
         $menus->add_submenu($submenus);

@@ -37,13 +37,6 @@ class MerchantCategoryGoodsNumber
                 ->get()
                 ->groupBy('merchant_cat_id');
 
-
-//            $collection2 = GoodsCatModel::select('goods_cat.cat_id', 'goods_cat.goods_id')
-//                ->leftJoin('goods', 'goods.goods_id', '=', 'goods_cat.goods_id')
-//                ->where('goods.is_delete', 0)
-//                ->get()
-//                ->groupBy('cat_id');
-
             $collection2 = collect();
 
 
@@ -77,12 +70,6 @@ class MerchantCategoryGoodsNumber
                 ->get()
                 ->groupBy('cat_id');
 
-//            $collection2 = GoodsCatModel::select('goods_cat.cat_id', 'goods_cat.goods_id')
-//                ->leftJoin('goods', 'goods.goods_id', '=', 'goods_cat.goods_id')
-//                ->where('goods.is_delete', 0)
-//                ->where('goods.is_on_sale', 1)
-//                ->get()
-//                ->groupBy('cat_id');
             $collection2 = collect();
 
             $collection = self::countGoodsNumber($collection1, $collection2);
@@ -107,11 +94,15 @@ class MerchantCategoryGoodsNumber
                 if ($collection1->get($item)) {
                     $value1 = $collection1->get($item);
                     $value1 = $value1->pluck('goods_id')->all();
+                } else {
+                    $value1 = [];
                 }
 
                 if ($collection2->get($item)) {
                     $value2 = $collection2->get($item);
                     $value2 = $value2->pluck('goods_id')->all();
+                } else {
+                    $value2 = [];
                 }
 
                 return [

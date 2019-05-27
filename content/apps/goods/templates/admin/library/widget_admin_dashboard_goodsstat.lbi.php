@@ -1,61 +1,66 @@
 <?php defined('IN_ECJIA') or exit('No permission resources.');?>
 <div class="move-mod-group" id="widget_admin_dashboard_goodsstat">
-	<div class="heading clearfix move-mod-head">
-		<h3 class="pull-left">{$title}</h3>
-	</div>
 	<div class="row-fluid">
-		<div class="span6 left-border">
-			<div class="total-count">
-				<div class="total-count-margin">
-					<span class="total-num-col">总商品数</span>
-					<span class="total-num">{$goods.total}</span>
-				</div>
+		<div class="span6">
+			<div class="heading clearfix move-mod-head">
+				<h3 class="pull-left">{$title1}</h3>
 			</div>
-			<div class="goods-left-stats">
-				<div class="row-fluid suggest-goods">
-					<div class="span4 suggest-space">
-						<p><span class="suggest-num">{$goods.new_goods}</span></p>
-						<p class="suggest-name">新品首发</p>
-					</div>
-					<div class="span4">
-						<p><span class="suggest-num">{$goods.best_goods}</span></p>
-						<p class="suggest-name">精品推荐</p>
-					</div>
-					<div class="span4">
-						<p><span class="suggest-num">{$goods.hot_goods}</span></p>
-						<p class="suggest-name">热销商品</p>
+			<div class="left-border">
+				<div class="total-count">
+					<div class="total-count-margin">
+						<span class="total-num-col">总商品数</span>
+						<span class="total-num">{$goods.total}</span>
 					</div>
 				</div>
-				<div class="row-fluid per-margin">
-					<div class="span2 percent-title">新品首发</div>
-					<div class="span8">
-						<div class="sepH_b progress progress-success">
-							<div style="width:{$goods.new_percent}%" class="bar"></div>
+				<div class="goods-left-stats">
+					<div class="row-fluid suggest-goods">
+						<div class="span4 suggest-space">
+							<p><span class="suggest-num">{$goods.new_goods}</span></p>
+							<p class="suggest-name">新品首发</p>
+						</div>
+						<div class="span4">
+							<p><span class="suggest-num">{$goods.best_goods}</span></p>
+							<p class="suggest-name">精品推荐</p>
+						</div>
+						<div class="span4">
+							<p><span class="suggest-num">{$goods.hot_goods}</span></p>
+							<p class="suggest-name">热销商品</p>
 						</div>
 					</div>
-					<div class="span2 percent">{$goods.new_percent}%</div>
-				</div>
-				<div class="row-fluid per-margin">
-					<div class="span2 percent-title">精品推荐</div>
-					<div class="span8">
-						<div class="sepH_b progress progress-warning">
-							<div style="width:{$goods.best_percent}%" class="bar"></div>
+					<div class="row-fluid per-margin">
+						<div class="span2 percent-title">新品首发</div>
+						<div class="span8">
+							<div class="sepH_b progress progress-success">
+								<div style="width:{$goods.new_percent}%" class="bar"></div>
+							</div>
 						</div>
+						<div class="span2 percent">{$goods.new_percent}%</div>
 					</div>
-					<div class="span2 percent">{$goods.best_percent}%</div>
-				</div>
-				<div class="row-fluid per-margin">
-					<div class="span2 percent-title">热销商品</div>
-					<div class="span8">
-						<div class="sepH_b progress progress-info">
-							<div style="width:{$goods.hot_percent}%" class="bar"></div>
+					<div class="row-fluid per-margin">
+						<div class="span2 percent-title">精品推荐</div>
+						<div class="span8">
+							<div class="sepH_b progress progress-warning">
+								<div style="width:{$goods.best_percent}%" class="bar"></div>
+							</div>
 						</div>
+						<div class="span2 percent">{$goods.best_percent}%</div>
 					</div>
-					<div class="span2 percent">{$goods.hot_percent}%</div>
+					<div class="row-fluid per-margin">
+						<div class="span2 percent-title">热销商品</div>
+						<div class="span8">
+							<div class="sepH_b progress progress-info">
+								<div style="width:{$goods.hot_percent}%" class="bar"></div>
+							</div>
+						</div>
+						<div class="span2 percent">{$goods.hot_percent}%</div>
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="span6">
+			<div class="heading clearfix move-mod-head">
+				<h3 class="pull-left">{$title2}</h3>
+			</div>
 			<div class="row-fluid other-goods">
 				<div class="span4">
 				 	 <div class="other-info">
@@ -115,7 +120,6 @@
                      </div>
 				</div>
 			</div>
-			
 		</div>
 	</div>
 </div>

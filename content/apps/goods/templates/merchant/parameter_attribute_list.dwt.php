@@ -30,12 +30,14 @@
 	<div class="col-lg-12">
 		<div class="panel">
 			<div class="panel-body panel-body-small">
+				{if $store_id}
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> {t domain="goods"}批量操作{/t} <span class="caret"></span></button>
 					<ul class="dropdown-menu">
 		                <li><a class="batch-trash-btn" data-toggle="ecjiabatch" data-idClass=".checkbox:checked" data-url='{RC_Uri::url("goods/mh_parameter_attribute/batch", "cat_id={$cat_id}")}' data-msg="{t domain='goods'}您确定要删除选中的商品参数吗？{/t}" data-noSelectMsg="{t domain='goods'}您没有选择需要删除的参数{/t}" href="javascript:;"> <i class="glyphicon glyphicon-trash"></i> {t domain="goods"}批量删除{/t}</a></li>
 		           	</ul>
 				</div>
+				{/if}
 				
 				<div class="choose_list f_r">
 					<span class="l_h30">{t domain="goods"}按模板名称快速切换：{/t}</span>
@@ -49,6 +51,7 @@
 			
 			<div class="panel-body panel-body-small">
 				<section class="panel">
+					{if $store_id}
 					<table class="table table-striped table-advance table-hover">
 						<thead>
 							<tr>
@@ -94,6 +97,34 @@
 						<!-- {/foreach} -->
 					</tbody>
 				</table>
+				
+				{else}
+				
+				<table class="table table-striped table-advance table-hover">
+						<thead>
+							<tr>
+								<th class="w200">{t domain="goods"}参数名称{/t}</th>
+								<th class="w200">{t domain="goods"}所属参数模板{/t}</th>
+								<th class="w150">{t domain="goods"}录入方式{/t}</th>
+								<th>{t domain="goods"}可选值列表{/t}</th>
+								<th class="w100">{t domain="goods"}排序{/t}</th>
+							</tr>
+						</thead>
+						<tbody>
+						<!-- {foreach from=$attr_list.item item=attr} -->
+						<tr>
+							<td>{$attr.attr_name}</td>
+							<td>{$attr.cat_name}</td>
+							<td>{$attr.attr_input_type_desc}</td>
+							<td>{$attr.attr_values}</td>
+							<td>{$attr.sort_order}</td>
+						</tr>
+						<!-- {foreachelse} -->
+						<tr><td class="no-records" colspan="5">{t domain="goods"}没有找到任何记录{/t}</td></tr>
+						<!-- {/foreach} -->
+					</tbody>
+				</table>
+				{/if}
 			</section>
 			<!-- {$attr_list.page} -->
 		</div>

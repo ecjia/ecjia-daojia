@@ -5,7 +5,7 @@
         <h3 class="modal-title">{t domain='goods'}审核{/t}</h3>
     </div>
     <div class="modal-body" >
-        <form class="form-horizontal" action="{RC_Uri::url('goods/admin/goods_review')}" method="post" name="checkForm">
+        <form class="form-horizontal" action='{url path="goods/admin/goods_review" args="page={$page}"}' method="post" name="checkForm">
             <div class="control-group control-group-small">
                 <label class="control-label">{t domain='goods'}审核备注：{/t}</label>
                 <div class="controls">

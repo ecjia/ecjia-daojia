@@ -65,33 +65,6 @@
 						<form class="form-horizontal" action="{$form_action}" method="post" name="theForm">
 							<fieldset>
 								<div class="template_box">
-									<div class="box_content">
-										<div class="form-group">
-											<label class="control-label col-lg-2 ">{t domain="goods"}商品货号：{/t}</label>
-											<div class="col-lg-6">
-												<input class="form-control" type="text" name="goods_sn" value="{$goods_info.goods_sn}" disabled="disabled" />
-											</div>
-										</div>
-										
-										<div class="form-group">
-											<label class="control-label col-lg-2 ">{t domain="goods"}库存数量：{/t}</label>
-											<div class="col-lg-6">
-												<input class="form-control" type="text" name="goods_number" value="{$goods_info.goods_number}" >
-											
-											</div>
-										</div>
-										
-										<div class="form-group">
-											<label class="control-label col-lg-2 ">{t domain="goods"}商品条形码：{/t}</label>
-											<div class="col-lg-6">
-												<input class="form-control" type="text" name="goods_barcode" value="{$goods_info.goods_barcode}" >
-												<span class="help-block">非必填项，条形码必须搭配条码秤才可使用</span>
-											</div>
-										</div>
-									 </div>
-								</div> 
-								
-								<div class="template_box">
 									{if $has_template}
 										<div class="box_content">
 											<div class="form-group">
@@ -113,6 +86,13 @@
 												</div>
 											</div>
 											
+											<div class="form-group">
+												<label class="control-label col-lg-2 "></label>
+												<div class="col-lg-6">
+													<span class="help-block">当前规格模板默认使用商品所属分类绑定的模板，如需更换，可在当前商品所属分类下更换，更换后再设置规格属性和货品。</span>
+												</div>
+											</div>
+											
 											{if $product_list}
 											<table class="table table-striped table-hide-edit">
                                               <thead>
@@ -128,20 +108,21 @@
                            
                                               <tbody>
                                                   <!-- {foreach from=$product_list item=product} -->
+                                                  <input type="hidden" name="product_id[]" value="{$product.product_id}" />
                                                   <tr>
-                                                    <td>
-                                                    <!-- {foreach from=$product.goods_attr item=goods_attr} -->
+                                                    <td style="vertical-align: inherit;">
+                                                      <!-- {foreach from=$product.goods_attr item=goods_attr} -->
                                                       {$goods_attr} {if $goods_attr@last}{else}/{/if}
                                                       <!-- {/foreach} -->
                                                       </td>
-                                                      <td><input class="form-control" type="text" name="product_sn[]" value="{$product.product_sn}" /></td>
+                                                      <td><input class="form-control" type="text" name="product_sn[]" value="{$product.product_sn}" disabled="disabled" /></td>
                                                       <td><input class="form-control" type="text" name="product_bar_code[]" value="{$product.product_bar_code}" /></td>
                                                       <td><input class="form-control" type="text" name="product_shop_price[]" value="{$product.product_shop_price}" /></td>
                                                       <td><input class="form-control" type="text" name="product_number[]" value="{$product.product_number}" /></div></td>
-                                                      <td style="margin-top: 10px;">
+                                                      <td style="vertical-align: inherit;">
                                                         <a class="data-pjax" href='{url path="goods/merchant/product_edit" args="id={$product.product_id}&goods_id={$goods_id}"}' >{t domain='goods'}编辑{/t}</a>&nbsp;|&nbsp;
                                                         <a class="ecjiafc-red" data-toggle="ajaxremove" data-msg="{t domain='goods'}您确定要把该货品删除吗？{/t}" href='{url path="goods/merchant/product_remove" args="id={$product.product_id}"}' >{t domain='goods'}删除{/t}</a>
-                                                    </td>
+                                                      </td>
                                                   </tr>
                                                   <!-- {/foreach} -->
                                               </tbody>

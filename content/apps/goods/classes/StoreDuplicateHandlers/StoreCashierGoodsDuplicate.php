@@ -2,12 +2,11 @@
 
 namespace Ecjia\App\Goods\StoreDuplicateHandlers;
 
-
-use ecjia_error;
-use RC_Uri;
-use RC_DB;
-use RC_Api;
 use ecjia_admin;
+use ecjia_error;
+use RC_Api;
+use RC_DB;
+use Royalcms\Component\Database\QueryException;
 
 /**
  * 复制店铺中的收银台商品
@@ -23,9 +22,13 @@ class StoreCashierGoodsDuplicate extends StoreSellingGoodsDuplicate
      */
     protected $code = 'store_cashier_goods_duplicate';
 
-    public function __construct($store_id, $source_store_id, $sort = 15)
+    protected $rank_order = 5;
+
+    protected $sort = 15;
+
+    public function __construct($store_id, $source_store_id)
     {
-        parent::__construct($store_id, $source_store_id, '在售收银台商品', $sort);
+        parent::__construct($store_id, $source_store_id, '在售收银台商品');
     }
 
     /**
@@ -54,9 +57,35 @@ class StoreCashierGoodsDuplicate extends StoreSellingGoodsDuplicate
             $this->setReplacementData($this->getCode(), ['goods' => $this->replacement_goods]);
 
             return true;
-        } catch (\Royalcms\Component\Repository\Exceptions\RepositoryException $e) {
+        } catch (QueryException $e) {
+            ecjia_log_warning($e->getMessage());
             return new ecjia_error('duplicate_data_error', $e->getMessage());
         }
+
+    }
+
+    /**
+     * 返回操作日志编写
+     *
+     * @return mixed
+     */
+    public function handleAdminLog()
+    {
+        static $store_merchant_name, $source_store_merchant_name;
+
+        if (empty($store_merchant_name)) {
+            $store_info = RC_Api::api('store', 'store_info', ['store_id' => $this->store_id]);
+            $store_merchant_name = array_get(empty($store_info) ? [] : $store_info, 'merchants_name');
+        }
+
+        if (empty($source_store_merchant_name)) {
+            $source_store_info = RC_Api::api('store', 'store_info', ['store_id' => $this->source_store_id]);
+            $source_store_merchant_name = array_get(empty($source_store_info) ? [] : $source_store_info, 'merchants_name');
+        }
+
+        \Ecjia\App\Store\Helper::assign_adminlog_content();
+        $content = sprintf(__('将【%s】店铺所有在售收银台商品复制到【%s】店铺中', 'goods'), $source_store_merchant_name, $store_merchant_name);
+        ecjia_admin::admin_log($content, 'duplicate', 'store_goods');
     }
 
 }

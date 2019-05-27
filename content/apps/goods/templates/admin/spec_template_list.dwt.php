@@ -40,7 +40,6 @@
 				<tr>
 					<th class="w150">{t domain='goods'}模板名称{/t}</th>
 					<th class="w130">{t domain='goods'}属性统计{/t}</th>
-					<th class="w130">{t domain='goods'}商品数量{/t}</th>
 					<th class="w80">{t domain='goods'}状态{/t}</th>
 				</tr>
 			</thead>
@@ -56,14 +55,13 @@
 						</div>
 					</td>
 					<td>{$list.attr_count}</td>
-					<td>0</td>
 					<td>
 						<i class="{if $list.enabled}fontello-icon-ok cursor_pointer{else}fontello-icon-cancel cursor_pointer{/if}" title="{t domain='goods'}点击修改状态{/t}" data-trigger="toggleState" data-url="{RC_Uri::url('goods/admin_spec/toggle_enabled')}" data-id="{$list.cat_id}"></i>
 					</td>
 				</tr>
 				<!-- {foreachelse} -->
 				<tr>
-					<td class="no-records" colspan="4">
+					<td class="no-records" colspan="3">
 						{t domain='goods'}没有找到任何记录{/t}
 					</td>
 				</tr>
