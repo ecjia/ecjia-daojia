@@ -9,10 +9,11 @@
 namespace Ecjia\App\Bonus\StoreDuplicateHandlers;
 
 use Ecjia\App\Store\StoreDuplicate\StoreDuplicateAbstract;
-use ecjia_error;
-use RC_DB;
-use RC_Api;
 use ecjia_admin;
+use ecjia_error;
+use RC_Api;
+use RC_DB;
+use Royalcms\Component\Database\QueryException;
 
 /**
  * 复制店铺中的红包
@@ -28,10 +29,12 @@ class StoreBonusDuplicate extends StoreDuplicateAbstract
      */
     protected $code = 'store_bonus_duplicate';
 
-    public function __construct($store_id, $source_store_id, $sort = 31)
+    protected $sort = 31;
+
+    public function __construct($store_id, $source_store_id)
     {
         $this->name = __('店铺红包', 'bonus');
-        parent::__construct($store_id, $source_store_id, $sort);
+        parent::__construct($store_id, $source_store_id);
     }
 
     /**
@@ -39,9 +42,7 @@ class StoreBonusDuplicate extends StoreDuplicateAbstract
      */
     public function getSourceStoreDataHandler()
     {
-        return RC_DB::table('bonus_type')
-            ->rightJoin('user_bonus', 'bonus_type.type_id', '=', 'user_bonus.bonus_type_id')
-            ->where('bonus_type.store_id', $this->source_store_id);
+        return RC_DB::table('bonus_type')->where('store_id', $this->source_store_id);
     }
 
     /**
@@ -62,14 +63,16 @@ HTML;
      */
     public function handleCount()
     {
-        //如果已经统计过，直接返回统计过的条数
-        if ($this->count) {
-            return $this->count;
+        static $count;
+        if (is_null($count)) {
+            // 统计数据条数
+            try {
+                $count = $this->getSourceStoreDataHandler()->count();
+            } catch (QueryException $e) {
+                ecjia_log_warning($e->getMessage());
+            }
         }
-
-        // 统计数据条数
-        $this->count = $this->getSourceStoreDataHandler()->count();
-        return $this->count;
+        return $count;
     }
 
     /**
@@ -84,6 +87,10 @@ HTML;
             return true;
         }
 
+        if ($this->isCheckStarting()){
+            return new ecjia_error('duplicate_started_error', sprintf(__('%s复制已开始，请耐心等待！', 'store'), $this->getName()));
+        }
+
         //如果当前对象复制前仍存在依赖，则需要先复制依赖对象才能继续复制
         if (!empty($this->dependents)) { //如果设有依赖对象
             //检测依赖
@@ -92,6 +99,9 @@ HTML;
                 return new ecjia_error('handle_duplicate_error', __('复制依赖检测失败！', 'store'), $items);
             }
         }
+
+        //标记复制正在进行中
+        $this->markStartingDuplicate();
 
         //执行具体任务
         $result = $this->startDuplicateProcedure();
@@ -113,32 +123,33 @@ HTML;
      */
     protected function startDuplicateProcedure()
     {
+        $replacement_bonus_type = [];
         try {
-            $replacement_bonus_type = [];
-
-            RC_DB::table('bonus_type')->where('store_id', $this->source_store_id)->chunk(50, function ($items) use (& $replacement_bonus_type) {
+            $this->getSourceStoreDataHandler()->chunk(50, function ($items) use (& $replacement_bonus_type) {
                 //构造可用于复制的数据
-                foreach ($items as &$item) {
+                foreach ($items as $item) {
                     $type_id = $item['type_id'];
                     unset($item['type_id']);
 
                     //将源店铺ID设为新店铺的ID
                     $item['store_id'] = $this->store_id;
 
-                    //插入数据到新店铺
-                    $new_type_id = RC_DB::table('bonus_type')->insertGetId($item);
+                    try{
+                        //插入数据到新店铺
+                        $new_type_id = RC_DB::table('bonus_type')->insertGetId($item);
 
-                    $replacement_bonus_type[$type_id] = $new_type_id;
+                        $replacement_bonus_type[$type_id] = $new_type_id;
+                    }catch (QueryException $e){
+                        ecjia_log_warning($e->getMessage());
+                    }
                 }
             });
-
             $this->setReplacementData($this->getCode(), $replacement_bonus_type);
-
             return true;
-        } catch (\Royalcms\Component\Repository\Exceptions\RepositoryException $e) {
+        } catch (QueryException $e) {
+            ecjia_log_warning($e->getMessage());
             return new ecjia_error('duplicate_data_error', $e->getMessage());
         }
-
     }
 
     /**
@@ -148,14 +159,20 @@ HTML;
      */
     public function handleAdminLog()
     {
+        static $store_merchant_name, $source_store_merchant_name;
+
+        if (empty($store_merchant_name)) {
+            $store_info = RC_Api::api('store', 'store_info', ['store_id' => $this->store_id]);
+            $store_merchant_name = array_get(empty($store_info) ? [] : $store_info, 'merchants_name');
+        }
+
+        if (empty($source_store_merchant_name)) {
+            $source_store_info = RC_Api::api('store', 'store_info', ['store_id' => $this->source_store_id]);
+            $source_store_merchant_name = array_get(empty($source_store_info) ? [] : $source_store_info, 'merchants_name');
+        }
+
         \Ecjia\App\Store\Helper::assign_adminlog_content();
-
-        $store_info = RC_Api::api('store', 'store_info', array('store_id' => $this->store_id));
-
-        $merchants_name = !empty($store_info) ? sprintf(__('店铺名是%s', 'bonus'), $store_info['merchants_name']) : sprintf(__('店铺ID是%s', 'bonus'), $this->store_id);
-
-        ecjia_admin::admin_log($merchants_name, 'duplicate', 'store_bonus');
+        $content = sprintf(__('将【%s】店铺所有店铺红包复制到【%s】店铺中', 'goods'), $source_store_merchant_name, $store_merchant_name);
+        ecjia_admin::admin_log($content, 'duplicate', 'store_goods');
     }
-
-
 }
