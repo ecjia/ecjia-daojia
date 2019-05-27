@@ -943,8 +943,8 @@ class admin extends ecjia_admin {
 		
 		$this->assign('action_link', $action_link);
 		
-		$GoodsBasicInFo = new Ecjia\App\Goods\Goods\GoodsBasicInFo($goods_id);
-		$goods = $GoodsBasicInFo->goodsInFo();
+		$GoodsBasicInfo = new Ecjia\App\Goods\Goods\GoodsBasicInfo($goods_id);
+		$goods = $GoodsBasicInfo->goodsInfo();
 		
 		if (empty($goods)) {
 			return $this->showmessage(__('未检测到此商品', 'goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text'=> __('返回上一页', 'goods'),'href'=>'javascript:history.go(-1)'))));
@@ -975,19 +975,19 @@ class admin extends ecjia_admin {
 		$goods['format_cost_price'] = ecjia_price_format($goods['cost_price'], false);
 		
 		//商品相册
-		$goods_photo_list = $GoodsBasicInFo->getGoodsGallery();
+		$goods_photo_list = $GoodsBasicInfo->getGoodsGallery();
 		$this->assign('goods_photo_list', $goods_photo_list);
 		
 		//商品属性（既商品货品）
-		$product_list = $GoodsBasicInFo->goodsProducts();
+		$product_list = $GoodsBasicInfo->goodsProducts();
 		$this->assign('product_list', $product_list);
 		//商品参数
-		$attr_group = $GoodsBasicInFo->attrGroup();
+		$attr_group = $GoodsBasicInfo->attrGroup();
 		if (count($attr_group) > 0) {
-			$group_parameter_list = $GoodsBasicInFo->getGoodsGroupParameter();
+			$group_parameter_list = $GoodsBasicInfo->getGoodsGroupParameter();
 			$this->assign('group_parameter_list', $group_parameter_list);
 		} else {
-			$common_parameter_list = $GoodsBasicInFo->getGoodsCommonParameter();
+			$common_parameter_list = $GoodsBasicInfo->getGoodsCommonParameter();
 			$this->assign('common_parameter_list', $common_parameter_list);
 		}
 		
@@ -1075,16 +1075,16 @@ class admin extends ecjia_admin {
 		$this->assign('ur_here', __('货品预览', 'goods'));
 		$this->assign('action_link', array('text' => __('商品预览', 'goods'), 'href' => RC_Uri::url('goods/admin/preview', array('id' => $goods_id, 'preview_type' => $preview_type))));
 		
-		$productBasicInFo = new Ecjia\App\Goods\Goods\ProductBasicInFo($product_id);
+		$ProductBasicInfo = new Ecjia\App\Goods\Goods\ProductBasicInfo($product_id);
 		
-		$product = $productBasicInFo->productInFo();
+		$product = $ProductBasicInfo->productInfo();
 		
 		if (empty($product)) {
 			return $this->showmessage(__('未检测到此货品', 'goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text'=> __('返回商品预览', 'goods'),'href'=>RC_Uri::url('goods/admin/preview', array('id' => $goods_id, 'preview_type' => $preview_type))))));
 		}
 		$goods_id = $product->goods_id;
-		$GoodsBasicInFo = new Ecjia\App\Goods\Goods\GoodsBasicInFo($goods_id);
-		$goods = $GoodsBasicInFo->goodsInFo();
+		$GoodsBasicInfo = new Ecjia\App\Goods\Goods\GoodsBasicInfo($goods_id);
+		$goods = $GoodsBasicInfo->goodsInfo();
 		
 		//名称处理
 		$product['product_attr_value'] = '';
@@ -1129,19 +1129,19 @@ class admin extends ecjia_admin {
 			}
 		}
 		//货品相册
-		$product_photo_list = $productBasicInFo->getProductGallery();
+		$product_photo_list = $ProductBasicInfo->getProductGallery();
 		if (empty($product_photo_list)) {
-			$product_photo_list = $GoodsBasicInFo->getGoodsGallery();
+			$product_photo_list = $GoodsBasicInfo->getGoodsGallery();
 		}
 		$this->assign('product_photo_list', $product_photo_list);
 		
 		//商品参数
-		$attr_group = $GoodsBasicInFo->attrGroup();
+		$attr_group = $GoodsBasicInfo->attrGroup();
 		if (count($attr_group) > 0) {
-			$group_parameter_list = $GoodsBasicInFo->getGoodsGroupParameter();
+			$group_parameter_list = $GoodsBasicInfo->getGoodsGroupParameter();
 			$this->assign('group_parameter_list', $group_parameter_list);
 		} else {
-			$common_parameter_list = $GoodsBasicInFo->getGoodsCommonParameter();
+			$common_parameter_list = $GoodsBasicInfo->getGoodsCommonParameter();
 			$this->assign('common_parameter_list', $common_parameter_list);
 		}
 		
@@ -3605,8 +3605,8 @@ class admin extends ecjia_admin {
 	private function send_notifications($goods_id, $review_status)
 	{
 		//商品基本信息
-		$GoodsBasicInFo = new Ecjia\App\Goods\Goods\GoodsBasicInFo($goods_id);
-		$goods = $GoodsBasicInFo->goodsInFo();
+		$GoodsBasicInfo = new Ecjia\App\Goods\Goods\GoodsBasicInfo($goods_id);
+		$goods = $GoodsBasicInfo->goodsInfo();
 		/* 商品审核通知（默认通知店长）*/
 		if ($goods->store_franchisee_model) {
 			if ($goods->store_franchisee_model->staff_user_collection) {
