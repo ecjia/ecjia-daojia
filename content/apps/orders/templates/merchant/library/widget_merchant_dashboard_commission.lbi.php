@@ -3,6 +3,40 @@
 		<div class="panel">
 			<div class="panel-body">
 				<header class="panel-title">
+                    {t domain="orders"}商品统计{/t}
+				</header>
+				<div class="task-progress-content">
+					<div class="item-column">
+						<div class="title">{t domain="orders"}出售中（件）{/t}</div>
+						<div class="num">
+							<a target="_blank" href="{RC_Uri::url('goods/merchant/init')}">{$goods.selling}</a>
+						</div>
+					</div>
+					<div class="item-column">
+						<div class="title">{t domain="orders"}参与活动（件）{/t}</div>
+						<div class="num">
+							<a target="_blank" href='{url path="goods/merchant/init" args="type=1"}'>{$goods.has_activity}</a>
+						</div>
+					</div>
+					<div class="item-column">
+						<div class="title">{t domain="orders"}待审核（件）{/t}</div>
+						<div class="num">
+							<a target="_blank" href="{RC_Uri::url('goods/merchant/check')}">{$goods.await_check}</a>
+						</div>
+					</div>
+					<div class="item-column">
+						<div class="title">{t domain="orders"}已下架（件）{/t}</div>
+						<div class="num">
+							<a target="_blank" href="{RC_Uri::url('goods/merchant/obtained')}">{$goods.obtained}</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="panel">
+			<div class="panel-body">
+				<header class="panel-title">
                     {t domain="orders"}店铺资金{/t}
 					<span class="pull-right">
 						<a target="_blank" href="{RC_Uri::url('commission/merchant/init')}">{t domain="orders"}查看更多 >>{/t}</a>

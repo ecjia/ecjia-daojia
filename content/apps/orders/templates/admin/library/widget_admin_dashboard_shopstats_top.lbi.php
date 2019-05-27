@@ -33,6 +33,7 @@
 <style type="text/css">
 	ul.list-mod-stats {
 		margin-bottom: 10px;
+		margin-left:0px;
 		overflow: hidden;
 	}
 
@@ -123,6 +124,9 @@
 		margin-top: 20px;
 	}
 	
+	.move-mod .move-mod-group{
+		background:none;
+	}
 	.move-mod-group a:hover {
 		text-decoration: none;
 	}

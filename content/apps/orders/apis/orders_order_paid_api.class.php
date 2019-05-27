@@ -204,7 +204,7 @@ class orders_order_paid_api extends Component_Event_Api
 
                     $order_data = array(
                         'title' => __('客户付款', 'orders'),
-                        'body'  => sprintf(__('您有一笔新订单，订单号为：%s', 'orders'), $order['order_sn']),
+                        'body'  => sprintf(__('您有一笔订单客户已支付，订单号为：%s', 'orders'), $order['order_sn']),
                         'data'  => array(
                             'order_id'               => $order['order_id'],
                             'order_sn'               => $order['order_sn'],

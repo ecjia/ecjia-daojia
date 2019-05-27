@@ -48,7 +48,6 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 class orders_merchant_plugin
 {
-
     //订单统计
     public static function merchant_dashboard_left_8_1()
     {
@@ -65,9 +64,41 @@ class orders_merchant_plugin
         );
     }
 
-    //店铺首页 店铺资金 订单统计类型 平台配送 商家配送 促销活动 商品热卖榜
+    //店铺首页商品统计  店铺资金 订单统计类型 平台配送 商家配送 促销活动 商品热卖榜
     public static function merchant_dashboard_left_8_2()
     {
+    	//商品统计
+    	$store_id       = $_SESSION['store_id'];
+    	//在售商品
+    	$goods['selling'] = RC_DB::table('goods')
+	    	->where('store_id', $store_id)
+	    	->where('is_real', 1)
+	    	->where('is_on_sale', 1)
+	    	->whereIn('review_status', [3,5])
+	    	->where('is_delete', 0)
+	    	->whereRaw("(extension_code is null or extension_code ='')")
+	    	->count();
+    	//参与活动
+    	$has_activity_input = [
+	    	'is_real'				=> 1,
+	    	'store_id'  			=> $store_id,
+	    	'is_on_sale'			=> 1,
+	    	'is_on_sale'			=> 1,
+	    	'check_review_status'	=> array(3, 5),
+	    	'is_delete'				=> 0,
+	    	'no_need_cashier_goods'	=> true,
+	    	'has_activity'			=> 1,
+	    	'page'					=> 1
+    	];
+    	$goods_list = (new \Ecjia\App\Goods\GoodsSearch\MerchantGoodsCollection($has_activity_input))->getData();
+    	$goods['has_activity'] = $goods_list['total'];
+    	//待审核
+    	$goods['await_check'] = RC_DB::table('goods')->where('store_id', $store_id)->where('review_status', 1)->where('is_delete', 0)->where('is_real', 1)->whereRaw("(extension_code is null or extension_code ='')")->count();
+    	//已下架
+    	$goods['obtained'] 	 = RC_DB::table('goods')->where('store_id', $store_id)->where('goods_number', '>', 0)->where('is_on_sale', 0)->whereIn('review_status', [3, 5])->where('is_delete', 0)->where('is_real', 1)->whereRaw("(extension_code is null or extension_code ='')")->count();
+    	
+    	ecjia_merchant::$controller->assign('goods', $goods);
+    	
         //店铺资金
         $data = RC_DB::table('store_account')->where('store_id', $_SESSION['store_id'])->first();
         if (empty($data)) {
@@ -260,6 +291,7 @@ class orders_merchant_plugin
     }
 
 }
+
 
 RC_Hook::add_action('merchant_dashboard_left8', array('orders_merchant_plugin', 'merchant_dashboard_left_8_1'), 1);
 RC_Hook::add_action('merchant_dashboard_left8', array('orders_merchant_plugin', 'merchant_dashboard_left_8_2'), 2);
