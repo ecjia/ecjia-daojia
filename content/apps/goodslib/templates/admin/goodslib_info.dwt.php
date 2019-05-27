@@ -53,6 +53,23 @@
 												</div>
 											</div>
 											
+											<div class="control-group control-group-small formSep">
+                                                <label class="control-label">{t domain="goodslib"}商品货号：{/t}</label>
+                                                <div class="controls">
+                                                    <input class="w330" type="text" name="goods_sn" value="{$goods.goods_sn|escape}" size="20" data-toggle="checkGoodsSn" data-id="{$goods.goods_id}" data-url="{url path='goodslib/admin/check_goods_sn'}" />
+                                                    <label id="goods_sn_notice" class="error"></label>
+                                                    <span class="help-block" id="noticeGoodsSN">{t domain="goodslib"}如果您不输入商品货号，系统将自动生成一个唯一的货号。{/t}</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="control-group control-group-small formSep">
+                                                <label class="control-label">{t domain="goodslib"}商品条形码：{/t}</label>
+                                                <div class="controls">
+                                                    <input class="w330" type="text" name="goods_barcode" value="{$goods.goods_barcode}" size="20"/>
+                                                </div>
+                                            </div>
+											
+											
 											<!--本店售价-->
 											<div class="control-group control-group-small formSep">
 												<label class="control-label">{t domain="goodslib"}本店售价：{/t}</label>

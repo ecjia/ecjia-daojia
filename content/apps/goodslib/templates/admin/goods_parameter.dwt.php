@@ -3,13 +3,22 @@
 
 <!-- {block name="footer"} -->
 <script type="text/javascript">
-	ecjia.admin.goods_attr.init();
+	ecjia.admin.product_spec.init();
 </script>
 <!-- {/block} -->
 
 <!-- {block name="main_content"} -->
 {if $step eq '3'}
 <!-- #BeginLibraryItem "/library/goods_step.lbi" --><!-- #EndLibraryItem -->
+{/if}
+
+{if $has_template}
+<div class="alert alert-info">
+	  <strong>{t domain="goodslib"}温馨提示：{/t}</strong>
+      <br>
+      {t domain="goodslib"}1、如需更换参数模板，请先点击【清除数据】按钮然后在重新绑定即可。{/t}<br>
+      {t domain="goodslib"}2、清除后会将之前设置的参数清除，请谨慎操作。{/t}
+</div>
 {/if}
 
 <div>
@@ -41,9 +50,19 @@
 									<label class="control-label">{t domain="goodslib"}参数模板：{/t}</label>
 									<div class="controls l_h35">
 										{$template_info.cat_name}
-										<span class="m_l10">
-											<a href='{url path="goods/admin_category/edit" args="cat_id={$goodslib_info.cat_id}"}'><button type="button" class="btn btn-gebo" >{t domain="goodslib"}更换模板{/t}</button></a>
-										</span>
+										
+										{if $goodslib_info.parameter_id}
+										<a data-toggle="clear_data" data-href='{url path="goodslib/admin/clear_parameter_data"}' goods-id="{$goodslib_info.goods_id}" ><button type="button" class="btn btn-gebo" >{t domain="goods"}更换模板{/t}</button></a>
+										{else}
+										<a href='{url path="goods/admin_category/edit" args="cat_id={$goodslib_info.cat_id}"}'><button type="button" class="btn btn-gebo" >{t domain="goodslib"}更换模板{/t}</button></a>
+										{/if}
+									</div>
+								</div>
+								
+								<div class="control-group">
+									<label class="control-label col-lg-2 "></label>
+									<div class="controls">
+										<span class="help-block">当前参数模板默认使用商品所属分类绑定的模板，如需更换，可在当前商品所属分类下更换，更换后再设置参数值</span>
 									</div>
 								</div>
 								

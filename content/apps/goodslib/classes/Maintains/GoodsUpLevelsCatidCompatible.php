@@ -44,44 +44,88 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\App\Goodslib\Maintains;
 
-/**
- * js语言包设置
- */
+use Ecjia\App\Goods\Category\CategoryLevel;
+use Ecjia\App\Goodslib\Models\GoodslibModel;
+use Ecjia\App\Maintain\AbstractCommand;
 
-defined('IN_ECJIA') or exit('No permission resources.');
+class GoodsUpLevelsCatidCompatible extends AbstractCommand
+{
 
-return array(
-    //
-    'attribute_page' =>array(
-        'spec_name_required'	=> __('请输入规格名称', 'goodslib'),
-        'attr_name_required'	=> __('请输入属性名称', 'goodslib'),
-        'cat_id_select'			=> __('请选择所属商品类型', 'goodslib'),
-    ),
-		
-	'spec_product_page' => array(
-		'tip_msg' => __('更换模板，会将之前已添加的相关数据进行清除，请谨慎操作，您确定要【清除】吗？', 'goods'),
-		'ok'      => __('确定', 'goods'),
-		'cancel'  => __('取消', 'goods'),
-	),
-		
-    'goods_list_page' => array(
-        'pls_select'			=> __('请选择...', 'goodslib'),
-        'brand_name_empty'		=> __('品牌名称不能为空', 'goodslib'),
-        'cat_name_empty'		=> __('分类名称不能为空', 'goodslib'),
-    ),
 
-    'merchant_goods_list_page' => array(
-        'add_goods_ok'          => __('添加商品成功', 'goodslib'),
-        'import_goods'          => __('开始导入', 'goodslib'),
-        'importing'             => __('导入中', 'goodslib'),
-        'goods_name_required'   => __('请输入商品名称！', 'goodslib'),
-        'shop_price_required'   => __('请输入商品价格！', 'goodslib'),
-        'goods_number_required' => __('请输入商品库存！', 'goodslib'),
-        'import_goods_required' => __('请选择需要导入的商品！', 'goodslib'),
-        'not_compute'           => __('未计算', 'goodslib'),
-        'empty_data'            => __('暂无内容', 'goodslib'),
-    ),
+    /**
+     * 代号标识
+     * @var string
+     */
+    protected $code = 'goodslib_up_levels_catid_compatible';
+    
+    /**
+     * 图标
+     * @var string
+     */
+    protected $icon = '/statics/images/setting_shop.png';
+	
+    /**
+     * 名称
+     * @var string
+     * 描述
+     * @var string
+     */
+    public function __construct()
+    {
+    	$this->name = __('商品库上级分类数据同步', 'goods');
+    	$this->description = __('更新商品库一级、二级分类老数据兼容', 'goods');
+    }
 
-);
-//end
+
+    public function run()
+    {
+        //忽略内存大小限制
+        ini_set('memory_limit',-1);
+        set_time_limit(0);
+
+
+        $this->processCategoryTable();
+
+        return true;
+    }
+
+    private function processCategoryTable()
+    {
+
+        $count = GoodslibModel::where('cat_level1_id', 0)->where('cat_level2_id', 0)->where('cat_id', '<>', 0)->count();
+
+        while ($count) {
+
+            $cats = new CategoryLevel();
+
+
+            GoodslibModel::where('cat_level1_id', 0)->where('cat_level2_id', 0)->where('cat_id', '<>', 0)->chunk(50, function ($items) use ($cats) {
+
+                $items->map(function ($model) use ($cats) {
+
+                    $cat_ids = $cats->getParentCategoryIds($model->cat_id);
+
+                    list($level1, $level2, $level3) = $cat_ids;
+
+                    $model->cat_level1_id = $level1 ?: 0;
+                    $model->cat_level2_id = $level2 ?: 0;
+
+                    if (empty($level1) && empty($level2)) {
+                        $model->cat_id = 0;
+                    }
+
+                    $model->save();
+                });
+
+            });
+
+            $count = GoodslibModel::where('cat_level1_id', 0)->where('cat_level2_id', 0)->where('cat_id', '<>', 0)->count();
+        }
+
+    }
+    
+}
+
+// end

@@ -188,9 +188,6 @@ class goodslib {
             $where .= " AND (goods_sn LIKE '%" . mysql_like_quote($filter ['keywords']) . "%' OR goods_name LIKE '%" . mysql_like_quote($filter ['keywords']) . "%')";
         }
         
-        $db_goods = RC_DB::table('goods as g');
-        
-            
         /* 供货商 */
         if (!empty ($filter ['suppliers_id'])) {
             $where .= " AND (suppliers_id = '" . $filter ['suppliers_id'] . "')";
@@ -204,8 +201,8 @@ class goodslib {
         $filter ['record_count'] 	= $count;
         
         $db_goods
-            ->select(RC_DB::raw('goods_id, g.goods_sn, g.goods_name, g.shop_price, g.market_price, g.goods_weight, 
-            g.keywords, g.goods_brief, g.goods_desc, g.brand_id, g.cat_id, goods_type
+            ->select(RC_DB::raw('goods_id, g.goods_sn, g.goods_name, g.shop_price, g.market_price, g.cost_price, g.goods_weight, 
+            g.keywords, g.goods_brief, g.goods_desc, g.brand_id, g.cat_id, goods_type, g.specification_id, g.parameter_id
             '))
         ->orderBy($filter['sort_by'], $filter['sort_order']);
         if($page_size) {
@@ -218,7 +215,6 @@ class goodslib {
         
         $filter ['keyword'] = stripslashes($filter ['keyword']);
         $filter ['count'] 	= $count;
-        $disk = RC_Filesystem::disk();
         if (!empty($rows)) {
             RC_Loader::load_app_func('global', 'goodslib');
             $cat = RC_DB::table('category')->get();
@@ -230,55 +226,30 @@ class goodslib {
             foreach ($rows as $k => $v) {
                 $rows[$k]['brand_name'] = $brand[$v['brand_id']]['brand_name'];
                 $rows[$k]['cat_name'] = $cat[$v['cat_id']]['cat_name'];
-                
-                if ($v['goods_type']) {
+
+                $goods_attr = [];
+                //specification_id优先
+
+                if($v['specification_id']) {
+                    $cat_id = $v['specification_id'];
+                    $goods_attr = self::get_goodslib_attr($types, $v['goods_id'], $cat_id, 'specification');
+                }
+
+                if ($v['goods_type'] && empty($v['specification_id'])) {
                     $cat_id = $v['goods_type'];
-                    
-                    $goods_attr = RC_DB::table('goodslib_attr')->where('goods_id', $v['goods_id'])->get();
-                    if($goods_attr) {
-                        $goods_attr = array_change_key($goods_attr, 'goods_attr_id');
-                        $goods_attribute = RC_DB::table('attribute')->where('cat_id', $cat_id)->get();
-                        $goods_attribute = array_change_key($goods_attribute, 'attr_id');
-                        //goods_type
-                        //attribute
-                        
-                        $goods_attr_export = [];
-                        foreach ($goods_attr as $k_a => $r_a) {
-                            $goods_attr[$k_a]['attr_name'] = $goods_attribute[$r_a['attr_id']]['attr_name'];
-                            $goods_attr[$k_a]['cat_name'] = $types[$goods_attribute[$r_a['attr_id']]['cat_id']]['cat_name'];    
-                            $rows[$k]['goods_attr'][] = [
-                                'cat_name' => $goods_attr[$k_a]['cat_name'],
-                                'attr_name' => $goods_attr[$k_a]['attr_name'],
-                                'attr_value' => $r_a['attr_value'],
-//                                 'color_value' => $r_a['color_value'],//暂用不到
-                                'attr_price' => $r_a['attr_price'],
-                            ];
-                            $rows[$k]['goods_attr_export'] .= $goods_attr[$k_a]['cat_name'].';'.$goods_attr[$k_a]['attr_name'].';'.$r_a['attr_value'].';'/* .$r_a['color_value'].';' */.$r_a['attr_price']."\r\n";
-                        }
-                        
-                        //product
-                        $goods_pro = RC_DB::table('goodslib_products')->where('goods_id', $v['goods_id'])->get();
-                        if($goods_pro) {
-                            foreach ($goods_pro as $k_p => $r_p) {
-                                $product_attr = explode('|', $r_p['goods_attr']);
-                                $new_goods_attr = [];
-                                foreach ($product_attr as $goods_attr_id) {
-                                    $new_goods_attr[] = $goods_attr[$goods_attr_id]['cat_name'] .','.$goods_attr[$goods_attr_id]['attr_name'] .','.$goods_attr[$goods_attr_id]['attr_value'];
-                                }
-                                $goods_pro[$k_p]['goods_attr_name'] = implode('|', $new_goods_attr);
-                                $rows[$k]['goods_product'][] = [
-                                    'goods_attr' => $goods_pro[$k_p]['goods_attr_name'],
-                                    'product_sn' => $r_p['product_sn'],
-                                ];
-                                $r_p['goods_product'] = $goods_pro[$k_p]['goods_attr_name']."\r\n";
-                                $rows[$k]['goods_product_export'][] = $r_p;
-                            }
-                        }
-                    }
-                    
+                    $goods_attr = self::get_goodslib_attr($types, $v['goods_id'], $cat_id);
+                }
+                $rows[$k]['goods_attr'] = $goods_attr['goods_attr'];
+                $rows[$k]['goods_attr_export'] = $goods_attr['goods_attr_export'];
+                $rows[$k]['goods_product'] = $goods_attr['goods_product'];
+                $rows[$k]['goods_product_export'] = $goods_attr['goods_product_export'];
+                if($v['parameter_id']) {
+                    $cat_id = $v['parameter_id'];
+                    $cat_info = Ecjia\App\Goods\GoodsAttr::get_template_info($cat_id);
+                    $rows[$k]['goods_parameter'] = $cat_info['cat_name'] . "\n" . Ecjia\App\Goods\GoodsAttr::goodslib_build_attr_text($cat_id, $v['goods_id']);
                 }
             }
-            
+//            _dump($rows,1);
             $goods = [];
             foreach ($rows as $row) {
                 $goods[] = array(
@@ -287,6 +258,7 @@ class goodslib {
                     'goods_name' => $row['goods_name'],
                     'shop_price' => $row['shop_price'],
                     'market_price' => $row['market_price'],
+                    'cost_price' => $row['cost_price'],
                     'goods_weight' => $row['goods_weight'],
                     'keywords' => $row['keywords'],
                     'goods_brief' => $row['goods_brief'],
@@ -296,6 +268,8 @@ class goodslib {
                     'cat_id' => $row['cat_id'],
                     'cat_name' => $row['cat_name'],
                     'goods_attr' => $row['goods_attr_export'],
+                    'goods_product' => NULL,
+                    'goods_parameter' => $row['goods_parameter'],
                 );
 
                 if(isset($row['goods_product_export'])) {
@@ -306,6 +280,7 @@ class goodslib {
                             'goods_name' => $product['product_name'],
                             'shop_price' => $product['product_shop_price'],
                             'market_price' => NULL,
+                            'cost_price' => NULL,
                             'goods_weight' => NULL,
                             'keywords' => NULL,
                             'goods_brief' => NULL,
@@ -328,6 +303,60 @@ class goodslib {
             'page'		=> $page->show(2),
             'desc'		=> $page->page_desc()
         );
+    }
+
+    public static function get_goodslib_attr($types, $goods_id, $cat_id, $cat_type) {
+        $db_goods_attr = RC_DB::table('goodslib_attr')->where('goods_id', $goods_id);
+        if($cat_type) {
+            $db_goods_attr->where('cat_type', $cat_type);
+        } else {
+            $db_goods_attr->whereNull('cat_type');
+        }
+        $goods_attr = $db_goods_attr->get();
+
+        $parent_row = [];
+        if($goods_attr) {
+            $goods_attr = array_change_key($goods_attr, 'goods_attr_id');
+            $goods_attribute = RC_DB::table('attribute')->where('cat_id', $cat_id)->get();
+            $goods_attribute = array_change_key($goods_attribute, 'attr_id');
+            //goods_type
+            //attribute
+
+            $goods_attr_export = [];
+            foreach ($goods_attr as $k_a => $r_a) {
+                $goods_attr[$k_a]['attr_name'] = $goods_attribute[$r_a['attr_id']]['attr_name'];
+                $goods_attr[$k_a]['cat_name'] = $types[$goods_attribute[$r_a['attr_id']]['cat_id']]['cat_name'];
+                $parent_row['goods_attr'][] = [
+                    'cat_name' => $goods_attr[$k_a]['cat_name'],
+                    'attr_name' => $goods_attr[$k_a]['attr_name'],
+                    'attr_value' => $r_a['attr_value'],
+//                                 'color_value' => $r_a['color_value'],//暂用不到
+                    'attr_price' => $r_a['attr_price'],
+                ];
+                $parent_row['goods_attr_export'] .= $goods_attr[$k_a]['cat_name'].';'.$goods_attr[$k_a]['attr_name'].';'.$r_a['attr_value'].';'/* .$r_a['color_value'].';' */.$r_a['attr_price']."\n";
+            }
+
+            //product
+            $goods_pro = RC_DB::table('goodslib_products')->where('goods_id', $goods_id)->get();
+            if($goods_pro) {
+                foreach ($goods_pro as $k_p => $r_p) {
+                    $product_attr = explode('|', $r_p['goods_attr']);
+                    $new_goods_attr = [];
+                    foreach ($product_attr as $goods_attr_id) {
+                        $new_goods_attr[] = $goods_attr[$goods_attr_id]['cat_name'] .','.$goods_attr[$goods_attr_id]['attr_name'] .','.$goods_attr[$goods_attr_id]['attr_value'];
+                    }
+                    $goods_pro[$k_p]['goods_attr_name'] = implode('|', $new_goods_attr);
+                    $parent_row['goods_product'][] = [
+                        'goods_attr' => $goods_pro[$k_p]['goods_attr_name'],
+                        'product_sn' => $r_p['product_sn'],
+                    ];
+                    $r_p['goods_product'] = $goods_pro[$k_p]['goods_attr_name']/*."\r\n"*/;
+                    $parent_row['goods_product_export'][] = $r_p;
+                }
+            }
+        }
+
+        return $parent_row;
     }
     
     /**

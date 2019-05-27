@@ -76,6 +76,7 @@
                             <input name="product_id" type="hidden" value="{$info.product_id}">
                             <label class="control-label"> </label>
                             <input type="submit" name="submit" value="{t domain="goodslib"}完成{/t}" class="btn btn-gebo" />
+                            <a class="btn btn-gebo" target="_blank" href="{RC_Uri::url('goodslib/admin/product_preview')}&product_id={$info.product_id}&goods_id={$info.goods_id}">预览</a>
                         </div>
                     </div>
                     <div class="right-bar">

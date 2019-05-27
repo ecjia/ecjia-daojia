@@ -47,6 +47,7 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 use Ecjia\App\Goods\Models\GoodslibAttrModel;
+use Ecjia\App\Goods\Category\CategoryLevel;
 /**
  *  ECJIA 商品管理程序
  */
@@ -80,7 +81,8 @@ class admin extends ecjia_admin {
 //         RC_Script::enqueue_script('ecjia-region', RC_Uri::admin_url('statics/ecjia.js/ecjia.region.js'), array('jquery'), false, true);
 
         RC_Script::enqueue_script('product', RC_App::apps_url('statics/js/product.js', __FILE__), array(), false, 1);
-        RC_Script::localize_script('goods_list', 'js_lang', config('app-goodslib::jslang.goods_list_page'));
+        RC_Script::localize_script('goods_list', 'js_lang', config('app-goodslib::jslang.spec_product_page'));
+        
         RC_Style::enqueue_style('goods', RC_App::apps_url('statics/styles/admin_goods.css', __FILE__), array());
         RC_Style::enqueue_style('product', RC_App::apps_url('statics/styles/product.css', __FILE__), array());
         
@@ -143,7 +145,7 @@ class admin extends ecjia_admin {
             'brand'             => $brand_id,
             'keywords'          => $keywords,
             'review_status'     => $review_status,
-            'sort_by'           => [$sort_by => $sort_order],
+            'sort_by'           => [$sort_by => $sort_order, 'goods_id' => 'DESC'],
             'page'              => $page,
         ];
         $input = collect($input)->filter()->all(); //->merge($where)
@@ -270,12 +272,20 @@ class admin extends ecjia_admin {
         if (empty($catgory_id)) {
             return $this->showmessage(__('请选择商品分类', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
-            
+        
+        $cats= new CategoryLevel();
+        $cat_ids = $cats->getParentCategoryIds($catgory_id);
+        list($level1, $level2, $level3) = $cat_ids;
+        
+        $goods_barcode    = !empty($_POST['goods_barcode'])  ? trim($_POST['goods_barcode'])   : '';
         /* 入库 */
         $data = array(
             'goods_name'            => $goods_name,
             'goods_name_style'      => $goods_name_style,
             'goods_sn'              => empty($goods_sn) ? '' : $goods_sn,
+        	'goods_barcode'         => $goods_barcode,
+        	'cat_level1_id'         => empty($level1) ? 0 : $level1,
+        	'cat_level2_id'         => empty($level2) ? 0 : $level2,
             'cat_id'                => $catgory_id,
             'brand_id'              => $brand_id,
             'shop_price'            => $shop_price,
@@ -360,7 +370,7 @@ class admin extends ecjia_admin {
         
         $goods_list = goodslib::get_export_goods_list(0);
         if(empty($goods_list['goods'])) {
-            
+            return $this->showmessage(__('暂无数据', 'goodslib'), ecjia::MSGTYPE_HTML| ecjia::MSGSTAT_ERROR);
         }
         $goods = $goods_list['goods'];
         //         $goods = [];
@@ -420,7 +430,7 @@ class admin extends ecjia_admin {
         
         $this->display('goodslib_import.dwt');
     }
-    
+
     public function upload() {
         $this->admin_priv('goodslib_import');
         
@@ -471,24 +481,27 @@ class admin extends ecjia_admin {
                     $data['goods_name'] = $value[2] == null ? '' : trim($value[2]);
                     $data['shop_price'] = $value[3] == null ? '' : trim($value[3]);
                     $data['market_price'] = $value[4] == null ? '' : trim($value[4]);
-                    $data['goods_weight'] = $value[5] == null ? '' : trim($value[5]);
-                    $data['keywords'] = $value[6] == null ? '' : trim($value[6]);
-                    $data['goods_brief'] = $value[7] == null ? '' : trim($value[7]);
-                    $data['goods_desc'] = $value[8] == null ? '' : trim($value[8]);
-                    $data['brand_id'] = $value[9] == null ? '' : trim($value[9]);
-                    $data['cat_id'] = $value[11] == null ? '' : trim($value[11]);
+                    $data['cost_price'] = $value[5] == null ? '' : trim($value[5]);
+                    $data['goods_weight'] = $value[6] == null ? '' : trim($value[6]);
+                    $data['keywords'] = $value[7] == null ? '' : trim($value[7]);
+                    $data['goods_brief'] = $value[8] == null ? '' : trim($value[8]);
+                    $data['goods_desc'] = $value[9] == null ? '' : trim($value[9]);
+                    $data['brand_id'] = $value[10] == null ? '' : trim($value[10]);
+                    $data['cat_id'] = $value[12] == null ? '' : trim($value[12]);
+                    $data_ext['product'] = $value[15] == null ? '' : trim($value[15]);
+                    $data_ext['specification'] = $value[14] == null ? '' : trim($value[14]);
+                    $data_ext['parameter'] = $value[16] == null ? '' : trim($value[16]);
 
+                    //货品$value[14]
                     if(!empty($data['goods_sn']) && !empty($data['product_sn'])) {
-
-                        //货品$value[14]
                         /*
                          * 电脑,内存,8G|电脑,硬盘,256G  */
-                        if(empty($value[14])) {
+                        if(empty($data_ext['product'])) {
                             continue;
                         }
                         $data_pro = [];
                         //$pro = explode(';', $value[14]);
-                        $pro = $value[14];
+                        $pro = $data_ext['product'];
                         //TODO判断货号
                         $count_product_sn = RC_DB::table('goodslib_products as p')
                             ->leftJoin('goodslib as g', RC_DB::raw('p.goods_id'), '=', RC_DB::raw('g.goods_id'))
@@ -510,7 +523,7 @@ class admin extends ecjia_admin {
                             $new_goods_attr = [];
                             foreach ($pro_attr as $v_attr) {
                                 $v_attr = explode(',', $v_attr);//电脑,内存,8G
-                                $type_row = RC_DB::table('goods_type')->where('store_id', 0)->where('cat_name', $v_attr[0])->first();
+                                $type_row = RC_DB::table('goods_type')->where('store_id', 0)->where('cat_name', $v_attr[0])->where('cat_type', 'specification')->first();
                                 if ($type_row) {
                                     $attr = RC_DB::table('attribute')->where('cat_id', $type_row['cat_id'])->where('attr_name', $v_attr[1])->first();
                                     if ($attr) {
@@ -530,7 +543,7 @@ class admin extends ecjia_admin {
                                         break;
                                     }
                                 } else {
-                                    $message = sprintf(__('第%s行，货品属性【%s】不存在。', 'goodslib'), $key + 1, $v_attr[0]);
+                                    $message = sprintf(__('第%s行，货品规格【%s】不存在。', 'goodslib'), $key + 1, $v_attr[0]);
                                     $this->error[] = array('state' => 'error', 'message' => $message);
                                     $new_goods_attr = [];
                                     break;
@@ -538,6 +551,7 @@ class admin extends ecjia_admin {
                             }
 
                             if($new_goods_attr) {
+                                asort($new_goods_attr);
                                 $data_pro['goods_attr'] = implode('|', $new_goods_attr);
                                 $data_pro['goods_id'] = $new_goods_id;
                                 $data_pro['product_sn'] = $data['product_sn'];
@@ -554,7 +568,6 @@ class admin extends ecjia_admin {
                             $this->error[] = array('state' => 'error', 'message' => $message);
                             continue;
                         }
-
                         //货品 end
 
                         continue;
@@ -598,11 +611,11 @@ class admin extends ecjia_admin {
                     }
                     unset($data['product_sn']);
                     $new_goods_id = RC_DB::table('goodslib')->insertGetId($data);
-                    //规格属性$value[12]
+                    //规格属性$value[13]
                     /* 电脑;内存;32G;
                      * 电脑;内存;16G;500 */
-                    if(!empty($value[13]) && $new_goods_id) {
-                        $goods_attr = explode("\n", $value[13]);
+                    if(!empty($data_ext['specification']) && $new_goods_id) {
+                        $goods_attr = explode("\n", $data_ext['specification']);
                         foreach ($goods_attr as $k_a => $v_a) {
                             if (empty($v_a)) {
                                 unset($goods_attr[$k_a]);
@@ -613,7 +626,7 @@ class admin extends ecjia_admin {
                             $new_attr[$new_key] = $attr;
                             $type_name = $attr[0];
                         }
-                        $types = RC_DB::table('goods_type')->where('store_id', 0)->where('cat_name', $type_name)->first();
+                        $types = RC_DB::table('goods_type')->where('store_id', 0)->where('cat_name', $type_name)->where('cat_type', 'specification')->first();
                         foreach ($new_attr as $k_a => $v_a) {
                             $type_row = RC_DB::table('goods_type')->where('cat_id', $types['cat_id'])->where('store_id', 0)->where('cat_name', $v_a[0])->first();
                             if ($type_row) {
@@ -621,6 +634,7 @@ class admin extends ecjia_admin {
                                 $attr = RC_DB::table('attribute')->where('cat_id', $types['cat_id'])->where('attr_name', $v_a[1])->first();
                                 if ($attr) {
                                     $data_attr = [
+                                        'cat_type'   => 'specification',
                                         'goods_id'   => $new_goods_id,
                                         'attr_id'    => $attr['attr_id'],
                                         'attr_value' => $v_a[2],
@@ -628,6 +642,7 @@ class admin extends ecjia_admin {
                                         'attr_price' => $v_a[3],
                                     ];
                                     $new_attr[$k_a]['goods_attr_id'] = RC_DB::table('goodslib_attr')->insertGetId($data_attr);
+                                    RC_DB::table('goodslib')->where('goods_id', $new_goods_id)->update(['specification_id' => $types['cat_id']]);
                                 } else {
                                     $message = sprintf(__('第%s行，，商品【%s】属性【%s】不存在。', 'goodslib'), $key + 1, $data['goods_name'], $v_a[1]);
                                     $this->error[] = array('state' => 'error', 'message' => $message);
@@ -639,8 +654,49 @@ class admin extends ecjia_admin {
                                 break;
                             }
                         }
+                    }
+
+                    //商品参数$value[15]
+                    /*电脑（商品规格名称）
+                    商品产地:中国大陆
+                    系统:OS X*/
+                    if(!empty($data_ext['parameter']) && $new_goods_id) {
+                        $goods_attr = explode("\n", $data_ext['parameter']);
+                        $type_name = $goods_attr[0];//参数模板名
+                        unset($goods_attr[0]);
+                        $type_info = RC_DB::table('goods_type')->where('store_id', 0)->where('cat_name', $type_name)->where('cat_type', 'parameter')->first();
+                        if($type_info) {
+                            foreach ($goods_attr as $k_a => $v_a) {
+                                if (empty($v_a)) {
+                                    unset($goods_attr[$k_a]);
+                                    continue;
+                                }
+                                $attr = explode(':', $v_a);//[商品产地，中国大陆]
+                                $attr_info = RC_DB::table('attribute')->where('cat_id', $type_info['cat_id'])->where('attr_name', $attr[0])->first();
+                                if($attr_info) {
+                                    $data = [
+                                        'cat_type' => 'parameter',
+                                        'goods_id' => $new_goods_id,
+                                        'attr_id' => $attr_info['attr_id'],
+                                        'attr_value' => $attr[1],
+                                    ];
+                                    RC_DB::table('goodslib_attr')->insert($data);
+                                    RC_DB::table('goodslib')->where('goods_id', $new_goods_id)->update(['parameter_id' => $type_info['cat_id']]);
+                                } else {
+                                    $message = sprintf(__('第%s行，，商品【%s】属性【%s】不存在。', 'goodslib'), $key + 1, $data['goods_name'], $attr[0]);
+                                    $this->error[] = array('state' => 'error', 'message' => $message);
+                                    break;
+                                }
+
+                            }
+                        } else {
+                            $message = sprintf(__('第%s行，，商品【%s】参数模板【%s】不存在。', 'goodslib'), $key + 1, $data['goods_name'], $type_name);
+                            $this->error[] = array('state' => 'error', 'message' => $message);
+                            break;
+                        }
 
                     }
+
                 }
             }
         });
@@ -825,10 +881,17 @@ class admin extends ecjia_admin {
             return $this->showmessage(__('请输入商品名称', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
         
+        $cats= new CategoryLevel();
+        $cat_ids = $cats->getParentCategoryIds($catgory_id);
+        list($level1, $level2, $level3) = $cat_ids;
+        $goods_barcode    = !empty($_POST['goods_barcode'])  ? trim($_POST['goods_barcode'])   : '';
         $data = array(
             'goods_name'				=> rc_stripslashes($goods_name),
             'goods_name_style'	  		=> $goods_name_style,
             'goods_sn'			  		=> $goods_sn,
+        	'goods_barcode'			  	=> $goods_barcode,
+        	'cat_level1_id'         	=> empty($level1) ? 0 : $level1,
+        	'cat_level2_id'         	=> empty($level2) ? 0 : $level2,
             'cat_id'					=> $catgory_id,
             'brand_id'			  		=> $brand_id,
             'shop_price'				=> $shop_price,
@@ -1292,7 +1355,7 @@ class admin extends ecjia_admin {
     			
     		$template_info = Ecjia\App\Goods\GoodsAttr::get_template_info($template_id);
     		$this->assign('template_info', $template_info);
-    			
+
     		$this->assign('goods_attr_html', Ecjia\App\Goods\GoodsAttr::goodslib_build_attr_html($template_id, $goods_id));
     	}
     	
@@ -1305,7 +1368,6 @@ class admin extends ecjia_admin {
 	 * 更新商品参数逻辑处理
 	 */
     public function update_goods_parameter() {
-
     	$this->admin_priv('goods_update');
     		
     	$goods_type = !empty($_POST['template_id'])	 ? intval($_POST['template_id'])  : 0;
@@ -1382,6 +1444,26 @@ class admin extends ecjia_admin {
     	
     }
     
+    /**
+     * 更换参数模板需要清除数据
+     */
+    public function clear_parameter_data() {
+    	$this->admin_priv('goods_update');
+    
+    	$goods_id = intval($_POST['goods_id']);
+    	$count = RC_DB::TABLE('goods')->where('goodslib_id', $goods_id)->count();
+    	if($count > 0) {
+    		return $this->showmessage(__('该商品库商品已被导入使用，不可以随意更改参数模板', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('goodslib/admin/edit_goods_parameter', array('goods_id' => $goods_id))));
+    	} else {
+    		//清除商品关联的模板id为0
+    		RC_DB::table('goodslib')->where('goods_id', $goods_id)->update(array('parameter_id' => 0));
+    		
+    		//删除关联的规格属性
+    		RC_DB::table('goodslib_attr')->where(array('goods_id' => $goods_id))->where(array('cat_type' => 'parameter'))->delete();
+    		return $this->showmessage(__('清除相关数据成功，您可以重新进行更换参数模板', 'goods'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goodslib/admin/edit_goods_parameter', array('goods_id' => $goods_id))));
+    		
+    	}
+    }
     
     /**
      * 设置规格页面
@@ -1442,21 +1524,19 @@ class admin extends ecjia_admin {
     		
     	$goods_type     = !empty($_POST['template_id'])	   ? intval($_POST['template_id'])   : 0;
     	$goods_id 	    = !empty($_POST['goods_id'])       ? intval($_POST['goods_id'])      : 0;
-    	$goods_barcode 	= !empty($_POST['goods_barcode'])  ? trim($_POST['goods_barcode'])   : '';
  
     	$data = array(
     		'specification_id'  => $goods_type,
-    		'goods_barcode'	    => $goods_barcode
     	);
     	RC_DB::table('goodslib')->where('goods_id', $goods_id)->update($data);
     	
-    	$product['product_sn']         = $_POST['product_sn'];
+    	$product['product_id']         = $_POST['product_id'];
     	$product['product_bar_code']   = $_POST['product_bar_code'];
     	$product['product_shop_price'] = $_POST['product_shop_price'];
     	$product['product_number']     = $_POST['product_number'];
-	    if (!empty($product['product_sn'])) {
+	    if (!empty($product['product_id'])) {
 			$use_storage = ecjia::config('use_storage');
-			foreach($product['product_sn'] as $key => $value) {
+			foreach($product['product_id'] as $key => $value) {
 				$product['product_bar_code'][$key]   = empty($product['product_bar_code'][$key]) ? ''   : trim($product['product_bar_code'][$key]); 
 				$product['product_shop_price'][$key] = empty($product['product_shop_price'][$key]) ?  : trim($product['product_shop_price'][$key]); 
 				
@@ -1464,7 +1544,7 @@ class admin extends ecjia_admin {
 					'product_bar_code' 	=> $product['product_bar_code'][$key],
 					'product_shop_price'=> $product['product_shop_price'][$key],
 				);
-				RC_DB::TABLE('goodslib_products')->where('product_sn', $value)->update($data);
+				RC_DB::TABLE('goodslib_products')->where('product_id', $value)->update($data);
 			}
 		}
 
@@ -1588,9 +1668,10 @@ class admin extends ecjia_admin {
     		$attr_values = key($value['attr_values']);
     		array_push($product_value, $attr_values);
     	}
-    
+
+        asort($product_value);
     	$goods_attr = implode('|', $product_value);
-    	$product_sn = RC_DB::TABLE('goodslib_products')->where('goods_attr', $goods_attr)->pluck('product_sn');
+    	$product_sn = RC_DB::table('goodslib_products')->where('goods_attr', $goods_attr)->pluck('product_sn');
     	$data = $this->fetch('spec_add_product.dwt');
     
     	return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('data' => $data, 'product_sn' => $product_sn));
@@ -1610,7 +1691,8 @@ class admin extends ecjia_admin {
     	}
     
     	$goods = RC_DB::table('goodslib')->where('goods_id', $goods_id)->select('goods_sn', 'goods_name', 'goods_type', 'shop_price')->first();
-    
+
+        asort($product_value);
     	$goods_attr = implode('|', $product_value);
     	if (Ecjia\App\Goods\GoodsAttr::check_goods_attr_exist($goods_attr, $goods_id)) {
     		return $this->showmessage(__('所匹配的属性已存在相应的货品,请更换组合', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -1642,9 +1724,10 @@ class admin extends ecjia_admin {
     	if (empty($goods_id)) {
     		return $this->showmessage(__('找不到指定的商品', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
+        asort($product_value);
     	$goods_attr = implode('|', $product_value);
     
-    	if(RC_DB::TABLE('goodslib_products')->where('goods_id', $goods_id)->where('goods_attr', $goods_attr)->delete()) {
+    	if(RC_DB::table('goodslib_products')->where('goods_id', $goods_id)->where('goods_attr', $goods_attr)->delete()) {
     		return $this->showmessage(__('移除货品成功', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
     	} else {
     		return $this->showmessage(__('移除货品失败', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
@@ -1664,8 +1747,9 @@ class admin extends ecjia_admin {
     	if (empty($goods_id)) {
     		return $this->showmessage(__('找不到指定的商品', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
     	}
+        asort($product_value);
     	$goods_attr = implode('|', $product_value);
-    	$product_sn = RC_DB::TABLE('goodslib_products')->where('goods_attr', $goods_attr)->pluck('product_sn');
+    	$product_sn = RC_DB::table('goodslib_products')->where('goods_attr', $goods_attr)->pluck('product_sn');
     
     	if(!empty($product_sn)) {
     		return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('product_sn' => $product_sn));
@@ -1679,23 +1763,18 @@ class admin extends ecjia_admin {
     	$this->admin_priv('goods_update');
     
     	$goods_id = intval($_POST['goods_id']);
-    	$product_list = RC_DB::TABLE('goodslib_products')->where('goods_id', $goods_id)->lists('product_id');
-    
-    	$count = 0;
-    	if(count($product_list) > 0) {
-    		$count = RC_DB::TABLE('order_goods')->whereIn('product_id', $product_list)->count();
-    	}
-    
+    	$count = RC_DB::TABLE('goods')->where('goodslib_id', $goods_id)->count();
     	if($count > 0) {
-    		return $this->showmessage(__('该规格模板下的货品以及产品了订单交易，不可以更改规格模板', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('url' => RC_Uri::url('goodslib/admin/edit_goods_specification', array('goods_id' => $goods_id))));
+    		return $this->showmessage(__('该商品库商品已被导入使用，不可以随意更改规格模板', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR, array('pjaxurl' => RC_Uri::url('goodslib/admin/edit_goods_specification', array('goods_id' => $goods_id))));
     	} else {
     		//清除商品关联的模板id为0
     		RC_DB::table('goodslib')->where('goods_id', $goods_id)->update(array('specification_id' => 0));
     			
     		//删除关联的规格属性
-    		RC_DB::table('goodslib_attr')->where(array('goods_id' => $goods_id))->delete();
+    		RC_DB::table('goodslib_attr')->where(array('goods_id' => $goods_id))->where(array('cat_type' => 'specification'))->delete();
     			
     		//删除货品相关
+    		$product_list = RC_DB::TABLE('goodslib_products')->where('goods_id', $goods_id)->lists('product_id');
     		foreach($product_list as $value) {
     			$product = Ecjia\App\Goods\GoodsAttr::get_goodslib_products_info($value, 'goods_id');
     			$image_data = new product_image_data('', '', '', 0, $value);
@@ -1704,13 +1783,9 @@ class admin extends ecjia_admin {
     			if ($result) {
     				$image_data->delete_gallery();
     				RC_DB::table('goodslib_gallery')->where('product_id', $value)->delete();
-    				if (update_goods_stock($product['goods_id'], -$product['product_number'])) {
-    					ecjia_merchant::admin_log('', 'edit', 'goods');
-    				}
-    				ecjia_merchant::admin_log('', 'trash', 'products');
     			}
     		}
-    		return $this->showmessage(__('清除相关数据成功，您可以重新进行更换规格模板', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => RC_Uri::url('goods/merchant/edit_goods_specification', array('goods_id' => $goods_id))));
+    		return $this->showmessage(__('清除相关数据成功，您可以重新进行更换规格模板', 'goodslib'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('goodslib/admin/edit_goods_specification', array('goods_id' => $goods_id))));
     	}
     }
     
@@ -1953,7 +2028,7 @@ class admin extends ecjia_admin {
             $info['product_original_img'] 	= goods_imageutils::getAbsoluteUrl($info['product_original_img']);
         }
 
-        $this->assign('action_link', array('href' => RC_Uri::url('goodslib/admin/product_list', ['goods_id' => $goods_id]), 'text' => __('商品编辑', 'goodslib')));
+        $this->assign('action_link', array('href' => RC_Uri::url('goodslib/admin/edit_goods_specification', ['goods_id' => $goods_id]), 'text' => __('商品编辑', 'goodslib')));
 
 
         $this->assign('goods_name', 		sprintf(__('商品名称：%s', 'goodslib'), $goods['goods_name']));
@@ -2231,6 +2306,7 @@ class admin extends ecjia_admin {
                 
                 /* 是否为重复规格的货品 */
                 $goods_attr = sort_goodslib_attr_id_array($goods_attr_id);
+                asort($goods_attr['sort']);
                 $goods_attr = implode('|', $goods_attr['sort']);
                 
                 if (check_goodslib_attr_exist($goods_attr, $product['goods_id'])) {

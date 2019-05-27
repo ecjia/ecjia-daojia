@@ -93,6 +93,15 @@ class GoodslibModel extends Model
     {
     	return $this->hasMany('Ecjia\App\Goodslib\Models\GoodslibGalleryModel', 'goods_id', 'goods_id');
     }
+
+    /**
+     * 一对一
+     * 商品规格信息
+     */
+    public function goods_type_model()
+    {
+        return $this->belongsTo('Ecjia\App\Goodslib\Models\GoodsTypeModel', 'goods_type', 'cat_id');
+    }
     
     /**
      * 一对一

@@ -6,7 +6,7 @@
 				<tbody>
 					<!-- {foreach from=$common_parameter_list item=pra} -->
 					<tr>
-						<td><div  align="center">{$pra.attr_name}:</div></td>
+						<td  width="20%"><div  align="right">{$pra.attr_name}:</div></td>
 						<td align="left">{$pra.attr_value}</td>
 					</tr>
 					<!-- {foreachelse}-->

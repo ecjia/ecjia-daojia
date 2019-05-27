@@ -23,6 +23,7 @@ class GoodslibAttrModel extends Model
      * @var array
      */
     protected $fillable = [
+        'cat_type',
         'goods_id',
         'attr_id',
         'attr_value',
@@ -41,14 +42,14 @@ class GoodslibAttrModel extends Model
      * @var bool
      */
     public $timestamps = false;
-    
-    
+
     /**
-     * 属性信息
+     * 一对一
+     * 商品参数/规格的属性信息
      */
-    public function attributes()
+    public function attribute_model()
     {
-    	return $this->belongsTo('Ecjia\App\Goods\Models\AttributeModel', 'attr_id', 'attr_id');
+        return $this->belongsTo('Ecjia\App\Goodslib\Models\AttributeModel', 'attr_id', 'attr_id');
     }
 
 }

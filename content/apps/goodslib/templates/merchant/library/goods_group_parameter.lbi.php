@@ -6,10 +6,14 @@
 				<tr>
 					<td align="left" colspan="2"><strong>{$group_pra.attr_group_name}</strong></td>
 				</tr>
-				<tr>
-					<td align="left">{$group_pra.values.attr_name}:</td>
-					<td align="left">{$group_pra.values.attr_value}</td>
-				</tr>
+				{if $group_pra.values}
+				<!-- {foreach from=$group_pra.values item=value} -->
+					<tr>
+						<td  width="20%"><div  align="right">{$value.attr_name}:</div></td>
+						<td align="left">{$value.attr_value}</td>
+					</tr>
+				<!-- {/foreach} -->
+				{/if}
 			</tbody>
 		</table>
   </div>

@@ -92,20 +92,28 @@
 								          			</dd>
 								        		</dl>
 							        		{/if}
-											<dl class="tb-amount tm-clear">
-											    <dt class="tb-metatit">{t domain="goods"}平台分类{/t}</dt>
-											    <dd id="J_Amount">
-											        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{if $goods->category_model}{$goods->category_model->cat_name}{/if}</em>
-											        <span id="J_StockTips"></span>
-											    </dd>
-											</dl>
-											<dl class="tb-amount tm-clear">
-											    <dt class="tb-metatit">{t domain="goods"}商品品牌{/t}</dt>
-											    <dd id="J_Amount">
-											        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{if $goods->brand_model}{$goods->brand_model->brand_name}{/if}</em>
-											        <span id="J_StockTips"></span>
-											    </dd>
-											</dl>
+							        		{if $goods->category_model}
+							        			{if $goods->category_model->cat_name}
+													<dl class="tb-amount tm-clear">
+													    <dt class="tb-metatit">{t domain="goods"}平台分类{/t}</dt>
+													    <dd id="J_Amount">
+													        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{if $goods->category_model}{$goods->category_model->cat_name}{/if}</em>
+													        <span id="J_StockTips"></span>
+													    </dd>
+													</dl>
+												{/if}
+											{/if}
+											{if $goods->brand_model}
+												{if $goods->brand_model->brand_name}
+													<dl class="tb-amount tm-clear">
+													    <dt class="tb-metatit">{t domain="goods"}商品品牌{/t}</dt>
+													    <dd id="J_Amount">
+													        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{if $goods->brand_model}{$goods->brand_model->brand_name}{/if}</em>
+													        <span id="J_StockTips"></span>
+													    </dd>
+													</dl>
+												{/if}
+											{/if}
 											<dl class="tb-amount tm-clear">
 							          			<dt class="tb-metatit">{t domain="goods"}商品排序{/t}</dt>
 							          			<dd id="J_Amount">
@@ -120,13 +128,15 @@
 											        <span id="J_StockTips"></span>
 											    </dd>
 											</dl>
-											<dl class="tb-amount tm-clear">
-											    <dt class="tb-metatit">{t domain="goods"}更新时间{/t}</dt>
-											    <dd id="J_Amount">
-											        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$goods.last_update}</em>
-											        <span id="J_StockTips"></span>
-											    </dd>
-											</dl>
+											{if $goods.last_update}
+												<dl class="tb-amount tm-clear">
+												    <dt class="tb-metatit">{t domain="goods"}更新时间{/t}</dt>
+												    <dd id="J_Amount">
+												        <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$goods.last_update}</em>
+												        <span id="J_StockTips"></span>
+												    </dd>
+												</dl>
+											{/if}
 											<dl class="tb-amount tm-clear">
 												<a class="btn btn-info insert-goods-btn" href="javascript:;" data-href='{url path="goodslib/merchant/insert" args="goods_id={$goods.goods_id}"}' data-id="{$goods.goods_id}" data-name="{$goods.goods_name}" data-sn="{$goods.goods_sn}" data-shopprice="{$goods.shop_price}" data-marketprice="{$goods.market_price}"><i class="fa fa-plus"></i> {t domain="goodslib"}立即导入{/t}</a>
 											</dl>
