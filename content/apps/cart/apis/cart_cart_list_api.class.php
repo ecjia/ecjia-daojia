@@ -140,13 +140,13 @@ class cart_cart_list_api extends Component_Event_Api {
 			    
 			    $total['goods_number'] += $row['goods_number'];
 				$row['subtotal']     	= $row['goods_price'] * $row['goods_number'];
-				$row['formatted_subtotal']     	= price_format($row['goods_price'] * $row['goods_number'], false);
+				$row['formatted_subtotal']     	= ecjia_price_format($row['goods_price'] * $row['goods_number'], false);
 				/* 返回未格式化价格*/
 				$row['goods_price']		= $row['goods_price'];
 				$row['market_price']	= $row['market_price'];
 
-				$row['formatted_goods_price']  	= price_format($row['goods_price'], false);
-				$row['formatted_market_price'] 	= price_format($row['market_price'], false);
+				$row['formatted_goods_price']  	= ecjia_price_format($row['goods_price'], false);
+				$row['formatted_market_price'] 	= ecjia_price_format($row['market_price'], false);
 
 				/* 统计实体商品和虚拟商品的个数 */
 				if ($row['is_real']) {
@@ -212,14 +212,14 @@ class cart_cart_list_api extends Component_Event_Api {
 			}
 		}
 		$total['goods_amount'] = $total['goods_price'];
-		$total['saving']       = price_format($total['market_price'] - $total['goods_price'], false);
+		$total['saving']       = ecjia_price_format($total['market_price'] - $total['goods_price'], false);
 		if ($total['market_price'] > 0) {
 			$total['save_rate'] = $total['market_price'] ? round(($total['market_price'] - $total['goods_price']) * 100 / $total['market_price']).'%' : 0;
 		}
 		$total['unformatted_goods_price']  	= sprintf("%.2f", $total['goods_price']);
-		$total['goods_price']  				= price_format($total['goods_price'], false);
+		$total['goods_price']  				= ecjia_price_format($total['goods_price'], false);
 		$total['unformatted_market_price'] 	= sprintf("%.2f", $total['market_price']);
-		$total['market_price'] 				= price_format($total['market_price'], false);
+		$total['market_price'] 				= ecjia_price_format($total['market_price'], false);
 		$total['real_goods_count']    		= $real_goods_count;
 		$total['virtual_goods_count'] 		= $virtual_goods_count;
 

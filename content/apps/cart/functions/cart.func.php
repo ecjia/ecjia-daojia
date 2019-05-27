@@ -94,9 +94,9 @@ function EM_get_cart_goods() {
         
         
         $row['subtotal']              = $row['goods_price'] * $row['goods_number'];
-        $row['formated_subtotal']     = price_format($row['goods_price'] * $row['goods_number'], false);
-        $row['goods_price']           = $total['goods_price'] > 0 ? price_format($row['goods_price'], false) : __('免费', 'cart');
-        $row['market_price']          = price_format($row['market_price'], false);
+        $row['formated_subtotal']     = ecjia_price_format($row['goods_price'] * $row['goods_number'], false);
+        $row['goods_price']           = $total['goods_price'] > 0 ? ecjia_price_format($row['goods_price'], false) : __('免费', 'cart');
+        $row['market_price']          = ecjia_price_format($row['market_price'], false);
 
         /* 统计实体商品和虚拟商品的个数 */
         if ($row['is_real']) {
@@ -126,12 +126,12 @@ function EM_get_cart_goods() {
         $goods_list[] = $row;
     }
     $total['goods_amount'] = $total['goods_price'];
-    $total['saving']       = price_format($total['saving'], false);
+    $total['saving']       = ecjia_price_format($total['saving'], false);
     if ($total['market_price'] > 0) {
         $total['save_rate'] = $total['market_price'] ? round(($total['market_price'] - $total['goods_price']) * 100 / $total['market_price']).'%' : 0;
     }
-    $total['goods_price']         = price_format($total['goods_price'], false);
-    $total['market_price']        = price_format($total['market_price'], false);
+    $total['goods_price']         = ecjia_price_format($total['goods_price'], false);
+    $total['market_price']        = ecjia_price_format($total['market_price'], false);
     $total['real_goods_count']    = $real_goods_count;
     $total['virtual_goods_count'] = $virtual_goods_count;
 
@@ -1084,9 +1084,9 @@ function cart_goods($type = CART_GENERAL_GOODS, $cart_id = array()) {
 // 			}
 // 		}
 		
-		$arr[$key]['formated_market_price'] = price_format($value['market_price'], false);
-		$arr[$key]['formated_goods_price']  = $value['goods_price'] > 0 ? price_format($value['goods_price'], false) : __('免费', 'cart');
-		$arr[$key]['formated_subtotal']     = price_format($value['subtotal'], false);
+		$arr[$key]['formated_market_price'] = ecjia_price_format($value['market_price'], false);
+		$arr[$key]['formated_goods_price']  = $value['goods_price'] > 0 ? ecjia_price_format($value['goods_price'], false) : __('免费', 'cart');
+		$arr[$key]['formated_subtotal']     = ecjia_price_format($value['subtotal'], false);
 		
 		/* 查询规格 */
 // 		if (trim($value['goods_attr']) != '' && $value['group_id'] == '') {//兼容官网套餐问题增加条件group_id
@@ -1274,9 +1274,9 @@ function get_cart_goods($cart_id = array(), $flow_type = CART_GENERAL_GOODS) {
 		foreach ($data as $row) {
 			$total['goods_price']  += $row['goods_price'] * $row['goods_number'];
 			$total['market_price'] += $row['market_price'] * $row['goods_number'];
-			$row['subtotal']     	= price_format($row['goods_price'] * $row['goods_number'], false);
-			$row['goods_price']  	= price_format($row['goods_price'], false);
-			$row['market_price'] 	= price_format($row['market_price'], false);
+			$row['subtotal']     	= ecjia_price_format($row['goods_price'] * $row['goods_number'], false);
+			$row['goods_price']  	= ecjia_price_format($row['goods_price'], false);
+			$row['market_price'] 	= ecjia_price_format($row['market_price'], false);
 
 			/* 统计实体商品和虚拟商品的个数 */
 			if ($row['is_real']) {
@@ -1308,13 +1308,13 @@ function get_cart_goods($cart_id = array(), $flow_type = CART_GENERAL_GOODS) {
 		}
 	}
 	$total['goods_amount'] = $total['goods_price'];
-	$total['saving']       = price_format($total['market_price'] - $total['goods_price'], false);
+	$total['saving']       = ecjia_price_format($total['market_price'] - $total['goods_price'], false);
 	if ($total['market_price'] > 0) {
 		$total['save_rate'] = $total['market_price'] ? round(($total['market_price'] - $total['goods_price']) *
 				100 / $total['market_price']).'%' : 0;
 	}
-	$total['goods_price']  			= price_format($total['goods_price'], false);
-	$total['market_price'] 			= price_format($total['market_price'], false);
+	$total['goods_price']  			= ecjia_price_format($total['goods_price'], false);
+	$total['market_price'] 			= ecjia_price_format($total['market_price'], false);
 	$total['real_goods_count']    	= $real_goods_count;
 	$total['virtual_goods_count'] 	= $virtual_goods_count;
 
@@ -1840,7 +1840,7 @@ function formated_cart_list($cart_result, $store_id_group = array()) {
         }
         $total['goods_price'] -= $discount['discount'];
         $total['goods_amount'] = $total['goods_price'];
-        $total['saving']       = price_format($total['market_price'] - $total['goods_price'], false);
+        $total['saving']       = ecjia_price_format($total['market_price'] - $total['goods_price'], false);
         if ($total['market_price'] > 0) {
             $total['save_rate'] = $total['market_price'] ? round(($total['market_price'] - $total['goods_price']) *
                 100 / $total['market_price']).'%' : 0;
@@ -1849,24 +1849,24 @@ function formated_cart_list($cart_result, $store_id_group = array()) {
         if ($total['goods_amount'] < $min_goods_amount) {
         	$meet_min_amount = 0;
         	$total['short_amount'] = sprintf("%.2f", ($min_goods_amount - $total['goods_amount']));
-        	$total['label_short_amount'] = price_format($total['short_amount']); 
+        	$total['label_short_amount'] = ecjia_price_format($total['short_amount'], false); 
         } else {
         	$meet_min_amount = 1;
         	$total['short_amount'] = 0.00;
-        	$total['label_short_amount'] = price_format($total['short_amount']);
+        	$total['label_short_amount'] = ecjia_price_format($total['short_amount'], false);
         }
         
         $total['meet_min_amount'] = $meet_min_amount;
         
         $total['unformatted_goods_price']     = sprintf("%.2f", $total['goods_price']);
-        $total['goods_price']  			      = price_format($total['goods_price'], false);
+        $total['goods_price']  			      = ecjia_price_format($total['goods_price'], false);
         $total['unformatted_market_price']    = sprintf("%.2f", $total['market_price']);
-        $total['market_price'] 			= price_format($total['market_price'], false);
+        $total['market_price'] 			= ecjia_price_format($total['market_price'], false);
         $total['real_goods_count']    	= $real_goods_count;
         $total['virtual_goods_count'] 	= $virtual_goods_count;
         
         $total['discount']			= $discount['discount'];//用户享受折扣数
-        $total['discount_formated']	= price_format($total['discount']);
+        $total['discount_formated']	= ecjia_price_format($total['discount'], false);
         
         $seller['total'] = $total;
     }
@@ -2099,7 +2099,7 @@ function get_ru_shippng_info($goods_list, $cart_value, $store_id, $region = [], 
             }
             
             $shipping_list[$key]['shipping_fee']        = $shipping_fee;
-            $shipping_list[$key]['format_shipping_fee'] = price_format($shipping_fee, false);
+            $shipping_list[$key]['format_shipping_fee'] = ecjia_price_format($shipping_fee, false);
         }
     }
     //php 7.2兼容有问题，返回值只有第一个。
@@ -2599,12 +2599,12 @@ function favourable_list($user_rank, $user_id = -1, $fav_id = 0, $act_sel_id = a
     while ($favourable = $GLOBALS['db']->fetchRow($res)) {
         $favourable['start_time'] = local_date($GLOBALS['_CFG']['time_format'], $favourable['start_time']);
         $favourable['end_time'] = local_date($GLOBALS['_CFG']['time_format'], $favourable['end_time']);
-        $favourable['formated_min_amount'] = price_format($favourable['min_amount'], false);
-        $favourable['formated_max_amount'] = price_format($favourable['max_amount'], false);
+        $favourable['formated_min_amount'] = ecjia_price_format($favourable['min_amount'], false);
+        $favourable['formated_max_amount'] = ecjia_price_format($favourable['max_amount'], false);
         $favourable['gift'] = unserialize($favourable['gift']);
         
         foreach ($favourable['gift'] as $key => $value) {
-            $favourable['gift'][$key]['formated_price'] = price_format($value['price'], false);
+            $favourable['gift'][$key]['formated_price'] = ecjia_price_format($value['price'], false);
             // 赠品缩略图
             $favourable['gift'][$key]['thumb_img'] = $GLOBALS['db']->getOne("SELECT goods_thumb FROM " . $GLOBALS['ecs']->table('goods') . " WHERE goods_id = '$value[id]'");
             $sql = "SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('goods') . " WHERE is_on_sale = 1 AND goods_id = " . $value['id'];
