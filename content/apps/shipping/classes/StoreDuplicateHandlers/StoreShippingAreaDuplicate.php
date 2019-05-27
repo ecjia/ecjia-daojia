@@ -9,11 +9,11 @@
 namespace Ecjia\App\Shipping\StoreDuplicateHandlers;
 
 use Ecjia\App\Store\StoreDuplicate\StoreDuplicateAbstract;
-use ecjia_error;
-use RC_Uri;
-use RC_DB;
-use RC_Api;
 use ecjia_admin;
+use ecjia_error;
+use RC_Api;
+use RC_DB;
+use Royalcms\Component\Database\QueryException;
 
 /**
  * 复制店铺中的配送方式和配送地区
@@ -29,15 +29,18 @@ class StoreShippingAreaDuplicate extends StoreDuplicateAbstract
      */
     protected $code = 'store_shipping_area_duplicate';
 
-    public function __construct($store_id, $source_store_id, $sort = 51)
+    protected $sort = 51;
+
+    public function __construct($store_id, $source_store_id)
     {
         $this->name = __('店铺配送区域、运费模板', 'shipping');
-
-        parent::__construct($store_id, $source_store_id, $sort);
+        parent::__construct($store_id, $source_store_id);
     }
 
     /**
      * 获取源店铺数据操作对象
+     *
+     * @return \Royalcms\Component\Database\Query\Builder
      */
     public function getSourceStoreDataHandler()
     {
@@ -53,7 +56,6 @@ class StoreShippingAreaDuplicate extends StoreDuplicateAbstract
         return <<<HTML
 <span class="controls-info w400">{$text}</span>
 HTML;
-
     }
 
     /**
@@ -63,13 +65,16 @@ HTML;
      */
     public function handleCount()
     {
-        //如果已经统计过，直接返回统计过的条数
-        if ($this->count) {
-            return $this->count;
+        static $count;
+        if (is_null($count)) {
+            // 统计数据条数
+            try {
+                $count = $this->getSourceStoreDataHandler()->count();
+            } catch (QueryException $e) {
+                ecjia_log_warning($e->getMessage());
+            }
         }
-        // 统计数据条数
-        $this->count = $this->getSourceStoreDataHandler()->count();
-        return $this->count;
+        return $count;
     }
 
     /**
@@ -84,6 +89,10 @@ HTML;
             return true;
         }
 
+        if ($this->isCheckStarting()){
+            return new ecjia_error('duplicate_started_error', sprintf(__('%s复制已开始，请耐心等待！', 'store'), $this->getName()));
+        }
+
         //如果当前对象复制前仍存在依赖，则需要先复制依赖对象才能继续复制
         if (!empty($this->dependents)) { //如果设有依赖对象
             //检测依赖
@@ -93,6 +102,8 @@ HTML;
             }
         }
 
+        //标记复制正在进行中
+        $this->markStartingDuplicate();
 
         //执行具体任务
         $result = $this->startDuplicateProcedure();
@@ -114,21 +125,24 @@ HTML;
      */
     protected function startDuplicateProcedure()
     {
+        $replacement_shipping_area = [];
         try {
-            $replacement_shipping_area = [];
             $this->getSourceStoreDataHandler()->chunk(50, function ($items) use (&$replacement_shipping_area) {
                 //构造可用于复制的数据
-                foreach ($items as &$item) {
+                foreach ($items as $item) {
                     $shipping_area_id = $item['shipping_area_id'];
                     unset($item['shipping_area_id']);
 
                     //将源店铺ID设为新店铺的ID
                     $item['store_id'] = $this->store_id;
+                    try {
+                        //插入数据到新店铺
+                        $new_shipping_area_id = RC_DB::table('shipping_area')->insertGetId($item);
 
-                    //插入数据到新店铺
-                    $new_shipping_area_id = RC_DB::table('shipping_area')->insertGetId($item);
-
-                    $replacement_shipping_area[$shipping_area_id] = $new_shipping_area_id;
+                        $replacement_shipping_area[$shipping_area_id] = $new_shipping_area_id;
+                    } catch (QueryException $e) {
+                        ecjia_log_warning($e->getMessage());
+                    }
                 }
             });
 
@@ -144,12 +158,11 @@ HTML;
             }
 
             $this->setReplacementData($this->getCode(), $replacement_shipping_area);
-
             return true;
-        } catch (\Royalcms\Component\Repository\Exceptions\RepositoryException $e) {
+        } catch (QueryException $e) {
+            ecjia_log_warning($e->getMessage());
             return new ecjia_error('duplicate_data_error', $e->getMessage());
         }
-
     }
 
     /**
@@ -159,14 +172,20 @@ HTML;
      */
     public function handleAdminLog()
     {
+        static $store_merchant_name, $source_store_merchant_name;
+
+        if (empty($store_merchant_name)) {
+            $store_info = RC_Api::api('store', 'store_info', ['store_id' => $this->store_id]);
+            $store_merchant_name = array_get(empty($store_info) ? [] : $store_info, 'merchants_name');
+        }
+
+        if (empty($source_store_merchant_name)) {
+            $source_store_info = RC_Api::api('store', 'store_info', ['store_id' => $this->source_store_id]);
+            $source_store_merchant_name = array_get(empty($source_store_info) ? [] : $source_store_info, 'merchants_name');
+        }
+
         \Ecjia\App\Store\Helper::assign_adminlog_content();
-
-        $store_info = RC_Api::api('store', 'store_info', array('store_id' => $this->store_id));
-
-        $merchants_name = !empty($store_info) ? sprintf(__('店铺名是%s', 'shipping'), $store_info['merchants_name']) : sprintf(__('店铺ID是%s', 'shipping'), $this->store_id);
-
-        ecjia_admin::admin_log($merchants_name, 'duplicate', 'store_shipping_area');
+        $content = sprintf(__('将【%s】店铺所有配送区域、运费模板复制到【%s】店铺中', 'goods'), $source_store_merchant_name, $store_merchant_name);
+        ecjia_admin::admin_log($content, 'duplicate', 'store_goods');
     }
-
-
 }
