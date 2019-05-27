@@ -254,6 +254,20 @@
 					data.pjaxurl ? ecjia.merchant.showmessage(data) : ecjia.merchant.showmessage(admin_lang.status_success);
 				}
 			});
+		},
+		//toggleStateNew快速切换状态的方法
+		toggleStateNew : function(option) {
+			$.ajax({
+				url: option.url,
+				data: {id : option.id , val : option.val},
+
+				type: option.type,
+				dataType: "json",
+				success: function(data){
+					data.content ? option.obj.removeClass('toggleOff').addClass('toggleOn') : option.obj.removeClass('toggleOn').addClass('toggleOff');
+					data.pjaxurl ? ecjia.merchant.showmessage(data) : ecjia.merchant.showmessage(admin_lang.status_success);
+				}
+			});
 		}
 	};
 
@@ -365,6 +379,26 @@
 		var option  = {obj : $this, url : url, id : id, val : val, type : type};
 		e.preventDefault();
 		ecjia.merchant_ui.toggleState(option);
+	});
+
+	/**
+	 * toggleStateNew触发器
+	 * url      当前请求地址
+	 * id       当前元素的id号
+	 * val      改变的值
+	 * type     发送方式
+	 *
+	 */
+	$(document).on('click', '[data-trigger="toggleStateNew"]', function(e){
+		var $this   = $(this);
+		var url     = $this.attr('data-url');
+		var id      = $this.attr('data-id');
+		var val     = $this.hasClass('toggleOff') ? 1 : 0;
+		var type    = $this.attr('data-type') ? $this.attr('data-type') : "POST";
+
+		var option  = {obj : $this, url : url, id : id, val : val, type : type};
+		e.preventDefault();
+		ecjia.merchant_ui.toggleStateNew(option);
 	});
 
 	/**

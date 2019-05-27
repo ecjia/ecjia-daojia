@@ -5680,3 +5680,16 @@ table tr th.sorting-desc{
 	border: 1px solid #FE9550;
 	margin-right: 5px;
 }
+
+/*商品快捷切换开关组件新样式*/
+.label.toggleOff, .label.toggleOn{
+	font-size: 14px;
+	padding: 4px 6px;
+}
+.label.toggleOff {
+	background-color:#fff;
+	color: #333;
+	border:1px solid #ddd;
+	padding: 3px 5px;
+}
+/*商品快捷切换开关组件新样式 end*/
