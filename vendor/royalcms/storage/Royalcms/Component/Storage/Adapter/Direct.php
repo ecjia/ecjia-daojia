@@ -82,6 +82,16 @@ class Direct extends LocalAdapter implements StorageInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function has($path)
+    {
+        $path = str_replace($this->getPathPrefix(), '', $path);
+
+        return parent::has($path);
+    }
+
+    /**
      * Connect filesystem.
      * @since 2.5.0
      * @return bool True on success or false on failure (always true for WP_Filesystem_Direct).
@@ -410,22 +420,6 @@ class Direct extends LocalAdapter implements StorageInterface
 //        $path = str_replace($this->getPathPrefix(), '', $path);
 
         return $this->has($path);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function has($path)
-    {
-//        $temp_path = ini_get('upload_tmp_dir');
-//        if (strpos($path, $temp_path) === false) {
-//            $location = $this->applyPathPrefix($path);
-//        }
-//        else {
-//            $location = $path;
-//        }
-
-        return file_exists($path);
     }
 
     /**
