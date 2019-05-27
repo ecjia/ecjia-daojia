@@ -130,7 +130,8 @@ class ecjia_goods_specification
 
         //判断是否是数组，转换为竖线分隔的字符串
         if (is_array($spec)) {
-            $spec = implode('|', $spec);
+            asort($spec);
+            $spec = implode('|', $spec);//123|124
         }
 
         //判断逗号分隔是否存在，转换为竖线分隔

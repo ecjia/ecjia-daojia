@@ -519,7 +519,7 @@ class cart_controller
 
         if (!empty($spec)) {
             asort($spec);
-            $spec = implode('|', $spec);
+            $spec = implode('|', $spec);//123|124
         }
 
         list($goods_id, $product_id) = explode('_', $goods_id);
@@ -528,7 +528,7 @@ class cart_controller
         $ecjia_goods_specification = new ecjia_goods_specification($goods_id);
 
         $product_spec = $ecjia_goods_specification->findProductSpecificationBySpec($spec);
-        
+
         $product_id = $product_spec['product_id'];
         $id = $goods_id . '_' . $product_id;
 

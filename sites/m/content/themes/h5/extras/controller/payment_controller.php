@@ -103,7 +103,7 @@ class payment_controller
                 //支付余额
                 $total_money = $detail['money_paid'] + $detail['surplus'] + $detail['integral_money'] + $detail['bonus'] + $detail['order_deposit'];
                 $has_paid = $detail['goods_amount'] + $detail['shipping_fee'] + $detail['insure_fee'] + $detail['pay_fee'] + $detail['pack_fee'] + $detail['card_fee'] + $detail['tax'];
-                $detail['formated_pay_money'] = price_format($total_money - $has_paid);
+                $detail['formated_pay_money'] = ecjia_price_format(($total_money - $has_paid), false);
             }
         }
 
@@ -156,7 +156,7 @@ class payment_controller
 //        }
 
         //免费商品直接余额支付
-        if ($detail['order_amount'] !== 0) {
+        //if ($detail['order_amount'] !== 0) {
             $need_other_payment = 1;
             /* 调起微信支付*/
             if ($detail['pay_code'] == 'pay_wxpay') {
@@ -176,13 +176,19 @@ class payment_controller
                 $payment_list = user_function::get_payment_list($detail['pay_code'], $detail['manage_mode']);
                 ecjia_front::$controller->assign('payment_list', $payment_list);
             }
-        } else {
-            $order['pay_status'] = 'success';
-            unset($order['pay_online']);
-        }
+        //} else {
+        //   $order['pay_status'] = 'success';
+        //   unset($order['pay_online']);
+        //}
+	
+       if ($detail['order_amount'] <= 0) {
+           $detail['pay_code'] = 'pay_balance';
+           $order['pay_code'] = 'pay_balance';
+           ecjia_front::$controller->assign('payment_list', []);
+       }
 
         if ($order['pay_code'] != 'pay_balance') {
-            $order['formated_order_amount'] = price_format($order['order_amount']);
+            $order['formated_order_amount'] = ecjia_price_format($order['order_amount'], false);
         }
         $order['order_id'] = $order_id;
 
