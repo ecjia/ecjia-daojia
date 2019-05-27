@@ -140,8 +140,8 @@ class goods_detail_module extends api_front implements api_interface {
 
         $data = ecjia_api::transformerData('GOODS', $data);
         /*获得商品的规格和属性*/
-        $goodsBasicInFo = new \Ecjia\App\Goods\Goods\GoodsBasicInFo($goods_id);
-        list($properties, $specification) = $goodsBasicInFo->getGoodsSpecPra();
+        $GoodsBasicInfo = new \Ecjia\App\Goods\Goods\GoodsBasicInfo($goods_id);
+        list($properties, $specification) = $GoodsBasicInfo->getGoodsSpecPra();
         
         $data['properties']      = $properties;
         $data['specification']   = $specification;

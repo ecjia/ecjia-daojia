@@ -85,7 +85,7 @@ HTML;
             return true;
         }
 
-        if ($this->isCheckStarting()){
+        if ($this->isCheckStarting()) {
             return new ecjia_error('duplicate_started_error', sprintf(__('%s复制已开始，请耐心等待！', 'store'), $this->getName()));
         }
 
@@ -159,8 +159,7 @@ HTML;
                 } catch (QueryException $e) {
                     ecjia_log_warning($e->getMessage());
                 }
-            }
-            else {
+            } else {
                 return static::$old_goods_ids;
             }
         }
@@ -185,6 +184,8 @@ HTML;
                 } catch (QueryException $e) {
                     ecjia_log_warning($e->getMessage());
                 }
+            } else {
+                $count = 0;
             }
         }
         return $count;

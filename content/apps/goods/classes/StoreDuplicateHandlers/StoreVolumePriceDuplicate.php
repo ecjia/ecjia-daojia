@@ -77,7 +77,6 @@ class StoreVolumePriceDuplicate extends StoreProcessAfterDuplicateGoodsAbstract
 
             //将数据插入到新店铺
             RC_DB::table($this->getTableName())->insert($items);
-            //dd($items);
         });
     }
 

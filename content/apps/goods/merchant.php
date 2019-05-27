@@ -343,13 +343,13 @@ class merchant extends ecjia_merchant {
 		$where = [];
 		switch ($intro_type) {
 			case 'is_best' :
-				$where['store_is_best'] = 1;
+				$where['store_best'] = 1;
 				break;
 			case 'is_hot' :
-				$where['store_is_best'] = 1;
+				$where['store_hot'] = 1;
 				break;
 			case 'is_new' :
-				$where['store_is_best'] = 1;
+				$where['store_new'] = 1;
 				break;
 		}
 		
@@ -425,13 +425,13 @@ class merchant extends ecjia_merchant {
 		$where = [];
 		switch ($intro_type) {
 			case 'is_best' :
-				$where['store_is_best'] = 1;
+				$where['store_best'] = 1;
 				break;
 			case 'is_hot' :
-				$where['store_is_best'] = 1;
+				$where['store_hot'] = 1;
 				break;
 			case 'is_new' :
-				$where['store_is_best'] = 1;
+				$where['store_new'] = 1;
 				break;
 		}
 	
@@ -505,13 +505,13 @@ class merchant extends ecjia_merchant {
 		$where = [];
 		switch ($intro_type) {
 			case 'is_best' :
-				$where['store_is_best'] = 1;
+				$where['store_best'] = 1;
 				break;
 			case 'is_hot' :
-				$where['store_is_best'] = 1;
+				$where['store_hot'] = 1;
 				break;
 			case 'is_new' :
-				$where['store_is_best'] = 1;
+				$where['store_new'] = 1;
 				break;
 		}
 	
@@ -626,9 +626,9 @@ class merchant extends ecjia_merchant {
 		
 		$this->assign('action_link', $action_link);
 
-		$GoodsBasicInFo = new Ecjia\App\Goods\Goods\GoodsBasicInFo($goods_id, $_SESSION['store_id']);
+		$GoodsBasicInfo = new Ecjia\App\Goods\Goods\GoodsBasicInfo($goods_id, $_SESSION['store_id']);
 		
-		$goods = $GoodsBasicInFo->goodsInFo();
+		$goods = $GoodsBasicInfo->goodsInFo();
 		
 		if (empty($goods)) {
 			return $this->showmessage(__('未检测到此商品', 'goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text'=> __('返回商品列表', 'goods'),'href'=>RC_Uri::url('goods/merchant/init')))));
@@ -656,22 +656,22 @@ class merchant extends ecjia_merchant {
 		$this->assign('images_url', $images_url);
 		
 		//商品相册
-		$goods_photo_list = $GoodsBasicInFo->getGoodsGallery();
+		$goods_photo_list = $GoodsBasicInfo->getGoodsGallery();
 		$this->assign('goods_photo_list', $goods_photo_list);
 		
 		$this->assign('preview_type', $preview_type);
 		
 		//商品属性（既商品货品）
-		$product_list = $GoodsBasicInFo->goodsProducts();
+		$product_list = $GoodsBasicInfo->goodsProducts();
 		$this->assign('product_list', $product_list);
 		
 		//商品参数
-		$attr_group = $GoodsBasicInFo->attrGroup();
+		$attr_group = $GoodsBasicInfo->attrGroup();
 		if (count($attr_group) > 0) {
-			$group_parameter_list = $GoodsBasicInFo->getGoodsGroupParameter();
+			$group_parameter_list = $GoodsBasicInfo->getGoodsGroupParameter();
 			$this->assign('group_parameter_list', $group_parameter_list);
 		} else {
-			$common_parameter_list = $GoodsBasicInFo->getGoodsCommonParameter();
+			$common_parameter_list = $GoodsBasicInfo->getGoodsCommonParameter();
 			$this->assign('common_parameter_list', $common_parameter_list);
 		}
 		$this->assign('no_picture', RC_Uri::admin_url('statics/images/nopic.png'));
@@ -699,16 +699,16 @@ class merchant extends ecjia_merchant {
 		$this->assign('ur_here', __('货品预览', 'goods'));
 		$this->assign('action_link', array('text' => __('商品预览', 'goods'), 'href' => RC_Uri::url('goods/merchant/preview', array('id' => $goods_id, 'preview_type' => $preview_type))));
 		
-		$productBasicInFo = new Ecjia\App\Goods\Goods\ProductBasicInFo($product_id);
+		$ProductBasicInfo = new Ecjia\App\Goods\Goods\ProductBasicInfo($product_id);
 		
-		$product = $productBasicInFo->productInFo();
+		$product = $ProductBasicInfo->productInFo();
 		
 		if (empty($product)) {
 			return $this->showmessage(__('未检测到此货品', 'goods'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text'=> __('返回商品列表', 'goods'),'href'=>RC_Uri::url('goods/merchant/preview', array('id' => $goods_id, 'preview_type' => $preview_type))))));
 		}
 		$goods_id = $product->goods_id;
-		$GoodsBasicInFo = new Ecjia\App\Goods\Goods\GoodsBasicInFo($goods_id, $_SESSION['store_id']);
-		$goods = $GoodsBasicInFo->goodsInFo();
+		$GoodsBasicInfo = new Ecjia\App\Goods\Goods\GoodsBasicInfo($goods_id, $_SESSION['store_id']);
+		$goods = $GoodsBasicInfo->goodsInFo();
 		
 		//名称处理
 		$product['product_attr_value'] = '';
@@ -752,19 +752,19 @@ class merchant extends ecjia_merchant {
 			}
 		}
 		//货品相册
-		$product_photo_list = $productBasicInFo->getProductGallery();
+		$product_photo_list = $ProductBasicInfo->getProductGallery();
 		if (empty($product_photo_list)) {
-			$product_photo_list = $GoodsBasicInFo->getGoodsGallery();
+			$product_photo_list = $GoodsBasicInfo->getGoodsGallery();
 		}
 		$this->assign('product_photo_list', $product_photo_list);
 		
 		//商品参数
-		$attr_group = $GoodsBasicInFo->attrGroup();
+		$attr_group = $GoodsBasicInfo->attrGroup();
 		if (count($attr_group) > 0) {
-			$group_parameter_list = $GoodsBasicInFo->getGoodsGroupParameter();
+			$group_parameter_list = $GoodsBasicInfo->getGoodsGroupParameter();
 			$this->assign('group_parameter_list', $group_parameter_list);
 		} else {
-			$common_parameter_list = $GoodsBasicInFo->getGoodsCommonParameter();
+			$common_parameter_list = $GoodsBasicInfo->getGoodsCommonParameter();
 			$this->assign('common_parameter_list', $common_parameter_list);
 		}
 		

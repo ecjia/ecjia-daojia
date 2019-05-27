@@ -74,7 +74,6 @@ class StoreMemberPriceDuplicate extends StoreProcessAfterDuplicateGoodsAbstract
                             ecjia_log_warning($e->getMessage());
                         }
                     }
-                    //dd($replacement_member_price, $items);
                 });
 
                 //存储 member_price 相关替换数据
