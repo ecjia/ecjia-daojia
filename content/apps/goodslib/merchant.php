@@ -419,7 +419,7 @@ class merchant extends ecjia_merchant {
 	    
 	    $GoodslibBasicInfo = new Ecjia\App\Goodslib\Goodslib\GoodslibBasicInfo($goods_id);
 	    
-	    $goods = $GoodslibBasicInfo->goodsLibInFo();
+	    $goods = $GoodslibBasicInfo->goodsLibInfo();
 	    
 	    if (empty($goods)) {
 	        return $this->showmessage(__('未检测到此商品', 'goodslib'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text'=> __('返回商品列表', 'goodslib'),'href'=>RC_Uri::url('goods/merchant/init')))));
