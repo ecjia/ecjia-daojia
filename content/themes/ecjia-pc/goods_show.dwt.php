@@ -88,14 +88,21 @@
             <div class="cut_off"><img src="{$theme_url}images/default/cut_off.png"></div>
             {if $goods_info.properties}
             <div class="specification">
-                <div class="goods_specification"><p class="rhombus"></p><p class="goods_description">{t domain="ecjia-pc"}规格参数{/t}</p></div>
-                <!--{foreach from=$goods_info.properties item=val key=key}-->
-                    <div class="parameters">
-                        <span class="p1">{$val.name1}：{$val.value1}</span>
-                        {if $val.name2}<span class="p2">{$val.name2}：{$val.value2}</span>{/if}
-                        <p></p>
-                    </div>   
-                <!-- {/foreach} -->         
+                <div class="goods_specification">
+                    <p class="rhombus"></p>
+                    <p class="goods_description">{t domain="ecjia-pc"}商品参数{/t}</p>
+                </div>
+                <div class="parameters">
+                    <!--{foreach from=$goods_info.properties_new item=val key=key}-->
+                    <span>{$val.name}：{$val.value}</span>
+                    {if $val@last}
+                    <p></p>
+                    {else}
+                    {if $val@iteration is even}<p></p>{/if}
+                    {/if}
+                    <!-- {/foreach} -->
+                </div>
+
             </div>
             {/if}
         	{if $goods_info.goods_desc}

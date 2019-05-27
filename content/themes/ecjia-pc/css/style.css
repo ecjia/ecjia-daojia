@@ -2431,8 +2431,9 @@ a:active, a:hover {
 .goods_info .goods_introduce .specification .parameters span {
     display: inline-block;
     color: #333;
-    width: 48%;
-    font-size: 15px
+    width: 49%;
+    font-size: 15px;
+    padding: 6px 0;
 }
 .goods_info .goods_introduce .specification .parameters p {
     border-bottom: 1px solid #eaeaea;
