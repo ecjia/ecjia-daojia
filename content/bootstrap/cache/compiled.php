@@ -6592,8 +6592,8 @@ use Royalcms\Component\Contracts\Foundation\Royalcms as RoyalcmsContract;
 use Royalcms\Component\Contracts\Debug\ExceptionHandler;
 class Royalcms extends Container implements RoyalcmsContract, HttpKernelInterface
 {
-    const VERSION = '5.10.0';
-    const RELEASE = '2019-04-12';
+    const VERSION = '5.11.0';
+    const RELEASE = '2019-05-22';
     protected $basePath;
     protected $hasBeenBootstrapped = false;
     protected $booted = false;
@@ -33358,6 +33358,11 @@ class Direct extends LocalAdapter implements StorageInterface
         $newpath = str_replace($this->getPathPrefix(), '', $newpath);
         return parent::copy($path, $newpath);
     }
+    public function has($path)
+    {
+        $path = str_replace($this->getPathPrefix(), '', $path);
+        return parent::has($path);
+    }
     public function connect()
     {
         return true;
@@ -33543,10 +33548,6 @@ class Direct extends LocalAdapter implements StorageInterface
     public function exists($path)
     {
         return $this->has($path);
-    }
-    public function has($path)
-    {
-        return file_exists($path);
     }
     public function is_file($path)
     {
