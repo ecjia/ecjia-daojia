@@ -212,7 +212,7 @@ class merchant_controller
                     RC_DB::raw('SUM(IF(has_image = 1, 1, 0)) as level_print'))
                     ->first();
 
-                $level = !empty($_GET['level']) ? $_GET['level'] : 'all';
+                $level = !empty($_GET['level']) ? remove_xss($_GET['level']) : 'all';
 
                 if ($level == 'all') {
                     $db_comment = $select;
@@ -422,7 +422,7 @@ class merchant_controller
      */
     private static function store_lists($cat_id = 0)
     {
-        $keywords            = !empty($_GET['keywords']) ? trim($_GET['keywords']) : '';
+        $keywords            = !empty($_GET['keywords']) ? remove_xss($_GET['keywords']) : '';
         $db_store_franchisee = RC_DB::table('store_franchisee as sf')->where(RC_DB::raw('sf.status'), 1);
         if (!empty($cat_id)) {
             $db_store_franchisee->whereRaw('sf.cat_id=' . $cat_id);

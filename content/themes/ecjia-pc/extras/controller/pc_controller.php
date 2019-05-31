@@ -143,7 +143,7 @@ class pc_controller
 
     public static function search()
     {
-        $keywords = !empty($_POST['keywords']) ? trim($_POST['keywords']) : '';
+        $keywords = !empty($_POST['keywords']) ? remove_xss($_POST['keywords']) : '';
         if (!empty($keywords)) {
             $count            = pc_function::search_count(0, 1, '', $keywords);
             $url['goods_url'] = RC_Uri::url('goods/index/init', array('keywords' => $keywords));

@@ -66,7 +66,7 @@ class goods_controller
             ecjia_front::$controller->assign('has_store', $has_store);
 
             if ($has_store) {
-                $keywords = !empty($_GET['keywords']) ? trim($_GET['keywords']) : '';
+                $keywords = !empty($_GET['keywords']) ? remove_xss($_GET['keywords']) : '';
                 if (empty($keywords)) {
                     $cat_id = !empty($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
                     ecjia_front::$controller->assign('cat_id', $cat_id);
@@ -88,12 +88,12 @@ class goods_controller
                 }
 
                 $page = !empty($_GET['page']) ? intval($_GET['page']) : 1;
-                $type = !empty($_GET['type']) ? trim($_GET['type']) : '';
+                $type = !empty($_GET['type']) ? remove_xss($_GET['type']) : '';
 
                 $goods_options['page'] = $page;
                 $goods_options['size'] = 9;
-                $sort_by               = !empty($_GET['sort_by']) ? trim($_GET['sort_by']) : '';
-                $sort_order            = !empty($_GET['sort_order']) ? trim($_GET['sort_order']) : 'desc';
+                $sort_by               = !empty($_GET['sort_by']) ? remove_xss($_GET['sort_by']) : '';
+                $sort_order            = !empty($_GET['sort_order']) ? remove_xss($_GET['sort_order']) : 'desc';
 
                 if (!empty($sort_by)) {
                     $goods_options['sort'] = array($sort_by => $sort_order);
