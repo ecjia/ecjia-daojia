@@ -54,7 +54,7 @@ class admin_user_search_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     		
 		$this->authadminSession();
-		if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+		if ($_SESSION['staff_id'] <= 0) {
 		    return new ecjia_error(100, 'Invalid session');
 		}
 		

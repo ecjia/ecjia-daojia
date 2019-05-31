@@ -55,17 +55,11 @@ class v2_admin_user_userinfo_module extends api_admin implements api_interface {
     		
 		$this->authadminSession();
 		
-        if ($_SESSION['admin_id' ] <= 0 && $_SESSION['staff_id'] <= 0) {
+        if ($_SESSION['staff_id'] <= 0) {
             return new ecjia_error(100, 'Invalid session');
         }
-        if ($_SESSION['staff_id']) {
-            //商家
-            return $this->get_user_info_merchant();
-        } else {
-            //平台
-            return $this->get_user_info_admin();
-        }
-		
+         //商家
+         return $this->get_user_info_merchant();
 	}
 
     private function get_user_info_merchant() {
@@ -106,33 +100,6 @@ class v2_admin_user_userinfo_module extends api_admin implements api_interface {
         } else {
             return new ecjia_error('error', '用户信息不存在');
         }
-        
-        return $userinfo;
-    }
-
-    private function get_user_info_admin() {
-        //$db = RC_Model::model('user/admin_user_model');
-        $db_role = RC_Loader::load_model('role_model');
-        
-        //$result = $db->find(array('user_id' => $_SESSION['admin_id']));
-        $result = RC_DB::table('admin_user')->where('user_id', $_SESSION['admin_id'])->first();
-        
-        if (isset($_SESSION['adviser_id']) && !empty($_SESSION['adviser_id'])) {
-            $adviser_info = RC_Model::model('achievement/adviser_model')->find(array('id' => $_SESSION['adviser_id']));
-            $result['user_name'] = $adviser_info['username'];
-            $result['email']     = $adviser_info['email'];
-        }
-        
-        $userinfo = array(
-            'id'            => $result['user_id'],
-            'username'      => $result['user_name'],
-            'email'         => $result['email'],
-            'last_login'    => RC_Time::local_date(ecjia::config('time_format'), $result['last_login']),
-            'last_ip'       => RC_Ip::area($result['last_ip']),
-            'role_name'     => $db_role->where(array('role_id' => $result['role_id']))->get_field('role_name'),
-            'avator_img'    => RC_Uri::admin_url('statics/images/admin_avatar.png'),
-            'avatar_img'    => RC_Uri::admin_url('statics/images/admin_avatar.png'),
-        );
         
         return $userinfo;
     }

@@ -267,7 +267,7 @@ class get_password extends ecjia_merchant {
 			),
 		);
 		
-		$_SESSION['user_id'] 	= $user_id;
+		$_SESSION['temp_user_id'] 	= $user_id;
 		$_SESSION['temp_code'] 	= $code;
 		$_SESSION['temp_code_time'] = RC_Time::gmtime();
 		
@@ -283,10 +283,14 @@ class get_password extends ecjia_merchant {
 	 * 第二步：再次验证校验码是否正确
 	 */
 	public function get_code_form() {
-		$code = $_POST['code'];
-		$time = RC_Time::gmtime() - 6000*3;
-		
-		if (!empty($code) && $code == $_SESSION['temp_code'] && $time < $_SESSION['temp_code_time']) {
+		$code = isset($_POST['code']) ? trim($_POST['code']) : '';
+
+        if( $_SESSION['temp_code_time'] + 60*30 < RC_Time::gmtime()) {
+            return $this->showmessage(__('验证码已过期，请重新获取', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
+		if (!empty($code) && $code == $_SESSION['temp_code']) {
+            $_SESSION['temp_code_input'] = $code;
 			$back_url = RC_Uri::url('staff/get_password/mobile_reset', array('form_act' => 'reset_pwd'));
 			return $this->showmessage('', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $back_url));
 		}else{
@@ -300,6 +304,13 @@ class get_password extends ecjia_merchant {
 	}
 	
 	public function mobile_reset_pwd(){
+        if( $_SESSION['temp_code_time'] + 60*30 < RC_Time::gmtime()) {
+            return $this->showmessage(__('验证码已过期，请重新获取', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+	    if(empty($_SESSION['temp_code_input']) || $_SESSION['temp_code_input'] != $_SESSION['temp_code']) {
+            return $this->showmessage(__('验证码错误，请返回重新输入', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+
 		$new_password = isset($_POST['password']) ? trim($_POST['password']) : '';
 		$confirm_pwd  = isset($_POST['confirm_pwd']) ? trim($_POST['confirm_pwd']) : '';
 		if ($new_password != $confirm_pwd) {
@@ -312,7 +323,7 @@ class get_password extends ecjia_merchant {
 			'password' => md5(md5($new_password) . $salt),
 			'salt'     => $salt
 		);
-		$result = RC_DB::table('staff_user')->where('user_id', $_SESSION['user_id'])->update($data);
+		$result = RC_DB::table('staff_user')->where('user_id', $_SESSION['temp_user_id'])->update($data);
 		if ($result) {
 			$back_url = RC_Uri::url('staff/privilege/login');
 			return $this->showmessage(__('密码重置成功', 'staff'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('url' => $back_url));
