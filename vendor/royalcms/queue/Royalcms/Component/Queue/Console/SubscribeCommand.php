@@ -45,7 +45,7 @@ class SubscribeCommand extends Command
      */
     public function fire()
     {
-        $iron = $this->laravel['queue']->connection();
+        $iron = $this->royalcms['queue']->connection();
 
         if (! $iron instanceof IronQueue) {
             throw new RuntimeException('Iron.io based queue must be default.');
