@@ -86,7 +86,7 @@ use Ecjia\App\Platform\Frameworks\Platform\Account;
 //定义在后台
 define('IN_PLATFORM', true);
 
-abstract class EcjiaPlatform extends ecjia_base implements EcjiaTemplateFileLoader
+abstract class EcjiaPlatform extends Ecjia\System\BaseController\EcjiaController implements EcjiaTemplateFileLoader
 {
 
 	/**
@@ -423,16 +423,6 @@ abstract class EcjiaPlatform extends ecjia_base implements EcjiaTemplateFileLoad
 	        }
 	    }
 		return parent::fetch($tpl_file, $cache_id, $options);
-	}
-
-	/**
-	 * 直接跳转
-	 *
-	 * @param string $url
-	 * @param int $code
-	 */
-	public function redirect($url, $code = 302) {
-	    parent::redirect($url, $code);
 	}
 
 	/**
