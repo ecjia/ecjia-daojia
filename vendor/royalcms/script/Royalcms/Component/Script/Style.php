@@ -181,7 +181,7 @@ class Style
      *        
      * @since 3.0.0
      *       
-     * @param string $handle
+     * @param string|array $handle
      *            Name of the stylesheet to be removed.
      */
     public static function dequeue_style($handle)

@@ -198,7 +198,7 @@ class Script
      *        
      * @since 3.0.0
      *       
-     * @param string $handle
+     * @param string|array $handle
      *            Name of the script to be removed.
      */
     public static function dequeue_script($handle)
