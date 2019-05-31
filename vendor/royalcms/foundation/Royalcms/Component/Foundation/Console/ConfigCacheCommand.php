@@ -69,9 +69,14 @@ class ConfigCacheCommand extends Command
      */
     protected function getFreshConfiguration()
     {
-        $royalcms = require $this->royalcms->bootstrapPath().'/royalcms.php';
+        if ($this->royalcms->runningInConsole()) {
+            $royalcms = require $this->royalcms->bootstrapPath().'/royalcms.php';
 
-        $royalcms->make('Royalcms\Component\Contracts\Console\Kernel')->bootstrap();
+            $royalcms->make('Royalcms\Component\Contracts\Console\Kernel')->bootstrap();
+        }
+        else {
+            $royalcms = $this->royalcms;
+        }
 
         return $royalcms['config']->all();
     }
