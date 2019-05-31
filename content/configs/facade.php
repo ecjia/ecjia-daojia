@@ -9,5 +9,7 @@ return array(
 
     'RC_Storage'            => 'Royalcms\Component\Storage\Facades\Storage',
     'RC_Upload'             => 'Royalcms\Component\Upload\Facades\Upload',
+    'RC_Purifier'           => 'Royalcms\Component\Purifier\Facades\Purifier',
+
 
 );

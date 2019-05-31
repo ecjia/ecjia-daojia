@@ -145,15 +145,21 @@ return [
         '*::namespaces',
         '*::provider',
         '*::facade',
+        '*::database',
         '*::cache',
         '*::app',
         '*::session',
         '*::view',
+        '*::route',
+        '*::site',
         '*::storage',
-        'smarty-view::smarty',
-        'excel::export',
+        '*::queue',
+        '*::release',
         '*::pay',
         '*::upload',
+
+        'smarty-view::smarty',
+        'excel::export',
     ],
 
 ];

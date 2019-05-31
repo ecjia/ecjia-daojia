@@ -282,9 +282,6 @@ return array(
     'admin/user/rank'               => 'staff::admin/user/rank',
 	'admin/user/userinfo'		    => 'staff::v2/admin/user/userinfo',
     'admin/user/info'			    => 'staff::admin/user/info',//1.5新增
-	'admin/user/forget_request'	    => 'staff::v2/admin/user/forget_request',
-	'admin/user/forget_validate'    =>'staff::v2/admin/user/forget_validate',
-	'admin/user/password' 		    => 'staff::admin/user/password',
     'admin/user/bind'               => 'staff::admin/user/bind', //1.5新增
     'admin/user/update'			    => 'staff::v2/admin/user/update',
     
@@ -304,11 +301,6 @@ return array(
 	
 	'admin/merchant/info'		    => 'merchant::admin/merchant/info',
 	'admin/merchant/update'		    => 'merchant::admin/merchant/update',
-	
-
-
-	'admin/connect/validate'	    => 'connect::admin/connect/validate',
-	'admin/connect/signin'		    => 'connect::admin/connect/signin',
 
 	'admin/flow/checkOrder'		    => 'cart::admin/flow/checkOrder',
 	'admin/flow/done'			    => 'cart::admin/flow/done',
