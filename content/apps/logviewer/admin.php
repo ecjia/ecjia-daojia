@@ -81,6 +81,13 @@ class admin extends ecjia_admin
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('日志查看', 'logviewer'), RC_Uri::url('logviewer/admin/init')));
     }
 
+    protected function registerServiceProvider()
+    {
+        parent::registerServiceProvider();
+
+        royalcms()->register('Royalcms\Component\LogViewer\LogViewerServiceProvider');
+    }
+
     public function init()
     {
         $this->admin_priv('logviewer_manage');

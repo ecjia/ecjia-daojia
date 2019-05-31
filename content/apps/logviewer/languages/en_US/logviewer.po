@@ -1,0 +1,98 @@
+# Copyright (C) 2019 Ecjia App logviewer
+# This file is distributed under the same license as the Ecjia App logviewer package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ecjia App logviewer 1.27.4\n"
+"Report-Msgid-Bugs-To: https://make.ecjia.com/polyglots/\n"
+"POT-Creation-Date: 2019-04-03 17:00+0800\n"
+"PO-Revision-Date: 2019-05-30 11:15+0800\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <ecjia@ecjia.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: admin.php:81 admin.php:89 admin.php:90
+#: apis/logviewer_tool_menu_api.class.php:54 configs/package.php:55
+msgid "日志查看"
+msgstr "Log viewer"
+
+#: apis/logviewer_admin_purview_api.class.php:55
+msgid "日志查看管理"
+msgstr "Log viewer manage"
+
+#: configs/jslang.php:57
+msgid "首页"
+msgstr "Home"
+
+#: configs/jslang.php:58
+msgid "尾页"
+msgstr "Tail"
+
+#: configs/jslang.php:59
+msgid "上一页"
+msgstr "Previous page"
+
+#: configs/jslang.php:60
+msgid "下一页"
+msgstr "Next page"
+
+#: configs/jslang.php:61
+msgid "共_TOTAL_条记录 第_START_条到第_END_条"
+msgstr "Total _TOTAL_ records _START_Article to _END_"
+
+#: configs/jslang.php:62
+msgid "没有找到任何记录"
+msgstr "No records were found"
+
+#: configs/jslang.php:63
+msgid "共0条记录"
+msgstr "Total 0 records"
+
+#: configs/jslang.php:64
+msgid "（从_MAX_条数据中检索）"
+msgstr "(retrieved from _MAX_ data)"
+
+#: configs/jslang.php:65
+msgid "url错误"
+msgstr "Url error"
+
+#: configs/package.php:56
+msgid ""
+"无需在再一级一级找到日志文件打开进行查看了，该应用把所有的日志文"
+"件分类详细的排列出来，方便用户查看。"
+msgstr ""
+"There is no need to find the log file to open and view it at the "
+"next level. The application arranges all the log file categories "
+"in detail for the user to view."
+
+#: content/apps/logviewer/templates/admin/logviewer_list.dwt.php:47
+msgid "未选择日志文件"
+msgstr "Log file not selected"
+
+#: content/apps/logviewer/templates/admin/logviewer_list.dwt.php:55
+msgid "日期"
+msgstr "Date"
+
+#: content/apps/logviewer/templates/admin/logviewer_list.dwt.php:56
+msgid "等级"
+msgstr "Level"
+
+#: content/apps/logviewer/templates/admin/logviewer_list.dwt.php:57
+msgid "内容"
+msgstr "Content"
+
+#: content/apps/logviewer/templates/admin/logviewer_list.dwt.php:88
+msgid "日志文件"
+msgstr "Log file"
+
+#: content/apps/logviewer/templates/admin/logviewer_list.dwt.php:92
+msgid "筛选搜索到的日志文件"
+msgstr "Filter the searched log files"
+
+#: content/apps/logviewer/templates/admin/logviewer_list.dwt.php:103
+msgid "暂无日志"
+msgstr "No log"
