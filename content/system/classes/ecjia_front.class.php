@@ -98,6 +98,11 @@ abstract class ecjia_front extends Ecjia\System\BaseController\EcjiaController i
 		
 		RC_Hook::do_action('ecjia_front_finish_launching');
 	}
+
+    protected function registerServiceProvider()
+    {
+        royalcms()->forgeRegister('Royalcms\Component\Purifier\PurifierServiceProvider');
+    }
 	
 	protected function session_start()
 	{

@@ -44,115 +44,185 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+use Ecjia\System\Models\AdminMessageModel;
+
 defined('IN_ECJIA') or exit('No permission resources.');
+
 /**
  * ECJia 后台管理员留言管理类
  * @author royalwang
  *
  */
-class ecjia_admin_message {
-    
+class ecjia_admin_message
+{
+
     /**
      *  获取管理员未读消息
      *
      * @return void
      */
-    public static function get_admin_chat($filters = array()) {
+    public static function get_admin_chat($filters = array())
+    {
         $dbview = RC_Loader::load_model('admin_message_user_viewmodel');
         /* 查询条件 */
-        $filter['chat-id']		= empty($_REQUEST['chat_id'])		? 0 : intval($_REQUEST['chat_id']);
-        $filter['sort_by']		= empty($_REQUEST['sort_by'])		? 'sent_time' : trim($_REQUEST['sort_by']);
-        $filter['sort_order']	= empty($_REQUEST['sort_order'])	? 'DESC' : trim($_REQUEST['sort_order']);
-        $filter['msg_type']		= empty($_REQUEST['msg_type'])		? 0 : intval($_REQUEST['msg_type']);
+        $filter['chat-id'] = empty($_REQUEST['chat_id']) ? 0 : intval($_REQUEST['chat_id']);
+        $filter['sort_by'] = empty($_REQUEST['sort_by']) ? 'sent_time' : trim($_REQUEST['sort_by']);
+        $filter['sort_order'] = empty($_REQUEST['sort_order']) ? 'DESC' : trim($_REQUEST['sort_order']);
+        $filter['msg_type'] = empty($_REQUEST['msg_type']) ? 0 : intval($_REQUEST['msg_type']);
         //群聊的状态
-        empty($filter['chat-id']) && $filter = array_merge($filter, array('msg_type'=>1, 'start'=>0, 'page_size'=>10));
+        empty($filter['chat-id']) && $filter = array_merge($filter, array('msg_type' => 1, 'start' => 0, 'page_size' => 10));
         //与自己交谈的状态
-        $filter['chat-id'] == $_SESSION['admin_id'] && $filter = array_merge($filter, array('msg_type'=>2, 'start'=>0, 'page_size'=>10));
+        $filter['chat-id'] == $_SESSION['admin_id'] && $filter = array_merge($filter, array('msg_type' => 2, 'start' => 0, 'page_size' => 10));
         //获取已读留言的状态
         $filter['last_id'] = empty($_REQUEST['last_id']) ? 0 : intval($_REQUEST['last_id']);
-        !empty($filter['last_id']) &&  $filter = array_merge($filter, array('start'=>0, 'page_size'=>10));
-    
+        !empty($filter['last_id']) && $filter = array_merge($filter, array('start' => 0, 'page_size' => 10));
+
+        $filter = array_map('remove_xss', $filter);
+
         $filter = array_merge($filter, $filters);
-    
+
+        $query = AdminMessageModel::where('deleted', 0);
+
         /* 查询条件 */
         switch ($filter['msg_type']) {
-        	case 1:
-        	    $where = " a.deleted='0' AND a.receiver_id='0'";
-        	    break;
-        	case 2 :
-        	    $where = " a.deleted='0' AND a.receiver_id='" . $_SESSION['admin_id'] . "'";
-        	    break;
-        	case 3:
-        	    $where = " a.receiver_id='".$_SESSION['admin_id']."' AND  a.deleted='0' AND a.readed='0'";
-        	    break;
-        	    // case 4:
-        	    // 	$where = " a.readed='1' AND a.receiver_id='".$_SESSION['admin_id']."' AND a.deleted='0'";
-        	    // break;
-        	default:
-        	    if (!empty($filter['last_id'])) {
-        	        $where = " (a.receiver_id='".$_SESSION['admin_id']."' AND  a.sender_id='" .$filter['chat-id']. "' OR a.sender_id='" .$_SESSION['admin_id']. "' AND a.receiver_id='".$filter['chat-id']."') AND a.deleted='0' AND a.readed='1'";
-        	    } else {
-        	        $where = " (a.receiver_id='".$_SESSION['admin_id']."' AND  a.sender_id='" .$filter['chat-id']. "' OR a.sender_id='" .$_SESSION['admin_id']. "' AND a.receiver_id='".$filter['chat-id']."') AND a.deleted='0' AND a.readed='0'";
-        	    }
-        	    break;
+            case 1:
+                //$where = " a.deleted='0' AND a.receiver_id='0'";
+                $query->where('receiver_id', 0);
+                break;
+            case 2 :
+                //$where = " a.deleted='0' AND a.receiver_id='" . $_SESSION['admin_id'] . "'";
+                $query->where('receiver_id', $_SESSION['admin_id']);
+                break;
+            case 3:
+                //$where = " a.receiver_id='" . $_SESSION['admin_id'] . "' AND  a.deleted='0' AND a.readed='0'";
+                $query->where('receiver_id', $_SESSION['admin_id'])->where('readed', 0)->where('deleted', 0);
+                break;
+            // case 4:
+            // 	$where = " a.readed='1' AND a.receiver_id='".$_SESSION['admin_id']."' AND a.deleted='0'";
+            // break;
+            default:
+                /*if (!empty($filter['last_id'])) {
+                    $where = " (a.receiver_id='" . $_SESSION['admin_id'] . "' AND  a.sender_id='" . $filter['chat-id'] . "' OR a.sender_id='" . $_SESSION['admin_id'] . "' AND a.receiver_id='" . $filter['chat-id'] . "') AND a.deleted='0' AND a.readed='1'";
+                } else {
+                    $where = " (a.receiver_id='" . $_SESSION['admin_id'] . "' AND  a.sender_id='" . $filter['chat-id'] . "' OR a.sender_id='" . $_SESSION['admin_id'] . "' AND a.receiver_id='" . $filter['chat-id'] . "') AND a.deleted='0' AND a.readed='0'";
+                }*/
+                $query->where('readed', empty($filter['last_id']) ? 0 : 1)->where(function ($q) use ($filter) {
+                    $q->where('sender_id', $filter['chat-id'])
+                        ->where('receiver_id', $filter['chat-id'])
+                        ->where('receiver_id', $_SESSION['admin_id'])
+                        ->orWhere('sender_id', $_SESSION['admin_id']);
+                });
+                break;
         }
-        !empty($filter['last_id']) && $where .= " AND a.message_id<".$filter['last_id'];
-    
-        $count = $dbview->join(null)->where("1 and ".$where)->count();
-        $filter['record_count'] = $count;
-        $dbview->view =array(
-            'admin_user' => array(
-                'type'  =>Component_Model_View::TYPE_LEFT_JOIN,
-                'alias' => 'b',
-                'field' => 'a.message_id,a.sender_id,a.receiver_id,a.sent_time,a.read_time,a.deleted,a.title,a.message,b.user_name',
-                'on'   => 'b.user_id = a.sender_id '
-            )
-        );
-        $row = $dbview->join('admin_user')->where($where)->order(array($filter['sort_by']=>$filter['sort_order']))->limit($filter['start'] , $filter['page_size'])->select();
-    
-        if (!empty($row)) {
-            foreach ($row AS $key=>$val) {
-                $row[$key]['sent_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['sent_time']);
-                $row[$key]['read_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['read_time']);
-            }
-            $end_row = end($row);
-            $reverse_row = array_reverse($row);
-        } else {
-            $end_row = null;
-            $reverse_row = null;
+        //!empty($filter['last_id']) && $where .= " AND a.message_id<" . $filter['last_id'];
+
+        if (!empty($filter['last_id'])) {
+            $query->where('message_id', '<', $filter['last_id']);
         }
 
-        $arr = array('item' => $reverse_row,'filter' => $filter, 'record_count' => $filter['record_count'], 'last_id' => $end_row['message_id']);
-        return $arr;
+        //$count = $dbview->join(null)->where("1 and " . $where)->count();
+
+        $filter['record_count'] = $query->count();
+
+//        $dbview->view = array(
+//            'admin_user' => array(
+//                'type' => Component_Model_View::TYPE_LEFT_JOIN,
+//                'alias' => 'b',
+//                'field' => 'a.message_id,a.sender_id,a.receiver_id,a.sent_time,a.read_time,a.deleted,a.title,a.message,b.user_name',
+//                'on' => 'b.user_id = a.sender_id '
+//            )
+//        );
+//        $row = $dbview->join('admin_user')->where($where)->order(array($filter['sort_by'] => $filter['sort_order']))->limit($filter['start'], $filter['page_size'])->select();
+
+        //dd($dbview->all_sqls(),$row,$filter);
+
+
+        $row = $query->with(['admin_user_model' => function ($q) {
+            $q->select('user_id', 'user_name');
+        }])->get();
+
+        if (empty($row)) {
+            $end_row = null;
+            $reverse_row = null;
+        } else {
+            $row = $row->map(function ($model) {
+                if (empty($model->admin_user_model)) {
+                    $model->user_name = $model->admin_user_model->user_name;
+                } else {
+                    $model->user_name = __('佚名') . $model->admin_user_model->user_id;
+                }
+                $model->sent_time = RC_Time::local_date(ecjia::config('time_format'), $model->sent_time);
+                $model->read_time = RC_Time::local_date(ecjia::config('time_format'), $model->read_time);
+                return $model;
+            })->toArray();
+
+            $end_row = end($row);
+            $reverse_row = array_reverse($row);
+        }
+
+        /* if (!empty($row)) {
+             foreach ($row AS $key => $val) {
+                 $row[$key]['sent_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['sent_time']);
+                 $row[$key]['read_time'] = RC_Time::local_date(ecjia::config('time_format'), $val['read_time']);
+             }
+             $end_row = end($row);
+             $reverse_row = array_reverse($row);
+         } else {
+             $end_row = null;
+             $reverse_row = null;
+         }*/
+
+        return [
+            'item' => $reverse_row,
+            'filter' => $filter,
+            'record_count' => $filter['record_count'],
+            'last_id' => $end_row['message_id']
+        ];
     }
-    
+
     /**
      *  更改留言为已读状态
      *
      * @return void
      */
-   public static function read_meg($chatid) {
+    public static function read_meg_old($chatid)
+    {
         $db_message = RC_Loader::load_model('admin_message_model');
-        if(empty($chatid)) {
+        if (empty($chatid)) {
             //更新阅读日期和阅读状态
             $where = array(
-                'receiver_id' 	=> $_SESSION['admin_id'],
-                'readed' 		=> 0
+                'receiver_id' => $_SESSION['admin_id'],
+                'readed' => 0
             );
         } else {
             //更新阅读日期和阅读状态
             $where = array(
-                'receiver_id' 	=> $_SESSION['admin_id'],
-                'sender_id' 	=> intval($chatid),
-                'readed' 		=> 0
+                'receiver_id' => $_SESSION['admin_id'],
+                'sender_id' => intval($chatid),
+                'readed' => 0
             );
         }
-        $data = array (
-            'read_time'	=> RC_Time::gmtime() ,
-            'readed'	=> '1',
+
+        $data = array(
+            'read_time' => RC_Time::gmtime(),
+            'readed' => '1',
         );
         $db_message->where($where)->update($data);
-    }   
+
+    }
+
+    public static function read_meg($chatid)
+    {
+        $query = AdminMessageModel::where('receiver_id', $_SESSION['admin_id'])->where('readed', 0);
+        if (!empty($chatid)) {
+            //更新阅读日期和阅读状态
+            $query->where('sender_id', intval($chatid));
+        }
+        $query->update([
+            'read_time' => RC_Time::gmtime(),
+            'readed' => '1'
+        ]);
+    }
 }
 
 // end

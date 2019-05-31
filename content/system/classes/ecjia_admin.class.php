@@ -124,12 +124,17 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 		    ob_start();
 		}
 
+		RC_Hook::add_action('admin_enqueue_scripts', function() {
+		    $this->csrf_token_meta();
+        });
+
 		RC_Hook::do_action('ecjia_admin_finish_launching');
 	}
 
 	protected function registerServiceProvider()
     {
-        royalcms()->forgeRegister('Ecjia\System\Providers\EcjiaAdminServiceProvider');
+        royalcms()->register('Royalcms\Component\Purifier\PurifierServiceProvider');
+        royalcms()->register('Ecjia\System\Providers\EcjiaAdminServiceProvider');
     }
 	
 	protected function session_start()
@@ -168,19 +173,6 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 	    return $view;
 	}
 
-	
-//	/**
-//	 * 加载缓存key
-//	 */
-//	protected function load_cachekey() {
-//	    $res = RC_Api::api('system', 'system_cache');
-//	    if (! empty($res)) {
-//	        foreach ($res as $cache_handle) {
-//	            ecjia_update_cache::make()->register($cache_handle->getCode(), $cache_handle);
-//	        }
-//	    }
-//	}
-
     /**
      * 登录session授权
      */
@@ -192,6 +184,14 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
         } else {
             return false;
         }
+    }
+
+    /**
+     * 添加crsf_token头信息
+     */
+    protected function csrf_token_meta()
+    {
+        echo '<meta name="csrf-token" content="' . csrf_token() . '">';
     }
 	
 	/**
@@ -209,42 +209,13 @@ abstract class ecjia_admin extends Ecjia\System\BaseController\EcjiaController i
 		    return true;
 		}
 
-		/* session 不存在，检查cookie */
-		$admin_id = RC_Cookie::get('ECJAP[admin_id]');
-		$admin_pass = RC_Cookie::get('ECJAP[admin_pass]');
-		
-		if (!empty($admin_id) && !empty($admin_pass)) {
-			// 找到了cookie, 验证cookie信息
-			$row = RC_Model::model('admin_user_model')->field("user_id, user_name, password, action_list, last_login")->find(array('user_id' => intval($admin_id)));
-			if (!empty($row)) {
-				// 检查密码是否正确
-				if (md5($row['password'] . ecjia::config('hash_code')) == $admin_pass) {
-					!isset($row['last_time']) && $row['last_time'] = '';
-					$this->admin_session($row['user_id'], $row['user_name'], $row['action_list'], $row['last_time']);
-				
-					// 更新最后登录时间和IP
-					$data = array(
-							'last_login' => RC_Time::gmtime(),
-							'last_ip'    => RC_Ip::client_ip() 
-					);
-					RC_Model::model('admin_user_model')->where(array('user_id' => $_SESSION['admin_id']))->update($data);
-					return true;
-				} else {
-					RC_Cookie::delete('ECJAP[admin_id]');
-					RC_Cookie::delete('ECJAP[admin_pass]');
-					return false;
-				}
-			} else {
-				// 没有找到这个记录
-				RC_Cookie::delete('ECJAP[admin_id]');
-				RC_Cookie::delete('ECJAP[admin_pass]');
-				return false;
-			}
-		} else {
-			unset($admin_id);
-			unset($admin_pass);
-			return false;
-		}
+        return (new \Ecjia\System\Admins\RememberPassword\RememberPassword)->verification(function($model) {
+            $this->admin_session($model['user_id'], $model['user_name'], $model['action_list'], $model['last_time']);
+
+            $model->last_login = RC_Time::gmtime();
+            $model->last_ip = RC_Ip::client_ip();
+            $model->save();
+        });
 	}
 	
 	/**

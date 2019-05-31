@@ -47,9 +47,12 @@
 namespace Ecjia\System\Admins\Users;
 
 use Royalcms\Component\Database\Eloquent\Model;
+use Royalcms\Component\Metable\Metable;
 
 class AdminUserModel extends Model 
 {
+    use Metable;
+
 	protected $table = 'admin_user';
 	
 	protected $primaryKey = 'user_id';
@@ -80,8 +83,31 @@ class AdminUserModel extends Model
 	 * @var bool
 	 */
 	public $timestamps = false;
-	
 
+
+    /**
+     * 一对一
+     * 用户的角色信息
+     */
+    public function role_model()
+    {
+        return $this->belongsTo('Ecjia\System\Models\RoleModel', 'role_id', 'role_id');
+    }
+
+    /**
+     * @return \Royalcms\Component\Database\Eloquent\Relations\HasMany
+     * 一对多
+     * 用户的操作日志
+     */
+    public function admin_log_collection()
+    {
+        return $this->hasMany('Ecjia\System\Models\AdminLogModel', 'user_id', 'user_id');
+    }
+
+    public function admin_message_collection()
+    {
+        return $this->hasMany('Ecjia\System\Models\AdminMessageModel', 'sender_id', 'user_id');
+    }
 }
 
 // end

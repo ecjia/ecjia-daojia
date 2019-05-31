@@ -5,6 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>{$ecjia_admin_cptitle}{if $ur_here} - {$ur_here}{/if}</title>
+    <!-- {ecjia:hook id=admin_enqueue_scripts} -->
 	<!-- {ecjia:hook id=admin_print_styles} -->
 	<!-- {ecjia:hook id=admin_print_scripts} -->
 </head>
@@ -39,6 +40,7 @@
 				<button class="btn btn-inverse pull-right" type="submit">{t}进入管理中心{/t}</button>
 				<span class="link_reg"><a href="index.php">{t}返回首页{/t}</a></span>
 			</div>
+            {csrf_field()}
 		</form>
 		<div class="links_b links_btm clearfix">
 			{assign var=get_password_url value=RC_Uri::url('@get_password/forget_pwd')}
@@ -58,6 +60,11 @@
 		$('#login_form').on('submit', function(e){
 			e.preventDefault();
 			$this = $(this);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 			$this.ajaxSubmit({
 				dataType:"json",
 				success:function(data){

@@ -100,10 +100,24 @@ class admin_role extends ecjia_admin {
 		);
 		
 		$this->assign('action_link',	array('href'=>RC_Uri::url('@admin_role/add'), 'text' => __('添加角色')));
-		$this->assign('admin_list',		$this->db_role->get_role_list());
+		$this->assign('admin_list',		$this->get_role_list());
 			
 		$this->display('role_list.dwt');
 	}
+
+    /**
+     * 获取角色列表
+     * @return array
+     */
+    private function get_role_list($where = array())
+    {
+        $record_count = \Ecjia\System\Models\RoleModel::where($where)->count();
+        $page = new ecjia_page($record_count, 15, 6);
+
+        $list = \Ecjia\System\Models\RoleModel::orderBy('role_id', 'DESC')->take($page->page_row)->skip($page->start_id-1)->get()->toArray();
+        $lists = array('list' => $list, 'page' => $page->show(5));
+        return $lists;
+    }
 
 	/**
 	 * 添加角色页面
@@ -154,15 +168,20 @@ class admin_role extends ecjia_admin {
 	public function edit() {
 	    $this->admin_priv('admin_manage');
 	    
-		$_REQUEST['id'] = !empty($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
+		$id = intval($this->request->input('id', 0));
 		
 		/* 查看是否有权限编辑其他管理员的信息 */
-		if ($_SESSION['admin_id'] != $_REQUEST['id']) {
+		if ($_SESSION['admin_id'] != $id) {
 			$this->admin_priv('admin_manage');
 		}
 
-		$user_info = $this->db_role->field('role_id, role_name, role_describe, action_list')->where(array('role_id' => $_REQUEST['id']))->find();
-		$priv_str = $user_info['action_list'];
+		$role_model = \Ecjia\System\Models\RoleModel::where('role_id', $id)->first();
+		if (empty($role_model)) {
+            return $this->showmessage(__('此角色不存在'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR);
+        }
+
+		$priv_str = $role_model['action_list'];
+        $user_info = $role_model->toArray();
 
 		$priv_group = ecjia_purview::load_purview($priv_str);
 		
@@ -172,7 +191,7 @@ class admin_role extends ecjia_admin {
 		$this->assign('ur_here',	 __('修改角色'));
 		$this->assign('action_link', array('href'=>RC_Uri::url('@admin_role/init'), 'text' => __('角色列表')));
 		$this->assign('priv_group',	$priv_group);
-		$this->assign('user_id',	 $_GET['id']);
+		$this->assign('user_id',	 $id);
 		$this->assign('form_act',	'update');
 		
 		$this->display('role_info.dwt');
@@ -186,13 +205,13 @@ class admin_role extends ecjia_admin {
 		
 		$act_list = join(",", $_POST['action_code']);
 		$data_role = array(
-				'action_list' 	=> $act_list,
-				'role_name' 	=> $_POST['user_name'],
-				'role_describe' => $_POST['role_describe'],
+            'action_list' 	=> $act_list,
+            'role_name' 	=> $_POST['user_name'],
+            'role_describe' => $_POST['role_describe'],
 		);
 		
 		$data_user = array(
-				'action_list' => $act_list,
+            'action_list' => $act_list,
 		);
 		
 		$this->db_role->where(array('role_id' => $_POST['id']))->update($data_role);
@@ -203,8 +222,8 @@ class admin_role extends ecjia_admin {
         ecjia_admin::admin_log($_POST['user_name'], 'edit', 'role');
 		
 		/* 提示信息 */
-		$link[] = array('text' => __('返回角色列表'), 'href'=>RC_Uri::url('@admin_role/init'));
-		return $this->showmessage(sprintf(__('编辑 %s 操作成功'),$_POST['user_name']), 0x21, array('link' => $link));
+		$links = ecjia_alert_links(array('text' => __('返回角色列表'), 'href'=>RC_Uri::url('@admin_role/init')));
+		return $this->showmessage(sprintf(__('编辑 %s 操作成功'),$_POST['user_name']), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('link' => $links));
 	}
 	
 	/**
@@ -212,7 +231,7 @@ class admin_role extends ecjia_admin {
 	 */
 	public function remove() {
 		$this->admin_priv('admin_drop', ecjia::MSGTYPE_JSON);
-		$id = intval($_GET['id']);
+		$id = intval($this->request->input('id'));
 		
 		$remove_num = $this->db_user->where(array('role_id' => $id))->count();
 		if ($remove_num > 0) {

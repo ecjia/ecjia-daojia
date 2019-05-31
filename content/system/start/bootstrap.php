@@ -44,20 +44,6 @@
 //
 //  ---------------------------------------------------------------------------------
 //
-use Royalcms\Component\ClassLoader\ClassManager;
-
-/*
- |--------------------------------------------------------------------------
- | Register The Class Loader
- |--------------------------------------------------------------------------
- |
- | In addition to using Composer, you may use the Laravel class loader to
- | load your controllers and models. This is useful for keeping all of
- | your classes in the "global" namespace without Composer updating.
- |
- */
-
-//ClassManager::addNamespaces(array());
 
 //注册Session驱动
 RC_Session::extend('mysql', function ($royalcms) {
@@ -104,7 +90,7 @@ RC_Session::extend('memcache', function () {
         'prefix' => $getPrefix(),
         'expiretime' => config('session.lifetime', 1440) * 60
     ];
-//    dd(royalcms('memcache'));
+
     return new Ecjia\System\Frameworks\Sessions\Handler\MemcacheSessionHandler(royalcms('memcache'), $options);
 });
 RC_Session::extend('ecjiaredis', function () {

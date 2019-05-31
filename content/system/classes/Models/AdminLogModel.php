@@ -44,29 +44,43 @@
 //
 //  ---------------------------------------------------------------------------------
 //
+namespace Ecjia\System\Models;
 
-/*
-|--------------------------------------------------------------------------
-| Register The Artisan Commands
-|--------------------------------------------------------------------------
-|
-| Each available Artisan command must be registered with the console so
-| that it is available to be called. We'll register every command so
-| the console gets access to each of the command object instances.
-|
-*/
+use Royalcms\Component\Database\Eloquent\Model;
 
-/**
- * add hook to init
- */
-RC_Hook::add_action('console_init', function () {
+class AdminLogModel extends Model
+{
+	protected $table = 'admin_log';
+	
+	protected $primaryKey = 'log_id';
+	
+	/**
+	 * 可以被批量赋值的属性。
+	 *
+	 * @var array
+	 */
+	protected $fillable = [
+	    'log_time',
+	    'user_id',
+	    'log_info',
+	    'ip_address',
+	];
+	
+	/**
+	 * 该模型是否被自动维护时间戳
+	 *
+	 * @var bool
+	 */
+	public $timestamps = false;
 
-    collect(ecjia_app::installed_app_floders())->each(function($app) {
-        RC_Loader::load_app_class('hooks.console_' . $app, $app, false);
-    });
-});
+    /**
+     * 一对多（反向）
+     */
+    public function admin_user_model()
+    {
+        return $this->belongsTo('Ecjia\System\Admins\Users\AdminUserModel', 'user_id');
+    }
 
-/**
- * register service provider
- */
-royalcms()->register('Royalcms\Component\Tail\TailServiceProvider');
+}
+
+// end

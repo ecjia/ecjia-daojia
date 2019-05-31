@@ -51,7 +51,8 @@ defined('IN_ECJIA') or exit('No permission resources.');
 
 class index extends ecjia_admin {
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
