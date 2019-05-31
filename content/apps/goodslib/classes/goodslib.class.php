@@ -201,7 +201,7 @@ class goodslib {
         $filter ['record_count'] 	= $count;
         
         $db_goods
-            ->select(RC_DB::raw('goods_id, g.goods_sn, g.goods_name, g.shop_price, g.market_price, g.cost_price, g.goods_weight, 
+            ->select(RC_DB::raw('goods_id, g.goods_sn, g.goods_name, g.shop_price, g.market_price, g.cost_price, g.goods_weight, g.weight_unit, 
             g.keywords, g.goods_brief, g.goods_desc, g.brand_id, g.cat_id, goods_type, g.specification_id, g.parameter_id
             '))
         ->orderBy($filter['sort_by'], $filter['sort_order']);
@@ -252,6 +252,13 @@ class goodslib {
 //            _dump($rows,1);
             $goods = [];
             foreach ($rows as $row) {
+            	if ($row['goods_weight'] > 0) {
+            		if (empty($row['weight_unit'])) {
+            			if ($row['goods_weight'] < 1) {
+            				$row['goods_weight'] = $row['weight_unit'] * 1000;
+            			}
+            		}
+            	}
                 $goods[] = array(
                     'goods_sn' => $row['goods_sn'],
                     'product_sn' => NULL,

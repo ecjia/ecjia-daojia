@@ -48,7 +48,7 @@
  * 商品库商品基本信息类
  */
 
-namespace Ecjia\App\Goodslib\Goodslib;
+namespace Ecjia\App\Goodslib;
 
 use \Ecjia\App\Goodslib\Models\GoodslibModel;
 
@@ -63,13 +63,13 @@ class GoodslibBasicInfo
     {
         $this->goods_id = $goods_id;
 
-        $this->model = $this->goodsLibInfo();
+        $this->model = $this->goodslibInfo();
     }
     
     /**
      * 获取商品库商品信息
      */
-    public function goodsLibInfo()
+    public function goodslibInfo()
     {
     	$data = GoodslibModel::where('goods_id', $this->goods_id)->first();
     	return $data;

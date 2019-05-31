@@ -48,7 +48,7 @@
  * 商品库货品基本信息类
  */
 
-namespace Ecjia\App\Goodslib\Goodslib;
+namespace Ecjia\App\Goodslib;
 
 use \Ecjia\App\Goodslib\Models\GoodslibProductsModel;
 

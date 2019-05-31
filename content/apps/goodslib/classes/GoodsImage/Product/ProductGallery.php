@@ -38,7 +38,7 @@ class ProductGallery extends ProductImage
         list($original_path, $img_path, $thumb_path) = $this->saveImageToDisk();
 
         if (!$original_path || !$img_path) {
-            return new ecjia_error('upload_goods_gallery_error', __('商品图片路径无效', 'goods'));
+            return new ecjia_error('upload_goods_gallery_error', __('商品图片路径无效', 'goodslib'));
         }
 
         /* 不保留商品原图的时候删除原图 */

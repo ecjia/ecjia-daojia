@@ -41,13 +41,8 @@ class ProductThumb extends ProductImage
         list($original_path, $img_path, $thumb_path) = $this->saveImageToDisk();
 
         if (!empty($thumb_path)) {
-            return new ecjia_error('upload_goods_thumb_error', __('商品缩略图路径无效', 'goods'));
+            return new ecjia_error('upload_goods_thumb_error', __('商品缩略图路径无效', 'goodslib'));
         }
-
-        //存入数据库中
-        $data = array(
-            'thumb_url' 	=> $thumb_path,
-        );
 
         $model = GoodslibProductsModel::where('goods_id', $this->goods_id)->where('product_id', $this->product_id)->select('goods_id', 'product_id', 'product_thumb')->first();
         if (! empty($model)) {

@@ -41,7 +41,7 @@ class GoodsThumb extends GoodsImage
         list($original_path, $img_path, $thumb_path) = $this->saveImageToDisk();
 
         if (!empty($thumb_path)) {
-            return new ecjia_error('upload_goods_thumb_error', __('商品缩略图路径无效', 'goods'));
+            return new ecjia_error('upload_goods_thumb_error', __('商品缩略图路径无效', 'goodslib'));
         }
 
         //存入数据库中

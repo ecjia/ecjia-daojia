@@ -39,7 +39,7 @@ class ProductImage extends GoodsImage
         list($original_path, $img_path, $thumb_path) = $this->saveImageToDisk();
 
         if (!$original_path || !$img_path) {
-            return new ecjia_error('upload_products_gallery_error', __('货品图片路径无效', 'goods'));
+            return new ecjia_error('upload_products_gallery_error', __('货品图片路径无效', 'goodslib'));
         }
 
         //存入数据库中
@@ -65,7 +65,7 @@ class ProductImage extends GoodsImage
             $data = (new ProductGallery($this->goods_id, $this->product_id, $this->fileinfo))->updateToDatabase($img_desc);
             if (is_ecjia_error($data)) {
                 //复制失败不中断请求
-                ecjia_log_warning('货品相册复制失败', $data, 'goods');
+                ecjia_log_warning('货品相册复制失败', $data, 'goodslib');
             }
         }
 

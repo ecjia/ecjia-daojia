@@ -311,6 +311,25 @@ class merchant extends ecjia_merchant {
 	            }
 	        }
 	    }
+	    //商品重量存在，重量单位是0的情况
+	    if ($goods['goods_weight'] > 0) {
+	    	if (empty($goods['weight_unit'])) {
+	    		if ($goods['goods_weight'] >= 1 ) {
+	    			$goods['weight_unit'] = 2; //千克
+	    		} else {
+	    			$goods['weight_unit'] = 1; //克
+	    			$goods['goods_weight'] = $goods['goods_weight'] * 1000;
+	    		}
+	    	} else {
+	    		if ($goods['weight_unit'] == 1) {
+	    			if ($goods['goods_weight'] > 1) {
+	    				$goods['weight_unit'] = 2; //千克
+	    			} else {
+	    				$goods['goods_weight'] = $goods['goods_weight'] * 1000;
+	    			}
+	    		}
+	    	}
+	    }
 	    
 	    $time = RC_Time::gmtime();
 	    $goods['add_time'] = $time;
@@ -417,9 +436,9 @@ class merchant extends ecjia_merchant {
 	    $this->assign('ur_here', __('商品预览', 'goodslib'));
 	    $this->assign('action_link', array('text' => '返回', 'href' => RC_Uri::url('goodslib/merchant/add', array('cat_id' => $_GET['cat_id']))));
 	    
-	    $GoodslibBasicInfo = new Ecjia\App\Goodslib\Goodslib\GoodslibBasicInfo($goods_id);
+	    $GoodslibBasicInfo = new Ecjia\App\Goodslib\GoodslibBasicInfo($goods_id);
 	    
-	    $goods = $GoodslibBasicInfo->goodsLibInfo();
+	    $goods = $GoodslibBasicInfo->goodslibInfo();
 	    
 	    if (empty($goods)) {
 	        return $this->showmessage(__('未检测到此商品', 'goodslib'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => array(array('text'=> __('返回商品列表', 'goodslib'),'href'=>RC_Uri::url('goods/merchant/init')))));
@@ -438,6 +457,30 @@ class merchant extends ecjia_merchant {
 	        $goods['last_update'] = RC_Time::local_date(ecjia::config('time_format'), $goods['last_update']);
 	    }
 	    $goods['format_cost_price'] = ecjia_price_format($goods['cost_price'], false);
+	    
+	    //商品重量存在，重量单位是0的情况
+	    if ($goods['goods_weight'] > 0) {
+	    	if (empty($goods['weight_unit'])) {
+	    		if ($goods['goods_weight'] >= 1 ) {
+	    			$goods['goods_weight_string'] = $goods['goods_weight'].'千克';
+	    		} else {
+	    			$goods['goods_weight_string'] = ($goods['goods_weight']*1000).'克';
+	    		}
+	    	} else {
+	    		if ($goods['weight_unit'] == 2 ) {
+	    			$goods['goods_weight_string'] = $goods['goods_weight'].'千克';
+	    		} else {
+	    			if ($goods['goods_weight'] < 1){
+	    				$str = '克';
+	    				$goods_weight = $goods['goods_weight']*1000;
+	    			} else {
+	    				$str = '千克';
+	    				$goods_weight = $goods['goods_weight'];
+	    			}
+	    			$goods['goods_weight_string'] = $goods_weight.$str;
+	    		}
+	    	}
+	    }
 	    
 	    $images_url = RC_App::apps_url('statics/images', __FILE__);
 	    $this->assign('images_url', $images_url);
