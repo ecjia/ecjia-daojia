@@ -3,28 +3,92 @@
 namespace Royalcms\Component\Swoole\Swoole\Traits;
 
 use Royalcms\Component\Swoole\Swoole\Process\CustomProcessInterface;
+use Swoole\Http\Server;
+use Swoole\Process;
+use Royalcms;
 
 trait CustomProcessTrait
 {
     use ProcessTitleTrait;
-    use RoyalcmsTrait;
+//    use RoyalcmsTrait;
+    use LogTrait;
 
-    public function addCustomProcesses(\swoole_server $swoole, $processPrefix, array $processes, array $royalcmsConfig)
+    public function addCustomProcesses(Server $swoole, $processPrefix, array $processes, array $royalcmsConfig)
     {
-        $this->initRoyalcms($royalcmsConfig, $swoole);
+        $pidfile = dirname($swoole->setting['pid_file']) . '/royalcms-custom-processes.pid';
+        if (file_exists($pidfile)) {
+            unlink($pidfile);
+        }
 
-        /**
-         * @var []CustomProcessInterface $processList
-         */
+        /**@var []CustomProcessInterface $processList */
         $processList = [];
-        foreach ($processes as $process) {
-            $processHandler = function () use ($swoole, $processPrefix, $process, $royalcmsConfig) {
-                $name = $process::getName() ?: 'custom';
-                $this->setProcessTitle(sprintf('%s royalcms: %s process', $processPrefix, $name));
+        foreach ($processes as $item) {
+            if (is_string($item)) {
+                // Backwards compatible
+                Royalcms::autoload($royalcmsConfig['root_path']);
+                $process = $item;
+                $redirect = $process::isRedirectStdinStdout();
+                $pipe = $process::getPipeType();
+            } else {
+                if (empty($item['class'])) {
+                    throw new \InvalidArgumentException(sprintf(
+                            'process class name must be specified'
+                        )
+                    );
+                }
+                $process = $item['class'];
+                $redirect = isset($item['redirect']) ? $item['redirect'] : false;
+                $pipe = isset($item['pipe']) ? $item['pipe'] : 0;
+            }
+
+            $processHandler = function (Process $worker) use ($pidfile, $swoole, $processPrefix, $process, $royalcmsConfig) {
+                file_put_contents($pidfile, $worker->pid . "\n", FILE_APPEND | LOCK_EX);
                 $this->initRoyalcms($royalcmsConfig, $swoole);
-                $process::callback($swoole);
+                if (!isset(class_implements($process)[CustomProcessInterface::class])) {
+                    throw new \InvalidArgumentException(
+                        sprintf(
+                            '%s must implement the interface %s',
+                            $process,
+                            CustomProcessInterface::class
+                        )
+                    );
+                }
+                $name = $process::getName() ?: 'custom';
+                $this->setProcessTitle(sprintf('%s laravels: %s process', $processPrefix, $name));
+
+                Process::signal(SIGUSR1, function ($signo) use ($name, $process, $worker, $pidfile, $swoole) {
+                    $this->info(sprintf('Reloading the process %s [pid=%d].', $name, $worker->pid));
+                    $process::onReload($swoole, $worker);
+                });
+
+                $enableCoroutine = class_exists('Swoole\Coroutine');
+                $runProcess = function () use ($name, $process, $swoole, $worker, $enableCoroutine) {
+                    $maxTry = 10;
+                    $i = 0;
+                    do {
+                        $this->callWithCatchException([$process, 'callback'], [$swoole, $worker]);
+                        ++$i;
+                        if ($enableCoroutine) {
+                            \Swoole\Coroutine::sleep(1);
+                        } else {
+                            sleep(1);
+                        }
+                    } while ($i < $maxTry);
+                    $this->error(
+                        sprintf(
+                            'The custom process "%s" reaches the maximum number of retries %d times, and will be restarted by the manager process.',
+                            $name,
+                            $maxTry
+                        )
+                    );
+                };
+                $enableCoroutine ? go($runProcess) : $runProcess();;
             };
-            $customProcess = new \swoole_process($processHandler, $process::isRedirectStdinStdout(), $process::getPipeType());
+            $customProcess = new Process(
+                $processHandler,
+                $redirect,
+                $pipe
+            );
             if ($swoole->addProcess($customProcess)) {
                 $processList[] = $customProcess;
             }

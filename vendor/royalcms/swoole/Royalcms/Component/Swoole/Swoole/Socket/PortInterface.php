@@ -2,7 +2,9 @@
 
 namespace Royalcms\Component\Swoole\Swoole\Socket;
 
+use Swoole\Server\Port;
+
 interface PortInterface
 {
-    public function __construct(\swoole_server_port $port);
+    public function __construct(Port $port);
 }

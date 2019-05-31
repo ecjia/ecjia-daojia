@@ -3,6 +3,8 @@
 namespace Royalcms\Component\Swoole\Swoole\Task;
 
 use Royalcms\Component\Queue\SerializesModels;
+use Swoole\Http\Server as HttpServer;
+use Swoole\WebSocket\Server as WebSocketServer;
 
 abstract class Event
 {
@@ -10,9 +12,7 @@ abstract class Event
 
     public static function fire(self $event)
     {
-        /**
-         * @var \swoole_http_server $swoole
-         */
+        /**@var HttpServer|WebSocketServer $swoole */
         $swoole = royalcms('swoole');
         $taskId = $swoole->task($event);
         return $taskId !== false;

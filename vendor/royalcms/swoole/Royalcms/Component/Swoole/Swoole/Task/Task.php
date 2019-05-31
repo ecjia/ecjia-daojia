@@ -26,9 +26,6 @@ abstract class Task
         if ($delay <= 0) {
             throw new \InvalidArgumentException('The delay must be greater than 0');
         }
-        if ($delay >= 86400) {
-            throw new \InvalidArgumentException('The max delay is 86400s');
-        }
         $this->delay = $delay;
         return $this;
     }
@@ -45,7 +42,13 @@ abstract class Task
 
     abstract public function handle();
 
-    public static function deliver(self $task, $bySendMessage = false)
+    /**
+     * Deliver a task
+     * @param Task $task The task object
+     * @param bool $bySendMessage If set to true, the task will be delivered via the pipe message, and this task does not support the finish callback. Default false.
+     * @return bool
+     */
+    public static function deliver(Task $task, $bySendMessage = false)
     {
         $task->bySendMessage = $bySendMessage;
         $deliver = function () use ($task, $bySendMessage) {
@@ -81,4 +84,5 @@ abstract class Task
             return $deliver();
         }
     }
+
 }

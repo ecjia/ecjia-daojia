@@ -4,17 +4,19 @@ namespace Royalcms\Component\Swoole\Swoole;
 
 use Royalcms\Component\Http\Request as RoyalcmsRequest;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Swoole\Http\Request as SwooleRequest;
 
 class Request
 {
     protected $swooleRequest;
 
-    public function __construct(\swoole_http_request $request)
+    public function __construct(SwooleRequest $request)
     {
         $this->swooleRequest = $request;
     }
 
     /**
+     * Convert SwooleRequest to RoyalcmsRequest
      * @param array $rawServer
      * @param array $rawEnv
      * @return RoyalcmsRequest

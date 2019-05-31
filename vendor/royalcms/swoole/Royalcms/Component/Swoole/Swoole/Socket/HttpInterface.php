@@ -2,7 +2,10 @@
 
 namespace Royalcms\Component\Swoole\Swoole\Socket;
 
+use Swoole\Http\Request;
+use Swoole\Http\Response;
+
 interface HttpInterface
 {
-    public function onRequest(\swoole_http_request $request, \swoole_http_response $response);
+    public function onRequest(Request $request, Response $response);
 }

@@ -2,14 +2,16 @@
 
 namespace Royalcms\Component\Swoole\Swoole\Socket;
 
+use Swoole\Server\Port;
+
 abstract class Http implements PortInterface, HttpInterface
 {
     /**
-     * @var  \swoole_server_port
+     * @var  \Swoole\Server\Port
      */
     protected $swoolePort;
 
-    public function __construct(\swoole_server_port $port)
+    public function __construct(Port $port)
     {
         $this->swoolePort = $port;
     }

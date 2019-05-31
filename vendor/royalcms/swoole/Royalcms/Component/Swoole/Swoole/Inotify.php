@@ -4,12 +4,16 @@ namespace Royalcms\Component\Swoole\Swoole;
 
 class Inotify
 {
+    /**
+     * @var int resource
+     */
     private $fd;
     private $watchPath;
     private $watchMask;
     private $watchHandler;
     private $doing     = false;
     private $fileTypes = [];
+    private $excludedDirs = [];
     private $wdPath    = [];
     private $pathWd    = [];
 
@@ -34,6 +38,28 @@ class Inotify
         }
     }
 
+    public function addExcludedDir($dir)
+    {
+        $dir = realpath($dir);
+        $this->excludedDirs[$dir] = $dir;
+    }
+    public function addExcludedDirs(array $dirs)
+    {
+        foreach ($dirs as $dir) {
+            $this->addExcludedDir($dir);
+        }
+    }
+
+    public function isExcluded($path)
+    {
+        foreach ($this->excludedDirs as $excludedDir) {
+            if ($excludedDir === $path || strpos($path, $excludedDir . '/') === 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function watch()
     {
         $this->_watch($this->watchPath);
@@ -41,6 +67,10 @@ class Inotify
 
     protected function _watch($path)
     {
+        if ($this->isExcluded($path)) {
+            return false;
+        }
+
         $wd = inotify_add_watch($this->fd, $path, $this->watchMask);
         if ($wd === false) {
             return false;
@@ -48,23 +78,20 @@ class Inotify
         $this->bind($wd, $path);
 
         if (is_dir($path)) {
+            $wd = inotify_add_watch($this->fd, $path, $this->watchMask);
+            if ($wd === false) {
+                return false;
+            }
+            $this->bind($wd, $path);
+
             $files = scandir($path);
             foreach ($files as $file) {
-                if ($file === '.' || $file === '..') {
+                if ($file === '.' || $file === '..' || $this->isExcluded($file)) {
                     continue;
                 }
                 $file = $path . DIRECTORY_SEPARATOR . $file;
                 if (is_dir($file)) {
                     $this->_watch($file);
-                }
-
-                $fileType = strrchr($file, '.');
-                if (isset($this->fileTypes[$fileType])) {
-                    $wd = inotify_add_watch($this->fd, $file, $this->watchMask);
-                    if ($wd === false) {
-                        return false;
-                    }
-                    $this->bind($wd, $file);
                 }
             }
         }
@@ -74,7 +101,7 @@ class Inotify
     protected function clearWatch()
     {
         foreach ($this->wdPath as $wd => $path) {
-            /** @scrutinizer ignore-unhandled */@inotify_rm_watch($this->fd, $wd);
+            @inotify_rm_watch($this->fd, $wd);
         }
         $this->wdPath = [];
         $this->pathWd = [];
@@ -96,22 +123,19 @@ class Inotify
 
     public function start()
     {
-        swoole_event_add(/** @scrutinizer ignore-type */$this->fd, function ($fp) {
+        swoole_event_add($this->fd, function ($fp) {
             $events = inotify_read($fp);
             foreach ($events as $event) {
                 if ($event['mask'] == IN_IGNORED) {
                     continue;
                 }
-
                 $fileType = strchr($event['name'], '.');
                 if (!isset($this->fileTypes[$fileType])) {
                     continue;
                 }
-
                 if ($this->doing) {
                     continue;
                 }
-
                 swoole_timer_after(100, function () use ($event) {
                     call_user_func_array($this->watchHandler, [$event]);
                     $this->doing = false;
@@ -125,7 +149,7 @@ class Inotify
 
     public function stop()
     {
-        swoole_event_del(/** @scrutinizer ignore-type */$this->fd);
+        swoole_event_del($this->fd);
         fclose($this->fd);
     }
 

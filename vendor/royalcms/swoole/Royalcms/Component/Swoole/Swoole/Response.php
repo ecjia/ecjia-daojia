@@ -4,6 +4,7 @@
 namespace Royalcms\Component\Swoole\Swoole;
 
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Swoole\Http\Response as SwooleResponse;
 
 abstract class Response implements ResponseInterface
 {
@@ -11,7 +12,7 @@ abstract class Response implements ResponseInterface
 
     protected $royalcmsResponse;
 
-    public function __construct(\swoole_http_response $swooleResponse, SymfonyResponse $royalcmsResponse)
+    public function __construct(SwooleResponse $swooleResponse, SymfonyResponse $royalcmsResponse)
     {
         $this->swooleResponse = $swooleResponse;
         $this->royalcmsResponse = $royalcmsResponse;
@@ -24,7 +25,9 @@ abstract class Response implements ResponseInterface
 
     public function sendHeaders()
     {
-        foreach ($this->royalcmsResponse->headers->allPreserveCase() as $name => $values) {
+        $headers = method_exists($this->royalcmsResponse->headers, 'allPreserveCaseWithoutCookies') ?
+            $this->royalcmsResponse->headers->allPreserveCaseWithoutCookies() : $this->royalcmsResponse->headers->allPreserveCase();
+        foreach ($headers as $name => $values) {
             foreach ($values as $value) {
                 $this->swooleResponse->header($name, $value);
             }
@@ -33,8 +36,15 @@ abstract class Response implements ResponseInterface
 
     public function sendCookies()
     {
-        foreach ($this->royalcmsResponse->headers->getCookies() as $cookie) {
-            $this->swooleResponse->cookie(
+        $hasIsRaw = null;
+        /**@var \Symfony\Component\HttpFoundation\Cookie[] $cookies */
+        $cookies = $this->royalcmsResponse->headers->getCookies();
+        foreach ($cookies as $cookie) {
+            if ($hasIsRaw === null) {
+                $hasIsRaw = method_exists($cookie, 'isRaw');
+            }
+            $setCookie = $hasIsRaw && $cookie->isRaw() ? 'rawcookie' : 'cookie';
+            $this->swooleResponse->$setCookie(
                 $cookie->getName(),
                 $cookie->getValue(),
                 $cookie->getExpiresTime(),

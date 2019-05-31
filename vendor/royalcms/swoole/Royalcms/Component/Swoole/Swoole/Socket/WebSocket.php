@@ -2,14 +2,13 @@
 
 namespace Royalcms\Component\Swoole\Swoole\Socket;
 
+use Swoole\Server\Port;
+
 abstract class WebSocket implements PortInterface, WebSocketInterface
 {
-    /**
-     * @var  \swoole_server_port
-     */
     protected $swoolePort;
 
-    public function __construct(\swoole_server_port $port)
+    public function __construct(Port $port)
     {
         $this->swoolePort = $port;
     }
