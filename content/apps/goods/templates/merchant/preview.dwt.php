@@ -102,7 +102,7 @@
 								        		<dl class="tb-amount tm-clear">
 								          			<dt class="tb-metatit">{t domain="goods"}商品重量{/t}</dt>
 								          			<dd id="J_Amount">
-											            <em id="J_EmStock" class="tb-hidden" style="display: inline;">{$goods.goods_weight}{if $goods.weight_unit eq 1}克{else}千克{/if}</em>
+											            <em id="J_EmStock" class="tb-hidden" style="display: inline;">{if $goods.goods_weight_string}{$goods.goods_weight_string}{/if}</em>
 											            <span id="J_StockTips"></span>
 								          			</dd>
 								        		</dl>

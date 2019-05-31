@@ -99,7 +99,7 @@ class mh_category extends ecjia_merchant
         $this->assign('cat_id', $cat_id);
 
         $cat_list = (new \Ecjia\App\Goods\Category\MerchantCategoryCollection($_SESSION['store_id'], $cat_id))->getCategories();
-        $cat_list = $cat_list->all();
+        $cat_list = collect($cat_list)->all();
         $this->assign('cat_list', $cat_list);
         $this->assign('store_id', $_SESSION['store_id']);
         $mer_cat_info = RC_DB::table('merchants_category')->where('cat_id', $cat_id)->first();

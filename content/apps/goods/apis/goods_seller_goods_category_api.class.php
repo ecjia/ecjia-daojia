@@ -61,7 +61,7 @@ class goods_seller_goods_category_api extends Component_Event_Api {
 	public function call(&$options) {
 		//接口商家我的宝贝商品分类
 		if (isset($options['store_id']) && isset($options['type']) && $options['type'] == 'seller_goods_cat_list_api') {
-			$row = $this->cat_list(0, 0, false, 0, true, $options['store_id'], 'seller_goods_cat_list_api', $options['keywords']);
+			$row = $this->cat_list(0, 0, false, 0, true, $options['store_id'], '', $options['keywords']);
 		}
 		//总后台商品应用中店铺商品分类
 		if (isset($options['store_id']) && isset($options['type']) && $options['type'] == 'seller_goods_cat_list') {

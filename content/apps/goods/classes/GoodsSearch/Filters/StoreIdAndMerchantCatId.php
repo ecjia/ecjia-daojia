@@ -33,7 +33,9 @@ class StoreIdAndMerchantCatId implements FilterInterface
     		list($merchant_cat_id, $store_id) = $value;
     		if (!empty($merchant_cat_id) && is_array($merchant_cat_id) && !empty($store_id)) {
     			return	$builder->whereIn('goods.merchant_cat_id', $merchant_cat_id);
-    		}elseif ($merchant_cat_id == 0 && !empty($store_id)) {
+    		} elseif ($merchant_cat_id === 0 && !empty($store_id)) {
+    			return	$builder->where('goods.merchant_cat_id', $merchant_cat_id);
+    		} elseif (!is_array($merchant_cat_id) && $merchant_cat_id > 0 && !empty($store_id)) {
     			return	$builder->where('goods.merchant_cat_id', $merchant_cat_id);
     		}
     	} 

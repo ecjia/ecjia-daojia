@@ -104,7 +104,7 @@ ecjia.merchant.goods_category_list.init();
 						</tr>
 						<!-- {foreachelse}-->
 						<tr>
-							<td class="no-records" colspan="4">{t domain="goods"}没有找到任何记录{/t}</td>
+							<td class="no-records" colspan="5">{t domain="goods"}没有找到任何记录{/t}</td>
 						</tr>	
 						<!-- {/foreach} -->
 					</table>

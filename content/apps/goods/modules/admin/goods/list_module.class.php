@@ -54,21 +54,25 @@ class admin_goods_list_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
-		if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+		if ($_SESSION['store_id'] <= 0 || $_SESSION['staff_id'] <= 0) {
 			return new ecjia_error(100, 'Invalid session');
 		}
 		if (!$this->admin_priv('goods_manage')) {
 			return new ecjia_error('privilege_error', __('对不起，您没有执行此项操作的权限！', 'goods'));
 		}
 
-		$on_sale	= $this->requestData('on_sale');//true.在售, false.下架
-		$stock		= $this->requestData('stock');//是否售罄 。true.有货 , false.售罄
-		$sort		= $this->requestData('sort_by', 'sort_order');//默认: sort_order  其他: price_desc, price_asc, stock, click_asc, clcik_desc
-		$keywords	= $this->requestData('keywords', '');
-		$category_id = $this->requestData('category_id', 0);
-
+		$on_sale		= $this->requestData('on_sale', 'true');//true已上架, false已下架（字符串，非bool值）
+		$stock			= $this->requestData('stock');//是否售罄 :true有货 , false售罄
+		$sort			= $this->requestData('sort_by', 'sort_order');//默认: sort_order  其他: price_desc, price_asc, stock, click_asc, clcik_desc
+		$keywords		= $this->requestData('keywords', '');
+		$category_id 	= $this->requestData('category_id', 0);  //商家分类id
+		$check_status	= $this->requestData('check_status', 'await_check'); //审核状态：await_check待审核，check_refused审核被拒
+		$list_type		= $this->requestData('list_type', 'selling'); //列表类型（selling在售列表,soldout售罄列表，check审核商品，obtained已下架商品，bulk散装商品，cashier收银台商品）
+		
 		$size = $this->requestData('pagination.count', 15);
 		$page = $this->requestData('pagination.page', 1);
+		
+		$store_id = $_SESSION['store_id'];
 
 		$sort_by = '';
 		/* 推荐类型 */
@@ -92,92 +96,159 @@ class admin_goods_list_module extends api_admin implements api_interface {
 				$sort_by = array('click_count' => 'desc', 'goods_id' => 'desc');
 				break;
 		}
-		$where = array();
-		$where = array(
-			'is_delete' => 0,
-		);
-
-		if ($_SESSION['store_id'] > 0) {
-			$where = array_merge($where, array('store_id' => $_SESSION['store_id']));
-		}
-		if (!empty($on_sale)) {
-			$where['is_on_sale'] = $on_sale == 'true' ? 1 : 0 ;
-		}
-
-		if ($stock == 'false') {
-			$where['goods_number'] = 0;
-		}
-		if (!empty($category_id)) {
-// 			RC_Loader::load_app_func('admin_category', 'goods');
-// 			RC_Loader::load_app_func('admin_goods', 'goods');
-// 			RC_Loader::load_app_func('global', 'goods');
-// 			$children = get_children($category_id);
-//             $merchant_cat_id = 'merchant_cat_id ' . db_create_in (array_unique(array_merge(array($category_id), array_keys(cat_list($category_id, 0, false )))));
-// 			$where[] = "(".$children ." OR ".get_extension_goods($children) ." OR ". $merchant_cat_id .")";
-		    $where['merchant_cat_id'] = $category_id;
-		}
-		if ( !empty($keywords)) {
-			$where[] = "( goods_name like '%".$keywords."%' or goods_sn like '%".$keywords."%' )";
-		}
-		$db = RC_Model::model('goods/goods_viewmodel');
-
-		/* 获取记录条数 */
-		$record_count = $db->join(null)->where($where)->count();
-
-		//实例化分页
-		$page_row = new ecjia_page($record_count, $size, 6, '', $page);
-
-		$today = RC_Time::gmtime();
-		$field = "goods_id, goods_sn, goods_name, goods_number, shop_price, sales_volume, market_price, promote_price, promote_start_date, promote_end_date, click_count, goods_thumb, is_best, is_new, is_hot, is_shipping, goods_img, original_img, last_update, 
-		    (promote_price > 0 AND promote_start_date <= ' . $today . ' AND promote_end_date >= ' . $today . ')|is_promote";
-		$data = $db->join(null)->field($field)->where($where)->order($sort_by)->limit($page_row->limit())->select();
-
-		$goods_list = array();
-		if (!empty($data)) {
-			RC_Loader::load_app_func('admin_goods', 'goods');
-			RC_Loader::load_sys_func('global');
-			foreach ($data as $key => $val) {
-				if ($val['promote_price'] > 0) {
-					$promote_price = $val['promote_price'];//bargain_price($val['promote_price'], $val['promote_start_date'], $val['promote_end_date']);
-				} else {
-					$promote_price = 0;
-				}
-				$goods_list[] = array(
-					'goods_id'			=> $val['goods_id'],
-					'name'				=> $val['goods_name'],
-					'goods_sn'			=> $val['goods_sn'],
-					'market_price'		=> price_format($val['market_price'] , false),
-					'shop_price'		=> price_format($val['shop_price'] , false),
-				    'is_promote'	=> $val['is_promote'],
-				    'promote_price'	=> price_format($promote_price , false),
-				    'promote_start_date'	=> intval($val['promote_start_date']),
-				    'promote_end_date'		=> intval($val['promote_end_date']),
-				    'formatted_promote_start_date'	=> !empty($val['promote_start_date']) ? RC_Time::local_date('Y-m-d H:i:s', $val['promote_start_date']) : '',
-				    'formatted_promote_end_date'	=> !empty($val['promote_end_date']) ? RC_Time::local_date('Y-m-d H:i:s', $val['promote_end_date']) : '',
-				    'clicks'		=> intval($val['click_count']),
-					'stock'				=> (ecjia::config('use_storage') == 1) ? $val['goods_number'] : '',
-					'goods_weight'		=> $val['goods_weight']  = (intval($val['goods_weight']) > 0) ? $val['goods_weight'] . __('千克', 'goods') : ($val['goods_weight'] * 1000) . __('克', 'goods'),
-					'is_best'			=> $val['is_best'] == 1 ? 1 : 0,
-					'is_new'			=> $val['is_new'] == 1 ? 1 : 0,
-					'is_hot'			=> $val['is_hot'] == 1 ? 1 : 0,
-					'is_shipping'		=> $val['is_shipping'] == 1 ? 1 : 0,
-					'last_updatetime' 	=> RC_Time::local_date(ecjia::config('time_format'), $val['last_update']),
-				    'sales_volume'	=> $val['sales_volume'],
-				    'img' => array(
-						'thumb'	=> !empty($val['goods_img']) ? RC_Upload::upload_url($val['goods_img']) : '',
-						'url'	=> !empty($val['original_img']) ? RC_Upload::upload_url($val['original_img']) : '',
-						'small'	=> !empty($val['goods_thumb']) ? RC_Upload::upload_url($val['goods_thumb']) : '',
-					)
-				);
+		
+		if ($list_type == 'soldout') { //售罄列表
+			$input = [
+				'goods_number'			=> 0,
+				'is_on_sale'			=> 0,
+				'check_review_status'	=> array(3, 5),
+				'is_real'				=> 1,
+				'no_need_cashier_goods'	=> true
+			];
+		} elseif ($list_type == 'check') { //审核商品
+			$input = [
+				'is_real'	=> 1,
+				'no_need_cashier_goods' => true,
+			];
+			if ($check_status == 'await_check') {
+				$input['check_review_status'] = 1; //待审核
+			} else {
+				$input['check_review_status'] = 2; //审核未通过
 			}
+		} elseif ($list_type == 'obtained') { //已下架商品
+			$input = [
+				'goods_number' 			=> array('>', 0),
+				'is_on_sale'			=> 0,
+				'check_review_status'	=> array(3, 5),
+				'is_real'				=> 1,
+				'no_need_cashier_goods' => true,
+			];
+		} elseif ($list_type == 'bulk') { //散装商品
+			$input = [
+				'extension_code'	=> 'bulk',
+			];
+			if ($on_sale == 'true') {
+				$input['is_on_sale'] = 1;
+			} else {
+				$input['is_on_sale'] = 0;
+			}
+		} elseif ($list_type == 'cashier') { //收银台商品
+			$input = [
+				'extension_code'	=> 'cashier',
+			];
+			if ($on_sale == 'true') {
+				$input['is_on_sale'] = 1;
+			} else {
+				$input['is_on_sale'] = 0;
+			}
+		} else {//在售列表
+			$input = [
+				'is_real'				=> 1,
+				'is_on_sale'			=> 1,
+				'check_review_status'	=> array(3, 5),
+				'no_need_cashier_goods'	=> true,
+			];
 		}
+		
+		//共有基础条件
+		$input['store_id'] 	= $store_id;
+		$input['is_delete'] = 0;
+		
+		//共有可能条件
+		if (!empty($category_id)) {
+			$input['store_id_and_merchant_cat_id'] = [$category_id, $store_id];
+		}
+		if (!empty($keywords)) {
+			$input['keywords'] = $keywords;
+		}
+		
+		//排序
+		if (!empty($sort_by)) {
+			$filters['sort_by'] = $sort_by;
+		}
+		//分页信息
+		$filters['size'] = $size;
+		$filters['page'] = $page;
+		
+		$collection = (new \Ecjia\App\Goods\GoodsSearch\GoodsAdminApiCollection($filters))->getData();
+		
+		return array('data' => $collection['goods_list'], 'pager' => $collection['pager']);
+		
+// 		$where = array();
+// 		$where = array(
+// 			'is_delete' => 0,
+// 		);
+// 		if ($_SESSION['store_id'] > 0) {
+// 			$where = array_merge($where, array('store_id' => $_SESSION['store_id']));
+// 		}
+// 		if (!empty($on_sale)) {
+// 			$where['is_on_sale'] = $on_sale == 'true' ? 1 : 0 ;
+// 		}
+// 		if ($stock == 'false') {
+// 			$where['goods_number'] = 0;
+// 		}
+// 		if (!empty($category_id)) {
+// 		    $where['merchant_cat_id'] = $category_id;
+// 		}
+// 		if ( !empty($keywords)) {
+// 			$where[] = "( goods_name like '%".$keywords."%' or goods_sn like '%".$keywords."%' )";
+// 		}
+// 		$db = RC_Model::model('goods/goods_viewmodel');
+// 		/* 获取记录条数 */
+// 		$record_count = $db->join(null)->where($where)->count();
+// 		//实例化分页
+// 		$page_row = new ecjia_page($record_count, $size, 6, '', $page);
 
-		$pager = array(
-			'total' => $page_row->total_records,
-			'count' => $page_row->total_records,
-			'more'	=> $page_row->total_pages <= $page ? 0 : 1,
-		);
-		return array('data' => $goods_list, 'pager' => $pager);
+// 		$today = RC_Time::gmtime();
+// 		$field = "goods_id, goods_sn, goods_name, goods_number, shop_price, sales_volume, market_price, promote_price, promote_start_date, promote_end_date, click_count, goods_thumb, is_best, is_new, is_hot, is_shipping, goods_img, original_img, last_update, 
+// 		    (promote_price > 0 AND promote_start_date <= ' . $today . ' AND promote_end_date >= ' . $today . ')|is_promote";
+// 		$data = $db->join(null)->field($field)->where($where)->order($sort_by)->limit($page_row->limit())->select();
+
+// 		$goods_list = array();
+// 		if (!empty($data)) {
+// 			RC_Loader::load_app_func('admin_goods', 'goods');
+// 			RC_Loader::load_sys_func('global');
+// 			foreach ($data as $key => $val) {
+// 				if ($val['promote_price'] > 0) {
+// 					$promote_price = $val['promote_price'];//bargain_price($val['promote_price'], $val['promote_start_date'], $val['promote_end_date']);
+// 				} else {
+// 					$promote_price = 0;
+// 				}
+// 				$goods_list[] = array(
+// 					'goods_id'			=> $val['goods_id'],
+// 					'name'				=> $val['goods_name'],
+// 					'goods_sn'			=> $val['goods_sn'],
+// 					'market_price'		=> price_format($val['market_price'] , false),
+// 					'shop_price'		=> price_format($val['shop_price'] , false),
+// 				    'is_promote'	=> $val['is_promote'],
+// 				    'promote_price'	=> price_format($promote_price , false),
+// 				    'promote_start_date'	=> intval($val['promote_start_date']),
+// 				    'promote_end_date'		=> intval($val['promote_end_date']),
+// 				    'formatted_promote_start_date'	=> !empty($val['promote_start_date']) ? RC_Time::local_date('Y-m-d H:i:s', $val['promote_start_date']) : '',
+// 				    'formatted_promote_end_date'	=> !empty($val['promote_end_date']) ? RC_Time::local_date('Y-m-d H:i:s', $val['promote_end_date']) : '',
+// 				    'clicks'		=> intval($val['click_count']),
+// 					'stock'				=> (ecjia::config('use_storage') == 1) ? $val['goods_number'] : '',
+// 					'goods_weight'		=> $val['goods_weight']  = (intval($val['goods_weight']) > 0) ? $val['goods_weight'] . __('千克', 'goods') : ($val['goods_weight'] * 1000) . __('克', 'goods'),
+// 					'is_best'			=> $val['is_best'] == 1 ? 1 : 0,
+// 					'is_new'			=> $val['is_new'] == 1 ? 1 : 0,
+// 					'is_hot'			=> $val['is_hot'] == 1 ? 1 : 0,
+// 					'is_shipping'		=> $val['is_shipping'] == 1 ? 1 : 0,
+// 					'last_updatetime' 	=> RC_Time::local_date(ecjia::config('time_format'), $val['last_update']),
+// 				    'sales_volume'	=> $val['sales_volume'],
+// 				    'img' => array(
+// 						'thumb'	=> !empty($val['goods_img']) ? RC_Upload::upload_url($val['goods_img']) : '',
+// 						'url'	=> !empty($val['original_img']) ? RC_Upload::upload_url($val['original_img']) : '',
+// 						'small'	=> !empty($val['goods_thumb']) ? RC_Upload::upload_url($val['goods_thumb']) : '',
+// 					)
+// 				);
+// 			}
+// 		}
+// 		$pager = array(
+// 			'total' => $page_row->total_records,
+// 			'count' => $page_row->total_records,
+// 			'more'	=> $page_row->total_pages <= $page ? 0 : 1,
+// 		);
+// 		return array('data' => $goods_list, 'pager' => $pager);
 	}
 }
 

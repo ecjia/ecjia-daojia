@@ -54,7 +54,7 @@ class admin_goods_gallery_add_module extends api_admin implements api_interface 
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
-		if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+		if ($_SESSION['staff_id'] <= 0) {
 			return new ecjia_error(100, 'Invalid session');
 		}
     	$result = $this->admin_priv('goods_manage');
@@ -80,6 +80,10 @@ class admin_goods_gallery_add_module extends api_admin implements api_interface 
 		if (empty($_FILES)) {
 		    return new ecjia_error('upload_empty', __('请选择您要上传的图片', 'goods'));
 		}
+		
+		RC_Logger::getLogger('error')->info('testaaa');
+		RC_Logger::getlogger('info')->info($_FILES);
+		RC_Logger::getLogger('error')->info('testbbb');
 		
 		RC_Loader::load_app_class('goods_image_data', 'goods', false);
 		

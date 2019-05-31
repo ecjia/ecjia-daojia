@@ -54,7 +54,7 @@ class admin_goods_merchant_category_delete_module extends api_admin implements a
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
-		if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+		if ($_SESSION['staff_id'] <= 0) {
 			return new ecjia_error(100, 'Invalid session');
 		}
     	$result = $this->admin_priv('cat_drop');

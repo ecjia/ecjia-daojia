@@ -54,7 +54,7 @@ class admin_goods_add_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
-		if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+		if ($_SESSION['staff_id'] <= 0) {
 			return new ecjia_error(100, 'Invalid session');
 		}
 		$result = $this->admin_priv('goods_manage');
@@ -134,6 +134,11 @@ class admin_goods_add_module extends api_admin implements api_interface {
     	if (isset($_FILES['goods_image']) && !$upload->check_upload_file($_FILES['goods_image'])) {
     		$proc_goods_img = false;
     	}
+    	
+    	RC_Logger::getLogger('error')->info('test111');
+    	RC_Logger::getlogger('info')->info($_FILES);
+    	RC_Logger::getlogger('info')->info($_FILES['goods_image']);
+    	RC_Logger::getLogger('error')->info('test222');
     	
     	if ($proc_goods_img) {
     		if (isset($_FILES['goods_image'])) {

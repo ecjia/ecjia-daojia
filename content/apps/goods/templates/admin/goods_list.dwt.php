@@ -189,9 +189,7 @@
 					
 					{if $action neq 'bulk' and  $action neq 'cashier'}				
 					<td>
-						<a href="{url path='goods/admin/edit' args="goods_id={$goods.goods_id}"}" title="{$goods.goods_name|escape:html}" >
-							<img class="thumbnail" alt="{$goods.goods_name}" src="{$goods.goods_thumb}">
-						</a>
+						<img class="thumbnail" alt="{$goods.goods_name}" src="{$goods.goods_thumb}">
 					</td>
 					{/if}
 					
