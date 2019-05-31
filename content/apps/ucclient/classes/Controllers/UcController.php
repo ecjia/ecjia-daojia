@@ -4,13 +4,13 @@ namespace Ecjia\App\Ucclient\Controllers;
 
 use Ecjia\App\Ucclient\Client\ApiRouter;
 use Ecjia\App\Ucclient\Client\ApiBase;
-use Royalcms\Component\Routing\Controller as RoyalcmsController;
+use Ecjia\System\BaseController\BasicController;
 
-class UcController extends RoyalcmsController
+class UcController extends BasicController
 {
     public function __construct()
     {
-
+        parent::__construct();
     }
 
     
