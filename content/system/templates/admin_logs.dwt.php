@@ -18,12 +18,10 @@
 			<form name="deleteForm" method="post" action="{url path='@admin_logs/batch_drop'}">
 				<!-- 批量删除 -->
 				<select class="w110" name="log_date">
-					<option value="0">{t}选择日期{/t}</option>
-					<option value="1">{t}一周之前{/t}</option>
-					<option value="2">{t}一个月前{/t}</option>
-					<option value="3">{t}三个月前{/t}</option>
-					<option value="4">{t}半年之前{/t}</option>
-					<option value="5">{t}一年之前{/t}</option>
+                    <option value="0">{t}选择日期{/t}</option>
+                    <!-- {foreach from=$log_date item=list} -->
+                    <option value="{$list.value}">{$list.label}</option>
+                    <!-- {/foreach} -->
 				</select>
 				<input type="hidden" name="drop_type_date" value="true" />
 				<button class="btn f_l" type="submit">{t}批量删除{/t}</button>
