@@ -52,7 +52,7 @@
 		<div class="span4 chat_sidebar">
 			<div class="chat_heading clearfix">
 				<div class="btn-group pull-right">
-					<a class="btn btn-mini ttip_t data-pjax" title="{t}刷新{/t}" href='{url path="@admin_message/init" args="chat_id={$smarty.get.chat_id}"}'><i class="icon-refresh"></i></a>
+					<a class="btn btn-mini ttip_t data-pjax" title="{t}刷新{/t}" href="{$refresh_url}"><i class="icon-refresh"></i></a>
 					<a class="btn btn-mini ttip_t" title="Options" href="javascript:;" disabled ><i class="icon-cog"></i></a>
 					<!--  dropdown-toggle data-toggle="dropdown"<ul class="dropdown-menu">
 						<li><a href="javascript:;">{t}全部标为已读{/t}</a></li>
@@ -69,6 +69,7 @@
 					</a>
 				</li>
 				<!-- {foreach from=$admin_list item=admin} -->
+
 				<li class="{if $admin.is_online}online{else}offline{/if} {if $admin.user_id eq $smarty.get.chat_id} active{/if}"><!-- offline -->
 					<a class="data-pjax" href='{url path="@admin_message/init" args="chat_id={$admin.user_id}"}'>
 						<img src="{$admin.icon}" alt="" width="30" height="30" />

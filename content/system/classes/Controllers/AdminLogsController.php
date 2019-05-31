@@ -180,11 +180,7 @@ class AdminLogsController extends ecjia_admin
         $list = [];
         if (!empty($data)) {
             $list = $data->map(function ($model) {
-                if (!empty($model->admin_user_model)) {
-                    $model->user_name = $model->admin_user_model->user_name;
-                } else {
-                    $model->user_name = __('佚名') . $model->user_id;
-                }
+                $model->user_name = empty($model->admin_user_model) ? __('佚名') . $model->user_id : $model->admin_user_model->user_name;
                 $model->log_time = RC_Time::local_date(ecjia::config('time_format'), $model['log_time']);
                 return $model;
             })->toArray();

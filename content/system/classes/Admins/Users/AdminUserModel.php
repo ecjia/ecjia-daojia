@@ -104,6 +104,11 @@ class AdminUserModel extends Model
         return $this->hasMany('Ecjia\System\Models\AdminLogModel', 'user_id', 'user_id');
     }
 
+    /**
+     * @return \Royalcms\Component\Database\Eloquent\Relations\HasMany
+     * 一对多
+     * 用户的留言记录
+     */
     public function admin_message_collection()
     {
         return $this->hasMany('Ecjia\System\Models\AdminMessageModel', 'sender_id', 'user_id');

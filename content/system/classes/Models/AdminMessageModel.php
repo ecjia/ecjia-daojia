@@ -55,12 +55,20 @@ class AdminMessageModel extends Model
 	protected $primaryKey = 'message_id';
 	
 	/**
-	 * 不可以被批量赋值的属性。
+	 * 可以被批量赋值的属性。
 	 *
 	 * @var array
 	 */
-	protected $guarded = ['message_id'];
-	
+    protected $fillable = [
+        'sender_id',
+        'receive_id',
+        'send_time',
+        'read_time',
+        'readed',
+        'deleted',
+        'title',
+        'message',
+    ];
 	/**
 	 * 该模型是否被自动维护时间戳
 	 *

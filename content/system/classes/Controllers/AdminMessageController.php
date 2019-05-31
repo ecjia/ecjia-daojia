@@ -45,36 +45,26 @@
 //  ---------------------------------------------------------------------------------
 //
 
-/**
- * ECJIA 留言管理 -管理员留言程序
- */
+namespace Ecjia\System\Controllers;
 
+use admin_nav_here;
+use ecjia;
 use Ecjia\System\Admins\Users\AdminUserModel;
 use Ecjia\System\Models\AdminMessageModel;
+use ecjia_admin;
+use ecjia_screen;
+use RC_Script;
+use RC_Style;
+use RC_Time;
+use RC_Uri;
 
-defined('IN_ECJIA') or exit('No permission resources.');
-
-class admin_message extends ecjia_admin
+class AdminMessageController extends ecjia_admin
 {
-//    private $db_admin;
-//    private $db_message;
-//// 	private $db_session;
-//    private $db_view;
-
     public function __construct()
     {
         parent::__construct();
-
-//// 		$this->db_session	= RC_Loader::load_model('session_model');
-//        $this->db_admin = RC_Model::model('admin_user_model');
-//        $this->db_message = RC_Loader::load_model('admin_message_model');
-//        $this->db_view = RC_Loader::load_model('admin_message_user_viewmodel');
     }
 
-
-    /**
-     * 留言列表页面
-     */
     public function init()
     {
         /* 加载所需js */
@@ -104,51 +94,31 @@ class admin_message extends ecjia_admin
         );
 
         //交谈用户id
-        //$chat_id = isset($_GET['chat_id'])	? intval($_GET['chat_id']) : 0;
         $chat_id = intval($this->request->input('chat_id'));
 
-        $chat_list = ecjia_admin_message::get_admin_chat();
+        $chat_list = $this->get_admin_chat();
 
-       // dd($chat_id,$chat_list);
-
-        /* 获取管理员列表 */
-        //$admin_list = $this->db_admin->field('user_id, user_name')->select();
+        //获取管理员列表
         $admin_list = AdminUserModel::select('user_id', 'user_name')->get();
-
-        //dd($admin_list);
-        $admin_online_sort = $admin_id_sort = $admin_online = array();
 
         $admin_online = [$_SESSION['admin_id']];
 
+        $chat_name = $admin_list->where('user_id', $chat_id)->first()['user_name'];
+
         $admin_list = $admin_list->map(function ($model) use ($admin_online) {
             $model->is_online = in_array($model->user_id, $admin_online) ? 1 : 0;
-            //$model->user_id == $_SESSION['admin_id'] && $model->is_online = 2;
             $model->icon = in_array($model->user_id, $admin_online) ? RC_Uri::admin_url('statics/images/humanoidIcon_online.png') : RC_Uri::admin_url('statics/images/humanoidIcon.png');
             return $model;
         })->toArray();
-
-        $chat_name = $admin_list->where('user_id', $chat_id)->first();
-
-        /*if (!empty($admin_list)) {
-            foreach ($admin_list as $k => $v) {
-                $admin_list[$k]['is_online'] = in_array($v['user_id'], $admin_online) ? 1 : 0;
-                $v['user_id'] == $_SESSION['admin_id'] && $admin_list[$k]['is_online'] = 2;
-                $v['user_id'] == $chat_id && $this->assign('chat_name' , $v['user_name']);
-
-                $admin_list[$k]['icon'] = in_array($v['user_id'], $admin_online) ? RC_Uri::admin_url('statics/images/humanoidIcon_online.png') : RC_Uri::admin_url('statics/images/humanoidIcon.png');
-
-                $admin_online_sort[$k] = $admin_list[$k]['is_online'];
-                $admin_id_sort[$k] = $v['user_id'];
-            }
-        }*/
-        //dd($admin_list);
-        //排序用户数组
-        //array_multisort($admin_online_sort, SORT_DESC, $admin_id_sort, SORT_ASC, $admin_list);
 
         $this->assign('admin_list', $admin_list);
         $this->assign('message_list', $chat_list['item']);
         $this->assign('message_lastid', $chat_list['last_id']);
         $this->assign('chat_name', $chat_name);
+        $chat_id = $this->request->input('chat_id');
+        $refresh_url = RC_Uri::url('admin_message/init', empty($chat_id) ? [] : ['chat_id' => $chat_id]);
+        $this->assign('refresh_url', $refresh_url);
+        $this->assign('filter', $chat_list['filter']);
         $this->display('message_list.dwt');
     }
 
@@ -158,13 +128,13 @@ class admin_message extends ecjia_admin
     public function readed_message()
     {
         /* 获取留言 */
-        $list = ecjia_admin_message::get_admin_chat();
-        $message = count($list['item']) < 10 ? __('没有更多消息了') : __('搜索到了');
-        if (!empty($list['item'])) {
-            return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('msg_list' => $list['item'], 'last_id' => $list['last_id']));
-        } else {
-            return $this->showmessage($message, ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        $list = $this->get_admin_chat();
+
+        if (!empty($list['item']) && count($list['item']) > 10) {
+            return $this->showmessage(__('搜索到了', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR));
         }
+
+        return $this->showmessage(__('没有更多消息了', ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR));
     }
 
     /**
@@ -172,51 +142,125 @@ class admin_message extends ecjia_admin
      */
     public function insert()
     {
-        //$title = !empty($_POST['title']) ? $_POST['title'] : '';
         $message = remove_xss($this->request->input('message'));
-        /*$data = array(
-            'sender_id' => $_SESSION['admin_id'],
-            'receiver_id' => $id,
-            'sent_time' => RC_Time::gmtime(),
-            'read_time' => '0',
-            'readed' => '0',
-            'deleted' => '0',
-            'title' => $title,
-            //'message' => $_POST['message']
-            'message' => $message,
-        );*/
+        if (empty($message) OR empty($_SESSION['admin_id'])) {
+            return $this->showmessage(__('发送失败'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+        }
+        $id = intval($this->request->input('chat_id'));
 
-        //if (!empty($_POST['message'])) {
-        if (!empty($message)) {
-            $id = !empty($_REQUEST['chat_id']) ? intval($_REQUEST['chat_id']) : 0;
-            //$messageone_id = $this->db_message->insert($data);
-            $gmtime = RC_Time::gmtime();
-            $model = new AdminMessageModel();
-            $model->sender_id = $_SESSION['admin_id'];
-            $model->receiver_id = $id;
-            $model->sent_time = $gmtime;
-            $model->read_time = 0;
-            $model->readed = 0;
-            $model->deleted = 0;
-            $model->read_time = 0;
-            $model->readed = 0;
-            $model->deleted = 0;
-            $model->title = remove_xss($this->request->input('title', ''));
-            $model->message = $message;
+        $gmtime = RC_Time::gmtime();
 
-            if ($model->save()) {
-                //回复消息之前，所有收到的消息设为已读
-                ecjia_admin_message::read_meg($id);
+        $model = new AdminMessageModel();
+        $model->sender_id = $_SESSION['admin_id'];
+        $model->receiver_id = $id;
+        $model->sent_time = $gmtime;
+        $model->read_time = 0;
+        $model->readed = 0;
+        $model->deleted = 0;
+        $model->title = remove_xss($this->request->input('title', ''));
+        $model->message = $message;
+        $model->save();
 
-                ecjia_admin::admin_log(__('发送留言'), 'add', 'admin_message');
-                //return $this->showmessage(__('发送成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('sent_time' => RC_Time::local_date(ecjia::config('time_format'), RC_Time::gmtime())));
-                return $this->showmessage(__('发送成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('sent_time' => RC_Time::local_date(ecjia::config('time_format'), $gmtime)));
-            } else {
-                return $this->showmessage(__('发送失败'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
-            }
+        //回复消息之前，所有收到的消息设为已读
+        $this->read_meg($id);
+        ecjia_admin::admin_log(__('发送留言'), 'add', 'admin_message');
+        return $this->showmessage(__('发送成功'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('sent_time' => RC_Time::local_date(ecjia::config('time_format'), $gmtime)));
+    }
+
+    /**
+     *  更改留言为已读状态
+     *
+     * @return void
+     */
+    private function read_meg($chatid)
+    {
+        $query = AdminMessageModel::where('receiver_id', $_SESSION['admin_id'])->where('readed', 0);
+
+        if (!empty($chatid)) {
+            //更新阅读日期和阅读状态
+            $query->where('sender_id', intval($chatid));
         }
 
+        $query->update([
+            'read_time' => RC_Time::gmtime(),
+            'readed' => '1'
+        ]);
+    }
+
+    /**
+     *  获取管理员未读消息
+     *
+     * @return array
+     */
+    private function get_admin_chat($filters = [])
+    {
+        /* 查询条件 */
+        $filter['chat_id'] = intval($this->request->input('chat_id', 0));
+        $filter['msg_type'] = intval($this->request->input('msg_type'));
+        $filter['sort_by-id'] = remove_xss($this->request->input('sort_by', 'sent_time'));
+        $filter['sort_order'] = remove_xss($this->request->input('sort_order', 'DESC'));
+
+        //群聊的状态
+        empty($filter['chat_id']) && $filter = array_merge($filter, array('msg_type' => 1, 'start' => 0, 'page_size' => 10));
+
+        //与自己交谈的状态
+        $filter['chat_id'] == $_SESSION['admin_id'] && $filter = array_merge($filter, array('msg_type' => 2, 'start' => 0, 'page_size' => 10));
+
+        //获取已读留言的状态
+        $filter['last_id'] = intval($this->request->input('last_id'));
+        !empty($filter['last_id']) && $filter = array_merge($filter, array('start' => 0, 'page_size' => 10));
+
+        $filter = array_merge($filter, $filters);
+
+        $query = AdminMessageModel::where('deleted', 0);
+
+        /* 查询条件 */
+        switch ($filter['msg_type']) {
+            case 1:
+                $query->where('receiver_id', 0);
+                break;
+            case 2 :
+                $query->where('receiver_id', $_SESSION['admin_id']);
+                break;
+            case 3:
+                $query->where('receiver_id', $_SESSION['admin_id'])->where('readed', 0)->where('deleted', 0);
+                break;
+            default:
+                $query->where('readed', empty($filter['last_id']) ? 0 : 1)->where(function ($query) use ($filter) {
+                    $query->where('sender_id', $filter['chat_id'])
+                        ->where('receiver_id', $filter['chat_id'])
+                        ->where('receiver_id', $_SESSION['admin_id'])
+                        ->orWhere('sender_id', $_SESSION['admin_id']);
+                });
+                break;
+        }
+
+        if (!empty($filter['last_id'])) {
+            $query->where('message_id', '<', $filter['last_id']);
+        }
+
+        $count = $query->count();
+
+        $items = $query->with(['admin_user_model' => function ($query) {
+            $query->select('user_id', 'user_name');
+        }])->get();
+
+        if (empty($items)) {
+            return null;
+        }
+
+        $items = $items->map(function ($model) {
+            $model->user_name = empty($model->admin_user_model) ? __('佚名') . $model->admin_user_model->user_id : $model->admin_user_model->user_name;
+            $model->sent_time = RC_Time::local_date(ecjia::config('time_format'), $model->sent_time);
+            $model->read_time = RC_Time::local_date(ecjia::config('time_format'), $model->read_time);
+            return $model;
+        })->toArray();
+
+        return [
+            'item' => array_reverse($items),
+            'filter' => $filter,
+            'record_count' => $count,
+            'last_id' => end($items)['message_id']
+        ];
     }
 }
-
-// end
