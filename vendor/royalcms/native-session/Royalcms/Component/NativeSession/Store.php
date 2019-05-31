@@ -32,17 +32,27 @@ class Store implements SessionInterface, StoreInterface
      */
     public function start()
     {
-        $this->startSession();
+        $this->loadSession();
+
+        if (! $this->has('_token')) {
+            $this->regenerateToken();
+        }
+
         return $this->session->start();
     }
 
-    private function startSession()
+    protected function loadSession()
     {
         session_id($this->session->getId());
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
 
+        $this->mergeNativeSession();
+    }
+
+    protected function mergeNativeSession()
+    {
         foreach ($_SESSION as $name => $value) {
             $this->session->set($name, $value);
         }
@@ -282,6 +292,8 @@ class Store implements SessionInterface, StoreInterface
      */
     public function get($name, $default = null)
     {
+        $this->mergeNativeSession();
+
         return $this->session->get($name, $default);
     }
 
@@ -496,6 +508,26 @@ class Store implements SessionInterface, StoreInterface
     protected function removeFromOldFlashData(array $keys)
     {
         $this->put('flash.old', array_diff($this->get('flash.old', []), $keys));
+    }
+
+    /**
+     * Get the CSRF token value.
+     *
+     * @return string
+     */
+    public function token()
+    {
+        return $this->get('_token');
+    }
+
+    /**
+     * Get the CSRF token value.
+     *
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->token();
     }
 
     /**
