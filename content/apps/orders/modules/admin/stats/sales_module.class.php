@@ -56,7 +56,7 @@ class admin_stats_sales_module extends api_admin implements api_interface
     {
 
         $this->authadminSession();
-        if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+        if ($_SESSION['staff_id'] <= 0) {
             return new ecjia_error(100, __('Invalid session', 'orders'));
         }
         $device = $this->device;

@@ -56,7 +56,7 @@ class admin_orders_check_module extends api_admin implements api_interface
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request)
     {
         $this->authadminSession();
-        if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+        if ($_SESSION['staff_id'] <= 0) {
             return new ecjia_error(100, __('Invalid session', 'orders'));
         }
         $device = $this->device;
@@ -110,13 +110,13 @@ class admin_orders_check_module extends api_admin implements api_interface
         } else {
             $action_note = __('验单', 'orders');
             /* 进行确认*/
-            RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'confirm', 'note' => array('action_note' => $action_note)));
+            RC_Api::api('orders', 'order_cashier_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'confirm', 'note' => array('action_note' => $action_note)));
             /* 进行付款*/
-            RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'pay', 'note' => array('action_note' => $action_note)));
+            RC_Api::api('orders', 'order_cashier_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'pay', 'note' => array('action_note' => $action_note)));
             /* 配货*/
-            RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'prepare', 'note' => array('action_note' => $action_note)));
+            RC_Api::api('orders', 'order_cashier_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'prepare', 'note' => array('action_note' => $action_note)));
             /* 分单（生成发货单）*/
-            $result = RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'split', 'note' => array('action_note' => $action_note)));
+            $result = RC_Api::api('orders', 'order_cashier_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'split', 'note' => array('action_note' => $action_note)));
 
             if (is_ecjia_error($result)) {
                 return $result;
@@ -127,9 +127,9 @@ class admin_orders_check_module extends api_admin implements api_interface
 
             $result = $this->delivery_ship($order_id, $delivery_id, $invoice_no, $action_note);
             /* 货到付款再次进行付款*/
-            RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'pay', 'note' => array('action_note' => $action_note)));
+            RC_Api::api('orders', 'order_cashier_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'pay', 'note' => array('action_note' => $action_note)));
             /* 确认收货*/
-            RC_Api::api('orders', 'order_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'receive', 'note' => array('action_note' => $action_note)));
+            RC_Api::api('orders', 'order_cashier_operate', array('order_id' => $order_id, 'order_sn' => '', 'operation' => 'receive', 'note' => array('action_note' => $action_note)));
 
             /*收银员订单操作记录*/
             $device_info    = RC_DB::table('mobile_device')->where('id', $_SESSION['device_id'])->first();
