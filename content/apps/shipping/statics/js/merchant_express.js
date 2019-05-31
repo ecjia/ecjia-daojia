@@ -338,9 +338,9 @@
                     var step_fee1 = document.getElementById("step_fee1");
                 }
                 if (mode == 'by_number') {
-                    item_fee.style.display = '';
-                    base_fee.style.display = 'none';
-                    step_fee.style.display = 'none';
+					if(item_fee) item_fee.style.display = '';
+					if(base_fee) base_fee.style.display = 'none';
+					if(step_fee) step_fee.style.display = 'none';
                     $('#item_fee').find('input').removeAttr('disabled');
                     $('#base_fee').find('input').attr('disabled', true);
                    	$('#step_fee').find('input').attr('disabled', true);
@@ -349,9 +349,9 @@
                     	$('#step_fee1').find('input').attr('disabled', true);
                     }
                 } else {
-                  	item_fee.style.display = 'none';
-                   	base_fee.style.display = '';
-                   	step_fee.style.display = '';
+                  	if(item_fee) item_fee.style.display = 'none';
+					if(base_fee) base_fee.style.display = '';
+					if(step_fee) step_fee.style.display = '';
                    	$('#item_fee').find('input').attr('disabled', true);
                    	$('#base_fee').find('input').removeAttr('disabled');
                    	$('#step_fee').find('input').removeAttr('disabled');
