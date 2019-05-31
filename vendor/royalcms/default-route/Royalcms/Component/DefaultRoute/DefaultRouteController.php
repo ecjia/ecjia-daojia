@@ -6,7 +6,7 @@ use Royalcms\Component\Routing\Controller;
 
 class DefaultRouteController extends Controller
 {
-    use DefaultRoute;
+    use DefaultRouteTrait;
     
     public function init()
     {

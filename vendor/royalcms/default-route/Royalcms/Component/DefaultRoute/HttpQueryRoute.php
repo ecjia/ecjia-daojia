@@ -8,7 +8,7 @@ use Royalcms\Component\Rewrite\Facades\Rewrite;
 class HttpQueryRoute
 {
     
-    use DefaultRoute;
+    use DefaultRouteTrait;
     
     
     protected $module;

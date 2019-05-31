@@ -17,8 +17,7 @@ class DefaultRouteServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->royalcms['default-router'] = $this->royalcms->share(function($royalcms)
-        {
+        $this->royalcms['default-router'] = $this->royalcms->share(function($royalcms) {
             $route = new HttpQueryRoute();
 
             define('ROUTE_M', $route->getModule());
@@ -39,7 +38,7 @@ class DefaultRouteServiceProvider extends ServiceProvider
         $dir = static::guessPackageClassPath('royalcms/default-route');
 
         return [
-            $dir . '/DefaultRoute.php',
+            $dir . '/DefaultRouteTrait.php',
             $dir . '/HttpQueryRoute.php',
             $dir . '/DefaultRouteServiceProvider.php',
         ];
