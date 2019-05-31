@@ -53,7 +53,7 @@ class admin_merchant_notification_unread_count_module extends api_admin implemen
 	
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	
-    	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+    	if ($_SESSION['staff_id'] <= 0) {
             return new ecjia_error(100, 'Invalid session');
         }
         

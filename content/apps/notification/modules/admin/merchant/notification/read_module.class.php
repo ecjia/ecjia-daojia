@@ -54,7 +54,7 @@ class admin_merchant_notification_read_module extends api_admin implements api_i
 	
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
     	
-    	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+    	if ($_SESSION['staff_id'] <= 0) {
             return new ecjia_error(100, 'Invalid session');
         }
 		
@@ -66,9 +66,7 @@ class admin_merchant_notification_read_module extends api_admin implements api_i
     	$db = RC_DB::table('notifications');
     	if ($_SESSION['staff_id']) {
     		$db->where('notifiable_type', 'orm_staff_user_model')->where('notifiable_id', $_SESSION['staff_id']);
-    	} elseif ($_SESSION['admin_id']) {
-    	    
-    	}
+    	} 
     	$notification_info = $db->where('id', $message_id)->first();
     	if (empty($notification_info)) {
     		return new ecjia_error('notification_not_exists', '该消息不存在！');
