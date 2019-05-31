@@ -90,6 +90,7 @@ return array(
     'Royalcms\\Component\\Storage\\' => array($vendorDir . '/royalcms/storage'),
     'Royalcms\\Component\\Support\\' => array($vendorDir . '/royalcms/support'),
     'Royalcms\\Component\\Swoole\\' => array($vendorDir . '/royalcms/swoole'),
+    'Royalcms\\Component\\Tail\\' => array($vendorDir . '/royalcms/tail'),
     'Royalcms\\Component\\Tcpdf\\' => array($vendorDir . '/royalcms/tcpdf'),
     'Royalcms\\Component\\TemporaryDirectory\\' => array($vendorDir . '/royalcms/temporary-directory'),
     'Royalcms\\Component\\Timer\\' => array($vendorDir . '/royalcms/timer'),
