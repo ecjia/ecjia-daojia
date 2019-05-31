@@ -914,84 +914,114 @@ class cart {
 	 * @return  array
 	 */
 	public static function cart_weight_price($type = CART_GENERAL_GOODS, $cart_id = array()) {
-		$db = RC_Model::model('cart/cart_model');
-		$dbview = RC_Model::model('orders/package_goods_viewmodel');
-		$db_cartview = RC_Model::model('cart/cart_good_member_viewmodel');
+// 		$db = RC_Model::model('cart/cart_model');
+// 		$dbview = RC_Model::model('orders/package_goods_viewmodel');
+// 		$db_cartview = RC_Model::model('cart/cart_good_member_viewmodel');
 
 		$package_row['weight'] 			= 0;
 		$package_row['amount'] 			= 0;
 		$package_row['number'] 			= 0;
 		$packages_row['free_shipping'] 	= 1;
-		$where = array('extension_code' => 'package_buy' , 'user_id' => $_SESSION['user_id'] );
-		if (!empty($cart_id)) {
-			$where['rec_id'] = $cart_id;
-		}
+		
+		//TODO:超值礼包暂未用到
+// 		$where = array('extension_code' => 'package_buy' , 'user_id' => $_SESSION['user_id'] );
+// 		if (!empty($cart_id)) {
+// 			$where['rec_id'] = $cart_id;
+// 		}
 
 		/* 计算超值礼包内商品的相关配送参数 */
-		$row = $db->field('goods_id, goods_number, goods_price')->where($where)->select();
+// 		$row = $db->field('goods_id, goods_number, goods_price')->where($where)->select();
 
-		if ($row) {
-			$packages_row['free_shipping'] = 0;
-			$free_shipping_count = 0;
-			foreach ($row as $val) {
-				// 如果商品全为免运费商品，设置一个标识变量
-				$dbview->view = array(
-					'goods' => array(
-						'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-						'alias' => 'g',
-						'on'    => 'g.goods_id = pg.goods_id ',
-					)
-				);
+// 		if ($row) {
+// 			$packages_row['free_shipping'] = 0;
+// 			$free_shipping_count = 0;
+// 			foreach ($row as $val) {
+// 				// 如果商品全为免运费商品，设置一个标识变量
+// 				$dbview->view = array(
+// 					'goods' => array(
+// 						'type'  => Component_Model_View::TYPE_LEFT_JOIN,
+// 						'alias' => 'g',
+// 						'on'    => 'g.goods_id = pg.goods_id ',
+// 					)
+// 				);
 
-				$shipping_count = $dbview->where(array('g.is_shipping' => 0 , 'pg.package_id' => $val['goods_id']))->count();
-				if ($shipping_count > 0) {
-					// 循环计算每个超值礼包商品的重量和数量，注意一个礼包中可能包换若干个同一商品
-					$dbview->view = array(
-						'goods' => array(
-							'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-							'alias' => 'g',
-							'field' => 'SUM(g.goods_weight * pg.goods_number) as weight,SUM(pg.goods_number) as number',
-							'on'    => 'g.goods_id = pg.goods_id',
-						)
-					);
-					$goods_row = $dbview->find(array('g.is_shipping' => 0 , 'pg.package_id' => $val['goods_id']));
+// 				$shipping_count = $dbview->where(array('g.is_shipping' => 0 , 'pg.package_id' => $val['goods_id']))->count();
+// 				if ($shipping_count > 0) {
+// 					// 循环计算每个超值礼包商品的重量和数量，注意一个礼包中可能包换若干个同一商品
+// 					$dbview->view = array(
+// 						'goods' => array(
+// 							'type'  => Component_Model_View::TYPE_LEFT_JOIN,
+// 							'alias' => 'g',
+// 							'field' => 'SUM(g.goods_weight * pg.goods_number) as weight,SUM(pg.goods_number) as number',
+// 							'on'    => 'g.goods_id = pg.goods_id',
+// 						)
+// 					);
+// 					$goods_row = $dbview->find(array('g.is_shipping' => 0 , 'pg.package_id' => $val['goods_id']));
 
-					$package_row['weight'] += floatval($goods_row['weight']) * $val['goods_number'];
-					$package_row['amount'] += floatval($val['goods_price']) * $val['goods_number'];
-					$package_row['number'] += intval($goods_row['number']) * $val['goods_number'];
-				} else {
-					$free_shipping_count++;
-				}
-			}
-			$packages_row['free_shipping'] = $free_shipping_count == count($row) ? 1 : 0;
-		}
+// 					$package_row['weight'] += floatval($goods_row['weight']) * $val['goods_number'];
+// 					$package_row['amount'] += floatval($val['goods_price']) * $val['goods_number'];
+// 					$package_row['number'] += intval($goods_row['number']) * $val['goods_number'];
+// 				} else {
+// 					$free_shipping_count++;
+// 				}
+// 			}
+// 			$packages_row['free_shipping'] = $free_shipping_count == count($row) ? 1 : 0;
+// 		}
 
 		/* 获得购物车中非超值礼包商品的总重量 */
-		$db_cartview->view =array(
-			'goods' => array(
-				'type'  => Component_Model_View::TYPE_LEFT_JOIN,
-				'alias' => 'g',
-				'field' => 'SUM(g.goods_weight * c.goods_number) as weight, SUM(c.goods_price * c.goods_number) as amount, SUM(c.goods_number) as number',
-				'on'    => 'g.goods_id = c.goods_id'
-			)
-		);
-		$where = array(
-			'c.user_id'		=> $_SESSION['user_id'] ,
-			'rec_type'		=> $type ,
-			'g.is_shipping' => 0 ,
-		);
-		$where[] =  " (c.extension_code IS NULL or c.extension_code != 'package_buy') ";
-		if (!empty($cart_id)) {
-			$where['rec_id'] = $cart_id;
-		}
-// 		if (defined('SESS_ID')) {
-// 			$where['session_id'] = SESS_ID;
+// 		$db_cartview->view =array(
+// 			'goods' => array(
+// 				'type'  => Component_Model_View::TYPE_LEFT_JOIN,
+// 				'alias' => 'g',
+// 				'field' => 'SUM(g.goods_weight * c.goods_number) as weight, SUM(c.goods_price * c.goods_number) as amount, SUM(c.goods_number) as number',
+// 				'on'    => 'g.goods_id = c.goods_id'
+// 			)
+// 		);
+// 		$where = array(
+// 			'c.user_id'		=> $_SESSION['user_id'] ,
+// 			'rec_type'		=> $type ,
+// 			'g.is_shipping' => 0 ,
+// 		);
+// 		$where[] =  " (c.extension_code IS NULL or c.extension_code != 'package_buy') ";
+// 		if (!empty($cart_id)) {
+// 			$where['rec_id'] = $cart_id;
 // 		}
-		$row = $db_cartview->find($where);
-
-		$packages_row['weight'] = floatval($row['weight']) + $package_row['weight'];
-		$packages_row['amount'] = floatval($row['amount']) + $package_row['amount'];
-		$packages_row['number'] = intval($row['number']) + $package_row['number'];
+		
+// 		$row = $db_cartview->find($where);
+		
+// 		$packages_row['weight'] = floatval($row['weight']) + $package_row['weight'];
+// 		$packages_row['amount'] = floatval($row['amount']) + $package_row['amount'];
+// 		$packages_row['number'] = intval($row['number']) + $package_row['number'];
+		
+		$db_cartview = RC_DB::table('cart as c')->leftJoin('goods as g', RC_DB::raw('g.goods_id'), '=', RC_DB::raw('c.goods_id'));
+		$db_cartview->where(RC_DB::raw('c.user_id'), $_SESSION['user_id'])
+					->where(RC_DB::raw('c.rec_type'), $type)
+					->where(RC_DB::raw('g.is_shipping'), 0)
+					->whereRaw("(c.extension_code IS NULL or c.extension_code != 'package_buy')");
+		if (!empty($cart_id)) {
+			$db_cartview->whereIn(RC_DB::raw('c.rec_id'), $cart_id);
+		}
+		$row = $db_cartview->select(RC_DB::raw('g.goods_weight, g.weight_unit, c.*'))->get();
+		
+		if ($row) {
+			foreach ($row as $val) {
+				$packages_row['amount'] += floatval($val['goods_price'])*$val['goods_number'];
+				$packages_row['number'] += $val['goods_number'];
+				//重量统一处理成kg
+				if ($val['goods_weight'] > 0) {
+					//存储的是克单位情况处理
+					if ($val['weight_unit'] == '1' && $val['goods_weight'] > 1) {
+						$goodsWeight = $val['goods_weight']/1000;
+					} else {
+						$goodsWeight = $val['goods_weight'];
+					}
+				} else {
+					$goodsWeight = 0;
+				}
+				$packages_row['weight'] = floatval($goodsWeight)*$val['goods_number'];
+			}
+		}
+		
 		/* 格式化重量 */
 		$packages_row['formated_weight'] = self::formated_weight($packages_row['weight']);
 		return $packages_row;

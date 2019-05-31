@@ -110,7 +110,18 @@ class CartStoreShipping
     		if($goods['is_shipping'] == 1) {
     			$shipping_count ++;
     		}
-    		$goodsWeight = RC_DB::table('goods')->where('goods_id', $goods['goods_id'])->pluck('goods_weight');
+    		$goodsInfo = RC_DB::table('goods')->where('goods_id', $goods['goods_id'])->select('goods_weight', 'weight_unit')->first();
+    		//重量统一处理成kg
+    		if ($goodsInfo['goods_weight'] > 0) {
+    			//存储的是克单位情况处理
+    			if ($goodsInfo['weight_unit'] == '1' && $goodsInfo['goods_weight'] > 1) {
+    				$goodsWeight = $goodsInfo['goods_weight']/1000;
+    			} else {
+    				$goodsWeight = $goodsInfo['goods_weight'];
+    			}
+    		} else {
+    			$goodsWeight = 0;
+    		}
     		$cart_weight_price['weight'] += floatval($goodsWeight) * $goods['goods_number'];
     		$cart_weight_price['amount'] += floatval($goods['goods_price']) * $goods['goods_number'];
     		$cart_weight_price['number'] += $goods['goods_number'];

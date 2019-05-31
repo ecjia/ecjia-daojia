@@ -253,7 +253,7 @@ class storebuy_flow_done_module extends api_front implements api_interface
 
         /* 检查商品总额是否达到最低限购金额 */
         if ($flow_type == CART_GENERAL_GOODS && cart_amount(true, CART_GENERAL_GOODS, $cart_id) < ecjia::config('min_goods_amount')) {
-        	return new ecjia_error('insufficient_balance', __('您的余额不足以支付整个订单，请选择其他支付方式。', 'cart'));
+        	return new ecjia_error('min_goods_amount_error', __('订单金额未达到最小购物金额【'.ecjia::config('min_goods_amount').'】。', 'cart'));
         }
 
         /* 收货人信息 */
