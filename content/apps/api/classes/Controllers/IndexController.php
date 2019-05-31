@@ -47,12 +47,14 @@
 namespace Ecjia\App\Api\Controllers;
 
 use Ecjia\App\Api\Responses\ApiManager;
+use Ecjia\System\BaseController\BasicController;
 use RC_Loader;
 
-class IndexController
+class IndexController extends BasicController
 {
     public function __construct()
     {
+        parent::__construct();
 
         ini_set('memory_limit', -1);
 
