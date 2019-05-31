@@ -53,7 +53,7 @@ defined('IN_ECJIA') or exit('No permission resources.');
 class express_detail_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {	
     	$this->authadminSession();
-    	if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+    	if ($_SESSION['staff_id'] <= 0) {
             return new ecjia_error(100, 'Invalid session');
         }
     	$express_id = $this->requestData('express_id');
