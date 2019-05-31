@@ -54,7 +54,7 @@ class admin_shop_attach_add_module extends api_admin implements api_interface {
     public function handleRequest(\Royalcms\Component\HttpKernel\Request $request) {
 
 		$this->authadminSession();
-		if ($_SESSION['admin_id'] <= 0 && $_SESSION['staff_id'] <= 0) {
+		if ($_SESSION['staff_id'] <= 0) {
 			return new ecjia_error(100, 'Invalid session');
 		}
     	
@@ -94,8 +94,8 @@ class admin_shop_attach_add_module extends api_admin implements api_interface {
     			'file_mime'     => $image_info['type'],
     			'file_ext'      => $image_info['ext'],
     			'file_hash'     => $image_info['sha1'],
-    			'user_id'		=> $_SESSION['admin_id'],
-    			'user_type'     => 'admin',
+    			'user_id'		=> $_SESSION['staff_id'],
+    			'user_type'     => 'merchant',
     			'add_ip'	    => RC_Ip::client_ip(),
     			'add_time'		=> RC_Time::gmtime(),
     			'in_status'     => 0,
