@@ -26825,15 +26825,22 @@ class Store implements SessionInterface, StoreInterface
     }
     public function start()
     {
-        $this->startSession();
+        $this->loadSession();
+        if (!$this->has('_token')) {
+            $this->regenerateToken();
+        }
         return $this->session->start();
     }
-    private function startSession()
+    protected function loadSession()
     {
         session_id($this->session->getId());
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
+        $this->mergeNativeSession();
+    }
+    protected function mergeNativeSession()
+    {
         foreach ($_SESSION as $name => $value) {
             $this->session->set($name, $value);
         }
@@ -26925,6 +26932,7 @@ class Store implements SessionInterface, StoreInterface
     }
     public function get($name, $default = null)
     {
+        $this->mergeNativeSession();
         return $this->session->get($name, $default);
     }
     public function replace(array $attributes)
@@ -27009,6 +27017,14 @@ class Store implements SessionInterface, StoreInterface
     protected function removeFromOldFlashData(array $keys)
     {
         $this->put('flash.old', array_diff($this->get('flash.old', []), $keys));
+    }
+    public function token()
+    {
+        return $this->get('_token');
+    }
+    public function getToken()
+    {
+        return $this->token();
     }
     public function regenerateToken()
     {
@@ -31494,7 +31510,7 @@ namespace Royalcms\Component\DefaultRoute {
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-trait DefaultRoute
+trait DefaultRouteTrait
 {
     protected $defaultAction = 'init';
     protected $originalAction;
@@ -31503,18 +31519,23 @@ trait DefaultRoute
     {
         $request = royalcms('request');
         $method = $this->resolveActionInCertainController($request, get_class($this), $action);
-        return royalcms()->call([$this, substr(strrchr($method, '@'), 1)]);
+        list($class, $method) = explode('@', $method);
+        $dispatcher = royalcms('royalcms.route.dispatcher');
+        $route = royalcms('router')->getCurrentRoute();
+        return $dispatcher->dispatch($route, $request, $class, $method);
     }
     public function runControllerAction($controller, $action = null)
     {
         $request = royalcms('request');
         $method = $this->resolveControllerAction($request, $controller, $action);
-        return royalcms()->call($method);
+        list($class, $method) = explode('@', $method);
+        $dispatcher = royalcms('royalcms.route.dispatcher');
+        $route = royalcms('router')->getCurrentRoute();
+        return $dispatcher->dispatch($route, $request, $controller, $method);
     }
     public function runModuleControllerAction($module, $controller, $action = null)
     {
-        $request = royalcms('request');
-        return $this->runControllerAction($request, $module . '/' . $controller, $action);
+        return $this->runControllerAction($module . '/' . $controller, $action);
     }
     protected function resolveControllerAction(Request $request, $controller, $action = null)
     {
@@ -31589,7 +31610,7 @@ use Royalcms\Component\Http\Request;
 use Royalcms\Component\Rewrite\Facades\Rewrite;
 class HttpQueryRoute
 {
-    use DefaultRoute;
+    use DefaultRouteTrait;
     protected $module;
     protected $controller;
     protected $action;
@@ -31698,7 +31719,7 @@ class DefaultRouteServiceProvider extends ServiceProvider
     public static function compiles()
     {
         $dir = static::guessPackageClassPath('royalcms/default-route');
-        return [$dir . '/DefaultRoute.php', $dir . '/HttpQueryRoute.php', $dir . '/DefaultRouteServiceProvider.php'];
+        return [$dir . '/DefaultRouteTrait.php', $dir . '/HttpQueryRoute.php', $dir . '/DefaultRouteServiceProvider.php'];
     }
 }
 }
@@ -35477,7 +35498,7 @@ use Royalcms\Component\Foundation\Http\Kernel as HttpKernel;
 class Kernel extends HttpKernel
 {
     protected $middleware = [];
-    protected $routeMiddleware = [];
+    protected $routeMiddleware = ['verify_csrf_token' => 'Ecjia\\System\\Http\\Middleware\\VerifyCsrfToken'];
 }
 }
 
