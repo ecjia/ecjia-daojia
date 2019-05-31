@@ -81,7 +81,7 @@ class merchant extends ecjia_merchant
         $this->assign('ur_here', __('今日热点列表', 'toutiao'));
         $this->assign('action_link', array('href' => RC_Uri::url('toutiao/merchant/add'), 'text' => __('添加图文素材', 'toutiao')));
 
-        $type = isset($_GET['type']) ? trim($_GET['type']) : '';
+        $type = isset($_GET['type']) ? remove_xss($_GET['type']) : '';
         $this->assign('type', $type);
 
         $list = $this->get_toutiao_list();
@@ -118,9 +118,9 @@ class merchant extends ecjia_merchant
 
         $id = intval($this->request->query('id', 0));
 
-        $title       = !empty($_POST['title']) ? trim($_POST['title']) : '';
-        $description = !empty($_POST['description']) ? $_POST['description'] : '';
-        $content_url = !empty($_POST['content_url']) ? trim($_POST['content_url']) : '';
+        $title       = !empty($_POST['title']) ? remove_xss($_POST['title']) : '';
+        $description = !empty($_POST['description']) ? remove_xss($_POST['description']) : '';
+        $content_url = !empty($_POST['content_url']) ? remove_xss($_POST['content_url']) : '';
         $sort        = !empty($_POST['sort']) ? intval($_POST['sort']) : 0;
         $content     = !empty($_POST['content']) ? stripslashes($_POST['content']) : '';
 
@@ -226,10 +226,10 @@ class merchant extends ecjia_merchant
     {
         $this->admin_priv('toutiao_update', ecjia::MSGTYPE_JSON);
 
-        $id          = !empty($_GET['id']) ? $_GET['id'] : 0;
-        $title       = !empty($_POST['title']) ? trim($_POST['title']) : '';
-        $description = !empty($_POST['description']) ? $_POST['description'] : '';
-        $content_url = !empty($_POST['content_url']) ? trim($_POST['content_url']) : '';
+        $id          = !empty($_GET['id']) ? intval($_GET['id']) : 0;
+        $title       = !empty($_POST['title']) ? remove_xss($_POST['title']) : '';
+        $description = !empty($_POST['description']) ? remove_xss($_POST['description']) : '';
+        $content_url = !empty($_POST['content_url']) ? remove_xss($_POST['content_url']) : '';
         $sort        = !empty($_POST['sort']) ? intval($_POST['sort']) : 0;
         $content     = !empty($_POST['content']) ? stripslashes($_POST['content']) : '';
 
@@ -271,10 +271,10 @@ class merchant extends ecjia_merchant
     {
         $this->admin_priv('toutiao_update', ecjia::MSGTYPE_JSON);
 
-        $group_id    = !empty($_GET['group_id']) ? $_GET['group_id'] : 0;
-        $title       = !empty($_POST['title']) ? trim($_POST['title']) : '';
-        $description = !empty($_POST['description']) ? $_POST['description'] : '';
-        $content_url = !empty($_POST['content_url']) ? trim($_POST['content_url']) : '';
+        $group_id    = !empty($_GET['group_id']) ? intval($_GET['group_id']) : 0;
+        $title       = !empty($_POST['title']) ? remove_xss($_POST['title']) : '';
+        $description = !empty($_POST['description']) ? remove_xss($_POST['description']) : '';
+        $content_url = !empty($_POST['content_url']) ? remove_xss($_POST['content_url']) : '';
         $sort        = !empty($_POST['sort']) ? intval($_POST['sort']) : 0;
         $content     = !empty($_POST['content']) ? stripslashes($_POST['content']) : '';
 
@@ -313,7 +313,7 @@ class merchant extends ecjia_merchant
     {
         $this->admin_priv('toutiao_update', ecjia::MSGTYPE_JSON);
 
-        $id = !empty($_GET['id']) ? $_GET['id'] : 0;
+        $id = !empty($_GET['id']) ? intval($_GET['id']) : 0;
         if (empty($id)) {
             return $this->showmessage(__('图文素材ID不存在。', 'toutiao'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -438,7 +438,7 @@ class merchant extends ecjia_merchant
     {
         $db = RC_DB::table('merchant_news')->where('store_id', $_SESSION['store_id'])->where('group_id', 0);
 
-        $type = isset($_GET['type']) ? trim($_GET['type']) : '';
+        $type = isset($_GET['type']) ? remove_xss($_GET['type']) : '';
 
         $type_count = $this->get_type_count();
 

@@ -96,10 +96,10 @@ class mh_menu extends ecjia_merchant
         $store_id = $_SESSION['store_id'];
 
         $pid  = !empty($_POST['pid']) ? intval($_POST['pid']) : 0;
-        $name = !empty($_POST['name']) ? trim($_POST['name']) : !empty($pid) ? __('子菜单名称', 'toutiao') : __('菜单名称', 'toutiao');
+        $name = !empty($_POST['name']) ? remove_xss($_POST['name']) : !empty($pid) ? __('子菜单名称', 'toutiao') : __('菜单名称', 'toutiao');
 
-        $key = !empty($_POST['key']) ? $_POST['key'] : '';
-        $url = !empty($_POST['url']) ? $_POST['url'] : '';
+        $key = !empty($_POST['key']) ? remove_xss($_POST['key']) : '';
+        $url = !empty($_POST['url']) ? remove_xss($_POST['url']) : '';
 
         $status = !empty($_POST['status']) ? intval($_POST['status']) : 1;
         $sort   = !empty($_POST['sort']) ? intval($_POST['sort']) : 0;
@@ -147,8 +147,8 @@ class mh_menu extends ecjia_merchant
 
         $id     = !empty($_POST['id']) ? intval($_POST['id']) : 0;
         $pid    = !empty($_POST['pid']) ? intval($_POST['pid']) : 0;
-        $name   = !empty($_POST['name']) ? trim($_POST['name']) : '';
-        $url    = !empty($_POST['url']) ? $_POST['url'] : '';
+        $name   = !empty($_POST['name']) ? remove_xss($_POST['name']) : '';
+        $url    = !empty($_POST['url']) ? remove_xss($_POST['url']) : '';
         $status = !empty($_POST['status']) ? intval($_POST['status']) : 0;
         $sort   = !empty($_POST['sort']) ? intval($_POST['sort']) : 0;
 
