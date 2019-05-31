@@ -47,6 +47,6 @@
 defined('IN_ECJIA') or exit('No permission resources.');
 
 // Build in Cron run route
-RC_Route::get('cron.php', 'Ecjia\App\Cron\CronRun@run');
+RC_Route::get('cron.php', 'Ecjia\App\Cron\Controllers\CronRunController@init');
 
 // end
