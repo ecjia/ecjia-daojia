@@ -104,7 +104,7 @@ class admin_config extends ecjia_admin
         $this->assign('data', $data);
 
         $this->assign('current_code', 'withdraw_setting');
-        $this->display('withdraw_setting.dwt');
+        return $this->display('withdraw_setting.dwt');
     }
 
     public function update()

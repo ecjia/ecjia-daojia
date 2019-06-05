@@ -109,7 +109,7 @@ class admin extends ecjia_admin
         $this->assign('form_action', RC_Uri::url('withdraw/admin/init'));
         $this->assign('batch_action', RC_Uri::url('withdraw/admin/batch_remove'));
 
-        $this->display('admin_account_list.dwt');
+        return $this->display('admin_account_list.dwt');
     }
 
     public function add()
@@ -154,7 +154,7 @@ class admin extends ecjia_admin
             }
         }
 
-        $this->display('admin_account_edit.dwt');
+        return $this->display('admin_account_edit.dwt');
     }
 
     /**
@@ -337,7 +337,7 @@ class admin extends ecjia_admin
         }
         $this->assign('record_info', $record_info);
 
-        $this->display('admin_account_info.dwt');
+        return $this->display('admin_account_info.dwt');
     }
 
     /**

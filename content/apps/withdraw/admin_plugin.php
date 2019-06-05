@@ -109,7 +109,7 @@ class admin_plugin extends ecjia_admin
         }
         $this->assign('modules', $modules);
 
-        $this->display('withdraw_channel.dwt');
+        return $this->display('withdraw_channel.dwt');
     }
 
     /**
@@ -220,7 +220,7 @@ class admin_plugin extends ecjia_admin
         $this->assign('withdraw', $withdraw);
         $this->assign('form_action', RC_Uri::url('withdraw/admin_plugin/save'));
 
-        $this->display('withdraw_edit.dwt');
+        return $this->display('withdraw_edit.dwt');
     }
 
     /**
