@@ -118,7 +118,7 @@ class admin_shop_config extends ecjia_admin {
 		$this->assign('form_action',	RC_Uri::url('touch/admin_shop_config/update'));
 		$this->assign_lang();
 
-		$this->display('shop_config.dwt');
+        return $this->display('shop_config.dwt');
 	}
 
 	/**
