@@ -157,7 +157,7 @@ class IndexController extends SimpleController
         $this->assign('error_img', RC_App::apps_url('statics/front/images/error.png', $this->__FILE__));
         
         $this->assign('step', 1);
-        $this->display(
+        return $this->display(
             RC_Package::package('app::upgrade')->loadTemplate('front/intro.dwt', true)
         );
     }
@@ -236,7 +236,7 @@ class IndexController extends SimpleController
             $this->assign('merchant_url', $merchant_url);
             
             $this->assign('step', 3);
-            $this->display(
+            return $this->display(
                 RC_Package::package('app::upgrade')->loadTemplate('front/finish.dwt', true)
             );
         }
@@ -270,7 +270,7 @@ class IndexController extends SimpleController
         $this->assign('merchant_url', $merchant_url);
         
         $this->assign('step', 3);
-        $this->display(
+        return $this->display(
             RC_Package::package('app::upgrade')->loadTemplate('front/finish.dwt', true)
         );
     }
