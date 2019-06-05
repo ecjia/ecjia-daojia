@@ -145,7 +145,7 @@ class quickpay_controller
             unset($_SESSION['quick_pay']['data']);
         }
 
-        ecjia_front::$controller->display('quickpay_checkout.dwt');
+        return ecjia_front::$controller->display('quickpay_checkout.dwt');
     }
 
     /**
@@ -273,7 +273,7 @@ class quickpay_controller
 
             ecjia_front::$controller->assign('data', $data);
         }
-        ecjia_front::$controller->display('quickpay_explain.dwt', $cache_id);
+        return ecjia_front::$controller->display('quickpay_explain.dwt', $cache_id);
     }
 
     /**
@@ -289,7 +289,7 @@ class quickpay_controller
             ecjia_front::$controller->assign('data', $_SESSION['quick_pay']['data']);
             ecjia_front::$controller->assign('activity', $_SESSION['quick_pay']['activity']);
         }
-        ecjia_front::$controller->display('quickpay_bonus.dwt');
+        return ecjia_front::$controller->display('quickpay_bonus.dwt');
     }
 
     /**
@@ -305,7 +305,7 @@ class quickpay_controller
             ecjia_front::$controller->assign('data', $_SESSION['quick_pay']['data']);
             ecjia_front::$controller->assign('activity', $_SESSION['quick_pay']['activity']);
         }
-        ecjia_front::$controller->display('quickpay_integral.dwt');
+        return ecjia_front::$controller->display('quickpay_integral.dwt');
     }
 
     /**
@@ -418,7 +418,7 @@ class quickpay_controller
             }
             ecjia_front::$controller->assign('payment_list', $payment_list['payment']);
         }
-        ecjia_front::$controller->display('quickpay_pay.dwt', $cache_id);
+        return ecjia_front::$controller->display('quickpay_pay.dwt', $cache_id);
     }
 
     /**
@@ -549,7 +549,7 @@ class quickpay_controller
             ecjia_front::$controller->assign('data', $data);
         }
         ecjia_front::$controller->assign_title(__('支付成功', 'h5'));
-        ecjia_front::$controller->display('quickpay_notify.dwt');
+        return ecjia_front::$controller->display('quickpay_notify.dwt');
     }
 
     /**
@@ -565,7 +565,7 @@ class quickpay_controller
         ecjia_front::$controller->assign('order_list', $data);
 
         ecjia_front::$controller->assign_title(__('我的买单', 'h5'));
-        ecjia_front::$controller->display('quickpay_list.dwt');
+        return ecjia_front::$controller->display('quickpay_list.dwt');
     }
 
     /**
@@ -622,7 +622,7 @@ class quickpay_controller
         }
 
         ecjia_front::$controller->assign_title(__('买单详情', 'h5'));
-        ecjia_front::$controller->display('quickpay_detail.dwt');
+        return ecjia_front::$controller->display('quickpay_detail.dwt');
     }
 }
 

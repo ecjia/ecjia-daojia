@@ -60,7 +60,7 @@ class user_bonus_controller
         $shop_config = is_ecjia_error($shop_config) ? array() : $shop_config;
         ecjia_front::$controller->assign('bonus_readme_url', $shop_config['bonus_readme_url']);
         ecjia_front::$controller->assign_title(__('我的红包', 'h5'));
-        ecjia_front::$controller->display('user_bonus.dwt');
+        return ecjia_front::$controller->display('user_bonus.dwt');
     }
 
     public static function async_allow_use()
@@ -143,7 +143,7 @@ class user_bonus_controller
             ecjia_front::$controller->assign_title(__('我的奖励', 'h5'));
             ecjia_front::$controller->assign('intive_total', $intive_total);
         }
-        ecjia_front::$controller->display('user_my_reward.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_my_reward.dwt', $cache_id);
     }
 
     /**
@@ -174,7 +174,7 @@ class user_bonus_controller
         ecjia_front::$controller->assign('max_month', $max_month);
         ecjia_front::$controller->assign_title(__('奖励明细', 'h5'));
 
-        ecjia_front::$controller->display('user_reward_detail.dwt');
+        return ecjia_front::$controller->display('user_reward_detail.dwt');
     }
 
     /**
@@ -217,7 +217,7 @@ class user_bonus_controller
             $integral_name = !empty(ecjia::config('integral_name')) ? ecjia::config('integral_name') : '积分';
             ecjia_front::$controller->assign_title(sprintf(__("赚%s", 'h5'), $integral_name));
         }
-        ecjia_front::$controller->display('user_get_integral.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_get_integral.dwt', $cache_id);
     }
 
     /**
@@ -227,7 +227,7 @@ class user_bonus_controller
     {
         ecjia_front::$controller->assign_title(__('添加红包', 'h5'));
 
-        ecjia_front::$controller->display('user_add_bonus.dwt');
+        return ecjia_front::$controller->display('user_add_bonus.dwt');
     }
 
     /**

@@ -70,7 +70,7 @@ class user_order_controller
             ecjia_front::$controller->assign('active', 'orderList');
 
             ecjia_front::$controller->assign_lang();
-            ecjia_front::$controller->display('user_order_return_list.dwt');
+            return ecjia_front::$controller->display('user_order_return_list.dwt');
         } else {
             $params_order = array('token' => $token, 'pagination' => array('count' => 10, 'page' => 1), 'type' => $type);
             if (!empty($_GET['keywords'])) {
@@ -103,7 +103,7 @@ class user_order_controller
             ecjia_front::$controller->assign('active', 'orderList');
 
             ecjia_front::$controller->assign_lang();
-            ecjia_front::$controller->display('user_order_list.dwt');
+            return ecjia_front::$controller->display('user_order_list.dwt');
         }
     }
 
@@ -157,7 +157,7 @@ class user_order_controller
                 }
             }
             if ($data['order_mode'] == 'storebuy') {
-                ecjia_front::$controller->display('user_order_storebuy_detail.dwt', $cache_id);
+                return ecjia_front::$controller->display('user_order_storebuy_detail.dwt', $cache_id);
             } else {
                 //店铺信息
                 $parameter_list = array(
@@ -174,7 +174,7 @@ class user_order_controller
                     $map_url   .= $url_param;
                     ecjia_front::$controller->assign('location_url', $map_url);
                 }
-                ecjia_front::$controller->display('user_order_detail.dwt', $cache_id);
+                return ecjia_front::$controller->display('user_order_detail.dwt', $cache_id);
             }
         } else {
             $express_id = $data['express_id'];
@@ -193,7 +193,7 @@ class user_order_controller
                 ecjia_front::$controller->assign_title(__('订单状态', 'h5'));
                 ecjia_front::$controller->assign_lang();
             }
-            ecjia_front::$controller->display('user_order_status.dwt', $cache_id);
+            return ecjia_front::$controller->display('user_order_status.dwt', $cache_id);
         }
     }
 
@@ -228,7 +228,7 @@ class user_order_controller
             ecjia_front::$controller->assign('title', __('物流信息', 'h5'));
             ecjia_front::$controller->assign_title(__('物流信息', 'h5'));
         }
-        ecjia_front::$controller->display('user_order_express.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_order_express.dwt', $cache_id);
     }
 
     /**
@@ -303,7 +303,7 @@ class user_order_controller
                 }
             }
             $url = RC_Uri::url('cart/index/init');
-            ecjia_front::$controller->redirect($url);
+            return ecjia_front::$controller->redirect($url);
         }
     }
 
@@ -428,7 +428,7 @@ class user_order_controller
             ecjia_front::$controller->assign('goods_list', $goods_list['comment_order_list']);
             ecjia_front::$controller->assign_lang();
         }
-        ecjia_front::$controller->display('user_comment_list.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_comment_list.dwt', $cache_id);
     }
 
     /**
@@ -474,7 +474,7 @@ class user_order_controller
             ecjia_front::$controller->assign('goods', $goods_info);
             ecjia_front::$controller->assign_lang();
         }
-        ecjia_front::$controller->display('user_goods_comment.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_goods_comment.dwt', $cache_id);
     }
 
     public static function make_comment()
@@ -544,7 +544,7 @@ class user_order_controller
                 }
             }
             ecjia_front::$controller->assign_title(__('配送员位置', 'h5'));
-            ecjia_front::$controller->display('user_express_position.dwt');
+            return ecjia_front::$controller->display('user_express_position.dwt');
         }
     }
 
@@ -567,7 +567,7 @@ class user_order_controller
         $data = is_ecjia_error($data) ? array() : $data;
         ecjia_front::$controller->assign('order_list', $data);
 
-        ecjia_front::$controller->display('order_return_list.dwt');
+        return ecjia_front::$controller->display('order_return_list.dwt');
     }
 
     //申请售后页面
@@ -613,7 +613,7 @@ class user_order_controller
 
         ecjia_front::$controller->assign('img_list', array(0, 1, 2, 3, 4));
 
-        ecjia_front::$controller->display('order_return_apply.dwt');
+        return ecjia_front::$controller->display('order_return_apply.dwt');
     }
 
     //售后详情
@@ -638,7 +638,7 @@ class user_order_controller
             ecjia_front::$controller->assign_title(__('售后进度', 'h5'));
             ecjia_front::$controller->assign('title', __('售后进度', 'h5'));
 
-            ecjia_front::$controller->display('order_return_status.dwt');
+            return ecjia_front::$controller->display('order_return_status.dwt');
         } elseif ($type == 'return_money') {
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::REFUND_PAYRECORD)->data($params)->run();
             $data = is_ecjia_error($data) ? array() : $data;
@@ -647,7 +647,7 @@ class user_order_controller
             ecjia_front::$controller->assign_title(__('退款详情', 'h5'));
             ecjia_front::$controller->assign('title', __('退款详情', 'h5'));
 
-            ecjia_front::$controller->display('order_return_money.dwt');
+            return ecjia_front::$controller->display('order_return_money.dwt');
         } else {
             $data = ecjia_touch_manager::make()->api(ecjia_touch_api::REFUND_DETAIL)->data($params)->run();
             $data = is_ecjia_error($data) ? array() : $data;
@@ -664,7 +664,7 @@ class user_order_controller
             ecjia_front::$controller->assign_title(__('售后详情', 'h5'));
             ecjia_front::$controller->assign('title', __('售后详情', 'h5'));
 
-            ecjia_front::$controller->display('order_return_detail.dwt');
+            return ecjia_front::$controller->display('order_return_detail.dwt');
         }
     }
 
@@ -755,7 +755,7 @@ class user_order_controller
         ecjia_front::$controller->assign('data', $data);
         ecjia_front::$controller->assign('refund_sn', $refund_sn);
 
-        ecjia_front::$controller->display('order_return_way_list.dwt');
+        return ecjia_front::$controller->display('order_return_way_list.dwt');
     }
 
     public static function return_way()
@@ -784,7 +784,7 @@ class user_order_controller
         ecjia_front::$controller->assign('return_info', $return_info);
         ecjia_front::$controller->assign('refund_sn', $refund_sn);
 
-        ecjia_front::$controller->display('order_return_way.dwt');
+        return ecjia_front::$controller->display('order_return_way.dwt');
     }
 
     public static function add_return_way()
@@ -898,7 +898,7 @@ class user_order_controller
         ecjia_front::$controller->assign('title', $title);
 
         ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->display('user_groupbuy_order_list.dwt');
+        return ecjia_front::$controller->display('user_groupbuy_order_list.dwt');
     }
 
     /**
@@ -976,7 +976,7 @@ class user_order_controller
                 }
             }
             if ($data['order_mode'] == 'storebuy') {
-                ecjia_front::$controller->display('user_order_storebuy_detail.dwt', $cache_id);
+                return ecjia_front::$controller->display('user_order_storebuy_detail.dwt', $cache_id);
             } else {
                 //店铺信息
                 $parameter_list = array(
@@ -993,7 +993,7 @@ class user_order_controller
                     $map_url   .= $url_param;
                     ecjia_front::$controller->assign('location_url', $map_url);
                 }
-                ecjia_front::$controller->display('user_order_detail.dwt', $cache_id);
+                return ecjia_front::$controller->display('user_order_detail.dwt', $cache_id);
             }
         } else {
             if (!ecjia_front::$controller->is_cached('user_order_status.dwt', $cache_id)) {
@@ -1002,7 +1002,7 @@ class user_order_controller
                 ecjia_front::$controller->assign_title(__('订单状态', 'h5'));
                 ecjia_front::$controller->assign_lang();
             }
-            ecjia_front::$controller->display('user_order_status.dwt', $cache_id);
+            return ecjia_front::$controller->display('user_order_status.dwt', $cache_id);
         }
     }
 
@@ -1015,7 +1015,7 @@ class user_order_controller
         ecjia_front::$controller->assign_title($title);
         ecjia_front::$controller->assign('status', $status);
 
-        ecjia_front::$controller->display('user_order_affiliate.dwt');
+        return ecjia_front::$controller->display('user_order_affiliate.dwt');
     }
 
     //获取分成订单
@@ -1066,7 +1066,7 @@ class user_order_controller
         $data = is_ecjia_error($data) ? [] : $data;
 
         ecjia_front::$controller->assign('data', $data);
-        ecjia_front::$controller->display('user_order_affiliate_detail.dwt');
+        return ecjia_front::$controller->display('user_order_affiliate_detail.dwt');
     }
 }
 

@@ -95,7 +95,7 @@ class cart_controller
         ecjia_front::$controller->assign('active', 'cartList');
         ecjia_front::$controller->assign_title(__('购物车列表', 'h5'));
 
-        ecjia_front::$controller->display('cart_list.dwt');
+        return ecjia_front::$controller->display('cart_list.dwt');
     }
 
     /**
@@ -911,7 +911,7 @@ class cart_controller
 
         $_SESSION['cart'][$cart_key]['temp']['order_mode'] = 'default';
 
-        ecjia_front::$controller->display('flow_checkout.dwt');
+        return ecjia_front::$controller->display('flow_checkout.dwt');
     }
 
     /**
@@ -1181,7 +1181,7 @@ class cart_controller
 
         $_SESSION['cart'][$cart_key]['temp']['order_mode'] = 'storepickup';
 
-        ecjia_front::$controller->display('flow_checkout.dwt');
+        return ecjia_front::$controller->display('flow_checkout.dwt');
     }
 
     //商品清单
@@ -1227,7 +1227,7 @@ class cart_controller
         ecjia_front::$controller->assign('total_goods_number', $total_goods_number);
         ecjia_front::$controller->assign_title(__('商品清单', 'h5'));
 
-        ecjia_front::$controller->display('flow_goodslist.dwt');
+        return ecjia_front::$controller->display('flow_goodslist.dwt');
     }
 
     /**
@@ -1458,7 +1458,7 @@ class cart_controller
         ecjia_front::$controller->assign_lang();
         ecjia_front::$controller->assign_title('支付方式');
 
-        ecjia_front::$controller->display('flow_pay.dwt');
+        return ecjia_front::$controller->display('flow_pay.dwt');
     }
 
     /**
@@ -1490,7 +1490,7 @@ class cart_controller
         ecjia_front::$controller->assign('rec_id', $rec_id);
         ecjia_front::$controller->assign_title(__('配送方式', 'h5'));
 
-        ecjia_front::$controller->display('flow_shipping.dwt');
+        return ecjia_front::$controller->display('flow_shipping.dwt');
     }
 
     /**
@@ -1574,7 +1574,7 @@ class cart_controller
 
         ecjia_front::$controller->assign_title(__('选择支付配送方式', 'h5'));
 
-        ecjia_front::$controller->display('flow_pay_shipping.dwt');
+        return ecjia_front::$controller->display('flow_pay_shipping.dwt');
     }
 
     public static function pay_pickup()
@@ -1631,7 +1631,7 @@ class cart_controller
 
         ecjia_front::$controller->assign_title(__('选择支付配送方式', 'h5'));
 
-        ecjia_front::$controller->display('flow_pay_pickup.dwt');
+        return ecjia_front::$controller->display('flow_pay_pickup.dwt');
     }
 
     public static function shipping_date()
@@ -1664,7 +1664,7 @@ class cart_controller
 
         ecjia_front::$controller->assign_title(__('配送时间', 'h5'));
 
-        ecjia_front::$controller->display('flow_shipping_date.dwt');
+        return ecjia_front::$controller->display('flow_shipping_date.dwt');
     }
 
     /**
@@ -1706,7 +1706,7 @@ class cart_controller
 
         ecjia_front::$controller->assign_title(__('开发票', 'h5'));
 
-        ecjia_front::$controller->display('flow_invoice.dwt');
+        return ecjia_front::$controller->display('flow_invoice.dwt');
     }
 
     /**
@@ -1738,7 +1738,7 @@ class cart_controller
 
         ecjia_front::$controller->assign_title(__('备注留言', 'h5'));
 
-        ecjia_front::$controller->display('flow_note.dwt');
+        return ecjia_front::$controller->display('flow_note.dwt');
     }
 
     /**
@@ -1778,7 +1778,7 @@ class cart_controller
 
         ecjia_front::$controller->assign_title(__('使用红包', 'h5'));
 
-        ecjia_front::$controller->display('flow_bonus.dwt');
+        return ecjia_front::$controller->display('flow_bonus.dwt');
     }
 
     /**
@@ -1819,7 +1819,7 @@ class cart_controller
 
         ecjia_front::$controller->assign_title(sprintf(__("使用%s", 'h5'), $integral_name));
 
-        ecjia_front::$controller->display('flow_integral.dwt');
+        return ecjia_front::$controller->display('flow_integral.dwt');
     }
 
     /**

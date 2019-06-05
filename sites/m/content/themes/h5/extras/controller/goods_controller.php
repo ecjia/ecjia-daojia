@@ -122,7 +122,7 @@ class goods_controller
             ecjia_front::$controller->assign('active', 'category');
             ecjia_front::$controller->assign_lang();
         }
-        ecjia_front::$controller->display('category_list.dwt', $cache_id);
+        return ecjia_front::$controller->display('category_list.dwt', $cache_id);
     }
 
     /**
@@ -484,8 +484,8 @@ class goods_controller
             $config = user_function::get_wechat_config($spread_url);
             ecjia_front::$controller->assign('config', $config);
         }
-        
-        ecjia_front::$controller->display($dwt);
+
+        return ecjia_front::$controller->display($dwt);
     }
 
     public static function ajax_goods_comment()
@@ -527,7 +527,7 @@ class goods_controller
         ecjia_front::$controller->assign('promotion_type', $promotion_type);
 
         ecjia_front::$controller->assign_title(__('限时促销', 'h5'));
-        ecjia_front::$controller->display('goods_promotion.dwt');
+        return ecjia_front::$controller->display('goods_promotion.dwt');
     }
 
     /**
@@ -536,7 +536,7 @@ class goods_controller
     public static function groupbuy()
     {
         ecjia_front::$controller->assign_title(__('团购商品', 'h5'));
-        ecjia_front::$controller->display('goods_groupbuy.dwt');
+        return ecjia_front::$controller->display('goods_groupbuy.dwt');
     }
 
     /**
@@ -605,7 +605,7 @@ class goods_controller
     public static function goods_new()
     {
         ecjia_front::$controller->assign_title(__('新品首发', 'h5'));
-        ecjia_front::$controller->display('goods_new.dwt');
+        return ecjia_front::$controller->display('goods_new.dwt');
     }
 
     /**
@@ -614,7 +614,7 @@ class goods_controller
     public static function goods_best()
     {
         ecjia_front::$controller->assign_title(__('店长推荐', 'h5'));
-        ecjia_front::$controller->display('goods_best.dwt');
+        return ecjia_front::$controller->display('goods_best.dwt');
     }
 
     /**
@@ -653,9 +653,7 @@ class goods_controller
             ecjia_front::$controller->assign('keywords', $keywords);
 
             ecjia_front::$controller->assign_title(__('商品列表', 'h5'));
-            ecjia_front::$controller->display('store_goods_list.dwt');
-
-            return false;
+            return ecjia_front::$controller->display('store_goods_list.dwt');
         }
 
         //店铺信息
@@ -834,7 +832,7 @@ class goods_controller
 
         ecjia_front::$controller->assign('referer_url', urlencode(RC_Uri::url('goods/category/store_list', array('store_id' => $store_id, 'keywords' => $keywords))));
         ecjia_front::$controller->assign_title(__('店铺列表', 'h5'));
-        ecjia_front::$controller->display('store_list.dwt');
+        return ecjia_front::$controller->display('store_list.dwt');
     }
 
     public static function ajax_store_goods()

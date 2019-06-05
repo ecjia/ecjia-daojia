@@ -69,7 +69,7 @@ class user_privilege_controller
             if (!ecjia_front::$controller->is_cached('user_login.dwt', $cache_id)) {
                 $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
                 if (!is_ecjia_error($user)) {
-                    ecjia_front::$controller->redirect(RC_Uri::url('touch/my/init'));
+                    return ecjia_front::$controller->redirect(RC_Uri::url('touch/my/init'));
                 } else {
                     ecjia_touch_user::singleton()->signout();
                 }
@@ -108,7 +108,7 @@ class user_privilege_controller
             }
         }
 
-        ecjia_front::$controller->display('user_login.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_login.dwt', $cache_id);
     }
 
     //微信登录
@@ -126,7 +126,7 @@ class user_privilege_controller
             if (!ecjia_front::$controller->is_cached('user_wechat_login.dwt', $cache_id)) {
                 $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
                 if (!is_ecjia_error($user)) {
-                    ecjia_front::$controller->redirect(RC_Uri::url('touch/my/init'));
+                    return ecjia_front::$controller->redirect(RC_Uri::url('touch/my/init'));
                 } else {
                     ecjia_touch_user::singleton()->signout();
                 }
@@ -153,7 +153,7 @@ class user_privilege_controller
             RC_Cookie::set('wechat_auto_register', 1);
         }
 
-        ecjia_front::$controller->display('user_wechat_login.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_wechat_login.dwt', $cache_id);
     }
 
     //密码登录
@@ -171,7 +171,7 @@ class user_privilege_controller
             if (!ecjia_front::$controller->is_cached('user_login.dwt', $cache_id)) {
                 $user = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_INFO)->data(array('token' => $token))->run();
                 if (!is_ecjia_error($user)) {
-                    ecjia_front::$controller->redirect(RC_Uri::url('touch/my/init'));
+                    return ecjia_front::$controller->redirect(RC_Uri::url('touch/my/init'));
                 } else {
                     ecjia_touch_user::singleton()->signout();
                 }
@@ -206,7 +206,7 @@ class user_privilege_controller
             }
         }
 
-        ecjia_front::$controller->display('user_pass_login.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_pass_login.dwt', $cache_id);
     }
 
     /**
@@ -284,7 +284,7 @@ class user_privilege_controller
         $mobile_phone = $_SESSION['user_temp']['mobile'];
 
         if (empty($mobile_phone)) {
-            ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login'));
+            return ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login'));
         }
 
         $token = ecjia_touch_user::singleton()->getShopToken();
@@ -300,7 +300,7 @@ class user_privilege_controller
         ecjia_front::$controller->assign('url', RC_Uri::url('user/privilege/captcha_check'));
         ecjia_front::$controller->assign('refresh_url', RC_Uri::url('user/privilege/captcha_refresh'));
 
-        ecjia_front::$controller->display('user_captcha_validate.dwt');
+        return ecjia_front::$controller->display('user_captcha_validate.dwt');
     }
 
     //刷新验证码
@@ -376,7 +376,7 @@ class user_privilege_controller
     {
         $mobile = $_SESSION['user_temp']['mobile'];
         if (empty($mobile)) {
-            ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login'));
+            return ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login'));
         }
 
         $code_captcha = $_SESSION['user_temp']['captcha_code'];
@@ -392,7 +392,7 @@ class user_privilege_controller
         ecjia_front::$controller->assign('url', RC_Uri::url('user/privilege/mobile_signin'));
         ecjia_front::$controller->assign('resend_url', RC_Uri::url('user/privilege/captcha_check'));
 
-        ecjia_front::$controller->display('user_enter_code.dwt');
+        return ecjia_front::$controller->display('user_enter_code.dwt');
     }
 
     //验证码验证登录
@@ -469,7 +469,7 @@ class user_privilege_controller
             ecjia_front::$controller->assign_lang();
             ecjia_front::$controller->assign_title(__('注册', 'h5'));
         }
-        ecjia_front::$controller->display('user_register.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_register.dwt', $cache_id);
     }
 
     /**
@@ -523,7 +523,7 @@ class user_privilege_controller
         $mobile = !empty($_SESSION['user_temp']['mobile']) ? $_SESSION['user_temp']['mobile'] : '';
 
         if ($_SESSION['user_temp']['register_status'] != 'succeed' || empty($mobile)) {
-            ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login'));
+            return ecjia_front::$controller->redirect(RC_Uri::url('user/privilege/login'));
         }
         if (isset($_POST['username'])) {
             $username          = !empty($_POST['username']) ? trim($_POST['username']) : '';
@@ -569,7 +569,7 @@ class user_privilege_controller
             ecjia_front::$controller->assign('invited', $_SESSION['user_temp']['invited']);
 
             ecjia_front::$controller->assign('set_url', RC_Uri::url('user/privilege/set_password'));
-            ecjia_front::$controller->display('user_set_password.dwt', $cache_id);
+            return ecjia_front::$controller->display('user_set_password.dwt', $cache_id);
         }
     }
 }

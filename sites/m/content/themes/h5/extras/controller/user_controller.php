@@ -101,7 +101,7 @@ class user_controller
         $login_str = user_function::return_login_str();
         ecjia_front::$controller->assign('login_url', RC_Uri::url($login_str));
 
-        ecjia_front::$controller->display('user.dwt');
+        return ecjia_front::$controller->display('user.dwt');
     }
 
     /**
@@ -138,7 +138,7 @@ class user_controller
             }
 
         }
-        ecjia_front::$controller->display('spread.dwt', $cache_id);
+        return ecjia_front::$controller->display('spread.dwt', $cache_id);
     }
 
     public static function wxconfig()
@@ -190,7 +190,7 @@ class user_controller
     public static function follow_list()
     {
         ecjia_front::$controller->assign_title(__('关注店铺', 'h5'));
-        ecjia_front::$controller->display('follow_list.dwt');
+        return ecjia_front::$controller->display('follow_list.dwt');
     }
 
     public static function ajax_follow_list()
@@ -242,7 +242,7 @@ class user_controller
             ecjia_front::$controller->assign('total_count', $page['total']);
         }
 
-        ecjia_front::$controller->display('personal_reward_team.dwt');
+        return ecjia_front::$controller->display('personal_reward_team.dwt');
     }
 
     //获取我的团队

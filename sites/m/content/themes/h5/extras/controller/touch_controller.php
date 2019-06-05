@@ -160,7 +160,7 @@ class touch_controller
             ecjia_front::$controller->assign('data', $data);
             ecjia_front::$controller->assign('is_last', $is_last);
         }
-        ecjia_front::$controller->display('index.dwt', $cache_id);
+        return ecjia_front::$controller->display('index.dwt', $cache_id);
     }
 
     /**
@@ -247,7 +247,7 @@ class touch_controller
             ecjia_front::$controller->assign('searchs_count', count(user_function::get_search($store_id)));
             ecjia_front::$controller->assign_title(__('搜索', 'h5'));
         }
-        ecjia_front::$controller->display('search.dwt', $cache_id);
+        return ecjia_front::$controller->display('search.dwt', $cache_id);
     }
 
     /**
@@ -283,7 +283,7 @@ class touch_controller
 
             ecjia_front::$controller->assign_title(__('缓存设置', 'h5'));
         }
-        ecjia_front::$controller->display('cache_set.dwt', $cache_id);
+        return ecjia_front::$controller->display('cache_set.dwt', $cache_id);
     }
 
     public static function clear_cache()
@@ -325,7 +325,7 @@ class touch_controller
         }
         ecjia_front::$controller->assign_title(__('选择门店', 'h5'));
 
-        ecjia_front::$controller->display('choose_store.dwt');
+        return ecjia_front::$controller->display('choose_store.dwt');
     }
 
     public static function about_us()
@@ -344,7 +344,7 @@ class touch_controller
 
             ecjia_front::$controller->assign_title(__('关于我们', 'h5'));
         }
-        ecjia_front::$controller->display('about_us.dwt', $cache_id);
+        return ecjia_front::$controller->display('about_us.dwt', $cache_id);
     }
 
     //首页定位触发进入页面
@@ -395,7 +395,7 @@ class touch_controller
             ecjia_front::$controller->assign('content', $content['data']);
         }
 
-        ecjia_front::$controller->display('select_location.dwt', $cache_id);
+        return ecjia_front::$controller->display('select_location.dwt', $cache_id);
     }
 
     //请求接口返回数据
@@ -441,7 +441,7 @@ class touch_controller
             ecjia_front::$controller->assign_title(__('选择城市', 'h5'));
             ecjia_front::$controller->assign_lang();
         }
-        ecjia_front::$controller->display('select_location_city.dwt', $cache_id);
+        return ecjia_front::$controller->display('select_location_city.dwt', $cache_id);
     }
 
     //请求接口返回数据

@@ -94,7 +94,7 @@ class user_address_controller
             ecjia_front::$controller->assign('type', $type);
             ecjia_front::$controller->assign_lang();
 
-            ecjia_front::$controller->display('choose_address_list.dwt');
+            return ecjia_front::$controller->display('choose_address_list.dwt');
         } else {
             unset($_SESSION['order_address_temp']);
 
@@ -107,7 +107,7 @@ class user_address_controller
             ecjia_front::$controller->assign('type', $type);
             ecjia_front::$controller->assign_lang();
 
-            ecjia_front::$controller->display('user_address_list.dwt');
+            return ecjia_front::$controller->display('user_address_list.dwt');
         }
     }
 
@@ -299,7 +299,7 @@ class user_address_controller
         ecjia_front::$controller->assign('local', $local);
         ecjia_front::$controller->assign('get_region_url', RC_Uri::url('user/address/get_region'));
 
-        ecjia_front::$controller->display('user_address_edit.dwt');
+        return ecjia_front::$controller->display('user_address_edit.dwt');
     }
 
     /**
@@ -508,7 +508,7 @@ class user_address_controller
         ecjia_front::$controller->assign('local', $local);
         ecjia_front::$controller->assign('get_region_url', RC_Uri::url('user/address/get_region'));
 
-        ecjia_front::$controller->display('user_address_edit.dwt');
+        return ecjia_front::$controller->display('user_address_edit.dwt');
     }
 
     /**
@@ -657,7 +657,7 @@ class user_address_controller
         ecjia_front::$controller->assign('temp', $temp_data);
         ecjia_front::$controller->assign_lang();
         ecjia_front::$controller->assign_title(__('选择位置', 'h5'));
-        ecjia_front::$controller->display('user_near_location.dwt');
+        return ecjia_front::$controller->display('user_near_location.dwt');
     }
 
     public static function choose_address()

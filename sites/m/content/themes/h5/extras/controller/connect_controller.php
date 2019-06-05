@@ -138,7 +138,7 @@ class connect_controller
             ecjia_front::$controller->assign('title', __("注册绑定", 'h5'));
             ecjia_front::$controller->assign_title(__("注册绑定", 'h5'));
             ecjia_front::$controller->assign_lang();
-            ecjia_front::$controller->display('user_bind_signup.dwt');
+            return ecjia_front::$controller->display('user_bind_signup.dwt');
         } else {
             $params['name'] = preg_replace('/\'\/^\\s*$|^c:\\\\con\\\\con$|[%,\\*\\"\\s\\t\\<\\>\\&\'\\\\]/', '', $params['name']);
             $response       = ecjia_touch_manager::make()->api(ecjia_touch_api::USER_SIGNUP)->data(array('name' => $params['name'], 'password' => $params['password'], 'email' => $params['email']))->run();
@@ -223,7 +223,7 @@ class connect_controller
         ecjia_front::$controller->assign_title(__("验证并关联", 'h5'));
         ecjia_front::$controller->assign('hideinfo', '1');
         ecjia_front::$controller->assign_lang();
-        ecjia_front::$controller->display('user_bind_signin.dwt');
+        return ecjia_front::$controller->display('user_bind_signin.dwt');
     }
 
     public static function bind_signin_do()
@@ -352,7 +352,7 @@ class connect_controller
         ecjia_front::$controller->assign('url', RC_Uri::url('connect/index/captcha_check'));
         ecjia_front::$controller->assign('refresh_url', RC_Uri::url('connect/index/captcha_refresh'));
 
-        ecjia_front::$controller->display('user_captcha_validate.dwt');
+        return ecjia_front::$controller->display('user_captcha_validate.dwt');
     }
 
     //刷新验证码
@@ -444,7 +444,7 @@ class connect_controller
         ecjia_front::$controller->assign('url', RC_Uri::url('connect/index/mobile_signin'));
         ecjia_front::$controller->assign('resend_url', RC_Uri::url('connect/index/captcha_check'));
 
-        ecjia_front::$controller->display('user_enter_code.dwt');
+        return ecjia_front::$controller->display('user_enter_code.dwt');
     }
 
     //验证码验证登录
@@ -601,7 +601,7 @@ class connect_controller
             ecjia_front::$controller->assign('set_url', RC_Uri::url('connect/index/set_password'));
             ecjia_front::$controller->assign('user_name', $_SESSION['user_temp']['user_name']);
 
-            ecjia_front::$controller->display('user_set_password.dwt', $cache_id);
+            return ecjia_front::$controller->display('user_set_password.dwt', $cache_id);
         }
     }
 

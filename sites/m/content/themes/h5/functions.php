@@ -108,7 +108,7 @@ RC_Hook::add_action('ecjia_front_finish_launching', function () {
                 // }
                 
                 $url = RC_Uri::url('connect/index/init', array('connect_code' => 'sns_wechat', 'login_type' => 'snsapi_userinfo'));
-                ecjia_front::$controller->redirect($url);
+                return ecjia_front::$controller->redirect($url);
             }
         }
     }

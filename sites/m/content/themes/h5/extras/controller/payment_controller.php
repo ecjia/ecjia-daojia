@@ -118,8 +118,7 @@ class payment_controller
         if ($change_result['change'] && $detail['pay_code'] != 'pay_cod') {
             ecjia_front::$controller->assign('detail', $detail);
             ecjia_front::$controller->assign('payment_list', $change_result['payment']);
-            ecjia_front::$controller->display('pay_change.dwt');
-            return false;
+            return ecjia_front::$controller->display('pay_change.dwt');
         }
         //获得订单支付信息
         $params = array(
@@ -206,7 +205,7 @@ class payment_controller
         RC_Cookie::set('pay_response_index', RC_Uri::url('touch/index/init'));
         RC_Cookie::set('pay_response_order', $url);
 
-        ecjia_front::$controller->display('pay.dwt');
+        return ecjia_front::$controller->display('pay.dwt');
     }
 
     public static function notify()
@@ -229,7 +228,7 @@ class payment_controller
         );
         ecjia_front::$controller->assign('url', $url);
         ecjia_front::$controller->assign('order_type', $order_type);
-        ecjia_front::$controller->display('pay_notify.dwt');
+        return ecjia_front::$controller->display('pay_notify.dwt');
     }
 
     /**

@@ -96,7 +96,7 @@ class user_profile_controller
         $available_withdraw_way = !empty($list['available_withdraw_way']) ? $list['available_withdraw_way'] : [];
         ecjia_front::$controller->assign('available_withdraw_way', $available_withdraw_way);
 
-        ecjia_front::$controller->display('user_profile.dwt');
+        return ecjia_front::$controller->display('user_profile.dwt');
     }
 
     /* 用户中心编辑用户名称 */
@@ -124,7 +124,7 @@ class user_profile_controller
             ecjia_front::$controller->assign_title(__('修改用户名', 'h5'));
         }
 
-        ecjia_front::$controller->display('user_modify_username.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_modify_username.dwt', $cache_id);
     }
 
     /* 处理用户中心编辑用户名称 */
@@ -199,7 +199,7 @@ class user_profile_controller
         ecjia_front::$controller->assign('title', __('修改密码', 'h5'));
         ecjia_front::$controller->assign_lang();
 
-        ecjia_front::$controller->display('user_modify_password.dwt');
+        return ecjia_front::$controller->display('user_modify_password.dwt');
     }
 
     //提现账户
@@ -234,7 +234,7 @@ class user_profile_controller
 
         ecjia_front::$controller->assign_title(__('提现账户', 'h5'));
 
-        ecjia_front::$controller->display('user_withdraw.dwt');
+        return ecjia_front::$controller->display('user_withdraw.dwt');
     }
 
     /**
@@ -307,7 +307,7 @@ class user_profile_controller
         if (!empty($status)) {
             ecjia_front::$controller->assign('status', $status);
         }
-        ecjia_front::$controller->display('user_account_bind.dwt');
+        return ecjia_front::$controller->display('user_account_bind.dwt');
     }
 
     /**
@@ -501,7 +501,7 @@ class user_profile_controller
         ecjia_front::$controller->assign_title($title);
         ecjia_front::$controller->assign('form_url', $form_url);
 
-        ecjia_front::$controller->display('user_bind_info.dwt');
+        return ecjia_front::$controller->display('user_bind_info.dwt');
     }
 
     public static function wx_bind_status()
@@ -531,7 +531,7 @@ class user_profile_controller
         $title = __('绑定微信', 'h5');
         ecjia_front::$controller->assign_title($title);
 
-        ecjia_front::$controller->display('user_wx_bind_status.dwt');
+        return ecjia_front::$controller->display('user_wx_bind_status.dwt');
     }
 
     public static function choose_wechat()
@@ -561,7 +561,7 @@ class user_profile_controller
         $title = __('选择微信', 'h5');
         ecjia_front::$controller->assign_title($title);
 
-        ecjia_front::$controller->display('user_wx_choose_wechat.dwt');
+        return ecjia_front::$controller->display('user_wx_choose_wechat.dwt');
     }
 
 
@@ -586,7 +586,7 @@ class user_profile_controller
 
         ecjia_front::$controller->assign('form_url', RC_Uri::url('user/profile/unbind_withdraw'));
 
-        ecjia_front::$controller->display('user_unbind_check_mobile.dwt');
+        return ecjia_front::$controller->display('user_unbind_check_mobile.dwt');
     }
 
     //删除提现方式
@@ -730,7 +730,7 @@ class user_profile_controller
         }
 
         ecjia_front::$controller->assign_title(__('支付密码', 'h5'));
-        ecjia_front::$controller->display('user_set_paypass_check.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_set_paypass_check.dwt', $cache_id);
     }
 
     //设置支付密码页面
@@ -753,7 +753,7 @@ class user_profile_controller
         ecjia_front::$controller->assign_title($title);
         ecjia_front::$controller->assign('type', $type);
 
-        ecjia_front::$controller->display('user_set_paypass.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_set_paypass.dwt', $cache_id);
     }
 
     //检查输入的支付密码
@@ -819,7 +819,7 @@ class user_profile_controller
         }
 
         ecjia_front::$controller->assign_title($title);
-        ecjia_front::$controller->display($dwt);
+        return ecjia_front::$controller->display($dwt);
 
     }
 
@@ -893,7 +893,7 @@ class user_profile_controller
         ecjia_front::$controller->assign('type', $type);
 
         ecjia_front::$controller->assign_title(__('验证手机号', 'h5'));
-        ecjia_front::$controller->display('user_check_user_mobile.dwt');
+        return ecjia_front::$controller->display('user_check_user_mobile.dwt');
     }
 
 }

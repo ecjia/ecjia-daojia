@@ -298,15 +298,14 @@ class merchant_controller
                 ecjia_front::$controller->assign('comment_number', $data['comment_number']);
             }
 
-            ecjia_front::$controller->display('merchant_comment.dwt');
-            return false;
+            return ecjia_front::$controller->display('merchant_comment.dwt');
         }
 
         unset($_SESSION['quick_pay']);
         ecjia_front::$controller->assign('status', $status);
         ecjia_front::$controller->assign('ajax_url', RC_Uri::url('merchant/index/ajax_store_comment', array('store_id' => $store_id)));
 
-        ecjia_front::$controller->display('merchant.dwt');
+        return ecjia_front::$controller->display('merchant.dwt');
     }
 
     public static function ajax_store_comment()
@@ -553,7 +552,7 @@ class merchant_controller
             ecjia_front::$controller->assign('shop_address', $shop_address);
             ecjia_front::$controller->assign_title(__('店铺位置', 'h5'));
         }
-        ecjia_front::$controller->display('merchant_position.dwt', $cache_id);
+        return ecjia_front::$controller->display('merchant_position.dwt', $cache_id);
     }
 
     /**
@@ -591,7 +590,7 @@ class merchant_controller
 
         ecjia_front::$controller->assign_title(__('店铺列表', 'h5'));
         ecjia_front::$controller->assign('cid', $cid);
-        ecjia_front::$controller->display('seller_list.dwt');
+        return ecjia_front::$controller->display('seller_list.dwt');
     }
 
     public static function collectmoney()
@@ -648,7 +647,7 @@ class merchant_controller
         }
         ecjia_front::$controller->assign('direct_pay', $direct_pay);
 
-        ecjia_front::$controller->display('quickpay_collectmoney.dwt');
+        return ecjia_front::$controller->display('quickpay_collectmoney.dwt');
     }
 
     public static function follow_store()

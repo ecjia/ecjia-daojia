@@ -70,7 +70,7 @@ class affiliate_controller
         $invite_user_detail['invitee_rule_explain'] = explode("\n", $invite_user_detail['invitee_rule_explain']);
         ecjia_front::$controller->assign('invite_user', $invite_user_detail);
 
-        ecjia_front::$controller->display('affiliate_invite_register.dwt');
+        return ecjia_front::$controller->display('affiliate_invite_register.dwt');
     }
 
     //验证图形验证码

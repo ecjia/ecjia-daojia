@@ -65,7 +65,7 @@ class article_controller
             }
             ecjia_front::$controller->assign_title(__('帮助中心', 'h5'));
         }
-        ecjia_front::$controller->display('article_init.dwt', $cache_id);
+        return ecjia_front::$controller->display('article_init.dwt', $cache_id);
     }
 
     /**
@@ -91,7 +91,7 @@ class article_controller
             }
             ecjia_front::$controller->assign_title($title);
         }
-        ecjia_front::$controller->display('article_detail.dwt', $cache_id);
+        return ecjia_front::$controller->display('article_detail.dwt', $cache_id);
     }
 
     /**
@@ -117,7 +117,7 @@ class article_controller
             ecjia_front::$controller->assign_title($title);
         }
 
-        ecjia_front::$controller->display('article_shop_detail.dwt', $cache_id);
+        return ecjia_front::$controller->display('article_shop_detail.dwt', $cache_id);
     }
 
     /**
@@ -155,7 +155,7 @@ class article_controller
         ecjia_front::$controller->assign('active', 'discover');
         ecjia_front::$controller->assign_title(__('发现', 'h5'));
 
-        ecjia_front::$controller->display('discover_init.dwt');
+        return ecjia_front::$controller->display('discover_init.dwt');
     }
 
     /**
@@ -197,7 +197,7 @@ class article_controller
             ecjia_front::$controller->assign('config', $config);
         }
 
-        ecjia_front::$controller->display('discover_article.dwt');
+        return ecjia_front::$controller->display('discover_article.dwt');
     }
 
     /**

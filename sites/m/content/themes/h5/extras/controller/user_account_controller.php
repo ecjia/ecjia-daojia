@@ -70,7 +70,7 @@ class user_account_controller
             ecjia_front::$controller->assign('user', $user);
             ecjia_front::$controller->assign_title(__('我的钱包', 'h5'));
         }
-        ecjia_front::$controller->display('user_account_detail.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_account_detail.dwt', $cache_id);
     }
 
     /**
@@ -113,7 +113,7 @@ class user_account_controller
         ecjia_front::$controller->assign('has_withdraw_method', $has_withdraw_method);
         ecjia_front::$controller->assign('url', $url);
 
-        ecjia_front::$controller->display('user_account_balance.dwt');
+        return ecjia_front::$controller->display('user_account_balance.dwt');
     }
 
     /**
@@ -171,7 +171,7 @@ class user_account_controller
             //生成返回url cookie
             RC_Cookie::set('pay_response_index', RC_Uri::url('touch/index/init'));
         }
-        ecjia_front::$controller->display('user_account_recharge.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_account_recharge.dwt', $cache_id);
     }
 
     /**
@@ -239,7 +239,7 @@ class user_account_controller
         ecjia_front::$controller->assign('bank_info', $bank_info);
 
         ecjia_front::$controller->assign_title(__('提现', 'h5'));
-        ecjia_front::$controller->display('user_account_wechat_withdraw.dwt');
+        return ecjia_front::$controller->display('user_account_wechat_withdraw.dwt');
     }
 
     /**
@@ -305,7 +305,7 @@ class user_account_controller
         $cache_id = $_SERVER['QUERY_STRING'] . '-' . $token . '-' . $user_info['id'] . '-' . $user_info['name'];
         $cache_id = sprintf('%X', crc32($cache_id));
 
-        ecjia_front::$controller->display('user_account_wechat_withdraw_notice.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_account_wechat_withdraw_notice.dwt', $cache_id);
     }
 
     /**
@@ -314,7 +314,7 @@ class user_account_controller
     public static function record()
     {
         ecjia_front::$controller->assign_title(__('交易记录', 'h5'));
-        ecjia_front::$controller->display('user_record.dwt');
+        return ecjia_front::$controller->display('user_record.dwt');
     }
 
     public static function ajax_record()
@@ -499,7 +499,7 @@ class user_account_controller
 
             ecjia_front::$controller->assign('sur_amount', $data);
         }
-        ecjia_front::$controller->display('user_record_info.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_record_info.dwt', $cache_id);
     }
 
     /**
@@ -601,7 +601,7 @@ class user_account_controller
             ecjia_front::$controller->assign('user', $user);
             ecjia_front::$controller->assign_title(__('继续充值', 'h5'));
         }
-        ecjia_front::$controller->display('user_account_recharge_again.dwt', $cache_id);
+        return ecjia_front::$controller->display('user_account_recharge_again.dwt', $cache_id);
     }
 
     /**
