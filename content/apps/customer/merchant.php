@@ -86,8 +86,8 @@ class merchant extends ecjia_merchant {
 	    $this->assign('user_list', $user_list);
 	    $this->assign('form_action', RC_Uri::url('customer/merchant/init'));
 	    $this->assign('search_action', RC_Uri::url('customer/merchant/init'));
-	    
-	    $this->display('member_list.dwt');
+
+        return $this->display('member_list.dwt');
 	}
 	
 	public function fans() {
@@ -99,8 +99,8 @@ class merchant extends ecjia_merchant {
 	    $user_list = $this->get_collect_store_user_list();
 	    $this->assign('user_list', $user_list);
 	    $this->assign('search_action', RC_Uri::url('customer/merchant/fans'));
-	    
-	    $this->display('fans_list.dwt');
+
+        return $this->display('fans_list.dwt');
 	}
 	
 	/* 详情两种：自营商家看全部信息，非自营看部分信息
@@ -145,8 +145,8 @@ class merchant extends ecjia_merchant {
 	    }
 // 	    _dump($order_list,1);
 	    $this->assign('user_info', $user_info);
-	    
-	    $this->display('member_info.dwt');
+
+        return $this->display('member_info.dwt');
 	}
 
 	private function get_user_order_list($user_id, $page_size = 10) {
