@@ -101,8 +101,8 @@ class admin_group extends ecjia_admin {
 			$data[$key]['count'] = $count;
 		}
 		$this->assign('data', $data);
-		
-		$this->display('adsense_group_list.dwt');
+
+        return $this->display('adsense_group_list.dwt');
 	}
 	
 	public function add() {
@@ -117,8 +117,8 @@ class admin_group extends ecjia_admin {
 		$this->assign('city_list', $city_list);
 		
 		$this->assign('form_action', RC_Uri::url('adsense/admin_group/insert'));
-		 
-		$this->display('adsense_group_info.dwt');
+
+        return $this->display('adsense_group_info.dwt');
 	}
 	
 	
@@ -174,8 +174,8 @@ class admin_group extends ecjia_admin {
 		$this->assign('data', $data);
 		 
 		$this->assign('form_action', RC_Uri::url('adsense/admin_group/update'));
-	
-		$this->display('adsense_group_info.dwt');
+
+        return $this->display('adsense_group_info.dwt');
 	}
 	
 	public function update() {
@@ -304,8 +304,8 @@ class admin_group extends ecjia_admin {
 		->get();
 		
 		$this->assign('group_position_list', $group_position_list);
-		
-		$this->display('adsense_group_constitute.dwt');
+
+        return $this->display('adsense_group_constitute.dwt');
 	
 	}
 	
@@ -371,8 +371,8 @@ class admin_group extends ecjia_admin {
 		->orderBy($filter['sort_by'], $filter['sort_order'])
 		->get();
 		$this->assign('data', $data);
-		
-		$this->display('adsense_group_position_list.dwt');
+
+        return $this->display('adsense_group_position_list.dwt');
 	}
 		
 	/**

@@ -141,8 +141,8 @@ class mh_ad extends ecjia_merchant {
 		$this->assign('position_data', $position_data);
 		
 		$this->assign('search_action', RC_Uri::url('adsense/mh_ad/init'));
-		
-		$this->display('mh_adsense_list.dwt');
+
+        return $this->display('mh_adsense_list.dwt');
 	}
 	
 	/**
@@ -178,8 +178,8 @@ class mh_ad extends ecjia_merchant {
 		$this->assign('position_data', $position_data);
 		
 		$this->assign('form_action', RC_Uri::url('adsense/mh_ad/insert'));
-		
-		$this->display('mh_adsense_info.dwt');
+
+        return $this->display('mh_adsense_info.dwt');
 
 	}
 	
@@ -324,7 +324,7 @@ class mh_ad extends ecjia_merchant {
 		$position_data = RC_DB::table('merchants_ad_position')->where('store_id', $_SESSION['store_id'])->where('position_id', $position_id)->first();
 		$this->assign('position_data', $position_data);
 
-		$this->display('mh_adsense_info.dwt');
+        return $this->display('mh_adsense_info.dwt');
 	}
 	
 	/**

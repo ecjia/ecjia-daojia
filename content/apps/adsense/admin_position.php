@@ -121,7 +121,7 @@ class admin_position extends ecjia_admin {
 		$this->assign('data', $data);
 		$this->assign('search_action', RC_Uri::url('adsense/admin_position/init'));
 		
-		$this->display('adsense_position_list.dwt');
+		return $this->display('adsense_position_list.dwt');
 	}
 	
 	/**
@@ -147,8 +147,8 @@ class admin_position extends ecjia_admin {
 		
 		$this->assign('action', 'insert');
 		$this->assign('form_action', RC_Uri::url('adsense/admin_position/insert'));
-		
-		$this->display('adsense_position_info.dwt');
+
+        return $this->display('adsense_position_info.dwt');
 	}
 	
 	/**
@@ -221,8 +221,8 @@ class admin_position extends ecjia_admin {
 		$this->assign('city_list', $city_list);
 		
 		$this->assign('form_action', RC_Uri::url('adsense/admin_position/update'));
-		
-		$this->display('adsense_position_info.dwt');
+
+        return $this->display('adsense_position_info.dwt');
 	}
 	
 	/**

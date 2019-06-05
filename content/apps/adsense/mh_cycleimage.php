@@ -117,8 +117,8 @@ class mh_cycleimage extends ecjia_merchant {
     	}
     	
     	$this->assign('position_code', $position_code);
-    	
-    	$this->display('mh_cycleimage_list.dwt');
+
+        return $this->display('mh_cycleimage_list.dwt');
     }
     
     
@@ -251,8 +251,8 @@ class mh_cycleimage extends ecjia_merchant {
     	$this->assign('client_list', $client_list);
     
     	$this->assign('form_action', RC_Uri::url('adsense/mh_cycleimage/insert'));
-    
-    	$this->display('mh_cycleimage_info.dwt');
+
+        return $this->display('mh_cycleimage_info.dwt');
     
     }
     
@@ -323,8 +323,8 @@ class mh_cycleimage extends ecjia_merchant {
     	$this->assign('data', $data);
     	 
     	$this->assign('form_action', RC_Uri::url('adsense/mh_cycleimage/update'));
-    	 
-    	$this->display('mh_cycleimage_info.dwt');
+
+        return $this->display('mh_cycleimage_info.dwt');
     }
     
     public function update() {

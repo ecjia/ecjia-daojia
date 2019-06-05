@@ -138,8 +138,8 @@ class admin_cycleimage extends ecjia_admin {
 		}
 		
 		$this->assign('position_code', $position_code);
-		
-		$this->display('cycleimage_list.dwt');
+
+        return $this->display('cycleimage_list.dwt');
 	}
 
     public function add_group() {
@@ -165,8 +165,8 @@ class admin_cycleimage extends ecjia_admin {
     	$this->assign('city_list', $city_list);
     	
     	$this->assign('form_action', RC_Uri::url('adsense/admin_cycleimage/insert_group'));
-    	
-    	$this->display('cycleimage_group_info.dwt');
+
+        return $this->display('cycleimage_group_info.dwt');
     }
     
     //添加轮播图处理
@@ -238,8 +238,8 @@ class admin_cycleimage extends ecjia_admin {
     	$this->assign('data', $data);
     	
     	$this->assign('form_action', RC_Uri::url('adsense/admin_cycleimage/update_group'));
-    	 
-    	$this->display('cycleimage_group_info.dwt');
+
+        return $this->display('cycleimage_group_info.dwt');
     }
     
     public function update_group() {
@@ -413,8 +413,8 @@ class admin_cycleimage extends ecjia_admin {
 		$this->assign('client_list', $client_list);
 		
     	$this->assign('form_action', RC_Uri::url('adsense/admin_cycleimage/insert'));
-    	 
-    	$this->display('cycleimage_info.dwt');
+
+        return $this->display('cycleimage_info.dwt');
         
     }
 
@@ -498,8 +498,8 @@ class admin_cycleimage extends ecjia_admin {
     	$this->assign('data', $data);
     	
     	$this->assign('form_action', RC_Uri::url('adsense/admin_cycleimage/update'));
-    	
-    	$this->display('cycleimage_info.dwt');
+
+        return $this->display('cycleimage_info.dwt');
     }
     
     public function update() {

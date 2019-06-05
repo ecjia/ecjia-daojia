@@ -106,7 +106,7 @@ class mh_group extends ecjia_merchant {
 			->get();
 		$this->assign('data_position', $data_position);
 
-		$this->display('mh_adsense_group_position_list.dwt');
+        return $this->display('mh_adsense_group_position_list.dwt');
 	}
 	
 
@@ -257,8 +257,8 @@ class mh_group extends ecjia_merchant {
 			->get();
 	
 		$this->assign('group_position_list', $group_position_list);
-	
-		$this->display('mh_adsense_group_constitute.dwt');
+
+        return $this->display('mh_adsense_group_constitute.dwt');
 	
 	}
 	

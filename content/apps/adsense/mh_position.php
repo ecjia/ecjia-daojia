@@ -93,8 +93,8 @@ class mh_position extends ecjia_merchant {
     	$this->assign('data', $data);
     	 
     	$this->assign('search_action', RC_Uri::url('adsense/mh_position/init'));
-    	 
-    	$this->display('mh_adsense_position_list.dwt');
+
+        return $this->display('mh_adsense_position_list.dwt');
     }
     
     public function add() {
@@ -105,8 +105,8 @@ class mh_position extends ecjia_merchant {
     	$this->assign('action_link', array('href' => RC_Uri::url('adsense/mh_position/init'), 'text' => __('广告位列表', 'adsense')));
     	
     	$this->assign('form_action', RC_Uri::url('adsense/mh_position/insert'));
-    	
-    	$this->display('mh_adsense_position_info.dwt');
+
+        return $this->display('mh_adsense_position_info.dwt');
     }
 
     public function insert() {
@@ -153,8 +153,8 @@ class mh_position extends ecjia_merchant {
     	$this->assign('data', $data);
     	
     	$this->assign('form_action', RC_Uri::url('adsense/mh_position/update'));
-    	
-    	$this->display('mh_adsense_position_info.dwt');
+
+        return $this->display('mh_adsense_position_info.dwt');
     }
     
     public function update() {

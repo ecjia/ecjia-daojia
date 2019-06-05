@@ -156,8 +156,8 @@ class admin_shortcut extends ecjia_admin {
 		}
 		
 		$this->assign('position_code', $position_code);
-		
-		$this->display('shortcut_list.dwt');
+
+        return $this->display('shortcut_list.dwt');
 	}
 
     public function add_group() {
@@ -172,8 +172,8 @@ class admin_shortcut extends ecjia_admin {
     	$this->assign('city_list', $city_list);
     	
     	$this->assign('form_action', RC_Uri::url('adsense/admin_shortcut/insert_group'));
-    	
-    	$this->display('shortcut_group_info.dwt');
+
+        return $this->display('shortcut_group_info.dwt');
     }
     
     
@@ -234,8 +234,8 @@ class admin_shortcut extends ecjia_admin {
     	$this->assign('data', $data);
     	
     	$this->assign('form_action', RC_Uri::url('adsense/admin_shortcut/update_group'));
-    	 
-    	$this->display('shortcut_group_info.dwt');
+
+        return $this->display('shortcut_group_info.dwt');
     }
     
     public function update_group() {
@@ -399,8 +399,8 @@ class admin_shortcut extends ecjia_admin {
 		$this->assign('client_list', $client_list);
 		
     	$this->assign('form_action', RC_Uri::url('adsense/admin_shortcut/insert'));
-    	 
-    	$this->display('shortcut_info.dwt');
+
+        return $this->display('shortcut_info.dwt');
         
     }
 
@@ -475,8 +475,8 @@ class admin_shortcut extends ecjia_admin {
     	$this->assign('data', $data);
     	
     	$this->assign('form_action', RC_Uri::url('adsense/admin_shortcut/update'));
-    	
-    	$this->display('shortcut_info.dwt');
+
+        return $this->display('shortcut_info.dwt');
     }
     
     public function update() {

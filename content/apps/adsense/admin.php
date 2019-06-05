@@ -158,7 +158,7 @@ class admin extends ecjia_admin {
 		$position_data = RC_DB::table('ad_position')->where('position_id', $position_id)->first();
 		$this->assign('position_data', $position_data);
 
-		$this->display('adsense_list.dwt');
+        return $this->display('adsense_list.dwt');
 	}
 	
 	/**
@@ -200,8 +200,8 @@ class admin extends ecjia_admin {
 		$this->assign('position_data', $position_data);
 		
 		$this->assign('form_action', RC_Uri::url('adsense/admin/insert'));
-		
-		$this->display('adsense_info.dwt');
+
+        return $this->display('adsense_info.dwt');
 	}
 	
 	/**
@@ -357,8 +357,8 @@ class admin extends ecjia_admin {
 		
 		$position_data = RC_DB::table('ad_position')->where('position_id', $position_id)->first();
 		$this->assign('position_data', $position_data);
-		
-		$this->display('adsense_info.dwt');
+
+        return $this->display('adsense_info.dwt');
 	}
 	
 	/**

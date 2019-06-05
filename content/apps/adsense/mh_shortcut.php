@@ -115,8 +115,8 @@ class mh_shortcut extends ecjia_merchant {
     	}
     	
     	$this->assign('position_code', $position_code);
-    	
-    	$this->display('mh_shortcut_list.dwt');
+
+        return $this->display('mh_shortcut_list.dwt');
     }
 
 //     public function add_group() {
@@ -191,8 +191,8 @@ class mh_shortcut extends ecjia_merchant {
     	$this->assign('data', $data);
     	
     	$this->assign('form_action', RC_Uri::url('adsense/mh_shortcut/update_group'));
-    	 
-    	$this->display('mh_shortcut_group_info.dwt');
+
+        return $this->display('mh_shortcut_group_info.dwt');
     }
     
     public function update_group() {
@@ -246,8 +246,8 @@ class mh_shortcut extends ecjia_merchant {
     	$this->assign('client_list', $client_list);
     
     	$this->assign('form_action', RC_Uri::url('adsense/mh_shortcut/insert'));
-    
-    	$this->display('mh_shortcut_info.dwt');
+
+        return $this->display('mh_shortcut_info.dwt');
     
     }
     
@@ -318,8 +318,8 @@ class mh_shortcut extends ecjia_merchant {
     	$this->assign('data', $data);
     	 
     	$this->assign('form_action', RC_Uri::url('adsense/mh_shortcut/update'));
-    	 
-    	$this->display('mh_shortcut_info.dwt');
+
+        return $this->display('mh_shortcut_info.dwt');
     }
     
     public function update() {
