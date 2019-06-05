@@ -2408,7 +2408,7 @@ class merchant extends ecjia_merchant
                 $result['result'] = true;
             }
         }
-        die(json_encode($result));
+        return RC_Response::json($result);
     }
 
     /**
@@ -2433,8 +2433,8 @@ class merchant extends ecjia_merchant
         $action_note = isset($_POST['action_note']) ? trim($_POST['action_note']) : '';
         $operation   = isset($_POST['operation']) ? $_POST['operation'] : ''; // 订单操作
 
-        if (!empty($_REQUEST['order_id'])) {
-            $order_id = $_REQUEST['order_id'];
+        if (!empty($_POST['order_id'])) {
+            $order_id = $_POST['order_id'];
 
             $db_order_info = RC_DB::table('order_info');
             if (is_array($order_id) || strpos($order_id, ',')) {
@@ -2687,10 +2687,10 @@ class merchant extends ecjia_merchant
         /* 直接处理 */
         if (!$batch) {
             /* 一个订单 */
-            $this->operate_post();
+           return $this->operate_post();
         } else {
             /* 多个订单 */
-            $this->batch_operate_post();
+            return $this->batch_operate_post();
 
         }
     }
