@@ -119,7 +119,7 @@ class mh_franchisee extends ecjia_merchant {
         $data['cat_name'] = RC_DB::table('store_category')->where('cat_id', $data['cat_id'])->pluck('cat_name');
         $this->assign('data',$data);
 
-        $this->display('merchant_info.dwt');
+        return $this->display('merchant_info.dwt');
     }
 
     /**
@@ -132,7 +132,7 @@ class mh_franchisee extends ecjia_merchant {
         $this->assign('ur_here', __('收款账号', 'merchant'));
         $data = RC_DB::table('store_franchisee')->where('store_id', $_SESSION['store_id'])->select('bank_name', 'bank_branch_name', 'bank_account_name', 'bank_account_number','bank_address')->first();
         $this->assign('data',$data);
-        $this->display('merchant_receipt.dwt');
+        return $this->display('merchant_receipt.dwt');
     }
 
     /**
@@ -148,7 +148,7 @@ class mh_franchisee extends ecjia_merchant {
         $form_action = RC_Uri::url('merchant/mh_franchisee/receipt_update');
         $this->assign('form_action',$form_action);
 
-        $this->display('merchant_receipt_edit.dwt');
+        return $this->display('merchant_receipt_edit.dwt');
     }
 
     /**
@@ -209,7 +209,7 @@ class mh_franchisee extends ecjia_merchant {
                 $arr = explode(',', $string);
                 $this->assign('logs', $arr);
                 $this->assign('step', $step);
-                $this->display('merchant_status.dwt');
+                return $this->display('merchant_status.dwt');
                 exit;
             }
         }
@@ -239,7 +239,7 @@ class mh_franchisee extends ecjia_merchant {
         $this->assign('type', $type);
 
         $this->assign('form_action', RC_Uri::url('merchant/mh_franchisee/update'));
-        $this->display('merchant_edit.dwt');
+        return $this->display('merchant_edit.dwt');
     }
 
     /**

@@ -121,7 +121,7 @@ class admin_store_setting extends ecjia_admin {
         $store_info = get_merchant_info($store_id, $arr);
         $this->assign('menu', $menu);
         $this->assign('store_info', $store_info);
-	    $this->display('store_setting.dwt');
+	    return $this->display('store_setting.dwt');
 	}
 
 	//店铺设置修改
@@ -147,7 +147,7 @@ class admin_store_setting extends ecjia_admin {
         $this->assign('store_info', $store_info);
         $this->assign('form_action', RC_Uri::url('merchant/admin_store_setting/update'));
         $this->assign('ur_here', $store['merchants_name']. ' - ' .__('编辑入驻商' ,'merchant'));
-        $this->display('store_setting_edit.dwt');
+        return $this->display('store_setting_edit.dwt');
 	}
 
 	//店铺设置修改

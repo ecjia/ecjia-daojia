@@ -159,7 +159,7 @@ class merchant extends ecjia_merchant
             $this->assign('action_link', array('href' => RC_Uri::url('merchant/merchant/cancel_store'), 'text' => __('注销店铺', 'merchant')));
         }
 
-        $this->display('merchant_basic_info.dwt');
+        return $this->display('merchant_basic_info.dwt');
     }
 
     /**
@@ -339,7 +339,7 @@ class merchant extends ecjia_merchant
         $this->assign('id', $id);
         $this->assign('shop_info', $shop_info);
         $this->assign('info_list', $shopinfo_list);
-        $this->display('merchant_shopinfo.dwt');
+        return $this->display('merchant_shopinfo.dwt');
     }
 
     /**
@@ -377,7 +377,7 @@ class merchant extends ecjia_merchant
         $this->assign('id', $id);
         $this->assign('shop_notice', $shop_notice);
         $this->assign('list', $shop_notice_list);
-        $this->display('merchant_shop_notice.dwt');
+        return $this->display('merchant_shop_notice.dwt');
     }
 
     /**
@@ -409,7 +409,7 @@ class merchant extends ecjia_merchant
             $this->assign('tips', __('您还未完成信息认证，暂无法上线店铺。您可以先完善资质信息，等待审核，等待的同时可以更新您的商品和其他信息。<a href="' . RC_Uri::url('merchant/mh_franchisee/request_edit') . '">完善资质信息</a>', 'merchant'));
         }
 
-        $this->display('mh_switch.dwt');
+        return $this->display('mh_switch.dwt');
 
     }
 
@@ -593,7 +593,7 @@ class merchant extends ecjia_merchant
         $this->assign('ur_here', __('小程序模板', 'merchant'));
         $this->assign('form_action', RC_Uri::url('merchant/merchant/template_update'));
 
-        $this->display('merchant_template.dwt');
+        return $this->display('merchant_template.dwt');
     }
 
     public function template_update()
@@ -647,7 +647,7 @@ class merchant extends ecjia_merchant
 
         $this->assign('action_link', array('href' => $preview_url, 'text' => __('预览效果', 'merchant')));
 
-        $this->display('merchant_index_template.dwt');
+        return $this->display('merchant_index_template.dwt');
     }
 
     public function store_template_update()
@@ -724,7 +724,7 @@ class merchant extends ecjia_merchant
         );
         $this->assign('article_detail', $article_detail);
 
-        $this->display('merchant_cancel_store.dwt');
+        return $this->display('merchant_cancel_store.dwt');
     }
 
     public function cancel_store_notice()
@@ -745,7 +745,7 @@ class merchant extends ecjia_merchant
             return $this->redirect(RC_Uri::url('merchant/merchant/cancel_store'));
         }
 
-        $this->display('merchant_cancel_store_notice.dwt');
+        return $this->display('merchant_cancel_store_notice.dwt');
     }
 
     public function cancel_store_confirm()
