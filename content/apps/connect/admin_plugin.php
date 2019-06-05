@@ -91,8 +91,8 @@ class admin_plugin extends ecjia_admin {
 		
 		$listdb = $this->connect_list();
 		$this->assign('listdb', $listdb);
-		
-		$this->display('connect_list.dwt');
+
+        return $this->display('connect_list.dwt');
 	}
 	
 	/**
@@ -137,7 +137,7 @@ class admin_plugin extends ecjia_admin {
 		$this->assign('form_action', RC_Uri::url('connect/admin_plugin/update'));
 	
 		$this->assign_lang();
-		$this->display('connect_edit.dwt');
+        return $this->display('connect_edit.dwt');
 	}
 	
 	/**
