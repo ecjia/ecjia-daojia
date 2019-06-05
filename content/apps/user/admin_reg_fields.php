@@ -101,7 +101,7 @@ class admin_reg_fields extends ecjia_admin
         $fields = RC_DB::table('reg_fields')->orderBy('dis_order', 'asc')->orderBy('id', 'asc')->get();
         $this->assign('reg_fields', $fields);
 
-        $this->display('reg_fields_list.dwt');
+        return $this->display('reg_fields_list.dwt');
     }
 
     /**
@@ -132,7 +132,7 @@ class admin_reg_fields extends ecjia_admin
         $this->assign('reg_field', $reg_field);
         $this->assign('form_action', RC_Uri::url('user/admin_reg_fields/insert'));
 
-        $this->display('reg_fields_edit.dwt');
+        return $this->display('reg_fields_edit.dwt');
     }
 
     /**
@@ -197,7 +197,7 @@ class admin_reg_fields extends ecjia_admin
         $this->assign('reg_field', $reg_field);
         $this->assign('form_action', RC_Uri::url('user/admin_reg_fields/update'));
 
-        $this->display('reg_fields_edit.dwt');
+        return $this->display('reg_fields_edit.dwt');
     }
 
     /**

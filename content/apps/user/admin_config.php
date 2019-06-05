@@ -74,7 +74,7 @@ class admin_config extends ecjia_admin
         $this->assign('current_code', 'user_center');
         $this->assign('form_action', RC_Uri::url('user/admin_config/update'));
 
-        $this->display('user_config.dwt');
+        return $this->display('user_config.dwt');
     }
 
     public function update()

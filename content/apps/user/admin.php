@@ -118,7 +118,7 @@ class admin extends ecjia_admin
         $this->assign('search_action', RC_Uri::url('user/admin/init'));
         $this->assign('form_action', RC_Uri::url('user/admin/batch_remove'));
 
-        $this->display('user_list.dwt');
+        return $this->display('user_list.dwt');
     }
 
     /**
@@ -171,7 +171,7 @@ class admin extends ecjia_admin
         $this->assign('extend_info_list', $extend_info_list);
         $this->assign('lang_sex', array(__('保密', 'user'), __('男', 'user'), __('女', 'user')));
 
-        $this->display('user_edit.dwt');
+        return $this->display('user_edit.dwt');
     }
 
     /**
@@ -422,7 +422,7 @@ class admin extends ecjia_admin
         $this->assign('user', $user);
         $this->assign('form_action', RC_Uri::url('user/admin/update'));
 
-        $this->display('user_edit.dwt');
+        return $this->display('user_edit.dwt');
     }
 
     /**
@@ -704,7 +704,7 @@ class admin extends ecjia_admin
         }
         $this->assign('is_expired', $is_expired);
 
-        $this->display('user_info.dwt');
+        return $this->display('user_info.dwt');
     }
 
     /**
@@ -776,7 +776,7 @@ class admin extends ecjia_admin
         }
         $this->assign('count', $count);
 
-        $this->display('user_delete.dwt');
+        return $this->display('user_delete.dwt');
     }
 
     /**
@@ -949,7 +949,7 @@ class admin extends ecjia_admin
         $this->assign('id', $id);
         $this->assign('user_name', $user_name);
 
-        $this->display('user_address_list.dwt');
+        return $this->display('user_address_list.dwt');
     }
 
     //注销申请
@@ -970,7 +970,7 @@ class admin extends ecjia_admin
         $action = $_SESSION['action_list'] == 'all' ? true : false;
         $this->assign('action', $action);
 
-        $this->display('user_cancel_list.dwt');
+        return $this->display('user_cancel_list.dwt');
     }
 
     private function get_user_list()

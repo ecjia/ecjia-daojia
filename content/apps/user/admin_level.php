@@ -100,7 +100,7 @@ class admin_level extends ecjia_admin
         $stats = !empty($_GET['stats']) ? trim($_GET['stats']) : 'order_money';
         $this->assign('stats', $stats);
 
-        $this->display('user_level_list.dwt');
+        return $this->display('user_level_list.dwt');
     }
 
     public function download()

@@ -102,7 +102,7 @@ class admin_rank extends ecjia_admin
         $ranks = RC_DB::table('user_rank')->orderBy('rank_id', 'desc')->get();
         $this->assign('user_ranks', $ranks);
 
-        $this->display('user_rank_list.dwt');
+        return $this->display('user_rank_list.dwt');
     }
 
     /**
@@ -136,7 +136,7 @@ class admin_rank extends ecjia_admin
         $this->assign('rank', $rank);
         $this->assign('form_action', RC_Uri::url('user/admin_rank/insert'));
 
-        $this->display('user_rank_edit.dwt');
+        return $this->display('user_rank_edit.dwt');
     }
 
     /**
@@ -224,7 +224,7 @@ class admin_rank extends ecjia_admin
         $this->assign('rank', $rank);
         $this->assign('form_action', RC_Uri::url('user/admin_rank/update'));
 
-        $this->display('user_rank_edit.dwt');
+        return $this->display('user_rank_edit.dwt');
     }
 
     /**
