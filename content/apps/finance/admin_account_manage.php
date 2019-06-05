@@ -143,7 +143,7 @@ class admin_account_manage extends ecjia_admin
         $log_list = $this->get_account_log();
         $this->assign('log_list', $log_list);
 
-        $this->display('admin_account_manage.dwt');
+        return $this->display('admin_account_manage.dwt');
     }
 
     /**
@@ -164,7 +164,7 @@ class admin_account_manage extends ecjia_admin
         $this->assign('order_list', $order_list);
         $this->assign('form_action', RC_Uri::url('finance/admin_account_manage/surplus'));
 
-        $this->display('user_surplus_list.dwt');
+        return $this->display('user_surplus_list.dwt');
     }
 
     private function get_stats()

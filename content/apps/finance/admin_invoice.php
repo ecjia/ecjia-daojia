@@ -86,7 +86,7 @@ class admin_invoice extends ecjia_admin
         $invoice_list = $this->get_invoice_list();
         $this->assign('invoice_list', $invoice_list);
 
-        $this->display('admin_invoice_list.dwt');
+        return $this->display('admin_invoice_list.dwt');
     }
 
     /**
@@ -107,7 +107,7 @@ class admin_invoice extends ecjia_admin
         $invoice_info['user_name']   = RC_DB::table('users')->where('user_id', $invoice_info['user_id'])->pluck('user_name');
         $this->assign('invoice_info', $invoice_info);
 
-        $this->display('admin_invoice_info.dwt');
+        return $this->display('admin_invoice_info.dwt');
     }
 
     /**

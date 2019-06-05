@@ -161,7 +161,7 @@ class admin_account_log extends ecjia_admin
         $this->assign('account_type', $account_type);
         $this->assign('account_list', $account_list);
 
-        $this->display('account_log_list.dwt');
+        return $this->display('account_log_list.dwt');
     }
 
     public function add_pay_points()
@@ -182,7 +182,7 @@ class admin_account_log extends ecjia_admin
         $user = get_user_info($user_id);
         $this->assign('user', $user);
 
-        $this->display('account_points.dwt');
+        return $this->display('account_points.dwt');
     }
 
     public function minus_pay_points()
@@ -203,7 +203,7 @@ class admin_account_log extends ecjia_admin
         $user = get_user_info($user_id);
         $this->assign('user', $user);
 
-        $this->display('account_points.dwt');
+        return $this->display('account_points.dwt');
     }
 
     public function add_rank_points()
@@ -232,7 +232,7 @@ class admin_account_log extends ecjia_admin
 
         $this->assign('user', $user);
 
-        $this->display('account_points.dwt');
+        return $this->display('account_points.dwt');
     }
 
     public function minus_rank_points()
@@ -261,7 +261,7 @@ class admin_account_log extends ecjia_admin
 
         $this->assign('user', $user);
 
-        $this->display('account_points.dwt');
+        return $this->display('account_points.dwt');
     }
 
     public function add_user_money()
@@ -282,7 +282,7 @@ class admin_account_log extends ecjia_admin
         $user = get_user_info($user_id);
         $this->assign('user', $user);
 
-        $this->display('account_points.dwt');
+        return $this->display('account_points.dwt');
     }
 
     public function minus_user_money()
@@ -303,7 +303,7 @@ class admin_account_log extends ecjia_admin
         $user = get_user_info($user_id);
         $this->assign('user', $user);
 
-        $this->display('account_points.dwt');
+        return $this->display('account_points.dwt');
     }
 
     /**

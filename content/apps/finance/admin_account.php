@@ -111,7 +111,7 @@ class admin_account extends ecjia_admin
         $payment = get_payment();
         $this->assign('payment', $payment);
 
-        $this->display('admin_account_list.dwt');
+        return $this->display('admin_account_list.dwt');
     }
 
     /**
@@ -137,7 +137,7 @@ class admin_account extends ecjia_admin
         $user = get_user_info($id);
         $this->assign('user', $user);
 
-        $this->display('admin_account_edit.dwt');
+        return $this->display('admin_account_edit.dwt');
     }
 
     /**
@@ -462,7 +462,7 @@ class admin_account extends ecjia_admin
         $this->assign('account_info', $account_info);
         $this->assign('order_sn', $order_sn);
         $this->assign('id', $id);
-        $this->display('admin_account_info.dwt');
+        return $this->display('admin_account_info.dwt');
     }
 
     /**
