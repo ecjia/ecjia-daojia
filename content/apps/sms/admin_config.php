@@ -94,7 +94,7 @@ class admin_config extends ecjia_admin
         $this->assign('current_code', 'sms');
         $this->assign('form_action', RC_Uri::url('sms/admin_config/update'));
 
-        $this->display('sms_config.dwt');
+        return $this->display('sms_config.dwt');
     }
 
     /**

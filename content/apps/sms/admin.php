@@ -107,7 +107,7 @@ class admin extends ecjia_admin
 
         $this->assign('search_action', RC_Uri::url('sms/admin/init'));
 
-        $this->display('sms_send_history.dwt');
+        return $this->display('sms_send_history.dwt');
     }
 
     /**

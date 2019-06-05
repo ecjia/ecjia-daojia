@@ -112,7 +112,7 @@ class admin_events extends ecjia_admin
         }
         $this->assign('data', $data);
 
-        $this->display('sms_events_list.dwt');
+        return $this->display('sms_events_list.dwt');
     }
 
     public function open()

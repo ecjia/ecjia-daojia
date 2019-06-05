@@ -86,7 +86,7 @@ class admin_plugin extends ecjia_admin
         $list_data = $this->get_channel_list();
         $this->assign('list', $list_data);
 
-        $this->display('sms_channel.dwt');
+        return $this->display('sms_channel.dwt');
     }
 
     /**
@@ -144,7 +144,7 @@ class admin_plugin extends ecjia_admin
         }
         $this->assign('channel', $channel_info);
 
-        $this->display('sms_channel_edit.dwt');
+        return $this->display('sms_channel_edit.dwt');
     }
 
     /**

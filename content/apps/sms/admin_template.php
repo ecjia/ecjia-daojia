@@ -118,7 +118,7 @@ class admin_template extends ecjia_admin
 
         $this->assign('template', $template);
 
-        $this->display('sms_template_list.dwt');
+        return $this->display('sms_template_list.dwt');
     }
 
     /**
@@ -167,7 +167,7 @@ class admin_template extends ecjia_admin
         $this->assign('form_action', RC_Uri::url('sms/admin_template/insert'));
         $this->assign('action', 'insert');
 
-        $this->display('sms_template_info.dwt');
+        return $this->display('sms_template_info.dwt');
     }
 
     public function ajax_event()
@@ -301,7 +301,7 @@ class admin_template extends ecjia_admin
 
         $this->assign('form_action', RC_Uri::url('sms/admin_template/update'));
 
-        $this->display('sms_template_info.dwt');
+        return $this->display('sms_template_info.dwt');
     }
 
     /**
@@ -365,7 +365,7 @@ class admin_template extends ecjia_admin
 
         $this->assign('form_action', RC_Uri::url('sms/admin_template/test_request'));
 
-        $this->display('sms_template_test.dwt');
+        return $this->display('sms_template_test.dwt');
 
     }
 
