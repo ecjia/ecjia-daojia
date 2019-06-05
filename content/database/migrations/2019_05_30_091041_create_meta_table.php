@@ -14,10 +14,10 @@ class CreateMetaTable extends Migration
     {
         RC_Schema::create('meta', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('metable_type');
+            $table->string('metable_type', 150);
             $table->unsignedInteger('metable_id');
             $table->string('type')->nullable()->default('null');
-            $table->string('key')->index();
+            $table->string('key', 150)->index();
             $table->longtext('value');
 
             $table->index(['metable_type', 'metable_id'], 'metable_type_id');
