@@ -128,10 +128,10 @@ class ecjia_view
         $content = $this->smarty->fetch($resource_name, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
     
         if ($show) {
-            $charset = strtoupper(RC_CHARSET) == 'UTF8' ? "UTF-8" : strtoupper(RC_CHARSET);
-            if (! headers_sent()) {
-                header("Content-type:" . $content_type . ';charset=' . $charset);
-            }
+//            $charset = strtoupper(RC_CHARSET) == 'UTF8' ? "UTF-8" : strtoupper(RC_CHARSET);
+//            if (! headers_sent()) {
+//                header("Content-type:" . $content_type . ';charset=' . $charset);
+//            }
             return $this->displayContent($content);
         } else {
             return $content;
