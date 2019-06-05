@@ -112,7 +112,7 @@ class admin_order_back extends ecjia_admin
         $this->assign('form_action', RC_Uri::url('orders/admin_order_back/init'));
         $this->assign('del_action', RC_Uri::url('orders/admin_order_back/remove'));
 
-        $this->display('back_list.dwt');
+        return $this->display('back_list.dwt');
     }
 
     /**
@@ -183,7 +183,7 @@ class admin_order_back extends ecjia_admin
         $this->assign('ur_here', __('退货单操作：查看', 'orders'));
         $this->assign('action_link', array('href' => RC_Uri::url('orders/admin_order_back/init'), 'text' => __('退货单列表', 'orders')));
 
-        $this->display('back_info.dwt');
+        return $this->display('back_info.dwt');
     }
 
     /* 退货单删除 */

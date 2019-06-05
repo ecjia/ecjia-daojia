@@ -108,7 +108,7 @@ class mh_sale_list extends ecjia_merchant
         $this->assign('search_action', RC_Uri::url('orders/mh_sale_list/init'));
 
         $this->assign_lang();
-        $this->display('sale_list.dwt');
+        return $this->display('sale_list.dwt');
     }
 
     /**

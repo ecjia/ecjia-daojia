@@ -100,7 +100,7 @@ class mh_back extends ecjia_merchant
         $this->assign('del_action', RC_Uri::url('orders/mh_back/remove'));
 
         $this->assign_lang();
-        $this->display('back_list.dwt');
+        return $this->display('back_list.dwt');
     }
 
     /**
@@ -166,7 +166,7 @@ class mh_back extends ecjia_merchant
         $this->assign('action_link', array('href' => RC_Uri::url('orders/mh_back/init'), 'text' => __('退货单列表', 'orders')));
 
         $this->assign_lang();
-        $this->display('back_info.dwt');
+        return $this->display('back_info.dwt');
     }
 
     /* 退货单删除 */

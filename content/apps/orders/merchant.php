@@ -230,9 +230,9 @@ class merchant extends ecjia_merchant
         $this->assign('referer_list', $referer_list);
 
         if ($order_model == 'groupbuy') {
-            $this->display('mh_groupbuy_order_list.dwt');
+            return $this->display('mh_groupbuy_order_list.dwt');
         } else {
-            $this->display('mh_order_list.dwt');
+            return $this->display('mh_order_list.dwt');
         }
     }
 
@@ -351,7 +351,7 @@ class merchant extends ecjia_merchant
         $this->assign('status_list', $status_list);
         $this->assign('search_url', RC_Uri::url('orders/merchant/today_order'));
 
-        $this->display('today_order_list.dwt');
+        return $this->display('today_order_list.dwt');
     }
 
     /**
@@ -653,7 +653,7 @@ class merchant extends ecjia_merchant
             /* 参数赋值：订单 */
             $this->assign('order', $order);
 
-            $this->display('order_print.dwt');
+            return $this->display('order_print.dwt');
         } elseif (isset($_GET['shipping_print'])) {
             /* 打印快递单 */
             $this->assign('print_time', RC_Time::local_date(ecjia::config('time_format')));
@@ -753,7 +753,7 @@ class merchant extends ecjia_merchant
                 $shipping['config_lable'] = implode('||,||', $temp_config_lable);
                 $this->assign('shipping', $shipping);
                 
-                $this->display('print.dwt');
+                return $this->display('print.dwt');
                 
             } elseif (!empty($shipping['shipping_print'])) {
             	//自定义模板设置
@@ -765,7 +765,7 @@ class merchant extends ecjia_merchant
                 $shipping_print_template  = $plugin_handle->loadPrintOption('shipping_print');
                 
                 if ($shipping_print_template) {//存在模板文件
-                	return $this->display($shipping_print_template);
+                    return $this->display($shipping_print_template);
                 } else {
                 	echo __('很抱歉，目前您还没有设置打印快递单模板，不能进行打印。', 'orders');
                 }
@@ -845,9 +845,9 @@ class merchant extends ecjia_merchant
             $order_handle = true;
             $this->assign('order_model', $order_model);
             if ($order_model == 'storebuy' || $order_model == 'cashdesk') {
-                $this->display('order_storebuy_info.dwt');
+                return $this->display('order_storebuy_info.dwt');
             } elseif ($order_model == 'storepickup') {
-                $this->display('order_storepickup_info.dwt');
+                return $this->display('order_storepickup_info.dwt');
             } else {
                 if ($order_model == 'group_buy') {
                     RC_Loader::load_app_func('admin_goods', 'goods');
@@ -862,7 +862,7 @@ class merchant extends ecjia_merchant
                     $this->assign('groupbuy_deposit_status', $groupbuy_deposit_status);
                 }
                 $this->assign('order_handle', $order_handle);//订单是否允许操作
-                $this->display('order_info.dwt');
+                return $this->display('order_info.dwt');
             }
         }
     }
@@ -967,7 +967,7 @@ class merchant extends ecjia_merchant
             $shipping['config_lable'] = $templatebox->transformPrintData($shipping['config_lable']);
     		$this->assign('shipping', $shipping);
     		 
-    		$this->display('print.dwt');
+    		return $this->display('print.dwt');
     		 
     	} else {
             $templatebox = new \Ecjia\App\Shipping\ShippingTemplate();
@@ -1087,7 +1087,7 @@ class merchant extends ecjia_merchant
         $this->assign('form_action', RC_Uri::url('orders/merchant/init'));
 
         $this->assign_lang();
-        $this->display('order_query.dwt');
+        return $this->display('order_query.dwt');
     }
 
     /**
@@ -1131,7 +1131,7 @@ class merchant extends ecjia_merchant
         $this->assign('form_action', RC_Uri::url('orders/merchant/ajax_merge_order'));
 
         $this->assign_lang();
-        $this->display('order_merge.dwt');
+        return $this->display('order_merge.dwt');
     }
 
     /**
@@ -1391,7 +1391,7 @@ class merchant extends ecjia_merchant
         $this->assign('ur_here', $ur_here);
         /* 显示模板 */
         $this->assign_lang();
-        $this->display('order_step.dwt');
+        return $this->display('order_step.dwt');
     }
 
     /**
@@ -2301,7 +2301,7 @@ class merchant extends ecjia_merchant
         $this->assign('form_action', RC_Uri::url('orders/merchant/operate_post'));
 
         $this->assign_lang();
-        $this->display('order_delivery_info.dwt');
+        return $this->display('order_delivery_info.dwt');
     }
 
     public function operate_note()
@@ -5344,7 +5344,7 @@ class merchant extends ecjia_merchant
         $this->assign('exist_real_goods', $exist_real_goods);
         $this->assign('payment_list', $payment_list);
 
-        $this->display('order_edit_shipping.dwt');
+        return $this->display('order_edit_shipping.dwt');
     }
 
     //编辑订单提交

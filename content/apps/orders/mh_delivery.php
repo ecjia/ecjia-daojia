@@ -118,7 +118,7 @@ class mh_delivery extends ecjia_merchant
         $this->assign('form_action', RC_Uri::url('orders/mh_delivery/remove&type=batch'));
 
         $this->assign_lang();
-        $this->display('delivery_list.dwt');
+        return $this->display('delivery_list.dwt');
     }
 
     /**
@@ -252,7 +252,7 @@ class mh_delivery extends ecjia_merchant
         $this->assign('form_action', ($delivery_order['status'] == 2) ? RC_Uri::url('orders/mh_delivery/delivery_ship') : RC_Uri::url('orders/mh_delivery/delivery_cancel_ship'));
 
         $this->assign_lang();
-        $this->display('delivery_info.dwt');
+        return $this->display('delivery_info.dwt');
     }
 
     /**

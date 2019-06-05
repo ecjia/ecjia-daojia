@@ -114,7 +114,7 @@ class admin_users_order extends ecjia_admin
 
         $this->assign('search_action', RC_Uri::url('orders/admin_users_order/init'));
 
-        $this->display('users_order.dwt');
+        return $this->display('users_order.dwt');
     }
 
     /**

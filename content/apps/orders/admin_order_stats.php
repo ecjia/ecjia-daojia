@@ -114,7 +114,7 @@ class admin_order_stats extends ecjia_admin
         $stats = !empty($_GET['stats']) ? trim($_GET['stats']) : 'valid_amount';
         $this->assign('stats', $stats);
 
-        $this->display('order_stats_list.dwt');
+        return $this->display('order_stats_list.dwt');
     }
 
     /**
@@ -174,7 +174,7 @@ class admin_order_stats extends ecjia_admin
         $data = $this->get_order_general($store_id);
         $this->assign('data', $data);
 
-        $this->display('order_stats.dwt');
+        return $this->display('order_stats.dwt');
     }
 
     /**
@@ -234,7 +234,7 @@ class admin_order_stats extends ecjia_admin
         $data = $this->get_ship_status($store_id);
         $this->assign('data', $data);
 
-        $this->display('order_stats.dwt');
+        return $this->display('order_stats.dwt');
     }
 
     /**
@@ -294,7 +294,7 @@ class admin_order_stats extends ecjia_admin
         $data = $this->get_pay_status();
         $this->assign('data', $data);
 
-        $this->display('order_stats.dwt');
+        return $this->display('order_stats.dwt');
     }
 
     /**

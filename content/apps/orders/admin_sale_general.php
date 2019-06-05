@@ -96,7 +96,7 @@ class admin_sale_general extends ecjia_admin
         $this->assign('data', $data['item']);
         $this->assign('filter', $data['filter']);
 
-        $this->display('sale_general.dwt');
+        return $this->display('sale_general.dwt');
     }
 
     /**
@@ -117,7 +117,7 @@ class admin_sale_general extends ecjia_admin
         $data       = $this->get_order_status($order_type);
         $this->assign('data', $data['item']);
         $this->assign('filter', $data['filter']);
-        $this->display('sale_general.dwt');
+        return $this->display('sale_general.dwt');
     }
 
     /**

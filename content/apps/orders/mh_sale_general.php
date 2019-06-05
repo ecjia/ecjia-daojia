@@ -107,7 +107,7 @@ class mh_sale_general extends ecjia_merchant
         $this->assign('filter', $data['filter']);
 
         $this->assign_lang();
-        $this->display('sale_general.dwt');
+        return $this->display('sale_general.dwt');
     }
 
     /**
@@ -134,7 +134,7 @@ class mh_sale_general extends ecjia_merchant
         $this->assign('filter', $data['filter']);
 
         $this->assign_lang();
-        $this->display('sale_general.dwt');
+        return $this->display('sale_general.dwt');
     }
 
     /**

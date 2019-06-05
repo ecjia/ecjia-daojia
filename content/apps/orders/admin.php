@@ -180,9 +180,9 @@ class admin extends ecjia_admin
         $this->assign('referer_list', $referer_list);
 
         if ($filter['extension_code'] == 'default' || $filter['extension_code'] == 'group_buy') {
-            $this->display('order_list.dwt');
+            return $this->display('order_list.dwt');
         } else {
-            $this->display('other_order_list.dwt');
+            return $this->display('other_order_list.dwt');
         }
     }
 
@@ -585,7 +585,7 @@ class admin extends ecjia_admin
                 }
                 $shipping['config_lable'] = implode('||,||', $temp_config_lable);
                 $this->assign('shipping', $shipping);
-                $this->display('print.dwt');
+                return $this->display('print.dwt');
             } elseif (!empty($shipping['shipping_print'])) {
                 /* 代码 */
                 echo $this->fetch_string($shipping['shipping_print']);
@@ -653,9 +653,9 @@ class admin extends ecjia_admin
                     $groupbuy_deposit_status = $this->get_groupbuy_deposit_status($order, $groupbuy_info);
                     $this->assign('groupbuy_deposit_status', $groupbuy_deposit_status);
                 }
-                $this->display('order_info.dwt');
+                return $this->display('order_info.dwt');
             } else {
-                $this->display('other_order_info.dwt');
+                return $this->display('other_order_info.dwt');
             }
         }
     }
@@ -720,7 +720,7 @@ class admin extends ecjia_admin
         $this->assign('action_link', array('href' => RC_Uri::url('orders/admin/init'), 'text' => __('订单列表', 'orders')));
         $this->assign('form_action', RC_Uri::url('orders/admin/init'));
 
-        $this->display('order_query.dwt');
+        return $this->display('order_query.dwt');
     }
 
     /**
@@ -759,7 +759,7 @@ class admin extends ecjia_admin
         $this->assign('form_action', RC_Uri::url('orders/admin/ajax_merge_order'));
 
         $this->assign_lang();
-        $this->display('order_merge.dwt');
+        return $this->display('order_merge.dwt');
     }
 
     /**
@@ -999,7 +999,7 @@ class admin extends ecjia_admin
         }
         $this->assign('ur_here', $ur_here);
 
-        $this->display('order_step.dwt');
+        return $this->display('order_step.dwt');
     }
 
     /**
@@ -1902,7 +1902,7 @@ class admin extends ecjia_admin
         $this->assign('form_action', RC_Uri::url('orders/admin/operate_post'));
 
         $this->assign_lang();
-        $this->display('order_delivery_info.dwt');
+        return $this->display('order_delivery_info.dwt');
     }
 
     public function operate_note()

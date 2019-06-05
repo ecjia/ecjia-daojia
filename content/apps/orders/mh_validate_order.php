@@ -106,7 +106,7 @@ class mh_validate_order extends ecjia_merchant
         $this->assign('action_link', $action_link);
         $this->assign('form_action', RC_Uri::url('orders/mh_validate_order/validate'));
 
-        $this->display('validate_order.dwt');
+        return $this->display('validate_order.dwt');
     }
 
     /**

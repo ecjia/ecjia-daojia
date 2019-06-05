@@ -121,7 +121,7 @@ class admin_guest_stats extends ecjia_admin
         $this->assign('user_ratio', sprintf("%0.2f", ($user_num > 0 ? $have_order_usernum / $user_num : 0) * 100));
 
         $this->assign_lang();
-        $this->display('guest_stats.dwt');
+        return $this->display('guest_stats.dwt');
     }
 
     /**

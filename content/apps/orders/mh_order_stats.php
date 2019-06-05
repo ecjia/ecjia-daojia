@@ -130,7 +130,7 @@ class mh_order_stats extends ecjia_merchant
         $data = $this->get_order_general($store_id);
         $this->assign('data', $data);
 
-        $this->display('order_stats.dwt');
+        return $this->display('order_stats.dwt');
     }
 
     /**
@@ -185,7 +185,7 @@ class mh_order_stats extends ecjia_merchant
         $data = $this->get_ship_status($store_id);
         $this->assign('data', $data);
 
-        $this->display('order_stats.dwt');
+        return $this->display('order_stats.dwt');
     }
 
     /**
@@ -240,7 +240,7 @@ class mh_order_stats extends ecjia_merchant
         $data = $this->get_pay_status();
         $this->assign('data', $data);
 
-        $this->display('order_stats.dwt');
+        return $this->display('order_stats.dwt');
     }
 
     /**

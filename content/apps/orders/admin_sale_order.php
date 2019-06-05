@@ -135,7 +135,7 @@ class admin_sale_order extends ecjia_admin
         $this->assign('goods_order_data', $goods_order_data);
         $this->assign('search_action', RC_Uri::url('orders/admin_sale_order/init'));
 
-        $this->display('sale_order.dwt');
+        return $this->display('sale_order.dwt');
     }
 
     /**

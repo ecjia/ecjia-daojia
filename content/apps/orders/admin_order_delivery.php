@@ -112,7 +112,7 @@ class admin_order_delivery extends ecjia_admin
         $delivery_status = array(__('已发货', 'orders'), __('退货', 'orders'), __('正常', 'orders'));
         $this->assign('lang_delivery_status', $delivery_status);
 
-        $this->display('delivery_list.dwt');
+        return $this->display('delivery_list.dwt');
     }
 
     /**
@@ -257,7 +257,7 @@ class admin_order_delivery extends ecjia_admin
         $this->assign('action_act', ($delivery_order['status'] == 2) ? 'delivery_ship' : 'delivery_cancel_ship');
         $this->assign('form_action', ($delivery_order['status'] == 2) ? RC_Uri::url('orders/admin_order_delivery/delivery_ship') : RC_Uri::url('orders/admin_order_delivery/delivery_cancel_ship'));
 
-        $this->display('delivery_info.dwt');
+        return $this->display('delivery_info.dwt');
     }
 
     /**

@@ -127,7 +127,7 @@ class admin_sale_list extends ecjia_admin
         $this->assign('end_date', $end_date);
         $this->assign('search_action', RC_Uri::url('orders/admin_sale_list/init'));
 
-        $this->display('sale_list.dwt');
+        return $this->display('sale_list.dwt');
     }
 
     /**

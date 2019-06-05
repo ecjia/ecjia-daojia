@@ -122,7 +122,7 @@ class mh_reminder extends ecjia_merchant
         $this->assign('form_action', RC_Uri::url('orders/mh_reminder/remove&type=batch'));
         $this->assign('order_remind', $result_list['list']);
         $this->assign('result_list', $result_list);
-        $this->display('remind_list.dwt');
+        return $this->display('remind_list.dwt');
     }
 
 
