@@ -99,7 +99,7 @@ class admin_view_sendlist extends ecjia_admin {
 		$this->assign('form_action', RC_Uri::url('mail/admin_view_sendlist/all_send'));
 		$this->assign('search_action', RC_Uri::url('mail/admin_view_sendlist/init'));
 		
-		$this->display('view_sendlist.dwt');
+		return $this->display('view_sendlist.dwt');
 	}
 	
 	/**

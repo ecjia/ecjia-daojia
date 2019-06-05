@@ -96,7 +96,7 @@ class admin_email_list extends ecjia_admin {
 		
 		$this->assign('form_action', RC_Uri::url('mail/admin_email_list/batch'));
 		
-		$this->display('email_list.dwt');
+		return $this->display('email_list.dwt');
 	}
 	
 	public function export() {

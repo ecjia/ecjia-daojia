@@ -106,7 +106,7 @@ class admin extends ecjia_admin {
 		$this->assign('templates', $data);
 		
 		$this->assign_lang();
-		$this->display('mail_template_list.dwt');
+		return $this->display('mail_template_list.dwt');
 	}
 
 	/**
@@ -155,7 +155,7 @@ class admin extends ecjia_admin {
 		$this->assign('template', $content);
 		
 		$this->assign_lang();
-		$this->display('mail_template_info.dwt');
+		return $this->display('mail_template_info.dwt');
 	}
 	
 	/**
@@ -228,7 +228,7 @@ class admin extends ecjia_admin {
 		$this->assign('template', $content);
 
 		$this->assign_lang();
-		$this->display('mail_template_info.dwt');
+		return $this->display('mail_template_info.dwt');
 	}
 }
 

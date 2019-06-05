@@ -92,7 +92,7 @@ class admin_mail_settings extends ecjia_admin {
 		$this->assign('items', $items);
 		
 		$this->assign('form_action', RC_Uri::url('mail/admin_mail_settings/update'));
-		$this->display('shop_config_mail_settings.dwt');
+		return $this->display('shop_config_mail_settings.dwt');
 	}
 	
 	/**
@@ -122,10 +122,10 @@ class admin_mail_settings extends ecjia_admin {
 		ecjia_config::instance()->clear_cache();
 		ecjia_cloud::instance()->api('product/analysis/record')->data(ecjia_utility::get_site_info())->run();
 
-		ecjia_admin_log::instance()->add_object('maill', '邮件服务器');
-		ecjia_admin::admin_log(__('修改邮件服务器设置', 'mail'), 'edit', 'maill');
+		ecjia_admin_log::instance()->add_object('mail', '邮件服务器');
+		ecjia_admin::admin_log(__('修改邮件服务器设置', 'mail'), 'edit', 'mail');
 		
-		$this->showmessage(__('邮件服务器设置成功。', 'mail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('mail/admin_mail_settings/init')));
+		return $this->showmessage(__('邮件服务器设置成功。', 'mail'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS,array('pjaxurl' => RC_Uri::url('mail/admin_mail_settings/init')));
 	}
 	
 	
@@ -157,9 +157,9 @@ class admin_mail_settings extends ecjia_admin {
 
 		$error = RC_Mail::send_mail($test_mail_address, $test_mail_address, __('测试邮件', 'mail'),  __('您好！这是一封检测邮件服务器设置的测试邮件。收到此邮件，意味着您的邮件服务器设置正确！您可以进行其它邮件发送的操作了！', 'mail'), 0);
 		if ( RC_Error::is_error($error) ) {
-			$this->showmessage(sprintf(__('测试邮件发送失败！%s', 'mail'), $error->get_error_message()) , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
+			return $this->showmessage(sprintf(__('测试邮件发送失败！%s', 'mail'), $error->get_error_message()) , ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
 		} else {
-			$this->showmessage(sprintf(__('恭喜！测试邮件已成功发送到 %s。', 'mail'), $test_mail_address), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
+            return $this->showmessage(sprintf(__('恭喜！测试邮件已成功发送到 %s。', 'mail'), $test_mail_address), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS);
 		}
 	}
 
