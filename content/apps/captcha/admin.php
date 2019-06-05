@@ -131,7 +131,7 @@ class admin extends ecjia_admin {
 		$this->assign('form_action',RC_Uri::url('captcha/admin/save_config'));
 
 		$this->assign_lang();
-		$this->display('captcha_list.dwt');
+        return $this->display('captcha_list.dwt');
 	}
 
 
