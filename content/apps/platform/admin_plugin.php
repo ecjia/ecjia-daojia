@@ -100,7 +100,7 @@ class admin_plugin extends ecjia_admin
         $modules = $this->exts_list();
         $this->assign('modules', $modules);
 
-        $this->display('extend_list.dwt');
+        return $this->display('extend_list.dwt');
     }
 
     /**
@@ -131,7 +131,7 @@ class admin_plugin extends ecjia_admin
 
         $this->assign('bd', $bd);
 
-        $this->display('extend_edit.dwt');
+        return $this->display('extend_edit.dwt');
     }
 
     /**

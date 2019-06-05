@@ -111,7 +111,7 @@ class admin_command extends ecjia_admin
         $modules = $this->get_command_list();
         $this->assign('modules', $modules);
 
-        $this->display('extend_command_list.dwt');
+        return $this->display('extend_command_list.dwt');
     }
 
     /**

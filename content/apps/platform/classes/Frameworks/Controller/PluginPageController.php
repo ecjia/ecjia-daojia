@@ -66,8 +66,7 @@ class PluginPageController
     public function redirect($url)
     {
         ecjia_front::$controller->redirect($url);
-        royalcms('response')->send();
-        exit();
+        ecjia_front::$controller->exited();
     }
 
 }

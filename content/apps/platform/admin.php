@@ -110,7 +110,7 @@ class admin extends ecjia_admin
         $this->assign('wechat_list', $wechat_list);
         $this->assign('search_action', RC_Uri::url('platform/admin/init'));
 
-        $this->display('wechat_list.dwt');
+        return $this->display('wechat_list.dwt');
     }
 
     /**
@@ -137,7 +137,7 @@ class admin extends ecjia_admin
         $this->assign('form_action', RC_Uri::url('platform/admin/insert'));
         $this->assign('wechat', array('status' => 1));
 
-        $this->display('wechat_edit.dwt');
+        return $this->display('wechat_edit.dwt');
     }
 
     /**
@@ -239,7 +239,7 @@ class admin extends ecjia_admin
 
         $this->assign('form_action', RC_Uri::url('platform/admin/update'));
 
-        $this->display('wechat_edit.dwt');
+        return $this->display('wechat_edit.dwt');
     }
 
     /**

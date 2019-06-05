@@ -109,7 +109,7 @@ class merchant extends ecjia_merchant
             $this->assign('action_link', array('text' => __('添加公众号', 'platform'), 'href' => RC_Uri::url('platform/merchant/add')));
         }
 
-        $this->display('wechat_list.dwt');
+        return $this->display('wechat_list.dwt');
     }
 
     /**
@@ -141,7 +141,7 @@ class merchant extends ecjia_merchant
         $this->assign('form_action', RC_Uri::url('platform/merchant/insert'));
         $this->assign('wechat', array('status' => 1));
 
-        $this->display('wechat_edit.dwt');
+        return $this->display('wechat_edit.dwt');
     }
 
     /**
@@ -249,7 +249,7 @@ class merchant extends ecjia_merchant
 
         $this->assign('form_action', RC_Uri::url('platform/merchant/update'));
 
-        $this->display('wechat_edit.dwt');
+        return $this->display('wechat_edit.dwt');
     }
 
     /**

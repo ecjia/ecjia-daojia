@@ -70,7 +70,7 @@ class admin_privilege extends ecjia_admin
 
         RC_Script::enqueue_script('ecjia-admin_privilege');
 
-        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('管理员管理', 'platform'), RC_Uri::url('@privilege/init')));
+        ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('管理员管理', 'platform'), RC_Uri::url('@admin_user/init')));
     }
 
     /**
@@ -95,22 +95,25 @@ class admin_privilege extends ecjia_admin
 
         /* 如果被编辑的管理员拥有了all这个权限，将不能编辑 */
         if ($priv_str == 'all') {
-            $link[] = array('text' => __('返回管理员列表', 'platform'), 'href' => RC_Uri::url('@privilege/init'));
-            return $this->showmessage(__('您不能对此管理员的权限进行任何操作！', 'platform'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $link));
+            $links = ecjia_alert_links([
+                'text' => __('返回管理员列表', 'platform'),
+                'href' => RC_Uri::url('@admin_user/init'),
+            ]);
+            return $this->showmessage(__('您不能对此管理员的权限进行任何操作！', 'platform'), ecjia::MSGTYPE_HTML | ecjia::MSGSTAT_ERROR, array('links' => $links));
         }
 
         $priv_group = \Ecjia\App\Platform\Frameworks\Component\Purview::load_purview($priv_str);
 
         /* 赋值 */
         $this->assign('ur_here', sprintf(__('分派公众平台权限 [ %s ] ', 'platform'), $user_name));
-        $this->assign('action_link', array('href' => RC_Uri::url('@privilege/init'), 'text' => __('管理员列表', 'platform')));
+        $this->assign('action_link', array('href' => RC_Uri::url('@admin_user/init'), 'text' => __('管理员列表', 'platform')));
         $this->assign('priv_group', $priv_group);
         $this->assign('user_id', $userid);
 
         /* 显示页面 */
         $this->assign('form_action', RC_Uri::url('platform/admin_privilege/update_allot'));
 
-        $this->display('privilege_allot.dwt');
+        return $this->display('privilege_allot.dwt');
     }
 
     /**
@@ -133,11 +136,11 @@ class admin_privilege extends ecjia_admin
         /* 记录管理员操作 */
         ecjia_admin::admin_log(addslashes($user_name), 'edit', 'privilege');
         /* 提示信息 */
-        $link[] = array(
+        $links = ecjia_alert_links([
             'text' => __('返回管理员列表', 'platform'),
-            'href' => RC_Uri::url('@privilege/init'),
-        );
-        return $this->showmessage(sprintf(__('编辑 %s 操作成功！', 'platform'), $user_name), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('link' => $link));
+            'href' => RC_Uri::url('@admin_user/init'),
+        ]);
+        return $this->showmessage(sprintf(__('编辑 %s 操作成功！', 'platform'), $user_name), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('links' => $links));
     }
 
 }

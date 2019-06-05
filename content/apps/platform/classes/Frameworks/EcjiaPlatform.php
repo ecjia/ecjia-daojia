@@ -462,7 +462,7 @@ abstract class EcjiaPlatform extends Ecjia\System\BaseController\EcjiaController
 	            'url' => $url,
 	            'time' => $time
 	        ));
-	        $this->display($system_tpl);
+	        return $this->display($system_tpl);
 	    } else {
 	        return parent::message($msg, $url, $time, $tpl);
 	    }

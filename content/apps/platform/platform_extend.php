@@ -113,7 +113,7 @@ class platform_extend extends ecjia_platform
         $this->assign('arr', $plugins);
         $this->assign('img_url', RC_App::apps_url('statics/image/', __FILE__));
 
-        $this->display('wechat_extend.dwt');
+        return $this->display('wechat_extend.dwt');
     }
 
     /**
@@ -223,7 +223,7 @@ class platform_extend extends ecjia_platform
         $this->assign('bd', $bd);
         $this->assign('images_url', RC_App::apps_url('statics/image/', __FILE__));
 
-        $this->display('wechat_extend_view.dwt');
+        return $this->display('wechat_extend_view.dwt');
     }
 
     /**

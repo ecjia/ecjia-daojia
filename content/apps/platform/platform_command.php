@@ -88,7 +88,7 @@ class platform_command extends ecjia_platform
         $modules = $this->get_command_list();
         $this->assign('modules', $modules);
 
-        $this->display('wechat_extend_command.dwt');
+        return $this->display('wechat_extend_command.dwt');
     }
 
     public function add()
@@ -128,7 +128,7 @@ class platform_command extends ecjia_platform
         $account_id = $this->platformAccount->getAccountID();
         $platform   = $this->platformAccount->getPlatform();
 
-        $this->display('wechat_command_add.dwt');
+        return $this->display('wechat_command_add.dwt');
     }
 
     /**
@@ -221,7 +221,7 @@ class platform_command extends ecjia_platform
         $data = RC_DB::table('platform_command')->where('account_id', $account_id)->where('platform', $platform)->where('ext_code', $ext_code)->get();
         $this->assign('data', $data);
 
-        $this->display('wechat_command_add.dwt');
+        return $this->display('wechat_command_add.dwt');
     }
 
     /**

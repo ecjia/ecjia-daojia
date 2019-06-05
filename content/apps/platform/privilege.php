@@ -153,7 +153,7 @@ class privilege extends ecjia_platform
         $this->assign('shop_title', __('公众平台登录', 'platform'));
 
         RC_Session::destroy();
-        $this->display('platform_auto_login_error.dwt');
+        return $this->display('platform_auto_login_error.dwt');
     }
 
     /**
