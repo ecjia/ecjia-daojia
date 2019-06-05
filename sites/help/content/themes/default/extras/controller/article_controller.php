@@ -96,7 +96,7 @@ class article_controller
             ecjia_front::$controller->assign_title(__('帮助中心', 'default'));
         }
 
-        ecjia_front::$controller->display('article_help.dwt', $cache_id);
+        return ecjia_front::$controller->display('article_help.dwt', $cache_id);
     }
 
     public static function info()
@@ -147,7 +147,7 @@ class article_controller
             ecjia_front::$controller->assign_title(__('关于我们', 'default'));
         }
 
-        ecjia_front::$controller->display('article_info.dwt', $cache_id);
+        return ecjia_front::$controller->display('article_info.dwt', $cache_id);
     }
 
 
@@ -199,7 +199,7 @@ class article_controller
 
             ecjia_front::$controller->assign_title(__('商家公告', 'default'));
         }
-        ecjia_front::$controller->display('article_notice.dwt', $cache_id);
+        return ecjia_front::$controller->display('article_notice.dwt', $cache_id);
     }
 
     public static function detail()
@@ -245,7 +245,7 @@ class article_controller
 
             ecjia_front::$controller->assign_title(__('商家公告', 'default'));
         }
-        ecjia_front::$controller->display('article_detail.dwt', $cache_id);
+        return ecjia_front::$controller->display('article_detail.dwt', $cache_id);
     }
 
 
@@ -286,7 +286,7 @@ class article_controller
             ecjia_front::$controller->assign_title(__('关于我们', 'default'));
         }
 
-        ecjia_front::$controller->display('article_friendlink.dwt', $cache_id);
+        return ecjia_front::$controller->display('article_friendlink.dwt', $cache_id);
     }
 
 }
