@@ -131,8 +131,8 @@ class admin_store_staff extends ecjia_admin
         
         $action_list = RC_DB::TABLE('admin_user')->where('user_id', $_SESSION['admin_id'])->pluck('action_list');
         $this->assign('action_list', $action_list);
-        
-        $this->display('store_staff.dwt');
+
+        return $this->display('store_staff.dwt');
     }
 
     public function edit()
@@ -164,7 +164,7 @@ class admin_store_staff extends ecjia_admin
         $this->assign('info', $info);
         $this->assign('form_action', RC_Uri::url('staff/admin_store_staff/update'));
 
-        $this->display('store_staff_edit.dwt');
+        return $this->display('store_staff_edit.dwt');
     }
 
     public function update()
@@ -295,7 +295,7 @@ class admin_store_staff extends ecjia_admin
         }
         
     	$this->assign('store', $store);
-    	$this->display('store_staff_set.dwt');
+        return $this->display('store_staff_set.dwt');
     }
     
     public function set_update()
@@ -338,8 +338,8 @@ class admin_store_staff extends ecjia_admin
     	$this->assign('info', $info);
     	
     	$this->assign('form_action', RC_Uri::url('staff/admin_store_staff/change_password_action'));
-    
-    	$this->display('store_staff_change_password.dwt');
+
+        return $this->display('store_staff_change_password.dwt');
     }
     
     public function change_password_action() {

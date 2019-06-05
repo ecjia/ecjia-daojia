@@ -102,7 +102,7 @@ class mh_log extends ecjia_merchant {
 		$this->assign('ip_list', $ip_list);
 		$this->assign('user_list', $user_list);
 
-		$this->display('staff_log_list.dwt');
+        return $this->display('staff_log_list.dwt');
 	}
 
 	/**

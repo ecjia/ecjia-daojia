@@ -109,7 +109,7 @@ class merchant extends ecjia_merchant
 
         $this->assign('search_action', RC_Uri::url('staff/merchant/init'));
 
-        $this->display('staff_list.dwt');
+        return $this->display('staff_list.dwt');
     }
 
     /**
@@ -150,7 +150,7 @@ class merchant extends ecjia_merchant
         $manage_id = RC_DB::table('staff_user')->where('user_id', $_SESSION['staff_id'])->pluck('parent_id');
         $this->assign('manage_id', $manage_id);
 
-        $this->display('staff_info.dwt');
+        return $this->display('staff_info.dwt');
     }
 
     //触发按钮获取手机验证码
@@ -345,7 +345,7 @@ class merchant extends ecjia_merchant
 
         $this->assign('form_action', RC_Uri::url('staff/merchant/update'));
 
-        $this->display('staff_edit.dwt');
+        return $this->display('staff_edit.dwt');
     }
 
     /**
@@ -461,7 +461,7 @@ class merchant extends ecjia_merchant
 
         $this->assign('form_action', RC_Uri::url('staff/merchant/update_allot'));
 
-        $this->display('staff_allot.dwt');
+        return $this->display('staff_allot.dwt');
     }
 
     /**

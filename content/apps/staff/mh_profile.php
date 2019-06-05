@@ -88,7 +88,7 @@ class mh_profile extends ecjia_merchant
 
         $this->assign('form_action', RC_Uri::url('staff/mh_profile/update_self'));
 
-        $this->display('profile_info.dwt');
+        return $this->display('profile_info.dwt');
     }
 
     /**
@@ -134,7 +134,7 @@ class mh_profile extends ecjia_merchant
 
         $this->assign('form_action', RC_Uri::url('staff/mh_profile/update_set'));
 
-        $this->display('profile_setting.dwt');
+        return $this->display('profile_setting.dwt');
     }
 
     /**
@@ -338,7 +338,7 @@ class mh_profile extends ecjia_merchant
 
         $this->assign('form_action', RC_Uri::url('staff/mh_profile/avatar_update'));
 
-        $this->display('profile_avatar.dwt');
+        return $this->display('profile_avatar.dwt');
 
     }
     /**

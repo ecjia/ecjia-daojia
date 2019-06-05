@@ -87,8 +87,8 @@ class get_password extends ecjia_merchant {
 		}
 		
     	$this->assign('form_act', 'forget_pwd');
-		
-		$this->display('get_pwd.dwt');
+
+        return $this->display('get_pwd.dwt');
 	}
 	
 	/**
@@ -166,7 +166,7 @@ class get_password extends ecjia_merchant {
 		}
 	
 		$this->assign('ur_here', __('修改密码', 'staff'));
-		$this->display('get_pwd.dwt');
+        return $this->display('get_pwd.dwt');
 	}
 	
 	//重置新密码完成
@@ -222,8 +222,8 @@ class get_password extends ecjia_merchant {
 	public function forget_fast() {
 	
 		$this->assign('form_act', 'reset_fast_pwd');
-		
-		$this->display('get_pwd.dwt');
+
+        return $this->display('get_pwd.dwt');
 	}
 	
 	/**
@@ -250,8 +250,8 @@ class get_password extends ecjia_merchant {
 		$this->assign('form_act', 'get_code');
 		$mobile = $_GET['mobile'];
 		$this->assign('mobile', $mobile);
-		
-		$this->display('get_pwd.dwt');
+
+        return $this->display('get_pwd.dwt');
 	}
 	
 	public function get_code_value() {
@@ -300,7 +300,7 @@ class get_password extends ecjia_merchant {
 	
 	public function mobile_reset(){
 		$this->assign('form_act', 'mobile_reset');
-		$this->display('get_pwd.dwt');
+        return $this->display('get_pwd.dwt');
 	}
 	
 	public function mobile_reset_pwd(){

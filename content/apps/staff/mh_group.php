@@ -111,8 +111,8 @@ class mh_group extends ecjia_merchant
         $merchant_staff_max_number = RC_DB::table('merchants_config')->where('store_id', $_SESSION['store_id'])->where('code', 'merchant_staff_max_number')->pluck('value');
 		$max = !empty($merchant_staff_max_number) ? $merchant_staff_max_number : ecjia::config('merchant_staff_max_number');
 		$this->assign('max', $max);
-        
-        $this->display('staff_customize.dwt');
+
+        return $this->display('staff_customize.dwt');
     }
 
     /**
@@ -131,7 +131,7 @@ class mh_group extends ecjia_merchant
 
         $this->assign('form_action', RC_Uri::url('staff/mh_group/insert'));
 
-        $this->display('staff_group_edit.dwt');
+        return $this->display('staff_group_edit.dwt');
 
     }
 
@@ -186,7 +186,7 @@ class mh_group extends ecjia_merchant
 
         $this->assign('form_action', RC_Uri::url('staff/mh_group/update'));
 
-        $this->display('staff_group_edit.dwt');
+        return $this->display('staff_group_edit.dwt');
     }
 
     /**

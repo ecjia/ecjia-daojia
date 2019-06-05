@@ -81,7 +81,7 @@ class privilege extends ecjia_merchant
 
         $this->assign('form_action', RC_Uri::url('staff/privilege/signin'));
 
-        $this->display('login.dwt');
+        return $this->display('login.dwt');
     }
 
     /**
@@ -239,7 +239,7 @@ class privilege extends ecjia_merchant
         $this->assign('shop_title_link', RC_Uri::url('staff/privilege/login'));
 
         RC_Session::destroy();
-        $this->display('staff_auto_login_error.dwt');
+        return $this->display('staff_auto_login_error.dwt');
     }
 }
 
