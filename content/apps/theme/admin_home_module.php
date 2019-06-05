@@ -137,7 +137,7 @@ class admin_home_module extends ecjia_admin {
 		$this->assign('platform_clients', $platform_clients);
 		$this->assign('current_client', $client);
 
-		$this->display('home_group_module.dwt');
+        return $this->display('home_group_module.dwt');
 	}
 	
 	

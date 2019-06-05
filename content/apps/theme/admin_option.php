@@ -42,9 +42,9 @@ class admin_option extends ecjia_admin
 
             $this->assign('current_code', $section);
 
-            $this->display('template_option.dwt');
+            return $this->display('template_option.dwt');
         } else {
-            $this->display('template_option_default.dwt');
+            return $this->display('template_option_default.dwt');
         }
 
     }
@@ -100,7 +100,7 @@ class admin_option extends ecjia_admin
 
         RC_Hook::do_action('admin_theme_option_save');
 
-        $this->showmessage(__('设置保存成功', 'theme'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('theme/admin_option/init', array('section' => $section))));
+        return $this->showmessage(__('设置保存成功', 'theme'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_SUCCESS, array('pjaxurl' => RC_Uri::url('theme/admin_option/init', array('section' => $section))));
     }
 
 }

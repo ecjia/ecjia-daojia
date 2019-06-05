@@ -215,8 +215,8 @@ class admin_layout extends ecjia_admin {
 		$this->assign('form_action', RC_Uri::url('theme/admin_layout/save_widget'));
 		$this->assign('remove_action', RC_Uri::url('theme/admin_layout/remove_widget'));
 		$this->assign('sort_action', RC_Uri::url('theme/admin_layout/sort_widget'));
-		
-		$this->display('template_layout.dwt');
+
+        return $this->display('template_layout.dwt');
 	}
 	
 	

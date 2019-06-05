@@ -103,7 +103,7 @@ class admin_layout_backup extends ecjia_admin {
 		
 		$this->assign('form_action', RC_Uri::url('theme/admin_layout_backup/backup_setting'));
 
-		$this->display('template_backup.dwt');
+        return $this->display('template_backup.dwt');
 	}
 
 
@@ -168,8 +168,8 @@ class admin_layout_backup extends ecjia_admin {
         
         $this->assign('list',  $remarks);
         $this->assign('screenshot',  $this->theme->getDefaultStyle()->getScreenshot());
-        
-        $this->display('template_backup.dwt');
+
+        return $this->display('template_backup.dwt');
     }
 
 	public function restore_backup() {

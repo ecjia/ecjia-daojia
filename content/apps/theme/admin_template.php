@@ -113,7 +113,7 @@ class admin_template extends ecjia_admin {
 		$this->assign('available_templates_count',  count($available_templates));
 		$this->assign('curr_template_styles',     $template_styles);
 
-		$this->display('template_list.dwt');
+        return $this->display('template_list.dwt');
 	}
 
 	/**

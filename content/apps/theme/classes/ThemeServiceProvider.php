@@ -88,5 +88,28 @@ class ThemeServiceProvider extends  AppParentServiceProvider
             $loader->alias('ecjia_theme_framework', 'Ecjia\App\Theme\Facades\EcjiaThemeFramework');
         });
     }
+
+    /**
+     * Get a list of files that should be compiled for the package.
+     *
+     * @return array
+     */
+    public static function compiles()
+    {
+        $dir = __DIR__;
+
+        return [
+            $dir . '/ThemeOption/Models/TemplateOptionsModel.php',
+            $dir . '/ThemeOption/Repositories/TemplateOptionsRepository.php',
+            $dir . '/ThemeOption/ThemeOption.php',
+            $dir . '/ThemeFramework/ThemeFrameworkAbstract.php',
+            $dir . '/ThemeFramework/Foundation/AdminPanel.php',
+            $dir . '/ThemeFramework/OptionField.php',
+            $dir . '/ThemeFramework/ThemeConstant.php',
+            $dir . '/ThemeFramework/ThemeFramework.php',
+            $dir . '/Facades/EcjiaThemeOption.php',
+            $dir . '/Facades/EcjiaThemeFramework.php',
+        ];
+    }
     
 }

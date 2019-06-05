@@ -122,7 +122,7 @@ class admin_library extends ecjia_admin {
         
         $this->assign('form_action', RC_Uri::url('theme/admin_library/update_library'));
 
-		$this->display('template_library.dwt');
+        return $this->display('template_library.dwt');
 	}
 
 	/**

@@ -136,7 +136,7 @@ class navigator extends ecjia_admin {
 		$this->assign('record_count', $navdb['record_count']);
 		$this->assign('page_count',   $navdb['page_count']);
 
-		$this->display('navigator.dwt');
+        return $this->display('navigator.dwt');
 	}
 
 	/**
@@ -155,7 +155,7 @@ class navigator extends ecjia_admin {
 		$this->assign('nav_list',     unserialize(ecjia::config('navigator_data')));
 		$this->assign('form_action',     RC_Uri::url('theme/navigator/init'));
 
-		$this->display('navigator_addlist.dwt');
+        return $this->display('navigator_addlist.dwt');
 	}
 
 	/**
