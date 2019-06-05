@@ -102,7 +102,7 @@ class admin_keywords_stats extends ecjia_admin {
 		$keywords_data = $this->get_keywords_list();
 		$this->assign('keywords_data', $keywords_data);
 
-		$this->display('keywords_stats.dwt');
+        return $this->display('keywords_stats.dwt');
 	}
 
 

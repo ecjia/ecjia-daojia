@@ -103,8 +103,8 @@ class mh_keywords_stats extends ecjia_merchant {
 		
 		$keywords_data = $this->get_keywords_list();
 		$this->assign('keywords_data', $keywords_data);
-		
-		$this->display('keywords_stats.dwt');
+
+        return $this->display('keywords_stats.dwt');
 	}
 	
 	public function download() {
