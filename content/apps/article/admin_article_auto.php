@@ -93,7 +93,7 @@ class admin_article_auto extends ecjia_admin {
 		$list = $this->get_auto_articles();
 		$this->assign('list', $list);
 
-		$this->display('article_auto.dwt');
+        return $this->display('article_auto.dwt');
 	}
 	
 	public function batch() {

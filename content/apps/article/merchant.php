@@ -112,8 +112,8 @@ class merchant extends ecjia_merchant {
 		
 		$this->assign('form_action', RC_Uri::url('article/merchant/batch'));
 		$this->assign('search_action', RC_Uri::url('article/merchant/init'));
-		
-		$this->display('article_list.dwt');
+
+        return $this->display('article_list.dwt');
 	}
 
 	/**
@@ -135,7 +135,7 @@ class merchant extends ecjia_merchant {
 		$article_type = RC_Loader::load_app_config('article_type');
 		$this->assign('article_type', $article_type);
 
-		$this->display('article_info.dwt');
+        return $this->display('article_info.dwt');
 	}
 
 	/**
@@ -400,8 +400,8 @@ class merchant extends ecjia_merchant {
 		//加载配置中分类数据
 		$article_type = RC_Loader::load_app_config('article_type');
 		$this->assign('article_type', $article_type);
-		
-		$this->display('article_info.dwt');
+
+        return $this->display('article_info.dwt');
 	}
 
 	public function update() {
@@ -556,7 +556,7 @@ class merchant extends ecjia_merchant {
 		}
 		$this->assign('article', $article);
 
-		$this->display('preview.dwt');
+        return $this->display('preview.dwt');
 	}
 
 	/**
@@ -587,7 +587,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('link_goods_list', $linked_goods);
 		$this->assign('cat_list', merchant_cat_list(0, 0, false));
 
-		$this->display('link_goods.dwt');
+        return $this->display('link_goods.dwt');
 	}
 
 	/**
@@ -898,8 +898,8 @@ class merchant extends ecjia_merchant {
 		$this->assign('filter', $article_comment_list['filter']);
 		$this->assign('type_count', $article_comment_list['count']);
 		$this->assign('type', $article_comment_list['filter']['type']);
-		
-        $this->display('article_comment_list.dwt');
+
+        return $this->display('article_comment_list.dwt');
 	}
 	
 	/**

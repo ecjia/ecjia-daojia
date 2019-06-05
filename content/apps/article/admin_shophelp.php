@@ -95,8 +95,8 @@ class admin_shophelp extends ecjia_admin {
 		
 		$this->assign('list', $this->get_shophelp_list());
 		$this->assign('form_action', RC_Uri::url('article/admin_shophelp/add_catname'));
-		
-		$this->display('shophelp_cat_list.dwt');
+
+        return $this->display('shophelp_cat_list.dwt');
 	}
 
 	/**
@@ -127,8 +127,8 @@ class admin_shophelp extends ecjia_admin {
 		 
 		$this->assign('list', $this->get_shophelp_article($cat_id));
 		$this->assign('cat_id', $cat_id);
-		
-		$this->display('shophelp_article_list.dwt');
+
+        return $this->display('shophelp_article_list.dwt');
 	}
 	
 	/**
@@ -159,8 +159,8 @@ class admin_shophelp extends ecjia_admin {
 		
 		$this->assign('cat_id', $cat_id);
 		$this->assign('form_action', RC_Uri::url('article/admin_shophelp/insert'));
-		
-		$this->display('shophelp_info.dwt');
+
+        return $this->display('shophelp_info.dwt');
 	}
 	
 	public function insert() {
@@ -234,7 +234,7 @@ class admin_shophelp extends ecjia_admin {
 		);
 		
 		$this->assign('form_action', RC_Uri::url('article/admin_shophelp/update'));
-		$this->display('shophelp_info.dwt');
+        return $this->display('shophelp_info.dwt');
 	}
 	
 	public function update() {

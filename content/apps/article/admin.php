@@ -134,7 +134,7 @@ class admin extends ecjia_admin {
 		$this->assign('type', $_GET['type']);	
 		$this->assign('suggest_type', $_GET['suggest_type']);
 		$this->assign('publishby', $publishby);
-		$this->display('article_list.dwt');
+        return $this->display('article_list.dwt');
 	}
 
 	/**
@@ -174,7 +174,7 @@ class admin extends ecjia_admin {
 		
 		$this->assign('form_action', RC_Uri::url('article/admin/insert'));
 		$this->assign('publishby',$publishby);
-		$this->display('article_info.dwt');
+        return $this->display('article_info.dwt');
 	}
 
 	/**
@@ -460,7 +460,7 @@ class admin extends ecjia_admin {
 		$this->assign('article', $article);
 		$this->assign('form_action', RC_Uri::url('article/admin/update'));
 		$this->assign('publishby', $publishby);
-		$this->display('article_info.dwt');
+        return $this->display('article_info.dwt');
 	}
 
 	public function update() {
@@ -632,7 +632,7 @@ class admin extends ecjia_admin {
 		$article['add_time'] = RC_Time::local_date(ecjia::config('time_format'), $article['add_time']);
 		$article['content'] = preg_replace('/\\\"/', '"', $article['content']);
 		$this->assign('article', $article);
-		$this->display('preview.dwt');
+        return $this->display('preview.dwt');
 	}
 
 	/**
@@ -676,7 +676,7 @@ class admin extends ecjia_admin {
 		$this->assign('cat_list', RC_Api::api('goods', 'get_goods_category'));
 		$this->assign('brand_list', RC_Api::api('goods', 'get_goods_brand'));
 
-		$this->display('link_goods.dwt');
+        return $this->display('link_goods.dwt');
 	}
 
 	/**
@@ -1125,8 +1125,8 @@ class admin extends ecjia_admin {
 		$this->assign('id', $_GET['id']);
 		$this->assign('publishby', $publishby);
 		$this->assign('search_action', $href_search_action);
-		
-		$this->display('comments.dwt');
+
+        return $this->display('comments.dwt');
 	}
 	
 	/**
@@ -1156,7 +1156,7 @@ class admin extends ecjia_admin {
 		$this->assign('type', $_GET['type']);
 		$this->assign('publishby', $publishby);
 		$this->assign('search_action', $href_search_action);
-		$this->display('article_comment_list.dwt');
+        return $this->display('article_comment_list.dwt');
 	}
 	
 	

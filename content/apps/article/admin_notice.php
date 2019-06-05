@@ -92,8 +92,8 @@ class admin_notice extends ecjia_admin {
 		$this->assign('ur_here', $data['text']);
 		$this->assign('action_link', array('text' => $data['text_add'], 'href'=> $data['url_add']));
 		$this->assign('list', $this->get_notice_list());
-		
-		$this->display('article_notice_list.dwt');
+
+        return $this->display('article_notice_list.dwt');
 	}
 	
 	/**
@@ -111,7 +111,7 @@ class admin_notice extends ecjia_admin {
 		$this->assign('action_link', array('text' => $data['text'], 'href'=> $data['url']));
 		
 		$this->assign('form_action', $data['url_insert']);
-		$this->display('article_notice_info.dwt');
+        return $this->display('article_notice_info.dwt');
 	}
 	
 	public function insert() {
@@ -202,8 +202,8 @@ class admin_notice extends ecjia_admin {
 		}
 		$this->assign('article', $info);
 		$this->assign('form_action', $data['url_update']);
-		
-		$this->display('article_notice_info.dwt');
+
+        return $this->display('article_notice_info.dwt');
 	}
 	
 	public function update() {

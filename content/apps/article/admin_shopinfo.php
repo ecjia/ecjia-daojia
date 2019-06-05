@@ -94,8 +94,8 @@ class admin_shopinfo extends ecjia_admin {
 		$this->assign('ur_here', __('网店信息', 'article'));
 		$this->assign('action_link', array('text' => __('添加网店信息', 'article'), 'href'=> RC_Uri::url('article/admin_shopinfo/add')));
 		$this->assign('list', $this->get_shopinfo_article());
-		
-		$this->display('shopinfo_list.dwt');
+
+        return $this->display('shopinfo_list.dwt');
 	}
 	
 	/**
@@ -120,7 +120,7 @@ class admin_shopinfo extends ecjia_admin {
 		$this->assign('action_link', array('text' => __('网店信息', 'article'), 'href'=> RC_Uri::url('article/admin_shopinfo/init')));
 		
 		$this->assign('form_action', RC_Uri::url('article/admin_shopinfo/insert'));
-		$this->display('shopinfo_info.dwt');
+        return $this->display('shopinfo_info.dwt');
 	}
 	
 	
@@ -211,8 +211,8 @@ class admin_shopinfo extends ecjia_admin {
 		}
 		$this->assign('article', $article);
 		$this->assign('form_action', RC_Uri::url('article/admin_shopinfo/update'));
-		
-		$this->display('shopinfo_info.dwt');
+
+        return $this->display('shopinfo_info.dwt');
 	}
 	
 	public function update() {

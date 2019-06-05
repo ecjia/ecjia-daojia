@@ -103,8 +103,8 @@ class admin_articlecat extends ecjia_admin {
 // 			}
 			$this->assign('articlecat', $articlecat);
 // 		}
-		
-		$this->display('articlecat_list.dwt');
+
+        return $this->display('articlecat_list.dwt');
 	}
 	
 	/**
@@ -130,8 +130,8 @@ class admin_articlecat extends ecjia_admin {
 		
 		$this->assign('cat_select', article_cat::article_cat_list(0, 0, true, 0, 'article'));
 		$this->assign('form_action', RC_Uri::url('article/admin_articlecat/insert'));
-		
-		$this->display('articlecat_info.dwt');
+
+        return $this->display('articlecat_info.dwt');
 	}
 	
 	public function insert() {
@@ -235,8 +235,8 @@ class admin_articlecat extends ecjia_admin {
 		$this->assign('cat', $cat);
 		$this->assign('cat_select', $select);
 		$this->assign('form_action', RC_Uri::url('article/admin_articlecat/update'));
-		
-		$this->display('articlecat_info.dwt');
+
+        return $this->display('articlecat_info.dwt');
 	}
 
 	public function update() {
