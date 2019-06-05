@@ -90,7 +90,7 @@ class admin extends ecjia_admin
         $this->assign('action_link', array('text' => __('添加新应用', 'ucserver'), 'href' => RC_Uri::url('ucserver/admin/add')));
         $this->assign('search_action', RC_Uri::url('ucserver/admin/init'));
 
-        $this->display('ucenter_list.dwt');
+        return $this->display('ucenter_list.dwt');
     }
     
     public function ping()
@@ -129,7 +129,7 @@ class admin extends ecjia_admin
         $typelist = RC_Package::package('app::ucserver')->loadConfig('uctypes');
         $this->assign('typelist', $typelist);
 
-        $this->display('ucenter_edit.dwt');
+        return $this->display('ucenter_edit.dwt');
     }
 
     public function edit()
@@ -149,7 +149,7 @@ class admin extends ecjia_admin
         $typelist = RC_Package::package('app::ucserver')->loadConfig('uctypes');
         $this->assign('typelist', $typelist);
 
-        $this->display('ucenter_edit.dwt');
+        return $this->display('ucenter_edit.dwt');
     }
 
     public function update(CreateApplicationFormRequest $request)
