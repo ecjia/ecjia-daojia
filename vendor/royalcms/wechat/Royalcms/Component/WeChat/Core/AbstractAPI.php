@@ -123,12 +123,12 @@ abstract class AbstractAPI
      */
     protected function registerHttpMiddlewares()
     {
-        // log
-        $this->http->addMiddleware($this->logMiddleware());
         // retry
         $this->http->addMiddleware($this->retryMiddleware());
         // access token
         $this->http->addMiddleware($this->accessTokenMiddleware());
+        // log
+        $this->http->addMiddleware($this->logMiddleware());
     }
 
     /**
