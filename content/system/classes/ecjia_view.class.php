@@ -132,7 +132,7 @@ class ecjia_view
 //            if (! headers_sent()) {
 //                header("Content-type:" . $content_type . ';charset=' . $charset);
 //            }
-            return $this->displayContent($content);
+            return $this->displayContent($content, $content_type);
         } else {
             return $content;
         }
