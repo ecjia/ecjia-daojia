@@ -101,7 +101,7 @@ class admin_config extends ecjia_admin {
 	    $this->assign('form_action', RC_Uri::url('comment/admin_config/update'));
 	    
 	    $this->assign('current_code', 'comment');
-	    $this->display('comment_config.dwt');
+        return $this->display('comment_config.dwt');
 	    
 	}
 		

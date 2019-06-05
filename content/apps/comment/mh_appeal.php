@@ -84,8 +84,8 @@ class mh_appeal extends ecjia_merchant {
 	    $this->assign('data', $data);
 	    
 	    $this->assign('search_action',RC_Uri::url('comment/mh_appeal/init'));
-	   
-	    $this->display('mh_appeal_list.dwt');
+
+        return $this->display('mh_appeal_list.dwt');
 	}
 	
 	/**
@@ -111,8 +111,8 @@ class mh_appeal extends ecjia_merchant {
 		$this->assign('check_status', -1);
 		
 		$this->assign('form_action',RC_Uri::url('comment/mh_appeal/insert_appeal'));
-		
-		$this->display('mh_appeal_info.dwt');
+
+        return $this->display('mh_appeal_info.dwt');
 	}
 	
 	/**
@@ -220,7 +220,7 @@ class mh_appeal extends ecjia_merchant {
 		$this->assign('avatar_img', $avatar_img);
 		$this->assign('apple_img_list', $apple_img_list);
 
-		$this->display('mh_appeal_detail.dwt');
+        return $this->display('mh_appeal_detail.dwt');
 	}
 	
 	/**

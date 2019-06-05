@@ -114,7 +114,7 @@ class admin extends ecjia_admin {
 		$this->assign('form_action', RC_Uri::url('comment/admin/batch'));
 		$this->assign('form_search', RC_Uri::url('comment/admin/init'));
 		//$this->assign('dropback_comment', $this->admin_priv('dropback_comment', '', false));
-		$this->display('comment_list.dwt');		
+        return $this->display('comment_list.dwt');
 	}
 	
 	/**
@@ -280,8 +280,8 @@ class admin extends ecjia_admin {
 		$this->assign('action_link', array('text' => $here, 'href' => $url));
 		$this->assign('form_action', RC_Uri::url('comment/admin/action'));
 		$this->assign('store_url', RC_Uri::url('comment/admin/store_goods_comment_list', array('store_id' => $comment_info['store_id'], 'list' => 3)));
-		
-		$this->display('comment_info.dwt');
+
+        return $this->display('comment_info.dwt');
 	}
 	
 	/**
@@ -542,7 +542,7 @@ class admin extends ecjia_admin {
 	    $list = $this->get_comment_list();
 	    
 	    $this->assign('comment_list', $list);
-	    $this->display('comment_trash.dwt');
+        return $this->display('comment_trash.dwt');
 	}
 	
 	/**
@@ -624,7 +624,7 @@ class admin extends ecjia_admin {
 		$this->assign('form_action', RC_Uri::url('comment/admin/batch', array('list' => 3, 'store_id' => $store_id)));
 		$this->assign('form_search', RC_Uri::url('comment/admin/store_goods_comment_list', array('list' => 3)));
 		//$this->assign('dropback_comment', $this->admin_priv('dropback_comment', '', false));
-		$this->display('store_goods_comment_list.dwt');
+        return $this->display('store_goods_comment_list.dwt');
 	}
 	
 	/**

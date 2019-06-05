@@ -105,8 +105,8 @@ class mh_comment extends ecjia_merchant {
 
 	    $this->assign('select_rank', $_GET['select_rank']);
 	    $this->assign('select_img',  $_GET['select_img']);
-	    
-	    $this->display('mh_comment_list.dwt');
+
+        return $this->display('mh_comment_list.dwt');
 	}
 
 	/**
@@ -191,8 +191,8 @@ class mh_comment extends ecjia_merchant {
 		$this->assign('comment_pic_list', $comment_pic_list);
 		
 		$this->assign('from_action',RC_Uri::url('comment/mh_comment/comment_detail_reply'));
-		
-	    $this->display('mh_comment_detail.dwt');
+
+        return $this->display('mh_comment_detail.dwt');
 	}
 	
 	/**

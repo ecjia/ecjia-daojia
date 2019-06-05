@@ -91,8 +91,8 @@ class appeal extends ecjia_admin {
 		$appeal_list = $this->get_appeal_list();
 		$this->assign('appeal_list', $appeal_list);
 		$this->assign('form_search', RC_Uri::url('comment/appeal/init'));
-		
-		$this->display('appeal_list.dwt');		
+
+        return $this->display('appeal_list.dwt');
 	}
 	
 	/**
@@ -158,7 +158,7 @@ class appeal extends ecjia_admin {
 		$this->assign('appeal_imgs_list', $appeal_imgs_list);
 		$this->assign('action_link', array('text' => __('申诉列表', 'comment'), 'href'=> RC_Uri::url('comment/appeal/init')));
 		$this->assign('check_comment', $this->admin_priv('appeal_update', '', false));
-		$this->display('appeal_detail.dwt');
+        return $this->display('appeal_detail.dwt');
 	}
 	
 	/**
