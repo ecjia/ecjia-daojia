@@ -592,7 +592,20 @@ return array(
 
     'admin/cashier/goods/product/specification'       => 'goods::admin/cashier/goods/product/specification',    //收银台获取商品的货品和规格信息
 	
+    //1.33掌柜商品管理
+    'admin/merchant/goods/specification/template'     => 'goods::admin/merchant/goods/specification/template', 	//商品规格模板列表（包含平台的，均为已启用的）
+	'admin/merchant/goods/parameter/template'         => 'goods::admin/merchant/goods/parameter/template', 		//商品参数模板列表（包含平台的，均为已启用的）
+	'admin/merchant/goods/specification'			  => 'goods::admin/merchant/goods/specification',			//商品规格列表
+	'admin/merchant/goods/specification/add'		  => 'goods::admin/merchant/goods/specification/add',		//商品规格添加
+	'admin/merchant/goods/specification/detail'       => 'goods::admin/merchant/goods/specification/detail',    //商品规格详情
+	'admin/merchant/goods/specification/update'       => 'goods::admin/merchant/goods/specification/update',    //商品规格编辑
+    'admin/merchant/goods/specification/delete'		  => 'goods::admin/merchant/goods/specification/delete',	//商品规格删除
+
+	'admin/merchant/goods/specification/attribute'	  => 'goods::admin/merchant/goods/specification/attribute',	//某一规格的属性列表
+	'admin/merchant/goods/specification/attribute/colorsetting'	=> 'goods::admin/merchant/goods/specification/attribute/colorsetting', //规格属性色值设置
+	
 		
+    	
     /**
      * 1.0 已经废弃
      *

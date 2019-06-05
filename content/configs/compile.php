@@ -84,7 +84,7 @@ return [
         $contentDir . '/apps/staff/classes/StaffServiceProvider.php',
         $contentDir . '/apps/stats/classes/StatsServiceProvider.php',
         $contentDir . '/apps/store/classes/StoreServiceProvider.php',
-        $contentDir . '/apps/theme/classes/ThemeServiceProvider.php',
+//        $contentDir . '/apps/theme/classes/ThemeServiceProvider.php',
 //        $contentDir . '/apps/tmplmsg/classes/TmplmsgServiceProvider.php',
         $contentDir . '/apps/touch/classes/TouchServiceProvider.php',
         $contentDir . '/apps/upgrade/classes/UpgradeServiceProvider.php',
@@ -105,13 +105,14 @@ return [
     */
 
     'providers' => [
+        'Royalcms\Component\Exception\ExceptionServiceProvider',
         'Royalcms\Component\App\AppServiceProvider',
         'Royalcms\Component\Database\DatabaseServiceProvider',
         'Royalcms\Component\NativeSession\NativeSessionServiceProvider',
         'Royalcms\Component\Package\PackageServiceProvider',
+        'Royalcms\Component\Redis\RedisServiceProvider',
         'Royalcms\Component\Gettext\GettextServiceProvider',
         'Royalcms\Component\Cache\CacheServiceProvider',
-        'Royalcms\Component\Exception\ExceptionServiceProvider',
         'Royalcms\Component\Hook\HookServiceProvider',
         'Royalcms\Component\Script\ScriptServiceProvider',
         'Royalcms\Component\Timer\TimerServiceProvider',
@@ -127,6 +128,7 @@ return [
         'Royalcms\Component\Upload\UploadServiceProvider',
 
         'Ecjia\System\Providers\SystemServiceProvider',
+        'Ecjia\App\Theme\ThemeServiceProvider',
 
     ],
 
