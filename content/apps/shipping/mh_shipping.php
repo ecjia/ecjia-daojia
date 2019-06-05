@@ -89,7 +89,7 @@ class mh_shipping extends ecjia_merchant
         $data = $this->get_template_list();
         $this->assign('data', $data);
 
-        $this->display('shipping_template_list.dwt');
+        return $this->display('shipping_template_list.dwt');
     }
 
     public function add_shipping_template()
@@ -110,7 +110,7 @@ class mh_shipping extends ecjia_merchant
         $this->assign('shipping_form_action', RC_Uri::url('shipping/mh_shipping/add_shipping'));
         $this->assign('form_action', RC_Uri::url('shipping/mh_shipping/save_shipping_template'));
 
-        $this->display('shipping_template_info.dwt');
+        return $this->display('shipping_template_info.dwt');
     }
 
     public function edit_shipping_template()
@@ -197,7 +197,7 @@ class mh_shipping extends ecjia_merchant
         $this->assign('data', $data);
         $this->assign('template_name', $template_name);
 
-        $this->display('shipping_template_info.dwt');
+        return $this->display('shipping_template_info.dwt');
     }
 
     public function get_shipping_info()
@@ -671,7 +671,7 @@ class mh_shipping extends ecjia_merchant
 
         $this->assign('page', $page->show(2));
 
-        $this->display('shipping_record_list.dwt');
+        return $this->display('shipping_record_list.dwt');
     }
 
     public function record_info()
@@ -757,7 +757,7 @@ class mh_shipping extends ecjia_merchant
         $this->assign('ur_here', __('配送详情', 'shipping'));
         $this->assign('action_link', array('href' => RC_Uri::url('shipping/mh_shipping/shipping_record'), 'text' => __('配送列表', 'shipping')));
 
-        $this->display('shipping_record_info.dwt');
+        return $this->display('shipping_record_info.dwt');
     }
 
     public function assign_express()
@@ -793,7 +793,7 @@ class mh_shipping extends ecjia_merchant
         $this->assign('ur_here', __('快递单模板', 'shipping'));
         ecjia_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('快递单模板', 'shipping')));
 
-        $this->display('shipping_template_list.dwt');
+        return $this->display('shipping_template_list.dwt');
     }
 
     private function get_template_list()

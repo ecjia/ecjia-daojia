@@ -90,7 +90,7 @@ class admin_express_order extends ecjia_admin
 
         $this->assign('express_list', $express_list);
 
-        $this->display('express_order_list.dwt');
+        return $this->display('express_order_list.dwt');
     }
 
     public function info()
@@ -172,7 +172,7 @@ class admin_express_order extends ecjia_admin
         $this->assign('ur_here', __('配送详情', 'shipping'));
         $this->assign('action_link', array('href' => RC_Uri::url('shipping/admin_express_order/init'), 'text' => __('配送列表', 'shipping')));
 
-        $this->display('express_info.dwt');
+        return $this->display('express_info.dwt');
     }
 
     /**

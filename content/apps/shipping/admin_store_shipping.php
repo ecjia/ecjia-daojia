@@ -118,8 +118,8 @@ class admin_store_shipping extends ecjia_admin
         $data = $this->get_template_list($store_id);
         $this->assign('data', $data);
         $this->assign('store_id', $store_id);
-        
-        $this->display('store_shipping.dwt');
+
+        return $this->display('store_shipping.dwt');
     }
     
     public function view()
@@ -211,8 +211,8 @@ class admin_store_shipping extends ecjia_admin
     	
     	$this->assign('data', $data);
     	$this->assign('template_name', $template_name);
-    	
-    	$this->display('store_shipping_info.dwt');
+
+        return $this->display('store_shipping_info.dwt');
     }
     
     private function get_template_list($store_id = 0)

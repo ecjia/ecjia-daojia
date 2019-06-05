@@ -89,7 +89,7 @@ class admin_config extends ecjia_admin
         $this->assign('current_code', 'shipping');
         $this->assign('form_action', RC_Uri::url('shipping/admin_config/update'));
 
-        $this->display('shipping_config.dwt');
+        return $this->display('shipping_config.dwt');
     }
 
     /**

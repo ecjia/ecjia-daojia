@@ -237,8 +237,8 @@ class admin extends ecjia_admin
             $plugin_handle   = ecjia_shipping::channel($shipping_data['shipping_code']);
             $lable_list_box = $plugin_handle->loadPrintOption('lable_box');
             $this->assign('lang_lable_box', $lable_list_box);
-            
-            $this->display('shipping_template.dwt');
+
+            return $this->display('shipping_template.dwt');
         } else {
             return $this->showmessage(__('您的配送方式尚未安装，暂不能编辑模板', 'shipping'), ecjia::MSGTYPE_JSON | ecjia::MSGSTAT_ERROR);
         }
@@ -361,8 +361,8 @@ class admin extends ecjia_admin
             }
             $shipping_data['config_lable'] = implode('||,||', $temp_config_lable);
             $this->assign('shipping', $shipping_data);
-            
-    		$this->display('print.dwt');
+
+            return $this->display('print.dwt');
             
     	} else { //代码模式
     		foreach ($template_data as $key => $val) {

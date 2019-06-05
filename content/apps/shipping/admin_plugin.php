@@ -152,7 +152,7 @@ class admin_plugin extends ecjia_admin
         }
         $this->assign('modules', $modules);
 
-        $this->display('shipping_channel.dwt');
+        return $this->display('shipping_channel.dwt');
     }
 
     /**
@@ -181,7 +181,7 @@ class admin_plugin extends ecjia_admin
         $this->assign('form_action', RC_Uri::url('shipping/admin_plugin/save'));
         $this->assign('shipping', $shipping);
 
-        $this->display('shipping_edit.dwt');
+        return $this->display('shipping_edit.dwt');
     }
 
     /**
