@@ -101,7 +101,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('search_action', RC_Uri::url('bonus/merchant/init'));
 		$this->assign('admin_url', RC_Uri::admin_url());
 
-		$this->display('bonus_type.dwt');
+        return $this->display('bonus_type.dwt');
 	}
 
 	/**
@@ -125,7 +125,7 @@ class merchant extends ecjia_merchant {
      	ecjia_merchant_screen::get_current_screen()->add_nav_here(new admin_nav_here(__('添加红包类型', 'bonus')));
 
 		$this->assign_lang();
-		$this->display('bonus_type_info.dwt');
+        return $this->display('bonus_type_info.dwt');
 	}
 
 
@@ -235,7 +235,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('action_link', array('href' => RC_Uri::url('bonus/merchant/init'), 'text' => __('红包类型列表', 'bonus')));
 		$this->assign('bonus_arr',   $bonus_arr);
 		$this->assign('form_action', RC_Uri::url('bonus/merchant/update'));
-		$this->display('bonus_type_info.dwt');
+        return $this->display('bonus_type_info.dwt');
 	}
 
 	/**
@@ -457,7 +457,7 @@ class merchant extends ecjia_merchant {
 			$this->assign('bonus_type',       $bonus_type);
 			$this->assign('form_action',      RC_Uri::url('bonus/merchant/send_by_user_rank'));
 			$this->assign('form_user_action', RC_Uri::url('bonus/merchant/send_by_user'));
-			$this->display('bonus_by_user.dwt');
+            return $this->display('bonus_by_user.dwt');
 
 		} elseif ($send_by == SEND_BY_GOODS) {
 			if (!empty($_SESSION['store_id']) && $_SESSION['store_id'] > 0) {
@@ -493,14 +493,14 @@ class merchant extends ecjia_merchant {
 			$this->assign('goods_list',  $goods_list);
 			$this->assign('form_search', RC_Uri::url('bonus/merchant/get_goods_list'));
 			$this->assign('form_action', RC_Uri::url('bonus/merchant/send_by_goods'));
-			$this->display('bonus_by_goods.dwt');
+            return $this->display('bonus_by_goods.dwt');
 		}
 		elseif ($send_by == SEND_BY_PRINT) {
 			//线下发放
 			$this->assign('type_list',   bonus::get_bonus_type());
 			$this->assign('form_action', RC_Uri::url('bonus/merchant/send_by_print'));
 
-			$this->display('bonus_by_print.dwt');
+            return $this->display('bonus_by_print.dwt');
 		} elseif ($send_by == SEND_COUPON) {//优惠券
 			//发放优惠券
 			RC_Loader::load_app_class('goods_category', 'goods', false);
@@ -528,7 +528,7 @@ class merchant extends ecjia_merchant {
 			$this->assign('form_search', RC_Uri::url('bonus/merchant/get_goods_list'));
 			$this->assign('form_action', RC_Uri::url('bonus/merchant/send_by_coupon'));
 
-			$this->display('bonus_by_goods.dwt');
+            return $this->display('bonus_by_goods.dwt');
 		}
 	}
 
@@ -820,7 +820,7 @@ class merchant extends ecjia_merchant {
 		$this->assign('bonus_type_id', $bonus_type_id);
 		$this->assign('bonus_list',    $list);
 		$this->assign('form_action',   RC_Uri::url('bonus/merchant/batch'));
-		$this->display('bonus_list.dwt');
+        return $this->display('bonus_list.dwt');
 	}
 
 	/**

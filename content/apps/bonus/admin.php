@@ -109,8 +109,8 @@ class admin extends ecjia_admin {
 		$this->assign('type_list', $list);
 		$this->assign('count', $list['count']);
 		$this->assign('filter', $list['filter']);
-		
-		$this->display('bonus_type.dwt');
+
+        return $this->display('bonus_type.dwt');
 	}
 
 	/**
@@ -143,8 +143,8 @@ class admin extends ecjia_admin {
 		
 		$this->assign('bonus_arr', $bonus_arr);
 		$this->assign('form_action', RC_Uri::url('bonus/admin/insert'));
-		
-		$this->display('bonus_type_info.dwt');
+
+        return $this->display('bonus_type_info.dwt');
 	}
 	
 	/**
@@ -252,8 +252,8 @@ class admin extends ecjia_admin {
 
 		$this->assign('bonus_arr',   $bonus_arr);
 		$this->assign('form_action', RC_Uri::url('bonus/admin/update'));
-		
-		$this->display('bonus_type_info.dwt');
+
+        return $this->display('bonus_type_info.dwt');
 	}
 	
 	/**
@@ -457,8 +457,8 @@ class admin extends ecjia_admin {
 			$this->assign('bonus_type',       $bonus_type);
 			$this->assign('form_action',      RC_Uri::url('bonus/admin/send_by_user_rank'));
 			$this->assign('form_user_action', RC_Uri::url('bonus/admin/send_by_user'));
-			
-			$this->display('bonus_by_user.dwt');
+
+            return $this->display('bonus_by_user.dwt');
 		} elseif ($send_by == SEND_BY_GOODS) {//商品发放
 			ecjia_screen::get_current_screen()->add_help_tab(array(
 				'id'		=> 'overview',
@@ -480,8 +480,8 @@ class admin extends ecjia_admin {
 			$this->assign('bonus_type', $bonus_type);
 			$this->assign('goods_list', $goods_list);
 			$this->assign('form_action', RC_Uri::url('bonus/admin/send_by_goods'));
-			
-			$this->display('bonus_by_goods.dwt');
+
+            return $this->display('bonus_by_goods.dwt');
 		} elseif ($send_by == SEND_BY_PRINT) {//线下发放
 			ecjia_screen::get_current_screen()->add_help_tab(array(
 				'id'		=> 'overview',
@@ -495,8 +495,8 @@ class admin extends ecjia_admin {
 			);
 			$this->assign('type_list', get_bonus_type());
 			$this->assign('form_action', RC_Uri::url('bonus/admin/send_by_print'));
-			
-			$this->display('bonus_by_print.dwt');
+
+            return $this->display('bonus_by_print.dwt');
 		} elseif ($send_by == SEND_COUPON) {//优惠券
 			ecjia_screen::get_current_screen()->add_help_tab(array(
 				'id'		=> 'overview',
@@ -526,8 +526,8 @@ class admin extends ecjia_admin {
 			$this->assign('bonus_type_id', 	$id);
 			$this->assign('goods_list', 	$goods_list);
 			$this->assign('form_action', 	RC_Uri::url('bonus/admin/send_by_coupon'));
-			
-			$this->display('bonus_by_goods.dwt');
+
+            return $this->display('bonus_by_goods.dwt');
 		}
 	}
 	
@@ -1000,8 +1000,8 @@ class admin extends ecjia_admin {
 			
 		$this->assign('bonus_type_id', $bonus_type_id);
 		$this->assign('form_action', RC_Uri::url('bonus/admin/batch'));
-		
-		$this->display('bonus_list.dwt');
+
+        return $this->display('bonus_list.dwt');
 	}
 	
 	/**
