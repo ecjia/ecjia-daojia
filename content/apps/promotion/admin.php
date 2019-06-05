@@ -105,7 +105,7 @@ class admin extends ecjia_admin
         $store_id = intval($_GET['store_id']);
         $this->assign('store_id', $store_id);
 
-        $this->display('promotion_list.dwt');
+        return $this->display('promotion_list.dwt');
     }
 
     /**
@@ -191,7 +191,7 @@ class admin extends ecjia_admin
 //            $this->assign('list_url', urlencode($list_url));
         }
 
-        $this->display('promotion_detail.dwt');
+        return $this->display('promotion_detail.dwt');
     }
 
     private function get_goods_detail($goods_id = 0)

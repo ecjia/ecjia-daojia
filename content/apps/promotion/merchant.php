@@ -100,7 +100,7 @@ class merchant extends ecjia_merchant
         $this->assign('type', $type);
         $this->assign('form_search', RC_Uri::url('promotion/merchant/init'));
 
-        $this->display('promotion_list.dwt');
+        return $this->display('promotion_list.dwt');
     }
 
     /**
@@ -136,7 +136,7 @@ class merchant extends ecjia_merchant
         $merchant_cat = merchant_cat_list(0, 0, true, 2); //店铺分类
         $this->assign('merchant_cat', $merchant_cat);
 
-        $this->display('promotion_info.dwt');
+        return $this->display('promotion_info.dwt');
     }
 
     /**
@@ -297,7 +297,7 @@ class merchant extends ecjia_merchant
         $merchant_cat = merchant_cat_list(0, 0, true, 2); //店铺分类
         $this->assign('merchant_cat', $merchant_cat);
 
-        $this->display('promotion_info.dwt');
+        return $this->display('promotion_info.dwt');
     }
 
     /**
