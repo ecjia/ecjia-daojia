@@ -87,8 +87,8 @@ class mh_sale_list extends ecjia_merchant {
         $this->assign('filter', $sale_list_data['filter']);
 
         $this->assign('search_action', RC_Uri::url('quickpay/mh_sale_list/init'));
-        
-		$this->display('quickpay_sale_list.dwt');
+
+        return $this->display('quickpay_sale_list.dwt');
 	}
 
 	/**

@@ -107,8 +107,8 @@ class mh_sale_general extends ecjia_merchant {
 
         $this->assign('data', $data['item']);
         $this->assign('filter', $data['filter']);
-        
-		$this->display('quickpay_sale_general.dwt');
+
+        return $this->display('quickpay_sale_general.dwt');
 	}
 	
 	/**
@@ -130,8 +130,8 @@ class mh_sale_general extends ecjia_merchant {
 		
         $this->assign('data', $data['item']);
         $this->assign('filter', $data['filter']);
-		
-		$this->display('quickpay_sale_general.dwt');
+
+        return $this->display('quickpay_sale_general.dwt');
 	}
 	
 	

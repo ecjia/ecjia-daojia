@@ -98,8 +98,8 @@ class merchant extends ecjia_merchant {
 	    $this->assign('quickpay_list', $quickpay_list);
 	    $this->assign('now', RC_Time::local_date(ecjia::config('time_format'), RC_Time::gmtime()));
 	    $this->assign('search_action', RC_Uri::url('quickpay/merchant/init'));
-	    
-	    $this->display('quickpay_list.dwt');
+
+        return $this->display('quickpay_list.dwt');
 	}
 	
 
@@ -160,8 +160,8 @@ class merchant extends ecjia_merchant {
 		$this->assign('data', $data);
 		
 		$this->assign('form_action', RC_Uri::url('quickpay/merchant/insert'));
-		
-		$this->display('quickpay_info.dwt');
+
+        return $this->display('quickpay_info.dwt');
 	}
 
 	/**
@@ -329,7 +329,7 @@ class merchant extends ecjia_merchant {
 
 		$this->assign('form_action', RC_Uri::url('quickpay/merchant/update'));
 
-		$this->display('quickpay_info.dwt');
+        return $this->display('quickpay_info.dwt');
 	}
 	
 	/**

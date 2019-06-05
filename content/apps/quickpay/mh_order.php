@@ -96,8 +96,8 @@ class mh_order extends ecjia_merchant {
 	    $this->assign('filter', $order_list['filter']);
 	    
 	    $this->assign('search_action', RC_Uri::url('quickpay/mh_order/init'));
-	    
-	    $this->display('quickpay_order_list.dwt');
+
+        return $this->display('quickpay_order_list.dwt');
 	}
 	
 	/**
@@ -174,8 +174,8 @@ class mh_order extends ecjia_merchant {
 			$act_list[] = $row;
 		}
 		$this->assign('action_list', $act_list);
-		
-		$this->display('quickpay_order_info.dwt');
+
+        return $this->display('quickpay_order_info.dwt');
 	}
 	
 	
@@ -351,8 +351,8 @@ class mh_order extends ecjia_merchant {
 		$this->assign('type_list', $type_list);
 		 
 		$this->assign('form_action', RC_Uri::url('quickpay/mh_order/init'));
-		 
-		$this->display('quickpay_order_search.dwt');
+
+        return $this->display('quickpay_order_search.dwt');
 	}
 
 	/**

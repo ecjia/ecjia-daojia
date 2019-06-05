@@ -106,7 +106,7 @@ class admin extends ecjia_admin {
 		
 		$this->assign('search_action', RC_Uri::url('quickpay/admin/init'));
 
-		$this->display('quickpay_list.dwt');
+        return $this->display('quickpay_list.dwt');
 	}
 	
 	/**
@@ -155,9 +155,9 @@ class admin extends ecjia_admin {
 		$this->assign('store_id', $store_id);
 		
 		$this->assign('form_action', RC_Uri::url('quickpay/admin/update'));
-		
-		
-		$this->display('quickpay_edit.dwt');
+
+
+        return $this->display('quickpay_edit.dwt');
 	}
 	
 	/**
@@ -322,8 +322,8 @@ class admin extends ecjia_admin {
 			$this->assign('act_range_ext', $use_bonus);
 		}
 		$this->assign('data', $data);
-		
-		$this->display('quickpay_detail.dwt');
+
+        return $this->display('quickpay_detail.dwt');
 	}
 	
 
