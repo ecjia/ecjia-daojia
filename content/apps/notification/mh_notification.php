@@ -79,7 +79,7 @@ class mh_notification extends ecjia_merchant
         $list = $this->get_notification_list();
         $this->assign('list', $list);
 
-        $this->display('notification_list.dwt');
+        return $this->display('notification_list.dwt');
     }
 
     //标记通知为已读
