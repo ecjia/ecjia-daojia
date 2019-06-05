@@ -86,7 +86,7 @@ class mh_menu extends ecjia_merchant
 
         $this->assign('store_name', $_SESSION['store_name']);
 
-        $this->display('toutiao_menu_list.dwt');
+        return $this->display('toutiao_menu_list.dwt');
     }
 
     public function insert()

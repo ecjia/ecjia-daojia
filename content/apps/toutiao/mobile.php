@@ -79,7 +79,7 @@ class mobile extends ecjia_front
             RC_DB::table('merchant_news')->where('id', $id)->update(array('click_count' => $data['click_count']));
         }
 
-        $this->display($resource_name, $cache_id);
+        return $this->display($resource_name, $cache_id);
     }
 }
 // end

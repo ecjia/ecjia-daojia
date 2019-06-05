@@ -93,7 +93,7 @@ class merchant extends ecjia_merchant
         $residue_degree = $send_limit - $list['count']['send'] < 0 ? 0 : $send_limit - $list['count']['send'];
         $this->assign('residue_degree', $residue_degree);
 
-        $this->display('toutiao_list.dwt');
+        return $this->display('toutiao_list.dwt');
     }
 
     public function add()
@@ -106,7 +106,7 @@ class merchant extends ecjia_merchant
         $this->assign('action_link', array('href' => RC_Uri::url('toutiao/merchant/init', array('type' => 'media')), 'text' => __('今日热点列表', 'toutiao')));
         $this->assign('form_action', RC_Uri::url('toutiao/merchant/insert'));
 
-        $this->display('toutiao_add.dwt');
+        return $this->display('toutiao_add.dwt');
     }
 
     /**
@@ -216,7 +216,7 @@ class merchant extends ecjia_merchant
         $residue_degree = $limit['send_limit'] - $type_count['send'] < 0 ? 0 : $limit['send_limit'] - $type_count['send'];
         $this->assign('residue_degree', $residue_degree);
 
-        $this->display('toutiao_edit.dwt');
+        return $this->display('toutiao_edit.dwt');
     }
 
     /**
