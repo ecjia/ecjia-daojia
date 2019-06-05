@@ -49,7 +49,7 @@ class AppManager extends Manager
          *
          * @since 3.1.0
          *
-         * @param \Royalcms\Component\App\AppBundle $bundle
+         * @param \Royalcms\Component\App\Bundles\AppBundle $bundle
          */
         $bundle = RC_Hook::apply_filters('app_load_bundle', $bundle);
         
@@ -133,6 +133,12 @@ class AppManager extends Manager
 
     protected function loadSiteApps()
     {
+
+//        $bundles = (new SiteApplications(royalcms()))->load();
+//
+//        dd($bundles);
+
+
         $app_roots = array(
             RC_APP_PATH,
             SITE_APP_PATH

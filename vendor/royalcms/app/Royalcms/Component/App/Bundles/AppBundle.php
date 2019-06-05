@@ -58,26 +58,31 @@ class AppBundle extends BundleAbstract implements BundlePackage
         
         return $path;
     }
-    
-    
-    public function getNamespace()
+
+    /**
+     * Get application provider container name
+     * @return string
+     */
+    public function getContainerName()
     {
         return 'app-'.$this->directory;
     }
 
-    /**
-     * 获取应用安装器对象
-     */
-    public function getInstaller()
-    {
-        $className = $this->getNamespaceClassName('Installer');
+//    /**
+//     * 获取应用安装器对象
+//     */
+//    public function getInstaller()
+//    {
+//        $className = $this->getNamespaceClassName('Installer');
+//
+//        if (class_exists($className)) {
+//            return new $className;
+//        } else {
+//            return null;
+//        }
+//    }
 
-        if (class_exists($className)) {
-            return new $className;
-        } else {
-            return null;
-        }
-    }
+
     
 }
 

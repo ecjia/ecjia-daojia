@@ -2,10 +2,10 @@
 
 namespace Royalcms\Component\App;
 
-use Royalcms\Component\Support\Facades\Lang as RC_Lang;
 use Royalcms\Component\Error\Facades\Error as RC_Error;
+use JsonSerializable;
 
-abstract class BundleAbstract
+abstract class BundleAbstract implements JsonSerializable
 {
     /**
      * 应用唯一标识符
@@ -128,7 +128,7 @@ abstract class BundleAbstract
      * 获取应用包信息
      *
      * @param string $id
-     * @return boolean NULL
+     * @return bool | array
      */
     protected function appPackage($markup = true, $translate = true)
     {
@@ -145,8 +145,8 @@ abstract class BundleAbstract
 //
 //            }
 
-            $package['format_name'] = __($package['name'], $this->getNamespace());
-            $package['format_description'] = __($package['description'], $this->getNamespace());
+            $package['format_name'] = __($package['name'], $this->getContainerName());
+            $package['format_description'] = __($package['description'], $this->getContainerName());
 
         } else {
 
@@ -174,7 +174,52 @@ abstract class BundleAbstract
      */
     public function getPackageData()
     {
-        return config($this->getNamespace().'::'.'package');
+        return config($this->getContainerName().'::'.'package');
+    }
+
+    /**
+     * Get installer class instance
+     * @return \Royalcms\Component\Error\Error
+     */
+    public function getInstaller()
+    {
+        $namespace_class = $this->getNamespaceClassName('Installer');
+
+        if (class_exists($namespace_class)) {
+            return new $namespace_class;
+        }
+
+        $install_class = $this->directory . '_installer';
+
+        if (class_exists($install_class)) {
+            return new $install_class;
+        }
+
+        return RC_Error::make('class_not_found', sprintf(__("Class '%s' not found"), $install_class));
+    }
+
+    /**
+     * Convert the object into something JSON serializable.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray();
+    }
+
+    public function toArray()
+    {
+        return [
+            'identifier' => $this->identifier,
+            'directory' => $this->directory,
+            'alias' => $this->alias,
+            'site' => $this->site,
+            'package' => $this->package,
+            'namespace' => $this->namespace,
+            'provider' => $this->provider,
+            'controllerPath' => $this->controllerPath,
+        ];
     }
     
     protected function normalizeName($name)
@@ -200,6 +245,15 @@ abstract class BundleAbstract
     {
         return $this->getNameSpace() . '\\' . $class;
     }
+
+
+    /**
+     * Get application provider container name
+     * @return string
+     */
+    abstract public function getContainerName();
+
+
 }
 
 // end

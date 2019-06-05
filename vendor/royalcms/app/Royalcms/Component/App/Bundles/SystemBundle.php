@@ -42,9 +42,12 @@ class SystemBundle extends BundleAbstract implements BundlePackage
         
         return $path;
     }
-    
-    
-    public function getNamespace()
+
+    /**
+     * Get application provider container name
+     * @return string
+     */
+    public function getContainerName()
     {
         return 'system';
     }

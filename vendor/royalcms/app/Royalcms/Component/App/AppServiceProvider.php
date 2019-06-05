@@ -34,8 +34,8 @@ class AppServiceProvider extends ServiceProvider
         return [
             $dir . "/Facades/App.php",
             $dir . "/AppManager.php",
-            $dir . "/Bundles/AppBundle.php",
             $dir . "/BundleAbstract.php",
+            $dir . "/Bundles/AppBundle.php",
             $dir . "/Contracts/BundlePackage.php",
             $dir . "/AppControllerDispatcher.php",
             $dir . "/AppServiceProvider.php",
