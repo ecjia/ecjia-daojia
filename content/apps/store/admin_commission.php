@@ -112,7 +112,7 @@ class admin_commission extends ecjia_admin {
 		$this->assign('user_id', $_GET[user_id]);
 
 		$this->assign_lang();
-		$this->display('merchants_commission_info.dwt');
+        return $this->display('merchants_commission_info.dwt');
 	}
 
 	public function insert() {
@@ -193,7 +193,7 @@ class admin_commission extends ecjia_admin {
 	    $store_deposit = empty($store_deposit) ? 0 : $store_deposit;
 		$this->assign('store_deposit', $store_deposit);
 
-		$this->display('store_commission_info.dwt');
+        return $this->display('store_commission_info.dwt');
 	}
 
 	/**
@@ -373,8 +373,8 @@ class admin_commission extends ecjia_admin {
 		//store_account_log
 		$data = $this->get_account_log($store_id);
 		$this->assign('data', $data);
-		
-		$this->display('store_fund_list.dwt');
+
+        return $this->display('store_fund_list.dwt');
 	}
 
 	/**

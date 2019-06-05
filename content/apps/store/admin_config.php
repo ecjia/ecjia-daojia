@@ -149,7 +149,7 @@ class admin_config extends ecjia_admin
         $provinces = ecjia_region::getSubarea(ecjia::config('shop_country')); //获取当前国家的所有省份
         $this->assign('provinces', $provinces);
 
-        $this->display('store_config_info.dwt');
+        return $this->display('store_config_info.dwt');
     }
 
     /**

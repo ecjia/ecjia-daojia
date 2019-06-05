@@ -82,8 +82,8 @@ class admin_mobileconfig extends ecjia_admin {
     	$this->assign('mobile_store_home_adsense', ecjia::config('mobile_store_home_adsense'));
     	$this->assign('ad_position_list', $ad_position_list);
 		$this->assign('form_action', RC_Uri::url('store/admin_mobileconfig/update'));
-		
-		$this->display('store_mobileconfig.dwt');
+
+        return $this->display('store_mobileconfig.dwt');
 	}
 		
 	/**

@@ -99,7 +99,7 @@ class admin_preaudit extends ecjia_admin
         $this->assign('cat_list', $cat_list);
         $this->assign('search_action', RC_Uri::url('store/admin_preaudit/init'));
 
-        $this->display('store_preaudit_list.dwt');
+        return $this->display('store_preaudit_list.dwt');
     }
 
     /**
@@ -145,7 +145,7 @@ class admin_preaudit extends ecjia_admin
 
         $this->assign('form_action', RC_Uri::url('store/admin_preaudit/update'));
 
-        $this->display('store_preaudit_edit.dwt');
+        return $this->display('store_preaudit_edit.dwt');
     }
 
     /**
@@ -321,7 +321,7 @@ class admin_preaudit extends ecjia_admin
         $this->assign('log_list', $log_rs['list']);
         $this->assign('log_last', $log_rs['list'][0]['log']);
 
-        $this->display('store_preaudit_check.dwt');
+        return $this->display('store_preaudit_check.dwt');
     }
 
     /**
@@ -640,7 +640,7 @@ class admin_preaudit extends ecjia_admin
         $log = get_check_log($log_store_id, $log_type, 1, 15);
 
         $this->assign('log_list', $log);
-        $this->display('store_preaudit_check_log.dwt');
+        return $this->display('store_preaudit_check_log.dwt');
     }
 
     //获取入驻商列表信息

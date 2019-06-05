@@ -95,7 +95,7 @@ class admin_percent extends ecjia_admin {
 		
 		/* 显示模板 */
 		$this->assign_lang();
-		$this->display('store_percent_list.dwt');
+        return $this->display('store_percent_list.dwt');
 	}
 	
 	/**
@@ -111,7 +111,7 @@ class admin_percent extends ecjia_admin {
 		$this->assign('form_action', RC_Uri::url('store/admin_percent/insert'));
 
 		$this->assign_lang();
-		$this->display('store_percent_info.dwt');
+        return $this->display('store_percent_info.dwt');
 	}
 	
 	/**
@@ -180,7 +180,7 @@ class admin_percent extends ecjia_admin {
 		$this->assign('percent',$percent);
 		
 		$this->assign_lang();
-		$this->display('store_percent_info.dwt');
+        return $this->display('store_percent_info.dwt');
 	}
 	
 	/**

@@ -97,7 +97,7 @@ class admin_store_category extends ecjia_admin {
 	    $this->assign('cat_info', $cat_list);
 	    $this->assign('ur_here',__('商家分类', 'store'));
 	    $this->assign('action_link', array('text' => __('添加分类', 'store'),'href'=>RC_Uri::url('store/admin_store_category/add')));
-	    $this->display('store_category_list.dwt');
+        return $this->display('store_category_list.dwt');
 	}
 	
 	/**
@@ -112,7 +112,7 @@ class admin_store_category extends ecjia_admin {
 		$this->assign('cat_select', cat_list(0, 0, true));
 		$this->assign('form_action', RC_Uri::url('store/admin_store_category/insert'));
 
-		$this->display('store_category_info.dwt');
+        return $this->display('store_category_info.dwt');
 	}
 
 	/**
@@ -180,7 +180,7 @@ class admin_store_category extends ecjia_admin {
 		
 		$this->assign('form_action', RC_Uri::url('store/admin_store_category/update'));
 
-		$this->display('store_category_info.dwt');
+        return $this->display('store_category_info.dwt');
 	}
 	
 	/**

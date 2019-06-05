@@ -102,7 +102,7 @@ class admin_store_business_city extends ecjia_admin {
 		
 	    $this->assign('ur_here',__('经营城市列表', 'store'));
 	    $this->assign('action_link', array('text' => __('添加经营城市', 'store'),'href'=>RC_Uri::url('store/admin_store_business_city/add')));
-	    $this->display('store_business_city_list.dwt');
+        return $this->display('store_business_city_list.dwt');
 	}
 
 	

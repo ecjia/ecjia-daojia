@@ -89,7 +89,7 @@ class admin_cancel extends ecjia_admin
         $action = $_SESSION['action_list'] == 'all' ? true : false;
         $this->assign('action', $action);
 
-        $this->display('store_cancel_list.dwt');
+        return $this->display('store_cancel_list.dwt');
     }
 
     private function get_store_list()
