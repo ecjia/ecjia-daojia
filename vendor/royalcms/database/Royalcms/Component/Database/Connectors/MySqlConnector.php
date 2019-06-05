@@ -118,15 +118,38 @@ class MySqlConnector extends Connector implements ConnectorInterface
         // strict mode on all of these tables. This enforces some extra rules when
         // using the MySQL database system and is a quicker way to enforce them.
         if (isset($config['modes'])) {
-            $modes = implode(',', $config['modes']);
-
-            $connection->prepare("set session sql_mode='{$modes}'")->execute();
+            $this->setCustomModes($connection, $config);
         } elseif (isset($config['strict'])) {
             if ($config['strict']) {
-                $connection->prepare("set session sql_mode='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'")->execute();
+                $connection->prepare($this->strictMode())->execute();
             } else {
                 $connection->prepare("set session sql_mode='NO_ENGINE_SUBSTITUTION'")->execute();
             }
         }
     }
+
+    /**
+     * Set the custom modes on the connection.
+     *
+     * @param  \PDO  $connection
+     * @param  array  $config
+     * @return void
+     */
+    protected function setCustomModes(\PDO $connection, array $config)
+    {
+        $modes = implode(',', $config['modes']);
+
+        $connection->prepare("set session sql_mode='{$modes}'")->execute();
+    }
+
+    /**
+     * Get the query to enable strict mode.
+     *
+     * @return string
+     */
+    protected function strictMode()
+    {
+        return "set session sql_mode='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'";
+    }
+
 }
