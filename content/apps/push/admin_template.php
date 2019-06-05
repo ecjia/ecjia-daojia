@@ -105,7 +105,7 @@ class admin_template extends ecjia_admin {
 		->get();
 		$this->assign('template', $template);
 
-		$this->display('push_template_list.dwt');
+        return $this->display('push_template_list.dwt');
 	}
 
 	/**
@@ -136,8 +136,8 @@ class admin_template extends ecjia_admin {
 	
 		$this->assign('form_action', RC_Uri::url('push/admin_template/insert'));
 		$this->assign('action', 'insert');
-		
-		$this->display('push_template_info.dwt');
+
+        return $this->display('push_template_info.dwt');
 	}
 	
 	public function ajax_event(){
@@ -235,8 +235,8 @@ class admin_template extends ecjia_admin {
 		$this->assign('desc', $desc);
 		
 		$this->assign('form_action', RC_Uri::url('push/admin_template/update'));
-		
-		$this->display('push_template_info.dwt');
+
+        return $this->display('push_template_info.dwt');
 	}
 	
 	/**
@@ -294,8 +294,8 @@ class admin_template extends ecjia_admin {
 		$this->assign('data', $data);
 
 		$this->assign('form_action', RC_Uri::url('push/admin_template/test_request'));
-		
-		$this->display('push_template_test.dwt');
+
+        return $this->display('push_template_test.dwt');
 			
 	}
 	

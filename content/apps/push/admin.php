@@ -96,8 +96,8 @@ class admin extends ecjia_admin {
 		$this->assign('listdb', $listdb);
 		
 		$this->assign('search_action', RC_Uri::url('push/admin/init'));
-			
-		$this->display('push_send_history.dwt');
+
+        return $this->display('push_send_history.dwt');
 	}
 	
 	/**
@@ -116,8 +116,8 @@ class admin extends ecjia_admin {
 		$this->assign('form_action', RC_Uri::url('push/admin/push_action_insert'));
 		$push['device_token'] = 'broadcast';
 		$this->assign('push', $push);
-		
-		$this->display('push_send.dwt');
+
+        return $this->display('push_send.dwt');
 	}
 	
 	
@@ -330,7 +330,7 @@ class admin extends ecjia_admin {
 		$this->assign('push', $push);
 		$this->assign('form_action', RC_Uri::url('push/admin/push_action_insert'));
 
-		$this->display('push_send.dwt');
+        return $this->display('push_send.dwt');
 	}
 
 	
