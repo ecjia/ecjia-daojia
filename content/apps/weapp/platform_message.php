@@ -92,7 +92,7 @@ class platform_message extends ecjia_platform
             $this->assign('type', $types);
         }
 
-        $this->display('weapp_message_list.dwt');
+        return $this->display('weapp_message_list.dwt');
     }
 
     //获取消息列表

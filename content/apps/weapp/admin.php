@@ -95,7 +95,7 @@ class admin extends ecjia_admin
         $this->assign('weapp_list', $weapp_list);
         $this->assign('search_action', RC_Uri::url('weapp/admin/init'));
 
-        $this->display('weapp_list.dwt');
+        return $this->display('weapp_list.dwt');
     }
 
     /**
@@ -111,7 +111,7 @@ class admin extends ecjia_admin
         $this->assign('action_link', array('text' => __('小程序列表', 'weapp'), 'href' => RC_Uri::url('weapp/admin/init')));
         $this->assign('form_action', RC_Uri::url('weapp/admin/insert'));
 
-        $this->display('weapp_edit.dwt');
+        return $this->display('weapp_edit.dwt');
     }
 
     /**
@@ -171,7 +171,7 @@ class admin extends ecjia_admin
         }
         $this->assign('form_action', RC_Uri::url('weapp/admin/update'));
         $this->assign('wxapp_info', $wxapp_info);
-        $this->display('weapp_edit.dwt');
+        return $this->display('weapp_edit.dwt');
     }
 
     /**

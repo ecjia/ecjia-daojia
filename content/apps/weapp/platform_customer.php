@@ -96,7 +96,7 @@ class platform_customer extends ecjia_platform
             $this->assign('list', $list);
         }
 
-        $this->display('weapp_customer_list.dwt');
+        return $this->display('weapp_customer_list.dwt');
     }
 
     /**
@@ -145,7 +145,7 @@ class platform_customer extends ecjia_platform
         $this->assign('list', $list);
         $this->assign('form_action', RC_Uri::url('weapp/platform_customer/update'));
 
-        $this->display('weapp_customer_edit.dwt');
+        return $this->display('weapp_customer_edit.dwt');
     }
 
     /**
@@ -492,7 +492,7 @@ class platform_customer extends ecjia_platform
         $list = $this->get_session_list();
         $this->assign('list', $list);
 
-        $this->display('weapp_customer_session.dwt');
+        return $this->display('weapp_customer_session.dwt');
     }
 
     //获取客服会话

@@ -97,7 +97,7 @@ class merchant extends ecjia_merchant
             $this->assign('action_link', array('text' => __('添加小程序', 'weapp'), 'href' => RC_Uri::url('weapp/merchant/add')));
         }
 
-        $this->display('weapp_list.dwt');
+        return $this->display('weapp_list.dwt');
     }
 
     /**
@@ -114,7 +114,7 @@ class merchant extends ecjia_merchant
         $this->assign('form_action', RC_Uri::url('weapp/merchant/insert'));
         $this->assign('wxapp_info', array('status' => 1));
 
-        $this->display('weapp_edit.dwt');
+        return $this->display('weapp_edit.dwt');
     }
 
     /**
@@ -198,7 +198,7 @@ class merchant extends ecjia_merchant
         $this->assign('form_action', RC_Uri::url('weapp/merchant/update'));
 
         $this->assign_lang();
-        $this->display('weapp_edit.dwt');
+        return $this->display('weapp_edit.dwt');
     }
 
     /**

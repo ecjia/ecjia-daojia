@@ -100,7 +100,7 @@ class platform_wechat_login extends ecjia_platform
 
         $this->assign('images_url', RC_App::apps_url('statics/images/', __FILE__));
 
-        $this->display('weapp_wechat_login_config.dwt');
+        return $this->display('weapp_wechat_login_config.dwt');
     }
 
     public function update()

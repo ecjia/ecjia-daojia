@@ -21,6 +21,11 @@ class WxaCode
         return $uuid;
     }
 
+    /**
+     * @param $scene
+     * @param null $uuid
+     * @return bool|\ecjia_error|\Psr\Http\Message\StreamInterface|string
+     */
     public function defaultWxaCode($scene, $uuid = null)
     {
         $qrimg = $this->getCacheImage($scene);
@@ -33,10 +38,16 @@ class WxaCode
                 return new \ecjia_error('not_found_weapp_uuid', __('没有可用的小程序的UUID参数', 'weapp'));
             }
 
-            $WeappUUID = new WeappUUID($this->uuid);
-            $weapp     = $WeappUUID->getWeapp();
+            $weappUUID = new WeappUUID($this->uuid);
+            $weapp     = $weappUUID->getWeapp();
 
-            $qrimg = $weapp->qrcode->getAppCodeUnlimit($scene);
+            $stream = $weapp->qrcode->getAppCodeUnlimit($scene);
+
+            if ($stream instanceof \Psr\Http\Message\StreamInterface) {
+                $qrimg = $this->getStreamContents($stream);
+            } else {
+                $qrimg = null;
+            }
 
             $this->setCacheImage($scene, $qrimg);
         }
@@ -61,9 +72,24 @@ class WxaCode
      */
     public function getStoreWxaCode($storeid)
     {
+        if (empty($storeid)) {
+            $storeid = 0;
+        }
+
         $scene = 'storeid:' . $storeid;
         $qrimg = $this->defaultWxaCode($scene);
         return $qrimg;
+    }
+
+    /**
+     * @param \Psr\Http\Message\StreamInterface $stream
+     * @return mixed
+     */
+    public function getStreamContents($stream)
+    {
+        $stream->rewind();
+        $contents = $stream->getContents();
+        return $contents;
     }
 
 }

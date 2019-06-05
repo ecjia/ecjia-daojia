@@ -168,7 +168,7 @@ class platform_material extends ecjia_platform
         $lists = $this->get_all_material();
         $this->assign('lists', $lists);
 
-        $this->display('weapp_material.dwt');
+        return $this->display('weapp_material.dwt');
     }
 
     /**
@@ -196,7 +196,7 @@ class platform_material extends ecjia_platform
         $this->assign('wechat_type', $wechat_type);
         $this->assign('material', $material);
 
-        $this->display('weapp_material_add.dwt');
+        return $this->display('weapp_material_add.dwt');
     }
 
     /**
@@ -357,7 +357,7 @@ class platform_material extends ecjia_platform
         $this->assign('parent_id', $parent_id);
         $this->assign('id', $id);
 
-        $this->display('weapp_material_edit.dwt');
+        return $this->display('weapp_material_edit.dwt');
     }
 
     /**
@@ -1149,7 +1149,7 @@ class platform_material extends ecjia_platform
         $this->assign('wechat_type', $wechat_type);
         $this->assign('material', $material);
 
-        $this->display('weapp_material_add.dwt');
+        return $this->display('weapp_material_add.dwt');
     }
 
     /**

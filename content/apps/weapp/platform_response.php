@@ -130,7 +130,7 @@ class platform_response extends ecjia_platform
             $this->assign('subscribe', $subscribe);
         }
 
-        $this->display('weapp_reply_msg.dwt');
+        return $this->display('weapp_reply_msg.dwt');
     }
 
     /**
@@ -191,7 +191,7 @@ class platform_response extends ecjia_platform
             $this->assign('subscribe', $subscribe);
         }
 
-        $this->display('weapp_open_reply.dwt');
+        return $this->display('weapp_open_reply.dwt');
     }
 
     public function open_reply_insert()
@@ -365,7 +365,7 @@ class platform_response extends ecjia_platform
             $this->assign('list', $list);
         }
 
-        $this->display('weapp_reply_keywords.dwt');
+        return $this->display('weapp_reply_keywords.dwt');
     }
 
     public function reply_keywords_add()
@@ -398,7 +398,7 @@ class platform_response extends ecjia_platform
             $data['reply_type'] = 'text';
             $this->assign('data', $data);
         }
-        $this->display('weapp_reply_keywords_edit.dwt');
+        return $this->display('weapp_reply_keywords_edit.dwt');
     }
 
     public function reply_keywords_insert()

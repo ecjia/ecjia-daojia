@@ -154,7 +154,7 @@ class privilege extends ecjia_platform
 //         $this->assign('shop_title_link', RC_Uri::url('staff/privilege/login'));
 
         RC_Session::destroy();
-        $this->display('platform_auto_login_error.dwt');
+        return $this->display('platform_auto_login_error.dwt');
     }
 
     /**

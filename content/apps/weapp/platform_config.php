@@ -83,7 +83,7 @@ class platform_config extends ecjia_platform
         $this->assign('ur_here', __('消息推送配置', 'weapp'));
         $this->assign('form_action', RC_Uri::url('weapp/platform_config/update'));
 
-        $this->display('weapp_config.dwt');
+        return $this->display('weapp_config.dwt');
     }
 
     public function update()

@@ -173,7 +173,7 @@ class platform_user extends ecjia_platform
             $this->assign('type', $types);
         }
 
-        $this->display('weapp_subscribe_list.dwt');
+        return $this->display('weapp_subscribe_list.dwt');
     }
 
     public function edit_tag()
@@ -350,7 +350,7 @@ class platform_user extends ecjia_platform
                 $this->assign('disabled', '1');
             }
         }
-        $this->display('weapp_subscribe_message.dwt');
+        return $this->display('weapp_subscribe_message.dwt');
     }
 
     //获取信息
@@ -706,7 +706,7 @@ class platform_user extends ecjia_platform
             $this->assign('type', $types);
         }
 
-        $this->display('weapp_subscribe_tag.dwt');
+        return $this->display('weapp_subscribe_tag.dwt');
     }
 
     //未授权用户列表
@@ -764,7 +764,7 @@ class platform_user extends ecjia_platform
         $arr = array('item' => $list, 'page' => $page->show(5), 'desc' => $page->page_desc());
         $this->assign('list', $arr);
 
-        $this->display('weapp_unsubscribe_list.dwt');
+        return $this->display('weapp_unsubscribe_list.dwt');
     }
 
     public function back_list()
@@ -820,7 +820,7 @@ class platform_user extends ecjia_platform
         $arr = array('item' => $list, 'page' => $page->show(5), 'desc' => $page->page_desc());
         $this->assign('list', $arr);
 
-        $this->display('weapp_black_list.dwt');
+        return $this->display('weapp_black_list.dwt');
     }
 
 }
