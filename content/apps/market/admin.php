@@ -112,7 +112,7 @@ class admin extends ecjia_admin
 
         $this->assign('activity_list', $activity_list);
 
-        $this->display('activity_list.dwt');
+        return $this->display('activity_list.dwt');
     }
 
     /**
@@ -153,7 +153,7 @@ class admin extends ecjia_admin
             }
         }
         $this->assign('images_url', RC_App::apps_url('statics/image/', __FILE__));
-        $this->display('activity_detail.dwt');
+        return $this->display('activity_detail.dwt');
     }
 
     /**
@@ -178,7 +178,7 @@ class admin extends ecjia_admin
         $this->assign('form_action', RC_Uri::url('market/admin/update'));
 
         $this->assign('activity_info', $activity_info);
-        $this->display('activity_edit.dwt');
+        return $this->display('activity_edit.dwt');
     }
 
     /**
@@ -318,7 +318,7 @@ class admin extends ecjia_admin
         $this->assign('activity_record_list', $list);
         $this->assign('tags', $this->tags);
 
-        $this->display('activity_record.dwt');
+        return $this->display('activity_record.dwt');
     }
 
     /**
@@ -358,7 +358,7 @@ class admin extends ecjia_admin
         $this->assign('action_link', array('href' => RC_Uri::url('market/admin/activity_detail', array('code' => $activity_code)), 'text' => __('返回活动详情', 'market')));
         $this->assign('form_action', RC_Uri::url('market/admin/activity_prize_edit', array('code' => $activity_code)));
 
-        $this->display('activity_prize_list.dwt');
+        return $this->display('activity_prize_list.dwt');
     }
 
     /**
@@ -391,7 +391,7 @@ class admin extends ecjia_admin
         $this->assign('action_link', array('href' => RC_Uri::url('market/admin/activity_prize', array('code' => $activity_code)), 'text' => __('活动奖品池', 'market')));
         $this->assign('form_action', RC_Uri::url('market/admin/activity_prize_insert', array('code' => $activity_code)));
 
-        $this->display('activity_prize_add.dwt');
+        return $this->display('activity_prize_add.dwt');
     }
 
     /**
@@ -515,7 +515,7 @@ class admin extends ecjia_admin
         $this->assign('action_link', array('href' => RC_Uri::url('market/admin/activity_prize', array('code' => $activity_code)), 'text' => __('活动奖品池', 'market')));
         $this->assign('form_action', RC_Uri::url('market/admin/activity_prize_update', array('code' => $activity_code)));
 
-        $this->display('activity_prize_add.dwt');
+        return $this->display('activity_prize_add.dwt');
     }
 
     /**

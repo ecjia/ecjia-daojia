@@ -122,8 +122,8 @@ class mobile_prize extends EcjiaMarketActivityController
         $this->assign('prize_log_list', $prize_log_list);
         $this->assign('uuid',  $uuid );
         $this->assign('openid',  $openid);
-        
-        $this->display(
+
+        return $this->display(
             RC_Package::package('app::market')->loadTemplate('front/prize_list.dwt', true)
         );
     }
@@ -177,8 +177,8 @@ class mobile_prize extends EcjiaMarketActivityController
     	}
     	
     	$this->assign('prize_info', $prize_info);
-    	
-        $this->display(
+
+        return $this->display(
             RC_Package::package('app::market')->loadTemplate('front/fill_user_info.dwt', true)
         );
     }

@@ -93,7 +93,7 @@ class platform extends ecjia_platform
 
         $this->assign('activity_list', $activity_list);
 
-        $this->display('market_activity_list.dwt');
+        return $this->display('market_activity_list.dwt');
     }
 
     /**
@@ -136,7 +136,7 @@ class platform extends ecjia_platform
             }
         }
         $this->assign('images_url', RC_App::apps_url('statics/image/', __FILE__));
-        $this->display('activity_detail.dwt');
+        return $this->display('activity_detail.dwt');
     }
 
     /**
@@ -163,7 +163,7 @@ class platform extends ecjia_platform
         $this->assign('store_id', $_SESSION['store_id']);
         
         $this->assign('activity_info', $activity_info);
-        $this->display('activity_edit.dwt');
+        return $this->display('activity_edit.dwt');
     }
 
     /**
@@ -313,7 +313,7 @@ class platform extends ecjia_platform
         $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_detail', array('code' => $activity_code)), 'text' => __('返回活动详情', 'market')));
         $this->assign('form_action', RC_Uri::url('market/platform/activity_prize_edit', array('code' => $activity_code)));
 
-        $this->display('prize_list.dwt');
+        return $this->display('prize_list.dwt');
     }
 
     /**
@@ -348,7 +348,7 @@ class platform extends ecjia_platform
         $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_prize', array('code' => $activity_code)), 'text' => __('活动奖品池', 'market')));
         $this->assign('form_action', RC_Uri::url('market/platform/activity_prize_insert', array('code' => $activity_code)));
 
-        $this->display('activity_prize_add.dwt');
+        return $this->display('activity_prize_add.dwt');
     }
 
     /**
@@ -469,7 +469,7 @@ class platform extends ecjia_platform
         $this->assign('action_link', array('href' => RC_Uri::url('market/platform/activity_prize', array('code' => $activity_code)), 'text' => __('活动奖品池', 'market')));
         $this->assign('form_action', RC_Uri::url('market/platform/activity_prize_update', array('code' => $activity_code)));
 
-        $this->display('activity_prize_add.dwt');
+        return $this->display('activity_prize_add.dwt');
     }
 
     /**
@@ -612,7 +612,7 @@ class platform extends ecjia_platform
         $this->assign('activity_record_list', $list);
         $this->assign('tags', $this->tags);
 
-        $this->display('activity_record.dwt');
+        return $this->display('activity_record.dwt');
     }
 
     /**
